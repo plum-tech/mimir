@@ -1,0 +1,6 @@
+[submodule "tool/tui"]
+	path = tool/tui
+	url = https://github.com/liplum/pytui.git
+[submodule "tool/l10n"]
+	path = tool/l10n
+	url = https://github.com/liplum/L10nArbTool.git

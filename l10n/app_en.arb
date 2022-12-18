@@ -1,0 +1,615 @@
+{
+  "@@locale": "en",
+  "about": "About",
+  "academicYear": "Academic Year",
+  "acceptedAgreementCheckbox": "I have known and accepted",
+  "account": "Account",
+  "accountOrPwdIncorrectTip": "The account or password is incorrect. Please check them and try again.",
+  "activityAllNavigation": "All",
+  "activityApplicationID": "Application ID",
+  "activityApplicationTime": "Application Time",
+  "activityApplyBtn": "Apply",
+  "activityApplyReplyTip": "Reply from school",
+  "activityApplyRequest": "Apply",
+  "activityApplyRequestDesc": "Confirm to apply this activity?",
+  "activityContactInfo": "Contact Info",
+  "activityDetailEmptyTip": "No detail given.",
+  "activityDetails": "Activity Details",
+  "activityDuration": "Duration",
+  "activityID": "Activity ID",
+  "activityLocation": "Location",
+  "activityMineNavigation": "Mine",
+  "activityMyScoreTitle": "Second Class Score",
+  "activityOrganizer": "Organizer",
+  "activityPrincipal": "Principal",
+  "activitySignInTime": "Sign-in",
+  "activitySignOutTime": "Sign-out",
+  "activityStartTime": "Start Time",
+  "activityTags": "Tags",
+  "activityUndertaker": "Undertaker",
+  "address": "Address",
+  "allowOthersFindMeCheckbox": "Allow others to find me",
+  "applicationAllNavigation": "All",
+  "applicationDesc": "This function is based on \"上应一网通办\".\nFor most of types, you have to do the necessary procedure on the spot although you submitted an application online.",
+  "applicationFilerInfrequentlyUsed": "Filter Infrequently-used",
+  "applicationMailbox": "My Mailbox",
+  "applicationMailboxEmptyTip": "Here is nothing.",
+  "applicationMailboxNavigation": "Mailbox",
+  "applicationMailboxRecent": "Recent",
+  "author": "Author",
+  "back": "Back",
+  "bill": "Bill",
+  "campus": "Campus",
+  "campusNetworkNoAccessTroubleshootingRequest": "You can't access the campus network. Do you want troubleshooting?",
+  "campusWeatherTitle": "{campus} Weather",
+  "@campusWeatherTitle": {
+    "placeholders": {
+      "campus": {
+        "type": "String"
+      }
+    }
+  },
+  "cancel": "Cancel",
+  "captcha": "Captcha",
+  "city": "City",
+  "classmate": "Classmate",
+  "clear": "Clear",
+  "close": "Close",
+  "confirm": "Confirm",
+  "connectivityCheckerConnectedBtn": "Continue",
+  "connectivityCheckerConnectingBtn": "Check...",
+  "connectivityCheckerDisconnectedBtn": "Retry",
+  "connectivityCheckerNoneBtn": "Check My Connection",
+  "connectivityCheckerStatusConnected": "Right ! You have connected to campus network !",
+  "connectivityCheckerStatusConnecting": "It will take a few seconds, please ensure you have turned on the network on your device.",
+  "connectivityCheckerStatusDisconnected": "Oops ! You can't access the campus network. Please check your network settings or use Easy Connect, and try again.",
+  "connectivityCheckerStatusNone": "You need the access to campus network to continue. Let's check it now.",
+  "connectivityConnectFailedError": "Unable to connect to campus network. Troubleshooting:\n1. Attempt to connect to the school's Wi-Fi, \"i-SIT\",\"i-SIT-1x\" or \"eduroam\".\n2. Attempt to launch \"EasyConnect\" VPN to connect to School.\n3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.\nIf they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.",
+  "connectivityConnectedByProxy": "Connected to campus network by Http proxy.",
+  "connectivityConnectedByVpn": "Connected to campus network by VPN.",
+  "connectivityConnectedByWlan": "Connected to campus network by WLAN.",
+  "continue_": "Continue",
+  "counselor": "Counselor",
+  "courseCompulsory": "Compulsory",
+  "courseCredit": "Credit",
+  "courseElective": "Elective",
+  "credentialError": "Credential Error",
+  "currentDormitoryLabel": "Current Dormitory",
+  "currentVersion": "Current Version",
+  "dataManagement": "Data Management",
+  "daysAppWithYouLabel": "Mímir has accompanied you for {days,plural, =1{1 day} other{{days} days}}",
+  "@daysAppWithYouLabel": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAppWithYouLabel0": "Mímir just met you :)",
+  "delete": "Delete",
+  "devOptions": "Development Options",
+  "done": "Done",
+  "dontShowThisAgainBtn": "Don't show again",
+  "dormitory": "Dormitory",
+  "download": "Download",
+  "downloadCompleted": "Download Completed",
+  "downloadEasyConnectBtn": "Download EasyConnect",
+  "downloading": "Downloading",
+  "draft": "Draft",
+  "easyconnectLaunchFailed": "Launch Failed",
+  "easyconnectLaunchFailedDesc": "Failed to launch EasyConnect, have you installed it or just download it now?",
+  "edit": "Edit",
+  "eduEmailNoContent": "No Content",
+  "eduEmailNoSubject": "No Subject",
+  "eduEmailPluralSenderTailing": "...",
+  "eduEmailText": "Text",
+  "eduEmailTitle": "My Email",
+  "elecBill24hBill": "Spent ¥{amount} last 24 hours",
+  "@elecBill24hBill": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "elecBillBalance": "Balance",
+  "elecBillBillNavigation": "Bill",
+  "elecBillContent": "last: ¥{balance} Room {room}",
+  "@elecBillContent": {
+    "placeholders": {
+      "room": {
+        "type": "int"
+      },
+      "balance": {
+        "type": "String"
+      }
+    }
+  },
+  "elecBillDailyChart7": "Last 7 Days ⚡ Chart",
+  "elecBillElecChart": "Electricity Chart",
+  "elecBillHourlyChart24": "Last 24 Hours ⚡ Chart",
+  "elecBillInitialTip": "Please search your room number first",
+  "elecBillLast24Hour": "Last 24 hours",
+  "elecBillLast7Day": "Last 7 days",
+  "elecBillRank": "Rank",
+  "elecBillRankAbove": "Above {percent}% of dormitories.",
+  "@elecBillRankAbove": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "elecBillRemainingPower": "Remaining",
+  "elecBillRoomNumber": "Room",
+  "elecBillSearchNavigation": "Search",
+  "elecBillTitle": "Bill of #{room}",
+  "@elecBillTitle": {
+    "placeholders": {
+      "room": {
+        "type": "String"
+      }
+    }
+  },
+  "elecBillUpdateTime": "Last Update",
+  "emptyContent": "Empty",
+  "enable": "Enable",
+  "enterCaptchaHint": "Plz enter captcha",
+  "@enterCaptchaHint": {
+    "description": "The hint text in the Text Field. It's narrow to show long sentence."
+  },
+  "error": "Error",
+  "examEndTime": "Ent Time",
+  "examIsRetake": "Is Retake",
+  "examLocation": "Location",
+  "examNoExamThisSemester": "No exam in this semester.",
+  "examResultBePatientLabel": "Please be patient :)",
+  "examResultNoResult": "No result record",
+  "examSeatNumber": "Seat No.",
+  "examStartTime": "Start Time",
+  "exceptionInfo": "Exception Info",
+  "expenseBalanceInCard": "¥{balance} in Card",
+  "@expenseBalanceInCard": {
+    "placeholders": {
+      "balance": {
+        "type": "String"
+      }
+    }
+  },
+  "expenseCafe": "Café",
+  "expenseCanteen": "Canteen",
+  "expenseCats": "Categories",
+  "expenseConsume": "Consume",
+  "expenseContent": "¥{amount} {place}",
+  "@expenseContent": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "expenseFetchingRecordTip": "Fetching expense record",
+  "expenseFetchingTip": "Fetching expense records from school... Please wait a minute, the network speed depends on the school's server.",
+  "expenseFirstTimeRefreshRequest": "Expense Tracker needs to access campus network to retrieve expense history. You can refresh the expense history manually next time by hitting the \"Refresh\" button at the top-right corner.",
+  "expenseGrocery": "Grocery Shopping",
+  "expenseHotWater": "Hot Water",
+  "expenseIncomeStatistics": "Income: ¥{amount}",
+  "@expenseIncomeStatistics": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "expenseLibrary": "Library",
+  "expenseRefreshMenuButton": "Force Refresh",
+  "expenseShower": "Shower",
+  "expenseSpentStatistics": "Outcome: ¥{amount}",
+  "@expenseSpentStatistics": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "expenseStatistics": "Statistics",
+  "expenseStuff": "Stuff",
+  "expenseSubsidy": "Subsidy",
+  "expenseToastLoadFailed": "Network error",
+  "expenseToastLoadSuccessful": "Successful!",
+  "expenseToastLoading": "Loading...",
+  "expenseTopUp": "Top Up",
+  "expenseTotal": "Total",
+  "faculty": "Faculty",
+  "failed": "Failed",
+  "feedback": "Feedback",
+  "feedbackBtn": "Feedback",
+  "female": "Female",
+  "fengxian": "Fengxian",
+  "fengxianDistrict": "Fengxian District",
+  "fetching": "Fetching",
+  "filter": "Filter",
+  "formatError": "Format Error",
+  "ftype_activity": "Activities",
+  "ftype_activity_desc": "The latest Second Class activities",
+  "ftype_application": "Application",
+  "ftype_application_desc": "What should I prepare for applications?",
+  "ftype_eduEmail": "Edu Email",
+  "ftype_eduEmail_desc": "Check your educational email",
+  "ftype_elecBill": "Electricity Bill",
+  "ftype_elecBill_desc": "Dormitory balance and ⚡ history",
+  "ftype_examArr": "Exam Arrangement",
+  "ftype_examArr_desc": "Recent exam arrangement",
+  "ftype_examResult": "Exam Result",
+  "ftype_examResult_desc": "Don't stop until you're proud",
+  "ftype_expense": "Expense Tracker",
+  "ftype_expense_desc": "School card shopping history",
+  "ftype_library": "Library",
+  "ftype_library_desc": "Reading is thinking",
+  "ftype_oaAnnouncement": "OA Announcement",
+  "ftype_oaAnnouncement_desc": "School announcements",
+  "ftype_scanner": "Scan",
+  "ftype_scanner_desc": "Scan a QR code",
+  "ftype_separator": "Separator",
+  "ftype_separator_desc": "For grouping functions",
+  "ftype_timetable": "Timetable",
+  "ftype_timetable_desc": "School timetable",
+  "ftype_yellowPages": "Yellow Pages",
+  "ftype_yellowPages_desc": "Contact school",
+  "fullAcademicYear": "Full Year",
+  "fullName": "Full Name",
+  "gender": "Gender",
+  "go": "Go",
+  "gpaPointLabel": "Point of {type}: {point}",
+  "@gpaPointLabel": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "point": {
+        "type": "String"
+      }
+    }
+  },
+  "gpaSelectedAndTotalLabel": "Point: {point} of {count} selected",
+  "@gpaSelectedAndTotalLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "point": {
+        "type": "String"
+      }
+    }
+  },
+  "greetingHeader0L1": "Welcome ! Have a nice day",
+  "greetingHeader0L2": "At SIT",
+  "greetingHeaderEnableIncrement": "n",
+  "greetingHeaderL1": "SIT has accompanied you",
+  "@greetingHeaderL1": {
+    "description": "The first line of greeting header"
+  },
+  "greetingHeaderL2": "{days,plural, =1{For 1 Day} other{For {days} Days}",
+  "@greetingHeaderL2": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "homepage": "Homepage",
+  "homepageCampusNetworkConnected": "Campus Network Available",
+  "homepageCampusNetworkDisconnected": "Campus Network Disconnected",
+  "hotPost": "HOT",
+  "htmlPageNoContent": "No Content",
+  "iSee": "I see",
+  "loginForgotPwdBtn": "Forgot password?",
+  "loginLoggedInTip": "Logged in",
+  "loginLoginAccountHint": "Student ID/Work number",
+  "loginLoginBtn": "Login",
+  "loginIncorrectIDFormat": "Incorrect ID format",
+  "loginOfflineModeBtn": "Offline Mode",
+  "loginPwdHint": "Enter your password",
+  "loginTitle": "Welcome !",
+  "language": "Language",
+  "language_en": "English",
+  "language_zh": "中文(简体)",
+  "language_zh_TW": "中文(繁體)",
+  "lastOnlineTime": "Last Online",
+  "launchEasyConnectBtn": "Launch EasyConnect",
+  "lessonEvaluationBtn": "Lesson Eval",
+  "lessonNotEvaluated": "Not Eval",
+  "libraryAccountManagementBtnTip": "Library account management is coming soon...",
+  "loading": "Loading",
+  "localStorageClearBoxDesc": "Confirm to clear this box pair?",
+  "localStorageDeleteItemDesc": "Confirm to delete this key-value pair?",
+  "localStorageEmptyValueDesc": "Confirm to empty this key-value pair?",
+  "localStorageTitle": "Local Storage Editor",
+  "loggingIn": "Logging in",
+  "loginCredentialsValidatedTip": "Account and password is correct",
+  "loginFailedWarn": "Login Failed",
+  "loginSuccessfulTip": "Login successful !",
+  "logout": "Logout",
+  "major": "Major",
+  "male": "Male",
+  "moreInfoTitle": "More Info",
+  "name": "Name",
+  "networkConnectionTimeoutError": "Network Timeout",
+  "networkConnectionTimeoutErrorDesc": "This function requires access to the campus network.\n\nNOTE: It can also occur when the school server crashes or is down for maintenance.",
+  "networkError": "Network Error",
+  "networkNoAccessTip": "Unable to access network. Please check network settings on your device, and try again.",
+  "networkTool": "Network Tool",
+  "networkXcpWarn": "A network error occurred.",
+  "networking": "Networking",
+  "newFriendsTitle": "New Friends",
+  "nickName": "Name",
+  "no": "No",
+  "notEnterCaptchaError": "Captcha is empty.",
+  "notFound404": "404 Not Found",
+  "notLoggedIn": "Not Logged In",
+  "notNow": "Not Now",
+  "oaAnnouncementAttachmentTip": "{count,plural, =1{Attachment} other{Attachments}",
+  "@oaAnnouncementAttachmentTip": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "oaAnnouncementTextTitle": "Announcement Text",
+  "oaPwd": "OA Password",
+  "ok": "OK",
+  "open": "Open",
+  "openNetworkToolBtn": "Open Network Tool",
+  "openWlanSettingsBtn": "Open WLAN settings",
+  "powerKwh": "{amount} kW·h",
+  "@powerKwh": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "processing": "Processing",
+  "province": "Province",
+  "publishTime": "Publish Time",
+  "publishingDepartment": "Department",
+  "pwd": "Password",
+  "readAndAcceptRequest": "Please read and accept {agreement} first.",
+  "@readAndAcceptRequest": {
+    "placeholders": {
+      "agreement": {
+        "type": "String"
+      }
+    }
+  },
+  "realtimeWeather": "Real-time Weather",
+  "refresh": "Refresh",
+  "relogin": "Re-login",
+  "reloginRequestDesc": "Your account or password is incorrect, do you want to log in again?",
+  "personalizeTitle": "Personalize",
+  "request": "Request",
+  "rmb": "¥{amount}",
+  "@rmb": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "roommate": "Roommate",
+  "save": "Save",
+  "scannerBarcodeNotRecognized": "No Barcode",
+  "scannerBarcodeRecognized": "Barcode Recognized",
+  "semester": "Semester",
+  "semester1st": "Fall",
+  "semester2rd": "Spring",
+  "serviceStatus": "Service Status",
+  "settings": "Settings",
+  "settingsCampus": "Your Campus",
+  "settingsCampusSub": "To display the weather",
+  "settingsChangeOaPwd": "Change OA Password",
+  "settingsChangeOaPwdSub": "Change the OA password used for logging in Kite",
+  "settingsClearCache": "Clear Cache",
+  "settingsClearCacheDesc": "Confirm to clear the cache? To reload them, you need connect to campus network again.",
+  "settingsClearCacheSub": "Clear the offline cache made by Kite during use.",
+  "settingsDarkMode": "Dark Mode",
+  "settingsDarkModeSub": "Kite will protect your eyes",
+  "settingsDetailedXcpDialog": "Enable detailed exception dialog",
+  "settingsDetailedXcpDialogSub": "Detailed stacktrace will be shown",
+  "settingsHomeRearrangeResetRequest": "Reset?",
+  "settingsHomeRearrangeResetRequestDesc": "Your layout will be discard.",
+  "settingsHomepageRearrange": "Rearrange Home",
+  "settingsHomepageRearrangeSub": "Reorder and regroup the homepage to meet your needs.",
+  "settingsHomepageRearrangeTitle": "Rearrange Home",
+  "settingsHomepageWallpaperMode": "Homepage Wallpaper Mode",
+  "settingsHttpProxy": "Enable Http Proxy",
+  "settingsHttpProxyGlobal": "Use as global proxy",
+  "settingsHttpProxyGlobalSub": "For debugging, exclude Webview",
+  "settingsHttpProxySub": "Connect to the campus network by Http proxy",
+  "settingsLanguage": "Language",
+  "settingsLanguageSub": "Select a language for your Kite",
+  "settingsLocalStorage": "Local storage",
+  "settingsLocalStorageSub": "Display local storage of Kite on your device.",
+  "settingsProxyAddress": "Proxy Address",
+  "settingsReload": "Reload",
+  "settingsReloadSub": "Re-initialize all modules",
+  "settingsStorageSelectTip": "Please select a box first.",
+  "settingsTestConnect2School": "Test Connectivity",
+  "settingsTestConnect2SchoolSub": "Test connectivity to school",
+  "settingsTestLoginKite": "Test Login Kite",
+  "settingsTestLoginKiteSub": "Validate your Kite account and OA password",
+  "settingsThemeColor": "Theme Color",
+  "settingsTitle": "Settings",
+  "settingsWallpaper": "Wallpaper",
+  "settingsWallpaperEmptyWarn": "You haven't set the wallpaper.",
+  "settingsWallpaperSub": "Customize the homepage wallpaper",
+  "settingsWipeData": "Wipe Data & Log out",
+  "settingsWipeDataDesc": "ALL data, such as login credentials and timetable imported, except webview cache, will be wiped permanently.",
+  "settingsWipeDataRequest": "Wipe ALL Data",
+  "settingsWipeDataSub": "Wipe all data made by Kite and log out.",
+  "staticPicture": "Static Picture",
+  "stats": "Statistics",
+  "status": "Status",
+  "studentID": "Student ID",
+  "studentIdCopy2ClipboardTip": "Your student ID is copied.",
+  "studentInfoTitle": "Student Info",
+  "submit": "Submit",
+  "success": "Success",
+  "teacherEvalTitle": "Teacher Evaluation",
+  "tel": "TEL.",
+  "timetableDelete": "Delete",
+  "timetableDeleteRequest": "Confirm to delete?",
+  "timetableDeleteRequestDesc": "You will lose this timetable permanently.",
+  "timetableDescFormTitle": "Description",
+  "timetableDetailClassId": "Class Code {classId}",
+  "@timetableDetailClassId": {
+    "placeholders": {
+      "classId": {
+        "type": "String"
+      }
+    }
+  },
+  "timetableDetailCourseId": "Course Code {courseId}",
+  "@timetableDetailCourseId": {
+    "placeholders": {
+      "courseId": {
+        "type": "String"
+      }
+    }
+  },
+  "timetableEdit": "Edit",
+  "timetableImportConnectivityCheckerDesc": "You need access campus network before importing a new Timetable. Let's check it.",
+  "timetableImportEndTip": "Please enter the info.",
+  "timetableImportFailed": "Import Error",
+  "timetableImportFailedDesc": "Can't import the timetable, please try again.",
+  "timetableImportFailedTip": "Failed to import, please try again.",
+  "timetableImportImportBtn": "Try Import",
+  "timetableImportImporting": "Trying to fetch the timetable...",
+  "timetableImportInfoTitle": "Timetable Info",
+  "timetableImportSaveBtn": "Save",
+  "timetableImportStartDate": "Start with: {date}",
+  "@timetableImportStartDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "timetableImportTitle": "Import Timetable",
+  "timetableInfoDefaultName": "{semester}, {yearStart}-{yearEnd} Timetable",
+  "@timetableInfoDefaultName": {
+    "placeholders": {
+      "semester": {
+        "type": "String"
+      },
+      "yearStart": {
+        "type": "int"
+      },
+      "yearEnd": {
+        "type": "int"
+      }
+    }
+  },
+  "timetableInitialImportRequest": "Import a Timetable",
+  "timetableInitialImportRequestDesc": "You seem to use Kite's Timetable first, try import one now?",
+  "timetableJumpBtn": "Jump",
+  "timetableJumpFindTodayBtn": "Find Today",
+  "timetableMineEmptyTip": "Let's import a new timetable !",
+  "timetableMineTitle": "My Timetables",
+  "timetableNameFormTitle": "Name",
+  "timetableNoDescPlaceholder": "No description...",
+  "timetablePreviewBtn": "Preview",
+  "timetablePreviewTitle": "Preview",
+  "timetableSelectSemesterTip": "Please select a semester first.",
+  "timetableSetStartDate": "Set Start Date",
+  "timetableSetToDefault": "Set to Default",
+  "timetableWeekOrderedName": "Week {week}",
+  "@timetableWeekOrderedName": {
+    "placeholders": {
+      "week": {
+        "type": "int"
+      }
+    }
+  },
+  "troubleshooting": "Troubleshooting",
+  "unauthorizedTipEverLoggedInTip": "Your account or password is incorrect, please try to login again.",
+  "unauthorizedTipNeverLoggedInTip": "You have to login to perform this.",
+  "unauthorizedTipTitle": "Require Login",
+  "unknown": "Unknown",
+  "untitled": "Untitled",
+  "userInfoUpdatedTip": "Your info updated !",
+  "validateInputAccountPwdRequest": "Please check the formats of account and password you entered.",
+  "validateInputRequest": "Please check your input.",
+  "warning": "Warning",
+  "weather": "Weather",
+  "weather_sunny": "Sunny",
+  "wechat": "Wechat",
+  "weekday1": "Monday",
+  "weekday2": "Tuesday",
+  "weekday3": "Wednesday",
+  "weekday4": "Thursday",
+  "weekday5": "Friday",
+  "weekday6": "Saturday",
+  "weekday7": "Sunday",
+  "weekdayShort1": "MON",
+  "weekdayShort2": "TUE",
+  "weekdayShort3": "WED",
+  "weekdayShort4": "THU",
+  "weekdayShort5": "FRI",
+  "weekdayShort6": "SAT",
+  "weekdayShort7": "SUN",
+  "welcomeFreshman": "I'm a Freshman",
+  "welcomeLogin": "Login",
+  "welcomeSlogan": "Excellent school life, from here.",
+  "xuhui": "Xuhui",
+  "xuhuiDistrict": "Xuhui District",
+  "yes": "Yes",
+  "timetableFreeDayIsTodayTip": "Have a nice day! 🎉",
+  "timetableFreeDayTip": "It's a free day!",
+  "timetableFreeWeekIsThisWeekTip": "Enjoy this week! 🎉",
+  "timetableFreeWeekTip": "Wow, no class this week!",
+  "timetableFreeTermTip": "Cool! You even have a free term! 🎉🎉🎉",
+  "congratulations": "Congratulations",
+  "newsNewPersonalizationSystemIsComingSoon": "Excuse me, a new personalization system is coming soon!",
+  "timetableUseOldSchoolPalette": "Use Old School Palette",
+  "timetableUseOldNewUI": "Use Timetable New-UI",
+  "thanks": "Thanks",
+  "timetableFindNearestWeekWithClassBtn": "Find a week with class",
+  "timetableFindNearestDayWithClassBtn": "Find a day with class",
+  "timetableWeek": "wk",
+  "timetableOddWeek": "odd wk",
+  "timetableEvenWeek": "even wk",
+  "minutes": "min",
+  "hour": "hour",
+  "hourMinuteF": "{hour} h {minute} min",
+  "@hourMinuteF": {
+    "placeholders": {
+      "hour": {
+        "type": "String"
+      },
+      "minute": {
+        "type": "String"
+      }
+    }
+  },
+  "minuteF": "{minute} min",
+  "@minuteF": {
+    "placeholders": {
+      "minute": {
+        "type": "String"
+      }
+    }
+  },
+  "hourF": "{hour} h",
+  "@hourF": {
+    "placeholders": {
+      "hour": {
+        "type": "String"
+      }
+    }
+  }
+}

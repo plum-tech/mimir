@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by Liplum on 2022/10/7.
+  
+*/
+
+/* Localized Bundle Display Name */
+"CFBundleDisplayName" = "SIT Kite";

@@ -1,0 +1,13 @@
+/*
+  InfoPlist.strings
+  Mímir App info.plist localization file.
+
+  Created by peanuts on 2022/2/10.
+
+*/
+
+NSCalendarsUsageDescription = "Mímir requires calendar premission.";
+NSCameraUsageDescription = "Mímir requires camera premission.";
+NSPhotoLibraryUsageDescription = "Mímir requires album premission.";
+CFBundleDisplayName = "Mímir";
+NFCReaderUsageDescription = "Mímir requires NFC premission.";

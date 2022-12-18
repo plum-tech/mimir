@@ -1,0 +1,168 @@
+import 'package:flutter/material.dart';
+
+import '../../using.dart';
+import '../entity/book_info.dart';
+import '../entity/book_search.dart';
+import '../entity/holding_preview.dart';
+import '../init.dart';
+import '../user_widget/search_result_item.dart';
+import '../util/search.dart';
+import 'search_delegate.dart';
+
+class BookInfoPage extends StatefulWidget {
+  /// 上一层传递进来的数据
+  final BookImageHolding bookImageHolding;
+
+  const BookInfoPage(this.bookImageHolding, {Key? key}) : super(key: key);
+
+  @override
+  _BookInfoPageState createState() => _BookInfoPageState();
+}
+
+class _BookInfoPageState extends State<BookInfoPage> {
+  Widget buildBookDetail() {
+    final bookId = widget.bookImageHolding.book.bookId;
+    return MyFutureBuilder<BookInfo>(
+      future: LibrarySearchInit.bookInfo.query(bookId),
+      builder: (BuildContext context, BookInfo data) {
+        return Table(
+          columnWidths: const {
+            0: FlexColumnWidth(2),
+            1: FlexColumnWidth(5),
+          },
+          // border: TableBorder.all(color: Colors.red),
+          children: data.rawDetail.entries
+              .map(
+                (e) => TableRow(
+                  children: [
+                    Text(e.key, style: Theme.of(context).textTheme.subtitle2),
+                    SelectableText(e.value, style: Theme.of(context).textTheme.bodyText2),
+                  ],
+                ),
+              )
+              .toList(),
+        );
+      },
+    );
+  }
+
+  Widget buildHoldingItem(HoldingPreviewItem item) {
+    return Card(
+      child: Container(
+        padding: const EdgeInsets.all(15),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('索书号：' + item.callNo),
+                  Text('所在馆：' + item.currentLocation),
+                ],
+              ),
+            ),
+            Text('在馆(${item.loanableCount})/馆藏(${item.copyCount})'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// 构造馆藏信息列表
+  Widget buildHolding(List<HoldingPreviewItem> items) {
+    return Column(
+      children: items.map(buildHoldingItem).toList(),
+    );
+  }
+
+  /// 构造标题样式的文本
+  Widget buildTitle(String text) {
+    return Text(
+      text,
+      style: Theme.of(context).textTheme.headline1,
+    );
+  }
+
+  /// 构造邻近的书
+  Widget buildBookItem(String bookId) {
+    Future<BookImageHolding> get() async {
+      final result = await LibrarySearchInit.bookSearch.search(
+        keyword: bookId,
+        rows: 1,
+        searchWay: SearchWay.ctrlNo,
+      );
+      final ret = await BookImageHolding.simpleQuery(
+        LibrarySearchInit.bookImageSearch,
+        LibrarySearchInit.holdingPreview,
+        result.books,
+      );
+      return ret[0];
+    }
+
+    return MyFutureBuilder<BookImageHolding>(
+      future: get(),
+      builder: (BuildContext context, BookImageHolding data) {
+        return InkWell(
+          child: Card(
+            child: BookItemWidget(data),
+          ),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (BuildContext context) {
+                return BookInfoPage(data);
+              }),
+            );
+          },
+        );
+      },
+      onErrorBuilder: (context, fb, error, stack) {
+        return const SizedBox();
+      },
+    );
+  }
+
+  Widget buildNearBooks(String bookId) {
+    return MyFutureBuilder<List<String>>(
+      future: LibrarySearchInit.holdingInfo.searchNearBookIdList(bookId),
+      builder: (BuildContext context, List<String> data) {
+        return Column(
+          children: data.sublist(0, 5).map((bookId) {
+            return Container(
+              child: buildBookItem(bookId),
+            );
+          }).toList(),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('图书详情'),
+      ),
+      body: Container(
+        padding: const EdgeInsets.all(20),
+        child: SingleChildScrollView(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            BookItemWidget(
+              widget.bookImageHolding,
+              onAuthorTap: (String key) {
+                showSearch(context: context, delegate: SearchBarDelegate(), query: key);
+              },
+            ),
+            const SizedBox(height: 20),
+            buildBookDetail(),
+            const SizedBox(height: 20),
+            buildTitle('馆藏信息'),
+            buildHolding(widget.bookImageHolding.holding ?? []),
+            const SizedBox(height: 20),
+            buildTitle('邻近的书'),
+            buildNearBooks(widget.bookImageHolding.book.bookId),
+          ]),
+        ),
+      ),
+    );
+  }
+}

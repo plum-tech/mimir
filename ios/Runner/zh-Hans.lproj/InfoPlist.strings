@@ -1,0 +1,13 @@
+/*
+  InfoPlist.strings
+  小风筝info.plist国际化文件
+
+  Created by peanuts on 2022/2/10.
+
+*/
+
+NSCalendarsUsageDescription = "小风筝需要日历权限。";
+NSCameraUsageDescription = "小风筝需要相机权限。";
+NSPhotoLibraryUsageDescription = "小风筝需要照片权限。";
+CFBundleDisplayName = "上应小风筝";
+NFCReaderUsageDescription = "小风筝需要NFC权限。";
