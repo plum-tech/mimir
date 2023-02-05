@@ -61,8 +61,8 @@ class ElectricityChartState extends State<ElectricityChart> {
       _buildHourlyChartContent(ctx, bill)
           .padFromLTRB(0, 20, 10, 0)
           .container(
-            width: 400,
-            height: 200,
+            w: 400,
+            h: 200,
           )
           .padV(20)
     ]);

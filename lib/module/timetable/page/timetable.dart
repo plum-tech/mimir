@@ -55,10 +55,10 @@ class _TimetablePageState extends State<TimetablePage> {
     Log.info('Timetable build');
     return Scaffold(
       appBar: AppBar(
-        title: $currentPos <<
-            (ctx, pos, _) =>
-                $displayMode <<
-                (ctx, mode, _) => mode == DisplayMode.weekly
+        title: $currentPos >>
+            (ctx, pos) =>
+                $displayMode >>
+                (ctx, mode) => mode == DisplayMode.weekly
                     ? i18n.timetableWeekOrderedName(pos.week).text()
                     : "${i18n.timetableWeekOrderedName(pos.week)} ${makeWeekdaysText()[(pos.day - 1) % 7]}".text(),
         actions: [
@@ -136,7 +136,7 @@ class _TimetablePageState extends State<TimetablePage> {
         ok: i18n.timetableJumpBtn,
         okEnabled: (curSelected) => curSelected != initialIndex,
         actions: [
-          (ctx, curSelected) => i18n.timetableJumpFindTodayBtn.text().cupertinoButton(
+          (ctx, curSelected) => i18n.timetableJumpFindTodayBtn.text().cupertinoBtn(
               onPressed: (curSelected == todayIndex)
                   ? null
                   : () {
@@ -176,7 +176,7 @@ class _TimetablePageState extends State<TimetablePage> {
         ok: i18n.timetableJumpBtn,
         okEnabled: (weekSelected, daySelected) => weekSelected != initialWeekIndex || daySelected != initialDayIndex,
         actions: [
-          (ctx, week, day) => i18n.timetableJumpFindTodayBtn.text().cupertinoButton(
+          (ctx, week, day) => i18n.timetableJumpFindTodayBtn.text().cupertinoBtn(
               onPressed: (week == todayWeekIndex && day == todayDayIndex)
                   ? null
                   : () {

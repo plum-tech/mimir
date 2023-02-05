@@ -22,7 +22,7 @@ import 'global/global.dart';
 import 'navigation/route.dart';
 
 class MimirApp extends StatefulWidget {
-  const MimirApp({Key? key}) : super(key: key);
+  const MimirApp({super.key});
 
   @override
   State<MimirApp> createState() => _MimirAppState();
@@ -58,17 +58,17 @@ class _MimirAppState extends State<MimirApp> {
       // https://material.io/design/typography/the-type-system.html
       // https://www.mdui.org/design/style/typography.html
       // 12、14、16、20
-      headline1: TextStyle(fontSize: 24.0, color: fullColor, fontWeight: FontWeight.w500),
-      headline2: TextStyle(fontSize: 22.0, color: fullColor),
-      headline3: TextStyle(fontSize: 20.0, color: halfColor, fontWeight: FontWeight.w500),
-      headline4: TextStyle(fontSize: 20.0, color: halfColor),
-      headline5: TextStyle(fontSize: 24.0, color: fullColor),
-      headline6: TextStyle(fontSize: 20.0, color: fullColor, fontWeight: FontWeight.w500),
-      subtitle1: TextStyle(fontSize: 18.0, color: halfColor, fontWeight: FontWeight.w500),
-      subtitle2: TextStyle(fontSize: 16.0, color: halfColor, fontWeight: FontWeight.w500),
-      bodyText1: TextStyle(fontSize: 16.0, color: fullColor),
-      bodyText2: TextStyle(fontSize: 14.0, color: fullColor),
-      caption: TextStyle(fontSize: 12.0, color: halfColor),
+      displayLarge: TextStyle(fontSize: 24.0, color: fullColor, fontWeight: FontWeight.w500),
+      displayMedium: TextStyle(fontSize: 22.0, color: fullColor),
+      displaySmall: TextStyle(fontSize: 20.0, color: halfColor, fontWeight: FontWeight.w500),
+      headlineMedium: TextStyle(fontSize: 20.0, color: halfColor),
+      headlineSmall: TextStyle(fontSize: 24.0, color: fullColor),
+      titleLarge: TextStyle(fontSize: 20.0, color: fullColor, fontWeight: FontWeight.w500),
+      titleMedium: TextStyle(fontSize: 18.0, color: halfColor, fontWeight: FontWeight.w500),
+      titleSmall: TextStyle(fontSize: 16.0, color: halfColor, fontWeight: FontWeight.w500),
+      bodyLarge: TextStyle(fontSize: 16.0, color: fullColor),
+      bodyMedium: TextStyle(fontSize: 14.0, color: fullColor),
+      bodySmall: TextStyle(fontSize: 12.0, color: halfColor),
     );
   }
 

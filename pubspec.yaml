@@ -78,7 +78,7 @@ dependencies:
   open_file: ^3.2.1                 # Open files
   url_launcher: ^6.0.17             # Open URLs
   image_picker: ^0.8.4+7            # Open Android / iOS system image picker
-  file_picker: ^4.6.1               # Open system file picker
+  file_picker: ^4.6.1
 
   # UI
   flash: ^2.0.3+1
@@ -129,7 +129,7 @@ dependencies:
   unicons: ^2.1.0
   loading_animation_widget: ^1.2.0+3
   connectivity_plus: ^3.0.2
-  modal_bottom_sheet: ^2.1.2
+  modal_bottom_sheet: ^3.0.0-pre
   msh_checkbox: ^1.2.1
   animated_toggle_switch: ^0.5.2
   quiver: ^3.1.0

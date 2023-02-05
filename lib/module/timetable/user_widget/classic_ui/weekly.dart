@@ -77,8 +77,8 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
     return [
       [
         buildMood(context).align(at: Alignment.center).flexible(flex: 47),
-        widget.$currentPos <<
-            (ctx, cur, _) => TimetableHeader(
+        widget.$currentPos >>
+            (ctx, cur) => TimetableHeader(
                   selectedDay: 0,
                   currentWeek: cur.week,
                   startDate: widget.initialDate,
@@ -258,7 +258,7 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
           bottom: side,
         ),
       ),
-      child: (index + 1).text(style: textStyle).center(),
+      child: (index + 1).toString().text(style: textStyle).center(),
     );
   }
 
@@ -365,7 +365,7 @@ class _TimetableSingleWeekViewState extends State<TimetableSingleWeekView> {
     for (int timeslot = 0; timeslot < day.timeslots2Lessons.length; timeslot++) {
       final lessons = day.timeslots2Lessons[timeslot];
       if (lessons.isEmpty) {
-        cells.add(const SizedBox().sized(width: cellSize.width, height: cellSize.height));
+        cells.add(SizedBox(width: cellSize.width, height: cellSize.height).sized());
       } else {
         /// TODO: Multi-layer lessons
         final firstLayerLesson = lessons[0];
@@ -377,7 +377,7 @@ class _TimetableSingleWeekViewState extends State<TimetableSingleWeekView> {
           timetable: widget.timetable,
           course: course,
         );
-        cells.add(cell.sized(width: cellSize.width, height: cellSize.height * firstLayerLesson.duration));
+        cells.add(cell.sized(w: cellSize.width, h: cellSize.height * firstLayerLesson.duration));
 
         /// Skip to the end
         timeslot = firstLayerLesson.endIndex;

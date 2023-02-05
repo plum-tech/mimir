@@ -14,6 +14,7 @@ class HomeKeyKeys {
 
   // 首页在无网状态下加载的缓存.
   static const lastWeather = '$namespace/lastWeather';
+  static const lastReport = '$namespace/lastReport';
   static const lastBalance = '$namespace/lastBalance';
   static const lastExpense = '$namespace/lastExpense';
   static const lastHotSearch = '$namespace/lastHotSearch';
@@ -57,6 +58,12 @@ class HomeSettingStorage implements HomeSettingDao {
 
   @override
   set lastWeather(Weather? weather) => box.put(HomeKeyKeys.lastWeather, weather);
+
+  @override
+  ReportHistory? get lastReport => box.get(HomeKeyKeys.lastReport);
+
+  @override
+  set lastReport(ReportHistory? reportHistory) => box.put(HomeKeyKeys.lastReport, reportHistory);
 
   @override
   Balance? get lastBalance => box.get(HomeKeyKeys.lastBalance);

@@ -11,7 +11,7 @@ import 'package:mimir/util/logger.dart';
 import '../user_widget/brick.dart';
 
 class ApplicationItem extends StatefulWidget {
-  const ApplicationItem({Key? key}) : super(key: key);
+  const ApplicationItem({super.key});
 
   @override
   State<StatefulWidget> createState() => _ApplicationItemState();

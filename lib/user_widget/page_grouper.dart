@@ -103,8 +103,8 @@ class _PageGrouperState extends State<PageGrouper> {
           isPre: false,
         ),
     ].row().sized(
-          width: widget.width ?? ctx.mediaQuery.size.width,
-          height: 60,
+          w: widget.width ?? ctx.mediaQuery.size.width,
+          h: 60,
         );
   }
 }
@@ -125,7 +125,7 @@ class _SkipBtn extends StatelessWidget {
     return ClipRRect(
       borderRadius: buttonStyles.borderRadius ?? BorderRadius.circular(0),
       child: Material(
-        color: context.theme.backgroundColor,
+        color: context.theme.colorScheme.background,
         child: InkWell(
           onTap: onTap,
           child: Padding(
@@ -136,7 +136,7 @@ class _SkipBtn extends StatelessWidget {
           ),
         ),
       ),
-    ).sized(height: height);
+    ).sized(h: height);
   }
 }
 
@@ -168,13 +168,13 @@ class _PageBtn extends StatelessWidget {
           onTap: () {
             onTap(page);
           },
-          child: page
+          child: page.toString()
               .text(style: active ? buttonStyles.activeTextStyle : buttonStyles.textStyle, textAlign: TextAlign.center)
               .center(),
         ),
       ).sized(
-        height: height,
-        width: MediaQuery.of(context).size.width,
+        h: height,
+        w: MediaQuery.of(context).size.width,
       ),
     );
   }

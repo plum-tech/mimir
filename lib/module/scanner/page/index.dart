@@ -6,7 +6,7 @@ import 'package:rettulf/rettulf.dart';
 import '../using.dart';
 
 class ScannerPage extends StatefulWidget {
-  const ScannerPage({Key? key}) : super(key: key);
+  const ScannerPage({super.key});
 
   @override
   State<ScannerPage> createState() => _ScannerPageState();

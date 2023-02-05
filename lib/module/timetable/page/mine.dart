@@ -12,7 +12,7 @@ import '../using.dart';
 import 'preview.dart';
 
 class MyTimetablePage extends StatefulWidget {
-  const MyTimetablePage({Key? key}) : super(key: key);
+  const MyTimetablePage({super.key});
 
   @override
   State<MyTimetablePage> createState() => _MyTimetablePageState();
@@ -72,8 +72,8 @@ class _MyTimetablePageState extends State<MyTimetablePage> {
                   [
                     ListTile(
                       title: i18n.timetableUseOldSchoolPalette.text(style: const TextStyle(fontSize: 15)),
-                      trailing: $useOldSchool <<
-                          (ctx, use, _) => CupertinoSwitch(
+                      trailing: $useOldSchool >>
+                          (ctx, use) => CupertinoSwitch(
                               value: use,
                               onChanged: (newV) {
                                 $useOldSchool.value = newV;
@@ -81,8 +81,8 @@ class _MyTimetablePageState extends State<MyTimetablePage> {
                     ),
                     ListTile(
                       title: i18n.timetableUseOldNewUI.text(style: const TextStyle(fontSize: 15)),
-                      trailing: $useNewUI <<
-                          (ctx, use, _) => CupertinoSwitch(
+                      trailing: $useNewUI >>
+                          (ctx, use) => CupertinoSwitch(
                               value: use,
                               onChanged: (newV) {
                                 $useNewUI.value = newV;

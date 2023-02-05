@@ -77,7 +77,7 @@
   "currentDormitoryLabel": "Current Dormitory",
   "currentVersion": "Current Version",
   "dataManagement": "Data Management",
-  "daysAppWithYouLabel": "Mímir has accompanied you for {days,plural, =1{1 day} other{{days} days}}",
+  "daysAppWithYouLabel": "Mímir has accompanied you for {days,plural, =1{1 day} other{{days} days}}}",
   "@daysAppWithYouLabel": {
     "placeholders": {
       "days": {
@@ -292,7 +292,7 @@
   "@greetingHeaderL1": {
     "description": "The first line of greeting header"
   },
-  "greetingHeaderL2": "{days,plural, =1{For 1 Day} other{For {days} Days}",
+  "greetingHeaderL2": "{days,plural, =1{For 1 Day} other{For {days} Days}}",
   "@greetingHeaderL2": {
     "placeholders": {
       "days": {
@@ -300,6 +300,8 @@
       }
     }
   },
+  "ftype_reportTemp": "Report Temperature",
+  "ftype_reportTemp_desc": "Don't forgor !",
   "homepage": "Homepage",
   "homepageCampusNetworkConnected": "Campus Network Available",
   "homepageCampusNetworkDisconnected": "Campus Network Disconnected",
@@ -351,7 +353,7 @@
   "notFound404": "404 Not Found",
   "notLoggedIn": "Not Logged In",
   "notNow": "Not Now",
-  "oaAnnouncementAttachmentTip": "{count,plural, =1{Attachment} other{Attachments}",
+  "oaAnnouncementAttachmentTip": "{count,plural, =1{Attachment} other{Attachments}}",
   "@oaAnnouncementAttachmentTip": {
     "placeholders": {
       "count": {
@@ -390,6 +392,29 @@
   "refresh": "Refresh",
   "relogin": "Re-login",
   "reloginRequestDesc": "Your account or password is incorrect, do you want to log in again?",
+  "reportTempAbnormal": "Abnormal",
+  "@reportTempAbnormal": {
+    "description": "For building string: Reported Today Abnormal {place}"
+  },
+  "reportTempHelper": "Temperature Report Helper",
+  "reportTempNoReportRecords": "No report records",
+  "reportTempNormal": "Normal",
+  "@reportTempNormal": {
+    "description": "For building string: Reported Today Normal {place}"
+  },
+  "reportTempRemindTime": "Time",
+  "reportTempReminderDesc": "When launched, Kite will detect whether you have reported today and notify you, before the time you set.",
+  "reportTempReminderSwitch": "Remind Me",
+  "reportTempReminderTitle": "Report Alarm",
+  "reportTempReportedToday": "Reported Today",
+  "@reportTempReportedToday": {
+    "description": "For building string: Reported Today Normal {place}"
+  },
+  "reportTempRequest": "Today you haven't reported temperature, do you want to do now?",
+  "reportTempUnreportedToday": "Unreported Today",
+  "@reportTempUnreportedToday": {
+    "description": "For building string: Unreported Today Today Normal {place}"
+  },
   "personalizeTitle": "Personalize",
   "request": "Request",
   "rmb": "¥{amount}",

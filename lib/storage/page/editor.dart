@@ -6,7 +6,7 @@ import 'package:rettulf/rettulf.dart';
 import '../user_widget/box.dart';
 
 class LocalStoragePage extends StatefulWidget {
-  const LocalStoragePage({Key? key}) : super(key: key);
+  const LocalStoragePage({super.key});
 
   @override
   State<LocalStoragePage> createState() => _LocalStoragePageState();

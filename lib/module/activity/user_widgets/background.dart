@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:geopattern_flutter/geopattern_flutter.dart';
 import 'package:geopattern_flutter/patterns/overlapping_circles.dart';
-import 'package:rettulf/buildcontext/theme.dart';
+import 'package:rettulf/build_context/theme.dart';
 
 import '../using.dart';
 

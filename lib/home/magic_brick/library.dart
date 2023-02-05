@@ -10,7 +10,7 @@ import 'package:mimir/storage/init.dart';
 import '../user_widget/brick.dart';
 
 class LibraryItem extends StatefulWidget {
-  const LibraryItem({Key? key}) : super(key: key);
+  const LibraryItem({super.key});
 
   @override
   State<StatefulWidget> createState() => _LibraryItemState();

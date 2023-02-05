@@ -75,8 +75,8 @@ class DailyTimetableState extends State<DailyTimetable> {
     });
     final side = getBorderSide(context);
     return [
-      widget.$currentPos <<
-          (ctx, cur, _) => TimetableHeader(
+      widget.$currentPos >>
+          (ctx, cur) => TimetableHeader(
                 selectedDay: cur.day,
                 currentWeek: cur.week,
                 startDate: widget.initialDate,

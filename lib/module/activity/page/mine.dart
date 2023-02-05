@@ -88,7 +88,6 @@ class _MyActivityPageState extends State<MyActivityPage> with AutomaticKeepAlive
   Widget buildLandscape(BuildContext ctx) {
     final targetScore = getTargetScore();
     return [buildSummeryCard(ctx, targetScore, summary).expanded(), buildLiveList(context).expanded()].row();
-    //return [buildSummeryCard(ctx, summary).expanded(), buildLiveList(context).expanded()].row();
   }
 
   Widget buildJoinedActivityCard(BuildContext context, ScJoinedActivity rawActivity) {

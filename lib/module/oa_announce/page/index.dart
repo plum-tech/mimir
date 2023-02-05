@@ -12,7 +12,7 @@ import '../using.dart';
 import 'detail.dart';
 
 class OaAnnouncePage extends StatefulWidget {
-  const OaAnnouncePage({Key? key}) : super(key: key);
+  const OaAnnouncePage({super.key});
 
   @override
   State<OaAnnouncePage> createState() => _OaAnnouncePageState();

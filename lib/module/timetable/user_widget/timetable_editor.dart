@@ -70,6 +70,6 @@ class _TimetableEditorState extends State<TimetableEditor> {
           maa: MainAxisAlignment.spaceBetween,
           mas: MainAxisSize.min,
         )
-        .center(heightFactor: 1);
+        .center(hFactor: 1);
   }
 }

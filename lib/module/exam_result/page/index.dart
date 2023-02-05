@@ -116,8 +116,8 @@ class _ExamResultPageState extends State<ExamResultPage> {
   Widget? buildEvaluationBtn(BuildContext ctx) {
     // If the user is currently offline, don't let them see the evaluation button.
     if (Auth.oaCredential == null) return null;
-    return $showEvaluationBtn <<
-        (ctx, showBtn, _) {
+    return $showEvaluationBtn >>
+        (ctx, showBtn) {
           return AnimatedSlideDown(
               upWhen: showBtn,
               child: FloatingActionButton.extended(

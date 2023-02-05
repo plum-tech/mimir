@@ -17,6 +17,7 @@ abstract class HomeSettingDao {
   set lastWeather(Weather? weather);
 
   // 首页在无网状态下加载的缓存
+  ReportHistory? lastReport;
   Balance? lastBalance;
   String? lastHotSearch;
   String? lastOfficeStatus;

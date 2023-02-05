@@ -47,8 +47,8 @@ class _TimetableViewerState extends State<TimetableViewer> {
   }
 
   Widget buildTimetableBody(BuildContext ctx) {
-    return widget.$displayMode <<
-        (ctx, mode, _) => (mode == DisplayMode.daily
+    return widget.$displayMode >>
+        (ctx, mode) => (mode == DisplayMode.daily
                     ? DailyTimetable(
                         $currentPos: widget.$currentPos,
                         timetable: timetable,

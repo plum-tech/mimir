@@ -10,7 +10,7 @@ import 'bill.dart';
 import 'statistics.dart';
 
 class ExpenseTrackerPage extends StatefulWidget {
-  const ExpenseTrackerPage({Key? key}) : super(key: key);
+  const ExpenseTrackerPage({super.key});
 
   @override
   State<ExpenseTrackerPage> createState() => _ExpenseTrackerPageState();
@@ -68,8 +68,8 @@ class _ExpenseTrackerPageState extends State<ExpenseTrackerPage> {
   }
 
   Widget buildAppBarTitle(BuildContext ctx) {
-    return $balance <<
-        (ctx, v, _) {
+    return $balance >>
+        (ctx, v) {
           if (v == null) {
             return i18n.ftype_expense.text();
           } else {

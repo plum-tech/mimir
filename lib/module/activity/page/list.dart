@@ -53,8 +53,8 @@ class _ActivityListPageState extends State<ActivityListPage>
       controller: _tabController,
       tabs: categories
           .mapIndexed((i, e) =>
-              $page <<
-              (ctx, page, child) {
+              $page >>
+              (ctx, page) {
                 return Tab(
                     child: e.name
                         .text(style: page == i ? TextStyle(color: ctx.textColor) : ctx.theme.textTheme.bodyLarge));

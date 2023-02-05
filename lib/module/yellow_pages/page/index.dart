@@ -8,7 +8,7 @@ import 'list.dart';
 import 'search.dart';
 
 class YellowPagesPage extends StatefulWidget {
-  const YellowPagesPage({Key? key}) : super(key: key);
+  const YellowPagesPage({super.key});
 
   @override
   State<YellowPagesPage> createState() => _YellowPagesPageState();

@@ -27,7 +27,7 @@ class ContactTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   )),
       ),
-      title: contact.description.text(
+      title: contact.description.toString().text(
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mimir/home/magic_brick/report.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import '../launcher.dart';
@@ -16,6 +17,7 @@ import 'user_widget/brick.dart';
 
 class HomepageFactory {
   static final Map<FType, WidgetBuilder?> builders = {
+    FType.reportTemp:(context) => const ReportTempItem(),
     FType.timetable: (context) => Brick(
           route: RouteTable.timetable,
           icon: SvgAssetIcon('assets/home/icon_timetable.svg'),

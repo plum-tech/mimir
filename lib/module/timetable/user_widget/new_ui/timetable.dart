@@ -52,8 +52,8 @@ class _TimetableViewerState extends State<TimetableViewer> {
   }
 
   Widget buildTimetableBody(BuildContext ctx) {
-    return widget.$displayMode <<
-        (ctx, mode, _) => (mode == DisplayMode.daily
+    return widget.$displayMode >>
+        (ctx, mode) => (mode == DisplayMode.daily
                     ? DailyTimetable(
                         $currentPos: widget.$currentPos,
                         timetable: timetable,
@@ -69,8 +69,8 @@ class _TimetableViewerState extends State<TimetableViewer> {
 
   Widget buildTableHeader(BuildContext ctx) {
     final weekdayAbbr = makeWeekdaysShortText();
-    return widget.$currentPos <<
-        (ctx, cur, _) => TimetableHeader(
+    return widget.$currentPos >>
+        (ctx, cur) => TimetableHeader(
             weekdayAbbr: weekdayAbbr,
             currentWeek: cur.week,
             selectedDay: cur.day,

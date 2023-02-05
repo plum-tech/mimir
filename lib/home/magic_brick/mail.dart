@@ -6,7 +6,7 @@ import '../user_widget/brick.dart';
 import 'package:mimir/route.dart';
 
 class EduEmailItem extends StatefulWidget {
-  const EduEmailItem({Key? key}) : super(key: key);
+  const EduEmailItem({super.key});
 
   @override
   State<StatefulWidget> createState() => _EduEmailItemState();

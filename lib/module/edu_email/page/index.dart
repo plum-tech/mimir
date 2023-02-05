@@ -9,7 +9,7 @@ import '../using.dart';
 import 'item.dart';
 
 class MailPage extends StatefulWidget {
-  const MailPage({Key? key}) : super(key: key);
+  const MailPage({super.key});
 
   @override
   State<StatefulWidget> createState() => _MailPageState();

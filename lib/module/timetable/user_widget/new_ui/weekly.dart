@@ -160,8 +160,8 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
     if (timetableWeek != null) {
       return [
         for (int dayIndex = 0; dayIndex < timetableWeek.days.length; dayIndex++)
-          widget.$currentPos <<
-              (ctx, pos, _) => _CourseDayColumn(
+          widget.$currentPos >>
+              (ctx, pos) => _CourseDayColumn(
                     timetableWeek: timetableWeek,
                     timetable: timetable,
                     currentWeek: weekIndex,
@@ -309,8 +309,8 @@ class _CourseDayColumnState extends State<_CourseDayColumn> {
                 duration: const Duration(milliseconds: 800),
                 child: const SizedBox().inCard(elevation: isSelected ? 5 : 1))
             .sized(
-          width: cellSize.width,
-          height: cellSize.height,
+          w: cellSize.width,
+          h: cellSize.height,
         );
         cells.add(cell);
       } else {
@@ -329,7 +329,7 @@ class _CourseDayColumnState extends State<_CourseDayColumn> {
               timetable: widget.timetable,
               course: course,
               elevation: isSelected ? 80 : 8,
-            )).sized(width: cellSize.width, height: cellSize.height * firstLayerLesson.duration);
+            )).sized(w: cellSize.width, h: cellSize.height * firstLayerLesson.duration);
         cells.add(cell);
 
         /// Skip to the end

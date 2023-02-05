@@ -147,7 +147,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
         onTap = startCheck;
         break;
     }
-    return tip.text(key: ValueKey(tip)).cupertinoButton(onPressed: onTap);
+    return tip.text(key: ValueKey(tip)).cupertinoBtn(onPressed: onTap);
   }
 
   Widget buildIndicatorArea(BuildContext ctx) {
@@ -158,7 +158,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
         return Placeholders.loading(
             size: widget.iconSize / 2,
             fix: (w) =>
-                w.padAll(30).sized(width: widget.iconSize, height: widget.iconSize, key: const ValueKey("Waiting")));
+                w.padAll(30).sized(w: widget.iconSize, h: widget.iconSize, key: const ValueKey("Waiting")));
       case ConnectivityStatus.connected:
         return buildIcon(ctx, Icons.check_rounded);
       case ConnectivityStatus.disconnected:
@@ -169,7 +169,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
   Widget buildIcon(BuildContext ctx, IconData icon, [Key? key]) {
     key ??= ValueKey(icon);
     return Icon(icon, size: widget.iconSize, color: ctx.darkSafeThemeColor)
-        .sized(width: widget.iconSize, height: widget.iconSize, key: key);
+        .sized(w: widget.iconSize, h: widget.iconSize, key: key);
   }
 
   Widget buildCurrentConnectionType(BuildContext ctx) {

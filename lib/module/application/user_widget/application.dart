@@ -29,7 +29,7 @@ class ApplicationTile extends StatelessWidget {
     }
 
     return ListTile(
-      leading: Icon(meta.icon, size: 35, color: color).center().sized(width: 40, height: 40),
+      leading: Icon(meta.icon, size: 35, color: color).center().sized(w: 40, h: 40),
       title: Text(
         meta.name,
         overflow: TextOverflow.ellipsis,

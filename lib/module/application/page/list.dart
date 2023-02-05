@@ -100,8 +100,8 @@ class _ApplicationListState extends State<ApplicationList> with AdaptivePageProt
   }
 
   Widget buildListPortrait(List<ApplicationMeta> list) {
-    return widget.$enableFilter <<
-        (ctx, v, _) {
+    return widget.$enableFilter >>
+        (ctx, v) {
           final items = buildApplications(list, v);
           return LiveList(
             showItemInterval: const Duration(milliseconds: 40),
@@ -123,8 +123,8 @@ class _ApplicationListState extends State<ApplicationList> with AdaptivePageProt
   }
 
   Widget buildListLandscape(List<ApplicationMeta> list) {
-    return widget.$enableFilter <<
-        (ctx, v, _) {
+    return widget.$enableFilter >>
+        (ctx, v) {
           final items = buildApplications(list, v);
           return LiveGrid.options(
             itemCount: items.length,

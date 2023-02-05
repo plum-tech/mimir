@@ -8,7 +8,7 @@ import 'search/page/search_delegate.dart';
 import 'using.dart';
 
 class LibraryPage extends StatelessWidget {
-  const LibraryPage({Key? key}) : super(key: key);
+  const LibraryPage({super.key});
 
   /// 随机获取一个名句
   Saying _getRandomSaying() {

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mimir/credential/using.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:rettulf/buildcontext/show.dart';
+import 'package:rettulf/build_context/show.dart';
 import 'package:rettulf/rettulf.dart';
 
 typedef EditorBuilder<T> = Widget Function(BuildContext ctx, String? desc, T initial);
@@ -239,9 +239,9 @@ class _IntEditorState extends State<_IntEditor> {
           },
           keyboardType: TextInputType.number,
           inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            FilteringTextInputFormatter.allow(RegExp(r'\d')),
           ],
-        ).sized(width: 100, height: 50),
+        ).sized(w: 100, h: 50),
         CupertinoButton(
           child: const Icon(Icons.add),
           onPressed: () {
@@ -284,7 +284,7 @@ class _BoolEditorState extends State<_BoolEditor> {
               context.navigator.pop(widget.initial);
             }),
         make: (ctx) => ListTile(
-            title: widget.desc.text(style: context.textTheme.bodyText2),
+            title: widget.desc?.text(style: context.textTheme.bodyMedium),
             trailing: CupertinoSwitch(
               value: value,
               onChanged: (newValue) {

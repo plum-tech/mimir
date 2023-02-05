@@ -6,56 +6,60 @@ part 'home.g.dart';
 
 @HiveType(typeId: HiveTypeId.ftype)
 enum FType {
-  /// 课程表
-  @HiveField(2)
-  timetable,
-
-  /// 考试安排
-  @HiveField(4)
-  examArr,
-
-  /// 活动
-  @HiveField(6)
-  activity,
-
-  /// 消费查询
-  @HiveField(7)
-  expense,
-
-  /// 成绩查询
-  @HiveField(8)
-  examResult,
-
-  /// 图书馆
-  @HiveField(9)
-  library,
-
-  /// 办公
-  @HiveField(10)
-  application,
-
-  /// Edu 邮箱
-  @HiveField(11)
-  eduEmail,
-
-  /// OA 公告
-  @HiveField(12)
-  oaAnnouncement,
-
-  /// 常用电话
-  @HiveField(13)
-  yellowPages,
-
-  /// 分隔符
-  @HiveField(16)
+  /// Separator
+  @HiveField(0)
   separator,
 
+  /// Timetable
+  @HiveField(1)
+  timetable,
+
+  /// Report temperature
+  @HiveField(2)
+  reportTemp,
+
+  /// Examination arrangement
+  @HiveField(3)
+  examArr,
+
+  /// Second class activity
+  @HiveField(4)
+  activity,
+
+  /// Expense tracker
+  @HiveField(5)
+  expense,
+
+  /// Examination result
+  @HiveField(6)
+  examResult,
+
+  /// Library
+  @HiveField(7)
+  library,
+
+  /// Application of SIT
+  @HiveField(8)
+  application,
+
+  /// Education email
+  @HiveField(9)
+  eduEmail,
+
+  /// OA announcement
+  @HiveField(10)
+  oaAnnouncement,
+
+  /// Yellow page of SIT
+  @HiveField(11)
+  yellowPages,
+
   /// 扫码
-  @HiveField(18)
+  @HiveField(13)
   scanner,
 
   /// 电费查询
-  @HiveField(22)
+  @HiveField(14)
   electricityBill;
 
   String localized() {
@@ -86,6 +90,8 @@ enum FType {
         return i18n.ftype_scanner;
       case FType.electricityBill:
         return i18n.ftype_elecBill;
+      case FType.reportTemp:
+        return i18n.ftype_reportTemp;
     }
   }
 
@@ -117,6 +123,8 @@ enum FType {
         return i18n.ftype_scanner_desc;
       case FType.electricityBill:
         return i18n.ftype_elecBill_desc;
+      case FType.reportTemp:
+        return i18n.ftype_reportTemp_desc;
     }
   }
 }

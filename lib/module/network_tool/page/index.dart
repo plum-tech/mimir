@@ -10,7 +10,7 @@ import '../user_widget/quick_button.dart';
 import '../using.dart';
 
 class NetworkToolPage extends StatefulWidget {
-  const NetworkToolPage({Key? key}) : super(key: key);
+  const NetworkToolPage({super.key});
 
   @override
   State<NetworkToolPage> createState() => _NetworkToolPageState();
@@ -99,6 +99,6 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
   Widget buildFigure(BuildContext context) {
     final iconPath = isConnected ? availableIconPath : unavailableIconPath;
     return SvgPicture.asset(iconPath, width: 300, height: 300, color: context.darkSafeThemeColor)
-        .constrained(const BoxConstraints(minWidth: 120, minHeight: 120, maxWidth: 240, maxHeight: 240));
+        .constrained(minW: 120, minH: 120, maxW: 240, maxH: 240);
   }
 }

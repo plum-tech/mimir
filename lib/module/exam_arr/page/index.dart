@@ -8,7 +8,7 @@ import '../user_widget/exam.dart';
 import '../using.dart';
 
 class ExamArrangementPage extends StatefulWidget {
-  const ExamArrangementPage({Key? key}) : super(key: key);
+  const ExamArrangementPage({super.key});
 
   @override
   State<StatefulWidget> createState() => _ExamArrangementPageState();

@@ -35,6 +35,10 @@ class BrickMaker {
     // Open the timetable for anyone who has logged in before, even though they have a wrong credential now.
     r << FType.timetable;
 
+    if (oa != null) {
+      // Only the OA user can report temperature.
+      r << FType.reportTemp;
+    }
     r << FType.separator;
     if (hasLoggedIn) {
       r << FType.expense;
@@ -52,7 +56,6 @@ class BrickMaker {
       r << FType.eduEmail;
       r << FType.application;
     }
-
     // Everyone can use the library, but some functions only work for OA users.
     r << FType.library;
     // Yellow pages are open for all no matter user type.

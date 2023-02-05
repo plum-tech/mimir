@@ -4,7 +4,7 @@ import '../init.dart';
 import '../using.dart';
 
 class EvaluationPage extends StatefulWidget {
-  const EvaluationPage({Key? key}) : super(key: key);
+  const EvaluationPage({super.key});
 
   @override
   State<EvaluationPage> createState() => _EvaluationPageState();

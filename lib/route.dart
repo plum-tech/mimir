@@ -17,6 +17,7 @@ class RouteTable {
   static const networkTool = '/network_tool';
   static const eduEmail = '/edu_email';
   static const electricityBill = '/electricity_bill';
+  static const reportTemp = '/report_temp';
   static const login = '/login';
   static const welcome = '/welcome';
   static const expense = '/expense';
@@ -40,6 +41,7 @@ class RouteTable {
 final defaultRouteTable = StaticRouteTable(
   table: {
     RouteTable.home: (context, args) => const HomePage(),
+    RouteTable.reportTemp: (context, args) => const DailyReportIndexPage(),
     RouteTable.login: (context, args) => args["disableOffline"] == true
         ? const LoginPage(
             disableOffline: true,

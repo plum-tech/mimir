@@ -9,7 +9,7 @@ import 'package:mimir/route.dart';
 import '../user_widget/brick.dart';
 
 class ExpenseItem extends StatefulWidget {
-  const ExpenseItem({Key? key}) : super(key: key);
+  const ExpenseItem({super.key});
 
   @override
   State<StatefulWidget> createState() => _ExpenseItemState();

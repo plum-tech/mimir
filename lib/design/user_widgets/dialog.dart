@@ -137,15 +137,15 @@ extension DialogEx on BuildContext {
               children: List<Widget>.generate(count, (int index) {
                 return make(ctx, index);
               }),
-            ).sized(height: targetHeight),
+            ).sized(h: targetHeight),
             actions: actions
                 ?.map((e) =>
                     ValueListenableBuilder(valueListenable: $selected, builder: (ctx, value, child) => e(ctx, value)))
                 .toList(),
             cancelButton: ok == null
                 ? null
-                : $selected <<
-                    (ctx, selected, _) => CupertinoButton(
+                : $selected >>
+                    (ctx, selected) => CupertinoButton(
                         onPressed: okEnabled?.call(selected) ?? true
                             ? () {
                                 Navigator.of(ctx).pop($selected.value);
@@ -205,15 +205,14 @@ extension DialogEx on BuildContext {
                   return makeB(ctx, index);
                 }),
               ).expanded(),
-            ].row().sized(height: targetHeight),
-            actions:
-                actions?.map((e) => $selectedA << (ctx, a, _) => $selectedB << (ctx, b, _) => e(ctx, a, b)).toList(),
+            ].row().sized(h: targetHeight),
+            actions: actions?.map((e) => $selectedA >> (ctx, a) => $selectedB >> (ctx, b) => e(ctx, a, b)).toList(),
             cancelButton: ok == null
                 ? null
-                : $selectedA <<
-                    (ctx, a, _) =>
-                        $selectedB <<
-                        (ctx, b, _) => CupertinoButton(
+                : $selectedA >>
+                    (ctx, a) =>
+                        $selectedB >>
+                        (ctx, b) => CupertinoButton(
                             onPressed: okEnabled?.call(a, b) ?? true
                                 ? () {
                                     Navigator.of(ctx).pop(Tuple2($selectedA.value, $selectedB.value));

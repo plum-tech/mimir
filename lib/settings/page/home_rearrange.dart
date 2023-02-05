@@ -13,7 +13,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:rnd/rnd.dart';
 
 class HomeRearrangePage extends StatefulWidget {
-  const HomeRearrangePage({Key? key}) : super(key: key);
+  const HomeRearrangePage({super.key});
 
   @override
   State<StatefulWidget> createState() => _HomeRearrangePageState();

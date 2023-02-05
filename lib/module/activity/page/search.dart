@@ -21,7 +21,7 @@ class SearchBar extends SearchDelegate<String> {
     return ListView.builder(
         itemCount: activities.length,
         itemBuilder: (ctx, i) {
-          return ActivityCard(activities[i]).sized(width: 400, height: 200);
+          return ActivityCard(activities[i]).sized(w: 400, h: 200);
         });
   }
 

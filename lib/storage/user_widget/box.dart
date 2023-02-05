@@ -67,7 +67,7 @@ class _BoxSectionState extends State<BoxSection> {
     return [
       buildTitle(context),
       if (curBox == null) Placeholders.loading() else BoxItemList(box: curBox),
-    ].column(mas: MainAxisSize.min).sized(width: double.infinity).padAll(20).inCard();
+    ].column(mas: MainAxisSize.min).sized(w: double.infinity).padAll(20).inCard();
   }
 }
 
@@ -412,7 +412,7 @@ class _StorageBoxState extends State<StorageBox> {
   }
 
   Widget _buildEmptyBoxTip(Key? key, BuildContext ctx) {
-    return LeavingBlank(key: key, icon: Icons.inbox_outlined, desc: i18n.emptyContent).sized(height: 300);
+    return LeavingBlank(key: key, icon: Icons.inbox_outlined, desc: i18n.emptyContent).sized(h: 300);
   }
 }
 

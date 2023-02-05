@@ -7,7 +7,7 @@ import 'package:mimir/storage/init.dart';
 import '../user_widget/brick.dart';
 
 class ElectricityBillItem extends StatefulWidget {
-  const ElectricityBillItem({Key? key}) : super(key: key);
+  const ElectricityBillItem({super.key});
 
   @override
   State<StatefulWidget> createState() => _ElectricityBillItemState();

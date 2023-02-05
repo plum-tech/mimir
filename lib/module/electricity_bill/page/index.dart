@@ -159,7 +159,7 @@ class _ElectricityBillPageState extends State<ElectricityBillPage> {
         searchItemBuilder: (ctx, item, highlight, onSelect) => HtmlWidget(
           highlight,
           textStyle: ctx.textTheme.titleMedium,
-        ).padAll(2).elevatedButton(onPressed: () {
+        ).padAll(2).elevatedBtn(onPressed: () {
           onSelect();
         }).padAll(5),
         // 待搜索提示的列表(需要从服务器获取，可以缓存至数据库)

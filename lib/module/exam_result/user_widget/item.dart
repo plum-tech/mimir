@@ -58,11 +58,11 @@ class _ScoreItemState extends State<ScoreItem> {
               controller.select(widget.index);
             });
           },
-        ).sized(key: const ValueKey("Checkbox"), width: iconSize, height: iconSize);
+        ).sized(key: const ValueKey("Checkbox"), w: iconSize, h: iconSize);
       } else {
         return Image.asset(
           CourseCategory.iconPathOf(courseName: result.course),
-        ).sized(key: const ValueKey("Icon"), width: iconSize, height: iconSize);
+        ).sized(key: const ValueKey("Icon"), w: iconSize, h: iconSize);
       }
     }
 

@@ -6,7 +6,7 @@ import 'package:mimir/route.dart';
 import '../user_widget/brick.dart';
 
 class ExamArrangementItem extends StatefulWidget {
-  const ExamArrangementItem({Key? key}) : super(key: key);
+  const ExamArrangementItem({super.key});
 
   @override
   State<StatefulWidget> createState() => _ExamArrangementItemState();
