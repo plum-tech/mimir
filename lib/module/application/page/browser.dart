@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/user_widget/future_builder.dart';
+import 'package:mimir/module/activity/using.dart';
 import 'package:mimir/util/cookie_util.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -19,9 +19,10 @@ class InAppViewPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: MyFutureBuilder<List<WebViewCookie>>(
+      body: PlaceholderFutureBuilder<List<WebViewCookie>>(
         future: ApplicationInit.cookieJar.loadAsWebViewCookie(Uri.parse(url)),
-        builder: (context, data) {
+        builder: (context, data, state) {
+          if (data == null) return Placeholders.loading();
           return WebView(
             initialUrl: url,
             initialCookies: data,

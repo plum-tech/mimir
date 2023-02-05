@@ -50,9 +50,10 @@ class _EvaluationPageState extends State<EvaluationPage> {
       child: Column(
         children: [
           Expanded(
-            child: MyFutureBuilder<List<WebViewCookie>>(
+            child: PlaceholderFutureBuilder<List<WebViewCookie>>(
               future: ExamResultInit.cookieJar.loadAsWebViewCookie(url),
-              builder: (context, data) {
+              builder: (ctx, data, state) {
+                if (data == null) return Placeholders.loading();
                 return SimpleWebViewPage(
                   initialUrl: url.toString(),
                   fixedTitle: i18n.teacherEvalTitle,

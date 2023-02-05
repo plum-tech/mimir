@@ -106,7 +106,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Icon(Icons.clear_all),
-                  Text('清空搜索历史', style: Theme.of(context).textTheme.bodyText2),
+                  Text('清空搜索历史', style: Theme.of(context).textTheme.bodyMedium),
                 ],
               ),
               onTap: () async {
@@ -115,10 +115,11 @@ class SearchBarDelegate extends SearchDelegate<String> {
               },
             ),
             const SizedBox(height: 20),
-            Text('大家都在搜', style: Theme.of(context).textTheme.bodyText1),
-            MyFutureBuilder<HotSearch>(
+            Text('大家都在搜', style: Theme.of(context).textTheme.bodyLarge),
+            PlaceholderFutureBuilder<HotSearch>(
               future: LibrarySearchInit.hotSearchService.getHotSearch(),
-              builder: (BuildContext context, data) {
+              builder: (ctx, data, state) {
+                if (data == null) return Placeholders.loading();
                 return SuggestionItemView(
                   titleItems: data.recentMonth.map((e) => e.hotSearchWord).toList(),
                   onItemTap: (title) => _searchByGiving(context, title),

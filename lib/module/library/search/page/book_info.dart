@@ -16,15 +16,16 @@ class BookInfoPage extends StatefulWidget {
   const BookInfoPage(this.bookImageHolding, {Key? key}) : super(key: key);
 
   @override
-  _BookInfoPageState createState() => _BookInfoPageState();
+  State<BookInfoPage> createState() => _BookInfoPageState();
 }
 
 class _BookInfoPageState extends State<BookInfoPage> {
   Widget buildBookDetail() {
     final bookId = widget.bookImageHolding.book.bookId;
-    return MyFutureBuilder<BookInfo>(
+    return PlaceholderFutureBuilder<BookInfo>(
       future: LibrarySearchInit.bookInfo.query(bookId),
-      builder: (BuildContext context, BookInfo data) {
+      builder: (ctx, data, state) {
+        if (data == null) return Placeholders.loading();
         return Table(
           columnWidths: const {
             0: FlexColumnWidth(2),
@@ -99,9 +100,10 @@ class _BookInfoPageState extends State<BookInfoPage> {
       return ret[0];
     }
 
-    return MyFutureBuilder<BookImageHolding>(
+    return PlaceholderFutureBuilder<BookImageHolding>(
       future: get(),
-      builder: (BuildContext context, BookImageHolding data) {
+      builder: (ctx, data, state) {
+        if (data == null) return Placeholders.loading();
         return InkWell(
           child: Card(
             child: BookItemWidget(data),
@@ -115,16 +117,14 @@ class _BookInfoPageState extends State<BookInfoPage> {
           },
         );
       },
-      onErrorBuilder: (context, fb, error, stack) {
-        return const SizedBox();
-      },
     );
   }
 
   Widget buildNearBooks(String bookId) {
-    return MyFutureBuilder<List<String>>(
+    return PlaceholderFutureBuilder<List<String>>(
       future: LibrarySearchInit.holdingInfo.searchNearBookIdList(bookId),
-      builder: (BuildContext context, List<String> data) {
+      builder: (ctx, data, state) {
+        if (data == null) return Placeholders.loading();
         return Column(
           children: data.sublist(0, 5).map((bookId) {
             return Container(

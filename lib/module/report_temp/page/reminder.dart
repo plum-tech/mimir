@@ -29,11 +29,12 @@ class _ReminderDialogState extends State<ReminderDialog> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             i18n.reportTempReminderSwitch.text(),
-            MySwitcher(
-              Kv.report.enable ?? false,
+            Switch(
+              value: Kv.report.enable ?? false,
               onChanged: (value) {
-                Kv.report.enable = value;
-                setState(() {}); // Notify UI update
+                setState(() {
+                  Kv.report.enable = value;
+                });
               },
             ),
           ],

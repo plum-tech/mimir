@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rettulf/build_context/show.dart';
+import 'package:rettulf/rettulf.dart';
 
 import '../using.dart';
 import 'reminder.dart';
@@ -9,6 +11,7 @@ const _reportUrlIndex = '${_reportUrlPrefix}pages/index/index';
 
 class DailyReportPage extends StatelessWidget {
   final OACredential oaCredential;
+
   const DailyReportPage({super.key, required this.oaCredential});
 
   Future<String> _getInjectJs() async {
@@ -28,11 +31,12 @@ class DailyReportPage extends StatelessWidget {
         IconButton(
           onPressed: () async {
             // TODO: use BuildContext.showTip dialog
-            showAlertDialog(context,
-                title: i18n.reportTempReminderTitle,
-                content: const SingleChildScrollView(
-                  child: ReminderDialog(),
-                ));
+            await context.showDialog(
+              builder: (ctx) => AlertDialog(
+                title: i18n.reportTempReminderTitle.text(),
+                content: const ReminderDialog(),
+              ),
+            );
           },
           icon: const Icon(Icons.sms),
         ),
