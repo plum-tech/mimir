@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_weather_bg_null_safety/bg/weather_bg.dart';
 import 'package:flutter_weather_bg_null_safety/utils/weather_type.dart';
+import 'package:mimir/design/user_widgets/dialog.dart';
 import 'package:mimir/global/desktop_init.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/module/shared/entity/weather.dart';
 import 'package:mimir/storage/init.dart';
-import 'package:mimir/util/flash.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -66,7 +66,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
 
   void _onBackgroundUpdate(_) {
     if (Kv.home.background == null) {
-      showBasicFlash(context, i18n.settingsWallpaperEmptyWarn.text());
+      context.showSnackBar( i18n.settingsWallpaperEmptyWarn.text());
       return;
     }
     setState(() {});
@@ -104,7 +104,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
       } else {
         Future.delayed(
           Duration.zero,
-          () => showBasicFlash(context, i18n.settingsWallpaperEmptyWarn.text()),
+          () => context.showSnackBar(i18n.settingsWallpaperEmptyWarn.text()),
         );
       }
     }

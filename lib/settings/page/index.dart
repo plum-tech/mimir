@@ -20,7 +20,6 @@ import 'package:mimir/route.dart';
 import 'package:mimir/storage/init.dart';
 import 'package:mimir/storage/storage/develop.dart';
 import 'package:mimir/util/file.dart';
-import 'package:mimir/util/flash.dart';
 import 'package:mimir/util/logger.dart';
 import 'package:mimir/util/validation.dart';
 import 'package:path_provider/path_provider.dart';
@@ -268,7 +267,7 @@ class _SettingsPageState extends State<SettingsPage> {
               onTap: () {
                 // Copy the student ID to clipboard
                 Clipboard.setData(ClipboardData(text: oaCredential.account));
-                showBasicFlash(context, i18n.studentIdCopy2ClipboardTip.text());
+                context.showSnackBar(i18n.studentIdCopy2ClipboardTip.text());
               },
             ),
           if (oaCredential != null)

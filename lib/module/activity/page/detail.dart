@@ -217,9 +217,9 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
     try {
       final response = await ScInit.scJoinActivityService.join(activityId, force);
       if (!mounted) return;
-      showBasicFlash(context, Text(response));
+      context.showSnackBar(Text(response));
     } catch (e) {
-      showBasicFlash(context, Text('错误: ${e.runtimeType}'), duration: const Duration(seconds: 3));
+      context.showSnackBar(Text('错误: ${e.runtimeType}'), duration: const Duration(seconds: 3));
       rethrow;
     }
   }

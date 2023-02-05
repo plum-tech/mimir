@@ -31,7 +31,7 @@ class LibraryPage extends StatelessWidget {
         ),
         IconButton(
           onPressed: () async {
-            showBasicFlash(context, i18n.libraryAccountManagementBtnTip.text());
+            context.showSnackBar(i18n.libraryAccountManagementBtnTip.text());
           },
           icon: const Icon(
             Icons.person,

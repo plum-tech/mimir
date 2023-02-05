@@ -130,6 +130,7 @@ dependencies:
   animated_toggle_switch: ^0.5.2
   quiver: ^3.1.0
   auto_size_text: ^3.0.0
+  cookie_jar: ^3.0.1
 
 dev_dependencies:
   flutter_test: { sdk: flutter }

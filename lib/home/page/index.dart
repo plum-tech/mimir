@@ -76,8 +76,7 @@ class _HomePageState extends State<HomePage> {
       // 非新生才执行该网络检查逻辑
       if (Auth.hasLoggedIn && await HomeInit.ssoSession.checkConnectivity()) {
         if (!mounted) return;
-        showBasicFlash(
-          context,
+        context.showSnackBar(
           i18n.homepageCampusNetworkConnected.text(),
           duration: const Duration(seconds: 3),
         );
@@ -132,8 +131,7 @@ class _HomePageState extends State<HomePage> {
 
   /// 显示检查网络的flash
   void _showCheckNetwork(BuildContext context, {Widget? title}) {
-    showBasicFlash(
-      context,
+    context.showSnackBar(
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         const Icon(Icons.dangerous),
         title ?? i18n.homepageCampusNetworkDisconnected.text(),
@@ -156,11 +154,11 @@ class _HomePageState extends State<HomePage> {
       try {
         await _doLogin(context, oaCredential);
         if (!mounted) return;
-        showBasicFlash(context, i18n.loginLoggedInTip.text());
+        context.showSnackBar( i18n.loginLoggedInTip.text());
       } on Exception catch (e) {
         // 如果是认证相关问题, 弹出相应的错误信息.
         if (e is UnknownAuthException || e is CredentialsInvalidException) {
-          showBasicFlash(context, Text('${i18n.loginFailedWarn}: $e'));
+          context.showSnackBar( Text('${i18n.loginFailedWarn}: $e'));
         } else {
           // 如果是网络问题, 提示检查网络.
           _showCheckNetwork(context, title: i18n.networkXcpWarn.text());

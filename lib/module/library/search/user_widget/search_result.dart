@@ -103,8 +103,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> {
       setState(() {
         isLoading = true;
       });
-      showBasicFlash(
-          context,
+      context.showSnackBar(
           Row(
             children: [
               Placeholders.loading(),
@@ -123,11 +122,12 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> {
             isLoading = false;
           });
         } else {
-          showBasicFlash(context, const Text('找不到更多了'));
+          if (!mounted) return;
+          context.showSnackBar(const Text('找不到更多了'));
           isLoading = false;
         }
       } catch (e) {
-        showBasicFlash(context, const Text('网络异常，再试一次'));
+        context.showSnackBar(const Text('网络异常，再试一次'));
         isLoading = false;
       }
     }

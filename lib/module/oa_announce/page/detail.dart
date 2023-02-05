@@ -123,7 +123,7 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Future<void> _onDownloadFile(AnnounceAttachment attachment) async {
-    showBasicFlash(context, i18n.downloading.text(), duration: const Duration(seconds: 1));
+    context.showSnackBar(i18n.downloading.text(), duration: const Duration(seconds: 1));
     Log.info('下载文件: [${attachment.name}](${attachment.url})');
 
     String targetPath = '${(await getTemporaryDirectory()).path}/kite1/downloads/${attachment.name}';
@@ -140,8 +140,7 @@ class _DetailPageState extends State<DetailPage> {
     }
 
     if (!mounted) return;
-    showBasicFlash(
-      context,
+    context.showSnackBar(
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

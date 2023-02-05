@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -220,9 +221,24 @@ extension DialogEx on BuildContext {
     return res;
   }
 }
-class DualPickerAB{
+
+class DualPickerAB {
   final int? a;
   final int? b;
 
   const DualPickerAB(this.a, this.b);
+}
+
+extension SnackBarX on BuildContext {
+  void showSnackBar(
+    Widget content, {
+    Duration? duration,
+  }) {
+    final snackBar = SnackBar(
+      content: content,
+      duration: duration ?? const Duration(milliseconds: 4000),
+    );
+
+    ScaffoldMessenger.of(this).showSnackBar(snackBar);
+  }
 }
