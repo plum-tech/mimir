@@ -50,28 +50,6 @@ class _MimirAppState extends State<MimirApp> {
     );
   }
 
-  TextTheme _buildTextTheme(bool isDark, Color primaryColor) {
-    final fullColor = isDark ? Colors.white : Colors.black;
-    final halfColor = isDark ? Colors.white70 : Colors.black87;
-
-    return TextTheme(
-      // https://material.io/design/typography/the-type-system.html
-      // https://www.mdui.org/design/style/typography.html
-      // 12、14、16、20
-      displayLarge: TextStyle(fontSize: 24.0, color: fullColor, fontWeight: FontWeight.w500),
-      displayMedium: TextStyle(fontSize: 22.0, color: fullColor),
-      displaySmall: TextStyle(fontSize: 20.0, color: halfColor, fontWeight: FontWeight.w500),
-      headlineMedium: TextStyle(fontSize: 20.0, color: halfColor),
-      headlineSmall: TextStyle(fontSize: 24.0, color: fullColor),
-      titleLarge: TextStyle(fontSize: 20.0, color: fullColor, fontWeight: FontWeight.w500),
-      titleMedium: TextStyle(fontSize: 18.0, color: halfColor, fontWeight: FontWeight.w500),
-      titleSmall: TextStyle(fontSize: 16.0, color: halfColor, fontWeight: FontWeight.w500),
-      bodyLarge: TextStyle(fontSize: 16.0, color: fullColor),
-      bodyMedium: TextStyle(fontSize: 14.0, color: fullColor),
-      bodySmall: TextStyle(fontSize: 12.0, color: halfColor),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final isDark = Kv.theme.isDarkMode ?? false;
@@ -165,7 +143,6 @@ class _MimirAppState extends State<MimirApp> {
         data: (Color color, bool isDark) {
           return ThemeData(
             colorSchemeSeed: primaryColor,
-            textTheme: _buildTextTheme(isDark, primaryColor),
             brightness: isDark ? Brightness.dark : Brightness.light,
             useMaterial3: true,
           );

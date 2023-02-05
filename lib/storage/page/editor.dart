@@ -23,11 +23,7 @@ class _LocalStoragePageState extends State<LocalStoragePage> {
 
   @override
   Widget build(BuildContext context) {
-    return context.isPortrait
-        ? StorageList(
-            name2Box,
-          )
-        : StorageBox(name2Box);
+    return context.isPortrait ? StorageList(name2Box) : StorageBox(name2Box);
   }
 
   void refreshBoxes() {
@@ -73,10 +69,7 @@ class _StorageListState extends State<StorageList> {
         .mapIndexed((i, p) => PlaceholderFutureBuilder<Box<dynamic>>(
             future: p.value.withDelay(Duration(milliseconds: 200 * i)),
             builder: (ctx, box, _) {
-              return BoxSection(
-                box: box,
-                boxName: p.key,
-              );
+              return BoxSection(box: box, boxName: p.key);
             }))
         .toList()
         .column();

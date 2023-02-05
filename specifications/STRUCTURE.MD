@@ -1,12 +1,10 @@
-# Structure of Kite App
+# Structure
 
 ## Module
 
-`Module` is a unit of Kite app, independent of each other.
-
 A module has several parts in general:
-- `Entity`: sharing a uniform type system via network communication or serialization.
-- `Service`: including the networking, serialization
+- `entity`: sharing a uniform type system via network communication or serialization.
+- `service`: including the networking, serialization
 
 
 ## Root

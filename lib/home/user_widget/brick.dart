@@ -50,14 +50,14 @@ class _BrickState extends State<Brick> {
     final TextStyle? subtitleStyle;
     final Color bg;
     final Color iconColor = context.darkSafeThemeColor;
-    final titleStyleRaw = theme.textTheme.headline4;
+    final titleStyleRaw = theme.textTheme.titleLarge;
     if (theme.isLight) {
       titleStyle = titleStyleRaw?.copyWith(color: Color.lerp(titleStyleRaw.color, iconColor, 0.6));
-      subtitleStyle = theme.textTheme.bodyText2?.copyWith(color: Colors.black87);
+      subtitleStyle = theme.textTheme.bodyMedium?.copyWith(color: Colors.black87);
       bg = Colors.white.withOpacity(0.6);
     } else {
       titleStyle = titleStyleRaw?.copyWith(color: Color.lerp(titleStyleRaw.color, iconColor, 0.8));
-      subtitleStyle = theme.textTheme.bodyText2?.copyWith(color: theme.textTheme.headline4?.color);
+      subtitleStyle = theme.textTheme.bodyMedium?.copyWith(color: theme.textTheme.headline4?.color);
       bg = Colors.black87.withOpacity(0.2);
     }
     return Container(

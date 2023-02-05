@@ -71,7 +71,6 @@ dependencies:
   # Platform
   permission_handler: ^10.2.0        # Android / iOS / Windows Permission
   quick_actions: ^1.0.1           # Android / iOS Home screen quick actions
-  device_display_brightness: ^0.0.6 # Android / iOS screen brightness
 
   # Open with other APP/programs
   open_file: ^3.2.1                 # Open files

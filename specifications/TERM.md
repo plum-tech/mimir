@@ -1,4 +1,4 @@
-# Terms of Mímir
+# Terms
 
 ## Brick Terms
 

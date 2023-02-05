@@ -449,14 +449,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.4"
-  device_display_brightness:
-    dependency: "direct main"
-    description:
-      name: device_display_brightness
-      sha256: b85794db454f6acfe77e822839a4dbec3e1316571d02ac836c78f093d30ec1ec
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.6"
   device_info_plus:
     dependency: transitive
     description:

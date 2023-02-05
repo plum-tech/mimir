@@ -1,4 +1,4 @@
-# Abbreviations Kite Used
+# Abbreviations
 
 This chart is for shortening the names of both variables and Json.
 

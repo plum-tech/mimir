@@ -2,9 +2,9 @@
 
 Please also check:
 
-- [The terms of Kite](TERM.md)
-- [The structure of Kite project](STRUCTURE.MD)
-- [The abbreviation Kite used](ABBREVIATION.md)
+- [The terms](TERM.md)
+- [The project structure](STRUCTURE.MD)
+- [The abbreviations](ABBREVIATION.md)
 - [The internationalization protocol](I18N_PROTOCOL.md)
 
 ## Getting Started

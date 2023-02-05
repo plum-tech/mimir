@@ -31,7 +31,7 @@ class _BoxSectionState extends State<BoxSection> {
 
   Widget buildTitle(BuildContext ctx) {
     final b = box;
-    final boxNameStyle = ctx.textTheme.displayLarge;
+    final boxNameStyle = ctx.textTheme.titleLarge;
     final title = Text(boxName, style: boxNameStyle);
     if (b != null && kDebugMode) {
       return CupertinoContextMenu(
@@ -88,7 +88,7 @@ class _BoxItemListState extends State<BoxItemList> {
   Widget build(BuildContext context) {
     final box = widget.box;
     if (box.isEmpty) {
-      return i18n.emptyContent.text(style: context.textTheme.displayMedium).padAll(10);
+      return i18n.emptyContent.text(style: context.textTheme.bodyLarge).padAll(10);
     } else {
       return buildList(context);
     }

@@ -28,7 +28,7 @@ class Sheet extends StatelessWidget {
   }
 
   Widget _buildTitle(BuildContext context) {
-    final titleStyle = Theme.of(context).textTheme.headline2;
+    final titleStyle = Theme.of(context).textTheme.titleLarge;
 
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 25, 0, 5),
@@ -40,7 +40,7 @@ class Sheet extends StatelessWidget {
   }
 
   Widget _buildItem(BuildContext context, String icon, String text) {
-    final itemStyle = Theme.of(context).textTheme.bodyText2;
+    final itemStyle = Theme.of(context).textTheme.bodyMedium;
     final iconImage = AssetImage('assets/timetable/$icon');
 
     return Padding(
