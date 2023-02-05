@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/design/utils.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:tuple/tuple.dart';
 
 Color getThemeColor(BuildContext ctx) {
   final theme = ctx.theme;
@@ -62,7 +61,7 @@ extension DesignExtension on BuildContext {
 
   Color get reversedTextColor => isDarkMode ? Colors.black : Colors.white70;
 
-  Tuple2<Color, Color> makeTabHeaderTextBgColors(bool isSelected) {
+  ColorTuple makeTabHeaderTextBgColors(bool isSelected) {
     final Color textColor;
     final Color bgColor;
     if (isDarkMode) {
@@ -81,7 +80,18 @@ extension DesignExtension on BuildContext {
         textColor = Colors.black;
       }
     }
-    return Tuple2(textColor, bgColor);
+    return ColorTuple(textColor, bgColor);
+  }
+}
+
+class ColorTuple {
+  final Color a;
+  final Color b;
+
+  const ColorTuple(this.a, this.b);
+
+  factory ColorTuple.from(int a, int b) {
+    return ColorTuple(Color(a), Color(b));
   }
 }
 

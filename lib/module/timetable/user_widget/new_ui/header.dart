@@ -67,8 +67,8 @@ class _TimetableHeaderState extends State<TimetableHeader> {
   Widget buildDayHeader(BuildContext ctx, int day) {
     final isSelected = day == selectedDay;
     final textNBgColors = ctx.makeTabHeaderTextBgColors(isSelected);
-    final textColor = textNBgColors.item1;
-    final bgColor = textNBgColors.item2;
+    final textColor = textNBgColors.a;
+    final bgColor = textNBgColors.b;
 
     return AnimatedSlide(
       offset: isSelected ? const Offset(0.01, -0.04) : Offset.zero,

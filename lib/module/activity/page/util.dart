@@ -1,4 +1,3 @@
-import 'package:tuple/tuple.dart';
 
 List<String> extractTitle(String fullTitle) {
   List<String> result = [];
@@ -24,7 +23,13 @@ List<String> cleanDuplicate(List<String> tags) {
   return tags.toSet().toList();
 }
 
-Tuple2<String, List<String>> splitTitleAndTags(String fullTitle) {
+class TitleAndTags{
+  final String title;
+  final List<String> tags;
+
+  const TitleAndTags(this.title, this.tags);
+}
+TitleAndTags splitTitleAndTags(String fullTitle) {
   final titleParts = extractTitle(fullTitle);
   var realTitle = titleParts.isNotEmpty ? titleParts.last : "";
   /*if (realTitle.startsWith(RegExp(r'[:：]'))) {
@@ -32,5 +37,5 @@ Tuple2<String, List<String>> splitTitleAndTags(String fullTitle) {
   }*/
   if (titleParts.isNotEmpty) titleParts.removeLast();
   final tags = cleanDuplicate(titleParts);
-  return Tuple2(realTitle, tags);
+  return TitleAndTags(realTitle, tags);
 }

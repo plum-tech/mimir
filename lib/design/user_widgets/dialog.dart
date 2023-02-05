@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:tuple/tuple.dart';
 
 import 'multiplatform.dart';
 
@@ -153,7 +151,7 @@ extension DialogEx on BuildContext {
     return res;
   }
 
-  Future<Tuple2<int?, int?>?> showDualPicker({
+  Future<DualPickerAB?> showDualPicker({
     required int countA,
     required int countB,
     String? ok,
@@ -210,7 +208,7 @@ extension DialogEx on BuildContext {
                         (ctx, b) => CupertinoButton(
                             onPressed: okEnabled?.call(a, b) ?? true
                                 ? () {
-                                    Navigator.of(ctx).pop(Tuple2($selectedA.value, $selectedB.value));
+                                    Navigator.of(ctx).pop(DualPickerAB($selectedA.value, $selectedB.value));
                                   }
                                 : null,
                             child: ok.text(
@@ -221,4 +219,10 @@ extension DialogEx on BuildContext {
     );
     return res;
   }
+}
+class DualPickerAB{
+  final int? a;
+  final int? b;
+
+  const DualPickerAB(this.a, this.b);
 }

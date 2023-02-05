@@ -87,8 +87,8 @@ class ScActivityListService implements ScActivityListDao {
             category: ActivityType.unknown,
             title: title,
             ts: dateFormatParser.parse(date),
-            realTitle: titleAndTags.item1,
-            tags: titleAndTags.item2);
+            realTitle: titleAndTags.title,
+            tags: titleAndTags.tags);
       },
     ).toList();
     return result;

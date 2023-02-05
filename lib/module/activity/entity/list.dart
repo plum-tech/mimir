@@ -127,7 +127,7 @@ extension ActivityParser on Activity {
         category: ActivityType.unknown,
         title: activity.title,
         ts: activity.time,
-        realTitle: titleAndTags.item1,
-        tags: titleAndTags.item2);
+        realTitle: titleAndTags.title,
+        tags: titleAndTags.tags);
   }
 }

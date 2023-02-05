@@ -191,8 +191,8 @@ class _TimetablePageState extends State<TimetablePage> {
         makeB: (ctx, i) => weekdayNames[i].text());
     $week.dispose();
     $day.dispose();
-    final week2Go = indices2Go?.item1;
-    final day2Go = indices2Go?.item2;
+    final week2Go = indices2Go?.a;
+    final day2Go = indices2Go?.b;
     if (week2Go != null && day2Go != null && (week2Go != initialWeekIndex || day2Go != initialDayIndex)) {
       if (!mounted) return;
       if (TimetableStyle.of(ctx).useNewUI) {
