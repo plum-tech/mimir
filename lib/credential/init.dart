@@ -1,5 +1,6 @@
 import 'package:mimir/credential/entity/credential.dart';
 import 'package:mimir/design/user_widgets/editor.dart';
+import 'package:mimir/hive/using.dart';
 
 import 'entity/user_type.dart';
 import 'storage/credential.dart';
