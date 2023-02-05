@@ -13,13 +13,13 @@ class WelcomePage extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.r),
         ),
-        side: BorderSide(width: 1.sm, color: Colors.white),
+        side: BorderSide(width: 1.spMin, color: Colors.white),
       ),
       child: Padding(
         padding: const EdgeInsets.all(3.0),
         child: Text(
           title,
-          style: Theme.of(context).textTheme.headline4?.copyWith(color: Colors.white),
+          style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white),
         ),
       ),
       onPressed: () => Navigator.of(context).pushNamed(routeName),
@@ -62,7 +62,7 @@ class WelcomePage extends StatelessWidget {
                 // Subtitle
                 Text(
                   i18n.welcomeSlogan,
-                  style: Theme.of(context).textTheme.headline5?.copyWith(color: Colors.white),
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.white),
                 ),
                 // Space
                 SizedBox(height: 40.h),

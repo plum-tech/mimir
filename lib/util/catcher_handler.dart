@@ -10,7 +10,7 @@ import 'package:stack_trace/stack_trace.dart';
 
 import 'logger.dart';
 
-class KiteDialogHandler extends ReportHandler {
+class MimirDialogHandler extends ReportHandler {
   @override
   String toString() {
     return 'DialogHandler';
@@ -77,7 +77,7 @@ class KiteDialogHandler extends ReportHandler {
   }
 }
 
-class KiteToastHandler extends ReportHandler {
+class MimirToastHandler extends ReportHandler {
   @override
   String toString() {
     return 'MyToastHandler';

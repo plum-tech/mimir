@@ -91,11 +91,11 @@ class _MyActivityPageState extends State<MyActivityPage> with AutomaticKeepAlive
   }
 
   Widget buildJoinedActivityCard(BuildContext context, ScJoinedActivity rawActivity) {
-    final titleStyle = Theme.of(context).textTheme.headline6;
-    final subtitleStyle = Theme.of(context).textTheme.bodyText2;
+    final titleStyle = Theme.of(context).textTheme.titleLarge;
+    final subtitleStyle = Theme.of(context).textTheme.bodyMedium;
 
     final color = rawActivity.isPassed ? Colors.green : context.themeColor;
-    final trailingStyle = Theme.of(context).textTheme.headline6?.copyWith(color: color);
+    final trailingStyle = Theme.of(context).textTheme.titleLarge?.copyWith(color: color);
     final activity = ActivityParser.parse(rawActivity);
 
     return ListTile(

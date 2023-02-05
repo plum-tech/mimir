@@ -6,8 +6,6 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/entity.dart';
 import '../events.dart';
-import '../user_widget/picker.dart';
-import '../user_widget/timetable_editor.dart';
 import '../using.dart';
 import 'preview.dart';
 

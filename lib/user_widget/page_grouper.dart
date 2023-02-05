@@ -163,12 +163,14 @@ class _PageBtn extends StatelessWidget {
     return ClipRRect(
       borderRadius: buttonStyles.borderRadius ?? BorderRadius.circular(0),
       child: Material(
-        color: active ? context.theme.secondaryHeaderColor : buttonStyles.bgColor ?? context.theme.backgroundColor,
+        color:
+            active ? context.theme.secondaryHeaderColor : buttonStyles.bgColor ?? context.theme.colorScheme.background,
         child: InkWell(
           onTap: () {
             onTap(page);
           },
-          child: page.toString()
+          child: page
+              .toString()
               .text(style: active ? buttonStyles.activeTextStyle : buttonStyles.textStyle, textAlign: TextAlign.center)
               .center(),
         ),

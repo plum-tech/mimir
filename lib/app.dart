@@ -72,14 +72,6 @@ class _MimirAppState extends State<MimirApp> {
     );
   }
 
-  ThemeData _buildTheme(BuildContext context, Color primaryColor, bool isDark) {
-    return ThemeData(
-        colorSchemeSeed: primaryColor,
-        textTheme: _buildTextTheme(isDark, primaryColor),
-        brightness: isDark ? Brightness.dark : Brightness.light,
-        useMaterial3: true);
-  }
-
   @override
   Widget build(BuildContext context) {
     final isDark = Kv.theme.isDarkMode ?? false;
@@ -171,7 +163,12 @@ class _MimirAppState extends State<MimirApp> {
         defaultColor: primaryColor,
         defaultIsDark: isDark,
         data: (Color color, bool isDark) {
-          return _buildTheme(context, color, isDark);
+          return ThemeData(
+            colorSchemeSeed: primaryColor,
+            textTheme: _buildTextTheme(isDark, primaryColor),
+            brightness: isDark ? Brightness.dark : Brightness.light,
+            useMaterial3: true,
+          );
         },
         themedWidgetBuilder: (BuildContext context, ThemeData theme) {
           return buildWidgetWithKeyboardListener(buildMaterialWithTheme(theme));

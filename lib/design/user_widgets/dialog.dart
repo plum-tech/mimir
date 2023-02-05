@@ -103,11 +103,6 @@ extension DialogEx on BuildContext {
       context: this,
       builder: builder,
     );
-    return await showModalBottomSheet(
-        context: this,
-        isScrollControlled: true,
-        shape: const ContinuousRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(48))),
-        builder: builder);
   }
 
   Future<int?> showPicker({

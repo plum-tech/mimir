@@ -31,7 +31,7 @@ class _BoxSectionState extends State<BoxSection> {
 
   Widget buildTitle(BuildContext ctx) {
     final b = box;
-    final boxNameStyle = ctx.textTheme.headline1;
+    final boxNameStyle = ctx.textTheme.displayLarge;
     final title = Text(boxName, style: boxNameStyle);
     if (b != null && kDebugMode) {
       return CupertinoContextMenu(
@@ -320,7 +320,7 @@ class _StorageBoxState extends State<StorageBox> {
   }
 
   Widget buildBoxIntroduction(BuildContext ctx) {
-    final boxNameStyle = context.textTheme.headline4;
+    final boxNameStyle = context.textTheme.headlineMedium;
     final list = widget.name2box.entries.map((e) {
       final name2Box = e;
       final color = name2Box.key == selectedBoxName ? ctx.theme.secondaryHeaderColor : null;
@@ -367,7 +367,7 @@ class _StorageBoxState extends State<StorageBox> {
       } else {
         final routeStyle = context.textTheme.titleMedium;
         final typeStyle = context.textTheme.bodySmall;
-        final contentStyle = context.textTheme.bodyText2;
+        final contentStyle = context.textTheme.bodyMedium;
         return PlaceholderFutureBuilder<Box<dynamic>>(
             key: key,
             future: boxGetter,

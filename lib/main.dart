@@ -21,8 +21,8 @@ void main() async {
         SilentReportMode(),
         [
           ConsoleHandler(),
-          KiteDialogHandler(),
-          KiteToastHandler(),
+          MimirDialogHandler(),
+          MimirToastHandler(),
         ],
       );
   Catcher(

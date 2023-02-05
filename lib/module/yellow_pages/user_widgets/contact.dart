@@ -13,7 +13,7 @@ class ContactTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final avatarStyle = context.textTheme.bodyText2?.copyWith(color: Colors.grey[50]);
+    final avatarStyle = context.textTheme.bodyMedium?.copyWith(color: Colors.grey[50]);
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: Theme.of(context).primaryColor,

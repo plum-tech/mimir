@@ -246,7 +246,7 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
 
   /// 构建每一个格子
   Widget _buildCell(BuildContext ctx, int index) {
-    final textStyle = ctx.textTheme.bodyText2;
+    final textStyle = ctx.textTheme.bodyMedium;
     final side = getBorderSide(ctx);
 
     return Container(

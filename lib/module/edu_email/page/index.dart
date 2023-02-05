@@ -101,7 +101,7 @@ class _MailPageState extends State<MailPage> {
             child: Text(
               '登录失败，小风筝无法使用 OA 密码登录你的账户。\n'
               '这可能是信息中心未同步你的邮箱密码导致的。如果你未重置过该密码，它可能是你任意一次设置的 OA 密码。',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
           ),
           Row(mainAxisSize: MainAxisSize.min, children: [

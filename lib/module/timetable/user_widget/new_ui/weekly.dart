@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../../entity/course.dart';
 import '../../entity/entity.dart';
 import '../../events.dart';
 import '../../using.dart';
 import '../../utils.dart';
 import '../shared.dart';
-import 'header.dart';
 import '../style.dart';
 import '../classic_ui/sheet.dart';
 import '../interface.dart';
