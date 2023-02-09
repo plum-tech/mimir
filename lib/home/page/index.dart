@@ -109,7 +109,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  /// 显示检查网络的flash
   void _showCheckNetwork(BuildContext context, {Widget? title}) {
     context.showSnackBar(
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [

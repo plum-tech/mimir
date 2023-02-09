@@ -1,5 +1,4 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rettulf/rettulf.dart';
@@ -136,12 +135,11 @@ class _LoginPageState extends State<LoginPage> {
             controller: $password,
             autofocus: true,
             textInputAction: TextInputAction.send,
-            toolbarOptions: const ToolbarOptions(
-              copy: false,
-              cut: false,
-              paste: false,
-              selectAll: false,
-            ),
+            contextMenuBuilder: (ctx, state) {
+              return AdaptiveTextSelectionToolbar.editableText(
+                editableTextState: state,
+              );
+            },
             autocorrect: false,
             enableSuggestions: false,
             obscureText: !isPasswordClear,
@@ -155,7 +153,6 @@ class _LoginPageState extends State<LoginPage> {
               hintText: i18n.loginPwdHint,
               icon: const Icon(Icons.lock),
               suffixIcon: IconButton(
-                // 切换密码明文显示状态的图标按钮
                 icon: Icon(isPasswordClear ? Icons.visibility : Icons.visibility_off),
                 onPressed: () {
                   setState(() {
@@ -198,56 +195,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildProxySetButton(BuildContext context, FlashController<dynamic> controller, _) {
-    return IconButton(
-      onPressed: () {
-        final String inputText = $proxy.text;
-
-        if (proxyValidator(inputText) != null) {
-          return;
-        }
-        controller.dismiss();
-        isProxySettingShown = false;
-
-        Kv.network
-          ..useProxy = true
-          ..proxy = inputText;
-        // TODO
-        // SessionPool.init();
-      },
-      icon: const Icon(Icons.send),
-    );
-  }
-
   void _showProxyInput() {
     if (isProxySettingShown) {
       return;
     }
     isProxySettingShown = true;
     $proxy.text = Kv.network.proxy;
-    context.showFlashBar(
-      persistent: true,
-      borderWidth: 3.sm,
-      behavior: FlashBehavior.fixed,
-      forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
-      reverseAnimationCurve: Curves.fastLinearToSlowEaseIn,
-      // TODO: I18n
-      title: const Text('设置代理服务'),
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('格式如 192.168.1.1:8000'),
-          Form(
-            child: TextFormField(
-              controller: $proxy,
-              validator: proxyValidator,
-              autofocus: true,
-            ),
-          ),
-        ],
-      ),
-      primaryActionBuilder: _buildProxySetButton,
-    );
   }
 
   @override
@@ -259,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
             top: 40.h,
             left: 10.w,
             child: IconButton(
-              icon: Icon(Icons.arrow_back_outlined, size: 35.sm),
+              icon: Icon(Icons.arrow_back_outlined, size: 35.spMin),
               onPressed: () => Navigator.of(context).pop(),
             ),
           ),
@@ -268,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
             top: 40.h,
             right: 10.w,
             child: IconButton(
-              icon: Icon(Icons.settings, size: 35.sm),
+              icon: Icon(Icons.settings, size: 35.spMin),
               onPressed: _showProxyInput,
             ),
           ),

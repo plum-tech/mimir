@@ -79,16 +79,13 @@ dependencies:
   file_picker: ^4.6.1
 
   # UI
-  flash: ^2.0.3+1
   fl_chart: ^0.55.0
-  text_scroll: ^0.1.0
   grouped_list: ^5.1.1
   pull_to_refresh: ^2.0.0
   dynamic_color_theme: ^2.0.0
   geopattern_flutter: { git: { url: https://github.com/paolovalerdi/geopattern } }
   flutter_svg: ^1.1.0
   flutter_screenutil: ^5.5.2              # Screen adaptation
-  flutter_platform_widgets: ^2.0.0       # Platform aware widgets
   qr_flutter: ^4.0.0                      # Qr code generate
   mobile_scanner: ^2.1.0                  # qrcode scanner
   audioplayers: ^3.0.1                   # audio player
@@ -157,13 +154,11 @@ flutter:
     - assets/connectivity/
     - assets/report_temp/
     - assets/fonts/
-    - assets/weather/
     - assets/library/
     - assets/timetable/
     - assets/course/
     - assets/edu_email/
     - assets/scanner/
-    # Prompt sound.
     - assets/scanner/beep.mp3
     - assets/roomlist.json
     - assets/webview/

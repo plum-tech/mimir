@@ -3,60 +3,54 @@ class HiveTypeId {
   HiveTypeId._();
 
   static const librarySearchHistory = 1;
-  static const auth = 2; // 改为单用户后已不再使用该id
-  static const weather = 3;
-  static const reportHistory = 4;
-  static const balance = 5;
-  static const course = 6;
-  static const expense = 7;
-  static const expenseType = 8;
-  static const contact = 9;
-  static const userEventType = 10;
-  static const userEvent = 11;
-  static const gameType = 12;
-  static const gameRecord = 13;
-  static const ftype = 14;
-  static const timetableMeta = 15;
-  static const size = 16;
-  static const color = 17;
+  static const reportHistory = 2;
+  static const balance = 3;
+  static const course = 4;
+  static const expense = 5;
+  static const expenseType = 9;
+  static const contact = 10;
+  static const ftype = 11;
+  static const timetableMeta = 13;
+  static const size = 14;
+  static const color = 15;
 
   // Activity
-  static const activityDetail = 18;
-  static const activity = 19;
-  static const scScoreSummary = 20;
-  static const scActivityApplication = 21;
-  static const scScoreItem = 22;
-  static const activityType = 23;
+  static const activityDetail = 16;
+  static const activity = 17;
+  static const scScoreSummary = 18;
+  static const scActivityApplication = 19;
+  static const scScoreItem = 20;
+  static const activityType = 21;
 
   // Exam Arrangement
-  static const examEntry = 24;
+  static const examEntry = 22;
 
   // OA Announcement
-  static const announceDetail = 25;
-  static const announceAttachment = 26;
-  static const announceCatalogue = 27;
-  static const announceListPage = 28;
-  static const announceRecord = 29;
+  static const announceDetail = 23;
+  static const announceAttachment = 24;
+  static const announceCatalogue = 25;
+  static const announceListPage = 26;
+  static const announceRecord = 27;
 
   // Application
-  static const applicationDetail = 30;
-  static const applicationDetailSection = 31;
-  static const applicationMeta = 32;
-  static const applicationMsg = 33;
-  static const applicationMsgPage = 34;
-  static const applicationMsgCount = 35;
-  static const applicationMessageType = 36;
+  static const applicationDetail = 28;
+  static const applicationDetailSection = 29;
+  static const applicationMeta = 30;
+  static const applicationMsg = 31;
+  static const applicationMsgPage = 32;
+  static const applicationMsgCount = 33;
+  static const applicationMessageType = 34;
 
-  static const version = 37;
+  static const version = 35;
 
   // Credential
-  static const oaUserCredential = 38;
-  static const freshmanCredential = 39;
-  static const userType = 40;
+  static const oaUserCredential = 36;
+  static const freshmanCredential = 37;
+  static const userType = 38;
 
   // Exam Result
-  static const examResult = 41;
-  static const examResultDetail = 42;
-  static const semester = 43;
-  static const schoolYear = 44;
+  static const examResult = 39;
+  static const examResultDetail = 40;
+  static const semester = 41;
+  static const schoolYear = 42;
 }

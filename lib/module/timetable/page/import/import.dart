@@ -160,7 +160,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
                 await Future.wait([
                   _fetchTimetable(year, semester),
                   //fetchMockCourses(),
-                  Future.delayed(const Duration(milliseconds: 4500)),
+                  Future.delayed(const Duration(milliseconds: 1500)),
                 ]).then((value) async {
                   if (!mounted) return;
                   setState(() {
