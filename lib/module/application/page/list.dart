@@ -132,7 +132,7 @@ class _ApplicationListState extends State<ApplicationList> with AdaptivePageProt
               maxCrossAxisExtent: 500,
               mainAxisExtent: 70,
             ),
-            options: kiteLiveOptions,
+            options: commonLiveOptions,
             itemBuilder: (ctx, index, animation) => items[index].aliveWith(animation),
           );
         };

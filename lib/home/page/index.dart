@@ -160,20 +160,8 @@ class _HomePageState extends State<HomePage> {
     }
     FireOn.homepage(HomeRefreshEvent(isOnline: HomeInit.ssoSession.isOnline));
     _refreshController.refreshCompleted(resetFooterState: true);
-
-
-    // TODO 未设置缓存策略，暂时先直接清空缓存
   }
 
-  Widget _buildTitleLine(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: GestureDetector(
-        onTap: () => _scaffoldKey.currentState?.openDrawer(),
-        child: Center(child: SvgPicture.asset('assets/home/kite.svg', width: 80.w, height: 80.h)),
-      ),
-    );
-  }
 
   List<Widget> buildBricksWidgets() {
     List<FType> list = Kv.home.homeItems ?? BrickMaker.makeDefaultBricks();
@@ -217,7 +205,6 @@ class _HomePageState extends State<HomePage> {
       separator,
       ...result,
       separator,
-      Image.asset('assets/home/bottom.png'),
     ];
   }
 
@@ -281,10 +268,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
                 automaticallyImplyLeading: false,
-                flexibleSpace: FlexibleSpaceBar(
-                  title: _buildTitleLine(context),
-                ),
-                expandedHeight: 0.6.sh,
                 backgroundColor: Colors.transparent,
                 centerTitle: false,
                 elevation: 0,

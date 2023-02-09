@@ -87,7 +87,7 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
           maxCrossAxisExtent: 750,
           mainAxisExtent: 260,
         ),
-        options: kiteLiveOptions,
+        options: commonLiveOptions,
         itemBuilder: (ctx, index, animation) =>
             ExamCard(exam: exams[index]).padSymmetric(v: 8, h: 16).inCard(elevation: 5).padAll(8).aliveWith(animation),
       );

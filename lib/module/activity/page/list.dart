@@ -195,7 +195,7 @@ class _ActivityListState extends State<ActivityList> {
         maxCrossAxisExtent: 280,
         mainAxisExtent: 200,
       ),
-      options: kiteLiveOptions,
+      options: commonLiveOptions,
       itemBuilder: (ctx, index, animation) => ActivityCard(activities[index]).aliveWith(animation),
     );
   }

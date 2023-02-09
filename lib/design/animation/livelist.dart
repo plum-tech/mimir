@@ -23,7 +23,7 @@ extension LiveListAnimationEx on Widget {
       );
 }
 
-const kiteLiveOptions = LiveOptions(
+const commonLiveOptions = LiveOptions(
   showItemInterval: Duration(milliseconds: 40), // the interval between two items
   showItemDuration: Duration(milliseconds: 250), // How long it animated to appear
 );

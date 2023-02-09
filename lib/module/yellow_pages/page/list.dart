@@ -95,7 +95,7 @@ class _NavigationContactListState extends State<NavigationContactList> {
             crossAxisCount: count,
             childAspectRatio: 4,
           ),
-          options: kiteLiveOptions,
+          options: commonLiveOptions,
           itemBuilder: (ctx, index, animation) => ContactTile(items[index]).aliveWith(animation),
         );
       });

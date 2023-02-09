@@ -50,7 +50,7 @@ class _MailboxState extends State<Mailbox> {
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: count,
         ),
-        options: kiteLiveOptions,
+        options: commonLiveOptions,
         itemBuilder: (ctx, index, animation) => Mail(msg: list[index]).aliveWith(animation),
       );
     });

@@ -81,7 +81,7 @@ class _OaAnnouncePageState extends State<OaAnnouncePage> {
           crossAxisCount: max(count, 1),
           childAspectRatio: 4,
         ),
-        options: kiteLiveOptions,
+        options: commonLiveOptions,
         itemBuilder: (ctx, index, animation) => items[index].aliveWith(animation),
       );
     });
