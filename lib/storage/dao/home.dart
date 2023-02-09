@@ -13,9 +13,6 @@ abstract class HomeSettingDao {
 
   DateTime? installTime; // 安装时间
 
-  Weather? get lastWeather; // 天气
-  set lastWeather(Weather? weather);
-
   // 首页在无网状态下加载的缓存
   ReportHistory? lastReport;
   Balance? lastBalance;

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:catcher/catcher.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/credential/dao/credential.dart';
@@ -11,7 +12,6 @@ import 'package:mimir/global/cookie_init.dart';
 import 'package:mimir/global/dio_initializer.dart';
 import 'package:mimir/module/activity/using.dart';
 import 'package:mimir/route.dart';
-import 'package:mimir/util/event_bus.dart';
 
 import '../user_widget/captcha_box.dart';
 
@@ -22,7 +22,6 @@ class GlobalConfig {
 
 enum EventNameConstants {
   onRouteRefresh,
-  onWeatherUpdate,
   onHomeRefresh,
   onHomeItemReorder,
   onSelectCourse,
@@ -34,7 +33,7 @@ enum EventNameConstants {
 
 /// 应用程序全局数据对象
 class Global {
-  static final eventBus = EventBus<EventNameConstants>();
+  static final eventBus = EventBus();
 
   static late CookieJar cookieJar;
   static late Dio dio;

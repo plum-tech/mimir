@@ -73,7 +73,7 @@ class _HomeRearrangePageState extends State<HomeRearrangePage> {
           )),
       onWillPop: () async {
         Kv.home.homeItems = currentHomeItems;
-        Global.eventBus.emit(EventNameConstants.onHomeItemReorder);
+        Global.eventBus.fire(EventNameConstants.onHomeItemReorder);
         return true;
       },
     );

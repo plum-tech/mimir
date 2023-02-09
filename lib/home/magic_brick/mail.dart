@@ -18,16 +18,12 @@ class _EduEmailItemState extends State<EduEmailItem> {
   @override
   void initState() {
     super.initState();
-    Global.eventBus.on(EventNameConstants.onHomeRefresh, _onHomeRefresh);
-  }
+    Global.eventBus.on<EventNameConstants>().listen((e){
+      if(e==EventNameConstants.onHomeRefresh){
 
-  @override
-  void dispose() {
-    Global.eventBus.off(EventNameConstants.onHomeRefresh, _onHomeRefresh);
-    super.dispose();
+      }
+    });
   }
-
-  void _onHomeRefresh(_) async {}
 
   @override
   Widget build(BuildContext context) {

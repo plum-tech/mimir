@@ -8,7 +8,6 @@ import 'package:mimir/events/events.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/module/login/init.dart';
-import 'package:mimir/module/shared/service/weather.dart';
 import 'package:mimir/module/timetable/using.dart';
 import 'package:mimir/util/scanner.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -82,8 +81,12 @@ class _HomePageState extends State<HomePage> {
     });
 
     _onHomeRefresh(context);
-    Global.eventBus.on(EventNameConstants.onCampusChange, (_) => _updateWeather());
-    Global.eventBus.on(EventNameConstants.onHomeItemReorder, (_) => setState(() {}));
+    Global.eventBus.on<EventNameConstants>().listen((e) {
+      if (e == EventNameConstants.onHomeItemReorder) {
+        if (!mounted) return;
+        setState(() {});
+      }
+    });
   }
 
   @override
@@ -103,16 +106,6 @@ class _HomePageState extends State<HomePage> {
       drawer: const KiteDrawer(),
       floatingActionButton: buildFloatingActionButton(),
     );
-  }
-
-  void _updateWeather() {
-    Log.info('Update weather');
-    Future.delayed(const Duration(milliseconds: 800), () async {
-      try {
-        final weather = await WeatherService().getCurrentWeather(Kv.home.campus);
-        Global.eventBus.emit(EventNameConstants.onWeatherUpdate, weather);
-      } catch (_) {}
-    });
   }
 
   Future<void> _doLogin(BuildContext context, OACredential oaCredential) async {
@@ -163,13 +156,11 @@ class _HomePageState extends State<HomePage> {
       }
     }
     if (HomeInit.ssoSession.isOnline) {
-      Global.eventBus.emit(EventNameConstants.onHomeRefresh);
+      Global.eventBus.fire(EventNameConstants.onHomeRefresh);
     }
     FireOn.homepage(HomeRefreshEvent(isOnline: HomeInit.ssoSession.isOnline));
     _refreshController.refreshCompleted(resetFooterState: true);
 
-    // 下拉也要更新一下天气 :D
-    _updateWeather();
 
     // TODO 未设置缓存策略，暂时先直接清空缓存
   }
@@ -310,10 +301,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    Global.eventBus.off(EventNameConstants.onCampusChange);
-    Global.eventBus.off(EventNameConstants.onHomeItemReorder);
-    super.dispose();
     _refreshController.dispose();
+    super.dispose();
   }
 
   Widget? buildFloatingActionButton() {

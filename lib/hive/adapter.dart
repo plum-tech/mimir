@@ -16,7 +16,6 @@ class HiveAdapter {
     ~CourseAdapter();
     ~FTypeAdapter();
     ~BalanceAdapter();
-    ~WeatherAdapter();
     ~LibrarySearchHistoryItemAdapter();
     // User Type
     ~TimetableMetaLegacyAdapter();

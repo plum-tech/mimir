@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mimir/credential/symbol.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/module/shared/entity/weather.dart';
 import 'package:mimir/module/simple_page/page/weather.dart';
 import 'package:mimir/storage/init.dart';
 
@@ -19,7 +18,6 @@ class GreetingWidget extends StatefulWidget {
 class _GreetingWidgetState extends State<GreetingWidget> {
   int? studyDays;
   int campus = Kv.home.campus;
-  Weather currentWeather = Kv.home.lastWeather ?? Weather.defaultWeather;
 
   Timer? dayWatcher;
   DateTime? _admissionDate;
@@ -27,7 +25,6 @@ class _GreetingWidgetState extends State<GreetingWidget> {
   @override
   void initState() {
     super.initState();
-    Global.eventBus.on(EventNameConstants.onWeatherUpdate, _onWeatherUpdate);
     // 如果用户不是新生或老师，那么就显示学习天数
     if (Auth.oaCredential != null) {
       setState(() {
@@ -51,7 +48,6 @@ class _GreetingWidgetState extends State<GreetingWidget> {
   void dispose() {
     super.dispose();
     dayWatcher?.cancel();
-    Global.eventBus.off(EventNameConstants.onWeatherUpdate, _onWeatherUpdate);
   }
 
   int _getStudyDaysAndInitState() {
@@ -90,13 +86,6 @@ class _GreetingWidgetState extends State<GreetingWidget> {
     );
   }
 
-  void _onWeatherUpdate(dynamic newWeather) {
-    Kv.home.lastWeather = newWeather;
-    campus = Kv.home.campus;
-
-    setState(() => currentWeather = newWeather as Weather);
-  }
-
   Widget buildAll(BuildContext context) {
     final textStyleSmall = Theme.of(context).textTheme.headline6?.copyWith(
           color: Colors.white60,
@@ -105,7 +94,7 @@ class _GreetingWidgetState extends State<GreetingWidget> {
         );
     final textStyleLarge = Theme.of(context)
         .textTheme
-        .headline6
+        .titleLarge
         ?.copyWith(color: Colors.white70, fontSize: 24.0, fontWeight: FontWeight.w700);
     final textStyleWeather = Theme.of(context).textTheme.subtitle1?.copyWith(
           color: Colors.white70,
@@ -140,12 +129,9 @@ class _GreetingWidgetState extends State<GreetingWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ...sitDate,
-              Text('${_getCampusName()} ${currentWeather.weather} ${currentWeather.temperature} °C',
-                  style: textStyleWeather)
             ],
           ),
         ),
-        SizedBox(child: _buildWeatherIcon(currentWeather.icon)),
       ],
     );
   }

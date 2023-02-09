@@ -1,7 +1,5 @@
 export '../shared/auth.dart';
-export '../shared/auth.dart';
 export '../shared/design.dart';
-export '../shared/dialog.dart';
 export '../shared/entity/school.dart';
 export '../shared/file_system.dart';
 export '../shared/i18n.dart';

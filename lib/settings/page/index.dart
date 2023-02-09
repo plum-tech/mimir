@@ -54,7 +54,7 @@ class _SettingsPageState extends State<SettingsPage> {
       await image?.saveTo(saveToPath);
     }
     Kv.home.background = saveToPath;
-    Global.eventBus.emit(EventNameConstants.onBackgroundChange);
+    Global.eventBus.fire(EventNameConstants.onBackgroundChange);
   }
 
   void _testPassword(BuildContext context, OACredential oaCredential) async {
@@ -178,7 +178,7 @@ class _SettingsPageState extends State<SettingsPage> {
               if (backgroundPath != null) {
                 if (await File(backgroundPath).exists()) {
                   Kv.home.backgroundMode = value;
-                  Global.eventBus.emit(EventNameConstants.onBackgroundChange);
+                  Global.eventBus.fire(EventNameConstants.onBackgroundChange);
                 }
               }
             },
@@ -195,7 +195,7 @@ class _SettingsPageState extends State<SettingsPage> {
             selected: Kv.home.campus,
             onChange: (value) {
               Kv.home.campus = value;
-              Global.eventBus.emit(EventNameConstants.onCampusChange);
+              Global.eventBus.fire(EventNameConstants.onCampusChange);
             },
           ),
           SimpleSettingsTile(

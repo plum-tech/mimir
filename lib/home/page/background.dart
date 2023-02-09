@@ -8,35 +8,37 @@ import 'package:mimir/design/user_widgets/dialog.dart';
 import 'package:mimir/global/desktop_init.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/module/shared/entity/weather.dart';
 import 'package:mimir/storage/init.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class HomeBackground extends StatefulWidget {
-  final int? initialWeatherCode;
-
-  const HomeBackground({this.initialWeatherCode, Key? key}) : super(key: key);
+  const HomeBackground({super.key});
 
   @override
   State<StatefulWidget> createState() => _HomeBackgroundState();
 }
 
 class _HomeBackgroundState extends State<HomeBackground> {
-  late int _weatherCode;
+  int _weatherCode = 100;
 
   @override
   void initState() {
     super.initState();
-    final lastWeather = Kv.home.lastWeather ?? Weather.defaultWeather;
-    _weatherCode = widget.initialWeatherCode ?? int.tryParse(lastWeather.icon) ?? Weather.defaultWeatherCode;
-    Global.eventBus.on(EventNameConstants.onBackgroundChange, _onBackgroundUpdate);
-    Global.eventBus.on(EventNameConstants.onWeatherUpdate, _onWeatherUpdate);
+    Global.eventBus.on<EventNameConstants>().listen((e) {
+      if (e == EventNameConstants.onBackgroundChange) {
+        if (Kv.home.background == null) {
+          context.showSnackBar(i18n.settingsWallpaperEmptyWarn.text());
+          return;
+        }
+        setState(() {});
+      }
+    });
     if (UniversalPlatform.isDesktop) {
       desktopEventBus.on<WindowResizeEndEvent>().listen((e) {
         Future.delayed(
           const Duration(milliseconds: 500),
-              () {
+          () {
             setState(() {});
           },
         );
@@ -44,34 +46,8 @@ class _HomeBackgroundState extends State<HomeBackground> {
     }
   }
 
-  @override
-  void deactivate() {
-    Global.eventBus.off(EventNameConstants.onBackgroundChange, _onBackgroundUpdate);
-    Global.eventBus.off(EventNameConstants.onWeatherUpdate, _onWeatherUpdate);
-    super.deactivate();
-  }
-
   WeatherType _getWeatherTypeByCode(int code) {
     return _weatherCodeToType[code] ?? WeatherType.sunny;
-  }
-
-  void _onBackgroundUpdate(_) {
-    if (Kv.home.background == null) {
-      context.showSnackBar(i18n.settingsWallpaperEmptyWarn.text());
-      return;
-    }
-    setState(() {});
-  }
-
-  void _onWeatherUpdate(dynamic newWeather) {
-    Weather w = newWeather as Weather;
-
-    // 天气背景
-    if (Kv.home.backgroundMode == 1) {
-      setState(() => _weatherCode = int.parse(w.icon));
-    } else {
-      _weatherCode = int.parse(w.icon);
-    }
   }
 
   Widget _buildWeatherBg() {
