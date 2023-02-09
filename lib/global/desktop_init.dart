@@ -1,7 +1,7 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/storage/init.dart';
-import 'package:mimir/util/event_bus.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -10,35 +10,47 @@ enum WindowEvent {
   onWindowResized,
 }
 
-class MyWindowListener extends WindowListener {
-  final EventBus<WindowEvent> eventBus;
+class WindowResizeEvent {
+  final Size size;
 
-  MyWindowListener({required this.eventBus});
+  const WindowResizeEvent(this.size);
+}
 
+class WindowResizeEndEvent {
+  final Size finalSize;
+
+  const WindowResizeEndEvent(this.finalSize);
+}
+
+final EventBus desktopEventBus = EventBus();
+
+class DesktopWindowListener extends WindowListener {
   @override
   void onWindowResize() async {
     final size = await windowManager.getSize();
-    eventBus.emit<Size>(WindowEvent.onWindowResize, size);
+    desktopEventBus.fire(WindowResizeEvent(size));
     Kv.theme.lastWindowSize = size;
   }
 
   @override
   void onWindowResized() async {
     final size = await windowManager.getSize();
-    eventBus.emit(WindowEvent.onWindowResized);
+    desktopEventBus.fire(WindowResizeEndEvent(size));
     Kv.theme.lastWindowSize = size;
   }
 }
 
 class DesktopInit {
   static bool resizing = false;
-  static EventBus<WindowEvent> eventBus = EventBus<WindowEvent>();
 
   static Future<void> init() async {
-    windowManager.addListener(MyWindowListener(eventBus: eventBus));
-    eventBus.on(WindowEvent.onWindowResize, (args) => resizing = true);
-    eventBus.on(WindowEvent.onWindowResized, (args) => resizing = false);
-    // 必须加上这一行。
+    windowManager.addListener(DesktopWindowListener());
+    desktopEventBus.on<WindowResizeEvent>().listen((e) {
+      resizing = true;
+    });
+    desktopEventBus.on<WindowResizeEndEvent>().listen((e) {
+      resizing = false;
+    });
     await windowManager.ensureInitialized();
     windowManager.waitUntilReadyToShow().then((_) async {
       await DesktopInit.setTitle(R.appName);

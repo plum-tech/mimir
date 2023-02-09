@@ -10,7 +10,6 @@ import 'package:mimir/global/global.dart';
 import 'package:mimir/module/login/init.dart';
 import 'package:mimir/module/shared/service/weather.dart';
 import 'package:mimir/module/timetable/using.dart';
-import 'package:mimir/user_widget/color_saturation_widget.dart';
 import 'package:mimir/util/scanner.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rettulf/rettulf.dart';
@@ -61,7 +60,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
-  double saturation = 1;
 
   @override
   void initState() {
@@ -91,27 +89,24 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Log.info('Build Home');
-    return ColorSaturationFilteredWidget(
-      saturation: saturation,
-      child: Scaffold(
-        key: _scaffoldKey,
-        body: GestureDetector(
-          child: buildBody(context),
-          onHorizontalDragEnd: (d) {
-            // 速度达标，展示drawer
-            if (d.velocity.pixelsPerSecond.dx > 100) {
-              _scaffoldKey.currentState?.openDrawer();
-            }
-          },
-        ),
-        drawer: const KiteDrawer(),
-        floatingActionButton: buildFloatingActionButton(),
+    return Scaffold(
+      key: _scaffoldKey,
+      body: GestureDetector(
+        child: buildBody(context),
+        onHorizontalDragEnd: (d) {
+          // 速度达标，展示drawer
+          if (d.velocity.pixelsPerSecond.dx > 100) {
+            _scaffoldKey.currentState?.openDrawer();
+          }
+        },
       ),
+      drawer: const KiteDrawer(),
+      floatingActionButton: buildFloatingActionButton(),
     );
   }
 
   void _updateWeather() {
-    Log.info('更新天气');
+    Log.info('Update weather');
     Future.delayed(const Duration(milliseconds: 800), () async {
       try {
         final weather = await WeatherService().getCurrentWeather(Kv.home.campus);
@@ -154,11 +149,11 @@ class _HomePageState extends State<HomePage> {
       try {
         await _doLogin(context, oaCredential);
         if (!mounted) return;
-        context.showSnackBar( i18n.loginLoggedInTip.text());
+        context.showSnackBar(i18n.loginLoggedInTip.text());
       } on Exception catch (e) {
         // 如果是认证相关问题, 弹出相应的错误信息.
         if (e is UnknownAuthException || e is CredentialsInvalidException) {
-          context.showSnackBar( Text('${i18n.loginFailedWarn}: $e'));
+          context.showSnackBar(Text('${i18n.loginFailedWarn}: $e'));
         } else {
           // 如果是网络问题, 提示检查网络.
           _showCheckNetwork(context, title: i18n.networkXcpWarn.text());

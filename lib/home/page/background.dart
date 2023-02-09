@@ -33,7 +33,14 @@ class _HomeBackgroundState extends State<HomeBackground> {
     Global.eventBus.on(EventNameConstants.onBackgroundChange, _onBackgroundUpdate);
     Global.eventBus.on(EventNameConstants.onWeatherUpdate, _onWeatherUpdate);
     if (UniversalPlatform.isDesktop) {
-      DesktopInit.eventBus.on<Size>(WindowEvent.onWindowResize, _onWindowResize);
+      desktopEventBus.on<WindowResizeEndEvent>().listen((e) {
+        Future.delayed(
+          const Duration(milliseconds: 500),
+              () {
+            setState(() {});
+          },
+        );
+      });
     }
   }
 
@@ -41,23 +48,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
   void deactivate() {
     Global.eventBus.off(EventNameConstants.onBackgroundChange, _onBackgroundUpdate);
     Global.eventBus.off(EventNameConstants.onWeatherUpdate, _onWeatherUpdate);
-    if (UniversalPlatform.isDesktop) {
-      DesktopInit.eventBus.off(WindowEvent.onWindowResize, _onWindowResize);
-    }
     super.deactivate();
-  }
-
-  void _onWindowResize(Size? size) {
-    // Windows端这里必须等一会儿才能使setState生效
-    Future.delayed(
-      const Duration(milliseconds: 500),
-      () {
-        if (!DesktopInit.eventBus.contain(WindowEvent.onWindowResize, _onWindowResize)) {
-          return;
-        }
-        setState(() {});
-      },
-    );
   }
 
   WeatherType _getWeatherTypeByCode(int code) {
@@ -66,7 +57,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
 
   void _onBackgroundUpdate(_) {
     if (Kv.home.background == null) {
-      context.showSnackBar( i18n.settingsWallpaperEmptyWarn.text());
+      context.showSnackBar(i18n.settingsWallpaperEmptyWarn.text());
       return;
     }
     setState(() {});
