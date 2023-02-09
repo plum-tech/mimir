@@ -7,7 +7,6 @@ class HiveBoxInit {
   static late Box<dynamic> credentials;
   static late Box<LibrarySearchHistoryItem> librarySearchHistory;
   static late Box<ContactData> contactSetting;
-  static late Box<dynamic> course;
   static late Box<dynamic> timetable;
   static late Box<dynamic> expense;
   static late Box<dynamic> activityCache;
@@ -27,7 +26,6 @@ class HiveBoxInit {
     kv = await Hive.openBox('setting');
     librarySearchHistory = await Hive.openBox('librarySearchHistory');
     contactSetting = await Hive.openBox('contactSetting');
-    course = await Hive.openBox<dynamic>('course');
     timetable = await Hive.openBox<dynamic>('timetable');
     expense = await Hive.openBox('expense');
     activityCache = await Hive.openBox('activityCache');
@@ -41,7 +39,6 @@ class HiveBoxInit {
       "setting": HiveBoxInit.kv,
       "librarySearchHistory": HiveBoxInit.librarySearchHistory,
       "cookies": HiveBoxInit.cookiesBox,
-      "course": HiveBoxInit.course,
       "timetable": HiveBoxInit.timetable,
       "examArrCache": HiveBoxInit.examArrCache,
       "examResultCache": HiveBoxInit.examResultCache,
@@ -60,7 +57,6 @@ class HiveBoxInit {
     await kv.deleteFromDisk();
     await librarySearchHistory.deleteFromDisk();
     await contactSetting.deleteFromDisk();
-    await course.deleteFromDisk();
     await timetable.deleteFromDisk();
     await expense.deleteFromDisk();
     await activityCache.deleteFromDisk();

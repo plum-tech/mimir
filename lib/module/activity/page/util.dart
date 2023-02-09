@@ -1,4 +1,3 @@
-
 List<String> extractTitle(String fullTitle) {
   List<String> result = [];
 
@@ -23,12 +22,13 @@ List<String> cleanDuplicate(List<String> tags) {
   return tags.toSet().toList();
 }
 
-class TitleAndTags{
+class TitleAndTags {
   final String title;
   final List<String> tags;
 
   const TitleAndTags(this.title, this.tags);
 }
+
 TitleAndTags splitTitleAndTags(String fullTitle) {
   final titleParts = extractTitle(fullTitle);
   var realTitle = titleParts.isNotEmpty ? titleParts.last : "";

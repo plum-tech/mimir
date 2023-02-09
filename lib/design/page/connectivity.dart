@@ -157,8 +157,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
       case ConnectivityStatus.connecting:
         return Placeholders.loading(
             size: widget.iconSize / 2,
-            fix: (w) =>
-                w.padAll(30).sized(w: widget.iconSize, h: widget.iconSize, key: const ValueKey("Waiting")));
+            fix: (w) => w.padAll(30).sized(w: widget.iconSize, h: widget.iconSize, key: const ValueKey("Waiting")));
       case ConnectivityStatus.connected:
         return buildIcon(ctx, Icons.check_rounded);
       case ConnectivityStatus.disconnected:

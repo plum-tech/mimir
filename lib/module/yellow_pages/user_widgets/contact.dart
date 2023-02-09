@@ -28,8 +28,8 @@ class ContactTile extends StatelessWidget {
                   )),
       ),
       title: contact.description.toString().text(
-        overflow: TextOverflow.ellipsis,
-      ),
+            overflow: TextOverflow.ellipsis,
+          ),
       subtitle: Text(
         ('${contact.name ?? ' '} ${contact.phone}').trim(),
         overflow: TextOverflow.ellipsis,

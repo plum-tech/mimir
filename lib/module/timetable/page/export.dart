@@ -164,14 +164,15 @@ class ExportDialog {
     );
   }
 }
+
 /// 显示对话框,对话框关闭后Future结束
 Future<int?> showAlertDialog(
-    BuildContext context, {
-      String? title,
-      dynamic content,
-      List<String>? actionTextList,
-      List<Widget>? actionWidgetList,
-    }) async {
+  BuildContext context, {
+  String? title,
+  dynamic content,
+  List<String>? actionTextList,
+  List<Widget>? actionWidgetList,
+}) async {
   if (actionTextList != null && actionWidgetList != null) {
     throw Exception('actionTextList 与 actionWidgetList 参数不可同时传入');
   }

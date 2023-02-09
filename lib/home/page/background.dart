@@ -17,7 +17,6 @@ class HomeBackground extends StatefulWidget {
 }
 
 class _HomeBackgroundState extends State<HomeBackground> {
-
   @override
   void initState() {
     super.initState();
@@ -41,7 +40,6 @@ class _HomeBackgroundState extends State<HomeBackground> {
       });
     }
   }
-
 
   Widget _buildImageBg(File file) {
     return Image.file(file, fit: BoxFit.fill);

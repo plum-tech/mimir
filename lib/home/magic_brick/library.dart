@@ -22,10 +22,8 @@ class _LibraryItemState extends State<LibraryItem> {
   @override
   void initState() {
     super.initState();
-    Global.eventBus.on<EventTypes>().listen((e){
-      if(e==EventTypes.onHomeRefresh){
-
-      }
+    Global.eventBus.on<EventTypes>().listen((e) {
+      if (e == EventTypes.onHomeRefresh) {}
     });
   }
 

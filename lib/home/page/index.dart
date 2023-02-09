@@ -1,7 +1,6 @@
 import 'package:catcher/catcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mimir/design/utils.dart';
 import 'package:mimir/events/bus.dart';
 import 'package:mimir/events/events.dart';
@@ -153,7 +152,6 @@ class _HomePageState extends State<HomePage> {
     _refreshController.refreshCompleted(resetFooterState: true);
   }
 
-
   List<Widget> buildBricksWidgets() {
     List<FType> list = Kv.home.homeItems ?? BrickMaker.makeDefaultBricks();
 
@@ -222,7 +220,6 @@ class _HomePageState extends State<HomePage> {
       },
       icon: const Icon(
         Icons.qr_code_scanner_outlined,
-        color: Colors.white70,
       ),
       iconSize: 30,
     );
@@ -247,7 +244,7 @@ class _HomePageState extends State<HomePage> {
             slivers: [
               SliverAppBar(
                 leading: IconButton(
-                  icon: const Icon(Icons.menu, color: Colors.white70),
+                  icon: const Icon(Icons.menu),
                   onPressed: () => _scaffoldKey.currentState?.openDrawer(),
                 ),
                 // AppBar
@@ -255,7 +252,7 @@ class _HomePageState extends State<HomePage> {
                   if (!UniversalPlatform.isDesktopOrWeb) buildScannerButton(context),
                   IconButton(
                     onPressed: () => Navigator.of(context).pushNamed(RouteTable.settings),
-                    icon: const Icon(Icons.settings, color: Colors.white70),
+                    icon: const Icon(Icons.settings),
                   ),
                 ],
                 automaticallyImplyLeading: false,
