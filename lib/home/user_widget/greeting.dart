@@ -1,10 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:mimir/credential/symbol.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/module/simple_page/page/weather.dart';
 import 'package:mimir/storage/init.dart';
 
 class GreetingWidget extends StatefulWidget {
@@ -75,20 +73,8 @@ class _GreetingWidgetState extends State<GreetingWidget> {
   }
 
   Widget buildAll(BuildContext context) {
-    final textStyleSmall = Theme.of(context).textTheme.headline6?.copyWith(
-          color: Colors.white60,
-          fontSize: 16.0,
-          fontWeight: FontWeight.w500,
-        );
-    final textStyleLarge = Theme.of(context)
-        .textTheme
-        .titleLarge
-        ?.copyWith(color: Colors.white70, fontSize: 24.0, fontWeight: FontWeight.w700);
-    final textStyleWeather = Theme.of(context).textTheme.subtitle1?.copyWith(
-          color: Colors.white70,
-          fontSize: 19.0,
-          fontWeight: FontWeight.w500,
-        );
+    final textStyleSmall = Theme.of(context).textTheme.titleMedium;
+    final textStyleLarge = Theme.of(context).textTheme.headlineSmall;
     final days = studyDays;
     final List<Widget> sitDate;
     if (days == null) {

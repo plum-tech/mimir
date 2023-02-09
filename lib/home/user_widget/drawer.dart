@@ -5,8 +5,8 @@ import 'package:mimir/route.dart';
 import 'package:mimir/storage/init.dart';
 import 'package:rettulf/rettulf.dart';
 
-class KiteDrawer extends StatelessWidget {
-  const KiteDrawer({super.key});
+class HomepageDrawer extends StatelessWidget {
+  const HomepageDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class KiteDrawer extends StatelessWidget {
             child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(inDays <= 0 ? i18n.daysAppWithYouLabel0 : i18n.daysAppWithYouLabel(inDays),
-                    style: Theme.of(context).textTheme.headline4?.copyWith(color: Colors.white70))),
+                    style: Theme.of(context).textTheme.headlineSmall)),
           ),
           ListTile(
             title: Text(i18n.settings),

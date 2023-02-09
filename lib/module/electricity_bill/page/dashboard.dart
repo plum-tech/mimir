@@ -51,10 +51,10 @@ class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixi
 
   @override
   void dispose() {
-    super.dispose();
     _scrollController.dispose();
     _portraitRefreshController.dispose();
     _landscapeRefreshController.dispose();
+    super.dispose();
   }
 
   @override

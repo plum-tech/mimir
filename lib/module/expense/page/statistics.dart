@@ -9,7 +9,7 @@ import '../using.dart';
 class StatisticsPage extends StatefulWidget {
   final List<Transaction> records;
 
-  const StatisticsPage({Key? key, required this.records}) : super(key: key);
+  const StatisticsPage({super.key, required this.records});
 
   @override
   State<StatisticsPage> createState() => _StatisticsPageState();
@@ -57,7 +57,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
     final yearWidgets = years.map((e) => PopupMenuItem<int>(value: e, child: Text(e.toString()))).toList();
     final monthWidgets = months.map((e) => PopupMenuItem<int>(value: e, child: Text(e.toString()))).toList();
 
-    final titleStyle = Theme.of(context).textTheme.headline2;
+    final titleStyle = Theme.of(context).textTheme.titleLarge;
 
     return Padding(
       padding: const EdgeInsets.all(10),
@@ -115,7 +115,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 30),
-              child: i18n.expenseStatistics.text(style: Theme.of(context).textTheme.headline2),
+              child: i18n.expenseStatistics.text(style: context.textTheme.titleLarge).center(),
             ),
             // const SizedBox(height: 5),
             Center(
@@ -154,7 +154,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
 
         return ListTile(
           leading: type.icon.make(color: type.color, size: 32),
-          title: Text(type.localized(), style: theme.textTheme.subtitle1),
+          title: type.localized().text(style: theme.textTheme.titleMedium),
           subtitle: LinearProgressIndicator(value: percentage, backgroundColor: backgroundColor),
           // 下方 SizedBox 用于限制文字宽度, 使左侧进度条的右端对齐.
           trailing: Row(
@@ -185,7 +185,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 30),
-            child: Text(i18n.expenseCats, style: Theme.of(context).textTheme.headline2),
+            child: i18n.expenseCats.text(style: context.textTheme.titleLarge).center(),
           ),
           Column(
             children: _buildClassifiedStat(context),

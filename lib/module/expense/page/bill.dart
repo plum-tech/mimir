@@ -16,8 +16,8 @@ class BillPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = context.textTheme;
-    final groupTitleStyle = textTheme.headline5;
-    final groupSubtitleStyle = textTheme.headline3;
+    final groupTitleStyle = textTheme.titleMedium;
+    final groupSubtitleStyle = textTheme.titleLarge;
 
     return GroupedListView<Transaction, int>(
       elements: records,

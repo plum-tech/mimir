@@ -784,14 +784,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_weather_bg_null_safety:
-    dependency: "direct main"
-    description:
-      name: flutter_weather_bg_null_safety
-      sha256: "268820fad42588882341ca4475ec0dc54d69897c5b1b15f2b4d13ccacd0b7457"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   flutter_web_plugins:
     dependency: transitive
     description: flutter

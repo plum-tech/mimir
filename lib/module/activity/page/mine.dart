@@ -87,15 +87,18 @@ class _MyActivityPageState extends State<MyActivityPage> with AutomaticKeepAlive
 
   Widget buildLandscape(BuildContext ctx) {
     final targetScore = getTargetScore();
-    return [buildSummeryCard(ctx, targetScore, summary).expanded(), buildLiveList(context).expanded()].row();
+    return [
+      buildSummeryCard(ctx, targetScore, summary).expanded(),
+      buildLiveList(context).expanded(),
+    ].row();
   }
 
   Widget buildJoinedActivityCard(BuildContext context, ScJoinedActivity rawActivity) {
-    final titleStyle = Theme.of(context).textTheme.titleLarge;
-    final subtitleStyle = Theme.of(context).textTheme.bodyMedium;
+    final titleStyle = context.textTheme.titleMedium;
+    final subtitleStyle = context.textTheme.bodySmall;
 
     final color = rawActivity.isPassed ? Colors.green : context.themeColor;
-    final trailingStyle = Theme.of(context).textTheme.titleLarge?.copyWith(color: color);
+    final trailingStyle = context.textTheme.titleLarge?.copyWith(color: color);
     final activity = ActivityParser.parse(rawActivity);
 
     return ListTile(

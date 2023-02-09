@@ -94,16 +94,8 @@ class _HomePageState extends State<HomePage> {
     Log.info('Build Home');
     return Scaffold(
       key: _scaffoldKey,
-      body: GestureDetector(
-        child: buildBody(context),
-        onHorizontalDragEnd: (d) {
-          // 速度达标，展示drawer
-          if (d.velocity.pixelsPerSecond.dx > 100) {
-            _scaffoldKey.currentState?.openDrawer();
-          }
-        },
-      ),
-      drawer: const KiteDrawer(),
+      body: buildBody(context),
+      drawer: const HomepageDrawer(),
       floatingActionButton: buildFloatingActionButton(),
     );
   }

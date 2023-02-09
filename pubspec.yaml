@@ -89,7 +89,6 @@ dependencies:
   flutter_svg: ^1.1.0
   flutter_screenutil: ^5.5.2              # Screen adaptation
   flutter_platform_widgets: ^2.0.0       # Platform aware widgets
-  flutter_weather_bg_null_safety: ^1.0.0  # Weather background
   qr_flutter: ^4.0.0                      # Qr code generate
   mobile_scanner: ^2.1.0                  # qrcode scanner
   audioplayers: ^3.0.1                   # audio player
