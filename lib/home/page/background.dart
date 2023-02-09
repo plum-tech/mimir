@@ -21,8 +21,8 @@ class _HomeBackgroundState extends State<HomeBackground> {
   @override
   void initState() {
     super.initState();
-    Global.eventBus.on<EventNameConstants>().listen((e) {
-      if (e == EventNameConstants.onBackgroundChange) {
+    Global.eventBus.on<EventTypes>().listen((e) {
+      if (e == EventTypes.onBackgroundChange) {
         if (Kv.home.background == null) {
           context.showSnackBar(i18n.settingsWallpaperEmptyWarn.text());
           return;

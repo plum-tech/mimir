@@ -20,7 +20,7 @@ class GlobalConfig {
   static bool isTestEnv = false;
 }
 
-enum EventNameConstants {
+enum EventTypes {
   onRouteRefresh,
   onHomeRefresh,
   onHomeItemReorder,

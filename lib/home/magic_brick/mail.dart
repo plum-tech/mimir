@@ -18,8 +18,8 @@ class _EduEmailItemState extends State<EduEmailItem> {
   @override
   void initState() {
     super.initState();
-    Global.eventBus.on<EventNameConstants>().listen((e){
-      if(e==EventNameConstants.onHomeRefresh){
+    Global.eventBus.on<EventTypes>().listen((e){
+      if(e==EventTypes.onHomeRefresh){
 
       }
     });

@@ -81,8 +81,8 @@ class _HomePageState extends State<HomePage> {
     });
 
     _onHomeRefresh(context);
-    Global.eventBus.on<EventNameConstants>().listen((e) {
-      if (e == EventNameConstants.onHomeItemReorder) {
+    Global.eventBus.on<EventTypes>().listen((e) {
+      if (e == EventTypes.onHomeItemReorder) {
         if (!mounted) return;
         setState(() {});
       }
@@ -147,7 +147,7 @@ class _HomePageState extends State<HomePage> {
       }
     }
     if (HomeInit.ssoSession.isOnline) {
-      Global.eventBus.fire(EventNameConstants.onHomeRefresh);
+      Global.eventBus.fire(EventTypes.onHomeRefresh);
     }
     FireOn.homepage(HomeRefreshEvent(isOnline: HomeInit.ssoSession.isOnline));
     _refreshController.refreshCompleted(resetFooterState: true);
