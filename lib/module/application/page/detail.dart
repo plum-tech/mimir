@@ -100,15 +100,16 @@ class _DetailPageState extends State<DetailPage> {
       return Placeholders.loading();
     } else {
       final sections = detail.sections;
-      return sections
-          .map((e) => _buildSection(context, e))
-          .toList()
-          .column(
-            caa: CrossAxisAlignment.start,
-            mas: MainAxisSize.min,
-          )
-          .padAll(10)
-          .scrolled();
+      return ListView.separated(
+        itemCount: sections.length,
+        itemBuilder: (ctx, i) {
+          final section = sections[i];
+          return _buildSection(ctx, section);
+        },
+        separatorBuilder: (ctx, i) {
+          return const Divider();
+        },
+      ).padAll(10);
     }
   }
 
@@ -124,8 +125,8 @@ class _DetailPageState extends State<DetailPage> {
 }
 
 Widget _buildSection(BuildContext context, ApplicationDetailSection section) {
-  final titleStyle = Theme.of(context).textTheme.headline2;
-  final textStyle = Theme.of(context).textTheme.bodyText2;
+  final titleStyle = Theme.of(context).textTheme.headlineSmall;
+  final textStyle = Theme.of(context).textTheme.bodyMedium;
 
   Widget buildHtmlSection(String content) {
     final html = content.replaceAll('../app/files/', 'https://xgfy.sit.edu.cn/app/files/');

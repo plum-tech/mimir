@@ -65,7 +65,7 @@ class _DetailPageState extends State<DetailPage> {
 
   Widget buildBody(BuildContext ctx) {
     final theme = ctx.theme;
-    final titleStyle = theme.textTheme.headline2;
+    final titleStyle = theme.textTheme.titleLarge;
     return [
       [
         summary.title.text(style: titleStyle),
@@ -169,25 +169,26 @@ class _DetailPageState extends State<DetailPage> {
       return const SizedBox();
     }
     final theme = context.theme;
-    final titleStyle = theme.textTheme.headline2;
+    final titleStyle = theme.textTheme.titleLarge;
     final htmlContent = _linkTel(detail.content);
-    return [
+    final widgets = [
       // DarkModeSafe sometimes isn't safe.
       if (theme.isDark) DarkModeSafeHtmlWidget(htmlContent) else MyHtmlWidget(htmlContent),
-      const SizedBox(height: 30),
-      if (detail.attachments.isNotEmpty)
-        Text(i18n.oaAnnouncementAttachmentTip(detail.attachments.length), style: titleStyle),
-      if (detail.attachments.isNotEmpty)
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: detail.attachments.map((e) {
-            return TextButton(
-              onPressed: () async => _onDownloadFile(e),
-              child: Text(e.name),
-            );
-          }).toList(),
-        )
-    ].column();
+    ];
+    if (detail.attachments.isNotEmpty) {
+      widgets.add(const Divider());
+      widgets.add(Text(i18n.oaAnnouncementAttachmentTip(detail.attachments.length), style: titleStyle));
+      widgets.add(Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: detail.attachments.map((e) {
+          return TextButton(
+            onPressed: () async => _onDownloadFile(e),
+            child: Text(e.name),
+          );
+        }).toList(),
+      ));
+    }
+    return widgets.column();
   }
 }
 

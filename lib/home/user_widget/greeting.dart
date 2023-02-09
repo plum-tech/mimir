@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mimir/credential/symbol.dart';
-import 'package:mimir/global/global.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/module/simple_page/page/weather.dart';
 import 'package:mimir/storage/init.dart';
@@ -73,17 +72,6 @@ class _GreetingWidgetState extends State<GreetingWidget> {
   String _getCampusName() {
     if (campus == 1) return i18n.fengxianDistrict;
     return i18n.xuhuiDistrict;
-  }
-
-  Widget _buildWeatherIcon(String iconCode) {
-    return GestureDetector(
-      onTap: () {
-        final title = i18n.campusWeatherTitle(_getCampusName());
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => WeatherPage(campus, title: title)));
-      },
-      child: SvgPicture.asset('assets/weather/$iconCode.svg',
-          width: 60, height: 60, fit: BoxFit.fill, color: Colors.white),
-    );
   }
 
   Widget buildAll(BuildContext context) {

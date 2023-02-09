@@ -88,7 +88,7 @@ class _OaAnnouncePageState extends State<OaAnnouncePage> {
   }
 
   Widget _buildAnnounceItem(BuildContext context, AnnounceRecord record) {
-    final titleStyle = Theme.of(context).textTheme.headlineMedium;
+    final titleStyle = Theme.of(context).textTheme.titleLarge;
     final subtitleStyle = Theme.of(context).textTheme.bodyLarge;
 
     return ListTile(
