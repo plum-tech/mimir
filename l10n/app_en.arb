@@ -118,7 +118,7 @@
   "@elecBillContent": {
     "placeholders": {
       "room": {
-        "type": "int"
+        "type": "String"
       },
       "balance": {
         "type": "String"

@@ -26,7 +26,7 @@ class _ElectricityBillItemState extends State<ElectricityBillItem> {
   Widget build(BuildContext context) {
     final b = lastBalance;
     if (b != null) {
-      content = i18n.elecBillContent(b.room, b.balance.toStringAsPrecision(2));
+      content = i18n.elecBillContent(b.roomNumber, b.balance.toStringAsPrecision(2));
     }
     return Brick(
       route: RouteTable.electricityBill,

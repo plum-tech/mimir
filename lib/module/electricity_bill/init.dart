@@ -9,15 +9,11 @@ import 'using.dart';
 class ElectricityBillInit {
   static late ElectricityStorageDao electricityStorage;
   static late ElectricityServiceDao electricityService;
-  static late KiteSession kiteSession;
-  static Future<void> init({
-    required KiteSession kiteSession,
+
+  static void init({
     required Box<dynamic> electricityBox,
-  }) async {
-    ElectricityBillInit.kiteSession = kiteSession;
-
-    electricityService = ElectricityService(kiteSession);
-
+  }) {
+    electricityService = ElectricityService();
     electricityStorage = ElectricityStorage(electricityBox);
   }
 }

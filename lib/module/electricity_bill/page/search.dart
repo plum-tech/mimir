@@ -41,7 +41,7 @@ class _SearchState extends State<Search> {
   Widget buildRecentSearch(BuildContext ctx) {
     final recent = widget.searchHistory.getRange(0, min(3, widget.searchHistory.length));
     return recent
-        .map((e) => e.text(style: ctx.textTheme.headline2).padAll(10).inCard(elevation: 5).onTap(() {
+        .map((e) => e.text(style: ctx.textTheme.displayMedium).padAll(10).inCard(elevation: 5).onTap(() {
               widget.onSelected?.call(e);
             }))
         .toList()

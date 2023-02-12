@@ -54,7 +54,6 @@ class SimpleTextSearchDelegate<T> extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    // 是否允许用户不仅仅只使用建议里的搜索条目？
     final dest = realQuery;
     if (!onlyUseSuggestion || suggestionList.contains(dest)) {
       close(context, dest);

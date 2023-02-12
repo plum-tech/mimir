@@ -122,9 +122,7 @@ class Initializer {
     LoginInit.init(
       ssoSession: Global.ssoSession,
     );
-
-    await ElectricityBillInit.init(
-      kiteSession: kiteSession,
+    ElectricityBillInit.init(
       electricityBox: HiveBoxInit.kv,
     );
 

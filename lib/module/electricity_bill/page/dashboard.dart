@@ -10,8 +10,6 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/account.dart';
 import '../init.dart';
 import '../widgets/card.dart';
-import '../widgets/chart.dart';
-import '../widgets/rank.dart';
 import '../using.dart';
 
 class Dashboard extends StatefulWidget {
@@ -27,9 +25,6 @@ class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixi
   final service = ElectricityBillInit.electricityService;
   final updateTimeFormatter = DateFormat('MM/dd HH:mm');
   Balance? _balance;
-  final _rankViewKey = GlobalKey();
-  final _chartKey = GlobalKey();
-
   final _scrollController = ScrollController();
   final _portraitRefreshController = RefreshController();
   final _landscapeRefreshController = RefreshController();
@@ -85,105 +80,35 @@ class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixi
     ).padAll(10);
   }
 
-  void setRankViewState(void Function(RankViewState state) setter) {
-    final state = _rankViewKey.currentState;
-    if (state is RankViewState) {
-      state.setState(() {
-        setter(state);
-      });
-    }
-  }
-
-  void setChartState(void Function(ElectricityChartState state) setter) {
-    final state = _chartKey.currentState;
-    if (state is ElectricityChartState) {
-      state.setState(() {
-        setter(state);
-      });
-    }
-  }
-
-  ElectricityChartState? getChartState() {
-    final state = _chartKey.currentState;
-    if (state is ElectricityChartState) {
-      return state;
-    }
-    return null;
-  }
-
   Future<void> _onRefresh() async {
     final selectedRoom = widget.selectedRoom;
     setState(() {
       _balance = null;
     });
-    setChartState((state) {
-      state.dailyBill = null;
-      state.hourlyBill = null;
+    final newBalance = await service.getBalance(selectedRoom);
+    setState(() {
+      _balance = newBalance;
     });
-    setRankViewState((state) {
-      state.curRank = null;
-    });
-    await Future.wait([
-      Future(() async {
-        final newBalance = await service.getBalance(selectedRoom);
-        setState(() {
-          _balance = newBalance;
-        });
-      }),
-      Future(() async {
-        final newRank = await service.getRank(selectedRoom);
-        setRankViewState((state) {
-          state.curRank = newRank;
-        });
-      }),
-      Future(() async {
-        final chartState = getChartState();
-        if (chartState != null) {
-          if (chartState.mode == ElectricityChartMode.daily) {
-            final newDailyBill = await service.getDailyBill(selectedRoom);
-            setChartState((state) {
-              state.dailyBill = newDailyBill;
-            });
-          } else {
-            final newHourlyBill = await service.getHourlyBill(selectedRoom);
-            setChartState((state) {
-              state.hourlyBill = newHourlyBill;
-            });
-          }
-        }
-      })
-    ]);
     if (!mounted) return;
     getCurrentRefreshController(context).refreshCompleted();
   }
 
   Widget buildBodyPortrait(BuildContext ctx) {
-    final balance = _balance;
     return [
       const SizedBox(height: 5),
       buildBalanceCard(ctx),
       const SizedBox(height: 5),
-      RankView(key: _rankViewKey),
-      const SizedBox(height: 25),
-      ElectricityChart(key: _chartKey, room: widget.selectedRoom),
-      buildUpdateTime(context, balance?.ts).align(at: Alignment.bottomCenter),
     ].column().scrolled().padSymmetric(v: 8, h: 20);
   }
 
   Widget buildBodyLandscape(BuildContext ctx) {
-    final balance = _balance;
     return [
       [
         i18n.elecBillTitle(widget.selectedRoom).text(style: ctx.textTheme.displayLarge).padFromLTRB(10, 0, 10, 40),
         const SizedBox(height: 5),
-        buildUpdateTime(context, balance?.ts).align(at: Alignment.bottomCenter),
-        const SizedBox(height: 5),
         buildBalanceCard(ctx),
-        const SizedBox(height: 5),
-        RankView(key: _rankViewKey)
       ].column().align(at: Alignment.topCenter).expanded(),
       SizedBox(width: 10.w),
-      ElectricityChart(key: _chartKey, room: widget.selectedRoom).padV(12.h).expanded(),
     ].row().scrolled();
   }
 
@@ -246,7 +171,7 @@ class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixi
 extension BalanceEx on Balance? {
   String? get powerText {
     final self = this;
-    return self == null ? null : i18n.powerKwh(self.power.toStringAsFixed(2));
+    return self == null ? null : i18n.powerKwh(self.balance.toStringAsFixed(2));
   }
 
   String? get balanceText {

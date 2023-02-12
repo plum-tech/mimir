@@ -1,43 +1,29 @@
+import 'package:dio/dio.dart';
+
 import '../dao/remote.dart';
 import '../entity/account.dart';
-import '../entity/statistics.dart';
 import '../using.dart';
 
+const _balanceUrl = "https://xgfy.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=DBAccess_RunSQLReturnTable";
+
 class ElectricityService implements ElectricityServiceDao {
-  static const String _baseUrl = '/electricity/room';
-
-  final ISession session;
-
-  const ElectricityService(this.session);
+  final Dio dio = Dio();
 
   @override
   Future<Balance> getBalance(String room) async {
-    final response = await session.request('$_baseUrl/$room', ReqMethod.get);
-
-    Balance balance = Balance.fromJson(response.data);
-
+    final response = await dio.post(
+      _balanceUrl,
+      queryParameters: {
+        "SQL": "select * from sys_room_balance where RoomName='$room';",
+      },
+      options: Options(
+        headers: {
+          "Cookie": "FK_Dept=B1101",
+        },
+      ),
+    );
+    final data = response.data as String;
+    Balance balance = data.toList(Balance.fromJson)!.first;
     return balance;
-  }
-
-  @override
-  Future<List<DailyBill>> getDailyBill(String room) async {
-    final response = await session.request('$_baseUrl/$room/bill/days', ReqMethod.get);
-    List<dynamic> list = response.data;
-    return list.map((e) => DailyBill.fromJson(e)).toList();
-  }
-
-  @override
-  Future<List<HourlyBill>> getHourlyBill(String room) async {
-    final response = await session.request('$_baseUrl/$room/bill/hours', ReqMethod.get);
-    List<dynamic> list = response.data;
-    return list.map((e) => HourlyBill.fromJson(e)).toList();
-  }
-
-  @override
-  Future<Rank> getRank(String room) async {
-    final response = await session.request('$_baseUrl/$room/rank', ReqMethod.get);
-    final rank = Rank.fromJson(response.data);
-
-    return rank;
   }
 }
