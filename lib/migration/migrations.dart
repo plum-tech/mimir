@@ -11,7 +11,7 @@ class Migrations {
 
   static void init() {
     _onNullVersion = NoVersionSpecifiedMigration;
-    R.v1_5_3 << ClearCacheMigration;
+    R.v1_0_0 << ClearCacheMigration;
   }
 
   static Future<void> perform({required Version? from, required Version? to}) async {

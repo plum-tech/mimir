@@ -225,7 +225,7 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
   }
 
   Widget buildActivityInfo(BuildContext context, ActivityDetail? detail) {
-    final titleStyle = Theme.of(context).textTheme.displayMedium;
+    final titleStyle = Theme.of(context).textTheme.headlineSmall;
     final valueStyle = Theme.of(context).textTheme.bodyMedium;
     final keyStyle = valueStyle?.copyWith(fontWeight: FontWeight.bold);
 

@@ -1,10 +1,10 @@
 import 'dart:ui';
 
-import 'package:mimir/l10n/lang.dart';
 import 'package:version/version.dart';
 
 class R {
   R._();
+
   static const kiteDomain = "https://kite.sunnysab.cn";
   static const appName = "Mimir";
   static const forgotLoginPwdUrl =
@@ -18,7 +18,7 @@ class R {
   /// If the window was resized to too small accidentally, this will keep a minimum function area.
   static const Size minWindowSize = Size(300, 400);
 
-  static final v1_5_3 = Version(1, 5, 3);
+  static final v1_0_0 = Version(1, 0, 0);
 }
 
 class CampusCode {
