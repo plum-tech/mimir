@@ -61,10 +61,6 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
         _lastPos = curPos;
       }
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final targetOffset = week2PageOffset(currentPos.week);
       final currentOffset = _pageController.page?.round() ?? targetOffset;
@@ -72,6 +68,10 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
         _pageController.jumpToPage(targetOffset);
       }
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final side = getBorderSide(context);
 
     return [

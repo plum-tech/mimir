@@ -55,18 +55,17 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
     eventBus.on<JumpToPosEvent>().listen((event) {
       jumpTo(event.where);
     });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final targetPage = week2PageOffset(currentPos.week);
+      final currentPage = _pageController.page?.round() ?? targetPage;
+      if (currentPage != targetPage) {
+        _pageController.jumpToPage(targetPage);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final targetOffset = week2PageOffset(currentPos.week);
-      final currentOffset = _pageController.page?.round() ?? targetOffset;
-      if (currentOffset != targetOffset) {
-        _pageController.jumpToPage(targetOffset);
-      }
-    });
-
     return PageView.builder(
       controller: _pageController,
       scrollDirection: Axis.horizontal,
