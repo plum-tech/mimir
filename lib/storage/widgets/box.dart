@@ -34,7 +34,7 @@ class _BoxSectionState extends State<BoxSection> {
     final boxNameStyle = ctx.textTheme.titleLarge;
     final title = Text(boxName, style: boxNameStyle);
     if (b != null && kDebugMode) {
-      return CupertinoContextMenu(
+      return CupertinoContextMenu.builder(
         actions: [
           CupertinoContextMenuAction(
             trailingIcon: CupertinoIcons.clear,
@@ -53,8 +53,9 @@ class _BoxSectionState extends State<BoxSection> {
             child: i18n.clear.text(),
           )
         ],
-        previewBuilder: (ctx, ani, child) => child.padSymmetric(h: 40, v: 20).inCard(),
-        child: title,
+        builder: (ctx, animation) {
+          return title.padSymmetric(h: 30, v: 15).inCard(elevation: 5);
+        },
       );
     } else {
       return title;
@@ -120,7 +121,7 @@ class _BoxItemListState extends State<BoxItemList> {
   Widget buildBoxItems(BuildContext ctx, List<dynamic> keys) {
     final routeStyle = context.textTheme.titleMedium;
     final typeStyle = context.textTheme.bodySmall;
-    final contentStyle = context.textTheme.bodyText2;
+    final contentStyle = context.textTheme.bodyMedium;
     return keys
         .map((e) => BoxItem(
               boxKey: e,

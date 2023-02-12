@@ -24,7 +24,7 @@ class MyHtmlWidget extends StatelessWidget {
     Widget widget = HtmlWidget(
       html,
       renderMode: renderMode,
-      textStyle: textStyle ?? Theme.of(context).textTheme.bodyText2,
+      textStyle: textStyle ?? Theme.of(context).textTheme.bodyMedium,
       onTapUrl: (url) async {
         await GlobalLauncher.launch(url);
         return true;

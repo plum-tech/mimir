@@ -19,7 +19,7 @@ class _ConnectedBlockState extends State<ConnectedBlock> {
   }
 
   List<Widget> buildBody(BuildContext context) {
-    final style = context.textTheme.bodyText1;
+    final style = context.textTheme.bodyLarge;
 
     late Widget buildConnectedByProxy = Text(
         '${i18n.connectivityConnectedByVpn}\n'

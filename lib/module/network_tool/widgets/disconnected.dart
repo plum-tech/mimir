@@ -11,7 +11,7 @@ class DisconnectedBlock extends StatelessWidget {
     return Text(
       i18n.connectivityConnectFailedError,
       textAlign: TextAlign.start,
-      style: Theme.of(context).textTheme.bodyText1,
+      style: Theme.of(context).textTheme.bodyLarge,
     ).scrolled().padH(20);
   }
 }

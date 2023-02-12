@@ -57,7 +57,7 @@ class _BrickState extends State<Brick> {
       bg = Colors.white.withOpacity(0.6);
     } else {
       titleStyle = titleStyleRaw?.copyWith(color: Color.lerp(titleStyleRaw.color, iconColor, 0.8));
-      subtitleStyle = theme.textTheme.bodyMedium?.copyWith(color: theme.textTheme.headline4?.color);
+      subtitleStyle = theme.textTheme.bodyMedium?.copyWith(color: theme.textTheme.headlineMedium?.color);
       bg = Colors.black87.withOpacity(0.2);
     }
     return Container(

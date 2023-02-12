@@ -71,7 +71,7 @@ class Sheet extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).colorScheme.background,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(15.0),
             topRight: Radius.circular(15.0),

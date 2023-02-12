@@ -3,7 +3,6 @@ import 'package:mimir/credential/entity/credential.dart';
 import 'package:mimir/events/bus.dart';
 import 'package:mimir/events/events.dart';
 
-import '../entity/user_type.dart';
 import '../init.dart';
 
 class AuthScope extends InheritedWidget {

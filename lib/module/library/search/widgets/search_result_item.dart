@@ -55,7 +55,7 @@ class BookItemWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(book.title, style: Theme.of(context).textTheme.headline3, softWrap: true),
+              Text(book.title, style: Theme.of(context).textTheme.displaySmall, softWrap: true),
               onAuthorTap == null
                   ? Text('作者:  ${book.author}')
                   : Row(

@@ -18,7 +18,7 @@ class _ExamCardState extends State<ExamCard> {
 
   @override
   Widget build(BuildContext context) {
-    final itemStyle = Theme.of(context).textTheme.bodyText2;
+    final itemStyle = Theme.of(context).textTheme.bodyMedium;
     final name = stylizeCourseName(exam.courseName);
     final strStartTime = exam.time.isNotEmpty ? dateFullNum(exam.time[0]) : '/';
     final strEndTime = exam.time.isNotEmpty ? dateFullNum(exam.time[1]) : '/';
@@ -36,7 +36,7 @@ class _ExamCardState extends State<ExamCard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(name, style: Theme.of(context).textTheme.headline6).padAll(12),
+        Text(name, style: Theme.of(context).textTheme.titleLarge).padAll(12),
         Table(
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           columnWidths: const {0: FlexColumnWidth(4), 1: FlexColumnWidth(5)},
@@ -53,7 +53,7 @@ class _ExamCardState extends State<ExamCard> {
   }
 
   Widget _buildItem(String icon, String text) {
-    final itemStyle = context.textTheme.bodyText1;
+    final itemStyle = context.textTheme.bodyLarge;
     final iconImage = AssetImage('assets/$icon');
     return Row(
       children: [

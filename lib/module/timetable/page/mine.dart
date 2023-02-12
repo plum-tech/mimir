@@ -131,7 +131,8 @@ class _TimetableEntryState extends State<TimetableEntry> {
   @override
   Widget build(BuildContext ctx) {
     final isSelected = storage.currentTimetableId == timetable.id;
-    return CupertinoContextMenu(
+    final item = buildTimetableItemCard(ctx, isSelected);
+    return CupertinoContextMenu.builder(
       actions: [
         CupertinoContextMenuAction(
           trailingIcon: CupertinoIcons.doc_text,
@@ -187,27 +188,13 @@ class _TimetableEntryState extends State<TimetableEntry> {
           child: i18n.timetableDelete.text(),
         ),
       ],
-      child: buildTimetableItemCard(ctx, isSelected),
-      previewBuilder: (ctx, animation, child) => buildTimetableItemCardPreview(ctx, isSelected),
+        builder: (ctx, animation) {
+        return item;
+      },
     );
   }
 
   Widget buildTimetableItemCard(BuildContext ctx, bool isSelected) {
-    final bodyTextStyle = ctx.textTheme.titleSmall;
-    return [
-      [
-        timetable.name.text(style: ctx.textTheme.titleMedium).expanded(),
-        if (isSelected) const Icon(Icons.check, color: Colors.green)
-      ].row(maa: MainAxisAlignment.spaceBetween),
-      if (timetable.description.isNotEmpty)
-        [
-          const Icon(CupertinoIcons.doc_text),
-          timetable.description.text(style: bodyTextStyle).padAll(10).expanded(),
-        ].row(maa: MainAxisAlignment.spaceBetween)
-    ].column().scrolled().padAll(20).inCard(elevation: 5);
-  }
-
-  Widget buildTimetableItemCardPreview(BuildContext ctx, bool isSelected) {
     final year = '${timetable.schoolYear} - ${timetable.schoolYear + 1}';
     final semester = Semester.values[timetable.semester].localized();
     final bodyTextStyle = ctx.textTheme.titleSmall;
@@ -248,9 +235,10 @@ class _TimetableEntryState extends State<TimetableEntry> {
         highlight: true);
     if (confirm == true) {
       storage.deleteTimetableOf(timetable.id);
+      if (!mounted) return;
       if (storage.hasAnyTimetable) {
         // Refresh Mine page and show other timetables
-        if (mounted) setState(() {});
+        setState(() {});
       } else {
         // Otherwise, go out
         ctx.navigator.pop();

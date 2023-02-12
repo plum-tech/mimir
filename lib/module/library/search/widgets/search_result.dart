@@ -181,7 +181,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> {
   /// 搜书页面 搜索框下部选择
   /// TODO: 改成 DefaultTabContainer
   Widget buildSearchWaySelector() {
-    final textStyle = Theme.of(context).textTheme.headline4;
+    final textStyle = Theme.of(context).textTheme.headlineMedium;
     final primaryColor = Theme.of(context).primaryColor;
 
     return Container(

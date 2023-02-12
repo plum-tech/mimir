@@ -77,7 +77,7 @@ class _SemesterSelectorState extends State<SemesterSelector> {
             value: k,
             child: Text(
               candidates[k]!,
-              style: ctx.textTheme.bodyText2,
+              style: ctx.textTheme.bodyMedium,
             ),
           ),
         )
