@@ -3,7 +3,7 @@ import 'package:mimir/global/global.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/route.dart';
 
-import '../user_widget/brick.dart';
+import '../widgets/brick.dart';
 
 class ExamArrangementItem extends StatefulWidget {
   const ExamArrangementItem({super.key});

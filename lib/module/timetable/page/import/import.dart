@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mimir/module/timetable/storage/timetable.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../../entity/course.dart';
 import '../../entity/entity.dart';
 import '../../entity/meta.dart';
 import '../../init.dart';
-import '../../user_widget/meta_editor.dart';
+import '../../widgets/meta_editor.dart';
 import '../../using.dart';
 
 enum ImportStatus {

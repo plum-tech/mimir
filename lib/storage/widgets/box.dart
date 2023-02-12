@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:mimir/design/page/common.dart';
-import 'package:mimir/design/user_widgets/view.dart';
+import 'package:mimir/design/widgets/view.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/user_widget/page_grouper.dart';
-import 'package:mimir/user_widget/placeholder_future_builder.dart';
+import 'package:mimir/widgets/page_grouper.dart';
+import 'package:mimir/widgets/placeholder_future_builder.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../using.dart';

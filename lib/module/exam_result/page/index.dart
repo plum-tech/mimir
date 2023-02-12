@@ -5,7 +5,7 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/result.dart';
 import '../events.dart';
 import '../init.dart';
-import '../user_widget/item.dart';
+import '../widgets/item.dart';
 import '../using.dart';
 import '../util.dart';
 

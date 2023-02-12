@@ -17,8 +17,8 @@ import '../brick_maker.dart';
 import '../entity/home.dart';
 import '../homepage_factory.dart';
 import '../init.dart';
-import '../user_widget/drawer.dart';
-import '../user_widget/greeting.dart';
+import '../widgets/drawer.dart';
+import '../widgets/greeting.dart';
 import 'background.dart';
 
 class HomeItemGroup extends StatelessWidget {

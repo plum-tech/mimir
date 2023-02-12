@@ -5,8 +5,8 @@ import '../entity/book_search.dart';
 import '../entity/hot_search.dart';
 import '../entity/search_history.dart';
 import '../init.dart';
-import '../user_widget/search_result.dart';
-import '../user_widget/suggestion_item.dart';
+import '../widgets/search_result.dart';
+import '../widgets/suggestion_item.dart';
 
 class SearchBarDelegate extends SearchDelegate<String> {
   Widget? _suggestionView;
@@ -95,7 +95,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             const SizedBox(height: 20),
-            Text('历史记录', style: Theme.of(context).textTheme.bodyText1),
+            Text('历史记录', style: Theme.of(context).textTheme.bodyLarge),
             SuggestionItemView(
               titleItems: LibrarySearchInit.librarySearchHistory.getAllByTimeDesc().map((e) => e.keyword).toList(),
               onItemTap: (title) => _searchByGiving(context, title),

@@ -5,7 +5,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/list.dart';
 import '../init.dart';
-import '../user_widgets/card.dart';
+import '../widgets/card.dart';
 import '../using.dart';
 
 class ActivityListPage extends StatefulWidget {

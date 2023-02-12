@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/l10n/extension.dart';
 
-import '../user_widget/brick.dart';
+import '../widgets/brick.dart';
 import 'package:mimir/route.dart';
 
 class EduEmailItem extends StatefulWidget {

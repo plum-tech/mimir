@@ -4,7 +4,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/exam.dart';
 import '../init.dart';
-import '../user_widget/exam.dart';
+import '../widgets/exam.dart';
 import '../using.dart';
 
 class ExamArrangementPage extends StatefulWidget {

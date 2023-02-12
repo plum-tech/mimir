@@ -5,12 +5,12 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/course.dart';
 import '../entity/entity.dart';
 import '../init.dart';
-import '../user_widget/style.dart';
-import '../user_widget/interface.dart';
+import '../widgets/style.dart';
+import '../widgets/interface.dart';
 import '../using.dart';
 import '../utils.dart';
-import '../user_widget/new_ui/timetable.dart' as new_ui;
-import '../user_widget/classic_ui/timetable.dart' as classic_ui;
+import '../widgets/new_ui/timetable.dart' as new_ui;
+import '../widgets/classic_ui/timetable.dart' as classic_ui;
 
 const DisplayMode defaultMode = DisplayMode.weekly;
 

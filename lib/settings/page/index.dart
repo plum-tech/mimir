@@ -9,7 +9,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mimir/credential/symbol.dart';
-import 'package:mimir/design/user_widgets/dialog.dart';
+import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/events/bus.dart';
 import 'package:mimir/events/events.dart';
 import 'package:mimir/global/global.dart';

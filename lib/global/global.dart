@@ -13,7 +13,7 @@ import 'package:mimir/global/dio_initializer.dart';
 import 'package:mimir/module/activity/using.dart';
 import 'package:mimir/route.dart';
 
-import '../user_widget/captcha_box.dart';
+import '../widgets/captcha_box.dart';
 
 class GlobalConfig {
   static String? httpProxy;

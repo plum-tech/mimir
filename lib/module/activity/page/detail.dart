@@ -4,7 +4,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/detail.dart';
 import '../init.dart';
-import '../user_widgets/background.dart';
+import '../widgets/background.dart';
 import '../using.dart';
 
 String _getActivityUrl(int activityId) {
@@ -157,7 +157,7 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
       child: MyHtmlWidget(
         html,
         isSelectable: true,
-        textStyle: Theme.of(context).textTheme.bodyText1,
+        textStyle: Theme.of(context).textTheme.bodyLarge,
       ),
     );
   }
@@ -225,8 +225,8 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
   }
 
   Widget buildActivityInfo(BuildContext context, ActivityDetail? detail) {
-    final titleStyle = Theme.of(context).textTheme.headline2;
-    final valueStyle = Theme.of(context).textTheme.bodyText2;
+    final titleStyle = Theme.of(context).textTheme.displayMedium;
+    final valueStyle = Theme.of(context).textTheme.bodyMedium;
     final keyStyle = valueStyle?.copyWith(fontWeight: FontWeight.bold);
 
     buildRow(String key, Object? value) => TableRow(

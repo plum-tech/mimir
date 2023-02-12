@@ -6,7 +6,7 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/list.dart';
 import '../entity/score.dart';
 import '../init.dart';
-import '../user_widgets/summary.dart';
+import '../widgets/summary.dart';
 import '../using.dart';
 import '../utils.dart';
 import 'detail.dart';

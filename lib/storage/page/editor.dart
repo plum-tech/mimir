@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/module/activity/using.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../user_widget/box.dart';
+import '../widgets/box.dart';
 
 class LocalStoragePage extends StatefulWidget {
   const LocalStoragePage({super.key});

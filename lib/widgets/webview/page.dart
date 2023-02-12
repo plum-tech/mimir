@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:mimir/design/utils.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/launcher.dart';
-import 'package:mimir/user_widget/webview/view.dart';
+import 'package:mimir/widgets/webview/view.dart';
 import 'package:mimir/util/logger.dart';
 import 'package:mimir/util/rule.dart';
 import 'package:mimir/util/url_launcher.dart';

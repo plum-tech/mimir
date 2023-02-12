@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:ui';
 
 import 'package:animations/animations.dart';
@@ -12,13 +11,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mimir/credential/user_widget/scope.dart';
+import 'package:mimir/credential/widgets/scope.dart';
 import 'package:mimir/module/activity/using.dart';
 import 'package:mimir/route.dart';
 import 'package:rettulf/rettulf.dart';
 
-import 'global/desktop_init.dart';
-import 'global/global.dart';
 import 'navigation/route.dart';
 
 class MimirApp extends StatefulWidget {

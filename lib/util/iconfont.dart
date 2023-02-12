@@ -721,7 +721,7 @@ class IconFont {
     'icon-bussiness-man': const IconData(0xe6f0, fontFamily: _family),
     'icon-Customermanagement-fill': const IconData(0xe825, fontFamily: _family),
     'icon-icon-loading': const IconData(0xeb80, fontFamily: _family),
-    'icon-user_widget': const IconData(0xe6f2, fontFamily: _family),
+    'icon-widgets': const IconData(0xe6f2, fontFamily: _family),
     'icon-discounts-fill': const IconData(0xe826, fontFamily: _family),
     'icon-icon-renwujincheng': const IconData(0xeb88, fontFamily: _family),
     'icon-code': const IconData(0xe6f3, fontFamily: _family),

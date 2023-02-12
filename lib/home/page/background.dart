@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:mimir/design/user_widgets/dialog.dart';
+import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/global/desktop_init.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/l10n/extension.dart';

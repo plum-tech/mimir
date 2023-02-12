@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/module/activity/using.dart';
-import 'package:mimir/user_widget/base_line_chart.dart';
+import 'package:mimir/widgets/base_line_chart.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/local.dart';

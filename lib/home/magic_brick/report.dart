@@ -3,7 +3,7 @@ import 'package:mimir/events/bus.dart';
 import 'package:mimir/module/library/using.dart';
 import 'package:mimir/module/symbol.dart';
 
-import '../user_widget/brick.dart';
+import '../widgets/brick.dart';
 
 class ReportTempItem extends StatefulWidget {
   const ReportTempItem({super.key});

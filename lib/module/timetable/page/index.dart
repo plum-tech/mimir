@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../entity/entity.dart';
-import '../entity/meta.dart';
 import '../events.dart';
 import '../init.dart';
-import '../user_widget/style.dart';
+import '../widgets/style.dart';
 import 'mine.dart';
 import 'timetable.dart';
 

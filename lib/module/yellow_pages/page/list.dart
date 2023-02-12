@@ -6,7 +6,7 @@ import 'package:mimir/design/colors.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/contact.dart';
-import '../user_widgets/contact.dart';
+import '../widgets/contact.dart';
 import '../using.dart';
 
 class GroupedContactList extends StatelessWidget {

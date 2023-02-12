@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mimir/user_widget/platform_widget.dart';
+import 'package:mimir/widgets/platform_widget.dart';
 import 'package:mimir/util/logger.dart';
 import 'package:mimir/util/rule.dart';
 import 'package:mimir/util/url_launcher.dart';

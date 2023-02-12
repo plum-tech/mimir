@@ -5,9 +5,7 @@ import 'package:mimir/events/events.dart';
 import 'package:mimir/module/shared/global.dart';
 
 import 'entity/credential.dart';
-import 'entity/user_type.dart';
-import 'user_widget/scope.dart';
-import 'utils.dart';
+import 'widgets/scope.dart';
 
 class CredentialDelegate implements CredentialDao {
   final CredentialStorage storage;

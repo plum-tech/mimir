@@ -5,7 +5,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/application.dart';
 import '../init.dart';
-import '../user_widget/application.dart';
+import '../widgets/application.dart';
 import '../using.dart';
 
 // 本科生常用功能列表

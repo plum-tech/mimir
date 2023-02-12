@@ -8,7 +8,7 @@ import 'package:mimir/route.dart';
 import 'package:mimir/storage/init.dart';
 import 'package:mimir/util/logger.dart';
 
-import '../user_widget/brick.dart';
+import '../widgets/brick.dart';
 
 class ApplicationItem extends StatefulWidget {
   const ApplicationItem({super.key});

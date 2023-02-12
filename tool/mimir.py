@@ -16,7 +16,7 @@ def load_comps(proj: Proj):
     proj.add_comp(CompType("page"))
     proj.add_comp(CompType("mock"))
     proj.add_comp(CompType("cache"))
-    proj.add_comp(CompType("user_widget"))
+    proj.add_comp(CompType("widgets"))
 
 
 def load_usings(proj: Proj):

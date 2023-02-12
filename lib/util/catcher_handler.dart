@@ -2,7 +2,7 @@ import 'package:catcher/catcher.dart';
 import 'package:catcher/model/platform_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:mimir/design/user_widgets/dialog.dart';
+import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/launcher.dart';
 import 'package:mimir/storage/init.dart';

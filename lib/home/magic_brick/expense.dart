@@ -6,7 +6,7 @@ import 'package:mimir/module/expense/entity/local.dart';
 import 'package:mimir/module/expense/init.dart';
 import 'package:mimir/route.dart';
 
-import '../user_widget/brick.dart';
+import '../widgets/brick.dart';
 
 class ExpenseItem extends StatefulWidget {
   const ExpenseItem({super.key});

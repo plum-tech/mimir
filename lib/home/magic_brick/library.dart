@@ -7,7 +7,7 @@ import 'package:mimir/module/library/search/entity/hot_search.dart';
 import 'package:mimir/module/library/search/init.dart';
 import 'package:mimir/storage/init.dart';
 
-import '../user_widget/brick.dart';
+import '../widgets/brick.dart';
 
 class LibraryItem extends StatefulWidget {
   const LibraryItem({super.key});

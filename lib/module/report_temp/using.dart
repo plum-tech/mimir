@@ -4,6 +4,6 @@ export '../shared/i18n.dart';
 export '../shared/math.dart';
 export '../shared/networking.dart';
 export '../shared/storage.dart';
-export '../shared/user_widget/common.dart';
-export '../shared/user_widget/webview.dart';
+export '../shared/widgets/common.dart';
+export '../shared/widgets/webview.dart';
 export '../shared/util.dart';

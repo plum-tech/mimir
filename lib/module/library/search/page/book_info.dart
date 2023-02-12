@@ -5,7 +5,7 @@ import '../entity/book_info.dart';
 import '../entity/book_search.dart';
 import '../entity/holding_preview.dart';
 import '../init.dart';
-import '../user_widget/search_result_item.dart';
+import '../widgets/search_result_item.dart';
 import '../util/search.dart';
 import 'search_delegate.dart';
 
@@ -36,8 +36,8 @@ class _BookInfoPageState extends State<BookInfoPage> {
               .map(
                 (e) => TableRow(
                   children: [
-                    Text(e.key, style: Theme.of(context).textTheme.subtitle2),
-                    SelectableText(e.value, style: Theme.of(context).textTheme.bodyText2),
+                    Text(e.key, style: Theme.of(context).textTheme.titleSmall),
+                    SelectableText(e.value, style: Theme.of(context).textTheme.bodyMedium),
                   ],
                 ),
               )
@@ -80,7 +80,7 @@ class _BookInfoPageState extends State<BookInfoPage> {
   Widget buildTitle(String text) {
     return Text(
       text,
-      style: Theme.of(context).textTheme.headline1,
+      style: Theme.of(context).textTheme.displayLarge,
     );
   }
 

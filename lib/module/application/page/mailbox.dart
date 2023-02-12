@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../entity/message.dart';
 import '../init.dart';
-import '../user_widget/mail.dart';
+import '../widgets/mail.dart';
 import '../using.dart';
 
 class Mailbox extends StatefulWidget {

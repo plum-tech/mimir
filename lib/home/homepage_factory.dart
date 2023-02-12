@@ -13,7 +13,7 @@ import 'magic_brick/exam.dart';
 import 'magic_brick/expense.dart';
 import 'magic_brick/library.dart';
 import 'magic_brick/mail.dart';
-import 'user_widget/brick.dart';
+import 'widgets/brick.dart';
 
 class HomepageFactory {
   static final Map<FType, WidgetBuilder?> builders = {

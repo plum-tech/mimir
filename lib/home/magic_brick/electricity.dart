@@ -4,7 +4,7 @@ import 'package:mimir/module/symbol.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/storage/init.dart';
 
-import '../user_widget/brick.dart';
+import '../widgets/brick.dart';
 
 class ElectricityBillItem extends StatefulWidget {
   const ElectricityBillItem({super.key});

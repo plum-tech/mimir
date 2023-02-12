@@ -1,6 +1,6 @@
 import 'package:event_bus/event_bus.dart';
 
-import 'user_widget/interface.dart';
+import 'widgets/interface.dart';
 
 EventBus eventBus = EventBus();
 

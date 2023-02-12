@@ -4,9 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../init.dart';
-import '../user_widget/connected.dart';
-import '../user_widget/disconnected.dart';
-import '../user_widget/quick_button.dart';
+import '../widgets/connected.dart';
+import '../widgets/disconnected.dart';
+import '../widgets/quick_button.dart';
 import '../using.dart';
 
 class NetworkToolPage extends StatefulWidget {

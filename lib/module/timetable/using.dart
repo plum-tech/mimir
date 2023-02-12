@@ -8,6 +8,6 @@ export '../shared/logger.dart';
 export '../shared/networking.dart';
 export '../shared/route.dart';
 export '../shared/storage.dart';
-export '../shared/user_widget/school.dart';
+export '../shared/widgets/school.dart';
 export '../shared/util.dart';
 export '../shared/mimir.dart';

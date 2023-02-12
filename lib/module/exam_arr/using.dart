@@ -4,6 +4,6 @@ export "../shared/entity/school.dart";
 export '../shared/i18n.dart';
 export '../shared/networking.dart';
 export '../shared/storage.dart';
-export '../shared/user_widget/common.dart';
-export "../shared/user_widget/school.dart";
+export '../shared/widgets/common.dart';
+export "../shared/widgets/school.dart";
 export '../shared/util.dart';

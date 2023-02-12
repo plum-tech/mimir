@@ -9,9 +9,9 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/account.dart';
 import '../init.dart';
-import '../user_widget/card.dart';
-import '../user_widget/chart.dart';
-import '../user_widget/rank.dart';
+import '../widgets/card.dart';
+import '../widgets/chart.dart';
+import '../widgets/rank.dart';
 import '../using.dart';
 
 class Dashboard extends StatefulWidget {
@@ -174,7 +174,7 @@ class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixi
     final balance = _balance;
     return [
       [
-        i18n.elecBillTitle(widget.selectedRoom).text(style: ctx.textTheme.headline1).padFromLTRB(10, 0, 10, 40),
+        i18n.elecBillTitle(widget.selectedRoom).text(style: ctx.textTheme.displayLarge).padFromLTRB(10, 0, 10, 40),
         const SizedBox(height: 5),
         buildUpdateTime(context, balance?.ts).align(at: Alignment.bottomCenter),
         const SizedBox(height: 5),
