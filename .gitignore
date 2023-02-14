@@ -58,14 +58,6 @@ mimir.iml
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
 
-# vscode代码行数统计文件
-.VSCodeCounter
-
-# 以下文件是 build_runner 动态生成的
-# 编译之前使用命令行flutter pub run build_runner build来生成
-
-# 这些文件时 json_serializable 库动态生成的json序列化与反序列化代码
-*.g.dart
 
 # Miscellaneous
 *.class
@@ -87,7 +79,7 @@ mimir.iml
 .classpath
 .project
 .settings/
-.vscode/
+.VSCodeCounter
 
 # Flutter repo-specific
 /bin/cache/
@@ -151,14 +143,4 @@ app.*.symbols
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
 generated_plugin*
-
-# 过滤 IDE 保存的程序运行日志
-**/*.log
-
-# 过滤cookie持久化的文件
 .cookies
-
-# 过滤构建脚本生成的配置文件
-build.cfg
-
-dist/
