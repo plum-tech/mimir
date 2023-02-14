@@ -14,48 +14,37 @@ Note: you have to put it in a folder named as `mimir`.
 
 ``` shell
 git clone https://github.com/Liplum/Mimir mimir
-cd ./mimir
 ```
 
 Then run the necessary build steps.
 
 ``` shell
 flutter pub get
-
 flutter pub run build_runner build
-flutter pub run flutter_native_splash:create
 ```
 
 Finally, build the Mímir based on your platform.
 
 ```shell
-# On Windows
-flutter build winodws   # build for Windows
+# For Android
 flutter build apk       # build for Android
-# On macOS
+# For Windows
+flutter build winodws   # build for Windows
+# For macOS
 flutter build macos     # build for macOS
 flutter build ios       # build for iOS
-flutter build apk       # build for Android
-# On Linux
+# For Linux
 flutter build linux     # build for Linux
-flutter build apk       # build for Android
 ```
 
 ### iOS Build
 
-Kite for iOS requires `Xcode 13.4.1`, the latest Xcode 13.
+Mímir for iOS requires `Xcode 13.4.1`, the latest Xcode 13.
 You can download it [here](https://developer.apple.com/download/all/?q=Xcode%2013.4.1).
 
 Be aware that Xcode 14 or higher doesn't work due to the compatibility issue of some dependencies.
 
 ## Dependency
-
-### Flutter
-
-Kite Team always works with the latest Flutter.
-As of press time, Kite Team uses:
-
-- Flutter 3.3.8
 
 ## Code Style
 

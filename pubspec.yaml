@@ -164,11 +164,5 @@ flutter:
     - assets/roomlist.json
     - assets/webview/
 
-# See: https://pub.flutter-io.cn/packages/flutter_native_splash
-flutter_native_splash:
-  fullscreen: true
-  color: '#FFFFFF'
-  image: assets/icon-1024.png
-  # background_image: 'assets/background.png'
 flutter_intl:
   enabled: true

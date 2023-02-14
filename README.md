@@ -6,8 +6,6 @@
 
 #### A multiplatform app for SIT students.
 
-*We're committed to build the most modern and useful app school-wide.*
-
 ## Functions
 
 |    Daily Life    |   Learning   |  School Related   |
