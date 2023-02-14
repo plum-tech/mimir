@@ -32,7 +32,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
   // Perform a default center and size before loaded.
   Win32Window::Point origin((screenWidth - defaultWidth) / 2 , (screenHeight - defaultHeight) / 2);
   // Use the escape Unicode to perform a wide string.
-  if (!window.CreateAndShow(L"\u4e0a\u5e94\u5c0f\u98ce\u7b5d", origin, size)) {
+  if (!window.CreateAndShow(L"Mímir", origin, size)) {
     return EXIT_FAILURE;
   }
   window.SetQuitOnClose(true);
