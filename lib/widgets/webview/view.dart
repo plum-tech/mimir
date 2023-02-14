@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mimir/widgets/platform_widget.dart';
 import 'package:mimir/util/logger.dart';
 import 'package:mimir/util/rule.dart';
 import 'package:mimir/util/url_launcher.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../unsupported_platform_launch.dart';
@@ -89,17 +89,14 @@ class _MyWebViewState extends State<MyWebView> {
 
   @override
   Widget build(BuildContext context) {
-    return MyPlatformWidget(
-      desktopOrWebBuilder: (context) {
-        return UnsupportedPlatformUrlLauncher(
-          widget.initialUrl ?? '',
-          showLaunchButton: widget.showLaunchButtonIfUnsupported,
-        );
-      },
-      mobileBuilder: (context) {
-        return buildWebView(widget.initialCookies);
-      },
-    );
+    if (UniversalPlatform.isDesktop){
+      return UnsupportedPlatformUrlLauncher(
+        widget.initialUrl ?? '',
+        showLaunchButton: widget.showLaunchButtonIfUnsupported,
+      );
+    }else{
+      return buildWebView(widget.initialCookies);
+    }
   }
 
   /// 获取该url匹配的所有注入项
