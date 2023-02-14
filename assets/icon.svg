@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<linearGradient gradientTransform="matrix(1 0 0 1 0 0)" gradientUnits="userSpaceOnUse" id="LinearGradient" x1="760" x2="820" y1="460" y2="840">
+<stop offset="0" stop-color="#ead968"/>
+<stop offset="1" stop-color="#ddc20f"/>
+</linearGradient>
+<linearGradient gradientTransform="matrix(1 0 0 1 0 0)" gradientUnits="userSpaceOnUse" id="LinearGradient_2" x1="300" x2="260" y1="480" y2="820">
+<stop offset="0" stop-color="#ead968"/>
+<stop offset="1" stop-color="#ddc20f"/>
+</linearGradient>
+<linearGradient gradientTransform="matrix(1 0 0 1 0 0)" gradientUnits="userSpaceOnUse" id="LinearGradient_3" x1="820" x2="740" y1="200" y2="360">
+<stop offset="0" stop-color="#b47732"/>
+<stop offset="1" stop-color="#875319"/>
+</linearGradient>
+<linearGradient gradientTransform="matrix(1 0 0 1 0 0)" gradientUnits="userSpaceOnUse" id="LinearGradient_4" x1="240" x2="280" y1="240" y2="380">
+<stop offset="0" stop-color="#b47732"/>
+<stop offset="1" stop-color="#875319"/>
+</linearGradient>
+</defs>
+<g id="M">
+<path d="M673.963 426.178L774.235 251.005C777.702 244.947 781.245 245.631 782.146 252.532L859.895 847.504C860.796 854.405 855.815 860 848.768 860L712.259 860C705.212 860 699.145 854.37 698.707 847.425L673.963 426.178" fill="url(#LinearGradient)" fill-rule="nonzero" opacity="1" stroke="#37531c" stroke-linecap="butt" stroke-linejoin="round" stroke-width="22.9926"/>
+<path d="M363.076 423.852L440 560L420 620L460 600L512.98 689.067C516.404 695.125 521.956 695.125 525.38 689.067L580 600L620 620L600 560L673.963 426.189" fill="none" opacity="1" stroke="#37531c" stroke-linecap="butt" stroke-linejoin="round" stroke-width="22.9926"/>
+<path d="M363.076 423.852L320.321 847.488C319.691 854.418 313.539 860.036 306.58 860.036L191.78 860.036C184.821 860.036 179.902 854.441 180.792 847.54L257.567 252.532C258.458 245.631 261.956 244.947 265.38 251.005L363.076 423.852" fill="url(#LinearGradient_2)" fill-rule="nonzero" opacity="1" stroke="#37531c" stroke-linecap="butt" stroke-linejoin="round" stroke-width="22.9926"/>
+</g>
+<g id="Horn">
+<path d="M800 80C800 80 800 200 780 220C720 300 713.125 356.902 713.125 356.902C713.125 356.902 739.447 337.914 760 340C780.553 342.086 795.336 365.248 795.336 365.248C795.336 365.248 785.244 287.031 860 220C840 160 800 80 800 80Z" fill="url(#LinearGradient_3)" fill-rule="nonzero" opacity="1" stroke="#37531c" stroke-linecap="butt" stroke-linejoin="round" stroke-width="22.9926"/>
+<path d="M220 80C251.447 103.585 260 200 260 200L319.915 347.49C319.915 347.49 299.896 330.342 280 340C260.104 349.658 240.33 386.121 240.33 386.121C240.33 386.121 252.889 288.788 200 260C220 140 215.44 76.5801 220 80Z" fill="url(#LinearGradient_4)" fill-rule="nonzero" opacity="1" stroke="#37531c" stroke-linecap="butt" stroke-linejoin="round" stroke-width="22.9926"/>
+</g>
+</svg>
