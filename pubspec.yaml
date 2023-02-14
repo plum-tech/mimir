@@ -168,7 +168,7 @@ flutter:
 flutter_native_splash:
   fullscreen: true
   color: '#FFFFFF'
-  image: assets/icon.png
+  image: assets/icon-1024.png
   # background_image: 'assets/background.png'
 flutter_intl:
   enabled: true
