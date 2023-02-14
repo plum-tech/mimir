@@ -2,6 +2,8 @@
 
 # Mímir
 
+<img src="assets/icon.svg" alt="Icon" width="256">
+
 #### A multiplatform app for SIT students.
 
 *We're committed to build the most modern and useful app school-wide.*
