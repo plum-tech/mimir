@@ -95,7 +95,7 @@ class _ApplicationListState extends State<ApplicationList> with AdaptivePageProt
   List<Widget> buildApplications(List<ApplicationMeta> all, bool enableFilter) {
     return all
         .where((element) => !enableFilter || _commonUsed.contains(element.id))
-        .mapIndexed((i, e) => ApplicationTile(meta: e, isHot: i < 3))
+        .mapIndexed((i, e) => ApplicationTile(meta: e, isHot: i < 3).hero(e.id))
         .toList();
   }
 

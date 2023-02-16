@@ -43,7 +43,7 @@ class _DetailPageState extends State<DetailPage> {
 
   Widget buildPortrait(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(meta.name)),
+      appBar: AppBar(title: Text(meta.name).hero(meta.id)),
       body: SafeArea(
         child: buildBody(context),
       ),
@@ -100,6 +100,7 @@ class _DetailPageState extends State<DetailPage> {
       return Placeholders.loading();
     } else {
       final sections = detail.sections;
+      sections.retainWhere((e) => e.isNotEmpty && _isValidSectionType(e));
       return ListView.separated(
         itemCount: sections.length,
         itemBuilder: (ctx, i) {
@@ -124,6 +125,17 @@ class _DetailPageState extends State<DetailPage> {
   }
 }
 
+bool _isValidSectionType(ApplicationDetailSection section) {
+  switch (section.type) {
+    case 'html':
+      return true;
+    case 'json':
+      return true;
+    default:
+      return false;
+  }
+}
+
 Widget _buildSection(BuildContext context, ApplicationDetailSection section) {
   final titleStyle = Theme.of(context).textTheme.headlineSmall;
   final textStyle = Theme.of(context).textTheme.bodyMedium;
@@ -144,10 +156,6 @@ Widget _buildSection(BuildContext context, ApplicationDetailSection section) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: items);
   }
 
-  Widget buildOtherSection(String type, String _) {
-    return Text('未知类型: $type', style: textStyle);
-  }
-
   late Widget bodyWidget;
   switch (section.type) {
     case 'html':
@@ -157,7 +165,7 @@ Widget _buildSection(BuildContext context, ApplicationDetailSection section) {
       bodyWidget = buildJsonSection(section.content);
       break;
     default:
-      bodyWidget = buildOtherSection(section.type, section.content);
+      bodyWidget = const SizedBox();
       break;
   }
 

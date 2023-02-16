@@ -52,6 +52,12 @@ class ApplicationDetailSection {
   factory ApplicationDetailSection.fromJson(Map<String, dynamic> json) => _$ApplicationDetailSectionFromJson(json);
 }
 
+extension ApplicationDetailSectionX on ApplicationDetailSection {
+  bool get isEmpty => content.isEmpty;
+
+  bool get isNotEmpty => content.isNotEmpty;
+}
+
 @HiveType(typeId: HiveTypeId.applicationDetail)
 class ApplicationDetail {
   @HiveField(0)
