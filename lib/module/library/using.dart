@@ -9,3 +9,5 @@ export '../shared/route.dart';
 export '../shared/storage.dart';
 export '../shared/widgets/common.dart';
 export '../shared/util.dart';
+export '../shared/homepage.dart';
+export 'i18n.dart';

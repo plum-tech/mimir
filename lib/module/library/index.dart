@@ -19,7 +19,7 @@ class LibraryPage extends StatelessWidget {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      title: i18n.ftype_library.text(),
+      title: FType.library.l10nName().text(),
       actions: [
         IconButton(
           onPressed: () {
@@ -28,15 +28,7 @@ class LibraryPage extends StatelessWidget {
           icon: const Icon(
             Icons.search,
           ),
-        ),
-        IconButton(
-          onPressed: () async {
-            context.showSnackBar(i18n.libraryAccountManagementBtnTip.text());
-          },
-          icon: const Icon(
-            Icons.person,
-          ),
-        ),
+        )
       ],
     );
   }
