@@ -6,6 +6,7 @@ import 'package:mimir/events/bus.dart';
 import 'package:mimir/events/events.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/global/global.dart';
+import 'package:mimir/module/login/i18n.dart';
 import 'package:mimir/module/login/init.dart';
 import 'package:mimir/module/timetable/using.dart';
 import 'package:mimir/util/scanner.dart';
@@ -67,7 +68,7 @@ class _HomePageState extends State<HomePage> {
       if (Auth.hasLoggedIn && await HomeInit.ssoSession.checkConnectivity()) {
         if (!mounted) return;
         context.showSnackBar(
-          i18n.homepageCampusNetworkConnected.text(),
+          _i18n.campusNetworkConnected.text(),
           duration: const Duration(seconds: 3),
         );
       }
@@ -106,9 +107,9 @@ class _HomePageState extends State<HomePage> {
     context.showSnackBar(
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         const Icon(Icons.dangerous),
-        title ?? i18n.homepageCampusNetworkDisconnected.text(),
+        title ?? _i18n.campusNetworkUnconnected.text(),
         TextButton(
-          child: i18n.openNetworkToolBtn.text(),
+          child: _i18n.network.openToolBtn.text(),
           onPressed: () => Navigator.of(context).pushNamed(Routes.networkTool),
         )
       ]),
@@ -126,14 +127,14 @@ class _HomePageState extends State<HomePage> {
       try {
         await _doLogin(context, oaCredential);
         if (!mounted) return;
-        context.showSnackBar(i18n.loginLoggedInTip.text());
+        context.showSnackBar(_i18n.login.loggedInTip.text());
       } on Exception catch (e) {
         // 如果是认证相关问题, 弹出相应的错误信息.
         if (e is UnknownAuthException || e is CredentialsInvalidException) {
-          context.showSnackBar(Text('${i18n.loginFailedWarn}: $e'));
+          context.showSnackBar(Text('${_i18n.login.failedWarn}: $e'));
         } else {
           // 如果是网络问题, 提示检查网络.
-          _showCheckNetwork(context, title: i18n.networkXcpWarn.text());
+          _showCheckNetwork(context, title: _i18n.network.error.text());
         }
       } catch (e, s) {
         Catcher.reportCheckedError(e, s);
@@ -285,4 +286,19 @@ class _HomePageState extends State<HomePage> {
           )
         : null;
   }
+}
+
+const _i18n = _I18n();
+
+class _I18n {
+  const _I18n();
+
+  static const ns = "homepage";
+
+  final network = const NetworkI18n();
+  final login = const LoginI18n();
+
+  String get campusNetworkConnected => "$ns.campusNetworkConnected".tr();
+
+  String get campusNetworkUnconnected => "$ns.campusNetworkUnconnected".tr();
 }

@@ -161,6 +161,9 @@ expense:
   toastLoading: Loading...
   total: Total
   lastBalance: ¥{amount} {place}
+homepage:
+  campusNetworkConnected: Campus Network Available
+  campusNetworkUnconnected: Campus Network Unconnected
 networkChecker:
   button:
     connected: Continue
