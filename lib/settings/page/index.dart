@@ -29,6 +29,8 @@ import 'package:universal_platform/universal_platform.dart';
 import '../../storage/page/editor.dart';
 import '../../storage/storage/pref.dart';
 
+import '../i18n.dart';
+
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
@@ -67,14 +69,12 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
-  void _gotoWelcome(BuildContext ctx) {
+  void _gotoLogin(BuildContext ctx) {
     final navigator = ctx.navigator;
     while (navigator.canPop()) {
       navigator.pop();
     }
-    navigator.pushReplacementNamed(Routes.welcome);
-
-    Log.info('重启成功');
+    navigator.pushReplacementNamed(Routes.login);
   }
 
   void _onClearStorage(BuildContext context) async {
@@ -91,7 +91,7 @@ class _SettingsPageState extends State<SettingsPage> {
       await Initializer.init();
       FireOn.global(CredentialChangeEvent());
       if (!mounted) return;
-      _gotoWelcome(context);
+      _gotoLogin(context);
     }
   }
 

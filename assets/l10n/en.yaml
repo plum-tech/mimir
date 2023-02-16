@@ -238,7 +238,7 @@ settings:
     global: Use as global proxy
     globalDesc: For debugging, exclude Webview
     proxyAddress: Proxy Address
-  Language:
+  language:
     name: Language
   localStorage:
     name: Local Storage
@@ -246,10 +246,10 @@ settings:
   reload:
     name: Reload
     desc: Re-initialize all modules
-  TestConnect2School:
+  testConnect2School:
     name: Test Connectivity
     desc: Test connect with school
-  TestLoginKite:
+  testLoginKite:
     name: Test Login Kite
     desc: Validate your Kite account and OA password
   wipeData:
