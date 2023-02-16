@@ -27,6 +27,11 @@ class _I18n with CommonI18nMixin {
   String get roomNumber => "$ns.roomNumber".tr();
 
   String get updateTime => "$ns.updateTime".tr();
+
+  String lastBalance(String balance, String room) => "$ns.lastBalance".tr(namedArgs: {
+        "balance": balance,
+        "room": room,
+      });
 }
 
 class _Navigation {

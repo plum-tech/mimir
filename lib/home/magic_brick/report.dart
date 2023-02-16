@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mimir/credential/symbol.dart';
 import 'package:mimir/events/bus.dart';
-import 'package:mimir/home/entity/ftype.dart';
-import 'package:mimir/module/library/using.dart';
 import 'package:mimir/module/symbol.dart';
+import 'package:mimir/module/report_temp/i18n.dart';
+import 'package:mimir/route.dart';
+import 'package:mimir/storage/init.dart';
 
+import '../entity/ftype.dart';
 import '../widgets/brick.dart';
 
 class ReportTempItem extends StatefulWidget {
@@ -40,10 +43,10 @@ class _ReportTempItemState extends State<ReportTempItem> {
     final today = DateTime.now();
     // 上次上报时间不等于今日时间，表示未上报
     if (history.date != (today.year * 10000 + today.month * 100 + today.day)) {
-      return i18n.reportTempUnreportedToday;
+      return i18n.unreportedToday;
     }
-    final tempState = history.isNormal == 0 ? i18n.reportTempNormal : i18n.reportTempAbnormal;
-    return '${i18n.reportTempReportedToday}, $tempState ${history.place}';
+    final tempState = history.isNormal == 0 ? i18n.normal : i18n.abnormal;
+    return '${i18n.reportedToday}, $tempState ${history.place}';
   }
 
   Future<String> _buildContent(OACredential oaCredential) async {
@@ -52,10 +55,10 @@ class _ReportTempItemState extends State<ReportTempItem> {
     try {
       history = await ReportTempInit.reportService.getRecentHistory(oaCredential.account);
     } catch (e) {
-      return '${i18n.failed}: ${e.runtimeType}';
+      return "";
     }
     if (history == null) {
-      return i18n.reportTempNoReportRecords;
+      return i18n.noReportRecords;
     }
     // 别忘了本地缓存更新一下.
     Kv.home.lastReport = history;

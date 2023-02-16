@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/events/bus.dart';
 import 'package:mimir/events/symbol.dart';
-import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/module/expense/entity/local.dart';
 import 'package:mimir/module/expense/init.dart';
 import 'package:mimir/route.dart';
 
+import 'package:mimir/module/expense/i18n.dart';
+import '../entity/ftype.dart';
 import '../widgets/brick.dart';
 
 class ExpenseItem extends StatefulWidget {
@@ -45,13 +45,13 @@ class _ExpenseItemState extends State<ExpenseItem> {
   Widget build(BuildContext context) {
     final last = lastExpense;
     if (last != null) {
-      content = i18n.expenseContent(last.deltaAmount.toStringAsFixed(2), last.note);
+      content = i18n.lastBalance(last.deltaAmount.toStringAsFixed(2), last.note);
     }
     return Brick(
       route: RouteTable.expense,
       icon: SvgAssetIcon('assets/home/icon_expense.svg'),
-      title: i18n.ftype_expense,
-      subtitle: content ?? i18n.ftype_expense_desc,
+      title: FType.expense.l10nName(),
+      subtitle: content ?? FType.expense.l10nDesc(),
     );
   }
 }

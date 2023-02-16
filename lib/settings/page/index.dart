@@ -28,7 +28,6 @@ import 'package:universal_platform/universal_platform.dart';
 
 import '../../storage/page/editor.dart';
 import '../../storage/storage/pref.dart';
-import 'home_rearrange.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -164,25 +163,6 @@ class _SettingsPageState extends State<SettingsPage> {
       SettingsGroup(
         title: i18n.homepage,
         children: <Widget>[
-          RadioSettingsTile<int>(
-            title: i18n.settingsHomepageWallpaperMode,
-            settingKey: HomeKeyKeys.backgroundMode,
-            values: <int, String>{
-              1: i18n.realtimeWeather,
-              2: i18n.staticPicture,
-            },
-            selected: Kv.home.backgroundMode,
-            // TODO: Kv may return a unavailable value
-            onChange: (value) async {
-              final backgroundPath = Kv.home.background;
-              if (backgroundPath != null) {
-                if (await File(backgroundPath).exists()) {
-                  Kv.home.backgroundMode = value;
-                  Global.eventBus.fire(EventTypes.onBackgroundChange);
-                }
-              }
-            },
-          ),
           DropDownSettingsTile<int>(
             title: i18n.settingsCampus,
             subtitle: i18n.settingsCampusSub,

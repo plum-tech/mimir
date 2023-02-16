@@ -10,7 +10,7 @@ class _I18n /*with CommonI18nMixin */ {
 
   String get abnormal => "abnormal".tr();
 
-  String get tempNoReportRecords => "tempNoReportRecords".tr();
+  String get noReportRecords => "tempNoReportRecords".tr();
 
   String get reportedToday => "reportedToday".tr();
 

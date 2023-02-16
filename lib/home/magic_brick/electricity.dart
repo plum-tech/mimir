@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/home/entity/ftype.dart';
-import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/module/symbol.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/storage/init.dart';
 
 import '../widgets/brick.dart';
+import 'package:mimir/module/elec_bill/i18n.dart';
 
 class ElectricityBillItem extends StatefulWidget {
   const ElectricityBillItem({super.key});
@@ -27,7 +27,7 @@ class _ElectricityBillItemState extends State<ElectricityBillItem> {
   Widget build(BuildContext context) {
     final b = lastBalance;
     if (b != null) {
-      content = i18n.elecBillContent(b.roomNumber, b.balance.toStringAsPrecision(2));
+      content = i18n.lastBalance(b.roomNumber, b.balance.toStringAsPrecision(2));
     }
     return Brick(
       route: RouteTable.electricityBill,

@@ -108,6 +108,7 @@ elecBill:
   remainingPower: Remaining
   roomNumber: Room
   updateTime: Last Update
+  lastBalance: "Last ¥{balance} #{room}"
 eduEmail:
   title: My Email
   noContent: No Content
@@ -147,7 +148,6 @@ expense:
     stuff: Stuff
   balanceInCard: ¥{} in Card
   categories: Categories
-  content: ¥{amount} {place}
   fetchingRecordTip: Fetching expense record
   fetchingTip: Fetching expense records from school... Please wait a minute, the network speed depends on the school's server.
   incomeStatistics: "Income: ¥{}"
@@ -158,6 +158,7 @@ expense:
   toastLoadSuccessful: Successful!
   toastLoading: Loading...
   total: Total
+  lastBalance: ¥{amount} {place}
 networkChecker:
   button:
     connected: Continue
@@ -204,6 +205,8 @@ login:
   failedWarn: Login Failed
   loginBtn: Login
   formatError: Format Error
+library:
+  hotPost: HOT
 settings:
   title: Settings
   campus:

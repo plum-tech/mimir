@@ -2,11 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mimir/global/global.dart';
-import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/module/library/search/entity/hot_search.dart';
 import 'package:mimir/module/library/search/init.dart';
 import 'package:mimir/storage/init.dart';
+import 'package:mimir/module/library/i18n.dart';
 
+import '../entity/ftype.dart';
 import '../widgets/brick.dart';
 
 class LibraryItem extends StatefulWidget {
@@ -52,15 +53,15 @@ class _LibraryItemState extends State<LibraryItem> {
 
   @override
   Widget build(BuildContext context) {
-    // 如果是首屏加载
     if (content == null) {
       final lastHotSearch = Kv.home.lastHotSearch;
       content = lastHotSearch;
     }
     return Brick(
-        route: '/library',
-        icon: SvgAssetIcon('assets/home/icon_library.svg'),
-        title: i18n.ftype_library,
-        subtitle: content ?? i18n.ftype_library_desc);
+      route: '/library',
+      icon: SvgAssetIcon('assets/home/icon_library.svg'),
+      title: FType.expense.l10nName(),
+      subtitle: content ?? FType.expense.l10nDesc(),
+    );
   }
 }

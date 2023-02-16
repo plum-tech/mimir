@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/global/desktop_init.dart';
 import 'package:mimir/global/global.dart';
-import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/storage/init.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -23,7 +22,6 @@ class _HomeBackgroundState extends State<HomeBackground> {
     Global.eventBus.on<EventTypes>().listen((e) {
       if (e == EventTypes.onBackgroundChange) {
         if (Kv.home.background == null) {
-          context.showSnackBar(i18n.settingsWallpaperEmptyWarn.text());
           return;
         }
         setState(() {});
@@ -51,11 +49,6 @@ class _HomeBackgroundState extends State<HomeBackground> {
       final backgroundSelected = Kv.home.background;
       if (backgroundSelected != null) {
         return _buildImageBg(File(backgroundSelected));
-      } else {
-        Future.delayed(
-          Duration.zero,
-          () => context.showSnackBar(i18n.settingsWallpaperEmptyWarn.text()),
-        );
       }
     }
     return const SizedBox();
