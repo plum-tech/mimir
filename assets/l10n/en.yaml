@@ -247,8 +247,12 @@ settings:
     request: Wipe ALL Data
     requestDesc: ALL data, such as login credentials and timetable imported, except webview cache, will be wiped permanently.
 localStorage:
-  title: Local Storage
+  title: Local Storage Editor
   selectBoxTip: Please select a box first.
+  clearBoxDesc: Confirm to clear this box pair?
+  deleteItemDesc: Confirm to delete this key-value pair?
+  emptyValueDesc: Confirm to empty this key-value pair?
+  emptyContent: Empty
 oaAnnounce:
   attachmentTip:
     one: Attachment
@@ -346,6 +350,7 @@ time:
   minuteFormat: {} min
   hourFormat: {} h
 open: Open
+delete: Delete
 confirm: Confirm
 notNow: Not Now
 error: Error
@@ -357,6 +362,7 @@ save: Save
 yes: Yes
 refresh: Refresh
 back: Back
+clear: Clear
 continue: Continue
 unknown: Unknown
 failed: Failed
@@ -364,3 +370,4 @@ download: Download
 fetching: Fetching
 downloading: Downloading
 notFound404: 404 Not Found
+warning: Warning

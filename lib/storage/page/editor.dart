@@ -1,9 +1,12 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/module/activity/using.dart';
+import 'package:mimir/design/widgets/view.dart';
+import 'package:mimir/hive/init.dart';
+import 'package:mimir/widgets/placeholder_future_builder.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../widgets/box.dart';
+import '../using.dart';
 
 class LocalStoragePage extends StatefulWidget {
   const LocalStoragePage({super.key});
@@ -59,7 +62,7 @@ class _StorageListState extends State<StorageList> {
   Widget build(BuildContext ctx) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(title: i18n.localStorageTitle.text()),
+      appBar: AppBar(title: i18n.title.text()),
       body: buildBody(ctx).scrolledWithBar(),
     );
   }

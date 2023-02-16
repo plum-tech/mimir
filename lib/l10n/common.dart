@@ -3,6 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 mixin CommonI18nMixin {
   String get open => "open".tr();
 
+  String get delete => "delete".tr();
+
   String get confirm => "confirm".tr();
 
   String get notNow => "notNow".tr();
@@ -19,6 +21,8 @@ mixin CommonI18nMixin {
 
   String get back => "back".tr();
 
+  String get clear => "clear".tr();
+
   String get continue$ => "continue".tr();
 
   String get unknown => "unknown".tr();
@@ -32,6 +36,8 @@ mixin CommonI18nMixin {
   String get downloading => "downloading".tr();
 
   String get author => "author".tr();
+
+  String get warning => "warning".tr();
 }
 
 class NetworkI18n {

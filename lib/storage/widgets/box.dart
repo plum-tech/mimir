@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:mimir/design/page/common.dart';
 import 'package:mimir/design/widgets/view.dart';
-import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/widgets/page_grouper.dart';
 import 'package:mimir/widgets/placeholder_future_builder.dart';
 import 'package:rettulf/rettulf.dart';
@@ -242,7 +241,7 @@ class _BoxItemState extends State<BoxItem> {
           // Empty the value
           final confirm = await context.showRequest(
               title: i18n.warning,
-              desc: i18n.localStorageEmptyValueDesc,
+              desc: i18n.emptyValueDesc,
               yes: i18n.confirm,
               no: i18n.cancel,
               highlight: true);
@@ -305,7 +304,7 @@ class _StorageBoxState extends State<StorageBox> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: i18n.localStorageTitle.text(),
+          title: i18n.title.text(),
           elevation: 0,
         ),
         body: [
@@ -409,7 +408,7 @@ class _StorageBoxState extends State<StorageBox> {
   }
 
   Widget _buildUnselectBoxTip(Key? key, BuildContext ctx) {
-    return LeavingBlank(key: key, icon: Icons.unarchive_outlined, desc: i18n.settingsStorageSelectTip);
+    return LeavingBlank(key: key, icon: Icons.unarchive_outlined, desc: i18n.selectBoxTip);
   }
 
   Widget _buildEmptyBoxTip(Key? key, BuildContext ctx) {
@@ -453,10 +452,10 @@ dynamic _canEmptyValue(dynamic value) {
 
 Future<bool?> _showDeleteBoxRequest(BuildContext ctx) async {
   return await ctx.showRequest(
-      title: i18n.delete, desc: i18n.localStorageClearBoxDesc, yes: i18n.confirm, no: i18n.cancel, highlight: true);
+      title: i18n.delete, desc: i18n.clearBoxDesc, yes: i18n.confirm, no: i18n.cancel, highlight: true);
 }
 
 Future<bool?> _showDeleteItemRequest(BuildContext ctx) async {
   return await ctx.showRequest(
-      title: i18n.delete, desc: i18n.localStorageDeleteItemDesc, yes: i18n.delete, no: i18n.cancel, highlight: true);
+      title: i18n.delete, desc: i18n.deleteItemDesc, yes: i18n.delete, no: i18n.cancel, highlight: true);
 }
