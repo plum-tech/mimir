@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:animations/animations.dart';
 import 'package:catcher/core/catcher.dart';
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -58,6 +59,9 @@ class _MimirAppState extends State<MimirApp> {
       }
       return MaterialApp(
         title: R.appName,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
         theme: theme.copyWith(
           pageTransitionsTheme: const PageTransitionsTheme(
             builders: {
@@ -79,9 +83,6 @@ class _MimirAppState extends State<MimirApp> {
         debugShowCheckedModeBanner: false,
         navigatorKey: Catcher.navigatorKey,
         onGenerateRoute: _onGenerateRoute,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: Lang.supports,
-        locale: Kv.pref.locale,
         builder: EasyLoading.init(builder: (context, widget) {
           // A workaround to get the system locale.
           final systemLocale = Localizations.localeOf(context);

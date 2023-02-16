@@ -5,6 +5,15 @@ import 'package:version/version.dart';
 class R {
   R._();
 
+  static const enLocale = Locale('en');
+  static const zhCnLocale = Locale('zh', "CN");
+  static const zhTwLocale = Locale('zh', "TW");
+  static const defaultLocale = zhCnLocale;
+  static const supportedLocales = [
+    enLocale,
+    zhCnLocale,
+    zhTwLocale,
+  ];
   static const kiteDomain = "https://kite.sunnysab.cn";
   static const appName = "Mimir";
   static const forgotLoginPwdUrl =

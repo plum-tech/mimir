@@ -1,0 +1,26 @@
+activity:
+  navigation:
+    all: All
+    mine: Mine
+  apply:
+    btn: Apply
+    reply-tip: Reply from school
+    request: Apply
+    request-desc: Confirm to apply this activity?
+  id: Activity ID
+  contact-info: Contact Info
+  detail-empty-tip: No detail given.
+  details: Activity Details
+  duration: Duration
+  location: Location
+  my-score-title: Second Class Score
+  organizer: Organizer
+  principal: Principal
+  signInTime: Sign-in
+  signOutTime: Sign-out
+  startTime: Start Time
+  tags: Tags
+  undertaker: Undertaker
+  application:
+    id: Application ID
+    time: Application Time

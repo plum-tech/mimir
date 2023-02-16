@@ -27,7 +27,10 @@ dependencies:
   # I18n
   flutter_localizations:
     sdk: flutter
-  intl: ^0.17.0               # i18n & l10n
+  # I18n
+  intl: ^0.17.0
+  easy_localization: ^3.0.1
+
   # Basic
   logger: ^1.1.0              # logger
   catcher: ^0.6.9             # Error handling
@@ -106,6 +109,7 @@ dependencies:
 
   # Desktop support
   window_manager: ^0.2.0
+
   flutter_html: ^3.0.0-alpha.6
   vibration: ^1.7.6
   animations: ^2.0.7
@@ -119,7 +123,7 @@ dependencies:
   animated_size_and_fade: ^3.0.0
   unicons: ^2.1.0
   loading_animation_widget: ^1.2.0+3
-  connectivity_plus: ^3.0.2
+  connectivity_plus: ^3.0.3
   modal_bottom_sheet: ^3.0.0-pre
   msh_checkbox: ^1.2.1
   animated_toggle_switch: ^0.5.2
@@ -127,6 +131,7 @@ dependencies:
   auto_size_text: ^3.0.0
   cookie_jar: ^3.0.1
   flutter_widget_from_html_core: ^0.9.1
+  yaml: ^3.1.1
 
 dev_dependencies:
   flutter_test: { sdk: flutter }
@@ -163,6 +168,7 @@ flutter:
     - assets/scanner/beep.mp3
     - assets/roomlist.json
     - assets/webview/
+    - assets/l10n/
 
 flutter_intl:
   enabled: true

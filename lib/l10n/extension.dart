@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
@@ -11,8 +12,6 @@ export 'lang.dart';
 
 extension I18nBuildContext on BuildContext {
   AppLocalizations get l => AppLocalizations.of(this);
-
-  Locale get locale => Localizations.localeOf(this);
 
   String get langCode => Localizations.localeOf(this).languageCode;
 
