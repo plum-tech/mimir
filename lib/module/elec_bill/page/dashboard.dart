@@ -33,7 +33,7 @@ class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixi
       ctx.isPortrait ? _portraitRefreshController : _landscapeRefreshController;
 
   Future<List> getRoomList() async {
-    String jsonData = await rootBundle.loadString("assets/roomlist.json");
+    String jsonData = await rootBundle.loadString("assets/room_list.json");
     List list = await jsonDecode(jsonData);
     return list;
   }

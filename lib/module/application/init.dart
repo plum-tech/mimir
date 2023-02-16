@@ -15,7 +15,7 @@ class ApplicationInit {
   static late CookieJar cookieJar;
   static late ApplicationDao applicationService;
   static late ApplicationMessageDao messageService;
-  static late OfficeSession session;
+  static late ApplicationSession session;
 
   static Future<void> init({
     required Dio dio,
@@ -23,7 +23,7 @@ class ApplicationInit {
     required Box<dynamic> box,
   }) async {
     ApplicationInit.cookieJar = cookieJar;
-    session = OfficeSession(dio: dio);
+    session = ApplicationSession(dio: dio);
 
     applicationService = ApplicationCache(
         from: ApplicationService(session),

@@ -8,7 +8,7 @@ part of 'ftype.dart';
 
 class FTypeAdapter extends TypeAdapter<FType> {
   @override
-  final int typeId = 11;
+  final int typeId = 7;
 
   @override
   FType read(BinaryReader reader) {

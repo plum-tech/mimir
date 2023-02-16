@@ -14,15 +14,17 @@ class ContactTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final avatarStyle = context.textTheme.bodyMedium?.copyWith(color: Colors.grey[50]);
+    final name = contact.name;
+    final full = ('${name ?? ""} ${contact.phone}').trim();
+    final phoneNumber = contact.phone.length == 8 ? "021" : "";
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: Theme.of(context).primaryColor,
         radius: 20,
         child: Container(
-            child: (contact.name ?? '').isEmpty
+            child: name == null
                 ? Center(child: Icon(Icons.account_circle, size: 40, color: Colors.grey[50]))
-                : Text(
-                    contact.name![0],
+                : name[0].text(
                     style: avatarStyle,
                     overflow: TextOverflow.ellipsis,
                   )),
@@ -30,10 +32,7 @@ class ContactTile extends StatelessWidget {
       title: contact.description.toString().text(
             overflow: TextOverflow.ellipsis,
           ),
-      subtitle: Text(
-        ('${contact.name ?? ' '} ${contact.phone}').trim(),
-        overflow: TextOverflow.ellipsis,
-      ),
+      subtitle: full.text(overflow: TextOverflow.ellipsis),
       tileColor: bgColor,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -45,8 +44,7 @@ class ContactTile extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.phone),
             onPressed: () {
-              final phone = contact.phone;
-              GlobalLauncher.launch('tel:${(phone.length == 8 ? '021' : '') + phone}');
+              GlobalLauncher.launch("tel:$phoneNumber + phone}");
             },
           )
         ],

@@ -7,7 +7,6 @@ import 'package:mimir/home/init.dart';
 import 'package:mimir/migration/migrations.dart';
 import 'package:mimir/module/symbol.dart';
 import 'package:mimir/session/edu_session.dart';
-import 'package:mimir/session/kite_session.dart';
 import 'package:mimir/settings/symbol.dart';
 import 'package:mimir/storage/init.dart';
 import 'package:mimir/util/logger.dart';
@@ -74,11 +73,6 @@ class Initializer {
       ssoSession: Global.ssoSession,
     );
 
-    final kiteSession = KiteSession(
-      Global.dio,
-      Kv.jwt,
-    );
-
     final sharedEduSession = EduSession(
       Global.ssoSession,
     );
@@ -124,11 +118,6 @@ class Initializer {
     );
     ElectricityBillInit.init(
       electricityBox: HiveBoxInit.kv,
-    );
-
-    await YellowPagesInit.init(
-      kiteSession: kiteSession,
-      contactDataBox: HiveBoxInit.contactSetting,
     );
   }
 }

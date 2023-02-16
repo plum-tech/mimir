@@ -12,7 +12,6 @@ class HiveAdapter {
   HiveAdapter._();
 
   static void registerAll() {
-    ~ContactDataAdapter();
     ~CourseAdapter();
     ~FTypeAdapter();
     ~BalanceAdapter();

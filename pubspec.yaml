@@ -95,7 +95,6 @@ dependencies:
   flutter_staggered_grid_view: ^0.6.2
   cached_network_image: ^3.2.1
   flutter_easyloading: ^3.0.5
-  photo_view: ^0.14.0
   animated_button_bar: ^0.0.2
 
   # Utils
@@ -118,7 +117,6 @@ dependencies:
   markdown: ^6.0.1
   event_bus: ^2.0.0
   collection: ^1.16.0
-  flutter_shake_animated: ^0.0.5
   rnd: ^0.2.0
   animated_size_and_fade: ^3.0.0
   unicons: ^2.1.0
@@ -157,7 +155,6 @@ flutter:
     - assets/
     - assets/common/
     - assets/home/
-    - assets/welcome/
     - assets/connectivity/
     - assets/report_temp/
     - assets/fonts/
@@ -167,7 +164,8 @@ flutter:
     - assets/edu_email/
     - assets/scanner/
     - assets/scanner/beep.mp3
-    - assets/roomlist.json
+    - assets/yellow_pages.json
+    - assets/room_list.json
     - assets/webview/
     - assets/l10n/
 

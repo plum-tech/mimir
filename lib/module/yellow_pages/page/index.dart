@@ -1,8 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/contact.dart';
-import '../init.dart';
 import '../using.dart';
 import 'list.dart';
 import 'search.dart';
@@ -18,18 +20,14 @@ class _YellowPagesPageState extends State<YellowPagesPage> {
   List<ContactData>? _contacts;
 
   Future<List<ContactData>> _fetchContactList() async {
-    final service = YellowPagesInit.contactRemoteDao;
-    final contacts = await service.getAllContacts();
-
-    YellowPagesInit.contactStorageDao.clear();
-    YellowPagesInit.contactStorageDao.addAll(contacts);
-    return contacts;
+    String jsonData = await rootBundle.loadString("assets/yellow_pages.json");
+    List list = await jsonDecode(jsonData);
+    return list.cast<ContactData>();
   }
 
   @override
   void initState() {
     super.initState();
-    _contacts = YellowPagesInit.contactStorageDao.getAllContacts();
     _fetchContactList().then((value) {
       if (!mounted) return;
       setState(() {
@@ -47,9 +45,9 @@ class _YellowPagesPageState extends State<YellowPagesPage> {
         actions: [
           if (contacts != null)
             IconButton(
-                onPressed: () => showSearch(context: context, delegate: Search(contacts)),
-                icon: const Icon(Icons.search)),
-          _buildRefreshButton(),
+              onPressed: () => showSearch(context: context, delegate: Search(contacts)),
+              icon: const Icon(Icons.search),
+            ),
         ],
       ),
       body: context.isPortrait ? buildBodyPortrait(context) : buildBodyLandscape(context),
@@ -72,20 +70,5 @@ class _YellowPagesPageState extends State<YellowPagesPage> {
     } else {
       return NavigationContactList(contacts);
     }
-  }
-
-  Widget _buildRefreshButton() {
-    return IconButton(
-      tooltip: i18n.refresh,
-      icon: const Icon(Icons.refresh),
-      onPressed: () {
-        _fetchContactList().then((value) {
-          if (!mounted) return;
-          setState(() {
-            _contacts = value;
-          });
-        });
-      },
-    );
   }
 }

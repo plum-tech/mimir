@@ -10,13 +10,13 @@ import 'dio_common.dart';
 /// 应网办登录地址, POST 请求
 const String _officeLoginUrl = 'https://xgfy.sit.edu.cn/unifri-flow/login';
 
-class OfficeSession extends ISession {
+class ApplicationSession extends ISession {
   bool isLogin = false;
   String? username;
   String? jwtToken;
   final Dio dio;
 
-  OfficeSession({
+  ApplicationSession({
     required this.dio,
   });
 

@@ -1,7 +1,6 @@
 export 'package:mimir/design/adaptive/adaptive.dart';
 export 'package:mimir/design/animation/animated.dart';
 export 'package:mimir/design/animation/livelist.dart';
-export 'package:mimir/design/animation/shake.dart';
 export 'package:mimir/design/colors.dart';
 export 'package:mimir/design/page/common.dart';
 export 'package:mimir/design/widgets/button.dart';

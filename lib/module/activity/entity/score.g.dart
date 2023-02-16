@@ -8,7 +8,7 @@ part of 'score.dart';
 
 class ScScoreSummaryAdapter extends TypeAdapter<ScScoreSummary> {
   @override
-  final int typeId = 18;
+  final int typeId = 13;
 
   @override
   ScScoreSummary read(BinaryReader reader) {
@@ -57,7 +57,7 @@ class ScScoreSummaryAdapter extends TypeAdapter<ScScoreSummary> {
 
 class ScScoreItemAdapter extends TypeAdapter<ScScoreItem> {
   @override
-  final int typeId = 20;
+  final int typeId = 15;
 
   @override
   ScScoreItem read(BinaryReader reader) {
@@ -97,7 +97,7 @@ class ScScoreItemAdapter extends TypeAdapter<ScScoreItem> {
 
 class ScActivityApplicationAdapter extends TypeAdapter<ScActivityApplication> {
   @override
-  final int typeId = 19;
+  final int typeId = 14;
 
   @override
   ScActivityApplication read(BinaryReader reader) {

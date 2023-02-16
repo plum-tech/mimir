@@ -8,7 +8,7 @@ part of 'result.dart';
 
 class ExamResultAdapter extends TypeAdapter<ExamResult> {
   @override
-  final int typeId = 39;
+  final int typeId = 34;
 
   @override
   ExamResult read(BinaryReader reader) {
@@ -63,7 +63,7 @@ class ExamResultAdapter extends TypeAdapter<ExamResult> {
 
 class ExamResultDetailAdapter extends TypeAdapter<ExamResultDetail> {
   @override
-  final int typeId = 40;
+  final int typeId = 35;
 
   @override
   ExamResultDetail read(BinaryReader reader) {
@@ -130,6 +130,6 @@ Map<String, dynamic> _$ExamResultToJson(ExamResult instance) =>
 
 const _$SemesterEnumMap = {
   Semester.all: 'all',
-  Semester.firstTerm: 'firstTerm',
-  Semester.secondTerm: 'secondTerm',
+  Semester.term1st: 'term1st',
+  Semester.term2rd: 'term2rd',
 };

@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
-import 'package:mimir/session/kite_session.dart';
 
 import 'search/entity/search_history.dart';
 import 'search/init.dart';

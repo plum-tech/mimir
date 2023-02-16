@@ -21,7 +21,6 @@ class _Page {
   static const bill = 0;
   static const search = 1;
 }
-
 // For now, we can't use AdaptiveUI.
 class _ElectricityBillPageState extends State<ElectricityBillPage> {
   /// elevated the `room` to share the state
@@ -36,7 +35,7 @@ class _ElectricityBillPageState extends State<ElectricityBillPage> {
   int curNavigation = _Page.bill;
 
   Future<List> getRoomNumberList() async {
-    String jsonData = await rootBundle.loadString("assets/roomlist.json");
+    String jsonData = await rootBundle.loadString("assets/room_list.json");
     List list = await jsonDecode(jsonData);
     return list;
   }

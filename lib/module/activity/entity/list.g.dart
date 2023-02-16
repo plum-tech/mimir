@@ -8,7 +8,7 @@ part of 'list.dart';
 
 class ActivityAdapter extends TypeAdapter<Activity> {
   @override
-  final int typeId = 17;
+  final int typeId = 12;
 
   @override
   Activity read(BinaryReader reader) {
@@ -57,7 +57,7 @@ class ActivityAdapter extends TypeAdapter<Activity> {
 
 class ActivityTypeAdapter extends TypeAdapter<ActivityType> {
   @override
-  final int typeId = 21;
+  final int typeId = 16;
 
   @override
   ActivityType read(BinaryReader reader) {

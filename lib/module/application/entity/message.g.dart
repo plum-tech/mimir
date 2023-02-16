@@ -8,7 +8,7 @@ part of 'message.dart';
 
 class ApplicationMsgCountAdapter extends TypeAdapter<ApplicationMsgCount> {
   @override
-  final int typeId = 33;
+  final int typeId = 28;
 
   @override
   ApplicationMsgCount read(BinaryReader reader) {
@@ -48,7 +48,7 @@ class ApplicationMsgCountAdapter extends TypeAdapter<ApplicationMsgCount> {
 
 class ApplicationMsgAdapter extends TypeAdapter<ApplicationMsg> {
   @override
-  final int typeId = 31;
+  final int typeId = 26;
 
   @override
   ApplicationMsg read(BinaryReader reader) {
@@ -94,7 +94,7 @@ class ApplicationMsgAdapter extends TypeAdapter<ApplicationMsg> {
 
 class ApplicationMsgPageAdapter extends TypeAdapter<ApplicationMsgPage> {
   @override
-  final int typeId = 32;
+  final int typeId = 27;
 
   @override
   ApplicationMsgPage read(BinaryReader reader) {
@@ -137,7 +137,7 @@ class ApplicationMsgPageAdapter extends TypeAdapter<ApplicationMsgPage> {
 
 class ApplicationMessageTypeAdapter extends TypeAdapter<MessageType> {
   @override
-  final int typeId = 34;
+  final int typeId = 29;
 
   @override
   MessageType read(BinaryReader reader) {
