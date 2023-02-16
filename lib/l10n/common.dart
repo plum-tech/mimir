@@ -14,6 +14,7 @@ mixin CommonI18nMixin {
   String get close => "close".tr();
 
   String get submit => "submit".tr();
+
   String get cancel => "cancel".tr();
 }
 
@@ -23,6 +24,12 @@ class NetworkI18n {
   static const _ns = "network";
 
   String get error => "$_ns.error".tr();
+
+  String get connectionTimeoutError => "$_ns.connectionTimeoutError".tr();
+
+  String get connectionTimeoutErrorDesc => "$_ns.connectionTimeoutErrorDesc".tr();
+
+  String get openToolBtn => "$_ns.openToolBtn".tr();
 
   String get noAccessTip => "$_ns.noAccessTip".tr();
 }

@@ -7,12 +7,17 @@ import 'package:dio/dio.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:mimir/credential/dao/credential.dart';
+import 'package:mimir/design/symbol.dart';
+import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/global/cookie_init.dart';
 import 'package:mimir/global/dio_initializer.dart';
-import 'package:mimir/module/activity/using.dart';
 import 'package:mimir/route.dart';
+import 'package:mimir/session/sso/sso_session.dart';
+import 'package:mimir/storage/dao/auth.dart';
 
+import 'i18n.dart';
 import '../widgets/captcha_box.dart';
 
 class GlobalConfig {
@@ -55,9 +60,9 @@ class Global {
       inSsoErrorDialog = true;
       context
           .showRequest(
-              title: i18n.networkConnectionTimeoutError,
-              desc: i18n.networkConnectionTimeoutErrorDesc,
-              yes: i18n.openNetworkToolBtn,
+              title: i18n.network.connectionTimeoutError,
+              desc: i18n.network.connectionTimeoutErrorDesc,
+              yes: i18n.network.openToolBtn,
               no: i18n.cancel)
           .then((confirm) {
         if (confirm == true) Navigator.of(context).pushNamed(RouteTable.networkTool);

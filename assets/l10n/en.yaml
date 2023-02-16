@@ -25,16 +25,16 @@ activity:
   tags: Tags
   undertaker: Undertaker
 credential:
-  account:
-  oaPwd:
+  account: Account
+  oaPwd: OA Password
   loginPwdHint:
   loginLoginAccountHint:
   formatError:
   loginFailedWarn:
-  relogin:
+  relogin: Re-login
+  reloginRequestDesc: Your account or password is incorrect, do you want to log in again?
   loginLoginBtn:
-  accountOrPwdIncorrectTip:
-  accountOrPwdIncorrectTip:
+  accountOrPwdIncorrectTip: The account or password is incorrect. Please check them and try again.
   validateInputAccountPwdRequest:
   unauthorizedTip:
     title: Require Login
@@ -42,7 +42,121 @@ credential:
     neverLoggedInTip: You have to login to perform this.
 network:
   error: Network Error
+  connectionTimeoutError: Network Timeout
+  connectionTimeoutErrorDesc: "This function requires access to the campus network. NOTE: It can also occur when the school server crashes or is down for maintenance."
+  openToolBtn: Open Network Tool
   noAccessTip: Unable to access network. Please check network settings on your device, and try again.
+  checker:
+    connectedBtn: Continue
+    connectingBtn: Check...
+    disconnectedBtn: Retry
+    noneBtn: Check My Connection
+  status:
+    connected: Right ! You have connected to campus network !
+    connecting: It will take a few seconds, please ensure you have turned on the network on your device.
+    disconnected: Oops ! You can't access the campus network. Please check your network settings or use Easy Connect, and try again.
+    none: You need the access to campus network to continue. Let's check it now.
+  connectFailedError": Unable to connect to campus network. Troubleshooting:\n1. Attempt to connect to the school's Wi-Fi, \"i-SIT\",\"i-SIT-1x\" or \"eduroam\".\n2. Attempt to launch \"EasyConnect\" VPN to connect to School.\n3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.\nIf they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
+  connectedByProxy: Connected to campus network by Http proxy.
+  connectedByVpn: Connected to campus network by VPN.
+  connectedByWlan: Connected to campus network by WLAN.
+  openWlanSettingsBtn: Open WLAN settings
+settings:
+  title: Settings
+  campus:
+    title: Your Campus
+    desc: Every campus has a different timetable
+  changeOaPwd:
+    name: Change OA Password
+    desc: Change the OA password used for logging in Kite
+  clearCache:
+    name: Clear Cache
+    desc: Clear the offline cache made by Kite during use.
+    request: Confirm to clear the cache? To reload them, you need connect to campus network again.
+  darkMode:
+    name: Brightness
+    dark: Dark Mode
+    light: Light Mode
+    followSystem: Following System
+  detailedXcpDialog:
+    name: Enable detailed exception dialog
+    desc: Detailed stacktrace will be shown
+  httpProxy:
+    name: Enable Http Proxy
+    desc: Connect to the campus network by Http proxy
+    global: Use as global proxy
+    globalDesc: For debugging, exclude Webview
+    proxyAddress: Proxy Address
+  Language:
+    name: Language
+  localStorage:
+    name: Local Storage
+    desc: Manage storage on your device.
+  reload:
+    name: Reload
+    desc: Re-initialize all modules
+  TestConnect2School:
+    name: Test Connectivity
+    desc: Test connect with school
+  TestLoginKite:
+    name: Test Login Kite
+    desc: Validate your Kite account and OA password
+  wipeData:
+    name: Wipe Data & Log out
+    desc: Wipe all data made by Kite and log out.
+    request: Wipe ALL Data
+    requestDesc: ALL data, such as login credentials and timetable imported, except webview cache, will be wiped permanently.
+localStorage:
+  title: Local Storage
+  selectBoxTip: Please select a box first.
+personalization:
+  themeColor: Theme Color
+  wallpaper:
+    title: Wallpaper
+    desc: Customize the homepage wallpaper
+ftype:
+  activity:
+    name: Activities
+    desc: The latest Second Class activities
+  application:
+    name: Application
+    desc: What should I prepare for applications?
+  eduEmail:
+    name: Edu Email
+    desc: Check your educational email
+  elecBill:
+    name: Electricity Bill
+    desc: Dormitory balance and ⚡ history
+  examArr:
+    name: Exam Arrangement
+    desc: Recent exam arrangement
+  examResult:
+    name: Exam Result
+    desc: Don't stop until you're proud
+  expense:
+    name: Expense Tracker
+    desc: School card shopping history
+  library:
+    name: Library
+    desc: Reading is thinking
+  oaAnnouncement:
+    name: OA Announcement
+    desc: School announcements
+  scanner:
+    name: Scan
+    desc: Scan a QR code
+  separator:
+    name: Separator
+    desc: For grouping functions
+  timetable:
+    name: Timetable
+    desc: School timetable
+  yellowPages:
+    name: Yellow Pages
+    desc: Contact school
+  reportTemp:
+    name: Report Temperature
+    desc: Don't forgor !
 open: Open
 confirm: Confirm
 notNow: Not Now
