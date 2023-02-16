@@ -41,11 +41,11 @@ class _ExamCardState extends State<ExamCard> {
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           columnWidths: const {0: FlexColumnWidth(4), 1: FlexColumnWidth(5)},
           children: [
-            buildRow('timetable/campus.png', i18n.examLocation, place),
-            buildRow('timetable/courseId.png', i18n.examSeatNumber, '$seatNumber'),
-            buildRow('timetable/day.png', i18n.examStartTime, strStartTime),
-            buildRow('timetable/day.png', i18n.examEndTime, strEndTime),
-            buildRow('', i18n.examIsRetake, isSecondExam),
+            buildRow('timetable/campus.png', i18n.location, place),
+            buildRow('timetable/courseId.png', i18n.seatNumber, '$seatNumber'),
+            buildRow('timetable/day.png', i18n.startTime, strStartTime),
+            buildRow('timetable/day.png', i18n.endTime, strEndTime),
+            buildRow('', i18n.isRetake, isSecondExam),
           ],
         )
       ],

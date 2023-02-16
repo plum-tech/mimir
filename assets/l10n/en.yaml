@@ -122,6 +122,15 @@ eduEmail:
   noSubject: No Subject
   pluralSenderTailing: ...
   text: Text
+examArr:
+  endTime: End Time
+  isRetake: Is Retake
+  location: Location
+  noExamThisSemester: No exam in this semester.
+  resultBePatientLabel: Please be patient :)
+  resultNoResult: No result record
+  seatNumber: Seat No.
+  startTime: Start Time
 expense:
   type:
     consume: Consume

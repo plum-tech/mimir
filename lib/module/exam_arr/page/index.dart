@@ -37,10 +37,10 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
   @override
   Widget build(BuildContext context) {
     if (!Auth.hasLoggedIn) {
-      return UnauthorizedTipPage(title: i18n.ftype_examArr.text());
+      return UnauthorizedTipPage(title: FType.examArr.l10nName().text());
     } else {
       return Scaffold(
-          appBar: AppBar(title: i18n.ftype_examArr.text()),
+          appBar: AppBar(title: FType.examArr.l10nName().text()),
           body: [
             buildSemesterSelector(),
             buildExamEntries(context).expanded(),
@@ -76,7 +76,7 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
     if (exams.isEmpty) {
       return LeavingBlank.svgAssets(
         assetName: "assets/common/not-found.svg",
-        desc: i18n.examNoExamThisSemester,
+        desc: i18n.noExamThisSemester,
         width: 240,
         height: 240,
       );
