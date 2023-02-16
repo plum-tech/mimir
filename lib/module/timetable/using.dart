@@ -11,3 +11,6 @@ export '../shared/storage.dart';
 export '../shared/widgets/school.dart';
 export '../shared/util.dart';
 export '../shared/mimir.dart';
+export 'package:mimir/design/page/connectivity.dart';
+
+export 'i18n.dart';

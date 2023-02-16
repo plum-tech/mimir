@@ -27,6 +27,8 @@ mixin CommonI18nMixin {
 
   String get clear => "clear".tr();
 
+  String get save => "save".tr();
+
   String get continue$ => "continue".tr();
 
   String get unknown => "unknown".tr();
@@ -46,6 +48,8 @@ mixin CommonI18nMixin {
   String get exceptionInfo => "exceptionInfo".tr();
 
   String get untitled => "untitled".tr();
+
+  String get congratulations => "congratulations".tr();
 }
 
 class CommonI18n with CommonI18nMixin {
@@ -99,4 +103,18 @@ class TimeI18n {
   String hourFormat(String hour) => "$ns.hourFormat".tr(args: [hour]);
 
   String minuteFormat(String minute) => "$ns.minuteFormat".tr(args: [minute]);
+}
+
+class CampusI10n {
+  const CampusI10n();
+
+  static const ns = "campus";
+
+  String get xuhui => "$ns.xuhui".tr();
+
+  String get xuhuiDistrict => "$ns.xuhuiDistrict".tr();
+
+  String get fengxian => "$ns.fengxian".tr();
+
+  String get fengxianDistrict => "$ns.fengxianDistrict".tr();
 }

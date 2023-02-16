@@ -57,8 +57,8 @@ class Sheet extends StatelessWidget {
 
   List<Widget> _buildItems(BuildContext context) {
     final fixedItems = [
-      _buildItem(context, 'courseId.png', i18n.timetableDetailCourseId(courseCode)),
-      _buildItem(context, 'dynClassId.png', i18n.timetableDetailClassId(classes[0].classCode)),
+      _buildItem(context, 'courseId.png', i18n.detail.courseId(courseCode)),
+      _buildItem(context, 'dynClassId.png', i18n.detail.classId(classes[0].classCode)),
       _buildItem(context, 'campus.png', classes[0].localizedCampusName()),
     ];
     final List<String> timeStrings = generateTimeString();

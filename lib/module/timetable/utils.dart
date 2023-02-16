@@ -1,5 +1,4 @@
 import 'package:ical/serializer.dart';
-import 'package:intl/intl.dart';
 import 'entity/entity.dart';
 import 'using.dart';
 
@@ -8,26 +7,6 @@ import 'entity/meta.dart';
 import 'dart:math';
 
 const maxWeekLength = 20;
-
-List<String> makeWeekdaysShortText() => [
-      i18n.weekdayShort1,
-      i18n.weekdayShort2,
-      i18n.weekdayShort3,
-      i18n.weekdayShort4,
-      i18n.weekdayShort5,
-      i18n.weekdayShort6,
-      i18n.weekdayShort7
-    ];
-
-List<String> makeWeekdaysText() => [
-      i18n.weekday1,
-      i18n.weekday2,
-      i18n.weekday3,
-      i18n.weekday4,
-      i18n.weekday5,
-      i18n.weekday6,
-      i18n.weekday7,
-    ];
 
 void _addEventForCourse(ICalendar cal, Course course, DateTime startDate, Duration? alarmBefore) {
   final timetable = getBuildingTimetable(course.campus, course.place);
@@ -107,6 +86,8 @@ enum WeekStep {
   final String indicator;
 
   const WeekStep(this.indicator);
+
+  String l10n() => "timetable.weekStep.$name".tr();
 
   static WeekStep by(String indicator) {
     switch (indicator) {

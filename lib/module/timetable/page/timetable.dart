@@ -8,7 +8,6 @@ import '../init.dart';
 import '../widgets/style.dart';
 import '../widgets/interface.dart';
 import '../using.dart';
-import '../utils.dart';
 import '../widgets/new_ui/timetable.dart' as new_ui;
 import '../widgets/classic_ui/timetable.dart' as classic_ui;
 
@@ -52,15 +51,14 @@ class _TimetablePageState extends State<TimetablePage> {
 
   @override
   Widget build(BuildContext context) {
-    Log.info('Timetable build');
     return Scaffold(
       appBar: AppBar(
-        title: $currentPos >>
-            (ctx, pos) =>
-                $displayMode >>
-                (ctx, mode) => mode == DisplayMode.weekly
-                    ? i18n.timetableWeekOrderedName(pos.week).text()
-                    : "${i18n.timetableWeekOrderedName(pos.week)} ${makeWeekdaysText()[(pos.day - 1) % 7]}".text(),
+        title: $displayMode >>
+            (ctx, mode) =>
+                $currentPos >>
+                (ctx, pos) => mode == DisplayMode.weekly
+                    ? i18n.weekOrderedName(number: pos.week).text()
+                    : "${i18n.weekOrderedName(number: pos.week)} ${i18n.weekday(index: pos.day - 1)}".text(),
         actions: [
           buildSwitchViewButton(context),
           buildMyTimetablesButton(context),
@@ -133,10 +131,10 @@ class _TimetablePageState extends State<TimetablePage> {
     final index2Go = await ctx.showPicker(
         count: 20,
         controller: controller,
-        ok: i18n.timetableJumpBtn,
+        ok: i18n.jump,
         okEnabled: (curSelected) => curSelected != initialIndex,
         actions: [
-          (ctx, curSelected) => i18n.timetableJumpFindTodayBtn.text().cupertinoBtn(
+          (ctx, curSelected) => i18n.findToday.text().cupertinoBtn(
               onPressed: (curSelected == todayIndex)
                   ? null
                   : () {
@@ -145,7 +143,7 @@ class _TimetablePageState extends State<TimetablePage> {
                     })
         ],
         make: (ctx, i) {
-          return Text(i18n.timetableWeekOrderedName(i + 1));
+          return Text(i18n.weekOrderedName(number: i + 1));
         });
     controller.dispose();
     if (index2Go != null && index2Go != initialIndex) {
@@ -167,16 +165,15 @@ class _TimetablePageState extends State<TimetablePage> {
     final todayPos = TimetablePosition.locate(timetable.startDate, DateTime.now());
     final todayWeekIndex = todayPos.week - 1;
     final todayDayIndex = todayPos.day - 1;
-    final weekdayNames = makeWeekdaysText();
     final indices2Go = await ctx.showDualPicker(
         countA: 20,
         countB: 7,
         controllerA: $week,
         controllerB: $day,
-        ok: i18n.timetableJumpBtn,
+        ok: i18n.jump,
         okEnabled: (weekSelected, daySelected) => weekSelected != initialWeekIndex || daySelected != initialDayIndex,
         actions: [
-          (ctx, week, day) => i18n.timetableJumpFindTodayBtn.text().cupertinoBtn(
+          (ctx, week, day) => i18n.findToday.text().cupertinoBtn(
               onPressed: (week == todayWeekIndex && day == todayDayIndex)
                   ? null
                   : () {
@@ -187,8 +184,8 @@ class _TimetablePageState extends State<TimetablePage> {
                           duration: const Duration(milliseconds: 500), curve: Curves.fastLinearToSlowEaseIn);
                     })
         ],
-        makeA: (ctx, i) => i18n.timetableWeekOrderedName(i + 1).text(),
-        makeB: (ctx, i) => weekdayNames[i].text());
+        makeA: (ctx, i) => i18n.weekOrderedName(number: i + 1).text(),
+        makeB: (ctx, i) => i18n.weekday(index: i).text());
     $week.dispose();
     $day.dispose();
     final week2Go = indices2Go?.a;

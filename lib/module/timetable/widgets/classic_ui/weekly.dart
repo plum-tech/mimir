@@ -266,9 +266,9 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
     final isThisWeek = widget.todayPos.week == (weekIndex + 1);
     final String desc;
     if (isThisWeek) {
-      desc = i18n.timetableFreeWeekIsThisWeekTip;
+      desc = i18n.freeTip.isThisWeekTip;
     } else {
-      desc = i18n.timetableFreeWeekTip;
+      desc = i18n.freeTip.weekTip;
     }
     return LeavingBlank(
       icon: Icons.free_cancellation_rounded,
@@ -282,7 +282,7 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
       onPressed: () async {
         await jumpToNearestWeekWithClass(ctx, weekIndex);
       },
-      child: i18n.timetableFindNearestWeekWithClassBtn.text(),
+      child: i18n.freeTip.findNearestWeekWithClass.text(),
     );
   }
 
@@ -307,7 +307,7 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
     // WHAT? NO CLASS IN THE WHOLE TERM?
     // Alright, let's congratulate them!
     if (!mounted) return;
-    await ctx.showTip(title: i18n.congratulations, desc: i18n.timetableFreeTermTip, ok: i18n.thanks);
+    await ctx.showTip(title: i18n.congratulations, desc: i18n.freeTip.termTip, ok: i18n.ok);
   }
 
   @override

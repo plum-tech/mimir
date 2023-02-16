@@ -124,18 +124,5 @@
   "validateInputAccountPwdRequest": "Please check the formats of account and password you entered.",
   "validateInputRequest": "Please check your input.",
   "warning": "Warning",
-  "wechat": "Wechat",
-  "welcomeFreshman": "I'm a Freshman",
-  "welcomeLogin": "Login",
-  "welcomeSlogan": "Excellent school life, from here.",
-  "congratulations": "Congratulations",
-  "newsNewPersonalizationSystemIsComingSoon": "Excuse me, a new personalization system is coming soon!",
-  "timetableUseOldSchoolPalette": "Use Old School Palette",
-  "timetableUseOldNewUI": "Use Timetable New-UI",
-  "thanks": "Thanks",
-  "timetableFindNearestWeekWithClassBtn": "Find a week with class",
-  "timetableFindNearestDayWithClassBtn": "Find a day with class",
-  "timetableWeek": "wk",
-  "timetableOddWeek": "odd wk",
-  "timetableEvenWeek": "even wk"
+  "wechat": "Wechat"
 }

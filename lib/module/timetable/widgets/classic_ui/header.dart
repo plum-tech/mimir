@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/module/timetable/utils.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../using.dart';
@@ -71,7 +70,6 @@ class _TimetableHeaderState extends State<TimetableHeader> {
 
   ///每天的列
   Widget buildDayNameHeader(int day) {
-    final dayHeaders = makeWeekdaysShortText();
     final date = convertWeekDayNumberToDate(week: widget.currentWeek, day: day, basedOn: widget.startDate);
     final dateString = '${date.month}/${date.day}';
     final onDayTap = widget.onDayTap;
@@ -83,7 +81,7 @@ class _TimetableHeaderState extends State<TimetableHeader> {
                   widget.onDayTap?.call(day);
                 }
               : null,
-          child: buildDayHeader(context, day, '${dayHeaders[day - 1]}\n$dateString')),
+          child: buildDayHeader(context, day, '${i18n.weekdayShort(index: day - 1)}\n$dateString')),
     );
   }
 }

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../../using.dart';
+import '../../using.dart' hide TextDirection;
 
 class TimetableHeader extends StatefulWidget {
-  final List<String> weekdayAbbr;
-
   /// 当前显示的周次
   final int currentWeek;
 
@@ -19,7 +17,6 @@ class TimetableHeader extends StatefulWidget {
 
   const TimetableHeader({
     super.key,
-    required this.weekdayAbbr,
     required this.currentWeek,
     required this.selectedDay,
     required this.startDate,
@@ -85,8 +82,9 @@ class _TimetableHeaderState extends State<TimetableHeader> {
   }
 
   Widget buildHeaderText(BuildContext ctx, int day, Color textColor) {
+    final weekdayHeader = i18n.weekdayShort(index: day - 1);
     final date = convertWeekDayNumberToDate(week: widget.currentWeek, day: day, basedOn: widget.startDate);
-    final name = '${widget.weekdayAbbr[day - 1]}\n${date.month}/${date.day}';
+    final name = '$weekdayHeader\n${date.month}/${date.day}';
 
     return LayoutBuilder(builder: (ctx, box) {
       final span = TextSpan(
@@ -101,7 +99,7 @@ class _TimetableHeaderState extends State<TimetableHeader> {
       final overflow = painter.size.width > box.maxWidth || painter.size.height > box.maxHeight;
       final String realText;
       if (overflow) {
-        realText = widget.weekdayAbbr[day - 1][0];
+        realText = weekdayHeader[0];
       } else {
         realText = name;
       }

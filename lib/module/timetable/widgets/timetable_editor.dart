@@ -41,7 +41,7 @@ class _TimetableEditorState extends State<TimetableEditor> {
           TextFormField(
             controller: _metaDescController,
             maxLines: 2,
-            decoration: InputDecoration(labelText: i18n.timetableDescFormTitle, border: const OutlineInputBorder()),
+            decoration: InputDecoration(labelText: i18n.detail.descFormTitle, border: const OutlineInputBorder()),
           )
         ]));
   }
@@ -55,12 +55,12 @@ class _TimetableEditorState extends State<TimetableEditor> {
         [
           Text(year),
           Text(semester),
-          Text(i18n.timetableImportStartDate(ctx.dateNum(widget.meta.startDate))),
+          Text(i18n.startDate(ctx.dateNum(widget.meta.startDate))),
         ].row(maa: MainAxisAlignment.spaceEvenly).padV(5),
         buildDescForm(ctx).padV(20),
       ].column(),
       [
-        buildButton(ctx, i18n.timetableImportSaveBtn, onPressed: () {
+        buildButton(ctx, i18n.save, onPressed: () {
           widget.meta.description = _metaDescController.text;
           Navigator.of(ctx).pop(true);
         }),

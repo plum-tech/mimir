@@ -51,13 +51,13 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   String getTip({required ImportStatus by}) {
     switch (by) {
       case ImportStatus.none:
-        return i18n.timetableSelectSemesterTip;
+        return i18n.import.selectSemesterTip;
       case ImportStatus.importing:
-        return i18n.timetableImportImporting;
+        return i18n.import.importing;
       case ImportStatus.end:
-        return i18n.timetableImportEndTip;
+        return i18n.import.endTip;
       default:
-        return i18n.timetableImportFailedTip;
+        return i18n.import.failedTip;
     }
   }
 
@@ -127,7 +127,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   }
 
   Future<bool> handleTimetableData(BuildContext ctx, SitTimetable timetable, int year, Semester semester) async {
-    final defaultName = i18n.timetableInfoDefaultName(semester.localized(), year, year + 1);
+    final defaultName = i18n.import.defaultName(semester.localized(), year.toString(), (year + 1).toString());
     final meta = TimetableMetaLegacy()
       ..name = defaultName
       ..schoolYear = year
@@ -181,7 +181,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
                 });
                 if (!mounted) return;
                 await context.showTip(
-                    title: i18n.timetableImportFailed, desc: i18n.timetableImportFailedDesc, ok: i18n.ok);
+                    title: i18n.import.failed, desc: i18n.import.failedDesc, ok: i18n.ok);
               } finally {
                 if (_status == ImportStatus.importing) {
                   setState(() {
@@ -193,7 +193,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       child: Padding(
           padding: const EdgeInsets.all(12),
           child: Text(
-            i18n.timetableImportImportBtn,
+            i18n.import.button,
             style: ctx.textTheme.titleLarge,
           )),
     );

@@ -32,7 +32,7 @@ class _MyTimetablePageState extends State<MyTimetablePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: i18n.timetableMineTitle.text(),
+        title: i18n.mine.title.text(),
         actions: [
           IconButton(
             onPressed: showStyleToggle,
@@ -69,7 +69,7 @@ class _MyTimetablePageState extends State<MyTimetablePage> {
                 return [
                   [
                     ListTile(
-                      title: i18n.timetableUseOldSchoolPalette.text(style: const TextStyle(fontSize: 15)),
+                      title: "Use Old School Palette".text(style: const TextStyle(fontSize: 15)),
                       trailing: $useOldSchool >>
                           (ctx, use) => CupertinoSwitch(
                               value: use,
@@ -78,7 +78,7 @@ class _MyTimetablePageState extends State<MyTimetablePage> {
                               }),
                     ),
                     ListTile(
-                      title: i18n.timetableUseOldNewUI.text(style: const TextStyle(fontSize: 15)),
+                      title: "Use Timetable New-UI".text(style: const TextStyle(fontSize: 15)),
                       trailing: $useNewUI >>
                           (ctx, use) => CupertinoSwitch(
                               value: use,
@@ -87,7 +87,7 @@ class _MyTimetablePageState extends State<MyTimetablePage> {
                               }),
                     ),
                   ].column(),
-                  i18n.newsNewPersonalizationSystemIsComingSoon
+                  "Excuse me, a new personalization system is coming soon!"
                       .text(style: const TextStyle(fontStyle: FontStyle.italic))
                 ].column(mas: MainAxisSize.min);
               },
@@ -101,7 +101,7 @@ class _MyTimetablePageState extends State<MyTimetablePage> {
   }
 
   Widget _buildEmptyBody(BuildContext ctx) {
-    return LeavingBlank(icon: Icons.calendar_month_rounded, desc: i18n.timetableMineEmptyTip, onIconTap: goImport);
+    return LeavingBlank(icon: Icons.calendar_month_rounded, desc: i18n.mine.emptyTip, onIconTap: goImport);
   }
 
   Widget buildTimetables(BuildContext ctx) {
@@ -145,7 +145,7 @@ class _TimetableEntryState extends State<TimetableEntry> {
               setState(() {});
             }*/
           },
-          child: i18n.timetableEdit.text(),
+          child: i18n.mine.edit.text(),
         ),
         if (!isSelected)
           CupertinoContextMenuAction(
@@ -155,7 +155,7 @@ class _TimetableEntryState extends State<TimetableEntry> {
               storage.currentTimetableId = timetable.id;
               setState(() {});
             },
-            child: i18n.timetableSetToDefault.text(),
+            child: i18n.mine.setToDefault.text(),
           ),
         CupertinoContextMenuAction(
           trailingIcon: CupertinoIcons.time,
@@ -167,7 +167,7 @@ class _TimetableEntryState extends State<TimetableEntry> {
               storage.addTableMeta(meta.name, meta);
             }*/
           },
-          child: i18n.timetableSetStartDate.text(),
+          child: i18n.edit.setStartDate.text(),
         ),
         CupertinoContextMenuAction(
           trailingIcon: CupertinoIcons.eye,
@@ -175,7 +175,7 @@ class _TimetableEntryState extends State<TimetableEntry> {
             Navigator.of(ctx).pop();
             Navigator.of(ctx).push(MaterialPageRoute(builder: (ctx) => TimetablePreviewPage(timetable: timetable)));
           },
-          child: i18n.timetablePreviewBtn.text(),
+          child: i18n.mine.preview.text(),
         ),
         CupertinoContextMenuAction(
           trailingIcon: CupertinoIcons.delete,
@@ -185,10 +185,10 @@ class _TimetableEntryState extends State<TimetableEntry> {
             await showDeleteTimetableRequest(ctx);
           },
           isDestructiveAction: true,
-          child: i18n.timetableDelete.text(),
+          child: i18n.mine.delete.text(),
         ),
       ],
-        builder: (ctx, animation) {
+      builder: (ctx, animation) {
         return item;
       },
     );
@@ -214,22 +214,16 @@ class _TimetableEntryState extends State<TimetableEntry> {
         if (timetable.description.isNotEmpty)
           timetable.description.text(style: bodyTextStyle).padAll(10).expanded()
         else
-          i18n.timetableNoDescPlaceholder
-              .text(style: bodyTextStyle?.copyWith(fontStyle: FontStyle.italic))
-              .padAll(10)
-              .expanded(),
+          i18n.mine.noDesc.text(style: bodyTextStyle?.copyWith(fontStyle: FontStyle.italic)).padAll(10).expanded(),
       ].row(maa: MainAxisAlignment.spaceBetween).padAll(10),
-      i18n
-          .timetableImportStartDate(ctx.dateNum(timetable.startDate))
-          .text(style: bodyTextStyle)
-          .padFromLTRB(20, 20, 20, 10),
+      i18n.startDate(ctx.dateNum(timetable.startDate)).text(style: bodyTextStyle).padFromLTRB(20, 20, 20, 10),
     ].column().scrolled().padAll(4).inCard(elevation: 5);
   }
 
   Future<void> showDeleteTimetableRequest(BuildContext ctx) async {
     final confirm = await ctx.showRequest(
-        title: i18n.timetableDeleteRequest,
-        desc: i18n.timetableDeleteRequestDesc,
+        title: i18n.mine.deleteRequest,
+        desc: i18n.mine.deleteRequestDesc,
         yes: i18n.delete,
         no: i18n.cancel,
         highlight: true);

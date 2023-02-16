@@ -112,16 +112,16 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
     final String tip;
     switch (status) {
       case ConnectivityStatus.none:
-        tip = widget.initialDesc ?? i18n.status.none;
+        tip = widget.initialDesc ?? _i18n.status.none;
         break;
       case ConnectivityStatus.connecting:
-        tip = i18n.status.connecting;
+        tip = _i18n.status.connecting;
         break;
       case ConnectivityStatus.connected:
-        tip = i18n.status.connected;
+        tip = _i18n.status.connected;
         break;
       case ConnectivityStatus.disconnected:
-        tip = i18n.status.disconnected;
+        tip = _i18n.status.disconnected;
         break;
     }
     return tip.text(key: ValueKey(tip), style: s);
@@ -132,18 +132,18 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
     VoidCallback? onTap;
     switch (status) {
       case ConnectivityStatus.none:
-        tip = i18n.button.none;
+        tip = _i18n.button.none;
         onTap = startCheck;
         break;
       case ConnectivityStatus.connecting:
-        tip = i18n.button.connecting;
+        tip = _i18n.button.connecting;
         break;
       case ConnectivityStatus.connected:
-        tip = i18n.button.connected;
+        tip = _i18n.button.connected;
         onTap = widget.onConnected;
         break;
       case ConnectivityStatus.disconnected:
-        tip = i18n.button.disconnected;
+        tip = _i18n.button.disconnected;
         onTap = startCheck;
         break;
     }
@@ -183,7 +183,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
   }
 }
 
-const i18n = _NetworkCheckerI18n();
+const _i18n = _NetworkCheckerI18n();
 
 class _NetworkCheckerI18n {
   const _NetworkCheckerI18n();

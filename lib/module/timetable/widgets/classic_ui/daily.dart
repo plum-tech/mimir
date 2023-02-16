@@ -232,9 +232,9 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
     final isToday = todayPos.week == weekIndex + 1 && todayPos.day == dayIndex + 1;
     final String desc;
     if (isToday) {
-      desc = i18n.timetableFreeDayIsTodayTip;
+      desc = i18n.freeTip.isTodayTip;
     } else {
-      desc = i18n.timetableFreeDayTip;
+      desc = i18n.freeTip.dayTip;
     }
     return LeavingBlank(
       icon: Icons.free_cancellation_rounded,
@@ -248,7 +248,7 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
       onPressed: () async {
         await jumpToNearestDayWithClass(ctx, weekIndex, dayIndex);
       },
-      child: i18n.timetableFindNearestDayWithClassBtn.text(),
+      child: i18n.freeTip.findNearestDayWithClass.text(),
     );
   }
 
@@ -285,7 +285,7 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
     // WHAT? NO CLASS IN THE WHOLE TERM?
     // Alright, let's congratulate them!
     if (!mounted) return;
-    await ctx.showTip(title: i18n.congratulations, desc: i18n.timetableFreeTermTip, ok: i18n.thanks);
+    await ctx.showTip(title: i18n.congratulations, desc: i18n.freeTip.termTip, ok: i18n.ok);
   }
 
   @override

@@ -47,12 +47,12 @@ class _MetaEditorState extends State<MetaEditor> {
           _wrap(TextFormField(
             controller: _nameController,
             maxLines: 1,
-            decoration: InputDecoration(labelText: i18n.timetableNameFormTitle, border: const OutlineInputBorder()),
+            decoration: InputDecoration(labelText: i18n.detail.nameFormTitle, border: const OutlineInputBorder()),
           )),
           _wrap(TextFormField(
             controller: _descController,
             maxLines: 2,
-            decoration: InputDecoration(labelText: i18n.timetableDescFormTitle, border: const OutlineInputBorder()),
+            decoration: InputDecoration(labelText: i18n.detail.descFormTitle, border: const OutlineInputBorder()),
           )),
         ]));
   }
@@ -64,24 +64,24 @@ class _MetaEditorState extends State<MetaEditor> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(i18n.timetableImportInfoTitle, style: ctx.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
+          Text(i18n.import.timetableInfo, style: ctx.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
           buildDescForm(ctx),
           ValueListenableBuilder(
               valueListenable: _selectedDate,
               builder: (ctx, value, child) {
-                return Text(i18n.timetableImportStartDate(ctx.dateNum(value)));
+                return Text(i18n.startDate(ctx.dateNum(value)));
               }),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              buildButton(ctx, i18n.timetableImportSaveBtn, onPressed: () {
+              buildButton(ctx, i18n.save, onPressed: () {
                 final meta = widget.meta;
                 meta.name = _nameController.text;
                 meta.description = _descController.text;
                 meta.startDate = _selectedDate.value;
                 Navigator.of(ctx).pop(true);
               }),
-              buildButton(ctx, i18n.timetableSetStartDate, onPressed: () async {
+              buildButton(ctx, i18n.edit.setStartDate, onPressed: () async {
                 final date = await pickDate(context, initial: _selectedDate.value);
                 if (date != null) {
                   _selectedDate.value = DateTime(date.year, date.month, date.day, 8, 20);

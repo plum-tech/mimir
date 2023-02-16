@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../../../../design/page/connectivity.dart';
 import '../../init.dart';
 import '../../using.dart';
 import 'import.dart';
@@ -25,7 +24,7 @@ class _ImportTimetableIndexPageState extends State<ImportTimetableIndexPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: i18n.timetableImportTitle.text(),
+        title: i18n.import.title.text(),
       ),
       body: buildBody(context).animatedSwitched(),
     );
@@ -53,7 +52,7 @@ class _ImportTimetableIndexPageState extends State<ImportTimetableIndexPage> {
   Widget buildConnectivityChecker(BuildContext ctx, Key? key) {
     return ConnectivityChecker(
       key: key,
-      initialDesc: i18n.timetableImportConnectivityCheckerDesc,
+      initialDesc: i18n.import.connectivityCheckerDesc,
       check: () {
         return TimetableInit.network.checkConnectivity();
       },

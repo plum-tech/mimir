@@ -280,32 +280,35 @@ timetable:
     preview: Preview
     deleteRequest: Confirm to delete?
     deleteRequestDesc: You will lose this timetable permanently.
-    emptyTip: Let's import a new timetable !
+    emptyTip: Let's import a new timetable!
+    setToDefault: Set to Default
+    noDesc: No description...
   detail:
-    descFormTitle": Description
-    detailClassId": Class Code {classId}
-    detailCourseId": Course Code {courseId}
+    descFormTitle: Description
+    nameFormTitle: Name
+    classId: Class Code {}
+    courseId: Course Code {}
   import:
     title: Import Timetable
-    ConnectivityCheckerDesc: You need access campus network before importing a new Timetable. Let's check it.
+    button: Try Import
+    connectivityCheckerDesc: You need access campus network before importing a new Timetable. Let's check it.
+    selectSemesterTip: Please select a semester first.
     endTip: Please enter the info.
     failed: Import Error
     failedDesc: Can't import the timetable, please try again.
     failedTip: Failed to import, please try again.
-    importBtn: Try Import
     importing: Trying to fetch the timetable...
-    infoTitle: Timetable Info
-    saveBtn: Save
-    startDate: "Start with: {date}"
+    timetableInfo: Timetable Info
+    defaultName: { semester }, { yearStart }-{yearEnd} Timetable
   edit:
     setStartDate: Set Start Date
-    setToDefault: Set to Default
-  infoDefaultName: { semester }, { yearStart }-{yearEnd} Timetable
-  jumpBtn: Jump
-  jumpFindTodayBtn: Find Today
-  nameFormTitle: Name
-  noDescPlaceholder: No description...
-  selectSemesterTip: Please select a semester first.
+  weekStep:
+    all: wk
+    odd: odd wk
+    even: even wk
+  jump: Jump
+  findToday: findToday
+  startDate: "Start with: {}"
   weekOrderedName: Week {week}
   freeTip:
     dayTip: It's a free day!
@@ -313,6 +316,8 @@ timetable:
     weekTip: Wow, no class this week!
     isThisWeekTip: Enjoy this week! 🎉
     termTip: Cool! You even have a free term! 🎉🎉🎉
+    findNearestWeekWithClass: Find a week with class
+    findNearestDayWithClass: Find a day with class
 scanner:
   barcodeNotRecognized: No Barcode
   barcodeRecognized: Barcode Recognized
@@ -329,20 +334,21 @@ reportTemp:
 yellowPages:
 
 weekday:
-  1: Monday
-  2: Tuesday
-  3: Wednesday
-  4: Thursday
-  5: Friday
-  6: Saturday
-  7: Sunday
-  short1: MON
-  short2: TUE
-  short3: WED
-  short4: THU
-  short5: FRI
-  short6: SAT
-  short7: SUN
+  0: Monday
+  1: Tuesday
+  2: Wednesday
+  3: Thursday
+  4: Friday
+  5: Saturday
+  6: Sunday
+weekdayShort:
+  0: MON
+  1: TUE
+  2: WED
+  3: THU
+  4: FRI
+  5: SAT
+  6: SUN
 campus:
   xuhui: Xuhui
   xuhuiDistrict: Xuhui District
@@ -381,3 +387,4 @@ notFound404: 404 Not Found
 warning: Warning
 exceptionInfo: Exception Info
 untitled: Untitled
+congratulations: Congratulations

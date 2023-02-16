@@ -68,10 +68,8 @@ class _TimetableViewerState extends State<TimetableViewer> {
   }
 
   Widget buildTableHeader(BuildContext ctx) {
-    final weekdayAbbr = makeWeekdaysShortText();
     return widget.$currentPos >>
         (ctx, cur) => TimetableHeader(
-            weekdayAbbr: weekdayAbbr,
             currentWeek: cur.week,
             selectedDay: cur.day,
             startDate: timetable.startDate,

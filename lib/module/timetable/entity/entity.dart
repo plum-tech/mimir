@@ -240,13 +240,13 @@ class SitCourse {
       switch (step) {
         case WeekStep.single:
         case WeekStep.all:
-          res.add("$number ${i18n.timetableWeek}");
+          res.add("$number ${step.l10n()}");
           break;
         case WeekStep.odd:
-          res.add("$number ${i18n.timetableOddWeek}");
+          res.add("$number ${step.l10n()}");
           break;
         case WeekStep.even:
-          res.add("$number ${i18n.timetableEvenWeek}");
+          res.add("$number ${step.l10n()}");
           break;
       }
     }
@@ -261,9 +261,9 @@ extension SitCourseEx on SitCourse {
 
   String localizedCampusName() {
     if (campus.contains("徐汇")) {
-      return i18n.xuhui;
+      return i18n.campus.xuhui;
     } else {
-      return i18n.fengxian;
+      return i18n.campus.fengxian;
     }
   }
 

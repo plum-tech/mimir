@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:rettulf/rettulf.dart';
 
 import '../entity/course.dart';
 import '../entity/entity.dart';
 import '../widgets/style.dart';
 import '../widgets/interface.dart';
-import '../using.dart';
 import '../widgets/new_ui/timetable.dart' as new_ui;
 import '../widgets/classic_ui/timetable.dart' as classic_ui;
 
@@ -29,8 +29,7 @@ class _TimetablePreviewPageState extends State<TimetablePreviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
-            '${i18n.timetablePreviewTitle} ${widget.timetable.name}',
+          title: widget.timetable.name.text(
             overflow: TextOverflow.ellipsis,
           ),
           actions: [
