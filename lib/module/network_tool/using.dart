@@ -6,4 +6,5 @@ export '../shared/networking.dart';
 export '../shared/storage.dart';
 export '../shared/util.dart';
 export '../shared/auth.dart';
+export '../login/i18n.dart' show LoginI18n;
 export 'i18n.dart';

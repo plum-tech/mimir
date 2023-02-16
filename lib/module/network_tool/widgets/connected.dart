@@ -27,8 +27,7 @@ class _ConnectedBlockState extends State<ConnectedBlock> {
         textAlign: TextAlign.center,
         style: style);
 
-    Widget buildConnectedByVpnBlock() =>
-        Text(i18n.connectedByVpn, textAlign: TextAlign.center, style: style);
+    Widget buildConnectedByVpnBlock() => Text(i18n.connectedByVpn, textAlign: TextAlign.center, style: style);
     Widget buildConnectedByWlanBlock() {
       return FutureBuilder(
         future: Network.checkStatus(),
@@ -39,7 +38,7 @@ class _ConnectedBlockState extends State<ConnectedBlock> {
             final data = snapshot.data;
             if (data is CheckStatusResult) {
               ip = data.ip;
-              studentId = data.uid ?? i18n.notLoggedIn;
+              studentId = data.uid ?? i18n.login.notLoggedIn;
             } else {
               ip = i18n.unknown;
               studentId = i18n.unknown;

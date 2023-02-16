@@ -249,6 +249,14 @@ settings:
 localStorage:
   title: Local Storage
   selectBoxTip: Please select a box first.
+oaAnnounce:
+  attachmentTip:
+    one: Attachment
+    other: Attachments
+  text: Text
+  downloadCompleted: Download Completed
+  publishTime: Publish Time
+  publishingDepartment: Department
 personalization:
   themeColor: Theme Color
   wallpaper:
@@ -351,3 +359,4 @@ unknown: Unknown
 failed: Failed
 download: Download
 fetching: Fetching
+downloading: Downloading

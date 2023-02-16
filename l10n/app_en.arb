@@ -32,7 +32,6 @@
   "dontShowThisAgainBtn": "Don't show again",
   "dormitory": "Dormitory",
   "download": "Download",
-  "downloadCompleted": "Download Completed",
   "downloadEasyConnectBtn": "Download EasyConnect",
   "downloading": "Downloading",
   "draft": "Draft",
@@ -104,19 +103,9 @@
   "nickName": "Name",
   "notEnterCaptchaError": "Captcha is empty.",
   "notFound404": "404 Not Found",
-  "oaAnnouncementAttachmentTip": "{count,plural, =1{Attachment} other{Attachments}}",
-  "@oaAnnouncementAttachmentTip": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "oaAnnouncementTextTitle": "Announcement Text",
   "processing": "Processing",
   "province": "Province",
-  "publishTime": "Publish Time",
-  "publishingDepartment": "Department",
   "personalizeTitle": "Personalize",
   "request": "Request",
   "roommate": "Roommate",

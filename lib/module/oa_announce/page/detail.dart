@@ -49,7 +49,7 @@ class _DetailPageState extends State<DetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: i18n.oaAnnouncementTextTitle.text(),
+        title: i18n.text.text(),
         actions: [
           IconButton(
             onPressed: () {
@@ -177,7 +177,7 @@ class _DetailPageState extends State<DetailPage> {
     ];
     if (detail.attachments.isNotEmpty) {
       widgets.add(const Divider());
-      widgets.add(Text(i18n.oaAnnouncementAttachmentTip(detail.attachments.length), style: titleStyle));
+      widgets.add(i18n.attachmentTip(detail.attachments.length).text(style: titleStyle));
       widgets.add(Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: detail.attachments.map((e) {

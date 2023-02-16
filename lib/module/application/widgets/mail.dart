@@ -13,7 +13,7 @@ class Mail extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(msg.name),
-      subtitle: Text('${i18n.applicationMailboxRecent}: ${msg.recentStep}'),
+      subtitle: Text('${i18n.mailbox.recent}: ${msg.recentStep}'),
       trailing: Text(msg.status),
       onTap: () {
         // 跳转到详情页面

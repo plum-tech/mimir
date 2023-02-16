@@ -1,9 +1,9 @@
 import 'using.dart';
 
-const i18n = _I18n();
+const i18n = LoginI18n();
 
-class _I18n with CommonI18nMixin {
-  const _I18n();
+class LoginI18n with CommonI18nMixin {
+  const LoginI18n();
 
   final network = const NetworkI18n();
   final credential = const CredentialI18n();

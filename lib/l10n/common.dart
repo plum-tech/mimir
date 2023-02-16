@@ -28,6 +28,10 @@ mixin CommonI18nMixin {
   String get download => "download".tr();
 
   String get fetching => "fetching".tr();
+
+  String get downloading => "downloading".tr();
+
+  String get author => "author".tr();
 }
 
 class NetworkI18n {
