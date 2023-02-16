@@ -39,7 +39,7 @@ class _MailPageState extends State<MailPage> {
     if (oaCredential != null) {
       title = oaCredential.account.toEmailAddress();
     } else {
-      title = i18n.eduEmailTitle;
+      title = i18n.title;
     }
     return Scaffold(
       appBar: AppBar(
@@ -115,7 +115,7 @@ class _MailPageState extends State<MailPage> {
                   EduEmailInit.mail.password = _controller.text;
                   setState(() => _index = indexEmailList);
                 },
-                child: i18n.continue_.text())
+                child: i18n.continue$.text())
           ]),
         ],
       ),

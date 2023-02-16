@@ -18,6 +18,8 @@ mixin CommonI18nMixin {
   String get cancel => "cancel".tr();
 
   String get back => "back".tr();
+
+  String get continue$ => "continue".tr();
 }
 
 class NetworkI18n {
