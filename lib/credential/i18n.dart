@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:mimir/l10n/common.dart';
 
-
 class CredentialI18n with CommonI18nMixin {
   const CredentialI18n();
 
@@ -14,6 +13,8 @@ class CredentialI18n with CommonI18nMixin {
   String get account => "account".tr();
 
   String get oaPwd => "oaPwd".tr();
+
+  String get reloginRequestDesc => "reloginRequestDesc".tr();
 
   String get relogin => "relogin".tr();
 

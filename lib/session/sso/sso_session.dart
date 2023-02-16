@@ -9,6 +9,7 @@ import 'package:mimir/global/global.dart';
 import 'package:mimir/module/login/using.dart';
 import 'package:mimir/session/dio_common.dart';
 import 'package:mimir/util/logger.dart';
+import 'package:mimir/widgets/captcha_box.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -238,9 +239,9 @@ class SsoSession with DioDownloaderMixin implements ISession {
         final ctx = Global.buildContext;
         if (ctx != null) {
           final confirm = await ctx.showRequest(
-            title: i18n.credentialError,
-            desc: i18n.reloginRequestDesc,
-            yes: i18n.relogin,
+            title: _i18n.credential.error,
+            desc: _i18n.credential.reloginRequestDesc,
+            yes: _i18n.credential.relogin,
             no: i18n.notNow,
             highlight: true,
           );
@@ -352,7 +353,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
         captcha = c;
       } else {
         // 用户未输入验证码
-        throw CredentialsInvalidException(msg: i18n.notEnterCaptchaError);
+        throw CredentialsInvalidException(msg: _i18n.captcha.emptyInputError);
       }
     }
     // 获取casTicket
@@ -424,4 +425,13 @@ class SsoSession with DioDownloaderMixin implements ISession {
     );
     return response.toMyResponse();
   }
+}
+
+const _i18n = _I18n();
+
+class _I18n {
+  const _I18n();
+
+  final captcha = const CaptchaI18n();
+  final credential = const CredentialI18n();
 }

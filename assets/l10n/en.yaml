@@ -82,6 +82,7 @@ application:
 captcha:
   title: Captcha
   enterHint: Please enter captcha
+  emptyInputError: Captcha is empty.
 credential:
   studentId: Student ID
   account: Account
@@ -89,6 +90,7 @@ credential:
   pwd: Password
   relogin: Re-login
   reloginRequestDesc: Your account or password is incorrect, do you want to log in again?
+  error: Credential Error
   unauthorizedTip:
     title: Require Login
     everLoggedInTip: Your account or password is incorrect, please try to login again.

@@ -64,14 +64,16 @@ class _CaptchaBoxState extends State<CaptchaBox> {
   }
 }
 
-const _i18n = _CaptchaI18n();
+const _i18n = CaptchaI18n();
 
-class _CaptchaI18n with CommonI18nMixin {
+class CaptchaI18n with CommonI18nMixin {
   static const ns = "captcha";
 
-  const _CaptchaI18n();
+  const CaptchaI18n();
 
   String get title => "$ns.title".tr();
 
   String get enterHint => "$ns.enterHint".tr();
+
+  String get emptyInputError => "$ns.emptyInputError".tr();
 }
