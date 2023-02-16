@@ -1,8 +1,9 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/credential/symbol.dart';
-import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/l10n/common.dart';
 import 'package:mimir/storage/init.dart';
 
 class GreetingWidget extends StatefulWidget {
@@ -68,8 +69,8 @@ class _GreetingWidgetState extends State<GreetingWidget> {
   }
 
   String _getCampusName() {
-    if (campus == 1) return i18n.fengxianDistrict;
-    return i18n.xuhuiDistrict;
+    if (campus == 1) return _i18n.campus.fengxianDistrict;
+    return _i18n.campus.xuhuiDistrict;
   }
 
   Widget buildAll(BuildContext context) {
@@ -77,24 +78,10 @@ class _GreetingWidgetState extends State<GreetingWidget> {
     final textStyleLarge = Theme.of(context).textTheme.headlineSmall;
     final days = studyDays;
     final List<Widget> sitDate;
-    if (days == null) {
-      sitDate = [
-        Text(i18n.greetingHeader0L1, style: textStyleSmall),
-      ];
-    } else {
-      if (days <= 0) {
-        sitDate = [
-          Text(i18n.greetingHeader0L1, style: textStyleSmall),
-          Text(i18n.greetingHeader0L2, style: textStyleLarge),
-        ];
-      } else {
-        sitDate = [
-          Text(i18n.greetingHeaderL1, style: textStyleSmall),
-          Text(i18n.greetingHeaderL2(yOrNo(i18n.greetingHeaderEnableIncrement) ? days + 1 : days),
-              style: textStyleLarge),
-        ];
-      }
-    }
+    sitDate = [
+      Text(_i18n.headerA, style: textStyleSmall),
+      Text(_i18n.headerB((days ?? 0) + 1), style: textStyleLarge),
+    ];
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -117,4 +104,18 @@ class _GreetingWidgetState extends State<GreetingWidget> {
       child: buildAll(context),
     );
   }
+}
+
+const _i18n = _I18n();
+
+class _I18n {
+  const _I18n();
+
+  static const ns = "greeting";
+
+  final campus = const CampusI10n();
+
+  String get headerA => "$ns.headerA".tr();
+
+  String headerB(int day) => "$ns.headerB".plural(day, args: [day.toString()]);
 }

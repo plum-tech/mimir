@@ -54,21 +54,6 @@
   "fullName": "Full Name",
   "gender": "Gender",
   "go": "Go",
-  "greetingHeader0L1": "Welcome! Have a nice day",
-  "greetingHeader0L2": "At SIT",
-  "greetingHeaderEnableIncrement": "n",
-  "greetingHeaderL1": "SIT has accompanied you",
-  "@greetingHeaderL1": {
-    "description": "The first line of greeting header"
-  },
-  "greetingHeaderL2": "{days,plural, =1{For 1 Day} other{For {days} Days}}",
-  "@greetingHeaderL2": {
-    "placeholders": {
-      "days": {
-        "type": "int"
-      }
-    }
-  },
   "homepage": "Homepage",
   "homepageCampusNetworkConnected": "Campus Network Available",
   "homepageCampusNetworkDisconnected": "Campus Network Disconnected",
