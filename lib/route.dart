@@ -19,7 +19,6 @@ class RouteTable {
   static const electricityBill = '/electricity_bill';
   static const reportTemp = '/report_temp';
   static const login = '/login';
-  static const welcome = '/welcome';
   static const expense = '/expense';
   static const examResult = '/exam_result';
   static const examResultEvaluation = '/exam_result/evaluation';
@@ -49,7 +48,6 @@ final defaultRouteTable = StaticRouteTable(
         : const LoginPage(
             disableOffline: false,
           ),
-    RouteTable.welcome: (context, args) => const WelcomePage(),
     RouteTable.expense: (context, args) => const ExpenseTrackerPage(),
     RouteTable.networkTool: (context, args) => const NetworkToolPage(),
     RouteTable.electricityBill: (context, args) => const ElectricityBillPage(),
@@ -95,7 +93,7 @@ final defaultRouteTable = StaticRouteTable(
   rootRoute: (context, table, args) {
     // The freshmen and OA users who ever logged in can directly land on the homepage.
     // While, the offline users have to click the `Offline Mode` button every time.
-    final routeName = Auth.lastOaAuthTime != null ? RouteTable.home : RouteTable.welcome;
+    final routeName = Auth.lastOaAuthTime != null ? RouteTable.home : RouteTable.login;
     return table.onGenerateRoute(routeName, args)(context);
   },
 );
