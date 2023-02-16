@@ -25,15 +25,25 @@ activity:
   tags: Tags
   undertaker: Undertaker
 credential:
+  login:
+    title: Welcome!
+    accountHint: Student ID/Work number
+    forgotPwdBtn: Forgot password?
+    loggedInTip: Logged in
+    loginBtn: Login
+    incorrectIDFormat: Incorrect ID format
+    offlineModeBtn: Offline Mode
+    pwdHint: Enter your password
+    failedWarn: Login Failed
+    btn: Login
+    credentialsValidatedTip: Account and password is correct
+  studentID: Student ID
   account: Account
   oaPwd: OA Password
-  loginPwdHint:
-  loginLoginAccountHint:
-  formatError:
-  loginFailedWarn:
+  pwd: Password
+  formatError: Format Error
   relogin: Re-login
   reloginRequestDesc: Your account or password is incorrect, do you want to log in again?
-  loginLoginBtn:
   accountOrPwdIncorrectTip: The account or password is incorrect. Please check them and try again.
   validateInputAccountPwdRequest:
   unauthorizedTip:
@@ -114,6 +124,110 @@ personalization:
   wallpaper:
     title: Wallpaper
     desc: Customize the homepage wallpaper
+timetable:
+  mine:
+    title: My Timetables
+    edit: Edit
+    delete: Delete
+    preview: Preview
+    deleteRequest: Confirm to delete?
+    deleteRequestDesc: You will lose this timetable permanently.
+    emptyTip: Let's import a new timetable !
+  detail:
+    descFormTitle": Description
+    detailClassId": Class Code {classId}
+    detailCourseId": Course Code {courseId}
+  import:
+    title: Import Timetable
+    ConnectivityCheckerDesc: You need access campus network before importing a new Timetable. Let's check it.
+    endTip: Please enter the info.
+    failed: Import Error
+    failedDesc: Can't import the timetable, please try again.
+    failedTip: Failed to import, please try again.
+    importBtn: Try Import
+    importing: Trying to fetch the timetable...
+    infoTitle: Timetable Info
+    saveBtn: Save
+    startDate: "Start with: {date}"
+  edit:
+    setStartDate: Set Start Date
+    setToDefault: Set to Default
+  infoDefaultName: {semester}, {yearStart}-{yearEnd} Timetable
+  jumpBtn: Jump
+  jumpFindTodayBtn: Find Today
+  nameFormTitle: Name
+  noDescPlaceholder: No description...
+  selectSemesterTip: Please select a semester first.
+  weekOrderedName: Week {week}
+  freeTip:
+    dayTip: It's a free day!
+    isTodayTip: Have a nice day! 🎉
+    weekTip: Wow, no class this week!
+    isThisWeekTip: Enjoy this week! 🎉
+    termTip: Cool! You even have a free term! 🎉🎉🎉
+scanner:
+  barcodeNotRecognized: No Barcode
+  barcodeRecognized: Barcode Recognized
+reportTemp:
+  abnormal: Abnormal
+  tempNoReportRecords: No report records
+  normal: Normal
+  reportedToday: Reported Today
+  unreportedToday: Unreported Today
+elecBill:
+  24hBill: Spent ¥{amount} last 24 hours
+  balance: Balance,
+  billNavigation: Bill,
+  content: "last: ¥{balance} Room {room}"
+  initialTip: Please search your room number first
+  remainingPower: Remaining
+  roomNumber: Room
+  searchNavigation: Search
+  title: "Bill of #{room}"
+  updateTime: Last Update
+eduEmail:
+  title: My Email
+  noContent: No Content
+  noSubject: No Subject
+  pluralSenderTailing: ...
+  text: Text
+application:
+  desc: |
+    This function is based on "上应一网通办".
+    For most of types, you have to do the necessary procedure on the spot although you submitted an application online.
+  filerInfrequentlyUsed: Filter Infrequently-used
+  navigation:
+    all: All
+    mailbox: Mailbox
+  mailbox:
+    title: My Mailbox
+    emptyTip: Here is nothing.
+    recent: Recent
+expense:
+  balanceInCard: ¥{balance} in Card
+  Cafe: Café
+  canteen: Canteen
+  cats: Categories
+  consume: Consume
+  content: ¥{amount} {place}
+  fetchingRecordTip: Fetching expense record
+  fetchingTip: Fetching expense records from school... Please wait a minute, the network speed depends on the school's server.
+  firstTimeRefreshRequest: Expense Tracker needs to access campus network to retrieve expense history. You can refresh the expense history manually next time by hitting the \Refresh\ button at the top-right corner.
+  grocery: Grocery Shopping
+  hotWater: Hot Water
+  incomeStatistics: "Income: ¥{amount}"
+  library: Library
+  refreshMenuButton: Force Refresh
+  shower: Shower
+  spentStatistics: "Outcome: ¥{amount}"
+  statistics: Statistics
+  stuff: Stuff
+  subsidy: Subsidy
+  toastLoadFailed: Network error
+  toastLoadSuccessful: Successful!
+  toastLoading: Loading...
+  topUp: Top Up
+  total: Total
 ftype:
   activity:
     name: Activities
@@ -157,6 +271,34 @@ ftype:
   reportTemp:
     name: Report Temperature
     desc: Don't forgor !
+weekday:
+  1: Monday
+  2: Tuesday
+  3: Wednesday
+  4: Thursday
+  5: Friday
+  6: Saturday
+  7: Sunday
+  short1: MON
+  short2: TUE
+  short3: WED
+  short4: THU
+  short5: FRI
+  short6: SAT
+  short7: SUN
+campus:
+  xuhui: Xuhui
+  xuhuiDistrict: Xuhui District
+  fengxian: Fengxian
+  fengxianDistrict: Fengxian District
+time:
+  minute: min
+  hour: hour
+  hourMinuteF: {hour} h {minute} min
+  minuteF: {minute} min
+  hourF: {hour} h
+currency:
+  rmb: ¥{amount}
 open: Open
 confirm: Confirm
 notNow: Not Now
@@ -165,3 +307,6 @@ ok: OK
 close: Close
 submit: Submit
 cancel: Cancel
+save: Save
+yes: Yes
+refresh: Refresh

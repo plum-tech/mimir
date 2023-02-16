@@ -5,13 +5,6 @@
   "acceptedAgreementCheckbox": "I have known and accepted",
   "address": "Address",
   "allowOthersFindMeCheckbox": "Allow others to find me",
-  "applicationAllNavigation": "All",
-  "applicationDesc": "This function is based on \"上应一网通办\".\nFor most of types, you have to do the necessary procedure on the spot although you submitted an application online.",
-  "applicationFilerInfrequentlyUsed": "Filter Infrequently-used",
-  "applicationMailbox": "My Mailbox",
-  "applicationMailboxEmptyTip": "Here is nothing.",
-  "applicationMailboxNavigation": "Mailbox",
-  "applicationMailboxRecent": "Recent",
   "author": "Author",
   "back": "Back",
   "bill": "Bill",
@@ -52,59 +45,6 @@
   "easyconnectLaunchFailed": "Launch Failed",
   "easyconnectLaunchFailedDesc": "Failed to launch EasyConnect, have you installed it or just download it now?",
   "edit": "Edit",
-  "eduEmailNoContent": "No Content",
-  "eduEmailNoSubject": "No Subject",
-  "eduEmailPluralSenderTailing": "...",
-  "eduEmailText": "Text",
-  "eduEmailTitle": "My Email",
-  "elecBill24hBill": "Spent ¥{amount} last 24 hours",
-  "@elecBill24hBill": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "elecBillBalance": "Balance",
-  "elecBillBillNavigation": "Bill",
-  "elecBillContent": "last: ¥{balance} Room {room}",
-  "@elecBillContent": {
-    "placeholders": {
-      "room": {
-        "type": "String"
-      },
-      "balance": {
-        "type": "String"
-      }
-    }
-  },
-  "elecBillDailyChart7": "Last 7 Days ⚡ Chart",
-  "elecBillElecChart": "Electricity Chart",
-  "elecBillHourlyChart24": "Last 24 Hours ⚡ Chart",
-  "elecBillInitialTip": "Please search your room number first",
-  "elecBillLast24Hour": "Last 24 hours",
-  "elecBillLast7Day": "Last 7 days",
-  "elecBillRank": "Rank",
-  "elecBillRankAbove": "Above {percent}% of dormitories.",
-  "@elecBillRankAbove": {
-    "placeholders": {
-      "percent": {
-        "type": "String"
-      }
-    }
-  },
-  "elecBillRemainingPower": "Remaining",
-  "elecBillRoomNumber": "Room",
-  "elecBillSearchNavigation": "Search",
-  "elecBillTitle": "Bill of #{room}",
-  "@elecBillTitle": {
-    "placeholders": {
-      "room": {
-        "type": "String"
-      }
-    }
-  },
-  "elecBillUpdateTime": "Last Update",
   "emptyContent": "Empty",
   "enable": "Enable",
   "enterCaptchaHint": "Plz enter captcha",
@@ -121,71 +61,13 @@
   "examSeatNumber": "Seat No.",
   "examStartTime": "Start Time",
   "exceptionInfo": "Exception Info",
-  "expenseBalanceInCard": "¥{balance} in Card",
-  "@expenseBalanceInCard": {
-    "placeholders": {
-      "balance": {
-        "type": "String"
-      }
-    }
-  },
-  "expenseCafe": "Café",
-  "expenseCanteen": "Canteen",
-  "expenseCats": "Categories",
-  "expenseConsume": "Consume",
-  "expenseContent": "¥{amount} {place}",
-  "@expenseContent": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      },
-      "place": {
-        "type": "String"
-      }
-    }
-  },
-  "expenseFetchingRecordTip": "Fetching expense record",
-  "expenseFetchingTip": "Fetching expense records from school... Please wait a minute, the network speed depends on the school's server.",
-  "expenseFirstTimeRefreshRequest": "Expense Tracker needs to access campus network to retrieve expense history. You can refresh the expense history manually next time by hitting the \"Refresh\" button at the top-right corner.",
-  "expenseGrocery": "Grocery Shopping",
-  "expenseHotWater": "Hot Water",
-  "expenseIncomeStatistics": "Income: ¥{amount}",
-  "@expenseIncomeStatistics": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "expenseLibrary": "Library",
-  "expenseRefreshMenuButton": "Force Refresh",
-  "expenseShower": "Shower",
-  "expenseSpentStatistics": "Outcome: ¥{amount}",
-  "@expenseSpentStatistics": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "expenseStatistics": "Statistics",
-  "expenseStuff": "Stuff",
-  "expenseSubsidy": "Subsidy",
-  "expenseToastLoadFailed": "Network error",
-  "expenseToastLoadSuccessful": "Successful!",
-  "expenseToastLoading": "Loading...",
-  "expenseTopUp": "Top Up",
-  "expenseTotal": "Total",
   "faculty": "Faculty",
   "failed": "Failed",
   "feedback": "Feedback",
   "feedbackBtn": "Feedback",
   "female": "Female",
-  "fengxian": "Fengxian",
-  "fengxianDistrict": "Fengxian District",
   "fetching": "Fetching",
   "filter": "Filter",
-  "formatError": "Format Error",
   "fullAcademicYear": "Full Year",
   "fullName": "Full Name",
   "gender": "Gender",
@@ -212,7 +94,7 @@
       }
     }
   },
-  "greetingHeader0L1": "Welcome ! Have a nice day",
+  "greetingHeader0L1": "Welcome! Have a nice day",
   "greetingHeader0L2": "At SIT",
   "greetingHeaderEnableIncrement": "n",
   "greetingHeaderL1": "SIT has accompanied you",
@@ -233,14 +115,6 @@
   "hotPost": "HOT",
   "htmlPageNoContent": "No Content",
   "iSee": "I see",
-  "loginForgotPwdBtn": "Forgot password?",
-  "loginLoggedInTip": "Logged in",
-  "loginLoginAccountHint": "Student ID/Work number",
-  "loginLoginBtn": "Login",
-  "loginIncorrectIDFormat": "Incorrect ID format",
-  "loginOfflineModeBtn": "Offline Mode",
-  "loginPwdHint": "Enter your password",
-  "loginTitle": "Welcome !",
   "language": "Language",
   "language_en": "English",
   "language_zh": "中文(简体)",
@@ -255,10 +129,6 @@
   "localStorageDeleteItemDesc": "Confirm to delete this key-value pair?",
   "localStorageEmptyValueDesc": "Confirm to empty this key-value pair?",
   "localStorageTitle": "Local Storage Editor",
-  "loggingIn": "Logging in",
-  "loginCredentialsValidatedTip": "Account and password is correct",
-  "loginFailedWarn": "Login Failed",
-  "loginSuccessfulTip": "Login successful !",
   "logout": "Logout",
   "major": "Major",
   "male": "Male",
@@ -296,44 +166,8 @@
   "province": "Province",
   "publishTime": "Publish Time",
   "publishingDepartment": "Department",
-  "pwd": "Password",
-  "readAndAcceptRequest": "Please read and accept {agreement} first.",
-  "@readAndAcceptRequest": {
-    "placeholders": {
-      "agreement": {
-        "type": "String"
-      }
-    }
-  },
-  "realtimeWeather": "Real-time Weather",
-  "refresh": "Refresh",
-  "relogin": "Re-login",
-  "reportTempAbnormal": "Abnormal",
-  "@reportTempAbnormal": {
-    "description": "For building string: Reported Today Abnormal {place}"
-  },
-  "reportTempHelper": "Temperature Report Helper",
-  "reportTempNoReportRecords": "No report records",
-  "reportTempNormal": "Normal",
-  "@reportTempNormal": {
-    "description": "For building string: Reported Today Normal {place}"
-  },
-  "reportTempRemindTime": "Time",
-  "reportTempReminderDesc": "When launched, Kite will detect whether you have reported today and notify you, before the time you set.",
-  "reportTempReminderSwitch": "Remind Me",
-  "reportTempReminderTitle": "Report Alarm",
-  "reportTempReportedToday": "Reported Today",
-  "@reportTempReportedToday": {
-    "description": "For building string: Reported Today Normal {place}"
-  },
-  "reportTempRequest": "Today you haven't reported temperature, do you want to do now?",
-  "reportTempUnreportedToday": "Unreported Today",
-  "@reportTempUnreportedToday": {
-    "description": "For building string: Unreported Today Today Normal {place}"
-  },
   "personalizeTitle": "Personalize",
   "request": "Request",
-  "rmb": "¥{amount}",
   "@rmb": {
     "placeholders": {
       "amount": {
@@ -342,9 +176,6 @@
     }
   },
   "roommate": "Roommate",
-  "save": "Save",
-  "scannerBarcodeNotRecognized": "No Barcode",
-  "scannerBarcodeRecognized": "Barcode Recognized",
   "semester": "Semester",
   "semester1st": "Fall",
   "semester2rd": "Spring",
@@ -352,87 +183,11 @@
   "staticPicture": "Static Picture",
   "stats": "Statistics",
   "status": "Status",
-  "studentID": "Student ID",
   "studentIdCopy2ClipboardTip": "Your student ID is copied.",
   "studentInfoTitle": "Student Info",
-  "submit": "Submit",
   "success": "Success",
   "teacherEvalTitle": "Teacher Evaluation",
   "tel": "TEL.",
-  "timetableDelete": "Delete",
-  "timetableDeleteRequest": "Confirm to delete?",
-  "timetableDeleteRequestDesc": "You will lose this timetable permanently.",
-  "timetableDescFormTitle": "Description",
-  "timetableDetailClassId": "Class Code {classId}",
-  "@timetableDetailClassId": {
-    "placeholders": {
-      "classId": {
-        "type": "String"
-      }
-    }
-  },
-  "timetableDetailCourseId": "Course Code {courseId}",
-  "@timetableDetailCourseId": {
-    "placeholders": {
-      "courseId": {
-        "type": "String"
-      }
-    }
-  },
-  "timetableEdit": "Edit",
-  "timetableImportConnectivityCheckerDesc": "You need access campus network before importing a new Timetable. Let's check it.",
-  "timetableImportEndTip": "Please enter the info.",
-  "timetableImportFailed": "Import Error",
-  "timetableImportFailedDesc": "Can't import the timetable, please try again.",
-  "timetableImportFailedTip": "Failed to import, please try again.",
-  "timetableImportImportBtn": "Try Import",
-  "timetableImportImporting": "Trying to fetch the timetable...",
-  "timetableImportInfoTitle": "Timetable Info",
-  "timetableImportSaveBtn": "Save",
-  "timetableImportStartDate": "Start with: {date}",
-  "@timetableImportStartDate": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
-  "timetableImportTitle": "Import Timetable",
-  "timetableInfoDefaultName": "{semester}, {yearStart}-{yearEnd} Timetable",
-  "@timetableInfoDefaultName": {
-    "placeholders": {
-      "semester": {
-        "type": "String"
-      },
-      "yearStart": {
-        "type": "int"
-      },
-      "yearEnd": {
-        "type": "int"
-      }
-    }
-  },
-  "timetableInitialImportRequest": "Import a Timetable",
-  "timetableInitialImportRequestDesc": "You seem to use Kite's Timetable first, try import one now?",
-  "timetableJumpBtn": "Jump",
-  "timetableJumpFindTodayBtn": "Find Today",
-  "timetableMineEmptyTip": "Let's import a new timetable !",
-  "timetableMineTitle": "My Timetables",
-  "timetableNameFormTitle": "Name",
-  "timetableNoDescPlaceholder": "No description...",
-  "timetablePreviewBtn": "Preview",
-  "timetablePreviewTitle": "Preview",
-  "timetableSelectSemesterTip": "Please select a semester first.",
-  "timetableSetStartDate": "Set Start Date",
-  "timetableSetToDefault": "Set to Default",
-  "timetableWeekOrderedName": "Week {week}",
-  "@timetableWeekOrderedName": {
-    "placeholders": {
-      "week": {
-        "type": "int"
-      }
-    }
-  },
   "troubleshooting": "Troubleshooting",
   "unauthorizedTipEverLoggedInTip": "Your account or password is incorrect, please try to login again.",
   "unauthorizedTipNeverLoggedInTip": "You have to login to perform this.",
@@ -443,34 +198,10 @@
   "validateInputAccountPwdRequest": "Please check the formats of account and password you entered.",
   "validateInputRequest": "Please check your input.",
   "warning": "Warning",
-  "weather": "Weather",
-  "weather_sunny": "Sunny",
   "wechat": "Wechat",
-  "weekday1": "Monday",
-  "weekday2": "Tuesday",
-  "weekday3": "Wednesday",
-  "weekday4": "Thursday",
-  "weekday5": "Friday",
-  "weekday6": "Saturday",
-  "weekday7": "Sunday",
-  "weekdayShort1": "MON",
-  "weekdayShort2": "TUE",
-  "weekdayShort3": "WED",
-  "weekdayShort4": "THU",
-  "weekdayShort5": "FRI",
-  "weekdayShort6": "SAT",
-  "weekdayShort7": "SUN",
   "welcomeFreshman": "I'm a Freshman",
   "welcomeLogin": "Login",
   "welcomeSlogan": "Excellent school life, from here.",
-  "xuhui": "Xuhui",
-  "xuhuiDistrict": "Xuhui District",
-  "yes": "Yes",
-  "timetableFreeDayIsTodayTip": "Have a nice day! 🎉",
-  "timetableFreeDayTip": "It's a free day!",
-  "timetableFreeWeekIsThisWeekTip": "Enjoy this week! 🎉",
-  "timetableFreeWeekTip": "Wow, no class this week!",
-  "timetableFreeTermTip": "Cool! You even have a free term! 🎉🎉🎉",
   "congratulations": "Congratulations",
   "newsNewPersonalizationSystemIsComingSoon": "Excuse me, a new personalization system is coming soon!",
   "timetableUseOldSchoolPalette": "Use Old School Palette",
@@ -480,34 +211,5 @@
   "timetableFindNearestDayWithClassBtn": "Find a day with class",
   "timetableWeek": "wk",
   "timetableOddWeek": "odd wk",
-  "timetableEvenWeek": "even wk",
-  "minutes": "min",
-  "hour": "hour",
-  "hourMinuteF": "{hour} h {minute} min",
-  "@hourMinuteF": {
-    "placeholders": {
-      "hour": {
-        "type": "String"
-      },
-      "minute": {
-        "type": "String"
-      }
-    }
-  },
-  "minuteF": "{minute} min",
-  "@minuteF": {
-    "placeholders": {
-      "minute": {
-        "type": "String"
-      }
-    }
-  },
-  "hourF": "{hour} h",
-  "@hourF": {
-    "placeholders": {
-      "hour": {
-        "type": "String"
-      }
-    }
-  }
+  "timetableEvenWeek": "even wk"
 }
