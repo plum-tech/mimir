@@ -306,13 +306,16 @@ timetable:
 scanner:
   barcodeNotRecognized: No Barcode
   barcodeRecognized: Barcode Recognized
+semester:
+  all: Full Year
+  firstTerm: Fall
+  secondTerm: Spring
 reportTemp:
   abnormal: Abnormal
   tempNoReportRecords: No report records
   normal: Normal
   reportedToday: Reported Today
   unreportedToday: Unreported Today
-
 weekday:
   1: Monday
   2: Tuesday
@@ -335,13 +338,13 @@ campus:
   fengxianDistrict: Fengxian District
 unit:
   rmb: ¥{}
-  powerKwh: { } kW·h
+  powerKwh: {} kW·h
 time:
   minute: min
   hour: hour
-  hourMinuteF: { hour } h {minute} min
-  minuteF: { minute } min
-  hourF: { hour } h
+  hourMinuteFormat: {hour} h {minute} min
+  minuteFormat: {} min
+  hourFormat: {} h
 open: Open
 confirm: Confirm
 notNow: Not Now
@@ -360,3 +363,4 @@ failed: Failed
 download: Download
 fetching: Fetching
 downloading: Downloading
+notFound404: 404 Not Found

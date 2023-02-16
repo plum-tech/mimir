@@ -18,14 +18,14 @@ class SimpleHtmlPage extends StatelessWidget {
 
   Future<String> fetchHtmlContent() async {
     if (htmlContent != null) return htmlContent!;
-    if (url == null) return i18n.htmlPageNoContent;
+    if (url == null) return "";
     final response = await Dio().get<String>(
       url!,
       onReceiveProgress: (int count, int total) {
         _progressNotifier.value = count / total;
       },
     );
-    return response.data ?? i18n.htmlPageNoContent;
+    return response.data ?? "";
   }
 
   PreferredSizeWidget buildTopIndicator() {

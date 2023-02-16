@@ -1,7 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:hive/hive.dart';
-import 'package:mimir/entities.dart';
 import 'package:mimir/hive/type_id.dart';
-import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/l10n/common.dart';
 
 part 'school.g.dart';
 
@@ -10,20 +10,11 @@ enum Semester {
   @HiveField(0)
   all,
   @HiveField(1)
-  firstTerm,
+  term1st,
   @HiveField(2)
-  secondTerm;
+  term2rd;
 
-  String localized() {
-    switch (this) {
-      case Semester.all:
-        return i18n.fullAcademicYear;
-      case Semester.firstTerm:
-        return i18n.semester1st;
-      case Semester.secondTerm:
-        return i18n.semester2rd;
-    }
-  }
+  String localized() => "semester.$name".tr();
 }
 
 @HiveType(typeId: HiveTypeId.schoolYear)
@@ -43,8 +34,8 @@ class SchoolYear {
 String semesterToFormField(Semester semester) {
   const mapping = {
     Semester.all: '',
-    Semester.firstTerm: '3',
-    Semester.secondTerm: '12',
+    Semester.term1st: '3',
+    Semester.term2rd: '12',
   };
   return mapping[semester]!;
 }
@@ -52,8 +43,8 @@ String semesterToFormField(Semester semester) {
 Semester formFieldToSemester(String s) {
   Map<String, Semester> semester = {
     '': Semester.all,
-    '3': Semester.firstTerm,
-    '12': Semester.secondTerm,
+    '3': Semester.term1st,
+    '12': Semester.term2rd,
   };
   return semester[s]!;
 }
@@ -194,6 +185,7 @@ class Timepoint {
 
   @override
   String toString() => '$hour:${'$minute'.padLeft(2, '0')}';
+
   String toStringPrefixed0({bool hour = true, bool minute = true}) {
     final sb = StringBuffer();
     if (hour) {
@@ -222,6 +214,7 @@ class Timepoint {
 class TimeDuration {
   final int hour;
   final int minute;
+  static const _i18n = TimeI18n();
 
   int get totalMinutes => hour * 60 + minute;
 
@@ -235,11 +228,11 @@ class TimeDuration {
     final h = "$hour";
     final min = "$minute".padLeft(2, '0');
     if (hour == 0) {
-      return i18n.minuteF(min);
+      return _i18n.minuteFormat(min);
     } else if (minute == 0) {
-      return i18n.hourF(h);
+      return _i18n.hourFormat(h);
     }
-    return i18n.hourMinuteF(h, min);
+    return _i18n.hourMinuteFormat(h, min);
   }
 }
 

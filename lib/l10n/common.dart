@@ -61,3 +61,22 @@ class UnitI18n {
 
   String powerKwh(String amount) => "$ns.powerKwh".tr(args: [amount]);
 }
+
+class TimeI18n {
+  const TimeI18n();
+
+  static const ns = "time";
+
+  String get minute => "$ns.minute".tr();
+
+  String get hour => "$ns.hour".tr();
+
+  String hourMinuteFormat(String hour, String minute) => "$ns.hourMinuteFormat".tr(namedArgs: {
+        "hour": hour,
+        "minute": minute,
+      });
+
+  String hourFormat(String hour) => "$ns.hourFormat".tr(args: [hour]);
+
+  String minuteFormat(String minute) => "$ns.minuteFormat".tr(args: [minute]);
+}
