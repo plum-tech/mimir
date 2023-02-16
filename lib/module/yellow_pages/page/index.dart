@@ -43,7 +43,7 @@ class _YellowPagesPageState extends State<YellowPagesPage> {
     final contacts = _contacts;
     return Scaffold(
       appBar: AppBar(
-        title: i18n.ftype_yellowPages.text(),
+        title: FType.yellowPages.l10nName().text(),
         actions: [
           if (contacts != null)
             IconButton(

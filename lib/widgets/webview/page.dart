@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mimir/design/utils.dart';
+import 'package:mimir/l10n/common.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/launcher.dart';
 import 'package:mimir/widgets/webview/view.dart';
@@ -90,7 +91,7 @@ class SimpleWebViewPage extends StatefulWidget {
 class _SimpleWebViewPageState extends State<SimpleWebViewPage> {
   WebViewController? _controller;
 
-  String title = i18n.untitled;
+  String title = const CommonI18n().untitled;
   int progress = 0;
 
   void _onRefresh() async {
@@ -183,7 +184,7 @@ class _SimpleWebViewPageState extends State<SimpleWebViewPage> {
           onPageFinished: (url) async {
             widget.onPageFinished?.call(url);
             if (widget.fixedTitle == null) {
-              title = (await _controller?.getTitle()) ?? i18n.untitled;
+              title = (await _controller?.getTitle()) ?? const CommonI18n().untitled;
               if (!mounted) return;
               setState(() {});
             }

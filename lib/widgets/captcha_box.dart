@@ -1,7 +1,9 @@
 import 'dart:typed_data';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/multiplatform.dart';
+import 'package:mimir/l10n/common.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -23,9 +25,9 @@ class _CaptchaBoxState extends State<CaptchaBox> {
   @override
   Widget build(BuildContext context) {
     return $Dialog$(
-      title: i18n.captcha,
+      title: _i18n.title,
       primary: $Action$(
-        text: i18n.submit,
+        text: _i18n.submit,
         warning: true,
         isDefault: true,
         onPressed: () {
@@ -33,7 +35,7 @@ class _CaptchaBoxState extends State<CaptchaBox> {
         },
       ),
       secondary: $Action$(
-        text: i18n.cancel,
+        text: _i18n.cancel,
         onPressed: () {
           context.navigator.pop(null);
         },
@@ -45,7 +47,7 @@ class _CaptchaBoxState extends State<CaptchaBox> {
         ),
         $TextField$(
           controller: $captcha,
-          placeholder: i18n.enterCaptchaHint,
+          placeholder: _i18n.enterHint,
           prefixIcon: const Icon(Icons.image_search_rounded),
           onSubmit: (value) {
             context.navigator.pop(value);
@@ -60,4 +62,16 @@ class _CaptchaBoxState extends State<CaptchaBox> {
     super.dispose();
     $captcha.dispose();
   }
+}
+
+const _i18n = _CaptchaI18n();
+
+class _CaptchaI18n with CommonI18nMixin {
+  static const ns = "captcha";
+
+  const _CaptchaI18n();
+
+  String get title => "$ns.title".tr();
+
+  String get enterHint => "$ns.enterHint".tr();
 }

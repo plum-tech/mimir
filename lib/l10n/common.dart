@@ -13,6 +13,10 @@ mixin CommonI18nMixin {
 
   String get ok => "ok".tr();
 
+  String get yes => "yes".tr();
+
+  String get refresh => "refresh".tr();
+
   String get close => "close".tr();
 
   String get submit => "submit".tr();
@@ -38,6 +42,14 @@ mixin CommonI18nMixin {
   String get author => "author".tr();
 
   String get warning => "warning".tr();
+
+  String get exceptionInfo => "exceptionInfo".tr();
+
+  String get untitled => "untitled".tr();
+}
+
+class CommonI18n with CommonI18nMixin {
+  const CommonI18n();
 }
 
 class NetworkI18n {
@@ -56,6 +68,8 @@ class NetworkI18n {
   String get openToolBtn => "$ns.openToolBtn".tr();
 
   String get noAccessTip => "$ns.noAccessTip".tr();
+
+  String get untitled => "$ns.untitled".tr();
 }
 
 class UnitI18n {

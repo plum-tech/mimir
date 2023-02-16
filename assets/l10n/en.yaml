@@ -79,6 +79,9 @@ application:
     title: My Mailbox
     emptyTip: Here is nothing.
     recent: Recent
+captcha:
+  title: Captcha
+  enterHint: Please enter captcha
 credential:
   studentId: Student ID
   account: Account
@@ -320,6 +323,8 @@ reportTemp:
   normal: Normal
   reportedToday: Reported Today
   unreportedToday: Unreported Today
+yellowPages:
+
 weekday:
   1: Monday
   2: Tuesday
@@ -342,13 +347,13 @@ campus:
   fengxianDistrict: Fengxian District
 unit:
   rmb: ¥{}
-  powerKwh: {} kW·h
+  powerKwh: { } kW·h
 time:
   minute: min
   hour: hour
-  hourMinuteFormat: {hour} h {minute} min
-  minuteFormat: {} min
-  hourFormat: {} h
+  hourMinuteFormat: { hour } h {minute} min
+  minuteFormat: { } min
+  hourFormat: { } h
 open: Open
 delete: Delete
 confirm: Confirm
@@ -371,3 +376,5 @@ fetching: Fetching
 downloading: Downloading
 notFound404: 404 Not Found
 warning: Warning
+exceptionInfo: Exception Info
+untitled: Untitled

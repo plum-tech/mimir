@@ -1,4 +1,4 @@
-import '../l10n/extension.dart';
+import 'package:mimir/module/login/i18n.dart';
 
 final RegExp _reUndergraduateId = RegExp(r'^(\d{6}[YGHE\d]\d{3})$');
 final RegExp _rePostgraduateId = RegExp(r'^(\d{2}6\d{6})$');
@@ -20,7 +20,7 @@ bool guessUserTypeByAccount(String oaAccount) {
 String? studentIdValidator(String? account) {
   if (account != null && account.isNotEmpty) {
     if (!guessUserTypeByAccount(account)) {
-      return i18n.loginIncorrectIDFormat;
+      return const LoginI18n().incorrectIDFormat;
     }
   }
   return null;
