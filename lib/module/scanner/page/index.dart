@@ -36,13 +36,13 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
           if (await controller.analyzeImage(image.path)) {
             if (!mounted) return;
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: i18n.scannerBarcodeRecognized.text(),
+              content: i18n.barcodeRecognized.text(),
               backgroundColor: Colors.green,
             ));
           } else {
             if (!mounted) return;
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: i18n.scannerBarcodeNotRecognized.text(),
+              content: i18n.barcodeNotRecognized.text(),
               backgroundColor: Colors.redAccent,
             ));
           }
