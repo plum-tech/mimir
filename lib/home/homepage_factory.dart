@@ -70,7 +70,7 @@ class HomepageFactory {
               title: FType.scanner.l10nName(),
               subtitle: FType.scanner.l10nDesc(),
             ),
-    FType.electricityBill: (context) => const ElectricityBillItem(),
+    FType.elecBill: (context) => const ElectricityBillItem(),
   };
 
   static Widget? buildBrickWidget(BuildContext context, FType type) {

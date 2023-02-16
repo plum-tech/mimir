@@ -40,7 +40,7 @@ class FTypeAdapter extends TypeAdapter<FType> {
       case 13:
         return FType.scanner;
       case 14:
-        return FType.electricityBill;
+        return FType.elecBill;
       default:
         return FType.separator;
     }
@@ -88,7 +88,7 @@ class FTypeAdapter extends TypeAdapter<FType> {
       case FType.scanner:
         writer.writeByte(13);
         break;
-      case FType.electricityBill:
+      case FType.elecBill:
         writer.writeByte(14);
         break;
     }

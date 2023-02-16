@@ -50,9 +50,9 @@ class SemesterAdapter extends TypeAdapter<Semester> {
       case 0:
         return Semester.all;
       case 1:
-        return Semester.term1st;
+        return Semester.term1;
       case 2:
-        return Semester.term2rd;
+        return Semester.term2;
       default:
         return Semester.all;
     }
@@ -64,10 +64,10 @@ class SemesterAdapter extends TypeAdapter<Semester> {
       case Semester.all:
         writer.writeByte(0);
         break;
-      case Semester.term1st:
+      case Semester.term1:
         writer.writeByte(1);
         break;
-      case Semester.term2rd:
+      case Semester.term2:
         writer.writeByte(2);
         break;
     }

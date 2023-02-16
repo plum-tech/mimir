@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:mimir/credential/i18n.dart';
 import 'package:mimir/l10n/common.dart';
 
 const i18n = _I18n();
@@ -6,7 +7,9 @@ const i18n = _I18n();
 class _I18n with CommonI18nMixin {
   const _I18n();
 
+  final credential = const CredentialI18n();
   final campus = const _Campus();
+  final studentId = const _StudentId();
   final changeOaPwd = const _ChangeOaPwd();
   final clearCache = const _ClearCache();
   final darkMode = const _DarkMode();
@@ -18,10 +21,13 @@ class _I18n with CommonI18nMixin {
   final testConnect2School = const _TestConnect2School();
   final testLoginKite = const _TestLoginKite();
   final wipeData = const _WipeData();
+  final version = const _Version();
   static const ns = "settings";
+
+  String get title => "$ns.title".tr();
 }
 
-class _Campus {
+class _Campus extends CampusI10n {
   const _Campus();
 
   static const ns = "${_I18n.ns}.campus";
@@ -29,6 +35,22 @@ class _Campus {
   String get title => "$ns.title".tr();
 
   String get desc => "$ns.desc".tr();
+}
+
+class _StudentId {
+  const _StudentId();
+
+  static const ns = "${_I18n.ns}.studentId";
+
+  String get studentIdCopy2ClipboardTip => "$ns.studentIdCopy2ClipboardTip".tr();
+}
+
+class _Version {
+  const _Version();
+
+  static const ns = "${_I18n.ns}.version";
+
+  String get title => "$ns.title".tr();
 }
 
 class _ChangeOaPwd {
@@ -97,6 +119,8 @@ class _Language {
   const _Language();
 
   static const ns = "${_I18n.ns}.language";
+
+  String get title => "$ns.title".tr();
 }
 
 class _LocalStorage {

@@ -217,46 +217,50 @@ settings:
   campus:
     title: Your Campus
     desc: Every campus has a different timetable
+  studentId:
+    studentIdCopy2ClipboardTip: Your student ID is copied.
   changeOaPwd:
-    name: Change OA Password
+    title: Change OA Password
     desc: Change the OA password used for logging in Kite
   clearCache:
-    name: Clear Cache
+    title: Clear Cache
     desc: Clear the offline cache made by Kite during use.
     request: Confirm to clear the cache? To reload them, you need connect to campus network again.
   darkMode:
-    name: Brightness
+    title: Brightness
     dark: Dark Mode
     light: Light Mode
     followSystem: Following System
   detailedXcpDialog:
-    name: Enable detailed exception dialog
+    title: Enable detailed exception dialog
     desc: Detailed stacktrace will be shown
   httpProxy:
-    name: Enable Http Proxy
+    title: Enable Http Proxy
     desc: Connect to the campus network by Http proxy
     global: Use as global proxy
     globalDesc: For debugging, exclude Webview
     proxyAddress: Proxy Address
   language:
-    name: Language
+    title: Language
   localStorage:
-    name: Local Storage
+    title: Local Storage
     desc: Manage storage on your device.
   reload:
-    name: Reload
+    title: Reload
     desc: Re-initialize all modules
   testConnect2School:
-    name: Test Connectivity
+    title: Test Connectivity
     desc: Test connect with school
   testLoginKite:
-    name: Test Login Kite
+    title: Test Login Kite
     desc: Validate your Kite account and OA password
   wipeData:
-    name: Wipe Data & Log out
+    title: Wipe Data & Log out
     desc: Wipe all data made by Kite and log out.
     request: Wipe ALL Data
     requestDesc: ALL data, such as login credentials and timetable imported, except webview cache, will be wiped permanently.
+  version:
+    title: Current Version
 localStorage:
   title: Local Storage Editor
   selectBoxTip: Please select a box first.
@@ -291,8 +295,8 @@ timetable:
   detail:
     descFormTitle: Description
     nameFormTitle: Name
-    classId: Class Code {}
-    courseId: Course Code {}
+    classId: "Class Code {}"
+    courseId: "Course Code {}"
   import:
     title: Import Timetable
     button: Try Import
@@ -304,7 +308,7 @@ timetable:
     failedTip: Failed to import, please try again.
     importing: Trying to fetch the timetable...
     timetableInfo: Timetable Info
-    defaultName: { semester }, { yearStart }-{yearEnd} Timetable
+    defaultName: "{semester}, {yearStart}-{yearEnd} Timetable"
   edit:
     setStartDate: Set Start Date
   weekStep:
@@ -314,13 +318,13 @@ timetable:
   jump: Jump
   findToday: findToday
   startDate: "Start with: {}"
-  weekOrderedName: Week {week}
+  weekOrderedName: "Week {week}"
   freeTip:
     dayTip: It's a free day!
-    isTodayTip: Have a nice day! 🎉
+    isTodayTip: "Have a nice day! 🎉"
     weekTip: Wow, no class this week!
-    isThisWeekTip: Enjoy this week! 🎉
-    termTip: Cool! You even have a free term! 🎉🎉🎉
+    isThisWeekTip: "Enjoy this week! 🎉"
+    termTip: "Cool! You even have a free term! 🎉🎉🎉"
     findNearestWeekWithClass: Find a week with class
     findNearestDayWithClass: Find a day with class
 scanner:
@@ -328,8 +332,8 @@ scanner:
   barcodeRecognized: Barcode Recognized
 semester:
   all: Full Year
-  firstTerm: Fall
-  secondTerm: Spring
+  term1: Fall
+  term2: Spring
 reportTemp:
   abnormal: Abnormal
   tempNoReportRecords: No report records
@@ -340,9 +344,7 @@ greeting:
   headerA: SIT has accompanied you
   headerB:
     one: 1 Day
-    other: { } Days
-yellowPages:
-  - ""
+    other: "{} Days"
 weekday:
   0: Monday
   1: Tuesday
@@ -365,14 +367,14 @@ campus:
   fengxian: Fengxian
   fengxianDistrict: Fengxian District
 unit:
-  rmb: ¥{}
-  powerKwh: { } kW·h
+  rmb: "¥{}"
+  powerKwh: "{} kW·h"
 time:
   minute: min
   hour: hour
-  hourMinuteFormat: { hour } h {minute} min
-  minuteFormat: { } min
-  hourFormat: { } h
+  hourMinuteFormat: "{hour} h {minute} min"
+  minuteFormat: "{} min"
+  hourFormat: "{} h"
 open: Open
 delete: Delete
 confirm: Confirm

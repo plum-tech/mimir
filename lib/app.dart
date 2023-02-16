@@ -48,7 +48,8 @@ class _MimirAppState extends State<MimirApp> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Kv.theme.isDarkMode ?? false;
+    // TODO: Dark mode.
+    final isDark = true || (Kv.theme.isDarkMode ?? false);
     final primaryColor = Kv.theme.color ?? R.defaultThemeColor;
 
     buildMaterialWithTheme(ThemeData theme) {
@@ -135,7 +136,7 @@ class _MimirAppState extends State<MimirApp> {
     return ScreenUtilInit(
       builder: (BuildContext content, Widget? widget) => DynamicColorTheme(
         defaultColor: primaryColor,
-        defaultIsDark: isDark,
+        defaultIsDark:  isDark,
         data: (Color color, bool isDark) {
           return ThemeData(
             colorSchemeSeed: primaryColor,

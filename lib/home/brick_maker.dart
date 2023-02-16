@@ -42,7 +42,7 @@ class BrickMaker {
     r << FType.separator;
     if (hasLoggedIn) {
       r << FType.expense;
-      r << FType.electricityBill;
+      r << FType.elecBill;
       // Only undergraduates need to check the activity, because it's linked to their Second class Score.
       r << FType.activity;
       r << FType.examResult;

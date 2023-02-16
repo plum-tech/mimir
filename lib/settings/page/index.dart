@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -43,97 +44,36 @@ class _SettingsPageState extends State<SettingsPage> {
   static final String currentVersion =
       'v${Initializer.currentVersion.version} on ${Initializer.currentVersion.platform}';
 
-  Future<void> _onChangeBgImage() async {
-    final saveToPath = '${(await getApplicationDocumentsDirectory()).path}/kite1/background';
-
-    if (UniversalPlatform.isDesktop) {
-      String? srcPath = await FileUtils.pickImageByFilePicker();
-      if (srcPath == null) return;
-      await File(srcPath).copy(saveToPath);
-    } else {
-      XFile? image = await FileUtils.pickImageByImagePicker();
-      await image?.saveTo(saveToPath);
-    }
-    Kv.home.background = saveToPath;
-    Global.eventBus.fire(EventTypes.onBackgroundChange);
-  }
-
-  void _testPassword(BuildContext context, OACredential oaCredential) async {
-    try {
-      await Global.ssoSession.loginActive(oaCredential);
-      if (!mounted) return;
-      await context.showTip(title: i18n.success, desc: i18n.loginSuccessfulTip, ok: i18n.close);
-    } catch (e) {
-      if (!mounted) return;
-      await context.showTip(title: i18n.loginFailedWarn, desc: e.toString().split('\n')[0], ok: i18n.close);
-    }
-  }
-
-  void _gotoLogin(BuildContext ctx) {
-    final navigator = ctx.navigator;
-    while (navigator.canPop()) {
-      navigator.pop();
-    }
-    navigator.pushReplacementNamed(Routes.login);
-  }
-
-  void _onClearStorage(BuildContext context) async {
-    final confirm = await context.showRequest(
-      title: i18n.settingsWipeDataRequest,
-      desc: i18n.settingsWipeDataDesc,
-      yes: i18n.confirm,
-      no: i18n.notNow,
-      highlight: true,
-      serious: true,
-    );
-    if (confirm == true) {
-      await HiveBoxInit.clear(); // 清除存储
-      await Initializer.init();
-      FireOn.global(CredentialChangeEvent());
-      if (!mounted) return;
-      _gotoLogin(context);
-    }
-  }
-
-  void _onClearCache(BuildContext context) async {
-    final confirm = await context.showRequest(
-      title: i18n.settingsClearCache,
-      desc: i18n.settingsClearCacheDesc,
-      yes: i18n.confirm,
-      no: i18n.notNow,
-      highlight: true,
-      serious: true,
-    );
-    if (confirm == true) {
-      await HiveBoxInit.clearCache(); // 清除存储
-    }
-  }
-
-  _buildLanguagePrefSelector(BuildContext ctx) {
-    final Locale curLocale = Lang.getOrSetCurrentLocale(Localizations.localeOf(ctx));
-
-    return DropDownSettingsTile<String>(
-      title: i18n.settingsLanguage,
-      subtitle: i18n.settingsLanguageSub,
-      leading: const Icon(Icons.translate_rounded),
-      settingKey: PrefKey.locale,
-      values: {
-        jsonEncode(Lang.enLocale.toJson()): i18n.language_en,
-        jsonEncode(Lang.zhLocale.toJson()): i18n.language_zh,
-        jsonEncode(Lang.zhTwLocale.toJson()): i18n.language_zh_TW,
-      },
-      selected: jsonEncode(curLocale.toJson()),
-      onChange: (value) {
-        Future.delayed(Duration.zero, () => Phoenix.rebirth(ctx));
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final oaCredential = Auth.oaCredential;
     _passwordController.text = oaCredential?.password ?? '';
-    return SettingsScreen(title: i18n.settingsTitle, children: [
+    final entries = buildEntries();
+    return Scaffold(
+      body: CustomScrollView(
+        physics: const RangeMaintainingScrollPhysics(),
+        slivers: <Widget>[
+          SliverAppBar(
+            pinned: true,
+            snap: false,
+            floating: false,
+            expandedHeight: 100.0,
+            flexibleSpace: FlexibleSpaceBar(
+              title: i18n.title.text(),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              childCount: entries.length,
+              (ctx, index) {
+                return entries[index](ctx);
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+/*    return SettingsScreen(title: i18n.settingsTitle, children: [
       // Personalize
       SettingsGroup(
         title: i18n.personalizeTitle,
@@ -159,38 +99,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ],
       ),
-      // TODO: A new personalize system
-      SettingsGroup(
-        title: i18n.homepage,
-        children: <Widget>[
-          DropDownSettingsTile<int>(
-            title: i18n.settingsCampus,
-            subtitle: i18n.settingsCampusSub,
-            leading: const Icon(Icons.location_on),
-            settingKey: HomeKeyKeys.campus,
-            values: <int, String>{
-              1: i18n.fengxian,
-              2: i18n.xuhui,
-            },
-            selected: Kv.home.campus,
-            onChange: (value) {
-              Kv.home.campus = value;
-              Global.eventBus.fire(EventTypes.onCampusChange);
-            },
-          ),
-          SimpleSettingsTile(
-              title: i18n.settingsWallpaper,
-              subtitle: i18n.settingsWallpaperSub,
-              leading: const Icon(Icons.photo_size_select_actual_outlined),
-              onTap: _onChangeBgImage),
-          SimpleSettingsTile(
-            title: i18n.settingsHomepageRearrange,
-            subtitle: i18n.settingsHomepageRearrangeSub,
-            leading: const Icon(Icons.menu),
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomeRearrangePage())),
-          ),
-        ],
-      ),
+
       SettingsGroup(title: i18n.networking, children: <Widget>[
         SwitchSettingsTile(
           settingKey: '/network/useProxy',
@@ -240,17 +149,6 @@ class _SettingsPageState extends State<SettingsPage> {
         title: i18n.account,
         children: <Widget>[
           if (oaCredential != null)
-            SimpleSettingsTile(
-              title: i18n.studentID,
-              subtitle: oaCredential.account,
-              leading: const Icon(Icons.person_rounded),
-              onTap: () {
-                // Copy the student ID to clipboard
-                Clipboard.setData(ClipboardData(text: oaCredential.account));
-                context.showSnackBar(i18n.studentIdCopy2ClipboardTip.text());
-              },
-            ),
-          if (oaCredential != null)
             ModalSettingsTile(
               title: i18n.settingsChangeOaPwd,
               subtitle: i18n.settingsChangeOaPwdSub,
@@ -277,19 +175,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 onTap: () => _testPassword(context, oaCredential)),
         ],
       ),
-      // Data Management
-      SettingsGroup(title: i18n.dataManagement, children: <Widget>[
-        SimpleSettingsTile(
-            title: i18n.settingsWipeData,
-            leading: const Icon(Icons.delete_forever_rounded),
-            subtitle: i18n.settingsWipeDataSub,
-            onTap: () => _onClearStorage(context)),
-        SimpleSettingsTile(
-            title: i18n.settingsClearCache,
-            leading: const Icon(Icons.folder_delete_outlined),
-            subtitle: i18n.settingsClearCacheSub,
-            onTap: () => _onClearCache(context)),
-      ]),
       SettingsGroup(
         title: i18n.devOptions,
         children: <Widget>[
@@ -302,31 +187,208 @@ class _SettingsPageState extends State<SettingsPage> {
               onChange: (value) {
                 Kv.developOptions.showErrorInfoDialog = value;
               }),
-          SimpleSettingsTile(
-            title: i18n.settingsLocalStorage,
-            subtitle: i18n.settingsLocalStorageSub,
-            leading: const Icon(Icons.storage),
-            onTap: () => context.navigator.push(MaterialPageRoute(builder: (context) => const LocalStoragePage())),
-          ),
-          if (kDebugMode)
-            SimpleSettingsTile(
-              title: i18n.settingsReload,
-              subtitle: i18n.settingsReloadSub,
-              leading: const Icon(Icons.refresh_rounded),
-              onTap: () async {
-                await Initializer.init();
-                context.navigator.pop();
-              },
-            )
         ],
       ),
-      SettingsGroup(title: i18n.status, children: <Widget>[
-        SimpleSettingsTile(
-          title: i18n.currentVersion,
-          subtitle: currentVersion,
-          leading: const Icon(Icons.settings_applications),
-        ),
-      ])
-    ]);
+    ]);*/
+  }
+
+  List<WidgetBuilder> buildEntries() {
+    final all = <WidgetBuilder>[];
+    final credential = Auth.oaCredential;
+    if (credential != null) {
+      all.add((_) => buildStudentId(credential));
+    }
+    all.add((ctx) => buildLanguageSelector(ctx));
+    all.add((_) => buildClearCache());
+    all.add((_) => buildWipeData());
+    all.add((_) => buildLocalStorage());
+    if (kDebugMode) {
+      all.add((_) => buildReload());
+    }
+    all.add((_) => buildVersion());
+    return all;
+  }
+
+  Widget buildDarkMode() {
+    return SizedBox();
+  }
+
+  Widget buildCampusSelector() {
+    return ListTile(
+      title: i18n.campus.title.text(),
+      subtitle: i18n.campus.desc.text(),
+      leading: const Icon(Icons.location_on),
+      trailing: DropdownButton<int>(
+        value: Kv.home.campus,
+        icon: const Icon(Icons.arrow_downward),
+        elevation: 8,
+        onChanged: (int? value) {
+          // This is called when the user selects an item.
+          setState(() {
+            Kv.home.campus = value!;
+          });
+          Global.eventBus.fire(EventTypes.onCampusChange);
+        },
+        items: [
+          DropdownMenuItem<int>(
+            value: 1,
+            child: i18n.campus.fengxian.text(),
+          ),
+          DropdownMenuItem<int>(
+            value: 2,
+            child: i18n.campus.xuhui.text(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildLanguageSelector(BuildContext ctx) {
+    final curLocale = ctx.locale;
+    return ListTile(
+      leading: const Icon(Icons.translate_rounded),
+      title: i18n.language.title.text(),
+      subtitle: curLocale.toString().text(),
+      trailing: DropdownButton<Locale>(
+          value: curLocale,
+          icon: const Icon(Icons.arrow_downward),
+          elevation: 8,
+          onChanged: (Locale? value) {
+            // This is called when the user selects an item.
+            setState(() {
+              ctx.setLocale(value!);
+            });
+          },
+          items: R.supportedLocales
+              .map((e) => DropdownMenuItem<Locale>(
+                    value: e,
+                    child: e.toString().text(),
+                  ))
+              .toList()),
+    );
+  }
+
+  Widget buildStudentId(OACredential credential) {
+    return ListTile(
+      title: i18n.credential.studentId.text(),
+      subtitle: credential.account.text(),
+      leading: const Icon(Icons.person_rounded),
+      onTap: () {
+        // Copy the student ID to clipboard
+        Clipboard.setData(ClipboardData(text: credential.account));
+        context.showSnackBar(i18n.studentId.studentIdCopy2ClipboardTip.text());
+      },
+    );
+  }
+
+  Widget buildChangePassword() {
+    return SizedBox();
+  }
+
+  Widget buildClearCache() {
+    return ListTile(
+      title: i18n.clearCache.title.text(),
+      subtitle: i18n.clearCache.desc.text(),
+      leading: const Icon(Icons.folder_delete_outlined),
+      onTap: () {
+        _onClearCache(context);
+      },
+    );
+  }
+
+  Widget buildWipeData() {
+    return ListTile(
+      title: i18n.wipeData.title.text(),
+      subtitle: i18n.wipeData.desc.text(),
+      leading: const Icon(Icons.delete_forever_rounded),
+      onTap: () {
+        _onWipeData(context);
+      },
+    );
+  }
+
+  Widget buildLocalStorage() {
+    return ListTile(
+      title: i18n.localStorage.title.text(),
+      subtitle: i18n.localStorage.desc.text(),
+      leading: const Icon(Icons.storage),
+      onTap: () {
+        context.navigator.push(MaterialPageRoute(builder: (_) => const LocalStoragePage()));
+      },
+    );
+  }
+
+  Widget buildVersion() {
+    return ListTile(
+      title: i18n.version.title.text(),
+      subtitle: currentVersion.text(),
+      leading: const Icon(Icons.settings_applications),
+    );
+  }
+
+  Widget buildReload() {
+    return ListTile(
+      title: i18n.reload.title.text(),
+      subtitle: i18n.reload.desc.text(),
+      leading: const Icon(Icons.refresh_rounded),
+      onTap: () async {
+        await Initializer.init();
+        if (!mounted) return;
+        context.navigator.pop();
+      },
+    );
+  }
+
+  void _onWipeData(BuildContext context) async {
+    final confirm = await context.showRequest(
+      title: i18n.wipeData.request,
+      desc: i18n.wipeData.requestDesc,
+      yes: i18n.confirm,
+      no: i18n.notNow,
+      highlight: true,
+      serious: true,
+    );
+    if (confirm == true) {
+      await HiveBoxInit.clear(); // 清除存储
+      await Initializer.init();
+      FireOn.global(CredentialChangeEvent());
+      if (!mounted) return;
+      _gotoLogin(context);
+    }
+  }
+
+  void _onClearCache(BuildContext context) async {
+    final confirm = await context.showRequest(
+      title: i18n.clearCache.title,
+      desc: i18n.clearCache.request,
+      yes: i18n.confirm,
+      no: i18n.notNow,
+      highlight: true,
+      serious: true,
+    );
+    if (confirm == true) {
+      await HiveBoxInit.clearCache(); // 清除存储
+    }
+  }
+/*
+
+  void _testPassword(BuildContext context, OACredential oaCredential) async {
+    try {
+      await Global.ssoSession.loginActive(oaCredential);
+      if (!mounted) return;
+      await context.showTip(title: i18n.success, desc: i18n.loginSuccessfulTip, ok: i18n.close);
+    } catch (e) {
+      if (!mounted) return;
+      await context.showTip(title: i18n.loginFailedWarn, desc: e.toString().split('\n')[0], ok: i18n.close);
+    }
+  }
+*/
+
+  void _gotoLogin(BuildContext ctx) {
+    final navigator = ctx.navigator;
+    while (navigator.canPop()) {
+      navigator.pop();
+    }
+    navigator.pushReplacementNamed(Routes.login);
   }
 }

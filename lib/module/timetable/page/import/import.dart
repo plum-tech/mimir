@@ -45,7 +45,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     now = DateTime(now.year, now.month, now.day, 8, 20);
     // 先根据当前时间估算出是哪个学期
     selectedYear = (now.month >= 9 ? now.year : now.year - 1);
-    selectedSemester = (now.month >= 3 && now.month <= 7) ? Semester.term2rd : Semester.term1st;
+    selectedSemester = (now.month >= 3 && now.month <= 7) ? Semester.term2 : Semester.term1;
   }
 
   String getTip({required ImportStatus by}) {

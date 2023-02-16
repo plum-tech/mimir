@@ -5,40 +5,42 @@ class CredentialI18n with CommonI18nMixin {
   const CredentialI18n();
 
   final network = const NetworkI18n();
-
+  static const _ns = "credential";
   final unauthorizedTip = const _UnauthorizedTip();
 
-  String get studentId => "studentId".tr();
+  String get studentId => "$_ns.studentId".tr();
 
-  String get account => "account".tr();
+  String get account => "$_ns.account".tr();
 
-  String get oaPwd => "oaPwd".tr();
+  String get oaPwd => "$_ns.oaPwd".tr();
 
-  String get reloginRequestDesc => "reloginRequestDesc".tr();
+  String get reloginRequestDesc => "$_ns.reloginRequestDesc".tr();
 
-  String get relogin => "relogin".tr();
+  String get relogin => "$_ns.relogin".tr();
 
-  String get loginLoginBtn => "loginLoginBtn".tr();
+  String get loginLoginBtn => "$_ns.loginLoginBtn".tr();
 
-  String get loginPwdHint => "loginPwdHint".tr();
+  String get loginPwdHint => "$_ns.loginPwdHint".tr();
 
-  String get loginFailedWarn => "loginFailedWarn".tr();
+  String get loginFailedWarn => "$_ns.loginFailedWarn".tr();
 
-  String get accountOrPwdIncorrectTip => "accountOrPwdIncorrectTip".tr();
+  String get accountOrPwdIncorrectTip => "$_ns.accountOrPwdIncorrectTip".tr();
 
-  String get loginLoginAccountHint => "loginLoginAccountHint".tr();
+  String get loginLoginAccountHint => "$_ns.loginLoginAccountHint".tr();
 
-  String get formatError => "formatError".tr();
+  String get formatError => "$_ns.formatError".tr();
 
-  String get validateInputAccountPwdRequest => "validateInputAccountPwdRequest".tr();
+  String get validateInputAccountPwdRequest => "$_ns.validateInputAccountPwdRequest".tr();
 }
 
 class _UnauthorizedTip {
   const _UnauthorizedTip();
 
-  String get title => "title".tr();
+  static const ns = "${CredentialI18n._ns}.unauthorizedTip";
 
-  String get everLoggedInTip => "everLoggedInTip".tr();
+  String get title => "$ns.title".tr();
 
-  String get neverLoggedInTip => "everLoggedInTip".tr();
+  String get everLoggedInTip => "$ns.everLoggedInTip".tr();
+
+  String get neverLoggedInTip => "$ns.everLoggedInTip".tr();
 }

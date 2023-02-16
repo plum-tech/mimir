@@ -10,9 +10,9 @@ enum Semester {
   @HiveField(0)
   all,
   @HiveField(1)
-  term1st,
+  term1,
   @HiveField(2)
-  term2rd;
+  term2;
 
   String localized() => "semester.$name".tr();
 }
@@ -34,8 +34,8 @@ class SchoolYear {
 String semesterToFormField(Semester semester) {
   const mapping = {
     Semester.all: '',
-    Semester.term1st: '3',
-    Semester.term2rd: '12',
+    Semester.term1: '3',
+    Semester.term2: '12',
   };
   return mapping[semester]!;
 }
@@ -43,8 +43,8 @@ String semesterToFormField(Semester semester) {
 Semester formFieldToSemester(String s) {
   Map<String, Semester> semester = {
     '': Semester.all,
-    '3': Semester.term1st,
-    '12': Semester.term2rd,
+    '3': Semester.term1,
+    '12': Semester.term2,
   };
   return semester[s]!;
 }

@@ -130,6 +130,6 @@ Map<String, dynamic> _$ExamResultToJson(ExamResult instance) =>
 
 const _$SemesterEnumMap = {
   Semester.all: 'all',
-  Semester.term1st: 'term1st',
-  Semester.term2rd: 'term2rd',
+  Semester.term1: 'term1st',
+  Semester.term2: 'term2rd',
 };

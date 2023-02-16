@@ -60,7 +60,7 @@ enum FType {
 
   /// 电费查询
   @HiveField(14)
-  electricityBill;
+  elecBill;
 
   String l10nName()=> "$_ns.$name.name".tr();
 

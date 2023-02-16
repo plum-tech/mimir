@@ -95,9 +95,9 @@ class _Import {
     String yearEnd,
   ) =>
       "$ns.defaultName".tr(namedArgs: {
-        semester: "semester",
-        yearStart: "yearStart",
-        yearEnd: "yearEnd",
+        "semester": semester,
+        "yearStart": yearStart,
+        "yearEnd": yearEnd,
       });
 }
 

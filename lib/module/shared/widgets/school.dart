@@ -49,7 +49,7 @@ class _SemesterSelectorState extends State<SemesterSelector> {
       selectedSemester = widget.initialSemester ?? Semester.all;
     } else {
       selectedSemester =
-          widget.initialSemester ?? ((now.month >= 3 && now.month <= 7) ? Semester.term2rd : Semester.term1st);
+          widget.initialSemester ?? ((now.month >= 3 && now.month <= 7) ? Semester.term2 : Semester.term1);
     }
   }
 
@@ -128,9 +128,9 @@ class _SemesterSelectorState extends State<SemesterSelector> {
     List<Semester> semesters;
     // 不显示学年
     if (!(widget.showEntireYear ?? true)) {
-      semesters = [Semester.term1st, Semester.term2rd];
+      semesters = [Semester.term1, Semester.term2];
     } else {
-      semesters = [Semester.all, Semester.term1st, Semester.term2rd];
+      semesters = [Semester.all, Semester.term1, Semester.term2];
     }
     final semesterItems = Map.fromEntries(semesters.map((e) => MapEntry(e, e.localized())));
     // 保证显示上初始选择学期、实际加载的学期、selectedSemester 变量一致.
