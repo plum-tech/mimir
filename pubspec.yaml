@@ -25,9 +25,6 @@ dependencies:
 
   device_info_plus_platform_interface: ^2.6.1
   # I18n
-  flutter_localizations:
-    sdk: flutter
-  # I18n
   intl: ^0.17.0
   easy_localization: ^3.0.1
 
