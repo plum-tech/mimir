@@ -6,6 +6,8 @@ import '../using.dart';
 
 typedef CredentialCtor<T> = T Function(String account, String password);
 
+const _i18n = CredentialI18n();
+
 class CredentialEditor<T> extends StatefulWidget {
   final String account;
   final String password;
@@ -51,12 +53,12 @@ class _CredentialEditorState extends State<CredentialEditor> {
         buildField("password", $password),
       ].column(mas: MainAxisSize.min),
       primary: $Action$(
-          text: i18n.submit,
+          text: _i18n.submit,
           onPressed: () {
             context.navigator.pop(widget.ctor($account.text, $password.text));
           }),
       secondary: $Action$(
-          text: i18n.cancel,
+          text: _i18n.cancel,
           onPressed: () {
             context.navigator.pop(widget.ctor(widget.account, widget.password));
           }),

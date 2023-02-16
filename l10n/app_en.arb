@@ -36,8 +36,6 @@
   "downloadEasyConnectBtn": "Download EasyConnect",
   "downloading": "Downloading",
   "draft": "Draft",
-  "easyconnectLaunchFailed": "Launch Failed",
-  "easyconnectLaunchFailedDesc": "Failed to launch EasyConnect, have you installed it or just download it now?",
   "edit": "Edit",
   "emptyContent": "Empty",
   "enable": "Enable",
@@ -84,7 +82,6 @@
   "language_zh": "中文(简体)",
   "language_zh_TW": "中文(繁體)",
   "lastOnlineTime": "Last Online",
-  "launchEasyConnectBtn": "Launch EasyConnect",
   "lessonNotEvaluated": "Not Eval",
   "libraryAccountManagementBtnTip": "Library account management is coming soon...",
   "loading": "Loading",
@@ -107,7 +104,6 @@
   "nickName": "Name",
   "notEnterCaptchaError": "Captcha is empty.",
   "notFound404": "404 Not Found",
-  "notLoggedIn": "Not Logged In",
   "oaAnnouncementAttachmentTip": "{count,plural, =1{Attachment} other{Attachments}}",
   "@oaAnnouncementAttachmentTip": {
     "placeholders": {

@@ -7,6 +7,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../symbol.dart';
 import '../using.dart';
+const _i18n = CredentialI18n();
 
 class UnauthorizedTipPage extends StatefulWidget {
   final Widget? title;
@@ -23,7 +24,7 @@ class _UnauthorizedTipPageState extends State<UnauthorizedTipPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: widget.title ?? i18n.unauthorizedTip.title.text(),
+        title: widget.title ?? _i18n.unauthorizedTip.title.text(),
       ),
       body: UnauthorizedTip(onLogin: widget.onLogin),
     );
@@ -102,9 +103,9 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
 
   String get tip {
     if (Auth.hasLoggedIn) {
-      return i18n.unauthorizedTip.everLoggedInTip;
+      return _i18n.unauthorizedTip.everLoggedInTip;
     } else {
-      return i18n.unauthorizedTip.neverLoggedInTip;
+      return _i18n.unauthorizedTip.neverLoggedInTip;
     }
   }
 
@@ -124,7 +125,7 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
             enableSuggestions: false,
             validator: studentIdValidator,
             decoration: InputDecoration(
-                labelText: i18n.account, hintText: i18n.loginLoginAccountHint, icon: const Icon(Icons.person)),
+                labelText: _i18n.account, hintText: _i18n.loginLoginAccountHint, icon: const Icon(Icons.person)),
           ),
           TextFormField(
             controller: $password,
@@ -145,8 +146,8 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
               }
             },
             decoration: InputDecoration(
-              labelText: i18n.oaPwd,
-              hintText: i18n.loginPwdHint,
+              labelText: _i18n.oaPwd,
+              hintText: _i18n.loginPwdHint,
               icon: const Icon(Icons.lock),
               suffixIcon: IconButton(
                 // 切换密码明文显示状态的图标按钮
@@ -164,9 +165,9 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
 
   String get buttonText {
     if (Auth.hasLoggedIn) {
-      return i18n.relogin;
+      return _i18n.relogin;
     } else {
-      return i18n.loginLoginBtn;
+      return _i18n.loginLoginBtn;
     }
   }
 
@@ -197,9 +198,9 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
     final password = $password.text;
     if (!formValid || account.isEmpty || password.isEmpty) {
       await ctx.showTip(
-        title: i18n.formatError,
-        desc: i18n.validateInputAccountPwdRequest,
-        ok: i18n.close,
+        title: _i18n.formatError,
+        desc: _i18n.validateInputAccountPwdRequest,
+        ok: _i18n.close,
         serious: true,
       );
       return;
@@ -213,9 +214,9 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
       setState(() => enableLoginButton = true);
       if (mounted) {
         await ctx.showTip(
-          title: i18n.network.error,
-          desc: i18n.network.noAccessTip,
-          ok: i18n.close,
+          title: _i18n.network.error,
+          desc: _i18n.network.noAccessTip,
+          ok: _i18n.close,
           serious: true,
         );
       }
@@ -235,17 +236,17 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
     } on CredentialsInvalidException catch (e) {
       if (!mounted) return;
       await ctx.showTip(
-        title: i18n.loginFailedWarn,
+        title: _i18n.loginFailedWarn,
         desc: e.msg,
-        ok: i18n.close,
+        ok: _i18n.close,
       );
       return;
     } catch (e) {
       if (!mounted) return;
       await ctx.showTip(
-        title: i18n.loginFailedWarn,
-        desc: i18n.accountOrPwdIncorrectTip,
-        ok: i18n.close,
+        title: _i18n.loginFailedWarn,
+        desc: _i18n.accountOrPwdIncorrectTip,
+        ok: _i18n.close,
         serious: true,
       );
     } finally {

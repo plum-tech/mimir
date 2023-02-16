@@ -22,13 +22,13 @@ class _ConnectedBlockState extends State<ConnectedBlock> {
     final style = context.textTheme.bodyLarge;
 
     late Widget buildConnectedByProxy = Text(
-        '${i18n.connectivityConnectedByVpn}\n'
-        '${i18n.address}：${Kv.network.proxy}',
+        '${i18n.connectedByVpn}\n'
+        '${i18n.network.ipAddress}：${Kv.network.proxy}',
         textAlign: TextAlign.center,
         style: style);
 
     Widget buildConnectedByVpnBlock() =>
-        Text(i18n.connectivityConnectedByVpn, textAlign: TextAlign.center, style: style);
+        Text(i18n.connectedByVpn, textAlign: TextAlign.center, style: style);
     Widget buildConnectedByWlanBlock() {
       return FutureBuilder(
         future: Network.checkStatus(),
@@ -48,10 +48,10 @@ class _ConnectedBlockState extends State<ConnectedBlock> {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(i18n.connectivityConnectedByWlan, style: style),
+              Text(i18n.connectedByWlan, style: style),
               const SizedBox(height: 10),
-              Text('${i18n.studentID}: $studentId'),
-              Text('${i18n.address}: $ip'),
+              Text('${i18n.credential.studentId}: $studentId'),
+              Text('${i18n.network.ipAddress}: $ip'),
             ],
           );
         },

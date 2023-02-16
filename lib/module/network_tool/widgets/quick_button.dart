@@ -20,14 +20,14 @@ class _QuickButtonsState extends State<QuickButtons> {
         child: i18n.openWlanSettingsBtn.text(),
       ),
       ElevatedButton(
-          child: i18n.launchEasyConnectBtn.text(),
+          child: i18n.easyconnect.launchBtn.text(),
           onPressed: () async {
             final launched = await GlobalLauncher.launch('sangfor://easyconnect');
             if (!launched) {
               if (!mounted) return;
               final confirm = await context.showRequest(
-                  title: i18n.easyconnectLaunchFailed,
-                  desc: i18n.easyconnectLaunchFailedDesc,
+                  title: i18n.easyconnect.launchFailed,
+                  desc: i18n.easyconnect.launchFailedDesc,
                   yes: i18n.download,
                   no: i18n.notNow,
                   highlight: true);

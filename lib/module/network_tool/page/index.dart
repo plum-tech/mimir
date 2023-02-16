@@ -50,7 +50,7 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
     return Scaffold(
         appBar: AppBar(
           title: [
-            i18n.networkTool.text(),
+            i18n.title.text(),
             if (!isConnected)
               Placeholders.loading(
                 size: 14,

@@ -60,8 +60,8 @@ class _LoginPageState extends State<LoginPage> {
       if (!mounted) return;
       setState(() => enableLoginButton = true);
       await ctx.showTip(
-        title: i18n.networkError,
-        desc: i18n.networkNoAccessTip,
+        title: i18n.network.error,
+        desc: i18n.network.noAccessTip,
         ok: i18n.close,
         serious: true,
       );
@@ -86,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
     } on CredentialsInvalidException catch (e) {
       if (!mounted) return;
       await ctx.showTip(
-        title: i18n.loginFailedWarn,
+        title: i18n.failedWarn,
         desc: e.msg,
         ok: i18n.close,
       );
@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
     } catch (e) {
       if (!mounted) return;
       await ctx.showTip(
-        title: i18n.loginFailedWarn,
+        title: i18n.failedWarn,
         desc: i18n.accountOrPwdIncorrectTip,
         ok: i18n.close,
         serious: true,
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget buildTitleLine() {
     return Container(
         alignment: Alignment.centerLeft,
-        child: Text(i18n.loginTitle, style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold)));
+        child: Text(i18n.title, style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold)));
   }
 
   Widget buildLoginForm(BuildContext ctx) {
@@ -126,8 +126,8 @@ class _LoginPageState extends State<LoginPage> {
             enableSuggestions: false,
             validator: studentIdValidator,
             decoration: InputDecoration(
-              labelText: i18n.account,
-              hintText: i18n.loginLoginAccountHint,
+              labelText: i18n.credential.account,
+              hintText: i18n.accountHint,
               icon: const Icon(Icons.person),
             ),
           ),
@@ -149,8 +149,8 @@ class _LoginPageState extends State<LoginPage> {
               }
             },
             decoration: InputDecoration(
-              labelText: i18n.oaPwd,
-              hintText: i18n.loginPwdHint,
+              labelText: i18n.credential.oaPwd,
+              hintText: i18n.oaPwdHint,
               icon: const Icon(Icons.lock),
               suffixIcon: IconButton(
                 icon: Icon(isPasswordClear ? Icons.visibility : Icons.visibility_off),
@@ -181,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                   onLogin(ctx);
                 }
               : null,
-          child: i18n.loginLoginBtn.text().padAll(5),
+          child: i18n.loginBtn.text().padAll(5),
         ),
         if (!widget.disableOffline)
           ElevatedButton(
@@ -189,7 +189,7 @@ class _LoginPageState extends State<LoginPage> {
             onPressed: () {
               Navigator.pushReplacementNamed(context, RouteTable.home);
             },
-            child: i18n.loginOfflineModeBtn.text().padAll(5),
+            child: i18n.offlineModeBtn.text().padAll(5),
           ),
       ],
     );
@@ -249,7 +249,7 @@ class _LoginPageState extends State<LoginPage> {
           [
             TextButton(
               child: Text(
-                i18n.loginForgotPwdBtn,
+                i18n.forgotPwdBtn,
                 style: const TextStyle(color: Colors.grey),
               ),
               onPressed: () {

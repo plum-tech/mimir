@@ -80,31 +80,20 @@ application:
     emptyTip: Here is nothing.
     recent: Recent
 credential:
-  login:
-    title: Welcome!
-    accountHint: Student ID/Work number
-    forgotPwdBtn: Forgot password?
-    loggedInTip: Logged in
-    loginBtn: Login
-    incorrectIDFormat: Incorrect ID format
-    offlineModeBtn: Offline Mode
-    pwdHint: Enter your password
-    failedWarn: Login Failed
-    btn: Login
-    credentialsValidatedTip: Account and password is correct
-  studentID: Student ID
+  studentId: Student ID
   account: Account
   oaPwd: OA Password
   pwd: Password
-  formatError: Format Error
   relogin: Re-login
   reloginRequestDesc: Your account or password is incorrect, do you want to log in again?
-  accountOrPwdIncorrectTip: The account or password is incorrect. Please check them and try again.
-  validateInputAccountPwdRequest:
   unauthorizedTip:
     title: Require Login
     everLoggedInTip: Your account or password is incorrect, please try to login again.
     neverLoggedInTip: You have to login to perform this.
+easyconnect:
+  launchBtn: Launch EasyConnect
+  launchFailed: Launch Failed
+  launchFailedDesc: Failed to launch EasyConnect, have you installed it or just download it now?
 elecBill:
   navigation:
     bill: Bill
@@ -179,15 +168,39 @@ networkChecker:
     none: You need the access to campus network to continue. Let's check it now.
 network:
   error: Network Error
+  ipAddress: IP Address
   connectionTimeoutError: Network Timeout
   connectionTimeoutErrorDesc: "This function requires access to the campus network. NOTE: It can also occur when the school server crashes or is down for maintenance."
   openToolBtn: Open Network Tool
+networkTool:
+  title: Title
+  openWlanSettingsBtn: Open WLAN settings
   noAccessTip: Unable to access network. Please check network settings on your device, and try again.
-  connectFailedError": Unable to connect to campus network. Troubleshooting:\n1. Attempt to connect to the school's Wi-Fi, \"i-SIT\",\"i-SIT-1x\" or \"eduroam\".\n2. Attempt to launch \"EasyConnect\" VPN to connect to School.\n3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.\nIf they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
+  connectFailedError: Unable to connect to campus network. Troubleshooting:\n1. Attempt to connect to the school's Wi-Fi, \"i-SIT\",\"i-SIT-1x\" or \"eduroam\".\n2. Attempt to launch \"EasyConnect\" VPN to connect to School.\n3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.\nIf they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
   connectedByProxy: Connected to campus network by Http proxy.
   connectedByVpn: Connected to campus network by VPN.
   connectedByWlan: Connected to campus network by WLAN.
-  openWlanSettingsBtn: Open WLAN settings
+  connectivityConnectFailedError: |
+    Unable to connect to campus network. Troubleshooting:
+    1. Attempt to connect to the school's Wi-Fi, "i-SIT","i-SIT-1x" or "eduroam".
+    2. Attempt to launch "EasyConnect" VPN to connect to School.
+    3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.
+    If they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
+login:
+  title: Welcome!
+  validateInputAccountPwdRequest: Please check the formats of account and password you entered.
+  credentialsValidatedTip: Account and password is correct
+  accountOrPwdIncorrectTip: The account or password is incorrect. Please check them and try again.
+  accountHint: Student ID/Work number
+  forgotPwdBtn: Forgot password?
+  loggedInTip: Logged in
+  notLoggedIn: Not Logged In
+  incorrectIDFormat: Incorrect ID format
+  offlineModeBtn: Offline Mode
+  oaPwdHint: Enter your OA password
+  failedWarn: Login Failed
+  loginBtn: Login
+  formatError: Format Error
 settings:
   title: Settings
   campus:
@@ -336,3 +349,5 @@ back: Back
 continue: Continue
 unknown: Unknown
 failed: Failed
+download: Download
+fetching: Fetching

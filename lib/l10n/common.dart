@@ -24,6 +24,10 @@ mixin CommonI18nMixin {
   String get unknown => "unknown".tr();
 
   String get failed => "failed".tr();
+
+  String get download => "download".tr();
+
+  String get fetching => "fetching".tr();
 }
 
 class NetworkI18n {
@@ -32,6 +36,8 @@ class NetworkI18n {
   static const ns = "network";
 
   String get error => "$ns.error".tr();
+
+  String get ipAddress => "$ns.ipAddress".tr();
 
   String get connectionTimeoutError => "$ns.connectionTimeoutError".tr();
 
