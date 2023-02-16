@@ -122,6 +122,16 @@ eduEmail:
   noSubject: No Subject
   pluralSenderTailing: ...
   text: Text
+examResult:
+  noResult: No result of examination
+  lessonNotEvaluated: No result of examination
+  teacherEvalTitle: Teacher Evaluation
+  lessonEvaluationBtn: Lesson Eval
+  gpaSelectedAndTotalLabel: "Point: {point} of {count} selected"
+  gpaPointLabel: "Point of {type}: {point}"
+  compulsory: Compulsory
+  credit: Credit
+  elective: Elective
 examArr:
   endTime: End Time
   isRetake: Is Retake

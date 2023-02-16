@@ -87,8 +87,8 @@ class _ScoreItemState extends State<ScoreItem> {
   }
 
   String getSubtitle() {
-    final courseType = result.courseId[0] != 'G' ? i18n.courseCompulsory : i18n.courseElective;
-    return '$courseType | ${i18n.courseCredit}: ${result.credit}';
+    final courseType = result.courseId[0] != 'G' ? i18n.compulsory : i18n.elective;
+    return '$courseType | ${i18n.credit}: ${result.credit}';
   }
 
   // TODO: Where to display this?

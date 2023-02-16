@@ -57,7 +57,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
   @override
   Widget build(BuildContext context) {
     // If the user has logged in, they can only check the cache.
-    if (!Auth.hasLoggedIn) return UnauthorizedTipPage(title: i18n.ftype_examArr.text());
+    if (!Auth.hasLoggedIn) return UnauthorizedTipPage(title: FType.examResult.l10nName().text());
     final allResults = _allResults;
     final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResult>() : allResults;
     final String title;
@@ -67,12 +67,12 @@ class _ExamResultPageState extends State<ExamResultPage> {
         gpa = 0;
       }
       if (isSelecting) {
-        title = i18n.gpaSelectedAndTotalLabel(selectedExams.length, gpa.toStringAsPrecision(2));
+        title = i18n.gpaSelectedAndTotalLabel(selectedExams.length.toString(), gpa.toStringAsPrecision(2));
       } else {
         title = i18n.gpaPointLabel(selectedSemester.localized(), gpa.toStringAsPrecision(2));
       }
     } else {
-      title = i18n.ftype_examResult;
+      title = FType.examResult.l10nName();
     }
 
     return Scaffold(
@@ -184,7 +184,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
   Widget _buildNoResult() {
     return LeavingBlank.svgAssets(
       assetName: "assets/common/not-found.svg",
-      desc: i18n.examResultNoResult,
+      desc: i18n.noResult,
       width: 240,
       height: 240,
     );

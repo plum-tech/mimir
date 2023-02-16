@@ -13,12 +13,6 @@
   "captcha": "Captcha",
   "city": "City",
   "classmate": "Classmate",
-  "clear": "Clear",
-  "continue_": "Continue",
-  "counselor": "Counselor",
-  "courseCompulsory": "Compulsory",
-  "courseCredit": "Credit",
-  "courseElective": "Elective",
   "credentialError": "Credential Error",
   "currentDormitoryLabel": "Current Dormitory",
   "currentVersion": "Current Version",
@@ -64,28 +58,6 @@
   "fullName": "Full Name",
   "gender": "Gender",
   "go": "Go",
-  "gpaPointLabel": "Point of {type}: {point}",
-  "@gpaPointLabel": {
-    "placeholders": {
-      "type": {
-        "type": "String"
-      },
-      "point": {
-        "type": "String"
-      }
-    }
-  },
-  "gpaSelectedAndTotalLabel": "Point: {point} of {count} selected",
-  "@gpaSelectedAndTotalLabel": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      },
-      "point": {
-        "type": "String"
-      }
-    }
-  },
   "greetingHeader0L1": "Welcome! Have a nice day",
   "greetingHeader0L2": "At SIT",
   "greetingHeaderEnableIncrement": "n",
@@ -113,7 +85,6 @@
   "language_zh_TW": "中文(繁體)",
   "lastOnlineTime": "Last Online",
   "launchEasyConnectBtn": "Launch EasyConnect",
-  "lessonEvaluationBtn": "Lesson Eval",
   "lessonNotEvaluated": "Not Eval",
   "libraryAccountManagementBtnTip": "Library account management is coming soon...",
   "loading": "Loading",
@@ -163,8 +134,6 @@
   "studentIdCopy2ClipboardTip": "Your student ID is copied.",
   "studentInfoTitle": "Student Info",
   "success": "Success",
-  "teacherEvalTitle": "Teacher Evaluation",
-  "tel": "TEL.",
   "troubleshooting": "Troubleshooting",
   "unauthorizedTipEverLoggedInTip": "Your account or password is incorrect, please try to login again.",
   "unauthorizedTipNeverLoggedInTip": "You have to login to perform this.",
