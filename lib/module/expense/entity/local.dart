@@ -8,8 +8,6 @@ import 'shared.dart';
 
 part 'local.g.dart';
 
-const abosute = Object();
-
 @JsonSerializable()
 class Transaction {
   Transaction();
@@ -22,7 +20,8 @@ class Transaction {
   TransactionType type = TransactionType.other;
   double balanceBefore = 0;
   double balanceAfter = 0;
-  @abosute
+
+  /// It's absolute
   double deltaAmount = 0;
 
   String deviceName = "";
@@ -85,5 +84,5 @@ enum TransactionType {
 
   const TransactionType(this.style);
 
-  String localized() => "expense.type.$name";
+  String localized() => "expense.type.$name".tr();
 }

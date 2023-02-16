@@ -22,7 +22,7 @@ class _YellowPagesPageState extends State<YellowPagesPage> {
   Future<List<ContactData>> _fetchContactList() async {
     String jsonData = await rootBundle.loadString("assets/yellow_pages.json");
     List list = await jsonDecode(jsonData);
-    return list.cast<ContactData>();
+    return list.map((e) => ContactData.fromJson(e)).toList().cast<ContactData>();
   }
 
   @override

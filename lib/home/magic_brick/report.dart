@@ -19,9 +19,6 @@ class ReportTempItem extends StatefulWidget {
 class _ReportTempItemState extends State<ReportTempItem> {
   String? content;
 
-  /// 用于限制仅弹出一次对话框
-  static bool hasWarnedDialog = false;
-
   @override
   void initState() {
     super.initState();
@@ -34,7 +31,7 @@ class _ReportTempItemState extends State<ReportTempItem> {
   }
 
   void updateReportStatus(OACredential oaCredential) async {
-    final String result = await _buildContent(oaCredential);
+    final result = await _buildContent(oaCredential);
     if (!mounted) return;
     setState(() => content = result);
   }
@@ -49,13 +46,13 @@ class _ReportTempItemState extends State<ReportTempItem> {
     return '${i18n.reportedToday}, $tempState ${history.place}';
   }
 
-  Future<String> _buildContent(OACredential oaCredential) async {
+  Future<String?> _buildContent(OACredential oaCredential) async {
     late ReportHistory? history;
 
     try {
       history = await ReportTempInit.reportService.getRecentHistory(oaCredential.account);
     } catch (e) {
-      return "";
+      return null;
     }
     if (history == null) {
       return i18n.noReportRecords;

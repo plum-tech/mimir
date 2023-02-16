@@ -137,17 +137,20 @@ examArr:
   seatNumber: Seat No.
   startTime: Start Time
 expense:
+  navigation:
+    bill: Bill
+    statistics: Statistics
   type:
     consume: Consume
-    cafe: Café
+    coffee: Café
     food: Canteen
-    grocery: Grocery Shopping
-    hotWater: Hot Water
+    store: Grocery Shopping
+    water: Hot Water
     library: Library
     shower: Shower
     topUp: Top Up
     subsidy: Subsidy
-    stuff: Stuff
+    other: Stuff
   balanceInCard: ¥{} in Card
   categories: Categories
   fetchingRecordTip: Fetching expense record
@@ -318,7 +321,7 @@ timetable:
   jump: Jump
   findToday: findToday
   startDate: "Start with: {}"
-  weekOrderedName: "Week {week}"
+  weekOrderedName: "Week {}"
   freeTip:
     dayTip: It's a free day!
     isTodayTip: "Have a nice day! 🎉"

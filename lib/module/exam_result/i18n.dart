@@ -20,9 +20,9 @@ class _I18n with CommonI18nMixin {
         "count": count,
       });
 
-  String gpaPointLabel(String type, String count) => "$ns.gpaPointLabel".tr(namedArgs: {
+  String gpaPointLabel(String type, String point) => "$ns.gpaPointLabel".tr(namedArgs: {
         "type": type,
-        "count": count,
+        "point": point,
       });
 
   String get compulsory => "$ns.compulsory".tr();
