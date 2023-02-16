@@ -3,10 +3,12 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mimir/credential/using.dart';
-import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/build_context/show.dart';
 import 'package:rettulf/rettulf.dart';
+
+import '../i18n.dart';
+import 'multiplatform.dart';
+import 'dialog.dart';
 
 typedef EditorBuilder<T> = Widget Function(BuildContext ctx, String? desc, T initial);
 

@@ -4,16 +4,19 @@ activity:
     mine: Mine
   apply:
     btn: Apply
-    reply-tip: Reply from school
+    replyTip: Reply from school
     request: Apply
-    request-desc: Confirm to apply this activity?
+    requestDesc: Confirm to apply this activity?
+  application:
+    id: Application ID
+    time: Application Time
   id: Activity ID
-  contact-info: Contact Info
-  detail-empty-tip: No detail given.
+  contactInfo: Contact Info
+  detailEmptyTip: No detail given.
   details: Activity Details
   duration: Duration
   location: Location
-  my-score-title: Second Class Score
+  myScoreTitle: Second Class Score
   organizer: Organizer
   principal: Principal
   signInTime: Sign-in
@@ -21,6 +24,30 @@ activity:
   startTime: Start Time
   tags: Tags
   undertaker: Undertaker
-  application:
-    id: Application ID
-    time: Application Time
+credential:
+  account:
+  oaPwd:
+  loginPwdHint:
+  loginLoginAccountHint:
+  formatError:
+  loginFailedWarn:
+  relogin:
+  loginLoginBtn:
+  accountOrPwdIncorrectTip:
+  accountOrPwdIncorrectTip:
+  validateInputAccountPwdRequest:
+  unauthorizedTip:
+    title: Require Login
+    everLoggedInTip: Your account or password is incorrect, please try to login again.
+    neverLoggedInTip: You have to login to perform this.
+network:
+  error: Network Error
+  noAccessTip: Unable to access network. Please check network settings on your device, and try again.
+open: Open
+confirm: Confirm
+notNow: Not Now
+error: Error
+ok: OK
+close: Close
+submit: Submit
+cancel: Cancel

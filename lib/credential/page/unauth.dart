@@ -1,8 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/exception/session.dart';
-import 'package:mimir/module/activity/using.dart';
 import 'package:mimir/module/login/init.dart';
+import 'package:mimir/storage/init.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../symbol.dart';
@@ -23,7 +23,7 @@ class _UnauthorizedTipPageState extends State<UnauthorizedTipPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: widget.title ?? i18n.unauthorizedTipTitle.text(),
+        title: widget.title ?? i18n.unauthorizedTip.title.text(),
       ),
       body: UnauthorizedTip(onLogin: widget.onLogin),
     );
@@ -102,9 +102,9 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
 
   String get tip {
     if (Auth.hasLoggedIn) {
-      return i18n.unauthorizedTipEverLoggedInTip;
+      return i18n.unauthorizedTip.everLoggedInTip;
     } else {
-      return i18n.unauthorizedTipNeverLoggedInTip;
+      return i18n.unauthorizedTip.neverLoggedInTip;
     }
   }
 
@@ -129,6 +129,7 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
           TextFormField(
             controller: $password,
             textInputAction: TextInputAction.send,
+            //TODO: Flutter 3.7
             toolbarOptions: const ToolbarOptions(
               copy: false,
               cut: false,
@@ -212,8 +213,8 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
       setState(() => enableLoginButton = true);
       if (mounted) {
         await ctx.showTip(
-          title: i18n.networkError,
-          desc: i18n.networkNoAccessTip,
+          title: i18n.network.error,
+          desc: i18n.network.noAccessTip,
           ok: i18n.close,
           serious: true,
         );

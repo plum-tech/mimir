@@ -51,7 +51,7 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
   Widget buildPortrait(BuildContext ctx) {
     return Scaffold(
       appBar: AppBar(
-        title: i18n.activityDetails.text(),
+        title: i18n.details.text(),
         actions: [
           IconButton(
             icon: const Icon(Icons.open_in_browser),
@@ -65,7 +65,7 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
       floatingActionButton: widget.enableApply
           ? FloatingActionButton.extended(
               icon: const Icon(Icons.person_add),
-              label: i18n.activityApplyBtn.text(),
+              label: i18n.apply.btn.text(),
               onPressed: () async {
                 await showApplyRequest(ctx);
               },
@@ -86,7 +86,7 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
             actions: [
               if (widget.enableApply)
                 PlainExtendedButton(
-                    label: i18n.activityApplyBtn.text(),
+                    label: i18n.apply.btn.text(),
                     icon: const Icon(Icons.person_add),
                     tap: () async {
                       await showApplyRequest(ctx);
@@ -105,11 +105,11 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
       return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: i18n.activityDetails.text(),
+          title: i18n.details.text(),
           actions: [
             if (widget.enableApply)
               PlainExtendedButton(
-                  label: i18n.activityApplyBtn.text(),
+                  label: i18n.apply.btn.text(),
                   icon: const Icon(Icons.person_add),
                   tap: () async {
                     await showApplyRequest(ctx);
@@ -150,7 +150,7 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
 
   Widget _buildArticle(BuildContext context, String? html) {
     if (html == null) {
-      return i18n.activityDetailEmptyTip.text(style: context.textTheme.titleLarge).center();
+      return i18n.detailEmptyTip.text(style: context.textTheme.titleLarge).center();
     }
     return Padding(
       padding: const EdgeInsets.all(20),
@@ -190,8 +190,8 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
 
   Future<void> showApplyRequest(BuildContext ctx) async {
     final confirm = await ctx.showRequest(
-        title: i18n.activityApplyRequest,
-        desc: i18n.activityApplyRequestDesc,
+        title: i18n.apply.request,
+        desc: i18n.apply.requestDesc,
         yes: i18n.confirm,
         no: i18n.notNow,
         highlight: true);
@@ -199,7 +199,7 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
       try {
         final response = await ScInit.scJoinActivityService.join(activityId);
         if (!mounted) return;
-        await ctx.showTip(title: i18n.activityApplyReplyTip, desc: response, ok: i18n.ok);
+        await ctx.showTip(title: i18n.apply.replyTip, desc: response, ok: i18n.ok);
       } catch (e) {
         if (!mounted) return;
         await ctx.showTip(
@@ -246,15 +246,15 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
             1: FlexColumnWidth(3),
           },
           children: [
-            buildRow(i18n.activityID, activity.id),
-            buildRow(i18n.activityLocation, detail?.place),
-            buildRow(i18n.activityPrincipal, detail?.principal),
-            buildRow(i18n.activityOrganizer, detail?.organizer),
-            buildRow(i18n.activityUndertaker, detail?.undertaker),
-            buildRow(i18n.activityContactInfo, detail?.contactInfo),
-            buildRow(i18n.activityStartTime, detail?.startTime),
-            buildRow(i18n.activityDuration, detail?.duration),
-            buildRow(i18n.activityTags, activity.tags.join(' ')),
+            buildRow(i18n.id, activity.id),
+            buildRow(i18n.location, detail?.place),
+            buildRow(i18n.principal, detail?.principal),
+            buildRow(i18n.organizer, detail?.organizer),
+            buildRow(i18n.undertaker, detail?.undertaker),
+            buildRow(i18n.contactInfo, detail?.contactInfo),
+            buildRow(i18n.startTime, detail?.startTime),
+            buildRow(i18n.duration, detail?.duration),
+            buildRow(i18n.tags, activity.tags.join(' ')),
           ],
         ).padH(10),
       ],
