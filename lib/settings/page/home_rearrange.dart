@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/home/brick_maker.dart';
-import 'package:mimir/home/entity/home.dart';
+import 'package:mimir/home/entity/ftype.dart';
 import 'package:mimir/module/activity/using.dart';
 import 'package:mimir/util/vibration.dart';
 import 'package:rettulf/rettulf.dart';
@@ -205,7 +205,7 @@ class _HomeRearrangePageState extends State<HomeRearrangePage> {
       return ListTile(
         trailing: const Icon(Icons.menu),
         title: Text(
-          type.localized(),
+          type.l10nName(),
         ),
       );
     }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/module/library/using.dart';
 
 import '../using.dart';
 import 'list.dart';
@@ -17,7 +16,7 @@ class _ActivityIndexPageState extends State<ActivityIndexPage> {
   @override
   Widget build(BuildContext context) {
     return AdaptiveNavi(
-      title: i18n.ftype_activity,
+      title: FType.activity.l10nName(),
       defaultIndex: 0,
       actions: [
         IconButton(
@@ -28,7 +27,7 @@ class _ActivityIndexPageState extends State<ActivityIndexPage> {
       pages: [
         // Activity List page
         AdaptivePage(
-          label: i18n.activityAllNavigation,
+          label: i18n.navigation.all,
           unselectedIcon: const Icon(Icons.check_box_outline_blank),
           selectedIcon: const Icon(Icons.list_alt_rounded),
           builder: (ctx, key) {
@@ -37,7 +36,7 @@ class _ActivityIndexPageState extends State<ActivityIndexPage> {
         ),
         // Mine page
         AdaptivePage(
-          label: i18n.activityMineNavigation,
+          label: i18n.navigation.mine,
           unselectedIcon: const Icon(Icons.person_outline_rounded),
           selectedIcon: const Icon(Icons.person_rounded),
           builder: (ctx, key) {

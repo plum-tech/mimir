@@ -14,7 +14,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import '../brick_maker.dart';
-import '../entity/home.dart';
+import '../entity/ftype.dart';
 import '../homepage_factory.dart';
 import '../init.dart';
 import '../widgets/drawer.dart';

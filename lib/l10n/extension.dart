@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 import '../global/global.dart';
@@ -11,10 +10,6 @@ export 'package:mimir/r.dart';
 export 'lang.dart';
 
 extension I18nBuildContext on BuildContext {
-  AppLocalizations get l => AppLocalizations.of(this);
-
-  String get langCode => Localizations.localeOf(this).languageCode;
-
   ///e.g.: Wednesday, September 21, 2022
   String dateText(DateTime date) {
     final curLocale = locale;
@@ -45,8 +40,6 @@ extension I18nBuildContext on BuildContext {
 extension LocaleExtension on Locale {
   String dateText(DateTime date) => DateFormat.yMMMMEEEEd(languageCode).format(date);
 }
-
-AppLocalizations get i18n => AppLocalizations.of(Global.buildContext!);
 
 bool yOrNo(String test, {bool defaultValue = false}) {
   switch (test) {

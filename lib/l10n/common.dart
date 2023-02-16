@@ -16,6 +16,8 @@ mixin CommonI18nMixin {
   String get submit => "submit".tr();
 
   String get cancel => "cancel".tr();
+
+  String get back => "back".tr();
 }
 
 class NetworkI18n {

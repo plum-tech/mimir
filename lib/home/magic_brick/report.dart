@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/events/bus.dart';
+import 'package:mimir/home/entity/ftype.dart';
 import 'package:mimir/module/library/using.dart';
 import 'package:mimir/module/symbol.dart';
 
@@ -35,37 +36,10 @@ class _ReportTempItemState extends State<ReportTempItem> {
     setState(() => content = result);
   }
 
-  Future<void> dialogRemind() async {
-    if (hasWarnedDialog) return;
-    final rs = Kv.report;
-    if (rs.enable == null || rs.enable == false) return;
-
-    final now = DateTime.now();
-    final expectH = rs.time!.hour;
-    final expectM = rs.time!.minute;
-    final actualH = now.hour;
-    final actualM = now.minute;
-
-    // 超时了
-    if (actualH * 60 + actualM > expectH * 60 + expectM) return;
-
-    // 弹框提醒
-
-    final confirm = await context.showRequest(
-        title: i18n.reportTempHelper, desc: i18n.reportTempRequest, yes: i18n.yes, no: i18n.notNow);
-    // 用户没有选择确认上报
-    if (confirm == true) {
-      if (!mounted) return;
-      await Navigator.of(context).pushNamed(RouteTable.reportTemp);
-      hasWarnedDialog = true;
-    }
-  }
-
   String _generateContent(ReportHistory history) {
     final today = DateTime.now();
     // 上次上报时间不等于今日时间，表示未上报
     if (history.date != (today.year * 10000 + today.month * 100 + today.day)) {
-      Future.delayed(Duration.zero, dialogRemind);
       return i18n.reportTempUnreportedToday;
     }
     final tempState = history.isNormal == 0 ? i18n.reportTempNormal : i18n.reportTempAbnormal;
@@ -101,8 +75,8 @@ class _ReportTempItemState extends State<ReportTempItem> {
     return Brick(
       route: RouteTable.reportTemp,
       icon: SvgAssetIcon('assets/home/icon_report.svg'),
-      title: i18n.ftype_reportTemp,
-      subtitle: content ?? i18n.ftype_reportTemp,
+      title: FType.reportTemp.l10nName(),
+      subtitle: content ?? FType.reportTemp.l10nName(),
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:mimir/credential/symbol.dart';
-import 'package:mimir/home/entity/home.dart';
+import 'package:mimir/home/entity/ftype.dart';
 import 'package:mimir/module/symbol.dart';
 
 import 'adapter/color.dart';

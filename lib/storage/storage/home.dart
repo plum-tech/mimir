@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:mimir/home/entity/home.dart';
+import 'package:mimir/home/entity/ftype.dart';
 import 'package:mimir/module/symbol.dart';
 
 import '../dao/home.dart';
@@ -68,12 +68,6 @@ class HomeSettingStorage implements HomeSettingDao {
 
   @override
   set lastHotSearch(String? expense) => box.put(HomeKeyKeys.lastHotSearch, expense);
-
-  @override
-  String? get lastOfficeStatus => box.get(HomeKeyKeys.lastOfficeStatus);
-
-  @override
-  set lastOfficeStatus(String? status) => box.put(HomeKeyKeys.lastOfficeStatus, status);
 
   @override
   Set<int>? get readNotice => box.get(HomeKeyKeys.readNotice, defaultValue: <dynamic>{});

@@ -1,6 +1,6 @@
 import 'package:mimir/credential/symbol.dart';
 
-import 'entity/home.dart';
+import 'entity/ftype.dart';
 
 class BrickMaker {
   BrickMaker._();

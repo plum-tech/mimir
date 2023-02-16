@@ -129,7 +129,7 @@ Widget buildSummeryCard(BuildContext ctx, ScScoreSummary targetScore, ScScoreSum
     );
   } else {
     return [
-      i18n.activityMyScoreTitle.text(style: ctx.textTheme.headlineLarge).padFromLTRB(8, 24, 8, 0),
+      i18n.myScoreTitle.text(style: ctx.textTheme.headlineLarge).padFromLTRB(8, 24, 8, 0),
       _buildChart(ctx, targetScore, summery, showTotal: true)
           .padSymmetric(v: 12)
           .inCard(elevation: 8)

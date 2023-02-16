@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rettulf/build_context/show.dart';
-import 'package:rettulf/rettulf.dart';
 
 import '../using.dart';
-import 'reminder.dart';
 
 const _reportUrlPrefix = 'http://xgfy.sit.edu.cn/h5/#/';
 const _reportUrlIndex = '${_reportUrlPrefix}pages/index/index';
@@ -26,21 +23,7 @@ class DailyReportPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SimpleWebViewPage(
       initialUrl: _reportUrlIndex,
-      fixedTitle: i18n.ftype_reportTemp,
-      otherActions: [
-        IconButton(
-          onPressed: () async {
-            // TODO: use BuildContext.showTip dialog
-            await context.showDialog(
-              builder: (ctx) => AlertDialog(
-                title: i18n.reportTempReminderTitle.text(),
-                content: const ReminderDialog(),
-              ),
-            );
-          },
-          icon: const Icon(Icons.sms),
-        ),
-      ],
+      fixedTitle: FType.reportTemp.l10nName(),
       injectJsRules: [
         InjectJsRuleItem(
           rule: FunctionalRule((url) => url.startsWith(_reportUrlPrefix)),

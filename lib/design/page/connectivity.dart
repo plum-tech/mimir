@@ -76,7 +76,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
       buildIndicatorArea(context).animatedSwitched(),
       AnimatedSize(
         duration: const Duration(milliseconds: 500),
-        child: buildText(context).animatedSwitched(),
+        child: buildStatus(context).animatedSwitched(),
       ),
       buildButton(context),
     ].column(maa: MainAxisAlignment.spaceAround, caa: CrossAxisAlignment.center).center().padAll(20);
@@ -107,21 +107,21 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
     });
   }
 
-  Widget buildText(BuildContext ctx) {
+  Widget buildStatus(BuildContext ctx) {
     final s = ctx.textTheme.titleLarge;
     final String tip;
     switch (status) {
       case ConnectivityStatus.none:
-        tip = widget.initialDesc ?? i18n.connectivityCheckerStatusNone;
+        tip = widget.initialDesc ?? i18n.status.none;
         break;
       case ConnectivityStatus.connecting:
-        tip = i18n.connectivityCheckerStatusConnecting;
+        tip = i18n.status.connecting;
         break;
       case ConnectivityStatus.connected:
-        tip = i18n.connectivityCheckerStatusConnected;
+        tip = i18n.status.connected;
         break;
       case ConnectivityStatus.disconnected:
-        tip = i18n.connectivityCheckerStatusDisconnected;
+        tip = i18n.status.disconnected;
         break;
     }
     return tip.text(key: ValueKey(tip), style: s);
@@ -132,18 +132,18 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
     VoidCallback? onTap;
     switch (status) {
       case ConnectivityStatus.none:
-        tip = i18n.connectivityCheckerNoneBtn;
+        tip = i18n.button.none;
         onTap = startCheck;
         break;
       case ConnectivityStatus.connecting:
-        tip = i18n.connectivityCheckerConnectingBtn;
+        tip = i18n.button.connecting;
         break;
       case ConnectivityStatus.connected:
-        tip = i18n.connectivityCheckerConnectedBtn;
+        tip = i18n.button.connected;
         onTap = widget.onConnected;
         break;
       case ConnectivityStatus.disconnected:
-        tip = i18n.connectivityCheckerDisconnectedBtn;
+        tip = i18n.button.disconnected;
         onTap = startCheck;
         break;
     }
@@ -181,4 +181,31 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
     super.dispose();
     networkChecker.cancel();
   }
+}
+
+const i18n = _NetworkCheckerI18n();
+
+class _NetworkCheckerI18n {
+  const _NetworkCheckerI18n();
+
+  static const _ns = "networkChecker";
+
+  final button = const _NetworkCheckerI18nEntry("button");
+  final status = const _NetworkCheckerI18nEntry("status");
+}
+
+class _NetworkCheckerI18nEntry {
+  final String scheme;
+
+  String get _ns => "${_NetworkCheckerI18n._ns}.$scheme";
+
+  const _NetworkCheckerI18nEntry(this.scheme);
+
+  String get connected => "$_ns.connected".tr();
+
+  String get connecting => "$_ns.connecting".tr();
+
+  String get disconnected => "$_ns.disconnected".tr();
+
+  String get none => "$_ns.none".tr();
 }

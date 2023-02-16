@@ -1,6 +1,6 @@
 import 'package:mimir/module/symbol.dart';
 
-import '../../home/entity/home.dart';
+import '../../home/entity/ftype.dart';
 
 abstract class HomeSettingDao {
   int get campus; // 校区
@@ -17,7 +17,6 @@ abstract class HomeSettingDao {
   ReportHistory? lastReport;
   Balance? lastBalance;
   String? lastHotSearch;
-  String? lastOfficeStatus;
   Set<int>? readNotice;
   List<FType>? homeItems;
 

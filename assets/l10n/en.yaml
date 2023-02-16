@@ -50,22 +50,23 @@ credential:
     title: Require Login
     everLoggedInTip: Your account or password is incorrect, please try to login again.
     neverLoggedInTip: You have to login to perform this.
+networkChecker:
+  button:
+    connected: Continue
+    connecting: Checking...
+    disconnected: Retry
+    none: Check My Connection
+  status:
+    connected: Right ! You have connected to campus network !
+    connecting: It will take a few seconds, please ensure you have turned on the network on your device.
+    disconnected: Oops ! You can't access the campus network. Please check your network settings or use Easy Connect, and try again.
+    none: You need the access to campus network to continue. Let's check it now.
 network:
   error: Network Error
   connectionTimeoutError: Network Timeout
   connectionTimeoutErrorDesc: "This function requires access to the campus network. NOTE: It can also occur when the school server crashes or is down for maintenance."
   openToolBtn: Open Network Tool
   noAccessTip: Unable to access network. Please check network settings on your device, and try again.
-  checker:
-    connectedBtn: Continue
-    connectingBtn: Check...
-    disconnectedBtn: Retry
-    noneBtn: Check My Connection
-  status:
-    connected: Right ! You have connected to campus network !
-    connecting: It will take a few seconds, please ensure you have turned on the network on your device.
-    disconnected: Oops ! You can't access the campus network. Please check your network settings or use Easy Connect, and try again.
-    none: You need the access to campus network to continue. Let's check it now.
   connectFailedError": Unable to connect to campus network. Troubleshooting:\n1. Attempt to connect to the school's Wi-Fi, \"i-SIT\",\"i-SIT-1x\" or \"eduroam\".\n2. Attempt to launch \"EasyConnect\" VPN to connect to School.\n3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.\nIf they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
   connectedByProxy: Connected to campus network by Http proxy.
   connectedByVpn: Connected to campus network by VPN.
@@ -310,3 +311,4 @@ cancel: Cancel
 save: Save
 yes: Yes
 refresh: Refresh
+back: Back
