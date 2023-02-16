@@ -46,7 +46,7 @@ class BillPage extends StatelessWidget {
           tileColor: context.bgColor,
           title: context.dateYearMonth(firstGroupRecord.datetime).text(style: groupTitleStyle),
           subtitle:
-              "${i18n.expenseSpentStatistics(totalSpent.toStringAsFixed(2))} ${i18n.expenseIncomeStatistics(totalIncome.toStringAsFixed(2))}"
+              "${i18n.spentStatistics(totalSpent.toStringAsFixed(2))} ${i18n.incomeStatistics(totalIncome.toStringAsFixed(2))}"
                   .text(style: groupSubtitleStyle),
         );
       },

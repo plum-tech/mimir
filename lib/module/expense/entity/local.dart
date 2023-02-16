@@ -78,31 +78,12 @@ enum TransactionType {
   other(_I(Icons.menu_rounded, Colors.grey));
 
   final IconPair style;
+
   IconData get icon => style.icon;
+
   Color get color => style.color;
 
   const TransactionType(this.style);
 
-  String localized() {
-    switch (this) {
-      case TransactionType.food:
-        return i18n.expenseCanteen;
-      case TransactionType.coffee:
-        return i18n.expenseCafe;
-      case TransactionType.water:
-        return i18n.expenseHotWater;
-      case TransactionType.shower:
-        return i18n.expenseShower;
-      case TransactionType.store:
-        return i18n.expenseGrocery;
-      case TransactionType.other:
-        return i18n.expenseStuff;
-      case TransactionType.topUp:
-        return i18n.expenseTopUp;
-      case TransactionType.subsidy:
-        return i18n.expenseSubsidy;
-      case TransactionType.library:
-        return i18n.expenseLibrary;
-    }
-  }
+  String localized() => "expense.type.$name";
 }

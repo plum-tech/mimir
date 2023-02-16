@@ -20,6 +20,10 @@ mixin CommonI18nMixin {
   String get back => "back".tr();
 
   String get continue$ => "continue".tr();
+
+  String get unknown => "unknown".tr();
+
+  String get failed => "failed".tr();
 }
 
 class NetworkI18n {

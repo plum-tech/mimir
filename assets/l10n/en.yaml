@@ -123,29 +123,29 @@ eduEmail:
   pluralSenderTailing: ...
   text: Text
 expense:
-  balanceInCard: ¥{balance} in Card
-  Cafe: Café
-  canteen: Canteen
-  cats: Categories
-  consume: Consume
+  type:
+    consume: Consume
+    cafe: Café
+    food: Canteen
+    grocery: Grocery Shopping
+    hotWater: Hot Water
+    library: Library
+    shower: Shower
+    topUp: Top Up
+    subsidy: Subsidy
+    stuff: Stuff
+  balanceInCard: ¥{} in Card
+  categories: Categories
   content: ¥{amount} {place}
   fetchingRecordTip: Fetching expense record
   fetchingTip: Fetching expense records from school... Please wait a minute, the network speed depends on the school's server.
-  firstTimeRefreshRequest: Expense Tracker needs to access campus network to retrieve expense history. You can refresh the expense history manually next time by hitting the \Refresh\ button at the top-right corner.
-  grocery: Grocery Shopping
-  hotWater: Hot Water
-  incomeStatistics: "Income: ¥{amount}"
-  library: Library
+  incomeStatistics: "Income: ¥{}"
+  spentStatistics: "Outcome: ¥{}"
   refreshMenuButton: Force Refresh
-  shower: Shower
-  spentStatistics: "Outcome: ¥{amount}"
   statistics: Statistics
-  stuff: Stuff
-  subsidy: Subsidy
   toastLoadFailed: Network error
   toastLoadSuccessful: Successful!
   toastLoading: Loading...
-  topUp: Top Up
   total: Total
 networkChecker:
   button:
@@ -295,7 +295,7 @@ campus:
   fengxianDistrict: Fengxian District
 unit:
   rmb: ¥{}
-  powerKwh: {} kW·h
+  powerKwh: { } kW·h
 time:
   minute: min
   hour: hour
@@ -315,3 +315,5 @@ yes: Yes
 refresh: Refresh
 back: Back
 continue: Continue
+unknown: Unknown
+failed: Failed

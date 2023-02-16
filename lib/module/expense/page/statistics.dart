@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/module/activity/using.dart';
 import 'package:mimir/widgets/base_line_chart.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -115,7 +114,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 30),
-              child: i18n.expenseStatistics.text(style: context.textTheme.titleLarge).center(),
+              child: i18n.navigation.statistics.text(style: context.textTheme.titleLarge).center(),
             ),
             // const SizedBox(height: 5),
             Center(
@@ -160,7 +159,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              i18n.rmb(sumInType.toStringAsFixed(2)).text(),
+              i18n.unit.rmb(sumInType.toStringAsFixed(2)).text(),
               SizedBox(
                 width: 60,
                 child: Text(
@@ -185,7 +184,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 30),
-            child: i18n.expenseCats.text(style: context.textTheme.titleLarge).center(),
+            child: i18n.categories.text(style: context.textTheme.titleLarge).center(),
           ),
           Column(
             children: _buildClassifiedStat(context),

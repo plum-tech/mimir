@@ -9,20 +9,16 @@ class _I18n with CommonI18nMixin {
   final navigation = const _Navigation();
   final unit = const UnitI18n();
 
-  String title(String room) => "$ns.title".tr(
-        namedArgs: {
-          "room": room,
-        },
-      );
+  String title(String room) => "$ns.title".tr(namedArgs: {
+        "room": room,
+      });
 
   String get balance => "$ns.balance".tr();
 
-  String content(String balance, String room) => "$ns.content".tr(
-        namedArgs: {
-          "balance": balance,
-          "room": room,
-        },
-      );
+  String content(String balance, String room) => "$ns.content".tr(namedArgs: {
+        "balance": balance,
+        "room": room,
+      });
 
   String get initialTip => "$ns.initialTip".tr();
 

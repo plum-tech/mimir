@@ -53,11 +53,11 @@ class _ExpenseTrackerPageState extends State<ExpenseTrackerPage> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
-            label: i18n.bill,
+            label: i18n.navigation.bill,
             icon: const Icon(Icons.assignment_rounded),
           ),
           BottomNavigationBarItem(
-            label: i18n.stats,
+            label: i18n.navigation.statistics,
             icon: const Icon(Icons.data_saver_off),
           )
         ],
@@ -71,9 +71,9 @@ class _ExpenseTrackerPageState extends State<ExpenseTrackerPage> {
     return $balance >>
         (ctx, v) {
           if (v == null) {
-            return i18n.ftype_expense.text();
+            return FType.expense.l10nName().text();
           } else {
-            return i18n.expenseBalanceInCard(v.toStringAsFixed(2)).text();
+            return i18n.balanceInCard(v.toStringAsFixed(2)).text();
           }
         };
   }
@@ -97,7 +97,7 @@ class _ExpenseTrackerPageState extends State<ExpenseTrackerPage> {
     final account = oaCredential.account;
     for (int i = 0; i < 3; i++) {
       try {
-        EasyLoading.showToast(i18n.expenseToastLoading);
+        EasyLoading.showToast(i18n.toastLoading);
         allRecords = await cache.fetch(
           studentID: account,
           from: start,
@@ -105,23 +105,23 @@ class _ExpenseTrackerPageState extends State<ExpenseTrackerPage> {
           onLocalQuery: refreshRecords,
         );
         refreshRecords(allRecords);
-        EasyLoading.showToast(i18n.expenseToastLoadSuccessful);
+        EasyLoading.showToast(i18n.toastLoadSuccessful);
         return;
       } catch (_) {}
     }
-    EasyLoading.showToast(i18n.expenseToastLoadFailed);
+    EasyLoading.showToast(i18n.toastLoadFailed);
   }
 
   Widget buildMenu() {
     return PopupMenuButton(
       itemBuilder: (ctx) => [
         PopupMenuItem(
-          child: Text(i18n.expenseRefreshMenuButton),
+          child: Text(i18n.refreshMenuButton),
           onTap: () async {
             try {
               // 关闭用户交互
               EasyLoading.instance.userInteractions = false;
-              EasyLoading.show(status: i18n.expenseFetchingRecordTip);
+              EasyLoading.show(status: i18n.fetchingRecordTip);
               ExpenseTrackerInit.local
                 ..clear()
                 ..cachedTsEnd = null
