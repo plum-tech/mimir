@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:mimir/module/electricity_bill/symbol.dart';
+import 'package:mimir/module/elec_bill/init.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../using.dart';
@@ -68,7 +68,7 @@ class _ElectricityBillPageState extends State<ElectricityBillPage> {
     final selectedRoom = _selectedRoom;
     return Scaffold(
         appBar: AppBar(
-          title: selectedRoom != null ? i18n.elecBillTitle(selectedRoom).text() : i18n.ftype_elecBill.text(),
+          title: selectedRoom != null ? i18n.title(selectedRoom).text() : FType.electricityBill.l10nName().text(),
           actions: <Widget>[
             IconButton(
                 onPressed: search,
@@ -129,12 +129,12 @@ class _ElectricityBillPageState extends State<ElectricityBillPage> {
               NavigationRailDestination(
                 icon: const Icon(Icons.electric_bolt_rounded),
                 selectedIcon: const Icon(Icons.bolt_outlined),
-                label: i18n.elecBillBillNavigation.text(),
+                label: i18n.navigation.bill.text(),
               ),
               NavigationRailDestination(
                 icon: const Icon(Icons.search_rounded),
                 selectedIcon: const Icon(Icons.saved_search_rounded),
-                label: i18n.elecBillSearchNavigation.text(),
+                label: i18n.navigation.search.text(),
               ),
             ],
           ),

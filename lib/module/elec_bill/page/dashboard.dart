@@ -104,7 +104,7 @@ class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixi
   Widget buildBodyLandscape(BuildContext ctx) {
     return [
       [
-        i18n.elecBillTitle(widget.selectedRoom).text(style: ctx.textTheme.displayLarge).padFromLTRB(10, 0, 10, 40),
+        i18n.title(widget.selectedRoom).text(style: ctx.textTheme.displayLarge).padFromLTRB(10, 0, 10, 40),
         const SizedBox(height: 5),
         buildBalanceCard(ctx),
       ].column().align(at: Alignment.topCenter).expanded(),
@@ -113,15 +113,15 @@ class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixi
   }
 
   Widget buildBalanceCard(BuildContext ctx) {
-    return buildCard(i18n.elecBillBalance, _buildBalanceCardContent(ctx));
+    return buildCard(i18n.balance, _buildBalanceCardContent(ctx));
   }
 
   Widget _buildBalanceCardContent(BuildContext ctx) {
     final balance = _balance;
 
     return [
-      _buildBalanceInfoRow(Icons.offline_bolt, i18n.elecBillRemainingPower, balance.powerText),
-      _buildBalanceInfoRow(Icons.savings, i18n.elecBillBalance, balance.balanceText, color: balance.balanceColor),
+      _buildBalanceInfoRow(Icons.offline_bolt, i18n.remainingPower, balance.powerText),
+      _buildBalanceInfoRow(Icons.savings, i18n.balance, balance.balanceText, color: balance.balanceColor),
     ].column().padH(30);
   }
 
@@ -155,7 +155,7 @@ class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixi
             Row(children: [
               const Icon(Icons.update),
               const SizedBox(width: 10),
-              Text(i18n.elecBillUpdateTime, style: TextStyle(color: outOfDateColor), overflow: TextOverflow.ellipsis),
+              Text(i18n.updateTime, style: TextStyle(color: outOfDateColor), overflow: TextOverflow.ellipsis),
             ]),
             Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
               Text(time != null ? updateTimeFormatter.format(time.toLocal()) : "...", overflow: TextOverflow.ellipsis),
@@ -171,12 +171,12 @@ class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixi
 extension BalanceEx on Balance? {
   String? get powerText {
     final self = this;
-    return self == null ? null : i18n.powerKwh(self.balance.toStringAsFixed(2));
+    return self == null ? null : i18n.unit.powerKwh(self.balance.toStringAsFixed(2));
   }
 
   String? get balanceText {
     final self = this;
-    return self == null ? null : i18n.rmb(self.balance.toStringAsFixed(2));
+    return self == null ? null : i18n.unit.rmb(self.balance.toStringAsFixed(2));
   }
 
   Color? get balanceColor {

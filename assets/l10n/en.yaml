@@ -1,3 +1,46 @@
+ftype:
+  activity:
+    name: Activities
+    desc: The latest Second Class activities
+  application:
+    name: Application
+    desc: What should I prepare for applications?
+  eduEmail:
+    name: Edu Email
+    desc: Check your educational email
+  elecBill:
+    name: Electricity Bill
+    desc: Dormitory balance and ⚡ history
+  examArr:
+    name: Exam Arrangement
+    desc: Recent exam arrangement
+  examResult:
+    name: Exam Result
+    desc: Don't stop until you're proud
+  expense:
+    name: Expense Tracker
+    desc: School card shopping history
+  library:
+    name: Library
+    desc: Reading is thinking
+  oaAnnouncement:
+    name: OA Announcement
+    desc: School announcements
+  scanner:
+    name: Scan
+    desc: Scan a QR code
+  separator:
+    name: Separator
+    desc: For grouping functions
+  timetable:
+    name: Timetable
+    desc: School timetable
+  yellowPages:
+    name: Yellow Pages
+    desc: Contact school
+  reportTemp:
+    name: Report Temperature
+    desc: Don't forgor!
 activity:
   navigation:
     all: All
@@ -24,6 +67,18 @@ activity:
   startTime: Start Time
   tags: Tags
   undertaker: Undertaker
+application:
+  desc: |
+    This function is based on "上应一网通办".
+    For most of types, you have to do the necessary procedure on the spot although you submitted an application online.
+  filerInfrequentlyUsed: Filter Infrequently-used
+  navigation:
+    all: All
+    mailbox: Mailbox
+  mailbox:
+    title: My Mailbox
+    emptyTip: Here is nothing.
+    recent: Recent
 credential:
   login:
     title: Welcome!
@@ -50,6 +105,48 @@ credential:
     title: Require Login
     everLoggedInTip: Your account or password is incorrect, please try to login again.
     neverLoggedInTip: You have to login to perform this.
+elecBill:
+  navigation:
+    bill: Bill
+    search: Search
+  title: "Bill of #{room}"
+  balance: Balance
+  content: "last: ¥{balance} Room {room}"
+  initialTip: Please search your room number first
+  remainingPower: Remaining
+  roomNumber: Room
+  updateTime: Last Update
+eduEmail:
+  title: My Email
+  noContent: No Content
+  noSubject: No Subject
+  pluralSenderTailing: ...
+  text: Text
+expense:
+  balanceInCard: ¥{balance} in Card
+  Cafe: Café
+  canteen: Canteen
+  cats: Categories
+  consume: Consume
+  content: ¥{amount} {place}
+  fetchingRecordTip: Fetching expense record
+  fetchingTip: Fetching expense records from school... Please wait a minute, the network speed depends on the school's server.
+  firstTimeRefreshRequest: Expense Tracker needs to access campus network to retrieve expense history. You can refresh the expense history manually next time by hitting the \Refresh\ button at the top-right corner.
+  grocery: Grocery Shopping
+  hotWater: Hot Water
+  incomeStatistics: "Income: ¥{amount}"
+  library: Library
+  refreshMenuButton: Force Refresh
+  shower: Shower
+  spentStatistics: "Outcome: ¥{amount}"
+  statistics: Statistics
+  stuff: Stuff
+  subsidy: Subsidy
+  toastLoadFailed: Network error
+  toastLoadSuccessful: Successful!
+  toastLoading: Loading...
+  topUp: Top Up
+  total: Total
 networkChecker:
   button:
     connected: Continue
@@ -153,7 +250,7 @@ timetable:
   edit:
     setStartDate: Set Start Date
     setToDefault: Set to Default
-  infoDefaultName: {semester}, {yearStart}-{yearEnd} Timetable
+  infoDefaultName: { semester }, { yearStart }-{yearEnd} Timetable
   jumpBtn: Jump
   jumpFindTodayBtn: Find Today
   nameFormTitle: Name
@@ -175,103 +272,7 @@ reportTemp:
   normal: Normal
   reportedToday: Reported Today
   unreportedToday: Unreported Today
-elecBill:
-  24hBill: Spent ¥{amount} last 24 hours
-  balance: Balance,
-  billNavigation: Bill,
-  content: "last: ¥{balance} Room {room}"
-  initialTip: Please search your room number first
-  remainingPower: Remaining
-  roomNumber: Room
-  searchNavigation: Search
-  title: "Bill of #{room}"
-  updateTime: Last Update
-eduEmail:
-  title: My Email
-  noContent: No Content
-  noSubject: No Subject
-  pluralSenderTailing: ...
-  text: Text
-application:
-  desc: |
-    This function is based on "上应一网通办".
-    For most of types, you have to do the necessary procedure on the spot although you submitted an application online.
-  filerInfrequentlyUsed: Filter Infrequently-used
-  navigation:
-    all: All
-    mailbox: Mailbox
-  mailbox:
-    title: My Mailbox
-    emptyTip: Here is nothing.
-    recent: Recent
-expense:
-  balanceInCard: ¥{balance} in Card
-  Cafe: Café
-  canteen: Canteen
-  cats: Categories
-  consume: Consume
-  content: ¥{amount} {place}
-  fetchingRecordTip: Fetching expense record
-  fetchingTip: Fetching expense records from school... Please wait a minute, the network speed depends on the school's server.
-  firstTimeRefreshRequest: Expense Tracker needs to access campus network to retrieve expense history. You can refresh the expense history manually next time by hitting the \Refresh\ button at the top-right corner.
-  grocery: Grocery Shopping
-  hotWater: Hot Water
-  incomeStatistics: "Income: ¥{amount}"
-  library: Library
-  refreshMenuButton: Force Refresh
-  shower: Shower
-  spentStatistics: "Outcome: ¥{amount}"
-  statistics: Statistics
-  stuff: Stuff
-  subsidy: Subsidy
-  toastLoadFailed: Network error
-  toastLoadSuccessful: Successful!
-  toastLoading: Loading...
-  topUp: Top Up
-  total: Total
-ftype:
-  activity:
-    name: Activities
-    desc: The latest Second Class activities
-  application:
-    name: Application
-    desc: What should I prepare for applications?
-  eduEmail:
-    name: Edu Email
-    desc: Check your educational email
-  elecBill:
-    name: Electricity Bill
-    desc: Dormitory balance and ⚡ history
-  examArr:
-    name: Exam Arrangement
-    desc: Recent exam arrangement
-  examResult:
-    name: Exam Result
-    desc: Don't stop until you're proud
-  expense:
-    name: Expense Tracker
-    desc: School card shopping history
-  library:
-    name: Library
-    desc: Reading is thinking
-  oaAnnouncement:
-    name: OA Announcement
-    desc: School announcements
-  scanner:
-    name: Scan
-    desc: Scan a QR code
-  separator:
-    name: Separator
-    desc: For grouping functions
-  timetable:
-    name: Timetable
-    desc: School timetable
-  yellowPages:
-    name: Yellow Pages
-    desc: Contact school
-  reportTemp:
-    name: Report Temperature
-    desc: Don't forgor !
+
 weekday:
   1: Monday
   2: Tuesday
@@ -292,14 +293,15 @@ campus:
   xuhuiDistrict: Xuhui District
   fengxian: Fengxian
   fengxianDistrict: Fengxian District
+unit:
+  rmb: ¥{}
+  powerKwh: {} kW·h
 time:
   minute: min
   hour: hour
-  hourMinuteF: {hour} h {minute} min
-  minuteF: {minute} min
-  hourF: {hour} h
-currency:
-  rmb: ¥{amount}
+  hourMinuteF: { hour } h {minute} min
+  minuteF: { minute } min
+  hourF: { hour } h
 open: Open
 confirm: Confirm
 notNow: Not Now

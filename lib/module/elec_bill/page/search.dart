@@ -12,7 +12,7 @@ class EmptySearchTip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LeavingBlank(icon: Icons.pageview_outlined, desc: i18n.elecBillInitialTip, onIconTap: search);
+    return LeavingBlank(icon: Icons.pageview_outlined, desc: i18n.initialTip, onIconTap: search);
   }
 }
 

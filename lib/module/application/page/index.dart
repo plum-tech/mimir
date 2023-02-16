@@ -19,10 +19,10 @@ class _ApplicationIndexPageState extends State<ApplicationIndexPage> {
   @override
   Widget build(BuildContext context) {
     if (!Auth.hasLoggedIn) {
-      return UnauthorizedTipPage(title: i18n.ftype_examArr.text());
+      return UnauthorizedTipPage(title: FType.application.l10nName().text());
     }
     return AdaptiveNavi(
-      title: i18n.ftype_application,
+      title: FType.application.l10nName(),
       defaultIndex: 0,
       actions: [
         IconButton(
@@ -31,7 +31,7 @@ class _ApplicationIndexPageState extends State<ApplicationIndexPage> {
         ),
         IconButton(
           icon: $enableFilter.value ? const Icon(Icons.filter_alt_outlined) : const Icon(Icons.filter_alt_off_outlined),
-          tooltip: i18n.applicationFilerInfrequentlyUsed,
+          tooltip: i18n.filerInfrequentlyUsed,
           onPressed: () {
             setState(() {
               $enableFilter.value = !$enableFilter.value;
@@ -42,7 +42,7 @@ class _ApplicationIndexPageState extends State<ApplicationIndexPage> {
       pages: [
         // Activity List page
         AdaptivePage(
-          label: i18n.applicationAllNavigation,
+          label: i18n.navigation.all,
           unselectedIcon: const Icon(Icons.check_box_outline_blank),
           selectedIcon: const Icon(Icons.list_alt_rounded),
           builder: (ctx, key) {
@@ -51,7 +51,7 @@ class _ApplicationIndexPageState extends State<ApplicationIndexPage> {
         ),
         // Mine page
         AdaptivePage(
-          label: i18n.applicationMailboxNavigation,
+          label: i18n.navigation.mailbox,
           unselectedIcon: const Icon(Icons.mail_outline_rounded),
           selectedIcon: const Icon(Icons.mail_rounded),
           builder: (ctx, key) {
@@ -64,5 +64,9 @@ class _ApplicationIndexPageState extends State<ApplicationIndexPage> {
 }
 
 Future<void> showInfo(BuildContext ctx) async {
-  await ctx.showTip(title: i18n.ftype_application, desc: i18n.applicationDesc, ok: i18n.close);
+  await ctx.showTip(
+    title: FType.application.l10nName(),
+    desc: FType.application.l10nDesc(),
+    ok: i18n.close,
+  );
 }

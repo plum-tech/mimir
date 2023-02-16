@@ -154,27 +154,12 @@
     }
   },
   "oaAnnouncementTextTitle": "Announcement Text",
-  "powerKwh": "{amount} kW·h",
-  "@powerKwh": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "processing": "Processing",
   "province": "Province",
   "publishTime": "Publish Time",
   "publishingDepartment": "Department",
   "personalizeTitle": "Personalize",
   "request": "Request",
-  "@rmb": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "roommate": "Roommate",
   "semester": "Semester",
   "semester1st": "Fall",

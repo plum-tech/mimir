@@ -37,7 +37,7 @@ class _MailboxState extends State<Mailbox> {
       if (msg.msgList.isNotEmpty) {
         return _buildMessageList(context, msg.msgList);
       } else {
-        return LeavingBlank(icon: Icons.upcoming_outlined, desc: i18n.applicationMailboxEmptyTip);
+        return LeavingBlank(icon: Icons.upcoming_outlined, desc: i18n.mailbox.emptyTip);
       }
     }
   }

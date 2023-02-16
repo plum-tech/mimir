@@ -23,15 +23,25 @@ mixin CommonI18nMixin {
 class NetworkI18n {
   const NetworkI18n();
 
-  static const _ns = "network";
+  static const ns = "network";
 
-  String get error => "$_ns.error".tr();
+  String get error => "$ns.error".tr();
 
-  String get connectionTimeoutError => "$_ns.connectionTimeoutError".tr();
+  String get connectionTimeoutError => "$ns.connectionTimeoutError".tr();
 
-  String get connectionTimeoutErrorDesc => "$_ns.connectionTimeoutErrorDesc".tr();
+  String get connectionTimeoutErrorDesc => "$ns.connectionTimeoutErrorDesc".tr();
 
-  String get openToolBtn => "$_ns.openToolBtn".tr();
+  String get openToolBtn => "$ns.openToolBtn".tr();
 
-  String get noAccessTip => "$_ns.noAccessTip".tr();
+  String get noAccessTip => "$ns.noAccessTip".tr();
+}
+
+class UnitI18n {
+  const UnitI18n();
+
+  static const ns = "unit";
+
+  String rmb(String amount) => "$ns.rmb".tr(args: [amount]);
+
+  String powerKwh(String amount) => "$ns.powerKwh".tr(args: [amount]);
 }
