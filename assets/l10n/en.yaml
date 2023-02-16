@@ -176,7 +176,7 @@ network:
   error: Network Error
   ipAddress: IP Address
   connectionTimeoutError: Network Timeout
-  connectionTimeoutErrorDesc: "This function requires access to the campus network. NOTE: It can also occur when the school server crashes or is down for maintenance."
+  connectionTimeoutErrorDesc: "This function requires access to the campus network. NOTE: It also occurs when the school server is down for maintenance."
   openToolBtn: Open Network Tool
 networkTool:
   title: Title

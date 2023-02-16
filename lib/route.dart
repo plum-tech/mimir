@@ -7,8 +7,8 @@ import 'module/exam_result/page/evaluation.dart';
 import 'module/simple_page/page/browser.dart';
 import 'module/symbol.dart';
 
-class RouteTable {
-  RouteTable._();
+class Routes {
+  Routes._();
 
   static const root = '/';
   static const home = '/home';
@@ -39,32 +39,32 @@ class RouteTable {
 
 final defaultRouteTable = StaticRouteTable(
   table: {
-    RouteTable.home: (context, args) => const HomePage(),
-    RouteTable.reportTemp: (context, args) => const DailyReportIndexPage(),
-    RouteTable.login: (context, args) => args["disableOffline"] == true
+    Routes.home: (context, args) => const HomePage(),
+    Routes.reportTemp: (context, args) => const DailyReportIndexPage(),
+    Routes.login: (context, args) => args["disableOffline"] == true
         ? const LoginPage(
             disableOffline: true,
           )
         : const LoginPage(
             disableOffline: false,
           ),
-    RouteTable.expense: (context, args) => const ExpenseTrackerPage(),
-    RouteTable.networkTool: (context, args) => const NetworkToolPage(),
-    RouteTable.electricityBill: (context, args) => const ElectricityBillPage(),
-    RouteTable.examResult: (context, args) => const ExamResultPage(),
-    RouteTable.application: (context, args) => const ApplicationIndexPage(),
-    RouteTable.library: (context, args) => const LibraryPage(),
-    RouteTable.timetable: (context, args) => const TimetableIndexPage(),
-    RouteTable.timetableImport: (context, args) => const ImportTimetableIndexPage(),
-    RouteTable.timetableMine: (context, args) => const MyTimetablePage(),
-    RouteTable.settings: (context, args) => const SettingsPage(),
-    RouteTable.yellowPages: (context, args) => const YellowPagesPage(),
-    RouteTable.oaAnnouncement: (context, args) => const OaAnnouncePage(),
-    RouteTable.eduEmail: (context, args) => const MailPage(),
-    RouteTable.activity: (context, args) => const ActivityIndexPage(),
-    RouteTable.examArrangement: (context, args) => const ExamArrangementPage(),
-    RouteTable.scanner: (context, args) => const ScannerPage(),
-    RouteTable.browser: (context, args) {
+    Routes.expense: (context, args) => const ExpenseTrackerPage(),
+    Routes.networkTool: (context, args) => const NetworkToolPage(),
+    Routes.electricityBill: (context, args) => const ElectricityBillPage(),
+    Routes.examResult: (context, args) => const ExamResultPage(),
+    Routes.application: (context, args) => const ApplicationIndexPage(),
+    Routes.library: (context, args) => const LibraryPage(),
+    Routes.timetable: (context, args) => const TimetableIndexPage(),
+    Routes.timetableImport: (context, args) => const ImportTimetableIndexPage(),
+    Routes.timetableMine: (context, args) => const MyTimetablePage(),
+    Routes.settings: (context, args) => const SettingsPage(),
+    Routes.yellowPages: (context, args) => const YellowPagesPage(),
+    Routes.oaAnnouncement: (context, args) => const OaAnnouncePage(),
+    Routes.eduEmail: (context, args) => const MailPage(),
+    Routes.activity: (context, args) => const ActivityIndexPage(),
+    Routes.examArrangement: (context, args) => const ExamArrangementPage(),
+    Routes.scanner: (context, args) => const ScannerPage(),
+    Routes.browser: (context, args) {
       return BrowserPage(
         initialUrl: args['initialUrl'],
         fixedTitle: args['fixedTitle'],
@@ -78,22 +78,22 @@ final defaultRouteTable = StaticRouteTable(
         javascriptUrl: args['javascriptUrl'],
       );
     },
-    RouteTable.notFound: (context, args) => NotFoundPage(args['routeName']),
-    RouteTable.simpleHtml: (context, args) {
+    Routes.notFound: (context, args) => NotFoundPage(args['routeName']),
+    Routes.simpleHtml: (context, args) {
       return SimpleHtmlPage(
         title: args['title'],
         url: args['url'],
         htmlContent: args['htmlContent'],
       );
     },
-    RouteTable.relogin: (context, args) => const UnauthorizedTipPage(),
-    RouteTable.examResultEvaluation: (context, args) => const EvaluationPage(),
+    Routes.relogin: (context, args) => const UnauthorizedTipPage(),
+    Routes.examResultEvaluation: (context, args) => const EvaluationPage(),
   },
   onNotFound: (context, routeName, args) => NotFoundPage(routeName),
   rootRoute: (context, table, args) {
     // The freshmen and OA users who ever logged in can directly land on the homepage.
     // While, the offline users have to click the `Offline Mode` button every time.
-    final routeName = Auth.lastOaAuthTime != null ? RouteTable.home : RouteTable.login;
+    final routeName = Auth.lastOaAuthTime != null ? Routes.home : Routes.login;
     return table.onGenerateRoute(routeName, args)(context);
   },
 );

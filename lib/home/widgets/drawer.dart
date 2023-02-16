@@ -22,7 +22,7 @@ class HomepageDrawer extends StatelessWidget {
             leading: const Icon(Icons.settings),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).pushNamed(RouteTable.settings);
+              Navigator.of(context).pushNamed(Routes.settings);
             },
           ),
           ListTile(
@@ -30,7 +30,7 @@ class HomepageDrawer extends StatelessWidget {
             leading: const Icon(Icons.lan),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).pushNamed(RouteTable.networkTool);
+              Navigator.of(context).pushNamed(Routes.networkTool);
             },
           ),
         ],

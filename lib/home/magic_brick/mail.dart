@@ -26,7 +26,7 @@ class _EduEmailItemState extends State<EduEmailItem> {
   @override
   Widget build(BuildContext context) {
     return Brick(
-      route: RouteTable.eduEmail,
+      route: Routes.eduEmail,
       icon: SvgAssetIcon('assets/home/icon_mail.svg'),
       title: FType.eduEmail.l10nName(),
       subtitle: content ?? FType.eduEmail.l10nDesc(),

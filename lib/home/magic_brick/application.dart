@@ -15,7 +15,7 @@ class _ApplicationItemState extends State<ApplicationItem> {
   @override
   Widget build(BuildContext context) {
     return Brick(
-      route: RouteTable.application,
+      route: Routes.application,
       icon: SvgAssetIcon('assets/home/icon_office.svg'),
       title: FType.application.l10nName(),
       subtitle: FType.application.l10nDesc(),

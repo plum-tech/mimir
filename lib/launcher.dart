@@ -17,7 +17,7 @@ class GlobalLauncher {
           if (!UniversalPlatform.isDesktopOrWeb) {
             Log.info('启动浏览器');
             Navigator.of(_context).pushNamed(
-              RouteTable.browser,
+              Routes.browser,
               arguments: {'initialUrl': scheme},
             );
             return true;

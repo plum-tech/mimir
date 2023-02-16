@@ -123,7 +123,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
               child: FloatingActionButton.extended(
                 icon: const Icon(Icons.assessment_outlined),
                 onPressed: () async {
-                  await Navigator.of(context).pushNamed(RouteTable.examResultEvaluation);
+                  await Navigator.of(context).pushNamed(Routes.examResultEvaluation);
                   if (!mounted) return;
                   eventBus.fire(LessonEvaluatedEvent());
                   await Future.delayed(const Duration(milliseconds: 1000));

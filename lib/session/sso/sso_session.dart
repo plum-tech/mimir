@@ -246,7 +246,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
             highlight: true,
           );
           if (confirm == true) {
-            ctx.navigator.pushNamed(RouteTable.relogin);
+            ctx.navigator.pushNamed(Routes.relogin);
           }
         }
         return null;

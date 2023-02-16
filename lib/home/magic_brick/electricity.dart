@@ -30,7 +30,7 @@ class _ElectricityBillItemState extends State<ElectricityBillItem> {
       content = i18n.lastBalance(b.roomNumber, b.balance.toStringAsPrecision(2));
     }
     return Brick(
-      route: RouteTable.electricityBill,
+      route: Routes.electricityBill,
       icon: SvgAssetIcon('assets/home/icon_electricity.svg'),
       title: FType.electricityBill.l10nName(),
       subtitle: content ?? FType.electricityBill.l10nDesc(),

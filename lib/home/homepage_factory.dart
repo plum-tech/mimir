@@ -18,26 +18,26 @@ class HomepageFactory {
   static final Map<FType, WidgetBuilder?> builders = {
     FType.reportTemp: (context) => const ReportTempItem(),
     FType.timetable: (context) => Brick(
-          route: RouteTable.timetable,
+          route: Routes.timetable,
           icon: SvgAssetIcon('assets/home/icon_timetable.svg'),
           title: FType.timetable.l10nName(),
           subtitle: FType.timetable.l10nDesc(),
         ),
     FType.examArr: (context) => Brick(
-          route: RouteTable.examArrangement,
+          route: Routes.examArrangement,
           icon: SvgAssetIcon('assets/home/icon_exam.svg'),
           title: FType.examArr.l10nName(),
           subtitle: FType.examArr.l10nDesc(),
         ),
     FType.activity: (context) => Brick(
-          route: RouteTable.activity,
+          route: Routes.activity,
           icon: SvgAssetIcon('assets/home/icon_event.svg'),
           title: FType.activity.l10nName(),
           subtitle: FType.activity.l10nDesc(),
         ),
     FType.expense: (context) => const ExpenseItem(),
     FType.examResult: (context) => Brick(
-          route: RouteTable.examResult,
+          route: Routes.examResult,
           icon: SvgAssetIcon('assets/home/icon_score.svg'),
           title: FType.examResult.l10nName(),
           subtitle: FType.examResult.l10nDesc(),
@@ -46,13 +46,13 @@ class HomepageFactory {
     FType.application: (context) => const ApplicationItem(),
     FType.eduEmail: (context) => const EduEmailItem(),
     FType.oaAnnouncement: (context) => Brick(
-          route: RouteTable.oaAnnouncement,
+          route: Routes.oaAnnouncement,
           icon: SvgAssetIcon('assets/home/icon_bulletin.svg'),
           title: FType.oaAnnouncement.l10nName(),
           subtitle: FType.oaAnnouncement.l10nDesc(),
         ),
     FType.yellowPages: (context) => Brick(
-          route: RouteTable.yellowPages,
+          route: Routes.yellowPages,
           icon: SvgAssetIcon('assets/home/icon_contact.svg'),
           title: FType.yellowPages.l10nName(),
           subtitle: FType.yellowPages.l10nDesc(),

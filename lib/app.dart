@@ -77,7 +77,7 @@ class _MimirAppState extends State<MimirApp> {
             toolbarHeight: 40,
           ),
         ),
-        initialRoute: RouteTable.root,
+        initialRoute: Routes.root,
         debugShowCheckedModeBanner: false,
         navigatorKey: Catcher.navigatorKey,
         onGenerateRoute: _onGenerateRoute,

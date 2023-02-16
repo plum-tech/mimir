@@ -72,7 +72,7 @@ class _SettingsPageState extends State<SettingsPage> {
     while (navigator.canPop()) {
       navigator.pop();
     }
-    navigator.pushReplacementNamed(RouteTable.welcome);
+    navigator.pushReplacementNamed(Routes.welcome);
 
     Log.info('重启成功');
   }
@@ -230,7 +230,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: i18n.settingsTestConnect2School,
                 subtitle: i18n.settingsTestConnect2SchoolSub,
                 onTap: () {
-                  Navigator.pushNamed(context, RouteTable.networkTool);
+                  Navigator.pushNamed(context, Routes.networkTool);
                 }),
           ],
         ),

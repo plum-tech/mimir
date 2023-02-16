@@ -48,7 +48,7 @@ class _ExpenseItemState extends State<ExpenseItem> {
       content = i18n.lastBalance(last.deltaAmount.toStringAsFixed(2), last.note);
     }
     return Brick(
-      route: RouteTable.expense,
+      route: Routes.expense,
       icon: SvgAssetIcon('assets/home/icon_expense.svg'),
       title: FType.expense.l10nName(),
       subtitle: content ?? FType.expense.l10nDesc(),

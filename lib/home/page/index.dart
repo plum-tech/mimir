@@ -62,14 +62,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    Log.info('开始加载首页');
 
     Future.delayed(Duration.zero, () async {
-      // Remove auto launch timetable function permanently
-      /* if (Kv.home.autoLaunchTimetable ?? false) {
-        Navigator.of(context).pushNamed(RouteTable.timetable);
-      }*/
-      // 非新生才执行该网络检查逻辑
       if (Auth.hasLoggedIn && await HomeInit.ssoSession.checkConnectivity()) {
         if (!mounted) return;
         context.showSnackBar(
@@ -115,7 +109,7 @@ class _HomePageState extends State<HomePage> {
         title ?? i18n.homepageCampusNetworkDisconnected.text(),
         TextButton(
           child: i18n.openNetworkToolBtn.text(),
-          onPressed: () => Navigator.of(context).pushNamed(RouteTable.networkTool),
+          onPressed: () => Navigator.of(context).pushNamed(Routes.networkTool),
         )
       ]),
       duration: const Duration(seconds: 5),
@@ -251,7 +245,7 @@ class _HomePageState extends State<HomePage> {
                 actions: [
                   if (!UniversalPlatform.isDesktopOrWeb) buildScannerButton(context),
                   IconButton(
-                    onPressed: () => Navigator.of(context).pushNamed(RouteTable.settings),
+                    onPressed: () => Navigator.of(context).pushNamed(Routes.settings),
                     icon: const Icon(Icons.settings),
                   ),
                 ],
