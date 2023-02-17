@@ -18,7 +18,6 @@ import '../brick_maker.dart';
 import '../entity/ftype.dart';
 import '../homepage_factory.dart';
 import '../init.dart';
-import '../widgets/drawer.dart';
 import '../widgets/greeting.dart';
 import 'background.dart';
 
@@ -89,8 +88,36 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       key: _scaffoldKey,
       body: buildBody(context),
-      drawer: const HomepageDrawer(),
-      floatingActionButton: buildFloatingActionButton(),
+      drawer: buildDrawer(),
+    );
+  }
+  Widget buildDrawer() {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
+            decoration: BoxDecoration(color: context.themeColor),
+            child: const SizedBox(),
+          ),
+          ListTile(
+            title: "settings.title".tr().text(),
+            leading: const Icon(Icons.settings),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).pushNamed(Routes.settings);
+            },
+          ),
+          ListTile(
+            title: "networkTool.title".tr().text(),
+            leading: const Icon(Icons.lan),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).pushNamed(Routes.networkTool);
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -150,7 +177,6 @@ class _HomePageState extends State<HomePage> {
   List<Widget> buildBricksWidgets() {
     List<FType> list = Kv.home.homeItems ?? BrickMaker.makeDefaultBricks();
 
-    // 先遍历一遍，过滤相邻重复元素
     FType lastItem = list.first;
     for (int i = 1; i < list.length; ++i) {
       if (lastItem == list[i]) {
@@ -210,7 +236,6 @@ class _HomePageState extends State<HomePage> {
     return IconButton(
       onPressed: () async {
         final result = await scan(context);
-        Log.info('扫码结果: $result');
         if (result != null) GlobalLauncher.launch(result);
       },
       icon: const Icon(
@@ -269,22 +294,6 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     _refreshController.dispose();
     super.dispose();
-  }
-
-  Widget? buildFloatingActionButton() {
-    return UniversalPlatform.isDesktopOrWeb
-        ? FloatingActionButton(
-            child: const Icon(Icons.refresh),
-            onPressed: () async {
-              // 刷新页面
-              Log.info('浮动按钮被点击');
-              // 触发下拉刷新
-              final pos = _refreshController.position!;
-              await pos.animateTo(-100,
-                  duration: const Duration(milliseconds: 800), curve: Curves.fastLinearToSlowEaseIn);
-            },
-          )
-        : null;
   }
 }
 
