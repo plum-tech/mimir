@@ -60,8 +60,8 @@ class _LibraryItemState extends State<LibraryItem> {
     return Brick(
       route: '/library',
       icon: SvgAssetIcon('assets/home/icon_library.svg'),
-      title: FType.expense.l10nName(),
-      subtitle: content ?? FType.expense.l10nDesc(),
+      title: FType.library.l10nName(),
+      subtitle: content ?? FType.library.l10nDesc(),
     );
   }
 }

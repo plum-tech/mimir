@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/home/magic_brick/report.dart';
-import 'package:universal_platform/universal_platform.dart';
 
-import '../launcher.dart';
 import '../route.dart';
-import '../util/logger.dart';
-import '../util/scanner.dart';
 import 'entity/ftype.dart';
 import 'magic_brick/application.dart';
 import 'magic_brick/electricity.dart';
@@ -58,25 +54,11 @@ class HomepageFactory {
           subtitle: FType.yellowPages.l10nDesc(),
         ),
     FType.separator: (context) => Container(),
-    FType.scanner: UniversalPlatform.isDesktopOrWeb
-        ? null
-        : (context) => Brick(
-              onPressed: () async {
-                final result = await scan(context);
-                Log.info('扫码结果: $result');
-                if (result != null) GlobalLauncher.launch(result);
-              },
-              icon: SysIcon(Icons.qr_code_scanner),
-              title: FType.scanner.l10nName(),
-              subtitle: FType.scanner.l10nDesc(),
-            ),
     FType.elecBill: (context) => const ElectricityBillItem(),
   };
 
   static Widget? buildBrickWidget(BuildContext context, FType type) {
-    if (!builders.containsKey(type)) {
-      throw UnimplementedError("Brick[${type.name}] is not available.");
-    }
+    assert(builders.containsKey(type), "Brick[${type.name}] is not available.");
     final builder = builders[type];
     return builder?.call(context);
   }

@@ -7,7 +7,6 @@ export 'package:mimir/design/widgets/button.dart';
 export 'package:mimir/design/widgets/dialog.dart';
 export 'package:mimir/design/widgets/editor.dart';
 export 'package:mimir/design/widgets/glassmorphic.dart';
-export 'package:mimir/design/widgets/mood.dart';
 export 'package:mimir/design/widgets/multi_select.dart';
 export 'package:mimir/design/widgets/multiplatform.dart';
 export 'package:mimir/design/widgets/placeholder.dart';

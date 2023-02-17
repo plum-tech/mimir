@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
@@ -43,7 +42,7 @@ class _LanguageSelectorPageState extends State<LanguageSelectorPage> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 childCount: widget.candidates.length,
-                    (ctx, index) {
+                (ctx, index) {
                   final locale = widget.candidates[index];
                   return buildOption(locale);
                 },
@@ -61,16 +60,16 @@ class _LanguageSelectorPageState extends State<LanguageSelectorPage> {
       onTap: locale == curSelected
           ? null
           : () {
-        setState(() {
-          curSelected = locale;
-        });
-      },
+              setState(() {
+                curSelected = locale;
+              });
+            },
       trailing: locale != curSelected
           ? null
           : const Icon(
-        Icons.check,
-        color: Colors.green,
-      ),
+              Icons.check,
+              color: Colors.green,
+            ),
     );
   }
 }

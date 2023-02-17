@@ -18,6 +18,7 @@ import 'package:mimir/global/init.dart';
 import 'package:mimir/hive/init.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/route.dart';
+import 'package:mimir/settings/page/credential.dart';
 import 'package:mimir/storage/init.dart';
 import 'package:mimir/storage/storage/develop.dart';
 import 'package:mimir/util/file.dart';
@@ -197,7 +198,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final all = <WidgetBuilder>[];
     final credential = Auth.oaCredential;
     if (credential != null) {
-      all.add((_) => buildStudentId(credential));
+      all.add((_) => buildCredential(credential));
     }
     all.add((ctx) => buildLanguageSelector(ctx));
     all.add((_) => buildClearCache());
@@ -250,9 +251,7 @@ class _SettingsPageState extends State<SettingsPage> {
       leading: const Icon(Icons.translate_rounded),
       title: i18n.language.title.text(),
       subtitle: "language.$curLocale".tr().text(),
-      trailing: const Icon(
-        Icons.navigate_next_rounded,
-      ),
+      trailing: const Icon(Icons.navigate_next_rounded),
       onTap: () async {
         await context.navigator.push(
           MaterialPageRoute(
@@ -266,15 +265,23 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget buildStudentId(OACredential credential) {
+  Widget buildCredential(OACredential credential) {
     return ListTile(
-      title: i18n.credential.studentId.text(),
+      title: CredentialI18n.instance.oaAccount.text(),
       subtitle: credential.account.text(),
       leading: const Icon(Icons.person_rounded),
-      onTap: () {
+      /* onTap: () {
         // Copy the student ID to clipboard
         Clipboard.setData(ClipboardData(text: credential.account));
         context.showSnackBar(i18n.studentId.studentIdCopy2ClipboardTip.text());
+      },*/
+      trailing: const Icon(Icons.navigate_next_rounded),
+      onTap: () async {
+        await context.navigator.push(
+          MaterialPageRoute(
+            builder: (_) => const CredentialPage(),
+          ),
+        );
       },
     );
   }

@@ -118,14 +118,6 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
       "😁",
       style: TextStyle(fontSize: 25),
     );
-    return Icon(
-      Mood.get(mood),
-      color: context.darkSafeThemeColor,
-    ).onTap(key: ValueKey(mood), () {
-      setState(() {
-        mood = Mood.next(mood);
-      });
-    }).animatedSwitched(d: const Duration(milliseconds: 400));
   }
 
   void onPageChange() {

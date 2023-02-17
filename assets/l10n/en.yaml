@@ -90,6 +90,7 @@ captcha:
 credential:
   studentId: Student ID
   account: Account
+  oaAccount: OA Account
   oaPwd: OA Password
   pwd: Password
   relogin: Re-login
