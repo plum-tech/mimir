@@ -3,11 +3,12 @@ import 'package:mimir/credential/init.dart';
 import 'package:mimir/global/desktop_init.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/hive/init.dart';
-import 'package:mimir/home/init.dart';
+import 'package:mimir/main/init.dart';
+import 'package:mimir/main/network_tool/init.dart';
 import 'package:mimir/migration/migrations.dart';
 import 'package:mimir/module/symbol.dart';
 import 'package:mimir/session/edu_session.dart';
-import 'package:mimir/home/symbol.dart';
+import 'package:mimir/main/symbol.dart';
 import 'package:mimir/storage/init.dart';
 import 'package:mimir/util/logger.dart';
 import 'package:mimir/version.dart';
@@ -72,7 +73,6 @@ class Init {
     ConnectivityInit.init(
       ssoSession: Global.ssoSession,
     );
-
     final sharedEduSession = EduSession(
       Global.ssoSession,
     );

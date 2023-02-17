@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/home/desktop/entity/ftype.dart';
+import 'package:mimir/main/desktop/entity/ftype.dart';
 import 'package:mimir/module/symbol.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/storage/init.dart';

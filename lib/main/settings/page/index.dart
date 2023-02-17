@@ -28,12 +28,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
 
+import '../../index.dart';
 import '../i18n.dart';
 import 'credential.dart';
 import 'language.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+  final DrawerDelegateProtocol drawer;
+  const SettingsPage({super.key, required this.drawer});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -58,6 +60,10 @@ class _SettingsPageState extends State<SettingsPage> {
             snap: false,
             floating: false,
             expandedHeight: 100.0,
+            leading: IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () => widget.drawer.openDrawer(),
+            ),
             flexibleSpace: FlexibleSpaceBar(
               title: i18n.title.text(),
             ),

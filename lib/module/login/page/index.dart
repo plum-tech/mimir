@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
       while (navigator.canPop()) {
         navigator.pop();
       }
-      navigator.pushReplacementNamed(Routes.home);
+      navigator.pushReplacementNamed(Routes.mainStage);
     } on CredentialsInvalidException catch (e) {
       if (!mounted) return;
       await ctx.showTip(
@@ -187,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
           ElevatedButton(
             // Offline
             onPressed: () {
-              Navigator.pushReplacementNamed(context, Routes.home);
+              Navigator.pushReplacementNamed(context, Routes.mainStage);
             },
             child: i18n.offlineModeBtn.text().padAll(5),
           ),

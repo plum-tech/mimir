@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rettulf/rettulf.dart';
 
+import '../../index.dart';
 import '../init.dart';
 import '../widgets/connected.dart';
 import '../widgets/disconnected.dart';
@@ -10,7 +11,8 @@ import '../widgets/quick_button.dart';
 import '../using.dart';
 
 class NetworkToolPage extends StatefulWidget {
-  const NetworkToolPage({super.key});
+  final DrawerDelegateProtocol drawer;
+  const NetworkToolPage({super.key, required this.drawer});
 
   @override
   State<NetworkToolPage> createState() => _NetworkToolPageState();
@@ -49,6 +51,10 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () => widget.drawer.openDrawer(),
+          ),
           title: [
             i18n.title.text(),
             if (!isConnected)

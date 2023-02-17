@@ -6,7 +6,6 @@ import 'package:mimir/events/bus.dart';
 import 'package:mimir/events/events.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/global/global.dart';
-import 'package:mimir/global/init.dart';
 import 'package:mimir/module/login/i18n.dart';
 import 'package:mimir/module/login/init.dart';
 import 'package:mimir/module/timetable/using.dart';
@@ -15,6 +14,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
 
+import '../../index.dart';
 import '../brick_maker.dart';
 import '../entity/ftype.dart';
 import '../homepage_factory.dart';
@@ -50,14 +50,14 @@ class HomeItemGroup extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final DrawerDelegateProtocol drawer;
+  const HomePage({super.key, required this.drawer});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   @override
@@ -85,65 +85,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Log.info('Build Home');
     return Scaffold(
-      key: _scaffoldKey,
       body: buildBody(context),
-      drawer: buildDrawer(),
-    );
-  }
-
-  static final String currentVersion = 'v${Init.currentVersion.version} on ${Init.currentVersion.platform}';
-
-  Widget buildDrawer() {
-    return NavigationDrawer(
-      selectedIndex: 0,
-      onDestinationSelected: (i) {},
-      children: [
-        DrawerHeader(child: "Header".text()),
-        NavigationDrawerDestination(
-          icon: const Icon(Icons.home_rounded),
-          label: "home".text(),
-        ),
-        NavigationDrawerDestination(
-          icon: const Icon(Icons.lan),
-          label: "network tool".text(),
-        ),
-        NavigationDrawerDestination(
-          icon: const Icon(Icons.settings),
-          label: "settings".text(),
-        ),
-        const Spacer(),
-        ListTile(
-          title: currentVersion.text(style: context.textTheme.titleSmall),
-          leading: const Icon(Icons.settings_applications),
-        ),
-      ],
-/*      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-            decoration: BoxDecoration(color: context.themeColor),
-            child: const SizedBox(),
-          ),
-          ListTile(
-            title: "settings.title".tr().text(),
-            leading: const Icon(Icons.settings),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).pushNamed(Routes.settings);
-            },
-          ),
-          ListTile(
-            title: "networkTool.title".tr().text(),
-            leading: const Icon(Icons.lan),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).pushNamed(Routes.networkTool);
-            },
-          ),
-        ],
-      ),*/
     );
   }
 
@@ -163,7 +106,9 @@ class _HomePageState extends State<HomePage> {
         title ?? _i18n.campusNetworkUnconnected.text(),
         TextButton(
           child: _i18n.network.openToolBtn.text(),
-          onPressed: () => Navigator.of(context).pushNamed(Routes.networkTool),
+          onPressed: () {
+            //Navigator.of(context).pushNamed(Routes.networkTool);
+          },
         )
       ]),
       duration: const Duration(seconds: 5),
@@ -291,15 +236,11 @@ class _HomePageState extends State<HomePage> {
               SliverAppBar(
                 leading: IconButton(
                   icon: const Icon(Icons.menu),
-                  onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+                  onPressed: () => widget.drawer.openDrawer(),
                 ),
                 // AppBar
                 actions: [
                   if (!UniversalPlatform.isDesktopOrWeb) buildScannerButton(context),
-                  IconButton(
-                    onPressed: () => Navigator.of(context).pushNamed(Routes.settings),
-                    icon: const Icon(Icons.settings),
-                  ),
                 ],
                 automaticallyImplyLeading: false,
                 backgroundColor: Colors.transparent,

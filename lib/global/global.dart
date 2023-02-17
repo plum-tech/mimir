@@ -65,7 +65,7 @@ class Global {
               yes: i18n.network.openToolBtn,
               no: i18n.cancel)
           .then((confirm) {
-        if (confirm == true) Navigator.of(context).pushNamed(Routes.networkTool);
+        //if (confirm == true) Navigator.of(context).pushNamed(Routes.networkTool);
         inSsoErrorDialog = false;
       });
     }

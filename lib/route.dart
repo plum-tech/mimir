@@ -1,7 +1,8 @@
 import 'package:mimir/credential/symbol.dart';
-import 'package:mimir/home/desktop/page/index.dart';
+import 'package:mimir/main/desktop/page/index.dart';
+import 'package:mimir/main/index.dart';
 import 'package:mimir/navigation/static_route.dart';
-import 'package:mimir/home/symbol.dart';
+import 'package:mimir/main/symbol.dart';
 
 import 'module/exam_result/page/evaluation.dart';
 import 'module/simple_page/page/browser.dart';
@@ -11,10 +12,9 @@ class Routes {
   Routes._();
 
   static const root = '/';
-  static const home = '/home';
+  static const mainStage = '/main';
   static const activity = '/activity';
   static const application = '/application';
-  static const networkTool = '/network_tool';
   static const eduEmail = '/edu_email';
   static const electricityBill = '/electricity_bill';
   static const reportTemp = '/report_temp';
@@ -26,7 +26,6 @@ class Routes {
   static const timetable = '/timetable';
   static const timetableImport = '$timetable/import';
   static const timetableMine = '$timetable/mine';
-  static const settings = '/settings';
   static const yellowPages = '/yellow_pages';
   static const oaAnnouncement = '/oa_announcement';
   static const examArrangement = '/exam_arrangement';
@@ -39,7 +38,7 @@ class Routes {
 
 final defaultRouteTable = StaticRouteTable(
   table: {
-    Routes.home: (context, args) => const HomePage(),
+    Routes.mainStage: (context, args) => const MainStagePage(),
     Routes.reportTemp: (context, args) => const DailyReportIndexPage(),
     Routes.login: (context, args) => args["disableOffline"] == true
         ? const LoginPage(
@@ -49,7 +48,6 @@ final defaultRouteTable = StaticRouteTable(
             disableOffline: false,
           ),
     Routes.expense: (context, args) => const ExpenseTrackerPage(),
-    Routes.networkTool: (context, args) => const NetworkToolPage(),
     Routes.electricityBill: (context, args) => const ElectricityBillPage(),
     Routes.examResult: (context, args) => const ExamResultPage(),
     Routes.application: (context, args) => const ApplicationIndexPage(),
@@ -57,7 +55,6 @@ final defaultRouteTable = StaticRouteTable(
     Routes.timetable: (context, args) => const TimetableIndexPage(),
     Routes.timetableImport: (context, args) => const ImportTimetableIndexPage(),
     Routes.timetableMine: (context, args) => const MyTimetablePage(),
-    Routes.settings: (context, args) => const SettingsPage(),
     Routes.yellowPages: (context, args) => const YellowPagesPage(),
     Routes.oaAnnouncement: (context, args) => const OaAnnouncePage(),
     Routes.eduEmail: (context, args) => const MailPage(),
@@ -93,7 +90,7 @@ final defaultRouteTable = StaticRouteTable(
   rootRoute: (context, table, args) {
     // The freshmen and OA users who ever logged in can directly land on the homepage.
     // While, the offline users have to click the `Offline Mode` button every time.
-    final routeName = Auth.lastOaAuthTime != null ? Routes.home : Routes.login;
+    final routeName = Auth.lastOaAuthTime != null ? Routes.mainStage : Routes.login;
     return table.onGenerateRoute(routeName, args)(context);
   },
 );
