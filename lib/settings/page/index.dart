@@ -31,6 +31,7 @@ import '../../storage/page/editor.dart';
 import '../../storage/storage/pref.dart';
 
 import '../i18n.dart';
+import 'language.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -248,23 +249,20 @@ class _SettingsPageState extends State<SettingsPage> {
     return ListTile(
       leading: const Icon(Icons.translate_rounded),
       title: i18n.language.title.text(),
-      subtitle: curLocale.toString().text(),
-      trailing: DropdownButton<Locale>(
-          value: curLocale,
-          icon: const Icon(Icons.arrow_downward),
-          elevation: 8,
-          onChanged: (Locale? value) {
-            // This is called when the user selects an item.
-            setState(() {
-              ctx.setLocale(value!);
-            });
-          },
-          items: R.supportedLocales
-              .map((e) => DropdownMenuItem<Locale>(
-                    value: e,
-                    child: e.toString().text(),
-                  ))
-              .toList()),
+      subtitle: "language.$curLocale".tr().text(),
+      trailing: const Icon(
+        Icons.navigate_next_rounded,
+      ),
+      onTap: () async {
+        await context.navigator.push(
+          MaterialPageRoute(
+            builder: (_) => LanguageSelectorPage(
+              candidates: R.supportedLocales,
+              selected: curLocale,
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -370,6 +368,7 @@ class _SettingsPageState extends State<SettingsPage> {
       await HiveBoxInit.clearCache(); // 清除存储
     }
   }
+
 /*
 
   void _testPassword(BuildContext context, OACredential oaCredential) async {
