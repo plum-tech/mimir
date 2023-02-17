@@ -23,7 +23,7 @@ class DailyReportPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SimpleWebViewPage(
       initialUrl: _reportUrlIndex,
-      fixedTitle: FType.reportTemp.l10nName(),
+      fixedTitle: MiniApp.reportTemp.l10nName(),
       injectJsRules: [
         InjectJsRuleItem(
           rule: FunctionalRule((url) => url.startsWith(_reportUrlPrefix)),

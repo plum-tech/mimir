@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:mimir/main/desktop/entity/ftype.dart';
+import 'package:mimir/main/desktop/entity/miniApp.dart';
 import 'package:mimir/module/symbol.dart';
 
 import '../dao/home.dart';
@@ -76,13 +76,13 @@ class HomeSettingStorage implements HomeSettingDao {
   set readNotice(Set<int>? noticeSet) => box.put(HomeKeyKeys.readNotice, noticeSet?.toList());
 
   @override
-  List<FType>? get homeItems {
+  List<MiniApp>? get homeItems {
     final List? items = box.get(HomeKeyKeys.homeItems);
-    return items?.map((e) => e as FType).toList();
+    return items?.map((e) => e as MiniApp).toList();
   }
 
   @override
-  set homeItems(List<FType>? items) => box.put(HomeKeyKeys.homeItems, items);
+  set homeItems(List<MiniApp>? items) => box.put(HomeKeyKeys.homeItems, items);
 
   @override
   bool? get autoLaunchTimetable => box.get(HomeKeyKeys.autoLaunchTimetable);

@@ -1,94 +1,94 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'ftype.dart';
+part of 'miniApp.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class FTypeAdapter extends TypeAdapter<FType> {
+class MiniAppAdapter extends TypeAdapter<MiniApp> {
   @override
   final int typeId = 7;
 
   @override
-  FType read(BinaryReader reader) {
+  MiniApp read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return FType.separator;
+        return MiniApp.separator;
       case 1:
-        return FType.timetable;
+        return MiniApp.timetable;
       case 2:
-        return FType.reportTemp;
+        return MiniApp.reportTemp;
       case 3:
-        return FType.examArr;
+        return MiniApp.examArr;
       case 4:
-        return FType.activity;
+        return MiniApp.activity;
       case 5:
-        return FType.expense;
+        return MiniApp.expense;
       case 6:
-        return FType.examResult;
+        return MiniApp.examResult;
       case 7:
-        return FType.library;
+        return MiniApp.library;
       case 8:
-        return FType.application;
+        return MiniApp.application;
       case 9:
-        return FType.eduEmail;
+        return MiniApp.eduEmail;
       case 10:
-        return FType.oaAnnouncement;
+        return MiniApp.oaAnnouncement;
       case 11:
-        return FType.yellowPages;
+        return MiniApp.yellowPages;
       case 13:
-        return FType.scanner;
+        return MiniApp.scanner;
       case 14:
-        return FType.elecBill;
+        return MiniApp.elecBill;
       default:
-        return FType.separator;
+        return MiniApp.separator;
     }
   }
 
   @override
-  void write(BinaryWriter writer, FType obj) {
+  void write(BinaryWriter writer, MiniApp obj) {
     switch (obj) {
-      case FType.separator:
+      case MiniApp.separator:
         writer.writeByte(0);
         break;
-      case FType.timetable:
+      case MiniApp.timetable:
         writer.writeByte(1);
         break;
-      case FType.reportTemp:
+      case MiniApp.reportTemp:
         writer.writeByte(2);
         break;
-      case FType.examArr:
+      case MiniApp.examArr:
         writer.writeByte(3);
         break;
-      case FType.activity:
+      case MiniApp.activity:
         writer.writeByte(4);
         break;
-      case FType.expense:
+      case MiniApp.expense:
         writer.writeByte(5);
         break;
-      case FType.examResult:
+      case MiniApp.examResult:
         writer.writeByte(6);
         break;
-      case FType.library:
+      case MiniApp.library:
         writer.writeByte(7);
         break;
-      case FType.application:
+      case MiniApp.application:
         writer.writeByte(8);
         break;
-      case FType.eduEmail:
+      case MiniApp.eduEmail:
         writer.writeByte(9);
         break;
-      case FType.oaAnnouncement:
+      case MiniApp.oaAnnouncement:
         writer.writeByte(10);
         break;
-      case FType.yellowPages:
+      case MiniApp.yellowPages:
         writer.writeByte(11);
         break;
-      case FType.scanner:
+      case MiniApp.scanner:
         writer.writeByte(13);
         break;
-      case FType.elecBill:
+      case MiniApp.elecBill:
         writer.writeByte(14);
         break;
     }
@@ -100,7 +100,7 @@ class FTypeAdapter extends TypeAdapter<FType> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is FTypeAdapter &&
+      other is MiniAppAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/main/desktop/entity/ftype.dart';
+import 'package:mimir/main/desktop/entity/miniApp.dart';
 import 'package:mimir/module/symbol.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/storage/init.dart';
@@ -32,8 +32,8 @@ class _ElectricityBillItemState extends State<ElectricityBillItem> {
     return Brick(
       route: Routes.electricityBill,
       icon: SvgAssetIcon('assets/home/icon_electricity.svg'),
-      title: FType.elecBill.l10nName(),
-      subtitle: content ?? FType.elecBill.l10nDesc(),
+      title: MiniApp.elecBill.l10nName(),
+      subtitle: content ?? MiniApp.elecBill.l10nDesc(),
     );
   }
 }

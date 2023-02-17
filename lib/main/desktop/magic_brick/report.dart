@@ -6,7 +6,7 @@ import 'package:mimir/module/report_temp/i18n.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/storage/init.dart';
 
-import '../entity/ftype.dart';
+import '../entity/miniApp.dart';
 import '../widgets/brick.dart';
 
 class ReportTempItem extends StatefulWidget {
@@ -75,8 +75,8 @@ class _ReportTempItemState extends State<ReportTempItem> {
     return Brick(
       route: Routes.reportTemp,
       icon: SvgAssetIcon('assets/home/icon_report.svg'),
-      title: FType.reportTemp.l10nName(),
-      subtitle: content ?? FType.reportTemp.l10nName(),
+      title: MiniApp.reportTemp.l10nName(),
+      subtitle: content ?? MiniApp.reportTemp.l10nName(),
     );
   }
 }

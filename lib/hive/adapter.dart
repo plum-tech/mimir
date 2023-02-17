@@ -1,5 +1,5 @@
 import 'package:mimir/credential/symbol.dart';
-import 'package:mimir/main/desktop/entity/ftype.dart';
+import 'package:mimir/main/desktop/entity/miniApp.dart';
 import 'package:mimir/module/symbol.dart';
 
 import 'adapter/color.dart';
@@ -11,59 +11,56 @@ import 'package:mimir/entities.dart';
 class HiveAdapter {
   HiveAdapter._();
 
-  static void registerAll() {
-    ~CourseAdapter();
-    ~FTypeAdapter();
-    ~BalanceAdapter();
-    ~LibrarySearchHistoryItemAdapter();
-    // User Type
-    ~TimetableMetaLegacyAdapter();
-    // Common Type
-    ~VersionAdapter();
-    ~SizeAdapter();
-    ~ColorAdapter();
-
+  static final List<TypeAdapter> list = [
+    CourseAdapter(),
+    MiniAppAdapter(),
+    BalanceAdapter(),
+    LibrarySearchHistoryItemAdapter(),
+    TimetableMetaLegacyAdapter(),
+    VersionAdapter(),
+    SizeAdapter(),
+    ColorAdapter(),
     // Activity
-    ~ActivityDetailAdapter();
-    ~ActivityAdapter();
-    ~ScScoreSummaryAdapter();
-    ~ScActivityApplicationAdapter();
-    ~ScScoreItemAdapter();
-    ~ActivityTypeAdapter();
+    ActivityDetailAdapter(),
+    ActivityAdapter(),
+    ScScoreSummaryAdapter(),
+    ScActivityApplicationAdapter(),
+    ScScoreItemAdapter(),
+    ActivityTypeAdapter(),
     // Exam Arrangement
-    ~ExamEntryAdapter();
+    ExamEntryAdapter(),
     // OA Announcement
-    ~AnnounceDetailAdapter();
-    ~AnnounceCatalogueAdapter();
-    ~AnnounceRecordAdapter();
-    ~AnnounceAttachmentAdapter();
-    ~AnnounceListPageAdapter();
+    AnnounceDetailAdapter(),
+    AnnounceCatalogueAdapter(),
+    AnnounceRecordAdapter(),
+    AnnounceAttachmentAdapter(),
+    AnnounceListPageAdapter(),
     // Application
-    ~ApplicationDetailSectionAdapter();
-    ~ApplicationDetailAdapter();
-    ~ApplicationMetaAdapter();
-    ~ApplicationMsgCountAdapter();
-    ~ApplicationMsgAdapter();
-    ~ApplicationMsgPageAdapter();
-    ~ApplicationMessageTypeAdapter();
+    ApplicationDetailSectionAdapter(),
+    ApplicationDetailAdapter(),
+    ApplicationMetaAdapter(),
+    ApplicationMsgCountAdapter(),
+    ApplicationMsgAdapter(),
+    ApplicationMsgPageAdapter(),
+    ApplicationMessageTypeAdapter(),
 
     // Credential
-    ~OACredentialAdapter();
-    ~UserTypeAdapter();
+    OACredentialAdapter(),
+    UserTypeAdapter(),
 
     // Exam Result
-    ~ExamResultAdapter();
-    ~ExamResultDetailAdapter();
+    ExamResultAdapter(),
+    ExamResultDetailAdapter(),
 
-    ~SchoolYearAdapter();
-    ~SemesterAdapter();
-  }
-}
+    SchoolYearAdapter(),
+    SemesterAdapter(),
+  ];
 
-extension _TypeAdapterEx<T> on TypeAdapter<T> {
-  void operator ~() {
-    if (!Hive.isAdapterRegistered(typeId)) {
-      Hive.registerAdapter(this);
+  static void registerAll() {
+    for (final adapter in list) {
+      if (!Hive.isAdapterRegistered(adapter.typeId)) {
+        Hive.registerAdapter(adapter);
+      }
     }
   }
 }

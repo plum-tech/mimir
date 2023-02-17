@@ -19,7 +19,7 @@ class LibraryPage extends StatelessWidget {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      title: FType.library.l10nName().text(),
+      title: MiniApp.library.l10nName().text(),
       actions: [
         IconButton(
           onPressed: () {

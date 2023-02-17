@@ -1,4 +1,4 @@
-import 'package:mimir/main/desktop/entity/ftype.dart';
+import 'package:mimir/main/desktop/entity/miniApp.dart';
 import 'package:mimir/module/symbol.dart';
 
 abstract class HomeSettingDao {
@@ -17,7 +17,7 @@ abstract class HomeSettingDao {
   Balance? lastBalance;
   String? lastHotSearch;
   Set<int>? readNotice;
-  List<FType>? homeItems;
+  List<MiniApp>? homeItems;
 
   // 启动时是否自动启动课表
   bool? autoLaunchTimetable;

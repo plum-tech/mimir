@@ -16,7 +16,7 @@ class _ActivityIndexPageState extends State<ActivityIndexPage> {
   @override
   Widget build(BuildContext context) {
     return AdaptiveNavi(
-      title: FType.activity.l10nName(),
+      title: MiniApp.activity.l10nName(),
       defaultIndex: 0,
       actions: [
         IconButton(

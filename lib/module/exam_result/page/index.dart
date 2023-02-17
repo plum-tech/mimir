@@ -57,7 +57,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
   @override
   Widget build(BuildContext context) {
     // If the user has logged in, they can only check the cache.
-    if (!Auth.hasLoggedIn) return UnauthorizedTipPage(title: FType.examResult.l10nName().text());
+    if (!Auth.hasLoggedIn) return UnauthorizedTipPage(title: MiniApp.examResult.l10nName().text());
     final allResults = _allResults;
     final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResult>() : allResults;
     final String title;
@@ -72,7 +72,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
         title = i18n.gpaPointLabel(selectedSemester.localized(), gpa.toStringAsPrecision(2));
       }
     } else {
-      title = FType.examResult.l10nName();
+      title = MiniApp.examResult.l10nName();
     }
 
     return Scaffold(

@@ -71,7 +71,7 @@ class _ExpenseTrackerPageState extends State<ExpenseTrackerPage> {
     return $balance >>
         (ctx, v) {
           if (v == null) {
-            return FType.expense.l10nName().text();
+            return MiniApp.expense.l10nName().text();
           } else {
             return i18n.balanceInCard(v.toStringAsFixed(2)).text();
           }

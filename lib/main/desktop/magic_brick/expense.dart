@@ -5,7 +5,7 @@ import 'package:mimir/module/expense/init.dart';
 import 'package:mimir/route.dart';
 
 import 'package:mimir/module/expense/i18n.dart';
-import '../entity/ftype.dart';
+import '../entity/miniApp.dart';
 import '../widgets/brick.dart';
 
 class ExpenseItem extends StatefulWidget {
@@ -50,8 +50,8 @@ class _ExpenseItemState extends State<ExpenseItem> {
     return Brick(
       route: Routes.expense,
       icon: SvgAssetIcon('assets/home/icon_expense.svg'),
-      title: FType.expense.l10nName(),
-      subtitle: content ?? FType.expense.l10nDesc(),
+      title: MiniApp.expense.l10nName(),
+      subtitle: content ?? MiniApp.expense.l10nDesc(),
     );
   }
 }

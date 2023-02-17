@@ -19,10 +19,10 @@ class _ApplicationIndexPageState extends State<ApplicationIndexPage> {
   @override
   Widget build(BuildContext context) {
     if (!Auth.hasLoggedIn) {
-      return UnauthorizedTipPage(title: FType.application.l10nName().text());
+      return UnauthorizedTipPage(title: MiniApp.application.l10nName().text());
     }
     return AdaptiveNavi(
-      title: FType.application.l10nName(),
+      title: MiniApp.application.l10nName(),
       defaultIndex: 0,
       actions: [
         IconButton(
@@ -65,8 +65,8 @@ class _ApplicationIndexPageState extends State<ApplicationIndexPage> {
 
 Future<void> showInfo(BuildContext ctx) async {
   await ctx.showTip(
-    title: FType.application.l10nName(),
-    desc: FType.application.l10nDesc(),
+    title: MiniApp.application.l10nName(),
+    desc: MiniApp.application.l10nDesc(),
     ok: i18n.close,
   );
 }

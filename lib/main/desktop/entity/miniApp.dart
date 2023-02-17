@@ -2,10 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mimir/hive/type_id.dart';
 
-part 'ftype.g.dart';
-const _ns = "ftype";
-@HiveType(typeId: HiveTypeId.ftype)
-enum FType {
+part 'miniApp.g.dart';
+
+const _ns = "miniApp";
+
+@HiveType(typeId: HiveTypeId.miniApp)
+enum MiniApp {
   /// Separator
   @HiveField(0)
   separator,
@@ -62,7 +64,7 @@ enum FType {
   @HiveField(14)
   elecBill;
 
-  String l10nName()=> "$_ns.$name.name".tr();
+  String l10nName() => "$_ns.$name.name".tr();
 
-  String l10nDesc()=> "$_ns.$name.desc".tr();
+  String l10nDesc() => "$_ns.$name.desc".tr();
 }

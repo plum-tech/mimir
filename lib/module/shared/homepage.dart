@@ -1,1 +1,1 @@
-export 'package:mimir/main/desktop/entity/ftype.dart';
+export 'package:mimir/main/desktop/entity/miniApp.dart';

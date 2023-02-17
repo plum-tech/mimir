@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/global/global.dart';
-import 'package:mimir/main/desktop/entity/ftype.dart';
+import 'package:mimir/main/desktop/entity/miniApp.dart';
 
 import '../widgets/brick.dart';
 import 'package:mimir/route.dart';
@@ -28,8 +28,8 @@ class _EduEmailItemState extends State<EduEmailItem> {
     return Brick(
       route: Routes.eduEmail,
       icon: SvgAssetIcon('assets/home/icon_mail.svg'),
-      title: FType.eduEmail.l10nName(),
-      subtitle: content ?? FType.eduEmail.l10nDesc(),
+      title: MiniApp.eduEmail.l10nName(),
+      subtitle: content ?? MiniApp.eduEmail.l10nDesc(),
     );
   }
 }

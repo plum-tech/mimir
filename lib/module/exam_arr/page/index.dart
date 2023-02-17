@@ -37,10 +37,10 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
   @override
   Widget build(BuildContext context) {
     if (!Auth.hasLoggedIn) {
-      return UnauthorizedTipPage(title: FType.examArr.l10nName().text());
+      return UnauthorizedTipPage(title: MiniApp.examArr.l10nName().text());
     } else {
       return Scaffold(
-          appBar: AppBar(title: FType.examArr.l10nName().text()),
+          appBar: AppBar(title: MiniApp.examArr.l10nName().text()),
           body: [
             buildSemesterSelector(),
             buildExamEntries(context).expanded(),

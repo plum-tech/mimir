@@ -7,7 +7,7 @@ import 'package:mimir/module/library/search/init.dart';
 import 'package:mimir/storage/init.dart';
 import 'package:mimir/module/library/i18n.dart';
 
-import '../entity/ftype.dart';
+import '../entity/miniApp.dart';
 import '../widgets/brick.dart';
 
 class LibraryItem extends StatefulWidget {
@@ -60,8 +60,8 @@ class _LibraryItemState extends State<LibraryItem> {
     return Brick(
       route: '/library',
       icon: SvgAssetIcon('assets/home/icon_library.svg'),
-      title: FType.library.l10nName(),
-      subtitle: content ?? FType.library.l10nDesc(),
+      title: MiniApp.library.l10nName(),
+      subtitle: content ?? MiniApp.library.l10nDesc(),
     );
   }
 }

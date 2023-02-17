@@ -67,7 +67,7 @@ class _ElectricityBillPageState extends State<ElectricityBillPage> {
     final selectedRoom = _selectedRoom;
     return Scaffold(
         appBar: AppBar(
-          title: selectedRoom != null ? i18n.title(selectedRoom).text() : FType.elecBill.l10nName().text(),
+          title: selectedRoom != null ? i18n.title(selectedRoom).text() : MiniApp.elecBill.l10nName().text(),
           actions: <Widget>[
             IconButton(
                 onPressed: search,

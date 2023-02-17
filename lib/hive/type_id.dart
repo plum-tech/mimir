@@ -8,7 +8,7 @@ class HiveTypeId {
   static const course = 4;
   static const expense = 5;
   static const expenseType = 6;
-  static const ftype = 7;
+  static const miniApp = 7;
   static const timetableMeta = 8;
   static const size = 9;
   static const color = 10;

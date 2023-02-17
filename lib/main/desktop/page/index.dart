@@ -16,7 +16,7 @@ import 'package:universal_platform/universal_platform.dart';
 
 import '../../index.dart';
 import '../brick_maker.dart';
-import '../entity/ftype.dart';
+import '../entity/miniApp.dart';
 import '../homepage_factory.dart';
 import '../../init.dart';
 import '../widgets/greeting.dart';
@@ -146,9 +146,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Widget> buildBricksWidgets() {
-    List<FType> list = Kv.home.homeItems ?? BrickMaker.makeDefaultBricks();
+    List<MiniApp> list = Kv.home.homeItems ?? BrickMaker.makeDefaultBricks();
 
-    FType lastItem = list.first;
+    MiniApp lastItem = list.first;
     for (int i = 1; i < list.length; ++i) {
       if (lastItem == list[i]) {
         list.removeAt(i);
@@ -163,7 +163,7 @@ class _HomePageState extends State<HomePage> {
     List<Widget> currentGroup = [];
 
     for (final item in list) {
-      if (item == FType.separator) {
+      if (item == MiniApp.separator) {
         result.addAll([
           HomeItemGroup([...currentGroup]),
           separator
