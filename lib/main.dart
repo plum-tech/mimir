@@ -20,7 +20,7 @@ void main() async {
   mimir.install(DefaultFlutterDataAdapterPlugin);
   mimir.install(DataAdapterPlugin);
   mimir.install(DebugPlugin);
-  await Initializer.init();
+  await Init.init();
   CatcherOptions buildCatcherConfig(bool releaseMode) => CatcherOptions(
         SilentReportMode(),
         [

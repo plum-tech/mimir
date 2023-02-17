@@ -6,6 +6,7 @@ import 'package:mimir/events/bus.dart';
 import 'package:mimir/events/events.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/global/global.dart';
+import 'package:mimir/global/init.dart';
 import 'package:mimir/module/login/i18n.dart';
 import 'package:mimir/module/login/init.dart';
 import 'package:mimir/module/timetable/using.dart';
@@ -91,9 +92,34 @@ class _HomePageState extends State<HomePage> {
       drawer: buildDrawer(),
     );
   }
+
+  static final String currentVersion = 'v${Init.currentVersion.version} on ${Init.currentVersion.platform}';
+
   Widget buildDrawer() {
-    return Drawer(
-      child: ListView(
+    return NavigationDrawer(
+      selectedIndex: 0,
+      onDestinationSelected: (i) {},
+      children: [
+        DrawerHeader(child: "Header".text()),
+        NavigationDrawerDestination(
+          icon: const Icon(Icons.home_rounded),
+          label: "home".text(),
+        ),
+        NavigationDrawerDestination(
+          icon: const Icon(Icons.lan),
+          label: "lan".text(),
+        ),
+        NavigationDrawerDestination(
+          icon: const Icon(Icons.settings),
+          label: "settings".text(),
+        ),
+        const Spacer(),
+        ListTile(
+          title: currentVersion.text(style: context.textTheme.titleSmall),
+          leading: const Icon(Icons.settings_applications),
+        ),
+      ],
+/*      child: ListView(
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
@@ -117,7 +143,7 @@ class _HomePageState extends State<HomePage> {
             },
           ),
         ],
-      ),
+      ),*/
     );
   }
 

@@ -14,7 +14,7 @@ import 'package:mimir/version.dart';
 import 'package:path/path.dart' as path;
 import 'package:universal_platform/universal_platform.dart';
 
-class Initializer {
+class Init {
   static late AppVersion currentVersion;
 
   static Future<void> init({bool? debugNetwork}) async {

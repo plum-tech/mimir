@@ -44,7 +44,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   final TextEditingController _passwordController = TextEditingController();
   static final String currentVersion =
-      'v${Initializer.currentVersion.version} on ${Initializer.currentVersion.platform}';
+      'v${Init.currentVersion.version} on ${Init.currentVersion.platform}';
 
   @override
   Widget build(BuildContext context) {
@@ -337,7 +337,7 @@ class _SettingsPageState extends State<SettingsPage> {
       subtitle: i18n.reload.desc.text(),
       leading: const Icon(Icons.refresh_rounded),
       onTap: () async {
-        await Initializer.init();
+        await Init.init();
         if (!mounted) return;
         context.navigator.pop();
       },
@@ -355,7 +355,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
     if (confirm == true) {
       await HiveBoxInit.clear(); // 清除存储
-      await Initializer.init();
+      await Init.init();
       FireOn.global(CredentialChangeEvent());
       if (!mounted) return;
       _gotoLogin(context);
