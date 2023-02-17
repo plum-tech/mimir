@@ -18,7 +18,7 @@ import 'package:universal_platform/universal_platform.dart';
 import '../brick_maker.dart';
 import '../entity/ftype.dart';
 import '../homepage_factory.dart';
-import '../init.dart';
+import '../../init.dart';
 import '../widgets/greeting.dart';
 import 'background.dart';
 
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
         ),
         NavigationDrawerDestination(
           icon: const Icon(Icons.lan),
-          label: "lan".text(),
+          label: "network tool".text(),
         ),
         NavigationDrawerDestination(
           icon: const Icon(Icons.settings),

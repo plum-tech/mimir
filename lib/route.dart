@@ -1,7 +1,7 @@
 import 'package:mimir/credential/symbol.dart';
-import 'package:mimir/home/page/index.dart';
+import 'package:mimir/home/desktop/page/index.dart';
 import 'package:mimir/navigation/static_route.dart';
-import 'package:mimir/settings/page/index.dart';
+import 'package:mimir/home/symbol.dart';
 
 import 'module/exam_result/page/evaluation.dart';
 import 'module/simple_page/page/browser.dart';

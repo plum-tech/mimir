@@ -7,7 +7,7 @@ import 'package:mimir/home/init.dart';
 import 'package:mimir/migration/migrations.dart';
 import 'package:mimir/module/symbol.dart';
 import 'package:mimir/session/edu_session.dart';
-import 'package:mimir/settings/symbol.dart';
+import 'package:mimir/home/symbol.dart';
 import 'package:mimir/storage/init.dart';
 import 'package:mimir/util/logger.dart';
 import 'package:mimir/version.dart';

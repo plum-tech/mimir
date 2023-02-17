@@ -1,6 +1,6 @@
 import 'package:mimir/module/symbol.dart';
 
-import '../../home/entity/ftype.dart';
+import '../../home/desktop/entity/ftype.dart';
 
 abstract class HomeSettingDao {
   int get campus; // 校区

@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:mimir/home/entity/ftype.dart';
+import 'package:mimir/home/desktop/entity/ftype.dart';
 import 'package:mimir/module/symbol.dart';
 
 import '../dao/home.dart';

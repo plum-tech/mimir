@@ -18,8 +18,8 @@ import 'package:mimir/global/init.dart';
 import 'package:mimir/hive/init.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/route.dart';
-import 'package:mimir/settings/page/credential.dart';
 import 'package:mimir/storage/init.dart';
+import 'package:mimir/storage/page/editor.dart';
 import 'package:mimir/storage/storage/develop.dart';
 import 'package:mimir/util/file.dart';
 import 'package:mimir/util/logger.dart';
@@ -28,10 +28,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
 
-import '../../storage/page/editor.dart';
-import '../../storage/storage/pref.dart';
-
 import '../i18n.dart';
+import 'credential.dart';
 import 'language.dart';
 
 class SettingsPage extends StatefulWidget {

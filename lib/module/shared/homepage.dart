@@ -1,1 +1,1 @@
-export 'package:mimir/home/entity/ftype.dart';
+export 'package:mimir/home/desktop/entity/ftype.dart';

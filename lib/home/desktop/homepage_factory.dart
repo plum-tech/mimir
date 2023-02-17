@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/home/magic_brick/report.dart';
+import 'package:mimir/home/desktop/magic_brick/report.dart';
 
-import '../route.dart';
+import '../../route.dart';
 import 'entity/ftype.dart';
 import 'magic_brick/application.dart';
 import 'magic_brick/electricity.dart';
