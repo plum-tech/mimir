@@ -1,6 +1,3 @@
-# The pubspec file
-# https://dart.dev/tools/pub/pubspec
-
 name: mimir
 version: 1.0.0
 
@@ -13,11 +10,6 @@ documentation: https://github.com/liplum/mimir#readme
 
 publish_to: none
 environment: { sdk: '>=2.18.1 <3.0.0', flutter: ^3.0.0 }
-
-# ------------------------------------------------------------------------------
-
-# View pub packages at: https://pub.dev/packages/{{package_name}}
-#               mirror: https://pub.flutter-io.cn/packages/{{package_name}}
 
 dependencies:
 
@@ -140,8 +132,6 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
-  # For i18n
-  generate: true
   fonts:
     # Iconfont for ywb.sit.edu.cn
     # For office module. So I named it office_iconfont.
