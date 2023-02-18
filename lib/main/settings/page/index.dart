@@ -17,6 +17,7 @@ import 'package:mimir/global/global.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/hive/init.dart';
 import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/main/settings/page/developer.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/storage/init.dart';
 import 'package:mimir/storage/page/editor.dart';
@@ -35,6 +36,7 @@ import 'language.dart';
 
 class SettingsPage extends StatefulWidget {
   final DrawerDelegateProtocol drawer;
+
   const SettingsPage({super.key, required this.drawer});
 
   @override
@@ -43,8 +45,6 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final TextEditingController _passwordController = TextEditingController();
-  static final String currentVersion =
-      'v${Init.currentVersion.version} on ${Init.currentVersion.platform}';
 
   @override
   Widget build(BuildContext context) {
@@ -200,17 +200,16 @@ class _SettingsPageState extends State<SettingsPage> {
 
   List<WidgetBuilder> buildEntries() {
     final all = <WidgetBuilder>[];
+
     final credential = Auth.oaCredential;
     if (credential != null) {
       all.add((_) => buildCredential(credential));
     }
     all.add((ctx) => buildLanguageSelector(ctx));
+    all.add((_) => const Divider());
+    all.add((_) => buildDeveloper());
     all.add((_) => buildClearCache());
     all.add((_) => buildWipeData());
-    all.add((_) => buildLocalStorage());
-    if (kDebugMode) {
-      all.add((_) => buildReload());
-    }
     return all;
   }
 
@@ -273,16 +272,26 @@ class _SettingsPageState extends State<SettingsPage> {
       title: CredentialI18n.instance.oaAccount.text(),
       subtitle: credential.account.text(),
       leading: const Icon(Icons.person_rounded),
-      /* onTap: () {
-        // Copy the student ID to clipboard
-        Clipboard.setData(ClipboardData(text: credential.account));
-        context.showSnackBar(i18n.studentId.studentIdCopy2ClipboardTip.text());
-      },*/
       trailing: const Icon(Icons.navigate_next_rounded),
       onTap: () async {
         await context.navigator.push(
           MaterialPageRoute(
             builder: (_) => const CredentialPage(),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildDeveloper() {
+    return ListTile(
+      title: "Developer Options".text(),
+      leading: const Icon(Icons.developer_mode_outlined),
+      trailing: const Icon(Icons.navigate_next_rounded),
+      onTap: () async {
+        await context.navigator.push(
+          MaterialPageRoute(
+            builder: (_) => const DeveloperPage(),
           ),
         );
       },
@@ -311,30 +320,6 @@ class _SettingsPageState extends State<SettingsPage> {
       leading: const Icon(Icons.delete_forever_rounded),
       onTap: () {
         _onWipeData(context);
-      },
-    );
-  }
-
-  Widget buildLocalStorage() {
-    return ListTile(
-      title: i18n.localStorage.title.text(),
-      subtitle: i18n.localStorage.desc.text(),
-      leading: const Icon(Icons.storage),
-      onTap: () {
-        context.navigator.push(MaterialPageRoute(builder: (_) => const LocalStoragePage()));
-      },
-    );
-  }
-
-  Widget buildReload() {
-    return ListTile(
-      title: i18n.reload.title.text(),
-      subtitle: i18n.reload.desc.text(),
-      leading: const Icon(Icons.refresh_rounded),
-      onTap: () async {
-        await Init.init();
-        if (!mounted) return;
-        context.navigator.pop();
       },
     );
   }

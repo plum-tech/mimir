@@ -30,7 +30,10 @@ class _MainStagePageState extends State<MainStagePage> {
     return Scaffold(
       key: scaffoldKey,
       drawer: buildDrawer(),
-      body: buildStage(),
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: buildStage(),
+      ),
     );
   }
 
