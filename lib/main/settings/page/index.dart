@@ -211,7 +211,6 @@ class _SettingsPageState extends State<SettingsPage> {
     if (kDebugMode) {
       all.add((_) => buildReload());
     }
-    all.add((_) => buildVersion());
     return all;
   }
 
@@ -324,14 +323,6 @@ class _SettingsPageState extends State<SettingsPage> {
       onTap: () {
         context.navigator.push(MaterialPageRoute(builder: (_) => const LocalStoragePage()));
       },
-    );
-  }
-
-  Widget buildVersion() {
-    return ListTile(
-      title: i18n.version.title.text(),
-      subtitle: currentVersion.text(),
-      leading: const Icon(Icons.settings_applications),
     );
   }
 
