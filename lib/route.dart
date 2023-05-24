@@ -1,5 +1,4 @@
 import 'package:mimir/credential/symbol.dart';
-import 'package:mimir/main/desktop/page/index.dart';
 import 'package:mimir/main/index.dart';
 import 'package:mimir/navigation/static_route.dart';
 import 'package:mimir/main/symbol.dart';
@@ -17,7 +16,6 @@ class Routes {
   static const application = '/application';
   static const eduEmail = '/edu_email';
   static const electricityBill = '/electricity_bill';
-  static const reportTemp = '/report_temp';
   static const login = '/login';
   static const expense = '/expense';
   static const examResult = '/exam_result';
@@ -39,7 +37,6 @@ class Routes {
 final defaultRouteTable = StaticRouteTable(
   table: {
     Routes.mainStage: (context, args) => const MainStagePage(),
-    Routes.reportTemp: (context, args) => const DailyReportIndexPage(),
     Routes.login: (context, args) => args["disableOffline"] == true
         ? const LoginPage(
             disableOffline: true,

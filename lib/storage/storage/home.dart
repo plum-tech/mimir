@@ -12,7 +12,6 @@ class HomeKeyKeys {
   static const installTime = '$namespace/installTime';
   static const homeItems = '$namespace/homeItems';
 
-  static const lastReport = '$namespace/lastReport';
   static const lastBalance = '$namespace/lastBalance';
   static const lastExpense = '$namespace/lastExpense';
   static const lastHotSearch = '$namespace/lastHotSearch';
@@ -50,12 +49,6 @@ class HomeSettingStorage implements HomeSettingDao {
 
   @override
   set installTime(DateTime? dateTime) => box.put(HomeKeyKeys.installTime, dateTime);
-
-  @override
-  ReportHistory? get lastReport => box.get(HomeKeyKeys.lastReport);
-
-  @override
-  set lastReport(ReportHistory? reportHistory) => box.put(HomeKeyKeys.lastReport, reportHistory);
 
   @override
   Balance? get lastBalance => box.get(HomeKeyKeys.lastBalance);

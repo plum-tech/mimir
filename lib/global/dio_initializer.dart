@@ -9,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:mimir/storage/init.dart';
 import 'package:mimir/util/logger.dart';
 import 'package:mimir/util/random_util.dart';
-import 'package:mimir/util/rule.dart';
 
 class DioConfig {
   String? httpProxy;
@@ -69,6 +68,26 @@ class DioInit {
   }
 }
 
+// 使用代理访问的网站规则
+bool _proxyFilter(String host) {
+  if (host == 'jwxt.sit.edu.cn') {
+    return true;
+  } else if (host == 'sc.sit.edu.cn') {
+    return true;
+  } else if (host == 'card.sit.edu.cn') {
+    return true;
+  } else if (host == 'myportal.sit.edu.cn') {
+    return true;
+  } else if (host == '210.35.66.106') {
+    // 图书
+    return true;
+  } else if (host == '210.35.98.178') {
+    // 门
+    return true;
+  }
+  return false;
+}
+
 class KiteHttpOverrides extends HttpOverrides {
   final DioConfig config;
   final bool? debug;
@@ -76,17 +95,8 @@ class KiteHttpOverrides extends HttpOverrides {
   KiteHttpOverrides({required this.config, this.debug});
 
   String getProxyPolicyByUrl(Uri url, String httpProxy) {
-    // 使用代理访问的网站规则
-    final rule = const ChainRule(ConstRule())
-        .sum(const EqualRule('jwxt.sit.edu.cn'))
-        .sum(const EqualRule('sc.sit.edu.cn'))
-        .sum(const EqualRule('card.sit.edu.cn'))
-        .sum(const EqualRule('myportal.sit.edu.cn'))
-        .sum(const EqualRule('210.35.66.106')) // 图书馆
-        .sum(const EqualRule('210.35.98.178')); // 门禁
-
     final host = url.host;
-    if ((debug ?? false) || rule.accept(host)) {
+    if ((debug ?? false) || _proxyFilter(host)) {
       Log.info('使用代理访问 $url');
       return 'PROXY $httpProxy';
     } else {

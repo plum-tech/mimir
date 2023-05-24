@@ -13,7 +13,6 @@ abstract class HomeSettingDao {
   DateTime? installTime; // 安装时间
 
   // 首页在无网状态下加载的缓存
-  ReportHistory? lastReport;
   Balance? lastBalance;
   String? lastHotSearch;
   Set<int>? readNotice;

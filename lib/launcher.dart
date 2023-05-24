@@ -3,7 +3,6 @@ import 'package:mimir/credential/using.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/util/launcher.dart';
 import 'package:mimir/util/logger.dart';
-import 'package:mimir/util/rule.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -11,7 +10,7 @@ class GlobalLauncher {
   static final _schemeLauncher = SchemeLauncher(
     schemes: [
       LaunchScheme(
-        launchRule: FunctionalRule((scheme) => scheme.startsWith('http')),
+        matcher: (s) => s.startsWith("http"),
         onLaunch: (scheme) async {
           if (!UniversalPlatform.isDesktopOrWeb) {
             Log.info('启动浏览器');
@@ -29,7 +28,7 @@ class GlobalLauncher {
       ),
       LaunchScheme(
         // 其他协议，就调用launchUrl启动某个本地app
-        launchRule: FunctionalRule((s) => s.contains(':')),
+        matcher: (s) => s.contains(':'),
         onLaunch: (scheme) async {
           Log.info('尝试打开scheme: $scheme');
 

@@ -6,7 +6,6 @@ import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/launcher.dart';
 import 'package:mimir/widgets/webview/view.dart';
 import 'package:mimir/util/logger.dart';
-import 'package:mimir/util/rule.dart';
 import 'package:mimir/util/url_launcher.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:webview_flutter/webview_flutter.dart';

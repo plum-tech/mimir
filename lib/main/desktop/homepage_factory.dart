@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/main/desktop/magic_brick/report.dart';
 
 import '../../route.dart';
 import 'entity/miniApp.dart';
@@ -12,7 +11,6 @@ import 'widgets/brick.dart';
 
 class HomepageFactory {
   static final Map<MiniApp, WidgetBuilder?> builders = {
-    MiniApp.reportTemp: (context) => const ReportTempItem(),
     MiniApp.timetable: (context) => Brick(
           route: Routes.timetable,
           icon: SvgAssetIcon('assets/home/icon_timetable.svg'),
