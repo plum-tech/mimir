@@ -1,4 +1,3 @@
-import 'package:catcher/catcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/design/utils.dart';
@@ -135,7 +134,6 @@ class _HomePageState extends State<HomePage> {
           _showCheckNetwork(context, title: _i18n.network.error.text());
         }
       } catch (e, s) {
-        Catcher.reportCheckedError(e, s);
       }
     }
     if (HomeInit.ssoSession.isOnline) {

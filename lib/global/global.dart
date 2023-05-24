@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:catcher/catcher.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:mimir/app.dart';
 import 'package:mimir/credential/dao/credential.dart';
 import 'package:mimir/design/symbol.dart';
 import 'package:mimir/design/widgets/dialog.dart';
@@ -46,15 +46,11 @@ class Global {
   static late SsoSession ssoSession;
   static late SsoSession ssoSession2;
 
-  static BuildContext? get buildContext => Catcher.navigatorKey?.currentState?.context;
-
   // 是否正处于网络错误对话框
   static bool inSsoErrorDialog = false;
 
   static onSsoError(error, stacktrace) {
-    if (Catcher.navigatorKey == null) return;
-    if (Catcher.navigatorKey!.currentContext == null) return;
-    final context = Catcher.navigatorKey!.currentContext!;
+    final context = $Key.currentContext!;
     if (error is DioError) {
       if (inSsoErrorDialog) return;
       inSsoErrorDialog = true;
@@ -72,9 +68,7 @@ class Global {
   }
 
   static Future<String?> onNeedInputCaptcha(Uint8List imageBytes) async {
-    if (Catcher.navigatorKey == null) return null;
-    if (Catcher.navigatorKey!.currentContext == null) return null;
-    final context = Catcher.navigatorKey!.currentContext!;
+    final context = $Key.currentContext!;
     return await context.show$Dialog$(
       dismissible: false,
       make: (context) => CaptchaBox(captchaData: imageBytes),

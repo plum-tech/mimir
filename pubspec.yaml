@@ -15,14 +15,13 @@ dependencies:
 
   flutter: { sdk: flutter }
 
-  device_info_plus_platform_interface: ^2.6.1
+  device_info_plus_platform_interface: ^7.0.0
   # I18n
   intl: ^0.17.0
-  easy_localization: ^3.0.1
+  easy_localization: ^3.0.2
 
   # Basic
   logger: ^1.1.0              # logger
-  catcher: ^0.6.9             # Error handling
   path_provider: ^2.0.8       # Path
 
   # String and charset
@@ -48,9 +47,9 @@ dependencies:
   dio_cookie_manager: ^2.0.0
 
   # WebView and browser related
-  webview_flutter: ^3.0.0
+  webview_flutter: ^4.2.1
   fk_user_agent: ^2.1.0
-  flutter_widget_from_html: ^0.9.0+1
+  flutter_widget_from_html: ^0.10.1
 
   # Email
   enough_mail: ^2.1.0
@@ -68,7 +67,7 @@ dependencies:
   open_file: ^3.2.1                 # Open files
   url_launcher: ^6.0.17             # Open URLs
   image_picker: ^0.8.4+7            # Open Android / iOS system image picker
-  file_picker: ^4.6.1
+  file_picker: 5.0.0
 
   # UI
   fl_chart: ^0.55.0
@@ -76,7 +75,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   dynamic_color_theme: ^2.0.0
   geopattern_flutter: { git: { url: https://github.com/paolovalerdi/geopattern } }
-  flutter_svg: ^1.1.0
+  flutter_svg: ^2.0.6
   flutter_screenutil: ^5.5.2              # Screen adaptation
   qr_flutter: ^4.0.0                      # Qr code generate
   mobile_scanner: ^2.1.0                  # qrcode scanner
@@ -88,8 +87,8 @@ dependencies:
 
   # Utils
   version: ^3.0.2               # Version comparison
-  flutter_phoenix: ^1.1.0       # Restart app
-  package_info_plus: ^1.3.0     # Get package info (version)
+  flutter_phoenix: ^1.1.0       # Soft-restart app
+  package_info_plus: ^3.0.0     # Get package info (version)
   universal_platform: ^1.0.0+1  # dart.io.Platform API for Web
   check_vpn_connection: ^0.0.2  # Check VPN connection status
   synchronized: ^3.0.0+2        # lock
@@ -117,9 +116,12 @@ dependencies:
   quiver: ^3.1.0
   auto_size_text: ^3.0.0
   cookie_jar: ^3.0.1
-  flutter_widget_from_html_core: ^0.9.1
+  flutter_widget_from_html_core: ^0.10.1
   yaml: ^3.1.1
   path: ^1.8.2
+
+dependency_overrides:
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test: { sdk: flutter }

@@ -1,8 +1,8 @@
+import 'package:mimir/app.dart';
 import 'package:mimir/credential/dao/credential.dart';
 import 'package:mimir/credential/storage/credential.dart';
 import 'package:mimir/events/bus.dart';
 import 'package:mimir/events/events.dart';
-import 'package:mimir/module/shared/global.dart';
 
 import 'entity/credential.dart';
 import 'widgets/scope.dart';
@@ -14,7 +14,7 @@ class CredentialDelegate implements CredentialDao {
 
   /// [storage.oaCredential] does also work. But I prefer to use Inherited Widget.
   @override
-  OACredential? get oaCredential => Global.buildContext!.auth.oaCredential;
+  OACredential? get oaCredential => $Key.currentContext!.auth.oaCredential;
 
   @override
   set oaCredential(OACredential? newV) {
@@ -28,7 +28,7 @@ class CredentialDelegate implements CredentialDao {
   }
 
   @override
-  DateTime? get lastOaAuthTime => Global.buildContext!.auth.lastOaAuthTime;
+  DateTime? get lastOaAuthTime => $Key.currentContext!.auth.lastOaAuthTime;
 
   set lastOaAuthTime(DateTime? newV) {
     storage.lastOaAuthTime = newV;

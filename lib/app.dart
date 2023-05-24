@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:animations/animations.dart';
-import 'package:catcher/core/catcher.dart';
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +15,8 @@ import 'package:mimir/route.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'navigation/route.dart';
+
+final $Key = GlobalKey<NavigatorState>();
 
 class MimirApp extends StatefulWidget {
   const MimirApp({super.key});
@@ -80,7 +81,7 @@ class _MimirAppState extends State<MimirApp> {
         ),
         initialRoute: Routes.root,
         debugShowCheckedModeBanner: false,
-        navigatorKey: Catcher.navigatorKey,
+        navigatorKey: $Key,
         onGenerateRoute: _onGenerateRoute,
         builder: EasyLoading.init(builder: (context, widget) {
           // A workaround to get the system locale.
@@ -122,7 +123,7 @@ class _MimirAppState extends State<MimirApp> {
 
           if (event is KeyUpEvent && LogicalKeyboardKey.escape == event.logicalKey) {
             Log.info('松开返回键');
-            final ctx = Catcher.navigatorKey?.currentContext;
+            final ctx = $Key.currentContext;
             if (ctx != null && Navigator.canPop(ctx)) {
               Navigator.pop(ctx);
             }

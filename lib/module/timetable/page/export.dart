@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:catcher/catcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -55,7 +54,6 @@ class ExportDialog {
       );
     } catch (e, st) {
       Log.info('HTTP服务启动失败');
-      Catcher.reportCheckedError(e, st);
       return;
     } finally {
       server?.close();

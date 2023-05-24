@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/app.dart';
 
 import '../global/global.dart';
 import 'lang.dart';
@@ -52,22 +53,22 @@ bool yOrNo(String test, {bool defaultValue = false}) {
 }
 
 ///e.g.: Wednesday, September 21, 2022
-/// [Global.buildContext] is used
+/// [$Key.currentContext] is used
 String dateText(DateTime date) {
-  final curLocale = Global.buildContext!.locale;
+  final curLocale = $Key.currentContext!.locale;
   return Lang.dateT(curLocale.languageCode, curLocale.countryCode).format(date);
 }
 
 ///e.g.:9/21/2022
-/// [Global.buildContext] is used
+/// [$Key.currentContext] is used
 String dateNum(DateTime date) {
-  final curLocale = Global.buildContext!.locale;
+  final curLocale = $Key.currentContext!.locale;
   return Lang.dateN(curLocale.languageCode, curLocale.countryCode).format(date);
 }
 
 ///e.g.: 9/21/2022 23:57:23
-/// [Global.buildContext] is used
+/// [$Key.currentContext] is used
 String dateFullNum(DateTime date) {
-  final curLocale = Global.buildContext!.locale;
+  final curLocale = $Key.currentContext!.locale;
   return Lang.fullN(curLocale.languageCode, curLocale.countryCode).format(date);
 }

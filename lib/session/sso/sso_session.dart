@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart' hide Lock;
+import 'package:mimir/app.dart';
 import 'package:mimir/events/events.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/module/login/using.dart';
@@ -236,7 +237,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
         Log.info("Credential is invalid because of incorrect account or password.");
         Auth.oaCredential = null;
         FireOn.global(CredentialChangeEvent());
-        final ctx = Global.buildContext;
+        final ctx = $Key.currentContext;
         if (ctx != null) {
           final confirm = await ctx.showRequest(
             title: _i18n.credential.error,

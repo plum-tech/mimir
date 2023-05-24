@@ -1,5 +1,5 @@
-import 'package:catcher/catcher.dart';
-import 'package:flutter/material.dart';
+import 'package:mimir/app.dart';
+import 'package:mimir/credential/using.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/util/launcher.dart';
 import 'package:mimir/util/logger.dart';
@@ -8,7 +8,6 @@ import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GlobalLauncher {
-  static get _context => Catcher.navigatorKey!.currentContext!;
   static final _schemeLauncher = SchemeLauncher(
     schemes: [
       LaunchScheme(
@@ -16,7 +15,7 @@ class GlobalLauncher {
         onLaunch: (scheme) async {
           if (!UniversalPlatform.isDesktopOrWeb) {
             Log.info('启动浏览器');
-            Navigator.of(_context).pushNamed(
+            $Key.currentState?.pushNamed(
               Routes.browser,
               arguments: {'initialUrl': scheme},
             );
@@ -52,7 +51,7 @@ class GlobalLauncher {
       )
     ],
     onNotFound: (scheme) async {
-      _context.showTip(title: '无法识别', desc: "无法识别的内容: \n$scheme", ok: '我知道了');
+      $Key.currentContext!.showTip(title: '无法识别', desc: "无法识别的内容: \n$scheme", ok: '我知道了');
       return true;
     },
   );

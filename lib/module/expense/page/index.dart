@@ -1,4 +1,3 @@
-import 'package:catcher/core/catcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rettulf/rettulf.dart';
@@ -129,7 +128,6 @@ class _ExpenseTrackerPageState extends State<ExpenseTrackerPage> {
               await fetch(DateTime(2010), DateTime.now());
             } catch (e, t) {
               EasyLoading.showError('${i18n.failed}: ${e.toString().split('\n')[0]}');
-              Catcher.reportCheckedError(e, t);
             } finally {
               // 关闭正在加载对话框
               EasyLoading.dismiss();

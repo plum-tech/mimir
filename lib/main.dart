@@ -1,11 +1,9 @@
-import 'package:catcher/catcher.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/migration/migrations.dart';
 import 'package:mimir/mimir/mimir.dart';
-import 'package:mimir/util/catcher_handler.dart';
 
 import 'app.dart';
 
@@ -21,21 +19,9 @@ void main() async {
   mimir.install(DataAdapterPlugin);
   mimir.install(DebugPlugin);
   await Init.init();
-  CatcherOptions buildCatcherConfig(bool releaseMode) => CatcherOptions(
-        SilentReportMode(),
-        [
-          ConsoleHandler(),
-          MimirDialogHandler(),
-          MimirToastHandler(),
-        ],
-      );
-  Catcher(
-    rootWidget: Phoenix(
-      child: const MimirApp(),
-    ).withEasyLocalization(),
-    releaseConfig: buildCatcherConfig(true),
-    debugConfig: buildCatcherConfig(false),
-  );
+  runApp(Phoenix(
+    child: const MimirApp(),
+  ).withEasyLocalization());
 }
 
 final _yamlAssetsLoader = YamlAssetLoader();

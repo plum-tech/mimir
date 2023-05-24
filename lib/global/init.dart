@@ -1,4 +1,3 @@
-import 'package:catcher/catcher.dart';
 import 'package:mimir/credential/init.dart';
 import 'package:mimir/global/desktop_init.dart';
 import 'package:mimir/global/global.dart';
@@ -24,7 +23,6 @@ class Init {
       await _init(debugNetwork: debugNetwork);
     } on Exception catch (error, stackTrace) {
       try {
-        Catcher.reportCheckedError(error, stackTrace);
       } catch (e) {
         Log.error([error, stackTrace]);
       }

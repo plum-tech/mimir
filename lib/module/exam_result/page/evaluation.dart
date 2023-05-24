@@ -31,7 +31,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
   void initState() {
     super.initState();
     _vn.addListener(() {
-      _webViewController?.runJavascript(
+      _webViewController?.runJavaScript(
         "for(const e of document.getElementsByClassName('input-pjf')) e.value='${_vn.value}'",
       );
     });
