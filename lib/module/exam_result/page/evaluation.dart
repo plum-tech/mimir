@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rettulf/rettulf.dart';
 
 import '../init.dart';
 import '../using.dart';
@@ -10,36 +11,35 @@ class EvaluationPage extends StatefulWidget {
   State<EvaluationPage> createState() => _EvaluationPageState();
 }
 
+final _url = Uri(
+  scheme: 'http',
+  host: 'jwxt.sit.edu.cn',
+  path: '/jwglxt/xspjgl/xspj_cxXspjIndex.html',
+  queryParameters: {
+    'doType': 'details',
+    'gnmkdm': 'N401605',
+    'layout': 'default',
+    // 'su': studentId,
+  },
+);
+
 class _EvaluationPageState extends State<EvaluationPage> {
-  final url = Uri(
-    scheme: 'http',
-    host: 'jwxt.sit.edu.cn',
-    path: '/jwglxt/xspjgl/xspj_cxXspjIndex.html',
-    queryParameters: {
-      'doType': 'details',
-      'gnmkdm': 'N401605',
-      'layout': 'default',
-      // 'su': studentId,
-    },
-  );
-
-  final _vn = ValueNotifier<int>(100);
-
+  final $autoScore = ValueNotifier(100);
   WebViewController? _webViewController;
 
   @override
   void initState() {
     super.initState();
-    _vn.addListener(() {
+    $autoScore.addListener(() {
       _webViewController?.runJavaScript(
-        "for(const e of document.getElementsByClassName('input-pjf')) e.value='${_vn.value}'",
+        "for(const e of document.getElementsByClassName('input-pjf')) e.value='${$autoScore.value}'",
       );
     });
   }
 
   @override
   void dispose() {
-    _vn.dispose();
+    $autoScore.dispose();
     super.dispose();
   }
 
@@ -51,11 +51,11 @@ class _EvaluationPageState extends State<EvaluationPage> {
         children: [
           Expanded(
             child: PlaceholderFutureBuilder<List<WebViewCookie>>(
-              future: ExamResultInit.cookieJar.loadAsWebViewCookie(url),
+              future: ExamResultInit.cookieJar.loadAsWebViewCookie(_url),
               builder: (ctx, data, state) {
                 if (data == null) return Placeholders.loading();
-                return SimpleWebViewPage(
-                  initialUrl: url.toString(),
+                return MimirWebViewPage(
+                  initialUrl: _url.toString(),
                   fixedTitle: i18n.teacherEvalTitle,
                   initialCookies: data,
                   onWebViewCreated: (controller) => _webViewController = controller,
@@ -63,24 +63,16 @@ class _EvaluationPageState extends State<EvaluationPage> {
               },
             ),
           ),
-          ValueListenableBuilder(
-            valueListenable: _vn,
-            builder: (context, value, child) {
-              return Row(
-                children: [
-                  Text('填充分数：$value'),
-                  Expanded(
-                    child: Slider(
+          $autoScore >>
+              (context, value) => [
+                    "Autofill Score：$value".text(),
+                    Slider(
                       min: 0,
                       max: 100,
                       value: value.toDouble(),
-                      onChanged: (v) => _vn.value = v.toInt(),
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
+                      onChanged: (v) => $autoScore.value = v.toInt(),
+                    ).expanded(),
+                  ].row(),
         ],
       ),
     );

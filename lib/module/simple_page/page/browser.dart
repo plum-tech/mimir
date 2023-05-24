@@ -50,16 +50,15 @@ class BrowserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<InjectJsRuleItem> injectJsRules = [
-      InjectJsRuleItem(
-        rule: const ConstRule<String>(true),
-        javascript: javascript,
-        asyncJavascript:
-            javascriptUrl == null ? null : Dio().get<String>(javascriptUrl!).asStream().map((e) => e.data).first,
+    final List<InjectionRule> injectJsRules = [
+      InjectionRule(
+        matcher: (url) => true,
+        js: javascript,
+        asyncJs: javascriptUrl == null ? null : Dio().get<String>(javascriptUrl!).asStream().map((e) => e.data).first,
       ),
     ];
 
-    return SimpleWebViewPage(
+    return MimirWebViewPage(
       initialUrl: initialUrl,
       fixedTitle: fixedTitle,
       showSharedButton: showSharedButton ?? false,

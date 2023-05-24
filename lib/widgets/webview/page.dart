@@ -11,7 +11,7 @@ import 'package:mimir/util/url_launcher.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class SimpleWebViewPage extends StatefulWidget {
+class MimirWebViewPage extends StatefulWidget {
   /// 初始的url
   final String initialUrl;
 
@@ -19,7 +19,7 @@ class SimpleWebViewPage extends StatefulWidget {
   final String? fixedTitle;
 
   /// js注入规则
-  final List<InjectJsRuleItem>? injectJsRules;
+  final List<InjectionRule>? injectJsRules;
 
   /// 显示分享按钮(默认不显示)
   final bool showSharedButton;
@@ -45,8 +45,7 @@ class SimpleWebViewPage extends StatefulWidget {
   /// 网页加载完毕
   final PageFinishedCallback? onPageFinished;
 
-  /// 暴露dart回调到js接口
-  final Set<JavascriptChannel>? javascriptChannels;
+  final Map<String, JavaScriptMessageCallback>? javaScriptChannels;
 
   /// 如果不支持 WebView，是否显示浏览器打开按钮
   final bool showLaunchButtonIfUnsupported;
@@ -63,7 +62,7 @@ class SimpleWebViewPage extends StatefulWidget {
   /// 注入cookies
   final List<WebViewCookie> initialCookies;
 
-  const SimpleWebViewPage({
+  const MimirWebViewPage({
     Key? key,
     required this.initialUrl,
     this.fixedTitle,
@@ -77,7 +76,7 @@ class SimpleWebViewPage extends StatefulWidget {
     this.showTopProgressIndicator = true,
     this.userAgent,
     this.postData,
-    this.javascriptChannels,
+    this.javaScriptChannels,
     this.showLaunchButtonIfUnsupported = true,
     this.otherActions,
     this.followDarkMode = false,
@@ -85,10 +84,10 @@ class SimpleWebViewPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<SimpleWebViewPage> createState() => _SimpleWebViewPageState();
+  State<MimirWebViewPage> createState() => _MimirWebViewPageState();
 }
 
-class _SimpleWebViewPageState extends State<SimpleWebViewPage> {
+class _MimirWebViewPageState extends State<MimirWebViewPage> {
   WebViewController? _controller;
 
   String title = const CommonI18n().untitled;
@@ -160,19 +159,19 @@ class _SimpleWebViewPageState extends State<SimpleWebViewPage> {
           ),
         ),
         floatingActionButton: widget.floatingActionButton,
-        body: MyWebView(
+        body: InjectableWebView(
           initialUrl: widget.initialUrl,
           onWebViewCreated: (controller) async {
             _controller = controller;
             widget.onWebViewCreated?.call(controller);
           },
-          injectJsRules: () {
+          injectionRules: () {
             return [
               if (widget.followDarkMode && Theme.of(context).isDark)
-                InjectJsRuleItem(
-                  rule: const ConstRule(true),
-                  asyncJavascript: rootBundle.loadString('assets/webview/dark.js'),
-                  injectTime: InjectJsTime.onPageFinished,
+                InjectionRule(
+                  matcher: (url) => true,
+                  asyncJs: rootBundle.loadString('assets/webview/dark.js'),
+                  phrase: InjectJsPhrase.onPageFinished,
                 ),
               if (widget.injectJsRules != null) ...widget.injectJsRules!,
             ];

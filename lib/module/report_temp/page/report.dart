@@ -21,13 +21,13 @@ class DailyReportPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleWebViewPage(
+    return MimirWebViewPage(
       initialUrl: _reportUrlIndex,
       fixedTitle: MiniApp.reportTemp.l10nName(),
       injectJsRules: [
-        InjectJsRuleItem(
-          rule: FunctionalRule((url) => url.startsWith(_reportUrlPrefix)),
-          asyncJavascript: _getInjectJs(),
+        InjectionRule(
+          matcher: (url) => url.startsWith(_reportUrlPrefix),
+          asyncJs: _getInjectJs(),
         ),
       ],
     );

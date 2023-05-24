@@ -9,45 +9,45 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../unsupported_platform_launch.dart';
 
-enum InjectJsTime {
+typedef JavaScriptMessageCallback = void Function(JavaScriptMessage msg);
+
+enum InjectJsPhrase {
   onPageStarted,
   onPageFinished,
 }
 
-class InjectJsRuleItem {
+class InjectionRule {
   /// js注入的url匹配规则
-  Rule<String> rule;
+  bool Function(String url) matcher;
 
   /// 若为空，则表示不注入
-  String? javascript;
+  String? js;
 
   /// 异步js字符串，若为空，则表示不注入
-  Future<String?>? asyncJavascript;
+  Future<String?>? asyncJs;
 
   /// js注入时机
-  InjectJsTime injectTime;
+  InjectJsPhrase phrase;
 
-  InjectJsRuleItem({
-    required this.rule,
-    this.javascript,
-    this.asyncJavascript,
-    this.injectTime = InjectJsTime.onPageFinished,
+  InjectionRule({
+    required this.matcher,
+    this.js,
+    this.asyncJs,
+    this.phrase = InjectJsPhrase.onPageFinished,
   });
 }
 
-class MyWebView extends StatefulWidget {
+class InjectableWebView extends StatefulWidget {
   final String? initialUrl;
 
   /// js注入规则，判定某个url需要注入何种js代码
-  final List<InjectJsRuleItem>? injectJsRules;
+  final List<InjectionRule>? injectionRules;
 
   /// 各种callback
   final WebViewCreatedCallback? onWebViewCreated;
   final PageStartedCallback? onPageStarted;
   final PageFinishedCallback? onPageFinished;
   final PageLoadingCallback? onProgress;
-
-  final JavascriptMode javascriptMode;
 
   /// 若该字段不为null，则表示使用post请求打开网页
   final Map<String, String>? postData;
@@ -58,66 +58,85 @@ class MyWebView extends StatefulWidget {
   /// 自定义 UA
   final String? userAgent;
 
+  final JavaScriptMode mode;
+
   /// 暴露dart回调到js接口
-  final Set<JavascriptChannel>? javascriptChannels;
+  final Map<String, JavaScriptMessageCallback>? javaScriptChannels;
 
   /// 如果不支持webview，是否显示浏览器打开按钮
   final bool showLaunchButtonIfUnsupported;
 
-  const MyWebView({
+  const InjectableWebView({
     Key? key,
     this.initialUrl,
-    this.injectJsRules,
+    this.mode = JavaScriptMode.unrestricted,
+    this.injectionRules,
     this.onWebViewCreated,
     this.onPageStarted,
     this.onPageFinished,
     this.onProgress,
-    this.javascriptMode = JavascriptMode.unrestricted, // js支持默认启用
     this.userAgent,
     this.postData,
     this.initialCookies = const <WebViewCookie>[],
-    this.javascriptChannels,
+    this.javaScriptChannels,
     this.showLaunchButtonIfUnsupported = true,
   }) : super(key: key);
 
   @override
-  State<MyWebView> createState() => _MyWebViewState();
+  State<InjectableWebView> createState() => _InjectableWebViewState();
 }
 
-class _MyWebViewState extends State<MyWebView> {
-  WebViewController? _controller;
+class _InjectableWebViewState extends State<InjectableWebView> {
+  late WebViewController _c;
+
+  @override
+  void initState() {
+    super.initState();
+    _c = WebViewController()..setJavaScriptMode(widget.mode);
+    final channels = widget.javaScriptChannels;
+    if (channels != null) {
+      for (final entry in channels.entries) {
+        _c.addJavaScriptChannel(entry.key, onMessageReceived: entry.value);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (UniversalPlatform.isDesktop){
+    if (UniversalPlatform.isDesktop) {
       return UnsupportedPlatformUrlLauncher(
         widget.initialUrl ?? '',
         showLaunchButton: widget.showLaunchButtonIfUnsupported,
       );
-    }else{
+    } else {
       return buildWebView(widget.initialCookies);
     }
   }
 
   /// 获取该url匹配的所有注入项
-  Iterable<InjectJsRuleItem> getAllMatchJs(String url, InjectJsTime injectTime) {
-    final rules = widget.injectJsRules
-        ?.where((injectJsRule) => injectJsRule.rule.accept(url) && injectJsRule.injectTime == injectTime);
-    return rules ?? [];
+  Iterable<InjectionRule> filterMatchedRule(String url, InjectJsPhrase injectTime) sync* {
+    final rules = widget.injectionRules;
+    if (rules != null) {
+      for (final rule in rules) {
+        if (rule.matcher(url) && rule.phrase == injectTime) {
+          yield rule;
+        }
+      }
+    }
   }
 
   /// 根据当前url筛选所有符合条件的js脚本，执行js注入
-  Future<void> injectJs(InjectJsRuleItem injectJsRule) async {
+  Future<void> injectJs(InjectionRule injectJsRule) async {
     // 同步获取js代码
-    if (injectJsRule.javascript != null) {
+    if (injectJsRule.js != null) {
       Log.info('执行了js注入');
-      await _controller?.runJavascript(injectJsRule.javascript!);
+      await _c?.runJavaScript(injectJsRule.js!);
     }
     // 异步获取js代码
-    if (injectJsRule.asyncJavascript != null) {
-      String? js = await injectJsRule.asyncJavascript;
+    if (injectJsRule.asyncJs != null) {
+      String? js = await injectJsRule.asyncJs;
       if (js != null) {
-        await _controller?.runJavascript(js);
+        await _c?.runJavaScript(js);
       }
     }
   }
@@ -140,7 +159,7 @@ class _MyWebViewState extends State<MyWebView> {
   void onResourceError(WebResourceError error) {
     if (!(error.failingUrl?.startsWith('http') ?? true)) {
       launchUrlInBrowser(error.failingUrl!);
-      _controller?.goBack();
+      _c?.goBack();
     }
   }
 
@@ -151,7 +170,7 @@ class _MyWebViewState extends State<MyWebView> {
       javascriptMode: widget.javascriptMode,
       onWebViewCreated: (WebViewController webViewController) async {
         Log.info('WebView已创建，已获取到controller');
-        _controller = webViewController;
+        _c = webViewController;
         if (widget.postData != null) {
           Log.info('通过post请求打开页面: ${widget.initialUrl}');
           await webViewController.loadHtmlString(_buildFormHtml());
@@ -162,13 +181,13 @@ class _MyWebViewState extends State<MyWebView> {
       userAgent: widget.userAgent,
       onPageStarted: (String url) async {
         Log.info('开始加载url: $url');
-        await Future.wait(getAllMatchJs(url, InjectJsTime.onPageStarted).map(injectJs));
+        await Future.wait(filterMatchedRule(url, InjectJsPhrase.onPageStarted).map(injectJs));
         widget.onPageStarted?.call(url);
       },
       javascriptChannels: widget.javascriptChannels,
       onPageFinished: (String url) async {
         Log.info('url加载完毕: $url');
-        await Future.wait(getAllMatchJs(url, InjectJsTime.onPageFinished).map(injectJs));
+        await Future.wait(filterMatchedRule(url, InjectJsPhrase.onPageFinished).map(injectJs));
         widget.onPageFinished?.call(url);
       },
       onProgress: widget.onProgress,
