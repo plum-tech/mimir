@@ -679,10 +679,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_screenutil
-      sha256: "8e049ecdc1a62c90e6bf0e9c8398ace8dde81b92889c70cfe06281d79d59113a"
+      sha256: b3e155ee4f2cf5b21a2e15182d1c49c848147ed47f62083fc9a9beccb85f59f9
       url: "https://pub.dev"
     source: hosted
-    version: "5.6.1"
+    version: "5.8.2"
   flutter_settings_screens:
     dependency: "direct main"
     description:
@@ -1981,4 +1981,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=3.0.0-0 <4.0.0"
-  flutter: ">=3.7.0"
+  flutter: ">=3.10.0"

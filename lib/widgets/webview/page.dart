@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mimir/design/utils.dart';
 import 'package:mimir/l10n/common.dart';
-import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/launcher.dart';
-import 'package:mimir/widgets/webview/view.dart';
+import 'package:mimir/widgets/webview/injectable.dart';
 import 'package:mimir/util/logger.dart';
 import 'package:mimir/util/url_launcher.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -18,7 +17,7 @@ class MimirWebViewPage extends StatefulWidget {
   final String? fixedTitle;
 
   /// js注入规则
-  final List<InjectionRule>? injectJsRules;
+  final List<Injection>? injectJsRules;
 
   /// 显示分享按钮(默认不显示)
   final bool showSharedButton;
@@ -35,14 +34,12 @@ class MimirWebViewPage extends StatefulWidget {
   /// 自定义 UA
   final String? userAgent;
 
-  /// 若该字段不为null，则表示使用post请求打开网页
-  final Map<String, String>? postData;
+  final WebViewController? controller;
 
-  /// WebView创建完毕时的回调
-  final WebViewCreatedCallback? onWebViewCreated;
-
-  /// 网页加载完毕
-  final PageFinishedCallback? onPageFinished;
+  /// hooks
+  final void Function(String url)? onPageStarted;
+  final void Function(String url)? onPageFinished;
+  final void Function(int progress)? onProgress;
 
   final Map<String, JavaScriptMessageCallback>? javaScriptChannels;
 
@@ -64,18 +61,19 @@ class MimirWebViewPage extends StatefulWidget {
   const MimirWebViewPage({
     Key? key,
     required this.initialUrl,
+    this.controller,
     this.fixedTitle,
     this.injectJsRules,
     this.floatingActionButton,
-    this.onWebViewCreated,
-    this.onPageFinished,
     this.showSharedButton = false,
     this.showRefreshButton = true,
     this.showLoadInBrowser = false,
     this.showTopProgressIndicator = true,
     this.userAgent,
-    this.postData,
     this.javaScriptChannels,
+    this.onPageStarted,
+    this.onPageFinished,
+    this.onProgress,
     this.showLaunchButtonIfUnsupported = true,
     this.otherActions,
     this.followDarkMode = false,
@@ -87,17 +85,23 @@ class MimirWebViewPage extends StatefulWidget {
 }
 
 class _MimirWebViewPageState extends State<MimirWebViewPage> {
-  WebViewController? _controller;
+  WebViewController? controller;
 
   String title = const CommonI18n().untitled;
   int progress = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    controller = widget.controller ?? WebViewController();
+  }
+
   void _onRefresh() async {
-    await _controller?.reload();
+    await controller?.reload();
   }
 
   void _onShared() async {
-    Log.info('分享页面: ${await _controller?.currentUrl()}');
+    Log.info('分享页面: ${await controller?.currentUrl()}');
   }
 
   /// 构造进度条
@@ -140,8 +144,8 @@ class _MimirWebViewPageState extends State<MimirWebViewPage> {
     final curTitle = widget.fixedTitle ?? title;
     return WillPopScope(
       onWillPop: () async {
-        final canGoBack = await _controller?.canGoBack() ?? false;
-        if (canGoBack) _controller?.goBack();
+        final canGoBack = await controller?.canGoBack() ?? false;
+        if (canGoBack) controller?.goBack();
         // 如果wv能后退就不能退出路由
         return !canGoBack;
       },
@@ -160,36 +164,36 @@ class _MimirWebViewPageState extends State<MimirWebViewPage> {
         floatingActionButton: widget.floatingActionButton,
         body: InjectableWebView(
           initialUrl: widget.initialUrl,
-          onWebViewCreated: (controller) async {
-            _controller = controller;
-            widget.onWebViewCreated?.call(controller);
+          controller: widget.controller,
+          onPageStarted: widget.onPageFinished,
+          onPageFinished: (url) async {
+            if (!mounted) return;
+            if (widget.fixedTitle == null) {
+              final newTitle = await controller?.getTitle();
+              if (newTitle != title && newTitle != null) {
+                setState(() {
+                  title = newTitle;
+                });
+              }
+            }
+            widget.onPageFinished?.call(url);
           },
-          injectionRules: () {
-            return [
-              if (widget.followDarkMode && Theme.of(context).isDark)
-                InjectionRule(
-                  matcher: (url) => true,
-                  asyncJs: rootBundle.loadString('assets/webview/dark.js'),
-                  phrase: InjectJsPhrase.onPageFinished,
-                ),
-              if (widget.injectJsRules != null) ...widget.injectJsRules!,
-            ];
-          }(),
           onProgress: (value) {
             if (!mounted) return;
+            widget.onProgress?.call(value);
             setState(() => progress = value % 100);
           },
-          onPageFinished: (url) async {
-            widget.onPageFinished?.call(url);
-            if (widget.fixedTitle == null) {
-              title = (await _controller?.getTitle()) ?? const CommonI18n().untitled;
-              if (!mounted) return;
-              setState(() {});
-            }
-          },
-          javascriptChannels: widget.javascriptChannels,
+          injections: [
+            if (widget.followDarkMode && Theme.of(context).isDark)
+              Injection(
+                matcher: (url) => true,
+                asyncJs: rootBundle.loadString('assets/webview/dark.js'),
+                phrase: InjectionPhrase.onPageFinished,
+              ),
+            if (widget.injectJsRules != null) ...widget.injectJsRules!,
+          ],
+          javaScriptChannels: widget.javaScriptChannels,
           userAgent: widget.userAgent,
-          postData: widget.postData,
           showLaunchButtonIfUnsupported: widget.showLaunchButtonIfUnsupported,
           initialCookies: widget.initialCookies,
         ),

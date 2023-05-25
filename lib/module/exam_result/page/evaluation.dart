@@ -25,13 +25,13 @@ final _url = Uri(
 
 class _EvaluationPageState extends State<EvaluationPage> {
   final $autoScore = ValueNotifier(100);
-  WebViewController? _webViewController;
+  final controller = WebViewController();
 
   @override
   void initState() {
     super.initState();
     $autoScore.addListener(() {
-      _webViewController?.runJavaScript(
+      controller.runJavaScript(
         "for(const e of document.getElementsByClassName('input-pjf')) e.value='${$autoScore.value}'",
       );
     });
@@ -55,10 +55,10 @@ class _EvaluationPageState extends State<EvaluationPage> {
               builder: (ctx, data, state) {
                 if (data == null) return Placeholders.loading();
                 return MimirWebViewPage(
+                  controller: controller,
                   initialUrl: _url.toString(),
                   fixedTitle: i18n.teacherEvalTitle,
                   initialCookies: data,
-                  onWebViewCreated: (controller) => _webViewController = controller,
                 );
               },
             ),
