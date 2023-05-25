@@ -29,7 +29,7 @@ class UnsupportedPlatformUrlLauncher extends StatelessWidget {
             TextButton(
               child: const Text('点击在默认浏览器中打开'),
               onPressed: () {
-                GlobalLauncher.launch(url);
+                launchUri(url);
               },
             )
         ],

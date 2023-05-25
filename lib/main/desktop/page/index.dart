@@ -205,7 +205,7 @@ class _HomePageState extends State<HomePage> {
     return IconButton(
       onPressed: () async {
         final result = await scan(context);
-        if (result != null) GlobalLauncher.launch(result);
+        if (result != null) launchUri(result);
       },
       icon: const Icon(
         Icons.qr_code_scanner_outlined,

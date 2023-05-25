@@ -124,7 +124,7 @@ class _MimirWebViewPageState extends State<MimirWebViewPage> {
   Widget build(BuildContext context) {
     if (UniversalPlatform.isDesktop) {
       Navigator.of(context).pop();
-      GlobalLauncher.launch(widget.initialUrl);
+      launchUri(widget.initialUrl);
       return Container();
     }
     final actions = <Widget>[

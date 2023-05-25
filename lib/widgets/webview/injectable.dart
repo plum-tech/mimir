@@ -43,7 +43,7 @@ class InjectableWebView extends StatefulWidget {
   final void Function(int progress)? onProgress;
 
   /// 注入cookies
-  final List<WebViewCookie> initialCookies;
+  final List<WebViewCookie>? initialCookies;
 
   /// 自定义 UA
   final String? userAgent;
@@ -67,7 +67,7 @@ class InjectableWebView extends StatefulWidget {
     this.onPageFinished,
     this.onProgress,
     this.userAgent,
-    this.initialCookies = const <WebViewCookie>[],
+    this.initialCookies,
     this.javaScriptChannels,
     this.showLaunchButtonIfUnsupported = true,
   }) : super(key: key);
@@ -106,8 +106,11 @@ class _InjectableWebViewState extends State<InjectableWebView> {
         controller.addJavaScriptChannel(entry.key, onMessageReceived: entry.value);
       }
     }
-    for (final cookie in widget.initialCookies) {
-      cookieManager.setCookie(cookie);
+    final cookies = widget.initialCookies;
+    if (cookies != null) {
+      for (final cookie in cookies) {
+        cookieManager.setCookie(cookie);
+      }
     }
     controller.loadRequest(Uri.parse(widget.initialUrl));
   }

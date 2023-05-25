@@ -26,8 +26,7 @@ class MyHtmlWidget extends StatelessWidget {
       renderMode: renderMode,
       textStyle: textStyle ?? Theme.of(context).textTheme.bodyMedium,
       onTapUrl: (url) async {
-        await GlobalLauncher.launch(url);
-        return true;
+        return await launchUri(url);
       },
       onTapImage: (ImageMetadata image) {
         final url = image.sources.toList()[0].url;

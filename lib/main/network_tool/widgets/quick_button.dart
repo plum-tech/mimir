@@ -22,7 +22,7 @@ class _QuickButtonsState extends State<QuickButtons> {
       ElevatedButton(
           child: i18n.easyconnect.launchBtn.text(),
           onPressed: () async {
-            final launched = await GlobalLauncher.launch('sangfor://easyconnect');
+            final launched = await launchUri('sangfor://easyconnect');
             if (!launched) {
               if (!mounted) return;
               final confirm = await context.showRequest(
@@ -32,7 +32,7 @@ class _QuickButtonsState extends State<QuickButtons> {
                   no: i18n.notNow,
                   highlight: true);
               if (confirm == true) {
-                await GlobalLauncher.launch(R.easyConnectDownloadUrl);
+                await launchUri(R.easyConnectDownloadUrl);
               }
             }
           }),
