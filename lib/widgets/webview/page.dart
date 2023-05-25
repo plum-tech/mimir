@@ -16,8 +16,11 @@ class MimirWebViewPage extends StatefulWidget {
   /// 固定的标题名？若为null则自动获取目标页面标题
   final String? fixedTitle;
 
-  /// js注入规则
-  final List<Injection>? injectJsRules;
+  /// JavaScript injection when page started.
+  final List<Injection>? pageStartedInjections;
+
+  /// JavaScript injection when page finished.
+  final List<Injection>? pageFinishedInjections;
 
   /// 显示分享按钮(默认不显示)
   final bool showSharedButton;
@@ -63,7 +66,8 @@ class MimirWebViewPage extends StatefulWidget {
     required this.initialUrl,
     this.controller,
     this.fixedTitle,
-    this.injectJsRules,
+    this.pageStartedInjections,
+    this.pageFinishedInjections,
     this.floatingActionButton,
     this.showSharedButton = false,
     this.showRefreshButton = true,
@@ -183,14 +187,14 @@ class _MimirWebViewPageState extends State<MimirWebViewPage> {
             widget.onProgress?.call(value);
             setState(() => progress = value % 100);
           },
-          injections: [
+          pageStartedInjections: widget.pageStartedInjections,
+          pageFinishedInjections: [
             if (widget.followDarkMode && Theme.of(context).isDark)
               Injection(
                 matcher: (url) => true,
                 asyncJs: rootBundle.loadString('assets/webview/dark.js'),
-                phrase: InjectionPhrase.onPageFinished,
               ),
-            if (widget.injectJsRules != null) ...widget.injectJsRules!,
+            if (widget.pageFinishedInjections != null) ...widget.pageFinishedInjections!,
           ],
           javaScriptChannels: widget.javaScriptChannels,
           userAgent: widget.userAgent,

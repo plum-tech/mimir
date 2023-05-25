@@ -10,11 +10,6 @@ import '../unsupported_platform_launch.dart';
 
 typedef JavaScriptMessageCallback = void Function(JavaScriptMessage msg);
 
-enum InjectionPhrase {
-  onPageStarted,
-  onPageFinished,
-}
-
 class Injection {
   /// js注入的url匹配规则
   bool Function(String url) matcher;
@@ -25,14 +20,10 @@ class Injection {
   /// 异步js字符串，若为空，则表示不注入
   Future<String?>? asyncJs;
 
-  /// js注入时机
-  InjectionPhrase phrase;
-
   Injection({
     required this.matcher,
     this.js,
     this.asyncJs,
-    this.phrase = InjectionPhrase.onPageFinished,
   });
 }
 
@@ -40,8 +31,11 @@ class InjectableWebView extends StatefulWidget {
   final String initialUrl;
   final WebViewController? controller;
 
-  /// js注入规则，判定某个url需要注入何种js代码
-  final List<Injection>? injections;
+  /// JavaScript injection when page started.
+  final List<Injection>? pageStartedInjections;
+
+  /// JavaScript injection when page finished.
+  final List<Injection>? pageFinishedInjections;
 
   /// hooks
   final void Function(String url)? onPageStarted;
@@ -67,7 +61,8 @@ class InjectableWebView extends StatefulWidget {
     required this.initialUrl,
     this.controller,
     this.mode = JavaScriptMode.unrestricted,
-    this.injections,
+    this.pageStartedInjections,
+    this.pageFinishedInjections,
     this.onPageStarted,
     this.onPageFinished,
     this.onProgress,
@@ -88,19 +83,19 @@ class _InjectableWebViewState extends State<InjectableWebView> {
   @override
   void initState() {
     super.initState();
-    controller =(widget.controller ?? WebViewController())
+    controller = (widget.controller ?? WebViewController())
       ..setJavaScriptMode(widget.mode)
       ..setUserAgent(widget.userAgent)
       ..setNavigationDelegate(NavigationDelegate(
         onWebResourceError: onResourceError,
         onPageStarted: (String url) async {
           Log.info('"$url" starts loading.');
-          await Future.wait(filterMatchedRule(url, InjectionPhrase.onPageStarted).map(injectJs));
+          await Future.wait(widget.pageStartedInjections.matching(url).map(injectJs));
           widget.onPageStarted?.call(url);
         },
         onPageFinished: (String url) async {
           Log.info('"$url" loaded.');
-          await Future.wait(filterMatchedRule(url, InjectionPhrase.onPageFinished).map(injectJs));
+          await Future.wait(widget.pageFinishedInjections.matching(url).map(injectJs));
           widget.onPageFinished?.call(url);
         },
         onProgress: widget.onProgress,
@@ -131,18 +126,6 @@ class _InjectableWebViewState extends State<InjectableWebView> {
     }
   }
 
-  /// 获取该url匹配的所有注入项
-  Iterable<Injection> filterMatchedRule(String url, InjectionPhrase phrase) sync* {
-    final rules = widget.injections;
-    if (rules != null) {
-      for (final rule in rules) {
-        if (rule.matcher(url) && rule.phrase == phrase) {
-          yield rule;
-        }
-      }
-    }
-  }
-
   /// 根据当前url筛选所有符合条件的js脚本，执行js注入
   Future<void> injectJs(Injection injection) async {
     var injected = false;
@@ -168,6 +151,20 @@ class _InjectableWebViewState extends State<InjectableWebView> {
     if (error.description.startsWith('http')) {
       launchUrlInBrowser(error.description);
       controller.goBack();
+    }
+  }
+}
+
+extension _InjectionsX on List<Injection>? {
+  /// 获取该url匹配的所有注入项
+  Iterable<Injection> matching(String url) sync* {
+    final injections = this;
+    if (injections != null) {
+      for (final injection in injections) {
+        if (injection.matcher(url)) {
+          yield injection;
+        }
+      }
     }
   }
 }

@@ -59,7 +59,7 @@ class BrowserPage extends StatelessWidget {
       userAgent: userAgent,
       showLaunchButtonIfUnsupported: showLaunchButtonIfUnsupported ?? true,
       showTopProgressIndicator: showTopProgressIndicator ?? true,
-      injectJsRules: javascript == null ? null : [
+      pageFinishedInjections: javascript == null ? null : [
         Injection(
           matcher: (url) => true,
           js: javascript,
