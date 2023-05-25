@@ -35,10 +35,10 @@ class BrickMaker {
     // Open the timetable for anyone who has logged in before, even though they have a wrong credential now.
     r << MiniApp.timetable;
 
-    r << MiniApp.separator;
     if (hasLoggedIn) {
       r << MiniApp.expense;
       r << MiniApp.elecBill;
+      r << MiniApp.separator;
       // Only undergraduates need to check the activity, because it's linked to their Second class Score.
       r << MiniApp.activity;
       r << MiniApp.examResult;
@@ -47,6 +47,8 @@ class BrickMaker {
       r << MiniApp.separator;
       // Only OA user can see the announcement.
       r << MiniApp.oaAnnouncement;
+    } else {
+      r << MiniApp.separator;
     }
     if (hasLoggedIn) {
       r << MiniApp.eduEmail;

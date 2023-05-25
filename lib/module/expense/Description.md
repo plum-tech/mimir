@@ -59,5 +59,5 @@ Cache层的类构造函数需要传入`Remote层Fetch接口实现`和`持久化�
 Cache层自身也作为一个Fetch接口的实现，其中的fetch方法需要基于remote层与持久化层编写缓存策略的代码逻辑，体现了一种装饰器模式的思想。
 
 ## Display
-Transactions are page-splitted by month to display with an endless lazy column.
+Transactions are page-split by month to display with an endless lazy column.
 

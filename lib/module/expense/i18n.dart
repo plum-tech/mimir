@@ -13,7 +13,7 @@ class _I18n with CommonI18nMixin {
 
   String get categories => "$ns.categories".tr();
 
-  String lastBalance(String amount, String place) => "$ns.content".tr(namedArgs: {
+  String lastBalance(String amount, String place) => "$ns.lastBalance".tr(namedArgs: {
         "amount": amount,
         "place": place,
       });

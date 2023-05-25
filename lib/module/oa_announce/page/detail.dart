@@ -78,7 +78,7 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Widget buildInfoCard(BuildContext ctx) {
-    final valueStyle = Theme.of(context).textTheme.bodyText2;
+    final valueStyle = Theme.of(context).textTheme.bodyMedium;
     final keyStyle = valueStyle?.copyWith(fontWeight: FontWeight.bold);
 
     TableRow buildRow(String key, String value) => TableRow(
@@ -208,10 +208,10 @@ class _DarkModeSafeHtmlWidgetState extends State<DarkModeSafeHtmlWidget> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final bgColor = theme.backgroundColor;
-    final textColor = theme.textTheme.bodyText2?.color ?? Colors.white;
-    final fontFamily = theme.textTheme.bodyText2?.fontFamily ?? "";
-    final fontSizeNumber = theme.textTheme.bodyText2?.fontSize;
+    final bgColor = theme.colorScheme.background;
+    final textColor = theme.textTheme.bodyMedium?.color ?? Colors.white;
+    final fontFamily = theme.textTheme.bodyMedium?.fontFamily ?? "";
+    final fontSizeNumber = theme.textTheme.bodyMedium?.fontSize;
     final fontSize = fontSizeNumber != null ? FontSize(fontSizeNumber) : FontSize.large;
     return SingleChildScrollView(
         child: SelectableHtml(
