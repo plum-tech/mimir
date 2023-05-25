@@ -18,28 +18,26 @@ class MiniAppAdapter extends TypeAdapter<MiniApp> {
       case 1:
         return MiniApp.timetable;
       case 2:
-        return MiniApp.reportTemp;
-      case 3:
         return MiniApp.examArr;
-      case 4:
+      case 3:
         return MiniApp.activity;
-      case 5:
+      case 4:
         return MiniApp.expense;
-      case 6:
+      case 5:
         return MiniApp.examResult;
-      case 7:
+      case 6:
         return MiniApp.library;
-      case 8:
+      case 7:
         return MiniApp.application;
-      case 9:
+      case 8:
         return MiniApp.eduEmail;
-      case 10:
+      case 9:
         return MiniApp.oaAnnouncement;
-      case 11:
+      case 10:
         return MiniApp.yellowPages;
-      case 13:
+      case 11:
         return MiniApp.scanner;
-      case 14:
+      case 12:
         return MiniApp.elecBill;
       default:
         return MiniApp.separator;
@@ -55,41 +53,38 @@ class MiniAppAdapter extends TypeAdapter<MiniApp> {
       case MiniApp.timetable:
         writer.writeByte(1);
         break;
-      case MiniApp.reportTemp:
+      case MiniApp.examArr:
         writer.writeByte(2);
         break;
-      case MiniApp.examArr:
+      case MiniApp.activity:
         writer.writeByte(3);
         break;
-      case MiniApp.activity:
+      case MiniApp.expense:
         writer.writeByte(4);
         break;
-      case MiniApp.expense:
+      case MiniApp.examResult:
         writer.writeByte(5);
         break;
-      case MiniApp.examResult:
+      case MiniApp.library:
         writer.writeByte(6);
         break;
-      case MiniApp.library:
+      case MiniApp.application:
         writer.writeByte(7);
         break;
-      case MiniApp.application:
+      case MiniApp.eduEmail:
         writer.writeByte(8);
         break;
-      case MiniApp.eduEmail:
+      case MiniApp.oaAnnouncement:
         writer.writeByte(9);
         break;
-      case MiniApp.oaAnnouncement:
+      case MiniApp.yellowPages:
         writer.writeByte(10);
         break;
-      case MiniApp.yellowPages:
+      case MiniApp.scanner:
         writer.writeByte(11);
         break;
-      case MiniApp.scanner:
-        writer.writeByte(13);
-        break;
       case MiniApp.elecBill:
-        writer.writeByte(14);
+        writer.writeByte(12);
         break;
     }
   }
