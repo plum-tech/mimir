@@ -66,7 +66,7 @@ class _ApplicationIndexPageState extends State<ApplicationIndexPage> {
 Future<void> showInfo(BuildContext ctx) async {
   await ctx.showTip(
     title: MiniApp.application.l10nName(),
-    desc: MiniApp.application.l10nDesc(),
+    desc: i18n.desc,
     ok: i18n.close,
   );
 }

@@ -39,7 +39,7 @@ dependencies:
   beautiful_soup_dart: ^0.3.0 # HTML parser
 
   # hive (key-value database)
-  hive: ^2.0.5
+  hive: ^2.2.3
   hive_flutter: ^1.1.0
 
   # Dio (http client)
@@ -57,11 +57,10 @@ dependencies:
 
   # Settings
   app_settings: ^4.1.1
-  flutter_settings_screens: ^0.3.3-null-safety+2
 
   # Platform
   permission_handler: ^10.2.0        # Android / iOS / Windows Permission
-  quick_actions: ^1.0.1           # Android / iOS Home screen quick actions
+  quick_actions: ^1.0.5           # Android / iOS Home screen quick actions
 
   # Open with other APP/programs
   open_file: ^3.2.1                 # Open files
@@ -77,17 +76,14 @@ dependencies:
   geopattern_flutter: { git: { url: https://github.com/paolovalerdi/geopattern } }
   flutter_svg: ^2.0.6
   flutter_screenutil: ^5.8.2              # Screen adaptation
-  qr_flutter: ^4.0.0                      # Qr code generate
+  qr_flutter: ^4.1.0                      # Qr code generate
   mobile_scanner: ^2.1.0                  # qrcode scanner
-  audioplayers: ^3.0.1                   # audio player
   flutter_staggered_grid_view: ^0.6.2
   cached_network_image: ^3.2.1
   flutter_easyloading: ^3.0.5
-  animated_button_bar: ^0.0.2
 
   # Utils
   version: ^3.0.2               # Version comparison
-  flutter_phoenix: ^1.1.0       # Soft-restart app
   package_info_plus: ^3.0.0     # Get package info (version)
   universal_platform: ^1.0.0+1  # dart.io.Platform API for Web
   check_vpn_connection: ^0.0.2  # Check VPN connection status
@@ -105,8 +101,6 @@ dependencies:
   markdown: ^6.0.1
   event_bus: ^2.0.0
   collection: ^1.16.0
-  rnd: ^0.2.0
-  animated_size_and_fade: ^3.0.0
   unicons: ^2.1.0
   loading_animation_widget: ^1.2.0+3
   connectivity_plus: ^3.0.3
@@ -117,7 +111,7 @@ dependencies:
   auto_size_text: ^3.0.0
   cookie_jar: ^3.0.1
   flutter_widget_from_html_core: ^0.10.1
-  yaml: ^3.1.1
+  yaml: ^3.1.2
   path: ^1.8.2
 
 dependency_overrides:

@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/migration/migrations.dart';
 import 'package:mimir/mimir/mimir.dart';
@@ -19,9 +18,7 @@ void main() async {
   mimir.install(DataAdapterPlugin);
   mimir.install(DebugPlugin);
   await Init.init();
-  runApp(Phoenix(
-    child: const MimirApp(),
-  ).withEasyLocalization());
+  runApp(const MimirApp().withEasyLocalization());
 }
 
 final _yamlAssetsLoader = YamlAssetLoader();

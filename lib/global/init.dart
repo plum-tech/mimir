@@ -48,9 +48,6 @@ class Init {
         DesktopInit.resizeTo(lastWindowSize);
       }
     }
-    SettingsInit.init(
-      kvStorageBox: HiveBoxInit.kv,
-    );
     CredentialInit.init(
       box: HiveBoxInit.credentials,
     );
