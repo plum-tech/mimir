@@ -16,52 +16,48 @@ enum MiniApp {
   @HiveField(1)
   timetable,
 
-  /// Report temperature
-  @HiveField(2)
-  reportTemp,
-
   /// Examination arrangement
-  @HiveField(3)
+  @HiveField(2)
   examArr,
 
   /// Second class activity
-  @HiveField(4)
+  @HiveField(3)
   activity,
 
   /// Expense tracker
-  @HiveField(5)
+  @HiveField(4)
   expense,
 
   /// Examination result
-  @HiveField(6)
+  @HiveField(5)
   examResult,
 
   /// Library
-  @HiveField(7)
+  @HiveField(6)
   library,
 
   /// Application of SIT
-  @HiveField(8)
+  @HiveField(7)
   application,
 
   /// Education email
-  @HiveField(9)
+  @HiveField(8)
   eduEmail,
 
   /// OA announcement
-  @HiveField(10)
+  @HiveField(9)
   oaAnnouncement,
 
   /// Yellow page of SIT
-  @HiveField(11)
+  @HiveField(10)
   yellowPages,
 
   /// 扫码
-  @HiveField(13)
+  @HiveField(11)
   scanner,
 
   /// 电费查询
-  @HiveField(14)
+  @HiveField(12)
   elecBill;
 
   String l10nName() => "$_ns.$name.name".tr();

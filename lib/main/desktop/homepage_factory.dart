@@ -56,7 +56,6 @@ class HomepageFactory {
   };
 
   static Widget? buildBrickWidget(BuildContext context, MiniApp type) {
-    assert(builders.containsKey(type), "Brick[${type.name}] is not available.");
     final builder = builders[type];
     return builder?.call(context);
   }

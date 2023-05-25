@@ -35,10 +35,6 @@ class BrickMaker {
     // Open the timetable for anyone who has logged in before, even though they have a wrong credential now.
     r << MiniApp.timetable;
 
-    if (oa != null) {
-      // Only the OA user can report temperature.
-      r << MiniApp.reportTemp;
-    }
     r << MiniApp.separator;
     if (hasLoggedIn) {
       r << MiniApp.expense;
