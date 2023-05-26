@@ -336,12 +336,6 @@ semester:
   all: Full Year
   term1: Fall
   term2: Spring
-reportTemp:
-  abnormal: Abnormal
-  tempNoReportRecords: No report records
-  normal: Normal
-  reportedToday: Reported Today
-  unreportedToday: Unreported Today
 greeting:
   headerA: SIT has accompanied you
   headerB:

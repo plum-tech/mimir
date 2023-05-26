@@ -8,7 +8,7 @@ part of 'miniApp.dart';
 
 class MiniAppAdapter extends TypeAdapter<MiniApp> {
   @override
-  final int typeId = 7;
+  final int typeId = 6;
 
   @override
   MiniApp read(BinaryReader reader) {

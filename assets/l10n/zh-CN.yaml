@@ -333,15 +333,9 @@ scanner:
   barcodeNotRecognized: No Barcode
   barcodeRecognized: Barcode Recognized
 semester:
-  all: Full Year
-  term1: Fall
-  term2: Spring
-reportTemp:
-  abnormal: Abnormal
-  tempNoReportRecords: No report records
-  normal: Normal
-  reportedToday: Reported Today
-  unreportedToday: Unreported Today
+  all: 全学年
+  term1: 第一学期
+  term2: 第二学期
 greeting:
   headerA: SIT has accompanied you
   headerB:

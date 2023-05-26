@@ -8,7 +8,7 @@ part of 'meta.dart';
 
 class TimetableMetaLegacyAdapter extends TypeAdapter<TimetableMetaLegacy> {
   @override
-  final int typeId = 8;
+  final int typeId = 7;
 
   @override
   TimetableMetaLegacy read(BinaryReader reader) {

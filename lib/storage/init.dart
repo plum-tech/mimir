@@ -5,11 +5,9 @@ import 'package:mimir/storage/dao/pref.dart';
 import 'package:mimir/storage/storage/admin.dart';
 import 'package:mimir/storage/storage/develop.dart';
 import 'package:mimir/storage/storage/pref.dart';
-import 'package:mimir/storage/storage/report.dart';
 import 'package:mimir/storage/storage/version.dart';
 
 import 'dao/index.dart';
-import 'dao/report.dart';
 import 'dao/version.dart';
 import 'storage/index.dart';
 
@@ -25,7 +23,6 @@ class Kv {
   static late HomeSettingDao home;
   static late LoginTimeDao loginTime;
   static late DevelopOptionsDao developOptions;
-  static late ReportStorageDao report;
   static late PrefDao pref;
   static late VersionDao version;
 
@@ -43,7 +40,6 @@ class Kv {
     Kv.jwt = JwtStorage(kvStorageBox);
     Kv.loginTime = LoginTimeStorage(kvStorageBox);
     Kv.developOptions = DevelopOptionsStorage(kvStorageBox);
-    Kv.report = ReportStorage(kvStorageBox);
     Kv.pref = PrefStorage(kvStorageBox);
     Kv.version = VersionStorage(kvStorageBox);
   }

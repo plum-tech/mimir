@@ -137,8 +137,6 @@
   "scannerBarcodeNotRecognized": "未识别到条形码",
   "scannerBarcodeRecognized": "识别到条形码",
   "semester": "学期",
-  "semester1st": "第一学期",
-  "semester2rd": "第二学期",
   "serviceStatus": "服务状态",
   "settings": "设置",
   "settingsCampus": "你的校区",

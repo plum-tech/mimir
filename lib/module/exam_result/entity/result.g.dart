@@ -8,7 +8,7 @@ part of 'result.dart';
 
 class ExamResultAdapter extends TypeAdapter<ExamResult> {
   @override
-  final int typeId = 34;
+  final int typeId = 32;
 
   @override
   ExamResult read(BinaryReader reader) {
@@ -63,7 +63,7 @@ class ExamResultAdapter extends TypeAdapter<ExamResult> {
 
 class ExamResultDetailAdapter extends TypeAdapter<ExamResultDetail> {
   @override
-  final int typeId = 35;
+  final int typeId = 33;
 
   @override
   ExamResultDetail read(BinaryReader reader) {

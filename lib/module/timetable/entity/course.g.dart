@@ -8,7 +8,7 @@ part of 'course.dart';
 
 class CourseAdapter extends TypeAdapter<Course> {
   @override
-  final int typeId = 4;
+  final int typeId = 3;
 
   @override
   Course read(BinaryReader reader) {

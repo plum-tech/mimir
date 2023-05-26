@@ -8,7 +8,7 @@ part of 'announce.dart';
 
 class AnnounceDetailAdapter extends TypeAdapter<AnnounceDetail> {
   @override
-  final int typeId = 18;
+  final int typeId = 17;
 
   @override
   AnnounceDetail read(BinaryReader reader) {
@@ -59,7 +59,7 @@ class AnnounceDetailAdapter extends TypeAdapter<AnnounceDetail> {
 
 class AnnounceCatalogueAdapter extends TypeAdapter<AnnounceCatalogue> {
   @override
-  final int typeId = 20;
+  final int typeId = 19;
 
   @override
   AnnounceCatalogue read(BinaryReader reader) {
@@ -96,7 +96,7 @@ class AnnounceCatalogueAdapter extends TypeAdapter<AnnounceCatalogue> {
 
 class AnnounceRecordAdapter extends TypeAdapter<AnnounceRecord> {
   @override
-  final int typeId = 22;
+  final int typeId = 21;
 
   @override
   AnnounceRecord read(BinaryReader reader) {

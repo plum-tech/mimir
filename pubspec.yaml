@@ -139,7 +139,6 @@ flutter:
     - assets/common/
     - assets/home/
     - assets/connectivity/
-    - assets/report_temp/
     - assets/fonts/
     - assets/library/
     - assets/timetable/
