@@ -1,4 +1,4 @@
-export 'package:mimir/session/office_session.dart';
+export 'package:mimir/session/ywb.dart';
 
 export '../shared/auth.dart';
 export '../shared/design.dart';

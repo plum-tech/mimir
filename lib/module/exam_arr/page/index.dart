@@ -75,7 +75,7 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
     }
     if (exams.isEmpty) {
       return LeavingBlank.svgAssets(
-        assetName: "assets/common/not-found.svg",
+        assetName: "assets/common/not_found.svg",
         desc: i18n.noExamThisSemester,
         width: 240,
         height: 240,

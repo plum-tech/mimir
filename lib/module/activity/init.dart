@@ -1,7 +1,4 @@
-import 'package:hive/hive.dart';
-import 'package:mimir/network/session.dart';
-
-import '../../session/sc_session.dart';
+import './using.dart';
 import 'cache/detail.dart';
 import 'cache/list.dart';
 import 'cache/score.dart';
@@ -24,7 +21,7 @@ class ScInit {
   static late ScJoinActivityService scJoinActivityService;
 
   static void init({
-    required ISession ssoSession,
+    required SsoSession ssoSession,
     required Box<dynamic> box,
   }) {
     session = ScSession(ssoSession);

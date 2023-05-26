@@ -14,7 +14,7 @@ import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/global/cookie_init.dart';
 import 'package:mimir/global/dio_initializer.dart';
 import 'package:mimir/route.dart';
-import 'package:mimir/session/sso/sso_session.dart';
+import 'package:mimir/session/sso/session.dart';
 import 'package:mimir/storage/dao/auth.dart';
 
 import 'i18n.dart';

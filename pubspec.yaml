@@ -130,9 +130,8 @@ flutter:
   uses-material-design: true
   fonts:
     # Iconfont for ywb.sit.edu.cn
-    # For office module. So I named it office_iconfont.
-    - family: office_iconfont
-      fonts: [ { asset: assets/fonts/office_iconfont.ttf } ]
+    - family: ywb_iconfont
+      fonts: [ { asset: assets/fonts/ywb_iconfont.ttf } ]
 
   assets:
     - assets/

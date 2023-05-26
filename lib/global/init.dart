@@ -6,8 +6,7 @@ import 'package:mimir/main/init.dart';
 import 'package:mimir/main/network_tool/init.dart';
 import 'package:mimir/migration/migrations.dart';
 import 'package:mimir/module/symbol.dart';
-import 'package:mimir/session/edu_session.dart';
-import 'package:mimir/main/symbol.dart';
+import 'package:mimir/session/sis.dart';
 import 'package:mimir/storage/init.dart';
 import 'package:mimir/util/logger.dart';
 import 'package:mimir/version.dart';
@@ -22,8 +21,7 @@ class Init {
     try {
       await _init(debugNetwork: debugNetwork);
     } on Exception catch (error, stackTrace) {
-      try {
-      } catch (e) {
+      try {} catch (e) {
         Log.error([error, stackTrace]);
       }
     }
@@ -48,15 +46,18 @@ class Init {
         DesktopInit.resizeTo(lastWindowSize);
       }
     }
+
     CredentialInit.init(
       box: HiveBoxInit.credentials,
     );
+
     await Global.init(
       authSetting: Kv.auth,
       debugNetwork: debugNetwork ?? Kv.network.isGlobalProxy,
       cookieBox: HiveBoxInit.cookiesBox,
       credentials: CredentialInit.credential,
     );
+
     // 初始化用户首次打开时间（而不是应用安装时间）
     // ??= 表示为空时候才赋值
     Kv.home.installTime ??= DateTime.now();
@@ -65,52 +66,63 @@ class Init {
       ssoSession: Global.ssoSession,
       box: HiveBoxInit.oaAnnounceCache,
     );
+
     ConnectivityInit.init(
       ssoSession: Global.ssoSession,
     );
-    final sharedEduSession = EduSession(
+
+    final sisSessionSession = SisSession(
       Global.ssoSession,
     );
-    await ExamResultInit.init(
+
+    ExamResultInit.init(
       cookieJar: Global.cookieJar,
-      eduSession: sharedEduSession,
+      sisSession: sisSessionSession,
       box: HiveBoxInit.examResultCache,
     );
-    await ExamArrInit.init(
-      eduSession: sharedEduSession,
+
+    ExamArrInit.init(
+      eduSession: sisSessionSession,
       box: HiveBoxInit.examArrCache,
     );
-    await TimetableInit.init(
-      eduSession: sharedEduSession,
+
+    TimetableInit.init(
+      eduSession: sisSessionSession,
       box: HiveBoxInit.timetable,
       ssoSession: Global.ssoSession,
     );
 
-    await ExpenseTrackerInit.init(
+    ExpenseTrackerInit.init(
       session: Global.ssoSession2,
       expenseBox: HiveBoxInit.expense,
     );
 
-    await HomeInit.init(
+    HomeInit.init(
       ssoSession: Global.ssoSession,
     );
+
     await LibraryInit.init(
       dio: Global.dio,
       searchHistoryBox: HiveBoxInit.librarySearchHistory,
     );
+
     await EduEmailInit.init();
-    await ApplicationInit.init(
+
+    ApplicationInit.init(
       dio: Global.dio,
       cookieJar: Global.cookieJar,
       box: HiveBoxInit.applicationCache,
     );
+
     ScInit.init(
       ssoSession: Global.ssoSession,
       box: HiveBoxInit.activityCache,
     );
+
     LoginInit.init(
       ssoSession: Global.ssoSession,
     );
+
     ElectricityBillInit.init(
       electricityBox: HiveBoxInit.kv,
     );

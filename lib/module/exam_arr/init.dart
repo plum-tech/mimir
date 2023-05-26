@@ -8,10 +8,10 @@ import 'using.dart';
 class ExamArrInit {
   static late ExamDao examService;
 
-  static Future<void> init({
+  static void init({
     required ISession eduSession,
     required Box<dynamic> box,
-  }) async {
+  }) {
     examService = ExamCache(
       from: ExamService(eduSession),
       to: ExamStorage(box),

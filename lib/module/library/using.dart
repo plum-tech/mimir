@@ -1,4 +1,4 @@
-export 'package:mimir/session/library_session.dart';
+export 'package:mimir/session/library.dart';
 
 export '../shared/auth.dart';
 export '../shared/design.dart';

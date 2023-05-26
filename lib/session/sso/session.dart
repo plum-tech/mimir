@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
@@ -6,9 +5,8 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart' hide Lock;
 import 'package:mimir/app.dart';
 import 'package:mimir/events/events.dart';
-import 'package:mimir/global/global.dart';
 import 'package:mimir/module/login/using.dart';
-import 'package:mimir/session/dio_common.dart';
+import 'package:mimir/session/common.dart';
 import 'package:mimir/util/logger.dart';
 import 'package:mimir/widgets/captcha_box.dart';
 import 'package:rettulf/rettulf.dart';
@@ -21,6 +19,7 @@ import 'encryption.dart';
 typedef SsoSessionErrorCallback = void Function(Object e, StackTrace t);
 typedef SsoSessionCaptchaCallback = Future<String?> Function(Uint8List imageBytes);
 
+/// Single Sign-On
 class SsoSession with DioDownloaderMixin implements ISession {
   static const int _maxRetryCount = 5;
   static const String _authServerUrl = 'https://authserver.sit.edu.cn/authserver';

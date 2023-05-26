@@ -14,20 +14,20 @@ class ExamResultInit {
   static late ExamResultDao resultService;
   static late CourseEvaluationDao courseEvaluationService;
 
-  static Future<void> init({
+  static void init({
     required CookieJar cookieJar,
-    required ISession eduSession,
+    required SisSession sisSession,
     required Box<dynamic> box,
-  }) async {
+  }) {
     ExamResultInit.cookieJar = cookieJar;
     final examResultCache = ExamResultCache(
-      from: ScoreService(eduSession),
+      from: ScoreService(sisSession),
       to: ExamResultStorage(box),
       detailExpire: const Duration(days: 180),
       listExpire: const Duration(hours: 6),
     );
     resultService = examResultCache;
-    courseEvaluationService = CourseEvaluationService(eduSession);
+    courseEvaluationService = CourseEvaluationService(sisSession);
     eventBus.on<LessonEvaluatedEvent>().listen((event) {
       examResultCache.clearResultListCache();
     });

@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 class IconFont {
-  static const String _family = 'office_iconfont';
+  static const String _family = 'ywb_iconfont';
   static const String _defaultIconKey = 'icon-Customermanagement-fill';
 
   static final Map<String, IconData> _iconMapping = {

@@ -4,19 +4,21 @@ import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/network/session.dart';
+import 'package:mimir/session/common.dart';
 
-import 'dio_common.dart';
+/// 应网办 official website
+const _ywbUrl = "https://ywb.sit.edu.cn/v1";
 
 /// 应网办登录地址, POST 请求
 const String _officeLoginUrl = 'https://xgfy.sit.edu.cn/unifri-flow/login';
 
-class ApplicationSession extends ISession {
+class YwbSession extends ISession {
   bool isLogin = false;
   String? username;
   String? jwtToken;
   final Dio dio;
 
-  ApplicationSession({
+  YwbSession({
     required this.dio,
   });
 

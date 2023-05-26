@@ -9,10 +9,10 @@ class ExpenseTrackerInit {
   static late ExpenseStorage local;
   static late CachedExpenseGetDao cache;
 
-  static Future<void> init({
+  static void init({
     required ISession session,
     required Box expenseBox,
-  }) async {
+  }) {
     remote = ExpenseGetService(session);
     local = ExpenseStorage(expenseBox);
     cache = CachedExpenseGetDao(remoteDao: remote, storage: local);

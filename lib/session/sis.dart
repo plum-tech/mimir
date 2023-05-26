@@ -1,11 +1,12 @@
 import 'package:mimir/network/session.dart';
-import 'package:mimir/session/sso/index.dart';
+import 'package:mimir/session/sso/session.dart';
 import 'package:mimir/util/logger.dart';
 
-class EduSession extends ISession {
+/// Student information system of SIT
+class SisSession extends ISession {
   final SsoSession ssoSession;
 
-  EduSession(this.ssoSession) {
+  SisSession(this.ssoSession) {
     Log.info('初始化 EduSession');
   }
 

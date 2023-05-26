@@ -22,7 +22,7 @@ class NotFoundPage extends StatelessWidget {
             "notFound404".tr().text(),
             Text(routeName),
             SvgPicture.asset(
-              'assets/common/not-found.svg',
+              'assets/common/not_found.svg',
               width: 260,
               height: 260,
             ),

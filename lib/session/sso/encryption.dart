@@ -4,7 +4,7 @@ import 'package:encrypt/encrypt.dart';
 
 String hashPassword(String salt, String password) {
   var iv = rds(16);
-  var encrypt = MyEncrypt(salt, iv);
+  var encrypt = SsoEncryption(salt, iv);
   return encrypt.aesEncrypt(rds(64) + password);
 }
 
@@ -16,11 +16,11 @@ String rds(int num) {
   ).join();
 }
 
-class MyEncrypt {
+class SsoEncryption {
   Key? _key;
   IV? _iv;
 
-  MyEncrypt(String key, String iv) {
+  SsoEncryption(String key, String iv) {
     _key = Key.fromUtf8(key);
     _iv = IV.fromUtf8(iv);
   }

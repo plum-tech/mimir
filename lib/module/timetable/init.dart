@@ -6,11 +6,11 @@ class TimetableInit {
   static late TimetableService timetableService;
   static late TimetableStorage timetableStorage;
   static late SsoSession network;
-  static Future<void> init({
+  static void init({
     required ISession eduSession,
     required Box<dynamic> box,
     required SsoSession ssoSession,
-  }) async {
+  }) {
     timetableService = TimetableService(eduSession);
     timetableStorage = TimetableStorage(box);
     network = ssoSession;
