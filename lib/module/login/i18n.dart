@@ -13,7 +13,7 @@ class LoginI18n with CommonI18nMixin {
 
   String get credentialsValidatedTip => "$ns.credentialsValidatedTip".tr();
 
-  String get accountHint => "$ns.accountHinFt".tr();
+  String get accountHint => "$ns.accountHint".tr();
 
   String get formatError => "$ns.formatError".tr();
 

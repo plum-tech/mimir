@@ -54,7 +54,7 @@ android {
 //    }
 //  }
   defaultConfig {
-    applicationId "net.liplum.Mimir"
+    applicationId "net.liplum.Mimir.be"
     minSdkVersion 21
     targetSdkVersion 33
     versionCode flutterVersionCode.toInteger()

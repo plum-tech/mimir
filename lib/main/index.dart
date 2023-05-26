@@ -38,7 +38,6 @@ class _MainStagePageState extends State<MainStagePage> {
   }
 
   Widget buildDrawer() {
-    final String currentVersion = 'v${Init.currentVersion.version} on ${Init.currentVersion.platform}';
     return NavigationDrawer(
       selectedIndex: currentStage,
       onDestinationSelected: (i) {
@@ -60,11 +59,6 @@ class _MainStagePageState extends State<MainStagePage> {
           icon: const Icon(Icons.settings),
           label: "settings".text(),
         ),
-        const Spacer(),
-        ListTile(
-          title: currentVersion.text(style: context.textTheme.titleSmall),
-          leading: const Icon(Icons.settings_applications),
-        ),
       ],
     );
   }
@@ -72,7 +66,7 @@ class _MainStagePageState extends State<MainStagePage> {
   Widget buildStage() {
     switch (currentStage) {
       case _Stage.home:
-        return HomePage(drawer: drawerDelegate);
+        return Homepage(drawer: drawerDelegate);
       case _Stage.networkTool:
         return NetworkToolPage(drawer: drawerDelegate);
       default:

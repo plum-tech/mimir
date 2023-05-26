@@ -47,16 +47,16 @@ class HomeItemGroup extends StatelessWidget {
   }
 }
 
-class HomePage extends StatefulWidget {
+class Homepage extends StatefulWidget {
   final DrawerDelegateProtocol drawer;
 
-  const HomePage({super.key, required this.drawer});
+  const Homepage({super.key, required this.drawer});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<Homepage> createState() => _HomepageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomepageState extends State<Homepage> {
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   @override

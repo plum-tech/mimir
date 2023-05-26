@@ -106,12 +106,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Widget buildTitleLine() {
-    return Container(
-        alignment: Alignment.centerLeft,
-        child: Text(i18n.title, style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold)));
-  }
-
   Widget buildLoginForm(BuildContext ctx) {
     return Form(
       autovalidateMode: AutovalidateMode.always,
@@ -174,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
       children: [
         ElevatedButton(
           // Online
-          onPressed: enableLoginButton
+          onPressed: enableLoginButton && $account.value.text.isNotEmpty
               ? () {
                   // un-focus the text field.
                   FocusScope.of(context).requestFocus(FocusNode());
@@ -208,14 +202,6 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Stack(
         children: [
-          Positioned(
-            top: 40.h,
-            left: 10.w,
-            child: IconButton(
-              icon: Icon(Icons.arrow_back_outlined, size: 35.spMin),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ),
           // Proxy setting
           Positioned(
             top: 40.h,
@@ -225,27 +211,18 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: _showProxyInput,
             ),
           ),
-          Center(
-            child:
-                // Create new container and make it center in vertical direction.
-                Container(
-              width: 1.sw,
-              padding: EdgeInsets.fromLTRB(50.w, 0, 50.w, 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Title field.
-                  buildTitleLine(),
-                  Padding(padding: EdgeInsets.only(top: 40.h)),
-                  // Form field: username and password.
-                  buildLoginForm(context),
-                  SizedBox(height: 10.h),
-                  // Login button.
-                  buildLoginButton(context),
-                ],
-              ).scrolled(physics: const NeverScrollableScrollPhysics()),
-            ),
-          ),
+          [
+            // Title field.
+            i18n.title
+                .text(style: context.textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold))
+                .align(at: Alignment.centerLeft),
+            Padding(padding: EdgeInsets.only(top: 40.h)),
+            // Form field: username and password.
+            buildLoginForm(context),
+            SizedBox(height: 10.h),
+            // Login button.
+            buildLoginButton(context),
+          ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(50.w).center(),
           [
             TextButton(
               child: Text(
