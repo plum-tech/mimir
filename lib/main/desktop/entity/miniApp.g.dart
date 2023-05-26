@@ -36,8 +36,6 @@ class MiniAppAdapter extends TypeAdapter<MiniApp> {
       case 10:
         return MiniApp.yellowPages;
       case 11:
-        return MiniApp.scanner;
-      case 12:
         return MiniApp.elecBill;
       default:
         return MiniApp.separator;
@@ -80,11 +78,8 @@ class MiniAppAdapter extends TypeAdapter<MiniApp> {
       case MiniApp.yellowPages:
         writer.writeByte(10);
         break;
-      case MiniApp.scanner:
-        writer.writeByte(11);
-        break;
       case MiniApp.elecBill:
-        writer.writeByte(12);
+        writer.writeByte(11);
         break;
     }
   }

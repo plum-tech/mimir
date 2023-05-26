@@ -190,8 +190,8 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
 
   Future<void> showApplyRequest(BuildContext ctx) async {
     final confirm = await ctx.showRequest(
-        title: i18n.apply.request,
-        desc: i18n.apply.requestDesc,
+        title: i18n.apply.applyRequest,
+        desc: i18n.apply.applyRequestDesc,
         yes: i18n.confirm,
         no: i18n.notNow,
         highlight: true);

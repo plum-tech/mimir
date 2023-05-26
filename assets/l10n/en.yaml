@@ -30,9 +30,6 @@ miniApp:
   oaAnnouncement:
     name: OA Announcement
     desc: School announcements
-  scanner:
-    name: Scan
-    desc: Scan a QR code
   separator:
     name: Separator
     desc: For grouping functions
@@ -42,9 +39,6 @@ miniApp:
   yellowPages:
     name: Yellow Pages
     desc: Contact school
-  reportTemp:
-    name: Report Temperature
-    desc: Don't forgor!
 activity:
   navigation:
     all: All
@@ -52,8 +46,8 @@ activity:
   apply:
     btn: Apply
     replyTip: Reply from school
-    request: Apply
-    requestDesc: Confirm to apply this activity?
+    applyRequest: Apply
+    applyRequestDesc: Confirm to apply this activity?
   application:
     id: Application ID
     time: Application Time
@@ -111,7 +105,7 @@ elecBill:
   title: "Bill of #{room}"
   balance: Balance
   content: "last: ¥{balance} Room {room}"
-  initialTip: Please search your room number first
+  initialTip: Please enter your room number first
   remainingPower: Remaining
   roomNumber: Room
   updateTime: Last Update
@@ -156,7 +150,7 @@ expense:
     topUp: Top Up
     subsidy: Subsidy
     other: Stuff
-  balanceInCard: ¥{} in Card
+  balanceInCard: "¥{} in Card"
   categories: Categories
   fetchingRecordTip: Fetching expense record
   fetchingTip: Fetching expense records from school... Please wait a minute, the network speed depends on the school's server.
@@ -168,7 +162,7 @@ expense:
   toastLoadSuccessful: Successful!
   toastLoading: Loading...
   total: Total
-  lastBalance: ¥{amount} {place}
+  lastTransaction: ¥{amount} {place}
 homepage:
   campusNetworkConnected: Campus Network Available
   campusNetworkUnconnected: Campus Network Unconnected

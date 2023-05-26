@@ -2,29 +2,403 @@ language:
   en: English
   zh_CN: 简体中文
   zh_TW: 繁體中文
+miniApp:
+  activity:
+    name: 活动
+    desc: 我的第二课堂学分和活动
+  application:
+    name: 办事
+    desc: 看看办事要准备什么材料？
+  eduEmail:
+    name: 学校邮箱
+    desc: 查看学校邮箱里的邮件
+  elecBill:
+    name: 查电费
+    desc: 宿舍电费余额与用电记录
+  examArr:
+    name: 考试安排
+    desc: 我最近的考试安排
+  examResult:
+    name: 成绩
+    desc: 愿每一天都有收获
+  expense:
+    name: 查消费
+    desc: 我的校园卡消费记录
+  library:
+    name: 图书馆
+    desc: 馆藏书籍与借阅情况
+  oaAnnouncement:
+    name: OA 公告
+    desc: 学校的公告
+  separator:
+    name: 分隔符
+    desc: 用于功能分组
+  timetable:
+    name: 课程表
+    desc: 查看近期课程
+  yellowPages:
+    name: 常用电话
+    desc: 查找学校部门的联系方式
 activity:
   navigation:
-    all: All
-    mine: Mine
+    all: 活动
+    mine: 我的
   apply:
-    btn: Apply
-    reply-tip: Reply from school
-    request: Apply
-    request-desc: Confirm to apply this activity?
-  id: Activity ID
-  contact-info: Contact Info
-  detail-empty-tip: No detail given.
-  details: Activity Details
-  duration: Duration
-  location: Location
-  my-score-title: Second Class Score
-  organizer: Organizer
-  principal: Principal
-  signInTime: Sign-in
-  signOutTime: Sign-out
-  startTime: Start Time
-  tags: Tags
-  undertaker: Undertaker
+    btn: 报名
+    replyTip: 校方回复
+    applyRequest: 报名
+    applyRequestDesc: 确认报名这个活动吗？
   application:
-    id: Application ID
-    time: Application Time
+    id: 报名编号
+    time: 报名时间
+  id: 活动编号
+  contactInfo: 联系方式
+  detailEmptyTip: 暂无信息。
+  details: 活动资料
+  duration: 活动时长
+  location: 活动地点
+  myScoreTitle: 第二课堂学分
+  organizer: 主办方
+  principal: 负责人
+  signInTime: 签到时间
+  signOutTime: 签退时间
+  startTime: 开始时间
+  tags: 标签
+  undertaker: 承办方
+application:
+  desc: |
+    本功能基于 "上应一网通办"。
+    对于绝大多数业务，即使你在平台上已完成申请，仍要去现场办理。
+  filerInfrequentlyUsed: Filter Infrequently-used
+  navigation:
+    all: 全部
+    mailbox: 站内信
+  mailbox:
+    title: 我的站内信
+    emptyTip: 这里什么都没有。
+    recent: 最近更新
+captcha:
+  title: 验证码
+  enterHint: 请输入验证码
+  emptyInputError: 你输入的验证码为空。
+credential:
+  studentId: 学号
+  account: 账号
+  oaAccount: OA 账号
+  oaPwd: OA 密码
+  pwd: 密码
+  relogin: 重新登录
+  reloginRequestDesc: 你的账号或密码不正确，是否想要重新登录？
+  error: 登录凭据错误
+  unauthorizedTip:
+    title: 需要登录
+    everLoggedInTip: 你的账号或密码不正确，请重新登录。
+    neverLoggedInTip: 你必须先登录才能继续。
+easyconnect:
+  launchBtn: 启动 EasyConnect
+  launchFailed: 启动失败
+  launchFailedDesc: 无法启动 EasyConnect，请确定你是否安装，或者立即下载？
+elecBill:
+  navigation:
+    bill: 电费
+    search: 搜索
+  title: "查 #{room} 电费"
+  balance: 余额
+  content: "¥{amount} {place}"
+  initialTip: 请输入你的房间号
+  remainingPower: 剩余电量
+  roomNumber: 房间号码
+  updateTime: 更新时间
+  lastBalance: "上次: ¥{balance} {room}室"
+eduEmail:
+  title: 我的邮箱
+  noContent: 无内容
+  noSubject: 无主题
+  pluralSenderTailing: 等
+  text: 正文
+examResult:
+  noResult: 暂无考试结果记录
+  lessonNotEvaluated: No result of examination
+  teacherEvalTitle: 评教
+  lessonEvaluationBtn: 课程评价
+  gpaSelectedAndTotalLabel: "已选 {count} 门 | 绩点: {point}"
+  gpaPointLabel: "{type} | 绩点: {point}"
+  compulsory: 必修
+  credit: 学分
+  elective: 选修
+examArr:
+  endTime: 结束时间
+  isRetake: 是否重修
+  location: 地点
+  noExamThisSemester: 这个学期没有考试安排。
+  resultBePatientLabel: 耐心等等哦~
+  resultNoResult: 暂无考试结果记录
+  seatNumber: 座位号
+  startTime: 开始时间
+expense:
+  navigation:
+    bill: 账单
+    statistics: 统计
+  type:
+    consume: 消费
+    coffee: 咖啡
+    food: 食堂
+    store: 商店
+    water: 热水
+    library: 图书馆
+    shower: 洗浴
+    topUp: 充值
+    subsidy: 补贴
+    other: 杂项
+  balanceInCard: "卡内余额 ¥{}"
+  categories: 消费名目
+  fetchingRecordTip: 消费记录获取中
+  fetchingTip: 正在从学校获取消费记录，请稍等，速度取决于学校的服务器。
+  incomeStatistics: "Income: ¥{}"
+  spentStatistics: "Outcome: ¥{}"
+  refreshMenuButton: 刷新
+  statistics: 消费统计
+  toastLoadFailed: 网络异常，请稍后重试
+  toastLoadSuccessful: 成功获取最新数据
+  toastLoading: 正在获取最新数据……
+  total: 总计
+  lastTransaction: ¥{amount} {place}
+homepage:
+  campusNetworkConnected: Campus Network Available
+  campusNetworkUnconnected: Campus Network Unconnected
+networkChecker:
+  button:
+    connected: Continue
+    connecting: Checking...
+    disconnected: Retry
+    none: Check My Connection
+  status:
+    connected: Right ! You have connected to campus network !
+    connecting: It will take a few seconds, please ensure you have turned on the network on your device.
+    disconnected: Oops ! You can't access the campus network. Please check your network settings or use Easy Connect, and try again.
+    none: You need the access to campus network to continue. Let's check it now.
+network:
+  error: Network Error
+  ipAddress: IP Address
+  connectionTimeoutError: Network Timeout
+  connectionTimeoutErrorDesc: "This function requires access to the campus network. NOTE: It also occurs when the school server is down for maintenance."
+  openToolBtn: Open Network Tool
+networkTool:
+  title: Title
+  openWlanSettingsBtn: Open WLAN settings
+  noAccessTip: Unable to access network. Please check network settings on your device, and try again.
+  connectFailedError: Unable to connect to campus network. Troubleshooting:\n1. Attempt to connect to the school's Wi-Fi, \"i-SIT\",\"i-SIT-1x\" or \"eduroam\".\n2. Attempt to launch \"EasyConnect\" VPN to connect to School.\n3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.\nIf they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
+  connectedByProxy: Connected to campus network by Http proxy.
+  connectedByVpn: Connected to campus network by VPN.
+  connectedByWlan: Connected to campus network by WLAN.
+  connectivityConnectFailedError: |
+    Unable to connect to campus network. Troubleshooting:
+    1. Attempt to connect to the school's Wi-Fi, "i-SIT","i-SIT-1x" or "eduroam".
+    2. Attempt to launch "EasyConnect" VPN to connect to School.
+    3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.
+    If they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
+login:
+  title: Welcome!
+  validateInputAccountPwdRequest: Please check the formats of account and password you entered.
+  credentialsValidatedTip: Account and password is correct
+  accountOrPwdIncorrectTip: The account or password is incorrect. Please check them and try again.
+  accountHint: Student ID/Work number
+  forgotPwdBtn: Forgot password?
+  loggedInTip: Logged in
+  notLoggedIn: Not Logged In
+  incorrectIDFormat: Incorrect ID format
+  offlineModeBtn: Offline Mode
+  oaPwdHint: Enter your OA password
+  failedWarn: Login Failed
+  loginBtn: Login
+  formatError: Format Error
+library:
+  hotPost: HOT
+settings:
+  title: Settings
+  campus:
+    title: Your Campus
+    desc: Every campus has a different timetable
+  studentId:
+    studentIdCopy2ClipboardTip: Your student ID is copied.
+  changeOaPwd:
+    title: Change OA Password
+    desc: Change the OA password used for logging in Kite
+  clearCache:
+    title: Clear Cache
+    desc: Clear the offline cache made by Kite during use.
+    request: Confirm to clear the cache? To reload them, you need connect to campus network again.
+  darkMode:
+    title: Brightness
+    dark: Dark Mode
+    light: Light Mode
+    followSystem: Following System
+  detailedXcpDialog:
+    title: Enable detailed exception dialog
+    desc: Detailed stacktrace will be shown
+  httpProxy:
+    title: Enable Http Proxy
+    desc: Connect to the campus network by Http proxy
+    global: Use as global proxy
+    globalDesc: For debugging, exclude Webview
+    proxyAddress: Proxy Address
+  language:
+    title: Language
+  localStorage:
+    title: Local Storage
+    desc: Manage storage on your device.
+  reload:
+    title: Reload
+    desc: Re-initialize all modules
+  testConnect2School:
+    title: Test Connectivity
+    desc: Test connect with school
+  testLoginKite:
+    title: Test Login Kite
+    desc: Validate your Kite account and OA password
+  wipeData:
+    title: Wipe Data & Log out
+    desc: Wipe all data made by Kite and log out.
+    request: Wipe ALL Data
+    requestDesc: ALL data, such as login credentials and timetable imported, except webview cache, will be wiped permanently.
+  version:
+    title: Current Version
+localStorage:
+  title: Local Storage Editor
+  selectBoxTip: Please select a box first.
+  clearBoxDesc: Confirm to clear this box pair?
+  deleteItemDesc: Confirm to delete this key-value pair?
+  emptyValueDesc: Confirm to empty this key-value pair?
+  emptyContent: Empty
+oaAnnounce:
+  attachmentTip:
+    one: Attachment
+    other: Attachments
+  text: Text
+  downloadCompleted: Download Completed
+  publishTime: Publish Time
+  publishingDepartment: Department
+personalization:
+  themeColor: Theme Color
+  wallpaper:
+    title: Wallpaper
+    desc: Customize the homepage wallpaper
+timetable:
+  mine:
+    title: My Timetables
+    edit: Edit
+    delete: Delete
+    preview: Preview
+    deleteRequest: Confirm to delete?
+    deleteRequestDesc: You will lose this timetable permanently.
+    emptyTip: Let's import a new timetable!
+    setToDefault: Set to Default
+    noDesc: No description...
+  detail:
+    descFormTitle: Description
+    nameFormTitle: Name
+    classId: "Class Code {}"
+    courseId: "Course Code {}"
+  import:
+    title: Import Timetable
+    button: Try Import
+    connectivityCheckerDesc: You need access campus network before importing a new Timetable. Let's check it.
+    selectSemesterTip: Please select a semester first.
+    endTip: Please enter the info.
+    failed: Import Error
+    failedDesc: Can't import the timetable, please try again.
+    failedTip: Failed to import, please try again.
+    importing: Trying to fetch the timetable...
+    timetableInfo: Timetable Info
+    defaultName: "{semester}, {yearStart}-{yearEnd} Timetable"
+  edit:
+    setStartDate: Set Start Date
+  weekStep:
+    all: wk
+    odd: odd wk
+    even: even wk
+  jump: Jump
+  findToday: findToday
+  startDate: "Start with: {}"
+  weekOrderedName: "Week {}"
+  freeTip:
+    dayTip: It's a free day!
+    isTodayTip: "Have a nice day! 🎉"
+    weekTip: Wow, no class this week!
+    isThisWeekTip: "Enjoy this week! 🎉"
+    termTip: "Cool! You even have a free term! 🎉🎉🎉"
+    findNearestWeekWithClass: Find a week with class
+    findNearestDayWithClass: Find a day with class
+scanner:
+  barcodeNotRecognized: No Barcode
+  barcodeRecognized: Barcode Recognized
+semester:
+  all: Full Year
+  term1: Fall
+  term2: Spring
+reportTemp:
+  abnormal: Abnormal
+  tempNoReportRecords: No report records
+  normal: Normal
+  reportedToday: Reported Today
+  unreportedToday: Unreported Today
+greeting:
+  headerA: SIT has accompanied you
+  headerB:
+    one: 1 Day
+    other: "{} Days"
+weekday:
+  0: 周一
+  1: 周二
+  2: 周三
+  3: 周四
+  4: 周五
+  5: 周六
+  6: 周日
+weekdayShort:
+  0: 一
+  1: 二
+  2: 三
+  3: 四
+  4: 五
+  5: 六
+  6: 日
+campus:
+  xuhui: 徐汇
+  xuhuiDistrict: 徐汇区
+  fengxian: Fengxian
+  fengxianDistrict: Fengxian District
+unit:
+  rmb: "¥{}"
+  powerKwh: "{} kW·h"
+time:
+  minute: min
+  hour: hour
+  hourMinuteFormat: "{hour} h {minute} min"
+  minuteFormat: "{} min"
+  hourFormat: "{} h"
+open: 打开
+delete: 删除
+confirm: 确定
+notNow: 再等等
+error: Error
+ok: 好的
+close: 关闭
+submit: 提交
+cancel: 取消
+save: 保存
+yes: 是的
+refresh: 刷新
+back: 返回
+clear: 清空
+continue: 继续
+unknown: 为止
+failed: 失败
+download: 下载
+fetching: 获取中
+downloading: 下载中
+notFound404: 404 Not Found
+warning: 警告
+exceptionInfo: Exception Info
+untitled: 无标题
+congratulations: Congratulations

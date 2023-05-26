@@ -45,7 +45,7 @@ class _ExpenseItemState extends State<ExpenseItem> {
   Widget build(BuildContext context) {
     final last = lastExpense;
     if (last != null) {
-      content = i18n.lastBalance(last.deltaAmount.toStringAsFixed(2), last.note);
+      content = i18n.lastTransaction(last.deltaAmount.toStringAsFixed(2), last.note);
     }
     return Brick(
       route: Routes.expense,

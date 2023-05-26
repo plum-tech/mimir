@@ -52,12 +52,8 @@ enum MiniApp {
   @HiveField(10)
   yellowPages,
 
-  /// 扫码
-  @HiveField(11)
-  scanner,
-
   /// 电费查询
-  @HiveField(12)
+  @HiveField(11)
   elecBill;
 
   String l10nName() => "$_ns.$name.name".tr();

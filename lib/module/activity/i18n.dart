@@ -58,9 +58,9 @@ class _Apply {
 
   String get replyTip => "$ns.replyTip".tr();
 
-  String get request => "$ns.request".tr();
+  String get applyRequest => "$ns.applyRequest".tr();
 
-  String get requestDesc => "$ns.requestDesc".tr();
+  String get applyRequestDesc => "$ns.applyRequestDesc".tr();
 }
 
 class _Application {
