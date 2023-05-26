@@ -201,7 +201,7 @@
   "loginLoggedInTip": "已登入",
   "loginLoginAccountHint": "登入",
   "loginLoginBtn": "登入",
-  "loginIncorrectIDFormat": "錯誤的學號格式",
+  "logininvalidAccountFormat": "錯誤的學號格式",
   "loginOfflineModeBtn": "離線模式",
   "loginPwdHint": "鍵入你的OA密碼",
   "loginTitle": "歡迎！",

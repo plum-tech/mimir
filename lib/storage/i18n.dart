@@ -16,5 +16,4 @@ class _I18n with CommonI18nMixin {
   String get deleteItemDesc => "$ns.deleteItemDesc".tr();
 
   String get emptyValueDesc => "$ns.emptyValueDesc".tr();
-  String get emptyContent => "$ns.emptyContent".tr();
 }

@@ -20,7 +20,7 @@ bool guessUserTypeByAccount(String oaAccount) {
 String? studentIdValidator(String? account) {
   if (account != null && account.isNotEmpty) {
     if (!guessUserTypeByAccount(account)) {
-      return const LoginI18n().incorrectIDFormat;
+      return const LoginI18n().invalidAccountFormat;
     }
   }
   return null;

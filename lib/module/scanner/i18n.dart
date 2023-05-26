@@ -8,6 +8,4 @@ class _I18n {
   static const ns = "scanner";
 
   String get barcodeNotRecognized => "$ns.barcodeNotRecognized".tr();
-
-  String get barcodeRecognized => "$ns.barcodeRecognized".tr();
 }

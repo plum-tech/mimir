@@ -197,64 +197,61 @@ networkTool:
   connectedByVpn: 已通过 VPN 连接到校园网。
   connectedByWlan: 已通过 WLAN 连接到校园网。
 login:
-  title: Welcome!
-  validateInputAccountPwdRequest: Please check the formats of account and password you entered.
-  credentialsValidatedTip: Account and password is correct
-  accountOrPwdIncorrectTip: The account or password is incorrect. Please check them and try again.
-  accountHint: Student ID/Work number
-  forgotPwdBtn: Forgot password?
-  loggedInTip: Logged in
-  notLoggedIn: Not Logged In
-  incorrectIDFormat: Incorrect ID format
-  offlineModeBtn: Offline Mode
-  oaPwdHint: Enter your OA password
-  failedWarn: Login Failed
-  loginBtn: Login
-  formatError: Format Error
+  title: 欢迎！
+  validateInputAccountPwdRequest: 请检查你输入的账号格式与密码。
+  credentialsValidatedTip: 账号与密码验证成功
+  accountOrPwdIncorrectTip: 账号或密码不正确，请检查后重试。
+  accountHint: 学号/工号
+  forgotPwdBtn: 忘记密码？
+  loggedInTip: 登录成功
+  notLoggedIn: 未登录
+  invalidAccountFormat: 账号格式不正确
+  offlineModeBtn: 离线模式
+  oaPwdHint: 输入你的OA密码
+  failedWarn: 登录失败
+  loginBtn: 登录
+  formatError: 格式错误
 library:
-  hotPost: HOT
+  hotPost: 热搜
 settings:
-  title: Settings
+  title: 设置
   campus:
-    title: Your Campus
-    desc: Every campus has a different timetable
+    title: 你的校区
+    desc: 每个校区都有不同的日程表
   studentId:
-    studentIdCopy2ClipboardTip: Your student ID is copied.
+    studentIdCopy2ClipboardTip: 你的学号被复制到剪贴板啦
   changeOaPwd:
-    title: Change OA Password
-    desc: Change the OA password used for logging in Kite
+    title: 修改 OA 密码
+    desc: 修改用于自动登录学校业务的 OA 密码
   clearCache:
-    title: Clear Cache
-    desc: Clear the offline cache made by Kite during use.
-    request: Confirm to clear the cache? To reload them, you need connect to campus network again.
+    title: 清空缓存
+    desc: 清空使用过程中产生的离线缓存
+    request: 确定清空缓存？你下次需要连接校园网才能重新加载它们。
   darkMode:
-    title: Brightness
-    dark: Dark Mode
-    light: Light Mode
-    followSystem: Following System
+    title: 亮度
+    dark: 黑暗模式
+    light: 明亮模式
+    followSystem: 跟随系统
   detailedXcpDialog:
-    title: Enable detailed exception dialog
-    desc: Detailed stacktrace will be shown
+    title: 启用详细异常对话框
+    desc: 显示更加详细的异常堆栈追踪信息
   httpProxy:
-    title: Enable Http Proxy
+    title: 启用 Http 代理
     desc: Connect to the campus network by Http proxy
     global: Use as global proxy
     globalDesc: For debugging, exclude Webview
     proxyAddress: Proxy Address
   language:
-    title: Language
+    title: 语言
   localStorage:
-    title: Local Storage
-    desc: Manage storage on your device.
+    title: 本地存储
+    desc: 管理在此设备上存储的数据
   reload:
     title: Reload
     desc: Re-initialize all modules
   testConnect2School:
     title: Test Connectivity
     desc: Test connect with school
-  testLoginKite:
-    title: Test Login Kite
-    desc: Validate your Kite account and OA password
   wipeData:
     title: Wipe Data & Log out
     desc: Wipe all data made by Kite and log out.
@@ -265,10 +262,9 @@ settings:
 localStorage:
   title: Local Storage Editor
   selectBoxTip: Please select a box first.
-  clearBoxDesc: Confirm to clear this box pair?
-  deleteItemDesc: Confirm to delete this key-value pair?
-  emptyValueDesc: Confirm to empty this key-value pair?
-  emptyContent: Empty
+  clearBoxDesc: 确定清空这个盒子里的数据吗？
+  deleteItemDesc: 确定删除这个键值对吗?
+  emptyValueDesc: 确定将这个键值设空为对吗？
 oaAnnounce:
   attachmentTip:
     one: Attachment
@@ -313,33 +309,32 @@ timetable:
   edit:
     setStartDate: Set Start Date
   weekStep:
-    all: wk
-    odd: odd wk
-    even: even wk
-  jump: Jump
-  findToday: findToday
-  startDate: "Start with: {}"
-  weekOrderedName: "Week {}"
+    all: 周
+    odd: 单周
+    even: 双周
+  jump: 跳转
+  findToday: 找到今天
+  startDate: "起始于: {}"
+  weekOrderedName: "第 {} 周"
   freeTip:
-    dayTip: It's a free day!
-    isTodayTip: "Have a nice day! 🎉"
-    weekTip: Wow, no class this week!
-    isThisWeekTip: "Enjoy this week! 🎉"
-    termTip: "Cool! You even have a free term! 🎉🎉🎉"
-    findNearestWeekWithClass: Find a week with class
-    findNearestDayWithClass: Find a day with class
+    dayTip: 好耶，没课的一天！
+    isTodayTip: 尽情享受今天吧！
+    weekTip: 哇，这周没课！
+    isThisWeekTip: 尽情享受这周吧！
+    termTip: 不可思议，这个学期你都在放假！
+    findNearestWeekWithClass: 找到有课的一周
+    findNearestDayWithClass: 找到有课的一天
 scanner:
-  barcodeNotRecognized: No Barcode
-  barcodeRecognized: Barcode Recognized
+  barcodeNotRecognized: 未识别到条形码或二维码
 semester:
   all: 全学年
   term1: 第一学期
   term2: 第二学期
 greeting:
-  headerA: SIT has accompanied you
+  headerA: 今天是你在上应大的
   headerB:
-    one: 1 Day
-    other: "{} Days"
+    one: 第 1 天
+    other: "第 {} 天"
 weekday:
   0: 周一
   1: 周二

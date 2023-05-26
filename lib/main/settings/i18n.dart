@@ -19,7 +19,6 @@ class _I18n with CommonI18nMixin {
   final localStorage = const _LocalStorage();
   final reload = const _Reload();
   final testConnect2School = const _TestConnect2School();
-  final testLoginKite = const _TestLoginKite();
   final wipeData = const _WipeData();
   final version = const _Version();
   static const ns = "settings";
@@ -147,16 +146,6 @@ class _TestConnect2School {
   const _TestConnect2School();
 
   static const ns = "${_I18n.ns}.testConnect2School";
-
-  String get title => "$ns.title".tr();
-
-  String get desc => "$ns.desc".tr();
-}
-
-class _TestLoginKite {
-  const _TestLoginKite();
-
-  static const ns = "${_I18n.ns}.testLoginKite";
 
   String get title => "$ns.title".tr();
 

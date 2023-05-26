@@ -6,7 +6,7 @@ import '../colors.dart';
 
 class LeavingBlank extends StatelessWidget {
   final WidgetBuilder iconBuilder;
-  final String desc;
+  final String? desc;
   final VoidCallback? onIconTap;
   final Widget? subtitle;
 
@@ -15,7 +15,7 @@ class LeavingBlank extends StatelessWidget {
   factory LeavingBlank({
     Key? key,
     required IconData icon,
-    required String desc,
+    String? desc,
     VoidCallback? onIconTap,
     double size = 120,
     Widget? subtitle,
@@ -31,7 +31,7 @@ class LeavingBlank extends StatelessWidget {
   factory LeavingBlank.svgAssets({
     Key? key,
     required String assetName,
-    required String desc,
+    String? desc,
     VoidCallback? onIconTap,
     double width = 120,
     double height = 120,
@@ -56,19 +56,19 @@ class LeavingBlank extends StatelessWidget {
       return [
         icon.expanded(),
         [
-          buildDesc(context),
+          if (desc != null) buildDesc(context, desc!),
           sub,
         ].column().expanded(),
       ].column(maa: MAAlign.spaceAround).center();
     } else {
       return [
         icon.expanded(),
-        buildDesc(context).expanded(),
+        if (desc != null) buildDesc(context, desc!).expanded(),
       ].column(maa: MAAlign.spaceAround).center();
     }
   }
 
-  Widget buildDesc(BuildContext ctx) {
+  Widget buildDesc(BuildContext ctx, String desc) {
     return desc
         .text(
           style: ctx.textTheme.titleLarge,

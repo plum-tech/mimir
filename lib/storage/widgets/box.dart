@@ -88,7 +88,7 @@ class _BoxItemListState extends State<BoxItemList> {
   Widget build(BuildContext context) {
     final box = widget.box;
     if (box.isEmpty) {
-      return i18n.emptyContent.text(style: context.textTheme.bodyLarge).padAll(10);
+      return const Icon(Icons.inbox_rounded).padAll(10);
     } else {
       return buildList(context);
     }
@@ -412,7 +412,7 @@ class _StorageBoxState extends State<StorageBox> {
   }
 
   Widget _buildEmptyBoxTip(Key? key, BuildContext ctx) {
-    return LeavingBlank(key: key, icon: Icons.inbox_outlined, desc: i18n.emptyContent).sized(h: 300);
+    return LeavingBlank(key: key, icon: Icons.inbox_outlined).sized(h: 300);
   }
 }
 

@@ -198,14 +198,14 @@ networkTool:
   connectedByWlan: Connected to campus network by WLAN.
 login:
   title: Welcome!
-  validateInputAccountPwdRequest: Please check the formats of account and password you entered.
-  credentialsValidatedTip: Account and password is correct
+  validateInputAccountPwdRequest: Please check the format of account and password you entered.
+  credentialsValidatedTip: Account and password are correct
   accountOrPwdIncorrectTip: The account or password is incorrect. Please check them and try again.
   accountHint: Student ID/Work number
   forgotPwdBtn: Forgot password?
   loggedInTip: Logged in
   notLoggedIn: Not Logged In
-  incorrectIDFormat: Incorrect ID format
+  invalidAccountFormat: Invalid Account format
   offlineModeBtn: Offline Mode
   oaPwdHint: Enter your OA password
   failedWarn: Login Failed
@@ -222,10 +222,10 @@ settings:
     studentIdCopy2ClipboardTip: Your student ID is copied.
   changeOaPwd:
     title: Change OA Password
-    desc: Change the OA password used for logging in Kite
+    desc: Change the OA password used for auto-logging in school business.
   clearCache:
     title: Clear Cache
-    desc: Clear the offline cache made by Kite during use.
+    desc: Clear the offline cache during use.
     request: Confirm to clear the cache? To reload them, you need connect to campus network again.
   darkMode:
     title: Brightness
@@ -252,9 +252,6 @@ settings:
   testConnect2School:
     title: Test Connectivity
     desc: Test connect with school
-  testLoginKite:
-    title: Test Login Kite
-    desc: Validate your Kite account and OA password
   wipeData:
     title: Wipe Data & Log out
     desc: Wipe all data made by Kite and log out.
@@ -265,10 +262,9 @@ settings:
 localStorage:
   title: Local Storage Editor
   selectBoxTip: Please select a box first.
-  clearBoxDesc: Confirm to clear this box pair?
+  clearBoxDesc: Confirm to clear this box?
   deleteItemDesc: Confirm to delete this key-value pair?
   emptyValueDesc: Confirm to empty this key-value pair?
-  emptyContent: Empty
 oaAnnounce:
   attachmentTip:
     one: Attachment
@@ -317,7 +313,7 @@ timetable:
     odd: odd wk
     even: even wk
   jump: Jump
-  findToday: findToday
+  findToday: Find Today
   startDate: "Start with: {}"
   weekOrderedName: "Week {}"
   freeTip:
@@ -329,8 +325,7 @@ timetable:
     findNearestWeekWithClass: Find a week with class
     findNearestDayWithClass: Find a day with class
 scanner:
-  barcodeNotRecognized: No Barcode
-  barcodeRecognized: Barcode Recognized
+  barcodeNotRecognized: No Barcode or QR code
 semester:
   all: Full Year
   term1: Fall

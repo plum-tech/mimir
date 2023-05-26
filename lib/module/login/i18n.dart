@@ -25,7 +25,7 @@ class LoginI18n with CommonI18nMixin {
 
   String get notLoggedIn => "$ns.notLoggedIn".tr();
 
-  String get incorrectIDFormat => "$ns.incorrectIDFormat".tr();
+  String get invalidAccountFormat => "$ns.invalidAccountFormat".tr();
 
   String get offlineModeBtn => "$ns.offlineModeBtn".tr();
 

@@ -105,7 +105,7 @@ elecBill:
   title: "Bill of #{room}"
   balance: Balance
   content: "last: ¥{balance} Room {room}"
-  initialTip: Please search your room number first
+  initialTip: Please enter your room number first
   remainingPower: Remaining
   roomNumber: Room
   updateTime: Last Update
@@ -150,7 +150,7 @@ expense:
     topUp: Top Up
     subsidy: Subsidy
     other: Stuff
-  balanceInCard: ¥{} in Card
+  balanceInCard: "¥{} in Card"
   categories: Categories
   fetchingRecordTip: Fetching expense record
   fetchingTip: Fetching expense records from school... Please wait a minute, the network speed depends on the school's server.
@@ -162,10 +162,10 @@ expense:
   toastLoadSuccessful: Successful!
   toastLoading: Loading...
   total: Total
-  lastBalance: ¥{amount} {place}
+  lastTransaction: ¥{amount} {place}
 homepage:
   campusNetworkConnected: Campus Network Available
-  campusNetworkUnconnected: Campus Network Unconnected
+  campusNetworkUnconnected: Campus Network Unavailable
 networkChecker:
   button:
     connected: Continue
@@ -173,9 +173,9 @@ networkChecker:
     disconnected: Retry
     none: Check My Connection
   status:
-    connected: Right ! You have connected to campus network !
+    connected: Right! You have connected to campus network!
     connecting: It will take a few seconds, please ensure you have turned on the network on your device.
-    disconnected: Oops ! You can't access the campus network. Please check your network settings or use Easy Connect, and try again.
+    disconnected: Oops! You can't access the campus network. Please check your network settings or use Easy Connect, and try again.
     none: You need the access to campus network to continue. Let's check it now.
 network:
   error: Network Error
@@ -187,26 +187,25 @@ networkTool:
   title: Title
   openWlanSettingsBtn: Open WLAN settings
   noAccessTip: Unable to access network. Please check network settings on your device, and try again.
-  connectFailedError: Unable to connect to campus network. Troubleshooting:\n1. Attempt to connect to the school's Wi-Fi, \"i-SIT\",\"i-SIT-1x\" or \"eduroam\".\n2. Attempt to launch \"EasyConnect\" VPN to connect to School.\n3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.\nIf they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
+  connectionFailedError: |
+    Unable to connect to campus network. Troubleshooting:
+    1. Attempt to connect to the school's Wi-Fi, "i-SIT","i-SIT-1x" or "eduroam".
+    2. Attempt to launch "EasyConnect" VPN to connect to school.
+    3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.
+    If they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
   connectedByProxy: Connected to campus network by Http proxy.
   connectedByVpn: Connected to campus network by VPN.
   connectedByWlan: Connected to campus network by WLAN.
-  connectivityConnectFailedError: |
-    Unable to connect to campus network. Troubleshooting:
-    1. Attempt to connect to the school's Wi-Fi, "i-SIT","i-SIT-1x" or "eduroam".
-    2. Attempt to launch "EasyConnect" VPN to connect to School.
-    3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.
-    If they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
 login:
   title: Welcome!
-  validateInputAccountPwdRequest: Please check the formats of account and password you entered.
-  credentialsValidatedTip: Account and password is correct
+  validateInputAccountPwdRequest: Please check the format of account and password you entered.
+  credentialsValidatedTip: Account and password are correct
   accountOrPwdIncorrectTip: The account or password is incorrect. Please check them and try again.
   accountHint: Student ID/Work number
   forgotPwdBtn: Forgot password?
   loggedInTip: Logged in
   notLoggedIn: Not Logged In
-  incorrectIDFormat: Incorrect ID format
+  invalidAccountFormat: Invalid Account format
   offlineModeBtn: Offline Mode
   oaPwdHint: Enter your OA password
   failedWarn: Login Failed
@@ -253,9 +252,6 @@ settings:
   testConnect2School:
     title: Test Connectivity
     desc: Test connect with school
-  testLoginKite:
-    title: Test Login Kite
-    desc: Validate your Kite account and OA password
   wipeData:
     title: Wipe Data & Log out
     desc: Wipe all data made by Kite and log out.

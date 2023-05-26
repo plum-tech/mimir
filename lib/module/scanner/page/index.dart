@@ -31,13 +31,7 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
         // Pick an image
         final XFile? image = await picker.pickImage(source: ImageSource.gallery);
         if (image != null) {
-          if (await controller.analyzeImage(image.path)) {
-            if (!mounted) return;
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: i18n.barcodeRecognized.text(),
-              backgroundColor: Colors.green,
-            ));
-          } else {
+          if (!await controller.analyzeImage(image.path)) {
             if (!mounted) return;
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: i18n.barcodeNotRecognized.text(),
