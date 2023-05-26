@@ -8,7 +8,6 @@ import 'package:mimir/global/global.dart';
 import 'package:mimir/module/login/i18n.dart';
 import 'package:mimir/module/login/init.dart';
 import 'package:mimir/module/timetable/using.dart';
-import 'package:mimir/util/scanner.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -50,6 +49,7 @@ class HomeItemGroup extends StatelessWidget {
 
 class HomePage extends StatefulWidget {
   final DrawerDelegateProtocol drawer;
+
   const HomePage({super.key, required this.drawer});
 
   @override
@@ -133,8 +133,7 @@ class _HomePageState extends State<HomePage> {
           // 如果是网络问题, 提示检查网络.
           _showCheckNetwork(context, title: _i18n.network.error.text());
         }
-      } catch (e, s) {
-      }
+      } catch (e, s) {}
     }
     if (HomeInit.ssoSession.isOnline) {
       Global.eventBus.fire(EventTypes.onHomeRefresh);
@@ -204,8 +203,15 @@ class _HomePageState extends State<HomePage> {
   Widget buildScannerButton(BuildContext context) {
     return IconButton(
       onPressed: () async {
-        final result = await scan(context);
-        if (result != null) launchUri(result);
+        final result = await Navigator.of(context).pushNamed(Routes.scanner);
+        if (result is String) {
+          if (Uri.tryParse(result) != null) {
+            await launchUri(result);
+            return;
+          }
+        }
+        if (!mounted) return;
+        await context.showTip(title: "QR Code", desc: result.toString(), ok: "OK");
       },
       icon: const Icon(
         Icons.qr_code_scanner_outlined,

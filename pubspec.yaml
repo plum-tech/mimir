@@ -22,7 +22,7 @@ dependencies:
 
   # Basic
   logger: ^1.1.0              # logger
-  path_provider: ^2.0.8       # Path
+  path_provider: ^2.0.15       # Path
 
   # String and charset
   format: ^1.1.1              # String formatting
@@ -34,8 +34,8 @@ dependencies:
 
   # File format
   ical: ^0.2.2                # iCalendar file generator
-  json_serializable: ^6.3.1   # JSON
-  json_annotation: ^4.6.0     # JSON code generation
+  json_serializable: ^6.7.0   # JSON
+  json_annotation: ^4.8.1     # JSON code generation
   beautiful_soup_dart: ^0.3.0 # HTML parser
 
   # hive (key-value database)
@@ -64,9 +64,9 @@ dependencies:
 
   # Open with other APP/programs
   open_file: ^3.2.1                 # Open files
-  url_launcher: ^6.0.17             # Open URLs
-  image_picker: ^0.8.4+7            # Open Android / iOS system image picker
-  file_picker: 5.0.0
+  url_launcher: ^6.1.11             # Open URLs
+  image_picker: ^0.8.7+5            # Open Android / iOS system image picker
+  file_picker: ^5.0.0
 
   # UI
   fl_chart: ^0.55.0
@@ -77,7 +77,7 @@ dependencies:
   flutter_svg: ^2.0.6
   flutter_screenutil: ^5.8.2              # Screen adaptation
   qr_flutter: ^4.1.0                      # Qr code generate
-  mobile_scanner: ^2.1.0                  # qrcode scanner
+  mobile_scanner: ^3.2.0                  # qrcode scanner
   flutter_staggered_grid_view: ^0.6.2
   cached_network_image: ^3.2.1
   flutter_easyloading: ^3.0.5
@@ -98,10 +98,10 @@ dependencies:
   animations: ^2.0.7
   rettulf: ^0.0.13
   auto_animated: ^3.1.0
-  markdown: ^6.0.1
+  markdown: ^7.1.0
   event_bus: ^2.0.0
   collection: ^1.16.0
-  unicons: ^2.1.0
+  unicons: ^2.1.1
   loading_animation_widget: ^1.2.0+3
   connectivity_plus: ^3.0.3
   modal_bottom_sheet: ^3.0.0-pre

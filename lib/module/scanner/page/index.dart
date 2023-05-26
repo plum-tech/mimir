@@ -4,6 +4,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../using.dart';
+import '../widgets/overlay.dart';
 
 class ScannerPage extends StatefulWidget {
   const ScannerPage({super.key});
@@ -12,22 +13,19 @@ class ScannerPage extends StatefulWidget {
   State<ScannerPage> createState() => _ScannerPageState();
 }
 
-class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStateMixin {
-  String? barcode;
+const _iconSize = 32.0;
 
-  MobileScannerController controller = MobileScannerController(
+class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStateMixin {
+  final controller = MobileScannerController(
     torchEnabled: false,
     formats: [BarcodeFormat.qrCode],
     facing: CameraFacing.back,
   );
 
-  bool isStarted = true;
-
   Widget buildImagePicker() {
     return IconButton(
-      color: Colors.white,
       icon: const Icon(Icons.image),
-      iconSize: 32.0,
+      iconSize: _iconSize,
       onPressed: () async {
         final ImagePicker picker = ImagePicker();
         // Pick an image
@@ -53,51 +51,33 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
 
   Widget buildSwitchButton() {
     return IconButton(
-      color: Colors.white,
-      icon: ValueListenableBuilder(
-        valueListenable: controller.cameraFacingState,
-        builder: (context, state, child) {
-          switch (state) {
-            case CameraFacing.front:
-              return const Icon(Icons.camera_front);
-            case CameraFacing.back:
-              return const Icon(Icons.camera_rear);
-          }
-        },
-      ),
-      iconSize: 32.0,
+      iconSize: _iconSize,
+      icon: controller.cameraFacingState >>
+          (context, state) {
+            switch (state) {
+              case CameraFacing.front:
+                return const Icon(Icons.camera_front);
+              case CameraFacing.back:
+                return const Icon(Icons.camera_rear);
+            }
+          },
       onPressed: () => controller.switchCamera(),
     );
   }
 
   Widget buildTorchButton() {
     return IconButton(
-      color: Colors.white,
-      icon: ValueListenableBuilder(
-        valueListenable: controller.torchState,
-        builder: (context, state, child) {
-          switch (state) {
-            case TorchState.off:
-              return const Icon(Icons.flash_off, color: Colors.grey);
-            case TorchState.on:
-              return const Icon(Icons.flash_on, color: Colors.yellow);
-          }
-        },
-      ),
-      iconSize: 32.0,
+      iconSize: _iconSize,
+      icon: controller.torchState >>
+          (context, state) {
+            switch (state) {
+              case TorchState.off:
+                return const Icon(Icons.flash_off, color: Colors.grey);
+              case TorchState.on:
+                return const Icon(Icons.flash_on, color: Colors.yellow);
+            }
+          },
       onPressed: () => controller.toggleTorch(),
-    );
-  }
-
-  Widget buildStopButton() {
-    return IconButton(
-      color: Colors.white,
-      icon: isStarted ? const Icon(Icons.stop) : const Icon(Icons.play_arrow),
-      iconSize: 32.0,
-      onPressed: () => setState(() {
-        isStarted ? controller.stop() : controller.start();
-        isStarted = !isStarted;
-      }),
     );
   }
 
@@ -105,14 +85,13 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
     return MobileScanner(
       controller: controller,
       fit: BoxFit.contain,
-      onDetect: (barcode, args) {
+      onDetect: (captured) async {
         controller.dispose();
-
-        Future.delayed(Duration.zero, () async {
-          await const Vibration(milliseconds: 100).emit();
-        });
-
-        Navigator.pop(context, barcode.rawValue);
+        const Vibration(milliseconds: 100).emit();
+        final qrcode = captured.barcodes.firstOrNull;
+        if(qrcode != null){
+          Navigator.pop(context, qrcode.rawValue);
+        }
       },
     );
   }
@@ -120,14 +99,11 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
   Widget buildControllerView() {
     return Container(
       alignment: Alignment.bottomCenter,
-      height: 100,
-      color: Colors.black.withOpacity(0.4),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           buildTorchButton(),
-          // buildStopButton(),
           buildSwitchButton(),
           buildImagePicker(),
         ],
@@ -138,18 +114,16 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Builder(builder: (context) {
-        return Stack(
-          children: [
-            buildScanner(),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: buildControllerView(),
-            ),
-          ],
-        );
-      }),
+      body: [
+        buildScanner(),
+        const QRScannerOverlay(
+          overlayColour: Colors.black26,
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: buildControllerView(),
+        ),
+      ].stack(),
     );
   }
 }

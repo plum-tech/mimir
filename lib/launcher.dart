@@ -25,7 +25,7 @@ Future<bool> launchUri(String scheme) async {
     }
     return await launchUrl(uri);
   } else {
-    $Key.currentContext!.showTip(title: 'Unsupported Scheme', desc: scheme, ok: i18n.ok);
+    $Key.currentContext!.showTip(title: 'Unsupported URI', desc: scheme, ok: i18n.ok);
     return false;
   }
 }
