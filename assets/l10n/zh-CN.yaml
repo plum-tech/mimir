@@ -7,7 +7,7 @@ miniApp:
     name: 活动
     desc: 我的第二课堂学分和活动
   application:
-    name: 办事
+    name: 应网办
     desc: 看看办事要准备什么材料？
   eduEmail:
     name: 学校邮箱
@@ -164,39 +164,38 @@ expense:
   total: 总计
   lastTransaction: ¥{amount} {place}
 homepage:
-  campusNetworkConnected: Campus Network Available
-  campusNetworkUnconnected: Campus Network Unconnected
+  campusNetworkConnected: 已连接校园网
+  campusNetworkUnconnected: 未连接校园网
 networkChecker:
   button:
-    connected: Continue
-    connecting: Checking...
-    disconnected: Retry
-    none: Check My Connection
+    connected: 继续
+    connecting: 正在检查中……
+    disconnected: 重试
+    none: 检查我的网络连接
   status:
-    connected: Right ! You have connected to campus network !
-    connecting: It will take a few seconds, please ensure you have turned on the network on your device.
-    disconnected: Oops ! You can't access the campus network. Please check your network settings or use Easy Connect, and try again.
-    none: You need the access to campus network to continue. Let's check it now.
+    connected: 好耶！你能够访问校园网！
+    connecting: 这可能需要几秒钟，请确保你在设备上已经打开了网络连接。
+    disconnected: 糟糕！你无法访问校园网，请检查你的网络设置，然后再试一次。
+    none: 你需要访问校园网才能继续，现在就检查一下吧。
 network:
-  error: Network Error
-  ipAddress: IP Address
-  connectionTimeoutError: Network Timeout
-  connectionTimeoutErrorDesc: "This function requires access to the campus network. NOTE: It also occurs when the school server is down for maintenance."
-  openToolBtn: Open Network Tool
+  error: 网络错误
+  ipAddress: IP 地址
+  connectionTimeoutError: 网络连接超时
+  connectionTimeoutErrorDesc: "此功能需要访问校园网。注意: 在学校服务器崩溃或停机维护时, 也可能会出现这样的情况。"
+  openToolBtn: 打开网络工具
 networkTool:
-  title: Title
-  openWlanSettingsBtn: Open WLAN settings
-  noAccessTip: Unable to access network. Please check network settings on your device, and try again.
-  connectFailedError: Unable to connect to campus network. Troubleshooting:\n1. Attempt to connect to the school's Wi-Fi, \"i-SIT\",\"i-SIT-1x\" or \"eduroam\".\n2. Attempt to launch \"EasyConnect\" VPN to connect to School.\n3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.\nIf they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
-  connectedByProxy: Connected to campus network by Http proxy.
-  connectedByVpn: Connected to campus network by VPN.
-  connectedByWlan: Connected to campus network by WLAN.
-  connectivityConnectFailedError: |
-    Unable to connect to campus network. Troubleshooting:
-    1. Attempt to connect to the school's Wi-Fi, "i-SIT","i-SIT-1x" or "eduroam".
-    2. Attempt to launch "EasyConnect" VPN to connect to School.
-    3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.
-    If they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
+  title: 网络工具
+  openWlanSettingsBtn: 打开 WLAN 设置
+  noAccessTip: 无法连接到网络，请检查你设备的网络设置后再试。
+  connectFailedError: |
+    无法连接到校园网。疑难解答:
+    1. 尝试连接学校的Wi-Fi: "i-SIT","i-SIT-1x" 或 "eduroam"。
+    2. 尝试使用"EasyConnect" VPN 连接校园网。
+    3. 尝试通过自行搭建的代理服务器使用 Http 代理连接校园网。
+    如果以上都不起作用, 可能因为是学校服务器停机维护或崩溃，请一段时间后重试。
+  connectedByProxy: 已通过 Http 代理连接到校园网。
+  connectedByVpn: 已通过 VPN 连接到校园网。
+  connectedByWlan: 已通过 WLAN 连接到校园网。
 login:
   title: Welcome!
   validateInputAccountPwdRequest: Please check the formats of account and password you entered.
@@ -360,11 +359,11 @@ weekdayShort:
 campus:
   xuhui: 徐汇
   xuhuiDistrict: 徐汇区
-  fengxian: Fengxian
-  fengxianDistrict: Fengxian District
+  fengxian: 奉贤
+  fengxianDistrict: 奉贤区
 unit:
   rmb: "¥{}"
-  powerKwh: "{} kW·h"
+  powerKwh: "{} 度"
 time:
   minute: min
   hour: hour

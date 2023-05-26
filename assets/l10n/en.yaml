@@ -165,7 +165,7 @@ expense:
   lastTransaction: ¥{amount} {place}
 homepage:
   campusNetworkConnected: Campus Network Available
-  campusNetworkUnconnected: Campus Network Unconnected
+  campusNetworkUnconnected: Campus Network Unavailable
 networkChecker:
   button:
     connected: Continue
@@ -173,9 +173,9 @@ networkChecker:
     disconnected: Retry
     none: Check My Connection
   status:
-    connected: Right ! You have connected to campus network !
+    connected: Right! You have connected to campus network!
     connecting: It will take a few seconds, please ensure you have turned on the network on your device.
-    disconnected: Oops ! You can't access the campus network. Please check your network settings or use Easy Connect, and try again.
+    disconnected: Oops! You can't access the campus network. Please check your network settings or use Easy Connect, and try again.
     none: You need the access to campus network to continue. Let's check it now.
 network:
   error: Network Error
@@ -187,16 +187,15 @@ networkTool:
   title: Title
   openWlanSettingsBtn: Open WLAN settings
   noAccessTip: Unable to access network. Please check network settings on your device, and try again.
-  connectFailedError: Unable to connect to campus network. Troubleshooting:\n1. Attempt to connect to the school's Wi-Fi, \"i-SIT\",\"i-SIT-1x\" or \"eduroam\".\n2. Attempt to launch \"EasyConnect\" VPN to connect to School.\n3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.\nIf they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
+  connectionFailedError: |
+    Unable to connect to campus network. Troubleshooting:
+    1. Attempt to connect to the school's Wi-Fi, "i-SIT","i-SIT-1x" or "eduroam".
+    2. Attempt to launch "EasyConnect" VPN to connect to school.
+    3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.
+    If they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
   connectedByProxy: Connected to campus network by Http proxy.
   connectedByVpn: Connected to campus network by VPN.
   connectedByWlan: Connected to campus network by WLAN.
-  connectivityConnectFailedError: |
-    Unable to connect to campus network. Troubleshooting:
-    1. Attempt to connect to the school's Wi-Fi, "i-SIT","i-SIT-1x" or "eduroam".
-    2. Attempt to launch "EasyConnect" VPN to connect to School.
-    3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.
-    If they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
 login:
   title: Welcome!
   validateInputAccountPwdRequest: Please check the formats of account and password you entered.

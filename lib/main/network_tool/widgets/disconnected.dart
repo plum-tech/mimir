@@ -9,7 +9,7 @@ class DisconnectedBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      i18n.connectivityConnectFailedError,
+      i18n.connectionFailedError,
       textAlign: TextAlign.start,
       style: Theme.of(context).textTheme.bodyLarge,
     ).scrolled().padH(20);

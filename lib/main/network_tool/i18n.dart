@@ -17,15 +17,13 @@ class _I18n with CommonI18nMixin {
 
   String get noAccessTip => "$ns.noAccessTip".tr();
 
-  String get connectFailedError => "$ns.connectFailedError".tr();
+  String get connectionFailedError => "$ns.connectionFailedError".tr();
 
   String get connectedByProxy => "$ns.connectedByProxy".tr();
 
   String get connectedByVpn => "$ns.connectedByVpn".tr();
 
   String get connectedByWlan => "$ns.connectedByWlan".tr();
-
-  String get connectivityConnectFailedError => "$ns.connectivityConnectFailedError".tr();
 }
 
 class _Easyconnect {
