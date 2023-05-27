@@ -78,7 +78,7 @@ class InjectableWebView extends StatefulWidget {
 
 class _InjectableWebViewState extends State<InjectableWebView> {
   late WebViewController controller;
-  late WebViewCookieManager cookieManager;
+  final cookieManager = WebViewCookieManager();
 
   @override
   void initState() {
