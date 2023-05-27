@@ -45,9 +45,14 @@ class _SettingsPageState extends State<SettingsPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     final oaCredential = Auth.oaCredential;
     _passwordController.text = oaCredential?.password ?? '';
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final entries = buildEntries();
     return Scaffold(
       body: CustomScrollView(
@@ -261,6 +266,8 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
         );
+        // refresh the settings page.
+        setState(() {});
       },
     );
   }
@@ -283,7 +290,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget buildDeveloper() {
     return ListTile(
-      title: "Developer Options".text(),
+      title: i18n.developerOptions.text(),
       leading: const Icon(Icons.developer_mode_outlined),
       trailing: const Icon(Icons.navigate_next_rounded),
       onTap: () async {

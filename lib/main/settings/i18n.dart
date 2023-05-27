@@ -24,6 +24,7 @@ class _I18n with CommonI18nMixin {
   static const ns = "settings";
 
   String get title => "$ns.title".tr();
+  String get developerOptions => "$ns.developerOptions".tr();
 }
 
 class _Campus extends CampusI10n {

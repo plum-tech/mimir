@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
 import 'package:mimir/design/page/common.dart';
 import 'package:mimir/design/widgets/view.dart';
 import 'package:mimir/widgets/page_grouper.dart';
@@ -88,7 +87,7 @@ class _BoxItemListState extends State<BoxItemList> {
   Widget build(BuildContext context) {
     final box = widget.box;
     if (box.isEmpty) {
-      return const Icon(Icons.inbox_rounded).padAll(10);
+      return const Icon(Icons.inbox_outlined, size: 32,).padAll(10);
     } else {
       return buildList(context);
     }

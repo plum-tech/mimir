@@ -90,6 +90,8 @@ credential:
   relogin: Re-login
   reloginRequestDesc: Your account or password is incorrect, do you want to log in again?
   error: Credential Error
+  changePwd: Change password
+  changePwdDesc: Change saved password without re-login
   unauthorizedTip:
     title: Require Login
     everLoggedInTip: Your account or password is incorrect, please try to login again.
@@ -215,6 +217,7 @@ library:
   hotPost: HOT
 settings:
   title: Settings
+  developerOptions: Developer Options
   campus:
     title: Your Campus
     desc: Every campus has a different timetable

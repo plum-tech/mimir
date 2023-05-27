@@ -35,6 +35,10 @@ class CredentialI18n with CommonI18nMixin {
   String get formatError => "$_ns.formatError".tr();
 
   String get validateInputAccountPwdRequest => "$_ns.validateInputAccountPwdRequest".tr();
+
+  String get changePwd => "$_ns.changePwd".tr();
+
+  String get changePwdDesc => "$_ns.changePwdDesc".tr();
 }
 
 class _UnauthorizedTip {

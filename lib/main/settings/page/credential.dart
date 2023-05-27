@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mimir/credential/symbol.dart';
 import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/design/widgets/editor.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 
@@ -17,6 +18,8 @@ class CredentialPage extends StatefulWidget {
 }
 
 class _CredentialPageState extends State<CredentialPage> {
+  var showPassword = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,10 +50,10 @@ class _CredentialPageState extends State<CredentialPage> {
     if (credential == null) {
       all.add((_) => buildLogin());
     } else {
-      all.add((_) => buildCredential(credential));
+      all.add((_) => buildAccount(credential));
       all.add((_) => const Divider());
       all.add((_) => buildPassword(credential));
-      all.add((_) => buildChangePassword());
+      all.add((_) => buildChangePassword(credential));
     }
     return SliverList(
       delegate: SliverChildBuilderDelegate(
@@ -71,7 +74,7 @@ class _CredentialPageState extends State<CredentialPage> {
     );
   }
 
-  Widget buildCredential(OACredential credential) {
+  Widget buildAccount(OACredential credential) {
     return ListTile(
       title: CredentialI18n.instance.oaAccount.text(),
       subtitle: credential.account.text(),
@@ -84,8 +87,6 @@ class _CredentialPageState extends State<CredentialPage> {
       },
     );
   }
-
-  var showPassword = false;
 
   Widget buildPassword(OACredential credential) {
     return AnimatedSize(
@@ -104,13 +105,17 @@ class _CredentialPageState extends State<CredentialPage> {
     );
   }
 
-  Widget buildChangePassword() {
+  Widget buildChangePassword(OACredential origin) {
     return ListTile(
-      title: "Change password".text(),
-      subtitle: "Change saved password without re-login".text(),
+      title: CredentialI18n.instance.changePwd.text(),
+      subtitle: CredentialI18n.instance.changePwdDesc.text(),
       leading: const Icon(Icons.key_rounded),
-      onTap: () {
-
+      onTap: () async {
+        final newPwd = await Editor.showStringEditor(context, CredentialI18n.instance.oaPwd, origin.password);
+        if (newPwd != origin.password) {
+          Auth.oaCredential = origin.copyWith(password: newPwd);
+          setState(() {});
+        }
       },
     );
   }
