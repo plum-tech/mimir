@@ -162,7 +162,7 @@ expense:
   toastLoadSuccessful: Successful!
   toastLoading: Loading...
   total: Total
-  lastTransaction: ¥{amount} {place}
+  lastTransaction: "¥{amount} {place}"
 homepage:
   campusNetworkConnected: Campus Network Available
   campusNetworkUnconnected: Campus Network Unavailable
@@ -256,9 +256,7 @@ settings:
     title: Wipe Data & Log out
     desc: Wipe all data made by Kite and log out.
     request: Wipe ALL Data
-    requestDesc: ALL data, such as login credentials and timetable imported, except webview cache, will be wiped permanently.
-  version:
-    title: Current Version
+    requestDesc: ALL data, such as login credentials and timetable imported, will be wiped permanently.
 localStorage:
   title: Local Storage Editor
   selectBoxTip: Please select a box first.
@@ -300,7 +298,7 @@ timetable:
     connectivityCheckerDesc: You need access campus network before importing a new Timetable. Let's check it.
     selectSemesterTip: Please select a semester first.
     endTip: Please enter the info.
-    failed: Import Error
+    failed: Import Failed
     failedDesc: Can't import the timetable, please try again.
     failedTip: Failed to import, please try again.
     importing: Trying to fetch the timetable...

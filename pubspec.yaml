@@ -143,8 +143,6 @@ flutter:
     - assets/timetable/
     - assets/course/
     - assets/edu_email/
-    - assets/scanner/
-    - assets/scanner/beep.mp3
     - assets/yellow_pages.json
     - assets/room_list.json
     - assets/webview/

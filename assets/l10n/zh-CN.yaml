@@ -69,7 +69,7 @@ application:
   desc: |
     本功能基于 "上应一网通办"。
     对于绝大多数业务，即使你在平台上已完成申请，仍要去现场办理。
-  filerInfrequentlyUsed: Filter Infrequently-used
+  filerInfrequentlyUsed: 过滤不常用功能
   navigation:
     all: 全部
     mailbox: 站内信
@@ -118,7 +118,7 @@ eduEmail:
   text: 正文
 examResult:
   noResult: 暂无考试结果记录
-  lessonNotEvaluated: No result of examination
+  lessonNotEvaluated: 未评教
   teacherEvalTitle: 评教
   lessonEvaluationBtn: 课程评价
   gpaSelectedAndTotalLabel: "已选 {count} 门 | 绩点: {point}"
@@ -154,15 +154,15 @@ expense:
   categories: 消费名目
   fetchingRecordTip: 消费记录获取中
   fetchingTip: 正在从学校获取消费记录，请稍等，速度取决于学校的服务器。
-  incomeStatistics: "Income: ¥{}"
-  spentStatistics: "Outcome: ¥{}"
+  incomeStatistics: "收入: ¥{}"
+  spentStatistics: "支出: ¥{}"
   refreshMenuButton: 刷新
   statistics: 消费统计
   toastLoadFailed: 网络异常，请稍后重试
   toastLoadSuccessful: 成功获取最新数据
   toastLoading: 正在获取最新数据……
   total: 总计
-  lastTransaction: ¥{amount} {place}
+  lastTransaction: "¥{amount} {place}"
 homepage:
   campusNetworkConnected: 已连接校园网
   campusNetworkUnconnected: 未连接校园网
@@ -237,77 +237,75 @@ settings:
     desc: 显示更加详细的异常堆栈追踪信息
   httpProxy:
     title: 启用 Http 代理
-    desc: Connect to the campus network by Http proxy
-    global: Use as global proxy
-    globalDesc: For debugging, exclude Webview
-    proxyAddress: Proxy Address
+    desc: 通过 Http 代理连接校园网
+    global: 代理全部请求
+    globalDesc: 调试用，不包含 Webview 发出的请求
+    proxyAddress: 代理地址
   language:
     title: 语言
   localStorage:
     title: 本地存储
     desc: 管理在此设备上存储的数据
   reload:
-    title: Reload
-    desc: Re-initialize all modules
+    title: 重新加载
+    desc: 重新初始化所有模块
   testConnect2School:
-    title: Test Connectivity
-    desc: Test connect with school
+    title: 测试连接
+    desc: 检查与校园网的连接
   wipeData:
-    title: Wipe Data & Log out
-    desc: Wipe all data made by Kite and log out.
-    request: Wipe ALL Data
-    requestDesc: ALL data, such as login credentials and timetable imported, except webview cache, will be wiped permanently.
-  version:
-    title: Current Version
+    title: 擦除数据并登出
+    desc: 擦除所有数据并登出当前 OA 账号
+    request: 擦除所有数据
+    requestDesc: 此操作将永久擦除你的登录凭据，缓存和其他信息，如已导入的课程表。
 localStorage:
-  title: Local Storage Editor
-  selectBoxTip: Please select a box first.
+  title: 本地存储编辑器
+  selectBoxTip: 请先选择一个盒子。
   clearBoxDesc: 确定清空这个盒子里的数据吗？
-  deleteItemDesc: 确定删除这个键值对吗?
+  deleteItemDesc: 确定删除这个键值对吗？
   emptyValueDesc: 确定将这个键值设空为对吗？
 oaAnnounce:
   attachmentTip:
-    one: Attachment
-    other: Attachments
-  text: Text
-  downloadCompleted: Download Completed
-  publishTime: Publish Time
-  publishingDepartment: Department
+    one: 附件
+    other: 附件
+  text: 公告正文
+  downloadCompleted: 下载完成
+  publishTime: 发布时间
+  publishingDepartment: 发布部门
 personalization:
-  themeColor: Theme Color
+  themeColor: 主题色
   wallpaper:
-    title: Wallpaper
-    desc: Customize the homepage wallpaper
+    title: 壁纸
+    desc: 自定义主页的壁纸
 timetable:
   mine:
-    title: My Timetables
-    edit: Edit
-    delete: Delete
-    preview: Preview
-    deleteRequest: Confirm to delete?
-    deleteRequestDesc: You will lose this timetable permanently.
-    emptyTip: Let's import a new timetable!
-    setToDefault: Set to Default
-    noDesc: No description...
+    title: 我的课程表
+    edit: 编辑
+    delete: 删除
+    preview: 预览
+    deleteRequest: 确认删除？
+    deleteRequestDesc: 这个课程表将被永久删除。
+    emptyTip: 快去导入一个课程表吧!
+    setToDefault: 设为默认
+    noDesc: 暂无介绍。
   detail:
-    descFormTitle: Description
-    nameFormTitle: Name
-    classId: "Class Code {}"
-    courseId: "Course Code {}"
+    descFormTitle: 描述
+    nameFormTitle: 名称
+    classId: "教学班 {}"
+    courseId: "课程代码 {}"
   import:
-    title: Import Timetable
-    button: Try Import
-    connectivityCheckerDesc: You need access campus network before importing a new Timetable. Let's check it.
-    selectSemesterTip: Please select a semester first.
-    endTip: Please enter the info.
-    failed: Import Error
-    failedDesc: Can't import the timetable, please try again.
-    failedTip: Failed to import, please try again.
-    importing: Trying to fetch the timetable...
-    timetableInfo: Timetable Info
-    defaultName: "{semester}, {yearStart}-{yearEnd} Timetable"
+    title: 导入课程表
+    button: 尝试导入
+    connectivityCheckerDesc: 在导入课程表之前，需要先检查你是否能访问校园网。
+    selectSemesterTip: 请先选择学年与学期。
+    endTip: 请完善课程表的信息。
+    failed: 导入失败
+    failedDesc: 无法导入这个课程表, 请稍后再试。
+    failedTip: 导入失败, 请稍后再试。
+    importing: 正在尝试获取课程表的数据……
+    timetableInfo: 课程表信息
+    defaultName: "{yearStart}-{yearEnd}年 {semester} 课程表"
   edit:
-    setStartDate: Set Start Date
+    setStartDate: 设置起始日期
   weekStep:
     all: 周
     odd: 单周
@@ -360,16 +358,16 @@ unit:
   rmb: "¥{}"
   powerKwh: "{} 度"
 time:
-  minute: min
-  hour: hour
-  hourMinuteFormat: "{hour} h {minute} min"
-  minuteFormat: "{} min"
-  hourFormat: "{} h"
+  minute: 分钟
+  hour: 小时
+  hourMinuteFormat: "{hour}小时{minute}分钟"
+  minuteFormat: "{}分钟"
+  hourFormat: "{}小时"
 open: 打开
 delete: 删除
 confirm: 确定
 notNow: 再等等
-error: Error
+error: 错误
 ok: 好的
 close: 关闭
 submit: 提交
@@ -385,8 +383,8 @@ failed: 失败
 download: 下载
 fetching: 获取中
 downloading: 下载中
-notFound404: 404 Not Found
+notFound404: 404 找不到页面
 warning: 警告
-exceptionInfo: Exception Info
+exceptionInfo: 异常信息
 untitled: 无标题
-congratulations: Congratulations
+congratulations: 恭喜
