@@ -4,85 +4,85 @@ language:
   zh_TW: 繁體中文
 miniApp:
   activity:
-    name: Activities
-    desc: The latest Second Class activities
+    name: 第二課堂
+    desc: 我的第二課堂學分和活動
   application:
-    name: Application
-    desc: What should I prepare for applications?
+    name: 應網辦
+    desc: 辦事要準備什麼材料呢?
   eduEmail:
-    name: Edu Email
-    desc: Check your educational email
+    name: Edu 電郵
+    desc: 查看 Edu 電郵裡的郵件
   elecBill:
-    name: Electricity Bill
-    desc: Dormitory balance and ⚡ history
+    name: 查電費
+    desc: 宿舍電費餘額與用電記錄
   examArr:
-    name: Exam Arrangement
-    desc: Recent exam arrangement
+    name: 考試安排
+    desc: 查看我最近的考試安排
   examResult:
-    name: Exam Result
-    desc: Don't stop until you're proud
+    name: 成績
+    desc: 天才出於勤奮
   expense:
-    name: Expense Tracker
-    desc: School card shopping history
+    name: 查消費
+    desc: 校園卡的消費記錄
   library:
-    name: Library
-    desc: Reading is thinking
+    name: 圖書館
+    desc: 館藏圖書與借閱情況
   oaAnnouncement:
-    name: OA Announcement
-    desc: School announcements
+    name: OA 公告
+    desc: 查看學校的公告
   separator:
-    name: Separator
-    desc: For grouping functions
+    name: 分隔號
+    desc: 看什麼看！我是個分隔號
   timetable:
-    name: Timetable
-    desc: School timetable
+    name: 課程表
+    desc: 查看你的每週課表
   yellowPages:
-    name: Yellow Pages
-    desc: Contact school
+    name: 學校黃頁
+    desc: 學校聯絡人黃頁
 activity:
   navigation:
-    all: All
-    mine: Mine
+    all: 活動
+    mine: 我的
   apply:
-    btn: Apply
-    replyTip: Reply from school
-    applyRequest: Apply
-    applyRequestDesc: Confirm to apply this activity?
+    btn: 申請
+    replyTip: 校方回信
+    applyRequest: 申請
+    applyRequestDesc: 確認要申請這個活動嗎？
   application:
-    id: Application ID
-    time: Application Time
-  id: Activity ID
-  contactInfo: Contact Info
-  detailEmptyTip: No detail given.
-  details: Activity Details
-  duration: Duration
-  location: Location
-  myScoreTitle: Second Class Score
-  organizer: Organizer
-  principal: Principal
-  signInTime: Sign-in
-  signOutTime: Sign-out
-  startTime: Start Time
-  tags: Tags
-  undertaker: Undertaker
+    id: 申請 ID
+    time: 申請時間
+  id: 活動 ID
+  contactInfo: 联络人
+  detailEmptyTip: 暫無資訊。
+  details: 活動詳情
+  duration: 活動時長
+  location: 活動地點
+  myScoreTitle: 第二課堂學分
+  organizer: 組織者
+  principal: 主辦方
+  signInTime: 簽到時間
+  signOutTime: 簽退時間
+  startTime: 開始時間
+  tags: 標籤
+  undertaker: 承辦人
 application:
   desc: |
-    This function is based on "上应一网通办".
-    For most of types, you have to do the necessary procedure on the spot although you submitted an application online.
-  filerInfrequentlyUsed: Filter Infrequently-used
+    此功能基於 "上应一网通办"。
+    就大多數業務而言，即使你已在平台上完成申請，依舊需要到現場辦理。
+  filerInfrequentlyUsed: 篩選不常用的
   navigation:
-    all: All
-    mailbox: Mailbox
+    all: 申請
+    mailbox: 站內信
   mailbox:
-    title: My Mailbox
-    emptyTip: Here is nothing.
-    recent: Recent
+    title: 我的站內信
+    emptyTip: 一只空郵箱。
+    recent: 最近
 captcha:
-  title: Captcha
-  enterHint: Please enter captcha
-  emptyInputError: Captcha is empty.
+  title: 驗證碼
+  enterHint: 請鍵入驗證碼
+  emptyInputError: 未鍵入驗證碼。
 credential:
-  studentId: Student ID
+  studentId: 學號
   account: Account
   oaAccount: OA Account
   oaPwd: OA Password
@@ -90,6 +90,8 @@ credential:
   relogin: Re-login
   reloginRequestDesc: Your account or password is incorrect, do you want to log in again?
   error: Credential Error
+  changePwd: Change password
+  changePwdDesc: Change saved password without re-login
   unauthorizedTip:
     title: Require Login
     everLoggedInTip: Your account or password is incorrect, please try to login again.
@@ -111,11 +113,11 @@ elecBill:
   updateTime: Last Update
   lastBalance: "Last ¥{balance} #{room}"
 eduEmail:
-  title: My Email
-  noContent: No Content
-  noSubject: No Subject
-  pluralSenderTailing: ...
-  text: Text
+  title: 我的電郵
+  noContent: 無內容
+  noSubject: 無主題
+  pluralSenderTailing: 等
+  text: 正文
 examResult:
   noResult: No result of examination
   lessonNotEvaluated: No result of examination
@@ -162,7 +164,7 @@ expense:
   toastLoadSuccessful: Successful!
   toastLoading: Loading...
   total: Total
-  lastTransaction: ¥{amount} {place}
+  lastTransaction: "¥{amount} {place}"
 homepage:
   campusNetworkConnected: Campus Network Available
   campusNetworkUnconnected: Campus Network Unavailable
@@ -212,60 +214,58 @@ login:
   loginBtn: Login
   formatError: Format Error
 library:
-  hotPost: HOT
+  hotPost: 熱門
 settings:
-  title: Settings
+  title: 設定
+  developerOptions: 開發者選項
   campus:
-    title: Your Campus
-    desc: Every campus has a different timetable
+    title: 你的校區
+    desc: 不同校區有不同的時間表
   studentId:
-    studentIdCopy2ClipboardTip: Your student ID is copied.
+    studentIdCopy2ClipboardTip: 你的學號被複製到剪貼板啦。
   changeOaPwd:
-    title: Change OA Password
-    desc: Change the OA password used for logging in Kite
+    title: 修改 OA 密碼
+    desc: 修改用於自動登入學校業務的 OA 密碼
   clearCache:
-    title: Clear Cache
-    desc: Clear the offline cache made by Kite during use.
-    request: Confirm to clear the cache? To reload them, you need connect to campus network again.
+    title: 清空快取
+    desc: 清空使用過程中產生的離線緩存
+    request: 確認清空快取嗎？為加載它們，你必須重新連線校園網路。
   darkMode:
-    title: Brightness
-    dark: Dark Mode
-    light: Light Mode
-    followSystem: Following System
+    title: 亮度
+    dark: 深色主題
+    light: 亮色主題
+    followSystem: 跟隨系統
   detailedXcpDialog:
-    title: Enable detailed exception dialog
-    desc: Detailed stacktrace will be shown
+    title: 開啟詳細異常對話框
+    desc: 顯示更加詳細的異常堆棧追蹤資訊
   httpProxy:
-    title: Enable Http Proxy
-    desc: Connect to the campus network by Http proxy
-    global: Use as global proxy
-    globalDesc: For debugging, exclude Webview
-    proxyAddress: Proxy Address
+    title: 開啟 Http Proxy
+    desc: 開啟 Http Proxy 連線校園網路
+    global: 用於全局
+    globalDesc: 调试用，不包含 Webview 发出的请求
+    proxyAddress: Proxy
   language:
-    title: Language
+    title: 語言
   localStorage:
-    title: Local Storage
-    desc: Manage storage on your device.
+    title: 本機儲存
+    desc: 管理在本裝置上的儲存
   reload:
-    title: Reload
-    desc: Re-initialize all modules
+    title: 重新載入
+    desc: 重新初始化所有模塊
   testConnect2School:
-    title: Test Connectivity
-    desc: Test connect with school
+    title: 測試連線校園網路
+    desc: 檢查本裝置與校園網路的連線情況
   wipeData:
-    title: Wipe Data & Log out
+    title: 擦除資料 & 登出
     desc: Wipe all data made by Kite and log out.
     request: Wipe ALL Data
-    requestDesc: ALL data, such as login credentials and timetable imported, except webview cache, will be wiped permanently.
-  version:
-    title: Current Version
+    requestDesc: ALL data, such as login credentials and timetable imported, will be wiped permanently.
 localStorage:
   title: Local Storage Editor
   selectBoxTip: Please select a box first.
-  clearBoxDesc: Confirm to clear this box pair?
+  clearBoxDesc: Confirm to clear this box?
   deleteItemDesc: Confirm to delete this key-value pair?
   emptyValueDesc: Confirm to empty this key-value pair?
-  emptyContent: Empty
 oaAnnounce:
   attachmentTip:
     one: Attachment
@@ -281,42 +281,42 @@ personalization:
     desc: Customize the homepage wallpaper
 timetable:
   mine:
-    title: My Timetables
-    edit: Edit
-    delete: Delete
-    preview: Preview
-    deleteRequest: Confirm to delete?
-    deleteRequestDesc: You will lose this timetable permanently.
-    emptyTip: Let's import a new timetable!
-    setToDefault: Set to Default
-    noDesc: No description...
+    title: 我的課程表
+    edit: 編輯
+    delete: 刪除
+    preview: 預覽
+    deleteRequest: 確認刪除
+    deleteRequestDesc: 你會失去這個課程表，永久地。
+    emptyTip: 快去導入一張新的課程表吧！
+    setToDefault: 設為預設
+    noDesc: 沒有說明……
   detail:
-    descFormTitle: Description
-    nameFormTitle: Name
-    classId: "Class Code {}"
-    courseId: "Course Code {}"
+    descFormTitle: 說明
+    nameFormTitle: 名稱
+    classId: "班级 {}"
+    courseId: "课程代码 {}"
   import:
-    title: Import Timetable
-    button: Try Import
-    connectivityCheckerDesc: You need access campus network before importing a new Timetable. Let's check it.
-    selectSemesterTip: Please select a semester first.
-    endTip: Please enter the info.
-    failed: Import Error
-    failedDesc: Can't import the timetable, please try again.
-    failedTip: Failed to import, please try again.
-    importing: Trying to fetch the timetable...
-    timetableInfo: Timetable Info
-    defaultName: "{semester}, {yearStart}-{yearEnd} Timetable"
+    title: 導入課程表
+    button: 嘗試導入
+    connectivityCheckerDesc: 你需要訪問校園網路，才能導入一個新的課程表。現在就開始檢查吧。
+    selectSemesterTip: 請先選擇學年與學期
+    endTip: 請補充課程表的資訊。
+    failed: 導入失敗
+    failedDesc: 無法導入課程表，請之後再試。
+    failedTip: 導入失敗，請之後再試。
+    importing: 正在擷取課程表數據……
+    timetableInfo: 課程表資訊
+    defaultName: "{semester} {yearStart}-{yearEnd} 課程表"
   edit:
-    setStartDate: Set Start Date
+    setStartDate: 設定起始日期
   weekStep:
-    all: wk
-    odd: odd wk
-    even: even wk
-  jump: Jump
-  findToday: findToday
-  startDate: "Start with: {}"
-  weekOrderedName: "Week {}"
+    all: 周
+    odd: 單週
+    even: 雙週
+  jump: 前往
+  findToday: 尋找今天
+  startDate: "起始於: {}"
+  weekOrderedName: "第 {} 周"
   freeTip:
     dayTip: It's a free day!
     isTodayTip: "Have a nice day! 🎉"
@@ -326,8 +326,7 @@ timetable:
     findNearestWeekWithClass: Find a week with class
     findNearestDayWithClass: Find a day with class
 scanner:
-  barcodeNotRecognized: No Barcode
-  barcodeRecognized: Barcode Recognized
+  barcodeNotRecognized: No Barcode or QR code
 semester:
   all: Full Year
   term1: Fall
@@ -338,24 +337,24 @@ greeting:
     one: 1 Day
     other: "{} Days"
 weekday:
-  0: Monday
-  1: Tuesday
-  2: Wednesday
-  3: Thursday
-  4: Friday
-  5: Saturday
-  6: Sunday
+  0: 週一
+  1: 週二
+  2: 週三
+  3: 週四
+  4: 週五
+  5: 週六
+  6: 週日
 weekdayShort:
-  0: MON
-  1: TUE
-  2: WED
-  3: THU
-  4: FRI
-  5: SAT
-  6: SUN
+  0: 一
+  1: 二
+  2: 三
+  3: 四
+  4: 五
+  5: 六
+  6: 日
 campus:
-  xuhui: Xuhui
-  xuhuiDistrict: Xuhui District
+  xuhui: 徐匯
+  xuhuiDistrict: 徐匯區
   fengxian: Fengxian
   fengxianDistrict: Fengxian District
 unit:
@@ -377,18 +376,18 @@ close: Close
 submit: Submit
 cancel: Cancel
 save: Save
-yes: Yes
-refresh: Refresh
-back: Back
+yes: 好
+refresh: 重新整理
+back: 後退
 clear: Clear
 continue: Continue
-unknown: Unknown
-failed: Failed
+unknown: 未知
+failed: 失敗
 download: Download
 fetching: Fetching
-downloading: Downloading
-notFound404: 404 Not Found
-warning: Warning
-exceptionInfo: Exception Info
-untitled: Untitled
+downloading: 下載中
+notFound404: 404 找不到頁面
+warning: 警告
+exceptionInfo: 異常資訊
+untitled: 無標題
 congratulations: Congratulations

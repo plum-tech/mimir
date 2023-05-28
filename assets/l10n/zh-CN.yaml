@@ -4,14 +4,14 @@ language:
   zh_TW: 繁體中文
 miniApp:
   activity:
-    name: 活动
+    name: 第二课堂
     desc: 我的第二课堂学分和活动
   application:
     name: 应网办
     desc: 看看办事要准备什么材料？
   eduEmail:
-    name: 学校邮箱
-    desc: 查看学校邮箱里的邮件
+    name: 教育邮箱
+    desc: 查看教育邮箱里的邮件
   elecBill:
     name: 查电费
     desc: 宿舍电费余额与用电记录

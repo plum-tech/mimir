@@ -225,10 +225,10 @@ settings:
     studentIdCopy2ClipboardTip: Your student ID is copied.
   changeOaPwd:
     title: Change OA Password
-    desc: Change the OA password used for auto-logging in school business.
+    desc: Change the OA password used for auto-logging in school business
   clearCache:
     title: Clear Cache
-    desc: Clear the offline cache during use.
+    desc: Clear the offline cache during use
     request: Confirm to clear the cache? To reload them, you need connect to campus network again.
   darkMode:
     title: Brightness
@@ -248,7 +248,7 @@ settings:
     title: Language
   localStorage:
     title: Local Storage
-    desc: Manage storage on your device.
+    desc: Manage storage on your device
   reload:
     title: Reload
     desc: Re-initialize all modules
@@ -257,7 +257,7 @@ settings:
     desc: Test connect with school
   wipeData:
     title: Wipe Data & Log out
-    desc: Wipe all data made by Kite and log out.
+    desc: Wipe all data made by Kite and log out
     request: Wipe ALL Data
     requestDesc: ALL data, such as login credentials and timetable imported, will be wiped permanently.
 localStorage:
