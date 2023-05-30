@@ -6,9 +6,7 @@ import 'package:mimir/util/logger.dart';
 class SisSession extends ISession {
   final SsoSession ssoSession;
 
-  SisSession(this.ssoSession) {
-    Log.info('初始化 EduSession');
-  }
+  SisSession(this.ssoSession);
 
   Future<void> _refreshCookie() async {
     await ssoSession.request('http://jwxt.sit.edu.cn/sso/jziotlogin', ReqMethod.get);

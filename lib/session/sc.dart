@@ -1,12 +1,9 @@
 import '../network/session.dart';
-import '../util/logger.dart';
 
 class ScSession extends ISession {
   final ISession _session;
 
-  ScSession(this._session) {
-    Log.info('初始化 ScSession');
-  }
+  ScSession(this._session);
 
   Future<void> _refreshCookie() async {
     await _session.request(

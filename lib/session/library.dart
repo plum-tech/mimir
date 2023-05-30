@@ -7,16 +7,13 @@ import 'package:mimir/exception/session.dart';
 import 'package:mimir/network/session.dart';
 import 'package:mimir/session/common.dart';
 import 'package:mimir/util/dio_utils.dart';
-import 'package:mimir/util/logger.dart';
 
 
 class LibrarySession extends DefaultDioSession {
   static const _opacUrl = 'http://210.35.66.106/opac';
   static const _pemUrl = '$_opacUrl/certificate/pem';
   static const _doLoginUrl = '$_opacUrl/reader/doLogin';
-  LibrarySession(Dio dio) : super(dio) {
-    Log.info('初始化LibrarySession');
-  }
+  LibrarySession(Dio dio) : super(dio);
 
   Future<Response> login(String username, String password) async {
     final response = await _login(username, password);

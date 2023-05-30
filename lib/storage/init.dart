@@ -16,7 +16,6 @@ export 'storage/index.dart';
 
 class Kv {
   static late ThemeSettingDao theme;
-  static late AuthSettingDao auth;
   static late AdminSettingDao admin;
   static late NetworkSettingDao network;
   static late JwtDao jwt;
@@ -32,7 +31,6 @@ class Kv {
     required Box<dynamic> kvStorageBox,
   }) async {
     Kv.kvStorageBox = kvStorageBox;
-    Kv.auth = AuthSettingStorage(kvStorageBox);
     Kv.admin = AdminSettingStorage(kvStorageBox);
     Kv.home = HomeSettingStorage(kvStorageBox);
     Kv.theme = ThemeSettingStorage(kvStorageBox);

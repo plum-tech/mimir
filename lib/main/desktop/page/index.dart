@@ -6,7 +6,6 @@ import 'package:mimir/events/events.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/module/login/i18n.dart';
-import 'package:mimir/module/login/init.dart';
 import 'package:mimir/module/timetable/using.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rettulf/rettulf.dart';
@@ -91,11 +90,6 @@ class _HomepageState extends State<Homepage> {
 
   Future<void> _doLogin(BuildContext context, OACredential oaCredential) async {
     await HomeInit.ssoSession.loginPassive(oaCredential);
-
-    if (Kv.auth.personName == null) {
-      final personName = await LoginInit.authServerService.getPersonName();
-      Kv.auth.personName = personName;
-    }
   }
 
   void _showCheckNetwork(BuildContext context, {Widget? title}) {
@@ -133,7 +127,7 @@ class _HomepageState extends State<Homepage> {
           // 如果是网络问题, 提示检查网络.
           _showCheckNetwork(context, title: _i18n.network.error.text());
         }
-      } catch (e, s) {}
+      } catch (error) {}
     }
     if (HomeInit.ssoSession.isOnline) {
       Global.eventBus.fire(EventTypes.onHomeRefresh);

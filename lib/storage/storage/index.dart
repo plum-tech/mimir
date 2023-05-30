@@ -1,4 +1,3 @@
-export 'auth.dart';
 export 'home.dart';
 export 'jwt.dart';
 export 'login.dart';

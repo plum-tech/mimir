@@ -4,8 +4,6 @@ import 'dart:typed_data';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:event_bus/event_bus.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:mimir/app.dart';
 import 'package:mimir/credential/dao/credential.dart';
@@ -13,9 +11,7 @@ import 'package:mimir/design/symbol.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/global/cookie_init.dart';
 import 'package:mimir/global/dio_initializer.dart';
-import 'package:mimir/route.dart';
 import 'package:mimir/session/sso/session.dart';
-import 'package:mimir/storage/dao/auth.dart';
 
 import 'i18n.dart';
 import '../widgets/captcha_box.dart';
@@ -76,7 +72,6 @@ class Global {
   }
 
   static Future<void> init({
-    required AuthSettingDao authSetting,
     required CredentialDao credentials,
     bool? debugNetwork,
     required Box cookieBox,

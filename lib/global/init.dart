@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:mimir/credential/init.dart';
 import 'package:mimir/global/desktop_init.dart';
 import 'package:mimir/global/global.dart';
@@ -8,7 +9,6 @@ import 'package:mimir/migration/migrations.dart';
 import 'package:mimir/module/symbol.dart';
 import 'package:mimir/session/sis.dart';
 import 'package:mimir/storage/init.dart';
-import 'package:mimir/util/logger.dart';
 import 'package:mimir/version.dart';
 import 'package:path/path.dart' as path;
 import 'package:universal_platform/universal_platform.dart';
@@ -21,8 +21,9 @@ class Init {
     try {
       await _init(debugNetwork: debugNetwork);
     } on Exception catch (error, stackTrace) {
-      try {} catch (e) {
-        Log.error([error, stackTrace]);
+      if (kDebugMode) {
+        print(error);
+        print(stackTrace);
       }
     }
   }
@@ -52,7 +53,6 @@ class Init {
     );
 
     await Global.init(
-      authSetting: Kv.auth,
       debugNetwork: debugNetwork ?? Kv.network.isGlobalProxy,
       cookieBox: HiveBoxInit.cookiesBox,
       credentials: CredentialInit.credential,
