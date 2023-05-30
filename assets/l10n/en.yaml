@@ -120,7 +120,7 @@ eduEmail:
   text: Text
 examResult:
   noResult: No result of examination
-  lessonNotEvaluated: No result of examination
+  lessonNotEvaluated: Not-eval
   teacherEvalTitle: Teacher Evaluation
   lessonEvaluationBtn: Lesson Eval
   gpaSelectedAndTotalLabel: "Point: {point} of {count} selected"
@@ -200,7 +200,7 @@ networkTool:
   connectedByWlan: Connected to campus network by WLAN.
 login:
   title: Welcome!
-  validateInputAccountPwdRequest: Please check the format of account and password you entered.
+  validateInputAccountPwdRequest: Please check the account and password you entered.
   credentialsValidatedTip: Account and password are correct
   accountOrPwdIncorrectTip: The account or password is incorrect. Please check them and try again.
   accountHint: Student ID/Work number
@@ -265,7 +265,7 @@ localStorage:
   selectBoxTip: Please select a box first.
   clearBoxDesc: Confirm to clear this box?
   deleteItemDesc: Confirm to delete this key-value pair?
-  emptyValueDesc: Confirm to empty this key-value pair?
+  emptyValueDesc: Confirm to set this key-value pair to null?
 oaAnnounce:
   attachmentTip:
     one: Attachment

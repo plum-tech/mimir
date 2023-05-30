@@ -83,35 +83,35 @@ captcha:
   emptyInputError: 未鍵入驗證碼。
 credential:
   studentId: 學號
-  account: Account
-  oaAccount: OA Account
-  oaPwd: OA Password
-  pwd: Password
-  relogin: Re-login
-  reloginRequestDesc: Your account or password is incorrect, do you want to log in again?
-  error: Credential Error
-  changePwd: Change password
-  changePwdDesc: Change saved password without re-login
+  account: 帳戶
+  oaAccount: OA 帳戶
+  oaPwd: OA 密碼
+  pwd: 密碼
+  relogin: 重新登入
+  reloginRequestDesc: 你的賬戶或密碼不正確，確認重新登入嗎？
+  error: 登入憑證錯誤
+  changePwd: 修改密码
+  changePwdDesc: 修改保存的密碼(無需重新登入)
   unauthorizedTip:
-    title: Require Login
-    everLoggedInTip: Your account or password is incorrect, please try to login again.
-    neverLoggedInTip: You have to login to perform this.
+    title: 需要登入
+    everLoggedInTip: 你的賬戶或密碼不正確，請重新登入。
+    neverLoggedInTip: 你必須先登入才能繼續。
 easyconnect:
-  launchBtn: Launch EasyConnect
-  launchFailed: Launch Failed
-  launchFailedDesc: Failed to launch EasyConnect, have you installed it or just download it now?
+  launchBtn: 啟用 EasyConnect
+  launchFailed: 啟動失敗
+  launchFailedDesc: 無法為你啟動 EasyConnect，確保你安裝了它，或是現在開始下載？
 elecBill:
   navigation:
-    bill: Bill
-    search: Search
-  title: "Bill of #{room}"
-  balance: Balance
-  content: "last: ¥{balance} Room {room}"
-  initialTip: Please enter your room number first
-  remainingPower: Remaining
-  roomNumber: Room
-  updateTime: Last Update
-  lastBalance: "Last ¥{balance} #{room}"
+    bill: 電費
+    search: 搜尋
+  title: "#{room} 的賬單"
+  balance: 可用餘額
+  content: "¥{amount} {place}"
+  initialTip: 請先鍵入你的房間號
+  remainingPower: 可用電量
+  roomNumber: 房号
+  updateTime: 最後更新
+  lastBalance: "上次 ¥{balance} {room}室"
 eduEmail:
   title: 我的電郵
   noContent: 無內容
@@ -119,100 +119,100 @@ eduEmail:
   pluralSenderTailing: 等
   text: 正文
 examResult:
-  noResult: No result of examination
-  lessonNotEvaluated: No result of examination
-  teacherEvalTitle: Teacher Evaluation
-  lessonEvaluationBtn: Lesson Eval
-  gpaSelectedAndTotalLabel: "Point: {point} of {count} selected"
-  gpaPointLabel: "Point of {type}: {point}"
-  compulsory: Compulsory
-  credit: Credit
-  elective: Elective
+  noResult: 暫無考試結果。
+  lessonNotEvaluated: 需評教
+  teacherEvalTitle: 教師評價
+  lessonEvaluationBtn: 課程評價
+  gpaSelectedAndTotalLabel: "已選 {count} 門 | 績點: {point}"
+  gpaPointLabel: "{type} | 績點: {point}"
+  compulsory: 必修
+  credit: 學分
+  elective: 選修
 examArr:
-  endTime: End Time
-  isRetake: Is Retake
-  location: Location
-  noExamThisSemester: No exam in this semester.
-  resultBePatientLabel: Please be patient :)
-  resultNoResult: No result record
-  seatNumber: Seat No.
-  startTime: Start Time
+  endTime: 結束時間
+  isRetake: 是否重修
+  location: 地點
+  noExamThisSemester: 此學期無考試。
+  resultBePatientLabel: 請耐心等候。
+  resultNoResult: 無成績記錄
+  seatNumber: 座位號
+  startTime: 開始時間
 expense:
   navigation:
-    bill: Bill
-    statistics: Statistics
+    bill: 賬單
+    statistics: 統計
   type:
-    consume: Consume
-    coffee: Café
-    food: Canteen
-    store: Grocery Shopping
-    water: Hot Water
-    library: Library
-    shower: Shower
-    topUp: Top Up
-    subsidy: Subsidy
-    other: Stuff
-  balanceInCard: "¥{} in Card"
-  categories: Categories
-  fetchingRecordTip: Fetching expense record
-  fetchingTip: Fetching expense records from school... Please wait a minute, the network speed depends on the school's server.
-  incomeStatistics: "Income: ¥{}"
-  spentStatistics: "Outcome: ¥{}"
-  refreshMenuButton: Force Refresh
-  statistics: Statistics
-  toastLoadFailed: Network error
-  toastLoadSuccessful: Successful!
-  toastLoading: Loading...
-  total: Total
+    consume: 消費
+    coffee: 咖啡
+    food: 食堂
+    store: 超商
+    water: 熱水
+    library: 圖書館
+    shower: 洗浴
+    topUp: 充值
+    subsidy: 津貼
+    other: 雜項
+  balanceInCard: "卡內餘額 ¥{}"
+  categories: 類別
+  fetchingRecordTip: 取回消費記錄中
+  fetchingTip: 從學校取回消費記錄中……請稍等, 網路速度有學校伺服器有關。
+  incomeStatistics: "入賬: ¥{}"
+  spentStatistics: "消費: ¥{}"
+  refreshMenuButton: 重新整理
+  statistics: 消費統計
+  toastLoadFailed: 網路錯誤
+  toastLoadSuccessful: 成功獲取最新數據
+  toastLoading: 正在加載……
+  total: 總計
   lastTransaction: "¥{amount} {place}"
 homepage:
-  campusNetworkConnected: Campus Network Available
-  campusNetworkUnconnected: Campus Network Unavailable
+  campusNetworkConnected: 已連線校園網路
+  campusNetworkUnconnected: 未連線校園網路
 networkChecker:
   button:
-    connected: Continue
-    connecting: Checking...
-    disconnected: Retry
-    none: Check My Connection
+    connected: 繼續
+    connecting: 檢查中……
+    disconnected: 重試
+    none: 檢查我的連線
   status:
-    connected: Right! You have connected to campus network!
-    connecting: It will take a few seconds, please ensure you have turned on the network on your device.
-    disconnected: Oops! You can't access the campus network. Please check your network settings or use Easy Connect, and try again.
-    none: You need the access to campus network to continue. Let's check it now.
+    connected: 好喔！你能夠訪問校園網路！
+    connecting: 這可能需要幾秒鐘的時間，請確認在裝置上開啟了網路。
+    disconnected: 哎呀！你無法訪問校園網路誒，請檢查你的網路設定，然後再試一次。
+    none: 你需要訪問校園網路才能繼續，現在就開始檢查吧！
 network:
-  error: Network Error
-  ipAddress: IP Address
-  connectionTimeoutError: Network Timeout
-  connectionTimeoutErrorDesc: "This function requires access to the campus network. NOTE: It also occurs when the school server is down for maintenance."
-  openToolBtn: Open Network Tool
+  error: 網路錯誤
+  ipAddress: IP 地址
+  connectionTimeoutError: 網路逾時
+  connectionTimeoutErrorDesc: "這個功能需要訪問學校網路。備註：這或許由於學校服務器當機或正在維護。"
+  openToolBtn: 打開網路工具
 networkTool:
-  title: Title
-  openWlanSettingsBtn: Open WLAN settings
-  noAccessTip: Unable to access network. Please check network settings on your device, and try again.
+  title: 網路工具
+  openWlanSettingsBtn: 打開 WLAN 設定
+  noAccessTip: 無法連線到網路，請檢查你的裝置上的網路設定，然後再試一次。
   connectionFailedError: |
-    Unable to connect to campus network. Troubleshooting:
-    1. Attempt to connect to the school's Wi-Fi, "i-SIT","i-SIT-1x" or "eduroam".
-    2. Attempt to launch "EasyConnect" VPN to connect to school.
-    3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.
-    If they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
-  connectedByProxy: Connected to campus network by Http proxy.
-  connectedByVpn: Connected to campus network by VPN.
-  connectedByWlan: Connected to campus network by WLAN.
+    無法連線到校園網路。疑難排解:
+    1. 嘗試連線學校的Wi-Fi: "i-SIT","i-SIT-1x" 或 "eduroam"。
+    2. 嘗試啟用"EasyConnect" VPN 連線校園網路。
+    3. 嘗試通過自建的 Http Proxy 伺服器連線校園網路。
+    如果上述都無法工作, 或許因為學校伺服器停機維護或崩潰, 請稍後重試。
+  connectedByProxy: 已通過 HTTP Proxy 連線校園網路。
+  connectedByVpn: 已通過 VPN 連線校園網路。
+  connectedByWlan: 已通過 WLAN 連線校園網路。
 login:
-  title: Welcome!
-  validateInputAccountPwdRequest: Please check the format of account and password you entered.
-  credentialsValidatedTip: Account and password are correct
-  accountOrPwdIncorrectTip: The account or password is incorrect. Please check them and try again.
-  accountHint: Student ID/Work number
-  forgotPwdBtn: Forgot password?
-  loggedInTip: Logged in
-  notLoggedIn: Not Logged In
-  invalidAccountFormat: Invalid Account format
-  offlineModeBtn: Offline Mode
-  oaPwdHint: Enter your OA password
-  failedWarn: Login Failed
-  loginBtn: Login
-  formatError: Format Error
+  title: 歡迎！
+  validateInputAccountPwdRequest: 請檢查你鍵入的賬戶和密碼。
+  credentialsValidatedTip: 帳戶與密碼正確
+  accountOrPwdIncorrectTip: 賬戶或密碼錯誤，請檢查輸入後再試一次。
+  accountHint: 學號/工號
+  forgotPwdBtn: 忘記密碼?
+  loggedInTip: 已登入
+  notLoggedIn: 未登入
+  invalidAccountFormat: 錯誤的學號格式
+  offlineModeBtn: 離線模式
+  oaPwdHint: 鍵入你的 OA 密碼
+  failedWarn: 登入失敗
+  loginBtn: 登入
+  formatError: 格式錯誤
 library:
   hotPost: 熱門
 settings:
@@ -257,28 +257,28 @@ settings:
     desc: 檢查本裝置與校園網路的連線情況
   wipeData:
     title: 擦除資料 & 登出
-    desc: Wipe all data made by Kite and log out.
-    request: Wipe ALL Data
-    requestDesc: ALL data, such as login credentials and timetable imported, will be wiped permanently.
+    desc: 擦除帳戶並登出當前 OA 賬戶
+    request: 擦除所有資料
+    requestDesc: 這會擦除你本地除網頁快取外的登入資料與其他資料，例如導入的課程表。
 localStorage:
-  title: Local Storage Editor
-  selectBoxTip: Please select a box first.
-  clearBoxDesc: Confirm to clear this box?
-  deleteItemDesc: Confirm to delete this key-value pair?
-  emptyValueDesc: Confirm to empty this key-value pair?
+  title: 本地儲存編輯器
+  selectBoxTip: 請先選擇一個盒子。
+  clearBoxDesc: 確認清空這個盒子嗎？
+  deleteItemDesc: 確認刪除這個 key-value對 嗎？
+  emptyValueDesc: 確認將這個 key-value對 設定為 null 嗎？
 oaAnnounce:
   attachmentTip:
-    one: Attachment
-    other: Attachments
-  text: Text
-  downloadCompleted: Download Completed
-  publishTime: Publish Time
-  publishingDepartment: Department
+    one: 附件
+    other: 附件
+  text: 公告正文
+  downloadCompleted: 下載完成
+  publishTime: 發佈日期
+  publishingDepartment: 部門
 personalization:
-  themeColor: Theme Color
+  themeColor: 主題顏色
   wallpaper:
-    title: Wallpaper
-    desc: Customize the homepage wallpaper
+    title: 墻紙
+    desc: 自定義主頁的墻紙
 timetable:
   mine:
     title: 我的課程表
@@ -318,24 +318,24 @@ timetable:
   startDate: "起始於: {}"
   weekOrderedName: "第 {} 周"
   freeTip:
-    dayTip: It's a free day!
-    isTodayTip: "Have a nice day! 🎉"
-    weekTip: Wow, no class this week!
-    isThisWeekTip: "Enjoy this week! 🎉"
-    termTip: "Cool! You even have a free term! 🎉🎉🎉"
-    findNearestWeekWithClass: Find a week with class
-    findNearestDayWithClass: Find a day with class
+    dayTip: 好喔，這天沒課！
+    isTodayTip: "祝你今日過得愉快！🎉"
+    weekTip: 棒耶，這週都沒課！
+    isThisWeekTip: "祝你這週過得愉快！🎉"
+    termTip: "太酷啦，這學期都沒課耶！ 🎉🎉🎉"
+    findNearestWeekWithClass: 尋找有課的一天
+    findNearestDayWithClass: 尋找有課的一週
 scanner:
-  barcodeNotRecognized: No Barcode or QR code
+  barcodeNotRecognized: 未識別到條碼或 QR 碼
 semester:
-  all: Full Year
-  term1: Fall
-  term2: Spring
+  all: 學年
+  term1: 第一學期
+  term2: 第二學期
 greeting:
-  headerA: SIT has accompanied you
+  headerA: 上應大與你一起度過了
   headerB:
-    one: 1 Day
-    other: "{} Days"
+    one: 1 天
+    other: "{} 天"
 weekday:
   0: 週一
   1: 週二
@@ -355,39 +355,39 @@ weekdayShort:
 campus:
   xuhui: 徐匯
   xuhuiDistrict: 徐匯區
-  fengxian: Fengxian
-  fengxianDistrict: Fengxian District
+  fengxian: 奉賢
+  fengxianDistrict: 奉賢區
 unit:
   rmb: "¥{}"
-  powerKwh: "{} kW·h"
+  powerKwh: "{} 千瓦時"
 time:
-  minute: min
-  hour: hour
-  hourMinuteFormat: "{hour} h {minute} min"
-  minuteFormat: "{} min"
-  hourFormat: "{} h"
-open: Open
-delete: Delete
-confirm: Confirm
-notNow: Not Now
-error: Error
-ok: OK
-close: Close
-submit: Submit
-cancel: Cancel
-save: Save
+  minute: 分鐘
+  hour: 小時
+  hourMinuteFormat: "{hour}小時{minute}分鐘"
+  minuteFormat: "{}分鐘"
+  hourFormat: "{}小時"
+open: 打開
+delete: 刪除
+confirm: 確認
+notNow: 現在不行
+error: 錯誤
+ok: 好的
+close: 關閉
+submit: 提交
+cancel: 取消
+save: 儲存
 yes: 好
 refresh: 重新整理
 back: 後退
-clear: Clear
-continue: Continue
+clear: 清除
+continue: 繼續
 unknown: 未知
 failed: 失敗
-download: Download
-fetching: Fetching
+download: 下載
+fetching: 取回中
 downloading: 下載中
 notFound404: 404 找不到頁面
 warning: 警告
 exceptionInfo: 異常資訊
 untitled: 無標題
-congratulations: Congratulations
+congratulations: 恭喜

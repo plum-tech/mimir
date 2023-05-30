@@ -111,7 +111,7 @@ elecBill:
   remainingPower: 剩余电量
   roomNumber: 房间号码
   updateTime: 更新时间
-  lastBalance: "上次: ¥{balance} {room}室"
+  lastBalance: "上次 ¥{balance} {room}室"
 eduEmail:
   title: 我的邮箱
   noContent: 无内容
@@ -162,7 +162,7 @@ expense:
   statistics: 消费统计
   toastLoadFailed: 网络异常，请稍后重试
   toastLoadSuccessful: 成功获取最新数据
-  toastLoading: 正在获取最新数据……
+  toastLoading: 正在加载最新数据……
   total: 总计
   lastTransaction: "¥{amount} {place}"
 homepage:
@@ -200,7 +200,7 @@ networkTool:
   connectedByWlan: 已通过 WLAN 连接到校园网。
 login:
   title: 欢迎！
-  validateInputAccountPwdRequest: 请检查你输入的账号格式与密码。
+  validateInputAccountPwdRequest: 请检查你输入的账号与密码。
   credentialsValidatedTip: 账号与密码验证成功
   accountOrPwdIncorrectTip: 账号或密码不正确，请检查后重试。
   accountHint: 学号/工号
@@ -265,7 +265,7 @@ localStorage:
   selectBoxTip: 请先选择一个盒子。
   clearBoxDesc: 确定清空这个盒子里的数据吗？
   deleteItemDesc: 确定删除这个键值对吗？
-  emptyValueDesc: 确定将这个键值设空为对吗？
+  emptyValueDesc: 确定将这个键值设 null 为对吗？
 oaAnnounce:
   attachmentTip:
     one: 附件
