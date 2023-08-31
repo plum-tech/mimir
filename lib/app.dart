@@ -41,7 +41,7 @@ class _MimirAppState extends State<MimirApp> {
     return MaterialPageRoute(
       builder: (context) {
         final args = settings.arguments as Map<String, dynamic>? ?? {};
-        return routeGenerator.onGenerateRoute(settings.name!, args)(context);
+        return routeGenerator.generateRoute(settings.name ?? "", args,context);
       },
       settings: settings,
     );
@@ -137,7 +137,7 @@ class _MimirAppState extends State<MimirApp> {
     return ScreenUtilInit(
       builder: (BuildContext content, Widget? widget) => DynamicColorTheme(
         defaultColor: primaryColor,
-        defaultIsDark:  isDark,
+        defaultIsDark: isDark,
         data: (Color color, bool isDark) {
           return ThemeData(
             colorSchemeSeed: primaryColor,

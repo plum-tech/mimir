@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/credential/i18n.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/storage/page/editor.dart';
 import 'package:rettulf/rettulf.dart';

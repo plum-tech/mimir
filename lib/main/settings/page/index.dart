@@ -266,8 +266,6 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
         );
-        // refresh the settings page.
-        setState(() {});
       },
     );
   }

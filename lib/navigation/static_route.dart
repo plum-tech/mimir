@@ -22,16 +22,15 @@ class StaticRouteTable implements IRouteGenerator {
   bool accept(String routeName) => routeName == '/' || table.containsKey(routeName);
 
   @override
-  WidgetBuilder onGenerateRoute(String routeName, Map<String, dynamic> arguments) {
-    return (context) {
-      if (routeName == '/' && rootRoute != null) {
-        return rootRoute!(context, this, arguments);
-      }
-      if (table.containsKey(routeName)) {
-        return table[routeName]!(context, arguments);
-      } else {
-        return onNotFound(context, routeName, arguments);
-      }
-    };
+  Widget generateRoute(String routeName, Map<String, dynamic> args, BuildContext context) {
+    if (routeName == '/' && rootRoute != null) {
+      return rootRoute!(context, this, args);
+    }
+    final builder = table[routeName];
+    if (builder != null) {
+      return Builder(builder: (ctx) => builder(ctx, args));
+    } else {
+      return Builder(builder: (ctx) => onNotFound(context, routeName, args));
+    }
   }
 }

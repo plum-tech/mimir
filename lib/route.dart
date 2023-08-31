@@ -36,7 +36,7 @@ class Routes {
 
 final defaultRouteTable = StaticRouteTable(
   table: {
-    Routes.mainStage: (context, args) => const MainStagePage(),
+    Routes.mainStage: (context, args) => MainStagePage(),
     Routes.login: (context, args) => args["disableOffline"] == true
         ? const LoginPage(
             disableOffline: true,
@@ -88,6 +88,6 @@ final defaultRouteTable = StaticRouteTable(
     // The freshmen and OA users who ever logged in can directly land on the homepage.
     // While, the offline users have to click the `Offline Mode` button every time.
     final routeName = Auth.lastOaAuthTime != null ? Routes.mainStage : Routes.login;
-    return table.onGenerateRoute(routeName, args)(context);
+    return table.generateRoute(routeName, args, context);
   },
 );
