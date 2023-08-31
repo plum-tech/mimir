@@ -8,15 +8,20 @@ import '../entity/contact.dart';
 import '../widgets/contact.dart';
 import '../using.dart';
 
-class GroupedContactList extends StatelessWidget {
+class GroupedContactList extends StatefulWidget {
   final List<ContactData> contacts;
 
   const GroupedContactList(this.contacts, {super.key});
 
   @override
+  State<GroupedContactList> createState() => _GroupedContactListState();
+}
+
+class _GroupedContactListState extends State<GroupedContactList> {
+  @override
   Widget build(BuildContext context) {
     return GroupedListView<ContactData, String>(
-      elements: contacts,
+      elements: widget.contacts,
       groupBy: (element) => element.department,
       useStickyGroupSeparators: true,
       stickyHeaderBackgroundColor: context.bgColor,

@@ -70,7 +70,7 @@ dependencies:
 
   # UI
   fl_chart: ^0.55.0
-  grouped_list: ^5.1.1
+  grouped_list: ^5.1.2
   pull_to_refresh: ^2.0.0
   dynamic_color_theme: ^2.0.0
   geopattern_flutter: { git: { url: https://github.com/paolovalerdi/geopattern } }
