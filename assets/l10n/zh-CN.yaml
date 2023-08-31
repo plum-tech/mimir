@@ -2,6 +2,10 @@ language:
   en: English
   zh_CN: 简体中文
   zh_TW: 繁體中文
+main:
+  home: 主页
+  networkTool: 网络工具
+  settings: 设置
 miniApp:
   activity:
     name: 第二课堂

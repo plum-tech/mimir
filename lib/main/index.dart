@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/global/init.dart';
 import 'package:mimir/main/desktop/page/index.dart';
 import 'package:mimir/main/network_tool/page/index.dart';
 import 'package:mimir/main/settings/page/index.dart';
 import 'package:rettulf/rettulf.dart';
+import "./i18n.dart";
 
 class MainStagePage extends StatefulWidget {
   const MainStagePage({super.key});
@@ -44,20 +44,21 @@ class _MainStagePageState extends State<MainStagePage> {
         setState(() {
           currentStage = i;
         });
+        drawerDelegate.closeDrawer();
       },
       children: [
-        DrawerHeader(child: "Header".text()),
+        DrawerHeader(child: "".text()),
         NavigationDrawerDestination(
           icon: const Icon(Icons.home_rounded),
-          label: "home".text(),
+          label: i18n.home.text(),
         ),
         NavigationDrawerDestination(
           icon: const Icon(Icons.lan),
-          label: "network tool".text(),
+          label: i18n.networkTool.text(),
         ),
         NavigationDrawerDestination(
           icon: const Icon(Icons.settings),
-          label: "settings".text(),
+          label: i18n.settings.text(),
         ),
       ],
     );
