@@ -53,7 +53,7 @@ class _CredentialPageState extends State<CredentialPage> {
       all.add((_) => buildAccount(credential));
       all.add((_) => const Divider());
       all.add((_) => buildPassword(credential));
-      all.add((_) => buildChangePassword(credential));
+      all.add((_) => buildChangeSavedPassword(credential));
     }
     return SliverList(
       delegate: SliverChildBuilderDelegate(
@@ -92,7 +92,7 @@ class _CredentialPageState extends State<CredentialPage> {
     return AnimatedSize(
       duration: const Duration(milliseconds: 100),
       child: ListTile(
-        title: CredentialI18n.instance.oaPwd.text(),
+        title: CredentialI18n.instance.savedOaPwd.text(),
         subtitle: !showPassword ? null : credential.password.text(),
         leading: const Icon(Icons.password_rounded),
         trailing: showPassword ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),
@@ -105,13 +105,14 @@ class _CredentialPageState extends State<CredentialPage> {
     );
   }
 
-  Widget buildChangePassword(OACredential origin) {
+  Widget buildChangeSavedPassword(OACredential origin) {
     return ListTile(
-      title: CredentialI18n.instance.changePwd.text(),
-      subtitle: CredentialI18n.instance.changePwdDesc.text(),
+      title: CredentialI18n.instance.changeSavedOaPwd.text(),
+      subtitle: CredentialI18n.instance.changeSavedOaPwdDesc.text(),
       leading: const Icon(Icons.key_rounded),
       onTap: () async {
-        final newPwd = await Editor.showStringEditor(context, CredentialI18n.instance.oaPwd, origin.password);
+        final newPwd =
+            await Editor.showStringEditor(context, desc: CredentialI18n.instance.savedOaPwd, initial: origin.password);
         if (newPwd != origin.password) {
           Auth.oaCredential = origin.copyWith(password: newPwd);
           setState(() {});

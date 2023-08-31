@@ -18,6 +18,8 @@ class CredentialI18n with CommonI18nMixin {
 
   String get oaPwd => "$_ns.oaPwd".tr();
 
+  String get savedOaPwd => "$_ns.savedOaPwd".tr();
+
   String get reloginRequestDesc => "$_ns.reloginRequestDesc".tr();
 
   String get relogin => "$_ns.relogin".tr();
@@ -36,9 +38,9 @@ class CredentialI18n with CommonI18nMixin {
 
   String get validateInputAccountPwdRequest => "$_ns.validateInputAccountPwdRequest".tr();
 
-  String get changePwd => "$_ns.changePwd".tr();
+  String get changeSavedOaPwd => "$_ns.changeSavedOaPwd".tr();
 
-  String get changePwdDesc => "$_ns.changePwdDesc".tr();
+  String get changeSavedOaPwdDesc => "$_ns.changeSavedOaPwdDesc".tr();
 }
 
 class _UnauthorizedTip {

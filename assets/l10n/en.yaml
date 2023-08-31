@@ -90,12 +90,13 @@ credential:
   account: Account
   oaAccount: OA Account
   oaPwd: OA Password
+  savedOaPwd: Saved OA Password
   pwd: Password
   relogin: Re-login
   reloginRequestDesc: Your account or password is incorrect, do you want to log in again?
   error: Credential Error
-  changePwd: Change password
-  changePwdDesc: Change saved password without re-login
+  changeSavedOaPwd: Change Saved Password
+  changeSavedOaPwdDesc: Not affecting your actual OA password.
   unauthorizedTip:
     title: Require Login
     everLoggedInTip: Your account or password is incorrect, please try to login again.

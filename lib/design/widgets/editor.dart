@@ -26,11 +26,11 @@ class Editor {
   static Future<dynamic> showAnyEditor(BuildContext ctx, dynamic initial,
       {String? desc, bool readonlyIfNotSupport = true}) async {
     if (initial is int) {
-      return await showIntEditor(ctx, desc, initial);
+      return await showIntEditor(ctx, desc: desc, initial: initial);
     } else if (initial is String) {
-      return await showStringEditor(ctx, desc, initial);
+      return await showStringEditor(ctx, desc: desc, initial: initial);
     } else if (initial is bool) {
-      return await showBoolEditor(ctx, desc, initial);
+      return await showBoolEditor(ctx, desc: desc, initial: initial);
     } else {
       final customEditorBuilder = _customEditor[initial.runtimeType];
       if (customEditorBuilder != null) {
@@ -42,7 +42,7 @@ class Editor {
         }
       } else {
         if (readonlyIfNotSupport) {
-          return await showReadonlyEditor(ctx, desc, initial);
+          return await showReadonlyEditor(ctx, desc: desc, initial: initial);
         } else {
           throw UnsupportedError("Editing $initial is not supported.");
         }
@@ -50,7 +50,7 @@ class Editor {
     }
   }
 
-  static Future<bool> showBoolEditor(BuildContext ctx, String? desc, bool initial) async {
+  static Future<bool> showBoolEditor(BuildContext ctx, {String? desc, required bool initial}) async {
     final newValue = await ctx.showDialog(
         builder: (ctx) => _BoolEditor(
               initial: initial,
@@ -63,7 +63,7 @@ class Editor {
     }
   }
 
-  static Future<String> showStringEditor(BuildContext ctx, String? desc, String initial) async {
+  static Future<String> showStringEditor(BuildContext ctx, {String? desc, required String initial}) async {
     final newValue = await ctx.showDialog(
         builder: (ctx) => _StringEditor(
               initial: initial,
@@ -76,12 +76,12 @@ class Editor {
     }
   }
 
-  static Future<void> showReadonlyEditor(BuildContext ctx, String? desc, dynamic value) async {
+  static Future<void> showReadonlyEditor(BuildContext ctx, {String? desc, required dynamic initial}) async {
     await ctx.showDialog(
-        builder: (ctx) => _readonlyEditor(ctx, (ctx) => SelectableText(value.toString()), title: desc));
+        builder: (ctx) => _readonlyEditor(ctx, (ctx) => SelectableText(initial.toString()), title: desc));
   }
 
-  static Future<int> showIntEditor(BuildContext ctx, String? desc, int initial) async {
+  static Future<int> showIntEditor(BuildContext ctx, {String? desc, required int initial}) async {
     final newValue = await ctx.showDialog(
         builder: (ctx) => _IntEditor(
               initial: initial,

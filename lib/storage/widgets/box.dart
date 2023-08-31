@@ -87,7 +87,10 @@ class _BoxItemListState extends State<BoxItemList> {
   Widget build(BuildContext context) {
     final box = widget.box;
     if (box.isEmpty) {
-      return const Icon(Icons.inbox_outlined, size: 32,).padAll(10);
+      return const Icon(
+        Icons.inbox_outlined,
+        size: 32,
+      ).padAll(10);
     } else {
       return buildList(context);
     }
@@ -239,11 +242,7 @@ class _BoxItemState extends State<BoxItem> {
         if (dir == DismissDirection.startToEnd) {
           // Empty the value
           final confirm = await context.showRequest(
-              title: i18n.warning,
-              desc: i18n.emptyValueDesc,
-              yes: i18n.confirm,
-              no: i18n.cancel,
-              highlight: true);
+              title: i18n.warning, desc: i18n.emptyValueDesc, yes: i18n.confirm, no: i18n.cancel, highlight: true);
           if (confirm == true) {
             widget.box.put(key, _emptyValue(value));
             if (!mounted) return false;
@@ -268,7 +267,7 @@ class _BoxItemState extends State<BoxItem> {
   Future<void> showContentDialog(BuildContext context, Box<dynamic> box, String key, dynamic value,
       {bool readonly = false}) async {
     if (readonly || !Editor.isSupport(value)) {
-      await Editor.showReadonlyEditor(context, key, value);
+      await Editor.showReadonlyEditor(context, desc: key, initial: value);
     } else {
       final newValue = await Editor.showAnyEditor(context, value, desc: key);
       bool isModified = value != newValue;

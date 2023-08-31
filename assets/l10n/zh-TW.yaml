@@ -86,12 +86,13 @@ credential:
   account: 帳戶
   oaAccount: OA 帳戶
   oaPwd: OA 密碼
+  savedOaPwd: 儲存的 OA 密碼
   pwd: 密碼
   relogin: 重新登入
   reloginRequestDesc: 你的賬戶或密碼不正確，確認重新登入嗎？
   error: 登入憑證錯誤
-  changePwd: 修改密码
-  changePwdDesc: 修改保存的密碼(無需重新登入)
+  changeSavedOaPwd: 修改儲存的 OA 密碼
+  changeSavedOaPwdDesc: 不會作用在你真正的 OA 密碼
   unauthorizedTip:
     title: 需要登入
     everLoggedInTip: 你的賬戶或密碼不正確，請重新登入。
