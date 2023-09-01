@@ -24,6 +24,8 @@ class _I18n with CommonI18nMixin {
   String get connectedByVpn => "$ns.connectedByVpn".tr();
 
   String get connectedByWlan => "$ns.connectedByWlan".tr();
+
+  String get connectedByEthernet => "$ns.connectedByEthernet".tr();
 }
 
 class _Easyconnect {

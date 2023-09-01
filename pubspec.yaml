@@ -138,14 +138,11 @@ flutter:
 
   assets:
     - assets/
-    - assets/common/
     - assets/home/
-    - assets/connectivity/
     - assets/fonts/
     - assets/library/
     - assets/timetable/
     - assets/course/
-    - assets/edu_email/
     - assets/yellow_pages.json
     - assets/room_list.json
     - assets/webview/

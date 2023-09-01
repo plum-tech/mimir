@@ -203,6 +203,7 @@ networkTool:
   connectedByProxy: Connected to campus network by Http proxy.
   connectedByVpn: Connected to campus network by VPN.
   connectedByWlan: Connected to campus network by WLAN.
+  connectedByEthernet: Connected to campus network by Ethernet.
 login:
   title: Welcome!
   validateInputAccountPwdRequest: Please check the account and password you entered.

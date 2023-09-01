@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:check_vpn_connection/check_vpn_connection.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
@@ -41,6 +42,10 @@ const _type2Icon = {
   ConnectivityResult.vpn: Icons.vpn_key,
 };
 
+IconData getConnectionTypeIcon(ConnectivityResult? type, {IconData? fallback}) {
+  return _type2Icon[type] ?? fallback ?? Icons.wifi_find_outlined;
+}
+
 class _ConnectivityCheckerState extends State<ConnectivityChecker> {
   final service = TimetableInit.network;
 
@@ -51,16 +56,13 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
   @override
   void initState() {
     super.initState();
-    Future(() => Connectivity().checkConnectivity()).then((type) {
-      if (connectionType != type) {
-        if (!mounted) return;
-        setState(() {
-          connectionType = type;
-        });
-      }
-    });
     networkChecker = Timer.periodic(const Duration(milliseconds: 500), (Timer t) async {
-      final type = await Connectivity().checkConnectivity();
+      var type = await Connectivity().checkConnectivity();
+      if (type == ConnectivityResult.wifi || type == ConnectivityResult.ethernet) {
+        if (await CheckVpnConnection.isVpnActive()) {
+          type = ConnectivityResult.vpn;
+        }
+      }
       if (connectionType != type) {
         if (!mounted) return;
         setState(() {
@@ -153,7 +155,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
   Widget buildIndicatorArea(BuildContext ctx) {
     switch (status) {
       case ConnectivityStatus.none:
-        return buildCurrentConnectionType(ctx);
+        return buildIcon(ctx, getConnectionTypeIcon(connectionType));
       case ConnectivityStatus.connecting:
         return Placeholders.loading(
             size: widget.iconSize / 2,
@@ -169,11 +171,6 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
     key ??= ValueKey(icon);
     return Icon(icon, size: widget.iconSize, color: ctx.darkSafeThemeColor)
         .sized(w: widget.iconSize, h: widget.iconSize, key: key);
-  }
-
-  Widget buildCurrentConnectionType(BuildContext ctx) {
-    final type = connectionType;
-    return buildIcon(ctx, _type2Icon[type] ?? Icons.signal_wifi_statusbar_null_outlined);
   }
 
   @override

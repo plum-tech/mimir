@@ -21,8 +21,8 @@ class ApplicationTile extends StatelessWidget {
     final Widget views;
     if (isHot) {
       views = [
-        SvgPicture.asset('assets/common/icon_flame.svg', width: 20, height: 20, color: Colors.orange).padOnly(r: 5),
         Text(meta.count.toString()),
+        const Icon(Icons.local_fire_department_rounded,color: Colors.red,),
       ].row(mas: MainAxisSize.min);
     } else {
       views = Text(meta.count.toString());

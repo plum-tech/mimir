@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../index.dart';
 import '../init.dart';
-import '../widgets/connected.dart';
-import '../widgets/disconnected.dart';
-import '../widgets/quick_button.dart';
+import 'connected.dart';
+import 'disconnected.dart';
 import '../using.dart';
 
 class NetworkToolPage extends StatefulWidget {
@@ -18,10 +16,6 @@ class NetworkToolPage extends StatefulWidget {
   @override
   State<NetworkToolPage> createState() => _NetworkToolPageState();
 }
-
-const iconDir = "assets/connectivity";
-const unavailableIconPath = "$iconDir/unavailable.svg";
-const availableIconPath = "$iconDir/available.svg";
 
 class _NetworkToolPageState extends State<NetworkToolPage> {
   bool isConnected = false;
@@ -41,9 +35,10 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
         setState(() => isConnected = connected);
       }
       if (connected) {
-        break;
-      }else{
-        // once per second.
+        // if connected, check the connection slowly
+        await Future.delayed(const Duration(seconds: 3));
+      } else {
+        // if not connected, check the connection frequently
         await Future.delayed(const Duration(seconds: 1));
       }
     }
@@ -55,61 +50,23 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () => widget.drawer.openDrawer(),
-          ),
-          title: [
-            i18n.title.text(),
-            if (!isConnected)
-              Placeholders.loading(
-                size: 14,
-              ).padOnly(l: 40.w)
-          ].row(),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () => widget.drawer.openDrawer(),
         ),
-        body: context.isPortrait ? buildPortraitBody(context) : buildLandscapeBody(context));
-  }
-
-  Widget buildPortraitBody(BuildContext context) {
-    return [
-      buildFigure(context).expanded(),
-      AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
-              child: isConnected
-                  ? ConnectedBlock(
-                      key: _connectedKey,
-                    )
-                  : [const DisconnectedBlock(), const QuickButtons()]
-                      .column(key: _disconnectedKey, maa: MainAxisAlignment.spaceEvenly))
-          .expanded(),
-    ].column(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.center).center();
-  }
-
-  Widget buildLandscapeBody(BuildContext context) {
-    final figure = isConnected
-        ? buildFigure(context).center()
-        : [buildFigure(context), const QuickButtons().expanded()]
-            .column(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceEvenly);
-    return [
-      figure.expanded(),
-      AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
-              child: isConnected
-                  ? ConnectedBlock(
-                      key: _connectedKey,
-                    )
-                  : DisconnectedBlock(
-                      key: _disconnectedKey,
-                    ))
-          .center()
-          .expanded(),
-    ].row(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.center).center();
-  }
-
-  Widget buildFigure(BuildContext context) {
-    final iconPath = isConnected ? availableIconPath : unavailableIconPath;
-    return SvgPicture.asset(iconPath, width: 300, height: 300, color: context.darkSafeThemeColor)
-        .constrained(minW: 120, minH: 120, maxW: 240, maxH: 240);
+        title: [
+          i18n.title.text(),
+          if (!isConnected)
+            Placeholders.loading(
+              size: 14,
+            ).padOnly(l: 40.w)
+        ].row(),
+      ),
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 500),
+        child: isConnected ? ConnectedInfoPage(key: _connectedKey) : DisconnectedInfoPage(key: _disconnectedKey),
+      ),
+    );
   }
 }

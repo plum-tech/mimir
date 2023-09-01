@@ -189,11 +189,9 @@ class _ExamResultPageState extends State<ExamResultPage> {
   }
 
   Widget _buildNoResult() {
-    return LeavingBlank.svgAssets(
-      assetName: "assets/common/not_found.svg",
+    return LeavingBlank(
+      icon: Icons.inbox_outlined,
       desc: i18n.noResult,
-      width: 240,
-      height: 240,
     );
   }
 

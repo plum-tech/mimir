@@ -194,7 +194,7 @@ networkTool:
   title: 网络工具
   openWlanSettingsBtn: 打开 WLAN 设置
   noAccessTip: 无法连接到网络，请检查你设备的网络设置后再试。
-  connectFailedError: |
+  connectionFailedError: |
     无法连接到校园网。疑难解答:
     1. 尝试连接学校的Wi-Fi: "i-SIT","i-SIT-1x" 或 "eduroam"。
     2. 尝试使用"EasyConnect" VPN 连接校园网。
@@ -203,6 +203,7 @@ networkTool:
   connectedByProxy: 已通过 Http 代理连接到校园网。
   connectedByVpn: 已通过 VPN 连接到校园网。
   connectedByWlan: 已通过 WLAN 连接到校园网。
+  connectedByEthernet: 已通过以太网连接到校园网。
 login:
   title: 欢迎！
   validateInputAccountPwdRequest: 请检查你输入的账号与密码。
@@ -386,7 +387,7 @@ refresh: 刷新
 back: 返回
 clear: 清空
 continue: 继续
-unknown: 为止
+unknown: 未知
 failed: 失败
 download: 下载
 fetching: 获取中
