@@ -108,7 +108,7 @@ class Proj:
 
     @property
     def module_folder(self) -> Directory:
-        return self.root.subdir("lib", "module")
+        return self.root.subdir("lib", "mini_apps")
 
     @property
     def android_build_gradle(self) -> File:

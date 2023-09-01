@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:mimir/module/activity/using.dart';
+import 'package:mimir/mini_apps/activity/using.dart';
 
 part 'cache_key.dart';
 part 'list_cache_key.dart';

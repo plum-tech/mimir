@@ -1,7 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/exception/session.dart';
-import 'package:mimir/module/login/init.dart';
+import 'package:mimir/mini_apps/login/init.dart';
 import 'package:mimir/storage/init.dart';
 import 'package:rettulf/rettulf.dart';
 

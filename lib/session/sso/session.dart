@@ -5,7 +5,7 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart' hide Lock;
 import 'package:mimir/app.dart';
 import 'package:mimir/events/events.dart';
-import 'package:mimir/module/login/using.dart';
+import 'package:mimir/mini_apps/login/using.dart';
 import 'package:mimir/session/common.dart';
 import 'package:mimir/util/logger.dart';
 import 'package:mimir/widgets/captcha_box.dart';

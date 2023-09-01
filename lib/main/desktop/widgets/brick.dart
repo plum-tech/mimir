@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mimir/design/colors.dart';
 import 'package:mimir/design/utils.dart';
-import 'package:mimir/module/application/using.dart';
+import 'package:mimir/mini_apps/application/using.dart';
 import 'package:rettulf/rettulf.dart';
 
 typedef IconBuilder = Widget Function(double size, Color color);

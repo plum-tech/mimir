@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/main/desktop/entity/miniApp.dart';
-import 'package:mimir/module/symbol.dart';
+import 'package:mimir/mini_apps/symbol.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/storage/init.dart';
 
 import '../widgets/brick.dart';
-import 'package:mimir/module/elec_bill/i18n.dart';
+import 'package:mimir/mini_apps/elec_bill/i18n.dart';
 
 class ElectricityBillItem extends StatefulWidget {
   const ElectricityBillItem({super.key});

@@ -1,11 +1,10 @@
 import 'package:mimir/credential/symbol.dart';
 import 'package:mimir/main/index.dart';
 import 'package:mimir/navigation/static_route.dart';
-import 'package:mimir/main/symbol.dart';
 
-import 'module/exam_result/page/evaluation.dart';
-import 'module/simple_page/page/browser.dart';
-import 'module/symbol.dart';
+import 'mini_apps/exam_result/page/evaluation.dart';
+import 'mini_apps/simple_page/page/browser.dart';
+import 'mini_apps/symbol.dart';
 
 class Routes {
   Routes._();

@@ -1,4 +1,4 @@
-import 'package:mimir/module/login/i18n.dart';
+import 'package:mimir/mini_apps/login/i18n.dart';
 
 final RegExp _reUndergraduateId = RegExp(r'^(\d{6}[YGHE\d]\d{3})$');
 final RegExp _rePostgraduateId = RegExp(r'^(\d{2}6\d{6})$');

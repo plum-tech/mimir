@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/credential/widgets/scope.dart';
-import 'package:mimir/module/activity/using.dart';
+import 'package:mimir/mini_apps/activity/using.dart';
 import 'package:mimir/route.dart';
 import 'package:rettulf/rettulf.dart';
 

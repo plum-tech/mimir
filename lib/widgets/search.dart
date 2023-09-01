@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/module/exam_arr/using.dart';
+import 'package:mimir/mini_apps/exam_arr/using.dart';
 import 'package:rettulf/rettulf.dart';
 
 /// 搜索对象的WidgetBuilder

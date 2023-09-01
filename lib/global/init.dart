@@ -6,7 +6,7 @@ import 'package:mimir/hive/init.dart';
 import 'package:mimir/main/init.dart';
 import 'package:mimir/main/network_tool/init.dart';
 import 'package:mimir/migration/migrations.dart';
-import 'package:mimir/module/symbol.dart';
+import 'package:mimir/mini_apps/symbol.dart';
 import 'package:mimir/session/sis.dart';
 import 'package:mimir/storage/init.dart';
 import 'package:mimir/version.dart';

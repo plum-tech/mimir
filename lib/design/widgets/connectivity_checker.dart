@@ -4,8 +4,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../../module/timetable/init.dart';
-import '../../module/timetable/using.dart';
+import '../../mini_apps/timetable/init.dart';
+import '../../mini_apps/timetable/using.dart';
 
 enum ConnectivityStatus {
   none,
