@@ -11,7 +11,7 @@ import 'r.dart';
 
 void main() async {
   debugRepaintRainbowEnabled = true;
-  debugRepaintTextRainbowEnabled = true;
+  // debugRepaintTextRainbowEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   Migrations.init();

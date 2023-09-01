@@ -110,15 +110,29 @@ class _MyTimetablePageState extends State<MyTimetablePage> {
       return _buildEmptyBody(ctx);
     }
     return ListView(
-      children: [for (final timetable in timetables) TimetableEntry(timetable: timetable)],
+      children: [
+        for (final timetable in timetables)
+          TimetableEntry(
+            timetable: timetable,
+            onDeleted: () {
+              // Refresh Mine page and show other timetables.
+              setState(() {});
+              if (!storage.hasAnyTimetable) {
+                // If no timetable exists, go out.
+                ctx.navigator.pop();
+              }
+            },
+          ),
+      ],
     );
   }
 }
 
 class TimetableEntry extends StatefulWidget {
   final SitTimetable timetable;
+  final void Function()? onDeleted;
 
-  const TimetableEntry({super.key, required this.timetable});
+  const TimetableEntry({super.key, required this.timetable, this.onDeleted});
 
   @override
   State<TimetableEntry> createState() => _TimetableEntryState();
@@ -229,14 +243,7 @@ class _TimetableEntryState extends State<TimetableEntry> {
         highlight: true);
     if (confirm == true) {
       storage.deleteTimetableOf(timetable.id);
-      if (!mounted) return;
-      if (storage.hasAnyTimetable) {
-        // Refresh Mine page and show other timetables
-        setState(() {});
-      } else {
-        // Otherwise, go out
-        ctx.navigator.pop();
-      }
+      widget.onDeleted?.call();
     }
   }
 }

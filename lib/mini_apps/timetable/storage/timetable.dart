@@ -28,13 +28,13 @@ class TimetableStorage {
 
   set lastDisplayMode(DisplayMode? newValue) => box.put(_K.lastDisplayMode, newValue?.index);
 
-  List<String>? get timetableIds => box.get(_K.timetableIds);
+  List<String> get timetableIds => box.get(_K.timetableIds) ?? <String>[];
 
   set timetableIds(List<String>? newValue) => box.put(_K.timetableIds, newValue);
 
-  SitTimetable? getSitTimetableBy({required String id}){
+  SitTimetable? getSitTimetableBy({required String id}) {
     final table = box.get(_K.makeTimetableKey(id));
-    return table == null? null :SitTimetable.fromJson(jsonDecode(table));
+    return table == null ? null : SitTimetable.fromJson(jsonDecode(table));
   }
 
   void setSitTimetable(SitTimetable? timetable, {required String byId}) =>
@@ -54,22 +54,23 @@ class TimetableStorage {
 }
 
 extension TimetableStorageEx on TimetableStorage {
-  bool get hasAnyTimetable => timetableIds?.isNotEmpty ?? false;
+  bool get hasAnyTimetable => timetableIds.isNotEmpty;
 
   /// Delete the timetable by [id].
   /// If [SitTimetable.currentTimetableId] equals to [id], it will be also cleared.
   void deleteTimetableOf(String id) {
     final ids = timetableIds;
-    if (ids == null) return;
-    ids.remove(id);
-    if (currentTimetableId == id) {
-      currentTimetableId = null;
+    if (ids.remove(id)) {
+      timetableIds = ids;
+      if (currentTimetableId == id) {
+        currentTimetableId = null;
+      }
     }
   }
 
   void addTimetable(SitTimetable timetable) {
     final id = timetable.id;
-    final ids = timetableIds ?? <String>[];
+    final ids = timetableIds;
     ids.add(id);
     setSitTimetable(timetable, byId: id);
     timetableIds = ids;
@@ -77,7 +78,6 @@ extension TimetableStorageEx on TimetableStorage {
 
   List<SitTimetable> getAllSitTimetables() {
     final ids = timetableIds;
-    if (ids == null) return const [];
     final res = <SitTimetable>[];
     for (final id in ids) {
       final timetable = getSitTimetableBy(id: id);
