@@ -16,14 +16,22 @@ Future<bool> launchUri(String scheme) async {
     } else {
       final uri = Uri.tryParse(scheme);
       if (uri == null) return false;
-      return await launchUrl(uri);
+      try {
+        return await launchUrl(uri);
+      } catch (err) {
+        return false;
+      }
     }
   } else if (scheme.contains(":")) {
     final uri = Uri.tryParse(scheme);
     if (uri == null) {
       return false;
     }
-    return await launchUrl(uri);
+    try {
+      return await launchUrl(uri);
+    } catch (err) {
+      return false;
+    }
   } else {
     $Key.currentContext!.showTip(title: 'Unsupported URI', desc: scheme, ok: i18n.ok);
     return false;

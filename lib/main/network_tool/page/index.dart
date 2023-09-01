@@ -12,6 +12,7 @@ import '../using.dart';
 
 class NetworkToolPage extends StatefulWidget {
   final DrawerDelegateProtocol drawer;
+
   const NetworkToolPage({super.key, required this.drawer});
 
   @override
@@ -32,16 +33,20 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
   }
 
   /// Check the connectivity until succeed.
-  void checkConnectivity() {
-    ConnectivityInit.ssoSession.checkConnectivity().then((newStatus) {
+  Future<void> checkConnectivity() async {
+    while (true) {
+      final connected = await ConnectivityInit.ssoSession.checkConnectivity();
       if (!mounted) return;
-      if (isConnected != newStatus) {
-        setState(() => isConnected = newStatus);
+      if (isConnected != connected) {
+        setState(() => isConnected = connected);
       }
-      if (!newStatus) {
-        checkConnectivity();
+      if (connected) {
+        break;
+      }else{
+        // once per second.
+        await Future.delayed(const Duration(seconds: 1));
       }
-    });
+    }
   }
 
   final _connectedKey = const ValueKey("Connected");

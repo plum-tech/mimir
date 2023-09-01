@@ -99,7 +99,7 @@ dependencies:
   flutter_html: ^3.0.0-beta.2
   vibration: ^1.8.1
   animations: ^2.0.7
-  rettulf: ^0.0.13
+  rettulf: ^1.0.1
   auto_animated: ^3.1.0
   markdown: ^7.1.0
   event_bus: ^2.0.0
