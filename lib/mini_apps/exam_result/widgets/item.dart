@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:msh_checkbox/msh_checkbox.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/result.dart';
@@ -45,20 +44,8 @@ class _ScoreItemState extends State<ScoreItem> {
     final selecting = widget.isSelectingMode;
     Widget buildLeading() {
       if (selecting) {
-        return MSHCheckbox(
-          size: 30,
-          duration: const Duration(milliseconds: 300),
-          value: itemIsSelected,
-          colorConfig: MSHColorConfig.fromCheckedUncheckedDisabled(
-            checkedColor: Colors.blue,
-          ),
-          style: MSHCheckboxStyle.stroke,
-          onChanged: (selected) {
-            setState(() {
-              controller.select(widget.index);
-            });
-          },
-        ).sized(key: const ValueKey("Checkbox"), w: iconSize, h: iconSize);
+        return Icon(itemIsSelected ? Icons.check_box_outlined : Icons.check_box_outline_blank)
+            .sized(key: const ValueKey("Checkbox"), w: iconSize, h: iconSize);
       } else {
         return Image.asset(
           CourseCategory.iconPathOf(courseName: result.course),
@@ -82,6 +69,11 @@ class _ScoreItemState extends State<ScoreItem> {
       title: Text(stylizeCourseName(result.course), style: titleStyle),
       subtitle: getSubtitle().text(style: subtitleStyle),
       trailing: buildTrailing(),
+      onTap: !selecting
+          ? null
+          : () {
+              controller.select(widget.index);
+            },
     );
     return tile;
   }

@@ -15,15 +15,13 @@ class _I18n with CommonI18nMixin {
 
   String get lessonNotEvaluated => "$ns.lessonNotEvaluated".tr();
 
-  String gpaSelectedAndTotalLabel(String point, String count) => "$ns.gpaSelectedAndTotalLabel".tr(namedArgs: {
-        "point": point,
-        "count": count,
-      });
+  String lessonSelected(int count) => "$ns.lessonSelected".tr(args: [
+        count.toString(),
+      ]);
 
-  String gpaPointLabel(String type, String point) => "$ns.gpaPointLabel".tr(namedArgs: {
-        "type": type,
-        "point": point,
-      });
+  String gpaResult(double point) => "$ns.gpaResult".tr(args: [
+        point.toStringAsPrecision(2),
+      ]);
 
   String get compulsory => "$ns.compulsory".tr();
 

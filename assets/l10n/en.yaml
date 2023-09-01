@@ -128,8 +128,8 @@ examResult:
   lessonNotEvaluated: Not-eval
   teacherEvalTitle: Teacher Evaluation
   lessonEvaluationBtn: Lesson Eval
-  gpaSelectedAndTotalLabel: "Point: {point} of {count} selected"
-  gpaPointLabel: "Point of {type}: {point}"
+  lessonSelected: {} Selected
+  gpaResult: "GPA: {}"
   compulsory: Compulsory
   credit: Credit
   elective: Elective

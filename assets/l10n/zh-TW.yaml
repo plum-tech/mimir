@@ -124,8 +124,8 @@ examResult:
   lessonNotEvaluated: 需評教
   teacherEvalTitle: 教師評價
   lessonEvaluationBtn: 課程評價
-  gpaSelectedAndTotalLabel: "已選 {count} 門 | 績點: {point}"
-  gpaPointLabel: "{type} | 績點: {point}"
+  lessonSelected: 已選 {} 門
+  gpaResult: "績點: {}"
   compulsory: 必修
   credit: 學分
   elective: 選修

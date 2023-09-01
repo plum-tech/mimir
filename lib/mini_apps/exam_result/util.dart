@@ -1,6 +1,5 @@
 import 'entity/result.dart';
 
-/// 计算GPA
 double calcGPA(List<ExamResult> scoreList) {
   double totalCredits = 0.0;
   double sum = 0.0;
@@ -12,5 +11,6 @@ double calcGPA(List<ExamResult> scoreList) {
       sum += s.credit * s.value;
     }
   }
-  return sum / totalCredits / 10.0 - 5.0;
+  final res = sum / totalCredits / 10.0 - 5.0;
+  return res.isNaN ? 0 : res;
 }

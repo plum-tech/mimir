@@ -63,31 +63,37 @@ class _ExamResultPageState extends State<ExamResultPage> {
     if (!Auth.hasLoggedIn) return UnauthorizedTipPage(title: MiniApp.examResult.l10nName().text());
     final allResults = _allResults;
     final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResult>() : allResults;
-    final String title;
+    final Widget title;
     if (selectedExams != null) {
-      var gpa = calcGPA(selectedExams);
-      if (gpa.isNaN) {
-        gpa = 0;
-      }
+      final gpa = calcGPA(selectedExams);
       if (isSelecting) {
-        title = i18n.gpaSelectedAndTotalLabel(selectedExams.length.toString(), gpa.toStringAsPrecision(2));
+        title = [
+          i18n.lessonSelected(selectedExams.length).text(textAlign: TextAlign.center).expanded(),
+          i18n.gpaResult(gpa).text(textAlign: TextAlign.center).expanded(),
+        ].row();
       } else {
-        title = i18n.gpaPointLabel(selectedSemester.localized(), gpa.toStringAsPrecision(2));
+        title = [
+          selectedSemester.localized().text(textAlign: TextAlign.center).expanded(),
+          i18n.gpaResult(gpa).text(textAlign: TextAlign.center).expanded(),
+        ].row();
       }
     } else {
-      title = MiniApp.examResult.l10nName();
+      title = MiniApp.examResult.l10nName().text();
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: title.text(),
+        title: title,
         centerTitle: true,
         actions: [
           IconButton(
               onPressed: () {
                 setState(() {
                   isSelecting = !isSelecting;
-                  if (isSelecting == false) {
+                  if (isSelecting) {
+                    $showEvaluationBtn.value = false;
+                  } else {
+                    $showEvaluationBtn.value = true;
                     multiselect.clearSelection();
                   }
                 });
@@ -103,6 +109,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
                 // TODO: How can I extract this to a more general component?
                 onNotification: (notification) {
                   final ScrollDirection direction = notification.direction;
+                  if (isSelecting) return true;
                   if (direction == ScrollDirection.reverse) {
                     $showEvaluationBtn.value = false;
                   } else if (direction == ScrollDirection.forward) {
@@ -112,13 +119,12 @@ class _ExamResultPageState extends State<ExamResultPage> {
                 },
                 child: Expanded(child: allResults.isNotEmpty ? _buildExamResultList(allResults) : _buildNoResult())),
       ].column(),
-      floatingActionButton: buildEvaluationBtn(context),
+      floatingActionButton: Auth.oaCredential == null ? null : buildEvaluationBtn(context),
     );
   }
 
-  Widget? buildEvaluationBtn(BuildContext ctx) {
+  Widget buildEvaluationBtn(BuildContext ctx) {
     // If the user is currently offline, don't let them see the evaluation button.
-    if (Auth.oaCredential == null) return null;
     return $showEvaluationBtn >>
         (ctx, showBtn) {
           return AnimatedSlideDown(

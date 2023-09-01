@@ -108,7 +108,6 @@ dependencies:
   loading_animation_widget: ^1.2.0+3
   connectivity_plus: ^3.0.3
   modal_bottom_sheet: ^3.0.0-pre
-  msh_checkbox: ^1.2.1
   animated_toggle_switch: ^0.5.2
   quiver: ^3.1.0
   auto_size_text: ^3.0.0
