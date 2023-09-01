@@ -106,7 +106,7 @@ class _MyActivityPageState extends State<MyActivityPage> with AutomaticKeepAlive
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('${i18n.application.time}: ${context.dateFullNum(rawActivity.time)}', style: subtitleStyle),
+          Text('${i18n.application.time}: ${context.formatYmdhmsNum(rawActivity.time)}', style: subtitleStyle),
           Text('${i18n.application.id}: ${rawActivity.applyId}', style: subtitleStyle),
         ],
       ),

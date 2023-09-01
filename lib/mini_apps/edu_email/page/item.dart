@@ -18,7 +18,7 @@ class MailItem extends StatelessWidget {
     final sender = _message.decodeSender();
     final senderText = sender[0].toString() + (sender.length > 1 ? '等' : '');
     final date = _message.decodeDate();
-    final dateText = date != null ? context.dateNum(date) : '';
+    final dateText = date != null ? context.formatYmdNum(date) : '';
 
     return ListTile(
       leading: CircleAvatar(

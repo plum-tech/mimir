@@ -44,7 +44,7 @@ class BillPage extends StatelessWidget {
         }
         return ListTile(
           tileColor: context.bgColor,
-          title: context.dateYearMonth(firstGroupRecord.datetime).text(style: groupTitleStyle),
+          title: context.formatYmText(firstGroupRecord.datetime).text(style: groupTitleStyle),
           subtitle:
               "${i18n.spentStatistics(totalSpent.toStringAsFixed(2))} ${i18n.incomeStatistics(totalIncome.toStringAsFixed(2))}"
                   .text(style: groupSubtitleStyle),
@@ -67,7 +67,7 @@ class TransactionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(trans.bestTitle ?? i18n.unknown, style: context.textTheme.titleSmall),
-      subtitle: context.dateFullNum(trans.datetime).text(),
+      subtitle: context.formatYmdhmsNum(trans.datetime).text(),
       leading: trans.type.icon.make(color: trans.type.color, size: 32),
       trailing: trans.toReadableString().text(
             style: TextStyle(color: trans.billColor, fontWeight: FontWeight.bold, fontSize: 18),

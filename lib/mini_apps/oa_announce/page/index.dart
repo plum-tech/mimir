@@ -93,7 +93,7 @@ class _OaAnnouncePageState extends State<OaAnnouncePage> {
 
     return ListTile(
       title: Text(record.title, style: titleStyle, overflow: TextOverflow.ellipsis).hero(record.uuid),
-      subtitle: Text('${record.department} | ${context.dateNum(record.dateTime)}',
+      subtitle: Text('${record.department} | ${context.formatYmdNum(record.dateTime)}',
           style: subtitleStyle, overflow: TextOverflow.ellipsis),
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => DetailPage(

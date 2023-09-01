@@ -230,7 +230,7 @@ class _TimetableEntryState extends State<TimetableEntry> {
         else
           i18n.mine.noDesc.text(style: bodyTextStyle?.copyWith(fontStyle: FontStyle.italic)).padAll(10).expanded(),
       ].row(maa: MainAxisAlignment.spaceBetween).padAll(10),
-      i18n.startDate(ctx.dateNum(timetable.startDate)).text(style: bodyTextStyle).padFromLTRB(20, 20, 20, 10),
+      i18n.startDate(ctx.formatYmdNum(timetable.startDate)).text(style: bodyTextStyle).padFromLTRB(20, 20, 20, 10),
     ].column().scrolled().padAll(4).inCard(elevation: 5);
   }
 

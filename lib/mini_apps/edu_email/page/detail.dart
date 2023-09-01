@@ -36,7 +36,7 @@ class DetailPage extends StatelessWidget {
       senderText += i18n.pluralSenderTailing;
     }
     final date = message.decodeDate();
-    final dateText = date != null ? context.dateFullNum(date) : '';
+    final dateText = date != null ? context.formatYmdhmsNum(date) : '';
 
     return Padding(
       padding: const EdgeInsets.all(10),

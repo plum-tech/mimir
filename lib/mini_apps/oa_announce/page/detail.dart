@@ -101,7 +101,7 @@ class _DetailPageState extends State<DetailPage> {
             children: [
               buildRow(i18n.publishingDepartment, summary.department),
               buildRow(i18n.author, _detail?.author ?? "..."),
-              buildRow(i18n.publishTime, context.dateText(summary.dateTime)),
+              buildRow(i18n.publishTime, context.formatYmdWeekText(summary.dateTime)),
             ],
           )),
     );

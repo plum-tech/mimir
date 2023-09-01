@@ -55,7 +55,7 @@ class _TimetableEditorState extends State<TimetableEditor> {
         [
           Text(year),
           Text(semester),
-          Text(i18n.startDate(ctx.dateNum(widget.meta.startDate))),
+          Text(i18n.startDate(ctx.formatYmdNum(widget.meta.startDate))),
         ].row(maa: MainAxisAlignment.spaceEvenly).padV(5),
         buildDescForm(ctx).padV(20),
       ].column(),

@@ -84,9 +84,6 @@ class _MimirAppState extends State<MimirApp> {
         navigatorKey: $Key,
         onGenerateRoute: _onGenerateRoute,
         builder: EasyLoading.init(builder: (context, widget) {
-          // A workaround to get the system locale.
-          final systemLocale = Localizations.localeOf(context);
-          Lang.setCurrentLocaleIfAbsent(systemLocale);
           if (context.isPortrait) {
             SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
                 overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);

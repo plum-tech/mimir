@@ -69,7 +69,7 @@ class _MetaEditorState extends State<MetaEditor> {
           ValueListenableBuilder(
               valueListenable: _selectedDate,
               builder: (ctx, value, child) {
-                return Text(i18n.startDate(ctx.dateNum(value)));
+                return Text(i18n.startDate(ctx.formatYmdNum(value)));
               }),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

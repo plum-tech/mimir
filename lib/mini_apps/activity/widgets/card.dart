@@ -61,7 +61,7 @@ class ActivityCard extends StatelessWidget {
               children: [
                 activity.tags.join(" ").text(style: tagsStyle, maxLines: 2, overflow: TextOverflow.clip),
                 ctx
-                    .dateNum(activity.ts)
+                    .formatYmdNum(activity.ts)
                     .text(style: subtitleStyle, overflow: TextOverflow.clip)
                     .align(at: Alignment.centerRight)
                     .padOnly(r: 8),

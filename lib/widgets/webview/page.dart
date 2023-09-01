@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mimir/design/utils.dart';
 import 'package:mimir/l10n/common.dart';
-import 'package:mimir/launcher.dart';
+import 'package:mimir/util/guard_launch.dart';
 import 'package:mimir/widgets/webview/injectable.dart';
 import 'package:mimir/util/logger.dart';
 import 'package:mimir/util/url_launcher.dart';
