@@ -15,8 +15,8 @@ class ContactTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final avatarStyle = context.textTheme.bodyMedium?.copyWith(color: Colors.grey[50]);
     final name = contact.name;
-    final full = ('${name ?? ""} ${contact.phone}').trim();
-    final phoneNumber = contact.phone.length == 8 ? "021" : "";
+    final full = name == null ? contact.phone : "$name ${contact.phone}";
+    final phoneNumber = contact.phone.length == 8 ? "021${contact.phone}" : contact.phone;
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -44,7 +44,7 @@ class ContactTile extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.phone),
             onPressed: () {
-              launchUri("tel:$phoneNumber + phone}");
+              launchUri("tel:$phoneNumber");
             },
           )
         ],
