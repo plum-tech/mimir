@@ -52,17 +52,15 @@ class _ImportTimetableIndexPageState extends State<ImportTimetableIndexPage> {
   Widget buildConnectivityChecker(BuildContext ctx, Key? key) {
     return ConnectivityChecker(
       key: key,
+      iconSize: ctx.isPortrait ? 180 : 120,
       initialDesc: i18n.import.connectivityCheckerDesc,
-      check: () {
-        return TimetableInit.network.checkConnectivity();
-      },
+      check: TimetableInit.network.checkConnectivity,
       onConnected: () {
         if (!mounted) return;
         setState(() {
           canImport = true;
         });
       },
-      iconSize: ctx.isPortrait ? 180 : 120,
     );
   }
 }

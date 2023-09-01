@@ -6,7 +6,7 @@ import '../../entity/course.dart';
 import '../../entity/entity.dart';
 import '../../using.dart';
 import '../../utils.dart';
-import '../interface.dart';
+import '../../entity/pos.dart';
 import 'daily.dart';
 import 'header.dart';
 import 'weekly.dart';

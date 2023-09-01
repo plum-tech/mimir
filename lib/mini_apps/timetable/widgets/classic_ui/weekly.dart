@@ -10,7 +10,7 @@ import '../shared.dart';
 import 'header.dart';
 import '../style.dart';
 import 'sheet.dart';
-import '../interface.dart';
+import '../../entity/pos.dart';
 
 class WeeklyTimetable extends StatefulWidget {
   final SitTimetable timetable;
