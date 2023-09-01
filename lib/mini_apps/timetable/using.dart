@@ -10,7 +10,6 @@ export '../shared/route.dart';
 export '../shared/storage.dart';
 export '../shared/widgets/school.dart';
 export '../shared/util.dart';
-export '../shared/mimir.dart';
 export 'package:mimir/design/widgets/connectivity_checker.dart';
 
 export 'i18n.dart';

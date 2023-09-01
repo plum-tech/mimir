@@ -1,17 +1,28 @@
+import 'package:json_annotation/json_annotation.dart';
+
 import '../utils.dart';
 import '../using.dart';
 import 'course.dart';
+
+part 'entity.g.dart';
 
 final _defaultStartDate = DateTime.utc(0);
 
 ///
 /// type: cn.edu.sit.Timetable
+@JsonSerializable()
 class SitTimetable {
+  @JsonKey()
   String id = "";
+  @JsonKey()
   String name = "";
+  @JsonKey()
   String description = "";
+  @JsonKey()
   DateTime startDate = _defaultStartDate;
+  @JsonKey()
   int schoolYear = 0;
+  @JsonKey()
   int semester = 0;
 
   /// The Default number of weeks is 20.
@@ -44,10 +55,16 @@ class SitTimetable {
 
   @override
   String toString() => "[$courseKeyCounter]";
+
+  factory SitTimetable.fromJson(Map<String, dynamic> json) => _$SitTimetableFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SitTimetableToJson(this);
 }
 
+@JsonSerializable()
 class SitTimetableWeek {
   /// The 7 days in a week
+  @JsonKey()
   final List<SitTimetableDay> days;
 
   SitTimetableWeek(this.days);
@@ -58,6 +75,10 @@ class SitTimetableWeek {
 
   @override
   String toString() => "$days";
+
+  factory SitTimetableWeek.fromJson(Map<String, dynamic> json) => _$SitTimetableWeekFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SitTimetableWeekToJson(this);
 }
 
 /// Lessons in the same Timeslot.
@@ -66,9 +87,11 @@ typedef LessonsInSlot = List<SitTimetableLesson>;
 /// A Timeslot contain one or more lesson.
 typedef SitTimeslots = List<LessonsInSlot>;
 
+@JsonSerializable()
 class SitTimetableDay {
   /// The Default number of lesson in one day is 11. But the length of [lessons] can be more.
   /// When two lessons are overlapped, it can be 12+.
+  @JsonKey()
   SitTimeslots timeslots2Lessons;
 
   SitTimetableDay(this.timeslots2Lessons);
@@ -117,18 +140,26 @@ class SitTimetableDay {
 
   @override
   String toString() => "$timeslots2Lessons";
+
+  factory SitTimetableDay.fromJson(Map<String, dynamic> json) => _$SitTimetableDayFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SitTimetableDayToJson(this);
 }
 
+@JsonSerializable()
 class SitTimetableLesson {
   /// The start index of this lesson in a [SitTimetableWeek]
+  @JsonKey()
   final int startIndex;
 
   /// The end index of this lesson in a [SitTimetableWeek]
+  @JsonKey()
   final int endIndex;
 
   /// A lesson may last two or more time slots.
   /// If current [SitTimetableLesson] is a part of the whole lesson, they all have the same [courseKey].
   /// If there's no lesson, the [courseKey] is null.
+  @JsonKey()
   final int courseKey;
 
   /// How many timeslots this lesson takes.
@@ -139,6 +170,10 @@ class SitTimetableLesson {
 
   @override
   String toString() => "[$courseKey] $startIndex-$endIndex";
+
+  factory SitTimetableLesson.fromJson(Map<String, dynamic> json) => _$SitTimetableLessonFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SitTimetableLessonToJson(this);
 }
 
 extension SitTimetableLessonEx on SitTimetableLesson {
@@ -147,32 +182,46 @@ extension SitTimetableLessonEx on SitTimetableLesson {
   }
 }
 
+@JsonSerializable()
 class SitCourse {
+  @JsonKey()
   final int courseKey;
+  @JsonKey()
   final String courseName;
+  @JsonKey()
   final String courseCode;
+  @JsonKey()
   final String classCode;
+  @JsonKey()
   final String campus;
+  @JsonKey()
   final String place;
 
   /// The icon name in
+  @JsonKey()
   final String iconName;
 
   /// e.g.: `a1-5,s14` means `from 1st week to 5th week` + `14th week`.
   /// e.g.: `o2-9,s12,s14` means `only odd weeks from 2nd week to 9th week` + `12th week` + `14th week`
   /// If the index is `o`(odd), `e`(even) or `a`(all), then it must be a range.
   /// Starts with 1
+  @JsonKey()
   final List<String> rangedWeekNumbers;
 
   /// e.g.: `1-3` means `1st slot to 3rd slot`.
   /// Starts with 0
+  @JsonKey()
   final String timeslots;
+  @JsonKey()
   final double courseCredit;
+  @JsonKey()
   final int creditHour;
 
   /// e.g.: `0` means `Monday`
   /// Starts with 0
+  @JsonKey()
   final int dayIndex;
+  @JsonKey()
   final List<String> teachers;
 
   const SitCourse(
@@ -252,6 +301,10 @@ class SitCourse {
     }
     return res;
   }
+
+  factory SitCourse.fromJson(Map<String, dynamic> json) => _$SitCourseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SitCourseToJson(this);
 }
 
 extension SitCourseEx on SitCourse {
@@ -287,138 +340,5 @@ extension SitCourseEx on SitCourse {
     final begin = timetable[startIndex].begin;
     final end = timetable[endIndex].end;
     return ClassTime(begin, end);
-  }
-}
-
-class SitTimetableDataAdapter extends DataAdapter<SitTimetable> {
-  @override
-  String get typeName => "SitTimetable";
-
-  @override
-  SitTimetable fromJson(RestoreContext ctx, Map<String, dynamic> json) {
-    return SitTimetable(
-      ctx.restoreNullableListByExactType<SitTimetableWeek>(json["weeks"]),
-      ctx.restoreListByExactType<SitCourse>(json["courseKey2Entity"]),
-      json["courseKeyCounter"] as int,
-    )
-      ..id = json["id"] as String
-      ..name = json["name"] as String
-      ..description = json["description"] as String
-      ..startDate = ctx.restoreByExactType<DateTime>(json["startDate"]) as DateTime
-      ..schoolYear = json["schoolYear"] as int
-      ..semester = json["semester"] as int;
-  }
-
-  @override
-  Map<String, dynamic> toJson(ParseContext ctx, SitTimetable obj) {
-    return {
-      "id": obj.id,
-      "name": obj.name,
-      "description": obj.description,
-      "startDate": ctx.parseToJson(obj.startDate),
-      "schoolYear": obj.schoolYear,
-      "semester": obj.semester,
-      "weeks": ctx.parseToNullableList(obj.weeks),
-      "courseKey2Entity": ctx.parseToList(obj.courseKey2Entity),
-      "courseKeyCounter": obj.courseKeyCounter,
-    };
-  }
-}
-
-class SitTimetableWeekDataAdapter extends DataAdapter<SitTimetableWeek> {
-  @override
-  String get typeName => "SitTimetableWeek";
-
-  @override
-  SitTimetableWeek fromJson(RestoreContext ctx, Map<String, dynamic> json) {
-    return SitTimetableWeek(
-      ctx.restoreListByExactType(json["days"]),
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson(ParseContext ctx, SitTimetableWeek obj) {
-    return {"days": ctx.parseToList(obj.days)};
-  }
-}
-
-class SitTimetableDayDataAdapter extends DataAdapter<SitTimetableDay> {
-  @override
-  String get typeName => "SitTimetableDay";
-
-  @override
-  SitTimetableDay fromJson(RestoreContext ctx, Map<String, dynamic> json) {
-    return SitTimetableDay(ctx.restore2DListByExactType<SitTimetableLesson>(json["timeslots2Lessons"]));
-  }
-
-  @override
-  Map<String, dynamic> toJson(ParseContext ctx, SitTimetableDay obj) {
-    return {"timeslots2Lessons": ctx.parseTo2DList(obj.timeslots2Lessons)};
-  }
-}
-
-class SitTimetableLessonDataAdapter extends DataAdapter<SitTimetableLesson> {
-  @override
-  String get typeName => "SitTimetableLesson";
-
-  @override
-  SitTimetableLesson fromJson(RestoreContext ctx, Map<String, dynamic> json) {
-    return SitTimetableLesson(
-      json["startIndex"] as int,
-      json["endIndex"] as int,
-      json["courseKey"] as int,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson(ParseContext ctx, SitTimetableLesson obj) {
-    return {
-      "startIndex": obj.startIndex,
-      "endIndex": obj.endIndex,
-      "courseKey": obj.courseKey,
-    };
-  }
-}
-
-class SitCourseDataAdapter extends DataAdapter<SitCourse> {
-  @override
-  String get typeName => "SitCourse";
-
-  @override
-  SitCourse fromJson(RestoreContext ctx, Map<String, dynamic> json) {
-    return SitCourse(
-      json["courseKey"] as int,
-      json["courseName"] as String,
-      json["courseCode"] as String,
-      json["classCode"] as String,
-      json["campus"] as String,
-      json["place"] as String,
-      json["iconName"] as String,
-      (json["rangedWeekNumbers"] as List).cast<String>(),
-      json["timeslots"] as String,
-      json["courseCredit"] as double,
-      json["creditHour"] as int,
-      json["dayIndex"] as int,
-      (json["teachers"] as List).cast<String>(),
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson(ParseContext ctx, SitCourse obj) {
-    return {
-      "courseKey": obj.courseKey,
-      "courseName": obj.courseName,
-      "courseCode": obj.courseCode,
-      "classCode": obj.classCode,
-      "campus": obj.campus,
-      "place": obj.place,
-      "iconName": obj.iconName,
-      "rangedWeekNumbers": obj.rangedWeekNumbers,
-      "timeslots": obj.timeslots,
-      "courseCredit": obj.courseCredit,
-      "creditHour": obj.creditHour,
-      "dayIndex": obj.dayIndex,
-      "teachers": obj.teachers,
-    };
   }
 }

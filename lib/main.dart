@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/migration/migrations.dart';
-import 'package:mimir/mimir/mimir.dart';
 
 import 'app.dart';
 
 import 'l10n/yaml_assets_loader.dart';
-import 'mimir_plugins.dart';
 import 'r.dart';
 
 void main() async {
@@ -17,9 +15,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   Migrations.init();
-  mimir.install(DefaultFlutterDataAdapterPlugin);
-  mimir.install(DataAdapterPlugin);
-  mimir.install(DebugPlugin);
   await Init.init();
   runApp(const MimirApp().withEasyLocalization());
 }

@@ -132,7 +132,10 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       ..name = defaultName
       ..schoolYear = year
       ..semester = semester.index;
-    final saved = await ctx.showSheet((ctx) => MetaEditor(meta: meta).padOnly(b: MediaQuery.of(ctx).viewInsets.bottom));
+    final saved = await ctx.showSheet(
+      (ctx) => MetaEditor(meta: meta).padOnly(b: MediaQuery.of(ctx).viewInsets.bottom),
+      dismissible: false,
+    );
     if (saved == true) {
       timetable.name = meta.name;
       timetable.description = meta.description;
@@ -159,7 +162,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
                 await Future.wait([
                   _fetchTimetable(year, semester),
                   //fetchMockCourses(),
-                  Future.delayed(const Duration(milliseconds: 1500)),
+                  Future.delayed(const Duration(seconds: 1)),
                 ]).then((value) async {
                   if (!mounted) return;
                   setState(() {
@@ -180,8 +183,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
                   _status = ImportStatus.failed;
                 });
                 if (!mounted) return;
-                await context.showTip(
-                    title: i18n.import.failed, desc: i18n.import.failedDesc, ok: i18n.ok);
+                await context.showTip(title: i18n.import.failed, desc: i18n.import.failedDesc, ok: i18n.ok);
               } finally {
                 if (_status == ImportStatus.importing) {
                   setState(() {

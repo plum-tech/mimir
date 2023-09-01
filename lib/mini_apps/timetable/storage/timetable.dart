@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:mimir/mini_apps/symbol.dart';
+
 import '../entity/course.dart';
 import '../entity/entity.dart';
 import '../using.dart';
@@ -28,11 +32,13 @@ class TimetableStorage {
 
   set timetableIds(List<String>? newValue) => box.put(_K.timetableIds, newValue);
 
-  SitTimetable? getSitTimetableBy({required String id}) =>
-      mimir.restoreByExactType<SitTimetable>(box.get(_K.makeTimetableKey(id)));
+  SitTimetable? getSitTimetableBy({required String id}){
+    final table = box.get(_K.makeTimetableKey(id));
+    return table == null? null :SitTimetable.fromJson(jsonDecode(table));
+  }
 
-  void setSitTimetable(SitTimetable? timetable, {required String byId}) => box.put(_K.makeTimetableKey(byId),
-      timetable == null ? null : mimir.parseToJson<SitTimetable>(timetable, enableTypeAnnotation: false));
+  void setSitTimetable(SitTimetable? timetable, {required String byId}) =>
+      box.put(_K.makeTimetableKey(byId), timetable == null ? null : jsonEncode(timetable.toJson()));
 
   String? get currentTimetableId => box.get(_K.currentTimetableId);
 
