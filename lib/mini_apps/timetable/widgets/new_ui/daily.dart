@@ -12,13 +12,10 @@ import '../style.dart';
 import '../interface.dart';
 import 'shared.dart';
 
-class DailyTimetable extends StatefulWidget implements InitialTimeProtocol {
+class DailyTimetable extends StatefulWidget {
   final SitTimetable timetable;
 
-  @override
-  DateTime get initialDate => timetable.startDate;
-
-  final ValueNotifier<TimetablePosition> $currentPos;
+  final ValueNotifier<TimetablePos> $currentPos;
 
   @override
   State<StatefulWidget> createState() => DailyTimetableState();
@@ -33,25 +30,25 @@ class DailyTimetable extends StatefulWidget implements InitialTimeProtocol {
 class DailyTimetableState extends State<DailyTimetable> {
   SitTimetable get timetable => widget.timetable;
 
-  TimetablePosition get currentPos => widget.$currentPos.value;
+  TimetablePos get currentPos => widget.$currentPos.value;
 
-  set currentPos(TimetablePosition newValue) => widget.$currentPos.value = newValue;
+  set currentPos(TimetablePos newValue) => widget.$currentPos.value = newValue;
 
   /// 翻页控制
   late PageController _pageController;
 
-  int pos2PageOffset(TimetablePosition pos) => (pos.week - 1) * 7 + pos.day - 1;
+  int pos2PageOffset(TimetablePos pos) => (pos.week - 1) * 7 + pos.day - 1;
 
-  TimetablePosition page2Pos(int page) {
+  TimetablePos page2Pos(int page) {
     final week = page ~/ 7 + 1;
     final day = page % 7 + 1;
-    return TimetablePosition(week: week, day: day);
+    return TimetablePos(week: week, day: day);
   }
 
   @override
   void initState() {
     super.initState();
-    final pos = widget.locateInTimetable(DateTime.now());
+    final pos = timetable.locate(DateTime.now());
     _pageController = PageController(initialPage: pos2PageOffset(pos))..addListener(onPageChange);
     eventBus.on<JumpToPosEvent>().listen((event) {
       jumpTo(event.where);
@@ -74,7 +71,7 @@ class DailyTimetableState extends State<DailyTimetable> {
       itemBuilder: (_, int index) {
         int weekIndex = index ~/ 7;
         int dayIndex = index % 7;
-        final todayPos = widget.locateInTimetable(DateTime.now());
+        final todayPos = timetable.locate(DateTime.now());
         return _OneDayPage(
           timetable: timetable,
           todayPos: todayPos,
@@ -95,7 +92,7 @@ class DailyTimetableState extends State<DailyTimetable> {
     });
   }
 
-  void jumpTo(TimetablePosition pos) {
+  void jumpTo(TimetablePos pos) {
     if (_pageController.hasClients) {
       final targetOffset = pos2PageOffset(pos);
       final currentPos = _pageController.page ?? targetOffset;
@@ -117,7 +114,7 @@ class DailyTimetableState extends State<DailyTimetable> {
 
 class _OneDayPage extends StatefulWidget {
   final SitTimetable timetable;
-  final TimetablePosition todayPos;
+  final TimetablePos todayPos;
   final int weekIndex;
   final int dayIndex;
 
@@ -236,7 +233,7 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
         for (int j = dayIndexStart; j < week.days.length; j++) {
           final day = week.days[j];
           if (day.hasAnyLesson()) {
-            eventBus.fire(JumpToPosEvent(TimetablePosition(week: i + 1, day: j + 1)));
+            eventBus.fire(JumpToPosEvent(TimetablePos(week: i + 1, day: j + 1)));
             return;
           }
         }
@@ -250,7 +247,7 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
         for (int j = dayIndexStart; 0 <= j; j--) {
           final day = week.days[j];
           if (day.hasAnyLesson()) {
-            eventBus.fire(JumpToPosEvent(TimetablePosition(week: i + 1, day: j + 1)));
+            eventBus.fire(JumpToPosEvent(TimetablePos(week: i + 1, day: j + 1)));
             return;
           }
         }

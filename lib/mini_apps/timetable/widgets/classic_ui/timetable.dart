@@ -16,7 +16,7 @@ class TimetableViewer extends StatefulWidget {
 
   final ValueNotifier<DisplayMode> $displayMode;
 
-  final ValueNotifier<TimetablePosition> $currentPos;
+  final ValueNotifier<TimetablePos> $currentPos;
 
   const TimetableViewer({
     required this.timetable,

@@ -12,13 +12,10 @@ import '../style.dart';
 import 'sheet.dart';
 import '../interface.dart';
 
-class WeeklyTimetable extends StatefulWidget implements InitialTimeProtocol {
+class WeeklyTimetable extends StatefulWidget {
   final SitTimetable timetable;
 
-  @override
-  DateTime get initialDate => timetable.startDate;
-
-  final ValueNotifier<TimetablePosition> $currentPos;
+  final ValueNotifier<TimetablePos> $currentPos;
 
   @override
   State<StatefulWidget> createState() => WeeklyTimetableState();
@@ -38,21 +35,21 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
 
   SitTimetable get timetable => widget.timetable;
 
-  TimetablePosition get currentPos => widget.$currentPos.value;
+  TimetablePos get currentPos => widget.$currentPos.value;
 
-  set currentPos(TimetablePosition newValue) => widget.$currentPos.value = newValue;
+  set currentPos(TimetablePos newValue) => widget.$currentPos.value = newValue;
 
   int page2Week(int page) => page + 1;
 
   int week2PageOffset(int week) => week - 1;
-  TimetablePosition? _lastPos;
+  TimetablePos? _lastPos;
   bool isJumping = false;
   int mood = 0;
 
   @override
   void initState() {
     super.initState();
-    dateSemesterStart = widget.initialDate;
+    dateSemesterStart = timetable.startDate;
     _pageController = PageController(initialPage: currentPos.week - 1)..addListener(onPageChange);
     widget.$currentPos.addListener(() {
       final curPos = widget.$currentPos.value;
@@ -81,7 +78,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
             (ctx, cur) => TimetableHeader(
                   selectedDay: 0,
                   currentWeek: cur.week,
-                  startDate: widget.initialDate,
+                  startDate: timetable.startDate,
                 ).flexible(flex: 500)
       ].row().container(
             decoration: BoxDecoration(
@@ -100,7 +97,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
           scrollDirection: Axis.horizontal,
           itemCount: 20,
           itemBuilder: (BuildContext ctx, int weekIndex) {
-            final todayPos = widget.locateInTimetable(DateTime.now());
+            final todayPos = timetable.locate(DateTime.now());
             return _OneWeekPage(
               timetable: timetable,
               todayPos: todayPos,
@@ -133,7 +130,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   }
 
   /// 跳到某一周
-  void jumpTo(TimetablePosition pos) {
+  void jumpTo(TimetablePos pos) {
     if (_pageController.hasClients) {
       final targetOffset = week2PageOffset(pos.week);
       final currentPos = _pageController.page ?? targetOffset;
@@ -156,8 +153,8 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
 
 class _OneWeekPage extends StatefulWidget {
   final SitTimetable timetable;
-  final TimetablePosition todayPos;
-  final ValueNotifier<TimetablePosition> $currentPos;
+  final TimetablePos todayPos;
+  final ValueNotifier<TimetablePos> $currentPos;
   final int weekIndex;
 
   const _OneWeekPage({
@@ -178,9 +175,9 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
   /// Cache the who page to avoid expensive rebuilding.
   Widget? _cached;
 
-  TimetablePosition get currentPos => widget.$currentPos.value;
+  TimetablePos get currentPos => widget.$currentPos.value;
 
-  set currentPos(TimetablePosition newValue) => widget.$currentPos.value = newValue;
+  set currentPos(TimetablePos newValue) => widget.$currentPos.value = newValue;
 
   Size? lastSize;
 

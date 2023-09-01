@@ -1,16 +1,9 @@
+import 'package:mimir/entities.dart';
 import 'package:quiver/core.dart';
 
 import '../using.dart';
 
-abstract class InitialTimeProtocol {
-  DateTime get initialDate;
-}
-
-extension InitialTimeUtils on InitialTimeProtocol {
-  TimetablePosition locateInTimetable(DateTime target) => TimetablePosition.locate(initialDate, target);
-}
-
-class TimetablePosition {
+class TimetablePos {
   /// starts with 1
   /// If you want week index, please do
   /// ```dart
@@ -25,33 +18,44 @@ class TimetablePosition {
   /// ```
   final int day;
 
-  const TimetablePosition({this.week = 1, this.day = 1});
+  const TimetablePos({this.week = 1, this.day = 1});
 
-  static const initial = TimetablePosition();
+  static const initial = TimetablePos();
 
-  static TimetablePosition locate(DateTime initial, DateTime time) {
-    // 求一下过了多少天
-    int days = time.clearTime().difference(initial.clearTime()).inDays;
+  static TimetablePos locate(
+    DateTime current, {
+    required DateTime relativeTo,
+    TimetablePos? fallback,
+  }) {
+    // calculate how many days have passed.
+    int totalDays = current.clearTime().difference(relativeTo.clearTime()).inDays;
 
-    int week = days ~/ 7 + 1;
-    int day = days % 7 + 1;
-    if (days >= 0 && 1 <= week && week <= 20 && 1 <= day && day <= 7) {
-      return TimetablePosition(week: week, day: day);
+    int week = totalDays ~/ 7 + 1;
+    int day = totalDays % 7 + 1;
+    if (totalDays >= 0 && 1 <= week && week <= 20 && 1 <= day && day <= 7) {
+      return TimetablePos(week: week, day: day);
     } else {
-      return const TimetablePosition(week: 1, day: 1);
+      // if out of range, fallback will be return.
+      return fallback ?? const TimetablePos(week: 1, day: 1);
     }
   }
 
-  TimetablePosition copyWith({int? week, int? day}) => TimetablePosition(
+  TimetablePos copyWith({int? week, int? day}) => TimetablePos(
         week: week ?? this.week,
         day: day ?? this.day,
       );
 
   @override
   bool operator ==(Object other) {
-    return other is TimetablePosition && runtimeType == other.runtimeType && week == other.week && day == other.day;
+    return other is TimetablePos && runtimeType == other.runtimeType && week == other.week && day == other.day;
   }
 
   @override
   int get hashCode => hash2(week, day);
+}
+
+extension TimetableX on SitTimetable {
+  TimetablePos locate(DateTime current) {
+    return TimetablePos.locate(current, relativeTo: startDate);
+  }
 }

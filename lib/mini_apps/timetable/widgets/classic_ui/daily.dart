@@ -11,13 +11,9 @@ import '../style.dart';
 import 'sheet.dart';
 import '../interface.dart';
 
-class DailyTimetable extends StatefulWidget implements InitialTimeProtocol {
+class DailyTimetable extends StatefulWidget {
   final SitTimetable timetable;
-
-  @override
-  DateTime get initialDate => timetable.startDate;
-
-  final ValueNotifier<TimetablePosition> $currentPos;
+  final ValueNotifier<TimetablePos> $currentPos;
 
   @override
   State<StatefulWidget> createState() => DailyTimetableState();
@@ -32,28 +28,28 @@ class DailyTimetable extends StatefulWidget implements InitialTimeProtocol {
 class DailyTimetableState extends State<DailyTimetable> {
   SitTimetable get timetable => widget.timetable;
 
-  TimetablePosition get currentPos => widget.$currentPos.value;
+  TimetablePos get currentPos => widget.$currentPos.value;
 
-  set currentPos(TimetablePosition newValue) => widget.$currentPos.value = newValue;
+  set currentPos(TimetablePos newValue) => widget.$currentPos.value = newValue;
 
   /// 翻页控制
   late PageController _pageController;
 
-  int pos2PageOffset(TimetablePosition pos) => (pos.week - 1) * 7 + pos.day - 1;
+  int pos2PageOffset(TimetablePos pos) => (pos.week - 1) * 7 + pos.day - 1;
 
-  TimetablePosition page2Pos(int page) {
+  TimetablePos page2Pos(int page) {
     final week = page ~/ 7 + 1;
     final day = page % 7 + 1;
-    return TimetablePosition(week: week, day: day);
+    return TimetablePos(week: week, day: day);
   }
 
-  TimetablePosition? _lastPos;
+  TimetablePos? _lastPos;
   bool isJumping = false;
 
   @override
   void initState() {
     super.initState();
-    final pos = widget.locateInTimetable(DateTime.now());
+    final pos = timetable.locate(DateTime.now());
     _pageController = PageController(initialPage: pos2PageOffset(pos))..addListener(onPageChange);
     widget.$currentPos.addListener(() {
       final curPos = widget.$currentPos.value;
@@ -79,9 +75,9 @@ class DailyTimetableState extends State<DailyTimetable> {
           (ctx, cur) => TimetableHeader(
                 selectedDay: cur.day,
                 currentWeek: cur.week,
-                startDate: widget.initialDate,
+                startDate: timetable.startDate,
                 onDayTap: (selectedDay) {
-                  currentPos = TimetablePosition(week: cur.week, day: selectedDay);
+                  currentPos = TimetablePos(week: cur.week, day: selectedDay);
                 },
               )
                   .container(decoration: BoxDecoration(border: Border(top: side, bottom: side, right: side)))
@@ -100,7 +96,7 @@ class DailyTimetableState extends State<DailyTimetable> {
             itemBuilder: (_, int index) {
               int weekIndex = index ~/ 7;
               int dayIndex = index % 7;
-              final todayPos = widget.locateInTimetable(DateTime.now());
+              final todayPos = timetable.locate(DateTime.now());
               return _OneDayPage(
                 timetable: timetable,
                 todayPos: todayPos,
@@ -126,7 +122,7 @@ class DailyTimetableState extends State<DailyTimetable> {
   }
 
   /// 跳转到指定星期与天
-  void jumpTo(TimetablePosition pos) {
+  void jumpTo(TimetablePos pos) {
     if (_pageController.hasClients) {
       final targetOffset = pos2PageOffset(pos);
       final currentPos = _pageController.page ?? targetOffset;
@@ -149,8 +145,8 @@ class DailyTimetableState extends State<DailyTimetable> {
 
 class _OneDayPage extends StatefulWidget {
   final SitTimetable timetable;
-  final TimetablePosition todayPos;
-  final ValueNotifier<TimetablePosition> $currentPos;
+  final TimetablePos todayPos;
+  final ValueNotifier<TimetablePos> $currentPos;
   final int weekIndex;
   final int dayIndex;
 
@@ -170,9 +166,9 @@ class _OneDayPage extends StatefulWidget {
 class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientMixin {
   SitTimetable get timetable => widget.timetable;
 
-  TimetablePosition get currentPos => widget.$currentPos.value;
+  TimetablePos get currentPos => widget.$currentPos.value;
 
-  set currentPos(TimetablePosition newValue) => widget.$currentPos.value = newValue;
+  set currentPos(TimetablePos newValue) => widget.$currentPos.value = newValue;
 
   /// Cache the who page to avoid expensive rebuilding.
   Widget? _cached;
@@ -262,7 +258,7 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
         for (int j = dayIndexStart; j < week.days.length; j++) {
           final day = week.days[j];
           if (day.hasAnyLesson()) {
-            currentPos = TimetablePosition(week: i + 1, day: j + 1);
+            currentPos = TimetablePos(week: i + 1, day: j + 1);
             return;
           }
         }
@@ -276,7 +272,7 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
         for (int j = dayIndexStart; 0 <= j; j--) {
           final day = week.days[j];
           if (day.hasAnyLesson()) {
-            currentPos = TimetablePosition(week: i + 1, day: j + 1);
+            currentPos = TimetablePos(week: i + 1, day: j + 1);
             return;
           }
         }

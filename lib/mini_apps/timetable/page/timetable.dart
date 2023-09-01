@@ -32,7 +32,7 @@ class _TimetablePageState extends State<TimetablePage> {
   late ValueNotifier<DisplayMode> $displayMode;
 
   // 课表元数据
-  late final ValueNotifier<TimetablePosition> $currentPos;
+  late final ValueNotifier<TimetablePos> $currentPos;
 
   SitTimetable get timetable => widget.timetable;
 
@@ -46,7 +46,7 @@ class _TimetablePageState extends State<TimetablePage> {
       storage.lastDisplayMode = $displayMode.value;
     });
     storage.lastDisplayMode = initialMode;
-    $currentPos = ValueNotifier(TimetablePosition.locate(timetable.startDate, DateTime.now()));
+    $currentPos = ValueNotifier(timetable.locate(DateTime.now()));
   }
 
   @override
@@ -66,7 +66,7 @@ class _TimetablePageState extends State<TimetablePage> {
       ),
       floatingActionButton: InkWell(
           onLongPress: () {
-            final today = TimetablePosition.locate(timetable.startDate, DateTime.now());
+            final today = timetable.locate(DateTime.now());
             if ($currentPos.value != today) {
               if (TimetableStyle.of(context).useNewUI) {
                 eventBus.fire(JumpToPosEvent(today));
@@ -126,7 +126,7 @@ class _TimetablePageState extends State<TimetablePage> {
     final currentWeek = $currentPos.value.week;
     final initialIndex = currentWeek - 1;
     final controller = FixedExtentScrollController(initialItem: initialIndex);
-    final todayPos = TimetablePosition.locate(timetable.startDate, DateTime.now());
+    final todayPos = timetable.locate(DateTime.now());
     final todayIndex = todayPos.week - 1;
     final index2Go = await ctx.showPicker(
         count: 20,
@@ -162,7 +162,7 @@ class _TimetablePageState extends State<TimetablePage> {
     final initialDayIndex = currentPos.day - 1;
     final $week = FixedExtentScrollController(initialItem: initialWeekIndex);
     final $day = FixedExtentScrollController(initialItem: initialDayIndex);
-    final todayPos = TimetablePosition.locate(timetable.startDate, DateTime.now());
+    final todayPos = timetable.locate(DateTime.now());
     final todayWeekIndex = todayPos.week - 1;
     final todayDayIndex = todayPos.day - 1;
     final indices2Go = await ctx.showDualPicker(
@@ -193,9 +193,9 @@ class _TimetablePageState extends State<TimetablePage> {
     if (week2Go != null && day2Go != null && (week2Go != initialWeekIndex || day2Go != initialDayIndex)) {
       if (!mounted) return;
       if (TimetableStyle.of(ctx).useNewUI) {
-        eventBus.fire(JumpToPosEvent(TimetablePosition(week: week2Go + 1, day: day2Go + 1)));
+        eventBus.fire(JumpToPosEvent(TimetablePos(week: week2Go + 1, day: day2Go + 1)));
       } else {
-        $currentPos.value = TimetablePosition(week: week2Go + 1, day: day2Go + 1);
+        $currentPos.value = TimetablePos(week: week2Go + 1, day: day2Go + 1);
       }
     }
   }

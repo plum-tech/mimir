@@ -18,7 +18,7 @@ class TimetableViewer extends StatefulWidget {
 
   final ValueNotifier<DisplayMode> $displayMode;
 
-  final ValueNotifier<TimetablePosition> $currentPos;
+  final ValueNotifier<TimetablePos> $currentPos;
 
   const TimetableViewer({
     required this.timetable,
@@ -75,9 +75,9 @@ class _TimetableViewerState extends State<TimetableViewer> {
             startDate: timetable.startDate,
             onDayTap: (selectedDay) {
               if (widget.$displayMode.value == DisplayMode.daily) {
-                eventBus.fire(JumpToPosEvent(TimetablePosition(week: cur.week, day: selectedDay)));
+                eventBus.fire(JumpToPosEvent(TimetablePos(week: cur.week, day: selectedDay)));
               } else {
-                widget.$currentPos.value = TimetablePosition(week: cur.week, day: selectedDay);
+                widget.$currentPos.value = TimetablePos(week: cur.week, day: selectedDay);
               }
             });
   }

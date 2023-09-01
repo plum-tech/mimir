@@ -9,14 +9,14 @@ import '../events.dart';
 import '../using.dart';
 import 'preview.dart';
 
-class MyTimetablePage extends StatefulWidget {
-  const MyTimetablePage({super.key});
+class MyTimetableListPage extends StatefulWidget {
+  const MyTimetableListPage({super.key});
 
   @override
-  State<MyTimetablePage> createState() => _MyTimetablePageState();
+  State<MyTimetableListPage> createState() => _MyTimetableListPageState();
 }
 
-class _MyTimetablePageState extends State<MyTimetablePage> {
+class _MyTimetableListPageState extends State<MyTimetableListPage> {
   final storage = TimetableInit.timetableStorage;
 
   Future<void> goImport() async {

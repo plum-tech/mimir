@@ -43,7 +43,7 @@ class _TimetableIndexPageState extends State<TimetableIndexPage> {
     final selected = _selected;
     if (selected == null) {
       // If no timetable selected, navigate to Mine page to select/import one.
-      return const MyTimetablePage();
+      return const MyTimetableListPage();
     } else {
       return TimetableStyleProv(
         child: TimetablePage(

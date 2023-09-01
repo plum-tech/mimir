@@ -13,7 +13,7 @@ class CurrentTimetableChangeEvent {
 class TimetableStyleChangeEvent {}
 
 class JumpToPosEvent {
-  final TimetablePosition where;
+  final TimetablePos where;
 
   JumpToPosEvent(this.where);
 }

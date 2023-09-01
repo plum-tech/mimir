@@ -13,13 +13,13 @@ import '../classic_ui/sheet.dart';
 import '../interface.dart';
 import 'shared.dart';
 
-class WeeklyTimetable extends StatefulWidget implements InitialTimeProtocol {
+class WeeklyTimetable extends StatefulWidget  {
   final SitTimetable timetable;
 
   @override
   DateTime get initialDate => timetable.startDate;
 
-  final ValueNotifier<TimetablePosition> $currentPos;
+  final ValueNotifier<TimetablePos> $currentPos;
 
   @override
   State<StatefulWidget> createState() => WeeklyTimetableState();
@@ -39,9 +39,9 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
 
   SitTimetable get timetable => widget.timetable;
 
-  TimetablePosition get currentPos => widget.$currentPos.value;
+  TimetablePos get currentPos => widget.$currentPos.value;
 
-  set currentPos(TimetablePosition newValue) => widget.$currentPos.value = newValue;
+  set currentPos(TimetablePos newValue) => widget.$currentPos.value = newValue;
 
   int page2Week(int page) => page + 1;
 
@@ -71,7 +71,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
       scrollDirection: Axis.horizontal,
       itemCount: 20,
       itemBuilder: (BuildContext ctx, int weekIndex) {
-        final todayPos = widget.locateInTimetable(DateTime.now());
+        final todayPos = timetable.locate(DateTime.now());
         return _OneWeekPage(
           timetable: timetable,
           todayPos: todayPos,
@@ -92,7 +92,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
     });
   }
 
-  void jumpTo(TimetablePosition pos) {
+  void jumpTo(TimetablePos pos) {
     if (_pageController.hasClients) {
       final targetOffset = week2PageOffset(pos.week);
       final currentPos = _pageController.page ?? targetOffset;
@@ -114,9 +114,9 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
 
 class _OneWeekPage extends StatefulWidget {
   final SitTimetable timetable;
-  final ValueNotifier<TimetablePosition> $currentPos;
+  final ValueNotifier<TimetablePos> $currentPos;
   final int weekIndex;
-  final TimetablePosition todayPos;
+  final TimetablePos todayPos;
 
   const _OneWeekPage({
     super.key,
@@ -136,7 +136,7 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
   /// Cache the who page to avoid expensive rebuilding.
   Widget? _cached;
 
-  TimetablePosition get currentPos => widget.$currentPos.value;
+  TimetablePos get currentPos => widget.$currentPos.value;
 
   @override
   Widget build(BuildContext context) {
@@ -230,7 +230,7 @@ class _CourseDayColumn extends StatefulWidget {
   final SitTimetableWeek timetableWeek;
   final SitTimetable timetable;
   final int currentWeek;
-  final TimetablePosition currentPos;
+  final TimetablePos currentPos;
   final int dayIndex;
 
   const _CourseDayColumn({
@@ -249,7 +249,7 @@ class _CourseDayColumn extends StatefulWidget {
 class _CourseDayColumnState extends State<_CourseDayColumn> {
   /// Cache the column to avoid expensive rebuilding.
   Widget? _cached;
-  TimetablePosition? lastCurrentPos;
+  TimetablePos? lastCurrentPos;
   late bool isSelected;
 
   @override
