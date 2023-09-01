@@ -200,7 +200,7 @@ class _HomepageState extends State<Homepage> {
         final result = await Navigator.of(context).pushNamed(Routes.scanner);
         if (result is String) {
           if (Uri.tryParse(result) != null) {
-            await launchUri(result);
+            await guardLaunchUrlString(result);
             return;
           }
         }

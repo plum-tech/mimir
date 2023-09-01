@@ -212,7 +212,7 @@ class _DarkModeSafeHtmlWidgetState extends State<DarkModeSafeHtmlWidget> {
           data: widget.html,
           onLinkTap: (url, attributes, element) async {
             if (url != null) {
-              await launchUri(url);
+              await guardLaunchUrlString(url);
             }
           },
           style: _buildStyle(context)),

@@ -1,39 +1,34 @@
 import 'package:mimir/app.dart';
-import 'package:mimir/credential/using.dart';
-import 'package:mimir/global/i18n.dart';
 import 'package:mimir/route.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-Future<bool> launchUri(String scheme) async {
-  if (scheme.startsWith("http")) {
+Future<bool> guardLaunchUrl(Uri url) async {
+  if (url.scheme == "http" || url.scheme == "https") {
+    // guards the http(s)
     if (!UniversalPlatform.isDesktopOrWeb) {
       $Key.currentState?.pushNamed(
         Routes.browser,
-        arguments: {'initialUrl': scheme},
+        arguments: {'initialUrl': url.toString()},
       );
       return true;
-    } else {
-      final uri = Uri.tryParse(scheme);
-      if (uri == null) return false;
-      try {
-        return await launchUrl(uri);
-      } catch (err) {
-        return false;
-      }
-    }
-  } else if (scheme.contains(":")) {
-    final uri = Uri.tryParse(scheme);
-    if (uri == null) {
-      return false;
     }
     try {
-      return await launchUrl(uri);
+      return await launchUrl(url);
     } catch (err) {
       return false;
     }
-  } else {
-    $Key.currentContext!.showTip(title: 'Unsupported URI', desc: scheme, ok: i18n.ok);
+  }
+  // not http(s)
+  try {
+    return await launchUrl(url);
+  } catch (err) {
     return false;
   }
+}
+
+Future<bool> guardLaunchUrlString(String url) async {
+  final uri = Uri.tryParse(url);
+  if (uri == null) return false;
+  return await guardLaunchUrl(uri);
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:mimir/launcher.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../entity/result.dart';
 import '../events.dart';
@@ -8,6 +10,7 @@ import '../init.dart';
 import '../widgets/item.dart';
 import '../using.dart';
 import '../util.dart';
+import 'evaluation.dart';
 
 class ExamResultPage extends StatefulWidget {
   const ExamResultPage({super.key});
@@ -95,7 +98,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
       body: [
         _buildHeader(),
         allResults == null
-            ? Placeholders.loading()
+            ? Placeholders.loading().expanded()
             : NotificationListener<UserScrollNotification>(
                 // TODO: How can I extract this to a more general component?
                 onNotification: (notification) {
@@ -123,6 +126,10 @@ class _ExamResultPageState extends State<ExamResultPage> {
               child: FloatingActionButton.extended(
                 icon: const Icon(Icons.assessment_outlined),
                 onPressed: () async {
+                  if (UniversalPlatform.isDesktop) {
+                    await guardLaunchUrl(evaluationUri);
+                    return;
+                  }
                   await Navigator.of(context).pushNamed(Routes.examResultEvaluation);
                   if (!mounted) return;
                   eventBus.fire(LessonEvaluatedEvent());

@@ -64,10 +64,8 @@ final defaultRouteTable = StaticRouteTable(
         fixedTitle: args['fixedTitle'],
         showSharedButton: args['showSharedButton'],
         showRefreshButton: args['showRefreshButton'],
-        showOpenInBrowser: args['showLoadInBrowser'],
+        showOpenInBrowser: args['showOpenInBrowser'],
         userAgent: args['userAgent'],
-        showLaunchButtonIfUnsupported: args['showLaunchButtonIfUnsupported'],
-        showTopProgressIndicator: args['showTopProgressIndicator'],
         javascript: args['javascript'],
         javascriptUrl: args['javascriptUrl'],
       );

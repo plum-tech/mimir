@@ -228,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
                 style: const TextStyle(color: Colors.grey),
               ),
               onPressed: () {
-                launchUri(R.forgotLoginPwdUrl);
+                guardLaunchUrlString(R.forgotLoginPwdUrl);
               },
             ),
           ]

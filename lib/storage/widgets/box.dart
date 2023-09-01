@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mimir/design/page/common.dart';
+import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/view.dart';
 import 'package:mimir/widgets/page_grouper.dart';
 import 'package:mimir/widgets/placeholder_future_builder.dart';

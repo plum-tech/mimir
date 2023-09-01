@@ -1,12 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/util/logger.dart';
 import 'package:mimir/util/url_launcher.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
-import '../unsupported_platform_launch.dart';
 
 typedef JavaScriptMessageCallback = void Function(JavaScriptMessage msg);
 
@@ -53,9 +52,6 @@ class InjectableWebView extends StatefulWidget {
   /// 暴露dart回调到js接口
   final Map<String, JavaScriptMessageCallback>? javaScriptChannels;
 
-  /// 如果不支持webview，是否显示浏览器打开按钮
-  final bool showLaunchButtonIfUnsupported;
-
   const InjectableWebView({
     Key? key,
     required this.initialUrl,
@@ -69,7 +65,6 @@ class InjectableWebView extends StatefulWidget {
     this.userAgent,
     this.initialCookies,
     this.javaScriptChannels,
-    this.showLaunchButtonIfUnsupported = true,
   }) : super(key: key);
 
   @override
@@ -118,10 +113,7 @@ class _InjectableWebViewState extends State<InjectableWebView> {
   @override
   Widget build(BuildContext context) {
     if (UniversalPlatform.isDesktop) {
-      return UnsupportedPlatformUrlLauncher(
-        widget.initialUrl,
-        showLaunchButton: widget.showLaunchButtonIfUnsupported,
-      );
+      return LeavingBlank(icon: Icons.desktop_access_disabled_rounded);
     } else {
       return WebViewWidget(
         controller: controller,

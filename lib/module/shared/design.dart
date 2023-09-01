@@ -2,7 +2,7 @@ export 'package:mimir/design/adaptive/adaptive.dart';
 export 'package:mimir/design/animation/animated.dart';
 export 'package:mimir/design/animation/livelist.dart';
 export 'package:mimir/design/colors.dart';
-export 'package:mimir/design/page/common.dart';
+export 'package:mimir/design/widgets/common.dart';
 export 'package:mimir/design/widgets/button.dart';
 export 'package:mimir/design/widgets/dialog.dart';
 export 'package:mimir/design/widgets/editor.dart';

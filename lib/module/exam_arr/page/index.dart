@@ -39,11 +39,12 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
     if (!Auth.hasLoggedIn) {
       return UnauthorizedTipPage(title: MiniApp.examArr.l10nName().text());
     } else {
+      final exams = _exams;
       return Scaffold(
           appBar: AppBar(title: MiniApp.examArr.l10nName().text()),
           body: [
             buildSemesterSelector(),
-            buildExamEntries(context).expanded(),
+            exams == null ? Placeholders.loading().expanded() : buildExamEntries(exams).expanded(),
           ].column());
     }
   }
@@ -68,11 +69,7 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
     });
   }
 
-  Widget buildExamEntries(BuildContext ctx) {
-    final exams = _exams;
-    if (exams == null) {
-      return Placeholders.loading();
-    }
+  Widget buildExamEntries(List<ExamEntry> exams) {
     if (exams.isEmpty) {
       return LeavingBlank.svgAssets(
         assetName: "assets/common/not_found.svg",

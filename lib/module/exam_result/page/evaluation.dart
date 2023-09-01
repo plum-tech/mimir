@@ -11,7 +11,7 @@ class EvaluationPage extends StatefulWidget {
   State<EvaluationPage> createState() => _EvaluationPageState();
 }
 
-final _url = Uri(
+final evaluationUri = Uri(
   scheme: 'http',
   host: 'jwxt.sit.edu.cn',
   path: '/jwglxt/xspjgl/xspj_cxXspjIndex.html',
@@ -51,12 +51,12 @@ class _EvaluationPageState extends State<EvaluationPage> {
         children: [
           Expanded(
             child: PlaceholderFutureBuilder<List<WebViewCookie>>(
-              future: ExamResultInit.cookieJar.loadAsWebViewCookie(_url),
+              future: ExamResultInit.cookieJar.loadAsWebViewCookie(evaluationUri),
               builder: (ctx, data, state) {
                 if (data == null) return Placeholders.loading();
                 return MimirWebViewPage(
                   controller: controller,
-                  initialUrl: _url.toString(),
+                  initialUrl: evaluationUri.toString(),
                   fixedTitle: i18n.teacherEvalTitle,
                   initialCookies: data,
                 );

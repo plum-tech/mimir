@@ -46,7 +46,7 @@ class ContactTile extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.phone),
                   onPressed: () {
-                    launchUri("tel:$phoneNumber");
+                    guardLaunchUrlString("tel:$phoneNumber");
                   },
                 )
               ],

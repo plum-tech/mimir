@@ -29,7 +29,7 @@ class MimirWebViewPage extends StatefulWidget {
   final bool showRefreshButton;
 
   /// 显示在浏览器中打开按钮(默认不显示)
-  final bool showLoadInBrowser;
+  final bool showOpenInBrowser;
 
   /// 浮动按钮控件
   final Widget? floatingActionButton;
@@ -45,12 +45,6 @@ class MimirWebViewPage extends StatefulWidget {
   final void Function(int progress)? onProgress;
 
   final Map<String, JavaScriptMessageCallback>? javaScriptChannels;
-
-  /// 如果不支持 WebView，是否显示浏览器打开按钮
-  final bool showLaunchButtonIfUnsupported;
-
-  /// 是否显示顶部进度条
-  final bool showTopProgressIndicator;
 
   /// 自定义Action按钮
   final List<Widget>? otherActions;
@@ -71,14 +65,12 @@ class MimirWebViewPage extends StatefulWidget {
     this.floatingActionButton,
     this.showSharedButton = false,
     this.showRefreshButton = true,
-    this.showLoadInBrowser = false,
-    this.showTopProgressIndicator = true,
+    this.showOpenInBrowser = false,
     this.userAgent,
     this.javaScriptChannels,
     this.onPageStarted,
     this.onPageFinished,
     this.onProgress,
-    this.showLaunchButtonIfUnsupported = true,
     this.otherActions,
     this.followDarkMode = false,
     this.initialCookies = const [],
@@ -108,14 +100,11 @@ class _MimirWebViewPageState extends State<MimirWebViewPage> {
     Log.info('分享页面: ${await controller?.currentUrl()}');
   }
 
-  /// 构造进度条
   PreferredSizeWidget buildTopIndicator() {
     return PreferredSize(
       preferredSize: const Size.fromHeight(3.0),
       child: LinearProgressIndicator(
-        backgroundColor: Colors.white70.withOpacity(0),
         value: progress / 100,
-        valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
       ),
     );
   }
@@ -124,7 +113,7 @@ class _MimirWebViewPageState extends State<MimirWebViewPage> {
   Widget build(BuildContext context) {
     if (UniversalPlatform.isDesktop) {
       Navigator.of(context).pop();
-      launchUri(widget.initialUrl);
+      guardLaunchUrlString(widget.initialUrl);
       return Container();
     }
     final actions = <Widget>[
@@ -138,7 +127,7 @@ class _MimirWebViewPageState extends State<MimirWebViewPage> {
           onPressed: _onRefresh,
           icon: const Icon(Icons.refresh),
         ),
-      if (widget.showLoadInBrowser)
+      if (widget.showOpenInBrowser)
         IconButton(
           onPressed: () => launchUrlInBrowser(widget.initialUrl),
           icon: const Icon(Icons.open_in_browser),
@@ -157,13 +146,7 @@ class _MimirWebViewPageState extends State<MimirWebViewPage> {
         appBar: AppBar(
           title: Text(curTitle),
           actions: actions,
-          bottom: widget.showTopProgressIndicator ? buildTopIndicator() : null,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_outlined),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+          bottom: buildTopIndicator(),
         ),
         floatingActionButton: widget.floatingActionButton,
         body: InjectableWebView(
@@ -198,7 +181,6 @@ class _MimirWebViewPageState extends State<MimirWebViewPage> {
           ],
           javaScriptChannels: widget.javaScriptChannels,
           userAgent: widget.userAgent,
-          showLaunchButtonIfUnsupported: widget.showLaunchButtonIfUnsupported,
           initialCookies: widget.initialCookies,
         ),
       ),
