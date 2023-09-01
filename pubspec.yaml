@@ -59,7 +59,7 @@ dependencies:
   enough_mail_html: ^2.0.0
 
   # Settings
-  app_settings: ^4.1.1
+  app_settings: ^5.0.0
 
   # Platform
   permission_handler: ^10.2.0        # Android / iOS / Windows Permission
@@ -96,7 +96,7 @@ dependencies:
   # Desktop support
   window_manager: ^0.2.0
 
-  flutter_html: ^3.0.0-alpha.6
+  flutter_html: ^3.0.0-beta.2
   vibration: ^1.8.1
   animations: ^2.0.7
   rettulf: ^0.0.13

@@ -207,50 +207,50 @@ class DarkModeSafeHtmlWidget extends StatefulWidget {
 class _DarkModeSafeHtmlWidgetState extends State<DarkModeSafeHtmlWidget> {
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final bgColor = theme.colorScheme.background;
-    final textColor = theme.textTheme.bodyMedium?.color ?? Colors.white;
-    final fontFamily = theme.textTheme.bodyMedium?.fontFamily ?? "";
-    final fontSizeNumber = theme.textTheme.bodyMedium?.fontSize;
-    final fontSize = fontSizeNumber != null ? FontSize(fontSizeNumber) : FontSize.large;
     return SingleChildScrollView(
-        child: SelectableHtml(
-            data: widget.html,
-            onLinkTap: (url, context, attributes, element) async {
-              if (url != null) {
-                await launchUri(url);
-              }
-            },
-            style: {
-              "p": Style(
-                backgroundColor: bgColor,
-                color: textColor,
-                fontSize: fontSize,
-                fontFamily: fontFamily,
-              ),
-              "div": Style(
-                color: textColor,
-                backgroundColor: bgColor,
-                fontSize: fontSize,
-                fontFamily: fontFamily,
-              ),
-              "span": Style(
-                color: textColor,
-                backgroundColor: bgColor,
-                fontSize: fontSize,
-                fontFamily: fontFamily,
-              ),
-              "b": Style(
-                color: textColor,
-                backgroundColor: bgColor,
-                fontSize: fontSize,
-                fontFamily: fontFamily,
-              ),
-            },
-            tagsList: filterTags([...Html.tags])));
+      child: Html(
+          data: widget.html,
+          onLinkTap: (url, attributes, element) async {
+            if (url != null) {
+              await launchUri(url);
+            }
+          },
+          style: _buildStyle(context)),
+    );
   }
+}
 
-  List<String> filterTags(List<String> tags) {
-    return tags;
-  }
+Map<String, Style> _buildStyle(BuildContext ctx) {
+  final theme = Theme.of(ctx);
+  final bgColor = theme.colorScheme.background;
+  final textColor = theme.textTheme.bodyMedium?.color ?? Colors.white;
+  final fontFamily = theme.textTheme.bodyMedium?.fontFamily ?? "";
+  final fontSizeNumber = theme.textTheme.bodyMedium?.fontSize;
+  final fontSize = fontSizeNumber != null ? FontSize(fontSizeNumber) : FontSize.large;
+  return {
+    "p": Style(
+      backgroundColor: bgColor,
+      color: textColor,
+      fontSize: fontSize,
+      fontFamily: fontFamily,
+    ),
+    "div": Style(
+      color: textColor,
+      backgroundColor: bgColor,
+      fontSize: fontSize,
+      fontFamily: fontFamily,
+    ),
+    "span": Style(
+      color: textColor,
+      backgroundColor: bgColor,
+      fontSize: fontSize,
+      fontFamily: fontFamily,
+    ),
+    "b": Style(
+      color: textColor,
+      backgroundColor: bgColor,
+      fontSize: fontSize,
+      fontFamily: fontFamily,
+    ),
+  };
 }

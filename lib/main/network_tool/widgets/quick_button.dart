@@ -16,7 +16,9 @@ class _QuickButtonsState extends State<QuickButtons> {
   Widget build(BuildContext context) {
     return [
       ElevatedButton(
-        onPressed: AppSettings.openWIFISettings,
+        onPressed: () {
+          AppSettings.openAppSettings(type: AppSettingsType.wifi);
+        },
         child: i18n.openWlanSettingsBtn.text(),
       ),
       ElevatedButton(
