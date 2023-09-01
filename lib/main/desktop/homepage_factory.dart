@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../route.dart';
-import 'entity/miniApp.dart';
+import '../../mini_app.dart';
 import 'magic_brick/application.dart';
 import 'magic_brick/electricity.dart';
 import 'magic_brick/expense.dart';

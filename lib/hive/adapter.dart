@@ -1,5 +1,4 @@
 import 'package:mimir/credential/symbol.dart';
-import 'package:mimir/main/desktop/entity/miniApp.dart';
 import 'package:mimir/mini_apps/symbol.dart';
 
 import 'adapter/color.dart';
@@ -13,7 +12,6 @@ class HiveAdapter {
 
   static void registerAll() {
     ~CourseAdapter();
-    ~MiniAppAdapter();
     ~BalanceAdapter();
     ~LibrarySearchHistoryItemAdapter();
     ~TimetableMetaLegacyAdapter();

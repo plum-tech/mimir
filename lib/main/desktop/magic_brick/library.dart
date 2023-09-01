@@ -7,7 +7,7 @@ import 'package:mimir/mini_apps/library/search/init.dart';
 import 'package:mimir/storage/init.dart';
 import 'package:mimir/mini_apps/library/i18n.dart';
 
-import '../entity/miniApp.dart';
+import '../../../mini_app.dart';
 import '../widgets/brick.dart';
 
 class LibraryItem extends StatefulWidget {

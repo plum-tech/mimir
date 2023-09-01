@@ -5,7 +5,7 @@ import 'package:mimir/mini_apps/expense/init.dart';
 import 'package:mimir/route.dart';
 
 import 'package:mimir/mini_apps/expense/i18n.dart';
-import '../entity/miniApp.dart';
+import '../../../mini_app.dart';
 import '../widgets/brick.dart';
 
 class ExpenseItem extends StatefulWidget {

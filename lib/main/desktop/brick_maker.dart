@@ -1,6 +1,6 @@
 import 'package:mimir/credential/symbol.dart';
 
-import 'entity/miniApp.dart';
+import '../../mini_app.dart';
 
 class BrickMaker {
   BrickMaker._();

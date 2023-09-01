@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:mimir/main/desktop/entity/miniApp.dart';
+import 'package:mimir/mini_app.dart';
 import 'package:mimir/mini_apps/symbol.dart';
 
 import '../dao/home.dart';

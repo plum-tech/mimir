@@ -13,7 +13,7 @@ import 'package:universal_platform/universal_platform.dart';
 
 import '../../index.dart';
 import '../brick_maker.dart';
-import '../entity/miniApp.dart';
+import '../../../mini_app.dart';
 import '../homepage_factory.dart';
 import '../../init.dart';
 import '../widgets/greeting.dart';

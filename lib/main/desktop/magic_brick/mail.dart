@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/global/global.dart';
-import 'package:mimir/main/desktop/entity/miniApp.dart';
+import 'package:mimir/mini_app.dart';
 
 import '../widgets/brick.dart';
 import 'package:mimir/route.dart';

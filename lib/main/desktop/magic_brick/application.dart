@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/main/desktop/entity/miniApp.dart';
+import 'package:mimir/mini_app.dart';
 import 'package:mimir/route.dart';
 
 import '../widgets/brick.dart';
