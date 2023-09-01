@@ -34,21 +34,23 @@ class ContactTile extends StatelessWidget {
           ),
       subtitle: full.text(overflow: TextOverflow.ellipsis),
       tileColor: bgColor,
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            icon: const Icon(Icons.content_copy),
-            onPressed: () => Clipboard.setData(ClipboardData(text: contact.phone)),
-          ),
-          IconButton(
-            icon: const Icon(Icons.phone),
-            onPressed: () {
-              launchUri("tel:$phoneNumber");
-            },
-          )
-        ],
-      ),
+      trailing: phoneNumber.isEmpty
+          ? null
+          : Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.content_copy),
+                  onPressed: () => Clipboard.setData(ClipboardData(text: contact.phone)),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.phone),
+                  onPressed: () {
+                    launchUri("tel:$phoneNumber");
+                  },
+                )
+              ],
+            ),
     );
   }
 }
