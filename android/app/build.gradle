@@ -82,6 +82,7 @@ android {
       }
     }
   }
+    namespace 'net.liplum.Mimir'
 }
 
 flutter {

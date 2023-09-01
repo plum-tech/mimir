@@ -15,7 +15,7 @@ dependencies:
 
   flutter: { sdk: flutter }
 
-  device_info_plus_platform_interface: ^7.0.0
+  device_info_plus: ^9.0.3
   audio_session: ^0.1.16
 
   # I18n
@@ -51,7 +51,8 @@ dependencies:
   # WebView and browser related
   webview_flutter: ^4.2.1
   fk_user_agent: ^2.1.0
-  flutter_widget_from_html: ^0.10.1
+  flutter_widget_from_html: ^0.10.4
+  chewie: ^1.7.0
 
   # Email
   enough_mail: ^2.1.0
@@ -86,7 +87,7 @@ dependencies:
 
   # Utils
   version: ^3.0.2               # Version comparison
-  package_info_plus: ^3.0.0     # Get package info (version)
+  package_info_plus: ^4.1.0     # Get package info (version)
   universal_platform: ^1.0.0+1  # dart.io.Platform API for Web
   check_vpn_connection: ^0.0.2  # Check VPN connection status
   synchronized: ^3.0.0+2        # lock
@@ -96,7 +97,7 @@ dependencies:
   window_manager: ^0.2.0
 
   flutter_html: ^3.0.0-alpha.6
-  vibration: ^1.7.6
+  vibration: ^1.8.1
   animations: ^2.0.7
   rettulf: ^0.0.13
   auto_animated: ^3.1.0
