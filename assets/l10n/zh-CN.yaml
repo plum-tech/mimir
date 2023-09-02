@@ -294,7 +294,6 @@ timetable:
     deleteRequestDesc: 这个课程表将被永久删除。
     emptyTip: 快去导入一个课程表吧!
     setToDefault: 设为默认
-    noDesc: 暂无介绍。
   detail:
     descFormTitle: 描述
     nameFormTitle: 名称

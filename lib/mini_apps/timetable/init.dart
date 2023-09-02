@@ -3,8 +3,8 @@ import 'storage/timetable.dart';
 import 'using.dart';
 
 class TimetableInit {
-  static late TimetableService timetableService;
-  static late TimetableStorage timetableStorage;
+  static late TimetableService service;
+  static late TimetableStorage storage;
   static late SsoSession network;
 
   static void init({
@@ -12,8 +12,8 @@ class TimetableInit {
     required Box<dynamic> box,
     required SsoSession ssoSession,
   }) {
-    timetableService = TimetableService(eduSession);
-    timetableStorage = TimetableStorage(box);
+    service = TimetableService(eduSession);
+    storage = TimetableStorage(box);
     network = ssoSession;
   }
 }

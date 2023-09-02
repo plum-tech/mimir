@@ -18,7 +18,6 @@ class MetaEditor extends StatefulWidget {
 
 class _MetaEditorState extends State<MetaEditor> {
   late final _nameController = TextEditingController(text: widget.meta.name);
-  late final _descController = TextEditingController(text: widget.meta.description);
   final GlobalKey _formKey = GlobalKey<FormState>();
   late final ValueNotifier<DateTime> $selectedDate;
 
@@ -52,11 +51,6 @@ class _MetaEditorState extends State<MetaEditor> {
             maxLines: 1,
             decoration: InputDecoration(labelText: i18n.detail.nameFormTitle, border: const OutlineInputBorder()),
           )),
-          _wrap(TextFormField(
-            controller: _descController,
-            maxLines: 2,
-            decoration: InputDecoration(labelText: i18n.detail.descFormTitle, border: const OutlineInputBorder()),
-          )),
         ]));
   }
 
@@ -76,7 +70,6 @@ class _MetaEditorState extends State<MetaEditor> {
               buildButton(ctx, i18n.save, onPressed: () {
                 final meta = widget.meta.copyWith(
                   name: _nameController.text,
-                  description: _descController.text,
                   startDate: $selectedDate.value,
                 );
                 ctx.pop(meta);

@@ -15,7 +15,7 @@ class TimetableIndexPage extends StatefulWidget {
 }
 
 class _TimetableIndexPageState extends State<TimetableIndexPage> {
-  final storage = TimetableInit.timetableStorage;
+  final storage = TimetableInit.storage;
 
   SitTimetable? _selected;
 

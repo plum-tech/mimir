@@ -27,7 +27,7 @@ class _TimetablePageState extends State<TimetablePage> {
   /// 最大周数
   /// TODO 还没用上
   // static const int maxWeekCount = 20;
-  final storage = TimetableInit.timetableStorage;
+  final storage = TimetableInit.storage;
 
   // 模式：周课表 日课表
   late ValueNotifier<DisplayMode> $displayMode;

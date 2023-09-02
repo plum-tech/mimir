@@ -23,8 +23,8 @@ class ImportTimetablePage extends StatefulWidget {
 }
 
 class _ImportTimetablePageState extends State<ImportTimetablePage> {
-  final service = TimetableInit.timetableService;
-  final storage = TimetableInit.timetableStorage;
+  final service = TimetableInit.service;
+  final storage = TimetableInit.storage;
   var _status = ImportStatus.none;
   late int selectedYear;
   late Semester selectedSemester;
@@ -122,7 +122,6 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     }
     final meta = TimetableMeta(
       name: defaultName,
-      description: "",
       semester: semester.index,
       startDate: defaultStartDate,
       schoolYear: year,

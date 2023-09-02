@@ -52,7 +52,7 @@ class TimetableStyleProv extends StatefulWidget {
 }
 
 class TimetableStyleProvState extends State<TimetableStyleProv> {
-  final storage = TimetableInit.timetableStorage;
+  final storage = TimetableInit.storage;
 
   @override
   void initState() {

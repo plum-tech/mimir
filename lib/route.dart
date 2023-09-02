@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/symbol.dart';
+import 'package:mimir/entities.dart';
 import 'package:mimir/main/index.dart';
+import 'package:mimir/mini_apps/timetable/page/preview.dart';
 
 import 'app.dart';
 import 'mini_apps/exam_result/page/evaluation.dart';
@@ -18,6 +21,7 @@ String? _loginRequired(BuildContext ctx, GoRouterState state) {
 final router = GoRouter(
   navigatorKey: $Key,
   initialLocation: "/",
+  debugLogDiagnostics: kDebugMode,
   redirect: (ctx, state) {
     final auth = ctx.auth;
     if (auth.loginStatus == LoginStatus.never) {
@@ -74,6 +78,20 @@ final router = GoRouter(
     GoRoute(
       path: "/app/timetable",
       builder: (ctx, state) => const TimetableIndexPage(),
+    ),
+    GoRoute(
+      path: "/app/timetable/preview/:id",
+      builder: (ctx, state) {
+        final extra = state.extra;
+        if (extra is SitTimetable) {
+          return TimetablePreviewPage(timetable: extra);
+        }
+        final id = state.pathParameters["id"];
+        if (id == null) throw 400;
+        final timetable = TimetableInit.storage.getSitTimetableBy(id: id);
+        if (timetable == null) throw 404;
+        return TimetablePreviewPage(timetable: timetable);
+      },
     ),
     GoRoute(
       path: "/app/timetable/import",

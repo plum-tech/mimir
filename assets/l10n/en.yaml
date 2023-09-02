@@ -294,7 +294,6 @@ timetable:
     deleteRequestDesc: You will lose this timetable permanently.
     emptyTip: Let's import a new timetable!
     setToDefault: Set to Default
-    noDesc: No description...
   detail:
     descFormTitle: Description
     nameFormTitle: Name

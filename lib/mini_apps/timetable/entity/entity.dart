@@ -17,8 +17,6 @@ class SitTimetable {
   @JsonKey()
   String name = "";
   @JsonKey()
-  String description = "";
-  @JsonKey()
   DateTime startDate = _defaultStartDate;
   @JsonKey()
   int schoolYear = 0;
@@ -56,7 +54,6 @@ class SitTimetable {
   TimetableMeta getMeta() {
     return TimetableMeta(
       name: name,
-      description: description,
       startDate: startDate,
       schoolYear: schoolYear,
       semester: semester,
@@ -65,7 +62,6 @@ class SitTimetable {
 
   void setMeta(TimetableMeta meta) {
     name = meta.name;
-    description = meta.description;
     startDate = meta.startDate;
     schoolYear = meta.schoolYear;
     semester = meta.semester;

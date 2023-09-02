@@ -19,7 +19,6 @@ SitTimetable _$SitTimetableFromJson(Map<String, dynamic> json) => SitTimetable(
     )
       ..id = json['id'] as String
       ..name = json['name'] as String
-      ..description = json['description'] as String
       ..startDate = DateTime.parse(json['startDate'] as String)
       ..schoolYear = json['schoolYear'] as int
       ..semester = json['semester'] as int;
@@ -28,7 +27,6 @@ Map<String, dynamic> _$SitTimetableToJson(SitTimetable instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'description': instance.description,
       'startDate': instance.startDate.toIso8601String(),
       'schoolYear': instance.schoolYear,
       'semester': instance.semester,
