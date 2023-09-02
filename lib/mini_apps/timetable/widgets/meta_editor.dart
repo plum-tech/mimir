@@ -8,9 +8,8 @@ import 'picker.dart';
 
 class MetaEditor extends StatefulWidget {
   final TimetableMetaLegacy meta;
-  final DateTime? defaultStartDate;
 
-  const MetaEditor({super.key, required this.meta, this.defaultStartDate});
+  const MetaEditor({super.key, required this.meta});
 
   @override
   State<MetaEditor> createState() => _MetaEditorState();
@@ -20,10 +19,13 @@ class _MetaEditorState extends State<MetaEditor> {
   late final _nameController = TextEditingController(text: widget.meta.name);
   late final _descController = TextEditingController(text: widget.meta.description);
   final GlobalKey _formKey = GlobalKey<FormState>();
-  late final ValueNotifier<DateTime> _selectedDate = ValueNotifier(widget.defaultStartDate ??
-      Iterable.generate(7, (i) {
-        return DateTime.now().add(Duration(days: i));
-      }).firstWhere((e) => e.weekday == DateTime.monday));
+  late final ValueNotifier<DateTime> $selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    $selectedDate = ValueNotifier(widget.meta.startDate);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,11 +68,7 @@ class _MetaEditorState extends State<MetaEditor> {
         children: [
           Text(i18n.import.timetableInfo, style: ctx.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
           buildDescForm(ctx),
-          ValueListenableBuilder(
-              valueListenable: _selectedDate,
-              builder: (ctx, value, child) {
-                return Text(i18n.startDate(ctx.formatYmdNum(value)));
-              }),
+          $selectedDate >> (ctx, value) => Text(i18n.startDate(ctx.formatYmdNum(value))),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -78,13 +76,13 @@ class _MetaEditorState extends State<MetaEditor> {
                 final meta = widget.meta;
                 meta.name = _nameController.text;
                 meta.description = _descController.text;
-                meta.startDate = _selectedDate.value;
+                meta.startDate = $selectedDate.value;
                 Navigator.of(ctx).pop(true);
               }),
               buildButton(ctx, i18n.edit.setStartDate, onPressed: () async {
-                final date = await pickDate(context, initial: _selectedDate.value);
+                final date = await pickDate(context, initial: $selectedDate.value);
                 if (date != null) {
-                  _selectedDate.value = DateTime(date.year, date.month, date.day, 8, 20);
+                  $selectedDate.value = DateTime(date.year, date.month, date.day, 8, 20);
                 }
               })
             ],

@@ -16,9 +16,7 @@ enum ImportStatus {
 }
 
 class ImportTimetablePage extends StatefulWidget {
-  final DateTime? defaultStartDate;
-
-  const ImportTimetablePage({super.key, this.defaultStartDate});
+  const ImportTimetablePage({super.key});
 
   @override
   State<ImportTimetablePage> createState() => _ImportTimetablePageState();
@@ -28,13 +26,6 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   final service = TimetableInit.timetableService;
   final storage = TimetableInit.timetableStorage;
   var _status = ImportStatus.none;
-  late ValueNotifier<DateTime> selectedDate = ValueNotifier(
-    widget.defaultStartDate != null
-        ? widget.defaultStartDate!
-        : Iterable.generate(7, (i) {
-            return DateTime.now().add(Duration(days: i));
-          }).firstWhere((e) => e.weekday == DateTime.monday),
-  );
   late int selectedYear;
   late Semester selectedSemester;
 
@@ -42,10 +33,9 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   void initState() {
     super.initState();
     DateTime now = DateTime.now();
-    now = DateTime(now.year, now.month, now.day, 8, 20);
-    // 先根据当前时间估算出是哪个学期
-    selectedYear = (now.month >= 9 ? now.year : now.year - 1);
-    selectedSemester = (now.month >= 3 && now.month <= 7) ? Semester.term2 : Semester.term1;
+    // Estimate current school year and semester.
+    selectedYear = now.month >= 9 ? now.year : now.year - 1;
+    selectedSemester = now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1;
   }
 
   String getTip({required ImportStatus by}) {
@@ -122,16 +112,19 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     );
   }
 
-  Future<SitTimetable> _fetchTimetable(SchoolYear year, Semester semester) async {
-    return await service.getTimetable(year, semester);
-  }
-
   Future<bool> handleTimetableData(BuildContext ctx, SitTimetable timetable, int year, Semester semester) async {
     final defaultName = i18n.import.defaultName(semester.localized(), year.toString(), (year + 1).toString());
+    DateTime defaultStartDate;
+    if (semester == Semester.term1) {
+      defaultStartDate = findFirstWeekdayInCurrentMonth(DateTime(year, 9), DateTime.monday);
+    } else {
+      defaultStartDate = findFirstWeekdayInCurrentMonth(DateTime(year + 1, 2), DateTime.monday);
+    }
     final meta = TimetableMetaLegacy()
       ..name = defaultName
       ..schoolYear = year
-      ..semester = semester.index;
+      ..semester = semester.index
+      ..startDate = defaultStartDate;
     final saved = await ctx.showSheet(
       (ctx) => MetaEditor(meta: meta).padOnly(b: MediaQuery.of(ctx).viewInsets.bottom),
       dismissible: false,
@@ -160,7 +153,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
                 final semester = selectedSemester;
                 final year = SchoolYear(selectedYear);
                 await Future.wait([
-                  _fetchTimetable(year, semester),
+                  service.getTimetable(year, semester),
                   //fetchMockCourses(),
                   Future.delayed(const Duration(seconds: 1)),
                 ]).then((value) async {
@@ -200,4 +193,18 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
           )),
     );
   }
+}
+
+DateTime findFirstWeekdayInCurrentMonth(DateTime current, int weekday) {
+  // Calculate the first day of the current month while keeping the same year.
+  DateTime firstDayOfMonth = DateTime(current.year, current.month, 1);
+
+  // Calculate the difference in days between the first day of the current month
+  // and the desired weekday.
+  int daysUntilWeekday = (weekday - firstDayOfMonth.weekday + 7) % 7;
+
+  // Calculate the date of the first occurrence of the desired weekday in the current month.
+  DateTime firstWeekdayInMonth = firstDayOfMonth.add(Duration(days: daysUntilWeekday));
+
+  return firstWeekdayInMonth;
 }
