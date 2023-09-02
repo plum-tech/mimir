@@ -8,14 +8,21 @@ import 'package:mimir/mini_apps/expense/i18n.dart';
 import '../../../mini_app.dart';
 import '../widgets/brick.dart';
 
-class ExpenseItem extends StatefulWidget {
-  const ExpenseItem({super.key});
+class ExpenseBrick extends StatefulWidget {
+  final String route;
+  final IconBuilder icon;
+
+  const ExpenseBrick({
+    super.key,
+    required this.route,
+    required this.icon,
+  });
 
   @override
-  State<StatefulWidget> createState() => _ExpenseItemState();
+  State<StatefulWidget> createState() => _ExpenseBrickState();
 }
 
-class _ExpenseItemState extends State<ExpenseItem> {
+class _ExpenseBrickState extends State<ExpenseBrick> {
   Transaction? lastExpense;
   String? content;
 
@@ -48,8 +55,8 @@ class _ExpenseItemState extends State<ExpenseItem> {
       content = i18n.lastTransaction(last.deltaAmount.toStringAsFixed(2), last.note);
     }
     return Brick(
-      route: Routes.expense,
-      icon: SvgAssetIcon('assets/home/icon_expense.svg'),
+      route: widget.route,
+      icon: widget.icon,
       title: MiniApp.expense.l10nName(),
       subtitle: content ?? MiniApp.expense.l10nDesc(),
     );

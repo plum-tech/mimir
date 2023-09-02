@@ -10,7 +10,6 @@ class HomeKeyKeys {
   static const background = '$namespace/background';
   static const backgroundMode = '$namespace/backgroundMode';
   static const installTime = '$namespace/installTime';
-  static const homeItems = '$namespace/homeItems';
 
   static const lastBalance = '$namespace/lastBalance';
   static const lastExpense = '$namespace/lastExpense';
@@ -67,15 +66,6 @@ class HomeSettingStorage implements HomeSettingDao {
 
   @override
   set readNotice(Set<int>? noticeSet) => box.put(HomeKeyKeys.readNotice, noticeSet?.toList());
-
-  @override
-  List<MiniApp>? get homeItems {
-    final List? items = box.get(HomeKeyKeys.homeItems);
-    return items?.map((e) => e as MiniApp).toList();
-  }
-
-  @override
-  set homeItems(List<MiniApp>? items) => box.put(HomeKeyKeys.homeItems, items);
 
   @override
   bool? get autoLaunchTimetable => box.get(HomeKeyKeys.autoLaunchTimetable);

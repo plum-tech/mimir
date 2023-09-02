@@ -128,7 +128,7 @@ examResult:
   lessonNotEvaluated: Not-eval
   teacherEvalTitle: Teacher Evaluation
   lessonEvaluationBtn: Lesson Eval
-  lessonSelected: {} Selected
+  lessonSelected: "{} Selected"
   gpaResult: "GPA: {}"
   compulsory: Compulsory
   credit: Credit

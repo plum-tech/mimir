@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/design/colors.dart';
 import 'package:mimir/design/utils.dart';
 import 'package:mimir/mini_apps/application/using.dart';
@@ -72,7 +73,7 @@ class _BrickState extends State<Brick> {
           widget.onPressed?.call();
           final dest = widget.route;
           if (dest != null) {
-            Navigator.of(context).pushNamed(dest, arguments: widget.routeArgs);
+            context.push(dest, extra: widget.routeArgs);
           }
         },
         style: ListTileStyle.list,

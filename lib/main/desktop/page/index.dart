@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/design/utils.dart';
 import 'package:mimir/events/bus.dart';
 import 'package:mimir/events/events.dart';
@@ -137,7 +138,7 @@ class _HomepageState extends State<Homepage> {
   }
 
   List<Widget> buildBricksWidgets() {
-    List<MiniApp> list = Kv.home.homeItems ?? BrickMaker.makeDefaultBricks();
+    List<MiniApp> list =  BrickMaker.makeDefaultBricks();
 
     MiniApp lastItem = list.first;
     for (int i = 1; i < list.length; ++i) {
@@ -197,7 +198,7 @@ class _HomepageState extends State<Homepage> {
   Widget buildScannerButton(BuildContext context) {
     return IconButton(
       onPressed: () async {
-        final result = await Navigator.of(context).pushNamed(Routes.scanner);
+        final result = await context.push("/scanner");
         if (result is String) {
           if (Uri.tryParse(result) != null) {
             await guardLaunchUrlString(result);

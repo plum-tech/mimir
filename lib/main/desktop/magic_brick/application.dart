@@ -4,19 +4,26 @@ import 'package:mimir/route.dart';
 
 import '../widgets/brick.dart';
 
-class ApplicationItem extends StatefulWidget {
-  const ApplicationItem({super.key});
+class ApplicationBrick extends StatefulWidget {
+  final String route;
+  final IconBuilder icon;
+
+  const ApplicationBrick({
+    super.key,
+    required this.route,
+    required this.icon,
+  });
 
   @override
-  State<StatefulWidget> createState() => _ApplicationItemState();
+  State<StatefulWidget> createState() => _ApplicationBrickState();
 }
 
-class _ApplicationItemState extends State<ApplicationItem> {
+class _ApplicationBrickState extends State<ApplicationBrick> {
   @override
   Widget build(BuildContext context) {
     return Brick(
-      route: Routes.application,
-      icon: SvgAssetIcon('assets/home/icon_office.svg'),
+      route: widget.route,
+      icon: widget.icon,
       title: MiniApp.application.l10nName(),
       subtitle: MiniApp.application.l10nDesc(),
     );

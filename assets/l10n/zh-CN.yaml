@@ -128,7 +128,7 @@ examResult:
   lessonNotEvaluated: 未评教
   teacherEvalTitle: 评教
   lessonEvaluationBtn: 课程评价
-  lessonSelected: 已选 {} 门
+  lessonSelected: "已选 {} 门"
   gpaResult: "绩点: {}"
   compulsory: 必修
   credit: 学分

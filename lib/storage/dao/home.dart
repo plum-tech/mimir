@@ -16,7 +16,6 @@ abstract class HomeSettingDao {
   Balance? lastBalance;
   String? lastHotSearch;
   Set<int>? readNotice;
-  List<MiniApp>? homeItems;
 
   // 启动时是否自动启动课表
   bool? autoLaunchTimetable;

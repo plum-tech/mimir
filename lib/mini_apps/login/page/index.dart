@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../init.dart';
@@ -72,15 +73,8 @@ class _LoginPageState extends State<LoginPage> {
       final credential = OACredential(account, password);
       await LoginInit.ssoSession.loginActive(credential);
       Auth.oaCredential = credential;
-      // Reset the home
-      Kv.home.homeItems = null;
       if (!mounted) return;
-      // 后退到就剩一个栈内元素
-      final navigator = context.navigator;
-      while (navigator.canPop()) {
-        navigator.pop();
-      }
-      navigator.pushReplacementNamed(Routes.mainStage);
+      context.go("/");
     } on CredentialsInvalidException catch (e) {
       if (!mounted) return;
       await ctx.showTip(
@@ -89,7 +83,9 @@ class _LoginPageState extends State<LoginPage> {
         ok: i18n.close,
       );
       return;
-    } catch (e) {
+    } catch (e, stacktrace) {
+      debugPrint(e.toString());
+      debugPrintStack(stackTrace: stacktrace);
       if (!mounted) return;
       await ctx.showTip(
         title: i18n.failedWarn,
@@ -179,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
           ElevatedButton(
             // Offline
             onPressed: () {
-              Navigator.pushReplacementNamed(context, Routes.mainStage);
+              context.go("/");
             },
             child: i18n.offlineModeBtn.text().padAll(5),
           ),

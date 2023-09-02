@@ -1,5 +1,5 @@
+import 'package:go_router/go_router.dart';
 import 'package:mimir/app.dart';
-import 'package:mimir/route.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -7,10 +7,7 @@ Future<bool> guardLaunchUrl(Uri url) async {
   if (url.scheme == "http" || url.scheme == "https") {
     // guards the http(s)
     if (!UniversalPlatform.isDesktopOrWeb) {
-      $Key.currentState?.pushNamed(
-        Routes.browser,
-        arguments: {'initialUrl': url.toString()},
-      );
+      $Key.currentState?.context.go("/browser?url=$url");
       return true;
     }
     try {

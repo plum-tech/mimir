@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../route.dart';
 import '../../mini_app.dart';
 import 'magic_brick/application.dart';
 import 'magic_brick/electricity.dart';
@@ -12,47 +11,62 @@ import 'widgets/brick.dart';
 class HomepageFactory {
   static final Map<MiniApp, WidgetBuilder?> builders = {
     MiniApp.timetable: (context) => Brick(
-          route: Routes.timetable,
+          route: "/app/timetable",
           icon: SvgAssetIcon('assets/home/icon_timetable.svg'),
           title: MiniApp.timetable.l10nName(),
           subtitle: MiniApp.timetable.l10nDesc(),
         ),
     MiniApp.examArr: (context) => Brick(
-          route: Routes.examArrangement,
+          route: "/app/examArr",
           icon: SvgAssetIcon('assets/home/icon_exam.svg'),
           title: MiniApp.examArr.l10nName(),
           subtitle: MiniApp.examArr.l10nDesc(),
         ),
     MiniApp.activity: (context) => Brick(
-          route: Routes.activity,
+          route: "/app/activity",
           icon: SvgAssetIcon('assets/home/icon_event.svg'),
           title: MiniApp.activity.l10nName(),
           subtitle: MiniApp.activity.l10nDesc(),
         ),
-    MiniApp.expense: (context) => const ExpenseItem(),
+    MiniApp.expense: (context) => ExpenseBrick(
+          route: "/app/expense",
+          icon: SvgAssetIcon('assets/home/icon_expense.svg'),
+        ),
     MiniApp.examResult: (context) => Brick(
-          route: Routes.examResult,
+          route: "/app/examResult",
           icon: SvgAssetIcon('assets/home/icon_score.svg'),
           title: MiniApp.examResult.l10nName(),
           subtitle: MiniApp.examResult.l10nDesc(),
         ),
-    MiniApp.library: (context) => const LibraryItem(),
-    MiniApp.application: (context) => const ApplicationItem(),
-    MiniApp.eduEmail: (context) => const EduEmailItem(),
+    MiniApp.library: (context) =>  LibraryBrick(
+      route: '/app/library',
+      icon: SvgAssetIcon('assets/home/icon_library.svg'),
+    ),
+    MiniApp.application: (context) => ApplicationBrick(
+      route: '/app/library',
+      icon: SvgAssetIcon('assets/home/icon_application.svg'),
+    ),
+    MiniApp.eduEmail: (context) => EduEmailBrick(
+      route: '/app/eduMail',
+      icon: SvgAssetIcon('assets/home/icon_mail.svg'),
+    ),
     MiniApp.oaAnnouncement: (context) => Brick(
-          route: Routes.oaAnnouncement,
+          route: "/app/oaAnnouncement",
           icon: SvgAssetIcon('assets/home/icon_bulletin.svg'),
           title: MiniApp.oaAnnouncement.l10nName(),
           subtitle: MiniApp.oaAnnouncement.l10nDesc(),
         ),
     MiniApp.yellowPages: (context) => Brick(
-          route: Routes.yellowPages,
+          route: "/app/yellowPages",
           icon: SvgAssetIcon('assets/home/icon_contact.svg'),
           title: MiniApp.yellowPages.l10nName(),
           subtitle: MiniApp.yellowPages.l10nDesc(),
         ),
     MiniApp.separator: (context) => Container(),
-    MiniApp.elecBill: (context) => const ElectricityBillItem(),
+    MiniApp.elecBill: (context) => ElectricityBillBrick(
+      route: "/app/elecBill",
+      icon: SvgAssetIcon('assets/home/icon_electricity.svg'),
+    ),
   };
 
   static Widget? buildBrickWidget(BuildContext context, MiniApp type) {

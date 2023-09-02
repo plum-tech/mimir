@@ -14,8 +14,6 @@ import 'package:mimir/mini_apps/activity/using.dart';
 import 'package:mimir/route.dart';
 import 'package:rettulf/rettulf.dart';
 
-import 'navigation/route.dart';
-
 final $Key = GlobalKey<NavigatorState>();
 
 class MimirApp extends StatefulWidget {
@@ -26,25 +24,12 @@ class MimirApp extends StatefulWidget {
 }
 
 class _MimirAppState extends State<MimirApp> {
-  // 先使用默认的路由表
-  IRouteGenerator routeGenerator = defaultRouteTable;
-
   @override
   void initState() {
     super.initState();
     // Initialize the app with system theme.
     var platformBrightness = SchedulerBinding.instance.platformDispatcher.platformBrightness;
     Kv.theme.isDarkMode ??= platformBrightness == Brightness.dark;
-  }
-
-  Route<dynamic> _onGenerateRoute(RouteSettings settings) {
-    return MaterialPageRoute(
-      builder: (context) {
-        final args = settings.arguments as Map<String, dynamic>? ?? {};
-        return routeGenerator.generateRoute(settings.name ?? "", args,context);
-      },
-      settings: settings,
-    );
   }
 
   @override
@@ -57,8 +42,9 @@ class _MimirAppState extends State<MimirApp> {
       if (kDebugMode) {
         debugPaintSizeEnabled = false;
       }
-      return MaterialApp(
+      return MaterialApp.router(
         title: R.appName,
+        routerConfig: router,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
@@ -79,10 +65,7 @@ class _MimirAppState extends State<MimirApp> {
             toolbarHeight: 40,
           ),
         ),
-        initialRoute: Routes.root,
         debugShowCheckedModeBanner: false,
-        navigatorKey: $Key,
-        onGenerateRoute: _onGenerateRoute,
         builder: EasyLoading.init(builder: (context, widget) {
           if (context.isPortrait) {
             SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,

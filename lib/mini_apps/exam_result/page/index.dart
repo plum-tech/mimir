@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/util/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -136,7 +137,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
                     await guardLaunchUrl(evaluationUri);
                     return;
                   }
-                  await Navigator.of(context).pushNamed(Routes.examResultEvaluation);
+                  await context.push("/teacherEval");
                   if (!mounted) return;
                   eventBus.fire(LessonEvaluatedEvent());
                   await Future.delayed(const Duration(milliseconds: 1000));

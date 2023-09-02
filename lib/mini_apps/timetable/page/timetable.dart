@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/mini_apps/timetable/events.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -118,7 +119,8 @@ class _TimetablePageState extends State<TimetablePage> {
     return IconButton(
         icon: const Icon(Icons.person_rounded),
         onPressed: () async {
-          await Navigator.of(ctx).pushNamed(Routes.timetableMine);
+          await context.push("/app/timetable/mine");
+          setState(() {});
         });
   }
 

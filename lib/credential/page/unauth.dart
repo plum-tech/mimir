@@ -228,8 +228,6 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
       await LoginInit.ssoSession.loginActive(credential);
       final personName = await LoginInit.authServerService.getPersonName();
       Auth.oaCredential = credential;
-      // Reset the home
-      Kv.home.homeItems = null;
       if (!mounted) return;
       widget.onLogin?.call();
     } on CredentialsInvalidException catch (e) {

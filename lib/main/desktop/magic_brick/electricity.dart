@@ -7,14 +7,21 @@ import 'package:mimir/storage/init.dart';
 import '../widgets/brick.dart';
 import 'package:mimir/mini_apps/elec_bill/i18n.dart';
 
-class ElectricityBillItem extends StatefulWidget {
-  const ElectricityBillItem({super.key});
+class ElectricityBillBrick extends StatefulWidget {
+  final String route;
+  final IconBuilder icon;
+
+  const ElectricityBillBrick({
+    super.key,
+    required this.route,
+    required this.icon,
+  });
 
   @override
-  State<StatefulWidget> createState() => _ElectricityBillItemState();
+  State<StatefulWidget> createState() => _ElectricityBillBrickState();
 }
 
-class _ElectricityBillItemState extends State<ElectricityBillItem> {
+class _ElectricityBillBrickState extends State<ElectricityBillBrick> {
   final Balance? lastBalance = Kv.home.lastBalance;
   String? content;
 
@@ -30,8 +37,8 @@ class _ElectricityBillItemState extends State<ElectricityBillItem> {
       content = i18n.lastBalance(b.roomNumber, b.balance.toStringAsPrecision(2));
     }
     return Brick(
-      route: Routes.electricityBill,
-      icon: SvgAssetIcon('assets/home/icon_electricity.svg'),
+      route: widget.route,
+      icon: widget.icon,
       title: MiniApp.elecBill.l10nName(),
       subtitle: content ?? MiniApp.elecBill.l10nDesc(),
     );

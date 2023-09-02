@@ -5,14 +5,21 @@ import 'package:mimir/mini_app.dart';
 import '../widgets/brick.dart';
 import 'package:mimir/route.dart';
 
-class EduEmailItem extends StatefulWidget {
-  const EduEmailItem({super.key});
+class EduEmailBrick extends StatefulWidget {
+  final String route;
+  final IconBuilder icon;
+
+  const EduEmailBrick({
+    super.key,
+    required this.route,
+    required this.icon,
+  });
 
   @override
-  State<StatefulWidget> createState() => _EduEmailItemState();
+  State<StatefulWidget> createState() => _EduEmailBrickState();
 }
 
-class _EduEmailItemState extends State<EduEmailItem> {
+class _EduEmailBrickState extends State<EduEmailBrick> {
   String? content;
 
   @override
@@ -26,8 +33,8 @@ class _EduEmailItemState extends State<EduEmailItem> {
   @override
   Widget build(BuildContext context) {
     return Brick(
-      route: Routes.eduEmail,
-      icon: SvgAssetIcon('assets/home/icon_mail.svg'),
+      route: widget.route,
+      icon: widget.icon,
       title: MiniApp.eduEmail.l10nName(),
       subtitle: content ?? MiniApp.eduEmail.l10nDesc(),
     );

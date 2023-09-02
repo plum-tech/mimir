@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart' hide Lock;
+import 'package:go_router/go_router.dart';
 import 'package:mimir/app.dart';
 import 'package:mimir/events/events.dart';
 import 'package:mimir/mini_apps/login/using.dart';
@@ -246,7 +247,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
             highlight: true,
           );
           if (confirm == true) {
-            ctx.navigator.pushNamed(Routes.relogin);
+            ctx.push("/relogin");
           }
         }
         return null;

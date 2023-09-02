@@ -10,14 +10,21 @@ import 'package:mimir/mini_apps/library/i18n.dart';
 import '../../../mini_app.dart';
 import '../widgets/brick.dart';
 
-class LibraryItem extends StatefulWidget {
-  const LibraryItem({super.key});
+class LibraryBrick extends StatefulWidget {
+  final String route;
+  final IconBuilder icon;
+
+  const LibraryBrick({
+    super.key,
+    required this.route,
+    required this.icon,
+  });
 
   @override
-  State<StatefulWidget> createState() => _LibraryItemState();
+  State<StatefulWidget> createState() => _LibraryBrickState();
 }
 
-class _LibraryItemState extends State<LibraryItem> {
+class _LibraryBrickState extends State<LibraryBrick> {
   String? content;
 
   @override
@@ -58,8 +65,8 @@ class _LibraryItemState extends State<LibraryItem> {
       content = lastHotSearch;
     }
     return Brick(
-      route: '/library',
-      icon: SvgAssetIcon('assets/home/icon_library.svg'),
+      route: widget.route,
+      icon: widget.icon,
       title: MiniApp.library.l10nName(),
       subtitle: content ?? MiniApp.library.l10nDesc(),
     );
