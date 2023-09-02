@@ -48,7 +48,12 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    final oaCredential = Auth.oaCredential;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final oaCredential = context.auth.oaCredential;
     _passwordController.text = oaCredential?.password ?? '';
   }
 
@@ -165,7 +170,7 @@ class _SettingsPageState extends State<SettingsPage> {
               leading: const Icon(Icons.lock),
               showConfirmation: true,
               onConfirm: () {
-                Auth.oaCredential = oaCredential.copyWith(
+                context.auth.oaCredential = oaCredential.copyWith(
                   password: _passwordController.text,
                 );
                 return true;
@@ -205,7 +210,7 @@ class _SettingsPageState extends State<SettingsPage> {
   List<WidgetBuilder> buildEntries() {
     final all = <WidgetBuilder>[];
 
-    final credential = Auth.oaCredential;
+    final credential = context.auth.oaCredential;
     if (credential != null) {
       all.add((_) => buildCredential(credential));
     }
@@ -340,7 +345,6 @@ class _SettingsPageState extends State<SettingsPage> {
     if (confirm == true) {
       await HiveBoxInit.clear(); // 清除存储
       await Init.init();
-      FireOn.global(CredentialChangeEvent());
       if (!mounted) return;
       _gotoLogin(context);
     }

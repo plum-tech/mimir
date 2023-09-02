@@ -80,7 +80,7 @@ class _ConnectedInfoPageState extends State<ConnectedInfoPage> {
       studentId = status.uid ?? i18n.login.notLoggedIn;
     }
     final tip = _getTipByConnectionType(connectionType);
-    if(tip == null) return Container().padH(10);
+    if (tip == null) return Container().padH(10);
     return "$tip\n"
             "${i18n.credential.studentId}: $studentId\n"
             "${i18n.network.ipAddress}: $ip"

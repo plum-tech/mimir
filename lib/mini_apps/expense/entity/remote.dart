@@ -6,10 +6,12 @@ part 'remote.g.dart';
 @JsonSerializable()
 class DatapackRaw {
   DatapackRaw();
+
   int retcode = 0;
   int retcount = 0;
   List<TransactionRaw> retdata = [];
   String retmsg = "";
+
   factory DatapackRaw.fromJson(Map<String, dynamic> json) => _$DatapackRawFromJson(json);
 
   Map<String, dynamic> toJson() => _$DatapackRawToJson(this);

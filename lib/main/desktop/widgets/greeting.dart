@@ -23,12 +23,6 @@ class _GreetingWidgetState extends State<GreetingWidget> {
   @override
   void initState() {
     super.initState();
-    // 如果用户不是新生或老师，那么就显示学习天数
-    if (Auth.oaCredential != null) {
-      setState(() {
-        studyDays = _getStudyDaysAndInitState();
-      });
-    }
 
     /// Rebuild the study days when date is changed.
     dayWatcher = Timer.periodic(const Duration(minutes: 1), (timer) {
@@ -43,13 +37,24 @@ class _GreetingWidgetState extends State<GreetingWidget> {
   }
 
   @override
+  void didChangeDependencies() {
+    // 如果用户不是新生或老师，那么就显示学习天数
+    if (context.auth.oaCredential != null) {
+      setState(() {
+        studyDays = _getStudyDaysAndInitState();
+      });
+    }
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     dayWatcher?.cancel();
   }
 
   int _getStudyDaysAndInitState() {
-    final oaCredential = Auth.oaCredential;
+    final oaCredential = context.auth.oaCredential;
     if (oaCredential != null) {
       final id = oaCredential.account;
 

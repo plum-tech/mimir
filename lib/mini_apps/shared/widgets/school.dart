@@ -16,7 +16,7 @@ class SemesterSelector extends StatefulWidget {
   final Function(Semester) onNewSemesterSelect;
 
   /// Precondition:
-  /// [Auth.oaCredential] is not null.
+  /// [context.auth.oaCredential] is not null.
   const SemesterSelector({
     super.key,
     required this.onNewYearSelect,
@@ -99,7 +99,7 @@ class _SemesterSelectorState extends State<SemesterSelector> {
 
   Widget buildYearSelector(BuildContext ctx) {
     // 得到入学年份
-    final oaCredential = Auth.oaCredential;
+    final oaCredential = context.auth.oaCredential;
     final int grade;
     if (oaCredential != null) {
       final fromID = int.tryParse(oaCredential.account.substring(0, 2));

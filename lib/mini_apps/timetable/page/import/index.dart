@@ -31,7 +31,7 @@ class _ImportTimetableIndexPageState extends State<ImportTimetableIndexPage> {
   }
 
   Widget buildBody(BuildContext ctx) {
-    if (Auth.oaCredential != null) {
+    if (context.auth.oaCredential != null) {
       if (canImport) {
         return const ImportTimetablePage(
           key: ValueKey("Import Timetable"),

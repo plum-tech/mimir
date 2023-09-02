@@ -60,6 +60,7 @@ class Network {
       sendTimeout: 3000,
       receiveTimeout: 3000,
     );
+
   static Future<Map<String, dynamic>> _get(String url, {Map<String, dynamic>? queryParameters}) async {
     var response = await dio.get(
       url,

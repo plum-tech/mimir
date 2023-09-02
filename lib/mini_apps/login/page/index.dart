@@ -32,11 +32,16 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    final oaCredential = Auth.oaCredential;
+  }
+
+  @override
+  void didChangeDependencies() {
+    final oaCredential = context.auth.oaCredential;
     if (oaCredential != null) {
       $account.text = oaCredential.account;
       $password.text = oaCredential.password;
     }
+    super.didChangeDependencies();
   }
 
   /// 用户点击登录按钮后
@@ -72,7 +77,8 @@ class _LoginPageState extends State<LoginPage> {
     try {
       final credential = OACredential(account, password);
       await LoginInit.ssoSession.loginActive(credential);
-      Auth.oaCredential = credential;
+      if (!mounted) return;
+      context.auth.setOaCredential(credential);
       if (!mounted) return;
       context.go("/");
     } on CredentialsInvalidException catch (e) {

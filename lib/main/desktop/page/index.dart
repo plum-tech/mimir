@@ -64,7 +64,7 @@ class _HomepageState extends State<Homepage> {
     super.initState();
 
     Future.delayed(Duration.zero, () async {
-      if (Auth.hasLoggedIn && await HomeInit.ssoSession.checkConnectivity()) {
+      if (context.auth.oaCredential != null && await HomeInit.ssoSession.checkConnectivity()) {
         if (!mounted) return;
         context.showSnackBar(
           _i18n.campusNetworkConnected.text(),
@@ -113,7 +113,7 @@ class _HomepageState extends State<Homepage> {
     BuildContext context, {
     bool loginSso = false, // 默认不登录oa，使用懒加载的方式登录
   }) async {
-    final oaCredential = Auth.oaCredential;
+    final oaCredential = context.auth.oaCredential;
     if (loginSso && oaCredential != null) {
       // 如果未登录 (老用户直接进入 Home 页不会处于登录状态, 但新用户经过 login 页时已登录)
       try {
@@ -138,7 +138,7 @@ class _HomepageState extends State<Homepage> {
   }
 
   List<Widget> buildBricksWidgets() {
-    List<MiniApp> list =  BrickMaker.makeDefaultBricks();
+    List<MiniApp> list = BrickMaker.makeDefaultBricks(context);
 
     MiniApp lastItem = list.first;
     for (int i = 1; i < list.length; ++i) {

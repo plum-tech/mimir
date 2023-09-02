@@ -14,6 +14,7 @@ class ExportDialog {
   final BuildContext context;
   final TimetableMetaLegacy meta;
   final List<Course> courses;
+
   ExportDialog(this.context, this.meta, this.courses);
 
   void exportByUrl(Duration? alarmBefore) async {

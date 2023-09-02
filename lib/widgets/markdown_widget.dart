@@ -5,6 +5,7 @@ import 'html_widget.dart';
 
 class MyMarkdownWidget extends StatelessWidget {
   final String markdown;
+
   const MyMarkdownWidget(this.markdown, {Key? key}) : super(key: key);
 
   @override

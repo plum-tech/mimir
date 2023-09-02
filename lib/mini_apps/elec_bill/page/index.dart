@@ -21,6 +21,7 @@ class _Page {
   static const bill = 0;
   static const search = 1;
 }
+
 // For now, we can't use AdaptiveUI.
 class _ElectricityBillPageState extends State<ElectricityBillPage> {
   /// elevated the `room` to share the state
@@ -78,7 +79,7 @@ class _ElectricityBillPageState extends State<ElectricityBillPage> {
         ),
         body: selectedRoom == null
             ? EmptySearchTip(
-                search: search,
+                onSearch: search,
               )
             : Dashboard(key: _dashboardKey, selectedRoom: selectedRoom));
   }
@@ -88,16 +89,16 @@ class _ElectricityBillPageState extends State<ElectricityBillPage> {
     final right = <Widget>[];
     if (selectedRoom == null) {
       right.add(EmptySearchTip(
-        search: search,
+        onSearch: search,
       ));
       right.add(EmptySearchTip(
-        search: search,
+        onSearch: search,
       ));
     } else {
       right.add(Dashboard(key: _dashboardKey, selectedRoom: selectedRoom));
       right.add(Search(
         searchHistory: _searchHistory ?? [selectedRoom],
-        search: search,
+        onSearch: search,
         onSelected: selectRoomNumber,
       ));
     }
@@ -198,19 +199,3 @@ class _ElectricityBillPageState extends State<ElectricityBillPage> {
     }
   }
 }
-
-/*
-  // benchmark: 100,000,000 times, result: 1:06.313091 minutes, AMD Ryzen 9 5900X 12-Core
-  // created by Liplum
-  static const Set<String> _numbers = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
-    String _keepOnlyNumber(String raw) {
-    final s = StringBuffer();
-    for (int i = 0; i < raw.length; i++) {
-      final char = raw[i];
-      if (_numbers.contains(char)) {
-        s.write(char);
-      }
-    }
-    return s.toString();
-  }
-*/

@@ -191,7 +191,7 @@ network:
   connectionTimeoutErrorDesc: "This function requires access to the campus network. NOTE: It also occurs when the school server is down for maintenance."
   openToolBtn: Open Network Tool
 networkTool:
-  title: Title
+  title: Network Tool
   openWlanSettingsBtn: Open WLAN settings
   noAccessTip: Unable to access network. Please check network settings on your device, and try again.
   connectionFailedError: |

@@ -38,7 +38,5 @@ class OACredentialAdapter extends TypeAdapter<OACredential> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is OACredentialAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is OACredentialAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

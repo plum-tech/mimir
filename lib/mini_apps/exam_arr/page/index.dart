@@ -36,17 +36,13 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (!Auth.hasLoggedIn) {
-      return UnauthorizedTipPage(title: MiniApp.examArr.l10nName().text());
-    } else {
-      final exams = _exams;
-      return Scaffold(
-          appBar: AppBar(title: MiniApp.examArr.l10nName().text()),
-          body: [
-            buildSemesterSelector(),
-            exams == null ? Placeholders.loading().expanded() : buildExamEntries(exams).expanded(),
-          ].column());
-    }
+    final exams = _exams;
+    return Scaffold(
+        appBar: AppBar(title: MiniApp.examArr.l10nName().text()),
+        body: [
+          buildSemesterSelector(),
+          exams == null ? Placeholders.loading().expanded() : buildExamEntries(exams).expanded(),
+        ].column());
   }
 
   void refresh() {

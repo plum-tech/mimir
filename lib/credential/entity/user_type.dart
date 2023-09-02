@@ -4,7 +4,7 @@ import '../using.dart';
 part 'user_type.g.dart';
 
 /// Note: In the new UserType, freshman isn't a valid UserType.
-/// If you want to determine whether the user is a freshman, please check [Auth.freshmanCredential].
+/// If you want to determine whether the user is a freshman, please check [context.auth.freshmanCredential].
 ///
 /// Offline isn't not different from others.
 /// Instead, you should check the credentials to determine whether the function is open for them.

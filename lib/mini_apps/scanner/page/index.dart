@@ -83,7 +83,7 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
         controller.dispose();
         const Vibration(milliseconds: 100).emit();
         final qrcode = captured.barcodes.firstOrNull;
-        if(qrcode != null){
+        if (qrcode != null) {
           Navigator.pop(context, qrcode.rawValue);
         }
       },

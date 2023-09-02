@@ -1,11 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/global/desktop_init.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/storage/init.dart';
-import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class HomeBackground extends StatefulWidget {

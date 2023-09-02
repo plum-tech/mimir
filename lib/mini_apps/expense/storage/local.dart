@@ -5,6 +5,7 @@ import '../entity/local.dart';
 class ExpenseStorageKeys {
   static const _namespace = '/expense';
   static const transactionTsList = '$_namespace/transactionIdList';
+
   static String buildTransactionsKeyByTs(DateTime ts) {
     final id = (ts.millisecondsSinceEpoch ~/ 1000).toRadixString(16);
     return '/expense/transactions/$id';
@@ -16,6 +17,7 @@ class ExpenseStorageKeys {
 
 class ExpenseStorage {
   final Box box;
+
   ExpenseStorage(this.box);
 
   /// 清空所有交易记录
@@ -71,9 +73,11 @@ class ExpenseStorage {
 
   /// 获取已缓存的交易起始时间
   DateTime? get cachedTsStart => box.get(ExpenseStorageKeys.cachedTsStart);
+
   set cachedTsStart(DateTime? v) => box.put(ExpenseStorageKeys.cachedTsStart, v);
 
   /// 获取已缓存的交易结束时间
   DateTime? get cachedTsEnd => box.get(ExpenseStorageKeys.cachedTsEnd);
+
   set cachedTsEnd(DateTime? v) => box.put(ExpenseStorageKeys.cachedTsEnd, v);
 }

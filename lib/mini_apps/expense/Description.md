@@ -15,6 +15,7 @@
 1. Adding TypeMark, `Food`, `TopUp`, `Subsidy` and so on, which can be modified manually by users.
 
 ### Persistence
+
 - Option A: Serializing the local classes into Hive with generated TypeAdapter.
 - Option B: Serializing the local classes in json for the future needs.
 
@@ -33,12 +34,14 @@ targetSet = requestSet - cachedSet = 新的时间区间
 ### 缓存层存储设计
 
 所有交易记录的索引，记录所有的交易时间，需要保证有序
+
 + /expense/transactionTsList
 
 所有交易记录
+
 + /expense/transactions/:id
 
-   id为主键，不能重复，可认为交易时间不会重复，故可选用交易时间的时间戳的hex为主键
+  id为主键，不能重复，可认为交易时间不会重复，故可选用交易时间的时间戳的hex为主键
 
 已缓存的时间区间
 
@@ -59,5 +62,6 @@ Cache层的类构造函数需要传入`Remote层Fetch接口实现`和`持久化�
 Cache层自身也作为一个Fetch接口的实现，其中的fetch方法需要基于remote层与持久化层编写缓存策略的代码逻辑，体现了一种装饰器模式的思想。
 
 ## Display
+
 Transactions are page-split by month to display with an endless lazy column.
 

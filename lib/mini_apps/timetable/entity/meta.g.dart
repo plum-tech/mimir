@@ -46,7 +46,5 @@ class TimetableMetaLegacyAdapter extends TypeAdapter<TimetableMetaLegacy> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is TimetableMetaLegacyAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is TimetableMetaLegacyAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

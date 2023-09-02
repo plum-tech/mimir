@@ -10,7 +10,7 @@ final router = GoRouter(
   navigatorKey: $Key,
   initialLocation: "/",
   redirect: (context, state) {
-    if (Auth.oaCredential == null) {
+    if (context.auth.oaCredential == null) {
       return "/login";
     } else {
       return null;
@@ -74,7 +74,7 @@ final router = GoRouter(
       builder: (ctx, state) => const ApplicationIndexPage(),
     ),
     GoRoute(
-      path: "/scaner",
+      path: "/scanner",
       builder: (ctx, state) => const ScannerPage(),
     ),
     GoRoute(
@@ -104,4 +104,3 @@ BrowserPage(
         javascriptUrl: args['javascriptUrl'],
       );
  */
-

@@ -78,7 +78,7 @@ class _MimirAppState extends State<MimirApp> {
             data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
             child: AdaptiveUI(
               isSubpage: false,
-              child: AuthScopeMaker(
+              child: AuthManager(
                 child: widget!,
               ),
             ),

@@ -5,6 +5,7 @@ import '../storage/local.dart';
 class CachedExpenseGetDao implements ExpenseGetDao {
   final ExpenseGetDao remoteDao;
   final ExpenseStorage storage;
+
   CachedExpenseGetDao({
     required this.remoteDao,
     required this.storage,

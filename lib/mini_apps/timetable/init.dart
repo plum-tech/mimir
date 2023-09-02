@@ -6,6 +6,7 @@ class TimetableInit {
   static late TimetableService timetableService;
   static late TimetableStorage timetableStorage;
   static late SsoSession network;
+
   static void init({
     required ISession eduSession,
     required Box<dynamic> box,

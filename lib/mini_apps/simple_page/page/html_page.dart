@@ -9,6 +9,7 @@ class SimpleHtmlPage extends StatelessWidget {
   final String? url;
   final String? htmlContent;
   final String title;
+
   SimpleHtmlPage({
     Key? key,
     this.url,

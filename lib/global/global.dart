@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:hive/hive.dart';
 import 'package:mimir/app.dart';
-import 'package:mimir/credential/dao/credential.dart';
+import 'package:mimir/credential/storage/credential.dart';
 import 'package:mimir/design/symbol.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/global/cookie_init.dart';
@@ -72,7 +72,7 @@ class Global {
   }
 
   static Future<void> init({
-    required CredentialDao credentials,
+    required CredentialStorage credentials,
     bool? debugNetwork,
     required Box cookieBox,
   }) async {

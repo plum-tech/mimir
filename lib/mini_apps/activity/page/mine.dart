@@ -70,7 +70,7 @@ class _MyActivityPageState extends State<MyActivityPage> with AutomaticKeepAlive
   }
 
   ScScoreSummary getTargetScore() {
-    final admissionYear = int.tryParse(Auth.oaCredential?.account.substring(0, 2) ?? "") ?? 2000;
+    final admissionYear = int.tryParse(context.auth.oaCredential?.account.substring(0, 2) ?? "") ?? 2000;
     return calcTargetScore(admissionYear);
   }
 

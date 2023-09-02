@@ -45,7 +45,7 @@ class _CredentialPageState extends State<CredentialPage> {
   }
 
   Widget buildBody() {
-    final credential = Auth.oaCredential;
+    final credential = context.auth.oaCredential;
     final all = <WidgetBuilder>[];
     if (credential == null) {
       all.add((_) => buildLogin());
@@ -114,7 +114,8 @@ class _CredentialPageState extends State<CredentialPage> {
         final newPwd =
             await Editor.showStringEditor(context, desc: CredentialI18n.instance.savedOaPwd, initial: origin.password);
         if (newPwd != origin.password) {
-          Auth.oaCredential = origin.copyWith(password: newPwd);
+          if (!mounted) return;
+          context.auth.setOaCredential(origin.copyWith(password: newPwd));
           setState(() {});
         }
       },

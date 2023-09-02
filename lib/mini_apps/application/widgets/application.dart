@@ -22,7 +22,10 @@ class ApplicationTile extends StatelessWidget {
     if (isHot) {
       views = [
         Text(meta.count.toString()),
-        const Icon(Icons.local_fire_department_rounded,color: Colors.red,),
+        const Icon(
+          Icons.local_fire_department_rounded,
+          color: Colors.red,
+        ),
       ].row(mas: MainAxisSize.min);
     } else {
       views = Text(meta.count.toString());

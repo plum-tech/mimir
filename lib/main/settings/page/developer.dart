@@ -28,7 +28,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
             floating: false,
             expandedHeight: 100.0,
             flexibleSpace: FlexibleSpaceBar(
-              title:i18n.developerOptions.text(),
+              title: i18n.developerOptions.text(),
             ),
           ),
           SliverList(
@@ -72,6 +72,8 @@ class _DeveloperPageState extends State<DeveloperPage> {
       leading: const Icon(Icons.refresh_rounded),
       onTap: () async {
         await Init.init();
+        final engine = WidgetsFlutterBinding.ensureInitialized();
+        engine.performReassemble();
         if (!mounted) return;
         context.navigator.pop();
       },

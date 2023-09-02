@@ -44,6 +44,10 @@ class _ApplicationListState extends State<ApplicationList> with AdaptivePageProt
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
     _fetchMetaList().then((value) {
       if (value != null) {
         if (!mounted) return;
@@ -59,6 +63,7 @@ class _ApplicationListState extends State<ApplicationList> with AdaptivePageProt
         _lastError = error.toString();
       });
     });
+    super.didChangeDependencies();
   }
 
   @override
@@ -139,7 +144,7 @@ class _ApplicationListState extends State<ApplicationList> with AdaptivePageProt
   }
 
   Future<List<ApplicationMeta>?> _fetchMetaList() async {
-    final oaCredential = Auth.oaCredential;
+    final oaCredential = context.auth.oaCredential;
     if (oaCredential == null) return null;
     if (!ApplicationInit.session.isLogin) {
       await ApplicationInit.session.login(

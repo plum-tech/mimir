@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:mimir/credential/symbol.dart';
 
 import '../../mini_app.dart';
@@ -7,9 +8,9 @@ class BrickMaker {
 
   static final Map<int, List<MiniApp>> _cache = {};
 
-  static List<MiniApp> makeDefaultBricks() {
-    final oa = Auth.oaCredential;
-    final hasLoggedIn = Auth.hasLoggedIn;
+  static List<MiniApp> makeDefaultBricks(BuildContext ctx) {
+    final oa = ctx.auth.oaCredential;
+    final hasLoggedIn = oa != null;
     final key = oa.hashCode + hasLoggedIn.hashCode;
     final cache = _cache[key];
     if (cache != null) {

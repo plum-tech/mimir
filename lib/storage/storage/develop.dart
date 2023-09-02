@@ -13,6 +13,7 @@ class DevelopOptionsStorage implements DevelopOptionsDao {
 
   @override
   bool? get showErrorInfoDialog => box.get(DevelopOptionsKeys.showErrorInfoDialog);
+
   @override
   set showErrorInfoDialog(bool? foo) => box.put(DevelopOptionsKeys.showErrorInfoDialog, foo);
 }

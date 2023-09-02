@@ -21,9 +21,7 @@ class TimetablePreviewPage extends StatefulWidget {
 
 class _TimetablePreviewPageState extends State<TimetablePreviewPage> {
   final ValueNotifier<DisplayMode> $displayMode = ValueNotifier(DisplayMode.weekly);
-  late final ValueNotifier<TimetablePos> $currentPos = ValueNotifier(
-      widget.timetable.locate(DateTime.now())
-  );
+  late final ValueNotifier<TimetablePos> $currentPos = ValueNotifier(widget.timetable.locate(DateTime.now()));
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,6 @@
-import 'package:hive/hive.dart';
+import 'package:flutter/foundation.dart';
+import 'package:mimir/hive/using.dart';
 
-import '../dao/credential.dart';
 import '../entity/credential.dart';
 
 class _Key {
@@ -9,19 +9,20 @@ class _Key {
   static const lastOaAuthTime = "$ns/lastOaAuthTime";
 }
 
-class CredentialStorage implements CredentialDao {
+class CredentialStorage {
   final Box<dynamic> box;
 
   CredentialStorage(this.box);
 
-  @override
   OACredential? get oaCredential => box.get(_Key.oa);
 
-  @override
   set oaCredential(OACredential? newV) => box.put(_Key.oa, newV);
 
-  @override
   DateTime? get lastOaAuthTime => box.get(_Key.lastOaAuthTime);
 
   set lastOaAuthTime(DateTime? newV) => box.put(_Key.lastOaAuthTime, newV);
+
+  ValueListenable<Box<dynamic>> get $OaCredential => box.listenable(keys: [_Key.oa]);
+
+  ValueListenable<Box<dynamic>> get $LastOaAuthTime => box.listenable(keys: [_Key.lastOaAuthTime]);
 }

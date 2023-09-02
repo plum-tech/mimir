@@ -1,63 +1,83 @@
 import 'package:flutter/widgets.dart';
 import 'package:mimir/credential/entity/credential.dart';
-import 'package:mimir/events/bus.dart';
-import 'package:mimir/events/events.dart';
 
 import '../init.dart';
 
-class AuthScope extends InheritedWidget {
+extension AuthEx on BuildContext {
+  Auth get auth => Auth.of(this);
+}
+
+class AuthManager extends StatefulWidget {
+  final Widget child;
+
+  const AuthManager({super.key, required this.child});
+
+  @override
+  State<AuthManager> createState() => _AuthManagerState();
+}
+
+class _AuthManagerState extends State<AuthManager> {
+  @override
+  void initState() {
+    super.initState();
+    CredentialInit.credential.$OaCredential.addListener(_anyChange);
+    CredentialInit.credential.$LastOaAuthTime.addListener(_anyChange);
+  }
+
+  @override
+  void dispose() {
+    CredentialInit.credential.$OaCredential.removeListener(_anyChange);
+    CredentialInit.credential.$LastOaAuthTime.removeListener(_anyChange);
+    super.dispose();
+  }
+
+  void _anyChange() {
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final storage = CredentialInit.credential;
+    return Auth(
+      oaCredential: storage.oaCredential,
+      lastOaAuthTime: storage.lastOaAuthTime,
+      child: widget.child,
+    );
+  }
+}
+
+class Auth extends InheritedWidget {
   final OACredential? oaCredential;
   final DateTime? lastOaAuthTime;
 
-  const AuthScope({
+  const Auth({
     super.key,
     this.oaCredential,
     this.lastOaAuthTime,
     required super.child,
   });
 
-  static AuthScope of(BuildContext context) {
-    final AuthScope? result = context.dependOnInheritedWidgetOfExactType<AuthScope>();
+  static Auth of(BuildContext context) {
+    final Auth? result = context.dependOnInheritedWidgetOfExactType<Auth>();
     assert(result != null, 'No AuthScope found in context');
     return result!;
   }
 
   @override
-  bool updateShouldNotify(AuthScope oldWidget) {
+  bool updateShouldNotify(Auth oldWidget) {
     return oaCredential != oldWidget.oaCredential || lastOaAuthTime != oldWidget.lastOaAuthTime;
   }
-}
 
-extension AuthScopeEx on BuildContext {
-  AuthScope get auth => AuthScope.of(this);
-}
-
-class AuthScopeMaker extends StatefulWidget {
-  final Widget child;
-
-  const AuthScopeMaker({super.key, required this.child});
-
-  @override
-  State<AuthScopeMaker> createState() => _AuthScopeMakerState();
-}
-
-class _AuthScopeMakerState extends State<AuthScopeMaker> {
-  @override
-  void initState() {
-    super.initState();
-    On.global<CredentialChangeEvent>((event) {
-      if (!mounted) return;
-      setState(() {});
-    });
+  setOaCredential(OACredential? newV) {
+    if (CredentialInit.credential.oaCredential != newV) {
+      CredentialInit.credential.oaCredential = newV;
+      if (newV != null) {
+        CredentialInit.credential.lastOaAuthTime = DateTime.now();
+      }
+    }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final storage = CredentialInit.credential;
-    return AuthScope(
-      oaCredential: storage.oaCredential,
-      lastOaAuthTime: storage.lastOaAuthTime,
-      child: widget.child,
-    );
+  setLastOaAuthTime(DateTime? newV) {
+    CredentialInit.credential.lastOaAuthTime = newV;
   }
 }

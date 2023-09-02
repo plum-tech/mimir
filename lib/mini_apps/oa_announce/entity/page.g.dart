@@ -40,7 +40,5 @@ class AnnounceListPageAdapter extends TypeAdapter<AnnounceListPage> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AnnounceListPageAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is AnnounceListPageAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

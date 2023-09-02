@@ -26,15 +26,20 @@ class _MailPageState extends State<MailPage> {
   @override
   void initState() {
     super.initState();
-    final oaCredential = Auth.oaCredential;
+  }
+
+  @override
+  void didChangeDependencies() {
+    final oaCredential = context.auth.oaCredential;
     if (oaCredential != null) {
       _updateMailList(oaCredential);
     }
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    final oaCredential = Auth.oaCredential;
+    final oaCredential = context.auth.oaCredential;
     final String title;
     if (oaCredential != null) {
       title = oaCredential.account.toEmailAddress();
@@ -98,7 +103,7 @@ class _MailPageState extends State<MailPage> {
              * "eduEmailLoginFailTip": "Failed to log in your edu email with OA Password. Troubleshooting:\n1.If you've never changed it, try all passwords you ever used.\n2."
              */
             child: Text(
-              '登录失败，小风筝无法使用 OA 密码登录你的账户。\n'
+              '登录失败，无法使用 OA 密码登录你的账户。\n'
               '这可能是信息中心未同步你的邮箱密码导致的。如果你未重置过该密码，它可能是你任意一次设置的 OA 密码。',
               style: Theme.of(context).textTheme.bodyLarge,
             ),

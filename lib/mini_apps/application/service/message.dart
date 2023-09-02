@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:mimir/app.dart';
+
 import '../dao/message.dart';
 import '../entity/message.dart';
 import '../using.dart';
@@ -13,7 +15,7 @@ class ApplicationMessageService implements ApplicationMessageDao {
 
   @override
   Future<ApplicationMsgCount> getMessageCount() async {
-    final account = Auth.oaCredential!.account;
+    final account = $Key.currentContext?.auth.oaCredential!.account;
     String payload = 'code=$account';
 
     final response = await session.request(

@@ -60,8 +60,6 @@ class _ExamResultPageState extends State<ExamResultPage> {
 
   @override
   Widget build(BuildContext context) {
-    // If the user has logged in, they can only check the cache.
-    if (!Auth.hasLoggedIn) return UnauthorizedTipPage(title: MiniApp.examResult.l10nName().text());
     final allResults = _allResults;
     final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResult>() : allResults;
     final Widget title;
@@ -120,7 +118,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
                 },
                 child: Expanded(child: allResults.isNotEmpty ? _buildExamResultList(allResults) : _buildNoResult())),
       ].column(),
-      floatingActionButton: Auth.oaCredential == null ? null : buildEvaluationBtn(context),
+      floatingActionButton: context.auth.oaCredential == null ? null : buildEvaluationBtn(context),
     );
   }
 

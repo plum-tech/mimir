@@ -38,18 +38,18 @@ class HomepageFactory {
           title: MiniApp.examResult.l10nName(),
           subtitle: MiniApp.examResult.l10nDesc(),
         ),
-    MiniApp.library: (context) =>  LibraryBrick(
-      route: '/app/library',
-      icon: SvgAssetIcon('assets/home/icon_library.svg'),
-    ),
+    MiniApp.library: (context) => LibraryBrick(
+          route: '/app/library',
+          icon: SvgAssetIcon('assets/home/icon_library.svg'),
+        ),
     MiniApp.application: (context) => ApplicationBrick(
-      route: '/app/library',
-      icon: SvgAssetIcon('assets/home/icon_application.svg'),
-    ),
+          route: '/app/application',
+          icon: SvgAssetIcon('assets/home/icon_application.svg'),
+        ),
     MiniApp.eduEmail: (context) => EduEmailBrick(
-      route: '/app/eduMail',
-      icon: SvgAssetIcon('assets/home/icon_mail.svg'),
-    ),
+          route: '/app/eduEmail',
+          icon: SvgAssetIcon('assets/home/icon_mail.svg'),
+        ),
     MiniApp.oaAnnouncement: (context) => Brick(
           route: "/app/oaAnnouncement",
           icon: SvgAssetIcon('assets/home/icon_bulletin.svg'),
@@ -64,9 +64,9 @@ class HomepageFactory {
         ),
     MiniApp.separator: (context) => Container(),
     MiniApp.elecBill: (context) => ElectricityBillBrick(
-      route: "/app/elecBill",
-      icon: SvgAssetIcon('assets/home/icon_electricity.svg'),
-    ),
+          route: "/app/elecBill",
+          icon: SvgAssetIcon('assets/home/icon_electricity.svg'),
+        ),
   };
 
   static Widget? buildBrickWidget(BuildContext context, MiniApp type) {

@@ -17,8 +17,8 @@ class InAppViewPage extends StatefulWidget {
 }
 
 class _InAppViewPageState extends State<InAppViewPage> {
-  late WebViewController controller= WebViewController();
-  late WebViewCookieManager cookieManager= WebViewCookieManager();
+  late WebViewController controller = WebViewController();
+  late WebViewCookieManager cookieManager = WebViewCookieManager();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class _InAppViewPageState extends State<InAppViewPage> {
         future: ApplicationInit.cookieJar.loadAsWebViewCookie(Uri.parse(url)),
         builder: (context, cookies, state) {
           if (cookies == null) return Placeholders.loading();
-          for(final cookie in cookies){
+          for (final cookie in cookies) {
             cookieManager.setCookie(cookie);
           }
           controller.loadRequest(Uri.parse(widget.url));

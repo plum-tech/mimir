@@ -13,7 +13,7 @@ import '../classic_ui/sheet.dart';
 import '../../entity/pos.dart';
 import 'shared.dart';
 
-class WeeklyTimetable extends StatefulWidget  {
+class WeeklyTimetable extends StatefulWidget {
   final SitTimetable timetable;
 
   @override

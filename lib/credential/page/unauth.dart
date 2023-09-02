@@ -2,11 +2,11 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/mini_apps/login/init.dart';
-import 'package:mimir/storage/init.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../symbol.dart';
 import '../using.dart';
+
 const _i18n = CredentialI18n();
 
 class UnauthorizedTipPage extends StatefulWidget {
@@ -102,7 +102,7 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
   }
 
   String get tip {
-    if (Auth.hasLoggedIn) {
+    if (context.auth.oaCredential != null) {
       return _i18n.unauthorizedTip.everLoggedInTip;
     } else {
       return _i18n.unauthorizedTip.neverLoggedInTip;
@@ -164,7 +164,7 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
   }
 
   String get buttonText {
-    if (Auth.hasLoggedIn) {
+    if (context.auth.oaCredential != null) {
       return _i18n.relogin;
     } else {
       return _i18n.loginLoginBtn;
@@ -227,8 +227,8 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
       final credential = OACredential(account, password);
       await LoginInit.ssoSession.loginActive(credential);
       final personName = await LoginInit.authServerService.getPersonName();
-      Auth.oaCredential = credential;
       if (!mounted) return;
+      context.auth.setOaCredential(credential);
       widget.onLogin?.call();
     } on CredentialsInvalidException catch (e) {
       if (!mounted) return;

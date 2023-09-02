@@ -5,12 +5,10 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart' hide Lock;
 import 'package:go_router/go_router.dart';
 import 'package:mimir/app.dart';
-import 'package:mimir/events/events.dart';
 import 'package:mimir/mini_apps/login/using.dart';
 import 'package:mimir/session/common.dart';
 import 'package:mimir/util/logger.dart';
 import 'package:mimir/widgets/captcha_box.dart';
-import 'package:rettulf/rettulf.dart';
 import 'package:synchronized/synchronized.dart';
 
 import '../../events/bus.dart';
@@ -235,9 +233,8 @@ class SsoSession with DioDownloaderMixin implements ISession {
         throw const MaxRetryExceedException(msg: '验证码识别有误，请稍后重试');
       } else {
         Log.info("Credential is invalid because of incorrect account or password.");
-        Auth.oaCredential = null;
-        FireOn.global(CredentialChangeEvent());
         final ctx = $Key.currentContext;
+        ctx?.auth.setOaCredential(null);
         if (ctx != null) {
           final confirm = await ctx.showRequest(
             title: _i18n.credential.error,

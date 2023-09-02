@@ -18,9 +18,6 @@ class _ApplicationIndexPageState extends State<ApplicationIndexPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (!Auth.hasLoggedIn) {
-      return UnauthorizedTipPage(title: MiniApp.application.l10nName().text());
-    }
     return AdaptiveNavi(
       title: MiniApp.application.l10nName(),
       defaultIndex: 0,
