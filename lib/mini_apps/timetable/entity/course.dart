@@ -1,7 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../using.dart';
-
 part 'course.g.dart';
 
 /// 课表显示模式
@@ -21,7 +19,7 @@ enum DisplayMode {
   DisplayMode toggle() => DisplayMode.values[(index + 1) & 1];
 }
 
-@JsonSerializable(createToJson:false)
+@JsonSerializable(createToJson: false)
 class Course {
   static final Map<String, int> _weekMapping = {'星期一': 1, '星期二': 2, '星期三': 3, '星期四': 4, '星期五': 5, '星期六': 6, '星期日': 7};
 

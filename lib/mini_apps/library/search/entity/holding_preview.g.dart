@@ -6,8 +6,7 @@ part of 'holding_preview.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-HoldingPreviewItem _$HoldingPreviewItemFromJson(Map<String, dynamic> json) =>
-    HoldingPreviewItem(
+HoldingPreviewItem _$HoldingPreviewItemFromJson(Map<String, dynamic> json) => HoldingPreviewItem(
       json['bookrecno'] as int,
       json['barcode'] as String,
       json['callno'] as String,
@@ -17,8 +16,7 @@ HoldingPreviewItem _$HoldingPreviewItemFromJson(Map<String, dynamic> json) =>
       json['loanableCount'] as int,
     );
 
-Map<String, dynamic> _$HoldingPreviewItemToJson(HoldingPreviewItem instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$HoldingPreviewItemToJson(HoldingPreviewItem instance) => <String, dynamic>{
       'bookrecno': instance.bookId,
       'barcode': instance.barcode,
       'callno': instance.callNo,
@@ -28,19 +26,13 @@ Map<String, dynamic> _$HoldingPreviewItemToJson(HoldingPreviewItem instance) =>
       'loanableCount': instance.loanableCount,
     };
 
-HoldingPreviews _$HoldingPreviewsFromJson(Map<String, dynamic> json) =>
-    HoldingPreviews(
+HoldingPreviews _$HoldingPreviewsFromJson(Map<String, dynamic> json) => HoldingPreviews(
       (json['previews'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(
-            k,
-            (e as List<dynamic>)
-                .map((e) =>
-                    HoldingPreviewItem.fromJson(e as Map<String, dynamic>))
-                .toList()),
+            k, (e as List<dynamic>).map((e) => HoldingPreviewItem.fromJson(e as Map<String, dynamic>)).toList()),
       ),
     );
 
-Map<String, dynamic> _$HoldingPreviewsToJson(HoldingPreviews instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$HoldingPreviewsToJson(HoldingPreviews instance) => <String, dynamic>{
       'previews': instance.previews,
     };

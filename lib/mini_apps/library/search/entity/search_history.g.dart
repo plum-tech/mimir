@@ -6,8 +6,7 @@ part of 'search_history.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class LibrarySearchHistoryItemAdapter
-    extends TypeAdapter<LibrarySearchHistoryItem> {
+class LibrarySearchHistoryItemAdapter extends TypeAdapter<LibrarySearchHistoryItem> {
   @override
   final int typeId = 80;
 
@@ -38,7 +37,5 @@ class LibrarySearchHistoryItemAdapter
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is LibrarySearchHistoryItemAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is LibrarySearchHistoryItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

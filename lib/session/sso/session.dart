@@ -15,19 +15,16 @@ import '../../util/dio_utils.dart';
 import 'encryption.dart';
 
 typedef SsoSessionErrorCallback = void Function(Object e, StackTrace t);
-typedef SsoSessionCaptchaCallback = Future<String?> Function(
-    Uint8List imageBytes);
+typedef SsoSessionCaptchaCallback = Future<String?> Function(Uint8List imageBytes);
 
 /// Single Sign-On
 class SsoSession with DioDownloaderMixin implements ISession {
   static const int _maxRetryCount = 5;
-  static const String _authServerUrl =
-      'https://authserver.sit.edu.cn/authserver';
+  static const String _authServerUrl = 'https://authserver.sit.edu.cn/authserver';
   static const String _loginUrl = '$_authServerUrl/login';
   static const String _needCaptchaUrl = '$_authServerUrl/needCaptcha.html';
   static const String _captchaUrl = '$_authServerUrl/captcha.html';
-  static const String _loginSuccessUrl =
-      'https://authserver.sit.edu.cn/authserver/index.do';
+  static const String _loginSuccessUrl = 'https://authserver.sit.edu.cn/authserver/index.do';
 
   // http客户端对象和缓存
   @override
@@ -175,8 +172,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
         onReceiveProgress: onReceiveProgress,
       );
       // 处理重定向
-      return await DioUtils.processRedirect(dio, response,
-          headers: neededHeaders);
+      return await DioUtils.processRedirect(dio, response, headers: neededHeaders);
     }
 
     // 第一次先正常请求
@@ -208,13 +204,9 @@ class SsoSession with DioDownloaderMixin implements ISession {
 
     final emptyPage = BeautifulSoup('');
     // 桌面端报错提示
-    final authError =
-        (page.find('span', id: 'msg', class_: 'auth_error') ?? emptyPage)
-            .text
-            .trim();
+    final authError = (page.find('span', id: 'msg', class_: 'auth_error') ?? emptyPage).text.trim();
     // TODO: 支持移动端报错提示
-    final mobileError =
-        (page.find('span', id: 'errorMsg') ?? emptyPage).text.trim();
+    final mobileError = (page.find('span', id: 'errorMsg') ?? emptyPage).text.trim();
     if (authError.isNotEmpty || mobileError.isNotEmpty) {
       throw CredentialsInvalidException(msg: authError + mobileError);
     }
@@ -226,7 +218,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
     Log.info('登录成功：${credential.account}');
     isOnline = true;
     _credential = credential;
-    Kv.loginTime.sso = DateTime.now();
+    $Key.currentContext?.auth.setLastOaAuthTime(DateTime.now());
     return response;
   }
 
@@ -239,8 +231,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
         Log.info("Credential is invalid because of a wrong captcha prompt.");
         throw const MaxRetryExceedException(msg: '验证码识别有误，请稍后重试');
       } else {
-        Log.info(
-            "Credential is invalid because of incorrect account or password.");
+        Log.info("Credential is invalid because of incorrect account or password.");
         final ctx = $Key.currentContext;
         ctx?.auth.setOaCredential(null);
         if (ctx != null) {
@@ -272,8 +263,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
           Log.info("Credential is invalid because of a wrong captcha prompt.");
           continue;
         } else {
-          Log.info(
-              "Credential is invalid because of incorrect account or password.");
+          Log.info("Credential is invalid because of incorrect account or password.");
           rethrow;
         }
       }
@@ -370,8 +360,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
     // 加密密码
     final hashedPwd = hashPassword(salt, credential.password);
     // 登录系统，获得cookie
-    return await _postLoginRequest(
-        credential.account, hashedPwd, captcha, casTicket);
+    return await _postLoginRequest(credential.account, hashedPwd, captcha, casTicket);
   }
 
   final neededHeaders = {
@@ -386,8 +375,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
   };
 
   /// 登录统一认证平台
-  Future<Response> _postLoginRequest(String username, String hashedPassword,
-      String captcha, String casTicket) async {
+  Future<Response> _postLoginRequest(String username, String hashedPassword, String captcha, String casTicket) async {
     final requestBody = {
       'username': username,
       'password': hashedPassword,

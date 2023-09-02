@@ -35,9 +35,7 @@ class SchoolYearAdapter extends TypeAdapter<SchoolYear> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SchoolYearAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is SchoolYearAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
 class SemesterAdapter extends TypeAdapter<Semester> {
@@ -78,8 +76,5 @@ class SemesterAdapter extends TypeAdapter<Semester> {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is SemesterAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      identical(this, other) || other is SemesterAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

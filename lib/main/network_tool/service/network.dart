@@ -24,8 +24,7 @@ class CampusNetworkStatus {
 
   CampusNetworkStatus(this.loggedIn, this.ip, {this.studentId});
 
-  factory CampusNetworkStatus.fromJson(Map<String, dynamic> json) =>
-      _$CampusNetworkStatusFromJson(json);
+  factory CampusNetworkStatus.fromJson(Map<String, dynamic> json) => _$CampusNetworkStatusFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
@@ -34,8 +33,7 @@ class LogoutResult {
 
   LogoutResult(this.result);
 
-  factory LogoutResult.fromJson(Map<String, dynamic> json) =>
-      _$LogoutResultFromJson(json);
+  factory LogoutResult.fromJson(Map<String, dynamic> json) => _$LogoutResultFromJson(json);
 }
 
 @JsonSerializable()
@@ -44,8 +42,7 @@ class LoginResult {
 
   const LoginResult(this.result);
 
-  factory LoginResult.fromJson(Map<String, dynamic> json) =>
-      _$LoginResultFromJson(json);
+  factory LoginResult.fromJson(Map<String, dynamic> json) => _$LoginResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$LoginResultToJson(this);
 }
@@ -64,8 +61,7 @@ class Network {
       receiveTimeout: 3000,
     );
 
-  static Future<Map<String, dynamic>> _get(String url,
-      {Map<String, dynamic>? queryParameters}) async {
+  static Future<Map<String, dynamic>> _get(String url, {Map<String, dynamic>? queryParameters}) async {
     var response = await dio.get(
       url,
       queryParameters: queryParameters,

@@ -45,7 +45,5 @@ class LoginStatusAdapter extends TypeAdapter<LoginStatus> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is LoginStatusAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is LoginStatusAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

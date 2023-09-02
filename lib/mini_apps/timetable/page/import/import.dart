@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/mini_apps/timetable/storage/timetable.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -112,7 +113,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     );
   }
 
-  Future<bool> handleTimetableData(BuildContext ctx, SitTimetable timetable, int year, Semester semester) async {
+  Future<SitTimetable?> handleTimetableData(BuildContext ctx, SitTimetable timetable, int year, Semester semester) async {
     final defaultName = i18n.import.defaultName(semester.localized(), year.toString(), (year + 1).toString());
     DateTime defaultStartDate;
     if (semester == Semester.term1) {
@@ -131,11 +132,11 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       dismissible: false,
     );
     if (newMeta != null) {
-      timetable.setMeta(newMeta);
+      timetable.meta = newMeta;
       storage.addTimetable(timetable);
-      return true;
+      return timetable;
     }
-    return false;
+    return null;
   }
 
   Widget buildImportButton(BuildContext ctx) {
@@ -158,12 +159,9 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
                   setState(() {
                     _status = ImportStatus.end;
                   });
-                  final saved = await handleTimetableData(ctx, value[0] as SitTimetable, selectedYear, semester);
+                  final timetable = await handleTimetableData(ctx, value[0] as SitTimetable, selectedYear, semester);
                   if (!mounted) return;
-                  Navigator.of(ctx).pop(saved);
-                  setState(() {
-                    _status = ImportStatus.none;
-                  });
+                  context.pop(timetable);
                 }).onError((error, stackTrace) {
                   Log.error(error);
                   Log.error(stackTrace);

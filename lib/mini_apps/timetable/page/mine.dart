@@ -8,7 +8,8 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/entity.dart';
 import '../events.dart';
 import '../using.dart';
-import 'preview.dart';
+import '../widgets/meta_editor.dart';
+import '../widgets/picker.dart';
 
 class MyTimetableListPage extends StatefulWidget {
   const MyTimetableListPage({super.key});
@@ -55,44 +56,41 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
     final $useOldSchool = ValueNotifier(useOldSchoolInit);
     final $useNewUI = ValueNotifier(useNewUIInit);
     await context.show$Dialog$(
-        make: (ctx) => $Dialog$(
-              primary: $Action$(
-                  text: i18n.close,
-                  isDefault: true,
-                  onPressed: () {
-                    ctx.navigator.pop(true);
-                  }),
-              make: (ctx) {
-                return [
-                  [
-                    ListTile(
-                      title: "Use Old School Palette"
-                          .text(style: const TextStyle(fontSize: 15)),
-                      trailing: $useOldSchool >>
-                          (ctx, use) => CupertinoSwitch(
-                              value: use,
-                              onChanged: (newV) {
-                                $useOldSchool.value = newV;
-                              }),
-                    ),
-                    ListTile(
-                      title: "Use Timetable New-UI"
-                          .text(style: const TextStyle(fontSize: 15)),
-                      trailing: $useNewUI >>
-                          (ctx, use) => CupertinoSwitch(
-                              value: use,
-                              onChanged: (newV) {
-                                $useNewUI.value = newV;
-                              }),
-                    ),
-                  ].column(),
-                  "Excuse me, a new personalization system is coming soon!"
-                      .text(style: const TextStyle(fontStyle: FontStyle.italic))
-                ].column(mas: MainAxisSize.min);
-              },
-            ));
-    if ($useOldSchool.value != useOldSchoolInit ||
-        $useNewUI.value != useNewUIInit) {
+      make: (ctx) => $Dialog$(
+        primary: $Action$(
+          text: i18n.close,
+          isDefault: true,
+          onPressed: () {
+            ctx.navigator.pop(true);
+          },
+        ),
+        make: (ctx) => [
+          [
+            ListTile(
+              title: "Use Old School Palette".text(style: const TextStyle(fontSize: 15)),
+              trailing: $useOldSchool >>
+                  (ctx, use) => CupertinoSwitch(
+                      value: use,
+                      onChanged: (newV) {
+                        $useOldSchool.value = newV;
+                      }),
+            ),
+            ListTile(
+              title: "Use Timetable New-UI".text(style: const TextStyle(fontSize: 15)),
+              trailing: $useNewUI >>
+                  (ctx, use) => CupertinoSwitch(
+                      value: use,
+                      onChanged: (newV) {
+                        $useNewUI.value = newV;
+                      }),
+            ),
+          ].column(),
+          "Excuse me, a new personalization system is coming soon!"
+              .text(style: const TextStyle(fontStyle: FontStyle.italic))
+        ].column(mas: MainAxisSize.min),
+      ),
+    );
+    if ($useOldSchool.value != useOldSchoolInit || $useNewUI.value != useNewUIInit) {
       storage.useOldSchoolColors = $useOldSchool.value;
       storage.useNewUI = $useNewUI.value;
       if (!mounted) return;
@@ -101,14 +99,12 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   }
 
   Widget _buildEmptyBody(BuildContext ctx) {
-    return LeavingBlank(
-        icon: Icons.calendar_month_rounded,
-        desc: i18n.mine.emptyTip,
-        onIconTap: goImport);
+    return LeavingBlank(icon: Icons.calendar_month_rounded, desc: i18n.mine.emptyTip, onIconTap: goImport);
   }
 
   Widget buildTimetables(BuildContext ctx) {
     final timetables = storage.getAllSitTimetables();
+    final selectedId = storage.currentTimetableId;
     if (timetables.isEmpty) {
       return _buildEmptyBody(ctx);
     }
@@ -117,63 +113,13 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         for (final timetable in timetables)
           TimetableEntry(
             timetable: timetable,
-            onDeleted: () {
-              // Refresh Mine page and show other timetables.
-              setState(() {});
-              if (!storage.hasAnyTimetable) {
-                // If no timetable exists, go out.
-                ctx.navigator.pop();
-              }
-            },
+            action: buildActionPopup(timetable, selectedId == timetable.id),
           ),
       ],
     );
   }
-}
 
-class TimetableEntry extends StatefulWidget {
-  final SitTimetable timetable;
-  final void Function()? onDeleted;
-
-  const TimetableEntry({super.key, required this.timetable, this.onDeleted});
-
-  @override
-  State<TimetableEntry> createState() => _TimetableEntryState();
-}
-
-class _TimetableEntryState extends State<TimetableEntry> {
-  SitTimetable get timetable => widget.timetable;
-  final storage = TimetableInit.storage;
-
-  @override
-  Widget build(BuildContext ctx) {
-    final isSelected = storage.currentTimetableId == timetable.id;
-    final year = '${timetable.schoolYear} - ${timetable.schoolYear + 1}';
-    final semester = Semester.values[timetable.semester].localized();
-    final bodyTextStyle = ctx.textTheme.titleSmall;
-    return [
-      [
-        timetable.name.text(style: ctx.textTheme.titleMedium).expanded(),
-        if (isSelected) const Icon(Icons.check, color: Colors.green),
-        buildActionPopup(isSelected),
-      ].row(maa: MainAxisAlignment.spaceBetween),
-      [
-        year.text(style: bodyTextStyle),
-        semester.text(style: bodyTextStyle),
-      ].row(maa: MainAxisAlignment.spaceEvenly).padV(5),
-      i18n
-          .startDate(ctx.formatYmdNum(timetable.startDate))
-          .text(style: bodyTextStyle)
-          .padFromLTRB(20, 20, 20, 10),
-    ]
-        .column()
-        .padSymmetric(v: 10, h: 20)
-        .scrolled()
-        .padAll(4)
-        .inCard(elevation: 5);
-  }
-
-  Widget buildActionPopup(bool isSelected) {
+  Widget buildActionPopup(SitTimetable timetable, bool isSelected) {
     return PopupMenuButton(
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
       position: PopupMenuPosition.under,
@@ -183,7 +129,18 @@ class _TimetableEntryState extends State<TimetableEntry> {
           child: ListTile(
             leading: const Icon(Icons.edit),
             title: i18n.mine.edit.text(),
-            onTap: () async {},
+            onTap: () async {
+              context.pop();
+              final newMeta = await ctx.showSheet<TimetableMeta>(
+                (ctx) => MetaEditor(meta: timetable.meta).padOnly(b: MediaQuery.of(ctx).viewInsets.bottom),
+              );
+              if (newMeta != null) {
+                timetable.meta = newMeta;
+                storage.setSitTimetable(timetable, byId: timetable.id);
+                if (!mounted) return;
+                setState(() {});
+              }
+            },
           ),
         ),
         if (!isSelected)
@@ -192,7 +149,7 @@ class _TimetableEntryState extends State<TimetableEntry> {
               leading: const Icon(Icons.check),
               title: i18n.mine.setToDefault.text(),
               onTap: () async {
-                Navigator.of(ctx).pop();
+                context.pop();
                 storage.currentTimetableId = timetable.id;
                 setState(() {});
               },
@@ -202,7 +159,16 @@ class _TimetableEntryState extends State<TimetableEntry> {
           child: ListTile(
             leading: const Icon(Icons.timer_outlined),
             title: i18n.edit.setStartDate.text(),
-            onTap: () async {},
+            onTap: () async {
+              context.pop();
+              final date = await pickDate(context, initial: timetable.startDate);
+              if (date != null) {
+                timetable.startDate = date;
+                storage.setSitTimetable(timetable, byId: timetable.id);
+                if (!mounted) return;
+                setState(() {});
+              }
+            },
           ),
         ),
         PopupMenuItem(
@@ -211,7 +177,7 @@ class _TimetableEntryState extends State<TimetableEntry> {
             title: i18n.mine.preview.text(),
             onTap: () async {
               context.pop();
-              context.push("/app/timetable/preview/${timetable.id}",extra: timetable);
+              context.push("/app/timetable/preview/${timetable.id}", extra: timetable);
             },
           ),
         ),
@@ -224,25 +190,57 @@ class _TimetableEntryState extends State<TimetableEntry> {
             title: i18n.mine.delete.text(),
             onTap: () async {
               context.pop();
-              // Have to wait until the animation has been suspended because flutter is buggy without check `mounted` in _CupertinoContextMenuState.
-              await showDeleteTimetableRequest(ctx);
+              final confirm = await ctx.showRequest(
+                title: i18n.mine.deleteRequest,
+                desc: i18n.mine.deleteRequestDesc,
+                yes: i18n.delete,
+                no: i18n.cancel,
+                highlight: true,
+              );
+              if (confirm == true) {
+                storage.deleteTimetableOf(timetable.id);
+                if (!mounted) return;
+                if (!storage.hasAnyTimetable) {
+                  // If no timetable exists, go out.
+                  ctx.pop();
+                }
+                setState(() {});
+              }
             },
           ),
         ),
       ],
     );
   }
+}
 
-  Future<void> showDeleteTimetableRequest(BuildContext ctx) async {
-    final confirm = await ctx.showRequest(
-        title: i18n.mine.deleteRequest,
-        desc: i18n.mine.deleteRequestDesc,
-        yes: i18n.delete,
-        no: i18n.cancel,
-        highlight: true);
-    if (confirm == true) {
-      storage.deleteTimetableOf(timetable.id);
-      widget.onDeleted?.call();
-    }
+class TimetableEntry extends StatelessWidget {
+  final SitTimetable timetable;
+  final Widget? action;
+
+  const TimetableEntry({
+    super.key,
+    required this.timetable,
+    required this.action,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isSelected = TimetableInit.storage.currentTimetableId == timetable.id;
+    final year = '${timetable.schoolYear} - ${timetable.schoolYear + 1}';
+    final semester = Semester.values[timetable.semester].localized();
+    final bodyTextStyle = context.textTheme.bodyLarge;
+    return [
+      [
+        timetable.name.text(style: context.textTheme.titleMedium).expanded(),
+        if (isSelected) const Icon(Icons.check, color: Colors.green),
+        if (action != null) action!,
+      ].row(maa: MainAxisAlignment.spaceBetween),
+      [
+        year.text(style: bodyTextStyle),
+        semester.text(style: bodyTextStyle),
+      ].row(maa: MainAxisAlignment.spaceEvenly).padV(5),
+      i18n.startDate(context.formatYmdNum(timetable.startDate)).text(style: bodyTextStyle).padFromLTRB(20, 20, 20, 10),
+    ].column().padSymmetric(v: 10, h: 20).scrolled().padAll(4).inCard(elevation: 5);
   }
 }

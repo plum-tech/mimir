@@ -1,4 +1,3 @@
-import 'package:mimir/mini_app.dart';
 import 'package:mimir/mini_apps/symbol.dart';
 
 abstract class HomeSettingDao {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:rettulf/rettulf.dart';
@@ -81,7 +82,7 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
       fit: BoxFit.contain,
       onDetect: (captured) async {
         controller.dispose();
-        const Vibration(milliseconds: 100).emit();
+        HapticFeedback.heavyImpact();
         final qrcode = captured.barcodes.firstOrNull;
         if (qrcode != null) {
           Navigator.pop(context, qrcode.rawValue);

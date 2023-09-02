@@ -24,11 +24,9 @@ class _ConnectedInfoPageState extends State<ConnectedInfoPage> {
   @override
   void initState() {
     super.initState();
-    networkChecker =
-        Timer.periodic(const Duration(milliseconds: 500), (Timer t) async {
+    networkChecker = Timer.periodic(const Duration(milliseconds: 500), (Timer t) async {
       var type = await Connectivity().checkConnectivity();
-      if (type == ConnectivityResult.wifi ||
-          type == ConnectivityResult.ethernet) {
+      if (type == ConnectivityResult.wifi || type == ConnectivityResult.ethernet) {
         if (await CheckVpnConnection.isVpnActive()) {
           type = ConnectivityResult.vpn;
         }
@@ -54,8 +52,7 @@ class _ConnectedInfoPageState extends State<ConnectedInfoPage> {
   @override
   Widget build(BuildContext context) {
     final useProxy = Kv.network.useProxy;
-    final icon =
-        useProxy ? Icons.vpn_key : getConnectionTypeIcon(connectionType);
+    final icon = useProxy ? Icons.vpn_key : getConnectionTypeIcon(connectionType);
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 500),
       child: [

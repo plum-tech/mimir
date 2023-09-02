@@ -55,6 +55,7 @@ class _MetaEditorState extends State<MetaEditor> {
   }
 
   Widget buildMetaEditor(BuildContext ctx) {
+    final bodyTextStyle = ctx.textTheme.bodyLarge;
     return Center(
       heightFactor: 1,
       child: Column(
@@ -63,7 +64,7 @@ class _MetaEditorState extends State<MetaEditor> {
         children: [
           Text(i18n.import.timetableInfo, style: ctx.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
           buildDescForm(ctx),
-          $selectedDate >> (ctx, value) => Text(i18n.startDate(ctx.formatYmdNum(value))),
+          $selectedDate >> (ctx, value) => i18n.startDate(ctx.formatYmdNum(value)).text(style: bodyTextStyle),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -77,7 +78,7 @@ class _MetaEditorState extends State<MetaEditor> {
               buildButton(ctx, i18n.edit.setStartDate, onPressed: () async {
                 final date = await pickDate(context, initial: $selectedDate.value);
                 if (date != null) {
-                  $selectedDate.value = DateTime(date.year, date.month, date.day, 8, 20);
+                  $selectedDate.value = DateTime(date.year, date.month, date.day);
                 }
               })
             ],

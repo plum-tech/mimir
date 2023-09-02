@@ -17,8 +17,7 @@ class _I18n with CommonI18nMixin {
 
   String weekdayShort({required int index}) => "weekdayShort.$index".tr();
 
-  String weekOrderedName({required int number}) =>
-      "$ns.weekOrderedName".tr(args: [number.toString()]);
+  String weekOrderedName({required int number}) => "$ns.weekOrderedName".tr(args: [number.toString()]);
 
   String startDate(String date) => "$ns.startDate".tr(args: [date]);
 

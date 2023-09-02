@@ -56,9 +56,7 @@ class ExamResultAdapter extends TypeAdapter<ExamResult> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ExamResultAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is ExamResultAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
 class ExamResultDetailAdapter extends TypeAdapter<ExamResultDetail> {
@@ -96,9 +94,7 @@ class ExamResultDetailAdapter extends TypeAdapter<ExamResultDetail> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ExamResultDetailAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is ExamResultDetailAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
 // **************************************************************************
@@ -116,8 +112,7 @@ ExamResult _$ExamResultFromJson(Map<String, dynamic> json) => ExamResult(
       json['jxbmc'] as String? ?? '无',
     );
 
-Map<String, dynamic> _$ExamResultToJson(ExamResult instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ExamResultToJson(ExamResult instance) => <String, dynamic>{
       'cj': instance.value,
       'kcmc': instance.course,
       'kch': instance.courseId,

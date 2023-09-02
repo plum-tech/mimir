@@ -6,8 +6,7 @@ part of 'network.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CampusNetworkStatus _$CampusNetworkStatusFromJson(Map<String, dynamic> json) =>
-    CampusNetworkStatus(
+CampusNetworkStatus _$CampusNetworkStatusFromJson(Map<String, dynamic> json) => CampusNetworkStatus(
       _toBool(json['result'] as int),
       json['v46ip'] as String,
       studentId: json['uid'] as String?,
@@ -21,7 +20,6 @@ LoginResult _$LoginResultFromJson(Map<String, dynamic> json) => LoginResult(
       json['result'] as int,
     );
 
-Map<String, dynamic> _$LoginResultToJson(LoginResult instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$LoginResultToJson(LoginResult instance) => <String, dynamic>{
       'result': instance.result,
     };

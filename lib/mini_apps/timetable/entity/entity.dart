@@ -51,7 +51,7 @@ class SitTimetable {
     }
   }
 
-  TimetableMeta getMeta() {
+  TimetableMeta get meta {
     return TimetableMeta(
       name: name,
       startDate: startDate,
@@ -60,7 +60,7 @@ class SitTimetable {
     );
   }
 
-  void setMeta(TimetableMeta meta) {
+  set meta(TimetableMeta meta) {
     name = meta.name;
     startDate = meta.startDate;
     schoolYear = meta.schoolYear;
