@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
       await LoginInit.ssoSession.loginActive(credential);
       if (!mounted) return;
       context.auth.setOaCredential(credential);
-      if (!mounted) return;
+      context.auth.setLoginStatus(LoginStatus.validated);
       context.go("/");
     } on CredentialsInvalidException catch (e) {
       if (!mounted) return;
@@ -181,6 +181,7 @@ class _LoginPageState extends State<LoginPage> {
           ElevatedButton(
             // Offline
             onPressed: () {
+              context.auth.setLoginStatus(LoginStatus.offline);
               context.go("/");
             },
             child: i18n.offlineModeBtn.text().padAll(5),

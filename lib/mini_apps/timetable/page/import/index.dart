@@ -31,21 +31,12 @@ class _ImportTimetableIndexPageState extends State<ImportTimetableIndexPage> {
   }
 
   Widget buildBody(BuildContext ctx) {
-    if (context.auth.oaCredential != null) {
-      if (canImport) {
-        return const ImportTimetablePage(
-          key: ValueKey("Import Timetable"),
-        );
-      } else {
-        return buildConnectivityChecker(context, const ValueKey("Connectivity Checker"));
-      }
-    } else {
-      return UnauthorizedTip(
-        key: const ValueKey("Unauthorized"),
-        onLogin: () {
-          setState(() {});
-        },
+    if (canImport) {
+      return const ImportTimetablePage(
+        key: ValueKey("Import Timetable"),
       );
+    } else {
+      return buildConnectivityChecker(context, const ValueKey("Connectivity Checker"));
     }
   }
 

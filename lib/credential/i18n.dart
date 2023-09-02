@@ -52,5 +52,5 @@ class _UnauthorizedTip {
 
   String get everLoggedInTip => "$ns.everLoggedInTip".tr();
 
-  String get neverLoggedInTip => "$ns.everLoggedInTip".tr();
+  String get neverLoggedInTip => "$ns.neverLoggedInTip".tr();
 }

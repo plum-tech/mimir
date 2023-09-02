@@ -92,7 +92,6 @@ credential:
   oaPwd: OA 密码
   savedOaPwd: 保存的 OA 密码
   pwd: 密码
-  relogin: 重新登录
   reloginRequestDesc: 你的账号或密码不正确，是否想要重新登录？
   error: 登录凭据错误
   changeSavedOaPwd: 修改保存的密码

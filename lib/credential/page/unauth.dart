@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/mini_apps/login/init.dart';
 import 'package:rettulf/rettulf.dart';
@@ -10,10 +11,7 @@ import '../using.dart';
 const _i18n = CredentialI18n();
 
 class UnauthorizedTipPage extends StatefulWidget {
-  final Widget? title;
-  final VoidCallback? onLogin;
-
-  const UnauthorizedTipPage({super.key, this.title, this.onLogin});
+  const UnauthorizedTipPage({super.key});
 
   @override
   State<UnauthorizedTipPage> createState() => _UnauthorizedTipPageState();
@@ -24,17 +22,15 @@ class _UnauthorizedTipPageState extends State<UnauthorizedTipPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: widget.title ?? _i18n.unauthorizedTip.title.text(),
+        title: _i18n.unauthorizedTip.title.text(),
       ),
-      body: UnauthorizedTip(onLogin: widget.onLogin),
+      body: UnauthorizedTip(),
     );
   }
 }
 
 class UnauthorizedTip extends StatefulWidget {
-  final VoidCallback? onLogin;
-
-  const UnauthorizedTip({super.key, this.onLogin});
+  const UnauthorizedTip({super.key});
 
   @override
   State<UnauthorizedTip> createState() => _UnauthorizedTipState();
@@ -102,10 +98,10 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
   }
 
   String get tip {
-    if (context.auth.oaCredential != null) {
-      return _i18n.unauthorizedTip.everLoggedInTip;
-    } else {
+    if (context.auth.loginStatus == LoginStatus.never) {
       return _i18n.unauthorizedTip.neverLoggedInTip;
+    } else {
+      return _i18n.unauthorizedTip.everLoggedInTip;
     }
   }
 
@@ -229,7 +225,8 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
       final personName = await LoginInit.authServerService.getPersonName();
       if (!mounted) return;
       context.auth.setOaCredential(credential);
-      widget.onLogin?.call();
+      // go back to homepage.
+      context.push("/");
     } on CredentialsInvalidException catch (e) {
       if (!mounted) return;
       await ctx.showTip(

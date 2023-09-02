@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/mini_apps/symbol.dart';
 import 'package:mimir/mini_apps/timetable/storage/timetable.dart';
 import 'package:rettulf/rettulf.dart';
@@ -20,12 +21,8 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   final storage = TimetableInit.timetableStorage;
 
   Future<void> goImport() async {
-    final changed = await Navigator.of(context).push(
-      (MaterialPageRoute(builder: (_) => const ImportTimetableIndexPage())),
-    );
-    if (changed == true) {
-      setState(() {});
-    }
+    await context.push("/app/timetable/import");
+    setState(() {});
   }
 
   @override

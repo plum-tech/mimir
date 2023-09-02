@@ -92,7 +92,6 @@ credential:
   oaPwd: OA Password
   savedOaPwd: Saved OA Password
   pwd: Password
-  relogin: Re-login
   reloginRequestDesc: Your account or password is incorrect, do you want to log in again?
   error: Credential Error
   changeSavedOaPwd: Change Saved Password

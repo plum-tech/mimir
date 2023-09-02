@@ -88,7 +88,6 @@ credential:
   oaPwd: OA 密碼
   savedOaPwd: 儲存的 OA 密碼
   pwd: 密碼
-  relogin: 重新登入
   reloginRequestDesc: 你的賬戶或密碼不正確，確認重新登入嗎？
   error: 登入憑證錯誤
   changeSavedOaPwd: 修改儲存的 OA 密碼

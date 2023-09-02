@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/symbol.dart';
 import 'package:mimir/main/index.dart';
@@ -6,11 +7,16 @@ import 'app.dart';
 import 'mini_apps/exam_result/page/evaluation.dart';
 import 'mini_apps/symbol.dart';
 
+String? _loginRequired(BuildContext ctx,GoRouterState state) {
+  return ctx.auth.loginStatus != LoginStatus.validated ? "/relogin" : null;
+}
+
 final router = GoRouter(
   navigatorKey: $Key,
   initialLocation: "/",
-  redirect: (context, state) {
-    if (context.auth.oaCredential == null) {
+  redirect: (ctx, state) {
+    final auth = ctx.auth;
+    if (auth.loginStatus == LoginStatus.never) {
       return "/login";
     } else {
       return null;
@@ -24,14 +30,17 @@ final router = GoRouter(
     GoRoute(
       path: "/app/activity",
       builder: (ctx, state) => const ActivityIndexPage(),
+      redirect: _loginRequired,
     ),
     GoRoute(
       path: "/app/expense",
       builder: (ctx, state) => const ExpenseTrackerPage(),
+      redirect: _loginRequired,
     ),
     GoRoute(
       path: "/app/oaAnnouncement",
       builder: (ctx, state) => const OaAnnouncePage(),
+      redirect: _loginRequired,
     ),
     GoRoute(
       path: "/app/yellowPages",
@@ -48,6 +57,7 @@ final router = GoRouter(
     GoRoute(
       path: "/app/examResult",
       builder: (ctx, state) => const ExamResultPage(),
+      redirect: _loginRequired,
     ),
     GoRoute(
       path: "/app/examArr",
@@ -64,6 +74,7 @@ final router = GoRouter(
     GoRoute(
       path: "/app/timetable/import",
       builder: (ctx, state) => const ImportTimetableIndexPage(),
+      redirect: _loginRequired,
     ),
     GoRoute(
       path: "/app/timetable/mine",
@@ -72,6 +83,7 @@ final router = GoRouter(
     GoRoute(
       path: "/app/application",
       builder: (ctx, state) => const ApplicationIndexPage(),
+      redirect: _loginRequired,
     ),
     GoRoute(
       path: "/scanner",
@@ -80,6 +92,7 @@ final router = GoRouter(
     GoRoute(
       path: "/teacherEval",
       builder: (ctx, state) => const EvaluationPage(),
+      redirect: _loginRequired,
     ),
     GoRoute(
       path: "/login",
