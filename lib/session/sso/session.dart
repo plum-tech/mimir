@@ -17,9 +17,9 @@ import 'encryption.dart';
 typedef SsoSessionErrorCallback = void Function(Object e, StackTrace t);
 typedef SsoSessionCaptchaCallback = Future<String?> Function(Uint8List imageBytes);
 
+// TODO: rewrite login flow.
 /// Single Sign-On
 class SsoSession with DioDownloaderMixin implements ISession {
-  static const int _maxRetryCount = 5;
   static const String _authServerUrl = 'https://authserver.sit.edu.cn/authserver';
   static const String _loginUrl = '$_authServerUrl/login';
   static const String _needCaptchaUrl = '$_authServerUrl/needCaptcha.html';
@@ -193,7 +193,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
   }
 
   /// 带异常的登录, 但不处理验证码识别错误问题.
-  Future<Response> loginWithoutRetry(OACredential credential) async {
+  Future<Response> _login(OACredential credential) async {
     Log.info('尝试登录：${credential.account}');
     Log.debug('当前登录UA: ${dio.options.headers['User-Agent']}');
     // 在 OA 登录时, 服务端会记录同一 cookie 用户登录次数和输入错误次数,
@@ -225,7 +225,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
   /// Return null when failed to login but there is no exception raised.
   Future<Response?> _loginPassive(OACredential credential) async {
     try {
-      return await loginWithoutRetry(credential);
+      return await _login(credential);
     } on CredentialsInvalidException catch (e) {
       if (e.msg.contains('验证码')) {
         Log.info("Credential is invalid because of a wrong captcha prompt.");
@@ -243,7 +243,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
             highlight: true,
           );
           if (confirm == true) {
-            ctx.push("/relogin");
+            ctx.push("/login/guard");
           }
         }
         return null;
@@ -254,21 +254,16 @@ class SsoSession with DioDownloaderMixin implements ISession {
   /// Use cases:
   /// - User try to log in actively on a login page.
   Future<void> _loginActive(OACredential credential) async {
-    for (int i = 0; i < _maxRetryCount; i++) {
-      try {
-        await loginWithoutRetry(credential);
-        return;
-      } on CredentialsInvalidException catch (e) {
-        if (e.msg.contains('验证码')) {
-          Log.info("Credential is invalid because of a wrong captcha prompt.");
-          continue;
-        } else {
-          Log.info("Credential is invalid because of incorrect account or password.");
-          rethrow;
-        }
+    try {
+      await _login(credential);
+    } on CredentialsInvalidException catch (e) {
+      if (e.msg.contains('验证码')) {
+        Log.info("Credential is invalid because of a wrong captcha prompt.");
+      } else {
+        Log.info("Credential is invalid because of incorrect account or password.");
+        rethrow;
       }
     }
-    throw const MaxRetryExceedException(msg: '验证码识别有误，请稍后重试');
   }
 
   /// 登录流程
