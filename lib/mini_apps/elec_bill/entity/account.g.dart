@@ -8,7 +8,7 @@ part of 'account.dart';
 
 class BalanceAdapter extends TypeAdapter<Balance> {
   @override
-  final int typeId = 2;
+  final int typeId = 200;
 
   @override
   Balance read(BinaryReader reader) {
@@ -37,7 +37,10 @@ class BalanceAdapter extends TypeAdapter<Balance> {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is BalanceAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      identical(this, other) ||
+      other is BalanceAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 // **************************************************************************

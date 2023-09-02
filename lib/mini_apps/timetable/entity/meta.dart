@@ -1,28 +1,30 @@
+import 'package:json_annotation/json_annotation.dart';
+
 import '../using.dart';
 
 part 'meta.g.dart';
 
 /// 存放课表元数据
-@HiveType(typeId: HiveTypeId.timetableMeta)
+@JsonSerializable()
 class TimetableMetaLegacy extends HiveObject {
   /// 课表名称
-  @HiveField(0)
+  @JsonKey()
   String name = '';
 
   /// 课表描述
-  @HiveField(1)
+  @JsonKey()
   String description = '';
 
   /// 课表的起始时间
-  @HiveField(2)
+  @JsonKey()
   DateTime startDate = DateTime.now();
 
   /// 学年
-  @HiveField(3)
+  @JsonKey()
   int schoolYear = 0;
 
   /// 学期
-  @HiveField(4)
+  @JsonKey()
   int semester = 0;
 
   @override

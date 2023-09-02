@@ -1,8 +1,6 @@
 import 'package:mimir/credential/symbol.dart';
 import 'package:mimir/mini_apps/symbol.dart';
 
-import 'adapter/color.dart';
-import 'adapter/size.dart';
 import 'adapter/version.dart';
 import 'using.dart';
 import 'package:mimir/entities.dart';
@@ -11,13 +9,16 @@ class HiveAdapter {
   HiveAdapter._();
 
   static void registerAll() {
-    ~CourseAdapter();
-    ~BalanceAdapter();
-    ~LibrarySearchHistoryItemAdapter();
-    ~TimetableMetaLegacyAdapter();
+    // Basic
     ~VersionAdapter();
-    ~SizeAdapter();
-    ~ColorAdapter();
+
+    // Credential
+    ~OACredentialAdapter();
+    ~LoginStatusAdapter();
+
+    // Electric Bill
+    ~BalanceAdapter();
+
     // Activity
     ~ActivityDetailAdapter();
     ~ActivityAdapter();
@@ -25,14 +26,17 @@ class HiveAdapter {
     ~ScActivityApplicationAdapter();
     ~ScScoreItemAdapter();
     ~ActivityTypeAdapter();
+
     // Exam Arrangement
     ~ExamEntryAdapter();
+
     // OA Announcement
     ~AnnounceDetailAdapter();
     ~AnnounceCatalogueAdapter();
     ~AnnounceRecordAdapter();
     ~AnnounceAttachmentAdapter();
     ~AnnounceListPageAdapter();
+
     // Application
     ~ApplicationDetailSectionAdapter();
     ~ApplicationDetailAdapter();
@@ -42,16 +46,14 @@ class HiveAdapter {
     ~ApplicationMsgPageAdapter();
     ~ApplicationMessageTypeAdapter();
 
-    // Credential
-    ~OACredentialAdapter();
-    ~UserTypeAdapter();
-
     // Exam Result
     ~ExamResultAdapter();
     ~ExamResultDetailAdapter();
-
     ~SchoolYearAdapter();
     ~SemesterAdapter();
+
+    // Library
+    ~LibrarySearchHistoryItemAdapter();
   }
 }
 

@@ -6,7 +6,8 @@ part of 'evaluation.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CourseToEvaluate _$CourseToEvaluateFromJson(Map<String, dynamic> json) => CourseToEvaluate(
+CourseToEvaluate _$CourseToEvaluateFromJson(Map<String, dynamic> json) =>
+    CourseToEvaluate(
       json['jzgmc'] as String,
       json['kch_id'] as String,
       json['kcmc'] as String,
@@ -20,7 +21,8 @@ CourseToEvaluate _$CourseToEvaluateFromJson(Map<String, dynamic> json) => Course
       json['xsmc'] as String,
     );
 
-Map<String, dynamic> _$CourseToEvaluateToJson(CourseToEvaluate instance) => <String, dynamic>{
+Map<String, dynamic> _$CourseToEvaluateToJson(CourseToEvaluate instance) =>
+    <String, dynamic>{
       'jzgmc': instance.teacher,
       'jgh_id': instance.teacherId,
       'kch_id': instance.courseId,

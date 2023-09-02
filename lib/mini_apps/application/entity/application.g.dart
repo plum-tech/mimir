@@ -50,10 +50,13 @@ class ApplicationMetaAdapter extends TypeAdapter<ApplicationMeta> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ApplicationMetaAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ApplicationMetaAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
-class ApplicationDetailSectionAdapter extends TypeAdapter<ApplicationDetailSection> {
+class ApplicationDetailSectionAdapter
+    extends TypeAdapter<ApplicationDetailSection> {
   @override
   final int typeId = 23;
 
@@ -91,7 +94,9 @@ class ApplicationDetailSectionAdapter extends TypeAdapter<ApplicationDetailSecti
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ApplicationDetailSectionAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ApplicationDetailSectionAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 class ApplicationDetailAdapter extends TypeAdapter<ApplicationDetail> {
@@ -126,14 +131,17 @@ class ApplicationDetailAdapter extends TypeAdapter<ApplicationDetail> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ApplicationDetailAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ApplicationDetailAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ApplicationMeta _$ApplicationMetaFromJson(Map<String, dynamic> json) => ApplicationMeta(
+ApplicationMeta _$ApplicationMetaFromJson(Map<String, dynamic> json) =>
+    ApplicationMeta(
       json['appID'] as String,
       json['appName'] as String,
       json['appDescribe'] as String,
@@ -142,14 +150,18 @@ ApplicationMeta _$ApplicationMetaFromJson(Map<String, dynamic> json) => Applicat
       json['appIcon'] as String,
     );
 
-ApplicationDetailSection _$ApplicationDetailSectionFromJson(Map<String, dynamic> json) => ApplicationDetailSection(
+ApplicationDetailSection _$ApplicationDetailSectionFromJson(
+        Map<String, dynamic> json) =>
+    ApplicationDetailSection(
       json['formName'] as String,
       json['type'] as String,
       DateTime.parse(json['createTime'] as String),
       json['content'] as String,
     );
 
-Map<String, dynamic> _$ApplicationDetailSectionToJson(ApplicationDetailSection instance) => <String, dynamic>{
+Map<String, dynamic> _$ApplicationDetailSectionToJson(
+        ApplicationDetailSection instance) =>
+    <String, dynamic>{
       'formName': instance.section,
       'type': instance.type,
       'createTime': instance.createTime.toIso8601String(),

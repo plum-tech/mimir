@@ -8,7 +8,7 @@ part of 'credential.dart';
 
 class OACredentialAdapter extends TypeAdapter<OACredential> {
   @override
-  final int typeId = 30;
+  final int typeId = 100;
 
   @override
   OACredential read(BinaryReader reader) {
@@ -38,5 +38,7 @@ class OACredentialAdapter extends TypeAdapter<OACredential> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is OACredentialAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is OACredentialAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

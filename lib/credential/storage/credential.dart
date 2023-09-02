@@ -2,11 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:mimir/hive/using.dart';
 
 import '../entity/credential.dart';
+import '../entity/login_status.dart';
 
 class _Key {
   static const ns = "/credential";
   static const oa = "$ns/oa";
   static const lastOaAuthTime = "$ns/lastOaAuthTime";
+  static const loginStatus = "$ns/loginStatus";
 }
 
 class CredentialStorage {
@@ -22,7 +24,9 @@ class CredentialStorage {
 
   set lastOaAuthTime(DateTime? newV) => box.put(_Key.lastOaAuthTime, newV);
 
-  ValueListenable<Box<dynamic>> get $OaCredential => box.listenable(keys: [_Key.oa]);
+  LoginStatus? get loginStatus => box.get(_Key.loginStatus);
 
-  ValueListenable<Box<dynamic>> get $LastOaAuthTime => box.listenable(keys: [_Key.lastOaAuthTime]);
+  set loginStatus(LoginStatus? newV) => box.put(_Key.loginStatus, newV);
+
+  ValueListenable<Box<dynamic>> get onAnyChanged => box.listenable();
 }

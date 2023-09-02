@@ -21,74 +21,60 @@ enum DisplayMode {
   DisplayMode toggle() => DisplayMode.values[(index + 1) & 1];
 }
 
-@HiveType(typeId: HiveTypeId.course)
-@JsonSerializable()
+@JsonSerializable(createToJson:false)
 class Course {
   static final Map<String, int> _weekMapping = {'星期一': 1, '星期二': 2, '星期三': 3, '星期四': 4, '星期五': 5, '星期六': 6, '星期日': 7};
 
   /// 课程名称
   @JsonKey(name: 'kcmc')
-  @HiveField(0)
   final String courseName;
 
   /// 星期
   @JsonKey(name: 'xqjmc', fromJson: _day2Index)
-  @HiveField(1)
   final int dayIndex;
 
   /// 节次
   @JsonKey(name: 'jcs', fromJson: _time2Index)
-  @HiveField(2)
   final int timeIndex;
 
   /// 周次 （原始文本）
   @JsonKey(name: 'zcd')
-  @HiveField(11)
   final String weekText;
 
   /// 周次
-  @JsonKey(ignore: true)
-  @HiveField(3)
+  @JsonKey(includeFromJson: false)
   int weekIndex = 0;
 
   /// 持续时长 (节)
-  @JsonKey(ignore: true)
-  @HiveField(12)
+  @JsonKey(includeFromJson: false)
   int duration = 0;
 
   /// 教室
   @JsonKey(name: 'cdmc')
-  @HiveField(4)
   final String place;
 
   /// 教师
   @JsonKey(name: 'xm', fromJson: _string2Vec, defaultValue: ['空'])
-  @HiveField(5)
   final List<String> teacher;
 
   /// 校区
   @JsonKey(name: 'xqmc')
-  @HiveField(6)
   final String campus;
 
   /// 学分
   @JsonKey(name: 'xf', fromJson: _string2Double)
-  @HiveField(7)
   final double credit;
 
   /// 学时
   @JsonKey(name: 'zxs', fromJson: _stringToInt)
-  @HiveField(8)
   final int hour;
 
   /// 教学班
   @JsonKey(name: 'jxbmc', fromJson: _trim)
-  @HiveField(9)
   final String dynClassId;
 
   /// 课程代码
   @JsonKey(name: 'kch')
-  @HiveField(10)
   final String courseId;
 
   Course(this.courseName, this.dayIndex, this.timeIndex, this.place, this.teacher, this.campus, this.credit, this.hour,

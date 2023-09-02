@@ -1,7 +1,10 @@
 import 'package:mimir/mini_apps/login/i18n.dart';
 
+/// 本、专科生（10位学号）
 final RegExp _reUndergraduateId = RegExp(r'^(\d{6}[YGHE\d]\d{3})$');
+/// 研究生（9位学号）
 final RegExp _rePostgraduateId = RegExp(r'^(\d{2}6\d{6})$');
+/// 教师（4位工号）
 final RegExp _reTeacherId = RegExp(r'^(\d{4})$');
 
 /// [oaAccount] can be a student ID or a work number.

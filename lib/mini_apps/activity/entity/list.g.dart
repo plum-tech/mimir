@@ -49,7 +49,10 @@ class ActivityAdapter extends TypeAdapter<Activity> {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is ActivityAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      identical(this, other) ||
+      other is ActivityAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 class ActivityTypeAdapter extends TypeAdapter<ActivityType> {
@@ -116,5 +119,7 @@ class ActivityTypeAdapter extends TypeAdapter<ActivityType> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ActivityTypeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ActivityTypeAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

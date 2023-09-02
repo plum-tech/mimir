@@ -37,5 +37,7 @@ class AnnounceAttachmentAdapter extends TypeAdapter<AnnounceAttachment> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AnnounceAttachmentAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is AnnounceAttachmentAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:mimir/credential/entity/credential.dart';
 
+import '../entity/login_status.dart';
 import '../init.dart';
 
 extension AuthEx on BuildContext {
@@ -20,14 +21,12 @@ class _AuthManagerState extends State<AuthManager> {
   @override
   void initState() {
     super.initState();
-    CredentialInit.credential.$OaCredential.addListener(_anyChange);
-    CredentialInit.credential.$LastOaAuthTime.addListener(_anyChange);
+    CredentialInit.credential.onAnyChanged.addListener(_anyChange);
   }
 
   @override
   void dispose() {
-    CredentialInit.credential.$OaCredential.removeListener(_anyChange);
-    CredentialInit.credential.$LastOaAuthTime.removeListener(_anyChange);
+    CredentialInit.credential.onAnyChanged.removeListener(_anyChange);
     super.dispose();
   }
 
@@ -41,6 +40,7 @@ class _AuthManagerState extends State<AuthManager> {
     return Auth(
       oaCredential: storage.oaCredential,
       lastOaAuthTime: storage.lastOaAuthTime,
+      loginStatus: storage.loginStatus ?? LoginStatus.never,
       child: widget.child,
     );
   }
@@ -49,12 +49,14 @@ class _AuthManagerState extends State<AuthManager> {
 class Auth extends InheritedWidget {
   final OACredential? oaCredential;
   final DateTime? lastOaAuthTime;
+  final LoginStatus loginStatus;
 
   const Auth({
     super.key,
     this.oaCredential,
     this.lastOaAuthTime,
     required super.child,
+    required this.loginStatus,
   });
 
   static Auth of(BuildContext context) {
@@ -79,5 +81,9 @@ class Auth extends InheritedWidget {
 
   setLastOaAuthTime(DateTime? newV) {
     CredentialInit.credential.lastOaAuthTime = newV;
+  }
+
+  setLoginStatus(LoginStatus status) {
+    CredentialInit.credential.loginStatus = status;
   }
 }
