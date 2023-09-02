@@ -192,7 +192,7 @@ network:
 networkTool:
   title: Network Tool
   openWlanSettingsBtn: Open WLAN settings
-  noAccessTip: Unable to access network. Please check network settings on your device, and try again.
+  noAccessTip: Unable to access network. Please check network settings on your device, then try again.
   connectionFailedError: |
     Unable to connect to campus network. Troubleshooting:
     1. Attempt to connect to the school's Wi-Fi, "i-SIT","i-SIT-1x" or "eduroam".
