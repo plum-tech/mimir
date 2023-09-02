@@ -120,21 +120,19 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     } else {
       defaultStartDate = findFirstWeekdayInCurrentMonth(DateTime(year + 1, 2), DateTime.monday);
     }
-    final meta = TimetableMetaLegacy()
-      ..name = defaultName
-      ..schoolYear = year
-      ..semester = semester.index
-      ..startDate = defaultStartDate;
-    final saved = await ctx.showSheet(
+    final meta = TimetableMeta(
+      name: defaultName,
+      description: "",
+      semester: semester.index,
+      startDate: defaultStartDate,
+      schoolYear: year,
+    );
+    final newMeta = await ctx.showSheet<TimetableMeta>(
       (ctx) => MetaEditor(meta: meta).padOnly(b: MediaQuery.of(ctx).viewInsets.bottom),
       dismissible: false,
     );
-    if (saved == true) {
-      timetable.name = meta.name;
-      timetable.description = meta.description;
-      timetable.schoolYear = year;
-      timetable.startDate = meta.startDate;
-      timetable.semester = semester.index;
+    if (newMeta != null) {
+      timetable.setMeta(newMeta);
       storage.addTimetable(timetable);
       return true;
     }

@@ -5,8 +5,9 @@ import 'package:rettulf/rettulf.dart';
 import '../using.dart';
 import 'shared.dart';
 
+@Deprecated("Need fix")
 class TimetableEditor extends StatefulWidget {
-  final TimetableMetaLegacy meta;
+  final TimetableMeta meta;
   final DateTime? defaultStartDate;
 
   const TimetableEditor({super.key, required this.meta, this.defaultStartDate});
@@ -61,7 +62,7 @@ class _TimetableEditorState extends State<TimetableEditor> {
       ].column(),
       [
         buildButton(ctx, i18n.save, onPressed: () {
-          widget.meta.description = _metaDescController.text;
+         // widget.meta.description = _metaDescController.text;
           Navigator.of(ctx).pop(true);
         }),
       ].row(maa: MainAxisAlignment.spaceEvenly).vwrap()

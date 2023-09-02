@@ -97,11 +97,11 @@ extension DialogEx on BuildContext {
     );
   }
 
-  Future<dynamic> showSheet(
+  Future<T?> showSheet<T>(
     WidgetBuilder builder, {
     bool? dismissible,
   }) async {
-    return await showCupertinoModalBottomSheet(
+    return await showCupertinoModalBottomSheet<T>(
       context: this,
       builder: builder,
       isDismissible: dismissible,

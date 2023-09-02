@@ -8,7 +8,7 @@ part of 'school.dart';
 
 class SchoolYearAdapter extends TypeAdapter<SchoolYear> {
   @override
-  final int typeId = 35;
+  final int typeId = 703;
 
   @override
   SchoolYear read(BinaryReader reader) {
@@ -42,7 +42,7 @@ class SchoolYearAdapter extends TypeAdapter<SchoolYear> {
 
 class SemesterAdapter extends TypeAdapter<Semester> {
   @override
-  final int typeId = 34;
+  final int typeId = 702;
 
   @override
   Semester read(BinaryReader reader) {

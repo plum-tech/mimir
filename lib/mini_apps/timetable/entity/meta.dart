@@ -1,31 +1,33 @@
-import 'package:json_annotation/json_annotation.dart';
+class TimetableMeta {
+  final String name;
+  final String description;
+  final DateTime startDate;
+  final int schoolYear;
+  final int semester;
 
-import '../using.dart';
+  const TimetableMeta({
+    required this.name,
+    required this.description,
+    required this.startDate,
+    required this.schoolYear,
+    required this.semester,
+  });
 
-part 'meta.g.dart';
-
-/// 存放课表元数据
-@JsonSerializable()
-class TimetableMetaLegacy extends HiveObject {
-  /// 课表名称
-  @JsonKey()
-  String name = '';
-
-  /// 课表描述
-  @JsonKey()
-  String description = '';
-
-  /// 课表的起始时间
-  @JsonKey()
-  DateTime startDate = DateTime.now();
-
-  /// 学年
-  @JsonKey()
-  int schoolYear = 0;
-
-  /// 学期
-  @JsonKey()
-  int semester = 0;
+  TimetableMeta copyWith({
+    String? name,
+    String? description,
+    DateTime? startDate,
+    int? schoolYear,
+    int? semester,
+  }) {
+    return TimetableMeta(
+      name: name ?? this.name,
+      description: description ?? this.description,
+      startDate: startDate ?? this.startDate,
+      schoolYear: schoolYear ?? this.schoolYear,
+      semester: semester ?? this.semester,
+    );
+  }
 
   @override
   String toString() {

@@ -48,7 +48,7 @@ void _addEventForCourse(ICalendar cal, Course course, DateTime startDate, Durati
 }
 
 ///导出的方法
-String convertTableToIcs(TimetableMetaLegacy meta, List<Course> courses, Duration? alarmBefore) {
+String convertTableToIcs(TimetableMeta meta, List<Course> courses, Duration? alarmBefore) {
   final ICalendar iCal = ICalendar(
     company: 'Liplum',
     product: 'Mímir',
@@ -67,7 +67,7 @@ String getExportTimetableFilename() {
   return 'kite_table_${DateFormat('yyyyMMdd_hhmmss').format(DateTime.now())}.ics';
 }
 
-Future<void> exportTimetableToCalendar(TimetableMetaLegacy meta, List<Course> courses, Duration? alarmBefore) async {
+Future<void> exportTimetableToCalendar(TimetableMeta meta, List<Course> courses, Duration? alarmBefore) async {
   await FileUtils.writeToTempFileAndOpen(
     content: convertTableToIcs(meta, courses, alarmBefore),
     filename: getExportTimetableFilename(),

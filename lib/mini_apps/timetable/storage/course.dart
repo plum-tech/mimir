@@ -51,13 +51,13 @@ class TimetableStorage {
       box.put(TimetableKeys.buildTableCoursesKeyByName(name), table);
 
   /// 通过课表名获取课表元数据
-  TimetableMetaLegacy? getTableMetaByName(String name) => box.get(TimetableKeys.buildTableMetaKeyByName(name));
+  TimetableMeta? getTableMetaByName(String name) => box.get(TimetableKeys.buildTableMetaKeyByName(name));
 
   /// 通过课表名添加课表元数据
-  void addTableMeta(String name, TimetableMetaLegacy? foo) => box.put(TimetableKeys.buildTableMetaKeyByName(name), foo);
+  void addTableMeta(String name, TimetableMeta? foo) => box.put(TimetableKeys.buildTableMetaKeyByName(name), foo);
 
   /// 添加课表
-  void addTable(TimetableMetaLegacy meta, List<Course> courses) {
+  void addTable(TimetableMeta meta, List<Course> courses) {
     tableNames = [meta.name, ...((tableNames ?? []).where((n) => n != meta.name))];
     addTableMeta(meta.name, meta);
     addTableCourses(meta.name, courses);
@@ -94,7 +94,7 @@ class TimetableStorage {
     return getTableCourseByName(currentTableName!);
   }
 
-  TimetableMetaLegacy? get currentTableMeta {
+  TimetableMeta? get currentTableMeta {
     if (currentTableName == null) return null;
     return getTableMetaByName(currentTableName!);
   }

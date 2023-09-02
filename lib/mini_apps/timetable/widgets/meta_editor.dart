@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/meta.dart';
@@ -7,7 +8,7 @@ import 'shared.dart';
 import 'picker.dart';
 
 class MetaEditor extends StatefulWidget {
-  final TimetableMetaLegacy meta;
+  final TimetableMeta meta;
 
   const MetaEditor({super.key, required this.meta});
 
@@ -73,11 +74,12 @@ class _MetaEditorState extends State<MetaEditor> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               buildButton(ctx, i18n.save, onPressed: () {
-                final meta = widget.meta;
-                meta.name = _nameController.text;
-                meta.description = _descController.text;
-                meta.startDate = $selectedDate.value;
-                Navigator.of(ctx).pop(true);
+                final meta = widget.meta.copyWith(
+                  name: _nameController.text,
+                  description: _descController.text,
+                  startDate: $selectedDate.value,
+                );
+                ctx.pop(meta);
               }),
               buildButton(ctx, i18n.edit.setStartDate, onPressed: () async {
                 final date = await pickDate(context, initial: $selectedDate.value);

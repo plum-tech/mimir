@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mimir/mini_apps/symbol.dart';
 
 import '../utils.dart';
 import '../using.dart';
-import 'course.dart';
 
 part 'entity.g.dart';
 
@@ -51,6 +51,24 @@ class SitTimetable {
       _code2Courses[courseCode] = res;
       return res;
     }
+  }
+
+  TimetableMeta getMeta() {
+    return TimetableMeta(
+      name: name,
+      description: description,
+      startDate: startDate,
+      schoolYear: schoolYear,
+      semester: semester,
+    );
+  }
+
+  void setMeta(TimetableMeta meta) {
+    name = meta.name;
+    description = meta.description;
+    startDate = meta.startDate;
+    schoolYear = meta.schoolYear;
+    semester = meta.semester;
   }
 
   @override
