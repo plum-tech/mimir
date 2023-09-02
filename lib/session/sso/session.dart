@@ -11,7 +11,6 @@ import 'package:mimir/util/logger.dart';
 import 'package:mimir/widgets/captcha_box.dart';
 import 'package:synchronized/synchronized.dart';
 
-import '../../events/bus.dart';
 import '../../util/dio_utils.dart';
 import 'encryption.dart';
 
@@ -219,7 +218,6 @@ class SsoSession with DioDownloaderMixin implements ISession {
     Log.info('登录成功：${credential.account}');
     isOnline = true;
     _credential = credential;
-    $Key.currentContext?.auth.setLoginStatus(LoginStatus.validated);
     Kv.loginTime.sso = DateTime.now();
     return response;
   }
