@@ -2,49 +2,49 @@
 class HiveTypeId {
   HiveTypeId._();
 
-  // Basic 0-99
+  // Basic 0-10
   static const version = 0;
 
-  // Credential 100-199
-  static const oaUserCredential = 100;
-  static const loginStatus = 101;
+  // Credential 10-19
+  static const oaUserCredential = 10;
+  static const loginStatus = 11;
 
-  // Electric Bill 200-299
-  static const balance = 200;
+  // Electric Bill 20-29
+  static const balance = 20;
 
-  // Activity 300-399
-  static const activityDetail = 300;
-  static const activity = 301;
-  static const scScoreSummary = 302;
-  static const scActivityApplication = 303;
-  static const scScoreItem = 304;
-  static const activityType = 305;
+  // Activity 30-39
+  static const activityDetail = 30;
+  static const activity = 31;
+  static const scScoreSummary = 32;
+  static const scActivityApplication = 33;
+  static const scScoreItem = 34;
+  static const activityType = 35;
 
-  // Exam Arrangement 400-499
-  static const examEntry = 400;
+  // Exam Arrangement 40-49
+  static const examEntry = 40;
 
-  // OA Announcement 500-599
-  static const announceDetail = 500;
-  static const announceAttachment = 501;
-  static const announceCatalogue = 502;
-  static const announceListPage = 503;
-  static const announceRecord = 504;
+  // OA Announcement 50-59
+  static const announceDetail = 50;
+  static const announceAttachment = 51;
+  static const announceCatalogue = 52;
+  static const announceListPage = 53;
+  static const announceRecord = 54;
 
-  // Application 600-699
-  static const applicationDetail = 601;
-  static const applicationDetailSection = 602;
-  static const applicationMeta = 603;
-  static const applicationMsg = 604;
-  static const applicationMsgPage = 605;
-  static const applicationMsgCount = 606;
-  static const applicationMessageType = 607;
+  // Application 60-69
+  static const applicationDetail = 61;
+  static const applicationDetailSection = 62;
+  static const applicationMeta = 63;
+  static const applicationMsg = 64;
+  static const applicationMsgPage = 65;
+  static const applicationMsgCount = 66;
+  static const applicationMessageType = 67;
 
-  // Exam Result 700-799
-  static const examResult = 700;
-  static const examResultDetail = 701;
-  static const semester = 702;
-  static const schoolYear = 703;
+  // Exam Result 70-79
+  static const examResult = 70;
+  static const examResultDetail = 71;
+  static const semester = 72;
+  static const schoolYear = 73;
 
-  // Library 800-899
-  static const librarySearchHistory = 800;
+  // Library 80-89
+  static const librarySearchHistory = 80;
 }

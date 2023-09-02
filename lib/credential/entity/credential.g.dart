@@ -8,7 +8,7 @@ part of 'credential.dart';
 
 class OACredentialAdapter extends TypeAdapter<OACredential> {
   @override
-  final int typeId = 100;
+  final int typeId = 10;
 
   @override
   OACredential read(BinaryReader reader) {

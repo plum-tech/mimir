@@ -8,7 +8,7 @@ part of 'exam.dart';
 
 class ExamEntryAdapter extends TypeAdapter<ExamEntry> {
   @override
-  final int typeId = 400;
+  final int typeId = 40;
 
   @override
   ExamEntry read(BinaryReader reader) {
