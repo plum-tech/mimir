@@ -225,6 +225,7 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
       final personName = await LoginInit.authServerService.getPersonName();
       if (!mounted) return;
       context.auth.setOaCredential(credential);
+      context.auth.setLoginStatus(LoginStatus.validated);
       // go back to homepage.
       context.push("/");
     } on CredentialsInvalidException catch (e) {

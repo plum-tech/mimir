@@ -7,8 +7,12 @@ import 'app.dart';
 import 'mini_apps/exam_result/page/evaluation.dart';
 import 'mini_apps/symbol.dart';
 
-String? _loginRequired(BuildContext ctx,GoRouterState state) {
-  return ctx.auth.loginStatus != LoginStatus.validated ? "/relogin" : null;
+String? _loginRequired(BuildContext ctx, GoRouterState state) {
+  final auth = ctx.auth;
+  if (auth.loginStatus != LoginStatus.validated && auth.oaCredential == null) {
+    return "/relogin";
+  }
+  return null;
 }
 
 final router = GoRouter(

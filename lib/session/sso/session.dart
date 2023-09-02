@@ -219,6 +219,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
     Log.info('登录成功：${credential.account}');
     isOnline = true;
     _credential = credential;
+    $Key.currentContext?.auth.setLoginStatus(LoginStatus.validated);
     Kv.loginTime.sso = DateTime.now();
     return response;
   }

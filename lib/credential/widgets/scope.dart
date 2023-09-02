@@ -74,6 +74,7 @@ class Auth extends InheritedWidget {
     if (CredentialInit.credential.oaCredential != newV) {
       CredentialInit.credential.oaCredential = newV;
       if (newV != null) {
+        CredentialInit.credential.loginStatus = LoginStatus.validated;
         CredentialInit.credential.lastOaAuthTime = DateTime.now();
       }
     }

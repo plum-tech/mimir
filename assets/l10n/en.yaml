@@ -181,7 +181,7 @@ networkChecker:
   status:
     connected: Right! You have connected to campus network!
     connecting: It will take a few seconds, please ensure you have turned on the network on your device.
-    disconnected: Oops! You can't access the campus network. Please check your network settings or use Easy Connect, and try again.
+    disconnected: Oops! You can't access the campus network. Please check your network settings or use Easy Connect, then try again.
     none: You need the access to campus network to continue. Let's check it now.
 network:
   error: Network Error
