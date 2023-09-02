@@ -67,11 +67,9 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
 
   Widget buildExamEntries(List<ExamEntry> exams) {
     if (exams.isEmpty) {
-      return LeavingBlank.svgAssets(
-        assetName: "assets/common/not_found.svg",
+      return LeavingBlank(
+        icon: Icons.inbox_outlined,
         desc: i18n.noExamThisSemester,
-        width: 240,
-        height: 240,
       );
     } else {
       return LiveGrid.options(

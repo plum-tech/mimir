@@ -77,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       final credential = OACredential(account, password);
       await LoginInit.ssoSession.loginActive(credential);
+      final personName = await LoginInit.authServerService.getPersonName();
       if (!mounted) return;
       context.auth.setOaCredential(credential);
       context.auth.setLoginStatus(LoginStatus.validated);

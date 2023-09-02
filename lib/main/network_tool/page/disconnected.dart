@@ -20,7 +20,7 @@ class DisconnectedInfoPage extends StatelessWidget {
     return Text(
       i18n.connectionFailedError,
       textAlign: TextAlign.start,
-      style: Theme.of(context).textTheme.bodyLarge,
+      style: context.textTheme.bodyLarge,
     ).padH(20);
   }
 }

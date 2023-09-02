@@ -73,13 +73,18 @@ class _HomepageState extends State<Homepage> {
       }
     });
 
-    _onHomeRefresh(context);
     Global.eventBus.on<EventTypes>().listen((e) {
       if (e == EventTypes.onHomeItemReorder) {
         if (!mounted) return;
         setState(() {});
       }
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    _onHomeRefresh(context);
+    super.didChangeDependencies();
   }
 
   @override

@@ -19,14 +19,16 @@ class ConnectedInfoPage extends StatefulWidget {
 class _ConnectedInfoPageState extends State<ConnectedInfoPage> {
   ConnectivityResult? connectionType;
   late Timer networkChecker;
-  CheckStatusResult? status;
+  CampusNetworkStatus? status;
 
   @override
   void initState() {
     super.initState();
-    networkChecker = Timer.periodic(const Duration(milliseconds: 500), (Timer t) async {
+    networkChecker =
+        Timer.periodic(const Duration(milliseconds: 500), (Timer t) async {
       var type = await Connectivity().checkConnectivity();
-      if (type == ConnectivityResult.wifi || type == ConnectivityResult.ethernet) {
+      if (type == ConnectivityResult.wifi ||
+          type == ConnectivityResult.ethernet) {
         if (await CheckVpnConnection.isVpnActive()) {
           type = ConnectivityResult.vpn;
         }
@@ -38,7 +40,7 @@ class _ConnectedInfoPageState extends State<ConnectedInfoPage> {
         });
       }
     });
-    Network.checkStatus().then((status) {
+    Network.checkCampusNetworkStatus().then((status) {
       setState(() {
         this.status = status;
       });
@@ -52,7 +54,8 @@ class _ConnectedInfoPageState extends State<ConnectedInfoPage> {
   @override
   Widget build(BuildContext context) {
     final useProxy = Kv.network.useProxy;
-    final icon = useProxy ? Icons.vpn_key : getConnectionTypeIcon(connectionType);
+    final icon =
+        useProxy ? Icons.vpn_key : getConnectionTypeIcon(connectionType);
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 500),
       child: [
@@ -77,14 +80,17 @@ class _ConnectedInfoPageState extends State<ConnectedInfoPage> {
     var studentId = i18n.unknown;
     if (status != null) {
       ip = status.ip;
-      studentId = status.uid ?? i18n.login.notLoggedIn;
+      studentId = status.studentId ?? i18n.login.notLoggedIn;
     }
     final tip = _getTipByConnectionType(connectionType);
     if (tip == null) return Container().padH(10);
     return "$tip\n"
             "${i18n.credential.studentId}: $studentId\n"
             "${i18n.network.ipAddress}: $ip"
-        .text(textAlign: TextAlign.center)
+        .text(
+          textAlign: TextAlign.center,
+          style: style,
+        )
         .padH(20);
   }
 }

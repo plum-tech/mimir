@@ -24,7 +24,7 @@ class _UnauthorizedTipPageState extends State<UnauthorizedTipPage> {
       appBar: AppBar(
         title: _i18n.unauthorizedTip.title.text(),
       ),
-      body: UnauthorizedTip(),
+      body: const UnauthorizedTip(),
     );
   }
 }
@@ -126,13 +126,11 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
           TextFormField(
             controller: $password,
             textInputAction: TextInputAction.send,
-            //TODO: Flutter 3.7
-            toolbarOptions: const ToolbarOptions(
-              copy: false,
-              cut: false,
-              paste: false,
-              selectAll: false,
-            ),
+            contextMenuBuilder: (ctx, state) {
+              return AdaptiveTextSelectionToolbar.editableText(
+                editableTextState: state,
+              );
+            },
             autocorrect: false,
             enableSuggestions: false,
             obscureText: !isPasswordClear,
@@ -227,7 +225,7 @@ class _UnauthorizedTipState extends State<UnauthorizedTip> {
       context.auth.setOaCredential(credential);
       context.auth.setLoginStatus(LoginStatus.validated);
       // go back to homepage.
-      context.push("/");
+      context.go("/");
     } on CredentialsInvalidException catch (e) {
       if (!mounted) return;
       await ctx.showTip(

@@ -5,35 +5,37 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'network.g.dart';
 
-@JsonSerializable()
-class CheckStatusResult {
+bool _toBool(int num) => num != 0;
+
+@JsonSerializable(createToJson: false)
+class CampusNetworkStatus {
   // 1：已登录
   // 0：未登录
-  final int result;
+  @JsonKey(name: "result", fromJson: _toBool)
+  final bool loggedIn;
 
   // 当前的校园网ip
   @JsonKey(name: 'v46ip')
   final String ip;
 
   // 当前登录学号
-  String? uid;
+  @JsonKey(name: "uid")
+  String? studentId;
 
-  CheckStatusResult(this.result, this.ip, {this.uid});
+  CampusNetworkStatus(this.loggedIn, this.ip, {this.studentId});
 
-  factory CheckStatusResult.fromJson(Map<String, dynamic> json) => _$CheckStatusResultFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CheckStatusResultToJson(this);
+  factory CampusNetworkStatus.fromJson(Map<String, dynamic> json) =>
+      _$CampusNetworkStatusFromJson(json);
 }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class LogoutResult {
   final int result;
 
   LogoutResult(this.result);
 
-  factory LogoutResult.fromJson(Map<String, dynamic> json) => _$LogoutResultFromJson(json);
-
-  Map<String, dynamic> toJson() => _$LogoutResultToJson(this);
+  factory LogoutResult.fromJson(Map<String, dynamic> json) =>
+      _$LogoutResultFromJson(json);
 }
 
 @JsonSerializable()
@@ -42,7 +44,8 @@ class LoginResult {
 
   const LoginResult(this.result);
 
-  factory LoginResult.fromJson(Map<String, dynamic> json) => _$LoginResultFromJson(json);
+  factory LoginResult.fromJson(Map<String, dynamic> json) =>
+      _$LoginResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$LoginResultToJson(this);
 }
@@ -61,7 +64,8 @@ class Network {
       receiveTimeout: 3000,
     );
 
-  static Future<Map<String, dynamic>> _get(String url, {Map<String, dynamic>? queryParameters}) async {
+  static Future<Map<String, dynamic>> _get(String url,
+      {Map<String, dynamic>? queryParameters}) async {
     var response = await dio.get(
       url,
       queryParameters: queryParameters,
@@ -93,25 +97,27 @@ class Network {
     ));
   }
 
-  static Future<CheckStatusResult> checkStatus() async {
-    return CheckStatusResult.fromJson(await _get(
+  static Future<CampusNetworkStatus> checkCampusNetworkStatus() async {
+    final payload = await _get(
       _checkStatusUrl,
       queryParameters: {
         'callback': 'dr1002',
-        'jsVersion': '4.X',
         'lang': 'zh',
+        'jsVersion': '4.X',
       },
-    ));
+    );
+    return CampusNetworkStatus.fromJson(payload);
   }
 
   static Future<LogoutResult> logout() async {
-    return LogoutResult.fromJson(await _get(
+    final payload = await _get(
       _logoutUrl,
       queryParameters: {
         'callback': 'dr1002',
         'jsVersion': '4.1.3',
         'lang': 'zh',
       },
-    ));
+    );
+    return LogoutResult.fromJson(payload);
   }
 }
