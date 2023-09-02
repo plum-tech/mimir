@@ -93,27 +93,35 @@ class Network {
     ));
   }
 
-  static Future<CampusNetworkStatus> checkCampusNetworkStatus() async {
-    final payload = await _get(
-      _checkStatusUrl,
-      queryParameters: {
-        'callback': 'dr1002',
-        'lang': 'zh',
-        'jsVersion': '4.X',
-      },
-    );
-    return CampusNetworkStatus.fromJson(payload);
+  static Future<CampusNetworkStatus?> checkCampusNetworkStatus() async {
+    try {
+      final payload = await _get(
+        _checkStatusUrl,
+        queryParameters: {
+          'callback': 'dr1002',
+          'lang': 'zh',
+          'jsVersion': '4.X',
+        },
+      );
+      return CampusNetworkStatus.fromJson(payload);
+    } catch (error) {
+      return null;
+    }
   }
 
-  static Future<LogoutResult> logout() async {
-    final payload = await _get(
-      _logoutUrl,
-      queryParameters: {
-        'callback': 'dr1002',
-        'jsVersion': '4.1.3',
-        'lang': 'zh',
-      },
-    );
-    return LogoutResult.fromJson(payload);
+  static Future<LogoutResult?> logout() async {
+    try {
+      final payload = await _get(
+        _logoutUrl,
+        queryParameters: {
+          'callback': 'dr1002',
+          'jsVersion': '4.1.3',
+          'lang': 'zh',
+        },
+      );
+      return LogoutResult.fromJson(payload);
+    } catch (error) {
+      return null;
+    }
   }
 }

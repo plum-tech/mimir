@@ -48,9 +48,9 @@ class HomeItemGroup extends StatelessWidget {
 }
 
 class Homepage extends StatefulWidget {
-  final DrawerDelegateProtocol drawer;
+  final Widget? leading;
 
-  const Homepage({super.key, required this.drawer});
+  const Homepage({super.key, this.leading});
 
   @override
   State<Homepage> createState() => _HomepageState();
@@ -62,7 +62,6 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     super.initState();
-
     Future.delayed(Duration.zero, () async {
       if (context.auth.oaCredential != null && await HomeInit.ssoSession.checkConnectivity()) {
         if (!mounted) return;
@@ -106,7 +105,7 @@ class _HomepageState extends State<Homepage> {
         TextButton(
           child: _i18n.network.openToolBtn.text(),
           onPressed: () {
-            //Navigator.of(context).pushNamed(Routes.networkTool);
+            context.push("/networkTool");
           },
         )
       ]),
@@ -206,7 +205,8 @@ class _HomepageState extends State<Homepage> {
         final result = await context.push("/scanner");
         if (result is String) {
           if (Uri.tryParse(result) != null) {
-            await guardLaunchUrlString(result);
+            if (!mounted) return;
+            await guardLaunchUrlString(context, result);
             return;
           }
         }
@@ -238,10 +238,7 @@ class _HomepageState extends State<Homepage> {
           child: CustomScrollView(
             slivers: [
               SliverAppBar(
-                leading: IconButton(
-                  icon: const Icon(Icons.menu),
-                  onPressed: () => widget.drawer.openDrawer(),
-                ),
+                leading: widget.leading,
                 // AppBar
                 actions: [
                   if (!UniversalPlatform.isDesktopOrWeb) buildScannerButton(context),

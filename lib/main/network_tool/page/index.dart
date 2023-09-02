@@ -1,17 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rettulf/rettulf.dart';
-
-import '../../index.dart';
 import '../init.dart';
 import 'connected.dart';
 import 'disconnected.dart';
 import '../using.dart';
 
 class NetworkToolPage extends StatefulWidget {
-  final DrawerDelegateProtocol drawer;
+  final Widget? leading;
 
-  const NetworkToolPage({super.key, required this.drawer});
+  const NetworkToolPage({super.key, this.leading});
 
   @override
   State<NetworkToolPage> createState() => _NetworkToolPageState();
@@ -19,17 +19,18 @@ class NetworkToolPage extends StatefulWidget {
 
 class _NetworkToolPageState extends State<NetworkToolPage> {
   bool isConnected = false;
+  late Timer connectivityChecker;
 
   @override
   void initState() {
     super.initState();
-    checkConnectivity();
-  }
-
-  /// Check the connectivity until succeed.
-  Future<void> checkConnectivity() async {
-    while (true) {
-      final connected = await ConnectivityInit.ssoSession.checkConnectivity();
+    connectivityChecker = Timer.periodic(const Duration(milliseconds: 1000), (Timer t) async {
+      bool connected;
+      try {
+        connected = await ConnectivityInit.ssoSession.checkConnectivity();
+      } catch (err) {
+        connected = false;
+      }
       if (!mounted) return;
       if (isConnected != connected) {
         setState(() => isConnected = connected);
@@ -41,20 +42,20 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
         // if not connected, check the connection frequently
         await Future.delayed(const Duration(seconds: 1));
       }
-    }
+    });
   }
 
-  final _connectedKey = const ValueKey("Connected");
-  final _disconnectedKey = const ValueKey("Disconnected");
+  @override
+  void dispose() {
+    connectivityChecker.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () => widget.drawer.openDrawer(),
-        ),
+        leading: widget.leading,
         title: [
           i18n.title.text(),
           if (!isConnected)
@@ -65,7 +66,9 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
       ),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 500),
-        child: isConnected ? ConnectedInfoPage(key: _connectedKey) : DisconnectedInfoPage(key: _disconnectedKey),
+        child: isConnected
+            ? const ConnectedInfoPage(key: ValueKey("Connected"))
+            : const DisconnectedInfoPage(key: ValueKey("Disconnected")),
       ),
     );
   }

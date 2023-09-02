@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 
-const _ns = "miniApp";
+const _ns = "app";
 
 class MiniApp {
   final String id;
@@ -9,6 +9,7 @@ class MiniApp {
 
   /// Separator
   static const MiniApp separator = MiniApp("separator"),
+      login = MiniApp("login"),
       timetable = MiniApp("timetable"),
       examArr = MiniApp("examArr"),
       activity = MiniApp("activity"),

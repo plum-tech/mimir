@@ -4,6 +4,8 @@ import 'dart:typed_data';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:event_bus/event_bus.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:mimir/app.dart';
 import 'package:mimir/credential/storage/credential.dart';
@@ -46,20 +48,8 @@ class Global {
   static bool inSsoErrorDialog = false;
 
   static onSsoError(error, stacktrace) {
-    final context = $Key.currentContext!;
     if (error is DioError) {
-      if (inSsoErrorDialog) return;
-      inSsoErrorDialog = true;
-      context
-          .showRequest(
-              title: i18n.network.connectionTimeoutError,
-              desc: i18n.network.connectionTimeoutErrorDesc,
-              yes: i18n.network.openToolBtn,
-              no: i18n.cancel)
-          .then((confirm) {
-        //if (confirm == true) Navigator.of(context).pushNamed(Routes.networkTool);
-        inSsoErrorDialog = false;
-      });
+      debugPrintStack(stackTrace: error.stackTrace);
     }
   }
 

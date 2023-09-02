@@ -6,7 +6,10 @@ main:
   home: Home
   networkTool: Network Tool
   settings: Settings
-miniApp:
+app:
+  login:
+    name: Login
+    desc: Login your OA
   activity:
     name: Activities
     desc: The latest Second Class activities
@@ -96,10 +99,6 @@ credential:
   error: Credential Error
   changeSavedOaPwd: Change Saved Password
   changeSavedOaPwdDesc: Not affecting your actual OA password.
-  unauthorizedTip:
-    title: Require Login
-    everLoggedInTip: Your account or password is incorrect, please try to login again.
-    neverLoggedInTip: You have to login to perform this.
 easyconnect:
   launchBtn: Launch EasyConnect
   launchFailed: Launch Failed
@@ -197,9 +196,12 @@ networkTool:
     Unable to connect to campus network. Troubleshooting:
     1. Attempt to connect to the school's Wi-Fi, "i-SIT","i-SIT-1x" or "eduroam".
     2. Attempt to launch "EasyConnect" VPN to connect to school.
-    3. Attempt to use a self-built proxy server to connect to campus network via Http proxy.
+    3. Attempt to use a self-built proxy server to connect to campus network via HTTP proxy.
     If they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
-  connectedByProxy: Connected to campus network by Http proxy.
+  connectionFailedButCampusNetworkConnected: |
+    The campus network has been connected, but school server is still inaccessible.
+    It's probably due to school server downtime for maintenance or even crash, please try again later.
+  connectedByProxy: Connected to campus network by HTTP proxy.
   connectedByVpn: Connected to campus network by VPN.
   connectedByWlan: Connected to campus network by WLAN.
   connectedByEthernet: Connected to campus network by Ethernet.
@@ -218,6 +220,8 @@ login:
   failedWarn: Login Failed
   loginBtn: Login
   formatError: Format Error
+  loginRequired: Login Required
+  neverLoggedInTip: You have to login to perform this.
 library:
   hotPost: HOT
 settings:
@@ -244,8 +248,8 @@ settings:
     title: Enable detailed exception dialog
     desc: Detailed stacktrace will be shown
   httpProxy:
-    title: Enable Http Proxy
-    desc: Connect to the campus network by Http proxy
+    title: Enable HTTP Proxy
+    desc: Connect to the campus network by HTTP proxy
     global: Use as global proxy
     globalDesc: For debugging, exclude Webview
     proxyAddress: Proxy Address
@@ -262,7 +266,7 @@ settings:
     desc: Test connect with school
   wipeData:
     title: Wipe Data & Log out
-    desc: Wipe all data made by Kite and log out
+    desc: Wipe all data and log out
     request: Wipe ALL Data
     requestDesc: ALL data, such as login credentials and timetable imported, will be wiped permanently.
 localStorage:

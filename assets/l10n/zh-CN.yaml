@@ -6,7 +6,10 @@ main:
   home: 主页
   networkTool: 网络工具
   settings: 设置
-miniApp:
+app:
+  login:
+    name: 登录
+    desc: 登录你的 OA
   activity:
     name: 第二课堂
     desc: 我的第二课堂学分和活动
@@ -96,10 +99,6 @@ credential:
   error: 登录凭据错误
   changeSavedOaPwd: 修改保存的密码
   changeSavedOaPwdDesc: 它不会修改你真正的 OA 密码
-  unauthorizedTip:
-    title: 需要登录
-    everLoggedInTip: 你的账号或密码不正确，请重新登录。
-    neverLoggedInTip: 你必须先登录才能继续。
 easyconnect:
   launchBtn: 启动 EasyConnect
   launchFailed: 启动失败
@@ -197,9 +196,12 @@ networkTool:
     无法连接到校园网。疑难解答:
     1. 尝试连接学校的Wi-Fi: "i-SIT","i-SIT-1x" 或 "eduroam"。
     2. 尝试使用"EasyConnect" VPN 连接校园网。
-    3. 尝试通过自行搭建的代理服务器使用 Http 代理连接校园网。
+    3. 尝试通过自行搭建的代理服务器使用 HTTP 代理连接校园网。
     如果以上都不起作用, 可能因为是学校服务器停机维护或崩溃，请一段时间后重试。
-  connectedByProxy: 已通过 Http 代理连接到校园网。
+  connectionFailedButCampusNetworkConnected: |
+    已经连接至校园网，但仍然无法访问学校服务器。
+    可能因为是学校服务器停机维护或崩溃，请一段时间后重试。
+  connectedByProxy: 已通过 HTTP 代理连接到校园网。
   connectedByVpn: 已通过 VPN 连接到校园网。
   connectedByWlan: 已通过 WLAN 连接到校园网。
   connectedByEthernet: 已通过以太网连接到校园网。
@@ -218,6 +220,8 @@ login:
   failedWarn: 登录失败
   loginBtn: 登录
   formatError: 格式错误
+  loginRequired: 需要登录
+  neverLoggedInTip: 你必须先登录才能继续。
 library:
   hotPost: 热搜
 settings:
@@ -244,8 +248,8 @@ settings:
     title: 启用详细异常对话框
     desc: 显示更加详细的异常堆栈追踪信息
   httpProxy:
-    title: 启用 Http 代理
-    desc: 通过 Http 代理连接校园网
+    title: 启用 HTTP 代理
+    desc: 通过 HTTP 代理连接校园网
     global: 代理全部请求
     globalDesc: 调试用，不包含 Webview 发出的请求
     proxyAddress: 代理地址

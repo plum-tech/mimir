@@ -2,7 +2,10 @@ language:
   en: English
   zh_CN: 简体中文
   zh_TW: 繁體中文
-miniApp:
+app:
+  login:
+    name: 登入
+    desc: 登入你的 OA
   activity:
     name: 第二課堂
     desc: 我的第二課堂學分和活動
@@ -92,10 +95,6 @@ credential:
   error: 登入憑證錯誤
   changeSavedOaPwd: 修改儲存的 OA 密碼
   changeSavedOaPwdDesc: 不會作用在你真正的 OA 密碼
-  unauthorizedTip:
-    title: 需要登入
-    everLoggedInTip: 你的賬戶或密碼不正確，請重新登入。
-    neverLoggedInTip: 你必須先登入才能繼續。
 easyconnect:
   launchBtn: 啟用 EasyConnect
   launchFailed: 啟動失敗
@@ -193,8 +192,11 @@ networkTool:
     無法連線到校園網路。疑難排解:
     1. 嘗試連線學校的Wi-Fi: "i-SIT","i-SIT-1x" 或 "eduroam"。
     2. 嘗試啟用"EasyConnect" VPN 連線校園網路。
-    3. 嘗試通過自建的 Http Proxy 伺服器連線校園網路。
+    3. 嘗試通過自建的 HTTP Proxy 伺服器連線校園網路。
     如果上述都無法工作, 或許因為學校伺服器停機維護或崩潰, 請稍後重試。
+  connectionFailedButCampusNetworkConnected: |
+    已經連線到校園網路，但依然無法訪問學校伺服器。
+    這或許因為學校伺服器停機維護或崩潰, 請稍後重試。
   connectedByProxy: 已通過 HTTP Proxy 連線校園網路。
   connectedByVpn: 已通過 VPN 連線校園網路。
   connectedByWlan: 已通過 WLAN 連線校園網路。
@@ -214,6 +216,8 @@ login:
   failedWarn: 登入失敗
   loginBtn: 登入
   formatError: 格式錯誤
+  loginRequired: 需要登入
+  neverLoggedInTip: 你必須先登入才能繼續。
 library:
   hotPost: 熱門
 settings:
@@ -240,8 +244,8 @@ settings:
     title: 開啟詳細異常對話框
     desc: 顯示更加詳細的異常堆棧追蹤資訊
   httpProxy:
-    title: 開啟 Http Proxy
-    desc: 開啟 Http Proxy 連線校園網路
+    title: 開啟 HTTP Proxy
+    desc: 開啟 HTTP Proxy 連線校園網路
     global: 用於全局
     globalDesc: 调试用，不包含 Webview 发出的请求
     proxyAddress: Proxy

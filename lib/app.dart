@@ -9,10 +9,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mimir/credential/widgets/scope.dart';
 import 'package:mimir/mini_apps/activity/using.dart';
 import 'package:mimir/route.dart';
-import 'package:rettulf/rettulf.dart';
 
 final $Key = GlobalKey<NavigatorState>();
 
@@ -67,12 +65,6 @@ class _MimirAppState extends State<MimirApp> {
         ),
         debugShowCheckedModeBanner: false,
         builder: EasyLoading.init(builder: (context, widget) {
-          if (context.isPortrait) {
-            SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-                overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
-          } else {
-            SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
-          }
           return MediaQuery(
             // 设置文字大小不随系统设置改变
             data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),

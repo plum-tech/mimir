@@ -36,4 +36,8 @@ class LoginI18n with CommonI18nMixin {
   String get accountOrPwdIncorrectTip => "$ns.accountOrPwdIncorrectTip".tr();
 
   String get loginBtn => "$ns.loginBtn".tr();
+
+  String get loginRequired => "$ns.loginRequired".tr();
+
+  String get neverLoggedInTip => "$ns.neverLoggedInTip".tr();
 }

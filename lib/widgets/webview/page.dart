@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/design/utils.dart';
 import 'package:mimir/l10n/common.dart';
 import 'package:mimir/util/guard_launch.dart';
@@ -112,8 +113,9 @@ class _MimirWebViewPageState extends State<MimirWebViewPage> {
   @override
   Widget build(BuildContext context) {
     if (UniversalPlatform.isDesktop) {
-      Navigator.of(context).pop();
-      guardLaunchUrlString(widget.initialUrl);
+      // TODO: Better
+      context.pop();
+      guardLaunchUrlString(context, widget.initialUrl);
       return Container();
     }
     final actions = <Widget>[

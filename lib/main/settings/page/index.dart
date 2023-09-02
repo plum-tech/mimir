@@ -34,9 +34,9 @@ import 'credential.dart';
 import 'language.dart';
 
 class SettingsPage extends StatefulWidget {
-  final DrawerDelegateProtocol drawer;
+  final Widget? leading;
 
-  const SettingsPage({super.key, required this.drawer});
+  const SettingsPage({super.key, this.leading});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -69,10 +69,7 @@ class _SettingsPageState extends State<SettingsPage> {
             snap: false,
             floating: false,
             expandedHeight: 100.0,
-            leading: IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () => widget.drawer.openDrawer(),
-            ),
+            leading: widget.leading,
             flexibleSpace: FlexibleSpaceBar(
               title: i18n.title.text(),
             ),

@@ -67,7 +67,9 @@ class Auth extends InheritedWidget {
 
   @override
   bool updateShouldNotify(Auth oldWidget) {
-    return oaCredential != oldWidget.oaCredential || lastOaAuthTime != oldWidget.lastOaAuthTime;
+    return oaCredential != oldWidget.oaCredential ||
+        lastOaAuthTime != oldWidget.lastOaAuthTime ||
+        loginStatus != oldWidget.loginStatus;
   }
 
   setOaCredential(OACredential? newV) {

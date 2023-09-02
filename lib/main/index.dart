@@ -65,13 +65,17 @@ class _MainStagePageState extends State<MainStagePage> {
   }
 
   Widget buildStage() {
+    final leading = IconButton(
+      icon: const Icon(Icons.menu),
+      onPressed: () => drawerDelegate.openDrawer(),
+    );
     switch (currentStage) {
       case _Stage.home:
-        return Homepage(drawer: drawerDelegate);
+        return Homepage(leading: leading);
       case _Stage.networkTool:
-        return NetworkToolPage(drawer: drawerDelegate);
+        return NetworkToolPage(leading: leading);
       default:
-        return SettingsPage(drawer: drawerDelegate);
+        return SettingsPage(leading: leading);
     }
   }
 }

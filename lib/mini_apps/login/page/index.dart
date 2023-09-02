@@ -8,9 +8,9 @@ import '../init.dart';
 import '../using.dart';
 
 class LoginPage extends StatefulWidget {
-  final bool disableOffline;
+  final bool isGuarded;
 
-  const LoginPage({super.key, required this.disableOffline});
+  const LoginPage({super.key, required this.isGuarded});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -178,7 +178,7 @@ class _LoginPageState extends State<LoginPage> {
               : null,
           child: i18n.loginBtn.text().padAll(5),
         ),
-        if (!widget.disableOffline)
+        if (!widget.isGuarded)
           ElevatedButton(
             // Offline
             onPressed: () {
@@ -202,45 +202,54 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Proxy setting
-          Positioned(
-            top: 40.h,
-            right: 10.w,
-            child: IconButton(
-              icon: Icon(Icons.settings, size: 35.spMin),
-              onPressed: _showProxyInput,
-            ),
-          ),
-          [
-            // Title field.
-            i18n.title
-                .text(style: context.textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold))
-                .align(at: Alignment.centerLeft),
-            Padding(padding: EdgeInsets.only(top: 40.h)),
-            // Form field: username and password.
-            buildLoginForm(context),
-            SizedBox(height: 10.h),
-            // Login button.
-            buildLoginButton(context),
-          ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(50.w).center(),
-          [
-            TextButton(
-              child: Text(
-                i18n.forgotPwdBtn,
-                style: const TextStyle(color: Colors.grey),
-              ),
+      appBar: AppBar(
+        title: widget.isGuarded ? i18n.loginRequired.text() : null,
+        actions: [
+          if (!widget.isGuarded)
+            IconButton(
+              icon: const Icon(Icons.settings),
               onPressed: () {
-                guardLaunchUrlString(R.forgotLoginPwdUrl);
+                context.push("/settings");
               },
             ),
-          ]
-              .row(mas: MainAxisSize.min)
-              .padAll(20)
-              .align(at: context.isPortrait ? Alignment.bottomCenter : Alignment.bottomRight),
         ],
-      ).safeArea(), //to avoid overflow when keyboard is up.
+      ),
+      body: buildBody(),
+      //to avoid overflow when keyboard is up.
+      bottomNavigationBar: [
+        const ForgotPasswordButton(),
+      ].wrap(align: WrapAlignment.center).padAll(10),
+    );
+  }
+
+  Widget buildBody() {
+    return [
+      widget.isGuarded ? buildOfflineIcon() : buildTitle(),
+      Padding(padding: EdgeInsets.only(top: 40.h)),
+      // Form field: username and password.
+      buildLoginForm(context),
+      SizedBox(height: 10.h),
+      // Login button.
+      buildLoginButton(context),
+    ]
+        .column(mas: MainAxisSize.min)
+        .scrolled(physics: const NeverScrollableScrollPhysics())
+        .padH(50.w)
+        .center()
+        .safeArea();
+  }
+
+  Widget buildTitle() {
+    return i18n.title.text(
+      style: context.textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Widget buildOfflineIcon() {
+    return const Icon(
+      Icons.person_off_outlined,
+      size: 120,
     );
   }
 
@@ -249,5 +258,22 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
     $account.dispose();
     $password.dispose();
+  }
+}
+
+class ForgotPasswordButton extends StatelessWidget {
+  const ForgotPasswordButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      child: Text(
+        i18n.forgotPwdBtn,
+        style: const TextStyle(color: Colors.grey),
+      ),
+      onPressed: () {
+        guardLaunchUrlString(context, R.forgotLoginPwdUrl);
+      },
+    );
   }
 }

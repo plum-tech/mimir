@@ -50,7 +50,7 @@ class _MailPageState extends State<MailPage> {
       appBar: AppBar(
         title: title.text(),
       ),
-      body: oaCredential != null ? _buildBody(context) : const UnauthorizedTip(),
+      body: _buildBody(context),
     );
   }
 

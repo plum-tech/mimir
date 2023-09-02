@@ -3,7 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/symbol.dart';
 import 'package:mimir/entities.dart';
+import 'package:mimir/main/desktop/page/index.dart';
 import 'package:mimir/main/index.dart';
+import 'package:mimir/main/network_tool/page/index.dart';
+import 'package:mimir/main/settings/page/index.dart';
 import 'package:mimir/mini_apps/timetable/page/preview.dart';
 
 import 'app.dart';
@@ -13,27 +16,40 @@ import 'mini_apps/symbol.dart';
 String? _loginRequired(BuildContext ctx, GoRouterState state) {
   final auth = ctx.auth;
   if (auth.loginStatus != LoginStatus.validated && auth.oaCredential == null) {
-    return "/relogin";
+    return "/login/guard";
   }
   return null;
 }
+
 
 final router = GoRouter(
   navigatorKey: $Key,
   initialLocation: "/",
   debugLogDiagnostics: kDebugMode,
-  redirect: (ctx, state) {
-    final auth = ctx.auth;
-    if (auth.loginStatus == LoginStatus.never) {
-      return "/login";
-    } else {
-      return null;
-    }
-  },
   routes: [
     GoRoute(
       path: "/",
-      builder: (ctx, state) => MainStagePage(),
+      builder: (ctx, state) => const MainStagePage(),
+      redirect: (ctx, state) {
+        final auth = ctx.auth;
+        if (auth.loginStatus == LoginStatus.never) {
+          return "/login";
+        } else {
+          return null;
+        }
+      },
+    ),
+    GoRoute(
+      path: "/homepage",
+      builder: (ctx, state) => const Homepage(),
+    ),
+    GoRoute(
+      path: "/settings",
+      builder: (ctx, state) => const SettingsPage(),
+    ),
+    GoRoute(
+      path: "/networkTool",
+      builder: (ctx, state) => const NetworkToolPage(),
     ),
     GoRoute(
       path: "/app/activity",
@@ -70,6 +86,7 @@ final router = GoRouter(
     GoRoute(
       path: "/app/examArr",
       builder: (ctx, state) => const ExamArrangementPage(),
+      redirect: _loginRequired,
     ),
     GoRoute(
       path: "/app/library",
@@ -118,11 +135,11 @@ final router = GoRouter(
     ),
     GoRoute(
       path: "/login",
-      builder: (ctx, state) => const LoginPage(disableOffline: false),
+      builder: (ctx, state) => const LoginPage(isGuarded: false),
     ),
     GoRoute(
-      path: "/relogin",
-      builder: (ctx, state) => const UnauthorizedTipPage(),
+      path: "/login/guard",
+      builder: (ctx, state) => const LoginPage(isGuarded: true),
     ),
   ],
 );

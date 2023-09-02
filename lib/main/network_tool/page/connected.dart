@@ -4,6 +4,7 @@ import 'package:check_vpn_connection/check_vpn_connection.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/connectivity_checker.dart';
+import 'package:mimir/main/network_tool/widgets/status.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../service/network.dart';
@@ -18,13 +19,14 @@ class ConnectedInfoPage extends StatefulWidget {
 
 class _ConnectedInfoPageState extends State<ConnectedInfoPage> {
   ConnectivityResult? connectionType;
-  late Timer networkChecker;
+  late Timer connectionTypeChecker;
+  late Timer statusChecker;
   CampusNetworkStatus? status;
 
   @override
   void initState() {
     super.initState();
-    networkChecker = Timer.periodic(const Duration(milliseconds: 500), (Timer t) async {
+    connectionTypeChecker = Timer.periodic(const Duration(milliseconds: 500), (Timer t) async {
       var type = await Connectivity().checkConnectivity();
       if (type == ConnectivityResult.wifi || type == ConnectivityResult.ethernet) {
         if (await CheckVpnConnection.isVpnActive()) {
@@ -38,15 +40,22 @@ class _ConnectedInfoPageState extends State<ConnectedInfoPage> {
         });
       }
     });
-    Network.checkCampusNetworkStatus().then((status) {
-      setState(() {
-        this.status = status;
-      });
-    }).onError((error, stackTrace) {
-      setState(() {
-        status = null;
-      });
+    statusChecker = Timer.periodic(const Duration(milliseconds: 1000), (Timer t) async {
+      final status = await Network.checkCampusNetworkStatus();
+      if (this.status != status) {
+        if (!mounted) return;
+        setState(() {
+          this.status = status;
+        });
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    connectionTypeChecker.cancel();
+    statusChecker.cancel();
+    super.dispose();
   }
 
   @override
@@ -72,23 +81,12 @@ class _ConnectedInfoPageState extends State<ConnectedInfoPage> {
         style: style,
       );
     }
-    final status = this.status;
-    var ip = i18n.unknown;
-    var studentId = i18n.unknown;
-    if (status != null) {
-      ip = status.ip;
-      studentId = status.studentId ?? i18n.login.notLoggedIn;
-    }
     final tip = _getTipByConnectionType(connectionType);
     if (tip == null) return Container().padH(10);
-    return "$tip\n"
-            "${i18n.credential.studentId}: $studentId\n"
-            "${i18n.network.ipAddress}: $ip"
-        .text(
-          textAlign: TextAlign.center,
-          style: style,
-        )
-        .padH(20);
+    return [
+      tip.text(textAlign: TextAlign.center, style: style),
+      CampusNetworkStatusInfo(status: status),
+    ].column().padH(20);
   }
 }
 

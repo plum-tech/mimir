@@ -7,50 +7,37 @@ class CredentialI18n with CommonI18nMixin {
   const CredentialI18n();
 
   final network = const NetworkI18n();
-  static const _ns = "credential";
-  final unauthorizedTip = const _UnauthorizedTip();
+  static const ns = "credential";
 
-  String get studentId => "$_ns.studentId".tr();
+  String get studentId => "$ns.studentId".tr();
 
-  String get account => "$_ns.account".tr();
+  String get account => "$ns.account".tr();
 
-  String get oaAccount => "$_ns.oaAccount".tr();
+  String get oaAccount => "$ns.oaAccount".tr();
 
-  String get oaPwd => "$_ns.oaPwd".tr();
+  String get oaPwd => "$ns.oaPwd".tr();
 
-  String get savedOaPwd => "$_ns.savedOaPwd".tr();
+  String get savedOaPwd => "$ns.savedOaPwd".tr();
 
-  String get reloginRequestDesc => "$_ns.reloginRequestDesc".tr();
+  String get reloginRequestDesc => "$ns.reloginRequestDesc".tr();
 
-  String get relogin => "$_ns.relogin".tr();
+  String get relogin => "$ns.relogin".tr();
 
-  String get loginLoginBtn => "$_ns.loginLoginBtn".tr();
+  String get loginLoginBtn => "$ns.loginLoginBtn".tr();
 
-  String get loginPwdHint => "$_ns.loginPwdHint".tr();
+  String get loginPwdHint => "$ns.loginPwdHint".tr();
 
-  String get loginFailedWarn => "$_ns.loginFailedWarn".tr();
+  String get loginFailedWarn => "$ns.loginFailedWarn".tr();
 
-  String get accountOrPwdIncorrectTip => "$_ns.accountOrPwdIncorrectTip".tr();
+  String get accountOrPwdIncorrectTip => "$ns.accountOrPwdIncorrectTip".tr();
 
-  String get loginLoginAccountHint => "$_ns.loginLoginAccountHint".tr();
+  String get loginLoginAccountHint => "$ns.loginLoginAccountHint".tr();
 
-  String get formatError => "$_ns.formatError".tr();
+  String get formatError => "$ns.formatError".tr();
 
-  String get validateInputAccountPwdRequest => "$_ns.validateInputAccountPwdRequest".tr();
+  String get validateInputAccountPwdRequest => "$ns.validateInputAccountPwdRequest".tr();
 
-  String get changeSavedOaPwd => "$_ns.changeSavedOaPwd".tr();
+  String get changeSavedOaPwd => "$ns.changeSavedOaPwd".tr();
 
-  String get changeSavedOaPwdDesc => "$_ns.changeSavedOaPwdDesc".tr();
-}
-
-class _UnauthorizedTip {
-  const _UnauthorizedTip();
-
-  static const ns = "${CredentialI18n._ns}.unauthorizedTip";
-
-  String get title => "$ns.title".tr();
-
-  String get everLoggedInTip => "$ns.everLoggedInTip".tr();
-
-  String get neverLoggedInTip => "$ns.neverLoggedInTip".tr();
+  String get changeSavedOaPwdDesc => "$ns.changeSavedOaPwdDesc".tr();
 }

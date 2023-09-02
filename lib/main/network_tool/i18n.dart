@@ -19,6 +19,8 @@ class _I18n with CommonI18nMixin {
 
   String get connectionFailedError => "$ns.connectionFailedError".tr();
 
+  String get connectionFailedButCampusNetworkConnected => "$ns.connectionFailedButCampusNetworkConnected".tr();
+
   String get connectedByProxy => "$ns.connectedByProxy".tr();
 
   String get connectedByVpn => "$ns.connectedByVpn".tr();

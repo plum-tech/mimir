@@ -9,17 +9,15 @@ class BrickMaker {
   static final Map<int, List<MiniApp>> _cache = {};
 
   static List<MiniApp> makeDefaultBricks(BuildContext ctx) {
-    final oa = ctx.auth.oaCredential;
-    final hasLoggedIn = oa != null;
-    final key = oa.hashCode + hasLoggedIn.hashCode;
+    final auth = ctx.auth;
+    final oaCredential = auth.oaCredential;
+    final status = auth.loginStatus;
+    final key = oaCredential.hashCode + status.hashCode;
     final cache = _cache[key];
     if (cache != null) {
       return cache;
     } else {
-      final res = makeDefaultBricksBy(
-        oa,
-        hasLoggedIn,
-      );
+      final res = makeDefaultBricksBy(oaCredential, status);
       _cache[key] = res;
       return res;
     }
@@ -28,15 +26,20 @@ class BrickMaker {
   // TODO: A new personalization system for this.
   static List<MiniApp> makeDefaultBricksBy(
     OACredential? oa,
-    bool hasLoggedIn,
+    LoginStatus status,
   ) {
     final r = <MiniApp>[];
+
+    if (status != LoginStatus.validated) {
+      r << MiniApp.login;
+    }
+
     // The common function for all users no matter user type.
     // Only undergraduates need the Timetable.
     // Open the timetable for anyone who has logged in before, even though they have a wrong credential now.
     r << MiniApp.timetable;
 
-    if (hasLoggedIn) {
+    if (status != LoginStatus.never) {
       r << MiniApp.expense;
       r << MiniApp.elecBill;
       r << MiniApp.separator;
@@ -51,7 +54,7 @@ class BrickMaker {
     } else {
       r << MiniApp.separator;
     }
-    if (hasLoggedIn) {
+    if (status != LoginStatus.never) {
       r << MiniApp.eduEmail;
       r << MiniApp.application;
     }

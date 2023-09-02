@@ -10,6 +10,12 @@ import 'widgets/brick.dart';
 
 class HomepageFactory {
   static final Map<MiniApp, WidgetBuilder?> builders = {
+    MiniApp.login: (context) => Brick(
+          route: "/login/guard",
+          icon: SysIcon(Icons.person_outlined),
+          title: MiniApp.login.l10nName(),
+          subtitle: MiniApp.login.l10nDesc(),
+        ),
     MiniApp.timetable: (context) => Brick(
           route: "/app/timetable",
           icon: SvgAssetIcon('assets/home/icon_timetable.svg'),

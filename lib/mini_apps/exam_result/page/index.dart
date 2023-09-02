@@ -132,7 +132,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
                 icon: const Icon(Icons.assessment_outlined),
                 onPressed: () async {
                   if (UniversalPlatform.isDesktop) {
-                    await guardLaunchUrl(evaluationUri);
+                    await guardLaunchUrl(ctx, evaluationUri);
                     return;
                   }
                   await context.push("/teacherEval");
