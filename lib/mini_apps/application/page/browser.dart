@@ -4,7 +4,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../init.dart';
 
-const url = 'http://xgfy.sit.edu.cn/unifri-flow/';
+const url = 'http://ywb.sit.edu.cn';
 
 class InAppViewPage extends StatefulWidget {
   final String title;
@@ -17,8 +17,8 @@ class InAppViewPage extends StatefulWidget {
 }
 
 class _InAppViewPageState extends State<InAppViewPage> {
-  late WebViewController controller = WebViewController();
-  late WebViewCookieManager cookieManager = WebViewCookieManager();
+  final WebViewController controller = WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted);
+  final WebViewCookieManager cookieManager = WebViewCookieManager();
 
   @override
   Widget build(BuildContext context) {
