@@ -21,7 +21,6 @@ String? _loginRequired(BuildContext ctx, GoRouterState state) {
   return null;
 }
 
-
 final router = GoRouter(
   navigatorKey: $Key,
   initialLocation: "/",

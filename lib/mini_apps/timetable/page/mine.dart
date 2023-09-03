@@ -22,8 +22,12 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   final storage = TimetableInit.storage;
 
   Future<void> goImport() async {
-    await context.push("/app/timetable/import");
-    setState(() {});
+    final timetable = await context.push<SitTimetable>("/app/timetable/import");
+    if (timetable != null && storage.currentTimetableId == null) {
+      storage.currentTimetableId = timetable.id;
+      if (!mounted) return;
+      setState(() {});
+    }
   }
 
   @override

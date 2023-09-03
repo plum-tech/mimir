@@ -63,8 +63,10 @@ String convertTableToIcs(TimetableMeta meta, List<Course> courses, Duration? ala
   return iCal.serialize();
 }
 
+final timetableDateFormat = DateFormat('yyyyMMdd_hhmmss');
+
 String getExportTimetableFilename() {
-  return 'kite_table_${DateFormat('yyyyMMdd_hhmmss').format(DateTime.now())}.ics';
+  return 'sit-timetable-${timetableDateFormat.format(DateTime.now())}.ics';
 }
 
 Future<void> exportTimetableToCalendar(TimetableMeta meta, List<Course> courses, Duration? alarmBefore) async {
@@ -137,7 +139,7 @@ List<String> _weekText2RangedNumbers(String weekText) {
   return res;
 }
 
-SitTimetable parseTimetableEntity(List<CourseRaw> all) {
+SitTimetable parseTimetableEntity(String id, List<CourseRaw> all) {
   final List<SitTimetableWeek?> weeks = List.generate(20, (index) => null);
   SitTimetableWeek getWeekAt(int index) {
     var week = weeks[index] ??= SitTimetableWeek.$7days();
@@ -195,7 +197,7 @@ SitTimetable parseTimetableEntity(List<CourseRaw> all) {
       }
     }
   }
-  final res = SitTimetable(weeks, courseKey2Entity, counter);
+  final res = SitTimetable(id, weeks, courseKey2Entity, counter);
   return res;
 }
 

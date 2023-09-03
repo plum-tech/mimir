@@ -119,7 +119,8 @@ class _DetailPageState extends State<DetailPage> {
       guardLaunchUrlString(ctx, "http://ywb.sit.edu.cn/v1/#/");
     } else {
       // 跳转到申请页面
-      final String applyUrl = 'http://ywb.sit.edu.cn/v1/#/flow?src=http://ywb.sit.edu.cn/unifri-flow/WF/MyFlow.htm?FK_Flow=${meta.id}';
+      final String applyUrl =
+          'http://ywb.sit.edu.cn/v1/#/flow?src=http://ywb.sit.edu.cn/unifri-flow/WF/MyFlow.htm?FK_Flow=${meta.id}';
       ctx.navigator.push(MaterialPageRoute(builder: (_) => InAppViewPage(title: meta.name, url: applyUrl)));
     }
   }

@@ -13,7 +13,7 @@ final _defaultStartDate = DateTime.utc(0);
 @JsonSerializable()
 class SitTimetable {
   @JsonKey()
-  String id = "";
+  final String id;
   @JsonKey()
   String name = "";
   @JsonKey()
@@ -30,9 +30,9 @@ class SitTimetable {
   final List<SitCourse> courseKey2Entity;
   final int courseKeyCounter;
 
-  SitTimetable(this.weeks, this.courseKey2Entity, this.courseKeyCounter);
+  SitTimetable(this.id, this.weeks, this.courseKey2Entity, this.courseKeyCounter);
 
-  static SitTimetable parse(List<CourseRaw> all) => parseTimetableEntity(all);
+  static SitTimetable parse(String id, List<CourseRaw> all) => parseTimetableEntity(id, all);
   final Map<String, List<SitCourse>> _code2Courses = {};
 
   List<SitCourse> findAndCacheCoursesByCourseCode(String courseCode) {
@@ -51,6 +51,7 @@ class SitTimetable {
     }
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   TimetableMeta get meta {
     return TimetableMeta(
       name: name,

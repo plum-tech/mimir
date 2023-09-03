@@ -7,13 +7,13 @@ part of 'entity.dart';
 // **************************************************************************
 
 SitTimetable _$SitTimetableFromJson(Map<String, dynamic> json) => SitTimetable(
+      json['id'] as String,
       (json['weeks'] as List<dynamic>)
           .map((e) => e == null ? null : SitTimetableWeek.fromJson(e as Map<String, dynamic>))
           .toList(),
       (json['courseKey2Entity'] as List<dynamic>).map((e) => SitCourse.fromJson(e as Map<String, dynamic>)).toList(),
       json['courseKeyCounter'] as int,
     )
-      ..id = json['id'] as String
       ..name = json['name'] as String
       ..startDate = DateTime.parse(json['startDate'] as String)
       ..schoolYear = json['schoolYear'] as int

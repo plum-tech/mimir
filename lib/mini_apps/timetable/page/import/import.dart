@@ -113,7 +113,8 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     );
   }
 
-  Future<SitTimetable?> handleTimetableData(BuildContext ctx, SitTimetable timetable, int year, Semester semester) async {
+  Future<SitTimetable?> handleTimetableData(
+      BuildContext ctx, SitTimetable timetable, int year, Semester semester) async {
     final defaultName = i18n.import.defaultName(semester.localized(), year.toString(), (year + 1).toString());
     DateTime defaultStartDate;
     if (semester == Semester.term1) {
