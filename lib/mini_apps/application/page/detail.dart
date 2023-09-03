@@ -120,7 +120,7 @@ class _DetailPageState extends State<DetailPage> {
     } else {
       // 跳转到申请页面
       final String applyUrl = 'http://ywb.sit.edu.cn/v1/#/flow?src=http://ywb.sit.edu.cn/unifri-flow/WF/MyFlow.htm?FK_Flow=${meta.id}';
-      ctx.navigator.pushReplacement(MaterialPageRoute(builder: (_) => InAppViewPage(title: meta.name, url: applyUrl)));
+      ctx.navigator.push(MaterialPageRoute(builder: (_) => InAppViewPage(title: meta.name, url: applyUrl)));
     }
   }
 }

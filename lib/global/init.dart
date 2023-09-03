@@ -93,7 +93,7 @@ class Init {
     );
 
     ExpenseTrackerInit.init(
-      session: Global.ssoSession2,
+      session: Global.ssoSession,
       expenseBox: HiveBoxInit.expense,
     );
 

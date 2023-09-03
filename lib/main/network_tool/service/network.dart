@@ -56,9 +56,9 @@ class Network {
 
   static final dio = Dio()
     ..options = BaseOptions(
-      connectTimeout: 3000,
-      sendTimeout: 3000,
-      receiveTimeout: 3000,
+      connectTimeout: const Duration(milliseconds: 3000),
+      sendTimeout: const Duration(milliseconds: 3000),
+      receiveTimeout: const Duration(milliseconds: 3000),
     );
 
   static Future<Map<String, dynamic>> _get(String url, {Map<String, dynamic>? queryParameters}) async {

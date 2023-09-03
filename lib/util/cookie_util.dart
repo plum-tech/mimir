@@ -7,7 +7,7 @@ extension ConvertAsWebViewCookie on CookieJar {
   Future<List<WebViewCookie>> loadAsWebViewCookie(Uri uri) async {
     final cookies = await loadForRequest(uri);
     return cookies.map((cookie) {
-      Log.info('获取cookie $cookie');
+      Log.info('Cookie: $cookie');
       return WebViewCookie(
         name: cookie.name,
         value: cookie.value,

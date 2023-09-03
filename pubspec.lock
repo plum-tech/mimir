@@ -309,10 +309,10 @@ packages:
     dependency: "direct main"
     description:
       name: cookie_jar
-      sha256: d1cc6516a190ba667941f722b6365d202caff3dacb38de24268b8d6ff1ec8a1d
+      sha256: a6ac027d3ed6ed756bfce8f3ff60cb479e266f3b0fdabd6242b804b6765e52de
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.1"
+    version: "4.0.8"
   cross_file:
     dependency: transitive
     description:
@@ -397,18 +397,18 @@ packages:
     dependency: "direct main"
     description:
       name: dio
-      sha256: "7d328c4d898a61efc3cd93655a0955858e29a0aa647f0f9e02d59b3bb275e2e8"
+      sha256: ce75a1b40947fea0a0e16ce73337122a86762e38b982e1ccb909daa3b9bc4197
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.6"
+    version: "5.3.2"
   dio_cookie_manager:
     dependency: "direct main"
     description:
       name: dio_cookie_manager
-      sha256: ed7ee3ba6cdb54599c8984d5a4ce09675c553ead6c28608eb54e38eec5b4f954
+      sha256: "884b1099cba70a83751969d318084577c29de148600ffb7d4796f752d2cade02"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "3.1.0+1"
   dynamic_color_theme:
     dependency: "direct main"
     description:
@@ -1635,6 +1635,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  universal_io:
+    dependency: transitive
+    description:
+      name: universal_io
+      sha256: "1722b2dcc462b4b2f3ee7d188dad008b6eb4c40bbd03a3de451d82c78bba9aad"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.2"
   universal_platform:
     dependency: "direct main"
     description:

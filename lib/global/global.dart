@@ -5,17 +5,14 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:mimir/app.dart';
 import 'package:mimir/credential/storage/credential.dart';
 import 'package:mimir/design/symbol.dart';
-import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/global/cookie_init.dart';
 import 'package:mimir/global/dio_initializer.dart';
 import 'package:mimir/session/sso/session.dart';
 
-import 'i18n.dart';
 import '../widgets/captcha_box.dart';
 
 class GlobalConfig {
@@ -40,15 +37,13 @@ class Global {
 
   static late CookieJar cookieJar;
   static late Dio dio;
-  static late Dio dio2; // 消费查询专用连接池(因为需要修改连接超时)
   static late SsoSession ssoSession;
-  static late SsoSession ssoSession2;
 
   // 是否正处于网络错误对话框
   static bool inSsoErrorDialog = false;
 
   static onSsoError(error, stacktrace) {
-    if (error is DioError) {
+    if (error is DioException) {
       debugPrintStack(stackTrace: error.stackTrace);
     }
   }
@@ -71,24 +66,13 @@ class Global {
       config: DioConfig()
         ..cookieJar = cookieJar
         ..httpProxy = GlobalConfig.httpProxy
-        ..sendTimeout = 6 * 1000
-        ..receiveTimeout = 6 * 1000
-        ..connectTimeout = 6 * 1000,
-      debug: debugNetwork,
-    );
-    dio2 = await DioInit.init(
-      config: DioConfig()
-        ..cookieJar = cookieJar
-        ..httpProxy = GlobalConfig.httpProxy
-        ..connectTimeout = 30 * 1000
-        ..sendTimeout = 30 * 1000
-        ..receiveTimeout = 30 * 1000,
+        ..sendTimeout = const Duration(seconds: 6)
+        ..receiveTimeout = const Duration(seconds: 6)
+        ..connectTimeout = const Duration(seconds: 6),
       debug: debugNetwork,
     );
     ssoSession =
         SsoSession(dio: dio, cookieJar: cookieJar, onError: onSsoError, onNeedInputCaptcha: onNeedInputCaptcha);
-    ssoSession2 =
-        SsoSession(dio: dio2, cookieJar: cookieJar, onError: onSsoError, onNeedInputCaptcha: onNeedInputCaptcha);
 
     // 若本地存放了用户名与密码，那就惰性登录
     final oaCredential = credentials.oaCredential;

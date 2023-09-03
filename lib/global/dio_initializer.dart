@@ -14,9 +14,9 @@ class DioConfig {
   String? httpProxy;
   bool allowBadCertificate = true;
   CookieJar cookieJar = DefaultCookieJar();
-  int? connectTimeout;
-  int? sendTimeout;
-  int? receiveTimeout;
+  Duration? connectTimeout;
+  Duration? sendTimeout;
+  Duration? receiveTimeout;
 }
 
 /// 用于初始化Dio,全局只有一份dio对象
