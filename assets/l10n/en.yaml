@@ -178,10 +178,10 @@ networkChecker:
     disconnected: Retry
     none: Check My Connection
   status:
-    connected: Right! You have connected to campus network!
+    connected: Right! You have connected to school server!
     connecting: It will take a few seconds, please ensure you have turned on the network on your device.
-    disconnected: Oops! You can't access the campus network. Please check your network settings or use Easy Connect, then try again.
-    none: You need the access to campus network to continue. Let's check it now.
+    disconnected: Oops! You can't access the school server. Please check your network settings or use Easy Connect, then try again.
+    none: You need the access to school server to continue. Let's check it now.
 network:
   error: Network Error
   ipAddress: IP Address

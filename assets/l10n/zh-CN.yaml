@@ -178,10 +178,10 @@ networkChecker:
     disconnected: 重试
     none: 检查我的网络连接
   status:
-    connected: 好耶！你能够访问校园网！
+    connected: 好耶！你能够访问学校服务器！
     connecting: 这可能需要几秒钟，请确保你在设备上已经打开了网络连接。
-    disconnected: 糟糕！你无法访问校园网，请检查你的网络设置，然后再试一次。
-    none: 你需要访问校园网才能继续，现在就检查一下吧。
+    disconnected: 糟糕！你无法访问学校服务器，请检查你的网络设置，然后再试一次。
+    none: 你需要访问学校服务器才能继续，现在就检查一下吧。
 network:
   error: 网络错误
   ipAddress: IP 地址

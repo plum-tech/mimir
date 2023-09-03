@@ -174,10 +174,10 @@ networkChecker:
     disconnected: 重試
     none: 檢查我的連線
   status:
-    connected: 好喔！你能夠訪問校園網路！
+    connected: 好喔！你能夠訪問學校伺服器！
     connecting: 這可能需要幾秒鐘的時間，請確認在裝置上開啟了網路。
-    disconnected: 哎呀！你無法訪問校園網路誒，請檢查你的網路設定，然後再試一次。
-    none: 你需要訪問校園網路才能繼續，現在就開始檢查吧！
+    disconnected: 哎呀！你無法訪問學校伺服器誒，請檢查你的網路設定，然後再試一次。
+    none: 你需要訪問學校伺服器才能繼續，現在就開始檢查吧！
 network:
   error: 網路錯誤
   ipAddress: IP 地址
