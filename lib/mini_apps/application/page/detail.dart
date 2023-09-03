@@ -9,7 +9,7 @@ import 'package:universal_platform/universal_platform.dart';
 
 import '../entity/application.dart';
 import '../init.dart';
-import '../page/browser.dart';
+import '../page/form.dart';
 import '../using.dart';
 
 class DetailPage extends StatefulWidget {

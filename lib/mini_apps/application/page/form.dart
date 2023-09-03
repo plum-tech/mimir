@@ -4,7 +4,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../init.dart';
 
-const url = 'http://ywb.sit.edu.cn';
+const ywbUrl = 'https://xgfy.sit.edu.cn';
 
 class InAppViewPage extends StatefulWidget {
   final String title;
@@ -24,7 +24,7 @@ class _InAppViewPageState extends State<InAppViewPage> {
   @override
   void initState() {
     super.initState();
-    ApplicationInit.cookieJar.loadAsWebViewCookie(Uri.parse(url)).then((value) {
+    ApplicationInit.cookieJar.loadAsWebViewCookie(Uri.parse(ywbUrl)).then((value) {
       cookies = value;
       for (final cookie in value) {
         cookieManager.setCookie(cookie);

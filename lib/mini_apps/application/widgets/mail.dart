@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../entity/message.dart';
-import '../page/browser.dart';
+import '../page/form.dart';
 import '../using.dart';
 
 class Mail extends StatelessWidget {

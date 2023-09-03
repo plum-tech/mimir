@@ -397,7 +397,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
   }
 
   @override
-  Future<SessionRes> request(
+  Future<Response> request(
     String url,
     ReqMethod method, {
     Map<String, String>? para,
@@ -415,7 +415,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
     );
-    return response.toMyResponse();
+    return response;
   }
 }
 

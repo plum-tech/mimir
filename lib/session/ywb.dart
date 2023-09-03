@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:mimir/exception/session.dart';
@@ -10,7 +9,7 @@ import 'package:mimir/session/common.dart';
 const _ywbUrl = "https://ywb.sit.edu.cn/v1";
 
 /// 应网办登录地址, POST 请求
-const String _officeLoginUrl = 'https://xgfy.sit.edu.cn/unifri-flow/login';
+const String _officeLoginUrl = "https://xgfy.sit.edu.cn/unifri-flow/login";
 
 class YwbSession extends ISession {
   bool isLogin = false;
@@ -51,7 +50,7 @@ class YwbSession extends ISession {
   }
 
   @override
-  Future<SessionRes> request(
+  Future<Response> request(
     String url,
     ReqMethod method, {
     Map<String, String>? para,
@@ -82,6 +81,6 @@ class YwbSession extends ISession {
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
     );
-    return response.toMyResponse();
+    return response;
   }
 }

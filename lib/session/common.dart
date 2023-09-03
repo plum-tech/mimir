@@ -28,15 +28,6 @@ extension DioOptionsConverter on SessionOptions {
   }
 }
 
-extension SessionResConverter on Response {
-  SessionRes toMyResponse() {
-    return SessionRes(
-      data: data,
-      realUri: realUri,
-    );
-  }
-}
-
 class DioDownloader implements Downloader {
   Dio dio;
 
@@ -92,7 +83,7 @@ class DefaultDioSession with DioDownloaderMixin implements ISession {
   DefaultDioSession(this.dio);
 
   @override
-  Future<SessionRes> request(
+  Future<Response> request(
     String url,
     ReqMethod method, {
     Map<String, String>? para,
@@ -109,6 +100,6 @@ class DefaultDioSession with DioDownloaderMixin implements ISession {
             method: method.name.toUpperCase(),
           ),
     );
-    return response.toMyResponse();
+    return response;
   }
 }

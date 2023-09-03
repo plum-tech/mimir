@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:mimir/network/session.dart';
 import 'package:mimir/session/sso/session.dart';
 import 'package:mimir/util/logger.dart';
@@ -12,12 +13,12 @@ class SisSession extends ISession {
     await ssoSession.request('http://jwxt.sit.edu.cn/sso/jziotlogin', ReqMethod.get);
   }
 
-  bool _isRedirectedToLoginPage(SessionRes response) {
+  bool _isRedirectedToLoginPage(Response response) {
     return response.realUri.path == '/jwglxt/xtgl/login_slogin.html';
   }
 
   @override
-  Future<SessionRes> request(
+  Future<Response> request(
     String url,
     ReqMethod method, {
     Map<String, String>? para,
@@ -28,7 +29,7 @@ class SisSession extends ISession {
   }) async {
     options ??= SessionOptions();
     options.contentType = 'application/x-www-form-urlencoded;charset=utf-8';
-    Future<SessionRes> fetch() async {
+    Future<Response> fetch() async {
       return await ssoSession.request(
         url,
         method,

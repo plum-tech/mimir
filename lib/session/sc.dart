@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 import '../network/session.dart';
 
 class ScSession extends ISession {
@@ -17,7 +19,7 @@ class ScSession extends ISession {
   }
 
   @override
-  Future<SessionRes> request(
+  Future<Response> request(
     String url,
     ReqMethod method, {
     Map<String, String>? para,
@@ -26,7 +28,7 @@ class ScSession extends ISession {
     SessionProgressCallback? onSendProgress,
     SessionProgressCallback? onReceiveProgress,
   }) async {
-    Future<SessionRes> fetch() async {
+    Future<Response> fetch() async {
       return await _session.request(
         url,
         method,
@@ -38,7 +40,7 @@ class ScSession extends ISession {
       );
     }
 
-    SessionRes response = await fetch();
+    Response response = await fetch();
     // 如果返回值是登录页面，那就从 SSO 跳转一次以登录.
     if (_isRedirectedToLoginPage(response.data as String)) {
       await _refreshCookie();

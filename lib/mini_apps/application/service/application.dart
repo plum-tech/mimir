@@ -6,7 +6,7 @@ const String serviceFunctionList = 'https://xgfy.sit.edu.cn/app/public/queryAppM
 const String serviceFunctionDetail = 'https://xgfy.sit.edu.cn/app/public/queryAppFormJson';
 
 class ApplicationService implements ApplicationDao {
-  final ISession session;
+  final YwbSession session;
 
   const ApplicationService(this.session);
 

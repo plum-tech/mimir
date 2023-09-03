@@ -1,13 +1,4 @@
-class SessionRes<T> {
-  T data;
-  Uri realUri;
-
-  SessionRes({
-    required this.data,
-    required this.realUri,
-  });
-}
-
+import "package:dio/dio.dart";
 enum SessionResType { json, stream, plain, bytes }
 
 class HeaderConstants {
@@ -52,7 +43,7 @@ enum ReqMethod {
 }
 
 abstract class ISession {
-  Future<SessionRes> request(
+  Future<Response> request(
     String url,
     ReqMethod method, {
     Map<String, String>? para,
