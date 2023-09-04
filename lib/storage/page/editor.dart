@@ -269,64 +269,59 @@ class _BoxItemState extends State<BoxItem> {
     final value = widget.box.get(widget.keyInBox);
     final type = value.runtimeType.toString();
     Widget res = [
-      Text(
-        key,
-        style: widget.routeStyle,
-      ),
-      Text(type, style: widget.typeStyle?.copyWith(color: Editor.isSupport(value) ? Colors.green : null)),
-      Text(
-        '$value',
+      [
+        key.text(style: widget.routeStyle),
+        buildActionButton(key, value),
+      ].row(maa: MainAxisAlignment.spaceBetween),
+      type.text(style: widget.typeStyle?.copyWith(color: Editor.isSupport(value) ? Colors.green : null)),
+      '$value'.text(
         maxLines: 5,
         style: widget.contentStyle?.copyWith(overflow: TextOverflow.ellipsis),
       ),
     ].column(caa: CrossAxisAlignment.start).align(at: Alignment.topLeft).padAll(10).inCard(elevation: 5);
     if (value != null) {
-      if (kDebugMode) {
-        res = res.on(tap: () async => showContentDialog(context, widget.box, key, value));
-        //res = buildContextMenu(context, res, key, widget.box);
-        res = buildSwipe(context, res, key, value);
-      } else {
-        res = res.on(tap: () async => showContentDialog(context, widget.box, key, value, readonly: true));
-      }
+      res = res.on(tap: () async => showContentDialog(context, widget.box, key, value));
     }
     return res;
   }
 
-  Widget buildSwipe(BuildContext ctx, Widget w, String key, dynamic value) {
-    final DismissDirection dir;
-    if (value == null) {
-      dir = DismissDirection.none;
-    } else if (_canEmptyValue(value)) {
-      dir = DismissDirection.horizontal;
-    } else {
-      dir = DismissDirection.endToStart;
-    }
-    return Dismissible(
-      key: ValueKey(key),
-      direction: dir,
-      confirmDismiss: (dir) async {
-        if (dir == DismissDirection.startToEnd) {
-          // Empty the value
-          final confirm = await context.showRequest(
-              title: i18n.warning, desc: i18n.emptyValueDesc, yes: i18n.confirm, no: i18n.cancel, highlight: true);
-          if (confirm == true) {
-            widget.box.put(key, _emptyValue(value));
-            if (!mounted) return false;
-            setState(() {});
-          }
-          return false;
-        } else if (dir == DismissDirection.endToStart) {
-          // Delete the item.
-          final confirm = await _showDeleteItemRequest(ctx);
-          if (confirm == true) {
-            widget.box.delete(key);
-            widget.onBoxChanged?.call();
-            return true;
-          }
-        }
-        return false;
-      },
-      child: w,
+  Widget buildActionButton(String key, dynamic value) {
+    return PopupMenuButton(
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+      position: PopupMenuPosition.under,
+      padding: EdgeInsets.zero,
+      itemBuilder: (ctx) => <PopupMenuEntry>[
+        PopupMenuItem(
+          child: ListTile(
+            leading: const Icon(Icons.cleaning_services_outlined, color: Colors.redAccent),
+            title: i18n.clear.text(style: const TextStyle(color: Colors.redAccent)),
+            onTap: () async {
+              ctx.pop();
+              final confirm = await context.showRequest(
+                  title: i18n.warning, desc: i18n.emptyValueDesc, yes: i18n.confirm, no: i18n.cancel, highlight: true);
+              if (confirm == true) {
+                widget.box.put(key, _emptyValue(value));
+                if (!mounted) return;
+                setState(() {});
+              }
+            },
+          ),
+        ),
+        PopupMenuItem(
+          child: ListTile(
+            leading: const Icon(Icons.delete_outline_outlined, color: Colors.redAccent),
+            title: i18n.delete.text(style: const TextStyle(color: Colors.redAccent)),
+            onTap: () async {
+              ctx.pop();
+              final confirm = await _showDeleteItemRequest(ctx);
+              if (confirm == true) {
+                widget.box.delete(key);
+                widget.onBoxChanged?.call();
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -391,9 +386,6 @@ class _StorageListLandscapeState extends State<StorageListLandscape> {
         final (:name, :box) = widget.boxes[i];
         final color = name == selectedBoxName ? context.theme.secondaryHeaderColor : null;
         final action = PopupMenuButton(
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
-          position: PopupMenuPosition.under,
-          padding: EdgeInsets.zero,
           itemBuilder: (ctx) => <PopupMenuEntry>[
             PopupMenuItem(
               child: ListTile(
