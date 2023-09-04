@@ -2,10 +2,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:version/version.dart';
 
 class _K {
-  static const ns = "/meta";
-  static const lastVersion = "$ns/lastVersion";
-  static const lastStartupTime = "$ns/lastStartupTime";
-  static const installTime = '$ns/installTime';
+  static const lastVersion = "/lastVersion";
+  static const lastStartupTime = "/lastStartupTime";
+  static const installTime = '/installTime';
 }
 
 late MetaImpl Meta;

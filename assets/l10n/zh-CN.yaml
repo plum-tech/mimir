@@ -230,6 +230,7 @@ library:
   hotPost: 热搜
 settings:
   title: 设置
+  version: 版本
   developerOptions: 开发者选项
   campus:
     title: 你的校区

@@ -20,10 +20,11 @@ class _I18n with CommonI18nMixin {
   final reload = const _Reload();
   final testConnect2School = const _TestConnect2School();
   final wipeData = const _WipeData();
-  final version = const _Version();
   static const ns = "settings";
 
   String get title => "$ns.title".tr();
+
+  String get version => "$ns.version".tr();
 
   String get developerOptions => "$ns.developerOptions".tr();
 }
@@ -44,14 +45,6 @@ class _StudentId {
   static const ns = "${_I18n.ns}.studentId";
 
   String get studentIdCopy2ClipboardTip => "$ns.studentIdCopy2ClipboardTip".tr();
-}
-
-class _Version {
-  const _Version();
-
-  static const ns = "${_I18n.ns}.version";
-
-  String get title => "$ns.title".tr();
 }
 
 class _ChangeOaPwd {

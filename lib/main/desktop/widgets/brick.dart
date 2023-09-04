@@ -14,12 +14,14 @@ IconBuilder SysIcon(IconData icon) {
 
 // ignore: non_constant_identifier_names
 IconBuilder SvgAssetIcon(String path) {
-  return (size, color) => SvgPicture.asset(path, width: size, height: size, color: color);
+  return (size, color) =>
+      SvgPicture.asset(path, width: size, height: size, colorFilter: ColorFilter.mode(color, BlendMode.srcIn));
 }
 
 // ignore: non_constant_identifier_names
 IconBuilder SvgNetworkIcon(String path) {
-  return (size, color) => SvgPicture.network(path, width: size, height: size, color: color);
+  return (size, color) =>
+      SvgPicture.network(path, width: size, height: size, colorFilter: ColorFilter.mode(color, BlendMode.srcIn));
 }
 
 class Brick extends StatefulWidget {

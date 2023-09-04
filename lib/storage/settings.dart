@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../r.dart';
@@ -26,6 +27,7 @@ class _NetworkK {
 class _DeveloperK {
   static const ns = '/developer';
   static const showErrorInfoDialog = '$ns/showErrorInfoDialog';
+  static const isDeveloperMode = '$ns/isDeveloperMode';
 }
 
 late SettingsImpl Settings;
@@ -35,10 +37,12 @@ class SettingsImpl {
 
   const SettingsImpl(this.box);
 
+  // settings
   int get campus => box.get(_K.campus, defaultValue: 1);
 
   set campus(int v) => box.put(_K.campus, v);
 
+  // theme
   Color? get themeColor {
     final value = box.get(_ThemeK.themeColor);
     if (value == null) {
@@ -60,6 +64,7 @@ class SettingsImpl {
 
   set lastWindowSize(value) => box.put(_ThemeK.lastWindowSize, value ?? R.defaultWindowSize);
 
+  // network
   String get proxy => box.get(_NetworkK.proxy, defaultValue: '');
 
   set proxy(String foo) => box.put(_NetworkK.proxy, foo);
@@ -72,7 +77,14 @@ class SettingsImpl {
 
   set isGlobalProxy(bool foo) => box.put(_NetworkK.isGlobalProxy, foo);
 
+  // Developer
   bool? get showErrorInfoDialog => box.get(_DeveloperK.showErrorInfoDialog);
 
   set showErrorInfoDialog(bool? foo) => box.put(_DeveloperK.showErrorInfoDialog, foo);
+
+  bool? get isDeveloperMode => box.get(_DeveloperK.isDeveloperMode);
+
+  set isDeveloperMode(bool? foo) => box.put(_DeveloperK.isDeveloperMode, foo);
+
+  ValueListenable<Box> get $isDeveloperMode => box.listenable(keys: [_DeveloperK.isDeveloperMode]);
 }

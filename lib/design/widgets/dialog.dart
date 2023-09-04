@@ -234,7 +234,7 @@ class DualPickerAB {
 }
 
 extension SnackBarX on BuildContext {
-  void showSnackBar(
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(
     Widget content, {
     Duration? duration,
   }) {
@@ -243,6 +243,6 @@ extension SnackBarX on BuildContext {
       duration: duration ?? const Duration(milliseconds: 4000),
     );
 
-    ScaffoldMessenger.of(this).showSnackBar(snackBar);
+    return ScaffoldMessenger.of(this).showSnackBar(snackBar);
   }
 }

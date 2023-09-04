@@ -226,6 +226,7 @@ library:
   hotPost: 熱門
 settings:
   title: 設定
+  version: 版本
   developerOptions: 開發者選項
   campus:
     title: 你的校區

@@ -18,6 +18,7 @@ import 'package:mimir/hive/init.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/main/settings/page/developer.dart';
 import 'package:mimir/route.dart';
+import 'package:mimir/storage/meta.dart';
 import 'package:mimir/storage/settings.dart';
 import 'package:mimir/storage/page/editor.dart';
 import 'package:mimir/util/file.dart';
@@ -25,7 +26,9 @@ import 'package:mimir/util/logger.dart';
 import 'package:mimir/util/validation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:unicons/unicons.dart';
 import 'package:universal_platform/universal_platform.dart';
+import 'package:version/version.dart';
 
 import '../../index.dart';
 import '../i18n.dart';
@@ -47,6 +50,17 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
+    Settings.$isDeveloperMode.addListener(refresh);
+  }
+
+  @override
+  void dispose() {
+    Settings.$isDeveloperMode.removeListener(refresh);
+    super.dispose();
+  }
+
+  void refresh() {
+    setState(() {});
   }
 
   @override
@@ -167,9 +181,12 @@ class _SettingsPageState extends State<SettingsPage> {
     }
     all.add((ctx) => buildLanguageSelector(ctx));
     all.add((_) => const Divider());
-    all.add((_) => buildDeveloper());
+    if (kDebugMode || Settings.isDeveloperMode == true) {
+      all.add((_) => buildDeveloper());
+    }
     all.add((_) => buildClearCache());
     all.add((_) => buildWipeData());
+    all.add((_) => const VersionTile());
     return all;
   }
 
@@ -335,5 +352,40 @@ class _SettingsPageState extends State<SettingsPage> {
       navigator.pop();
     }
     ctx.go("/login");
+  }
+}
+
+class VersionTile extends StatefulWidget {
+  const VersionTile({super.key});
+
+  @override
+  State<VersionTile> createState() => _VersionTileState();
+}
+
+class _VersionTileState extends State<VersionTile> {
+  int clickCount = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    final version = Init.currentVersion;
+    return ListTile(
+      leading: switch (version.platform) {
+        "macOS" => const Icon(UniconsLine.apple),
+        "iOS" => const Icon(UniconsLine.apple),
+        "Android" => const Icon(Icons.android),
+        "Linux" => const Icon(UniconsLine.linux),
+        "Windows" => const Icon(UniconsLine.windows),
+        _ => const Icon(Icons.device_unknown_outlined),
+      },
+      title: i18n.version.text(),
+      onTap: () {
+        clickCount++;
+        if (clickCount >= 10) {
+          Settings.isDeveloperMode = true;
+          context.showSnackBar(Text("Developer mode is on."));
+        }
+      },
+      subtitle: "${version.platform} ${version.full?.toString() ?? i18n.unknown}".text(),
+    );
   }
 }

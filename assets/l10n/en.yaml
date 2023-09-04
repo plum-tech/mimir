@@ -230,6 +230,7 @@ library:
   hotPost: HOT
 settings:
   title: Settings
+  version: Version
   developerOptions: Developer Options
   campus:
     title: Your Campus
