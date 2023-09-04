@@ -68,7 +68,7 @@ class HomepageFactory {
           title: MiniApp.yellowPages.l10nName(),
           subtitle: MiniApp.yellowPages.l10nDesc(),
         ),
-    MiniApp.separator: (context) => Container(),
+    MiniApp.separator: (context) => const SizedBox(),
     MiniApp.elecBill: (context) => ElectricityBillBrick(
           route: "/app/elecBill",
           icon: SvgAssetIcon('assets/home/icon_electricity.svg'),

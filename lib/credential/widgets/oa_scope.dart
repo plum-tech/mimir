@@ -21,12 +21,12 @@ class _OaAuthManagerState extends State<OaAuthManager> {
   @override
   void initState() {
     super.initState();
-    CredentialInit.storage.onAnyChanged.addListener(_anyChange);
+    CredentialInit.storage.onOaChanged.addListener(_anyChange);
   }
 
   @override
   void dispose() {
-    CredentialInit.storage.onAnyChanged.removeListener(_anyChange);
+    CredentialInit.storage.onOaChanged.removeListener(_anyChange);
     super.dispose();
   }
 
@@ -47,7 +47,7 @@ class _OaAuthManagerState extends State<OaAuthManager> {
 }
 
 class OaAuth extends InheritedWidget {
-  final Credential? credential;
+  final OaCredential? credential;
   final DateTime? lastAuthTime;
   final LoginStatus loginStatus;
 
@@ -72,7 +72,7 @@ class OaAuth extends InheritedWidget {
         loginStatus != oldWidget.loginStatus;
   }
 
-  setOaCredential(Credential? newV) {
+  setOaCredential(OaCredential? newV) {
     if (CredentialInit.storage.oaCredential != newV) {
       CredentialInit.storage.oaCredential = newV;
       if (newV != null) {

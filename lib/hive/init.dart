@@ -13,6 +13,7 @@ class HiveBoxInit {
   static late Box<dynamic> examResultCache;
   static late Box<dynamic> oaAnnounceCache;
   static late Box<dynamic> applicationCache;
+  static late Box<dynamic> eduEmail;
   static late Box<dynamic> settings;
   static late Box<dynamic> meta;
   static late Box<dynamic> cookies;
@@ -30,6 +31,7 @@ class HiveBoxInit {
       librarySearchHistory = await Hive.openBox('library-search-history'),
       cookies = await Hive.openBox('cookies'),
       timetable = await Hive.openBox('timetable'),
+      eduEmail = await Hive.openBox('eduEmail'),
       ...cacheBoxes = [
         examArrCache = await Hive.openBox('exam-arr-Cache'),
         examResultCache = await Hive.openBox('exam-result-cache'),

@@ -116,7 +116,7 @@ class _MimirWebViewPageState extends State<MimirWebViewPage> {
       // TODO: Better
       context.pop();
       guardLaunchUrlString(context, widget.initialUrl);
-      return Container();
+      return const SizedBox();
     }
     final actions = <Widget>[
       if (widget.showSharedButton)

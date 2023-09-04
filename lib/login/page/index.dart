@@ -2,6 +2,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/credential/entity/email.dart';
+import 'package:mimir/credential/init.dart';
 import 'package:mimir/credential/symbol.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/design/widgets/placeholder.dart';
@@ -50,12 +52,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   /// 用户点击登录按钮后
-  Future<void> onLogin(BuildContext ctx) async {
+  Future<void> onLogin() async {
     bool formValid = (_formKey.currentState as FormState).validate();
     final account = $account.text;
     final password = $password.text;
     if (!formValid || account.isEmpty || password.isEmpty) {
-      await ctx.showTip(
+      await context.showTip(
         title: i18n.formatError,
         desc: i18n.validateInputAccountPwdRequest,
         ok: i18n.close,
@@ -70,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
     if (connectionType == ConnectivityResult.none) {
       if (!mounted) return;
       setState(() => isLoggingIn = false);
-      await ctx.showTip(
+      await context.showTip(
         title: i18n.network.error,
         desc: i18n.network.noAccessTip,
         ok: i18n.close,
@@ -80,18 +82,24 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     try {
-      final credential = Credential(account, password);
-      await LoginInit.ssoSession.loginActive(credential);
+      final oaCredential = OaCredential(account: account, password: password);
+      await LoginInit.ssoSession.loginActive(oaCredential);
       final personName = await LoginInit.authServerService.getPersonName();
       if (!mounted) return;
       final auth = context.auth;
-      auth.setOaCredential(credential);
+      auth.setOaCredential(oaCredential);
       auth.setLoginStatus(LoginStatus.validated);
+      // Edu email has the same credential as OA by default.
+      // So assume this can work at first time.
+      CredentialInit.storage.eduEmailCredential ??= EmailCredential(
+        address: R.formatEduEmail(username: oaCredential.account),
+        password: oaCredential.password,
+      );
       context.go("/");
       setState(() => isLoggingIn = false);
     } on CredentialsInvalidException catch (e) {
       if (!mounted) return;
-      await ctx.showTip(
+      await context.showTip(
         title: i18n.failedWarn,
         desc: e.msg,
         ok: i18n.close,
@@ -101,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
       debugPrint(e.toString());
       debugPrintStack(stackTrace: stacktrace);
       if (!mounted) return;
-      await ctx.showTip(
+      await context.showTip(
         title: i18n.failedWarn,
         desc: i18n.accountOrPwdIncorrectTip,
         ok: i18n.close,
@@ -114,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Widget buildLoginForm(BuildContext ctx) {
+  Widget buildLoginForm() {
     return Form(
       autovalidateMode: AutovalidateMode.always,
       key: _formKey,
@@ -147,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
             obscureText: !isPasswordClear,
             onFieldSubmitted: (inputted) {
               if (!isLoggingIn) {
-                onLogin(ctx);
+                onLogin();
               }
             },
             decoration: InputDecoration(
@@ -169,34 +177,30 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget buildLoginButton(BuildContext ctx) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        $account >>
-            (ctx, account) => ElevatedButton(
-                  // Online
-                  onPressed: !isLoggingIn && account.text.isNotEmpty
-                      ? () {
-                          // un-focus the text field.
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          onLogin(ctx);
-                        }
-                      : null,
-                  child: isLoggingIn ? const LoadingPlaceholder.drop() : i18n.loginBtn.text().padAll(5),
-                ),
-        if (!widget.isGuarded)
-          ElevatedButton(
-            // Offline
-            onPressed: () {
-              context.auth.setLoginStatus(LoginStatus.offline);
-              context.go("/");
-            },
-            child: i18n.offlineModeBtn.text().padAll(5),
-          ),
-      ],
-    );
+  Widget buildLoginButton() {
+    return [
+      $account >>
+          (ctx, account) => ElevatedButton(
+                // Online
+                onPressed: !isLoggingIn && account.text.isNotEmpty
+                    ? () {
+                        // un-focus the text field.
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        onLogin();
+                      }
+                    : null,
+                child: isLoggingIn ? const LoadingPlaceholder.drop() : i18n.loginBtn.text().padAll(5),
+              ),
+      if (!widget.isGuarded)
+        ElevatedButton(
+          // Offline
+          onPressed: () {
+            context.auth.setLoginStatus(LoginStatus.offline);
+            context.go("/");
+          },
+          child: i18n.offlineModeBtn.text().padAll(5),
+        ),
+    ].row(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceAround);
   }
 
   @override
@@ -226,14 +230,13 @@ class _LoginPageState extends State<LoginPage> {
       widget.isGuarded ? buildOfflineIcon() : buildTitle(),
       Padding(padding: EdgeInsets.only(top: 40.h)),
       // Form field: username and password.
-      buildLoginForm(context),
+      buildLoginForm(),
       SizedBox(height: 10.h),
-      // Login button.
-      buildLoginButton(context),
+      buildLoginButton(),
     ]
         .column(mas: MainAxisSize.min)
         .scrolled(physics: const NeverScrollableScrollPhysics())
-        .padH(50.w)
+        .padH(25.h)
         .center()
         .safeArea();
   }
@@ -260,18 +263,20 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
+const forgotLoginPasswordUrl =
+    "https://authserver.sit.edu.cn/authserver/getBackPasswordMainPage.do?service=https%3A%2F%2Fmyportal.sit.edu.cn%3A443%2F";
+
 class ForgotPasswordButton extends StatelessWidget {
   const ForgotPasswordButton({super.key});
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      child: Text(
-        i18n.forgotPwdBtn,
+      child: i18n.forgotPwdBtn.text(
         style: const TextStyle(color: Colors.grey),
       ),
       onPressed: () {
-        guardLaunchUrlString(context, R.forgotLoginPwdUrl);
+        guardLaunchUrlString(context, forgotLoginPasswordUrl);
       },
     );
   }

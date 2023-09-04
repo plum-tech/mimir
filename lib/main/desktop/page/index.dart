@@ -92,7 +92,7 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Future<void> _doLogin(BuildContext context, Credential oaCredential) async {
+  Future<void> _doLogin(BuildContext context, OaCredential oaCredential) async {
     await HomeInit.ssoSession.loginPassive(oaCredential);
   }
 

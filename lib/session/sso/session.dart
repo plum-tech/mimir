@@ -40,7 +40,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
   bool isOnline = false;
 
   // If login successful, credential is non-null.
-  Credential? _credential;
+  OaCredential? _credential;
 
   /// Session错误拦截器
   SsoSessionErrorCallback? onError;
@@ -110,13 +110,13 @@ class SsoSession with DioDownloaderMixin implements ISession {
     });
   }
 
-  Future<Response?> loginPassive(Credential credential) async {
+  Future<Response?> loginPassive(OaCredential credential) async {
     return await loginLock.synchronized(() async {
       return await _loginPassive(credential);
     });
   }
 
-  Future<void> loginActive(Credential credential) async {
+  Future<void> loginActive(OaCredential credential) async {
     return await loginLock.synchronized(() async {
       return await _loginActive(credential);
     });
@@ -192,12 +192,12 @@ class SsoSession with DioDownloaderMixin implements ISession {
   }
 
   /// 惰性登录，只有在第一次请求跳转到登录页时才开始尝试真正的登录
-  void lazyLogin(Credential credential) {
+  void lazyLogin(OaCredential credential) {
     _credential = credential;
   }
 
   /// 带异常的登录, 但不处理验证码识别错误问题.
-  Future<Response> _login(Credential credential) async {
+  Future<Response> _login(OaCredential credential) async {
     Log.info('尝试登录：${credential.account}');
     Log.debug('当前登录UA: ${dio.options.headers['User-Agent']}');
     // 在 OA 登录时, 服务端会记录同一 cookie 用户登录次数和输入错误次数,
@@ -227,7 +227,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
   }
 
   /// Return null when failed to login but there is no exception raised.
-  Future<Response?> _loginPassive(Credential credential) async {
+  Future<Response?> _loginPassive(OaCredential credential) async {
     try {
       return await _login(credential);
     } on CredentialsInvalidException catch (e) {
@@ -257,7 +257,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
 
   /// Use cases:
   /// - User try to log in actively on a login page.
-  Future<void> _loginActive(Credential credential) async {
+  Future<void> _loginActive(OaCredential credential) async {
     try {
       await _login(credential);
     } on CredentialsInvalidException catch (e) {
@@ -271,7 +271,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
   }
 
   /// 登录流程
-  Future<Response> _postLoginProcess(Credential credential) async {
+  Future<Response> _postLoginProcess(OaCredential credential) async {
     debug(m) => Log.debug(m);
 
     /// 提取认证页面中的加密盐

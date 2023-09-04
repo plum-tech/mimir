@@ -74,7 +74,7 @@ class _CredentialPageState extends State<CredentialPage> {
     );
   }
 
-  Widget buildAccount(Credential credential) {
+  Widget buildAccount(OaCredential credential) {
     return ListTile(
       title: CredentialI18n.instance.oaAccount.text(),
       subtitle: credential.account.text(),
@@ -88,7 +88,7 @@ class _CredentialPageState extends State<CredentialPage> {
     );
   }
 
-  Widget buildPassword(Credential credential) {
+  Widget buildPassword(OaCredential credential) {
     return AnimatedSize(
       duration: const Duration(milliseconds: 100),
       child: ListTile(
@@ -105,7 +105,7 @@ class _CredentialPageState extends State<CredentialPage> {
     );
   }
 
-  Widget buildChangeSavedPassword(Credential origin) {
+  Widget buildChangeSavedPassword(OaCredential origin) {
     return ListTile(
       title: CredentialI18n.instance.changeSavedOaPwd.text(),
       subtitle: CredentialI18n.instance.changeSavedOaPwdDesc.text(),

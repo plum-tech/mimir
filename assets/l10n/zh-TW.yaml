@@ -117,6 +117,10 @@ eduEmail:
   noSubject: 無主題
   pluralSenderTailing: 等
   text: 正文
+  loginBtn: 登入
+  addressHint: 學號/工號
+  failedWarn: 登入失敗
+  forgotPwdBtn: 忘記密碼?
 examResult:
   noResult: 暫無考試結果。
   lessonNotEvaluated: 需評教

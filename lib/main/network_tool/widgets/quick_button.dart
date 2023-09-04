@@ -4,6 +4,8 @@ import 'package:rettulf/rettulf.dart';
 
 import '../using.dart';
 
+const easyConnectDownloadUrl = "https://vpn1.sit.edu.cn/com/installClient.html";
+
 class QuickButtons extends StatefulWidget {
   const QuickButtons({super.key});
 
@@ -35,7 +37,7 @@ class _QuickButtonsState extends State<QuickButtons> {
                   highlight: true);
               if (confirm == true) {
                 if (!mounted) return;
-                await guardLaunchUrlString(context, R.easyConnectDownloadUrl);
+                await guardLaunchUrlString(context, easyConnectDownloadUrl);
               }
             }
           }),

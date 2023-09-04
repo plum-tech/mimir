@@ -6,7 +6,8 @@ part of 'holding.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_CirculateType _$CirculateTypeFromJson(Map<String, dynamic> json) => _CirculateType(
+_CirculateType _$CirculateTypeFromJson(Map<String, dynamic> json) =>
+    _CirculateType(
       json['cirtype'] as String,
       json['libcode'] as String,
       json['name'] as String,
@@ -15,7 +16,8 @@ _CirculateType _$CirculateTypeFromJson(Map<String, dynamic> json) => _CirculateT
       json['isPreviService'] as int,
     );
 
-Map<String, dynamic> _$CirculateTypeToJson(_CirculateType instance) => <String, dynamic>{
+Map<String, dynamic> _$CirculateTypeToJson(_CirculateType instance) =>
+    <String, dynamic>{
       'cirtype': instance.circulateType,
       'libcode': instance.libraryCode,
       'name': instance.name,
@@ -29,7 +31,8 @@ _HoldState _$HoldStateFromJson(Map<String, dynamic> json) => _HoldState(
       json['stateName'] as String,
     );
 
-Map<String, dynamic> _$HoldStateToJson(_HoldState instance) => <String, dynamic>{
+Map<String, dynamic> _$HoldStateToJson(_HoldState instance) =>
+    <String, dynamic>{
       'stateType': instance.stateType,
       'stateName': instance.stateName,
     };
@@ -51,7 +54,8 @@ _HoldingItem _$HoldingItemFromJson(Map<String, dynamic> json) => _HoldingItem(
       (json['totalPrice'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$HoldingItemToJson(_HoldingItem instance) => <String, dynamic>{
+Map<String, dynamic> _$HoldingItemToJson(_HoldingItem instance) =>
+    <String, dynamic>{
       'recno': instance.bookRecordId,
       'bookrecno': instance.bookId,
       'state': instance.stateType,
@@ -68,12 +72,16 @@ Map<String, dynamic> _$HoldingItemToJson(_HoldingItem instance) => <String, dyna
       'totalPrice': instance.totalPrice,
     };
 
-_BookHoldingInfo _$BookHoldingInfoFromJson(Map<String, dynamic> json) => _BookHoldingInfo(
-      (json['holdingList'] as List<dynamic>).map((e) => _HoldingItem.fromJson(e as Map<String, dynamic>)).toList(),
+_BookHoldingInfo _$BookHoldingInfoFromJson(Map<String, dynamic> json) =>
+    _BookHoldingInfo(
+      (json['holdingList'] as List<dynamic>)
+          .map((e) => _HoldingItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
       Map<String, String>.from(json['libcodeMap'] as Map),
       Map<String, String>.from(json['localMap'] as Map),
       (json['pBCtypeMap'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, _CirculateType.fromJson(e as Map<String, dynamic>)),
+        (k, e) =>
+            MapEntry(k, _CirculateType.fromJson(e as Map<String, dynamic>)),
       ),
       (json['holdStateMap'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k, _HoldState.fromJson(e as Map<String, dynamic>)),
@@ -82,7 +90,8 @@ _BookHoldingInfo _$BookHoldingInfoFromJson(Map<String, dynamic> json) => _BookHo
       Map<String, String>.from(json['barcodeLocationUrlMap'] as Map),
     );
 
-Map<String, dynamic> _$BookHoldingInfoToJson(_BookHoldingInfo instance) => <String, dynamic>{
+Map<String, dynamic> _$BookHoldingInfoToJson(_BookHoldingInfo instance) =>
+    <String, dynamic>{
       'holdingList': instance.holdingList,
       'libcodeMap': instance.libraryCodeMap,
       'localMap': instance.locationMap,

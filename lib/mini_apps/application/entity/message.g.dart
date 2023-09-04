@@ -41,7 +41,9 @@ class ApplicationMsgCountAdapter extends TypeAdapter<ApplicationMsgCount> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ApplicationMsgCountAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ApplicationMsgCountAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 class ApplicationMsgAdapter extends TypeAdapter<ApplicationMsg> {
@@ -85,7 +87,9 @@ class ApplicationMsgAdapter extends TypeAdapter<ApplicationMsg> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ApplicationMsgAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ApplicationMsgAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 class ApplicationMsgPageAdapter extends TypeAdapter<ApplicationMsgPage> {
@@ -126,7 +130,9 @@ class ApplicationMsgPageAdapter extends TypeAdapter<ApplicationMsgPage> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ApplicationMsgPageAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ApplicationMsgPageAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 class ApplicationMessageTypeAdapter extends TypeAdapter<MessageType> {
@@ -168,26 +174,32 @@ class ApplicationMessageTypeAdapter extends TypeAdapter<MessageType> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ApplicationMessageTypeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ApplicationMessageTypeAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ApplicationMsgCount _$ApplicationMsgCountFromJson(Map<String, dynamic> json) => ApplicationMsgCount(
+ApplicationMsgCount _$ApplicationMsgCountFromJson(Map<String, dynamic> json) =>
+    ApplicationMsgCount(
       json['myFlow_complete_count'] as int,
       json['myFlow_runing_count'] as int,
       json['myFlow_todo_count'] as int,
     );
 
-Map<String, dynamic> _$ApplicationMsgCountToJson(ApplicationMsgCount instance) => <String, dynamic>{
+Map<String, dynamic> _$ApplicationMsgCountToJson(
+        ApplicationMsgCount instance) =>
+    <String, dynamic>{
       'myFlow_complete_count': instance.completed,
       'myFlow_runing_count': instance.inProgress,
       'myFlow_todo_count': instance.inDraft,
     };
 
-ApplicationMsg _$ApplicationMsgFromJson(Map<String, dynamic> json) => ApplicationMsg(
+ApplicationMsg _$ApplicationMsgFromJson(Map<String, dynamic> json) =>
+    ApplicationMsg(
       json['WorkID'] as int,
       json['FK_Flow'] as String,
       json['FlowName'] as String,
@@ -195,7 +207,8 @@ ApplicationMsg _$ApplicationMsgFromJson(Map<String, dynamic> json) => Applicatio
       json['FlowNote'] as String,
     );
 
-Map<String, dynamic> _$ApplicationMsgToJson(ApplicationMsg instance) => <String, dynamic>{
+Map<String, dynamic> _$ApplicationMsgToJson(ApplicationMsg instance) =>
+    <String, dynamic>{
       'WorkID': instance.flowId,
       'FK_Flow': instance.functionId,
       'FlowName': instance.name,

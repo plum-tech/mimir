@@ -51,9 +51,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
     final oaCredential = context.auth.credential;
     _passwordController.text = oaCredential?.password ?? '';
+    super.didChangeDependencies();
   }
 
   @override
@@ -227,7 +227,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget buildCredential(Credential credential) {
+  Widget buildCredential(OaCredential credential) {
     return ListTile(
       title: CredentialI18n.instance.oaAccount.text(),
       subtitle: credential.account.text(),

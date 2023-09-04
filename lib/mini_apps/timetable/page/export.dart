@@ -179,7 +179,7 @@ Future<int?> showAlertDialog(
   if (actionTextList == null && actionWidgetList == null) {
     actionWidgetList = [];
   }
-  Widget contentWidget = Container();
+  Widget contentWidget = const SizedBox();
 
   if (content is List<Widget>) {
     contentWidget = Column(

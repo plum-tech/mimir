@@ -110,7 +110,9 @@ class Init {
       searchHistoryBox: HiveBoxInit.librarySearchHistory,
     );
 
-    await EduEmailInit.init();
+    await EduEmailInit.init(
+      box: HiveBoxInit.eduEmail,
+    );
 
     ApplicationInit.init(
       dio: Global.dio,

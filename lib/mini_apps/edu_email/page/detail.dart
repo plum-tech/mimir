@@ -5,6 +5,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../using.dart';
 
+// TODO: Better UI
 class DetailPage extends StatelessWidget {
   final MimeMessage message;
 

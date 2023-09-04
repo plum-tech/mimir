@@ -73,7 +73,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: "/app/eduEmail",
-      builder: (ctx, state) => const MailPage(),
+      builder: (ctx, state) => const EduEmailPage(),
     ),
     GoRoute(
       path: "/app/elecBill",

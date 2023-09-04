@@ -2,12 +2,12 @@ import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
 
 import '../using.dart';
-import 'detail.dart';
+import '../page/detail.dart';
 
-class MailItem extends StatelessWidget {
+class EmailItem extends StatelessWidget {
   final MimeMessage _message;
 
-  const MailItem(this._message, {Key? key}) : super(key: key);
+  const EmailItem(this._message, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

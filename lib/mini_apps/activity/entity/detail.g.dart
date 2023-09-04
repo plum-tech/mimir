@@ -71,5 +71,7 @@ class ActivityDetailAdapter extends TypeAdapter<ActivityDetail> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ActivityDetailAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ActivityDetailAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

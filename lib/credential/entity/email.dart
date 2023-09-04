@@ -1,36 +1,36 @@
 import 'package:mimir/hive/type_id.dart';
 
-part 'credential.g.dart';
+part 'email.g.dart';
 
-@HiveType(typeId: HiveTypeId.credential)
-class OaCredential {
+@HiveType(typeId: HiveTypeId.emailCredential)
+class EmailCredential {
   @HiveField(0)
-  final String account;
+  final String address;
   @HiveField(1)
   final String password;
 
-  OaCredential({
-    required this.account,
+  EmailCredential({
+    required this.address,
     required this.password,
   });
 
   @override
-  String toString() => 'account:"$account", password:"$password"';
+  String toString() => 'address:"$address", password:"$password"';
 
-  OaCredential copyWith({
-    String? account,
+  EmailCredential copyWith({
+    String? address,
     String? password,
   }) =>
-      OaCredential(
-        account: account ?? this.account,
+      EmailCredential(
+        address: address ?? this.address,
         password: password ?? this.password,
       );
 
   @override
   bool operator ==(Object other) {
-    return other is OaCredential &&
+    return other is EmailCredential &&
         runtimeType == other.runtimeType &&
-        account == other.account &&
+        address == other.address &&
         password == other.password;
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:mimir/hive/using.dart';
 
 import '../entity/credential.dart';
+import '../entity/email.dart';
 import '../entity/login_status.dart';
 
 class _OaKey {
@@ -22,9 +23,9 @@ class CredentialStorage {
   CredentialStorage(this.box);
 
   // OA
-  Credential? get oaCredential => box.get(_OaKey.credential);
+  OaCredential? get oaCredential => box.get(_OaKey.credential);
 
-  set oaCredential(Credential? newV) => box.put(_OaKey.credential, newV);
+  set oaCredential(OaCredential? newV) => box.put(_OaKey.credential, newV);
 
   DateTime? get oaLastAuthTime => box.get(_OaKey.lastAuthTime);
 
@@ -34,10 +35,18 @@ class CredentialStorage {
 
   set oaLoginStatus(LoginStatus? newV) => box.put(_OaKey.loginStatus, newV);
 
-  ValueListenable<Box<dynamic>> get onAnyChanged => box.listenable();
+  ValueListenable<Box<dynamic>> get onOaChanged => box.listenable(keys: [
+        _OaKey.credential,
+        _OaKey.lastAuthTime,
+        _OaKey.loginStatus,
+      ]);
 
   // Edu Email
-  Credential? get eduEmailCredential => box.get(_EmailKey.credential);
+  EmailCredential? get eduEmailCredential => box.get(_EmailKey.credential);
 
-  set eduEmailCredential(Credential? newV) => box.put(_EmailKey.credential, newV);
+  set eduEmailCredential(EmailCredential? newV) => box.put(_EmailKey.credential, newV);
+
+  ValueListenable<Box<dynamic>> get onEduEmailChanged => box.listenable(keys: [
+        _EmailKey.credential,
+      ]);
 }

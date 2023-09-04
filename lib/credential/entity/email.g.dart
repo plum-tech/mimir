@@ -1,34 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'attachment.dart';
+part of 'email.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class AnnounceAttachmentAdapter extends TypeAdapter<AnnounceAttachment> {
+class EmailCredentialAdapter extends TypeAdapter<EmailCredential> {
   @override
-  final int typeId = 51;
+  final int typeId = 12;
 
   @override
-  AnnounceAttachment read(BinaryReader reader) {
+  EmailCredential read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return AnnounceAttachment()
-      ..name = fields[0] as String
-      ..url = fields[1] as String;
+    return EmailCredential(
+      address: fields[0] as String,
+      password: fields[1] as String,
+    );
   }
 
   @override
-  void write(BinaryWriter writer, AnnounceAttachment obj) {
+  void write(BinaryWriter writer, EmailCredential obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.name)
+      ..write(obj.address)
       ..writeByte(1)
-      ..write(obj.url);
+      ..write(obj.password);
   }
 
   @override
@@ -37,7 +38,7 @@ class AnnounceAttachmentAdapter extends TypeAdapter<AnnounceAttachment> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AnnounceAttachmentAdapter &&
+      other is EmailCredentialAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

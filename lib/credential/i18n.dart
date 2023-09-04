@@ -35,8 +35,6 @@ class CredentialI18n with CommonI18nMixin {
 
   String get formatError => "$ns.formatError".tr();
 
-  String get validateInputAccountPwdRequest => "$ns.validateInputAccountPwdRequest".tr();
-
   String get changeSavedOaPwd => "$ns.changeSavedOaPwd".tr();
 
   String get changeSavedOaPwdDesc => "$ns.changeSavedOaPwdDesc".tr();

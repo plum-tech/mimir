@@ -57,7 +57,7 @@ class SimpleTextSearchDelegate<T> extends SearchDelegate {
     final dest = realQuery;
     if (!onlyUseSuggestion || suggestionList.contains(dest)) {
       close(context, dest);
-      return Container();
+      return const SizedBox();
     } else {
       return LeavingBlank(icon: Icons.search_off_rounded, desc: "Please select one.");
     }

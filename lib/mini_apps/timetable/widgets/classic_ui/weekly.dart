@@ -73,7 +73,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
 
     return [
       [
-        Container().align(at: Alignment.center).flexible(flex: 47),
+        const SizedBox().align(at: Alignment.center).flexible(flex: 47),
         widget.$currentPos >>
             (ctx, cur) => TimetableHeader(
                   selectedDay: 0,
@@ -176,8 +176,8 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
 
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
     _cached = null;
+    super.didChangeDependencies();
   }
 
   @override

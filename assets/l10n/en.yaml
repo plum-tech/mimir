@@ -121,6 +121,10 @@ eduEmail:
   noSubject: No Subject
   pluralSenderTailing: ...
   text: Text
+  loginBtn: Login
+  addressHint: Student ID/Work number
+  failedWarn: Login Failed
+  forgotPwdBtn: Forgot password?
 examResult:
   noResult: No result of examination
   lessonNotEvaluated: Not-eval
@@ -208,7 +212,7 @@ networkTool:
 login:
   title: Welcome!
   validateInputAccountPwdRequest: Please check the account and password you entered.
-  credentialsValidatedTip: Account and password are correct
+  credentialsValidatedTip: Account and password are correct.
   accountOrPwdIncorrectTip: The account or password is incorrect. Please check them and try again.
   accountHint: Student ID/Work number
   forgotPwdBtn: Forgot password?

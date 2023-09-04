@@ -50,7 +50,9 @@ class ScScoreSummaryAdapter extends TypeAdapter<ScScoreSummary> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ScScoreSummaryAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ScScoreSummaryAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 class ScScoreItemAdapter extends TypeAdapter<ScScoreItem> {
@@ -88,7 +90,9 @@ class ScScoreItemAdapter extends TypeAdapter<ScScoreItem> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ScScoreItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ScScoreItemAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 class ScActivityApplicationAdapter extends TypeAdapter<ScActivityApplication> {
@@ -132,5 +136,7 @@ class ScActivityApplicationAdapter extends TypeAdapter<ScActivityApplication> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ScActivityApplicationAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ScActivityApplicationAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

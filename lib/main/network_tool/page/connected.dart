@@ -82,7 +82,7 @@ class _ConnectedInfoPageState extends State<ConnectedInfoPage> {
       );
     }
     final tip = _getTipByConnectionType(connectionType);
-    if (tip == null) return Container().padH(10);
+    if (tip == null) return const SizedBox(height: 10);
     return [
       tip.text(textAlign: TextAlign.center, style: style),
       CampusNetworkStatusInfo(status: status),

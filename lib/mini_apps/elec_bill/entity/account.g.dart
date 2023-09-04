@@ -37,7 +37,10 @@ class BalanceAdapter extends TypeAdapter<Balance> {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is BalanceAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      identical(this, other) ||
+      other is BalanceAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 // **************************************************************************

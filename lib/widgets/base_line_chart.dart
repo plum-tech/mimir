@@ -15,7 +15,7 @@ class BaseLineChartWidget extends StatelessWidget {
   ///底部标题栏
   Widget bottomTitle(BuildContext ctx, double value, TitleMeta mate) {
     if ((value * 10).toInt() % 10 == 5) {
-      return Container();
+      return const SizedBox();
     }
 
     return SideTitleWidget(

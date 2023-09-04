@@ -121,6 +121,10 @@ eduEmail:
   noSubject: 无主题
   pluralSenderTailing: 等
   text: 正文
+  loginBtn: 登录
+  addressHint: 学号/工号
+  failedWarn: 登录失败
+  forgotPwdBtn: 忘记密码？
 examResult:
   noResult: 暂无考试结果记录
   lessonNotEvaluated: 未评教

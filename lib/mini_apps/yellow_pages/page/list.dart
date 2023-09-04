@@ -84,11 +84,11 @@ class _NavigationContactListState extends State<NavigationContactList> {
   Widget buildListView(BuildContext ctx) {
     final selected = _selected;
     if (selected == null) {
-      return Container();
+      return const SizedBox();
     } else {
       final items = group2List[selected];
       if (items == null) {
-        return Container();
+        return const SizedBox();
       }
       return LayoutBuilder(builder: (ctx, constraints) {
         final count = constraints.maxWidth ~/ 300;

@@ -9,6 +9,7 @@ class HiveTypeId {
   // Credential 10-19
   static const credential = 10;
   static const loginStatus = 11;
+  static const emailCredential = 12;
 
   // Electric Bill 20-29
   static const balance = 20;
