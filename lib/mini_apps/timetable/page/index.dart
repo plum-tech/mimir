@@ -16,22 +16,27 @@ class TimetableIndexPage extends StatefulWidget {
 
 class _TimetableIndexPageState extends State<TimetableIndexPage> {
   final storage = TimetableInit.storage;
-
-  SitTimetable? _selected;
+  late SitTimetable? _selected = () {
+    final id = storage.currentTimetableId;
+    return id == null ? null : storage.getSitTimetableBy(id: id);
+  }();
 
   @override
   void initState() {
     super.initState();
-    refresh();
-    eventBus.on<CurrentTimetableChangeEvent>().listen((event) {
-      refresh();
-    });
+    storage.onCurrentTimetableIdChanged.addListener(refresh);
+  }
+
+  @override
+  void dispose() {
+    storage.onCurrentTimetableIdChanged.removeListener(refresh);
+    super.dispose();
   }
 
   void refresh() {
-    if (!mounted) return;
     final currentId = storage.currentTimetableId;
     if (currentId != null) {
+      if (!mounted) return;
       setState(() {
         _selected = storage.getSitTimetableBy(id: currentId);
       });

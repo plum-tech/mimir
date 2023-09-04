@@ -4,12 +4,6 @@ import 'entity/pos.dart';
 
 EventBus eventBus = EventBus();
 
-class CurrentTimetableChangeEvent {
-  String? selected;
-
-  CurrentTimetableChangeEvent({this.selected});
-}
-
 class TimetableStyleChangeEvent {}
 
 class JumpToPosEvent {

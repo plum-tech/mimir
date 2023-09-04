@@ -1,9 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+import 'package:mimir/hive/using.dart';
 import 'package:mimir/mini_apps/symbol.dart';
 
 import '../entity/course.dart';
 import '../entity/entity.dart';
+import '../events.dart';
 import '../using.dart';
 
 class _K {
@@ -43,6 +46,8 @@ class TimetableStorage {
   String? get currentTimetableId => box.get(_K.currentTimetableId);
 
   set currentTimetableId(String? newValue) => box.put(_K.currentTimetableId, newValue);
+
+  ValueListenable<Box<dynamic>> get onCurrentTimetableIdChanged => box.listenable(keys: [_K.currentTimetableId]);
 
   set useOldSchoolColors(bool? newV) => box.put(_K.useOldSchoolPalette, newV);
 

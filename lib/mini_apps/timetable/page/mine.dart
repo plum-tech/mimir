@@ -12,7 +12,7 @@ import '../widgets/meta_editor.dart';
 import '../widgets/picker.dart';
 
 class MyTimetableListPage extends StatefulWidget {
-  const MyTimetableListPage({super.key});
+   const MyTimetableListPage({super.key});
 
   @override
   State<MyTimetableListPage> createState() => _MyTimetableListPageState();
@@ -23,8 +23,8 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
 
   Future<void> goImport() async {
     final timetable = await context.push<SitTimetable>("/app/timetable/import");
-    if (timetable != null && storage.currentTimetableId == null) {
-      storage.currentTimetableId = timetable.id;
+    if(timetable != null){
+      storage.currentTimetableId ??= timetable.id;
       if (!mounted) return;
       setState(() {});
     }
@@ -134,7 +134,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             leading: const Icon(Icons.edit),
             title: i18n.mine.edit.text(),
             onTap: () async {
-              context.pop();
+              ctx.pop();
               final newMeta = await ctx.showSheet<TimetableMeta>(
                 (ctx) => MetaEditor(meta: timetable.meta).padOnly(b: MediaQuery.of(ctx).viewInsets.bottom),
               );
@@ -153,7 +153,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
               leading: const Icon(Icons.check),
               title: i18n.mine.setToDefault.text(),
               onTap: () async {
-                context.pop();
+                ctx.pop();
                 storage.currentTimetableId = timetable.id;
                 setState(() {});
               },
@@ -164,8 +164,8 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             leading: const Icon(Icons.timer_outlined),
             title: i18n.edit.setStartDate.text(),
             onTap: () async {
-              context.pop();
-              final date = await pickDate(context, initial: timetable.startDate);
+              ctx.pop();
+              final date = await pickDate(ctx, initial: timetable.startDate);
               if (date != null) {
                 timetable.startDate = date;
                 storage.setSitTimetable(timetable, byId: timetable.id);
@@ -180,8 +180,8 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             leading: const Icon(Icons.preview_outlined),
             title: i18n.mine.preview.text(),
             onTap: () async {
-              context.pop();
-              context.push("/app/timetable/preview/${timetable.id}", extra: timetable);
+              ctx.pop();
+              ctx.push("/app/timetable/preview/${timetable.id}", extra: timetable);
             },
           ),
         ),
@@ -193,7 +193,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             ),
             title: i18n.mine.delete.text(),
             onTap: () async {
-              context.pop();
+              ctx.pop();
               final confirm = await ctx.showRequest(
                 title: i18n.mine.deleteRequest,
                 desc: i18n.mine.deleteRequestDesc,
@@ -205,8 +205,8 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
                 storage.deleteTimetableOf(timetable.id);
                 if (!mounted) return;
                 if (!storage.hasAnyTimetable) {
-                  // If no timetable exists, go out.
-                  ctx.pop();
+                  // If no timetable exists, go to the homepage.
+                  ctx.go("/");
                 }
                 setState(() {});
               }
