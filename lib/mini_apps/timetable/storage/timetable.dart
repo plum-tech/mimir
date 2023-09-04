@@ -40,8 +40,13 @@ class TimetableStorage {
     return table == null ? null : SitTimetable.fromJson(jsonDecode(table));
   }
 
-  void setSitTimetable(SitTimetable? timetable, {required String byId}) =>
-      box.put(_K.makeTimetableKey(byId), timetable == null ? null : jsonEncode(timetable.toJson()));
+  void setSitTimetable(SitTimetable? timetable, {required String byId}) {
+    if (timetable == null) {
+      box.delete(_K.makeTimetableKey(byId));
+    } else {
+      box.put(_K.makeTimetableKey(byId), jsonEncode(timetable.toJson()));
+    }
+  }
 
   String? get currentTimetableId => box.get(_K.currentTimetableId);
 
@@ -70,6 +75,7 @@ extension TimetableStorageEx on TimetableStorage {
       if (currentTimetableId == id) {
         currentTimetableId = null;
       }
+      setSitTimetable(null, byId: id);
     }
   }
 
