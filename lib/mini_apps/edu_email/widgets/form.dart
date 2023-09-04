@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rettulf/rettulf.dart';
@@ -62,9 +63,10 @@ class _EduEmailCredentialFormState extends State<EduEmailCredentialForm> {
             readOnly: widget.studentId != null,
             autocorrect: false,
             enableSuggestions: false,
-            validator: (account) {
-              if (account == null) return null;
-              return account.isEmpty ? "Email address cannot be empty" : null;
+            validator: (username) {
+              if (username == null) return null;
+              if(EmailValidator.validate(R.formatEduEmail(username: username))) return null;
+              return "invalid email address format";
             },
             decoration: InputDecoration(
               labelText: "Email Address",

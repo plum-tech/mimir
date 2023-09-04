@@ -2,11 +2,14 @@ import 'package:enough_mail/enough_mail.dart';
 
 import "../using.dart";
 
+const _server = "imap.mail.sit.edu.cn";
+const _port = 993;
+
 class MailService {
   final ImapClient _client = ImapClient(isLogEnabled: true, onBadCertificate: (_) => true);
 
   Future<List<Capability>> login(EmailCredential credential) async {
-    await _client.connectToServer('imap.mail.sit.edu.cn', 993, isSecure: true);
+    await _client.connectToServer(_server, _port, isSecure: true);
     return await _client.login(credential.address, credential.password);
   }
 
