@@ -64,10 +64,11 @@ class _MetaEditorState extends State<MetaEditor> {
           Text(i18n.import.timetableInfo, style: ctx.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
           buildDescForm(ctx),
           [
-            $selectedDate >>
-                (ctx, value) => i18n.startDate(ctx.formatYmdNum(value)).text(style: ctx.textTheme.titleLarge),
+            i18n.startWith.text(style: ctx.textTheme.titleLarge),
             ElevatedButton(
-              child: const Icon(Icons.edit),
+              child: $selectedDate >>
+                  (ctx, value) =>
+                      ctx.formatYmdText(value).text(style: TextStyle(fontSize: ctx.textTheme.bodyLarge?.fontSize)),
               onPressed: () async {
                 final date = await pickDate(context, initial: $selectedDate.value);
                 if (date != null) {
@@ -79,10 +80,10 @@ class _MetaEditorState extends State<MetaEditor> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              buildButton(ctx, i18n.cancel, onPressed: () {
+              _buildButton(ctx, i18n.cancel, onPressed: () {
                 ctx.pop();
               }),
-              buildButton(ctx, i18n.save, onPressed: () {
+              _buildButton(ctx, i18n.save, onPressed: () {
                 final meta = widget.meta.copyWith(
                   name: _nameController.text,
                   startDate: $selectedDate.value,
@@ -95,4 +96,13 @@ class _MetaEditorState extends State<MetaEditor> {
       ),
     );
   }
+}
+
+Widget _buildButton(BuildContext ctx, String text, {VoidCallback? onPressed}) {
+  return TextButton(
+    onPressed: onPressed,
+    child: text.text(
+      style: TextStyle(fontSize: ctx.textTheme.titleLarge?.fontSize),
+    ),
+  );
 }

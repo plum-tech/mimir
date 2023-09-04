@@ -232,7 +232,9 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> {
         buildSearchWaySelector(),
         Text('总结果数: $searchResultCount  用时: $useTime  已加载: $currentPage/$totalPage'),
         Expanded(
-          child: firstPageLoaded ? (dataList.isEmpty ? buildNotFound() : buildListView()) : const LoadingPlaceholder.drop(),
+          child: firstPageLoaded
+              ? (dataList.isEmpty ? buildNotFound() : buildListView())
+              : const LoadingPlaceholder.drop(),
         ),
       ],
     );

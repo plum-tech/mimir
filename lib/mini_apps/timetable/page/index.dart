@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../entity/entity.dart';
-import '../events.dart';
 import '../init.dart';
 import '../widgets/style.dart';
 import 'mine.dart';
@@ -16,30 +16,29 @@ class TimetableIndexPage extends StatefulWidget {
 
 class _TimetableIndexPageState extends State<TimetableIndexPage> {
   final storage = TimetableInit.storage;
-  late SitTimetable? _selected = () {
-    final id = storage.currentTimetableId;
-    return id == null ? null : storage.getSitTimetableBy(id: id);
-  }();
+  late SitTimetable? _selected = storage.getSitTimetableById(id: storage.currentTimetableId);
 
   @override
   void initState() {
     super.initState();
-    storage.onCurrentTimetableIdChanged.addListener(refresh);
+    storage.onCurrentTimetableChanged.addListener(refresh);
   }
 
   @override
   void dispose() {
-    storage.onCurrentTimetableIdChanged.removeListener(refresh);
+    storage.onCurrentTimetableChanged.removeListener(refresh);
     super.dispose();
   }
 
   void refresh() {
-    final currentId = storage.currentTimetableId;
-    if (currentId != null) {
-      if (!mounted) return;
-      setState(() {
-        _selected = storage.getSitTimetableBy(id: currentId);
-      });
+    final current = storage.getSitTimetableById(id: storage.currentTimetableId);
+    if (!mounted) return;
+    setState(() {
+      _selected = current;
+    });
+    if (storage.timetableIds.isEmpty) {
+      // if no timetables, go out.
+      context.pop();
     }
   }
 

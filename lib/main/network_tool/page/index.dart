@@ -56,11 +56,7 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
     return Scaffold(
       appBar: AppBar(
         leading: widget.leading,
-        title: [
-          i18n.title.text(),
-          if (!isConnected)
-            const LoadingPlaceholder.drop().padOnly(l: 40.w)
-        ].row(),
+        title: [i18n.title.text(), if (!isConnected) const LoadingPlaceholder.drop().padOnly(l: 40.w)].row(),
       ),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 500),

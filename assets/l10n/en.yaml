@@ -321,7 +321,7 @@ timetable:
     even: even wk
   jump: Jump
   findToday: Find Today
-  startDate: "Start with: {}"
+  startWith: "Start with"
   weekOrderedName: "Week {}"
   freeTip:
     dayTip: It's a free day!

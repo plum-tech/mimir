@@ -21,6 +21,8 @@ extension LocaleToJson on Locale {
 }
 
 abstract class _RegionalFormatter {
+  DateFormat get ymdText;
+
   DateFormat get ymdWeekText;
 
   DateFormat get ymText;
@@ -61,6 +63,8 @@ class Lang {
 
   static DateFormat ymdWeekText(String lang, String? country) => _getFormatterFrom(lang, country).ymdWeekText;
 
+  static DateFormat formatYmdText(String lang, String? country) => _getFormatterFrom(lang, country).ymdText;
+
   static DateFormat ymdNum(String lang, String? country) => _getFormatterFrom(lang, country).ymdNum;
 
   static DateFormat ymText(String lang, String? country) => _getFormatterFrom(lang, country).ymText;
@@ -76,6 +80,8 @@ class Lang {
 
 class _ZhFormatter implements _RegionalFormatter {
   @override
+  DateFormat get ymdText => DateFormat("yyyy年M月d日", "zh_CN");
+  @override
   final ymdWeekText = DateFormat("yyyy年M月d日 EEEE", "zh_CN");
   @override
   final ymText = DateFormat("yyyy年M月", "zh_CN");
@@ -87,6 +93,8 @@ class _ZhFormatter implements _RegionalFormatter {
 
 class _ZhTwFormatter implements _RegionalFormatter {
   @override
+  DateFormat get ymdText => DateFormat("yyyy年M月d日", "zh_TW");
+  @override
   final ymdWeekText = DateFormat("yyyy年M月d日 EEEE", "zh_TW");
   @override
   final ymText = DateFormat("yyyy年M月", "zh_TW");
@@ -97,6 +105,8 @@ class _ZhTwFormatter implements _RegionalFormatter {
 }
 
 class _EnFormatter implements _RegionalFormatter {
+  @override
+  DateFormat get ymdText => DateFormat("MMMM d, yyyy", "en_US");
   @override
   final ymdWeekText = DateFormat("EEEE, MMMM d, yyyy", "en_US");
   @override

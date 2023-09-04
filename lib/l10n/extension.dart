@@ -15,6 +15,12 @@ extension I18nBuildContext on BuildContext {
     return Lang.ymdWeekText(curLocale.languageCode, curLocale.countryCode).format(date);
   }
 
+  ///e.g.: September 21, 2022
+  String formatYmdText(DateTime date) {
+    final curLocale = locale;
+    return Lang.formatYmdText(curLocale.languageCode, curLocale.countryCode).format(date);
+  }
+
   ///e.g.: 9/21/2022
   String formatYmdNum(DateTime date) {
     final curLocale = locale;

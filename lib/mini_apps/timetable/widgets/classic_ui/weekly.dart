@@ -175,6 +175,23 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
   Size? lastSize;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _cached = null;
+  }
+
+  @override
+  void didUpdateWidget(covariant _OneWeekPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.timetable != oldWidget.timetable ||
+        widget.todayPos != oldWidget.todayPos ||
+        widget.weekIndex != oldWidget.weekIndex ||
+        widget.$currentPos != oldWidget.$currentPos) {
+      _cached = null;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = context.mediaQuery.size;
     if (lastSize != size) {

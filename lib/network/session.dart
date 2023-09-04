@@ -1,4 +1,5 @@
 import "package:dio/dio.dart";
+
 enum SessionResType { json, stream, plain, bytes }
 
 class HeaderConstants {

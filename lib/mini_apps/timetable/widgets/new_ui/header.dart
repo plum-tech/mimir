@@ -69,8 +69,7 @@ class _TimetableHeaderState extends State<TimetableHeader> {
       offset: isSelected ? const Offset(0.01, -0.04) : Offset.zero,
       duration: const Duration(milliseconds: 100),
       child: AnimatedContainer(
-        decoration: BoxDecoration(
-            color: bg, borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(10)),
         duration: const Duration(milliseconds: 1000),
         curve: Curves.fastLinearToSlowEaseIn,
         child: buildHeaderText(ctx, day, text),
@@ -82,8 +81,7 @@ class _TimetableHeaderState extends State<TimetableHeader> {
 
   Widget buildHeaderText(BuildContext ctx, int day, Color textColor) {
     final weekdayHeader = i18n.weekdayShort(index: day - 1);
-    final date = convertWeekDayNumberToDate(
-        week: widget.currentWeek, day: day, basedOn: widget.startDate);
+    final date = convertWeekDayNumberToDate(week: widget.currentWeek, day: day, basedOn: widget.startDate);
     final name = '$weekdayHeader\n${date.month}/${date.day}';
 
     return LayoutBuilder(builder: (ctx, box) {
@@ -96,8 +94,7 @@ class _TimetableHeaderState extends State<TimetableHeader> {
         textDirection: TextDirection.ltr,
       );
       painter.layout();
-      final overflow = painter.size.width > box.maxWidth ||
-          painter.size.height > box.maxHeight;
+      final overflow = painter.size.width > box.maxWidth || painter.size.height > box.maxHeight;
       final String realText;
       if (overflow) {
         realText = weekdayHeader[0];

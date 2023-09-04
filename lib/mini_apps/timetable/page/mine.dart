@@ -116,7 +116,16 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         for (final timetable in timetables)
           TimetableEntry(
             timetable: timetable,
-            action: buildActionPopup(timetable, selectedId == timetable.id),
+            moreAction: buildActionPopup(timetable, selectedId == timetable.id),
+            actions: (
+              use: (timetable) {
+                storage.currentTimetableId = timetable.id;
+                setState(() {});
+              },
+              preview: (timetable) {
+                ctx.push("/app/timetable/preview/${timetable.id}", extra: timetable);
+              }
+            ),
           ),
       ],
     );
@@ -139,39 +148,17 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
                 dismissible: false,
               );
               if (newMeta != null) {
-                timetable.meta = newMeta;
-                storage.setSitTimetable(timetable, byId: timetable.id);
+                final newTimetable = timetable.copyWithMeta(newMeta);
+                storage.setSitTimetableById(newTimetable, id: newTimetable.id);
                 if (!mounted) return;
                 setState(() {});
               }
             },
           ),
         ),
-        if (!isSelected)
-          PopupMenuItem(
-            child: ListTile(
-              leading: const Icon(Icons.check),
-              title: i18n.mine.setToDefault.text(),
-              onTap: () async {
-                ctx.pop();
-                storage.currentTimetableId = timetable.id;
-                setState(() {});
-              },
-            ),
-          ),
         PopupMenuItem(
           child: ListTile(
-            leading: const Icon(Icons.preview_outlined),
-            title: i18n.mine.preview.text(),
-            onTap: () async {
-              ctx.pop();
-              ctx.push("/app/timetable/preview/${timetable.id}", extra: timetable);
-            },
-          ),
-        ),
-        PopupMenuItem(
-          child: ListTile(
-            leading: const Icon(Icons.edit, color: Colors.redAccent),
+            leading: const Icon(Icons.delete, color: Colors.redAccent),
             title: i18n.mine.delete.text(style: const TextStyle(color: Colors.redAccent)),
             onTap: () async {
               ctx.pop();
@@ -186,8 +173,8 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
                 storage.deleteTimetableOf(timetable.id);
                 if (!mounted) return;
                 if (!storage.hasAnyTimetable) {
-                  // If no timetable exists, go to the homepage.
-                  ctx.go("/");
+                  // If no timetable exists, go out.
+                  ctx.pop();
                 }
                 setState(() {});
               }
@@ -199,33 +186,56 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   }
 }
 
+typedef TimetableCallback = void Function(SitTimetable tiemtable);
+typedef TimetableActions = ({TimetableCallback use, TimetableCallback preview});
+
 class TimetableEntry extends StatelessWidget {
   final SitTimetable timetable;
-  final Widget? action;
+  final Widget? moreAction;
+  final TimetableActions actions;
 
   const TimetableEntry({
     super.key,
     required this.timetable,
-    required this.action,
+    required this.moreAction,
+    required this.actions,
   });
 
   @override
   Widget build(BuildContext context) {
     final isSelected = TimetableInit.storage.currentTimetableId == timetable.id;
     final year = '${timetable.schoolYear} - ${timetable.schoolYear + 1}';
-    final semester = Semester.values[timetable.semester].localized();
+    final semester = timetable.semester.localized();
     final bodyTextStyle = context.textTheme.bodyLarge;
     return [
       [
-        timetable.name.text(style: context.textTheme.titleMedium).expanded(),
+        timetable.name.text(style: context.textTheme.headlineSmall).expanded(),
         if (isSelected) const Icon(Icons.check, color: Colors.green),
-        if (action != null) action!,
       ].row(maa: MainAxisAlignment.spaceBetween),
-      [
-        year.text(style: bodyTextStyle),
-        semester.text(style: bodyTextStyle),
-      ].row(maa: MainAxisAlignment.spaceEvenly).padV(5),
-      i18n.startDate(context.formatYmdNum(timetable.startDate)).text(style: bodyTextStyle).padFromLTRB(20, 20, 20, 10),
-    ].column().padSymmetric(v: 10, h: 20).scrolled().padAll(4).inCard(elevation: 5);
+      "$year $semester".text(style: context.textTheme.titleMedium),
+      "${i18n.startWith} ${context.formatYmdText(timetable.startDate)}".text(style: bodyTextStyle),
+      OverflowBar(
+        alignment: MainAxisAlignment.spaceBetween,
+        children: [
+          [
+            if (isSelected)
+              FilledButton(onPressed: null, child: "Used".text())
+            else
+              FilledButton(
+                  onPressed: () {
+                    actions.use(timetable);
+                  },
+                  child: "Use".text()),
+            if (!isSelected)
+              OutlinedButton(
+                  onPressed: () {
+                    actions.preview(timetable);
+                  },
+                  child: "Preview".text()),
+          ].wrap(spacing: 4),
+          if (moreAction != null) moreAction!,
+        ],
+      ),
+    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 20).inCard(elevation: isSelected ? 10 : null);
   }
 }

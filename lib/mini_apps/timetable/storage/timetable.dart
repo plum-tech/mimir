@@ -21,8 +21,14 @@ class _K {
   static String makeTimetableKey(String id) => "$timetablesNs/$id";
 }
 
+class CurrentTimetableNotifier with ChangeNotifier {
+  void notifier() => notifyListeners();
+}
+
 class TimetableStorage {
   final Box<dynamic> box;
+
+  final onCurrentTimetableChanged = CurrentTimetableNotifier();
 
   TimetableStorage(this.box);
 
@@ -34,24 +40,29 @@ class TimetableStorage {
 
   set timetableIds(List<String>? newValue) => box.put(_K.timetableIds, newValue);
 
-  SitTimetable? getSitTimetableBy({required String id}) {
+  SitTimetable? getSitTimetableById({required String? id}) {
+    if (id == null) return null;
     final table = box.get(_K.makeTimetableKey(id));
     return table == null ? null : SitTimetable.fromJson(jsonDecode(table));
   }
 
-  void setSitTimetable(SitTimetable? timetable, {required String byId}) {
+  void setSitTimetableById(SitTimetable? timetable, {required String id}) {
     if (timetable == null) {
-      box.delete(_K.makeTimetableKey(byId));
+      box.delete(_K.makeTimetableKey(id));
     } else {
-      box.put(_K.makeTimetableKey(byId), jsonEncode(timetable.toJson()));
+      box.put(_K.makeTimetableKey(id), jsonEncode(timetable.toJson()));
+    }
+    if (id == currentTimetableId) {
+      onCurrentTimetableChanged.notifier();
     }
   }
 
   String? get currentTimetableId => box.get(_K.currentTimetableId);
 
-  set currentTimetableId(String? newValue) => box.put(_K.currentTimetableId, newValue);
-
-  ValueListenable<Box<dynamic>> get onCurrentTimetableIdChanged => box.listenable(keys: [_K.currentTimetableId]);
+  set currentTimetableId(String? newValue) {
+    box.put(_K.currentTimetableId, newValue);
+    onCurrentTimetableChanged.notifier();
+  }
 
   set useOldSchoolColors(bool? newV) => box.put(_K.useOldSchoolPalette, newV);
 
@@ -74,7 +85,7 @@ extension TimetableStorageEx on TimetableStorage {
       if (currentTimetableId == id) {
         currentTimetableId = null;
       }
-      setSitTimetable(null, byId: id);
+      setSitTimetableById(null, id: id);
     }
   }
 
@@ -82,7 +93,7 @@ extension TimetableStorageEx on TimetableStorage {
     final id = timetable.id;
     final ids = timetableIds;
     ids.add(id);
-    setSitTimetable(timetable, byId: id);
+    setSitTimetableById(timetable, id: id);
     timetableIds = ids;
   }
 
@@ -90,7 +101,7 @@ extension TimetableStorageEx on TimetableStorage {
     final ids = timetableIds;
     final res = <SitTimetable>[];
     for (final id in ids) {
-      final timetable = getSitTimetableBy(id: id);
+      final timetable = getSitTimetableById(id: id);
       if (timetable != null) {
         res.add(timetable);
       }

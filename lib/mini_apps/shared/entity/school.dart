@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:hive/hive.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:mimir/hive/type_id.dart';
 import 'package:mimir/l10n/common.dart';
 

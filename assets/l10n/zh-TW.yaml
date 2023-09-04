@@ -317,7 +317,7 @@ timetable:
     even: 雙週
   jump: 前往
   findToday: 尋找今天
-  startDate: "起始於: {}"
+  startWith: "起始於"
   weekOrderedName: "第 {} 周"
   freeTip:
     dayTip: 好喔，這天沒課！

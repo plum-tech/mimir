@@ -144,7 +144,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     }
     final meta = TimetableMeta(
       name: defaultName,
-      semester: semester.index,
+      semester: semester,
       startDate: defaultStartDate,
       schoolYear: year,
     );
@@ -153,9 +153,9 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       dismissible: false,
     );
     if (newMeta != null) {
-      timetable.meta = newMeta;
-      storage.addTimetable(timetable);
-      return timetable;
+      final newTimetable = timetable.copyWithMeta(newMeta);
+      storage.addTimetable(newTimetable);
+      return newTimetable;
     }
     return null;
   }

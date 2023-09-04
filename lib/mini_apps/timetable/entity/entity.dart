@@ -6,8 +6,6 @@ import '../using.dart';
 
 part 'entity.g.dart';
 
-final _defaultStartDate = DateTime.utc(0);
-
 ///
 /// type: cn.edu.sit.Timetable
 @JsonSerializable()
@@ -15,13 +13,13 @@ class SitTimetable {
   @JsonKey()
   final String id;
   @JsonKey()
-  String name = "";
+  final String name;
   @JsonKey()
-  DateTime startDate = _defaultStartDate;
+  final DateTime startDate;
   @JsonKey()
-  int schoolYear = 0;
+  final int schoolYear;
   @JsonKey()
-  int semester = 0;
+  final Semester semester;
 
   /// The Default number of weeks is 20.
   final List<SitTimetableWeek?> weeks;
@@ -30,13 +28,22 @@ class SitTimetable {
   final List<SitCourse> courseKey2Entity;
   final int courseKeyCounter;
 
-  SitTimetable(this.id, this.weeks, this.courseKey2Entity, this.courseKeyCounter);
+  SitTimetable({
+    required this.id,
+    required this.weeks,
+    required this.courseKey2Entity,
+    required this.courseKeyCounter,
+    required this.name,
+    required this.startDate,
+    required this.schoolYear,
+    required this.semester,
+  });
 
   static SitTimetable parse(String id, List<CourseRaw> all) => parseTimetableEntity(id, all);
-  final Map<String, List<SitCourse>> _code2Courses = {};
+  final Map<String, List<SitCourse>> _code2CoursesCache = {};
 
   List<SitCourse> findAndCacheCoursesByCourseCode(String courseCode) {
-    final found = _code2Courses[courseCode];
+    final found = _code2CoursesCache[courseCode];
     if (found != null) {
       return found;
     } else {
@@ -46,7 +53,7 @@ class SitTimetable {
           res.add(course);
         }
       }
-      _code2Courses[courseCode] = res;
+      _code2CoursesCache[courseCode] = res;
       return res;
     }
   }
@@ -61,11 +68,17 @@ class SitTimetable {
     );
   }
 
-  set meta(TimetableMeta meta) {
-    name = meta.name;
-    startDate = meta.startDate;
-    schoolYear = meta.schoolYear;
-    semester = meta.semester;
+  SitTimetable copyWithMeta(TimetableMeta meta) {
+    return SitTimetable(
+      id: id,
+      weeks: weeks,
+      courseKey2Entity: courseKey2Entity,
+      courseKeyCounter: courseKeyCounter,
+      name: meta.name,
+      startDate: meta.startDate,
+      schoolYear: meta.schoolYear,
+      semester: meta.semester,
+    );
   }
 
   @override

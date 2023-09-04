@@ -197,7 +197,16 @@ SitTimetable parseTimetableEntity(String id, List<CourseRaw> all) {
       }
     }
   }
-  final res = SitTimetable(id, weeks, courseKey2Entity, counter);
+  final res = SitTimetable(
+    id: id,
+    weeks: weeks,
+    courseKey2Entity: courseKey2Entity,
+    courseKeyCounter: counter,
+    name: "",
+    startDate: DateTime.utc(0),
+    schoolYear: 0,
+    semester: Semester.term1,
+  );
   return res;
 }
 

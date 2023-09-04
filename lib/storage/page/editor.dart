@@ -100,8 +100,7 @@ class _BoxSectionState extends State<BoxSection> {
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
       position: PopupMenuPosition.under,
       padding: EdgeInsets.zero,
-      itemBuilder: (ctx) =>
-      <PopupMenuEntry>[
+      itemBuilder: (ctx) => <PopupMenuEntry>[
         PopupMenuItem(
           child: ListTile(
             leading: const Icon(Icons.edit, color: Colors.redAccent),
@@ -191,18 +190,17 @@ class _BoxItemListState extends State<BoxItemList> {
     final typeStyle = context.textTheme.bodySmall;
     final contentStyle = context.textTheme.bodyMedium;
     return keys
-        .map((e) =>
-        BoxItem(
-          keyInBox: e,
-          box: widget.box,
-          routeStyle: routeStyle,
-          typeStyle: typeStyle,
-          contentStyle: contentStyle,
-          onBoxChanged: () {
-            if (!mounted) return;
-            setState(() {});
-          },
-        ))
+        .map((e) => BoxItem(
+              keyInBox: e,
+              box: widget.box,
+              routeStyle: routeStyle,
+              typeStyle: typeStyle,
+              contentStyle: contentStyle,
+              onBoxChanged: () {
+                if (!mounted) return;
+                setState(() {});
+              },
+            ))
         .toList()
         .column();
   }
@@ -250,8 +248,7 @@ class BoxItem extends StatefulWidget {
   @override
   State<BoxItem> createState() => _BoxItemState();
 
-  static Widget skeleton(TextStyle? routeStyle, TextStyle? typeStyle, TextStyle? contentStyle) =>
-      [
+  static Widget skeleton(TextStyle? routeStyle, TextStyle? typeStyle, TextStyle? contentStyle) => [
         Text(
           "...",
           style: routeStyle,
@@ -311,11 +308,7 @@ class _BoxItemState extends State<BoxItem> {
         if (dir == DismissDirection.startToEnd) {
           // Empty the value
           final confirm = await context.showRequest(
-              title: i18n.warning,
-              desc: i18n.emptyValueDesc,
-              yes: i18n.confirm,
-              no: i18n.cancel,
-              highlight: true);
+              title: i18n.warning, desc: i18n.emptyValueDesc, yes: i18n.confirm, no: i18n.cancel, highlight: true);
           if (confirm == true) {
             widget.box.put(key, _emptyValue(value));
             if (!mounted) return false;
@@ -401,8 +394,7 @@ class _StorageListLandscapeState extends State<StorageListLandscape> {
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
           position: PopupMenuPosition.under,
           padding: EdgeInsets.zero,
-          itemBuilder: (ctx) =>
-          <PopupMenuEntry>[
+          itemBuilder: (ctx) => <PopupMenuEntry>[
             PopupMenuItem(
               child: ListTile(
                 leading: const Icon(Icons.edit, color: Colors.redAccent),
@@ -503,18 +495,10 @@ dynamic _canEmptyValue(dynamic value) {
 
 Future<bool?> _showDeleteBoxRequest(BuildContext ctx) async {
   return await ctx.showRequest(
-      title: i18n.delete,
-      desc: i18n.clearBoxDesc,
-      yes: i18n.confirm,
-      no: i18n.cancel,
-      highlight: true);
+      title: i18n.delete, desc: i18n.clearBoxDesc, yes: i18n.confirm, no: i18n.cancel, highlight: true);
 }
 
 Future<bool?> _showDeleteItemRequest(BuildContext ctx) async {
   return await ctx.showRequest(
-      title: i18n.delete,
-      desc: i18n.deleteItemDesc,
-      yes: i18n.delete,
-      no: i18n.cancel,
-      highlight: true);
+      title: i18n.delete, desc: i18n.deleteItemDesc, yes: i18n.delete, no: i18n.cancel, highlight: true);
 }

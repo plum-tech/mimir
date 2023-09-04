@@ -5,19 +5,6 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/entity.dart';
 import '../using.dart';
 
-Widget buildButton(BuildContext ctx, String text, {VoidCallback? onPressed}) {
-  return ElevatedButton(
-    onPressed: onPressed,
-    child: Padding(
-      padding: const EdgeInsets.all(12),
-      child: Text(
-        text,
-        style: TextStyle(fontSize: ctx.textTheme.bodyLarge?.fontSize) ,
-      ),
-    ),
-  );
-}
-
 extension Wrapper on Widget {
   Widget vwrap() {
     return Padding(

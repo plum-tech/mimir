@@ -16,9 +16,6 @@ import 'shared.dart';
 class WeeklyTimetable extends StatefulWidget {
   final SitTimetable timetable;
 
-  @override
-  DateTime get initialDate => timetable.startDate;
-
   final ValueNotifier<TimetablePos> $currentPos;
 
   @override
@@ -33,9 +30,7 @@ class WeeklyTimetable extends StatefulWidget {
 
 class WeeklyTimetableState extends State<WeeklyTimetable> {
   late PageController _pageController;
-  late DateTime dateSemesterStart;
   final $cellSize = ValueNotifier(Size.zero);
-  final faceIndex = 0;
 
   SitTimetable get timetable => widget.timetable;
 
@@ -50,7 +45,6 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   @override
   void initState() {
     super.initState();
-    dateSemesterStart = widget.initialDate;
     _pageController = PageController(initialPage: currentPos.week - 1)..addListener(onPageChange);
     eventBus.on<JumpToPosEvent>().listen((event) {
       jumpTo(event.where);
@@ -148,6 +142,17 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
       final res = buildPage(context);
       _cached = res;
       return res;
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant _OneWeekPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.timetable != oldWidget.timetable ||
+        widget.todayPos != oldWidget.todayPos ||
+        widget.weekIndex != oldWidget.weekIndex ||
+        widget.$currentPos != oldWidget.$currentPos) {
+      _cached = null;
     }
   }
 

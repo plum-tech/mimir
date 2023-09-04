@@ -1,8 +1,10 @@
+import 'package:mimir/mini_apps/exam_arr/using.dart';
+
 class TimetableMeta {
   final String name;
   final DateTime startDate;
   final int schoolYear;
-  final int semester;
+  final Semester semester;
 
   const TimetableMeta({
     required this.name,
@@ -15,7 +17,7 @@ class TimetableMeta {
     String? name,
     DateTime? startDate,
     int? schoolYear,
-    int? semester,
+    Semester? semester,
   }) {
     return TimetableMeta(
       name: name ?? this.name,

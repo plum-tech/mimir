@@ -24,7 +24,7 @@ class LoadingPlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     final trackColor = ProgressIndicatorTheme.of(context).circularTrackColor ?? context.darkSafeThemeColor;
     final iconSize = size * 0.7;
-    final indicator= switch (type) {
+    final indicator = switch (type) {
       PlaceholderType.drop => LoadingAnimationWidget.inkDrop(color: trackColor, size: iconSize),
       PlaceholderType.beat => LoadingAnimationWidget.beat(color: trackColor, size: iconSize),
     };

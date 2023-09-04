@@ -19,7 +19,7 @@ class _I18n with CommonI18nMixin {
 
   String weekOrderedName({required int number}) => "$ns.weekOrderedName".tr(args: [number.toString()]);
 
-  String startDate(String date) => "$ns.startDate".tr(args: [date]);
+  String get startWith => "$ns.startWith".tr();
 
   String get jump => "$ns.jump".tr();
 

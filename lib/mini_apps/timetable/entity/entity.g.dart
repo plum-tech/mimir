@@ -7,28 +7,36 @@ part of 'entity.dart';
 // **************************************************************************
 
 SitTimetable _$SitTimetableFromJson(Map<String, dynamic> json) => SitTimetable(
-      json['id'] as String,
-      (json['weeks'] as List<dynamic>)
+      id: json['id'] as String,
+      weeks: (json['weeks'] as List<dynamic>)
           .map((e) => e == null ? null : SitTimetableWeek.fromJson(e as Map<String, dynamic>))
           .toList(),
-      (json['courseKey2Entity'] as List<dynamic>).map((e) => SitCourse.fromJson(e as Map<String, dynamic>)).toList(),
-      json['courseKeyCounter'] as int,
-    )
-      ..name = json['name'] as String
-      ..startDate = DateTime.parse(json['startDate'] as String)
-      ..schoolYear = json['schoolYear'] as int
-      ..semester = json['semester'] as int;
+      courseKey2Entity: (json['courseKey2Entity'] as List<dynamic>)
+          .map((e) => SitCourse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      courseKeyCounter: json['courseKeyCounter'] as int,
+      name: json['name'] as String,
+      startDate: DateTime.parse(json['startDate'] as String),
+      schoolYear: json['schoolYear'] as int,
+      semester: $enumDecode(_$SemesterEnumMap, json['semester']),
+    );
 
 Map<String, dynamic> _$SitTimetableToJson(SitTimetable instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'startDate': instance.startDate.toIso8601String(),
       'schoolYear': instance.schoolYear,
-      'semester': instance.semester,
+      'semester': _$SemesterEnumMap[instance.semester]!,
       'weeks': instance.weeks,
       'courseKey2Entity': instance.courseKey2Entity,
       'courseKeyCounter': instance.courseKeyCounter,
     };
+
+const _$SemesterEnumMap = {
+  Semester.all: 'all',
+  Semester.term1: 'term1',
+  Semester.term2: 'term2',
+};
 
 SitTimetableWeek _$SitTimetableWeekFromJson(Map<String, dynamic> json) => SitTimetableWeek(
       (json['days'] as List<dynamic>).map((e) => SitTimetableDay.fromJson(e as Map<String, dynamic>)).toList(),
