@@ -4,8 +4,6 @@ import 'entity/pos.dart';
 
 EventBus eventBus = EventBus();
 
-class TimetableStyleChangeEvent {}
-
 class JumpToPosEvent {
   final TimetablePos where;
 

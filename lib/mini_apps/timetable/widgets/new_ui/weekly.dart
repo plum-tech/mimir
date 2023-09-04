@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,12 +43,13 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   int page2Week(int page) => page + 1;
 
   int week2PageOffset(int week) => week - 1;
+  late StreamSubscription<JumpToPosEvent> $jumpToPos;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: currentPos.week - 1)..addListener(onPageChange);
-    eventBus.on<JumpToPosEvent>().listen((event) {
+    $jumpToPos = eventBus.on<JumpToPosEvent>().listen((event) {
       jumpTo(event.where);
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -56,6 +59,13 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
         _pageController.jumpToPage(targetPage);
       }
     });
+  }
+
+  @override
+  void dispose() {
+    $jumpToPos.cancel();
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -97,12 +107,6 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
         curve: Curves.fastLinearToSlowEaseIn,
       );
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _pageController.dispose();
   }
 }
 

@@ -64,13 +64,15 @@ class TimetableStorage {
     onCurrentTimetableChanged.notifier();
   }
 
-  set useOldSchoolColors(bool? newV) => box.put(_K.useOldSchoolPalette, newV);
+  set useOldSchoolPalette(bool? newV) => box.put(_K.useOldSchoolPalette, newV);
 
-  bool? get useOldSchoolColors => box.get(_K.useOldSchoolPalette);
+  bool? get useOldSchoolPalette => box.get(_K.useOldSchoolPalette);
 
   set useNewUI(bool? newV) => box.put(_K.useNewUI, newV);
 
   bool? get useNewUI => box.get(_K.useNewUI);
+
+  ValueListenable<Box> get onThemeChanged => box.listenable(keys: [_K.useOldSchoolPalette, _K.useNewUI]);
 }
 
 extension TimetableStorageEx on TimetableStorage {

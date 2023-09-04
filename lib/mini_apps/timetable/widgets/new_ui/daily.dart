@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,14 +47,23 @@ class DailyTimetableState extends State<DailyTimetable> {
     return TimetablePos(week: week, day: day);
   }
 
+  late StreamSubscription<JumpToPosEvent> $jumpToPos;
+
   @override
   void initState() {
     super.initState();
     final pos = timetable.locate(DateTime.now());
     _pageController = PageController(initialPage: pos2PageOffset(pos))..addListener(onPageChange);
-    eventBus.on<JumpToPosEvent>().listen((event) {
+    $jumpToPos = eventBus.on<JumpToPosEvent>().listen((event) {
       jumpTo(event.where);
     });
+  }
+
+  @override
+  void dispose() {
+    $jumpToPos.cancel();
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -103,12 +114,6 @@ class DailyTimetableState extends State<DailyTimetable> {
         curve: Curves.fastLinearToSlowEaseIn,
       );
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _pageController.dispose();
   }
 }
 

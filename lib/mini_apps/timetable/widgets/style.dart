@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 
-import '../events.dart';
 import '../init.dart';
 import '../using.dart';
 
@@ -57,10 +56,17 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
   @override
   void initState() {
     super.initState();
-    eventBus.on<TimetableStyleChangeEvent>().listen((event) {
-      if (!mounted) return;
-      setState(() {});
-    });
+    storage.onThemeChanged.addListener(rebuild);
+  }
+
+  @override
+  void dispose() {
+    storage.onThemeChanged.removeListener(rebuild);
+    super.dispose();
+  }
+
+  void rebuild() {
+    setState(() {});
   }
 
   @override
@@ -68,7 +74,7 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
     assert(widget.builder != null || widget.child != null, "TimetableStyleProv should have at least one child.");
     return TimetableStyle(
       data: TimetableStyleData(
-        storage.useOldSchoolColors == true ? CourseColor.oldSchool : CourseColor.v1_5,
+        storage.useOldSchoolPalette == true ? CourseColor.oldSchool : CourseColor.v1_5,
         storage.useNewUI ?? false,
       ),
       child: buildChild(),

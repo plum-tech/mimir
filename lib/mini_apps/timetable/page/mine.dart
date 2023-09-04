@@ -6,7 +6,6 @@ import 'package:mimir/mini_apps/timetable/storage/timetable.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/entity.dart';
-import '../events.dart';
 import '../using.dart';
 import '../widgets/meta_editor.dart';
 
@@ -54,7 +53,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   }
 
   Future<void> showStyleToggle() async {
-    final useOldSchoolInit = storage.useOldSchoolColors ?? false;
+    final useOldSchoolInit = storage.useOldSchoolPalette ?? false;
     final useNewUIInit = storage.useNewUI ?? false;
     final $useOldSchool = ValueNotifier(useOldSchoolInit);
     final $useNewUI = ValueNotifier(useNewUIInit);
@@ -94,10 +93,9 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       ),
     );
     if ($useOldSchool.value != useOldSchoolInit || $useNewUI.value != useNewUIInit) {
-      storage.useOldSchoolColors = $useOldSchool.value;
-      storage.useNewUI = $useNewUI.value;
       if (!mounted) return;
-      eventBus.fire(TimetableStyleChangeEvent());
+      storage.useOldSchoolPalette = $useOldSchool.value;
+      storage.useNewUI = $useNewUI.value;
     }
   }
 
