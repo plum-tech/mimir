@@ -227,7 +227,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget buildCredential(OACredential credential) {
+  Widget buildCredential(Credential credential) {
     return ListTile(
       title: CredentialI18n.instance.oaAccount.text(),
       subtitle: credential.account.text(),

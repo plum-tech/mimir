@@ -6,24 +6,24 @@ part of 'credential.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class OACredentialAdapter extends TypeAdapter<OACredential> {
+class CredentialAdapter extends TypeAdapter<Credential> {
   @override
   final int typeId = 10;
 
   @override
-  OACredential read(BinaryReader reader) {
+  Credential read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return OACredential(
+    return Credential(
       fields[0] as String,
       fields[1] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, OACredential obj) {
+  void write(BinaryWriter writer, Credential obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
@@ -38,5 +38,5 @@ class OACredentialAdapter extends TypeAdapter<OACredential> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is OACredentialAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is CredentialAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

@@ -47,7 +47,7 @@ class _OaAuthManagerState extends State<OaAuthManager> {
 }
 
 class OaAuth extends InheritedWidget {
-  final OACredential? credential;
+  final Credential? credential;
   final DateTime? lastAuthTime;
   final LoginStatus loginStatus;
 
@@ -72,7 +72,7 @@ class OaAuth extends InheritedWidget {
         loginStatus != oldWidget.loginStatus;
   }
 
-  setOaCredential(OACredential? newV) {
+  setOaCredential(Credential? newV) {
     if (CredentialInit.storage.oaCredential != newV) {
       CredentialInit.storage.oaCredential = newV;
       if (newV != null) {

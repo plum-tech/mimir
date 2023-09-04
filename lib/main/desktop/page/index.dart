@@ -12,7 +12,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
 
-import '../../index.dart';
 import '../brick_maker.dart';
 import '../../../mini_app.dart';
 import '../homepage_factory.dart';
@@ -93,7 +92,7 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Future<void> _doLogin(BuildContext context, OACredential oaCredential) async {
+  Future<void> _doLogin(BuildContext context, Credential oaCredential) async {
     await HomeInit.ssoSession.loginPassive(oaCredential);
   }
 

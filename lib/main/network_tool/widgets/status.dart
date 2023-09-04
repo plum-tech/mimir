@@ -16,7 +16,7 @@ class CampusNetworkStatusInfo extends StatelessWidget {
     var studentId = i18n.unknown;
     if (status != null) {
       ip = status.ip;
-      studentId = status.studentId ?? i18n.login.notLoggedIn;
+      studentId = status.studentId ?? i18n.unknown;
     }
     return [
       "${i18n.credential.studentId}: $studentId".text(textAlign: TextAlign.center, style: style),

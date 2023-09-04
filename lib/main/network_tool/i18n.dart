@@ -9,7 +9,6 @@ class _I18n with CommonI18nMixin {
   final easyconnect = const _Easyconnect();
   final network = const NetworkI18n();
   final credential = const CredentialI18n();
-  final login = const LoginI18n();
 
   String get title => "$ns.title".tr();
 

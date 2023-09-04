@@ -6,7 +6,7 @@ class HiveTypeId {
   static const version = 0;
 
   // Credential 10-19
-  static const oaUserCredential = 10;
+  static const credential = 10;
   static const loginStatus = 11;
 
   // Electric Bill 20-29

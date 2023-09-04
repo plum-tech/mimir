@@ -54,7 +54,7 @@ class _MailPageState extends State<MailPage> {
     );
   }
 
-  Future<void> _updateMailList(OACredential oaCredential) async {
+  Future<void> _updateMailList(Credential oaCredential) async {
     try {
       final String emailAddress = oaCredential.account.toEmailAddress();
       final String pwd = EduEmailInit.mail.password ?? oaCredential.password;

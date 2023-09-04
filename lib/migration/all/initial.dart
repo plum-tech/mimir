@@ -19,7 +19,7 @@ class _NoVersionSpecifiedMigrationImpl extends Migration {
     final dynamic account = kvBox.get("/auth/currentUsername");
     final dynamic password = kvBox.get("/auth/ssoPassword");
     if (account is String && password is String) {
-      credentialBox.put("/credential/oa", OACredential(account, password));
+      credentialBox.put("/credential/oa", Credential(account, password));
       kvBox.delete("/auth/currentUsername");
       kvBox.delete("/auth/ssoPassword");
     }
@@ -31,7 +31,7 @@ class _NoVersionSpecifiedMigrationImpl extends Migration {
     final dynamic password = kvBox.get("/freshman/auth/secret");
     final credentialBox = HiveBoxInit.credentials;
     if (account is String && password is String) {
-      credentialBox.put("/credential/oa", OACredential(account, password));
+      credentialBox.put("/credential/oa", Credential(account, password));
       kvBox.delete("/freshman/auth/account");
       kvBox.delete("/freshman/auth/secret");
     }

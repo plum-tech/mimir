@@ -11,14 +11,20 @@ class _OaKey {
   static const loginStatus = "$ns/loginStatus";
 }
 
+class _EmailKey {
+  static const ns = "/eduEmail";
+  static const credential = "$ns/credential";
+}
+
 class CredentialStorage {
   final Box<dynamic> box;
 
   CredentialStorage(this.box);
 
-  OACredential? get oaCredential => box.get(_OaKey.credential);
+  // OA
+  Credential? get oaCredential => box.get(_OaKey.credential);
 
-  set oaCredential(OACredential? newV) => box.put(_OaKey.credential, newV);
+  set oaCredential(Credential? newV) => box.put(_OaKey.credential, newV);
 
   DateTime? get oaLastAuthTime => box.get(_OaKey.lastAuthTime);
 
@@ -29,4 +35,9 @@ class CredentialStorage {
   set oaLoginStatus(LoginStatus? newV) => box.put(_OaKey.loginStatus, newV);
 
   ValueListenable<Box<dynamic>> get onAnyChanged => box.listenable();
+
+  // Edu Email
+  Credential? get eduEmailCredential => box.get(_EmailKey.credential);
+
+  set eduEmailCredential(Credential? newV) => box.put(_EmailKey.credential, newV);
 }

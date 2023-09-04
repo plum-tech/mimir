@@ -25,7 +25,7 @@ class BrickMaker {
 
   // TODO: A new personalization system for this.
   static List<MiniApp> makeDefaultBricksBy(
-    OACredential? oa,
+    Credential? oa,
     LoginStatus status,
   ) {
     final r = <MiniApp>[];

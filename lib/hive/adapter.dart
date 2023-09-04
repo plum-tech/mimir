@@ -13,7 +13,7 @@ class HiveAdapter {
     ~VersionAdapter();
 
     // Credential
-    ~OACredentialAdapter();
+    ~CredentialAdapter();
     ~LoginStatusAdapter();
 
     // Electric Bill

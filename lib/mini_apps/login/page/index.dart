@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/credential/symbol.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../init.dart';
@@ -73,12 +74,13 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     try {
-      final credential = OACredential(account, password);
+      final credential = Credential(account, password);
       await LoginInit.ssoSession.loginActive(credential);
       final personName = await LoginInit.authServerService.getPersonName();
       if (!mounted) return;
-      context.auth.setOaCredential(credential);
-      context.auth.setLoginStatus(LoginStatus.validated);
+      final auth = context.auth;
+      auth.setOaCredential(credential);
+      auth.setLoginStatus(LoginStatus.validated);
       context.go("/");
       setState(() => isLoggingIn = false);
     } on CredentialsInvalidException catch (e) {
