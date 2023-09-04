@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/app.dart';
 
-import '../global/global.dart';
 import 'lang.dart';
 
 export 'package:mimir/r.dart';

@@ -6,7 +6,6 @@ import 'package:mimir/mini_apps/symbol.dart';
 
 import '../entity/course.dart';
 import '../entity/entity.dart';
-import '../events.dart';
 import '../using.dart';
 
 class _K {

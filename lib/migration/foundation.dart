@@ -22,7 +22,7 @@ class _CompoundMigration extends Migration {
   }
 }
 
-class _MigrationEntry extends Comparable<_MigrationEntry> {
+class _MigrationEntry implements Comparable<_MigrationEntry> {
   final Version version;
   final Migration migration;
 

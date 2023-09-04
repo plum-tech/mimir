@@ -23,13 +23,7 @@ class MetaImpl {
 
   set lastStartupTime(DateTime? newV) => box.put(_K.lastStartupTime, newV);
 
-  DateTime get installTime {
-    final time = box.get(_K.installTime);
-    if (time != null) return time;
-    final now = DateTime.now();
-    box.put(_K.installTime, now);
-    return now;
-  }
+  DateTime? get installTime => box.get(_K.installTime);
 
-  set installTime(DateTime newV) => box.put(_K.installTime, newV);
+  set installTime(DateTime? newV) => box.put(_K.installTime, newV);
 }

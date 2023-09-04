@@ -61,14 +61,14 @@ class _StorageListPortraitState extends State<StorageListPortrait> {
 
   @override
   Widget build(BuildContext ctx) {
-    final name2BoxEntries = widget.name2box.entries.toList();
+    final name2boxEntries = widget.name2box.entries.toList();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(title: i18n.title.text()),
       body: ListView.builder(
-        itemCount: name2BoxEntries.length,
+        itemCount: name2boxEntries.length,
         itemBuilder: (ctx, i) {
-          final name2Box = name2BoxEntries[i];
+          final name2Box = name2boxEntries[i];
           final name = name2Box.key;
           final box = name2Box.value;
           return BoxSection(box: box, boxName: name);

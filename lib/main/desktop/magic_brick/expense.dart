@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mimir/events/symbol.dart';
 import 'package:mimir/mini_apps/expense/entity/local.dart';
 import 'package:mimir/mini_apps/expense/init.dart';
-import 'package:mimir/route.dart';
 
 import 'package:mimir/mini_apps/expense/i18n.dart';
 import '../../../mini_app.dart';

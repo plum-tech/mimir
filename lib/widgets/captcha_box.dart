@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/multiplatform.dart';
 import 'package:mimir/l10n/common.dart';
-import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 
 class CaptchaBox extends StatefulWidget {
