@@ -73,7 +73,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
 
     return [
       [
-        buildMood(context).align(at: Alignment.center).flexible(flex: 47),
+        Container().align(at: Alignment.center).flexible(flex: 47),
         widget.$currentPos >>
             (ctx, cur) => TimetableHeader(
                   selectedDay: 0,
@@ -108,13 +108,6 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
         ),
       ).expanded()
     ].column(mas: MainAxisSize.min, maa: MainAxisAlignment.start, caa: CrossAxisAlignment.start);
-  }
-
-  Widget buildMood(BuildContext ctx) {
-    return Text(
-      "😁",
-      style: TextStyle(fontSize: 25),
-    );
   }
 
   void onPageChange() {

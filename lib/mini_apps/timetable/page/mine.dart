@@ -9,7 +9,6 @@ import '../entity/entity.dart';
 import '../events.dart';
 import '../using.dart';
 import '../widgets/meta_editor.dart';
-import '../widgets/picker.dart';
 
 class MyTimetableListPage extends StatefulWidget {
   const MyTimetableListPage({super.key});
@@ -172,11 +171,8 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         ),
         PopupMenuItem(
           child: ListTile(
-            leading: const Icon(
-              Icons.delete_outline_outlined,
-              color: Colors.redAccent,
-            ),
-            title: i18n.mine.delete.text(),
+            leading: const Icon(Icons.edit, color: Colors.redAccent),
+            title: i18n.mine.delete.text(style: const TextStyle(color: Colors.redAccent)),
             onTap: () async {
               ctx.pop();
               final confirm = await ctx.showRequest(

@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
 
   // State
   bool isPasswordClear = false;
-  bool enableLoginButton = true;
+  bool isLoggingIn = true;
 
   @override
   void initState() {
@@ -58,11 +58,11 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     if (!mounted) return;
-    setState(() => enableLoginButton = false);
+    setState(() => isLoggingIn = false);
     final connectionType = await Connectivity().checkConnectivity();
     if (connectionType == ConnectivityResult.none) {
       if (!mounted) return;
-      setState(() => enableLoginButton = true);
+      setState(() => isLoggingIn = true);
       await ctx.showTip(
         title: i18n.network.error,
         desc: i18n.network.noAccessTip,
@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
       );
     } finally {
       if (mounted) {
-        setState(() => enableLoginButton = true);
+        setState(() => isLoggingIn = true);
       }
     }
   }
@@ -137,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
             enableSuggestions: false,
             obscureText: !isPasswordClear,
             onFieldSubmitted: (inputted) {
-              if (enableLoginButton) {
+              if (isLoggingIn) {
                 onLogin(ctx);
               }
             },
@@ -168,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
         $account >>
             (ctx, account) => ElevatedButton(
                   // Online
-                  onPressed: enableLoginButton && account.text.isNotEmpty
+                  onPressed: isLoggingIn && account.text.isNotEmpty
                       ? () {
                           // un-focus the text field.
                           FocusScope.of(context).requestFocus(FocusNode());
