@@ -156,51 +156,6 @@ class _SettingsPageState extends State<SettingsPage> {
           ],
         ),
       ]),
-      // Account
-      SettingsGroup(
-        title: i18n.account,
-        children: <Widget>[
-          if (oaCredential != null)
-            ModalSettingsTile(
-              title: i18n.settingsChangeOaPwd,
-              subtitle: i18n.settingsChangeOaPwdSub,
-              leading: const Icon(Icons.lock),
-              showConfirmation: true,
-              onConfirm: () {
-                context.auth.oaCredential = oaCredential.copyWith(
-                  password: _passwordController.text,
-                );
-                return true;
-              },
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: TextField(controller: _passwordController, obscureText: true),
-                ),
-              ],
-            ),
-          if (oaCredential != null)
-            SimpleSettingsTile(
-                title: i18n.settingsTestLoginKite,
-                subtitle: i18n.settingsTestLoginKiteSub,
-                leading: const Icon(Icons.login_rounded),
-                onTap: () => _testPassword(context, oaCredential)),
-        ],
-      ),
-      SettingsGroup(
-        title: i18n.devOptions,
-        children: <Widget>[
-          SwitchSettingsTile(
-              settingKey: DevelopOptionsKeys.showErrorInfoDialog,
-              defaultValue: Kv.developOptions.showErrorInfoDialog ?? false,
-              title: i18n.settingsDetailedXcpDialog,
-              subtitle: i18n.settingsDetailedXcpDialogSub,
-              leading: const Icon(Icons.info),
-              onChange: (value) {
-                Kv.developOptions.showErrorInfoDialog = value;
-              }),
-        ],
-      ),
     ]);*/
   }
 

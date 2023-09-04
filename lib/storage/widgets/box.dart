@@ -29,8 +29,7 @@ class _BoxSectionState extends State<BoxSection> {
 
   Widget buildTitle(BuildContext ctx) {
     final b = box;
-    final boxNameStyle = ctx.textTheme.titleLarge;
-    final title = Text(boxName, style: boxNameStyle);
+    final boxNameStyle = ctx.textTheme.headlineMedium;
     if (b != null && kDebugMode) {
       return CupertinoContextMenu.builder(
         actions: [
@@ -52,11 +51,11 @@ class _BoxSectionState extends State<BoxSection> {
           )
         ],
         builder: (ctx, animation) {
-          return title.padSymmetric(h: 30, v: 15).inCard(elevation: 5);
+          return Text(boxName, style: boxNameStyle);
         },
       );
     } else {
-      return title;
+      return Text(boxName, style: boxNameStyle);
     }
   }
 
@@ -66,7 +65,7 @@ class _BoxSectionState extends State<BoxSection> {
     return [
       buildTitle(context),
       if (curBox == null) Placeholders.loading() else BoxItemList(box: curBox),
-    ].column(mas: MainAxisSize.min).sized(w: double.infinity).padAll(20).inCard();
+    ].column(mas: MainAxisSize.min).sized(w: double.infinity).padSymmetric(v: 5,h: 10).inCard();
   }
 }
 
@@ -306,22 +305,24 @@ class _StorageBoxState extends State<StorageBox> {
           elevation: 0,
         ),
         body: [
-          buildBoxIntroduction(ctx).expanded(),
+          buildBoxTitle().expanded(),
           const VerticalDivider(
             thickness: 5,
           ),
           AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 300),
             child: buildBoxContentView(ctx),
           ).padAll(10).flexible(flex: 2)
         ].row());
   }
 
-  Widget buildBoxIntroduction(BuildContext ctx) {
-    final boxNameStyle = context.textTheme.headlineMedium;
+  Widget buildBoxTitle() {
+    // TODO: Use drop down instead of dismissible.
+    final textTheme = context.textTheme;
+    final boxNameStyle = context.isPortrait ? textTheme.headlineMedium : textTheme.titleMedium;
     final list = widget.name2box.entries.map((e) {
       final name2Box = e;
-      final color = name2Box.key == selectedBoxName ? ctx.theme.secondaryHeaderColor : null;
+      final color = name2Box.key == selectedBoxName ? context.theme.secondaryHeaderColor : null;
       Widget preview = name2Box.key.text(style: boxNameStyle).padAll(10).inCard(elevation: 3, color: color).on(tap: () {
         if (selectedBoxName != name2Box.key) {
           setState(() {
@@ -336,7 +337,7 @@ class _StorageBoxState extends State<StorageBox> {
           confirmDismiss: (dir) async {
             final box = await name2Box.value;
             if (!mounted) return true;
-            final confirm = await _showDeleteBoxRequest(ctx);
+            final confirm = await _showDeleteBoxRequest(context);
             if (confirm == true) {
               if (!mounted) return true;
               setState(() {

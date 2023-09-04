@@ -66,7 +66,7 @@ dependencies:
   quick_actions: ^1.0.5           # Android / iOS Home screen quick actions
 
   # Open with other APP/programs
-  open_file: ^3.2.1                 # Open files
+  open_file: ^3.3.2                 # Open files
   url_launcher: ^6.1.11             # Open URLs
   image_picker: ^0.8.7+5            # Open Android / iOS system image picker
   file_picker: ^5.0.0
@@ -80,7 +80,7 @@ dependencies:
   flutter_svg: ^2.0.6
   flutter_screenutil: ^5.8.2              # Screen adaptation
   qr_flutter: ^4.1.0                      # Qr code generate
-  mobile_scanner: ^3.2.0                  # qrcode scanner
+  mobile_scanner: ^3.4.1                  # qrcode scanner
   flutter_staggered_grid_view: ^0.6.2
   cached_network_image: ^3.2.1
   flutter_easyloading: ^3.0.5

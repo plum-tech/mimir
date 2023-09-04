@@ -23,7 +23,7 @@ class _ApplicationIndexPageState extends State<ApplicationIndexPage> {
       defaultIndex: 0,
       actions: [
         IconButton(
-          icon: const Icon(CupertinoIcons.info_circle),
+          icon: const Icon(Icons.info_outline),
           onPressed: () async => showInfo(context),
         ),
         IconButton(
