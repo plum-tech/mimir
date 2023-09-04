@@ -103,8 +103,6 @@ class _Edit {
   const _Edit();
 
   static const ns = "${_I18n.ns}.edit";
-
-  String get setStartDate => "$ns.setStartDate".tr();
 }
 
 class _FreeTip {

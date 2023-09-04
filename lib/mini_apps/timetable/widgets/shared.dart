@@ -12,7 +12,7 @@ Widget buildButton(BuildContext ctx, String text, {VoidCallback? onPressed}) {
       padding: const EdgeInsets.all(12),
       child: Text(
         text,
-        style: ctx.textTheme.titleLarge,
+        style: TextStyle(fontSize: ctx.textTheme.bodyLarge?.fontSize) ,
       ),
     ),
   );

@@ -315,8 +315,6 @@ timetable:
     importing: Trying to fetch the timetable...
     timetableInfo: Timetable Info
     defaultName: "{semester}, {yearStart}-{yearEnd} Timetable"
-  edit:
-    setStartDate: Set Start Date
   weekStep:
     all: wk
     odd: odd wk

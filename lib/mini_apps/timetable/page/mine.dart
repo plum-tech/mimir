@@ -12,7 +12,7 @@ import '../widgets/meta_editor.dart';
 import '../widgets/picker.dart';
 
 class MyTimetableListPage extends StatefulWidget {
-   const MyTimetableListPage({super.key});
+  const MyTimetableListPage({super.key});
 
   @override
   State<MyTimetableListPage> createState() => _MyTimetableListPageState();
@@ -23,7 +23,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
 
   Future<void> goImport() async {
     final timetable = await context.push<SitTimetable>("/app/timetable/import");
-    if(timetable != null){
+    if (timetable != null) {
       storage.currentTimetableId ??= timetable.id;
       if (!mounted) return;
       setState(() {});
@@ -137,6 +137,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
               ctx.pop();
               final newMeta = await ctx.showSheet<TimetableMeta>(
                 (ctx) => MetaEditor(meta: timetable.meta).padOnly(b: MediaQuery.of(ctx).viewInsets.bottom),
+                dismissible: false,
               );
               if (newMeta != null) {
                 timetable.meta = newMeta;
@@ -159,22 +160,6 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
               },
             ),
           ),
-        PopupMenuItem(
-          child: ListTile(
-            leading: const Icon(Icons.timer_outlined),
-            title: i18n.edit.setStartDate.text(),
-            onTap: () async {
-              ctx.pop();
-              final date = await pickDate(ctx, initial: timetable.startDate);
-              if (date != null) {
-                timetable.startDate = date;
-                storage.setSitTimetable(timetable, byId: timetable.id);
-                if (!mounted) return;
-                setState(() {});
-              }
-            },
-          ),
-        ),
         PopupMenuItem(
           child: ListTile(
             leading: const Icon(Icons.preview_outlined),

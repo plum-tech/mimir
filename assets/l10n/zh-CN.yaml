@@ -315,8 +315,6 @@ timetable:
     importing: 正在尝试获取课程表的数据……
     timetableInfo: 课程表信息
     defaultName: "{yearStart}-{yearEnd}年 {semester} 课程表"
-  edit:
-    setStartDate: 设置起始日期
   weekStep:
     all: 周
     odd: 单周

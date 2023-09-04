@@ -185,7 +185,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
           padding: const EdgeInsets.all(12),
           child: Text(
             i18n.import.button,
-            style: ctx.textTheme.titleLarge,
+            style: TextStyle(fontSize: ctx.textTheme.titleLarge?.fontSize),
           )),
     );
   }

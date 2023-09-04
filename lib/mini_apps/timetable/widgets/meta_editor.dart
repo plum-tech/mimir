@@ -55,7 +55,6 @@ class _MetaEditorState extends State<MetaEditor> {
   }
 
   Widget buildMetaEditor(BuildContext ctx) {
-    final bodyTextStyle = ctx.textTheme.bodyLarge;
     return Center(
       heightFactor: 1,
       child: Column(
@@ -64,10 +63,25 @@ class _MetaEditorState extends State<MetaEditor> {
         children: [
           Text(i18n.import.timetableInfo, style: ctx.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
           buildDescForm(ctx),
-          $selectedDate >> (ctx, value) => i18n.startDate(ctx.formatYmdNum(value)).text(style: bodyTextStyle),
+          [
+            $selectedDate >>
+                (ctx, value) => i18n.startDate(ctx.formatYmdNum(value)).text(style: ctx.textTheme.titleLarge),
+            ElevatedButton(
+              child: const Icon(Icons.edit),
+              onPressed: () async {
+                final date = await pickDate(context, initial: $selectedDate.value);
+                if (date != null) {
+                  $selectedDate.value = DateTime(date.year, date.month, date.day);
+                }
+              },
+            )
+          ].row(maa: MainAxisAlignment.spaceEvenly),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              buildButton(ctx, i18n.cancel, onPressed: () {
+                ctx.pop();
+              }),
               buildButton(ctx, i18n.save, onPressed: () {
                 final meta = widget.meta.copyWith(
                   name: _nameController.text,
@@ -75,12 +89,6 @@ class _MetaEditorState extends State<MetaEditor> {
                 );
                 ctx.pop(meta);
               }),
-              buildButton(ctx, i18n.edit.setStartDate, onPressed: () async {
-                final date = await pickDate(context, initial: $selectedDate.value);
-                if (date != null) {
-                  $selectedDate.value = DateTime(date.year, date.month, date.day);
-                }
-              })
             ],
           ).vwrap()
         ],
