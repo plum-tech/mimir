@@ -95,56 +95,29 @@ extension ColorPairHelper on Color2Mode {
 /// https://m3.material.io/theme-builder#/custom
 class CourseColor {
   static const List<Color2Mode> oldSchool = [
-    (
-      light: Color.fromARGB(178, 251, 83, 82),
-      dark: Color.fromARGB(178, 244, 83, 75),
-    ),
-    (
-      light: Color.fromARGB(153, 115, 123, 250),
-      dark: Color.fromARGB(178, 100, 110, 220)
-    ),
-    (
-      light: Color.fromARGB(178, 116, 185, 255),
-      dark: Color.fromARGB(178, 90, 135, 200)
-    ),
-    (
-      light: Color.fromARGB(178, 118, 126, 253),
-      dark: Color.fromARGB(178, 88, 106, 213)
-    ),
-    (
-      light: Color.fromARGB(178, 245, 175, 77),
-      dark: Color.fromARGB(178, 200, 125, 107)
-    ),
-    (
-      light: Color.fromARGB(178, 187, 137, 106),
-      dark: Color.fromARGB(178, 120, 92, 66)
-    ),
-    (
-      light: Color.fromARGB(178, 232, 67, 147),
-      dark: Color.fromARGB(178, 180, 35, 117)
-    ),
-    (
-      light: Color.fromARGB(178, 188, 140, 240),
-      dark: Color.fromARGB(178, 148, 100, 180)
-    ),
-    (
-      light: Color.fromARGB(178, 116, 185, 255),
-      dark: Color.fromARGB(178, 56, 85, 200)
-    ),
+    (light: Color(0xB2FB5352), dark: Color(0xB2F4534B)),
+    (light: Color(0x99737BFA), dark: Color(0xB2646EDC)),
+    (light: Color(0xB274B9FF), dark: Color(0xB25A87C8)),
+    (light: Color(0xB2767EFD), dark: Color(0xB2586AD5)),
+    (light: Color(0xB2F5AF4D), dark: Color(0xB2C87D6B)),
+    (light: Color(0xB2BB896A), dark: Color(0xB2785C42)),
+    (light: Color(0xB2E84393), dark: Color(0xB2B42375)),
+    (light: Color(0xB2BC8CF0), dark: Color(0xB29464B4)),
+    (light: Color(0xB274B9FF), dark: Color(0xB23855C8)),
   ];
   static const List<Color2Mode> v1_5 = [
-    (light: Color(0xD285e779), dark: Color(0xDF21520f)), // green #678a5c
-    (light: Color(0xD2c3e8ff), dark: Color(0xDF004c68)), // sky #5487a3
-    (light: Color(0xD2ffa6bb), dark: Color(0xDF8e2f56)), // pink #ae6f83
-    (light: Color(0xD2ad9bd7), dark: Color(0xDF50378a)), // violet #8879ab
-    (light: Color(0xD2ff9d6b), dark: Color(0xDF7f2b00)), // orange #a23900
-    (light: Color(0xD2ffa2d2), dark: Color(0xDF8e0032)), // rose #b50060
-    (light: Color(0xD2ffd200), dark: Color(0xDF523900)), // lemon #b09e40
-    (light: Color(0xD275f8e2), dark: Color(0xDF005047)), // cyan #008f7f
-    (light: Color(0xD2b4ebff), dark: Color(0xDF004e5f)), // ice #b3c7cf
-    (light: Color(0xD2b4ebff), dark: Color(0xDF004e5f)), // cyan #d4bdce
-    (light: Color(0xD2ffd7f5), dark: Color(0xDF7c157a)), // mauve #ff8df3
-    (light: Color(0xD2eaf141), dark: Color(0xDF4b4c00)), // toxic #a2c300
+    (light: Color(0xD285e779), dark: Color(0xDF21520f)), // green
+    (light: Color(0xD2c3e8ff), dark: Color(0xDF004c68)), // sky
+    (light: Color(0xD2ffa6bb), dark: Color(0xDF8e2f56)), // pink
+    (light: Color(0xD2ad9bd7), dark: Color(0xDF50378a)), // violet
+    (light: Color(0xD2ff9d6b), dark: Color(0xDF7f2b00)), // orange
+    (light: Color(0xD2ffa2d2), dark: Color(0xDF8e0032)), // rose
+    (light: Color(0xD2ffd200), dark: Color(0xDF523900)), // lemon
+    (light: Color(0xD275f8e2), dark: Color(0xDF005047)), // cyan
+    (light: Color(0xD2b4ebff), dark: Color(0xDF004e5f)), // ice
+    (light: Color(0xD2b4ebff), dark: Color(0xDF004e5f)), // cyan
+    (light: Color(0xD2ffd7f5), dark: Color(0xDF7c157a)), // mauve
+    (light: Color(0xD2eaf141), dark: Color(0xDF4b4c00)), // toxic
   ];
 
   static get({required ThemeData from, required int by}) =>
