@@ -15,7 +15,7 @@ class ApplicationMessageService implements ApplicationMessageDao {
 
   @override
   Future<ApplicationMsgCount> getMessageCount() async {
-    final account = $Key.currentContext?.auth.oaCredential!.account;
+    final account = $Key.currentContext?.auth.credential!.account;
     String payload = 'code=$account';
 
     final response = await session.request(

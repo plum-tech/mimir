@@ -63,7 +63,7 @@ class _HomepageState extends State<Homepage> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      if (context.auth.oaCredential != null && await HomeInit.ssoSession.checkConnectivity()) {
+      if (context.auth.credential != null && await HomeInit.ssoSession.checkConnectivity()) {
         if (!mounted) return;
         context.showSnackBar(
           _i18n.campusNetworkConnected.text(),
@@ -117,7 +117,7 @@ class _HomepageState extends State<Homepage> {
     BuildContext context, {
     bool loginSso = false, // 默认不登录oa，使用懒加载的方式登录
   }) async {
-    final oaCredential = context.auth.oaCredential;
+    final oaCredential = context.auth.credential;
     if (loginSso && oaCredential != null) {
       // 如果未登录 (老用户直接进入 Home 页不会处于登录状态, 但新用户经过 login 页时已登录)
       try {

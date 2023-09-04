@@ -118,7 +118,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
                 },
                 child: Expanded(child: allResults.isNotEmpty ? _buildExamResultList(allResults) : _buildNoResult())),
       ].column(),
-      floatingActionButton: context.auth.oaCredential == null ? null : buildEvaluationBtn(context),
+      floatingActionButton: context.auth.credential == null ? null : buildEvaluationBtn(context),
     );
   }
 

@@ -91,7 +91,7 @@ class _ExpenseTrackerPageState extends State<ExpenseTrackerPage> {
   }
 
   Future<void> fetch(DateTime start, DateTime end) async {
-    final oaCredential = context.auth.oaCredential;
+    final oaCredential = context.auth.credential;
     if (oaCredential == null) return;
     final account = oaCredential.account;
     for (int i = 0; i < 3; i++) {

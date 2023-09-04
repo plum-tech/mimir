@@ -52,7 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final oaCredential = context.auth.oaCredential;
+    final oaCredential = context.auth.credential;
     _passwordController.text = oaCredential?.password ?? '';
   }
 
@@ -161,7 +161,7 @@ class _SettingsPageState extends State<SettingsPage> {
   List<WidgetBuilder> buildEntries() {
     final all = <WidgetBuilder>[];
 
-    final credential = context.auth.oaCredential;
+    final credential = context.auth.credential;
     if (credential != null) {
       all.add((_) => buildCredential(credential));
     }

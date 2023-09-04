@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void didChangeDependencies() {
-    final oaCredential = context.auth.oaCredential;
+    final oaCredential = context.auth.credential;
     if (oaCredential != null) {
       $account.text = oaCredential.account;
       $password.text = oaCredential.password;
@@ -165,17 +165,18 @@ class _LoginPageState extends State<LoginPage> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        ElevatedButton(
-          // Online
-          onPressed: enableLoginButton && $account.value.text.isNotEmpty
-              ? () {
-                  // un-focus the text field.
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  onLogin(ctx);
-                }
-              : null,
-          child: i18n.loginBtn.text().padAll(5),
-        ),
+        $account >>
+            (ctx, account) => ElevatedButton(
+                  // Online
+                  onPressed: enableLoginButton && account.text.isNotEmpty
+                      ? () {
+                          // un-focus the text field.
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          onLogin(ctx);
+                        }
+                      : null,
+                  child: i18n.loginBtn.text().padAll(5),
+                ),
         if (!widget.isGuarded)
           ElevatedButton(
             // Offline

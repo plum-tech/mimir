@@ -15,7 +15,7 @@ import 'mini_apps/symbol.dart';
 
 String? _loginRequired(BuildContext ctx, GoRouterState state) {
   final auth = ctx.auth;
-  if (auth.loginStatus != LoginStatus.validated && auth.oaCredential == null) {
+  if (auth.loginStatus != LoginStatus.validated && auth.credential == null) {
     return "/login/guard";
   }
   return null;

@@ -30,7 +30,7 @@ class _MailPageState extends State<MailPage> {
 
   @override
   void didChangeDependencies() {
-    final oaCredential = context.auth.oaCredential;
+    final oaCredential = context.auth.credential;
     if (oaCredential != null) {
       _updateMailList(oaCredential);
     }
@@ -39,7 +39,7 @@ class _MailPageState extends State<MailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final oaCredential = context.auth.oaCredential;
+    final oaCredential = context.auth.credential;
     final String title;
     if (oaCredential != null) {
       title = oaCredential.account.toEmailAddress();

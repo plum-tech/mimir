@@ -4,10 +4,10 @@ import 'package:mimir/hive/using.dart';
 import '../entity/credential.dart';
 import '../entity/login_status.dart';
 
-class _Key {
-  static const ns = "/credential";
-  static const oa = "$ns/oa";
-  static const lastOaAuthTime = "$ns/lastOaAuthTime";
+class _OaKey {
+  static const ns = "/oa";
+  static const credential = "$ns/credential";
+  static const lastAuthTime = "$ns/lastAuthTime";
   static const loginStatus = "$ns/loginStatus";
 }
 
@@ -16,17 +16,17 @@ class CredentialStorage {
 
   CredentialStorage(this.box);
 
-  OACredential? get oaCredential => box.get(_Key.oa);
+  OACredential? get oaCredential => box.get(_OaKey.credential);
 
-  set oaCredential(OACredential? newV) => box.put(_Key.oa, newV);
+  set oaCredential(OACredential? newV) => box.put(_OaKey.credential, newV);
 
-  DateTime? get lastOaAuthTime => box.get(_Key.lastOaAuthTime);
+  DateTime? get oaLastAuthTime => box.get(_OaKey.lastAuthTime);
 
-  set lastOaAuthTime(DateTime? newV) => box.put(_Key.lastOaAuthTime, newV);
+  set oaLastAuthTime(DateTime? newV) => box.put(_OaKey.lastAuthTime, newV);
 
-  LoginStatus? get loginStatus => box.get(_Key.loginStatus);
+  LoginStatus? get oaLoginStatus => box.get(_OaKey.loginStatus);
 
-  set loginStatus(LoginStatus? newV) => box.put(_Key.loginStatus, newV);
+  set oaLoginStatus(LoginStatus? newV) => box.put(_OaKey.loginStatus, newV);
 
   ValueListenable<Box<dynamic>> get onAnyChanged => box.listenable();
 }

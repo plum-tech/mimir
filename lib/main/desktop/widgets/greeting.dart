@@ -39,7 +39,7 @@ class _GreetingWidgetState extends State<GreetingWidget> {
   @override
   void didChangeDependencies() {
     // 如果用户不是新生或老师，那么就显示学习天数
-    if (context.auth.oaCredential != null) {
+    if (context.auth.credential != null) {
       setState(() {
         studyDays = _getStudyDaysAndInitState();
       });
@@ -54,7 +54,7 @@ class _GreetingWidgetState extends State<GreetingWidget> {
   }
 
   int _getStudyDaysAndInitState() {
-    final oaCredential = context.auth.oaCredential;
+    final oaCredential = context.auth.credential;
     if (oaCredential != null) {
       final id = oaCredential.account;
 

@@ -10,7 +10,7 @@ class BrickMaker {
 
   static List<MiniApp> makeDefaultBricks(BuildContext ctx) {
     final auth = ctx.auth;
-    final oaCredential = auth.oaCredential;
+    final oaCredential = auth.credential;
     final status = auth.loginStatus;
     final key = oaCredential.hashCode + status.hashCode;
     final cache = _cache[key];

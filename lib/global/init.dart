@@ -58,7 +58,7 @@ class Init {
     await Global.init(
       debugNetwork: debugNetwork ?? Settings.isGlobalProxy,
       cookieBox: HiveBoxInit.cookies,
-      credentials: CredentialInit.credential,
+      credentials: CredentialInit.storage,
     );
 
     // 初始化用户首次打开时间（而不是应用安装时间）

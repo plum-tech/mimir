@@ -45,7 +45,7 @@ class _CredentialPageState extends State<CredentialPage> {
   }
 
   Widget buildBody() {
-    final credential = context.auth.oaCredential;
+    final credential = context.auth.credential;
     final all = <WidgetBuilder>[];
     if (credential == null) {
       all.add((_) => buildLogin());
