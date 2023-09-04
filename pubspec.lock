@@ -25,14 +25,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.11.2"
-  animated_toggle_switch:
-    dependency: "direct main"
-    description:
-      name: animated_toggle_switch
-      sha256: c23f68956e8f4e64c2c4d40a6b6b7e9ed3ab0521be9f653e968954f14070a1d0
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.5.2"
   animations:
     dependency: "direct main"
     description:
@@ -421,10 +413,10 @@ packages:
     dependency: "direct main"
     description:
       name: easy_localization
-      sha256: "30ebf25448ffe169e0bd9bc4b5da94faa8398967a2ad2ca09f438be8b6953645"
+      sha256: de63e3b422adfc97f256cbb3f8cf12739b6a4993d390f3cadb3f51837afaefe5
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.2"
+    version: "3.0.3"
   easy_logger:
     dependency: transitive
     description:
@@ -573,10 +565,10 @@ packages:
     dependency: "direct main"
     description:
       name: fl_chart
-      sha256: "749b3342ea3e95cbf61a0fec31a62606e837377b8b6d0caa7367a7ef80f38b7d"
+      sha256: c1e26c7e48496be85104c16c040950b0436674cdf0737f3f6e95511b2529b592
       url: "https://pub.dev"
     source: hosted
-    version: "0.55.2"
+    version: "0.63.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -659,14 +651,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.2.0"
-  flutter_staggered_grid_view:
-    dependency: "direct main"
-    description:
-      name: flutter_staggered_grid_view
-      sha256: "1312314293acceb65b92754298754801b0e1f26a1845833b740b30415bbbcf07"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.6.2"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -1911,10 +1895,10 @@ packages:
     dependency: "direct main"
     description:
       name: window_manager
-      sha256: d812d3189d23465d2e94baa2505a4462b46dde4939012ff370711c6897d747ae
+      sha256: "6ee795be9124f90660ea9d05e581a466de19e1c89ee74fc4bf528f60c8600edd"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.9"
+    version: "0.3.6"
   xdg_directories:
     dependency: transitive
     description:

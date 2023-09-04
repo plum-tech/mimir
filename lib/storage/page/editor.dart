@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -473,16 +472,6 @@ dynamic _emptyValue(dynamic value) {
   } else {
     return value;
   }
-}
-
-dynamic _canEmptyValue(dynamic value) {
-  return value is String ||
-      value is bool ||
-      value is int ||
-      value is double ||
-      value is List ||
-      value is Set ||
-      value is Map;
 }
 
 Future<bool?> _showDeleteBoxRequest(BuildContext ctx) async {
