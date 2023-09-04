@@ -137,7 +137,7 @@ class _HomepageState extends State<Homepage> {
     if (HomeInit.ssoSession.isOnline) {
       Global.eventBus.fire(EventTypes.onHomeRefresh);
     }
-    FireOn.homepage(HomeRefreshEvent(isOnline: HomeInit.ssoSession.isOnline));
+    homepage.fire(HomeRefreshEvent(isOnline: HomeInit.ssoSession.isOnline));
     _refreshController.refreshCompleted(resetFooterState: true);
   }
 

@@ -87,7 +87,6 @@ class _ExpenseTrackerPageState extends State<ExpenseTrackerPage> {
         $balance.value = allRecords.last.balanceAfter;
       }
     });
-    FireOn.expenseTracker(ExpenseTackerRefreshEvent());
   }
 
   Future<void> fetch(DateTime start, DateTime end) async {
@@ -121,7 +120,7 @@ class _ExpenseTrackerPageState extends State<ExpenseTrackerPage> {
               // 关闭用户交互
               EasyLoading.instance.userInteractions = false;
               EasyLoading.show(status: i18n.fetchingRecordTip);
-              ExpenseTrackerInit.local
+              ExpenseTrackerInit.storage
                 ..clear()
                 ..cachedTsEnd = null
                 ..cachedTsStart = null;

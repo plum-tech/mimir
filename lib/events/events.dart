@@ -3,5 +3,3 @@ class HomeRefreshEvent {
 
   const HomeRefreshEvent({required this.isOnline});
 }
-
-class ExpenseTackerRefreshEvent {}

@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
+import 'package:mimir/hive/using.dart';
 
 import '../entity/local.dart';
 
-class ExpenseStorageKeys {
+class _K {
   static const _namespace = '/expense';
   static const transactionTsList = '$_namespace/transactionIdList';
 
@@ -32,7 +34,7 @@ class ExpenseStorage {
     // 需要实现records中的时间与transactionTsList中的时间的合并并保证合并后有序
     final result = {...records.map((e) => e.datetime), ...transactionTsList}.toList();
     result.sort((a, b) => a.compareTo(b));
-    box.put(ExpenseStorageKeys.transactionTsList, result);
+    box.put(_K.transactionTsList, result);
     // 空集赋值
     cachedTsStart ??= start;
     cachedTsEnd ??= end;
@@ -42,16 +44,18 @@ class ExpenseStorage {
     if (end.isAfter(cachedTsEnd!)) cachedTsEnd = end;
 
     for (final record in records) {
-      box.put(ExpenseStorageKeys.buildTransactionsKeyByTs(record.datetime), record.toJson());
+      box.put(_K.buildTransactionsKeyByTs(record.datetime), record.toJson());
     }
   }
 
   /// 所有交易记录的索引，记录所有的交易时间，需要保证有序，以实现二分查找
   List<DateTime> get transactionTsList {
-    final v = box.get(ExpenseStorageKeys.transactionTsList);
+    final v = box.get(_K.transactionTsList);
     if (v == null) return [];
     return List.unmodifiable(v);
   }
+
+  ValueListenable<Box> get $transactionTsList => box.listenable(keys: [_K.transactionTsList]);
 
   /// 通过一个时间范围[start, end]来获得交易记录
   List<DateTime> getTransactionTsByRange({
@@ -66,18 +70,18 @@ class ExpenseStorage {
 
   /// 通过某个时刻来获得交易记录
   Transaction? getTransactionByTs(DateTime ts) {
-    final json = box.get(ExpenseStorageKeys.buildTransactionsKeyByTs(ts));
+    final json = box.get(_K.buildTransactionsKeyByTs(ts));
     if (json == null) return null;
     return Transaction.fromJson((json as Map).cast<String, dynamic>());
   }
 
   /// 获取已缓存的交易起始时间
-  DateTime? get cachedTsStart => box.get(ExpenseStorageKeys.cachedTsStart);
+  DateTime? get cachedTsStart => box.get(_K.cachedTsStart);
 
-  set cachedTsStart(DateTime? v) => box.put(ExpenseStorageKeys.cachedTsStart, v);
+  set cachedTsStart(DateTime? v) => box.put(_K.cachedTsStart, v);
 
   /// 获取已缓存的交易结束时间
-  DateTime? get cachedTsEnd => box.get(ExpenseStorageKeys.cachedTsEnd);
+  DateTime? get cachedTsEnd => box.get(_K.cachedTsEnd);
 
-  set cachedTsEnd(DateTime? v) => box.put(ExpenseStorageKeys.cachedTsEnd, v);
+  set cachedTsEnd(DateTime? v) => box.put(_K.cachedTsEnd, v);
 }

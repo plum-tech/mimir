@@ -28,21 +28,22 @@ class _ExpenseBrickState extends State<ExpenseBrick> {
   @override
   void initState() {
     super.initState();
-    On.home<HomeRefreshEvent>((event) {
-      refreshTracker();
-    });
-    On.expenseTracker<ExpenseTackerRefreshEvent>((event) {
-      refreshTracker();
-    });
     refreshTracker();
+    ExpenseTrackerInit.storage.$transactionTsList.addListener(refreshTracker);
+  }
+
+  @override
+  void dispose() {
+    ExpenseTrackerInit.storage.$transactionTsList.removeListener(refreshTracker);
+    super.dispose();
   }
 
   void refreshTracker() {
-    final tsl = ExpenseTrackerInit.local.transactionTsList;
+    final tsl = ExpenseTrackerInit.storage.transactionTsList;
     if (tsl.isNotEmpty) {
       if (!mounted) return;
       setState(() {
-        lastExpense = ExpenseTrackerInit.local.getTransactionByTs(tsl.last);
+        lastExpense = ExpenseTrackerInit.storage.getTransactionByTs(tsl.last);
       });
     }
   }

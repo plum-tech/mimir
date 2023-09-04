@@ -6,7 +6,7 @@ import 'using.dart';
 
 class ExpenseTrackerInit {
   static late ExpenseGetDao remote;
-  static late ExpenseStorage local;
+  static late ExpenseStorage storage;
   static late CachedExpenseGetDao cache;
 
   static void init({
@@ -14,7 +14,7 @@ class ExpenseTrackerInit {
     required Box expenseBox,
   }) {
     remote = ExpenseGetService(session);
-    local = ExpenseStorage(expenseBox);
-    cache = CachedExpenseGetDao(remoteDao: remote, storage: local);
+    storage = ExpenseStorage(expenseBox);
+    cache = CachedExpenseGetDao(remoteDao: remote, storage: storage);
   }
 }
