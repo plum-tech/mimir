@@ -49,28 +49,29 @@ class _TimetableHeaderState extends State<TimetableHeader> {
 
   Widget buildDayHeader(BuildContext ctx, int day, String name) {
     final isSelected = day == selectedDay;
-    final textNBgColors = ctx.makeTabHeaderTextBgColors(isSelected);
-    final textColor = textNBgColors.a;
-    final bgColor = textNBgColors.b;
+    final (:text, :bg) = ctx.makeTabHeaderTextBgColors(isSelected);
     final side = getBorderSide(ctx);
     return AnimatedContainer(
       decoration: BoxDecoration(
-        color: bgColor,
-        border: Border(left: day == 1 ? side : BorderSide.none, right: day != 7 ? side : BorderSide.none),
+        color: bg,
+        border: Border(
+            left: day == 1 ? side : BorderSide.none,
+            right: day != 7 ? side : BorderSide.none),
       ),
       duration: const Duration(milliseconds: 1000),
       curve: Curves.fastLinearToSlowEaseIn,
       child: Text(
         name,
         textAlign: TextAlign.center,
-        style: TextStyle(color: textColor),
+        style: TextStyle(color: text),
       ).padOnly(t: 5, b: 5),
     );
   }
 
   ///每天的列
   Widget buildDayNameHeader(int day) {
-    final date = convertWeekDayNumberToDate(week: widget.currentWeek, day: day, basedOn: widget.startDate);
+    final date = convertWeekDayNumberToDate(
+        week: widget.currentWeek, day: day, basedOn: widget.startDate);
     final dateString = '${date.month}/${date.day}';
     final onDayTap = widget.onDayTap;
     return Expanded(
@@ -81,9 +82,11 @@ class _TimetableHeaderState extends State<TimetableHeader> {
                   widget.onDayTap?.call(day);
                 }
               : null,
-          child: buildDayHeader(context, day, '${i18n.weekdayShort(index: day - 1)}\n$dateString')),
+          child: buildDayHeader(context, day,
+              '${i18n.weekdayShort(index: day - 1)}\n$dateString')),
     );
   }
 }
 
-BorderSide getBorderSide(BuildContext ctx) => BorderSide(color: ctx.darkSafeThemeColor.withOpacity(0.4), width: 0.8);
+BorderSide getBorderSide(BuildContext ctx) =>
+    BorderSide(color: ctx.darkSafeThemeColor.withOpacity(0.4), width: 0.8);

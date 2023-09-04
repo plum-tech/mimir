@@ -5,7 +5,7 @@ import '../init.dart';
 import '../using.dart';
 
 class TimetableStyleData {
-  final List<ColorPair> colors;
+  final List<Color2Mode> colors;
   final bool useNewUI;
 
   const TimetableStyleData(this.colors, this.useNewUI);
