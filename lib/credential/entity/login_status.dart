@@ -1,4 +1,4 @@
-import '../using.dart';
+import 'package:mimir/hive/type_id.dart';
 
 part 'login_status.g.dart';
 

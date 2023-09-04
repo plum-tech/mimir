@@ -6,7 +6,6 @@ export 'exam_arr/symbol.dart';
 export 'exam_result/symbol.dart';
 export 'expense/symbol.dart';
 export 'library/symbol.dart';
-export 'login/symbol.dart';
 export 'oa_announce/symbol.dart';
 export 'scanner/symbol.dart';
 export 'shared/symbol.dart';

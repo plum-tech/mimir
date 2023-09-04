@@ -5,7 +5,6 @@ import 'package:mimir/hive/using.dart';
 import 'entity/login_status.dart';
 import 'storage/credential.dart';
 import 'widgets/editor.dart';
-import 'using.dart';
 
 class CredentialInit {
   static late CredentialStorage storage;

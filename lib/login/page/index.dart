@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/symbol.dart';
+import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/design/widgets/placeholder.dart';
+import 'package:mimir/exception/session.dart';
+import 'package:mimir/r.dart';
+import 'package:mimir/util/guard_launch.dart';
+import 'package:mimir/util/validation.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../init.dart';
-import '../using.dart';
+import '../i18n.dart';
 
 class LoginPage extends StatefulWidget {
   final bool isGuarded;
@@ -120,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
             autofocus: true,
             autocorrect: false,
             enableSuggestions: false,
-            validator: studentIdValidator,
+            validator: (account) => studentIdValidator(account, () => i18n.invalidAccountFormat),
             decoration: InputDecoration(
               labelText: i18n.credential.account,
               hintText: i18n.accountHint,

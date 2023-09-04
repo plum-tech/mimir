@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/design/widgets/multiplatform.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../using.dart';
+import '../i18n.dart';
 
 typedef CredentialCtor<T> = T Function(String account, String password);
 

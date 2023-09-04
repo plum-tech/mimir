@@ -1,4 +1,5 @@
-/// 存放所有 hive 的自定义类型的typeId
+export "package:hive/hive.dart";
+
 class HiveTypeId {
   HiveTypeId._();
 

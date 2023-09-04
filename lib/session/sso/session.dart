@@ -5,12 +5,16 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart' hide Lock;
 import 'package:go_router/go_router.dart';
 import 'package:mimir/app.dart';
-import 'package:mimir/mini_apps/login/using.dart';
+import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/exception/session.dart';
+import 'package:mimir/network/session.dart';
 import 'package:mimir/session/common.dart';
 import 'package:mimir/util/logger.dart';
 import 'package:mimir/widgets/captcha_box.dart';
 import 'package:synchronized/synchronized.dart';
+import 'package:mimir/credential/symbol.dart';
 
+import '../../global/i18n.dart';
 import '../../util/dio_utils.dart';
 import 'encryption.dart';
 

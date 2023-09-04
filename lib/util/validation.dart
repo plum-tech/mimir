@@ -1,4 +1,4 @@
-import 'package:mimir/mini_apps/login/i18n.dart';
+import 'package:mimir/login/i18n.dart';
 
 /// 本、专科生（10位学号）
 final RegExp _reUndergraduateId = RegExp(r'^(\d{6}[YGHE\d]\d{3})$');
@@ -22,10 +22,10 @@ bool guessUserTypeByAccount(String oaAccount) {
 }
 
 // Only allow student ID/ work number.
-String? studentIdValidator(String? account) {
+String? studentIdValidator(String? account, String Function() invalidMessage) {
   if (account != null && account.isNotEmpty) {
     if (!guessUserTypeByAccount(account)) {
-      return const LoginI18n().invalidAccountFormat;
+      return invalidMessage();
     }
   }
   return null;

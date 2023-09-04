@@ -1,4 +1,4 @@
-import '../using.dart';
+import 'package:mimir/hive/type_id.dart';
 
 part 'credential.g.dart';
 

@@ -1,4 +1,3 @@
-import 'package:mimir/migration/all/initial.dart';
 import 'package:mimir/r.dart';
 import 'package:version/version.dart';
 
@@ -10,7 +9,6 @@ class Migrations {
   static Migration? _onNullVersion;
 
   static void init() {
-    _onNullVersion = NoVersionSpecifiedMigration;
     R.v1_0_0 << ClearCacheMigration;
   }
 

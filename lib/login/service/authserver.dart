@@ -1,6 +1,5 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
-
-import '../using.dart';
+import 'package:mimir/network/session.dart';
 
 class AuthServerService {
   final ISession session;

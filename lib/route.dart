@@ -11,6 +11,7 @@ import 'package:mimir/mini_apps/timetable/page/import.dart';
 import 'package:mimir/mini_apps/timetable/page/preview.dart';
 
 import 'app.dart';
+import 'login/page/index.dart';
 import 'mini_apps/exam_result/page/evaluation.dart';
 import 'mini_apps/symbol.dart';
 

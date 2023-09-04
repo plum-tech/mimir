@@ -6,7 +6,7 @@ import 'package:mimir/events/bus.dart';
 import 'package:mimir/events/events.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/global/global.dart';
-import 'package:mimir/mini_apps/login/i18n.dart';
+import 'package:mimir/login/i18n.dart';
 import 'package:mimir/mini_apps/timetable/using.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rettulf/rettulf.dart';
