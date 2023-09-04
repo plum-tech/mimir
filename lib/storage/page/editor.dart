@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,16 +25,6 @@ class _LocalStoragePageState extends State<LocalStoragePage> {
   @override
   void initState() {
     super.initState();
-    refreshBoxes();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return context.isPortrait ? StorageListPortrait(name2Box) : StorageListLandscape(name2Box);
-  }
-
-  void refreshBoxes() {
-    name2Box.clear();
     for (final entry in HiveBoxInit.name2Box.entries) {
       final boxName = entry.key;
       final box = entry.value;
@@ -42,12 +33,21 @@ class _LocalStoragePageState extends State<LocalStoragePage> {
       }
     }
   }
+
+  @override
+  Widget build(BuildContext context) {
+    final boxes = name2Box.entries
+        .where((name2Box) => name2Box.value.isNotEmpty)
+        .map((e) => (name: e.key, box: e.value))
+        .toList();
+    return context.isPortrait ? StorageListPortrait(boxes) : StorageListLandscape(boxes);
+  }
 }
 
 class StorageListPortrait extends StatefulWidget {
-  final Map<String, Box> name2box;
+  final List<({String name, Box box})> boxes;
 
-  const StorageListPortrait(this.name2box, {super.key});
+  const StorageListPortrait(this.boxes, {super.key});
 
   @override
   State<StorageListPortrait> createState() => _StorageListPortraitState();
@@ -61,17 +61,17 @@ class _StorageListPortraitState extends State<StorageListPortrait> {
 
   @override
   Widget build(BuildContext ctx) {
-    final name2boxEntries = widget.name2box.entries.toList();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(title: i18n.title.text()),
-      body: ListView.builder(
-        itemCount: name2boxEntries.length,
+      body: ListView.separated(
+        itemCount: widget.boxes.length,
         itemBuilder: (ctx, i) {
-          final name2Box = name2boxEntries[i];
-          final name = name2Box.key;
-          final box = name2Box.value;
+          final (:name, :box) = widget.boxes[i];
           return BoxSection(box: box, boxName: name);
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return const Divider();
         },
       ),
     );
@@ -100,7 +100,8 @@ class _BoxSectionState extends State<BoxSection> {
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
       position: PopupMenuPosition.under,
       padding: EdgeInsets.zero,
-      itemBuilder: (ctx) => <PopupMenuEntry>[
+      itemBuilder: (ctx) =>
+      <PopupMenuEntry>[
         PopupMenuItem(
           child: ListTile(
             leading: const Icon(Icons.edit, color: Colors.redAccent),
@@ -132,7 +133,7 @@ class _BoxSectionState extends State<BoxSection> {
     return [
       buildTitle(context),
       BoxItemList(box: curBox),
-    ].column(mas: MainAxisSize.min).sized(w: double.infinity).padSymmetric(v: 5, h: 10).inCard();
+    ].column(mas: MainAxisSize.min).sized(w: double.infinity).padSymmetric(v: 5, h: 10);
   }
 }
 
@@ -190,17 +191,18 @@ class _BoxItemListState extends State<BoxItemList> {
     final typeStyle = context.textTheme.bodySmall;
     final contentStyle = context.textTheme.bodyMedium;
     return keys
-        .map((e) => BoxItem(
-              boxKey: e,
-              box: widget.box,
-              routeStyle: routeStyle,
-              typeStyle: typeStyle,
-              contentStyle: contentStyle,
-              onBoxChanged: () {
-                if (!mounted) return;
-                setState(() {});
-              },
-            ))
+        .map((e) =>
+        BoxItem(
+          keyInBox: e,
+          box: widget.box,
+          routeStyle: routeStyle,
+          typeStyle: typeStyle,
+          contentStyle: contentStyle,
+          onBoxChanged: () {
+            if (!mounted) return;
+            setState(() {});
+          },
+        ))
         .toList()
         .column();
   }
@@ -231,7 +233,7 @@ class BoxItem extends StatefulWidget {
 
   final TextStyle? typeStyle;
   final TextStyle? contentStyle;
-  final dynamic boxKey;
+  final dynamic keyInBox;
   final Box<dynamic> box;
   final VoidCallback? onBoxChanged;
 
@@ -240,7 +242,7 @@ class BoxItem extends StatefulWidget {
     this.routeStyle,
     this.typeStyle,
     this.contentStyle,
-    required this.boxKey,
+    required this.keyInBox,
     required this.box,
     this.onBoxChanged,
   });
@@ -248,7 +250,8 @@ class BoxItem extends StatefulWidget {
   @override
   State<BoxItem> createState() => _BoxItemState();
 
-  static Widget skeleton(TextStyle? routeStyle, TextStyle? typeStyle, TextStyle? contentStyle) => [
+  static Widget skeleton(TextStyle? routeStyle, TextStyle? typeStyle, TextStyle? contentStyle) =>
+      [
         Text(
           "...",
           style: routeStyle,
@@ -265,8 +268,8 @@ class BoxItem extends StatefulWidget {
 class _BoxItemState extends State<BoxItem> {
   @override
   Widget build(BuildContext context) {
-    final key = widget.boxKey.toString();
-    final value = widget.box.get(widget.boxKey);
+    final key = widget.keyInBox.toString();
+    final value = widget.box.get(widget.keyInBox);
     final type = value.runtimeType.toString();
     Widget res = [
       Text(
@@ -308,7 +311,11 @@ class _BoxItemState extends State<BoxItem> {
         if (dir == DismissDirection.startToEnd) {
           // Empty the value
           final confirm = await context.showRequest(
-              title: i18n.warning, desc: i18n.emptyValueDesc, yes: i18n.confirm, no: i18n.cancel, highlight: true);
+              title: i18n.warning,
+              desc: i18n.emptyValueDesc,
+              yes: i18n.confirm,
+              no: i18n.cancel,
+              highlight: true);
           if (confirm == true) {
             widget.box.put(key, _emptyValue(value));
             if (!mounted) return false;
@@ -347,16 +354,16 @@ class _BoxItemState extends State<BoxItem> {
 }
 
 class StorageListLandscape extends StatefulWidget {
-  final Map<String, Box<dynamic>> name2box;
+  final List<({String name, Box box})> boxes;
 
-  const StorageListLandscape(this.name2box, {super.key});
+  const StorageListLandscape(this.boxes, {super.key});
 
   @override
   State<StorageListLandscape> createState() => _StorageListLandscapeState();
 }
 
 class _StorageListLandscapeState extends State<StorageListLandscape> {
-  String? selectedBoxName;
+  late String? selectedBoxName = widget.boxes.firstOrNull?.name;
 
   @override
   void initState() {
@@ -385,20 +392,17 @@ class _StorageListLandscapeState extends State<StorageListLandscape> {
 
   Widget buildBoxTitle() {
     final boxNameStyle = context.textTheme.titleMedium;
-    final name2boxEntries = widget.name2box.entries.toList();
-    final keys = name2boxEntries.toList();
     return ListView.builder(
-      itemCount: keys.length,
+      itemCount: widget.boxes.length,
       itemBuilder: (ctx, i) {
-        final name2Box = name2boxEntries[i];
-        final name = name2Box.key;
-        final box = name2Box.value;
+        final (:name, :box) = widget.boxes[i];
         final color = name == selectedBoxName ? context.theme.secondaryHeaderColor : null;
         final action = PopupMenuButton(
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
           position: PopupMenuPosition.under,
           padding: EdgeInsets.zero,
-          itemBuilder: (ctx) => <PopupMenuEntry>[
+          itemBuilder: (ctx) =>
+          <PopupMenuEntry>[
             PopupMenuItem(
               child: ListTile(
                 leading: const Icon(Icons.edit, color: Colors.redAccent),
@@ -432,29 +436,20 @@ class _StorageListLandscapeState extends State<StorageListLandscape> {
 
   Widget buildBoxContentView(BuildContext ctx) {
     final name = selectedBoxName;
-    if (name == null) {
+    final selected = widget.boxes.firstWhereOrNull((tuple) => tuple.name == name);
+    if (selected == null) {
       return _buildUnselectBoxTip(ValueKey(name), ctx);
-    }
-    final box = widget.name2box[name];
-    final key = ValueKey(name);
-    if (box == null) {
-      return _buildEmptyBoxTip(key, ctx);
     }
     final routeStyle = context.textTheme.titleMedium;
     final typeStyle = context.textTheme.bodySmall;
     final contentStyle = context.textTheme.bodyMedium;
-    if (box.isEmpty) {
-      return _buildEmptyBoxTip(key, ctx).align(
-        at: Alignment.topCenter,
-      );
-    }
-    final keys = box.keys.toList();
+    final keys = selected.box.keys.toList();
     return ListView.builder(
       itemCount: keys.length,
       itemBuilder: (ctx, i) {
         return BoxItem(
-          boxKey: keys[i],
-          box: box,
+          keyInBox: keys[i],
+          box: selected.box,
           routeStyle: routeStyle,
           typeStyle: typeStyle,
           contentStyle: contentStyle,
@@ -469,10 +464,6 @@ class _StorageListLandscapeState extends State<StorageListLandscape> {
 
   Widget _buildUnselectBoxTip(Key? key, BuildContext ctx) {
     return LeavingBlank(key: key, icon: Icons.unarchive_outlined, desc: i18n.selectBoxTip);
-  }
-
-  Widget _buildEmptyBoxTip(Key? key, BuildContext ctx) {
-    return LeavingBlank(key: key, icon: Icons.inbox_outlined).sized(h: 300);
   }
 }
 
@@ -512,10 +503,18 @@ dynamic _canEmptyValue(dynamic value) {
 
 Future<bool?> _showDeleteBoxRequest(BuildContext ctx) async {
   return await ctx.showRequest(
-      title: i18n.delete, desc: i18n.clearBoxDesc, yes: i18n.confirm, no: i18n.cancel, highlight: true);
+      title: i18n.delete,
+      desc: i18n.clearBoxDesc,
+      yes: i18n.confirm,
+      no: i18n.cancel,
+      highlight: true);
 }
 
 Future<bool?> _showDeleteItemRequest(BuildContext ctx) async {
   return await ctx.showRequest(
-      title: i18n.delete, desc: i18n.deleteItemDesc, yes: i18n.delete, no: i18n.cancel, highlight: true);
+      title: i18n.delete,
+      desc: i18n.deleteItemDesc,
+      yes: i18n.delete,
+      no: i18n.cancel,
+      highlight: true);
 }

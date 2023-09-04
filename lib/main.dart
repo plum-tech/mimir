@@ -10,7 +10,7 @@ import 'l10n/yaml_assets_loader.dart';
 import 'r.dart';
 
 void main() async {
-  debugRepaintRainbowEnabled = true;
+  // debugRepaintRainbowEnabled = true;
   // debugRepaintTextRainbowEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
