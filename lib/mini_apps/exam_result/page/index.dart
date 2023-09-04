@@ -103,7 +103,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
       body: [
         _buildHeader(),
         allResults == null
-            ? Placeholders.loading().expanded()
+            ? const LoadingPlaceholder.drop().expanded()
             : NotificationListener<UserScrollNotification>(
                 // TODO: How can I extract this to a more general component?
                 onNotification: (notification) {

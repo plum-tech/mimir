@@ -31,7 +31,7 @@ class SimpleHtmlPage extends StatelessWidget {
 
   PreferredSizeWidget buildTopIndicator() {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(3.0),
+      preferredSize: const Size.fromHeight(4),
       child: ValueListenableBuilder<double>(
         valueListenable: _progressNotifier,
         builder: (context, data, child) {

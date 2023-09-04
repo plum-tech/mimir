@@ -143,7 +143,7 @@ class _ActivityListState extends State<ActivityList> {
   @override
   Widget build(BuildContext context) {
     if (loading) {
-      return Placeholders.loading();
+      return const LoadingPlaceholder.drop();
     } else {
       return buildActivityResult(_activityList);
     }

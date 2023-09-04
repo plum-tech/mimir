@@ -106,7 +106,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> {
       context.showSnackBar(
           Row(
             children: [
-              Placeholders.loading(),
+              const LoadingPlaceholder.drop(),
               const SizedBox(
                 width: 15,
               ),
@@ -232,7 +232,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> {
         buildSearchWaySelector(),
         Text('总结果数: $searchResultCount  用时: $useTime  已加载: $currentPage/$totalPage'),
         Expanded(
-          child: firstPageLoaded ? (dataList.isEmpty ? buildNotFound() : buildListView()) : Placeholders.loading(),
+          child: firstPageLoaded ? (dataList.isEmpty ? buildNotFound() : buildListView()) : const LoadingPlaceholder.drop(),
         ),
       ],
     );

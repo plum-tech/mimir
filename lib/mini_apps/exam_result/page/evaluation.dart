@@ -53,7 +53,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
             child: PlaceholderFutureBuilder<List<WebViewCookie>>(
               future: ExamResultInit.cookieJar.loadAsWebViewCookie(evaluationUri),
               builder: (ctx, data, state) {
-                if (data == null) return Placeholders.loading();
+                if (data == null) return const LoadingPlaceholder.drop();
                 return MimirWebViewPage(
                   controller: controller,
                   initialUrl: evaluationUri.toString(),

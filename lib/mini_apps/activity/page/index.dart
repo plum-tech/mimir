@@ -76,7 +76,7 @@ class SearchBar extends SearchDelegate<String> {
       future: ScInit.scActivityListService.query(query),
       builder: (context, data, state) {
         if (data == null) {
-          return Placeholders.loading();
+          return const LoadingPlaceholder.drop();
         } else {
           return buildEventResult(data);
         }

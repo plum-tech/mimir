@@ -138,7 +138,7 @@ class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixi
       ].row(),
       [
         if (content == null)
-          LimitedBox(maxWidth: 10, maxHeight: 10, child: Placeholders.loading())
+          LimitedBox(maxWidth: 10, maxHeight: 10, child: const LoadingPlaceholder.drop())
         else
           content.text(style: style, overflow: TextOverflow.fade),
       ].column(caa: CrossAxisAlignment.end),

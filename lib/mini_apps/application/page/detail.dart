@@ -97,7 +97,7 @@ class _DetailPageState extends State<DetailPage> {
   ) {
     final detail = _detail;
     if (detail == null) {
-      return Placeholders.loading();
+      return const LoadingPlaceholder.drop();
     } else {
       final sections = detail.sections;
       sections.retainWhere((e) => e.isNotEmpty && _isValidSectionType(e));

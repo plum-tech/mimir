@@ -3,11 +3,11 @@ import 'package:go_router/go_router.dart';
 import 'package:mimir/mini_apps/timetable/storage/timetable.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../../entity/entity.dart';
-import '../../entity/meta.dart';
-import '../../init.dart';
-import '../../widgets/meta_editor.dart';
-import '../../using.dart';
+import '../entity/entity.dart';
+import '../entity/meta.dart';
+import '../init.dart';
+import '../widgets/meta_editor.dart';
+import '../using.dart';
 
 enum ImportStatus {
   none,
@@ -24,6 +24,7 @@ class ImportTimetablePage extends StatefulWidget {
 }
 
 class _ImportTimetablePageState extends State<ImportTimetablePage> {
+  bool canImport = false;
   final service = TimetableInit.service;
   final storage = TimetableInit.storage;
   var _status = ImportStatus.none;
@@ -54,7 +55,37 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
 
   @override
   Widget build(BuildContext context) {
-    return buildImportPage(context).padFromLTRB(12, 0, 12, 12);
+    final isImporting = _status == ImportStatus.importing;
+    return Scaffold(
+      appBar: AppBar(
+        title: i18n.import.title.text(),
+        bottom: !isImporting
+            ? null
+            : const PreferredSize(
+                preferredSize: Size.fromHeight(4),
+                child: LinearProgressIndicator(),
+              ),
+      ),
+      body: (canImport
+              ? buildImportPage(key: const ValueKey("Import Timetable"))
+              : buildConnectivityChecker(context, const ValueKey("Connectivity Checker")))
+          .animatedSwitched(),
+    );
+  }
+
+  Widget buildConnectivityChecker(BuildContext ctx, Key? key) {
+    return ConnectivityChecker(
+      key: key,
+      iconSize: ctx.isPortrait ? 180 : 120,
+      initialDesc: i18n.import.connectivityCheckerDesc,
+      check: TimetableInit.network.checkConnectivity,
+      onConnected: () {
+        if (!mounted) return;
+        setState(() {
+          canImport = true;
+        });
+      },
+    );
   }
 
   Widget buildTip(BuildContext ctx) {
@@ -73,24 +104,13 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
         ));
   }
 
-  Widget buildImportPage(BuildContext ctx) {
-    final isImporting = _status == ImportStatus.importing;
+  Widget buildImportPage({Key? key}) {
     return Column(
+      key: key,
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        AnimatedContainer(
-          margin: isImporting ? const EdgeInsets.all(60) : EdgeInsets.zero,
-          width: isImporting ? 120.0 : 0.0,
-          height: isImporting ? 120.0 : 0.0,
-          alignment: isImporting ? Alignment.center : AlignmentDirectional.topCenter,
-          duration: const Duration(seconds: 2),
-          curve: Curves.fastLinearToSlowEaseIn,
-          child: Placeholders.loading(
-            size: 120,
-          ),
-        ),
-        Padding(padding: const EdgeInsets.symmetric(vertical: 30), child: buildTip(ctx)),
+        Padding(padding: const EdgeInsets.symmetric(vertical: 30), child: buildTip(context)),
         Padding(
             padding: const EdgeInsets.symmetric(vertical: 30),
             child: SemesterSelector(
@@ -107,7 +127,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
             )),
         Padding(
           padding: const EdgeInsets.all(24),
-          child: buildImportButton(ctx),
+          child: buildImportButton(context),
         )
       ],
     );

@@ -15,7 +15,7 @@ class MyImageViewer extends StatelessWidget {
         if (loadingProgress == null) {
           return child;
         } else {
-          return Placeholders.progress();
+          return const LoadingPlaceholder.drop();
         }
       },
       errorBuilder: (ctx, error, stacktrace) {

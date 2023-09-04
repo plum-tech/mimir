@@ -3,65 +3,32 @@ import 'package:mimir/mini_apps/timetable/using.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:rettulf/rettulf.dart';
 
-typedef PlaceholderDecorator = Widget Function(Widget);
-
-class Placeholders {
-  static Widget loading({
-    Key? key,
-    double size = 40,
-    PlaceholderDecorator? fix,
-  }) {
-    return _LoadingPlaceholder(
-      size: size,
-      fix: fix,
-    );
-  }
-
-  static Widget progress({
-    Key? key,
-    double size = 40,
-    PlaceholderDecorator? fix,
-  }) {
-    return _ProgressPlaceholder(
-      size: size,
-      fix: fix,
-    );
-  }
+enum PlaceholderType {
+  drop,
+  beat,
 }
 
-class _LoadingPlaceholder extends StatelessWidget {
+class LoadingPlaceholder extends StatelessWidget {
   final double size;
-  final PlaceholderDecorator? fix;
+  final PlaceholderType type;
 
-  const _LoadingPlaceholder({required this.size, this.fix});
+  const LoadingPlaceholder({super.key, this.size = 24.0, required this.type});
+
+  const LoadingPlaceholder.drop({Key? key, double size = 24.0})
+      : this(key: key, size: size, type: PlaceholderType.drop);
+
+  const LoadingPlaceholder.beat({Key? key, double size = 24.0})
+      : this(key: key, size: size, type: PlaceholderType.beat);
 
   @override
   Widget build(BuildContext context) {
-    final trackColor = ProgressIndicatorTheme.of(context).circularTrackColor;
-    Widget indicator = LoadingAnimationWidget.inkDrop(color: trackColor ?? context.darkSafeThemeColor, size: size);
-    final decorator = fix;
-    if (decorator != null) {
-      indicator = decorator(indicator);
-    }
-    return indicator.center();
-  }
-}
-
-class _ProgressPlaceholder extends StatelessWidget {
-  final double size;
-  final PlaceholderDecorator? fix;
-
-  const _ProgressPlaceholder({required this.size, this.fix});
-
-  @override
-  Widget build(BuildContext context) {
-    final trackColor = ProgressIndicatorTheme.of(context).circularTrackColor;
-    Widget indicator = LoadingAnimationWidget.beat(color: trackColor ?? context.darkSafeThemeColor, size: size);
-    final decorator = fix;
-    if (decorator != null) {
-      indicator = decorator(indicator);
-    }
-    return indicator.center();
+    final trackColor = ProgressIndicatorTheme.of(context).circularTrackColor ?? context.darkSafeThemeColor;
+    final iconSize = size * 0.7;
+    final indicator= switch (type) {
+      PlaceholderType.drop => LoadingAnimationWidget.inkDrop(color: trackColor, size: iconSize),
+      PlaceholderType.beat => LoadingAnimationWidget.beat(color: trackColor, size: iconSize),
+    };
+    return indicator.sizedAll(size);
   }
 }
 

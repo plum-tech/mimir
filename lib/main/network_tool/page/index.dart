@@ -59,9 +59,7 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
         title: [
           i18n.title.text(),
           if (!isConnected)
-            Placeholders.loading(
-              size: 14,
-            ).padOnly(l: 40.w)
+            const LoadingPlaceholder.drop().padOnly(l: 40.w)
         ].row(),
       ),
       body: AnimatedSwitcher(

@@ -119,7 +119,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
             PlaceholderFutureBuilder<HotSearch>(
               future: LibrarySearchInit.hotSearchService.getHotSearch(),
               builder: (ctx, data, state) {
-                if (data == null) return Placeholders.loading();
+                if (data == null) return const LoadingPlaceholder.drop();
                 return SuggestionItemView(
                   titleItems: data.recentMonth.map((e) => e.hotSearchWord).toList(),
                   onItemTap: (title) => _searchByGiving(context, title),

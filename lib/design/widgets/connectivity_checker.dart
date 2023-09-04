@@ -75,9 +75,12 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
   @override
   Widget build(BuildContext context) {
     return [
-      buildIndicatorArea(context).animatedSwitched(),
       AnimatedSize(
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 300),
+        child: buildIndicatorArea(context).animatedSwitched(),
+      ),
+      AnimatedSize(
+        duration: const Duration(milliseconds: 300),
         child: buildStatus(context).animatedSwitched(),
       ),
       buildButton(context),
@@ -157,9 +160,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
       case ConnectivityStatus.none:
         return buildIcon(ctx, getConnectionTypeIcon(connectionType));
       case ConnectivityStatus.connecting:
-        return Placeholders.loading(
-            size: widget.iconSize / 2,
-            fix: (w) => w.padAll(30).sized(w: widget.iconSize, h: widget.iconSize, key: const ValueKey("Waiting")));
+        return LoadingPlaceholder.drop(key: const ValueKey("Waiting"), size: widget.iconSize);
       case ConnectivityStatus.connected:
         return buildIcon(ctx, Icons.check_rounded);
       case ConnectivityStatus.disconnected:

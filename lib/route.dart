@@ -7,6 +7,7 @@ import 'package:mimir/main/desktop/page/index.dart';
 import 'package:mimir/main/index.dart';
 import 'package:mimir/main/network_tool/page/index.dart';
 import 'package:mimir/main/settings/page/index.dart';
+import 'package:mimir/mini_apps/timetable/page/import.dart';
 import 'package:mimir/mini_apps/timetable/page/preview.dart';
 
 import 'app.dart';
@@ -111,7 +112,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: "/app/timetable/import",
-      builder: (ctx, state) => const ImportTimetableIndexPage(),
+      builder: (ctx, state) => const ImportTimetablePage(),
       redirect: _loginRequired,
     ),
     GoRoute(

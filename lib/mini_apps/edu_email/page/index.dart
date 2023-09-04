@@ -131,7 +131,7 @@ class _MailPageState extends State<MailPage> {
     if (_index == 0) {
       // 如果是首次加载, 拉取数据并显示加载动画
       if (_messages == null) {
-        return Placeholders.loading();
+        return const LoadingPlaceholder.drop();
       }
       // 非首次加载, 即已获取邮件列表, 直接渲染即可
       return _buildMailList();

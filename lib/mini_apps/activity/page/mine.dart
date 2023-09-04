@@ -134,7 +134,7 @@ class _MyActivityPageState extends State<MyActivityPage> with AutomaticKeepAlive
   Widget buildLiveList(BuildContext ctx) {
     final activities = joined;
     if (activities == null) {
-      return Placeholders.loading();
+      return const LoadingPlaceholder.drop();
     } else {
       return ScrollConfiguration(
         behavior: const CupertinoScrollBehavior(),

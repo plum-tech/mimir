@@ -103,7 +103,7 @@ class _MimirWebViewPageState extends State<MimirWebViewPage> {
 
   PreferredSizeWidget buildTopIndicator() {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(3.0),
+      preferredSize: const Size.fromHeight(4),
       child: LinearProgressIndicator(
         value: progress / 100,
       ),

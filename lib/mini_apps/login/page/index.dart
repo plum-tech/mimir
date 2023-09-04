@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
 
   // State
   bool isPasswordClear = false;
-  bool isLoggingIn = true;
+  bool isLoggingIn = false;
 
   @override
   void initState() {
@@ -58,11 +58,11 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     if (!mounted) return;
-    setState(() => isLoggingIn = false);
+    setState(() => isLoggingIn = true);
     final connectionType = await Connectivity().checkConnectivity();
     if (connectionType == ConnectivityResult.none) {
       if (!mounted) return;
-      setState(() => isLoggingIn = true);
+      setState(() => isLoggingIn = false);
       await ctx.showTip(
         title: i18n.network.error,
         desc: i18n.network.noAccessTip,
@@ -80,6 +80,7 @@ class _LoginPageState extends State<LoginPage> {
       context.auth.setOaCredential(credential);
       context.auth.setLoginStatus(LoginStatus.validated);
       context.go("/");
+      setState(() => isLoggingIn = false);
     } on CredentialsInvalidException catch (e) {
       if (!mounted) return;
       await ctx.showTip(
@@ -100,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
       );
     } finally {
       if (mounted) {
-        setState(() => isLoggingIn = true);
+        setState(() => isLoggingIn = false);
       }
     }
   }
@@ -137,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
             enableSuggestions: false,
             obscureText: !isPasswordClear,
             onFieldSubmitted: (inputted) {
-              if (isLoggingIn) {
+              if (!isLoggingIn) {
                 onLogin(ctx);
               }
             },
@@ -168,14 +169,14 @@ class _LoginPageState extends State<LoginPage> {
         $account >>
             (ctx, account) => ElevatedButton(
                   // Online
-                  onPressed: isLoggingIn && account.text.isNotEmpty
+                  onPressed: !isLoggingIn && account.text.isNotEmpty
                       ? () {
                           // un-focus the text field.
                           FocusScope.of(context).requestFocus(FocusNode());
                           onLogin(ctx);
                         }
                       : null,
-                  child: i18n.loginBtn.text().padAll(5),
+                  child: isLoggingIn ? const LoadingPlaceholder.drop() : i18n.loginBtn.text().padAll(5),
                 ),
         if (!widget.isGuarded)
           ElevatedButton(
@@ -196,13 +197,12 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: widget.isGuarded ? i18n.loginRequired.text() : null,
         actions: [
-          if (!widget.isGuarded)
-            IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: () {
-                context.push("/settings");
-              },
-            ),
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              context.push("/settings");
+            },
+          ),
         ],
       ),
       body: buildBody(),

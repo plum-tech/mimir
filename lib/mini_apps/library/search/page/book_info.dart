@@ -25,7 +25,7 @@ class _BookInfoPageState extends State<BookInfoPage> {
     return PlaceholderFutureBuilder<BookInfo>(
       future: LibrarySearchInit.bookInfo.query(bookId),
       builder: (ctx, data, state) {
-        if (data == null) return Placeholders.loading();
+        if (data == null) return const LoadingPlaceholder.drop();
         return Table(
           columnWidths: const {
             0: FlexColumnWidth(2),
@@ -103,7 +103,7 @@ class _BookInfoPageState extends State<BookInfoPage> {
     return PlaceholderFutureBuilder<BookImageHolding>(
       future: get(),
       builder: (ctx, data, state) {
-        if (data == null) return Placeholders.loading();
+        if (data == null) return const LoadingPlaceholder.drop();
         return InkWell(
           child: Card(
             child: BookItemWidget(data),
@@ -124,7 +124,7 @@ class _BookInfoPageState extends State<BookInfoPage> {
     return PlaceholderFutureBuilder<List<String>>(
       future: LibrarySearchInit.holdingInfo.searchNearBookIdList(bookId),
       builder: (ctx, data, state) {
-        if (data == null) return Placeholders.loading();
+        if (data == null) return const LoadingPlaceholder.drop();
         return Column(
           children: data.sublist(0, 5).map((bookId) {
             return Container(
