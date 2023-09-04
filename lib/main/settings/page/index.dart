@@ -18,9 +18,8 @@ import 'package:mimir/hive/init.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/main/settings/page/developer.dart';
 import 'package:mimir/route.dart';
-import 'package:mimir/storage/init.dart';
+import 'package:mimir/storage/settings.dart';
 import 'package:mimir/storage/page/editor.dart';
-import 'package:mimir/storage/storage/develop.dart';
 import 'package:mimir/util/file.dart';
 import 'package:mimir/util/logger.dart';
 import 'package:mimir/util/validation.dart';
@@ -184,13 +183,13 @@ class _SettingsPageState extends State<SettingsPage> {
       subtitle: i18n.campus.desc.text(),
       leading: const Icon(Icons.location_on),
       trailing: DropdownButton<int>(
-        value: Kv.home.campus,
+        value: Settings.campus,
         icon: const Icon(Icons.arrow_downward),
         elevation: 8,
         onChanged: (int? value) {
           // This is called when the user selects an item.
           setState(() {
-            Kv.home.campus = value!;
+            Settings.campus = value!;
           });
           Global.eventBus.fire(EventTypes.onCampusChange);
         },

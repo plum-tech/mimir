@@ -22,7 +22,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixin {
-  final service = ElectricityBillInit.electricityService;
+  final service = ElectricityBillInit.service;
   final updateTimeFormatter = DateFormat('MM/dd HH:mm');
   Balance? _balance;
   final _scrollController = ScrollController();

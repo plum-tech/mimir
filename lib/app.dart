@@ -27,14 +27,14 @@ class _MimirAppState extends State<MimirApp> {
     super.initState();
     // Initialize the app with system theme.
     var platformBrightness = SchedulerBinding.instance.platformDispatcher.platformBrightness;
-    Kv.theme.isDarkMode ??= platformBrightness == Brightness.dark;
+    Settings.isDarkMode ??= platformBrightness == Brightness.dark;
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: Dark mode.
-    final isDark = true || (Kv.theme.isDarkMode ?? false);
-    final primaryColor = Kv.theme.color ?? R.defaultThemeColor;
+    final isDark = true || (Settings.isDarkMode ?? false);
+    final primaryColor = Settings.themeColor ?? R.defaultThemeColor;
 
     buildMaterialWithTheme(ThemeData theme) {
       if (kDebugMode) {

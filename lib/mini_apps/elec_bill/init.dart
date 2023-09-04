@@ -1,19 +1,18 @@
-import 'package:hive/hive.dart';
+import 'package:dio/dio.dart';
 
-import 'dao/local.dart';
-import 'dao/remote.dart';
 import 'service/electricity.dart';
 import 'storage/electricity.dart';
 import 'using.dart';
 
 class ElectricityBillInit {
-  static late ElectricityStorageDao electricityStorage;
-  static late ElectricityServiceDao electricityService;
+  static late ElectricityStorage storage;
+  static late ElectricityService service;
 
   static void init({
+    required Dio dio,
     required Box<dynamic> electricityBox,
   }) {
-    electricityService = ElectricityService();
-    electricityStorage = ElectricityStorage(electricityBox);
+    service = ElectricityService(dio);
+    storage = ElectricityStorage(electricityBox);
   }
 }

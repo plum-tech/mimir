@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
 
-import '../dao/remote.dart';
 import '../entity/account.dart';
 import '../using.dart';
 
 const _balanceUrl = "https://xgfy.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=DBAccess_RunSQLReturnTable";
 
-class ElectricityService implements ElectricityServiceDao {
-  final Dio dio = Dio();
+class ElectricityService {
+  final Dio dio;
 
-  @override
+  const ElectricityService(this.dio);
+
   Future<Balance> getBalance(String room) async {
     final response = await dio.post(
       _balanceUrl,

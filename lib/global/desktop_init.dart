@@ -1,7 +1,7 @@
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/r.dart';
-import 'package:mimir/storage/init.dart';
+import 'package:mimir/storage/settings.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -29,14 +29,14 @@ class DesktopWindowListener extends WindowListener {
   void onWindowResize() async {
     final size = await windowManager.getSize();
     desktopEventBus.fire(WindowResizeEvent(size));
-    Kv.theme.lastWindowSize = size;
+    Settings.lastWindowSize = size;
   }
 
   @override
   void onWindowResized() async {
     final size = await windowManager.getSize();
     desktopEventBus.fire(WindowResizeEndEvent(size));
-    Kv.theme.lastWindowSize = size;
+    Settings.lastWindowSize = size;
   }
 }
 

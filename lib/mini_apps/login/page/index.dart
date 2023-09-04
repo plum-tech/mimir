@@ -20,13 +20,11 @@ class _LoginPageState extends State<LoginPage> {
   // Text field controllers.
   final TextEditingController $account = TextEditingController();
   final TextEditingController $password = TextEditingController();
-  final TextEditingController $proxy = TextEditingController();
 
   final GlobalKey _formKey = GlobalKey<FormState>();
 
   // State
   bool isPasswordClear = false;
-  bool isProxySettingShown = false;
   bool enableLoginButton = true;
 
   @override
@@ -189,14 +187,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
       ],
     );
-  }
-
-  void _showProxyInput() {
-    if (isProxySettingShown) {
-      return;
-    }
-    isProxySettingShown = true;
-    $proxy.text = Kv.network.proxy;
   }
 
   @override

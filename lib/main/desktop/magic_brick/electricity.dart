@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/mini_app.dart';
 import 'package:mimir/mini_apps/symbol.dart';
 import 'package:mimir/route.dart';
-import 'package:mimir/storage/init.dart';
+import 'package:mimir/storage/settings.dart';
 
 import '../widgets/brick.dart';
 import 'package:mimir/mini_apps/elec_bill/i18n.dart';
@@ -22,7 +22,8 @@ class ElectricityBillBrick extends StatefulWidget {
 }
 
 class _ElectricityBillBrickState extends State<ElectricityBillBrick> {
-  final Balance? lastBalance = Kv.home.lastBalance;
+  // TODO: show last balance ElectricityBillInit.storage
+  final Balance? lastBalance = null;
   String? content;
 
   @override

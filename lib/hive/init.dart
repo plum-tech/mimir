@@ -2,11 +2,10 @@ import 'adapter.dart';
 import 'using.dart';
 
 class HiveBoxInit {
-  HiveBoxInit._();
+  const HiveBoxInit._();
 
   static late Box<dynamic> credentials;
   static late Box<LibrarySearchHistoryItem> librarySearchHistory;
-  static late Box<ContactData> contactSetting;
   static late Box<dynamic> timetable;
   static late Box<dynamic> expense;
   static late Box<dynamic> activityCache;
@@ -14,65 +13,54 @@ class HiveBoxInit {
   static late Box<dynamic> examResultCache;
   static late Box<dynamic> oaAnnounceCache;
   static late Box<dynamic> applicationCache;
-  static late Box<dynamic> kv;
-  static late Box<dynamic> cookiesBox;
+  static late Box<dynamic> settings;
+  static late Box<dynamic> meta;
+  static late Box<dynamic> cookies;
 
   static late Map<String, Box> name2Box;
+  static late List<Box> cacheBoxes;
 
   static Future<void> init(String root) async {
     await Hive.initFlutter(root);
     HiveAdapter.registerAll();
-    credentials = await Hive.openBox('credentials');
-    kv = await Hive.openBox('setting');
-    librarySearchHistory = await Hive.openBox('librarySearchHistory');
-    contactSetting = await Hive.openBox('contactSetting');
-    timetable = await Hive.openBox<dynamic>('timetable');
-    expense = await Hive.openBox('expense');
-    activityCache = await Hive.openBox('activityCache');
-    examArrCache = await Hive.openBox('examArrCache');
-    examResultCache = await Hive.openBox('examResultCache');
-    oaAnnounceCache = await Hive.openBox('oaAnnounceCache');
-    applicationCache = await Hive.openBox('applicationCache');
-    cookiesBox = await Hive.openBox<dynamic>('cookies');
-    name2Box = {
-      "credentials": HiveBoxInit.credentials,
-      "setting": HiveBoxInit.kv,
-      "librarySearchHistory": HiveBoxInit.librarySearchHistory,
-      "cookies": HiveBoxInit.cookiesBox,
-      "timetable": HiveBoxInit.timetable,
-      "examArrCache": HiveBoxInit.examArrCache,
-      "examResultCache": HiveBoxInit.examResultCache,
-      "oaAnnounceCache": HiveBoxInit.oaAnnounceCache,
-      "activityCache": HiveBoxInit.activityCache,
-      "applicationCache": HiveBoxInit.applicationCache,
-      "contactSetting": HiveBoxInit.contactSetting,
+    name2Box = _name2Box([
+      credentials = await Hive.openBox('credentials'),
+      settings = await Hive.openBox('settings'),
+      meta = await Hive.openBox('meta'),
+      librarySearchHistory = await Hive.openBox('library-search-history'),
+      cookies = await Hive.openBox('cookies'),
+      timetable = await Hive.openBox('timetable'),
+      ...cacheBoxes = [
+        examArrCache = await Hive.openBox('exam-arr-Cache'),
+        examResultCache = await Hive.openBox('exam-result-cache'),
+        oaAnnounceCache = await Hive.openBox('oa-announce-cache'),
+        activityCache = await Hive.openBox('activity-cache'),
+        applicationCache = await Hive.openBox('application-cache'),
+      ],
       // almost time, this box is very very long which ends up low performance in building.
       // So put this on the bottom
-      "expense": HiveBoxInit.expense,
-    };
+      expense = await Hive.openBox('expense'),
+    ]);
+  }
+
+  static Map<String, Box> _name2Box(List<Box<dynamic>> boxes) {
+    final map = <String, Box>{};
+    for (final box in boxes) {
+      map[box.name] = box;
+    }
+    return map;
   }
 
   static Future<void> clear() async {
-    await credentials.deleteFromDisk();
-    await kv.deleteFromDisk();
-    await librarySearchHistory.deleteFromDisk();
-    await contactSetting.deleteFromDisk();
-    await timetable.deleteFromDisk();
-    await expense.deleteFromDisk();
-    await activityCache.deleteFromDisk();
-    await examArrCache.deleteFromDisk();
-    await examResultCache.deleteFromDisk();
-    await oaAnnounceCache.deleteFromDisk();
-    await applicationCache.deleteFromDisk();
-    await cookiesBox.deleteFromDisk();
+    for (final box in name2Box.values) {
+      await box.deleteFromDisk();
+    }
     await Hive.close();
   }
 
   static Future<void> clearCache() async {
-    activityCache.clear();
-    oaAnnounceCache.clear();
-    examArrCache.clear();
-    examResultCache.clear();
-    applicationCache.clear();
+    for (final box in cacheBoxes) {
+      await box.clear();
+    }
   }
 }

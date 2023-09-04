@@ -14,7 +14,7 @@ class _NoVersionSpecifiedMigrationImpl extends Migration {
   }
 
   Future<void> migrateOAAuth() async {
-    final kvBox = HiveBoxInit.kv;
+    final kvBox = HiveBoxInit.settings;
     final credentialBox = HiveBoxInit.credentials;
     final dynamic account = kvBox.get("/auth/currentUsername");
     final dynamic password = kvBox.get("/auth/ssoPassword");
@@ -26,7 +26,7 @@ class _NoVersionSpecifiedMigrationImpl extends Migration {
   }
 
   Future<void> migrateFreshmanAuth() async {
-    final kvBox = HiveBoxInit.kv;
+    final kvBox = HiveBoxInit.settings;
     final dynamic account = kvBox.get("/freshman/auth/account");
     final dynamic password = kvBox.get("/freshman/auth/secret");
     final credentialBox = HiveBoxInit.credentials;

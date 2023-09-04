@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mimir/global/desktop_init.dart';
 import 'package:mimir/global/global.dart';
-import 'package:mimir/storage/init.dart';
+import 'package:mimir/storage/settings.dart';
 import 'package:universal_platform/universal_platform.dart';
 
+// TODO: homepage background
 class HomeBackground extends StatefulWidget {
   const HomeBackground({super.key});
 
@@ -19,9 +20,9 @@ class _HomeBackgroundState extends State<HomeBackground> {
     super.initState();
     Global.eventBus.on<EventTypes>().listen((e) {
       if (e == EventTypes.onBackgroundChange) {
-        if (Kv.home.background == null) {
-          return;
-        }
+        // if (Settings.background == null) {
+        //   return;
+        // }
         setState(() {});
       }
     });
@@ -43,12 +44,12 @@ class _HomeBackgroundState extends State<HomeBackground> {
 
   @override
   Widget build(BuildContext context) {
-    if (Kv.home.backgroundMode == 2) {
-      final backgroundSelected = Kv.home.background;
-      if (backgroundSelected != null) {
-        return _buildImageBg(File(backgroundSelected));
-      }
-    }
+    // if (Settings.backgroundMode == 2) {
+    //   final backgroundSelected = Settings.background;
+    //   if (backgroundSelected != null) {
+    //     return _buildImageBg(File(backgroundSelected));
+    //   }
+    // }
     return const SizedBox();
   }
 }

@@ -8,10 +8,12 @@ import 'package:mimir/main/network_tool/init.dart';
 import 'package:mimir/migration/migrations.dart';
 import 'package:mimir/mini_apps/symbol.dart';
 import 'package:mimir/session/sis.dart';
-import 'package:mimir/storage/init.dart';
+import 'package:mimir/storage/settings.dart';
 import 'package:mimir/version.dart';
 import 'package:path/path.dart' as path;
 import 'package:universal_platform/universal_platform.dart';
+
+import '../storage/meta.dart';
 
 class Init {
   static late AppVersion currentVersion;
@@ -36,13 +38,14 @@ class Init {
 
     // 初始化Hive数据库
     await HiveBoxInit.init(path.join("net.liplum.Mimir", "hive"));
-    Kv.init(kvStorageBox: HiveBoxInit.kv);
+    Settings = SettingsImpl(HiveBoxInit.settings);
+    Meta = MetaImpl(HiveBoxInit.meta);
     currentVersion = await getCurrentVersion();
-    await Migrations.perform(from: Kv.version.lastVersion, to: currentVersion.full);
-    Kv.version.lastVersion = currentVersion.full;
-    Kv.version.lastStartupTime = DateTime.now();
+    await Migrations.perform(from: Meta.lastVersion, to: currentVersion.full);
+    Meta.lastVersion = currentVersion.full;
+    Meta.lastStartupTime = DateTime.now();
     if (UniversalPlatform.isDesktop) {
-      final lastWindowSize = Kv.theme.lastWindowSize;
+      final lastWindowSize = Settings.lastWindowSize;
       if (lastWindowSize != null) {
         DesktopInit.resizeTo(lastWindowSize);
       }
@@ -53,14 +56,14 @@ class Init {
     );
 
     await Global.init(
-      debugNetwork: debugNetwork ?? Kv.network.isGlobalProxy,
-      cookieBox: HiveBoxInit.cookiesBox,
+      debugNetwork: debugNetwork ?? Settings.isGlobalProxy,
+      cookieBox: HiveBoxInit.cookies,
       credentials: CredentialInit.credential,
     );
 
     // 初始化用户首次打开时间（而不是应用安装时间）
     // ??= 表示为空时候才赋值
-    Kv.home.installTime ??= DateTime.now();
+    Meta.installTime ??= DateTime.now();
 
     OaAnnounceInit.init(
       ssoSession: Global.ssoSession,
@@ -124,7 +127,8 @@ class Init {
     );
 
     ElectricityBillInit.init(
-      electricityBox: HiveBoxInit.kv,
+      dio: Global.dio,
+      electricityBox: HiveBoxInit.settings,
     );
   }
 }

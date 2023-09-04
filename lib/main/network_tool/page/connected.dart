@@ -60,7 +60,7 @@ class _ConnectedInfoPageState extends State<ConnectedInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    final useProxy = Kv.network.useProxy;
+    final useProxy = Settings.useProxy;
     final icon = useProxy ? Icons.vpn_key : getConnectionTypeIcon(connectionType);
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 500),
@@ -76,7 +76,7 @@ class _ConnectedInfoPageState extends State<ConnectedInfoPage> {
     if (useProxy) {
       return Text(
         '${i18n.connectedByVpn}\n'
-        '${i18n.network.ipAddress}：${Kv.network.proxy}',
+        '${i18n.network.ipAddress}：${Settings.proxy}',
         textAlign: TextAlign.center,
         style: style,
       );

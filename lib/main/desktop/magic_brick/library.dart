@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/mini_apps/library/search/entity/hot_search.dart';
 import 'package:mimir/mini_apps/library/search/init.dart';
-import 'package:mimir/storage/init.dart';
+import 'package:mimir/storage/settings.dart';
 import 'package:mimir/mini_apps/library/i18n.dart';
 
 import '../../../mini_app.dart';
@@ -54,15 +54,16 @@ class _LibraryBrickState extends State<LibraryBrick> {
     final hotItem = monthlyHot[randomIndex];
 
     final result = '${i18n.hotPost}: ${hotItem.hotSearchWord} (${hotItem.count})';
-    Kv.home.lastHotSearch = result;
+    // Settings.lastHotSearch = result;
     return result;
   }
 
   @override
   Widget build(BuildContext context) {
     if (content == null) {
-      final lastHotSearch = Kv.home.lastHotSearch;
-      content = lastHotSearch;
+      // TODO: Hot search
+      // final lastHotSearch = Settings.lastHotSearch;
+      // content = lastHotSearch;
     }
     return Brick(
       route: widget.route,

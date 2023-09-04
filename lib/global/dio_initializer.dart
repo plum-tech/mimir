@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:fk_user_agent/fk_user_agent.dart';
 import 'package:flutter/services.dart';
-import 'package:mimir/storage/init.dart';
+import 'package:mimir/storage/settings.dart';
 import 'package:mimir/util/logger.dart';
 import 'package:mimir/util/random_util.dart';
 
@@ -32,7 +32,7 @@ class DioInit {
 
   static Dio _initDioInstance({required DioConfig config, bool? debug}) {
     // 设置 HTTP 代理
-    HttpOverrides.global = KiteHttpOverrides(config: config, debug: debug);
+    HttpOverrides.global = MimirHttpOverrides(config: config, debug: debug);
 
     Dio dio = Dio();
     // 添加拦截器
@@ -87,11 +87,11 @@ bool _proxyFilter(String host) {
   return false;
 }
 
-class KiteHttpOverrides extends HttpOverrides {
+class MimirHttpOverrides extends HttpOverrides {
   final DioConfig config;
   final bool? debug;
 
-  KiteHttpOverrides({required this.config, this.debug});
+  MimirHttpOverrides({required this.config, this.debug});
 
   String getProxyPolicyByUrl(Uri url, String httpProxy) {
     final host = url.host;
@@ -109,7 +109,7 @@ class KiteHttpOverrides extends HttpOverrides {
     final client = super.createHttpClient(context);
 
     // 设置证书检查
-    if (config.allowBadCertificate || Kv.network.useProxy || config.httpProxy != null) {
+    if (config.allowBadCertificate || Settings.useProxy || config.httpProxy != null) {
       client.badCertificateCallback = (cert, host, port) => true;
     }
 
@@ -125,9 +125,9 @@ class KiteHttpOverrides extends HttpOverrides {
         // 不行
         Log.info('测试环境代理服务器为空或不合法，将不使用代理服务器');
       }
-    } else if (Kv.network.useProxy && Kv.network.proxy.isNotEmpty) {
+    } else if (Settings.useProxy && Settings.proxy.isNotEmpty) {
       Log.info('线上设置代理: ${config.httpProxy}');
-      client.findProxy = (url) => getProxyPolicyByUrl(url, Kv.network.proxy);
+      client.findProxy = (url) => getProxyPolicyByUrl(url, Settings.proxy);
     }
     return client;
   }
