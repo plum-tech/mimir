@@ -181,7 +181,7 @@ class _SettingsPageState extends State<SettingsPage> {
     }
     all.add((ctx) => buildLanguageSelector(ctx));
     all.add((_) => const Divider());
-    if (kDebugMode || Settings.isDeveloperMode == true) {
+    if (kDebugMode || Settings.isDeveloperMode) {
       all.add((_) => buildDeveloper());
     }
     all.add((_) => buildClearCache());
@@ -378,13 +378,16 @@ class _VersionTileState extends State<VersionTile> {
         _ => const Icon(Icons.device_unknown_outlined),
       },
       title: i18n.version.text(),
-      onTap: () {
-        clickCount++;
-        if (clickCount >= 10) {
-          Settings.isDeveloperMode = true;
-          context.showSnackBar(Text("Developer mode is on."));
-        }
-      },
+      onTap: Settings.isDeveloperMode
+          ? null
+          : () {
+              if (Settings.isDeveloperMode) return;
+              clickCount++;
+              if (clickCount >= 10) {
+                Settings.isDeveloperMode = true;
+                context.showSnackBar(Text("Developer mode is on."));
+              }
+            },
       subtitle: "${version.platform} ${version.full?.toString() ?? i18n.unknown}".text(),
     );
   }

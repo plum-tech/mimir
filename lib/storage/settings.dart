@@ -69,10 +69,12 @@ class SettingsImpl {
 
   set proxy(String foo) => box.put(_NetworkK.proxy, foo);
 
+  /// False by default.
   bool get useProxy => box.get(_NetworkK.useProxy) ?? false;
 
   set useProxy(bool foo) => box.put(_NetworkK.useProxy, foo);
 
+  /// False by default.
   bool get isGlobalProxy => box.get(_NetworkK.isGlobalProxy) ?? false;
 
   set isGlobalProxy(bool foo) => box.put(_NetworkK.isGlobalProxy, foo);
@@ -82,9 +84,10 @@ class SettingsImpl {
 
   set showErrorInfoDialog(bool? foo) => box.put(_DeveloperK.showErrorInfoDialog, foo);
 
-  bool? get isDeveloperMode => box.get(_DeveloperK.isDeveloperMode);
+  /// False by default.
+  bool get isDeveloperMode => box.get(_DeveloperK.isDeveloperMode) ?? false;
 
-  set isDeveloperMode(bool? foo) => box.put(_DeveloperK.isDeveloperMode, foo);
+  set isDeveloperMode(bool foo) => box.put(_DeveloperK.isDeveloperMode, foo);
 
   ValueListenable<Box> get $isDeveloperMode => box.listenable(keys: [_DeveloperK.isDeveloperMode]);
 }

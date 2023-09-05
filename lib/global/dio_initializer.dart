@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
@@ -8,7 +9,8 @@ import 'package:fk_user_agent/fk_user_agent.dart';
 import 'package:flutter/services.dart';
 import 'package:mimir/storage/settings.dart';
 import 'package:mimir/util/logger.dart';
-import 'package:mimir/util/random_util.dart';
+
+final _rand = Random();
 
 class DioConfig {
   String? httpProxy;
@@ -49,7 +51,8 @@ class DioInit {
 
   static Future<String> getRandomUa() async {
     final c = await rootBundle.loadString('assets/ua.json');
-    return (jsonDecode(c) as List).randomChooseOne().trim();
+    final uaList = jsonDecode(c) as List;
+    return uaList[_rand.nextInt(uaList.length)].trim();
   }
 
   static Future<void> _initUserAgentString({
