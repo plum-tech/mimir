@@ -35,40 +35,44 @@ final router = GoRouter(
   routes: [
     GoRoute(
       path: "/",
-      redirect: (ctx,state) => "/timetable",
+      redirect: (ctx, state) => "/timetable",
     ),
-    ShellRoute(
-      builder: (ctx, state, child) {
-        return MainStagePage(outlet: child);
+    StatefulShellRoute.indexedStack(
+      builder: (ctx, state, navigationShell) {
+        return MainStagePage(navigationShell: navigationShell);
       },
-      routes: [
-        GoRoute(
-          path: "/timetable",
-          // Timetable is the home page.
-          builder: (ctx, state) => const TimetablePage(),
+      branches: [
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: "/timetable",
+              // Timetable is the home page.
+              builder: (ctx, state) => const TimetablePage(),
+            ),
+          ],
         ),
-        GoRoute(
-          path: "/school",
-          builder: (ctx, state) => const SchoolPage(),
-        ),
-        GoRoute(
-          path: "/life",
-          builder: (ctx, state) => const LifePage(),
-        ),
-        GoRoute(
-          path: "/me",
-          builder: (ctx, state) => const MePage(),
-        ),
+        StatefulShellBranch(routes: [
+          GoRoute(
+            path: "/school",
+            builder: (ctx, state) => const SchoolPage(),
+          ),
+        ]),
+        StatefulShellBranch(routes: [
+          GoRoute(
+            path: "/life",
+            builder: (ctx, state) => const LifePage(),
+          ),
+        ]),
+        StatefulShellBranch(routes: [
+          GoRoute(
+            path: "/me",
+            builder: (ctx, state) => const MePage(),
+          ),
+        ]),
       ],
     ),
-    GoRoute(
-      path: "/settings",
-      builder: (ctx, state) => const SettingsPage()
-    ),
-    GoRoute(
-        path: "/network-tool",
-        builder: (ctx, state) => const NetworkToolPage()
-    ),
+    GoRoute(path: "/settings", builder: (ctx, state) => const SettingsPage()),
+    GoRoute(path: "/network-tool", builder: (ctx, state) => const NetworkToolPage()),
     GoRoute(
       path: "/app/activity",
       builder: (ctx, state) => const ActivityIndexPage(),

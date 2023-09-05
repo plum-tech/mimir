@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class MainStagePage extends StatefulWidget {
-  final Widget outlet;
+  final StatefulNavigationShell navigationShell;
 
-  const MainStagePage({super.key, required this.outlet});
+  const MainStagePage({super.key, required this.navigationShell});
 
   @override
   State<MainStagePage> createState() => _MainStagePageState();
@@ -54,7 +54,7 @@ class _MainStagePageState extends State<MainStagePage> {
       key: scaffoldKey,
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
-        child: widget.outlet,
+        child: widget.navigationShell,
       ),
       bottomNavigationBar: buildButtonNavigationBar(),
     );
@@ -76,8 +76,10 @@ class _MainStagePageState extends State<MainStagePage> {
   }
 
   void onItemTapped(int index) {
-    final route = items[index].route;
-    context.go(route);
+    widget.navigationShell.goBranch(
+      index,
+      initialLocation: index == widget.navigationShell.currentIndex,
+    );
   }
 }
 
