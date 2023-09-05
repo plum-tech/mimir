@@ -41,16 +41,12 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   }
 
   String getTip({required ImportStatus by}) {
-    switch (by) {
-      case ImportStatus.none:
-        return i18n.import.selectSemesterTip;
-      case ImportStatus.importing:
-        return i18n.import.importing;
-      case ImportStatus.end:
-        return i18n.import.endTip;
-      default:
-        return i18n.import.failedTip;
-    }
+    return switch(by){
+      ImportStatus.none => i18n.import.selectSemesterTip,
+      ImportStatus.importing => i18n.import.importing,
+      ImportStatus.end => i18n.import.endTip,
+      ImportStatus.failed => i18n.import.failedTip,
+    };
   }
 
   @override
@@ -62,13 +58,13 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
         bottom: !isImporting
             ? null
             : const PreferredSize(
-                preferredSize: Size.fromHeight(4),
-                child: LinearProgressIndicator(),
-              ),
+          preferredSize: Size.fromHeight(4),
+          child: LinearProgressIndicator(),
+        ),
       ),
       body: (canImport
-              ? buildImportPage(key: const ValueKey("Import Timetable"))
-              : buildConnectivityChecker(context, const ValueKey("Connectivity Checker")))
+          ? buildImportPage(key: const ValueKey("Import Timetable"))
+          : buildConnectivityChecker(context, const ValueKey("Connectivity Checker")))
           .animatedSwitched(),
     );
   }
@@ -91,17 +87,17 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   Widget buildTip(BuildContext ctx) {
     final tip = getTip(by: _status);
     return AnimatedSwitcher(
-        duration: const Duration(milliseconds: 300),
-        switchInCurve: Curves.fastLinearToSlowEaseIn,
-        switchOutCurve: Curves.fastLinearToSlowEaseIn,
-        transitionBuilder: (Widget child, Animation<double> animation) {
-          return FadeTransition(opacity: animation, child: child);
-        },
-        child: Text(
-          key: ValueKey(_status),
-          tip,
-          style: ctx.textTheme.titleLarge,
-        ));
+      duration: const Duration(milliseconds: 300),
+      switchInCurve: Curves.fastLinearToSlowEaseIn,
+      switchOutCurve: Curves.fastLinearToSlowEaseIn,
+      transitionBuilder: (Widget child, Animation<double> animation) {
+        return FadeTransition(opacity: animation, child: child);
+      },
+      child: tip.text(
+        key: ValueKey(_status),
+        style: ctx.textTheme.titleLarge,
+      ),
+    );
   }
 
   Widget buildImportPage({Key? key}) {
@@ -133,8 +129,8 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     );
   }
 
-  Future<SitTimetable?> handleTimetableData(
-      BuildContext ctx, SitTimetable timetable, int year, Semester semester) async {
+  Future<SitTimetable?> handleTimetableData(BuildContext ctx, SitTimetable timetable, int year,
+      Semester semester) async {
     final defaultName = i18n.import.defaultName(semester.localized(), year.toString(), (year + 1).toString());
     DateTime defaultStartDate;
     if (semester == Semester.term1) {
@@ -149,7 +145,11 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       schoolYear: year,
     );
     final newMeta = await ctx.showSheet<TimetableMeta>(
-      (ctx) => MetaEditor(meta: meta).padOnly(b: MediaQuery.of(ctx).viewInsets.bottom),
+          (ctx) =>
+          MetaEditor(meta: meta).padOnly(b: MediaQuery
+              .of(ctx)
+              .viewInsets
+              .bottom),
       dismissible: false,
     );
     if (newMeta != null) {
@@ -165,42 +165,42 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       onPressed: _status == ImportStatus.importing
           ? null
           : () async {
-              setState(() {
-                _status = ImportStatus.importing;
-              });
-              try {
-                final semester = selectedSemester;
-                final year = SchoolYear(selectedYear);
-                await Future.wait([
-                  service.getTimetable(year, semester),
-                  //fetchMockCourses(),
-                  Future.delayed(const Duration(seconds: 1)),
-                ]).then((value) async {
-                  if (!mounted) return;
-                  setState(() {
-                    _status = ImportStatus.end;
-                  });
-                  final timetable = await handleTimetableData(ctx, value[0] as SitTimetable, selectedYear, semester);
-                  if (!mounted) return;
-                  context.pop(timetable);
-                }).onError((error, stackTrace) {
-                  Log.error(error);
-                  Log.error(stackTrace);
-                });
-              } catch (e) {
-                setState(() {
-                  _status = ImportStatus.failed;
-                });
-                if (!mounted) return;
-                await context.showTip(title: i18n.import.failed, desc: i18n.import.failedDesc, ok: i18n.ok);
-              } finally {
-                if (_status == ImportStatus.importing) {
-                  setState(() {
-                    _status = ImportStatus.end;
-                  });
-                }
-              }
-            },
+        setState(() {
+          _status = ImportStatus.importing;
+        });
+        try {
+          final semester = selectedSemester;
+          final year = SchoolYear(selectedYear);
+          await Future.wait([
+            service.getTimetable(year, semester),
+            //fetchMockCourses(),
+            Future.delayed(const Duration(seconds: 1)),
+          ]).then((value) async {
+            if (!mounted) return;
+            setState(() {
+              _status = ImportStatus.end;
+            });
+            final timetable = await handleTimetableData(ctx, value[0] as SitTimetable, selectedYear, semester);
+            if (!mounted) return;
+            context.pop(timetable);
+          }).onError((error, stackTrace) {
+            Log.error(error);
+            Log.error(stackTrace);
+          });
+        } catch (e) {
+          setState(() {
+            _status = ImportStatus.failed;
+          });
+          if (!mounted) return;
+          await context.showTip(title: i18n.import.failed, desc: i18n.import.failedDesc, ok: i18n.ok);
+        } finally {
+          if (_status == ImportStatus.importing) {
+            setState(() {
+              _status = ImportStatus.end;
+            });
+          }
+        }
+      },
       child: Padding(
           padding: const EdgeInsets.all(12),
           child: Text(

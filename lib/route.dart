@@ -25,32 +25,27 @@ String? _loginRequired(BuildContext ctx, GoRouterState state) {
 
 final router = GoRouter(
   navigatorKey: $Key,
-  initialLocation: "/",
+  initialLocation: "/homepage",
   debugLogDiagnostics: kDebugMode,
   routes: [
-    GoRoute(
-      path: "/",
-      builder: (ctx, state) => const MainStagePage(),
-      redirect: (ctx, state) {
-        final auth = ctx.auth;
-        if (auth.loginStatus == LoginStatus.never) {
-          return "/login";
-        } else {
-          return null;
-        }
+    ShellRoute(
+      builder: (ctx, state, child) {
+        return MainStagePage(outlet: child);
       },
-    ),
-    GoRoute(
-      path: "/homepage",
-      builder: (ctx, state) => const Homepage(),
-    ),
-    GoRoute(
-      path: "/settings",
-      builder: (ctx, state) => const SettingsPage(),
-    ),
-    GoRoute(
-      path: "/networkTool",
-      builder: (ctx, state) => const NetworkToolPage(),
+      routes: [
+        GoRoute(
+          path: "/homepage",
+          builder: (ctx, state) => const Homepage(),
+        ),
+        GoRoute(
+          path: "/settings",
+          builder: (ctx, state) => const SettingsPage(),
+        ),
+        GoRoute(
+          path: "/networkTool",
+          builder: (ctx, state) => const NetworkToolPage(),
+        ),
+      ],
     ),
     GoRoute(
       path: "/app/activity",
