@@ -12,7 +12,7 @@ import '../../entity/entity.dart';
 import '../../utils.dart';
 import 'header.dart';
 import '../style.dart';
-import 'sheet.dart';
+import '../sheet.dart';
 import '../../entity/pos.dart';
 
 class DailyTimetable extends StatefulWidget {

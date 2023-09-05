@@ -12,7 +12,7 @@ import '../../utils.dart';
 import '../shared.dart';
 import 'header.dart';
 import '../style.dart';
-import 'sheet.dart';
+import '../sheet.dart';
 import '../../entity/pos.dart';
 
 class WeeklyTimetable extends StatefulWidget {

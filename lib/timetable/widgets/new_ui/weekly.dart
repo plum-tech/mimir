@@ -14,7 +14,7 @@ import '../../events.dart';
 import '../../utils.dart';
 import '../shared.dart';
 import '../style.dart';
-import '../classic_ui/sheet.dart';
+import '../sheet.dart';
 import '../../entity/pos.dart';
 import 'shared.dart';
 
