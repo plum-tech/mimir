@@ -353,7 +353,7 @@ class _VersionTileState extends State<VersionTile> {
         _ => const Icon(Icons.device_unknown_outlined),
       },
       title: i18n.version.text(),
-      onTap: Settings.isDeveloperMode
+      onTap: Settings.isDeveloperMode && clickCount <= 10
           ? null
           : () {
               if (Settings.isDeveloperMode) return;

@@ -32,6 +32,15 @@ final router = GoRouter(
   navigatorKey: $Key,
   initialLocation: "/",
   debugLogDiagnostics: kDebugMode,
+  redirect: (ctx, state) {
+    final auth = ctx.auth;
+    if (auth.loginStatus == LoginStatus.never) {
+      // allow to access settings page.
+      if (state.matchedLocation == "/settings") return null;
+      return "/login";
+    }
+    return null;
+  },
   routes: [
     GoRoute(
       path: "/",
@@ -42,15 +51,13 @@ final router = GoRouter(
         return MainStagePage(navigationShell: navigationShell);
       },
       branches: [
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: "/timetable",
-              // Timetable is the home page.
-              builder: (ctx, state) => const TimetablePage(),
-            ),
-          ],
-        ),
+        StatefulShellBranch(routes: [
+          GoRoute(
+            path: "/timetable",
+            // Timetable is the home page.
+            builder: (ctx, state) => const TimetablePage(),
+          ),
+        ]),
         StatefulShellBranch(routes: [
           GoRoute(
             path: "/school",
@@ -71,8 +78,14 @@ final router = GoRouter(
         ]),
       ],
     ),
-    GoRoute(path: "/settings", builder: (ctx, state) => const SettingsPage()),
-    GoRoute(path: "/network-tool", builder: (ctx, state) => const NetworkToolPage()),
+    GoRoute(
+      path: "/settings",
+      builder: (ctx, state) => const SettingsPage(),
+    ),
+    GoRoute(
+      path: "/network-tool",
+      builder: (ctx, state) => const NetworkToolPage(),
+    ),
     GoRoute(
       path: "/app/activity",
       builder: (ctx, state) => const ActivityIndexPage(),
