@@ -7,10 +7,14 @@ import 'package:mimir/utils/guard_launch.dart';
 import 'package:mimir/widgets/webview/injectable.dart';
 import 'package:mimir/utils/logger.dart';
 import 'package:mimir/utils/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class MimirWebViewPage extends StatefulWidget {
+const _kUserAgent =
+    "Mozilla/5.0 (Linux; Android 10; HMA-AL00 Build/HUAWEIHMA-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36";
+
+class WebViewPage extends StatefulWidget {
   /// 初始的url
   final String initialUrl;
 
@@ -56,7 +60,7 @@ class MimirWebViewPage extends StatefulWidget {
   /// 注入cookies
   final List<WebViewCookie> initialCookies;
 
-  const MimirWebViewPage({
+  const WebViewPage({
     Key? key,
     required this.initialUrl,
     this.controller,
@@ -64,10 +68,10 @@ class MimirWebViewPage extends StatefulWidget {
     this.pageStartedInjections,
     this.pageFinishedInjections,
     this.floatingActionButton,
-    this.showSharedButton = false,
+    this.showSharedButton = true,
     this.showRefreshButton = true,
-    this.showOpenInBrowser = false,
-    this.userAgent,
+    this.showOpenInBrowser = true,
+    this.userAgent = _kUserAgent,
     this.javaScriptChannels,
     this.onPageStarted,
     this.onPageFinished,
@@ -78,11 +82,11 @@ class MimirWebViewPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MimirWebViewPage> createState() => _MimirWebViewPageState();
+  State<WebViewPage> createState() => _WebViewPageState();
 }
 
-class _MimirWebViewPageState extends State<MimirWebViewPage> {
-  WebViewController? controller;
+class _WebViewPageState extends State<WebViewPage> {
+  late WebViewController controller;
 
   String title = const CommonI18n().untitled;
   int progress = 0;
@@ -94,11 +98,15 @@ class _MimirWebViewPageState extends State<MimirWebViewPage> {
   }
 
   void _onRefresh() async {
-    await controller?.reload();
+    await controller.reload();
   }
 
   void _onShared() async {
-    Log.info('分享页面: ${await controller?.currentUrl()}');
+    final url = await controller.currentUrl();
+    final uri = url == null ? Uri.tryParse(widget.initialUrl) : Uri.tryParse(url);
+    if (uri != null) {
+      Share.shareUri(uri);
+    }
   }
 
   PreferredSizeWidget buildTopIndicator() {
@@ -119,15 +127,15 @@ class _MimirWebViewPageState extends State<MimirWebViewPage> {
       return const SizedBox();
     }
     final actions = <Widget>[
-      if (widget.showSharedButton)
-        IconButton(
-          onPressed: _onShared,
-          icon: const Icon(Icons.share),
-        ),
       if (widget.showRefreshButton)
         IconButton(
           onPressed: _onRefresh,
           icon: const Icon(Icons.refresh),
+        ),
+      if (widget.showSharedButton)
+        IconButton(
+          onPressed: _onShared,
+          icon: const Icon(Icons.share),
         ),
       if (widget.showOpenInBrowser)
         IconButton(
@@ -139,8 +147,8 @@ class _MimirWebViewPageState extends State<MimirWebViewPage> {
     final curTitle = widget.fixedTitle ?? title;
     return WillPopScope(
       onWillPop: () async {
-        final canGoBack = await controller?.canGoBack() ?? false;
-        if (canGoBack) controller?.goBack();
+        final canGoBack = await controller.canGoBack() ?? false;
+        if (canGoBack) controller.goBack();
         // 如果wv能后退就不能退出路由
         return !canGoBack;
       },
@@ -158,7 +166,7 @@ class _MimirWebViewPageState extends State<MimirWebViewPage> {
           onPageFinished: (url) async {
             if (!mounted) return;
             if (widget.fixedTitle == null) {
-              final newTitle = await controller?.getTitle();
+              final newTitle = await controller.getTitle();
               if (newTitle != title && newTitle != null) {
                 setState(() {
                   title = newTitle;

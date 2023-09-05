@@ -7,7 +7,7 @@ Future<bool> guardLaunchUrl(BuildContext ctx, Uri url) async {
   if (url.scheme == "http" || url.scheme == "https") {
     // guards the http(s)
     if (!UniversalPlatform.isDesktopOrWeb) {
-      ctx.push("/browser?url=$url");
+      ctx.push("/browser", extra: url.toString());
       return true;
     }
     try {

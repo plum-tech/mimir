@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
-import '../using.dart';
+import 'package:mimir/widgets/html_widget.dart';
 
 class SimpleHtmlPage extends StatelessWidget {
   final ValueNotifier<double> _progressNotifier = ValueNotifier<double>(0);

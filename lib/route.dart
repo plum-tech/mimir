@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/credential/symbol.dart';
 import 'package:mimir/life/index.dart';
 import 'package:mimir/main/index.dart';
 import 'package:mimir/main/network_tool/page/index.dart';
 import 'package:mimir/main/settings/page/index.dart';
 import 'package:mimir/me/index.dart';
+import 'package:mimir/mini_apps/exam_result/using.dart';
 import 'package:mimir/school/index.dart';
 import 'package:mimir/timetable/entity/entity.dart';
 import 'package:mimir/timetable/init.dart';
@@ -37,6 +37,8 @@ final router = GoRouter(
     if (auth.loginStatus == LoginStatus.never) {
       // allow to access settings page.
       if (state.matchedLocation == "/settings") return null;
+      // allow to access browser page.
+      if (state.matchedLocation == "/browser") return null;
       return "/login";
     }
     return null;
@@ -56,6 +58,27 @@ final router = GoRouter(
             path: "/timetable",
             // Timetable is the home page.
             builder: (ctx, state) => const TimetablePage(),
+            routes: [
+              GoRoute(
+                path: "preview/:id",
+                builder: (ctx, state) {
+                  final extra = state.extra;
+                  if (extra is SitTimetable) return TimetablePreviewPage(timetable: extra);
+                  final timetable = TimetableInit.storage.getSitTimetableById(id: state.pathParameters["id"]);
+                  if (timetable == null) throw 404;
+                  return TimetablePreviewPage(timetable: timetable);
+                },
+              ),
+              GoRoute(
+                path: "import",
+                builder: (ctx, state) => const ImportTimetablePage(),
+                redirect: _loginRequired,
+              ),
+              GoRoute(
+                path: "mine",
+                builder: (ctx, state) => const MyTimetableListPage(),
+              ),
+            ],
           ),
         ]),
         StatefulShellBranch(routes: [
@@ -77,6 +100,16 @@ final router = GoRouter(
           ),
         ]),
       ],
+    ),
+    GoRoute(
+      path: "/browser",
+      builder: (ctx, state) {
+        final extra = state.extra;
+        if (extra is String) {
+          return WebViewPage(initialUrl: extra);
+        }
+        throw 404;
+      },
     ),
     GoRoute(
       path: "/settings",
@@ -130,29 +163,6 @@ final router = GoRouter(
     GoRoute(
       path: "/app/timetable",
       builder: (ctx, state) => const TimetablePage(),
-    ),
-    GoRoute(
-      path: "/app/timetable/preview/:id",
-      builder: (ctx, state) {
-        final extra = state.extra;
-        if (extra is SitTimetable) {
-          return TimetablePreviewPage(timetable: extra);
-        }
-        final id = state.pathParameters["id"];
-        if (id == null) throw 400;
-        final timetable = TimetableInit.storage.getSitTimetableById(id: id);
-        if (timetable == null) throw 404;
-        return TimetablePreviewPage(timetable: timetable);
-      },
-    ),
-    GoRoute(
-      path: "/app/timetable/import",
-      builder: (ctx, state) => const ImportTimetablePage(),
-      redirect: _loginRequired,
-    ),
-    GoRoute(
-      path: "/app/timetable/mine",
-      builder: (ctx, state) => const MyTimetableListPage(),
     ),
     GoRoute(
       path: "/app/application",

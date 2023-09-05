@@ -25,9 +25,15 @@ dependencies:
   # Basic
   logger: ^1.1.0              # logger
   path_provider: ^2.0.15       # Path
-
-  # String and charset
+  version: ^3.0.2               # Version comparison
+  yaml: ^3.1.2
+  path: ^1.8.2
+  quiver: ^3.1.0
+  collection: ^1.17.2
   format: ^1.3.0              # String formatting
+  go_router: ^10.1.2
+  rettulf: ^1.0.1
+  event_bus: ^2.0.0
 
   # Cryptography
   encrypt: ^5.0.1             # Encryption (AES)
@@ -53,6 +59,9 @@ dependencies:
   fk_user_agent: ^2.1.0
   flutter_widget_from_html: ^0.10.4
   chewie: ^1.7.0
+  cookie_jar: ^4.0.8
+  flutter_widget_from_html_core: ^0.10.4
+  flutter_html: ^3.0.0-beta.2
 
   # Email
   enough_mail: ^2.1.1
@@ -70,6 +79,7 @@ dependencies:
   url_launcher: ^6.1.11             # Open URLs
   image_picker: ^0.8.7+5            # Open Android / iOS system image picker
   file_picker: ^5.0.0
+  share_plus: ^7.1.0
 
   # UI
   fl_chart: ^0.63.0
@@ -82,39 +92,28 @@ dependencies:
   mobile_scanner: ^3.4.1                  # qrcode scanner
   cached_network_image: ^3.2.3
   flutter_easyloading: ^3.0.5
+  modal_bottom_sheet: ^3.0.0-pre
+  auto_size_text: ^3.0.0
+  markdown: ^7.1.0
+  auto_animated: ^3.1.0
+  animations: ^2.0.7
+  dynamic_color: ^1.6.6
+  loading_animation_widget: ^1.2.0+4
+  unicons: ^2.1.1
 
   # Utils
-  version: ^3.0.2               # Version comparison
   package_info_plus: ^4.1.0     # Get package info (version)
   universal_platform: ^1.0.0+1  # dart.io.Platform API for Web
   check_vpn_connection: ^0.0.2  # Check VPN connection status
+  connectivity_plus: ^3.0.3
   synchronized: ^3.1.0        # lock
   stack_trace: ^1.11.0          # parse stacktrace
+  email_validator: ^2.1.17
+  vibration: ^1.8.1
 
   # Desktop support
   window_manager: ^0.3.6
 
-  flutter_html: ^3.0.0-beta.2
-  vibration: ^1.8.1
-  animations: ^2.0.7
-  rettulf: ^1.0.1
-  auto_animated: ^3.1.0
-  markdown: ^7.1.0
-  event_bus: ^2.0.0
-  collection: ^1.17.2
-  unicons: ^2.1.1
-  loading_animation_widget: ^1.2.0+3
-  connectivity_plus: ^3.0.3
-  modal_bottom_sheet: ^3.0.0-pre
-  quiver: ^3.1.0
-  auto_size_text: ^3.0.0
-  cookie_jar: ^4.0.8
-  flutter_widget_from_html_core: ^0.10.4
-  yaml: ^3.1.2
-  path: ^1.8.2
-  go_router: ^10.1.2
-  email_validator: ^2.1.17
-  dynamic_color: ^1.6.6
 
 dependency_overrides:
   intl: ^0.18.0
