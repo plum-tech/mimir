@@ -114,9 +114,6 @@ dependencies:
   # Desktop support
   window_manager: ^0.3.6
 
-  # Android support
-  receive_intent: ^0.2.4
-  uri_to_file: ^0.2.0
 
 dependency_overrides:
   intl: ^0.18.0
