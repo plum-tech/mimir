@@ -84,6 +84,9 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
 
   void importFromFile() async {
     final result = await FilePicker.platform.pickFiles(
+      // Cannot limit the extensions. My RedMi phone just reject all files.
+      // type: FileType.custom,
+      // allowedExtensions: const ["timetable", "json"],
       lockParentWindow: true,
     );
     if (result == null) return;
