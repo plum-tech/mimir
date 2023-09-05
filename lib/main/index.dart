@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/mini_apps/activity/using.dart';
 
 class MainStagePage extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -13,7 +14,7 @@ class MainStagePage extends StatefulWidget {
 class _MainStagePageState extends State<MainStagePage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var currentStage = 0;
-  final List<({String route, BottomNavigationBarItem item})> items = [
+  late final List<({String route, BottomNavigationBarItem item})> items = [
     (
       route: "/timetable",
       item: BottomNavigationBarItem(
@@ -62,6 +63,8 @@ class _MainStagePageState extends State<MainStagePage> {
 
   Widget buildButtonNavigationBar() {
     return BottomNavigationBar(
+      useLegacyColorScheme: false,
+      showUnselectedLabels: false,
       type: BottomNavigationBarType.fixed,
       landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
       currentIndex: getSelectedIndex(),

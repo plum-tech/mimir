@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mimir/mini_apps/activity/using.dart';
 import 'package:mimir/route.dart';
 
@@ -35,11 +34,14 @@ class _MimirAppState extends State<MimirApp> {
 
   @override
   Widget build(BuildContext context) {
-    final primaryColor = Settings.themeColor ?? R.defaultThemeColor;
+    final themeColor = Settings.themeColor ?? Colors.red;
 
     ThemeData bakeTheme(ThemeData origin) {
       return origin.copyWith(
-        primaryColor: primaryColor,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: themeColor,
+          brightness: origin.brightness,
+        ),
         visualDensity: VisualDensity.comfortable,
         appBarTheme: const AppBarTheme(
           toolbarHeight: 40,
@@ -64,12 +66,16 @@ class _MimirAppState extends State<MimirApp> {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       themeMode: Settings.themeMode,
-      theme: bakeTheme(ThemeData.light(useMaterial3: true)),
-      darkTheme: bakeTheme(ThemeData.dark(useMaterial3: true)),
+      theme: bakeTheme(ThemeData.light(
+        useMaterial3: true,
+      )),
+      darkTheme: bakeTheme(ThemeData.dark(
+        useMaterial3: true,
+      )),
       builder: (ctx, child) => AdaptiveUI(
         isSubpage: false,
         child: OaAuthManager(
-          child: child!,
+          child: child ?? const SizedBox(),
         ),
       ),
       scrollBehavior: const MaterialScrollBehavior().copyWith(

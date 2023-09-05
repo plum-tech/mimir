@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mimir/credential/symbol.dart';
+import 'package:mimir/design/colors.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/events/bus.dart';
 import 'package:mimir/events/events.dart';
@@ -83,7 +84,7 @@ class _SettingsPageState extends State<SettingsPage> {
             expandedHeight: 100.0,
             leading: widget.leading,
             flexibleSpace: FlexibleSpaceBar(
-              title: i18n.title.text(),
+              title: i18n.title.text(style: context.textTheme.headlineSmall),
             ),
           ),
           SliverList(
@@ -97,33 +98,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ],
       ),
     );
-/*    return SettingsScreen(title: i18n.settingsTitle, children: [
-      // Personalize
-      SettingsGroup(
-        title: i18n.personalizeTitle,
-        children: <Widget>[
-          ColorPickerSettingsTile(
-            title: i18n.settingsThemeColor,
-            leading: const Icon(Icons.palette_outlined),
-            settingKey: ThemeKeys.themeColor,
-            defaultValue: Kv.theme.color,
-            onChange: (newColor) => DynamicColorTheme.of(context).setColor(
-              color: newColor,
-              shouldSave: true, // saves it to shared preferences
-            ),
-          ),
-          _buildLanguagePrefSelector(context),
-          SwitchSettingsTile(
-            settingKey: ThemeKeys.isDarkMode,
-            defaultValue: Kv.theme.isDarkMode ?? false,
-            title: i18n.settingsDarkMode,
-            subtitle: i18n.settingsDarkModeSub,
-            leading: const Icon(Icons.dark_mode),
-            onChange: (value) => DynamicColorTheme.of(context).setIsDark(isDark: value, shouldSave: false),
-          ),
-        ],
-      ),
-
+/*
       SettingsGroup(title: i18n.networking, children: <Widget>[
         SwitchSettingsTile(
           settingKey: '/network/useProxy',
@@ -431,7 +406,7 @@ class _ThemeModeTileState extends State<ThemeModeTile> {
       title: "Theme".text(),
       onTap: () {
         final current = Settings.themeMode;
-        final newThemeMode  = ThemeMode.values[(current.index + 1 ) % ThemeMode.values.length];
+        final newThemeMode = ThemeMode.values[(current.index + 1) % ThemeMode.values.length];
         Settings.themeMode = newThemeMode;
       },
       subtitle: "Dark Mode".text(),

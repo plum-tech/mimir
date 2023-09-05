@@ -15,7 +15,6 @@ class R {
     zhTwLocale,
   ];
   static const appName = "Mimir";
-  static const defaultThemeColor = Color(0xff67dd13);
 
   /// The default window size is small enough for any modern desktop device.
   static const Size defaultWindowSize = Size(500, 800);
