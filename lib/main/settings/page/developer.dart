@@ -28,7 +28,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
             floating: false,
             expandedHeight: 100.0,
             flexibleSpace: FlexibleSpaceBar(
-              title: i18n.developerOptions.text(),
+              title: i18n.developerOptions.text(style: context.textTheme.headlineSmall),
             ),
           ),
           SliverList(

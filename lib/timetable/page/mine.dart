@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/design/widgets/multiplatform.dart';
@@ -210,7 +211,7 @@ class TimetableEntry extends StatelessWidget {
     final year = '${timetable.schoolYear} - ${timetable.schoolYear + 1}';
     final semester = timetable.semester.localized();
     final textTheme = context.textTheme;
-    return [
+    final widget = [
       [
         timetable.name.text(style: textTheme.titleLarge).expanded(),
         if (isSelected) const Icon(Icons.check, color: Colors.green),
@@ -229,16 +230,22 @@ class TimetableEntry extends StatelessWidget {
                     actions.use(timetable);
                   },
                   child: "Use".text()),
-            if (!isSelected)
-              OutlinedButton(
-                  onPressed: () {
-                    actions.preview(timetable);
-                  },
-                  child: "Preview".text()),
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: isSelected
+                  ? const SizedBox()
+                  : OutlinedButton(
+                      onPressed: () {
+                        actions.preview(timetable);
+                      },
+                      child: "Preview".text(),
+                    ),
+            )
           ].wrap(spacing: 4),
           if (moreAction != null) moreAction!,
         ],
       ),
-    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 20).inCard(elevation: isSelected ? 10 : null);
+    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 20);
+    return isSelected ? widget.inFilledCard() : widget.inOutlinedCard();
   }
 }

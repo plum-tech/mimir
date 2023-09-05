@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mimir/design/widgets/card.dart';
+import 'package:rettulf/rettulf.dart';
 
 class SchoolPage extends StatefulWidget {
   const SchoolPage({super.key});
@@ -10,6 +12,37 @@ class SchoolPage extends StatefulWidget {
 class _SchoolPageState extends State<SchoolPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          pinned: true,
+          snap: false,
+          floating: false,
+          title: "School".text(),
+        ),
+        SliverToBoxAdapter(
+          child: ExamArrApp(),
+        )
+      ],
+    );
+  }
+}
+
+class ExamArrApp extends StatefulWidget {
+  const ExamArrApp({super.key});
+
+  @override
+  State<ExamArrApp> createState() => _ExamArrAppState();
+}
+
+class _ExamArrAppState extends State<ExamArrApp> {
+  @override
+  Widget build(BuildContext context) {
+    return FilledCard(
+      child: ListTile(
+        title: "Exam Arrangement".text(),
+        subtitle: "aa".text(),
+      ),
+    );
   }
 }

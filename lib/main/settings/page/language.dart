@@ -36,7 +36,7 @@ class _LanguageSelectorPageState extends State<LanguageSelectorPage> {
               floating: false,
               expandedHeight: 100.0,
               flexibleSpace: FlexibleSpaceBar(
-                title: "language.$curSelected".tr().text(),
+                title: "language.$curSelected".tr().text(style: context.textTheme.headlineSmall),
               ),
             ),
             SliverList(

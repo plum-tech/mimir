@@ -15,7 +15,13 @@ class _MePageState extends State<MePage> {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          title: "Me".text(),
+          pinned: true,
+          snap: false,
+          floating: false,
+          expandedHeight: 100.0,
+          flexibleSpace: FlexibleSpaceBar(
+            title: "Me".text(style: context.textTheme.headlineSmall),
+          ),
           actions: [
             IconButton(
               icon: const Icon(Icons.settings),

@@ -32,7 +32,7 @@ class _CredentialPageState extends State<CredentialPage> {
             floating: false,
             expandedHeight: 100.0,
             flexibleSpace: FlexibleSpaceBar(
-              title: _i18n.oaAccount.text(),
+              title: _i18n.oaAccount.text(style: context.textTheme.headlineSmall),
             ),
             actions: [
               IconButton(icon: const Icon(Icons.logout_rounded), onPressed: () {}),

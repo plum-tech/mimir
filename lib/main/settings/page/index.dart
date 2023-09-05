@@ -36,9 +36,7 @@ import 'credential.dart';
 import 'language.dart';
 
 class SettingsPage extends StatefulWidget {
-  final Widget? leading;
-
-  const SettingsPage({super.key, this.leading});
+  const SettingsPage({super.key});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -82,7 +80,6 @@ class _SettingsPageState extends State<SettingsPage> {
             snap: false,
             floating: false,
             expandedHeight: 100.0,
-            leading: widget.leading,
             flexibleSpace: FlexibleSpaceBar(
               title: i18n.title.text(style: context.textTheme.headlineSmall),
             ),
