@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rettulf/rettulf.dart';
 import '../init.dart';
 import 'connected.dart';
@@ -9,16 +8,14 @@ import 'disconnected.dart';
 import '../using.dart';
 
 class NetworkToolPage extends StatefulWidget {
-  final Widget? leading;
-
-  const NetworkToolPage({super.key, this.leading});
+  const NetworkToolPage({super.key});
 
   @override
   State<NetworkToolPage> createState() => _NetworkToolPageState();
 }
 
 class _NetworkToolPageState extends State<NetworkToolPage> {
-  bool isConnected = false;
+  bool? isConnected;
   late Timer connectivityChecker;
 
   @override
@@ -55,14 +52,19 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: widget.leading,
-        title: [i18n.title.text(), if (!isConnected) const LoadingPlaceholder.drop().padOnly(l: 40.w)].row(),
+        title: i18n.title.text(),
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(4),
+          child: LinearProgressIndicator(),
+        ),
       ),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 500),
-        child: isConnected
-            ? const ConnectedInfoPage(key: ValueKey("Connected"))
-            : const DisconnectedInfoPage(key: ValueKey("Disconnected")),
+        child: switch (isConnected) {
+          true => const ConnectedInfo(key: ValueKey("Connected")),
+          false => const DisconnectedInfo(key: ValueKey("Disconnected")),
+          null => const SizedBox(key: ValueKey("null")),
+        },
       ),
     );
   }

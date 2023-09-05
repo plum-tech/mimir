@@ -10,14 +10,14 @@ import 'package:rettulf/rettulf.dart';
 import '../service/network.dart';
 import '../using.dart';
 
-class ConnectedInfoPage extends StatefulWidget {
-  const ConnectedInfoPage({super.key});
+class ConnectedInfo extends StatefulWidget {
+  const ConnectedInfo({super.key});
 
   @override
-  State<ConnectedInfoPage> createState() => _ConnectedInfoPageState();
+  State<ConnectedInfo> createState() => _ConnectedInfoState();
 }
 
-class _ConnectedInfoPageState extends State<ConnectedInfoPage> {
+class _ConnectedInfoState extends State<ConnectedInfo> {
   ConnectivityResult? connectionType;
   late Timer connectionTypeChecker;
   late Timer statusChecker;

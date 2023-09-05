@@ -8,14 +8,14 @@ import '../service/network.dart';
 import '../using.dart';
 import '../widgets/status.dart';
 
-class DisconnectedInfoPage extends StatefulWidget {
-  const DisconnectedInfoPage({super.key});
+class DisconnectedInfo extends StatefulWidget {
+  const DisconnectedInfo({super.key});
 
   @override
-  State<DisconnectedInfoPage> createState() => _DisconnectedInfoPageState();
+  State<DisconnectedInfo> createState() => _DisconnectedInfoState();
 }
 
-class _DisconnectedInfoPageState extends State<DisconnectedInfoPage> {
+class _DisconnectedInfoState extends State<DisconnectedInfo> {
   CampusNetworkStatus? status;
   late Timer statusChecker;
 
