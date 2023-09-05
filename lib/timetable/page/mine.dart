@@ -9,6 +9,7 @@ import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/design/widgets/multiplatform.dart';
 import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/route.dart';
 import 'package:mimir/timetable/storage/timetable.dart';
 import 'package:path/path.dart' show join;
 import 'package:rettulf/rettulf.dart';
@@ -18,6 +19,7 @@ import '../entity/meta.dart';
 import '../i18n.dart';
 import '../entity/entity.dart';
 import '../init.dart';
+import '../utils.dart';
 import '../widgets/meta_editor.dart';
 
 class MyTimetableListPage extends StatefulWidget {
@@ -40,6 +42,21 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
     }
   }
 
+  Future<void> importFromFile() async {
+    try {
+      final id2timetable = await importTimetableFromFile();
+      if (id2timetable != null) {
+        final (:id, timetable: _) = id2timetable;
+        storage.usedTimetableId ??= id;
+      }
+      if (!mounted) return;
+      setState(() {});
+    } catch (err) {
+      if (!mounted) return;
+      context.showSnackBar("Format Error. Please select a timetable file.".text());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +70,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: goImport,
+        onPressed: isLoginGuarded(context) ? importFromFile : goImport,
         elevation: 10,
         child: const Icon(Icons.add_outlined),
       ),

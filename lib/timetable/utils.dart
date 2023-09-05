@@ -1,12 +1,19 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:ical/serializer.dart';
 import 'package:mimir/mini_apps/shared/entity/school.dart';
+import 'package:mimir/timetable/storage/timetable.dart';
 import 'package:mimir/utils/file.dart';
 import 'entity/entity.dart';
 
 import 'entity/course.dart';
 import 'entity/meta.dart';
 import 'dart:math';
+
+import 'init.dart';
 
 const maxWeekLength = 20;
 
@@ -18,7 +25,8 @@ void _addEventForCourse(ICalendar cal, Course course, DateTime startDate, Durati
   final timeEnd = timetable[indexEnd - 1].end;
 
   final description =
-      '第 ${indexStart == indexEnd ? indexStart : '$indexStart-$indexEnd'} 节，${course.place}，${course.teacher.join(' ')}';
+      '第 ${indexStart == indexEnd ? indexStart : '$indexStart-$indexEnd'} 节，${course.place}，${course.teacher.join(
+      ' ')}';
 
   // 一学期最多有 20 周
   for (int currentWeek = 1; currentWeek < 20; ++currentWeek) {
@@ -41,9 +49,9 @@ void _addEventForCourse(ICalendar cal, Course course, DateTime startDate, Durati
       alarm: alarmBefore == null
           ? null
           : IAlarm.display(
-              trigger: eventStartTime.subtract(alarmBefore),
-              description: description,
-            ),
+        trigger: eventStartTime.subtract(alarmBefore),
+        description: description,
+      ),
     );
     cal.addElement(event);
   }
@@ -79,7 +87,15 @@ Future<void> exportTimetableToCalendar(TimetableMeta meta, List<Course> courses,
   );
 }
 
-final Map<String, int> _weekday2Index = {'星期一': 1, '星期二': 2, '星期三': 3, '星期四': 4, '星期五': 5, '星期六': 6, '星期日': 7};
+final Map<String, int> _weekday2Index = {
+  '星期一': 1,
+  '星期二': 2,
+  '星期三': 3,
+  '星期四': 4,
+  '星期五': 5,
+  '星期六': 6,
+  '星期日': 7
+};
 
 enum WeekStep {
   single('s'),
@@ -180,7 +196,7 @@ SitTimetable parseTimetableEntity(List<CourseRaw> all) {
     for (final weekNumber in SitCourse.rangedWeekNumbers2EachWeekNumbers(weekIndices)) {
       final weekIndex = weekNumber - 1;
       assert(0 <= weekIndex && weekIndex < maxWeekLength,
-          "Week index is more out of range [0,$maxWeekLength) but $weekIndex.");
+      "Week index is more out of range [0,$maxWeekLength) but $weekIndex.");
       if (0 <= weekIndex && weekIndex < maxWeekLength) {
         final week = getWeekAt(weekIndex);
         final day = week.days[dayIndex];
@@ -214,4 +230,22 @@ SitTimetable parseTimetableEntity(List<CourseRaw> all) {
 Duration calcuSwitchAnimationDuration(num distance) {
   final time = sqrt(max(1, distance) * 100000);
   return Duration(milliseconds: time.toInt());
+}
+
+Future<({String id, SitTimetable timetable})?> importTimetableFromFile() async {
+  final result = await FilePicker.platform.pickFiles(
+    // Cannot limit the extensions. My RedMi phone just reject all files.
+    // type: FileType.custom,
+    // allowedExtensions: const ["timetable", "json"],
+    lockParentWindow: true,
+  );
+  if (result == null) return null;
+  final path = result.files.single.path;
+  if (path == null) return null;
+  final file = File(path);
+  final content = await file.readAsString();
+  final json = jsonDecode(content);
+  final timetable = SitTimetable.fromJson(json);
+  final id = TimetableInit.storage.addTimetable(timetable);
+  return (id:id, timetable:timetable);
 }

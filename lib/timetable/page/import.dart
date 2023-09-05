@@ -1,7 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -11,6 +7,7 @@ import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/mini_apps/shared/entity/school.dart';
 import 'package:mimir/mini_apps/shared/widgets/school.dart';
 import 'package:mimir/timetable/storage/timetable.dart';
+import 'package:mimir/timetable/utils.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../i18n.dart';
@@ -82,24 +79,11 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     );
   }
 
-  void importFromFile() async {
-    final result = await FilePicker.platform.pickFiles(
-      // Cannot limit the extensions. My RedMi phone just reject all files.
-      // type: FileType.custom,
-      // allowedExtensions: const ["timetable", "json"],
-      lockParentWindow: true,
-    );
-    if (result == null) return;
-    final path = result.files.single.path;
-    if (path == null) return;
-    final file = File(path);
+  Future<void> importFromFile() async {
     try {
-      final content = await file.readAsString();
-      final json = jsonDecode(content);
-      final timetable = SitTimetable.fromJson(json);
-      final id = TimetableInit.storage.addTimetable(timetable);
+      final id2timetable = await importTimetableFromFile();
       if (!mounted) return;
-      context.pop((id: id, timetable: timetable));
+      context.pop(id2timetable);
     } catch (err) {
       if (!mounted) return;
       context.showSnackBar("Format Error. Please select a timetable file.".text());

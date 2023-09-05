@@ -20,11 +20,13 @@ import 'login/page/index.dart';
 import 'mini_apps/exam_result/page/evaluation.dart';
 import 'mini_apps/symbol.dart';
 
-String? _loginRequired(BuildContext ctx, GoRouterState state) {
+bool isLoginGuarded(BuildContext ctx) {
   final auth = ctx.auth;
-  if (auth.loginStatus != LoginStatus.validated && auth.credential == null) {
-    return "/login/guard";
-  }
+  return auth.loginStatus != LoginStatus.validated && auth.credential == null;
+}
+
+String? _loginRequired(BuildContext ctx, GoRouterState state) {
+  if (isLoginGuarded(ctx)) return "/login/guard";
   return null;
 }
 
