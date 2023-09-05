@@ -9,13 +9,13 @@ import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/network/session.dart';
 import 'package:mimir/session/common.dart';
-import 'package:mimir/util/logger.dart';
+import 'package:mimir/utils/logger.dart';
 import 'package:mimir/widgets/captcha_box.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:mimir/credential/symbol.dart';
 
 import '../../global/i18n.dart';
-import '../../util/dio_utils.dart';
+import '../../utils/dio_utils.dart';
 import 'encryption.dart';
 
 typedef SsoSessionErrorCallback = void Function(Object e, StackTrace t);

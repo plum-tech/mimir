@@ -26,7 +26,7 @@ class _ConnectedInfoPageState extends State<ConnectedInfoPage> {
   @override
   void initState() {
     super.initState();
-    connectionTypeChecker = Timer.periodic(const Duration(milliseconds: 500), (Timer t) async {
+    connectionTypeChecker = runPeriodically(const Duration(milliseconds: 500), (Timer t) async {
       var type = await Connectivity().checkConnectivity();
       if (type == ConnectivityResult.wifi || type == ConnectivityResult.ethernet) {
         if (await CheckVpnConnection.isVpnActive()) {
@@ -40,7 +40,7 @@ class _ConnectedInfoPageState extends State<ConnectedInfoPage> {
         });
       }
     });
-    statusChecker = Timer.periodic(const Duration(milliseconds: 1000), (Timer t) async {
+    statusChecker = runPeriodically(const Duration(milliseconds: 1000), (Timer t) async {
       final status = await Network.checkCampusNetworkStatus();
       if (this.status != status) {
         if (!mounted) return;

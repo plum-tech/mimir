@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/common.dart';
-import 'package:mimir/util/logger.dart';
-import 'package:mimir/util/url_launcher.dart';
+import 'package:mimir/utils/logger.dart';
+import 'package:mimir/utils/url_launcher.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 

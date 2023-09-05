@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:mimir/util/guard_launch.dart';
-import 'package:mimir/util/logger.dart';
+import 'package:mimir/utils/guard_launch.dart';
+import 'package:mimir/utils/logger.dart';
 
 import 'image_viewer.dart';
 

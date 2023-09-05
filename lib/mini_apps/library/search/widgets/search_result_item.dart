@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../util/search.dart';
+import '../utils.dart';
 
 typedef KeyClickCallback = void Function(String key);
 

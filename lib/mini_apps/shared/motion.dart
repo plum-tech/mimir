@@ -1,1 +1,1 @@
-export 'package:mimir/util/vibration.dart';
+export 'package:mimir/utils/vibration.dart';

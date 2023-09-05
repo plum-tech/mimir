@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/utils.dart';
 import 'package:mimir/l10n/common.dart';
-import 'package:mimir/util/guard_launch.dart';
+import 'package:mimir/utils/guard_launch.dart';
 import 'package:mimir/widgets/webview/injectable.dart';
-import 'package:mimir/util/logger.dart';
-import 'package:mimir/util/url_launcher.dart';
+import 'package:mimir/utils/logger.dart';
+import 'package:mimir/utils/url_launcher.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 

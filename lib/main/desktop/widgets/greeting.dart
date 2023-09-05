@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/credential/symbol.dart';
 import 'package:mimir/l10n/common.dart';
 import 'package:mimir/storage/settings.dart';
+import 'package:mimir/utils/timer.dart';
 
 class GreetingWidget extends StatefulWidget {
   const GreetingWidget({super.key});
@@ -25,7 +26,7 @@ class _GreetingWidgetState extends State<GreetingWidget> {
     super.initState();
 
     /// Rebuild the study days when date is changed.
-    dayWatcher = Timer.periodic(const Duration(minutes: 1), (timer) {
+    dayWatcher = runPeriodically(const Duration(minutes: 1), (timer) {
       final admissionDate = _admissionDate;
       if (admissionDate != null) {
         final now = DateTime.now();

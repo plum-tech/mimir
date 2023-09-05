@@ -1,9 +1,9 @@
-import '../../using.dart';
-import '../dao/holding_preview.dart';
-import '../dao/image_search.dart';
-import '../entity/book_image.dart';
-import '../entity/book_search.dart';
-import '../entity/holding_preview.dart';
+import '../using.dart';
+import 'dao/holding_preview.dart';
+import 'dao/image_search.dart';
+import 'entity/book_image.dart';
+import 'entity/book_search.dart';
+import 'entity/holding_preview.dart';
 
 class BookImageHolding {
   Book book;

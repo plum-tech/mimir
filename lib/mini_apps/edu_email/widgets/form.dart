@@ -65,7 +65,7 @@ class _EduEmailCredentialFormState extends State<EduEmailCredentialForm> {
             enableSuggestions: false,
             validator: (username) {
               if (username == null) return null;
-              if(EmailValidator.validate(R.formatEduEmail(username: username))) return null;
+              if (EmailValidator.validate(R.formatEduEmail(username: username))) return null;
               return "invalid email address format";
             },
             decoration: InputDecoration(
@@ -107,24 +107,20 @@ class _EduEmailCredentialFormState extends State<EduEmailCredentialForm> {
   }
 
   Widget buildLoginButton() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        $username >>
-            (ctx, account) => ElevatedButton(
-                  // Online
-                  onPressed: !isLoggingIn && account.text.isNotEmpty
-                      ? () {
-                          // un-focus the text field.
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          onLogin();
-                        }
-                      : null,
-                  child: isLoggingIn ? const LoadingPlaceholder.drop() : i18n.loginBtn.text().padAll(5),
-                ),
-      ],
-    );
+    return [
+      $username >>
+          (ctx, account) => ElevatedButton(
+                // Online
+                onPressed: !isLoggingIn && account.text.isNotEmpty
+                    ? () {
+                        // un-focus the text field.
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        onLogin();
+                      }
+                    : null,
+                child: isLoggingIn ? const LoadingPlaceholder.drop() : i18n.loginBtn.text().padAll(5),
+              ),
+    ].row(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceAround);
   }
 
   Future<void> onLogin() async {

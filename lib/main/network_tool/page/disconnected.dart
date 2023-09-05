@@ -22,7 +22,7 @@ class _DisconnectedInfoPageState extends State<DisconnectedInfoPage> {
   @override
   void initState() {
     super.initState();
-    statusChecker = Timer.periodic(const Duration(milliseconds: 1000), (Timer t) async {
+    statusChecker = runPeriodically(const Duration(milliseconds: 1000), (Timer t) async {
       final status = await Network.checkCampusNetworkStatus();
       if (this.status != status) {
         if (!mounted) return;

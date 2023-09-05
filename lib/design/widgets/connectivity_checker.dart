@@ -56,7 +56,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
   @override
   void initState() {
     super.initState();
-    networkChecker = Timer.periodic(const Duration(milliseconds: 1000), (Timer t) async {
+    networkChecker = runPeriodically(const Duration(milliseconds: 1000), (Timer t) async {
       var type = await Connectivity().checkConnectivity();
       if (type == ConnectivityResult.wifi || type == ConnectivityResult.ethernet) {
         if (await CheckVpnConnection.isVpnActive()) {

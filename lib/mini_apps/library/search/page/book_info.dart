@@ -6,7 +6,7 @@ import '../entity/book_search.dart';
 import '../entity/holding_preview.dart';
 import '../init.dart';
 import '../widgets/search_result_item.dart';
-import '../util/search.dart';
+import '../utils.dart';
 import 'search_delegate.dart';
 
 class BookInfoPage extends StatefulWidget {

@@ -1,1 +1,1 @@
-export 'package:mimir/util/logger.dart';
+export 'package:mimir/utils/logger.dart';

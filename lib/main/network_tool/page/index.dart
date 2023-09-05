@@ -24,7 +24,7 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
   @override
   void initState() {
     super.initState();
-    connectivityChecker = Timer.periodic(const Duration(milliseconds: 1000), (Timer t) async {
+    connectivityChecker = runPeriodically(const Duration(milliseconds: 1000), (Timer t) async {
       bool connected;
       try {
         connected = await ConnectivityInit.ssoSession.checkConnectivity();

@@ -1,1 +1,1 @@
-export 'package:mimir/util/iconfont.dart';
+export 'package:mimir/utils/iconfont.dart';

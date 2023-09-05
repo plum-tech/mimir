@@ -4,7 +4,7 @@ import '../../using.dart';
 import '../entity/book_search.dart';
 import '../init.dart';
 import '../page/book_info.dart';
-import '../util/search.dart';
+import '../utils.dart';
 import 'search_result_item.dart';
 
 class BookSearchResultWidget extends StatefulWidget {

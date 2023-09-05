@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/util/guard_launch.dart';
+import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -10,7 +10,7 @@ import '../events.dart';
 import '../init.dart';
 import '../widgets/item.dart';
 import '../using.dart';
-import '../util.dart';
+import '../utils.dart';
 import 'evaluation.dart';
 
 class ExamResultPage extends StatefulWidget {

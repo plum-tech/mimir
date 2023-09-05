@@ -1,1 +1,1 @@
-export 'package:mimir/util/file.dart';
+export 'package:mimir/utils/file.dart';

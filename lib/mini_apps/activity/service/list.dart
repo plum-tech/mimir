@@ -1,11 +1,10 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
-import 'package:intl/intl.dart';
-import 'package:mimir/mini_apps/activity/page/util.dart';
 
 import '../dao/list.dart';
 import '../entity/list.dart';
 import '../using.dart';
+import '../utils.dart';
 
 class ScActivityListService implements ScActivityListDao {
   static const _scActivityType = {
