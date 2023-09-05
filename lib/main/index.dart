@@ -15,7 +15,7 @@ class _MainStagePageState extends State<MainStagePage> {
   var currentStage = 0;
   final List<({String route, BottomNavigationBarItem item})> items = [
     (
-      route: "/",
+      route: "/timetable",
       item: BottomNavigationBarItem(
         icon: Icon(Icons.calendar_month_outlined),
         activeIcon: Icon(Icons.calendar_month),
@@ -33,8 +33,8 @@ class _MainStagePageState extends State<MainStagePage> {
     (
       route: "/life",
       item: BottomNavigationBarItem(
-        icon: Icon(Icons.house_outlined),
-        activeIcon: Icon(Icons.house),
+        icon: Icon(Icons.spa_outlined),
+        activeIcon: Icon(Icons.spa),
         label: "Life",
       )
     ),

@@ -33,13 +33,17 @@ final router = GoRouter(
   initialLocation: "/",
   debugLogDiagnostics: kDebugMode,
   routes: [
+    GoRoute(
+      path: "/",
+      redirect: (ctx,state) => "/timetable",
+    ),
     ShellRoute(
       builder: (ctx, state, child) {
         return MainStagePage(outlet: child);
       },
       routes: [
         GoRoute(
-          path: "/",
+          path: "/timetable",
           // Timetable is the home page.
           builder: (ctx, state) => const TimetablePage(),
         ),
