@@ -10,7 +10,7 @@ import 'package:mimir/mini_apps/oa_announce/entity/announce.dart';
 import 'package:mimir/mini_apps/oa_announce/entity/attachment.dart';
 import 'package:mimir/mini_apps/symbol.dart';
 
-import 'adapter/version.dart';
+import 'custom_adapters.dart';
 import 'using.dart';
 
 class HiveAdapter {
@@ -19,6 +19,7 @@ class HiveAdapter {
   static void registerAll() {
     // Basic
     ~VersionAdapter();
+    ~ThemeModeAdapter();
 
     // Credential
     ~OaCredentialAdapter();

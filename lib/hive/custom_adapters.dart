@@ -1,7 +1,7 @@
-import 'package:hive/hive.dart';
+import 'package:flutter/material.dart';
 import 'package:version/version.dart';
 
-import '../type_id.dart';
+import 'type_id.dart';
 
 class VersionAdapter extends TypeAdapter<Version> {
   @override
@@ -30,4 +30,27 @@ class VersionAdapter extends TypeAdapter<Version> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) || other is VersionAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+}
+
+class ThemeModeAdapter extends TypeAdapter<ThemeMode> {
+  @override
+  final int typeId = HiveTypeId.themeMode;
+
+  @override
+  ThemeMode read(BinaryReader reader) {
+    final index = reader.readInt32();
+    return ThemeMode.values[index];
+  }
+
+  @override
+  void write(BinaryWriter writer, ThemeMode obj) {
+    writer.writeInt32(obj.index);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is ThemeModeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

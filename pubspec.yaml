@@ -75,7 +75,6 @@ dependencies:
   fl_chart: ^0.63.0
   grouped_list: ^5.1.2
   pull_to_refresh: ^2.0.0
-  dynamic_color_theme: ^2.0.0
   geopattern_flutter: { git: { url: https://github.com/paolovalerdi/geopattern } }
   flutter_svg: ^2.0.6
   flutter_screenutil: ^5.9.0              # Screen adaptation
@@ -115,6 +114,7 @@ dependencies:
   path: ^1.8.2
   go_router: ^10.1.2
   email_validator: ^2.1.17
+  dynamic_color: ^1.6.6
 
 dependency_overrides:
   intl: ^0.18.0

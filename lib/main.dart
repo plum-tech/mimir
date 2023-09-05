@@ -12,6 +12,7 @@ import 'r.dart';
 void main() async {
   // debugRepaintRainbowEnabled = true;
   // debugRepaintTextRainbowEnabled = true;
+  // debugPaintSizeEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   Migrations.init();

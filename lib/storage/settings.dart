@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../r.dart';
@@ -13,7 +14,7 @@ class _K {
 class _ThemeK {
   static const ns = '/theme';
   static const themeColor = '$ns/themeColor';
-  static const isDarkMode = '$ns/isDarkMode';
+  static const themeMode = '$ns/themeMode';
   static const lastWindowSize = '$ns/lastWindowSize';
 }
 
@@ -56,13 +57,13 @@ class SettingsImpl {
     box.put(_ThemeK.themeColor, v?.value);
   }
 
-  bool? get isDarkMode => box.get(_ThemeK.isDarkMode, defaultValue: false);
+  ThemeMode? get themeMode => box.get(_ThemeK.themeMode);
 
-  set isDarkMode(value) => box.put(_ThemeK.isDarkMode, value ?? false);
+  set themeMode(ThemeMode? value) => box.put(_ThemeK.themeMode, value);
 
   Size? get lastWindowSize => box.get(_ThemeK.lastWindowSize, defaultValue: R.defaultWindowSize);
 
-  set lastWindowSize(value) => box.put(_ThemeK.lastWindowSize, value ?? R.defaultWindowSize);
+  set lastWindowSize(Size? value) => box.put(_ThemeK.lastWindowSize, value ?? R.defaultWindowSize);
 
   // network
   String get proxy => box.get(_NetworkK.proxy, defaultValue: '');

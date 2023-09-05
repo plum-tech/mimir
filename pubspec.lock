@@ -401,14 +401,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0+1"
-  dynamic_color_theme:
+  dynamic_color:
     dependency: "direct main"
     description:
-      name: dynamic_color_theme
-      sha256: "09ce9e07dfb4b3ff00944fda556e5e569d040440f7c88a9ca23b6129bdca875e"
+      name: dynamic_color
+      sha256: de4798a7069121aee12d5895315680258415de9b00e717723a1bd73d58f0126d
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "1.6.6"
   easy_localization:
     dependency: "direct main"
     description:
@@ -598,14 +598,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.1"
-  flutter_colorpicker:
-    dependency: transitive
-    description:
-      name: flutter_colorpicker
-      sha256: e69dc0ccf69d394e5c207d050bafa2ce1eb9b6bb6729f2b9f5833000709710b9
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.0"
   flutter_easyloading:
     dependency: "direct main"
     description:
