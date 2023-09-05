@@ -38,7 +38,5 @@ class EmailCredentialAdapter extends TypeAdapter<EmailCredential> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is EmailCredentialAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is EmailCredentialAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

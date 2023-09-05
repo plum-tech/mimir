@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:check_vpn_connection/check_vpn_connection.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/design/animation/animated.dart';
+import 'package:mimir/design/colors.dart';
+import 'package:mimir/design/widgets/placeholder.dart';
+import 'package:mimir/global/global.dart';
+import 'package:mimir/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
-
-import '../../mini_apps/timetable/init.dart';
-import '../../mini_apps/timetable/using.dart';
 
 enum ConnectivityStatus {
   none,
@@ -47,7 +50,7 @@ IconData getConnectionTypeIcon(ConnectivityResult? type, {IconData? fallback}) {
 }
 
 class _ConnectivityCheckerState extends State<ConnectivityChecker> {
-  final service = TimetableInit.network;
+  final service = Global.ssoSession;
 
   ConnectivityStatus status = ConnectivityStatus.none;
   ConnectivityResult? connectionType;

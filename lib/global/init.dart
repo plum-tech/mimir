@@ -10,6 +10,7 @@ import 'package:mimir/migration/migrations.dart';
 import 'package:mimir/mini_apps/symbol.dart';
 import 'package:mimir/session/sis.dart';
 import 'package:mimir/storage/settings.dart';
+import 'package:mimir/timetable/init.dart';
 import 'package:mimir/version.dart';
 import 'package:path/path.dart' as path;
 import 'package:universal_platform/universal_platform.dart';

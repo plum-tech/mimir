@@ -16,8 +16,7 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) => Transaction()
   ..deviceName = json['deviceName'] as String
   ..note = json['note'] as String;
 
-Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$TransactionToJson(Transaction instance) => <String, dynamic>{
       'datetime': instance.datetime.toIso8601String(),
       'consumerId': instance.consumerId,
       'type': _$TransactionTypeEnumMap[instance.type]!,

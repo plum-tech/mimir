@@ -10,5 +10,4 @@ export 'oa_announce/symbol.dart';
 export 'scanner/symbol.dart';
 export 'shared/symbol.dart';
 export 'simple_page/symbol.dart';
-export 'timetable/symbol.dart';
 export 'yellow_pages/symbol.dart';

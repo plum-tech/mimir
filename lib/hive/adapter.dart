@@ -1,9 +1,17 @@
 import 'package:mimir/credential/symbol.dart';
+import 'package:mimir/mini_apps/activity/entity/detail.dart';
+import 'package:mimir/mini_apps/activity/entity/list.dart';
+import 'package:mimir/mini_apps/activity/entity/score.dart';
+import 'package:mimir/mini_apps/application/entity/application.dart';
+import 'package:mimir/mini_apps/application/entity/message.dart';
+import 'package:mimir/mini_apps/exam_arr/entity/exam.dart';
+import 'package:mimir/mini_apps/exam_result/entity/result.dart';
+import 'package:mimir/mini_apps/oa_announce/entity/announce.dart';
+import 'package:mimir/mini_apps/oa_announce/entity/attachment.dart';
 import 'package:mimir/mini_apps/symbol.dart';
 
 import 'adapter/version.dart';
 import 'using.dart';
-import 'package:mimir/entities.dart';
 
 class HiveAdapter {
   HiveAdapter._();

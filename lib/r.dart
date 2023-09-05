@@ -26,8 +26,7 @@ class R {
   static final v1_0_0 = Version(1, 0, 0);
 
   static const eduEmailDomain = "mail.sit.edu.cn";
-  static String formatEduEmail({required String username}){
+  static String formatEduEmail({required String username}) {
     return "$username@$eduEmailDomain";
   }
 }
-

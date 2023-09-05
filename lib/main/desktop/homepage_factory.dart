@@ -16,12 +16,6 @@ class HomepageFactory {
           title: MiniApp.login.l10nName(),
           subtitle: MiniApp.login.l10nDesc(),
         ),
-    MiniApp.timetable: (context) => Brick(
-          route: "/app/timetable",
-          icon: SvgAssetIcon('assets/home/icon_timetable.svg'),
-          title: MiniApp.timetable.l10nName(),
-          subtitle: MiniApp.timetable.l10nDesc(),
-        ),
     MiniApp.examArr: (context) => Brick(
           route: "/app/examArr",
           icon: SvgAssetIcon('assets/home/icon_exam.svg'),

@@ -52,9 +52,7 @@ class AnnounceDetailAdapter extends TypeAdapter<AnnounceDetail> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AnnounceDetailAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is AnnounceDetailAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
 class AnnounceCatalogueAdapter extends TypeAdapter<AnnounceCatalogue> {
@@ -89,9 +87,7 @@ class AnnounceCatalogueAdapter extends TypeAdapter<AnnounceCatalogue> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AnnounceCatalogueAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is AnnounceCatalogueAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
 class AnnounceRecordAdapter extends TypeAdapter<AnnounceRecord> {
@@ -134,7 +130,5 @@ class AnnounceRecordAdapter extends TypeAdapter<AnnounceRecord> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AnnounceRecordAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is AnnounceRecordAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
