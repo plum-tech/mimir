@@ -152,8 +152,8 @@ class _SettingsPageState extends State<SettingsPage> {
     final credential = context.auth.credential;
     if (credential != null) {
       all.add((_) => buildCredential(credential));
+      all.add((_) => const Divider());
     }
-    all.add((_) => const Divider());
 
     all.add((ctx) => buildLanguageSelector(ctx));
     all.add((_) => const ThemeModeTile());
@@ -366,7 +366,9 @@ class _VersionTileState extends State<VersionTile> {
                 context.showSnackBar(Text("Developer mode is on."));
               }
             },
-      subtitle: "${version.platform} ${version.full?.toString() ?? i18n.unknown}".text(),
+      subtitle:
+          "${version.platform} ${version.full?.toString() ?? i18n.unknown}"
+              .text(),
     );
   }
 }
@@ -406,7 +408,8 @@ class _ThemeModeTileState extends State<ThemeModeTile> {
       title: "Theme".text(),
       onTap: () {
         final current = Settings.themeMode;
-        final newThemeMode = ThemeMode.values[(current.index + 1) % ThemeMode.values.length];
+        final newThemeMode =
+            ThemeMode.values[(current.index + 1) % ThemeMode.values.length];
         Settings.themeMode = newThemeMode;
       },
       subtitle: "Dark Mode".text(),
