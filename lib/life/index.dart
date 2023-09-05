@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mimir/design/widgets/card.dart';
+import 'package:mimir/mini_app.dart';
 import 'package:rettulf/rettulf.dart';
 
 class LifePage extends StatefulWidget {
@@ -17,9 +19,71 @@ class _LifePageState extends State<LifePage> {
           pinned: true,
           snap: false,
           floating: false,
-          expandedHeight: 100.0,
-        )
+        ),
+        SliverToBoxAdapter(
+          child: ExpenseTrackerAppCard(),
+        ),
+        SliverToBoxAdapter(
+          child: ElectricityBillAppCard(),
+        ),
       ],
+    );
+  }
+}
+
+class ExpenseTrackerAppCard extends StatefulWidget {
+  const ExpenseTrackerAppCard({super.key});
+
+  @override
+  State<ExpenseTrackerAppCard> createState() => _ExpenseTrackerAppCardState();
+}
+
+class _ExpenseTrackerAppCardState extends State<ExpenseTrackerAppCard> {
+  @override
+  Widget build(BuildContext context) {
+    return FilledCard(
+      child: [
+        SizedBox(height: 120),
+        ListTile(
+          titleTextStyle: context.textTheme.titleLarge,
+          title: MiniApp.expense.l10nName().text(),
+        ),
+        OverflowBar(
+          alignment: MainAxisAlignment.spaceBetween,
+          children: [
+            FilledButton(onPressed: (){}, child: "Check".text()),
+          ],
+        ).padOnly(l: 5,b: 5),
+      ].column(),
+    );
+  }
+}
+
+
+class ElectricityBillAppCard extends StatefulWidget {
+  const ElectricityBillAppCard({super.key});
+
+  @override
+  State<ElectricityBillAppCard> createState() => _ElectricityBillAppCardState();
+}
+
+class _ElectricityBillAppCardState extends State<ElectricityBillAppCard> {
+  @override
+  Widget build(BuildContext context) {
+    return FilledCard(
+      child: [
+        SizedBox(height: 120),
+        ListTile(
+          titleTextStyle: context.textTheme.titleLarge,
+          title: MiniApp.elecBill.l10nName().text(),
+        ),
+        OverflowBar(
+          alignment: MainAxisAlignment.spaceBetween,
+          children: [
+            FilledButton(onPressed: (){}, child: "Check".text()),
+          ],
+        ).padOnly(l: 5,b: 5),
+      ].column(),
     );
   }
 }
