@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:check_vpn_connection/check_vpn_connection.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/animation/animated.dart';
 import 'package:mimir/design/colors.dart';
@@ -155,7 +156,10 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
         onTap = startCheck;
         break;
     }
-    return tip.text(key: ValueKey(tip)).cupertinoBtn(onPressed: onTap);
+    return CupertinoButton(
+      onPressed: onTap,
+      child: tip.text(key: ValueKey(tip)),
+    );
   }
 
   Widget buildIndicatorArea(BuildContext ctx) {

@@ -15,7 +15,8 @@ class R {
     zhTwLocale,
   ];
   static const appName = "Mimir";
-
+  static late final String appDir;
+  static late final String tmpDir;
   /// The default window size is small enough for any modern desktop device.
   static const Size defaultWindowSize = Size(500, 800);
 

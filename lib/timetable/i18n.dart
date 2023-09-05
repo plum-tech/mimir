@@ -36,6 +36,10 @@ class _Mine {
 
   String get edit => "$ns.edit".tr();
 
+  String get exportFile => "$ns.exportFile".tr();
+
+  String get exportCalender => "$ns.exportCalender".tr();
+
   String get delete => "$ns.delete".tr();
 
   String get preview => "$ns.preview".tr();

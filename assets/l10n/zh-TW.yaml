@@ -269,7 +269,7 @@ settings:
     title: 擦除資料 & 登出
     desc: 擦除帳戶並登出當前 OA 賬戶
     request: 擦除所有資料
-    requestDesc: 這會擦除你本地除網頁快取外的登入資料與其他資料，例如導入的課程表。
+    requestDesc: 這會擦除你本地除網頁快取外的登入資料與其他資料，例如匯入的課程表。
 localStorage:
   title: 本地儲存編輯器
   selectBoxTip: 請先選擇一個盒子。
@@ -293,11 +293,13 @@ timetable:
   mine:
     title: 我的課程表
     edit: 編輯
+    exportFile: 匯出檔案
+    exportCalender: 匯出日曆
     delete: 刪除
     preview: 預覽
     deleteRequest: 確認刪除
     deleteRequestDesc: 你會失去這個課程表，永久地。
-    emptyTip: 快去導入一張新的課程表吧！
+    emptyTip: 快去匯入一張新的課程表吧！
     setToDefault: 設為預設
   detail:
     descFormTitle: 說明
@@ -305,14 +307,14 @@ timetable:
     classId: "班级 {}"
     courseId: "课程代码 {}"
   import:
-    title: 導入課程表
-    button: 嘗試導入
-    connectivityCheckerDesc: 你需要訪問校園網路，才能導入一個新的課程表。現在就開始檢查吧。
+    title: 匯入課程表
+    button: 嘗試匯入
+    connectivityCheckerDesc: 你需要訪問校園網路，才能匯入一個新的課程表。現在就開始檢查吧。
     selectSemesterTip: 請先選擇學年與學期
     endTip: 請補充課程表的資訊。
-    failed: 導入失敗
-    failedDesc: 無法導入課程表，請之後再試。
-    failedTip: 導入失敗，請之後再試。
+    failed: 匯入失敗
+    failedDesc: 無法匯入課程表，請之後再試。
+    failedTip: 匯入失敗，請之後再試。
     importing: 正在擷取課程表數據……
     timetableInfo: 課程表資訊
     defaultName: "{semester} {yearStart}-{yearEnd} 課程表"

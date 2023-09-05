@@ -8,12 +8,8 @@ import 'meta.dart';
 
 part 'entity.g.dart';
 
-///
-/// type: cn.edu.sit.Timetable
 @JsonSerializable()
 class SitTimetable {
-  @JsonKey()
-  final String id;
   @JsonKey()
   final String name;
   @JsonKey()
@@ -31,7 +27,6 @@ class SitTimetable {
   final int courseKeyCounter;
 
   SitTimetable({
-    required this.id,
     required this.weeks,
     required this.courseKey2Entity,
     required this.courseKeyCounter,
@@ -41,7 +36,7 @@ class SitTimetable {
     required this.semester,
   });
 
-  static SitTimetable parse(String id, List<CourseRaw> all) => parseTimetableEntity(id, all);
+  static SitTimetable parse(List<CourseRaw> all) => parseTimetableEntity(all);
   final Map<String, List<SitCourse>> _code2CoursesCache = {};
 
   List<SitCourse> findAndCacheCoursesByCourseCode(String courseCode) {
@@ -72,7 +67,6 @@ class SitTimetable {
 
   SitTimetable copyWithMeta(TimetableMeta meta) {
     return SitTimetable(
-      id: id,
       weeks: weeks,
       courseKey2Entity: courseKey2Entity,
       courseKeyCounter: courseKeyCounter,

@@ -297,6 +297,8 @@ timetable:
   mine:
     title: 我的课程表
     edit: 编辑
+    exportFile: 导出文件
+    exportCalender: 导出日历
     delete: 删除
     preview: 预览
     deleteRequest: 确认删除？

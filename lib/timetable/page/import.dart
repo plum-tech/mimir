@@ -1,3 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/animation/animated.dart';
@@ -60,6 +65,9 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     return Scaffold(
       appBar: AppBar(
         title: i18n.import.title.text(),
+        actions: [
+          CupertinoButton(onPressed: importFromFile, child: "From File".text()),
+        ],
         bottom: !isImporting
             ? null
             : const PreferredSize(
@@ -72,6 +80,27 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
               : buildConnectivityChecker(context, const ValueKey("Connectivity Checker")))
           .animatedSwitched(),
     );
+  }
+
+  void importFromFile() async {
+    final result = await FilePicker.platform.pickFiles(
+      lockParentWindow: true,
+    );
+    if (result == null) return;
+    final path = result.files.single.path;
+    if (path == null) return;
+    final file = File(path);
+    try {
+      final content = await file.readAsString();
+      final json = jsonDecode(content);
+      final timetable = SitTimetable.fromJson(json);
+      final id = TimetableInit.storage.addTimetable(timetable);
+      if (!mounted) return;
+      context.pop((id: id, timetable: timetable));
+    } catch (err) {
+      if (!mounted) return;
+      context.showSnackBar("Format Error. Please select a timetable file.".text());
+    }
   }
 
   Widget buildConnectivityChecker(BuildContext ctx, Key? key) {
@@ -106,35 +135,25 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   }
 
   Widget buildImportPage({Key? key}) {
-    return Column(
-      key: key,
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Padding(padding: const EdgeInsets.symmetric(vertical: 30), child: buildTip(context)),
-        Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30),
-            child: SemesterSelector(
-              onNewYearSelect: (year) {
-                setState(() => selectedYear = year);
-              },
-              onNewSemesterSelect: (semester) {
-                setState(() => selectedSemester = semester);
-              },
-              initialYear: selectedYear,
-              initialSemester: selectedSemester,
-              showEntireYear: false,
-              showNextYear: true,
-            )),
-        Padding(
-          padding: const EdgeInsets.all(24),
-          child: buildImportButton(context),
-        )
-      ],
-    );
+    return [
+      buildTip(context).padSymmetric(v: 30),
+      SemesterSelector(
+        onNewYearSelect: (year) {
+          setState(() => selectedYear = year);
+        },
+        onNewSemesterSelect: (semester) {
+          setState(() => selectedSemester = semester);
+        },
+        initialYear: selectedYear,
+        initialSemester: selectedSemester,
+        showEntireYear: false,
+        showNextYear: true,
+      ).padSymmetric(v: 30),
+      buildImportButton(context).padAll(24),
+    ].column(key: key, maa: MainAxisAlignment.center, caa: CrossAxisAlignment.center);
   }
 
-  Future<SitTimetable?> handleTimetableData(
+  Future<({String id, SitTimetable timetable})?> handleTimetableData(
       BuildContext ctx, SitTimetable timetable, int year, Semester semester) async {
     final defaultName = i18n.import.defaultName(semester.localized(), year.toString(), (year + 1).toString());
     DateTime defaultStartDate;
@@ -154,61 +173,59 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       dismissible: false,
     );
     if (newMeta != null) {
-      final newTimetable = timetable.copyWithMeta(newMeta);
-      storage.addTimetable(newTimetable);
-      return newTimetable;
+      timetable = timetable.copyWithMeta(newMeta);
+      final id = storage.addTimetable(timetable);
+      return (id: id, timetable: timetable);
     }
     return null;
   }
 
   Widget buildImportButton(BuildContext ctx) {
     return ElevatedButton(
-      onPressed: _status == ImportStatus.importing
-          ? null
-          : () async {
-              setState(() {
-                _status = ImportStatus.importing;
-              });
-              try {
-                final semester = selectedSemester;
-                final year = SchoolYear(selectedYear);
-                await Future.wait([
-                  service.getTimetable(year, semester),
-                  //fetchMockCourses(),
-                  Future.delayed(const Duration(seconds: 1)),
-                ]).then((value) async {
-                  if (!mounted) return;
-                  setState(() {
-                    _status = ImportStatus.end;
-                  });
-                  final timetable = await handleTimetableData(ctx, value[0] as SitTimetable, selectedYear, semester);
-                  if (!mounted) return;
-                  context.pop(timetable);
-                }).onError((error, stackTrace) {
-                  debugPrint(error.toString());
-                  debugPrintStack(stackTrace: stackTrace);
-                });
-              } catch (e) {
-                setState(() {
-                  _status = ImportStatus.failed;
-                });
-                if (!mounted) return;
-                await context.showTip(title: i18n.import.failed, desc: i18n.import.failedDesc, ok: i18n.ok);
-              } finally {
-                if (_status == ImportStatus.importing) {
-                  setState(() {
-                    _status = ImportStatus.end;
-                  });
-                }
-              }
-            },
-      child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Text(
-            i18n.import.button,
+      onPressed: _status == ImportStatus.importing ? null : _onImport,
+      child: i18n.import.button
+          .text(
             style: TextStyle(fontSize: ctx.textTheme.titleLarge?.fontSize),
-          )),
+          )
+          .padAll(12),
     );
+  }
+
+  void _onImport() async {
+    setState(() {
+      _status = ImportStatus.importing;
+    });
+    try {
+      final semester = selectedSemester;
+      final year = SchoolYear(selectedYear);
+      await Future.wait([
+        service.getTimetable(year, semester),
+        Future.delayed(const Duration(seconds: 1)),
+      ]).then((value) async {
+        if (!mounted) return;
+        setState(() {
+          _status = ImportStatus.end;
+        });
+        final id2timetable = await handleTimetableData(context, value[0] as SitTimetable, selectedYear, semester);
+        if (!mounted) return;
+        context.pop(id2timetable);
+      }).onError((error, stackTrace) {
+        debugPrint(error.toString());
+        debugPrintStack(stackTrace: stackTrace);
+      });
+    } catch (e) {
+      setState(() {
+        _status = ImportStatus.failed;
+      });
+      if (!mounted) return;
+      await context.showTip(title: i18n.import.failed, desc: i18n.import.failedDesc, ok: i18n.ok);
+    } finally {
+      if (_status == ImportStatus.importing) {
+        setState(() {
+          _status = ImportStatus.end;
+        });
+      }
+    }
   }
 }
 

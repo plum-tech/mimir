@@ -363,9 +363,7 @@ class _VersionTileState extends State<VersionTile> {
                 context.showSnackBar(Text("Developer mode is on."));
               }
             },
-      subtitle:
-          "${version.platform} ${version.full?.toString() ?? i18n.unknown}"
-              .text(),
+      subtitle: "${version.platform} ${version.full?.toString() ?? i18n.unknown}".text(),
     );
   }
 }
@@ -405,8 +403,7 @@ class _ThemeModeTileState extends State<ThemeModeTile> {
       title: "Theme".text(),
       onTap: () {
         final current = Settings.themeMode;
-        final newThemeMode =
-            ThemeMode.values[(current.index + 1) % ThemeMode.values.length];
+        final newThemeMode = ThemeMode.values[(current.index + 1) % ThemeMode.values.length];
         Settings.themeMode = newThemeMode;
       },
       subtitle: "Dark Mode".text(),

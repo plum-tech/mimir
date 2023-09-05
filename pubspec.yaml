@@ -76,9 +76,9 @@ dependencies:
 
   # Open with other APP/programs
   open_file: ^3.3.2                 # Open files
-  url_launcher: ^6.1.11             # Open URLs
-  image_picker: ^0.8.7+5            # Open Android / iOS system image picker
-  file_picker: ^5.0.0
+  url_launcher: ^6.1.14             # Open URLs
+  image_picker: ^1.0.4            # Open Android / iOS system image picker
+  file_picker: ^5.5.0
   share_plus: ^7.1.0
 
   # UI

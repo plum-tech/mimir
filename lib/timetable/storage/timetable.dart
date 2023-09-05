@@ -7,16 +7,16 @@ import '../entity/course.dart';
 import '../entity/entity.dart';
 
 class _K {
-  static const timetablesNs = "/timetables";
   static const timetableIds = "/timetableIds";
-  static const currentTimetableId = "/currentTimetableId";
+  static const lastTimetableId = "/lastTimetableId";
+  static const usedTimetableId = "/usedTimetableId";
   static const lastDisplayMode = "/lastDisplayMode";
 
   // TODO: Remove this and add a new personalization system.
   static const useOldSchoolPalette = "/useOldSchoolPalette";
   static const useNewUI = "/useNewUI";
 
-  static String makeTimetableKey(String id) => "$timetablesNs/$id";
+  static String makeTimetableKey(String id) => "/timetables/$id";
 }
 
 class CurrentTimetableNotifier with ChangeNotifier {
@@ -34,6 +34,10 @@ class TimetableStorage {
 
   set lastDisplayMode(DisplayMode? newValue) => box.put(_K.lastDisplayMode, newValue?.index);
 
+  int get lastTimetableId => box.get(_K.lastTimetableId) ?? 0;
+
+  set lastTimetableId(int newValue) => box.put(_K.lastTimetableId, newValue);
+
   List<String> get timetableIds => box.get(_K.timetableIds) ?? <String>[];
 
   set timetableIds(List<String>? newValue) => box.put(_K.timetableIds, newValue);
@@ -50,15 +54,15 @@ class TimetableStorage {
     } else {
       box.put(_K.makeTimetableKey(id), jsonEncode(timetable.toJson()));
     }
-    if (id == currentTimetableId) {
+    if (id == usedTimetableId) {
       onCurrentTimetableChanged.notifier();
     }
   }
 
-  String? get currentTimetableId => box.get(_K.currentTimetableId);
+  String? get usedTimetableId => box.get(_K.usedTimetableId);
 
-  set currentTimetableId(String? newValue) {
-    box.put(_K.currentTimetableId, newValue);
+  set usedTimetableId(String? newValue) {
+    box.put(_K.usedTimetableId, newValue);
     onCurrentTimetableChanged.notifier();
   }
 
@@ -77,33 +81,35 @@ extension TimetableStorageEx on TimetableStorage {
   bool get hasAnyTimetable => timetableIds.isNotEmpty;
 
   /// Delete the timetable by [id].
-  /// If [SitTimetable.currentTimetableId] equals to [id], it will be also cleared.
+  /// If [SitTimetable.usedTimetableId] equals to [id], it will be also cleared.
   void deleteTimetableOf(String id) {
     final ids = timetableIds;
     if (ids.remove(id)) {
       timetableIds = ids;
-      if (currentTimetableId == id) {
-        currentTimetableId = null;
+      if (usedTimetableId == id) {
+        usedTimetableId = null;
       }
       setSitTimetableById(null, id: id);
     }
   }
 
-  void addTimetable(SitTimetable timetable) {
-    final id = timetable.id;
+  /// Return the timetable id.
+  String addTimetable(SitTimetable timetable) {
+    final curId = "${lastTimetableId++}";
     final ids = timetableIds;
-    ids.add(id);
-    setSitTimetableById(timetable, id: id);
+    ids.add(curId);
+    setSitTimetableById(timetable, id: curId);
     timetableIds = ids;
+    return curId;
   }
 
-  List<SitTimetable> getAllSitTimetables() {
+  List<({String id, SitTimetable timetable})> getAllSitTimetables() {
     final ids = timetableIds;
-    final res = <SitTimetable>[];
+    final res = <({String id, SitTimetable timetable})>[];
     for (final id in ids) {
       final timetable = getSitTimetableById(id: id);
       if (timetable != null) {
-        res.add(timetable);
+        res.add((id: id, timetable: timetable));
       }
     }
     return res;

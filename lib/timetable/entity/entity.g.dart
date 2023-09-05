@@ -7,7 +7,6 @@ part of 'entity.dart';
 // **************************************************************************
 
 SitTimetable _$SitTimetableFromJson(Map<String, dynamic> json) => SitTimetable(
-      id: json['id'] as String,
       weeks: (json['weeks'] as List<dynamic>)
           .map((e) => e == null ? null : SitTimetableWeek.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -22,7 +21,6 @@ SitTimetable _$SitTimetableFromJson(Map<String, dynamic> json) => SitTimetable(
     );
 
 Map<String, dynamic> _$SitTimetableToJson(SitTimetable instance) => <String, dynamic>{
-      'id': instance.id,
       'name': instance.name,
       'startDate': instance.startDate.toIso8601String(),
       'schoolYear': instance.schoolYear,

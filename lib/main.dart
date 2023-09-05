@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/migration/migrations.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'app.dart';
 
@@ -17,6 +18,10 @@ void main() async {
   // debugPaintSizeEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  final appDocDir = await getApplicationDocumentsDirectory();
+  R.appDir = appDocDir.path;
+  final tmpDir = await getTemporaryDirectory();
+  R.tmpDir = tmpDir.path;
   Migrations.init();
   await Init.init();
   runApp(

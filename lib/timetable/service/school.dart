@@ -34,8 +34,7 @@ class TimetableService {
     final json = response.data;
     final List<dynamic> courseList = json['kbList'];
     final rawCourses = courseList.map((e) => CourseRaw.fromJson(e)).toList();
-    final id = UniqueKey().hashCode.toString();
-    final timetableEntity = SitTimetable.parse(id, rawCourses);
+    final timetableEntity = SitTimetable.parse(rawCourses);
     return timetableEntity;
   }
 }

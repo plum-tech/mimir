@@ -16,7 +16,7 @@ class TimetablePage extends StatefulWidget {
 
 class _TimetablePageState extends State<TimetablePage> {
   final storage = TimetableInit.storage;
-  late SitTimetable? _selected = storage.getSitTimetableById(id: storage.currentTimetableId);
+  late SitTimetable? _selected = storage.getSitTimetableById(id: storage.usedTimetableId);
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _TimetablePageState extends State<TimetablePage> {
   }
 
   void refresh() {
-    final current = storage.getSitTimetableById(id: storage.currentTimetableId);
+    final current = storage.getSitTimetableById(id: storage.usedTimetableId);
     if (!mounted) return;
     setState(() {
       _selected = current;

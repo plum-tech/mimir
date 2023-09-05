@@ -45,7 +45,6 @@ class _MimirAppState extends State<MimirApp> {
         visualDensity: VisualDensity.comfortable,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.transparent,
-          toolbarHeight: 40,
         ),
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {

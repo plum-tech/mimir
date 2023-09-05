@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/l10n/extension.dart';
@@ -100,7 +101,7 @@ class _MetaEditorState extends State<MetaEditor> {
 }
 
 Widget _buildButton(BuildContext ctx, String text, {VoidCallback? onPressed}) {
-  return TextButton(
+  return CupertinoButton(
     onPressed: onPressed,
     child: text.text(
       style: TextStyle(fontSize: ctx.textTheme.titleLarge?.fontSize),

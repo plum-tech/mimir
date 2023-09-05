@@ -141,7 +141,7 @@ List<String> _weekText2RangedNumbers(String weekText) {
   return res;
 }
 
-SitTimetable parseTimetableEntity(String id, List<CourseRaw> all) {
+SitTimetable parseTimetableEntity(List<CourseRaw> all) {
   final List<SitTimetableWeek?> weeks = List.generate(20, (index) => null);
   SitTimetableWeek getWeekAt(int index) {
     var week = weeks[index] ??= SitTimetableWeek.$7days();
@@ -200,7 +200,6 @@ SitTimetable parseTimetableEntity(String id, List<CourseRaw> all) {
     }
   }
   final res = SitTimetable(
-    id: id,
     weeks: weeks,
     courseKey2Entity: courseKey2Entity,
     courseKeyCounter: counter,

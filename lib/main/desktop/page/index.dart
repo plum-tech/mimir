@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -107,7 +108,7 @@ class _HomepageState extends State<Homepage> {
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         const Icon(Icons.dangerous),
         title ?? _i18n.campusNetworkUnconnected.text(),
-        TextButton(
+        CupertinoButton(
           child: _i18n.network.openToolBtn.text(),
           onPressed: () {
             context.push("/network-tool");

@@ -297,6 +297,8 @@ timetable:
   mine:
     title: My Timetables
     edit: Edit
+    exportFile: Export File
+    exportCalender: Export Calender
     delete: Delete
     preview: Preview
     deleteRequest: Confirm to delete?

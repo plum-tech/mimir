@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +10,9 @@ import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/design/widgets/multiplatform.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/timetable/storage/timetable.dart';
+import 'package:path/path.dart' show join;
 import 'package:rettulf/rettulf.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../entity/meta.dart';
 import '../i18n.dart';
@@ -26,9 +31,10 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   final storage = TimetableInit.storage;
 
   Future<void> goImport() async {
-    final timetable = await context.push<SitTimetable>("/timetable/import");
-    if (timetable != null) {
-      storage.currentTimetableId ??= timetable.id;
+    final id2timetable = await context.push<({String id, SitTimetable timetable})>("/timetable/import");
+    if (id2timetable != null) {
+      final (:id, timetable: _) = id2timetable;
+      storage.usedTimetableId ??= id;
       if (!mounted) return;
       setState(() {});
     }
@@ -111,23 +117,24 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
 
   Widget buildTimetables(BuildContext ctx) {
     final timetables = storage.getAllSitTimetables();
-    final selectedId = storage.currentTimetableId;
+    final selectedId = storage.usedTimetableId;
     if (timetables.isEmpty) {
       return _buildEmptyBody(ctx);
     }
     return ListView(
       children: [
-        for (final timetable in timetables)
+        for (final (:id, :timetable) in timetables)
           TimetableEntry(
+            id: id,
             timetable: timetable,
-            moreAction: buildActionPopup(timetable, selectedId == timetable.id),
+            moreAction: buildActionPopup(id, timetable, selectedId == id),
             actions: (
               use: (timetable) {
-                storage.currentTimetableId = timetable.id;
+                storage.usedTimetableId = id;
                 setState(() {});
               },
               preview: (timetable) {
-                ctx.push("/app/timetable/preview/${timetable.id}", extra: timetable);
+                ctx.push("/timetable/preview/$id", extra: timetable);
               }
             ),
           ),
@@ -135,7 +142,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
     );
   }
 
-  Widget buildActionPopup(SitTimetable timetable, bool isSelected) {
+  Widget buildActionPopup(String id, SitTimetable timetable, bool isSelected) {
     return PopupMenuButton(
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
       position: PopupMenuPosition.under,
@@ -153,10 +160,30 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
               );
               if (newMeta != null) {
                 final newTimetable = timetable.copyWithMeta(newMeta);
-                storage.setSitTimetableById(newTimetable, id: newTimetable.id);
+                storage.setSitTimetableById(newTimetable, id: id);
                 if (!mounted) return;
                 setState(() {});
               }
+            },
+          ),
+        ),
+        PopupMenuItem(
+          child: ListTile(
+            leading: const Icon(Icons.output_outlined),
+            title: i18n.mine.exportFile.text(),
+            onTap: () async {
+              ctx.pop();
+              final content = jsonEncode(timetable.toJson());
+              final timetableFi = File(join(R.tmpDir, "$id.timetable"));
+              final year = '${timetable.schoolYear} - ${timetable.schoolYear + 1}';
+              final semester = timetable.semester.localized();
+              final desc = "$year, $semester. ${i18n.startWith} ${context.formatYmdText(timetable.startDate)}.";
+              await timetableFi.writeAsString(content);
+              await Share.shareXFiles(
+                [XFile(timetableFi.path)],
+                subject: timetable.name,
+                text: desc,
+              );
             },
           ),
         ),
@@ -174,7 +201,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
                 highlight: true,
               );
               if (confirm == true) {
-                storage.deleteTimetableOf(timetable.id);
+                storage.deleteTimetableOf(id);
                 if (!mounted) return;
                 if (!storage.hasAnyTimetable) {
                   // If no timetable exists, go out.
@@ -194,12 +221,14 @@ typedef TimetableCallback = void Function(SitTimetable tiemtable);
 typedef TimetableActions = ({TimetableCallback use, TimetableCallback preview});
 
 class TimetableEntry extends StatelessWidget {
+  final String id;
   final SitTimetable timetable;
   final Widget? moreAction;
   final TimetableActions actions;
 
   const TimetableEntry({
     super.key,
+    required this.id,
     required this.timetable,
     required this.moreAction,
     required this.actions,
@@ -207,7 +236,7 @@ class TimetableEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isSelected = TimetableInit.storage.currentTimetableId == timetable.id;
+    final isSelected = TimetableInit.storage.usedTimetableId == id;
     final year = '${timetable.schoolYear} - ${timetable.schoolYear + 1}';
     final semester = timetable.semester.localized();
     final textTheme = context.textTheme;

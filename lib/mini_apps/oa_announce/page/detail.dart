@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:mimir/design/utils.dart';
@@ -153,7 +154,7 @@ class _DetailPageState extends State<DetailPage> {
               ],
             ),
           ),
-          TextButton(
+          CupertinoButton(
             onPressed: () => OpenFile.open(targetPath),
             child: i18n.open.text(),
           ),
@@ -181,7 +182,7 @@ class _DetailPageState extends State<DetailPage> {
       widgets.add(Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: detail.attachments.map((e) {
-          return TextButton(
+          return CupertinoButton(
             onPressed: () async => _onDownloadFile(e),
             child: Text(e.name),
           );
