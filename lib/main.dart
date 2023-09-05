@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -6,6 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/migration/migrations.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:receive_intent/receive_intent.dart';
+import 'package:uri_to_file/uri_to_file.dart';
 
 import 'app.dart';
 
@@ -24,6 +29,7 @@ void main() async {
   R.tmpDir = tmpDir.path;
   Migrations.init();
   await Init.init();
+  await _initReceiveIntent();
   runApp(
     const MimirApp().withEasyLocalization().withScreenUtils(),
   );
@@ -53,4 +59,26 @@ extension _AppX on Widget {
       },
     );
   }
+}
+
+late StreamSubscription _sub;
+
+Future<void> _initReceiveIntent() async {
+  // ... check initialIntent
+
+  // Attach a listener to the stream
+  _sub = ReceiveIntent.receivedIntentStream.listen((intent) async {
+    // Validate receivedIntent and warn the user, if it is not correct,
+    print(">>>>>>>>>>>>>>>>>>${intent}");
+    if (intent == null) return;
+    final data = intent.data;
+    if (data == null) return;
+    final fi = await toFile(data);
+    final content = fi.readAsStringSync();
+    print(content);
+  }, onError: (err) {
+    // Handle exception
+  });
+
+  // NOTE: Don't forget to call _sub.cancel() in dispose()
 }
