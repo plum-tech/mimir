@@ -39,10 +39,15 @@ class _ExamArrAppState extends State<ExamArrApp> {
   @override
   Widget build(BuildContext context) {
     return FilledCard(
-      child: ListTile(
-        title: "Exam Arrangement".text(),
-        subtitle: "aa".text(),
-      ),
+      child: [
+        ListTile(
+          titleTextStyle: context.textTheme.titleLarge,
+          title: "Exam Arrangement".text(),
+          subtitle: "aa".text(),
+        ),
+        OverflowBar(children: [
+        ],),
+      ].column(),
     );
   }
 }

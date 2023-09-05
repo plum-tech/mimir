@@ -212,10 +212,7 @@ class TimetableEntry extends StatelessWidget {
     final semester = timetable.semester.localized();
     final textTheme = context.textTheme;
     final widget = [
-      [
-        timetable.name.text(style: textTheme.titleLarge).expanded(),
-        if (isSelected) const Icon(Icons.check, color: Colors.green),
-      ].row(maa: MainAxisAlignment.spaceBetween),
+      timetable.name.text(style: textTheme.titleLarge),
       "$year, $semester".text(style: textTheme.titleMedium),
       "${i18n.startWith} ${context.formatYmdText(timetable.startDate)}".text(style: textTheme.bodyLarge),
       OverflowBar(
@@ -223,24 +220,25 @@ class TimetableEntry extends StatelessWidget {
         children: [
           [
             if (isSelected)
-              FilledButton(onPressed: null, child: "Used".text())
+              FilledButton.icon(
+                icon: const Icon(Icons.check),
+                label: "Used".text(),
+                onPressed: null,
+              )
             else
               FilledButton(
-                  onPressed: () {
-                    actions.use(timetable);
-                  },
-                  child: "Use".text()),
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: isSelected
-                  ? const SizedBox()
-                  : OutlinedButton(
-                      onPressed: () {
-                        actions.preview(timetable);
-                      },
-                      child: "Preview".text(),
-                    ),
-            )
+                onPressed: () {
+                  actions.use(timetable);
+                },
+                child: "Use".text(),
+              ),
+            if (isSelected)
+              OutlinedButton(
+                onPressed: () {
+                  actions.preview(timetable);
+                },
+                child: "Preview".text(),
+              )
           ].wrap(spacing: 4),
           if (moreAction != null) moreAction!,
         ],
