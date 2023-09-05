@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mimir/mini_apps/activity/using.dart';
 
 import '../r.dart';
 
@@ -28,7 +29,7 @@ class _NetworkK {
 class _DeveloperK {
   static const ns = '/developer';
   static const showErrorInfoDialog = '$ns/showErrorInfoDialog';
-  static const isDeveloperMode = '$ns/isDeveloperMode';
+  static const devMode = '$ns/devMode';
 }
 
 late SettingsImpl Settings;
@@ -57,9 +58,12 @@ class SettingsImpl {
     box.put(_ThemeK.themeColor, v?.value);
   }
 
-  ThemeMode? get themeMode => box.get(_ThemeK.themeMode);
+  /// [ThemeMode.system] by default.
+  ThemeMode get themeMode => box.get(_ThemeK.themeMode) ?? ThemeMode.system;
 
-  set themeMode(ThemeMode? value) => box.put(_ThemeK.themeMode, value);
+  set themeMode(ThemeMode value) => box.put(_ThemeK.themeMode, value);
+
+  ValueListenable<Box> get onThemeChanged => box.listenable(keys: [_ThemeK.themeMode, _ThemeK.themeColor]);
 
   Size? get lastWindowSize => box.get(_ThemeK.lastWindowSize, defaultValue: R.defaultWindowSize);
 
@@ -70,12 +74,12 @@ class SettingsImpl {
 
   set proxy(String foo) => box.put(_NetworkK.proxy, foo);
 
-  /// False by default.
+  /// [false] by default.
   bool get useProxy => box.get(_NetworkK.useProxy) ?? false;
 
   set useProxy(bool foo) => box.put(_NetworkK.useProxy, foo);
 
-  /// False by default.
+  /// [false] by default.
   bool get isGlobalProxy => box.get(_NetworkK.isGlobalProxy) ?? false;
 
   set isGlobalProxy(bool foo) => box.put(_NetworkK.isGlobalProxy, foo);
@@ -85,10 +89,10 @@ class SettingsImpl {
 
   set showErrorInfoDialog(bool? foo) => box.put(_DeveloperK.showErrorInfoDialog, foo);
 
-  /// False by default.
-  bool get isDeveloperMode => box.get(_DeveloperK.isDeveloperMode) ?? false;
+  /// [false] by default.
+  bool get isDeveloperMode => box.get(_DeveloperK.devMode) ?? false;
 
-  set isDeveloperMode(bool foo) => box.put(_DeveloperK.isDeveloperMode, foo);
+  set isDeveloperMode(bool foo) => box.put(_DeveloperK.devMode, foo);
 
-  ValueListenable<Box> get $isDeveloperMode => box.listenable(keys: [_DeveloperK.isDeveloperMode]);
+  ValueListenable<Box> get $isDeveloperMode => box.listenable(keys: [_DeveloperK.devMode]);
 }

@@ -178,7 +178,11 @@ class _SettingsPageState extends State<SettingsPage> {
     if (credential != null) {
       all.add((_) => buildCredential(credential));
     }
+    all.add((_) => const Divider());
+
     all.add((ctx) => buildLanguageSelector(ctx));
+    all.add((_) => const ThemeModeTile());
+
     all.add((_) => const Divider());
     if (kDebugMode || Settings.isDeveloperMode) {
       all.add((_) => buildDeveloper());
@@ -388,6 +392,49 @@ class _VersionTileState extends State<VersionTile> {
               }
             },
       subtitle: "${version.platform} ${version.full?.toString() ?? i18n.unknown}".text(),
+    );
+  }
+}
+
+class ThemeModeTile extends StatefulWidget {
+  const ThemeModeTile({super.key});
+
+  @override
+  State<ThemeModeTile> createState() => _ThemeModeTileState();
+}
+
+class _ThemeModeTileState extends State<ThemeModeTile> {
+  @override
+  void initState() {
+    super.initState();
+    Settings.onThemeChanged.addListener(refresh);
+  }
+
+  @override
+  void dispose() {
+    Settings.onThemeChanged.removeListener(refresh);
+    super.dispose();
+  }
+
+  void refresh() {
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: switch (Settings.themeMode) {
+        ThemeMode.dark => const Icon(Icons.dark_mode),
+        ThemeMode.light => const Icon(Icons.light_mode),
+        ThemeMode.system => const Icon(Icons.brightness_6),
+      },
+      title: "Theme".text(),
+      onTap: () {
+        final current = Settings.themeMode;
+        final newThemeMode  = ThemeMode.values[(current.index + 1 ) % ThemeMode.values.length];
+        Settings.themeMode = newThemeMode;
+      },
+      subtitle: "Dark Mode".text(),
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/migration/migrations.dart';
 
@@ -17,7 +19,9 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   Migrations.init();
   await Init.init();
-  runApp(const MimirApp().withEasyLocalization());
+  runApp(
+    const MimirApp().withEasyLocalization().withScreenUtils(),
+  );
 }
 
 final _yamlAssetsLoader = YamlAssetLoader();
@@ -31,6 +35,17 @@ extension _AppX on Widget {
       useFallbackTranslations: true,
       assetLoader: _yamlAssetsLoader,
       child: this,
+    );
+  }
+
+  Widget withScreenUtils() {
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return this;
+      },
     );
   }
 }
