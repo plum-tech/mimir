@@ -110,7 +110,7 @@ class _HomepageState extends State<Homepage> {
         TextButton(
           child: _i18n.network.openToolBtn.text(),
           onPressed: () {
-            context.push("/networkTool");
+            context.push("/network-tool");
           },
         )
       ]),

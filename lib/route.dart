@@ -2,9 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/symbol.dart';
+import 'package:mimir/life/index.dart';
 import 'package:mimir/main/index.dart';
 import 'package:mimir/main/network_tool/page/index.dart';
 import 'package:mimir/main/settings/page/index.dart';
+import 'package:mimir/me/index.dart';
+import 'package:mimir/school/index.dart';
 import 'package:mimir/timetable/entity/entity.dart';
 import 'package:mimir/timetable/init.dart';
 import 'package:mimir/timetable/page/import.dart';
@@ -27,7 +30,7 @@ String? _loginRequired(BuildContext ctx, GoRouterState state) {
 
 final router = GoRouter(
   navigatorKey: $Key,
-  initialLocation: "/timetable",
+  initialLocation: "/",
   debugLogDiagnostics: kDebugMode,
   routes: [
     ShellRoute(
@@ -36,18 +39,31 @@ final router = GoRouter(
       },
       routes: [
         GoRoute(
-          path: "/timetable",
+          path: "/",
+          // Timetable is the home page.
           builder: (ctx, state) => const TimetablePage(),
         ),
         GoRoute(
-          path: "/settings",
-          builder: (ctx, state) => const SettingsPage(),
+          path: "/school",
+          builder: (ctx, state) => const SchoolPage(),
         ),
         GoRoute(
-          path: "/networkTool",
-          builder: (ctx, state) => const NetworkToolPage(),
+          path: "/life",
+          builder: (ctx, state) => const LifePage(),
+        ),
+        GoRoute(
+          path: "/me",
+          builder: (ctx, state) => const MePage(),
         ),
       ],
+    ),
+    GoRoute(
+      path: "/settings",
+      builder: (ctx, state) => const SettingsPage()
+    ),
+    GoRoute(
+        path: "/network-tool",
+        builder: (ctx, state) => const NetworkToolPage()
     ),
     GoRoute(
       path: "/app/activity",

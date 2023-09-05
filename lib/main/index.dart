@@ -15,15 +15,15 @@ class _MainStagePageState extends State<MainStagePage> {
   var currentStage = 0;
   final List<({String route, BottomNavigationBarItem item})> items = [
     (
-      route: "/timetable",
+      route: "/",
       item: BottomNavigationBarItem(
-        icon: Icon(Icons.table_chart_outlined),
-        activeIcon: Icon(Icons.table_chart),
+        icon: Icon(Icons.calendar_month_outlined),
+        activeIcon: Icon(Icons.calendar_month),
         label: "Timetable",
       )
     ),
     (
-      route: "/networkTool",
+      route: "/school",
       item: BottomNavigationBarItem(
         icon: Icon(Icons.school_outlined),
         activeIcon: Icon(Icons.school),
@@ -31,7 +31,15 @@ class _MainStagePageState extends State<MainStagePage> {
       )
     ),
     (
-      route: "/settings",
+      route: "/life",
+      item: BottomNavigationBarItem(
+        icon: Icon(Icons.house_outlined),
+        activeIcon: Icon(Icons.house),
+        label: "Life",
+      )
+    ),
+    (
+      route: "/me",
       item: BottomNavigationBarItem(
         icon: Icon(Icons.person_outline),
         activeIcon: Icon(Icons.person),
@@ -54,6 +62,8 @@ class _MainStagePageState extends State<MainStagePage> {
 
   Widget buildButtonNavigationBar() {
     return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
       currentIndex: getSelectedIndex(),
       onTap: onItemTapped,
       items: items.map((e) => e.item).toList(),
