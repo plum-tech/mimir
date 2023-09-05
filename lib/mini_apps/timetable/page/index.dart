@@ -7,14 +7,14 @@ import '../widgets/style.dart';
 import 'mine.dart';
 import 'timetable.dart';
 
-class TimetableIndexPage extends StatefulWidget {
-  const TimetableIndexPage({super.key});
+class TimetablePage extends StatefulWidget {
+  const TimetablePage({super.key});
 
   @override
-  State<TimetableIndexPage> createState() => _TimetableIndexPageState();
+  State<TimetablePage> createState() => _TimetablePageState();
 }
 
-class _TimetableIndexPageState extends State<TimetableIndexPage> {
+class _TimetablePageState extends State<TimetablePage> {
   final storage = TimetableInit.storage;
   late SitTimetable? _selected = storage.getSitTimetableById(id: storage.currentTimetableId);
 
@@ -50,7 +50,7 @@ class _TimetableIndexPageState extends State<TimetableIndexPage> {
       return const MyTimetableListPage();
     } else {
       return TimetableStyleProv(
-        child: TimetablePage(
+        child: TimetableBoardPage(
           timetable: selected,
         ),
       );

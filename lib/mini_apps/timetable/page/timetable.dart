@@ -14,16 +14,16 @@ import '../widgets/classic_ui/timetable.dart' as classic_ui;
 
 const DisplayMode defaultMode = DisplayMode.weekly;
 
-class TimetablePage extends StatefulWidget {
+class TimetableBoardPage extends StatefulWidget {
   final SitTimetable timetable;
 
-  const TimetablePage({super.key, required this.timetable});
+  const TimetableBoardPage({super.key, required this.timetable});
 
   @override
-  State<TimetablePage> createState() => _TimetablePageState();
+  State<TimetableBoardPage> createState() => _TimetableBoardPageState();
 }
 
-class _TimetablePageState extends State<TimetablePage> {
+class _TimetableBoardPageState extends State<TimetableBoardPage> {
   /// 最大周数
   /// TODO 还没用上
   // static const int maxWeekCount = 20;

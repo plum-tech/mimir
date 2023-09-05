@@ -25,7 +25,7 @@ String? _loginRequired(BuildContext ctx, GoRouterState state) {
 
 final router = GoRouter(
   navigatorKey: $Key,
-  initialLocation: "/homepage",
+  initialLocation: "/timetable",
   debugLogDiagnostics: kDebugMode,
   routes: [
     ShellRoute(
@@ -34,8 +34,8 @@ final router = GoRouter(
       },
       routes: [
         GoRoute(
-          path: "/homepage",
-          builder: (ctx, state) => const Homepage(),
+          path: "/timetable",
+          builder: (ctx, state) => const TimetablePage(),
         ),
         GoRoute(
           path: "/settings",
@@ -90,7 +90,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: "/app/timetable",
-      builder: (ctx, state) => const TimetableIndexPage(),
+      builder: (ctx, state) => const TimetablePage(),
     ),
     GoRoute(
       path: "/app/timetable/preview/:id",
