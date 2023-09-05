@@ -26,7 +26,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   final storage = TimetableInit.storage;
 
   Future<void> goImport() async {
-    final timetable = await context.push<SitTimetable>("/app/timetable/import");
+    final timetable = await context.push<SitTimetable>("/timetable/import");
     if (timetable != null) {
       storage.currentTimetableId ??= timetable.id;
       if (!mounted) return;
@@ -232,7 +232,7 @@ class TimetableEntry extends StatelessWidget {
                 },
                 child: "Use".text(),
               ),
-            if (isSelected)
+            if (!isSelected)
               OutlinedButton(
                 onPressed: () {
                   actions.preview(timetable);

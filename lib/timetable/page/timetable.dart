@@ -119,7 +119,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     return IconButton(
         icon: const Icon(Icons.person_rounded),
         onPressed: () async {
-          await context.push("/app/timetable/mine");
+          await context.push("/timetable/mine");
           setState(() {});
         });
   }
