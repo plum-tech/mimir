@@ -209,14 +209,14 @@ class TimetableEntry extends StatelessWidget {
     final isSelected = TimetableInit.storage.currentTimetableId == timetable.id;
     final year = '${timetable.schoolYear} - ${timetable.schoolYear + 1}';
     final semester = timetable.semester.localized();
-    final bodyTextStyle = context.textTheme.bodyLarge;
+    final textTheme = context.textTheme;
     return [
       [
-        timetable.name.text(style: context.textTheme.headlineSmall).expanded(),
+        timetable.name.text(style: textTheme.titleLarge).expanded(),
         if (isSelected) const Icon(Icons.check, color: Colors.green),
       ].row(maa: MainAxisAlignment.spaceBetween),
-      "$year $semester".text(style: context.textTheme.titleMedium),
-      "${i18n.startWith} ${context.formatYmdText(timetable.startDate)}".text(style: bodyTextStyle),
+      "$year, $semester".text(style: textTheme.titleMedium),
+      "${i18n.startWith} ${context.formatYmdText(timetable.startDate)}".text(style: textTheme.bodyLarge),
       OverflowBar(
         alignment: MainAxisAlignment.spaceBetween,
         children: [
