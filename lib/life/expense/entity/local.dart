@@ -1,9 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:unicons/unicons.dart';
 
-import './remote.dart';
-import '../using.dart';
+import 'remote.dart';
 import 'shared.dart';
 
 part 'local.g.dart';
@@ -63,24 +63,22 @@ extension TransactionEnchanced on Transaction {
   }
 }
 
-typedef _I = IconPair;
-
 enum TransactionType {
-  water(_I(UniconsLine.water_glass, Color(0xff8acde1))),
-  shower(_I(Icons.shower_outlined, Color(0xFF2196F3))),
-  food(_I(Icons.restaurant, Color(0xffe78d32))),
-  store(_I(Icons.store_outlined, Color(0xFF0DAB30))),
-  topUp(_I(Icons.savings, Colors.blue)),
-  subsidy(_I(Icons.handshake_outlined, Color(0xffdd2e22))),
-  coffee(_I(Icons.coffee_rounded, Color(0xFF6F4E37))),
-  library(_I(Icons.import_contacts_outlined, Color(0xffa75f1d))),
-  other(_I(Icons.menu_rounded, Colors.grey));
+  water((UniconsLine.water_glass, Color(0xff8acde1))),
+  shower((Icons.shower_outlined, Color(0xFF2196F3))),
+  food((Icons.restaurant, Color(0xffe78d32))),
+  store((Icons.store_outlined, Color(0xFF0DAB30))),
+  topUp((Icons.savings, Colors.blue)),
+  subsidy((Icons.handshake_outlined, Color(0xffdd2e22))),
+  coffee((Icons.coffee_rounded, Color(0xFF6F4E37))),
+  library((Icons.import_contacts_outlined, Color(0xffa75f1d))),
+  other((Icons.menu_rounded, Colors.grey));
 
-  final IconPair style;
+  final (IconData icon, Color) style;
 
-  IconData get icon => style.icon;
+  IconData get icon => style.$1;
 
-  Color get color => style.color;
+  Color get color => style.$2;
 
   const TransactionType(this.style);
 

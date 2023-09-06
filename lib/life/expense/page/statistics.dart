@@ -3,7 +3,7 @@ import 'package:mimir/widgets/base_line_chart.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/local.dart';
-import '../using.dart';
+import '../i18n.dart';
 
 class StatisticsPage extends StatefulWidget {
   final List<Transaction> records;

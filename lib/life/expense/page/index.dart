@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mimir/credential/symbol.dart';
+import 'package:mimir/mini_app.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/local.dart';
 import '../init.dart';
-import '../using.dart';
+import '../i18n.dart';
 import 'bill.dart';
 import 'statistics.dart';
 

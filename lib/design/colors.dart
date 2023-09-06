@@ -135,9 +135,3 @@ const List<Color> applicationColors = <Color>[
   Colors.teal,
 ];
 
-class IconPair {
-  final IconData icon;
-  final Color color;
-
-  const IconPair(this.icon, this.color);
-}

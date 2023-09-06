@@ -2,11 +2,11 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
+import 'package:mimir/network/session.dart';
 
 import '../dao/getter.dart';
 import '../entity/local.dart';
 import '../entity/remote.dart';
-import '../using.dart';
 import 'anaylze.dart';
 
 class ExpenseGetService implements ExpenseGetDao {

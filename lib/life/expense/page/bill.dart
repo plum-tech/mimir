@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:mimir/design/colors.dart';
+import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/local.dart';
-import '../using.dart';
+import '../i18n.dart';
 
 class BillPage extends StatelessWidget {
   final List<Transaction> records;

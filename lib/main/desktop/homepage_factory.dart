@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../mini_app.dart';
 import 'magic_brick/application.dart';
-import 'magic_brick/expense.dart';
 import 'magic_brick/library.dart';
 import 'magic_brick/mail.dart';
 import 'widgets/brick.dart';
@@ -26,10 +25,6 @@ class HomepageFactory {
           icon: SvgAssetIcon('assets/home/icon_event.svg'),
           title: MiniApp.activity.l10nName(),
           subtitle: MiniApp.activity.l10nDesc(),
-        ),
-    MiniApp.expense: (context) => ExpenseBrick(
-          route: "/app/expense",
-          icon: SvgAssetIcon('assets/home/icon_expense.svg'),
         ),
     MiniApp.examResult: (context) => Brick(
           route: "/app/examResult",

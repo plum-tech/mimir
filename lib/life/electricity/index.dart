@@ -8,7 +8,6 @@ import 'package:mimir/mini_app.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'i18n.dart';
-import 'entity/balance.dart';
 import 'init.dart';
 import 'widgets/card.dart';
 
