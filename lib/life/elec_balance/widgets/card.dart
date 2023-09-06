@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/colors.dart';
 import 'package:mimir/design/widgets/placeholder.dart';
@@ -24,14 +25,11 @@ class ElectricityBalanceCard extends StatelessWidget {
     ].column(maa: MainAxisAlignment.spaceEvenly).padH(20).inCard(elevation: elevation);
   }
 
-  Widget buildInfoRow(BuildContext ctx, IconData icon, String title, String? content, {Color? color}) {
+  Widget buildInfoRow(BuildContext context, IconData icon, String title, String? content, {Color? color}) {
     final style = TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: color);
     return [
       [
-        Icon(
-          icon,
-          color: ctx.fgColor,
-        ),
+        Icon(icon),
         const SizedBox(width: 10),
         Text(title, style: style, overflow: TextOverflow.fade),
       ].row(),

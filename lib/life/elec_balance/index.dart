@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/life/elec_balance/init.dart';
 import 'package:mimir/life/elec_balance/widgets/card.dart';
+import 'package:mimir/main/network_tool/using.dart';
 import 'package:mimir/mini_app.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -17,11 +20,21 @@ class ElectricityBalanceAppCard extends StatefulWidget {
 
 class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
   ElectricityBalance? balance;
+  late Timer refreshTimer;
 
   @override
   initState() {
     super.initState();
-    _refresh();
+    // auto refresh per minute.
+    refreshTimer = runPeriodically(const Duration(minutes : 1), (timer) async {
+      await _refresh();
+    });
+  }
+
+  @override
+  dispose(){
+    refreshTimer.cancel();
+    super.dispose();
   }
 
   Future<void> _refresh() async {
@@ -38,6 +51,18 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
 
   @override
   Widget build(BuildContext context) {
+    return Theme(
+      data: context.theme.copyWith(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.yellow,
+          brightness: context.colorScheme.brightness,
+        ),
+      ),
+      child: buildBody(),
+    );
+  }
+
+  Widget buildBody() {
     return FilledCard(
       child: [
         SizedBox(
