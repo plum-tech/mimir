@@ -119,7 +119,7 @@ class _EduEmailCredentialFormState extends State<EduEmailCredentialForm> {
                         onLogin();
                       }
                     : null,
-                child: isLoggingIn ? const LoadingPlaceholder.drop() : i18n.loginBtn.text().padAll(5),
+                child: isLoggingIn ? const CircularProgressIndicator() : i18n.loginBtn.text().padAll(5),
               ),
     ].row(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceAround);
   }

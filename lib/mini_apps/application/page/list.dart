@@ -82,7 +82,7 @@ class _ApplicationListState extends State<ApplicationList> with AdaptivePageProt
     } else if (_allDescending.isNotEmpty) {
       return buildListPortrait(_allDescending);
     } else {
-      return const LoadingPlaceholder.drop();
+      return const CircularProgressIndicator();
     }
   }
 
@@ -93,7 +93,7 @@ class _ApplicationListState extends State<ApplicationList> with AdaptivePageProt
     } else if (_allDescending.isNotEmpty) {
       return buildListPortrait(_allDescending);
     } else {
-      return const LoadingPlaceholder.drop();
+      return const CircularProgressIndicator();
     }
   }
 
@@ -123,7 +123,7 @@ class _ApplicationListState extends State<ApplicationList> with AdaptivePageProt
     } else if (_allDescending.isNotEmpty) {
       return AdaptiveNavigation(child: buildListLandscape(_allDescending));
     } else {
-      return const LoadingPlaceholder.drop();
+      return const CircularProgressIndicator();
     }
   }
 

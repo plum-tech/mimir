@@ -53,7 +53,7 @@ BarTouchData _barTouchData() => BarTouchData(
 
 Widget _buildChart(BuildContext ctx, ScScoreSummary targetScore, ScScoreSummary? summary, {bool showTotal = false}) {
   if (summary == null) {
-    return const LoadingPlaceholder.drop();
+    return const CircularProgressIndicator();
   }
   List<double> buildScoreList(ScScoreSummary scss) {
     return [scss.voluntary, scss.campus, scss.creation, scss.safetyEdu, scss.lecture, scss.practice];

@@ -95,7 +95,7 @@ class _DetailPageState extends State<DetailPage> {
   ) {
     final detail = _detail;
     if (detail == null) {
-      return const LoadingPlaceholder.drop();
+      return const CircularProgressIndicator();
     } else {
       final sections = detail.sections;
       sections.retainWhere((e) => e.isNotEmpty && _isValidSectionType(e));

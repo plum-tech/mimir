@@ -41,7 +41,7 @@ class _InAppViewPageState extends State<InAppViewPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: cookies == null ? const LoadingPlaceholder.drop() : buildWebPage(cookies),
+      body: cookies == null ? const CircularProgressIndicator() : buildWebPage(cookies),
     );
   }
 

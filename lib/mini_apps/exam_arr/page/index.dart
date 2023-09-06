@@ -41,7 +41,7 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
         appBar: AppBar(title: MiniApp.examArr.l10nName().text()),
         body: [
           buildSemesterSelector(),
-          exams == null ? const LoadingPlaceholder.drop().expanded() : buildExamEntries(exams).expanded(),
+          exams == null ? const CircularProgressIndicator().expanded() : buildExamEntries(exams).expanded(),
         ].column());
   }
 

@@ -166,7 +166,7 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
     return SingleChildScrollView(
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         buildInfoCardPortrait(context, detail),
-        if (detail != null) _buildArticle(context, detail.description) else const LoadingPlaceholder.drop(),
+        if (detail != null) _buildArticle(context, detail.description) else const CircularProgressIndicator(),
         const SizedBox(height: 64),
       ]),
     );
@@ -183,7 +183,7 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
         if (detail != null)
           _buildArticle(context, detail.description).align(at: Alignment.topCenter).expanded()
         else
-          const LoadingPlaceholder.drop().expanded(),
+          const CircularProgressIndicator().expanded(),
       ])
     ].stack();
   }

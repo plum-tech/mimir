@@ -7,7 +7,6 @@ import 'package:mimir/credential/entity/email.dart';
 import 'package:mimir/credential/init.dart';
 import 'package:mimir/credential/symbol.dart';
 import 'package:mimir/design/widgets/dialog.dart';
-import 'package:mimir/design/widgets/placeholder.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/utils/guard_launch.dart';
@@ -190,7 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                         onLogin();
                       }
                     : null,
-                child: isLoggingIn ? const LoadingPlaceholder.drop() : i18n.loginBtn.text().padAll(5),
+                child: isLoggingIn ? const CircularProgressIndicator() : i18n.loginBtn.text().padAll(5),
               ),
       if (!widget.isGuarded)
         ElevatedButton(

@@ -7,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/animation/animated.dart';
 import 'package:mimir/design/colors.dart';
-import 'package:mimir/design/widgets/placeholder.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
@@ -118,44 +117,22 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
 
   Widget buildStatus(BuildContext ctx) {
     final s = ctx.textTheme.titleLarge;
-    final String tip;
-    switch (status) {
-      case ConnectivityStatus.none:
-        tip = widget.initialDesc ?? _i18n.status.none;
-        break;
-      case ConnectivityStatus.connecting:
-        tip = _i18n.status.connecting;
-        break;
-      case ConnectivityStatus.connected:
-        tip = _i18n.status.connected;
-        break;
-      case ConnectivityStatus.disconnected:
-        tip = _i18n.status.disconnected;
-        break;
-    }
+    final tip = switch (status) {
+      ConnectivityStatus.none => widget.initialDesc ?? _i18n.status.none,
+      ConnectivityStatus.connecting => _i18n.status.connecting,
+      ConnectivityStatus.connected => _i18n.status.connected,
+      ConnectivityStatus.disconnected => _i18n.status.disconnected,
+    };
     return tip.text(key: ValueKey(tip), style: s);
   }
 
   Widget buildButton(BuildContext ctx) {
-    final String tip;
-    VoidCallback? onTap;
-    switch (status) {
-      case ConnectivityStatus.none:
-        tip = _i18n.button.none;
-        onTap = startCheck;
-        break;
-      case ConnectivityStatus.connecting:
-        tip = _i18n.button.connecting;
-        break;
-      case ConnectivityStatus.connected:
-        tip = _i18n.button.connected;
-        onTap = widget.onConnected;
-        break;
-      case ConnectivityStatus.disconnected:
-        tip = _i18n.button.disconnected;
-        onTap = startCheck;
-        break;
-    }
+    final (tip, onTap) = switch (status) {
+      ConnectivityStatus.none => (_i18n.button.none, startCheck),
+      ConnectivityStatus.connecting => (_i18n.button.connecting, null),
+      ConnectivityStatus.connected => (_i18n.button.connected, widget.onConnected),
+      ConnectivityStatus.disconnected => (_i18n.button.disconnected, startCheck),
+    };
     return CupertinoButton(
       onPressed: onTap,
       child: tip.text(key: ValueKey(tip)),
@@ -167,7 +144,10 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
       case ConnectivityStatus.none:
         return buildIcon(ctx, getConnectionTypeIcon(connectionType));
       case ConnectivityStatus.connecting:
-        return LoadingPlaceholder.drop(key: const ValueKey("Waiting"), size: widget.iconSize);
+        return const CircularProgressIndicator(
+          key: ValueKey("Waiting"),
+          strokeWidth: 14,
+        ).sizedAll(widget.iconSize);
       case ConnectivityStatus.connected:
         return buildIcon(ctx, Icons.check_rounded);
       case ConnectivityStatus.disconnected:
@@ -177,8 +157,14 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
 
   Widget buildIcon(BuildContext ctx, IconData icon, [Key? key]) {
     key ??= ValueKey(icon);
-    return Icon(icon, size: widget.iconSize, color: ctx.darkSafeThemeColor)
-        .sized(w: widget.iconSize, h: widget.iconSize, key: key);
+    return Icon(
+      icon,
+      size: widget.iconSize,
+      color: ctx.darkSafeThemeColor,
+    ).sizedAll(
+      key: key,
+      widget.iconSize,
+    );
   }
 
   @override

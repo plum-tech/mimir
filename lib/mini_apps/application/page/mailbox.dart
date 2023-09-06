@@ -32,7 +32,7 @@ class _MailboxState extends State<Mailbox> {
     final msg = _msgPage;
 
     if (msg == null) {
-      return const LoadingPlaceholder.drop();
+      return const CircularProgressIndicator();
     } else {
       if (msg.msgList.isNotEmpty) {
         return _buildMessageList(context, msg.msgList);

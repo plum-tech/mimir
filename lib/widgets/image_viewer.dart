@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/colors.dart';
-import 'package:mimir/design/widgets/placeholder.dart';
 import 'package:rettulf/rettulf.dart';
 
 class MyImageViewer extends StatelessWidget {
@@ -16,7 +15,7 @@ class MyImageViewer extends StatelessWidget {
         if (loadingProgress == null) {
           return child;
         } else {
-          return const LoadingPlaceholder.drop();
+          return const CircularProgressIndicator();
         }
       },
       errorBuilder: (ctx, error, stacktrace) {

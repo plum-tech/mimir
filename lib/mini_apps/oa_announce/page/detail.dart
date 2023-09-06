@@ -72,7 +72,7 @@ class _DetailPageState extends State<DetailPage> {
         summary.title.text(style: titleStyle),
         buildInfoCard(ctx),
       ].wrap().hero(summary.uuid),
-      (_detail != null ? buildDetailArticle(ctx) : const LoadingPlaceholder.drop()).animatedSwitched(
+      (_detail != null ? buildDetailArticle(ctx) : const CircularProgressIndicator()).animatedSwitched(
         d: const Duration(milliseconds: 800),
       ),
     ].column().scrolled();

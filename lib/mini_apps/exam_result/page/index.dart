@@ -92,7 +92,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
       ),
       body: [
         _buildHeader(),
-        (allResults == null ? const LoadingPlaceholder.drop() : _buildExamResultList(allResults)).expanded(),
+        (allResults == null ? const CircularProgressIndicator() : _buildExamResultList(allResults)).expanded(),
       ].column(),
       floatingActionButton: context.auth.credential == null ? null : buildEvaluationBtn(context),
     );

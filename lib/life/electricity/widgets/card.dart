@@ -1,7 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/colors.dart';
-import 'package:mimir/design/widgets/placeholder.dart';
 import '../entity/balance.dart';
 import 'package:rettulf/rettulf.dart';
 

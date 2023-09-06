@@ -66,7 +66,7 @@ class _OaAnnouncePageState extends State<OaAnnouncePage> {
 
   Widget _buildAnnounceList() {
     final records = _records;
-    if (records == null) return const LoadingPlaceholder.drop();
+    if (records == null) return const CircularProgressIndicator();
 
     return _buildAnnounceLiveGrid(records);
   }

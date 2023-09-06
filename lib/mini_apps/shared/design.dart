@@ -9,5 +9,4 @@ export 'package:mimir/design/widgets/editor.dart';
 export 'package:mimir/design/widgets/glassmorphic.dart';
 export 'package:mimir/design/widgets/multi_select.dart';
 export 'package:mimir/design/widgets/multiplatform.dart';
-export 'package:mimir/design/widgets/placeholder.dart';
 export 'package:mimir/design/widgets/view.dart';

@@ -57,7 +57,7 @@ class _YellowPagesPageState extends State<YellowPagesPage> {
   Widget buildBodyPortrait(BuildContext ctx) {
     final contacts = _contacts;
     if (contacts == null || contacts.isEmpty) {
-      return const LoadingPlaceholder.drop();
+      return const CircularProgressIndicator();
     } else {
       return GroupedContactList(contacts);
     }
@@ -66,7 +66,7 @@ class _YellowPagesPageState extends State<YellowPagesPage> {
   Widget buildBodyLandscape(BuildContext ctx) {
     final contacts = _contacts;
     if (contacts == null || contacts.isEmpty) {
-      return const LoadingPlaceholder.drop();
+      return const CircularProgressIndicator();
     } else {
       return NavigationContactList(contacts);
     }
