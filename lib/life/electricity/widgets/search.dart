@@ -10,8 +10,8 @@ const _emptyIndicator = Object();
 Future<({String room, bool isClear})?> searchRoom({
   String? initial,
   required BuildContext ctx,
-  required Iterable<String> searchHistory,
-  required Iterable<String> roomList,
+  required List<String> searchHistory,
+  required List<String> roomList,
 }) async {
   final result = await showSearch(
     context: ctx,

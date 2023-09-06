@@ -93,7 +93,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
                 final history = ElectricityBalanceInit.storage.searchHistory ?? {};
                 final searchResult = await searchRoom(
                   ctx: context,
-                  searchHistory: history,
+                  searchHistory: history.toList(),
                   roomList: R.roomList,
                 );
                 if (searchResult == null) return;

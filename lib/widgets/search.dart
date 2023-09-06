@@ -10,8 +10,8 @@ typedef ItemFilter<T> = bool Function(String query, T item);
 typedef ItemBuilder = Widget Function(BuildContext ctx, VoidCallback selectIt, Widget child);
 
 class ItemSearchDelegate<T> extends SearchDelegate {
-  final ({Iterable<T> history, HistoryBuilder<T> builder})? searchHistory;
-  final Iterable<T> candidates;
+  final ({List<T> history, HistoryBuilder<T> builder})? searchHistory;
+  final List<T> candidates;
   final CandidateBuilder<T> candidateBuilder;
   final ItemFilter<T> filter;
   final QueryProcessor? queryProcessor;
@@ -38,11 +38,11 @@ class ItemSearchDelegate<T> extends SearchDelegate {
 
   factory ItemSearchDelegate.highlight({
     required ItemBuilder itemBuilder,
-    required Iterable<T> candidates,
+    required List<T> candidates,
 
     /// Using [String.contains] by default.
     ItemFilter<String>? filter,
-    Iterable<T>? searchHistory,
+    List<T>? searchHistory,
     QueryProcessor? queryProcessor,
     required double maxCrossAxisExtent,
     required double childAspectRatio,
@@ -72,7 +72,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
               }
             ),
       filter: (query, item) {
-        if(query.isEmpty) return false;
+        if (query.isEmpty) return false;
         final candidate = stringifier?.call(item) ?? item.toString();
         if (filter == null) return candidate.contains(query);
         return filter(query, candidate);
@@ -137,31 +137,29 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     }
   }
 
-  Widget buildSearchHistory(BuildContext ctx, Iterable<T> history, HistoryBuilder<T> builder) {
-    List<Widget> children = [];
-    for (final item in history) {
-      final widget = builder(ctx, item, () => close(ctx, item));
-      children.add(widget);
-    }
-    return GridView(
+  Widget buildSearchHistory(BuildContext ctx, List<T> history, HistoryBuilder<T> builder) {
+    return GridView.builder(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: maxCrossAxisExtent, childAspectRatio: childAspectRatio),
-      children: children,
+      itemCount: history.length,
+      itemBuilder: (ctx, i) {
+        final item = history[i];
+        return builder(ctx, item, () => close(ctx, item));
+      },
     );
   }
 
   Widget buildCandidateList(BuildContext ctx) {
     final query = realQuery;
-    List<Widget> children = [];
-    for (final candidate in candidates) {
-      if (!filter(realQuery, candidate)) continue;
-      final widget = candidateBuilder(ctx, candidate, query, () => close(ctx, candidate));
-      children.add(widget);
-    }
-    return GridView(
+    final matched = candidates.where((candidate) => filter(query, candidate)).toList();
+    return GridView.builder(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: maxCrossAxisExtent, childAspectRatio: childAspectRatio),
-      children: children,
+      itemCount: matched.length,
+      itemBuilder: (ctx, i) {
+        final candidate = matched[i];
+        return candidateBuilder(ctx, candidate, query, () => close(ctx, candidate));
+      },
     );
   }
 
