@@ -120,6 +120,8 @@ class _Language {
   static const ns = "${_I18n.ns}.language";
 
   String get title => "$ns.title".tr();
+
+  String languageOf(Locale locale) => "language.$locale".tr();
 }
 
 class _LocalStorage {

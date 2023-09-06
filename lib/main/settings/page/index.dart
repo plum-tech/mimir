@@ -43,7 +43,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -59,13 +58,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void refresh() {
     setState(() {});
-  }
-
-  @override
-  void didChangeDependencies() {
-    final oaCredential = context.auth.credential;
-    _passwordController.text = oaCredential?.password ?? '';
-    super.didChangeDependencies();
   }
 
   @override
@@ -204,7 +196,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return ListTile(
       leading: const Icon(Icons.translate_rounded),
       title: i18n.language.title.text(),
-      subtitle: "language.$curLocale".tr().text(),
+      subtitle: i18n.language.languageOf(curLocale).text(),
       trailing: const Icon(Icons.navigate_next_rounded),
       onTap: () async {
         await context.navigator.push(
