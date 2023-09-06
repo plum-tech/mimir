@@ -24,7 +24,8 @@ void main() async {
   R.appDir = appDocDir.path;
   final tmpDir = await getTemporaryDirectory();
   R.tmpDir = tmpDir.path;
-  R.roomList = await getRoomNumberList();
+  R.roomList = await loadRoomNumberList();
+  R.userAgents = await loadUserAgents();
   Migrations.init();
   await Init.init();
   runApp(
@@ -58,8 +59,14 @@ extension _AppX on Widget {
   }
 }
 
-Future<List<String>> getRoomNumberList() async {
+Future<List<String>> loadRoomNumberList() async {
   String jsonData = await rootBundle.loadString("assets/room_list.json");
   List<dynamic> list = await jsonDecode(jsonData);
   return list.map((e) => e.toString()).toList();
+}
+
+Future<List<String>> loadUserAgents() async {
+  String jsonData = await rootBundle.loadString("assets/ua.json");
+  List<dynamic> list = await jsonDecode(jsonData);
+  return list.cast<String>();
 }

@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:fk_user_agent/fk_user_agent.dart';
 import 'package:flutter/services.dart';
+import 'package:mimir/r.dart';
 import 'package:mimir/storage/settings.dart';
 import 'package:mimir/utils/logger.dart';
 
@@ -50,9 +51,7 @@ class DioInit {
   }
 
   static Future<String> getRandomUa() async {
-    final c = await rootBundle.loadString('assets/ua.json');
-    final uaList = jsonDecode(c) as List;
-    return uaList[_rand.nextInt(uaList.length)].trim();
+    return R.userAgents[_rand.nextInt(R.userAgents.length)].trim();
   }
 
   static Future<void> _initUserAgentString({
