@@ -1,12 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/widgets/search.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 
-Future<String?> searchRoom({
+const _emptyIndicator = Object();
+
+Future<({String room, bool isClear})?> searchRoom({
   String? initial,
   required BuildContext ctx,
   required Iterable<String> searchHistory,
@@ -29,11 +30,18 @@ Future<String?> searchRoom({
       queryProcessor: _keepOnlyNumber,
       keyboardType: TextInputType.number,
       invalidSearchTip: i18n.searchInvalidTip,
+      emptyIndicator: _emptyIndicator,
       childAspectRatio: 2,
       maxCrossAxisExtent: 150.0,
     ),
   );
-  return result is String ? result : null;
+  if (result == _emptyIndicator) {
+    return (room: "", isClear: true);
+  } else if (result is String) {
+    return (room: result, isClear: false);
+  } else {
+    return null;
+  }
 }
 
 String _keepOnlyNumber(String raw) {

@@ -19,6 +19,10 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   final double childAspectRatio;
   final String? invalidSearchTip;
 
+  /// If this is given, it means user can send a empty query without suggestion limitation.
+  /// If so, this object will be returned.
+  final Object? emptyIndicator;
+
   ItemSearchDelegate({
     required this.candidateBuilder,
     required this.candidates,
@@ -27,6 +31,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     this.queryProcessor,
     required this.maxCrossAxisExtent,
     required this.childAspectRatio,
+    this.emptyIndicator,
     this.invalidSearchTip,
     super.keyboardType,
   });
@@ -41,6 +46,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     QueryProcessor? queryProcessor,
     required double maxCrossAxisExtent,
     required double childAspectRatio,
+    Object? emptyIndicator,
     String? invalidSearchTip,
     TextInputType? keyboardType,
 
@@ -55,6 +61,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
       queryProcessor: queryProcessor,
       candidates: candidates,
       invalidSearchTip: invalidSearchTip,
+      emptyIndicator: emptyIndicator,
       searchHistory: searchHistory == null
           ? null
           : (
@@ -65,6 +72,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
               }
             ),
       filter: (query, item) {
+        if(query.isEmpty) return false;
         final candidate = stringifier?.call(item) ?? item.toString();
         if (filter == null) return candidate.contains(query);
         return filter(query, candidate);
@@ -106,20 +114,32 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     final query = realQuery;
-    final suggestions = this.candidates;
-    if (suggestions.contains(query)) {
-      close(context, query);
+    if (T == String && filter(query, query as T)) {
       return const SizedBox();
-    } else {
-      return LeavingBlank(icon: Icons.search_off_rounded, desc: invalidSearchTip);
+    }
+    if (query.isEmpty && emptyIndicator != null) {
+      return const SizedBox();
+    }
+    return LeavingBlank(icon: Icons.search_off_rounded, desc: invalidSearchTip);
+  }
+
+  @override
+  void showResults(BuildContext context) {
+    super.showResults(context);
+    final query = realQuery;
+    if (T == String && filter(query, query as T)) {
+      close(context, query);
+      return;
+    }
+    if (query.isEmpty && emptyIndicator != null) {
+      close(context, emptyIndicator);
+      return;
     }
   }
 
   Widget buildSearchHistory(BuildContext ctx, Iterable<T> history, HistoryBuilder<T> builder) {
-    final query = realQuery;
     List<Widget> children = [];
     for (final item in history) {
-      if (!filter(realQuery, item)) continue;
       final widget = builder(ctx, item, () => close(ctx, item));
       children.add(widget);
     }

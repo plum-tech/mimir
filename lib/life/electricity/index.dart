@@ -91,22 +91,29 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
             FilledButton.icon(
               onPressed: () async {
                 final history = ElectricityBalanceInit.storage.searchHistory ?? {};
-                final room = await searchRoom(
+                final searchResult = await searchRoom(
                   ctx: context,
                   searchHistory: history,
                   roomList: R.roomList,
                 );
-                if (ElectricityBalanceInit.storage.selectedRoom != room) {
-                  ElectricityBalanceInit.storage.selectedRoom = room;
-                  if (room != null) {
+                if (searchResult == null) return;
+                final (:room, :isClear) = searchResult;
+                final old = ElectricityBalanceInit.storage.selectedRoom;
+                if (isClear) {
+                  if (old != null) {
+                    ElectricityBalanceInit.storage.selectedRoom = null;
+                  }
+                } else {
+                  if (ElectricityBalanceInit.storage.selectedRoom != room) {
+                    ElectricityBalanceInit.storage.selectedRoom = room;
                     history.add(room);
                     ElectricityBalanceInit.storage.searchHistory = history;
+                    await _refresh(active: true);
                   }
-                  await _refresh(active: true);
                 }
               },
               label: i18n.search.text(),
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
             ),
             IconButton(
               onPressed: selectedRoom == null
@@ -114,7 +121,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
                   : () async {
                       await _refresh(active: true);
                     },
-              icon: Icon(Icons.refresh),
+              icon: const Icon(Icons.refresh),
             )
           ],
         ).padOnly(l: 16, b: 12),
