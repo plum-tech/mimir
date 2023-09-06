@@ -36,5 +36,5 @@ class ElectricityStorage {
     return Set.of(res);
   }
 
-  set searchHistory(Set<String>? newV) => box.put(_K.searchHistory, newV);
+  set searchHistory(Set<String>? newV) => box.put(_K.searchHistory, newV?.toList());
 }

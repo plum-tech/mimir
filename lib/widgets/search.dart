@@ -91,7 +91,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     );
   }
 
-  String get realQuery => queryProcessor?.call(query) ?? query;
+  String getRealQuery() => queryProcessor?.call(query) ?? query;
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -113,7 +113,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    final query = realQuery;
+    final query = getRealQuery();
     if (T == String && filter(query, query as T)) {
       return const SizedBox();
     }
@@ -126,7 +126,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   @override
   void showResults(BuildContext context) {
     super.showResults(context);
-    final query = realQuery;
+    final query = getRealQuery();
     if (T == String && filter(query, query as T)) {
       close(context, query);
       return;
@@ -150,7 +150,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   }
 
   Widget buildCandidateList(BuildContext ctx) {
-    final query = realQuery;
+    final query = getRealQuery();
     final matched = candidates.where((candidate) => filter(query, candidate)).toList();
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -165,8 +165,9 @@ class ItemSearchDelegate<T> extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    final query = getRealQuery();
     final searchHistory = this.searchHistory;
-    if (realQuery.isEmpty && searchHistory != null) {
+    if (query.isEmpty && searchHistory != null) {
       return buildSearchHistory(context, searchHistory.history, searchHistory.builder);
     } else {
       return buildCandidateList(context);
