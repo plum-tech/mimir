@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
+import 'package:mimir/hive/using.dart';
 
 import '../entity/balance.dart';
 
@@ -16,6 +18,8 @@ class ElectricityStorage {
   String? get selectedRoom => box.get(_K.selectedRoom);
 
   set selectedRoom(String? newV) => box.put(_K.selectedRoom, newV);
+
+  ValueListenable<Box<dynamic>> get $selectedRoom => box.listenable(keys:[_K.selectedRoom]);
 
   ElectricityBalance? get lastBalance => box.get(_K.lastBalance);
 

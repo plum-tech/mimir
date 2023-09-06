@@ -20,25 +20,36 @@ class ElectricityBalanceAppCard extends StatefulWidget {
 
 class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
   ElectricityBalance? balance = ElectricityBalanceInit.storage.lastBalance;
+  String? selectedRoom = ElectricityBalanceInit.storage.selectedRoom;
   late Timer refreshTimer;
 
   @override
   initState() {
     super.initState();
+    ElectricityBalanceInit.storage.$selectedRoom.addListener(updateSelectedRoom);
     // auto refresh per minute.
-    refreshTimer = runPeriodically(const Duration(minutes : 1), (timer) async {
+    refreshTimer = runPeriodically(const Duration(minutes: 1), (timer) async {
       await _refresh();
     });
   }
 
   @override
-  dispose(){
+  dispose() {
+    ElectricityBalanceInit.storage.$selectedRoom.removeListener(updateSelectedRoom);
     refreshTimer.cancel();
     super.dispose();
   }
 
+  void updateSelectedRoom(){
+    if(!mounted) return;
+    setState(() {
+      selectedRoom = ElectricityBalanceInit.storage.selectedRoom;
+    });
+  }
+
   Future<void> _refresh() async {
-    final selectedRoom = "105604";
+    final selectedRoom = this.selectedRoom;
+    if (selectedRoom == null) return;
     final newBalance = await ElectricityBalanceInit.service.getBalance(selectedRoom);
     ElectricityBalanceInit.storage.lastBalance = newBalance;
     if (!mounted) return;
@@ -79,7 +90,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
           alignment: MainAxisAlignment.spaceBetween,
           children: [
             FilledButton.icon(onPressed: () {}, label: "Search".text(), icon: Icon(Icons.search)),
-            IconButton(onPressed: _refresh, icon: Icon(Icons.refresh))
+            IconButton(onPressed: selectedRoom == null ? null : _refresh, icon: Icon(Icons.refresh))
           ],
         ).padOnly(l: 5, b: 5),
       ].column(),

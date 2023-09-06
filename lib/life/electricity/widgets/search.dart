@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/widgets/search.dart';
@@ -27,7 +26,7 @@ Future<String?> searchRoom({
       // 待搜索提示的列表(需要从服务器获取，可以缓存至数据库)
       suggestions: roomList,
       // 只允许使用搜索建议里的
-      onlyAllowSuggestions: true,
+      suggestionOnly: true,
       inputPreprocess: _keepOnlyNumber,
       keyboardType: TextInputType.number,
       childAspectRatio: 2,

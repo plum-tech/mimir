@@ -8,7 +8,7 @@ class SimpleTextSearchDelegate<T> extends SearchDelegate {
   final Widget Function(BuildContext ctx, T itemData, String highlighted, VoidCallback onSelect) itemBuilder;
   final String Function(T itemData)? stringify;
   final String Function(String raw)? inputPreprocess;
-  final bool onlyAllowSuggestions;
+  final bool suggestionOnly;
   final double maxCrossAxisExtent;
   final double childAspectRatio;
 
@@ -18,7 +18,7 @@ class SimpleTextSearchDelegate<T> extends SearchDelegate {
     this.suggestions,
     this.stringify,
     this.inputPreprocess,
-    this.onlyAllowSuggestions = true,
+    this.suggestionOnly = true,
     this.maxCrossAxisExtent = 150.0,
     this.childAspectRatio = 2.0,
     super.keyboardType,
@@ -48,7 +48,7 @@ class SimpleTextSearchDelegate<T> extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     final dest = realQuery;
     final suggestions = this.suggestions;
-    if (!onlyAllowSuggestions || (suggestions != null && suggestions.contains(dest))) {
+    if (!suggestionOnly || (suggestions != null && suggestions.contains(dest))) {
       close(context, dest);
       return const SizedBox();
     } else {
