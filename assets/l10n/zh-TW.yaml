@@ -361,7 +361,7 @@ campus:
   fengxian: 奉賢
   fengxianDistrict: 奉賢區
 unit:
-  rmb: "¥{}"
+  rmb: "{} 元"
   powerKwh: "{} 千瓦時"
 time:
   minute: 分鐘
