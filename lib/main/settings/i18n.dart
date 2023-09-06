@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:mimir/credential/i18n.dart';
 import 'package:mimir/l10n/common.dart';
 
@@ -12,7 +13,7 @@ class _I18n with CommonI18nMixin {
   final studentId = const _StudentId();
   final changeOaPwd = const _ChangeOaPwd();
   final clearCache = const _ClearCache();
-  final darkMode = const _DarkMode();
+  final themeMode = const _ThemeMode();
   final detailedXcpDialog = const _DetailedXcpDialog();
   final httpProxy = const _HttpProxy();
   final language = const _Language();
@@ -69,10 +70,10 @@ class _ClearCache {
   String get request => "$ns.request".tr();
 }
 
-class _DarkMode {
-  const _DarkMode();
+class _ThemeMode {
+  const _ThemeMode();
 
-  static const ns = "${_I18n.ns}.darkMode";
+  static const ns = "${_I18n.ns}.themeMode";
 
   String get title => "$ns.title".tr();
 
@@ -80,7 +81,11 @@ class _DarkMode {
 
   String get light => "$ns.light".tr();
 
-  String get followSystem => "$ns.followSystem".tr();
+  String get system => "$ns.system".tr();
+
+  String of(ThemeMode mode) {
+    return "$ns.${mode.name}".tr();
+  }
 }
 
 class _DetailedXcpDialog {

@@ -281,11 +281,11 @@ settings:
     title: Clear Cache
     desc: Clear the offline cache during use
     request: Confirm to clear the cache? To reload them, you need connect to campus network again.
-  darkMode:
+  themeMode:
     title: Brightness
     dark: Dark Mode
     light: Light Mode
-    followSystem: Following System
+    system: Following System
   detailedXcpDialog:
     title: Enable detailed exception dialog
     desc: Detailed stacktrace will be shown

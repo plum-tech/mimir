@@ -281,11 +281,11 @@ settings:
     title: 清空缓存
     desc: 清空使用过程中产生的离线缓存
     request: 确定清空缓存？你下次需要连接校园网才能重新加载它们。
-  darkMode:
+  themeMode:
     title: 亮度
     dark: 黑暗模式
     light: 明亮模式
-    followSystem: 跟随系统
+    system: 跟随系统
   detailedXcpDialog:
     title: 启用详细异常对话框
     desc: 显示更加详细的异常堆栈追踪信息

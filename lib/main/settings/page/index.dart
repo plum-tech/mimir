@@ -394,19 +394,20 @@ class _ThemeModeTileState extends State<ThemeModeTile> {
 
   @override
   Widget build(BuildContext context) {
+    final themeMode = Settings.themeMode;
     return ListTile(
-      leading: switch (Settings.themeMode) {
+      leading: switch (themeMode) {
         ThemeMode.dark => const Icon(Icons.dark_mode),
         ThemeMode.light => const Icon(Icons.light_mode),
         ThemeMode.system => const Icon(Icons.brightness_6),
       },
-      title: "Theme".text(),
+      title: i18n.themeMode.title.text(),
       onTap: () {
         final current = Settings.themeMode;
         final newThemeMode = ThemeMode.values[(current.index + 1) % ThemeMode.values.length];
         Settings.themeMode = newThemeMode;
       },
-      subtitle: "Dark Mode".text(),
+      subtitle: i18n.themeMode.of(themeMode).text(),
     );
   }
 }
