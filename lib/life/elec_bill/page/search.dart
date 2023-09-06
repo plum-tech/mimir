@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:mimir/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
-
-import '../using.dart';
+import '../i18n.dart';
 
 class EmptySearchTip extends StatelessWidget {
   final VoidCallback? onSearch;

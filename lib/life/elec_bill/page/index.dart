@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:mimir/mini_apps/elec_bill/init.dart';
+import 'package:mimir/mini_app.dart';
+import 'package:mimir/widgets/search.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../using.dart';
+import '../i18n.dart';
+import '../init.dart';
 import 'dashboard.dart';
 import 'search.dart';
 

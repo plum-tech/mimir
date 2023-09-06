@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:mimir/app.dart';
 import 'package:mimir/credential/storage/credential.dart';
-import 'package:mimir/design/symbol.dart';
+import 'package:mimir/design/widgets/multiplatform.dart';
 import 'package:mimir/global/cookie_init.dart';
 import 'package:mimir/global/dio_initializer.dart';
 import 'package:mimir/session/sso/session.dart';

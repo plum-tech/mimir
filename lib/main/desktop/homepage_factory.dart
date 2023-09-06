@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../mini_app.dart';
 import 'magic_brick/application.dart';
-import 'magic_brick/electricity.dart';
 import 'magic_brick/expense.dart';
 import 'magic_brick/library.dart';
 import 'magic_brick/mail.dart';
@@ -63,10 +62,6 @@ class HomepageFactory {
           subtitle: MiniApp.yellowPages.l10nDesc(),
         ),
     MiniApp.separator: (context) => const SizedBox(),
-    MiniApp.elecBill: (context) => ElectricityBillBrick(
-          route: "/app/elecBill",
-          icon: SvgAssetIcon('assets/home/icon_electricity.svg'),
-        ),
   };
 
   static Widget? buildBrickWidget(BuildContext context, MiniApp type) {

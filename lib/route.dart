@@ -145,10 +145,6 @@ final router = GoRouter(
       builder: (ctx, state) => const EduEmailPage(),
     ),
     GoRoute(
-      path: "/app/elecBill",
-      builder: (ctx, state) => const ElectricityBillPage(),
-    ),
-    GoRoute(
       path: "/app/examResult",
       builder: (ctx, state) => const ExamResultPage(),
       redirect: _loginRequired,

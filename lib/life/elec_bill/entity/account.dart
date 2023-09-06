@@ -1,7 +1,5 @@
-import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import '../using.dart';
+import 'package:mimir/hive/type_id.dart';
 
 part 'account.g.dart';
 

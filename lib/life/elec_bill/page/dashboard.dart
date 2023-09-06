@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:mimir/design/colors.dart';
+import 'package:mimir/design/widgets/placeholder.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/account.dart';
 import '../init.dart';
 import '../widgets/card.dart';
-import '../using.dart';
+import '../i18n.dart';
 
 class Dashboard extends StatefulWidget {
   final String selectedRoom;

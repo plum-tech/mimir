@@ -1,7 +1,6 @@
 export 'activity/symbol.dart';
 export 'application/symbol.dart';
 export 'edu_email/symbol.dart';
-export 'elec_bill/symbol.dart';
 export 'exam_arr/symbol.dart';
 export 'exam_result/symbol.dart';
 export 'expense/symbol.dart';
