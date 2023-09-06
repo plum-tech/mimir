@@ -17,9 +17,14 @@ class ElectricityStorage {
 
   String? get selectedRoom => box.get(_K.selectedRoom);
 
-  set selectedRoom(String? newV) => box.put(_K.selectedRoom, newV);
+  set selectedRoom(String? newV) {
+    box.put(_K.selectedRoom, newV);
+    if(newV == null){
+      box.put(_K.lastBalance, null);
+    }
+  }
 
-  ValueListenable<Box<dynamic>> get $selectedRoom => box.listenable(keys:[_K.selectedRoom]);
+  ValueListenable<Box<dynamic>> get onRoomBalanceChanged => box.listenable(keys:[_K.selectedRoom, _K.lastBalance]);
 
   ElectricityBalance? get lastBalance => box.get(_K.lastBalance);
 

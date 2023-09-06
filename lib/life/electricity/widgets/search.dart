@@ -8,12 +8,14 @@ import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 
 Future<String?> searchRoom({
+  String? initial,
   required BuildContext ctx,
   required List<String> searchHistory,
   required List<String> roomList,
 }) async {
   final result = await showSearch(
     context: ctx,
+    query: initial,
     delegate: SimpleTextSearchDelegate(
       // 最近查询(需要从hive里获取)，也可留空
       searchHistory: searchHistory.reversed.toList(),

@@ -20,43 +20,34 @@ class ElectricityBalanceAppCard extends StatefulWidget {
 }
 
 class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
-  ElectricityBalance? balance = ElectricityBalanceInit.storage.lastBalance;
-  String? selectedRoom = ElectricityBalanceInit.storage.selectedRoom;
   late Timer refreshTimer;
 
   @override
   initState() {
     super.initState();
-    ElectricityBalanceInit.storage.$selectedRoom.addListener(updateSelectedRoom);
+    ElectricityBalanceInit.storage.onRoomBalanceChanged.addListener(updateRoomAndBalance);
     // auto refresh per minute.
-    refreshTimer = runPeriodically(const Duration(minutes: 1), (timer) async {
+    refreshTimer = runPeriodically(const Duration(minutes: 5), (timer) async {
       await _refresh();
     });
   }
 
   @override
   dispose() {
-    ElectricityBalanceInit.storage.$selectedRoom.removeListener(updateSelectedRoom);
+    ElectricityBalanceInit.storage.onRoomBalanceChanged.removeListener(updateRoomAndBalance);
     refreshTimer.cancel();
     super.dispose();
   }
 
-  void updateSelectedRoom() {
-    if (!mounted) return;
-    setState(() {
-      selectedRoom = ElectricityBalanceInit.storage.selectedRoom;
-    });
+  void updateRoomAndBalance() {
+    setState(() {});
   }
 
   Future<void> _refresh({bool active = false}) async {
-    final selectedRoom = this.selectedRoom;
+    final selectedRoom = ElectricityBalanceInit.storage.selectedRoom;
     if (selectedRoom == null) return;
-    final newBalance = await ElectricityBalanceInit.service.getBalance(selectedRoom);
-    ElectricityBalanceInit.storage.lastBalance = newBalance;
+    ElectricityBalanceInit.storage.lastBalance = await ElectricityBalanceInit.service.getBalance(selectedRoom);
     if (!mounted) return;
-    setState(() {
-      balance = newBalance;
-    });
     if (active) {
       context.showSnackBar("Electricity balance refreshed successfully!".text());
     }
@@ -76,6 +67,8 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
   }
 
   Widget buildBody() {
+    final selectedRoom = ElectricityBalanceInit.storage.selectedRoom;
+    final balance = ElectricityBalanceInit.storage.lastBalance;
     return FilledCard(
       child: [
         AnimatedSize(
@@ -96,26 +89,29 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
           alignment: MainAxisAlignment.spaceBetween,
           children: [
             FilledButton.icon(
-                onPressed: () async {
-                  final room = await searchRoom(
-                    ctx: context,
-                    searchHistory: ElectricityBalanceInit.storage.searchHistory ?? const [],
-                    roomList: R.roomList,
-                  );
-                  if (room == null) return;
-                  if (!mounted) return;
+              onPressed: () async {
+                final room = await searchRoom(
+                  ctx: context,
+                  initial: selectedRoom,
+                  searchHistory: ElectricityBalanceInit.storage.searchHistory ?? const [],
+                  roomList: R.roomList,
+                );
+                if (ElectricityBalanceInit.storage.selectedRoom != room) {
                   ElectricityBalanceInit.storage.selectedRoom = room;
                   await _refresh(active: true);
-                },
-                label: "Search".text(),
-                icon: Icon(Icons.search)),
+                }
+              },
+              label: "Search".text(),
+              icon: Icon(Icons.search),
+            ),
             IconButton(
-                onPressed: selectedRoom == null
-                    ? null
-                    : () async {
-                        await _refresh(active: true);
-                      },
-                icon: Icon(Icons.refresh))
+              onPressed: selectedRoom == null
+                  ? null
+                  : () async {
+                      await _refresh(active: true);
+                    },
+              icon: Icon(Icons.refresh),
+            )
           ],
         ).padOnly(l: 5, b: 5),
       ].column(),
