@@ -99,18 +99,12 @@ easyconnect:
   launchBtn: 啟用 EasyConnect
   launchFailed: 啟動失敗
   launchFailedDesc: 無法為你啟動 EasyConnect，確保你安裝了它，或是現在開始下載？
-elecBill:
-  navigation:
-    bill: 電費
-    search: 搜尋
-  title: "#{room} 的賬單"
-  balance: 可用餘額
-  content: "¥{amount} {place}"
-  initialTip: 請先鍵入你的房間號
+electricity:
+  title: 電費餘額
+  balance: 電費餘額
   remainingPower: 可用電量
-  roomNumber: 房号
-  updateTime: 最後更新
-  lastBalance: "上次 ¥{balance} {room}室"
+  searchInvalidTip: 請先鍵入或選擇一個現有的房間號
+  updateSuccessTip: 電費餘額更新成功
 eduEmail:
   title: 我的電郵
   noContent: 無內容
@@ -400,3 +394,4 @@ warning: 警告
 exceptionInfo: 異常資訊
 untitled: 無標題
 congratulations: 恭喜
+search: 搜尋

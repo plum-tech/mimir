@@ -23,7 +23,8 @@ class ElectricityService {
       ),
     );
     final data = response.data as String;
-    ElectricityBalance balance = data.toList(ElectricityBalance.fromJson)!.first;
+    final list = data.toList(ElectricityBalance.fromJson);
+    ElectricityBalance balance = list!.first;
     return balance;
   }
 }

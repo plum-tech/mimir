@@ -103,18 +103,12 @@ easyconnect:
   launchBtn: 启动 EasyConnect
   launchFailed: 启动失败
   launchFailedDesc: 无法启动 EasyConnect，请确定你是否安装，或者立即下载？
-elecBill:
-  navigation:
-    bill: 电费
-    search: 搜索
-  title: "查 #{room} 电费"
-  balance: 余额
-  content: "¥{amount} {place}"
-  initialTip: 请输入你的房间号
+electricity:
+  title: 查电费
+  balance: 可用余额
   remainingPower: 剩余电量
-  roomNumber: 房间号码
-  updateTime: 更新时间
-  lastBalance: "上次 ¥{balance} {room}室"
+  searchInvalidTip: 请输入或选择一个存在的房间号
+  updateSuccessTip: 电费余额更新成功
 eduEmail:
   title: 我的邮箱
   noContent: 无内容
@@ -404,3 +398,4 @@ warning: 警告
 exceptionInfo: 异常信息
 untitled: 无标题
 congratulations: 恭喜
+search: 搜索

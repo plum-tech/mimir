@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
+import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/life/electricity/widgets/search.dart';
-import 'package:mimir/main/network_tool/using.dart';
-import 'package:mimir/mini_app.dart';
+import 'package:mimir/r.dart';
+import 'package:mimir/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'i18n.dart';
@@ -48,7 +49,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
     ElectricityBalanceInit.storage.lastBalance = await ElectricityBalanceInit.service.getBalance(selectedRoom);
     if (!mounted) return;
     if (active) {
-      context.showSnackBar("Electricity balance refreshed successfully!".text());
+      context.showSnackBar(i18n.updateSuccessTip.text());
     }
   }
 
@@ -80,7 +81,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
         ),
         ListTile(
           titleTextStyle: context.textTheme.titleLarge,
-          title: MiniApp.elecBill.l10nName().text(),
+          title: i18n.title.text(),
           subtitleTextStyle: context.textTheme.bodyLarge,
           subtitle: selectedRoom == null ? null : "#$selectedRoom".text(),
         ),
@@ -104,7 +105,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
                   await _refresh(active: true);
                 }
               },
-              label: "Search".text(),
+              label: i18n.search.text(),
               icon: Icon(Icons.search),
             ),
             IconButton(

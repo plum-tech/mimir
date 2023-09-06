@@ -28,6 +28,7 @@ Future<String?> searchRoom({
       candidates: roomList,
       queryProcessor: _keepOnlyNumber,
       keyboardType: TextInputType.number,
+      invalidSearchTip: i18n.searchInvalidTip,
       childAspectRatio: 2,
       maxCrossAxisExtent: 150.0,
     ),
@@ -37,17 +38,6 @@ Future<String?> searchRoom({
 
 String _keepOnlyNumber(String raw) {
   return String.fromCharCodes(raw.codeUnits.where((e) => e >= 48 && e < 58));
-}
-
-class EmptySearchTip extends StatelessWidget {
-  final VoidCallback? onSearch;
-
-  const EmptySearchTip({super.key, this.onSearch});
-
-  @override
-  Widget build(BuildContext context) {
-    return LeavingBlank(icon: Icons.pageview_outlined, desc: i18n.initialTip, onIconTap: onSearch);
-  }
 }
 
 class Search extends StatefulWidget {

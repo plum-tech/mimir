@@ -17,18 +17,24 @@ class ElectricityBalanceAdapter extends TypeAdapter<ElectricityBalance> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ElectricityBalance(
-      fields[2] as String,
-      fields[0] as double,
+      roomNumber: fields[3] as String,
+      balance: fields[0] as double,
+      baseBalance: fields[1] as double,
+      electricityBalance: fields[2] as double,
     );
   }
 
   @override
   void write(BinaryWriter writer, ElectricityBalance obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.balance)
+      ..writeByte(1)
+      ..write(obj.baseBalance)
       ..writeByte(2)
+      ..write(obj.electricityBalance)
+      ..writeByte(3)
       ..write(obj.roomNumber);
   }
 
@@ -46,11 +52,8 @@ class ElectricityBalanceAdapter extends TypeAdapter<ElectricityBalance> {
 // **************************************************************************
 
 ElectricityBalance _$ElectricityBalanceFromJson(Map<String, dynamic> json) => ElectricityBalance(
-      json['RoomName'] as String,
-      _parseBalance(json['Balance'] as String),
+      roomNumber: json['RoomName'] as String,
+      balance: _parseBalance(json['Balance'] as String),
+      baseBalance: _parseBalance(json['BaseBalance'] as String),
+      electricityBalance: _parseBalance(json['ElecBalance'] as String),
     );
-
-Map<String, dynamic> _$ElectricityBalanceToJson(ElectricityBalance instance) => <String, dynamic>{
-      'Balance': instance.balance,
-      'RoomName': instance.roomNumber,
-    };

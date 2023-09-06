@@ -17,6 +17,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   final QueryProcessor? queryProcessor;
   final double maxCrossAxisExtent;
   final double childAspectRatio;
+  final String? invalidSearchTip;
 
   ItemSearchDelegate({
     required this.candidateBuilder,
@@ -26,6 +27,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     this.queryProcessor,
     required this.maxCrossAxisExtent,
     required this.childAspectRatio,
+    this.invalidSearchTip,
     super.keyboardType,
   });
 
@@ -39,6 +41,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     QueryProcessor? queryProcessor,
     required double maxCrossAxisExtent,
     required double childAspectRatio,
+    String? invalidSearchTip,
     TextInputType? keyboardType,
 
     /// Using [Object.toString] by default.
@@ -51,6 +54,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
       childAspectRatio: childAspectRatio,
       queryProcessor: queryProcessor,
       candidates: candidates,
+      invalidSearchTip: invalidSearchTip,
       searchHistory: searchHistory == null
           ? null
           : (
@@ -107,7 +111,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
       close(context, query);
       return const SizedBox();
     } else {
-      return LeavingBlank(icon: Icons.search_off_rounded, desc: "Please select one.");
+      return LeavingBlank(icon: Icons.search_off_rounded, desc: invalidSearchTip);
     }
   }
 

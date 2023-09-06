@@ -103,18 +103,12 @@ easyconnect:
   launchBtn: Launch EasyConnect
   launchFailed: Launch Failed
   launchFailedDesc: Failed to launch EasyConnect, have you installed it or just download it now?
-elecBill:
-  navigation:
-    bill: Bill
-    search: Search
-  title: "Bill of #{room}"
+electricity:
+  title: Electricity Balance
   balance: Balance
-  content: "last: ¥{balance} Room {room}"
-  initialTip: Please enter your room number first
   remainingPower: Remaining
-  roomNumber: Room
-  updateTime: Last Update
-  lastBalance: "Last ¥{balance} #{room}"
+  searchInvalidTip: Please enter or select a existing room number.
+  updateSuccessTip: Electricity balance refreshed successfully
 eduEmail:
   title: My Email
   noContent: No Content
@@ -404,3 +398,4 @@ warning: Warning
 exceptionInfo: Exception Info
 untitled: Untitled
 congratulations: Congratulations
+search: Search
