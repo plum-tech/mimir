@@ -16,20 +16,17 @@ Future<String?> searchRoom({
   final result = await showSearch(
     context: ctx,
     query: initial,
-    delegate: SimpleTextSearchDelegate(
+    delegate: ItemSearchDelegate.highlight(
       // 最近查询(需要从hive里获取)，也可留空
-      searchHistory: searchHistory.reversed.toList(),
-      itemBuilder: (ctx, item, highlight, onSelect) => HtmlWidget(
-        highlight,
-        textStyle: ctx.textTheme.titleMedium,
-      ).padAll(2).elevatedBtn(onPressed: () {
-        onSelect();
-      }).padAll(5),
+      searchHistory: searchHistory,
+      itemBuilder: (ctx, selectIt,child) {
+        return child.elevatedBtn(onPressed: () {
+          selectIt();
+        }).padAll(5);
+      },
       // 待搜索提示的列表(需要从服务器获取，可以缓存至数据库)
-      suggestions: roomList,
-      // 只允许使用搜索建议里的
-      suggestionOnly: true,
-      inputPreprocess: _keepOnlyNumber,
+      candidates: roomList,
+      queryProcessor: _keepOnlyNumber,
       keyboardType: TextInputType.number,
       childAspectRatio: 2,
       maxCrossAxisExtent: 150.0,

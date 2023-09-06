@@ -2,29 +2,74 @@ import 'package:flutter/material.dart';
 import 'package:mimir/mini_apps/exam_arr/using.dart';
 import 'package:rettulf/rettulf.dart';
 
-class SimpleTextSearchDelegate<T> extends SearchDelegate {
-  final List<T>? searchHistory;
-  final List<T>? suggestions;
-  final Widget Function(BuildContext ctx, T itemData, String highlighted, VoidCallback onSelect) itemBuilder;
-  final String Function(T itemData)? stringify;
-  final String Function(String raw)? inputPreprocess;
-  final bool suggestionOnly;
+typedef CandidateBuilder<T> = Widget Function(BuildContext ctx, T item, String query, VoidCallback selectIt);
+typedef HistoryBuilder<T> = Widget Function(BuildContext ctx, T item, VoidCallback selectIt);
+typedef Stringifier<T> = String Function(T item);
+typedef QueryProcessor = String Function(String raw);
+typedef ItemFilter<T> = bool Function(String query, T item);
+typedef ItemBuilder = Widget Function(BuildContext ctx, VoidCallback selectIt, Widget child);
+
+class ItemSearchDelegate<T> extends SearchDelegate {
+  final ({List<T> history, HistoryBuilder<T> builder})? searchHistory;
+  final List<T> candidates;
+  final CandidateBuilder<T> candidateBuilder;
+  final ItemFilter<T> filter;
+  final QueryProcessor? queryProcessor;
   final double maxCrossAxisExtent;
   final double childAspectRatio;
 
-  SimpleTextSearchDelegate({
-    required this.itemBuilder,
+  ItemSearchDelegate({
+    required this.candidateBuilder,
+    required this.candidates,
+    required this.filter,
     this.searchHistory,
-    this.suggestions,
-    this.stringify,
-    this.inputPreprocess,
-    this.suggestionOnly = true,
+    this.queryProcessor,
     this.maxCrossAxisExtent = 150.0,
     this.childAspectRatio = 2.0,
     super.keyboardType,
   });
 
-  String get realQuery => inputPreprocess?.call(query) ?? query;
+  factory ItemSearchDelegate.highlight({
+    required ItemBuilder itemBuilder,
+    required List<T> candidates,
+
+    /// Using [String.contains] by default.
+    ItemFilter<String>? filter,
+    List<T>? searchHistory,
+    QueryProcessor? queryProcessor,
+    double maxCrossAxisExtent = 150.0,
+    double childAspectRatio = 2.0,
+    TextInputType? keyboardType,
+
+    /// Using [Object.toString] by default.
+    Stringifier<T>? stringifier,
+    TextStyle? highlightedStyle,
+  }) {
+    return ItemSearchDelegate(
+      candidates: candidates,
+      searchHistory: searchHistory == null
+          ? null
+          : (
+              history: searchHistory,
+              builder: (ctx, item, selectIt) {
+                final candidate = stringifier?.call(item) ?? item.toString();
+                return itemBuilder(ctx, selectIt, candidate.text());
+              }
+            ),
+      filter: (query, item) {
+        final candidate = stringifier?.call(item) ?? item.toString();
+        if (filter == null) return candidate.contains(query);
+        return filter(query, candidate);
+      },
+      candidateBuilder: (ctx, item, query, selectIt) {
+        final candidate = stringifier?.call(item) ?? item.toString();
+        final highlighted = highlight(ctx, candidate, query, highlightedStyle);
+        return itemBuilder(ctx, selectIt, highlighted);
+      },
+    );
+  }
+
+  String get realQuery => queryProcessor?.call(query) ?? query;
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -46,53 +91,37 @@ class SimpleTextSearchDelegate<T> extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    final dest = realQuery;
-    final suggestions = this.suggestions;
-    if (!suggestionOnly || (suggestions != null && suggestions.contains(dest))) {
-      close(context, dest);
+    final query = realQuery;
+    final suggestions = this.candidates;
+    if (suggestions.contains(query)) {
+      close(context, query);
       return const SizedBox();
     } else {
       return LeavingBlank(icon: Icons.search_off_rounded, desc: "Please select one.");
     }
   }
 
-  Widget buildSearchHistory(BuildContext context) {
-    final searchHistory = this.searchHistory ?? const [];
-    return ListView(
-        children: searchHistory.map((e) {
-      return itemBuilder(context, e, stringify!(e), () => close(context, e));
-    }).toList());
-  }
-
-  String highlight(BuildContext ctx, String e) {
-    final splitTextList = e.split(realQuery).map((e1) => "<span style='color:grey'>$e1</span>");
-    final highlight = "<span style='color:${ctx.highlightColor};font-weight: bold'>$realQuery</span>";
-    return splitTextList.join(highlight);
-  }
-
-  Widget buildSearchList(BuildContext context) {
+  Widget buildSearchHistory(BuildContext ctx, List<T> history, HistoryBuilder<T> builder) {
     List<Widget> children = [];
-    final stringify = this.stringify;
-    final suggestions = this.suggestions ?? const [];
-    for (int i = 0; i < suggestions.length; i++) {
-      // 获取对象
-      final item = suggestions[i];
-
-      // 文档化对象
-      final documented = stringify == null ? item.toString() : stringify(item);
-
-      // 过滤
-      if (!documented.contains(realQuery)) continue;
-
-      // 高亮化
-      final highlighted = highlight(context, documented);
-
-      // 搜索结果Widget构建
-      final widget = itemBuilder(context, item, highlighted, () => close(context, item));
-
+    for (final item in history) {
+      if (!filter(realQuery, item)) continue;
+      final widget = builder(ctx, item, () => close(ctx, item));
       children.add(widget);
     }
+    return GridView(
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: maxCrossAxisExtent, childAspectRatio: childAspectRatio),
+      children: children,
+    );
+  }
 
+  Widget buildCandidateList(BuildContext ctx) {
+    List<Widget> children = [];
+    for (final candidate in candidates) {
+      if (!filter(realQuery, candidate)) continue;
+      final widget = candidateBuilder(ctx, candidate, query, () => close(ctx, candidate));
+      children.add(widget);
+    }
     return GridView(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: maxCrossAxisExtent, childAspectRatio: childAspectRatio),
@@ -102,15 +131,24 @@ class SimpleTextSearchDelegate<T> extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // 用户未输入
-    if (realQuery.isEmpty) {
-      return buildSearchHistory(context);
+    final searchHistory = this.searchHistory;
+    if (realQuery.isEmpty && searchHistory != null) {
+      return buildSearchHistory(context, searchHistory.history, searchHistory.builder);
     } else {
-      return buildSearchList(context);
+      return buildCandidateList(context);
     }
   }
 }
 
-extension _CssColorEx on BuildContext {
-  String get highlightColor => isDarkMode ? "white" : "black";
+Widget highlight(BuildContext ctx, String candidate, String query, TextStyle? highlightedStyle) {
+  final parts = candidate.split(query);
+  final texts = <TextSpan>[];
+  highlightedStyle ??= TextStyle(color: ctx.colorScheme.onTertiary);
+  for (var i = 0; i < parts.length; i++) {
+    texts.add(TextSpan(text: parts[i]));
+    if (i < parts.length - 1) {
+      texts.add(TextSpan(text: query, style: highlightedStyle));
+    }
+  }
+  return RichText(text: TextSpan(children: texts));
 }
