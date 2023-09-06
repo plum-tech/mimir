@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/widgets/search.dart';
 import 'package:rettulf/rettulf.dart';
@@ -17,14 +16,15 @@ Future<String?> searchRoom({
     context: ctx,
     query: initial,
     delegate: ItemSearchDelegate.highlight(
-      // 最近查询(需要从hive里获取)，也可留空
       searchHistory: searchHistory,
-      itemBuilder: (ctx, selectIt,child) {
-        return child.elevatedBtn(onPressed: () {
-          selectIt();
-        }).padAll(5);
+      itemBuilder: (ctx, selectIt, child) {
+        return ElevatedButton(
+          onPressed: () {
+            selectIt();
+          },
+          child: child,
+        ).padSymmetric(h: 6, v: 8);
       },
-      // 待搜索提示的列表(需要从服务器获取，可以缓存至数据库)
       candidates: roomList,
       queryProcessor: _keepOnlyNumber,
       keyboardType: TextInputType.number,

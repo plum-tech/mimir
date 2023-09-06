@@ -24,8 +24,8 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     required this.filter,
     this.searchHistory,
     this.queryProcessor,
-    this.maxCrossAxisExtent = 150.0,
-    this.childAspectRatio = 2.0,
+    required this.maxCrossAxisExtent,
+    required this.childAspectRatio,
     super.keyboardType,
   });
 
@@ -37,15 +37,19 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     ItemFilter<String>? filter,
     List<T>? searchHistory,
     QueryProcessor? queryProcessor,
-    double maxCrossAxisExtent = 150.0,
-    double childAspectRatio = 2.0,
+    required double maxCrossAxisExtent,
+    required double childAspectRatio,
     TextInputType? keyboardType,
 
     /// Using [Object.toString] by default.
     Stringifier<T>? stringifier,
+    TextStyle? plainStyle,
     TextStyle? highlightedStyle,
   }) {
     return ItemSearchDelegate(
+      maxCrossAxisExtent: maxCrossAxisExtent,
+      childAspectRatio: childAspectRatio,
+      queryProcessor: queryProcessor,
       candidates: candidates,
       searchHistory: searchHistory == null
           ? null
@@ -63,7 +67,13 @@ class ItemSearchDelegate<T> extends SearchDelegate {
       },
       candidateBuilder: (ctx, item, query, selectIt) {
         final candidate = stringifier?.call(item) ?? item.toString();
-        final highlighted = highlight(ctx, candidate, query, highlightedStyle);
+        final highlighted = highlight(
+          ctx,
+          candidate: candidate,
+          query: query,
+          plainStyle: plainStyle,
+          highlightedStyle: highlightedStyle,
+        );
         return itemBuilder(ctx, selectIt, highlighted);
       },
     );
@@ -102,6 +112,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   }
 
   Widget buildSearchHistory(BuildContext ctx, List<T> history, HistoryBuilder<T> builder) {
+    final query = realQuery;
     List<Widget> children = [];
     for (final item in history) {
       if (!filter(realQuery, item)) continue;
@@ -116,6 +127,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   }
 
   Widget buildCandidateList(BuildContext ctx) {
+    final query = realQuery;
     List<Widget> children = [];
     for (final candidate in candidates) {
       if (!filter(realQuery, candidate)) continue;
@@ -140,12 +152,17 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   }
 }
 
-Widget highlight(BuildContext ctx, String candidate, String query, TextStyle? highlightedStyle) {
+Widget highlight(
+  BuildContext ctx, {
+  required String candidate,
+  required String query,
+  TextStyle? plainStyle,
+  TextStyle? highlightedStyle,
+}) {
   final parts = candidate.split(query);
   final texts = <TextSpan>[];
-  highlightedStyle ??= TextStyle(color: ctx.colorScheme.onTertiary);
   for (var i = 0; i < parts.length; i++) {
-    texts.add(TextSpan(text: parts[i]));
+    texts.add(TextSpan(text: parts[i], style: plainStyle ?? TextStyle(color: Colors.grey.withOpacity(0.5))));
     if (i < parts.length - 1) {
       texts.add(TextSpan(text: query, style: highlightedStyle));
     }
