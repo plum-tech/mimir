@@ -21,3 +21,12 @@ Widget buildCard(String title, Widget content) {
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
           child: Column(children: [cardTitle(title), content])));
 }
+
+class BalanceCard extends StatelessWidget {
+  const BalanceCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
