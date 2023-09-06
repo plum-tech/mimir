@@ -19,9 +19,6 @@ app:
   eduEmail:
     name: 教育邮箱
     desc: 查看教育邮箱里的邮件
-  elecBill:
-    name: 查电费
-    desc: 宿舍电费余额与用电记录
   examArr:
     name: 考试安排
     desc: 我最近的考试安排
@@ -37,15 +34,61 @@ app:
   oaAnnouncement:
     name: OA 公告
     desc: 学校的公告
-  separator:
-    name: 分隔符
-    desc: 用于功能分组
-  timetable:
-    name: 课程表
-    desc: 查看近期课程
   yellowPages:
     name: 常用电话
     desc: 查找学校部门的联系方式
+timetable:
+  navigation: 课程表
+  mine:
+    title: 我的课程表
+    edit: 编辑
+    exportFile: 导出文件
+    exportCalender: 导出日历
+    delete: 删除
+    preview: 预览
+    deleteRequest: 确认删除？
+    deleteRequestDesc: 这个课程表将被永久删除。
+    emptyTip: 快去导入一个课程表吧!
+    setToDefault: 设为默认
+  detail:
+    descFormTitle: 描述
+    nameFormTitle: 名称
+    classId: "教学班 {}"
+    courseId: "课程代码 {}"
+  import:
+    title: 导入课程表
+    button: 尝试导入
+    connectivityCheckerDesc: 在导入课程表之前，需要先检查你是否能访问校园网。
+    selectSemesterTip: 请先选择学年与学期。
+    endTip: 请完善课程表的信息。
+    failed: 导入失败
+    failedDesc: 无法导入这个课程表, 请稍后再试。
+    failedTip: 导入失败, 请稍后再试。
+    importing: 正在尝试获取课程表的数据……
+    timetableInfo: 课程表信息
+    defaultName: "{yearStart}-{yearEnd}年 {semester} 课程表"
+  weekStep:
+    all: 周
+    odd: 单周
+    even: 双周
+  jump: 跳转
+  findToday: 找到今天
+  startWith: "起始于"
+  weekOrderedName: "第 {} 周"
+  freeTip:
+    dayTip: 好耶，没课的一天！
+    isTodayTip: 尽情享受今天吧！
+    weekTip: 哇，这周没课！
+    isThisWeekTip: 尽情享受这周吧！
+    termTip: 不可思议，这个学期你都在放假！
+    findNearestWeekWithClass: 找到有课的一周
+    findNearestDayWithClass: 找到有课的一天
+school:
+  navigation: 学校
+life:
+  navigation: 生活
+me:
+  navigation: 个人
 activity:
   navigation:
     all: 活动
@@ -287,51 +330,6 @@ personalization:
   wallpaper:
     title: 壁纸
     desc: 自定义主页的壁纸
-timetable:
-  mine:
-    title: 我的课程表
-    edit: 编辑
-    exportFile: 导出文件
-    exportCalender: 导出日历
-    delete: 删除
-    preview: 预览
-    deleteRequest: 确认删除？
-    deleteRequestDesc: 这个课程表将被永久删除。
-    emptyTip: 快去导入一个课程表吧!
-    setToDefault: 设为默认
-  detail:
-    descFormTitle: 描述
-    nameFormTitle: 名称
-    classId: "教学班 {}"
-    courseId: "课程代码 {}"
-  import:
-    title: 导入课程表
-    button: 尝试导入
-    connectivityCheckerDesc: 在导入课程表之前，需要先检查你是否能访问校园网。
-    selectSemesterTip: 请先选择学年与学期。
-    endTip: 请完善课程表的信息。
-    failed: 导入失败
-    failedDesc: 无法导入这个课程表, 请稍后再试。
-    failedTip: 导入失败, 请稍后再试。
-    importing: 正在尝试获取课程表的数据……
-    timetableInfo: 课程表信息
-    defaultName: "{yearStart}-{yearEnd}年 {semester} 课程表"
-  weekStep:
-    all: 周
-    odd: 单周
-    even: 双周
-  jump: 跳转
-  findToday: 找到今天
-  startWith: "起始于"
-  weekOrderedName: "第 {} 周"
-  freeTip:
-    dayTip: 好耶，没课的一天！
-    isTodayTip: 尽情享受今天吧！
-    weekTip: 哇，这周没课！
-    isThisWeekTip: 尽情享受这周吧！
-    termTip: 不可思议，这个学期你都在放假！
-    findNearestWeekWithClass: 找到有课的一周
-    findNearestDayWithClass: 找到有课的一天
 scanner:
   barcodeNotRecognized: 未识别到条形码或二维码
 semester:

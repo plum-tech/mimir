@@ -33,15 +33,61 @@ app:
   oaAnnouncement:
     name: OA 公告
     desc: 查看學校的公告
-  separator:
-    name: 分隔號
-    desc: 看什麼看！我是個分隔號
-  timetable:
-    name: 課程表
-    desc: 查看你的每週課表
   yellowPages:
     name: 學校黃頁
     desc: 學校聯絡人黃頁
+timetable:
+  navigation: 課程表
+  mine:
+    title: 我的課程表
+    edit: 編輯
+    exportFile: 匯出檔案
+    exportCalender: 匯出日曆
+    delete: 刪除
+    preview: 預覽
+    deleteRequest: 確認刪除
+    deleteRequestDesc: 你會失去這個課程表，永久地。
+    emptyTip: 快去匯入一張新的課程表吧！
+    setToDefault: 設為預設
+  detail:
+    descFormTitle: 說明
+    nameFormTitle: 名稱
+    classId: "班级 {}"
+    courseId: "课程代码 {}"
+  import:
+    title: 匯入課程表
+    button: 嘗試匯入
+    connectivityCheckerDesc: 你需要訪問校園網路，才能匯入一個新的課程表。現在就開始檢查吧。
+    selectSemesterTip: 請先選擇學年與學期
+    endTip: 請補充課程表的資訊。
+    failed: 匯入失敗
+    failedDesc: 無法匯入課程表，請之後再試。
+    failedTip: 匯入失敗，請之後再試。
+    importing: 正在擷取課程表數據……
+    timetableInfo: 課程表資訊
+    defaultName: "{semester} {yearStart}-{yearEnd} 課程表"
+  weekStep:
+    all: 周
+    odd: 單週
+    even: 雙週
+  jump: 前往
+  findToday: 尋找今天
+  startWith: "起始於"
+  weekOrderedName: "第 {} 周"
+  freeTip:
+    dayTip: 好喔，這天沒課！
+    isTodayTip: "祝你今日過得愉快！🎉"
+    weekTip: 棒耶，這週都沒課！
+    isThisWeekTip: "祝你這週過得愉快！🎉"
+    termTip: "太酷啦，這學期都沒課耶！ 🎉🎉🎉"
+    findNearestWeekWithClass: 尋找有課的一天
+    findNearestDayWithClass: 尋找有課的一週
+school:
+  navigation: 學校
+life:
+  navigation: 生活
+me:
+  navigation: 個人
 activity:
   navigation:
     all: 活動
@@ -283,51 +329,6 @@ personalization:
   wallpaper:
     title: 墻紙
     desc: 自定義主頁的墻紙
-timetable:
-  mine:
-    title: 我的課程表
-    edit: 編輯
-    exportFile: 匯出檔案
-    exportCalender: 匯出日曆
-    delete: 刪除
-    preview: 預覽
-    deleteRequest: 確認刪除
-    deleteRequestDesc: 你會失去這個課程表，永久地。
-    emptyTip: 快去匯入一張新的課程表吧！
-    setToDefault: 設為預設
-  detail:
-    descFormTitle: 說明
-    nameFormTitle: 名稱
-    classId: "班级 {}"
-    courseId: "课程代码 {}"
-  import:
-    title: 匯入課程表
-    button: 嘗試匯入
-    connectivityCheckerDesc: 你需要訪問校園網路，才能匯入一個新的課程表。現在就開始檢查吧。
-    selectSemesterTip: 請先選擇學年與學期
-    endTip: 請補充課程表的資訊。
-    failed: 匯入失敗
-    failedDesc: 無法匯入課程表，請之後再試。
-    failedTip: 匯入失敗，請之後再試。
-    importing: 正在擷取課程表數據……
-    timetableInfo: 課程表資訊
-    defaultName: "{semester} {yearStart}-{yearEnd} 課程表"
-  weekStep:
-    all: 周
-    odd: 單週
-    even: 雙週
-  jump: 前往
-  findToday: 尋找今天
-  startWith: "起始於"
-  weekOrderedName: "第 {} 周"
-  freeTip:
-    dayTip: 好喔，這天沒課！
-    isTodayTip: "祝你今日過得愉快！🎉"
-    weekTip: 棒耶，這週都沒課！
-    isThisWeekTip: "祝你這週過得愉快！🎉"
-    termTip: "太酷啦，這學期都沒課耶！ 🎉🎉🎉"
-    findNearestWeekWithClass: 尋找有課的一天
-    findNearestDayWithClass: 尋找有課的一週
 scanner:
   barcodeNotRecognized: 未識別到條碼或 QR 碼
 semester:

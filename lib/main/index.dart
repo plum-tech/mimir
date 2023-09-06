@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/mini_apps/activity/using.dart';
+import 'package:mimir/timetable/i18n.dart' as $timetable;
 
 class MainStagePage extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -20,7 +20,7 @@ class _MainStagePageState extends State<MainStagePage> {
       item: BottomNavigationBarItem(
         icon: Icon(Icons.calendar_month_outlined),
         activeIcon: Icon(Icons.calendar_month),
-        label: "Timetable",
+        label: $timetable.i18n.navigation,
       )
     ),
     (

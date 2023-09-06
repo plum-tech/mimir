@@ -19,9 +19,6 @@ app:
   eduEmail:
     name: Edu Email
     desc: Check your educational email
-  elecBill:
-    name: Electricity Bill
-    desc: Dormitory balance and ⚡ history
   examArr:
     name: Exam Arrangement
     desc: Recent exam arrangement
@@ -37,15 +34,61 @@ app:
   oaAnnouncement:
     name: OA Announcement
     desc: School announcements
-  separator:
-    name: Separator
-    desc: For grouping functions
-  timetable:
-    name: Timetable
-    desc: School timetable
   yellowPages:
     name: Yellow Pages
     desc: Contact school
+timetable:
+  navigation: Timetable
+  mine:
+    title: My Timetables
+    edit: Edit
+    exportFile: Export File
+    exportCalender: Export Calender
+    delete: Delete
+    preview: Preview
+    deleteRequest: Confirm to delete?
+    deleteRequestDesc: You will lose this timetable permanently.
+    emptyTip: Let's import a new timetable!
+    setToDefault: Set to Default
+  detail:
+    descFormTitle: Description
+    nameFormTitle: Name
+    classId: "Class Code {}"
+    courseId: "Course Code {}"
+  import:
+    title: Import Timetable
+    button: Try Import
+    connectivityCheckerDesc: You need access campus network before importing a new Timetable. Let's check it.
+    selectSemesterTip: Please select a semester first.
+    endTip: Please enter the info.
+    failed: Import Failed
+    failedDesc: Can't import the timetable, please try again.
+    failedTip: Failed to import, please try again.
+    importing: Trying to fetch the timetable...
+    timetableInfo: Timetable Info
+    defaultName: "{semester}, {yearStart}-{yearEnd} Timetable"
+  weekStep:
+    all: wk
+    odd: odd wk
+    even: even wk
+  jump: Jump
+  findToday: Find Today
+  startWith: "Start with"
+  weekOrderedName: "Week {}"
+  freeTip:
+    dayTip: It's a free day!
+    isTodayTip: "Have a nice day! 🎉"
+    weekTip: Wow, no class this week!
+    isThisWeekTip: "Enjoy this week! 🎉"
+    termTip: "Cool! You even have a free term! 🎉🎉🎉"
+    findNearestWeekWithClass: Find a week with class
+    findNearestDayWithClass: Find a day with class
+school:
+  navigation: School
+life:
+  navigation: Life
+me:
+  navigation: Me
 activity:
   navigation:
     all: All
@@ -287,51 +330,6 @@ personalization:
   wallpaper:
     title: Wallpaper
     desc: Customize the homepage wallpaper
-timetable:
-  mine:
-    title: My Timetables
-    edit: Edit
-    exportFile: Export File
-    exportCalender: Export Calender
-    delete: Delete
-    preview: Preview
-    deleteRequest: Confirm to delete?
-    deleteRequestDesc: You will lose this timetable permanently.
-    emptyTip: Let's import a new timetable!
-    setToDefault: Set to Default
-  detail:
-    descFormTitle: Description
-    nameFormTitle: Name
-    classId: "Class Code {}"
-    courseId: "Course Code {}"
-  import:
-    title: Import Timetable
-    button: Try Import
-    connectivityCheckerDesc: You need access campus network before importing a new Timetable. Let's check it.
-    selectSemesterTip: Please select a semester first.
-    endTip: Please enter the info.
-    failed: Import Failed
-    failedDesc: Can't import the timetable, please try again.
-    failedTip: Failed to import, please try again.
-    importing: Trying to fetch the timetable...
-    timetableInfo: Timetable Info
-    defaultName: "{semester}, {yearStart}-{yearEnd} Timetable"
-  weekStep:
-    all: wk
-    odd: odd wk
-    even: even wk
-  jump: Jump
-  findToday: Find Today
-  startWith: "Start with"
-  weekOrderedName: "Week {}"
-  freeTip:
-    dayTip: It's a free day!
-    isTodayTip: "Have a nice day! 🎉"
-    weekTip: Wow, no class this week!
-    isThisWeekTip: "Enjoy this week! 🎉"
-    termTip: "Cool! You even have a free term! 🎉🎉🎉"
-    findNearestWeekWithClass: Find a week with class
-    findNearestDayWithClass: Find a day with class
 scanner:
   barcodeNotRecognized: No Barcode or QR code
 semester:

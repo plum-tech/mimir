@@ -14,6 +14,8 @@ class _I18n with CommonI18nMixin {
   final freeTip = const _FreeTip();
   final campus = const CampusI10n();
 
+  String get navigation => "$ns.navigation".tr();
+
   String weekday({required int index}) => "weekday.$index".tr();
 
   String weekdayShort({required int index}) => "weekdayShort.$index".tr();
