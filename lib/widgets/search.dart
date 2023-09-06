@@ -72,13 +72,14 @@ class SimpleTextSearchDelegate<T> extends SearchDelegate {
 
   Widget buildSearchList(BuildContext context) {
     List<Widget> children = [];
+    final stringify = this.stringify;
     final suggestions = this.suggestions ?? const [];
     for (int i = 0; i < suggestions.length; i++) {
       // 获取对象
       final item = suggestions[i];
 
       // 文档化对象
-      final documented = stringify!(item);
+      final documented = stringify == null ? item.toString() : stringify(item);
 
       // 过滤
       if (!documented.contains(realQuery)) continue;

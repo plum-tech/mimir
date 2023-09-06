@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
+import 'package:mimir/life/electricity/widgets/search.dart';
 import 'package:mimir/main/network_tool/using.dart';
 import 'package:mimir/mini_app.dart';
 import 'package:rettulf/rettulf.dart';
@@ -40,14 +41,14 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
     super.dispose();
   }
 
-  void updateSelectedRoom(){
-    if(!mounted) return;
+  void updateSelectedRoom() {
+    if (!mounted) return;
     setState(() {
       selectedRoom = ElectricityBalanceInit.storage.selectedRoom;
     });
   }
 
-  Future<void> _refresh() async {
+  Future<void> _refresh({bool active = false}) async {
     final selectedRoom = this.selectedRoom;
     if (selectedRoom == null) return;
     final newBalance = await ElectricityBalanceInit.service.getBalance(selectedRoom);
@@ -56,6 +57,9 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
     setState(() {
       balance = newBalance;
     });
+    if (active) {
+      context.showSnackBar("Electricity balance refreshed successfully!".text());
+    }
   }
 
   @override
@@ -74,23 +78,44 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
   Widget buildBody() {
     return FilledCard(
       child: [
-        SizedBox(
-          height: 120,
-          child: ElectricityBalanceCard(
-            balance: balance,
-          ),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 300),
+          child: selectedRoom == null
+              ? const SizedBox()
+              : ElectricityBalanceCard(
+                  balance: balance,
+                ).sized(h: 120),
         ),
         ListTile(
           titleTextStyle: context.textTheme.titleLarge,
           title: MiniApp.elecBill.l10nName().text(),
           subtitleTextStyle: context.textTheme.bodyLarge,
-          subtitle: "105604".text(),
+          subtitle: selectedRoom == null ? null : "#$selectedRoom".text(),
         ),
         OverflowBar(
           alignment: MainAxisAlignment.spaceBetween,
           children: [
-            FilledButton.icon(onPressed: () {}, label: "Search".text(), icon: Icon(Icons.search)),
-            IconButton(onPressed: selectedRoom == null ? null : _refresh, icon: Icon(Icons.refresh))
+            FilledButton.icon(
+                onPressed: () async {
+                  final room = await searchRoom(
+                    ctx: context,
+                    searchHistory: ElectricityBalanceInit.storage.searchHistory ?? const [],
+                    roomList: R.roomList,
+                  );
+                  if (room == null) return;
+                  if (!mounted) return;
+                  ElectricityBalanceInit.storage.selectedRoom = room;
+                  await _refresh(active: true);
+                },
+                label: "Search".text(),
+                icon: Icon(Icons.search)),
+            IconButton(
+                onPressed: selectedRoom == null
+                    ? null
+                    : () async {
+                        await _refresh(active: true);
+                      },
+                icon: Icon(Icons.refresh))
           ],
         ).padOnly(l: 5, b: 5),
       ].column(),

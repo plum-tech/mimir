@@ -60,6 +60,6 @@ extension _AppX on Widget {
 
 Future<List<String>> getRoomNumberList() async {
   String jsonData = await rootBundle.loadString("assets/room_list.json");
-  List<int> list = await jsonDecode(jsonData);
+  List<dynamic> list = await jsonDecode(jsonData);
   return list.map((e) => e.toString()).toList();
 }
