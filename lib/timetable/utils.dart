@@ -25,8 +25,7 @@ void _addEventForCourse(ICalendar cal, Course course, DateTime startDate, Durati
   final timeEnd = timetable[indexEnd - 1].end;
 
   final description =
-      '第 ${indexStart == indexEnd ? indexStart : '$indexStart-$indexEnd'} 节，${course.place}，${course.teacher.join(
-      ' ')}';
+      '第 ${indexStart == indexEnd ? indexStart : '$indexStart-$indexEnd'} 节，${course.place}，${course.teacher.join(' ')}';
 
   // 一学期最多有 20 周
   for (int currentWeek = 1; currentWeek < 20; ++currentWeek) {
@@ -49,9 +48,9 @@ void _addEventForCourse(ICalendar cal, Course course, DateTime startDate, Durati
       alarm: alarmBefore == null
           ? null
           : IAlarm.display(
-        trigger: eventStartTime.subtract(alarmBefore),
-        description: description,
-      ),
+              trigger: eventStartTime.subtract(alarmBefore),
+              description: description,
+            ),
     );
     cal.addElement(event);
   }
@@ -87,15 +86,7 @@ Future<void> exportTimetableToCalendar(TimetableMeta meta, List<Course> courses,
   );
 }
 
-final Map<String, int> _weekday2Index = {
-  '星期一': 1,
-  '星期二': 2,
-  '星期三': 3,
-  '星期四': 4,
-  '星期五': 5,
-  '星期六': 6,
-  '星期日': 7
-};
+final Map<String, int> _weekday2Index = {'星期一': 1, '星期二': 2, '星期三': 3, '星期四': 4, '星期五': 5, '星期六': 6, '星期日': 7};
 
 enum WeekStep {
   single('s'),
@@ -196,7 +187,7 @@ SitTimetable parseTimetableEntity(List<CourseRaw> all) {
     for (final weekNumber in SitCourse.rangedWeekNumbers2EachWeekNumbers(weekIndices)) {
       final weekIndex = weekNumber - 1;
       assert(0 <= weekIndex && weekIndex < maxWeekLength,
-      "Week index is more out of range [0,$maxWeekLength) but $weekIndex.");
+          "Week index is more out of range [0,$maxWeekLength) but $weekIndex.");
       if (0 <= weekIndex && weekIndex < maxWeekLength) {
         final week = getWeekAt(weekIndex);
         final day = week.days[dayIndex];
@@ -247,5 +238,5 @@ Future<({String id, SitTimetable timetable})?> importTimetableFromFile() async {
   final json = jsonDecode(content);
   final timetable = SitTimetable.fromJson(json);
   final id = TimetableInit.storage.addTimetable(timetable);
-  return (id:id, timetable:timetable);
+  return (id: id, timetable: timetable);
 }

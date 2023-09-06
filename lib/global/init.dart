@@ -131,7 +131,7 @@ class Init {
       ssoSession: Global.ssoSession,
     );
 
-    ElectricityBillInit.init(
+    ElectricityBalanceInit.init(
       dio: Global.dio,
       electricityBox: HiveBoxInit.settings,
     );

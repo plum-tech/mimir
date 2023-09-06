@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
+import 'package:mimir/life/elec_balance/index.dart';
 import 'package:mimir/mini_app.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -24,7 +25,7 @@ class _LifePageState extends State<LifePage> {
           child: ExpenseTrackerAppCard(),
         ),
         SliverToBoxAdapter(
-          child: ElectricityBillAppCard(),
+          child: ElectricityBalanceAppCard(),
         ),
       ],
     );
@@ -51,38 +52,9 @@ class _ExpenseTrackerAppCardState extends State<ExpenseTrackerAppCard> {
         OverflowBar(
           alignment: MainAxisAlignment.spaceBetween,
           children: [
-            FilledButton(onPressed: (){}, child: "Check".text()),
+            FilledButton(onPressed: () {}, child: "Check".text()),
           ],
-        ).padOnly(l: 5,b: 5),
-      ].column(),
-    );
-  }
-}
-
-
-class ElectricityBillAppCard extends StatefulWidget {
-  const ElectricityBillAppCard({super.key});
-
-  @override
-  State<ElectricityBillAppCard> createState() => _ElectricityBillAppCardState();
-}
-
-class _ElectricityBillAppCardState extends State<ElectricityBillAppCard> {
-  @override
-  Widget build(BuildContext context) {
-    return FilledCard(
-      child: [
-        SizedBox(height: 120),
-        ListTile(
-          titleTextStyle: context.textTheme.titleLarge,
-          title: MiniApp.elecBill.l10nName().text(),
-        ),
-        OverflowBar(
-          alignment: MainAxisAlignment.spaceBetween,
-          children: [
-            FilledButton(onPressed: (){}, child: "Check".text()),
-          ],
-        ).padOnly(l: 5,b: 5),
+        ).padOnly(l: 5, b: 5),
       ].column(),
     );
   }

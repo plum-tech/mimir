@@ -29,7 +29,7 @@ class _ElectricityBillPageState extends State<ElectricityBillPage> {
   /// elevated the `room` to share the state
   /// Null means user should select a room number before all.
   String? _selectedRoom;
-  final storage = ElectricityBillInit.storage;
+  final storage = ElectricityBalanceInit.storage;
   List<String>? _searchHistory;
   static List<String>? _allRoomNumbers;
   var _dashboardKey = GlobalKey();

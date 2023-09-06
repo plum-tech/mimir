@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mimir/hive/type_id.dart';
 
-part 'account.g.dart';
+part 'balance.g.dart';
 
 double _parseBalance(String raw) {
   return double.tryParse(raw) ?? 0;
@@ -17,7 +17,7 @@ double _parseBalance(String raw) {
 /// ```
 @JsonSerializable()
 @HiveType(typeId: HiveTypeId.balance)
-class Balance {
+class ElectricityBalance {
   @JsonKey(name: "Balance", fromJson: _parseBalance)
   @HiveField(0)
   final double balance;
@@ -26,7 +26,7 @@ class Balance {
   @HiveField(2)
   final String roomNumber;
 
-  Balance(this.roomNumber, this.balance);
+  ElectricityBalance(this.roomNumber, this.balance);
 
-  factory Balance.fromJson(Map<String, dynamic> json) => _$BalanceFromJson(json);
+  factory ElectricityBalance.fromJson(Map<String, dynamic> json) => _$ElectricityBalanceFromJson(json);
 }

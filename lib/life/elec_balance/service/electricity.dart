@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:mimir/utils/json.dart';
 
-import '../entity/account.dart';
+import '../entity/balance.dart';
 
 const _balanceUrl = "https://xgfy.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=DBAccess_RunSQLReturnTable";
 
@@ -10,7 +10,7 @@ class ElectricityService {
 
   const ElectricityService(this.dio);
 
-  Future<Balance> getBalance(String room) async {
+  Future<ElectricityBalance> getBalance(String room) async {
     final response = await dio.post(
       _balanceUrl,
       queryParameters: {
@@ -23,7 +23,7 @@ class ElectricityService {
       ),
     );
     final data = response.data as String;
-    Balance balance = data.toList(Balance.fromJson)!.first;
+    ElectricityBalance balance = data.toList(ElectricityBalance.fromJson)!.first;
     return balance;
   }
 }
