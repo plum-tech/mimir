@@ -90,14 +90,18 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
           children: [
             FilledButton.icon(
               onPressed: () async {
+                final history = ElectricityBalanceInit.storage.searchHistory ?? {};
                 final room = await searchRoom(
                   ctx: context,
-                  initial: selectedRoom,
-                  searchHistory: ElectricityBalanceInit.storage.searchHistory ?? const [],
+                  searchHistory: history,
                   roomList: R.roomList,
                 );
                 if (ElectricityBalanceInit.storage.selectedRoom != room) {
                   ElectricityBalanceInit.storage.selectedRoom = room;
+                  if(room != null){
+                    history.add(room);
+                    ElectricityBalanceInit.storage.searchHistory = history;
+                  }
                   await _refresh(active: true);
                 }
               },

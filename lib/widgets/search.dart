@@ -10,8 +10,8 @@ typedef ItemFilter<T> = bool Function(String query, T item);
 typedef ItemBuilder = Widget Function(BuildContext ctx, VoidCallback selectIt, Widget child);
 
 class ItemSearchDelegate<T> extends SearchDelegate {
-  final ({List<T> history, HistoryBuilder<T> builder})? searchHistory;
-  final List<T> candidates;
+  final ({Iterable<T> history, HistoryBuilder<T> builder})? searchHistory;
+  final Iterable<T> candidates;
   final CandidateBuilder<T> candidateBuilder;
   final ItemFilter<T> filter;
   final QueryProcessor? queryProcessor;
@@ -31,11 +31,11 @@ class ItemSearchDelegate<T> extends SearchDelegate {
 
   factory ItemSearchDelegate.highlight({
     required ItemBuilder itemBuilder,
-    required List<T> candidates,
+    required Iterable<T> candidates,
 
     /// Using [String.contains] by default.
     ItemFilter<String>? filter,
-    List<T>? searchHistory,
+    Iterable<T>? searchHistory,
     QueryProcessor? queryProcessor,
     required double maxCrossAxisExtent,
     required double childAspectRatio,
@@ -111,7 +111,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     }
   }
 
-  Widget buildSearchHistory(BuildContext ctx, List<T> history, HistoryBuilder<T> builder) {
+  Widget buildSearchHistory(BuildContext ctx, Iterable<T> history, HistoryBuilder<T> builder) {
     final query = realQuery;
     List<Widget> children = [];
     for (final item in history) {

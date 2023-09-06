@@ -9,8 +9,8 @@ import '../i18n.dart';
 Future<String?> searchRoom({
   String? initial,
   required BuildContext ctx,
-  required List<String> searchHistory,
-  required List<String> roomList,
+  required Iterable<String> searchHistory,
+  required Iterable<String> roomList,
 }) async {
   final result = await showSearch(
     context: ctx,

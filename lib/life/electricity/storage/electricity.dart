@@ -19,18 +19,22 @@ class ElectricityStorage {
 
   set selectedRoom(String? newV) {
     box.put(_K.selectedRoom, newV);
-    if(newV == null){
+    if (newV == null) {
       box.put(_K.lastBalance, null);
     }
   }
 
-  ValueListenable<Box<dynamic>> get onRoomBalanceChanged => box.listenable(keys:[_K.selectedRoom, _K.lastBalance]);
+  ValueListenable<Box<dynamic>> get onRoomBalanceChanged => box.listenable(keys: [_K.selectedRoom, _K.lastBalance]);
 
   ElectricityBalance? get lastBalance => box.get(_K.lastBalance);
 
   set lastBalance(ElectricityBalance? newV) => box.put(_K.lastBalance, newV);
 
-  List<String>? get searchHistory => box.get(_K.searchHistory);
+  Set<String>? get searchHistory {
+    final res = box.get(_K.searchHistory);
+    if (res == null) return null;
+    return Set.of(res);
+  }
 
-  set searchHistory(List<String>? newV) => box.put(_K.searchHistory, newV);
+  set searchHistory(Set<String>? newV) => box.put(_K.searchHistory, newV);
 }
