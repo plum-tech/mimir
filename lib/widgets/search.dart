@@ -162,6 +162,7 @@ Widget highlight(
   final parts = candidate.split(query);
   final texts = <TextSpan>[];
   for (var i = 0; i < parts.length; i++) {
+    // TODO: Color issue in light mode.
     texts.add(TextSpan(text: parts[i], style: plainStyle ?? TextStyle(color: Colors.grey.withOpacity(0.5))));
     if (i < parts.length - 1) {
       texts.add(TextSpan(text: query, style: highlightedStyle));

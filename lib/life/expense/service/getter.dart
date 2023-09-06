@@ -4,12 +4,11 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:mimir/network/session.dart';
 
-import '../dao/getter.dart';
 import '../entity/local.dart';
 import '../entity/remote.dart';
 import 'anaylze.dart';
 
-class ExpenseGetService implements ExpenseGetDao {
+class ExpenseGetService {
   String al2(int v) => v < 10 ? "0$v" : "$v";
 
   String format(DateTime d) => "${d.year}${al2(d.month)}${al2(d.day)}${al2(d.hour)}${al2(d.minute)}${al2(d.second)}";
@@ -20,7 +19,6 @@ class ExpenseGetService implements ExpenseGetDao {
 
   ExpenseGetService(this.session);
 
-  @override
   Future<List<Transaction>> fetch({
     required String studentID,
     required DateTime from,

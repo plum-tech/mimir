@@ -116,7 +116,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
               icon: Icon(Icons.refresh),
             )
           ],
-        ).padOnly(l: 5, b: 5),
+        ).padOnly(l: 16, b: 12),
       ].column(),
     );
   }

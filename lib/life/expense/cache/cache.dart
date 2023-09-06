@@ -1,13 +1,13 @@
-import '../dao/getter.dart';
 import '../entity/local.dart';
+import '../service/getter.dart';
 import '../storage/local.dart';
 
-class CachedExpenseGetDao implements ExpenseGetDao {
-  final ExpenseGetDao remoteDao;
+class CachedExpenseGetDao {
+  final ExpenseGetService service;
   final ExpenseStorage storage;
 
   CachedExpenseGetDao({
-    required this.remoteDao,
+    required this.service,
     required this.storage,
   });
 
@@ -16,12 +16,11 @@ class CachedExpenseGetDao implements ExpenseGetDao {
     required DateTime from,
     required DateTime to,
   }) async {
-    final fetchedData = await remoteDao.fetch(studentID: studentID, from: from, to: to);
+    final fetchedData = await service.fetch(studentID: studentID, from: from, to: to);
     storage.merge(records: fetchedData, start: from, end: to);
     return fetchedData;
   }
 
-  @override
   Future<List<Transaction>> fetch({
     required String studentID,
     required DateTime from,
