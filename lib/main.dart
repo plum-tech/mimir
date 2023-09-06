@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -22,6 +24,7 @@ void main() async {
   R.appDir = appDocDir.path;
   final tmpDir = await getTemporaryDirectory();
   R.tmpDir = tmpDir.path;
+  R.roomList= await getRoomNumberList();
   Migrations.init();
   await Init.init();
   runApp(
@@ -53,4 +56,10 @@ extension _AppX on Widget {
       },
     );
   }
+}
+
+Future<List<String>> getRoomNumberList() async {
+  String jsonData = await rootBundle.loadString("assets/room_list.json");
+  List<int> list = await jsonDecode(jsonData);
+  return list.map((e) => e.toString()).toList();
 }

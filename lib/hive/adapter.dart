@@ -1,5 +1,5 @@
 import 'package:mimir/credential/symbol.dart';
-import 'package:mimir/life/elec_balance/entity/balance.dart';
+import 'package:mimir/life/electricity/entity/balance.dart';
 import 'package:mimir/mini_apps/activity/entity/detail.dart';
 import 'package:mimir/mini_apps/activity/entity/list.dart';
 import 'package:mimir/mini_apps/activity/entity/score.dart';

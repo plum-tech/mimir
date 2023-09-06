@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
-import 'package:mimir/life/elec_balance/index.dart';
 import 'package:mimir/mini_app.dart';
 import 'package:rettulf/rettulf.dart';
+
+import 'electricity/index.dart';
 
 class LifePage extends StatefulWidget {
   const LifePage({super.key});

@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
-import 'package:mimir/life/elec_balance/init.dart';
-import 'package:mimir/life/elec_balance/widgets/card.dart';
 import 'package:mimir/main/network_tool/using.dart';
 import 'package:mimir/mini_app.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'i18n.dart';
 import 'entity/balance.dart';
+import 'init.dart';
+import 'widgets/card.dart';
 
 class ElectricityBalanceAppCard extends StatefulWidget {
   const ElectricityBalanceAppCard({super.key});
@@ -19,7 +19,7 @@ class ElectricityBalanceAppCard extends StatefulWidget {
 }
 
 class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
-  ElectricityBalance? balance;
+  ElectricityBalance? balance = ElectricityBalanceInit.storage.lastBalance;
   late Timer refreshTimer;
 
   @override
@@ -39,10 +39,8 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
 
   Future<void> _refresh() async {
     final selectedRoom = "105604";
-    setState(() {
-      balance = null;
-    });
     final newBalance = await ElectricityBalanceInit.service.getBalance(selectedRoom);
+    ElectricityBalanceInit.storage.lastBalance = newBalance;
     if (!mounted) return;
     setState(() {
       balance = newBalance;

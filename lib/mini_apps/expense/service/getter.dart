@@ -14,7 +14,7 @@ class ExpenseGetService implements ExpenseGetDao {
 
   String format(DateTime d) => "${d.year}${al2(d.month)}${al2(d.day)}${al2(d.hour)}${al2(d.minute)}${al2(d.second)}";
 
-  static const String magicNumberX = "YWRjNGFjNjgyMmZkNDYyNzgwZjg3OGI4NmNiOTQ2ODg=";
+  static const String magicNumber = "adc4ac6822fd462780f878b86cb94688";
   static const urlPath = "https://xgfy.sit.edu.cn/yktapi/services/querytransservice/querytrans";
   final ISession session;
 
@@ -57,7 +57,6 @@ class ExpenseGetService implements ExpenseGetDao {
   }
 
   String composeAuth(String studentId, String from, String to, String cur) {
-    String magicNumber = utf8.decode(base64.decode(magicNumberX));
     String full = studentId + from + to + cur;
     var msg = utf8.encode(full);
     var key = utf8.encode(magicNumber);

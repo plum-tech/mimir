@@ -1,9 +1,45 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/widgets/search.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
+
+Future<String?> searchRoom({
+  required BuildContext ctx,
+  required List<String> searchHistory,
+  required List<String> roomList,
+}) async {
+  final result = await showSearch(
+    context: ctx,
+    delegate: SimpleTextSearchDelegate(
+      // 最近查询(需要从hive里获取)，也可留空
+      searchHistory: searchHistory.reversed.toList(),
+      itemBuilder: (ctx, item, highlight, onSelect) => HtmlWidget(
+        highlight,
+        textStyle: ctx.textTheme.titleMedium,
+      ).padAll(2).elevatedBtn(onPressed: () {
+        onSelect();
+      }).padAll(5),
+      // 待搜索提示的列表(需要从服务器获取，可以缓存至数据库)
+      suggestions: roomList,
+      // 只允许使用搜索建议里的
+      onlyAllowSuggestions: true,
+      inputPreprocess: _keepOnlyNumber,
+      keyboardType: TextInputType.number,
+      childAspectRatio: 2,
+      maxCrossAxisExtent: 150.0,
+    ),
+  );
+  return result is String ? result : null;
+}
+
+String _keepOnlyNumber(String raw) {
+  return String.fromCharCodes(raw.codeUnits.where((e) => e >= 48 && e < 58));
+}
 
 class EmptySearchTip extends StatelessWidget {
   final VoidCallback? onSearch;

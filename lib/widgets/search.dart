@@ -2,37 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:mimir/mini_apps/exam_arr/using.dart';
 import 'package:rettulf/rettulf.dart';
 
-/// 搜索对象的WidgetBuilder
-typedef SearchItemBuilder<T> = Widget Function(BuildContext ctx, T itemData, String highlighted, VoidCallback onSelect);
-
-/// 搜索对象文档化
-typedef SearchItemDocumented<T> = String Function(T itemData);
-typedef TextPreprocessing = String Function(String raw);
-
 class SimpleTextSearchDelegate<T> extends SearchDelegate {
-  final List<T> recentList, suggestionList;
-  SearchItemBuilder<T> searchItemBuilder;
-  SearchItemDocumented<T>? searchItemDocumented;
-  TextPreprocessing? preprocess;
-  final bool onlyUseSuggestion;
+  final List<T>? searchHistory;
+  final List<T>? suggestions;
+  final Widget Function(BuildContext ctx, T itemData, String highlighted, VoidCallback onSelect) itemBuilder;
+  final String Function(T itemData)? stringify;
+  final String Function(String raw)? inputPreprocess;
+  final bool onlyAllowSuggestions;
   final double maxCrossAxisExtent;
   final double childAspectRatio;
 
   SimpleTextSearchDelegate({
-    required this.recentList,
-    required this.suggestionList,
-    required this.searchItemBuilder,
-    this.searchItemDocumented,
-    this.preprocess,
-    this.onlyUseSuggestion = true,
+    required this.itemBuilder,
+    this.searchHistory,
+    this.suggestions,
+    this.stringify,
+    this.inputPreprocess,
+    this.onlyAllowSuggestions = true,
     this.maxCrossAxisExtent = 150.0,
     this.childAspectRatio = 2.0,
     super.keyboardType,
-  }) {
-    searchItemDocumented ??= (item) => item.toString();
-  }
+  });
 
-  String get realQuery => preprocess?.call(query) ?? query;
+  String get realQuery => inputPreprocess?.call(query) ?? query;
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -55,7 +47,8 @@ class SimpleTextSearchDelegate<T> extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     final dest = realQuery;
-    if (!onlyUseSuggestion || suggestionList.contains(dest)) {
+    final suggestions = this.suggestions;
+    if (!onlyAllowSuggestions || (suggestions != null && suggestions.contains(dest))) {
       close(context, dest);
       return const SizedBox();
     } else {
@@ -63,10 +56,11 @@ class SimpleTextSearchDelegate<T> extends SearchDelegate {
     }
   }
 
-  Widget buildRecentList(BuildContext context) {
+  Widget buildSearchHistory(BuildContext context) {
+    final searchHistory = this.searchHistory ?? const [];
     return ListView(
-        children: recentList.map((e) {
-      return searchItemBuilder(context, e, searchItemDocumented!(e), () => close(context, e));
+        children: searchHistory.map((e) {
+      return itemBuilder(context, e, stringify!(e), () => close(context, e));
     }).toList());
   }
 
@@ -78,12 +72,13 @@ class SimpleTextSearchDelegate<T> extends SearchDelegate {
 
   Widget buildSearchList(BuildContext context) {
     List<Widget> children = [];
-    for (int i = 0; i < suggestionList.length; i++) {
+    final suggestions = this.suggestions ?? const [];
+    for (int i = 0; i < suggestions.length; i++) {
       // 获取对象
-      final item = suggestionList[i];
+      final item = suggestions[i];
 
       // 文档化对象
-      final documented = searchItemDocumented!(item);
+      final documented = stringify!(item);
 
       // 过滤
       if (!documented.contains(realQuery)) continue;
@@ -92,7 +87,7 @@ class SimpleTextSearchDelegate<T> extends SearchDelegate {
       final highlighted = highlight(context, documented);
 
       // 搜索结果Widget构建
-      final widget = searchItemBuilder(context, item, highlighted, () => close(context, item));
+      final widget = itemBuilder(context, item, highlighted, () => close(context, item));
 
       children.add(widget);
     }
@@ -108,7 +103,7 @@ class SimpleTextSearchDelegate<T> extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) {
     // 用户未输入
     if (realQuery.isEmpty) {
-      return buildRecentList(context);
+      return buildSearchHistory(context);
     } else {
       return buildSearchList(context);
     }
