@@ -1,3 +1,4 @@
+import 'package:hive/hive.dart';
 import 'package:mimir/cache/box.dart';
 
 import '../dao/application.dart';

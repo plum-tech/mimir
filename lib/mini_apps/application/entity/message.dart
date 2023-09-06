@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-
-import '../using.dart';
+import 'package:mimir/hive/type_id.dart';
 
 part 'message.g.dart';
 

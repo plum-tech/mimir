@@ -1,4 +1,5 @@
 import 'package:cookie_jar/cookie_jar.dart';
+import 'package:hive/hive.dart';
 
 import 'cache/result.dart';
 import 'dao/evaluation.dart';

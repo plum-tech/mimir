@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
-import 'package:mimir/hive/using.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../entity/balance.dart';
 

@@ -1,3 +1,5 @@
+import 'package:hive/hive.dart';
+
 import './using.dart';
 import 'cache/detail.dart';
 import 'cache/list.dart';

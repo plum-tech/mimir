@@ -1,7 +1,7 @@
 import 'dart:core';
 
 import '../entity/list.dart';
-import '../using.dart';
+import 'package:mimir/hive/type_id.dart';
 
 part 'score.g.dart';
 

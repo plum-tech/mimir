@@ -1,3 +1,5 @@
+import 'package:hive/hive.dart';
+
 import '../dao/list.dart';
 import '../entity/list.dart';
 import '../using.dart';

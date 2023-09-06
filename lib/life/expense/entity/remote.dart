@@ -3,63 +3,87 @@ import 'package:json_annotation/json_annotation.dart';
 part 'remote.g.dart';
 
 /// The analysis of expense tracker is [here](https://github.com/SIT-kite/expense-tracker).
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class DataPackRaw {
-  DataPackRaw();
+  @JsonKey(name: "retcode")
+  final int code;
+  @JsonKey(name: "retcount")
+  final int count;
+  @JsonKey(name: "retdata")
+  final List<TransactionRaw> transactions;
+  @JsonKey(name: "retmsg")
+  final String message;
 
-  int retcode = 0;
-  int retcount = 0;
-  List<TransactionRaw> retdata = [];
-  String retmsg = "";
+  const DataPackRaw({
+    required this.code,
+    required this.count,
+    required this.transactions,
+    required this.message,
+  });
 
   factory DataPackRaw.fromJson(Map<String, dynamic> json) => _$DataPackRawFromJson(json);
-
-  Map<String, dynamic> toJson() => _$DataPackRawToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class TransactionRaw {
-  TransactionRaw();
+  /// transaction name
+  /// example: "pos消费", "支付宝充值", "补助领取", "批量销户" or "卡冻结", "下发补助" or "补助撤销"
+  @JsonKey(name: "transname")
+  final String name;
 
   /// example: "20221102"
   /// transaction data
   /// format: yyyymmdd
-  String transdate = "";
+  @JsonKey(name: "transdate")
+  final String date;
 
   /// transaction time
   /// example: "114745"
   /// format: hhmmss
-  String transtime = "";
+  @JsonKey(name: "transtime")
+  final String time;
 
   /// customer id
   /// example: 11045158
-  int custid = 0;
+  @JsonKey(name: "custid")
+  final int customerId;
 
   /// transaction flag
-  int transflag = 0;
+  @JsonKey(name: "transflag")
+  final int flag;
 
   /// card before balance
   /// example: 76.5
-  double cardbefbal = 0;
+  @JsonKey(name: "cardbefbal")
+  final double balanceBeforeTransaction;
 
   /// card after balance
   /// example: 70.5
-  double cardaftbal = 0;
+  @JsonKey(name: "cardaftbal")
+  final double balanceAfterTransaction;
 
   /// the amount of this transaction performed
-  /// It's abosute.
+  /// It's absolute.
   /// example: 6
-  double amount = 0;
+  @JsonKey(name: "amount")
+  final double amount;
 
   /// device name
   /// example: "奉贤一食堂一楼汇多pos4（新）", "多媒体-3-4号楼", "上海应用技术学院"
-  String? devicename = "";
+  @JsonKey(name: "devicename")
+  final String? deviceName;
 
-  /// transaction name
-  /// example: "pos消费", "支付宝充值", "补助领取", "批量销户" or "卡冻结", "下发补助" or "补助撤销"
-  String transname = "";
+  const TransactionRaw({
+    required this.date,
+    required this.time,
+    required this.customerId,
+    required this.flag,
+    required this.balanceBeforeTransaction,
+    required this.balanceAfterTransaction,
+    required this.amount,
+    required this.deviceName,
+    required this.name,
+  });
 
   factory TransactionRaw.fromJson(Map<String, dynamic> json) => _$TransactionRawFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TransactionRawToJson(this);
 }

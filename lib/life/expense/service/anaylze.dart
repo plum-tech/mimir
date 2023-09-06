@@ -10,7 +10,7 @@ const deviceName2Type = {
   '图书馆': TransactionType.library,
 };
 
-TransactionType analyzeType(Transaction trans) {
+TransactionType parseType(Transaction trans) {
   if (trans.note.contains("充值")) {
     return TransactionType.topUp;
   } else if (trans.note.contains("补助")) {
@@ -27,26 +27,29 @@ TransactionType analyzeType(Transaction trans) {
   return TransactionType.other;
 }
 
-Transaction analyzeFull(TransactionRaw raw) {
-  var res = Transaction()
-    ..datetime = parseDatetime(raw)
-    ..balanceBefore = raw.cardbefbal
-    ..balanceAfter = raw.cardaftbal
-    ..deltaAmount = raw.amount.abs()
-    ..deviceName = raw.devicename ?? ""
-    ..note = raw.transname
-    ..consumerId = raw.custid;
-  res.type = analyzeType(res);
-  return res;
+Transaction parseFull(TransactionRaw raw) {
+  final transaction = Transaction(
+    datetime: parseDatetime(raw),
+    balanceBefore: raw.balanceBeforeTransaction,
+    balanceAfter: raw.balanceAfterTransaction,
+    deltaAmount: raw.amount.abs(),
+    deviceName: raw.deviceName ?? "",
+    note: raw.name,
+    consumerId: raw.customerId,
+    type: TransactionType.other,
+  );
+  return transaction.copyWith(
+    type: parseType(transaction),
+  );
 }
 
 DateTime parseDatetime(TransactionRaw raw) {
-  final date = raw.transdate;
+  final date = raw.date;
   final year = int.parse(date.substring(0, 4));
   final month = int.parse(date.substring(4, 6));
   final day = int.parse(date.substring(6, 8));
 
-  final time = raw.transtime;
+  final time = raw.time;
   final hour = int.parse(time.substring(0, 2));
   final min = int.parse(time.substring(2, 4));
   final sec = int.parse(time.substring(4, 6));

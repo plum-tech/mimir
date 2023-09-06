@@ -1,4 +1,4 @@
-import 'package:mimir/cache/box.dart';
+import 'package:hive/hive.dart';
 
 import '../dao/exam.dart';
 import '../entity/exam.dart';

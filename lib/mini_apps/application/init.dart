@@ -1,5 +1,6 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:hive/hive.dart';
 
 import 'cache/application.dart';
 import 'cache/message.dart';

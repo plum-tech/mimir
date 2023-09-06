@@ -1,3 +1,4 @@
+import 'package:hive/hive.dart';
 import 'package:mimir/mini_apps/activity/dao/score.dart';
 
 import '../entity/score.dart';

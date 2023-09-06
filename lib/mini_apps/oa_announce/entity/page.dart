@@ -1,4 +1,5 @@
-import '../using.dart';
+import 'package:mimir/hive/type_id.dart';
+
 import 'announce.dart';
 
 part 'page.g.dart';

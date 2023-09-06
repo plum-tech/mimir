@@ -1,4 +1,4 @@
-import '../../using.dart';
+import 'package:hive/hive.dart';
 import '../dao/search_history.dart';
 import '../entity/search_history.dart';
 

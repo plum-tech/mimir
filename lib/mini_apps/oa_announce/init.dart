@@ -1,3 +1,4 @@
+import 'package:hive/hive.dart';
 import 'package:mimir/mini_apps/oa_announce/storage/announce.dart';
 
 import 'cache/announce.dart';

@@ -1,8 +1,9 @@
 import 'local.dart';
-import 'shared.dart';
+
+final _kMonth = DateTime.utc(0);
 
 class Page {
-  DateTime month = defaultDateTime;
+  DateTime month = _kMonth;
   List<Transaction> descending = [];
 
   bool get isEmpty => descending.isEmpty;

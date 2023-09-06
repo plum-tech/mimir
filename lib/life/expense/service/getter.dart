@@ -43,7 +43,7 @@ class ExpenseGetService {
       options: SessionOptions(contentType: 'text/plain'),
     );
     final raw = anaylzeJson(res.data);
-    return raw.retdata.map(analyzeFull).toList();
+    return raw.transactions.map(parseFull).toList();
   }
 
   DataPackRaw anaylzeJson(dynamic data) {

@@ -1,3 +1,4 @@
+import 'package:hive/hive.dart';
 import 'package:mimir/credential/symbol.dart';
 import 'package:mimir/life/electricity/entity/balance.dart';
 import 'package:mimir/mini_apps/activity/entity/detail.dart';
@@ -12,7 +13,6 @@ import 'package:mimir/mini_apps/oa_announce/entity/attachment.dart';
 import 'package:mimir/mini_apps/symbol.dart';
 
 import 'custom_adapters.dart';
-import 'using.dart';
 
 class HiveAdapter {
   HiveAdapter._();

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
-import 'package:mimir/hive/using.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mimir/hive/type_id.dart';
 
 import '../entity/local.dart';
 
@@ -20,7 +21,7 @@ class _K {
 class ExpenseStorage {
   final Box box;
 
-  ExpenseStorage(this.box);
+  const ExpenseStorage(this.box);
 
   /// 清空所有交易记录
   void clear() => box.clear();
@@ -44,7 +45,7 @@ class ExpenseStorage {
     if (end.isAfter(cachedTsEnd!)) cachedTsEnd = end;
 
     for (final record in records) {
-      box.put(_K.buildTransactionsKeyByTs(record.datetime), record.toJson());
+      box.put(_K.buildTransactionsKeyByTs(record.datetime), record);
     }
   }
 
@@ -69,11 +70,7 @@ class ExpenseStorage {
   }
 
   /// 通过某个时刻来获得交易记录
-  Transaction? getTransactionByTs(DateTime ts) {
-    final json = box.get(_K.buildTransactionsKeyByTs(ts));
-    if (json == null) return null;
-    return Transaction.fromJson((json as Map).cast<String, dynamic>());
-  }
+  Transaction? getTransactionByTs(DateTime ts) => box.get(_K.buildTransactionsKeyByTs(ts));
 
   /// 获取已缓存的交易起始时间
   DateTime? get cachedTsStart => box.get(_K.cachedTsStart);

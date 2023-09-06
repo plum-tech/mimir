@@ -1,3 +1,4 @@
+import 'package:hive/hive.dart';
 import 'package:mimir/mini_apps/exam_arr/storage/exam.dart';
 
 import 'cache/exam.dart';

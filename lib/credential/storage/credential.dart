@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:mimir/hive/using.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../entity/credential.dart';
 import '../entity/email.dart';

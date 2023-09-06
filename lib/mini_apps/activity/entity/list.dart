@@ -1,5 +1,5 @@
 import '../utils.dart';
-import '../using.dart';
+import 'package:mimir/hive/type_id.dart';
 import 'score.dart';
 
 part 'list.g.dart';
