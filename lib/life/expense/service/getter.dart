@@ -46,12 +46,12 @@ class ExpenseGetService {
     return raw.retdata.map(analyzeFull).toList();
   }
 
-  DatapackRaw anaylzeJson(dynamic data) {
+  DataPackRaw anaylzeJson(dynamic data) {
     var res = HashMap<String, dynamic>.of(data);
     var retdataRaw = res["retdata"];
     var retdata = json.decode(retdataRaw);
     res["retdata"] = retdata;
-    return DatapackRaw.fromJson(res);
+    return DataPackRaw.fromJson(res);
   }
 
   String composeAuth(String studentId, String from, String to, String cur) {

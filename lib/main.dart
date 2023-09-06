@@ -24,7 +24,7 @@ void main() async {
   R.appDir = appDocDir.path;
   final tmpDir = await getTemporaryDirectory();
   R.tmpDir = tmpDir.path;
-  R.roomList= await getRoomNumberList();
+  R.roomList = await getRoomNumberList();
   Migrations.init();
   await Init.init();
   runApp(

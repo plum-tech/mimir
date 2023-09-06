@@ -97,7 +97,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
                 );
                 if (ElectricityBalanceInit.storage.selectedRoom != room) {
                   ElectricityBalanceInit.storage.selectedRoom = room;
-                  if(room != null){
+                  if (room != null) {
                     history.add(room);
                     ElectricityBalanceInit.storage.searchHistory = history;
                   }

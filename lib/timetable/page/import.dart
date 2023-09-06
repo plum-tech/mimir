@@ -103,10 +103,12 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       ImportStatus.end => i18n.import.endTip,
       ImportStatus.failed => i18n.import.failedTip,
     };
-    return tip.text(
-      key: ValueKey(_status),
-      style: ctx.textTheme.titleLarge,
-    ).animatedSwitched();
+    return tip
+        .text(
+          key: ValueKey(_status),
+          style: ctx.textTheme.titleLarge,
+        )
+        .animatedSwitched();
   }
 
   Widget buildImportPage({Key? key}) {

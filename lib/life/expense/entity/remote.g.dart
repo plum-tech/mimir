@@ -6,13 +6,13 @@ part of 'remote.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DatapackRaw _$DatapackRawFromJson(Map<String, dynamic> json) => DatapackRaw()
+DataPackRaw _$DataPackRawFromJson(Map<String, dynamic> json) => DataPackRaw()
   ..retcode = json['retcode'] as int
   ..retcount = json['retcount'] as int
   ..retdata = (json['retdata'] as List<dynamic>).map((e) => TransactionRaw.fromJson(e as Map<String, dynamic>)).toList()
   ..retmsg = json['retmsg'] as String;
 
-Map<String, dynamic> _$DatapackRawToJson(DatapackRaw instance) => <String, dynamic>{
+Map<String, dynamic> _$DataPackRawToJson(DataPackRaw instance) => <String, dynamic>{
       'retcode': instance.retcode,
       'retcount': instance.retcount,
       'retdata': instance.retdata,

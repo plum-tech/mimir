@@ -4,17 +4,17 @@ part 'remote.g.dart';
 
 /// The analysis of expense tracker is [here](https://github.com/SIT-kite/expense-tracker).
 @JsonSerializable()
-class DatapackRaw {
-  DatapackRaw();
+class DataPackRaw {
+  DataPackRaw();
 
   int retcode = 0;
   int retcount = 0;
   List<TransactionRaw> retdata = [];
   String retmsg = "";
 
-  factory DatapackRaw.fromJson(Map<String, dynamic> json) => _$DatapackRawFromJson(json);
+  factory DataPackRaw.fromJson(Map<String, dynamic> json) => _$DataPackRawFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DatapackRawToJson(this);
+  Map<String, dynamic> toJson() => _$DataPackRawToJson(this);
 }
 
 @JsonSerializable()

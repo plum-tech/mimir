@@ -134,4 +134,3 @@ const List<Color> applicationColors = <Color>[
   Colors.purple,
   Colors.teal,
 ];
-
