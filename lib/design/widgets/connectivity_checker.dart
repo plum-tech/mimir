@@ -116,14 +116,13 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
   }
 
   Widget buildStatus(BuildContext ctx) {
-    final s = ctx.textTheme.titleLarge;
     final tip = switch (status) {
       ConnectivityStatus.none => widget.initialDesc ?? _i18n.status.none,
       ConnectivityStatus.connecting => _i18n.status.connecting,
       ConnectivityStatus.connected => _i18n.status.connected,
       ConnectivityStatus.disconnected => _i18n.status.disconnected,
     };
-    return tip.text(key: ValueKey(tip), style: s);
+    return tip.text(key: ValueKey(status), style: ctx.textTheme.titleLarge, textAlign: TextAlign.center);
   }
 
   Widget buildButton(BuildContext ctx) {
@@ -135,7 +134,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
     };
     return CupertinoButton(
       onPressed: onTap,
-      child: tip.text(key: ValueKey(tip)),
+      child: tip.text(key: ValueKey(status)),
     );
   }
 

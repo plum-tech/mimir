@@ -47,15 +47,6 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     selectedSemester = now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1;
   }
 
-  String getTip({required ImportStatus by}) {
-    return switch (by) {
-      ImportStatus.none => i18n.import.selectSemesterTip,
-      ImportStatus.importing => i18n.import.importing,
-      ImportStatus.end => i18n.import.endTip,
-      ImportStatus.failed => i18n.import.failedTip,
-    };
-  }
-
   @override
   Widget build(BuildContext context) {
     final isImporting = _status == ImportStatus.importing;
@@ -106,19 +97,16 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   }
 
   Widget buildTip(BuildContext ctx) {
-    final tip = getTip(by: _status);
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 300),
-      switchInCurve: Curves.fastLinearToSlowEaseIn,
-      switchOutCurve: Curves.fastLinearToSlowEaseIn,
-      transitionBuilder: (Widget child, Animation<double> animation) {
-        return FadeTransition(opacity: animation, child: child);
-      },
-      child: tip.text(
-        key: ValueKey(_status),
-        style: ctx.textTheme.titleLarge,
-      ),
-    );
+    final tip = switch (_status) {
+      ImportStatus.none => i18n.import.selectSemesterTip,
+      ImportStatus.importing => i18n.import.importing,
+      ImportStatus.end => i18n.import.endTip,
+      ImportStatus.failed => i18n.import.failedTip,
+    };
+    return tip.text(
+      key: ValueKey(_status),
+      style: ctx.textTheme.titleLarge,
+    ).animatedSwitched();
   }
 
   Widget buildImportPage({Key? key}) {
