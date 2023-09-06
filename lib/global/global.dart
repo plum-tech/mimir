@@ -24,8 +24,6 @@ enum EventTypes {
   onRouteRefresh,
   onHomeRefresh,
   onHomeItemReorder,
-  onSelectCourse,
-  onRemoveCourse,
   onCampusChange,
   onBackgroundChange,
   onJumpTodayTimetable,

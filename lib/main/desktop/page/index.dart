@@ -24,7 +24,6 @@ import '../../../mini_app.dart';
 import '../homepage_factory.dart';
 import '../../init.dart';
 import '../widgets/greeting.dart';
-import 'background.dart';
 
 class HomeItemGroup extends StatelessWidget {
   final List<Widget> items;
@@ -227,40 +226,29 @@ class _HomepageState extends State<Homepage> {
   }
 
   Widget buildBody(BuildContext context) {
-    return Stack(
-      children: [
-        ColorFiltered(
-          colorFilter: ColorFilter.mode(
-            Colors.black.withAlpha(0x3F),
-            Theme.of(context).isDark ? BlendMode.colorBurn : BlendMode.dst,
-          ),
-          child: const HomeBackground(),
-        ),
-        SmartRefresher(
-          enablePullDown: true,
-          enablePullUp: false,
-          controller: _refreshController,
-          header: BezierHeader(bezierColor: Colors.white54, rectHeight: 20),
-          child: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                leading: widget.leading,
-                // AppBar
-                actions: [
-                  if (!UniversalPlatform.isDesktopOrWeb) buildScannerButton(context),
-                ],
-                automaticallyImplyLeading: false,
-                backgroundColor: Colors.transparent,
-                centerTitle: false,
-                elevation: 0,
-                pinned: false,
-              ),
-              buildMainBody(),
+    return SmartRefresher(
+      enablePullDown: true,
+      enablePullUp: false,
+      controller: _refreshController,
+      header: BezierHeader(bezierColor: Colors.white54, rectHeight: 20),
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            leading: widget.leading,
+            // AppBar
+            actions: [
+              if (!UniversalPlatform.isDesktopOrWeb) buildScannerButton(context),
             ],
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            centerTitle: false,
+            elevation: 0,
+            pinned: false,
           ),
-          onRefresh: () => _onHomeRefresh(context, loginSso: true),
-        ),
-      ],
+          buildMainBody(),
+        ],
+      ),
+      onRefresh: () => _onHomeRefresh(context, loginSso: true),
     );
   }
 
