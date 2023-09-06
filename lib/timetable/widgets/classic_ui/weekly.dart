@@ -16,6 +16,7 @@ import '../sheet.dart';
 import '../../entity/pos.dart';
 
 class WeeklyTimetable extends StatefulWidget {
+  final ScrollController? scrollController;
   final SitTimetable timetable;
 
   final ValueNotifier<TimetablePos> $currentPos;
@@ -27,6 +28,7 @@ class WeeklyTimetable extends StatefulWidget {
     super.key,
     required this.timetable,
     required this.$currentPos,
+    this.scrollController,
   });
 }
 
@@ -71,6 +73,12 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   }
 
   @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final side = getBorderSide(context);
 
@@ -106,6 +114,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
               todayPos: todayPos,
               weekIndex: weekIndex,
               $currentPos: widget.$currentPos,
+              scrollController: widget.scrollController,
             );
           },
         ),
@@ -139,15 +148,10 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
       isJumping = true;
     }
   }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _pageController.dispose();
-  }
 }
 
 class _OneWeekPage extends StatefulWidget {
+  final ScrollController? scrollController;
   final SitTimetable timetable;
   final TimetablePos todayPos;
   final ValueNotifier<TimetablePos> $currentPos;
@@ -159,6 +163,7 @@ class _OneWeekPage extends StatefulWidget {
     required this.todayPos,
     required this.$currentPos,
     required this.weekIndex,
+    this.scrollController,
   });
 
   @override
@@ -215,21 +220,21 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
   Widget buildPage(BuildContext ctx) {
     final weekIndex = widget.weekIndex;
     final timetableWeek = timetable.weeks[weekIndex];
-    if (timetableWeek != null) {
-      return [
-        buildLeftColumn(ctx).flexible(flex: 2),
-        TimetableSingleWeekView(
-          timetableWeek: timetableWeek,
-          timetable: timetable,
-          currentWeek: weekIndex,
-        ).flexible(flex: 21)
-      ].row(textDirection: TextDirection.ltr).scrolled();
-    } else {
+    if (timetableWeek == null) {
+      // free week
       return [
         buildLeftColumn(ctx).flexible(flex: 2),
         buildFreeWeekTip(ctx, weekIndex).flexible(flex: 21),
       ].row(textDirection: TextDirection.ltr);
     }
+    return [
+      buildLeftColumn(ctx).flexible(flex: 2),
+      TimetableSingleWeekView(
+        timetableWeek: timetableWeek,
+        timetable: timetable,
+        currentWeek: weekIndex,
+      ).flexible(flex: 21)
+    ].row(textDirection: TextDirection.ltr).scrolled();
   }
 
   /// 布局左侧边栏, 显示节次
@@ -317,6 +322,7 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
 }
 
 class TimetableSingleWeekView extends StatefulWidget {
+  final ScrollController? scrollController;
   final SitTimetableWeek timetableWeek;
   final SitTimetable timetable;
   final int currentWeek;
@@ -326,6 +332,7 @@ class TimetableSingleWeekView extends StatefulWidget {
     required this.timetableWeek,
     required this.timetable,
     required this.currentWeek,
+    this.scrollController,
   });
 
   @override
@@ -347,8 +354,10 @@ class _TimetableSingleWeekViewState extends State<TimetableSingleWeekView> {
       height: rawColumnSize.height,
       child: ListView.builder(
         itemCount: 7,
+        controller: widget.scrollController,
         scrollDirection: Axis.horizontal,
-        physics: const NeverScrollableScrollPhysics(), // The scrolling has been handled outside
+        physics: const NeverScrollableScrollPhysics(),
+        // The scrolling has been handled outside
         itemBuilder: (BuildContext context, int index) =>
             _buildCellsByDay(context, widget.timetableWeek.days[index], cellSize).center(),
       ),

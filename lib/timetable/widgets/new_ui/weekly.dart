@@ -19,6 +19,7 @@ import '../../entity/pos.dart';
 import 'shared.dart';
 
 class WeeklyTimetable extends StatefulWidget {
+  final ScrollController? scrollController;
   final SitTimetable timetable;
 
   final ValueNotifier<TimetablePos> $currentPos;
@@ -30,6 +31,7 @@ class WeeklyTimetable extends StatefulWidget {
     super.key,
     required this.timetable,
     required this.$currentPos,
+    this.scrollController,
   });
 }
 
@@ -114,6 +116,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
 }
 
 class _OneWeekPage extends StatefulWidget {
+  final ScrollController? scrollController;
   final SitTimetable timetable;
   final ValueNotifier<TimetablePos> $currentPos;
   final int weekIndex;
@@ -125,6 +128,7 @@ class _OneWeekPage extends StatefulWidget {
     required this.$currentPos,
     required this.weekIndex,
     required this.todayPos,
+    this.scrollController,
   });
 
   @override
@@ -177,7 +181,7 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
                     currentPos: pos,
                     dayIndex: dayIndex,
                   ),
-      ].row().scrolled();
+      ].row().scrolled(controller: widget.scrollController);
     } else {
       return [
         const SizedBox(height: 60),

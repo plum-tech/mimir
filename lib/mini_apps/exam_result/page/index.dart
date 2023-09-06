@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/design/widgets/fab.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -29,6 +30,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
 
   /// 成绩列表
   List<ExamResult>? _allResults;
+  final scrollController = ScrollController();
 
   // ValueNotifier is used to limit rebuilding when `Lesson Eval` is going up or going down.
   final $showEvaluationBtn = ValueNotifier(true);
@@ -43,6 +45,13 @@ class _ExamResultPageState extends State<ExamResultPage> {
     selectedYear = (now.month >= 9 ? now.year : now.year - 1);
     selectedSemester = Semester.all;
     onRefresh();
+  }
+
+  @override
+  void dispose() {
+    multiselect.dispose();
+    scrollController.dispose();
+    super.dispose();
   }
 
   void onRefresh() {
@@ -61,28 +70,9 @@ class _ExamResultPageState extends State<ExamResultPage> {
   @override
   Widget build(BuildContext context) {
     final allResults = _allResults;
-    final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResult>() : allResults;
-    final Widget title;
-    if (selectedExams != null) {
-      final gpa = calcGPA(selectedExams);
-      if (isSelecting) {
-        title = [
-          i18n.lessonSelected(selectedExams.length).text(textAlign: TextAlign.center).expanded(),
-          i18n.gpaResult(gpa).text(textAlign: TextAlign.center).expanded(),
-        ].row();
-      } else {
-        title = [
-          selectedSemester.localized().text(textAlign: TextAlign.center).expanded(),
-          i18n.gpaResult(gpa).text(textAlign: TextAlign.center).expanded(),
-        ].row();
-      }
-    } else {
-      title = MiniApp.examResult.l10nName().text();
-    }
-
     return Scaffold(
       appBar: AppBar(
-        title: title,
+        title: buildTitle(),
         centerTitle: true,
         actions: [
           IconButton(
@@ -102,48 +92,51 @@ class _ExamResultPageState extends State<ExamResultPage> {
       ),
       body: [
         _buildHeader(),
-        allResults == null
-            ? const LoadingPlaceholder.drop().expanded()
-            : NotificationListener<UserScrollNotification>(
-                // TODO: How can I extract this to a more general component?
-                onNotification: (notification) {
-                  final ScrollDirection direction = notification.direction;
-                  if (isSelecting) return true;
-                  if (direction == ScrollDirection.reverse) {
-                    $showEvaluationBtn.value = false;
-                  } else if (direction == ScrollDirection.forward) {
-                    $showEvaluationBtn.value = true;
-                  }
-                  return true;
-                },
-                child: Expanded(child: allResults.isNotEmpty ? _buildExamResultList(allResults) : _buildNoResult())),
+        (allResults == null ? const LoadingPlaceholder.drop() : _buildExamResultList(allResults)).expanded(),
       ].column(),
       floatingActionButton: context.auth.credential == null ? null : buildEvaluationBtn(context),
     );
   }
 
+  Widget buildTitle() {
+    final allResults = _allResults;
+    final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResult>() : allResults;
+    if (selectedExams != null) {
+      final gpa = calcGPA(selectedExams);
+      if (isSelecting) {
+        return [
+          i18n.lessonSelected(selectedExams.length).text(textAlign: TextAlign.center).expanded(),
+          i18n.gpaResult(gpa).text(textAlign: TextAlign.center).expanded(),
+        ].row();
+      } else {
+        return [
+          selectedSemester.localized().text(textAlign: TextAlign.center).expanded(),
+          i18n.gpaResult(gpa).text(textAlign: TextAlign.center).expanded(),
+        ].row();
+      }
+    } else {
+      return MiniApp.examResult.l10nName().text();
+    }
+  }
+
   Widget buildEvaluationBtn(BuildContext ctx) {
     // If the user is currently offline, don't let them see the evaluation button.
-    return $showEvaluationBtn >>
-        (ctx, showBtn) {
-          return AnimatedSlideDown(
-              upWhen: showBtn,
-              child: FloatingActionButton.extended(
-                icon: const Icon(Icons.assessment_outlined),
-                onPressed: () async {
-                  if (UniversalPlatform.isDesktop) {
-                    await guardLaunchUrl(ctx, evaluationUri);
-                    return;
-                  }
-                  await context.push("/teacherEval");
-                  if (!mounted) return;
-                  eventBus.fire(LessonEvaluatedEvent());
-                  await Future.delayed(const Duration(milliseconds: 1000));
-                  onRefresh();
-                },
-                label: i18n.lessonEvaluationBtn.text(),
-              ));
-        };
+    return AutoHideFAB.extended(
+      controller: scrollController,
+      icon: const Icon(Icons.assessment_outlined),
+      onPressed: () async {
+        if (UniversalPlatform.isDesktop) {
+          await guardLaunchUrl(ctx, evaluationUri);
+          return;
+        }
+        await context.push("/teacherEval");
+        if (!mounted) return;
+        eventBus.fire(LessonEvaluatedEvent());
+        await Future.delayed(const Duration(milliseconds: 1000));
+        onRefresh();
+      },
+      label: i18n.lessonEvaluationBtn.text(),
+    );
   }
 
   Widget _buildHeader() {
@@ -167,6 +160,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
   }
 
   Widget _buildExamResultList(List<ExamResult> all) {
+    if (all.isNotEmpty) _buildNoResult();
     return MultiselectScope<ExamResult>(
       key: _multiselectKey,
       controller: multiselect,
@@ -184,6 +178,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
       },
       child: GridView.builder(
         itemCount: all.length,
+        controller: scrollController,
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 750,
           mainAxisExtent: 60,
@@ -198,11 +193,5 @@ class _ExamResultPageState extends State<ExamResultPage> {
       icon: Icons.inbox_outlined,
       desc: i18n.noResult,
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    multiselect.dispose();
   }
 }

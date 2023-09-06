@@ -16,6 +16,7 @@ import '../sheet.dart';
 import '../../entity/pos.dart';
 
 class DailyTimetable extends StatefulWidget {
+  final ScrollController? scrollController;
   final SitTimetable timetable;
   final ValueNotifier<TimetablePos> $currentPos;
 
@@ -26,6 +27,7 @@ class DailyTimetable extends StatefulWidget {
     super.key,
     required this.timetable,
     required this.$currentPos,
+    this.scrollController,
   });
 }
 
@@ -102,6 +104,7 @@ class DailyTimetableState extends State<DailyTimetable> {
               int dayIndex = index % 7;
               final todayPos = timetable.locate(DateTime.now());
               return _OneDayPage(
+                scrollController: widget.scrollController,
                 timetable: timetable,
                 todayPos: todayPos,
                 weekIndex: weekIndex,
@@ -142,12 +145,13 @@ class DailyTimetableState extends State<DailyTimetable> {
 
   @override
   void dispose() {
-    super.dispose();
     _pageController.dispose();
+    super.dispose();
   }
 }
 
 class _OneDayPage extends StatefulWidget {
+  final ScrollController? scrollController;
   final SitTimetable timetable;
   final TimetablePos todayPos;
   final ValueNotifier<TimetablePos> $currentPos;
@@ -161,6 +165,7 @@ class _OneDayPage extends StatefulWidget {
     required this.$currentPos,
     required this.weekIndex,
     required this.dayIndex,
+    this.scrollController,
   });
 
   @override
@@ -210,7 +215,7 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
         return _buildFreeDayTip(ctx, weekIndex, dayIndex);
       } else {
         return ListView.builder(
-          controller: ScrollController(),
+          controller: widget.scrollController,
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           itemCount: lessonsInDay.length,
           itemBuilder: (ctx, indexOfLessons) {

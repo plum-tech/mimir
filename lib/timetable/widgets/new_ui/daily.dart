@@ -19,6 +19,7 @@ import '../../entity/pos.dart';
 import 'shared.dart';
 
 class DailyTimetable extends StatefulWidget {
+  final ScrollController? scrollController;
   final SitTimetable timetable;
 
   final ValueNotifier<TimetablePos> $currentPos;
@@ -30,6 +31,7 @@ class DailyTimetable extends StatefulWidget {
     super.key,
     required this.timetable,
     required this.$currentPos,
+    this.scrollController,
   });
 }
 
@@ -88,6 +90,7 @@ class DailyTimetableState extends State<DailyTimetable> {
         int dayIndex = index % 7;
         final todayPos = timetable.locate(DateTime.now());
         return _OneDayPage(
+          scrollController: widget.scrollController,
           timetable: timetable,
           todayPos: todayPos,
           weekIndex: weekIndex,
@@ -122,6 +125,7 @@ class DailyTimetableState extends State<DailyTimetable> {
 }
 
 class _OneDayPage extends StatefulWidget {
+  final ScrollController? scrollController;
   final SitTimetable timetable;
   final TimetablePos todayPos;
   final int weekIndex;
@@ -133,6 +137,7 @@ class _OneDayPage extends StatefulWidget {
     required this.todayPos,
     required this.weekIndex,
     required this.dayIndex,
+    this.scrollController,
   });
 
   @override
@@ -189,6 +194,7 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
         }
         // Since the course list is small, no need to use [ListView.builder].
         return ListView(
+          controller: widget.scrollController,
           padding: const EdgeInsets.symmetric(horizontal: 10),
           children: builder.build(),
         );

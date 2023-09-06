@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../events.dart';
@@ -29,6 +30,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
   /// TODO 还没用上
   // static const int maxWeekCount = 20;
   final storage = TimetableInit.storage;
+  final scrollController = ScrollController();
 
   // 模式：周课表 日课表
   late ValueNotifier<DisplayMode> $displayMode;
@@ -48,6 +50,13 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     });
     storage.lastDisplayMode = initialMode;
     $currentPos = ValueNotifier(timetable.locate(DateTime.now()));
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    $displayMode.dispose();
+    super.dispose();
   }
 
   @override
@@ -76,7 +85,8 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
               }
             }
           },
-          child: FloatingActionButton(
+          child: AutoHideFAB(
+            controller: scrollController,
             child: const Icon(Icons.undo_rounded),
             onPressed: () async {
               if ($displayMode.value == DisplayMode.weekly) {
@@ -200,11 +210,5 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         $currentPos.value = TimetablePos(week: week2Go + 1, day: day2Go + 1);
       }
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    $displayMode.dispose();
   }
 }
