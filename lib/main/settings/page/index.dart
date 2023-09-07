@@ -43,7 +43,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-
   @override
   void initState() {
     super.initState();
@@ -197,17 +196,22 @@ class _SettingsPageState extends State<SettingsPage> {
       leading: const Icon(Icons.translate_rounded),
       title: i18n.language.title.text(),
       subtitle: i18n.language.languageOf(curLocale).text(),
-      trailing: const Icon(Icons.navigate_next_rounded),
-      onTap: () async {
-        await context.navigator.push(
-          MaterialPageRoute(
-            builder: (_) => LanguageSelectorPage(
-              candidates: R.supportedLocales,
-              selected: curLocale,
-            ),
-          ),
-        );
-      },
+      trailing: DropdownMenu<Locale>(
+        initialSelection: curLocale,
+        onSelected: (Locale? value) {
+          if (value == null) return;
+          if (!mounted) return;
+          context.setLocale(value);
+        },
+        dropdownMenuEntries: R.supportedLocales
+            .map<DropdownMenuEntry<Locale>>(
+              (locale) => DropdownMenuEntry<Locale>(
+                label: i18n.language.languageOf(locale),
+                value: locale,
+              ),
+            )
+            .toList(),
+      ),
     );
   }
 
