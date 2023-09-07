@@ -6,7 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../entity/contact.dart';
 
 class _K {
-  static const history = "/history";
+  static const history = "/interactHistory";
 }
 
 class YellowPagesStorage {
@@ -18,9 +18,9 @@ class YellowPagesStorage {
     this.maxHistoryLength = 5,
   });
 
-  List<SchoolContact>? get history => (box.get(_K.history) as List?)?.cast<SchoolContact>();
+  List<SchoolContact>? get interactHistory => (box.get(_K.history) as List?)?.cast<SchoolContact>();
 
-  set history(List<SchoolContact>? newV) {
+  set interactHistory(List<SchoolContact>? newV) {
     if (newV != null) {
       newV = newV.sublist(0, min(newV.length, maxHistoryLength));
     }
@@ -31,10 +31,10 @@ class YellowPagesStorage {
 }
 
 extension YellowPagesStorageX on YellowPagesStorage {
-  void addHistory(SchoolContact contact) {
-    final history = this.history ?? <SchoolContact>[];
-    if (history.any((e) => e.phone == contact.phone)) return;
-    history.insert(0, contact);
-    this.history = history;
+  void addInteractHistory(SchoolContact contact) {
+    final interactHistory = this.interactHistory ?? <SchoolContact>[];
+    if (interactHistory.any((e) => e.phone == contact.phone)) return;
+    interactHistory.insert(0, contact);
+    this.interactHistory = interactHistory;
   }
 }

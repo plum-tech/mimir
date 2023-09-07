@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../entity/contact.dart';
-import '../page/list.dart';
+import 'list.dart';
 
 class YellowPageSearchDelegate extends SearchDelegate<SchoolContact> {
   final List<SchoolContact> contacts;

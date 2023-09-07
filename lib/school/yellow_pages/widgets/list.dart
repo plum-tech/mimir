@@ -1,9 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
+import 'package:mimir/school/yellow_pages/init.dart';
 
 import '../entity/contact.dart';
-import '../widgets/contact.dart';
+import 'contact.dart';
 
 class SchoolContactList extends StatefulWidget {
   final List<SchoolContact> contacts;
@@ -38,11 +39,13 @@ class _SchoolContactListState extends State<SchoolContactList> {
   @override
   Widget build(BuildContext context) {
     final contacts = widget.contacts;
+    final history = YellowPagesInit.storage.interactHistory;
     return ListView.builder(
       itemCount: contacts.length,
       itemBuilder: (ctx, i) {
         final contact = contacts[i];
-        return ContactTile(contact).inOutlinedCard();
+        final inHistory = history == null ? false : history.any((e) => e.phone == contact.phone);
+        return ContactTile(contact, inHistory: inHistory).inOutlinedCard();
       },
     );
   }

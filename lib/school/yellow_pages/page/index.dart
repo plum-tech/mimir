@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/r.dart';
-import 'package:mimir/school/yellow_pages/entity/contact.dart';
 import 'package:mimir/school/yellow_pages/init.dart';
 import 'package:mimir/school/yellow_pages/storage/contact.dart';
 import 'package:rettulf/rettulf.dart';
 
-import 'list.dart';
+import '../widgets/list.dart';
 import '../widgets/search.dart';
 import '../i18n.dart';
 
@@ -27,7 +26,7 @@ class _YellowPagesListPageState extends State<YellowPagesListPage> {
             onPressed: () async {
               final result = await showSearch(context: context, delegate: YellowPageSearchDelegate(R.yellowPages));
               if (result == null) return;
-              YellowPagesInit.storage.addHistory(result);
+              YellowPagesInit.storage.addInteractHistory(result);
             },
             icon: const Icon(Icons.search),
           ),

@@ -10,9 +10,13 @@ import '../entity/contact.dart';
 
 class ContactTile extends StatelessWidget {
   final SchoolContact contact;
-  final Color? bgColor;
+  final bool? inHistory;
 
-  const ContactTile(this.contact, {super.key, this.bgColor});
+  const ContactTile(
+    this.contact, {
+    super.key,
+    this.inHistory,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +24,7 @@ class ContactTile extends StatelessWidget {
     final full = name == null ? contact.phone : "$name ${contact.phone}";
     final phoneNumber = contact.phone.length == 8 ? "021${contact.phone}" : contact.phone;
     return ListTile(
+      selected: inHistory ?? false,
       leading: CircleAvatar(
         backgroundColor: context.colorScheme.primary,
         radius: 20,
@@ -43,15 +48,15 @@ class ContactTile extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.phone),
                 onPressed: () async {
-                  YellowPagesInit.storage.addHistory(contact);
+                  YellowPagesInit.storage.addInteractHistory(contact);
                   await guardLaunchUrlString(context, "tel:$phoneNumber");
                 },
               ),
               IconButton(
                 icon: const Icon(Icons.content_copy),
                 onPressed: () async {
-                  YellowPagesInit.storage.addHistory(contact);
-                  await Clipboard.setData(ClipboardData(text:  contact.phone));
+                  YellowPagesInit.storage.addInteractHistory(contact);
+                  await Clipboard.setData(ClipboardData(text: contact.phone));
                   if (!context.mounted) return;
                   context.showSnackBar("Phone number is copied".text());
                 },

@@ -41,7 +41,7 @@ class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
 
   @override
   Widget build(BuildContext context) {
-    final history = YellowPagesInit.storage.history ?? const [];
+    final history = YellowPagesInit.storage.interactHistory ?? const [];
     return FilledCard(
       child: [
         AnimatedSize(
@@ -60,7 +60,7 @@ class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
                 onPressed: () async {
                   final result = await showSearch(context: context, delegate: YellowPageSearchDelegate(R.yellowPages));
                   if (result == null) return;
-                  YellowPagesInit.storage.addHistory(result);
+                  YellowPagesInit.storage.addInteractHistory(result);
                 },
                 label: i18n.search.text(),
                 icon: const Icon(Icons.search),
@@ -73,10 +73,10 @@ class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
               )
             ].wrap(spacing: 12),
             IconButton(
-                onPressed: YellowPagesInit.storage.history?.isNotEmpty != true
+                onPressed: YellowPagesInit.storage.interactHistory?.isNotEmpty != true
                     ? null
                     : () {
-                        YellowPagesInit.storage.history = null;
+                        YellowPagesInit.storage.interactHistory = null;
                       },
                 icon: const Icon(Icons.delete_outlined))
           ],
