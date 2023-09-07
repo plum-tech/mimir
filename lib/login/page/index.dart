@@ -131,7 +131,6 @@ class _LoginPageState extends State<LoginPage> {
           TextFormField(
             controller: $account,
             textInputAction: TextInputAction.next,
-            autofocus: true,
             autocorrect: false,
             enableSuggestions: false,
             validator: (account) => studentIdValidator(account, () => i18n.invalidAccountFormat),
@@ -143,7 +142,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
           TextFormField(
             controller: $password,
-            autofocus: true,
             textInputAction: TextInputAction.send,
             contextMenuBuilder: (ctx, state) {
               return AdaptiveTextSelectionToolbar.editableText(

@@ -95,7 +95,8 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             ctx.navigator.pop(true);
           },
         ),
-        make: (ctx) => [
+        make: (ctx) => Material(
+            child: [
           [
             ListTile(
               title: "Use Old School Palette".text(style: const TextStyle(fontSize: 15)),
@@ -118,7 +119,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           ].column(),
           "Excuse me, a new personalization system is coming soon!"
               .text(style: const TextStyle(fontStyle: FontStyle.italic))
-        ].column(mas: MainAxisSize.min),
+        ].column(mas: MainAxisSize.min)),
       ),
     );
     if ($useOldSchool.value != useOldSchoolInit || $useNewUI.value != useNewUIInit) {
@@ -191,15 +192,13 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             onTap: () async {
               ctx.pop();
               final content = jsonEncode(timetable.toJson());
-              final timetableFi = File(join(R.tmpDir, "$id.timetable"));
-              final year = '${timetable.schoolYear} - ${timetable.schoolYear + 1}';
+              final year = '${timetable.schoolYear}–${timetable.schoolYear + 1}';
               final semester = timetable.semester.localized();
-              final desc = "$year, $semester. ${i18n.startWith} ${context.formatYmdText(timetable.startDate)}.";
+              final fileName = "$year-$semester.timetable";
+              final timetableFi = File(join(R.tmpDir, fileName));
               await timetableFi.writeAsString(content);
               await Share.shareXFiles(
                 [XFile(timetableFi.path)],
-                subject: timetable.name,
-                text: desc,
               );
             },
           ),

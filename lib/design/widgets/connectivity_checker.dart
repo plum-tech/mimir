@@ -159,7 +159,6 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
     return Icon(
       icon,
       size: widget.iconSize,
-      color: ctx.darkSafeThemeColor,
     ).sizedAll(
       key: key,
       widget.iconSize,
