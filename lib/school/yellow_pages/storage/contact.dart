@@ -18,7 +18,7 @@ class YellowPagesStorage {
     this.maxHistoryLength = 5,
   });
 
-  List<SchoolContact>? get history => box.get(_K.history);
+  List<SchoolContact>? get history => (box.get(_K.history) as List?)?.cast<SchoolContact>();
 
   set history(List<SchoolContact>? newV) => box.put(_K.history, newV);
 
@@ -27,7 +27,7 @@ class YellowPagesStorage {
 
 extension YellowPagesStorageX on YellowPagesStorage {
   void addHistory(SchoolContact contact) {
-    final history = this.history ?? [];
+    final history = this.history ?? <SchoolContact>[];
     if (history.any((e) => e.phone == contact.phone)) return;
     history.insert(0, contact);
     history.length = min(history.length, maxHistoryLength);
