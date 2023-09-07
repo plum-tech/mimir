@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:mimir/r.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/contact.dart';
 import 'list.dart';
 import 'search.dart';
 import '../i18n.dart';
@@ -17,24 +14,7 @@ class YellowPagesPage extends StatefulWidget {
 }
 
 class _YellowPagesPageState extends State<YellowPagesPage> {
-  List<ContactData>? _contacts;
-
-  Future<List<ContactData>> _fetchContactList() async {
-    String jsonData = await rootBundle.loadString("assets/yellow_pages.json");
-    List list = await jsonDecode(jsonData);
-    return list.map((e) => ContactData.fromJson(e)).toList().cast<ContactData>();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchContactList().then((value) {
-      if (!mounted) return;
-      setState(() {
-        _contacts = value;
-      });
-    });
-  }
+  final _contacts = R.yellowPages;
 
   @override
   Widget build(BuildContext context) {
@@ -43,32 +23,13 @@ class _YellowPagesPageState extends State<YellowPagesPage> {
       appBar: AppBar(
         title: i18n.title.text(),
         actions: [
-          if (contacts != null)
-            IconButton(
-              onPressed: () => showSearch(context: context, delegate: Search(contacts)),
-              icon: const Icon(Icons.search),
-            ),
+          IconButton(
+            onPressed: () => showSearch(context: context, delegate: Search(contacts)),
+            icon: const Icon(Icons.search),
+          ),
         ],
       ),
-      body: context.isPortrait ? buildBodyPortrait(context) : buildBodyLandscape(context),
+      body: context.isPortrait ? GroupedContactList(contacts) : NavigationContactList(contacts),
     );
-  }
-
-  Widget buildBodyPortrait(BuildContext ctx) {
-    final contacts = _contacts;
-    if (contacts == null || contacts.isEmpty) {
-      return const CircularProgressIndicator();
-    } else {
-      return GroupedContactList(contacts);
-    }
-  }
-
-  Widget buildBodyLandscape(BuildContext ctx) {
-    final contacts = _contacts;
-    if (contacts == null || contacts.isEmpty) {
-      return const CircularProgressIndicator();
-    } else {
-      return NavigationContactList(contacts);
-    }
   }
 }

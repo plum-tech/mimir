@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/migration/migrations.dart';
+import 'package:mimir/school/yellow_pages/entity/contact.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'app.dart';
@@ -24,8 +25,9 @@ void main() async {
   R.appDir = appDocDir.path;
   final tmpDir = await getTemporaryDirectory();
   R.tmpDir = tmpDir.path;
-  R.roomList = await loadRoomNumberList();
-  R.userAgents = await loadUserAgents();
+  R.roomList = await _loadRoomNumberList();
+  R.userAgents = await _loadUserAgents();
+  R.yellowPages = await _loadYellowPages();
   Migrations.init();
   await Init.init();
   runApp(
@@ -59,14 +61,21 @@ extension _AppX on Widget {
   }
 }
 
-Future<List<String>> loadRoomNumberList() async {
+Future<List<String>> _loadRoomNumberList() async {
   String jsonData = await rootBundle.loadString("assets/room_list.json");
   List<dynamic> list = await jsonDecode(jsonData);
   return list.map((e) => e.toString()).toList();
 }
 
-Future<List<String>> loadUserAgents() async {
+Future<List<String>> _loadUserAgents() async {
   String jsonData = await rootBundle.loadString("assets/ua.json");
   List<dynamic> list = await jsonDecode(jsonData);
   return list.cast<String>();
+}
+
+
+Future<List<ContactData>> _loadYellowPages() async {
+  String jsonData = await rootBundle.loadString("assets/yellow_pages.json");
+  List<dynamic> list = await jsonDecode(jsonData);
+  return list.map((e) => ContactData.fromJson(e)).toList().cast<ContactData>();
 }

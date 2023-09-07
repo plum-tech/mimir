@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:mimir/school/yellow_pages/entity/contact.dart';
 import 'package:version/version.dart';
 
 class R {
@@ -19,6 +20,7 @@ class R {
   static late final String tmpDir;
   static late List<String> roomList;
   static late List<String> userAgents;
+  static late List<ContactData> yellowPages;
 
   /// The default window size is small enough for any modern desktop device.
   static const Size defaultWindowSize = Size(500, 800);
