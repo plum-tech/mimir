@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/r.dart';
-import 'package:mimir/school/yellow_pages/init.dart';
-import 'package:mimir/school/yellow_pages/widgets/contact.dart';
+import 'init.dart';
+import 'storage/contact.dart';
+import 'widgets/contact.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'entity/contact.dart';
 import 'i18n.dart';
+import 'widgets/search.dart';
 
 const _historyLength = 2;
 
@@ -55,7 +57,11 @@ class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
           children: [
             [
               FilledButton.icon(
-                onPressed: () async {},
+                onPressed: () async {
+                  final result = await showSearch(context: context, delegate: YellowPageSearchDelegate(R.yellowPages));
+                  if (result == null) return;
+                  YellowPagesInit.storage.addHistory(result);
+                },
                 label: i18n.search.text(),
                 icon: const Icon(Icons.search),
               ),
@@ -77,15 +83,6 @@ class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
         ).padOnly(l: 16, b: 8, r: 16),
       ].column(),
     );
-  }
-
-  List<Widget> buildDepartmentChips() {
-    return R.yellowPages.keys
-        .map((department) => ActionChip(
-              label: department.text(),
-              onPressed: () {},
-            ))
-        .toList();
   }
 
   Widget buildHistory(List<SchoolContact> history) {

@@ -74,9 +74,8 @@ Future<List<String>> _loadUserAgents() async {
   return list.cast<String>();
 }
 
-Future<Map<String, List<SchoolContact>>> _loadYellowPages() async {
+Future<List<SchoolContact>> _loadYellowPages() async {
   String jsonData = await rootBundle.loadString("assets/yellow_pages.json");
   List<dynamic> list = await jsonDecode(jsonData);
-  final contacts = list.map((e) => SchoolContact.fromJson(e)).toList().cast<SchoolContact>();
-  return contacts.groupListsBy((contact) => contact.department);
+  return list.map((e) => SchoolContact.fromJson(e)).toList().cast<SchoolContact>();
 }

@@ -21,7 +21,7 @@ class R {
   static late List<String> roomList;
   static late List<String> userAgents;
 
-  static late Map<String, List<SchoolContact>> yellowPages;
+  static late List<SchoolContact> yellowPages;
 
   /// The default window size is small enough for any modern desktop device.
   static const Size defaultWindowSize = Size(500, 800);

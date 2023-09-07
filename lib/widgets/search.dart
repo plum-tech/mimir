@@ -6,14 +6,14 @@ typedef CandidateBuilder<T> = Widget Function(BuildContext ctx, T item, String q
 typedef HistoryBuilder<T> = Widget Function(BuildContext ctx, T item, VoidCallback selectIt);
 typedef Stringifier<T> = String Function(T item);
 typedef QueryProcessor = String Function(String raw);
-typedef ItemFilter<T> = bool Function(String query, T item);
+typedef ItemPredicate<T> = bool Function(String query, T item);
 typedef ItemBuilder = Widget Function(BuildContext ctx, VoidCallback selectIt, Widget child);
 
 class ItemSearchDelegate<T> extends SearchDelegate {
   final ({List<T> history, HistoryBuilder<T> builder})? searchHistory;
   final List<T> candidates;
   final CandidateBuilder<T> candidateBuilder;
-  final ItemFilter<T> filter;
+  final ItemPredicate<T> predicate;
   final QueryProcessor? queryProcessor;
   final double maxCrossAxisExtent;
   final double childAspectRatio;
@@ -26,7 +26,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   ItemSearchDelegate({
     required this.candidateBuilder,
     required this.candidates,
-    required this.filter,
+    required this.predicate,
     this.searchHistory,
     this.queryProcessor,
     required this.maxCrossAxisExtent,
@@ -41,7 +41,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     required List<T> candidates,
 
     /// Using [String.contains] by default.
-    ItemFilter<String>? filter,
+    ItemPredicate<String>? predicate,
     List<T>? searchHistory,
     QueryProcessor? queryProcessor,
     required double maxCrossAxisExtent,
@@ -69,11 +69,11 @@ class ItemSearchDelegate<T> extends SearchDelegate {
                 return itemBuilder(ctx, selectIt, candidate.text());
               }
             ),
-      filter: (query, item) {
+      predicate: (query, item) {
         if (query.isEmpty) return false;
         final candidate = stringifier?.call(item) ?? item.toString();
-        if (filter == null) return candidate.contains(query);
-        return filter(query, candidate);
+        if (predicate == null) return candidate.contains(query);
+        return predicate(query, candidate);
       },
       candidateBuilder: (ctx, item, query, selectIt) {
         final candidate = stringifier?.call(item) ?? item.toString();
@@ -110,7 +110,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     final query = getRealQuery();
-    if (T == String && filter(query, query as T)) {
+    if (T == String && predicate(query, query as T)) {
       return const SizedBox();
     }
     if (query.isEmpty && emptyIndicator != null) {
@@ -123,7 +123,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   void showResults(BuildContext context) {
     super.showResults(context);
     final query = getRealQuery();
-    if (T == String && filter(query, query as T)) {
+    if (T == String && predicate(query, query as T)) {
       close(context, query);
       return;
     }
@@ -147,7 +147,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
 
   Widget buildCandidateList(BuildContext ctx) {
     final query = getRealQuery();
-    final matched = candidates.where((candidate) => filter(query, candidate)).toList();
+    final matched = candidates.where((candidate) => predicate(query, candidate)).toList();
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: maxCrossAxisExtent, childAspectRatio: childAspectRatio),
