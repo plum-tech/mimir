@@ -2,41 +2,6 @@ language:
   en: English
   zh_CN: 简体中文
   zh_TW: 繁體中文
-main:
-  home: 主页
-  networkTool: 网络工具
-  settings: 设置
-app:
-  login:
-    name: 登录
-    desc: 登录你的 OA
-  activity:
-    name: 第二课堂
-    desc: 我的第二课堂学分和活动
-  application:
-    name: 应网办
-    desc: 看看办事要准备什么材料？
-  eduEmail:
-    name: 教育邮箱
-    desc: 查看教育邮箱里的邮件
-  examArr:
-    name: 考试安排
-    desc: 我最近的考试安排
-  examResult:
-    name: 成绩
-    desc: 愿每一天都有收获
-  expense:
-    name: 查消费
-    desc: 我的校园卡消费记录
-  library:
-    name: 图书馆
-    desc: 馆藏书籍与借阅情况
-  oaAnnouncement:
-    name: OA 公告
-    desc: 学校的公告
-  yellowPages:
-    name: 常用电话
-    desc: 查找学校部门的联系方式
 timetable:
   navigation: 课程表
   mine:
@@ -47,8 +12,8 @@ timetable:
     delete: 删除
     preview: 预览
     deleteRequest: 确认删除？
-    deleteRequestDesc: 这个课程表将被永久删除。
-    emptyTip: 快去导入一个课程表吧!
+    deleteRequestDesc: 这个课程表将被永久删除
+    emptyTip: 快去导入一个课程表吧！
     setToDefault: 设为默认
   detail:
     descFormTitle: 描述
@@ -59,11 +24,11 @@ timetable:
     title: 导入课程表
     button: 尝试导入
     connectivityCheckerDesc: 在导入课程表之前，需要先检查你是否能访问校园网。
-    selectSemesterTip: 请先选择学年与学期。
+    selectSemesterTip: 请先选择学年与学期
     endTip: 请完善课程表的信息。
     failed: 导入失败
-    failedDesc: 无法导入这个课程表, 请稍后再试。
-    failedTip: 导入失败, 请稍后再试。
+    failedDesc: 无法导入这个课程表, 请稍后再试
+    failedTip: 导入失败, 请稍后再试
     importing: 正在尝试获取课程表的数据……
     timetableInfo: 课程表信息
     defaultName: "{yearStart}–{yearEnd}年 {semester} 课程表"
@@ -90,6 +55,7 @@ life:
 me:
   navigation: 个人
 activity:
+  title: 第二课堂
   navigation:
     all: 活动
     mine: 我的
@@ -115,7 +81,8 @@ activity:
   startTime: 开始时间
   tags: 标签
   undertaker: 承办方
-application:
+ywb:
+  title: 应网办
   desc: |
     本功能基于 "上应一网通办"。
     对于绝大多数业务，即使你在平台上已完成申请，仍要去现场办理。
@@ -130,7 +97,7 @@ application:
 captcha:
   title: 验证码
   enterHint: 请输入验证码
-  emptyInputError: 你输入的验证码为空。
+  emptyInputError: 你输入的验证码为空
 credential:
   studentId: 学号
   account: 账号
@@ -163,6 +130,7 @@ eduEmail:
   failedWarn: 登录失败
   forgotPwdBtn: 忘记密码？
 examResult:
+  title: 查成绩
   noResult: 暂无考试结果记录
   lessonNotEvaluated: 未评教
   teacherEvalTitle: 评教
@@ -172,7 +140,8 @@ examResult:
   compulsory: 必修
   credit: 学分
   elective: 选修
-examArr:
+examArrange:
+  title: 考试安排
   endTime: 结束时间
   isRetake: 是否重修
   location: 地点
@@ -181,7 +150,8 @@ examArr:
   resultNoResult: 暂无考试结果记录
   seatNumber: 座位号
   startTime: 开始时间
-expense:
+expense-record:
+  title: 查消费
   navigation:
     bill: 账单
     statistics: 统计
@@ -196,12 +166,12 @@ expense:
     topUp: 充值
     subsidy: 补贴
     other: 杂项
-  balanceInCard: "卡内余额 ¥{}"
+  balanceInCard: "卡内余额 {} 元"
   categories: 消费名目
   fetchingRecordTip: 消费记录获取中
   fetchingTip: 正在从学校获取消费记录，请稍等，速度取决于学校的服务器。
-  incomeStatistics: "收入: ¥{}"
-  spentStatistics: "支出: ¥{}"
+  incomeStatistics: "收入: {} 元"
+  spentStatistics: "支出: {} 元"
   refreshMenuButton: 刷新
   statistics: 消费统计
   toastLoadFailed: 网络异常，请稍后重试
@@ -264,14 +234,25 @@ login:
   loginRequired: 需要登录
   neverLoggedInTip: 你必须先登录才能继续。
 library:
+  title: 图书馆
   hotPost: 热搜
 settings:
   title: 设置
   version: 版本
-  developerOptions: 开发者选项
+  dev:
+    title: 开发者选项
+    localStorage:
+      title: 本地存储
+      desc: 管理在此设备上存储的数据
+    reload:
+      title: 重新加载
+      desc: 重新初始化所有模块
+    detailedXcpDialog:
+      title: 启用详细异常对话框
+      desc: 显示更加详细的异常堆栈追踪信息
   campus:
     title: 你的校区
-    desc: 每个校区都有不同的日程表
+    desc: 日程表有所不同
   studentId:
     studentIdCopy2ClipboardTip: 你的学号被复制到剪贴板啦
   changeOaPwd:
@@ -286,9 +267,6 @@ settings:
     dark: 黑暗模式
     light: 明亮模式
     system: 跟随系统
-  detailedXcpDialog:
-    title: 启用详细异常对话框
-    desc: 显示更加详细的异常堆栈追踪信息
   httpProxy:
     title: 启用 HTTP 代理
     desc: 通过 HTTP 代理连接校园网
@@ -297,12 +275,6 @@ settings:
     proxyAddress: 代理地址
   language:
     title: 语言
-  localStorage:
-    title: 本地存储
-    desc: 管理在此设备上存储的数据
-  reload:
-    title: 重新加载
-    desc: 重新初始化所有模块
   testConnect2School:
     title: 测试连接
     desc: 检查与校园网的连接
@@ -318,6 +290,7 @@ localStorage:
   deleteItemDesc: 确定删除这个键值对吗？
   emptyValueDesc: 确定将这个键值设 null 为对吗？
 oaAnnounce:
+  title: OA 公告
   attachmentTip:
     one: 附件
     other: 附件
@@ -325,11 +298,8 @@ oaAnnounce:
   downloadCompleted: 下载完成
   publishTime: 发布时间
   publishingDepartment: 发布部门
-personalization:
-  themeColor: 主题色
-  wallpaper:
-    title: 壁纸
-    desc: 自定义主页的壁纸
+yellowPages:
+  title: 学校黄页
 scanner:
   barcodeNotRecognized: 未识别到条形码或二维码
 semester:
@@ -359,9 +329,7 @@ weekdayShort:
   6: 日
 campus:
   xuhui: 徐汇
-  xuhuiDistrict: 徐汇区
   fengxian: 奉贤
-  fengxianDistrict: 奉贤区
 unit:
   rmb: "{} 元"
   powerKwh: "{} 度"

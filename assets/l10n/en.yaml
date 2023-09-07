@@ -23,7 +23,7 @@ timetable:
   import:
     title: Import Timetable
     button: Try Import
-    connectivityCheckerDesc: You need access campus network before importing a new Timetable. Let's check it.
+    connectivityCheckerDesc: You need to check the access to school server before importing a timetable.
     selectSemesterTip: Please select a semester first
     endTip: Please enter the info
     failed: Import Failed
@@ -55,7 +55,7 @@ life:
 me:
   navigation: Me
 activity:
-  title: 2nd class activity
+  title: Second class
   navigation:
     all: All
     mine: Mine
@@ -97,7 +97,7 @@ ywb:
 captcha:
   title: Captcha
   enterHint: Please enter captcha
-  emptyInputError: Captcha is empty
+  emptyInputError: The captcha is empty
 credential:
   studentId: Student ID
   account: Account
@@ -119,7 +119,7 @@ electricity:
   remainingPower: Remaining
   searchInvalidTip: Please enter or select a existing room number
   updateSuccessTip: Electricity balance refreshed successfully
-edu-email:
+eduEmail:
   title: Edu email
   noContent: No Content
   noSubject: No Subject
@@ -140,7 +140,7 @@ exam-result:
   compulsory: Compulsory
   credit: Credit
   elective: Elective
-exam-arrange:
+examArrange:
   title: Exam arrangement
   endTime: End Time
   isRetake: Is Retake
@@ -150,7 +150,7 @@ exam-arrange:
   resultNoResult: No result record
   seatNumber: Seat No.
   startTime: Start Time
-expense-record:
+expenseRecord:
   title: Expenses record
   navigation:
     bill: Bill
@@ -289,7 +289,7 @@ localStorage:
   clearBoxDesc: Confirm to clear this box?
   deleteItemDesc: Confirm to delete this key-value pair?
   emptyValueDesc: Confirm to set this key-value pair to null?
-oa-announce:
+oaAnnounce:
   title: OA announcement
   attachmentTip:
     one: Attachment
@@ -298,13 +298,8 @@ oa-announce:
   downloadCompleted: Download Completed
   publishTime: Publish Time
   publishingDepartment: Department
-yellow-pages:
+yellowPages:
   title: Yellow pages
-personalization:
-  themeColor: Theme color
-  wallpaper:
-    title: Wallpaper
-    desc: Customize the homepage wallpaper
 scanner:
   barcodeNotRecognized: No Barcode or QR code
 semester:

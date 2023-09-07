@@ -2,40 +2,6 @@ language:
   en: English
   zh_CN: 简体中文
   zh_TW: 繁體中文
-app:
-  login:
-    name: 登入
-    desc: 登入你的 OA
-  activity:
-    name: 第二課堂
-    desc: 我的第二課堂學分和活動
-  application:
-    name: 應網辦
-    desc: 辦事要準備什麼材料呢?
-  eduEmail:
-    name: Edu 電郵
-    desc: 查看 Edu 電郵裡的郵件
-  elecBill:
-    name: 查電費
-    desc: 宿舍電費餘額與用電記錄
-  examArr:
-    name: 考試安排
-    desc: 查看我最近的考試安排
-  examResult:
-    name: 成績
-    desc: 天才出於勤奮
-  expense:
-    name: 查消費
-    desc: 校園卡的消費記錄
-  library:
-    name: 圖書館
-    desc: 館藏圖書與借閱情況
-  oaAnnouncement:
-    name: OA 公告
-    desc: 查看學校的公告
-  yellowPages:
-    name: 學校黃頁
-    desc: 學校聯絡人黃頁
 timetable:
   navigation: 課程表
   mine:
@@ -89,6 +55,7 @@ life:
 me:
   navigation: 個人
 activity:
+  title: 第二課堂
   navigation:
     all: 活動
     mine: 我的
@@ -102,7 +69,7 @@ activity:
     time: 申請時間
   id: 活動 ID
   contactInfo: 联络人
-  detailEmptyTip: 暫無資訊。
+  detailEmptyTip: 暫無資訊
   details: 活動詳情
   duration: 活動時長
   location: 活動地點
@@ -114,7 +81,8 @@ activity:
   startTime: 開始時間
   tags: 標籤
   undertaker: 承辦人
-application:
+ywb:
+  title: 應網辦
   desc: |
     此功能基於 "上应一网通办"。
     就大多數業務而言，即使你已在平台上完成申請，依舊需要到現場辦理。
@@ -124,12 +92,12 @@ application:
     mailbox: 站內信
   mailbox:
     title: 我的站內信
-    emptyTip: 一只空郵箱。
+    emptyTip: 一只空郵箱
     recent: 最近
 captcha:
   title: 驗證碼
   enterHint: 請鍵入驗證碼
-  emptyInputError: 未鍵入驗證碼。
+  emptyInputError: 未鍵入驗證碼
 credential:
   studentId: 學號
   account: 帳戶
@@ -152,7 +120,7 @@ electricity:
   searchInvalidTip: 請先鍵入或選擇一個現有的房間號
   updateSuccessTip: 電費餘額更新成功
 eduEmail:
-  title: 我的電郵
+  title: Edu 電郵
   noContent: 無內容
   noSubject: 無主題
   pluralSenderTailing: 等
@@ -162,7 +130,8 @@ eduEmail:
   failedWarn: 登入失敗
   forgotPwdBtn: 忘記密碼?
 examResult:
-  noResult: 暫無考試結果。
+  title: 考試成績
+  noResult: 暫無考試結果
   lessonNotEvaluated: 需評教
   teacherEvalTitle: 教師評價
   lessonEvaluationBtn: 課程評價
@@ -171,16 +140,18 @@ examResult:
   compulsory: 必修
   credit: 學分
   elective: 選修
-examArr:
+examArrange:
+  title: 考試安排
   endTime: 結束時間
   isRetake: 是否重修
   location: 地點
-  noExamThisSemester: 此學期無考試。
-  resultBePatientLabel: 請耐心等候。
+  noExamThisSemester: 此學期無考試
+  resultBePatientLabel: 請耐心等候
   resultNoResult: 無成績記錄
   seatNumber: 座位號
   startTime: 開始時間
-expense:
+expenseRecord:
+  title: 消費記錄
   navigation:
     bill: 賬單
     statistics: 統計
@@ -247,9 +218,9 @@ networkTool:
   connectedByEthernet: 已通過乙太網路連線校園網路。
 login:
   title: 歡迎！
-  validateInputAccountPwdRequest: 請檢查你鍵入的賬戶和密碼。
+  validateInputAccountPwdRequest: 請檢查你鍵入的賬戶和密碼
   credentialsValidatedTip: 帳戶與密碼正確
-  accountOrPwdIncorrectTip: 賬戶或密碼錯誤，請檢查輸入後再試一次。
+  accountOrPwdIncorrectTip: 賬戶或密碼錯誤
   accountHint: 學號/工號
   forgotPwdBtn: 忘記密碼?
   loggedInTip: 已登入
@@ -263,16 +234,27 @@ login:
   loginRequired: 需要登入
   neverLoggedInTip: 你必須先登入才能繼續。
 library:
+  title: 圖書館
   hotPost: 熱門
 settings:
   title: 設定
   version: 版本
-  developerOptions: 開發者選項
+  dev:
+    title: 開發者選項
+    localStorage:
+      title: 本機儲存
+      desc: 管理在本裝置上的儲存
+    reload:
+      title: 重新載入
+      desc: 重新初始化所有模塊
+    detailedXcpDialog:
+      title: 開啟詳細異常對話框
+      desc: 顯示更加詳細的異常堆棧追蹤資訊
   campus:
     title: 你的校區
     desc: 不同校區有不同的時間表
   studentId:
-    studentIdCopy2ClipboardTip: 你的學號被複製到剪貼板啦。
+    studentIdCopy2ClipboardTip: 你的學號被複製到剪貼板啦
   changeOaPwd:
     title: 修改 OA 密碼
     desc: 修改用於自動登入學校業務的 OA 密碼
@@ -285,9 +267,6 @@ settings:
     dark: 深色主題
     light: 亮色主題
     system: 跟隨系統
-  detailedXcpDialog:
-    title: 開啟詳細異常對話框
-    desc: 顯示更加詳細的異常堆棧追蹤資訊
   httpProxy:
     title: 開啟 HTTP Proxy
     desc: 開啟 HTTP Proxy 連線校園網路
@@ -296,12 +275,6 @@ settings:
     proxyAddress: Proxy
   language:
     title: 語言
-  localStorage:
-    title: 本機儲存
-    desc: 管理在本裝置上的儲存
-  reload:
-    title: 重新載入
-    desc: 重新初始化所有模塊
   testConnect2School:
     title: 測試連線校園網路
     desc: 檢查本裝置與校園網路的連線情況
@@ -317,6 +290,7 @@ localStorage:
   deleteItemDesc: 確認刪除這個 key-value對 嗎？
   emptyValueDesc: 確認將這個 key-value對 設定為 null 嗎？
 oaAnnounce:
+  title: OA 公告
   attachmentTip:
     one: 附件
     other: 附件
@@ -324,11 +298,8 @@ oaAnnounce:
   downloadCompleted: 下載完成
   publishTime: 發佈日期
   publishingDepartment: 部門
-personalization:
-  themeColor: 主題顏色
-  wallpaper:
-    title: 墻紙
-    desc: 自定義主頁的墻紙
+yellowPages:
+  title: 學校黃頁
 scanner:
   barcodeNotRecognized: 未識別到條碼或 QR 碼
 semester:
@@ -358,9 +329,7 @@ weekdayShort:
   6: 日
 campus:
   xuhui: 徐匯
-  xuhuiDistrict: 徐匯區
   fengxian: 奉賢
-  fengxianDistrict: 奉賢區
 unit:
   rmb: "{} 元"
   powerKwh: "{} 千瓦時"
