@@ -20,7 +20,7 @@ class BillPage extends StatelessWidget {
     final textTheme = context.textTheme;
     final groupTitleStyle = textTheme.titleMedium;
     final groupSubtitleStyle = textTheme.titleLarge;
-
+    // TODO: removed package `grouped_list`.
     return GroupedListView<Transaction, int>(
       elements: records,
       groupBy: (element) => element.datetime.year * 12 + element.datetime.month,
