@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/dialog.dart';
-import 'package:mimir/life/electricity/widgets/search.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'i18n.dart';
 import 'init.dart';
-import 'widgets/card.dart';
+import 'widget/card.dart';
+import 'widget/search.dart';
 
 class ElectricityBalanceAppCard extends StatefulWidget {
   const ElectricityBalanceAppCard({super.key});
