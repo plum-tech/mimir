@@ -119,6 +119,7 @@ electricity:
   remainingPower: 可用電量
   searchInvalidTip: 請先鍵入或選擇一個現有的房間號
   updateSuccessTip: 電費餘額更新成功
+  updateFailedTip: 電費餘額更新失敗
 eduEmail:
   title: Edu 電郵
   noContent: 無內容

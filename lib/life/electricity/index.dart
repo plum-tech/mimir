@@ -46,9 +46,17 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
   Future<void> _refresh({bool active = false}) async {
     final selectedRoom = ElectricityBalanceInit.storage.selectedRoom;
     if (selectedRoom == null) return;
-    ElectricityBalanceInit.storage.lastBalance = await ElectricityBalanceInit.service.getBalance(selectedRoom);
-    if (!mounted) return;
+    try {
+      ElectricityBalanceInit.storage.lastBalance = await ElectricityBalanceInit.service.getBalance(selectedRoom);
+    } catch (error) {
+      if (active) {
+        if (!mounted) return;
+        context.showSnackBar(i18n.updateFailedTip.text());
+      }
+      return;
+    }
     if (active) {
+      if (!mounted) return;
       context.showSnackBar(i18n.updateSuccessTip.text());
     }
   }

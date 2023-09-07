@@ -119,6 +119,7 @@ electricity:
   remainingPower: Remaining
   searchInvalidTip: Please enter or select a existing room number
   updateSuccessTip: Electricity balance refreshed successfully
+  updateFailedTip: Failed to refresh electricity balance
 eduEmail:
   title: Edu email
   noContent: No Content

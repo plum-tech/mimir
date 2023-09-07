@@ -119,6 +119,7 @@ electricity:
   remainingPower: 剩余电量
   searchInvalidTip: 请输入或选择一个存在的房间号
   updateSuccessTip: 电费余额更新成功
+  updateFailedTip: 电费余额更新失败
 eduEmail:
   title: 我的邮箱
   noContent: 无内容
