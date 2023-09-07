@@ -308,6 +308,7 @@ oaAnnounce:
   publishingDepartment: Department
 yellowPages:
   title: Yellow pages
+  seeAll: See all
 scanner:
   barcodeNotRecognized: No Barcode or QR code
 greeting:

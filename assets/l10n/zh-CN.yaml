@@ -308,6 +308,7 @@ oaAnnounce:
   publishingDepartment: 发布部门
 yellowPages:
   title: 学校黄页
+  seeAll: 查看全部
 scanner:
   barcodeNotRecognized: 未识别到条形码或二维码
 greeting:

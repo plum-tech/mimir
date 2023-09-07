@@ -6,19 +6,16 @@ import 'list.dart';
 import 'search.dart';
 import '../i18n.dart';
 
-class YellowPagesPage extends StatefulWidget {
-  const YellowPagesPage({super.key});
+class YellowPagesListPage extends StatefulWidget {
+  const YellowPagesListPage({super.key});
 
   @override
-  State<YellowPagesPage> createState() => _YellowPagesPageState();
+  State<YellowPagesListPage> createState() => _YellowPagesListPageState();
 }
 
-class _YellowPagesPageState extends State<YellowPagesPage> {
-  final _contacts = R.yellowPages;
-
+class _YellowPagesListPageState extends State<YellowPagesListPage> {
   @override
   Widget build(BuildContext context) {
-    final contacts = _contacts;
     return Scaffold(
       appBar: AppBar(
         title: i18n.title.text(),
@@ -29,7 +26,7 @@ class _YellowPagesPageState extends State<YellowPagesPage> {
           // ),
         ],
       ),
-      // body: context.isPortrait ? GroupedContactList(R.yellowPages) : NavigationContactList(R.yellowPages),
+      body: GroupedContactList(R.yellowPages),
     );
   }
 }

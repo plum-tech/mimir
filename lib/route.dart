@@ -151,7 +151,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: "/yellow-pages",
-      builder: (ctx, state) => const YellowPagesPage(),
+      builder: (ctx, state) => const YellowPagesListPage(),
     ),
     GoRoute(
       path: "/edu-email",

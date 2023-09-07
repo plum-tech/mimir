@@ -308,6 +308,7 @@ oaAnnounce:
   publishingDepartment: 部門
 yellowPages:
   title: 學校黃頁
+  seeAll: 查看全部
 scanner:
   barcodeNotRecognized: 未識別到條碼或 QR 碼
 greeting:
