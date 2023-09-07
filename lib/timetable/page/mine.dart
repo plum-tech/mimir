@@ -254,7 +254,7 @@ class TimetableEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isSelected = TimetableInit.storage.usedTimetableId == id;
-    final year = '${timetable.schoolYear} - ${timetable.schoolYear + 1}';
+    final year = '${timetable.schoolYear}–${timetable.schoolYear + 1}';
     final semester = timetable.semester.localized();
     final textTheme = context.textTheme;
     final widget = [

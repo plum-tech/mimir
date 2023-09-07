@@ -66,7 +66,7 @@ timetable:
     failedTip: 导入失败, 请稍后再试。
     importing: 正在尝试获取课程表的数据……
     timetableInfo: 课程表信息
-    defaultName: "{yearStart}-{yearEnd}年 {semester} 课程表"
+    defaultName: "{yearStart}–{yearEnd}年 {semester} 课程表"
   weekStep:
     all: 周
     odd: 单周
