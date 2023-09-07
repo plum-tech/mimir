@@ -8,13 +8,11 @@ import 'package:mimir/entity/campus.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/hive/init.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/main/settings/page/developer.dart';
 import 'package:mimir/storage/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:unicons/unicons.dart';
 
 import '../i18n.dart';
-import 'credential.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -318,12 +316,8 @@ class DevOptionsTile extends StatelessWidget {
       title: i18n.dev.title.text(),
       leading: const Icon(Icons.developer_mode_outlined),
       trailing: const Icon(Icons.navigate_next_rounded),
-      onTap: () async {
-        await context.navigator.push(
-          MaterialPageRoute(
-            builder: (_) => const DeveloperPage(),
-          ),
-        );
+      onTap: () {
+        context.push("/developer-options");
       },
     );
   }
@@ -345,11 +339,7 @@ class CredentialTile extends StatelessWidget {
       leading: const Icon(Icons.person_rounded),
       trailing: const Icon(Icons.navigate_next_rounded),
       onTap: () async {
-        await context.navigator.push(
-          MaterialPageRoute(
-            builder: (_) => const CredentialPage(),
-          ),
-        );
+        context.push("/credential");
       },
     );
   }

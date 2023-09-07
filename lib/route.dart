@@ -5,7 +5,9 @@ import 'package:mimir/life/expense/page/index.dart';
 import 'package:mimir/life/index.dart';
 import 'package:mimir/main/index.dart';
 import 'package:mimir/main/network_tool/page/index.dart';
-import 'package:mimir/main/settings/page/index.dart';
+import 'package:mimir/settings/page/credential.dart';
+import 'package:mimir/settings/page/developer.dart';
+import 'package:mimir/settings/page/index.dart';
 import 'package:mimir/me/index.dart';
 import 'package:mimir/mini_apps/exam_result/using.dart';
 import 'package:mimir/school/index.dart';
@@ -121,6 +123,14 @@ final router = GoRouter(
     GoRoute(
       path: "/network-tool",
       builder: (ctx, state) => const NetworkToolPage(),
+    ),
+    GoRoute(
+      path: "/credential",
+      builder: (ctx, state) => const CredentialPage(),
+    ),
+    GoRoute(
+      path: "/developer-options",
+      builder: (ctx, state) => const DeveloperOptionsPage(),
     ),
     GoRoute(
       path: "/app/activity",

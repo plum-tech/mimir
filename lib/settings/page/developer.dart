@@ -5,16 +5,16 @@ import 'package:mimir/storage/page/editor.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 
-class DeveloperPage extends StatefulWidget {
-  const DeveloperPage({
+class DeveloperOptionsPage extends StatefulWidget {
+  const DeveloperOptionsPage({
     super.key,
   });
 
   @override
-  State<DeveloperPage> createState() => _DeveloperPageState();
+  State<DeveloperOptionsPage> createState() => _DeveloperOptionsPageState();
 }
 
-class _DeveloperPageState extends State<DeveloperPage> {
+class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
   @override
   Widget build(BuildContext context) {
     final entries = buildEntries();
