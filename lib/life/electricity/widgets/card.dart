@@ -1,6 +1,4 @@
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/colors.dart';
 import '../entity/balance.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -21,24 +19,19 @@ class ElectricityBalanceCard extends StatelessWidget {
     return [
       buildInfoRow(context, Icons.offline_bolt, i18n.remainingPower, balance.powerText),
       buildInfoRow(context, Icons.savings, i18n.balance, balance.balanceText, color: balance.balanceColor),
-    ].column(maa: MainAxisAlignment.spaceEvenly).padH(20).inCard(elevation: elevation);
+    ].column(maa: MainAxisAlignment.spaceEvenly).inCard(elevation: elevation);
   }
 
   Widget buildInfoRow(BuildContext context, IconData icon, String title, String? content, {Color? color}) {
     final style = TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: color);
-    return [
-      [
-        Icon(icon),
-        const SizedBox(width: 10),
-        Text(title, style: style, overflow: TextOverflow.fade),
-      ].row(),
-      [
-        if (content == null)
-          const LimitedBox(maxWidth: 10, maxHeight: 10, child: CircularProgressIndicator())
-        else
-          content.text(style: style, overflow: TextOverflow.fade),
-      ].column(caa: CrossAxisAlignment.end),
-    ].row(maa: MainAxisAlignment.spaceBetween);
+    return ListTile(
+      leading: Icon(icon),
+      titleTextStyle: style,
+      title: Text(title, overflow: TextOverflow.fade),
+      trailing: content == null
+          ? const LimitedBox(maxWidth: 10, maxHeight: 10, child: CircularProgressIndicator())
+          : content.text(style: style, overflow: TextOverflow.fade),
+    );
   }
 }
 
