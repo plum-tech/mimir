@@ -99,6 +99,7 @@ dependencies:
   animations: ^2.0.7
   dynamic_color: ^1.6.6
   unicons: ^2.1.1
+  sliver_tools: ^0.2.12
 
   # Utils
   package_info_plus: ^4.1.0     # Get package info (version)

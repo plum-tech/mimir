@@ -13,7 +13,7 @@ class YellowPageSearchDelegate extends SearchDelegate<SchoolContact> {
     return <Widget>[
       IconButton(
         icon: const Icon(Icons.clear),
-        onPressed: () => query = '',
+        onPressed: () => query = "",
       ),
     ];
   }
@@ -25,6 +25,7 @@ class YellowPageSearchDelegate extends SearchDelegate<SchoolContact> {
 
   @override
   Widget buildResults(BuildContext context) {
+    if (query.isEmpty) return const SizedBox();
     final matched = contacts.where((e) => predicate(query, e)).toList();
     return SchoolContactList(matched);
   }

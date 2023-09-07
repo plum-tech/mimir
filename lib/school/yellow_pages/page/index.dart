@@ -32,7 +32,10 @@ class _YellowPagesListPageState extends State<YellowPagesListPage> {
           ),
         ],
       ),
-      body: SchoolContactList(R.yellowPages),
+      body: SchoolContactList(
+        R.yellowPages,
+        isInitialExpanded: (i, length) => i < 3,
+      ),
     );
   }
 }
