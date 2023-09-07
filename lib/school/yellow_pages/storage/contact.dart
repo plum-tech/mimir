@@ -20,7 +20,12 @@ class YellowPagesStorage {
 
   List<SchoolContact>? get history => (box.get(_K.history) as List?)?.cast<SchoolContact>();
 
-  set history(List<SchoolContact>? newV) => box.put(_K.history, newV);
+  set history(List<SchoolContact>? newV) {
+    if (newV != null) {
+      newV = newV.sublist(0, min(newV.length, maxHistoryLength));
+    }
+    box.put(_K.history, newV);
+  }
 
   ValueListenable<Box<dynamic>> get $history => box.listenable(keys: [_K.history]);
 }
@@ -30,7 +35,6 @@ extension YellowPagesStorageX on YellowPagesStorage {
     final history = this.history ?? <SchoolContact>[];
     if (history.any((e) => e.phone == contact.phone)) return;
     history.insert(0, contact);
-    history.length = min(history.length, maxHistoryLength);
     this.history = history;
   }
 }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/life/electricity/storage/electricity.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
@@ -99,39 +100,38 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
           children: [
             FilledButton.icon(
               onPressed: () async {
-                final history = ElectricityBalanceInit.storage.searchHistory ?? {};
-                final searchResult = await searchRoom(
+                final room = await searchRoom(
                   ctx: context,
-                  searchHistory: history.toList(),
+                  searchHistory: ElectricityBalanceInit.storage.searchHistory ?? const <String>[],
                   roomList: R.roomList,
                 );
-                if (searchResult == null) return;
-                final (:room, :isClear) = searchResult;
-                final old = ElectricityBalanceInit.storage.selectedRoom;
-                if (isClear) {
-                  if (old != null) {
-                    ElectricityBalanceInit.storage.selectedRoom = null;
-                  }
-                } else {
-                  if (old != room) {
-                    ElectricityBalanceInit.storage.selectedRoom = room;
-                    history.add(room);
-                    ElectricityBalanceInit.storage.searchHistory = history;
-                    await _refresh(active: true);
-                  }
+                if (room == null) return;
+                if (ElectricityBalanceInit.storage.selectedRoom != room) {
+                  ElectricityBalanceInit.storage.selectNewRoom(room);
+                  await _refresh(active: true);
                 }
               },
               label: i18n.search.text(),
               icon: const Icon(Icons.search),
             ),
-            IconButton(
-              onPressed: selectedRoom == null
-                  ? null
-                  : () async {
-                      await _refresh(active: true);
-                    },
-              icon: const Icon(Icons.refresh),
-            )
+            [
+              IconButton(
+                onPressed: selectedRoom == null
+                    ? null
+                    : () async {
+                  ElectricityBalanceInit.storage.selectedRoom = null;
+                },
+                icon: const Icon(Icons.delete_outlined),
+              ),
+              IconButton(
+                onPressed: selectedRoom == null
+                    ? null
+                    : () async {
+                        await _refresh(active: true);
+                      },
+                icon: const Icon(Icons.refresh),
+              ),
+            ].wrap()
           ],
         ).padOnly(l: 16, b: 8, r: 16),
       ].column(),

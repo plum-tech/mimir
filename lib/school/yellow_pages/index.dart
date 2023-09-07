@@ -55,8 +55,7 @@ class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
           children: [
             [
               FilledButton.icon(
-                onPressed: () async {
-                },
+                onPressed: () async {},
                 label: i18n.search.text(),
                 icon: const Icon(Icons.search),
               ),
@@ -67,9 +66,13 @@ class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
                 child: i18n.seeAll.text(),
               )
             ].wrap(spacing: 12),
-            IconButton(onPressed: () {
-              YellowPagesInit.storage.history = null;
-            }, icon: const Icon(Icons.clear))
+            IconButton(
+                onPressed: YellowPagesInit.storage.history?.isNotEmpty != true
+                    ? null
+                    : () {
+                        YellowPagesInit.storage.history = null;
+                      },
+                icon: const Icon(Icons.delete_outlined))
           ],
         ).padOnly(l: 16, b: 8, r: 16),
       ].column(),

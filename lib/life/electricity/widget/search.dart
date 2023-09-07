@@ -5,9 +5,7 @@ import 'package:mimir/widgets/search.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 
-const _emptyIndicator = Object();
-
-Future<({String room, bool isClear})?> searchRoom({
+Future<String?> searchRoom({
   String? initial,
   required BuildContext ctx,
   required List<String> searchHistory,
@@ -30,18 +28,11 @@ Future<({String room, bool isClear})?> searchRoom({
       queryProcessor: _keepOnlyNumber,
       keyboardType: TextInputType.number,
       invalidSearchTip: i18n.searchInvalidTip,
-      emptyIndicator: _emptyIndicator,
       childAspectRatio: 2,
       maxCrossAxisExtent: 150.0,
     ),
   );
-  if (result == _emptyIndicator) {
-    return (room: "", isClear: true);
-  } else if (result is String) {
-    return (room: result, isClear: false);
-  } else {
-    return null;
-  }
+  return result is String ? result : null;
 }
 
 String _keepOnlyNumber(String raw) {
