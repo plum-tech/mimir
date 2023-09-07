@@ -114,9 +114,5 @@ class CampusI10n {
 
   String get xuhui => "$ns.xuhui".tr();
 
-  String get xuhuiDistrict => "$ns.xuhuiDistrict".tr();
-
   String get fengxian => "$ns.fengxian".tr();
-
-  String get fengxianDistrict => "$ns.fengxianDistrict".tr();
 }

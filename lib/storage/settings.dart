@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mimir/entity/campus.dart';
 import 'package:mimir/mini_apps/activity/using.dart';
 
 import '../r.dart';
@@ -40,9 +41,9 @@ class SettingsImpl {
   const SettingsImpl(this.box);
 
   // settings
-  int get campus => box.get(_K.campus, defaultValue: 1);
+  Campus get campus => box.get(_K.campus) ?? Campus.fengxian;
 
-  set campus(int v) => box.put(_K.campus, v);
+  set campus(Campus newV) => box.put(_K.campus, newV);
 
   // theme
   Color? get themeColor {

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/credential/symbol.dart';
+import 'package:mimir/entity/campus.dart';
 import 'package:mimir/l10n/common.dart';
 import 'package:mimir/storage/settings.dart';
 import 'package:mimir/utils/timer.dart';
@@ -16,7 +17,7 @@ class GreetingWidget extends StatefulWidget {
 
 class _GreetingWidgetState extends State<GreetingWidget> {
   int? studyDays;
-  int campus = Settings.campus;
+  Campus campus = Settings.campus;
 
   Timer? dayWatcher;
   DateTime? _admissionDate;
@@ -72,11 +73,6 @@ class _GreetingWidgetState extends State<GreetingWidget> {
       }
     }
     return 0;
-  }
-
-  String _getCampusName() {
-    if (campus == 1) return _i18n.campus.fengxianDistrict;
-    return _i18n.campus.xuhuiDistrict;
   }
 
   Widget buildAll(BuildContext context) {

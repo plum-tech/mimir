@@ -6,6 +6,7 @@ class HiveTypeId {
   // Basic 0-10
   static const version = 0;
   static const themeMode = 1;
+  static const campus = 2;
 
   // Credential 10-19
   static const credential = 10;

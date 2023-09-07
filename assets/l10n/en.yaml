@@ -334,9 +334,7 @@ weekdayShort:
   6: SUN
 campus:
   xuhui: Xuhui
-  xuhuiDistrict: Xuhui District
   fengxian: Fengxian
-  fengxianDistrict: Fengxian District
 unit:
   rmb: "¥{}"
   powerKwh: "{} kW·h"
