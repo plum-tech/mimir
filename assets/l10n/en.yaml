@@ -150,8 +150,8 @@ exam-arrange:
   resultNoResult: No result record
   seatNumber: Seat No.
   startTime: Start Time
-expense:
-  title: Expense tracker
+expense-record:
+  title: Expenses record
   navigation:
     bill: Bill
     statistics: Statistics
