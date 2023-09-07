@@ -7,11 +7,10 @@ import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 
 const _i18n = CredentialI18n();
+const _changePasswordUrl = "https://authserver.sit.edu.cn/authserver/passwordChange.do";
 
 class CredentialPage extends StatefulWidget {
-  const CredentialPage({
-    super.key,
-  });
+  const CredentialPage({super.key});
 
   @override
   State<CredentialPage> createState() => _CredentialPageState();
