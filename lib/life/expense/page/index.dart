@@ -10,14 +10,14 @@ import '../i18n.dart';
 import 'bill.dart';
 import 'statistics.dart';
 
-class ExpenseTrackerPage extends StatefulWidget {
-  const ExpenseTrackerPage({super.key});
+class ExpenseRecordPage extends StatefulWidget {
+  const ExpenseRecordPage({super.key});
 
   @override
-  State<ExpenseTrackerPage> createState() => _ExpenseTrackerPageState();
+  State<ExpenseRecordPage> createState() => _ExpenseRecordPageState();
 }
 
-class _ExpenseTrackerPageState extends State<ExpenseTrackerPage> {
+class _ExpenseRecordPageState extends State<ExpenseRecordPage> {
   int currentIndex = 0;
 
   final cache = ExpenseTrackerInit.cache;

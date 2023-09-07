@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/contact.dart';
-import '../using.dart';
 
 class ContactTile extends StatelessWidget {
   final ContactData contact;

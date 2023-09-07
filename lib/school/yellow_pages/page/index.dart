@@ -5,9 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/contact.dart';
-import '../using.dart';
 import 'list.dart';
 import 'search.dart';
+import '../i18n.dart';
 
 class YellowPagesPage extends StatefulWidget {
   const YellowPagesPage({super.key});
@@ -41,7 +41,7 @@ class _YellowPagesPageState extends State<YellowPagesPage> {
     final contacts = _contacts;
     return Scaffold(
       appBar: AppBar(
-        title: MiniApp.yellowPages.l10nName().text(),
+        title: i18n.title.text(),
         actions: [
           if (contacts != null)
             IconButton(

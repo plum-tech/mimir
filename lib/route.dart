@@ -5,6 +5,7 @@ import 'package:mimir/life/expense/page/index.dart';
 import 'package:mimir/life/index.dart';
 import 'package:mimir/main/index.dart';
 import 'package:mimir/main/network_tool/page/index.dart';
+import 'package:mimir/school/yellow_pages/page/index.dart';
 import 'package:mimir/settings/page/credential.dart';
 import 'package:mimir/settings/page/developer.dart';
 import 'package:mimir/settings/page/index.dart';
@@ -133,48 +134,48 @@ final router = GoRouter(
       builder: (ctx, state) => const DeveloperOptionsPage(),
     ),
     GoRoute(
-      path: "/app/activity",
+      path: "/activity",
       builder: (ctx, state) => const ActivityIndexPage(),
       redirect: _loginRequired,
     ),
     GoRoute(
-      path: "/app/expense",
-      builder: (ctx, state) => const ExpenseTrackerPage(),
+      path: "/expense-record",
+      builder: (ctx, state) => const ExpenseRecordPage(),
       redirect: _loginRequired,
     ),
     GoRoute(
-      path: "/app/oaAnnouncement",
+      path: "/oa-announce",
       builder: (ctx, state) => const OaAnnouncePage(),
       redirect: _loginRequired,
     ),
     GoRoute(
-      path: "/app/yellowPages",
+      path: "/yellow-pages",
       builder: (ctx, state) => const YellowPagesPage(),
     ),
     GoRoute(
-      path: "/app/eduEmail",
+      path: "/edu-email",
       builder: (ctx, state) => const EduEmailPage(),
     ),
     GoRoute(
-      path: "/app/examResult",
+      path: "/exam-result",
       builder: (ctx, state) => const ExamResultPage(),
       redirect: _loginRequired,
     ),
     GoRoute(
-      path: "/app/examArr",
+      path: "/exam-arrange",
       builder: (ctx, state) => const ExamArrangementPage(),
       redirect: _loginRequired,
     ),
     GoRoute(
-      path: "/app/library",
+      path: "/library",
       builder: (ctx, state) => const LibraryPage(),
     ),
     GoRoute(
-      path: "/app/timetable",
+      path: "/timetable",
       builder: (ctx, state) => const TimetablePage(),
     ),
     GoRoute(
-      path: "/app/application",
+      path: "/application",
       builder: (ctx, state) => const ApplicationIndexPage(),
       redirect: _loginRequired,
     ),
@@ -183,7 +184,7 @@ final router = GoRouter(
       builder: (ctx, state) => const ScannerPage(),
     ),
     GoRoute(
-      path: "/teacherEval",
+      path: "/teacher-eval",
       builder: (ctx, state) => const EvaluationPage(),
       redirect: _loginRequired,
     ),
