@@ -61,7 +61,11 @@ class _MePageState extends State<MePage> {
                 icon: const Icon(Icons.copy),
               ),
             ].row(mas: MainAxisSize.min),
-            onTap: () {},
+            onTap: () async {
+              try {
+                await launchUrlString(_joinQGroupUri);
+              } catch (_) {}
+            },
           )
         ]))
       ],

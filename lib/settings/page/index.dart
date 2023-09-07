@@ -118,18 +118,18 @@ class _SettingsPageState extends State<SettingsPage> {
       all.add(const Divider());
     }
 
-    all.add(CampusSelectorTile(key: UniqueKey()));
+    all.add(const CampusSelectorTile());
 
-    all.add(LanguageSelectorTile(key: UniqueKey()));
-    all.add(ThemeModeTile(key: UniqueKey()));
+    all.add(const LanguageSelectorTile());
+    all.add(const ThemeModeTile());
 
     all.add(const Divider());
     if (kDebugMode || Settings.isDeveloperMode) {
-      all.add(DevOptionsTile(key: UniqueKey()));
+      all.add(const DevOptionsTile());
     }
-    all.add(ClearCacheTile(key: UniqueKey()));
-    all.add(WipeDataTile(key: UniqueKey()));
-    all.add(VersionTile(key: UniqueKey()));
+    all.add(const ClearCacheTile());
+    all.add(const WipeDataTile());
+    all.add(const VersionTile());
     return all;
   }
 
@@ -178,7 +178,7 @@ class _VersionTileState extends State<VersionTile> {
               clickCount++;
               if (clickCount >= 10) {
                 Settings.isDeveloperMode = true;
-                context.showSnackBar(Text("Developer mode is on."));
+                context.showSnackBar(const Text("Developer mode is on."));
               }
             },
       subtitle: "${version.platform} ${version.full?.toString() ?? i18n.unknown}".text(),
@@ -294,6 +294,8 @@ class LanguageSelectorTile extends StatelessWidget {
         onSelected: (Locale? locale) async {
           if (locale == null) return;
           await context.setLocale(locale);
+          final engine = WidgetsFlutterBinding.ensureInitialized();
+          engine.performReassemble();
         },
         dropdownMenuEntries: R.supportedLocales
             .map<DropdownMenuEntry<Locale>>(
