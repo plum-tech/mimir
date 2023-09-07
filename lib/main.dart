@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -73,9 +74,9 @@ Future<List<String>> _loadUserAgents() async {
   return list.cast<String>();
 }
 
-
-Future<List<ContactData>> _loadYellowPages() async {
+Future<Map<String, List<SchoolContact>>> _loadYellowPages() async {
   String jsonData = await rootBundle.loadString("assets/yellow_pages.json");
   List<dynamic> list = await jsonDecode(jsonData);
-  return list.map((e) => ContactData.fromJson(e)).toList().cast<ContactData>();
+  final contacts = list.map((e) => SchoolContact.fromJson(e)).toList().cast<SchoolContact>();
+  return contacts.groupListsBy((contact) => contact.department);
 }

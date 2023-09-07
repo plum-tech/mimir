@@ -253,6 +253,7 @@ class _CampusSelectorTileState extends State<CampusSelectorTile> {
   void refresh() {
     setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(

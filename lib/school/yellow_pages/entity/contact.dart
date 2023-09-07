@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'contact.g.dart';
 
 @JsonSerializable()
-class ContactData {
+class SchoolContact {
   @JsonKey()
   final String department;
 
@@ -16,11 +16,11 @@ class ContactData {
   @JsonKey()
   final String phone;
 
-  ContactData(this.department, this.description, this.name, this.phone);
+  SchoolContact(this.department, this.description, this.name, this.phone);
 
-  factory ContactData.fromJson(Map<String, dynamic> json) => _$ContactDataFromJson(json);
+  factory SchoolContact.fromJson(Map<String, dynamic> json) => _$SchoolContactFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ContactDataToJson(this);
+  Map<String, dynamic> toJson() => _$SchoolContactToJson(this);
 
   @override
   String toString() {

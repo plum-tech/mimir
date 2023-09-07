@@ -6,14 +6,14 @@ part of 'contact.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ContactData _$ContactDataFromJson(Map<String, dynamic> json) => ContactData(
+SchoolContact _$SchoolContactFromJson(Map<String, dynamic> json) => SchoolContact(
       json['department'] as String,
       json['description'] as String?,
       json['name'] as String?,
       json['phone'] as String,
     );
 
-Map<String, dynamic> _$ContactDataToJson(ContactData instance) {
+Map<String, dynamic> _$SchoolContactToJson(SchoolContact instance) {
   final val = <String, dynamic>{
     'department': instance.department,
   };

@@ -23,13 +23,13 @@ class _YellowPagesPageState extends State<YellowPagesPage> {
       appBar: AppBar(
         title: i18n.title.text(),
         actions: [
-          IconButton(
-            onPressed: () => showSearch(context: context, delegate: Search(contacts)),
-            icon: const Icon(Icons.search),
-          ),
+          // IconButton(
+          //   onPressed: () => showSearch(context: context, delegate: Search(contacts)),
+          //   icon: const Icon(Icons.search),
+          // ),
         ],
       ),
-      body: context.isPortrait ? GroupedContactList(contacts) : NavigationContactList(contacts),
+      // body: context.isPortrait ? GroupedContactList(R.yellowPages) : NavigationContactList(R.yellowPages),
     );
   }
 }

@@ -6,7 +6,7 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/contact.dart';
 
 class ContactTile extends StatelessWidget {
-  final ContactData contact;
+  final SchoolContact contact;
   final Color? bgColor;
 
   const ContactTile(this.contact, {super.key, this.bgColor});
@@ -40,6 +40,12 @@ class ContactTile extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
+                  icon: const Icon(Icons.phone),
+                  onPressed: () {
+                    guardLaunchUrlString(context, "tel:$phoneNumber");
+                  },
+                ),
+                IconButton(
                   icon: const Icon(Icons.content_copy),
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: contact.phone));
@@ -47,12 +53,6 @@ class ContactTile extends StatelessWidget {
                     // context.showSnackBar(i18n.studentId.studentIdCopy2ClipboardTip.text());
                   },
                 ),
-                IconButton(
-                  icon: const Icon(Icons.phone),
-                  onPressed: () {
-                    guardLaunchUrlString(context, "tel:$phoneNumber");
-                  },
-                )
               ],
             ),
     );

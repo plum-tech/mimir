@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
+import 'package:mimir/r.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'i18n.dart';
@@ -16,7 +17,25 @@ class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
   Widget build(BuildContext context) {
     return FilledCard(
       child: [
-        SizedBox(height: 120),
+        ListTile(
+          title: "Liplum".text(),
+          subtitle: "Li_plum@outlook.com".text(),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.phone),
+                onPressed: () {
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.content_copy),
+                onPressed: () {
+                },
+              ),
+            ],
+          ),
+        ).inCard(elevation: 4),
         ListTile(
           titleTextStyle: context.textTheme.titleLarge,
           title: i18n.title.text(),
@@ -32,12 +51,22 @@ class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
               ),
               OutlinedButton(
                 onPressed: () {},
-                child: "All".text(),
+                child: "See All".text(),
               )
-            ].wrap(spacing: 12)
+            ].wrap(spacing: 12),
+            IconButton(onPressed: (){}, icon: Icon(Icons.clear))
           ],
-        ).padOnly(l: 16, b: 12),
+        ).padOnly(l: 16, b: 8, r: 16),
       ].column(),
     );
+  }
+
+  List<Widget> buildDepartmentChips() {
+    return R.yellowPages.keys
+        .map((department) => ActionChip(
+              label: department.text(),
+              onPressed: () {},
+            ))
+        .toList();
   }
 }
