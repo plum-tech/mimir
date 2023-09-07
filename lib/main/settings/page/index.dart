@@ -229,7 +229,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget buildDeveloper() {
     return ListTile(
-      title: i18n.developerOptions.text(),
+      title: i18n.dev.title.text(),
       leading: const Icon(Icons.developer_mode_outlined),
       trailing: const Icon(Icons.navigate_next_rounded),
       onTap: () async {

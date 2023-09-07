@@ -14,11 +14,9 @@ class _I18n with CommonI18nMixin {
   final changeOaPwd = const _ChangeOaPwd();
   final clearCache = const _ClearCache();
   final themeMode = const _ThemeMode();
-  final detailedXcpDialog = const _DetailedXcpDialog();
   final httpProxy = const _HttpProxy();
   final language = const _Language();
-  final localStorage = const _LocalStorage();
-  final reload = const _Reload();
+  final dev = const _DevOptions();
   final testConnect2School = const _TestConnect2School();
   final wipeData = const _WipeData();
   static const ns = "settings";
@@ -26,8 +24,6 @@ class _I18n with CommonI18nMixin {
   String get title => "$ns.title".tr();
 
   String get version => "$ns.version".tr();
-
-  String get developerOptions => "$ns.developerOptions".tr();
 }
 
 class _Campus extends CampusI10n {
@@ -88,16 +84,6 @@ class _ThemeMode {
   }
 }
 
-class _DetailedXcpDialog {
-  const _DetailedXcpDialog();
-
-  static const ns = "${_I18n.ns}.detailedXcpDialog";
-
-  String get title => "$ns.title".tr();
-
-  String get desc => "$ns.desc".tr();
-}
-
 class _HttpProxy {
   const _HttpProxy();
 
@@ -124,24 +110,24 @@ class _Language {
   String languageOf(Locale locale) => "language.$locale".tr();
 }
 
-class _LocalStorage {
-  const _LocalStorage();
+class _DevOptions {
+  const _DevOptions();
 
-  static const ns = "${_I18n.ns}.localStorage";
-
-  String get title => "$ns.title".tr();
-
-  String get desc => "$ns.desc".tr();
-}
-
-class _Reload {
-  const _Reload();
-
-  static const ns = "${_I18n.ns}.reload";
+  static const ns = "${_I18n.ns}.dev";
 
   String get title => "$ns.title".tr();
 
-  String get desc => "$ns.desc".tr();
+  String get reloadTitle => "$ns.reload.title".tr();
+
+  String get reloadDesc => "$ns.reload.desc".tr();
+
+  String get localStorageTitle => "$ns.localStorage.title".tr();
+
+  String get localStorageDesc => "$ns.localStorage.desc".tr();
+
+  String get detailedXcpDialogTitle => "$ns.detailedXcpDialog.title".tr();
+
+  String get detailedXcpDialogDesc => "$ns.detailedXcpDialog.desc".tr();
 }
 
 class _TestConnect2School {

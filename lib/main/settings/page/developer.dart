@@ -28,7 +28,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
             floating: false,
             expandedHeight: 100.0,
             flexibleSpace: FlexibleSpaceBar(
-              title: i18n.developerOptions.text(style: context.textTheme.headlineSmall),
+              title: i18n.dev.title.text(style: context.textTheme.headlineSmall),
             ),
           ),
           SliverList(
@@ -55,8 +55,8 @@ class _DeveloperPageState extends State<DeveloperPage> {
 
   Widget buildLocalStorage() {
     return ListTile(
-      title: i18n.localStorage.title.text(),
-      subtitle: i18n.localStorage.desc.text(),
+      title: i18n.dev.localStorageTitle.text(),
+      subtitle: i18n.dev.localStorageDesc.text(),
       leading: const Icon(Icons.storage),
       trailing: const Icon(Icons.navigate_next_rounded),
       onTap: () {
@@ -67,8 +67,8 @@ class _DeveloperPageState extends State<DeveloperPage> {
 
   Widget buildReload() {
     return ListTile(
-      title: i18n.reload.title.text(),
-      subtitle: i18n.reload.desc.text(),
+      title: i18n.dev.reloadTitle.text(),
+      subtitle: i18n.dev.reloadDesc.text(),
       leading: const Icon(Icons.refresh_rounded),
       onTap: () async {
         await Init.init();
