@@ -33,7 +33,7 @@ class YellowPagesStorage {
 extension YellowPagesStorageX on YellowPagesStorage {
   void addInteractHistory(SchoolContact contact) {
     final interactHistory = this.interactHistory ?? <SchoolContact>[];
-    if (interactHistory.any((e) => e.phone == contact.phone)) return;
+    if (interactHistory.any((e) => e == contact)) return;
     interactHistory.insert(0, contact);
     this.interactHistory = interactHistory;
   }

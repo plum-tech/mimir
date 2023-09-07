@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mimir/hive/type_id.dart';
+import 'package:quiver/core.dart';
 
 part 'contact.g.dart';
 
@@ -22,7 +23,7 @@ class SchoolContact {
   @HiveField(3)
   final String phone;
 
-  SchoolContact(this.department, this.description, this.name, this.phone);
+  const SchoolContact(this.department, this.description, this.name, this.phone);
 
   factory SchoolContact.fromJson(Map<String, dynamic> json) => _$SchoolContactFromJson(json);
 
@@ -30,4 +31,17 @@ class SchoolContact {
   String toString() {
     return '{department: $department, description: $description, name: $name, phone: $phone}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is SchoolContact &&
+              runtimeType == other.runtimeType &&
+              department == other.department &&
+              name == other.name &&
+              phone == other.phone &&
+              description == other.description;
+
+  @override
+  int get hashCode => hash4(department, name, phone, description);
 }

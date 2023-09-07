@@ -54,7 +54,7 @@ class _SchoolContactListState extends State<SchoolContactList> {
               title: entry.key.text(),
               items: entry.value,
               itemBuilder: (ctx, i, contact) {
-                final inHistory = history?.any((e) => e.phone == contact.phone);
+                final inHistory = history?.any((e) => e == contact);
                 return ContactTile(contact, inHistory: inHistory).inOutlinedCard();
               },
             ),
