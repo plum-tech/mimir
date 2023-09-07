@@ -21,14 +21,14 @@ class ContactTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final name = contact.name;
-    final full = name == null ? contact.phone : "$name ${contact.phone}";
+    final full = name == null ? contact.phone : "$name, ${contact.phone}";
     final phoneNumber = contact.phone.length == 8 ? "021${contact.phone}" : contact.phone;
     return ListTile(
       selected: inHistory ?? false,
       leading: CircleAvatar(
         backgroundColor: context.colorScheme.primary,
         radius: 20,
-        child: name == null
+        child: name == null || name.isEmpty || _isDigit(name[0])
             ? Center(child: Icon(Icons.account_circle, size: 40, color: context.colorScheme.onPrimary))
             : name[0]
                 .text(
@@ -64,4 +64,8 @@ class ContactTile extends StatelessWidget {
             ].row(mas: MainAxisSize.min),
     );
   }
+}
+
+bool _isDigit(String char){
+  return (char.codeUnitAt(0) ^ 0x30) <= 9;
 }
