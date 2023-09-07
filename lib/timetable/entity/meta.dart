@@ -1,4 +1,4 @@
-import 'package:mimir/mini_apps/exam_arr/using.dart';
+import 'package:mimir/school/entity/school.dart';
 
 class TimetableMeta {
   final String name;

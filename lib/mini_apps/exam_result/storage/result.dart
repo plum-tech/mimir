@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:mimir/school/entity/school.dart';
 
 import '../dao/result.dart';
 import '../entity/result.dart';

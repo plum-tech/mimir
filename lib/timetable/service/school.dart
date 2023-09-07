@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:mimir/mini_apps/shared/entity/school.dart';
 import 'package:mimir/network/session.dart';
+import 'package:mimir/school/entity/school.dart';
 
 import '../entity/course.dart';
 import '../entity/entity.dart';

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:ical/serializer.dart';
-import 'package:mimir/mini_apps/shared/entity/school.dart';
+import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/timetable/storage/timetable.dart';
 import 'package:mimir/utils/file.dart';
 import 'entity/entity.dart';

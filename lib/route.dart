@@ -18,6 +18,7 @@ import 'package:mimir/timetable/page/import.dart';
 import 'package:mimir/timetable/page/index.dart';
 import 'package:mimir/timetable/page/mine.dart';
 import 'package:mimir/timetable/page/preview.dart';
+import 'package:mimir/widgets/webview/page.dart';
 
 import 'app.dart';
 import 'login/page/index.dart';

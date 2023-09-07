@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/mini_apps/activity/entity/list.dart';
+import 'package:mimir/widgets/html_widget.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/detail.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/mini_apps/exam_arr/entity/exam.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:mimir/school/entity/school.dart';
 
 import '../using.dart';
 

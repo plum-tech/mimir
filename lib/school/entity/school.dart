@@ -1,6 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:hive/hive.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:mimir/hive/type_id.dart';
 import 'package:mimir/l10n/common.dart';
 
@@ -15,7 +13,7 @@ enum Semester {
   @HiveField(2)
   term2;
 
-  String localized() => "semester.$name".tr();
+  String localized() => "school.semester.$name".tr();
 }
 
 @HiveType(typeId: HiveTypeId.schoolYear)

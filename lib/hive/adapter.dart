@@ -12,6 +12,7 @@ import 'package:mimir/mini_apps/exam_result/entity/result.dart';
 import 'package:mimir/mini_apps/oa_announce/entity/announce.dart';
 import 'package:mimir/mini_apps/oa_announce/entity/attachment.dart';
 import 'package:mimir/mini_apps/symbol.dart';
+import 'package:mimir/school/entity/school.dart';
 
 import 'custom_adapters.dart';
 

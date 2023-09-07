@@ -51,6 +51,12 @@ timetable:
     findNearestDayWithClass: 尋找有課的一週
 school:
   navigation: 學校
+  schoolYear: 學年
+  semester:
+    title: 學期
+    all: 學年
+    term1: 第一學期
+    term2: 第二學期
 life:
   navigation: 生活
 me:
@@ -304,10 +310,6 @@ yellowPages:
   title: 學校黃頁
 scanner:
   barcodeNotRecognized: 未識別到條碼或 QR 碼
-semester:
-  all: 學年
-  term1: 第一學期
-  term2: 第二學期
 greeting:
   headerA: 上應大與你一起度過了
   headerB:

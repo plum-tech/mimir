@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mimir/mini_apps/symbol.dart';
+import 'package:mimir/school/entity/school.dart';
 
 import '../i18n.dart';
 import '../utils.dart';

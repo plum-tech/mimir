@@ -51,6 +51,12 @@ timetable:
     findNearestDayWithClass: 找到有课的一天
 school:
   navigation: 学校
+  schoolYear: 学年
+  semester:
+    title: 学期
+    all: 全学年
+    term1: 第一学期
+    term2: 第二学期
 life:
   navigation: 生活
 me:
@@ -304,10 +310,6 @@ yellowPages:
   title: 学校黄页
 scanner:
   barcodeNotRecognized: 未识别到条形码或二维码
-semester:
-  all: 全学年
-  term1: 第一学期
-  term2: 第二学期
 greeting:
   headerA: 今天是你在上应大的
   headerB:

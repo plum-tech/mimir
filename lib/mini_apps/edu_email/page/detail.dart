@@ -1,6 +1,7 @@
 import 'package:enough_mail/enough_mail.dart';
 import 'package:enough_mail_html/enough_mail_html.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/widgets/html_widget.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../using.dart';

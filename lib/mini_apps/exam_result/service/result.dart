@@ -1,4 +1,5 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:mimir/school/entity/school.dart';
 
 import '../dao/result.dart';
 import '../entity/result.dart';

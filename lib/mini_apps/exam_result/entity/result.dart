@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mimir/hive/type_id.dart';
+import 'package:mimir/school/entity/school.dart';
 
-import '../using.dart';
 
 part 'result.g.dart';
 

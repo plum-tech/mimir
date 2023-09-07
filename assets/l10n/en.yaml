@@ -51,6 +51,12 @@ timetable:
     findNearestDayWithClass: Find a day with class
 school:
   navigation: School
+  schoolYear: School year
+  semester:
+    title: Semester
+    all: Full Year
+    term1: Fall
+    term2: Spring
 life:
   navigation: Life
 me:
@@ -304,10 +310,6 @@ yellowPages:
   title: Yellow pages
 scanner:
   barcodeNotRecognized: No Barcode or QR code
-semester:
-  all: Full Year
-  term1: Fall
-  term2: Spring
 greeting:
   headerA: SIT has accompanied you
   headerB:

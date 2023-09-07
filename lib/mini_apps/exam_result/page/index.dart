@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/widgets/fab.dart';
+import 'package:mimir/school/widgets/school.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
+import 'package:mimir/school/entity/school.dart';
 
 import '../entity/result.dart';
 import '../events.dart';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/credential/symbol.dart';
-import 'package:mimir/mini_apps/activity/using.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/school.dart';
+import "../i18n.dart";
 
 class SemesterSelector extends StatefulWidget {
   final int? initialYear;
@@ -64,36 +64,23 @@ class _SemesterSelectorState extends State<SemesterSelector> {
     return yearItems;
   }
 
-  String buildYearString(int startYear) {
-    return '$startYear - ${startYear + 1}';
-  }
-
   /// 构建选择下拉框.
   /// alternatives 是一个字典, key 为实际值, value 为显示值.
-  Widget buildSelector<T>(BuildContext ctx, Map<T, String> candidates, T initialValue, void Function(T?) callback) {
-    final items = candidates.keys
-        .map(
-          (k) => DropdownMenuItem<T>(
-            value: k,
-            child: Text(
-              candidates[k]!,
-              style: ctx.textTheme.bodyMedium,
-            ),
-          ),
-        )
-        .toList();
-
-    return DropdownButton<T>(
-      value: initialValue,
-      enableFeedback: true,
-      alignment: Alignment.center,
-      icon: const Icon(Icons.keyboard_arrow_down_outlined),
-      underline: Container(
-        height: 2,
-        color: ctx.darkSafeThemeColor,
-      ),
-      onChanged: callback,
-      items: items,
+  Widget buildSelector<T>(
+    BuildContext ctx,
+    Map<T, String> candidates,
+    T initialValue,
+    void Function(T?) onSelected,
+  ) {
+    return DropdownMenu<T>(
+      initialSelection: initialValue,
+      onSelected: onSelected,
+      dropdownMenuEntries: candidates.entries
+          .map((entry) => DropdownMenuEntry<T>(
+                value: entry.key,
+                label: entry.value,
+              ))
+          .toList(),
     );
   }
 
@@ -113,15 +100,24 @@ class _SemesterSelectorState extends State<SemesterSelector> {
     }
     // 生成经历过的学期并逆序（方便用户选择）
     final List<int> yearList = _generateYearList(grade).reversed.toList();
-    final mapping = yearList.map((e) => MapEntry(e, buildYearString(e)));
 
     // 保证显示上初始选择年份、实际加载的年份、selectedYear 变量一致.
-    return buildSelector<int>(ctx, Map.fromEntries(mapping), selectedYear, (int? selected) {
-      if (selected != null && selected != selectedYear) {
-        setState(() => selectedYear = selected);
-        widget.onNewYearSelect(selectedYear);
-      }
-    });
+    return DropdownMenu<int>(
+      label: i18n.schoolYear.text(),
+      initialSelection: selectedYear,
+      onSelected: (int? selected) {
+        if (selected != null && selected != selectedYear) {
+          setState(() => selectedYear = selected);
+          widget.onNewYearSelect(selectedYear);
+        }
+      },
+      dropdownMenuEntries: yearList
+          .map((year) => DropdownMenuEntry<int>(
+                value: year,
+                label: "$year–${year + 1}",
+              ))
+          .toList(),
+    );
   }
 
   Widget buildSemesterSelector(BuildContext ctx) {
@@ -132,14 +128,23 @@ class _SemesterSelectorState extends State<SemesterSelector> {
     } else {
       semesters = [Semester.all, Semester.term1, Semester.term2];
     }
-    final semesterItems = Map.fromEntries(semesters.map((e) => MapEntry(e, e.localized())));
     // 保证显示上初始选择学期、实际加载的学期、selectedSemester 变量一致.
-    return buildSelector<Semester>(ctx, semesterItems, selectedSemester, (Semester? selected) {
-      if (selected != null && selected != selectedSemester) {
-        setState(() => selectedSemester = selected);
-        widget.onNewSemesterSelect(selectedSemester);
-      }
-    });
+    return DropdownMenu<Semester>(
+      label: i18n.semester.text(),
+      initialSelection: selectedSemester,
+      onSelected: (Semester? selected) {
+        if (selected != null && selected != selectedSemester) {
+          setState(() => selectedSemester = selected);
+          widget.onNewSemesterSelect(selectedSemester);
+        }
+      },
+      dropdownMenuEntries: semesters
+          .map((semester) => DropdownMenuEntry<Semester>(
+                value: semester,
+                label: semester.localized(),
+              ))
+          .toList(),
+    );
   }
 
   @override

@@ -1,7 +1,7 @@
 import '../dao/result.dart';
 import '../entity/result.dart';
 import '../storage/result.dart';
-import '../using.dart';
+import 'package:mimir/school/entity/school.dart';
 
 class ExamResultCache implements ExamResultDao {
   final ExamResultDao from;

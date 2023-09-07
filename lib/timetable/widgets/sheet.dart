@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/mini_apps/shared/entity/school.dart';
+import 'package:mimir/school/entity/school.dart';
 
 import '../i18n.dart';
 import '../entity/entity.dart';

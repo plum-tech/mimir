@@ -1,7 +1,8 @@
+import 'package:mimir/school/entity/school.dart';
+
 import '../dao/exam.dart';
 import '../entity/exam.dart';
 import '../storage/exam.dart';
-import '../using.dart';
 
 class ExamCache extends ExamDao {
   final ExamDao from;

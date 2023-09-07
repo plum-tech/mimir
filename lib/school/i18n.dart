@@ -9,4 +9,8 @@ class _I18n with CommonI18nMixin {
   static const ns = "school";
 
   String get navigation => "$ns.navigation".tr();
+
+  String get schoolYear => "$ns.schoolYear".tr();
+
+  String get semester => "$ns.semester.title".tr();
 }

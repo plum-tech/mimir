@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/design/colors.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/dialog.dart';
-import 'package:mimir/mini_apps/shared/entity/school.dart';
+import 'package:mimir/school/entity/school.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../i18n.dart';

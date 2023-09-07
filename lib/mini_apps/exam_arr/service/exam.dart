@@ -1,6 +1,7 @@
 import '../dao/exam.dart';
 import '../entity/exam.dart';
 import '../using.dart';
+import 'package:mimir/school/entity/school.dart';
 
 class ExamService implements ExamDao {
   static const _examRoomUrl = 'http://jwxt.sit.edu.cn/jwglxt/kwgl/kscx_cxXsksxxIndex.html';

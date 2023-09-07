@@ -1,5 +1,5 @@
 import '../entity/result.dart';
-import '../using.dart';
+import 'package:mimir/school/entity/school.dart';
 
 abstract class ExamResultDao {
   Future<List<ExamResult>?> getResultList(SchoolYear schoolYear, Semester semester);

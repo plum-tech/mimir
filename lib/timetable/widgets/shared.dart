@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/design/colors.dart';
-import 'package:mimir/mini_apps/shared/entity/school.dart';
+import 'package:mimir/school/entity/school.dart';
 import '../entity/entity.dart';
 
 extension Wrapper on Widget {

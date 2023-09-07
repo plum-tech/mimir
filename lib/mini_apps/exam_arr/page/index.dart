@@ -1,6 +1,8 @@
 import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/school/widgets/school.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:mimir/school/entity/school.dart';
 
 import '../entity/exam.dart';
 import '../init.dart';
