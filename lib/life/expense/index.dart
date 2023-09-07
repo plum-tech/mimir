@@ -23,8 +23,7 @@ class _ExpenseTrackerAppCardState extends State<ExpenseTrackerAppCard> {
         OverflowBar(
           alignment: MainAxisAlignment.spaceBetween,
           children: [
-            FilledButton(onPressed: () async {
-            }, child: "Check".text()),
+            FilledButton(onPressed: () async {}, child: "Check".text()),
           ],
         ).padOnly(l: 16, b: 12, r: 16),
       ].column(),

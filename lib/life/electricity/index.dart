@@ -85,6 +85,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
               ? const SizedBox()
               : ElectricityBalanceCard(
                   balance: balance,
+                  elevation: 4,
                 ).sized(h: 120),
         ),
         ListTile(

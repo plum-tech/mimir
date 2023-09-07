@@ -6,6 +6,7 @@ part 'balance.g.dart';
 double _parseBalance(String raw) {
   return double.tryParse(raw) ?? 0;
 }
+
 /// 0.61 RMB/kWh
 const rmbPerKwh = 0.61;
 

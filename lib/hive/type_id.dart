@@ -55,4 +55,7 @@ class HiveTypeId {
   // Expense Tracker 90-99
   static const expenseTransaction = 90;
   static const expenseTransactionType = 91;
+
+  // Yellow Pages 100-105
+  static const schoolContact = 100;
 }

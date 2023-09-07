@@ -13,6 +13,7 @@ import 'package:mimir/mini_apps/oa_announce/entity/announce.dart';
 import 'package:mimir/mini_apps/oa_announce/entity/attachment.dart';
 import 'package:mimir/mini_apps/symbol.dart';
 import 'package:mimir/school/entity/school.dart';
+import 'package:mimir/school/yellow_pages/entity/contact.dart';
 
 import 'custom_adapters.dart';
 
@@ -68,6 +69,9 @@ class HiveAdapter {
 
     // Library
     ~LibrarySearchHistoryItemAdapter();
+
+    // Yellow Pages
+    ~SchoolContactAdapter();
   }
 }
 

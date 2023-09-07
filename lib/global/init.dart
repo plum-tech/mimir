@@ -10,6 +10,7 @@ import 'package:mimir/main/init.dart';
 import 'package:mimir/main/network_tool/init.dart';
 import 'package:mimir/migration/migrations.dart';
 import 'package:mimir/mini_apps/symbol.dart';
+import 'package:mimir/school/yellow_pages/init.dart';
 import 'package:mimir/session/sis.dart';
 import 'package:mimir/storage/settings.dart';
 import 'package:mimir/timetable/init.dart';
@@ -101,7 +102,11 @@ class Init {
 
     ExpenseTrackerInit.init(
       session: Global.ssoSession,
-      expenseBox: HiveBoxInit.expense,
+      box: HiveBoxInit.expense,
+    );
+
+    YellowPagesInit.init(
+      box: HiveBoxInit.yellowPages,
     );
 
     HomeInit.init(

@@ -86,7 +86,7 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
         HapticFeedback.heavyImpact();
         final qrcode = captured.barcodes.firstOrNull;
         if (qrcode != null) {
-          await context.showTip(title: "Result",desc: qrcode.rawValue.toString(), ok: "OK");
+          await context.showTip(title: "Result", desc: qrcode.rawValue.toString(), ok: "OK");
           Navigator.pop(context, qrcode.rawValue);
         }
       },

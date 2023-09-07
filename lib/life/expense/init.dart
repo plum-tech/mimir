@@ -12,10 +12,10 @@ class ExpenseTrackerInit {
 
   static void init({
     required ISession session,
-    required Box expenseBox,
+    required Box box,
   }) {
     service = ExpenseGetService(session);
-    storage = ExpenseStorage(expenseBox);
+    storage = ExpenseStorage(box);
     cache = CachedExpenseGetDao(service: service, storage: storage);
   }
 }

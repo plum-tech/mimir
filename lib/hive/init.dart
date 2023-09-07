@@ -10,6 +10,7 @@ class HiveBoxInit {
   static late Box<LibrarySearchHistoryItem> librarySearchHistory;
   static late Box<dynamic> timetable;
   static late Box<dynamic> expense;
+  static late Box<dynamic> yellowPages;
   static late Box<dynamic> activityCache;
   static late Box<dynamic> examArrCache;
   static late Box<dynamic> examResultCache;
@@ -30,6 +31,8 @@ class HiveBoxInit {
       credentials = await Hive.openBox('credentials'),
       settings = await Hive.openBox('settings'),
       meta = await Hive.openBox('meta'),
+      expense = await Hive.openBox('expense'),
+      yellowPages = await Hive.openBox('yellow-pages'),
       librarySearchHistory = await Hive.openBox('library-search-history'),
       cookies = await Hive.openBox('cookies'),
       timetable = await Hive.openBox('timetable'),
@@ -41,9 +44,6 @@ class HiveBoxInit {
         activityCache = await Hive.openBox('activity-cache'),
         applicationCache = await Hive.openBox('application-cache'),
       ],
-      // almost time, this box is very very long which ends up low performance in building.
-      // So put this on the bottom
-      expense = await Hive.openBox('expense'),
     ]);
   }
 
