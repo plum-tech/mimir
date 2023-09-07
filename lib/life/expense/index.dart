@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
-import 'package:mimir/mini_app.dart';
 import 'package:rettulf/rettulf.dart';
 import "i18n.dart";
 
@@ -24,7 +23,8 @@ class _ExpenseTrackerAppCardState extends State<ExpenseTrackerAppCard> {
         OverflowBar(
           alignment: MainAxisAlignment.spaceBetween,
           children: [
-            FilledButton(onPressed: () {}, child: "Check".text()),
+            FilledButton(onPressed: () async {
+            }, child: "Check".text()),
           ],
         ).padOnly(l: 16, b: 12, r: 16),
       ].column(),

@@ -260,7 +260,7 @@ settings:
       desc: 顯示更加詳細的異常堆棧追蹤資訊
   campus:
     title: 你的校區
-    desc: 不同校區有不同的時間表
+    desc: 校區有各自的時間表
   studentId:
     studentIdCopy2ClipboardTip: 你的學號被複製到剪貼板啦
   changeOaPwd:

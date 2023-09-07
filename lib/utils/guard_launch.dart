@@ -11,7 +11,7 @@ Future<bool> guardLaunchUrl(BuildContext ctx, Uri url) async {
       return true;
     }
     try {
-      return await launchUrl(url);
+      return await launchUrl(url, mode: LaunchMode.externalApplication);
     } catch (err) {
       return false;
     }

@@ -33,6 +33,14 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   final storage = TimetableInit.storage;
 
   Future<void> goImport() async {
+    if (isLoginGuarded(context)) {
+      await importFromFile();
+    } else {
+      await importFromSchoolServer();
+    }
+  }
+
+  Future<void> importFromSchoolServer() async {
     final id2timetable = await context.push<({String id, SitTimetable timetable})>("/timetable/import");
     if (id2timetable != null) {
       final (:id, timetable: _) = id2timetable;
@@ -70,7 +78,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: isLoginGuarded(context) ? importFromFile : goImport,
+        onPressed: goImport,
         elevation: 10,
         child: const Icon(Icons.add_outlined),
       ),

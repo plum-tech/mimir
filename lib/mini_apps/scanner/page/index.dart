@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -85,6 +86,7 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
         HapticFeedback.heavyImpact();
         final qrcode = captured.barcodes.firstOrNull;
         if (qrcode != null) {
+          await context.showTip(title: "Result",desc: qrcode.rawValue.toString(), ok: "OK");
           Navigator.pop(context, qrcode.rawValue);
         }
       },

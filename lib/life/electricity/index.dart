@@ -26,8 +26,8 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
   initState() {
     super.initState();
     ElectricityBalanceInit.storage.onRoomBalanceChanged.addListener(updateRoomAndBalance);
-    // auto refresh per minute.
-    refreshTimer = runPeriodically(const Duration(minutes: 5), (timer) async {
+    // The electricity balance is refreshed approximately every 15 minutes.
+    refreshTimer = runPeriodically(const Duration(minutes: 15), (timer) async {
       await _refresh();
     });
   }
