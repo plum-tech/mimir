@@ -11,10 +11,11 @@ timetable:
     exportCalender: 匯出日曆
     delete: 刪除
     preview: 預覽
+    use: 使用
+    used: 已使用
     deleteRequest: 確認刪除
     deleteRequestDesc: 你會失去這個課程表，永久地。
     emptyTip: 快去匯入一張新的課程表吧！
-    setToDefault: 設為預設
   detail:
     descFormTitle: 說明
     nameFormTitle: 名稱

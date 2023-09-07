@@ -11,10 +11,11 @@ timetable:
     exportCalender: Export Calender
     delete: Delete
     preview: Preview
+    use: Use
+    used: Used
     deleteRequest: Confirm to delete?
     deleteRequestDesc: You will lose this timetable permanently
     emptyTip: Let's import a new timetable!
-    setToDefault: Set to Default
   detail:
     descFormTitle: Description
     nameFormTitle: Name

@@ -11,10 +11,11 @@ timetable:
     exportCalender: 导出日历
     delete: 删除
     preview: 预览
+    use: 使用
+    used: 已使用
     deleteRequest: 确认删除？
     deleteRequestDesc: 这个课程表将被永久删除
     emptyTip: 快去导入一个课程表吧！
-    setToDefault: 设为默认
   detail:
     descFormTitle: 描述
     nameFormTitle: 名称

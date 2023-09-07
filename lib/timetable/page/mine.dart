@@ -267,7 +267,7 @@ class TimetableEntry extends StatelessWidget {
             if (isSelected)
               FilledButton.icon(
                 icon: const Icon(Icons.check),
-                label: "Used".text(),
+                label: i18n.mine.used.text(),
                 onPressed: null,
               )
             else
@@ -275,14 +275,14 @@ class TimetableEntry extends StatelessWidget {
                 onPressed: () {
                   actions.use(timetable);
                 },
-                child: "Use".text(),
+                child: i18n.mine.use.text(),
               ),
             if (!isSelected)
               OutlinedButton(
                 onPressed: () {
                   actions.preview(timetable);
                 },
-                child: "Preview".text(),
+                child: i18n.mine.preview.text(),
               )
           ].wrap(spacing: 12),
           if (moreAction != null) moreAction!,

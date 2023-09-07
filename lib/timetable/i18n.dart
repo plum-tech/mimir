@@ -42,6 +42,10 @@ class _Mine {
 
   String get exportCalender => "$ns.exportCalender".tr();
 
+  String get use => "$ns.use".tr();
+
+  String get used => "$ns.used".tr();
+
   String get delete => "$ns.delete".tr();
 
   String get preview => "$ns.preview".tr();
@@ -51,8 +55,6 @@ class _Mine {
   String get deleteRequestDesc => "$ns.deleteRequestDesc".tr();
 
   String get emptyTip => "$ns.emptyTip".tr();
-
-  String get setToDefault => "$ns.setToDefault".tr();
 }
 
 class _Detail {
