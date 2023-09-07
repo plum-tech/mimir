@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
+import 'package:mimir/school/yellow_pages/index.dart';
 import 'package:rettulf/rettulf.dart';
 
 class SchoolPage extends StatefulWidget {
@@ -21,7 +22,7 @@ class _SchoolPageState extends State<SchoolPage> {
           title: "School".text(),
         ),
         SliverToBoxAdapter(
-          child: ExamArrApp(),
+          child: YellowPagesAppCard(),
         )
       ],
     );

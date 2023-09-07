@@ -151,7 +151,7 @@ examArrange:
   resultNoResult: 暂无考试结果记录
   seatNumber: 座位号
   startTime: 开始时间
-expense-record:
+expenseRecord:
   title: 查消费
   navigation:
     bill: 账单

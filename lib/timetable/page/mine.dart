@@ -284,7 +284,7 @@ class TimetableEntry extends StatelessWidget {
                 },
                 child: "Preview".text(),
               )
-          ].wrap(spacing: 4),
+          ].wrap(spacing: 12),
           if (moreAction != null) moreAction!,
         ],
       ),
