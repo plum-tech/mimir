@@ -52,8 +52,6 @@ class ItemSearchDelegate<T> extends SearchDelegate {
 
     /// Using [Object.toString] by default.
     Stringifier<T>? stringifier,
-    TextStyle? plainStyle,
-    TextStyle? highlightedStyle,
   }) {
     return ItemSearchDelegate(
       maxCrossAxisExtent: maxCrossAxisExtent,
@@ -83,8 +81,6 @@ class ItemSearchDelegate<T> extends SearchDelegate {
           ctx,
           candidate: candidate,
           query: query,
-          plainStyle: plainStyle,
-          highlightedStyle: highlightedStyle,
         );
         return itemBuilder(ctx, selectIt, highlighted);
       },
@@ -179,14 +175,14 @@ Widget highlight(
   BuildContext ctx, {
   required String candidate,
   required String query,
-  TextStyle? plainStyle,
-  TextStyle? highlightedStyle,
 }) {
   final parts = candidate.split(query);
   final texts = <TextSpan>[];
+  final baseStyle = ctx.textTheme.titleSmall;
+  final plainStyle = baseStyle?.copyWith(color: baseStyle.color?.withOpacity(0.5));
+  final highlightedStyle = baseStyle?.copyWith(color: ctx.colorScheme.primary, fontWeight: FontWeight.bold);
   for (var i = 0; i < parts.length; i++) {
-    // TODO: Color issue in light mode.
-    texts.add(TextSpan(text: parts[i], style: plainStyle ?? TextStyle(color: Colors.grey.withOpacity(0.5))));
+    texts.add(TextSpan(text: parts[i], style: plainStyle));
     if (i < parts.length - 1) {
       texts.add(TextSpan(text: query, style: highlightedStyle));
     }
