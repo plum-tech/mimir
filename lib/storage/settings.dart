@@ -45,6 +45,8 @@ class SettingsImpl {
 
   set campus(Campus newV) => box.put(_K.campus, newV);
 
+  ValueListenable<Box> get $campus => box.listenable(keys: [_K.campus]);
+
   // theme
   Color? get themeColor {
     final value = box.get(_ThemeK.themeColor);
@@ -63,6 +65,8 @@ class SettingsImpl {
   ThemeMode get themeMode => box.get(_ThemeK.themeMode) ?? ThemeMode.system;
 
   set themeMode(ThemeMode value) => box.put(_ThemeK.themeMode, value);
+
+  ValueListenable<Box> get $themeMode => box.listenable(keys: [_ThemeK.themeMode]);
 
   ValueListenable<Box> get onThemeChanged => box.listenable(keys: [_ThemeK.themeMode, _ThemeK.themeColor]);
 

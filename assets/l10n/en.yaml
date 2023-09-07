@@ -252,7 +252,7 @@ settings:
       desc: Detailed stacktrace will be shown
   campus:
     title: Your campus
-    desc: Every campus has a different timetable
+    desc: Timetables vary
   studentId:
     studentIdCopy2ClipboardTip: Your student ID is copied
   changeOaPwd:

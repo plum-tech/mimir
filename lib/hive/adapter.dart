@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:mimir/credential/symbol.dart';
+import 'package:mimir/entity/campus.dart';
 import 'package:mimir/life/electricity/entity/balance.dart';
 import 'package:mimir/mini_apps/activity/entity/detail.dart';
 import 'package:mimir/mini_apps/activity/entity/list.dart';
@@ -21,6 +22,7 @@ class HiveAdapter {
     // Basic
     ~VersionAdapter();
     ~ThemeModeAdapter();
+    ~CampusAdapter();
 
     // Credential
     ~OaCredentialAdapter();

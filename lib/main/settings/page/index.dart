@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/app.dart';
 import 'package:mimir/credential/symbol.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/entity/campus.dart';
@@ -10,7 +9,6 @@ import 'package:mimir/global/init.dart';
 import 'package:mimir/hive/init.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/main/settings/page/developer.dart';
-import 'package:mimir/main/settings/page/language.dart';
 import 'package:mimir/storage/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:unicons/unicons.dart';
@@ -122,22 +120,18 @@ class _SettingsPageState extends State<SettingsPage> {
       all.add(const Divider());
     }
 
-    all.add(const CampusSelectorTile());
+    all.add(CampusSelectorTile(key: UniqueKey()));
 
-    all.add(LanguageSelectorTile(
-      onLanguageChanged: () {
-        setState(() {});
-      },
-    ));
-    all.add(const ThemeModeTile());
+    all.add(LanguageSelectorTile(key: UniqueKey()));
+    all.add(ThemeModeTile(key: UniqueKey()));
 
     all.add(const Divider());
     if (kDebugMode || Settings.isDeveloperMode) {
-      all.add(const DevOptionsTile());
+      all.add(DevOptionsTile(key: UniqueKey()));
     }
-    all.add(const ClearCacheTile());
-    all.add(const WipeDataTile());
-    all.add(const VersionTile());
+    all.add(ClearCacheTile(key: UniqueKey()));
+    all.add(WipeDataTile(key: UniqueKey()));
+    all.add(VersionTile(key: UniqueKey()));
     return all;
   }
 
@@ -205,12 +199,12 @@ class _ThemeModeTileState extends State<ThemeModeTile> {
   @override
   void initState() {
     super.initState();
-    Settings.onThemeChanged.addListener(refresh);
+    Settings.$themeMode.addListener(refresh);
   }
 
   @override
   void dispose() {
-    Settings.onThemeChanged.removeListener(refresh);
+    Settings.$themeMode.removeListener(refresh);
     super.dispose();
   }
 
@@ -238,9 +232,29 @@ class _ThemeModeTileState extends State<ThemeModeTile> {
   }
 }
 
-class CampusSelectorTile extends StatelessWidget {
+class CampusSelectorTile extends StatefulWidget {
   const CampusSelectorTile({super.key});
 
+  @override
+  State<CampusSelectorTile> createState() => _CampusSelectorTileState();
+}
+
+class _CampusSelectorTileState extends State<CampusSelectorTile> {
+  @override
+  void initState() {
+    super.initState();
+    Settings.$campus.addListener(refresh);
+  }
+
+  @override
+  void dispose() {
+    Settings.$campus.removeListener(refresh);
+    super.dispose();
+  }
+
+  void refresh() {
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -267,12 +281,7 @@ class CampusSelectorTile extends StatelessWidget {
 }
 
 class LanguageSelectorTile extends StatelessWidget {
-  final VoidCallback? onLanguageChanged;
-
-  const LanguageSelectorTile({
-    super.key,
-    this.onLanguageChanged,
-  });
+  const LanguageSelectorTile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -281,18 +290,21 @@ class LanguageSelectorTile extends StatelessWidget {
       leading: const Icon(Icons.translate_rounded),
       title: i18n.language.title.text(),
       subtitle: i18n.language.languageOf(curLocale).text(),
-      trailing: const Icon(Icons.navigate_next_rounded),
-      onTap: () async {
-        await context.navigator.push(
-          MaterialPageRoute(
-            builder: (_) => LanguageSelectorPage(
-              candidates: R.supportedLocales,
-              selected: curLocale,
-            ),
-          ),
-        );
-        onLanguageChanged?.call();
-      },
+      trailing: DropdownMenu<Locale>(
+        initialSelection: curLocale,
+        onSelected: (Locale? locale) async {
+          if (locale == null) return;
+          await context.setLocale(locale);
+        },
+        dropdownMenuEntries: R.supportedLocales
+            .map<DropdownMenuEntry<Locale>>(
+              (locale) => DropdownMenuEntry<Locale>(
+                value: locale,
+                label: i18n.language.languageOf(locale),
+              ),
+            )
+            .toList(),
+      ),
     );
   }
 }
