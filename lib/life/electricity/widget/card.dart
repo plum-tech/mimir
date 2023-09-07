@@ -23,14 +23,13 @@ class ElectricityBalanceCard extends StatelessWidget {
   }
 
   Widget buildInfoRow(BuildContext context, IconData icon, String title, String? content, {Color? color}) {
-    final style = TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: color);
     return ListTile(
       leading: Icon(icon),
-      titleTextStyle: style,
+      titleTextStyle: context.textTheme.titleMedium,
       title: Text(title, overflow: TextOverflow.fade),
       trailing: content == null
           ? const LimitedBox(maxWidth: 10, maxHeight: 10, child: CircularProgressIndicator())
-          : content.text(style: style, overflow: TextOverflow.fade),
+          : content.text(style: context.textTheme.titleMedium, overflow: TextOverflow.fade),
     );
   }
 }
