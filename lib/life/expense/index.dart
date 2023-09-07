@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/mini_app.dart';
 import 'package:rettulf/rettulf.dart';
+import "i18n.dart";
 
 class ExpenseTrackerAppCard extends StatefulWidget {
   const ExpenseTrackerAppCard({super.key});
@@ -18,7 +19,7 @@ class _ExpenseTrackerAppCardState extends State<ExpenseTrackerAppCard> {
         SizedBox(height: 120),
         ListTile(
           titleTextStyle: context.textTheme.titleLarge,
-          title: MiniApp.expense.l10nName().text(),
+          title: i18n.title.text(),
         ),
         OverflowBar(
           alignment: MainAxisAlignment.spaceBetween,

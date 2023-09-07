@@ -10,6 +10,8 @@ class _I18n with CommonI18nMixin {
   final navigation = const _Navigation();
   final unit = const UnitI18n();
 
+  String get title => "$ns.title".tr();
+
   String balanceInCard(String amount) => "$ns.balanceInCard".tr(args: [amount]);
 
   String get categories => "$ns.categories".tr();
