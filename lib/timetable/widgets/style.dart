@@ -44,7 +44,8 @@ class TimetableStyleProv extends StatefulWidget {
   final Widget? child;
   final WidgetBuilder? builder;
 
-  const TimetableStyleProv({super.key, this.child, this.builder});
+  const TimetableStyleProv({super.key, this.child, this.builder})
+      : assert(builder != null || child != null, "TimetableStyleProv should have at least one child.");
 
   @override
   TimetableStyleProvState createState() => TimetableStyleProvState();
@@ -71,7 +72,6 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
 
   @override
   Widget build(BuildContext context) {
-    assert(widget.builder != null || widget.child != null, "TimetableStyleProv should have at least one child.");
     return TimetableStyle(
       data: TimetableStyleData(
         TimetableInit.storage.useOldSchoolPalette == true ? CourseColor.oldSchool : CourseColor.newUI,
