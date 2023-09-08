@@ -1,5 +1,6 @@
 name: mimir
-version: 1.0.0
+# For beta version
+version: 1.0.0-dev.1
 
 description: 'Mímir.'
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/widgets/app.dart';
+import 'package:mimir/life/expense_records/entity/local.dart';
 import 'package:mimir/life/expense_records/init.dart';
 import 'widget/balance.dart';
 import 'package:rettulf/rettulf.dart';
@@ -36,16 +38,7 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
   Widget build(BuildContext context) {
     final lastTransaction = ExpenseRecordsInit.storage.lastTransaction;
     return AppCard(
-      view: lastTransaction == null
-          ? const SizedBox()
-          : [
-              BalanceCard(
-                balance: lastTransaction.balanceAfter,
-              ).expanded(flex: 3),
-              TransactionCard(
-                transaction: lastTransaction,
-              ).expanded(flex: 4),
-            ].row(),
+      view: lastTransaction == null ? const SizedBox() : TransactionCardPanel(lastTransaction),
       title: i18n.title.text(),
       leftActions: [
         FilledButton.icon(
@@ -69,5 +62,40 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
         )
       ],
     );
+  }
+}
+
+class TransactionCardPanel extends StatefulWidget {
+  final Transaction transaction;
+
+  const TransactionCardPanel(this.transaction, {super.key});
+
+  @override
+  State<TransactionCardPanel> createState() => _TransactionCardPanelState();
+}
+
+class _TransactionCardPanelState extends State<TransactionCardPanel> {
+  final balanceCardKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      setState(() {});
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final box = balanceCardKey.currentContext?.findRenderObject() as RenderBox?;
+    return [
+      BalanceCard(
+        key: balanceCardKey,
+        balance: widget.transaction.balanceAfter,
+      ).expanded(flex: 6),
+      TransactionCard(
+        transaction: widget.transaction,
+      ).expanded(flex: 5),
+    ].row().sized(h: box?.size.height);
   }
 }

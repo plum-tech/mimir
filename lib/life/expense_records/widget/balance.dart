@@ -24,7 +24,7 @@ class BalanceCard extends StatelessWidget {
       ),
       AutoSizeText(
         removeTrailingZeros ? _removeTrailingZeros(balance) : balance.toStringAsFixed(2),
-        style: textTheme.displayLarge,
+        style: textTheme.displayMedium,
         maxLines: 1,
       ),
       AutoSizeText(
@@ -35,6 +35,7 @@ class BalanceCard extends StatelessWidget {
     ]
         .column(
           caa: CrossAxisAlignment.start,
+          maa: MainAxisAlignment.spaceEvenly,
         )
         .padAll(10)
         .inCard();

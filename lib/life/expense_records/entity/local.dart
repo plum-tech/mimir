@@ -67,7 +67,7 @@ class Transaction {
 }
 
 final _textInBrackets = RegExp(r'\([^)]*\)');
-extension TransactionEnchanced on Transaction {
+extension TransactionX on Transaction {
   bool get isConsume => (balanceAfter - balanceBefore) < 0;
 
   String? get bestTitle {
