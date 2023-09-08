@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import "../i18n.dart";
 
 class BalanceCard extends StatelessWidget {
   final double? elevation;
@@ -19,8 +20,8 @@ class BalanceCard extends StatelessWidget {
     final textTheme = context.textTheme;
     return [
       AutoSizeText(
-        "Balance",
-        style: textTheme.headlineSmall,
+        i18n.view.balance,
+        style: textTheme.titleLarge,
         maxLines: 1,
       ),
       AutoSizeText(
@@ -29,8 +30,8 @@ class BalanceCard extends StatelessWidget {
         maxLines: 1,
       ),
       AutoSizeText(
-        "RMB",
-        style: textTheme.titleSmall,
+        i18n.view.rmb,
+        style: textTheme.titleMedium,
         maxLines: 1,
       ),
     ]

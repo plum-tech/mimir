@@ -166,6 +166,9 @@ expenseRecords:
   lastTransaction: "¥{amount} {place}"
   income: "Income: ¥{}"
   outcome: "Outcome: ¥{}"
+  view:
+    balance: Balance
+    rmb: RMB
   stats:
     title: Statistics
     categories: Categories

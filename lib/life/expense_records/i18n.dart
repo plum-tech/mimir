@@ -9,6 +9,7 @@ class _I18n with CommonI18nMixin {
   static const ns = "expenseRecords";
   final unit = const UnitI18n();
   final stats = const _Stats();
+  final view = const _View();
 
   String get title => "$ns.title".tr();
 
@@ -38,4 +39,14 @@ class _Stats {
   String get categories => "$ns.categories".tr();
 
   String get total => "$ns.total".tr();
+}
+
+class _View {
+  const _View();
+
+  static const ns = "${_I18n.ns}.view";
+
+  String get balance => "$ns.balance".tr();
+
+  String get rmb => "$ns.rmb".tr();
 }

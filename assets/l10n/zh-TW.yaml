@@ -164,6 +164,9 @@ expenseRecords:
   outcome: "消費: ¥{}"
   balanceInCard: "卡內餘額 ¥{}"
   lastTransaction: "¥{amount} {place}"
+  view:
+    balance: 卡內餘額
+    rmb: 元
   stats:
     title: 消費統計
     categories: 消費類別

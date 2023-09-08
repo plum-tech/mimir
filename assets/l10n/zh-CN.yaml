@@ -166,6 +166,9 @@ expenseRecords:
   lastTransaction: "¥{amount} {place}"
   income: "收入: {} 元"
   outcome: "支出: {} 元"
+  view:
+    balance: 卡内余额
+    rmb: 元
   stats:
     title: 消费统计
     categories: 消费名目
