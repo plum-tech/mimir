@@ -7,7 +7,7 @@ import '../entity/course.dart';
 import '../entity/entity.dart';
 
 class _K {
-  static const timetableIds = "/timetableIds";
+  static const timetableIdList = "/timetableIdList";
   static const lastTimetableId = "/lastTimetableId";
   static const usedTimetableId = "/usedTimetableId";
   static const lastDisplayMode = "/lastDisplayMode";
@@ -38,9 +38,9 @@ class TimetableStorage {
 
   set lastTimetableId(int newValue) => box.put(_K.lastTimetableId, newValue);
 
-  List<String> get timetableIds => box.get(_K.timetableIds) ?? <String>[];
+  List<String> get timetableIds => box.get(_K.timetableIdList) ?? <String>[];
 
-  set timetableIds(List<String>? newValue) => box.put(_K.timetableIds, newValue);
+  set timetableIds(List<String>? newValue) => box.put(_K.timetableIdList, newValue);
 
   SitTimetable? getSitTimetableById({required String? id}) {
     if (id == null) return null;

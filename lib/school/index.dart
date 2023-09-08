@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/school/yellow_pages/index.dart';
 import 'package:rettulf/rettulf.dart';
+import 'i18n.dart';
 
 class SchoolPage extends StatefulWidget {
   const SchoolPage({super.key});
@@ -19,9 +20,9 @@ class _SchoolPageState extends State<SchoolPage> {
           pinned: true,
           snap: false,
           floating: false,
-          title: "School".text(),
+          title: i18n.navigation.text(),
         ),
-        SliverToBoxAdapter(
+        const SliverToBoxAdapter(
           child: YellowPagesAppCard(),
         )
       ],

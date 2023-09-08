@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/card.dart';
+import 'package:mimir/life/electricity/index.dart';
 import 'package:mimir/life/expense_records/index.dart';
-import 'package:mimir/mini_app.dart';
 import 'package:rettulf/rettulf.dart';
 
-import 'electricity/index.dart';
+import 'i18n.dart';
 
 class LifePage extends StatefulWidget {
   const LifePage({super.key});
@@ -22,11 +21,12 @@ class _LifePageState extends State<LifePage> {
           pinned: true,
           snap: false,
           floating: false,
+          title: i18n.navigation.text(),
         ),
-        SliverToBoxAdapter(
-          child: ExpenseTrackerAppCard(),
+        const SliverToBoxAdapter(
+          child: ExpenseRecordsAppCard(),
         ),
-        SliverToBoxAdapter(
+        const SliverToBoxAdapter(
           child: ElectricityBalanceAppCard(),
         ),
       ],

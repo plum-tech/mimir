@@ -37,7 +37,7 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
         title: $balance >>
             (ctx, v) {
               if (v == null) {
-                return MiniApp.expense.l10nName().text();
+                return i18n.title.text();
               } else {
                 return i18n.balanceInCard(v.toStringAsFixed(2)).text();
               }
@@ -66,7 +66,9 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
     setState(() {
       this.records = records;
       if (this.records.isNotEmpty) {
-        $balance.value = this.records.last.balanceAfter;
+        final lastTransaction = this.records.last;
+        $balance.value = lastTransaction.balanceAfter;
+        ExpenseRecordsInit.storage.lastTransaction = lastTransaction;
       }
     });
   }
