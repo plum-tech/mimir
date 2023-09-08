@@ -74,7 +74,7 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
     assert(widget.builder != null || widget.child != null, "TimetableStyleProv should have at least one child.");
     return TimetableStyle(
       data: TimetableStyleData(
-        storage.useOldSchoolPalette == true ? CourseColor.oldSchool : CourseColor.v1_5,
+        storage.useOldSchoolPalette == true ? CourseColor.oldSchool : CourseColor.newUI,
         storage.useNewUI ?? false,
       ),
       child: buildChild(),

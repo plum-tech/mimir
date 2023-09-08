@@ -103,7 +103,7 @@ class CourseColor {
     (light: Color(0xB2BC8CF0), dark: Color(0xB29464B4)),
     (light: Color(0xB274B9FF), dark: Color(0xB23855C8)),
   ];
-  static const List<Color2Mode> v1_5 = [
+  static const List<Color2Mode> newUI = [
     (light: Color(0xD285e779), dark: Color(0xDF21520f)), // green
     (light: Color(0xD2c3e8ff), dark: Color(0xDF004c68)), // sky
     (light: Color(0xD2ffa6bb), dark: Color(0xDF8e2f56)), // pink

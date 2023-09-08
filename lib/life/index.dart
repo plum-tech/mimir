@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/life/electricity/index.dart';
 import 'package:mimir/life/expense_records/index.dart';
+import 'package:mimir/storage/settings.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'i18n.dart';
@@ -13,8 +14,27 @@ class LifePage extends StatefulWidget {
 }
 
 class _LifePageState extends State<LifePage> {
+  bool enableElectricity = true;
+
+  @override
+  void initState() {
+    Settings.$campus.addListener(refresh);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Settings.$campus.removeListener(refresh);
+    super.dispose();
+  }
+
+  void refresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    final campus = Settings.campus;
     return CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -26,9 +46,10 @@ class _LifePageState extends State<LifePage> {
         const SliverToBoxAdapter(
           child: ExpenseRecordsAppCard(),
         ),
-        const SliverToBoxAdapter(
-          child: ElectricityBalanceAppCard(),
-        ),
+        if (campus.capability.enableElectricity)
+          const SliverToBoxAdapter(
+            child: ElectricityBalanceAppCard(),
+          ),
       ],
     );
   }
