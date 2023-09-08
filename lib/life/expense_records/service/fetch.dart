@@ -17,17 +17,17 @@ class ExpenseFetchService {
   static const urlPath = "https://xgfy.sit.edu.cn/yktapi/services/querytransservice/querytrans";
   final ISession session;
 
-  ExpenseFetchService(this.session);
+  const ExpenseFetchService(this.session);
 
   Future<List<Transaction>> fetch({
     required String studentID,
     required DateTime from,
     required DateTime to,
   }) async {
-    String curTs = format(DateTime.now());
-    String fromTs = format(from);
-    String toTs = format(to);
-    String auth = composeAuth(studentID, fromTs, toTs, curTs);
+    final curTs = format(DateTime.now());
+    final fromTs = format(from);
+    final toTs = format(to);
+    final auth = composeAuth(studentID, fromTs, toTs, curTs);
 
     final res = await session.request(
       urlPath,
@@ -47,18 +47,18 @@ class ExpenseFetchService {
   }
 
   DataPackRaw parseDataPack(dynamic data) {
-    var res = HashMap<String, dynamic>.of(data);
-    var retdataRaw = res["retdata"];
-    var retdata = json.decode(retdataRaw);
+    final res = HashMap<String, dynamic>.of(data);
+    final retdataRaw = res["retdata"];
+    final retdata = json.decode(retdataRaw);
     res["retdata"] = retdata;
     return DataPackRaw.fromJson(res);
   }
 
   String composeAuth(String studentId, String from, String to, String cur) {
-    String full = studentId + from + to + cur;
-    var msg = utf8.encode(full);
-    var key = utf8.encode(magicNumber);
-    var hmac = Hmac(sha1, key);
+    final full = studentId + from + to + cur;
+    final msg = utf8.encode(full);
+    final key = utf8.encode(magicNumber);
+    final hmac = Hmac(sha1, key);
     return hmac.convert(msg).toString();
   }
 }
