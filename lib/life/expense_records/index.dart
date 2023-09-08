@@ -6,6 +6,7 @@ import 'widget/balance.dart';
 import 'package:rettulf/rettulf.dart';
 
 import "i18n.dart";
+import 'widget/transaction.dart';
 
 class ExpenseRecordsAppCard extends StatefulWidget {
   const ExpenseRecordsAppCard({super.key});
@@ -35,18 +36,16 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
   Widget build(BuildContext context) {
     final lastTransaction = ExpenseRecordsInit.storage.lastTransaction;
     return AppCard(
-      view: AnimatedSize(
-        duration: const Duration(milliseconds: 300),
-        child: lastTransaction == null
-            ? const SizedBox()
-            : [
-                BalanceCard(
-                  balance: lastTransaction.balanceAfter,
-                  elevation: 4,
-                ).expanded(flex: 3),
-                const SizedBox().expanded(flex: 4),
-              ].row(),
-      ),
+      view: lastTransaction == null
+          ? const SizedBox()
+          : [
+              BalanceCard(
+                balance: lastTransaction.balanceAfter,
+              ).expanded(flex: 3),
+              TransactionCard(
+                transaction: lastTransaction,
+              ).expanded(flex: 4),
+            ].row(),
       title: i18n.title.text(),
       leftActions: [
         FilledButton.icon(

@@ -4,14 +4,12 @@ import 'package:rettulf/rettulf.dart';
 import "../i18n.dart";
 
 class BalanceCard extends StatelessWidget {
-  final double? elevation;
   final double balance;
   final bool removeTrailingZeros;
 
   const BalanceCard({
     super.key,
     required this.balance,
-    this.elevation,
     this.removeTrailingZeros = false,
   });
 
@@ -36,11 +34,10 @@ class BalanceCard extends StatelessWidget {
       ),
     ]
         .column(
-          mas: MainAxisSize.min,
           caa: CrossAxisAlignment.start,
         )
         .padAll(10)
-        .inCard(elevation: elevation);
+        .inCard();
   }
 }
 

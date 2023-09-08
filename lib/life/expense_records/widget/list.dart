@@ -6,6 +6,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/local.dart';
 import '../i18n.dart';
+import 'transaction.dart';
 
 class TransactionList extends StatefulWidget {
   final List<Transaction> records;
@@ -100,49 +101,4 @@ class _TransactionListState extends State<TransactionList> {
     }
   }
   return (income: income, outcome: outcome);
-}
-
-// return GroupedListView<Transaction, int>(
-//   // 生成每一组的头部
-//   groupHeaderBuilder: (Transaction firstGroupRecord) {
-//     double totalSpent = 0;
-//     double totalIncome = 0;
-//     int month = firstGroupRecord.datetime.month;
-//     int year = firstGroupRecord.datetime.year;
-//
-//     for (final element in records) {
-//       if (element.datetime.month == month && element.datetime.year == year) {
-//         if (element.isConsume) {
-//           totalSpent += element.deltaAmount;
-//         } else {
-//           totalIncome += element.deltaAmount;
-//         }
-//       }
-//     }
-//     return ListTile(
-//       tileColor: context.bgColor,
-//       title: context.formatYmText(firstGroupRecord.datetime).text(style: groupTitleStyle),
-//       subtitle:
-//           "${i18n.spentStatistics(totalSpent.toStringAsFixed(2))} ${i18n.incomeStatistics(totalIncome.toStringAsFixed(2))}"
-//               .text(style: groupSubtitleStyle),
-//     );
-//   },
-// );
-
-class TransactionTile extends StatelessWidget {
-  final Transaction transaction;
-
-  const TransactionTile(this.transaction, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(transaction.bestTitle ?? i18n.unknown, style: context.textTheme.titleSmall),
-      subtitle: context.formatYmdhmsNum(transaction.datetime).text(),
-      leading: transaction.type.icon.make(color: transaction.type.color, size: 32),
-      trailing: transaction.toReadableString().text(
-            style: TextStyle(color: transaction.billColor, fontWeight: FontWeight.bold, fontSize: 18),
-          ),
-    );
-  }
 }

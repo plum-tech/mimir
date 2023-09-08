@@ -35,7 +35,19 @@ class AppCard extends StatelessWidget {
     final view = this.view;
     return FilledCard(
       child: [
-        if (view != null) view,
+        Theme(
+          data: context.theme.copyWith(
+            cardTheme: context.theme.cardTheme.copyWith(
+              // in light mode, cards look in a lower level.
+              elevation: context.isDarkMode ? 4 : 2,
+            ),
+          ),
+          child: AnimatedSize(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.fastLinearToSlowEaseIn,
+            child: view,
+          ),
+        ),
         ListTile(
           titleTextStyle: textTheme.titleLarge,
           title: title,

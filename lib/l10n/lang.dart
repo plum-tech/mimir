@@ -30,6 +30,8 @@ abstract class _RegionalFormatter {
   DateFormat get ymdNum;
 
   DateFormat get ymdhmsNum;
+
+  DateFormat get mdHmNum;
 }
 
 class Lang {
@@ -71,6 +73,8 @@ class Lang {
 
   static DateFormat ymdhmsNum(String lang, String? country) => _getFormatterFrom(lang, country).ymdhmsNum;
 
+  static DateFormat mdHmNum(String lang, String? country) => _getFormatterFrom(lang, country).mdHmNum;
+
   static const supports = [
     enLocale, // generic English 'en'
     zhLocale, // generic Chinese 'zh'
@@ -80,39 +84,45 @@ class Lang {
 
 class _ZhFormatter implements _RegionalFormatter {
   @override
-  DateFormat get ymdText => DateFormat("yyyy年M月d日", "zh_CN");
+  final ymdText = DateFormat("yyyy年M月d日", "zh_CN");
   @override
   final ymdWeekText = DateFormat("yyyy年M月d日 EEEE", "zh_CN");
   @override
   final ymText = DateFormat("yyyy年M月", "zh_CN");
   @override
-  final ymdNum = DateFormat("yyyy-M-d", "zh_CN");
+  final ymdNum = DateFormat("yyyy/M/d", "zh_CN");
   @override
-  final ymdhmsNum = DateFormat("yyyy-MM-dd H:mm:ss", "zh_CN");
+  final ymdhmsNum = DateFormat("yyyy/MM/dd H:mm:ss", "zh_CN");
+  @override
+  final mdHmNum = DateFormat("M/d H:m", "zh_CN");
 }
 
 class _ZhTwFormatter implements _RegionalFormatter {
   @override
-  DateFormat get ymdText => DateFormat("yyyy年M月d日", "zh_TW");
+  final ymdText = DateFormat("yyyy年M月d日", "zh_TW");
   @override
   final ymdWeekText = DateFormat("yyyy年M月d日 EEEE", "zh_TW");
   @override
   final ymText = DateFormat("yyyy年M月", "zh_TW");
   @override
-  final ymdNum = DateFormat("yyyy-M-d", "zh_TW");
+  final ymdNum = DateFormat("yyyy/M/d", "zh_TW");
   @override
-  final ymdhmsNum = DateFormat("yyyy-MM-dd H:mm:ss", "zh_TW");
+  final ymdhmsNum = DateFormat("yyyy/MM/dd H:mm:ss", "zh_TW");
+  @override
+  final mdHmNum = DateFormat("M/d H:m", "zh_TW");
 }
 
 class _EnFormatter implements _RegionalFormatter {
   @override
-  DateFormat get ymdText => DateFormat("MMMM d, yyyy", "en_US");
+  final ymdText = DateFormat("MMMM d, yyyy", "en_US");
   @override
   final ymdWeekText = DateFormat("EEEE, MMMM d, yyyy", "en_US");
   @override
   final ymText = DateFormat("MMMM, yyyy", "en_US");
   @override
-  final ymdNum = DateFormat("M-d-yyyy", "en_US");
+  final ymdNum = DateFormat("M/d/yyyy", "en_US");
   @override
-  final ymdhmsNum = DateFormat("MM-dd-yyyy H:mm:ss", "en_US");
+  final ymdhmsNum = DateFormat("MM/dd/yyyy H:mm:ss", "en_US");
+  @override
+  final mdHmNum = DateFormat("M/d H:m", "en_US");
 }

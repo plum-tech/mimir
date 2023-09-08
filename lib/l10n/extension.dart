@@ -40,6 +40,12 @@ extension I18nBuildContext on BuildContext {
 
   /// e.g.: 8:32:59
   String formatHms(DateTime date) => Lang.hms.format(date);
+
+  /// e.g.: 9/21 7:32
+  String formatMdHmNum(DateTime date){
+    final curLocale = locale;
+    return Lang.mdHmNum(curLocale.languageCode, curLocale.countryCode).format(date);
+  }
 }
 
 extension LocaleExtension on Locale {

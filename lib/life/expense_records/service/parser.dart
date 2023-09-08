@@ -27,13 +27,17 @@ TransactionType parseType(Transaction trans) {
   return TransactionType.other;
 }
 
+String _mapChineseChar(String title) {
+  return title.replaceAll("（", "(").replaceAll("）", ")");
+}
+
 Transaction parseFull(TransactionRaw raw) {
   final transaction = Transaction(
     datetime: parseDatetime(raw),
     balanceBefore: raw.balanceBeforeTransaction,
     balanceAfter: raw.balanceAfterTransaction,
     deltaAmount: raw.amount.abs(),
-    deviceName: raw.deviceName ?? "",
+    deviceName: _mapChineseChar(raw.deviceName ?? ""),
     note: raw.name,
     consumerId: raw.customerId,
     type: TransactionType.other,

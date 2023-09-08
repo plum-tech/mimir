@@ -79,15 +79,11 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
     final selectedRoom = ElectricityBalanceInit.storage.selectedRoom;
     final balance = ElectricityBalanceInit.storage.lastBalance;
     return AppCard(
-      view: AnimatedSize(
-        duration: const Duration(milliseconds: 300),
-        child: selectedRoom == null
-            ? const SizedBox()
-            : ElectricityBalanceCard(
-                balance: balance,
-                elevation: 4,
-              ).sized(h: 120),
-      ),
+      view: selectedRoom == null
+          ? const SizedBox()
+          : ElectricityBalanceCard(
+        balance: balance,
+      ).sized(h: 120),
       title: i18n.title.text(),
       subtitle: selectedRoom == null ? null : "#$selectedRoom".text(),
       leftActions: [

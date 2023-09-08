@@ -66,21 +66,22 @@ class Transaction {
   }
 }
 
+final _textInBrackets = RegExp(r'\([^)]*\)');
 extension TransactionEnchanced on Transaction {
   bool get isConsume => (balanceAfter - balanceBefore) < 0;
 
   String? get bestTitle {
     if (deviceName.isNotEmpty) {
-      return _stylizeTitle(deviceName);
+      return deviceName;
     } else if (note.isNotEmpty) {
-      return _stylizeTitle(note);
+      return note;
     } else {
       return null;
     }
   }
 
-  String _stylizeTitle(String title) {
-    return title.replaceAll("（", "(").replaceAll("）", ")");
+  String shortDeviceName() {
+    return deviceName.replaceAll(_textInBrackets, '');
   }
 
   Color get billColor => isConsume ? Colors.redAccent : Colors.green;

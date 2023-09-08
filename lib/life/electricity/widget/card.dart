@@ -6,12 +6,10 @@ import '../i18n.dart';
 
 class ElectricityBalanceCard extends StatelessWidget {
   final ElectricityBalance? balance;
-  final double? elevation;
 
   const ElectricityBalanceCard({
     super.key,
     required this.balance,
-    this.elevation,
   });
 
   @override
@@ -19,7 +17,7 @@ class ElectricityBalanceCard extends StatelessWidget {
     return [
       buildInfoRow(context, Icons.offline_bolt, i18n.remainingPower, balance.powerText),
       buildInfoRow(context, Icons.savings, i18n.balance, balance.balanceText, color: balance.balanceColor),
-    ].column(maa: MainAxisAlignment.spaceEvenly).inCard(elevation: elevation);
+    ].column(maa: MainAxisAlignment.spaceEvenly).inCard();
   }
 
   Widget buildInfoRow(BuildContext context, IconData icon, String title, String? content, {Color? color}) {

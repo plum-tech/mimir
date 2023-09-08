@@ -43,10 +43,7 @@ class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
   Widget build(BuildContext context) {
     final history = YellowPagesInit.storage.interactHistory ?? const [];
     return AppCard(
-      view: AnimatedSize(
-        duration: const Duration(milliseconds: 300),
-        child: buildHistory(history),
-      ),
+      view: buildHistory(history),
       title: i18n.title.text(),
       leftActions: [
         FilledButton.icon(
