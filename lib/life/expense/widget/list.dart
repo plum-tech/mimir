@@ -19,8 +19,10 @@ class TransactionList extends StatefulWidget {
   State<TransactionList> createState() => _TransactionListState();
 }
 
+typedef YearMonth = ({int year, int month});
+
 class _TransactionListState extends State<TransactionList> {
-  late Map<int, List<Transaction>> month2records;
+  late List<({YearMonth time, List<Transaction> records})> month2records;
 
   @override
   void initState() {
@@ -37,7 +39,33 @@ class _TransactionListState extends State<TransactionList> {
   }
 
   void updateGroupedRecords() {
-    month2records = widget.records.groupListsBy((r) => r.datetime.year * 12 + r.datetime.month);
+    final groupByYearMonth = widget.records
+        .groupListsBy((r) => (year: r.datetime.year, month: r.datetime.month))
+        .entries
+        .map((e) => (time: e.key, records: e.value))
+        .toList();
+    groupByYearMonth.sort((a, b) {
+      final (time: timeA, records: _) = a;
+      final (time: timeB, records: _) = b;
+      switch (timeA.year - timeB.year) {
+        case > 0:
+          return 1;
+        case < 0:
+          return -1;
+        default:
+          switch (timeA.month - timeB.month) {
+            case > 0:
+              return 1;
+            case < 0:
+              return -1;
+            default:
+              return 0;
+          }
+      }
+    });
+    setState(() {
+      month2records = groupByYearMonth;
+    });
   }
 
   @override
@@ -46,11 +74,11 @@ class _TransactionListState extends State<TransactionList> {
     final groupTitleStyle = textTheme.titleMedium;
     final groupSubtitleStyle = textTheme.titleLarge;
     return CustomScrollView(
-      slivers: month2records.entries.map(
+      slivers: month2records.map(
         (e) {
           return GroupedSection(
-            header: "a".text(),
-            items: e.value,
+            header: e.time.toString().text(),
+            items: e.records,
             itemBuilder: (ctx, i, record) {
               return TransactionTile(record);
             },
