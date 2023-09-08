@@ -51,7 +51,7 @@ class _SchoolContactListState extends State<SchoolContactList> {
           .mapIndexed(
             (i, entry) => GroupedSection(
               initialExpanded: widget.isInitialExpanded?.call(i, department2contacts.length) ?? true,
-              header: entry.key.text(),
+              title: entry.key.text(),
               items: entry.value,
               itemBuilder: (ctx, i, contact) {
                 final inHistory = history?.any((e) => e == contact);

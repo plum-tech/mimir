@@ -26,7 +26,7 @@ class _I18n with CommonI18nMixin {
 
   String income(String amount) => "$ns.income".tr(args: [amount]);
 
-  String spent(String amount) => "$ns.spent".tr(args: [amount]);
+  String outcome(String amount) => "$ns.spent".tr(args: [amount]);
 }
 
 class _Stats {

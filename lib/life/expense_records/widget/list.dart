@@ -71,10 +71,12 @@ class _TransactionListState extends State<TransactionList> {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: month2records.mapIndexed(
-        (index,e) {
+        (index, e) {
+          final (:income, :outcome) = accumulate(e.records);
           return GroupedSection(
-            header: context.formatYmText((e.time.toDateTime())).text(),
-            // expand records in this month by default.
+            title: context.formatYmText((e.time.toDateTime())).text(),
+            subtitle: "${i18n.income(income.toStringAsFixed(2))} ${i18n.outcome(outcome.toStringAsFixed(2))}".text(),
+            // expand records in the first month by default.
             initialExpanded: index == 0,
             items: e.records,
             itemBuilder: (ctx, i, record) {
@@ -85,6 +87,19 @@ class _TransactionListState extends State<TransactionList> {
       ).toList(),
     );
   }
+}
+
+({double income, double outcome}) accumulate(List<Transaction> transactions) {
+  double income = 0;
+  double outcome = 0;
+  for (final transaction in transactions) {
+    if (transaction.isConsume) {
+      outcome += transaction.deltaAmount;
+    } else {
+      income += transaction.deltaAmount;
+    }
+  }
+  return (income: income, outcome: outcome);
 }
 
 // return GroupedListView<Transaction, int>(
