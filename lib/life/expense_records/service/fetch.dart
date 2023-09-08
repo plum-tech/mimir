@@ -6,9 +6,9 @@ import 'package:mimir/network/session.dart';
 
 import '../entity/local.dart';
 import '../entity/remote.dart';
-import 'anaylze.dart';
+import 'parser.dart';
 
-class ExpenseGetService {
+class ExpenseFetchService {
   String al2(int v) => v < 10 ? "0$v" : "$v";
 
   String format(DateTime d) => "${d.year}${al2(d.month)}${al2(d.day)}${al2(d.hour)}${al2(d.minute)}${al2(d.second)}";
@@ -17,7 +17,7 @@ class ExpenseGetService {
   static const urlPath = "https://xgfy.sit.edu.cn/yktapi/services/querytransservice/querytrans";
   final ISession session;
 
-  ExpenseGetService(this.session);
+  ExpenseFetchService(this.session);
 
   Future<List<Transaction>> fetch({
     required String studentID,

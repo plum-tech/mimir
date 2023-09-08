@@ -2,11 +2,11 @@ import 'package:hive/hive.dart';
 import 'package:mimir/network/session.dart';
 
 import 'cache/cache.dart';
-import 'service/getter.dart';
+import 'service/fetch.dart';
 import 'storage/local.dart';
 
 class ExpenseRecordsInit {
-  static late ExpenseGetService service;
+  static late ExpenseFetchService service;
   static late ExpenseStorage storage;
   static late CachedExpenseGetDao cache;
 
@@ -14,7 +14,7 @@ class ExpenseRecordsInit {
     required ISession session,
     required Box box,
   }) {
-    service = ExpenseGetService(session);
+    service = ExpenseFetchService(session);
     storage = ExpenseStorage(box);
     cache = CachedExpenseGetDao(service: service, storage: storage);
   }
