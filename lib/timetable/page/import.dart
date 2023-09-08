@@ -175,21 +175,22 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     try {
       final semester = selectedSemester;
       final year = SchoolYear(selectedYear);
-      await Future.wait([
-        service.getTimetable(year, semester),
-        Future.delayed(const Duration(seconds: 1)),
-      ]).then((value) async {
+      try {
+        final (timetable, _) = await (
+          service.getTimetable(year, semester),
+          Future.delayed(const Duration(seconds: 1)),
+        ).wait;
         if (!mounted) return;
         setState(() {
           _status = ImportStatus.end;
         });
-        final id2timetable = await handleTimetableData(context, value[0] as SitTimetable, selectedYear, semester);
+        final id2timetable = await handleTimetableData(context, timetable, selectedYear, semester);
         if (!mounted) return;
         context.pop(id2timetable);
-      }).onError((error, stackTrace) {
+      } catch (error, stackTrace) {
         debugPrint(error.toString());
         debugPrintStack(stackTrace: stackTrace);
-      });
+      }
     } catch (e) {
       setState(() {
         _status = ImportStatus.failed;
