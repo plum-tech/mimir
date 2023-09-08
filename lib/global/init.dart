@@ -4,7 +4,7 @@ import 'package:mimir/global/desktop_init.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/hive/init.dart';
 import 'package:mimir/life/electricity/init.dart';
-import 'package:mimir/life/expense/init.dart';
+import 'package:mimir/life/expense_records/init.dart';
 import 'package:mimir/login/init.dart';
 import 'package:mimir/main/init.dart';
 import 'package:mimir/main/network_tool/init.dart';

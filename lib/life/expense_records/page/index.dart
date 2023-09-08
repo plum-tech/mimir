@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mimir/credential/symbol.dart';
 import 'package:mimir/mini_app.dart';
 import 'package:rettulf/rettulf.dart';
@@ -10,14 +9,14 @@ import '../i18n.dart';
 import '../widget/list.dart';
 import 'statistics.dart';
 
-class ExpenseRecordPage extends StatefulWidget {
-  const ExpenseRecordPage({super.key});
+class ExpenseRecordsPage extends StatefulWidget {
+  const ExpenseRecordsPage({super.key});
 
   @override
-  State<ExpenseRecordPage> createState() => _ExpenseRecordPageState();
+  State<ExpenseRecordsPage> createState() => _ExpenseRecordsPageState();
 }
 
-class _ExpenseRecordPageState extends State<ExpenseRecordPage> {
+class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
   int currentIndex = 0;
 
   final cache = ExpenseTrackerInit.cache;
@@ -97,7 +96,6 @@ class _ExpenseRecordPageState extends State<ExpenseRecordPage> {
     final account = oaCredential.account;
     for (int i = 0; i < 3; i++) {
       try {
-        EasyLoading.showToast(i18n.toastLoading);
         allRecords = await cache.fetch(
           studentID: account,
           from: start,
@@ -105,11 +103,9 @@ class _ExpenseRecordPageState extends State<ExpenseRecordPage> {
           onLocalQuery: refreshRecords,
         );
         refreshRecords(allRecords);
-        EasyLoading.showToast(i18n.toastLoadSuccessful);
         return;
       } catch (_) {}
     }
-    EasyLoading.showToast(i18n.toastLoadFailed);
   }
 
   Widget buildMenu() {
@@ -120,20 +116,13 @@ class _ExpenseRecordPageState extends State<ExpenseRecordPage> {
           onTap: () async {
             try {
               // 关闭用户交互
-              EasyLoading.instance.userInteractions = false;
-              EasyLoading.show(status: i18n.fetchingRecordTip);
               ExpenseTrackerInit.storage
                 ..clear()
                 ..cachedTsEnd = null
                 ..cachedTsStart = null;
               await fetch(DateTime(2010), DateTime.now());
             } catch (e, t) {
-              EasyLoading.showError('${i18n.failed}: ${e.toString().split('\n')[0]}');
             } finally {
-              // 关闭正在加载对话框
-              EasyLoading.dismiss();
-              // 开启用户交互
-              EasyLoading.instance.userInteractions = true;
             }
           },
         ),

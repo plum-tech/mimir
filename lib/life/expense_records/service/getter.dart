@@ -42,11 +42,11 @@ class ExpenseGetService {
       },
       options: SessionOptions(contentType: 'text/plain'),
     );
-    final raw = anaylzeJson(res.data);
+    final raw = parseDataPack(res.data);
     return raw.transactions.map(parseFull).toList();
   }
 
-  DataPackRaw anaylzeJson(dynamic data) {
+  DataPackRaw parseDataPack(dynamic data) {
     var res = HashMap<String, dynamic>.of(data);
     var retdataRaw = res["retdata"];
     var retdata = json.decode(retdataRaw);

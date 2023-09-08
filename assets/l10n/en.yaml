@@ -158,7 +158,7 @@ examArrange:
   resultNoResult: No result record
   seatNumber: Seat No.
   startTime: Start Time
-expenseRecord:
+expenseRecords:
   title: Expense records
   navigation:
     bill: Bill

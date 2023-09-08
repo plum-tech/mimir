@@ -158,7 +158,7 @@ examArrange:
   resultNoResult: 無成績記錄
   seatNumber: 座位號
   startTime: 開始時間
-expenseRecord:
+expenseRecords:
   title: 消費記錄
   navigation:
     bill: 賬單

@@ -90,7 +90,6 @@ dependencies:
   qr_flutter: ^4.1.0                      # Qr code generate
   mobile_scanner: ^3.4.1                  # qrcode scanner
   cached_network_image: ^3.2.3
-  flutter_easyloading: ^3.0.5
   modal_bottom_sheet: ^3.0.0-pre
   auto_size_text: ^3.0.0
   markdown: ^7.1.0

@@ -22,21 +22,31 @@ class TransactionList extends StatefulWidget {
 typedef YearMonth = ({int year, int month});
 
 extension YearMonthX on YearMonth {
-  int compareTo(YearMonth other) {
+  int compareTo(YearMonth other, {bool ascending = true}) {
+    final sign = ascending ? 1 : -1;
     return switch (this.year - other.year) {
-      > 0 => 1,
-      < 0 => -1,
-      _ => switch (this.month - other.month) {
-          > 0 => 1,
-          < 0 => -1,
-          _ => 0,
-        }
+      > 0 => 1 * sign,
+      < 0 => -1 * sign,
+      _ =>
+      switch (this.month - other.month) {
+        > 0 => 1 * sign,
+        < 0 => -1 * sign,
+        _ => 0,
+      }
     };
   }
+
+  DateTime toDateTime() => DateTime(year, month);
 }
 
 class _TransactionListState extends State<TransactionList> {
-  late List<({YearMonth time, List<Transaction> records})> month2records;
+  late List<({YearMonth time, List<Transaction> records})
+
+  >
+
+  month2records
+
+  ;
 
   @override
   void initState() {
@@ -58,7 +68,7 @@ class _TransactionListState extends State<TransactionList> {
         .entries
         .map((e) => (time: e.key, records: e.value))
         .toList();
-    groupByYearMonth.sort((a, b) => a.time.compareTo(b.time));
+    groupByYearMonth.sort((a, b) => a.time.compareTo(b.time, ascending: false));
     setState(() {
       month2records = groupByYearMonth;
     });
@@ -66,14 +76,14 @@ class _TransactionListState extends State<TransactionList> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = context.textTheme;
-    final groupTitleStyle = textTheme.titleMedium;
-    final groupSubtitleStyle = textTheme.titleLarge;
+    final now = DateTime.now();
     return CustomScrollView(
       slivers: month2records.map(
-        (e) {
+            (e) {
           return GroupedSection(
-            header: e.time.toString().text(),
+            header: context.formatYmText((e.time.toDateTime())).text(),
+            // expand records in this month by default.
+            initialExpanded: now.year == e.time.year && now.month == e.time.month,
             items: e.records,
             itemBuilder: (ctx, i, record) {
               return TransactionTile(record);
@@ -86,9 +96,6 @@ class _TransactionListState extends State<TransactionList> {
 }
 
 // return GroupedListView<Transaction, int>(
-//   groupBy: (element) => element.datetime.year * 12 + element.datetime.month,
-//   order: GroupedListOrder.DESC,
-//   itemComparator: (item1, item2) => item1.datetime.compareTo(item2.datetime),
 //   // 生成每一组的头部
 //   groupHeaderBuilder: (Transaction firstGroupRecord) {
 //     double totalSpent = 0;
@@ -127,8 +134,8 @@ class TransactionTile extends StatelessWidget {
       subtitle: context.formatYmdhmsNum(transaction.datetime).text(),
       leading: transaction.type.icon.make(color: transaction.type.color, size: 32),
       trailing: transaction.toReadableString().text(
-            style: TextStyle(color: transaction.billColor, fontWeight: FontWeight.bold, fontSize: 18),
-          ),
+        style: TextStyle(color: transaction.billColor, fontWeight: FontWeight.bold, fontSize: 18),
+      ),
     );
   }
 }

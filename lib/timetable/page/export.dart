@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/utils/url_launcher.dart';
 
@@ -44,7 +43,6 @@ class ExportDialog {
             TextButton(
               onPressed: () async {
                 await Clipboard.setData(ClipboardData(text: url));
-                EasyLoading.showSuccess('成功复制到剪切板');
               },
               child: const Text('点击此处可复制链接'),
             ),

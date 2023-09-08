@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
-import 'package:mimir/life/expense/index.dart';
+import 'package:mimir/life/expense_records/index.dart';
 import 'package:mimir/mini_app.dart';
 import 'package:rettulf/rettulf.dart';
 

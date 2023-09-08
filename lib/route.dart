@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/life/expense/page/index.dart';
+import 'package:mimir/life/expense_records/page/index.dart';
 import 'package:mimir/life/index.dart';
 import 'package:mimir/main/index.dart';
 import 'package:mimir/main/network_tool/page/index.dart';
@@ -140,8 +140,8 @@ final router = GoRouter(
       redirect: _loginRequired,
     ),
     GoRoute(
-      path: "/expense-record",
-      builder: (ctx, state) => const ExpenseRecordPage(),
+      path: "/expense-records",
+      builder: (ctx, state) => const ExpenseRecordsPage(),
       redirect: _loginRequired,
     ),
     GoRoute(

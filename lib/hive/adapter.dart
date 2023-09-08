@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:mimir/credential/symbol.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/life/electricity/entity/balance.dart';
+import 'package:mimir/life/expense_records/entity/local.dart';
 import 'package:mimir/mini_apps/activity/entity/detail.dart';
 import 'package:mimir/mini_apps/activity/entity/list.dart';
 import 'package:mimir/mini_apps/activity/entity/score.dart';
@@ -69,6 +70,10 @@ class HiveAdapter {
 
     // Library
     ~LibrarySearchHistoryItemAdapter();
+
+    // Expense Records
+    ~TransactionAdapter();
+    ~TransactionTypeAdapter();
 
     // Yellow Pages
     ~SchoolContactAdapter();
