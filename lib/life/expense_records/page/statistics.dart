@@ -1,24 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:mimir/life/expense_records/init.dart';
 import 'package:mimir/widgets/base_line_chart.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/local.dart';
 import '../i18n.dart';
 
-class StatisticsPage extends StatefulWidget {
-  final List<Transaction> records;
-
-  const StatisticsPage({super.key, required this.records});
+class ExpenseStatisticsPage extends StatefulWidget {
+  const ExpenseStatisticsPage({super.key});
 
   @override
-  State<StatisticsPage> createState() => _StatisticsPageState();
+  State<ExpenseStatisticsPage> createState() => _ExpenseStatisticsPageState();
 }
 
-class _StatisticsPageState extends State<StatisticsPage> {
+class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
+  // TODO:
+  late List<Transaction> records = [];
   final now = DateTime.now();
 
   late int selectedYear = now.year;
   late int selectedMonth = now.month;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: i18n.stats.title.text(),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            _buildDateSelector(),
+            _buildChartView(),
+            _buildClassificationView(),
+          ],
+        ),
+      ),
+    );
+  }
 
   List<int> _getYear(List<Transaction> expenseBillDesc) {
     List<int> years = [];
@@ -49,8 +68,8 @@ class _StatisticsPageState extends State<StatisticsPage> {
 
   Widget _buildDateSelector() {
     // TODO: 支持查看全年统计, 此时 chart line 也需要修改.
-    final List<int> years = _getYear(widget.records);
-    final List<int> months = _getMonth(widget.records, years, selectedYear);
+    final List<int> years = _getYear(records);
+    final List<int> months = _getMonth(records, years, selectedYear);
 
     // TODO: 年月不超过当前日期.
     final yearWidgets = years.map((e) => PopupMenuItem<int>(value: e, child: Text(e.toString()))).toList();
@@ -65,7 +84,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
           PopupMenuButton(
             onSelected: (int value) => setState(() {
               selectedYear = value;
-              final monthList = _getMonth(widget.records, years, selectedYear);
+              final monthList = _getMonth(records, years, selectedYear);
               if (!monthList.toSet().contains(selectedMonth)) {
                 selectedMonth = monthList[0];
               }
@@ -85,7 +104,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
 
   // TODO: 这个函数应该放在 DAO 或 service
   List<Transaction> _filterExpense() {
-    return widget.records
+    return records
         .where((element) => element.datetime.year == selectedYear && element.datetime.month == selectedMonth)
         .toList();
   }
@@ -114,7 +133,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 30),
-              child: i18n.navigation.statistics.text(style: context.textTheme.titleLarge).center(),
+              child: i18n.stats.title.text(style: context.textTheme.titleLarge).center(),
             ),
             // const SizedBox(height: 5),
             Center(
@@ -184,24 +203,11 @@ class _StatisticsPageState extends State<StatisticsPage> {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 30),
-            child: i18n.categories.text(style: context.textTheme.titleLarge).center(),
+            child: i18n.stats.categories.text(style: context.textTheme.titleLarge).center(),
           ),
           Column(
             children: _buildClassifiedStat(context),
           )
-        ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          _buildDateSelector(),
-          _buildChartView(),
-          _buildClassificationView(),
         ],
       ),
     );

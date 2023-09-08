@@ -100,7 +100,7 @@ class Init {
       ssoSession: Global.ssoSession,
     );
 
-    ExpenseTrackerInit.init(
+    ExpenseRecordsInit.init(
       session: Global.ssoSession,
       box: HiveBoxInit.expense,
     );

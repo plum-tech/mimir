@@ -7,47 +7,35 @@ class _I18n with CommonI18nMixin {
   const _I18n();
 
   static const ns = "expenseRecords";
-  final navigation = const _Navigation();
   final unit = const UnitI18n();
+  final stats = const _Stats();
 
   String get title => "$ns.title".tr();
 
-  String balanceInCard(String amount) => "$ns.balanceInCard".tr(args: [amount]);
+  String get check => "$ns.check".tr();
 
-  String get categories => "$ns.categories".tr();
+  String get statistics => "$ns.statistics".tr();
+
+  String balanceInCard(String amount) => "$ns.balanceInCard".tr(args: [amount]);
 
   String lastTransaction(String amount, String place) => "$ns.lastTransaction".tr(namedArgs: {
         "amount": amount,
         "place": place,
       });
 
-  String get fetchingRecordTip => "$ns.fetchingRecordTip".tr();
+  String income(String amount) => "$ns.income".tr(args: [amount]);
 
-  String get fetchingTip => "$ns.fetchingTip".tr();
-
-  String incomeStatistics(String amount) => "$ns.incomeStatistics".tr(args: [amount]);
-
-  String spentStatistics(String amount) => "$ns.spentStatistics".tr(args: [amount]);
-
-  String get refreshMenuButton => "$ns.refreshMenuButton".tr();
-
-  String get statistics => "$ns.statistics".tr();
-
-  String get toastLoadFailed => "$ns.toastLoadFailed".tr();
-
-  String get toastLoadSuccessful => "$ns.toastLoadSuccessful".tr();
-
-  String get toastLoading => "$ns.toastLoading".tr();
-
-  String get total => "$ns.total".tr();
+  String spent(String amount) => "$ns.spent".tr(args: [amount]);
 }
 
-class _Navigation {
-  const _Navigation();
+class _Stats {
+  const _Stats();
 
-  static const ns = "${_I18n.ns}.navigation";
+  static const ns = "${_I18n.ns}.stats";
 
-  String get bill => "$ns.bill".tr();
+  String get title => "$ns.title".tr();
 
-  String get statistics => "$ns.statistics".tr();
+  String get categories => "$ns.categories".tr();
+
+  String get total => "$ns.total".tr();
 }

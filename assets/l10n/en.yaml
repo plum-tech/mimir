@@ -160,9 +160,16 @@ examArrange:
   startTime: Start Time
 expenseRecords:
   title: Expense records
-  navigation:
-    bill: Bill
-    statistics: Statistics
+  check: Check
+  statistics: Statistics
+  balanceInCard: "¥{} in Card"
+  lastTransaction: "¥{amount} {place}"
+  income: "Income: ¥{}"
+  outcome: "Outcome: ¥{}"
+  stats:
+    title: Statistics
+    categories: Categories
+    total: Total
   type:
     consume: Consume
     coffee: Café
@@ -174,19 +181,6 @@ expenseRecords:
     topUp: Top Up
     subsidy: Subsidy
     other: Stuff
-  balanceInCard: "¥{} in Card"
-  categories: Categories
-  fetchingRecordTip: Fetching expense record
-  fetchingTip: Fetching expense records from school... Please wait a minute, the network speed depends on the school's server.
-  incomeStatistics: "Income: ¥{}"
-  spentStatistics: "Outcome: ¥{}"
-  refreshMenuButton: Force Refresh
-  statistics: Statistics
-  toastLoadFailed: Network error
-  toastLoadSuccessful: Successful!
-  toastLoading: Loading...
-  total: Total
-  lastTransaction: "¥{amount} {place}"
 homepage:
   campusNetworkConnected: Campus Network Available
   campusNetworkUnconnected: Campus Network Unavailable

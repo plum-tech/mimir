@@ -160,9 +160,14 @@ examArrange:
   startTime: 開始時間
 expenseRecords:
   title: 消費記錄
-  navigation:
-    bill: 賬單
-    statistics: 統計
+  income: "入賬: ¥{}"
+  outcome: "消費: ¥{}"
+  balanceInCard: "卡內餘額 ¥{}"
+  lastTransaction: "¥{amount} {place}"
+  stats:
+    title: 消費統計
+    categories: 消費類別
+    total: 總計
   type:
     consume: 消費
     coffee: 咖啡
@@ -174,19 +179,6 @@ expenseRecords:
     topUp: 充值
     subsidy: 津貼
     other: 雜項
-  balanceInCard: "卡內餘額 ¥{}"
-  categories: 類別
-  fetchingRecordTip: 取回消費記錄中
-  fetchingTip: 從學校取回消費記錄中……請稍等, 網路速度有學校伺服器有關。
-  incomeStatistics: "入賬: ¥{}"
-  spentStatistics: "消費: ¥{}"
-  refreshMenuButton: 重新整理
-  statistics: 消費統計
-  toastLoadFailed: 網路錯誤
-  toastLoadSuccessful: 成功獲取最新數據
-  toastLoading: 正在加載……
-  total: 總計
-  lastTransaction: "¥{amount} {place}"
 homepage:
   campusNetworkConnected: 已連線校園網路
   campusNetworkUnconnected: 未連線校園網路

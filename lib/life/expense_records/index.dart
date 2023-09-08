@@ -26,9 +26,19 @@ class _ExpenseTrackerAppCardState extends State<ExpenseTrackerAppCard> {
       ].row(),
       title: i18n.title.text(),
       leftActions: [
-        FilledButton(onPressed: () async {
-          context.push("/expense-records");
-        }, child: "Check".text()),
+        FilledButton.icon(
+          icon: Icon(Icons.assignment_outlined),
+          onPressed: () async {
+            context.push("/expense-records");
+          },
+          label: i18n.check.text(),
+        ),
+        OutlinedButton(
+          onPressed: () async {
+            context.push("/expense-records/statistics");
+          },
+          child:  i18n.statistics.text(),
+        ),
       ],
       rightActions: [
         IconButton(

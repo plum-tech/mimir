@@ -27,12 +27,11 @@ extension YearMonthX on YearMonth {
     return switch (this.year - other.year) {
       > 0 => 1 * sign,
       < 0 => -1 * sign,
-      _ =>
-      switch (this.month - other.month) {
-        > 0 => 1 * sign,
-        < 0 => -1 * sign,
-        _ => 0,
-      }
+      _ => switch (this.month - other.month) {
+          > 0 => 1 * sign,
+          < 0 => -1 * sign,
+          _ => 0,
+        }
     };
   }
 
@@ -40,13 +39,7 @@ extension YearMonthX on YearMonth {
 }
 
 class _TransactionListState extends State<TransactionList> {
-  late List<({YearMonth time, List<Transaction> records})
-
-  >
-
-  month2records
-
-  ;
+  late List<({YearMonth time, List<Transaction> records})> month2records;
 
   @override
   void initState() {
@@ -79,7 +72,7 @@ class _TransactionListState extends State<TransactionList> {
     final now = DateTime.now();
     return CustomScrollView(
       slivers: month2records.map(
-            (e) {
+        (e) {
           return GroupedSection(
             header: context.formatYmText((e.time.toDateTime())).text(),
             // expand records in this month by default.
@@ -134,8 +127,8 @@ class TransactionTile extends StatelessWidget {
       subtitle: context.formatYmdhmsNum(transaction.datetime).text(),
       leading: transaction.type.icon.make(color: transaction.type.color, size: 32),
       trailing: transaction.toReadableString().text(
-        style: TextStyle(color: transaction.billColor, fontWeight: FontWeight.bold, fontSize: 18),
-      ),
+            style: TextStyle(color: transaction.billColor, fontWeight: FontWeight.bold, fontSize: 18),
+          ),
     );
   }
 }

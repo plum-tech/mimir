@@ -123,5 +123,5 @@ enum TransactionType {
 
   const TransactionType(this.style);
 
-  String localized() => "expense.type.$name".tr();
+  String localized() => "expenseRecords.type.$name".tr();
 }

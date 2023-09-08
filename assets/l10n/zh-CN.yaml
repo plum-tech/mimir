@@ -160,9 +160,16 @@ examArrange:
   startTime: 开始时间
 expenseRecords:
   title: 查消费
-  navigation:
-    bill: 账单
-    statistics: 统计
+  check: 查询
+  statistics: 统计
+  balanceInCard: "卡内余额 {} 元"
+  lastTransaction: "¥{amount} {place}"
+  income: "收入: {} 元"
+  outcome: "支出: {} 元"
+  stats:
+    title: 消费统计
+    categories: 消费名目
+    total: 总计
   type:
     consume: 消费
     coffee: 咖啡
@@ -174,19 +181,6 @@ expenseRecords:
     topUp: 充值
     subsidy: 补贴
     other: 杂项
-  balanceInCard: "卡内余额 {} 元"
-  categories: 消费名目
-  fetchingRecordTip: 消费记录获取中
-  fetchingTip: 正在从学校获取消费记录，请稍等，速度取决于学校的服务器。
-  incomeStatistics: "收入: {} 元"
-  spentStatistics: "支出: {} 元"
-  refreshMenuButton: 刷新
-  statistics: 消费统计
-  toastLoadFailed: 网络异常，请稍后重试
-  toastLoadSuccessful: 成功获取最新数据
-  toastLoading: 正在加载最新数据……
-  total: 总计
-  lastTransaction: "¥{amount} {place}"
 homepage:
   campusNetworkConnected: 已连接校园网
   campusNetworkUnconnected: 未连接校园网

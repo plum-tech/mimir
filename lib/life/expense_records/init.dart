@@ -5,7 +5,7 @@ import 'cache/cache.dart';
 import 'service/getter.dart';
 import 'storage/local.dart';
 
-class ExpenseTrackerInit {
+class ExpenseRecordsInit {
   static late ExpenseGetService service;
   static late ExpenseStorage storage;
   static late CachedExpenseGetDao cache;
