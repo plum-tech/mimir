@@ -21,6 +21,20 @@ class TransactionList extends StatefulWidget {
 
 typedef YearMonth = ({int year, int month});
 
+extension YearMonthX on YearMonth {
+  int compareTo(YearMonth other) {
+    return switch (this.year - other.year) {
+      > 0 => 1,
+      < 0 => -1,
+      _ => switch (this.month - other.month) {
+          > 0 => 1,
+          < 0 => -1,
+          _ => 0,
+        }
+    };
+  }
+}
+
 class _TransactionListState extends State<TransactionList> {
   late List<({YearMonth time, List<Transaction> records})> month2records;
 
@@ -44,25 +58,7 @@ class _TransactionListState extends State<TransactionList> {
         .entries
         .map((e) => (time: e.key, records: e.value))
         .toList();
-    groupByYearMonth.sort((a, b) {
-      final (time: timeA, records: _) = a;
-      final (time: timeB, records: _) = b;
-      switch (timeA.year - timeB.year) {
-        case > 0:
-          return 1;
-        case < 0:
-          return -1;
-        default:
-          switch (timeA.month - timeB.month) {
-            case > 0:
-              return 1;
-            case < 0:
-              return -1;
-            default:
-              return 0;
-          }
-      }
-    });
+    groupByYearMonth.sort((a, b) => a.time.compareTo(b.time));
     setState(() {
       month2records = groupByYearMonth;
     });
