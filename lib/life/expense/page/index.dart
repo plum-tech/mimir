@@ -7,7 +7,7 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/local.dart';
 import '../init.dart';
 import '../i18n.dart';
-import 'bill.dart';
+import '../widget/list.dart';
 import 'statistics.dart';
 
 class ExpenseRecordPage extends StatefulWidget {
@@ -47,7 +47,7 @@ class _ExpenseRecordPageState extends State<ExpenseRecordPage> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: [
-          BillPage(records: allRecords),
+          TransactionList(records: allRecords),
           StatisticsPage(records: allRecords),
         ][currentIndex],
       ),

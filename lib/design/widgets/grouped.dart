@@ -4,13 +4,13 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 class GroupedSection<T> extends StatefulWidget {
   final bool initialExpanded;
-  final Widget title;
+  final Widget header;
   final Widget Function(BuildContext context, int index, T item) itemBuilder;
   final List<T> items;
 
   const GroupedSection({
     super.key,
-    required this.title,
+    required this.header,
     this.initialExpanded = true,
     required this.items,
     required this.itemBuilder,
@@ -30,7 +30,7 @@ class _GroupedSectionState<T> extends State<GroupedSection<T>> {
       children: [
         SliverPinnedHeader(
           child: ListTile(
-            title: widget.title,
+            title: widget.header,
             dense: true,
             onTap: () {
               setState(() {

@@ -83,7 +83,6 @@ dependencies:
 
   # UI
   fl_chart: ^0.63.0
-  grouped_list: ^5.1.2
   pull_to_refresh: ^2.0.0
   geopattern_flutter: { git: { url: https://github.com/paolovalerdi/geopattern } }
   flutter_svg: ^2.0.6
