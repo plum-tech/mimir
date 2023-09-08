@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/hive/init.dart';
 import 'package:mimir/widgets/page_grouper.dart';
@@ -119,10 +120,10 @@ class _BoxSectionState extends State<BoxSection> {
         ),
       ],
     );
-    return [
-      Text(boxName, style: boxNameStyle, textAlign: TextAlign.center).expanded(),
-      action,
-    ].row();
+    return ListTile(
+      title: Text(boxName, style: boxNameStyle, textAlign: TextAlign.center),
+      trailing: action,
+    ).inOutlinedCard();
   }
 
   @override
@@ -246,19 +247,6 @@ class BoxItem extends StatefulWidget {
 
   @override
   State<BoxItem> createState() => _BoxItemState();
-
-  static Widget skeleton(TextStyle? routeStyle, TextStyle? typeStyle, TextStyle? contentStyle) => [
-        Text(
-          "...",
-          style: routeStyle,
-        ),
-        Text("...", style: typeStyle),
-        Text(
-          '.........',
-          maxLines: 3,
-          style: contentStyle,
-        ),
-      ].column(caa: CrossAxisAlignment.start).align(at: Alignment.topLeft).padAll(10).inCard(elevation: 5);
 }
 
 class _BoxItemState extends State<BoxItem> {
@@ -267,17 +255,18 @@ class _BoxItemState extends State<BoxItem> {
     final key = widget.keyInBox.toString();
     final value = widget.box.get(widget.keyInBox);
     final type = value.runtimeType.toString();
-    Widget res = [
-      [
-        key.text(style: widget.routeStyle),
-        buildActionButton(key, value),
-      ].row(maa: MainAxisAlignment.spaceBetween),
-      type.text(style: widget.typeStyle?.copyWith(color: Editor.isSupport(value) ? Colors.green : null)),
-      '$value'.text(
-        maxLines: 5,
-        style: widget.contentStyle?.copyWith(overflow: TextOverflow.ellipsis),
-      ),
-    ].column(caa: CrossAxisAlignment.start).align(at: Alignment.topLeft).padAll(10).inCard(elevation: 5);
+    Widget res = ListTile(
+      isThreeLine: true,
+      title: key.text(style: widget.routeStyle),
+      trailing: buildActionButton(key, value),
+      subtitle: [
+        type.text(style: widget.typeStyle?.copyWith(color: Editor.isSupport(value) ? Colors.green : null)),
+        '$value'.text(
+          maxLines: 5,
+          style: widget.contentStyle?.copyWith(overflow: TextOverflow.ellipsis),
+        )
+      ].column(caa: CrossAxisAlignment.start).align(at: Alignment.topLeft),
+    ).inFilledCard();
     if (value != null) {
       res = res.on(tap: () async => showContentDialog(context, widget.box, key, value));
     }

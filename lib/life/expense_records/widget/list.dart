@@ -76,7 +76,9 @@ class _TransactionListState extends State<TransactionList> {
           final (:income, :outcome) = accumulate(e.records);
           return GroupedSection(
             title: context.formatYmText((e.time.toDateTime())).text(),
-            subtitle: "${i18n.income(income.toStringAsFixed(2))}, ${i18n.outcome(outcome.toStringAsFixed(2))}".text(),
+            subtitle: "${i18n.income(income.toStringAsFixed(2))}\n${i18n.outcome(outcome.toStringAsFixed(2))}".text(
+              maxLines: 2,
+            ),
             // expand records in the first month by default.
             initialExpanded: index == 0,
             items: e.records,

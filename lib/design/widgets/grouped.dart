@@ -51,7 +51,8 @@ class _GroupedSectionState<T> extends State<GroupedSection<T>> {
           ).inFilledCard(),
         ),
         SliverAnimatedPaintExtent(
-          duration: const Duration(milliseconds: 150),
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.fastLinearToSlowEaseIn,
           child: SliverList(
             delegate: !expanded
                 ? const SliverChildListDelegate.fixed([])

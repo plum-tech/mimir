@@ -107,7 +107,7 @@ class _ZhTwFormatter implements _RegionalFormatter {
   @override
   final ymdNum = DateFormat("yyyy/M/d", "zh_TW");
   @override
-  final ymdhmsNum = DateFormat("yyyy/MM/dd H:mm:ss", "zh_TW");
+  final ymdhmsNum = DateFormat("yyyy/M/d H:mm:ss", "zh_TW");
   @override
   final mdHmNum = DateFormat("M/d H:m", "zh_TW");
 }
@@ -122,7 +122,7 @@ class _EnFormatter implements _RegionalFormatter {
   @override
   final ymdNum = DateFormat("M/d/yyyy", "en_US");
   @override
-  final ymdhmsNum = DateFormat("MM/dd/yyyy H:mm:ss", "en_US");
+  final ymdhmsNum = DateFormat("M/d/yyyy H:mm:ss", "en_US");
   @override
   final mdHmNum = DateFormat("M/d H:m", "en_US");
 }
