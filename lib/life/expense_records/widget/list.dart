@@ -69,14 +69,13 @@ class _TransactionListState extends State<TransactionList> {
 
   @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
     return CustomScrollView(
-      slivers: month2records.map(
-        (e) {
+      slivers: month2records.mapIndexed(
+        (index,e) {
           return GroupedSection(
             header: context.formatYmText((e.time.toDateTime())).text(),
             // expand records in this month by default.
-            initialExpanded: now.year == e.time.year && now.month == e.time.month,
+            initialExpanded: index == 0,
             items: e.records,
             itemBuilder: (ctx, i, record) {
               return TransactionTile(record);
