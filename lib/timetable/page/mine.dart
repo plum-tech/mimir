@@ -104,6 +104,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           },
         ),
         make: (ctx) => Material(
+          color: Colors.transparent,
             child: [
           [
             ListTile(

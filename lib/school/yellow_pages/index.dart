@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/design/widgets/card.dart';
+import 'package:mimir/design/widgets/app.dart';
 import 'package:mimir/r.dart';
 import 'init.dart';
 import 'storage/contact.dart';
@@ -42,46 +42,39 @@ class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
   @override
   Widget build(BuildContext context) {
     final history = YellowPagesInit.storage.interactHistory ?? const [];
-    return FilledCard(
-      child: [
-        AnimatedSize(
-          duration: const Duration(milliseconds: 300),
-          child: buildHistory(history),
+    return AppCard(
+      view: AnimatedSize(
+        duration: const Duration(milliseconds: 300),
+        child: buildHistory(history),
+      ),
+      title: i18n.title.text(),
+      leftActions: [
+        FilledButton.icon(
+          onPressed: () async {
+            final result = await showSearch(context: context, delegate: YellowPageSearchDelegate(R.yellowPages));
+            if (result == null) return;
+            YellowPagesInit.storage.addInteractHistory(result);
+          },
+          label: i18n.search.text(),
+          icon: const Icon(Icons.search),
         ),
-        ListTile(
-          titleTextStyle: context.textTheme.titleLarge,
-          title: i18n.title.text(),
-        ),
-        OverflowBar(
-          alignment: MainAxisAlignment.spaceBetween,
-          children: [
-            [
-              FilledButton.icon(
-                onPressed: () async {
-                  final result = await showSearch(context: context, delegate: YellowPageSearchDelegate(R.yellowPages));
-                  if (result == null) return;
-                  YellowPagesInit.storage.addInteractHistory(result);
+        OutlinedButton(
+          onPressed: () {
+            context.push("/yellow-pages");
+          },
+          child: i18n.seeAll.text(),
+        )
+      ],
+      rightActions: [
+        IconButton(
+          onPressed: YellowPagesInit.storage.interactHistory?.isNotEmpty != true
+              ? null
+              : () {
+                  YellowPagesInit.storage.interactHistory = null;
                 },
-                label: i18n.search.text(),
-                icon: const Icon(Icons.search),
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  context.push("/yellow-pages");
-                },
-                child: i18n.seeAll.text(),
-              )
-            ].wrap(spacing: 12),
-            IconButton(
-                onPressed: YellowPagesInit.storage.interactHistory?.isNotEmpty != true
-                    ? null
-                    : () {
-                        YellowPagesInit.storage.interactHistory = null;
-                      },
-                icon: const Icon(Icons.delete_outlined))
-          ],
-        ).padOnly(l: 16, b: 8, r: 16),
-      ].column(),
+          icon: const Icon(Icons.delete_outlined),
+        )
+      ],
     );
   }
 

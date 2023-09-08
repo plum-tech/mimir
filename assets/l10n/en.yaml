@@ -159,7 +159,7 @@ examArrange:
   seatNumber: Seat No.
   startTime: Start Time
 expenseRecord:
-  title: Expenses record
+  title: Expense records
   navigation:
     bill: Bill
     statistics: Statistics
