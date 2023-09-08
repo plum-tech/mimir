@@ -18,15 +18,17 @@ class OaAuthManager extends StatefulWidget {
 }
 
 class _OaAuthManagerState extends State<OaAuthManager> {
+  final onOaChanged = CredentialInit.storage.onOaChanged;
+
   @override
   void initState() {
     super.initState();
-    CredentialInit.storage.onOaChanged.addListener(_anyChange);
+    onOaChanged.addListener(_anyChange);
   }
 
   @override
   void dispose() {
-    CredentialInit.storage.onOaChanged.removeListener(_anyChange);
+    onOaChanged.removeListener(_anyChange);
     super.dispose();
   }
 

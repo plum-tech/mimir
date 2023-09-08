@@ -22,11 +22,11 @@ class ElectricityBalanceAppCard extends StatefulWidget {
 
 class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
   late Timer refreshTimer;
-
+  final onRoomBalanceChanged = ElectricityBalanceInit.storage.onRoomBalanceChanged;
   @override
   initState() {
     super.initState();
-    ElectricityBalanceInit.storage.onRoomBalanceChanged.addListener(updateRoomAndBalance);
+    onRoomBalanceChanged.addListener(updateRoomAndBalance);
     // The electricity balance is refreshed approximately every 15 minutes.
     refreshTimer = runPeriodically(const Duration(minutes: 15), (timer) async {
       await _refresh();
@@ -35,7 +35,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
 
   @override
   dispose() {
-    ElectricityBalanceInit.storage.onRoomBalanceChanged.removeListener(updateRoomAndBalance);
+    onRoomBalanceChanged.removeListener(updateRoomAndBalance);
     refreshTimer.cancel();
     super.dispose();
   }

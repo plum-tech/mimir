@@ -23,15 +23,17 @@ class YellowPagesAppCard extends StatefulWidget {
 }
 
 class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
+  final $history = YellowPagesInit.storage.$history;
+
   @override
   void initState() {
-    YellowPagesInit.storage.$history.addListener(refresh);
+    $history.addListener(refresh);
     super.initState();
   }
 
   @override
   void dispose() {
-    YellowPagesInit.storage.$history.removeListener(refresh);
+    $history.removeListener(refresh);
     super.dispose();
   }
 

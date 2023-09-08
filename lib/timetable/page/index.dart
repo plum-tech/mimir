@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/timetable/storage/timetable.dart';
 
 import '../entity/entity.dart';
 import '../init.dart';
@@ -15,18 +16,18 @@ class TimetablePage extends StatefulWidget {
 }
 
 class _TimetablePageState extends State<TimetablePage> {
-  final storage = TimetableInit.storage;
+  TimetableStorage get storage => TimetableInit.storage;
   late SitTimetable? _selected = storage.getSitTimetableById(id: storage.usedTimetableId);
-
+  final onCurrentTimetableChanged = TimetableInit.storage.onCurrentTimetableChanged;
   @override
   void initState() {
     super.initState();
-    storage.onCurrentTimetableChanged.addListener(refresh);
+    onCurrentTimetableChanged.addListener(refresh);
   }
 
   @override
   void dispose() {
-    storage.onCurrentTimetableChanged.removeListener(refresh);
+    onCurrentTimetableChanged.removeListener(refresh);
     super.dispose();
   }
 

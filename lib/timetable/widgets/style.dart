@@ -51,17 +51,17 @@ class TimetableStyleProv extends StatefulWidget {
 }
 
 class TimetableStyleProvState extends State<TimetableStyleProv> {
-  final storage = TimetableInit.storage;
+  final onThemeChanged = TimetableInit.storage.onThemeChanged;
 
   @override
   void initState() {
     super.initState();
-    storage.onThemeChanged.addListener(rebuild);
+    onThemeChanged.addListener(rebuild);
   }
 
   @override
   void dispose() {
-    storage.onThemeChanged.removeListener(rebuild);
+    onThemeChanged.removeListener(rebuild);
     super.dispose();
   }
 
@@ -74,8 +74,8 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
     assert(widget.builder != null || widget.child != null, "TimetableStyleProv should have at least one child.");
     return TimetableStyle(
       data: TimetableStyleData(
-        storage.useOldSchoolPalette == true ? CourseColor.oldSchool : CourseColor.newUI,
-        storage.useNewUI ?? false,
+        TimetableInit.storage.useOldSchoolPalette == true ? CourseColor.oldSchool : CourseColor.newUI,
+        TimetableInit.storage.useNewUI ?? false,
       ),
       child: buildChild(),
     );

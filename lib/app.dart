@@ -16,15 +16,17 @@ class MimirApp extends StatefulWidget {
 }
 
 class _MimirAppState extends State<MimirApp> {
+  final onThemeChanged = Settings.onThemeChanged;
+
   @override
   void initState() {
     super.initState();
-    Settings.onThemeChanged.addListener(refresh);
+    onThemeChanged.addListener(refresh);
   }
 
   @override
   void dispose() {
-    Settings.onThemeChanged.removeListener(refresh);
+    onThemeChanged.removeListener(refresh);
     super.dispose();
   }
 

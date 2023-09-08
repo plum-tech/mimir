@@ -18,15 +18,17 @@ class ExpenseRecordsAppCard extends StatefulWidget {
 }
 
 class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
+  final $lastTransaction = ExpenseRecordsInit.storage.$lastTransaction;
+
   @override
   void initState() {
-    ExpenseRecordsInit.storage.$lastTransaction.addListener(refresh);
+    $lastTransaction.addListener(refresh);
     super.initState();
   }
 
   @override
   void dispose() {
-    ExpenseRecordsInit.storage.$lastTransaction.removeListener(refresh);
+    $lastTransaction.removeListener(refresh);
     super.dispose();
   }
 

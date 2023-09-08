@@ -14,17 +14,16 @@ class LifePage extends StatefulWidget {
 }
 
 class _LifePageState extends State<LifePage> {
-  bool enableElectricity = true;
-
+  final $campus = Settings.$campus;
   @override
   void initState() {
-    Settings.$campus.addListener(refresh);
+    $campus.addListener(refresh);
     super.initState();
   }
 
   @override
   void dispose() {
-    Settings.$campus.removeListener(refresh);
+    $campus.removeListener(refresh);
     super.dispose();
   }
 

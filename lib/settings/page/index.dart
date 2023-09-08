@@ -22,15 +22,17 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  final $isDeveloperMode = Settings.$isDeveloperMode;
+
   @override
   void initState() {
     super.initState();
-    Settings.$isDeveloperMode.addListener(refresh);
+    $isDeveloperMode.addListener(refresh);
   }
 
   @override
   void dispose() {
-    Settings.$isDeveloperMode.removeListener(refresh);
+    $isDeveloperMode.removeListener(refresh);
     super.dispose();
   }
 
@@ -238,19 +240,22 @@ class CampusSelectorTile extends StatefulWidget {
 }
 
 class _CampusSelectorTileState extends State<CampusSelectorTile> {
+  final $campus = Settings.$campus;
+
   @override
   void initState() {
     super.initState();
-    Settings.$campus.addListener(refresh);
+    $campus.addListener(refresh);
   }
 
   @override
   void dispose() {
-    Settings.$campus.removeListener(refresh);
+    $campus.removeListener(refresh);
     super.dispose();
   }
 
   void refresh() {
+    if (!mounted) return;
     setState(() {});
   }
 

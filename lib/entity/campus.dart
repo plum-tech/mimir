@@ -10,7 +10,7 @@ enum Campus {
   @HiveField(0)
   fengxian((enableElectricity: true)),
   @HiveField(1)
-  xuhui((enableElectricity: true));
+  xuhui((enableElectricity: false));
 
   final CampusCapability capability;
 
