@@ -46,9 +46,9 @@ class TransactionCard extends StatelessWidget {
       [
         AutoSizeText(
           transaction.toReadableString(),
-          style: textTheme.displayMedium?.copyWith(color: transaction.billColor),
+          style: textTheme.displayLarge?.copyWith(color: transaction.billColor),
           maxLines: 1,
-        ),
+        ).expanded(),
         AutoSizeText(
           i18n.view.rmb,
           style: textTheme.titleMedium?.copyWith(color: transaction.billColor),
