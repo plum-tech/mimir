@@ -4,6 +4,7 @@ import 'package:mimir/timetable/i18n.dart' as $timetable;
 import 'package:mimir/school/i18n.dart' as $school;
 import 'package:mimir/life/i18n.dart' as $life;
 import 'package:mimir/me/i18n.dart' as $me;
+import 'package:rettulf/rettulf.dart';
 
 class MainStagePage extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -14,16 +15,27 @@ class MainStagePage extends StatefulWidget {
   State<MainStagePage> createState() => _MainStagePageState();
 }
 
+typedef _NavigationDest = ({Widget icon, Widget activeIcon, String label});
+
+extension _NavigationDestX on _NavigationDest {
+  BottomNavigationBarItem toBarItem() {
+    return BottomNavigationBarItem(icon: icon, activeIcon: activeIcon, label: label);
+  }
+
+  NavigationRailDestination toRailDest() {
+    return NavigationRailDestination(icon: icon, selectedIcon: activeIcon, label: label.text());
+  }
+}
+
 class _MainStagePageState extends State<MainStagePage> {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
   var currentStage = 0;
   late var items = buildItems();
 
-  List<({String route, BottomNavigationBarItem item})> buildItems() {
+  List<({String route, ({Widget icon, Widget activeIcon, String label}) item})> buildItems() {
     return [
       (
         route: "/timetable",
-        item: BottomNavigationBarItem(
+        item: (
           icon: Icon(Icons.calendar_month_outlined),
           activeIcon: Icon(Icons.calendar_month),
           label: $timetable.i18n.navigation,
@@ -31,7 +43,7 @@ class _MainStagePageState extends State<MainStagePage> {
       ),
       (
         route: "/school",
-        item: BottomNavigationBarItem(
+        item: (
           icon: Icon(Icons.school_outlined),
           activeIcon: Icon(Icons.school),
           label: $school.i18n.navigation,
@@ -39,7 +51,7 @@ class _MainStagePageState extends State<MainStagePage> {
       ),
       (
         route: "/life",
-        item: BottomNavigationBarItem(
+        item: (
           icon: Icon(Icons.spa_outlined),
           activeIcon: Icon(Icons.spa),
           label: $life.i18n.navigation,
@@ -47,7 +59,7 @@ class _MainStagePageState extends State<MainStagePage> {
       ),
       (
         route: "/me",
-        item: BottomNavigationBarItem(
+        item: (
           icon: Icon(Icons.person_outline),
           activeIcon: Icon(Icons.person),
           label: $me.i18n.navigation,
@@ -64,12 +76,17 @@ class _MainStagePageState extends State<MainStagePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (context.isLandscape) {
+      return Scaffold(
+        body: [
+          buildNavigationRail(),
+          const VerticalDivider(),
+          widget.navigationShell.expanded(),
+        ].row(),
+      );
+    }
     return Scaffold(
-      key: scaffoldKey,
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 300),
-        child: widget.navigationShell,
-      ),
+      body: widget.navigationShell,
       bottomNavigationBar: buildButtonNavigationBar(),
     );
   }
@@ -82,7 +99,16 @@ class _MainStagePageState extends State<MainStagePage> {
       landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
       currentIndex: getSelectedIndex(),
       onTap: onItemTapped,
-      items: items.map((e) => e.item).toList(),
+      items: items.map((e) => e.item.toBarItem()).toList(),
+    );
+  }
+
+  Widget buildNavigationRail() {
+    return NavigationRail(
+      labelType: NavigationRailLabelType.all,
+      selectedIndex: getSelectedIndex(),
+      onDestinationSelected: onItemTapped,
+      destinations: items.map((e) => e.item.toRailDest()).toList(),
     );
   }
 
