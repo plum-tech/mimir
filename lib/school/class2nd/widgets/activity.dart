@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/design/adaptive/adaptive.dart';
-import 'package:mimir/design/colors.dart';
+import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/list.dart';
-import '../page/detail.dart';
 
 class ActivityCard extends StatelessWidget {
   final Class2ndActivity activity;
@@ -15,49 +13,25 @@ class ActivityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(borderRadius: BorderRadius.circular(16), child: _buildBasicInfo(context))
-        .inCard(margin: const EdgeInsets.all(10))
-        .hero(activity.id)
-        .on(tap: () {
-      context.push("/class2nd/activity-detail?enable-apply=true", extra: activity);
-    });
-  }
-
-  Widget _buildBasicInfo(BuildContext ctx) {
-    final titleStyle = ctx.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500);
-    final tagsStyle = ctx.textTheme.titleSmall;
-    final subtitleStyle = ctx.textTheme.bodySmall?.copyWith(color: Colors.grey);
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        activity.realTitle
-            .text(
-              style: titleStyle,
-              maxLines: 3,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-            )
-            .padSymmetric(h: 12),
-        Container(
-          decoration: BoxDecoration(color: ctx.bgColor),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 4),
-            child: Flex(
-              direction: Axis.vertical,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                activity.tags.join(" ").text(style: tagsStyle, maxLines: 2, overflow: TextOverflow.clip),
-                ctx
-                    .formatYmdNum(activity.ts)
-                    .text(style: subtitleStyle, overflow: TextOverflow.clip)
-                    .align(at: Alignment.centerRight)
-                    .padOnly(r: 8),
-              ],
-            ).align(at: Alignment.bottomCenter),
-          ),
-        ),
-      ],
-    );
+    final textTheme = context.textTheme;
+    return FilledCard(
+      child: ListTile(
+        isThreeLine: true,
+        title: activity.realTitle.text(),
+        titleTextStyle: textTheme.titleMedium,
+        trailing: context.formatYmdNum(activity.ts).text(style: textTheme.bodyMedium),
+        subtitle: activity.tags
+            .map((tag) => RawChip(
+                  label: tag.text(),
+                  padding: EdgeInsets.zero,
+                  labelStyle: textTheme.bodySmall,
+                ))
+            .toList()
+            .wrap(spacing: 4),
+        onTap: () {
+          context.push("/class2nd/activity-detail?enable-apply=true", extra: activity);
+        },
+      ),
+    ).hero(activity.id);
   }
 }

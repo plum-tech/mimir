@@ -184,15 +184,10 @@ class _ActivityListState extends State<ActivityList> {
   }
 
   Widget buildActivityResult(List<Class2ndActivity> activities) {
-    return LiveGrid.options(
+    return ListView.builder(
       controller: _scrollController,
       itemCount: activities.length,
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 280,
-        mainAxisExtent: 200,
-      ),
-      options: commonLiveOptions,
-      itemBuilder: (ctx, index, animation) => ActivityCard(activities[index]).aliveWith(animation),
+      itemBuilder: (ctx, index) => ActivityCard(activities[index]),
     );
   }
 
