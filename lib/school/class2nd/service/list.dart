@@ -3,12 +3,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mimir/network/session.dart';
 
-import '../dao/list.dart';
 import '../entity/list.dart';
 import '../utils.dart';
 import "package:intl/intl.dart";
 
-class ScActivityListService implements ScActivityListDao {
+class ScActivityListService {
   static const _scActivityType = {
     ActivityType.schoolCulture: '8ab17f543fe626a8013fe6278a880001',
     ActivityType.creation: 'ff8080814e241104014eb867e1481dc3',

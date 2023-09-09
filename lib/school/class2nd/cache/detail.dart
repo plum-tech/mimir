@@ -1,9 +1,10 @@
-import '../dao/detail.dart';
+import 'package:mimir/school/class2nd/service/detail.dart';
+
 import '../entity/detail.dart';
 import '../storage/detail.dart';
 
-class ScActivityDetailCache extends ScActivityDetailDao {
-  final ScActivityDetailDao from;
+class ScActivityDetailCache  {
+  final ScActivityDetailService from;
   final ScActivityDetailStorage to;
   Duration expiration;
 
@@ -13,7 +14,6 @@ class ScActivityDetailCache extends ScActivityDetailDao {
     this.expiration = const Duration(minutes: 10),
   });
 
-  @override
   Future<ActivityDetail?> getActivityDetail(int activityId) async {
     final cacheKey = to.box.id2Detail.make(activityId);
     if (cacheKey.needRefresh(after: expiration)) {

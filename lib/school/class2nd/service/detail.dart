@@ -4,10 +4,9 @@ import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:intl/intl.dart';
 import 'package:mimir/network/session.dart';
 
-import '../dao/detail.dart';
 import '../entity/detail.dart';
 
-class ScActivityDetailService implements ScActivityDetailDao {
+class ScActivityDetailService {
   static const _scDetailUrlBase = 'http://sc.sit.edu.cn/public/activity/activityDetail.action?activityId=';
 
   static RegExp reSpaces = RegExp(r'\s{2}\s+');

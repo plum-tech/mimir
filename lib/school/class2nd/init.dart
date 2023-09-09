@@ -5,9 +5,6 @@ import 'package:mimir/session/sso/session.dart';
 import 'cache/detail.dart';
 import 'cache/list.dart';
 import 'cache/score.dart';
-import 'dao/detail.dart';
-import 'dao/list.dart';
-import 'dao/score.dart';
 import 'service/detail.dart';
 import 'service/join.dart';
 import 'service/list.dart';
@@ -18,9 +15,9 @@ import 'storage/score.dart';
 
 class Class2ndInit {
   static late ScSession session;
-  static late ScActivityListDao scActivityListService;
-  static late ScActivityDetailDao scActivityDetailService;
-  static late ScScoreDao scScoreService;
+  static late ScActivityListCache scActivityListService;
+  static late ScActivityDetailCache scActivityDetailService;
+  static late ScScoreCache scScoreService;
   static late ScJoinActivityService scJoinActivityService;
 
   static void init({

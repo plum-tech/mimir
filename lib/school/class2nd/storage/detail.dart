@@ -1,7 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:mimir/cache/box.dart';
 
-import '../dao/detail.dart';
 import '../entity/detail.dart';
 
 class ScActivityDetailStorageBox with CachedBox {
@@ -15,12 +14,11 @@ class ScActivityDetailStorageBox with CachedBox {
   ScActivityDetailStorageBox(this.box);
 }
 
-class ScActivityDetailStorage extends ScActivityDetailDao {
+class ScActivityDetailStorage {
   final ScActivityDetailStorageBox box;
 
   ScActivityDetailStorage(Box<dynamic> hive) : box = ScActivityDetailStorageBox(hive);
 
-  @override
   Future<ActivityDetail?> getActivityDetail(int activityId) async {
     final cacheKey = box.id2Detail.make(activityId);
     return cacheKey.value;

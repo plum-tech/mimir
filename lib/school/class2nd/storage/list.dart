@@ -1,7 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:mimir/cache/box.dart';
 
-import '../dao/list.dart';
 import '../entity/list.dart';
 
 class ScActivityListStorageBox with CachedBox {
@@ -16,12 +15,11 @@ class ScActivityListStorageBox with CachedBox {
   static String makeActivityKey(ActivityType type, int page) => "$type/$page";
 }
 
-class ScActivityListStorage extends ScActivityListDao {
+class ScActivityListStorage  {
   final ScActivityListStorageBox box;
 
   ScActivityListStorage(Box<dynamic> hive) : box = ScActivityListStorageBox(hive);
 
-  @override
   Future<List<Activity>?> getActivityList(ActivityType type, int page) async {
     final key = box.activities.make(type, page);
     return key.value;
@@ -32,7 +30,6 @@ class ScActivityListStorage extends ScActivityListDao {
     key.value = activities;
   }
 
-  @override
   Future<List<Activity>?> query(String queryString) {
     throw UnimplementedError("Storage won't save query.");
   }

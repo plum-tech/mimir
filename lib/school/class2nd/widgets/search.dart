@@ -5,7 +5,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/list.dart';
 import '../init.dart';
-import 'card.dart';
+import 'activity.dart';
 
 class ActivitySearchDelegate extends SearchDelegate<String> {
   @override

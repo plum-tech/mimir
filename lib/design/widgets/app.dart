@@ -4,7 +4,8 @@ import 'package:rettulf/rettulf.dart';
 import 'card.dart';
 
 class AppCard extends StatelessWidget {
-  final Widget view;
+  /// [SizedBox] by default.
+  final Widget? view;
   final Widget? title;
   final Widget? subtitle;
   final List<Widget>? leftActions;
@@ -18,7 +19,7 @@ class AppCard extends StatelessWidget {
 
   const AppCard({
     super.key,
-    required this.view,
+    this.view,
     this.title,
     this.subtitle,
     this.leftActions,
@@ -45,7 +46,7 @@ class AppCard extends StatelessWidget {
           child: AnimatedSize(
             duration: const Duration(milliseconds: 500),
             curve: Curves.fastLinearToSlowEaseIn,
-            child: view,
+            child: view ?? const SizedBox(),
           ),
         ),
         ListTile(

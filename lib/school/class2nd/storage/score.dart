@@ -1,6 +1,5 @@
 import 'package:hive/hive.dart';
 import 'package:mimir/cache/box.dart';
-import '../dao/score.dart';
 
 import '../entity/score.dart';
 
@@ -21,22 +20,19 @@ class ScScoreStorageBox with CachedBox {
   late final myInvolved = NamedList<ScActivityApplication>(_Key.meInvolved);
 }
 
-class ScScoreStorage extends ScScoreDao {
+class ScScoreStorage {
   final ScScoreStorageBox box;
 
   ScScoreStorage(Box<dynamic> hive) : box = ScScoreStorageBox(hive);
 
-  @override
   Future<ScScoreSummary?> getScoreSummary() async {
     return box.myScoreSummary.value;
   }
 
-  @override
   Future<List<ScScoreItem>?> getMyScoreList() async {
     return box.myScoreList.value;
   }
 
-  @override
   Future<List<ScActivityApplication>?> getMyInvolved() async {
     return box.myInvolved.value;
   }

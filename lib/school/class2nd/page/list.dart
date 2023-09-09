@@ -7,7 +7,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/list.dart';
 import '../init.dart';
-import '../widgets/card.dart';
+import '../widgets/activity.dart';
 import '../widgets/search.dart';
 import '../i18n.dart';
 

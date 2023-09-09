@@ -1,10 +1,11 @@
+import 'package:mimir/school/class2nd/service/score.dart';
+
 import '../storage/score.dart';
 
-import '../dao/score.dart';
 import '../entity/score.dart';
 
-class ScScoreCache extends ScScoreDao {
-  final ScScoreDao from;
+class ScScoreCache {
+  final ScScoreService from;
   final ScScoreStorage to;
   Duration expiration;
 

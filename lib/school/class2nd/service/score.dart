@@ -3,11 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:mimir/network/session.dart';
 
-import '../dao/score.dart';
 import '../entity/list.dart';
 import '../entity/score.dart';
 
-class ScScoreService implements ScScoreDao {
+class ScScoreService {
   static const _scHomeUrl = 'http://sc.sit.edu.cn/public/init/index.action';
   static const _scScoreUrl = 'http://sc.sit.edu.cn/public/pcenter/scoreDetail.action';
   static const _scMyEventUrl = 'http://sc.sit.edu.cn/public/pcenter/activityOrderList.action?pageSize=999';

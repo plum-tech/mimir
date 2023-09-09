@@ -1,7 +1,8 @@
-import 'dao/score.dart';
+import 'package:mimir/school/class2nd/cache/score.dart';
+
 import 'entity/score.dart';
 
-Future<List<ScJoinedActivity>?> getMyActivityListJoinScore(ScScoreDao scScoreDao) async {
+Future<List<ScJoinedActivity>?> getMyActivityListJoinScore(ScScoreCache scScoreDao) async {
   final activities = await scScoreDao.getMyInvolved();
   if (activities == null) return null;
   final scores = await scScoreDao.getMyScoreList();
