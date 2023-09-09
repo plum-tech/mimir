@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
+import 'package:mimir/school/class2nd/index.dart';
 import 'package:mimir/school/yellow_pages/index.dart';
 import 'package:rettulf/rettulf.dart';
 import 'i18n.dart';
@@ -24,7 +25,10 @@ class _SchoolPageState extends State<SchoolPage> {
         ),
         const SliverToBoxAdapter(
           child: YellowPagesAppCard(),
-        )
+        ),
+        const SliverToBoxAdapter(
+          child: Class2ndAppCard(),
+        ),
       ],
     );
   }
