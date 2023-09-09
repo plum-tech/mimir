@@ -16,7 +16,6 @@ class ScActivityListCache {
 
   final Map<String, List<Activity>> _queried = {};
 
-  @override
   Future<List<Activity>?> getActivityList(ActivityType type, int page) async {
     final cacheKey = to.box.activities.make(type, page);
     if (cacheKey.needRefresh(after: expiration)) {
@@ -32,13 +31,10 @@ class ScActivityListCache {
     }
   }
 
-  @override
   Future<List<Activity>?> query(String queryString) async {
     var res = _queried[queryString];
     res ??= await from.query(queryString);
-    if (res != null) {
-      _queried[queryString] = res;
-    }
+    _queried[queryString] = res;
     return res;
   }
 }

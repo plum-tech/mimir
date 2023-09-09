@@ -39,7 +39,6 @@ class ScActivityListService {
   }
 
   /// 获取第二课堂活动列表
-  @override
   Future<List<Activity>> getActivityList(ActivityType type, int page) async {
     String generateUrl(ActivityType category, int page, [int pageSize = 20]) {
       return 'http://sc.sit.edu.cn/public/activity/activityList.action?pageNo=$page&pageSize=$pageSize&categoryId=${_scActivityType[category]}';
@@ -52,7 +51,6 @@ class ScActivityListService {
     return _parseActivityList(response.data);
   }
 
-  @override
   Future<List<Activity>> query(String queryString) async {
     const String url = 'http://sc.sit.edu.cn/public/activity/activityList.action';
 

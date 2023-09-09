@@ -15,7 +15,6 @@ class ScScoreCache {
     this.expiration = const Duration(minutes: 10),
   });
 
-  @override
   Future<ScScoreSummary?> getScoreSummary() async {
     if (to.box.myScoreSummary.needRefresh(after: expiration)) {
       try {
@@ -30,7 +29,6 @@ class ScScoreCache {
     }
   }
 
-  @override
   Future<List<ScScoreItem>?> getMyScoreList() async {
     if (to.box.myScoreList.needRefresh(after: expiration)) {
       try {
@@ -45,7 +43,6 @@ class ScScoreCache {
     }
   }
 
-  @override
   Future<List<ScActivityApplication>?> getMyInvolved() async {
     if (to.box.myInvolved.needRefresh(after: expiration)) {
       try {
