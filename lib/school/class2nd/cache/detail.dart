@@ -3,12 +3,12 @@ import 'package:mimir/school/class2nd/service/detail.dart';
 import '../entity/detail.dart';
 import '../storage/detail.dart';
 
-class ScActivityDetailCache  {
-  final ScActivityDetailService from;
-  final ScActivityDetailStorage to;
+class Class2ndActivityDetailCache  {
+  final Class2ndActivityDetailService from;
+  final Class2ndActivityDetailStorage to;
   Duration expiration;
 
-  ScActivityDetailCache({
+  Class2ndActivityDetailCache({
     required this.from,
     required this.to,
     this.expiration = const Duration(minutes: 10),

@@ -26,7 +26,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
   }
 
   void onRefresh() {
-    Class2ndInit.scScoreService.getScoreSummary().then((value) {
+    Class2ndInit.scoreService.getScoreSummary().then((value) {
       if (summary != value) {
         summary = value;
         if (!mounted) return;

@@ -4,12 +4,12 @@ import '../storage/score.dart';
 
 import '../entity/score.dart';
 
-class ScScoreCache {
-  final ScScoreService from;
-  final ScScoreStorage to;
+class Class2ndScoreCache {
+  final Class2ndScoreService from;
+  final Class2ndScoreStorage to;
   Duration expiration;
 
-  ScScoreCache({
+  Class2ndScoreCache({
     required this.from,
     required this.to,
     this.expiration = const Duration(minutes: 10),
@@ -46,7 +46,7 @@ class ScScoreCache {
   Future<List<ScActivityApplication>?> getMyInvolved() async {
     if (to.box.myInvolved.needRefresh(after: expiration)) {
       try {
-        final res = await from.getMyInvolved();
+        final res = await from.getAttended();
         to.setMeInvolved(res);
         return res;
       } catch (e) {

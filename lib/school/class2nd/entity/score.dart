@@ -77,6 +77,7 @@ class ScActivityApplication {
   final int applyId;
 
   /// 活动编号
+  /// -1 if the activity was cancelled.
   @HiveField(1)
   final int activityId;
 

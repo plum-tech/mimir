@@ -15,10 +15,10 @@ class ScActivityListStorageBox with CachedBox {
   static String makeActivityKey(ActivityType type, int page) => "$type/$page";
 }
 
-class ScActivityListStorage  {
+class Class2ndActivityListStorage  {
   final ScActivityListStorageBox box;
 
-  ScActivityListStorage(Box<dynamic> hive) : box = ScActivityListStorageBox(hive);
+  Class2ndActivityListStorage(Box<dynamic> hive) : box = ScActivityListStorageBox(hive);
 
   Future<List<Activity>?> getActivityList(ActivityType type, int page) async {
     final key = box.activities.make(type, page);

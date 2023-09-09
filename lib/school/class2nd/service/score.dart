@@ -2,11 +2,12 @@ import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:mimir/network/session.dart';
+import 'package:mimir/session/sc.dart';
 
 import '../entity/list.dart';
 import '../entity/score.dart';
 
-class ScScoreService {
+class Class2ndScoreService {
   static const _scHomeUrl = 'http://sc.sit.edu.cn/public/init/index.action';
   static const _scScoreUrl = 'http://sc.sit.edu.cn/public/pcenter/scoreDetail.action';
   static const _scMyEventUrl = 'http://sc.sit.edu.cn/public/pcenter/activityOrderList.action?pageSize=999';
@@ -27,12 +28,11 @@ class ScScoreService {
   static final dateFormatParser = DateFormat('yyyy-MM-dd hh:mm:ss');
   static final activityIdRe = RegExp(r'activityId=(\d+)');
 
-  final ISession session;
+  final Class2ndSession session;
 
-  const ScScoreService(this.session);
+  const Class2ndScoreService(this.session);
 
   /// 获取第二课堂分数
-  @override
   Future<ScScoreSummary> getScoreSummary() async {
     final response = await session.request(_scHomeUrl, ReqMethod.post);
     final data = response.data;
@@ -86,7 +86,6 @@ class ScScoreService {
   }
 
   /// 获取我的得分列表
-  @override
   Future<List<ScScoreItem>> getMyScoreList() async {
     final response = await session.request(_scScoreUrl, ReqMethod.post);
     return _parseMyScoreList(response.data);
@@ -113,13 +112,12 @@ class ScScoreService {
   }
 
   /// 获取我的活动列表
-  @override
-  Future<List<ScActivityApplication>> getMyInvolved() async {
+  Future<List<ScActivityApplication>> getAttended() async {
     final response = await session.request(_scMyEventUrl, ReqMethod.post);
-    return _parseMyActivityList(response.data);
+    return _parseAttendedActivityList(response.data);
   }
 
-  static List<ScActivityApplication> _parseMyActivityList(String htmlPage) {
+  static List<ScActivityApplication> _parseAttendedActivityList(String htmlPage) {
     if (htmlPage.contains('<meta http-equiv="refresh" content="0;URL=http://my.sit.edu.cn"/>')) {
       debugPrint("My involved list needs refresh.");
       throw Exception("My involved list needs refresh.");

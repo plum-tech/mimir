@@ -2,10 +2,10 @@ import 'package:dio/dio.dart';
 
 import '../network/session.dart';
 
-class ScSession extends ISession {
+class Class2ndSession extends ISession {
   final ISession _session;
 
-  ScSession(this._session);
+  Class2ndSession(this._session);
 
   Future<void> _refreshCookie() async {
     await _session.request(

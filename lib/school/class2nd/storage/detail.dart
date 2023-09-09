@@ -14,10 +14,10 @@ class ScActivityDetailStorageBox with CachedBox {
   ScActivityDetailStorageBox(this.box);
 }
 
-class ScActivityDetailStorage {
+class Class2ndActivityDetailStorage {
   final ScActivityDetailStorageBox box;
 
-  ScActivityDetailStorage(Box<dynamic> hive) : box = ScActivityDetailStorageBox(hive);
+  Class2ndActivityDetailStorage(Box<dynamic> hive) : box = ScActivityDetailStorageBox(hive);
 
   Future<ActivityDetail?> getActivityDetail(int activityId) async {
     final cacheKey = box.id2Detail.make(activityId);

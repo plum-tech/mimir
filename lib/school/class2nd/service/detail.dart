@@ -6,7 +6,7 @@ import 'package:mimir/network/session.dart';
 
 import '../entity/detail.dart';
 
-class ScActivityDetailService {
+class Class2ndActivityDetailService {
   static const _scDetailUrlBase = 'http://sc.sit.edu.cn/public/activity/activityDetail.action?activityId=';
 
   static RegExp reSpaces = RegExp(r'\s{2}\s+');
@@ -17,7 +17,7 @@ class ScActivityDetailService {
 
   final ISession session;
 
-  const ScActivityDetailService(this.session);
+  const Class2ndActivityDetailService(this.session);
 
   /// 获取第二课堂活动详情
   @override

@@ -1,8 +1,6 @@
-import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/credential/symbol.dart';
-import 'package:mimir/design/animation/livelist.dart';
 import 'package:mimir/design/colors.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
@@ -47,7 +45,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   }
 
   void onRefresh() {
-    getMyActivityListJoinScore(Class2ndInit.scScoreService).then((value) {
+    getMyActivityListJoinScore(Class2ndInit.scoreService).then((value) {
       if (joined != value) {
         joined = value;
         if (!mounted) return;
@@ -68,18 +66,16 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
     } else {
       return ScrollConfiguration(
         behavior: const CupertinoScrollBehavior(),
-        child: LiveList(
+        child: ListView.builder(
           controller: _scrollController,
           itemCount: activities.length,
           physics: const BouncingScrollPhysics(),
-          showItemInterval: const Duration(milliseconds: 40),
-          itemBuilder: (ctx, index, animation) {
+          itemBuilder: (ctx, index) {
             final rawActivity = activities[index];
             return AttendedActivityTile(rawActivity)
                 .inCard()
                 .hero(rawActivity.applyId)
-                .padSymmetric(h: 8)
-                .aliveWith(animation);
+                .padSymmetric(h: 8);
           },
         ),
       );
@@ -103,7 +99,7 @@ class AttendedActivityTile extends StatelessWidget {
 
     return ListTile(
       isThreeLine: true,
-      title: Text(activity.realTitle, style: titleStyle, maxLines: 2, overflow: TextOverflow.ellipsis),
+      title: Text(activity.realTitle, style: titleStyle),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

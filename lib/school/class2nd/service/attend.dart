@@ -1,6 +1,6 @@
 import 'package:mimir/network/session.dart';
 
-class ScJoinActivityService {
+class Class2ndAttendActivityService {
   static const _applyCheck = 'http://sc.sit.edu.cn/public/pcenter/check.action?activityId=';
   static const _applyRequest = 'http://sc.sit.edu.cn/public/pcenter/applyActivity.action?activityId=';
 
@@ -18,7 +18,7 @@ class ScJoinActivityService {
 
   final ISession session;
 
-  const ScJoinActivityService(this.session);
+  const Class2ndAttendActivityService(this.session);
 
   /// 提交最后的活动申请
   Future<String> _sendFinalRequest(int activityId) async {

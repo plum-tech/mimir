@@ -20,10 +20,10 @@ class ScScoreStorageBox with CachedBox {
   late final myInvolved = NamedList<ScActivityApplication>(_Key.meInvolved);
 }
 
-class ScScoreStorage {
+class Class2ndScoreStorage {
   final ScScoreStorageBox box;
 
-  ScScoreStorage(Box<dynamic> hive) : box = ScScoreStorageBox(hive);
+  Class2ndScoreStorage(Box<dynamic> hive) : box = ScScoreStorageBox(hive);
 
   Future<ScScoreSummary?> getScoreSummary() async {
     return box.myScoreSummary.value;
