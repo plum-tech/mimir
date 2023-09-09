@@ -119,22 +119,34 @@ Widget _buildChart(BuildContext ctx, ScScoreSummary targetScore, ScScoreSummary?
   );
 }
 
-Widget buildSummeryCard(BuildContext ctx, ScScoreSummary targetScore, ScScoreSummary? summery) {
-  if (ctx.isPortrait) {
-    return AspectRatio(
-      aspectRatio: 1.8,
-      child: Card(
-        child: _buildChart(ctx, targetScore, summery).padSymmetric(v: 12),
-      ),
-    );
-  } else {
-    return [
-      i18n.myScoreTitle.text(style: ctx.textTheme.headlineLarge).padFromLTRB(8, 24, 8, 0),
-      _buildChart(ctx, targetScore, summery, showTotal: true)
-          .padSymmetric(v: 12)
-          .inCard(elevation: 8)
-          .padSymmetric(v: 12.w, h: 8.h)
-          .expanded()
-    ].column(maa: MainAxisAlignment.spaceEvenly);
+class Class2ndScoreSummeryCard extends StatelessWidget {
+  final ScScoreSummary targetScore;
+  final ScScoreSummary? summery;
+
+  const Class2ndScoreSummeryCard({
+    super.key,
+    required this.targetScore,
+    this.summery,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (context.isPortrait) {
+      return AspectRatio(
+        aspectRatio: 1.8,
+        child: Card(
+          child: _buildChart(context, targetScore, summery).padSymmetric(v: 12),
+        ),
+      );
+    } else {
+      return [
+        i18n.myScoreTitle.text(style: context.textTheme.headlineLarge).padFromLTRB(8, 24, 8, 0),
+        _buildChart(context, targetScore, summery, showTotal: true)
+            .padSymmetric(v: 12)
+            .inCard(elevation: 8)
+            .padSymmetric(v: 12.w, h: 8.h)
+            .expanded()
+      ].column(maa: MainAxisAlignment.spaceEvenly);
+    }
   }
 }
