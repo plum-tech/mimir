@@ -51,103 +51,96 @@ BarTouchData _barTouchData() => BarTouchData(
       ),*/
     );
 
-Widget _buildChart(BuildContext ctx, Class2ndScoreSummary targetScore, Class2ndScoreSummary? summary,
-    {bool showTotal = false}) {
-  if (summary == null) {
-    return const CircularProgressIndicator();
-  }
-  List<double> buildScoreList(Class2ndScoreSummary scss) {
-    return [scss.voluntary, scss.campus, scss.creation, scss.safetyEdu, scss.lecture, scss.practice];
-  }
-
-  final scoreValues = buildScoreList(summary);
-  final totals = buildScoreList(targetScore);
-  final scoreTitles = (const ['志愿', '校园文化', '三创', '安全文明', '讲座', '社会实践']).asMap().entries.map((e) {
-    int index = e.key;
-    String text = e.value;
-    if (showTotal) {
-      return '$text\n${scoreValues[index]}\n⎯⎯⎯\n${totals[index]}';
-    } else {
-      return '$text\n${scoreValues[index]}';
-    }
-  }).toList();
-
-  List<BarChartGroupData> values = [];
-  for (int i = 0; i < scoreValues.length; ++i) {
-    if (totals[i] == 0) {
-      continue;
-    }
-    values.add(BarChartGroupData(x: i, barRods: [
-      BarChartRodData(
-        toY: scoreValues[i] / totals[i],
-        width: 12,
-      )
-    ]));
-  }
-  final titlesData = FlTitlesData(
-    show: true,
-    leftTitles: AxisTitles(),
-    topTitles: AxisTitles(),
-    rightTitles: AxisTitles(),
-    bottomTitles: AxisTitles(
-      sideTitles: SideTitles(
-        showTitles: true,
-        reservedSize: showTotal ? 84 : 36,
-        getTitlesWidget: (double value, TitleMeta meta) {
-          const style = TextStyle(
-            color: Color(0xff7589a2),
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          );
-          return Text(
-            scoreTitles[value.toInt()],
-            textAlign: TextAlign.center,
-            style: style,
-          );
-        },
-      ),
-    ),
-  );
-  return BarChart(
-    BarChartData(
-      maxY: 1,
-      barGroups: values,
-      borderData: _borderData(),
-      gridData: _gridData(),
-      barTouchData: _barTouchData(),
-      titlesData: titlesData,
-    ),
-  );
-}
-
-class Class2ndScoreSummeryCard extends StatelessWidget {
+class Class2ndScoreSummaryChart extends StatelessWidget {
   final Class2ndScoreSummary targetScore;
-  final Class2ndScoreSummary? summery;
+  final Class2ndScoreSummary summary;
 
-  const Class2ndScoreSummeryCard({
+  const Class2ndScoreSummaryChart({
     super.key,
     required this.targetScore,
-    this.summery,
+    required this.summary,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (context.isPortrait) {
-      return AspectRatio(
-        aspectRatio: 1.8,
-        child: Card(
-          child: _buildChart(context, targetScore, summery).padSymmetric(v: 12),
-        ),
-      );
-    } else {
-      return [
-        i18n.myScoreTitle.text(style: context.textTheme.headlineLarge).padFromLTRB(8, 24, 8, 0),
-        _buildChart(context, targetScore, summery, showTotal: true)
-            .padSymmetric(v: 12)
-            .inCard(elevation: 8)
-            .padSymmetric(v: 12.w, h: 8.h)
-            .expanded()
-      ].column(maa: MainAxisAlignment.spaceEvenly);
+    List<double> buildScoreList(Class2ndScoreSummary scss) {
+      return [scss.voluntary, scss.campus, scss.creation, scss.safetyEdu, scss.lecture, scss.practice];
     }
+
+    final scoreValues = buildScoreList(summary);
+    final totals = buildScoreList(targetScore);
+    final scoreTitles = (const ['志愿', '校园文化', '三创', '安全文明', '讲座', '社会实践']).asMap().entries.map((e) {
+      int index = e.key;
+      String text = e.value;
+      return '$text\n${scoreValues[index]}/${totals[index]}';
+    }).toList();
+
+    List<BarChartGroupData> values = [];
+    for (int i = 0; i < scoreValues.length; ++i) {
+      if (totals[i] == 0) {
+        continue;
+      }
+      values.add(BarChartGroupData(x: i, barRods: [
+        BarChartRodData(
+          toY: scoreValues[i] / totals[i],
+          width: 12,
+        )
+      ]));
+    }
+    final titlesData = FlTitlesData(
+      show: true,
+      leftTitles: AxisTitles(),
+      topTitles: AxisTitles(),
+      rightTitles: AxisTitles(),
+      bottomTitles: AxisTitles(
+        sideTitles: SideTitles(
+          showTitles: true,
+          reservedSize: 84,
+          getTitlesWidget: (double value, TitleMeta meta) {
+            const style = TextStyle(
+              color: Color(0xff7589a2),
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            );
+            return Text(
+              scoreTitles[value.toInt()],
+              textAlign: TextAlign.center,
+              style: style,
+            );
+          },
+        ),
+      ),
+    );
+    return BarChart(
+      BarChartData(
+        maxY: 1,
+        barGroups: values,
+        borderData: _borderData(),
+        gridData: _gridData(),
+        barTouchData: _barTouchData(),
+        titlesData: titlesData,
+      ),
+    );
+  }
+}
+
+class Class2ndScoreSummeryCard extends StatelessWidget {
+  final Class2ndScoreSummary targetScore;
+  final Class2ndScoreSummary summary;
+
+  const Class2ndScoreSummeryCard({
+    super.key,
+    required this.targetScore,
+    required this.summary,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 1.8,
+      child: Card(
+        child: Class2ndScoreSummaryChart(targetScore: targetScore, summary: summary).padSymmetric(v: 8),
+      ),
+    );
   }
 }

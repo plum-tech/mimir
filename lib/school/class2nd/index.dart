@@ -42,13 +42,14 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
 
   @override
   Widget build(BuildContext context) {
+    final summary = this.summary;
     return AppCard(
       title: i18n.title.text(),
       view: summary == null
           ? const SizedBox()
           : Class2ndScoreSummeryCard(
               targetScore: getTargetScore(),
-              summery: summary,
+              summary: summary,
             ),
       leftActions: [
         FilledButton.icon(

@@ -45,7 +45,7 @@ class ElectricityBalanceCard extends StatelessWidget {
   }
 }
 
-extension BalanceEx on ElectricityBalance? {
+extension _BalanceEx on ElectricityBalance? {
   String? get powerText {
     final self = this;
     return self == null ? null : i18n.unit.powerKwh(self.remainingPower.toStringAsFixed(2));
@@ -54,14 +54,5 @@ extension BalanceEx on ElectricityBalance? {
   String? get balanceText {
     final self = this;
     return self == null ? null : i18n.unit.rmb(self.balance.toStringAsFixed(2));
-  }
-
-  Color? get balanceColor {
-    final self = this;
-    if (self == null) {
-      return null;
-    } else {
-      return self.balance < 10 ? Colors.red : null;
-    }
   }
 }
