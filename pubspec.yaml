@@ -135,9 +135,7 @@ flutter:
 
   assets:
     - assets/
-    - assets/home/
     - assets/fonts/
-    - assets/library/
     - assets/timetable/
     - assets/course/
     - assets/yellow_pages.json
