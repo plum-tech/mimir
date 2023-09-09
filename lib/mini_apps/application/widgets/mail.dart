@@ -5,7 +5,7 @@ import '../page/form.dart';
 import '../using.dart';
 
 class Mail extends StatelessWidget {
-  final ApplicationMsg msg;
+  final ApplicationMessage msg;
 
   const Mail({super.key, required this.msg});
 

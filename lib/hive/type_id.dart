@@ -1,61 +1,77 @@
 export "package:hive/hive.dart";
 
-class HiveTypeId {
-  HiveTypeId._();
-
-  // Basic 0-10
-  static const version = 0;
+/// Basic 0-19
+class HiveTypeBasic {
+  static const size = 0;
   static const themeMode = 1;
-  static const campus = 2;
+  static const version = 2;
+}
 
-  // Credential 10-19
-  static const credential = 10;
-  static const loginStatus = 11;
-  static const emailCredential = 12;
+/// Credential 20-29
+class HiveTypeCredential {
+  static const oa = 20;
+  static const loginStatus = 21;
+  static const email = 22;
+}
 
-  // Electric Bill 20-29
-  static const balance = 20;
+/// Credential 30-39
+class HiveTypeSchool {
+  static const campus = 30;
+  static const semester = 31;
+  static const schoolYear = 32;
+  static const schoolContact = 33;
+}
 
-  // Activity 30-39
-  static const activityDetail = 30;
-  static const activity = 31;
-  static const scScoreSummary = 32;
-  static const scActivityApplication = 33;
-  static const scScoreItem = 34;
-  static const activityType = 35;
-
-  // Exam Arrangement 40-49
+/// Exam 40-49
+class HiveTypeExam {
+  // Exam arrange
   static const examEntry = 40;
 
-  // OA Announcement 50-59
-  static const announceDetail = 50;
-  static const announceAttachment = 51;
-  static const announceCatalogue = 52;
-  static const announceListPage = 53;
-  static const announceRecord = 54;
+  // Exam result
+  static const examResult = 41;
+  static const examResultDetail = 42;
+}
 
-  // Application 60-69
-  static const applicationDetail = 61;
-  static const applicationDetailSection = 62;
-  static const applicationMeta = 63;
-  static const applicationMsg = 64;
-  static const applicationMsgPage = 65;
-  static const applicationMsgCount = 66;
-  static const applicationMessageType = 67;
+/// Second Class 50-69
+class HiveTypeClass2nd {
+  // Second class activity 50-54
+  static const activity = 50;
+  static const activityDetail = 51;
+  static const activityType = 52;
 
-  // Exam Result 70-79
-  static const examResult = 70;
-  static const examResultDetail = 71;
-  static const semester = 72;
-  static const schoolYear = 73;
+  // Second class score 55-59
+  static const scoreSummary = 60;
+  static const activityApplication = 61;
+  static const scoreItem = 62;
+}
 
-  // Library 80-89
-  static const librarySearchHistory = 80;
+/// Expense Records 70-74
+class HiveTypeExpenseRecords {
+  static const transaction = 70;
+  static const transactionType = 71;
+}
 
-  // Expense Records 90-99
-  static const expenseTransaction = 90;
-  static const expenseTransactionType = 91;
+/// Electricity 75-79
+class HiveTypeElectricity {
+  static const balance = 80;
+}
 
-  // Yellow Pages 100-105
-  static const schoolContact = 100;
+/// Ywb 80-89
+class HiveTypeYwb {
+  static const applicationDetail = 80;
+  static const applicationDetailSection = 81;
+  static const applicationMeta = 82;
+  static const applicationMsg = 83;
+  static const applicationMsgPage = 84;
+  static const applicationMessageCount = 85;
+  static const applicationMessageType = 86;
+}
+
+/// Ywb 90-99
+class HiveTypeOaAnnounce {
+  static const detail = 90;
+  static const attachment = 91;
+  static const catalogue = 92;
+  static const listPage = 93;
+  static const record = 94;
 }

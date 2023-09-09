@@ -6,17 +6,17 @@ part of 'message.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ApplicationMsgCountAdapter extends TypeAdapter<ApplicationMsgCount> {
+class ApplicationMessageCountAdapter extends TypeAdapter<ApplicationMessageCount> {
   @override
-  final int typeId = 66;
+  final int typeId = 85;
 
   @override
-  ApplicationMsgCount read(BinaryReader reader) {
+  ApplicationMessageCount read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ApplicationMsgCount(
+    return ApplicationMessageCount(
       fields[0] as int,
       fields[1] as int,
       fields[2] as int,
@@ -24,7 +24,7 @@ class ApplicationMsgCountAdapter extends TypeAdapter<ApplicationMsgCount> {
   }
 
   @override
-  void write(BinaryWriter writer, ApplicationMsgCount obj) {
+  void write(BinaryWriter writer, ApplicationMessageCount obj) {
     writer
       ..writeByte(3)
       ..writeByte(0)
@@ -41,20 +41,20 @@ class ApplicationMsgCountAdapter extends TypeAdapter<ApplicationMsgCount> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ApplicationMsgCountAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ApplicationMessageCountAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class ApplicationMsgAdapter extends TypeAdapter<ApplicationMsg> {
+class ApplicationMessageAdapter extends TypeAdapter<ApplicationMessage> {
   @override
-  final int typeId = 64;
+  final int typeId = 83;
 
   @override
-  ApplicationMsg read(BinaryReader reader) {
+  ApplicationMessage read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ApplicationMsg(
+    return ApplicationMessage(
       fields[0] as int,
       fields[1] as String,
       fields[2] as String,
@@ -64,7 +64,7 @@ class ApplicationMsgAdapter extends TypeAdapter<ApplicationMsg> {
   }
 
   @override
-  void write(BinaryWriter writer, ApplicationMsg obj) {
+  void write(BinaryWriter writer, ApplicationMessage obj) {
     writer
       ..writeByte(5)
       ..writeByte(0)
@@ -85,29 +85,29 @@ class ApplicationMsgAdapter extends TypeAdapter<ApplicationMsg> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ApplicationMsgAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ApplicationMessageAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class ApplicationMsgPageAdapter extends TypeAdapter<ApplicationMsgPage> {
+class ApplicationMessagePageAdapter extends TypeAdapter<ApplicationMessagePage> {
   @override
-  final int typeId = 65;
+  final int typeId = 84;
 
   @override
-  ApplicationMsgPage read(BinaryReader reader) {
+  ApplicationMessagePage read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ApplicationMsgPage(
+    return ApplicationMessagePage(
       fields[0] as int,
       fields[1] as int,
       fields[2] as int,
-      (fields[3] as List).cast<ApplicationMsg>(),
+      (fields[3] as List).cast<ApplicationMessage>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, ApplicationMsgPage obj) {
+  void write(BinaryWriter writer, ApplicationMessagePage obj) {
     writer
       ..writeByte(4)
       ..writeByte(0)
@@ -126,37 +126,37 @@ class ApplicationMsgPageAdapter extends TypeAdapter<ApplicationMsgPage> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ApplicationMsgPageAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ApplicationMessagePageAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class ApplicationMessageTypeAdapter extends TypeAdapter<MessageType> {
+class ApplicationMessageTypeAdapter extends TypeAdapter<ApplicationMessageType> {
   @override
-  final int typeId = 67;
+  final int typeId = 86;
 
   @override
-  MessageType read(BinaryReader reader) {
+  ApplicationMessageType read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return MessageType.todo;
+        return ApplicationMessageType.todo;
       case 1:
-        return MessageType.doing;
+        return ApplicationMessageType.doing;
       case 2:
-        return MessageType.done;
+        return ApplicationMessageType.done;
       default:
-        return MessageType.todo;
+        return ApplicationMessageType.todo;
     }
   }
 
   @override
-  void write(BinaryWriter writer, MessageType obj) {
+  void write(BinaryWriter writer, ApplicationMessageType obj) {
     switch (obj) {
-      case MessageType.todo:
+      case ApplicationMessageType.todo:
         writer.writeByte(0);
         break;
-      case MessageType.doing:
+      case ApplicationMessageType.doing:
         writer.writeByte(1);
         break;
-      case MessageType.done:
+      case ApplicationMessageType.done:
         writer.writeByte(2);
         break;
     }
@@ -175,19 +175,19 @@ class ApplicationMessageTypeAdapter extends TypeAdapter<MessageType> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-ApplicationMsgCount _$ApplicationMsgCountFromJson(Map<String, dynamic> json) => ApplicationMsgCount(
+ApplicationMessageCount _$ApplicationMessageCountFromJson(Map<String, dynamic> json) => ApplicationMessageCount(
       json['myFlow_complete_count'] as int,
       json['myFlow_runing_count'] as int,
       json['myFlow_todo_count'] as int,
     );
 
-Map<String, dynamic> _$ApplicationMsgCountToJson(ApplicationMsgCount instance) => <String, dynamic>{
+Map<String, dynamic> _$ApplicationMessageCountToJson(ApplicationMessageCount instance) => <String, dynamic>{
       'myFlow_complete_count': instance.completed,
       'myFlow_runing_count': instance.inProgress,
       'myFlow_todo_count': instance.inDraft,
     };
 
-ApplicationMsg _$ApplicationMsgFromJson(Map<String, dynamic> json) => ApplicationMsg(
+ApplicationMessage _$ApplicationMessageFromJson(Map<String, dynamic> json) => ApplicationMessage(
       json['WorkID'] as int,
       json['FK_Flow'] as String,
       json['FlowName'] as String,
@@ -195,7 +195,7 @@ ApplicationMsg _$ApplicationMsgFromJson(Map<String, dynamic> json) => Applicatio
       json['FlowNote'] as String,
     );
 
-Map<String, dynamic> _$ApplicationMsgToJson(ApplicationMsg instance) => <String, dynamic>{
+Map<String, dynamic> _$ApplicationMessageToJson(ApplicationMessage instance) => <String, dynamic>{
       'WorkID': instance.flowId,
       'FK_Flow': instance.functionId,
       'FlowName': instance.name,

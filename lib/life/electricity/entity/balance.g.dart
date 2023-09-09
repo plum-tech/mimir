@@ -8,7 +8,7 @@ part of 'balance.dart';
 
 class ElectricityBalanceAdapter extends TypeAdapter<ElectricityBalance> {
   @override
-  final int typeId = 20;
+  final int typeId = 80;
 
   @override
   ElectricityBalance read(BinaryReader reader) {

@@ -8,7 +8,7 @@ part of 'search_history.dart';
 
 class LibrarySearchHistoryItemAdapter extends TypeAdapter<LibrarySearchHistoryItem> {
   @override
-  final int typeId = 80;
+  final int typeId = 0;
 
   @override
   LibrarySearchHistoryItem read(BinaryReader reader) {

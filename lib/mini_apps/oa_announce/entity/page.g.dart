@@ -8,7 +8,7 @@ part of 'page.dart';
 
 class AnnounceListPageAdapter extends TypeAdapter<AnnounceListPage> {
   @override
-  final int typeId = 53;
+  final int typeId = 93;
 
   @override
   AnnounceListPage read(BinaryReader reader) {

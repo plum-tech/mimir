@@ -14,7 +14,7 @@ class Mailbox extends StatefulWidget {
 }
 
 class _MailboxState extends State<Mailbox> {
-  ApplicationMsgPage? _msgPage;
+  ApplicationMessagePage? _msgPage;
 
   @override
   void initState() {
@@ -42,7 +42,7 @@ class _MailboxState extends State<Mailbox> {
     }
   }
 
-  Widget _buildMessageList(BuildContext context, List<ApplicationMsg> list) {
+  Widget _buildMessageList(BuildContext context, List<ApplicationMessage> list) {
     return LayoutBuilder(builder: (ctx, constraints) {
       final count = constraints.maxWidth ~/ 300;
       return LiveGrid.options(

@@ -14,7 +14,7 @@ class ApplicationMessageCache implements ApplicationMessageDao {
   });
 
   @override
-  Future<ApplicationMsgCount?> getMessageCount() async {
+  Future<ApplicationMessageCount?> getMessageCount() async {
     if (to.box.msgCount.needRefresh(after: expiration)) {
       try {
         final res = await from.getMessageCount();
@@ -29,7 +29,7 @@ class ApplicationMessageCache implements ApplicationMessageDao {
   }
 
   @override
-  Future<ApplicationMsgPage?> getAllMessage() async {
+  Future<ApplicationMessagePage?> getAllMessage() async {
     if (to.box.allMessages.needRefresh(after: expiration)) {
       try {
         final res = await from.getAllMessage();

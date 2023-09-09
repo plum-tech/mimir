@@ -8,7 +8,7 @@ part of 'email.dart';
 
 class EmailCredentialAdapter extends TypeAdapter<EmailCredential> {
   @override
-  final int typeId = 12;
+  final int typeId = 22;
 
   @override
   EmailCredential read(BinaryReader reader) {

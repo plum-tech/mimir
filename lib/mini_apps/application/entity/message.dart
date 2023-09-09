@@ -3,11 +3,8 @@ import 'package:mimir/hive/type_id.dart';
 
 part 'message.g.dart';
 
-@HiveType(
-  typeId: HiveTypeId.applicationMessageType,
-  adapterName: "ApplicationMessageTypeAdapter",
-)
-enum MessageType {
+@HiveType(typeId: HiveTypeYwb.applicationMessageType)
+enum ApplicationMessageType {
   @HiveField(0)
   todo,
   @HiveField(1)
@@ -17,8 +14,8 @@ enum MessageType {
 }
 
 @JsonSerializable()
-@HiveType(typeId: HiveTypeId.applicationMsgCount)
-class ApplicationMsgCount {
+@HiveType(typeId: HiveTypeYwb.applicationMessageCount)
+class ApplicationMessageCount {
   @JsonKey(name: 'myFlow_complete_count')
   @HiveField(0)
   final int completed;
@@ -29,14 +26,14 @@ class ApplicationMsgCount {
   @HiveField(2)
   final int inDraft;
 
-  const ApplicationMsgCount(this.completed, this.inProgress, this.inDraft);
+  const ApplicationMessageCount(this.completed, this.inProgress, this.inDraft);
 
-  factory ApplicationMsgCount.fromJson(Map<String, dynamic> json) => _$ApplicationMsgCountFromJson(json);
+  factory ApplicationMessageCount.fromJson(Map<String, dynamic> json) => _$ApplicationMessageCountFromJson(json);
 }
 
 @JsonSerializable()
-@HiveType(typeId: HiveTypeId.applicationMsg)
-class ApplicationMsg {
+@HiveType(typeId: HiveTypeYwb.applicationMsg)
+class ApplicationMessage {
   @JsonKey(name: 'WorkID')
   @HiveField(0)
   final int flowId;
@@ -53,13 +50,13 @@ class ApplicationMsg {
   @HiveField(4)
   final String status;
 
-  const ApplicationMsg(this.flowId, this.functionId, this.name, this.recentStep, this.status);
+  const ApplicationMessage(this.flowId, this.functionId, this.name, this.recentStep, this.status);
 
-  factory ApplicationMsg.fromJson(Map<String, dynamic> json) => _$ApplicationMsgFromJson(json);
+  factory ApplicationMessage.fromJson(Map<String, dynamic> json) => _$ApplicationMessageFromJson(json);
 }
 
-@HiveType(typeId: HiveTypeId.applicationMsgPage)
-class ApplicationMsgPage {
+@HiveType(typeId: HiveTypeYwb.applicationMsgPage)
+class ApplicationMessagePage {
   @HiveField(0)
   final int totalNum;
   @HiveField(1)
@@ -67,7 +64,7 @@ class ApplicationMsgPage {
   @HiveField(2)
   final int currentPage;
   @HiveField(3)
-  final List<ApplicationMsg> msgList;
+  final List<ApplicationMessage> msgList;
 
-  const ApplicationMsgPage(this.totalNum, this.totalPage, this.currentPage, this.msgList);
+  const ApplicationMessagePage(this.totalNum, this.totalPage, this.currentPage, this.msgList);
 }

@@ -7,7 +7,7 @@ import '../using.dart';
 part 'application.g.dart';
 
 @JsonSerializable(createToJson: false)
-@HiveType(typeId: HiveTypeId.applicationMeta)
+@HiveType(typeId: HiveTypeYwb.applicationMeta)
 class ApplicationMeta {
   @JsonKey(name: 'appID')
   @HiveField(0)
@@ -36,7 +36,7 @@ class ApplicationMeta {
 }
 
 @JsonSerializable()
-@HiveType(typeId: HiveTypeId.applicationDetailSection)
+@HiveType(typeId: HiveTypeYwb.applicationDetailSection)
 class ApplicationDetailSection {
   @JsonKey(name: 'formName')
   @HiveField(0)
@@ -59,7 +59,7 @@ extension ApplicationDetailSectionX on ApplicationDetailSection {
   bool get isNotEmpty => content.isNotEmpty;
 }
 
-@HiveType(typeId: HiveTypeId.applicationDetail)
+@HiveType(typeId: HiveTypeYwb.applicationDetail)
 class ApplicationDetail {
   @HiveField(0)
   final String id;

@@ -2,7 +2,7 @@ import 'package:mimir/hive/type_id.dart';
 
 part 'search_history.g.dart';
 
-@HiveType(typeId: HiveTypeId.librarySearchHistory)
+@HiveType(typeId: 0)
 class LibrarySearchHistoryItem extends HiveObject {
   @HiveField(0)
   String keyword = '';

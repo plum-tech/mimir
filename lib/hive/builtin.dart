@@ -5,7 +5,7 @@ import 'type_id.dart';
 
 class VersionAdapter extends TypeAdapter<Version> {
   @override
-  final int typeId = HiveTypeId.version;
+  final int typeId = HiveTypeBasic.version;
 
   @override
   Version read(BinaryReader reader) {
@@ -34,7 +34,7 @@ class VersionAdapter extends TypeAdapter<Version> {
 
 class ThemeModeAdapter extends TypeAdapter<ThemeMode> {
   @override
-  final int typeId = HiveTypeId.themeMode;
+  final int typeId = HiveTypeBasic.themeMode;
 
   @override
   ThemeMode read(BinaryReader reader) {
@@ -53,4 +53,30 @@ class ThemeModeAdapter extends TypeAdapter<ThemeMode> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) || other is ThemeModeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+}
+
+/// There is no need to consider revision
+class SizeAdapter extends TypeAdapter<Size> {
+  @override
+  final int typeId = HiveTypeBasic.size;
+
+  @override
+  Size read(BinaryReader reader) {
+    var x = reader.readDouble();
+    var y = reader.readDouble();
+    return Size(x, y);
+  }
+
+  @override
+  void write(BinaryWriter writer, Size obj) {
+    writer.writeDouble(obj.width);
+    writer.writeDouble(obj.height);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is SizeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

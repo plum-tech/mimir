@@ -9,7 +9,7 @@ String _parseCourseName(dynamic courseName) {
 }
 
 @JsonSerializable()
-@HiveType(typeId: HiveTypeId.examResult)
+@HiveType(typeId: HiveTypeExam.examResult)
 class ExamResult {
   /// 成绩
   @JsonKey(name: 'cj', fromJson: stringToDouble)
@@ -62,7 +62,7 @@ class ExamResult {
   }
 }
 
-@HiveType(typeId: HiveTypeId.examResultDetail)
+@HiveType(typeId: HiveTypeExam.examResultDetail)
 class ExamResultDetail {
   /// 成绩名称
   @HiveField(0)

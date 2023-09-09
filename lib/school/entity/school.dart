@@ -4,7 +4,7 @@ import 'package:mimir/l10n/common.dart';
 
 part 'school.g.dart';
 
-@HiveType(typeId: HiveTypeId.semester)
+@HiveType(typeId: HiveTypeSchool.semester)
 enum Semester {
   @HiveField(0)
   all,
@@ -16,7 +16,7 @@ enum Semester {
   String localized() => "school.semester.$name".tr();
 }
 
-@HiveType(typeId: HiveTypeId.schoolYear)
+@HiveType(typeId: HiveTypeSchool.schoolYear)
 class SchoolYear {
   static const all = SchoolYear(null);
   @HiveField(0)

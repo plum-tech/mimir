@@ -8,7 +8,7 @@ part of 'application.dart';
 
 class ApplicationMetaAdapter extends TypeAdapter<ApplicationMeta> {
   @override
-  final int typeId = 63;
+  final int typeId = 82;
 
   @override
   ApplicationMeta read(BinaryReader reader) {
@@ -55,7 +55,7 @@ class ApplicationMetaAdapter extends TypeAdapter<ApplicationMeta> {
 
 class ApplicationDetailSectionAdapter extends TypeAdapter<ApplicationDetailSection> {
   @override
-  final int typeId = 62;
+  final int typeId = 81;
 
   @override
   ApplicationDetailSection read(BinaryReader reader) {
@@ -96,7 +96,7 @@ class ApplicationDetailSectionAdapter extends TypeAdapter<ApplicationDetailSecti
 
 class ApplicationDetailAdapter extends TypeAdapter<ApplicationDetail> {
   @override
-  final int typeId = 61;
+  final int typeId = 80;
 
   @override
   ApplicationDetail read(BinaryReader reader) {

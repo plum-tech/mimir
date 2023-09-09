@@ -3,7 +3,7 @@ import 'attachment.dart';
 
 part 'announce.g.dart';
 
-@HiveType(typeId: HiveTypeId.announceDetail)
+@HiveType(typeId: HiveTypeOaAnnounce.detail)
 class AnnounceDetail {
   /// 标题
   @HiveField(0)
@@ -40,7 +40,7 @@ class AnnounceDetail {
 }
 
 /// 通知分类
-@HiveType(typeId: HiveTypeId.announceCatalogue)
+@HiveType(typeId: HiveTypeOaAnnounce.catalogue)
 class AnnounceCatalogue {
   /// 分类名
   @HiveField(0)
@@ -54,7 +54,7 @@ class AnnounceCatalogue {
 }
 
 /// 某篇通知的记录信息，根据该信息可寻找到对应文章
-@HiveType(typeId: HiveTypeId.announceRecord)
+@HiveType(typeId: HiveTypeOaAnnounce.record)
 class AnnounceRecord {
   /// 标题
   @HiveField(0)

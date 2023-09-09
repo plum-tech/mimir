@@ -2,7 +2,7 @@ import 'package:mimir/hive/type_id.dart';
 
 part 'login_status.g.dart';
 
-@HiveType(typeId: HiveTypeId.loginStatus)
+@HiveType(typeId: HiveTypeCredential.loginStatus)
 enum LoginStatus {
   @HiveField(0)
   never,

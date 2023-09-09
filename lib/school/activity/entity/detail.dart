@@ -2,7 +2,7 @@ import 'package:mimir/hive/type_id.dart';
 
 part 'detail.g.dart';
 
-@HiveType(typeId: HiveTypeId.activityDetail)
+@HiveType(typeId: HiveTypeClass2nd.activityDetail)
 class ActivityDetail {
   /// Activity id
   @HiveField(0)

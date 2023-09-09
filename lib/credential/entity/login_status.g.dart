@@ -8,7 +8,7 @@ part of 'login_status.dart';
 
 class LoginStatusAdapter extends TypeAdapter<LoginStatus> {
   @override
-  final int typeId = 11;
+  final int typeId = 21;
 
   @override
   LoginStatus read(BinaryReader reader) {

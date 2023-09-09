@@ -2,7 +2,7 @@ import 'package:mimir/hive/type_id.dart';
 
 part 'email.g.dart';
 
-@HiveType(typeId: HiveTypeId.emailCredential)
+@HiveType(typeId: HiveTypeCredential.email)
 class EmailCredential {
   @HiveField(0)
   final String address;

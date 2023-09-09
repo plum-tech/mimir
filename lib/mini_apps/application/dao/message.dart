@@ -1,7 +1,7 @@
 import '../entity/message.dart';
 
 abstract class ApplicationMessageDao {
-  Future<ApplicationMsgCount?> getMessageCount();
+  Future<ApplicationMessageCount?> getMessageCount();
 
-  Future<ApplicationMsgPage?> getAllMessage();
+  Future<ApplicationMessagePage?> getAllMessage();
 }

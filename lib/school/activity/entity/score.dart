@@ -5,7 +5,7 @@ import 'package:mimir/hive/type_id.dart';
 
 part 'score.g.dart';
 
-@HiveType(typeId: HiveTypeId.scScoreSummary)
+@HiveType(typeId: HiveTypeClass2nd.scoreSummary)
 class ScScoreSummary {
   /// Subject report (主题报告)
   @HiveField(0)
@@ -48,7 +48,7 @@ class ScScoreSummary {
   }
 }
 
-@HiveType(typeId: HiveTypeId.scScoreItem)
+@HiveType(typeId: HiveTypeClass2nd.scoreItem)
 class ScScoreItem {
   /// 活动编号
   @HiveField(1)
@@ -70,7 +70,7 @@ class ScScoreItem {
   }
 }
 
-@HiveType(typeId: HiveTypeId.scActivityApplication)
+@HiveType(typeId: HiveTypeClass2nd.activityApplication)
 class ScActivityApplication {
   /// 申请编号
   @HiveField(0)

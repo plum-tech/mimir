@@ -2,7 +2,7 @@ import 'package:mimir/hive/type_id.dart';
 
 part 'attachment.g.dart';
 
-@HiveType(typeId: HiveTypeId.announceAttachment)
+@HiveType(typeId: HiveTypeOaAnnounce.attachment)
 class AnnounceAttachment {
   /// 附件标题
   @HiveField(0)

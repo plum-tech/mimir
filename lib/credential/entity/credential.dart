@@ -2,7 +2,7 @@ import 'package:mimir/hive/type_id.dart';
 
 part 'credential.g.dart';
 
-@HiveType(typeId: HiveTypeId.credential)
+@HiveType(typeId: HiveTypeCredential.oa)
 class OaCredential {
   @HiveField(0)
   final String account;

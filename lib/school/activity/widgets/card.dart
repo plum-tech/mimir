@@ -33,11 +33,11 @@ class ActivityCard extends StatelessWidget {
       children: [
         activity.realTitle
             .text(
-          style: titleStyle,
-          maxLines: 3,
-          textAlign: TextAlign.center,
-          overflow: TextOverflow.ellipsis,
-        )
+              style: titleStyle,
+              maxLines: 3,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+            )
             .padSymmetric(h: 12),
         Container(
           decoration: BoxDecoration(color: ctx.bgColor),

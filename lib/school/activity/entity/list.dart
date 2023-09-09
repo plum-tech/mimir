@@ -10,7 +10,7 @@ class ActivityName {
   static const thematicReport = "主题报告";
   static const creation = "三创";
   static const practice = "社会实践";
-  static const safetyCiviEdu = "校园安全文明";
+  static const safetyCivilizationEdu = "校园安全文明";
   static const cyberSafetyEdu = "安全教育网络教学";
   static const schoolCulture = "校园文化";
   static const thematicEdu = "主题教育";
@@ -19,7 +19,7 @@ class ActivityName {
   static const blackList = ["补录"];
 }
 
-@HiveType(typeId: HiveTypeId.activityType)
+@HiveType(typeId: HiveTypeClass2nd.activityType)
 enum ActivityType {
   @HiveField(0)
   lecture(ActivityName.lectureReport), // 讲座报告
@@ -49,7 +49,7 @@ enum ActivityScoreType {
   schoolCulture(ActivityName.schoolCulture), // 校园文化
   practice(ActivityName.practice), // 社会实践
   voluntary(ActivityName.voluntary), // 志愿公益
-  safetyCiviEdu(ActivityName.safetyCiviEdu); // 校园安全文明
+  safetyCiviEdu(ActivityName.safetyCivilizationEdu); // 校园安全文明
 
   final String name;
 
@@ -80,7 +80,7 @@ const Map<String, ActivityType> stringToActivityType = {
   '校园文明': ActivityType.schoolCulture,
 };
 
-@HiveType(typeId: HiveTypeId.activity)
+@HiveType(typeId: HiveTypeClass2nd.activity)
 class Activity {
   /// Activity id
   @HiveField(0)

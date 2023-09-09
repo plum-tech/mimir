@@ -16,7 +16,7 @@ import 'package:mimir/school/activity/entity/score.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/yellow_pages/entity/contact.dart';
 
-import 'custom_adapters.dart';
+import 'builtin.dart';
 
 class HiveAdapter {
   HiveAdapter._();
@@ -57,9 +57,9 @@ class HiveAdapter {
     ~ApplicationDetailSectionAdapter();
     ~ApplicationDetailAdapter();
     ~ApplicationMetaAdapter();
-    ~ApplicationMsgCountAdapter();
-    ~ApplicationMsgAdapter();
-    ~ApplicationMsgPageAdapter();
+    ~ApplicationMessageCountAdapter();
+    ~ApplicationMessageAdapter();
+    ~ApplicationMessagePageAdapter();
     ~ApplicationMessageTypeAdapter();
 
     // Exam Result
@@ -69,7 +69,7 @@ class HiveAdapter {
     ~SemesterAdapter();
 
     // Library
-    ~LibrarySearchHistoryItemAdapter();
+    // ~LibrarySearchHistoryItemAdapter();
 
     // Expense Records
     ~TransactionAdapter();

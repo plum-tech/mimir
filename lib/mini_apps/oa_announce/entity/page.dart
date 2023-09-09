@@ -5,7 +5,7 @@ import 'announce.dart';
 part 'page.g.dart';
 
 /// 获取到的通知页
-@HiveType(typeId: HiveTypeId.announceListPage)
+@HiveType(typeId: HiveTypeOaAnnounce.listPage)
 class AnnounceListPage {
   @HiveField(0)
   int currentPage = 1;

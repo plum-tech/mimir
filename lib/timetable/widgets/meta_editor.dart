@@ -108,9 +108,9 @@ Widget _buildButton(BuildContext ctx, String text, {VoidCallback? onPressed}) {
 }
 
 Future<DateTime?> _pickTimetableStartDate(
-    BuildContext ctx, {
-      required DateTime initial,
-    }) async {
+  BuildContext ctx, {
+  required DateTime initial,
+}) async {
   return await showDatePicker(
     context: ctx,
     initialDate: initial,

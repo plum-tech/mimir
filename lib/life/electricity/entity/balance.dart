@@ -19,7 +19,7 @@ const rmbPerKwh = 0.61;
 /// }]
 /// ```
 @JsonSerializable(createToJson: false)
-@HiveType(typeId: HiveTypeId.balance)
+@HiveType(typeId: HiveTypeElectricity.balance)
 class ElectricityBalance {
   @JsonKey(name: "Balance", fromJson: _parseBalance)
   @HiveField(0)

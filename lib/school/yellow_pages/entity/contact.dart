@@ -5,7 +5,7 @@ import 'package:quiver/core.dart';
 part 'contact.g.dart';
 
 @JsonSerializable(createToJson: false)
-@HiveType(typeId: HiveTypeId.schoolContact)
+@HiveType(typeId: HiveTypeSchool.schoolContact)
 class SchoolContact {
   @JsonKey()
   @HiveField(0)

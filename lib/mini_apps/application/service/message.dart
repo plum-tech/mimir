@@ -14,7 +14,7 @@ class ApplicationMessageService implements ApplicationMessageDao {
   const ApplicationMessageService(this.session);
 
   @override
-  Future<ApplicationMsgCount> getMessageCount() async {
+  Future<ApplicationMessageCount> getMessageCount() async {
     final account = $Key.currentContext?.auth.credential!.account;
     String payload = 'code=$account';
 
@@ -28,11 +28,11 @@ class ApplicationMessageService implements ApplicationMessageDao {
       ),
     );
     final Map<String, dynamic> data = response.data;
-    final ApplicationMsgCount result = ApplicationMsgCount.fromJson(data['data']);
+    final ApplicationMessageCount result = ApplicationMessageCount.fromJson(data['data']);
     return result;
   }
 
-  Future<ApplicationMsgPage> getMessage(MessageType type, int page) async {
+  Future<ApplicationMessagePage> getMessage(ApplicationMessageType type, int page) async {
     final String url = _getMessageListUrl(type);
     final String payload = 'myFlow=1&pageIdx=$page&pageSize=999'; // TODO: 此处硬编码.
 
@@ -48,36 +48,29 @@ class ApplicationMessageService implements ApplicationMessageDao {
     final List data = jsonDecode(response.data);
     final int totalNum = int.parse(data.last['totalNum']);
     final int totalPage = int.parse(data.last['totalPage']);
-    final List<ApplicationMsg> messages =
-        data.where((e) => (e['FlowName'] as String).isNotEmpty).map((e) => ApplicationMsg.fromJson(e)).toList();
+    final List<ApplicationMessage> messages =
+        data.where((e) => (e['FlowName'] as String).isNotEmpty).map((e) => ApplicationMessage.fromJson(e)).toList();
 
-    return ApplicationMsgPage(totalNum, totalPage, page, messages);
+    return ApplicationMessagePage(totalNum, totalPage, page, messages);
   }
 
   @override
-  Future<ApplicationMsgPage> getAllMessage() async {
-    List<ApplicationMsg> messageList = [];
+  Future<ApplicationMessagePage> getAllMessage() async {
+    List<ApplicationMessage> messageList = [];
 
-    for (MessageType type in MessageType.values) {
+    for (ApplicationMessageType type in ApplicationMessageType.values) {
       messageList.addAll((await getMessage(type, 1)).msgList);
     }
     // TODO: 此处硬编码.
-    return ApplicationMsgPage(messageList.length, 1, 1, messageList);
+    return ApplicationMessagePage(messageList.length, 1, 1, messageList);
   }
 
-  static String _getMessageListUrl(MessageType type) {
-    late String method;
-    switch (type) {
-      case MessageType.todo:
-        method = 'Todolist_Init';
-        break;
-      case MessageType.doing:
-        method = 'Runing_Init';
-        break;
-      case MessageType.done:
-        method = 'Complete_Init';
-        break;
-    }
+  static String _getMessageListUrl(ApplicationMessageType type) {
+    final method = switch (type) {
+      ApplicationMessageType.todo => 'Todolist_Init',
+      ApplicationMessageType.doing => 'Runing_Init',
+      ApplicationMessageType.done => 'Complete_Init',
+    };
     return 'https://xgfy.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=HttpHandler&DoMethod=$method&HttpHandlerName=BP.WF.HttpHandler.WF';
   }
 }

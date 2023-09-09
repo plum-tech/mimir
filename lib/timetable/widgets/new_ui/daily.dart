@@ -434,7 +434,6 @@ class _RowBuilder {
   }
 }
 
-
 class ElevatedText extends StatelessWidget {
   final Widget child;
   final Color color;

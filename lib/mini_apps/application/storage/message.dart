@@ -7,8 +7,8 @@ import '../using.dart';
 class ApplicationMessageStorageBox with CachedBox {
   @override
   final Box<dynamic> box;
-  late final msgCount = Named<ApplicationMsgCount>("/messageCount");
-  late final allMessages = Named<ApplicationMsgPage>("/messages");
+  late final msgCount = Named<ApplicationMessageCount>("/messageCount");
+  late final allMessages = Named<ApplicationMessagePage>("/messages");
 
   ApplicationMessageStorageBox(this.box);
 }
@@ -19,20 +19,20 @@ class ApplicationMessageStorage extends ApplicationMessageDao {
   ApplicationMessageStorage(Box<dynamic> hive) : box = ApplicationMessageStorageBox(hive);
 
   @override
-  Future<ApplicationMsgCount?> getMessageCount() async {
+  Future<ApplicationMessageCount?> getMessageCount() async {
     return box.msgCount.value;
   }
 
   @override
-  Future<ApplicationMsgPage?> getAllMessage() async {
+  Future<ApplicationMessagePage?> getAllMessage() async {
     return box.allMessages.value;
   }
 
-  void setMessageCount(ApplicationMsgCount? msgCount) {
+  void setMessageCount(ApplicationMessageCount? msgCount) {
     box.msgCount.value = msgCount;
   }
 
-  void setAllMessage(ApplicationMsgPage? messages) {
+  void setAllMessage(ApplicationMessagePage? messages) {
     box.allMessages.value = messages;
   }
 }
