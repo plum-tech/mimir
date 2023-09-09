@@ -6,29 +6,42 @@ import '../i18n.dart';
 
 class ElectricityBalanceCard extends StatelessWidget {
   final ElectricityBalance? balance;
+  final double? warningBalance;
+  final Color warningColor;
 
   const ElectricityBalanceCard({
     super.key,
     required this.balance,
+    this.warningBalance = 10.0,
+    this.warningColor = Colors.redAccent,
   });
 
   @override
   Widget build(BuildContext context) {
+    final warningBalance = this.warningBalance;
+    final balance = this.balance;
+    final powerText = balance.powerText;
+    final balanceText = balance.balanceText;
+    final balanceColor =
+        warningBalance == null || balance == null || warningBalance < balance.balance ? null : warningColor;
     return [
-      buildInfoRow(context, Icons.offline_bolt, i18n.remainingPower, balance.powerText),
-      buildInfoRow(context, Icons.savings, i18n.balance, balance.balanceText, color: balance.balanceColor),
+      ListTile(
+        leading: const Icon(Icons.offline_bolt),
+        titleTextStyle: context.textTheme.titleMedium,
+        title: i18n.remainingPower.text(),
+        trailing: powerText == null
+            ? const LimitedBox(maxWidth: 8, maxHeight: 8, child: CircularProgressIndicator())
+            : powerText.text(style: context.textTheme.titleMedium),
+      ),
+      ListTile(
+        leading: Icon(Icons.savings, color: balanceColor),
+        titleTextStyle: context.textTheme.titleMedium?.copyWith(color: balanceColor),
+        title: i18n.balance.text(),
+        trailing: balanceText == null
+            ? const LimitedBox(maxWidth: 8, maxHeight: 8, child: CircularProgressIndicator())
+            : balanceText.text(style: context.textTheme.titleMedium?.copyWith(color: balanceColor)),
+      ),
     ].column(maa: MainAxisAlignment.spaceEvenly).inCard();
-  }
-
-  Widget buildInfoRow(BuildContext context, IconData icon, String title, String? content, {Color? color}) {
-    return ListTile(
-      leading: Icon(icon),
-      titleTextStyle: context.textTheme.titleMedium,
-      title: Text(title, overflow: TextOverflow.fade),
-      trailing: content == null
-          ? const LimitedBox(maxWidth: 10, maxHeight: 10, child: CircularProgressIndicator())
-          : content.text(style: context.textTheme.titleMedium, overflow: TextOverflow.fade),
-    );
   }
 }
 

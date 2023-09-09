@@ -98,6 +98,7 @@ dependencies:
   unicons: ^2.1.1
   sliver_tools: ^0.2.12
   flutter_staggered_grid_view: ^0.7.0
+  infinite_scroll_pagination: ^4.0.0
 
   # Utils
   package_info_plus: ^4.1.0     # Get package info (version)

@@ -6,16 +6,22 @@ import "../i18n.dart";
 class BalanceCard extends StatelessWidget {
   final double balance;
   final bool removeTrailingZeros;
+  final double? warningBalance;
+  final Color warningColor;
 
   const BalanceCard({
     super.key,
     required this.balance,
+    this.warningBalance = 10.0,
+    this.warningColor = Colors.redAccent,
     this.removeTrailingZeros = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final textTheme = context.textTheme;
+    final warningBalance = this.warningBalance;
+    final balanceColor = warningBalance == null || warningBalance < balance ? null : warningColor;
     return [
       AutoSizeText(
         i18n.view.balance,
@@ -24,7 +30,7 @@ class BalanceCard extends StatelessWidget {
       ),
       AutoSizeText(
         removeTrailingZeros ? _removeTrailingZeros(balance) : balance.toStringAsFixed(2),
-        style: textTheme.displayMedium,
+        style: textTheme.displayMedium?.copyWith(color: balanceColor),
         maxLines: 1,
       ),
       AutoSizeText(
