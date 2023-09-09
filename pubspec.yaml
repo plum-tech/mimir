@@ -85,7 +85,6 @@ dependencies:
   # UI
   fl_chart: ^0.63.0
   pull_to_refresh: ^2.0.0
-  geopattern_flutter: { git: { url: https://github.com/paolovalerdi/geopattern } }
   flutter_svg: ^2.0.6
   flutter_screenutil: ^5.9.0              # Screen adaptation
   qr_flutter: ^4.1.0                      # Qr code generate

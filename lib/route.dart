@@ -6,7 +6,7 @@ import 'package:mimir/life/expense_records/page/statistics.dart';
 import 'package:mimir/life/index.dart';
 import 'package:mimir/main/index.dart';
 import 'package:mimir/main/network_tool/page/index.dart';
-import 'package:mimir/school/activity/page/index.dart';
+import 'package:mimir/school/class2nd/page/index.dart';
 import 'package:mimir/school/yellow_pages/page/index.dart';
 import 'package:mimir/settings/page/credential.dart';
 import 'package:mimir/settings/page/developer.dart';

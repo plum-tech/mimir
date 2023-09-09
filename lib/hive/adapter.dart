@@ -10,9 +10,9 @@ import 'package:mimir/mini_apps/exam_result/entity/result.dart';
 import 'package:mimir/mini_apps/oa_announce/entity/announce.dart';
 import 'package:mimir/mini_apps/oa_announce/entity/attachment.dart';
 import 'package:mimir/mini_apps/symbol.dart';
-import 'package:mimir/school/activity/entity/detail.dart';
-import 'package:mimir/school/activity/entity/list.dart';
-import 'package:mimir/school/activity/entity/score.dart';
+import 'package:mimir/school/class2nd/entity/detail.dart';
+import 'package:mimir/school/class2nd/entity/list.dart';
+import 'package:mimir/school/class2nd/entity/score.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/yellow_pages/entity/contact.dart';
 

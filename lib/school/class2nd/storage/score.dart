@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:mimir/cache/box.dart';
-import 'package:mimir/school/activity/dao/score.dart';
+import '../dao/score.dart';
 
 import '../entity/score.dart';
 
