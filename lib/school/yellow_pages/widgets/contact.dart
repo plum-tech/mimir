@@ -66,6 +66,6 @@ class ContactTile extends StatelessWidget {
   }
 }
 
-bool _isDigit(String char){
+bool _isDigit(String char) {
   return (char.codeUnitAt(0) ^ 0x30) <= 9;
 }

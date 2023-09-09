@@ -20,12 +20,12 @@ class _ExamCardState extends State<ExamCard> {
   @override
   Widget build(BuildContext context) {
     final itemStyle = Theme.of(context).textTheme.bodyMedium;
-    final name = stylizeCourseName(exam.courseName);
+    final name = exam.courseName;
     final strStartTime = exam.time.isNotEmpty ? dateFullNum(exam.time[0]) : '/';
     final strEndTime = exam.time.isNotEmpty ? dateFullNum(exam.time[1]) : '/';
-    final place = stylizeCourseName(exam.place);
+    final place = exam.place;
     final seatNumber = exam.seatNumber;
-    final isSecondExam = exam.isSecondExam;
+    final isSecondExam = exam.referralStatus;
 
     TableRow buildRow(String icon, String title, String content) {
       return TableRow(children: [

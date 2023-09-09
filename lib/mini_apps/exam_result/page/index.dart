@@ -131,7 +131,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
           await guardLaunchUrl(ctx, evaluationUri);
           return;
         }
-        await context.push("/teacherEval");
+        await context.push("/teacher-eval");
         if (!mounted) return;
         eventBus.fire(LessonEvaluatedEvent());
         await Future.delayed(const Duration(milliseconds: 1000));

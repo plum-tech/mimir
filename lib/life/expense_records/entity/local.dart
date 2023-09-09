@@ -67,6 +67,7 @@ class Transaction {
 }
 
 final _textInBrackets = RegExp(r'\([^)]*\)');
+
 extension TransactionX on Transaction {
   bool get isConsume => (balanceAfter - balanceBefore) < 0;
 

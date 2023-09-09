@@ -1,3 +1,5 @@
+import 'package:mimir/school/entity/school.dart';
+
 import '../entity/local.dart';
 import '../entity/remote.dart';
 
@@ -37,7 +39,7 @@ Transaction parseFull(TransactionRaw raw) {
     balanceBefore: raw.balanceBeforeTransaction,
     balanceAfter: raw.balanceAfterTransaction,
     deltaAmount: raw.amount.abs(),
-    deviceName: _mapChineseChar(raw.deviceName ?? ""),
+    deviceName: mapChinesePunctuations(raw.deviceName ?? ""),
     note: raw.name,
     consumerId: raw.customerId,
     type: TransactionType.other,

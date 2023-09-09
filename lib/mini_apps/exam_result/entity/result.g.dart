@@ -35,7 +35,7 @@ class ExamResultAdapter extends TypeAdapter<ExamResult> {
       ..writeByte(0)
       ..write(obj.value)
       ..writeByte(1)
-      ..write(obj.course)
+      ..write(obj.courseName)
       ..writeByte(2)
       ..write(obj.courseId)
       ..writeByte(3)
@@ -103,7 +103,7 @@ class ExamResultDetailAdapter extends TypeAdapter<ExamResultDetail> {
 
 ExamResult _$ExamResultFromJson(Map<String, dynamic> json) => ExamResult(
       stringToDouble(json['cj'] as String),
-      json['kcmc'] as String,
+      _parseCourseName(json['kcmc']),
       json['kch'] as String,
       json['jxb_id'] as String,
       formFieldToSchoolYear(json['xnmmc'] as String),
@@ -114,7 +114,7 @@ ExamResult _$ExamResultFromJson(Map<String, dynamic> json) => ExamResult(
 
 Map<String, dynamic> _$ExamResultToJson(ExamResult instance) => <String, dynamic>{
       'cj': instance.value,
-      'kcmc': instance.course,
+      'kcmc': instance.courseName,
       'kch': instance.courseId,
       'jxb_id': instance.innerClassId,
       'jxbmc': instance.dynClassId,

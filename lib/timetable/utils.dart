@@ -35,7 +35,7 @@ void _addEventForCourse(ICalendar cal, Course course, DateTime startDate, Durati
     // 这里需要使用UTC时间
     // 实际测试得出，如果不使用UTC，有的手机会将其看作本地时间
     // 有的手机会将其看作UTC+0的时间从而导致实际显示时间与预期不一致
-    final date = convertWeekDayNumberToDate(week: currentWeek, day: course.dayIndex, basedOn: startDate);
+    final date = parseWeekDayNumberToDate(week: currentWeek, day: course.dayIndex, basedOn: startDate);
     final eventStartTime = date.add(Duration(hours: timeStart.hour, minutes: timeStart.minute));
     final eventEndTime = date.add(Duration(hours: timeEnd.hour, minutes: timeEnd.minute));
     final IEvent event = IEvent(
@@ -169,7 +169,7 @@ SitTimetable parseTimetableEntity(List<CourseRaw> all) {
     if (!(0 <= dayIndex && dayIndex < 7)) continue;
     final course = SitCourse(
       courseKey,
-      raw.courseName.trim(),
+      mapChinesePunctuations(raw.courseName).trim(),
       raw.courseCode.trim(),
       raw.classCode.trim(),
       raw.campus,

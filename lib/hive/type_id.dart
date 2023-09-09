@@ -52,7 +52,7 @@ class HiveTypeId {
   // Library 80-89
   static const librarySearchHistory = 80;
 
-  // Expense Tracker 90-99
+  // Expense Records 90-99
   static const expenseTransaction = 90;
   static const expenseTransactionType = 91;
 

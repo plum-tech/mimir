@@ -4,6 +4,10 @@ import 'package:mimir/school/entity/school.dart';
 
 part 'result.g.dart';
 
+String _parseCourseName(dynamic courseName) {
+  return mapChinesePunctuations(courseName.toString());
+}
+
 @JsonSerializable()
 @HiveType(typeId: HiveTypeId.examResult)
 class ExamResult {
@@ -13,9 +17,9 @@ class ExamResult {
   final double value;
 
   /// 课程
-  @JsonKey(name: 'kcmc')
+  @JsonKey(name: 'kcmc', fromJson: _parseCourseName)
   @HiveField(1)
-  final String course;
+  final String courseName;
 
   /// 课程代码
   @JsonKey(name: 'kch')
@@ -47,14 +51,14 @@ class ExamResult {
   @HiveField(7)
   final double credit;
 
-  const ExamResult(this.value, this.course, this.courseId, this.innerClassId, this.schoolYear, this.semester,
+  const ExamResult(this.value, this.courseName, this.courseId, this.innerClassId, this.schoolYear, this.semester,
       this.credit, this.dynClassId);
 
   factory ExamResult.fromJson(Map<String, dynamic> json) => _$ExamResultFromJson(json);
 
   @override
   String toString() {
-    return 'Score{value: $value, course: $course, courseId: $courseId, innerClassId: $innerClassId, dynClassId: $dynClassId, schoolYear: $schoolYear, semester: $semester, credit: $credit}';
+    return 'Score{value: $value, course: $courseName, courseId: $courseId, innerClassId: $innerClassId, dynClassId: $dynClassId, schoolYear: $schoolYear, semester: $semester, credit: $credit}';
   }
 }
 

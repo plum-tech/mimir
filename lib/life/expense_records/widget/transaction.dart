@@ -17,8 +17,8 @@ class TransactionTile extends StatelessWidget {
       subtitle: context.formatYmdhmsNum(transaction.datetime).text(),
       leading: transaction.type.icon.make(color: transaction.type.color, size: 32),
       trailing: transaction.toReadableString().text(
-        style: context.textTheme.titleLarge?.copyWith(color: transaction.billColor),
-      ),
+            style: context.textTheme.titleLarge?.copyWith(color: transaction.billColor),
+          ),
     );
   }
 }
@@ -63,9 +63,9 @@ class TransactionCard extends StatelessWidget {
       ),
     ]
         .column(
-      caa: CrossAxisAlignment.start,
-      maa: MainAxisAlignment.spaceEvenly,
-    )
+          caa: CrossAxisAlignment.start,
+          maa: MainAxisAlignment.spaceEvenly,
+        )
         .padAll(10)
         .inCard();
   }

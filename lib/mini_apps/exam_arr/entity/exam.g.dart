@@ -16,13 +16,14 @@ class ExamEntryAdapter extends TypeAdapter<ExamEntry> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ExamEntry()
-      ..courseName = fields[0] as String
-      ..time = (fields[1] as List).cast<DateTime>()
-      ..place = fields[2] as String
-      ..campus = fields[3] as String
-      ..seatNumber = fields[4] as int
-      ..isSecondExam = fields[5] as String;
+    return ExamEntry(
+      courseName: fields[0] as String,
+      place: fields[2] as String,
+      campus: fields[3] as String,
+      time: (fields[1] as List).cast<DateTime>(),
+      seatNumber: fields[4] as int,
+      referralStatus: fields[5] as String,
+    );
   }
 
   @override
@@ -40,7 +41,7 @@ class ExamEntryAdapter extends TypeAdapter<ExamEntry> {
       ..writeByte(4)
       ..write(obj.seatNumber)
       ..writeByte(5)
-      ..write(obj.isSecondExam);
+      ..write(obj.referralStatus);
   }
 
   @override
@@ -55,13 +56,14 @@ class ExamEntryAdapter extends TypeAdapter<ExamEntry> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-ExamEntry _$ExamEntryFromJson(Map<String, dynamic> json) => ExamEntry()
-  ..courseName = json['kcmc'] as String
-  ..time = ExamEntry._stringToList(json['kssj'] as String)
-  ..place = json['cdmc'] as String
-  ..campus = json['cdxqmc'] as String
-  ..seatNumber = ExamEntry._stringToInt(json['zwh'] as String)
-  ..isSecondExam = json['cxbj'] as String? ?? '未知';
+ExamEntry _$ExamEntryFromJson(Map<String, dynamic> json) => ExamEntry(
+      courseName: _parseCourseName(json['kcmc']),
+      place: json['cdmc'] as String,
+      campus: json['cdxqmc'] as String,
+      time: ExamEntry._stringToList(json['kssj'] as String),
+      seatNumber: ExamEntry._stringToInt(json['zwh'] as String),
+      referralStatus: json['cxbj'] as String? ?? '未知',
+    );
 
 Map<String, dynamic> _$ExamEntryToJson(ExamEntry instance) => <String, dynamic>{
       'kcmc': instance.courseName,
@@ -69,5 +71,5 @@ Map<String, dynamic> _$ExamEntryToJson(ExamEntry instance) => <String, dynamic>{
       'cdmc': instance.place,
       'cdxqmc': instance.campus,
       'zwh': instance.seatNumber,
-      'cxbj': instance.isSecondExam,
+      'cxbj': instance.referralStatus,
     };

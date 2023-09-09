@@ -35,12 +35,12 @@ class SchoolContact {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is SchoolContact &&
-              runtimeType == other.runtimeType &&
-              department == other.department &&
-              name == other.name &&
-              phone == other.phone &&
-              description == other.description;
+      other is SchoolContact &&
+          runtimeType == other.runtimeType &&
+          department == other.department &&
+          name == other.name &&
+          phone == other.phone &&
+          description == other.description;
 
   @override
   int get hashCode => hash4(department, name, phone, description);

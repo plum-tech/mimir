@@ -416,13 +416,4 @@ class _CourseCellState extends State<_CourseCell> {
       await context.showSheet((ctx) => Sheet(courseCode: course.courseCode, timetable: widget.timetable));
     });
   }
-
-  Text buildText(String text, int maxLines) {
-    return Text(
-      text,
-      softWrap: true,
-      overflow: TextOverflow.visible,
-      maxLines: maxLines,
-    );
-  }
 }

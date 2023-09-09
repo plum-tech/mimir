@@ -310,11 +310,11 @@ class _LessonCardState extends State<LessonCard> {
     return ListTile(
       leading: courseIcon,
       title: AutoSizeText(
-        stylizeCourseName(course.courseName),
+        course.courseName,
         maxLines: 1,
       ),
       subtitle: [
-        Text(formatPlace(course.place), softWrap: true, overflow: TextOverflow.ellipsis),
+        Text(beautifyPlace(course.place), softWrap: true, overflow: TextOverflow.ellipsis),
         course.teachers.join(', ').text(),
       ].column(caa: CrossAxisAlignment.start),
     ).inCard(

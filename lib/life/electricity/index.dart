@@ -82,8 +82,8 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
       view: selectedRoom == null
           ? const SizedBox()
           : ElectricityBalanceCard(
-        balance: balance,
-      ).sized(h: 120),
+              balance: balance,
+            ).sized(h: 120),
       title: i18n.title.text(),
       subtitle: selectedRoom == null ? null : "#$selectedRoom".text(),
       leftActions: [

@@ -52,7 +52,8 @@ extension ElectricityStorageX on ElectricityStorage {
     searchHistory.insert(0, room);
     this.searchHistory = searchHistory;
   }
-  void selectNewRoom(String room){
+
+  void selectNewRoom(String room) {
     selectedRoom = room;
     addSearchHistory(room);
   }

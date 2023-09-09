@@ -18,11 +18,11 @@ Widget buildInfo(BuildContext ctx, SitCourse course, {required int maxLines}) {
   return AutoSizeText.rich(
     TextSpan(children: [
       TextSpan(
-        text: stylizeCourseName(course.courseName),
+        text: course.courseName,
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp),
       ),
       TextSpan(
-        text: "\n${formatPlace(course.place)}\n${course.teachers.join(',')}",
+        text: "\n${beautifyPlace(course.place)}\n${course.teachers.join(',')}",
         style: TextStyle(color: ctx.textColor.withOpacity(0.65), fontSize: 12.sp),
       ),
     ]),

@@ -35,7 +35,7 @@ class Sheet extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(0, 25, 0, 5),
       child: Container(
         decoration: const BoxDecoration(),
-        child: Text(stylizeCourseName(classes[0].courseName), style: titleStyle),
+        child: Text(classes[0].courseName, style: titleStyle),
       ),
     );
   }

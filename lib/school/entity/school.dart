@@ -347,7 +347,7 @@ List<ClassTime> getBuildingTimetable(String campus, String place) {
 }
 
 /// 将 "第几周、周几" 转换为日期. 如, 开学日期为 2021-9-1, 那么将第一周周一转换为 2021-9-1
-DateTime convertWeekDayNumberToDate({required DateTime basedOn, required int week, required int day}) {
+DateTime parseWeekDayNumberToDate({required DateTime basedOn, required int week, required int day}) {
   return basedOn.add(Duration(days: (week - 1) * 7 + day - 1));
 }
 
@@ -357,7 +357,7 @@ DateTime convertWeekDayNumberToDate({required DateTime basedOn, required int wee
 /// ee: 结束时间
 /// SS: 开始的节次
 /// EE: 结束的节次
-String formatTimeIndex(List<ClassTime> timetable, int timeIndex, String format) {
+String parseTimeIndex(List<ClassTime> timetable, int timeIndex, String format) {
   final indexStart = getIndexStart(timeIndex);
   final indexEnd = getIndexEnd(indexStart, timeIndex);
   final timeStart = timetable[indexStart - 1].begin;
@@ -371,7 +371,7 @@ String formatTimeIndex(List<ClassTime> timetable, int timeIndex, String format) 
 }
 
 /// 删去 place 括号里的描述信息. 如, 二教F301（机电18中外合作专用）
-String formatPlace(String place) {
+String beautifyPlace(String place) {
   int indexOfBucket = place.indexOf('（');
   if (indexOfBucket != -1) {
     return place.substring(0, indexOfBucket);
@@ -381,6 +381,6 @@ String formatPlace(String place) {
 }
 
 /// Replace the full-width brackets to ASCII ones
-String stylizeCourseName(String name) {
+String mapChinesePunctuations(String name) {
   return name.replaceAll("（", "(").replaceAll("）", ")");
 }

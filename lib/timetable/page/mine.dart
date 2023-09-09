@@ -104,31 +104,31 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           },
         ),
         make: (ctx) => Material(
-          color: Colors.transparent,
+            color: Colors.transparent,
             child: [
-          [
-            ListTile(
-              title: "Use Old School Palette".text(style: const TextStyle(fontSize: 15)),
-              trailing: $useOldSchool >>
-                  (ctx, use) => CupertinoSwitch(
-                      value: use,
-                      onChanged: (newV) {
-                        $useOldSchool.value = newV;
-                      }),
-            ),
-            ListTile(
-              title: "Use Timetable New-UI".text(style: const TextStyle(fontSize: 15)),
-              trailing: $useNewUI >>
-                  (ctx, use) => CupertinoSwitch(
-                      value: use,
-                      onChanged: (newV) {
-                        $useNewUI.value = newV;
-                      }),
-            ),
-          ].column(),
-          "Excuse me, a new personalization system is coming soon!"
-              .text(style: const TextStyle(fontStyle: FontStyle.italic))
-        ].column(mas: MainAxisSize.min)),
+              [
+                ListTile(
+                  title: "Use Old School Palette".text(style: const TextStyle(fontSize: 15)),
+                  trailing: $useOldSchool >>
+                      (ctx, use) => CupertinoSwitch(
+                          value: use,
+                          onChanged: (newV) {
+                            $useOldSchool.value = newV;
+                          }),
+                ),
+                ListTile(
+                  title: "Use Timetable New-UI".text(style: const TextStyle(fontSize: 15)),
+                  trailing: $useNewUI >>
+                      (ctx, use) => CupertinoSwitch(
+                          value: use,
+                          onChanged: (newV) {
+                            $useNewUI.value = newV;
+                          }),
+                ),
+              ].column(),
+              "Excuse me, a new personalization system is coming soon!"
+                  .text(style: const TextStyle(fontStyle: FontStyle.italic))
+            ].column(mas: MainAxisSize.min)),
       ),
     );
     if ($useOldSchool.value != useOldSchoolInit || $useNewUI.value != useNewUIInit) {

@@ -49,7 +49,7 @@ class _ScoreItemState extends State<ScoreItem> {
             .sized(key: const ValueKey("Checkbox"), w: iconSize, h: iconSize);
       } else {
         return Image.asset(
-          CourseCategory.iconPathOf(courseName: result.course),
+          CourseCategory.iconPathOf(courseName: result.courseName),
         ).sized(key: const ValueKey("Icon"), w: iconSize, h: iconSize);
       }
     }
@@ -67,7 +67,7 @@ class _ScoreItemState extends State<ScoreItem> {
       leading: buildLeading().animatedSwitched(
         d: const Duration(milliseconds: 300),
       ),
-      title: Text(stylizeCourseName(result.course), style: titleStyle),
+      title: Text(result.courseName, style: titleStyle),
       subtitle: getSubtitle().text(style: subtitleStyle),
       trailing: buildTrailing(),
       onTap: !selecting
