@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/widgets/placeholder_future_builder.dart';
 import 'package:mimir/widgets/webview/page.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -29,54 +28,55 @@ final evaluationUri = Uri(
 class _EvaluationPageState extends State<EvaluationPage> {
   final $autoScore = ValueNotifier(100);
   final controller = WebViewController();
+  List<WebViewCookie>? cookies;
 
   @override
   void initState() {
     super.initState();
-    $autoScore.addListener(() {
-      controller.runJavaScript(
-        "for(const e of document.getElementsByClassName('input-pjf')) e.value='${$autoScore.value}'",
-      );
-    });
+    $autoScore.addListener(setAllScores);
+    loadCookies();
   }
 
   @override
   void dispose() {
     $autoScore.dispose();
+    $autoScore.removeListener(setAllScores);
     super.dispose();
+  }
+
+  Future<void> setAllScores() async {
+    await controller.runJavaScript(
+      "for(const e of document.getElementsByClassName('input-pjf')) e.value='${$autoScore.value}'",
+    );
+  }
+
+  Future<void> loadCookies() async {
+    final cookies = await ExamResultInit.cookieJar.loadAsWebViewCookie(evaluationUri);
+    setState(() {
+      this.cookies = cookies;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Expanded(
-            child: PlaceholderFutureBuilder<List<WebViewCookie>>(
-              future: ExamResultInit.cookieJar.loadAsWebViewCookie(evaluationUri),
-              builder: (ctx, data, state) {
-                if (data == null) return const CircularProgressIndicator();
-                return WebViewPage(
-                  controller: controller,
-                  initialUrl: evaluationUri.toString(),
-                  fixedTitle: i18n.teacherEvalTitle,
-                  initialCookies: data,
-                );
-              },
-            ),
-          ),
-          $autoScore >>
-              (context, value) => [
-                    "Autofill Score：$value".text(),
-                    Slider(
-                      min: 0,
-                      max: 100,
-                      value: value.toDouble(),
-                      onChanged: (v) => $autoScore.value = v.toInt(),
-                    ).expanded(),
-                  ].row(),
-        ],
+    final cookies = this.cookies;
+    if(cookies == null) return const SizedBox();
+    return WebViewPage(
+      controller: controller,
+      initialUrl: evaluationUri.toString(),
+      fixedTitle: i18n.teacherEvalTitle,
+      initialCookies: cookies,
+      bottomNavigationBar: BottomAppBar(
+        child: $autoScore >>
+            (context, value) => [
+                  "Autofill Score：$value".text(),
+                  Slider(
+                    min: 0,
+                    max: 100,
+                    value: value.toDouble(),
+                    onChanged: (v) => $autoScore.value = v.toInt(),
+                  ).expanded(),
+                ].row(),
       ),
     );
   }

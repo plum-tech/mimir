@@ -59,9 +59,10 @@ class WebViewPage extends StatefulWidget {
 
   /// 注入cookies
   final List<WebViewCookie> initialCookies;
+  final Widget? bottomNavigationBar;
 
   const WebViewPage({
-    Key? key,
+    super.key,
     required this.initialUrl,
     this.controller,
     this.fixedTitle,
@@ -79,7 +80,8 @@ class WebViewPage extends StatefulWidget {
     this.otherActions,
     this.followDarkMode = false,
     this.initialCookies = const [],
-  }) : super(key: key);
+    this.bottomNavigationBar,
+  });
 
   @override
   State<WebViewPage> createState() => _WebViewPageState();
@@ -158,6 +160,7 @@ class _WebViewPageState extends State<WebViewPage> {
           actions: actions,
           bottom: buildTopIndicator(),
         ),
+        bottomNavigationBar: widget.bottomNavigationBar,
         floatingActionButton: widget.floatingActionButton,
         body: InjectableWebView(
           initialUrl: widget.initialUrl,

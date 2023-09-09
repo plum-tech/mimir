@@ -5,4 +5,3 @@ export 'exam_result/symbol.dart';
 export 'library/symbol.dart';
 export 'oa_announce/symbol.dart';
 export 'scanner/symbol.dart';
-export 'shared/symbol.dart';
