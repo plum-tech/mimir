@@ -4,9 +4,11 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:ical/serializer.dart';
+import 'package:mimir/r.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/timetable/storage/timetable.dart';
 import 'package:mimir/utils/file.dart';
+import 'package:share_plus/share_plus.dart';
 import 'entity/timetable.dart';
 
 import 'entity/course.dart';
@@ -14,6 +16,7 @@ import 'entity/meta.dart';
 import 'dart:math';
 
 import 'init.dart';
+import 'package:path/path.dart' show join;
 
 const maxWeekLength = 20;
 
@@ -239,4 +242,16 @@ Future<({String id, SitTimetable timetable})?> importTimetableFromFile() async {
   final timetable = SitTimetable.fromJson(json);
   final id = TimetableInit.storage.addTimetable(timetable);
   return (id: id, timetable: timetable);
+}
+
+Future<void> exportTimetableFileAndShare(SitTimetable timetable) async {
+  final content = jsonEncode(timetable.toJson());
+  final year = '${timetable.schoolYear}–${timetable.schoolYear + 1}';
+  final semester = timetable.semester.localized();
+  final fileName = "$year-$semester.timetable";
+  final timetableFi = File(join(R.tmpDir, fileName));
+  await timetableFi.writeAsString(content);
+  await Share.shareXFiles(
+    [XFile(timetableFi.path)],
+  );
 }

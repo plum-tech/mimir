@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +9,7 @@ import 'package:mimir/design/widgets/multiplatform.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/timetable/storage/timetable.dart';
-import 'package:path/path.dart' show join;
 import 'package:rettulf/rettulf.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../entity/meta.dart';
 import '../i18n.dart';
@@ -200,15 +196,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             title: i18n.mine.exportFile.text(),
             onTap: () async {
               ctx.pop();
-              final content = jsonEncode(timetable.toJson());
-              final year = '${timetable.schoolYear}–${timetable.schoolYear + 1}';
-              final semester = timetable.semester.localized();
-              final fileName = "$year-$semester.timetable";
-              final timetableFi = File(join(R.tmpDir, fileName));
-              await timetableFi.writeAsString(content);
-              await Share.shareXFiles(
-                [XFile(timetableFi.path)],
-              );
+              await exportTimetableFileAndShare(timetable);
             },
           ),
         ),
