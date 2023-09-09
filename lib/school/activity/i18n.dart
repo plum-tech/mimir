@@ -1,4 +1,5 @@
-import 'using.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:mimir/l10n/common.dart';
 
 const i18n = _I18n();
 
@@ -10,6 +11,8 @@ class _I18n with CommonI18nMixin {
   final navigation = const _Navigation();
   final apply = const _Apply();
   final application = const _Application();
+
+  String get title => "$ns.title".tr();
 
   String get id => "$ns.id".tr();
 

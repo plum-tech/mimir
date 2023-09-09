@@ -1,12 +1,14 @@
 import 'package:auto_animated/auto_animated.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/design/adaptive/adaptive.dart';
+import 'package:mimir/design/animation/livelist.dart';
+import 'package:mimir/design/colors.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/list.dart';
 import '../init.dart';
 import '../widgets/card.dart';
-import '../using.dart';
 
 class ActivityListPage extends StatefulWidget {
   const ActivityListPage({super.key});

@@ -1,8 +1,8 @@
 import 'package:hive/hive.dart';
-import 'package:mimir/mini_apps/activity/dao/score.dart';
+import 'package:mimir/cache/box.dart';
+import 'package:mimir/school/activity/dao/score.dart';
 
 import '../entity/score.dart';
-import '../using.dart';
 
 class _Key {
   static const scScoreSummary = "/myScoreSummary";

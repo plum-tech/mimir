@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/mini_apps/activity/using.dart';
+import 'package:mimir/utils/cookies.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../init.dart';

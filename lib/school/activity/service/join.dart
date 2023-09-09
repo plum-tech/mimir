@@ -1,4 +1,4 @@
-import '../using.dart';
+import 'package:mimir/network/session.dart';
 
 class ScJoinActivityService {
   static const _applyCheck = 'http://sc.sit.edu.cn/public/pcenter/check.action?activityId=';

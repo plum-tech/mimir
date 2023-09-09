@@ -1,4 +1,4 @@
-import 'package:mimir/mini_apps/activity/storage/score.dart';
+import '../storage/score.dart';
 
 import '../dao/score.dart';
 import '../entity/score.dart';

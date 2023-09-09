@@ -1,8 +1,8 @@
 import 'package:hive/hive.dart';
+import 'package:mimir/cache/box.dart';
 
 import '../dao/list.dart';
 import '../entity/list.dart';
-import '../using.dart';
 
 class ScActivityListStorageBox with CachedBox {
   static const _activitiesNs = "/activities";

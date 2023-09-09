@@ -1,10 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mimir/entity/campus.dart';
-import 'package:mimir/mini_apps/activity/using.dart';
 
 import '../r.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mimir/design/adaptive/adaptive.dart';
 import 'package:mimir/widgets/placeholder_future_builder.dart';
 
-import '../using.dart';
 import 'list.dart';
 import 'mine.dart';
 import 'package:rettulf/rettulf.dart';
@@ -9,6 +9,7 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/list.dart';
 import '../init.dart';
 import '../widgets/card.dart';
+import '../i18n.dart';
 
 class ActivityIndexPage extends StatefulWidget {
   const ActivityIndexPage({super.key});
@@ -21,7 +22,7 @@ class _ActivityIndexPageState extends State<ActivityIndexPage> {
   @override
   Widget build(BuildContext context) {
     return AdaptiveNavi(
-      title: MiniApp.activity.l10nName(),
+      title: i18n.title,
       defaultIndex: 0,
       actions: [
         IconButton(

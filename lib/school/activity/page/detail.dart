@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/mini_apps/activity/entity/list.dart';
+import 'package:mimir/design/adaptive/adaptive.dart';
+import 'package:mimir/design/widgets/button.dart';
+import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/utils/url_launcher.dart';
 import 'package:mimir/widgets/html_widget.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/detail.dart';
 import '../init.dart';
-import '../widgets/background.dart';
-import '../using.dart';
+import '../entity/list.dart';
+import '../i18n.dart';
 
 String _getActivityUrl(int activityId) {
   return 'http://sc.sit.edu.cn/public/activity/activityDetail.action?activityId=$activityId';
@@ -129,16 +132,7 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
   }
 
   Widget buildInfoCardPortrait(BuildContext ctx, ActivityDetail? detail) {
-    return Stack(
-      children: [
-        AspectRatio(
-          aspectRatio: 1.8,
-          child: ColorfulCircleBackground(seed: detail?.id),
-        ),
-        buildGlassmorphismBg(ctx),
-        buildActivityInfo(ctx, detail).padAll(8).inCard().hero(widget.hero).padAll(20),
-      ],
-    );
+    return buildActivityInfo(ctx, detail).padAll(8).inCard().hero(widget.hero).padAll(20);
   }
 
   Widget buildInfoCardLandscape(BuildContext context, ActivityDetail? detail) {
@@ -174,19 +168,13 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
   }
 
   Widget buildDetailLandscape(BuildContext ctx, ActivityDetail? detail) {
-    return [
-      ColorfulCircleBackground(seed: detail?.id).padAll(20),
-      ClipRRect(
-        child: buildGlassmorphismBg(ctx),
-      ),
-      Row(mainAxisSize: MainAxisSize.min, children: [
-        buildInfoCardLandscape(context, detail).align(at: Alignment.topCenter).expanded(),
-        if (detail != null)
-          _buildArticle(context, detail.description).align(at: Alignment.topCenter).expanded()
-        else
-          const CircularProgressIndicator().expanded(),
-      ])
-    ].stack();
+    return Row(mainAxisSize: MainAxisSize.min, children: [
+      buildInfoCardLandscape(context, detail).align(at: Alignment.topCenter).expanded(),
+      if (detail != null)
+        _buildArticle(context, detail.description).align(at: Alignment.topCenter).expanded()
+      else
+        const CircularProgressIndicator().expanded(),
+    ]);
   }
 
   Future<void> showApplyRequest(BuildContext ctx) async {

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/score.dart';
-import '../using.dart';
+import "../i18n.dart";
 
 ScScoreSummary calcTargetScore(int admissionYear) {
   const table = {

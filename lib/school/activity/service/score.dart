@@ -1,10 +1,11 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:mimir/network/session.dart';
 
 import '../dao/score.dart';
 import '../entity/list.dart';
 import '../entity/score.dart';
-import '../using.dart';
 
 class ScScoreService implements ScScoreDao {
   static const _scHomeUrl = 'http://sc.sit.edu.cn/public/init/index.action';
@@ -94,7 +95,7 @@ class ScScoreService implements ScScoreDao {
 
   static List<ScScoreItem> _parseMyScoreList(String htmlPage) {
     if (htmlPage.contains('<meta http-equiv="refresh" content="0;URL=http://my.sit.edu.cn"/>')) {
-      Log.info("My score list needs refresh.");
+      debugPrint("My score list needs refresh.");
       throw Exception("My score list needs refresh.");
     }
     ScScoreItem nodeToScoreItem(Bs4Element item) {
@@ -121,7 +122,7 @@ class ScScoreService implements ScScoreDao {
 
   static List<ScActivityApplication> _parseMyActivityList(String htmlPage) {
     if (htmlPage.contains('<meta http-equiv="refresh" content="0;URL=http://my.sit.edu.cn"/>')) {
-      Log.info("My involved list needs refresh.");
+      debugPrint("My involved list needs refresh.");
       throw Exception("My involved list needs refresh.");
     }
     ScActivityApplication _activityMapDetail(Bs4Element item) {

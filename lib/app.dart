@@ -1,10 +1,13 @@
 import 'dart:ui';
 
 import 'package:animations/animations.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:mimir/mini_apps/activity/using.dart';
+import 'package:mimir/credential/widgets/oa_scope.dart';
+import 'package:mimir/design/adaptive/adaptive.dart';
+import 'package:mimir/r.dart';
 import 'package:mimir/route.dart';
+import 'package:mimir/storage/settings.dart';
 
 final $Key = GlobalKey<NavigatorState>();
 

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mimir/design/adaptive/adaptive.dart';
+import 'package:mimir/design/colors.dart';
+import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/list.dart';
 import '../page/detail.dart';
-import '../using.dart';
-import 'background.dart';
 
 class ActivityCard extends StatelessWidget {
   final Activity activity;
@@ -30,27 +31,14 @@ class ActivityCard extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Stack(
-          children: [
-            Blur(
-              ColorfulCircleBackground(seed: activity.id),
-              sigmaX: 10,
-              sigmaY: 10,
-              opacity: 0.75,
-            ),
-            buildGlassmorphismBg(ctx),
-            Center(
-              child: activity.realTitle
-                  .text(
-                    style: titleStyle,
-                    maxLines: 3,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                  )
-                  .padSymmetric(h: 12),
-            ),
-          ],
-        ).expanded(),
+        activity.realTitle
+            .text(
+          style: titleStyle,
+          maxLines: 3,
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+        )
+            .padSymmetric(h: 12),
         Container(
           decoration: BoxDecoration(color: ctx.bgColor),
           child: Padding(

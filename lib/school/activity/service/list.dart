@@ -1,10 +1,12 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:mimir/network/session.dart';
 
 import '../dao/list.dart';
 import '../entity/list.dart';
-import '../using.dart';
 import '../utils.dart';
+import "package:intl/intl.dart";
 
 class ScActivityListService implements ScActivityListDao {
   static const _scActivityType = {
@@ -15,9 +17,9 @@ class ScActivityListService implements ScActivityListDao {
     ActivityType.thematicEdu: 'ff808081674ec4720167ce60dda77cea',
     ActivityType.voluntary: '8ab17f543fe62d5d013fe62e6dc70001',
   };
-  static RegExp re = RegExp(r"(\d){7}");
-  static String selector = '.ul_7 li > a';
-  static DateFormat dateFormatParser = DateFormat('yyyy-MM-dd hh:mm:ss');
+  static final re = RegExp(r"(\d){7}");
+  static const selector = '.ul_7 li > a';
+  static final dateFormatParser = DateFormat('yyyy-MM-dd hh:mm:ss');
 
   static bool _initializedCookie = false;
 
@@ -68,7 +70,7 @@ class ScActivityListService implements ScActivityListDao {
 
   static List<Activity> _parseActivityList(String htmlPage) {
     if (htmlPage.contains('<meta http-equiv="refresh" content="0;URL=http://my.sit.edu.cn"/>')) {
-      Log.info("Activity list needs refresh.");
+      debugPrint("Activity list needs refresh.");
       throw Exception("Activity list needs refresh.");
     }
     final BeautifulSoup soup = BeautifulSoup(htmlPage);

@@ -1,8 +1,8 @@
 import 'package:hive/hive.dart';
+import 'package:mimir/cache/box.dart';
 
 import '../dao/detail.dart';
 import '../entity/detail.dart';
-import '../using.dart';
 
 class ScActivityDetailStorageBox with CachedBox {
   static const id2DetailKey = "/id2Detail";
