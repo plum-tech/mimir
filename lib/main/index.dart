@@ -76,8 +76,15 @@ class _MainStagePageState extends State<MainStagePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (context.isLandscape) {
+    if (context.isPortrait) {
       return Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: widget.navigationShell,
+        bottomNavigationBar: buildButtonNavigationBar(),
+      );
+    } else {
+      return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: [
           buildNavigationRail(),
           const VerticalDivider(),
@@ -85,10 +92,6 @@ class _MainStagePageState extends State<MainStagePage> {
         ].row(),
       );
     }
-    return Scaffold(
-      body: widget.navigationShell,
-      bottomNavigationBar: buildButtonNavigationBar(),
-    );
   }
 
   Widget buildButtonNavigationBar() {

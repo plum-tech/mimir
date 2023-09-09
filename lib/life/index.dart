@@ -37,7 +37,6 @@ class _LifePageState extends State<LifePage> {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          pinned: true,
           snap: false,
           floating: false,
           title: i18n.navigation.text(),

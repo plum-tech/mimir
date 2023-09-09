@@ -18,7 +18,6 @@ class _SchoolPageState extends State<SchoolPage> {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          pinned: true,
           snap: false,
           floating: false,
           title: i18n.navigation.text(),
