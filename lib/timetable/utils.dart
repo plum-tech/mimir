@@ -8,6 +8,7 @@ import 'package:mimir/r.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/timetable/storage/timetable.dart';
 import 'package:mimir/utils/file.dart';
+import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
 import 'entity/timetable.dart';
 
@@ -246,9 +247,7 @@ Future<({String id, SitTimetable timetable})?> importTimetableFromFile() async {
 
 Future<void> exportTimetableFileAndShare(SitTimetable timetable) async {
   final content = jsonEncode(timetable.toJson());
-  final year = '${timetable.schoolYear}–${timetable.schoolYear + 1}';
-  final semester = timetable.semester.localized();
-  final fileName = "$year-$semester.timetable";
+  final fileName = sanitizeFilename("${timetable.name}.timetable", replacement: "-");
   final timetableFi = File(join(R.tmpDir, fileName));
   await timetableFi.writeAsString(content);
   await Share.shareXFiles(
