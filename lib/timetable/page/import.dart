@@ -54,7 +54,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       appBar: AppBar(
         title: i18n.import.title.text(),
         actions: [
-          CupertinoButton(onPressed: importFromFile, child: "From File".text()),
+          CupertinoButton(onPressed: importFromFile, child: i18n.import.fromFileBtn.text()),
         ],
         bottom: !isImporting
             ? null
@@ -160,7 +160,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   Widget buildImportButton(BuildContext ctx) {
     return ElevatedButton(
       onPressed: _status == ImportStatus.importing ? null : _onImport,
-      child: i18n.import.button
+      child: i18n.import.importBtn
           .text(
             style: TextStyle(fontSize: ctx.textTheme.titleLarge?.fontSize),
           )

@@ -23,7 +23,8 @@ timetable:
     courseId: "课程代码 {}"
   import:
     title: 导入课程表
-    button: 尝试导入
+    importBtn: 尝试导入
+    fromFileBtn: 从文件导入
     connectivityCheckerDesc: 在导入课程表之前，需要先检查你是否能访问校园网。
     selectSemesterTip: 请先选择学年与学期
     endTip: 请完善课程表的信息。
