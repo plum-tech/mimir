@@ -16,7 +16,7 @@ import 'storage/detail.dart';
 import 'storage/list.dart';
 import 'storage/score.dart';
 
-class ScInit {
+class Class2ndInit {
   static late ScSession session;
   static late ScActivityListDao scActivityListService;
   static late ScActivityDetailDao scActivityDetailService;

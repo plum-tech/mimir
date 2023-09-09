@@ -28,7 +28,7 @@ class ActivitySearchDelegate extends SearchDelegate<String> {
 
   Widget _buildSearch() {
     return PlaceholderFutureBuilder<List<Activity>?>(
-      future: ScInit.scActivityListService.query(query),
+      future: Class2ndInit.scActivityListService.query(query),
       builder: (context, data, state) {
         if (data == null) {
           return const CircularProgressIndicator();

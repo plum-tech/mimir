@@ -36,7 +36,7 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
   @override
   void initState() {
     super.initState();
-    ScInit.scActivityDetailService.getActivityDetail(activityId).then((value) {
+    Class2ndInit.scActivityDetailService.getActivityDetail(activityId).then((value) {
       setState(() {
         detail = value;
       });
@@ -186,7 +186,7 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
         highlight: true);
     if (confirm == true) {
       try {
-        final response = await ScInit.scJoinActivityService.join(activityId);
+        final response = await Class2ndInit.scJoinActivityService.join(activityId);
         if (!mounted) return;
         await ctx.showTip(title: i18n.apply.replyTip, desc: response, ok: i18n.ok);
       } catch (e) {
@@ -204,7 +204,7 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
 
   Future<void> _sendRequest(BuildContext context, bool force) async {
     try {
-      final response = await ScInit.scJoinActivityService.join(activityId, force);
+      final response = await Class2ndInit.scJoinActivityService.join(activityId, force);
       if (!mounted) return;
       context.showSnackBar(Text(response));
     } catch (e) {

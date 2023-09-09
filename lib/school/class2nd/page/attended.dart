@@ -24,8 +24,6 @@ class AttendedActivityPage extends StatefulWidget {
 
 class _AttendedActivityPageState extends State<AttendedActivityPage> {
   List<ScJoinedActivity>? joined;
-  ScScoreSummary? summary;
-
   final _scrollController = ScrollController();
 
   @override
@@ -49,14 +47,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   }
 
   void onRefresh() {
-    ScInit.scScoreService.getScoreSummary().then((value) {
-      if (summary != value) {
-        summary = value;
-        if (!mounted) return;
-        setState(() {});
-      }
-    });
-    getMyActivityListJoinScore(ScInit.scScoreService).then((value) {
+    getMyActivityListJoinScore(Class2ndInit.scScoreService).then((value) {
       if (joined != value) {
         joined = value;
         if (!mounted) return;

@@ -4,7 +4,7 @@ import 'package:rettulf/rettulf.dart';
 import 'card.dart';
 
 class AppCard extends StatelessWidget {
-  final Widget? view;
+  final Widget view;
   final Widget? title;
   final Widget? subtitle;
   final List<Widget>? leftActions;
@@ -18,7 +18,7 @@ class AppCard extends StatelessWidget {
 
   const AppCard({
     super.key,
-    this.view,
+    required this.view,
     this.title,
     this.subtitle,
     this.leftActions,

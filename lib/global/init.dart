@@ -129,7 +129,7 @@ class Init {
       box: HiveBoxInit.applicationCache,
     );
 
-    ScInit.init(
+    Class2ndInit.init(
       ssoSession: Global.ssoSession,
       box: HiveBoxInit.activityCache,
     );
