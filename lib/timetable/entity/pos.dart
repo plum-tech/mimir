@@ -1,6 +1,6 @@
 import 'package:quiver/core.dart';
 
-import 'entity.dart';
+import 'timetable.dart';
 
 class TimetablePos {
   /// starts with 1

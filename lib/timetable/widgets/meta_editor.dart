@@ -6,8 +6,6 @@ import 'package:rettulf/rettulf.dart';
 
 import '../i18n.dart';
 import '../entity/meta.dart';
-import 'shared.dart';
-import 'picker.dart';
 
 class MetaEditor extends StatefulWidget {
   final TimetableMeta meta;
@@ -72,7 +70,7 @@ class _MetaEditorState extends State<MetaEditor> {
                   (ctx, value) =>
                       ctx.formatYmdText(value).text(style: TextStyle(fontSize: ctx.textTheme.bodyLarge?.fontSize)),
               onPressed: () async {
-                final date = await pickDate(context, initial: $selectedDate.value);
+                final date = await _pickTimetableStartDate(context, initial: $selectedDate.value);
                 if (date != null) {
                   $selectedDate.value = DateTime(date.year, date.month, date.day);
                 }
@@ -93,7 +91,7 @@ class _MetaEditorState extends State<MetaEditor> {
                 ctx.pop(meta);
               }),
             ],
-          ).vwrap()
+          ).padV(12)
         ],
       ),
     );
@@ -106,5 +104,19 @@ Widget _buildButton(BuildContext ctx, String text, {VoidCallback? onPressed}) {
     child: text.text(
       style: TextStyle(fontSize: ctx.textTheme.titleLarge?.fontSize),
     ),
+  );
+}
+
+Future<DateTime?> _pickTimetableStartDate(
+    BuildContext ctx, {
+      required DateTime initial,
+    }) async {
+  return await showDatePicker(
+    context: ctx,
+    initialDate: initial,
+    currentDate: DateTime.now(),
+    firstDate: DateTime(DateTime.now().year - 2),
+    lastDate: DateTime(DateTime.now().year + 2),
+    selectableDayPredicate: (DateTime dataTime) => dataTime.weekday == DateTime.monday,
   );
 }

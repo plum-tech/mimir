@@ -9,14 +9,13 @@ import 'package:mimir/design/widgets/dialog.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../i18n.dart';
-import '../../entity/entity.dart';
+import '../../entity/timetable.dart';
 import '../../events.dart';
 import '../../utils.dart';
-import '../shared.dart';
+import '../slot.dart';
 import '../style.dart';
 import '../sheet.dart';
 import '../../entity/pos.dart';
-import 'shared.dart';
 
 class WeeklyTimetable extends StatefulWidget {
   final ScrollController? scrollController;
@@ -384,9 +383,8 @@ class _CourseCellState extends State<_CourseCell> {
     final Widget res;
     final colors = TimetableStyle.of(context).colors;
     final color = colors[course.courseCode.hashCode.abs() % colors.length].byTheme(context.theme);
-    final info = buildInfo(
-      context,
-      course,
+    final info = TimetableSlotInfo(
+      course: course,
       maxLines: context.isPortrait ? 8 : 5,
     );
     if (context.isPortrait) {
@@ -415,5 +413,31 @@ class _CourseCellState extends State<_CourseCell> {
       if (!mounted) return;
       await context.showSheet((ctx) => Sheet(courseCode: course.courseCode, timetable: widget.timetable));
     });
+  }
+}
+
+class ElevatedNumber extends StatelessWidget {
+  final int number;
+  final Color color;
+  final double margin;
+  final double elevation;
+
+  const ElevatedNumber({
+    super.key,
+    required this.number,
+    required this.color,
+    required this.margin,
+    required this.elevation,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final text = number.toString();
+    return Card(
+      elevation: elevation,
+      color: color,
+      shape: const CircleBorder(),
+      child: text.text(textAlign: TextAlign.center).padAll(margin),
+    );
   }
 }

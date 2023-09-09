@@ -7,9 +7,9 @@ import 'package:mimir/design/widgets/dialog.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../i18n.dart';
-import '../../entity/entity.dart';
+import '../../entity/timetable.dart';
 import '../../utils.dart';
-import '../shared.dart';
+import '../slot.dart';
 import 'header.dart';
 import '../style.dart';
 import '../sheet.dart';
@@ -440,9 +440,8 @@ class _CourseCellState extends State<_CourseCell> {
     return Container(
             decoration: decoration,
             margin: EdgeInsets.all(0.5.w),
-            child: buildInfo(
-              context,
-              course,
+            child: TimetableSlotInfo(
+              course: course,
               maxLines: context.isPortrait ? 8 : 5,
             ).padOnly(t: padding))
         .onTap(() async {

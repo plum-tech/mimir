@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/course.dart';
-import '../entity/entity.dart';
+import '../entity/timetable.dart';
 import '../widgets/style.dart';
 import '../entity/pos.dart';
 import '../widgets/new_ui/timetable.dart' as new_ui;

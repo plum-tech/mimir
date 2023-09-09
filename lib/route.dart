@@ -13,7 +13,7 @@ import 'package:mimir/settings/page/index.dart';
 import 'package:mimir/me/index.dart';
 import 'package:mimir/mini_apps/exam_result/using.dart';
 import 'package:mimir/school/index.dart';
-import 'package:mimir/timetable/entity/entity.dart';
+import 'package:mimir/timetable/entity/timetable.dart';
 import 'package:mimir/timetable/init.dart';
 import 'package:mimir/timetable/page/import.dart';
 import 'package:mimir/timetable/page/index.dart';

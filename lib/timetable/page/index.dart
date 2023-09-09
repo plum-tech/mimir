@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/timetable/storage/timetable.dart';
 
-import '../entity/entity.dart';
+import '../entity/timetable.dart';
 import '../init.dart';
 import '../widgets/style.dart';
 import 'mine.dart';

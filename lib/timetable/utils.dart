@@ -7,7 +7,7 @@ import 'package:ical/serializer.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/timetable/storage/timetable.dart';
 import 'package:mimir/utils/file.dart';
-import 'entity/entity.dart';
+import 'entity/timetable.dart';
 
 import 'entity/course.dart';
 import 'entity/meta.dart';

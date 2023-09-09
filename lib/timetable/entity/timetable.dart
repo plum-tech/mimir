@@ -6,7 +6,7 @@ import '../utils.dart';
 import 'course.dart';
 import 'meta.dart';
 
-part 'entity.g.dart';
+part 'timetable.g.dart';
 
 @JsonSerializable()
 class SitTimetable {

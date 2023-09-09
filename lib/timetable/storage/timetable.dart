@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../entity/course.dart';
-import '../entity/entity.dart';
+import '../entity/timetable.dart';
 
 class _K {
   static const timetableIdList = "/timetableIdList";

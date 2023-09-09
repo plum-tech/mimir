@@ -7,12 +7,11 @@ import 'package:rettulf/rettulf.dart';
 import '../events.dart';
 import '../i18n.dart';
 import '../entity/course.dart';
-import '../entity/entity.dart';
+import '../entity/timetable.dart';
 import '../init.dart';
 import '../widgets/style.dart';
 import '../entity/pos.dart';
-import '../widgets/new_ui/timetable.dart' as new_ui;
-import '../widgets/classic_ui/timetable.dart' as classic_ui;
+import '../widgets/view.dart';
 
 const DisplayMode defaultMode = DisplayMode.weekly;
 
@@ -96,24 +95,12 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
               }
             },
           )),
-      body: buildBody(context),
+      body: TimetableViewer(
+        timetable: timetable,
+        $currentPos: $currentPos,
+        $displayMode: $displayMode,
+      ),
     );
-  }
-
-  Widget buildBody(BuildContext ctx) {
-    if (TimetableStyle.of(ctx).useNewUI) {
-      return new_ui.TimetableViewer(
-        timetable: timetable,
-        $currentPos: $currentPos,
-        $displayMode: $displayMode,
-      );
-    } else {
-      return classic_ui.TimetableViewer(
-        timetable: timetable,
-        $currentPos: $currentPos,
-        $displayMode: $displayMode,
-      );
-    }
   }
 
   Widget buildSwitchViewButton(BuildContext ctx) {

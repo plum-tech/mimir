@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/school/entity/school.dart';
 
 import '../i18n.dart';
-import '../entity/entity.dart';
+import '../entity/timetable.dart';
 
 class Sheet extends StatelessWidget {
   final String courseCode;

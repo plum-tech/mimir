@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'entity.dart';
+part of 'timetable.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

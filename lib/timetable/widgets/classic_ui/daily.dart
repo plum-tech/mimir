@@ -8,7 +8,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:mimir/school/entity/school.dart';
 
 import '../../i18n.dart';
-import '../../entity/entity.dart';
+import '../../entity/timetable.dart';
 import '../../utils.dart';
 import 'header.dart';
 import '../style.dart';

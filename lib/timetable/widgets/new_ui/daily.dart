@@ -11,12 +11,11 @@ import 'package:mimir/school/entity/school.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../i18n.dart';
-import '../../entity/entity.dart';
+import '../../entity/timetable.dart';
 import '../../events.dart';
 import '../../utils.dart';
 import '../style.dart';
 import '../../entity/pos.dart';
-import 'shared.dart';
 
 class DailyTimetable extends StatefulWidget {
   final ScrollController? scrollController;
@@ -432,5 +431,30 @@ class _RowBuilder {
       }
     }
     return _rows;
+  }
+}
+
+
+class ElevatedText extends StatelessWidget {
+  final Widget child;
+  final Color color;
+  final double margin;
+  final double elevation;
+
+  const ElevatedText({
+    super.key,
+    required this.color,
+    required this.margin,
+    required this.elevation,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: elevation,
+      color: color,
+      child: child.padAll(margin),
+    );
   }
 }
