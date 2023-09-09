@@ -6,7 +6,8 @@ import 'package:mimir/life/expense_records/page/statistics.dart';
 import 'package:mimir/life/index.dart';
 import 'package:mimir/main/index.dart';
 import 'package:mimir/main/network_tool/page/index.dart';
-import 'package:mimir/school/class2nd/page/index.dart';
+import 'package:mimir/school/class2nd/page/list.dart';
+import 'package:mimir/school/class2nd/page/mine.dart';
 import 'package:mimir/school/yellow_pages/page/index.dart';
 import 'package:mimir/settings/page/credential.dart';
 import 'package:mimir/settings/page/developer.dart';
@@ -137,8 +138,13 @@ final router = GoRouter(
       builder: (ctx, state) => const DeveloperOptionsPage(),
     ),
     GoRoute(
-      path: "/activity",
-      builder: (ctx, state) => const ActivityIndexPage(),
+      path: "/class2nd/activity",
+      builder: (ctx, state) => const ActivityListPage(),
+      redirect: _loginRequired,
+    ),
+    GoRoute(
+      path: "/class2nd/attended",
+      builder: (ctx, state) => const AttendedActivityPage(),
       redirect: _loginRequired,
     ),
     GoRoute(

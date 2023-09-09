@@ -1,7 +1,6 @@
 import 'package:auto_animated/auto_animated.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/adaptive/adaptive.dart';
 import 'package:mimir/design/animation/livelist.dart';
 import 'package:mimir/design/colors.dart';
 import 'package:rettulf/rettulf.dart';
@@ -9,6 +8,8 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/list.dart';
 import '../init.dart';
 import '../widgets/card.dart';
+import '../widgets/search.dart';
+import '../i18n.dart';
 
 class ActivityListPage extends StatefulWidget {
   const ActivityListPage({super.key});
@@ -17,8 +18,7 @@ class ActivityListPage extends StatefulWidget {
   State<StatefulWidget> createState() => _ActivityListPageState();
 }
 
-class _ActivityListPageState extends State<ActivityListPage>
-    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin, AdaptivePageProtocol {
+class _ActivityListPageState extends State<ActivityListPage> with SingleTickerProviderStateMixin {
   static const categories = [
     ActivityType.lecture,
     ActivityType.creation,
@@ -45,46 +45,43 @@ class _ActivityListPageState extends State<ActivityListPage>
 
   @override
   void dispose() {
-    super.dispose();
     _tabController.dispose();
-  }
-
-  TabBar _buildBarHeader(BuildContext ctx) {
-    return TabBar(
-      isScrollable: true,
-      controller: _tabController,
-      tabs: categories
-          .mapIndexed((i, e) =>
-              $page >>
-              (ctx, page) {
-                return Tab(
-                    child: e.name
-                        .text(style: page == i ? TextStyle(color: ctx.textColor) : ctx.theme.textTheme.bodyLarge));
-              })
-          .toList(),
-    );
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return DefaultTabController(
-        length: categories.length, child: context.isPortrait ? buildPortrait(context) : buildLandscape(context));
-  }
-
-  Widget buildLandscape(BuildContext ctx) {
-    return AdaptiveNavigation(
-      child: buildBody(ctx),
+      length: categories.length,
+      child: buildBody(),
     );
   }
 
-  Widget buildPortrait(BuildContext ctx) {
-    return buildBody(ctx);
-  }
-
-  Widget buildBody(BuildContext ctx) {
+  Widget buildBody() {
     return Scaffold(
-      appBar: _buildBarHeader(context),
+      appBar: AppBar(
+        title: i18n.activity.title.text(),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () => showSearch(context: context, delegate: ActivitySearchDelegate()),
+          ),
+        ],
+        bottom: TabBar(
+          isScrollable: true,
+          controller: _tabController,
+          tabs: categories.mapIndexed((i, e) {
+            return $page >>
+                (ctx, page) {
+                  return Tab(
+                    child: e.name.text(
+                      style: page == i ? TextStyle(color: ctx.textColor) : ctx.theme.textTheme.bodyLarge,
+                    ),
+                  );
+                };
+          }).toList(),
+        ),
+      ),
       body: TabBarView(
         controller: _tabController,
         children: categories.map((selectedActivityType) {
@@ -98,9 +95,6 @@ class _ActivityListPageState extends State<ActivityListPage>
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 ///

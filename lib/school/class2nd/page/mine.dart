@@ -16,14 +16,14 @@ import '../utils.dart';
 import 'detail.dart';
 import "../i18n.dart";
 
-class MyActivityPage extends StatefulWidget {
-  const MyActivityPage({super.key});
+class AttendedActivityPage extends StatefulWidget {
+  const AttendedActivityPage({super.key});
 
   @override
-  State<MyActivityPage> createState() => _MyActivityPageState();
+  State<AttendedActivityPage> createState() => _AttendedActivityPageState();
 }
 
-class _MyActivityPageState extends State<MyActivityPage> with AutomaticKeepAliveClientMixin, AdaptivePageProtocol {
+class _AttendedActivityPageState extends State<AttendedActivityPage> with AutomaticKeepAliveClientMixin, AdaptivePageProtocol {
   List<ScJoinedActivity>? joined;
   ScScoreSummary? summary;
 

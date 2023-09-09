@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -18,13 +19,17 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
       title: i18n.title.text(),
       leftActions: [
         FilledButton.icon(
-          onPressed: () async {},
+          onPressed: () async {
+            await context.push("/class2nd/activity");
+          },
           label: "Activity".text(),
           icon: const Icon(Icons.local_activity_outlined),
         ),
         OutlinedButton(
-          onPressed: () {},
-          child: "My score".text(),
+          onPressed: () async {
+            await context.push("/class2nd/attended");
+          },
+          child: "Attended".text(),
         )
       ],
       rightActions: [

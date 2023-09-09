@@ -8,9 +8,9 @@ class _I18n with CommonI18nMixin {
 
   static const ns = "activity";
 
-  final navigation = const _Navigation();
   final apply = const _Apply();
   final application = const _Application();
+  final activity = const _Activity();
 
   String get title => "$ns.title".tr();
 
@@ -43,14 +43,12 @@ class _I18n with CommonI18nMixin {
   String get undertaker => "$ns.undertaker".tr();
 }
 
-class _Navigation {
-  const _Navigation();
+class _Activity {
+  const _Activity();
 
-  static const ns = "${_I18n.ns}.navigation";
+  static const ns = "${_I18n.ns}.activity";
 
-  String get all => "$ns.all".tr();
-
-  String get mine => "$ns.mine".tr();
+  String get title => "$ns.title".tr();
 }
 
 class _Apply {
