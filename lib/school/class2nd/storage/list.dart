@@ -10,27 +10,23 @@ class ScActivityListStorageBox with CachedBox {
 
   ScActivityListStorageBox(this.box);
 
-  late final activities = ListNamespace2<Activity, ActivityType, int>(_activitiesNs, makeActivityKey);
+  late final activities = ListNamespace2<Class2ndActivity, Class2ndActivityType, int>(_activitiesNs, makeActivityKey);
 
-  static String makeActivityKey(ActivityType type, int page) => "$type/$page";
+  static String makeActivityKey(Class2ndActivityType type, int page) => "$type/$page";
 }
 
-class Class2ndActivityListStorage  {
+class Class2ndActivityListStorage {
   final ScActivityListStorageBox box;
 
   Class2ndActivityListStorage(Box<dynamic> hive) : box = ScActivityListStorageBox(hive);
 
-  Future<List<Activity>?> getActivityList(ActivityType type, int page) async {
+  Future<List<Class2ndActivity>?> getActivityList(Class2ndActivityType type, int page) async {
     final key = box.activities.make(type, page);
     return key.value;
   }
 
-  void setActivityList(ActivityType type, int page, List<Activity>? activities) {
+  void setActivityList(Class2ndActivityType type, int page, List<Class2ndActivity>? activities) {
     final key = box.activities.make(type, page);
     key.value = activities;
-  }
-
-  Future<List<Activity>?> query(String queryString) {
-    throw UnimplementedError("Storage won't save query.");
   }
 }

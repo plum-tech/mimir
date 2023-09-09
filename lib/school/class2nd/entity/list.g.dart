@@ -6,19 +6,19 @@ part of 'list.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ActivityAdapter extends TypeAdapter<Activity> {
+class Class2ndActivityAdapter extends TypeAdapter<Class2ndActivity> {
   @override
   final int typeId = 50;
 
   @override
-  Activity read(BinaryReader reader) {
+  Class2ndActivity read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Activity(
+    return Class2ndActivity(
       fields[0] as int,
-      fields[1] as ActivityType,
+      fields[1] as Class2ndActivityType,
       fields[2] as String,
       fields[5] as DateTime,
       fields[3] as String,
@@ -27,7 +27,7 @@ class ActivityAdapter extends TypeAdapter<Activity> {
   }
 
   @override
-  void write(BinaryWriter writer, Activity obj) {
+  void write(BinaryWriter writer, Class2ndActivity obj) {
     writer
       ..writeByte(6)
       ..writeByte(0)
@@ -49,62 +49,63 @@ class ActivityAdapter extends TypeAdapter<Activity> {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is ActivityAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      identical(this, other) ||
+      other is Class2ndActivityAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class ActivityTypeAdapter extends TypeAdapter<ActivityType> {
+class Class2ndActivityTypeAdapter extends TypeAdapter<Class2ndActivityType> {
   @override
   final int typeId = 52;
 
   @override
-  ActivityType read(BinaryReader reader) {
+  Class2ndActivityType read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return ActivityType.lecture;
+        return Class2ndActivityType.lecture;
       case 1:
-        return ActivityType.thematicEdu;
+        return Class2ndActivityType.thematicEdu;
       case 2:
-        return ActivityType.creation;
+        return Class2ndActivityType.creation;
       case 3:
-        return ActivityType.schoolCulture;
+        return Class2ndActivityType.schoolCulture;
       case 4:
-        return ActivityType.practice;
+        return Class2ndActivityType.practice;
       case 5:
-        return ActivityType.voluntary;
+        return Class2ndActivityType.voluntary;
       case 6:
-        return ActivityType.cyberSafetyEdu;
+        return Class2ndActivityType.cyberSafetyEdu;
       case 7:
-        return ActivityType.unknown;
+        return Class2ndActivityType.unknown;
       default:
-        return ActivityType.lecture;
+        return Class2ndActivityType.lecture;
     }
   }
 
   @override
-  void write(BinaryWriter writer, ActivityType obj) {
+  void write(BinaryWriter writer, Class2ndActivityType obj) {
     switch (obj) {
-      case ActivityType.lecture:
+      case Class2ndActivityType.lecture:
         writer.writeByte(0);
         break;
-      case ActivityType.thematicEdu:
+      case Class2ndActivityType.thematicEdu:
         writer.writeByte(1);
         break;
-      case ActivityType.creation:
+      case Class2ndActivityType.creation:
         writer.writeByte(2);
         break;
-      case ActivityType.schoolCulture:
+      case Class2ndActivityType.schoolCulture:
         writer.writeByte(3);
         break;
-      case ActivityType.practice:
+      case Class2ndActivityType.practice:
         writer.writeByte(4);
         break;
-      case ActivityType.voluntary:
+      case Class2ndActivityType.voluntary:
         writer.writeByte(5);
         break;
-      case ActivityType.cyberSafetyEdu:
+      case Class2ndActivityType.cyberSafetyEdu:
         writer.writeByte(6);
         break;
-      case ActivityType.unknown:
+      case Class2ndActivityType.unknown:
         writer.writeByte(7);
         break;
     }
@@ -116,5 +117,5 @@ class ActivityTypeAdapter extends TypeAdapter<ActivityType> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ActivityTypeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is Class2ndActivityTypeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

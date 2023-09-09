@@ -9,12 +9,12 @@ import "package:intl/intl.dart";
 
 class Class2ndActivityListService {
   static const _scActivityType = {
-    ActivityType.schoolCulture: '8ab17f543fe626a8013fe6278a880001',
-    ActivityType.creation: 'ff8080814e241104014eb867e1481dc3',
-    ActivityType.lecture: '001',
-    ActivityType.practice: '8ab17f543fe62d5d013fe62efd3a0002',
-    ActivityType.thematicEdu: 'ff808081674ec4720167ce60dda77cea',
-    ActivityType.voluntary: '8ab17f543fe62d5d013fe62e6dc70001',
+    Class2ndActivityType.schoolCulture: '8ab17f543fe626a8013fe6278a880001',
+    Class2ndActivityType.creation: 'ff8080814e241104014eb867e1481dc3',
+    Class2ndActivityType.lecture: '001',
+    Class2ndActivityType.practice: '8ab17f543fe62d5d013fe62efd3a0002',
+    Class2ndActivityType.thematicEdu: 'ff808081674ec4720167ce60dda77cea',
+    Class2ndActivityType.voluntary: '8ab17f543fe62d5d013fe62e6dc70001',
   };
   static final re = RegExp(r"(\d){7}");
   static const selector = '.ul_7 li > a';
@@ -39,8 +39,8 @@ class Class2ndActivityListService {
   }
 
   /// 获取第二课堂活动列表
-  Future<List<Activity>> getActivityList(ActivityType type, int page) async {
-    String generateUrl(ActivityType category, int page, [int pageSize = 20]) {
+  Future<List<Class2ndActivity>> getActivityList(Class2ndActivityType type, int page) async {
+    String generateUrl(Class2ndActivityType category, int page, [int pageSize = 20]) {
       return 'http://sc.sit.edu.cn/public/activity/activityList.action?pageNo=$page&pageSize=$pageSize&categoryId=${_scActivityType[category]}';
     }
 
@@ -51,7 +51,7 @@ class Class2ndActivityListService {
     return _parseActivityList(response.data);
   }
 
-  Future<List<Activity>> query(String queryString) async {
+  Future<List<Class2ndActivity>> query(String queryString) async {
     const String url = 'http://sc.sit.edu.cn/public/activity/activityList.action';
 
     await _refreshCookie();
@@ -65,13 +65,13 @@ class Class2ndActivityListService {
     return _parseActivityList(response.data);
   }
 
-  static List<Activity> _parseActivityList(String htmlPage) {
+  static List<Class2ndActivity> _parseActivityList(String htmlPage) {
     if (htmlPage.contains('<meta http-equiv="refresh" content="0;URL=http://my.sit.edu.cn"/>')) {
       debugPrint("Activity list needs refresh.");
       throw Exception("Activity list needs refresh.");
     }
     final BeautifulSoup soup = BeautifulSoup(htmlPage);
-    List<Activity> result = soup.findAll(selector).map(
+    List<Class2ndActivity> result = soup.findAll(selector).map(
       (element) {
         final date = element.nextSibling!.text;
         final String title = element.text.substring(2);
@@ -80,9 +80,9 @@ class Class2ndActivityListService {
         final String? x = re.firstMatch(link)?.group(0).toString();
         final int id = int.parse(x!);
         final titleAndTags = splitTitleAndTags(title);
-        return Activity.named(
+        return Class2ndActivity.named(
             id: id,
-            category: ActivityType.unknown,
+            category: Class2ndActivityType.unknown,
             title: title,
             ts: dateFormatParser.parse(date),
             realTitle: titleAndTags.title,

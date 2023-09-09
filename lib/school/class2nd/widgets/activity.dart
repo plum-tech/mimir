@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/design/adaptive/adaptive.dart';
 import 'package:mimir/design/colors.dart';
 import 'package:mimir/l10n/extension.dart';
@@ -8,7 +9,7 @@ import '../entity/list.dart';
 import '../page/detail.dart';
 
 class ActivityCard extends StatelessWidget {
-  final Activity activity;
+  final Class2ndActivity activity;
 
   const ActivityCard(this.activity, {super.key});
 
@@ -18,8 +19,7 @@ class ActivityCard extends StatelessWidget {
         .inCard(margin: const EdgeInsets.all(10))
         .hero(activity.id)
         .on(tap: () {
-      final route = context.adaptive.makeRoute((_) => DetailPage(activity, hero: activity.id));
-      context.navigator.push(route);
+      context.push("/class2nd/activity-detail?enable-apply=true", extra: activity);
     });
   }
 

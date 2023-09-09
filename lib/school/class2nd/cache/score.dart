@@ -15,7 +15,7 @@ class Class2ndScoreCache {
     this.expiration = const Duration(minutes: 10),
   });
 
-  Future<ScScoreSummary?> getScoreSummary() async {
+  Future<Class2ndScoreSummary?> getScoreSummary() async {
     if (to.box.myScoreSummary.needRefresh(after: expiration)) {
       try {
         final res = await from.getScoreSummary();
@@ -29,7 +29,7 @@ class Class2ndScoreCache {
     }
   }
 
-  Future<List<ScScoreItem>?> getMyScoreList() async {
+  Future<List<Class2ndScoreItem>?> getMyScoreList() async {
     if (to.box.myScoreList.needRefresh(after: expiration)) {
       try {
         final res = await from.getMyScoreList();
@@ -43,7 +43,7 @@ class Class2ndScoreCache {
     }
   }
 
-  Future<List<ScActivityApplication>?> getMyInvolved() async {
+  Future<List<Class2ndActivityApplication>?> getMyInvolved() async {
     if (to.box.myInvolved.needRefresh(after: expiration)) {
       try {
         final res = await from.getAttended();

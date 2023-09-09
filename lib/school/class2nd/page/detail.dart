@@ -15,28 +15,31 @@ String _getActivityUrl(int activityId) {
   return 'http://sc.sit.edu.cn/public/activity/activityDetail.action?activityId=$activityId';
 }
 
-class DetailPage extends StatefulWidget {
-  final Activity activity;
-  final Object hero;
+class Class2ndActivityDetailPage extends StatefulWidget {
+  final Class2ndActivity activity;
   final bool enableApply;
 
-  const DetailPage(this.activity, {required this.hero, this.enableApply = true, super.key});
+  const Class2ndActivityDetailPage(
+    this.activity, {
+    super.key,
+    this.enableApply = false,
+  });
 
   @override
-  State<StatefulWidget> createState() => _DetailPageState();
+  State<StatefulWidget> createState() => _Class2ndActivityDetailPageState();
 }
 
-class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMixin {
+class _Class2ndActivityDetailPageState extends State<Class2ndActivityDetailPage> with AutomaticKeepAliveClientMixin {
   int get activityId => widget.activity.id;
 
-  Activity get activity => widget.activity;
-  ActivityDetail? detail;
+  Class2ndActivity get activity => widget.activity;
+  Class2ndActivityDetail? detail;
   Size? titleBarSize;
 
   @override
   void initState() {
     super.initState();
-    Class2ndInit.scActivityDetailService.getActivityDetail(activityId).then((value) {
+    Class2ndInit.activityDetailService.getActivityDetail(activityId).then((value) {
       setState(() {
         detail = value;
       });
@@ -131,11 +134,11 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
     }
   }
 
-  Widget buildInfoCardPortrait(BuildContext ctx, ActivityDetail? detail) {
-    return buildActivityInfo(ctx, detail).padAll(8).inCard().hero(widget.hero).padAll(20);
+  Widget buildInfoCardPortrait(BuildContext ctx, Class2ndActivityDetail? detail) {
+    return buildActivityInfo(ctx, detail).padAll(8).inCard().hero(activity.id).padAll(20);
   }
 
-  Widget buildInfoCardLandscape(BuildContext context, ActivityDetail? detail) {
+  Widget buildInfoCardLandscape(BuildContext context, Class2ndActivityDetail? detail) {
     return buildActivityInfo(context, detail)
         .padAll(8)
         .scrolled(physics: const ClampingScrollPhysics())
@@ -157,7 +160,7 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
     );
   }
 
-  Widget buildDetailPortrait(BuildContext ctx, ActivityDetail? detail) {
+  Widget buildDetailPortrait(BuildContext ctx, Class2ndActivityDetail? detail) {
     return SingleChildScrollView(
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         buildInfoCardPortrait(context, detail),
@@ -167,7 +170,7 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
     );
   }
 
-  Widget buildDetailLandscape(BuildContext ctx, ActivityDetail? detail) {
+  Widget buildDetailLandscape(BuildContext ctx, Class2ndActivityDetail? detail) {
     return Row(mainAxisSize: MainAxisSize.min, children: [
       buildInfoCardLandscape(context, detail).align(at: Alignment.topCenter).expanded(),
       if (detail != null)
@@ -213,7 +216,7 @@ class _DetailPageState extends State<DetailPage> with AutomaticKeepAliveClientMi
     }
   }
 
-  Widget buildActivityInfo(BuildContext context, ActivityDetail? detail) {
+  Widget buildActivityInfo(BuildContext context, Class2ndActivityDetail? detail) {
     final titleStyle = Theme.of(context).textTheme.headlineSmall;
     final valueStyle = Theme.of(context).textTheme.bodyMedium;
     final keyStyle = valueStyle?.copyWith(fontWeight: FontWeight.bold);

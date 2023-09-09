@@ -14,9 +14,9 @@ class Class2ndActivityListCache {
     this.expiration = const Duration(minutes: 10),
   });
 
-  final Map<String, List<Activity>> _queried = {};
+  final Map<String, List<Class2ndActivity>> _queried = {};
 
-  Future<List<Activity>?> getActivityList(ActivityType type, int page) async {
+  Future<List<Class2ndActivity>?> getActivityList(Class2ndActivityType type, int page) async {
     final cacheKey = to.box.activities.make(type, page);
     if (cacheKey.needRefresh(after: expiration)) {
       try {
@@ -31,7 +31,7 @@ class Class2ndActivityListCache {
     }
   }
 
-  Future<List<Activity>?> query(String queryString) async {
+  Future<List<Class2ndActivity>?> query(String queryString) async {
     var res = _queried[queryString];
     res ??= await from.query(queryString);
     _queried[queryString] = res;

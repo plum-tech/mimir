@@ -6,16 +6,16 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/score.dart';
 import "../i18n.dart";
 
-ScScoreSummary calcTargetScore(int admissionYear) {
+Class2ndScoreSummary calcTargetScore(int admissionYear) {
   const table = {
-    2013: ScScoreSummary(lecture: 1, campus: 1),
-    2014: ScScoreSummary(lecture: 1, practice: 1, campus: 1),
-    2015: ScScoreSummary(lecture: 1, practice: 1, creation: 1, campus: 1),
-    2016: ScScoreSummary(lecture: 1, practice: 1, creation: 1, campus: 1),
-    2017: ScScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, campus: 2),
-    2018: ScScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, campus: 2),
-    2019: ScScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, voluntary: 1, campus: 1),
-    2020: ScScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, voluntary: 1, campus: 1),
+    2013: Class2ndScoreSummary(lecture: 1, campus: 1),
+    2014: Class2ndScoreSummary(lecture: 1, practice: 1, campus: 1),
+    2015: Class2ndScoreSummary(lecture: 1, practice: 1, creation: 1, campus: 1),
+    2016: Class2ndScoreSummary(lecture: 1, practice: 1, creation: 1, campus: 1),
+    2017: Class2ndScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, campus: 2),
+    2018: Class2ndScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, campus: 2),
+    2019: Class2ndScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, voluntary: 1, campus: 1),
+    2020: Class2ndScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, voluntary: 1, campus: 1),
   };
   if (table.keys.contains(admissionYear)) {
     return table[admissionYear]!;
@@ -51,11 +51,12 @@ BarTouchData _barTouchData() => BarTouchData(
       ),*/
     );
 
-Widget _buildChart(BuildContext ctx, ScScoreSummary targetScore, ScScoreSummary? summary, {bool showTotal = false}) {
+Widget _buildChart(BuildContext ctx, Class2ndScoreSummary targetScore, Class2ndScoreSummary? summary,
+    {bool showTotal = false}) {
   if (summary == null) {
     return const CircularProgressIndicator();
   }
-  List<double> buildScoreList(ScScoreSummary scss) {
+  List<double> buildScoreList(Class2ndScoreSummary scss) {
     return [scss.voluntary, scss.campus, scss.creation, scss.safetyEdu, scss.lecture, scss.practice];
   }
 
@@ -120,8 +121,8 @@ Widget _buildChart(BuildContext ctx, ScScoreSummary targetScore, ScScoreSummary?
 }
 
 class Class2ndScoreSummeryCard extends StatelessWidget {
-  final ScScoreSummary targetScore;
-  final ScScoreSummary? summery;
+  final Class2ndScoreSummary targetScore;
+  final Class2ndScoreSummary? summery;
 
   const Class2ndScoreSummeryCard({
     super.key,

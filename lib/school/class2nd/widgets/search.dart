@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:mimir/widgets/placeholder_future_builder.dart';
 import 'package:rettulf/rettulf.dart';
@@ -18,7 +17,7 @@ class ActivitySearchDelegate extends SearchDelegate<String> {
     return null;
   }
 
-  Widget buildEventResult(List<Activity> activities) {
+  Widget buildEventResult(List<Class2ndActivity> activities) {
     return ListView.builder(
         itemCount: activities.length,
         itemBuilder: (ctx, i) {
@@ -27,8 +26,8 @@ class ActivitySearchDelegate extends SearchDelegate<String> {
   }
 
   Widget _buildSearch() {
-    return PlaceholderFutureBuilder<List<Activity>?>(
-      future: Class2ndInit.scActivityListService.query(query),
+    return PlaceholderFutureBuilder<List<Class2ndActivity>?>(
+      future: Class2ndInit.activityListService.query(query),
       builder: (context, data, state) {
         if (data == null) {
           return const CircularProgressIndicator();

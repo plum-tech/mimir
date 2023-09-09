@@ -11,7 +11,7 @@ Future<List<ScJoinedActivity>?> getMyActivityListJoinScore(Class2ndScoreCache sc
     // 对于每一次申请, 找到对应的加分信息
     final totalScore = scores
         .where((e) => e.activityId == application.activityId)
-        .fold<double>(0.0, (double p, ScScoreItem e) => p + e.amount);
+        .fold<double>(0.0, (double p, Class2ndScoreItem e) => p + e.amount);
     // TODO: 潜在的 BUG，可能导致得分页面出现重复项。
     return ScJoinedActivity(application.applyId, application.activityId, application.title, application.time,
         application.status, totalScore);

@@ -6,6 +6,10 @@ import 'package:mimir/life/expense_records/page/statistics.dart';
 import 'package:mimir/life/index.dart';
 import 'package:mimir/main/index.dart';
 import 'package:mimir/main/network_tool/page/index.dart';
+import 'package:mimir/school/class2nd/cache/list.dart';
+import 'package:mimir/school/class2nd/entity/list.dart';
+import 'package:mimir/school/class2nd/init.dart';
+import 'package:mimir/school/class2nd/page/detail.dart';
 import 'package:mimir/school/class2nd/page/list.dart';
 import 'package:mimir/school/class2nd/page/attended.dart';
 import 'package:mimir/school/yellow_pages/page/index.dart';
@@ -145,6 +149,21 @@ final router = GoRouter(
     GoRoute(
       path: "/class2nd/attended",
       builder: (ctx, state) => const AttendedActivityPage(),
+      redirect: _loginRequired,
+    ),
+    GoRoute(
+      path: "/class2nd/activity-detail",
+      builder: (ctx, state) {
+         final enableApply = state.uri.queryParameters["enable-apply"] != null;
+        final extra = state.extra;
+        if (extra is Class2ndActivity) {
+          return Class2ndActivityDetailPage(
+            extra,
+            enableApply: enableApply,
+          );
+        }
+        throw 404;
+      },
       redirect: _loginRequired,
     ),
     GoRoute(

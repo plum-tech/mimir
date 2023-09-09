@@ -20,7 +20,7 @@ class ActivityName {
 }
 
 @HiveType(typeId: HiveTypeClass2nd.activityType)
-enum ActivityType {
+enum Class2ndActivityType {
   @HiveField(0)
   lecture(ActivityName.lectureReport), // 讲座报告
   @HiveField(1)
@@ -40,7 +40,7 @@ enum ActivityType {
 
   final String name;
 
-  const ActivityType(this.name);
+  const Class2ndActivityType(this.name);
 }
 
 enum ActivityScoreType {
@@ -69,26 +69,26 @@ const Map<String, ActivityScoreType> stringToActivityScoreType = {
 
 /// Don't Change this.
 /// Strings from school API
-const Map<String, ActivityType> stringToActivityType = {
-  '讲座报告': ActivityType.lecture,
-  '主题教育': ActivityType.thematicEdu,
-  '校园文化活动': ActivityType.schoolCulture,
-  '创新创业创意': ActivityType.creation, // 三创
-  '社会实践': ActivityType.practice,
-  '志愿公益': ActivityType.voluntary,
-  '安全教育网络教学': ActivityType.cyberSafetyEdu,
-  '校园文明': ActivityType.schoolCulture,
+const Map<String, Class2ndActivityType> stringToActivityType = {
+  '讲座报告': Class2ndActivityType.lecture,
+  '主题教育': Class2ndActivityType.thematicEdu,
+  '校园文化活动': Class2ndActivityType.schoolCulture,
+  '创新创业创意': Class2ndActivityType.creation, // 三创
+  '社会实践': Class2ndActivityType.practice,
+  '志愿公益': Class2ndActivityType.voluntary,
+  '安全教育网络教学': Class2ndActivityType.cyberSafetyEdu,
+  '校园文明': Class2ndActivityType.schoolCulture,
 };
 
 @HiveType(typeId: HiveTypeClass2nd.activity)
-class Activity {
+class Class2ndActivity {
   /// Activity id
   @HiveField(0)
   final int id;
 
   /// Activity category
   @HiveField(1)
-  final ActivityType category;
+  final Class2ndActivityType category;
 
   /// Title
   @HiveField(2)
@@ -103,9 +103,9 @@ class Activity {
   @HiveField(5)
   final DateTime ts;
 
-  const Activity(this.id, this.category, this.title, this.ts, this.realTitle, this.tags);
+  const Class2ndActivity(this.id, this.category, this.title, this.ts, this.realTitle, this.tags);
 
-  const Activity.named(
+  const Class2ndActivity.named(
       {required this.id,
       required this.category,
       required this.title,
@@ -119,12 +119,12 @@ class Activity {
   }
 }
 
-extension ActivityParser on Activity {
-  static Activity parse(ScJoinedActivity activity) {
+extension ActivityParser on Class2ndActivity {
+  static Class2ndActivity parse(ScJoinedActivity activity) {
     final titleAndTags = splitTitleAndTags(activity.title);
-    return Activity.named(
+    return Class2ndActivity.named(
         id: activity.activityId,
-        category: ActivityType.unknown,
+        category: Class2ndActivityType.unknown,
         title: activity.title,
         ts: activity.time,
         realTitle: titleAndTags.title,

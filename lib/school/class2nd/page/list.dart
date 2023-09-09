@@ -20,12 +20,12 @@ class ActivityListPage extends StatefulWidget {
 
 class _ActivityListPageState extends State<ActivityListPage> with SingleTickerProviderStateMixin {
   static const categories = [
-    ActivityType.lecture,
-    ActivityType.creation,
-    ActivityType.thematicEdu,
-    ActivityType.schoolCulture,
-    ActivityType.practice,
-    ActivityType.voluntary,
+    Class2ndActivityType.lecture,
+    Class2ndActivityType.creation,
+    Class2ndActivityType.thematicEdu,
+    Class2ndActivityType.schoolCulture,
+    Class2ndActivityType.practice,
+    Class2ndActivityType.voluntary,
   ];
 
   late TabController _tabController;
@@ -100,7 +100,7 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
 ///
 /// Thanks to the cache, don't worry about that switching tab will re-fetch the activity list.
 class ActivityList extends StatefulWidget {
-  final ActivityType type;
+  final Class2ndActivityType type;
 
   const ActivityList(this.type, {super.key});
 
@@ -113,7 +113,7 @@ class ActivityList extends StatefulWidget {
 class _ActivityListState extends State<ActivityList> {
   int _lastPage = 1;
   bool _atEnd = false;
-  List<Activity> _activityList = [];
+  List<Class2ndActivity> _activityList = [];
 
   bool loading = true;
 
@@ -150,7 +150,7 @@ class _ActivityListState extends State<ActivityList> {
     setState(() {
       _lastPage = 1;
     });
-    final activities = await Class2ndInit.scActivityListService.getActivityList(widget.type, 1);
+    final activities = await Class2ndInit.activityListService.getActivityList(widget.type, 1);
     if (activities != null) {
       if (!mounted) return;
       setState(() {
@@ -166,7 +166,7 @@ class _ActivityListState extends State<ActivityList> {
   void loadMoreActivities() async {
     if (_atEnd) return;
 
-    final lastActivities = await Class2ndInit.scActivityListService.getActivityList(widget.type, _lastPage);
+    final lastActivities = await Class2ndInit.activityListService.getActivityList(widget.type, _lastPage);
 
     if (!mounted) return;
     if (lastActivities != null) {
@@ -183,7 +183,7 @@ class _ActivityListState extends State<ActivityList> {
     }
   }
 
-  Widget buildActivityResult(List<Activity> activities) {
+  Widget buildActivityResult(List<Class2ndActivity> activities) {
     return LiveGrid.options(
       controller: _scrollController,
       itemCount: activities.length,

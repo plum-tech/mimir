@@ -6,17 +6,17 @@ part of 'score.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ScScoreSummaryAdapter extends TypeAdapter<ScScoreSummary> {
+class Class2ndScoreSummaryAdapter extends TypeAdapter<Class2ndScoreSummary> {
   @override
   final int typeId = 60;
 
   @override
-  ScScoreSummary read(BinaryReader reader) {
+  Class2ndScoreSummary read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ScScoreSummary(
+    return Class2ndScoreSummary(
       lecture: fields[0] as double,
       practice: fields[1] as double,
       creation: fields[2] as double,
@@ -27,7 +27,7 @@ class ScScoreSummaryAdapter extends TypeAdapter<ScScoreSummary> {
   }
 
   @override
-  void write(BinaryWriter writer, ScScoreSummary obj) {
+  void write(BinaryWriter writer, Class2ndScoreSummary obj) {
     writer
       ..writeByte(6)
       ..writeByte(0)
@@ -50,28 +50,28 @@ class ScScoreSummaryAdapter extends TypeAdapter<ScScoreSummary> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ScScoreSummaryAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is Class2ndScoreSummaryAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class ScScoreItemAdapter extends TypeAdapter<ScScoreItem> {
+class Class2ndScoreItemAdapter extends TypeAdapter<Class2ndScoreItem> {
   @override
   final int typeId = 62;
 
   @override
-  ScScoreItem read(BinaryReader reader) {
+  Class2ndScoreItem read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ScScoreItem(
+    return Class2ndScoreItem(
       fields[1] as int,
-      fields[2] as ActivityType,
+      fields[2] as Class2ndActivityType,
       fields[3] as double,
     );
   }
 
   @override
-  void write(BinaryWriter writer, ScScoreItem obj) {
+  void write(BinaryWriter writer, Class2ndScoreItem obj) {
     writer
       ..writeByte(3)
       ..writeByte(1)
@@ -88,30 +88,30 @@ class ScScoreItemAdapter extends TypeAdapter<ScScoreItem> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ScScoreItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is Class2ndScoreItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class ScActivityApplicationAdapter extends TypeAdapter<ScActivityApplication> {
+class Class2ndActivityApplicationAdapter extends TypeAdapter<Class2ndActivityApplication> {
   @override
   final int typeId = 61;
 
   @override
-  ScActivityApplication read(BinaryReader reader) {
+  Class2ndActivityApplication read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ScActivityApplication(
-      fields[0] as int,
-      fields[1] as int,
-      fields[2] as String,
-      fields[3] as DateTime,
-      fields[4] as String,
+    return Class2ndActivityApplication(
+      applyId: fields[0] as int,
+      activityId: fields[1] as int,
+      title: fields[2] as String,
+      time: fields[3] as DateTime,
+      status: fields[4] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, ScActivityApplication obj) {
+  void write(BinaryWriter writer, Class2ndActivityApplication obj) {
     writer
       ..writeByte(5)
       ..writeByte(0)
@@ -132,5 +132,5 @@ class ScActivityApplicationAdapter extends TypeAdapter<ScActivityApplication> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ScActivityApplicationAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is Class2ndActivityApplicationAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

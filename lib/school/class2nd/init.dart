@@ -15,8 +15,8 @@ import 'storage/score.dart';
 
 class Class2ndInit {
   static late Class2ndSession session;
-  static late Class2ndActivityListCache scActivityListService;
-  static late Class2ndActivityDetailCache scActivityDetailService;
+  static late Class2ndActivityListCache activityListService;
+  static late Class2ndActivityDetailCache activityDetailService;
   static late Class2ndScoreCache scoreService;
   static late Class2ndAttendActivityService attendActivityService;
 
@@ -25,12 +25,12 @@ class Class2ndInit {
     required Box<dynamic> box,
   }) {
     session = Class2ndSession(ssoSession);
-    scActivityListService = Class2ndActivityListCache(
+    activityListService = Class2ndActivityListCache(
       from: Class2ndActivityListService(session),
       to: Class2ndActivityListStorage(box),
       expiration: const Duration(minutes: 30),
     );
-    scActivityDetailService = Class2ndActivityDetailCache(
+    activityDetailService = Class2ndActivityDetailCache(
       from: Class2ndActivityDetailService(session),
       to: Class2ndActivityDetailStorage(box),
       expiration: const Duration(days: 180),

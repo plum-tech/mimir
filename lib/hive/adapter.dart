@@ -36,12 +36,12 @@ class HiveAdapter {
     ~ElectricityBalanceAdapter();
 
     // Activity
-    ~ActivityDetailAdapter();
-    ~ActivityAdapter();
-    ~ScScoreSummaryAdapter();
-    ~ScActivityApplicationAdapter();
-    ~ScScoreItemAdapter();
-    ~ActivityTypeAdapter();
+    ~Class2ndActivityDetailAdapter();
+    ~Class2ndActivityAdapter();
+    ~Class2ndScoreSummaryAdapter();
+    ~Class2ndActivityApplicationAdapter();
+    ~Class2ndScoreItemAdapter();
+    ~Class2ndActivityTypeAdapter();
 
     // Exam Arrangement
     ~ExamEntryAdapter();

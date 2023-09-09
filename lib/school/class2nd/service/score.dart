@@ -33,13 +33,13 @@ class Class2ndScoreService {
   const Class2ndScoreService(this.session);
 
   /// 获取第二课堂分数
-  Future<ScScoreSummary> getScoreSummary() async {
+  Future<Class2ndScoreSummary> getScoreSummary() async {
     final response = await session.request(_scHomeUrl, ReqMethod.post);
     final data = response.data;
     return _parseScScoreSummary(data);
   }
 
-  static ScScoreSummary _parseScScoreSummary(String htmlPage) {
+  static Class2ndScoreSummary _parseScScoreSummary(String htmlPage) {
     final BeautifulSoup soup = BeautifulSoup(htmlPage);
 
     // 学分=1.5(主题报告)+2.0(社会实践)+1.5(创新创业创意)+1.0(校园安全文明)+0.0(公益志愿)+2.0(校园文化)
@@ -75,7 +75,7 @@ class Class2ndScoreService {
           break;
       }
     }
-    return ScScoreSummary(
+    return Class2ndScoreSummary(
       lecture: lecture,
       practice: practice,
       creation: creation,
@@ -86,43 +86,43 @@ class Class2ndScoreService {
   }
 
   /// 获取我的得分列表
-  Future<List<ScScoreItem>> getMyScoreList() async {
+  Future<List<Class2ndScoreItem>> getMyScoreList() async {
     final response = await session.request(_scScoreUrl, ReqMethod.post);
     return _parseMyScoreList(response.data);
   }
 
-  static List<ScScoreItem> _parseMyScoreList(String htmlPage) {
+  static List<Class2ndScoreItem> _parseMyScoreList(String htmlPage) {
     if (htmlPage.contains('<meta http-equiv="refresh" content="0;URL=http://my.sit.edu.cn"/>')) {
       debugPrint("My score list needs refresh.");
       throw Exception("My score list needs refresh.");
     }
-    ScScoreItem nodeToScoreItem(Bs4Element item) {
+    Class2ndScoreItem nodeToScoreItem(Bs4Element item) {
       final int id = int.parse(item.find(idDetail)!.innerHtml.trim());
       // 注意：“我的成绩” 页面中，成绩条目显示的是活动类型，而非加分类型, 因此使用 ActivityType.
-      final ActivityType category = stringToActivityType[item.find(categoryDetail)!.innerHtml.trim()]!;
+      final Class2ndActivityType category = stringToActivityType[item.find(categoryDetail)!.innerHtml.trim()]!;
       final double amount = double.parse(item.find(scoreDetail)!.innerHtml.trim());
 
-      return ScScoreItem(id, category, amount);
+      return Class2ndScoreItem(id, category, amount);
     }
 
     // 得分列表里面，有一些条目加诚信分，此时常规得分为 0, 要把这些条目过滤掉。
-    bool filterZeroScore(ScScoreItem item) => item.amount > 0.01;
+    bool filterZeroScore(Class2ndScoreItem item) => item.amount > 0.01;
 
     return BeautifulSoup(htmlPage).findAll(scoreDetailPage).map(nodeToScoreItem).where(filterZeroScore).toList();
   }
 
   /// 获取我的活动列表
-  Future<List<ScActivityApplication>> getAttended() async {
+  Future<List<Class2ndActivityApplication>> getAttended() async {
     final response = await session.request(_scMyEventUrl, ReqMethod.post);
     return _parseAttendedActivityList(response.data);
   }
 
-  static List<ScActivityApplication> _parseAttendedActivityList(String htmlPage) {
+  static List<Class2ndActivityApplication> _parseAttendedActivityList(String htmlPage) {
     if (htmlPage.contains('<meta http-equiv="refresh" content="0;URL=http://my.sit.edu.cn"/>')) {
       debugPrint("My involved list needs refresh.");
       throw Exception("My involved list needs refresh.");
     }
-    ScActivityApplication _activityMapDetail(Bs4Element item) {
+    Class2ndActivityApplication _activityMapDetail(Bs4Element item) {
       final applyIdText = item.find(applyIdDetail)!.text.trim();
       final applyId = int.parse(applyIdText);
       final activityIdText = item.find(activityIdDetail)!.innerHtml.trim();
@@ -132,10 +132,16 @@ class Class2ndScoreService {
       final DateTime time = dateFormatParser.parse(item.find(timeDetail)!.text.trim());
       final String status = item.find(statusDetail)!.text.trim();
 
-      return ScActivityApplication(applyId, activityId, title, time, status);
+      return Class2ndActivityApplication(
+        applyId: applyId,
+        activityId: activityId,
+        title: title,
+        time: time,
+        status: status,
+      );
     }
 
-    bool _filterDeletedActivity(ScActivityApplication x) => x.activityId != 0;
+    bool _filterDeletedActivity(Class2ndActivityApplication x) => x.activityId != 0;
 
     return BeautifulSoup(htmlPage)
         .findAll(activityDetail)

@@ -3,7 +3,7 @@ import 'package:mimir/hive/type_id.dart';
 part 'detail.g.dart';
 
 @HiveType(typeId: HiveTypeClass2nd.activityDetail)
-class ActivityDetail {
+class Class2ndActivityDetail {
   /// Activity id
   @HiveField(0)
   final int id;
@@ -56,10 +56,10 @@ class ActivityDetail {
   @HiveField(12)
   final String? description;
 
-  const ActivityDetail(this.id, this.category, this.title, this.startTime, this.signStartTime, this.signEndTime,
+  const Class2ndActivityDetail(this.id, this.category, this.title, this.startTime, this.signStartTime, this.signEndTime,
       this.place, this.duration, this.principal, this.contactInfo, this.organizer, this.undertaker, this.description);
 
-  const ActivityDetail.named(
+  const Class2ndActivityDetail.named(
       {required this.id,
       required this.category,
       required this.title,

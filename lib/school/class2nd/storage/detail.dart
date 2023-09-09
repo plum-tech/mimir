@@ -7,7 +7,7 @@ class ScActivityDetailStorageBox with CachedBox {
   static const id2DetailKey = "/id2Detail";
   @override
   final Box<dynamic> box;
-  late final id2Detail = Namespace<ActivityDetail, int>(id2DetailKey, makeId2Detail);
+  late final id2Detail = Namespace<Class2ndActivityDetail, int>(id2DetailKey, makeId2Detail);
 
   String makeId2Detail(int activityId) => "$activityId";
 
@@ -19,12 +19,12 @@ class Class2ndActivityDetailStorage {
 
   Class2ndActivityDetailStorage(Box<dynamic> hive) : box = ScActivityDetailStorageBox(hive);
 
-  Future<ActivityDetail?> getActivityDetail(int activityId) async {
+  Future<Class2ndActivityDetail?> getActivityDetail(int activityId) async {
     final cacheKey = box.id2Detail.make(activityId);
     return cacheKey.value;
   }
 
-  void setActivityDetail(int activityId, ActivityDetail? detail) {
+  void setActivityDetail(int activityId, Class2ndActivityDetail? detail) {
     final cacheKey = box.id2Detail.make(activityId);
     cacheKey.value = detail;
   }

@@ -3,7 +3,7 @@ import 'package:mimir/school/class2nd/service/detail.dart';
 import '../entity/detail.dart';
 import '../storage/detail.dart';
 
-class Class2ndActivityDetailCache  {
+class Class2ndActivityDetailCache {
   final Class2ndActivityDetailService from;
   final Class2ndActivityDetailStorage to;
   Duration expiration;
@@ -14,7 +14,7 @@ class Class2ndActivityDetailCache  {
     this.expiration = const Duration(minutes: 10),
   });
 
-  Future<ActivityDetail?> getActivityDetail(int activityId) async {
+  Future<Class2ndActivityDetail?> getActivityDetail(int activityId) async {
     final cacheKey = to.box.id2Detail.make(activityId);
     if (cacheKey.needRefresh(after: expiration)) {
       try {

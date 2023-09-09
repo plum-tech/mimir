@@ -6,17 +6,17 @@ part of 'detail.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ActivityDetailAdapter extends TypeAdapter<ActivityDetail> {
+class Class2ndActivityDetailAdapter extends TypeAdapter<Class2ndActivityDetail> {
   @override
   final int typeId = 51;
 
   @override
-  ActivityDetail read(BinaryReader reader) {
+  Class2ndActivityDetail read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ActivityDetail(
+    return Class2ndActivityDetail(
       fields[0] as int,
       fields[1] as int,
       fields[2] as String,
@@ -34,7 +34,7 @@ class ActivityDetailAdapter extends TypeAdapter<ActivityDetail> {
   }
 
   @override
-  void write(BinaryWriter writer, ActivityDetail obj) {
+  void write(BinaryWriter writer, Class2ndActivityDetail obj) {
     writer
       ..writeByte(13)
       ..writeByte(0)
@@ -71,5 +71,5 @@ class ActivityDetailAdapter extends TypeAdapter<ActivityDetail> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ActivityDetailAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is Class2ndActivityDetailAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

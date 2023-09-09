@@ -17,7 +17,7 @@ class Class2ndAppCard extends StatefulWidget {
 }
 
 class _Class2ndAppCardState extends State<Class2ndAppCard> {
-  ScScoreSummary? summary;
+  Class2ndScoreSummary? summary;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
     });
   }
 
-  ScScoreSummary getTargetScore() {
+  Class2ndScoreSummary getTargetScore() {
     final admissionYear = int.tryParse(context.auth.credential?.account.substring(0, 2) ?? "") ?? 2000;
     return calcTargetScore(admissionYear);
   }

@@ -6,7 +6,7 @@ import 'package:mimir/hive/type_id.dart';
 part 'score.g.dart';
 
 @HiveType(typeId: HiveTypeClass2nd.scoreSummary)
-class ScScoreSummary {
+class Class2ndScoreSummary {
   /// Subject report (主题报告)
   @HiveField(0)
   final double lecture;
@@ -31,7 +31,7 @@ class ScScoreSummary {
   @HiveField(5)
   final double campus;
 
-  const ScScoreSummary({
+  const Class2ndScoreSummary({
     this.lecture = 0,
     this.practice = 0,
     this.creation = 0,
@@ -49,20 +49,20 @@ class ScScoreSummary {
 }
 
 @HiveType(typeId: HiveTypeClass2nd.scoreItem)
-class ScScoreItem {
+class Class2ndScoreItem {
   /// 活动编号
   @HiveField(1)
   final int activityId;
 
   /// 活动类型
   @HiveField(2)
-  final ActivityType type;
+  final Class2ndActivityType type;
 
   /// 分数
   @HiveField(3)
   final double amount;
 
-  ScScoreItem(this.activityId, this.type, this.amount);
+  Class2ndScoreItem(this.activityId, this.type, this.amount);
 
   @override
   String toString() {
@@ -71,7 +71,7 @@ class ScScoreItem {
 }
 
 @HiveType(typeId: HiveTypeClass2nd.activityApplication)
-class ScActivityApplication {
+class Class2ndActivityApplication {
   /// 申请编号
   @HiveField(0)
   final int applyId;
@@ -93,7 +93,13 @@ class ScActivityApplication {
   @HiveField(4)
   final String status;
 
-  ScActivityApplication(this.applyId, this.activityId, this.title, this.time, this.status);
+  Class2ndActivityApplication({
+    required this.applyId,
+    required this.activityId,
+    required this.title,
+    required this.time,
+    required this.status,
+  });
 
   @override
   String toString() {

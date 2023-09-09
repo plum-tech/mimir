@@ -15,9 +15,9 @@ class ScScoreStorageBox with CachedBox {
 
   ScScoreStorageBox(this.box);
 
-  late final myScoreSummary = Named<ScScoreSummary>(_Key.scScoreSummary);
-  late final myScoreList = NamedList<ScScoreItem>(_Key.scoreList);
-  late final myInvolved = NamedList<ScActivityApplication>(_Key.meInvolved);
+  late final myScoreSummary = Named<Class2ndScoreSummary>(_Key.scScoreSummary);
+  late final myScoreList = NamedList<Class2ndScoreItem>(_Key.scoreList);
+  late final myInvolved = NamedList<Class2ndActivityApplication>(_Key.meInvolved);
 }
 
 class Class2ndScoreStorage {
@@ -25,27 +25,27 @@ class Class2ndScoreStorage {
 
   Class2ndScoreStorage(Box<dynamic> hive) : box = ScScoreStorageBox(hive);
 
-  Future<ScScoreSummary?> getScoreSummary() async {
+  Future<Class2ndScoreSummary?> getScoreSummary() async {
     return box.myScoreSummary.value;
   }
 
-  Future<List<ScScoreItem>?> getMyScoreList() async {
+  Future<List<Class2ndScoreItem>?> getMyScoreList() async {
     return box.myScoreList.value;
   }
 
-  Future<List<ScActivityApplication>?> getMyInvolved() async {
+  Future<List<Class2ndActivityApplication>?> getMyInvolved() async {
     return box.myInvolved.value;
   }
 
-  void setMeInvolved(List<ScActivityApplication>? list) {
+  void setMeInvolved(List<Class2ndActivityApplication>? list) {
     box.myInvolved.value = list;
   }
 
-  void setScScoreSummary(ScScoreSummary? summery) {
+  void setScScoreSummary(Class2ndScoreSummary? summery) {
     box.myScoreSummary.value = summery;
   }
 
-  void setMyScoreList(List<ScScoreItem>? list) {
+  void setMyScoreList(List<Class2ndScoreItem>? list) {
     box.myScoreList.value = list;
   }
 }
