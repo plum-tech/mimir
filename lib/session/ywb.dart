@@ -33,7 +33,7 @@ class YwbSession extends ISession {
 
     if (code != 0) {
       final String errMessage = (response.data as Map)['msg'];
-      throw CredentialsInvalidException(msg: '($code) $errMessage');
+      throw YwbCredentialsException(message: '($code) $errMessage');
     }
     jwtToken = ((response.data as Map)['data'])['authorization'];
     this.username = username;

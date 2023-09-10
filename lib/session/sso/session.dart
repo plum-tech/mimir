@@ -118,9 +118,10 @@ class SsoSession with DioDownloaderMixin implements ISession {
     });
   }
 
-  Future<void> loginActive(OaCredential credential) async {
+  /// - User try to log in actively on a login page.
+  Future<Response> loginActive(OaCredential credential) async {
     return await loginLock.synchronized(() async {
-      return await _loginActive(credential);
+      return await _login(credential);
     });
   }
 
@@ -214,7 +215,9 @@ class SsoSession with DioDownloaderMixin implements ISession {
     // TODO: 支持移动端报错提示
     final mobileError = (page.find('span', id: 'errorMsg') ?? emptyPage).text.trim();
     if (authError.isNotEmpty || mobileError.isNotEmpty) {
-      throw CredentialsInvalidException(msg: authError + mobileError);
+      final errorMessage = authError + mobileError;
+      final type = parseInvalidType(errorMessage);
+      throw OaCredentialsException(message: errorMessage, type: type);
     }
 
     if (response.realUri.toString() != _loginSuccessUrl) {
@@ -228,12 +231,19 @@ class SsoSession with DioDownloaderMixin implements ISession {
     return response;
   }
 
+  OaCredentialsErrorType parseInvalidType(String message) {
+    if (message.contains("验证码")) {
+      return OaCredentialsErrorType.captcha;
+    }
+    return OaCredentialsErrorType.accountPassword;
+  }
+
   /// Return null when failed to login but there is no exception raised.
   Future<Response?> _loginPassive(OaCredential credential) async {
     try {
       return await _login(credential);
-    } on CredentialsInvalidException catch (e) {
-      if (e.msg.contains('验证码')) {
+    } on OaCredentialsException catch (e) {
+      if (e.message.contains('验证码')) {
         Log.info("Credential is invalid because of a wrong captcha prompt.");
         throw const MaxRetryExceedException(msg: '验证码识别有误，请稍后重试');
       } else {
@@ -253,21 +263,6 @@ class SsoSession with DioDownloaderMixin implements ISession {
           }
         }
         return null;
-      }
-    }
-  }
-
-  /// Use cases:
-  /// - User try to log in actively on a login page.
-  Future<void> _loginActive(OaCredential credential) async {
-    try {
-      await _login(credential);
-    } on CredentialsInvalidException catch (e) {
-      if (e.msg.contains('验证码')) {
-        Log.info("Credential is invalid because of a wrong captcha prompt.");
-      } else {
-        Log.info("Credential is invalid because of incorrect account or password.");
-        rethrow;
       }
     }
   }
@@ -351,7 +346,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
         captcha = c;
       } else {
         // 用户未输入验证码
-        throw CredentialsInvalidException(msg: _i18n.captcha.emptyInputError);
+        throw const LoginCaptchaCancelledException();
       }
     }
     // 获取casTicket

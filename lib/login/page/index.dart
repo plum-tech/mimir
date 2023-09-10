@@ -100,16 +100,17 @@ class _LoginPageState extends State<LoginPage> {
       context.go("/");
       setState(() => isLoggingIn = false);
     } on UnknownAuthException catch (e) {
+      if (!mounted) return;
       await context.showTip(
         title: i18n.failedWarn,
         desc: e.msg,
         ok: i18n.close,
       );
-    } on CredentialsInvalidException catch (e) {
+    } on OaCredentialsException catch (e) {
       if (!mounted) return;
       await context.showTip(
         title: i18n.failedWarn,
-        desc: e.msg,
+        desc: e.message,
         ok: i18n.close,
       );
       return;

@@ -124,7 +124,7 @@ class _HomepageState extends State<Homepage> {
         context.showSnackBar(_i18n.login.loggedInTip.text());
       } on Exception catch (e) {
         // 如果是认证相关问题, 弹出相应的错误信息.
-        if (e is UnknownAuthException || e is CredentialsInvalidException) {
+        if (e is UnknownAuthException || e is OaCredentialsException) {
           context.showSnackBar(Text('${_i18n.login.failedWarn}: $e'));
         } else {
           // 如果是网络问题, 提示检查网络.

@@ -1,14 +1,35 @@
 // TODO: I18n msg?
-/// 认证失败
-class CredentialsInvalidException implements Exception {
-  final String msg;
+enum OaCredentialsErrorType {
+  accountPassword,
+  captcha,
+}
 
-  const CredentialsInvalidException({this.msg = ''});
+class YwbCredentialsException implements Exception {
+  final String message;
+
+  const YwbCredentialsException({
+    required this.message,
+  });
+}
+
+/// 认证失败
+class OaCredentialsException implements Exception {
+  final OaCredentialsErrorType type;
+  final String message;
+
+  const OaCredentialsException({
+    this.message = '',
+    required this.type,
+  });
 
   @override
   String toString() {
-    return msg;
+    return message;
   }
+}
+
+class LoginCaptchaCancelledException implements Exception {
+  const LoginCaptchaCancelledException();
 }
 
 /// 操作之前需要先登录

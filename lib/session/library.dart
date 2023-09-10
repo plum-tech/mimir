@@ -18,7 +18,7 @@ class LibrarySession extends DefaultDioSession {
   Future<Response> login(String username, String password) async {
     final response = await _login(username, password);
     if (response.data.toString().contains('用户名或密码错误')) {
-      throw const CredentialsInvalidException(msg: '用户名或密码错误');
+      throw const OaCredentialsException(message: '用户名或密码错误', type: OaCredentialsErrorType.accountPassword);
     }
     // TODO: 还有其他错误处理
     return response;
