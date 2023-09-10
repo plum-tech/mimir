@@ -1,7 +1,6 @@
 import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/animation/livelist.dart';
-import 'package:mimir/mini_app.dart';
 import 'package:mimir/school/widgets/school.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/school/entity/school.dart';
@@ -10,8 +9,9 @@ import '../../../design/widgets/common.dart';
 import '../entity/exam.dart';
 import '../init.dart';
 import '../widgets/exam.dart';
-
 import '../i18n.dart';
+
+
 class ExamArrangementPage extends StatefulWidget {
   const ExamArrangementPage({super.key});
 
@@ -43,7 +43,7 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
   Widget build(BuildContext context) {
     final exams = _exams;
     return Scaffold(
-        appBar: AppBar(title: MiniApp.examArr.l10nName().text()),
+        appBar: AppBar(title: i18n.title.text()),
         body: [
           buildSemesterSelector(),
           exams == null ? const CircularProgressIndicator().expanded() : buildExamEntries(exams).expanded(),

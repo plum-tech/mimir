@@ -11,6 +11,8 @@ class _I18n with CommonI18nMixin {
   final mailbox = const _Mailbox();
   final navigation = const _Navigation();
 
+  String get title => "$ns.title".tr();
+
   String get desc => "$ns.desc".tr();
 
   String get filerInfrequentlyUsed => "$ns.filerInfrequentlyUsed".tr();

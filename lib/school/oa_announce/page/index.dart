@@ -5,13 +5,13 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/animation/livelist.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/mini_app.dart';
 import 'package:mimir/network/session.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/announce.dart';
 import '../entity/page.dart';
 import '../init.dart';
+import '../i18n.dart';
 import 'detail.dart';
 
 class OaAnnouncePage extends StatefulWidget {
@@ -42,7 +42,7 @@ class _OaAnnouncePageState extends State<OaAnnouncePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: MiniApp.oaAnnouncement.l10nName().text()),
+      appBar: AppBar(title: i18n.title.text()),
       body: _buildAnnounceList(),
     );
   }

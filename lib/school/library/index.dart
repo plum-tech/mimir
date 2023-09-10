@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mimir/mini_app.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'search/page/constant.dart';
 import 'search/page/search_delegate.dart';
+import '../i18n.dart';
 
 class LibraryPage extends StatelessWidget {
   const LibraryPage({super.key});
@@ -19,7 +19,7 @@ class LibraryPage extends StatelessWidget {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      title: MiniApp.library.l10nName().text(),
+      title: i18n.title.text(),
       actions: [
         IconButton(
           onPressed: () {

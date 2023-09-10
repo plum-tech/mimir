@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/adaptive/adaptive.dart';
 import 'package:mimir/design/widgets/dialog.dart';
-import 'package:mimir/mini_app.dart';
-import 'package:rettulf/rettulf.dart';
 
 import 'list.dart';
 import 'mailbox.dart';
@@ -22,12 +19,18 @@ class _ApplicationIndexPageState extends State<ApplicationIndexPage> {
   @override
   Widget build(BuildContext context) {
     return AdaptiveNavi(
-      title: MiniApp.application.l10nName(),
+      title: i18n.title,
       defaultIndex: 0,
       actions: [
         IconButton(
           icon: const Icon(Icons.info_outline),
-          onPressed: () async => showInfo(context),
+          onPressed: () async {
+            await context.showTip(
+              title: i18n.title,
+              desc: i18n.desc,
+              ok: i18n.close,
+            );
+          },
         ),
         IconButton(
           icon: $enableFilter.value ? const Icon(Icons.filter_alt_outlined) : const Icon(Icons.filter_alt_off_outlined),
@@ -61,12 +64,4 @@ class _ApplicationIndexPageState extends State<ApplicationIndexPage> {
       ],
     );
   }
-}
-
-Future<void> showInfo(BuildContext ctx) async {
-  await ctx.showTip(
-    title: MiniApp.application.l10nName(),
-    desc: i18n.desc,
-    ok: i18n.close,
-  );
 }

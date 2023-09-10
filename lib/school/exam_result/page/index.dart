@@ -4,7 +4,6 @@ import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/fab.dart';
 import 'package:mimir/design/widgets/multi_select.dart';
-import 'package:mimir/mini_app.dart';
 import 'package:mimir/school/widgets/school.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
@@ -120,7 +119,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
         ].row();
       }
     } else {
-      return MiniApp.examResult.l10nName().text();
+      return i18n.title.text();
     }
   }
 
