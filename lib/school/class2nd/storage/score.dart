@@ -15,9 +15,9 @@ class Class2ndScoreStorageBox with CachedBox {
 
   Class2ndScoreStorageBox(this.box);
 
-  late final myScoreSummary = Named<Class2ndScoreSummary>(_Key.scScoreSummary);
-  late final myScoreList = NamedList<Class2ndScoreItem>(_Key.scoreList);
-  late final myInvolved = NamedList<Class2ndActivityApplication>(_Key.meInvolved);
+  late final myScoreSummary = named<Class2ndScoreSummary>(_Key.scScoreSummary);
+  late final myScoreList = namedList<Class2ndScoreItem>(_Key.scoreList);
+  late final myInvolved = namedList<Class2ndActivityApplication>(_Key.meInvolved);
 }
 
 class Class2ndScoreStorage {

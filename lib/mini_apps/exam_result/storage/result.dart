@@ -14,9 +14,9 @@ class _Key {
 class ExamResultStorageBox with CachedBox {
   @override
   final Box<dynamic> box;
-  late final results = ListNamespace2<ExamResult, SchoolYear, Semester>(_Key.results, makeResultKey);
+  late final results = listNamespace2<ExamResult, SchoolYear, Semester>(_Key.results, makeResultKey);
   late final resultDetails =
-      ListNamespace3<ExamResultDetail, String, SchoolYear, Semester>(_Key.resultDetails, makeResultDetailKey);
+      listNamespace3<ExamResultDetail, String, SchoolYear, Semester>(_Key.resultDetails, makeResultDetailKey);
 
   String makeResultKey(SchoolYear schoolYear, Semester semester) => "$schoolYear/$semester";
 

@@ -9,7 +9,7 @@ class ExamStorageBox with CachedBox {
   static const _examArrangementNs = "/exam_arr";
   @override
   final Box box;
-  late final exams = ListNamespace2<ExamEntry, SchoolYear, Semester>(_examArrangementNs, makeExamsKey);
+  late final exams = listNamespace2<ExamEntry, SchoolYear, Semester>(_examArrangementNs, makeExamsKey);
 
   static String makeExamsKey(SchoolYear schoolYear, Semester semester) => "$schoolYear/$semester";
 

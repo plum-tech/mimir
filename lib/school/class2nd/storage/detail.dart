@@ -7,7 +7,7 @@ class Class2ndActivityDetailStorageBox with CachedBox {
   static const id2DetailKey = "/id2Detail";
   @override
   final Box<dynamic> box;
-  late final id2Detail = Namespace<Class2ndActivityDetail, int>(id2DetailKey, makeId2Detail);
+  late final id2Detail = namespace<Class2ndActivityDetail, int>(id2DetailKey, makeId2Detail);
 
   String makeId2Detail(int activityId) => "$activityId";
 

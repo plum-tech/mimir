@@ -13,8 +13,8 @@ class _Key {
 class AnnounceStorageBox with CachedBox {
   @override
   final Box box;
-  late final catalogues = NamedList<AnnounceCatalogue>(_Key.catalogues);
-  late final details = Namespace2<AnnounceDetail, String, String>(_Key.detailsNs, makeDetailKey);
+  late final catalogues = namedList<AnnounceCatalogue>(_Key.catalogues);
+  late final details = namespace2<AnnounceDetail, String, String>(_Key.detailsNs, makeDetailKey);
 
   static String makeDetailKey(String catalogueId, String uuid) => "$catalogueId/$uuid";
 

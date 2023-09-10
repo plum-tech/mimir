@@ -10,7 +10,7 @@ class Class2ndActivityListStorageBox with CachedBox {
 
   Class2ndActivityListStorageBox(this.box);
 
-  late final activities = ListNamespace2<Class2ndActivity, Class2ndActivityType, int>(_activitiesNs, makeActivityKey);
+  late final activities = listNamespace2<Class2ndActivity, Class2ndActivityType, int>(_activitiesNs, makeActivityKey);
 
   static String makeActivityKey(Class2ndActivityType type, int page) => "$type/$page";
 }

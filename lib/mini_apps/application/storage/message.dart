@@ -7,8 +7,8 @@ import '../using.dart';
 class ApplicationMessageStorageBox with CachedBox {
   @override
   final Box<dynamic> box;
-  late final msgCount = Named<ApplicationMessageCount>("/messageCount");
-  late final allMessages = Named<ApplicationMessagePage>("/messages");
+  late final msgCount = named<ApplicationMessageCount>("/messageCount");
+  late final allMessages = named<ApplicationMessagePage>("/messages");
 
   ApplicationMessageStorageBox(this.box);
 }
