@@ -16,7 +16,7 @@ class ExamResultStorageBox with CachedBox {
   final Box<dynamic> box;
   late final results = listNamespace2<ExamResult, SchoolYear, Semester>(_Key.results, makeResultKey);
   late final resultDetails =
-      listNamespace3<ExamResultDetail, String, SchoolYear, Semester>(_Key.resultDetails, makeResultDetailKey);
+      listNamespace3<ExamResultDetails, String, SchoolYear, Semester>(_Key.resultDetails, makeResultDetailKey);
 
   String makeResultKey(SchoolYear schoolYear, Semester semester) => "$schoolYear/$semester";
 
@@ -38,7 +38,7 @@ class ExamResultStorage implements ExamResultDao {
   }
 
   @override
-  Future<List<ExamResultDetail>?> getResultDetail(String classId, SchoolYear schoolYear, Semester semester) async {
+  Future<List<ExamResultDetails>?> getResultDetail(String classId, SchoolYear schoolYear, Semester semester) async {
     final cacheKey = box.resultDetails.make(classId, schoolYear, semester);
     return cacheKey.value;
   }
@@ -48,7 +48,7 @@ class ExamResultStorage implements ExamResultDao {
     cacheKey.value = results;
   }
 
-  void setResultDetail(String classId, SchoolYear schoolYear, Semester semester, List<ExamResultDetail>? detail) {
+  void setResultDetail(String classId, SchoolYear schoolYear, Semester semester, List<ExamResultDetails>? detail) {
     final cacheKey = box.resultDetails.make(classId, schoolYear, semester);
     cacheKey.value = detail;
   }

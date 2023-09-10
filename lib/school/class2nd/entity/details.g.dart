@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'detail.dart';
+part of 'details.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class Class2ndActivityDetailAdapter extends TypeAdapter<Class2ndActivityDetail> {
+class Class2ndActivityDetailsAdapter extends TypeAdapter<Class2ndActivityDetails> {
   @override
   final int typeId = 51;
 
   @override
-  Class2ndActivityDetail read(BinaryReader reader) {
+  Class2ndActivityDetails read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Class2ndActivityDetail(
+    return Class2ndActivityDetails(
       fields[0] as int,
       fields[1] as int,
       fields[2] as String,
@@ -34,7 +34,7 @@ class Class2ndActivityDetailAdapter extends TypeAdapter<Class2ndActivityDetail> 
   }
 
   @override
-  void write(BinaryWriter writer, Class2ndActivityDetail obj) {
+  void write(BinaryWriter writer, Class2ndActivityDetails obj) {
     writer
       ..writeByte(13)
       ..writeByte(0)
@@ -71,5 +71,5 @@ class Class2ndActivityDetailAdapter extends TypeAdapter<Class2ndActivityDetail> 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Class2ndActivityDetailAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is Class2ndActivityDetailsAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

@@ -189,11 +189,11 @@ final router = GoRouter(
       redirect: _loginRequired,
     ),
     GoRoute(
-      path: "/oa-announce/detail",
+      path: "/oa-announce/details",
       builder: (ctx, state) {
         final extra = state.extra;
         if (extra is AnnounceRecord) {
-          return AnnounceDetailPage(extra);
+          return AnnounceDetailsPage(extra);
         }
         throw 404;
       },

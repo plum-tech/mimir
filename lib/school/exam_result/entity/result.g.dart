@@ -59,17 +59,17 @@ class ExamResultAdapter extends TypeAdapter<ExamResult> {
       other is ExamResultAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class ExamResultDetailAdapter extends TypeAdapter<ExamResultDetail> {
+class ExamResultDetailsAdapter extends TypeAdapter<ExamResultDetails> {
   @override
   final int typeId = 42;
 
   @override
-  ExamResultDetail read(BinaryReader reader) {
+  ExamResultDetails read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ExamResultDetail(
+    return ExamResultDetails(
       fields[0] as String,
       fields[1] as String,
       fields[3] as double,
@@ -77,7 +77,7 @@ class ExamResultDetailAdapter extends TypeAdapter<ExamResultDetail> {
   }
 
   @override
-  void write(BinaryWriter writer, ExamResultDetail obj) {
+  void write(BinaryWriter writer, ExamResultDetails obj) {
     writer
       ..writeByte(3)
       ..writeByte(0)
@@ -94,7 +94,7 @@ class ExamResultDetailAdapter extends TypeAdapter<ExamResultDetail> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ExamResultDetailAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ExamResultDetailsAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
 // **************************************************************************

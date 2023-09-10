@@ -33,7 +33,7 @@ class ApplicationService implements ApplicationDao {
   }
 
   @override
-  Future<ApplicationDetail> getApplicationDetail(String functionId) async {
+  Future<ApplicationDetails> getApplicationDetail(String functionId) async {
     final String payload = '{"appID":"$functionId"}';
 
     final response = await session.request(
@@ -46,6 +46,6 @@ class ApplicationService implements ApplicationDao {
     final List<ApplicationDetailSection> sections =
         (data['value'] as List<dynamic>).map((e) => ApplicationDetailSection.fromJson(e)).toList();
 
-    return ApplicationDetail(functionId, sections);
+    return ApplicationDetails(functionId, sections);
   }
 }

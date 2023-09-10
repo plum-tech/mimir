@@ -62,8 +62,8 @@ class ExamResult {
   }
 }
 
-@HiveType(typeId: HiveTypeExam.examResultDetail)
-class ExamResultDetail {
+@HiveType(typeId: HiveTypeExam.examResultDetails)
+class ExamResultDetails {
   /// 成绩名称
   @HiveField(0)
   final String scoreType;
@@ -76,7 +76,7 @@ class ExamResultDetail {
   @HiveField(3)
   final double value;
 
-  const ExamResultDetail(
+  const ExamResultDetails(
     this.scoreType,
     this.percentage,
     this.value,

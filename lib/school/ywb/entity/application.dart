@@ -6,7 +6,7 @@ import 'package:mimir/utils/iconfont.dart';
 part 'application.g.dart';
 
 @JsonSerializable(createToJson: false)
-@HiveType(typeId: HiveTypeYwb.applicationMeta)
+@HiveType(typeId: HiveTypeYwb.meta)
 class ApplicationMeta {
   @JsonKey(name: 'appID')
   @HiveField(0)
@@ -35,7 +35,7 @@ class ApplicationMeta {
 }
 
 @JsonSerializable()
-@HiveType(typeId: HiveTypeYwb.applicationDetailSection)
+@HiveType(typeId: HiveTypeYwb.detailSection)
 class ApplicationDetailSection {
   @JsonKey(name: 'formName')
   @HiveField(0)
@@ -58,12 +58,12 @@ extension ApplicationDetailSectionX on ApplicationDetailSection {
   bool get isNotEmpty => content.isNotEmpty;
 }
 
-@HiveType(typeId: HiveTypeYwb.applicationDetail)
-class ApplicationDetail {
+@HiveType(typeId: HiveTypeYwb.details)
+class ApplicationDetails {
   @HiveField(0)
   final String id;
   @HiveField(1)
   final List<ApplicationDetailSection> sections;
 
-  const ApplicationDetail(this.id, this.sections);
+  const ApplicationDetails(this.id, this.sections);
 }

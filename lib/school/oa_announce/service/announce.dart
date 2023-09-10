@@ -9,6 +9,7 @@ import '../entity/page.dart';
 
 final _announceDateTimeFormat = DateFormat('yyyy-MM-dd');
 final _departmentSplitRegex = RegExp(r'\s+');
+
 class AnnounceService implements AnnounceDao {
   final ISession session;
 

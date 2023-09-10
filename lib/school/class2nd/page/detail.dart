@@ -6,7 +6,7 @@ import 'package:mimir/utils/url_launcher.dart';
 import 'package:mimir/widgets/html_widget.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/detail.dart';
+import '../entity/details.dart';
 import '../init.dart';
 import '../entity/list.dart';
 import '../i18n.dart';
@@ -33,7 +33,7 @@ class _Class2ndActivityDetailPageState extends State<Class2ndActivityDetailPage>
   int get activityId => widget.activity.id;
 
   Class2ndActivity get activity => widget.activity;
-  Class2ndActivityDetail? detail;
+  Class2ndActivityDetails? detail;
   Size? titleBarSize;
 
   @override
@@ -134,11 +134,11 @@ class _Class2ndActivityDetailPageState extends State<Class2ndActivityDetailPage>
     }
   }
 
-  Widget buildInfoCardPortrait(BuildContext ctx, Class2ndActivityDetail? detail) {
+  Widget buildInfoCardPortrait(BuildContext ctx, Class2ndActivityDetails? detail) {
     return buildActivityInfo(ctx, detail).padAll(8).inCard().hero(activity.id).padAll(20);
   }
 
-  Widget buildInfoCardLandscape(BuildContext context, Class2ndActivityDetail? detail) {
+  Widget buildInfoCardLandscape(BuildContext context, Class2ndActivityDetails? detail) {
     return buildActivityInfo(context, detail)
         .padAll(8)
         .scrolled(physics: const ClampingScrollPhysics())
@@ -160,7 +160,7 @@ class _Class2ndActivityDetailPageState extends State<Class2ndActivityDetailPage>
     );
   }
 
-  Widget buildDetailPortrait(BuildContext ctx, Class2ndActivityDetail? detail) {
+  Widget buildDetailPortrait(BuildContext ctx, Class2ndActivityDetails? detail) {
     return SingleChildScrollView(
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         buildInfoCardPortrait(context, detail),
@@ -170,7 +170,7 @@ class _Class2ndActivityDetailPageState extends State<Class2ndActivityDetailPage>
     );
   }
 
-  Widget buildDetailLandscape(BuildContext ctx, Class2ndActivityDetail? detail) {
+  Widget buildDetailLandscape(BuildContext ctx, Class2ndActivityDetails? detail) {
     return Row(mainAxisSize: MainAxisSize.min, children: [
       buildInfoCardLandscape(context, detail).align(at: Alignment.topCenter).expanded(),
       if (detail != null)
@@ -216,7 +216,7 @@ class _Class2ndActivityDetailPageState extends State<Class2ndActivityDetailPage>
     }
   }
 
-  Widget buildActivityInfo(BuildContext context, Class2ndActivityDetail? detail) {
+  Widget buildActivityInfo(BuildContext context, Class2ndActivityDetails? detail) {
     final titleStyle = Theme.of(context).textTheme.headlineSmall;
     final valueStyle = Theme.of(context).textTheme.bodyMedium;
     final keyStyle = valueStyle?.copyWith(fontWeight: FontWeight.bold);

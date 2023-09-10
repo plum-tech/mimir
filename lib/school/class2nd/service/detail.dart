@@ -4,7 +4,7 @@ import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:intl/intl.dart';
 import 'package:mimir/network/session.dart';
 
-import '../entity/detail.dart';
+import '../entity/details.dart';
 
 class Class2ndActivityDetailService {
   static const _scDetailUrlBase = 'http://sc.sit.edu.cn/public/activity/activityDetail.action?activityId=';
@@ -20,7 +20,7 @@ class Class2ndActivityDetailService {
   const Class2ndActivityDetailService(this.session);
 
   /// 获取第二课堂活动详情
-  Future<Class2ndActivityDetail> getActivityDetail(int activityId) async {
+  Future<Class2ndActivityDetails> getActivityDetail(int activityId) async {
     final response = await session.request(_scDetailUrlBase + activityId.toString(), ReqMethod.post);
     final data = response.data;
     return _parseActivityDetail(data);
@@ -53,7 +53,7 @@ class Class2ndActivityDetailService {
     return [_parseDateTime(time[0]), _parseDateTime(time[1])];
   }
 
-  static Class2ndActivityDetail _parseProperties(Bs4Element item) {
+  static Class2ndActivityDetails _parseProperties(Bs4Element item) {
     String title = item.findAll(selectorTitle).map((e) => e.innerHtml.trim()).elementAt(0);
     String description = item.findAll(selectorDescription).map((e) => e.innerHtml.trim()).elementAt(0);
     String banner = item.findAll(selectorBanner).map((e) => e.innerHtml.trim()).elementAt(0);
@@ -61,7 +61,7 @@ class Class2ndActivityDetailService {
     final properties = _splitActivityProperties(banner);
     final signTime = _parseSignTime(properties['刷卡时间段']!);
 
-    return Class2ndActivityDetail.named(
+    return Class2ndActivityDetails.named(
         id: int.parse(properties['活动编号']!),
         category: 0,
         title: title,
@@ -77,7 +77,7 @@ class Class2ndActivityDetailService {
         description: description);
   }
 
-  static Class2ndActivityDetail _parseActivityDetail(String htmlPage) {
+  static Class2ndActivityDetails _parseActivityDetail(String htmlPage) {
     final BeautifulSoup soup = BeautifulSoup(htmlPage);
     final frame = soup.find(selectorFrame);
     final detail = _parseProperties(frame!);

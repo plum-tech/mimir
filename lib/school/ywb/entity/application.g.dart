@@ -94,24 +94,24 @@ class ApplicationDetailSectionAdapter extends TypeAdapter<ApplicationDetailSecti
       other is ApplicationDetailSectionAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class ApplicationDetailAdapter extends TypeAdapter<ApplicationDetail> {
+class ApplicationDetailsAdapter extends TypeAdapter<ApplicationDetails> {
   @override
   final int typeId = 80;
 
   @override
-  ApplicationDetail read(BinaryReader reader) {
+  ApplicationDetails read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ApplicationDetail(
+    return ApplicationDetails(
       fields[0] as String,
       (fields[1] as List).cast<ApplicationDetailSection>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, ApplicationDetail obj) {
+  void write(BinaryWriter writer, ApplicationDetails obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
@@ -126,7 +126,7 @@ class ApplicationDetailAdapter extends TypeAdapter<ApplicationDetail> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ApplicationDetailAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ApplicationDetailsAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
 // **************************************************************************

@@ -46,7 +46,7 @@ class ScoreService implements ExamResultDao {
 
   /// 获取成绩详情
   @override
-  Future<List<ExamResultDetail>> getResultDetail(String classId, SchoolYear schoolYear, Semester semester) async {
+  Future<List<ExamResultDetails>> getResultDetail(String classId, SchoolYear schoolYear, Semester semester) async {
     var response = await session.request(
       _scoreDetailUrl,
       ReqMethod.post,
@@ -72,7 +72,7 @@ class ScoreService implements ExamResultDao {
     }
   }
 
-  static ExamResultDetail _mapToDetailItem(Bs4Element item) {
+  static ExamResultDetails _mapToDetailItem(Bs4Element item) {
     f1(s) => s.replaceAll('&nbsp;', '').replaceAll(' ', '');
     f2(s) => s.replaceAll('【', '').replaceAll('】', '');
     f(s) => f1(f2(s));
@@ -81,10 +81,10 @@ class ScoreService implements ExamResultDao {
     String percentage = item.find(_scorePercentageSelector)!.innerHtml.trim();
     String value = item.find(_scoreValueSelector)!.innerHtml;
 
-    return ExamResultDetail(f(type), f(percentage), double.tryParse(f(value)) ?? double.nan);
+    return ExamResultDetails(f(type), f(percentage), double.tryParse(f(value)) ?? double.nan);
   }
 
-  static List<ExamResultDetail> _parseDetailPage(String htmlPage) {
+  static List<ExamResultDetails> _parseDetailPage(String htmlPage) {
     final BeautifulSoup soup = BeautifulSoup(htmlPage);
     final elements = soup.findAll(_scoreDetailPageSelector);
 

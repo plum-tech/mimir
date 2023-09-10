@@ -31,7 +31,7 @@ class ApplicationCache extends ApplicationDao {
   }
 
   @override
-  Future<ApplicationDetail?> getApplicationDetail(String applicationId) async {
+  Future<ApplicationDetails?> getApplicationDetail(String applicationId) async {
     final cacheKey = to.box.details.make(applicationId);
     if (cacheKey.needRefresh(after: detailExpire)) {
       try {

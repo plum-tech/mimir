@@ -11,7 +11,7 @@ import 'package:mimir/school/exam_arrange/entity/exam.dart';
 import 'package:mimir/school/oa_announce/entity/page.dart';
 import 'package:mimir/school/exam_result/entity/result.dart';
 import 'package:mimir/school/oa_announce/entity/announce.dart';
-import 'package:mimir/school/class2nd/entity/detail.dart';
+import 'package:mimir/school/class2nd/entity/details.dart';
 import 'package:mimir/school/class2nd/entity/list.dart';
 import 'package:mimir/school/class2nd/entity/score.dart';
 import 'package:mimir/school/entity/school.dart';

@@ -37,7 +37,7 @@ class ExamResultCache implements ExamResultDao {
   }
 
   @override
-  Future<List<ExamResultDetail>?> getResultDetail(String classId, SchoolYear schoolYear, Semester semester) async {
+  Future<List<ExamResultDetails>?> getResultDetail(String classId, SchoolYear schoolYear, Semester semester) async {
     final cacheKey = to.box.resultDetails.make(classId, schoolYear, semester);
     if (cacheKey.needRefresh(after: listExpire)) {
       try {

@@ -29,14 +29,14 @@ class HiveTypeExam {
 
   // Exam result
   static const examResult = 41;
-  static const examResultDetail = 42;
+  static const examResultDetails = 42;
 }
 
 /// Second Class 50-69
 class HiveTypeClass2nd {
   // Second class activity 50-54
   static const activity = 50;
-  static const activityDetail = 51;
+  static const activityDetails = 51;
   static const activityType = 52;
 
   // Second class score 55-59
@@ -58,13 +58,13 @@ class HiveTypeElectricity {
 
 /// Ywb 80-89
 class HiveTypeYwb {
-  static const applicationDetail = 80;
-  static const applicationDetailSection = 81;
-  static const applicationMeta = 82;
-  static const applicationMsg = 83;
-  static const applicationMsgPage = 84;
-  static const applicationMessageCount = 85;
-  static const applicationMessageType = 86;
+  static const details = 80;
+  static const detailSection = 81;
+  static const meta = 82;
+  static const message = 83;
+  static const messagePage = 84;
+  static const messageCount = 85;
+  static const messageType = 86;
 }
 
 /// Ywb 90-99

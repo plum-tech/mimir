@@ -23,7 +23,7 @@ class ScoreItem extends StatefulWidget {
 class _ScoreItemState extends State<ScoreItem> {
   ExamResult get result => widget.result;
   static const iconSize = 45.0;
-  List<ExamResultDetail>? details;
+  List<ExamResultDetails>? details;
 
   @override
   void initState() {
@@ -88,7 +88,7 @@ class _ScoreItemState extends State<ScoreItem> {
   }
 
   // TODO: Where to display this?
-  Widget _buildScoreDetailView(List<ExamResultDetail> scoreDetails) {
+  Widget _buildScoreDetailView(List<ExamResultDetails> scoreDetails) {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: const BoxDecoration(

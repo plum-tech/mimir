@@ -7,7 +7,7 @@ import '../entity/application.dart';
 class ApplicationStorageBox with CachedBox {
   @override
   final Box<dynamic> box;
-  late final details = namespace<ApplicationDetail, String>("/details", makeDetailsKey);
+  late final details = namespace<ApplicationDetails, String>("/details", makeDetailsKey);
   late final metas = namedList<ApplicationMeta>("/metas");
 
   String makeDetailsKey(String applicationId) => applicationId;
@@ -30,12 +30,12 @@ class ApplicationStorage extends ApplicationDao {
   }
 
   @override
-  Future<ApplicationDetail?> getApplicationDetail(String applicationId) async {
+  Future<ApplicationDetails?> getApplicationDetail(String applicationId) async {
     final cacheKey = box.details.make(applicationId);
     return cacheKey.value;
   }
 
-  void setApplicationDetail(String applicationId, ApplicationDetail? detail) {
+  void setApplicationDetail(String applicationId, ApplicationDetails? detail) {
     final cacheKey = box.details.make(applicationId);
     cacheKey.value = detail;
   }

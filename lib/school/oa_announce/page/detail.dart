@@ -10,19 +10,19 @@ import '../entity/announce.dart';
 import '../init.dart';
 import '../i18n.dart';
 
-class AnnounceDetailPage extends StatefulWidget {
+class AnnounceDetailsPage extends StatefulWidget {
   final AnnounceRecord record;
 
-  const AnnounceDetailPage(
+  const .AnnounceDetailsPage(
     this.record, {
     super.key,
   });
 
   @override
-  State<AnnounceDetailPage> createState() => _AnnounceDetailPageState();
+  State<AnnounceDetailsPage> createState() => _AnnounceDetailsPageState();
 }
 
-class _AnnounceDetailPageState extends State<AnnounceDetailPage> {
+class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
   AnnounceDetail? detail;
 
   AnnounceRecord get record => widget.record;

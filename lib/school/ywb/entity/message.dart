@@ -3,7 +3,7 @@ import 'package:mimir/hive/type_id.dart';
 
 part 'message.g.dart';
 
-@HiveType(typeId: HiveTypeYwb.applicationMessageType)
+@HiveType(typeId: HiveTypeYwb.messageType)
 enum ApplicationMessageType {
   @HiveField(0)
   todo,
@@ -14,7 +14,7 @@ enum ApplicationMessageType {
 }
 
 @JsonSerializable()
-@HiveType(typeId: HiveTypeYwb.applicationMessageCount)
+@HiveType(typeId: HiveTypeYwb.messageCount)
 class ApplicationMessageCount {
   @JsonKey(name: 'myFlow_complete_count')
   @HiveField(0)
@@ -32,7 +32,7 @@ class ApplicationMessageCount {
 }
 
 @JsonSerializable()
-@HiveType(typeId: HiveTypeYwb.applicationMsg)
+@HiveType(typeId: HiveTypeYwb.message)
 class ApplicationMessage {
   @JsonKey(name: 'WorkID')
   @HiveField(0)
@@ -55,7 +55,7 @@ class ApplicationMessage {
   factory ApplicationMessage.fromJson(Map<String, dynamic> json) => _$ApplicationMessageFromJson(json);
 }
 
-@HiveType(typeId: HiveTypeYwb.applicationMsgPage)
+@HiveType(typeId: HiveTypeYwb.messagePage)
 class ApplicationMessagePage {
   @HiveField(0)
   final int totalNum;

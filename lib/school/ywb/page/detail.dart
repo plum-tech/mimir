@@ -25,7 +25,7 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   ApplicationMeta get meta => widget.meta;
-  ApplicationDetail? _detail;
+  ApplicationDetails? _detail;
 
   @override
   void initState() {
