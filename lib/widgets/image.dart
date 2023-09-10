@@ -16,7 +16,7 @@ enum _ImageMode {
 
 class ImageView extends StatefulWidget {
   /// It could be a url of image, or a base64 string.
-  final String data;
+  final String? data;
 
   const ImageView(
     this.data, {
@@ -46,15 +46,20 @@ class _ImageViewState extends State<ImageView> {
   }
 
   void refresh() {
+    final data = widget.data;
     setState(() {
       imageData = null;
     });
-    if (widget.data.startsWith("data")) {
+    if (data == null) {
+      setState(() {
+        mode = _ImageMode.error;
+      });
+    } else if (data.startsWith("data")) {
       setState(() {
         mode = _ImageMode.base64;
       });
       try {
-        final parts = widget.data.split(",");
+        final parts = data.split(",");
         final bytes = const Base64Decoder().convert(parts[1]);
         setState(() {
           imageData = bytes;
@@ -74,9 +79,10 @@ class _ImageViewState extends State<ImageView> {
   @override
   Widget build(BuildContext context) {
     ImageProvider? provider;
+    final data = widget.data;
     final imageData = this.imageData;
-    if (mode == _ImageMode.url) {
-      provider = CachedNetworkImageProvider(widget.data);
+    if (mode == _ImageMode.url && data != null) {
+      provider = CachedNetworkImageProvider(data);
     } else if (mode == _ImageMode.base64 && imageData != null) {
       provider = MemoryImage(imageData);
     } else {
@@ -120,7 +126,7 @@ class _ImageViewState extends State<ImageView> {
 }
 
 class ImageViewPage extends StatelessWidget {
-  final String data;
+  final String? data;
   final String? title;
 
   const ImageViewPage(

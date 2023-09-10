@@ -251,7 +251,7 @@ final router = GoRouter(
       path: "/image/:title",
       builder: (ctx, state) {
         final extra = state.extra;
-        if (extra is String) {
+        if (extra is String?) {
           return ImageViewPage(
             extra,
             title: state.pathParameters["title"],

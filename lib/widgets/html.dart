@@ -32,8 +32,9 @@ class StyledHtmlWidget extends StatelessWidget {
         return await guardLaunchUrlString(context, url);
       },
       onTapImage: (ImageMetadata image) {
-        final url = image.sources.toList()[0].url;
-        context.push("/image", extra: url);
+        final url = image.sources.toList().firstOrNull?.url;
+        final title = image.title ?? image.alt;
+        context.push(title != null ? "/image/$title" : "/image", extra: url);
       },
     );
     if (isSelectable) {
