@@ -25,6 +25,7 @@ class HiveAdapter {
 
   static void registerAll() {
     // Basic
+    ~SizeAdapter();
     ~VersionAdapter();
     ~ThemeModeAdapter();
     ~CampusAdapter();
