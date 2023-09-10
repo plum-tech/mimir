@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/me/edu_email/index.dart';
+import 'package:mimir/me/network_tool/index.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -40,6 +42,12 @@ class _MePageState extends State<MePage> {
         ),
         SliverList(
             delegate: SliverChildListDelegate([
+          const SliverToBoxAdapter(
+            child: EduEmailAppCard(),
+          ),
+          const SliverToBoxAdapter(
+            child: NetworkToolAppCard(),
+          ),
           ListTile(
             title: "预览版 QQ交流群".text(),
             subtitle: _qGroupNumber.text(),
