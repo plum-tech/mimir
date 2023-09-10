@@ -13,7 +13,7 @@ import '../i18n.dart';
 class AnnounceDetailsPage extends StatefulWidget {
   final AnnounceRecord record;
 
-  const .AnnounceDetailsPage(
+  const AnnounceDetailsPage(
     this.record, {
     super.key,
   });

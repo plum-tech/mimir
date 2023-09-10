@@ -38,7 +38,7 @@ class HiveAdapter {
     ~ElectricityBalanceAdapter();
 
     // Activity
-    ~Class2ndActivityDetailAdapter();
+    ~Class2ndActivityDetailsAdapter();
     ~Class2ndActivityAdapter();
     ~Class2ndScoreSummaryAdapter();
     ~Class2ndActivityApplicationAdapter();
@@ -57,7 +57,7 @@ class HiveAdapter {
 
     // Application
     ~ApplicationDetailSectionAdapter();
-    ~ApplicationDetailAdapter();
+    ~ApplicationDetailsAdapter();
     ~ApplicationMetaAdapter();
     ~ApplicationMessageCountAdapter();
     ~ApplicationMessageAdapter();
@@ -66,7 +66,7 @@ class HiveAdapter {
 
     // Exam Result
     ~ExamResultAdapter();
-    ~ExamResultDetailAdapter();
+    ~ExamResultDetailsAdapter();
     ~SchoolYearAdapter();
     ~SemesterAdapter();
 
