@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mimir/design/animation/animated.dart';
+import 'package:mimir/design/colors.dart';
+import 'package:mimir/design/widgets/multi_select.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/school/entity/school.dart';
 
+import '../i18n.dart';
 import '../entity/result.dart';
 import '../init.dart';
-import '../using.dart';
 
 class ScoreItem extends StatefulWidget {
   final ExamResult result;

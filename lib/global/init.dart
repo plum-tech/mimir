@@ -11,6 +11,7 @@ import 'package:mimir/main/network_tool/init.dart';
 import 'package:mimir/migration/migrations.dart';
 import 'package:mimir/mini_apps/symbol.dart';
 import 'package:mimir/school/class2nd/init.dart';
+import 'package:mimir/school/exam_result/init.dart';
 import 'package:mimir/school/yellow_pages/init.dart';
 import 'package:mimir/session/sis.dart';
 import 'package:mimir/storage/settings.dart';

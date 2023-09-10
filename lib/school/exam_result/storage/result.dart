@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
+import 'package:mimir/cache/box.dart';
 import 'package:mimir/school/entity/school.dart';
 
 import '../dao/result.dart';
 import '../entity/result.dart';
-import '../using.dart';
 
 class _Key {
   static const ns = "/examResult";

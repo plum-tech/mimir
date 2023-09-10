@@ -1,9 +1,9 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:mimir/network/session.dart';
 import 'package:mimir/school/entity/school.dart';
 
 import '../dao/result.dart';
 import '../entity/result.dart';
-import '../using.dart';
 
 class ScoreService implements ExamResultDao {
   static const _scoreUrl = 'http://jwxt.sit.edu.cn/jwglxt/cjcx/cjcx_cxDgXscj.html';

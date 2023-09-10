@@ -1,12 +1,12 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:hive/hive.dart';
+import 'package:mimir/session/sis.dart';
 
 import 'cache/result.dart';
 import 'dao/result.dart';
 import 'events.dart';
 import 'service/result.dart';
 import 'storage/result.dart';
-import 'using.dart';
 
 class ExamResultInit {
   static late CookieJar cookieJar;

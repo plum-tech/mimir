@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/credential/entity/login_status.dart';
+import 'package:mimir/credential/symbol.dart';
 import 'package:mimir/life/expense_records/page/records.dart';
 import 'package:mimir/life/expense_records/page/statistics.dart';
 import 'package:mimir/life/index.dart';
@@ -12,12 +14,13 @@ import 'package:mimir/school/class2nd/init.dart';
 import 'package:mimir/school/class2nd/page/detail.dart';
 import 'package:mimir/school/class2nd/page/list.dart';
 import 'package:mimir/school/class2nd/page/attended.dart';
+import 'package:mimir/school/exam_result/page/evaluation.dart';
+import 'package:mimir/school/exam_result/page/index.dart';
 import 'package:mimir/school/yellow_pages/page/index.dart';
 import 'package:mimir/settings/page/credential.dart';
 import 'package:mimir/settings/page/developer.dart';
 import 'package:mimir/settings/page/index.dart';
 import 'package:mimir/me/index.dart';
-import 'package:mimir/mini_apps/exam_result/using.dart';
 import 'package:mimir/school/index.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
 import 'package:mimir/timetable/init.dart';
@@ -29,7 +32,6 @@ import 'package:mimir/widgets/webview/page.dart';
 
 import 'app.dart';
 import 'login/page/index.dart';
-import 'mini_apps/exam_result/page/evaluation.dart';
 import 'mini_apps/symbol.dart';
 
 bool isLoginGuarded(BuildContext ctx) {

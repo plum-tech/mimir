@@ -6,7 +6,7 @@ import 'package:mimir/life/expense_records/entity/local.dart';
 import 'package:mimir/mini_apps/application/entity/application.dart';
 import 'package:mimir/mini_apps/application/entity/message.dart';
 import 'package:mimir/mini_apps/exam_arr/entity/exam.dart';
-import 'package:mimir/mini_apps/exam_result/entity/result.dart';
+import 'package:mimir/school/exam_result/entity/result.dart';
 import 'package:mimir/mini_apps/oa_announce/entity/announce.dart';
 import 'package:mimir/mini_apps/oa_announce/entity/attachment.dart';
 import 'package:mimir/mini_apps/symbol.dart';

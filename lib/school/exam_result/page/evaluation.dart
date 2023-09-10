@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mimir/widgets/webview/page.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:mimir/utils/cookies.dart';
 
 import '../init.dart';
-import '../using.dart';
+import '../i18n.dart';
 
 class EvaluationPage extends StatefulWidget {
   const EvaluationPage({super.key});

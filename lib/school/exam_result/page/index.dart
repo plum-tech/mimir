@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/credential/symbol.dart';
+import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/fab.dart';
+import 'package:mimir/design/widgets/multi_select.dart';
+import 'package:mimir/mini_app.dart';
 import 'package:mimir/school/widgets/school.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
@@ -12,9 +16,9 @@ import '../entity/result.dart';
 import '../events.dart';
 import '../init.dart';
 import '../widgets/item.dart';
-import '../using.dart';
 import '../utils.dart';
 import 'evaluation.dart';
+import '../i18n.dart';
 
 class ExamResultPage extends StatefulWidget {
   const ExamResultPage({super.key});
