@@ -1,11 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/entity/credential.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
-import 'package:mimir/design/utils.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/design/widgets/glassmorphic.dart';
 import 'package:mimir/events/bus.dart';
@@ -19,9 +17,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
 
-import '../brick_maker.dart';
-import '../../../mini_app.dart';
-import '../homepage_factory.dart';
 import '../../init.dart';
 import '../widgets/greeting.dart';
 
@@ -146,64 +141,6 @@ class _HomepageState extends State<Homepage> {
     _refreshController.refreshCompleted(resetFooterState: true);
   }
 
-  List<Widget> buildBricksWidgets() {
-    List<MiniApp> list = BrickMaker.makeDefaultBricks(context);
-
-    MiniApp lastItem = list.first;
-    for (int i = 1; i < list.length; ++i) {
-      if (lastItem == list[i]) {
-        list.removeAt(i);
-        i -= 1;
-      } else {
-        lastItem = list[i];
-      }
-    }
-
-    final separator = SizedBox(height: 12.h);
-    final List<Widget> result = [];
-    List<Widget> currentGroup = [];
-
-    for (final item in list) {
-      if (item == MiniApp.separator) {
-        result.addAll([
-          HomeItemGroup([...currentGroup]),
-          separator
-        ]);
-        currentGroup.clear();
-      } else {
-        final brick = HomepageFactory.buildBrickWidget(context, item);
-        if (brick != null) {
-          currentGroup.add(brick);
-        }
-      }
-    }
-    if (currentGroup.isNotEmpty) {
-      result.add(HomeItemGroup([...currentGroup]));
-      currentGroup.clear();
-    }
-
-    return [
-      const GreetingWidget(),
-      separator,
-      ...result,
-      separator,
-    ];
-  }
-
-  Widget buildMainBody() {
-    final items = buildBricksWidgets();
-    return SliverList(
-      // Functions
-      delegate: SliverChildBuilderDelegate(
-        (_, index) => Padding(
-          padding: EdgeInsets.only(left: 10.w, right: 10.w),
-          child: items[index],
-        ),
-        childCount: items.length,
-      ),
-    );
-  }
-
   Widget buildScannerButton(BuildContext context) {
     return IconButton(
       onPressed: () async {
@@ -245,7 +182,7 @@ class _HomepageState extends State<Homepage> {
             elevation: 0,
             pinned: false,
           ),
-          buildMainBody(),
+          const GreetingWidget(),
         ],
       ),
       onRefresh: () => _onHomeRefresh(context, loginSso: true),
