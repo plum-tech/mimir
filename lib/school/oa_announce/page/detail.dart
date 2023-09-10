@@ -15,7 +15,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/announce.dart';
-import '../entity/attachment.dart';
 import '../init.dart';
 import '../i18n.dart';
 
@@ -106,7 +105,7 @@ class _DetailPageState extends State<DetailPage> {
               1: FlexColumnWidth(3),
             },
             children: [
-              buildRow(i18n.publishingDepartment, summary.department),
+              buildRow(i18n.publishingDepartment, summary.departments.join(",")),
               buildRow(i18n.author, _detail?.author ?? "..."),
               buildRow(i18n.publishTime, context.formatYmdWeekText(summary.dateTime)),
             ],

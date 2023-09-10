@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -18,7 +19,9 @@ class _OaAnnounceAppCardState extends State<OaAnnounceAppCard> {
       title: i18n.title.text(),
       leftActions: [
         FilledButton(
-          onPressed: () {},
+          onPressed: () {
+            context.push("/oa-announce");
+          },
           child: "See all".text(),
         ),
       ],

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/design/animation/livelist.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/network/session.dart';
+import 'package:mimir/school/oa_announce/widget/announce.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/announce.dart';
@@ -41,9 +42,18 @@ class _OaAnnouncePageState extends State<OaAnnouncePage> {
 
   @override
   Widget build(BuildContext context) {
+    final records = _records;
     return Scaffold(
       appBar: AppBar(title: i18n.title.text()),
-      body: _buildAnnounceList(),
+      body: records == null
+          ? const SizedBox()
+          : ListView.builder(
+              itemCount: records.length,
+              itemBuilder: (context, index) {
+                final record = records[index];
+                return OaAnnounceTile(record);
+              },
+            ),
     );
   }
 
@@ -65,43 +75,5 @@ class _OaAnnouncePageState extends State<OaAnnouncePage> {
       (List<AnnounceRecord> previousValue, AnnounceListPage page) => previousValue + page.bulletinItems,
     ).toList();
     return records;
-  }
-
-  Widget _buildAnnounceList() {
-    final records = _records;
-    if (records == null) return const CircularProgressIndicator();
-
-    return _buildAnnounceLiveGrid(records);
-  }
-
-  Widget _buildAnnounceLiveGrid(List<AnnounceRecord> records) {
-    final items = records.mapIndexed((i, e) => _buildAnnounceItem(context, e).inCard()).toList();
-    return LayoutBuilder(builder: (ctx, constraints) {
-      final count = constraints.maxWidth ~/ 300;
-      return LiveGrid.options(
-        itemCount: items.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: max(count, 1),
-          childAspectRatio: 4,
-        ),
-        options: commonLiveOptions,
-        itemBuilder: (ctx, index, animation) => items[index].aliveWith(animation),
-      );
-    });
-  }
-
-  Widget _buildAnnounceItem(BuildContext context, AnnounceRecord record) {
-    final titleStyle = Theme.of(context).textTheme.titleLarge;
-    final subtitleStyle = Theme.of(context).textTheme.bodyLarge;
-
-    return ListTile(
-      title: Text(record.title, style: titleStyle, overflow: TextOverflow.ellipsis).hero(record.uuid),
-      subtitle: Text('${record.department} | ${context.formatYmdNum(record.dateTime)}',
-          style: subtitleStyle, overflow: TextOverflow.ellipsis),
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => DetailPage(
-                record,
-              ))),
-    ).padAll(2);
   }
 }

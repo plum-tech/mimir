@@ -1,11 +1,13 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:intl/intl.dart';
 import 'package:mimir/network/session.dart';
 
 import '../dao/announce.dart';
 import '../entity/announce.dart';
-import '../entity/attachment.dart';
 import '../entity/page.dart';
+
+final _announceDateTimeFormat = DateFormat('yyyy-MM-dd');
 
 class AnnounceService implements AnnounceDao {
   final ISession session;
@@ -14,9 +16,10 @@ class AnnounceService implements AnnounceDao {
 
   List<AnnounceAttachment> _parseAttachment(Bs4Element element) {
     return element.find('#containerFrame > table')!.findAll('a').map((e) {
-      return AnnounceAttachment()
-        ..name = e.text.trim()
-        ..url = 'https://myportal.sit.edu.cn/${e.attributes['href']!}';
+      return AnnounceAttachment(
+        name: e.text.trim(),
+        url: 'https://myportal.sit.edu.cn/${e.attributes['href']!}',
+      );
     }).toList();
   }
 
@@ -30,26 +33,27 @@ class AnnounceService implements AnnounceDao {
 
     final metaList = meta.split('|').map((e) => e.trim()).toList();
 
-    return AnnounceDetail()
-      ..title = item.find('div', class_: 'bulletin-title')?.text.trim() ?? ''
-      ..content = item.find('div', class_: 'bulletin-content')?.innerHtml ?? ''
-      ..attachments = _parseAttachment(item)
-      ..dateTime = dateFormat.parse(metaList[0].substring(5))
-      ..department = metaList[1].substring(5)
-      ..author = metaList[2].substring(3)
-      ..readNumber = int.parse(metaList[3].substring(5));
+    return AnnounceDetail(
+      title: item.find('div', class_: 'bulletin-title')?.text.trim() ?? '',
+      content: item.find('div', class_: 'bulletin-content')?.innerHtml ?? '',
+      attachments: _parseAttachment(item),
+      dateTime: dateFormat.parse(metaList[0].substring(5)),
+      department: metaList[1].substring(5),
+      author: metaList[2].substring(3),
+      readNumber: int.parse(metaList[3].substring(5)),
+    );
   }
 
   @override
   Future<List<AnnounceCatalogue>> getAllCatalogues() async {
     return const [
-      AnnounceCatalogue('学生事务', 'pe2362'),
-      AnnounceCatalogue('学习课堂', 'pe2364'),
-      AnnounceCatalogue('二级学院通知', 'pe2368'),
-      AnnounceCatalogue('校园文化', 'pe2366'),
-      AnnounceCatalogue('公告信息', 'pe2367'),
-      AnnounceCatalogue('生活服务', 'pe2365'),
-      AnnounceCatalogue('文件下载专区', 'pe2382')
+      AnnounceCatalogue(name: '学生事务', id: 'pe2362'),
+      AnnounceCatalogue(name: '学习课堂', id: 'pe2364'),
+      AnnounceCatalogue(name: '二级学院通知', id: 'pe2368'),
+      AnnounceCatalogue(name: '校园文化', id: 'pe2366'),
+      AnnounceCatalogue(name: '公告信息', id: 'pe2367'),
+      AnnounceCatalogue(name: '生活服务', id: 'pe2365'),
+      AnnounceCatalogue(name: '文件下载专区', id: 'pe2382')
     ];
   }
 
@@ -78,22 +82,24 @@ class AnnounceService implements AnnounceDao {
       final titleElement = e.find('a', class_: 'rss-title')!;
       final uri = Uri.parse(titleElement.attributes['href']!);
 
-      return AnnounceRecord()
-        ..title = titleElement.text.trim()
-        ..department = department
-        ..dateTime = DateFormat('yyyy-MM-dd').parse(date)
-        ..bulletinCatalogueId = uri.queryParameters['.pen']!
-        ..uuid = uri.queryParameters['bulletinId']!;
+      return AnnounceRecord(
+        title: titleElement.text.trim(),
+        departments: department.trim().split("\\s+"),
+        dateTime: _announceDateTimeFormat.parse(date),
+        bulletinCatalogueId: uri.queryParameters['.pen']!,
+        uuid: uri.queryParameters['bulletinId']!,
+      );
     }).toList();
 
     final currentElement = element.find('div', attrs: {'title': '当前页'})!;
     final lastElement = element.find('a', attrs: {'title': '点击跳转到最后页'})!;
     final lastElementHref = Uri.parse(lastElement.attributes['href']!);
     final lastPageIndex = lastElementHref.queryParameters['pageIndex']!;
-    return AnnounceListPage()
-      ..bulletinItems = list
-      ..currentPage = int.parse(currentElement.text)
-      ..totalPage = int.parse(lastPageIndex);
+    return AnnounceListPage(
+      bulletinItems: list,
+      currentPage: int.parse(currentElement.text),
+      totalPage: int.parse(lastPageIndex),
+    );
   }
 
   @override

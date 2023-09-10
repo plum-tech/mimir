@@ -1,43 +1,6 @@
 import 'package:mimir/hive/type_id.dart';
-import 'attachment.dart';
 
 part 'announce.g.dart';
-
-@HiveType(typeId: HiveTypeOaAnnounce.detail)
-class AnnounceDetail {
-  /// 标题
-  @HiveField(0)
-  String title = '';
-
-  /// 发布时间
-  @HiveField(1)
-  DateTime dateTime = DateTime.now();
-
-  /// 发布部门
-  @HiveField(2)
-  String department = '';
-
-  /// 发布者
-  @HiveField(3)
-  String author = '';
-
-  /// 阅读人数
-  @HiveField(4)
-  int readNumber = 0;
-
-  /// 内容(html格式)
-  @HiveField(5)
-  String content = '';
-
-  /// 附件
-  @HiveField(6)
-  List<AnnounceAttachment> attachments = [];
-
-  @override
-  String toString() {
-    return 'BulletinDetail{title: $title, dateTime: $dateTime, department: $department, author: $author, readNumber: $readNumber, content: $content, attachments: $attachments}';
-  }
-}
 
 /// 通知分类
 @HiveType(typeId: HiveTypeOaAnnounce.catalogue)
@@ -50,7 +13,10 @@ class AnnounceCatalogue {
   @HiveField(1)
   final String id;
 
-  const AnnounceCatalogue(this.name, this.id);
+  const AnnounceCatalogue({
+    required this.name,
+    required this.id,
+  });
 }
 
 /// 某篇通知的记录信息，根据该信息可寻找到对应文章
@@ -58,26 +24,101 @@ class AnnounceCatalogue {
 class AnnounceRecord {
   /// 标题
   @HiveField(0)
-  String title = '';
+  final String title;
 
   /// 文章id
   @HiveField(1)
-  String uuid = '';
+  final String uuid;
 
   /// 目录id
   @HiveField(2)
-  String bulletinCatalogueId = '';
+  final String bulletinCatalogueId;
 
   /// 发布时间
   @HiveField(3)
-  DateTime dateTime = DateTime.now();
+  final DateTime dateTime;
 
   /// 发布部门
   @HiveField(4)
-  String department = '';
+  final List<String> departments;
+
+  const AnnounceRecord({
+    required this.title,
+    required this.uuid,
+    required this.bulletinCatalogueId,
+    required this.dateTime,
+    required this.departments,
+  });
 
   @override
   String toString() {
-    return 'BulletinRecord{title: $title, uuid: $uuid, bulletinCatalogueId: $bulletinCatalogueId, dateTime: $dateTime, department: $department}';
+    return 'BulletinRecord{title: $title, uuid: $uuid, bulletinCatalogueId: $bulletinCatalogueId, dateTime: $dateTime, departments: $departments}';
+  }
+}
+
+@HiveType(typeId: HiveTypeOaAnnounce.detail)
+class AnnounceDetail {
+  /// 标题
+  @HiveField(0)
+  final String title;
+
+  /// 发布时间
+  @HiveField(1)
+  final DateTime dateTime;
+
+  /// 发布部门
+  @HiveField(2)
+  final String department;
+
+  /// 发布者
+  @HiveField(3)
+  final String author;
+
+  /// 阅读人数
+  @HiveField(4)
+  final int readNumber;
+
+  /// 内容(html格式)
+  @HiveField(5)
+  final String content;
+
+  /// 附件
+  @HiveField(6)
+  final List<AnnounceAttachment> attachments;
+
+  const AnnounceDetail({
+    required this.title,
+    required this.dateTime,
+    required this.department,
+    required this.author,
+    required this.readNumber,
+    required this.content,
+    required this.attachments,
+  });
+
+  @override
+  String toString() {
+    return 'BulletinDetail{title: $title, dateTime: $dateTime, department: $department, author: $author, readNumber: $readNumber, content: $content, attachments: $attachments}';
+  }
+}
+
+@HiveType(typeId: HiveTypeOaAnnounce.attachment)
+class AnnounceAttachment {
+  /// 附件标题
+  @HiveField(0)
+  final String name;
+
+  /// 附件下载网址
+  @HiveField(1)
+  final String url;
+
+  const AnnounceAttachment({
+    required this.name,
+    required this.url,
+  });
+
+  @override
+  String toString() {
+    return 'Attachment{name: $name, url: $url}';
   }
 }

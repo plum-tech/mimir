@@ -16,10 +16,11 @@ class AnnounceListPageAdapter extends TypeAdapter<AnnounceListPage> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return AnnounceListPage()
-      ..currentPage = fields[0] as int
-      ..totalPage = fields[1] as int
-      ..bulletinItems = (fields[2] as List).cast<AnnounceRecord>();
+    return AnnounceListPage(
+      currentPage: fields[0] as int,
+      totalPage: fields[1] as int,
+      bulletinItems: (fields[2] as List).cast<AnnounceRecord>(),
+    );
   }
 
   @override

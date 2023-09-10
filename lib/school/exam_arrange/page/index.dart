@@ -11,7 +11,6 @@ import '../init.dart';
 import '../widgets/exam.dart';
 import '../i18n.dart';
 
-
 class ExamArrangementPage extends StatefulWidget {
   const ExamArrangementPage({super.key});
 

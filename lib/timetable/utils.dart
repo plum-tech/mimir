@@ -229,10 +229,10 @@ Duration calcuSwitchAnimationDuration(num distance) {
 
 Future<({String id, SitTimetable timetable})?> importTimetableFromFile() async {
   final result = await FilePicker.platform.pickFiles(
-    // Cannot limit the extensions. My RedMi phone just reject all files.
-    // type: FileType.custom,
-    // allowedExtensions: const ["timetable", "json"],
-  );
+      // Cannot limit the extensions. My RedMi phone just reject all files.
+      // type: FileType.custom,
+      // allowedExtensions: const ["timetable", "json"],
+      );
   if (result == null) return null;
   final path = result.files.single.path;
   if (path == null) return null;

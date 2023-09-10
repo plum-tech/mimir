@@ -8,11 +8,18 @@ part 'page.g.dart';
 @HiveType(typeId: HiveTypeOaAnnounce.listPage)
 class AnnounceListPage {
   @HiveField(0)
-  int currentPage = 1;
+  final int currentPage;
   @HiveField(1)
-  int totalPage = 10;
+  final int totalPage;
+
   @HiveField(2)
-  List<AnnounceRecord> bulletinItems = [];
+  final List<AnnounceRecord> bulletinItems;
+
+  const AnnounceListPage({
+    required this.currentPage,
+    required this.totalPage,
+    required this.bulletinItems,
+  });
 
   @override
   String toString() {

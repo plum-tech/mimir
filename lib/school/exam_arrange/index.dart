@@ -16,9 +16,7 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
   Widget build(BuildContext context) {
     return AppCard(
       title: i18n.title.text(),
-      leftActions: [
-
-      ],
+      leftActions: [],
     );
   }
 }
