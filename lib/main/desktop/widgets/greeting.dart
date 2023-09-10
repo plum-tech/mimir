@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/credential/symbol.dart';
+import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/l10n/common.dart';
 import 'package:mimir/storage/settings.dart';

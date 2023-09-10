@@ -24,7 +24,7 @@ class _InAppViewPageState extends State<InAppViewPage> {
   @override
   void initState() {
     super.initState();
-    ApplicationInit.cookieJar.loadAsWebViewCookie(Uri.parse(ywbUrl)).then((value) {
+    YwbInit.cookieJar.loadAsWebViewCookie(Uri.parse(ywbUrl)).then((value) {
       cookies = value;
       for (final cookie in value) {
         cookieManager.setCookie(cookie);

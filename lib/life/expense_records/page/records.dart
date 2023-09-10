@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/credential/symbol.dart';
+import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/local.dart';

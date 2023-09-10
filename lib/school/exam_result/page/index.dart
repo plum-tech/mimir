@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/credential/symbol.dart';
+import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/fab.dart';
 import 'package:mimir/design/widgets/multi_select.dart';

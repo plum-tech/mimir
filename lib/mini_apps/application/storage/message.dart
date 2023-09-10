@@ -1,8 +1,8 @@
 import 'package:hive/hive.dart';
+import 'package:mimir/cache/box.dart';
 
 import '../dao/message.dart';
 import '../entity/message.dart';
-import '../using.dart';
 
 class ApplicationMessageStorageBox with CachedBox {
   @override

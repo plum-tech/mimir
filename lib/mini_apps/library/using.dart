@@ -1,6 +1,5 @@
 export 'package:mimir/session/library.dart';
 
-export '../shared/auth.dart';
 export '../shared/design.dart';
 export '../shared/i18n.dart';
 export '../shared/logger.dart';

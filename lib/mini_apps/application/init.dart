@@ -1,6 +1,7 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
+import 'package:mimir/session/ywb.dart';
 
 import 'cache/application.dart';
 import 'cache/message.dart';
@@ -10,9 +11,8 @@ import 'service/application.dart';
 import 'service/message.dart';
 import 'storage/application.dart';
 import 'storage/message.dart';
-import 'using.dart';
 
-class ApplicationInit {
+class YwbInit {
   static late CookieJar cookieJar;
   static late ApplicationDao applicationService;
   static late ApplicationMessageDao messageService;
@@ -23,7 +23,7 @@ class ApplicationInit {
     required CookieJar cookieJar,
     required Box<dynamic> box,
   }) {
-    ApplicationInit.cookieJar = cookieJar;
+    YwbInit.cookieJar = cookieJar;
     session = YwbSession(dio: dio);
 
     applicationService = ApplicationCache(

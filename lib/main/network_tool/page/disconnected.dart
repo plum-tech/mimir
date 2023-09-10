@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mimir/main/network_tool/widgets/quick_button.dart';
+import 'package:mimir/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../service/network.dart';
-import '../using.dart';
 import '../widgets/status.dart';
+import "../i18n.dart";
 
 class DisconnectedInfo extends StatefulWidget {
   const DisconnectedInfo({super.key});

@@ -1,12 +1,14 @@
 import 'package:auto_animated/auto_animated.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/design/adaptive/adaptive.dart';
+import 'package:mimir/design/animation/livelist.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/application.dart';
 import '../init.dart';
 import '../widgets/application.dart';
-import '../using.dart';
+import "package:mimir/credential/widgets/oa_scope.dart";
 
 // 本科生常用功能列表
 const Set<String> _commonUsed = <String>{
@@ -35,7 +37,7 @@ class ApplicationList extends StatefulWidget {
 }
 
 class _ApplicationListState extends State<ApplicationList> with AdaptivePageProtocol {
-  final service = ApplicationInit.applicationService;
+  final service = YwbInit.applicationService;
 
   // in descending order
   List<ApplicationMeta> _allDescending = [];
@@ -146,8 +148,8 @@ class _ApplicationListState extends State<ApplicationList> with AdaptivePageProt
   Future<List<ApplicationMeta>?> _fetchMetaList() async {
     final oaCredential = context.auth.credential;
     if (oaCredential == null) return null;
-    if (!ApplicationInit.session.isLogin) {
-      await ApplicationInit.session.login(
+    if (!YwbInit.session.isLogin) {
+      await YwbInit.session.login(
         username: oaCredential.account,
         password: oaCredential.password,
       );

@@ -5,10 +5,12 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/connectivity_checker.dart';
 import 'package:mimir/main/network_tool/widgets/status.dart';
+import 'package:mimir/storage/settings.dart';
+import 'package:mimir/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../service/network.dart';
-import '../using.dart';
+import "../i18n.dart";
 
 class ConnectedInfo extends StatefulWidget {
   const ConnectedInfo({super.key});
@@ -81,24 +83,16 @@ class _ConnectedInfoState extends State<ConnectedInfo> {
         style: style,
       );
     }
-    final tip = _getTipByConnectionType(connectionType);
+    final tip = switch (connectionType) {
+      ConnectivityResult.wifi => i18n.connectedByWlan,
+      ConnectivityResult.ethernet => i18n.connectedByEthernet,
+      ConnectivityResult.vpn => i18n.connectedByVpn,
+      _ => null,
+    };
     if (tip == null) return const SizedBox(height: 10);
     return [
       tip.text(textAlign: TextAlign.center, style: style),
       CampusNetworkStatusInfo(status: status),
     ].column().padH(20);
-  }
-}
-
-String? _getTipByConnectionType(ConnectivityResult? result) {
-  switch (result) {
-    case ConnectivityResult.wifi:
-      return i18n.connectedByWlan;
-    case ConnectivityResult.ethernet:
-      return i18n.connectedByEthernet;
-    case ConnectivityResult.vpn:
-      return i18n.connectedByVpn;
-    default:
-      return null;
   }
 }

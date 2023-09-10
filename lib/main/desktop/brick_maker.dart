@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:mimir/credential/symbol.dart';
+import 'package:mimir/credential/entity/credential.dart';
+import 'package:mimir/credential/entity/login_status.dart';
+import 'package:mimir/credential/widgets/oa_scope.dart';
 
 import '../../mini_app.dart';
 

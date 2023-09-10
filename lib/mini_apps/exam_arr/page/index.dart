@@ -1,14 +1,17 @@
 import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/design/animation/livelist.dart';
+import 'package:mimir/mini_app.dart';
 import 'package:mimir/school/widgets/school.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/school/entity/school.dart';
 
+import '../../../design/widgets/common.dart';
 import '../entity/exam.dart';
 import '../init.dart';
 import '../widgets/exam.dart';
-import '../using.dart';
 
+import "../i18n.dart";
 class ExamArrangementPage extends StatefulWidget {
   const ExamArrangementPage({super.key});
 
@@ -17,7 +20,7 @@ class ExamArrangementPage extends StatefulWidget {
 }
 
 class _ExamArrangementPageState extends State<ExamArrangementPage> {
-  final service = ExamArrInit.examService;
+  final service = ExamArrangeInit.examService;
 
   /// 四位年份
   late int selectedYear;

@@ -1,12 +1,12 @@
 import 'package:hive/hive.dart';
 import 'package:mimir/mini_apps/exam_arr/storage/exam.dart';
+import 'package:mimir/network/session.dart';
 
 import 'cache/exam.dart';
 import 'dao/exam.dart';
 import 'service/exam.dart';
-import 'using.dart';
 
-class ExamArrInit {
+class ExamArrangeInit {
   static late ExamDao examService;
 
   static void init({

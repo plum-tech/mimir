@@ -23,10 +23,10 @@ class _SchoolPageState extends State<SchoolPage> {
           title: i18n.navigation.text(),
         ),
         const SliverToBoxAdapter(
-          child: YellowPagesAppCard(),
+          child: Class2ndAppCard(),
         ),
         const SliverToBoxAdapter(
-          child: Class2ndAppCard(),
+          child: YellowPagesAppCard(),
         ),
       ],
     );

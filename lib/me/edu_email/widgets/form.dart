@@ -2,9 +2,14 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mimir/credential/entity/email.dart';
+import 'package:mimir/credential/init.dart';
+import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/r.dart';
+import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 import '../init.dart';
-import "../using.dart";
+import '../i18n.dart';
 
 class EduEmailCredentialForm extends StatefulWidget {
   final String? studentId;

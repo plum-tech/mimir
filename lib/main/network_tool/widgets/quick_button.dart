@@ -1,8 +1,10 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../using.dart';
+import "../i18n.dart";
 
 const easyConnectDownloadUrl = "https://vpn1.sit.edu.cn/com/installClient.html";
 

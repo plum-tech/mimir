@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/credential/symbol.dart';
+import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:mimir/school/class2nd/widgets/summary.dart';
 import 'package:rettulf/rettulf.dart';

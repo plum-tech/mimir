@@ -2,13 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:mimir/design/adaptive/adaptive.dart';
+import 'package:mimir/design/widgets/button.dart';
+import 'package:mimir/utils/guard_launch.dart';
+import 'package:mimir/utils/url_launcher.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import '../entity/application.dart';
 import '../init.dart';
 import '../page/form.dart';
-import '../using.dart';
+import '../i18n.dart';
 
 class DetailPage extends StatefulWidget {
   final ApplicationMeta meta;
@@ -26,7 +30,7 @@ class _DetailPageState extends State<DetailPage> {
   @override
   void initState() {
     super.initState();
-    ApplicationInit.applicationService.getApplicationDetail(meta.id).then((value) {
+    YwbInit.applicationService.getApplicationDetail(meta.id).then((value) {
       if (!mounted) return;
       setState(() {
         _detail = value;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/mini_apps/exam_arr/using.dart';
+import 'package:mimir/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
 
 typedef CandidateBuilder<T> = Widget Function(BuildContext ctx, T item, String query, VoidCallback selectIt);

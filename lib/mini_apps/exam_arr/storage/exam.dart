@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
+import 'package:mimir/cache/box.dart';
 import 'package:mimir/school/entity/school.dart';
 
 import '../dao/exam.dart';
 import '../entity/exam.dart';
-import '../using.dart';
 
 class ExamStorageBox with CachedBox {
   static const _examArrangementNs = "/exam_arr";

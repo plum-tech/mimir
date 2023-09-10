@@ -1,6 +1,8 @@
+import 'package:mimir/network/session.dart';
+import 'package:mimir/session/ywb.dart';
+
 import '../dao/application.dart';
 import '../entity/application.dart';
-import '../using.dart';
 
 const String serviceFunctionList = 'https://xgfy.sit.edu.cn/app/public/queryAppManageJson';
 const String serviceFunctionDetail = 'https://xgfy.sit.edu.cn/app/public/queryAppFormJson';

@@ -1,18 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/credential/symbol.dart';
-import 'package:mimir/design/colors.dart';
-import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/list.dart';
 import '../entity/score.dart';
 import '../init.dart';
 import '../widgets/attended.dart';
 import '../widgets/summary.dart';
 import '../utils.dart';
-import 'detail.dart';
-import "../i18n.dart";
 
 class AttendedActivityPage extends StatefulWidget {
   const AttendedActivityPage({super.key});

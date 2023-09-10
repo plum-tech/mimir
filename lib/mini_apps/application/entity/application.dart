@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mimir/hive/type_id.dart';
-
-import '../using.dart';
+import 'package:mimir/utils/iconfont.dart';
 
 part 'application.g.dart';
 

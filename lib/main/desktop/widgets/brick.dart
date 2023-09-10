@@ -3,8 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/colors.dart';
 import 'package:mimir/design/utils.dart';
-import 'package:mimir/mini_apps/application/using.dart';
-import 'package:rettulf/rettulf.dart';
 
 typedef IconBuilder = Widget Function(double size, Color color);
 // ignore: non_constant_identifier_names

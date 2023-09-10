@@ -1,11 +1,14 @@
 import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/mini_apps/edu_email/page/list.dart';
-import 'package:mimir/mini_apps/edu_email/widgets/form.dart';
+import 'package:mimir/credential/entity/email.dart';
+import 'package:mimir/credential/init.dart';
+import 'package:mimir/credential/widgets/oa_scope.dart';
+import 'package:mimir/me/edu_email/widgets/form.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../init.dart';
-import '../using.dart';
+import '../i18n.dart';
+import 'list.dart';
 
 // TODO: Send email
 class EduEmailPage extends StatefulWidget {

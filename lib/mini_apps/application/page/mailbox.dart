@@ -1,10 +1,12 @@
 import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/design/animation/livelist.dart';
+import 'package:mimir/design/widgets/common.dart';
 
 import '../entity/message.dart';
 import '../init.dart';
 import '../widgets/mail.dart';
-import '../using.dart';
+import "../i18n.dart";
 
 class Mailbox extends StatefulWidget {
   const Mailbox({super.key});
@@ -19,7 +21,7 @@ class _MailboxState extends State<Mailbox> {
   @override
   void initState() {
     super.initState();
-    ApplicationInit.messageService.getAllMessage().then((value) {
+    YwbInit.messageService.getAllMessage().then((value) {
       if (!mounted) return;
       setState(() {
         _msgPage = value;

@@ -3,7 +3,6 @@ import 'package:mimir/cache/box.dart';
 
 import '../dao/application.dart';
 import '../entity/application.dart';
-import '../using.dart';
 
 class ApplicationStorageBox with CachedBox {
   @override

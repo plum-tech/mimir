@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mimir/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 import '../init.dart';
 import 'connected.dart';
 import 'disconnected.dart';
-import '../using.dart';
+
+import "../i18n.dart";
 
 class NetworkToolPage extends StatefulWidget {
   const NetworkToolPage({super.key});

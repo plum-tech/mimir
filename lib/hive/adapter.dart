@@ -1,5 +1,7 @@
 import 'package:hive/hive.dart';
-import 'package:mimir/credential/symbol.dart';
+import 'package:mimir/credential/entity/credential.dart';
+import 'package:mimir/credential/entity/email.dart';
+import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/life/electricity/entity/balance.dart';
 import 'package:mimir/life/expense_records/entity/local.dart';

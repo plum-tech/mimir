@@ -1,12 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:mimir/design/adaptive/adaptive.dart';
+import 'package:mimir/design/colors.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/application.dart';
 import '../page/detail.dart';
-import '../using.dart';
 
 class ApplicationTile extends StatelessWidget {
   final ApplicationMeta meta;

@@ -1,6 +1,7 @@
 import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/mini_apps/edu_email/widgets/item.dart';
+
+import '../widgets/item.dart';
 
 class EduEmailList extends StatefulWidget {
   final List<MimeMessage> messages;

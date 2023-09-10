@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/design/adaptive/adaptive.dart';
+import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/mini_app.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../using.dart';
 import 'list.dart';
 import 'mailbox.dart';
+import '../i18n.dart';
 
 class ApplicationIndexPage extends StatefulWidget {
   const ApplicationIndexPage({super.key});

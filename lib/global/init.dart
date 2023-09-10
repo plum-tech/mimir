@@ -8,7 +8,10 @@ import 'package:mimir/life/expense_records/init.dart';
 import 'package:mimir/login/init.dart';
 import 'package:mimir/main/init.dart';
 import 'package:mimir/main/network_tool/init.dart';
+import 'package:mimir/me/edu_email/init.dart';
 import 'package:mimir/migration/migrations.dart';
+import 'package:mimir/mini_apps/application/init.dart';
+import 'package:mimir/mini_apps/exam_arr/init.dart';
 import 'package:mimir/mini_apps/symbol.dart';
 import 'package:mimir/school/class2nd/init.dart';
 import 'package:mimir/school/exam_result/init.dart';
@@ -91,7 +94,7 @@ class Init {
       box: HiveBoxInit.examResultCache,
     );
 
-    ExamArrInit.init(
+    ExamArrangeInit.init(
       eduSession: sisSessionSession,
       box: HiveBoxInit.examArrCache,
     );
@@ -124,7 +127,7 @@ class Init {
       box: HiveBoxInit.eduEmail,
     );
 
-    ApplicationInit.init(
+    YwbInit.init(
       dio: Global.dio,
       cookieJar: Global.cookieJar,
       box: HiveBoxInit.applicationCache,
