@@ -24,10 +24,8 @@ class _MePageState extends State<MePage> {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          pinned: true,
           snap: false,
           floating: false,
-          expandedHeight: 100.0,
           flexibleSpace: FlexibleSpaceBar(
             title: "Me".text(style: context.textTheme.headlineSmall),
           ),
@@ -40,43 +38,46 @@ class _MePageState extends State<MePage> {
             ),
           ],
         ),
-        SliverList(
-            delegate: SliverChildListDelegate([
-          const SliverToBoxAdapter(
-            child: EduEmailAppCard(),
-          ),
-          const SliverToBoxAdapter(
-            child: NetworkToolAppCard(),
-          ),
-          ListTile(
-            title: "预览版 QQ交流群".text(),
-            subtitle: _qGroupNumber.text(),
-            trailing: [
-              IconButton(
-                onPressed: () async {
-                  try {
-                    await launchUrlString(_joinQGroupUri);
-                  } catch (_) {}
-                },
-                icon: const Icon(Icons.group),
-              ),
-              IconButton(
-                onPressed: () async {
-                  await Clipboard.setData(const ClipboardData(text: _qGroupNumber));
-                  if (!mounted) return;
-                  context.showSnackBar("已复制到剪贴板".text());
-                },
-                icon: const Icon(Icons.copy),
-              ),
-            ].row(mas: MainAxisSize.min),
-            onTap: () async {
-              try {
-                await launchUrlString(_joinQGroupUri);
-              } catch (_) {}
-            },
-          )
-        ]))
+        const SliverToBoxAdapter(
+          child: EduEmailAppCard(),
+        ),
+        const SliverToBoxAdapter(
+          child: NetworkToolAppCard(),
+        ),
+        SliverToBoxAdapter(
+          child: buildGroupInvitation(),
+        ),
       ],
+    );
+  }
+
+  Widget buildGroupInvitation() {
+    return ListTile(
+      title: "预览版 QQ交流群".text(),
+      subtitle: _qGroupNumber.text(),
+      trailing: [
+        IconButton(
+          onPressed: () async {
+            try {
+              await launchUrlString(_joinQGroupUri);
+            } catch (_) {}
+          },
+          icon: const Icon(Icons.group),
+        ),
+        IconButton(
+          onPressed: () async {
+            await Clipboard.setData(const ClipboardData(text: _qGroupNumber));
+            if (!mounted) return;
+            context.showSnackBar("已复制到剪贴板".text());
+          },
+          icon: const Icon(Icons.copy),
+        ),
+      ].row(mas: MainAxisSize.min),
+      onTap: () async {
+        try {
+          await launchUrlString(_joinQGroupUri);
+        } catch (_) {}
+      },
     );
   }
 }
