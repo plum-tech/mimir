@@ -9,11 +9,11 @@ class _Key {
   static const meInvolved = "/myInvolved";
 }
 
-class ScScoreStorageBox with CachedBox {
+class Class2ndScoreStorageBox with CachedBox {
   @override
   final Box<dynamic> box;
 
-  ScScoreStorageBox(this.box);
+  Class2ndScoreStorageBox(this.box);
 
   late final myScoreSummary = Named<Class2ndScoreSummary>(_Key.scScoreSummary);
   late final myScoreList = NamedList<Class2ndScoreItem>(_Key.scoreList);
@@ -21,9 +21,9 @@ class ScScoreStorageBox with CachedBox {
 }
 
 class Class2ndScoreStorage {
-  final ScScoreStorageBox box;
+  final Class2ndScoreStorageBox box;
 
-  Class2ndScoreStorage(Box<dynamic> hive) : box = ScScoreStorageBox(hive);
+  Class2ndScoreStorage(Box<dynamic> hive) : box = Class2ndScoreStorageBox(hive);
 
   Future<Class2ndScoreSummary?> getScoreSummary() async {
     return box.myScoreSummary.value;

@@ -3,7 +3,7 @@ import 'package:mimir/cache/box.dart';
 
 import '../entity/detail.dart';
 
-class ScActivityDetailStorageBox with CachedBox {
+class Class2ndActivityDetailStorageBox with CachedBox {
   static const id2DetailKey = "/id2Detail";
   @override
   final Box<dynamic> box;
@@ -11,13 +11,13 @@ class ScActivityDetailStorageBox with CachedBox {
 
   String makeId2Detail(int activityId) => "$activityId";
 
-  ScActivityDetailStorageBox(this.box);
+  Class2ndActivityDetailStorageBox(this.box);
 }
 
 class Class2ndActivityDetailStorage {
-  final ScActivityDetailStorageBox box;
+  final Class2ndActivityDetailStorageBox box;
 
-  Class2ndActivityDetailStorage(Box<dynamic> hive) : box = ScActivityDetailStorageBox(hive);
+  Class2ndActivityDetailStorage(Box<dynamic> hive) : box = Class2ndActivityDetailStorageBox(hive);
 
   Future<Class2ndActivityDetail?> getActivityDetail(int activityId) async {
     final cacheKey = box.id2Detail.make(activityId);

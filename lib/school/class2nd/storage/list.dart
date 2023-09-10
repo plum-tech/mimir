@@ -3,12 +3,12 @@ import 'package:mimir/cache/box.dart';
 
 import '../entity/list.dart';
 
-class ScActivityListStorageBox with CachedBox {
+class Class2ndActivityListStorageBox with CachedBox {
   static const _activitiesNs = "/activities";
   @override
   final Box<dynamic> box;
 
-  ScActivityListStorageBox(this.box);
+  Class2ndActivityListStorageBox(this.box);
 
   late final activities = ListNamespace2<Class2ndActivity, Class2ndActivityType, int>(_activitiesNs, makeActivityKey);
 
@@ -16,9 +16,9 @@ class ScActivityListStorageBox with CachedBox {
 }
 
 class Class2ndActivityListStorage {
-  final ScActivityListStorageBox box;
+  final Class2ndActivityListStorageBox box;
 
-  Class2ndActivityListStorage(Box<dynamic> hive) : box = ScActivityListStorageBox(hive);
+  Class2ndActivityListStorage(Box<dynamic> hive) : box = Class2ndActivityListStorageBox(hive);
 
   Future<List<Class2ndActivity>?> getActivityList(Class2ndActivityType type, int page) async {
     final key = box.activities.make(type, page);
