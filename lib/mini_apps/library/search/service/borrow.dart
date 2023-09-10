@@ -1,7 +1,7 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:intl/intl.dart';
+import 'package:mimir/network/session.dart';
 
-import '../../using.dart';
 import '../dao/borrow.dart';
 import '../entity/borrow.dart';
 import 'constant.dart';

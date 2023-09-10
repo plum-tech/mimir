@@ -1,4 +1,5 @@
-import '../using.dart';
+import 'package:flutter/foundation.dart';
+
 import 'dao/holding_preview.dart';
 import 'dao/image_search.dart';
 import 'entity/book_image.dart';
@@ -35,24 +36,24 @@ class BookImageHolding {
   ) async {
     Future<Map<String, BookImage>> searchBookImages() async {
       try {
-        Log.info('批量查询图书图片信息');
+        debugPrint('批量查询图书图片信息');
         final isbnList = books.map((e) => e.isbn).toList();
         return await bookImageSearchDao.searchByIsbnList(isbnList);
       } catch (e) {
         // 查询出错
-        Log.error('查询图书图片信息错误: $e');
+        debugPrint('查询图书图片信息错误: $e');
         return {};
       }
     }
 
     Future<HoldingPreviews> getHoldingPreviews() async {
       try {
-        Log.info('批量获取馆藏信息');
+        debugPrint('批量获取馆藏信息');
         final bookIdList = books.map((e) => e.bookId).toList();
         return await holdingPreviewDao.getHoldingPreviews(bookIdList);
       } catch (e) {
         // 查询出错
-        Log.error('获取馆藏信息出错: $e');
+        debugPrint('获取馆藏信息出错: $e');
         return const HoldingPreviews({});
       }
     }

@@ -1,4 +1,4 @@
-import 'using.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 const i18n = _I18n();
 

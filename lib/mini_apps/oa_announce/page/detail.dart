@@ -3,7 +3,12 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:mimir/design/animation/animated.dart';
 import 'package:mimir/design/utils.dart';
+import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/utils/guard_launch.dart';
+import 'package:mimir/utils/url_launcher.dart';
 import 'package:mimir/widgets/html_widget.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -12,7 +17,7 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/announce.dart';
 import '../entity/attachment.dart';
 import '../init.dart';
-import '../using.dart';
+import '../i18n.dart';
 
 class DetailPage extends StatefulWidget {
   final AnnounceRecord summary;
@@ -126,10 +131,10 @@ class _DetailPageState extends State<DetailPage> {
 
   Future<void> _onDownloadFile(AnnounceAttachment attachment) async {
     context.showSnackBar(i18n.downloading.text(), duration: const Duration(seconds: 1));
-    Log.info('下载文件: [${attachment.name}](${attachment.url})');
-
+    debugPrint('下载文件: [${attachment.name}](${attachment.url})');
+    // TODO: download files.
     String targetPath = '${(await getTemporaryDirectory()).path}/kite1/downloads/${attachment.name}';
-    Log.info('下载到：$targetPath');
+    debugPrint('下载到：$targetPath');
     // 如果文件不存在，那么下载文件
     if (!await File(targetPath).exists()) {
       await OaAnnounceInit.session.download(

@@ -1,4 +1,5 @@
-import '../../using.dart';
+import 'package:mimir/network/session.dart';
+
 import '../dao/holding_preview.dart';
 import '../entity/holding_preview.dart';
 import 'constant.dart';

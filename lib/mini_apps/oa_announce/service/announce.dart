@@ -1,11 +1,11 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:intl/intl.dart';
+import 'package:mimir/network/session.dart';
 
 import '../dao/announce.dart';
 import '../entity/announce.dart';
 import '../entity/attachment.dart';
 import '../entity/page.dart';
-import '../using.dart';
 
 class AnnounceService implements AnnounceDao {
   final ISession session;

@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
-
-import '../using.dart';
+import 'package:mimir/session/library.dart';
 import 'dao/book_info.dart';
 import 'dao/book_search.dart';
 import 'dao/holding.dart';

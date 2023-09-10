@@ -4,13 +4,16 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/design/widgets/editor.dart';
 import 'package:mimir/hive/init.dart';
 import 'package:mimir/widgets/page_grouper.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../using.dart';
+import "../i18n.dart";
 
 class LocalStoragePage extends StatefulWidget {
   const LocalStoragePage({super.key});

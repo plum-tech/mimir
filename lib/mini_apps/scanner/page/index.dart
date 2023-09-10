@@ -5,7 +5,7 @@ import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../using.dart';
+import '../i18n.dart';
 import '../widgets/overlay.dart';
 
 class ScannerPage extends StatefulWidget {

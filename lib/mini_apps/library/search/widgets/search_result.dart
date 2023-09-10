@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mimir/design/widgets/dialog.dart';
 
-import '../../using.dart';
 import '../entity/book_search.dart';
 import '../init.dart';
 import '../page/book_info.dart';
@@ -70,7 +70,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> {
     currentPage = searchResult.currentPage;
     totalPage = searchResult.totalPages;
 
-    Log.info(searchResult);
+    debugPrint(searchResult.toString());
     return await BookImageHolding.simpleQuery(
       LibrarySearchInit.bookImageSearch,
       LibrarySearchInit.holdingPreview,
@@ -141,7 +141,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> {
     getData();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-        Log.info('页面滑动到底部');
+        debugPrint('页面滑动到底部');
         // 获取下一页数据
         getMore();
       }
@@ -226,7 +226,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Log.info('初始化列表');
+    debugPrint('初始化列表');
     return Column(
       children: [
         buildSearchWaySelector(),

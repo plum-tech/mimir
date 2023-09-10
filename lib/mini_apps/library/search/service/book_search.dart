@@ -1,6 +1,6 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:mimir/network/session.dart';
 
-import '../../using.dart';
 import '../dao/book_search.dart';
 import '../entity/book_search.dart';
 import 'constant.dart';

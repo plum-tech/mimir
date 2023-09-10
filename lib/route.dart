@@ -6,14 +6,16 @@ import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/life/expense_records/page/records.dart';
 import 'package:mimir/life/expense_records/page/statistics.dart';
 import 'package:mimir/life/index.dart';
+import 'package:mimir/login/page/index.dart';
 import 'package:mimir/main/index.dart';
 import 'package:mimir/main/network_tool/page/index.dart';
 import 'package:mimir/me/edu_email/page/index.dart';
 import 'package:mimir/mini_apps/application/page/index.dart';
 import 'package:mimir/mini_apps/exam_arr/page/index.dart';
-import 'package:mimir/school/class2nd/cache/list.dart';
+import 'package:mimir/mini_apps/library/index.dart';
+import 'package:mimir/mini_apps/oa_announce/page/index.dart';
+import 'package:mimir/mini_apps/scanner/page/index.dart';
 import 'package:mimir/school/class2nd/entity/list.dart';
-import 'package:mimir/school/class2nd/init.dart';
 import 'package:mimir/school/class2nd/page/detail.dart';
 import 'package:mimir/school/class2nd/page/list.dart';
 import 'package:mimir/school/class2nd/page/attended.dart';
@@ -34,8 +36,6 @@ import 'package:mimir/timetable/page/preview.dart';
 import 'package:mimir/widgets/webview/page.dart';
 
 import 'app.dart';
-import 'login/page/index.dart';
-import 'mini_apps/symbol.dart';
 
 bool isLoginGuarded(BuildContext ctx) {
   final auth = ctx.auth;
@@ -43,7 +43,7 @@ bool isLoginGuarded(BuildContext ctx) {
 }
 
 String? _loginRequired(BuildContext ctx, GoRouterState state) {
-  if (isLoginGuarded(ctx)) return "/login/guard";
+  if (isLoginGuarded(ctx)) return "/login?guard=true";
   return null;
 }
 
@@ -228,11 +228,10 @@ final router = GoRouter(
     ),
     GoRoute(
       path: "/login",
-      builder: (ctx, state) => const LoginPage(isGuarded: false),
-    ),
-    GoRoute(
-      path: "/login/guard",
-      builder: (ctx, state) => const LoginPage(isGuarded: true),
+      builder: (ctx, state) {
+        final guarded = state.uri.queryParameters["guard"] == "true";
+        return LoginPage(isGuarded: guarded);
+      },
     ),
   ],
 );
