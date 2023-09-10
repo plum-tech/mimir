@@ -4,14 +4,14 @@ import 'package:rettulf/rettulf.dart';
 
 import "i18n.dart";
 
-class OaAnnounceAppCard extends StatefulWidget {
-  const OaAnnounceAppCard({super.key});
+class YwbAppCard extends StatefulWidget {
+  const YwbAppCard({super.key});
 
   @override
-  State<OaAnnounceAppCard> createState() => _OaAnnounceAppCardState();
+  State<YwbAppCard> createState() => _YwbAppCardState();
 }
 
-class _OaAnnounceAppCardState extends State<OaAnnounceAppCard> {
+class _YwbAppCardState extends State<YwbAppCard> {
   @override
   Widget build(BuildContext context) {
     return AppCard(
@@ -21,6 +21,11 @@ class _OaAnnounceAppCardState extends State<OaAnnounceAppCard> {
           onPressed: () {},
           child: "See all".text(),
         ),
+        OutlinedButton.icon(
+          onPressed: () {},
+          label: "Mailbox".text(),
+          icon: const Icon(Icons.mail_outlined),
+        )
       ],
     );
   }

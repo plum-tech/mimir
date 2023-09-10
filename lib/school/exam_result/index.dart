@@ -16,6 +16,9 @@ class _ExamResultAppCardState extends State<ExamResultAppCard> {
   Widget build(BuildContext context) {
     return AppCard(
       title: i18n.title.text(),
+      leftActions: [
+
+      ],
     );
   }
 }
