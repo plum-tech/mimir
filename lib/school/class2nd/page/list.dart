@@ -1,7 +1,5 @@
-import 'package:auto_animated/auto_animated.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/animation/livelist.dart';
 import 'package:mimir/design/colors.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -60,7 +58,7 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
   Widget buildBody() {
     return Scaffold(
       appBar: AppBar(
-        title: i18n.activity.title.text(),
+        title: i18n.title.text(),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),

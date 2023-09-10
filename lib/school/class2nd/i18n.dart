@@ -10,7 +10,6 @@ class _I18n with CommonI18nMixin {
 
   final apply = const _Apply();
   final application = const _Application();
-  final activity = const _Activity();
 
   String get title => "$ns.title".tr();
 
@@ -41,14 +40,6 @@ class _I18n with CommonI18nMixin {
   String get tags => "$ns.tags".tr();
 
   String get undertaker => "$ns.undertaker".tr();
-}
-
-class _Activity {
-  const _Activity();
-
-  static const ns = "${_I18n.ns}.activity";
-
-  String get title => "$ns.title".tr();
 }
 
 class _Apply {
