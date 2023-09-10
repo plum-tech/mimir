@@ -10,6 +10,8 @@ class _I18n with CommonI18nMixin {
 
   String attachmentTip(int count) => "$ns.attachmentTip".plural(count);
 
+  String get title => "$ns.title".tr();
+
   String get text => "$ns.text".tr();
 
   String get downloadCompleted => "$ns.downloadCompleted".tr();

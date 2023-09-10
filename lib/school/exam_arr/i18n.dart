@@ -8,6 +8,8 @@ class _I18n with CommonI18nMixin {
 
   static const ns = "examArr";
 
+  String get title => "$ns.title".tr();
+
   String get startTime => "$ns.startTime".tr();
 
   String get endTime => "$ns.endTime".tr();

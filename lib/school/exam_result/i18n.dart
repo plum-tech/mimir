@@ -8,6 +8,8 @@ class _I18n with CommonI18nMixin {
 
   static const ns = "examResult";
 
+  String get title => "$ns.title".tr();
+
   String get teacherEvalTitle => "$ns.teacherEvalTitle".tr();
 
   String get lessonEvaluationBtn => "$ns.lessonEvaluationBtn".tr();
