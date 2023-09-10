@@ -7,7 +7,7 @@ import '../init.dart';
 import 'connected.dart';
 import 'disconnected.dart';
 
-import "../i18n.dart";
+import '../i18n.dart';
 
 class NetworkToolPage extends StatefulWidget {
   const NetworkToolPage({super.key});

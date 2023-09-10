@@ -4,13 +4,13 @@ import 'package:check_vpn_connection/check_vpn_connection.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/connectivity_checker.dart';
-import 'package:mimir/main/network_tool/widgets/status.dart';
 import 'package:mimir/storage/settings.dart';
 import 'package:mimir/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../service/network.dart';
-import "../i18n.dart";
+import '../widgets/status.dart';
+import '../i18n.dart';
 
 class ConnectedInfo extends StatefulWidget {
   const ConnectedInfo({super.key});

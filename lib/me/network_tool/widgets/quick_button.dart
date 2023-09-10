@@ -4,7 +4,7 @@ import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 
-import "../i18n.dart";
+import '../i18n.dart';
 
 const easyConnectDownloadUrl = "https://vpn1.sit.edu.cn/com/installClient.html";
 

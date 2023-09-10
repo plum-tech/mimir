@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:rettulf/rettulf.dart';
-import "../i18n.dart";
+import '../i18n.dart';
 import '../service/network.dart';
 
 class CampusNetworkStatusInfo extends StatelessWidget {
