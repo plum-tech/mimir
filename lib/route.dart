@@ -11,7 +11,7 @@ import 'package:mimir/main/index.dart';
 import 'package:mimir/main/network_tool/page/index.dart';
 import 'package:mimir/me/edu_email/page/index.dart';
 import 'package:mimir/school/application/page/index.dart';
-import 'package:mimir/school/exam_arr/page/index.dart';
+import 'package:mimir/school/exam_arrange/page/index.dart';
 import 'package:mimir/school/library/index.dart';
 import 'package:mimir/school/oa_announce/page/index.dart';
 import 'package:mimir/scanner/page/index.dart';

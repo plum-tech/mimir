@@ -11,7 +11,7 @@ import 'package:mimir/main/network_tool/init.dart';
 import 'package:mimir/me/edu_email/init.dart';
 import 'package:mimir/migration/migrations.dart';
 import 'package:mimir/school/application/init.dart';
-import 'package:mimir/school/exam_arr/init.dart';
+import 'package:mimir/school/exam_arrange/init.dart';
 import 'package:mimir/school/library/init.dart';
 import 'package:mimir/school/oa_announce/init.dart';
 import 'package:mimir/school/class2nd/init.dart';

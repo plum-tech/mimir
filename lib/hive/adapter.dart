@@ -7,7 +7,7 @@ import 'package:mimir/life/electricity/entity/balance.dart';
 import 'package:mimir/life/expense_records/entity/local.dart';
 import 'package:mimir/school/application/entity/application.dart';
 import 'package:mimir/school/application/entity/message.dart';
-import 'package:mimir/school/exam_arr/entity/exam.dart';
+import 'package:mimir/school/exam_arrange/entity/exam.dart';
 import 'package:mimir/school/oa_announce/entity/page.dart';
 import 'package:mimir/school/exam_result/entity/result.dart';
 import 'package:mimir/school/oa_announce/entity/announce.dart';

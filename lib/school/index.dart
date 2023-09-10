@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/school/class2nd/index.dart';
-import 'package:mimir/school/exam_arr/index.dart';
+import 'package:mimir/school/exam_arrange/index.dart';
 import 'package:mimir/school/exam_result/index.dart';
 import 'package:mimir/school/oa_announce/index.dart';
 import 'package:mimir/school/yellow_pages/index.dart';

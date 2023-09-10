@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:mimir/school/exam_arr/storage/exam.dart';
+import 'package:mimir/school/exam_arrange/storage/exam.dart';
 import 'package:mimir/network/session.dart';
 
 import 'cache/exam.dart';

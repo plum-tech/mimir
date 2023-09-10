@@ -6,7 +6,7 @@ import '../dao/exam.dart';
 import '../entity/exam.dart';
 
 class ExamStorageBox with CachedBox {
-  static const _examArrangementNs = "/exam_arr";
+  static const _examArrangementNs = "/exam_arrange";
   @override
   final Box box;
   late final exams = listNamespace2<ExamEntry, SchoolYear, Semester>(_examArrangementNs, makeExamsKey);
