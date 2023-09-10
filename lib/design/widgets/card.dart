@@ -29,18 +29,20 @@ class OutlinedCard extends StatelessWidget {
 class FilledCard extends StatelessWidget {
   final Widget? child;
   final EdgeInsetsGeometry? margin;
+  final Color? color;
 
   const FilledCard({
     super.key,
     this.child,
     this.margin,
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
-      color: Theme.of(context).colorScheme.surfaceVariant,
+      color: color ?? Theme.of(context).colorScheme.surfaceVariant,
       margin: margin,
       child: child,
     );

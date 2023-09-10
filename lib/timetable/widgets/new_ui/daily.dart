@@ -329,10 +329,9 @@ class _LessonCardState extends State<LessonCard> {
 }
 
 extension _LessonCardEx on SitTimetable {
-  Widget buildSingleLesson(BuildContext ctx, SitTimetableLesson lesson, int timeslot) {
-    final colors = TimetableStyle.of(ctx).colors;
+  Widget buildSingleLesson(BuildContext context, SitTimetableLesson lesson, int timeslot) {
     final course = courseKey2Entity[lesson.courseKey];
-    final color = colors[course.courseCode.hashCode.abs() % colors.length].byTheme(ctx.theme);
+    final color = TimetableStyle.of(context).resolveColor(course).byTheme(context.theme);
     final classTime = course.buildingTimetable[timeslot];
     return [
       _buildClassTimeCard(color, classTime),
@@ -371,11 +370,10 @@ class LessonOverlapGroup extends StatelessWidget {
     if (lessonsInSlot.isEmpty) return const SizedBox();
     final List<Widget> all = [];
     ClassTime? classTime;
-    final colors = TimetableStyle.of(context).colors;
     for (int lessonIndex = 0; lessonIndex < lessonsInSlot.length; lessonIndex++) {
       final lesson = lessonsInSlot[lessonIndex];
       final course = timetable.courseKey2Entity[lesson.courseKey];
-      final color = colors[course.courseCode.hashCode.abs() % colors.length].byTheme(context.theme);
+      final color = TimetableStyle.of(context).resolveColor(course).byTheme(context.theme);
       classTime = course.buildingTimetable[timeslot];
       final row = LessonCard(
         lesson: lesson,
@@ -386,8 +384,9 @@ class LessonOverlapGroup extends StatelessWidget {
       all.add(row);
     }
     // [classTime] must be nonnull.
+    // TODO: Color for class overlap.
     return [
-      _buildClassTimeCard(colors[0].byTheme(context.theme), classTime!),
+      _buildClassTimeCard(TimetableStyle.of(context).colors[0].byTheme(context.theme), classTime!),
       all.column().expanded(),
     ].row().padAll(3).inCard();
   }

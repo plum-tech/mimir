@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:mimir/design/colors.dart';
 
+import '../entity/timetable.dart';
 import '../init.dart';
 
 class TimetableStyleData {
@@ -16,6 +17,10 @@ class TimetableStyleData {
         runtimeType == other.runtimeType &&
         colors == other.colors &&
         useNewUI == other.useNewUI;
+  }
+
+  Color2Mode resolveColor(SitCourse course){
+    return colors[course.courseCode.hashCode.abs() % colors.length];
   }
 }
 

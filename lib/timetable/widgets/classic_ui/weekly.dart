@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/design/colors.dart';
+import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:rettulf/rettulf.dart';
@@ -239,6 +240,24 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
 
   /// 布局左侧边栏, 显示节次
   Widget buildLeftColumn(BuildContext ctx) {
+    /// 构建每一个格子
+    Widget buildCell(BuildContext ctx, int index) {
+      final textStyle = ctx.textTheme.bodyMedium;
+      final side = getBorderSide(ctx);
+
+      return Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: index != 0 ? side : BorderSide.none,
+            right: side,
+            left: side,
+            bottom: side,
+          ),
+        ),
+        child: (index + 1).toString().text(style: textStyle).center(),
+      );
+    }
+
     // 用 [GridView] 构造整个左侧边栏
     return GridView.builder(
       shrinkWrap: true,
@@ -247,25 +266,7 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
         crossAxisCount: 1,
         childAspectRatio: 22 / 23 * (1.sw) / (1.sh),
       ),
-      itemBuilder: _buildCell,
-    );
-  }
-
-  /// 构建每一个格子
-  Widget _buildCell(BuildContext ctx, int index) {
-    final textStyle = ctx.textTheme.bodyMedium;
-    final side = getBorderSide(ctx);
-
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          top: index != 0 ? side : BorderSide.none,
-          right: side,
-          left: side,
-          bottom: side,
-        ),
-      ),
-      child: (index + 1).toString().text(style: textStyle).center(),
+      itemBuilder: buildCell,
     );
   }
 
@@ -422,29 +423,16 @@ class _CourseCellState extends State<_CourseCell> {
   Widget build(BuildContext context) {
     final size = context.mediaQuery.size;
 
-    final colors = TimetableStyle.of(context).colors;
-    final color = colors[course.courseCode.hashCode.abs() % colors.length].byTheme(context.theme);
-    final decoration = BoxDecoration(
-      color: color,
-      borderRadius: BorderRadius.all(Radius.circular(8.0.w)),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black87.withOpacity(0.35),
-          offset: const Offset(1.0, 1.0),
-          blurRadius: 1.5,
-        )
-      ],
-      border: const Border(),
-    );
+    final color = TimetableStyle.of(context).resolveColor(course).byTheme(context.theme);
     final padding = context.isPortrait ? size.height / 40 : size.height / 80;
-    return Container(
-            decoration: decoration,
-            margin: EdgeInsets.all(0.5.w),
-            child: TimetableSlotInfo(
-              course: course,
-              maxLines: context.isPortrait ? 8 : 5,
-            ).padOnly(t: padding))
-        .onTap(() async {
+    return FilledCard(
+      color: color,
+      margin: EdgeInsets.all(0.5.w),
+      child: TimetableSlotInfo(
+        course: course,
+        maxLines: context.isPortrait ? 8 : 5,
+      ).padOnly(t: padding),
+    ).onTap(() async {
       if (!mounted) return;
       await context.showSheet((ctx) => Sheet(courseCode: course.courseCode, timetable: widget.timetable));
     });

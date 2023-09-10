@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/design/colors.dart';
+import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:rettulf/rettulf.dart';
@@ -329,36 +330,26 @@ class _LessonBlockState extends State<LessonBlock> {
     final classEnd = timetable[widget.lesson.endIndex].end;
     final time = "$classBegin - $classEnd";
     final duration = course.duration(basedOn: widget.lesson);
-    final colors = TimetableStyle.of(context).colors;
-    final color = colors[course.courseCode.hashCode.abs() % colors.length].byTheme(context.theme);
-    return Container(
-        margin: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.all(Radius.circular(8.0.w)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black87.withOpacity(0.5),
-              offset: const Offset(1.5, 1.5),
-              blurRadius: 3,
-            )
-          ],
-        ),
-        child: ListTile(
-          leading: courseIcon,
-          title: Text(course.courseName),
-          trailing: [
-            Text(beautifyPlace(course.place), softWrap: true, overflow: TextOverflow.ellipsis),
-            duration.localized().text(softWrap: true),
-          ].column(),
-          subtitle: [
-            time.text(style: const TextStyle(fontWeight: FontWeight.bold), softWrap: true),
-            course.teachers.join(', ').text(),
-            course.localizedWeekNumbers().text(),
-          ].column(caa: CrossAxisAlignment.start),
-        ).on(tap: () async {
-          if (!mounted) return;
-          await context.showSheet((ctx) => Sheet(courseCode: course.courseCode, timetable: widget.timetable));
-        }));
+    final color = TimetableStyle.of(context).resolveColor(course).byTheme(context.theme);
+    return FilledCard(
+      color: color,
+      margin: const EdgeInsets.all(8),
+      child: ListTile(
+        leading: courseIcon,
+        title: Text(course.courseName),
+        trailing: [
+          Text(beautifyPlace(course.place), softWrap: true, overflow: TextOverflow.ellipsis),
+          duration.localized().text(softWrap: true),
+        ].column(),
+        subtitle: [
+          time.text(style: const TextStyle(fontWeight: FontWeight.bold), softWrap: true),
+          course.teachers.join(', ').text(),
+          course.localizedWeekNumbers().text(),
+        ].column(caa: CrossAxisAlignment.start),
+      ),
+    ).on(tap: () async {
+      if (!mounted) return;
+      await context.showSheet((ctx) => Sheet(courseCode: course.courseCode, timetable: widget.timetable));
+    });
   }
 }

@@ -381,8 +381,7 @@ class _CourseCellState extends State<_CourseCell> {
   @override
   Widget build(BuildContext context) {
     final Widget res;
-    final colors = TimetableStyle.of(context).colors;
-    final color = colors[course.courseCode.hashCode.abs() % colors.length].byTheme(context.theme);
+    final color = TimetableStyle.of(context).resolveColor(course).byTheme(context.theme);
     final info = TimetableSlotInfo(
       course: course,
       maxLines: context.isPortrait ? 8 : 5,
