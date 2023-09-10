@@ -35,6 +35,7 @@ import 'package:mimir/timetable/page/import.dart';
 import 'package:mimir/timetable/page/index.dart';
 import 'package:mimir/timetable/page/mine.dart';
 import 'package:mimir/timetable/page/preview.dart';
+import 'package:mimir/widgets/image.dart';
 import 'package:mimir/widgets/webview/page.dart';
 
 import 'app.dart';
@@ -244,6 +245,19 @@ final router = GoRouter(
       builder: (ctx, state) {
         final guarded = state.uri.queryParameters["guard"] == "true";
         return LoginPage(isGuarded: guarded);
+      },
+    ),
+    GoRoute(
+      path: "/image/:title",
+      builder: (ctx, state) {
+        final extra = state.extra;
+        if (extra is String) {
+          return ImageViewPage(
+            extra,
+            title: state.pathParameters["title"],
+          );
+        }
+        throw 400;
       },
     ),
   ],

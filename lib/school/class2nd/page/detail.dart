@@ -3,7 +3,7 @@ import 'package:mimir/design/adaptive/adaptive.dart';
 import 'package:mimir/design/widgets/button.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/utils/url_launcher.dart';
-import 'package:mimir/widgets/html_widget.dart';
+import 'package:mimir/widgets/html.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/details.dart';

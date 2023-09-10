@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/school/oa_announce/widget/article.dart';
-import 'package:mimir/utils/guard_launch.dart';
 import 'package:mimir/utils/url_launcher.dart';
 import 'package:rettulf/rettulf.dart';
 

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/dialog.dart';
-import 'package:mimir/widgets/html_widget.dart';
+import 'package:mimir/widgets/html.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rettulf/rettulf.dart';

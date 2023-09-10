@@ -1,11 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
-
-import 'image_viewer.dart';
 
 class StyledHtmlWidget extends StatelessWidget {
   final String html;
@@ -23,27 +21,24 @@ class StyledHtmlWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textStyle = this.textStyle ?? context.textTheme.bodyMedium;
     Widget widget = HtmlWidget(
       html,
       buildAsync: true,
       renderMode: renderMode,
-      factoryBuilder: () => StyledWidgetFactory(textStyle: context.textTheme.bodyMedium),
-      textStyle: textStyle ?? context.textTheme.bodyMedium,
+      factoryBuilder: () => StyledWidgetFactory(textStyle: textStyle),
+      textStyle: textStyle,
       onTapUrl: (url) async {
         return await guardLaunchUrlString(context, url);
       },
       onTapImage: (ImageMetadata image) {
         final url = image.sources.toList()[0].url;
-        MyImageViewer.showNetworkImagePage(context, url);
+        context.push("/image", extra: url);
       },
     );
     if (isSelectable) {
       widget = SelectionArea(child: widget);
     }
-    widget = SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: widget,
-    );
     return widget;
   }
 }
