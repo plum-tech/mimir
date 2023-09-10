@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:mimir/mini_apps/library/search/entity/search_history.dart';
+import 'package:mimir/school/library/search/entity/search_history.dart';
 
 import 'adapter.dart';
 

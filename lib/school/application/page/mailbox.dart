@@ -6,7 +6,7 @@ import 'package:mimir/design/widgets/common.dart';
 import '../entity/message.dart';
 import '../init.dart';
 import '../widgets/mail.dart';
-import "../i18n.dart";
+import '../i18n.dart';
 
 class Mailbox extends StatefulWidget {
   const Mailbox({super.key});

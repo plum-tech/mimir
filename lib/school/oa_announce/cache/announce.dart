@@ -1,6 +1,5 @@
-import 'package:mimir/mini_apps/oa_announce/entity/announce.dart';
-import 'package:mimir/mini_apps/oa_announce/entity/page.dart';
-
+import '../entity/announce.dart';
+import '../entity/page.dart';
 import '../dao/announce.dart';
 import '../storage/announce.dart';
 

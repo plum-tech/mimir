@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mimir/global/global.dart';
-import 'package:mimir/mini_apps/library/search/entity/hot_search.dart';
-import 'package:mimir/mini_apps/library/search/init.dart';
-import 'package:mimir/mini_apps/library/i18n.dart';
+import 'package:mimir/school/library/search/entity/hot_search.dart';
+import 'package:mimir/school/library/search/init.dart';
+import 'package:mimir/school/library/i18n.dart';
 
 import '../../../mini_app.dart';
 import '../widgets/brick.dart';

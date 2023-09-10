@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/mini_apps/exam_arr/entity/exam.dart';
 import 'package:rettulf/rettulf.dart';
 
-import "../i18n.dart";
+import '../i18n.dart';
+import '../entity/exam.dart';
 
 class ExamCard extends StatefulWidget {
   final ExamEntry exam;

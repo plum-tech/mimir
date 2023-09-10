@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:mimir/mini_apps/oa_announce/storage/announce.dart';
+import 'storage/announce.dart';
 import 'package:mimir/session/sso/session.dart';
 
 import 'cache/announce.dart';
