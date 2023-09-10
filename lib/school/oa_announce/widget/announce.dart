@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -22,7 +23,7 @@ class OaAnnounceTile extends StatelessWidget {
         record.title,
         overflow: TextOverflow.ellipsis,
         maxLines: 3,
-      ).hero(record.uuid),
+      ),
       subtitleTextStyle: textTheme.bodySmall,
       subtitle: record.departments
           .map((e) => Chip(
@@ -32,7 +33,9 @@ class OaAnnounceTile extends StatelessWidget {
           .toList()
           .wrap(spacing: 8),
       trailing: context.formatYmdNum(record.dateTime).text(style: textTheme.bodySmall),
-      onTap: () {},
+      onTap: () {
+        context.push("/oa-announce/detail", extra: record);
+      },
     );
   }
 }

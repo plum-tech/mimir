@@ -8,7 +8,7 @@ import '../entity/announce.dart';
 import '../entity/page.dart';
 
 final _announceDateTimeFormat = DateFormat('yyyy-MM-dd');
-
+final _departmentSplitRegex = RegExp(r'\s+');
 class AnnounceService implements AnnounceDao {
   final ISession session;
 
@@ -84,7 +84,7 @@ class AnnounceService implements AnnounceDao {
 
       return AnnounceRecord(
         title: titleElement.text.trim(),
-        departments: department.trim().split("\\s+"),
+        departments: department.trim().split(_departmentSplitRegex),
         dateTime: _announceDateTimeFormat.parse(date),
         bulletinCatalogueId: uri.queryParameters['.pen']!,
         uuid: uri.queryParameters['bulletinId']!,

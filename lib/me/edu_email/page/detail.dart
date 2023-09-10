@@ -49,7 +49,7 @@ class DetailPage extends StatelessWidget {
           Text(subjectText, style: titleStyle),
           Text('$senderText\n$dateText', style: subtitleStyle),
           Expanded(
-            child: MyHtmlWidget(
+            child: StyledHtmlWidget(
               _generateHtml(message),
               // renderMode: RenderMode.listView,
             ),

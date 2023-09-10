@@ -44,14 +44,22 @@ class _OaAnnouncePageState extends State<OaAnnouncePage> {
   Widget build(BuildContext context) {
     final records = _records;
     return Scaffold(
-      appBar: AppBar(title: i18n.title.text()),
+      appBar: AppBar(
+        title: i18n.title.text(),
+        bottom: records != null
+            ? null
+            : const PreferredSize(
+                preferredSize: Size.fromHeight(4),
+                child: LinearProgressIndicator(),
+              ),
+      ),
       body: records == null
           ? const SizedBox()
           : ListView.builder(
               itemCount: records.length,
               itemBuilder: (context, index) {
                 final record = records[index];
-                return OaAnnounceTile(record);
+                return OaAnnounceTile(record).inCard().hero(record.uuid);
               },
             ),
     );

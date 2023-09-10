@@ -10,6 +10,8 @@ import 'package:mimir/login/page/index.dart';
 import 'package:mimir/main/index.dart';
 import 'package:mimir/me/edu_email/page/index.dart';
 import 'package:mimir/me/network_tool/page/index.dart';
+import 'package:mimir/school/oa_announce/entity/announce.dart';
+import 'package:mimir/school/oa_announce/page/detail.dart';
 import 'package:mimir/school/ywb/page/index.dart';
 import 'package:mimir/school/exam_arrange/page/index.dart';
 import 'package:mimir/school/library/index.dart';
@@ -187,6 +189,17 @@ final router = GoRouter(
       redirect: _loginRequired,
     ),
     GoRoute(
+      path: "/oa-announce/detail",
+      builder: (ctx, state) {
+        final extra = state.extra;
+        if (extra is AnnounceRecord) {
+          return AnnounceDetailPage(extra);
+        }
+        throw 404;
+      },
+      redirect: _loginRequired,
+    ),
+    GoRoute(
       path: "/yellow-pages",
       builder: (ctx, state) => const YellowPagesListPage(),
     ),
@@ -235,16 +248,3 @@ final router = GoRouter(
     ),
   ],
 );
-
-/*
-BrowserPage(
-        initialUrl: args['initialUrl'],
-        fixedTitle: args['fixedTitle'],
-        showSharedButton: args['showSharedButton'],
-        showRefreshButton: args['showRefreshButton'],
-        showOpenInBrowser: args['showOpenInBrowser'],
-        userAgent: args['userAgent'],
-        javascript: args['javascript'],
-        javascriptUrl: args['javascriptUrl'],
-      );
- */
