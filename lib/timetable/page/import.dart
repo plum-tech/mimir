@@ -73,6 +73,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   Future<void> importFromFile() async {
     try {
       final id2timetable = await importTimetableFromFile();
+      if(id2timetable == null) return;
       if (!mounted) return;
       context.pop(id2timetable);
     } catch (err) {

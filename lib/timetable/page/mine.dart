@@ -51,9 +51,9 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       if (id2timetable != null) {
         final (:id, timetable: _) = id2timetable;
         storage.usedTimetableId ??= id;
+        if (!mounted) return;
+        setState(() {});
       }
-      if (!mounted) return;
-      setState(() {});
     } catch (err) {
       if (!mounted) return;
       context.showSnackBar("Format Error. Please select a timetable file.".text());

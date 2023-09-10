@@ -232,7 +232,6 @@ Future<({String id, SitTimetable timetable})?> importTimetableFromFile() async {
     // Cannot limit the extensions. My RedMi phone just reject all files.
     // type: FileType.custom,
     // allowedExtensions: const ["timetable", "json"],
-    lockParentWindow: true,
   );
   if (result == null) return null;
   final path = result.files.single.path;
