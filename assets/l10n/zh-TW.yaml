@@ -62,7 +62,7 @@ life:
   navigation: 生活
 me:
   navigation: 個人
-activity:
+class2nd:
   title: 第二課堂
   navigation:
     all: 活動

@@ -6,7 +6,7 @@ const i18n = _I18n();
 class _I18n with CommonI18nMixin {
   const _I18n();
 
-  static const ns = "activity";
+  static const ns = "class2nd";
 
   final apply = const _Apply();
   final application = const _Application();
