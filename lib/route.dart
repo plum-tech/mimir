@@ -248,13 +248,13 @@ final router = GoRouter(
       },
     ),
     GoRoute(
-      path: "/image/:title",
+      path: "/image",
       builder: (ctx, state) {
         final extra = state.extra;
         if (extra is String?) {
           return ImageViewPage(
             extra,
-            title: state.pathParameters["title"],
+            title: state.uri.queryParameters["title"],
           );
         }
         throw 400;
