@@ -6,8 +6,6 @@ import 'package:mimir/credential/entity/credential.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/design/widgets/glassmorphic.dart';
-import 'package:mimir/events/bus.dart';
-import 'package:mimir/events/events.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/l10n/common.dart';
@@ -137,7 +135,6 @@ class _HomepageState extends State<Homepage> {
     if (HomeInit.ssoSession.isOnline) {
       Global.eventBus.fire(EventTypes.onHomeRefresh);
     }
-    homepage.fire(HomeRefreshEvent(isOnline: HomeInit.ssoSession.isOnline));
     _refreshController.refreshCompleted(resetFooterState: true);
   }
 
