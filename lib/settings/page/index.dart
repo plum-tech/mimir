@@ -381,7 +381,7 @@ void _onClearCache(BuildContext context) async {
     serious: true,
   );
   if (confirm == true) {
-    await HiveBoxInit.clearCache();
+    await HiveInit.clearCache();
   }
 }
 
@@ -411,7 +411,7 @@ void _onWipeData(BuildContext context) async {
     serious: true,
   );
   if (confirm == true) {
-    await HiveBoxInit.clear(); // 清除存储
+    await HiveInit.clear(); // 清除存储
     await Init.init();
     if (!context.mounted) return;
     _gotoLogin(context);

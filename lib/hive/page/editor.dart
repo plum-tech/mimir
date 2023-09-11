@@ -28,7 +28,7 @@ class _LocalStoragePageState extends State<LocalStoragePage> {
   @override
   void initState() {
     super.initState();
-    for (final entry in HiveBoxInit.name2Box.entries) {
+    for (final entry in HiveInit.name2Box.entries) {
       final boxName = entry.key;
       final box = entry.value;
       if (box.isOpen) {

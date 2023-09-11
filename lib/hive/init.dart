@@ -3,8 +3,8 @@ import 'package:mimir/school/library/search/entity/search_history.dart';
 
 import 'adapter.dart';
 
-class HiveBoxInit {
-  const HiveBoxInit._();
+class HiveInit {
+  const HiveInit._();
 
   static late Box<dynamic> credentials;
   static late Box<LibrarySearchHistoryItem> librarySearchHistory;

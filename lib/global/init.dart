@@ -47,9 +47,9 @@ class Init {
     }
 
     // 初始化Hive数据库
-    await HiveBoxInit.init(path.join("net.liplum.Mimir", "hive"));
-    Settings = SettingsImpl(HiveBoxInit.settings);
-    Meta = MetaImpl(HiveBoxInit.meta);
+    await HiveInit.init(path.join("net.liplum.Mimir", "hive"));
+    Settings = SettingsImpl(HiveInit.settings);
+    Meta = MetaImpl(HiveInit.meta);
     currentVersion = await getCurrentVersion();
     await Migrations.perform(from: Meta.lastVersion, to: currentVersion.full);
     Meta.lastVersion = currentVersion.full;
@@ -62,12 +62,12 @@ class Init {
     }
 
     CredentialInit.init(
-      box: HiveBoxInit.credentials,
+      box: HiveInit.credentials,
     );
 
     await Global.init(
       debugNetwork: debugNetwork ?? Settings.isGlobalProxy,
-      cookieBox: HiveBoxInit.cookies,
+      cookieBox: HiveInit.cookies,
       credentials: CredentialInit.storage,
     );
 
@@ -77,7 +77,7 @@ class Init {
 
     OaAnnounceInit.init(
       ssoSession: Global.ssoSession,
-      box: HiveBoxInit.oaAnnounceCache,
+      box: HiveInit.oaAnnounceCache,
     );
 
     ConnectivityInit.init(
@@ -91,27 +91,27 @@ class Init {
     ExamResultInit.init(
       cookieJar: Global.cookieJar,
       sisSession: sisSessionSession,
-      box: HiveBoxInit.examResultCache,
+      box: HiveInit.examResultCache,
     );
 
     ExamArrangeInit.init(
       eduSession: sisSessionSession,
-      box: HiveBoxInit.examArrCache,
+      box: HiveInit.examArrCache,
     );
 
     TimetableInit.init(
       eduSession: sisSessionSession,
-      box: HiveBoxInit.timetable,
+      box: HiveInit.timetable,
       ssoSession: Global.ssoSession,
     );
 
     ExpenseRecordsInit.init(
       session: Global.ssoSession,
-      box: HiveBoxInit.expense,
+      box: HiveInit.expense,
     );
 
     YellowPagesInit.init(
-      box: HiveBoxInit.yellowPages,
+      box: HiveInit.yellowPages,
     );
 
     HomeInit.init(
@@ -120,22 +120,22 @@ class Init {
 
     await LibraryInit.init(
       dio: Global.dio,
-      searchHistoryBox: HiveBoxInit.librarySearchHistory,
+      searchHistoryBox: HiveInit.librarySearchHistory,
     );
 
     await EduEmailInit.init(
-      box: HiveBoxInit.eduEmail,
+      box: HiveInit.eduEmail,
     );
 
     YwbInit.init(
       dio: Global.dio,
       cookieJar: Global.cookieJar,
-      box: HiveBoxInit.applicationCache,
+      box: HiveInit.applicationCache,
     );
 
     Class2ndInit.init(
       ssoSession: Global.ssoSession,
-      box: HiveBoxInit.activityCache,
+      box: HiveInit.activityCache,
     );
 
     LoginInit.init(
@@ -144,7 +144,7 @@ class Init {
 
     ElectricityBalanceInit.init(
       dio: Global.dio,
-      electricityBox: HiveBoxInit.settings,
+      electricityBox: HiveInit.settings,
     );
   }
 }
