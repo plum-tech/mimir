@@ -40,15 +40,12 @@ class _ScoreItemState extends State<ScoreItem> {
 
   @override
   Widget build(BuildContext context) {
-    final titleStyle = Theme.of(context).textTheme.titleMedium;
-    final subtitleStyle = Theme.of(context).textTheme.bodyMedium;
-    final scoreStyle = titleStyle?.copyWith(color: context.darkSafeThemeColor);
+    final textTheme = context.textTheme;
     final controller = MultiselectScope.controllerOf(context);
-    final itemIsSelected = controller.isSelected(widget.index);
-    final selecting = widget.isSelectingMode;
+    final selected = controller.isSelected(widget.index);
     Widget buildLeading() {
-      if (selecting) {
-        return Icon(itemIsSelected ? Icons.check_box_outlined : Icons.check_box_outline_blank)
+      if (widget.isSelectingMode) {
+        return Icon(selected ? Icons.check_box_outlined : Icons.check_box_outline_blank)
             .sized(key: const ValueKey("Checkbox"), w: iconSize, h: iconSize);
       } else {
         return Image.asset(
@@ -57,29 +54,24 @@ class _ScoreItemState extends State<ScoreItem> {
       }
     }
 
-    Widget buildTrailing() {
-      // The value of exam result is NaN means this lesson requires evaluation.
-      if (result.value.isNaN) {
-        return i18n.lessonNotEvaluated.text(style: scoreStyle);
-      } else {
-        return Text(result.value.toString(), style: scoreStyle);
-      }
-    }
-
-    final tile = ListTile(
+    return ListTile(
+      selected: selected,
       leading: buildLeading().animatedSwitched(
         d: const Duration(milliseconds: 300),
       ),
-      title: Text(result.courseName, style: titleStyle),
-      subtitle: getSubtitle().text(style: subtitleStyle),
-      trailing: buildTrailing(),
-      onTap: !selecting
+      titleTextStyle: textTheme.titleMedium,
+      title: Text(result.courseName),
+      subtitleTextStyle: textTheme.bodyMedium,
+      subtitle: getSubtitle().text(),
+      trailing: result.hasScore
+          ? result.score.toString().text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize))
+          : i18n.lessonNotEvaluated.text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize)),
+      onTap: !widget.isSelectingMode
           ? null
           : () {
               controller.select(widget.index);
             },
     );
-    return tile;
   }
 
   String getSubtitle() {

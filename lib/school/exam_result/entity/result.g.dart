@@ -17,14 +17,14 @@ class ExamResultAdapter extends TypeAdapter<ExamResult> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ExamResult(
-      fields[0] as double,
-      fields[1] as String,
-      fields[2] as String,
-      fields[3] as String,
-      fields[5] as SchoolYear,
-      fields[6] as Semester,
-      fields[7] as double,
-      fields[4] as String,
+      score: fields[0] as double,
+      courseName: fields[1] as String,
+      courseId: fields[2] as String,
+      innerClassId: fields[3] as String,
+      schoolYear: fields[5] as SchoolYear,
+      semester: fields[6] as Semester,
+      credit: fields[7] as double,
+      dynClassId: fields[4] as String,
     );
   }
 
@@ -33,7 +33,7 @@ class ExamResultAdapter extends TypeAdapter<ExamResult> {
     writer
       ..writeByte(8)
       ..writeByte(0)
-      ..write(obj.value)
+      ..write(obj.score)
       ..writeByte(1)
       ..write(obj.courseName)
       ..writeByte(2)
@@ -102,18 +102,18 @@ class ExamResultDetailsAdapter extends TypeAdapter<ExamResultDetails> {
 // **************************************************************************
 
 ExamResult _$ExamResultFromJson(Map<String, dynamic> json) => ExamResult(
-      stringToDouble(json['cj'] as String),
-      _parseCourseName(json['kcmc']),
-      json['kch'] as String,
-      json['jxb_id'] as String,
-      formFieldToSchoolYear(json['xnmmc'] as String),
-      formFieldToSemester(json['xqm'] as String),
-      stringToDouble(json['xf'] as String),
-      json['jxbmc'] as String? ?? '无',
+      score: stringToDouble(json['cj'] as String),
+      courseName: _parseCourseName(json['kcmc']),
+      courseId: json['kch'] as String,
+      innerClassId: json['jxb_id'] as String,
+      schoolYear: formFieldToSchoolYear(json['xnmmc'] as String),
+      semester: formFieldToSemester(json['xqm'] as String),
+      credit: stringToDouble(json['xf'] as String),
+      dynClassId: json['jxbmc'] as String? ?? '无',
     );
 
 Map<String, dynamic> _$ExamResultToJson(ExamResult instance) => <String, dynamic>{
-      'cj': instance.value,
+      'cj': instance.score,
       'kcmc': instance.courseName,
       'kch': instance.courseId,
       'jxb_id': instance.innerClassId,

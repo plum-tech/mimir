@@ -19,7 +19,7 @@ class TimetableStyleData {
         useNewUI == other.useNewUI;
   }
 
-  Color2Mode resolveColor(SitCourse course){
+  Color2Mode resolveColor(SitCourse course) {
     return colors[course.courseCode.hashCode.abs() % colors.length];
   }
 }

@@ -80,7 +80,7 @@ class _GreetingState extends State<Greeting> {
   Widget build(BuildContext context) {
     final days = studyDays;
     return ListTile(
-      titleTextStyle:context.textTheme.titleMedium,
+      titleTextStyle: context.textTheme.titleMedium,
       title: _i18n.headerA.text(),
       subtitleTextStyle: context.textTheme.headlineSmall,
       subtitle: _i18n.headerB((days ?? 0) + 1).text(),

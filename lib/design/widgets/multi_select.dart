@@ -54,7 +54,6 @@ class MultiselectController extends ChangeNotifier {
   /// Get current selected items in [dataSource]
   List getSelectedItems() {
     final selectedItems = selectedIndexes.map((e) => _dataSource[e]).toList();
-
     return selectedItems;
   }
 
@@ -260,20 +259,4 @@ class _InheritedMultiselectNotifier extends InheritedNotifier<MultiselectControl
 
   const _InheritedMultiselectNotifier({Key? key, required Widget child, required this.controller})
       : super(key: key, child: child, notifier: controller);
-}
-
-class FloatingSelector extends StatefulWidget {
-  final MultiselectController controller;
-
-  const FloatingSelector({super.key, required this.controller});
-
-  @override
-  State<FloatingSelector> createState() => _FloatingSelectorState();
-}
-
-class _FloatingSelectorState extends State<FloatingSelector> {
-  @override
-  Widget build(BuildContext context) {
-    return "aaaa".text();
-  }
 }

@@ -23,7 +23,7 @@ import 'package:mimir/school/class2nd/page/detail.dart';
 import 'package:mimir/school/class2nd/page/list.dart';
 import 'package:mimir/school/class2nd/page/attended.dart';
 import 'package:mimir/school/exam_result/page/evaluation.dart';
-import 'package:mimir/school/exam_result/page/index.dart';
+import 'package:mimir/school/exam_result/page/result.dart';
 import 'package:mimir/school/yellow_pages/page/index.dart';
 import 'package:mimir/settings/page/credential.dart';
 import 'package:mimir/settings/page/developer.dart';

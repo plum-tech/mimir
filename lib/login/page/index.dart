@@ -144,6 +144,7 @@ class _LoginPageState extends State<LoginPage> {
             controller: $account,
             textInputAction: TextInputAction.next,
             autocorrect: false,
+            autofocus: true,
             enableSuggestions: false,
             validator: (account) => studentIdValidator(account, () => i18n.invalidAccountFormat),
             decoration: InputDecoration(
@@ -161,6 +162,7 @@ class _LoginPageState extends State<LoginPage> {
               );
             },
             autocorrect: false,
+            autofocus: true,
             enableSuggestions: false,
             obscureText: !isPasswordClear,
             onFieldSubmitted: (inputted) {

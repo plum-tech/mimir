@@ -69,8 +69,7 @@ class Global {
         ..connectTimeout = const Duration(seconds: 6),
       debug: debugNetwork,
     );
-    ssoSession =
-        SsoSession(dio: dio, cookieJar: cookieJar, onError: onSsoError, inputCaptcha: onNeedInputCaptcha);
+    ssoSession = SsoSession(dio: dio, cookieJar: cookieJar, onError: onSsoError, inputCaptcha: onNeedInputCaptcha);
 
     // 若本地存放了用户名与密码，那就惰性登录
     final oaCredential = credentials.oaCredential;

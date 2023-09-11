@@ -11,10 +11,10 @@ String _parseCourseName(dynamic courseName) {
 @JsonSerializable()
 @HiveType(typeId: HiveTypeExam.examResult)
 class ExamResult {
-  /// 成绩
+  /// If the teacher of class hasn't been evaluated, the score is NaN.
   @JsonKey(name: 'cj', fromJson: stringToDouble)
   @HiveField(0)
-  final double value;
+  final double score;
 
   /// 课程
   @JsonKey(name: 'kcmc', fromJson: _parseCourseName)
@@ -51,14 +51,24 @@ class ExamResult {
   @HiveField(7)
   final double credit;
 
-  const ExamResult(this.value, this.courseName, this.courseId, this.innerClassId, this.schoolYear, this.semester,
-      this.credit, this.dynClassId);
+  const ExamResult({
+    required this.score,
+    required this.courseName,
+    required this.courseId,
+    required this.innerClassId,
+    required this.schoolYear,
+    required this.semester,
+    required this.credit,
+    required this.dynClassId,
+  });
+
+  bool get hasScore => !score.isNaN;
 
   factory ExamResult.fromJson(Map<String, dynamic> json) => _$ExamResultFromJson(json);
 
   @override
   String toString() {
-    return 'Score{value: $value, course: $courseName, courseId: $courseId, innerClassId: $innerClassId, dynClassId: $dynClassId, schoolYear: $schoolYear, semester: $semester, credit: $credit}';
+    return 'Score{value: $score, course: $courseName, courseId: $courseId, innerClassId: $innerClassId, dynClassId: $dynClassId, schoolYear: $schoolYear, semester: $semester, credit: $credit}';
   }
 }
 

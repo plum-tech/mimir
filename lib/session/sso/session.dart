@@ -208,7 +208,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
     final authError = (page.find('span', id: 'msg', class_: 'auth_error') ?? emptyPage).text.trim();
     // TODO: 支持移动端报错提示
     final mobileError = (page.find('span', id: 'errorMsg') ?? emptyPage).text.trim();
-    if (authError. isNotEmpty || mobileError.isNotEmpty) {
+    if (authError.isNotEmpty || mobileError.isNotEmpty) {
       final errorMessage = authError + mobileError;
       final type = parseInvalidType(errorMessage);
       throw OaCredentialsException(message: errorMessage, type: type);
@@ -231,6 +231,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
     }
     return OaCredentialsErrorType.accountPassword;
   }
+
   /// 登录流程
   Future<Response> _postLoginProcess(OaCredential credential) async {
     debug(m) => Log.debug(m);

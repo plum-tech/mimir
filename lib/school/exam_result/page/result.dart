@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/common.dart';
-import 'package:mimir/design/widgets/fab.dart';
 import 'package:mimir/design/widgets/multi_select.dart';
 import 'package:mimir/school/widgets/school.dart';
-import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:universal_platform/universal_platform.dart';
 import 'package:mimir/school/entity/school.dart';
 
 import '../entity/result.dart';
-import '../events.dart';
 import '../init.dart';
 import '../widgets/item.dart';
 import '../utils.dart';
-import 'evaluation.dart';
 import '../i18n.dart';
 
 class ExamResultPage extends StatefulWidget {
@@ -34,12 +27,9 @@ class _ExamResultPageState extends State<ExamResultPage> {
 
   /// 成绩列表
   List<ExamResult>? _allResults;
-  final scrollController = ScrollController();
 
-  // ValueNotifier is used to limit rebuilding when `Lesson Eval` is going up or going down.
-  final $showEvaluationBtn = ValueNotifier(true);
   bool isSelecting = false;
-  var multiselect = MultiselectController();
+  final multiselect = MultiselectController();
   final _multiselectKey = GlobalKey(debugLabel: "Multiselect");
 
   @override
@@ -54,7 +44,6 @@ class _ExamResultPageState extends State<ExamResultPage> {
   @override
   void dispose() {
     multiselect.dispose();
-    scrollController.dispose();
     super.dispose();
   }
 
@@ -83,22 +72,24 @@ class _ExamResultPageState extends State<ExamResultPage> {
               onPressed: () {
                 setState(() {
                   isSelecting = !isSelecting;
-                  if (isSelecting) {
-                    $showEvaluationBtn.value = false;
-                  } else {
-                    $showEvaluationBtn.value = true;
+                  if (isSelecting == false) {
                     multiselect.clearSelection();
                   }
                 });
               },
               icon: Icon(isSelecting ? Icons.check_box_outlined : Icons.check_box_outline_blank)),
         ],
+        bottom: allResults != null
+            ? null
+            : const PreferredSize(
+                preferredSize: Size.fromHeight(4),
+                child: LinearProgressIndicator(),
+              ),
       ),
       body: [
         _buildHeader(),
-        (allResults == null ? const CircularProgressIndicator() : _buildExamResultList(allResults)).expanded(),
+        (allResults == null ? const SizedBox() : _buildExamResultList(allResults)).expanded(),
       ].column(),
-      floatingActionButton: context.auth.credential == null ? null : buildEvaluationBtn(context),
     );
   }
 
@@ -106,7 +97,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
     final allResults = _allResults;
     final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResult>() : allResults;
     if (selectedExams != null) {
-      final gpa = calcGPA(selectedExams);
+      final gpa = calcGPA(selectedExams.where((exam) => exam.hasScore));
       if (isSelecting) {
         return [
           i18n.lessonSelected(selectedExams.length).text(textAlign: TextAlign.center).expanded(),
@@ -121,26 +112,6 @@ class _ExamResultPageState extends State<ExamResultPage> {
     } else {
       return i18n.title.text();
     }
-  }
-
-  Widget buildEvaluationBtn(BuildContext ctx) {
-    // If the user is currently offline, don't let them see the evaluation button.
-    return AutoHideFAB.extended(
-      controller: scrollController,
-      icon: const Icon(Icons.assessment_outlined),
-      onPressed: () async {
-        if (UniversalPlatform.isDesktop) {
-          await guardLaunchUrl(ctx, evaluationUri);
-          return;
-        }
-        await context.push("/teacher-eval");
-        if (!mounted) return;
-        eventBus.fire(LessonEvaluatedEvent());
-        await Future.delayed(const Duration(milliseconds: 1000));
-        onRefresh();
-      },
-      label: i18n.lessonEvaluationBtn.text(),
-    );
   }
 
   Widget _buildHeader() {
@@ -164,7 +135,12 @@ class _ExamResultPageState extends State<ExamResultPage> {
   }
 
   Widget _buildExamResultList(List<ExamResult> all) {
-    if (all.isNotEmpty) _buildNoResult();
+    if (all.isEmpty) {
+      return LeavingBlank(
+        icon: Icons.inbox_outlined,
+        desc: i18n.noResult,
+      );
+    }
     return MultiselectScope<ExamResult>(
       key: _multiselectKey,
       controller: multiselect,
@@ -182,20 +158,12 @@ class _ExamResultPageState extends State<ExamResultPage> {
       },
       child: GridView.builder(
         itemCount: all.length,
-        controller: scrollController,
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 750,
           mainAxisExtent: 60,
         ),
         itemBuilder: (ctx, index) => ScoreItem(all[index], index: index, isSelectingMode: isSelecting),
       ),
-    );
-  }
-
-  Widget _buildNoResult() {
-    return LeavingBlank(
-      icon: Icons.inbox_outlined,
-      desc: i18n.noResult,
     );
   }
 }
