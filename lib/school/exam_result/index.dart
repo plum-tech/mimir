@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -16,7 +17,21 @@ class _ExamResultAppCardState extends State<ExamResultAppCard> {
   Widget build(BuildContext context) {
     return AppCard(
       title: i18n.title.text(),
-      leftActions: [],
+      leftActions: [
+        FilledButton.icon(
+          onPressed: () {
+            context.push("/exam-result");
+          },
+          icon: const Icon(Icons.score_outlined),
+          label: "Check".text(),
+        ),
+      ],
+      rightActions: [
+        IconButton(
+          onPressed: () async {},
+          icon: const Icon(Icons.refresh),
+        ),
+      ],
     );
   }
 }

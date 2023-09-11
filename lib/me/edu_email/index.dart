@@ -16,6 +16,13 @@ class _EduEmailAppCardState extends State<EduEmailAppCard> {
   Widget build(BuildContext context) {
     return AppCard(
       title: i18n.title.text(),
+      leftActions: [
+        FilledButton.icon(
+          onPressed: () {},
+          icon: const Icon(Icons.email_outlined),
+          label: "Mailbox".text(),
+        )
+      ],
     );
   }
 }
