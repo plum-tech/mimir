@@ -32,8 +32,6 @@ class ImportTimetablePage extends StatefulWidget {
 
 class _ImportTimetablePageState extends State<ImportTimetablePage> {
   bool canImport = false;
-  final service = TimetableInit.service;
-  final storage = TimetableInit.storage;
   var _status = ImportStatus.none;
   late int selectedYear;
   late Semester selectedSemester;
@@ -152,7 +150,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     );
     if (newMeta != null) {
       timetable = timetable.copyWithMeta(newMeta);
-      final id = storage.addTimetable(timetable);
+      final id = TimetableInit.storage.addTimetable(timetable);
       return (id: id, timetable: timetable);
     }
     return null;
@@ -178,7 +176,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       final year = SchoolYear(selectedYear);
       try {
         final (timetable, _) = await (
-          service.getTimetable(year, semester),
+          TimetableInit.service.getTimetable(year, semester),
           Future.delayed(const Duration(seconds: 1)),
         ).wait;
         if (!mounted) return;

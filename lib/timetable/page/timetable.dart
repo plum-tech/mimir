@@ -25,10 +25,6 @@ class TimetableBoardPage extends StatefulWidget {
 }
 
 class _TimetableBoardPageState extends State<TimetableBoardPage> {
-  /// 最大周数
-  /// TODO 还没用上
-  // static const int maxWeekCount = 20;
-  final storage = TimetableInit.storage;
   final scrollController = ScrollController();
 
   // 模式：周课表 日课表
@@ -42,12 +38,12 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
   @override
   void initState() {
     super.initState();
-    final initialMode = storage.lastDisplayMode ?? DisplayMode.weekly;
+    final initialMode = TimetableInit.storage.lastDisplayMode ?? DisplayMode.weekly;
     $displayMode = ValueNotifier(initialMode);
     $displayMode.addListener(() {
-      storage.lastDisplayMode = $displayMode.value;
+      TimetableInit.storage.lastDisplayMode = $displayMode.value;
     });
-    storage.lastDisplayMode = initialMode;
+    TimetableInit.storage.lastDisplayMode = initialMode;
     $currentPos = ValueNotifier(timetable.locate(DateTime.now()));
   }
 

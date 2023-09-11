@@ -1,7 +1,7 @@
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/r.dart';
-import 'package:mimir/storage/settings.dart';
+import 'package:mimir/hive/settings.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_manager/window_manager.dart';
 

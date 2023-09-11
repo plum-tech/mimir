@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/global/init.dart';
-import 'package:mimir/storage/page/editor.dart';
+import 'package:mimir/hive/page/editor.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 

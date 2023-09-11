@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/life/electricity/index.dart';
 import 'package:mimir/life/expense_records/index.dart';
-import 'package:mimir/storage/settings.dart';
+import 'package:mimir/hive/settings.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'i18n.dart';

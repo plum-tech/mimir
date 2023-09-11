@@ -22,7 +22,7 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
           onPressed: () {
             context.push("/exam-arrange");
           },
-          icon: const Icon(Icons.history_edu_outlined),
+          icon: const Icon(Icons.task_outlined),
           label: "Check".text(),
         ),
       ],

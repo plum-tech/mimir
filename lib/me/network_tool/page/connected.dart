@@ -4,7 +4,7 @@ import 'package:check_vpn_connection/check_vpn_connection.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/connectivity_checker.dart';
-import 'package:mimir/storage/settings.dart';
+import 'package:mimir/hive/settings.dart';
 import 'package:mimir/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 

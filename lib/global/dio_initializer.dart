@@ -8,7 +8,7 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:fk_user_agent/fk_user_agent.dart';
 import 'package:flutter/services.dart';
 import 'package:mimir/r.dart';
-import 'package:mimir/storage/settings.dart';
+import 'package:mimir/hive/settings.dart';
 import 'package:mimir/utils/logger.dart';
 
 final _rand = Random();

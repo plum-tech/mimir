@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/l10n/common.dart';
-import 'package:mimir/storage/settings.dart';
+import 'package:mimir/hive/settings.dart';
 import 'package:mimir/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 

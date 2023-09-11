@@ -7,7 +7,7 @@ import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/adaptive/adaptive.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/route.dart';
-import 'package:mimir/storage/settings.dart';
+import 'package:mimir/hive/settings.dart';
 
 final $Key = GlobalKey<NavigatorState>();
 
