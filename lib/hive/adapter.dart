@@ -30,8 +30,8 @@ class HiveAdapter {
     ~CampusAdapter();
 
     // Credential
-    ~OaCredentialAdapter();
-    ~EmailCredentialAdapter();
+    ~OaCredentialsAdapter();
+    ~EmailCredentialsAdapter();
     ~LoginStatusAdapter();
 
     // Electric Bill

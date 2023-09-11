@@ -1,4 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -48,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void didChangeDependencies() {
-    final oaCredential = context.auth.credential;
+    final oaCredential = context.auth.credentials;
     if (oaCredential != null) {
       $account.text = oaCredential.account;
       $password.text = oaCredential.password;
@@ -87,51 +88,107 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     try {
-      final oaCredential = OaCredential(account: account, password: password);
+      final oaCredential = OaCredentials(account: account, password: password);
       await LoginInit.ssoSession.loginActiveLocked(oaCredential);
       // final personName = await LoginInit.authServerService.getPersonName();
       if (!mounted) return;
-      final auth = context.auth;
-      auth.setOaCredential(oaCredential);
-      auth.setLoginStatus(LoginStatus.validated);
+      setState(() => isLoggingIn = false);
+      CredentialInit.storage.oaLoginStatus = LoginStatus.validated;
+      CredentialInit.storage.oaLastAuthTime = DateTime.now();
       // Edu email has the same credential as OA by default.
       // So assume this can work at first time.
-      CredentialInit.storage.eduEmailCredential ??= EmailCredential(
+      CredentialInit.storage.eduEmailCredentials ??= EmailCredentials(
         address: R.formatEduEmail(username: oaCredential.account),
         password: oaCredential.password,
       );
       context.go("/");
       setState(() => isLoggingIn = false);
-    } on UnknownAuthException catch (e) {
+    } on UnknownAuthException catch (e, stacktrace) {
+      debugPrint(e.toString());
+      debugPrintStack(stackTrace: stacktrace);
       if (!mounted) return;
+      setState(() => isLoggingIn = false);
       await context.showTip(
         title: i18n.failedWarn,
         desc: e.msg,
         ok: i18n.close,
       );
-    } on OaCredentialsException catch (e) {
-      if (!mounted) return;
-      await context.showTip(
-        title: i18n.failedWarn,
-        desc: e.message,
-        ok: i18n.close,
-      );
-      return;
-    } catch (e, stacktrace) {
+    } on OaCredentialsException catch (e, stacktrace) {
       debugPrint(e.toString());
       debugPrintStack(stackTrace: stacktrace);
       if (!mounted) return;
+      setState(() => isLoggingIn = false);
       await context.showTip(
         title: i18n.failedWarn,
         desc: i18n.accountOrPwdIncorrectTip,
         ok: i18n.close,
+      );
+      return;
+    } on DioException catch (e, stacktrace) {
+      debugPrint(e.toString());
+      debugPrintStack(stackTrace: stacktrace);
+      if (!mounted) return;
+      setState(() => isLoggingIn = false);
+      await context.showTip(
+        title: i18n.failedWarn,
+        desc: i18n.schoolServerUnconnectedTip,
+        ok: i18n.close,
         serious: true,
       );
-    } finally {
-      if (mounted) {
-        setState(() => isLoggingIn = false);
-      }
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: widget.isGuarded ? i18n.loginRequired.text() : i18n.loginOa.text(),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              context.push("/settings");
+            },
+          ),
+        ],
+        bottom: isLoggingIn
+            ? const PreferredSize(
+                preferredSize: Size.fromHeight(4),
+                child: LinearProgressIndicator(),
+              )
+            : null,
+      ),
+      body: buildBody(),
+      //to avoid overflow when keyboard is up.
+      bottomNavigationBar: [
+        const ForgotPasswordButton(),
+      ].wrap(align: WrapAlignment.center).padAll(10),
+    );
+  }
+
+  Widget buildBody() {
+    return [
+      widget.isGuarded
+          ? const Icon(
+              Icons.person_off_outlined,
+              size: 120,
+            )
+          : i18n.welcomeHeader.text(
+              style: context.textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+      Padding(padding: EdgeInsets.only(top: 40.h)),
+      // Form field: username and password.
+      buildLoginForm(),
+      SizedBox(height: 10.h),
+      buildLoginButton(),
+    ]
+        .column(mas: MainAxisSize.min)
+        .scrolled(physics: const NeverScrollableScrollPhysics())
+        .padH(25.h)
+        .center()
+        .safeArea();
   }
 
   Widget buildLoginForm() {
@@ -201,70 +258,18 @@ class _LoginPageState extends State<LoginPage> {
                         onLogin();
                       }
                     : null,
-                child: isLoggingIn ? const CircularProgressIndicator() : i18n.loginBtn.text().padAll(5),
+                child: i18n.loginBtn.text().padAll(5),
               ),
       if (!widget.isGuarded)
         ElevatedButton(
           // Offline
           onPressed: () {
-            context.auth.setLoginStatus(LoginStatus.offline);
+            CredentialInit.storage.oaLoginStatus = LoginStatus.offline;
             context.go("/");
           },
           child: i18n.offlineModeBtn.text().padAll(5),
         ),
     ].row(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceAround);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: widget.isGuarded ? i18n.loginRequired.text() : null,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              context.push("/settings");
-            },
-          ),
-        ],
-      ),
-      body: buildBody(),
-      //to avoid overflow when keyboard is up.
-      bottomNavigationBar: [
-        const ForgotPasswordButton(),
-      ].wrap(align: WrapAlignment.center).padAll(10),
-    );
-  }
-
-  Widget buildBody() {
-    return [
-      widget.isGuarded ? buildOfflineIcon() : buildTitle(),
-      Padding(padding: EdgeInsets.only(top: 40.h)),
-      // Form field: username and password.
-      buildLoginForm(),
-      SizedBox(height: 10.h),
-      buildLoginButton(),
-    ]
-        .column(mas: MainAxisSize.min)
-        .scrolled(physics: const NeverScrollableScrollPhysics())
-        .padH(25.h)
-        .center()
-        .safeArea();
-  }
-
-  Widget buildTitle() {
-    return i18n.title.text(
-      style: context.textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
-      textAlign: TextAlign.center,
-    );
-  }
-
-  Widget buildOfflineIcon() {
-    return const Icon(
-      Icons.person_off_outlined,
-      size: 120,
-    );
   }
 }
 

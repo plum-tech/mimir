@@ -8,7 +8,7 @@ class HiveTypeBasic {
 }
 
 /// Credential 20-29
-class HiveTypeCredential {
+class HiveTypeCredentials {
   static const oa = 20;
   static const loginStatus = 21;
   static const email = 22;

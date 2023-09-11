@@ -1,9 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:quiver/iterables.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../entity/score.dart';
 
@@ -26,6 +23,27 @@ Class2ndScoreSummary getTargetScoreOf({required int admissionYear}) {
     return targetScores;
   } else {
     return _targetScores2020;
+  }
+}
+
+class Class2ndScoreSummeryCard extends StatelessWidget {
+  final Class2ndScoreSummary targetScore;
+  final Class2ndScoreSummary summary;
+
+  const Class2ndScoreSummeryCard({
+    super.key,
+    required this.targetScore,
+    required this.summary,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 1.8,
+      child: Card(
+        child: Class2ndScoreSummaryChart(targetScore: targetScore, summary: summary).padSymmetric(v: 4),
+      ),
+    );
   }
 }
 
@@ -87,34 +105,13 @@ class Class2ndScoreSummaryChart extends StatelessWidget {
                 final i = indexDouble.toInt();
                 final isComplete = scores[i].score / targetScores[i].score >= 1;
                 return [
-                  scores[i].name.text(style: isComplete? completeStyle : null),
+                  scores[i].name.text(style: isComplete ? completeStyle : null),
                   scores[i].score.toString().text(style: isComplete ? completeStyle : null),
                 ].column();
               },
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class Class2ndScoreSummeryCard extends StatelessWidget {
-  final Class2ndScoreSummary targetScore;
-  final Class2ndScoreSummary summary;
-
-  const Class2ndScoreSummeryCard({
-    super.key,
-    required this.targetScore,
-    required this.summary,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.8,
-      child: Card(
-        child: Class2ndScoreSummaryChart(targetScore: targetScore, summary: summary).padSymmetric(v: 4),
       ),
     );
   }

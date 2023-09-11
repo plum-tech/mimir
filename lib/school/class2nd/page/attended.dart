@@ -51,7 +51,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   }
 
   Class2ndScoreSummary getTargetScore() {
-    final admissionYear = int.tryParse(context.auth.credential?.account.substring(0, 2) ?? "") ?? 2000;
+    final admissionYear = int.tryParse(context.auth.credentials?.account.substring(0, 2) ?? "") ?? 2000;
     return getTargetScoreOf(admissionYear: admissionYear);
   }
 

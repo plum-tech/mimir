@@ -33,7 +33,7 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
   Future<void> refresh({
     bool clear = false,
   }) async {
-    final oaCredential = context.auth.credential;
+    final oaCredential = context.auth.credentials;
     if (oaCredential == null) return;
     if (clear) {
       ExpenseRecordsInit.storage

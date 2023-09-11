@@ -223,10 +223,12 @@ networkTool:
   connectedByWlan: Connected to campus network by WLAN
   connectedByEthernet: Connected to campus network by Ethernet
 login:
-  title: Welcome!
+  header: Welcome!
+  loginOa: Login OA
   validateInputAccountPwdRequest: Please check the account and password you entered
   credentialsValidatedTip: Account and password are correct
   accountOrPwdIncorrectTip: The account or password is incorrect
+  schoolServerUnconnectedTip: Can't connect to school server
   accountHint: Student ID/Work number
   forgotPwdBtn: Forgot password?
   loggedInTip: Logged in

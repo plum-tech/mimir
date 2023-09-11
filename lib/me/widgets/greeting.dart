@@ -42,7 +42,7 @@ class _GreetingState extends State<Greeting> {
   @override
   void didChangeDependencies() {
     // 如果用户不是新生或老师，那么就显示学习天数
-    if (context.auth.credential != null) {
+    if (context.auth.credentials != null) {
       setState(() {
         studyDays = _getStudyDaysAndInitState();
       });
@@ -57,7 +57,7 @@ class _GreetingState extends State<Greeting> {
   }
 
   int _getStudyDaysAndInitState() {
-    final oaCredential = context.auth.credential;
+    final oaCredential = context.auth.credentials;
     if (oaCredential != null) {
       final id = oaCredential.account;
 

@@ -221,10 +221,12 @@ networkTool:
   connectedByWlan: 已通過 WLAN 連線校園網路。
   connectedByEthernet: 已通過乙太網路連線校園網路。
 login:
-  title: 歡迎！
+  welcomeHeader: 歡迎！
+  loginOa: 登入 OA
   validateInputAccountPwdRequest: 請檢查你鍵入的賬戶和密碼
   credentialsValidatedTip: 帳戶與密碼正確
   accountOrPwdIncorrectTip: 賬戶或密碼錯誤
+  schoolServerUnconnectedTip: 無法連接學校伺服器
   accountHint: 學號/工號
   forgotPwdBtn: 忘記密碼?
   loggedInTip: 已登入

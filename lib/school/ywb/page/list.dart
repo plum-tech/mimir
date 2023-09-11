@@ -146,7 +146,7 @@ class _ApplicationListState extends State<ApplicationList> with AdaptivePageProt
   }
 
   Future<List<ApplicationMeta>?> _fetchMetaList() async {
-    final oaCredential = context.auth.credential;
+    final oaCredential = context.auth.credentials;
     if (oaCredential == null) return null;
     if (!YwbInit.session.isLogin) {
       await YwbInit.session.login(

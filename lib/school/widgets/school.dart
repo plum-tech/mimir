@@ -86,7 +86,7 @@ class _SemesterSelectorState extends State<SemesterSelector> {
 
   Widget buildYearSelector(BuildContext ctx) {
     // 得到入学年份
-    final oaCredential = context.auth.credential;
+    final oaCredential = context.auth.credentials;
     final int grade;
     if (oaCredential != null) {
       final fromID = int.tryParse(oaCredential.account.substring(0, 2));

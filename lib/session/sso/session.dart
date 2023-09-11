@@ -6,6 +6,7 @@ import 'package:dio/dio.dart' hide Lock;
 import 'package:go_router/go_router.dart';
 import 'package:mimir/app.dart';
 import 'package:mimir/credential/entity/credential.dart';
+import 'package:mimir/credential/init.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/credential/i18n.dart';
 import 'package:mimir/design/widgets/dialog.dart';
@@ -42,7 +43,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
   bool isOnline = false;
 
   // If login successful, credential is non-null.
-  OaCredential? _credential;
+  OaCredentials? _credential;
 
   /// Session错误拦截器
   SsoSessionErrorCallback? onError;
@@ -113,7 +114,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
   }
 
   /// - User try to log in actively on a login page.
-  Future<Response> loginActiveLocked(OaCredential credential) async {
+  Future<Response> loginActiveLocked(OaCredentials credential) async {
     return await loginLock.synchronized(() async {
       return await _login(credential);
     });
@@ -189,12 +190,12 @@ class SsoSession with DioDownloaderMixin implements ISession {
   }
 
   /// 惰性登录，只有在第一次请求跳转到登录页时才开始尝试真正的登录
-  void lazyLogin(OaCredential credential) {
+  void lazyLogin(OaCredentials credential) {
     _credential = credential;
   }
 
   /// 带异常的登录, 但不处理验证码识别错误问题.
-  Future<Response> _login(OaCredential credential) async {
+  Future<Response> _login(OaCredentials credential) async {
     Log.info('尝试登录：${credential.account}');
     Log.debug('当前登录UA: ${dio.options.headers['User-Agent']}');
     // 在 OA 登录时, 服务端会记录同一 cookie 用户登录次数和输入错误次数,
@@ -221,7 +222,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
     Log.info('登录成功：${credential.account}');
     isOnline = true;
     _credential = credential;
-    $Key.currentContext?.auth.setLastOaAuthTime(DateTime.now());
+    CredentialInit.storage.oaLastAuthTime = DateTime.now();
     return response;
   }
 
@@ -233,7 +234,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
   }
 
   /// 登录流程
-  Future<Response> _postLoginProcess(OaCredential credential) async {
+  Future<Response> _postLoginProcess(OaCredentials credential) async {
     debug(m) => Log.debug(m);
 
     /// 提取认证页面中的加密盐

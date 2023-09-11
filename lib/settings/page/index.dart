@@ -116,7 +116,7 @@ class _SettingsPageState extends State<SettingsPage> {
   List<Widget> buildEntries() {
     final all = <Widget>[];
 
-    final credential = context.auth.credential;
+    final credential = context.auth.credentials;
     if (credential != null) {
       all.add(CredentialTile(credential: credential));
       all.add(const Divider());
@@ -334,7 +334,7 @@ class DevOptionsTile extends StatelessWidget {
 }
 
 class CredentialTile extends StatelessWidget {
-  final OaCredential credential;
+  final OaCredentials credential;
 
   const CredentialTile({
     super.key,

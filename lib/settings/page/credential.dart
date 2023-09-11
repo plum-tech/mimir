@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mimir/credential/entity/credential.dart';
 import 'package:mimir/credential/i18n.dart';
+import 'package:mimir/credential/init.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/design/widgets/editor.dart';
@@ -46,7 +47,7 @@ class _CredentialPageState extends State<CredentialPage> {
   }
 
   Widget buildBody() {
-    final credential = context.auth.credential;
+    final credential = context.auth.credentials;
     final all = <WidgetBuilder>[];
     if (credential == null) {
       all.add((_) => buildLogin());
@@ -75,7 +76,7 @@ class _CredentialPageState extends State<CredentialPage> {
     );
   }
 
-  Widget buildAccount(OaCredential credential) {
+  Widget buildAccount(OaCredentials credential) {
     return ListTile(
       title: CredentialI18n.instance.oaAccount.text(),
       subtitle: credential.account.text(),
@@ -89,7 +90,7 @@ class _CredentialPageState extends State<CredentialPage> {
     );
   }
 
-  Widget buildPassword(OaCredential credential) {
+  Widget buildPassword(OaCredentials credential) {
     return AnimatedSize(
       duration: const Duration(milliseconds: 100),
       child: ListTile(
@@ -106,7 +107,7 @@ class _CredentialPageState extends State<CredentialPage> {
     );
   }
 
-  Widget buildChangeSavedPassword(OaCredential origin) {
+  Widget buildChangeSavedPassword(OaCredentials origin) {
     return ListTile(
       title: CredentialI18n.instance.changeSavedOaPwd.text(),
       subtitle: CredentialI18n.instance.changeSavedOaPwdDesc.text(),
@@ -116,7 +117,7 @@ class _CredentialPageState extends State<CredentialPage> {
             await Editor.showStringEditor(context, desc: CredentialI18n.instance.savedOaPwd, initial: origin.password);
         if (newPwd != origin.password) {
           if (!mounted) return;
-          context.auth.setOaCredential(origin.copyWith(password: newPwd));
+          CredentialInit.storage.oaCredentials = origin.copyWith(password: newPwd);
           setState(() {});
         }
       },

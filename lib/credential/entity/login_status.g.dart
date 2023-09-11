@@ -19,6 +19,8 @@ class LoginStatusAdapter extends TypeAdapter<LoginStatus> {
         return LoginStatus.offline;
       case 3:
         return LoginStatus.validated;
+      case 4:
+        return LoginStatus.everLogin;
       default:
         return LoginStatus.never;
     }
@@ -35,6 +37,9 @@ class LoginStatusAdapter extends TypeAdapter<LoginStatus> {
         break;
       case LoginStatus.validated:
         writer.writeByte(3);
+        break;
+      case LoginStatus.everLogin:
+        writer.writeByte(4);
         break;
     }
   }

@@ -20,7 +20,7 @@ class EduEmailPage extends StatefulWidget {
 
 class _EduEmailPageState extends State<EduEmailPage> {
   List<MimeMessage>? messages;
-  EmailCredential? credential = CredentialInit.storage.eduEmailCredential;
+  EmailCredentials? credential = CredentialInit.storage.eduEmailCredentials;
   final onEduEmailChanged = CredentialInit.storage.onEduEmailChanged;
 
   @override
@@ -37,7 +37,7 @@ class _EduEmailPageState extends State<EduEmailPage> {
   }
 
   void updateCredential() {
-    final newCredential = CredentialInit.storage.eduEmailCredential;
+    final newCredential = CredentialInit.storage.eduEmailCredentials;
     setState(() {
       credential = newCredential;
     });
@@ -53,7 +53,7 @@ class _EduEmailPageState extends State<EduEmailPage> {
       await EduEmailInit.service.login(credential);
     } catch (err, stacktrace) {
       debugPrintStack(stackTrace: stacktrace);
-      CredentialInit.storage.eduEmailCredential = null;
+      CredentialInit.storage.eduEmailCredentials = null;
       return;
     }
     try {
@@ -76,7 +76,7 @@ class _EduEmailPageState extends State<EduEmailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: (CredentialInit.storage.eduEmailCredential?.address ?? i18n.title).text(),
+        title: (CredentialInit.storage.eduEmailCredentials?.address ?? i18n.title).text(),
         bottom: credential != null && messages == null
             ? const PreferredSize(
                 preferredSize: Size.fromHeight(4),
@@ -90,7 +90,7 @@ class _EduEmailPageState extends State<EduEmailPage> {
 
   Widget buildBody() {
     if (credential == null) {
-      return EduEmailLoginPage(studentId: context.auth.credential?.account);
+      return EduEmailLoginPage(studentId: context.auth.credentials?.account);
     }
     final messages = this.messages;
     if (messages == null) {

@@ -218,15 +218,17 @@ networkTool:
   connectionFailedButCampusNetworkConnected: |
     已经连接至校园网，但仍然无法访问学校服务器。
     可能因为是学校服务器停机维护或崩溃，请一段时间后重试。
-  connectedByProxy: 已通过 HTTP 代理连接到校园网。
-  connectedByVpn: 已通过 VPN 连接到校园网。
-  connectedByWlan: 已通过 WLAN 连接到校园网。
-  connectedByEthernet: 已通过以太网连接到校园网。
+  connectedByProxy: 已通过 HTTP 代理连接到校园网
+  connectedByVpn: 已通过 VPN 连接到校园网
+  connectedByWlan: 已通过 WLAN 连接到校园网
+  connectedByEthernet: 已通过以太网连接到校园网
 login:
-  title: 欢迎！
-  validateInputAccountPwdRequest: 请检查你输入的账号与密码。
+  welcomeHeader: 欢迎！
+  loginOa: 登录 OA
+  validateInputAccountPwdRequest: 请检查你输入的账号与密码
   credentialsValidatedTip: 账号与密码验证成功
-  accountOrPwdIncorrectTip: 账号或密码不正确，请检查后重试。
+  accountOrPwdIncorrectTip: 账号或密码不正确
+  schoolServerUnconnectedTip: 无法连接学校服务器
   accountHint: 学号/工号
   forgotPwdBtn: 忘记密码？
   loggedInTip: 登录成功

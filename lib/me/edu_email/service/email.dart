@@ -7,7 +7,7 @@ const _port = 993;
 class MailService {
   final ImapClient _client = ImapClient(isLogEnabled: true, onBadCertificate: (_) => true);
 
-  Future<List<Capability>> login(EmailCredential credential) async {
+  Future<List<Capability>> login(EmailCredentials credential) async {
     await _client.connectToServer(_server, _port, isSecure: true);
     return await _client.login(credential.address, credential.password);
   }

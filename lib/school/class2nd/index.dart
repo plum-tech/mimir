@@ -26,6 +26,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
   }
 
   void refresh() {
+    // TODO: Error when school server unavailable or credentials are empty.
     Class2ndInit.scoreService.getScoreSummary().then((value) {
       if (summary != value) {
         summary = value;
@@ -36,7 +37,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
   }
 
   Class2ndScoreSummary getTargetScore() {
-    final admissionYear = int.tryParse(context.auth.credential?.account.substring(0, 2) ?? "") ?? 2000;
+    final admissionYear = int.tryParse(context.auth.credentials?.account.substring(0, 2) ?? "") ?? 2000;
     return getTargetScoreOf(admissionYear: admissionYear);
   }
 

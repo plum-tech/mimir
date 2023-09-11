@@ -128,7 +128,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
   }
 
   Future<void> onLogin() async {
-    final credential = EmailCredential(
+    final credential = EmailCredentials(
       address: R.formatEduEmail(username: $username.text),
       password: $password.text,
     );
@@ -139,7 +139,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
       await context.showTip(title: i18n.failedWarn, desc: "please check your pwd", ok: i18n.ok);
       return;
     }
-    CredentialInit.storage.eduEmailCredential = credential;
+    CredentialInit.storage.eduEmailCredentials = credential;
   }
 }
 

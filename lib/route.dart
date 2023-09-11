@@ -43,7 +43,7 @@ import 'app.dart';
 
 bool isLoginGuarded(BuildContext ctx) {
   final auth = ctx.auth;
-  return auth.loginStatus != LoginStatus.validated && auth.credential == null;
+  return auth.loginStatus != LoginStatus.validated && auth.credentials == null;
 }
 
 String? _loginRequired(BuildContext ctx, GoRouterState state) {

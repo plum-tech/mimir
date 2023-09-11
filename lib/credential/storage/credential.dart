@@ -7,14 +7,14 @@ import '../entity/login_status.dart';
 
 class _OaKey {
   static const ns = "/oa";
-  static const credential = "$ns/credential";
+  static const credentials = "$ns/credentials";
   static const lastAuthTime = "$ns/lastAuthTime";
   static const loginStatus = "$ns/loginStatus";
 }
 
 class _EmailKey {
   static const ns = "/eduEmail";
-  static const credential = "$ns/credential";
+  static const credentials = "$ns/credentials";
 }
 
 class CredentialStorage {
@@ -23,9 +23,9 @@ class CredentialStorage {
   CredentialStorage(this.box);
 
   // OA
-  OaCredential? get oaCredential => box.get(_OaKey.credential);
+  OaCredentials? get oaCredentials => box.get(_OaKey.credentials);
 
-  set oaCredential(OaCredential? newV) => box.put(_OaKey.credential, newV);
+  set oaCredentials(OaCredentials? newV) => box.put(_OaKey.credentials, newV);
 
   DateTime? get oaLastAuthTime => box.get(_OaKey.lastAuthTime);
 
@@ -36,17 +36,17 @@ class CredentialStorage {
   set oaLoginStatus(LoginStatus? newV) => box.put(_OaKey.loginStatus, newV);
 
   ValueListenable<Box<dynamic>> get onOaChanged => box.listenable(keys: [
-        _OaKey.credential,
+        _OaKey.credentials,
         _OaKey.lastAuthTime,
         _OaKey.loginStatus,
       ]);
 
   // Edu Email
-  EmailCredential? get eduEmailCredential => box.get(_EmailKey.credential);
+  EmailCredentials? get eduEmailCredentials => box.get(_EmailKey.credentials);
 
-  set eduEmailCredential(EmailCredential? newV) => box.put(_EmailKey.credential, newV);
+  set eduEmailCredentials(EmailCredentials? newV) => box.put(_EmailKey.credentials, newV);
 
   ValueListenable<Box<dynamic>> get onEduEmailChanged => box.listenable(keys: [
-        _EmailKey.credential,
+        _EmailKey.credentials,
       ]);
 }

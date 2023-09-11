@@ -13,11 +13,11 @@ class CredentialInit {
     required Box<dynamic> box,
   }) {
     storage = CredentialStorage(box);
-    Editor.registerEditor<OaCredential>((ctx, desc, initial) => CredentialEditor(
+    Editor.registerEditor<OaCredentials>((ctx, desc, initial) => CredentialEditor(
           account: initial.account,
           password: initial.password,
           title: desc,
-          ctor: (account, password) => OaCredential(account: account, password: password),
+          ctor: (account, password) => OaCredentials(account: account, password: password),
         ));
     EditorEx.registerEnumEditor(LoginStatus.values);
   }
