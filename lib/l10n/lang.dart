@@ -1,24 +1,4 @@
-import 'dart:ui';
-
 import 'package:intl/intl.dart';
-
-Locale buildLocaleFromJson(Map<String, dynamic> json) {
-  return Locale.fromSubtags(
-    languageCode: json['languageCode'],
-    scriptCode: json['scriptCode'],
-    countryCode: json['countryCode'],
-  );
-}
-
-extension LocaleToJson on Locale {
-  Map<String, dynamic> toJson() {
-    return {
-      'languageCode': languageCode,
-      'scriptCode': scriptCode,
-      'countryCode': countryCode,
-    };
-  }
-}
 
 abstract class _RegionalFormatter {
   DateFormat get ymdText;
@@ -42,9 +22,6 @@ class Lang {
   static const tw = "TW";
   static const en = "en";
 
-  static const zhLocale = Locale.fromSubtags(languageCode: "zh");
-  static const zhTwLocale = Locale.fromSubtags(languageCode: "zh", scriptCode: "Hant", countryCode: "TW");
-  static const enLocale = Locale.fromSubtags(languageCode: "en");
   static final zhFormatter = _ZhFormatter();
   static final zhTwFormatter = _ZhTwFormatter();
   static final enFormatter = _EnFormatter();
@@ -74,12 +51,6 @@ class Lang {
   static DateFormat ymdhmsNum(String lang, String? country) => _getFormatterFrom(lang, country).ymdhmsNum;
 
   static DateFormat mdHmNum(String lang, String? country) => _getFormatterFrom(lang, country).mdHmNum;
-
-  static const supports = [
-    enLocale, // generic English 'en'
-    zhLocale, // generic Chinese 'zh'
-    zhTwLocale, // generic traditional Chinese 'zh_Hant'
-  ];
 }
 
 class _ZhFormatter implements _RegionalFormatter {
