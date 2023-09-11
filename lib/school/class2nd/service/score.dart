@@ -81,7 +81,7 @@ class Class2ndScoreService {
       creation: creation,
       safetyEdu: safetyEdu,
       voluntary: voluntary,
-      campus: campus,
+      campusCulture: campus,
     );
   }
 

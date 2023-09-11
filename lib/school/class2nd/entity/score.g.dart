@@ -22,7 +22,7 @@ class Class2ndScoreSummaryAdapter extends TypeAdapter<Class2ndScoreSummary> {
       creation: fields[2] as double,
       safetyEdu: fields[3] as double,
       voluntary: fields[4] as double,
-      campus: fields[5] as double,
+      campusCulture: fields[5] as double,
     );
   }
 
@@ -41,7 +41,7 @@ class Class2ndScoreSummaryAdapter extends TypeAdapter<Class2ndScoreSummary> {
       ..writeByte(4)
       ..write(obj.voluntary)
       ..writeByte(5)
-      ..write(obj.campus);
+      ..write(obj.campusCulture);
   }
 
   @override

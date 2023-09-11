@@ -29,7 +29,7 @@ class Class2ndScoreSummary {
 
   /// Campus culture.(校园文化)
   @HiveField(5)
-  final double campus;
+  final double campusCulture;
 
   const Class2ndScoreSummary({
     this.lecture = 0,
@@ -37,14 +37,25 @@ class Class2ndScoreSummary {
     this.creation = 0,
     this.safetyEdu = 0,
     this.voluntary = 0,
-    this.campus = 0,
+    this.campusCulture = 0,
   });
 
   @override
   String toString() {
-    return 'ScScoreSummary{themeReport: $lecture, socialPractice: $practice, '
-        'creativity: $creation, safetyCivilization: $safetyEdu, '
-        'charity: $voluntary, campusCulture: $campus}';
+    return 'ScoreSummary{lecture: $lecture, practice: $practice, '
+        'creation: $creation, safetyEdu: $safetyEdu, '
+        'charity: $voluntary, campusCulture: $campusCulture}';
+  }
+
+  List<({String name, double score})> toName2score() {
+    return [
+      (name: "志愿", score: voluntary),
+      (name: "校园文化", score: campusCulture),
+      (name: "三创", score: creation),
+      (name: "安全文明", score: safetyEdu),
+      (name: "讲座", score: lecture),
+      (name: "社会实践", score: practice),
+    ];
   }
 }
 

@@ -37,7 +37,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
 
   Class2ndScoreSummary getTargetScore() {
     final admissionYear = int.tryParse(context.auth.credential?.account.substring(0, 2) ?? "") ?? 2000;
-    return calcTargetScore(admissionYear);
+    return getTargetScoreOf(admissionYear: admissionYear);
   }
 
   @override
@@ -50,7 +50,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
           : Class2ndScoreSummeryCard(
               targetScore: getTargetScore(),
               summary: summary,
-            ),
+            ).constrained(maxH: 250),
       leftActions: [
         FilledButton.icon(
           onPressed: () async {

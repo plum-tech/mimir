@@ -1,55 +1,33 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quiver/iterables.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../entity/score.dart';
-import "../i18n.dart";
 
-Class2ndScoreSummary calcTargetScore(int admissionYear) {
-  const table = {
-    2013: Class2ndScoreSummary(lecture: 1, campus: 1),
-    2014: Class2ndScoreSummary(lecture: 1, practice: 1, campus: 1),
-    2015: Class2ndScoreSummary(lecture: 1, practice: 1, creation: 1, campus: 1),
-    2016: Class2ndScoreSummary(lecture: 1, practice: 1, creation: 1, campus: 1),
-    2017: Class2ndScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, campus: 2),
-    2018: Class2ndScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, campus: 2),
-    2019: Class2ndScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, voluntary: 1, campus: 1),
-    2020: Class2ndScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, voluntary: 1, campus: 1),
-  };
-  if (table.keys.contains(admissionYear)) {
-    return table[admissionYear]!;
+const _targetScores2020 =
+    Class2ndScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, voluntary: 1, campusCulture: 1);
+const _admissionYear2targetScores = {
+  2013: Class2ndScoreSummary(lecture: 1, campusCulture: 1),
+  2014: Class2ndScoreSummary(lecture: 1, practice: 1, campusCulture: 1),
+  2015: Class2ndScoreSummary(lecture: 1, practice: 1, creation: 1, campusCulture: 1),
+  2016: Class2ndScoreSummary(lecture: 1, practice: 1, creation: 1, campusCulture: 1),
+  2017: Class2ndScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, campusCulture: 2),
+  2018: Class2ndScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, campusCulture: 2),
+  2019: Class2ndScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, voluntary: 1, campusCulture: 1),
+  2020: _targetScores2020,
+};
+
+Class2ndScoreSummary getTargetScoreOf({required int admissionYear}) {
+  final targetScores = _admissionYear2targetScores[admissionYear];
+  if (targetScores != null) {
+    return targetScores;
   } else {
-    return table[2020]!;
+    return _targetScores2020;
   }
 }
-
-FlBorderData _borderData() => FlBorderData(show: false);
-
-FlGridData _gridData() => FlGridData(show: false);
-
-BarTouchData _barTouchData() => BarTouchData(
-      enabled: false,
-      /*touchTooltipData: BarTouchTooltipData(
-        tooltipBgColor: Colors.transparent,
-        tooltipPadding: const EdgeInsets.all(0),
-        tooltipMargin: 0,
-        getTooltipItem: (
-          BarChartGroupData group,
-          int groupIndex,
-          BarChartRodData rod,
-          int rodIndex,
-        ) {
-          return BarTooltipItem(
-            rod.toY.round().toString(),
-            const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          );
-        },
-      ),*/
-    );
 
 class Class2ndScoreSummaryChart extends StatelessWidget {
   final Class2ndScoreSummary targetScore;
@@ -63,62 +41,59 @@ class Class2ndScoreSummaryChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<double> buildScoreList(Class2ndScoreSummary scss) {
-      return [scss.voluntary, scss.campus, scss.creation, scss.safetyEdu, scss.lecture, scss.practice];
-    }
-
-    final scoreValues = buildScoreList(summary);
-    final totals = buildScoreList(targetScore);
-    final scoreTitles = (const ['志愿', '校园文化', '三创', '安全文明', '讲座', '社会实践']).asMap().entries.map((e) {
-      int index = e.key;
-      String text = e.value;
-      return '$text\n${scoreValues[index]}/${totals[index]}';
-    }).toList();
-
+    final scores = summary.toName2score();
+    final targetScores = targetScore.toName2score();
+    final barColor = context.colorScheme.primary;
+    final completeStyle = TextStyle(color: context.colorScheme.primary);
     List<BarChartGroupData> values = [];
-    for (int i = 0; i < scoreValues.length; ++i) {
-      if (totals[i] == 0) {
-        continue;
-      }
+    for (var i = 0; i < scores.length; i++) {
+      // Skip empty targets to prevent zero-division error.
+      if (targetScores[i].score == 0) continue;
+      final pct = scores[i].score / targetScores[i].score;
       values.add(BarChartGroupData(x: i, barRods: [
         BarChartRodData(
-          toY: scoreValues[i] / totals[i],
+          toY: pct,
           width: 12,
-        )
+          color: barColor,
+        ),
       ]));
     }
-    final titlesData = FlTitlesData(
-      show: true,
-      leftTitles: AxisTitles(),
-      topTitles: AxisTitles(),
-      rightTitles: AxisTitles(),
-      bottomTitles: AxisTitles(
-        sideTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 84,
-          getTitlesWidget: (double value, TitleMeta meta) {
-            const style = TextStyle(
-              color: Color(0xff7589a2),
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-            );
-            return Text(
-              scoreTitles[value.toInt()],
-              textAlign: TextAlign.center,
-              style: style,
-            );
-          },
-        ),
-      ),
-    );
     return BarChart(
       BarChartData(
         maxY: 1,
         barGroups: values,
-        borderData: _borderData(),
-        gridData: _gridData(),
-        barTouchData: _barTouchData(),
-        titlesData: titlesData,
+        borderData: FlBorderData(show: false),
+        gridData: const FlGridData(show: false),
+        barTouchData: BarTouchData(enabled: false),
+        titlesData: FlTitlesData(
+          show: true,
+          leftTitles: const AxisTitles(),
+          topTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              getTitlesWidget: (double indexDouble, TitleMeta meta) {
+                final i = indexDouble.toInt();
+                final isComplete = scores[i].score / targetScores[i].score >= 1;
+                return targetScores[i].score.toString().text(style: isComplete ? completeStyle : null);
+              },
+            ),
+          ),
+          rightTitles: const AxisTitles(),
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 44,
+              getTitlesWidget: (double indexDouble, TitleMeta meta) {
+                final i = indexDouble.toInt();
+                final isComplete = scores[i].score / targetScores[i].score >= 1;
+                return [
+                  scores[i].name.text(style: isComplete? completeStyle : null),
+                  scores[i].score.toString().text(style: isComplete ? completeStyle : null),
+                ].column();
+              },
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -139,8 +114,34 @@ class Class2ndScoreSummeryCard extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 1.8,
       child: Card(
-        child: Class2ndScoreSummaryChart(targetScore: targetScore, summary: summary).padSymmetric(v: 8),
+        child: Class2ndScoreSummaryChart(targetScore: targetScore, summary: summary).padSymmetric(v: 4),
       ),
     );
   }
 }
+
+// syncfusion_flutter_charts: ^22.2.12
+// SfCartesianChart(
+//   primaryXAxis: CategoryAxis(
+//     majorGridLines: const MajorGridLines(width: 0),
+//     axisLine: const AxisLine(width: 0),
+//   ),
+//   primaryYAxis: NumericAxis(
+//     minimum: 0,
+//     maximum: 1,
+//     numberFormat: NumberFormat.percentPattern(),
+//     majorGridLines: const MajorGridLines(width: 0),
+//     axisLine: const AxisLine(width: 0),
+//   ),
+//   series: <ChartSeries<({String name, double score}), String>>[
+//     BarSeries<({String name, double score}), String>(
+//       borderRadius: BorderRadius.circular(4),
+//       dataSource: scoreValues,
+//       xValueMapper: (data, _) => data.name,
+//       dataLabelMapper: (data, i) => "${data.score}/${targetScores[i].score}".toString(),
+//       yValueMapper: (data, i) => data.score / targetScores[i].score,
+//       color: context.colorScheme.primary,
+//       dataLabelSettings: const DataLabelSettings(isVisible: true),
+//     )
+//   ],
+// );
