@@ -51,7 +51,7 @@ class SisSession extends ISession {
     // 如果还是需要登录
     if (_isRedirectedToLoginPage(response)) {
       Log.info('SsoSession需要登录');
-      await ssoSession.makeSureLoginLocked(url);
+      await ssoSession.ensureLoginLocked(url);
       await _refreshCookie();
       response = await fetch();
     }

@@ -57,9 +57,8 @@ class HiveBoxInit {
 
   static Future<void> clear() async {
     for (final box in name2Box.values) {
-      await box.deleteFromDisk();
+      await box.clear();
     }
-    await Hive.close();
   }
 
   static Future<void> clearCache() async {

@@ -75,14 +75,12 @@ class OaAuth extends InheritedWidget {
   }
 
   setOaCredential(OaCredential? newV) {
-    if (CredentialInit.storage.oaCredential != newV) {
-      CredentialInit.storage.oaCredential = newV;
-      if (newV != null) {
-        CredentialInit.storage.oaLoginStatus = LoginStatus.validated;
-        CredentialInit.storage.oaLastAuthTime = DateTime.now();
-      } else {
-        CredentialInit.storage.oaLoginStatus = LoginStatus.offline;
-      }
+    CredentialInit.storage.oaCredential = newV;
+    if (newV != null) {
+      CredentialInit.storage.oaLoginStatus = LoginStatus.validated;
+      CredentialInit.storage.oaLastAuthTime = DateTime.now();
+    } else {
+      CredentialInit.storage.oaLoginStatus = LoginStatus.offline;
     }
   }
 

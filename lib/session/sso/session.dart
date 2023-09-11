@@ -98,7 +98,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
   }
 
   /// 进行登录操作
-  Future<void> makeSureLoginLocked(String url) async {
+  Future<void> ensureLoginLocked(String url) async {
     isOnline = false;
     await loginLock.synchronized(() async {
       if (isOnline) return;
@@ -181,7 +181,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
 
     // 如果跳转登录页，那就先登录
     if (isLoginPage(firstResponse)) {
-      await makeSureLoginLocked(url);
+      await ensureLoginLocked(url);
       return await requestNormally();
     } else {
       return firstResponse;
@@ -208,7 +208,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
     final authError = (page.find('span', id: 'msg', class_: 'auth_error') ?? emptyPage).text.trim();
     // TODO: 支持移动端报错提示
     final mobileError = (page.find('span', id: 'errorMsg') ?? emptyPage).text.trim();
-    if (authError.isNotEmpty || mobileError.isNotEmpty) {
+    if (authError. isNotEmpty || mobileError.isNotEmpty) {
       final errorMessage = authError + mobileError;
       final type = parseInvalidType(errorMessage);
       throw OaCredentialsException(message: errorMessage, type: type);

@@ -28,19 +28,22 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // Text field controllers.
-  final TextEditingController $account = TextEditingController();
-  final TextEditingController $password = TextEditingController();
-
-  final GlobalKey _formKey = GlobalKey<FormState>();
-
-  // State
+  final $account = TextEditingController();
+  final $password = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   bool isPasswordClear = false;
   bool isLoggingIn = false;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    $account.dispose();
+    $password.dispose();
+    super.dispose();
   }
 
   @override
@@ -260,13 +263,6 @@ class _LoginPageState extends State<LoginPage> {
       Icons.person_off_outlined,
       size: 120,
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    $account.dispose();
-    $password.dispose();
   }
 }
 
