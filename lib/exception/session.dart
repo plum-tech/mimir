@@ -18,8 +18,8 @@ class OaCredentialsException implements Exception {
   final String message;
 
   const OaCredentialsException({
-    this.message = '',
     required this.type,
+    required this.message,
   });
 
   @override

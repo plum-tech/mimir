@@ -48,7 +48,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
   SsoSessionErrorCallback? onError;
 
   /// 手动验证码
-  SsoSessionCaptchaCallback? onNeedInputCaptcha;
+  SsoSessionCaptchaCallback inputCaptcha;
 
   bool enableSsoErrorCallback = true;
 
@@ -58,8 +58,8 @@ class SsoSession with DioDownloaderMixin implements ISession {
   SsoSession({
     required this.dio,
     required this.cookieJar,
+    required this.inputCaptcha,
     this.onError,
-    this.onNeedInputCaptcha,
   });
 
   Future<void> runWithNoErrorCallback(Future<void> Function() callback) async {
@@ -98,28 +98,22 @@ class SsoSession with DioDownloaderMixin implements ISession {
   }
 
   /// 进行登录操作
-  Future<void> makeSureLogin(String url) async {
+  Future<void> makeSureLoginLocked(String url) async {
     isOnline = false;
     await loginLock.synchronized(() async {
       if (isOnline) return;
       // 只有用户名与密码均不为空时，才尝试重新登录，否则就抛异常
       final credential = _credential;
       if (credential != null) {
-        await _loginPassive(credential);
+        await _login(credential);
       } else {
         throw NeedLoginException(url: url);
       }
     });
   }
 
-  Future<Response?> loginPassive(OaCredential credential) async {
-    return await loginLock.synchronized(() async {
-      return await _loginPassive(credential);
-    });
-  }
-
   /// - User try to log in actively on a login page.
-  Future<Response> loginActive(OaCredential credential) async {
+  Future<Response> loginActiveLocked(OaCredential credential) async {
     return await loginLock.synchronized(() async {
       return await _login(credential);
     });
@@ -187,7 +181,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
 
     // 如果跳转登录页，那就先登录
     if (isLoginPage(firstResponse)) {
-      await makeSureLogin(url);
+      await makeSureLoginLocked(url);
       return await requestNormally();
     } else {
       return firstResponse;
@@ -237,36 +231,6 @@ class SsoSession with DioDownloaderMixin implements ISession {
     }
     return OaCredentialsErrorType.accountPassword;
   }
-
-  /// Return null when failed to login but there is no exception raised.
-  Future<Response?> _loginPassive(OaCredential credential) async {
-    try {
-      return await _login(credential);
-    } on OaCredentialsException catch (e) {
-      if (e.message.contains('验证码')) {
-        Log.info("Credential is invalid because of a wrong captcha prompt.");
-        throw const MaxRetryExceedException(msg: '验证码识别有误，请稍后重试');
-      } else {
-        Log.info("Credential is invalid because of incorrect account or password.");
-        final ctx = $Key.currentContext;
-        ctx?.auth.setOaCredential(null);
-        if (ctx != null) {
-          final confirm = await ctx.showRequest(
-            title: _i18n.credential.error,
-            desc: _i18n.credential.reloginRequestDesc,
-            yes: _i18n.credential.relogin,
-            no: i18n.notNow,
-            highlight: true,
-          );
-          if (confirm == true) {
-            ctx.push("/login/guard");
-          }
-        }
-        return null;
-      }
-    }
-  }
-
   /// 登录流程
   Future<Response> _postLoginProcess(OaCredential credential) async {
     debug(m) => Log.debug(m);
@@ -339,9 +303,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
     if (await needCaptcha(credential.account)) {
       // 识别验证码
       final captchaImage = await getCaptcha();
-
-      // 验证码识别有误，进入手动验证码流程
-      final c = await onNeedInputCaptcha!(captchaImage);
+      final c = await inputCaptcha!(captchaImage);
       if (c != null) {
         captcha = c;
       } else {

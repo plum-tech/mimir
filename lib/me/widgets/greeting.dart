@@ -7,15 +7,16 @@ import 'package:mimir/entity/campus.dart';
 import 'package:mimir/l10n/common.dart';
 import 'package:mimir/storage/settings.dart';
 import 'package:mimir/utils/timer.dart';
+import 'package:rettulf/rettulf.dart';
 
-class GreetingWidget extends StatefulWidget {
-  const GreetingWidget({super.key});
+class Greeting extends StatefulWidget {
+  const Greeting({super.key});
 
   @override
-  State<StatefulWidget> createState() => _GreetingWidgetState();
+  State<StatefulWidget> createState() => _GreetingState();
 }
 
-class _GreetingWidgetState extends State<GreetingWidget> {
+class _GreetingState extends State<Greeting> {
   int? studyDays;
   Campus campus = Settings.campus;
 
@@ -75,35 +76,14 @@ class _GreetingWidgetState extends State<GreetingWidget> {
     return 0;
   }
 
-  Widget buildAll(BuildContext context) {
-    final textStyleSmall = Theme.of(context).textTheme.titleMedium;
-    final textStyleLarge = Theme.of(context).textTheme.headlineSmall;
-    final days = studyDays;
-    final List<Widget> sitDate;
-    sitDate = [
-      Text(_i18n.headerA, style: textStyleSmall),
-      Text(_i18n.headerB((days ?? 0) + 1), style: textStyleLarge),
-    ];
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Flexible(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ...sitDate,
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.centerLeft,
-      child: buildAll(context),
+    final days = studyDays;
+    return ListTile(
+      titleTextStyle:context.textTheme.titleMedium,
+      title: _i18n.headerA.text(),
+      subtitleTextStyle: context.textTheme.headlineSmall,
+      subtitle: _i18n.headerB((days ?? 0) + 1).text(),
     );
   }
 }

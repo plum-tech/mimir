@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/me/edu_email/index.dart';
 import 'package:mimir/me/network_tool/index.dart';
+import 'package:mimir/me/widgets/greeting.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -37,6 +38,9 @@ class _MePageState extends State<MePage> {
               },
             ),
           ],
+        ),
+        const SliverToBoxAdapter(
+          child: Greeting(),
         ),
         const SliverToBoxAdapter(
           child: EduEmailAppCard(),

@@ -70,7 +70,7 @@ class Global {
       debug: debugNetwork,
     );
     ssoSession =
-        SsoSession(dio: dio, cookieJar: cookieJar, onError: onSsoError, onNeedInputCaptcha: onNeedInputCaptcha);
+        SsoSession(dio: dio, cookieJar: cookieJar, onError: onSsoError, inputCaptcha: onNeedInputCaptcha);
 
     // 若本地存放了用户名与密码，那就惰性登录
     final oaCredential = credentials.oaCredential;

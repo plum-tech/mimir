@@ -68,7 +68,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
           physics: const BouncingScrollPhysics(),
           itemBuilder: (ctx, index) {
             final rawActivity = activities[index];
-            return AttendedActivityTile(rawActivity).inCard().hero(rawActivity.applyId).padSymmetric(h: 8);
+            return AttendedActivityTile(rawActivity).inCard().hero(rawActivity.applyId);
           },
         ),
       );
