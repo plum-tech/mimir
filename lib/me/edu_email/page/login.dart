@@ -11,19 +11,19 @@ import 'package:rettulf/rettulf.dart';
 import '../init.dart';
 import '../i18n.dart';
 
-class EduEmailCredentialForm extends StatefulWidget {
+class EduEmailLoginPage extends StatefulWidget {
   final String? studentId;
 
-  const EduEmailCredentialForm({
+  const EduEmailLoginPage({
     super.key,
     required this.studentId,
   });
 
   @override
-  State<EduEmailCredentialForm> createState() => _EduEmailCredentialFormState();
+  State<EduEmailLoginPage> createState() => _EduEmailLoginPageState();
 }
 
-class _EduEmailCredentialFormState extends State<EduEmailCredentialForm> {
+class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
   late final TextEditingController $username = TextEditingController(text: widget.studentId);
   final $password = TextEditingController();
   final GlobalKey _formKey = GlobalKey<FormState>();
@@ -113,20 +113,18 @@ class _EduEmailCredentialFormState extends State<EduEmailCredentialForm> {
   }
 
   Widget buildLoginButton() {
-    return [
-      $username >>
-          (ctx, account) => ElevatedButton(
-                // Online
-                onPressed: !isLoggingIn && account.text.isNotEmpty
-                    ? () {
-                        // un-focus the text field.
-                        FocusScope.of(context).requestFocus(FocusNode());
-                        onLogin();
-                      }
-                    : null,
-                child: isLoggingIn ? const CircularProgressIndicator() : i18n.loginBtn.text().padAll(5),
-              ),
-    ].row(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceAround);
+    return $username >>
+        (ctx, account) => ElevatedButton(
+              // Online
+              onPressed: !isLoggingIn && account.text.isNotEmpty
+                  ? () {
+                      // un-focus the text field.
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      onLogin();
+                    }
+                  : null,
+              child: i18n.loginBtn.text().padAll(5),
+            );
   }
 
   Future<void> onLogin() async {

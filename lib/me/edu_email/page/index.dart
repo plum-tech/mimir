@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/credential/entity/email.dart';
 import 'package:mimir/credential/init.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
-import 'package:mimir/me/edu_email/widgets/form.dart';
+import 'package:mimir/me/edu_email/page/login.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../init.dart';
@@ -90,7 +90,7 @@ class _EduEmailPageState extends State<EduEmailPage> {
 
   Widget buildBody() {
     if (credential == null) {
-      return EduEmailCredentialForm(studentId: context.auth.credential?.account);
+      return EduEmailLoginPage(studentId: context.auth.credential?.account);
     }
     final messages = this.messages;
     if (messages == null) {

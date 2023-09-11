@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -18,7 +19,9 @@ class _EduEmailAppCardState extends State<EduEmailAppCard> {
       title: i18n.title.text(),
       leftActions: [
         FilledButton.icon(
-          onPressed: () {},
+          onPressed: () {
+            context.push("/edu-email");
+          },
           icon: const Icon(Icons.email_outlined),
           label: "Mailbox".text(),
         )

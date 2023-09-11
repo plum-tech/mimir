@@ -22,10 +22,10 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
   @override
   void initState() {
     super.initState();
-    onRefresh();
+    refresh();
   }
 
-  void onRefresh() {
+  void refresh() {
     Class2ndInit.scoreService.getScoreSummary().then((value) {
       if (summary != value) {
         summary = value;
@@ -68,7 +68,9 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
       ],
       rightActions: [
         IconButton(
-          onPressed: () async {},
+          onPressed: () {
+            refresh();
+          },
           icon: const Icon(Icons.refresh),
         ),
       ],
