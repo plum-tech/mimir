@@ -17,7 +17,7 @@ import 'package:mimir/school/class2nd/entity/score.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/yellow_pages/entity/contact.dart';
 
-import 'builtin.dart';
+import 'builtins.dart';
 
 class HiveAdapter {
   HiveAdapter._();
