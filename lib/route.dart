@@ -10,6 +10,7 @@ import 'package:mimir/login/page/index.dart';
 import 'package:mimir/main/index.dart';
 import 'package:mimir/me/edu_email/page/index.dart';
 import 'package:mimir/me/network_tool/page/index.dart';
+import 'package:mimir/page/not_found.dart';
 import 'package:mimir/school/oa_announce/entity/announce.dart';
 import 'package:mimir/school/oa_announce/page/detail.dart';
 import 'package:mimir/school/ywb/page/index.dart';
@@ -54,6 +55,7 @@ final router = GoRouter(
   navigatorKey: $Key,
   initialLocation: "/",
   debugLogDiagnostics: kDebugMode,
+  errorBuilder: (ctx, state) => NotFoundPage(state.uri.toString()),
   redirect: (ctx, state) {
     final auth = ctx.auth;
     if (auth.loginStatus == LoginStatus.never) {
