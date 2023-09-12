@@ -21,7 +21,9 @@ class DetailArticle extends StatelessWidget {
   Widget build(BuildContext context) {
     final htmlContent = _linkTel(detail.content);
     // TODO: Bidirectional scrolling for large charts.
-    final widgets = <Widget>[StyledHtmlWidget(htmlContent)];
+    final widgets = <Widget>[
+      SelectionArea(child: StyledHtmlWidget(htmlContent)),
+    ];
     if (detail.attachments.isNotEmpty) {
       widgets.add(const Divider());
       widgets.add(i18n.attachmentTip(detail.attachments.length).text(style: context.textTheme.titleLarge));

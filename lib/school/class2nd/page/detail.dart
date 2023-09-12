@@ -152,10 +152,11 @@ class _Class2ndActivityDetailPageState extends State<Class2ndActivityDetailPage>
     }
     return Padding(
       padding: const EdgeInsets.all(20),
-      child: StyledHtmlWidget(
-        html,
-        isSelectable: true,
-        textStyle: Theme.of(context).textTheme.bodyLarge,
+      child: SelectionArea(
+        child: StyledHtmlWidget(
+          html,
+          textStyle: Theme.of(context).textTheme.bodyLarge,
+        ),
       ),
     );
   }

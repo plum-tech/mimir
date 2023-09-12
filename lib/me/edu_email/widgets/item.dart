@@ -2,7 +2,7 @@ import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/l10n/extension.dart';
 
-import '../page/detail.dart';
+import '../page/details.dart';
 
 // TODO: Migration
 class EmailItem extends StatelessWidget {
@@ -35,7 +35,7 @@ class EmailItem extends StatelessWidget {
       subtitle: Text(senderText, style: subtitleStyle),
       trailing: Text(dateText, style: subtitleStyle),
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (_) => DetailPage(_message)));
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => EduEmailDetailsPage(_message)));
       },
     );
   }

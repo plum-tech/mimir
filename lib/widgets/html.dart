@@ -7,22 +7,20 @@ import 'package:rettulf/rettulf.dart';
 
 class StyledHtmlWidget extends StatelessWidget {
   final String html;
-  final bool isSelectable;
   final RenderMode renderMode;
   final TextStyle? textStyle;
 
   const StyledHtmlWidget(
     this.html, {
-    Key? key,
-    this.isSelectable = true,
+    super.key,
     this.renderMode = RenderMode.column,
     this.textStyle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     final textStyle = this.textStyle ?? context.textTheme.bodyMedium;
-    Widget widget = HtmlWidget(
+    return HtmlWidget(
       html,
       buildAsync: true,
       renderMode: renderMode,
@@ -37,16 +35,11 @@ class StyledHtmlWidget extends StatelessWidget {
         context.push(title != null ? "/image?title=$title" : "/image", extra: url);
       },
     );
-    if (isSelectable) {
-      widget = SelectionArea(child: widget);
-    }
-    return widget;
   }
 }
 
 class StyledWidgetFactory extends WidgetFactory {
   final TextStyle? textStyle;
-
   StyledWidgetFactory({
     required this.textStyle,
   });

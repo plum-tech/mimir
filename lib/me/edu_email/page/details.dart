@@ -1,6 +1,7 @@
 import 'package:enough_mail/enough_mail.dart';
 import 'package:enough_mail_html/enough_mail_html.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/widgets/html.dart';
 import 'package:rettulf/rettulf.dart';
@@ -8,29 +9,34 @@ import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 
 // TODO: Better UI
-class DetailPage extends StatelessWidget {
+class EduEmailDetailsPage extends StatelessWidget {
   final MimeMessage message;
 
-  const DetailPage(this.message, {super.key});
+  const EduEmailDetailsPage(this.message, {super.key});
 
   @override
   Widget build(BuildContext context) {
     final subject = message.decodeSubject() ?? i18n.noSubject;
-
     return Scaffold(
       appBar: AppBar(
         title: subject.text(),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          MailMetaCard(message),
-          StyledHtmlWidget(
-            _generateHtml(context, message),
-            // renderMode: RenderMode.listView,
-          ),
-        ],
-      ).scrolled(),
+      body: SelectionArea(
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: MailMetaCard(message),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.all(8),
+              sliver: StyledHtmlWidget(
+                _generateHtml(context, message),
+                renderMode: RenderMode.sliverList,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
@@ -46,6 +52,7 @@ String _generateHtml(BuildContext context, MimeMessage mimeMessage) {
 
 class MailMetaCard extends StatelessWidget {
   final MimeMessage message;
+
   const MailMetaCard(this.message, {super.key});
 
   @override
@@ -58,9 +65,6 @@ class MailMetaCard extends StatelessWidget {
     }
     final date = message.decodeDate();
     final dateText = date != null ? context.formatYmdhmsNum(date) : '';
-    return [
-      Text(subject),
-      Text('$senderText\n$dateText')
-    ].column().inCard();
+    return [Text(subject), Text('$senderText\n$dateText')].column().inCard();
   }
 }
