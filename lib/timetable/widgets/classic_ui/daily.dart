@@ -222,7 +222,7 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
           itemBuilder: (ctx, indexOfLessons) {
             final lesson = lessonsInDay[indexOfLessons];
             final course = timetable.courseKey2Entity[lesson.courseKey];
-            return LessonBlock(
+            return LessonCard(
               lesson: lesson,
               course: course,
               timetable: timetable,
@@ -298,12 +298,12 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
   bool get wantKeepAlive => true;
 }
 
-class LessonBlock extends StatefulWidget {
+class LessonCard extends StatefulWidget {
   final SitTimetableLesson lesson;
   final SitCourse course;
   final SitTimetable timetable;
 
-  const LessonBlock({
+  const LessonCard({
     super.key,
     required this.lesson,
     required this.course,
@@ -311,10 +311,10 @@ class LessonBlock extends StatefulWidget {
   });
 
   @override
-  State<LessonBlock> createState() => _LessonBlockState();
+  State<LessonCard> createState() => _LessonCardState();
 }
 
-class _LessonBlockState extends State<LessonBlock> {
+class _LessonCardState extends State<LessonCard> {
   static const iconSize = 45.0;
 
   @override
@@ -329,20 +329,19 @@ class _LessonBlockState extends State<LessonBlock> {
     final classBegin = timetable[widget.lesson.startIndex].begin;
     final classEnd = timetable[widget.lesson.endIndex].end;
     final time = "$classBegin–$classEnd";
-    final duration = course.duration(basedOn: widget.lesson);
     final color = TimetableStyle.of(context).resolveColor(course).byTheme(context.theme);
     return FilledCard(
       color: color,
       margin: const EdgeInsets.all(8),
       child: ListTile(
+        isThreeLine: true,
         leading: courseIcon,
         title: Text(course.courseName),
         trailing: [
           Text(beautifyPlace(course.place), softWrap: true, overflow: TextOverflow.ellipsis),
-          duration.localized().text(softWrap: true),
+          time.text(style: const TextStyle(fontWeight: FontWeight.bold), softWrap: true),
         ].column(),
         subtitle: [
-          time.text(style: const TextStyle(fontWeight: FontWeight.bold), softWrap: true),
           course.teachers.join(', ').text(),
           course.localizedWeekNumbers().text(),
         ].column(caa: CrossAxisAlignment.start),

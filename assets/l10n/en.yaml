@@ -35,10 +35,10 @@ timetable:
     timetableInfo: Timetable Info
     defaultName: "{semester}, {yearStart}–{yearEnd} Timetable"
   weekStep:
-    single: wk
-    all: wk
-    odd: odd wk
-    even: even wk
+    single: week
+    all: week
+    odd: odd week
+    even: even week
   jump: Jump
   findToday: Find Today
   startWith: "Start with"
