@@ -3,14 +3,13 @@ import 'package:hive/hive.dart';
 import 'package:mimir/session/sis.dart';
 
 import 'cache/result.dart';
-import 'dao/result.dart';
 import 'events.dart';
 import 'service/result.dart';
 import 'storage/result.dart';
 
 class ExamResultInit {
   static late CookieJar cookieJar;
-  static late ExamResultDao resultService;
+  static late ExamResultCache resultService;
 
   static void init({
     required CookieJar cookieJar,
@@ -19,7 +18,7 @@ class ExamResultInit {
   }) {
     ExamResultInit.cookieJar = cookieJar;
     final examResultCache = ExamResultCache(
-      from: ScoreService(sisSession),
+      from: ExamResultService(sisSession),
       to: ExamResultStorage(box),
       detailExpire: const Duration(days: 180),
       listExpire: const Duration(hours: 6),

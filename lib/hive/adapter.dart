@@ -66,7 +66,7 @@ class HiveAdapter {
 
     // Exam Result
     ~ExamResultAdapter();
-    ~ExamResultDetailsAdapter();
+    ~ExamResultItemAdapter();
     ~SchoolYearAdapter();
     ~SemesterAdapter();
 

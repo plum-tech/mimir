@@ -10,7 +10,7 @@ String _parseCourseName(dynamic courseName) {
 }
 
 @JsonSerializable()
-@HiveType(typeId: HiveTypeExam.examEntry)
+@HiveType(typeId: HiveTypeExam.entry)
 class ExamEntry {
   /// 课程名称
   @JsonKey(name: 'kcmc', fromJson: _parseCourseName)

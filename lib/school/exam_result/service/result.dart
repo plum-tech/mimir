@@ -2,10 +2,9 @@ import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:mimir/network/session.dart';
 import 'package:mimir/school/entity/school.dart';
 
-import '../dao/result.dart';
 import '../entity/result.dart';
 
-class ScoreService implements ExamResultDao {
+class ExamResultService {
   static const _scoreUrl = 'http://jwxt.sit.edu.cn/jwglxt/cjcx/cjcx_cxDgXscj.html';
   static const _scoreDetailUrl = 'http://jwxt.sit.edu.cn/jwglxt/cjcx/cjcx_cxCjxqGjh.html';
 
@@ -25,11 +24,11 @@ class ScoreService implements ExamResultDao {
   static const _scoreValueSelector = 'td:nth-child(5)';
   final ISession session;
 
-  const ScoreService(this.session);
+  const ExamResultService(this.session);
 
   /// 获取成绩
-  @override
   Future<List<ExamResult>> getResultList(SchoolYear schoolYear, Semester semester) async {
+    assert(!schoolYear.isAll, "School year can't be all.");
     final response = await session.request(_scoreUrl, ReqMethod.post, para: {
       'gnmkdm': 'N305005',
       'doType': 'query',
@@ -41,13 +40,19 @@ class ScoreService implements ExamResultDao {
       // 获取成绩最大数量
       'queryModel.showCount': 100,
     });
-    return _parseScoreListPage(response.data);
+    final resultList = _parseScoreListPage(response.data);
+    final newResultList = <ExamResult>[];
+    for (final result in resultList) {
+      final resultItems = await getResultItems(result.innerClassId, result.schoolYear, result.semester);
+      newResultList.add(result.copyWith(items: resultItems));
+    }
+    return newResultList;
   }
 
   /// 获取成绩详情
-  @override
-  Future<List<ExamResultDetails>> getResultDetail(String classId, SchoolYear schoolYear, Semester semester) async {
-    var response = await session.request(
+  Future<List<ExamResultItem>> getResultItems(String classId, SchoolYear schoolYear, Semester semester) async {
+    assert(!schoolYear.isAll, "School year can't be all.");
+    final response = await session.request(
       _scoreDetailUrl,
       ReqMethod.post,
       para: {'gnmkdm': 'N305005'},
@@ -60,7 +65,8 @@ class ScoreService implements ExamResultDao {
         'xqm': semesterToFormField(semester)
       },
     );
-    return _parseDetailPage(response.data);
+    final html = response.data as String;
+    return _parseDetailPage(html);
   }
 
   static List<ExamResult> _parseScoreListPage(Map<String, dynamic> jsonPage) {
@@ -72,7 +78,7 @@ class ScoreService implements ExamResultDao {
     }
   }
 
-  static ExamResultDetails _mapToDetailItem(Bs4Element item) {
+  static ExamResultItem _mapToDetailItem(Bs4Element item) {
     f1(s) => s.replaceAll('&nbsp;', '').replaceAll(' ', '');
     f2(s) => s.replaceAll('【', '').replaceAll('】', '');
     f(s) => f1(f2(s));
@@ -81,10 +87,10 @@ class ScoreService implements ExamResultDao {
     String percentage = item.find(_scorePercentageSelector)!.innerHtml.trim();
     String value = item.find(_scoreValueSelector)!.innerHtml;
 
-    return ExamResultDetails(f(type), f(percentage), double.tryParse(f(value)) ?? double.nan);
+    return ExamResultItem(f(type), f(percentage), double.tryParse(f(value)) ?? double.nan);
   }
 
-  static List<ExamResultDetails> _parseDetailPage(String htmlPage) {
+  static List<ExamResultItem> _parseDetailPage(String htmlPage) {
     final BeautifulSoup soup = BeautifulSoup(htmlPage);
     final elements = soup.findAll(_scoreDetailPageSelector);
 

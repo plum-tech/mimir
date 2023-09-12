@@ -1,10 +1,11 @@
-import '../dao/result.dart';
+import 'package:mimir/school/exam_result/service/result.dart';
+
 import '../entity/result.dart';
 import '../storage/result.dart';
 import 'package:mimir/school/entity/school.dart';
 
-class ExamResultCache implements ExamResultDao {
-  final ExamResultDao from;
+class ExamResultCache {
+  final ExamResultService from;
   final ExamResultStorage to;
   Duration detailExpire;
   Duration listExpire;
@@ -16,7 +17,6 @@ class ExamResultCache implements ExamResultDao {
     this.listExpire = const Duration(minutes: 10),
   });
 
-  @override
   Future<List<ExamResult>?> getResultList(SchoolYear schoolYear, Semester semester) async {
     final cacheKey = to.box.results.make(schoolYear, semester);
     if (cacheKey.needRefresh(after: listExpire)) {
@@ -34,21 +34,5 @@ class ExamResultCache implements ExamResultDao {
 
   clearResultListCache() {
     to.box.results.clear();
-  }
-
-  @override
-  Future<List<ExamResultDetails>?> getResultDetail(String classId, SchoolYear schoolYear, Semester semester) async {
-    final cacheKey = to.box.resultDetails.make(classId, schoolYear, semester);
-    if (cacheKey.needRefresh(after: listExpire)) {
-      try {
-        final res = await from.getResultDetail(classId, schoolYear, semester);
-        to.setResultDetail(classId, schoolYear, semester, res);
-        return res;
-      } catch (e) {
-        return to.getResultDetail(classId, schoolYear, semester);
-      }
-    } else {
-      return to.getResultDetail(classId, schoolYear, semester);
-    }
   }
 }

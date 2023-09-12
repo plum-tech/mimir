@@ -9,34 +9,20 @@ import '../i18n.dart';
 import '../entity/result.dart';
 import '../init.dart';
 
-class ScoreItem extends StatefulWidget {
+class ExamResultTile extends StatefulWidget {
   final ExamResult result;
   final int index;
   final bool isSelectingMode;
 
-  const ScoreItem(this.result, {super.key, required this.index, required this.isSelectingMode});
+  const ExamResultTile(this.result, {super.key, required this.index, required this.isSelectingMode});
 
   @override
-  State<ScoreItem> createState() => _ScoreItemState();
+  State<ExamResultTile> createState() => _ExamResultTileState();
 }
 
-class _ScoreItemState extends State<ScoreItem> {
+class _ExamResultTileState extends State<ExamResultTile> {
   ExamResult get result => widget.result;
   static const iconSize = 45.0;
-  List<ExamResultDetails>? details;
-
-  @override
-  void initState() {
-    super.initState();
-    ExamResultInit.resultService.getResultDetail(result.innerClassId, result.schoolYear, result.semester).then((value) {
-      if (details != value) {
-        if (!mounted) return;
-        setState(() {
-          details = value;
-        });
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,15 +40,21 @@ class _ScoreItemState extends State<ScoreItem> {
       }
     }
 
+    final courseType = result.courseId[0] != 'G' ? i18n.compulsory : i18n.elective;
+
     return ListTile(
+      isThreeLine: true,
       selected: selected,
       leading: buildLeading().animatedSwitched(
-        d: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
       ),
       titleTextStyle: textTheme.titleMedium,
       title: Text(result.courseName),
       subtitleTextStyle: textTheme.bodyMedium,
-      subtitle: getSubtitle().text(),
+      subtitle: [
+        '$courseType | ${i18n.credit}: ${result.credit}'.text(),
+        ...(result.items.map((e) => Text('${e.scoreType} (${e.percentage}): ${e.value}')).toList()),
+      ].column(caa: CrossAxisAlignment.start),
       trailing: result.hasScore
           ? result.score.toString().text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize))
           : i18n.lessonNotEvaluated.text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize)),
@@ -71,26 +63,6 @@ class _ScoreItemState extends State<ScoreItem> {
           : () {
               controller.select(widget.index);
             },
-    );
-  }
-
-  String getSubtitle() {
-    final courseType = result.courseId[0] != 'G' ? i18n.compulsory : i18n.elective;
-    return '$courseType | ${i18n.credit}: ${result.credit}';
-  }
-
-  // TODO: Where to display this?
-  Widget _buildScoreDetailView(List<ExamResultDetails> scoreDetails) {
-    return Container(
-      alignment: Alignment.centerLeft,
-      decoration: const BoxDecoration(
-        border: Border(
-          left: BorderSide(color: Colors.blue, width: 3),
-        ),
-      ),
-      child: Column(
-        children: scoreDetails.map((e) => Text('${e.scoreType} (${e.percentage}): ${e.value}')).toList(),
-      ),
     );
   }
 }

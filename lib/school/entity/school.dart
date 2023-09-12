@@ -24,6 +24,8 @@ class SchoolYear {
 
   const SchoolYear(this.year);
 
+  bool get isAll => year == null;
+
   @override
   String toString() {
     return (year ?? '').toString();

@@ -9,7 +9,7 @@ String _parseCourseName(dynamic courseName) {
 }
 
 @JsonSerializable()
-@HiveType(typeId: HiveTypeExam.examResult)
+@HiveType(typeId: HiveTypeExam.result)
 class ExamResult {
   /// If the teacher of class hasn't been evaluated, the score is NaN.
   @JsonKey(name: 'cj', fromJson: stringToDouble)
@@ -32,7 +32,7 @@ class ExamResult {
   final String innerClassId;
 
   /// 班级ID（数字）
-  @JsonKey(name: 'jxbmc', defaultValue: '无')
+  @JsonKey(name: 'jxbmc', defaultValue: "")
   @HiveField(4)
   final String dynClassId;
 
@@ -51,6 +51,10 @@ class ExamResult {
   @HiveField(7)
   final double credit;
 
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  @HiveField(8)
+  final List<ExamResultItem> items;
+
   const ExamResult({
     required this.score,
     required this.courseName,
@@ -60,7 +64,32 @@ class ExamResult {
     required this.semester,
     required this.credit,
     required this.dynClassId,
+    this.items = const [],
   });
+
+  ExamResult copyWith({
+    double? score,
+    String? courseName,
+    String? courseId,
+    String? innerClassId,
+    SchoolYear? schoolYear,
+    Semester? semester,
+    String? dynClassId,
+    double? credit,
+    List<ExamResultItem>? items,
+  }) {
+    return ExamResult(
+      score: score ?? this.score,
+      courseName: courseName ?? this.courseName,
+      courseId: courseId ?? this.courseId,
+      innerClassId: innerClassId ?? this.innerClassId,
+      schoolYear: schoolYear ?? this.schoolYear,
+      semester: semester ?? this.semester,
+      credit: credit ?? this.credit,
+      dynClassId: dynClassId ?? this.dynClassId,
+      items: items ?? this.items,
+    );
+  }
 
   bool get hasScore => !score.isNaN;
 
@@ -72,8 +101,8 @@ class ExamResult {
   }
 }
 
-@HiveType(typeId: HiveTypeExam.examResultDetails)
-class ExamResultDetails {
+@HiveType(typeId: HiveTypeExam.resultItem)
+class ExamResultItem {
   /// 成绩名称
   @HiveField(0)
   final String scoreType;
@@ -86,7 +115,7 @@ class ExamResultDetails {
   @HiveField(3)
   final double value;
 
-  const ExamResultDetails(
+  const ExamResultItem(
     this.scoreType,
     this.percentage,
     this.value,

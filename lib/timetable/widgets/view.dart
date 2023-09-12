@@ -50,7 +50,7 @@ class _TimetableViewerState extends State<TimetableViewer> {
                           timetable: timetable,
                         ))
                   .animatedSwitched(
-                d: const Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 300),
               );
     } else {
       return widget.$displayMode >>
@@ -66,7 +66,7 @@ class _TimetableViewerState extends State<TimetableViewer> {
                           timetable: timetable,
                         ))
                   .animatedSwitched(
-                d: const Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 300),
               );
     }
   }

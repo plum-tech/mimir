@@ -151,13 +151,9 @@ class _ExamResultPageState extends State<ExamResultPage> {
       onSelectionChanged: (indexes, items) {
         setState(() {});
       },
-      child: GridView.builder(
+      child: ListView.builder(
         itemCount: all.length,
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 750,
-          mainAxisExtent: 60,
-        ),
-        itemBuilder: (ctx, index) => ScoreItem(all[index], index: index, isSelectingMode: isSelecting),
+        itemBuilder: (ctx, index) => ExamResultTile(all[index], index: index, isSelectingMode: isSelecting),
       ),
     );
   }

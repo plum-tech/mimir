@@ -25,13 +25,14 @@ class ExamResultAdapter extends TypeAdapter<ExamResult> {
       semester: fields[6] as Semester,
       credit: fields[7] as double,
       dynClassId: fields[4] as String,
+      items: (fields[8] as List).cast<ExamResultItem>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, ExamResult obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.score)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class ExamResultAdapter extends TypeAdapter<ExamResult> {
       ..writeByte(6)
       ..write(obj.semester)
       ..writeByte(7)
-      ..write(obj.credit);
+      ..write(obj.credit)
+      ..writeByte(8)
+      ..write(obj.items);
   }
 
   @override
@@ -59,17 +62,17 @@ class ExamResultAdapter extends TypeAdapter<ExamResult> {
       other is ExamResultAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class ExamResultDetailsAdapter extends TypeAdapter<ExamResultDetails> {
+class ExamResultItemAdapter extends TypeAdapter<ExamResultItem> {
   @override
   final int typeId = 42;
 
   @override
-  ExamResultDetails read(BinaryReader reader) {
+  ExamResultItem read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ExamResultDetails(
+    return ExamResultItem(
       fields[0] as String,
       fields[1] as String,
       fields[3] as double,
@@ -77,7 +80,7 @@ class ExamResultDetailsAdapter extends TypeAdapter<ExamResultDetails> {
   }
 
   @override
-  void write(BinaryWriter writer, ExamResultDetails obj) {
+  void write(BinaryWriter writer, ExamResultItem obj) {
     writer
       ..writeByte(3)
       ..writeByte(0)
@@ -94,7 +97,7 @@ class ExamResultDetailsAdapter extends TypeAdapter<ExamResultDetails> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ExamResultDetailsAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ExamResultItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
 // **************************************************************************
@@ -109,7 +112,7 @@ ExamResult _$ExamResultFromJson(Map<String, dynamic> json) => ExamResult(
       schoolYear: formFieldToSchoolYear(json['xnmmc'] as String),
       semester: formFieldToSemester(json['xqm'] as String),
       credit: stringToDouble(json['xf'] as String),
-      dynClassId: json['jxbmc'] as String? ?? '无',
+      dynClassId: json['jxbmc'] as String? ?? '',
     );
 
 Map<String, dynamic> _$ExamResultToJson(ExamResult instance) => <String, dynamic>{

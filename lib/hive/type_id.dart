@@ -25,11 +25,11 @@ class HiveTypeSchool {
 /// Exam 40-49
 class HiveTypeExam {
   // Exam arrange
-  static const examEntry = 40;
+  static const entry = 40;
 
   // Exam result
-  static const examResult = 41;
-  static const examResultDetails = 42;
+  static const result = 41;
+  static const resultItem = 42;
 }
 
 /// Second Class 50-69
