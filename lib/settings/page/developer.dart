@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/hive/page/editor.dart';
 import 'package:rettulf/rettulf.dart';
@@ -60,7 +61,7 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
       leading: const Icon(Icons.storage),
       trailing: const Icon(Icons.navigate_next_rounded),
       onTap: () {
-        context.navigator.push(MaterialPageRoute(builder: (_) => const LocalStoragePage()));
+        context.push("/settings/developer/local-storage");
       },
     );
   }

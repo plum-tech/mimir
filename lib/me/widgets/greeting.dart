@@ -52,8 +52,8 @@ class _GreetingState extends State<Greeting> {
 
   @override
   void dispose() {
-    super.dispose();
     dayWatcher?.cancel();
+    super.dispose();
   }
 
   int _getStudyDaysAndInitState() {

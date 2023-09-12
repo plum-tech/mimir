@@ -198,15 +198,16 @@ class ThemeModeTile extends StatefulWidget {
 }
 
 class _ThemeModeTileState extends State<ThemeModeTile> {
+  final $themeMode = Settings.$themeMode;
   @override
   void initState() {
     super.initState();
-    Settings.$themeMode.addListener(refresh);
+    $themeMode.addListener(refresh);
   }
 
   @override
   void dispose() {
-    Settings.$themeMode.removeListener(refresh);
+    $themeMode.removeListener(refresh);
     super.dispose();
   }
 
@@ -327,7 +328,7 @@ class DevOptionsTile extends StatelessWidget {
       leading: const Icon(Icons.developer_mode_outlined),
       trailing: const Icon(Icons.navigate_next_rounded),
       onTap: () {
-        context.push("/developer-options");
+        context.push("/settings/developer");
       },
     );
   }
@@ -349,7 +350,7 @@ class CredentialTile extends StatelessWidget {
       leading: const Icon(Icons.person_rounded),
       trailing: const Icon(Icons.navigate_next_rounded),
       onTap: () async {
-        context.push("/credential");
+        context.push("/settings/credentials");
       },
     );
   }

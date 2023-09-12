@@ -93,6 +93,7 @@ class _LoginPageState extends State<LoginPage> {
       // final personName = await LoginInit.authServerService.getPersonName();
       if (!mounted) return;
       setState(() => isLoggingIn = false);
+      CredentialInit.storage.oaCredentials = oaCredential;
       CredentialInit.storage.oaLoginStatus = LoginStatus.validated;
       CredentialInit.storage.oaLastAuthTime = DateTime.now();
       // Edu email has the same credential as OA by default.

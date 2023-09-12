@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
+import 'package:mimir/hive/page/editor.dart';
 import 'package:mimir/life/expense_records/page/records.dart';
 import 'package:mimir/life/expense_records/page/statistics.dart';
 import 'package:mimir/life/index.dart';
@@ -60,7 +61,7 @@ final router = GoRouter(
     final auth = ctx.auth;
     if (auth.loginStatus == LoginStatus.never) {
       // allow to access settings page.
-      if (state.matchedLocation == "/settings") return null;
+      if (state.matchedLocation.startsWith("/settings")) return null;
       // allow to access browser page.
       if (state.matchedLocation == "/browser") return null;
       return "/login";
@@ -138,18 +139,26 @@ final router = GoRouter(
     GoRoute(
       path: "/settings",
       builder: (ctx, state) => const SettingsPage(),
-    ),
-    GoRoute(
-      path: "/network-tool",
-      builder: (ctx, state) => const NetworkToolPage(),
-    ),
-    GoRoute(
-      path: "/credential",
-      builder: (ctx, state) => const CredentialPage(),
-    ),
-    GoRoute(
-      path: "/developer-options",
-      builder: (ctx, state) => const DeveloperOptionsPage(),
+      routes: [
+        GoRoute(
+          path: "network-tool",
+          builder: (ctx, state) => const NetworkToolPage(),
+        ),
+        GoRoute(
+          path: "credentials",
+          builder: (ctx, state) => const CredentialsPage(),
+        ),
+        GoRoute(
+          path: "developer",
+          builder: (ctx, state) => const DeveloperOptionsPage(),
+          routes: [
+            GoRoute(
+              path: "local-storage",
+              builder: (ctx, state) => const LocalStoragePage(),
+            )
+          ],
+        ),
+      ],
     ),
     GoRoute(
       path: "/class2nd/activity",

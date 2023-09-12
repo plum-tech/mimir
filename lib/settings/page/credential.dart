@@ -12,14 +12,14 @@ import '../i18n.dart';
 const _i18n = CredentialI18n();
 const _changePasswordUrl = "https://authserver.sit.edu.cn/authserver/passwordChange.do";
 
-class CredentialPage extends StatefulWidget {
-  const CredentialPage({super.key});
+class CredentialsPage extends StatefulWidget {
+  const CredentialsPage({super.key});
 
   @override
-  State<CredentialPage> createState() => _CredentialPageState();
+  State<CredentialsPage> createState() => _CredentialsPageState();
 }
 
-class _CredentialPageState extends State<CredentialPage> {
+class _CredentialsPageState extends State<CredentialsPage> {
   var showPassword = false;
 
   @override
