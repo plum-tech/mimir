@@ -19,7 +19,7 @@ class AttendedActivityTile extends StatelessWidget {
     final titleStyle = context.textTheme.titleMedium;
     final subtitleStyle = context.textTheme.bodySmall;
 
-    final color = rawActivity.isPassed ? Colors.green : context.themeColor;
+    final color = rawActivity.isPassed ? Colors.green : context.colorScheme.primary;
     final trailingStyle = context.textTheme.titleLarge?.copyWith(color: color);
     final activity = ActivityParser.parse(rawActivity);
 

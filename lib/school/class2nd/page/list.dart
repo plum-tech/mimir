@@ -72,9 +72,7 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
             return $page >>
                 (ctx, page) {
                   return Tab(
-                    child: e.name.text(
-                      style: page == i ? TextStyle(color: ctx.textColor) : ctx.theme.textTheme.bodyLarge,
-                    ),
+                    child: e.name.text(),
                   );
                 };
           }).toList(),

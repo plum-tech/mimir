@@ -2,63 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/design/utils.dart';
 import 'package:rettulf/rettulf.dart';
 
-Color getThemeColor(BuildContext ctx) {
-  final theme = ctx.theme;
-  if (theme.isLight) {
-    return theme.primaryColor;
-  } else {
-    return theme.colorScheme.onPrimary;
-  }
-}
-
-Color getDarkSafeThemeColor(BuildContext ctx) {
-  final theme = ctx.theme;
-  if (theme.isLight) {
-    return theme.primaryColor;
-  } else {
-    return Color.lerp(theme.colorScheme.onPrimary, Colors.white, 0.6)!;
-  }
-}
-
-Color getFgColor(BuildContext ctx) {
-  final theme = ctx.theme;
-  if (theme.isLight) {
-    return theme.primaryColor;
-  } else {
-    return theme.colorScheme.onSurface;
-  }
-}
-
-Color getBgColor(BuildContext ctx) {
-  var theme = Theme.of(ctx);
-  if (theme.isLight) {
-    return Color.lerp(theme.primaryColor, Colors.white, 0.9)!;
-  } else {
-    return theme.colorScheme.onSecondary;
-  }
-}
-
-Color getChessBoardColor(BuildContext ctx, int index) {
-  if (ctx.isLightMode) {
-    return index.isOdd ? Colors.white : Colors.black12;
-  } else {
-    return index.isOdd ? Colors.black38 : Colors.white12;
-  }
-}
-
 extension DesignExtension on BuildContext {
-  Color get themeColor => getThemeColor(this);
-
-  Color get darkSafeThemeColor => getDarkSafeThemeColor(this);
-
-  Color get fgColor => getFgColor(this);
-
-  Color get bgColor => getBgColor(this);
-
-  Color chessBoardColor({required int at}) => getChessBoardColor(this, at);
-
-  Color get textColor => isDarkMode ? Colors.white70 : Colors.black;
-
   ({Color bg, Color text}) makeTabHeaderTextBgColors(bool isSelected) {
     final Color text;
     final Color bg;
@@ -84,9 +28,7 @@ extension DesignExtension on BuildContext {
 
 typedef Color2Mode = ({Color light, Color dark});
 
-extension ColorPairHelper on Color2Mode {
-  Color by(BuildContext ctx) => ctx.isDarkMode ? dark : light;
-
+extension Color2ModeX on Color2Mode {
   Color byTheme(ThemeData theme) => theme.isDark ? dark : light;
 }
 

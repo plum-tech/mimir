@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/design/colors.dart';
 import 'package:mimir/school/entity/school.dart';
+import 'package:rettulf/rettulf.dart';
 import '../entity/timetable.dart';
 
 class TimetableSlotInfo extends StatelessWidget {
@@ -21,11 +22,11 @@ class TimetableSlotInfo extends StatelessWidget {
       TextSpan(children: [
         TextSpan(
           text: course.courseName,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp),
+          style: context.textTheme.bodyMedium,
         ),
         TextSpan(
           text: "\n${beautifyPlace(course.place)}\n${course.teachers.join(',')}",
-          style: TextStyle(color: context.textColor.withOpacity(0.65), fontSize: 12.sp),
+          style: context.textTheme.bodySmall,
         ),
       ]),
       minFontSize: 0,

@@ -86,4 +86,4 @@ class _TimetableHeaderState extends State<TimetableHeader> {
   }
 }
 
-BorderSide getBorderSide(BuildContext ctx) => BorderSide(color: ctx.darkSafeThemeColor.withOpacity(0.4), width: 0.8);
+BorderSide getBorderSide(BuildContext ctx) => BorderSide(color: ctx.colorScheme.primary.withOpacity(0.4), width: 0.8);
