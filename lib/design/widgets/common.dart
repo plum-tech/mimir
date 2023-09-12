@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../colors.dart';
-
 class LeavingBlank extends StatelessWidget {
   final WidgetBuilder iconBuilder;
   final String? desc;
@@ -21,7 +19,7 @@ class LeavingBlank extends StatelessWidget {
     Widget? subtitle,
   }) {
     return LeavingBlank.builder(
-      iconBuilder: (ctx) => icon.make(size: size, color: ctx.darkSafeThemeColor),
+      iconBuilder: (ctx) => icon.make(size: size, color: ctx.colorScheme.primary),
       desc: desc,
       onIconTap: onIconTap,
       subtitle: subtitle,
@@ -51,20 +49,17 @@ class LeavingBlank extends StatelessWidget {
     if (onIconTap != null) {
       icon = icon.on(tap: onIconTap);
     }
-    final sub = subtitle;
-    if (sub != null) {
+    if (subtitle != null) {
       return [
-        icon.expanded(),
-        [
-          if (desc != null) buildDesc(context, desc!),
-          sub,
-        ].column().expanded(),
-      ].column(maa: MAAlign.spaceAround).center();
+        icon,
+        if (desc != null) buildDesc(context, desc!),
+        subtitle!,
+      ].column(maa: MAAlign.spaceAround, mas: MainAxisSize.min).center();
     } else {
       return [
-        icon.expanded(),
-        if (desc != null) buildDesc(context, desc!).expanded(),
-      ].column(maa: MAAlign.spaceAround).center();
+        icon,
+        if (desc != null) buildDesc(context, desc!),
+      ].column(maa: MAAlign.spaceAround, mas: MainAxisSize.min).center();
     }
   }
 

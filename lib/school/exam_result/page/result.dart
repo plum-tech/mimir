@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/common.dart';
@@ -64,47 +65,80 @@ class _ExamResultPageState extends State<ExamResultPage> {
 
   @override
   Widget build(BuildContext context) {
-    final allResults = _allResults;
-    return Scaffold(
-      appBar: AppBar(
-        title: buildTitle(),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () {
-                setState(() {
-                  isSelecting = !isSelecting;
-                  if (isSelecting == false) {
-                    multiselect.clearSelection();
-                  }
-                });
-              },
-              icon: Icon(isSelecting ? Icons.check_box_outlined : Icons.check_box_outline_blank)),
-        ],
-        bottom: allResults != null
-            ? null
-            : const PreferredSize(
-                preferredSize: Size.fromHeight(4),
-                child: LinearProgressIndicator(),
+    final allResults = _allResults ?? const [];
+    return MultiselectScope<ExamResult>(
+      key: _multiselectKey,
+      controller: multiselect,
+      dataSource: allResults,
+      // Set this to true if you want automatically
+      // clear selection when user tap back button
+      clearSelectionOnPop: true,
+      // When you update [dataSource] then selected indexes will update
+      // so that the same elements in new [dataSource] are selected
+      keepSelectedItemsBetweenUpdates: true,
+      initialSelectedIndexes: null,
+      // Callback that call on selection changing
+      onSelectionChanged: (indexes, items) {
+        setState(() {});
+      },
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            expandedHeight: 180,
+            flexibleSpace: FlexibleSpaceBar(
+              title: buildTitle(),
+              centerTitle: true,
+              background: buildSemesterSelector(),
+            ),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      isSelecting = !isSelecting;
+                      if (isSelecting == false) {
+                        multiselect.clearSelection();
+                      }
+                    });
+                  },
+                  icon: Icon(isSelecting ? Icons.check_box_outlined : Icons.check_box_outline_blank)),
+            ],
+            bottom: _allResults != null
+                ? null
+                : const PreferredSize(
+                    preferredSize: Size.fromHeight(4),
+                    child: LinearProgressIndicator(),
+                  ),
+          ),
+          if (allResults.isEmpty)
+            SliverToBoxAdapter(
+              child: LeavingBlank(
+                icon: Icons.inbox_outlined,
+                desc: i18n.noResult,
               ),
+            )
+          else
+            ...allResults.mapIndexed((index, item) =>
+                SliverToBoxAdapter(child: ExamResultTile(item, index: index, isSelectingMode: isSelecting))),
+        ],
       ),
-      body: [
-        SemesterSelector(
-          showEntireYear: true,
-          initialYear: selectedYear,
-          initialSemester: selectedSemester,
-          baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
-          onNewYearSelect: (year) {
-            setState(() => selectedYear = year);
-            onRefresh();
-          },
-          onNewSemesterSelect: (semester) {
-            setState(() => selectedSemester = semester);
-            onRefresh();
-          },
-        ),
-        (allResults == null ? const SizedBox() : _buildExamResultList(allResults)).expanded(),
-      ].column(),
+    );
+  }
+
+  Widget buildSemesterSelector() {
+    return SemesterSelector(
+      showEntireYear: true,
+      initialYear: selectedYear,
+      initialSemester: selectedSemester,
+      baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
+      onNewYearSelect: (year) {
+        setState(() => selectedYear = year);
+        onRefresh();
+      },
+      onNewSemesterSelect: (semester) {
+        setState(() => selectedSemester = semester);
+        onRefresh();
+      },
     );
   }
 
@@ -127,34 +161,5 @@ class _ExamResultPageState extends State<ExamResultPage> {
     } else {
       return i18n.title.text();
     }
-  }
-
-  Widget _buildExamResultList(List<ExamResult> all) {
-    if (all.isEmpty) {
-      return LeavingBlank(
-        icon: Icons.inbox_outlined,
-        desc: i18n.noResult,
-      );
-    }
-    return MultiselectScope<ExamResult>(
-      key: _multiselectKey,
-      controller: multiselect,
-      dataSource: all,
-      // Set this to true if you want automatically
-      // clear selection when user tap back button
-      clearSelectionOnPop: true,
-      // When you update [dataSource] then selected indexes will update
-      // so that the same elements in new [dataSource] are selected
-      keepSelectedItemsBetweenUpdates: true,
-      initialSelectedIndexes: null,
-      // Callback that call on selection changing
-      onSelectionChanged: (indexes, items) {
-        setState(() {});
-      },
-      child: ListView.builder(
-        itemCount: all.length,
-        itemBuilder: (ctx, index) => ExamResultTile(all[index], index: index, isSelectingMode: isSelecting),
-      ),
-    );
   }
 }
