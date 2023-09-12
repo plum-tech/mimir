@@ -1,5 +1,3 @@
-import 'package:mimir/login/i18n.dart';
-
 /// 本、专科生（10位学号）
 final RegExp _reUndergraduateId = RegExp(r'^(\d{6}[YGHE\d]\d{3})$');
 
@@ -10,7 +8,7 @@ final RegExp _rePostgraduateId = RegExp(r'^(\d{2}6\d{6})$');
 final RegExp _reTeacherId = RegExp(r'^(\d{4})$');
 
 /// [oaAccount] can be a student ID or a work number.
-bool guessUserTypeByAccount(String oaAccount) {
+bool validateAccount(String oaAccount) {
   if (oaAccount.length == 10 && _reUndergraduateId.hasMatch(oaAccount.toUpperCase())) {
     return true;
   } else if (oaAccount.length == 9 && _rePostgraduateId.hasMatch(oaAccount)) {
@@ -24,7 +22,7 @@ bool guessUserTypeByAccount(String oaAccount) {
 // Only allow student ID/ work number.
 String? studentIdValidator(String? account, String Function() invalidMessage) {
   if (account != null && account.isNotEmpty) {
-    if (!guessUserTypeByAccount(account)) {
+    if (!validateAccount(account)) {
       return invalidMessage();
     }
   }

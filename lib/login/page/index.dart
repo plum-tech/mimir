@@ -13,11 +13,11 @@ import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/utils/guard_launch.dart';
-import 'package:mimir/utils/validation.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../init.dart';
 import '../i18n.dart';
+import '../utils.dart';
 
 class LoginPage extends StatefulWidget {
   final bool isGuarded;

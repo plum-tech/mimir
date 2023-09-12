@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/hive/settings.dart';
 import 'package:mimir/widgets/webview/page.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -67,18 +69,20 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
       initialUrl: evaluationUri.toString(),
       fixedTitle: i18n.teacherEvalTitle,
       initialCookies: cookies,
-      bottomNavigationBar: BottomAppBar(
-        child: $autoScore >>
-            (context, value) => [
-                  "Autofill Score：$value".text(),
-                  Slider(
-                    min: 0,
-                    max: 100,
-                    value: value.toDouble(),
-                    onChanged: (v) => $autoScore.value = v.toInt(),
-                  ).expanded(),
-                ].row(),
-      ),
+      bottomNavigationBar: Settings.isDeveloperMode || kDebugMode ? BottomAppBar(child: buildAutofillScore()) : null,
     );
+  }
+
+  Widget buildAutofillScore() {
+    return $autoScore >>
+        (context, value) => [
+              "Autofill Score：$value".text(),
+              Slider(
+                min: 0,
+                max: 100,
+                value: value.toDouble(),
+                onChanged: (v) => $autoScore.value = v.toInt(),
+              ).expanded(),
+            ].row();
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/multi_select.dart';
+import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/widgets/school.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/school/entity/school.dart';
@@ -119,6 +121,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
       Container(
         margin: const EdgeInsets.only(left: 15),
         child: SemesterSelector(
+          baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
           onNewYearSelect: (year) {
             setState(() => selectedYear = year);
             onRefresh();

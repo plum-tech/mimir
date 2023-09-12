@@ -1,6 +1,8 @@
 import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/animation/livelist.dart';
+import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/widgets/school.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/school/entity/school.dart';
@@ -34,7 +36,6 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
     final DateTime now = DateTime.now();
     selectedYear = (now.month >= 9 ? now.year : now.year - 1);
     selectedSemester = (now.month >= 3 && now.month <= 7) ? Semester.term2 : Semester.term1;
-
     refresh();
   }
 
@@ -93,6 +94,7 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
     return Container(
       margin: const EdgeInsets.only(left: 15),
       child: SemesterSelector(
+        baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
         onNewYearSelect: (year) {
           setState(() {
             selectedYear = year;
