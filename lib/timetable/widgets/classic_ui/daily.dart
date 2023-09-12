@@ -328,7 +328,7 @@ class _LessonBlockState extends State<LessonBlock> {
     final timetable = course.buildingTimetable;
     final classBegin = timetable[widget.lesson.startIndex].begin;
     final classEnd = timetable[widget.lesson.endIndex].end;
-    final time = "$classBegin - $classEnd";
+    final time = "$classBegin–$classEnd";
     final duration = course.duration(basedOn: widget.lesson);
     final color = TimetableStyle.of(context).resolveColor(course).byTheme(context.theme);
     return FilledCard(

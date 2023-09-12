@@ -52,7 +52,7 @@ class Course {
   final String place;
 
   /// 教师
-  @JsonKey(name: 'xm', fromJson: _string2Vec, defaultValue: ['空'])
+  @JsonKey(name: 'xm', fromJson: _parseTeacherList, defaultValue: [])
   final List<String> teacher;
 
   /// 校区
@@ -96,7 +96,7 @@ class Course {
   static int _parseInt(String? x) => int.tryParse(x ?? '64') ?? 64;
 
   /// 将逗号分隔的字符串转为列表
-  static List<String> _string2Vec(String s) => s.split(',');
+  static List<String> _parseTeacherList(String s) => s.split(',');
 
   /// 字符串转小数
   static double _string2Double(String s) => double.tryParse(s) ?? double.nan;

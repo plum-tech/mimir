@@ -35,6 +35,7 @@ timetable:
     timetableInfo: 课程表信息
     defaultName: "{yearStart}–{yearEnd}年 {semester} 课程表"
   weekStep:
+    single: 周
     all: 周
     odd: 单周
     even: 双周

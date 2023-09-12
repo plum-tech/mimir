@@ -11,7 +11,7 @@ Course _$CourseFromJson(Map<String, dynamic> json) => Course(
       Course._day2Index(json['xqjmc'] as String),
       Course._time2Index(json['jcs'] as String),
       json['cdmc'] as String,
-      json['xm'] == null ? ['空'] : Course._string2Vec(json['xm'] as String),
+      json['xm'] == null ? [] : Course._parseTeacherList(json['xm'] as String),
       json['xqmc'] as String,
       Course._string2Double(json['xf'] as String),
       Course._stringToInt(json['zxs'] as String),

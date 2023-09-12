@@ -35,6 +35,7 @@ timetable:
     timetableInfo: Timetable Info
     defaultName: "{semester}, {yearStart}–{yearEnd} Timetable"
   weekStep:
+    single: wk
     all: wk
     odd: odd wk
     even: even wk

@@ -35,6 +35,7 @@ timetable:
     timetableInfo: 課程表資訊
     defaultName: "{semester} {yearStart–{yearEnd} 課程表"
   weekStep:
+    single: 周
     all: 周
     odd: 單週
     even: 雙週
