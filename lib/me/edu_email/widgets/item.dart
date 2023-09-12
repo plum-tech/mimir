@@ -4,6 +4,7 @@ import 'package:mimir/l10n/extension.dart';
 
 import '../page/detail.dart';
 
+// TODO: Migration
 class EmailItem extends StatelessWidget {
   final MimeMessage _message;
 
@@ -11,8 +12,8 @@ class EmailItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final titleStyle = Theme.of(context).textTheme.subtitle1;
-    final subtitleStyle = Theme.of(context).textTheme.bodyText2;
+    final titleStyle = Theme.of(context).textTheme.titleMedium;
+    final subtitleStyle = Theme.of(context).textTheme.bodyMedium;
 
     final subjectText = _message.decodeSubject() ?? '无主题';
     final sender = _message.decodeSender();
@@ -26,7 +27,7 @@ class EmailItem extends StatelessWidget {
         radius: 20,
         child: Text(
           subjectText[0],
-          style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.grey[50]),
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[50]),
         ),
       ),
       // isThreeLine: true,

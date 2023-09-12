@@ -11,28 +11,46 @@ import '../i18n.dart';
 class DetailPage extends StatelessWidget {
   final MimeMessage message;
 
-  const DetailPage(this.message, {Key? key}) : super(key: key);
-
-  String _generateHtml(MimeMessage mimeMessage) {
-    return mimeMessage.transformToHtml(
-      blockExternalImages: false,
-      emptyMessageText: i18n.noContent,
-    );
-  }
+  const DetailPage(this.message, {super.key});
 
   @override
   Widget build(BuildContext context) {
+    final subject = message.decodeSubject() ?? i18n.noSubject;
+
     return Scaffold(
-      appBar: AppBar(title: i18n.text.text()),
-      body: _buildBody(context),
+      appBar: AppBar(
+        title: subject.text(),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          MailMetaCard(message),
+          StyledHtmlWidget(
+            _generateHtml(context, message),
+            // renderMode: RenderMode.listView,
+          ),
+        ],
+      ).scrolled(),
     );
   }
+}
 
-  Widget _buildBody(BuildContext context) {
-    final titleStyle = Theme.of(context).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold);
-    final subtitleStyle = Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.black54);
+String _generateHtml(BuildContext context, MimeMessage mimeMessage) {
+  return mimeMessage.transformToHtml(
+    blockExternalImages: false,
+    preferPlainText: true,
+    enableDarkMode: context.isDarkMode,
+    emptyMessageText: i18n.noContent,
+  );
+}
 
-    final subjectText = message.decodeSubject() ?? i18n.noSubject;
+class MailMetaCard extends StatelessWidget {
+  final MimeMessage message;
+  const MailMetaCard(this.message, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final subject = message.decodeSubject() ?? i18n.noSubject;
     final sender = message.decodeSender();
     var senderText = sender[0].toString();
     if (sender.length > 1) {
@@ -40,22 +58,9 @@ class DetailPage extends StatelessWidget {
     }
     final date = message.decodeDate();
     final dateText = date != null ? context.formatYmdhmsNum(date) : '';
-
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(subjectText, style: titleStyle),
-          Text('$senderText\n$dateText', style: subtitleStyle),
-          Expanded(
-            child: StyledHtmlWidget(
-              _generateHtml(message),
-              // renderMode: RenderMode.listView,
-            ),
-          ),
-        ],
-      ),
-    );
+    return [
+      Text(subject),
+      Text('$senderText\n$dateText')
+    ].column().inCard();
   }
 }
