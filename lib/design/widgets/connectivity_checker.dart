@@ -6,7 +6,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/animation/animated.dart';
-import 'package:mimir/design/colors.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
@@ -159,6 +158,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
     return Icon(
       icon,
       size: widget.iconSize,
+      color: ctx.colorScheme.primary,
     ).sizedAll(
       key: key,
       widget.iconSize,
