@@ -96,6 +96,7 @@ class Class2ndActivity {
 
   @HiveField(3)
   final String realTitle;
+
   @HiveField(4)
   final List<String> tags;
 
