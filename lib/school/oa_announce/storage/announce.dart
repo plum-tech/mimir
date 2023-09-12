@@ -13,8 +13,8 @@ class _Key {
 class AnnounceStorageBox with CachedBox {
   @override
   final Box box;
-  late final catalogues = namedList<AnnounceCatalogue>(_Key.catalogues);
-  late final details = namespace2<AnnounceDetail, String, String>(_Key.detailsNs, makeDetailKey);
+  late final catalogues = namedList<OaAnnounceCatalogue>(_Key.catalogues);
+  late final details = namespace2<OaAnnounceDetails, String, String>(_Key.detailsNs, makeDetailKey);
 
   static String makeDetailKey(String catalogueId, String uuid) => "$catalogueId/$uuid";
 
@@ -28,29 +28,29 @@ class AnnounceStorage extends AnnounceDao {
 
   /// 获取所有的分类信息
   @override
-  Future<List<AnnounceCatalogue>?> getAllCatalogues() async {
+  Future<List<OaAnnounceCatalogue>?> getAllCatalogues() async {
     return box.catalogues.value;
   }
 
   /// 获取某篇文章内容
   @override
-  Future<AnnounceDetail?> getAnnounceDetail(String catalogueId, String uuid) async {
+  Future<OaAnnounceDetails?> getAnnounceDetail(String catalogueId, String uuid) async {
     final details = box.details.make(catalogueId, uuid);
     return details.value;
   }
 
-  void setAnnounceDetail(String catalogueId, String uuid, AnnounceDetail? detail) {
+  void setAnnounceDetail(String catalogueId, String uuid, OaAnnounceDetails? detail) {
     final details = box.details.make(catalogueId, uuid);
     details.value = detail;
   }
 
   /// 检索文章列表
   @override
-  Future<AnnounceListPage?> queryAnnounceList(int pageIndex, String catalogueId) async {
+  Future<OaAnnounceListPage?> queryAnnounceList(int pageIndex, String catalogueId) async {
     throw UnimplementedError("Storage won't query.");
   }
 
-  void setAllCatalogues(List<AnnounceCatalogue>? catalogues) {
+  void setAllCatalogues(List<OaAnnounceCatalogue>? catalogues) {
     box.catalogues.value = catalogues;
   }
 }

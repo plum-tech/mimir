@@ -15,16 +15,16 @@ class AnnounceService implements AnnounceDao {
 
   const AnnounceService(this.session);
 
-  List<AnnounceAttachment> _parseAttachment(Bs4Element element) {
+  List<OaAnnounceAttachment> _parseAttachment(Bs4Element element) {
     return element.find('#containerFrame > table')!.findAll('a').map((e) {
-      return AnnounceAttachment(
+      return OaAnnounceAttachment(
         name: e.text.trim(),
         url: 'https://myportal.sit.edu.cn/${e.attributes['href']!}',
       );
     }).toList();
   }
 
-  AnnounceDetail _parseBulletinDetail(Bs4Element item) {
+  OaAnnounceDetails _parseBulletinDetail(Bs4Element item) {
     final dateFormat = DateFormat('yyyy年MM月dd日 hh:mm');
 
     String metaHtml = item.find('div', class_: 'bulletin-info')?.innerHtml ?? '';
@@ -34,7 +34,7 @@ class AnnounceService implements AnnounceDao {
 
     final metaList = meta.split('|').map((e) => e.trim()).toList();
 
-    return AnnounceDetail(
+    return OaAnnounceDetails(
       title: item.find('div', class_: 'bulletin-title')?.text.trim() ?? '',
       content: item.find('div', class_: 'bulletin-content')?.innerHtml ?? '',
       attachments: _parseAttachment(item),
@@ -46,15 +46,15 @@ class AnnounceService implements AnnounceDao {
   }
 
   @override
-  Future<List<AnnounceCatalogue>> getAllCatalogues() async {
+  Future<List<OaAnnounceCatalogue>> getAllCatalogues() async {
     return const [
-      AnnounceCatalogue(name: '学生事务', id: 'pe2362'),
-      AnnounceCatalogue(name: '学习课堂', id: 'pe2364'),
-      AnnounceCatalogue(name: '二级学院通知', id: 'pe2368'),
-      AnnounceCatalogue(name: '校园文化', id: 'pe2366'),
-      AnnounceCatalogue(name: '公告信息', id: 'pe2367'),
-      AnnounceCatalogue(name: '生活服务', id: 'pe2365'),
-      AnnounceCatalogue(name: '文件下载专区', id: 'pe2382')
+      OaAnnounceCatalogue(name: '学生事务', id: 'pe2362'),
+      OaAnnounceCatalogue(name: '学习课堂', id: 'pe2364'),
+      OaAnnounceCatalogue(name: '二级学院通知', id: 'pe2368'),
+      OaAnnounceCatalogue(name: '校园文化', id: 'pe2366'),
+      OaAnnounceCatalogue(name: '公告信息', id: 'pe2367'),
+      OaAnnounceCatalogue(name: '生活服务', id: 'pe2365'),
+      OaAnnounceCatalogue(name: '文件下载专区', id: 'pe2382')
     ];
   }
 
@@ -63,7 +63,7 @@ class AnnounceService implements AnnounceDao {
   }
 
   @override
-  Future<AnnounceDetail> getAnnounceDetail(String bulletinCatalogueId, String uuid) async {
+  Future<OaAnnounceDetails> getAnnounceDetail(String bulletinCatalogueId, String uuid) async {
     final response = await session.request(_buildBulletinUrl(bulletinCatalogueId, uuid), ReqMethod.get);
     return _parseBulletinDetail(BeautifulSoup(response.data).html!);
   }
@@ -73,7 +73,7 @@ class AnnounceService implements AnnounceDao {
     return 'https://myportal.sit.edu.cn/detach.portal?pageIndex=$pageIndex&groupid=&action=bulletinsMoreView&.ia=false&pageSize=&.pmn=view&.pen=$bulletinCatalogueId';
   }
 
-  static AnnounceListPage _parseBulletinListPage(Bs4Element element) {
+  static OaAnnounceListPage _parseBulletinListPage(Bs4Element element) {
     final list = element.findAll('li').map((e) {
       final departmentAndDate = e.find('span', class_: 'rss-time')!.text.trim();
       final departmentAndDateLen = departmentAndDate.length;
@@ -83,7 +83,7 @@ class AnnounceService implements AnnounceDao {
       final titleElement = e.find('a', class_: 'rss-title')!;
       final uri = Uri.parse(titleElement.attributes['href']!);
 
-      return AnnounceRecord(
+      return OaAnnounceRecord(
         title: titleElement.text.trim(),
         departments: department.trim().split(_departmentSplitRegex),
         dateTime: _announceDateTimeFormat.parse(date),
@@ -96,7 +96,7 @@ class AnnounceService implements AnnounceDao {
     final lastElement = element.find('a', attrs: {'title': '点击跳转到最后页'})!;
     final lastElementHref = Uri.parse(lastElement.attributes['href']!);
     final lastPageIndex = lastElementHref.queryParameters['pageIndex']!;
-    return AnnounceListPage(
+    return OaAnnounceListPage(
       bulletinItems: list,
       currentPage: int.parse(currentElement.text),
       totalPage: int.parse(lastPageIndex),
@@ -104,7 +104,7 @@ class AnnounceService implements AnnounceDao {
   }
 
   @override
-  Future<AnnounceListPage> queryAnnounceList(int pageIndex, String bulletinCatalogueId) async {
+  Future<OaAnnounceListPage> queryAnnounceList(int pageIndex, String bulletinCatalogueId) async {
     final response = await session.request(_buildBulletinListUrl(pageIndex, bulletinCatalogueId), ReqMethod.get);
     return _parseBulletinListPage(BeautifulSoup(response.data).html!);
   }

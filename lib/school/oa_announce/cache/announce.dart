@@ -16,10 +16,10 @@ class AnnounceCache extends AnnounceDao {
     this.catalogueExpire = const Duration(minutes: 10),
   });
 
-  final Map<String, AnnounceListPage?> _queried = {};
+  final Map<String, OaAnnounceListPage?> _queried = {};
 
   @override
-  Future<List<AnnounceCatalogue>?> getAllCatalogues() async {
+  Future<List<OaAnnounceCatalogue>?> getAllCatalogues() async {
     final cacheKey = to.box.catalogues;
     if (cacheKey.needRefresh(after: detailExpire)) {
       try {
@@ -35,7 +35,7 @@ class AnnounceCache extends AnnounceDao {
   }
 
   @override
-  Future<AnnounceDetail?> getAnnounceDetail(String catalogueId, String uuid) async {
+  Future<OaAnnounceDetails?> getAnnounceDetail(String catalogueId, String uuid) async {
     final cacheKey = to.box.details.make(catalogueId, uuid);
     if (cacheKey.needRefresh(after: detailExpire)) {
       try {
@@ -51,7 +51,7 @@ class AnnounceCache extends AnnounceDao {
   }
 
   @override
-  Future<AnnounceListPage?> queryAnnounceList(int pageIndex, String catalogueId) async {
+  Future<OaAnnounceListPage?> queryAnnounceList(int pageIndex, String catalogueId) async {
     final key = "$pageIndex&$catalogueId";
     var res = _queried[key];
     res ??= await from.queryAnnounceList(pageIndex, catalogueId);

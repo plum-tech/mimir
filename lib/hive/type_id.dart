@@ -69,7 +69,7 @@ class HiveTypeYwb {
 
 /// Ywb 90-99
 class HiveTypeOaAnnounce {
-  static const detail = 90;
+  static const details = 90;
   static const attachment = 91;
   static const catalogue = 92;
   static const listPage = 93;

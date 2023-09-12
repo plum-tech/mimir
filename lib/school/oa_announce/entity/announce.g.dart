@@ -6,24 +6,24 @@ part of 'announce.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class AnnounceCatalogueAdapter extends TypeAdapter<AnnounceCatalogue> {
+class OaAnnounceCatalogueAdapter extends TypeAdapter<OaAnnounceCatalogue> {
   @override
   final int typeId = 92;
 
   @override
-  AnnounceCatalogue read(BinaryReader reader) {
+  OaAnnounceCatalogue read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return AnnounceCatalogue(
+    return OaAnnounceCatalogue(
       name: fields[0] as String,
       id: fields[1] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, AnnounceCatalogue obj) {
+  void write(BinaryWriter writer, OaAnnounceCatalogue obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
@@ -38,20 +38,20 @@ class AnnounceCatalogueAdapter extends TypeAdapter<AnnounceCatalogue> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AnnounceCatalogueAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is OaAnnounceCatalogueAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class AnnounceRecordAdapter extends TypeAdapter<AnnounceRecord> {
+class OaAnnounceRecordAdapter extends TypeAdapter<OaAnnounceRecord> {
   @override
   final int typeId = 94;
 
   @override
-  AnnounceRecord read(BinaryReader reader) {
+  OaAnnounceRecord read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return AnnounceRecord(
+    return OaAnnounceRecord(
       title: fields[0] as String,
       uuid: fields[1] as String,
       bulletinCatalogueId: fields[2] as String,
@@ -61,7 +61,7 @@ class AnnounceRecordAdapter extends TypeAdapter<AnnounceRecord> {
   }
 
   @override
-  void write(BinaryWriter writer, AnnounceRecord obj) {
+  void write(BinaryWriter writer, OaAnnounceRecord obj) {
     writer
       ..writeByte(5)
       ..writeByte(0)
@@ -82,32 +82,32 @@ class AnnounceRecordAdapter extends TypeAdapter<AnnounceRecord> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AnnounceRecordAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is OaAnnounceRecordAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class AnnounceDetailAdapter extends TypeAdapter<AnnounceDetail> {
+class OaAnnounceDetailsAdapter extends TypeAdapter<OaAnnounceDetails> {
   @override
   final int typeId = 90;
 
   @override
-  AnnounceDetail read(BinaryReader reader) {
+  OaAnnounceDetails read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return AnnounceDetail(
+    return OaAnnounceDetails(
       title: fields[0] as String,
       dateTime: fields[1] as DateTime,
       department: fields[2] as String,
       author: fields[3] as String,
       readNumber: fields[4] as int,
       content: fields[5] as String,
-      attachments: (fields[6] as List).cast<AnnounceAttachment>(),
+      attachments: (fields[6] as List).cast<OaAnnounceAttachment>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, AnnounceDetail obj) {
+  void write(BinaryWriter writer, OaAnnounceDetails obj) {
     writer
       ..writeByte(7)
       ..writeByte(0)
@@ -132,27 +132,27 @@ class AnnounceDetailAdapter extends TypeAdapter<AnnounceDetail> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AnnounceDetailAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is OaAnnounceDetailsAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class AnnounceAttachmentAdapter extends TypeAdapter<AnnounceAttachment> {
+class OaAnnounceAttachmentAdapter extends TypeAdapter<OaAnnounceAttachment> {
   @override
   final int typeId = 91;
 
   @override
-  AnnounceAttachment read(BinaryReader reader) {
+  OaAnnounceAttachment read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return AnnounceAttachment(
+    return OaAnnounceAttachment(
       name: fields[0] as String,
       url: fields[1] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, AnnounceAttachment obj) {
+  void write(BinaryWriter writer, OaAnnounceAttachment obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
@@ -167,5 +167,5 @@ class AnnounceAttachmentAdapter extends TypeAdapter<AnnounceAttachment> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AnnounceAttachmentAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is OaAnnounceAttachmentAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

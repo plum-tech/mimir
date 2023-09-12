@@ -6,16 +6,16 @@ part 'page.g.dart';
 
 /// 获取到的通知页
 @HiveType(typeId: HiveTypeOaAnnounce.listPage)
-class AnnounceListPage {
+class OaAnnounceListPage {
   @HiveField(0)
   final int currentPage;
   @HiveField(1)
   final int totalPage;
 
   @HiveField(2)
-  final List<AnnounceRecord> bulletinItems;
+  final List<OaAnnounceRecord> bulletinItems;
 
-  const AnnounceListPage({
+  const OaAnnounceListPage({
     required this.currentPage,
     required this.totalPage,
     required this.bulletinItems,
@@ -23,6 +23,6 @@ class AnnounceListPage {
 
   @override
   String toString() {
-    return 'BulletinListPage{currentPage: $currentPage, totalPage: $totalPage, bulletinItems: $bulletinItems}';
+    return 'OaAnnounceListPage{currentPage: $currentPage, totalPage: $totalPage, bulletinItems: $bulletinItems}';
   }
 }

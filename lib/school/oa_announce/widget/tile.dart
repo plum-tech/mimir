@@ -6,7 +6,7 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/announce.dart';
 
 class OaAnnounceTile extends StatelessWidget {
-  final AnnounceRecord record;
+  final OaAnnounceRecord record;
 
   const OaAnnounceTile(
     this.record, {

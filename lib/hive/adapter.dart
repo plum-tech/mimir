@@ -49,11 +49,11 @@ class HiveAdapter {
     ~ExamEntryAdapter();
 
     // OA Announcement
-    ~AnnounceDetailAdapter();
-    ~AnnounceCatalogueAdapter();
-    ~AnnounceRecordAdapter();
-    ~AnnounceAttachmentAdapter();
-    ~AnnounceListPageAdapter();
+    ~OaAnnounceDetailsAdapter();
+    ~OaAnnounceCatalogueAdapter();
+    ~OaAnnounceRecordAdapter();
+    ~OaAnnounceAttachmentAdapter();
+    ~OaAnnounceListPageAdapter();
 
     // Application
     ~ApplicationDetailSectionAdapter();

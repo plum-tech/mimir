@@ -4,7 +4,7 @@ part 'announce.g.dart';
 
 /// 通知分类
 @HiveType(typeId: HiveTypeOaAnnounce.catalogue)
-class AnnounceCatalogue {
+class OaAnnounceCatalogue {
   /// 分类名
   @HiveField(0)
   final String name;
@@ -13,7 +13,7 @@ class AnnounceCatalogue {
   @HiveField(1)
   final String id;
 
-  const AnnounceCatalogue({
+  const OaAnnounceCatalogue({
     required this.name,
     required this.id,
   });
@@ -21,7 +21,7 @@ class AnnounceCatalogue {
 
 /// 某篇通知的记录信息，根据该信息可寻找到对应文章
 @HiveType(typeId: HiveTypeOaAnnounce.record)
-class AnnounceRecord {
+class OaAnnounceRecord {
   /// 标题
   @HiveField(0)
   final String title;
@@ -42,7 +42,7 @@ class AnnounceRecord {
   @HiveField(4)
   final List<String> departments;
 
-  const AnnounceRecord({
+  const OaAnnounceRecord({
     required this.title,
     required this.uuid,
     required this.bulletinCatalogueId,
@@ -56,8 +56,8 @@ class AnnounceRecord {
   }
 }
 
-@HiveType(typeId: HiveTypeOaAnnounce.detail)
-class AnnounceDetail {
+@HiveType(typeId: HiveTypeOaAnnounce.details)
+class OaAnnounceDetails {
   /// 标题
   @HiveField(0)
   final String title;
@@ -84,9 +84,9 @@ class AnnounceDetail {
 
   /// 附件
   @HiveField(6)
-  final List<AnnounceAttachment> attachments;
+  final List<OaAnnounceAttachment> attachments;
 
-  const AnnounceDetail({
+  const OaAnnounceDetails({
     required this.title,
     required this.dateTime,
     required this.department,
@@ -98,12 +98,12 @@ class AnnounceDetail {
 
   @override
   String toString() {
-    return 'BulletinDetail{title: $title, dateTime: $dateTime, department: $department, author: $author, readNumber: $readNumber, content: $content, attachments: $attachments}';
+    return 'OaAnnounceDetails{title: $title, dateTime: $dateTime, department: $department, author: $author, readNumber: $readNumber, content: $content, attachments: $attachments}';
   }
 }
 
 @HiveType(typeId: HiveTypeOaAnnounce.attachment)
-class AnnounceAttachment {
+class OaAnnounceAttachment {
   /// 附件标题
   @HiveField(0)
   final String name;
@@ -112,7 +112,7 @@ class AnnounceAttachment {
   @HiveField(1)
   final String url;
 
-  const AnnounceAttachment({
+  const OaAnnounceAttachment({
     required this.name,
     required this.url,
   });

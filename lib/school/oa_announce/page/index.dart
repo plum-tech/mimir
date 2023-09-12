@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/design/animation/livelist.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/network/session.dart';
-import 'package:mimir/school/oa_announce/widget/announce.dart';
+import 'package:mimir/school/oa_announce/widget/tile.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/announce.dart';
@@ -23,7 +23,7 @@ class OaAnnouncePage extends StatefulWidget {
 }
 
 class _OaAnnouncePageState extends State<OaAnnouncePage> {
-  List<AnnounceRecord>? _records;
+  List<OaAnnounceRecord>? _records;
 
   @override
   void initState() {
@@ -65,7 +65,7 @@ class _OaAnnouncePageState extends State<OaAnnouncePage> {
     );
   }
 
-  Future<List<AnnounceRecord>?> _queryBulletinListInAllCategory(int page) async {
+  Future<List<OaAnnounceRecord>?> _queryBulletinListInAllCategory(int page) async {
     // Make sure login.
     await OaAnnounceInit.session.request('https://myportal.sit.edu.cn/', ReqMethod.get);
 
@@ -78,9 +78,9 @@ class _OaAnnouncePageState extends State<OaAnnouncePage> {
     // 获取所有分类中的第一页
     final futureResult = await Future.wait(catalogues.map((e) => service.queryAnnounceList(page, e.id)));
     // 合并所有分类的第一页的公告项
-    final List<AnnounceRecord> records = futureResult.whereNotNull().fold(
-      <AnnounceRecord>[],
-      (List<AnnounceRecord> previousValue, AnnounceListPage page) => previousValue + page.bulletinItems,
+    final List<OaAnnounceRecord> records = futureResult.whereNotNull().fold(
+      <OaAnnounceRecord>[],
+      (List<OaAnnounceRecord> previousValue, OaAnnounceListPage page) => previousValue + page.bulletinItems,
     ).toList();
     return records;
   }

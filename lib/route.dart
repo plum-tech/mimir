@@ -204,7 +204,7 @@ final router = GoRouter(
       path: "/oa-announce/details",
       builder: (ctx, state) {
         final extra = state.extra;
-        if (extra is AnnounceRecord) {
+        if (extra is OaAnnounceRecord) {
           return AnnounceDetailsPage(extra);
         }
         throw 404;

@@ -2,8 +2,14 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:version/version.dart';
 
-enum AppPlatform{
-  android, windows, iOS,macOS, linux, web, unknown,
+enum AppPlatform {
+  android,
+  windows,
+  iOS,
+  macOS,
+  linux,
+  web,
+  unknown,
 }
 
 class AppVersion {
