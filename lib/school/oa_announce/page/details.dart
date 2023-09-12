@@ -51,7 +51,7 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
       slivers: [
         SliverAppBar(
           pinned: true,
-          title: record.title.text(),
+          title: i18n.text.text(),
           actions: [
             IconButton(
               onPressed: () {
@@ -67,26 +67,26 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
                   child: LinearProgressIndicator(),
                 ),
         ),
-        if (details != null)
-          SliverToBoxAdapter(
-            child: OaAnnounceInfoCard(
-              record: record,
-              details: details,
-            ),
-          ),
+        SliverToBoxAdapter(
+          child: OaAnnounceInfoCard(
+            record: record,
+            details: details,
+          ).hero(record.uuid),
+        ),
         if (details != null)
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             sliver: AnnounceArticle(details),
           ),
-        if (details != null) const SliverToBoxAdapter(child: Divider()),
-        if (details != null)
+        if (details != null && details.attachments.isNotEmpty) ...[
+          const SliverToBoxAdapter(child: Divider()),
           SliverToBoxAdapter(
             child: i18n.attachmentTip(details.attachments.length).text(
                   style: context.textTheme.titleLarge,
                   textAlign: TextAlign.center,
                 ),
-          ),
+          )
+        ],
         if (details != null) ...details.attachments.map((e) => SliverToBoxAdapter(child: AttachmentLink(e))),
       ],
     );

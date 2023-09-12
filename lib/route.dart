@@ -13,14 +13,14 @@ import 'package:mimir/me/edu_email/page/index.dart';
 import 'package:mimir/me/network_tool/page/index.dart';
 import 'package:mimir/page/not_found.dart';
 import 'package:mimir/school/oa_announce/entity/announce.dart';
-import 'package:mimir/school/oa_announce/page/detail.dart';
+import 'package:mimir/school/oa_announce/page/details.dart';
 import 'package:mimir/school/ywb/page/index.dart';
 import 'package:mimir/school/exam_arrange/page/index.dart';
 import 'package:mimir/school/library/index.dart';
 import 'package:mimir/school/oa_announce/page/index.dart';
 import 'package:mimir/scanner/page/index.dart';
 import 'package:mimir/school/class2nd/entity/list.dart';
-import 'package:mimir/school/class2nd/page/detail.dart';
+import 'package:mimir/school/class2nd/page/details.dart';
 import 'package:mimir/school/class2nd/page/list.dart';
 import 'package:mimir/school/class2nd/page/attended.dart';
 import 'package:mimir/school/exam_result/page/evaluation.dart';
@@ -176,7 +176,7 @@ final router = GoRouter(
         final enableApply = state.uri.queryParameters["enable-apply"] != null;
         final extra = state.extra;
         if (extra is Class2ndActivity) {
-          return Class2ndActivityDetailPage(
+          return Class2ndActivityDetailsPage(
             extra,
             enableApply: enableApply,
           );

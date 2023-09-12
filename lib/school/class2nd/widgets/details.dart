@@ -17,20 +17,19 @@ class ActivityDetailsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final titleStyle = Theme.of(context).textTheme.headlineSmall;
     final valueStyle = Theme.of(context).textTheme.bodyMedium;
     final keyStyle = valueStyle?.copyWith(fontWeight: FontWeight.bold);
 
     buildRow(String key, Object? value) => TableRow(
           children: [
             Text(key, style: keyStyle),
-            Text(value?.toString() ?? "...", style: valueStyle),
+            value == null ? const SizedBox() : value.toString().text(style: valueStyle),
           ],
         );
 
     return Column(
       children: [
-        Text(activity.realTitle, style: titleStyle, softWrap: true).padAll(10),
+        Text(activity.realTitle, style: context.textTheme.titleLarge, softWrap: true).padAll(10),
         Table(
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           columnWidths: const {
@@ -50,6 +49,6 @@ class ActivityDetailsCard extends StatelessWidget {
           ],
         ).padH(10),
       ],
-    ).scrolled(physics: const NeverScrollableScrollPhysics()).padAll(8).inCard().hero(activity.id).padAll(20);
+    ).scrolled(physics: const NeverScrollableScrollPhysics()).padAll(8).inCard();
   }
 }

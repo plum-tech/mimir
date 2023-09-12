@@ -54,15 +54,15 @@ class _AutoHideFABState extends State<AutoHideFAB> {
   void onScrollChanged() {
     final direction = widget.controller.position.userScrollDirection;
     if (direction == ScrollDirection.forward) {
-      if (showBtn) {
-        setState(() {
-          showBtn = false;
-        });
-      }
-    } else if (direction == ScrollDirection.reverse) {
       if (!showBtn) {
         setState(() {
           showBtn = true;
+        });
+      }
+    } else if (direction == ScrollDirection.reverse) {
+      if (showBtn) {
+        setState(() {
+          showBtn = false;
         });
       }
     }
@@ -103,11 +103,8 @@ Widget AnimatedSlideDown({
   const duration = Duration(milliseconds: 300);
   return AnimatedSlide(
     duration: duration,
+    curve: Curves.fastLinearToSlowEaseIn.flipped,
     offset: upWhen ? Offset.zero : const Offset(0, 2),
-    child: AnimatedOpacity(
-      duration: duration,
-      opacity: upWhen ? 1 : 0,
-      child: child,
-    ),
+    child: child,
   );
 }

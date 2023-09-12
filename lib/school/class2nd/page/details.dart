@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/design/adaptive/adaptive.dart';
-import 'package:mimir/design/widgets/button.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/design/widgets/fab.dart';
 import 'package:mimir/utils/url_launcher.dart';
 import 'package:mimir/widgets/html.dart';
 import 'package:rettulf/rettulf.dart';
@@ -16,65 +16,67 @@ String _getActivityUrl(int activityId) {
   return 'http://sc.sit.edu.cn/public/activity/activityDetail.action?activityId=$activityId';
 }
 
-class Class2ndActivityDetailPage extends StatefulWidget {
+class Class2ndActivityDetailsPage extends StatefulWidget {
   final Class2ndActivity activity;
   final bool enableApply;
 
-  const Class2ndActivityDetailPage(
+  const Class2ndActivityDetailsPage(
     this.activity, {
     super.key,
     this.enableApply = false,
   });
 
   @override
-  State<StatefulWidget> createState() => _Class2ndActivityDetailPageState();
+  State<StatefulWidget> createState() => _Class2ndActivityDetailsPageState();
 }
 
-class _Class2ndActivityDetailPageState extends State<Class2ndActivityDetailPage> {
-  int get activityId => widget.activity.id;
-
+class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPage> {
   Class2ndActivity get activity => widget.activity;
-  Class2ndActivityDetails? detail;
-  Size? titleBarSize;
-  final _fabKey = GlobalKey(debugLabel: "To get size of FAB in Landscape Mode.");
-
+  Class2ndActivityDetails? details;
+  final scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
-    Class2ndInit.activityDetailService.getActivityDetail(activityId).then((value) {
+    Class2ndInit.activityDetailService.getActivityDetail(activity.id).then((value) {
       setState(() {
-        detail = value;
+        details = value;
       });
-    });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      titleBarSize = _fabKey.currentContext?.size;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final details = this.detail;
+    final details = this.details;
     return Scaffold(
-      appBar: AppBar(
-        title: i18n.details.text(),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.open_in_browser),
-            onPressed: () {
-              launchUrlInBrowser(_getActivityUrl(activityId));
-            },
-          )
+      body: CustomScrollView(
+        controller: scrollController,
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            title: i18n.details.text(),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.open_in_browser),
+                onPressed: () {
+                  launchUrlInBrowser(_getActivityUrl(activity.id));
+                },
+              )
+            ],
+          ),
+          SliverToBoxAdapter(child: ActivityDetailsCard(activity: activity, details: details).hero(activity.id)),
+          if (details != null)
+            if (details.description == null)
+              SliverToBoxAdapter(child: i18n.detailEmptyTip.text(style: context.textTheme.titleLarge))
+            else
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                sliver: StyledHtmlWidget(details.description ?? "", renderMode: RenderMode.sliverList),
+              ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-          ActivityDetailsCard(activity:activity, details:details),
-          if (details != null) _buildArticle(context, details.description) else const CircularProgressIndicator(),
-          const SizedBox(height: 64),
-        ]),
-      ),
       floatingActionButton: widget.enableApply
-          ? FloatingActionButton.extended(
+          ? AutoHideFAB.extended(
+              controller: scrollController,
               icon: const Icon(Icons.person_add),
               label: i18n.apply.btn.text(),
               onPressed: () async {
@@ -82,21 +84,6 @@ class _Class2ndActivityDetailPageState extends State<Class2ndActivityDetailPage>
               },
             )
           : null,
-    );
-  }
-
-  Widget _buildArticle(BuildContext context, String? html) {
-    if (html == null) {
-      return i18n.detailEmptyTip.text(style: context.textTheme.titleLarge).center();
-    }
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: SelectionArea(
-        child: StyledHtmlWidget(
-          html,
-          textStyle: Theme.of(context).textTheme.bodyLarge,
-        ),
-      ),
     );
   }
 
@@ -109,7 +96,7 @@ class _Class2ndActivityDetailPageState extends State<Class2ndActivityDetailPage>
         highlight: true);
     if (confirm == true) {
       try {
-        final response = await Class2ndInit.attendActivityService.join(activityId);
+        final response = await Class2ndInit.attendActivityService.join(activity.id);
         if (!mounted) return;
         await context.showTip(title: i18n.apply.replyTip, desc: response, ok: i18n.ok);
       } catch (e) {
@@ -127,7 +114,7 @@ class _Class2ndActivityDetailPageState extends State<Class2ndActivityDetailPage>
 
   Future<void> _sendRequest(BuildContext context, bool force) async {
     try {
-      final response = await Class2ndInit.attendActivityService.join(activityId, force);
+      final response = await Class2ndInit.attendActivityService.join(activity.id, force);
       if (!mounted) return;
       context.showSnackBar(Text(response));
     } catch (e) {

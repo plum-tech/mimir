@@ -13,7 +13,7 @@ import '../entity/announce.dart';
 import '../entity/page.dart';
 import '../init.dart';
 import '../i18n.dart';
-import 'detail.dart';
+import 'details.dart';
 
 class OaAnnouncePage extends StatefulWidget {
   const OaAnnouncePage({super.key});

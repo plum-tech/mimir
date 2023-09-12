@@ -7,7 +7,7 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/list.dart';
 import '../entity/score.dart';
 import "../i18n.dart";
-import '../page/detail.dart';
+import '../page/details.dart';
 
 class AttendedActivityTile extends StatelessWidget {
   final ScJoinedActivity rawActivity;

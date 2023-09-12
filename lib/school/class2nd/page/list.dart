@@ -136,11 +136,7 @@ class _ActivityListState extends State<ActivityList> {
 
   @override
   Widget build(BuildContext context) {
-    if (loading) {
-      return const CircularProgressIndicator();
-    } else {
-      return buildActivityResult(_activityList);
-    }
+    return buildActivityResult(_activityList);
   }
 
   void loadInitialActivities() async {
@@ -185,7 +181,10 @@ class _ActivityListState extends State<ActivityList> {
     return ListView.builder(
       controller: _scrollController,
       itemCount: activities.length,
-      itemBuilder: (ctx, index) => ActivityCard(activities[index]),
+      itemBuilder: (ctx, index) {
+        final activity = activities[index];
+        return ActivityCard(activity).hero(activity.id);
+      },
     );
   }
 

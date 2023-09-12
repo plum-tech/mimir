@@ -32,6 +32,6 @@ class ActivityCard extends StatelessWidget {
           context.push("/class2nd/activity-detail?enable-apply=true", extra: activity);
         },
       ),
-    ).hero(activity.id);
+    );
   }
 }
