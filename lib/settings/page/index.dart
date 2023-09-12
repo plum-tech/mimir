@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ import 'package:mimir/global/init.dart';
 import 'package:mimir/hive/init.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/hive/settings.dart';
+import 'package:mimir/version.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:unicons/unicons.dart';
 
@@ -167,12 +170,12 @@ class _VersionTileState extends State<VersionTile> {
     final version = Init.currentVersion;
     return ListTile(
       leading: switch (version.platform) {
-        "macOS" => const Icon(UniconsLine.apple),
-        "iOS" => const Icon(UniconsLine.apple),
-        "Android" => const Icon(Icons.android),
-        "Linux" => const Icon(UniconsLine.linux),
-        "Windows" => const Icon(UniconsLine.windows),
-        _ => const Icon(Icons.device_unknown_outlined),
+        AppPlatform.iOS || AppPlatform.macOS => const Icon(UniconsLine.apple),
+        AppPlatform.android => const Icon(Icons.android),
+        AppPlatform.linux => const Icon(UniconsLine.linux),
+        AppPlatform.windows => const Icon(UniconsLine.windows),
+        AppPlatform.web => const Icon(UniconsLine.browser),
+        AppPlatform.unknown => const Icon(Icons.device_unknown_outlined),
       },
       title: i18n.version.text(),
       onTap: Settings.isDeveloperMode && clickCount <= 10

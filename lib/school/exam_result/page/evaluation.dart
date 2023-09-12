@@ -7,11 +7,11 @@ import 'package:mimir/utils/cookies.dart';
 import '../init.dart';
 import '../i18n.dart';
 
-class EvaluationPage extends StatefulWidget {
-  const EvaluationPage({super.key});
+class TeacherEvaluationPage extends StatefulWidget {
+  const TeacherEvaluationPage({super.key});
 
   @override
-  State<EvaluationPage> createState() => _EvaluationPageState();
+  State<TeacherEvaluationPage> createState() => _TeacherEvaluationPageState();
 }
 
 final evaluationUri = Uri(
@@ -26,7 +26,7 @@ final evaluationUri = Uri(
   },
 );
 
-class _EvaluationPageState extends State<EvaluationPage> {
+class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
   final $autoScore = ValueNotifier(100);
   final controller = WebViewController();
   List<WebViewCookie>? cookies;

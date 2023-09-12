@@ -248,7 +248,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: "/teacher-eval",
-      builder: (ctx, state) => const EvaluationPage(),
+      builder: (ctx, state) => const TeacherEvaluationPage(),
       redirect: _loginRequired,
     ),
     GoRoute(
