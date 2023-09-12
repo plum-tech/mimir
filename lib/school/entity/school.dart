@@ -114,7 +114,7 @@ class CourseCategory {
     'control': ['控制', '半导体', '泵', '电源', '系统', '故障诊断', '接触网', '维修', '液压', '气压', '汽轮机'],
     'experiment': ['特效', '会展', '实验', '活性剂', '光学'],
     'electricity': ['化工', '给水', '燃烧', '管网', '热工', '玻璃', '固废', '发电厂'],
-    'music': ['音频', ', ' '音乐', ', ' '产品设计'],
+    'music': ['音频', '音乐', '产品设计'],
     'social': ['园林'],
     'geography': ['生态', '一带一路', '大气污染', '地理'],
     'economic': ['估价', '贸易', '会计', '经济', '货币'],
@@ -245,7 +245,7 @@ class ClassTime {
   const ClassTime(this.begin, this.end);
 }
 
-const fengxianCampusTimetable = [
+const fengxianCampusCommonTimetable = [
   // 上午
   ClassTime(Timepoint(8, 20), Timepoint(9, 05)),
   ClassTime(Timepoint(9, 10), Timepoint(9, 55)),
@@ -262,7 +262,7 @@ const fengxianCampusTimetable = [
   ClassTime(Timepoint(19, 40), Timepoint(20, 25)),
 ];
 
-const building1Timetable = [
+const teacherBuilding1Timetable = [
   // 上午
   ClassTime(Timepoint(8, 20), Timepoint(9, 05)),
   ClassTime(Timepoint(9, 10), Timepoint(9, 55)),
@@ -279,7 +279,7 @@ const building1Timetable = [
   ClassTime(Timepoint(19, 40), Timepoint(20, 25)),
 ];
 
-const building2Timetable = [
+const teacherBuilding2Timetable = [
   // 上午 （3-4不下课）
   ClassTime(Timepoint(8, 20), Timepoint(9, 05)),
   ClassTime(Timepoint(9, 10), Timepoint(9, 55)),
@@ -296,7 +296,7 @@ const building2Timetable = [
   ClassTime(Timepoint(19, 40), Timepoint(20, 25)),
 ];
 
-const xuhuiTimetable = [
+const xuhuiCampusCommonTimetable = [
   // 上午
   ClassTime(Timepoint(8, 00), Timepoint(8, 45)),
   ClassTime(Timepoint(8, 50), Timepoint(9, 35)),
@@ -334,16 +334,16 @@ int getIndexEnd(int start, int index) {
   return i;
 }
 
-List<ClassTime> getBuildingTimetable(String campus, String place) {
+List<ClassTime> getTeacherBuildingTimetable(String campus, String place) {
   if (campus.contains('徐汇')) {
-    return xuhuiTimetable;
+    return xuhuiCampusCommonTimetable;
   }
   if (place.startsWith('一教')) {
-    return building1Timetable;
+    return teacherBuilding1Timetable;
   } else if (place.startsWith('二教')) {
-    return building2Timetable;
+    return teacherBuilding2Timetable;
   }
-  return fengxianCampusTimetable;
+  return fengxianCampusCommonTimetable;
 }
 
 /// 将 "第几周、周几" 转换为日期. 如, 开学日期为 2021-9-1, 那么将第一周周一转换为 2021-9-1
@@ -351,32 +351,9 @@ DateTime parseWeekDayNumberToDate({required DateTime basedOn, required int week,
   return basedOn.add(Duration(days: (week - 1) * 7 + day - 1));
 }
 
-/// 将 timeIndex 转换为对应的字符串
-///
-/// ss: 开始时间
-/// ee: 结束时间
-/// SS: 开始的节次
-/// EE: 结束的节次
-String parseTimeIndex(List<ClassTime> timetable, int timeIndex, String format) {
-  final indexStart = getIndexStart(timeIndex);
-  final indexEnd = getIndexEnd(indexStart, timeIndex);
-  final timeStart = timetable[indexStart - 1].begin;
-  final timeEnd = timetable[indexEnd - 1].end;
-
-  return format
-      .replaceAll('ss', timeStart.toString())
-      .replaceAll('ee', timeEnd.toString())
-      .replaceAll('SS', indexStart.toString())
-      .replaceAll('EE', indexEnd.toString());
-}
-
 /// 删去 place 括号里的描述信息. 如, 二教F301（机电18中外合作专用）
 String beautifyPlace(String place) {
-  int indexOfBucket = place.indexOf('（');
-  if (indexOfBucket != -1) {
-    return place.substring(0, indexOfBucket);
-  }
-  indexOfBucket = place.indexOf('(');
+  int indexOfBucket = place.indexOf('(');
   return indexOfBucket != -1 ? place.substring(0, indexOfBucket) : place;
 }
 

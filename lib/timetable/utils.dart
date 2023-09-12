@@ -22,7 +22,7 @@ import 'package:path/path.dart' show join;
 const maxWeekLength = 20;
 
 void _addEventForCourse(ICalendar cal, Course course, DateTime startDate, Duration? alarmBefore) {
-  final timetable = getBuildingTimetable(course.campus, course.place);
+  final timetable = getTeacherBuildingTimetable(course.campus, course.place);
   final indexStart = getIndexStart(course.timeIndex);
   final indexEnd = getIndexEnd(indexStart, course.timeIndex);
   final timeStart = timetable[indexStart - 1].begin;
@@ -177,7 +177,7 @@ SitTimetable parseTimetableEntity(List<CourseRaw> all) {
       raw.courseCode.trim(),
       raw.classCode.trim(),
       raw.campus,
-      raw.place,
+      mapChinesePunctuations(raw.place),
       CourseCategory.query(raw.courseName),
       weekIndices,
       raw.timeslotsText,

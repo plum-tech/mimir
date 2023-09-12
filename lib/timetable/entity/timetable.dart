@@ -344,7 +344,7 @@ extension SitCourseEx on SitCourse {
     }
   }
 
-  List<ClassTime> get buildingTimetable => getBuildingTimetable(campus, place);
+  List<ClassTime> get buildingTimetable => getTeacherBuildingTimetable(campus, place);
 
   TimeDuration duration({required SitTimetableLesson basedOn}) {
     final timetable = buildingTimetable;
