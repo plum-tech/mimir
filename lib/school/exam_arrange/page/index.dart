@@ -109,7 +109,6 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
         },
         initialYear: selectedYear,
         initialSemester: selectedSemester,
-        showEntireYear: false,
       ),
     );
   }

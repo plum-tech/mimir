@@ -89,7 +89,20 @@ class _ExamResultPageState extends State<ExamResultPage> {
               ),
       ),
       body: [
-        _buildHeader(),
+        SemesterSelector(
+          showEntireYear: true,
+          initialYear: selectedYear,
+          initialSemester: selectedSemester,
+          baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
+          onNewYearSelect: (year) {
+            setState(() => selectedYear = year);
+            onRefresh();
+          },
+          onNewSemesterSelect: (semester) {
+            setState(() => selectedSemester = semester);
+            onRefresh();
+          },
+        ),
         (allResults == null ? const SizedBox() : _buildExamResultList(allResults)).expanded(),
       ].column(),
     );
@@ -114,27 +127,6 @@ class _ExamResultPageState extends State<ExamResultPage> {
     } else {
       return i18n.title.text();
     }
-  }
-
-  Widget _buildHeader() {
-    return [
-      Container(
-        margin: const EdgeInsets.only(left: 15),
-        child: SemesterSelector(
-          baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
-          onNewYearSelect: (year) {
-            setState(() => selectedYear = year);
-            onRefresh();
-          },
-          onNewSemesterSelect: (semester) {
-            setState(() => selectedSemester = semester);
-            onRefresh();
-          },
-          initialYear: selectedYear,
-          initialSemester: selectedSemester,
-        ),
-      ),
-    ].column();
   }
 
   Widget _buildExamResultList(List<ExamResult> all) {
