@@ -88,7 +88,7 @@ class ExamResultItemAdapter extends TypeAdapter<ExamResultItem> {
       ..writeByte(1)
       ..write(obj.percentage)
       ..writeByte(3)
-      ..write(obj.value);
+      ..write(obj.score);
   }
 
   @override

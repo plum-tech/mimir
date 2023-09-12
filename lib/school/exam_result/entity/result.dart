@@ -113,11 +113,11 @@ class ExamResultItem {
 
   /// 成绩数值
   @HiveField(3)
-  final double value;
+  final double score;
 
   const ExamResultItem(
     this.scoreType,
     this.percentage,
-    this.value,
+    this.score,
   );
 }

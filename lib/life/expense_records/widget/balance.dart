@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/utils/format.dart';
 import 'package:rettulf/rettulf.dart';
 import "../i18n.dart";
 
@@ -29,7 +30,7 @@ class BalanceCard extends StatelessWidget {
         maxLines: 1,
       ),
       AutoSizeText(
-        removeTrailingZeros ? _removeTrailingZeros(balance) : balance.toStringAsFixed(2),
+        removeTrailingZeros ? formatWithoutTrailingZeros(balance) : balance.toStringAsFixed(2),
         style: textTheme.displayMedium?.copyWith(color: balanceColor),
         maxLines: 1,
       ),
@@ -46,17 +47,4 @@ class BalanceCard extends StatelessWidget {
         .padAll(10)
         .inCard();
   }
-}
-
-String _removeTrailingZeros(double amount) {
-  if (amount == 0) return "0";
-  final number = amount.toStringAsFixed(2);
-  if (number.contains('.')) {
-    int index = number.length - 1;
-    while (index >= 0 && (number[index] == '0' || number[index] == '.')) {
-      index--;
-    }
-    return number.substring(0, index + 1);
-  }
-  return number;
 }

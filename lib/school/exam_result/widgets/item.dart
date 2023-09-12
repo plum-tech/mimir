@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/design/animation/animated.dart';
 import 'package:mimir/design/colors.dart';
+import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/multi_select.dart';
+import 'package:mimir/utils/format.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/school/entity/school.dart';
 
@@ -41,9 +43,10 @@ class _ExamResultTileState extends State<ExamResultTile> {
     }
 
     final courseType = result.courseId[0] != 'G' ? i18n.compulsory : i18n.elective;
-
+    final resultItems =
+        result.items.where((e) => !e.score.isNaN && !(e.scoreType == "总评" && e.score == result.score)).toList();
+    final itemStyle = textTheme.labelSmall?.copyWith(color: selected ? context.colorScheme.primary : null);
     return ListTile(
-      isThreeLine: true,
       selected: selected,
       leading: buildLeading().animatedSwitched(
         duration: const Duration(milliseconds: 300),
@@ -53,7 +56,20 @@ class _ExamResultTileState extends State<ExamResultTile> {
       subtitleTextStyle: textTheme.bodyMedium,
       subtitle: [
         '$courseType | ${i18n.credit}: ${result.credit}'.text(),
-        ...(result.items.map((e) => Text('${e.scoreType} (${e.percentage}): ${e.value}')).toList()),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.fastLinearToSlowEaseIn.flipped,
+          child: resultItems.isNotEmpty && !widget.isSelectingMode
+              ? resultItems
+                  .map((e) => Chip(
+                        labelStyle: itemStyle,
+                        label: buildItemText(e).text(),
+                        labelPadding: EdgeInsets.zero,
+                      ))
+                  .toList()
+                  .wrap(spacing: 4)
+              : const SizedBox(),
+        )
       ].column(caa: CrossAxisAlignment.start),
       trailing: result.hasScore
           ? result.score.toString().text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize))
@@ -63,6 +79,14 @@ class _ExamResultTileState extends State<ExamResultTile> {
           : () {
               controller.select(widget.index);
             },
-    );
+    ).inOutlinedCard();
+  }
+
+  String buildItemText(ExamResultItem item) {
+    final score = formatWithoutTrailingZeros(item.score);
+    if (item.percentage.isEmpty || item.percentage == "0%") {
+      return '${item.scoreType}: $score';
+    }
+    return '${item.scoreType}${item.percentage}: $score';
   }
 }
