@@ -43,7 +43,8 @@ class ExpenseFetchService {
       options: SessionOptions(contentType: 'text/plain'),
     );
     final raw = parseDataPack(res.data);
-    return raw.transactions.map(parseFull).toList();
+    final list = raw.transactions.map(parseFull).toList();
+    return processTransactions(list);
   }
 
   DataPackRaw parseDataPack(dynamic data) {
@@ -60,5 +61,18 @@ class ExpenseFetchService {
     final key = utf8.encode(magicNumber);
     final hmac = Hmac(sha1, key);
     return hmac.convert(msg).toString();
+  }
+
+  List<Transaction> processTransactions(List<Transaction> list) {
+    final res = <Transaction>[];
+    for (final t in list) {
+      // filter the receipt on self-service machine of topping up from alibay.
+      // it's recognized as subsidy.
+      if (t.type == TransactionType.subsidy && t.deviceName.contains("支付宝领取终端")) {
+        continue;
+      }
+      res.add(t);
+    }
+    return res;
   }
 }

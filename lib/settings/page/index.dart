@@ -12,7 +12,7 @@ import 'package:mimir/entity/campus.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/hive/init.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/hive/settings.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:mimir/version.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:unicons/unicons.dart';

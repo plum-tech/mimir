@@ -3,7 +3,7 @@ import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/life/electricity/index.dart';
 import 'package:mimir/life/expense_records/index.dart';
-import 'package:mimir/hive/settings.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'i18n.dart';

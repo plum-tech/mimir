@@ -45,27 +45,28 @@ class ExpenseStorage {
 
 extension ExpenseStorageX on ExpenseStorage {
   /// 通过一个时间范围[start, end]来获得交易记录
-  List<DateTime> getTransactionTsByRange({
+  List<DateTime>? getTransactionTsByRange({
     DateTime? start,
     DateTime? end,
   }) {
     final list = transactionTsList;
-    if (list == null) return [];
+    if (list == null) return null;
     return list
         .where((e) => start == null || e == start || e.isAfter(start))
         .where((e) => end == null || e == end || e.isBefore(end))
         .toList();
   }
 
-  List<Transaction> getTransactionsByRange({
+  List<Transaction>? getTransactionsByRange({
     DateTime? start,
     DateTime? end,
   }) {
-    final timestamps = getTransactionTsByRange(start: start,end: end);
+    final timestamps = getTransactionTsByRange(start: start, end: end);
+    if (timestamps == null) return null;
     final transactions = <Transaction>[];
-    for(final ts in timestamps){
+    for (final ts in timestamps) {
       final transaction = getTransactionByTs(ts);
-      if(transaction != null) transactions.add(transaction);
+      if (transaction != null) transactions.add(transaction);
     }
     return transactions;
   }

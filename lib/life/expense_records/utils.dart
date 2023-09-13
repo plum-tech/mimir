@@ -13,7 +13,7 @@ Future<void> fetchAndSaveTransactionUntilNow({
   );
   ExpenseRecordsInit.storage.lastFetchedTs = end;
   final newTsList = {...transactions.map((e) => e.timestamp), ...storage.transactionTsList ?? const []}.toList();
-  // future goes first.
+  // the latest goes first
   newTsList.sort((a, b) => a.compareTo(b));
   storage.transactionTsList = newTsList;
   for (final transaction in transactions) {

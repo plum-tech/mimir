@@ -13,7 +13,6 @@ class ExpenseStatisticsPage extends StatefulWidget {
 }
 
 class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
-  // TODO:
   late List<Transaction> records = [];
   final now = DateTime.now();
 

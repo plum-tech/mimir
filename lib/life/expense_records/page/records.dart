@@ -3,6 +3,7 @@ import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/life/expense_records/storage/local.dart';
 import 'package:rettulf/rettulf.dart';
 
+import '../entity/local.dart';
 import '../init.dart';
 import '../i18n.dart';
 import '../utils.dart';
@@ -17,12 +18,14 @@ class ExpenseRecordsPage extends StatefulWidget {
 
 class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
   final $lastTransaction = ExpenseRecordsInit.storage.$lastTransaction;
-  var isFetching = false;
+  bool isFetching = false;
+  List<Transaction>? records;
 
   @override
   void initState() {
     super.initState();
     $lastTransaction.addListener(onLatestChanged);
+    records = ExpenseRecordsInit.storage.getTransactionsByRange();
   }
 
   @override
@@ -38,16 +41,21 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
   Future<void> refresh() async {
     final oaCredential = context.auth.credentials;
     if (oaCredential == null) return;
-    setState(() => isFetching = true);
+    setState(() {
+      isFetching = true;
+    });
     await fetchAndSaveTransactionUntilNow(
       studentId: oaCredential.account,
     );
-    setState(() => isFetching = false);
+    setState(() {
+      records = ExpenseRecordsInit.storage.getTransactionsByRange();
+      isFetching = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final records = ExpenseRecordsInit.storage.getTransactionsByRange();
+    final records = this.records;
     final lastTransaction = ExpenseRecordsInit.storage.latestTransaction;
     return Scaffold(
       appBar: AppBar(
@@ -69,7 +77,7 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
               )
             : null,
       ),
-      body: TransactionList(records: records),
+      body: records == null ? const SizedBox() : TransactionList(records: records),
     );
   }
 }

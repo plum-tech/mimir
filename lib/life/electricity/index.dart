@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:mimir/life/electricity/storage/electricity.dart';
 import 'package:mimir/r.dart';
 import 'package:rettulf/rettulf.dart';
@@ -26,7 +27,9 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
   initState() {
     super.initState();
     onRoomBalanceChanged.addListener(updateRoomAndBalance);
-    refresh(active: false);
+    if (Settings.life.electricity.autoRefresh) {
+      refresh(active: false);
+    }
   }
 
   @override

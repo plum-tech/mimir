@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:mimir/life/expense_records/entity/local.dart';
 import 'package:mimir/life/expense_records/init.dart';
 import 'utils.dart';
@@ -32,7 +33,9 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    refresh(active: false);
+    if (Settings.life.expense.autoRefresh) {
+      refresh(active: false);
+    }
   }
 
   @override

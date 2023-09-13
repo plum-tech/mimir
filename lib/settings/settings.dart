@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mimir/entity/campus.dart';
 
+import '../life/settings.dart';
 import '../r.dart';
 
 class _K {
@@ -35,7 +36,9 @@ late SettingsImpl Settings;
 class SettingsImpl {
   final Box<dynamic> box;
 
-  const SettingsImpl(this.box);
+  SettingsImpl(this.box);
+
+  late final life = LifeSettings(box);
 
   // settings
   Campus get campus => box.get(_K.campus) ?? Campus.fengxian;

@@ -60,7 +60,8 @@ class _TransactionListState extends State<TransactionList> {
     final groupByYearMonth = widget.records
         .groupListsBy((r) => (year: r.timestamp.year, month: r.timestamp.month))
         .entries
-        .map((e) => (time: e.key, records: e.value))
+        // the latest goes first
+        .map((e) => (time: e.key, records: e.value.sorted((a, b) => -a.timestamp.compareTo(b.timestamp))))
         .toList();
     groupByYearMonth.sort((a, b) => a.time.compareTo(b.time, ascending: false));
     setState(() {
