@@ -8,7 +8,7 @@ import 'storage/local.dart';
 class ExpenseRecordsInit {
   static late ExpenseFetchService service;
   static late ExpenseStorage storage;
-  static late CachedExpenseGetDao cache;
+  static late CachedExpenseGetCache cache;
 
   static void init({
     required ISession session,
@@ -16,6 +16,6 @@ class ExpenseRecordsInit {
   }) {
     service = ExpenseFetchService(session);
     storage = ExpenseStorage(box);
-    cache = CachedExpenseGetDao(service: service, storage: storage);
+    cache = CachedExpenseGetCache(service: service, storage: storage);
   }
 }

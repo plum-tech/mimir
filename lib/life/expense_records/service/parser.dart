@@ -29,10 +29,6 @@ TransactionType parseType(Transaction trans) {
   return TransactionType.other;
 }
 
-String _mapChineseChar(String title) {
-  return title.replaceAll("（", "(").replaceAll("）", ")");
-}
-
 Transaction parseFull(TransactionRaw raw) {
   final transaction = Transaction(
     datetime: parseDatetime(raw),

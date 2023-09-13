@@ -46,8 +46,6 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
     }
     await fetchTransaction(
       studentId: oaCredential.account,
-      start: DateTime(2010),
-      end: DateTime.now(),
       onLocalQuery: refreshRecords,
     );
   }

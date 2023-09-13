@@ -2,11 +2,11 @@ import '../entity/local.dart';
 import '../service/fetch.dart';
 import '../storage/local.dart';
 
-class CachedExpenseGetDao {
+class CachedExpenseGetCache {
   final ExpenseFetchService service;
   final ExpenseStorage storage;
 
-  CachedExpenseGetDao({
+  CachedExpenseGetCache({
     required this.service,
     required this.storage,
   });

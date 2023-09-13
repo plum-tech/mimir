@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:mimir/hive/type_id.dart';
 
 import '../entity/local.dart';
 
@@ -13,6 +11,7 @@ class _K {
     return '/transactions/$id';
   }
 
+  static const lastFetchedTs = "/lastFetchedTs";
   static const timestampRangeStart = '/timestampRange/start';
   static const timestampRangeEnd = '/timestampRange/end';
   static const lastTransaction = "/lastTransaction";
@@ -81,6 +80,11 @@ class ExpenseStorage {
   DateTime? get cachedTsEnd => box.get(_K.timestampRangeEnd);
 
   set cachedTsEnd(DateTime? v) => box.put(_K.timestampRangeEnd, v);
+
+  /// 获取已缓存的交易结束时间
+  DateTime? get lastFetchedTs => box.get(_K.lastFetchedTs);
+
+  set lastFetchedTs(DateTime? v) => box.put(_K.lastFetchedTs, v);
 
   Transaction? get lastTransaction => box.get(_K.lastTransaction);
 

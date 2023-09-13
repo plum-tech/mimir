@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/hive/type_id.dart';
@@ -63,6 +65,20 @@ class Transaction {
       deviceName: deviceName ?? this.deviceName,
       note: note ?? this.note,
     );
+  }
+
+  @override
+  String toString() {
+    return jsonEncode({
+      "datetime": datetime.toString(),
+      "consumerId": consumerId,
+      "type": type.toString(),
+      "balanceBefore": balanceBefore,
+      "balanceAfter": balanceAfter,
+      "deltaAmount": deltaAmount,
+      "deviceName": deviceName,
+      "note": note,
+    });
   }
 }
 
