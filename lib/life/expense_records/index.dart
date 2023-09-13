@@ -55,13 +55,13 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
     } catch (error) {
       if (active) {
         if (!mounted) return;
-        context.showSnackBar(i18n.updateFailedTip.text());
+        context.showSnackBar(i18n.refreshFailedTip.text());
       }
       return;
     }
     if (active) {
       if (!mounted) return;
-      context.showSnackBar(i18n.updateSuccessTip.text());
+      context.showSnackBar(i18n.refreshSuccessTip.text());
     }
   }
 

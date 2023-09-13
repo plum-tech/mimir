@@ -17,7 +17,7 @@ class _I18n with CommonI18nMixin {
 
   String get searchInvalidTip => "$ns.searchInvalidTip".tr();
 
-  String get updateSuccessTip => "$ns.updateSuccessTip".tr();
+  String get refreshSuccessTip => "$ns.refreshSuccessTip".tr();
 
-  String get updateFailedTip => "$ns.updateFailedTip".tr();
+  String get refreshFailedTip => "$ns.refreshFailedTip".tr();
 }

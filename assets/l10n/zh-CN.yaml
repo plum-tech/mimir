@@ -123,12 +123,12 @@ easyconnect:
   launchFailed: 启动失败
   launchFailedDesc: 无法启动 EasyConnect，请确定你是否安装，或者立即下载？
 electricity:
-  title: 查电费
+  title: 电费余额
   balance: 可用余额
   remainingPower: 剩余电量
   searchInvalidTip: 请输入或选择一个存在的房间号
-  updateSuccessTip: 电费余额更新成功
-  updateFailedTip: 电费余额更新失败
+  refreshSuccessTip: 电费余额刷新成功
+  refreshFailedTip: 电费余额刷新失败
 eduEmail:
   title: 我的邮箱
   noContent: 无内容
@@ -140,7 +140,7 @@ eduEmail:
   failedWarn: 登录失败
   forgotPwdBtn: 忘记密码？
 examResult:
-  title: 查成绩
+  title: 考试成绩
   noResult: 暂无考试结果记录
   lessonNotEvaluated: 未评教
   teacherEvalTitle: 评教
@@ -161,13 +161,15 @@ examArrange:
   seatNumber: 座位号
   startTime: 开始时间
 expenseRecords:
-  title: 查消费
+  title: 消费记录
   check: 查询
   statistics: 统计
   balanceInCard: "卡内余额 {} 元"
   lastTransaction: "¥{amount} {place}"
   income: "收入: {} 元"
   outcome: "支出: {} 元"
+  refreshSuccessTip: 消费记录刷新成功
+  refreshFailedTip: 消费记录刷新失败
   view:
     balance: 卡内余额
     rmb: 元
