@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/life/expense_records/init.dart';
 import 'package:mimir/widgets/base_line_chart.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -43,7 +42,7 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
     List<int> years = [];
 
     final currentYear = now.year;
-    final int startYear = expenseBillDesc.isNotEmpty ? expenseBillDesc.last.datetime.year : currentYear;
+    final int startYear = expenseBillDesc.isNotEmpty ? expenseBillDesc.last.timestamp.year : currentYear;
     for (int year = startYear; year <= currentYear; year++) {
       years.add(year);
     }
@@ -57,7 +56,7 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
         result.add(month);
       }
     } else if (years.first == year) {
-      for (int month = expenseBill.last.datetime.month; month <= 12; month++) {
+      for (int month = expenseBill.last.timestamp.month; month <= 12; month++) {
         result.add(month);
       }
     } else {
@@ -105,7 +104,7 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
   // TODO: 这个函数应该放在 DAO 或 service
   List<Transaction> _filterExpense() {
     return records
-        .where((element) => element.datetime.year == selectedYear && element.datetime.month == selectedMonth)
+        .where((element) => element.timestamp.year == selectedYear && element.timestamp.month == selectedMonth)
         .toList();
   }
 
@@ -119,8 +118,8 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
     // 得到该年该月有多少天, 生成数组记录每一天的消费.
     final List<double> daysAmount = List.filled(_getDayCountOfMonth(selectedYear, selectedMonth), 0.00);
     // 便利该月消费情况, 加到上述统计列表中.
-    _filterExpense().forEach(
-        (e) => daysAmount[e.datetime.day - 1] += ((delta) => delta < 0 ? -delta : 0)(e.balanceAfter - e.balanceBefore));
+    _filterExpense().forEach((e) =>
+        daysAmount[e.timestamp.day - 1] += ((delta) => delta < 0 ? -delta : 0)(e.balanceAfter - e.balanceBefore));
 
     final width = MediaQuery.of(context).size.width - 70;
     return Card(

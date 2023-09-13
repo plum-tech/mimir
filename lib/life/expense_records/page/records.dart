@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
+import 'package:mimir/life/expense_records/storage/local.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/local.dart';
 import '../init.dart';
 import '../i18n.dart';
 import '../utils.dart';
@@ -16,83 +16,60 @@ class ExpenseRecordsPage extends StatefulWidget {
 }
 
 class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
-  final cache = ExpenseRecordsInit.cache;
-
-  final ValueNotifier<double?> $balance = ValueNotifier(null);
-
-  List<Transaction>? records;
+  final $lastTransaction = ExpenseRecordsInit.storage.$lastTransaction;
+  var isFetching = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await refresh();
-    });
+    $lastTransaction.addListener(onLatestChanged);
   }
 
-  Future<void> refresh({
-    bool clear = false,
-  }) async {
+  @override
+  void dispose() {
+    $lastTransaction.removeListener(onLatestChanged);
+    super.dispose();
+  }
+
+  void onLatestChanged() {
+    setState(() {});
+  }
+
+  Future<void> refresh() async {
     final oaCredential = context.auth.credentials;
     if (oaCredential == null) return;
-    if (clear) {
-      ExpenseRecordsInit.storage
-        ..clear()
-        ..cachedTsEnd = null
-        ..cachedTsStart = null;
-      setState(() {
-        records = null;
-      });
-    }
-    await fetchTransaction(
+    setState(() => isFetching = true);
+    await fetchAndSaveTransactionUntilNow(
       studentId: oaCredential.account,
-      onLocalQuery: refreshRecords,
     );
-  }
-
-  void refreshRecords(List<Transaction> records) {
-    if (!mounted) return;
-    // 过滤支付宝的充值，否则将和圈存机叠加
-    records = records.where((e) => e.type != TransactionType.topUp).toList();
-    setState(() {
-      this.records = records;
-      if (records.isNotEmpty) {
-        final lastTransaction = records.last;
-        $balance.value = lastTransaction.balanceAfter;
-        ExpenseRecordsInit.storage.lastTransaction = lastTransaction;
-      }
-    });
+    setState(() => isFetching = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    final records = this.records;
+    final records = ExpenseRecordsInit.storage.getTransactionsByRange();
+    final lastTransaction = ExpenseRecordsInit.storage.latestTransaction;
     return Scaffold(
       appBar: AppBar(
-        title: $balance >>
-            (ctx, v) {
-              if (v == null) {
-                return i18n.title.text();
-              } else {
-                return i18n.balanceInCard(v.toStringAsFixed(2)).text();
-              }
-            },
+        title: lastTransaction == null
+            ? i18n.title.text()
+            : i18n.balanceInCard(lastTransaction.balanceAfter.toStringAsFixed(2)).text(),
         centerTitle: true,
         actions: [
           IconButton(
               onPressed: () async {
-                await refresh(clear: true);
+                await refresh();
               },
               icon: const Icon(Icons.refresh))
         ],
-        bottom: records != null && records.isNotEmpty
-            ? null
-            : const PreferredSize(
+        bottom: isFetching
+            ? const PreferredSize(
                 preferredSize: Size.fromHeight(4),
                 child: LinearProgressIndicator(),
-              ),
+              )
+            : null,
       ),
-      body: records == null ? null : TransactionList(records: records),
+      body: TransactionList(records: records),
     );
   }
 }

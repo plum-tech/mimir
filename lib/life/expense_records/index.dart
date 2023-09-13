@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/app.dart';
+import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/life/expense_records/entity/local.dart';
 import 'package:mimir/life/expense_records/init.dart';
+import 'utils.dart';
 import 'widget/balance.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -22,23 +25,49 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
 
   @override
   void initState() {
-    $lastTransaction.addListener(refresh);
+    $lastTransaction.addListener(onLatestChanged);
     super.initState();
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    refresh(active: false);
+  }
+
+  @override
   void dispose() {
-    $lastTransaction.removeListener(refresh);
+    $lastTransaction.removeListener(onLatestChanged);
     super.dispose();
   }
 
-  void refresh() {
+  void onLatestChanged() {
     setState(() {});
+  }
+
+  Future<void> refresh({required bool active}) async {
+    final oaCredential = context.auth.credentials;
+    if (oaCredential == null) return;
+    try {
+      await fetchAndSaveTransactionUntilNow(
+        studentId: oaCredential.account,
+      );
+    } catch (error) {
+      if (active) {
+        if (!mounted) return;
+        context.showSnackBar(i18n.updateFailedTip.text());
+      }
+      return;
+    }
+    if (active) {
+      if (!mounted) return;
+      context.showSnackBar(i18n.updateSuccessTip.text());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final lastTransaction = ExpenseRecordsInit.storage.lastTransaction;
+    final lastTransaction = ExpenseRecordsInit.storage.latestTransaction;
     return AppCard(
       view: lastTransaction == null ? const SizedBox() : TransactionCardPanel(lastTransaction),
       title: i18n.title.text(),
@@ -59,7 +88,9 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
       ],
       rightActions: [
         IconButton(
-          onPressed: () async {},
+          onPressed: () async {
+            await refresh(active: true);
+          },
           icon: const Icon(Icons.refresh),
         )
       ],

@@ -13,6 +13,10 @@ class _I18n with CommonI18nMixin {
 
   String get title => "$ns.title".tr();
 
+  String get updateSuccessTip => "$ns.updateSuccessTip".tr();
+
+  String get updateFailedTip => "$ns.updateFailedTip".tr();
+
   String get check => "$ns.check".tr();
 
   String get statistics => "$ns.statistics".tr();

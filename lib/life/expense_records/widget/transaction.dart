@@ -14,7 +14,7 @@ class TransactionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(transaction.bestTitle ?? i18n.unknown, style: context.textTheme.titleSmall),
-      subtitle: context.formatYmdhmsNum(transaction.datetime).text(),
+      subtitle: context.formatYmdhmsNum(transaction.timestamp).text(),
       leading: transaction.type.icon.make(color: transaction.type.color, size: 32),
       trailing: transaction.toReadableString().text(
             style: context.textTheme.titleLarge?.copyWith(color: transaction.billColor),
@@ -39,7 +39,7 @@ class TransactionCard extends StatelessWidget {
       [
         transaction.type.icon.make(color: transaction.type.color).padOnly(r: 8),
         AutoSizeText(
-          context.formatMdHmNum(transaction.datetime),
+          context.formatMdHmNum(transaction.timestamp),
           style: textTheme.titleMedium,
           maxLines: 1,
         ).expanded(),

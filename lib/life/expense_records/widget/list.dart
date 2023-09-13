@@ -58,7 +58,7 @@ class _TransactionListState extends State<TransactionList> {
 
   void updateGroupedRecords() {
     final groupByYearMonth = widget.records
-        .groupListsBy((r) => (year: r.datetime.year, month: r.datetime.month))
+        .groupListsBy((r) => (year: r.timestamp.year, month: r.timestamp.month))
         .entries
         .map((e) => (time: e.key, records: e.value))
         .toList();
@@ -75,7 +75,7 @@ class _TransactionListState extends State<TransactionList> {
         (index, e) {
           final (:income, :outcome) = accumulate(e.records);
           return GroupedSection(
-            title: context.formatYmText((e.time.toDateTime())).text(),
+            title: context.formatYmText((e.time.toDateTime())).text(style: context.textTheme.titleMedium),
             subtitle: "${i18n.income(income.toStringAsFixed(2))}\n${i18n.outcome(outcome.toStringAsFixed(2))}".text(
               maxLines: 2,
             ),

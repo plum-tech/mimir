@@ -13,7 +13,7 @@ part 'local.g.dart';
 class Transaction {
   /// The compound of [TransactionRaw.date] and [TransactionRaw.time].
   @HiveField(0)
-  final DateTime datetime;
+  final DateTime timestamp;
 
   /// [TransactionRaw.customerId]
   @HiveField(1)
@@ -35,7 +35,7 @@ class Transaction {
   final String note;
 
   const Transaction({
-    required this.datetime,
+    required this.timestamp,
     required this.consumerId,
     required this.type,
     required this.balanceBefore,
@@ -56,7 +56,7 @@ class Transaction {
     String? note,
   }) {
     return Transaction(
-      datetime: datetime ?? this.datetime,
+      timestamp: datetime ?? this.timestamp,
       consumerId: consumerId ?? this.consumerId,
       type: type ?? this.type,
       balanceBefore: balanceBefore ?? this.balanceBefore,
@@ -70,7 +70,7 @@ class Transaction {
   @override
   String toString() {
     return jsonEncode({
-      "datetime": datetime.toString(),
+      "datetime": timestamp.toString(),
       "consumerId": consumerId,
       "type": type.toString(),
       "balanceBefore": balanceBefore,

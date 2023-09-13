@@ -31,7 +31,7 @@ TransactionType parseType(Transaction trans) {
 
 Transaction parseFull(TransactionRaw raw) {
   final transaction = Transaction(
-    datetime: parseDatetime(raw),
+    timestamp: parseDatetime(raw),
     balanceBefore: raw.balanceBeforeTransaction,
     balanceAfter: raw.balanceAfterTransaction,
     deltaAmount: raw.amount.abs(),

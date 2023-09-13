@@ -17,7 +17,7 @@ class TransactionAdapter extends TypeAdapter<Transaction> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Transaction(
-      datetime: fields[0] as DateTime,
+      timestamp: fields[0] as DateTime,
       consumerId: fields[1] as int,
       type: fields[2] as TransactionType,
       balanceBefore: fields[3] as double,
@@ -33,7 +33,7 @@ class TransactionAdapter extends TypeAdapter<Transaction> {
     writer
       ..writeByte(8)
       ..writeByte(0)
-      ..write(obj.datetime)
+      ..write(obj.timestamp)
       ..writeByte(1)
       ..write(obj.consumerId)
       ..writeByte(2)

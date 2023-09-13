@@ -5,7 +5,6 @@ import 'package:mimir/design/widgets/app.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/life/electricity/storage/electricity.dart';
 import 'package:mimir/r.dart';
-import 'package:mimir/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'i18n.dart';
@@ -21,22 +20,18 @@ class ElectricityBalanceAppCard extends StatefulWidget {
 }
 
 class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
-  late Timer refreshTimer;
   final onRoomBalanceChanged = ElectricityBalanceInit.storage.onRoomBalanceChanged;
+
   @override
   initState() {
     super.initState();
     onRoomBalanceChanged.addListener(updateRoomAndBalance);
-    // The electricity balance is refreshed approximately every 15 minutes.
-    refreshTimer = runPeriodically(const Duration(minutes: 15), (timer) async {
-      await _refresh();
-    });
+    refresh(active: false);
   }
 
   @override
   dispose() {
     onRoomBalanceChanged.removeListener(updateRoomAndBalance);
-    refreshTimer.cancel();
     super.dispose();
   }
 
@@ -44,7 +39,8 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
     setState(() {});
   }
 
-  Future<void> _refresh({bool active = false}) async {
+  /// The electricity balance is refreshed approximately every 15 minutes.
+  Future<void> refresh({required bool active}) async {
     final selectedRoom = ElectricityBalanceInit.storage.selectedRoom;
     if (selectedRoom == null) return;
     try {
@@ -97,7 +93,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
             if (room == null) return;
             if (ElectricityBalanceInit.storage.selectedRoom != room) {
               ElectricityBalanceInit.storage.selectNewRoom(room);
-              await _refresh(active: true);
+              await refresh(active: true);
             }
           },
           label: i18n.search.text(),
@@ -117,7 +113,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
           onPressed: selectedRoom == null
               ? null
               : () async {
-                  await _refresh(active: true);
+                  await refresh(active: true);
                 },
           icon: const Icon(Icons.refresh),
         ),
