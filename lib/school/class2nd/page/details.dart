@@ -34,6 +34,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
   Class2ndActivity get activity => widget.activity;
   Class2ndActivityDetails? details;
   final scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -62,6 +63,12 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
                 },
               )
             ],
+            bottom: details == null
+                ? const PreferredSize(
+                    preferredSize: Size.fromHeight(4),
+                    child: LinearProgressIndicator(),
+                  )
+                : null,
           ),
           SliverToBoxAdapter(child: ActivityDetailsCard(activity: activity, details: details).hero(activity.id)),
           if (details != null)
