@@ -18,7 +18,7 @@ class Class2ndActivityAdapter extends TypeAdapter<Class2ndActivity> {
     };
     return Class2ndActivity(
       fields[0] as int,
-      fields[1] as Class2ndActivityType,
+      fields[1] as Class2ndActivityCat,
       fields[2] as String,
       fields[5] as DateTime,
       fields[3] as String,
@@ -53,59 +53,59 @@ class Class2ndActivityAdapter extends TypeAdapter<Class2ndActivity> {
       other is Class2ndActivityAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class Class2ndActivityTypeAdapter extends TypeAdapter<Class2ndActivityType> {
+class Class2ndActivityCatAdapter extends TypeAdapter<Class2ndActivityCat> {
   @override
   final int typeId = 52;
 
   @override
-  Class2ndActivityType read(BinaryReader reader) {
+  Class2ndActivityCat read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return Class2ndActivityType.lecture;
+        return Class2ndActivityCat.lecture;
       case 1:
-        return Class2ndActivityType.thematicEdu;
+        return Class2ndActivityCat.thematicEdu;
       case 2:
-        return Class2ndActivityType.creation;
+        return Class2ndActivityCat.creation;
       case 3:
-        return Class2ndActivityType.schoolCulture;
+        return Class2ndActivityCat.schoolCulture;
       case 4:
-        return Class2ndActivityType.practice;
+        return Class2ndActivityCat.practice;
       case 5:
-        return Class2ndActivityType.voluntary;
+        return Class2ndActivityCat.voluntary;
       case 6:
-        return Class2ndActivityType.cyberSafetyEdu;
+        return Class2ndActivityCat.cyberSafetyEdu;
       case 7:
-        return Class2ndActivityType.unknown;
+        return Class2ndActivityCat.unknown;
       default:
-        return Class2ndActivityType.lecture;
+        return Class2ndActivityCat.lecture;
     }
   }
 
   @override
-  void write(BinaryWriter writer, Class2ndActivityType obj) {
+  void write(BinaryWriter writer, Class2ndActivityCat obj) {
     switch (obj) {
-      case Class2ndActivityType.lecture:
+      case Class2ndActivityCat.lecture:
         writer.writeByte(0);
         break;
-      case Class2ndActivityType.thematicEdu:
+      case Class2ndActivityCat.thematicEdu:
         writer.writeByte(1);
         break;
-      case Class2ndActivityType.creation:
+      case Class2ndActivityCat.creation:
         writer.writeByte(2);
         break;
-      case Class2ndActivityType.schoolCulture:
+      case Class2ndActivityCat.schoolCulture:
         writer.writeByte(3);
         break;
-      case Class2ndActivityType.practice:
+      case Class2ndActivityCat.practice:
         writer.writeByte(4);
         break;
-      case Class2ndActivityType.voluntary:
+      case Class2ndActivityCat.voluntary:
         writer.writeByte(5);
         break;
-      case Class2ndActivityType.cyberSafetyEdu:
+      case Class2ndActivityCat.cyberSafetyEdu:
         writer.writeByte(6);
         break;
-      case Class2ndActivityType.unknown:
+      case Class2ndActivityCat.unknown:
         writer.writeByte(7);
         break;
     }
@@ -117,5 +117,5 @@ class Class2ndActivityTypeAdapter extends TypeAdapter<Class2ndActivityType> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Class2ndActivityTypeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is Class2ndActivityCatAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

@@ -19,8 +19,8 @@ class ActivityName {
   static const blackList = ["补录"];
 }
 
-@HiveType(typeId: HiveTypeClass2nd.activityType)
-enum Class2ndActivityType {
+@HiveType(typeId: HiveTypeClass2nd.activityCat)
+enum Class2ndActivityCat {
   @HiveField(0)
   lecture(ActivityName.lectureReport), // 讲座报告
   @HiveField(1)
@@ -40,7 +40,7 @@ enum Class2ndActivityType {
 
   final String name;
 
-  const Class2ndActivityType(this.name);
+  const Class2ndActivityCat(this.name);
 }
 
 enum ActivityScoreType {
@@ -69,15 +69,15 @@ const Map<String, ActivityScoreType> stringToActivityScoreType = {
 
 /// Don't Change this.
 /// Strings from school API
-const Map<String, Class2ndActivityType> stringToActivityType = {
-  '讲座报告': Class2ndActivityType.lecture,
-  '主题教育': Class2ndActivityType.thematicEdu,
-  '校园文化活动': Class2ndActivityType.schoolCulture,
-  '创新创业创意': Class2ndActivityType.creation, // 三创
-  '社会实践': Class2ndActivityType.practice,
-  '志愿公益': Class2ndActivityType.voluntary,
-  '安全教育网络教学': Class2ndActivityType.cyberSafetyEdu,
-  '校园文明': Class2ndActivityType.schoolCulture,
+const Map<String, Class2ndActivityCat> stringToActivityType = {
+  '讲座报告': Class2ndActivityCat.lecture,
+  '主题教育': Class2ndActivityCat.thematicEdu,
+  '校园文化活动': Class2ndActivityCat.schoolCulture,
+  '创新创业创意': Class2ndActivityCat.creation, // 三创
+  '社会实践': Class2ndActivityCat.practice,
+  '志愿公益': Class2ndActivityCat.voluntary,
+  '安全教育网络教学': Class2ndActivityCat.cyberSafetyEdu,
+  '校园文明': Class2ndActivityCat.schoolCulture,
 };
 
 @HiveType(typeId: HiveTypeClass2nd.activity)
@@ -88,7 +88,7 @@ class Class2ndActivity {
 
   /// Activity category
   @HiveField(1)
-  final Class2ndActivityType category;
+  final Class2ndActivityCat category;
 
   /// Title
   @HiveField(2)
@@ -125,7 +125,7 @@ extension ActivityParser on Class2ndActivity {
     final titleAndTags = splitTitleAndTags(activity.title);
     return Class2ndActivity.named(
         id: activity.activityId,
-        category: Class2ndActivityType.unknown,
+        category: Class2ndActivityCat.unknown,
         title: activity.title,
         ts: activity.time,
         realTitle: titleAndTags.title,

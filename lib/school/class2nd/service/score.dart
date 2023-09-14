@@ -99,7 +99,7 @@ class Class2ndScoreService {
     Class2ndScoreItem nodeToScoreItem(Bs4Element item) {
       final int id = int.parse(item.find(idDetail)!.innerHtml.trim());
       // 注意：“我的成绩” 页面中，成绩条目显示的是活动类型，而非加分类型, 因此使用 ActivityType.
-      final Class2ndActivityType category = stringToActivityType[item.find(categoryDetail)!.innerHtml.trim()]!;
+      final Class2ndActivityCat category = stringToActivityType[item.find(categoryDetail)!.innerHtml.trim()]!;
       final double amount = double.parse(item.find(scoreDetail)!.innerHtml.trim());
 
       return Class2ndScoreItem(id, category, amount);

@@ -32,7 +32,7 @@ dependencies:
   collection: ^1.17.2
   format: ^1.3.0              # String formatting
   go_router: ^10.1.2
-  rettulf: ^1.0.1
+  rettulf: ^2.0.1
   event_bus: ^2.0.0
 
   # Cryptography

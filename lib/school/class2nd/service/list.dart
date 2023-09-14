@@ -9,12 +9,12 @@ import "package:intl/intl.dart";
 
 class Class2ndActivityListService {
   static const _scActivityType = {
-    Class2ndActivityType.schoolCulture: '8ab17f543fe626a8013fe6278a880001',
-    Class2ndActivityType.creation: 'ff8080814e241104014eb867e1481dc3',
-    Class2ndActivityType.lecture: '001',
-    Class2ndActivityType.practice: '8ab17f543fe62d5d013fe62efd3a0002',
-    Class2ndActivityType.thematicEdu: 'ff808081674ec4720167ce60dda77cea',
-    Class2ndActivityType.voluntary: '8ab17f543fe62d5d013fe62e6dc70001',
+    Class2ndActivityCat.schoolCulture: '8ab17f543fe626a8013fe6278a880001',
+    Class2ndActivityCat.creation: 'ff8080814e241104014eb867e1481dc3',
+    Class2ndActivityCat.lecture: '001',
+    Class2ndActivityCat.practice: '8ab17f543fe62d5d013fe62efd3a0002',
+    Class2ndActivityCat.thematicEdu: 'ff808081674ec4720167ce60dda77cea',
+    Class2ndActivityCat.voluntary: '8ab17f543fe62d5d013fe62e6dc70001',
   };
   static final re = RegExp(r"(\d){7}");
   static const selector = '.ul_7 li > a';
@@ -39,8 +39,8 @@ class Class2ndActivityListService {
   }
 
   /// 获取第二课堂活动列表
-  Future<List<Class2ndActivity>> getActivityList(Class2ndActivityType type, int page) async {
-    String generateUrl(Class2ndActivityType category, int page, [int pageSize = 20]) {
+  Future<List<Class2ndActivity>> getActivityList(Class2ndActivityCat type, int page) async {
+    String generateUrl(Class2ndActivityCat category, int page, [int pageSize = 20]) {
       return 'http://sc.sit.edu.cn/public/activity/activityList.action?pageNo=$page&pageSize=$pageSize&categoryId=${_scActivityType[category]}';
     }
 
@@ -82,7 +82,7 @@ class Class2ndActivityListService {
         final titleAndTags = splitTitleAndTags(title);
         return Class2ndActivity.named(
             id: id,
-            category: Class2ndActivityType.unknown,
+            category: Class2ndActivityCat.unknown,
             title: title,
             ts: dateFormatParser.parse(date),
             realTitle: titleAndTags.title,

@@ -59,7 +59,7 @@ class _SearchState extends State<Search> {
         "Recent Search".text(style: context.textTheme.titleLarge).padAll(10),
         buildRecentSearch(context).padAll(10),
       ].column().expanded(),
-    ].column(maa: MAAlign.spaceAround).center();
+    ].column(maa: MainAxisAlignment.spaceAround).center();
   }
 
   Widget buildRecentSearch(BuildContext ctx) {

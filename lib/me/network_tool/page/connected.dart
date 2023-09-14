@@ -69,7 +69,7 @@ class _ConnectedInfoState extends State<ConnectedInfo> {
       child: [
         Icon(icon, size: 120).expanded(flex: 5),
         buildTip(useProxy).expanded(flex: 3),
-      ].column(caa: CAAlign.stretch, key: ValueKey(connectionType)),
+      ].column(caa: CrossAxisAlignment.stretch, key: ValueKey(connectionType)),
     ).padAll(10);
   }
 

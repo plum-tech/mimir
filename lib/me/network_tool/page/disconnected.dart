@@ -53,7 +53,7 @@ class _DisconnectedInfoState extends State<DisconnectedInfo> {
         if (status != null) CampusNetworkStatusInfo(status: status),
       ].column().expanded(),
       const QuickButtons(),
-    ].column(caa: CAAlign.stretch).padAll(10);
+    ].column(caa: CrossAxisAlignment.stretch).padAll(10);
   }
 
   Widget buildLandscape() {

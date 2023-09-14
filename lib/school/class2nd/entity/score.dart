@@ -67,7 +67,7 @@ class Class2ndScoreItem {
 
   /// 活动类型
   @HiveField(2)
-  final Class2ndActivityType type;
+  final Class2ndActivityCat type;
 
   /// 分数
   @HiveField(3)

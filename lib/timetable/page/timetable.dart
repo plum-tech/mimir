@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/widgets/dialog.dart';
@@ -129,13 +130,15 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         ok: i18n.jump,
         okEnabled: (curSelected) => curSelected != initialIndex,
         actions: [
-          (ctx, curSelected) => i18n.findToday.text().cupertinoBtn(
-              onPressed: (curSelected == todayIndex)
-                  ? null
-                  : () {
-                      controller.animateToItem(todayIndex,
-                          duration: const Duration(milliseconds: 500), curve: Curves.fastLinearToSlowEaseIn);
-                    })
+          (ctx, curSelected) => CupertinoButton(
+                onPressed: (curSelected == todayIndex)
+                    ? null
+                    : () {
+                        controller.animateToItem(todayIndex,
+                            duration: const Duration(milliseconds: 500), curve: Curves.fastLinearToSlowEaseIn);
+                      },
+                child: i18n.findToday.text(),
+              )
         ],
         make: (ctx, i) {
           return Text(i18n.weekOrderedName(number: i + 1));
@@ -168,16 +171,18 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         ok: i18n.jump,
         okEnabled: (weekSelected, daySelected) => weekSelected != initialWeekIndex || daySelected != initialDayIndex,
         actions: [
-          (ctx, week, day) => i18n.findToday.text().cupertinoBtn(
-              onPressed: (week == todayWeekIndex && day == todayDayIndex)
-                  ? null
-                  : () {
-                      $week.animateToItem(todayWeekIndex,
-                          duration: const Duration(milliseconds: 500), curve: Curves.fastLinearToSlowEaseIn);
+          (ctx, week, day) => CupertinoButton(
+                onPressed: (week == todayWeekIndex && day == todayDayIndex)
+                    ? null
+                    : () {
+                        $week.animateToItem(todayWeekIndex,
+                            duration: const Duration(milliseconds: 500), curve: Curves.fastLinearToSlowEaseIn);
 
-                      $day.animateToItem(todayDayIndex,
-                          duration: const Duration(milliseconds: 500), curve: Curves.fastLinearToSlowEaseIn);
-                    })
+                        $day.animateToItem(todayDayIndex,
+                            duration: const Duration(milliseconds: 500), curve: Curves.fastLinearToSlowEaseIn);
+                      },
+                child: i18n.findToday.text(),
+              )
         ],
         makeA: (ctx, i) => i18n.weekOrderedName(number: i + 1).text(),
         makeB: (ctx, i) => i18n.weekday(index: i).text());

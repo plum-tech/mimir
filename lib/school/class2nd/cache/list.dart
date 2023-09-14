@@ -16,7 +16,7 @@ class Class2ndActivityListCache {
 
   final Map<String, List<Class2ndActivity>> _queried = {};
 
-  Future<List<Class2ndActivity>?> getActivityList(Class2ndActivityType type, int page) async {
+  Future<List<Class2ndActivity>?> getActivityList(Class2ndActivityCat type, int page) async {
     final cacheKey = to.box.activities.make(type, page);
     if (cacheKey.needRefresh(after: expiration)) {
       try {

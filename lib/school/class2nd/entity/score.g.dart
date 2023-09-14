@@ -65,7 +65,7 @@ class Class2ndScoreItemAdapter extends TypeAdapter<Class2ndScoreItem> {
     };
     return Class2ndScoreItem(
       fields[1] as int,
-      fields[2] as Class2ndActivityType,
+      fields[2] as Class2ndActivityCat,
       fields[3] as double,
     );
   }

@@ -1377,10 +1377,10 @@ packages:
     dependency: "direct main"
     description:
       name: rettulf
-      sha256: "2d93ec59525ee03f06feef8dabb984eb580ad554d81383c7abefaa6120913827"
+      sha256: "55fa6eadb2bc2e265d4034efc022687192a8b60df8d58318c38eb74d37e7e393"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
+    version: "2.0.1"
   rxdart:
     dependency: transitive
     description:

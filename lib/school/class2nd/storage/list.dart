@@ -10,9 +10,9 @@ class Class2ndActivityListStorageBox with CachedBox {
 
   Class2ndActivityListStorageBox(this.box);
 
-  late final activities = listNamespace2<Class2ndActivity, Class2ndActivityType, int>(_activitiesNs, makeActivityKey);
+  late final activities = listNamespace2<Class2ndActivity, Class2ndActivityCat, int>(_activitiesNs, makeActivityKey);
 
-  static String makeActivityKey(Class2ndActivityType type, int page) => "$type/$page";
+  static String makeActivityKey(Class2ndActivityCat type, int page) => "$type/$page";
 }
 
 class Class2ndActivityListStorage {
@@ -20,12 +20,12 @@ class Class2ndActivityListStorage {
 
   Class2ndActivityListStorage(Box<dynamic> hive) : box = Class2ndActivityListStorageBox(hive);
 
-  Future<List<Class2ndActivity>?> getActivityList(Class2ndActivityType type, int page) async {
+  Future<List<Class2ndActivity>?> getActivityList(Class2ndActivityCat type, int page) async {
     final key = box.activities.make(type, page);
     return key.value;
   }
 
-  void setActivityList(Class2ndActivityType type, int page, List<Class2ndActivity>? activities) {
+  void setActivityList(Class2ndActivityCat type, int page, List<Class2ndActivity>? activities) {
     final key = box.activities.make(type, page);
     key.value = activities;
   }

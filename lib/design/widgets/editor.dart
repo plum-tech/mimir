@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rettulf/build_context/show.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../i18n.dart';
@@ -51,11 +50,14 @@ class Editor {
   }
 
   static Future<bool> showBoolEditor(BuildContext ctx, {String? desc, required bool initial}) async {
-    final newValue = await ctx.showDialog(
-        builder: (ctx) => _BoolEditor(
-              initial: initial,
-              desc: desc,
-            ));
+    final newValue = await showDialog(
+      context: ctx,
+      builder: (ctx) => _BoolEditor(
+        initial: initial,
+        desc: desc,
+      ),
+    );
+
     if (newValue != null) {
       return newValue;
     } else {
@@ -64,7 +66,8 @@ class Editor {
   }
 
   static Future<String> showStringEditor(BuildContext ctx, {String? desc, required String initial}) async {
-    final newValue = await ctx.showDialog(
+    final newValue = await showDialog(
+        context: ctx,
         builder: (ctx) => _StringEditor(
               initial: initial,
               title: desc,
@@ -77,16 +80,24 @@ class Editor {
   }
 
   static Future<void> showReadonlyEditor(BuildContext ctx, {String? desc, required dynamic initial}) async {
-    await ctx.showDialog(
-        builder: (ctx) => _readonlyEditor(ctx, (ctx) => SelectableText(initial.toString()), title: desc));
+    await showDialog(
+      context: ctx,
+      builder: (ctx) => _readonlyEditor(
+        ctx,
+        (ctx) => SelectableText(initial.toString()),
+        title: desc,
+      ),
+    );
   }
 
   static Future<int> showIntEditor(BuildContext ctx, {String? desc, required int initial}) async {
-    final newValue = await ctx.showDialog(
-        builder: (ctx) => _IntEditor(
-              initial: initial,
-              title: desc,
-            ));
+    final newValue = await showDialog(
+      context: ctx,
+      builder: (ctx) => _IntEditor(
+        initial: initial,
+        title: desc,
+      ),
+    );
     if (newValue == null) {
       return initial;
     } else {

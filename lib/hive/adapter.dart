@@ -43,7 +43,7 @@ class HiveAdapter {
     ~Class2ndScoreSummaryAdapter();
     ~Class2ndActivityApplicationAdapter();
     ~Class2ndScoreItemAdapter();
-    ~Class2ndActivityTypeAdapter();
+    ~Class2ndActivityCatAdapter();
 
     // Exam Arrangement
     ~ExamEntryAdapter();
