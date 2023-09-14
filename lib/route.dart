@@ -17,7 +17,7 @@ import 'package:mimir/school/oa_announce/page/details.dart';
 import 'package:mimir/school/ywb/page/index.dart';
 import 'package:mimir/school/exam_arrange/page/index.dart';
 import 'package:mimir/school/library/index.dart';
-import 'package:mimir/school/oa_announce/page/index.dart';
+import 'package:mimir/school/oa_announce/page/list.dart';
 import 'package:mimir/scanner/page/index.dart';
 import 'package:mimir/school/class2nd/entity/list.dart';
 import 'package:mimir/school/class2nd/page/details.dart';
@@ -175,6 +175,7 @@ final router = GoRouter(
       builder: (ctx, state) {
         final enableApply = state.uri.queryParameters["enable-apply"] != null;
         final extra = state.extra;
+        // TODO: Fix restoration issues
         if (extra is Class2ndActivity) {
           return Class2ndActivityDetailsPage(
             extra,
@@ -197,7 +198,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: "/oa-announce",
-      builder: (ctx, state) => const OaAnnouncePage(),
+      builder: (ctx, state) => const OaAnnounceListPage(),
       redirect: _loginRequired,
     ),
     GoRoute(

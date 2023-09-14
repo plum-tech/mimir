@@ -1,10 +1,5 @@
-import 'dart:math';
-
-import 'package:auto_animated/auto_animated.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/animation/livelist.dart';
-import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/network/session.dart';
 import 'package:mimir/school/oa_announce/widget/tile.dart';
 import 'package:rettulf/rettulf.dart';
@@ -13,17 +8,16 @@ import '../entity/announce.dart';
 import '../entity/page.dart';
 import '../init.dart';
 import '../i18n.dart';
-import 'details.dart';
 
-class OaAnnouncePage extends StatefulWidget {
-  const OaAnnouncePage({super.key});
+class OaAnnounceListPage extends StatefulWidget {
+  const OaAnnounceListPage({super.key});
 
   @override
-  State<OaAnnouncePage> createState() => _OaAnnouncePageState();
+  State<OaAnnounceListPage> createState() => _OaAnnounceListPageState();
 }
 
-class _OaAnnouncePageState extends State<OaAnnouncePage> {
-  List<OaAnnounceRecord>? _records;
+class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
+  List<OaAnnounceRecord>? records;
 
   @override
   void initState() {
@@ -31,10 +25,10 @@ class _OaAnnouncePageState extends State<OaAnnouncePage> {
     _queryBulletinListInAllCategory(1).then((value) {
       if (!mounted) return;
       if (value != null) {
+        // 公告项按时间排序
+        value.sort((a, b) => b.dateTime.difference(a.dateTime).inSeconds);
         setState(() {
-          // 公告项按时间排序
-          value.sort((a, b) => b.dateTime.difference(a.dateTime).inSeconds);
-          _records = value;
+          records = value;
         });
       }
     });
@@ -42,26 +36,30 @@ class _OaAnnouncePageState extends State<OaAnnouncePage> {
 
   @override
   Widget build(BuildContext context) {
-    final records = _records;
-    return Scaffold(
-      appBar: AppBar(
-        title: i18n.title.text(),
-        bottom: records != null
-            ? null
-            : const PreferredSize(
-                preferredSize: Size.fromHeight(4),
-                child: LinearProgressIndicator(),
-              ),
-      ),
-      body: records == null
-          ? const SizedBox()
-          : ListView.builder(
-              itemCount: records.length,
-              itemBuilder: (context, index) {
-                final record = records[index];
+    final records = this.records;
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          pinned: true,
+          title: i18n.title.text(),
+          bottom: records != null
+              ? null
+              : const PreferredSize(
+                  preferredSize: Size.fromHeight(4),
+                  child: LinearProgressIndicator(),
+                ),
+        ),
+        if (records != null)
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (ctx, i) {
+                final record = records[i];
                 return OaAnnounceTile(record).inCard().hero(record.uuid);
               },
+              childCount: records.length,
             ),
+          )
+      ],
     );
   }
 
@@ -80,7 +78,7 @@ class _OaAnnouncePageState extends State<OaAnnouncePage> {
     // 合并所有分类的第一页的公告项
     final List<OaAnnounceRecord> records = futureResult.whereNotNull().fold(
       <OaAnnounceRecord>[],
-      (List<OaAnnounceRecord> previousValue, OaAnnounceListPage page) => previousValue + page.bulletinItems,
+      (List<OaAnnounceRecord> previousValue, OaAnnounceListPayload page) => previousValue + page.bulletinItems,
     ).toList();
     return records;
   }

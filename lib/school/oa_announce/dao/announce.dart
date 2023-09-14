@@ -9,5 +9,5 @@ abstract class AnnounceDao {
   Future<OaAnnounceDetails?> getAnnounceDetail(String catalogueId, String uuid);
 
   /// 检索文章列表
-  Future<OaAnnounceListPage?> queryAnnounceList(int pageIndex, String catalogueId);
+  Future<OaAnnounceListPayload?> queryAnnounceList(int pageIndex, String catalogueId);
 }

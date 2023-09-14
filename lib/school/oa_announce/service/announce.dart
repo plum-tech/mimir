@@ -73,7 +73,7 @@ class AnnounceService implements AnnounceDao {
     return 'https://myportal.sit.edu.cn/detach.portal?pageIndex=$pageIndex&groupid=&action=bulletinsMoreView&.ia=false&pageSize=&.pmn=view&.pen=$bulletinCatalogueId';
   }
 
-  static OaAnnounceListPage _parseBulletinListPage(Bs4Element element) {
+  static OaAnnounceListPayload _parseBulletinListPage(Bs4Element element) {
     final list = element.findAll('li').map((e) {
       final departmentAndDate = e.find('span', class_: 'rss-time')!.text.trim();
       final departmentAndDateLen = departmentAndDate.length;
@@ -96,7 +96,7 @@ class AnnounceService implements AnnounceDao {
     final lastElement = element.find('a', attrs: {'title': '点击跳转到最后页'})!;
     final lastElementHref = Uri.parse(lastElement.attributes['href']!);
     final lastPageIndex = lastElementHref.queryParameters['pageIndex']!;
-    return OaAnnounceListPage(
+    return OaAnnounceListPayload(
       bulletinItems: list,
       currentPage: int.parse(currentElement.text),
       totalPage: int.parse(lastPageIndex),
@@ -104,7 +104,7 @@ class AnnounceService implements AnnounceDao {
   }
 
   @override
-  Future<OaAnnounceListPage> queryAnnounceList(int pageIndex, String bulletinCatalogueId) async {
+  Future<OaAnnounceListPayload> queryAnnounceList(int pageIndex, String bulletinCatalogueId) async {
     final response = await session.request(_buildBulletinListUrl(pageIndex, bulletinCatalogueId), ReqMethod.get);
     return _parseBulletinListPage(BeautifulSoup(response.data).html!);
   }

@@ -10,6 +10,7 @@ enum AppPlatform {
   linux("Linux"),
   web("Web"),
   unknown("?");
+
   final String name;
   const AppPlatform(this.name);
 }

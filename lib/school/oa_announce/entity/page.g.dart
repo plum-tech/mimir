@@ -6,17 +6,17 @@ part of 'page.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class OaAnnounceListPageAdapter extends TypeAdapter<OaAnnounceListPage> {
+class OaAnnounceListPayloadAdapter extends TypeAdapter<OaAnnounceListPayload> {
   @override
   final int typeId = 93;
 
   @override
-  OaAnnounceListPage read(BinaryReader reader) {
+  OaAnnounceListPayload read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return OaAnnounceListPage(
+    return OaAnnounceListPayload(
       currentPage: fields[0] as int,
       totalPage: fields[1] as int,
       bulletinItems: (fields[2] as List).cast<OaAnnounceRecord>(),
@@ -24,7 +24,7 @@ class OaAnnounceListPageAdapter extends TypeAdapter<OaAnnounceListPage> {
   }
 
   @override
-  void write(BinaryWriter writer, OaAnnounceListPage obj) {
+  void write(BinaryWriter writer, OaAnnounceListPayload obj) {
     writer
       ..writeByte(3)
       ..writeByte(0)
@@ -41,5 +41,5 @@ class OaAnnounceListPageAdapter extends TypeAdapter<OaAnnounceListPage> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is OaAnnounceListPageAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is OaAnnounceListPayloadAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

@@ -53,7 +53,7 @@ class HiveAdapter {
     ~OaAnnounceCatalogueAdapter();
     ~OaAnnounceRecordAdapter();
     ~OaAnnounceAttachmentAdapter();
-    ~OaAnnounceListPageAdapter();
+    ~OaAnnounceListPayloadAdapter();
 
     // Application
     ~ApplicationDetailSectionAdapter();

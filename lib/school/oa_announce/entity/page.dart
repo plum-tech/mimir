@@ -5,8 +5,8 @@ import 'announce.dart';
 part 'page.g.dart';
 
 /// 获取到的通知页
-@HiveType(typeId: HiveTypeOaAnnounce.listPage)
-class OaAnnounceListPage {
+@HiveType(typeId: HiveTypeOaAnnounce.listPayload)
+class OaAnnounceListPayload {
   @HiveField(0)
   final int currentPage;
   @HiveField(1)
@@ -15,7 +15,7 @@ class OaAnnounceListPage {
   @HiveField(2)
   final List<OaAnnounceRecord> bulletinItems;
 
-  const OaAnnounceListPage({
+  const OaAnnounceListPayload({
     required this.currentPage,
     required this.totalPage,
     required this.bulletinItems,

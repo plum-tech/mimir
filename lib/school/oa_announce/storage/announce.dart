@@ -46,7 +46,7 @@ class AnnounceStorage extends AnnounceDao {
 
   /// 检索文章列表
   @override
-  Future<OaAnnounceListPage?> queryAnnounceList(int pageIndex, String catalogueId) async {
+  Future<OaAnnounceListPayload?> queryAnnounceList(int pageIndex, String catalogueId) async {
     throw UnimplementedError("Storage won't query.");
   }
 
