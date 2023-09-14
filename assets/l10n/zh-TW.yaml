@@ -250,12 +250,14 @@ settings:
   version: 版本
   dev:
     title: 開發者選項
+    devMode:
+      title: 開發者模式
     localStorage:
       title: 本機儲存
       desc: 管理在本裝置上的儲存
     reload:
       title: 重新載入
-      desc: 重新初始化所有模塊
+      desc: 重新載入所有模塊
     detailedXcpDialog:
       title: 開啟詳細異常對話框
       desc: 顯示更加詳細的異常堆棧追蹤資訊

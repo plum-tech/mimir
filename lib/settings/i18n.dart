@@ -117,6 +117,8 @@ class _DevOptions {
 
   String get title => "$ns.title".tr();
 
+  String get devMode => "$ns.devMode.title".tr();
+
   String get reloadTitle => "$ns.reload.title".tr();
 
   String get reloadDesc => "$ns.reload.desc".tr();

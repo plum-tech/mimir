@@ -1,8 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/global/init.dart';
-import 'package:mimir/hive/page/editor.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 
@@ -47,11 +46,25 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
 
   List<WidgetBuilder> buildEntries() {
     final all = <WidgetBuilder>[];
+    all.add((_) => buildDevModeToggle());
     all.add((_) => buildLocalStorage());
-    if (kDebugMode) {
-      all.add((_) => buildReload());
-    }
+    all.add((_) => buildReload());
     return all;
+  }
+
+  Widget buildDevModeToggle() {
+    return ListTile(
+      title: i18n.dev.devMode.text(),
+      leading: const Icon(Icons.developer_mode_outlined),
+      trailing: Switch(
+        value: Settings.isDeveloperMode,
+        onChanged: (newV) {
+          setState(() {
+            Settings.isDeveloperMode = newV;
+          });
+        },
+      ),
+    );
   }
 
   Widget buildLocalStorage() {

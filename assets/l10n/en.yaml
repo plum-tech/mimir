@@ -252,12 +252,14 @@ settings:
   version: Version
   dev:
     title: Developer options
+    devMode:
+      title: Developer mode
     localStorage:
       title: Local storage
       desc: Manage storage on your device
     reload:
       title: Reload
-      desc: Re-initialize all modules
+      desc: Reload all modules
     detailedXcpDialog:
       title: Enable detailed exception dialog
       desc: Detailed stacktrace will be shown

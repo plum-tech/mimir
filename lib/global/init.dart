@@ -49,6 +49,7 @@ class Init {
     // 初始化Hive数据库
     await HiveInit.init(path.join("net.liplum.Mimir", "hive"));
     Settings = SettingsImpl(HiveInit.settings);
+    Settings.isDeveloperMode = kDebugMode;
     Meta = MetaImpl(HiveInit.meta);
     currentVersion = await getCurrentVersion();
     await Migrations.perform(from: Meta.lastVersion, to: currentVersion.full);

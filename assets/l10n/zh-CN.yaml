@@ -252,12 +252,14 @@ settings:
   version: 版本
   dev:
     title: 开发者选项
+    devMode:
+      title: 开发者模式
     localStorage:
       title: 本地存储
       desc: 管理在此设备上存储的数据
     reload:
       title: 重新加载
-      desc: 重新初始化所有模块
+      desc: 重新加载所有模块
     detailedXcpDialog:
       title: 启用详细异常对话框
       desc: 显示更加详细的异常堆栈追踪信息

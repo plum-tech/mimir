@@ -3,13 +3,15 @@ import 'package:universal_platform/universal_platform.dart';
 import 'package:version/version.dart';
 
 enum AppPlatform {
-  android,
-  windows,
-  iOS,
-  macOS,
-  linux,
-  web,
-  unknown,
+  android("Android"),
+  windows("Windows"),
+  iOS("iOS"),
+  macOS("macOS"),
+  linux("Linux"),
+  web("Web"),
+  unknown("?");
+  final String name;
+  const AppPlatform(this.name);
 }
 
 class AppVersion {

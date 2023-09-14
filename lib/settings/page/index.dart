@@ -131,7 +131,7 @@ class _SettingsPageState extends State<SettingsPage> {
     all.add(const ThemeModeTile());
 
     all.add(const Divider());
-    if (kDebugMode || Settings.isDeveloperMode) {
+    if (Settings.isDeveloperMode) {
       all.add(const DevOptionsTile());
     }
     all.add(const ClearCacheTile());
@@ -184,11 +184,12 @@ class _VersionTileState extends State<VersionTile> {
               if (Settings.isDeveloperMode) return;
               clickCount++;
               if (clickCount >= 10) {
+                clickCount = 0;
                 Settings.isDeveloperMode = true;
                 context.showSnackBar(const Text("Developer mode is on."));
               }
             },
-      subtitle: "${version.platform} ${version.full?.toString() ?? i18n.unknown}".text(),
+      subtitle: "${version.platform.name} ${version.full?.toString() ?? i18n.unknown}".text(),
     );
   }
 }
@@ -202,6 +203,7 @@ class ThemeModeTile extends StatefulWidget {
 
 class _ThemeModeTileState extends State<ThemeModeTile> {
   final $themeMode = Settings.$themeMode;
+
   @override
   void initState() {
     super.initState();
