@@ -59,8 +59,6 @@ class CourseColor {
     (light: Color(0xD2ffd7f5), dark: Color(0xDF7c157a)), // mauve
     (light: Color(0xD2eaf141), dark: Color(0xDF4b4c00)), // toxic
   ];
-
-  static get({required ThemeData from, required int by}) => oldSchool[by.abs() % oldSchool.length].byTheme(from);
 }
 
 const electricityColor = (light: Color(0xFFffd200), dark: Color(0xFFfffc00));

@@ -39,10 +39,12 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
 
   Widget buildBody() {
     return Scaffold(
-      bottomNavigationBar: !isAnyLoading ? null : const PreferredSize(
-        preferredSize: Size.fromHeight(4),
-        child: LinearProgressIndicator(),
-      ),
+      bottomNavigationBar: !isAnyLoading
+          ? null
+          : const PreferredSize(
+              preferredSize: Size.fromHeight(4),
+              child: LinearProgressIndicator(),
+            ),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           // These are the slivers that show up in the "outer" scroll view.
