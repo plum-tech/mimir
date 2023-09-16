@@ -113,6 +113,8 @@ class _Language {
 class _DevOptions {
   const _DevOptions();
 
+  final storage = const _Storage();
+
   static const ns = "${_I18n.ns}.dev";
 
   String get title => "$ns.title".tr();
@@ -154,4 +156,20 @@ class _WipeData {
   String get request => "$ns.request".tr();
 
   String get requestDesc => "$ns.requestDesc".tr();
+}
+
+class _Storage with CommonI18nMixin {
+  const _Storage();
+
+  static const ns = "${_DevOptions.ns}.localStorage";
+
+  String get title => "$ns.title".tr();
+
+  String get selectBoxTip => "$ns.selectBoxTip".tr();
+
+  String get clearBoxDesc => "$ns.clearBoxDesc".tr();
+
+  String get deleteItemDesc => "$ns.deleteItemDesc".tr();
+
+  String get emptyValueDesc => "$ns.emptyValueDesc".tr();
 }

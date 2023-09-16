@@ -13,7 +13,7 @@ import 'package:mimir/hive/init.dart';
 import 'package:mimir/widgets/page_grouper.dart';
 import 'package:rettulf/rettulf.dart';
 
-import "../i18n.dart";
+import '../i18n.dart';
 
 class LocalStoragePage extends StatefulWidget {
   const LocalStoragePage({super.key});
@@ -289,7 +289,11 @@ class _BoxItemState extends State<BoxItem> {
             onTap: () async {
               ctx.pop();
               final confirm = await context.showRequest(
-                  title: i18n.warning, desc: i18n.emptyValueDesc, yes: i18n.confirm, no: i18n.cancel, highlight: true);
+                  title: i18n.warning,
+                  desc: i18n.dev.storage.emptyValueDesc,
+                  yes: i18n.confirm,
+                  no: i18n.cancel,
+                  highlight: true);
               if (confirm == true) {
                 widget.box.put(key, _emptyValue(value));
                 if (!mounted) return;
@@ -438,7 +442,7 @@ class _StorageListLandscapeState extends State<StorageListLandscape> {
   }
 
   Widget _buildUnselectBoxTip(Key? key, BuildContext ctx) {
-    return LeavingBlank(key: key, icon: Icons.unarchive_outlined, desc: i18n.selectBoxTip);
+    return LeavingBlank(key: key, icon: Icons.unarchive_outlined, desc: i18n.dev.storage.selectBoxTip);
   }
 }
 
@@ -468,10 +472,10 @@ dynamic _emptyValue(dynamic value) {
 
 Future<bool?> _showDeleteBoxRequest(BuildContext ctx) async {
   return await ctx.showRequest(
-      title: i18n.delete, desc: i18n.clearBoxDesc, yes: i18n.confirm, no: i18n.cancel, highlight: true);
+      title: i18n.delete, desc: i18n.dev.storage.clearBoxDesc, yes: i18n.confirm, no: i18n.cancel, highlight: true);
 }
 
 Future<bool?> _showDeleteItemRequest(BuildContext ctx) async {
   return await ctx.showRequest(
-      title: i18n.delete, desc: i18n.deleteItemDesc, yes: i18n.delete, no: i18n.cancel, highlight: true);
+      title: i18n.delete, desc: i18n.dev.storage.deleteItemDesc, yes: i18n.delete, no: i18n.cancel, highlight: true);
 }

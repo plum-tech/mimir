@@ -11,7 +11,7 @@ class _K {
   static const lastTimetableId = "/lastTimetableId";
   static const usedTimetableId = "/usedTimetableId";
   static const lastDisplayMode = "/lastDisplayMode";
-
+  static const lastPaletteId = "/lastPaletteId";
   // TODO: Remove this and add a new personalization system.
   static const useOldSchoolPalette = "/useOldSchoolPalette";
   static const useNewUI = "/useNewUI";

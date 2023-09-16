@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
-import 'package:mimir/hive/page/editor.dart';
+import 'package:mimir/settings/page/storage.dart';
 import 'package:mimir/life/expense_records/page/records.dart';
 import 'package:mimir/life/expense_records/page/statistics.dart';
 import 'package:mimir/life/index.dart';

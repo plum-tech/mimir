@@ -35,22 +35,15 @@ class _MetaEditorState extends State<MetaEditor> {
     );
   }
 
-  Widget _wrap(Widget widget) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: widget,
-    );
-  }
-
   Widget buildDescForm(BuildContext ctx) {
     return Form(
         key: _formKey,
         child: Column(children: [
-          _wrap(TextFormField(
+          TextFormField(
             controller: _nameController,
             maxLines: 1,
             decoration: InputDecoration(labelText: i18n.detail.nameFormTitle, border: const OutlineInputBorder()),
-          )),
+          ).padAll(10),
         ]));
   }
 
