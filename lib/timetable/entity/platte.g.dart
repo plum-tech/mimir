@@ -18,12 +18,12 @@ Map<String, dynamic> _$Color2ModeToJson(Color2Mode instance) => <String, dynamic
       'dark': _colorToJson(instance.dark),
     };
 
-TimetablePlatte _$TimetablePlatteFromJson(Map<String, dynamic> json) => TimetablePlatte(
+TimetablePalette _$TimetablePaletteFromJson(Map<String, dynamic> json) => TimetablePalette(
       name: json['name'] as String,
       colors: (json['colors'] as List<dynamic>).map((e) => Color2Mode.fromJson(e as Map<String, dynamic>)).toList(),
     );
 
-Map<String, dynamic> _$TimetablePlatteToJson(TimetablePlatte instance) => <String, dynamic>{
+Map<String, dynamic> _$TimetablePaletteToJson(TimetablePalette instance) => <String, dynamic>{
       'name': instance.name,
       'colors': instance.colors,
     };

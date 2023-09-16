@@ -7,7 +7,6 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/application.dart';
 import '../page/detail.dart';
 
-
 const List<Color> _applicationColors = <Color>[
   Colors.orangeAccent,
   Colors.redAccent,

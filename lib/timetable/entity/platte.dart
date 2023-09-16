@@ -49,9 +49,9 @@ class TimetablePalette implements ITimetablePalette {
     required this.colors,
   });
 
-  factory TimetablePalette.fromJson(Map<String, dynamic> json) => _$TimetablePlatteFromJson(json);
+  factory TimetablePalette.fromJson(Map<String, dynamic> json) => _$TimetablePaletteFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TimetablePlatteToJson(this);
+  Map<String, dynamic> toJson() => _$TimetablePaletteToJson(this);
 }
 
 class BuiltinTimetablePalette implements ITimetablePalette {
