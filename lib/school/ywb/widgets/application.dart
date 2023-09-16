@@ -2,11 +2,23 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mimir/design/adaptive/adaptive.dart';
-import 'package:mimir/design/colors.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/application.dart';
 import '../page/detail.dart';
+
+
+const List<Color> _applicationColors = <Color>[
+  Colors.orangeAccent,
+  Colors.redAccent,
+  Colors.blueAccent,
+  Colors.grey,
+  Colors.green,
+  Colors.yellowAccent,
+  Colors.cyan,
+  Colors.purple,
+  Colors.teal,
+];
 
 class ApplicationTile extends StatelessWidget {
   final ApplicationMeta meta;
@@ -16,8 +28,8 @@ class ApplicationTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorIndex = Random(meta.id.hashCode).nextInt(applicationColors.length);
-    final color = applicationColors[colorIndex];
+    final colorIndex = Random(meta.id.hashCode).nextInt(_applicationColors.length);
+    final color = _applicationColors[colorIndex];
     final Widget views;
     if (isHot) {
       views = [

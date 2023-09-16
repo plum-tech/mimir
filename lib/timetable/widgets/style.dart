@@ -1,26 +1,47 @@
-import 'package:flutter/widgets.dart';
-import 'package:mimir/design/colors.dart';
+import 'package:flutter/material.dart';
+import 'package:mimir/timetable/entity/platte.dart';
+import 'package:mimir/timetable/platte.dart';
+import 'package:rettulf/rettulf.dart';
 
-import '../entity/timetable.dart';
 import '../init.dart';
 
+extension DesignExtension on BuildContext {
+  ({Color bg, Color text}) makeTabHeaderTextBgColors(bool isSelected) {
+    final Color text;
+    final Color bg;
+    if (isDarkMode) {
+      if (isSelected) {
+        bg = theme.secondaryHeaderColor;
+      } else {
+        bg = Colors.transparent;
+      }
+      text = Colors.white;
+    } else {
+      if (isSelected) {
+        bg = theme.primaryColor;
+        text = Colors.white;
+      } else {
+        bg = Colors.transparent;
+        text = Colors.black;
+      }
+    }
+    return (text: text, bg: bg);
+  }
+}
+
 class TimetableStyleData {
-  final List<Color2Mode> colors;
+  final ITimetablePalette platte;
   final bool useNewUI;
 
-  const TimetableStyleData(this.colors, this.useNewUI);
+  const TimetableStyleData(this.platte, this.useNewUI);
 
   @override
   // ignore: hash_and_equals
   bool operator ==(Object other) {
     return other is TimetableStyleData &&
         runtimeType == other.runtimeType &&
-        colors == other.colors &&
+        platte == other.platte &&
         useNewUI == other.useNewUI;
-  }
-
-  Color2Mode resolveColor(SitCourse course) {
-    return colors[course.courseCode.hashCode.abs() % colors.length];
   }
 }
 
@@ -79,7 +100,9 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
   Widget build(BuildContext context) {
     return TimetableStyle(
       data: TimetableStyleData(
-        TimetableInit.storage.useOldSchoolPalette == true ? CourseColor.oldSchool : CourseColor.newUI,
+        TimetableInit.storage.useOldSchoolPalette == true
+            ? BuiltinTimetablePalettes.oldSchool
+            : BuiltinTimetablePalettes.newUI,
         TimetableInit.storage.useNewUI ?? false,
       ),
       child: buildChild(),

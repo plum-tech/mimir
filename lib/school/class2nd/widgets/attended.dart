@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/design/colors.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/list.dart';
 import '../entity/score.dart';
 import "../i18n.dart";
-import '../page/details.dart';
 
 class AttendedActivityTile extends StatelessWidget {
   final ScJoinedActivity rawActivity;

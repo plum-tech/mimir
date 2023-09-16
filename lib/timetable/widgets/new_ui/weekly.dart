@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mimir/design/colors.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../i18n.dart';
@@ -381,7 +381,7 @@ class _CourseCellState extends State<_CourseCell> {
   @override
   Widget build(BuildContext context) {
     final Widget res;
-    final color = TimetableStyle.of(context).resolveColor(course).byTheme(context.theme);
+    final color = TimetableStyle.of(context).platte.resolveColor(course).byTheme(context.theme);
     final info = TimetableSlotInfo(
       course: course,
       maxLines: context.isPortrait ? 8 : 5,

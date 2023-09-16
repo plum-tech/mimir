@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mimir/design/colors.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../i18n.dart';
@@ -423,7 +423,7 @@ class _CourseCellState extends State<_CourseCell> {
   Widget build(BuildContext context) {
     final size = context.mediaQuery.size;
 
-    final color = TimetableStyle.of(context).resolveColor(course).byTheme(context.theme);
+    final color = TimetableStyle.of(context).platte.resolveColor(course).byTheme(context.theme);
     final padding = context.isPortrait ? size.height / 40 : size.height / 80;
     return FilledCard(
       color: color,

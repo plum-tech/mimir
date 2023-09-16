@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mimir/design/colors.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/school/entity/school.dart';
 
@@ -329,7 +328,7 @@ class _LessonCardState extends State<LessonCard> {
     final classBegin = timetable[widget.lesson.startIndex].begin;
     final classEnd = timetable[widget.lesson.endIndex].end;
     final time = "$classBegin–$classEnd";
-    final color = TimetableStyle.of(context).resolveColor(course).byTheme(context.theme);
+    final color = TimetableStyle.of(context).platte.resolveColor(course).byTheme(context.theme);
     return FilledCard(
       color: color,
       margin: const EdgeInsets.all(8),

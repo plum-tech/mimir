@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'platte.g.dart';
@@ -10,55 +11,57 @@ int _colorToJson(Color color) => color.value;
 Color _colorFromJson(int value) => Color(value);
 
 @JsonSerializable()
-class Color2 {
+class Color2Mode {
   final String? name;
   @JsonKey(toJson: _colorToJson, fromJson: _colorFromJson)
   final Color light;
   @JsonKey(toJson: _colorToJson, fromJson: _colorFromJson)
   final Color dark;
 
-  const Color2({
+  const Color2Mode({
     this.name,
     required this.light,
     required this.dark,
   });
 
-  factory Color2.fromJson(Map<String, dynamic> json) => _$Color2FromJson(json);
+  factory Color2Mode.fromJson(Map<String, dynamic> json) => _$Color2ModeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$Color2ToJson(this);
+  Map<String, dynamic> toJson() => _$Color2ModeToJson(this);
 }
 
-abstract interface class ITimetablePlatte {
+abstract interface class ITimetablePalette {
   String get name;
 
-  List<Color2> get colors;
+  List<Color2Mode> get colors;
 }
 
 @JsonSerializable()
-class TimetablePlatte implements ITimetablePlatte {
+class TimetablePalette implements ITimetablePalette {
+  @override
   @JsonKey()
   final String name;
+  @override
   @JsonKey()
-  final List<Color2> colors;
+  final List<Color2Mode> colors;
 
-  const TimetablePlatte({
+  const TimetablePalette({
     required this.name,
     required this.colors,
   });
 
-  factory TimetablePlatte.fromJson(Map<String, dynamic> json) => _$TimetablePlatteFromJson(json);
+  factory TimetablePalette.fromJson(Map<String, dynamic> json) => _$TimetablePlatteFromJson(json);
 
   Map<String, dynamic> toJson() => _$TimetablePlatteToJson(this);
 }
 
-class BuiltinTimetablePlatte implements ITimetablePlatte {
+class BuiltinTimetablePalette implements ITimetablePalette {
   @override
   String get name => "timetable.platte.builtin.$id".tr();
   @override
-  final List<Color2> colors;
+  final List<Color2Mode> colors;
   final String id;
 
-  const BuiltinTimetablePlatte({
+  const BuiltinTimetablePalette({
     required this.id,
     required this.colors,
   });

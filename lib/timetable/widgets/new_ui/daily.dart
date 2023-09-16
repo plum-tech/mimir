@@ -4,10 +4,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mimir/design/colors.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/school/entity/school.dart';
+import 'package:mimir/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../i18n.dart';
@@ -331,7 +331,7 @@ class _LessonCardState extends State<LessonCard> {
 extension _LessonCardEx on SitTimetable {
   Widget buildSingleLesson(BuildContext context, SitTimetableLesson lesson, int timeslot) {
     final course = courseKey2Entity[lesson.courseKey];
-    final color = TimetableStyle.of(context).resolveColor(course).byTheme(context.theme);
+    final color = TimetableStyle.of(context).platte.resolveColor(course).byTheme(context.theme);
     final classTime = course.buildingTimetable[timeslot];
     return [
       _buildClassTimeCard(color, classTime),
@@ -373,7 +373,7 @@ class LessonOverlapGroup extends StatelessWidget {
     for (int lessonIndex = 0; lessonIndex < lessonsInSlot.length; lessonIndex++) {
       final lesson = lessonsInSlot[lessonIndex];
       final course = timetable.courseKey2Entity[lesson.courseKey];
-      final color = TimetableStyle.of(context).resolveColor(course).byTheme(context.theme);
+      final color = TimetableStyle.of(context).platte.resolveColor(course).byTheme(context.theme);
       classTime = course.buildingTimetable[timeslot];
       final row = LessonCard(
         lesson: lesson,
@@ -386,7 +386,7 @@ class LessonOverlapGroup extends StatelessWidget {
     // [classTime] must be nonnull.
     // TODO: Color for class overlap.
     return [
-      _buildClassTimeCard(TimetableStyle.of(context).colors[0].byTheme(context.theme), classTime!),
+      _buildClassTimeCard(TimetableStyle.of(context).platte.colors[0].byTheme(context.theme), classTime!),
       all.column().expanded(),
     ].row().padAll(3).inCard();
   }

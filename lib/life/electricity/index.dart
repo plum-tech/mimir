@@ -66,7 +66,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
     return Theme(
       data: context.theme.copyWith(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.yellow,
+          seedColor: const Color(0xFFffd200),
           brightness: context.colorScheme.brightness,
         ),
       ),

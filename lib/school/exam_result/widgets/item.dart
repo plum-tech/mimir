@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/design/animation/animated.dart';
-import 'package:mimir/design/colors.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/multi_select.dart';
 import 'package:mimir/utils/format.dart';
@@ -9,7 +8,6 @@ import 'package:mimir/school/entity/school.dart';
 
 import '../i18n.dart';
 import '../entity/result.dart';
-import '../init.dart';
 
 class ExamResultTile extends StatefulWidget {
   final ExamResult result;
