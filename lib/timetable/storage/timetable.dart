@@ -81,13 +81,17 @@ extension TimetableStorageEx on TimetableStorage {
   bool get hasAnyTimetable => timetableIds.isNotEmpty;
 
   /// Delete the timetable by [id].
-  /// If [SitTimetable.usedTimetableId] equals to [id], it will be also cleared.
+  /// If [SitTimetable.usedTimetableId] is deleted, an available timetable would be switched to.
   void deleteTimetableOf(String id) {
     final ids = timetableIds;
     if (ids.remove(id)) {
       timetableIds = ids;
       if (usedTimetableId == id) {
-        usedTimetableId = null;
+        if (timetableIds.isNotEmpty) {
+          usedTimetableId = timetableIds.first;
+        } else {
+          usedTimetableId = null;
+        }
       }
       setSitTimetableById(null, id: id);
     }
