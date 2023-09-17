@@ -37,5 +37,7 @@ class TimetableStorage {
 
   bool? get useNewUI => box.get(_K.useNewUI);
 
+  ValueListenable<Box<dynamic>> get $useNewUI => box.listenable(keys: [_K.useNewUI]);
+
   ValueListenable<Box> get onThemeChanged => box.listenable(keys: [_K.useOldSchoolPalette, _K.useNewUI]);
 }

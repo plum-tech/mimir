@@ -56,7 +56,7 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
     return ListTile(
       title: i18n.dev.devMode.text(),
       leading: const Icon(Icons.developer_mode_outlined),
-      trailing: Switch(
+      trailing: Switch.adaptive(
         value: Settings.isDeveloperMode,
         onChanged: (newV) {
           setState(() {

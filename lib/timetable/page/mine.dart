@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/dialog.dart';
-import 'package:mimir/design/widgets/multiplatform.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/route.dart';
 import 'package:rettulf/rettulf.dart';
@@ -66,7 +64,9 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         title: i18n.mine.title.text(),
         actions: [
           IconButton(
-            onPressed: showStyleToggle,
+            onPressed: (){
+              context.push("/timetable/p13n");
+            },
             icon: const Icon(Icons.color_lens_outlined),
           ),
         ],
@@ -81,55 +81,6 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         child: buildTimetables(context),
       ),
     );
-  }
-
-  Future<void> showStyleToggle() async {
-    final useOldSchoolInit = storage.useOldSchoolPalette ?? false;
-    final useNewUIInit = storage.useNewUI ?? false;
-    final $useOldSchool = ValueNotifier(useOldSchoolInit);
-    final $useNewUI = ValueNotifier(useNewUIInit);
-    await context.show$Dialog$(
-      make: (ctx) => $Dialog$(
-        primary: $Action$(
-          text: i18n.close,
-          isDefault: true,
-          onPressed: () {
-            ctx.navigator.pop(true);
-          },
-        ),
-        make: (ctx) => Material(
-            color: Colors.transparent,
-            child: [
-              [
-                ListTile(
-                  title: "Use Old School Palette".text(style: const TextStyle(fontSize: 15)),
-                  trailing: $useOldSchool >>
-                      (ctx, use) => CupertinoSwitch(
-                          value: use,
-                          onChanged: (newV) {
-                            $useOldSchool.value = newV;
-                          }),
-                ),
-                ListTile(
-                  title: "Use Timetable New-UI".text(style: const TextStyle(fontSize: 15)),
-                  trailing: $useNewUI >>
-                      (ctx, use) => CupertinoSwitch(
-                          value: use,
-                          onChanged: (newV) {
-                            $useNewUI.value = newV;
-                          }),
-                ),
-              ].column(),
-              "Excuse me, a new personalization system is coming soon!"
-                  .text(style: const TextStyle(fontStyle: FontStyle.italic))
-            ].column(mas: MainAxisSize.min)),
-      ),
-    );
-    if ($useOldSchool.value != useOldSchoolInit || $useNewUI.value != useNewUIInit) {
-      if (!mounted) return;
-      storage.useOldSchoolPalette = $useOldSchool.value;
-      storage.useNewUI = $useNewUI.value;
-    }
   }
 
   Widget _buildEmptyBody(BuildContext ctx) {

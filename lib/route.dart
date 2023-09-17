@@ -36,6 +36,7 @@ import 'package:mimir/timetable/init.dart';
 import 'package:mimir/timetable/page/import.dart';
 import 'package:mimir/timetable/page/index.dart';
 import 'package:mimir/timetable/page/mine.dart';
+import 'package:mimir/timetable/page/p13n.dart';
 import 'package:mimir/timetable/page/preview.dart';
 import 'package:mimir/widgets/image.dart';
 import 'package:mimir/widgets/webview/page.dart';
@@ -104,6 +105,10 @@ final router = GoRouter(
               GoRoute(
                 path: "mine",
                 builder: (ctx, state) => const MyTimetableListPage(),
+              ),
+              GoRoute(
+                path: "p13n",
+                builder: (ctx, state) => const TimetableP13nPage(),
               ),
             ],
           ),
