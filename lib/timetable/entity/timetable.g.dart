@@ -67,19 +67,19 @@ Map<String, dynamic> _$SitTimetableLessonToJson(SitTimetableLesson instance) => 
     };
 
 SitCourse _$SitCourseFromJson(Map<String, dynamic> json) => SitCourse(
-      json['courseKey'] as int,
-      json['courseName'] as String,
-      json['courseCode'] as String,
-      json['classCode'] as String,
-      json['campus'] as String,
-      json['place'] as String,
-      json['iconName'] as String,
-      (json['rangedWeekNumbers'] as List<dynamic>).map((e) => e as String).toList(),
-      json['timeslots'] as String,
-      (json['courseCredit'] as num).toDouble(),
-      json['creditHour'] as int,
-      json['dayIndex'] as int,
-      (json['teachers'] as List<dynamic>).map((e) => e as String).toList(),
+      courseKey: json['courseKey'] as int,
+      courseName: json['courseName'] as String,
+      courseCode: json['courseCode'] as String,
+      classCode: json['classCode'] as String,
+      campus: json['campus'] as String,
+      place: json['place'] as String,
+      iconName: json['iconName'] as String,
+      weekIndices: _weekIndicesFromJson(json['weekIndices'] as List),
+      timeslots: json['timeslots'] as String,
+      courseCredit: (json['courseCredit'] as num).toDouble(),
+      creditHour: json['creditHour'] as int,
+      dayIndex: json['dayIndex'] as int,
+      teachers: (json['teachers'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$SitCourseToJson(SitCourse instance) => <String, dynamic>{
@@ -90,7 +90,7 @@ Map<String, dynamic> _$SitCourseToJson(SitCourse instance) => <String, dynamic>{
       'campus': instance.campus,
       'place': instance.place,
       'iconName': instance.iconName,
-      'rangedWeekNumbers': instance.rangedWeekNumbers,
+      'weekIndices': _weekIndicesToJson(instance.weekIndices),
       'timeslots': instance.timeslots,
       'courseCredit': instance.courseCredit,
       'creditHour': instance.creditHour,

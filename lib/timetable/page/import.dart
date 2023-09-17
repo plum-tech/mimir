@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -174,23 +176,26 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     try {
       final semester = selectedSemester;
       final year = SchoolYear(selectedYear);
-      try {
-        final (timetable, _) = await (
-          TimetableInit.service.getTimetable(year, semester),
-          Future.delayed(const Duration(seconds: 1)),
-        ).wait;
-        if (!mounted) return;
-        setState(() {
-          _status = ImportStatus.end;
-        });
-        final id2timetable = await handleTimetableData(context, timetable, selectedYear, semester);
-        if (!mounted) return;
-        context.pop(id2timetable);
-      } catch (error, stackTrace) {
-        debugPrint(error.toString());
+      final (timetable, _) = await (
+        TimetableInit.service.getTimetable(year, semester),
+        Future.delayed(const Duration(seconds: 1)),
+      ).wait;
+      if (!mounted) return;
+      setState(() {
+        _status = ImportStatus.end;
+      });
+      final id2timetable = await handleTimetableData(context, timetable, selectedYear, semester);
+      if (!mounted) return;
+      context.pop(id2timetable);
+    } catch (e, stackTrace) {
+      if (e is ParallelWaitError) {
+        final inner = e.errors.$1 as AsyncError;
+        debugPrint(inner.toString());
+        debugPrintStack(stackTrace: inner.stackTrace);
+      } else {
+        debugPrint(e.toString());
         debugPrintStack(stackTrace: stackTrace);
       }
-    } catch (e) {
       setState(() {
         _status = ImportStatus.failed;
       });

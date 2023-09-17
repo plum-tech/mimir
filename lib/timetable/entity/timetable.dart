@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mimir/school/entity/school.dart';
 
@@ -257,12 +258,8 @@ class SitCourse {
   @JsonKey()
   final String iconName;
 
-  /// e.g.: `a1-5,s14` means `from 1st week to 5th week` + `14th week`.
-  /// e.g.: `o2-9,s12,s14` means `only odd weeks from 2nd week to 9th week` + `12th week` + `14th week`
-  /// If the index is `o`(odd), `e`(even) or `a`(all), then it must be a range.
-  /// Starts with 1
-  @JsonKey()
-  final List<String> rangedWeekNumbers;
+  @JsonKey(toJson: _weekIndicesToJson, fromJson: _weekIndicesFromJson)
+  final TimetableWeekIndices weekIndices;
 
   /// e.g.: `1-3` means `1st slot to 3rd slot`.
   /// Starts with 0
@@ -280,83 +277,24 @@ class SitCourse {
   @JsonKey()
   final List<String> teachers;
 
-  const SitCourse(
-    this.courseKey,
-    this.courseName,
-    this.courseCode,
-    this.classCode,
-    this.campus,
-    this.place,
-    this.iconName,
-    this.rangedWeekNumbers,
-    this.timeslots,
-    this.courseCredit,
-    this.creditHour,
-    this.dayIndex,
-    this.teachers,
-  );
+  const SitCourse({
+    required this.courseKey,
+    required this.courseName,
+    required this.courseCode,
+    required this.classCode,
+    required this.campus,
+    required this.place,
+    required this.iconName,
+    required this.weekIndices,
+    required this.timeslots,
+    required this.courseCredit,
+    required this.creditHour,
+    required this.dayIndex,
+    required this.teachers,
+  });
 
   @override
   String toString() => "[$courseKey] $courseName";
-
-  /// The result, week number, starts with 1.
-  /// e.g.:
-  /// [rangedWeekNumbers] is `a1-5,o7-12`.
-  /// return value is [[1,2,3,4,5,7,9,11]].
-  static Iterable<int> rangedWeekNumbers2EachWeekNumbers(List<String> rangedWeekNumbers) sync* {
-    // Then the weeks can be ["1-5周","14周","8-10周(单)"]
-    for (final rangedWeekNumber in rangedWeekNumbers) {
-      // don't worry about empty length.
-      final step = WeekStep.by(rangedWeekNumber[0]);
-      // realWeek is removed the WeekStep indicator at the head.
-      final realWeek = rangedWeekNumber.substring(1);
-      if (step == WeekStep.single) {
-        yield int.parse(realWeek);
-      } else {
-        final range = realWeek.split("-");
-        final start = int.parse(range[0]);
-        final end = int.parse(range[1]); // inclusive
-        for (int i = start; i <= end; i++) {
-          if (step == WeekStep.odd && i.isOdd) {
-            // odd week only
-            yield i;
-          } else if (step == WeekStep.even && i.isEven) {
-            //even week only
-            yield i;
-          } else {
-            // all week included
-            yield i;
-          }
-        }
-      }
-    }
-  }
-
-  /// Then the [indices] could be ["a1-5", "s14", "o8-10"]
-  /// The return value should be:
-  /// - `1-5 周, 14 周, 8-10 单周` in Chinese.
-  /// - `1-5 wk, 14 wk, 8-10 odd wk`
-  /// This is used in Classic UI.
-  static List<String> rangedWeekNumbers2Localized(List<String> rangedWeekNumbers) {
-    final res = <String>[];
-    for (final rangedWeekNumber in rangedWeekNumbers) {
-      final step = WeekStep.by(rangedWeekNumber[0]);
-      final number = rangedWeekNumber.substring(1);
-      switch (step) {
-        case WeekStep.single:
-        case WeekStep.all:
-          res.add("$number ${step.l10n()}");
-          break;
-        case WeekStep.odd:
-          res.add("$number ${step.l10n()}");
-          break;
-        case WeekStep.even:
-          res.add("$number ${step.l10n()}");
-          break;
-      }
-    }
-    return res;
-  }
 
   factory SitCourse.fromJson(Map<String, dynamic> json) => _$SitCourseFromJson(json);
 
@@ -365,7 +303,7 @@ class SitCourse {
 
 extension SitCourseEx on SitCourse {
   String localizedWeekNumbers({String separateBy = ", "}) {
-    return SitCourse.rangedWeekNumbers2Localized(rangedWeekNumbers).join(separateBy);
+    return weekIndices.l10n().join(separateBy);
   }
 
   String localizedCampusName() {
@@ -397,4 +335,173 @@ extension SitCourseEx on SitCourse {
     final end = timetable[endIndex].end;
     return ClassTime(begin, end);
   }
+}
+
+const _kAll = "a";
+const _kOdd = "o";
+const _kEven = "e";
+
+enum TimetableWeekIndexType {
+  all(_kAll),
+  odd(_kOdd),
+  even(_kEven);
+
+  final String indicator;
+
+  const TimetableWeekIndexType(this.indicator);
+
+  String l10n() => "timetable.weekStep.$name".tr();
+
+  static TimetableWeekIndexType of(String indicator) {
+    return switch (indicator) {
+      _kOdd => TimetableWeekIndexType.odd,
+      _kEven => TimetableWeekIndexType.even,
+      _ => TimetableWeekIndexType.all,
+    };
+  }
+}
+
+class TimetableWeekIndex {
+  final TimetableWeekIndexType type;
+
+  /// Both [start] and [end] are inclusive.
+  /// [start] will equal to [end] if it's not ranged.
+  final ({int start, int end}) range;
+
+  const TimetableWeekIndex({
+    required this.type,
+    required this.range,
+  });
+
+  /// week number start by
+  bool match(int weekIndex) {
+    return range.start <= weekIndex && weekIndex <= range.end;
+  }
+
+  /// convert the index to number.
+  /// e.g.: (start: 0, end: 8) => "1-9"
+  String l10n() {
+    // TODO: better l10n
+    return "${range.start + 1} ${type.l10n()}";
+  }
+
+  /// see [TimetableWeekIndex.range].
+  /// If [range] is "1-8", the output will be `(start:0, end: 7)`.
+  /// if [number2index] is true, the [range] will be considered as a number range, which starts with 1 instead of 0.
+  static ({int start, int end}) rangedOrSingleFromString(
+    String range, {
+    bool number2index = false,
+  }) {
+    if (range.contains("-")) {
+      final rangeParts = range.split("-");
+      final start = int.parse(rangeParts[0]);
+      final end = int.parse(rangeParts[1]);
+      if (number2index) {
+        return (start: start - 1, end: end - 1);
+      } else {
+        return (start: start, end: end);
+      }
+    } else {
+      final single = int.parse(range);
+      if (number2index) {
+        return (start: single - 1, end: single - 1);
+      } else {
+        return (start: single, end: single);
+      }
+    }
+  }
+
+  static String rangedOrSingleToString(({int start, int end}) range) {
+    if (range.start == range.end) {
+      return "${range.start}";
+    } else {
+      return "${range.start}-${range.start}";
+    }
+  }
+}
+
+class TimetableWeekIndices {
+  final List<TimetableWeekIndex> indices;
+
+  TimetableWeekIndices(this.indices);
+
+  bool match(int weekIndex) {
+    for (final index in indices) {
+      if (index.match(weekIndex)) return true;
+    }
+    return false;
+  }
+
+  /// Then the [indices] could be ["a1-5", "s14", "o8-10"]
+  /// The return value should be:
+  /// - `1-5 周, 14 周, 8-10 单周` in Chinese.
+  /// - `1-5 wk, 14 wk, 8-10 odd wk`
+  List<String> l10n() {
+    final res = <String>[];
+    for (final index in indices) {
+      res.add(index.l10n());
+    }
+    return res;
+  }
+
+  /// The result, week index, which starts with 0.
+  /// e.g.:
+  /// ```dart
+  /// TimetableWeekIndices([
+  ///  WeekIndexType(
+  ///    type: WeekIndexType.all,
+  ///    range: (start: 0, end: 4),
+  ///  ),
+  ///  WeekIndexType(
+  ///    type: WeekIndexType.all,
+  ///    range: (start: 13, end: 13),
+  ///  ),
+  ///  WeekIndexType(
+  ///    type: WeekIndexType.odd,
+  ///    range: (start: 7, end: 9),
+  ///  ),
+  /// ])
+  /// ```
+  /// return value is {0,1,2,3,4,13,7,9}.
+  Set<int> getWeekIndices() {
+    final res = <int>{};
+    for (final TimetableWeekIndex(:type, :range) in indices) {
+      switch (type) {
+        case TimetableWeekIndexType.all:
+          for (var i = range.start; i <= range.end; i++) {
+            res.add(i);
+          }
+          break;
+        case TimetableWeekIndexType.odd:
+          for (var i = range.start; i <= range.end; i += 2) {
+            if (i.isOdd) res.add(i);
+          }
+          break;
+        case TimetableWeekIndexType.even:
+          for (var i = range.start; i <= range.end; i++) {
+            if (i.isEven) res.add(i);
+          }
+          break;
+      }
+    }
+    return res;
+  }
+}
+
+List<String> _weekIndicesToJson(TimetableWeekIndices indices) {
+  final res = <String>[];
+  for (final TimetableWeekIndex(:type, :range) in indices.indices) {
+    res.add("${type.indicator}${TimetableWeekIndex.rangedOrSingleToString(range)}");
+  }
+  return res;
+}
+
+TimetableWeekIndices _weekIndicesFromJson(List indices) {
+  final res = <TimetableWeekIndex>[];
+  for (final index in indices.cast<String>()) {
+    final type = TimetableWeekIndexType.of(index[0]);
+    final range = TimetableWeekIndex.rangedOrSingleFromString(index.substring(1));
+    res.add(TimetableWeekIndex(type: type, range: range));
+  }
+  return TimetableWeekIndices(res);
 }
