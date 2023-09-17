@@ -18,16 +18,16 @@ class TimetablePage extends StatefulWidget {
 class _TimetablePageState extends State<TimetablePage> {
   TimetableStorage get storage => TimetableInit.storage;
   late SitTimetable? _selected = storage.timetable.selectedRow;
-  final $selectedId = TimetableInit.storage.timetable.$selectedId;
+  final $selected = TimetableInit.storage.timetable.$selected;
   @override
   void initState() {
     super.initState();
-    $selectedId.addListener(refresh);
+    $selected.addListener(refresh);
   }
 
   @override
   void dispose() {
-    $selectedId.removeListener(refresh);
+    $selected.removeListener(refresh);
     super.dispose();
   }
 

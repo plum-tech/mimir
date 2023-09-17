@@ -7,6 +7,7 @@ const _kLastId = "lastId";
 const _kIdList = "idList";
 const _kRows = "rows";
 const _kSelectedId = "selectedId";
+const _kLastIdStart = 0;
 
 class Notifier with ChangeNotifier {
   void notifier() => notifyListeners();
@@ -21,7 +22,7 @@ class HiveTable<T> {
   final String _rows;
   final String _selectedId;
   final ({T Function(Map<String, dynamic> json) fromJson, Map<String, dynamic> Function(T row) toJson})? useJson;
-  final $selectedId = Notifier();
+  final $selected = Notifier();
 
   HiveTable({
     required this.base,
@@ -34,7 +35,7 @@ class HiveTable<T> {
 
   bool get hasAny => idList.isNotEmpty;
 
-  int get lastId => box.get(_lastId) ?? 0;
+  int get lastId => box.get(_lastId) ?? _kLastIdStart;
 
   set lastId(int newValue) => box.put(_lastId, newValue);
 
@@ -42,11 +43,11 @@ class HiveTable<T> {
 
   set idList(List<int> newValue) => box.put(_idList, newValue);
 
-  int? get selectedId => box.get(_selectedId) ?? 0;
+  int? get selectedId => box.get(_selectedId);
 
   set selectedId(int? newValue) {
     box.put(_selectedId, newValue);
-    $selectedId.notifier();
+    $selected.notifier();
   }
 
   T? get selectedRow {
@@ -74,6 +75,9 @@ class HiveTable<T> {
       box.put("$_rows/$id", row);
     } else {
       box.put("$_rows/$id", jsonEncode(useJson.toJson(row)));
+    }
+    if(selectedId == id){
+      $selected.notifier();
     }
   }
 
