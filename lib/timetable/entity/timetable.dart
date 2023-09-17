@@ -438,12 +438,12 @@ class TimetableWeekIndices {
           break;
         case TimetableWeekIndexType.odd:
           for (var i = range.start; i <= range.end; i += 2) {
-            if (i.isOdd) res.add(i);
+            if ((i + 1).isOdd) res.add(i);
           }
           break;
         case TimetableWeekIndexType.even:
           for (var i = range.start; i <= range.end; i++) {
-            if (i.isEven) res.add(i);
+            if ((i + 1).isEven) res.add(i);
           }
           break;
       }
