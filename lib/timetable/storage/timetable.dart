@@ -1,70 +1,33 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mimir/hive/table.dart';
+import 'package:mimir/timetable/entity/timetable.dart';
 
 import '../entity/course.dart';
-import '../entity/timetable.dart';
 
 class _K {
-  static const timetableIdList = "/timetableIdList";
-  static const lastTimetableId = "/lastTimetableId";
-  static const usedTimetableId = "/usedTimetableId";
+  static const timetable = "/timetable";
   static const lastDisplayMode = "/lastDisplayMode";
-  static const lastPaletteId = "/lastPaletteId";
+
   // TODO: Remove this and add a new personalization system.
   static const useOldSchoolPalette = "/useOldSchoolPalette";
   static const useNewUI = "/useNewUI";
-
-  static String makeTimetableKey(String id) => "/timetables/$id";
-}
-
-class CurrentTimetableNotifier with ChangeNotifier {
-  void notifier() => notifyListeners();
 }
 
 class TimetableStorage {
   final Box<dynamic> box;
 
-  final onCurrentTimetableChanged = CurrentTimetableNotifier();
+  final HiveTable<SitTimetable> timetable;
 
-  TimetableStorage(this.box);
+  TimetableStorage(this.box)
+      : timetable = HiveTable<SitTimetable>(
+            base: _K.timetable,
+            box: box,
+            useJson: (fromJson: SitTimetable.fromJson, toJson: (timetable) => timetable.toJson()));
 
   DisplayMode? get lastDisplayMode => DisplayMode.at(box.get(_K.lastDisplayMode));
 
   set lastDisplayMode(DisplayMode? newValue) => box.put(_K.lastDisplayMode, newValue?.index);
-
-  int get lastTimetableId => box.get(_K.lastTimetableId) ?? 0;
-
-  set lastTimetableId(int newValue) => box.put(_K.lastTimetableId, newValue);
-
-  List<String> get timetableIds => box.get(_K.timetableIdList) ?? <String>[];
-
-  set timetableIds(List<String>? newValue) => box.put(_K.timetableIdList, newValue);
-
-  SitTimetable? getSitTimetableById({required String? id}) {
-    if (id == null) return null;
-    final table = box.get(_K.makeTimetableKey(id));
-    return table == null ? null : SitTimetable.fromJson(jsonDecode(table));
-  }
-
-  void setSitTimetableById(SitTimetable? timetable, {required String id}) {
-    if (timetable == null) {
-      box.delete(_K.makeTimetableKey(id));
-    } else {
-      box.put(_K.makeTimetableKey(id), jsonEncode(timetable.toJson()));
-    }
-    if (id == usedTimetableId) {
-      onCurrentTimetableChanged.notifier();
-    }
-  }
-
-  String? get usedTimetableId => box.get(_K.usedTimetableId);
-
-  set usedTimetableId(String? newValue) {
-    box.put(_K.usedTimetableId, newValue);
-    onCurrentTimetableChanged.notifier();
-  }
 
   set useOldSchoolPalette(bool? newV) => box.put(_K.useOldSchoolPalette, newV);
 
@@ -75,47 +38,4 @@ class TimetableStorage {
   bool? get useNewUI => box.get(_K.useNewUI);
 
   ValueListenable<Box> get onThemeChanged => box.listenable(keys: [_K.useOldSchoolPalette, _K.useNewUI]);
-}
-
-extension TimetableStorageEx on TimetableStorage {
-  bool get hasAnyTimetable => timetableIds.isNotEmpty;
-
-  /// Delete the timetable by [id].
-  /// If [SitTimetable.usedTimetableId] is deleted, an available timetable would be switched to.
-  void deleteTimetableOf(String id) {
-    final ids = timetableIds;
-    if (ids.remove(id)) {
-      timetableIds = ids;
-      if (usedTimetableId == id) {
-        if (timetableIds.isNotEmpty) {
-          usedTimetableId = timetableIds.first;
-        } else {
-          usedTimetableId = null;
-        }
-      }
-      setSitTimetableById(null, id: id);
-    }
-  }
-
-  /// Return the timetable id.
-  String addTimetable(SitTimetable timetable) {
-    final curId = "${lastTimetableId++}";
-    final ids = timetableIds;
-    ids.add(curId);
-    setSitTimetableById(timetable, id: curId);
-    timetableIds = ids;
-    return curId;
-  }
-
-  List<({String id, SitTimetable timetable})> getAllSitTimetables() {
-    final ids = timetableIds;
-    final res = <({String id, SitTimetable timetable})>[];
-    for (final id in ids) {
-      final timetable = getSitTimetableById(id: id);
-      if (timetable != null) {
-        res.add((id: id, timetable: timetable));
-      }
-    }
-    return res;
-  }
 }

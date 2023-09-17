@@ -6,7 +6,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:ical/serializer.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/school/entity/school.dart';
-import 'package:mimir/timetable/storage/timetable.dart';
 import 'package:mimir/utils/file.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
@@ -227,7 +226,7 @@ Duration calcuSwitchAnimationDuration(num distance) {
   return Duration(milliseconds: time.toInt());
 }
 
-Future<({String id, SitTimetable timetable})?> importTimetableFromFile() async {
+Future<({int id, SitTimetable timetable})?> importTimetableFromFile() async {
   final result = await FilePicker.platform.pickFiles(
       // Cannot limit the extensions. My RedMi phone just reject all files.
       // type: FileType.custom,
@@ -240,7 +239,7 @@ Future<({String id, SitTimetable timetable})?> importTimetableFromFile() async {
   final content = await file.readAsString();
   final json = jsonDecode(content);
   final timetable = SitTimetable.fromJson(json);
-  final id = TimetableInit.storage.addTimetable(timetable);
+  final id = TimetableInit.storage.timetable.add(timetable);
   return (id: id, timetable: timetable);
 }
 

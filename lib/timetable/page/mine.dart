@@ -7,7 +7,6 @@ import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/design/widgets/multiplatform.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/route.dart';
-import 'package:mimir/timetable/storage/timetable.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/meta.dart';
@@ -36,10 +35,10 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   }
 
   Future<void> importFromSchoolServer() async {
-    final id2timetable = await context.push<({String id, SitTimetable timetable})>("/timetable/import");
+    final id2timetable = await context.push<({int id, SitTimetable timetable})>("/timetable/import");
     if (id2timetable != null) {
       final (:id, timetable: _) = id2timetable;
-      storage.usedTimetableId ??= id;
+      storage.timetable.selectedId ??= id;
       if (!mounted) return;
       setState(() {});
     }
@@ -50,7 +49,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       final id2timetable = await importTimetableFromFile();
       if (id2timetable != null) {
         final (:id, timetable: _) = id2timetable;
-        storage.usedTimetableId ??= id;
+        storage.timetable.selectedId ??= id;
         if (!mounted) return;
         setState(() {});
       }
@@ -138,21 +137,21 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   }
 
   Widget buildTimetables(BuildContext ctx) {
-    final timetables = storage.getAllSitTimetables();
-    final selectedId = storage.usedTimetableId;
+    final timetables = storage.timetable.getRows();
+    final selectedId = storage.timetable.selectedId;
     if (timetables.isEmpty) {
       return _buildEmptyBody(ctx);
     }
     return ListView(
       children: [
-        for (final (:id, :timetable) in timetables)
+        for (final (:id, row: timetable) in timetables)
           TimetableEntry(
             id: id,
             timetable: timetable,
             moreAction: buildActionPopup(id, timetable, selectedId == id),
             actions: (
               use: (timetable) {
-                storage.usedTimetableId = id;
+                storage.timetable.selectedId = id;
                 setState(() {});
               },
               preview: (timetable) {
@@ -164,7 +163,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
     );
   }
 
-  Widget buildActionPopup(String id, SitTimetable timetable, bool isSelected) {
+  Widget buildActionPopup(int id, SitTimetable timetable, bool isSelected) {
     return PopupMenuButton(
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
       position: PopupMenuPosition.under,
@@ -182,7 +181,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
               );
               if (newMeta != null) {
                 final newTimetable = timetable.copyWithMeta(newMeta);
-                storage.setSitTimetableById(newTimetable, id: id);
+                storage.timetable.setOf(id, newTimetable);
                 if (!mounted) return;
                 setState(() {});
               }
@@ -213,9 +212,9 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
                 highlight: true,
               );
               if (confirm == true) {
-                storage.deleteTimetableOf(id);
+                storage.timetable.delete(id);
                 if (!mounted) return;
-                if (!storage.hasAnyTimetable) {
+                if (!storage.timetable.hasAny) {
                   // If no timetable exists, go out.
                   ctx.pop();
                 }
@@ -233,7 +232,7 @@ typedef TimetableCallback = void Function(SitTimetable tiemtable);
 typedef TimetableActions = ({TimetableCallback use, TimetableCallback preview});
 
 class TimetableEntry extends StatelessWidget {
-  final String id;
+  final int id;
   final SitTimetable timetable;
   final Widget? moreAction;
   final TimetableActions actions;
@@ -248,7 +247,7 @@ class TimetableEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isSelected = TimetableInit.storage.usedTimetableId == id;
+    final isSelected = TimetableInit.storage.timetable.selectedId == id;
     final year = '${timetable.schoolYear}–${timetable.schoolYear + 1}';
     final semester = timetable.semester.localized();
     final textTheme = context.textTheme;

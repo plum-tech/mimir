@@ -8,7 +8,6 @@ import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/widgets/school.dart';
-import 'package:mimir/timetable/storage/timetable.dart';
 import 'package:mimir/timetable/utils.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -131,7 +130,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     ].column(key: key, maa: MainAxisAlignment.center, caa: CrossAxisAlignment.center);
   }
 
-  Future<({String id, SitTimetable timetable})?> handleTimetableData(
+  Future<({int id, SitTimetable timetable})?> handleTimetableData(
       BuildContext ctx, SitTimetable timetable, int year, Semester semester) async {
     final defaultName = i18n.import.defaultName(semester.localized(), year.toString(), (year + 1).toString());
     DateTime defaultStartDate;
@@ -152,7 +151,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     );
     if (newMeta != null) {
       timetable = timetable.copyWithMeta(newMeta);
-      final id = TimetableInit.storage.addTimetable(timetable);
+      final id = TimetableInit.storage.timetable.add(timetable);
       return (id: id, timetable: timetable);
     }
     return null;
