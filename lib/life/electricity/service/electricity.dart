@@ -1,6 +1,6 @@
-import 'package:dio/dio.dart';
-import 'package:mimir/utils/json.dart';
+import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import '../entity/balance.dart';
 
 const _balanceUrl = "https://xgfy.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=DBAccess_RunSQLReturnTable";
@@ -22,9 +22,9 @@ class ElectricityService {
         },
       ),
     );
-    final data = response.data as String;
-    final list = data.toList(ElectricityBalance.fromJson);
-    ElectricityBalance balance = list!.first;
+    final data = jsonDecode(response.data as String) as List;
+    final list = data.map((e) => ElectricityBalance.fromJson(e)).toList();
+    ElectricityBalance balance = list.first;
     return balance;
   }
 }

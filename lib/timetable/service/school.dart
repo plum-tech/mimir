@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:mimir/network/session.dart';
 import 'package:mimir/school/entity/school.dart';
 
@@ -10,12 +12,6 @@ class TimetableService {
   final ISession session;
 
   TimetableService(this.session);
-
-  static List<Course> _parseTimetable(Map<String, dynamic> json) {
-    final List<dynamic> courseList = json['kbList'];
-
-    return courseList.map((e) => Course.fromJson(e)).toList();
-  }
 
   /// 获取课表
   Future<SitTimetable> getTimetable(SchoolYear schoolYear, Semester semester) async {
@@ -32,6 +28,7 @@ class TimetableService {
     );
     final json = response.data;
     final List<dynamic> courseList = json['kbList'];
+
     final rawCourses = courseList.map((e) => CourseRaw.fromJson(e)).toList();
     final timetableEntity = SitTimetable.parse(rawCourses);
     return timetableEntity;

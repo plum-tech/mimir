@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 
+import '../entity/timetable.dart';
 import '../i18n.dart';
-import '../entity/meta.dart';
 
 class MetaEditor extends StatefulWidget {
   final TimetableMeta meta;

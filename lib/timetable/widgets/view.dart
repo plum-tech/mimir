@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mimir/design/animation/animated.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/course.dart';
+import '../entity/display.dart';
 import '../entity/pos.dart';
 import '../entity/timetable.dart';
 import "classic_ui/daily.dart" as classic_daily;

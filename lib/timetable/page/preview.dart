@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/course.dart';
+import '../entity/display.dart';
 import '../entity/timetable.dart';
 import '../widgets/style.dart';
 import '../entity/pos.dart';

@@ -4,7 +4,6 @@ import 'package:mimir/school/entity/school.dart';
 import '../i18n.dart';
 import '../utils.dart';
 import 'course.dart';
-import 'meta.dart';
 
 part 'timetable.g.dart';
 
@@ -83,6 +82,39 @@ class SitTimetable {
   factory SitTimetable.fromJson(Map<String, dynamic> json) => _$SitTimetableFromJson(json);
 
   Map<String, dynamic> toJson() => _$SitTimetableToJson(this);
+}
+
+class TimetableMeta {
+  final String name;
+  final DateTime startDate;
+  final int schoolYear;
+  final Semester semester;
+
+  const TimetableMeta({
+    required this.name,
+    required this.startDate,
+    required this.schoolYear,
+    required this.semester,
+  });
+
+  TimetableMeta copyWith({
+    String? name,
+    DateTime? startDate,
+    int? schoolYear,
+    Semester? semester,
+  }) {
+    return TimetableMeta(
+      name: name ?? this.name,
+      startDate: startDate ?? this.startDate,
+      schoolYear: schoolYear ?? this.schoolYear,
+      semester: semester ?? this.semester,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'TimetableMeta{name: $name, startDate: $startDate, schoolYear: $schoolYear, semester: $semester}';
+  }
 }
 
 @JsonSerializable()

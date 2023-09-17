@@ -5,16 +5,14 @@ import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
 
+import '../entity/display.dart';
 import '../events.dart';
 import '../i18n.dart';
-import '../entity/course.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
 import '../widgets/style.dart';
 import '../entity/pos.dart';
 import '../widgets/view.dart';
-
-const DisplayMode defaultMode = DisplayMode.weekly;
 
 class TimetableBoardPage extends StatefulWidget {
   final SitTimetable timetable;

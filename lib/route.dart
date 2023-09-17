@@ -91,7 +91,7 @@ final router = GoRouter(
                   final extra = state.extra;
                   if (extra is SitTimetable) return TimetablePreviewPage(timetable: extra);
                   final id = int.tryParse(state.pathParameters["id"] ?? "");
-                  if(id == null) throw 404;
+                  if (id == null) throw 404;
                   final timetable = TimetableInit.storage.timetable.getOf(id);
                   if (timetable == null) throw 404;
                   return TimetablePreviewPage(timetable: timetable);

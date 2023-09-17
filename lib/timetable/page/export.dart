@@ -6,13 +6,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/utils/url_launcher.dart';
 
 import '../entity/course.dart';
-import '../entity/meta.dart';
+import '../entity/timetable.dart';
 import '../utils.dart';
 
 class ExportDialog {
   final BuildContext context;
   final TimetableMeta meta;
-  final List<Course> courses;
+  final List<CourseRaw> courses;
 
   ExportDialog(this.context, this.meta, this.courses);
 

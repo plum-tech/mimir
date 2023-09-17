@@ -7,7 +7,6 @@ import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/route.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/meta.dart';
 import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
@@ -64,7 +63,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         title: i18n.mine.title.text(),
         actions: [
           IconButton(
-            onPressed: (){
+            onPressed: () {
               context.push("/timetable/p13n");
             },
             icon: const Icon(Icons.color_lens_outlined),

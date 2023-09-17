@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mimir/hive/table.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
 
-import '../entity/course.dart';
+import '../entity/display.dart';
 
 class _K {
   static const timetable = "/timetable";

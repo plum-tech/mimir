@@ -12,7 +12,6 @@ import 'package:share_plus/share_plus.dart';
 import 'entity/timetable.dart';
 
 import 'entity/course.dart';
-import 'entity/meta.dart';
 import 'dart:math';
 
 import 'init.dart';
@@ -20,47 +19,47 @@ import 'package:path/path.dart' show join;
 
 const maxWeekLength = 20;
 
-void _addEventForCourse(ICalendar cal, Course course, DateTime startDate, Duration? alarmBefore) {
-  final timetable = getTeacherBuildingTimetable(course.campus, course.place);
-  final indexStart = getIndexStart(course.timeIndex);
-  final indexEnd = getIndexEnd(indexStart, course.timeIndex);
-  final timeStart = timetable[indexStart - 1].begin;
-  final timeEnd = timetable[indexEnd - 1].end;
-
-  final description =
-      '第 ${indexStart == indexEnd ? indexStart : '$indexStart-$indexEnd'} 节，${course.place}，${course.teacher.join(' ')}';
-
-  // 一学期最多有 20 周
-  for (int currentWeek = 1; currentWeek < 20; ++currentWeek) {
-    // 本周没课, 跳过
-    if ((1 << currentWeek) & course.weekIndex == 0) continue;
-
-    // 这里需要使用UTC时间
-    // 实际测试得出，如果不使用UTC，有的手机会将其看作本地时间
-    // 有的手机会将其看作UTC+0的时间从而导致实际显示时间与预期不一致
-    final date = parseWeekDayNumberToDate(week: currentWeek, day: course.dayIndex, basedOn: startDate);
-    final eventStartTime = date.add(Duration(hours: timeStart.hour, minutes: timeStart.minute));
-    final eventEndTime = date.add(Duration(hours: timeEnd.hour, minutes: timeEnd.minute));
-    final IEvent event = IEvent(
-      // uid: 'SIT-${course.courseId}-${const Uuid().v1()}',
-      summary: course.courseName,
-      location: course.place,
-      description: description,
-      start: eventStartTime,
-      end: eventEndTime,
-      alarm: alarmBefore == null
-          ? null
-          : IAlarm.display(
-              trigger: eventStartTime.subtract(alarmBefore),
-              description: description,
-            ),
-    );
-    cal.addElement(event);
-  }
+void _addEventForCourse(ICalendar cal, CourseRaw course, DateTime startDate, Duration? alarmBefore) {
+  // final timetable = getTeacherBuildingTimetable(course.campus, course.place);
+  // final indexStart = getIndexStart(course.timeIndex);
+  // final indexEnd = getIndexEnd(indexStart, course.timeIndex);
+  // final timeStart = timetable[indexStart - 1].begin;
+  // final timeEnd = timetable[indexEnd - 1].end;
+  //
+  // final description =
+  //     '第 ${indexStart == indexEnd ? indexStart : '$indexStart-$indexEnd'} 节，${course.place}，${course.teacher.join(' ')}';
+  //
+  // // 一学期最多有 20 周
+  // for (int currentWeek = 1; currentWeek < 20; ++currentWeek) {
+  //   // 本周没课, 跳过
+  //   if ((1 << currentWeek) & course.weekIndex == 0) continue;
+  //
+  //   // 这里需要使用UTC时间
+  //   // 实际测试得出，如果不使用UTC，有的手机会将其看作本地时间
+  //   // 有的手机会将其看作UTC+0的时间从而导致实际显示时间与预期不一致
+  //   final date = parseWeekDayNumberToDate(week: currentWeek, day: course.dayIndex, basedOn: startDate);
+  //   final eventStartTime = date.add(Duration(hours: timeStart.hour, minutes: timeStart.minute));
+  //   final eventEndTime = date.add(Duration(hours: timeEnd.hour, minutes: timeEnd.minute));
+  //   final IEvent event = IEvent(
+  //     // uid: 'SIT-${course.courseId}-${const Uuid().v1()}',
+  //     summary: course.courseName,
+  //     location: course.place,
+  //     description: description,
+  //     start: eventStartTime,
+  //     end: eventEndTime,
+  //     alarm: alarmBefore == null
+  //         ? null
+  //         : IAlarm.display(
+  //             trigger: eventStartTime.subtract(alarmBefore),
+  //             description: description,
+  //           ),
+  //   );
+  //   cal.addElement(event);
+  // }
 }
 
 ///导出的方法
-String convertTableToIcs(TimetableMeta meta, List<Course> courses, Duration? alarmBefore) {
+String convertTableToIcs(TimetableMeta meta, List<CourseRaw> courses, Duration? alarmBefore) {
   final ICalendar iCal = ICalendar(
     company: 'Liplum',
     product: 'Mímir',
@@ -81,7 +80,7 @@ String getExportTimetableFilename() {
   return 'sit-timetable-${timetableDateFormat.format(DateTime.now())}.ics';
 }
 
-Future<void> exportTimetableToCalendar(TimetableMeta meta, List<Course> courses, Duration? alarmBefore) async {
+Future<void> exportTimetableToCalendar(TimetableMeta meta, List<CourseRaw> courses, Duration? alarmBefore) async {
   await FileUtils.writeToTempFileAndOpen(
     content: convertTableToIcs(meta, courses, alarmBefore),
     filename: getExportTimetableFilename(),
@@ -89,7 +88,15 @@ Future<void> exportTimetableToCalendar(TimetableMeta meta, List<Course> courses,
   );
 }
 
-final Map<String, int> _weekday2Index = {'星期一': 1, '星期二': 2, '星期三': 3, '星期四': 4, '星期五': 5, '星期六': 6, '星期日': 7};
+final Map<String, int> _weekday2Index = {
+  '星期一': 1,
+  '星期二': 2,
+  '星期三': 3,
+  '星期四': 4,
+  '星期五': 5,
+  '星期六': 6,
+  '星期日': 7,
+};
 
 enum WeekStep {
   single('s'),
@@ -154,7 +161,7 @@ List<String> _weekText2RangedNumbers(String weekText) {
 SitTimetable parseTimetableEntity(List<CourseRaw> all) {
   final List<SitTimetableWeek?> weeks = List.generate(20, (index) => null);
   SitTimetableWeek getWeekAt(int index) {
-    var week = weeks[index] ??= SitTimetableWeek.$7days();
+    final week = weeks[index] ??= SitTimetableWeek.$7days();
     weeks[index] = week;
     return week;
   }

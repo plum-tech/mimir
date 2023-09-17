@@ -13,7 +13,6 @@ import 'package:rettulf/rettulf.dart';
 
 import '../i18n.dart';
 import '../entity/timetable.dart';
-import '../entity/meta.dart';
 import '../init.dart';
 import '../widgets/meta_editor.dart';
 

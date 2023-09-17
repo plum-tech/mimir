@@ -76,7 +76,7 @@ class HiveTable<T> {
     } else {
       box.put("$_rows/$id", jsonEncode(useJson.toJson(row)));
     }
-    if(selectedId == id){
+    if (selectedId == id) {
       $selected.notifier();
     }
   }
