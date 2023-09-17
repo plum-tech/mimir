@@ -261,10 +261,10 @@ class SitCourse {
   @JsonKey(toJson: _weekIndicesToJson, fromJson: _weekIndicesFromJson)
   final TimetableWeekIndices weekIndices;
 
-  /// e.g.: `1-3` means `1st slot to 3rd slot`.
+  /// e.g.: (start:1, end: 3) means `2nd slot to 4th slot`.
   /// Starts with 0
-  @JsonKey()
-  final String timeslots;
+  @JsonKey(toJson: rangeToString, fromJson: rangeFromString)
+  final ({int start, int end}) timeslots;
   @JsonKey()
   final double courseCredit;
   @JsonKey()
@@ -328,12 +328,10 @@ extension SitCourseEx on SitCourse {
   /// Ends with the last part ends.
   ClassTime composeFullClassTime() {
     final timetable = buildingTimetable;
-    final range = timeslots.split("-");
-    final startIndex = int.parse(range[0]) - 1;
-    final endIndex = int.parse(range[1]) - 1;
-    final begin = timetable[startIndex].begin;
-    final end = timetable[endIndex].end;
-    return ClassTime(begin, end);
+    final (:start, :end) = timeslots;
+    final beginTime = timetable[start].begin;
+    final endTime = timetable[end].end;
+    return ClassTime(beginTime, endTime);
   }
 }
 
@@ -383,40 +381,6 @@ class TimetableWeekIndex {
   String l10n() {
     // TODO: better l10n
     return "${range.start + 1} ${type.l10n()}";
-  }
-
-  /// see [TimetableWeekIndex.range].
-  /// If [range] is "1-8", the output will be `(start:0, end: 7)`.
-  /// if [number2index] is true, the [range] will be considered as a number range, which starts with 1 instead of 0.
-  static ({int start, int end}) rangedOrSingleFromString(
-    String range, {
-    bool number2index = false,
-  }) {
-    if (range.contains("-")) {
-      final rangeParts = range.split("-");
-      final start = int.parse(rangeParts[0]);
-      final end = int.parse(rangeParts[1]);
-      if (number2index) {
-        return (start: start - 1, end: end - 1);
-      } else {
-        return (start: start, end: end);
-      }
-    } else {
-      final single = int.parse(range);
-      if (number2index) {
-        return (start: single - 1, end: single - 1);
-      } else {
-        return (start: single, end: single);
-      }
-    }
-  }
-
-  static String rangedOrSingleToString(({int start, int end}) range) {
-    if (range.start == range.end) {
-      return "${range.start}";
-    } else {
-      return "${range.start}-${range.start}";
-    }
   }
 }
 
@@ -491,7 +455,7 @@ class TimetableWeekIndices {
 List<String> _weekIndicesToJson(TimetableWeekIndices indices) {
   final res = <String>[];
   for (final TimetableWeekIndex(:type, :range) in indices.indices) {
-    res.add("${type.indicator}${TimetableWeekIndex.rangedOrSingleToString(range)}");
+    res.add("${type.indicator}${rangeToString(range)}");
   }
   return res;
 }
@@ -500,8 +464,42 @@ TimetableWeekIndices _weekIndicesFromJson(List indices) {
   final res = <TimetableWeekIndex>[];
   for (final index in indices.cast<String>()) {
     final type = TimetableWeekIndexType.of(index[0]);
-    final range = TimetableWeekIndex.rangedOrSingleFromString(index.substring(1));
+    final range = rangeFromString(index.substring(1));
     res.add(TimetableWeekIndex(type: type, range: range));
   }
   return TimetableWeekIndices(res);
+}
+
+/// If [range] is "1-8", the output will be `(start:0, end: 7)`.
+/// if [number2index] is true, the [range] will be considered as a number range, which starts with 1 instead of 0.
+({int start, int end}) rangeFromString(
+  String range, {
+  bool number2index = false,
+}) {
+  if (range.contains("-")) {
+// in range of time slots
+    final rangeParts = range.split("-");
+    final start = int.parse(rangeParts[0]);
+    final end = int.parse(rangeParts[1]);
+    if (number2index) {
+      return (start: start - 1, end: end - 1);
+    } else {
+      return (start: start, end: end);
+    }
+  } else {
+    final single = int.parse(range);
+    if (number2index) {
+      return (start: single - 1, end: single - 1);
+    } else {
+      return (start: single, end: single);
+    }
+  }
+}
+
+String rangeToString(({int start, int end}) range) {
+  if (range.start == range.end) {
+    return "${range.start}";
+  } else {
+    return "${range.start}-${range.start}";
+  }
 }

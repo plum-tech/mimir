@@ -130,21 +130,21 @@ TimetableWeekIndices _parseWeekText2RangedNumbers(String weekText) {
     // odd week
     if (week.endsWith("(单)")) {
       final rangeText = week.removeSuffix("周(单)");
-      final range = TimetableWeekIndex.rangedOrSingleFromString(rangeText, number2index: true);
+      final range = rangeFromString(rangeText, number2index: true);
       indices.add(TimetableWeekIndex(
         type: TimetableWeekIndexType.odd,
         range: range,
       ));
     } else if (week.endsWith("(双)")) {
       final rangeText = week.removeSuffix("周(双)");
-      final range = TimetableWeekIndex.rangedOrSingleFromString(rangeText, number2index: true);
+      final range = rangeFromString(rangeText, number2index: true);
       indices.add(TimetableWeekIndex(
         type: TimetableWeekIndexType.even,
         range: range,
       ));
     } else {
       final numberText = week.removeSuffix("周");
-      final range = TimetableWeekIndex.rangedOrSingleFromString(numberText, number2index: true);
+      final range = rangeFromString(numberText, number2index: true);
       indices.add(TimetableWeekIndex(
         type: TimetableWeekIndexType.all,
         range: range,
@@ -173,6 +173,7 @@ SitTimetable parseTimetableEntity(List<CourseRaw> all) {
     final dayIndex = dayLiteral - 1;
     assert(0 <= dayIndex && dayIndex < 7, "dayIndex is out of range [0,6] but $dayIndex");
     if (!(0 <= dayIndex && dayIndex < 7)) continue;
+    final timeslots =rangeFromString ( raw.timeslotsText, number2index: true);
     final course = SitCourse(
       courseKey: courseKey,
       courseName: mapChinesePunctuations(raw.courseName).trim(),
@@ -182,7 +183,7 @@ SitTimetable parseTimetableEntity(List<CourseRaw> all) {
       place: mapChinesePunctuations(raw.place),
       iconName: CourseCategory.query(raw.courseName),
       weekIndices: weekIndices,
-      timeslots: raw.timeslotsText,
+      timeslots: timeslots,
       courseCredit: double.tryParse(raw.courseCredit) ?? 0.0,
       creditHour: int.tryParse(raw.creditHour) ?? 0,
       dayIndex: dayIndex,
@@ -196,17 +197,8 @@ SitTimetable parseTimetableEntity(List<CourseRaw> all) {
       if (0 <= weekIndex && weekIndex < maxWeekLength) {
         final week = getWeekAt(weekIndex);
         final day = week.days[dayIndex];
-        if (raw.timeslotsText.contains("-")) {
-          // in range of time slots
-          final range = raw.timeslotsText.split("-");
-          final startIndex = int.parse(range[0]) - 1;
-          final endIndex = int.parse(range[1]) - 1; // inclusive
-          for (int slot = startIndex; slot <= endIndex; slot++) {
-            day.add(SitTimetableLesson(startIndex, endIndex, courseKey), at: slot);
-          }
-        } else {
-          final slot = int.parse(raw.timeslotsText) - 1;
-          day.add(SitTimetableLesson(slot, slot, courseKey), at: slot);
+        for (int slot = timeslots.start; slot <= timeslots.end; slot++) {
+          day.add(SitTimetableLesson(timeslots.start, timeslots.end, courseKey), at: slot);
         }
       }
     }
