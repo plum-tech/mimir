@@ -110,16 +110,17 @@ class _ExamResultPageState extends State<ExamResultPage> {
                     child: LinearProgressIndicator(),
                   ),
           ),
-          if (allResults.isEmpty)
-            SliverToBoxAdapter(
-              child: LeavingBlank(
-                icon: Icons.inbox_outlined,
-                desc: i18n.noResult,
-              ),
-            )
-          else
-            ...allResults.mapIndexed((index, item) =>
-                SliverToBoxAdapter(child: ExamResultTile(item, index: index, isSelectingMode: isSelecting))),
+          if (_allResults != null)
+            if (allResults.isEmpty)
+              SliverToBoxAdapter(
+                child: LeavingBlank(
+                  icon: Icons.inbox_outlined,
+                  desc: i18n.noResult,
+                ),
+              )
+            else
+              ...allResults.mapIndexed((index, item) =>
+                  SliverToBoxAdapter(child: ExamResultTile(item, index: index, isSelectingMode: isSelecting))),
         ],
       ),
     );

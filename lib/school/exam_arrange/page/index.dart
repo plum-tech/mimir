@@ -1,7 +1,5 @@
-import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
-import 'package:mimir/design/animation/livelist.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/widgets/school.dart';
 import 'package:rettulf/rettulf.dart';
@@ -39,17 +37,6 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
     refresh();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final exams = _exams;
-    return Scaffold(
-        appBar: AppBar(title: i18n.title.text()),
-        body: [
-          buildSemesterSelector(),
-          exams == null ? const CircularProgressIndicator().expanded() : buildExamEntries(exams).expanded(),
-        ].column());
-  }
-
   void refresh() {
     setState(() {
       // To display the loading placeholder.
@@ -70,46 +57,58 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
     });
   }
 
-  Widget buildExamEntries(List<ExamEntry> exams) {
-    if (exams.isEmpty) {
-      return LeavingBlank(
-        icon: Icons.inbox_outlined,
-        desc: i18n.noExamThisSemester,
-      );
-    } else {
-      return LiveGrid.options(
-        itemCount: exams.length,
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 750,
-          mainAxisExtent: 260,
+  @override
+  Widget build(BuildContext context) {
+    final exams = _exams ?? const [];
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          pinned: true,
+          expandedHeight: 180,
+          flexibleSpace: FlexibleSpaceBar(
+            title: i18n.title.text(),
+            centerTitle: true,
+            background: buildSemesterSelector(),
+          ),
+          bottom: _exams != null
+              ? null
+              : const PreferredSize(
+                  preferredSize: Size.fromHeight(4),
+                  child: LinearProgressIndicator(),
+                ),
         ),
-        options: commonLiveOptions,
-        itemBuilder: (ctx, index, animation) =>
-            ExamCard(exam: exams[index]).padSymmetric(v: 8, h: 16).inCard(elevation: 5).padAll(8).aliveWith(animation),
-      );
-    }
+        if (_exams != null)
+          if (exams.isEmpty)
+            SliverToBoxAdapter(
+              child: LeavingBlank(
+                icon: Icons.inbox_outlined,
+                desc: i18n.noExamThisSemester,
+              ),
+            )
+          else
+            ...exams.map((exam) => SliverToBoxAdapter(
+                child: ExamCard(exam: exam).padSymmetric(v: 8, h: 16).inCard(elevation: 5).padAll(8))),
+      ],
+    );
   }
 
   Widget buildSemesterSelector() {
-    return Container(
-      margin: const EdgeInsets.only(left: 15),
-      child: SemesterSelector(
-        baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
-        onNewYearSelect: (year) {
-          setState(() {
-            selectedYear = year;
-            refresh();
-          });
-        },
-        onNewSemesterSelect: (semester) {
-          setState(() {
-            selectedSemester = semester;
-            refresh();
-          });
-        },
-        initialYear: selectedYear,
-        initialSemester: selectedSemester,
-      ),
+    return SemesterSelector(
+      initialYear: selectedYear,
+      initialSemester: selectedSemester,
+      baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
+      onNewYearSelect: (year) {
+        setState(() {
+          selectedYear = year;
+          refresh();
+        });
+      },
+      onNewSemesterSelect: (semester) {
+        setState(() {
+          selectedSemester = semester;
+          refresh();
+        });
+      },
     );
   }
 }
