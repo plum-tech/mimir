@@ -1,17 +1,13 @@
 import 'package:flutter/widgets.dart';
-import 'package:mimir/design/animation/animated.dart';
-import 'package:rettulf/rettulf.dart';
 
 import '../entity/display.dart';
 import '../entity/pos.dart';
 import '../entity/timetable.dart';
-import "classic_ui/daily.dart" as classic_daily;
-import "classic_ui/weekly.dart" as classic_weekly;
-import "new_ui/daily.dart" as new_daily;
-import "new_ui/weekly.dart" as new_weekly;
+import "classic_ui/board.dart" as classic_ui;
+import "new_ui/board.dart" as new_ui;
 import 'style.dart';
 
-class TimetableViewer extends StatefulWidget {
+class TimetableViewer extends StatelessWidget {
   final ScrollController? scrollController;
   final SitTimetable timetable;
 
@@ -20,54 +16,29 @@ class TimetableViewer extends StatefulWidget {
   final ValueNotifier<TimetablePos> $currentPos;
 
   const TimetableViewer({
+    super.key,
     required this.timetable,
     required this.$displayMode,
     required this.$currentPos,
-    super.key,
     this.scrollController,
   });
 
   @override
-  State<TimetableViewer> createState() => _TimetableViewerState();
-}
-
-class _TimetableViewerState extends State<TimetableViewer> {
-  SitTimetable get timetable => widget.timetable;
-
-  @override
   Widget build(BuildContext context) {
     if (TimetableStyle.of(context).useNewUI) {
-      return widget.$displayMode >>
-          (ctx, mode) => (mode == DisplayMode.daily
-                      ? new_daily.DailyTimetable(
-                          scrollController: widget.scrollController,
-                          $currentPos: widget.$currentPos,
-                          timetable: timetable,
-                        )
-                      : new_weekly.WeeklyTimetable(
-                          scrollController: widget.scrollController,
-                          $currentPos: widget.$currentPos,
-                          timetable: timetable,
-                        ))
-                  .animatedSwitched(
-                duration: const Duration(milliseconds: 300),
-              );
+      return new_ui.TimetableViewer(
+        timetable: timetable,
+        $displayMode: $displayMode,
+        $currentPos: $currentPos,
+        scrollController: scrollController,
+      );
     } else {
-      return widget.$displayMode >>
-          (ctx, mode) => (mode == DisplayMode.daily
-                      ? classic_daily.DailyTimetable(
-                          scrollController: widget.scrollController,
-                          $currentPos: widget.$currentPos,
-                          timetable: timetable,
-                        )
-                      : classic_weekly.WeeklyTimetable(
-                          scrollController: widget.scrollController,
-                          $currentPos: widget.$currentPos,
-                          timetable: timetable,
-                        ))
-                  .animatedSwitched(
-                duration: const Duration(milliseconds: 300),
-              );
+      return classic_ui.TimetableViewer(
+        timetable: timetable,
+        $displayMode: $displayMode,
+        $currentPos: $currentPos,
+        scrollController: scrollController,
+      );
     }
   }
 }
