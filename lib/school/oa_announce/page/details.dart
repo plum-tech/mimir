@@ -51,7 +51,7 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
       slivers: [
         SliverAppBar(
           pinned: true,
-          title: i18n.text.text(),
+          title: widget.record.title.text(),
           actions: [
             IconButton(
               onPressed: () {

@@ -306,10 +306,10 @@ localStorage:
   emptyValueDesc: 確認將這個 key-value對 設定為 null 嗎？
 oaAnnounce:
   title: OA 公告
+  seeAll: 查看全部
   attachmentTip:
     one: 附件
     other: 附件
-  text: 公告正文
   downloadCompleted: 下載完成
   publishTime: 發佈日期
   publishingDepartment: 部門

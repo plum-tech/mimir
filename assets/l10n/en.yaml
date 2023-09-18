@@ -308,10 +308,10 @@ localStorage:
   emptyValueDesc: Confirm to set this key-value pair to null?
 oaAnnounce:
   title: OA announcement
+  seeAll: See All
   attachmentTip:
     one: Attachment
     other: Attachments
-  text: Text
   downloadCompleted: Download Completed
   publishTime: Publish Time
   publishingDepartment: Department

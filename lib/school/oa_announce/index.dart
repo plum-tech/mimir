@@ -18,11 +18,12 @@ class _OaAnnounceAppCardState extends State<OaAnnounceAppCard> {
     return AppCard(
       title: i18n.title.text(),
       leftActions: [
-        FilledButton(
+        FilledButton.icon(
           onPressed: () {
             context.push("/oa-announce");
           },
-          child: "See all".text(),
+          icon: const Icon(Icons.announcement_outlined),
+          label: i18n.seeAll.text(),
         ),
       ],
     );

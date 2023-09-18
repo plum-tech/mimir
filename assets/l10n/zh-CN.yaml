@@ -308,10 +308,10 @@ localStorage:
   emptyValueDesc: 确定将这个键值设 null 为对吗？
 oaAnnounce:
   title: OA 公告
+  seeAll: 查看全部
   attachmentTip:
     one: 附件
     other: 附件
-  text: 公告正文
   downloadCompleted: 下载完成
   publishTime: 发布时间
   publishingDepartment: 发布部门
