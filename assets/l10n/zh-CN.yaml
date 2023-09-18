@@ -232,7 +232,8 @@ login:
   loginOa: 登录 OA
   validateInputAccountPwdRequest: 请检查你输入的账号与密码
   credentialsValidatedTip: 账号与密码验证成功
-  accountOrPwdIncorrectTip: 账号或密码不正确
+  accountOrPwdErrorTip: 账号或密码不正确
+  captchaErrorTip: 验证码不正确
   schoolServerUnconnectedTip: 无法连接学校服务器
   accountHint: 学号/工号
   forgotPwdBtn: 忘记密码？

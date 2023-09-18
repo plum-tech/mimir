@@ -119,11 +119,19 @@ class _LoginPageState extends State<LoginPage> {
       debugPrintStack(stackTrace: stacktrace);
       if (!mounted) return;
       setState(() => isLoggingIn = false);
-      await context.showTip(
-        title: i18n.failedWarn,
-        desc: i18n.accountOrPwdIncorrectTip,
-        ok: i18n.close,
-      );
+      if (e.type == OaCredentialsErrorType.accountPassword) {
+        await context.showTip(
+          title: i18n.failedWarn,
+          desc: i18n.accountOrPwdErrorTip,
+          ok: i18n.close,
+        );
+      } else if (e.type == OaCredentialsErrorType.captcha) {
+        await context.showTip(
+          title: i18n.failedWarn,
+          desc: i18n.captchaErrorTip,
+          ok: i18n.close,
+        );
+      }
       return;
     } on DioException catch (e, stacktrace) {
       debugPrint(e.toString());

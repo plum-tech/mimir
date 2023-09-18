@@ -37,7 +37,9 @@ class LoginI18n with CommonI18nMixin {
 
   String get failedWarn => "$ns.failedWarn".tr();
 
-  String get accountOrPwdIncorrectTip => "$ns.accountOrPwdIncorrectTip".tr();
+  String get accountOrPwdErrorTip => "$ns.accountOrPwdErrorTip".tr();
+
+  String get captchaErrorTip => "$ns.captchaErrorTip".tr();
 
   String get schoolServerUnconnectedTip => "$ns.schoolServerUnconnectedTip".tr();
 

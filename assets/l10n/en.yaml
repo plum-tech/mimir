@@ -232,7 +232,8 @@ login:
   loginOa: Login OA
   validateInputAccountPwdRequest: Please check the account and password you entered
   credentialsValidatedTip: Account and password are correct
-  accountOrPwdIncorrectTip: The account or password is incorrect
+  accountOrPwdErrorTip: The account or password is incorrect
+  captchaErrorTip: The captcha is incorrect
   schoolServerUnconnectedTip: Can't connect to school server
   accountHint: Student ID/Work number
   forgotPwdBtn: Forgot password?

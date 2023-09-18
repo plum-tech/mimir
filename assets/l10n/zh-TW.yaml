@@ -230,7 +230,8 @@ login:
   loginOa: 登入 OA
   validateInputAccountPwdRequest: 請檢查你鍵入的賬戶和密碼
   credentialsValidatedTip: 帳戶與密碼正確
-  accountOrPwdIncorrectTip: 賬戶或密碼錯誤
+  accountOrPwdErrorTip: 賬戶或密碼錯誤
+  captchaErrorTip: 驗證碼錯誤
   schoolServerUnconnectedTip: 無法連接學校伺服器
   accountHint: 學號/工號
   forgotPwdBtn: 忘記密碼?
