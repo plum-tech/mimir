@@ -23,7 +23,7 @@ class YellowPagesAppCard extends StatefulWidget {
 }
 
 class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
-  final $history = YellowPagesInit.storage.$history;
+  final $history = YellowPagesInit.storage.listenHistory();
 
   @override
   void initState() {

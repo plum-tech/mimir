@@ -28,7 +28,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
   Widget buildNewUiSwitch() {
     return ListTile(
       title: "Use Timetable New-UI".text(),
-      trailing: TimetableInit.storage.$useNewUI >>
+      trailing: TimetableInit.storage.listenUseNewUI() >>
           (ctx, _) => Switch.adaptive(
               value: TimetableInit.storage.useNewUI ?? false,
               onChanged: (newV) {

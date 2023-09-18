@@ -29,7 +29,7 @@ class ElectricityStorage {
     }
   }
 
-  ValueListenable<Box<dynamic>> get onRoomBalanceChanged => box.listenable(keys: [_K.selectedRoom, _K.lastBalance]);
+  ValueListenable<Box> listenRoomBalanceChange() => box.listenable(keys: [_K.selectedRoom, _K.lastBalance]);
 
   ElectricityBalance? get lastBalance => box.get(_K.lastBalance);
 

@@ -17,7 +17,7 @@ class ExpenseRecordsPage extends StatefulWidget {
 }
 
 class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
-  final $lastTransaction = ExpenseRecordsInit.storage.$lastTransaction;
+  final $lastTransaction = ExpenseRecordsInit.storage.listenLastTransaction();
   bool isFetching = false;
   List<Transaction>? records;
 

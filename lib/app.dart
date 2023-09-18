@@ -19,7 +19,7 @@ class MimirApp extends StatefulWidget {
 }
 
 class _MimirAppState extends State<MimirApp> {
-  final onThemeChanged = Settings.onThemeChanged;
+  final onThemeChanged = Settings.listenThemeChange();
 
   @override
   void initState() {

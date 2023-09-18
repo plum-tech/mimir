@@ -24,7 +24,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final $isDeveloperMode = Settings.$isDeveloperMode;
+  final $isDeveloperMode = Settings.listenIsDeveloperMode();
 
   @override
   void initState() {
@@ -199,7 +199,7 @@ class ThemeModeTile extends StatefulWidget {
 }
 
 class _ThemeModeTileState extends State<ThemeModeTile> {
-  final $themeMode = Settings.$themeMode;
+  final $themeMode = Settings.listenThemeMode();
 
   @override
   void initState() {
@@ -245,7 +245,7 @@ class CampusSelectorTile extends StatefulWidget {
 }
 
 class _CampusSelectorTileState extends State<CampusSelectorTile> {
-  final $campus = Settings.$campus;
+  final $campus = Settings.listenCampus();
 
   @override
   void initState() {

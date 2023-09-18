@@ -27,7 +27,7 @@ class YellowPagesStorage {
     box.put(_K.history, newV);
   }
 
-  ValueListenable<Box<dynamic>> get $history => box.listenable(keys: [_K.history]);
+  ValueListenable<Box> listenHistory() => box.listenable(keys: [_K.history]);
 }
 
 extension YellowPagesStorageX on YellowPagesStorage {

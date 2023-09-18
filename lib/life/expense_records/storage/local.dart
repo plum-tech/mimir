@@ -25,7 +25,7 @@ class ExpenseStorage {
 
   set transactionTsList(List<DateTime>? newV) => box.put(_K.transactionTsList, newV);
 
-  ValueListenable<Box<dynamic>> get $transactionTsList => box.listenable(keys: [_K.transactionTsList]);
+  ValueListenable<Box> listenTransactionTsList() => box.listenable(keys: [_K.transactionTsList]);
 
   /// 通过某个时刻来获得交易记录
   Transaction? getTransactionByTs(DateTime ts) => box.get(_K.buildTransactionsKey(ts));
@@ -40,7 +40,7 @@ class ExpenseStorage {
 
   set latestTransaction(Transaction? v) => box.put(_K.latestTransaction, v);
 
-  ValueListenable<Box> get $lastTransaction => box.listenable(keys: [_K.latestTransaction]);
+  ValueListenable<Box> listenLastTransaction() => box.listenable(keys: [_K.latestTransaction]);
 }
 
 extension ExpenseStorageX on ExpenseStorage {

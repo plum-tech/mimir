@@ -19,7 +19,7 @@ class Class2ndAppCard extends StatefulWidget {
 
 class _Class2ndAppCardState extends State<Class2ndAppCard> {
   var summary = Class2ndInit.scoreStorage.scoreSummary;
-  final $scoreSummary = Class2ndInit.scoreStorage.$scoreSummary;
+  final $scoreSummary = Class2ndInit.scoreStorage.listenScoreSummary();
 
   @override
   void initState() {

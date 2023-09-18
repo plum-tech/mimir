@@ -21,7 +21,7 @@ class EduEmailPage extends StatefulWidget {
 class _EduEmailPageState extends State<EduEmailPage> {
   List<MimeMessage>? messages;
   EmailCredentials? credential = CredentialInit.storage.eduEmailCredentials;
-  final onEduEmailChanged = CredentialInit.storage.onEduEmailChanged;
+  final onEduEmailChanged = CredentialInit.storage.listenEduEmailChange();
 
   @override
   void initState() {

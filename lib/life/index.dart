@@ -17,7 +17,7 @@ class LifePage extends StatefulWidget {
 
 class _LifePageState extends State<LifePage> {
   LoginStatus? loginStatus;
-  final $campus = Settings.$campus;
+  final $campus = Settings.listenCampus();
 
   @override
   void initState() {

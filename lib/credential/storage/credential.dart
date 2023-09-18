@@ -35,7 +35,7 @@ class CredentialStorage {
 
   set oaLoginStatus(LoginStatus? newV) => box.put(_OaKey.loginStatus, newV);
 
-  ValueListenable<Box<dynamic>> get onOaChanged => box.listenable(keys: [
+  ValueListenable<Box> listenOaChange() => box.listenable(keys: [
         _OaKey.credentials,
         _OaKey.lastAuthTime,
         _OaKey.loginStatus,
@@ -46,7 +46,7 @@ class CredentialStorage {
 
   set eduEmailCredentials(EmailCredentials? newV) => box.put(_EmailKey.credentials, newV);
 
-  ValueListenable<Box<dynamic>> get onEduEmailChanged => box.listenable(keys: [
+  ValueListenable<Box> listenEduEmailChange() => box.listenable(keys: [
         _EmailKey.credentials,
       ]);
 }

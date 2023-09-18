@@ -18,7 +18,7 @@ class OaAuthManager extends StatefulWidget {
 }
 
 class _OaAuthManagerState extends State<OaAuthManager> {
-  final onOaChanged = CredentialInit.storage.onOaChanged;
+  final onOaChanged = CredentialInit.storage.listenOaChange();
 
   @override
   void initState() {

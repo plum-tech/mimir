@@ -21,7 +21,7 @@ class ElectricityBalanceAppCard extends StatefulWidget {
 }
 
 class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
-  final onRoomBalanceChanged = ElectricityBalanceInit.storage.onRoomBalanceChanged;
+  final onRoomBalanceChanged = ElectricityBalanceInit.storage.listenRoomBalanceChange();
 
   @override
   initState() {

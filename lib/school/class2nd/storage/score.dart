@@ -19,7 +19,7 @@ class Class2ndScoreStorage {
 
   set scoreSummary(Class2ndScoreSummary? newValue) => box.put(_K.scoreSummary, newValue);
 
-  ValueListenable<Box> get $scoreSummary => box.listenable(keys: [_K.scoreSummary]);
+  ValueListenable<Box> listenScoreSummary() => box.listenable(keys: [_K.scoreSummary]);
 
   List<Class2ndScoreItem>? get scoreItemList => (box.get(_K.scoreItemList) as List?)?.cast<Class2ndScoreItem>();
 

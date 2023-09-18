@@ -45,7 +45,7 @@ class SettingsImpl {
 
   set campus(Campus newV) => box.put(_K.campus, newV);
 
-  ValueListenable<Box> get $campus => box.listenable(keys: [_K.campus]);
+  ValueListenable<Box> listenCampus() => box.listenable(keys: [_K.campus]);
 
   // theme
   Color? get themeColor {
@@ -66,9 +66,9 @@ class SettingsImpl {
 
   set themeMode(ThemeMode value) => box.put(_ThemeK.themeMode, value);
 
-  ValueListenable<Box> get $themeMode => box.listenable(keys: [_ThemeK.themeMode]);
+  ValueListenable<Box> listenThemeMode() => box.listenable(keys: [_ThemeK.themeMode]);
 
-  ValueListenable<Box> get onThemeChanged => box.listenable(keys: [_ThemeK.themeMode, _ThemeK.themeColor]);
+  ValueListenable<Box> listenThemeChange() => box.listenable(keys: [_ThemeK.themeMode, _ThemeK.themeColor]);
 
   Size? get lastWindowSize => box.get(_ThemeK.lastWindowSize, defaultValue: R.defaultWindowSize);
 
@@ -99,5 +99,5 @@ class SettingsImpl {
 
   set isDeveloperMode(bool foo) => box.put(_DeveloperK.devMode, foo);
 
-  ValueListenable<Box> get $isDeveloperMode => box.listenable(keys: [_DeveloperK.devMode]);
+  ValueListenable<Box> listenIsDeveloperMode() => box.listenable(keys: [_DeveloperK.devMode]);
 }

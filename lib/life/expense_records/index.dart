@@ -22,7 +22,7 @@ class ExpenseRecordsAppCard extends StatefulWidget {
 }
 
 class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
-  final $lastTransaction = ExpenseRecordsInit.storage.$lastTransaction;
+  final $lastTransaction = ExpenseRecordsInit.storage.listenLastTransaction();
 
   @override
   void initState() {
