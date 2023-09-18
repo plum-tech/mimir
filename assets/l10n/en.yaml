@@ -67,6 +67,8 @@ class2nd:
   title: Second class
   activity: Activity
   attended: Attended
+  refreshSuccessTip: Second class score refreshed successfully
+  refreshFailedTip: Failed to refresh second class score
   navigation:
     all: All
     mine: Mine

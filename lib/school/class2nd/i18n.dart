@@ -17,6 +17,10 @@ class _I18n with CommonI18nMixin {
 
   String get attended => "$ns.attended".tr();
 
+  String get refreshSuccessTip => "$ns.refreshSuccessTip".tr();
+
+  String get refreshFailedTip => "$ns.refreshFailedTip".tr();
+
   String get id => "$ns.id".tr();
 
   String get contactInfo => "$ns.contactInfo".tr();

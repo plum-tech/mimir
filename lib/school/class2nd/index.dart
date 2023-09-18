@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/app.dart';
+import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/school/class2nd/widgets/summary.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -46,8 +47,19 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
 
   Future<void> refresh({required bool active}) async {
     // TODO: Error when school server unavailable.
-    final summary = await Class2ndInit.scoreService.fetchScoreSummary();
-    Class2ndInit.scoreStorage.scoreSummary = summary;
+    try {
+      final summary = await Class2ndInit.scoreService.fetchScoreSummary();
+      Class2ndInit.scoreStorage.scoreSummary = summary;
+      if (active) {
+        if (!mounted) return;
+        context.showSnackBar(i18n.refreshFailedTip.text());
+      }
+    } catch (error) {
+      if (active) {
+        if (!mounted) return;
+        context.showSnackBar(i18n.refreshSuccessTip.text());
+      }
+    }
   }
 
   Class2ndScoreSummary getTargetScore() {

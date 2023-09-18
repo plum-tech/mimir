@@ -67,6 +67,8 @@ class2nd:
   title: 第二課堂
   activity: 活動
   attended: 已參與
+  refreshSuccessTip: 第二課堂分重新整理成功
+  refreshFailedTip: 第二課堂分重新整理失敗
   navigation:
     all: 活動
     mine: 我的
