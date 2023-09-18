@@ -141,7 +141,7 @@ eduEmail:
   forgotPwdBtn: 忘记密码？
 examResult:
   title: 考试成绩
-  check: 查看
+  check: 查询
   teacherEval: 评教
   noResult: 暂无考试结果记录
   lessonNotEvaluated: 未评教
@@ -154,6 +154,7 @@ examResult:
   elective: 选修
 examArrange:
   title: 考试安排
+  check: 查询
   endTime: 结束时间
   isRetake: 是否重修
   location: 地点

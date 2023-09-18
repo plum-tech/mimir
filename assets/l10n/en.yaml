@@ -154,6 +154,7 @@ examResult:
   elective: Elective
 examArrange:
   title: Exam arrangement
+  check: Check
   endTime: End Time
   isRetake: Is Retake
   location: Location

@@ -154,6 +154,7 @@ examResult:
   elective: 選修
 examArrange:
   title: 考試安排
+  check: 查詢
   endTime: 結束時間
   isRetake: 是否重修
   location: 地點
