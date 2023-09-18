@@ -11,7 +11,7 @@ import 'weekly.dart';
 export 'daily.dart';
 export 'weekly.dart';
 
-class TimetableViewer extends StatelessWidget {
+class TimetableBoard extends StatelessWidget {
   final ScrollController? scrollController;
   final SitTimetable timetable;
 
@@ -19,7 +19,7 @@ class TimetableViewer extends StatelessWidget {
 
   final ValueNotifier<TimetablePos> $currentPos;
 
-  const TimetableViewer({
+  const TimetableBoard({
     super.key,
     required this.timetable,
     required this.$displayMode,

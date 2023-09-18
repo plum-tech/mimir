@@ -26,14 +26,14 @@ class TimetableViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (TimetableStyle.of(context).useNewUI) {
-      return new_ui.TimetableViewer(
+      return new_ui.TimetableBoard(
         timetable: timetable,
         $displayMode: $displayMode,
         $currentPos: $currentPos,
         scrollController: scrollController,
       );
     } else {
-      return classic_ui.TimetableViewer(
+      return classic_ui.TimetableBoard(
         timetable: timetable,
         $displayMode: $displayMode,
         $currentPos: $currentPos,
