@@ -277,7 +277,7 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
   bool get wantKeepAlive => true;
 }
 
-class LessonCard extends StatefulWidget {
+class LessonCard extends StatelessWidget {
   final SitTimetableLesson lesson;
   final SitCourse course;
   final List<SitCourse> courseKey2Entity;
@@ -291,16 +291,10 @@ class LessonCard extends StatefulWidget {
     required this.color,
   });
 
-  @override
-  State<LessonCard> createState() => _LessonCardState();
-}
-
-class _LessonCardState extends State<LessonCard> {
   static const iconSize = 45.0;
 
   @override
   Widget build(BuildContext context) {
-    final course = widget.course;
     final Widget courseIcon = Image.asset(
       CourseCategory.iconPathOf(iconName: course.iconName),
       width: iconSize,
@@ -323,7 +317,7 @@ class _LessonCardState extends State<LessonCard> {
       ),
       clip: Clip.antiAlias,
       elevation: 10,
-      color: widget.color,
+      color: color,
     );
   }
 }
