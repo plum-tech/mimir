@@ -144,22 +144,23 @@ class _ExamResultPageState extends State<ExamResultPage> {
 
   Widget buildTitle() {
     final allResults = _allResults;
+    final style = context.textTheme.headlineSmall;
     final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResult>() : allResults;
     if (selectedExams != null) {
       final gpa = calcGPA(selectedExams.where((exam) => exam.hasScore));
       if (isSelecting) {
         return [
-          i18n.lessonSelected(selectedExams.length).text(textAlign: TextAlign.center).expanded(),
-          i18n.gpaResult(gpa).text(textAlign: TextAlign.center).expanded(),
+          i18n.lessonSelected(selectedExams.length).text(textAlign: TextAlign.center, style: style).expanded(),
+          i18n.gpaResult(gpa).text(textAlign: TextAlign.center, style: style).expanded(),
         ].row();
       } else {
         return [
-          selectedSemester.localized().text(textAlign: TextAlign.center).expanded(),
-          i18n.gpaResult(gpa).text(textAlign: TextAlign.center).expanded(),
+          selectedSemester.localized().text(textAlign: TextAlign.center, style: style).expanded(),
+          i18n.gpaResult(gpa).text(textAlign: TextAlign.center, style: style).expanded(),
         ].row();
       }
     } else {
-      return i18n.title.text();
+      return i18n.title.text(style: style);
     }
   }
 }
