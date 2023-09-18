@@ -17,10 +17,10 @@ class HiveTable<T> {
   final String base;
   final Box<dynamic> box;
 
-  final String _lastId;
-  final String _idList;
-  final String _rows;
-  final String _selectedId;
+  final String _lastIdK;
+  final String _idListK;
+  final String _rowsK;
+  final String _selectedIdK;
   final ({T Function(Map<String, dynamic> json) fromJson, Map<String, dynamic> Function(T row) toJson})? useJson;
   final $selected = Notifier();
 
@@ -28,25 +28,25 @@ class HiveTable<T> {
     required this.base,
     required this.box,
     this.useJson,
-  })  : _lastId = "$base/$_kLastId",
-        _idList = "$base/$_kIdList",
-        _rows = "$base/$_kRows",
-        _selectedId = "$base/$_kSelectedId";
+  })  : _lastIdK = "$base/$_kLastId",
+        _idListK = "$base/$_kIdList",
+        _rowsK = "$base/$_kRows",
+        _selectedIdK = "$base/$_kSelectedId";
 
-  bool get hasAny => idList.isNotEmpty;
+  bool get hasAny => idList?.isNotEmpty ?? false;
 
-  int get lastId => box.get(_lastId) ?? _kLastIdStart;
+  int get lastId => box.get(_lastIdK) ?? _kLastIdStart;
 
-  set lastId(int newValue) => box.put(_lastId, newValue);
+  set lastId(int newValue) => box.put(_lastIdK, newValue);
 
-  List<int> get idList => box.get(_idList) ?? <int>[];
+  List<int>? get idList => box.get(_idListK);
 
-  set idList(List<int> newValue) => box.put(_idList, newValue);
+  set idList(List<int>? newValue) => box.put(_idListK, newValue);
 
-  int? get selectedId => box.get(_selectedId);
+  int? get selectedId => box.get(_selectedIdK);
 
   set selectedId(int? newValue) {
-    box.put(_selectedId, newValue);
+    box.put(_selectedIdK, newValue);
     $selected.notifier();
   }
 
@@ -59,7 +59,7 @@ class HiveTable<T> {
   }
 
   T? getOf(int id) {
-    final row = box.get("$_rows/$id");
+    final row = box.get("$_rowsK/$id");
     final useJson = this.useJson;
     if (useJson == null || row == null) {
       return row;
@@ -72,19 +72,23 @@ class HiveTable<T> {
     dynamic row = newValue;
     final useJson = this.useJson;
     if (useJson == null || row == null) {
-      box.put("$_rows/$id", row);
+      box.put("$_rowsK/$id", row);
     } else {
-      box.put("$_rows/$id", jsonEncode(useJson.toJson(row)));
+      box.put("$_rowsK/$id", jsonEncode(useJson.toJson(row)));
     }
     if (selectedId == id) {
       $selected.notifier();
     }
   }
 
+  void _deleteOf(int id) {
+    box.delete("$_rowsK/id");
+  }
+
   /// Return a new ID for the [row].
   int add(T row) {
     final curId = lastId++;
-    final ids = idList;
+    final ids = idList ?? <int>[];
     ids.add(curId);
     setOf(curId, row);
     idList = ids;
@@ -95,22 +99,35 @@ class HiveTable<T> {
   /// If [selectedId] is deleted, an available timetable would be switched to.
   void delete(int id) {
     final ids = idList;
+    if (ids == null) return;
     if (ids.remove(id)) {
       idList = ids;
       if (selectedId == id) {
-        if (idList.isNotEmpty) {
+        if (ids.isNotEmpty) {
           selectedId = ids.first;
         } else {
           selectedId = null;
         }
       }
-      setOf(id, null);
+      _deleteOf(id);
     }
+  }
+
+  void drop() {
+    final ids = idList;
+    if (ids == null) return;
+    for (final id in ids) {
+      _deleteOf(id);
+    }
+    box.delete(_idListK);
+    box.delete(_selectedIdK);
+    box.delete(_lastIdK);
   }
 
   List<({int id, T row})> getRows() {
     final ids = idList;
     final res = <({int id, T row})>[];
+    if (ids == null) return res;
     for (final id in ids) {
       final row = getOf(id);
       if (row != null) {
