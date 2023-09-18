@@ -322,7 +322,7 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
   bool get wantKeepAlive => true;
 }
 
-class TimetableSingleWeekView extends StatefulWidget {
+class TimetableSingleWeekView extends StatelessWidget {
   final ScrollController? scrollController;
   final SitTimetableWeek timetableWeek;
   final SitTimetable timetable;
@@ -337,16 +337,6 @@ class TimetableSingleWeekView extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() => _TimetableSingleWeekViewState();
-}
-
-class _TimetableSingleWeekViewState extends State<TimetableSingleWeekView> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final rawColumnSize = MediaQuery.of(context).size;
     final cellSize = Size(rawColumnSize.width * 3 / 23, rawColumnSize.height / 11);
@@ -355,12 +345,12 @@ class _TimetableSingleWeekViewState extends State<TimetableSingleWeekView> {
       height: rawColumnSize.height,
       child: ListView.builder(
         itemCount: 7,
-        controller: widget.scrollController,
+        controller: scrollController,
         scrollDirection: Axis.horizontal,
         physics: const NeverScrollableScrollPhysics(),
         // The scrolling has been handled outside
         itemBuilder: (BuildContext context, int index) =>
-            _buildCellsByDay(context, widget.timetableWeek.days[index], cellSize).center(),
+            _buildCellsByDay(context, timetableWeek.days[index], cellSize).center(),
       ),
     );
   }
@@ -377,10 +367,10 @@ class _TimetableSingleWeekViewState extends State<TimetableSingleWeekView> {
         final firstLayerLesson = lessons[0];
 
         /// TODO: Range checking
-        final course = widget.timetable.courseKey2Entity[firstLayerLesson.courseKey];
+        final course = timetable.courseKey2Entity[firstLayerLesson.courseKey];
         final cell = _CourseCell(
           lesson: firstLayerLesson,
-          timetable: widget.timetable,
+          timetable: timetable,
           course: course,
         );
         cells.add(cell.sized(w: cellSize.width, h: cellSize.height * firstLayerLesson.duration));
