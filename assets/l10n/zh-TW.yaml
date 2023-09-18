@@ -141,6 +141,8 @@ eduEmail:
   forgotPwdBtn: 忘記密碼?
 examResult:
   title: 考試成績
+  check: 查詢
+  teacherEval: 評價教師
   noResult: 暫無考試結果
   lessonNotEvaluated: 需評教
   teacherEvalTitle: 教師評價

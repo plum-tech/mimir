@@ -109,11 +109,12 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
 
   Widget buildMyTimetablesButton(BuildContext ctx) {
     return IconButton(
-        icon: const Icon(Icons.person_rounded),
-        onPressed: () async {
-          await context.push("/timetable/mine");
-          setState(() {});
-        });
+      icon: const Icon(Icons.person_rounded),
+      onPressed: () async {
+        await context.push("/timetable/mine");
+        setState(() {});
+      },
+    );
   }
 
   Future<void> selectWeeklyTimetablePageToJump(BuildContext ctx) async {

@@ -141,6 +141,8 @@ eduEmail:
   forgotPwdBtn: 忘记密码？
 examResult:
   title: 考试成绩
+  check: 查看
+  teacherEval: 评教
   noResult: 暂无考试结果记录
   lessonNotEvaluated: 未评教
   teacherEvalTitle: 评教

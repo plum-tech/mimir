@@ -10,6 +10,10 @@ class _I18n with CommonI18nMixin {
 
   String get title => "$ns.title".tr();
 
+  String get check => "$ns.check".tr();
+
+  String get teacherEval => "$ns.teacherEval".tr();
+
   String get teacherEvalTitle => "$ns.teacherEvalTitle".tr();
 
   String get lessonEvaluationBtn => "$ns.lessonEvaluationBtn".tr();

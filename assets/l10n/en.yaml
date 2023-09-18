@@ -141,6 +141,8 @@ eduEmail:
   forgotPwdBtn: Forgot password?
 examResult:
   title: Exam result
+  check: Check
+  teacherEval: Teacher Eval
   noResult: No result of examination
   lessonNotEvaluated: Not-eval
   teacherEvalTitle: Teacher Evaluation
