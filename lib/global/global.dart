@@ -10,7 +10,7 @@ import 'package:mimir/app.dart';
 import 'package:mimir/credential/storage/credential.dart';
 import 'package:mimir/design/widgets/multiplatform.dart';
 import 'package:mimir/global/cookie_init.dart';
-import 'package:mimir/global/dio_initializer.dart';
+import 'package:mimir/global/dio_init.dart';
 import 'package:mimir/session/sso/session.dart';
 
 import '../widgets/captcha_box.dart';

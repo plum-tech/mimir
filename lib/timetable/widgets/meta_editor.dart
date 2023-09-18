@@ -17,15 +17,9 @@ class MetaEditor extends StatefulWidget {
 }
 
 class _MetaEditorState extends State<MetaEditor> {
-  late final _nameController = TextEditingController(text: widget.meta.name);
   final GlobalKey _formKey = GlobalKey<FormState>();
-  late final ValueNotifier<DateTime> $selectedDate;
-
-  @override
-  void initState() {
-    super.initState();
-    $selectedDate = ValueNotifier(widget.meta.startDate);
-  }
+  late final _nameController = TextEditingController(text: widget.meta.name);
+  late final ValueNotifier<DateTime> $selectedDate = ValueNotifier(widget.meta.startDate);
 
   @override
   Widget build(BuildContext context) {

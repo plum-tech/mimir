@@ -36,32 +36,32 @@ class _MainStagePageState extends State<MainStagePage> {
       (
         route: "/timetable",
         item: (
-          icon: Icon(Icons.calendar_month_outlined),
-          activeIcon: Icon(Icons.calendar_month),
+          icon: const Icon(Icons.calendar_month_outlined),
+          activeIcon: const Icon(Icons.calendar_month),
           label: $timetable.i18n.navigation,
         )
       ),
       (
         route: "/school",
         item: (
-          icon: Icon(Icons.school_outlined),
-          activeIcon: Icon(Icons.school),
+          icon: const Icon(Icons.school_outlined),
+          activeIcon: const Icon(Icons.school),
           label: $school.i18n.navigation,
         )
       ),
       (
         route: "/life",
         item: (
-          icon: Icon(Icons.spa_outlined),
-          activeIcon: Icon(Icons.spa),
+          icon: const Icon(Icons.spa_outlined),
+          activeIcon: const Icon(Icons.spa),
           label: $life.i18n.navigation,
         )
       ),
       (
         route: "/me",
         item: (
-          icon: Icon(Icons.person_outline),
-          activeIcon: Icon(Icons.person),
+          icon: const Icon(Icons.person_outline),
+          activeIcon: const Icon(Icons.person),
           label: $me.i18n.navigation,
         )
       ),
