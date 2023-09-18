@@ -8,9 +8,6 @@ import '../../entity/timetable.dart';
 import 'daily.dart';
 import 'weekly.dart';
 
-export 'daily.dart';
-export 'weekly.dart';
-
 class TimetableBoard extends StatelessWidget {
   final ScrollController? scrollController;
   final SitTimetable timetable;

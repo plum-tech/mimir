@@ -10,8 +10,6 @@ import 'daily.dart';
 import 'header.dart';
 import 'weekly.dart';
 
-export 'daily.dart';
-
 class TimetableBoard extends StatelessWidget {
   final SitTimetable timetable;
 
