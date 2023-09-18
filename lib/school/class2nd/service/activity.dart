@@ -2,6 +2,7 @@ import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mimir/network/session.dart';
+import 'package:mimir/session/sc.dart';
 
 import '../entity/list.dart';
 import '../utils.dart';
@@ -22,34 +23,31 @@ class Class2ndActivityListService {
 
   static bool _initializedCookie = false;
 
-  final ISession session;
+  final Class2ndSession session;
 
   const Class2ndActivityListService(this.session);
 
   Future<void> _refreshCookie() async {
     if (!_initializedCookie) {
-      const String url = 'http://sc.sit.edu.cn/';
-      await session.request(url, ReqMethod.get);
+      await session.request('http://sc.sit.edu.cn/', ReqMethod.get);
       _initializedCookie = true;
     }
   }
 
+  String generateUrl(Class2ndActivityCat category, int page, [int pageSize = 20]) {
+    return 'http://sc.sit.edu.cn/public/activity/activityList.action?pageNo=$page&pageSize=$pageSize&categoryId=${_scActivityType[category]}';
+  }
+
   /// 获取第二课堂活动列表
   Future<List<Class2ndActivity>> getActivityList(Class2ndActivityCat type, int page) async {
-    String generateUrl(Class2ndActivityCat category, int page, [int pageSize = 20]) {
-      return 'http://sc.sit.edu.cn/public/activity/activityList.action?pageNo=$page&pageSize=$pageSize&categoryId=${_scActivityType[category]}';
-    }
-
     await _refreshCookie();
     final url = generateUrl(type, page);
     final response = await session.request(url, ReqMethod.get);
-
     return _parseActivityList(response.data);
   }
 
   Future<List<Class2ndActivity>> query(String queryString) async {
     const String url = 'http://sc.sit.edu.cn/public/activity/activityList.action';
-
     await _refreshCookie();
     final response = await session.request(
       url,

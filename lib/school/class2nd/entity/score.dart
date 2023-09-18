@@ -118,7 +118,7 @@ class Class2ndActivityApplication {
   }
 }
 
-class ScJoinedActivity {
+class Class2ndAttendedActivity {
   /// 申请编号
   final int applyId;
 
@@ -137,9 +137,9 @@ class ScJoinedActivity {
   /// 总得分
   final double amount;
 
-  ScJoinedActivity(this.applyId, this.activityId, this.title, this.time, this.status, this.amount);
+  Class2ndAttendedActivity(this.applyId, this.activityId, this.title, this.time, this.status, this.amount);
 }
 
-extension ScJoinedActivityHelper on ScJoinedActivity {
+extension ScJoinedActivityHelper on Class2ndAttendedActivity {
   bool get isPassed => status == "通过";
 }

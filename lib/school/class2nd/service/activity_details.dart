@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:intl/intl.dart';
 import 'package:mimir/network/session.dart';
+import 'package:mimir/session/sc.dart';
 
 import '../entity/details.dart';
 
@@ -15,7 +16,7 @@ class Class2ndActivityDetailsService {
   static String selectorBanner = 'div[style=" color:#7a7a7a; text-align:center"]';
   static String selectorDescription = 'div[style="padding:30px 50px; font-size:14px;"]';
 
-  final ISession session;
+  final Class2ndSession session;
 
   const Class2ndActivityDetailsService(this.session);
 

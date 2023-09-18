@@ -17,7 +17,7 @@ class AttendedActivityPage extends StatefulWidget {
 }
 
 class _AttendedActivityPageState extends State<AttendedActivityPage> {
-  List<ScJoinedActivity>? joined;
+  List<Class2ndAttendedActivity>? joined;
   final _scrollController = ScrollController();
 
   @override

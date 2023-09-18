@@ -2,7 +2,7 @@ import 'package:mimir/school/class2nd/service/score.dart';
 
 import 'entity/score.dart';
 
-Future<List<ScJoinedActivity>> fetchMyActivityListJoinScore(Class2ndScoreService scoreService) async {
+Future<List<Class2ndAttendedActivity>> fetchMyActivityListJoinScore(Class2ndScoreService scoreService) async {
   final activities = await scoreService.fetchAttended();
   final scores = await scoreService.fetchScoreList();
   return activities.map((application) {
@@ -11,7 +11,7 @@ Future<List<ScJoinedActivity>> fetchMyActivityListJoinScore(Class2ndScoreService
         .where((e) => e.activityId == application.activityId)
         .fold<double>(0.0, (double p, Class2ndScoreItem e) => p + e.amount);
     // TODO: 潜在的 BUG，可能导致得分页面出现重复项。
-    return ScJoinedActivity(application.applyId, application.activityId, application.title, application.time,
+    return Class2ndAttendedActivity(application.applyId, application.activityId, application.title, application.time,
         application.status, totalScore);
   }).toList();
 }

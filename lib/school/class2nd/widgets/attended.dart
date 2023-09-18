@@ -8,7 +8,7 @@ import '../entity/score.dart';
 import "../i18n.dart";
 
 class AttendedActivityTile extends StatelessWidget {
-  final ScJoinedActivity rawActivity;
+  final Class2ndAttendedActivity rawActivity;
 
   const AttendedActivityTile(this.rawActivity, {super.key});
 

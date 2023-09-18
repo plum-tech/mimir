@@ -28,17 +28,15 @@ class Class2ndSession extends ISession {
     SessionProgressCallback? onSendProgress,
     SessionProgressCallback? onReceiveProgress,
   }) async {
-    Future<Response> fetch() async {
-      return await _session.request(
-        url,
-        method,
-        para: para,
-        data: data,
-        options: options,
-        onSendProgress: onSendProgress,
-        onReceiveProgress: onReceiveProgress,
-      );
-    }
+    Future<Response> fetch() => _session.request(
+          url,
+          method,
+          para: para,
+          data: data,
+          options: options,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
 
     Response response = await fetch();
     // 如果返回值是登录页面，那就从 SSO 跳转一次以登录.
