@@ -71,14 +71,14 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
           onPressed: () async {
             await context.push("/class2nd/activity");
           },
-          label: "Activity".text(),
+          label: i18n.activity.text(),
           icon: const Icon(Icons.local_activity_outlined),
         ),
         OutlinedButton(
           onPressed: () async {
             await context.push("/class2nd/attended");
           },
-          child: "Attended".text(),
+          child: i18n.attended.text(),
         )
       ],
       rightActions: [

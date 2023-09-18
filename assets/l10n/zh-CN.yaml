@@ -65,6 +65,8 @@ me:
   navigation: 个人
 class2nd:
   title: 第二课堂
+  activity: 活动
+  attended: 已参与
   navigation:
     all: 活动
     mine: 我的

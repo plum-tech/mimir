@@ -65,6 +65,8 @@ me:
   navigation: Me
 class2nd:
   title: Second class
+  activity: Activity
+  attended: Attended
   navigation:
     all: All
     mine: Mine

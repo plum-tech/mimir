@@ -13,6 +13,10 @@ class _I18n with CommonI18nMixin {
 
   String get title => "$ns.title".tr();
 
+  String get activity => "$ns.activity".tr();
+
+  String get attended => "$ns.attended".tr();
+
   String get id => "$ns.id".tr();
 
   String get contactInfo => "$ns.contactInfo".tr();
