@@ -23,7 +23,7 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
             context.push("/exam-arrange");
           },
           icon: const Icon(Icons.calendar_month_outlined),
-          label: "Check".text(),
+          label: i18n.check.text(),
         ),
       ],
       rightActions: [

@@ -10,6 +10,8 @@ class _I18n with CommonI18nMixin {
 
   String get title => "$ns.title".tr();
 
+  String get check => "$ns.check".tr();
+
   String get startTime => "$ns.startTime".tr();
 
   String get endTime => "$ns.endTime".tr();
