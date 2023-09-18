@@ -201,6 +201,7 @@ class TimetableEntry extends StatelessWidget {
     final year = '${timetable.schoolYear}–${timetable.schoolYear + 1}';
     final semester = timetable.semester.localized();
     final textTheme = context.textTheme;
+    final moreAction = this.moreAction;
     final widget = [
       timetable.name.text(style: textTheme.titleLarge),
       "$year, $semester".text(style: textTheme.titleMedium),
@@ -230,7 +231,7 @@ class TimetableEntry extends StatelessWidget {
                 child: i18n.mine.preview.text(),
               )
           ].wrap(spacing: 12),
-          if (moreAction != null) moreAction!,
+          if (moreAction != null) moreAction,
         ],
       ),
     ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 20);

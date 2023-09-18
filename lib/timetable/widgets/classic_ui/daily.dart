@@ -333,14 +333,11 @@ class _LessonCardState extends State<LessonCard> {
         isThreeLine: true,
         leading: courseIcon,
         title: Text(course.courseName),
-        trailing: [
-          Text(beautifyPlace(course.place), softWrap: true, overflow: TextOverflow.ellipsis),
-          "$begin–$end".text(style: const TextStyle(fontWeight: FontWeight.bold), softWrap: true),
-        ].column(),
         subtitle: [
           course.teachers.join(', ').text(),
-          course.localizedWeekNumbers().text(),
+          "$begin–$end".text(),
         ].column(caa: CrossAxisAlignment.start),
+        trailing: beautifyPlace(course.place).text(softWrap: true, overflow: TextOverflow.ellipsis, style: context.textTheme.bodyMedium),
       ),
     ).on(tap: () async {
       if (!mounted) return;
