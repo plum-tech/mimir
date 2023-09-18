@@ -228,7 +228,7 @@ networkTool:
   connectedByWlan: Connected to campus network by WLAN
   connectedByEthernet: Connected to campus network by Ethernet
 login:
-  header: Welcome!
+  welcomeHeader: Welcome!
   loginOa: Login OA
   validateInputAccountPwdRequest: Please check the account and password you entered
   credentialsValidatedTip: Account and password are correct
