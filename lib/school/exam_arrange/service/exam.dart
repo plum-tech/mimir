@@ -3,7 +3,7 @@ import 'package:mimir/network/session.dart';
 import '../entity/exam.dart';
 import 'package:mimir/school/entity/school.dart';
 
-class ExamService  {
+class ExamService {
   static const _examRoomUrl = 'http://jwxt.sit.edu.cn/jwglxt/kwgl/kscx_cxXsksxxIndex.html';
   final ISession session;
 

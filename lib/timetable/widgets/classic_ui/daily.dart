@@ -337,7 +337,8 @@ class _LessonCardState extends State<LessonCard> {
           course.teachers.join(', ').text(),
           "$begin–$end".text(),
         ].column(caa: CrossAxisAlignment.start),
-        trailing: beautifyPlace(course.place).text(softWrap: true, overflow: TextOverflow.ellipsis, style: context.textTheme.bodyMedium),
+        trailing: beautifyPlace(course.place)
+            .text(softWrap: true, overflow: TextOverflow.ellipsis, style: context.textTheme.bodyMedium),
       ),
     ).on(tap: () async {
       if (!mounted) return;

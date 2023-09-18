@@ -44,6 +44,7 @@ class HiveAdapter {
     ~Class2ndActivityApplicationAdapter();
     ~Class2ndScoreItemAdapter();
     ~Class2ndActivityCatAdapter();
+    ~Class2ndAttendedActivityAdapter();
 
     // Exam Arrangement
     ~ExamEntryAdapter();

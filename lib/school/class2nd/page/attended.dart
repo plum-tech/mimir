@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:rettulf/rettulf.dart';
@@ -7,7 +6,7 @@ import '../entity/score.dart';
 import '../init.dart';
 import '../widgets/attended.dart';
 import '../widgets/summary.dart';
-import '../utils.dart';
+import '../i18n.dart';
 
 class AttendedActivityPage extends StatefulWidget {
   const AttendedActivityPage({super.key});
@@ -17,37 +16,49 @@ class AttendedActivityPage extends StatefulWidget {
 }
 
 class _AttendedActivityPageState extends State<AttendedActivityPage> {
-  List<Class2ndAttendedActivity>? joined;
+  List<Class2ndAttendedActivity>? attended = Class2ndInit.scoreStorage.attendedList;
   final _scrollController = ScrollController();
+  final $attended = Class2ndInit.scoreStorage.listenAttendedList();
 
   @override
   void initState() {
     super.initState();
-    onRefresh();
+    refresh();
+    $attended.addListener(onAttendedChanged);
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    $attended.removeListener(onAttendedChanged);
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: buildBody(),
-    );
+  void onAttendedChanged() {
+    setState(() {
+      attended = Class2ndInit.scoreStorage.attendedList;
+    });
   }
 
-  void onRefresh() {
-    fetchMyActivityListJoinScore(Class2ndInit.scoreService).then((value) {
-      if (joined != value) {
-        joined = value;
-        if (!mounted) return;
-        setState(() {});
-      }
-    });
+  Future<void> refresh() async {
+    final applicationLust = await Class2ndInit.scoreService.fetchApplicationList();
+    final scoreItemList = await Class2ndInit.scoreService.fetchScoreItemList();
+    final attended = applicationLust.map((application) {
+      // 对于每一次申请, 找到对应的加分信息
+      final totalScore = scoreItemList
+          .where((e) => e.activityId == application.activityId)
+          .fold<double>(0.0, (double p, Class2ndScoreItem e) => p + e.amount);
+      // TODO: 潜在的 BUG，可能导致得分页面出现重复项。
+      return Class2ndAttendedActivity(
+        applyId: application.applyId,
+        activityId: application.activityId,
+        title: application.title,
+        time: application.time,
+        status: application.status,
+        amount: totalScore,
+      );
+    }).toList();
+    Class2ndInit.scoreStorage.attendedList = attended;
   }
 
   Class2ndScoreSummary getTargetScore() {
@@ -55,23 +66,25 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
     return getTargetScoreOf(admissionYear: admissionYear);
   }
 
-  Widget buildBody() {
-    final activities = joined;
-    if (activities == null) {
-      return const CircularProgressIndicator();
-    } else {
-      return ScrollConfiguration(
-        behavior: const CupertinoScrollBehavior(),
-        child: ListView.builder(
-          controller: _scrollController,
-          itemCount: activities.length,
-          physics: const BouncingScrollPhysics(),
-          itemBuilder: (ctx, index) {
-            final rawActivity = activities[index];
-            return AttendedActivityTile(rawActivity).inCard().hero(rawActivity.applyId);
-          },
+  @override
+  Widget build(BuildContext context) {
+    final activities = attended;
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          title: i18n.attended.title.text(),
+          bottom: activities != null
+              ? null
+              : const PreferredSize(
+                  preferredSize: Size.fromHeight(4),
+                  child: LinearProgressIndicator(),
+                ),
         ),
-      );
-    }
+        if (activities != null)
+          ...activities.map((activity) {
+            return SliverToBoxAdapter(child: AttendedActivityTile(activity).inCard().hero(activity.applyId));
+          }),
+      ],
+    );
   }
 }

@@ -118,26 +118,40 @@ class Class2ndActivityApplication {
   }
 }
 
+@HiveType(typeId: HiveTypeClass2nd.attendedActivity)
 class Class2ndAttendedActivity {
   /// 申请编号
+  @HiveField(0)
   final int applyId;
 
   /// 活动编号
+  @HiveField(1)
   final int activityId;
 
   /// 活动标题
+  @HiveField(2)
   final String title;
 
   /// 申请时间
+  @HiveField(3)
   final DateTime time;
 
   /// 活动状态
+  @HiveField(4)
   final String status;
 
   /// 总得分
+  @HiveField(5)
   final double amount;
 
-  Class2ndAttendedActivity(this.applyId, this.activityId, this.title, this.time, this.status, this.amount);
+  const Class2ndAttendedActivity({
+    required this.applyId,
+    required this.activityId,
+    required this.title,
+    required this.time,
+    required this.status,
+    required this.amount,
+  });
 }
 
 extension ScJoinedActivityHelper on Class2ndAttendedActivity {

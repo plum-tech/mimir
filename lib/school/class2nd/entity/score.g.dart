@@ -134,3 +134,50 @@ class Class2ndActivityApplicationAdapter extends TypeAdapter<Class2ndActivityApp
       identical(this, other) ||
       other is Class2ndActivityApplicationAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
+
+class Class2ndAttendedActivityAdapter extends TypeAdapter<Class2ndAttendedActivity> {
+  @override
+  final int typeId = 53;
+
+  @override
+  Class2ndAttendedActivity read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return Class2ndAttendedActivity(
+      applyId: fields[0] as int,
+      activityId: fields[1] as int,
+      title: fields[2] as String,
+      time: fields[3] as DateTime,
+      status: fields[4] as String,
+      amount: fields[5] as double,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, Class2ndAttendedActivity obj) {
+    writer
+      ..writeByte(6)
+      ..writeByte(0)
+      ..write(obj.applyId)
+      ..writeByte(1)
+      ..write(obj.activityId)
+      ..writeByte(2)
+      ..write(obj.title)
+      ..writeByte(3)
+      ..write(obj.time)
+      ..writeByte(4)
+      ..write(obj.status)
+      ..writeByte(5)
+      ..write(obj.amount);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Class2ndAttendedActivityAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+}

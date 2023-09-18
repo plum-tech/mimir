@@ -27,8 +27,8 @@ class AttendedActivityTile extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('${i18n.application.time}: ${context.formatYmdhmsNum(rawActivity.time)}', style: subtitleStyle),
-          Text('${i18n.application.id}: ${rawActivity.applyId}', style: subtitleStyle),
+          Text('${i18n.attended.time}: ${context.formatYmdhmsNum(rawActivity.time)}', style: subtitleStyle),
+          Text('${i18n.attended.id}: ${rawActivity.applyId}', style: subtitleStyle),
         ],
       ),
       trailing: Text(rawActivity.amount.abs() > 0.01 ? rawActivity.amount.toStringAsFixed(2) : rawActivity.status,

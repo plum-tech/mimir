@@ -9,13 +9,13 @@ class _I18n with CommonI18nMixin {
   static const ns = "class2nd";
 
   final apply = const _Apply();
-  final application = const _Application();
+  final attended = const _Attended();
 
   String get title => "$ns.title".tr();
 
-  String get activity => "$ns.activity".tr();
+  String get activityAction => "$ns.activity".tr();
 
-  String get attended => "$ns.attended".tr();
+  String get attendedAction => "$ns.attended".tr();
 
   String get refreshSuccessTip => "$ns.refreshSuccessTip".tr();
 
@@ -64,10 +64,12 @@ class _Apply {
   String get applyRequestDesc => "$ns.applyRequestDesc".tr();
 }
 
-class _Application {
-  const _Application();
+class _Attended {
+  const _Attended();
 
-  static const ns = "${_I18n.ns}.application";
+  static const ns = "${_I18n.ns}.attended";
+
+  String get title => "$ns.title".tr();
 
   String get id => "$ns.id".tr();
 

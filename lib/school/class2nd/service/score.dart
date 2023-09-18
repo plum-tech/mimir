@@ -96,7 +96,7 @@ class Class2ndScoreService {
   }
 
   /// 获取我的得分列表
-  Future<List<Class2ndScoreItem>> fetchScoreList() async {
+  Future<List<Class2ndScoreItem>> fetchScoreItemList() async {
     await _refreshCookie();
     final response = await session.request(_scScoreUrl, ReqMethod.post);
     return _parseScoreList(response.data);
@@ -123,7 +123,7 @@ class Class2ndScoreService {
   }
 
   /// 获取我的活动列表
-  Future<List<Class2ndActivityApplication>> fetchAttended() async {
+  Future<List<Class2ndActivityApplication>> fetchApplicationList() async {
     await _refreshCookie();
     final response = await session.request(_scMyEventUrl, ReqMethod.post);
     return _parseAttendedActivityList(response.data);
@@ -134,31 +134,32 @@ class Class2ndScoreService {
       debugPrint("My involved list needs refresh.");
       throw Exception("My involved list needs refresh.");
     }
-    Class2ndActivityApplication _activityMapDetail(Bs4Element item) {
-      final applyIdText = item.find(applyIdDetail)!.text.trim();
-      final applyId = int.parse(applyIdText);
-      final activityIdText = item.find(activityIdDetail)!.innerHtml.trim();
-      // 部分取消了的活动，活动链接不存在，这里将活动 id 记为 -1.
-      final activityId = int.parse(activityIdRe.firstMatch(activityIdText)?.group(1) ?? '-1');
-      final String title = item.find(titleDetail)!.text.trim();
-      final DateTime time = dateFormatParser.parse(item.find(timeDetail)!.text.trim());
-      final String status = item.find(statusDetail)!.text.trim();
-
-      return Class2ndActivityApplication(
-        applyId: applyId,
-        activityId: activityId,
-        title: title,
-        time: time,
-        status: status,
-      );
-    }
-
-    bool _filterDeletedActivity(Class2ndActivityApplication x) => x.activityId != 0;
 
     return BeautifulSoup(htmlPage)
         .findAll(activityDetail)
         .map((e) => _activityMapDetail(e))
-        .where((element) => _filterDeletedActivity(element))
+        .where((element) => filterDeletedActivity(element))
         .toList();
+  }
+
+  static bool filterDeletedActivity(Class2ndActivityApplication x) => x.activityId != 0;
+
+  static Class2ndActivityApplication _activityMapDetail(Bs4Element item) {
+    final applyIdText = item.find(applyIdDetail)!.text.trim();
+    final applyId = int.parse(applyIdText);
+    final activityIdText = item.find(activityIdDetail)!.innerHtml.trim();
+    // 部分取消了的活动，活动链接不存在，这里将活动 id 记为 -1.
+    final activityId = int.parse(activityIdRe.firstMatch(activityIdText)?.group(1) ?? '-1');
+    final String title = item.find(titleDetail)!.text.trim();
+    final DateTime time = dateFormatParser.parse(item.find(timeDetail)!.text.trim());
+    final String status = item.find(statusDetail)!.text.trim();
+
+    return Class2ndActivityApplication(
+      applyId: applyId,
+      activityId: activityId,
+      title: title,
+      time: time,
+      status: status,
+    );
   }
 }
