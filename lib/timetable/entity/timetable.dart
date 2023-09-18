@@ -141,15 +141,13 @@ class SitTimetableWeek {
 /// Lessons in the same Timeslot.
 typedef LessonsInSlot = List<SitTimetableLesson>;
 
-/// A Timeslot contain one or more lesson.
-typedef SitTimeslots = List<LessonsInSlot>;
-
 @JsonSerializable()
 class SitTimetableDay {
-  /// The Default number of lesson in one day is 11. But the length of [lessons] can be more.
+  /// The Default number of lesson in one day is 11. But the length of lessons can be more.
   /// When two lessons are overlapped, it can be 12+.
+  /// A Timeslot contain one or more lesson.
   @JsonKey()
-  SitTimeslots timeslots2Lessons;
+  List<LessonsInSlot> timeslots2Lessons;
 
   SitTimetableDay(this.timeslots2Lessons);
 
@@ -500,6 +498,6 @@ String rangeToString(({int start, int end}) range) {
   if (range.start == range.end) {
     return "${range.start}";
   } else {
-    return "${range.start}-${range.start}";
+    return "${range.start}-${range.end}";
   }
 }

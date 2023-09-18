@@ -174,6 +174,7 @@ SitTimetable parseTimetableEntity(List<CourseRaw> all) {
     assert(0 <= dayIndex && dayIndex < 7, "dayIndex is out of range [0,6] but $dayIndex");
     if (!(0 <= dayIndex && dayIndex < 7)) continue;
     final timeslots = rangeFromString(raw.timeslotsText, number2index: true);
+    assert(timeslots.start <= timeslots.end, "${timeslots.start} > ${timeslots.end} actually. ${raw.courseName}");
     final course = SitCourse(
       courseKey: courseKey,
       courseName: mapChinesePunctuations(raw.courseName).trim(),

@@ -23,13 +23,16 @@ class Sheet extends StatelessWidget {
     return classes.map((e) {
       final weekNumbers = e.localizedWeekNumbers();
       final fullClass = e.composeFullClassTime();
-      final timeText = "${fullClass.begin} - ${fullClass.end}";
+      final timeText = "${fullClass.begin}–${fullClass.end}";
       return "$weekNumbers $timeText\n ${e.place}";
     }).toList();
   }
 
   Widget _buildTitle(BuildContext context) {
-    final titleStyle = Theme.of(context).textTheme.titleLarge;
+    final titleStyle = Theme
+        .of(context)
+        .textTheme
+        .titleLarge;
 
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 25, 0, 5),
@@ -41,7 +44,10 @@ class Sheet extends StatelessWidget {
   }
 
   Widget _buildItem(BuildContext context, String icon, String text) {
-    final itemStyle = Theme.of(context).textTheme.bodyMedium;
+    final itemStyle = Theme
+        .of(context)
+        .textTheme
+        .bodyMedium;
     final iconImage = AssetImage('assets/timetable/$icon');
 
     return Padding(
@@ -72,7 +78,10 @@ class Sheet extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.background,
+          color: Theme
+              .of(context)
+              .colorScheme
+              .background,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(15.0),
             topRight: Radius.circular(15.0),
