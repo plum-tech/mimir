@@ -324,10 +324,7 @@ class _LessonCardState extends State<LessonCard> {
       width: iconSize,
       height: iconSize,
     );
-    final timetable = course.buildingTimetable;
-    final classBegin = timetable[widget.lesson.startIndex].begin;
-    final classEnd = timetable[widget.lesson.endIndex].end;
-    final time = "$classBegin–$classEnd";
+    final (:begin, :end) = course.calcBeginEndTimepoint();
     final color = TimetableStyle.of(context).platte.resolveColor(course).byTheme(context.theme);
     return FilledCard(
       color: color,
@@ -338,7 +335,7 @@ class _LessonCardState extends State<LessonCard> {
         title: Text(course.courseName),
         trailing: [
           Text(beautifyPlace(course.place), softWrap: true, overflow: TextOverflow.ellipsis),
-          time.text(style: const TextStyle(fontWeight: FontWeight.bold), softWrap: true),
+          "$begin–$end".text(style: const TextStyle(fontWeight: FontWeight.bold), softWrap: true),
         ].column(),
         subtitle: [
           course.teachers.join(', ').text(),

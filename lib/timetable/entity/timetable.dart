@@ -324,12 +324,10 @@ extension SitCourseEx on SitCourse {
   /// Based on [SitCourse.timeslots], compose a full-length class time.
   /// Starts with the first part starts.
   /// Ends with the last part ends.
-  ClassTime composeFullClassTime() {
+  ClassTime calcBeginEndTimepoint() {
     final timetable = buildingTimetable;
     final (:start, :end) = timeslots;
-    final beginTime = timetable[start].begin;
-    final endTime = timetable[end].end;
-    return ClassTime(beginTime, endTime);
+    return (begin: timetable[start].begin, end: timetable[end].end);
   }
 }
 

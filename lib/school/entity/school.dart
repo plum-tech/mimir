@@ -237,82 +237,74 @@ class TimeDuration {
   }
 }
 
-class ClassTime {
-  /// 上课时间
-  final Timepoint begin;
+typedef ClassTime = ({Timepoint begin, Timepoint end});
 
-  /// 下课时间
-  final Timepoint end;
-
-  const ClassTime(this.begin, this.end);
-}
-
-const fengxianCampusCommonTimetable = [
+const fengxianCampusCommonTimetable = <ClassTime>[
   // 上午
-  ClassTime(Timepoint(8, 20), Timepoint(9, 05)),
-  ClassTime(Timepoint(9, 10), Timepoint(9, 55)),
-  ClassTime(Timepoint(10, 15), Timepoint(11, 00)),
-  ClassTime(Timepoint(11, 05), Timepoint(11, 50)),
+  (begin: Timepoint(8, 20), end: Timepoint(9, 05)),
+  (begin: Timepoint(9, 10), end: Timepoint(9, 55)),
+  (begin: Timepoint(10, 15), end: Timepoint(11, 00)),
+  (begin: Timepoint(11, 05), end: Timepoint(11, 50)),
   // 下午
-  ClassTime(Timepoint(13, 00), Timepoint(13, 45)),
-  ClassTime(Timepoint(13, 50), Timepoint(14, 35)),
-  ClassTime(Timepoint(14, 55), Timepoint(15, 40)),
-  ClassTime(Timepoint(15, 45), Timepoint(16, 30)),
+  (begin: Timepoint(13, 00), end: Timepoint(13, 45)),
+  (begin: Timepoint(13, 50), end: Timepoint(14, 35)),
+  (begin: Timepoint(14, 55), end: Timepoint(15, 40)),
+  (begin: Timepoint(15, 45), end: Timepoint(16, 30)),
   // 晚上
-  ClassTime(Timepoint(18, 00), Timepoint(18, 45)),
-  ClassTime(Timepoint(18, 50), Timepoint(19, 35)),
-  ClassTime(Timepoint(19, 40), Timepoint(20, 25)),
+  (begin: Timepoint(18, 00), end: Timepoint(18, 45)),
+  (begin: Timepoint(18, 50), end: Timepoint(19, 35)),
+  (begin: Timepoint(19, 40), end: Timepoint(20, 25)),
 ];
 
-const teacherBuilding1Timetable = [
+const teacherBuilding1Timetable = <ClassTime>[
   // 上午
-  ClassTime(Timepoint(8, 20), Timepoint(9, 05)),
-  ClassTime(Timepoint(9, 10), Timepoint(9, 55)),
-  ClassTime(Timepoint(10, 25), Timepoint(11, 10)),
-  ClassTime(Timepoint(11, 15), Timepoint(12, 00)),
+  (begin: Timepoint(8, 20), end: Timepoint(9, 05)),
+  (begin: Timepoint(9, 10), end: Timepoint(9, 55)),
+  (begin: Timepoint(10, 25), end: Timepoint(11, 10)),
+  (begin: Timepoint(11, 15), end: Timepoint(12, 00)),
   // 下午
-  ClassTime(Timepoint(13, 00), Timepoint(13, 45)),
-  ClassTime(Timepoint(13, 50), Timepoint(14, 35)),
-  ClassTime(Timepoint(14, 55), Timepoint(15, 40)),
-  ClassTime(Timepoint(15, 45), Timepoint(16, 30)),
+  (begin: Timepoint(13, 00), end: Timepoint(13, 45)),
+  (begin: Timepoint(13, 50), end: Timepoint(14, 35)),
+  (begin: Timepoint(14, 55), end: Timepoint(15, 40)),
+  (begin: Timepoint(15, 45), end: Timepoint(16, 30)),
   // 晚上
-  ClassTime(Timepoint(18, 00), Timepoint(18, 45)),
-  ClassTime(Timepoint(18, 50), Timepoint(19, 35)),
-  ClassTime(Timepoint(19, 40), Timepoint(20, 25)),
+  (begin: Timepoint(18, 00), end: Timepoint(18, 45)),
+  (begin: Timepoint(18, 50), end: Timepoint(19, 35)),
+  (begin: Timepoint(19, 40), end: Timepoint(20, 25)),
 ];
 
-const teacherBuilding2Timetable = [
+const teacherBuilding2Timetable = <ClassTime>[
   // 上午 （3-4不下课）
-  ClassTime(Timepoint(8, 20), Timepoint(9, 05)),
-  ClassTime(Timepoint(9, 10), Timepoint(9, 55)),
-  ClassTime(Timepoint(10, 15), Timepoint(11, 00)),
-  ClassTime(Timepoint(11, 00), Timepoint(11, 45)),
+  (begin: Timepoint(8, 20), end: Timepoint(9, 05)),
+  (begin: Timepoint(9, 10), end: Timepoint(9, 55)),
+  (begin: Timepoint(10, 15), end: Timepoint(11, 00)),
+  (begin: Timepoint(11, 00), end: Timepoint(11, 45)),
   // 下午
-  ClassTime(Timepoint(13, 00), Timepoint(13, 45)),
-  ClassTime(Timepoint(13, 50), Timepoint(14, 35)),
-  ClassTime(Timepoint(14, 55), Timepoint(15, 40)),
-  ClassTime(Timepoint(15, 45), Timepoint(16, 30)),
+  (begin: Timepoint(13, 00), end: Timepoint(13, 45)),
+  (begin: Timepoint(13, 50), end: Timepoint(14, 35)),
+  (begin: Timepoint(14, 55), end: Timepoint(15, 40)),
+  (begin: Timepoint(15, 45), end: Timepoint(16, 30)),
   // 晚上
-  ClassTime(Timepoint(18, 00), Timepoint(18, 45)),
-  ClassTime(Timepoint(18, 50), Timepoint(19, 35)),
-  ClassTime(Timepoint(19, 40), Timepoint(20, 25)),
+  (begin: Timepoint(18, 00), end: Timepoint(18, 45)),
+  (begin: Timepoint(18, 50), end: Timepoint(19, 35)),
+  (begin: Timepoint(19, 40), end: Timepoint(20, 25)),
 ];
 
-const xuhuiCampusCommonTimetable = [
+const xuhuiCampusCommonTimetable = <ClassTime>[
   // 上午
-  ClassTime(Timepoint(8, 00), Timepoint(8, 45)),
-  ClassTime(Timepoint(8, 50), Timepoint(9, 35)),
-  ClassTime(Timepoint(9, 55), Timepoint(10, 40)),
-  ClassTime(Timepoint(10, 45), Timepoint(11, 30)),
+  (begin: Timepoint(8, 00), end: Timepoint(8, 45)),
+  (begin: Timepoint(8, 50), end: Timepoint(9, 35)),
+  (begin: Timepoint(9, 55), end: Timepoint(10, 40)),
+  (begin: Timepoint(10, 45), end: Timepoint(11, 30)),
   // 下午
-  ClassTime(Timepoint(13, 00), Timepoint(13, 45)),
-  ClassTime(Timepoint(13, 50), Timepoint(14, 35)),
-  ClassTime(Timepoint(14, 55), Timepoint(15, 40)),
-  ClassTime(Timepoint(15, 45), Timepoint(16, 30)),
+  (begin: Timepoint(13, 00), end: Timepoint(13, 45)),
+  (begin: Timepoint(13, 50), end: Timepoint(14, 35)),
+  (begin: Timepoint(14, 55), end: Timepoint(15, 40)),
+  (begin: Timepoint(15, 45), end: Timepoint(16, 30)),
   // 晚上
-  ClassTime(Timepoint(18, 00), Timepoint(18, 45)),
-  ClassTime(Timepoint(18, 50), Timepoint(19, 35)),
-  ClassTime(Timepoint(19, 40), Timepoint(20, 25)),
+  (begin: Timepoint(18, 00), end: Timepoint(18, 45)),
+  (begin: Timepoint(18, 50), end: Timepoint(19, 35)),
+  (begin: Timepoint(19, 40), end: Timepoint(20, 25)),
 ];
 
 /// 解析 timeIndex, 得到第一节小课的序号. 如给出 1~4, 返回 1
