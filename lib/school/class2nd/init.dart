@@ -18,6 +18,7 @@ class Class2ndInit {
   static late Class2ndActivityListCache activityListService;
   static late Class2ndActivityDetailCache activityDetailService;
   static late Class2ndScoreCache scoreService;
+  static late Class2ndScoreStorage scoreStorage;
   static late Class2ndAttendActivityService attendActivityService;
 
   static void init({
@@ -35,9 +36,10 @@ class Class2ndInit {
       to: Class2ndActivityDetailStorage(box),
       expiration: const Duration(days: 180),
     );
+    scoreStorage = Class2ndScoreStorage(box);
     scoreService = Class2ndScoreCache(
       from: Class2ndScoreService(session),
-      to: Class2ndScoreStorage(box),
+      to: scoreStorage,
       expiration: const Duration(minutes: 5),
     );
     attendActivityService = Class2ndAttendActivityService(session);

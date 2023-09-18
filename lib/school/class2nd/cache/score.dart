@@ -19,41 +19,41 @@ class Class2ndScoreCache {
     if (to.box.myScoreSummary.needRefresh(after: expiration)) {
       try {
         final res = await from.getScoreSummary();
-        to.setScScoreSummary(res);
+        to.scoreSummary = res;
         return res;
       } catch (e) {
-        return to.getScoreSummary();
+        return to.scoreSummary;
       }
     } else {
-      return to.getScoreSummary();
+      return to.scoreSummary;
     }
   }
 
-  Future<List<Class2ndScoreItem>?> getMyScoreList() async {
+  Future<List<Class2ndScoreItem>?> getScoreList() async {
     if (to.box.myScoreList.needRefresh(after: expiration)) {
       try {
         final res = await from.getMyScoreList();
-        to.setMyScoreList(res);
+        to.scoreList =res;
         return res;
       } catch (e) {
-        return to.getMyScoreList();
+        return to.scoreList;
       }
     } else {
-      return to.getMyScoreList();
+      return to.scoreList;
     }
   }
 
-  Future<List<Class2ndActivityApplication>?> getMyInvolved() async {
+  Future<List<Class2ndActivityApplication>?> getAttended() async {
     if (to.box.myInvolved.needRefresh(after: expiration)) {
       try {
         final res = await from.getAttended();
-        to.setMeInvolved(res);
+        to.attended = res;
         return res;
       } catch (e) {
-        return to.getMyInvolved();
+        return to.attended;
       }
     } else {
-      return to.getMyInvolved();
+      return to.attended;
     }
   }
 }

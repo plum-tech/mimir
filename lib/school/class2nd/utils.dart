@@ -3,9 +3,9 @@ import 'package:mimir/school/class2nd/cache/score.dart';
 import 'entity/score.dart';
 
 Future<List<ScJoinedActivity>?> getMyActivityListJoinScore(Class2ndScoreCache scScoreDao) async {
-  final activities = await scScoreDao.getMyInvolved();
+  final activities = await scScoreDao.getAttended();
   if (activities == null) return null;
-  final scores = await scScoreDao.getMyScoreList();
+  final scores = await scScoreDao.getScoreList();
   if (scores == null) return null;
   return activities.map((application) {
     // 对于每一次申请, 找到对应的加分信息

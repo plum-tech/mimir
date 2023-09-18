@@ -17,11 +17,12 @@ class Class2ndAppCard extends StatefulWidget {
 }
 
 class _Class2ndAppCardState extends State<Class2ndAppCard> {
-  Class2ndScoreSummary? summary;
+  var summary = Class2ndInit.scoreStorage.scoreSummary;
 
   @override
   void initState() {
     super.initState();
+
     refresh();
   }
 
