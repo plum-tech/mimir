@@ -1,12 +1,10 @@
-import 'package:mimir/school/class2nd/cache/score.dart';
+import 'package:mimir/school/class2nd/service/score.dart';
 
 import 'entity/score.dart';
 
-Future<List<ScJoinedActivity>?> getMyActivityListJoinScore(Class2ndScoreCache scScoreDao) async {
-  final activities = await scScoreDao.getAttended();
-  if (activities == null) return null;
-  final scores = await scScoreDao.getScoreList();
-  if (scores == null) return null;
+Future<List<ScJoinedActivity>> fetchMyActivityListJoinScore(Class2ndScoreService scoreService) async {
+  final activities = await scoreService.fetchAttended();
+  final scores = await scoreService.fetchScoreList();
   return activities.map((application) {
     // 对于每一次申请, 找到对应的加分信息
     final totalScore = scores

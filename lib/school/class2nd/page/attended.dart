@@ -41,7 +41,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   }
 
   void onRefresh() {
-    getMyActivityListJoinScore(Class2ndInit.scoreService).then((value) {
+    fetchMyActivityListJoinScore(Class2ndInit.scoreService).then((value) {
       if (joined != value) {
         joined = value;
         if (!mounted) return;

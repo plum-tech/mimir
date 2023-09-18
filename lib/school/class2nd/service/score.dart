@@ -33,7 +33,7 @@ class Class2ndScoreService {
   const Class2ndScoreService(this.session);
 
   /// 获取第二课堂分数
-  Future<Class2ndScoreSummary> getScoreSummary() async {
+  Future<Class2ndScoreSummary> fetchScoreSummary() async {
     final response = await session.request(_scHomeUrl, ReqMethod.post);
     final data = response.data;
     return _parseScScoreSummary(data);
@@ -86,12 +86,12 @@ class Class2ndScoreService {
   }
 
   /// 获取我的得分列表
-  Future<List<Class2ndScoreItem>> getMyScoreList() async {
+  Future<List<Class2ndScoreItem>> fetchScoreList() async {
     final response = await session.request(_scScoreUrl, ReqMethod.post);
-    return _parseMyScoreList(response.data);
+    return _parseScoreList(response.data);
   }
 
-  static List<Class2ndScoreItem> _parseMyScoreList(String htmlPage) {
+  static List<Class2ndScoreItem> _parseScoreList(String htmlPage) {
     if (htmlPage.contains('<meta http-equiv="refresh" content="0;URL=http://my.sit.edu.cn"/>')) {
       debugPrint("My score list needs refresh.");
       throw Exception("My score list needs refresh.");
@@ -112,7 +112,7 @@ class Class2ndScoreService {
   }
 
   /// 获取我的活动列表
-  Future<List<Class2ndActivityApplication>> getAttended() async {
+  Future<List<Class2ndActivityApplication>> fetchAttended() async {
     final response = await session.request(_scMyEventUrl, ReqMethod.post);
     return _parseAttendedActivityList(response.data);
   }

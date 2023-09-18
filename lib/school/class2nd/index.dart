@@ -18,27 +18,40 @@ class Class2ndAppCard extends StatefulWidget {
 
 class _Class2ndAppCardState extends State<Class2ndAppCard> {
   var summary = Class2ndInit.scoreStorage.scoreSummary;
+  final $scoreSummary = Class2ndInit.scoreStorage.$scoreSummary;
 
   @override
   void initState() {
+    $scoreSummary.addListener(onSummaryChanged);
     super.initState();
-
-    refresh();
   }
 
-  void refresh() {
-    // TODO: Error when school server unavailable or credentials are empty.
-    Class2ndInit.scoreService.getScoreSummary().then((value) {
-      if (summary != value) {
-        summary = value;
-        if (!mounted) return;
-        setState(() {});
-      }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    refresh(active: false);
+  }
+
+  @override
+  void dispose() {
+    $scoreSummary.removeListener(onSummaryChanged);
+    super.dispose();
+  }
+
+  void onSummaryChanged() {
+    setState(() {
+      summary = Class2ndInit.scoreStorage.scoreSummary;
     });
   }
 
+  Future<void> refresh({required bool active}) async {
+    // TODO: Error when school server unavailable.
+    final summary = await Class2ndInit.scoreService.fetchScoreSummary();
+    Class2ndInit.scoreStorage.scoreSummary = summary;
+  }
+
   Class2ndScoreSummary getTargetScore() {
-    final admissionYear = int.tryParse(context.auth.credentials?.account.substring(0, 2) ?? "") ?? 2000;
+    final admissionYear = int.tryParse(context.auth.credentials?.account.substring(0, 2) ?? "");
     return getTargetScoreOf(admissionYear: admissionYear);
   }
 
@@ -71,7 +84,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
       rightActions: [
         IconButton(
           onPressed: () {
-            refresh();
+            refresh(active: true);
           },
           icon: const Icon(Icons.refresh),
         ),

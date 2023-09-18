@@ -17,7 +17,7 @@ const _admissionYear2targetScores = {
   2020: _targetScores2020,
 };
 
-Class2ndScoreSummary getTargetScoreOf({required int admissionYear}) {
+Class2ndScoreSummary getTargetScoreOf({required int? admissionYear}) {
   final targetScores = _admissionYear2targetScores[admissionYear];
   if (targetScores != null) {
     return targetScores;

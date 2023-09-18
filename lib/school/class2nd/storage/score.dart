@@ -1,39 +1,31 @@
-import 'package:hive/hive.dart';
-import 'package:mimir/cache/box.dart';
+import 'package:flutter/foundation.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../entity/score.dart';
 
-class _Key {
+class _K {
   static const scoreSummary = "/scoreSummary";
-  static const scoreList = "/scoreList";
+  static const scoreItemList = "/scoreItemList";
   static const attended = "/attended";
 }
 
-class Class2ndScoreStorageBox with CachedBox {
-  @override
+class Class2ndScoreStorage {
   final Box<dynamic> box;
 
-  Class2ndScoreStorageBox(this.box);
+  const Class2ndScoreStorage(this.box);
 
-  late final myScoreSummary = named<Class2ndScoreSummary>(_Key.scoreSummary);
-  late final myScoreList = namedList<Class2ndScoreItem>(_Key.scoreList);
-  late final myInvolved = namedList<Class2ndActivityApplication>(_Key.attended);
-}
+  Class2ndScoreSummary? get scoreSummary => box.get(_K.scoreSummary);
 
-class Class2ndScoreStorage {
-  final Class2ndScoreStorageBox box;
+  set scoreSummary(Class2ndScoreSummary? newValue) => box.put(_K.scoreSummary, newValue);
 
-  Class2ndScoreStorage(Box<dynamic> hive) : box = Class2ndScoreStorageBox(hive);
+  ValueListenable<Box> get $scoreSummary => box.listenable(keys: [_K.scoreSummary]);
 
-  Class2ndScoreSummary? get scoreSummary => box.myScoreSummary.value;
+  List<Class2ndScoreItem>? get scoreItemList => (box.get(_K.scoreItemList) as List?)?.cast<Class2ndScoreItem>();
 
-  set scoreSummary(Class2ndScoreSummary? summery) => box.myScoreSummary.value = summery;
+  set scoreItemList(List<Class2ndScoreItem>? newValue) => box.put(_K.scoreItemList, newValue);
 
-  List<Class2ndScoreItem>? get scoreList => box.myScoreList.value;
+  List<Class2ndActivityApplication>? get attended =>
+      (box.get(_K.attended) as List?)?.cast<Class2ndActivityApplication>();
 
-  set scoreList(List<Class2ndScoreItem>? list) => box.myScoreList.value = list;
-
-  List<Class2ndActivityApplication>? get attended => box.myInvolved.value;
-
-  set attended(List<Class2ndActivityApplication>? list) => box.myInvolved.value = list;
+  set attended(List<Class2ndActivityApplication>? newValue) => box.put(_K.attended, newValue);
 }
