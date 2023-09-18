@@ -3,8 +3,12 @@ String formatWithoutTrailingZeros(double amount) {
   final number = amount.toStringAsFixed(2);
   if (number.contains('.')) {
     int index = number.length - 1;
-    while (index >= 0 && (number[index] == '0' || number[index] == '.')) {
+    while (index >= 0 && number[index] == '0') {
       index--;
+      if (index >= 0 && number[index] == '.') {
+        index--;
+        break;
+      }
     }
     return number.substring(0, index + 1);
   }

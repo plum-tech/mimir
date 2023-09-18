@@ -32,8 +32,8 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
   void initState() {
     super.initState();
     final DateTime now = DateTime.now();
-    selectedYear = (now.month >= 9 ? now.year : now.year - 1);
-    selectedSemester = (now.month >= 3 && now.month <= 7) ? Semester.term2 : Semester.term1;
+    selectedYear = now.month >= 9 ? now.year : now.year - 1;
+    selectedSemester = now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1;
     refresh();
   }
 
