@@ -1,10 +1,10 @@
-import 'package:mimir/school/class2nd/service/detail.dart';
+import 'package:mimir/school/class2nd/service/activity_details.dart';
 
 import '../entity/details.dart';
 import '../storage/detail.dart';
 
 class Class2ndActivityDetailCache {
-  final Class2ndActivityDetailService from;
+  final Class2ndActivityDetailsService from;
   final Class2ndActivityDetailStorage to;
   Duration expiration;
 
@@ -18,7 +18,7 @@ class Class2ndActivityDetailCache {
     final cacheKey = to.box.id2Detail.make(activityId);
     if (cacheKey.needRefresh(after: expiration)) {
       try {
-        final res = await from.getActivityDetail(activityId);
+        final res = await from.getActivityDetails(activityId);
         to.setActivityDetail(activityId, res);
         return res;
       } catch (e) {

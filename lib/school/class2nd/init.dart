@@ -4,9 +4,9 @@ import 'package:mimir/session/sso/session.dart';
 
 import 'cache/detail.dart';
 import 'cache/list.dart';
-import 'service/detail.dart';
+import 'service/activity.dart';
+import 'service/activity_details.dart';
 import 'service/attend.dart';
-import 'service/list.dart';
 import 'service/score.dart';
 import 'storage/detail.dart';
 import 'storage/list.dart';
@@ -31,7 +31,7 @@ class Class2ndInit {
       expiration: const Duration(minutes: 30),
     );
     activityDetailService = Class2ndActivityDetailCache(
-      from: Class2ndActivityDetailService(session),
+      from: Class2ndActivityDetailsService(session),
       to: Class2ndActivityDetailStorage(box),
       expiration: const Duration(days: 180),
     );

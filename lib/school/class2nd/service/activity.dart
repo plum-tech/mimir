@@ -27,13 +27,9 @@ class Class2ndActivityListService {
   const Class2ndActivityListService(this.session);
 
   Future<void> _refreshCookie() async {
-    Future<void> getHomePage() async {
+    if (!_initializedCookie) {
       const String url = 'http://sc.sit.edu.cn/';
       await session.request(url, ReqMethod.get);
-    }
-
-    if (!_initializedCookie) {
-      await getHomePage();
       _initializedCookie = true;
     }
   }

@@ -6,7 +6,7 @@ import 'package:mimir/network/session.dart';
 
 import '../entity/details.dart';
 
-class Class2ndActivityDetailService {
+class Class2ndActivityDetailsService {
   static const _scDetailUrlBase = 'http://sc.sit.edu.cn/public/activity/activityDetail.action?activityId=';
 
   static RegExp reSpaces = RegExp(r'\s{2}\s+');
@@ -17,10 +17,10 @@ class Class2ndActivityDetailService {
 
   final ISession session;
 
-  const Class2ndActivityDetailService(this.session);
+  const Class2ndActivityDetailsService(this.session);
 
   /// 获取第二课堂活动详情
-  Future<Class2ndActivityDetails> getActivityDetail(int activityId) async {
+  Future<Class2ndActivityDetails> getActivityDetails(int activityId) async {
     final response = await session.request(_scDetailUrlBase + activityId.toString(), ReqMethod.post);
     final data = response.data;
     return _parseActivityDetail(data);
