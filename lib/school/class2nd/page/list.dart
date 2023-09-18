@@ -25,9 +25,7 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
     Class2ndActivityCat.voluntary,
   ];
 
-  final loadingStates = categories.map((cat) => false).toList();
-
-  bool get isAnyLoading => loadingStates.any((state) => state == true);
+  final loadingStates = ValueNotifier(categories.map((cat) => false).toList());
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +37,13 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
 
   Widget buildBody() {
     return Scaffold(
-      bottomNavigationBar: !isAnyLoading
-          ? null
-          : const PreferredSize(
-              preferredSize: Size.fromHeight(4),
-              child: LinearProgressIndicator(),
-            ),
+      bottomNavigationBar: PreferredSize(
+        preferredSize: const Size.fromHeight(4),
+        child: loadingStates >>
+            (ctx, states) {
+              return !states.any((state) => state == true) ? const SizedBox() : const LinearProgressIndicator();
+            },
+      ),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           // These are the slivers that show up in the "outer" scroll view.
@@ -94,9 +93,9 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
             return ActivityList(
               cat: cat,
               onLoadingChanged: (state) {
-                setState(() {
-                  loadingStates[i] = state;
-                });
+                final newStates = List.of(loadingStates.value);
+                newStates[i] = state;
+                loadingStates.value = newStates;
               },
             );
           }).toList(),
@@ -126,7 +125,6 @@ class ActivityList extends StatefulWidget {
 class _ActivityListState extends State<ActivityList> {
   int lastPage = 1;
   List<Class2ndActivity> activities = [];
-  bool loading = true;
   final scrollController = ScrollController();
 
   @override
@@ -137,7 +135,9 @@ class _ActivityListState extends State<ActivityList> {
         loadMoreActivities();
       }
     });
-    loadMoreActivities();
+    Future.delayed(Duration.zero).then((value) async {
+      await loadMoreActivities();
+    });
   }
 
   @override
@@ -171,26 +171,19 @@ class _ActivityListState extends State<ActivityList> {
     );
   }
 
-  void loadMoreActivities() async {
-    setLoading(true);
+  Future<void> loadMoreActivities() async {
+    widget.onLoadingChanged(true);
     final lastActivities = await Class2ndInit.activityListService.getActivityList(widget.cat, lastPage);
     if (lastActivities != null) {
+      widget.onLoadingChanged(false);
       if (!mounted) return;
       setState(() {
-        setLoading(false);
         lastPage++;
         activities.addAll(lastActivities);
         // The incoming activities may be the same as before, so distinct is necessary.
         activities.distinctBy((a) => a.id);
       });
     }
-  }
-
-  void setLoading(bool loading) {
-    widget.onLoadingChanged(loading);
-    setState(() {
-      this.loading = loading;
-    });
   }
 }
 
