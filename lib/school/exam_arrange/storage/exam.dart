@@ -2,7 +2,6 @@ import 'package:hive/hive.dart';
 import 'package:mimir/cache/box.dart';
 import 'package:mimir/school/entity/school.dart';
 
-import '../dao/exam.dart';
 import '../entity/exam.dart';
 
 class ExamStorageBox with CachedBox {
@@ -16,19 +15,25 @@ class ExamStorageBox with CachedBox {
   ExamStorageBox(this.box);
 }
 
-class ExamStorage extends ExamDao {
+class ExamStorage {
   final ExamStorageBox box;
 
   ExamStorage(Box<dynamic> hive) : box = ExamStorageBox(hive);
 
-  @override
-  Future<List<ExamEntry>?> getExamList(SchoolYear schoolYear, Semester semester) async {
-    final cacheKey = box.exams.make(schoolYear, semester);
+  List<ExamEntry>? getExamList({
+    required SchoolYear year,
+    required Semester semester,
+  }) {
+    final cacheKey = box.exams.make(year, semester);
     return cacheKey.value;
   }
 
-  void setExamList(SchoolYear schoolYear, Semester semester, List<ExamEntry>? exams) {
-    final cacheKey = box.exams.make(schoolYear, semester);
+  void setExamList(
+    List<ExamEntry>? exams, {
+    required SchoolYear year,
+    required Semester semester,
+  }) {
+    final cacheKey = box.exams.make(year, semester);
     cacheKey.value = exams;
   }
 }

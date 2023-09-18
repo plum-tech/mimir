@@ -1,18 +1,19 @@
 import 'package:mimir/network/session.dart';
 
-import '../dao/exam.dart';
 import '../entity/exam.dart';
 import 'package:mimir/school/entity/school.dart';
 
-class ExamService implements ExamDao {
+class ExamService  {
   static const _examRoomUrl = 'http://jwxt.sit.edu.cn/jwglxt/kwgl/kscx_cxXsksxxIndex.html';
   final ISession session;
 
   const ExamService(this.session);
 
   /// 获取考场信息
-  @override
-  Future<List<ExamEntry>> getExamList(SchoolYear schoolYear, Semester semester) async {
+  Future<List<ExamEntry>> getExamList({
+    required SchoolYear year,
+    required Semester semester,
+  }) async {
     var response = await session.request(
       _examRoomUrl,
       ReqMethod.post,
@@ -22,7 +23,7 @@ class ExamService implements ExamDao {
       },
       data: {
         // 学年名
-        'xnm': schoolYear.toString(),
+        'xnm': year.toString(),
         // 学期名
         'xqm': semesterToFormField(semester),
       },

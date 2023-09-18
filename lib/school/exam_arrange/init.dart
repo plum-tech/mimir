@@ -3,11 +3,10 @@ import 'package:mimir/school/exam_arrange/storage/exam.dart';
 import 'package:mimir/network/session.dart';
 
 import 'cache/exam.dart';
-import 'dao/exam.dart';
 import 'service/exam.dart';
 
 class ExamArrangeInit {
-  static late ExamDao examService;
+  static late ExamCache examService;
 
   static void init({
     required ISession eduSession,

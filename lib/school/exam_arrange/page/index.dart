@@ -37,24 +37,21 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
     refresh();
   }
 
-  void refresh() {
+  Future<void> refresh() async {
     setState(() {
       // To display the loading placeholder.
       _exams = null;
     });
-    service
-        .getExamList(
-      SchoolYear(selectedYear),
-      selectedSemester,
-    )
-        .then((value) {
-      if (value != null) {
-        value.sort(ExamEntry.comparator);
-        setState(() {
-          _exams = value;
-        });
-      }
-    });
+    final exam = await service.getExamList(
+      year: SchoolYear(selectedYear),
+      semester: selectedSemester,
+    );
+    if (exam != null) {
+      exam.sort(ExamEntry.comparator);
+      setState(() {
+        _exams = exam;
+      });
+    }
   }
 
   @override
