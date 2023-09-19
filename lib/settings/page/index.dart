@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/i18n.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/dialog.dart';
-import 'package:mimir/entity/campus.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/hive/init.dart';
 import 'package:mimir/l10n/extension.dart';
@@ -260,48 +259,35 @@ class _VersionTileState extends State<VersionTile> {
   }
 }
 
-class ThemeModeTile extends StatefulWidget {
+class ThemeModeTile extends StatelessWidget {
   const ThemeModeTile({super.key});
 
   @override
-  State<ThemeModeTile> createState() => _ThemeModeTileState();
-}
-
-class _ThemeModeTileState extends State<ThemeModeTile> {
-  final $themeMode = Settings.listenThemeMode();
-
-  @override
-  void initState() {
-    super.initState();
-    $themeMode.addListener(refresh);
-  }
-
-  @override
-  void dispose() {
-    $themeMode.removeListener(refresh);
-    super.dispose();
-  }
-
-  void refresh() {
-    setState(() {});
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final themeMode = Settings.themeMode;
-    return ListTile(
-      leading: switch (themeMode) {
-        ThemeMode.dark => const Icon(Icons.dark_mode),
-        ThemeMode.light => const Icon(Icons.light_mode),
-        ThemeMode.system => const Icon(Icons.brightness_6),
-      },
-      title: i18n.themeMode.title.text(),
-      onTap: () {
-        final current = Settings.themeMode;
-        final newThemeMode = ThemeMode.values[(current.index + 1) % ThemeMode.values.length];
-        Settings.themeMode = newThemeMode;
-      },
-      subtitle: i18n.themeMode.of(themeMode).text(),
+    return StatefulBuilder(
+      builder: (ctx, setState) => ListTile(
+        leading: switch (Settings.themeMode) {
+          ThemeMode.dark => const Icon(Icons.dark_mode),
+          ThemeMode.light => const Icon(Icons.light_mode),
+          ThemeMode.system => const Icon(Icons.brightness_6),
+        },
+        title: i18n.themeMode.title.text(),
+        trailing: SegmentedButton<ThemeMode>(
+          showSelectedIcon: false,
+          segments: ThemeMode.values
+              .map((e) => ButtonSegment<ThemeMode>(
+                    value: e,
+                    label: i18n.themeMode.of(e).text(),
+                  ))
+              .toList(),
+          selected: <ThemeMode>{Settings.themeMode},
+          onSelectionChanged: (newSelection) {
+            setState(() {
+              Settings.themeMode = newSelection.first;
+            });
+          },
+        ),
+      ),
     );
   }
 }

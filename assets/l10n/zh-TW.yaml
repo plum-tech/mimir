@@ -298,9 +298,9 @@ settings:
     request: 確認清空快取嗎？為加載它們，你必須重新連線校園網路。
   themeMode:
     title: 亮度
-    dark: 深色主題
-    light: 亮色主題
-    system: 跟隨系統
+    dark: 深色
+    light: 亮色
+    system: 系統
   httpProxy:
     title: 開啟 HTTP Proxy
     desc: 開啟 HTTP Proxy 連線校園網路

@@ -36,9 +36,6 @@ class _CredentialsPageState extends State<CredentialsPage> {
             flexibleSpace: FlexibleSpaceBar(
               title: _i18n.oaAccount.text(style: context.textTheme.headlineSmall),
             ),
-            actions: [
-              IconButton(icon: const Icon(Icons.logout_rounded), onPressed: () {}),
-            ],
           ),
           buildBody(),
         ],

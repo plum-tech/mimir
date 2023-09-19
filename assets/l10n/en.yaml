@@ -300,9 +300,9 @@ settings:
     request: Confirm to clear the cache? To reload them, you need connect to campus network again.
   themeMode:
     title: Brightness
-    dark: Dark mode
-    light: Light mode
-    system: Following system
+    dark: Dark
+    light: Light
+    system: System
   httpProxy:
     title: Enable HTTP proxy
     desc: Connect to the campus network by HTTP proxy
