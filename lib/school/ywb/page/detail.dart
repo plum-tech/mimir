@@ -13,23 +13,23 @@ import '../init.dart';
 import '../page/form.dart';
 import '../i18n.dart';
 
-class DetailPage extends StatefulWidget {
+class YwbApplicationDetailPage extends StatefulWidget {
   final ApplicationMeta meta;
 
-  const DetailPage({super.key, required this.meta});
+  const YwbApplicationDetailPage({super.key, required this.meta});
 
   @override
-  State<DetailPage> createState() => _DetailPageState();
+  State<YwbApplicationDetailPage> createState() => _YwbApplicationDetailPageState();
 }
 
-class _DetailPageState extends State<DetailPage> {
+class _YwbApplicationDetailPageState extends State<YwbApplicationDetailPage> {
   ApplicationMeta get meta => widget.meta;
   ApplicationDetails? _detail;
 
   @override
   void initState() {
     super.initState();
-    YwbInit.applicationService.getApplicationDetail(meta.id).then((value) {
+    YwbInit.applicationService.getApplicationDetails(meta.id).then((value) {
       if (!mounted) return;
       setState(() {
         _detail = value;
@@ -110,7 +110,7 @@ class _DetailPageState extends State<DetailPage> {
       // 跳转到申请页面
       final String applyUrl =
           'http://ywb.sit.edu.cn/v1/#/flow?src=http://ywb.sit.edu.cn/unifri-flow/WF/MyFlow.htm?FK_Flow=${meta.id}';
-      ctx.navigator.push(MaterialPageRoute(builder: (_) => InAppViewPage(title: meta.name, url: applyUrl)));
+      ctx.navigator.push(MaterialPageRoute(builder: (_) => YwbInAppViewPage(title: meta.name, url: applyUrl)));
     }
   }
 }

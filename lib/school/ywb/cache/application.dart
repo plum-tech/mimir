@@ -30,18 +30,18 @@ class ApplicationCache {
     }
   }
 
-  Future<ApplicationDetails?> getApplicationDetail(String applicationId) async {
+  Future<ApplicationDetails?> getApplicationDetails(String applicationId) async {
     final cacheKey = to.box.details.make(applicationId);
     if (cacheKey.needRefresh(after: detailExpire)) {
       try {
-        final res = await from.getApplicationDetail(applicationId);
+        final res = await from.getApplicationDetails(applicationId);
         to.setApplicationDetail(applicationId, res);
         return res;
       } catch (e) {
-        return to.getApplicationDetail(applicationId);
+        return to.getApplicationDetails(applicationId);
       }
     } else {
-      return to.getApplicationDetail(applicationId);
+      return to.getApplicationDetails(applicationId);
     }
   }
 }

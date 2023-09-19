@@ -19,7 +19,7 @@ class Mail extends StatelessWidget {
         // 跳转到详情页面
         final String resultUrl =
             'https://xgfy.sit.edu.cn/unifri-flow/WF/mobile/index.html?ismobile=1&FK_Flow=${msg.functionId}&WorkID=${msg.flowId}&IsReadonly=1&IsView=1';
-        Navigator.of(context).push(MaterialPageRoute(builder: (_) => InAppViewPage(title: msg.name, url: resultUrl)));
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => YwbInAppViewPage(title: msg.name, url: resultUrl)));
       },
     );
   }

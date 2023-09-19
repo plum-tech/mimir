@@ -30,7 +30,7 @@ class ApplicationService {
     return functionList;
   }
 
-  Future<ApplicationDetails> getApplicationDetail(String functionId) async {
+  Future<ApplicationDetails> getApplicationDetails(String functionId) async {
     final String payload = '{"appID":"$functionId"}';
 
     final response = await session.request(

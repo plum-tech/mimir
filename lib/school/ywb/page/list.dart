@@ -13,14 +13,14 @@ import '../i18n.dart';
 // 本科生常用功能列表
 const _commonUsed = <String>{'121', '011', '047', '123', '124', '024', '125', '165', '075', '202', '023', '067', '059'};
 
-class YwbListPage extends StatefulWidget {
-  const YwbListPage({super.key});
+class YwbApplicationListPage extends StatefulWidget {
+  const YwbApplicationListPage({super.key});
 
   @override
-  State<YwbListPage> createState() => _YwbListPageState();
+  State<YwbApplicationListPage> createState() => _YwbApplicationListPageState();
 }
 
-class _YwbListPageState extends State<YwbListPage> {
+class _YwbApplicationListPageState extends State<YwbApplicationListPage> {
   var enableFilter = false;
 
   /// in descending order
@@ -59,6 +59,7 @@ class _YwbListPageState extends State<YwbListPage> {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
+          pinned: true,
           title: i18n.title.text(),
           actions: [
             IconButton(

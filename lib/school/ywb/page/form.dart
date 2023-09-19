@@ -6,17 +6,17 @@ import '../init.dart';
 
 const ywbUrl = 'https://xgfy.sit.edu.cn';
 
-class InAppViewPage extends StatefulWidget {
+class YwbInAppViewPage extends StatefulWidget {
   final String title;
   final String url;
 
-  const InAppViewPage({super.key, required this.title, required this.url});
+  const YwbInAppViewPage({super.key, required this.title, required this.url});
 
   @override
-  State<InAppViewPage> createState() => _InAppViewPageState();
+  State<YwbInAppViewPage> createState() => _YwbInAppViewPageState();
 }
 
-class _InAppViewPageState extends State<InAppViewPage> {
+class _YwbInAppViewPageState extends State<YwbInAppViewPage> {
   final WebViewController controller = WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted);
   final WebViewCookieManager cookieManager = WebViewCookieManager();
   List<WebViewCookie>? cookies;

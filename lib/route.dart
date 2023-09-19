@@ -285,7 +285,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: "/ywb",
-      builder: (ctx, state) => const YwbListPage(),
+      builder: (ctx, state) => const YwbApplicationListPage(),
       redirect: _loginRequired,
       routes: [
         GoRoute(

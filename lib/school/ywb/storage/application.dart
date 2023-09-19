@@ -23,7 +23,7 @@ class ApplicationStorage {
 
   set applicationMetas(List<ApplicationMeta>? metas) => box.metas.value = metas;
 
-  ApplicationDetails? getApplicationDetail(String applicationId) {
+  ApplicationDetails? getApplicationDetails(String applicationId) {
     final cacheKey = box.details.make(applicationId);
     return cacheKey.value;
   }
