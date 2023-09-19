@@ -31,21 +31,15 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
             ),
           ),
           SliverList(
-            delegate: SliverChildListDelegate(
-              buildEntries(),
-            ),
+            delegate: SliverChildListDelegate([
+              buildDevModeToggle(),
+              buildLocalStorage(),
+              buildReload(),
+            ]),
           ),
         ],
       ),
     );
-  }
-
-  List<Widget> buildEntries() {
-    final all = <Widget>[];
-    all.add(buildDevModeToggle());
-    all.add(buildLocalStorage());
-    all.add(buildReload());
-    return all;
   }
 
   Widget buildDevModeToggle() {

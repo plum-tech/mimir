@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mimir/global/init.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
@@ -31,22 +29,16 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
             ),
           ),
           SliverList(
-            delegate: SliverChildListDelegate(
-              buildEntries(),
-            ),
+            delegate: SliverChildListDelegate([
+              buildAutoUseImportedToggle(),
+            ]),
           ),
         ],
       ),
     );
   }
 
-  List<Widget> buildEntries() {
-    final all = <Widget>[];
-    all.add(buildDevModeToggle());
-    return all;
-  }
-
-  Widget buildDevModeToggle() {
+  Widget buildAutoUseImportedToggle() {
     return ListTile(
       title: i18n.timetable.autoUseImportedTitle.text(),
       subtitle: i18n.timetable.autoUseImportedDesc.text(),
