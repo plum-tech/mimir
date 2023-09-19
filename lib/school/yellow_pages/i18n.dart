@@ -9,6 +9,4 @@ class _I18n with CommonI18nMixin {
   static const ns = "yellowPages";
 
   String get title => "$ns.title".tr();
-
-  String get seeAll => "$ns.seeAll".tr();
 }

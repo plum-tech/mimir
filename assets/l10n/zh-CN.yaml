@@ -330,7 +330,6 @@ localStorage:
   emptyValueDesc: 确定将这个键值设 null 为对吗？
 oaAnnounce:
   title: OA 公告
-  seeAll: 查看全部
   noOaAnnouncesTip: 无 OA 公告
   attachmentTip:
     one: 附件
@@ -340,7 +339,6 @@ oaAnnounce:
   publishingDepartment: 发布部门
 yellowPages:
   title: 学校黄页
-  seeAll: 查看全部
 scanner:
   barcodeNotRecognized: 未识别到条形码或二维码
 greeting:
@@ -402,3 +400,4 @@ exceptionInfo: 异常信息
 untitled: 无标题
 congratulations: 恭喜
 search: 搜索
+seeAll: 查看全部

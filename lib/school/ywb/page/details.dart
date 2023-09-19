@@ -54,6 +54,12 @@ class _YwbApplicationDetailsPageState extends State<YwbApplicationDetailsPage> {
           SliverAppBar(
             pinned: true,
             title: Text(meta.name).hero(meta.id),
+            bottom: details != null
+                ? null
+                : const PreferredSize(
+                    preferredSize: Size.fromHeight(4),
+                    child: LinearProgressIndicator(),
+                  ),
           ),
           if (details != null)
             SliverList.separated(

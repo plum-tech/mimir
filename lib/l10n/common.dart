@@ -52,6 +52,8 @@ mixin CommonI18nMixin {
   String get congratulations => "congratulations".tr();
 
   String get search => "search".tr();
+
+  String get seeAll => "seeAll".tr();
 }
 
 class CommonI18n with CommonI18nMixin {

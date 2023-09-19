@@ -14,6 +14,8 @@ class _I18n with CommonI18nMixin {
 
   String get desc => "$ns.desc".tr();
 
+  String get mailboxAction => mailbox.title;
+
   String get noApplicationsTip => "$ns.noApplicationsTip".tr();
 
   String get filerInfrequentlyUsed => "$ns.filerInfrequentlyUsed".tr();

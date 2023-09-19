@@ -328,7 +328,6 @@ localStorage:
   emptyValueDesc: 確認將這個 key-value對 設定為 null 嗎？
 oaAnnounce:
   title: OA 公告
-  seeAll: 查看全部
   noOaAnnouncesTip: 無 OA 公告
   attachmentTip:
     one: 附件
@@ -338,7 +337,6 @@ oaAnnounce:
   publishingDepartment: 部門
 yellowPages:
   title: 學校黃頁
-  seeAll: 查看全部
 scanner:
   barcodeNotRecognized: 未識別到條碼或 QR 碼
 greeting:
@@ -400,3 +398,4 @@ exceptionInfo: 異常資訊
 untitled: 無標題
 congratulations: 恭喜
 search: 搜尋
+seeAll: 查看全部

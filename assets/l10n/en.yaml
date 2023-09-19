@@ -330,7 +330,6 @@ localStorage:
   emptyValueDesc: Confirm to set this key-value pair to null?
 oaAnnounce:
   title: OA announcement
-  seeAll: See All
   noOaAnnouncesTip: No OA announces
   attachmentTip:
     one: Attachment
@@ -340,7 +339,6 @@ oaAnnounce:
   publishingDepartment: Department
 yellowPages:
   title: Yellow pages
-  seeAll: See all
 scanner:
   barcodeNotRecognized: No Barcode or QR code
 greeting:
@@ -402,3 +400,4 @@ exceptionInfo: Exception Info
 untitled: Untitled
 congratulations: Congratulations
 search: Search
+seeAll: See all

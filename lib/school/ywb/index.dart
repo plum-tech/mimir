@@ -23,13 +23,13 @@ class _YwbAppCardState extends State<YwbAppCard> {
             context.push("/ywb");
           },
           icon: const Icon(Icons.list_alt),
-          label: "See all".text(),
+          label: i18n.seeAll.text(),
         ),
         OutlinedButton.icon(
           onPressed: () {
             context.push("/ywb/mailbox");
           },
-          label: "Mailbox".text(),
+          label: i18n.mailboxAction.text(),
           icon: const Icon(Icons.mail_outlined),
         )
       ],
