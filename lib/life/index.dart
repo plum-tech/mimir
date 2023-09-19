@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
+import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/life/electricity/index.dart';
 import 'package:mimir/life/expense_records/index.dart';
 import 'package:mimir/settings/settings.dart';
@@ -55,6 +57,9 @@ class _LifePageState extends State<LifePage> {
           snap: false,
           floating: false,
           title: i18n.navigation.text(),
+          actions: [
+            buildScannerAction(),
+          ],
         ),
         if (loginStatus != LoginStatus.never)
           const SliverToBoxAdapter(
@@ -65,6 +70,17 @@ class _LifePageState extends State<LifePage> {
             child: ElectricityBalanceAppCard(),
           ),
       ],
+    );
+  }
+
+  Widget buildScannerAction() {
+    return IconButton(
+      onPressed: () async {
+        final res = await context.push("/tools/scanner");
+        if(!mounted) return;
+        await context.showTip(title: "Result", desc: res.toString(), ok: i18n.ok);
+      },
+      icon: const Icon(Icons.qr_code_scanner_outlined),
     );
   }
 }

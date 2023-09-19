@@ -5,8 +5,6 @@ import 'package:mimir/session/ywb.dart';
 
 import 'cache/application.dart';
 import 'cache/message.dart';
-import 'dao/application.dart';
-import 'dao/message.dart';
 import 'service/application.dart';
 import 'service/message.dart';
 import 'storage/application.dart';
@@ -14,8 +12,8 @@ import 'storage/message.dart';
 
 class YwbInit {
   static late CookieJar cookieJar;
-  static late ApplicationDao applicationService;
-  static late ApplicationMessageDao messageService;
+  static late ApplicationCache applicationService;
+  static late ApplicationMessageCache messageService;
   static late YwbSession session;
 
   static void init({

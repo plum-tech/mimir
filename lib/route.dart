@@ -42,7 +42,11 @@ import 'package:mimir/timetable/page/preview.dart';
 import 'package:mimir/widgets/image.dart';
 import 'package:mimir/widgets/webview/page.dart';
 
-import 'app.dart';
+final $Key = GlobalKey<NavigatorState>();
+final $TimetableShellKey = GlobalKey<NavigatorState>();
+final $LifeShellKey = GlobalKey<NavigatorState>();
+final $SchoolShellKey = GlobalKey<NavigatorState>();
+final $MeShellKey = GlobalKey<NavigatorState>();
 
 bool isLoginGuarded(BuildContext ctx) {
   final auth = ctx.auth;
@@ -63,7 +67,7 @@ final router = GoRouter(
     final auth = ctx.auth;
     if (auth.loginStatus == LoginStatus.never) {
       // allow to access settings page.
-      if (state.matchedLocation == "/network-tool") return null;
+      if (state.matchedLocation.startsWith("/tools")) return null;
       if (state.matchedLocation.startsWith("/settings")) return null;
       // allow to access browser page.
       if (state.matchedLocation == "/browser") return null;
@@ -81,58 +85,70 @@ final router = GoRouter(
         return MainStagePage(navigationShell: navigationShell);
       },
       branches: [
-        StatefulShellBranch(routes: [
-          GoRoute(
-            path: "/timetable",
-            // Timetable is the home page.
-            builder: (ctx, state) => const TimetablePage(),
-            routes: [
-              GoRoute(
-                path: "preview/:id",
-                builder: (ctx, state) {
-                  final extra = state.extra;
-                  if (extra is SitTimetable) return TimetablePreviewPage(timetable: extra);
-                  final id = int.tryParse(state.pathParameters["id"] ?? "");
-                  if (id == null) throw 404;
-                  final timetable = TimetableInit.storage.timetable.getOf(id);
-                  if (timetable == null) throw 404;
-                  return TimetablePreviewPage(timetable: timetable);
-                },
-              ),
-              GoRoute(
-                path: "import",
-                builder: (ctx, state) => const ImportTimetablePage(),
-                redirect: _loginRequired,
-              ),
-              GoRoute(
-                path: "mine",
-                builder: (ctx, state) => const MyTimetableListPage(),
-              ),
-              GoRoute(
-                path: "p13n",
-                builder: (ctx, state) => const TimetableP13nPage(),
-              ),
-            ],
-          ),
-        ]),
-        StatefulShellBranch(routes: [
-          GoRoute(
-            path: "/school",
-            builder: (ctx, state) => const SchoolPage(),
-          ),
-        ]),
-        StatefulShellBranch(routes: [
-          GoRoute(
-            path: "/life",
-            builder: (ctx, state) => const LifePage(),
-          ),
-        ]),
-        StatefulShellBranch(routes: [
-          GoRoute(
-            path: "/me",
-            builder: (ctx, state) => const MePage(),
-          ),
-        ]),
+        StatefulShellBranch(
+          navigatorKey: $TimetableShellKey,
+          routes: [
+            GoRoute(
+              path: "/timetable",
+              // Timetable is the home page.
+              builder: (ctx, state) => const TimetablePage(),
+              routes: [
+                GoRoute(
+                  path: "preview/:id",
+                  builder: (ctx, state) {
+                    final extra = state.extra;
+                    if (extra is SitTimetable) return TimetablePreviewPage(timetable: extra);
+                    final id = int.tryParse(state.pathParameters["id"] ?? "");
+                    if (id == null) throw 404;
+                    final timetable = TimetableInit.storage.timetable.getOf(id);
+                    if (timetable == null) throw 404;
+                    return TimetablePreviewPage(timetable: timetable);
+                  },
+                ),
+                GoRoute(
+                  path: "import",
+                  builder: (ctx, state) => const ImportTimetablePage(),
+                  redirect: _loginRequired,
+                ),
+                GoRoute(
+                  path: "mine",
+                  builder: (ctx, state) => const MyTimetableListPage(),
+                ),
+                GoRoute(
+                  path: "p13n",
+                  builder: (ctx, state) => const TimetableP13nPage(),
+                ),
+              ],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: $SchoolShellKey,
+          routes: [
+            GoRoute(
+              path: "/school",
+              builder: (ctx, state) => const SchoolPage(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: $LifeShellKey,
+          routes: [
+            GoRoute(
+              path: "/life",
+              builder: (ctx, state) => const LifePage(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: $MeShellKey,
+          routes: [
+            GoRoute(
+              path: "/me",
+              builder: (ctx, state) => const MePage(),
+            ),
+          ],
+        ),
       ],
     ),
     GoRoute(
@@ -170,8 +186,13 @@ final router = GoRouter(
       ],
     ),
     GoRoute(
-      path: "/network-tool",
+      path: "/tools/network-tool",
       builder: (ctx, state) => const NetworkToolPage(),
+    ),
+    GoRoute(
+      path: "/tools/scanner",
+      parentNavigatorKey: $Key,
+      builder: (ctx, state) => const ScannerPage(),
     ),
     GoRoute(
       path: "/class2nd/activity",
@@ -255,10 +276,6 @@ final router = GoRouter(
       path: "/application",
       builder: (ctx, state) => const ApplicationIndexPage(),
       redirect: _loginRequired,
-    ),
-    GoRoute(
-      path: "/scanner",
-      builder: (ctx, state) => const ScannerPage(),
     ),
     GoRoute(
       path: "/teacher-eval",

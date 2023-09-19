@@ -19,7 +19,7 @@ class _NetworkToolAppCardState extends State<NetworkToolAppCard> {
       leftActions: [
         FilledButton.icon(
           onPressed: () {
-            context.push("/settings/network-tool");
+            context.push("/tools/network-tool");
           },
           icon: const Icon(Icons.network_check_outlined),
           label: "Test".text(),

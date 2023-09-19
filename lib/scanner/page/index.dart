@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -23,6 +23,59 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
     formats: [BarcodeFormat.qrCode],
     facing: CameraFacing.back,
   );
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: [
+        buildScanner(),
+        const QRScannerOverlay(
+          overlayColour: Colors.black26,
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: buildControllerView(),
+        ),
+      ].stack(),
+    );
+  }
+
+  Widget buildScanner() {
+    return MobileScanner(
+      controller: controller,
+      fit: BoxFit.contain,
+      onDetect: (captured) async {
+        HapticFeedback.heavyImpact();
+        final qrcode = captured.barcodes.firstOrNull;
+        if (qrcode != null) {
+          context.pop(qrcode.rawValue);
+          // dispose the controller to stop scanning
+          controller.dispose();
+        }
+      },
+    );
+  }
+
+  Widget buildControllerView() {
+    return Container(
+      alignment: Alignment.bottomCenter,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          buildTorchButton(),
+          buildSwitchButton(),
+          buildImagePicker(),
+        ],
+      ),
+    );
+  }
 
   Widget buildImagePicker() {
     return IconButton(
@@ -74,53 +127,6 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
             }
           },
       onPressed: () => controller.toggleTorch(),
-    );
-  }
-
-  Widget buildScanner() {
-    return MobileScanner(
-      controller: controller,
-      fit: BoxFit.contain,
-      onDetect: (captured) async {
-        controller.dispose();
-        HapticFeedback.heavyImpact();
-        final qrcode = captured.barcodes.firstOrNull;
-        if (qrcode != null) {
-          await context.showTip(title: "Result", desc: qrcode.rawValue.toString(), ok: "OK");
-          Navigator.pop(context, qrcode.rawValue);
-        }
-      },
-    );
-  }
-
-  Widget buildControllerView() {
-    return Container(
-      alignment: Alignment.bottomCenter,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          buildTorchButton(),
-          buildSwitchButton(),
-          buildImagePicker(),
-        ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: [
-        buildScanner(),
-        const QRScannerOverlay(
-          overlayColour: Colors.black26,
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: buildControllerView(),
-        ),
-      ].stack(),
     );
   }
 }

@@ -1,23 +1,21 @@
 import 'package:mimir/network/session.dart';
 import 'package:mimir/session/ywb.dart';
 
-import '../dao/application.dart';
 import '../entity/application.dart';
 
-const String serviceFunctionList = 'https://xgfy.sit.edu.cn/app/public/queryAppManageJson';
-const String serviceFunctionDetail = 'https://xgfy.sit.edu.cn/app/public/queryAppFormJson';
+const String _serviceFunctionList = 'https://xgfy.sit.edu.cn/app/public/queryAppManageJson';
+const String _serviceFunctionDetail = 'https://xgfy.sit.edu.cn/app/public/queryAppFormJson';
 
-class ApplicationService implements ApplicationDao {
+class ApplicationService {
   final YwbSession session;
 
   const ApplicationService(this.session);
 
-  @override
   Future<List<ApplicationMeta>> getApplicationMetas() async {
     String payload = '{"appObject":"student","appName":null}';
 
     final response = await session.request(
-      serviceFunctionList,
+      _serviceFunctionList,
       ReqMethod.post,
       data: payload,
       options: SessionOptions(responseType: SessionResType.json),
@@ -32,12 +30,11 @@ class ApplicationService implements ApplicationDao {
     return functionList;
   }
 
-  @override
   Future<ApplicationDetails> getApplicationDetail(String functionId) async {
     final String payload = '{"appID":"$functionId"}';
 
     final response = await session.request(
-      serviceFunctionDetail,
+      _serviceFunctionDetail,
       ReqMethod.post,
       data: payload,
       options: SessionOptions(responseType: SessionResType.json),

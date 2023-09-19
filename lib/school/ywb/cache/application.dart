@@ -1,9 +1,10 @@
-import '../dao/application.dart';
+import 'package:mimir/school/ywb/service/application.dart';
+
 import '../entity/application.dart';
 import '../storage/application.dart';
 
-class ApplicationCache extends ApplicationDao {
-  final ApplicationDao from;
+class ApplicationCache  {
+  final ApplicationService from;
   final ApplicationStorage to;
   Duration detailExpire;
   Duration listExpire;
@@ -15,22 +16,20 @@ class ApplicationCache extends ApplicationDao {
     this.listExpire = const Duration(minutes: 10),
   });
 
-  @override
   Future<List<ApplicationMeta>?> getApplicationMetas() async {
     if (to.box.metas.needRefresh(after: listExpire)) {
       try {
         final res = await from.getApplicationMetas();
-        to.setApplicationMetas(res);
+        to.applicationMetas = res;
         return res;
       } catch (e) {
-        return to.getApplicationMetas();
+        return to.applicationMetas;
       }
     } else {
-      return to.getApplicationMetas();
+      return to.applicationMetas;
     }
   }
 
-  @override
   Future<ApplicationDetails?> getApplicationDetail(String applicationId) async {
     final cacheKey = to.box.details.make(applicationId);
     if (cacheKey.needRefresh(after: detailExpire)) {

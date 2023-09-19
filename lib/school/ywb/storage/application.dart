@@ -1,7 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:mimir/cache/box.dart';
 
-import '../dao/application.dart';
 import '../entity/application.dart';
 
 class ApplicationStorageBox with CachedBox {
@@ -15,22 +14,16 @@ class ApplicationStorageBox with CachedBox {
   ApplicationStorageBox(this.box);
 }
 
-class ApplicationStorage extends ApplicationDao {
+class ApplicationStorage {
   final ApplicationStorageBox box;
 
   ApplicationStorage(Box<dynamic> hive) : box = ApplicationStorageBox(hive);
 
-  @override
-  Future<List<ApplicationMeta>?> getApplicationMetas() async {
-    return box.metas.value;
-  }
+  List<ApplicationMeta>? get applicationMetas => box.metas.value;
 
-  void setApplicationMetas(List<ApplicationMeta>? metas) {
-    box.metas.value = metas;
-  }
+  set applicationMetas(List<ApplicationMeta>? metas) => box.metas.value = metas;
 
-  @override
-  Future<ApplicationDetails?> getApplicationDetail(String applicationId) async {
+  ApplicationDetails? getApplicationDetail(String applicationId) {
     final cacheKey = box.details.make(applicationId);
     return cacheKey.value;
   }

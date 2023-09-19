@@ -1,9 +1,10 @@
-import '../dao/message.dart';
+import 'package:mimir/school/ywb/service/message.dart';
+
 import '../entity/message.dart';
 import '../storage/message.dart';
 
-class ApplicationMessageCache implements ApplicationMessageDao {
-  final ApplicationMessageDao from;
+class ApplicationMessageCache {
+  final ApplicationMessageService from;
   final ApplicationMessageStorage to;
   Duration expiration;
 
@@ -13,33 +14,33 @@ class ApplicationMessageCache implements ApplicationMessageDao {
     this.expiration = const Duration(minutes: 10),
   });
 
-  @override
-  Future<ApplicationMessageCount?> getMessageCount() async {
+  Future<ApplicationMessageCount?> getMessageCount({
+    required String oaAccount,
+  }) async {
     if (to.box.msgCount.needRefresh(after: expiration)) {
       try {
-        final res = await from.getMessageCount();
-        to.setMessageCount(res);
+        final res = await from.getMessageCount(oaAccount: oaAccount);
+        to.messageCount = res;
         return res;
       } catch (e) {
-        return to.getMessageCount();
+        return to.messageCount;
       }
     } else {
-      return to.getMessageCount();
+      return to.messageCount;
     }
   }
 
-  @override
   Future<ApplicationMessagePage?> getAllMessage() async {
     if (to.box.allMessages.needRefresh(after: expiration)) {
       try {
         final res = await from.getAllMessage();
-        to.setAllMessage(res);
+        to.allMessage = res;
         return res;
       } catch (e) {
-        return to.getAllMessage();
+        return to.allMessage;
       }
     } else {
-      return to.getAllMessage();
+      return to.allMessage;
     }
   }
 }

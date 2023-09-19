@@ -9,8 +9,6 @@ import 'package:mimir/r.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/settings/settings.dart';
 
-final $Key = GlobalKey<NavigatorState>();
-
 class MimirApp extends StatefulWidget {
   const MimirApp({super.key});
 

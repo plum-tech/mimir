@@ -1,28 +1,23 @@
 import 'dart:convert';
 
-import 'package:mimir/app.dart';
-import "package:mimir/credential/widgets/oa_scope.dart";
 import 'package:mimir/network/session.dart';
 
-import '../dao/message.dart';
 import '../entity/message.dart';
 
 const String serviceMessageCount = 'https://xgfy.sit.edu.cn/unifri-flow/user/queryFlowCount';
 
-class ApplicationMessageService implements ApplicationMessageDao {
+class ApplicationMessageService {
   final ISession session;
 
   const ApplicationMessageService(this.session);
 
-  @override
-  Future<ApplicationMessageCount> getMessageCount() async {
-    final account = $Key.currentContext?.auth.credentials!.account;
-    String payload = 'code=$account';
-
+  Future<ApplicationMessageCount> getMessageCount({
+    required String oaAccount,
+  }) async {
     final response = await session.request(
       serviceMessageCount,
       ReqMethod.post,
-      data: payload,
+      data: "code=$oaAccount",
       options: SessionOptions(
         contentType: 'application/x-www-form-urlencoded;charset=utf-8',
         responseType: SessionResType.json,
@@ -34,13 +29,10 @@ class ApplicationMessageService implements ApplicationMessageDao {
   }
 
   Future<ApplicationMessagePage> getMessage(ApplicationMessageType type, int page) async {
-    final String url = _getMessageListUrl(type);
-    final String payload = 'myFlow=1&pageIdx=$page&pageSize=999'; // TODO: 此处硬编码.
-
     final response = await session.request(
-      url,
+      _getMessageListUrl(type),
       ReqMethod.post,
-      data: payload,
+      data: "myFlow=1&pageIdx=$page&pageSize=999",
       options: SessionOptions(
         contentType: 'application/x-www-form-urlencoded',
         responseType: SessionResType.json,
@@ -55,7 +47,6 @@ class ApplicationMessageService implements ApplicationMessageDao {
     return ApplicationMessagePage(totalNum, totalPage, page, messages);
   }
 
-  @override
   Future<ApplicationMessagePage> getAllMessage() async {
     List<ApplicationMessage> messageList = [];
 

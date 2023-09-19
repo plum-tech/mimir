@@ -1,7 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:mimir/cache/box.dart';
 
-import '../dao/message.dart';
 import '../entity/message.dart';
 
 class ApplicationMessageStorageBox with CachedBox {
@@ -13,26 +12,16 @@ class ApplicationMessageStorageBox with CachedBox {
   ApplicationMessageStorageBox(this.box);
 }
 
-class ApplicationMessageStorage extends ApplicationMessageDao {
+class ApplicationMessageStorage {
   final ApplicationMessageStorageBox box;
 
   ApplicationMessageStorage(Box<dynamic> hive) : box = ApplicationMessageStorageBox(hive);
 
-  @override
-  Future<ApplicationMessageCount?> getMessageCount() async {
-    return box.msgCount.value;
-  }
+  ApplicationMessageCount? get messageCount => box.msgCount.value;
 
-  @override
-  Future<ApplicationMessagePage?> getAllMessage() async {
-    return box.allMessages.value;
-  }
+  set messageCount(ApplicationMessageCount? newV) => box.msgCount.value = newV;
 
-  void setMessageCount(ApplicationMessageCount? msgCount) {
-    box.msgCount.value = msgCount;
-  }
+  ApplicationMessagePage? get allMessage => box.allMessages.value;
 
-  void setAllMessage(ApplicationMessagePage? messages) {
-    box.allMessages.value = messages;
-  }
+  set allMessage(ApplicationMessagePage? newV) => box.allMessages.value = newV;
 }
