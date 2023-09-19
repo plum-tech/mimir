@@ -40,33 +40,37 @@ class _LifeSettingsPageState extends State<LifeSettingsPage> {
   }
 
   Widget buildElectricityAutoRefreshToggle() {
-    return ListTile(
-      title: i18n.life.electricity.autoRefreshTitle.text(),
-      subtitle: i18n.life.electricity.autoRefreshDesc.text(),
-      leading: const Icon(Icons.refresh_outlined),
-      trailing: Switch.adaptive(
-        value: Settings.life.electricity.autoRefresh,
-        onChanged: (newV) {
-          setState(() {
-            Settings.life.electricity.autoRefresh = newV;
-          });
-        },
+    return StatefulBuilder(
+      builder: (ctx, setState) => ListTile(
+        title: i18n.life.electricity.autoRefreshTitle.text(),
+        subtitle: i18n.life.electricity.autoRefreshDesc.text(),
+        leading: const Icon(Icons.refresh_outlined),
+        trailing: Switch.adaptive(
+          value: Settings.life.electricity.autoRefresh,
+          onChanged: (newV) {
+            setState(() {
+              Settings.life.electricity.autoRefresh = newV;
+            });
+          },
+        ),
       ),
     );
   }
 
   Widget buildExpenseAutoRefreshToggle() {
-    return ListTile(
-      title: i18n.life.expense.autoRefreshTitle.text(),
-      subtitle: i18n.life.expense.autoRefreshDesc.text(),
-      leading: const Icon(Icons.refresh_outlined),
-      trailing: Switch.adaptive(
-        value: Settings.life.expense.autoRefresh,
-        onChanged: (newV) {
-          setState(() {
-            Settings.life.expense.autoRefresh = newV;
-          });
-        },
+    return StatefulBuilder(
+      builder: (ctx, setState) => ListTile(
+        title: i18n.life.expense.autoRefreshTitle.text(),
+        subtitle: i18n.life.expense.autoRefreshDesc.text(),
+        leading: const Icon(Icons.refresh_outlined),
+        trailing: Switch.adaptive(
+          value: Settings.life.expense.autoRefresh,
+          onChanged: (newV) {
+            setState(() {
+              Settings.life.expense.autoRefresh = newV;
+            });
+          },
+        ),
       ),
     );
   }

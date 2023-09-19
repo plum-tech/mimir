@@ -13,6 +13,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:unicons/unicons.dart';
 
 import '../i18n.dart';
+import '../widgets/navigation.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -116,9 +117,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
     final credential = context.auth.credentials;
     if (credential != null) {
-      all.add(SettingsPageNavigationTile(
-        title: CredentialI18n.instance.oaAccount,
-        subtitle: credential.account,
+      all.add(PageNavigationTile(
+        title: CredentialI18n.instance.oaAccount.text(),
+        subtitle: credential.account.text(),
         icon: const Icon(Icons.person_rounded),
         path: "/settings/credentials",
       ));
@@ -129,25 +130,25 @@ class _SettingsPageState extends State<SettingsPage> {
     all.add(const ThemeModeTile());
 
     all.add(const Divider());
-    all.add(SettingsPageNavigationTile(
-      title: i18n.timetable.title,
+    all.add(PageNavigationTile(
+      title: i18n.timetable.title.text(),
       icon: const Icon(Icons.calendar_month_outlined),
       path: "/settings/timetable",
     ));
-    all.add(SettingsPageNavigationTile(
-      title: i18n.school.title,
+    all.add(PageNavigationTile(
+      title: i18n.school.title.text(),
       icon: const Icon(Icons.school_outlined),
       path: "/settings/school",
     ));
-    all.add(SettingsPageNavigationTile(
-      title: i18n.life.title,
+    all.add(PageNavigationTile(
+      title: i18n.life.title.text(),
       icon: const Icon(Icons.spa_outlined),
       path: "/settings/life",
     ));
     all.add(const Divider());
     if (Settings.isDeveloperMode) {
-      all.add(SettingsPageNavigationTile(
-        title: i18n.dev.title,
+      all.add(PageNavigationTile(
+        title: i18n.dev.title.text(),
         icon: const Icon(Icons.developer_mode_outlined),
         path: "/settings/developer",
       ));
@@ -171,36 +172,6 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 */
-}
-
-class SettingsPageNavigationTile extends StatelessWidget {
-  final String? title;
-  final String? subtitle;
-  final Widget icon;
-  final String path;
-
-  const SettingsPageNavigationTile({
-    super.key,
-    this.title,
-    this.subtitle,
-    required this.icon,
-    required this.path,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final title = this.title;
-    final subtitle = this.subtitle;
-    return ListTile(
-      title: title?.text(),
-      subtitle: subtitle?.text(),
-      leading: icon,
-      trailing: const Icon(Icons.navigate_next_rounded),
-      onTap: () {
-        context.push(path);
-      },
-    );
-  }
 }
 
 class VersionTile extends StatefulWidget {

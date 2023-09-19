@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/settings/settings.dart';
+import 'package:mimir/settings/widgets/navigation.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 
@@ -33,7 +34,12 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
           SliverList(
             delegate: SliverChildListDelegate([
               buildDevModeToggle(),
-              buildLocalStorage(),
+              PageNavigationTile(
+                title: i18n.dev.localStorageTitle.text(),
+                subtitle: i18n.dev.localStorageDesc.text(),
+                icon: const Icon(Icons.storage),
+                path: "/settings/developer/local-storage",
+              ),
               buildReload(),
             ]),
           ),
@@ -43,29 +49,19 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
   }
 
   Widget buildDevModeToggle() {
-    return ListTile(
-      title: i18n.dev.devMode.text(),
-      leading: const Icon(Icons.developer_mode_outlined),
-      trailing: Switch.adaptive(
-        value: Settings.isDeveloperMode,
-        onChanged: (newV) {
-          setState(() {
-            Settings.isDeveloperMode = newV;
-          });
-        },
+    return StatefulBuilder(
+      builder: (ctx, setState) => ListTile(
+        title: i18n.dev.devMode.text(),
+        leading: const Icon(Icons.developer_mode_outlined),
+        trailing: Switch.adaptive(
+          value: Settings.isDeveloperMode,
+          onChanged: (newV) {
+            setState(() {
+              Settings.isDeveloperMode = newV;
+            });
+          },
+        ),
       ),
-    );
-  }
-
-  Widget buildLocalStorage() {
-    return ListTile(
-      title: i18n.dev.localStorageTitle.text(),
-      subtitle: i18n.dev.localStorageDesc.text(),
-      leading: const Icon(Icons.storage),
-      trailing: const Icon(Icons.navigate_next_rounded),
-      onTap: () {
-        context.push("/settings/developer/local-storage");
-      },
     );
   }
 

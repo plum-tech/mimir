@@ -39,17 +39,19 @@ class _SchoolSettingsPageState extends State<SchoolSettingsPage> {
   }
 
   Widget buildClass2ndAutoRefreshToggle() {
-    return ListTile(
-      title: i18n.school.class2nd.autoRefreshTitle.text(),
-      subtitle: i18n.school.class2nd.autoRefreshDesc.text(),
-      leading: const Icon(Icons.refresh_outlined),
-      trailing: Switch.adaptive(
-        value: Settings.school.class2nd.autoRefresh,
-        onChanged: (newV) {
-          setState(() {
-            Settings.school.class2nd.autoRefresh = newV;
-          });
-        },
+    return StatefulBuilder(
+      builder: (ctx, setState) => ListTile(
+        title: i18n.school.class2nd.autoRefreshTitle.text(),
+        subtitle: i18n.school.class2nd.autoRefreshDesc.text(),
+        leading: const Icon(Icons.refresh_outlined),
+        trailing: Switch.adaptive(
+          value: Settings.school.class2nd.autoRefresh,
+          onChanged: (newV) {
+            setState(() {
+              Settings.school.class2nd.autoRefresh = newV;
+            });
+          },
+        ),
       ),
     );
   }
