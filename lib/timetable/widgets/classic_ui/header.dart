@@ -59,7 +59,7 @@ class _TimetableHeaderState extends State<TimetableHeader> {
         border: Border(left: day == 1 ? side : BorderSide.none, right: day != 7 ? side : BorderSide.none),
       ),
       duration: const Duration(milliseconds: 1000),
-      curve: Curves.fastLinearToSlowEaseIn,
+      curve: Curves.fastEaseInToSlowEaseOut,
       child: Text(
         name,
         textAlign: TextAlign.center,

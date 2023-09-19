@@ -104,6 +104,7 @@ extension DialogEx on BuildContext {
     return await showCupertinoModalBottomSheet<T>(
       context: this,
       builder: builder,
+      animationCurve: Curves.fastEaseInToSlowEaseOut,
       isDismissible: dismissible,
     );
   }

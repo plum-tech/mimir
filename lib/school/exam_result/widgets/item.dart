@@ -56,7 +56,7 @@ class _ExamResultTileState extends State<ExamResultTile> {
         '$courseType | ${i18n.credit}: ${result.credit}'.text(),
         AnimatedSize(
           duration: const Duration(milliseconds: 300),
-          curve: Curves.fastLinearToSlowEaseIn.flipped,
+          curve: Curves.fastEaseInToSlowEaseOut.flipped,
           child: resultItems.isNotEmpty && !widget.isSelectingMode
               ? resultItems
                   .map((e) => Chip(

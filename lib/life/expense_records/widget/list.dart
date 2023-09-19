@@ -96,11 +96,13 @@ class _TransactionListState extends State<TransactionList> {
 ({double income, double outcome}) accumulate(List<Transaction> transactions) {
   double income = 0;
   double outcome = 0;
-  for (final transaction in transactions) {
-    if (transaction.isConsume) {
-      outcome += transaction.deltaAmount;
+  for (final t in transactions) {
+    if (t.isConsume) {
+      outcome += t.deltaAmount;
     } else {
-      income += transaction.deltaAmount;
+      if (t.type == TransactionType.subsidy && t.deviceName.contains("支付宝领取终端")) {
+        income += t.deltaAmount;
+      }
     }
   }
   return (income: income, outcome: outcome);

@@ -117,7 +117,7 @@ class DailyTimetableState extends State<DailyTimetable> {
       _pageController.animateToPage(
         targetOffset,
         duration: calcuSwitchAnimationDuration(distance),
-        curve: Curves.fastLinearToSlowEaseIn,
+        curve: Curves.fastEaseInToSlowEaseOut,
       );
     }
   }

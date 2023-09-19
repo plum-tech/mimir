@@ -45,7 +45,7 @@ class AppCard extends StatelessWidget {
           ),
           child: AnimatedSize(
             duration: const Duration(milliseconds: 500),
-            curve: Curves.fastLinearToSlowEaseIn,
+            curve: Curves.fastEaseInToSlowEaseOut,
             child: view ?? const SizedBox(),
           ),
         ),

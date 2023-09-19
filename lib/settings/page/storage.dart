@@ -181,7 +181,7 @@ class _BoxItemListState extends State<BoxItemList> {
         buildPaginated(ctx, totalPages).padAll(10),
         AnimatedSize(
           duration: const Duration(milliseconds: 300),
-          curve: Curves.fastLinearToSlowEaseIn,
+          curve: Curves.fastEaseInToSlowEaseOut,
           child: buildBoxItems(ctx, keys.sublist(start, end)),
         ),
       ].column();

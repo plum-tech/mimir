@@ -8,14 +8,14 @@ extension LiveListAnimationEx on Widget {
       // For example wrap with fade transition
       FadeTransition(
         opacity: CurveTween(
-          curve: Curves.fastLinearToSlowEaseIn,
+          curve: Curves.fastEaseInToSlowEaseOut,
         ).animate(animation),
         // And slide transition
         child: SlideTransition(
           position: CurveOffset(
             begin: const Offset(0, 0.5),
             end: Offset.zero,
-            curve: Curves.fastLinearToSlowEaseIn,
+            curve: Curves.fastEaseInToSlowEaseOut,
           ).animate(animation),
           // Paste you Widget
           child: this,

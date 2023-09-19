@@ -71,7 +71,7 @@ class _PageGrouperState extends State<PageGrouper> {
           height: widget.height ?? defaultHeight,
           onTap: () {
             pageController.previousPage(
-                duration: const Duration(milliseconds: 500), curve: Curves.fastLinearToSlowEaseIn);
+                duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
           },
           isPre: true,
         ),
@@ -98,7 +98,7 @@ class _PageGrouperState extends State<PageGrouper> {
           buttonStyles: widget.preBtnStyles.symmetricL2R(),
           height: widget.height ?? defaultHeight,
           onTap: () {
-            pageController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.fastLinearToSlowEaseIn);
+            pageController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
           },
           isPre: false,
         ),

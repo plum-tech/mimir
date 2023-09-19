@@ -108,7 +108,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
       _pageController.animateToPage(
         targetOffset,
         duration: calcuSwitchAnimationDuration(distance),
-        curve: Curves.fastLinearToSlowEaseIn,
+        curve: Curves.fastEaseInToSlowEaseOut,
       );
     }
   }
@@ -317,7 +317,7 @@ class _CourseDayColumnState extends State<_CourseDayColumn> {
       if (lessons.isEmpty) {
         Widget cell = AnimatedSlide(
                 offset: isSelected ? const Offset(0.012, -0.014) : Offset.zero,
-                curve: Curves.fastLinearToSlowEaseIn,
+                curve: Curves.fastEaseInToSlowEaseOut,
                 duration: const Duration(milliseconds: 800),
                 child: const SizedBox().inCard(elevation: isSelected ? 5 : 1))
             .sized(
@@ -333,7 +333,7 @@ class _CourseDayColumnState extends State<_CourseDayColumn> {
         final course = widget.timetable.courseKey2Entity[firstLayerLesson.courseKey];
         Widget cell = AnimatedSlide(
             offset: isSelected ? const Offset(0.022, -0.0215) : Offset.zero,
-            curve: Curves.fastLinearToSlowEaseIn,
+            curve: Curves.fastEaseInToSlowEaseOut,
             duration: const Duration(milliseconds: 800),
             child: _CourseCell(
               timeslot: timeslot,

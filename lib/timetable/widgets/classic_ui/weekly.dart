@@ -144,7 +144,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
       _pageController.animateToPage(
         targetOffset,
         duration: calcuSwitchAnimationDuration(distance),
-        curve: Curves.fastLinearToSlowEaseIn,
+        curve: Curves.fastEaseInToSlowEaseOut,
       );
       isJumping = true;
     }

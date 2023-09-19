@@ -134,7 +134,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
                     ? null
                     : () {
                         controller.animateToItem(todayIndex,
-                            duration: const Duration(milliseconds: 500), curve: Curves.fastLinearToSlowEaseIn);
+                            duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
                       },
                 child: i18n.findToday.text(),
               )
@@ -175,10 +175,10 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
                     ? null
                     : () {
                         $week.animateToItem(todayWeekIndex,
-                            duration: const Duration(milliseconds: 500), curve: Curves.fastLinearToSlowEaseIn);
+                            duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
 
                         $day.animateToItem(todayDayIndex,
-                            duration: const Duration(milliseconds: 500), curve: Curves.fastLinearToSlowEaseIn);
+                            duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
                       },
                 child: i18n.findToday.text(),
               )

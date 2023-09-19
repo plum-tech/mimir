@@ -73,7 +73,7 @@ class _TimetableHeaderState extends State<TimetableHeader> {
       child: AnimatedContainer(
         decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(10)),
         duration: const Duration(milliseconds: 1000),
-        curve: Curves.fastLinearToSlowEaseIn,
+        curve: Curves.fastEaseInToSlowEaseOut,
         child: buildHeaderText(ctx, day, text),
       ).inCard(
         elevation: isSelected ? 25 : 8,
