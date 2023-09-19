@@ -42,7 +42,7 @@ class $Button$ extends StatelessWidget {
     if (_isCupertino) {
       return CupertinoButton(onPressed: onPressed, child: text.text());
     } else {
-      return ElevatedButton(onPressed: onPressed, child: text.text());
+      return FilledButton(onPressed: onPressed, child: text.text());
     }
   }
 }

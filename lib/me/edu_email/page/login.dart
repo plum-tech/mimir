@@ -114,7 +114,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
 
   Widget buildLoginButton() {
     return $username >>
-        (ctx, account) => ElevatedButton(
+        (ctx, account) => FilledButton.icon(
               // Online
               onPressed: !isLoggingIn && account.text.isNotEmpty
                   ? () {
@@ -123,7 +123,8 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
                       onLogin();
                     }
                   : null,
-              child: i18n.loginBtn.text().padAll(5),
+              icon: const Icon(Icons.login),
+              label: i18n.loginBtn.text().padAll(5),
             );
   }
 

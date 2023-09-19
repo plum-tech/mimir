@@ -271,7 +271,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget buildLoginButton() {
     return [
       $account >>
-          (ctx, account) => ElevatedButton(
+          (ctx, account) => FilledButton.icon(
                 // Online
                 onPressed: !isLoggingIn && account.text.isNotEmpty
                     ? () {
@@ -280,16 +280,17 @@ class _LoginPageState extends State<LoginPage> {
                         onLogin();
                       }
                     : null,
-                child: i18n.loginBtn.text().padAll(5),
+                icon: const Icon(Icons.login),
+                label: i18n.loginBtn.text(),
               ),
       if (!widget.isGuarded)
-        ElevatedButton(
+        OutlinedButton(
           // Offline
           onPressed: () {
             CredentialInit.storage.oaLoginStatus = LoginStatus.offline;
             context.go("/");
           },
-          child: i18n.offlineModeBtn.text().padAll(5),
+          child: i18n.offlineModeBtn.text(),
         ),
     ].row(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceAround);
   }

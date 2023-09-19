@@ -42,6 +42,7 @@ class _MetaEditorState extends State<MetaEditor> {
   }
 
   Widget buildMetaEditor(BuildContext ctx) {
+    final actionStyle = TextStyle(fontSize: ctx.textTheme.titleLarge?.fontSize);
     return Center(
       heightFactor: 1,
       child: Column(
@@ -52,7 +53,7 @@ class _MetaEditorState extends State<MetaEditor> {
           buildDescForm(ctx),
           [
             i18n.startWith.text(style: ctx.textTheme.titleLarge),
-            ElevatedButton(
+            FilledButton(
               child: $selectedDate >>
                   (ctx, value) =>
                       ctx.formatYmdText(value).text(style: TextStyle(fontSize: ctx.textTheme.bodyLarge?.fontSize)),
@@ -67,31 +68,28 @@ class _MetaEditorState extends State<MetaEditor> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildButton(ctx, i18n.cancel, onPressed: () {
-                ctx.pop();
-              }),
-              _buildButton(ctx, i18n.save, onPressed: () {
-                final meta = widget.meta.copyWith(
-                  name: _nameController.text,
-                  startDate: $selectedDate.value,
-                );
-                ctx.pop(meta);
-              }),
+              CupertinoButton(
+                onPressed: () {
+                  ctx.pop();
+                },
+                child: i18n.cancel.text(style: actionStyle),
+              ),
+              CupertinoButton(
+                onPressed: () {
+                  final meta = widget.meta.copyWith(
+                    name: _nameController.text,
+                    startDate: $selectedDate.value,
+                  );
+                  ctx.pop(meta);
+                },
+                child: i18n.save.text(style: actionStyle),
+              ),
             ],
           ).padV(12)
         ],
       ),
     );
   }
-}
-
-Widget _buildButton(BuildContext ctx, String text, {VoidCallback? onPressed}) {
-  return CupertinoButton(
-    onPressed: onPressed,
-    child: text.text(
-      style: TextStyle(fontSize: ctx.textTheme.titleLarge?.fontSize),
-    ),
-  );
 }
 
 Future<DateTime?> _pickTimetableStartDate(

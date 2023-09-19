@@ -19,30 +19,31 @@ class _QuickButtonsState extends State<QuickButtons> {
   @override
   Widget build(BuildContext context) {
     return [
-      ElevatedButton(
+      FilledButton(
+        child: i18n.easyconnect.launchBtn.text(),
+        onPressed: () async {
+          final launched = await guardLaunchUrlString(context, 'sangfor://easyconnect');
+          if (!launched) {
+            if (!mounted) return;
+            final confirm = await context.showRequest(
+                title: i18n.easyconnect.launchFailed,
+                desc: i18n.easyconnect.launchFailedDesc,
+                yes: i18n.download,
+                no: i18n.notNow,
+                highlight: true);
+            if (confirm == true) {
+              if (!mounted) return;
+              await guardLaunchUrlString(context, easyConnectDownloadUrl);
+            }
+          }
+        },
+      ),
+      OutlinedButton(
         onPressed: () {
           AppSettings.openAppSettings(type: AppSettingsType.wifi);
         },
         child: i18n.openWlanSettingsBtn.text(),
       ),
-      ElevatedButton(
-          child: i18n.easyconnect.launchBtn.text(),
-          onPressed: () async {
-            final launched = await guardLaunchUrlString(context, 'sangfor://easyconnect');
-            if (!launched) {
-              if (!mounted) return;
-              final confirm = await context.showRequest(
-                  title: i18n.easyconnect.launchFailed,
-                  desc: i18n.easyconnect.launchFailedDesc,
-                  yes: i18n.download,
-                  no: i18n.notNow,
-                  highlight: true);
-              if (confirm == true) {
-                if (!mounted) return;
-                await guardLaunchUrlString(context, easyConnectDownloadUrl);
-              }
-            }
-          }),
     ].row(
       maa: MainAxisAlignment.spaceEvenly,
     );
