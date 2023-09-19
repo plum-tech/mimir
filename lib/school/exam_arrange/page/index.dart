@@ -26,7 +26,7 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
 
   /// 要查询的学期
   late Semester selectedSemester;
-  List<ExamEntry>? _exams;
+  List<ExamEntry>? exams;
 
   @override
   void initState() {
@@ -40,23 +40,23 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
   Future<void> refresh() async {
     setState(() {
       // To display the loading placeholder.
-      _exams = null;
+      this.exams = null;
     });
-    final exam = await service.getExamList(
+    final exams = await service.getExamList(
       year: SchoolYear(selectedYear),
       semester: selectedSemester,
     );
-    if (exam != null) {
-      exam.sort(ExamEntry.comparator);
+    if (exams != null) {
+      exams.sort(ExamEntry.comparator);
       setState(() {
-        _exams = exam;
+        this.exams = exams;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final exams = _exams ?? const [];
+    final exams = this.exams;
     return CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -67,19 +67,19 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
             centerTitle: true,
             background: buildSemesterSelector(),
           ),
-          bottom: _exams != null
+          bottom: exams != null
               ? null
               : const PreferredSize(
                   preferredSize: Size.fromHeight(4),
                   child: LinearProgressIndicator(),
                 ),
         ),
-        if (_exams != null)
+        if (exams != null)
           if (exams.isEmpty)
             SliverToBoxAdapter(
               child: LeavingBlank(
                 icon: Icons.inbox_outlined,
-                desc: i18n.noExamThisSemester,
+                desc: i18n.noExamsTip,
               ),
             )
           else

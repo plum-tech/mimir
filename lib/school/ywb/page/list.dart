@@ -1,7 +1,6 @@
-import 'package:auto_animated/auto_animated.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/animation/livelist.dart';
+import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -12,21 +11,7 @@ import "package:mimir/credential/widgets/oa_scope.dart";
 import '../i18n.dart';
 
 // 本科生常用功能列表
-const Set<String> _commonUsed = <String>{
-  '121',
-  '011',
-  '047',
-  '123',
-  '124',
-  '024',
-  '125',
-  '165',
-  '075',
-  '202',
-  '023',
-  '067',
-  '059'
-};
+const _commonUsed = <String>{'121', '011', '047', '123', '124', '024', '125', '165', '075', '202', '023', '067', '059'};
 
 class YwbListPage extends StatefulWidget {
   const YwbListPage({super.key});
@@ -36,44 +21,45 @@ class YwbListPage extends StatefulWidget {
 }
 
 class _YwbListPageState extends State<YwbListPage> {
-  final $enableFilter = ValueNotifier(false);
-  final service = YwbInit.applicationService;
+  var enableFilter = false;
 
-  // in descending order
-  List<ApplicationMeta> _allDescending = [];
-  String? _lastError;
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  /// in descending order
+  List<ApplicationMeta>? metas;
 
   @override
   void didChangeDependencies() {
-    _fetchMetaList().then((value) {
-      if (value != null) {
-        if (!mounted) return;
-        value.sortBy<num>((e) => -e.count); // descending
-        setState(() {
-          _allDescending = value;
-          _lastError = null;
-        });
-      }
-    }).onError((error, stackTrace) {
+    fetchMetaList().then((value) {
       if (!mounted) return;
       setState(() {
-        _lastError = error.toString();
+        metas = value;
       });
     });
     super.didChangeDependencies();
   }
 
+  Future<List<ApplicationMeta>?> fetchMetaList() async {
+    final oaCredential = context.auth.credentials;
+    if (oaCredential == null) return null;
+    // TODO: login here is so weired
+    if (!YwbInit.session.isLogin) {
+      await YwbInit.session.login(
+        username: oaCredential.account,
+        password: oaCredential.password,
+      );
+    }
+    final metas = await YwbInit.applicationService.getApplicationMetas();
+    if (metas == null) return null;
+    metas.sortBy<num>((e) => -e.count);
+    return metas;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final metas = this.metas;
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          title: "Ywb".text(),
+          title: i18n.title.text(),
           actions: [
             IconButton(
               icon: const Icon(Icons.info_outline),
@@ -86,88 +72,42 @@ class _YwbListPageState extends State<YwbListPage> {
               },
             ),
             IconButton(
-              icon: $enableFilter.value
-                  ? const Icon(Icons.filter_alt_outlined)
-                  : const Icon(Icons.filter_alt_off_outlined),
+              icon: enableFilter ? const Icon(Icons.filter_alt_outlined) : const Icon(Icons.filter_alt_off_outlined),
               tooltip: i18n.filerInfrequentlyUsed,
               onPressed: () {
                 setState(() {
-                  $enableFilter.value = !$enableFilter.value;
+                  enableFilter = !enableFilter;
                 });
               },
             ),
           ],
+          bottom: metas != null
+              ? null
+              : const PreferredSize(
+                  preferredSize: Size.fromHeight(4),
+                  child: LinearProgressIndicator(),
+                ),
         ),
+        if (metas != null)
+          if (metas.isEmpty)
+            SliverToBoxAdapter(
+              child: LeavingBlank(
+                icon: Icons.inbox_outlined,
+                desc: i18n.noApplicationsTip,
+              ),
+            )
+          else
+            buildApplicationList(metas),
       ],
     );
   }
 
-  Widget buildPortrait(BuildContext context) {
-    final lastError = _lastError;
-    if (lastError != null) {
-      return lastError.text().center();
-    } else if (_allDescending.isNotEmpty) {
-      return buildListPortrait(_allDescending);
-    } else {
-      return const CircularProgressIndicator();
-    }
-  }
-
-  List<Widget> buildApplications(List<ApplicationMeta> all, bool enableFilter) {
-    return all
-        .where((element) => !enableFilter || _commonUsed.contains(element.id))
-        .mapIndexed((i, e) => ApplicationTile(meta: e, isHot: i < 3).hero(e.id))
-        .toList();
-  }
-
-  Widget buildListPortrait(List<ApplicationMeta> list) {
-    return $enableFilter >>
-        (ctx, v) {
-          final items = buildApplications(list, v);
-          return LiveList(
-            showItemInterval: const Duration(milliseconds: 40),
-            itemCount: items.length,
-            itemBuilder: (ctx, index, animation) => items[index].aliveWith(animation),
-          );
-        };
-  }
-
-  Widget buildLandscape(BuildContext context) {
-    final lastError = _lastError;
-    if (lastError != null) {
-      return lastError.text().center();
-    } else if (_allDescending.isNotEmpty) {
-      return buildListLandscape(_allDescending);
-    } else {
-      return const CircularProgressIndicator();
-    }
-  }
-
-  Widget buildListLandscape(List<ApplicationMeta> list) {
-    return $enableFilter >>
-        (ctx, v) {
-          final items = buildApplications(list, v);
-          return LiveGrid.options(
-            itemCount: items.length,
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 500,
-              mainAxisExtent: 70,
-            ),
-            options: commonLiveOptions,
-            itemBuilder: (ctx, index, animation) => items[index].aliveWith(animation),
-          );
-        };
-  }
-
-  Future<List<ApplicationMeta>?> _fetchMetaList() async {
-    final oaCredential = context.auth.credentials;
-    if (oaCredential == null) return null;
-    if (!YwbInit.session.isLogin) {
-      await YwbInit.session.login(
-        username: oaCredential.account,
-        password: oaCredential.password,
-      );
-    }
-    return await service.getApplicationMetas();
+  /// [list] is in descending order
+  Widget buildApplicationList(List<ApplicationMeta> list) {
+    list = enableFilter ? list.where((meta) => _commonUsed.contains(meta.id)).toList() : list;
+    return SliverList.builder(
+      itemCount: list.length,
+      itemBuilder: (ctx, i) => ApplicationTile(meta: list[i], isHot: i < 3),
+    );
   }
 }

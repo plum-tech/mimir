@@ -20,11 +20,7 @@ class _I18n with CommonI18nMixin {
 
   String get location => "$ns.location".tr();
 
-  String get noExamThisSemester => "$ns.noExamThisSemester".tr();
-
-  String get resultBePatientLabel => "$ns.resultBePatientLabel".tr();
-
-  String get resultNoResult => "$ns.resultNoResult".tr();
+  String get noExamsTip => "$ns.noExamsTip".tr();
 
   String get seatNumber => "$ns.seatNumber".tr();
 }

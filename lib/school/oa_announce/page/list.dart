@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/network/session.dart';
 import 'package:mimir/school/oa_announce/widget/tile.dart';
 import 'package:rettulf/rettulf.dart';
@@ -22,7 +23,7 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
   @override
   void initState() {
     super.initState();
-    _queryBulletinListInAllCategory(1).then((value) {
+    _queryAnnounceListInAllCategory(1).then((value) {
       if (!mounted) return;
       if (value != null) {
         // 公告项按时间排序
@@ -50,18 +51,26 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
                 ),
         ),
         if (records != null)
-          SliverList.builder(
-            itemCount: records.length,
-            itemBuilder: (ctx, i) {
-              final record = records[i];
-              return OaAnnounceTile(record).inCard().hero(record.uuid);
-            },
-          )
+          if (records.isEmpty)
+            SliverToBoxAdapter(
+              child: LeavingBlank(
+                icon: Icons.inbox_outlined,
+                desc: i18n.noOaAnnouncesTip,
+              ),
+            )
+          else
+            SliverList.builder(
+              itemCount: records.length,
+              itemBuilder: (ctx, i) {
+                final record = records[i];
+                return OaAnnounceTile(record).inCard().hero(record.uuid);
+              },
+            )
       ],
     );
   }
 
-  Future<List<OaAnnounceRecord>?> _queryBulletinListInAllCategory(int page) async {
+  Future<List<OaAnnounceRecord>?> _queryAnnounceListInAllCategory(int page) async {
     // Make sure login.
     await OaAnnounceInit.session.request('https://myportal.sit.edu.cn/', ReqMethod.get);
 

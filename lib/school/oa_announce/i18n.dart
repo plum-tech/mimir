@@ -12,6 +12,8 @@ class _I18n with CommonI18nMixin {
 
   String get title => "$ns.title".tr();
 
+  String get noOaAnnouncesTip => "$ns.noOaAnnouncesTip".tr();
+
   String get seeAll => "$ns.seeAll".tr();
 
   String get downloadCompleted => "$ns.downloadCompleted".tr();

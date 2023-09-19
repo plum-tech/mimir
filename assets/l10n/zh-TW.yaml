@@ -100,6 +100,7 @@ ywb:
     此功能基於 "上应一网通办"。
     就大多數業務而言，即使你已在平台上完成申請，依舊需要到現場辦理。
   filerInfrequentlyUsed: 篩選不常用的
+  noApplicationsTip: 無可用申請
   navigation:
     all: 申請
     mailbox: 站內信
@@ -147,7 +148,7 @@ examResult:
   title: 考試成績
   check: 查詢
   teacherEval: 評價教師
-  noResult: 暫無考試結果
+  noResultsTip: 無考試結果
   lessonNotEvaluated: 需評教
   teacherEvalTitle: 教師評價
   lessonEvaluationBtn: 課程評價
@@ -162,9 +163,7 @@ examArrange:
   endTime: 結束時間
   isRetake: 是否重修
   location: 地點
-  noExamThisSemester: 此學期無考試
-  resultBePatientLabel: 請耐心等候
-  resultNoResult: 無成績記錄
+  noExamsTip: 無考試安排
   seatNumber: 座位號
   startTime: 開始時間
 expenseRecords:
@@ -333,6 +332,7 @@ localStorage:
 oaAnnounce:
   title: OA 公告
   seeAll: 查看全部
+  noOaAnnouncesTip: 無 OA 公告
   attachmentTip:
     one: 附件
     other: 附件

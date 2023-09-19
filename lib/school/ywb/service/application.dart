@@ -12,7 +12,7 @@ class ApplicationService {
   const ApplicationService(this.session);
 
   Future<List<ApplicationMeta>> getApplicationMetas() async {
-    String payload = '{"appObject":"student","appName":null}';
+    const String payload = '{"appObject":"student","appName":null}';
 
     final response = await session.request(
       _serviceFunctionList,

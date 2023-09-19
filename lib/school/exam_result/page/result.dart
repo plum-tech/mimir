@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/common.dart';
@@ -29,7 +28,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
   late Semester selectedSemester;
 
   /// 成绩列表
-  List<ExamResult>? _allResults;
+  List<ExamResult>? allResults;
 
   bool isSelecting = false;
   final multiselect = MultiselectController();
@@ -53,23 +52,23 @@ class _ExamResultPageState extends State<ExamResultPage> {
   void onRefresh() {
     if (!mounted) return;
     setState(() {
-      _allResults = null;
+      this.allResults = null;
     });
     ExamResultInit.resultService.getResultList(SchoolYear(selectedYear), selectedSemester).then((value) {
       if (!mounted) return;
       setState(() {
-        _allResults = value;
+        this.allResults = value;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final allResults = _allResults ?? const [];
+    final allResults = this.allResults;
     return MultiselectScope<ExamResult>(
       key: _multiselectKey,
       controller: multiselect,
-      dataSource: allResults,
+      dataSource: allResults ?? const [],
       // Set this to true if you want automatically
       // clear selection when user tap back button
       clearSelectionOnPop: true,
@@ -103,19 +102,19 @@ class _ExamResultPageState extends State<ExamResultPage> {
                   },
                   icon: Icon(isSelecting ? Icons.check_box_outlined : Icons.check_box_outline_blank)),
             ],
-            bottom: _allResults != null
+            bottom: allResults != null
                 ? null
                 : const PreferredSize(
                     preferredSize: Size.fromHeight(4),
                     child: LinearProgressIndicator(),
                   ),
           ),
-          if (_allResults != null)
+          if (allResults != null)
             if (allResults.isEmpty)
               SliverToBoxAdapter(
                 child: LeavingBlank(
                   icon: Icons.inbox_outlined,
-                  desc: i18n.noResult,
+                  desc: i18n.noResultsTip,
                 ),
               )
             else
@@ -150,7 +149,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
   }
 
   Widget buildTitle() {
-    final allResults = _allResults;
+    final allResults = this.allResults;
     final style = context.textTheme.headlineSmall;
     final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResult>() : allResults;
     if (selectedExams != null) {

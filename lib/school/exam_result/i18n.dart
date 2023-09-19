@@ -18,7 +18,7 @@ class _I18n with CommonI18nMixin {
 
   String get lessonEvaluationBtn => "$ns.lessonEvaluationBtn".tr();
 
-  String get noResult => "$ns.noResult".tr();
+  String get noResultsTip => "$ns.noResultsTip".tr();
 
   String get lessonNotEvaluated => "$ns.lessonNotEvaluated".tr();
 

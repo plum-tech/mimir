@@ -100,6 +100,7 @@ ywb:
     This function is based on "上应一网通办".
     For most of types, you have to do the necessary procedure on the spot although you submitted an application online.
   filerInfrequentlyUsed: Filter Infrequently-used
+  noApplicationsTip: No applications
   navigation:
     all: All
     mailbox: Mailbox
@@ -147,7 +148,7 @@ examResult:
   title: Exam result
   check: Check
   teacherEval: Teacher Eval
-  noResult: No result of examination
+  noResultsTip: No results
   lessonNotEvaluated: Not-eval
   teacherEvalTitle: Teacher Evaluation
   lessonEvaluationBtn: Lesson Eval
@@ -162,9 +163,7 @@ examArrange:
   endTime: End Time
   isRetake: Is Retake
   location: Location
-  noExamThisSemester: No exam in this semester
-  resultBePatientLabel: Please be patient :)
-  resultNoResult: No result record
+  noExamsTip: No exams
   seatNumber: Seat No.
   startTime: Start Time
 expenseRecords:
@@ -335,6 +334,7 @@ localStorage:
 oaAnnounce:
   title: OA announcement
   seeAll: See All
+  noOaAnnouncesTip: No OA announces
   attachmentTip:
     one: Attachment
     other: Attachments
