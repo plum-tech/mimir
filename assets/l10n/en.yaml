@@ -271,6 +271,11 @@ settings:
     detailedXcpDialog:
       title: Enable detailed exception dialog
       desc: Detailed stacktrace will be shown
+  timetable:
+    title: Timetable
+    autoUseImported:
+      title: Auto-use imported
+      desc: Use the timetable just imported
   campus:
     title: Your campus
     desc: Timetables vary

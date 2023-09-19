@@ -271,6 +271,11 @@ settings:
     detailedXcpDialog:
       title: 启用详细异常对话框
       desc: 显示更加详细的异常堆栈追踪信息
+  timetable:
+    title: 课程表
+    autoUseImported:
+      title: 自动使用新课表
+      desc: 自动使用新导入的课表
   campus:
     title: 你的校区
     desc: 日程表有所不同

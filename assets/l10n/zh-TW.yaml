@@ -269,6 +269,11 @@ settings:
     detailedXcpDialog:
       title: 開啟詳細異常對話框
       desc: 顯示更加詳細的異常堆棧追蹤資訊
+  timetable:
+    title: 課程表
+    autoUseImported:
+      title: 自動使用匯入的
+      desc: 使用匯入的新課表
   campus:
     title: 你的校區
     desc: 校區有各自的時間表
