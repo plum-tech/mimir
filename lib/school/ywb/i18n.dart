@@ -9,7 +9,6 @@ class _I18n with CommonI18nMixin {
   static const ns = "ywb";
 
   final mailbox = const _Mailbox();
-  final navigation = const _Navigation();
 
   String get title => "$ns.title".tr();
 
@@ -23,21 +22,11 @@ class _I18n with CommonI18nMixin {
 class _Mailbox {
   const _Mailbox();
 
-  static const ns = "${_I18n.ns}.application";
+  static const ns = "${_I18n.ns}.mailbox";
 
-  String get mailbox => "$ns.title".tr();
+  String get title => "$ns.title".tr();
 
-  String get emptyTip => "$ns.emptyTip".tr();
+  String get noMailsTip => "$ns.noMailsTip".tr();
 
   String get recent => "$ns.recent".tr();
-}
-
-class _Navigation {
-  const _Navigation();
-
-  static const ns = "${_I18n.ns}.navigation";
-
-  String get all => "$ns.all".tr();
-
-  String get mailbox => "$ns.mailbox".tr();
 }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/application.dart';
-import '../page/detail.dart';
+import '../page/details.dart';
 
 const List<Color> _applicationColors = <Color>[
   Colors.orangeAccent,
@@ -28,18 +28,16 @@ class ApplicationTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorIndex = Random(meta.id.hashCode).nextInt(_applicationColors.length);
     final color = _applicationColors[colorIndex];
-    final Widget views;
-    if (isHot) {
-      views = [
-        Text(meta.count.toString()),
-        const Icon(
-          Icons.local_fire_department_rounded,
-          color: Colors.red,
-        ),
-      ].row(mas: MainAxisSize.min);
-    } else {
-      views = Text(meta.count.toString());
-    }
+    final style = context.textTheme.bodyMedium;
+    final views = isHot
+        ? [
+            Text(meta.count.toString(), style: style),
+            const Icon(
+              Icons.local_fire_department_rounded,
+              color: Colors.red,
+            ),
+          ].row(mas: MainAxisSize.min)
+        : Text(meta.count.toString(), style: style);
 
     return ListTile(
       leading: Icon(meta.icon, size: 35, color: color).center().sized(w: 40, h: 40),
@@ -53,7 +51,8 @@ class ApplicationTile extends StatelessWidget {
       ),
       trailing: views,
       onTap: () {
-        context.navigator.push(MaterialPageRoute(builder: (_) => YwbApplicationDetailPage(meta: meta)));
+        // TODO: details page
+        context.navigator.push(MaterialPageRoute(builder: (_) => YwbApplicationDetailsPage(meta: meta)));
       },
     );
   }

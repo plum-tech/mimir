@@ -1,7 +1,6 @@
-import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/animation/livelist.dart';
 import 'package:mimir/design/widgets/common.dart';
+import 'package:rettulf/rettulf.dart';
 
 import '../entity/message.dart';
 import '../init.dart';
@@ -16,7 +15,7 @@ class YwbMailboxPage extends StatefulWidget {
 }
 
 class _YwbMailboxPageState extends State<YwbMailboxPage> {
-  ApplicationMessagePage? _msgPage;
+  ApplicationMessagePage? msgPage;
 
   @override
   void initState() {
@@ -24,37 +23,39 @@ class _YwbMailboxPageState extends State<YwbMailboxPage> {
     YwbInit.messageService.getAllMessage().then((value) {
       if (!mounted) return;
       setState(() {
-        _msgPage = value;
+        msgPage = value;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final msg = _msgPage;
-
-    if (msg == null) {
-      return const CircularProgressIndicator();
-    } else {
-      if (msg.msgList.isNotEmpty) {
-        return _buildMessageList(context, msg.msgList);
-      } else {
-        return LeavingBlank(icon: Icons.upcoming_outlined, desc: i18n.mailbox.emptyTip);
-      }
-    }
-  }
-
-  Widget _buildMessageList(BuildContext context, List<ApplicationMessage> list) {
-    return LayoutBuilder(builder: (ctx, constraints) {
-      final count = constraints.maxWidth ~/ 300;
-      return LiveGrid.options(
-        itemCount: list.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: count,
+    final msgPage = this.msgPage;
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          title: i18n.mailbox.title.text(),
+          bottom: msgPage != null
+              ? null
+              : const PreferredSize(
+                  preferredSize: Size.fromHeight(4),
+                  child: LinearProgressIndicator(),
+                ),
         ),
-        options: commonLiveOptions,
-        itemBuilder: (ctx, index, animation) => Mail(msg: list[index]).aliveWith(animation),
-      );
-    });
+        if (msgPage != null)
+          if (msgPage.msgList.isEmpty)
+            SliverToBoxAdapter(
+              child: LeavingBlank(
+                icon: Icons.inbox_outlined,
+                desc: i18n.mailbox.noMailsTip,
+              ),
+            )
+          else
+            SliverList.builder(
+              itemCount: msgPage.msgList.length,
+              itemBuilder: (ctx, i) => YwbMail(msg: msgPage.msgList[i]),
+            ),
+      ],
+    );
   }
 }

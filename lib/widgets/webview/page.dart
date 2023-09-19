@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/utils.dart';
+import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/l10n/common.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:mimir/widgets/webview/injectable.dart';
@@ -123,10 +124,7 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   Widget build(BuildContext context) {
     if (UniversalPlatform.isDesktop) {
-      // TODO: Better
-      context.pop();
-      guardLaunchUrlString(context, widget.initialUrl);
-      return const SizedBox();
+      return LeavingBlank(icon: Icons.desktop_access_disabled_rounded);
     }
     final actions = <Widget>[
       if (widget.showRefreshButton)

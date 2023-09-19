@@ -101,12 +101,9 @@ ywb:
     对于绝大多数业务，即使你在平台上已完成申请，仍要去现场办理。
   filerInfrequentlyUsed: 过滤不常用功能
   noApplicationsTip: 没有可办事项
-  navigation:
-    all: 全部
-    mailbox: 站内信
   mailbox:
-    title: 我的站内信
-    emptyTip: 这里什么都没有。
+    title: 站内信
+    noMailsTip: 没有站内信
     recent: 最近更新
 captcha:
   title: 验证码

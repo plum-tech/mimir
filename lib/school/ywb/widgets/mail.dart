@@ -4,10 +4,10 @@ import '../entity/message.dart';
 import '../page/form.dart';
 import '../i18n.dart';
 
-class Mail extends StatelessWidget {
+class YwbMail extends StatelessWidget {
   final ApplicationMessage msg;
 
-  const Mail({super.key, required this.msg});
+  const YwbMail({super.key, required this.msg});
 
   @override
   Widget build(BuildContext context) {
