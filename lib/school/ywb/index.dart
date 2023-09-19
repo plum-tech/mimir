@@ -17,12 +17,17 @@ class _YwbAppCardState extends State<YwbAppCard> {
     return AppCard(
       title: i18n.title.text(),
       leftActions: [
-        FilledButton(
-          onPressed: () {},
-          child: "See all".text(),
+        FilledButton.icon(
+          onPressed: () {
+
+          },
+          icon: const Icon(Icons.list_alt_outlined),
+          label: "See all".text(),
         ),
         OutlinedButton.icon(
-          onPressed: () {},
+          onPressed: () {
+
+          },
           label: "Mailbox".text(),
           icon: const Icon(Icons.mail_outlined),
         )

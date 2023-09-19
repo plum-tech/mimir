@@ -8,6 +8,7 @@ import 'package:mimir/school/exam_arrange/index.dart';
 import 'package:mimir/school/exam_result/index.dart';
 import 'package:mimir/school/oa_announce/index.dart';
 import 'package:mimir/school/yellow_pages/index.dart';
+import 'package:mimir/school/ywb/index.dart';
 import 'package:rettulf/rettulf.dart';
 import 'i18n.dart';
 
@@ -56,6 +57,10 @@ class _SchoolPageState extends State<SchoolPage> {
         if (loginStatus != LoginStatus.never)
           const SliverToBoxAdapter(
             child: OaAnnounceAppCard(),
+          ),
+        if (loginStatus != LoginStatus.never)
+          const SliverToBoxAdapter(
+            child: YwbAppCard(),
           ),
         const SliverToBoxAdapter(
           child: YellowPagesAppCard(),

@@ -6,7 +6,7 @@ const i18n = _I18n();
 class _I18n with CommonI18nMixin {
   const _I18n();
 
-  static const ns = "application";
+  static const ns = "ywb";
 
   final mailbox = const _Mailbox();
   final navigation = const _Navigation();
