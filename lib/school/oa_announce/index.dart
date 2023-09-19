@@ -22,7 +22,7 @@ class _OaAnnounceAppCardState extends State<OaAnnounceAppCard> {
           onPressed: () {
             context.push("/oa-announce");
           },
-          icon: const Icon(Icons.newspaper_outlined),
+          icon: const Icon(Icons.newspaper),
           label: i18n.seeAll.text(),
         ),
       ],

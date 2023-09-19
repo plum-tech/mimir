@@ -84,7 +84,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
             await context.push("/class2nd/activity");
           },
           label: i18n.activityAction.text(),
-          icon: const Icon(Icons.local_activity_outlined),
+          icon: const Icon(Icons.local_activity),
         ),
         OutlinedButton(
           onPressed: () async {

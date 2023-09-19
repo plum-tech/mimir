@@ -76,7 +76,7 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
       title: i18n.title.text(),
       leftActions: [
         FilledButton.icon(
-          icon: const Icon(Icons.assignment_outlined),
+          icon: const Icon(Icons.assignment),
           onPressed: () async {
             context.push("/expense-records");
           },

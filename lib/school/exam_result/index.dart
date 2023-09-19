@@ -22,7 +22,7 @@ class _ExamResultAppCardState extends State<ExamResultAppCard> {
           onPressed: () {
             context.push("/exam-result");
           },
-          icon: const Icon(Icons.fact_check_outlined),
+          icon: const Icon(Icons.fact_check),
           label: i18n.check.text(),
         ),
         OutlinedButton(

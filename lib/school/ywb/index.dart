@@ -22,7 +22,7 @@ class _YwbAppCardState extends State<YwbAppCard> {
           onPressed: () {
             context.push("/ywb");
           },
-          icon: const Icon(Icons.list_alt_outlined),
+          icon: const Icon(Icons.list_alt),
           label: "See all".text(),
         ),
         OutlinedButton.icon(
