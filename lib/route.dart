@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
+import 'package:mimir/school/ywb/page/list.dart';
+import 'package:mimir/school/ywb/page/mailbox.dart';
 import 'package:mimir/settings/page/life.dart';
 import 'package:mimir/settings/page/school.dart';
 import 'package:mimir/settings/page/storage.dart';
@@ -16,7 +18,6 @@ import 'package:mimir/me/network_tool/page/index.dart';
 import 'package:mimir/page/not_found.dart';
 import 'package:mimir/school/oa_announce/entity/announce.dart';
 import 'package:mimir/school/oa_announce/page/details.dart';
-import 'package:mimir/school/ywb/page/index.dart';
 import 'package:mimir/school/exam_arrange/page/index.dart';
 import 'package:mimir/school/library/index.dart';
 import 'package:mimir/school/oa_announce/page/list.dart';
@@ -241,21 +242,21 @@ final router = GoRouter(
       redirect: _loginRequired,
     ),
     GoRoute(
-      path: "/oa-announce",
-      builder: (ctx, state) => const OaAnnounceListPage(),
-      redirect: _loginRequired,
-    ),
-    GoRoute(
-      path: "/oa-announce/details",
-      builder: (ctx, state) {
-        final extra = state.extra;
-        if (extra is OaAnnounceRecord) {
-          return AnnounceDetailsPage(extra);
-        }
-        throw 404;
-      },
-      redirect: _loginRequired,
-    ),
+        path: "/oa-announce",
+        builder: (ctx, state) => const OaAnnounceListPage(),
+        redirect: _loginRequired,
+        routes: [
+          GoRoute(
+            path: "details",
+            builder: (ctx, state) {
+              final extra = state.extra;
+              if (extra is OaAnnounceRecord) {
+                return AnnounceDetailsPage(extra);
+              }
+              throw 404;
+            },
+          ),
+        ]),
     GoRoute(
       path: "/yellow-pages",
       builder: (ctx, state) => const YellowPagesListPage(),
@@ -283,9 +284,15 @@ final router = GoRouter(
       builder: (ctx, state) => const TimetablePage(),
     ),
     GoRoute(
-      path: "/application",
-      builder: (ctx, state) => const ApplicationIndexPage(),
+      path: "/ywb",
+      builder: (ctx, state) => const YwbListPage(),
       redirect: _loginRequired,
+      routes: [
+        GoRoute(
+          path: "mailbox",
+          builder: (ctx, state) => const YwbMailboxPage(),
+        ),
+      ],
     ),
     GoRoute(
       path: "/teacher-eval",

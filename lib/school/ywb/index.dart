@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -19,14 +20,14 @@ class _YwbAppCardState extends State<YwbAppCard> {
       leftActions: [
         FilledButton.icon(
           onPressed: () {
-
+            context.push("/ywb");
           },
           icon: const Icon(Icons.list_alt_outlined),
           label: "See all".text(),
         ),
         OutlinedButton.icon(
           onPressed: () {
-
+            context.push("/ywb/mailbox");
           },
           label: "Mailbox".text(),
           icon: const Icon(Icons.mail_outlined),

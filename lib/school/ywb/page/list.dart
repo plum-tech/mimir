@@ -3,12 +3,14 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/adaptive/adaptive.dart';
 import 'package:mimir/design/animation/livelist.dart';
+import 'package:mimir/design/widgets/dialog.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/application.dart';
 import '../init.dart';
 import '../widgets/application.dart';
 import "package:mimir/credential/widgets/oa_scope.dart";
+import '../i18n.dart';
 
 // 本科生常用功能列表
 const Set<String> _commonUsed = <String>{
@@ -27,16 +29,15 @@ const Set<String> _commonUsed = <String>{
   '059'
 };
 
-class ApplicationList extends StatefulWidget {
-  final ValueNotifier<bool> $enableFilter;
-
-  const ApplicationList({super.key, required this.$enableFilter});
+class YwbListPage extends StatefulWidget {
+  const YwbListPage({super.key});
 
   @override
-  State<ApplicationList> createState() => _ApplicationListState();
+  State<YwbListPage> createState() => _YwbListPageState();
 }
 
-class _ApplicationListState extends State<ApplicationList> with AdaptivePageProtocol {
+class _YwbListPageState extends State<YwbListPage> with AdaptivePageProtocol {
+  final $enableFilter = ValueNotifier(false);
   final service = YwbInit.applicationService;
 
   // in descending order
@@ -70,11 +71,34 @@ class _ApplicationListState extends State<ApplicationList> with AdaptivePageProt
 
   @override
   Widget build(BuildContext context) {
-    if (context.isPortrait) {
-      return buildPortrait(context);
-    } else {
-      return buildLandscape(context);
-    }
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          title: "Ywb".text(),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.info_outline),
+              onPressed: () async {
+                await context.showTip(
+                  title: i18n.title,
+                  desc: i18n.desc,
+                  ok: i18n.close,
+                );
+              },
+            ),
+            IconButton(
+              icon: $enableFilter.value ? const Icon(Icons.filter_alt_outlined) : const Icon(Icons.filter_alt_off_outlined),
+              tooltip: i18n.filerInfrequentlyUsed,
+              onPressed: () {
+                setState(() {
+                  $enableFilter.value = !$enableFilter.value;
+                });
+              },
+            ),
+          ],
+        ),
+      ],
+    );
   }
 
   Widget buildPortrait(BuildContext context) {
@@ -107,7 +131,7 @@ class _ApplicationListState extends State<ApplicationList> with AdaptivePageProt
   }
 
   Widget buildListPortrait(List<ApplicationMeta> list) {
-    return widget.$enableFilter >>
+    return $enableFilter >>
         (ctx, v) {
           final items = buildApplications(list, v);
           return LiveList(
@@ -130,7 +154,7 @@ class _ApplicationListState extends State<ApplicationList> with AdaptivePageProt
   }
 
   Widget buildListLandscape(List<ApplicationMeta> list) {
-    return widget.$enableFilter >>
+    return $enableFilter >>
         (ctx, v) {
           final items = buildApplications(list, v);
           return LiveGrid.options(

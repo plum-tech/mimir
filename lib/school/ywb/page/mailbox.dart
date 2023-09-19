@@ -8,14 +8,14 @@ import '../init.dart';
 import '../widgets/mail.dart';
 import '../i18n.dart';
 
-class Mailbox extends StatefulWidget {
-  const Mailbox({super.key});
+class YwbMailboxPage extends StatefulWidget {
+  const YwbMailboxPage({super.key});
 
   @override
-  State<Mailbox> createState() => _MailboxState();
+  State<YwbMailboxPage> createState() => _YwbMailboxPageState();
 }
 
-class _MailboxState extends State<Mailbox> {
+class _YwbMailboxPageState extends State<YwbMailboxPage> {
   ApplicationMessagePage? _msgPage;
 
   @override

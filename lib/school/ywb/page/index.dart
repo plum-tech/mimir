@@ -49,7 +49,7 @@ class _ApplicationIndexPageState extends State<ApplicationIndexPage> {
           unselectedIcon: const Icon(Icons.check_box_outline_blank),
           selectedIcon: const Icon(Icons.list_alt_rounded),
           builder: (ctx, key) {
-            return ApplicationList(key: key, $enableFilter: $enableFilter);
+            return YwbListPage(key: key);
           },
         ),
         // Mine page
@@ -58,7 +58,7 @@ class _ApplicationIndexPageState extends State<ApplicationIndexPage> {
           unselectedIcon: const Icon(Icons.mail_outline_rounded),
           selectedIcon: const Icon(Icons.mail_rounded),
           builder: (ctx, key) {
-            return Mailbox(key: key);
+            return YwbMailboxPage(key: key);
           },
         ),
       ],
