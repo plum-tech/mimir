@@ -17,7 +17,6 @@ class DeveloperOptionsPage extends StatefulWidget {
 class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
   @override
   Widget build(BuildContext context) {
-    final entries = buildEntries();
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
@@ -32,11 +31,8 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
             ),
           ),
           SliverList(
-            delegate: SliverChildBuilderDelegate(
-              childCount: entries.length,
-              (ctx, index) {
-                return entries[index](ctx);
-              },
+            delegate: SliverChildListDelegate(
+              buildEntries(),
             ),
           ),
         ],
@@ -44,11 +40,11 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
     );
   }
 
-  List<WidgetBuilder> buildEntries() {
-    final all = <WidgetBuilder>[];
-    all.add((_) => buildDevModeToggle());
-    all.add((_) => buildLocalStorage());
-    all.add((_) => buildReload());
+  List<Widget> buildEntries() {
+    final all = <Widget>[];
+    all.add(buildDevModeToggle());
+    all.add(buildLocalStorage());
+    all.add(buildReload());
     return all;
   }
 

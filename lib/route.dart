@@ -31,6 +31,7 @@ import 'package:mimir/settings/page/developer.dart';
 import 'package:mimir/settings/page/index.dart';
 import 'package:mimir/me/index.dart';
 import 'package:mimir/school/index.dart';
+import 'package:mimir/settings/page/timetable.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
 import 'package:mimir/timetable/init.dart';
 import 'package:mimir/timetable/page/import.dart';
@@ -62,6 +63,7 @@ final router = GoRouter(
     final auth = ctx.auth;
     if (auth.loginStatus == LoginStatus.never) {
       // allow to access settings page.
+      if (state.matchedLocation == "/network-tool") return null;
       if (state.matchedLocation.startsWith("/settings")) return null;
       // allow to access browser page.
       if (state.matchedLocation == "/browser") return null;
@@ -148,12 +150,12 @@ final router = GoRouter(
       builder: (ctx, state) => const SettingsPage(),
       routes: [
         GoRoute(
-          path: "network-tool",
-          builder: (ctx, state) => const NetworkToolPage(),
-        ),
-        GoRoute(
           path: "credentials",
           builder: (ctx, state) => const CredentialsPage(),
+        ),
+        GoRoute(
+          path: "timetable",
+          builder: (ctx, state) => const TimetableSettingsPage(),
         ),
         GoRoute(
           path: "developer",
@@ -166,6 +168,10 @@ final router = GoRouter(
           ],
         ),
       ],
+    ),
+    GoRoute(
+      path: "/network-tool",
+      builder: (ctx, state) => const NetworkToolPage(),
     ),
     GoRoute(
       path: "/class2nd/activity",

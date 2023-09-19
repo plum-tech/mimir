@@ -17,6 +17,7 @@ class _I18n with CommonI18nMixin {
   final httpProxy = const _HttpProxy();
   final language = const _Language();
   final dev = const _DevOptions();
+  final timetable = const _Timetable();
   final testConnect2School = const _TestConnect2School();
   final wipeData = const _WipeData();
   static const ns = "settings";
@@ -108,6 +109,18 @@ class _Language {
   String get title => "$ns.title".tr();
 
   String languageOf(Locale locale) => "language.$locale".tr();
+}
+
+class _Timetable {
+  const _Timetable();
+
+  static const ns = "${_I18n.ns}.timetable";
+
+  String get title => "$ns.title".tr();
+
+  String get autoUseImportedTitle => "$ns.autoUseImported.title".tr();
+
+  String get autoUseImportedDesc => "$ns.autoUseImported.desc".tr();
 }
 
 class _DevOptions {

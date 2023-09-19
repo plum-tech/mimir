@@ -118,18 +118,32 @@ class _SettingsPageState extends State<SettingsPage> {
 
     final credential = context.auth.credentials;
     if (credential != null) {
-      all.add(CredentialTile(credential: credential));
-      all.add(const Divider());
+      all.add(SettingsPageNavigationTile(
+        title: CredentialI18n.instance.oaAccount,
+        subtitle: credential.account,
+        icon: const Icon(Icons.person_rounded),
+        path: "/settings/credentials",
+      ));
     }
-
     all.add(const CampusSelectorTile());
+    all.add(const Divider());
 
     all.add(const LanguageSelectorTile());
     all.add(const ThemeModeTile());
 
     all.add(const Divider());
+    all.add(SettingsPageNavigationTile(
+      title: i18n.timetable.title,
+      icon: const Icon(Icons.calendar_month_outlined),
+      path: "/settings/timetable",
+    ));
+    all.add(const Divider());
     if (Settings.isDeveloperMode) {
-      all.add(const DevOptionsTile());
+      all.add(SettingsPageNavigationTile(
+        title: i18n.dev.title,
+        icon: const Icon(Icons.developer_mode_outlined),
+        path: "/settings/developer",
+      ));
     }
     all.add(const ClearCacheTile());
     all.add(const WipeDataTile());
@@ -152,6 +166,36 @@ class _SettingsPageState extends State<SettingsPage> {
 */
 }
 
+class SettingsPageNavigationTile extends StatelessWidget {
+  final String? title;
+  final String? subtitle;
+  final Widget icon;
+  final String path;
+
+  const SettingsPageNavigationTile({
+    super.key,
+    this.title,
+    this.subtitle,
+    required this.icon,
+    required this.path,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final title = this.title;
+    final subtitle = this.subtitle;
+    return ListTile(
+      title: title?.text(),
+      subtitle: subtitle?.text(),
+      leading: icon,
+      trailing: const Icon(Icons.navigate_next_rounded),
+      onTap: () {
+        context.push(path);
+      },
+    );
+  }
+}
+
 class VersionTile extends StatefulWidget {
   const VersionTile({super.key});
 
@@ -161,6 +205,23 @@ class VersionTile extends StatefulWidget {
 
 class _VersionTileState extends State<VersionTile> {
   int clickCount = 0;
+  final $isDeveloperMode = Settings.listenIsDeveloperMode();
+
+  @override
+  void initState() {
+    super.initState();
+    $isDeveloperMode.addListener(refresh);
+  }
+
+  @override
+  void dispose() {
+    $isDeveloperMode.removeListener(refresh);
+    super.dispose();
+  }
+
+  void refresh() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -314,44 +375,6 @@ class LanguageSelectorTile extends StatelessWidget {
             )
             .toList(),
       ),
-    );
-  }
-}
-
-class DevOptionsTile extends StatelessWidget {
-  const DevOptionsTile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: i18n.dev.title.text(),
-      leading: const Icon(Icons.developer_mode_outlined),
-      trailing: const Icon(Icons.navigate_next_rounded),
-      onTap: () {
-        context.push("/settings/developer");
-      },
-    );
-  }
-}
-
-class CredentialTile extends StatelessWidget {
-  final OaCredentials credential;
-
-  const CredentialTile({
-    super.key,
-    required this.credential,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: CredentialI18n.instance.oaAccount.text(),
-      subtitle: credential.account.text(),
-      leading: const Icon(Icons.person_rounded),
-      trailing: const Icon(Icons.navigate_next_rounded),
-      onTap: () async {
-        context.push("/settings/credentials");
-      },
     );
   }
 }
