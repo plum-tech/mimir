@@ -57,15 +57,11 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: $displayMode >>
-            (ctx, mode) =>
-                $currentPos >>
-                (ctx, pos) => mode == DisplayMode.weekly
-                    ? i18n.weekOrderedName(number: pos.week).text()
-                    : "${i18n.weekOrderedName(number: pos.week)} ${i18n.weekday(index: pos.day - 1)}".text(),
+        title:
+            $displayMode >> (ctx, mode) => $currentPos >> (ctx, pos) => i18n.weekOrderedName(number: pos.week).text(),
         actions: [
-          buildSwitchViewButton(context),
-          buildMyTimetablesButton(context),
+          buildSwitchViewButton(),
+          buildMyTimetablesButton(),
         ],
       ),
       floatingActionButton: InkWell(
@@ -84,9 +80,9 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
             child: const Icon(Icons.undo_rounded),
             onPressed: () async {
               if ($displayMode.value == DisplayMode.weekly) {
-                await selectWeeklyTimetablePageToJump(context);
+                await selectWeeklyTimetablePageToJump();
               } else {
-                await selectDailyTimetablePageToJump(context);
+                await selectDailyTimetablePageToJump();
               }
             },
           )),
@@ -98,16 +94,28 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     );
   }
 
-  Widget buildSwitchViewButton(BuildContext ctx) {
-    return IconButton(
-      icon: const Icon(Icons.swap_horiz_rounded),
-      onPressed: () {
-        $displayMode.value = $displayMode.value.toggle();
-      },
-    );
+  Widget buildSwitchViewButton() {
+    return $displayMode >>
+        (ctx, mode) => SegmentedButton<DisplayMode>(
+              showSelectedIcon: false,
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all(EdgeInsets.zero),
+                visualDensity: VisualDensity.compact,
+              ),
+              segments: DisplayMode.values
+                  .map((e) => ButtonSegment<DisplayMode>(
+                        value: e,
+                        label: e.l10n().text(),
+                      ))
+                  .toList(),
+              selected: <DisplayMode>{mode},
+              onSelectionChanged: (newSelection) {
+                $displayMode.value = mode.toggle();
+              },
+            );
   }
 
-  Widget buildMyTimetablesButton(BuildContext ctx) {
+  Widget buildMyTimetablesButton() {
     return IconButton(
       icon: const Icon(Icons.person_rounded),
       onPressed: () async {
@@ -117,13 +125,13 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     );
   }
 
-  Future<void> selectWeeklyTimetablePageToJump(BuildContext ctx) async {
+  Future<void> selectWeeklyTimetablePageToJump() async {
     final currentWeek = $currentPos.value.week;
     final initialIndex = currentWeek - 1;
     final controller = FixedExtentScrollController(initialItem: initialIndex);
     final todayPos = timetable.locate(DateTime.now());
     final todayIndex = todayPos.week - 1;
-    final index2Go = await ctx.showPicker(
+    final index2Go = await context.showPicker(
         count: 20,
         controller: controller,
         ok: i18n.jump,
@@ -145,7 +153,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     controller.dispose();
     if (index2Go != null && index2Go != initialIndex) {
       if (!mounted) return;
-      if (TimetableStyle.of(ctx).useNewUI) {
+      if (TimetableStyle.of(context).useNewUI) {
         eventBus.fire(JumpToPosEvent($currentPos.value.copyWith(week: index2Go + 1)));
       } else {
         $currentPos.value = $currentPos.value.copyWith(week: index2Go + 1);
@@ -153,7 +161,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     }
   }
 
-  Future<void> selectDailyTimetablePageToJump(BuildContext ctx) async {
+  Future<void> selectDailyTimetablePageToJump() async {
     final currentPos = $currentPos.value;
     final initialWeekIndex = currentPos.week - 1;
     final initialDayIndex = currentPos.day - 1;
@@ -162,7 +170,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     final todayPos = timetable.locate(DateTime.now());
     final todayWeekIndex = todayPos.week - 1;
     final todayDayIndex = todayPos.day - 1;
-    final indices2Go = await ctx.showDualPicker(
+    final indices2Go = await context.showDualPicker(
         countA: 20,
         countB: 7,
         controllerA: $week,
@@ -191,7 +199,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     final day2Go = indices2Go?.b;
     if (week2Go != null && day2Go != null && (week2Go != initialWeekIndex || day2Go != initialDayIndex)) {
       if (!mounted) return;
-      if (TimetableStyle.of(ctx).useNewUI) {
+      if (TimetableStyle.of(context).useNewUI) {
         eventBus.fire(JumpToPosEvent(TimetablePos(week: week2Go + 1, day: day2Go + 1)));
       } else {
         $currentPos.value = TimetablePos(week: week2Go + 1, day: day2Go + 1);

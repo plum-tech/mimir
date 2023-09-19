@@ -34,6 +34,9 @@ timetable:
     importing: Trying to fetch the timetable...
     timetableInfo: Timetable Info
     defaultName: "{semester}, {yearStart}–{yearEnd} Timetable"
+  displayMode:
+    daily: Daily
+    weekly: Weekly
   weekStep:
     single: week
     all: week

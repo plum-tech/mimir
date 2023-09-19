@@ -34,6 +34,9 @@ timetable:
     importing: 正在尝试获取课程表的数据……
     timetableInfo: 课程表信息
     defaultName: "{yearStart}–{yearEnd}年 {semester} 课程表"
+  displayMode:
+    daily: 日
+    weekly: 周
   weekStep:
     single: 周
     all: 周
