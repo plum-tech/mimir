@@ -4,7 +4,6 @@ import 'package:animations/animations.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
-import 'package:mimir/design/adaptive/adaptive.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/settings/settings.dart';
@@ -75,11 +74,8 @@ class _MimirAppState extends State<MimirApp> {
       darkTheme: bakeTheme(ThemeData.dark(
         useMaterial3: true,
       )),
-      builder: (ctx, child) => AdaptiveUI(
-        isSubpage: false,
-        child: OaAuthManager(
-          child: child ?? const SizedBox(),
-        ),
+      builder: (ctx, child) => OaAuthManager(
+        child: child ?? const SizedBox(),
       ),
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         dragDevices: {

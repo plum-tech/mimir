@@ -1,7 +1,6 @@
 import 'package:auto_animated/auto_animated.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/adaptive/adaptive.dart';
 import 'package:mimir/design/animation/livelist.dart';
 import 'package:mimir/design/widgets/dialog.dart';
 import 'package:rettulf/rettulf.dart';
@@ -36,7 +35,7 @@ class YwbListPage extends StatefulWidget {
   State<YwbListPage> createState() => _YwbListPageState();
 }
 
-class _YwbListPageState extends State<YwbListPage> with AdaptivePageProtocol {
+class _YwbListPageState extends State<YwbListPage> {
   final $enableFilter = ValueNotifier(false);
   final service = YwbInit.applicationService;
 
@@ -87,7 +86,9 @@ class _YwbListPageState extends State<YwbListPage> with AdaptivePageProtocol {
               },
             ),
             IconButton(
-              icon: $enableFilter.value ? const Icon(Icons.filter_alt_outlined) : const Icon(Icons.filter_alt_off_outlined),
+              icon: $enableFilter.value
+                  ? const Icon(Icons.filter_alt_outlined)
+                  : const Icon(Icons.filter_alt_off_outlined),
               tooltip: i18n.filerInfrequentlyUsed,
               onPressed: () {
                 setState(() {
@@ -147,7 +148,7 @@ class _YwbListPageState extends State<YwbListPage> with AdaptivePageProtocol {
     if (lastError != null) {
       return lastError.text().center();
     } else if (_allDescending.isNotEmpty) {
-      return AdaptiveNavigation(child: buildListLandscape(_allDescending));
+      return buildListLandscape(_allDescending);
     } else {
       return const CircularProgressIndicator();
     }

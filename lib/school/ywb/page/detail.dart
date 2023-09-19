@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:mimir/design/adaptive/adaptive.dart';
 import 'package:mimir/design/widgets/button.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:mimir/utils/url_launcher.dart';
@@ -61,29 +60,17 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Widget buildLandscape(BuildContext context) {
-    if (context.adaptive.isSubpage) {
-      return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text(meta.name),
-        ),
-        body: SafeArea(
-          child: buildBody(context),
-        ),
-      );
-    } else {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(meta.name),
-          /* actions: [
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(meta.name),
+        /* actions: [
           buildOpenInApp(),
         ],*/
-        ),
-        body: SafeArea(
-          child: buildBody(context),
-        ),
-      );
-    }
+      ),
+      body: SafeArea(
+        child: buildBody(context),
+      ),
+    );
   }
 
   Widget buildOpenInApp() {

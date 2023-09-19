@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mimir/design/adaptive/adaptive.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/application.dart';
@@ -54,8 +53,7 @@ class ApplicationTile extends StatelessWidget {
       ),
       trailing: views,
       onTap: () {
-        final route = context.adaptive.makeRoute((_) => DetailPage(meta: meta));
-        context.navigator.push(route);
+        context.navigator.push(MaterialPageRoute(builder: (_) => DetailPage(meta: meta)));
       },
     );
   }
