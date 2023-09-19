@@ -274,8 +274,8 @@ settings:
   timetable:
     title: 课程表
     autoUseImported:
-      title: 自动使用新课表
-      desc: 自动使用新导入的课表
+      title: 自动使用新课程表
+      desc: 自动使用新导入的课程表
   campus:
     title: 你的校区
     desc: 日程表有所不同

@@ -273,7 +273,7 @@ settings:
     title: 課程表
     autoUseImported:
       title: 自動使用匯入的
-      desc: 使用匯入的新課表
+      desc: 使用新匯入的課程表
   campus:
     title: 你的校區
     desc: 校區有各自的時間表
