@@ -17,12 +17,12 @@ class ApplicationMetaAdapter extends TypeAdapter<ApplicationMeta> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ApplicationMeta(
-      fields[0] as String,
-      fields[1] as String,
-      fields[2] as String,
-      fields[3] as int,
-      fields[4] as int,
-      fields[5] as String,
+      id: fields[0] as String,
+      name: fields[1] as String,
+      summary: fields[2] as String,
+      status: fields[3] as int,
+      count: fields[4] as int,
+      iconName: fields[5] as String,
     );
   }
 
@@ -53,6 +53,41 @@ class ApplicationMetaAdapter extends TypeAdapter<ApplicationMeta> {
       other is ApplicationMetaAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
+class ApplicationDetailsAdapter extends TypeAdapter<ApplicationDetails> {
+  @override
+  final int typeId = 80;
+
+  @override
+  ApplicationDetails read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return ApplicationDetails(
+      id: fields[0] as String,
+      sections: (fields[1] as List).cast<ApplicationDetailSection>(),
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, ApplicationDetails obj) {
+    writer
+      ..writeByte(2)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.sections);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ApplicationDetailsAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+}
+
 class ApplicationDetailSectionAdapter extends TypeAdapter<ApplicationDetailSection> {
   @override
   final int typeId = 81;
@@ -64,10 +99,10 @@ class ApplicationDetailSectionAdapter extends TypeAdapter<ApplicationDetailSecti
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ApplicationDetailSection(
-      fields[0] as String,
-      fields[1] as String,
-      fields[2] as DateTime,
-      fields[3] as String,
+      section: fields[0] as String,
+      type: fields[1] as String,
+      createTime: fields[2] as DateTime,
+      content: fields[3] as String,
     );
   }
 
@@ -94,64 +129,22 @@ class ApplicationDetailSectionAdapter extends TypeAdapter<ApplicationDetailSecti
       other is ApplicationDetailSectionAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class ApplicationDetailsAdapter extends TypeAdapter<ApplicationDetails> {
-  @override
-  final int typeId = 80;
-
-  @override
-  ApplicationDetails read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return ApplicationDetails(
-      fields[0] as String,
-      (fields[1] as List).cast<ApplicationDetailSection>(),
-    );
-  }
-
-  @override
-  void write(BinaryWriter writer, ApplicationDetails obj) {
-    writer
-      ..writeByte(2)
-      ..writeByte(0)
-      ..write(obj.id)
-      ..writeByte(1)
-      ..write(obj.sections);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ApplicationDetailsAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
-}
-
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
 ApplicationMeta _$ApplicationMetaFromJson(Map<String, dynamic> json) => ApplicationMeta(
-      json['appID'] as String,
-      json['appName'] as String,
-      json['appDescribe'] as String,
-      json['appStatus'] as int,
-      json['appCount'] as int,
-      json['appIcon'] as String,
+      id: json['appID'] as String,
+      name: json['appName'] as String,
+      summary: json['appDescribe'] as String,
+      status: json['appStatus'] as int,
+      count: json['appCount'] as int,
+      iconName: json['appIcon'] as String,
     );
 
 ApplicationDetailSection _$ApplicationDetailSectionFromJson(Map<String, dynamic> json) => ApplicationDetailSection(
-      json['formName'] as String,
-      json['type'] as String,
-      DateTime.parse(json['createTime'] as String),
-      json['content'] as String,
+      section: json['formName'] as String,
+      type: json['type'] as String,
+      createTime: DateTime.parse(json['createTime'] as String),
+      content: json['content'] as String,
     );
-
-Map<String, dynamic> _$ApplicationDetailSectionToJson(ApplicationDetailSection instance) => <String, dynamic>{
-      'formName': instance.section,
-      'type': instance.type,
-      'createTime': instance.createTime.toIso8601String(),
-      'content': instance.content,
-    };

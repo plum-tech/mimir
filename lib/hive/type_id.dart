@@ -54,7 +54,7 @@ class HiveTypeExpenseRecords {
 
 /// Electricity 75-79
 class HiveTypeElectricity {
-  static const balance = 80;
+  static const balance = 75;
 }
 
 /// Ywb 80-89

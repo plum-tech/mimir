@@ -3,7 +3,7 @@ import 'package:mimir/school/ywb/service/application.dart';
 import '../entity/application.dart';
 import '../storage/application.dart';
 
-class ApplicationCache  {
+class ApplicationCache {
   final ApplicationService from;
   final ApplicationStorage to;
   Duration detailExpire;

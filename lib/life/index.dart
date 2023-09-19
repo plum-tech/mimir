@@ -77,7 +77,7 @@ class _LifePageState extends State<LifePage> {
     return IconButton(
       onPressed: () async {
         final res = await context.push("/tools/scanner");
-        if(!mounted) return;
+        if (!mounted) return;
         // TODO: QR Code
         await context.showTip(title: "Result", desc: res.toString(), ok: i18n.ok);
       },

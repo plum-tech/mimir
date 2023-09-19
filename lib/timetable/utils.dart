@@ -244,7 +244,7 @@ Future<({int id, SitTimetable timetable})?> importTimetableFromFile() async {
 /// Adds the [timetable] into [TimetableStorage.timetable].
 /// Updates the selected timetable id.
 /// If [TimetableSettings.autoUseImported] is enabled, the [timetable] will be used.
-int addNewTimetable(SitTimetable timetable){
+int addNewTimetable(SitTimetable timetable) {
   final id = TimetableInit.storage.timetable.add(timetable);
   if (Settings.timetable.autoUseImported) {
     TimetableInit.storage.timetable.selectedId = id;

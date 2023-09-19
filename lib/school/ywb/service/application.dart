@@ -43,6 +43,6 @@ class ApplicationService {
     final List<ApplicationDetailSection> sections =
         (data['value'] as List<dynamic>).map((e) => ApplicationDetailSection.fromJson(e)).toList();
 
-    return ApplicationDetails(functionId, sections);
+    return ApplicationDetails(id: functionId, sections: sections);
   }
 }

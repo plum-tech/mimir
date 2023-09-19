@@ -29,33 +29,16 @@ class ApplicationMeta {
 
   IconData get icon => IconFont.query(iconName);
 
-  const ApplicationMeta(this.id, this.name, this.summary, this.status, this.count, this.iconName);
+  const ApplicationMeta({
+    required this.id,
+    required this.name,
+    required this.summary,
+    required this.status,
+    required this.count,
+    required this.iconName,
+  });
 
   factory ApplicationMeta.fromJson(Map<String, dynamic> json) => _$ApplicationMetaFromJson(json);
-}
-
-@JsonSerializable()
-@HiveType(typeId: HiveTypeYwb.detailSection)
-class ApplicationDetailSection {
-  @JsonKey(name: 'formName')
-  @HiveField(0)
-  final String section;
-  @HiveField(1)
-  final String type;
-  @HiveField(2)
-  final DateTime createTime;
-  @HiveField(3)
-  final String content;
-
-  const ApplicationDetailSection(this.section, this.type, this.createTime, this.content);
-
-  factory ApplicationDetailSection.fromJson(Map<String, dynamic> json) => _$ApplicationDetailSectionFromJson(json);
-}
-
-extension ApplicationDetailSectionX on ApplicationDetailSection {
-  bool get isEmpty => content.isEmpty;
-
-  bool get isNotEmpty => content.isNotEmpty;
 }
 
 @HiveType(typeId: HiveTypeYwb.details)
@@ -65,5 +48,40 @@ class ApplicationDetails {
   @HiveField(1)
   final List<ApplicationDetailSection> sections;
 
-  const ApplicationDetails(this.id, this.sections);
+  const ApplicationDetails({
+    required this.id,
+    required this.sections,
+  });
+}
+
+@JsonSerializable(createToJson: false)
+@HiveType(typeId: HiveTypeYwb.detailSection)
+class ApplicationDetailSection {
+  @JsonKey(name: 'formName')
+  @HiveField(0)
+  final String section;
+  @JsonKey()
+  @HiveField(1)
+  final String type;
+  @JsonKey()
+  @HiveField(2)
+  final DateTime createTime;
+  @JsonKey()
+  @HiveField(3)
+  final String content;
+
+  const ApplicationDetailSection({
+    required this.section,
+    required this.type,
+    required this.createTime,
+    required this.content,
+  });
+
+  factory ApplicationDetailSection.fromJson(Map<String, dynamic> json) => _$ApplicationDetailSectionFromJson(json);
+}
+
+extension ApplicationDetailSectionX on ApplicationDetailSection {
+  bool get isEmpty => content.isEmpty;
+
+  bool get isNotEmpty => content.isNotEmpty;
 }
