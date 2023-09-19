@@ -113,17 +113,6 @@ class _YwbListPageState extends State<YwbListPage> {
     }
   }
 
-  Widget buildBodyPortrait() {
-    final lastError = _lastError;
-    if (lastError != null) {
-      return lastError.text().center();
-    } else if (_allDescending.isNotEmpty) {
-      return buildListPortrait(_allDescending);
-    } else {
-      return const CircularProgressIndicator();
-    }
-  }
-
   List<Widget> buildApplications(List<ApplicationMeta> all, bool enableFilter) {
     return all
         .where((element) => !enableFilter || _commonUsed.contains(element.id))

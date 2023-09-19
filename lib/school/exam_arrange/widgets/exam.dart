@@ -50,7 +50,7 @@ class _ExamCardState extends State<ExamCard> {
           ],
         )
       ],
-    );
+    ).padSymmetric(v: 8, h: 16).inCard();
   }
 
   Widget _buildItem(String icon, String text) {

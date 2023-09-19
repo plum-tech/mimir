@@ -119,8 +119,14 @@ class _ExamResultPageState extends State<ExamResultPage> {
                 ),
               )
             else
-              ...allResults.mapIndexed((index, item) =>
-                  SliverToBoxAdapter(child: ExamResultTile(item, index: index, isSelectingMode: isSelecting))),
+              SliverList.builder(
+                itemCount: allResults.length,
+                itemBuilder: (item, i) => ExamResultTile(
+                  allResults[i],
+                  index: i,
+                  isSelectingMode: isSelecting,
+                ),
+              ),
         ],
       ),
     );

@@ -50,14 +50,12 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
                 ),
         ),
         if (records != null)
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (ctx, i) {
-                final record = records[i];
-                return OaAnnounceTile(record).inCard().hero(record.uuid);
-              },
-              childCount: records.length,
-            ),
+          SliverList.builder(
+            itemCount: records.length,
+            itemBuilder: (ctx, i) {
+              final record = records[i];
+              return OaAnnounceTile(record).inCard().hero(record.uuid);
+            },
           )
       ],
     );

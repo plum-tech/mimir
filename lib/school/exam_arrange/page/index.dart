@@ -11,14 +11,14 @@ import '../init.dart';
 import '../widgets/exam.dart';
 import '../i18n.dart';
 
-class ExamArrangementPage extends StatefulWidget {
-  const ExamArrangementPage({super.key});
+class ExamArrangePage extends StatefulWidget {
+  const ExamArrangePage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _ExamArrangementPageState();
+  State<StatefulWidget> createState() => _ExamArrangePageState();
 }
 
-class _ExamArrangementPageState extends State<ExamArrangementPage> {
+class _ExamArrangePageState extends State<ExamArrangePage> {
   final service = ExamArrangeInit.examService;
 
   /// 四位年份
@@ -83,8 +83,10 @@ class _ExamArrangementPageState extends State<ExamArrangementPage> {
               ),
             )
           else
-            ...exams.map((exam) => SliverToBoxAdapter(
-                child: ExamCard(exam: exam).padSymmetric(v: 8, h: 16).inCard(elevation: 5).padAll(8))),
+            SliverList.builder(
+              itemCount: exams.length,
+              itemBuilder: (ctx, i) => ExamCard(exam: exams[i]),
+            ),
       ],
     );
   }

@@ -272,7 +272,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: "/exam-arrange",
-      builder: (ctx, state) => const ExamArrangementPage(),
+      builder: (ctx, state) => const ExamArrangePage(),
       redirect: _loginRequired,
     ),
     GoRoute(
