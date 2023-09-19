@@ -277,6 +277,22 @@ settings:
     autoUseImported:
       title: 自动使用新课程表
       desc: 自动使用新导入的课程表
+  school:
+    title: 学校
+    class2nd:
+      autoRefresh:
+        title: 第二课堂分自动刷新
+        desc: 启动时刷新第二课堂分
+  life:
+    title: 生活
+    electricity:
+      autoRefresh:
+        title: 电费余额自动刷新
+        desc: 启动时刷新电费余额
+    expenseRecords:
+      autoRefresh:
+        title: 消费记录自动刷新
+        desc: 启动时刷新消费记录
   campus:
     title: 你的校区
     desc: 日程表有所不同

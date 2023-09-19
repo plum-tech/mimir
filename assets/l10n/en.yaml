@@ -277,6 +277,22 @@ settings:
     autoUseImported:
       title: Auto-use imported
       desc: Use the timetable just imported
+  school:
+    title: School
+    class2nd:
+      autoRefresh:
+        title: Auto-refresh 2nd class scores
+        desc: Refresh scores when app is launched
+  life:
+    title: Life
+    electricity:
+      autoRefresh:
+        title: Auto-refresh electricity
+        desc: Refresh electricity when app is launched
+    expenseRecords:
+      autoRefresh:
+        title: Auto-refresh expense records
+        desc: Refresh expense records when app is launched
   campus:
     title: Your campus
     desc: Timetables vary

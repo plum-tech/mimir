@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
+import 'package:mimir/settings/page/life.dart';
+import 'package:mimir/settings/page/school.dart';
 import 'package:mimir/settings/page/storage.dart';
 import 'package:mimir/life/expense_records/page/records.dart';
 import 'package:mimir/life/expense_records/page/statistics.dart';
@@ -172,6 +174,14 @@ final router = GoRouter(
         GoRoute(
           path: "timetable",
           builder: (ctx, state) => const TimetableSettingsPage(),
+        ),
+        GoRoute(
+          path: "school",
+          builder: (ctx, state) => const SchoolSettingsPage(),
+        ),
+        GoRoute(
+          path: "life",
+          builder: (ctx, state) => const LifeSettingsPage(),
         ),
         GoRoute(
           path: "developer",

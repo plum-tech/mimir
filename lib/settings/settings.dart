@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mimir/entity/campus.dart';
+import 'package:mimir/school/settings.dart';
 import 'package:mimir/timetable/settings.dart';
 
 import '../life/settings.dart';
@@ -41,6 +42,7 @@ class SettingsImpl {
 
   late final life = LifeSettings(box);
   late final timetable = TimetableSettings(box);
+  late final school = SchoolSettings(box);
 
   // settings
   Campus get campus => box.get(_K.campus) ?? Campus.fengxian;

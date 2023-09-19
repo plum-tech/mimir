@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/credential/entity/credential.dart';
 import 'package:mimir/credential/i18n.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/dialog.dart';
@@ -136,6 +135,16 @@ class _SettingsPageState extends State<SettingsPage> {
       title: i18n.timetable.title,
       icon: const Icon(Icons.calendar_month_outlined),
       path: "/settings/timetable",
+    ));
+    all.add(SettingsPageNavigationTile(
+      title: i18n.school.title,
+      icon: const Icon(Icons.school_outlined),
+      path: "/settings/school",
+    ));
+    all.add(SettingsPageNavigationTile(
+      title: i18n.life.title,
+      icon: const Icon(Icons.spa_outlined),
+      path: "/settings/life",
     ));
     all.add(const Divider());
     if (Settings.isDeveloperMode) {

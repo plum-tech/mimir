@@ -14,18 +14,24 @@ class LifeSettings {
   static const ns = "/life";
 }
 
+class _ElectricityK {
+  static const ns = "${LifeSettings.ns}/electricity";
+  static const autoRefresh = "$ns/autoRefresh";
+}
+
 class _Electricity {
   final Box<dynamic> box;
 
   const _Electricity(this.box);
 
-  static const _ns = "${LifeSettings.ns}/electricity";
-  static const _autoRefresh = "$_ns/autoRefresh";
+  bool get autoRefresh => box.get(_ElectricityK.autoRefresh) ?? _kElectricityAutoRefresh;
 
-  /// enable by default
-  bool get autoRefresh => box.get(_autoRefresh) ?? _kElectricityAutoRefresh;
+  set autoRefresh(bool foo) => box.put(_ElectricityK.autoRefresh, foo);
+}
 
-  set autoRefresh(bool foo) => box.put(_autoRefresh, foo);
+class _ExpenseK {
+  static const ns = "${LifeSettings.ns}/expenseRecords";
+  static const autoRefresh = "$ns/autoRefresh";
 }
 
 class _ExpenseRecords {
@@ -33,10 +39,7 @@ class _ExpenseRecords {
 
   const _ExpenseRecords(this.box);
 
-  static const _ns = "${LifeSettings.ns}/expenseRecords";
-  static const _autoRefresh = "$_ns/autoRefresh";
+  bool get autoRefresh => box.get(_ExpenseK.autoRefresh) ?? _kExpenseRecordsAutoRefresh;
 
-  bool get autoRefresh => box.get(_autoRefresh) ?? _kExpenseRecordsAutoRefresh;
-
-  set autoRefresh(bool foo) => box.put(_autoRefresh, foo);
+  set autoRefresh(bool foo) => box.put(_ExpenseK.autoRefresh, foo);
 }

@@ -275,6 +275,22 @@ settings:
     autoUseImported:
       title: 自動使用匯入的
       desc: 使用新匯入的課程表
+  school:
+    title: 學校
+    class2nd:
+      autoRefresh:
+        title: 第二課堂分自動重新整理
+        desc: 啟動時重新整理第二課堂分
+  life:
+    title: 生活
+    electricity:
+      autoRefresh:
+        title: 電費餘額自動重新整理
+        desc: 啟動時重新整理電費餘額
+    expenseRecords:
+      autoRefresh:
+        title: 消費記錄自動重新整理
+        desc: 啟動時重新整理消費記錄
   campus:
     title: 你的校區
     desc: 校區有各自的時間表

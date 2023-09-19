@@ -18,6 +18,8 @@ class _I18n with CommonI18nMixin {
   final language = const _Language();
   final dev = const _DevOptions();
   final timetable = const _Timetable();
+  final school = const _School();
+  final life = const _Life();
   final testConnect2School = const _TestConnect2School();
   final wipeData = const _WipeData();
   static const ns = "settings";
@@ -121,6 +123,55 @@ class _Timetable {
   String get autoUseImportedTitle => "$ns.autoUseImported.title".tr();
 
   String get autoUseImportedDesc => "$ns.autoUseImported.desc".tr();
+}
+
+class _School {
+  const _School();
+
+  static const ns = "${_I18n.ns}.school";
+  final class2nd = const _Class2nd();
+
+  String get title => "$ns.title".tr();
+}
+
+class _Class2nd {
+  static const ns = "${_School.ns}.class2nd";
+
+  const _Class2nd();
+
+  String get autoRefreshTitle => "$ns.autoRefresh.title".tr();
+
+  String get autoRefreshDesc => "$ns.autoRefresh.desc".tr();
+}
+
+class _Life {
+  const _Life();
+
+  final electricity = const _Electricity();
+  final expense = const _Expense();
+  static const ns = "${_I18n.ns}.life";
+
+  String get title => "$ns.title".tr();
+}
+
+class _Electricity {
+  static const ns = "${_Life.ns}.electricity";
+
+  const _Electricity();
+
+  String get autoRefreshTitle => "$ns.autoRefresh.title".tr();
+
+  String get autoRefreshDesc => "$ns.autoRefresh.desc".tr();
+}
+
+class _Expense {
+  static const ns = "${_Life.ns}.expenseRecords";
+
+  const _Expense();
+
+  String get autoRefreshTitle => "$ns.autoRefresh.title".tr();
+
+  String get autoRefreshDesc => "$ns.autoRefresh.desc".tr();
 }
 
 class _DevOptions {
