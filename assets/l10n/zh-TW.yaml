@@ -287,9 +287,6 @@ settings:
       autoRefresh:
         title: 消費記錄自動重新整理
         desc: 啟動時重新整理消費記錄
-  campus:
-    title: 你的校區
-    desc: 校區有各自的時間表
   studentId:
     studentIdCopy2ClipboardTip: 你的學號被複製到剪貼板啦
   changeOaPwd:

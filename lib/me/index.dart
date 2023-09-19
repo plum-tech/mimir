@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/entity/campus.dart';
 import 'package:mimir/me/edu_email/index.dart';
 import 'package:mimir/me/network_tool/index.dart';
 import 'package:mimir/me/widgets/greeting.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import "i18n.dart";
 
 const _qGroupNumber = "917740212";
 const _joinQGroupUri =
@@ -26,7 +29,7 @@ class _MePageState extends State<MePage> {
       slivers: [
         SliverAppBar(
           titleTextStyle: context.textTheme.headlineSmall,
-          title: "Me".text(),
+          title: const CampusSelector(),
           actions: [
             IconButton(
               icon: const Icon(Icons.settings),
@@ -79,6 +82,30 @@ class _MePageState extends State<MePage> {
           await launchUrlString(_joinQGroupUri);
         } catch (_) {}
       },
+    );
+  }
+}
+
+class CampusSelector extends StatelessWidget {
+  const CampusSelector({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StatefulBuilder(
+      builder: (ctx, setState) => SegmentedButton<Campus>(
+        segments: Campus.values
+            .map((e) => ButtonSegment<Campus>(
+                  value: e,
+                  label: e.l10nName().text(),
+                ))
+            .toList(),
+        selected: <Campus>{Settings.campus},
+        onSelectionChanged: (newSelection) {
+          setState(() {
+            Settings.campus = newSelection.first;
+          });
+        },
+      ),
     );
   }
 }

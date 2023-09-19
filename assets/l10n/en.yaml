@@ -289,9 +289,6 @@ settings:
       autoRefresh:
         title: Auto-refresh expense records
         desc: Refresh expense records when app is launched
-  campus:
-    title: Your campus
-    desc: Timetables vary
   studentId:
     studentIdCopy2ClipboardTip: Your student ID is copied
   changeOaPwd:

@@ -124,7 +124,6 @@ class _SettingsPageState extends State<SettingsPage> {
         path: "/settings/credentials",
       ));
     }
-    all.add(const CampusSelectorTile());
     all.add(const Divider());
 
     all.add(const LanguageSelectorTile());
@@ -303,56 +302,6 @@ class _ThemeModeTileState extends State<ThemeModeTile> {
         Settings.themeMode = newThemeMode;
       },
       subtitle: i18n.themeMode.of(themeMode).text(),
-    );
-  }
-}
-
-class CampusSelectorTile extends StatefulWidget {
-  const CampusSelectorTile({super.key});
-
-  @override
-  State<CampusSelectorTile> createState() => _CampusSelectorTileState();
-}
-
-class _CampusSelectorTileState extends State<CampusSelectorTile> {
-  final $campus = Settings.listenCampus();
-
-  @override
-  void initState() {
-    super.initState();
-    $campus.addListener(refresh);
-  }
-
-  @override
-  void dispose() {
-    $campus.removeListener(refresh);
-    super.dispose();
-  }
-
-  void refresh() {
-    if (!mounted) return;
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: i18n.campus.title.text(),
-      subtitle: i18n.campus.desc.text(),
-      leading: const Icon(Icons.location_on),
-      trailing: SegmentedButton<Campus>(
-        showSelectedIcon: false,
-        segments: <ButtonSegment<Campus>>[
-          ButtonSegment<Campus>(value: Campus.fengxian, label: Campus.fengxian.l10nName().text()),
-          ButtonSegment<Campus>(value: Campus.xuhui, label: Campus.xuhui.l10nName().text()),
-        ],
-        selected: <Campus>{Settings.campus},
-        onSelectionChanged: (newSelection) {
-          setState(() {
-            Settings.campus = newSelection.first;
-          });
-        },
-      ),
     );
   }
 }

@@ -289,9 +289,6 @@ settings:
       autoRefresh:
         title: 消费记录自动刷新
         desc: 启动时刷新消费记录
-  campus:
-    title: 你的校区
-    desc: 日程表有所不同
   studentId:
     studentIdCopy2ClipboardTip: 你的学号被复制到剪贴板啦
   changeOaPwd:
