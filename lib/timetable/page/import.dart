@@ -10,6 +10,7 @@ import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/widgets/school.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/utils.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -153,6 +154,12 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     if (newMeta != null) {
       timetable = timetable.copyWithMeta(newMeta);
       final id = TimetableInit.storage.timetable.add(timetable);
+      if (Settings.timetable.autoUseImported) {
+        TimetableInit.storage.timetable.selectedId = id;
+      } else {
+        // use this timetable if no one else
+        TimetableInit.storage.timetable.selectedId ??= id;
+      }
       return (id: id, timetable: timetable);
     }
     return null;
