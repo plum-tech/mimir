@@ -270,20 +270,18 @@ class _CampusSelectorTileState extends State<CampusSelectorTile> {
       title: i18n.campus.title.text(),
       subtitle: i18n.campus.desc.text(),
       leading: const Icon(Icons.location_on),
-      trailing: DropdownMenu<Campus>(
-        initialSelection: Settings.campus,
-        onSelected: (Campus? campus) {
-          if (campus == null) return;
-          Settings.campus = campus;
+      trailing: SegmentedButton<Campus>(
+        showSelectedIcon: false,
+        segments: <ButtonSegment<Campus>>[
+          ButtonSegment<Campus>(value: Campus.fengxian, label: Campus.fengxian.l10nName().text()),
+          ButtonSegment<Campus>(value: Campus.xuhui, label: Campus.xuhui.l10nName().text()),
+        ],
+        selected: <Campus>{Settings.campus},
+        onSelectionChanged: (newSelection) {
+          setState(() {
+            Settings.campus = newSelection.first;
+          });
         },
-        dropdownMenuEntries: Campus.values
-            .map<DropdownMenuEntry<Campus>>(
-              (campus) => DropdownMenuEntry<Campus>(
-                value: campus,
-                label: campus.l10nName(),
-              ),
-            )
-            .toList(),
       ),
     );
   }

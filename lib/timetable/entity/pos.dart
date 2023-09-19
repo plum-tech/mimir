@@ -17,9 +17,12 @@ class TimetablePos {
   /// ```
   final int day;
 
-  const TimetablePos({this.week = 1, this.day = 1});
+  const TimetablePos({
+    required this.week,
+    required this.day,
+  });
 
-  static const initial = TimetablePos();
+  static const initial = TimetablePos(week: 1, day: 1);
 
   static TimetablePos locate(
     DateTime current, {
