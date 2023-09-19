@@ -6,6 +6,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/local.dart';
 import '../i18n.dart';
+import '../utils.dart';
 import 'transaction.dart';
 
 class TransactionList extends StatefulWidget {
@@ -18,25 +19,6 @@ class TransactionList extends StatefulWidget {
 
   @override
   State<TransactionList> createState() => _TransactionListState();
-}
-
-typedef YearMonth = ({int year, int month});
-
-extension YearMonthX on YearMonth {
-  int compareTo(YearMonth other, {bool ascending = true}) {
-    final sign = ascending ? 1 : -1;
-    return switch (this.year - other.year) {
-      > 0 => 1 * sign,
-      < 0 => -1 * sign,
-      _ => switch (this.month - other.month) {
-          > 0 => 1 * sign,
-          < 0 => -1 * sign,
-          _ => 0,
-        }
-    };
-  }
-
-  DateTime toDateTime() => DateTime(year, month);
 }
 
 class _TransactionListState extends State<TransactionList> {
@@ -57,13 +39,7 @@ class _TransactionListState extends State<TransactionList> {
   }
 
   void updateGroupedRecords() {
-    final groupByYearMonth = widget.records
-        .groupListsBy((r) => (year: r.timestamp.year, month: r.timestamp.month))
-        .entries
-        // the latest goes first
-        .map((e) => (time: e.key, records: e.value.sorted((a, b) => -a.timestamp.compareTo(b.timestamp))))
-        .toList();
-    groupByYearMonth.sort((a, b) => a.time.compareTo(b.time, ascending: false));
+    final groupByYearMonth = groupTransactionsByMonthYear(widget.records);
     setState(() {
       month2records = groupByYearMonth;
     });
@@ -74,7 +50,7 @@ class _TransactionListState extends State<TransactionList> {
     return CustomScrollView(
       slivers: month2records.mapIndexed(
         (index, e) {
-          final (:income, :outcome) = accumulate(e.records);
+          final (:income, :outcome) = accumulateTransactions(e.records);
           return GroupedSection(
             title: context.formatYmText((e.time.toDateTime())).text(style: context.textTheme.titleMedium),
             subtitle: "${i18n.income(income.toStringAsFixed(2))}\n${i18n.outcome(outcome.toStringAsFixed(2))}".text(
@@ -91,19 +67,4 @@ class _TransactionListState extends State<TransactionList> {
       ).toList(),
     );
   }
-}
-
-({double income, double outcome}) accumulate(List<Transaction> transactions) {
-  double income = 0;
-  double outcome = 0;
-  for (final t in transactions) {
-    if (t.isConsume) {
-      outcome += t.deltaAmount;
-    } else {
-      if (t.type == TransactionType.subsidy && t.deviceName.contains("支付宝领取终端")) {
-        income += t.deltaAmount;
-      }
-    }
-  }
-  return (income: income, outcome: outcome);
 }

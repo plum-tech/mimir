@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mimir/life/expense_records/storage/local.dart';
 import 'package:mimir/widgets/base_line_chart.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/local.dart';
 import '../i18n.dart';
+import '../init.dart';
 
 class ExpenseStatisticsPage extends StatefulWidget {
   const ExpenseStatisticsPage({super.key});
@@ -13,9 +15,8 @@ class ExpenseStatisticsPage extends StatefulWidget {
 }
 
 class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
-  late List<Transaction> records = [];
+  final List<Transaction> records = ExpenseRecordsInit.storage.getTransactionsByRange() ?? const [];
   final now = DateTime.now();
-
   late int selectedYear = now.year;
   late int selectedMonth = now.month;
 

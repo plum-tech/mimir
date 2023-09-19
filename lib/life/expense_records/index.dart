@@ -83,9 +83,11 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
           label: i18n.check.text(),
         ),
         OutlinedButton(
-          onPressed: () async {
-            context.push("/expense-records/statistics");
-          },
+          onPressed: lastTransaction == null
+              ? null
+              : () async {
+                  context.push("/expense-records/statistics");
+                },
           child: i18n.statistics.text(),
         ),
       ],

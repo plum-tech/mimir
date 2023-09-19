@@ -51,6 +51,7 @@ extension ExpenseStorageX on ExpenseStorage {
   }) {
     final list = transactionTsList;
     if (list == null) return null;
+    if (start == null && end == null) return list;
     return list
         .where((e) => start == null || e == start || e.isAfter(start))
         .where((e) => end == null || e == end || e.isBefore(end))
@@ -66,6 +67,7 @@ extension ExpenseStorageX on ExpenseStorage {
     final transactions = <Transaction>[];
     for (final ts in timestamps) {
       final transaction = getTransactionByTs(ts);
+      assert(transaction != null, "$ts has no transaction");
       if (transaction != null) transactions.add(transaction);
     }
     return transactions;
