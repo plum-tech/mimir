@@ -6,6 +6,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:ical/serializer.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/school/entity/school.dart';
+import 'package:mimir/settings/settings.dart';
+import 'package:mimir/timetable/settings.dart';
+import 'package:mimir/timetable/storage/timetable.dart';
 import 'package:mimir/utils/file.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
@@ -234,8 +237,22 @@ Future<({int id, SitTimetable timetable})?> importTimetableFromFile() async {
   final content = await file.readAsString();
   final json = jsonDecode(content);
   final timetable = SitTimetable.fromJson(json);
-  final id = TimetableInit.storage.timetable.add(timetable);
+  final id = addNewTimetable(timetable);
   return (id: id, timetable: timetable);
+}
+
+/// Adds the [timetable] into [TimetableStorage.timetable].
+/// Updates the selected timetable id.
+/// If [TimetableSettings.autoUseImported] is enabled, the [timetable] will be used.
+int addNewTimetable(SitTimetable timetable){
+  final id = TimetableInit.storage.timetable.add(timetable);
+  if (Settings.timetable.autoUseImported) {
+    TimetableInit.storage.timetable.selectedId = id;
+  } else {
+    // use this timetable if no one else
+    TimetableInit.storage.timetable.selectedId ??= id;
+  }
+  return id;
 }
 
 Future<void> exportTimetableFileAndShare(SitTimetable timetable) async {

@@ -39,14 +39,13 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
 
   Future<void> importFromFile() async {
     try {
-      final id2timetable = await importTimetableFromFile();
-      if (id2timetable != null) {
-        final (:id, timetable: _) = id2timetable;
-        storage.timetable.selectedId ??= id;
-        if (!mounted) return;
-        setState(() {});
-      }
-    } catch (err) {
+      await importTimetableFromFile();
+      if (!mounted) return;
+      setState(() {});
+    } catch (err, stackTrace) {
+      // TODO: Handle permission error
+      debugPrint(err.toString());
+      debugPrintStack(stackTrace: stackTrace);
       if (!mounted) return;
       context.showSnackBar("Format Error. Please select a timetable file.".text());
     }

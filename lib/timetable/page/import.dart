@@ -10,7 +10,6 @@ import 'package:mimir/design/widgets/dialog.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/widgets/school.dart';
-import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/utils.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -77,7 +76,10 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       if (id2timetable == null) return;
       if (!mounted) return;
       context.pop(id2timetable);
-    } catch (err) {
+    } catch (err, stackTrace) {
+      // TODO: Handle permission error
+      debugPrint(err.toString());
+      debugPrintStack(stackTrace: stackTrace);
       if (!mounted) return;
       context.showSnackBar("Format Error. Please select a timetable file.".text());
     }
@@ -153,13 +155,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     );
     if (newMeta != null) {
       timetable = timetable.copyWithMeta(newMeta);
-      final id = TimetableInit.storage.timetable.add(timetable);
-      if (Settings.timetable.autoUseImported) {
-        TimetableInit.storage.timetable.selectedId = id;
-      } else {
-        // use this timetable if no one else
-        TimetableInit.storage.timetable.selectedId ??= id;
-      }
+      final id = addNewTimetable(timetable);
       return (id: id, timetable: timetable);
     }
     return null;
