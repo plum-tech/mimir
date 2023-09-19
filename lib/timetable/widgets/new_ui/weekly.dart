@@ -353,7 +353,7 @@ class _CourseDayColumnState extends State<_CourseDayColumn> {
   }
 }
 
-class _CourseCell extends StatefulWidget {
+class _CourseCell extends StatelessWidget {
   final SitTimetableLesson lesson;
   final SitCourse course;
   final int timeslot;
@@ -370,15 +370,6 @@ class _CourseCell extends StatefulWidget {
   });
 
   @override
-  State<_CourseCell> createState() => _CourseCellState();
-}
-
-class _CourseCellState extends State<_CourseCell> {
-  SitTimetableLesson get lesson => widget.lesson;
-
-  SitCourse get course => widget.course;
-
-  @override
   Widget build(BuildContext context) {
     final Widget res;
     final color = TimetableStyle.of(context).platte.resolveColor(course).byTheme(context.theme);
@@ -389,7 +380,7 @@ class _CourseCellState extends State<_CourseCell> {
     if (context.isPortrait) {
       res = [
         ElevatedNumber(
-          number: widget.timeslot + 1,
+          number: timeslot + 1,
           color: color.withOpacity(0.7),
           margin: 3,
           elevation: 3,
@@ -399,7 +390,7 @@ class _CourseCellState extends State<_CourseCell> {
     } else {
       res = [
         ElevatedNumber(
-          number: widget.timeslot + lesson.duration,
+          number: timeslot + lesson.duration,
           color: color,
           margin: 5,
           elevation: 3,
@@ -408,9 +399,8 @@ class _CourseCellState extends State<_CourseCell> {
       ].stack();
     }
 
-    return res.inCard(color: color, elevation: widget.elevation, margin: EdgeInsets.all(1.5.w)).onTap(() async {
-      if (!mounted) return;
-      await context.showSheet((ctx) => Sheet(courseCode: course.courseCode, timetable: widget.timetable));
+    return res.inCard(color: color, elevation: elevation, margin: EdgeInsets.all(1.5.w)).onTap(() async {
+      await context.showSheet((ctx) => Sheet(courseCode: course.courseCode, timetable: timetable));
     });
   }
 }

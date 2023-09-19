@@ -388,7 +388,7 @@ class TimetableSingleWeekView extends StatelessWidget {
   }
 }
 
-class _CourseCell extends StatefulWidget {
+class _CourseCell extends StatelessWidget {
   final SitTimetableLesson lesson;
   final SitCourse course;
   final SitTimetable timetable;
@@ -401,18 +401,8 @@ class _CourseCell extends StatefulWidget {
   });
 
   @override
-  State<_CourseCell> createState() => _CourseCellState();
-}
-
-class _CourseCellState extends State<_CourseCell> {
-  SitTimetableLesson get lesson => widget.lesson;
-
-  SitCourse get course => widget.course;
-
-  @override
   Widget build(BuildContext context) {
     final size = context.mediaQuery.size;
-
     final color = TimetableStyle.of(context).platte.resolveColor(course).byTheme(context.theme);
     final padding = context.isPortrait ? size.height / 40 : size.height / 80;
     return FilledCard(
@@ -423,8 +413,7 @@ class _CourseCellState extends State<_CourseCell> {
         maxLines: context.isPortrait ? 8 : 5,
       ).padOnly(t: padding),
     ).onTap(() async {
-      if (!mounted) return;
-      await context.showSheet((ctx) => Sheet(courseCode: course.courseCode, timetable: widget.timetable));
+      await context.showSheet((ctx) => Sheet(courseCode: course.courseCode, timetable: timetable));
     });
   }
 
