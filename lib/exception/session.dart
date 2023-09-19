@@ -2,6 +2,7 @@
 enum OaCredentialsErrorType {
   accountPassword,
   captcha,
+  frozen,
 }
 
 class YwbCredentialsException implements Exception {

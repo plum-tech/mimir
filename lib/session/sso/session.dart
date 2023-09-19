@@ -219,9 +219,11 @@ class SsoSession with DioDownloaderMixin implements ISession {
     return response;
   }
 
-  OaCredentialsErrorType parseInvalidType(String message) {
-    if (message.contains("验证码")) {
+  static OaCredentialsErrorType parseInvalidType(String errorMessage) {
+    if (errorMessage.contains("验证码")) {
       return OaCredentialsErrorType.captcha;
+    } else if (errorMessage.contains("冻结")) {
+      return OaCredentialsErrorType.frozen;
     }
     return OaCredentialsErrorType.accountPassword;
   }
@@ -316,7 +318,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
     return await _postLoginRequest(credential.account, hashedPwd, captcha, casTicket);
   }
 
-  final neededHeaders = {
+  static const neededHeaders = {
     "Accept-Encoding": "gzip, deflate, br",
     'Origin': 'https://authserver.sit.edu.cn',
     "Upgrade-Insecure-Requests": "1",

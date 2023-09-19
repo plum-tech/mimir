@@ -239,6 +239,7 @@ login:
   credentialsValidatedTip: Account and password are correct
   accountOrPwdErrorTip: The account or password is incorrect
   captchaErrorTip: The captcha is incorrect
+  accountFrozenTip: The account is frozen
   schoolServerUnconnectedTip: Can't connect to school server
   accountHint: Student ID/Work number
   forgotPwdBtn: Forgot password?

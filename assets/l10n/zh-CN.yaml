@@ -239,6 +239,7 @@ login:
   credentialsValidatedTip: 账号与密码验证成功
   accountOrPwdErrorTip: 账号或密码不正确
   captchaErrorTip: 验证码不正确
+  accountFrozenTip: 账号处于冻结状态
   schoolServerUnconnectedTip: 无法连接学校服务器
   accountHint: 学号/工号
   forgotPwdBtn: 忘记密码？

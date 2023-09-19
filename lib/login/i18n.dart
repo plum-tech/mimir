@@ -41,6 +41,8 @@ class LoginI18n with CommonI18nMixin {
 
   String get captchaErrorTip => "$ns.captchaErrorTip".tr();
 
+  String get accountFrozenTip => "$ns.accountFrozenTip".tr();
+
   String get schoolServerUnconnectedTip => "$ns.schoolServerUnconnectedTip".tr();
 
   String get loginBtn => "$ns.loginBtn".tr();

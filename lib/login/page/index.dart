@@ -110,6 +110,7 @@ class _LoginPageState extends State<LoginPage> {
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       await context.showTip(
+        serious: true,
         title: i18n.failedWarn,
         desc: e.msg,
         ok: i18n.close,
@@ -121,29 +122,41 @@ class _LoginPageState extends State<LoginPage> {
       setState(() => isLoggingIn = false);
       if (e.type == OaCredentialsErrorType.accountPassword) {
         await context.showTip(
+          serious: true,
           title: i18n.failedWarn,
           desc: i18n.accountOrPwdErrorTip,
           ok: i18n.close,
         );
       } else if (e.type == OaCredentialsErrorType.captcha) {
         await context.showTip(
+          serious: true,
           title: i18n.failedWarn,
           desc: i18n.captchaErrorTip,
           ok: i18n.close,
         );
+      } else if (e.type == OaCredentialsErrorType.frozen) {
+        await context.showTip(
+          serious: true,
+          title: i18n.failedWarn,
+          desc: i18n.accountFrozenTip,
+          ok: i18n.close,
+        );
       }
       return;
-    } on DioException catch (e, stacktrace) {
-      debugPrint(e.toString());
+    } on DioException catch (error, stacktrace) {
+      debugPrint(error.toString());
       debugPrintStack(stackTrace: stacktrace);
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       await context.showTip(
+        serious: true,
         title: i18n.failedWarn,
         desc: i18n.schoolServerUnconnectedTip,
         ok: i18n.close,
-        serious: true,
       );
+    } on LoginCaptchaCancelledException {
+      if (!mounted) return;
+      setState(() => isLoggingIn = false);
     }
   }
 
