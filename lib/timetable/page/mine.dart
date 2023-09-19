@@ -32,11 +32,9 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   }
 
   Future<void> importFromSchoolServer() async {
-    final id2timetable = await context.push<({int id, SitTimetable timetable})>("/timetable/import");
-    if (id2timetable != null) {
-      if (!mounted) return;
-      setState(() {});
-    }
+    await context.push<({int id, SitTimetable timetable})>("/timetable/import");
+    if (!mounted) return;
+    setState(() {});
   }
 
   Future<void> importFromFile() async {

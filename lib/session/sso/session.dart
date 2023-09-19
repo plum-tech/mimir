@@ -298,7 +298,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
     if (await needCaptcha(credential.account)) {
       // 识别验证码
       final captchaImage = await getCaptcha();
-      final c = await inputCaptcha!(captchaImage);
+      final c = await inputCaptcha(captchaImage);
       if (c != null) {
         captcha = c;
       } else {
