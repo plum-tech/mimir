@@ -6,7 +6,6 @@ import 'package:mimir/design/widgets/card.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/local.dart';
-import '../utils.dart';
 import "../i18n.dart";
 
 class ExpensePieChart extends StatefulWidget {

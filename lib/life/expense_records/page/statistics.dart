@@ -53,19 +53,22 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
     final years = _getYear(records);
     final months = _getMonth(records, years, selectedYear);
     return CustomScrollView(
       slivers: [
         SliverAppBar(
           pinned: true,
-          expandedHeight: 180,
+          expandedHeight: 200,
           flexibleSpace: FlexibleSpaceBar(
             title: i18n.stats.title.text(),
             centerTitle: true,
             background: YearMonthSelector(
               years: years,
               months: months,
+              initialYear: now.year,
+              initialMonth: now.month,
             ),
           ),
         ),
@@ -120,34 +123,13 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
     for (final record in records) {
       daysAmount[record.timestamp.day - 1] += record.deltaAmount;
     }
-
-    final width = MediaQuery.of(context).size.width - 70;
     return OutlinedCard(
-      margin: const EdgeInsets.fromLTRB(10, 10, 10, 20),
-      child: SizedBox(
-        width: double.infinity,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 30),
-              child: i18n.stats.title.text(style: context.textTheme.titleLarge).center(),
-            ),
-            // const SizedBox(height: 5),
-            Center(
-              child: SizedBox(
-                height: width * 0.5,
-                width: width,
-                child: BaseLineChartWidget(
-                  bottomTitles: List.generate(daysAmount.length, (i) => (i + 1).toString()),
-                  values: daysAmount,
-                ),
-              ),
-            ),
-            const SizedBox(height: 25),
-          ],
-        ),
+      child: AspectRatio(
+        aspectRatio: 1.5,
+        child: BaseLineChartWidget(
+          bottomTitles: List.generate(daysAmount.length, (i) => (i + 1).toString()),
+          values: daysAmount,
+        ).padSymmetric(v: 12,h: 8),
       ),
     );
   }
@@ -193,16 +175,6 @@ class BaseLineChartWidget extends StatelessWidget {
     );
   }
 
-  List<FlSpot> buildSpotList() {
-    return values
-        .map((e) => (e * 100).toInt() / 100) // 保留两位小数
-        .toList()
-        .asMap()
-        .entries
-        .map((e) => FlSpot(e.key.toDouble(), e.value))
-        .toList();
-  }
-
   @override
   Widget build(BuildContext context) {
     return LineChart(
@@ -216,7 +188,7 @@ class BaseLineChartWidget extends StatelessWidget {
         ),
         borderData: FlBorderData(
           border: const Border(
-            bottom: BorderSide(width: 1.0),
+            bottom: BorderSide.none,
           ),
         ),
         lineBarsData: [
@@ -224,24 +196,22 @@ class BaseLineChartWidget extends StatelessWidget {
             isStrokeCapRound: true,
             belowBarData: BarAreaData(
               show: true,
-              color: Theme.of(context).secondaryHeaderColor.withAlpha(70),
+              color: context.colorScheme.primary.withOpacity(0.15),
             ),
-            spots: buildSpotList(),
-            color: Colors.blueAccent,
-            preventCurveOverShooting: false,
-            // isCurved: true,
-            barWidth: 2,
-            preventCurveOvershootingThreshold: 1.0,
+            spots: values
+                .map((e) => (e * 100).toInt() / 100) // 保留两位小数
+                .toList()
+                .asMap()
+                .entries
+                .map((e) => FlSpot(e.key.toDouble(), e.value))
+                .toList(),
+            color: context.colorScheme.primary,
+            isCurved: true,
+            preventCurveOverShooting: true,
+            barWidth: 1,
           ),
         ],
-
         ///图表线表线框
-        gridData: FlGridData(
-          show: true,
-          drawVerticalLine: true,
-          horizontalInterval: 2,
-          verticalInterval: 2,
-        ),
         titlesData: FlTitlesData(
           show: true,
           rightTitles: AxisTitles(),
