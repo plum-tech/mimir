@@ -53,7 +53,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
             sections: widget.records.entries.mapIndexed((i, entry) {
               final isTouched = i == touchedIndex;
               final MapEntry(key: type, value: (:records,:percentage)) = entry;
-              final (income: _, :outcome) = accumulateTransactions(records);
+              final (income: _, :outcome) = accumulateTransactionIncomeOutcome(records);
               final color = type.color.harmonizeWith(context.colorScheme.primary);
               return PieChartSectionData(
                 color: color.withOpacity(isTouched ? 1 : 0.8),

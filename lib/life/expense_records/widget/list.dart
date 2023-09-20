@@ -50,7 +50,7 @@ class _TransactionListState extends State<TransactionList> {
     return CustomScrollView(
       slivers: month2records.mapIndexed(
         (index, e) {
-          final (:income, :outcome) = accumulateTransactions(e.records);
+          final (:income, :outcome) = accumulateTransactionIncomeOutcome(e.records);
           return GroupedSection(
             title: context.formatYmText((e.time.toDateTime())).text(style: context.textTheme.titleMedium),
             subtitle: "${i18n.income(income.toStringAsFixed(2))}\n${i18n.outcome(outcome.toStringAsFixed(2))}".text(

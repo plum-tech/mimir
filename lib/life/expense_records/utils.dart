@@ -67,7 +67,9 @@ bool validateTransaction(Transaction t) {
   return true;
 }
 
-({double income, double outcome}) accumulateTransactions(List<Transaction> transactions) {
+/// Accumulates the income and outcome.
+/// Ignores invalid transactions by [validateTransaction].
+({double income, double outcome}) accumulateTransactionIncomeOutcome(List<Transaction> transactions) {
   double income = 0;
   double outcome = 0;
   for (final t in transactions) {
@@ -79,4 +81,13 @@ bool validateTransaction(Transaction t) {
     }
   }
   return (income: income, outcome: outcome);
+}
+
+/// Accumulates the [Transaction.deltaAmount].
+double accumulateTransactionAmount(List<Transaction> transactions) {
+  var total = 0.0;
+  for (final t in transactions) {
+    total += t.deltaAmount;
+  }
+  return total;
 }

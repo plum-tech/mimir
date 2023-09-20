@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/life/expense_records/storage/local.dart';
+import 'package:mimir/life/expense_records/utils.dart';
 import 'package:mimir/widgets/base_line_chart.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -20,7 +20,8 @@ class ExpenseStatisticsPage extends StatefulWidget {
 
 class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
   late List<Transaction> records;
-  late Map<TransactionType, List<Transaction>> type2transactions;
+  late double total;
+  late Map<TransactionType, ({List<Transaction> records, double percentage})> type2transactions;
   late int selectedYear;
   late int selectedMonth;
 
@@ -40,7 +41,12 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
         ) ??
         const [];
     records.retainWhere((record) => record.type.isConsume);
-    type2transactions = records.groupListsBy((record) => record.type);
+    final type2transactions = records.groupListsBy((record) => record.type);
+    final type2total = type2transactions.map((type, records) => MapEntry(type, accumulateTransactionAmount(records)));
+    total = type2total.values.sum;
+
+    this.type2transactions = type2transactions
+        .map((type, records) => MapEntry(type, (records: records, percentage: (type2total[type] ?? 0) / total)));
   }
 
   @override
@@ -176,46 +182,5 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
         ),
       ),
     );
-  }
-
-  List<Widget> _buildClassifiedStat(BuildContext ctx) {
-    final theme = ctx.theme;
-    // 各分类下消费的统计
-    List<double> sumByClassification = List.filled(TransactionType.values.length, 0.0);
-    for (final line in _filterExpense()) {
-      sumByClassification[line.type.index] +=
-          ((delta) => delta < 0 ? -delta : 0)(line.balanceAfter - line.balanceBefore);
-    }
-    final backgroundColor = theme.secondaryHeaderColor;
-
-    double sum = sumByClassification.fold(0.0, (previousValue, element) => previousValue += element);
-
-    return TransactionType.values.where((e) => !{TransactionType.topUp, TransactionType.subsidy}.contains(e)).map(
-      (type) {
-        final double sumInType = sumByClassification[type.index];
-        final double percentage = sum != 0 ? sumInType / sum : 0;
-
-        return ListTile(
-          leading: type.icon.make(color: type.color, size: 32),
-          title: type.localized().text(style: theme.textTheme.titleMedium),
-          subtitle: LinearProgressIndicator(value: percentage, backgroundColor: backgroundColor),
-          // 下方 SizedBox 用于限制文字宽度, 使左侧进度条的右端对齐.
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              i18n.unit.rmb(sumInType.toStringAsFixed(2)).text(),
-              SizedBox(
-                width: 60,
-                child: Text(
-                  '${(percentage * 100).toStringAsFixed(2)}%',
-                  textAlign: TextAlign.end,
-                ),
-              ),
-            ],
-          ),
-          dense: true,
-        );
-      },
-    ).toList();
   }
 }
