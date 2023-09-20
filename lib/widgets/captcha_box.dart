@@ -47,7 +47,6 @@ class _CaptchaBoxState extends State<CaptchaBox> {
         $TextField$(
           controller: $captcha,
           placeholder: _i18n.enterHint,
-          prefixIcon: const Icon(Icons.image_search_rounded),
           onSubmit: (value) {
             context.navigator.pop(value);
           },
