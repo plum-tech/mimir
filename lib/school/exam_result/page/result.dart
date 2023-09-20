@@ -112,7 +112,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
             ),
             if (allResults != null)
               if (allResults.isEmpty)
-                SliverToBoxAdapter(
+                SliverFillRemaining(
                   child: LeavingBlank(
                     icon: Icons.inbox_outlined,
                     desc: i18n.noResultsTip,

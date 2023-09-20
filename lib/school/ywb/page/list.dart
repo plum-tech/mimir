@@ -91,7 +91,7 @@ class _YwbApplicationListPageState extends State<YwbApplicationListPage> {
         ),
         if (metas != null)
           if (metas.isEmpty)
-            SliverToBoxAdapter(
+            SliverFillRemaining(
               child: LeavingBlank(
                 icon: Icons.inbox_outlined,
                 desc: i18n.noApplicationsTip,

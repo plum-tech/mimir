@@ -71,7 +71,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             ],
           ),
           if (timetables.isEmpty)
-            SliverToBoxAdapter(
+            SliverFillRemaining(
               child: LeavingBlank(
                 icon: Icons.calendar_month_rounded,
                 desc: i18n.mine.emptyTip,

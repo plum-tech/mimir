@@ -77,7 +77,7 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
           ),
           if (exams != null)
             if (exams.isEmpty)
-              SliverToBoxAdapter(
+              SliverFillRemaining(
                 child: LeavingBlank(
                   icon: Icons.inbox_outlined,
                   desc: i18n.noExamsTip,

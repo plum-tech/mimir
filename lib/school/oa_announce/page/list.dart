@@ -53,7 +53,7 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
           ),
           if (records != null)
             if (records.isEmpty)
-              SliverToBoxAdapter(
+              SliverFillRemaining(
                 child: LeavingBlank(
                   icon: Icons.inbox_outlined,
                   desc: i18n.noOaAnnouncesTip,

@@ -44,7 +44,7 @@ class _YwbMailboxPageState extends State<YwbMailboxPage> {
         ),
         if (msgPage != null)
           if (msgPage.msgList.isEmpty)
-            SliverToBoxAdapter(
+            SliverFillRemaining(
               child: LeavingBlank(
                 icon: Icons.inbox_outlined,
                 desc: i18n.mailbox.noMailsTip,
