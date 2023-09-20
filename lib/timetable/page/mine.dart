@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
@@ -83,7 +85,8 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
               itemCount: timetables.length,
               itemBuilder: (ctx, i) {
                 final (:id, row: timetable) = timetables[i];
-                return buildTimetableEntry(id, timetable, selectedId);
+                final isSelected = selectedId == id;
+                return buildTimetableEntry(id, timetable, isSelected);
               },
             ),
         ],
@@ -96,20 +99,81 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
     );
   }
 
-  Widget buildTimetableEntry(int id, SitTimetable timetable, int? selectedId) {
-    return TimetableEntry(
-      id: id,
-      timetable: timetable,
-      moreAction: buildActionPopup(id, timetable, selectedId == id),
-      actions: (
-        use: (timetable) {
-          storage.timetable.selectedId = id;
-          setState(() {});
-        },
-        preview: (timetable) {
-          context.push("/timetable/preview/$id", extra: timetable);
-        }
-      ),
+  Widget buildTimetableEntry(int id, SitTimetable timetable, bool isSelected) {
+    if (!isCupertino) {
+      return TimetableEntry(
+        id: id,
+        timetable: timetable,
+        moreAction: buildActionPopup(id, timetable, isSelected),
+        actions: (
+          use: (id, timetable) {
+            storage.timetable.selectedId = id;
+            setState(() {});
+          },
+          preview: (id, timetable) {
+            context.push("/timetable/preview/$id", extra: timetable);
+          }
+        ),
+      );
+    }
+    return CupertinoContextMenu.builder(
+      actions: [
+        if (!isSelected)
+          CupertinoContextMenuAction(
+            trailingIcon: CupertinoIcons.star,
+            onPressed: () async {
+              Navigator.of(context, rootNavigator: true).pop();
+              await Future.delayed(const Duration(milliseconds: 336));
+              if (!mounted) return;
+              storage.timetable.selectedId = id;
+              setState(() {});
+            },
+            child: i18n.mine.use.text(),
+          ),
+        CupertinoContextMenuAction(
+          trailingIcon: CupertinoIcons.pencil,
+          onPressed: () async {
+            Navigator.of(context, rootNavigator: true).pop();
+            await onEdit(id, timetable);
+          },
+          child: i18n.mine.edit.text(),
+        ),
+        if (!isSelected)
+          CupertinoContextMenuAction(
+            trailingIcon: CupertinoIcons.eye,
+            onPressed: () async {
+              Navigator.of(context, rootNavigator: true).pop();
+              await Future.delayed(const Duration(milliseconds: 336));
+              if (!mounted) return;
+              context.push("/timetable/preview/$id", extra: timetable);
+            },
+            child: i18n.mine.preview.text(),
+          ),
+        CupertinoContextMenuAction(
+          trailingIcon: CupertinoIcons.doc,
+          onPressed: () async {
+            Navigator.of(context, rootNavigator: true).pop();
+            await exportTimetableFileAndShare(timetable);
+          },
+          child: i18n.mine.exportFile.text(),
+        ),
+        CupertinoContextMenuAction(
+          trailingIcon: CupertinoIcons.delete,
+          onPressed: () async {
+            Navigator.of(context, rootNavigator: true).pop();
+            await onDelete(id);
+          },
+          isDestructiveAction: true,
+          child: i18n.mine.delete.text(),
+        ),
+      ],
+      builder: (ctx, animation) {
+        return TimetableEntry(
+          id: id,
+          timetable: timetable,
+          moreAction: isSelected ? Icon(CupertinoIcons.star_fill, color: context.colorScheme.primary) : null,
+        ).scrolled(physics: const NeverScrollableScrollPhysics());
+      },
     );
   }
 
@@ -125,16 +189,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             title: i18n.mine.edit.text(),
             onTap: () async {
               ctx.pop();
-              final newMeta = await ctx.showSheet<TimetableMeta>(
-                (ctx) => MetaEditor(meta: timetable.meta).padOnly(b: MediaQuery.of(ctx).viewInsets.bottom),
-                dismissible: false,
-              );
-              if (newMeta != null) {
-                final newTimetable = timetable.copyWithMeta(newMeta);
-                storage.timetable.setOf(id, newTimetable);
-                if (!mounted) return;
-                setState(() {});
-              }
+              onEdit(id, timetable);
             },
           ),
         ),
@@ -154,45 +209,62 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             title: i18n.mine.delete.text(style: const TextStyle(color: Colors.redAccent)),
             onTap: () async {
               ctx.pop();
-              final confirm = await ctx.showRequest(
-                title: i18n.mine.deleteRequest,
-                desc: i18n.mine.deleteRequestDesc,
-                yes: i18n.delete,
-                no: i18n.cancel,
-                highlight: true,
-              );
-              if (confirm == true) {
-                storage.timetable.delete(id);
-                if (!mounted) return;
-                if (!storage.timetable.hasAny) {
-                  // If no timetable exists, go out.
-                  ctx.pop();
-                }
-                setState(() {});
-              }
+              onDelete(id);
             },
           ),
         ),
       ],
     );
   }
+
+  Future<void> onEdit(int id, SitTimetable timetable) async {
+    final newMeta = await context.showSheet<TimetableMeta>(
+      (ctx) => MetaEditor(meta: timetable.meta).padOnly(b: MediaQuery.of(ctx).viewInsets.bottom),
+      dismissible: false,
+    );
+    if (newMeta != null) {
+      final newTimetable = timetable.copyWithMeta(newMeta);
+      storage.timetable.setOf(id, newTimetable);
+      if (!mounted) return;
+      setState(() {});
+    }
+  }
+
+  Future<void> onDelete(int id) async {
+    final confirm = await context.showRequest(
+      title: i18n.mine.deleteRequest,
+      desc: i18n.mine.deleteRequestDesc,
+      yes: i18n.delete,
+      no: i18n.cancel,
+      highlight: true,
+    );
+    if (confirm == true) {
+      storage.timetable.delete(id);
+      if (!mounted) return;
+      if (!storage.timetable.hasAny) {
+        // If no timetable exists, go out.
+        context.pop();
+      }
+      setState(() {});
+    }
+  }
 }
 
-typedef TimetableCallback = void Function(SitTimetable tiemtable);
+typedef TimetableCallback = void Function(int id, SitTimetable tiemtable);
 typedef TimetableActions = ({TimetableCallback use, TimetableCallback preview});
 
 class TimetableEntry extends StatelessWidget {
   final int id;
   final SitTimetable timetable;
   final Widget? moreAction;
-  final TimetableActions actions;
+  final TimetableActions? actions;
 
   const TimetableEntry({
     super.key,
     required this.id,
     required this.timetable,
-    required this.moreAction,
-    required this.actions,
+    this.actions,
+    this.moreAction,
   });
 
   @override
@@ -202,39 +274,43 @@ class TimetableEntry extends StatelessWidget {
     final semester = timetable.semester.localized();
     final textTheme = context.textTheme;
     final moreAction = this.moreAction;
+    final actions = this.actions;
     final widget = [
       timetable.name.text(style: textTheme.titleLarge),
       "$year, $semester".text(style: textTheme.titleMedium),
       "${i18n.startWith} ${context.formatYmdText(timetable.startDate)}".text(style: textTheme.bodyLarge),
-      OverflowBar(
-        alignment: MainAxisAlignment.spaceBetween,
-        children: [
-          [
-            if (isSelected)
-              FilledButton.icon(
-                icon: const Icon(Icons.check),
-                label: i18n.mine.used.text(),
-                onPressed: null,
-              )
-            else
-              FilledButton(
-                onPressed: () {
-                  actions.use(timetable);
-                },
-                child: i18n.mine.use.text(),
-              ),
-            if (!isSelected)
-              OutlinedButton(
-                onPressed: () {
-                  actions.preview(timetable);
-                },
-                child: i18n.mine.preview.text(),
-              )
-          ].wrap(spacing: 12),
-          if (moreAction != null) moreAction,
-        ],
-      ),
-    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 20);
+      if (actions != null)
+        OverflowBar(
+          alignment: MainAxisAlignment.spaceBetween,
+          children: [
+            [
+              if (isSelected)
+                FilledButton.icon(
+                  icon: const Icon(Icons.check),
+                  label: i18n.mine.used.text(),
+                  onPressed: null,
+                )
+              else
+                FilledButton(
+                  onPressed: () {
+                    actions.use(id, timetable);
+                  },
+                  child: i18n.mine.use.text(),
+                ),
+              if (!isSelected)
+                OutlinedButton(
+                  onPressed: () {
+                    actions.preview(id, timetable);
+                  },
+                  child: i18n.mine.preview.text(),
+                )
+            ].wrap(spacing: 12),
+            if (moreAction != null) moreAction,
+          ],
+        )
+      else if (moreAction != null)
+        moreAction.align(at: Alignment.bottomRight),
+    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15);
     return isSelected ? widget.inFilledCard() : widget.inOutlinedCard();
   }
 }
