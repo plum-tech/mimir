@@ -111,7 +111,7 @@ class MimirHttpOverrides extends HttpOverrides {
     final client = super.createHttpClient(context);
 
     // 设置证书检查
-    if (config.allowBadCertificate || Settings.useProxy || config.httpProxy != null) {
+    if (config.allowBadCertificate || Settings.useHttpProxy || config.httpProxy != null) {
       client.badCertificateCallback = (cert, host, port) => true;
     }
 
@@ -127,9 +127,9 @@ class MimirHttpOverrides extends HttpOverrides {
         // 不行
         Log.info('测试环境代理服务器为空或不合法，将不使用代理服务器');
       }
-    } else if (Settings.useProxy && Settings.proxy.isNotEmpty) {
+    } else if (Settings.useHttpProxy && Settings.httpProxy.isNotEmpty) {
       Log.info('线上设置代理: ${config.httpProxy}');
-      client.findProxy = (url) => getProxyPolicyByUrl(url, Settings.proxy);
+      client.findProxy = (url) => getProxyPolicyByUrl(url, Settings.httpProxy);
     }
     return client;
   }

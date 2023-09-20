@@ -41,7 +41,7 @@ class Init {
 
   static Future<void> _init({bool? debugNetwork}) async {
     // Initialize the window size before others for a better experience when loading.
-    if (UniversalPlatform.isDesktop && !GlobalConfig.isTestEnv) {
+    if (UniversalPlatform.isDesktop) {
       await DesktopInit.init();
     }
 
@@ -66,7 +66,7 @@ class Init {
     );
 
     await Global.init(
-      debugNetwork: debugNetwork ?? Settings.isGlobalProxy,
+      debugNetwork: debugNetwork ?? Settings.isGlobalHttpProxy,
       cookieBox: HiveInit.cookies,
       credentials: CredentialInit.storage,
     );

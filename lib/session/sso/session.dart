@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:cookie_jar/cookie_jar.dart';
-import 'package:dio/dio.dart' hide Lock;
+import 'package:dio/dio.dart';
 import 'package:mimir/credential/entity/credential.dart';
 import 'package:mimir/credential/init.dart';
 import 'package:mimir/exception/session.dart';
@@ -14,10 +14,18 @@ import 'package:synchronized/synchronized.dart';
 import '../../utils/dio_utils.dart';
 import 'encryption.dart';
 
-typedef SsoSessionErrorCallback = void Function(Object e, StackTrace t);
-typedef SsoSessionCaptchaCallback = Future<String?> Function(Uint8List imageBytes);
+const _neededHeaders = {
+  "Accept-Encoding": "gzip, deflate, br",
+  'Origin': 'https://authserver.sit.edu.cn',
+  "Upgrade-Insecure-Requests": "1",
+  "Sec-Fetch-Dest": "document",
+  "Sec-Fetch-Mode": "navigate",
+  "Sec-Fetch-Site": "same-origin",
+  "Sec-Fetch-User": "?1",
+  "Referer": "https://authserver.sit.edu.cn/authserver/login",
+};
 
-// TODO: rewrite login flow.
+// TODO: improve login flow.
 /// Single Sign-On
 class SsoSession with DioDownloaderMixin implements ISession {
   static const String _authServerUrl = 'https://authserver.sit.edu.cn/authserver';
@@ -30,23 +38,15 @@ class SsoSession with DioDownloaderMixin implements ISession {
   @override
   final Dio dio;
 
-  CookieJar cookieJar;
-
-  /// 登录状态
-  bool isOnline = false;
-
-  // If login successful, credential is non-null.
-  OaCredentials? _credential;
+  final CookieJar cookieJar;
 
   /// Session错误拦截器
-  SsoSessionErrorCallback? onError;
+  final void Function(Object error, StackTrace stackTrace)? onError;
 
   /// 手动验证码
-  SsoSessionCaptchaCallback inputCaptcha;
+  final Future<String?> Function(Uint8List imageBytes) inputCaptcha;
 
-  bool enableSsoErrorCallback = true;
-
-  /// 惰性登录锁
+  /// Lock it to prevent simultaneous login.
   final loginLock = Lock();
 
   SsoSession({
@@ -56,30 +56,19 @@ class SsoSession with DioDownloaderMixin implements ISession {
     this.onError,
   });
 
-  Future<void> runWithNoErrorCallback(Future<void> Function() callback) async {
-    enableSsoErrorCallback = false;
-    try {
-      await callback();
-    } finally {
-      enableSsoErrorCallback = true;
-    }
-  }
-
   Future<bool> checkConnectivity({
     String url = 'http://jwxt.sit.edu.cn/',
   }) async {
     try {
-      await runWithNoErrorCallback(() async {
-        await _dioRequest(
-          url,
-          'GET',
-          options: Options(
-            contentType: Headers.formUrlEncodedContentType,
-            followRedirects: false,
-            validateStatus: (status) => status! < 400,
-          ),
-        );
-      });
+      await _dioRequest(
+        url,
+        'GET',
+        options: Options(
+          contentType: Headers.formUrlEncodedContentType,
+          followRedirects: false,
+          validateStatus: (status) => status! < 400,
+        ),
+      );
       return true;
     } catch (e) {
       return false;
@@ -93,13 +82,11 @@ class SsoSession with DioDownloaderMixin implements ISession {
 
   /// 进行登录操作
   Future<void> ensureLoginLocked(String url) async {
-    isOnline = false;
     await loginLock.synchronized(() async {
-      if (isOnline) return;
       // 只有用户名与密码均不为空时，才尝试重新登录，否则就抛异常
-      final credential = _credential;
-      if (credential != null) {
-        await _login(credential);
+      final credentials = CredentialInit.storage.oaCredentials;
+      if (credentials != null) {
+        await _login(credentials);
       } else {
         throw NeedLoginException(url: url);
       }
@@ -130,10 +117,8 @@ class SsoSession with DioDownloaderMixin implements ISession {
         data: data,
         options: options,
       );
-    } catch (e, t) {
-      if (onError != null && enableSsoErrorCallback) {
-        onError!(e, t);
-      }
+    } catch (error, stackTrace) {
+      onError?.call(error, stackTrace);
       rethrow;
     }
   }
@@ -154,7 +139,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
       final response = await dio.request(
         url,
         queryParameters: queryParameters,
-        options: options!.copyWith(
+        options: options?.copyWith(
           headers: options.headers,
           method: method,
           followRedirects: false,
@@ -167,7 +152,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
         onReceiveProgress: onReceiveProgress,
       );
       // 处理重定向
-      return await DioUtils.processRedirect(dio, response, headers: neededHeaders);
+      return await DioUtils.processRedirect(dio, response, headers: _neededHeaders);
     }
 
     // 第一次先正常请求
@@ -182,19 +167,14 @@ class SsoSession with DioDownloaderMixin implements ISession {
     }
   }
 
-  /// 惰性登录，只有在第一次请求跳转到登录页时才开始尝试真正的登录
-  void lazyLogin(OaCredentials credential) {
-    _credential = credential;
-  }
-
   /// 带异常的登录, 但不处理验证码识别错误问题.
-  Future<Response> _login(OaCredentials credential) async {
-    Log.info('尝试登录：${credential.account}');
+  Future<Response> _login(OaCredentials credentials) async {
+    Log.info('尝试登录：${credentials.account}');
     Log.debug('当前登录UA: ${dio.options.headers['User-Agent']}');
     // 在 OA 登录时, 服务端会记录同一 cookie 用户登录次数和输入错误次数,
     // 所以需要在登录前清除所有 cookie, 避免用户重试时出错.
     cookieJar.deleteAll();
-    final response = await _postLoginProcess(credential);
+    final response = await _postLoginProcess(credentials);
     final page = BeautifulSoup(response.data);
 
     final emptyPage = BeautifulSoup('');
@@ -212,9 +192,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
       Log.error('未知验证错误,此时url为: ${response.realUri}');
       throw const UnknownAuthException();
     }
-    Log.info('登录成功：${credential.account}');
-    isOnline = true;
-    _credential = credential;
+    Log.info('登录成功：${credentials.account}');
     CredentialInit.storage.oaLastAuthTime = DateTime.now();
     return response;
   }
@@ -254,7 +232,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
     Future<String> getAuthServerHtml() async {
       final response = await dio.get(
         _loginUrl,
-        options: Options(headers: Map.from(neededHeaders)..remove('Referer')),
+        options: Options(headers: Map.from(_neededHeaders)..remove('Referer')),
       );
       return response.data;
     }
@@ -267,7 +245,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
           'username': username,
           'pwdEncrypt2': 'pwdEncryptSalt',
         },
-        options: Options(headers: neededHeaders),
+        options: Options(headers: _neededHeaders),
       );
       final needCaptcha = response.data == 'true';
       debug('当前账户: $username, 是否需要验证码: $needCaptcha');
@@ -280,7 +258,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
         _captchaUrl,
         options: Options(
           responseType: ResponseType.bytes,
-          headers: neededHeaders,
+          headers: _neededHeaders,
         ),
       );
       Uint8List captchaData = response.data;
@@ -318,17 +296,6 @@ class SsoSession with DioDownloaderMixin implements ISession {
     return await _postLoginRequest(credential.account, hashedPwd, captcha, casTicket);
   }
 
-  static const neededHeaders = {
-    "Accept-Encoding": "gzip, deflate, br",
-    'Origin': 'https://authserver.sit.edu.cn',
-    "Upgrade-Insecure-Requests": "1",
-    "Sec-Fetch-Dest": "document",
-    "Sec-Fetch-Mode": "navigate",
-    "Sec-Fetch-Site": "same-origin",
-    "Sec-Fetch-User": "?1",
-    "Referer": "https://authserver.sit.edu.cn/authserver/login",
-  };
-
   /// 登录统一认证平台
   Future<Response> _postLoginRequest(String username, String hashedPassword, String captcha, String casTicket) async {
     final requestBody = {
@@ -350,10 +317,10 @@ class SsoSession with DioDownloaderMixin implements ISession {
           validateStatus: (status) {
             return status! < 400;
           },
-          headers: neededHeaders,
+          headers: _neededHeaders,
         ));
     // 处理重定向
-    return await DioUtils.processRedirect(dio, res, headers: neededHeaders);
+    return await DioUtils.processRedirect(dio, res, headers: _neededHeaders);
   }
 
   @override

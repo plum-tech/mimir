@@ -22,9 +22,9 @@ class _ThemeK {
 
 class _NetworkK {
   static const ns = '/network';
-  static const proxy = '$ns/proxy';
-  static const useProxy = '$ns/useProxy';
-  static const isGlobalProxy = '$ns/isGlobalProxy';
+  static const httpProxy = '$ns/httpProxy';
+  static const useHttpProxy = '$ns/useHttpProxy';
+  static const isGlobalHttpProxy = '$ns/isGlobalHttpProxy';
 }
 
 class _DeveloperK {
@@ -79,19 +79,19 @@ class SettingsImpl {
   set lastWindowSize(Size? value) => box.put(_ThemeK.lastWindowSize, value ?? R.defaultWindowSize);
 
   // network
-  String get proxy => box.get(_NetworkK.proxy, defaultValue: '');
+  String get httpProxy => box.get(_NetworkK.httpProxy, defaultValue: '');
 
-  set proxy(String foo) => box.put(_NetworkK.proxy, foo);
-
-  /// [false] by default.
-  bool get useProxy => box.get(_NetworkK.useProxy) ?? false;
-
-  set useProxy(bool foo) => box.put(_NetworkK.useProxy, foo);
+  set httpProxy(String foo) => box.put(_NetworkK.httpProxy, foo);
 
   /// [false] by default.
-  bool get isGlobalProxy => box.get(_NetworkK.isGlobalProxy) ?? false;
+  bool get useHttpProxy => box.get(_NetworkK.useHttpProxy) ?? false;
 
-  set isGlobalProxy(bool foo) => box.put(_NetworkK.isGlobalProxy, foo);
+  set useHttpProxy(bool foo) => box.put(_NetworkK.useHttpProxy, foo);
+
+  /// [false] by default.
+  bool get isGlobalHttpProxy => box.get(_NetworkK.isGlobalHttpProxy) ?? false;
+
+  set isGlobalHttpProxy(bool foo) => box.put(_NetworkK.isGlobalHttpProxy, foo);
 
   // Developer
   bool? get showErrorInfoDialog => box.get(_DeveloperK.showErrorInfoDialog);
