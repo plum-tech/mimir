@@ -162,30 +162,34 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: widget.isGuarded ? i18n.loginRequired.text() : i18n.loginOa.text(),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              context.push("/settings");
-            },
-          ),
-        ],
-        bottom: isLoggingIn
-            ? const PreferredSize(
-                preferredSize: Size.fromHeight(4),
-                child: LinearProgressIndicator(),
-              )
-            : null,
+    return GestureDetector(
+      onTap: () {
+        // dismiss the keyboard when tap out of TextField.
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: widget.isGuarded ? i18n.loginRequired.text() : i18n.loginOa.text(),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                context.push("/settings");
+              },
+            ),
+          ],
+          bottom: isLoggingIn
+              ? const PreferredSize(
+                  preferredSize: Size.fromHeight(4),
+                  child: LinearProgressIndicator(),
+                )
+              : null,
+        ),
+        body: buildBody(),
+        //to avoid overflow when keyboard is up.
+        bottomNavigationBar: const ForgotPasswordButton(),
       ),
-      body: buildBody(),
-      //to avoid overflow when keyboard is up.
-      bottomNavigationBar: [
-        const ForgotPasswordButton(),
-      ].wrap(align: WrapAlignment.center).padAll(10),
     );
   }
 
@@ -209,8 +213,7 @@ class _LoginPageState extends State<LoginPage> {
         .column(mas: MainAxisSize.min)
         .scrolled(physics: const NeverScrollableScrollPhysics())
         .padH(25.h)
-        .center()
-        .safeArea();
+        .center();
   }
 
   Widget buildLoginForm() {
@@ -244,9 +247,9 @@ class _LoginPageState extends State<LoginPage> {
             autofocus: true,
             enableSuggestions: false,
             obscureText: !isPasswordClear,
-            onFieldSubmitted: (inputted) {
+            onFieldSubmitted: (inputted) async {
               if (!isLoggingIn) {
-                onLogin();
+                await onLogin();
               }
             },
             decoration: InputDecoration(

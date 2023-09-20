@@ -39,21 +39,25 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: [
-        buildForm(),
-        SizedBox(height: 10.h),
-        buildLoginButton(),
-      ]
-          .column(mas: MainAxisSize.min)
-          .scrolled(physics: const NeverScrollableScrollPhysics())
-          .padH(25.h)
-          .center()
-          .safeArea(),
-      bottomNavigationBar: [
-        const ForgotPasswordButton(),
-      ].wrap(align: WrapAlignment.center).padAll(10),
+    return GestureDetector(
+      onTap: () {
+        // dismiss the keyboard when tap out of TextField.
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: buildBody(),
+        bottomNavigationBar: const ForgotPasswordButton(),
+      ),
     );
+  }
+
+  Widget buildBody() {
+    return [
+      buildForm(),
+      SizedBox(height: 10.h),
+      buildLoginButton(),
+    ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25.h).center();
   }
 
   Widget buildForm() {
@@ -93,7 +97,11 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
             autocorrect: false,
             enableSuggestions: false,
             obscureText: !isPasswordClear,
-            onFieldSubmitted: (inputted) {},
+            onFieldSubmitted: (inputted) async {
+              if (!isLoggingIn) {
+                await onLogin();
+              }
+            },
             decoration: InputDecoration(
               labelText: "Password",
               icon: const Icon(Icons.lock),
