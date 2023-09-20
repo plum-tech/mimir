@@ -176,6 +176,10 @@ expenseRecords:
   outcome: "支出: {} 元"
   refreshSuccessTip: 消费记录刷新成功
   refreshFailedTip: 消费记录刷新失败
+  statsMode:
+    weekly: 周
+    monthly: 月
+    yearly: 年
   view:
     balance: 卡内余额
     rmb: 元

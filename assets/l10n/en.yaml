@@ -176,6 +176,10 @@ expenseRecords:
   outcome: "Outcome: ¥{}"
   refreshSuccessTip: Expense records refreshed successfully
   refreshFailedTip: Failed to refresh Expense records
+  statsMode:
+    weekly: Weekly
+    monthly: Monthly
+    yearly: Yearly
   view:
     balance: Balance
     rmb: RMB

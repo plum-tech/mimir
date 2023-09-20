@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
+import 'package:mimir/life/expense_records/entity/statistics.dart';
 import 'package:mimir/life/expense_records/storage/local.dart';
 import 'package:mimir/life/expense_records/utils.dart';
 import 'package:rettulf/rettulf.dart';
@@ -53,32 +54,63 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            title: SegmentedButton<StatisticsMode>(
+              showSelectedIcon: false,
+              segments: StatisticsMode.values
+                  .map((e) => ButtonSegment<StatisticsMode>(
+                        value: e,
+                        label: e.l10nName().text(),
+                      ))
+                  .toList(),
+              selected: <StatisticsMode>{StatisticsMode.weekly},
+              onSelectionChanged: (newSelection) {
+                setState(() {});
+              },
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: _buildChartView(),
+          ),
+          SliverToBoxAdapter(
+            child: ExpensePieChart(records: type2transactions),
+          ),
+        ],
+      ),
+    );
+
     final now = DateTime.now();
     final years = _getYear(records);
     final months = _getMonth(records, years, selectedYear);
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          pinned: true,
-          expandedHeight: 200,
-          flexibleSpace: FlexibleSpaceBar(
-            title: i18n.stats.title.text(),
-            centerTitle: true,
-            background: YearMonthSelector(
-              years: years,
-              months: months,
-              initialYear: now.year,
-              initialMonth: now.month,
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            expandedHeight: 200,
+            flexibleSpace: FlexibleSpaceBar(
+              title: i18n.stats.title.text(),
+              centerTitle: true,
+              background: YearMonthSelector(
+                years: years,
+                months: months,
+                initialYear: now.year,
+                initialMonth: now.month,
+              ),
             ),
           ),
-        ),
-        SliverToBoxAdapter(
-          child: _buildChartView(),
-        ),
-        SliverToBoxAdapter(
-          child: ExpensePieChart(records: type2transactions),
-        ),
-      ],
+          SliverToBoxAdapter(
+            child: _buildChartView(),
+          ),
+          SliverToBoxAdapter(
+            child: ExpensePieChart(records: type2transactions),
+          ),
+        ],
+      ),
     );
   }
 
@@ -129,7 +161,7 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
         child: BaseLineChartWidget(
           bottomTitles: List.generate(daysAmount.length, (i) => (i + 1).toString()),
           values: daysAmount,
-        ).padSymmetric(v: 12,h: 8),
+        ).padSymmetric(v: 12, h: 8),
       ),
     );
   }
@@ -211,6 +243,7 @@ class BaseLineChartWidget extends StatelessWidget {
             barWidth: 1,
           ),
         ],
+
         ///图表线表线框
         titlesData: FlTitlesData(
           show: true,
