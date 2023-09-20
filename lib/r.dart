@@ -1,11 +1,13 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:mimir/school/yellow_pages/entity/contact.dart';
 import 'package:version/version.dart';
 
 class R {
   R._();
 
+  static const debugCupertino = kDebugMode ? true : false;
   static const enLocale = Locale('en');
   static const zhCnLocale = Locale('zh', "CN");
   static const zhTwLocale = Locale('zh', "TW");

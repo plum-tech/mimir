@@ -40,6 +40,7 @@ class _MimirAppState extends State<MimirApp> {
 
     ThemeData bakeTheme(ThemeData origin) {
       return origin.copyWith(
+        platform: R.debugCupertino ? TargetPlatform.iOS : null,
         colorScheme: ColorScheme.fromSeed(
           seedColor: themeColor,
           brightness: origin.brightness,
