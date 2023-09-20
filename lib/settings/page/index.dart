@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/i18n.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
-import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/hive/init.dart';
 import 'package:mimir/l10n/extension.dart';

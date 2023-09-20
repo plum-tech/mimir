@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:universal_platform/universal_platform.dart';
 
-bool get _isCupertino => UniversalPlatform.isIOS || UniversalPlatform.isMacOS;
+import 'multiplatform.dart';
+
 const _kDialogAlpha = 0.89;
 
 extension $BuildContextEx$ on BuildContext {
@@ -11,7 +11,7 @@ extension $BuildContextEx$ on BuildContext {
     required WidgetBuilder make,
     bool dismissible = true,
   }) async {
-    if (_isCupertino) {
+    if (isCupertino) {
       return await showCupertinoDialog<T>(
         context: this,
         builder: make,
@@ -39,7 +39,7 @@ class $Button$ extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (_isCupertino) {
+    if (isCupertino) {
       return CupertinoButton(onPressed: onPressed, child: text.text());
     } else {
       return FilledButton(onPressed: onPressed, child: text.text());
@@ -83,7 +83,7 @@ class $Dialog$ extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget dialog;
     final second = secondary;
-    if (_isCupertino) {
+    if (isCupertino) {
       dialog = CupertinoAlertDialog(
         title: title?.text(style: TextStyle(fontWeight: FontWeight.w600, color: serious ? context.$red$ : null)),
         content: make(context),
@@ -171,7 +171,7 @@ class $TextField$ extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (_isCupertino) {
+    if (isCupertino) {
       return CupertinoTextField(
           controller: controller,
           autofocus: autofocus,
@@ -221,5 +221,5 @@ const Border _kDefaultRoundedBorder = Border(
 );
 
 extension ColorEx on BuildContext {
-  Color get $red$ => _isCupertino ? CupertinoDynamicColor.resolve(CupertinoColors.systemRed, this) : Colors.redAccent;
+  Color get $red$ => isCupertino ? CupertinoDynamicColor.resolve(CupertinoColors.systemRed, this) : Colors.redAccent;
 }

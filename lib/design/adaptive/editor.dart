@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../i18n.dart';
-import 'multiplatform.dart';
+import 'foundation.dart';
 import 'dialog.dart';
 
 typedef EditorBuilder<T> = Widget Function(BuildContext ctx, String? desc, T initial);

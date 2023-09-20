@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/common.dart';
-import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/route.dart';
 import 'package:rettulf/rettulf.dart';

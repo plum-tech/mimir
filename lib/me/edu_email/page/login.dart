@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/credential/entity/email.dart';
 import 'package:mimir/credential/init.dart';
-import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';

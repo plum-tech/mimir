@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/common.dart';
-import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
 

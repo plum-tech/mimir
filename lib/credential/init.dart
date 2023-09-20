@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:mimir/credential/entity/credential.dart';
-import 'package:mimir/design/widgets/editor.dart';
+import 'package:mimir/design/adaptive/editor.dart';
 
 import 'entity/login_status.dart';
 import 'storage/credential.dart';

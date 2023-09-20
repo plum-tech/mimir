@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/me/edu_email/index.dart';
 import 'package:mimir/me/network_tool/index.dart';

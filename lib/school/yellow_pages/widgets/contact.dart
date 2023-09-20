@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/school/yellow_pages/init.dart';
 import 'package:mimir/school/yellow_pages/storage/contact.dart';
 import 'package:mimir/utils/guard_launch.dart';

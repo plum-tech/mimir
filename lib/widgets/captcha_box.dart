@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/multiplatform.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/l10n/common.dart';
 import 'package:rettulf/rettulf.dart';
 

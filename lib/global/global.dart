@@ -7,7 +7,7 @@ import 'package:event_bus/event_bus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:mimir/credential/storage/credential.dart';
-import 'package:mimir/design/widgets/multiplatform.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/global/cookie_init.dart';
 import 'package:mimir/global/dio_init.dart';
 import 'package:mimir/route.dart';

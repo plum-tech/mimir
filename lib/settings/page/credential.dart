@@ -4,8 +4,8 @@ import 'package:mimir/credential/entity/credential.dart';
 import 'package:mimir/credential/i18n.dart';
 import 'package:mimir/credential/init.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
-import 'package:mimir/design/widgets/dialog.dart';
-import 'package:mimir/design/widgets/editor.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/design/adaptive/editor.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 

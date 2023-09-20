@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/animation/animated.dart';
 import 'package:mimir/design/widgets/connectivity_checker.dart';
-import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/widgets/school.dart';

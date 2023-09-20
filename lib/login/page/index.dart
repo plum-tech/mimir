@@ -9,7 +9,7 @@ import 'package:mimir/credential/entity/email.dart';
 import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/init.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
-import 'package:mimir/design/widgets/dialog.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/utils/guard_launch.dart';
