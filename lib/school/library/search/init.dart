@@ -38,10 +38,10 @@ class LibrarySearchInit {
   static late LibrarySession session;
 
   /// 初始化图书馆相关的service
-  static Future<void> init({
+  static void init({
     required Dio dio,
     required Box<LibrarySearchHistoryItem> searchHistoryBox,
-  }) async {
+  }) {
     // 图书馆初始化
 
     session = LibrarySession(dio);

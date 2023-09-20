@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:mimir/network/session.dart';
+import 'package:mimir/session/sso/session.dart';
 
 import '../entity/local.dart';
 import '../entity/remote.dart';
@@ -15,7 +16,7 @@ class ExpenseFetchService {
 
   static const String magicNumber = "adc4ac6822fd462780f878b86cb94688";
   static const urlPath = "https://xgfy.sit.edu.cn/yktapi/services/querytransservice/querytrans";
-  final ISession session;
+  final SsoSession session;
 
   const ExpenseFetchService(this.session);
 

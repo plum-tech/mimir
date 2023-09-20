@@ -44,6 +44,7 @@ class DesktopInit {
   static bool resizing = false;
 
   static Future<void> init() async {
+    // TODO: multiple windows listener
     windowManager.addListener(DesktopWindowListener());
     desktopEventBus.on<WindowResizeEvent>().listen((e) {
       resizing = true;

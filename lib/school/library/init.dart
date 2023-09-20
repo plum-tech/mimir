@@ -5,10 +5,10 @@ import 'search/entity/search_history.dart';
 import 'search/init.dart';
 
 class LibraryInit {
-  static Future<void> init({
+  static void init({
     required Dio dio,
     required Box<LibrarySearchHistoryItem> searchHistoryBox,
   }) async {
-    await LibrarySearchInit.init(dio: dio, searchHistoryBox: searchHistoryBox);
+    LibrarySearchInit.init(dio: dio, searchHistoryBox: searchHistoryBox);
   }
 }

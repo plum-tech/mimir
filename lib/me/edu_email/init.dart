@@ -7,9 +7,9 @@ class EduEmailInit {
   static late EduEmailStorage storage;
   static late MailService service;
 
-  static Future<void> init({
+  static void init({
     required Box<dynamic> box,
-  }) async {
+  }) {
     storage = EduEmailStorage(box);
     service = MailService();
   }

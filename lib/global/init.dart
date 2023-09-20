@@ -7,7 +7,6 @@ import 'package:mimir/settings/meta.dart';
 import 'package:mimir/life/electricity/init.dart';
 import 'package:mimir/life/expense_records/init.dart';
 import 'package:mimir/login/init.dart';
-import 'package:mimir/main/init.dart';
 import 'package:mimir/me/edu_email/init.dart';
 import 'package:mimir/me/network_tool/init.dart';
 import 'package:mimir/migration/migrations.dart';
@@ -115,16 +114,12 @@ class Init {
       box: HiveInit.yellowPages,
     );
 
-    HomeInit.init(
-      ssoSession: Global.ssoSession,
-    );
-
-    await LibraryInit.init(
+    LibraryInit.init(
       dio: Global.dio,
       searchHistoryBox: HiveInit.librarySearchHistory,
     );
 
-    await EduEmailInit.init(
+    EduEmailInit.init(
       box: HiveInit.eduEmail,
     );
 

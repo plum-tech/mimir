@@ -2,9 +2,9 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:hive/hive.dart';
 
 class HiveCookieJar implements Storage {
-  Box box;
+  final Box box;
 
-  HiveCookieJar(this.box);
+  const HiveCookieJar(this.box);
 
   @override
   Future<void> init(bool persistSession, bool ignoreExpires) async {}
@@ -23,7 +23,7 @@ class HiveCookieJar implements Storage {
 }
 
 class CookieInit {
-  static Future<CookieJar> init({required Box box}) async {
+  static CookieJar init({required Box box}) {
     // // 初始化持久化的 cookieJar
     final cookieJar = PersistCookieJar(
       storage: HiveCookieJar(box),

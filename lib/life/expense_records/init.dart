@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:mimir/network/session.dart';
+import 'package:mimir/session/sso/index.dart';
 
 import 'service/fetch.dart';
 import 'storage/local.dart';
@@ -9,7 +9,7 @@ class ExpenseRecordsInit {
   static late ExpenseStorage storage;
 
   static void init({
-    required ISession session,
+    required SsoSession session,
     required Box box,
   }) {
     service = ExpenseFetchService(session);

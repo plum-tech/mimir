@@ -59,7 +59,7 @@ class Global {
     bool? debugNetwork,
     required Box cookieBox,
   }) async {
-    cookieJar = await CookieInit.init(box: cookieBox);
+    cookieJar = CookieInit.init(box: cookieBox);
     dio = await DioInit.init(
       config: DioConfig()
         ..cookieJar = cookieJar
