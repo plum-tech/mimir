@@ -53,16 +53,39 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final timetables = storage.timetable.getRows();
+    final selectedId = storage.timetable.selectedId;
     return Scaffold(
-      appBar: AppBar(
-        title: i18n.mine.title.text(),
-        actions: [
-          IconButton(
-            onPressed: () {
-              context.push("/timetable/p13n");
-            },
-            icon: const Icon(Icons.color_lens_outlined),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            title: i18n.mine.title.text(),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  context.push("/timetable/p13n");
+                },
+                icon: const Icon(Icons.color_lens_outlined),
+              ),
+            ],
           ),
+          if (timetables.isEmpty)
+            SliverToBoxAdapter(
+              child: LeavingBlank(
+                icon: Icons.calendar_month_rounded,
+                desc: i18n.mine.emptyTip,
+                onIconTap: goImport,
+              ),
+            )
+          else
+            SliverList.builder(
+              itemCount: timetables.length,
+              itemBuilder: (ctx, i) {
+                final (:id, row: timetable) = timetables[i];
+                return buildTimetableEntry(id, timetable, selectedId);
+              },
+            ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -70,41 +93,23 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         elevation: 10,
         child: const Icon(Icons.add_outlined),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12),
-        child: buildTimetables(context),
-      ),
     );
   }
 
-  Widget _buildEmptyBody(BuildContext ctx) {
-    return LeavingBlank(icon: Icons.calendar_month_rounded, desc: i18n.mine.emptyTip, onIconTap: goImport);
-  }
-
-  Widget buildTimetables(BuildContext ctx) {
-    final timetables = storage.timetable.getRows();
-    final selectedId = storage.timetable.selectedId;
-    if (timetables.isEmpty) {
-      return _buildEmptyBody(ctx);
-    }
-    return ListView(
-      children: [
-        for (final (:id, row: timetable) in timetables)
-          TimetableEntry(
-            id: id,
-            timetable: timetable,
-            moreAction: buildActionPopup(id, timetable, selectedId == id),
-            actions: (
-              use: (timetable) {
-                storage.timetable.selectedId = id;
-                setState(() {});
-              },
-              preview: (timetable) {
-                ctx.push("/timetable/preview/$id", extra: timetable);
-              }
-            ),
-          ),
-      ],
+  Widget buildTimetableEntry(int id, SitTimetable timetable, int? selectedId) {
+    return TimetableEntry(
+      id: id,
+      timetable: timetable,
+      moreAction: buildActionPopup(id, timetable, selectedId == id),
+      actions: (
+        use: (timetable) {
+          storage.timetable.selectedId = id;
+          setState(() {});
+        },
+        preview: (timetable) {
+          context.push("/timetable/preview/$id", extra: timetable);
+        }
+      ),
     );
   }
 
