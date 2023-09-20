@@ -10,7 +10,7 @@ import '../utils.dart';
 import "../i18n.dart";
 
 class ExpensePieChart extends StatefulWidget {
-  final Map<TransactionType, ({List<Transaction> records, double percentage})> records;
+  final Map<TransactionType, ({List<Transaction> records, double total, double proportion})> records;
 
   const ExpensePieChart({
     super.key,
@@ -30,10 +30,10 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
     return OutlinedCard(
       child: [
         AspectRatio(
-          aspectRatio: 1,
+          aspectRatio: 1.5,
           child: buildChart(),
         ),
-        buildLegends(),
+        buildLegends().padAll(8).align(at: Alignment.topLeft),
       ].column(),
     );
   }
@@ -61,17 +61,16 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
         centerSpaceRadius: 60,
         sections: widget.records.entries.mapIndexed((i, entry) {
           final isTouched = i == touchedIndex;
-          final MapEntry(key: type, value: (:records, :percentage)) = entry;
-          final (income: _, :outcome) = accumulateTransactionIncomeOutcome(records);
+          final MapEntry(key: type, value: (records: _, :total, :proportion)) = entry;
           final color = type.color.harmonizeWith(context.colorScheme.primary);
           return PieChartSectionData(
             color: color.withOpacity(isTouched ? 1 : 0.8),
-            value: outcome,
-            title: i18n.unit.rmb(outcome.toStringAsFixed(2)),
+            value: total,
+            title: "${(proportion * 100).toStringAsFixed(2)}%",
+            titleStyle: context.textTheme.titleSmall,
             radius: isTouched ? 55 : 50,
             badgeWidget: Icon(type.icon, color: color),
             badgePositionPercentageOffset: 1.5,
-            titleStyle: context.textTheme.titleSmall,
           );
         }).toList(),
       ),
@@ -79,21 +78,17 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
   }
 
   Widget buildLegends() {
-    final all = widget.records.entries.toList();
-    return all
+    return widget.records.entries
         .map((record) {
-          final MapEntry(key: type, value: (:records, :percentage)) = record;
+          final MapEntry(key: type, value: (records: _, :total, proportion: _)) = record;
           final color = type.color.harmonizeWith(context.colorScheme.primary);
-          return ListTile(
-            dense: true,
-            leading: Icon(type.icon, color: color),
-            titleTextStyle: TextStyle(color: color),
-            title: type.localized().text(),
-            subtitleTextStyle: TextStyle(color: color),
-            subtitle: "${(percentage * 100).toStringAsFixed(2)}%".text(),
+          return RawChip(
+            avatar: Icon(type.icon, color: color),
+            labelStyle: TextStyle(color: color),
+            label: "${type.localized()}: ${i18n.unit.rmb(total.toStringAsFixed(2))}".text(),
           );
         })
         .toList()
-        .column();
+        .wrap(spacing: 4);
   }
 }

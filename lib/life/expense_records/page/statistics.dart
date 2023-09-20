@@ -22,7 +22,7 @@ class ExpenseStatisticsPage extends StatefulWidget {
 class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
   late List<Transaction> records;
   late double total;
-  late Map<TransactionType, ({List<Transaction> records, double percentage})> type2transactions;
+  late Map<TransactionType, ({List<Transaction> records, double total, double proportion})> type2transactions;
   late int selectedYear;
   late int selectedMonth;
 
@@ -45,9 +45,10 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
     final type2transactions = records.groupListsBy((record) => record.type);
     final type2total = type2transactions.map((type, records) => MapEntry(type, accumulateTransactionAmount(records)));
     total = type2total.values.sum;
-
-    this.type2transactions = type2transactions
-        .map((type, records) => MapEntry(type, (records: records, percentage: (type2total[type] ?? 0) / total)));
+    this.type2transactions = type2transactions.map((type, records) {
+      final (income: _, :outcome) = accumulateTransactionIncomeOutcome(records);
+      return MapEntry(type, (records: records, total: outcome, proportion: (type2total[type] ?? 0) / total));
+    });
   }
 
   @override
