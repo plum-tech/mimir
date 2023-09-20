@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/life/expense_records/storage/local.dart';
 import 'package:mimir/life/expense_records/utils.dart';
-import 'package:mimir/widgets/base_line_chart.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 import '../entity/local.dart';
 import '../i18n.dart';
@@ -133,13 +133,6 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
     );
   }
 
-  // TODO: 这个函数应该放在 DAO 或 service
-  List<Transaction> _filterExpense() {
-    return records
-        .where((element) => element.timestamp.year == selectedYear && element.timestamp.month == selectedMonth)
-        .toList();
-  }
-
   static int _getDayCountOfMonth(int year, int month) {
     final int daysFeb = (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) ? 29 : 28;
     List<int> days = [31, daysFeb, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -150,8 +143,9 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
     // 得到该年该月有多少天, 生成数组记录每一天的消费.
     final List<double> daysAmount = List.filled(_getDayCountOfMonth(selectedYear, selectedMonth), 0.00);
     // 便利该月消费情况, 加到上述统计列表中.
-    _filterExpense().forEach((e) =>
-        daysAmount[e.timestamp.day - 1] += ((delta) => delta < 0 ? -delta : 0)(e.balanceAfter - e.balanceBefore));
+    for (final record in records) {
+      daysAmount[record.timestamp.day - 1] += record.deltaAmount;
+    }
 
     final width = MediaQuery.of(context).size.width - 70;
     return OutlinedCard(
@@ -179,6 +173,119 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
             ),
             const SizedBox(height: 25),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class BaseLineChartWidget extends StatelessWidget {
+  final List<String> bottomTitles;
+  final List<double> values;
+
+  const BaseLineChartWidget({
+    Key? key,
+    required this.bottomTitles,
+    required this.values,
+  }) : super(key: key);
+
+  ///底部标题栏
+  Widget bottomTitle(BuildContext ctx, double value, TitleMeta mate) {
+    if ((value * 10).toInt() % 10 == 5) {
+      return const SizedBox();
+    }
+
+    return SideTitleWidget(
+      axisSide: mate.axisSide,
+      child: Text(
+        bottomTitles[value.toInt()],
+        style: ctx.textTheme.bodySmall?.copyWith(
+          color: Colors.blueGrey,
+        ),
+      ),
+    );
+  }
+
+  ///左边部标题栏
+  Widget leftTitle(BuildContext ctx, double value, TitleMeta mate) {
+    const style = TextStyle(
+      color: Colors.blueGrey,
+      fontSize: 11,
+    );
+    String text = '¥${value.toStringAsFixed(2)}';
+    return SideTitleWidget(
+      axisSide: mate.axisSide,
+      child: Text(text, style: style),
+    );
+  }
+
+  List<FlSpot> buildSpotList() {
+    return values
+        .map((e) => (e * 100).toInt() / 100) // 保留两位小数
+        .toList()
+        .asMap()
+        .entries
+        .map((e) => FlSpot(e.key.toDouble(), e.value))
+        .toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LineChart(
+      LineChartData(
+        ///触摸控制
+        lineTouchData: LineTouchData(
+          touchTooltipData: LineTouchTooltipData(
+            tooltipBgColor: Colors.transparent,
+          ),
+          touchSpotThreshold: 10,
+        ),
+        borderData: FlBorderData(
+          border: const Border(
+            bottom: BorderSide(width: 1.0),
+          ),
+        ),
+        lineBarsData: [
+          LineChartBarData(
+            isStrokeCapRound: true,
+            belowBarData: BarAreaData(
+              show: true,
+              color: Theme.of(context).secondaryHeaderColor.withAlpha(70),
+            ),
+            spots: buildSpotList(),
+            color: Colors.blueAccent,
+            preventCurveOverShooting: false,
+            // isCurved: true,
+            barWidth: 2,
+            preventCurveOvershootingThreshold: 1.0,
+          ),
+        ],
+
+        ///图表线表线框
+        gridData: FlGridData(
+          show: true,
+          drawVerticalLine: true,
+          horizontalInterval: 2,
+          verticalInterval: 2,
+        ),
+        titlesData: FlTitlesData(
+          show: true,
+          rightTitles: AxisTitles(),
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 50,
+              getTitlesWidget: (v, meta) => leftTitle(context, v, meta),
+            ),
+          ),
+          topTitles: AxisTitles(),
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 55,
+              getTitlesWidget: (v, meta) => bottomTitle(context, v, meta),
+            ),
+          ),
         ),
       ),
     );
