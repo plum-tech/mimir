@@ -10,6 +10,7 @@ import '../entity/local.dart';
 import '../i18n.dart';
 import '../init.dart';
 import '../widget/chart.dart';
+import '../widget/selector.dart';
 
 class ExpenseStatisticsPage extends StatefulWidget {
   const ExpenseStatisticsPage({super.key});
@@ -51,13 +52,21 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final years = _getYear(records);
+    final months = _getMonth(records, years, selectedYear);
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          title: i18n.stats.title.text(),
-        ),
-        SliverToBoxAdapter(
-          child: _buildDateSelector(),
+          pinned: true,
+          expandedHeight: 180,
+          flexibleSpace: FlexibleSpaceBar(
+            title: i18n.stats.title.text(),
+            centerTitle: true,
+            background: YearMonthSelector(
+              years: years,
+              months: months,
+            ),
+          ),
         ),
         SliverToBoxAdapter(
           child: _buildChartView(),
@@ -95,42 +104,6 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
       result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     }
     return result;
-  }
-
-  Widget _buildDateSelector() {
-    // TODO: 支持查看全年统计, 此时 chart line 也需要修改.
-    final List<int> years = _getYear(records);
-    final List<int> months = _getMonth(records, years, selectedYear);
-
-    // TODO: 年月不超过当前日期.
-    final yearWidgets = years.map((e) => PopupMenuItem<int>(value: e, child: Text(e.toString()))).toList();
-    final monthWidgets = months.map((e) => PopupMenuItem<int>(value: e, child: Text(e.toString()))).toList();
-
-    final titleStyle = Theme.of(context).textTheme.titleLarge;
-
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Row(
-        children: <Widget>[
-          PopupMenuButton(
-            onSelected: (int value) => setState(() {
-              selectedYear = value;
-              final monthList = _getMonth(records, years, selectedYear);
-              if (!monthList.toSet().contains(selectedMonth)) {
-                selectedMonth = monthList[0];
-              }
-            }),
-            child: Text('$selectedYear 年', style: titleStyle),
-            itemBuilder: (_) => yearWidgets,
-          ),
-          PopupMenuButton(
-            onSelected: (int value) => setState(() => selectedMonth = value),
-            child: Text(' $selectedMonth 月', style: titleStyle),
-            itemBuilder: (_) => monthWidgets,
-          ),
-        ],
-      ),
-    );
   }
 
   static int _getDayCountOfMonth(int year, int month) {

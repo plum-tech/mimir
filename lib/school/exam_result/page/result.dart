@@ -137,11 +137,11 @@ class _ExamResultPageState extends State<ExamResultPage> {
       initialYear: selectedYear,
       initialSemester: selectedSemester,
       baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
-      onNewYearSelect: (year) {
+      onYearSelected: (year) {
         setState(() => selectedYear = year);
         onRefresh();
       },
-      onNewSemesterSelect: (semester) {
+      onSemesterSelected: (semester) {
         setState(() => selectedSemester = semester);
         onRefresh();
       },

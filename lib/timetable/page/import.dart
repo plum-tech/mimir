@@ -121,10 +121,10 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       SemesterSelector(
         showNextYear: true,
         baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
-        onNewYearSelect: (year) {
+        onYearSelected: (year) {
           setState(() => selectedYear = year);
         },
-        onNewSemesterSelect: (semester) {
+        onSemesterSelected: (semester) {
           setState(() => selectedSemester = semester);
         },
         initialYear: selectedYear,
