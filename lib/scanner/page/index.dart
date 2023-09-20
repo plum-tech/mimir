@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -102,10 +103,7 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
         if (image != null) {
           if (!await controller.analyzeImage(image.path)) {
             if (!mounted) return;
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: i18n.barcodeNotRecognized.text(),
-              backgroundColor: Colors.redAccent,
-            ));
+            context.showSnackBar(i18n.barcodeNotRecognized.text());
           }
         }
       },
