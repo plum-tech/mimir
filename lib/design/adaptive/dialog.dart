@@ -237,7 +237,7 @@ class DualPickerAB {
 extension SnackBarX on BuildContext {
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(
     Widget content, {
-    Duration duration = const Duration(milliseconds: 500),
+    Duration duration = const Duration(milliseconds: 800),
   }) {
     final snackBar = SnackBar(
       content: content,
