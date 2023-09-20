@@ -44,7 +44,9 @@ class ExpenseStorage {
 }
 
 extension ExpenseStorageX on ExpenseStorage {
-  /// 通过一个时间范围[start, end]来获得交易记录
+  /// Gets the transaction timestamps in range of start to end.
+  /// [start] is inclusive.
+  /// [end] is exclusive.
   List<DateTime>? getTransactionTsByRange({
     DateTime? start,
     DateTime? end,
@@ -54,7 +56,7 @@ extension ExpenseStorageX on ExpenseStorage {
     if (start == null && end == null) return list;
     return list
         .where((e) => start == null || e == start || e.isAfter(start))
-        .where((e) => end == null || e == end || e.isBefore(end))
+        .where((e) => end == null || e.isBefore(end))
         .toList();
   }
 

@@ -115,31 +115,35 @@ extension TransactionX on Transaction {
 @HiveType(typeId: HiveTypeExpenseRecords.transactionType)
 enum TransactionType {
   @HiveField(0)
-  water((UniconsLine.water_glass, Color(0xff8acde1))),
+  water((UniconsLine.water_glass, Color(0xff8acde1)), isConsume: true),
   @HiveField(1)
-  shower((Icons.shower_outlined, Color(0xFF2196F3))),
+  shower((Icons.shower_outlined, Color(0xFF2196F3)), isConsume: true),
   @HiveField(2)
-  food((Icons.restaurant, Color(0xffe78d32))),
+  food((Icons.restaurant, Color(0xffe78d32)), isConsume: true),
   @HiveField(3)
-  store((Icons.store_outlined, Color(0xFF0DAB30))),
+  store((Icons.store_outlined, Color(0xFF0DAB30)), isConsume: true),
   @HiveField(4)
-  topUp((Icons.savings, Colors.blue)),
+  topUp((Icons.savings, Colors.blue), isConsume: false),
   @HiveField(5)
-  subsidy((Icons.handshake_outlined, Color(0xffdd2e22))),
+  subsidy((Icons.handshake_outlined, Color(0xffdd2e22)), isConsume: false),
   @HiveField(6)
-  coffee((Icons.coffee_rounded, Color(0xFF6F4E37))),
+  coffee((Icons.coffee_rounded, Color(0xFF6F4E37)), isConsume: true),
   @HiveField(7)
-  library((Icons.import_contacts_outlined, Color(0xffa75f1d))),
+  library((Icons.import_contacts_outlined, Color(0xffa75f1d)), isConsume: true),
   @HiveField(8)
-  other((Icons.menu_rounded, Colors.grey));
+  other((Icons.menu_rounded, Colors.grey), isConsume: true);
 
+  final bool isConsume;
   final (IconData icon, Color) style;
 
   IconData get icon => style.$1;
 
   Color get color => style.$2;
 
-  const TransactionType(this.style);
+  const TransactionType(
+    this.style, {
+    required this.isConsume,
+  });
 
   String localized() => "expenseRecords.type.$name".tr();
 }

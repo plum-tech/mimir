@@ -60,17 +60,22 @@ List<({YearMonth time, List<Transaction> records})> groupTransactionsByMonthYear
   return groupByYearMonth;
 }
 
+bool validateTransaction(Transaction t) {
+  if (t.type == TransactionType.topUp) {
+    return false;
+  }
+  return true;
+}
 
 ({double income, double outcome}) accumulateTransactions(List<Transaction> transactions) {
   double income = 0;
   double outcome = 0;
   for (final t in transactions) {
+    if (!validateTransaction(t)) continue;
     if (t.isConsume) {
       outcome += t.deltaAmount;
     } else {
-      if (t.type == TransactionType.subsidy && t.deviceName.contains("支付宝领取终端")) {
-        income += t.deltaAmount;
-      }
+      income += t.deltaAmount;
     }
   }
   return (income: income, outcome: outcome);

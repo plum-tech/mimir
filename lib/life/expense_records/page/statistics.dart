@@ -1,4 +1,7 @@
+import 'package:collection/collection.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/life/expense_records/storage/local.dart';
 import 'package:mimir/widgets/base_line_chart.dart';
 import 'package:rettulf/rettulf.dart';
@@ -6,6 +9,7 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/local.dart';
 import '../i18n.dart';
 import '../init.dart';
+import '../widget/chart.dart';
 
 class ExpenseStatisticsPage extends StatefulWidget {
   const ExpenseStatisticsPage({super.key});
@@ -15,32 +19,53 @@ class ExpenseStatisticsPage extends StatefulWidget {
 }
 
 class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
-  final List<Transaction> records = ExpenseRecordsInit.storage.getTransactionsByRange() ?? const [];
-  final now = DateTime.now();
-  late int selectedYear = now.year;
-  late int selectedMonth = now.month;
+  late List<Transaction> records;
+  late Map<TransactionType, List<Transaction>> type2transactions;
+  late int selectedYear;
+  late int selectedMonth;
+
+  @override
+  void initState() {
+    super.initState();
+    final now = DateTime.now();
+    selectedYear = now.year;
+    selectedMonth = now.month;
+    refreshRecords();
+  }
+
+  void refreshRecords() {
+    records = ExpenseRecordsInit.storage.getTransactionsByRange(
+          start: DateTime(selectedYear, selectedMonth, 1),
+          end: DateTime(selectedYear, selectedMonth + 1),
+        ) ??
+        const [];
+    records.retainWhere((record) => record.type.isConsume);
+    type2transactions = records.groupListsBy((record) => record.type);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: i18n.stats.title.text(),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            _buildDateSelector(),
-            _buildChartView(),
-            _buildClassificationView(),
-          ],
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          title: i18n.stats.title.text(),
         ),
-      ),
+        SliverToBoxAdapter(
+          child: _buildDateSelector(),
+        ),
+        SliverToBoxAdapter(
+          child: _buildChartView(),
+        ),
+        SliverToBoxAdapter(
+          child: ExpensePieChart(records: type2transactions),
+        ),
+      ],
     );
   }
 
   List<int> _getYear(List<Transaction> expenseBillDesc) {
     List<int> years = [];
-
+    final now = DateTime.now();
     final currentYear = now.year;
     final int startYear = expenseBillDesc.isNotEmpty ? expenseBillDesc.last.timestamp.year : currentYear;
     for (int year = startYear; year <= currentYear; year++) {
@@ -51,6 +76,7 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
 
   List<int> _getMonth(List<Transaction> expenseBill, List<int> years, int year) {
     List<int> result = [];
+    final now = DateTime.now();
     if (now.year == year) {
       for (int month = 1; month <= now.month; month++) {
         result.add(month);
@@ -122,7 +148,7 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
         daysAmount[e.timestamp.day - 1] += ((delta) => delta < 0 ? -delta : 0)(e.balanceAfter - e.balanceBefore));
 
     final width = MediaQuery.of(context).size.width - 70;
-    return Card(
+    return OutlinedCard(
       margin: const EdgeInsets.fromLTRB(10, 10, 10, 20),
       child: SizedBox(
         width: double.infinity,
@@ -191,24 +217,5 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
         );
       },
     ).toList();
-  }
-
-  Widget _buildClassificationView() {
-    return Card(
-      margin: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 30),
-            child: i18n.stats.categories.text(style: context.textTheme.titleLarge).center(),
-          ),
-          Column(
-            children: _buildClassifiedStat(context),
-          )
-        ],
-      ),
-    );
   }
 }
