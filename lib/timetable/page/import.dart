@@ -164,7 +164,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   Widget buildImportButton(BuildContext ctx) {
     return FilledButton(
       onPressed: _status == ImportStatus.importing ? null : _onImport,
-      child: i18n.import.importBtn
+      child: i18n.import.tryImportBtn
           .text(
             style: TextStyle(fontSize: ctx.textTheme.titleLarge?.fontSize),
           )

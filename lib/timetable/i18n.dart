@@ -78,6 +78,10 @@ class _Import {
 
   String get title => "$ns.title".tr();
 
+  String get import => "$ns.import".tr();
+
+  String get fromFile => "$ns.fromFile".tr();
+
   String get fromFileBtn => "$ns.fromFileBtn".tr();
 
   String get connectivityCheckerDesc => "$ns.connectivityCheckerDesc".tr();
@@ -92,7 +96,7 @@ class _Import {
 
   String get failedTip => "$ns.failedTip".tr();
 
-  String get importBtn => "$ns.importBtn".tr();
+  String get tryImportBtn => "$ns.tryImportBtn".tr();
 
   String get importing => "$ns.importing".tr();
 

@@ -23,7 +23,9 @@ timetable:
     courseId: "课程代码 {}"
   import:
     title: 匯入課程表
-    importBtn: 嘗試匯入
+    import: 匯入
+    fromFile: 從檔案
+    tryImportBtn: 嘗試匯入
     fromFileBtn: 從檔案匯入
     connectivityCheckerDesc: 你需要訪問校園網路，才能匯入一個新的課程表。現在就開始檢查吧。
     selectSemesterTip: 請先選擇學年與學期

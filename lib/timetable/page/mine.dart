@@ -88,10 +88,10 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: goImport,
-        elevation: 10,
-        child: const Icon(Icons.add_outlined),
+        label: Text(isLoginGuarded(context) ? i18n.import.fromFile : i18n.import.import),
+        icon: const Icon(Icons.add_outlined),
       ),
     );
   }

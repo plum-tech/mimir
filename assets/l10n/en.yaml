@@ -23,8 +23,10 @@ timetable:
     courseId: "Course Code {}"
   import:
     title: Import timetable
+    import: Import
+    fromFile: From File
     fromFileBtn: From file
-    importBtn: Try import
+    tryImportBtn: Try import
     connectivityCheckerDesc: You need to check the access to school server before importing a timetable.
     selectSemesterTip: Please select a semester first
     endTip: Please enter the info
