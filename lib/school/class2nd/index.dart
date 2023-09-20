@@ -56,12 +56,12 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
       Class2ndInit.scoreStorage.scoreSummary = summary;
       if (active) {
         if (!mounted) return;
-        context.showSnackBar(i18n.refreshFailedTip.text());
+        context.showSnackBar(i18n.refreshSuccessTip.text());
       }
     } catch (error) {
       if (active) {
         if (!mounted) return;
-        context.showSnackBar(i18n.refreshSuccessTip.text());
+        context.showSnackBar(i18n.refreshFailedTip.text());
       }
     }
   }
