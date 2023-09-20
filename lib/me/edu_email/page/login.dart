@@ -45,7 +45,6 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         body: buildBody(),
         bottomNavigationBar: const ForgotPasswordButton(),
       ),

@@ -168,7 +168,6 @@ class _LoginPageState extends State<LoginPage> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: widget.isGuarded ? i18n.loginRequired.text() : i18n.loginOa.text(),
           actions: [
