@@ -59,19 +59,25 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
         slivers: [
           SliverAppBar(
             pinned: true,
-            title: SegmentedButton<StatisticsMode>(
-              showSelectedIcon: false,
-              segments: StatisticsMode.values
-                  .map((e) => ButtonSegment<StatisticsMode>(
-                        value: e,
-                        label: e.l10nName().text(),
-                      ))
-                  .toList(),
-              selected: <StatisticsMode>{StatisticsMode.weekly},
-              onSelectionChanged: (newSelection) {
-                setState(() {});
-              },
-            ),
+            title: i18n.stats.title.text(),
+            actions: [
+              SegmentedButton<StatisticsMode>(
+                showSelectedIcon: false,
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 4)),
+                ),
+                segments: StatisticsMode.values
+                    .map((e) => ButtonSegment<StatisticsMode>(
+                          value: e,
+                          label: e.l10nName().text(),
+                        ))
+                    .toList(),
+                selected: <StatisticsMode>{StatisticsMode.weekly},
+                onSelectionChanged: (newSelection) {
+                  setState(() {});
+                },
+              )
+            ],
           ),
           SliverToBoxAdapter(
             child: _buildChartView(),

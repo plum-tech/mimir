@@ -246,7 +246,7 @@ class ThemeModeTile extends StatelessWidget {
         trailing: SegmentedButton<ThemeMode>(
           showSelectedIcon: false,
           style: ButtonStyle(
-            padding: MaterialStateProperty.all(EdgeInsets.zero),
+            padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 4)),
           ),
           segments: ThemeMode.values
               .map((e) => ButtonSegment<ThemeMode>(
