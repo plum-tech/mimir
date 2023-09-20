@@ -12,16 +12,18 @@ class TimetableP13nPage extends StatefulWidget {
 class _TimetableP13nPageState extends State<TimetableP13nPage> {
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          pinned: true,
-          title: "Personalization".text(),
-        ),
-        SliverToBoxAdapter(
-          child: buildNewUiSwitch(),
-        )
-      ],
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            title: "Personalization".text(),
+          ),
+          SliverToBoxAdapter(
+            child: buildNewUiSwitch(),
+          )
+        ],
+      ),
     );
   }
 

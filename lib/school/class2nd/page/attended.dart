@@ -69,22 +69,24 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   @override
   Widget build(BuildContext context) {
     final activities = attended;
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          title: i18n.attended.title.text(),
-          bottom: activities != null
-              ? null
-              : const PreferredSize(
-                  preferredSize: Size.fromHeight(4),
-                  child: LinearProgressIndicator(),
-                ),
-        ),
-        if (activities != null)
-          ...activities.map((activity) {
-            return SliverToBoxAdapter(child: AttendedActivityTile(activity).inCard().hero(activity.applyId));
-          }),
-      ],
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: i18n.attended.title.text(),
+            bottom: activities != null
+                ? null
+                : const PreferredSize(
+                    preferredSize: Size.fromHeight(4),
+                    child: LinearProgressIndicator(),
+                  ),
+          ),
+          if (activities != null)
+            ...activities.map((activity) {
+              return SliverToBoxAdapter(child: AttendedActivityTile(activity).inCard().hero(activity.applyId));
+            }),
+        ],
+      ),
     );
   }
 }

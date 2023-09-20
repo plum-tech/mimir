@@ -61,6 +61,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
   }
 
   Widget buildForm() {
+    // TODO: i18n
     return Form(
       autovalidateMode: AutovalidateMode.always,
       key: _formKey,

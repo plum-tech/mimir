@@ -1,24 +1,19 @@
 import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/item.dart';
+import 'item.dart';
 
-class EduEmailList extends StatefulWidget {
+class EduEmailList extends StatelessWidget {
   final List<MimeMessage> messages;
 
   const EduEmailList({super.key, required this.messages});
 
   @override
-  State<EduEmailList> createState() => _EduEmailListState();
-}
-
-class _EduEmailListState extends State<EduEmailList> {
-  @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      itemCount: widget.messages.length,
+      itemCount: messages.length,
       itemBuilder: (ctx, i) {
-        return EmailItem(widget.messages[i]);
+        return EmailItem(messages[i]);
       },
       separatorBuilder: (ctx, i) {
         return const VerticalDivider();

@@ -38,35 +38,37 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
   @override
   Widget build(BuildContext context) {
     final records = this.records;
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          pinned: true,
-          title: i18n.title.text(),
-          bottom: records != null
-              ? null
-              : const PreferredSize(
-                  preferredSize: Size.fromHeight(4),
-                  child: LinearProgressIndicator(),
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            title: i18n.title.text(),
+            bottom: records != null
+                ? null
+                : const PreferredSize(
+                    preferredSize: Size.fromHeight(4),
+                    child: LinearProgressIndicator(),
+                  ),
+          ),
+          if (records != null)
+            if (records.isEmpty)
+              SliverToBoxAdapter(
+                child: LeavingBlank(
+                  icon: Icons.inbox_outlined,
+                  desc: i18n.noOaAnnouncesTip,
                 ),
-        ),
-        if (records != null)
-          if (records.isEmpty)
-            SliverToBoxAdapter(
-              child: LeavingBlank(
-                icon: Icons.inbox_outlined,
-                desc: i18n.noOaAnnouncesTip,
-              ),
-            )
-          else
-            SliverList.builder(
-              itemCount: records.length,
-              itemBuilder: (ctx, i) {
-                final record = records[i];
-                return OaAnnounceTile(record).inCard().hero(record.uuid);
-              },
-            )
-      ],
+              )
+            else
+              SliverList.builder(
+                itemCount: records.length,
+                itemBuilder: (ctx, i) {
+                  final record = records[i];
+                  return OaAnnounceTile(record).inCard().hero(record.uuid);
+                },
+              )
+        ],
+      ),
     );
   }
 

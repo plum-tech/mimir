@@ -57,37 +57,39 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
   @override
   Widget build(BuildContext context) {
     final exams = this.exams;
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          pinned: true,
-          expandedHeight: 180,
-          flexibleSpace: FlexibleSpaceBar(
-            title: i18n.title.text(),
-            centerTitle: true,
-            background: buildSemesterSelector(),
-          ),
-          bottom: exams != null
-              ? null
-              : const PreferredSize(
-                  preferredSize: Size.fromHeight(4),
-                  child: LinearProgressIndicator(),
-                ),
-        ),
-        if (exams != null)
-          if (exams.isEmpty)
-            SliverToBoxAdapter(
-              child: LeavingBlank(
-                icon: Icons.inbox_outlined,
-                desc: i18n.noExamsTip,
-              ),
-            )
-          else
-            SliverList.builder(
-              itemCount: exams.length,
-              itemBuilder: (ctx, i) => ExamCard(exam: exams[i]),
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            expandedHeight: 200,
+            flexibleSpace: FlexibleSpaceBar(
+              title: i18n.title.text(),
+              centerTitle: true,
+              background: buildSemesterSelector(),
             ),
-      ],
+            bottom: exams != null
+                ? null
+                : const PreferredSize(
+                    preferredSize: Size.fromHeight(4),
+                    child: LinearProgressIndicator(),
+                  ),
+          ),
+          if (exams != null)
+            if (exams.isEmpty)
+              SliverToBoxAdapter(
+                child: LeavingBlank(
+                  icon: Icons.inbox_outlined,
+                  desc: i18n.noExamsTip,
+                ),
+              )
+            else
+              SliverList.builder(
+                itemCount: exams.length,
+                itemBuilder: (ctx, i) => ExamCard(exam: exams[i]),
+              ),
+        ],
+      ),
     );
   }
 

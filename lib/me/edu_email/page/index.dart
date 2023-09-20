@@ -8,7 +8,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../init.dart';
 import '../i18n.dart';
-import 'list.dart';
+import '../widgets/list.dart';
 
 // TODO: Send email
 class EduEmailPage extends StatefulWidget {
@@ -74,6 +74,7 @@ class _EduEmailPageState extends State<EduEmailPage> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Using sliver
     return Scaffold(
       appBar: AppBar(
         title: (CredentialInit.storage.eduEmailCredentials?.address ?? i18n.title).text(),

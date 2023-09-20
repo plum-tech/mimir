@@ -47,48 +47,50 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
   @override
   Widget build(BuildContext context) {
     final details = this.details;
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          pinned: true,
-          title: widget.record.title.text(),
-          actions: [
-            IconButton(
-              onPressed: () {
-                launchUrlInBrowser(url);
-              },
-              icon: const Icon(Icons.open_in_browser),
-            ),
-          ],
-          bottom: details != null
-              ? null
-              : const PreferredSize(
-                  preferredSize: Size.fromHeight(4),
-                  child: LinearProgressIndicator(),
-                ),
-        ),
-        SliverToBoxAdapter(
-          child: OaAnnounceInfoCard(
-            record: record,
-            details: details,
-          ).hero(record.uuid),
-        ),
-        if (details != null)
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            sliver: AnnounceArticle(details),
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            title: widget.record.title.text(),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  launchUrlInBrowser(url);
+                },
+                icon: const Icon(Icons.open_in_browser),
+              ),
+            ],
+            bottom: details != null
+                ? null
+                : const PreferredSize(
+                    preferredSize: Size.fromHeight(4),
+                    child: LinearProgressIndicator(),
+                  ),
           ),
-        if (details != null && details.attachments.isNotEmpty) ...[
-          const SliverToBoxAdapter(child: Divider()),
           SliverToBoxAdapter(
-            child: i18n.attachmentTip(details.attachments.length).text(
-                  style: context.textTheme.titleLarge,
-                  textAlign: TextAlign.center,
-                ),
-          )
+            child: OaAnnounceInfoCard(
+              record: record,
+              details: details,
+            ).hero(record.uuid),
+          ),
+          if (details != null)
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              sliver: AnnounceArticle(details),
+            ),
+          if (details != null && details.attachments.isNotEmpty) ...[
+            const SliverToBoxAdapter(child: Divider()),
+            SliverToBoxAdapter(
+              child: i18n.attachmentTip(details.attachments.length).text(
+                    style: context.textTheme.titleLarge,
+                    textAlign: TextAlign.center,
+                  ),
+            )
+          ],
+          if (details != null) ...details.attachments.map((e) => SliverToBoxAdapter(child: AttachmentLink(e))),
         ],
-        if (details != null) ...details.attachments.map((e) => SliverToBoxAdapter(child: AttachmentLink(e))),
-      ],
+      ),
     );
   }
 

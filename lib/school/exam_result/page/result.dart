@@ -65,68 +65,70 @@ class _ExamResultPageState extends State<ExamResultPage> {
   @override
   Widget build(BuildContext context) {
     final allResults = this.allResults;
-    return MultiselectScope<ExamResult>(
-      key: _multiselectKey,
-      controller: multiselect,
-      dataSource: allResults ?? const [],
-      // Set this to true if you want automatically
-      // clear selection when user tap back button
-      clearSelectionOnPop: true,
-      // When you update [dataSource] then selected indexes will update
-      // so that the same elements in new [dataSource] are selected
-      keepSelectedItemsBetweenUpdates: true,
-      initialSelectedIndexes: null,
-      // Callback that call on selection changing
-      onSelectionChanged: (indexes, items) {
-        setState(() {});
-      },
-      child: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            pinned: true,
-            expandedHeight: 180,
-            flexibleSpace: FlexibleSpaceBar(
-              title: buildTitle(),
-              centerTitle: true,
-              background: buildSemesterSelector(),
-            ),
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      isSelecting = !isSelecting;
-                      if (isSelecting == false) {
-                        multiselect.clearSelection();
-                      }
-                    });
-                  },
-                  icon: Icon(isSelecting ? Icons.check_box_outlined : Icons.check_box_outline_blank)),
-            ],
-            bottom: allResults != null
-                ? null
-                : const PreferredSize(
-                    preferredSize: Size.fromHeight(4),
-                    child: LinearProgressIndicator(),
-                  ),
-          ),
-          if (allResults != null)
-            if (allResults.isEmpty)
-              SliverToBoxAdapter(
-                child: LeavingBlank(
-                  icon: Icons.inbox_outlined,
-                  desc: i18n.noResultsTip,
-                ),
-              )
-            else
-              SliverList.builder(
-                itemCount: allResults.length,
-                itemBuilder: (item, i) => ExamResultTile(
-                  allResults[i],
-                  index: i,
-                  isSelectingMode: isSelecting,
-                ),
+    return Scaffold(
+      body: MultiselectScope<ExamResult>(
+        key: _multiselectKey,
+        controller: multiselect,
+        dataSource: allResults ?? const [],
+        // Set this to true if you want automatically
+        // clear selection when user tap back button
+        clearSelectionOnPop: true,
+        // When you update [dataSource] then selected indexes will update
+        // so that the same elements in new [dataSource] are selected
+        keepSelectedItemsBetweenUpdates: true,
+        initialSelectedIndexes: null,
+        // Callback that call on selection changing
+        onSelectionChanged: (indexes, items) {
+          setState(() {});
+        },
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              pinned: true,
+              expandedHeight: 200,
+              flexibleSpace: FlexibleSpaceBar(
+                title: buildTitle(),
+                centerTitle: true,
+                background: buildSemesterSelector(),
               ),
-        ],
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isSelecting = !isSelecting;
+                        if (isSelecting == false) {
+                          multiselect.clearSelection();
+                        }
+                      });
+                    },
+                    icon: Icon(isSelecting ? Icons.check_box_outlined : Icons.check_box_outline_blank)),
+              ],
+              bottom: allResults != null
+                  ? null
+                  : const PreferredSize(
+                      preferredSize: Size.fromHeight(4),
+                      child: LinearProgressIndicator(),
+                    ),
+            ),
+            if (allResults != null)
+              if (allResults.isEmpty)
+                SliverToBoxAdapter(
+                  child: LeavingBlank(
+                    icon: Icons.inbox_outlined,
+                    desc: i18n.noResultsTip,
+                  ),
+                )
+              else
+                SliverList.builder(
+                  itemCount: allResults.length,
+                  itemBuilder: (item, i) => ExamResultTile(
+                    allResults[i],
+                    index: i,
+                    isSelectingMode: isSelecting,
+                  ),
+                ),
+          ],
+        ),
       ),
     );
   }

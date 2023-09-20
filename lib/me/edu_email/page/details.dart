@@ -17,24 +17,26 @@ class EduEmailDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final subject = message.decodeSubject() ?? i18n.noSubject;
-    return SelectionArea(
-      child: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            pinned: true,
-            title: subject.text(),
-          ),
-          SliverToBoxAdapter(
-            child: MailMetaCard(message),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.all(8),
-            sliver: StyledHtmlWidget(
-              _generateHtml(context, message),
-              renderMode: RenderMode.sliverList,
+    return Scaffold(
+      body: SelectionArea(
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              pinned: true,
+              title: subject.text(),
             ),
-          )
-        ],
+            SliverToBoxAdapter(
+              child: MailMetaCard(message),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.all(8),
+              sliver: StyledHtmlWidget(
+                _generateHtml(context, message),
+                renderMode: RenderMode.sliverList,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

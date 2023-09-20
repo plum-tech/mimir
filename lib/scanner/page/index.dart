@@ -33,6 +33,7 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: [
         buildScanner(),
         const QRScannerOverlay(
