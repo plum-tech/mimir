@@ -23,10 +23,23 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
     formats: [BarcodeFormat.qrCode],
     facing: CameraFacing.back,
   );
-
+@override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
   @override
   void dispose() {
     controller.dispose();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     super.dispose();
   }
 
