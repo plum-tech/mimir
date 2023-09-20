@@ -1,5 +1,5 @@
-NSCalendarsUsageDescription = "需要日历权限。";
-NSCameraUsageDescription = "需要相机权限。";
-NSPhotoLibraryUsageDescription = "需要照片权限。";
+NSCalendarsUsageDescription = "需要日历权限";
+NSCameraUsageDescription = "需要相机权限";
+NSPhotoLibraryUsageDescription = "需要照片权限";
 CFBundleDisplayName = "Mimir";
-NFCReaderUsageDescription = "需要NFC权限。";
+NFCReaderUsageDescription = "需要NFC权限";
