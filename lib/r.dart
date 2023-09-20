@@ -7,7 +7,9 @@ import 'package:version/version.dart';
 class R {
   R._();
 
-  static const debugCupertino = kDebugMode ? true : false;
+  static const debugCupertino = kDebugMode ? _debugCupertino : false;
+  /// For debugging iOS on other platforms.
+  static const _debugCupertino = false;
   static const enLocale = Locale('en');
   static const zhCnLocale = Locale('zh', "CN");
   static const zhTwLocale = Locale('zh', "TW");
