@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/design/widgets/fab.dart';
 import 'package:mimir/design/widgets/multi_select.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/widgets/school.dart';
@@ -29,6 +30,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
 
   /// 成绩列表
   List<ExamResult>? allResults;
+  final controller = ScrollController();
 
   bool isSelecting = false;
   final multiselect = MultiselectController();
@@ -82,6 +84,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
           setState(() {});
         },
         child: CustomScrollView(
+          controller: controller,
           slivers: [
             SliverAppBar(
               pinned: true,
@@ -91,18 +94,6 @@ class _ExamResultPageState extends State<ExamResultPage> {
                 centerTitle: true,
                 background: buildSemesterSelector(),
               ),
-              actions: [
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        isSelecting = !isSelecting;
-                        if (isSelecting == false) {
-                          multiselect.clearSelection();
-                        }
-                      });
-                    },
-                    icon: Icon(isSelecting ? Icons.check_box_outlined : Icons.check_box_outline_blank)),
-              ],
               bottom: allResults != null
                   ? null
                   : const PreferredSize(
@@ -129,6 +120,20 @@ class _ExamResultPageState extends State<ExamResultPage> {
                 ),
           ],
         ),
+      ),
+      floatingActionButton: AutoHideFAB.extended(
+        controller: controller,
+        alwaysShow: isSelecting,
+        onPressed: () {
+          setState(() {
+            isSelecting = !isSelecting;
+            if (isSelecting == false) {
+              multiselect.clearSelection();
+            }
+          });
+        },
+        label: Text(isSelecting ? i18n.unselect : i18n.select),
+        icon: Icon(isSelecting ? Icons.check_box_outlined : Icons.check_box_outline_blank),
       ),
     );
   }

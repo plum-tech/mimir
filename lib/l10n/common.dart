@@ -54,6 +54,10 @@ mixin CommonI18nMixin {
   String get search => "search".tr();
 
   String get seeAll => "seeAll".tr();
+
+  String get select => "select".tr();
+
+  String get unselect => "unselect".tr();
 }
 
 class CommonI18n with CommonI18nMixin {

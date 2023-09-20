@@ -15,12 +15,16 @@ class AutoHideFAB extends StatefulWidget {
   final VoidCallback? onPressed;
   final _FABType _type;
 
+  /// false by default.
+  final bool? alwaysShow;
+
   const AutoHideFAB({
     super.key,
     required this.controller,
     required this.onPressed,
     this.label,
     this.child,
+    this.alwaysShow,
   }) : _type = _FABType.regular;
 
   const AutoHideFAB.extended({
@@ -29,6 +33,7 @@ class AutoHideFAB extends StatefulWidget {
     required this.onPressed,
     required Widget this.label,
     required Widget? icon,
+    this.alwaysShow,
   })  : _type = _FABType.extended,
         child = icon;
 
@@ -38,6 +43,8 @@ class AutoHideFAB extends StatefulWidget {
 
 class _AutoHideFABState extends State<AutoHideFAB> {
   bool showBtn = true;
+
+  bool get alwaysShow => widget.alwaysShow ?? false;
 
   @override
   void initState() {
@@ -71,7 +78,7 @@ class _AutoHideFABState extends State<AutoHideFAB> {
   @override
   Widget build(BuildContext context) {
     return AnimatedSlideDown(
-      upWhen: showBtn,
+      upWhen: alwaysShow || showBtn,
       child: switch (widget._type) {
         _FABType.extended => FloatingActionButton.extended(
             icon: widget.child,
