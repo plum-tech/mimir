@@ -58,7 +58,7 @@ class AppCard extends StatelessWidget {
         OverflowBar(
           alignment: MainAxisAlignment.spaceBetween,
           children: [
-            leftActions.wrap(spacing: leftActionsSpacing ?? 12),
+            leftActions.wrap(spacing: leftActionsSpacing ?? 8),
             rightActions.wrap(spacing: rightActionsSpacing ?? 0),
           ],
         ).padOnly(l: 16, b: rightActions.isEmpty ? 12 : 8, r: 16),

@@ -58,6 +58,8 @@ mixin CommonI18nMixin {
   String get select => "select".tr();
 
   String get unselect => "unselect".tr();
+
+  String get share => "share".tr();
 }
 
 class CommonI18n with CommonI18nMixin {
