@@ -121,7 +121,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         actions: [
           if (!isSelected)
             CupertinoContextMenuAction(
-              trailingIcon: CupertinoIcons.star,
+              trailingIcon: CupertinoIcons.check_mark,
               onPressed: () async {
                 Navigator.of(context, rootNavigator: true).pop();
                 await Future.delayed(const Duration(milliseconds: 336));
@@ -172,7 +172,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           return TimetableEntry(
             id: id,
             timetable: timetable,
-            moreAction: isSelected ? Icon(CupertinoIcons.star_fill, color: context.colorScheme.primary) : null,
+            moreAction: isSelected ? Icon(CupertinoIcons.check_mark, color: context.colorScheme.primary) : null,
           ).scrolled(physics: const NeverScrollableScrollPhysics());
         },
       ),

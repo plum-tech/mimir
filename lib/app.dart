@@ -47,7 +47,7 @@ class _MimirAppState extends State<MimirApp> {
           brightness: origin.brightness,
         ),
         visualDensity: VisualDensity.comfortable,
-        appBarTheme: const AppBarTheme(
+        appBarTheme: origin.appBarTheme.copyWith(
           backgroundColor: Colors.transparent,
         ),
         pageTransitionsTheme: const PageTransitionsTheme(
