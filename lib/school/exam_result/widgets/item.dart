@@ -40,7 +40,7 @@ class _ExamResultTileState extends State<ExamResultTile> {
       }
     }
 
-    final courseType = result.courseId[0] != 'G' ? i18n.compulsory : i18n.elective;
+    final courseType = result.courseId[0] == 'G' ? i18n.elective : i18n.compulsory;
     final resultItems =
         result.items.where((e) => !e.score.isNaN && !(e.scoreType == "总评" && e.score == result.score)).toList();
     final itemStyle = textTheme.labelSmall?.copyWith(color: selected ? context.colorScheme.primary : null);

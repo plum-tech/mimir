@@ -10,7 +10,10 @@ class OaAnnounceInit {
   static late AnnounceDao service;
   static late SsoSession session;
 
-  static void init({required SsoSession ssoSession, required Box<dynamic> box}) {
+  static void init({
+    required SsoSession ssoSession,
+    required Box<dynamic> box,
+  }) {
     session = ssoSession;
     service = AnnounceCache(
         from: AnnounceService(session),

@@ -208,11 +208,7 @@ class _LoginPageState extends State<LoginPage> {
       buildLoginForm(),
       SizedBox(height: 10.h),
       buildLoginButton(),
-    ]
-        .column(mas: MainAxisSize.min)
-        .scrolled(physics: const NeverScrollableScrollPhysics())
-        .padH(25.h)
-        .center();
+    ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25.h).center();
   }
 
   Widget buildLoginForm() {

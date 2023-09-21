@@ -8,6 +8,7 @@ class R {
   R._();
 
   static const debugCupertino = kDebugMode ? _debugCupertino : false;
+
   /// For debugging iOS on other platforms.
   static const _debugCupertino = false;
   static const enLocale = Locale('en');

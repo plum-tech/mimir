@@ -79,9 +79,9 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
       view: summary == null
           ? const SizedBox()
           : buildSummeryCard(
-        summary: summary,
-        target: getTargetScore(),
-      ),
+              summary: summary,
+              target: getTargetScore(),
+            ),
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
@@ -136,11 +136,10 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
           child: i18n.share.text(),
         ),
       ],
-      builder: (ctx, animation) =>
-          Class2ndScoreSummeryCard(
-            targetScore: target,
-            summary: summary,
-          ).constrained(maxH: 250),
+      builder: (ctx, animation) => Class2ndScoreSummeryCard(
+        targetScore: target,
+        summary: summary,
+      ).constrained(maxH: 250),
     );
   }
 
@@ -151,9 +150,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
     final name2score = summary.toName2score();
     final name2target = target.toName2score();
     final text = name2score
-        .map((e) => "${e.name}: ${e.score}/${name2target
-        .firstWhereOrNull((t) => t.name == e.name)
-        ?.score}")
+        .map((e) => "${e.name}: ${e.score}/${name2target.firstWhereOrNull((t) => t.name == e.name)?.score}")
         .join(", ");
     await Share.share(
       text,

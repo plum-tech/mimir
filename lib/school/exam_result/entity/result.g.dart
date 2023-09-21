@@ -25,14 +25,15 @@ class ExamResultAdapter extends TypeAdapter<ExamResult> {
       semester: fields[6] as Semester,
       credit: fields[7] as double,
       dynClassId: fields[4] as String,
-      items: (fields[8] as List).cast<ExamResultItem>(),
+      items: (fields[9] as List).cast<ExamResultItem>(),
+      time: fields[8] as DateTime?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ExamResult obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.score)
       ..writeByte(1)
@@ -50,6 +51,8 @@ class ExamResultAdapter extends TypeAdapter<ExamResult> {
       ..writeByte(7)
       ..write(obj.credit)
       ..writeByte(8)
+      ..write(obj.time)
+      ..writeByte(9)
       ..write(obj.items);
   }
 
@@ -113,6 +116,7 @@ ExamResult _$ExamResultFromJson(Map<String, dynamic> json) => ExamResult(
       semester: formFieldToSemester(json['xqm'] as String),
       credit: stringToDouble(json['xf'] as String),
       dynClassId: json['jxbmc'] as String? ?? '',
+      time: _parseTime(json['tjsj']),
     );
 
 Map<String, dynamic> _$ExamResultToJson(ExamResult instance) => <String, dynamic>{

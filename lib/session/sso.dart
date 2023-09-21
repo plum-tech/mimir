@@ -170,7 +170,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
     }
   }
 
-  void _setOnline(bool isOnline){
+  void _setOnline(bool isOnline) {
     final ctx = $Key.currentContext;
     if (ctx != null && ctx.mounted) {
       OaOnlineManagerState.of(ctx).isOnline = isOnline;

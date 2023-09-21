@@ -2,6 +2,7 @@ import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:intl/intl.dart';
 import 'package:mimir/network/session.dart';
+import 'package:mimir/session/sso.dart';
 
 import '../dao/announce.dart';
 import '../entity/announce.dart';
@@ -9,9 +10,10 @@ import '../entity/page.dart';
 
 final _announceDateTimeFormat = DateFormat('yyyy-MM-dd');
 final _departmentSplitRegex = RegExp(r'\s+');
+final _dateFormat = DateFormat('yyyy年MM月dd日 hh:mm');
 
 class AnnounceService implements AnnounceDao {
-  final ISession session;
+  final SsoSession session;
 
   const AnnounceService(this.session);
 
@@ -25,8 +27,6 @@ class AnnounceService implements AnnounceDao {
   }
 
   OaAnnounceDetails _parseBulletinDetail(Bs4Element item) {
-    final dateFormat = DateFormat('yyyy年MM月dd日 hh:mm');
-
     String metaHtml = item.find('div', class_: 'bulletin-info')?.innerHtml ?? '';
     // 删除注释
     metaHtml = metaHtml.replaceAll('<!--', '').replaceAll(r'-->', '');
@@ -38,7 +38,7 @@ class AnnounceService implements AnnounceDao {
       title: item.find('div', class_: 'bulletin-title')?.text.trim() ?? '',
       content: item.find('div', class_: 'bulletin-content')?.innerHtml ?? '',
       attachments: _parseAttachment(item),
-      dateTime: dateFormat.parse(metaList[0].substring(5)),
+      dateTime: _dateFormat.parse(metaList[0].substring(5)),
       department: metaList[1].substring(5),
       author: metaList[2].substring(3),
       readNumber: int.parse(metaList[3].substring(5)),

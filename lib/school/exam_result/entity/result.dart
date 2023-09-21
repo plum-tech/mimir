@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mimir/hive/type_id.dart';
 import 'package:mimir/school/entity/school.dart';
@@ -6,6 +7,13 @@ part 'result.g.dart';
 
 String _parseCourseName(dynamic courseName) {
   return mapChinesePunctuations(courseName.toString());
+}
+
+final _timeFormat = DateFormat("yyyy-MM-dd hh:mm:ss");
+
+DateTime? _parseTime(dynamic time) {
+  if (time == null) return null;
+  return _timeFormat.parse(time.toString());
 }
 
 @JsonSerializable()
@@ -51,8 +59,12 @@ class ExamResult {
   @HiveField(7)
   final double credit;
 
-  @JsonKey(includeToJson: false, includeFromJson: false)
+  @JsonKey(name: "tjsj", fromJson: _parseTime, includeToJson: false)
   @HiveField(8)
+  final DateTime? time;
+
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  @HiveField(9)
   final List<ExamResultItem> items;
 
   const ExamResult({
@@ -65,6 +77,7 @@ class ExamResult {
     required this.credit,
     required this.dynClassId,
     this.items = const [],
+    required this.time,
   });
 
   ExamResult copyWith({
@@ -76,6 +89,7 @@ class ExamResult {
     Semester? semester,
     String? dynClassId,
     double? credit,
+    DateTime? time,
     List<ExamResultItem>? items,
   }) {
     return ExamResult(
@@ -88,6 +102,7 @@ class ExamResult {
       credit: credit ?? this.credit,
       dynClassId: dynClassId ?? this.dynClassId,
       items: items ?? this.items,
+      time: time ?? this.time,
     );
   }
 
@@ -97,7 +112,18 @@ class ExamResult {
 
   @override
   String toString() {
-    return 'Score{value: $score, course: $courseName, courseId: $courseId, innerClassId: $innerClassId, dynClassId: $dynClassId, schoolYear: $schoolYear, semester: $semester, credit: $credit}';
+    return {
+      "score": "$score",
+      "courseName": courseName,
+      "courseId": courseId,
+      "innerClassId": innerClassId,
+      "dynClassId": dynClassId,
+      "schoolYear": "$schoolYear",
+      "semester": "$semester",
+      "credit": "$credit",
+      "time": time,
+      "items": "$items",
+    }.toString();
   }
 }
 
