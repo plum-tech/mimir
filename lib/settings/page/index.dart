@@ -7,6 +7,7 @@ import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/hive/init.dart';
 import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/session/widgets/scope.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/version.dart';
 import 'package:rettulf/rettulf.dart';
@@ -356,6 +357,7 @@ void _onWipeData(BuildContext context) async {
     await HiveInit.clear(); // 清除存储
     await Init.init();
     if (!context.mounted) return;
+    OaOnlineManagerState.of(context).isOnline = false;
     _gotoLogin(context);
   }
 }

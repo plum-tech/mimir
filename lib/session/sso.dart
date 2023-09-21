@@ -8,7 +8,9 @@ import 'package:mimir/credential/entity/credential.dart';
 import 'package:mimir/credential/init.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/network/session.dart';
+import 'package:mimir/route.dart';
 import 'package:mimir/session/common.dart';
+import 'package:mimir/session/widgets/scope.dart';
 import 'package:mimir/utils/logger.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:encrypt/encrypt.dart';
@@ -168,6 +170,13 @@ class SsoSession with DioDownloaderMixin implements ISession {
     }
   }
 
+  void _setOnline(bool isOnline){
+    final ctx = $Key.currentContext;
+    if (ctx != null && ctx.mounted) {
+      OaOnlineManagerState.of(ctx).isOnline = isOnline;
+    }
+  }
+
   /// 带异常的登录, 但不处理验证码识别错误问题.
   Future<Response> _login(OaCredentials credentials) async {
     Log.info('尝试登录：${credentials.account}');
@@ -175,7 +184,13 @@ class SsoSession with DioDownloaderMixin implements ISession {
     // 在 OA 登录时, 服务端会记录同一 cookie 用户登录次数和输入错误次数,
     // 所以需要在登录前清除所有 cookie, 避免用户重试时出错.
     cookieJar.deleteAll();
-    final response = await _postLoginProcess(credentials);
+    final Response response;
+    try {
+      response = await _postLoginProcess(credentials);
+    } catch (e) {
+      _setOnline(false);
+      rethrow;
+    }
     final page = BeautifulSoup(response.data);
 
     final emptyPage = BeautifulSoup('');
@@ -186,15 +201,18 @@ class SsoSession with DioDownloaderMixin implements ISession {
     if (authError.isNotEmpty || mobileError.isNotEmpty) {
       final errorMessage = authError + mobileError;
       final type = parseInvalidType(errorMessage);
+      _setOnline(false);
       throw OaCredentialsException(message: errorMessage, type: type);
     }
 
     if (response.realUri.toString() != _loginSuccessUrl) {
       Log.error('未知验证错误,此时url为: ${response.realUri}');
+      _setOnline(false);
       throw const UnknownAuthException();
     }
     Log.info('登录成功：${credentials.account}');
     CredentialInit.storage.oaLastAuthTime = DateTime.now();
+    _setOnline(true);
     return response;
   }
 

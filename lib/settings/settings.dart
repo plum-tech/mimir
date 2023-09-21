@@ -79,9 +79,9 @@ class SettingsImpl {
   set lastWindowSize(Size? value) => box.put(_ThemeK.lastWindowSize, value ?? R.defaultWindowSize);
 
   // network
-  String get httpProxy => box.get(_NetworkK.httpProxy, defaultValue: '');
+  String? get httpProxy => box.get(_NetworkK.httpProxy);
 
-  set httpProxy(String foo) => box.put(_NetworkK.httpProxy, foo);
+  set httpProxy(String? newV) => box.put(_NetworkK.httpProxy, newV);
 
   /// [false] by default.
   bool get useHttpProxy => box.get(_NetworkK.useHttpProxy) ?? false;

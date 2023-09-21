@@ -12,7 +12,6 @@ import 'package:mimir/global/cookie_init.dart';
 import 'package:mimir/global/dio_init.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/session/sso.dart';
-import 'package:mimir/settings/settings.dart';
 
 import '../widgets/captcha_box.dart';
 
@@ -33,7 +32,6 @@ class Global {
     dio = await DioInit.init(
       config: DioConfig()
         ..cookieJar = cookieJar
-        ..httpProxy = Settings.httpProxy
         ..sendTimeout = const Duration(seconds: 6)
         ..receiveTimeout = const Duration(seconds: 6)
         ..connectTimeout = const Duration(seconds: 6),

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
@@ -6,7 +5,6 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:fk_user_agent/fk_user_agent.dart';
-import 'package:flutter/services.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/utils/logger.dart';
@@ -14,7 +12,6 @@ import 'package:mimir/utils/logger.dart';
 final _rand = Random();
 
 class DioConfig {
-  String? httpProxy;
   bool allowBadCertificate = true;
   CookieJar cookieJar = DefaultCookieJar();
   Duration? connectTimeout;
@@ -110,26 +107,16 @@ class MimirHttpOverrides extends HttpOverrides {
   HttpClient createHttpClient(SecurityContext? context) {
     final client = super.createHttpClient(context);
 
+    final httpProxy = Settings.httpProxy;
+    final useHttpProxy = Settings.useHttpProxy;
     // 设置证书检查
-    if (config.allowBadCertificate || Settings.useHttpProxy || config.httpProxy != null) {
+    if (config.allowBadCertificate || useHttpProxy || httpProxy != null) {
       client.badCertificateCallback = (cert, host, port) => true;
     }
-
-    // 设置代理. 优先使用代码中的设置, 便于调试.
-    if (config.httpProxy != null) {
-      // 判断测试环境代理合法性
-      // TODO: 检查代理格式
-      if (config.httpProxy!.isNotEmpty) {
-        // 可以
-        Log.info('测试环境设置代理: ${config.httpProxy}');
-        client.findProxy = (url) => getProxyPolicyByUrl(url, config.httpProxy!);
-      } else {
-        // 不行
-        Log.info('测试环境代理服务器为空或不合法，将不使用代理服务器');
-      }
-    } else if (Settings.useHttpProxy && Settings.httpProxy.isNotEmpty) {
-      Log.info('线上设置代理: ${config.httpProxy}');
-      client.findProxy = (url) => getProxyPolicyByUrl(url, Settings.httpProxy);
+    // 设置代理.
+    if (useHttpProxy && httpProxy != null && httpProxy.isNotEmpty) {
+      Log.info('设置代理: $httpProxy');
+      client.findProxy = (url) => getProxyPolicyByUrl(url, httpProxy);
     }
     return client;
   }
