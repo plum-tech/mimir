@@ -269,6 +269,10 @@ settings:
     localStorage:
       title: 本機儲存
       desc: 管理在本裝置上的儲存
+      selectBoxTip: 請先選擇一個盒子。
+      clearBoxDesc: 確認清空這個盒子嗎？
+      deleteItemDesc: 確認刪除這個 key-value對 嗎？
+      emptyValueDesc: 確認將這個 key-value對 設定為 null 嗎？
     reload:
       title: 重新載入
       desc: 重新載入所有模塊
@@ -326,12 +330,6 @@ settings:
     desc: 擦除帳戶並登出當前 OA 賬戶
     request: 擦除所有資料
     requestDesc: 這會擦除你本地除網頁快取外的登入資料與其他資料，例如匯入的課程表。
-localStorage:
-  title: 本地儲存編輯器
-  selectBoxTip: 請先選擇一個盒子。
-  clearBoxDesc: 確認清空這個盒子嗎？
-  deleteItemDesc: 確認刪除這個 key-value對 嗎？
-  emptyValueDesc: 確認將這個 key-value對 設定為 null 嗎？
 oaAnnounce:
   title: OA 公告
   noOaAnnouncesTip: 無 OA 公告

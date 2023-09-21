@@ -271,6 +271,10 @@ settings:
     localStorage:
       title: 本地存储
       desc: 管理在此设备上存储的数据
+      selectBoxTip: 请先选择一个盒子。
+      clearBoxDesc: 确定清空这个盒子里的数据吗？
+      deleteItemDesc: 确定删除这个键值对吗？
+      emptyValueDesc: 确定将这个键值设 null 为对吗？
     reload:
       title: 重新加载
       desc: 重新加载所有模块
@@ -328,12 +332,6 @@ settings:
     desc: 擦除所有数据并登出当前 OA 账号
     request: 擦除所有数据
     requestDesc: 此操作将永久擦除你的登录凭据，缓存和其他信息，如已导入的课程表。
-localStorage:
-  title: 本地存储编辑器
-  selectBoxTip: 请先选择一个盒子。
-  clearBoxDesc: 确定清空这个盒子里的数据吗？
-  deleteItemDesc: 确定删除这个键值对吗？
-  emptyValueDesc: 确定将这个键值设 null 为对吗？
 oaAnnounce:
   title: OA 公告
   noOaAnnouncesTip: 无 OA 公告

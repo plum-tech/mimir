@@ -271,6 +271,10 @@ settings:
     localStorage:
       title: Local storage
       desc: Manage storage on your device
+      selectBoxTip: Please select a box first
+      clearBoxDesc: Confirm to clear this box?
+      deleteItemDesc: Confirm to delete this key-value pair?
+      emptyValueDesc: Confirm to set this key-value pair to null?
     reload:
       title: Reload
       desc: Reload all modules
@@ -328,12 +332,6 @@ settings:
     desc: Wipe all data and log out
     request: Wipe ALL Data
     requestDesc: ALL data, such as login credentials and timetable imported, will be wiped permanently.
-localStorage:
-  title: Local storage editor
-  selectBoxTip: Please select a box first
-  clearBoxDesc: Confirm to clear this box?
-  deleteItemDesc: Confirm to delete this key-value pair?
-  emptyValueDesc: Confirm to set this key-value pair to null?
 oaAnnounce:
   title: OA announcement
   noOaAnnouncesTip: No OA announces
