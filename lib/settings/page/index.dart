@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/i18n.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
@@ -114,9 +115,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
   List<Widget> buildEntries() {
     final all = <Widget>[];
-    all.add(const CampusSelector().padSymmetric(h: 8));
-
-    final credential = context.auth.credentials;
+    final auth = context.auth;
+    if (auth.loginStatus != LoginStatus.never) {
+      all.add(const CampusSelector().padSymmetric(h: 8));
+    }
+    final credential = auth.credentials;
     if (credential != null) {
       all.add(PageNavigationTile(
         title: CredentialI18n.instance.oaAccount.text(),
@@ -129,24 +132,26 @@ class _SettingsPageState extends State<SettingsPage> {
 
     all.add(const LanguageSelectorTile());
     all.add(const ThemeModeTile());
+    all.add(const Divider());
 
-    all.add(const Divider());
-    all.add(PageNavigationTile(
-      title: i18n.timetable.title.text(),
-      icon: const Icon(Icons.calendar_month_outlined),
-      path: "/settings/timetable",
-    ));
-    all.add(PageNavigationTile(
-      title: i18n.school.title.text(),
-      icon: const Icon(Icons.school_outlined),
-      path: "/settings/school",
-    ));
-    all.add(PageNavigationTile(
-      title: i18n.life.title.text(),
-      icon: const Icon(Icons.spa_outlined),
-      path: "/settings/life",
-    ));
-    all.add(const Divider());
+    if (auth.loginStatus != LoginStatus.never) {
+      all.add(PageNavigationTile(
+        title: i18n.timetable.title.text(),
+        icon: const Icon(Icons.calendar_month_outlined),
+        path: "/settings/timetable",
+      ));
+      all.add(PageNavigationTile(
+        title: i18n.school.title.text(),
+        icon: const Icon(Icons.school_outlined),
+        path: "/settings/school",
+      ));
+      all.add(PageNavigationTile(
+        title: i18n.life.title.text(),
+        icon: const Icon(Icons.spa_outlined),
+        path: "/settings/life",
+      ));
+      all.add(const Divider());
+    }
     if (Settings.isDeveloperMode) {
       all.add(PageNavigationTile(
         title: i18n.dev.title.text(),
@@ -154,7 +159,9 @@ class _SettingsPageState extends State<SettingsPage> {
         path: "/settings/developer",
       ));
     }
-    all.add(const ClearCacheTile());
+    if (auth.loginStatus != LoginStatus.never) {
+      all.add(const ClearCacheTile());
+    }
     all.add(const WipeDataTile());
     all.add(const VersionTile());
     return all;
