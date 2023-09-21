@@ -179,10 +179,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     try {
       final semester = selectedSemester;
       final year = SchoolYear(selectedYear);
-      final (timetable, _) = await (
-        TimetableInit.service.getTimetable(year, semester),
-        Future.delayed(const Duration(seconds: 1)),
-      ).wait;
+      final timetable = await TimetableInit.service.getTimetable(year, semester);
       if (!mounted) return;
       setState(() {
         _status = ImportStatus.end;
