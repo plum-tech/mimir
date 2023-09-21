@@ -33,6 +33,7 @@ class _DeveloperK {
   static const devMode = '$ns/devMode';
 }
 
+// ignore: non_constant_identifier_names
 late SettingsImpl Settings;
 
 class SettingsImpl {

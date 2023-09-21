@@ -7,6 +7,7 @@ class _K {
   static const installTime = '/installTime';
 }
 
+// ignore: non_constant_identifier_names
 late MetaImpl Meta;
 
 class MetaImpl {

@@ -27,19 +27,17 @@ import 'package:universal_platform/universal_platform.dart';
 class Init {
   static late AppVersion currentVersion;
 
-  static Future<void> init({bool? debugNetwork}) async {
+  static Future<void> init() async {
     // 运行前初始化
     try {
-      await _init(debugNetwork: debugNetwork);
+      await _init();
     } on Exception catch (error, stackTrace) {
-      if (kDebugMode) {
-        print(error);
-        print(stackTrace);
-      }
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
     }
   }
 
-  static Future<void> _init({bool? debugNetwork}) async {
+  static Future<void> _init() async {
     // Initialize the window size before others for a better experience when loading.
     if (UniversalPlatform.isDesktop) {
       await DesktopInit.init();
@@ -66,7 +64,6 @@ class Init {
     );
 
     await Global.init(
-      debugNetwork: debugNetwork ?? Settings.isGlobalHttpProxy,
       cookieBox: HiveInit.cookies,
       credentials: CredentialInit.storage,
     );

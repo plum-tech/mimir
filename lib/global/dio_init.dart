@@ -22,17 +22,17 @@ class DioConfig {
 /// 用于初始化Dio,全局只有一份dio对象
 class DioInit {
   /// 初始化SessionPool
-  static Future<Dio> init({required DioConfig config, bool? debug}) async {
+  static Future<Dio> init({required DioConfig config}) async {
     // dio初始化完成后，才能初始化 UA
-    final dio = _initDioInstance(config: config, debug: debug);
+    final dio = _initDioInstance(config: config);
     await _initUserAgentString(dio: dio);
 
     return dio;
   }
 
-  static Dio _initDioInstance({required DioConfig config, bool? debug}) {
+  static Dio _initDioInstance({required DioConfig config}) {
     // 设置 HTTP 代理
-    HttpOverrides.global = MimirHttpOverrides(config: config, debug: debug);
+    HttpOverrides.global = MimirHttpOverrides(config: config);
 
     Dio dio = Dio();
     // 添加拦截器
@@ -88,13 +88,12 @@ bool _proxyFilter(String host) {
 
 class MimirHttpOverrides extends HttpOverrides {
   final DioConfig config;
-  final bool? debug;
 
-  MimirHttpOverrides({required this.config, this.debug});
+  MimirHttpOverrides({required this.config});
 
   String getProxyPolicyByUrl(Uri url, String httpProxy) {
     final host = url.host;
-    if ((debug ?? false) || _proxyFilter(host)) {
+    if (_proxyFilter(host)) {
       Log.info('使用代理访问 $url');
       return 'PROXY $httpProxy';
     } else {

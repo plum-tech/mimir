@@ -25,7 +25,6 @@ class Global {
 
   static Future<void> init({
     required CredentialStorage credentials,
-    bool? debugNetwork,
     required Box cookieBox,
   }) async {
     cookieJar = CookieInit.init(box: cookieBox);
@@ -35,7 +34,6 @@ class Global {
         ..sendTimeout = const Duration(seconds: 6)
         ..receiveTimeout = const Duration(seconds: 6)
         ..connectTimeout = const Duration(seconds: 6),
-      debug: debugNetwork,
     );
     ssoSession = SsoSession(
       dio: dio,
