@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:mimir/session/sc.dart';
-import 'package:mimir/session/sso/session.dart';
+import 'package:mimir/session/sso.dart';
 
 import 'cache/detail.dart';
 import 'cache/list.dart';

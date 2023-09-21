@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'storage/announce.dart';
-import 'package:mimir/session/sso/session.dart';
+import 'package:mimir/session/sso.dart';
 
 import 'cache/announce.dart';
 import 'dao/announce.dart';

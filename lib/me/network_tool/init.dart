@@ -1,4 +1,4 @@
-import 'package:mimir/session/sso/session.dart';
+import 'package:mimir/session/sso.dart';
 
 class ConnectivityInit {
   static late SsoSession ssoSession;

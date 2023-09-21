@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:math';
 
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:cookie_jar/cookie_jar.dart';
@@ -10,9 +11,9 @@ import 'package:mimir/network/session.dart';
 import 'package:mimir/session/common.dart';
 import 'package:mimir/utils/logger.dart';
 import 'package:synchronized/synchronized.dart';
+import 'package:encrypt/encrypt.dart';
 
-import '../../utils/dio_utils.dart';
-import 'encryption.dart';
+import '../utils/dio_utils.dart';
 
 const _neededHeaders = {
   "Accept-Encoding": "gzip, deflate, br",
@@ -343,5 +344,44 @@ class SsoSession with DioDownloaderMixin implements ISession {
       onReceiveProgress: onReceiveProgress,
     );
     return response;
+  }
+}
+
+String hashPassword(String salt, String password) {
+  var iv = rds(16);
+  var encrypt = SsoEncryption(salt, iv);
+  return encrypt.aesEncrypt(rds(64) + password);
+}
+
+String rds(int num) {
+  var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+  return List.generate(
+    num,
+    (index) => chars[Random.secure().nextInt(chars.length)],
+  ).join();
+}
+
+class SsoEncryption {
+  Key? _key;
+  IV? _iv;
+
+  SsoEncryption(String key, String iv) {
+    _key = Key.fromUtf8(key);
+    _iv = IV.fromUtf8(iv);
+  }
+
+  String aesEncrypt(String content) {
+    return Encrypter(
+      AES(
+        _key!,
+        mode: AESMode.cbc,
+        padding: 'PKCS7',
+      ),
+    )
+        .encrypt(
+          content,
+          iv: _iv,
+        )
+        .base64;
   }
 }

@@ -11,7 +11,7 @@ import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/global/cookie_init.dart';
 import 'package:mimir/global/dio_init.dart';
 import 'package:mimir/route.dart';
-import 'package:mimir/session/sso/session.dart';
+import 'package:mimir/session/sso.dart';
 import 'package:mimir/settings/settings.dart';
 
 import '../widgets/captcha_box.dart';

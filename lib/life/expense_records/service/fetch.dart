@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:mimir/network/session.dart';
-import 'package:mimir/session/sso/session.dart';
+import 'package:mimir/session/sso.dart';
 
 import '../entity/local.dart';
 import '../entity/remote.dart';

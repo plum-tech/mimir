@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:mimir/network/session.dart';
-import 'package:mimir/session/sso/session.dart';
+import 'package:mimir/session/sso.dart';
 import 'package:mimir/utils/logger.dart';
 
 /// Student information system of SIT
