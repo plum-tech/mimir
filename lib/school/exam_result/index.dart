@@ -32,12 +32,6 @@ class _ExamResultAppCardState extends State<ExamResultAppCard> {
           child: i18n.teacherEval.text(),
         )
       ],
-      rightActions: [
-        IconButton(
-          onPressed: () async {},
-          icon: const Icon(Icons.refresh),
-        ),
-      ],
     );
   }
 }

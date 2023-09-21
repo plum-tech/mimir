@@ -6,6 +6,8 @@ import 'package:mimir/life/expense_records/index.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 
+import 'event.dart';
+
 class LifePage extends StatefulWidget {
   const LifePage({super.key});
 
@@ -48,7 +50,10 @@ class _LifePageState extends State<LifePage> {
   Widget build(BuildContext context) {
     final campus = Settings.campus;
     return RefreshIndicator.adaptive(
-      onRefresh: () async {},
+      onRefresh: () async {
+        debugPrint("Life page refreshed");
+        lifeEventBus.fire(LifePageRefreshEvent());
+      },
       child: CustomScrollView(
         slivers: [
           if (loginStatus != LoginStatus.never)

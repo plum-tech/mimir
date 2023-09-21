@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/school/class2nd/widgets/summary.dart';
+import 'package:mimir/school/event.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -25,10 +28,14 @@ class Class2ndAppCard extends StatefulWidget {
 class _Class2ndAppCardState extends State<Class2ndAppCard> {
   var summary = Class2ndInit.scoreStorage.scoreSummary;
   final $scoreSummary = Class2ndInit.scoreStorage.listenScoreSummary();
+  late final StreamSubscription<SchoolPageRefreshEvent> $refreshEvent;
 
   @override
   void initState() {
     $scoreSummary.addListener(onSummaryChanged);
+    $refreshEvent = schoolEventBus.on<SchoolPageRefreshEvent>().listen((event) {
+      refresh(active: true);
+    });
     super.initState();
   }
 
@@ -41,6 +48,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
   @override
   void dispose() {
     $scoreSummary.removeListener(onSummaryChanged);
+    $refreshEvent.cancel();
     super.dispose();
   }
 
@@ -106,12 +114,6 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
             },
             icon: const Icon(Icons.share_outlined),
           ),
-        IconButton(
-          onPressed: () {
-            refresh(active: true);
-          },
-          icon: const Icon(Icons.refresh),
-        ),
       ],
     );
   }

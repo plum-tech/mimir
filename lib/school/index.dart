@@ -4,6 +4,7 @@ import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/school/class2nd/index.dart';
+import 'package:mimir/school/event.dart';
 import 'package:mimir/school/exam_arrange/index.dart';
 import 'package:mimir/school/exam_result/index.dart';
 import 'package:mimir/school/oa_announce/index.dart';
@@ -37,7 +38,8 @@ class _SchoolPageState extends State<SchoolPage> {
   Widget build(BuildContext context) {
     return RefreshIndicator.adaptive(
       onRefresh: () async {
-
+        debugPrint("School page refreshed");
+        schoolEventBus.fire(SchoolPageRefreshEvent());
       },
       child: CustomScrollView(
         slivers: [

@@ -26,12 +26,6 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
           label: i18n.check.text(),
         ),
       ],
-      rightActions: [
-        IconButton(
-          onPressed: () async {},
-          icon: const Icon(Icons.refresh),
-        ),
-      ],
     );
   }
 }

@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/life/event.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/life/expense_records/entity/local.dart';
 import 'package:mimir/life/expense_records/init.dart';
@@ -23,10 +26,14 @@ class ExpenseRecordsAppCard extends StatefulWidget {
 
 class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
   final $lastTransaction = ExpenseRecordsInit.storage.listenLastTransaction();
+  late final StreamSubscription<LifePageRefreshEvent> $refreshEvent;
 
   @override
   void initState() {
     $lastTransaction.addListener(onLatestChanged);
+    $refreshEvent = lifeEventBus.on<LifePageRefreshEvent>().listen((event) {
+      refresh(active: true);
+    });
     super.initState();
   }
 
@@ -41,6 +48,7 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
   @override
   void dispose() {
     $lastTransaction.removeListener(onLatestChanged);
+    $refreshEvent.cancel();
     super.dispose();
   }
 
@@ -90,14 +98,6 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
                 },
           child: i18n.statistics.text(),
         ),
-      ],
-      rightActions: [
-        IconButton(
-          onPressed: () async {
-            await refresh(active: true);
-          },
-          icon: const Icon(Icons.refresh),
-        )
       ],
     );
   }

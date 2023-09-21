@@ -12,6 +12,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
 
+import '../event.dart';
 import 'entity/balance.dart';
 import 'i18n.dart';
 import 'init.dart';
@@ -27,11 +28,15 @@ class ElectricityBalanceAppCard extends StatefulWidget {
 
 class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
   final onRoomBalanceChanged = ElectricityBalanceInit.storage.listenRoomBalanceChange();
+  late final StreamSubscription<LifePageRefreshEvent> $refreshEvent;
 
   @override
   initState() {
     super.initState();
     onRoomBalanceChanged.addListener(updateRoomAndBalance);
+    $refreshEvent = lifeEventBus.on<LifePageRefreshEvent>().listen((event) {
+      refresh(active: true);
+    });
     if (Settings.life.electricity.autoRefresh) {
       refresh(active: false);
     }
@@ -40,6 +45,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
   @override
   dispose() {
     onRoomBalanceChanged.removeListener(updateRoomAndBalance);
+    $refreshEvent.cancel();
     super.dispose();
   }
 
@@ -112,14 +118,6 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
                   ElectricityBalanceInit.storage.selectedRoom = null;
                 },
           icon: const Icon(Icons.delete_outlined),
-        ),
-        IconButton(
-          onPressed: selectedRoom == null
-              ? null
-              : () async {
-                  await refresh(active: true);
-                },
-          icon: const Icon(Icons.refresh),
         ),
       ],
     );
