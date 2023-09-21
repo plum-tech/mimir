@@ -12,6 +12,7 @@ import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/r.dart';
+import 'package:mimir/settings/widgets/campus.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -169,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: widget.isGuarded ? i18n.loginRequired.text() : i18n.loginOa.text(),
+          title: widget.isGuarded ? i18n.loginRequired.text() : const CampusSelector(),
           actions: [
             IconButton(
               icon: const Icon(Icons.settings),
