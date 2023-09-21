@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widgets/app.dart';
@@ -66,26 +67,15 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: context.theme.copyWith(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFffd200),
-          brightness: context.colorScheme.brightness,
-        ),
-      ),
-      child: buildBody(),
-    );
-  }
-
-  Widget buildBody() {
     final selectedRoom = ElectricityBalanceInit.storage.selectedRoom;
     final balance = ElectricityBalanceInit.storage.lastBalance;
     return AppCard(
-      view: selectedRoom == null
-          ? const SizedBox()
-          : ElectricityBalanceCard(
+      view: selectedRoom != null && balance != null
+          ? buildBalanceCard(
               balance: balance,
-            ).sized(h: 120),
+              selectedRoom: selectedRoom,
+            )
+          : const SizedBox(),
       title: i18n.title.text(),
       subtitle: selectedRoom == null ? null : "#$selectedRoom".text(),
       leftActions: [
@@ -133,7 +123,34 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
       ],
     );
   }
+
+  Widget buildBalanceCard({
+    required ElectricityBalance balance,
+    required String selectedRoom,
+  }) {
+    if (!isCupertino) {
+      return ElectricityBalanceCard(
+        balance: balance,
+      ).sized(h: 120);
+    }
+    return CupertinoContextMenu.builder(
+      actions: [
+        CupertinoContextMenuAction(
+          trailingIcon: CupertinoIcons.share,
+          onPressed: () async {
+            Navigator.of(context, rootNavigator: true).pop();
+            await shareBalance(balance: balance, selectedRoom: selectedRoom);
+          },
+          child: i18n.share.text(),
+        ),
+      ],
+      builder: (ctx, animation) => ElectricityBalanceCard(
+        balance: balance,
+      ).sized(h: 120),
+    );
+  }
 }
+
 Future<void> shareBalance({
   required ElectricityBalance balance,
   required String selectedRoom,
