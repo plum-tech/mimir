@@ -4,7 +4,7 @@ import 'package:mimir/credential/entity/credential.dart';
 import '../entity/login_status.dart';
 import '../init.dart';
 
-extension OaAuthEx on BuildContext {
+extension OaAuthX on BuildContext {
   OaAuth get auth => OaAuth.of(this);
 }
 
@@ -23,16 +23,16 @@ class _OaAuthManagerState extends State<OaAuthManager> {
   @override
   void initState() {
     super.initState();
-    onOaChanged.addListener(_anyChange);
+    onOaChanged.addListener(anyChange);
   }
 
   @override
   void dispose() {
-    onOaChanged.removeListener(_anyChange);
+    onOaChanged.removeListener(anyChange);
     super.dispose();
   }
 
-  void _anyChange() {
+  void anyChange() {
     setState(() {});
   }
 

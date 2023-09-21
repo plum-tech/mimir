@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/route.dart';
+import 'package:mimir/session/widgets/scope.dart';
 import 'package:mimir/settings/settings.dart';
 
 class MimirApp extends StatefulWidget {
@@ -76,7 +77,9 @@ class _MimirAppState extends State<MimirApp> {
         useMaterial3: true,
       )),
       builder: (ctx, child) => OaAuthManager(
-        child: child ?? const SizedBox(),
+        child: OaOnlineManager(
+          child: child ?? const SizedBox(),
+        ),
       ),
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         dragDevices: {
