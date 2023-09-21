@@ -20,8 +20,8 @@ class ElectricityBalanceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final warningBalance = this.warningBalance;
     final balance = this.balance;
-    final powerText = balance.powerText;
-    final balanceText = balance.balanceText;
+    final powerText = balance?.l10nPower();
+    final balanceText = balance?.l10nBalance();
     final balanceColor =
         warningBalance == null || balance == null || warningBalance < balance.balance ? null : warningColor;
     return [
@@ -45,14 +45,8 @@ class ElectricityBalanceCard extends StatelessWidget {
   }
 }
 
-extension _BalanceEx on ElectricityBalance? {
-  String? get powerText {
-    final self = this;
-    return self == null ? null : i18n.unit.powerKwh(self.remainingPower.toStringAsFixed(2));
-  }
+extension ElectricityBalanceX on ElectricityBalance {
+  String l10nPower() => i18n.unit.powerKwh(remainingPower.toStringAsFixed(2));
 
-  String? get balanceText {
-    final self = this;
-    return self == null ? null : i18n.unit.rmb(self.balance.toStringAsFixed(2));
-  }
+  String l10nBalance() => i18n.unit.rmb(balance.toStringAsFixed(2));
 }

@@ -1,13 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/life/electricity/storage/electricity.dart';
 import 'package:mimir/r.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:share_plus/share_plus.dart';
 
+import 'entity/balance.dart';
 import 'i18n.dart';
 import 'init.dart';
 import 'widget/card.dart';
@@ -104,6 +107,13 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
         ),
       ],
       rightActions: [
+        if (balance != null && selectedRoom != null && !isCupertino)
+          IconButton(
+            onPressed: () async {
+              await shareBalance(balance: balance, selectedRoom: selectedRoom);
+            },
+            icon: const Icon(Icons.share_outlined),
+          ),
         IconButton(
           onPressed: selectedRoom == null
               ? null
@@ -123,4 +133,11 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
       ],
     );
   }
+}
+Future<void> shareBalance({
+  required ElectricityBalance balance,
+  required String selectedRoom,
+}) async {
+  final text = "#$selectedRoom: ${balance.l10nBalance()}, ${balance.l10nPower()}";
+  await Share.share(text);
 }
