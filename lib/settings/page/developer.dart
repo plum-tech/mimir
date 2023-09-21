@@ -41,6 +41,7 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
                 path: "/settings/developer/local-storage",
               ),
               buildReload(),
+              const DebugGoRouteTile(),
             ]),
           ),
         ],
@@ -77,6 +78,48 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
         if (!mounted) return;
         context.navigator.pop();
       },
+    );
+  }
+}
+
+class DebugGoRouteTile extends StatefulWidget {
+  const DebugGoRouteTile({super.key});
+
+  @override
+  State<DebugGoRouteTile> createState() => _DebugGoRouteTileState();
+}
+
+class _DebugGoRouteTileState extends State<DebugGoRouteTile> {
+  final $route = TextEditingController();
+
+  @override
+  void dispose() {
+    $route.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      isThreeLine: true,
+      leading: const Icon(Icons.route_outlined),
+      title: "Go route".text(),
+      subtitle: TextField(
+        controller: $route,
+        decoration: InputDecoration(
+          hintText: "/anywhere",
+        ),
+      ),
+      trailing: [
+        $route >>
+            (ctx, route) => IconButton(
+                onPressed: route.text.isEmpty
+                    ? null
+                    : () {
+                        context.push(route.text);
+                      },
+                icon: Icon(Icons.arrow_forward))
+      ].row(mas: MainAxisSize.min),
     );
   }
 }
