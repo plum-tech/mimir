@@ -156,13 +156,14 @@ class $TextField$ extends StatelessWidget {
   final String? labelText;
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onSubmit;
-
+  final Iterable<String>? autofillHints;
   const $TextField$({
     super.key,
     this.controller,
     this.autofocus = false,
     this.placeholder,
     this.labelText,
+    this.autofillHints,
     this.textInputAction,
     this.prefixIcon,
     this.suffixIcon,
@@ -179,6 +180,7 @@ class $TextField$ extends StatelessWidget {
           textInputAction: textInputAction,
           prefix: prefixIcon,
           suffix: suffixIcon,
+          autofillHints: autofillHints,
           onSubmitted: onSubmit,
           decoration: const BoxDecoration(
             color: CupertinoDynamicColor.withBrightness(

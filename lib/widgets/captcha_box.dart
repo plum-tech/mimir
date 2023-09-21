@@ -47,6 +47,7 @@ class _CaptchaBoxState extends State<CaptchaBox> {
         $TextField$(
           controller: $captcha,
           placeholder: _i18n.enterHint,
+          autofillHints: const [AutofillHints.oneTimeCode],
           onSubmit: (value) {
             context.navigator.pop(value);
           },
