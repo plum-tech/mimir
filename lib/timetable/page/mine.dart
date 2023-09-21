@@ -116,64 +116,66 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         ),
       );
     }
-    return CupertinoContextMenu.builder(
-      actions: [
-        if (!isSelected)
+    return Builder(
+      builder: (ctx) => CupertinoContextMenu.builder(
+        actions: [
+          if (!isSelected)
+            CupertinoContextMenuAction(
+              trailingIcon: CupertinoIcons.star,
+              onPressed: () async {
+                Navigator.of(context, rootNavigator: true).pop();
+                await Future.delayed(const Duration(milliseconds: 336));
+                if (!mounted) return;
+                storage.timetable.selectedId = id;
+                setState(() {});
+              },
+              child: i18n.mine.use.text(),
+            ),
           CupertinoContextMenuAction(
-            trailingIcon: CupertinoIcons.star,
+            trailingIcon: CupertinoIcons.pencil,
             onPressed: () async {
               Navigator.of(context, rootNavigator: true).pop();
-              await Future.delayed(const Duration(milliseconds: 336));
-              if (!mounted) return;
-              storage.timetable.selectedId = id;
-              setState(() {});
+              await onEdit(id, timetable);
             },
-            child: i18n.mine.use.text(),
+            child: i18n.mine.edit.text(),
           ),
-        CupertinoContextMenuAction(
-          trailingIcon: CupertinoIcons.pencil,
-          onPressed: () async {
-            Navigator.of(context, rootNavigator: true).pop();
-            await onEdit(id, timetable);
-          },
-          child: i18n.mine.edit.text(),
-        ),
-        if (!isSelected)
+          if (!isSelected)
+            CupertinoContextMenuAction(
+              trailingIcon: CupertinoIcons.eye,
+              onPressed: () async {
+                Navigator.of(context, rootNavigator: true).pop();
+                await Future.delayed(const Duration(milliseconds: 336));
+                if (!mounted) return;
+                context.push("/timetable/preview/$id", extra: timetable);
+              },
+              child: i18n.mine.preview.text(),
+            ),
           CupertinoContextMenuAction(
-            trailingIcon: CupertinoIcons.eye,
+            trailingIcon: CupertinoIcons.doc,
             onPressed: () async {
               Navigator.of(context, rootNavigator: true).pop();
-              await Future.delayed(const Duration(milliseconds: 336));
-              if (!mounted) return;
-              context.push("/timetable/preview/$id", extra: timetable);
+              await exportTimetableFileAndShare(timetable, context: ctx);
             },
-            child: i18n.mine.preview.text(),
+            child: i18n.mine.exportFile.text(),
           ),
-        CupertinoContextMenuAction(
-          trailingIcon: CupertinoIcons.doc,
-          onPressed: () async {
-            Navigator.of(context, rootNavigator: true).pop();
-            await exportTimetableFileAndShare(timetable);
-          },
-          child: i18n.mine.exportFile.text(),
-        ),
-        CupertinoContextMenuAction(
-          trailingIcon: CupertinoIcons.delete,
-          onPressed: () async {
-            Navigator.of(context, rootNavigator: true).pop();
-            await onDelete(id);
-          },
-          isDestructiveAction: true,
-          child: i18n.mine.delete.text(),
-        ),
-      ],
-      builder: (ctx, animation) {
-        return TimetableEntry(
-          id: id,
-          timetable: timetable,
-          moreAction: isSelected ? Icon(CupertinoIcons.star_fill, color: context.colorScheme.primary) : null,
-        ).scrolled(physics: const NeverScrollableScrollPhysics());
-      },
+          CupertinoContextMenuAction(
+            trailingIcon: CupertinoIcons.delete,
+            onPressed: () async {
+              Navigator.of(context, rootNavigator: true).pop();
+              await onDelete(id);
+            },
+            isDestructiveAction: true,
+            child: i18n.mine.delete.text(),
+          ),
+        ],
+        builder: (ctx, animation) {
+          return TimetableEntry(
+            id: id,
+            timetable: timetable,
+            moreAction: isSelected ? Icon(CupertinoIcons.star_fill, color: context.colorScheme.primary) : null,
+          ).scrolled(physics: const NeverScrollableScrollPhysics());
+        },
+      ),
     );
   }
 
@@ -199,7 +201,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             title: i18n.mine.exportFile.text(),
             onTap: () async {
               ctx.pop();
-              await exportTimetableFileAndShare(timetable);
+              await exportTimetableFileAndShare(timetable, context: context);
             },
           ),
         ),

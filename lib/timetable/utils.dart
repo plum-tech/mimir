@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/widgets.dart';
 import 'package:ical/serializer.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/school/entity/school.dart';
@@ -12,6 +13,7 @@ import 'package:mimir/timetable/storage/timetable.dart';
 import 'package:mimir/utils/file.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'entity/timetable.dart';
 
 import 'entity/course.dart';
@@ -255,12 +257,21 @@ int addNewTimetable(SitTimetable timetable) {
   return id;
 }
 
-Future<void> exportTimetableFileAndShare(SitTimetable timetable) async {
+Future<void> exportTimetableFileAndShare(
+  SitTimetable timetable, {
+  required BuildContext context,
+}) async {
   final content = jsonEncode(timetable.toJson());
   final fileName = sanitizeFilename("${timetable.name}.timetable", replacement: "-");
   final timetableFi = File(join(R.tmpDir, fileName));
+  final box = context.findRenderObject() as RenderBox?;
+  final sharePositionOrigin = box == null ? null : box.localToGlobal(Offset.zero) & box.size;
+  if (UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
+    assert(sharePositionOrigin != null, "sharePositionOrigin should be nonnull on iPad and macOS");
+  }
   await timetableFi.writeAsString(content);
   await Share.shareXFiles(
     [XFile(timetableFi.path)],
+    sharePositionOrigin: sharePositionOrigin,
   );
 }

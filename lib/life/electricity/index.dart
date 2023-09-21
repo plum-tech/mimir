@@ -10,6 +10,7 @@ import 'package:mimir/life/electricity/storage/electricity.dart';
 import 'package:mimir/r.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import 'entity/balance.dart';
 import 'i18n.dart';
@@ -100,7 +101,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
         if (balance != null && selectedRoom != null && !isCupertino)
           IconButton(
             onPressed: () async {
-              await shareBalance(balance: balance, selectedRoom: selectedRoom);
+              await shareBalance(balance: balance, selectedRoom: selectedRoom, context: context);
             },
             icon: const Icon(Icons.share_outlined),
           ),
@@ -133,20 +134,22 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
         balance: balance,
       ).sized(h: 120);
     }
-    return CupertinoContextMenu.builder(
-      actions: [
-        CupertinoContextMenuAction(
-          trailingIcon: CupertinoIcons.share,
-          onPressed: () async {
-            Navigator.of(context, rootNavigator: true).pop();
-            await shareBalance(balance: balance, selectedRoom: selectedRoom);
-          },
-          child: i18n.share.text(),
-        ),
-      ],
-      builder: (ctx, animation) => ElectricityBalanceCard(
-        balance: balance,
-      ).sized(h: 120),
+    return Builder(
+      builder: (ctx) => CupertinoContextMenu.builder(
+        actions: [
+          CupertinoContextMenuAction(
+            trailingIcon: CupertinoIcons.share,
+            onPressed: () async {
+              Navigator.of(context, rootNavigator: true).pop();
+              await shareBalance(balance: balance, selectedRoom: selectedRoom, context: ctx);
+            },
+            child: i18n.share.text(),
+          ),
+        ],
+        builder: (ctx, animation) => ElectricityBalanceCard(
+          balance: balance,
+        ).sized(h: 120),
+      ),
     );
   }
 }
@@ -154,7 +157,16 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
 Future<void> shareBalance({
   required ElectricityBalance balance,
   required String selectedRoom,
+  required BuildContext context,
 }) async {
   final text = "#$selectedRoom: ${balance.l10nBalance()}, ${balance.l10nPower()}";
-  await Share.share(text);
+  final box = context.findRenderObject() as RenderBox?;
+  final sharePositionOrigin = box == null ? null : box.localToGlobal(Offset.zero) & box.size;
+  if (UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
+    assert(sharePositionOrigin != null, "sharePositionOrigin should be nonnull on iPad and macOS");
+  }
+  await Share.share(
+    text,
+    sharePositionOrigin: sharePositionOrigin,
+  );
 }

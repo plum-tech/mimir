@@ -9,6 +9,7 @@ import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/school/class2nd/widgets/summary.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import 'entity/score.dart';
 import "i18n.dart";
@@ -101,7 +102,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
         if (summary != null && !isCupertino)
           IconButton(
             onPressed: () async {
-              await shareSummery(summary: summary, target: getTargetScore());
+              await shareSummery(summary: summary, target: getTargetScore(), context: context);
             },
             icon: const Icon(Icons.share_outlined),
           ),
@@ -125,35 +126,45 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
         summary: summary,
       ).constrained(maxH: 250);
     }
-    return CupertinoContextMenu.builder(
-      actions: [
-        CupertinoContextMenuAction(
-          trailingIcon: CupertinoIcons.share,
-          onPressed: () async {
-            Navigator.of(context, rootNavigator: true).pop();
-            await shareSummery(summary: summary, target: target);
-          },
-          child: i18n.share.text(),
-        ),
-      ],
-      builder: (ctx, animation) => Class2ndScoreSummeryCard(
-        targetScore: target,
-        summary: summary,
-      ).constrained(maxH: 250),
+    return Builder(
+      builder: (ctx) => CupertinoContextMenu.builder(
+        actions: [
+          CupertinoContextMenuAction(
+            trailingIcon: CupertinoIcons.share,
+            onPressed: () async {
+              Navigator.of(context, rootNavigator: true).pop();
+              await shareSummery(summary: summary, target: target, context: ctx);
+            },
+            child: i18n.share.text(),
+          ),
+        ],
+        builder: (ctx, animation) => Class2ndScoreSummeryCard(
+          targetScore: target,
+          summary: summary,
+        ).constrained(maxH: 250),
+      ),
     );
   }
 
   Future<void> shareSummery({
     required Class2ndScoreSummary summary,
     required Class2ndScoreSummary target,
+    required BuildContext context,
   }) async {
     final name2score = summary.toName2score();
     final name2target = target.toName2score();
     final text = name2score
         .map((e) => "${e.name}: ${e.score}/${name2target.firstWhereOrNull((t) => t.name == e.name)?.score}")
         .join(", ");
+
+    final box = context.findRenderObject() as RenderBox?;
+    final sharePositionOrigin = box == null ? null : box.localToGlobal(Offset.zero) & box.size;
+    if (UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
+      assert(sharePositionOrigin != null, "sharePositionOrigin should be nonnull on iPad and macOS");
+    }
     await Share.share(
       text,
+      sharePositionOrigin: sharePositionOrigin,
     );
   }
 }
