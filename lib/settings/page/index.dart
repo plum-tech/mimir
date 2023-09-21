@@ -9,6 +9,7 @@ import 'package:mimir/hive/init.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/session/widgets/scope.dart';
 import 'package:mimir/settings/settings.dart';
+import 'package:mimir/settings/widgets/campus.dart';
 import 'package:mimir/version.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:unicons/unicons.dart';
@@ -50,8 +51,6 @@ class _SettingsPageState extends State<SettingsPage> {
         slivers: <Widget>[
           SliverAppBar(
             pinned: true,
-            snap: false,
-            floating: false,
             expandedHeight: 100.0,
             flexibleSpace: FlexibleSpaceBar(
               title: i18n.title.text(style: context.textTheme.headlineSmall),
@@ -115,6 +114,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   List<Widget> buildEntries() {
     final all = <Widget>[];
+    all.add(const CampusSelector().padSymmetric(h: 8));
 
     final credential = context.auth.credentials;
     if (credential != null) {
