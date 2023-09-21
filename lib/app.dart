@@ -8,6 +8,7 @@ import 'package:mimir/r.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/session/widgets/scope.dart';
 import 'package:mimir/settings/settings.dart';
+import 'package:rettulf/rettulf.dart';
 
 class MimirApp extends StatefulWidget {
   const MimirApp({super.key});

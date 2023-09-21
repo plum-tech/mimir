@@ -35,37 +35,37 @@ class _SchoolPageState extends State<SchoolPage> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          snap: false,
-          floating: false,
-          title: i18n.navigation.text(),
-        ),
-        if (loginStatus != LoginStatus.never)
+    return RefreshIndicator.adaptive(
+      onRefresh: () async {
+
+      },
+      child: CustomScrollView(
+        slivers: [
+          if (loginStatus != LoginStatus.never)
+            const SliverToBoxAdapter(
+              child: Class2ndAppCard(),
+            ),
+          if (loginStatus != LoginStatus.never)
+            const SliverToBoxAdapter(
+              child: ExamArrangeAppCard(),
+            ),
+          if (loginStatus != LoginStatus.never)
+            const SliverToBoxAdapter(
+              child: ExamResultAppCard(),
+            ),
+          if (loginStatus != LoginStatus.never)
+            const SliverToBoxAdapter(
+              child: OaAnnounceAppCard(),
+            ),
+          if (loginStatus != LoginStatus.never)
+            const SliverToBoxAdapter(
+              child: YwbAppCard(),
+            ),
           const SliverToBoxAdapter(
-            child: Class2ndAppCard(),
+            child: YellowPagesAppCard(),
           ),
-        if (loginStatus != LoginStatus.never)
-          const SliverToBoxAdapter(
-            child: ExamArrangeAppCard(),
-          ),
-        if (loginStatus != LoginStatus.never)
-          const SliverToBoxAdapter(
-            child: ExamResultAppCard(),
-          ),
-        if (loginStatus != LoginStatus.never)
-          const SliverToBoxAdapter(
-            child: OaAnnounceAppCard(),
-          ),
-        if (loginStatus != LoginStatus.never)
-          const SliverToBoxAdapter(
-            child: YwbAppCard(),
-          ),
-        const SliverToBoxAdapter(
-          child: YellowPagesAppCard(),
-        ),
-      ],
+        ],
+      ).safeArea(),
     );
   }
 }
