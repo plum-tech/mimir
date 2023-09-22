@@ -29,13 +29,16 @@ class ExamResultService {
   const ExamResultService(this.session);
 
   /// 获取成绩
-  Future<List<ExamResult>> getResultList(SchoolYear schoolYear, Semester semester) async {
+  Future<List<ExamResult>> getResultList({
+    required SchoolYear year,
+    required Semester semester,
+  }) async {
     final response = await session.request(_scoreUrl, ReqMethod.post, para: {
       'gnmkdm': 'N305005',
       'doType': 'query',
     }, data: {
       // 学年名
-      'xnm': schoolYear.toString(),
+      'xnm': year.toString(),
       // 学期名
       'xqm': semesterToFormField(semester),
       // 获取成绩最大数量
@@ -44,14 +47,19 @@ class ExamResultService {
     final resultList = _parseScoreListPage(response.data);
     final newResultList = <ExamResult>[];
     for (final result in resultList) {
-      final resultItems = await getResultItems(result.innerClassId, result.schoolYear, result.semester);
+      final resultItems =
+          await getResultItems(year: result.year, semester: result.semester, classId: result.innerClassId);
       newResultList.add(result.copyWith(items: resultItems));
     }
     return newResultList;
   }
 
   /// 获取成绩详情
-  Future<List<ExamResultItem>> getResultItems(String classId, SchoolYear schoolYear, Semester semester) async {
+  Future<List<ExamResultItem>> getResultItems({
+    required SchoolYear year,
+    required Semester semester,
+    required String classId,
+  }) async {
     final response = await session.request(
       _scoreDetailUrl,
       ReqMethod.post,
@@ -60,7 +68,7 @@ class ExamResultService {
         // 班级
         'jxb_id': classId,
         // 学年名
-        'xnm': schoolYear.toString(),
+        'xnm': year.toString(),
         // 学期名
         'xqm': semesterToFormField(semester)
       },

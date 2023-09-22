@@ -41,10 +41,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
   @override
   void initState() {
     super.initState();
-    final now = DateTime.now();
-    selectedYear = (now.month >= 9 ? now.year : now.year - 1);
-    selectedSemester = Semester.all;
-    refresh();
+    refresh(year: selectedYear, semester: selectedSemester);
   }
 
   @override
@@ -53,19 +50,20 @@ class _ExamResultPageState extends State<ExamResultPage> {
     super.dispose();
   }
 
-  Future<void> refresh() async {
-    final selectedYear = this.selectedYear;
-    final selectedSemester = this.selectedSemester;
+  Future<void> refresh({
+    required SchoolYear year,
+    required Semester semester,
+  }) async {
     if (!mounted) return;
     setState(() {
-      allResults = ExamResultInit.storage.getResultList(year: selectedYear, semester: selectedSemester);
+      allResults = ExamResultInit.storage.getResultList(year: year, semester: semester);
       isLoading = true;
     });
     try {
-      final resultList = await ExamResultInit.service.getResultList(selectedYear, selectedSemester);
-      ExamResultInit.storage.setResultList(resultList, year: selectedYear, semester: selectedSemester);
+      final resultList = await ExamResultInit.service.getResultList(year: year, semester: semester);
+      ExamResultInit.storage.setResultList(resultList, year: year, semester: semester);
       // Prevents the former query replace new query.
-      if (selectedYear == this.selectedYear && selectedSemester == this.selectedSemester) {
+      if (year == selectedYear && semester == selectedSemester) {
         if (!mounted) return;
         setState(() {
           allResults = resultList;
@@ -159,17 +157,18 @@ class _ExamResultPageState extends State<ExamResultPage> {
   }
 
   Widget buildSemesterSelector() {
+    final now = DateTime.now();
     return SemesterSelector(
       showEntireYear: true,
-      initialYear: selectedYear,
-      initialSemester: selectedSemester,
+      initialYear: now.month >= 9 ? now.year : now.year - 1,
+      initialSemester: Semester.all,
       baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
-      onSelected: (year,semester) {
+      onSelected: (year, semester) {
         setState(() {
           selectedYear = year;
           selectedSemester = semester;
         });
-        refresh();
+        refresh(year: selectedYear, semester: selectedSemester);
       },
     );
   }

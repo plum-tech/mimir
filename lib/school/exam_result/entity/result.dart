@@ -47,7 +47,7 @@ class ExamResult {
   /// 学年
   @JsonKey(name: 'xnmmc', fromJson: formFieldToSchoolYear, toJson: schoolYearToFormField)
   @HiveField(5)
-  final SchoolYear schoolYear;
+  final SchoolYear year;
 
   /// 学期
   @JsonKey(name: 'xqm', fromJson: formFieldToSemester)
@@ -72,7 +72,7 @@ class ExamResult {
     required this.courseName,
     required this.courseId,
     required this.innerClassId,
-    required this.schoolYear,
+    required this.year,
     required this.semester,
     required this.credit,
     required this.dynClassId,
@@ -97,7 +97,7 @@ class ExamResult {
       courseName: courseName ?? this.courseName,
       courseId: courseId ?? this.courseId,
       innerClassId: innerClassId ?? this.innerClassId,
-      schoolYear: schoolYear ?? this.schoolYear,
+      year: schoolYear ?? this.year,
       semester: semester ?? this.semester,
       credit: credit ?? this.credit,
       dynClassId: dynClassId ?? this.dynClassId,
@@ -118,7 +118,7 @@ class ExamResult {
       "courseId": courseId,
       "innerClassId": innerClassId,
       "dynClassId": dynClassId,
-      "schoolYear": "$schoolYear",
+      "schoolYear": "$year",
       "semester": "$semester",
       "credit": "$credit",
       "time": time,
