@@ -19,42 +19,34 @@ class ExamArrangePage extends StatefulWidget {
 }
 
 class _ExamArrangePageState extends State<ExamArrangePage> {
-  final service = ExamArrangeInit.service;
-
-  /// 四位年份
-  late int selectedYear;
-
-  /// 要查询的学期
-  late Semester selectedSemester;
   List<ExamEntry>? examList;
-  late SchoolYear initialYear;
-  late Semester initialSemester;
   bool isLoading = false;
+  late SemesterInfo initial = () {
+    final now = DateTime.now();
+    return (
+    year: now.month >= 9 ? now.year : now.year - 1,
+    semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
+    );
+  }();
+  late SemesterInfo selected = initial;
 
   @override
   void initState() {
     super.initState();
-    final DateTime now = DateTime.now();
-    initialYear = now.month >= 9 ? now.year : now.year - 1;
-    initialSemester = now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1;
-    selectedYear = initialYear;
-    selectedSemester = initialSemester;
-    refresh(year: initialYear, semester: initialSemester);
+    refresh(initial);
   }
 
-  Future<void> refresh({
-    required SchoolYear year,
-    required Semester semester,
-  }) async {
+  Future<void> refresh(SemesterInfo info) async {
+    final (:year, :semester) = info;
     if (!mounted) return;
     setState(() {
       examList = ExamArrangeInit.storage.getExamList(year: year, semester: semester);
       isLoading = true;
     });
     try {
-      final examList = await service.getExamList(year: year, semester: semester);
+      final examList = await ExamArrangeInit.service.getExamList(year: year, semester: semester);
       ExamArrangeInit.storage.setExamList(examList, year: year, semester: semester);
-      if (year == selectedYear && semester == selectedSemester) {
+      if (info == selected) {
         if (!mounted) return;
         setState(() {
           this.examList = examList;
@@ -114,15 +106,13 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
 
   Widget buildSemesterSelector() {
     return SemesterSelector(
-      initialYear: initialYear,
-      initialSemester: initialSemester,
+      initial: initial,
       baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
-      onSelected: (year, semester) {
+      onSelected: (newSelection) {
         setState(() {
-          selectedYear = year;
-          selectedSemester = semester;
+          selected = newSelection;
         });
-        refresh(year: selectedYear, semester: selectedSemester);
+        refresh(newSelection);
       },
     );
   }

@@ -22,33 +22,24 @@ class ExamResultPage extends StatefulWidget {
 }
 
 class _ExamResultPageState extends State<ExamResultPage> {
-  /// 四位年份
-  late int selectedYear;
-
-  /// 要查询的学期
-  late Semester selectedSemester;
-
-  /// 成绩列表
   List<ExamResult>? resultList;
   bool isLoading = false;
   final controller = ScrollController();
-
   bool isSelecting = false;
   final multiselect = MultiselectController();
-  final _multiselectKey = GlobalKey(debugLabel: "Multiselect");
-
-  late SchoolYear initialYear;
-  late Semester initialSemester;
+  late SemesterInfo initial = () {
+    final now = DateTime.now();
+    return (
+      year: now.month >= 9 ? now.year : now.year - 1,
+      semester: Semester.all,
+    );
+  }();
+  late SemesterInfo selected = initial;
 
   @override
   void initState() {
     super.initState();
-    final now = DateTime.now();
-    initialYear = now.month >= 9 ? now.year : now.year - 1;
-    initialSemester = Semester.all;
-    selectedYear = initialYear;
-    selectedSemester = initialSemester;
-    refresh(year: initialYear, semester: initialSemester);
+    refresh(initial);
   }
 
   @override
@@ -57,10 +48,8 @@ class _ExamResultPageState extends State<ExamResultPage> {
     super.dispose();
   }
 
-  Future<void> refresh({
-    required SchoolYear year,
-    required Semester semester,
-  }) async {
+  Future<void> refresh(SemesterInfo info) async {
+    final (:year, :semester) = info;
     if (!mounted) return;
     setState(() {
       resultList = ExamResultInit.storage.getResultList(year: year, semester: semester);
@@ -70,7 +59,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
       final resultList = await ExamResultInit.service.getResultList(year: year, semester: semester);
       ExamResultInit.storage.setResultList(resultList, year: year, semester: semester);
       // Prevents the former query replace new query.
-      if (year == selectedYear && semester == selectedSemester) {
+      if (info == selected) {
         if (!mounted) return;
         setState(() {
           this.resultList = resultList;
@@ -91,12 +80,11 @@ class _ExamResultPageState extends State<ExamResultPage> {
 
   @override
   Widget build(BuildContext context) {
-    final allResults = this.resultList;
+    final resultList = this.resultList;
     return Scaffold(
       body: MultiselectScope<ExamResult>(
-        key: _multiselectKey,
         controller: multiselect,
-        dataSource: allResults ?? const [],
+        dataSource: resultList ?? const [],
         // Set this to true if you want automatically
         // clear selection when user tap back button
         clearSelectionOnPop: true,
@@ -126,8 +114,8 @@ class _ExamResultPageState extends State<ExamResultPage> {
                     )
                   : null,
             ),
-            if (allResults != null)
-              if (allResults.isEmpty)
+            if (resultList != null)
+              if (resultList.isEmpty)
                 SliverFillRemaining(
                   child: LeavingBlank(
                     icon: Icons.inbox_outlined,
@@ -136,9 +124,9 @@ class _ExamResultPageState extends State<ExamResultPage> {
                 )
               else
                 SliverList.builder(
-                  itemCount: allResults.length,
+                  itemCount: resultList.length,
                   itemBuilder: (item, i) => ExamResultSelectableCard(
-                    allResults[i],
+                    resultList[i],
                     index: i,
                     isSelectingMode: isSelecting,
                   ),
@@ -166,23 +154,21 @@ class _ExamResultPageState extends State<ExamResultPage> {
   Widget buildSemesterSelector() {
     return SemesterSelector(
       showEntireYear: true,
-      initialYear: initialYear,
-      initialSemester: initialSemester,
+      initial: initial,
       baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
-      onSelected: (year, semester) {
+      onSelected: (newSelection) {
         setState(() {
-          selectedYear = year;
-          selectedSemester = semester;
+          selected = newSelection;
         });
-        refresh(year: selectedYear, semester: selectedSemester);
+        refresh(newSelection);
       },
     );
   }
 
   Widget buildTitle() {
-    final allResults = this.resultList;
+    final resultList = this.resultList;
     final style = context.textTheme.headlineSmall;
-    final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResult>() : allResults;
+    final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResult>() : resultList;
     if (selectedExams != null) {
       final gpa = calcGPA(selectedExams.where((exam) => exam.hasScore));
       if (isSelecting) {
@@ -192,7 +178,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
         ].row();
       } else {
         return [
-          selectedSemester.localized().text(textAlign: TextAlign.center, style: style).expanded(),
+          selected.semester.localized().text(textAlign: TextAlign.center, style: style).expanded(),
           i18n.gpaResult(gpa).text(textAlign: TextAlign.center, style: style).expanded(),
         ].row();
       }

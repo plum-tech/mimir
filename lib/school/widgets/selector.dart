@@ -6,20 +6,18 @@ import "../i18n.dart";
 
 class SemesterSelector extends StatefulWidget {
   final int? baseYear;
-  final int? initialYear;
-  final Semester? initialSemester;
+  final SemesterInfo? initial;
 
   /// 是否显示整个学年
   final bool showEntireYear;
   final bool showNextYear;
-  final void Function(int year, Semester semester)? onSelected;
+  final void Function(SemesterInfo newSelection)? onSelected;
 
   const SemesterSelector({
     super.key,
     required this.baseYear,
     this.onSelected,
-    this.initialYear,
-    this.initialSemester,
+    this.initial,
     this.showEntireYear = false,
     this.showNextYear = false,
   });
@@ -41,11 +39,12 @@ class _SemesterSelectorState extends State<SemesterSelector> {
   void initState() {
     super.initState();
     now = DateTime.now();
-    selectedYear = widget.initialYear ?? (now.month >= 9 ? now.year : now.year - 1);
+    selectedYear = widget.initial?.year ?? (now.month >= 9 ? now.year : now.year - 1);
     if (widget.showEntireYear) {
-      selectedSemester = widget.initialSemester ?? Semester.all;
+      selectedSemester = widget.initial?.semester ?? Semester.all;
     } else {
-      selectedSemester = widget.initialSemester ?? (now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1);
+      selectedSemester =
+          widget.initial?.semester ?? (now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1);
     }
   }
 
@@ -82,7 +81,7 @@ class _SemesterSelectorState extends State<SemesterSelector> {
       onSelected: (int? newSelection) {
         if (newSelection != null && newSelection != selectedYear) {
           setState(() => selectedYear = newSelection);
-          widget.onSelected?.call(newSelection, selectedSemester);
+          widget.onSelected?.call((year: newSelection, semester: selectedSemester));
         }
       },
       dropdownMenuEntries: yearList
@@ -105,7 +104,7 @@ class _SemesterSelectorState extends State<SemesterSelector> {
       onSelected: (Semester? newSelection) {
         if (newSelection != null && newSelection != selectedSemester) {
           setState(() => selectedSemester = newSelection);
-          widget.onSelected?.call(selectedYear, newSelection);
+          widget.onSelected?.call((year: selectedYear, semester: newSelection));
         }
       },
       dropdownMenuEntries: semesters

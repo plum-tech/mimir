@@ -4,6 +4,8 @@ import 'package:mimir/l10n/common.dart';
 
 part 'school.g.dart';
 
+typedef SchoolYear = int;
+
 @HiveType(typeId: HiveTypeSchool.semester)
 enum Semester {
   @HiveField(0)
@@ -16,7 +18,7 @@ enum Semester {
   String localized() => "school.semester.$name".tr();
 }
 
-typedef SchoolYear = int;
+typedef SemesterInfo = ({SchoolYear year, Semester semester});
 
 String semesterToFormField(Semester semester) {
   const mapping = {

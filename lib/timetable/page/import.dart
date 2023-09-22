@@ -35,16 +35,18 @@ class ImportTimetablePage extends StatefulWidget {
 class _ImportTimetablePageState extends State<ImportTimetablePage> {
   bool canImport = false;
   var _status = ImportStatus.none;
-  late int selectedYear;
-  late Semester selectedSemester;
+  late SemesterInfo initial = () {
+    final now = DateTime.now();
+    return (
+      year: now.month >= 9 ? now.year : now.year - 1,
+      semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
+    );
+  }();
+  late SemesterInfo selected = initial;
 
   @override
   void initState() {
     super.initState();
-    DateTime now = DateTime.now();
-    // Estimate current school year and semester.
-    selectedYear = now.month >= 9 ? now.year : now.year - 1;
-    selectedSemester = now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1;
   }
 
   @override
@@ -121,14 +123,12 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       SemesterSelector(
         showNextYear: true,
         baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
-        onSelected: (year, semester) {
+        initial: initial,
+        onSelected: (newSelection) {
           setState(() {
-            selectedYear = year;
-            selectedSemester = semester;
+            selected = newSelection;
           });
         },
-        initialYear: selectedYear,
-        initialSemester: selectedSemester,
       ).padSymmetric(v: 30),
       buildImportButton(context).padAll(24),
     ].column(key: key, maa: MainAxisAlignment.center, caa: CrossAxisAlignment.center);
@@ -177,14 +177,13 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       _status = ImportStatus.importing;
     });
     try {
-      final semester = selectedSemester;
-      final year = selectedYear;
+      final (:year, :semester) = selected;
       final timetable = await TimetableInit.service.getTimetable(year, semester);
       if (!mounted) return;
       setState(() {
         _status = ImportStatus.end;
       });
-      final id2timetable = await handleTimetableData(context, timetable, selectedYear, semester);
+      final id2timetable = await handleTimetableData(context, timetable, year, semester);
       if (!mounted) return;
       context.pop(id2timetable);
     } catch (e, stackTrace) {
