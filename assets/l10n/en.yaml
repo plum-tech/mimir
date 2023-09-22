@@ -292,6 +292,10 @@ settings:
       autoRefresh:
         title: Auto-refresh 2nd class scores
         desc: Refresh scores when app is launched
+    examResult:
+      appCardShowResultDetails:
+        title: Show exam result details
+        desc: Show details in exam result card
   life:
     title: Life
     electricity:

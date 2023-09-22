@@ -9,6 +9,7 @@ import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/event.dart';
 import 'package:mimir/school/exam_result/init.dart';
 import 'package:mimir/school/exam_result/widgets/item.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'entity/result.dart';
@@ -82,6 +83,16 @@ class _ExamResultAppCardState extends State<ExamResultAppCard> {
     if (resultList.isEmpty) return const SizedBox();
     resultList.sort((a, b) => -ExamResult.compareByTime(a, b));
     final results = resultList.sublist(0, min(_recentLength, resultList.length));
-    return results.map((result) => ExamResultCard(result)).toList().column();
+    return Settings.school.examResult.listenAppCardShowResultDetails() >>
+        (ctx, _) {
+          final showDetails = Settings.school.examResult.appCardShowResultDetails;
+          return results
+              .map((result) => ExamResultCard(
+                    result,
+                    showDetails: showDetails,
+                  ))
+              .toList()
+              .column();
+        };
   }
 }

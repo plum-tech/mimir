@@ -31,6 +31,8 @@ class _SchoolSettingsPageState extends State<SchoolSettingsPage> {
           SliverList(
             delegate: SliverChildListDelegate([
               buildClass2ndAutoRefreshToggle(),
+              const Divider(),
+              buildExamResultShowDetailsToggle(),
             ]),
           ),
         ],
@@ -49,6 +51,24 @@ class _SchoolSettingsPageState extends State<SchoolSettingsPage> {
           onChanged: (newV) {
             setState(() {
               Settings.school.class2nd.autoRefresh = newV;
+            });
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget buildExamResultShowDetailsToggle() {
+    return StatefulBuilder(
+      builder: (ctx, setState) => ListTile(
+        title: i18n.school.examResult.appCardShowResultDetailsTitle.text(),
+        subtitle: i18n.school.examResult.appCardShowResultDetailsDesc.text(),
+        leading: const Icon(Icons.refresh_outlined),
+        trailing: Switch.adaptive(
+          value: Settings.school.examResult.appCardShowResultDetails,
+          onChanged: (newV) {
+            setState(() {
+              Settings.school.examResult.appCardShowResultDetails = newV;
             });
           },
         ),

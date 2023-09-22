@@ -130,6 +130,7 @@ class _School {
 
   static const ns = "${_I18n.ns}.school";
   final class2nd = const _Class2nd();
+  final examResult = const _ExamResult();
 
   String get title => "$ns.title".tr();
 }
@@ -142,6 +143,16 @@ class _Class2nd {
   String get autoRefreshTitle => "$ns.autoRefresh.title".tr();
 
   String get autoRefreshDesc => "$ns.autoRefresh.desc".tr();
+}
+
+class _ExamResult {
+  static const ns = "${_School.ns}.examResult";
+
+  const _ExamResult();
+
+  String get appCardShowResultDetailsTitle => "$ns.appCardShowResultDetails.title".tr();
+
+  String get appCardShowResultDetailsDesc => "$ns.appCardShowResultDetails.desc".tr();
 }
 
 class _Life {

@@ -87,22 +87,22 @@ class SettingsImpl {
   /// [false] by default.
   bool get useHttpProxy => box.get(_NetworkK.useHttpProxy) ?? false;
 
-  set useHttpProxy(bool foo) => box.put(_NetworkK.useHttpProxy, foo);
+  set useHttpProxy(bool newV) => box.put(_NetworkK.useHttpProxy, newV);
 
   /// [false] by default.
   bool get isGlobalHttpProxy => box.get(_NetworkK.isGlobalHttpProxy) ?? false;
 
-  set isGlobalHttpProxy(bool foo) => box.put(_NetworkK.isGlobalHttpProxy, foo);
+  set isGlobalHttpProxy(bool newV) => box.put(_NetworkK.isGlobalHttpProxy, newV);
 
   // Developer
   bool? get showErrorInfoDialog => box.get(_DeveloperK.showErrorInfoDialog);
 
-  set showErrorInfoDialog(bool? foo) => box.put(_DeveloperK.showErrorInfoDialog, foo);
+  set showErrorInfoDialog(bool? newV) => box.put(_DeveloperK.showErrorInfoDialog, newV);
 
   /// [false] by default.
   bool get isDeveloperMode => box.get(_DeveloperK.devMode) ?? false;
 
-  set isDeveloperMode(bool foo) => box.put(_DeveloperK.devMode, foo);
+  set isDeveloperMode(bool newV) => box.put(_DeveloperK.devMode, newV);
 
   ValueListenable<Box> listenIsDeveloperMode() => box.listenable(keys: [_DeveloperK.devMode]);
 }

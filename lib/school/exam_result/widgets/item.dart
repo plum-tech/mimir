@@ -44,6 +44,7 @@ class ExamResultCard extends StatelessWidget {
   final Widget? iconOverride;
   final Widget? detailsOverride;
   final bool selected;
+  final bool showDetails;
 
   const ExamResultCard(
     this.result, {
@@ -52,6 +53,7 @@ class ExamResultCard extends StatelessWidget {
     this.iconOverride,
     this.detailsOverride,
     this.selected = false,
+    this.showDetails = true,
   });
 
   static const iconSize = 45.0;
@@ -71,17 +73,18 @@ class ExamResultCard extends StatelessWidget {
       subtitleTextStyle: textTheme.bodyMedium,
       subtitle: [
         '$courseType | ${i18n.credit}: ${result.credit}'.text(),
-        AnimatedSize(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.fastEaseInToSlowEaseOut.flipped,
-          child: detailsOverride ?? ExamResultItemChipGroup(resultItems),
-        ),
+        if (showDetails)
+          AnimatedSize(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.fastEaseInToSlowEaseOut.flipped,
+            child: detailsOverride ?? ExamResultItemChipGroup(resultItems),
+          ),
       ].column(caa: CrossAxisAlignment.start),
       trailing: result.hasScore
           ? result.score.toString().text(
                 style: TextStyle(
                   fontSize: textTheme.bodyLarge?.fontSize,
-                  color: result.passed ? null: Colors.redAccent,
+                  color: result.passed ? null : Colors.redAccent,
                 ),
               )
           : i18n.lessonNotEvaluated.text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize)),
