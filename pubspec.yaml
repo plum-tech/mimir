@@ -51,7 +51,7 @@ dependencies:
   hive_flutter: ^1.1.0
 
   # Dio (http client)
-  dio: ^5.3.2
+  dio: ^5.3.3
   dio_cookie_manager: ^3.1.0+1
 
   # WebView and browser related
@@ -71,7 +71,7 @@ dependencies:
   app_settings: ^5.0.0
 
   # Platform
-  permission_handler: ^10.4.3        # Android / iOS / Windows Permission
+  permission_handler: ^11.0.0        # Android / iOS / Windows Permission
   quick_actions: ^1.0.6           # Android / iOS Home screen quick actions
 
   # Open with other APP/programs
@@ -92,7 +92,7 @@ dependencies:
   auto_size_text: ^3.0.0
   markdown: ^7.1.0
   auto_animated: ^3.1.0
-  animations: ^2.0.7
+  animations: ^2.0.8
   dynamic_color: ^1.6.6
   unicons: ^2.1.1
   sliver_tools: ^0.2.12
