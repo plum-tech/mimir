@@ -50,6 +50,7 @@ class _LifePageState extends State<LifePage> {
   Widget build(BuildContext context) {
     final campus = Settings.campus;
     return RefreshIndicator.adaptive(
+      triggerMode: RefreshIndicatorTriggerMode.anywhere,
       onRefresh: () async {
         debugPrint("Life page refreshed");
         lifeEventBus.fire(LifePageRefreshEvent());

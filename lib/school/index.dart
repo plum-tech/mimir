@@ -36,6 +36,7 @@ class _SchoolPageState extends State<SchoolPage> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator.adaptive(
+      triggerMode: RefreshIndicatorTriggerMode.anywhere,
       onRefresh: () async {
         debugPrint("School page refreshed");
         schoolEventBus.fire(SchoolPageRefreshEvent());
