@@ -15,6 +15,10 @@ class ExamStorageBox with CachedBox {
   ExamStorageBox(this.box);
 }
 
+class _K{
+  static String examsKey(SchoolYear schoolYear, Semester semester) => "$schoolYear/$semester";
+}
+
 class ExamStorage {
   final ExamStorageBox box;
 

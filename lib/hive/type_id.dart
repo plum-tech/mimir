@@ -14,12 +14,13 @@ class HiveTypeCredentials {
   static const email = 22;
 }
 
-/// Credential 30-39
+/// School 30-39
 class HiveTypeSchool {
   static const campus = 30;
   static const semester = 31;
-  static const schoolYear = 32;
-  static const schoolContact = 33;
+
+  // School yellow pages 36-39
+  static const schoolContact = 36;
 }
 
 /// Exam 40-49

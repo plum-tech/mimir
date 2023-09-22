@@ -43,7 +43,7 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
       this.exams = null;
     });
     final exams = await service.getExamList(
-      year: SchoolYear(selectedYear),
+      year: selectedYear,
       semester: selectedSemester,
     );
     if (exams != null) {

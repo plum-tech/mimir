@@ -178,7 +178,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     });
     try {
       final semester = selectedSemester;
-      final year = SchoolYear(selectedYear);
+      final year = selectedYear;
       final timetable = await TimetableInit.service.getTimetable(year, semester);
       if (!mounted) return;
       setState(() {

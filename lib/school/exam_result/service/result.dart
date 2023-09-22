@@ -29,7 +29,6 @@ class ExamResultService {
 
   /// 获取成绩
   Future<List<ExamResult>> getResultList(SchoolYear schoolYear, Semester semester) async {
-    assert(!schoolYear.isAll, "School year can't be all.");
     final response = await session.request(_scoreUrl, ReqMethod.post, para: {
       'gnmkdm': 'N305005',
       'doType': 'query',
@@ -52,7 +51,6 @@ class ExamResultService {
 
   /// 获取成绩详情
   Future<List<ExamResultItem>> getResultItems(String classId, SchoolYear schoolYear, Semester semester) async {
-    assert(!schoolYear.isAll, "School year can't be all.");
     final response = await session.request(
       _scoreDetailUrl,
       ReqMethod.post,

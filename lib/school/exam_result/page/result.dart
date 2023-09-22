@@ -56,7 +56,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
     setState(() {
       this.allResults = null;
     });
-    ExamResultInit.resultService.getResultList(SchoolYear(selectedYear), selectedSemester).then((value) {
+    ExamResultInit.resultService.getResultList(selectedYear, selectedSemester).then((value) {
       if (!mounted) return;
       setState(() {
         this.allResults = value;

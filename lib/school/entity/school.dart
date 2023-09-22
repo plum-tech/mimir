@@ -16,21 +16,7 @@ enum Semester {
   String localized() => "school.semester.$name".tr();
 }
 
-@HiveType(typeId: HiveTypeSchool.schoolYear)
-class SchoolYear {
-  static const all = SchoolYear(null);
-  @HiveField(0)
-  final int? year;
-
-  const SchoolYear(this.year);
-
-  bool get isAll => year == null;
-
-  @override
-  String toString() {
-    return (year ?? '').toString();
-  }
-}
+typedef SchoolYear = int;
 
 String semesterToFormField(Semester semester) {
   const mapping = {
@@ -51,15 +37,11 @@ Semester formFieldToSemester(String s) {
 }
 
 SchoolYear formFieldToSchoolYear(String s) {
-  final year = int.parse(s.split('-')[0]);
-  return SchoolYear(year);
+  return int.parse(s.split('-')[0]);
 }
 
-String schoolYearToFormField(SchoolYear y) {
-  if (y.year != null) {
-    return '${y.year!}-${y.year! + 1}';
-  }
-  return '';
+String schoolYearToFormField(SchoolYear year) {
+  return '$year-${year + 1}';
 }
 
 double stringToDouble(String s) => double.tryParse(s) ?? double.nan;
