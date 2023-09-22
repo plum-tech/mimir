@@ -50,8 +50,7 @@ class _ExamResultAppCardState extends State<ExamResultAppCard> {
       semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
     );
     setState(() {
-      // TODO: for debugging
-      resultList = ExamResultInit.storage.getResultList((year: 2022, semester: Semester.all));
+      resultList = ExamResultInit.storage.getResultList(current);
     });
   }
 
