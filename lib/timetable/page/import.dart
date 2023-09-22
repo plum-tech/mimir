@@ -9,7 +9,7 @@ import 'package:mimir/design/widgets/connectivity_checker.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/utils.dart';
-import 'package:mimir/school/widgets/school.dart';
+import 'package:mimir/school/widgets/selector.dart';
 import 'package:mimir/timetable/utils.dart';
 import 'package:rettulf/rettulf.dart';
 

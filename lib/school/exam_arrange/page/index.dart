@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/school/utils.dart';
-import 'package:mimir/school/widgets/school.dart';
+import 'package:mimir/school/widgets/selector.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/school/entity/school.dart';
 
