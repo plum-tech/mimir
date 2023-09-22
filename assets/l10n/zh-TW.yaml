@@ -320,8 +320,8 @@ settings:
     dark: 深色
     light: 亮色
     system: 系統
-  httpProxy:
-    title: 開啟 HTTP Proxy
+  proxy:
+    title: HTTP Proxy
     desc: 開啟 HTTP Proxy 連線校園網路
     global: 用於全局
     globalDesc: 调试用，不包含 Webview 发出的请求

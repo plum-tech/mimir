@@ -14,7 +14,7 @@ class _I18n with CommonI18nMixin {
   final changeOaPwd = const _ChangeOaPwd();
   final clearCache = const _ClearCache();
   final themeMode = const _ThemeMode();
-  final httpProxy = const _HttpProxy();
+  final proxy = const _Proxy();
   final language = const _Language();
   final dev = const _DevOptions();
   final timetable = const _Timetable();
@@ -87,10 +87,10 @@ class _ThemeMode {
   }
 }
 
-class _HttpProxy {
-  const _HttpProxy();
+class _Proxy {
+  const _Proxy();
 
-  static const ns = "${_I18n.ns}.httpProxy";
+  static const ns = "${_I18n.ns}.proxy";
 
   String get title => "$ns.title".tr();
 

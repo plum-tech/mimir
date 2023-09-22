@@ -320,8 +320,8 @@ settings:
     dark: Dark
     light: Light
     system: System
-  httpProxy:
-    title: Enable HTTP proxy
+  proxy:
+    title: HTTP proxy
     desc: Connect to the campus network by HTTP proxy
     global: Use as global proxy
     globalDesc: For debugging, exclude Webview

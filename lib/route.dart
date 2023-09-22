@@ -6,6 +6,7 @@ import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/school/ywb/page/list.dart';
 import 'package:mimir/school/ywb/page/mailbox.dart';
 import 'package:mimir/settings/page/life.dart';
+import 'package:mimir/settings/page/proxy.dart';
 import 'package:mimir/settings/page/school.dart';
 import 'package:mimir/settings/page/storage.dart';
 import 'package:mimir/life/expense_records/page/records.dart';
@@ -183,6 +184,10 @@ final router = GoRouter(
         GoRoute(
           path: "life",
           builder: (ctx, state) => const LifeSettingsPage(),
+        ),
+        GoRoute(
+          path: "proxy",
+          builder: (ctx, state) => const ProxySettingsPage(),
         ),
         GoRoute(
           path: "developer",
