@@ -78,7 +78,12 @@ class ExamResultCard extends StatelessWidget {
         ),
       ].column(caa: CrossAxisAlignment.start),
       trailing: result.hasScore
-          ? result.score.toString().text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize))
+          ? result.score.toString().text(
+                style: TextStyle(
+                  fontSize: textTheme.bodyLarge?.fontSize,
+                  color: result.score < 60.0 ? Colors.redAccent : null,
+                ),
+              )
           : i18n.lessonNotEvaluated.text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize)),
       onTap: onTap,
     ).inOutlinedCard();
