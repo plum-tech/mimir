@@ -1,7 +1,5 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
-import 'package:collection/collection.dart';
 import 'package:mimir/network/session.dart';
-import 'package:mimir/school/class2nd/page/list.dart';
 import 'package:mimir/school/entity/school.dart';
 
 import '../entity/result.dart';
@@ -29,35 +27,30 @@ class ExamResultService {
   const ExamResultService(this.session);
 
   /// 获取成绩
-  Future<List<ExamResult>> getResultList({
-    required SchoolYear year,
-    required Semester semester,
-  }) async {
+  Future<List<ExamResult>> getResultList(SemesterInfo info) async {
     final response = await session.request(_scoreUrl, ReqMethod.post, para: {
       'gnmkdm': 'N305005',
       'doType': 'query',
     }, data: {
       // 学年名
-      'xnm': year.toString(),
+      'xnm': info.year.toString(),
       // 学期名
-      'xqm': semesterToFormField(semester),
+      'xqm': semesterToFormField(info.semester),
       // 获取成绩最大数量
       'queryModel.showCount': 100,
     });
     final resultList = _parseScoreListPage(response.data);
     final newResultList = <ExamResult>[];
     for (final result in resultList) {
-      final resultItems =
-          await getResultItems(year: result.year, semester: result.semester, classId: result.innerClassId);
+      final resultItems = await getResultItems(info, classId: result.innerClassId);
       newResultList.add(result.copyWith(items: resultItems));
     }
     return newResultList;
   }
 
   /// 获取成绩详情
-  Future<List<ExamResultItem>> getResultItems({
-    required SchoolYear year,
-    required Semester semester,
+  Future<List<ExamResultItem>> getResultItems(
+    SemesterInfo info, {
     required String classId,
   }) async {
     final response = await session.request(
@@ -68,9 +61,9 @@ class ExamResultService {
         // 班级
         'jxb_id': classId,
         // 学年名
-        'xnm': year.toString(),
+        'xnm': info.year.toString(),
         // 学期名
-        'xqm': semesterToFormField(semester)
+        'xqm': semesterToFormField(info.semester)
       },
     );
     final html = response.data as String;
@@ -79,11 +72,8 @@ class ExamResultService {
 
   static List<ExamResult> _parseScoreListPage(Map<String, dynamic> jsonPage) {
     final List? scoreList = jsonPage['items'];
-    if (scoreList == null) {
-      return const [];
-    } else {
-      return scoreList.map((e) => ExamResult.fromJson(e as Map<String, dynamic>)).toList();
-    }
+    if (scoreList == null) return const [];
+    return scoreList.map((e) => ExamResult.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   static ExamResultItem _mapToDetailItem(Bs4Element item) {

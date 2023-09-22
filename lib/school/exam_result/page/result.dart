@@ -49,15 +49,14 @@ class _ExamResultPageState extends State<ExamResultPage> {
   }
 
   Future<void> refresh(SemesterInfo info) async {
-    final (:year, :semester) = info;
     if (!mounted) return;
     setState(() {
-      resultList = ExamResultInit.storage.getResultList(year: year, semester: semester);
+      resultList = ExamResultInit.storage.getResultList(info);
       isLoading = true;
     });
     try {
-      final resultList = await ExamResultInit.service.getResultList(year: year, semester: semester);
-      ExamResultInit.storage.setResultList(resultList, year: year, semester: semester);
+      final resultList = await ExamResultInit.service.getResultList(info);
+      ExamResultInit.storage.setResultList(info, resultList);
       // Prevents the former query replace new query.
       if (info == selected) {
         if (!mounted) return;

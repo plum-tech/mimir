@@ -81,12 +81,12 @@ class ExamResultCard extends StatelessWidget {
           ? result.score.toString().text(
                 style: TextStyle(
                   fontSize: textTheme.bodyLarge?.fontSize,
-                  color: result.score < 60.0 ? Colors.redAccent : null,
+                  color: result.passed ? null: Colors.redAccent,
                 ),
               )
           : i18n.lessonNotEvaluated.text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize)),
       onTap: onTap,
-    ).inOutlinedCard();
+    ).inCard();
   }
 }
 
@@ -104,6 +104,7 @@ class ExamResultItemChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final itemStyle = context.textTheme.labelSmall;
     return Chip(
+      elevation: 4,
       labelStyle: selected ? itemStyle?.copyWith(color: context.colorScheme.primary) : itemStyle,
       label: buildItemText(item).text(),
       labelPadding: EdgeInsets.zero,

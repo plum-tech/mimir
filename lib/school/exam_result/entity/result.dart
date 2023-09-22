@@ -107,6 +107,7 @@ class ExamResult {
   }
 
   bool get hasScore => !score.isNaN;
+  bool get passed => hasScore ? score >= 60.0 : false;
 
   factory ExamResult.fromJson(Map<String, dynamic> json) => _$ExamResultFromJson(json);
 
@@ -124,6 +125,15 @@ class ExamResult {
       "time": time,
       "items": "$items",
     }.toString();
+  }
+
+  static int compareByTime(ExamResult a, ExamResult b) {
+    final timeA = a.time;
+    final timeB = b.time;
+    if (timeA == null && timeB == null) return 0;
+    if (timeA == null) return -1;
+    if (timeB == null) return 1;
+    return timeA.compareTo(timeB);
   }
 }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/credential/entity/credential.dart';
 import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/card.dart';
