@@ -15,36 +15,46 @@ environment: { sdk: '>=3.0.0 <4.0.0', flutter: ^3.0.0 }
 dependencies:
   flutter: { sdk: flutter }
 
-  device_info_plus: ^9.0.3
-  audio_session: ^0.1.16
-
   # I18n
   intl: ^0.17.0
   easy_localization: ^3.0.3
 
   # Basic
-  logger: ^1.1.0              # logger
-  path_provider: ^2.0.15       # Path
-  version: ^3.0.2               # Version comparison
+  # logger
+  logger: ^2.0.2
+  device_info_plus: ^9.0.3
+  audio_session: ^0.1.16
+  # Path
+  path_provider: ^2.0.15
+  # Version comparison
+  version: ^3.0.2
   yaml: ^3.1.2
   path: ^1.8.2
   quiver: ^3.1.0
   collection: ^1.17.2
-  format: ^1.3.0              # String formatting
+  # String formatting
+  format: ^1.3.0
   go_router: ^10.1.2
   rettulf: ^2.0.1
   event_bus: ^2.0.0
 
   # Cryptography
-  encrypt: ^5.0.1             # Encryption (AES)
-  crypto: ^3.0.3              # Hash (MD5)
-  uuid: ^3.0.7                # UUID generator
+  # Encryption (AES)
+  encrypt: ^5.0.1
+  # Hash (MD5)
+  crypto: ^3.0.3
+  # UUID generator
+  uuid: ^3.0.7
 
   # File format
-  ical: ^0.2.2                # iCalendar file generator
-  json_serializable: ^6.7.1   # JSON
-  json_annotation: ^4.8.1     # JSON code generation
-  beautiful_soup_dart: ^0.3.0 # HTML parser
+  # iCalendar file generator
+  ical: ^0.2.2
+  # JSON
+  json_serializable: ^6.7.1
+  # JSON code generation
+  json_annotation: ^4.8.1
+  # HTML parser
+  beautiful_soup_dart: ^0.3.0
 
   # hive (key-value database)
   hive: ^2.2.3
@@ -71,22 +81,30 @@ dependencies:
   app_settings: ^5.0.0
 
   # Platform
-  permission_handler: ^11.0.0        # Android / iOS / Windows Permission
-  quick_actions: ^1.0.6           # Android / iOS Home screen quick actions
+  # Android / iOS / Windows Permission
+  permission_handler: ^11.0.0
+  # Android / iOS Home screen quick actions
+  quick_actions: ^1.0.6
 
   # Open with other APP/programs
-  open_file: ^3.3.2                 # Open files
-  url_launcher: ^6.1.14             # Open URLs
-  image_picker: ^1.0.4            # Open Android / iOS system image picker
+  # Open files
+  open_file: ^3.3.2
+  # Open URLs
+  url_launcher: ^6.1.14
+  # Open Android / iOS system image picker
+  image_picker: ^1.0.4
   file_picker: ^5.5.0
   share_plus: ^7.1.0
 
   # UI
   fl_chart: ^0.63.0
   flutter_svg: ^2.0.6
-  flutter_screenutil: ^5.9.0              # Screen adaptation
-  qr_flutter: ^4.1.0                      # Qr code generate
-  mobile_scanner: ^3.4.1                  # qrcode scanner
+  # Screen adaptation
+  flutter_screenutil: ^5.9.0
+  # Qr code generate
+  qr_flutter: ^4.1.0
+  # qrcode scanner
+  mobile_scanner: ^3.4.1
   cached_network_image: ^3.2.3
   modal_bottom_sheet: ^3.0.0-pre
   auto_size_text: ^3.0.0
@@ -100,12 +118,17 @@ dependencies:
   infinite_scroll_pagination: ^4.0.0
 
   # Utils
-  package_info_plus: ^4.1.0     # Get package info (version)
-  universal_platform: ^1.0.0+1  # dart.io.Platform API for Web
-  check_vpn_connection: ^0.0.2  # Check VPN connection status
+  # Get package info (version)
+  package_info_plus: ^4.1.0
+  # dart.io.Platform API for Web
+  universal_platform: ^1.0.0+1
+  # Check VPN connection status
+  check_vpn_connection: ^0.0.2
   connectivity_plus: ^3.0.3
-  synchronized: ^3.1.0        # lock
-  stack_trace: ^1.11.0          # parse stacktrace
+  # lock
+  synchronized: ^3.1.0
+  # parse stacktrace
+  stack_trace: ^1.11.0
   email_validator: ^2.1.17
   vibration: ^1.8.1
   sanitize_filename: ^1.0.5
