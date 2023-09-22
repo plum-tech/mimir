@@ -3,7 +3,6 @@ import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/fab.dart';
 import 'package:mimir/design/widgets/multi_select.dart';
-import 'package:mimir/school/class2nd/page/list.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/widgets/school.dart';
 import 'package:rettulf/rettulf.dart';
@@ -30,7 +29,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
   late Semester selectedSemester;
 
   /// 成绩列表
-  List<ExamResult>? allResults;
+  List<ExamResult>? resultList;
   bool isLoading = false;
   final controller = ScrollController();
 
@@ -38,10 +37,18 @@ class _ExamResultPageState extends State<ExamResultPage> {
   final multiselect = MultiselectController();
   final _multiselectKey = GlobalKey(debugLabel: "Multiselect");
 
+  late SchoolYear initialYear;
+  late Semester initialSemester;
+
   @override
   void initState() {
     super.initState();
-    refresh(year: selectedYear, semester: selectedSemester);
+    final now = DateTime.now();
+    initialYear = now.month >= 9 ? now.year : now.year - 1;
+    initialSemester = Semester.all;
+    selectedYear = initialYear;
+    selectedSemester = initialSemester;
+    refresh(year: initialYear, semester: initialSemester);
   }
 
   @override
@@ -56,7 +63,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
   }) async {
     if (!mounted) return;
     setState(() {
-      allResults = ExamResultInit.storage.getResultList(year: year, semester: semester);
+      resultList = ExamResultInit.storage.getResultList(year: year, semester: semester);
       isLoading = true;
     });
     try {
@@ -66,7 +73,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
       if (year == selectedYear && semester == selectedSemester) {
         if (!mounted) return;
         setState(() {
-          allResults = resultList;
+          this.resultList = resultList;
           isLoading = false;
         });
       }
@@ -84,7 +91,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
 
   @override
   Widget build(BuildContext context) {
-    final allResults = this.allResults;
+    final allResults = this.resultList;
     return Scaffold(
       body: MultiselectScope<ExamResult>(
         key: _multiselectKey,
@@ -157,11 +164,10 @@ class _ExamResultPageState extends State<ExamResultPage> {
   }
 
   Widget buildSemesterSelector() {
-    final now = DateTime.now();
     return SemesterSelector(
       showEntireYear: true,
-      initialYear: now.month >= 9 ? now.year : now.year - 1,
-      initialSemester: Semester.all,
+      initialYear: initialYear,
+      initialSemester: initialSemester,
       baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
       onSelected: (year, semester) {
         setState(() {
@@ -174,7 +180,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
   }
 
   Widget buildTitle() {
-    final allResults = this.allResults;
+    final allResults = this.resultList;
     final style = context.textTheme.headlineSmall;
     final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResult>() : allResults;
     if (selectedExams != null) {

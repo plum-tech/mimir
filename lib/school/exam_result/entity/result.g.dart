@@ -21,7 +21,7 @@ class ExamResultAdapter extends TypeAdapter<ExamResult> {
       courseName: fields[1] as String,
       courseId: fields[2] as String,
       innerClassId: fields[3] as String,
-      schoolYear: fields[5] as int,
+      year: fields[5] as int,
       semester: fields[6] as Semester,
       credit: fields[7] as double,
       dynClassId: fields[4] as String,
@@ -45,7 +45,7 @@ class ExamResultAdapter extends TypeAdapter<ExamResult> {
       ..writeByte(4)
       ..write(obj.dynClassId)
       ..writeByte(5)
-      ..write(obj.schoolYear)
+      ..write(obj.year)
       ..writeByte(6)
       ..write(obj.semester)
       ..writeByte(7)
@@ -112,7 +112,7 @@ ExamResult _$ExamResultFromJson(Map<String, dynamic> json) => ExamResult(
       courseName: _parseCourseName(json['kcmc']),
       courseId: json['kch'] as String,
       innerClassId: json['jxb_id'] as String,
-      schoolYear: formFieldToSchoolYear(json['xnmmc'] as String),
+      year: formFieldToSchoolYear(json['xnmmc'] as String),
       semester: formFieldToSemester(json['xqm'] as String),
       credit: stringToDouble(json['xf'] as String),
       dynClassId: json['jxbmc'] as String? ?? '',
@@ -125,7 +125,7 @@ Map<String, dynamic> _$ExamResultToJson(ExamResult instance) => <String, dynamic
       'kch': instance.courseId,
       'jxb_id': instance.innerClassId,
       'jxbmc': instance.dynClassId,
-      'xnmmc': schoolYearToFormField(instance.schoolYear),
+      'xnmmc': schoolYearToFormField(instance.year),
       'xqm': _$SemesterEnumMap[instance.semester]!,
       'xf': instance.credit,
     };

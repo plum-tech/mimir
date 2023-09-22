@@ -26,37 +26,56 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
 
   /// 要查询的学期
   late Semester selectedSemester;
-  List<ExamEntry>? exams;
+  List<ExamEntry>? examList;
+  late SchoolYear initialYear;
+  late Semester initialSemester;
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
     final DateTime now = DateTime.now();
-    selectedYear = now.month >= 9 ? now.year : now.year - 1;
-    selectedSemester = now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1;
-    refresh();
+    initialYear = now.month >= 9 ? now.year : now.year - 1;
+    initialSemester = now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1;
+    selectedYear = initialYear;
+    selectedSemester = initialSemester;
+    refresh(year: initialYear, semester: initialSemester);
   }
 
-  Future<void> refresh() async {
+  Future<void> refresh({
+    required SchoolYear year,
+    required Semester semester,
+  }) async {
+    if (!mounted) return;
     setState(() {
-      // To display the loading placeholder.
-      this.exams = null;
+      examList = ExamArrangeInit.storage.getExamList(year: year, semester: semester);
+      isLoading = true;
     });
-    final exams = await service.getExamList(
-      year: selectedYear,
-      semester: selectedSemester,
-    );
-    if (exams != null) {
-      exams.sort(ExamEntry.comparator);
-      setState(() {
-        this.exams = exams;
-      });
+    try {
+      final examList = await service.getExamList(year: year, semester: semester);
+      ExamArrangeInit.storage.setExamList(examList, year: year, semester: semester);
+      if (year == selectedYear && semester == selectedSemester) {
+        if (!mounted) return;
+        setState(() {
+          this.examList = examList;
+          isLoading = false;
+        });
+      }
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final exams = this.exams;
+    final examList = this.examList;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -68,15 +87,15 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
               centerTitle: true,
               background: buildSemesterSelector(),
             ),
-            bottom: exams != null
-                ? null
-                : const PreferredSize(
+            bottom: isLoading
+                ? const PreferredSize(
                     preferredSize: Size.fromHeight(4),
                     child: LinearProgressIndicator(),
-                  ),
+                  )
+                : null,
           ),
-          if (exams != null)
-            if (exams.isEmpty)
+          if (examList != null)
+            if (examList.isEmpty)
               SliverFillRemaining(
                 child: LeavingBlank(
                   icon: Icons.inbox_outlined,
@@ -85,8 +104,8 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
               )
             else
               SliverList.builder(
-                itemCount: exams.length,
-                itemBuilder: (ctx, i) => ExamCard(exam: exams[i]),
+                itemCount: examList.length,
+                itemBuilder: (ctx, i) => ExamCard(exam: examList[i]),
               ),
         ],
       ),
@@ -95,15 +114,15 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
 
   Widget buildSemesterSelector() {
     return SemesterSelector(
-      initialYear: selectedYear,
-      initialSemester: selectedSemester,
+      initialYear: initialYear,
+      initialSemester: initialSemester,
       baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
-      onSelected: (year,semester) {
+      onSelected: (year, semester) {
         setState(() {
           selectedYear = year;
           selectedSemester = semester;
         });
-        refresh();
+        refresh(year: initialYear, semester: initialSemester);
       },
     );
   }
