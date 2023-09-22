@@ -83,7 +83,6 @@ dependencies:
 
   # UI
   fl_chart: ^0.63.0
-  pull_to_refresh: ^2.0.0
   flutter_svg: ^2.0.6
   flutter_screenutil: ^5.9.0              # Screen adaptation
   qr_flutter: ^4.1.0                      # Qr code generate
@@ -113,7 +112,6 @@ dependencies:
 
   # Desktop support
   window_manager: ^0.3.6
-
 
 dependency_overrides:
   intl: ^0.18.0
