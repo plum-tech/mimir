@@ -1,6 +1,7 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:collection/collection.dart';
 import 'package:mimir/network/session.dart';
+import 'package:mimir/school/class2nd/page/list.dart';
 import 'package:mimir/school/entity/school.dart';
 
 import '../entity/result.dart';

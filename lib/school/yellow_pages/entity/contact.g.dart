@@ -8,7 +8,7 @@ part of 'contact.dart';
 
 class SchoolContactAdapter extends TypeAdapter<SchoolContact> {
   @override
-  final int typeId = 33;
+  final int typeId = 36;
 
   @override
   SchoolContact read(BinaryReader reader) {

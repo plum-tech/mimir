@@ -3,6 +3,7 @@ import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/fab.dart';
 import 'package:mimir/design/widgets/multi_select.dart';
+import 'package:mimir/school/class2nd/page/list.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/widgets/school.dart';
 import 'package:rettulf/rettulf.dart';
@@ -30,6 +31,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
 
   /// 成绩列表
   List<ExamResult>? allResults;
+  bool isLoading = false;
   final controller = ScrollController();
 
   bool isSelecting = false;
@@ -51,17 +53,35 @@ class _ExamResultPageState extends State<ExamResultPage> {
     super.dispose();
   }
 
-  void onRefresh() {
+  Future<void> onRefresh() async {
+    final selectedYear = this.selectedYear;
+    final selectedSemester = this.selectedSemester;
     if (!mounted) return;
     setState(() {
-      this.allResults = null;
+      allResults = ExamResultInit.storage.getResultList(year: selectedYear, semester: selectedSemester);
+      isLoading = true;
     });
-    ExamResultInit.resultService.getResultList(selectedYear, selectedSemester).then((value) {
-      if (!mounted) return;
-      setState(() {
-        this.allResults = value;
-      });
-    });
+    try {
+      final resultList = await ExamResultInit.service.getResultList(selectedYear, selectedSemester);
+      ExamResultInit.storage.setResultList(resultList, year: selectedYear, semester: selectedSemester);
+      // Prevents the former query replace new query.
+      if (selectedYear == this.selectedYear && selectedSemester == this.selectedSemester) {
+        if (!mounted) return;
+        setState(() {
+          allResults = resultList;
+          isLoading = false;
+        });
+      }
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -94,12 +114,12 @@ class _ExamResultPageState extends State<ExamResultPage> {
                 centerTitle: true,
                 background: buildSemesterSelector(),
               ),
-              bottom: allResults != null
-                  ? null
-                  : const PreferredSize(
+              bottom: isLoading
+                  ? const PreferredSize(
                       preferredSize: Size.fromHeight(4),
                       child: LinearProgressIndicator(),
-                    ),
+                    )
+                  : null,
             ),
             if (allResults != null)
               if (allResults.isEmpty)

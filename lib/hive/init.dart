@@ -7,12 +7,12 @@ class HiveInit {
   const HiveInit._();
 
   static late Box<dynamic> credentials;
-  static late Box<LibrarySearchHistoryItem> librarySearchHistory;
+  static late Box<LibrarySearchHistoryItem> library;
   static late Box<dynamic> timetable;
   static late Box<dynamic> expense;
   static late Box<dynamic> yellowPages;
   static late Box<dynamic> activityCache;
-  static late Box<dynamic> examArrCache;
+  static late Box<dynamic> examArrange;
   static late Box<dynamic> examResultCache;
   static late Box<dynamic> oaAnnounceCache;
   static late Box<dynamic> applicationCache;
@@ -31,18 +31,18 @@ class HiveInit {
       credentials = await Hive.openBox('credentials'),
       settings = await Hive.openBox('settings'),
       meta = await Hive.openBox('meta'),
-      expense = await Hive.openBox('expense'),
       yellowPages = await Hive.openBox('yellow-pages'),
-      librarySearchHistory = await Hive.openBox('library-search-history'),
-      cookies = await Hive.openBox('cookies'),
       timetable = await Hive.openBox('timetable'),
-      eduEmail = await Hive.openBox('eduEmail'),
       ...cacheBoxes = [
-        examArrCache = await Hive.openBox('exam-arr-Cache'),
-        examResultCache = await Hive.openBox('exam-result-cache'),
-        oaAnnounceCache = await Hive.openBox('oa-announce-cache'),
-        activityCache = await Hive.openBox('activity-cache'),
-        applicationCache = await Hive.openBox('application-cache'),
+        eduEmail = await Hive.openBox('eduEmail'),
+        cookies = await Hive.openBox('cookies'),
+        expense = await Hive.openBox('expense'),
+        library = await Hive.openBox('library'),
+        examArrange = await Hive.openBox('exam-arrange'),
+        examResultCache = await Hive.openBox('exam-result'),
+        oaAnnounceCache = await Hive.openBox('oa-announce'),
+        activityCache = await Hive.openBox('activity'),
+        applicationCache = await Hive.openBox('application'),
       ],
     ]);
   }

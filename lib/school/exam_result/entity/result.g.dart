@@ -21,7 +21,7 @@ class ExamResultAdapter extends TypeAdapter<ExamResult> {
       courseName: fields[1] as String,
       courseId: fields[2] as String,
       innerClassId: fields[3] as String,
-      schoolYear: fields[5] as SchoolYear,
+      schoolYear: fields[5] as int,
       semester: fields[6] as Semester,
       credit: fields[7] as double,
       dynClassId: fields[4] as String,

@@ -93,7 +93,7 @@ class Init {
 
     ExamArrangeInit.init(
       eduSession: sisSessionSession,
-      box: HiveInit.examArrCache,
+      box: HiveInit.examArrange,
     );
 
     TimetableInit.init(
@@ -113,7 +113,7 @@ class Init {
 
     LibraryInit.init(
       dio: Global.dio,
-      searchHistoryBox: HiveInit.librarySearchHistory,
+      searchHistoryBox: HiveInit.library,
     );
 
     EduEmailInit.init(

@@ -19,7 +19,7 @@ class ExamArrangePage extends StatefulWidget {
 }
 
 class _ExamArrangePageState extends State<ExamArrangePage> {
-  final service = ExamArrangeInit.examService;
+  final service = ExamArrangeInit.service;
 
   /// 四位年份
   late int selectedYear;

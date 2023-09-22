@@ -2,14 +2,13 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:hive/hive.dart';
 import 'package:mimir/session/sis.dart';
 
-import 'cache/result.dart';
-import 'events.dart';
 import 'service/result.dart';
 import 'storage/result.dart';
 
 class ExamResultInit {
   static late CookieJar cookieJar;
-  static late ExamResultCache resultService;
+  static late ExamResultService service;
+  static late ExamResultStorage storage;
 
   static void init({
     required CookieJar cookieJar,
@@ -17,15 +16,7 @@ class ExamResultInit {
     required Box<dynamic> box,
   }) {
     ExamResultInit.cookieJar = cookieJar;
-    final examResultCache = ExamResultCache(
-      from: ExamResultService(sisSession),
-      to: ExamResultStorage(box),
-      detailExpire: const Duration(days: 180),
-      listExpire: const Duration(hours: 6),
-    );
-    resultService = examResultCache;
-    eventBus.on<LessonEvaluatedEvent>().listen((event) {
-      examResultCache.clearResultListCache();
-    });
+    service = ExamResultService(sisSession);
+    storage = ExamResultStorage(box);
   }
 }

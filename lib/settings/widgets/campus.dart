@@ -12,10 +12,10 @@ class CampusSelector extends StatelessWidget {
       builder: (ctx, setState) => SegmentedButton<Campus>(
         segments: Campus.values
             .map((e) => ButtonSegment<Campus>(
-          icon: const Icon(Icons.place_outlined),
-          value: e,
-          label: e.l10nName().text(),
-        ))
+                  icon: const Icon(Icons.place_outlined),
+                  value: e,
+                  label: e.l10nName().text(),
+                ))
             .toList(),
         selected: <Campus>{Settings.campus},
         onSelectionChanged: (newSelection) {

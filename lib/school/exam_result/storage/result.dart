@@ -1,39 +1,27 @@
 import 'package:hive/hive.dart';
-import 'package:mimir/cache/box.dart';
 import 'package:mimir/school/entity/school.dart';
 
 import '../entity/result.dart';
 
-class _Key {
-  static const ns = "/examResult";
-  static const results = "$ns/results";
-}
-
-class ExamResultStorageBox with CachedBox {
-  @override
-  final Box<dynamic> box;
-  late final results = listNamespace2<ExamResult, SchoolYear, Semester>(_Key.results, makeResultKey);
-
-  String makeResultKey(SchoolYear schoolYear, Semester semester) => "$schoolYear/$semester";
-
-  String makeResultDetailKey(String classId, SchoolYear schoolYear, Semester semester) =>
-      "$classId/$schoolYear/$semester";
-
-  ExamResultStorageBox(this.box);
+class _K {
+  static String resultList(SchoolYear schoolYear, Semester semester) => "/resultList/$schoolYear/$semester";
 }
 
 class ExamResultStorage {
-  final ExamResultStorageBox box;
+  final Box<dynamic> box;
 
-  ExamResultStorage(Box<dynamic> hive) : box = ExamResultStorageBox(hive);
+  const ExamResultStorage(this.box);
 
-  Future<List<ExamResult>?> getResultList(SchoolYear schoolYear, Semester semester) async {
-    final cacheKey = box.results.make(schoolYear, semester);
-    return cacheKey.value;
-  }
+  List<ExamResult>? getResultList({
+    required SchoolYear year,
+    required Semester semester,
+  }) =>
+      (box.get(_K.resultList(year, semester)) as List?)?.cast<ExamResult>();
 
-  void setResultList(SchoolYear schoolYear, Semester semester, List<ExamResult>? results) {
-    final cacheKey = box.results.make(schoolYear, semester);
-    cacheKey.value = results;
-  }
+  void setResultList(
+    List<ExamResult>? results, {
+    required SchoolYear year,
+    required Semester semester,
+  }) =>
+      box.put(_K.resultList(year, semester), results);
 }

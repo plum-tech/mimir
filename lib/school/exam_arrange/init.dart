@@ -2,20 +2,17 @@ import 'package:hive/hive.dart';
 import 'package:mimir/school/exam_arrange/storage/exam.dart';
 import 'package:mimir/network/session.dart';
 
-import 'cache/exam.dart';
 import 'service/exam.dart';
 
 class ExamArrangeInit {
-  static late ExamCache examService;
+  static late ExamArrangeService service;
+  static late ExamArrangeStorage storage;
 
   static void init({
     required ISession eduSession,
     required Box<dynamic> box,
   }) {
-    examService = ExamCache(
-      from: ExamService(eduSession),
-      to: ExamStorage(box),
-      expiration: const Duration(days: 1),
-    );
+    service = ExamArrangeService(eduSession);
+    storage = ExamArrangeStorage(box);
   }
 }
