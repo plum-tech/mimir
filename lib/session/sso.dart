@@ -91,7 +91,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
       if (credentials != null) {
         await _login(credentials);
       } else {
-        throw NeedLoginException(url: url);
+        throw LoginRequiredException(url: url);
       }
     });
   }

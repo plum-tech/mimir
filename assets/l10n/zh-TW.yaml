@@ -246,6 +246,7 @@ login:
   captchaErrorTip: 驗證碼錯誤
   accountFrozenTip: 賬戶處於凍結狀態
   schoolServerUnconnectedTip: 無法連接學校伺服器
+  unknownAuthErrorTip: 未知的帳戶身份驗證錯誤
   accountHint: 學號/工號
   forgotPwdBtn: 忘記密碼?
   loggedInTip: 已登入

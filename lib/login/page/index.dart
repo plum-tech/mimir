@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
       await context.showTip(
         serious: true,
         title: i18n.failedWarn,
-        desc: e.msg,
+        desc: i18n.unknownAuthErrorTip,
         ok: i18n.close,
       );
     } on OaCredentialsException catch (e, stacktrace) {

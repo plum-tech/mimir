@@ -246,6 +246,7 @@ login:
   captchaErrorTip: 验证码不正确
   accountFrozenTip: 账号处于冻结状态
   schoolServerUnconnectedTip: 无法连接学校服务器
+  unknownAuthErrorTip: 未知账号验证错误
   accountHint: 学号/工号
   forgotPwdBtn: 忘记密码？
   loggedInTip: 登录成功

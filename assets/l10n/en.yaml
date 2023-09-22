@@ -246,6 +246,7 @@ login:
   captchaErrorTip: The captcha is incorrect
   accountFrozenTip: The account is frozen
   schoolServerUnconnectedTip: Can't connect to school server
+  unknownAuthErrorTip: Unknown authentication error
   accountHint: Student ID/Work number
   forgotPwdBtn: Forgot password?
   loggedInTip: Logged in

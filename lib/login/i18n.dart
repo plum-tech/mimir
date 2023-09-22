@@ -39,6 +39,8 @@ class LoginI18n with CommonI18nMixin {
 
   String get accountOrPwdErrorTip => "$ns.accountOrPwdErrorTip".tr();
 
+  String get unknownAuthErrorTip => "$ns.unknownAuthErrorTip".tr();
+
   String get captchaErrorTip => "$ns.captchaErrorTip".tr();
 
   String get accountFrozenTip => "$ns.accountFrozenTip".tr();
