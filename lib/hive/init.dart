@@ -11,11 +11,11 @@ class HiveInit {
   static late Box<dynamic> timetable;
   static late Box<dynamic> expense;
   static late Box<dynamic> yellowPages;
-  static late Box<dynamic> activityCache;
+  static late Box<dynamic> class2nd;
   static late Box<dynamic> examArrange;
-  static late Box<dynamic> examResultCache;
-  static late Box<dynamic> oaAnnounceCache;
-  static late Box<dynamic> applicationCache;
+  static late Box<dynamic> examResult;
+  static late Box<dynamic> oaAnnounce;
+  static late Box<dynamic> ywb;
   static late Box<dynamic> eduEmail;
   static late Box<dynamic> settings;
   static late Box<dynamic> meta;
@@ -39,10 +39,10 @@ class HiveInit {
         expense = await Hive.openBox('expense'),
         library = await Hive.openBox('library'),
         examArrange = await Hive.openBox('exam-arrange'),
-        examResultCache = await Hive.openBox('exam-result'),
-        oaAnnounceCache = await Hive.openBox('oa-announce'),
-        activityCache = await Hive.openBox('activity'),
-        applicationCache = await Hive.openBox('application'),
+        examResult = await Hive.openBox('exam-result'),
+        oaAnnounce = await Hive.openBox('oa-announce'),
+        class2nd = await Hive.openBox('class2nd'),
+        ywb = await Hive.openBox('ywb'),
       ],
     ]);
   }

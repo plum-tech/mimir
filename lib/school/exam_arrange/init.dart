@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:mimir/school/exam_arrange/storage/exam.dart';
-import 'package:mimir/network/session.dart';
+import 'package:mimir/session/sis.dart';
 
 import 'service/exam.dart';
 
@@ -9,10 +9,10 @@ class ExamArrangeInit {
   static late ExamArrangeStorage storage;
 
   static void init({
-    required ISession eduSession,
+    required SisSession session,
     required Box<dynamic> box,
   }) {
-    service = ExamArrangeService(eduSession);
+    service = ExamArrangeService(session);
     storage = ExamArrangeStorage(box);
   }
 }

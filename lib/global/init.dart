@@ -74,30 +74,30 @@ class Init {
 
     OaAnnounceInit.init(
       ssoSession: Global.ssoSession,
-      box: HiveInit.oaAnnounceCache,
+      box: HiveInit.oaAnnounce,
     );
 
     ConnectivityInit.init(
       ssoSession: Global.ssoSession,
     );
 
-    final sisSessionSession = SisSession(
+    final sisSession = SisSession(
       Global.ssoSession,
     );
 
     ExamResultInit.init(
       cookieJar: Global.cookieJar,
-      sisSession: sisSessionSession,
-      box: HiveInit.examResultCache,
+      sisSession: sisSession,
+      box: HiveInit.examResult,
     );
 
     ExamArrangeInit.init(
-      eduSession: sisSessionSession,
+      session: sisSession,
       box: HiveInit.examArrange,
     );
 
     TimetableInit.init(
-      eduSession: sisSessionSession,
+      eduSession: sisSession,
       box: HiveInit.timetable,
       ssoSession: Global.ssoSession,
     );
@@ -123,12 +123,12 @@ class Init {
     YwbInit.init(
       dio: Global.dio,
       cookieJar: Global.cookieJar,
-      box: HiveInit.applicationCache,
+      box: HiveInit.ywb,
     );
 
     Class2ndInit.init(
       ssoSession: Global.ssoSession,
-      box: HiveInit.activityCache,
+      box: HiveInit.class2nd,
     );
 
     LoginInit.init(

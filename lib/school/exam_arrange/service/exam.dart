@@ -1,11 +1,12 @@
 import 'package:mimir/network/session.dart';
+import 'package:mimir/session/sis.dart';
 
 import '../entity/exam.dart';
 import 'package:mimir/school/entity/school.dart';
 
 class ExamArrangeService {
   static const _examRoomUrl = 'http://jwxt.sit.edu.cn/jwglxt/kwgl/kscx_cxXsksxxIndex.html';
-  final ISession session;
+  final SisSession session;
 
   const ExamArrangeService(this.session);
 
