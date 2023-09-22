@@ -103,6 +103,7 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
           selectedYear = year;
           selectedSemester = semester;
         });
+        refresh();
       },
     );
   }

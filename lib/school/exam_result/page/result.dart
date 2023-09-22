@@ -44,7 +44,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
     final now = DateTime.now();
     selectedYear = (now.month >= 9 ? now.year : now.year - 1);
     selectedSemester = Semester.all;
-    onRefresh();
+    refresh();
   }
 
   @override
@@ -53,7 +53,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
     super.dispose();
   }
 
-  Future<void> onRefresh() async {
+  Future<void> refresh() async {
     final selectedYear = this.selectedYear;
     final selectedSemester = this.selectedSemester;
     if (!mounted) return;
@@ -169,6 +169,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
           selectedYear = year;
           selectedSemester = semester;
         });
+        refresh();
       },
     );
   }
