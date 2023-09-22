@@ -137,7 +137,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
               else
                 SliverList.builder(
                   itemCount: allResults.length,
-                  itemBuilder: (item, i) => ExamResultTile(
+                  itemBuilder: (item, i) => ExamResultSelectableTile(
                     allResults[i],
                     index: i,
                     isSelectingMode: isSelecting,

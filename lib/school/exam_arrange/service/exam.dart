@@ -15,7 +15,6 @@ class ExamArrangeService {
     required SchoolYear year,
     required Semester semester,
   }) async {
-    // TODO: not working
     final response = await session.request(
       _examRoomUrl,
       ReqMethod.post,
@@ -31,7 +30,6 @@ class ExamArrangeService {
       },
     );
     final List<dynamic> itemsData = response.data['items'];
-
     final list = itemsData.map((e) => ExamEntry.fromJson(e as Map<String, dynamic>)).toList();
     list.sort(ExamEntry.comparator);
     return list;

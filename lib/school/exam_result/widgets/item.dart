@@ -9,28 +9,22 @@ import 'package:mimir/school/entity/school.dart';
 import '../i18n.dart';
 import '../entity/result.dart';
 
-class ExamResultTile extends StatefulWidget {
+class ExamResultSelectableTile extends StatelessWidget {
   final ExamResult result;
   final int index;
   final bool isSelectingMode;
 
-  const ExamResultTile(this.result, {super.key, required this.index, required this.isSelectingMode});
+  const ExamResultSelectableTile(this.result, {super.key, required this.index, required this.isSelectingMode});
 
-  @override
-  State<ExamResultTile> createState() => _ExamResultTileState();
-}
-
-class _ExamResultTileState extends State<ExamResultTile> {
-  ExamResult get result => widget.result;
   static const iconSize = 45.0;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = context.textTheme;
     final controller = MultiselectScope.controllerOf(context);
-    final selected = controller.isSelected(widget.index);
+    final selected = controller.isSelected(index);
     Widget buildLeading() {
-      if (widget.isSelectingMode) {
+      if (isSelectingMode) {
         return Icon(selected ? Icons.check_box_outlined : Icons.check_box_outline_blank)
             .sized(key: const ValueKey("Checkbox"), w: iconSize, h: iconSize);
       } else {
@@ -57,11 +51,11 @@ class _ExamResultTileState extends State<ExamResultTile> {
         AnimatedSize(
           duration: const Duration(milliseconds: 300),
           curve: Curves.fastEaseInToSlowEaseOut.flipped,
-          child: resultItems.isNotEmpty && !widget.isSelectingMode
+          child: resultItems.isNotEmpty && !isSelectingMode
               ? resultItems
                   .map((e) => Chip(
                         labelStyle: itemStyle,
-                        label: buildItemText(e).text(),
+                        label: _buildItemText(e).text(),
                         labelPadding: EdgeInsets.zero,
                       ))
                   .toList()
@@ -72,19 +66,60 @@ class _ExamResultTileState extends State<ExamResultTile> {
       trailing: result.hasScore
           ? result.score.toString().text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize))
           : i18n.lessonNotEvaluated.text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize)),
-      onTap: !widget.isSelectingMode
+      onTap: !isSelectingMode
           ? null
           : () {
-              controller.select(widget.index);
+              controller.select(index);
             },
     ).inOutlinedCard();
   }
+}
 
-  String buildItemText(ExamResultItem item) {
-    final score = formatWithoutTrailingZeros(item.score);
-    if (item.percentage.isEmpty || item.percentage == "0%") {
-      return '${item.scoreType}: $score';
-    }
-    return '${item.scoreType}${item.percentage}: $score';
+class ExamResultTile extends StatelessWidget {
+  final ExamResult result;
+
+  const ExamResultTile(this.result, {super.key});
+
+  static const iconSize = 45.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = context.textTheme;
+    final courseType = result.courseId[0] == 'G' ? i18n.elective : i18n.compulsory;
+    final resultItems =
+        result.items.where((e) => !e.score.isNaN && !(e.scoreType == "总评" && e.score == result.score)).toList();
+    return ListTile(
+      leading: Image.asset(
+        CourseCategory.iconPathOf(courseName: result.courseName),
+      ).sized(w: iconSize, h: iconSize),
+      titleTextStyle: textTheme.titleMedium,
+      title: Text(result.courseName),
+      subtitleTextStyle: textTheme.bodyMedium,
+      subtitle: [
+        '$courseType | ${i18n.credit}: ${result.credit}'.text(),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.fastEaseInToSlowEaseOut.flipped,
+          child: resultItems
+              .map((e) => Chip(
+                    label: _buildItemText(e).text(),
+                    labelPadding: EdgeInsets.zero,
+                  ))
+              .toList()
+              .wrap(spacing: 4),
+        )
+      ].column(caa: CrossAxisAlignment.start),
+      trailing: result.hasScore
+          ? result.score.toString().text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize))
+          : i18n.lessonNotEvaluated.text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize)),
+    ).inOutlinedCard();
   }
+}
+
+String _buildItemText(ExamResultItem item) {
+  final score = formatWithoutTrailingZeros(item.score);
+  if (item.percentage.isEmpty || item.percentage == "0%") {
+    return '${item.scoreType}: $score';
+  }
+  return '${item.scoreType}${item.percentage}: $score';
 }
