@@ -10,7 +10,6 @@ class _K {
   static const lastDisplayMode = "/lastDisplayMode";
 
   // TODO: Remove this and add a new personalization system.
-  static const useOldSchoolPalette = "/useOldSchoolPalette";
   static const useNewUI = "/useNewUI";
 }
 
@@ -29,15 +28,11 @@ class TimetableStorage {
 
   set lastDisplayMode(DisplayMode? newValue) => box.put(_K.lastDisplayMode, newValue?.index);
 
-  set useOldSchoolPalette(bool? newV) => box.put(_K.useOldSchoolPalette, newV);
-
-  bool? get useOldSchoolPalette => box.get(_K.useOldSchoolPalette);
-
   set useNewUI(bool? newV) => box.put(_K.useNewUI, newV);
 
   bool? get useNewUI => box.get(_K.useNewUI);
 
   ValueListenable<Box> listenUseNewUI() => box.listenable(keys: [_K.useNewUI]);
 
-  ValueListenable<Box> get onThemeChanged => box.listenable(keys: [_K.useOldSchoolPalette, _K.useNewUI]);
+  ValueListenable<Box> get onThemeChanged => box.listenable(keys: [_K.useNewUI]);
 }

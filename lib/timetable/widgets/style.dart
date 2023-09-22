@@ -100,9 +100,7 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
   Widget build(BuildContext context) {
     return TimetableStyle(
       data: TimetableStyleData(
-        TimetableInit.storage.useOldSchoolPalette == true
-            ? BuiltinTimetablePalettes.oldSchool
-            : BuiltinTimetablePalettes.newUI,
+        BuiltinTimetablePalettes.newUI,
         TimetableInit.storage.useNewUI ?? false,
       ),
       child: buildChild(),
