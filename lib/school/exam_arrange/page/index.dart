@@ -98,16 +98,10 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
       initialYear: selectedYear,
       initialSemester: selectedSemester,
       baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
-      onYearSelected: (year) {
+      onSelected: (year,semester) {
         setState(() {
           selectedYear = year;
-          refresh();
-        });
-      },
-      onSemesterSelected: (semester) {
-        setState(() {
           selectedSemester = semester;
-          refresh();
         });
       },
     );

@@ -12,14 +12,12 @@ class SemesterSelector extends StatefulWidget {
   /// 是否显示整个学年
   final bool showEntireYear;
   final bool showNextYear;
-  final ValueChanged<int>? onYearSelected;
-  final ValueChanged<Semester>? onSemesterSelected;
+  final void Function(int year, Semester semester)? onSelected;
 
   const SemesterSelector({
     super.key,
     required this.baseYear,
-    this.onYearSelected,
-    this.onSemesterSelected,
+    this.onSelected,
     this.initialYear,
     this.initialSemester,
     this.showEntireYear = false,
@@ -81,10 +79,10 @@ class _SemesterSelectorState extends State<SemesterSelector> {
     return DropdownMenu<int>(
       label: i18n.schoolYear.text(),
       initialSelection: selectedYear,
-      onSelected: (int? selected) {
-        if (selected != null && selected != selectedYear) {
-          setState(() => selectedYear = selected);
-          widget.onYearSelected?.call(selectedYear);
+      onSelected: (int? newSelection) {
+        if (newSelection != null && newSelection != selectedYear) {
+          setState(() => selectedYear = newSelection);
+          widget.onSelected?.call(newSelection, selectedSemester);
         }
       },
       dropdownMenuEntries: yearList
@@ -104,10 +102,10 @@ class _SemesterSelectorState extends State<SemesterSelector> {
     return DropdownMenu<Semester>(
       label: i18n.semester.text(),
       initialSelection: selectedSemester,
-      onSelected: (Semester? selected) {
-        if (selected != null && selected != selectedSemester) {
-          setState(() => selectedSemester = selected);
-          widget.onSemesterSelected?.call(selectedSemester);
+      onSelected: (Semester? newSelection) {
+        if (newSelection != null && newSelection != selectedSemester) {
+          setState(() => selectedSemester = newSelection);
+          widget.onSelected?.call(selectedYear, newSelection);
         }
       },
       dropdownMenuEntries: semesters
