@@ -12,6 +12,7 @@ class HiveTypeCredentials {
   static const oa = 20;
   static const loginStatus = 21;
   static const email = 22;
+  static const oaUserType = 23;
 }
 
 /// School 30-39

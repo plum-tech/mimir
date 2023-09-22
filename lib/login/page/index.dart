@@ -8,6 +8,7 @@ import 'package:mimir/credential/entity/credential.dart';
 import 'package:mimir/credential/entity/email.dart';
 import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/init.dart';
+import 'package:mimir/credential/utils.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/exception/session.dart';
@@ -312,4 +313,14 @@ class ForgotPasswordButton extends StatelessWidget {
       },
     );
   }
+}
+
+/// Only allow student ID/ work number.
+String? studentIdValidator(String? account, String Function() invalidMessage) {
+  if (account != null && account.isNotEmpty) {
+    if (guessOaUserType(account) == null) {
+      return invalidMessage();
+    }
+  }
+  return null;
 }
