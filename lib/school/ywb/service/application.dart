@@ -54,7 +54,7 @@ class YwbApplicationService {
         responseType: ResponseType.json,
       ),
     );
-    final List trackRaw = res.data["Track"];
+    final List trackRaw = (res.data as Map)["Track"];
     final track = trackRaw.map((e) => YwbApplicationTrack.fromJson(e)).toList();
     return track;
   }

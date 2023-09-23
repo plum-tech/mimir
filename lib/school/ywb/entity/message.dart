@@ -10,7 +10,7 @@ enum YwbApplicationType {
   complete,
 }
 
-final _tsFormat = DateFormat("yyyy-MM-dd hh:mm:ss");
+final _tsFormat = DateFormat("yyyy-MM-dd hh:mm");
 
 DateTime _parseTimestamp(dynamic ts) {
   return _tsFormat.parse(ts);
