@@ -3,11 +3,13 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mimir/l10n/common.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../i18n.dart';
 import 'foundation.dart';
 import 'dialog.dart';
+
+const _i18n = CommonI18n();
 
 typedef EditorBuilder<T> = Widget Function(BuildContext ctx, String? desc, T initial);
 
@@ -120,7 +122,7 @@ Widget _readonlyEditor(BuildContext ctx, WidgetBuilder make, {String? title}) {
   return $Dialog$(
       title: title,
       primary: $Action$(
-          text: i18n.close,
+          text: _i18n.close,
           onPressed: () {
             ctx.navigator.pop(false);
           }),
@@ -147,13 +149,13 @@ class _EnumEditorState extends State<EnumEditor> {
     return $Dialog$(
         title: widget.title,
         primary: $Action$(
-            text: i18n.submit,
+            text: _i18n.submit,
             isDefault: true,
             onPressed: () {
               context.navigator.pop(current);
             }),
         secondary: $Action$(
-            text: i18n.cancel,
+            text: _i18n.cancel,
             onPressed: () {
               context.navigator.pop(widget.initial);
             }),
@@ -214,13 +216,13 @@ class _IntEditorState extends State<_IntEditor> {
     return $Dialog$(
         title: widget.title,
         primary: $Action$(
-            text: i18n.submit,
+            text: _i18n.submit,
             isDefault: true,
             onPressed: () {
               context.navigator.pop(value);
             }),
         secondary: $Action$(
-            text: i18n.cancel,
+            text: _i18n.cancel,
             onPressed: () {
               context.navigator.pop(widget.initial);
             }),
@@ -286,13 +288,13 @@ class _BoolEditorState extends State<_BoolEditor> {
   Widget build(BuildContext context) {
     return $Dialog$(
         primary: $Action$(
-            text: i18n.submit,
+            text: _i18n.submit,
             isDefault: true,
             onPressed: () {
               context.navigator.pop(value);
             }),
         secondary: $Action$(
-            text: i18n.cancel,
+            text: _i18n.cancel,
             onPressed: () {
               context.navigator.pop(widget.initial);
             }),
@@ -340,13 +342,13 @@ class _StringEditorState extends State<_StringEditor> {
     return $Dialog$(
         title: widget.title,
         primary: $Action$(
-            text: i18n.submit,
+            text: _i18n.submit,
             isDefault: true,
             onPressed: () {
               context.navigator.pop(controller.text);
             }),
         secondary: $Action$(
-            text: i18n.cancel,
+            text: _i18n.cancel,
             onPressed: () {
               context.navigator.pop(widget.initial);
             }),

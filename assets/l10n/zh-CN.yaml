@@ -104,6 +104,7 @@ ywb:
   desc: |
     本功能基于 "上应一网通办"。
     对于绝大多数业务，即使你在平台上已完成申请，仍要去现场办理。
+  apply: 申请
   filerInfrequentlyUsed: 过滤不常用功能
   noApplicationsTip: 没有可办事项
   mailbox:

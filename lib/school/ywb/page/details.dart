@@ -8,6 +8,7 @@ import '../entity/meta.dart';
 import '../init.dart';
 import '../page/form.dart';
 import '../widgets/detail.dart';
+import "../i18n.dart";
 
 class YwbApplicationDetailsPage extends StatefulWidget {
   final YwbApplicationMeta meta;
@@ -65,10 +66,11 @@ class _YwbApplicationDetailsPageState extends State<YwbApplicationDetailsPage> {
             ),
         ],
       ),
-      floatingActionButton: AutoHideFAB(
+      floatingActionButton: AutoHideFAB.extended(
         controller: controller,
         onPressed: () => openInApp(),
-        child: const Icon(Icons.east),
+        icon: const Icon(Icons.east),
+        label: i18n.apply.text(),
       ),
     );
   }

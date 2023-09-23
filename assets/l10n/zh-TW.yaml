@@ -104,6 +104,7 @@ ywb:
   desc: |
     此功能基於 "上应一网通办"。
     就大多數業務而言，即使你已在平台上完成申請，依舊需要到現場辦理。
+  apply: 申請
   filerInfrequentlyUsed: 篩選不常用的
   noApplicationsTip: 無可用申請
   mailbox:

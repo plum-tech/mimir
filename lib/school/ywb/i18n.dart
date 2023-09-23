@@ -18,6 +18,8 @@ class _I18n with CommonI18nMixin {
 
   String get noApplicationsTip => "$ns.noApplicationsTip".tr();
 
+  String get apply => "$ns.apply".tr();
+
   String get filerInfrequentlyUsed => "$ns.filerInfrequentlyUsed".tr();
 }
 
