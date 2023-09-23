@@ -37,15 +37,14 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
   }
 
   Future<void> refresh(SemesterInfo info) async {
-    final (:year, :semester) = info;
     if (!mounted) return;
     setState(() {
-      examList = ExamArrangeInit.storage.getExamList(year: year, semester: semester);
+      examList = ExamArrangeInit.storage.getExamList(info);
       isLoading = true;
     });
     try {
-      final examList = await ExamArrangeInit.service.getExamList(year: year, semester: semester);
-      ExamArrangeInit.storage.setExamList(examList, year: year, semester: semester);
+      final examList = await ExamArrangeInit.service.getExamList(info);
+      ExamArrangeInit.storage.setExamList(info, examList);
       if (info == selected) {
         if (!mounted) return;
         setState(() {

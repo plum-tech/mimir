@@ -12,16 +12,12 @@ class ExamArrangeStorage {
 
   const ExamArrangeStorage(this.box);
 
-  List<ExamEntry>? getExamList({
-    required SchoolYear year,
-    required Semester semester,
-  }) =>
-      (box.get(_K.examList(year, semester)) as List?)?.cast<ExamEntry>();
+  List<ExamEntry>? getExamList(SemesterInfo info) =>
+      (box.get(_K.examList(info.year, info.semester)) as List?)?.cast<ExamEntry>();
 
   void setExamList(
-    List<ExamEntry>? exams, {
-    required SchoolYear year,
-    required Semester semester,
-  }) =>
-      box.put(_K.examList(year, semester), exams);
+    SemesterInfo info,
+    List<ExamEntry>? exams,
+  ) =>
+      box.put(_K.examList(info.year, info.semester), exams);
 }
