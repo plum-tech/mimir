@@ -57,13 +57,10 @@ class HiveAdapter {
     ~OaAnnounceListPayloadAdapter();
 
     // Application
-    ~ApplicationDetailSectionAdapter();
-    ~ApplicationDetailsAdapter();
-    ~ApplicationMetaAdapter();
-    ~ApplicationMessageCountAdapter();
-    ~ApplicationMessageAdapter();
-    ~ApplicationMessagePageAdapter();
-    ~ApplicationMessageTypeAdapter();
+    ~YwbApplicationMetaDetailSectionAdapter();
+    ~YwbApplicationMetaDetailsAdapter();
+    ~YwbApplicationMetaAdapter();
+    ~YwbApplicationAdapter();
 
     // Exam Result
     ~ExamResultAdapter();

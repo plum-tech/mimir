@@ -24,7 +24,7 @@ class _YwbApplicationListPageState extends State<YwbApplicationListPage> {
   var enableFilter = false;
 
   /// in descending order
-  List<ApplicationMeta>? metas;
+  List<YwbApplicationMeta>? metas;
 
   @override
   void didChangeDependencies() {
@@ -37,7 +37,7 @@ class _YwbApplicationListPageState extends State<YwbApplicationListPage> {
     super.didChangeDependencies();
   }
 
-  Future<List<ApplicationMeta>?> fetchMetaList() async {
+  Future<List<YwbApplicationMeta>?> fetchMetaList() async {
     final oaCredential = context.auth.credentials;
     if (oaCredential == null) return null;
     // TODO: login here is so weired
@@ -47,8 +47,7 @@ class _YwbApplicationListPageState extends State<YwbApplicationListPage> {
         password: oaCredential.password,
       );
     }
-    final metas = await YwbInit.applicationService.getApplicationMetas();
-    if (metas == null) return null;
+    final metas = await YwbInit.metaService.getApplicationMetas();
     metas.sortBy<num>((e) => -e.count);
     return metas;
   }
@@ -104,7 +103,7 @@ class _YwbApplicationListPageState extends State<YwbApplicationListPage> {
   }
 
   /// [list] is in descending order
-  Widget buildApplicationList(List<ApplicationMeta> list) {
+  Widget buildApplicationList(List<YwbApplicationMeta> list) {
     list = enableFilter ? list.where((meta) => _commonUsed.contains(meta.id)).toList() : list;
     return SliverList.builder(
       itemCount: list.length,

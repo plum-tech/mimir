@@ -6,17 +6,17 @@ part of 'application.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ApplicationMetaAdapter extends TypeAdapter<ApplicationMeta> {
+class YwbApplicationMetaAdapter extends TypeAdapter<YwbApplicationMeta> {
   @override
   final int typeId = 82;
 
   @override
-  ApplicationMeta read(BinaryReader reader) {
+  YwbApplicationMeta read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ApplicationMeta(
+    return YwbApplicationMeta(
       id: fields[0] as String,
       name: fields[1] as String,
       summary: fields[2] as String,
@@ -27,7 +27,7 @@ class ApplicationMetaAdapter extends TypeAdapter<ApplicationMeta> {
   }
 
   @override
-  void write(BinaryWriter writer, ApplicationMeta obj) {
+  void write(BinaryWriter writer, YwbApplicationMeta obj) {
     writer
       ..writeByte(6)
       ..writeByte(0)
@@ -50,27 +50,27 @@ class ApplicationMetaAdapter extends TypeAdapter<ApplicationMeta> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ApplicationMetaAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is YwbApplicationMetaAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class ApplicationDetailsAdapter extends TypeAdapter<ApplicationDetails> {
+class YwbApplicationMetaDetailsAdapter extends TypeAdapter<YwbApplicationMetaDetails> {
   @override
   final int typeId = 80;
 
   @override
-  ApplicationDetails read(BinaryReader reader) {
+  YwbApplicationMetaDetails read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ApplicationDetails(
+    return YwbApplicationMetaDetails(
       id: fields[0] as String,
-      sections: (fields[1] as List).cast<ApplicationDetailSection>(),
+      sections: (fields[1] as List).cast<YwbApplicationMetaDetailSection>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, ApplicationDetails obj) {
+  void write(BinaryWriter writer, YwbApplicationMetaDetails obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
@@ -85,20 +85,20 @@ class ApplicationDetailsAdapter extends TypeAdapter<ApplicationDetails> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ApplicationDetailsAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is YwbApplicationMetaDetailsAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class ApplicationDetailSectionAdapter extends TypeAdapter<ApplicationDetailSection> {
+class YwbApplicationMetaDetailSectionAdapter extends TypeAdapter<YwbApplicationMetaDetailSection> {
   @override
   final int typeId = 81;
 
   @override
-  ApplicationDetailSection read(BinaryReader reader) {
+  YwbApplicationMetaDetailSection read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ApplicationDetailSection(
+    return YwbApplicationMetaDetailSection(
       section: fields[0] as String,
       type: fields[1] as String,
       createTime: fields[2] as DateTime,
@@ -107,7 +107,7 @@ class ApplicationDetailSectionAdapter extends TypeAdapter<ApplicationDetailSecti
   }
 
   @override
-  void write(BinaryWriter writer, ApplicationDetailSection obj) {
+  void write(BinaryWriter writer, YwbApplicationMetaDetailSection obj) {
     writer
       ..writeByte(4)
       ..writeByte(0)
@@ -126,14 +126,14 @@ class ApplicationDetailSectionAdapter extends TypeAdapter<ApplicationDetailSecti
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ApplicationDetailSectionAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is YwbApplicationMetaDetailSectionAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ApplicationMeta _$ApplicationMetaFromJson(Map<String, dynamic> json) => ApplicationMeta(
+YwbApplicationMeta _$YwbApplicationMetaFromJson(Map<String, dynamic> json) => YwbApplicationMeta(
       id: json['appID'] as String,
       name: json['appName'] as String,
       summary: json['appDescribe'] as String,
@@ -142,7 +142,8 @@ ApplicationMeta _$ApplicationMetaFromJson(Map<String, dynamic> json) => Applicat
       iconName: json['appIcon'] as String,
     );
 
-ApplicationDetailSection _$ApplicationDetailSectionFromJson(Map<String, dynamic> json) => ApplicationDetailSection(
+YwbApplicationMetaDetailSection _$YwbApplicationMetaDetailSectionFromJson(Map<String, dynamic> json) =>
+    YwbApplicationMetaDetailSection(
       section: json['formName'] as String,
       type: json['type'] as String,
       createTime: DateTime.parse(json['createTime'] as String),

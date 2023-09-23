@@ -10,7 +10,7 @@ import '../page/form.dart';
 import '../widgets/detail.dart';
 
 class YwbApplicationDetailsPage extends StatefulWidget {
-  final ApplicationMeta meta;
+  final YwbApplicationMeta meta;
 
   const YwbApplicationDetailsPage({super.key, required this.meta});
 
@@ -19,14 +19,14 @@ class YwbApplicationDetailsPage extends StatefulWidget {
 }
 
 class _YwbApplicationDetailsPageState extends State<YwbApplicationDetailsPage> {
-  ApplicationMeta get meta => widget.meta;
-  ApplicationDetails? details;
+  YwbApplicationMeta get meta => widget.meta;
+  YwbApplicationMetaDetails? details;
   final controller = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    YwbInit.applicationService.getApplicationDetails(meta.id).then((value) {
+    YwbInit.metaService.getApplicationDetails(meta.id).then((value) {
       if (!mounted) return;
       setState(() {
         details = value;
@@ -60,7 +60,7 @@ class _YwbApplicationDetailsPageState extends State<YwbApplicationDetailsPage> {
           if (details != null)
             SliverList.separated(
               itemCount: details.sections.length,
-              itemBuilder: (ctx, i) => YwbApplicationDetailSection(details.sections[i]),
+              itemBuilder: (ctx, i) => YwbApplicationDetailSectionBlock(details.sections[i]),
               separatorBuilder: (ctx, i) => const Divider(),
             ),
         ],

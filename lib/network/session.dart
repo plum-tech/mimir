@@ -1,7 +1,5 @@
 import "package:dio/dio.dart";
 
-enum SessionResType { json, stream, plain, bytes }
-
 class HeaderConstants {
   static const jsonContentType = 'application/json; charset=utf-8';
   static const formUrlEncodedContentType = 'application/x-www-form-urlencoded;charset=utf-8';
@@ -14,7 +12,7 @@ class SessionOptions {
   Duration? receiveTimeout;
   Map<String, dynamic>? extra;
   Map<String, dynamic>? headers;
-  SessionResType? responseType;
+  ResponseType? responseType;
   String? contentType;
 
   SessionOptions({

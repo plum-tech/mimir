@@ -7,7 +7,7 @@ part 'application.g.dart';
 
 @JsonSerializable(createToJson: false)
 @HiveType(typeId: HiveTypeYwb.meta)
-class ApplicationMeta {
+class YwbApplicationMeta {
   @JsonKey(name: 'appID')
   @HiveField(0)
   final String id;
@@ -29,7 +29,7 @@ class ApplicationMeta {
 
   IconData get icon => IconFont.query(iconName);
 
-  const ApplicationMeta({
+  const YwbApplicationMeta({
     required this.id,
     required this.name,
     required this.summary,
@@ -38,25 +38,25 @@ class ApplicationMeta {
     required this.iconName,
   });
 
-  factory ApplicationMeta.fromJson(Map<String, dynamic> json) => _$ApplicationMetaFromJson(json);
+  factory YwbApplicationMeta.fromJson(Map<String, dynamic> json) => _$YwbApplicationMetaFromJson(json);
 }
 
-@HiveType(typeId: HiveTypeYwb.details)
-class ApplicationDetails {
+@HiveType(typeId: HiveTypeYwb.metaDetails)
+class YwbApplicationMetaDetails {
   @HiveField(0)
   final String id;
   @HiveField(1)
-  final List<ApplicationDetailSection> sections;
+  final List<YwbApplicationMetaDetailSection> sections;
 
-  const ApplicationDetails({
+  const YwbApplicationMetaDetails({
     required this.id,
     required this.sections,
   });
 }
 
 @JsonSerializable(createToJson: false)
-@HiveType(typeId: HiveTypeYwb.detailSection)
-class ApplicationDetailSection {
+@HiveType(typeId: HiveTypeYwb.metaDetailSection)
+class YwbApplicationMetaDetailSection {
   @JsonKey(name: 'formName')
   @HiveField(0)
   final String section;
@@ -70,17 +70,18 @@ class ApplicationDetailSection {
   @HiveField(3)
   final String content;
 
-  const ApplicationDetailSection({
+  const YwbApplicationMetaDetailSection({
     required this.section,
     required this.type,
     required this.createTime,
     required this.content,
   });
 
-  factory ApplicationDetailSection.fromJson(Map<String, dynamic> json) => _$ApplicationDetailSectionFromJson(json);
+  factory YwbApplicationMetaDetailSection.fromJson(Map<String, dynamic> json) =>
+      _$YwbApplicationMetaDetailSectionFromJson(json);
 }
 
-extension ApplicationDetailSectionX on ApplicationDetailSection {
+extension YwbApplicationMetaDetailSectionX on YwbApplicationMetaDetailSection {
   bool get isEmpty => content.isEmpty;
 
   bool get isNotEmpty => content.isNotEmpty;

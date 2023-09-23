@@ -3,6 +3,7 @@ import 'package:mimir/credential/init.dart';
 import 'package:mimir/global/desktop_init.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/hive/init.dart';
+import 'package:mimir/session/ywb.dart';
 import 'package:mimir/settings/meta.dart';
 import 'package:mimir/life/electricity/init.dart';
 import 'package:mimir/life/expense_records/init.dart';
@@ -121,7 +122,7 @@ class Init {
     );
 
     YwbInit.init(
-      dio: Global.dio,
+      session : YwbSession(dio: Global.dio),
       cookieJar: Global.cookieJar,
       box: HiveInit.ywb,
     );

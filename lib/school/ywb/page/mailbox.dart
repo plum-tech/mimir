@@ -15,46 +15,46 @@ class YwbMailboxPage extends StatefulWidget {
 }
 
 class _YwbMailboxPageState extends State<YwbMailboxPage> {
-  ApplicationMessagePage? msgPage;
+  MyYwbApplications? applications;
 
   @override
   void initState() {
     super.initState();
-    YwbInit.messageService.getAllMessage().then((value) {
-      if (!mounted) return;
-      setState(() {
-        msgPage = value;
-      });
-    });
+    // YwbInit.messageService.getAllMessage().then((value) {
+    //   if (!mounted) return;
+    //   setState(() {
+    //     msgPage = value;
+    //   });
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    final msgPage = this.msgPage;
+    final applications = this.applications;
     return CustomScrollView(
       slivers: [
         SliverAppBar(
           title: i18n.mailbox.title.text(),
-          bottom: msgPage != null
+          bottom: applications != null
               ? null
               : const PreferredSize(
                   preferredSize: Size.fromHeight(4),
                   child: LinearProgressIndicator(),
                 ),
         ),
-        if (msgPage != null)
-          if (msgPage.msgList.isEmpty)
-            SliverFillRemaining(
-              child: LeavingBlank(
-                icon: Icons.inbox_outlined,
-                desc: i18n.mailbox.noMailsTip,
-              ),
-            )
-          else
-            SliverList.builder(
-              itemCount: msgPage.msgList.length,
-              itemBuilder: (ctx, i) => YwbMail(msg: msgPage.msgList[i]),
-            ),
+        // if (applications != null)
+        //   if (applications.msgList.isEmpty)
+        //     SliverFillRemaining(
+        //       child: LeavingBlank(
+        //         icon: Icons.inbox_outlined,
+        //         desc: i18n.mailbox.noMailsTip,
+        //       ),
+        //     )
+        //   else
+        //     SliverList.builder(
+        //       itemCount: applications.msgList.length,
+        //       itemBuilder: (ctx, i) => YwbMail(msg: applications.msgList[i]),
+        //     ),
       ],
     );
   }

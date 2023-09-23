@@ -6,8 +6,8 @@ import '../entity/application.dart';
 class ApplicationStorageBox with CachedBox {
   @override
   final Box<dynamic> box;
-  late final details = namespace<ApplicationDetails, String>("/details", makeDetailsKey);
-  late final metas = namedList<ApplicationMeta>("/metas");
+  late final details = namespace<YwbApplicationMetaDetails, String>("/details", makeDetailsKey);
+  late final metas = namedList<YwbApplicationMeta>("/metas");
 
   String makeDetailsKey(String applicationId) => applicationId;
 
@@ -19,16 +19,16 @@ class ApplicationStorage {
 
   ApplicationStorage(Box<dynamic> hive) : box = ApplicationStorageBox(hive);
 
-  List<ApplicationMeta>? get applicationMetas => box.metas.value;
+  List<YwbApplicationMeta>? get applicationMetas => box.metas.value;
 
-  set applicationMetas(List<ApplicationMeta>? metas) => box.metas.value = metas;
+  set applicationMetas(List<YwbApplicationMeta>? metas) => box.metas.value = metas;
 
-  ApplicationDetails? getApplicationDetails(String applicationId) {
+  YwbApplicationMetaDetails? getApplicationDetails(String applicationId) {
     final cacheKey = box.details.make(applicationId);
     return cacheKey.value;
   }
 
-  void setApplicationDetail(String applicationId, ApplicationDetails? detail) {
+  void setApplicationDetail(String applicationId, YwbApplicationMetaDetails? detail) {
     final cacheKey = box.details.make(applicationId);
     cacheKey.value = detail;
   }

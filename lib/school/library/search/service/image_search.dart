@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:mimir/network/session.dart';
 
 import '../dao/image_search.dart';
@@ -27,7 +28,7 @@ class BookImageSearchService implements BookImageSearchDao {
         'type': '0',
         'isbns': isbnStr,
       },
-      options: SessionOptions(responseType: SessionResType.plain),
+      options: SessionOptions(responseType: ResponseType.plain),
     );
     var responseStr = (response.data as String).trim();
     responseStr = responseStr.substring(1, responseStr.length - 1);

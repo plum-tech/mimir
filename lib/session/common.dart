@@ -3,13 +3,13 @@ import 'package:mimir/network/session.dart';
 
 import '../network/download.dart';
 
-extension DioResTypeConverter on SessionResType {
+extension DioResTypeConverter on ResponseType {
   ResponseType toDioResponseType() {
     return (const {
-      SessionResType.json: ResponseType.json,
-      SessionResType.stream: ResponseType.stream,
-      SessionResType.plain: ResponseType.plain,
-      SessionResType.bytes: ResponseType.bytes,
+      ResponseType.json: ResponseType.json,
+      ResponseType.stream: ResponseType.stream,
+      ResponseType.plain: ResponseType.plain,
+      ResponseType.bytes: ResponseType.bytes,
     })[this]!;
   }
 }

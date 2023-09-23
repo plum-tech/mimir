@@ -1,39 +1,36 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mimir/hive/type_id.dart';
 
 part 'message.g.dart';
 
-@HiveType(typeId: HiveTypeYwb.messageType)
-enum ApplicationMessageType {
-  @HiveField(0)
+enum YwbApplicationType {
   todo,
-  @HiveField(1)
-  doing,
-  @HiveField(2)
-  done,
+  running,
+  complete,
 }
 
-@JsonSerializable()
-@HiveType(typeId: HiveTypeYwb.messageCount)
-class ApplicationMessageCount {
-  @JsonKey(name: 'myFlow_complete_count')
-  @HiveField(0)
-  final int completed;
-  @JsonKey(name: 'myFlow_runing_count')
-  @HiveField(1)
-  final int inProgress;
-  @JsonKey(name: 'myFlow_todo_count')
-  @HiveField(2)
-  final int inDraft;
-
-  const ApplicationMessageCount(this.completed, this.inProgress, this.inDraft);
-
-  factory ApplicationMessageCount.fromJson(Map<String, dynamic> json) => _$ApplicationMessageCountFromJson(json);
-}
+// @JsonSerializable()
+// @HiveType(typeId: HiveTypeYwb.messageCount)
+// class ApplicationMessageCount {
+//   @JsonKey(name: 'myFlow_complete_count')
+//   @HiveField(0)
+//   final int completed;
+//   @JsonKey(name: 'myFlow_runing_count')
+//   @HiveField(1)
+//   final int inProgress;
+//   @JsonKey(name: 'myFlow_todo_count')
+//   @HiveField(2)
+//   final int inDraft;
+//
+//   const ApplicationMessageCount(this.completed, this.inProgress, this.inDraft);
+//
+//   factory ApplicationMessageCount.fromJson(Map<String, dynamic> json) => _$ApplicationMessageCountFromJson(json);
+// }
 
 @JsonSerializable()
 @HiveType(typeId: HiveTypeYwb.message)
-class ApplicationMessage {
+class YwbApplication {
   @JsonKey(name: 'WorkID')
   @HiveField(0)
   final int flowId;
@@ -50,21 +47,52 @@ class ApplicationMessage {
   @HiveField(4)
   final String status;
 
-  const ApplicationMessage(this.flowId, this.functionId, this.name, this.recentStep, this.status);
+  const YwbApplication(this.flowId, this.functionId, this.name, this.recentStep, this.status);
 
-  factory ApplicationMessage.fromJson(Map<String, dynamic> json) => _$ApplicationMessageFromJson(json);
+  factory YwbApplication.fromJson(Map<String, dynamic> json) => _$YwbApplicationFromJson(json);
 }
 
-@HiveType(typeId: HiveTypeYwb.messagePage)
-class ApplicationMessagePage {
-  @HiveField(0)
-  final int totalNum;
-  @HiveField(1)
-  final int totalPage;
-  @HiveField(2)
-  final int currentPage;
-  @HiveField(3)
-  final List<ApplicationMessage> msgList;
+final _tsFormat = DateFormat("yyyy-MM-dd hh:mm:ss");
 
-  const ApplicationMessagePage(this.totalNum, this.totalPage, this.currentPage, this.msgList);
+DateTime _parseTimestamp(dynamic ts) {
+  return _tsFormat.parse(ts);
 }
+
+@JsonSerializable(createToJson: false)
+class YwbApplicationTrack {
+  @JsonKey(name: "ActionTypeText")
+  final String action;
+  @JsonKey(name: "EmpFrom")
+  final String senderId;
+  @JsonKey(name: "EmpFromT")
+  final String senderName;
+  @JsonKey(name: "EmpTo")
+  final String recieverId;
+  @JsonKey(name: "EmpToT")
+  final String recieverName;
+  @JsonKey(name: "Msg")
+  final String message;
+  @JsonKey(name: "RDT", fromJson: _parseTimestamp)
+  final DateTime timestamp;
+  @JsonKey(name: "NDFromT")
+  final String step;
+
+  const YwbApplicationTrack({
+    required this.action,
+    required this.senderId,
+    required this.senderName,
+    required this.recieverId,
+    required this.recieverName,
+    required this.message,
+    required this.timestamp,
+    required this.step,
+  });
+
+  factory YwbApplicationTrack.fromJson(Map<String, dynamic> json) => _$YwbApplicationTrackFromJson(json);
+}
+
+typedef MyYwbApplications = ({
+  List<YwbApplication> todo,
+  List<YwbApplication> running,
+  List<YwbApplication> complete,
+});

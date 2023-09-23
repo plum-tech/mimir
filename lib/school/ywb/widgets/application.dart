@@ -19,7 +19,7 @@ const List<Color> _applicationColors = <Color>[
 ];
 
 class ApplicationTile extends StatelessWidget {
-  final ApplicationMeta meta;
+  final YwbApplicationMeta meta;
   final bool isHot;
 
   const ApplicationTile({super.key, required this.meta, required this.isHot});

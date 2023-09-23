@@ -1,48 +1,65 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:mimir/network/session.dart';
-import 'package:mimir/session/ywb.dart';
 
-import '../entity/application.dart';
+import '../entity/message.dart';
 
-const String _serviceFunctionList = 'https://xgfy.sit.edu.cn/app/public/queryAppManageJson';
-const String _serviceFunctionDetail = 'https://xgfy.sit.edu.cn/app/public/queryAppFormJson';
+const String serviceMessageCount = 'https://xgfy.sit.edu.cn/unifri-flow/user/queryFlowCount';
 
-class ApplicationService {
-  final YwbSession session;
+String _getMessageListUrl(YwbApplicationType type) {
+  final method = switch (type) {
+    YwbApplicationType.todo => 'Todolist_Init',
+    YwbApplicationType.running => 'Runing_Init',
+    YwbApplicationType.complete => 'Complete_Init',
+  };
+  return 'https://xgfy.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=HttpHandler&DoMethod=$method&HttpHandlerName=BP.WF.HttpHandler.WF';
+}
 
-  const ApplicationService(this.session);
+class YwbApplicationService {
+  final ISession session;
 
-  Future<List<ApplicationMeta>> getApplicationMetas() async {
-    const String payload = '{"appObject":"student","appName":null}';
+  const YwbApplicationService(this.session);
 
+  // Future<ApplicationMessageCount> getMessageCount({
+  //   required String oaAccount,
+  // }) async {
+  //   final response = await session.request(
+  //     serviceMessageCount,
+  //     ReqMethod.post,
+  //     data: "code=$oaAccount",
+  //     options: SessionOptions(
+  //       contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+  //       responseType: ResponseType.json,
+  //     ),
+  //   );
+  //   final Map<String, dynamic> data = response.data;
+  //   final ApplicationMessageCount result = ApplicationMessageCount.fromJson(data['data']);
+  //   return result;
+  // }
+
+  Future<List<YwbApplication>> getApplication(YwbApplicationType type) async {
     final response = await session.request(
-      _serviceFunctionList,
+      _getMessageListUrl(type),
       ReqMethod.post,
-      data: payload,
-      options: SessionOptions(responseType: SessionResType.json),
+      data: "myFlow=1&pageIdx=1&pageSize=999",
+      options: SessionOptions(
+        contentType: 'application/x-www-form-urlencoded',
+        responseType: ResponseType.json,
+      ),
     );
-
-    final Map<String, dynamic> data = response.data;
-    final List<ApplicationMeta> functionList = (data['value'] as List<dynamic>)
-        .map((e) => ApplicationMeta.fromJson(e))
-        .where((element) => element.status == 1) // Filter functions unavailable.
-        .toList();
-
-    return functionList;
+    final List data = jsonDecode(response.data);
+    // filter empty application.
+    data.retainWhere((e) => (e['WorkID'] as String).isNotEmpty);
+    final List<YwbApplication> messages = data.map((e) => YwbApplication.fromJson(e)).toList();
+    return messages;
   }
 
-  Future<ApplicationDetails> getApplicationDetails(String functionId) async {
-    final String payload = '{"appID":"$functionId"}';
-
-    final response = await session.request(
-      _serviceFunctionDetail,
-      ReqMethod.post,
-      data: payload,
-      options: SessionOptions(responseType: SessionResType.json),
+  Future<MyYwbApplications> getMyMessage() async {
+    return (
+      todo: await getApplication(YwbApplicationType.todo),
+      running: await getApplication(YwbApplicationType.running),
+      complete: await getApplication(YwbApplicationType.complete),
     );
-    final Map<String, dynamic> data = response.data;
-    final List<ApplicationDetailSection> sections =
-        (data['value'] as List<dynamic>).map((e) => ApplicationDetailSection.fromJson(e)).toList();
-
-    return ApplicationDetails(id: functionId, sections: sections);
   }
 }

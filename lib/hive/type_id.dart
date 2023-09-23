@@ -61,8 +61,8 @@ class HiveTypeElectricity {
 
 /// Ywb 80-89
 class HiveTypeYwb {
-  static const details = 80;
-  static const detailSection = 81;
+  static const metaDetails = 80;
+  static const metaDetailSection = 81;
   static const meta = 82;
   static const message = 83;
   static const messagePage = 84;

@@ -6,10 +6,10 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/application.dart';
 
-class YwbApplicationDetailSection extends StatelessWidget {
-  final ApplicationDetailSection section;
+class YwbApplicationDetailSectionBlock extends StatelessWidget {
+  final YwbApplicationMetaDetailSection section;
 
-  const YwbApplicationDetailSection(this.section, {super.key});
+  const YwbApplicationDetailSectionBlock(this.section, {super.key});
 
   @override
   Widget build(BuildContext context) {

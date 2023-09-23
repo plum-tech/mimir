@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
@@ -39,10 +40,7 @@ class _LocalStoragePageState extends State<LocalStoragePage> {
 
   @override
   Widget build(BuildContext context) {
-    final boxes = name2Box.entries
-        .where((name2Box) => name2Box.value.isNotEmpty)
-        .map((e) => (name: e.key, box: e.value))
-        .toList();
+    final boxes = name2Box.entries.map((e) => (name: e.key, box: e.value)).toList();
     return context.isPortrait ? StorageListPortrait(boxes) : StorageListLandscape(boxes);
   }
 }
@@ -85,7 +83,11 @@ class BoxSection extends StatefulWidget {
   final String boxName;
   final Box<dynamic> box;
 
-  const BoxSection({super.key, required this.box, required this.boxName});
+  const BoxSection({
+    super.key,
+    required this.box,
+    required this.boxName,
+  });
 
   @override
   State<StatefulWidget> createState() => _BoxSectionState();
@@ -152,24 +154,19 @@ class _BoxItemListState extends State<BoxItemList> {
   int currentPage = 0;
   static const pageSize = 6;
 
+  late final $box = widget.box.listenable();
+
   @override
   Widget build(BuildContext context) {
-    final box = widget.box;
-    if (box.isEmpty) {
-      return const Icon(
-        Icons.inbox_outlined,
-        size: 32,
-      ).padAll(10);
-    } else {
-      return buildList(context);
-    }
+    return $box >> (ctx, _) => buildBody(ctx);
   }
 
-  Widget buildList(BuildContext ctx) {
+  Widget buildBody(BuildContext context) {
+    final box = widget.box;
     final keys = widget.box.keys.toList();
     final length = keys.length;
     if (length < pageSize) {
-      return buildBoxItems(ctx, keys);
+      return buildBoxItems(context, keys);
     } else {
       final start = currentPage * pageSize;
       var totalPages = length ~/ pageSize;
@@ -178,11 +175,11 @@ class _BoxItemListState extends State<BoxItemList> {
       }
       final end = min(start + pageSize, length);
       return [
-        buildPaginated(ctx, totalPages).padAll(10),
+        buildPaginated(context, totalPages).padAll(10),
         AnimatedSize(
           duration: const Duration(milliseconds: 300),
           curve: Curves.fastEaseInToSlowEaseOut,
-          child: buildBoxItems(ctx, keys.sublist(start, end)),
+          child: buildBoxItems(context, keys.sublist(start, end)),
         ),
       ].column();
     }

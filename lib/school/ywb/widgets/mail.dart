@@ -5,7 +5,7 @@ import '../page/form.dart';
 import '../i18n.dart';
 
 class YwbMail extends StatelessWidget {
-  final ApplicationMessage msg;
+  final YwbApplication msg;
 
   const YwbMail({super.key, required this.msg});
 
