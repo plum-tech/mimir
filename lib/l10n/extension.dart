@@ -62,24 +62,3 @@ bool yOrNo(String test, {bool defaultValue = false}) {
       return defaultValue;
   }
 }
-
-///e.g.: Wednesday, September 21, 2022
-/// [$Key.currentContext] is used
-String dateText(DateTime date) {
-  final curLocale = $Key.currentContext!.locale;
-  return Lang.ymdWeekText(curLocale.languageCode, curLocale.countryCode).format(date);
-}
-
-///e.g.:9/21/2022
-/// [$Key.currentContext] is used
-String dateNum(DateTime date) {
-  final curLocale = $Key.currentContext!.locale;
-  return Lang.ymdNum(curLocale.languageCode, curLocale.countryCode).format(date);
-}
-
-///e.g.: 9/21/2022 23:57:23
-/// [$Key.currentContext] is used
-String dateFullNum(DateTime date) {
-  final curLocale = $Key.currentContext!.locale;
-  return Lang.ymdhmsNum(curLocale.languageCode, curLocale.countryCode).format(date);
-}
