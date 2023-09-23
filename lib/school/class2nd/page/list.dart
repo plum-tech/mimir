@@ -27,7 +27,6 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
 
   final loadingStates = ValueNotifier(categories.map((cat) => false).toList());
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

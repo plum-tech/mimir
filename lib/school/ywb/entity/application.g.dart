@@ -66,12 +66,13 @@ YwbApplication _$YwbApplicationFromJson(Map<String, dynamic> json) => YwbApplica
     );
 
 YwbApplicationTrack _$YwbApplicationTrackFromJson(Map<String, dynamic> json) => YwbApplicationTrack(
+      actionType: json['ActionType'] as int,
       action: json['ActionTypeText'] as String,
       senderId: json['EmpFrom'] as String,
-      senderName: json['EmpFromT'] as String,
+      senderName: mapChinesePunctuations(json['EmpFromT'] as String),
       receiverId: json['EmpTo'] as String,
-      receiverName: json['EmpToT'] as String,
-      message: json['Msg'] as String,
+      receiverName: mapChinesePunctuations(json['EmpToT'] as String),
+      message: mapChinesePunctuations(json['Msg'] as String),
       timestamp: _parseTimestamp(json['RDT']),
-      step: json['NDFromT'] as String,
+      step: mapChinesePunctuations(json['NDFromT'] as String),
     );

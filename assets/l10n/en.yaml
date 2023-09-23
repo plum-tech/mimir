@@ -110,6 +110,10 @@ ywb:
     title: Mailbox
     noMailsTip: No mails
     recent: Recent
+  type:
+    todo: Todo
+    running: Running
+    complete: Complete
 captcha:
   title: Captcha
   enterHint: Please enter captcha

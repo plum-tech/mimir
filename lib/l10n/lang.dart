@@ -13,6 +13,8 @@ abstract class _RegionalFormatter {
 
   DateFormat get ymdhmsNum;
 
+  DateFormat get ymdhmNum;
+
   DateFormat get mdHmNum;
 
   DateFormat get mdNum;
@@ -57,6 +59,8 @@ class Lang {
 
   static DateFormat ymdhmsNum(String lang, String? country) => _getFormatterFrom(lang, country).ymdhmsNum;
 
+  static DateFormat ymdhmNum(String lang, String? country) => _getFormatterFrom(lang, country).ymdhmNum;
+
   static DateFormat mdHmNum(String lang, String? country) => _getFormatterFrom(lang, country).mdHmNum;
 
   static DateFormat mdNum(String lang, String? country) => _getFormatterFrom(lang, country).mdNum;
@@ -74,7 +78,9 @@ class _ZhFormatter implements _RegionalFormatter {
   @override
   final ymdNum = DateFormat("yyyy/M/d", "zh_CN");
   @override
-  final ymdhmsNum = DateFormat("yyyy/MM/dd H:mm:ss", "zh_CN");
+  final ymdhmsNum = DateFormat("yyyy/M/d H:mm:ss", "zh_CN");
+  @override
+  final ymdhmNum = DateFormat("yyyy/M/d H:mm:ss", "zh_CN");
   @override
   final mdHmNum = DateFormat("M/d H:m", "zh_CN");
   @override
@@ -95,6 +101,8 @@ class _ZhTwFormatter implements _RegionalFormatter {
   @override
   final ymdhmsNum = DateFormat("yyyy/M/d H:mm:ss", "zh_TW");
   @override
+  final ymdhmNum = DateFormat("yyyy/M/d H:mm:ss", "zh_TW");
+  @override
   final mdHmNum = DateFormat("M/d H:m", "zh_TW");
   @override
   final mdNum = DateFormat("M/d", "zh_TW");
@@ -113,6 +121,8 @@ class _EnFormatter implements _RegionalFormatter {
   final ymdNum = DateFormat("M/d/yyyy", "en_US");
   @override
   final ymdhmsNum = DateFormat("M/d/yyyy H:mm:ss", "en_US");
+  @override
+  final ymdhmNum = DateFormat("M/d/yyyy H:mm", "en_US");
   @override
   final mdHmNum = DateFormat("M/d H:m", "en_US");
   @override

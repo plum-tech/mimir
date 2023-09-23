@@ -110,6 +110,10 @@ ywb:
     title: 站内信
     noMailsTip: 没有站内信
     recent: 最近更新
+  type:
+    todo: 待办
+    running: 在途
+    complete: 办结
 captcha:
   title: 验证码
   enterHint: 请输入验证码

@@ -1,13 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mimir/hive/type_id.dart';
+import 'package:mimir/school/entity/school.dart';
 
 part 'application.g.dart';
 
 enum YwbApplicationType {
   complete,
   running,
-  todo,
+  todo;
+
+  String l10nName() => "ywb.type.$name".tr();
 }
 
 final _tsFormat = DateFormat("yyyy-MM-dd hh:mm");
@@ -70,24 +73,37 @@ class YwbApplication {
 
 @JsonSerializable(createToJson: false)
 class YwbApplicationTrack {
+  @JsonKey(name: "ActionType")
+  final int actionType;
   @JsonKey(name: "ActionTypeText")
   final String action;
   @JsonKey(name: "EmpFrom")
   final String senderId;
-  @JsonKey(name: "EmpFromT")
+  @JsonKey(name: "EmpFromT", fromJson: mapChinesePunctuations)
   final String senderName;
   @JsonKey(name: "EmpTo")
   final String receiverId;
-  @JsonKey(name: "EmpToT")
+  @JsonKey(name: "EmpToT", fromJson: mapChinesePunctuations)
   final String receiverName;
-  @JsonKey(name: "Msg")
+  @JsonKey(name: "Msg", fromJson: mapChinesePunctuations)
   final String message;
   @JsonKey(name: "RDT", fromJson: _parseTimestamp)
   final DateTime timestamp;
-  @JsonKey(name: "NDFromT")
+  @JsonKey(name: "NDFromT", fromJson: mapChinesePunctuations)
   final String step;
 
+  bool get isActionOk {
+    // 发送
+    if (actionType == 1) return true;
+    // 退回
+    if (actionType == 2) return false;
+    // 办结
+    if (actionType == 8) return true;
+    return true;
+  }
+
   const YwbApplicationTrack({
+    required this.actionType,
     required this.action,
     required this.senderId,
     required this.senderName,

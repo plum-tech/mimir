@@ -39,6 +39,12 @@ extension I18nBuildContext on BuildContext {
     return Lang.ymdhmsNum(curLocale.languageCode, curLocale.countryCode).format(date);
   }
 
+  ///e.g.: 9/21/2022 23:57
+  String formatYmdhmNum(DateTime date) {
+    final curLocale = locale;
+    return Lang.ymdhmNum(curLocale.languageCode, curLocale.countryCode).format(date);
+  }
+
   String formatYmText(DateTime date) {
     final curLocale = locale;
     return Lang.ymText(curLocale.languageCode, curLocale.countryCode).format(date);

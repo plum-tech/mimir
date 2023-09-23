@@ -74,7 +74,7 @@ class _YwbMailboxPageState extends State<YwbMailboxPage> {
                     tabs: YwbApplicationType.values
                         .mapIndexed(
                           (i, e) => Tab(
-                            child: e.name.text(),
+                            child: e.l10nName().text(),
                           ),
                         )
                         .toList(),
@@ -122,7 +122,7 @@ class YwbMailList extends StatelessWidget {
         else
           SliverList.builder(
             itemCount: applications.length,
-            itemBuilder: (ctx, i) => YwbMail(msg: applications[i]),
+            itemBuilder: (ctx, i) => YwbApplicationTile(applications[i]),
           )
       ],
     );
