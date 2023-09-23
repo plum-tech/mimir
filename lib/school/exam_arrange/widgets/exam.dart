@@ -13,23 +13,8 @@ class ExamCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final itemStyle = Theme.of(context).textTheme.bodyMedium;
-
-    Widget buildItem(String text) {
-      final itemStyle = context.textTheme.bodyLarge;
-      return Row(
-        children: [
-          const SizedBox(width: 8, height: 32),
-          Expanded(child: Text(text, overflow: TextOverflow.ellipsis, style: itemStyle))
-        ],
-      );
-    }
-
-    TableRow buildRow(String title, String content) {
-      return TableRow(children: [
-        buildItem(title),
-        Text(content, style: itemStyle, overflow: TextOverflow.ellipsis),
-      ]);
+    Widget buildRow(String title, String content) {
+      return "$title: $content".text();
     }
 
     String buildDate({required DateTime start, required DateTime end}) {
@@ -54,17 +39,14 @@ class ExamCard extends StatelessWidget {
       isThreeLine: true,
       titleTextStyle: context.textTheme.titleLarge,
       title: exam.courseName.text(),
-      subtitle: Table(
-        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-        columnWidths: const {0: FlexColumnWidth(4), 1: FlexColumnWidth(5)},
-        children: [
-          buildRow(i18n.location, exam.place),
-          buildRow(i18n.seatNumber, exam.seatNumber.toString()),
-          if (exam.time.length >= 2) buildRow(i18n.date, buildDate(start: exam.time[0], end: exam.time[1])),
-          if (exam.time.length >= 2) buildRow(i18n.time, buildTime(start: exam.time[0], end: exam.time[1])),
-        ],
-      ),
-      trailing: exam.isRetake == null ? i18n.retake.text() : null,
+      subtitleTextStyle: context.textTheme.bodyMedium,
+      subtitle: [
+        buildRow(i18n.location, exam.place),
+        if (exam.seatNumber != null) buildRow(i18n.seatNumber, exam.seatNumber.toString()),
+        if (exam.time.length >= 2) buildRow(i18n.date, buildDate(start: exam.time[0], end: exam.time[1])),
+        if (exam.time.length >= 2) buildRow(i18n.time, buildTime(start: exam.time[0], end: exam.time[1])),
+      ].column(caa: CrossAxisAlignment.start),
+      trailing: exam.isRetake == true ? Chip(label: i18n.retake.text()) : null,
     ).inCard();
   }
 }

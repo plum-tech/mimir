@@ -9,6 +9,32 @@ String _parseCourseName(dynamic courseName) {
   return mapChinesePunctuations(courseName.toString());
 }
 
+String _parsePlace(dynamic place) {
+  return mapChinesePunctuations(place.toString());
+}
+
+int? _parseSeatNumber(String s) => int.tryParse(s);
+final _timeFormat = DateFormat('yyyy-MM-dd hh:mm');
+
+List<DateTime> _parseTime(String s) {
+  List<DateTime> result = [];
+
+  try {
+    final date = s.split('(')[0];
+    final time = s.split('(')[1].replaceAll(')', '');
+    String start = '$date ${time.split('-')[0]}';
+    String end = '$date ${time.split('-')[1]}';
+
+    final startTime = _timeFormat.parse(start);
+    final endTime = _timeFormat.parse(end);
+
+    result.add(startTime);
+    result.add(endTime);
+  } catch (_) {}
+
+  return result;
+}
+
 bool? _parseRetake(dynamic status) {
   if (status == null) return null;
   return switch (status.toString()) {
@@ -27,12 +53,13 @@ class ExamEntry {
   final String courseName;
 
   /// 考试时间. 若无数据, 列表未空.
-  @JsonKey(name: 'kssj', fromJson: _stringToList)
+  @JsonKey(name: 'kssj', fromJson: _parseTime)
   @HiveField(1)
+  // TODO: Use record
   final List<DateTime> time;
 
   /// 考试地点
-  @JsonKey(name: 'cdmc')
+  @JsonKey(name: 'cdmc', fromJson: _parsePlace)
   @HiveField(2)
   final String place;
 
@@ -42,9 +69,9 @@ class ExamEntry {
   final String campus;
 
   /// 考试座号
-  @JsonKey(name: 'zwh', fromJson: _stringToInt)
+  @JsonKey(name: 'zwh', fromJson: _parseSeatNumber)
   @HiveField(4)
-  final int seatNumber;
+  final int? seatNumber;
 
   /// 是否重修
   @JsonKey(name: 'cxbj', fromJson: _parseRetake)
@@ -72,28 +99,6 @@ class ExamEntry {
       "seatNumber": seatNumber,
       "isRetake": isRetake,
     }.toString();
-  }
-
-  static int _stringToInt(String s) => int.tryParse(s) ?? 0;
-
-  static List<DateTime> _stringToList(String s) {
-    List<DateTime> result = [];
-    final dateFormat = DateFormat('yyyy-MM-dd hh:mm');
-
-    try {
-      final date = s.split('(')[0];
-      final time = s.split('(')[1].replaceAll(')', '');
-      String start = '$date ${time.split('-')[0]}';
-      String end = '$date ${time.split('-')[1]}';
-
-      final startTime = dateFormat.parse(start);
-      final endTime = dateFormat.parse(end);
-
-      result.add(startTime);
-      result.add(endTime);
-    } catch (_) {}
-
-    return result;
   }
 
   static int comparator(ExamEntry a, ExamEntry b) {

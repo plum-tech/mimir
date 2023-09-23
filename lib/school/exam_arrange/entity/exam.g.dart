@@ -21,7 +21,7 @@ class ExamEntryAdapter extends TypeAdapter<ExamEntry> {
       place: fields[2] as String,
       campus: fields[3] as String,
       time: (fields[1] as List).cast<DateTime>(),
-      seatNumber: fields[4] as int,
+      seatNumber: fields[4] as int?,
       isRetake: fields[5] as bool?,
     );
   }
@@ -58,9 +58,9 @@ class ExamEntryAdapter extends TypeAdapter<ExamEntry> {
 
 ExamEntry _$ExamEntryFromJson(Map<String, dynamic> json) => ExamEntry(
       courseName: _parseCourseName(json['kcmc']),
-      place: json['cdmc'] as String,
+      place: _parsePlace(json['cdmc']),
       campus: json['cdxqmc'] as String,
-      time: ExamEntry._stringToList(json['kssj'] as String),
-      seatNumber: ExamEntry._stringToInt(json['zwh'] as String),
+      time: _parseTime(json['kssj'] as String),
+      seatNumber: _parseSeatNumber(json['zwh'] as String),
       isRetake: _parseRetake(json['cxbj']),
     );
