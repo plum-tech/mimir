@@ -1,88 +1,118 @@
-import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mimir/hive/type_id.dart';
-import 'package:mimir/utils/iconfont.dart';
 
 part 'application.g.dart';
 
+enum YwbApplicationType {
+  complete,
+  running,
+  todo,
+}
+
+final _tsFormat = DateFormat("yyyy-MM-dd hh:mm");
+
+DateTime _parseTimestamp(dynamic ts) {
+  return _tsFormat.parse(ts);
+}
+
 @JsonSerializable(createToJson: false)
-@HiveType(typeId: HiveTypeYwb.meta)
-class YwbApplicationMeta {
-  @JsonKey(name: 'appID')
+@HiveType(typeId: HiveTypeYwb.message)
+class YwbApplication {
+  @JsonKey(name: 'WorkID')
   @HiveField(0)
-  final String id;
-  @JsonKey(name: 'appName')
+  final int workId;
+  @JsonKey(name: 'FK_Flow')
   @HiveField(1)
+  final String functionId;
+  @JsonKey(name: 'FlowName')
+  @HiveField(2)
   final String name;
-  @JsonKey(name: 'appDescribe')
-  @HiveField(2)
-  final String summary;
-  @JsonKey(name: 'appStatus')
+  @JsonKey(name: 'FlowNote')
   @HiveField(3)
-  final int status;
-  @JsonKey(name: 'appCount')
+  final String note;
+  @JsonKey(name: 'RDT', fromJson: _parseTimestamp)
   @HiveField(4)
-  final int count;
-  @JsonKey(name: 'appIcon')
+  final DateTime startTs;
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @HiveField(5)
-  final String iconName;
+  final List<YwbApplicationTrack> track;
 
-  IconData get icon => IconFont.query(iconName);
-
-  const YwbApplicationMeta({
-    required this.id,
+  const YwbApplication({
+    required this.workId,
+    required this.functionId,
     required this.name,
-    required this.summary,
-    required this.status,
-    required this.count,
-    required this.iconName,
+    required this.note,
+    required this.startTs,
+    this.track = const [],
   });
 
-  factory YwbApplicationMeta.fromJson(Map<String, dynamic> json) => _$YwbApplicationMetaFromJson(json);
-}
+  YwbApplication copyWith({
+    int? workId,
+    String? functionId,
+    String? name,
+    String? note,
+    DateTime? startTs,
+    List<YwbApplicationTrack>? track,
+  }) {
+    return YwbApplication(
+      workId: workId ?? this.workId,
+      functionId: functionId ?? this.functionId,
+      name: name ?? this.name,
+      note: note ?? this.note,
+      startTs: startTs ?? this.startTs,
+      track: track ?? this.track,
+    );
+  }
 
-@HiveType(typeId: HiveTypeYwb.metaDetails)
-class YwbApplicationMetaDetails {
-  @HiveField(0)
-  final String id;
-  @HiveField(1)
-  final List<YwbApplicationMetaDetailSection> sections;
-
-  const YwbApplicationMetaDetails({
-    required this.id,
-    required this.sections,
-  });
+  factory YwbApplication.fromJson(Map<String, dynamic> json) => _$YwbApplicationFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
-@HiveType(typeId: HiveTypeYwb.metaDetailSection)
-class YwbApplicationMetaDetailSection {
-  @JsonKey(name: 'formName')
-  @HiveField(0)
-  final String section;
-  @JsonKey()
-  @HiveField(1)
-  final String type;
-  @JsonKey()
-  @HiveField(2)
-  final DateTime createTime;
-  @JsonKey()
-  @HiveField(3)
-  final String content;
+class YwbApplicationTrack {
+  @JsonKey(name: "ActionTypeText")
+  final String action;
+  @JsonKey(name: "EmpFrom")
+  final String senderId;
+  @JsonKey(name: "EmpFromT")
+  final String senderName;
+  @JsonKey(name: "EmpTo")
+  final String receiverId;
+  @JsonKey(name: "EmpToT")
+  final String receiverName;
+  @JsonKey(name: "Msg")
+  final String message;
+  @JsonKey(name: "RDT", fromJson: _parseTimestamp)
+  final DateTime timestamp;
+  @JsonKey(name: "NDFromT")
+  final String step;
 
-  const YwbApplicationMetaDetailSection({
-    required this.section,
-    required this.type,
-    required this.createTime,
-    required this.content,
+  const YwbApplicationTrack({
+    required this.action,
+    required this.senderId,
+    required this.senderName,
+    required this.receiverId,
+    required this.receiverName,
+    required this.message,
+    required this.timestamp,
+    required this.step,
   });
 
-  factory YwbApplicationMetaDetailSection.fromJson(Map<String, dynamic> json) =>
-      _$YwbApplicationMetaDetailSectionFromJson(json);
+  factory YwbApplicationTrack.fromJson(Map<String, dynamic> json) => _$YwbApplicationTrackFromJson(json);
 }
 
-extension YwbApplicationMetaDetailSectionX on YwbApplicationMetaDetailSection {
-  bool get isEmpty => content.isEmpty;
+typedef MyYwbApplications = ({
+  List<YwbApplication> todo,
+  List<YwbApplication> running,
+  List<YwbApplication> complete,
+});
 
-  bool get isNotEmpty => content.isNotEmpty;
+extension MyYwbApplicationsX on MyYwbApplications {
+  List<YwbApplication> resolve(YwbApplicationType type) {
+    return switch (type) {
+      YwbApplicationType.todo => todo,
+      YwbApplicationType.running => running,
+      YwbApplicationType.complete => complete,
+    };
+  }
 }

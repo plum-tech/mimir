@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:mimir/cache/box.dart';
 
-import '../entity/application.dart';
+import '../entity/meta.dart';
 
 class ApplicationStorageBox with CachedBox {
   @override

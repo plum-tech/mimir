@@ -6,42 +6,42 @@ part of 'application.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class YwbApplicationMetaAdapter extends TypeAdapter<YwbApplicationMeta> {
+class YwbApplicationAdapter extends TypeAdapter<YwbApplication> {
   @override
-  final int typeId = 82;
+  final int typeId = 83;
 
   @override
-  YwbApplicationMeta read(BinaryReader reader) {
+  YwbApplication read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return YwbApplicationMeta(
-      id: fields[0] as String,
-      name: fields[1] as String,
-      summary: fields[2] as String,
-      status: fields[3] as int,
-      count: fields[4] as int,
-      iconName: fields[5] as String,
+    return YwbApplication(
+      workId: fields[0] as int,
+      functionId: fields[1] as String,
+      name: fields[2] as String,
+      note: fields[3] as String,
+      startTs: fields[4] as DateTime,
+      track: (fields[5] as List).cast<YwbApplicationTrack>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, YwbApplicationMeta obj) {
+  void write(BinaryWriter writer, YwbApplication obj) {
     writer
       ..writeByte(6)
       ..writeByte(0)
-      ..write(obj.id)
+      ..write(obj.workId)
       ..writeByte(1)
+      ..write(obj.functionId)
+      ..writeByte(2)
       ..write(obj.name)
-      ..writeByte(2)
-      ..write(obj.summary)
       ..writeByte(3)
-      ..write(obj.status)
+      ..write(obj.note)
       ..writeByte(4)
-      ..write(obj.count)
+      ..write(obj.startTs)
       ..writeByte(5)
-      ..write(obj.iconName);
+      ..write(obj.track);
   }
 
   @override
@@ -50,102 +50,28 @@ class YwbApplicationMetaAdapter extends TypeAdapter<YwbApplicationMeta> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is YwbApplicationMetaAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
-}
-
-class YwbApplicationMetaDetailsAdapter extends TypeAdapter<YwbApplicationMetaDetails> {
-  @override
-  final int typeId = 80;
-
-  @override
-  YwbApplicationMetaDetails read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return YwbApplicationMetaDetails(
-      id: fields[0] as String,
-      sections: (fields[1] as List).cast<YwbApplicationMetaDetailSection>(),
-    );
-  }
-
-  @override
-  void write(BinaryWriter writer, YwbApplicationMetaDetails obj) {
-    writer
-      ..writeByte(2)
-      ..writeByte(0)
-      ..write(obj.id)
-      ..writeByte(1)
-      ..write(obj.sections);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is YwbApplicationMetaDetailsAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
-}
-
-class YwbApplicationMetaDetailSectionAdapter extends TypeAdapter<YwbApplicationMetaDetailSection> {
-  @override
-  final int typeId = 81;
-
-  @override
-  YwbApplicationMetaDetailSection read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return YwbApplicationMetaDetailSection(
-      section: fields[0] as String,
-      type: fields[1] as String,
-      createTime: fields[2] as DateTime,
-      content: fields[3] as String,
-    );
-  }
-
-  @override
-  void write(BinaryWriter writer, YwbApplicationMetaDetailSection obj) {
-    writer
-      ..writeByte(4)
-      ..writeByte(0)
-      ..write(obj.section)
-      ..writeByte(1)
-      ..write(obj.type)
-      ..writeByte(2)
-      ..write(obj.createTime)
-      ..writeByte(3)
-      ..write(obj.content);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is YwbApplicationMetaDetailSectionAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is YwbApplicationAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-YwbApplicationMeta _$YwbApplicationMetaFromJson(Map<String, dynamic> json) => YwbApplicationMeta(
-      id: json['appID'] as String,
-      name: json['appName'] as String,
-      summary: json['appDescribe'] as String,
-      status: json['appStatus'] as int,
-      count: json['appCount'] as int,
-      iconName: json['appIcon'] as String,
+YwbApplication _$YwbApplicationFromJson(Map<String, dynamic> json) => YwbApplication(
+      workId: json['WorkID'] as int,
+      functionId: json['FK_Flow'] as String,
+      name: json['FlowName'] as String,
+      note: json['FlowNote'] as String,
+      startTs: _parseTimestamp(json['RDT']),
     );
 
-YwbApplicationMetaDetailSection _$YwbApplicationMetaDetailSectionFromJson(Map<String, dynamic> json) =>
-    YwbApplicationMetaDetailSection(
-      section: json['formName'] as String,
-      type: json['type'] as String,
-      createTime: DateTime.parse(json['createTime'] as String),
-      content: json['content'] as String,
+YwbApplicationTrack _$YwbApplicationTrackFromJson(Map<String, dynamic> json) => YwbApplicationTrack(
+      action: json['ActionTypeText'] as String,
+      senderId: json['EmpFrom'] as String,
+      senderName: json['EmpFromT'] as String,
+      receiverId: json['EmpTo'] as String,
+      receiverName: json['EmpToT'] as String,
+      message: json['Msg'] as String,
+      timestamp: _parseTimestamp(json['RDT']),
+      step: json['NDFromT'] as String,
     );

@@ -4,7 +4,7 @@ import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
 
-import '../entity/application.dart';
+import '../entity/meta.dart';
 import '../init.dart';
 import '../page/form.dart';
 import '../widgets/detail.dart';

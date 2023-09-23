@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/message.dart';
+import '../entity/application.dart';
 import '../init.dart';
 import '../widgets/mail.dart';
 import '../i18n.dart';
@@ -23,18 +23,29 @@ class _YwbMailboxPageState extends State<YwbMailboxPage> {
   @override
   void initState() {
     super.initState();
-    YwbInit.applicationService.getMyMessage().then((value) {
-      debugPrint(value.toString());
-      setState(() {
-        applications = value;
-      });
+    refresh();
+  }
+
+  Future<void> refresh() async {
+    if (!mounted) return;
+    setState(() {
+      isLoading = true;
     });
-    // YwbInit.messageService.getAllMessage().then((value) {
-    //   if (!mounted) return;
-    //   setState(() {
-    //     msgPage = value;
-    //   });
-    // });
+    try {
+      final myApplication = await YwbInit.applicationService.getMyApplications();
+      if (!mounted) return;
+      setState(() {
+        applications = myApplication;
+        isLoading = false;
+      });
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      if (!mounted) return;
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override

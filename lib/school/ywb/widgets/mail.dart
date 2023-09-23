@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../entity/message.dart';
+import '../entity/application.dart';
 import '../page/form.dart';
 import '../i18n.dart';
 

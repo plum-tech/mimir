@@ -68,13 +68,11 @@ class _ExamResultPageState extends State<ExamResultPage> {
     } catch (error, stackTrace) {
       debugPrint(error.toString());
       debugPrintStack(stackTrace: stackTrace);
-    } finally {
-      if (mounted) {
-        setState(() {
-          isLoading = false;
-        });
-      }
-    }
+      if (!mounted) return;
+      setState(() {
+        isLoading = false;
+      });
+    } finally {}
   }
 
   @override

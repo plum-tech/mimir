@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/widgets/html.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/application.dart';
+import '../entity/meta.dart';
 
 class YwbApplicationDetailSectionBlock extends StatelessWidget {
   final YwbApplicationMetaDetailSection section;

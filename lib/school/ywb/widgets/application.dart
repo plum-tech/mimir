@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/application.dart';
+import '../entity/meta.dart';
 import '../page/details.dart';
 
 const List<Color> _applicationColors = <Color>[

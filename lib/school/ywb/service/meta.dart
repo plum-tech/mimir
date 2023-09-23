@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:mimir/network/session.dart';
 import 'package:mimir/session/ywb.dart';
 
-import '../entity/application.dart';
+import '../entity/meta.dart';
 
 const String _serviceFunctionList = 'https://xgfy.sit.edu.cn/app/public/queryAppManageJson';
 const String _serviceFunctionDetail = 'https://xgfy.sit.edu.cn/app/public/queryAppFormJson';

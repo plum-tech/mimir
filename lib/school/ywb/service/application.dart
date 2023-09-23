@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:mimir/network/session.dart';
 
-import '../entity/message.dart';
+import '../entity/application.dart';
 
 String _getMessageListUrl(YwbApplicationType type) {
   final method = switch (type) {
@@ -61,7 +61,7 @@ class YwbApplicationService {
     return track;
   }
 
-  Future<MyYwbApplications> getMyMessage() async {
+  Future<MyYwbApplications> getMyApplications() async {
     return (
       todo: await getApplication(YwbApplicationType.todo),
       running: await getApplication(YwbApplicationType.running),

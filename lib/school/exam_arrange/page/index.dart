@@ -55,12 +55,10 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
     } catch (error, stackTrace) {
       debugPrint(error.toString());
       debugPrintStack(stackTrace: stackTrace);
-    } finally {
-      if (mounted) {
-        setState(() {
-          isLoading = false;
-        });
-      }
+      if (!mounted) return;
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 

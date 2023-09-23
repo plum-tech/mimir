@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-import '../entity/message.dart';
+import '../entity/application.dart';
 
 class ApplicationMessageStorage {
   final Box<dynamic> box;

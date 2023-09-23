@@ -4,7 +4,7 @@ import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/application.dart';
+import '../entity/meta.dart';
 import '../init.dart';
 import '../widgets/application.dart';
 import "package:mimir/credential/widgets/oa_scope.dart";
