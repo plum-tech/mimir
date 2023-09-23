@@ -66,8 +66,7 @@ class _YwbMailboxPageState extends State<YwbMailboxPage> {
                 handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
                   pinned: true,
-                  title: i18n.title.text(),
-                  actions: [],
+                  title: i18n.mailbox.title.text(),
                   forceElevated: innerBoxIsScrolled,
                   bottom: TabBar(
                     isScrollable: true,
