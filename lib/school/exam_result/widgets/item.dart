@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/multi_select.dart';
 import 'package:mimir/school/widgets/course.dart';
 import 'package:mimir/utils/format.dart';
@@ -27,8 +26,8 @@ class ExamResultSelectableCard extends StatelessWidget {
     return ExamResultCard(
       result,
       selected: selected,
+      showDetails: !isSelectingMode,
       iconOverride: isSelectingMode ? Icon(selected ? Icons.check_box_outlined : Icons.check_box_outline_blank) : null,
-      detailsOverride: isSelectingMode ? const SizedBox() : null,
       onTap: !isSelectingMode
           ? null
           : () {
@@ -42,7 +41,6 @@ class ExamResultCard extends StatelessWidget {
   final ExamResult result;
   final VoidCallback? onTap;
   final Widget? iconOverride;
-  final Widget? detailsOverride;
   final bool selected;
   final bool showDetails;
 
@@ -51,7 +49,6 @@ class ExamResultCard extends StatelessWidget {
     super.key,
     this.onTap,
     this.iconOverride,
-    this.detailsOverride,
     this.selected = false,
     this.showDetails = true,
   });
@@ -73,12 +70,11 @@ class ExamResultCard extends StatelessWidget {
       subtitleTextStyle: textTheme.bodyMedium,
       subtitle: [
         '$courseType | ${i18n.credit}: ${result.credit}'.text(),
-        if (showDetails)
-          AnimatedSize(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.fastEaseInToSlowEaseOut.flipped,
-            child: detailsOverride ?? ExamResultItemChipGroup(resultItems),
-          ),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.fastEaseInToSlowEaseOut.flipped,
+          child: showDetails ? ExamResultItemChipGroup(resultItems) : const SizedBox(),
+        ),
       ].column(caa: CrossAxisAlignment.start),
       trailing: result.hasScore
           ? result.score.toString().text(
