@@ -45,16 +45,18 @@ class YwbApplicationService {
     required int workId,
     required String functionId,
   }) async {
+    // Authentication is not required.
     final res = await session.request(
       "http://ywb.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?&DoType=HttpHandler&DoMethod=TimeBase_Init&HttpHandlerName=BP.WF.HttpHandler.WF_WorkOpt_OneWork",
-      ReqMethod.get,
+      ReqMethod.post,
       data: "WorkID=$workId&FK_Flow=$functionId",
       options: SessionOptions(
         contentType: 'application/x-www-form-urlencoded',
         responseType: ResponseType.json,
       ),
     );
-    final List trackRaw = (res.data as Map)["Track"];
+    final Map payload = jsonDecode(res.data);
+    final List trackRaw = payload["Track"];
     final track = trackRaw.map((e) => YwbApplicationTrack.fromJson(e)).toList();
     return track;
   }
