@@ -106,3 +106,13 @@ typedef MyYwbApplications = ({
   List<YwbApplication> running,
   List<YwbApplication> complete,
 });
+
+extension MyYwbApplicationsX on MyYwbApplications {
+  List<YwbApplication> resolve(YwbApplicationType type) {
+    return switch (type) {
+      YwbApplicationType.todo => todo,
+      YwbApplicationType.running => running,
+      YwbApplicationType.complete => complete,
+    };
+  }
+}

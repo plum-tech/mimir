@@ -27,15 +27,9 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
 
   final loadingStates = ValueNotifier(categories.map((cat) => false).toList());
 
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: categories.length,
-      child: buildBody(),
-    );
-  }
-
-  Widget buildBody() {
     return Scaffold(
       bottomNavigationBar: PreferredSize(
         preferredSize: const Size.fromHeight(4),
@@ -44,61 +38,51 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
               return !states.any((state) => state == true) ? const SizedBox() : const LinearProgressIndicator();
             },
       ),
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          // These are the slivers that show up in the "outer" scroll view.
-          return <Widget>[
-            SliverOverlapAbsorber(
-              // This widget takes the overlapping behavior of the SliverAppBar,
-              // and redirects it to the SliverOverlapInjector below. If it is
-              // missing, then it is possible for the nested "inner" scroll view
-              // below to end up under the SliverAppBar even when the inner
-              // scroll view thinks it has not been scrolled.
-              // This is not necessary if the "headerSliverBuilder" only builds
-              // widgets that do not overlap the next sliver.
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverAppBar(
-                pinned: true,
-                title: i18n.title.text(),
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: () => showSearch(context: context, delegate: ActivitySearchDelegate()),
-                  ),
-                ],
-                // The "forceElevated" property causes the SliverAppBar to show
-                // a shadow. The "innerBoxIsScrolled" parameter is true when the
-                // inner scroll view is scrolled beyond its "zero" point, i.e.
-                // when it appears to be scrolled below the SliverAppBar.
-                // Without this, there are cases where the shadow would appear
-                // or not appear inappropriately, because the SliverAppBar is
-                // not actually aware of the precise position of the inner
-                // scroll views.
-                forceElevated: innerBoxIsScrolled,
-                bottom: TabBar(
-                  isScrollable: true,
-                  tabs: categories
-                      .mapIndexed((i, e) => Tab(
+      body: DefaultTabController(
+        length: categories.length,
+        child: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            // These are the slivers that show up in the "outer" scroll view.
+            return <Widget>[
+              SliverOverlapAbsorber(
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                sliver: SliverAppBar(
+                  pinned: true,
+                  title: i18n.title.text(),
+                  actions: [
+                    IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: () => showSearch(context: context, delegate: ActivitySearchDelegate()),
+                    ),
+                  ],
+                  forceElevated: innerBoxIsScrolled,
+                  bottom: TabBar(
+                    isScrollable: true,
+                    tabs: categories
+                        .mapIndexed(
+                          (i, e) => Tab(
                             child: e.name.text(),
-                          ))
-                      .toList(),
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
               ),
-            ),
-          ];
-        },
-        body: TabBarView(
-          // These are the contents of the tab views, below the tabs.
-          children: categories.mapIndexed((i, cat) {
-            return ActivityList(
-              cat: cat,
-              onLoadingChanged: (state) {
-                final newStates = List.of(loadingStates.value);
-                newStates[i] = state;
-                loadingStates.value = newStates;
-              },
-            );
-          }).toList(),
+            ];
+          },
+          body: TabBarView(
+            // These are the contents of the tab views, below the tabs.
+            children: categories.mapIndexed((i, cat) {
+              return ActivityList(
+                cat: cat,
+                onLoadingChanged: (state) {
+                  final newStates = List.of(loadingStates.value);
+                  newStates[i] = state;
+                  loadingStates.value = newStates;
+                },
+              );
+            }).toList(),
+          ),
         ),
       ),
     );

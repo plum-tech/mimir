@@ -45,7 +45,7 @@ class YwbApplicationService {
     required int workId,
     required String functionId,
   }) async {
-    // Authentication is not required.
+    // Authentication cookie is even not required!
     final res = await session.request(
       "http://ywb.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?&DoType=HttpHandler&DoMethod=TimeBase_Init&HttpHandlerName=BP.WF.HttpHandler.WF_WorkOpt_OneWork",
       ReqMethod.post,
