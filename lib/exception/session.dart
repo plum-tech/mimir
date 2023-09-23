@@ -38,4 +38,3 @@ class LoginRequiredException implements Exception {
 class UnknownAuthException implements Exception {
   const UnknownAuthException();
 }
-

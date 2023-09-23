@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/school/widgets/course.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../i18n.dart';
@@ -13,12 +14,6 @@ class ExamCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final itemStyle = Theme.of(context).textTheme.bodyMedium;
-    final name = exam.courseName;
-    final strStartTime = exam.time.isNotEmpty ? context.formatMdHmNum(exam.time[0]) : '/';
-    final strEndTime = exam.time.isNotEmpty ? context.formatMdHmNum(exam.time[1]) : '/';
-    final place = exam.place;
-    final seatNumber = exam.seatNumber;
-    final isSecondExam = exam.referralStatus;
 
     Widget buildItem(String text) {
       final itemStyle = context.textTheme.bodyLarge;
@@ -37,22 +32,39 @@ class ExamCard extends StatelessWidget {
       ]);
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(name, style: Theme.of(context).textTheme.titleLarge).padAll(12),
-        Table(
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          columnWidths: const {0: FlexColumnWidth(4), 1: FlexColumnWidth(5)},
-          children: [
-            buildRow( i18n.location, place),
-            buildRow(i18n.seatNumber, '$seatNumber'),
-            buildRow( i18n.startTime, strStartTime),
-            buildRow( i18n.endTime, strEndTime),
-            buildRow( i18n.isRetake, isSecondExam),
-          ],
-        )
-      ],
-    ).padSymmetric(v: 8, h: 16).inCard();
+    String buildDate({required DateTime start, required DateTime end}) {
+      if (start.year == end.year && start.month == end.month && start.day == end.day) {
+        // at the same day
+        return context.formatMdWeekText(start);
+      } else {
+        return "${context.formatMdNum(start)}–${context.formatMdNum(end)}";
+      }
+    }
+
+    String buildTime({required DateTime start, required DateTime end}) {
+      if (start.year == end.year && start.month == end.month && start.day == end.day) {
+        // at the same day
+        return "${context.formatHmNum(start)}–${context.formatHmNum(end)}";
+      } else {
+        return "${context.formatMdhmNum(start)}–${context.formatMdhmNum(end)}";
+      }
+    }
+
+    return ListTile(
+      isThreeLine: true,
+      titleTextStyle: context.textTheme.titleLarge,
+      title: exam.courseName.text(),
+      subtitle: Table(
+        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+        columnWidths: const {0: FlexColumnWidth(4), 1: FlexColumnWidth(5)},
+        children: [
+          buildRow(i18n.location, exam.place),
+          buildRow(i18n.seatNumber, exam.seatNumber.toString()),
+          if (exam.time.length >= 2) buildRow(i18n.date, buildDate(start: exam.time[0], end: exam.time[1])),
+          if (exam.time.length >= 2) buildRow(i18n.time, buildTime(start: exam.time[0], end: exam.time[1])),
+        ],
+      ),
+      trailing: exam.isRetake == null ? i18n.retake.text() : null,
+    ).inCard();
   }
 }

@@ -22,7 +22,7 @@ class ExamEntryAdapter extends TypeAdapter<ExamEntry> {
       campus: fields[3] as String,
       time: (fields[1] as List).cast<DateTime>(),
       seatNumber: fields[4] as int,
-      referralStatus: fields[5] as String,
+      isRetake: fields[5] as bool?,
     );
   }
 
@@ -41,7 +41,7 @@ class ExamEntryAdapter extends TypeAdapter<ExamEntry> {
       ..writeByte(4)
       ..write(obj.seatNumber)
       ..writeByte(5)
-      ..write(obj.referralStatus);
+      ..write(obj.isRetake);
   }
 
   @override
@@ -62,14 +62,5 @@ ExamEntry _$ExamEntryFromJson(Map<String, dynamic> json) => ExamEntry(
       campus: json['cdxqmc'] as String,
       time: ExamEntry._stringToList(json['kssj'] as String),
       seatNumber: ExamEntry._stringToInt(json['zwh'] as String),
-      referralStatus: json['cxbj'] as String? ?? '未知',
+      isRetake: _parseRetake(json['cxbj']),
     );
-
-Map<String, dynamic> _$ExamEntryToJson(ExamEntry instance) => <String, dynamic>{
-      'kcmc': instance.courseName,
-      'kssj': instance.time.map((e) => e.toIso8601String()).toList(),
-      'cdmc': instance.place,
-      'cdxqmc': instance.campus,
-      'zwh': instance.seatNumber,
-      'cxbj': instance.referralStatus,
-    };

@@ -162,12 +162,12 @@ examResult:
 examArrange:
   title: Exam arrangement
   check: Check
-  endTime: End Time
-  isRetake: Is Retake
+  date: Date
+  time: Time
+  retake: Retake
   location: Location
   noExamsTip: No exams
   seatNumber: Seat No.
-  startTime: Start Time
 expenseRecords:
   title: Expense records
   check: Check

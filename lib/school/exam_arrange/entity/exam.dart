@@ -9,7 +9,16 @@ String _parseCourseName(dynamic courseName) {
   return mapChinesePunctuations(courseName.toString());
 }
 
-@JsonSerializable()
+bool? _parseRetake(dynamic status) {
+  if (status == null) return null;
+  return switch (status.toString()) {
+    "是" => true,
+    "否" => false,
+    _ => null,
+  };
+}
+
+@JsonSerializable(createToJson: false)
 @HiveType(typeId: HiveTypeExam.entry)
 class ExamEntry {
   /// 课程名称
@@ -38,9 +47,9 @@ class ExamEntry {
   final int seatNumber;
 
   /// 是否重修
-  @JsonKey(name: 'cxbj', defaultValue: '未知')
+  @JsonKey(name: 'cxbj', fromJson: _parseRetake)
   @HiveField(5)
-  final String referralStatus;
+  final bool? isRetake;
 
   const ExamEntry({
     required this.courseName,
@@ -48,16 +57,21 @@ class ExamEntry {
     required this.campus,
     required this.time,
     required this.seatNumber,
-    required this.referralStatus,
+    required this.isRetake,
   });
 
   factory ExamEntry.fromJson(Map<String, dynamic> json) => _$ExamEntryFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ExamEntryToJson(this);
-
   @override
   String toString() {
-    return 'ExamEntry{courseName: $courseName, time: $time, place: $place, campus: $campus, seatNumber: $seatNumber, isSecondExam: $referralStatus}';
+    return {
+      "courseName": courseName,
+      "time": time,
+      "place": place,
+      "campus": campus,
+      "seatNumber": seatNumber,
+      "isRetake": isRetake,
+    }.toString();
   }
 
   static int _stringToInt(String s) => int.tryParse(s) ?? 0;

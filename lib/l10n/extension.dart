@@ -15,6 +15,12 @@ extension I18nBuildContext on BuildContext {
     return Lang.ymdWeekText(curLocale.languageCode, curLocale.countryCode).format(date);
   }
 
+  ///e.g.: Wednesday, September 21
+  String formatMdWeekText(DateTime date) {
+    final curLocale = locale;
+    return Lang.mdWeekText(curLocale.languageCode, curLocale.countryCode).format(date);
+  }
+
   ///e.g.: September 21, 2022
   String formatYmdText(DateTime date) {
     final curLocale = locale;
@@ -39,10 +45,19 @@ extension I18nBuildContext on BuildContext {
   }
 
   /// e.g.: 8:32:59
-  String formatHms(DateTime date) => Lang.hms.format(date);
+  String formatHmsNum(DateTime date) => Lang.hms.format(date);
+
+  /// e.g.: 8:32
+  String formatHmNum(DateTime date) => Lang.hm.format(date);
+
+  /// e.g.: 9/21
+  String formatMdNum(DateTime date) {
+    final curLocale = locale;
+    return Lang.mdNum(curLocale.languageCode, curLocale.countryCode).format(date);
+  }
 
   /// e.g.: 9/21 7:32
-  String formatMdHmNum(DateTime date) {
+  String formatMdhmNum(DateTime date) {
     final curLocale = locale;
     return Lang.mdHmNum(curLocale.languageCode, curLocale.countryCode).format(date);
   }

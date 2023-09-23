@@ -29,8 +29,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
             ),
           ),
           SliverList(
-            delegate: SliverChildListDelegate([
-            ]),
+            delegate: SliverChildListDelegate([]),
           ),
         ],
       ),

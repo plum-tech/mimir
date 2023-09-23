@@ -162,8 +162,10 @@ examResult:
 examArrange:
   title: 考試安排
   check: 查詢
+  date: 日期
+  time: 時間
   endTime: 結束時間
-  isRetake: 是否重修
+  retake: 重修
   location: 地點
   noExamsTip: 無考試安排
   seatNumber: 座位號

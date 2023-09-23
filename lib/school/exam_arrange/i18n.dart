@@ -12,11 +12,11 @@ class _I18n with CommonI18nMixin {
 
   String get check => "$ns.check".tr();
 
-  String get startTime => "$ns.startTime".tr();
+  String get date => "$ns.date".tr();
 
-  String get endTime => "$ns.endTime".tr();
+  String get time => "$ns.time".tr();
 
-  String get isRetake => "$ns.isRetake".tr();
+  String get retake => "$ns.retake".tr();
 
   String get location => "$ns.location".tr();
 

@@ -162,12 +162,12 @@ examResult:
 examArrange:
   title: 考试安排
   check: 查询
-  endTime: 结束时间
-  isRetake: 是否重修
+  date: 日期
+  time: 时间
+  retake: 重修
   location: 地点
   noExamsTip: 没有考试安排
   seatNumber: 座位号
-  startTime: 开始时间
 expenseRecords:
   title: 消费记录
   check: 查询

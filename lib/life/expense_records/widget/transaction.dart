@@ -39,7 +39,7 @@ class TransactionCard extends StatelessWidget {
       [
         transaction.type.icon.make(color: transaction.type.color).padOnly(r: 8),
         AutoSizeText(
-          context.formatMdHmNum(transaction.timestamp),
+          context.formatMdhmNum(transaction.timestamp),
           style: textTheme.titleMedium,
           maxLines: 1,
         ).expanded(),
