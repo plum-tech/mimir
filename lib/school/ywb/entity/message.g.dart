@@ -17,28 +17,31 @@ class YwbApplicationAdapter extends TypeAdapter<YwbApplication> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return YwbApplication(
-      fields[0] as int,
-      fields[1] as String,
-      fields[2] as String,
-      fields[3] as String,
-      fields[4] as String,
+      workId: fields[0] as int,
+      functionId: fields[1] as String,
+      name: fields[2] as String,
+      note: fields[3] as String,
+      startTs: fields[4] as DateTime,
+      track: (fields[5] as List).cast<YwbApplicationTrack>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, YwbApplication obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
-      ..write(obj.flowId)
+      ..write(obj.workId)
       ..writeByte(1)
       ..write(obj.functionId)
       ..writeByte(2)
       ..write(obj.name)
       ..writeByte(3)
-      ..write(obj.recentStep)
+      ..write(obj.note)
       ..writeByte(4)
-      ..write(obj.status);
+      ..write(obj.startTs)
+      ..writeByte(5)
+      ..write(obj.track);
   }
 
   @override
@@ -55,27 +58,19 @@ class YwbApplicationAdapter extends TypeAdapter<YwbApplication> {
 // **************************************************************************
 
 YwbApplication _$YwbApplicationFromJson(Map<String, dynamic> json) => YwbApplication(
-      json['WorkID'] as int,
-      json['FK_Flow'] as String,
-      json['FlowName'] as String,
-      json['NodeName'] as String,
-      json['FlowNote'] as String,
+      workId: json['WorkID'] as int,
+      functionId: json['FK_Flow'] as String,
+      name: json['FlowName'] as String,
+      note: json['FlowNote'] as String,
+      startTs: _parseTimestamp(json['RDT']),
     );
-
-Map<String, dynamic> _$YwbApplicationToJson(YwbApplication instance) => <String, dynamic>{
-      'WorkID': instance.flowId,
-      'FK_Flow': instance.functionId,
-      'FlowName': instance.name,
-      'NodeName': instance.recentStep,
-      'FlowNote': instance.status,
-    };
 
 YwbApplicationTrack _$YwbApplicationTrackFromJson(Map<String, dynamic> json) => YwbApplicationTrack(
       action: json['ActionTypeText'] as String,
       senderId: json['EmpFrom'] as String,
       senderName: json['EmpFromT'] as String,
-      recieverId: json['EmpTo'] as String,
-      recieverName: json['EmpToT'] as String,
+      receiverId: json['EmpTo'] as String,
+      receiverName: json['EmpToT'] as String,
       message: json['Msg'] as String,
       timestamp: _parseTimestamp(json['RDT']),
       step: json['NDFromT'] as String,

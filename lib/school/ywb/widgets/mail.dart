@@ -13,12 +13,12 @@ class YwbMail extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(msg.name),
-      subtitle: Text('${i18n.mailbox.recent}: ${msg.recentStep}'),
-      trailing: Text(msg.status),
+      subtitle: Text('${i18n.mailbox.recent}: ${msg.note}'),
+      trailing: Text(msg.note),
       onTap: () {
         // 跳转到详情页面
         final String resultUrl =
-            'https://xgfy.sit.edu.cn/unifri-flow/WF/mobile/index.html?ismobile=1&FK_Flow=${msg.functionId}&WorkID=${msg.flowId}&IsReadonly=1&IsView=1';
+            'https://xgfy.sit.edu.cn/unifri-flow/WF/mobile/index.html?ismobile=1&FK_Flow=${msg.functionId}&WorkID=${msg.workId}&IsReadonly=1&IsView=1';
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => YwbInAppViewPage(title: msg.name, url: resultUrl)));
       },

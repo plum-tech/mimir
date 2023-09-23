@@ -10,52 +10,62 @@ enum YwbApplicationType {
   complete,
 }
 
-// @JsonSerializable()
-// @HiveType(typeId: HiveTypeYwb.messageCount)
-// class ApplicationMessageCount {
-//   @JsonKey(name: 'myFlow_complete_count')
-//   @HiveField(0)
-//   final int completed;
-//   @JsonKey(name: 'myFlow_runing_count')
-//   @HiveField(1)
-//   final int inProgress;
-//   @JsonKey(name: 'myFlow_todo_count')
-//   @HiveField(2)
-//   final int inDraft;
-//
-//   const ApplicationMessageCount(this.completed, this.inProgress, this.inDraft);
-//
-//   factory ApplicationMessageCount.fromJson(Map<String, dynamic> json) => _$ApplicationMessageCountFromJson(json);
-// }
+final _tsFormat = DateFormat("yyyy-MM-dd hh:mm:ss");
 
-@JsonSerializable()
+DateTime _parseTimestamp(dynamic ts) {
+  return _tsFormat.parse(ts);
+}
+
+@JsonSerializable(createToJson: false)
 @HiveType(typeId: HiveTypeYwb.message)
 class YwbApplication {
   @JsonKey(name: 'WorkID')
   @HiveField(0)
-  final int flowId;
+  final int workId;
   @JsonKey(name: 'FK_Flow')
   @HiveField(1)
   final String functionId;
   @JsonKey(name: 'FlowName')
   @HiveField(2)
   final String name;
-  @JsonKey(name: 'NodeName')
-  @HiveField(3)
-  final String recentStep;
   @JsonKey(name: 'FlowNote')
+  @HiveField(3)
+  final String note;
+  @JsonKey(name: 'RDT', fromJson: _parseTimestamp)
   @HiveField(4)
-  final String status;
+  final DateTime startTs;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @HiveField(5)
+  final List<YwbApplicationTrack> track;
 
-  const YwbApplication(this.flowId, this.functionId, this.name, this.recentStep, this.status);
+  const YwbApplication({
+    required this.workId,
+    required this.functionId,
+    required this.name,
+    required this.note,
+    required this.startTs,
+    this.track = const [],
+  });
+
+  YwbApplication copyWith({
+    int? workId,
+    String? functionId,
+    String? name,
+    String? note,
+    DateTime? startTs,
+    List<YwbApplicationTrack>? track,
+  }) {
+    return YwbApplication(
+      workId: workId ?? this.workId,
+      functionId: functionId ?? this.functionId,
+      name: name ?? this.name,
+      note: note ?? this.note,
+      startTs: startTs ?? this.startTs,
+      track: track ?? this.track,
+    );
+  }
 
   factory YwbApplication.fromJson(Map<String, dynamic> json) => _$YwbApplicationFromJson(json);
-}
-
-final _tsFormat = DateFormat("yyyy-MM-dd hh:mm:ss");
-
-DateTime _parseTimestamp(dynamic ts) {
-  return _tsFormat.parse(ts);
 }
 
 @JsonSerializable(createToJson: false)
@@ -67,9 +77,9 @@ class YwbApplicationTrack {
   @JsonKey(name: "EmpFromT")
   final String senderName;
   @JsonKey(name: "EmpTo")
-  final String recieverId;
+  final String receiverId;
   @JsonKey(name: "EmpToT")
-  final String recieverName;
+  final String receiverName;
   @JsonKey(name: "Msg")
   final String message;
   @JsonKey(name: "RDT", fromJson: _parseTimestamp)
@@ -81,8 +91,8 @@ class YwbApplicationTrack {
     required this.action,
     required this.senderId,
     required this.senderName,
-    required this.recieverId,
-    required this.recieverName,
+    required this.receiverId,
+    required this.receiverName,
     required this.message,
     required this.timestamp,
     required this.step,

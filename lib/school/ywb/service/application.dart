@@ -5,8 +5,6 @@ import 'package:mimir/network/session.dart';
 
 import '../entity/message.dart';
 
-const String serviceMessageCount = 'https://xgfy.sit.edu.cn/unifri-flow/user/queryFlowCount';
-
 String _getMessageListUrl(YwbApplicationType type) {
   final method = switch (type) {
     YwbApplicationType.todo => 'Todolist_Init',
@@ -21,23 +19,6 @@ class YwbApplicationService {
 
   const YwbApplicationService(this.session);
 
-  // Future<ApplicationMessageCount> getMessageCount({
-  //   required String oaAccount,
-  // }) async {
-  //   final response = await session.request(
-  //     serviceMessageCount,
-  //     ReqMethod.post,
-  //     data: "code=$oaAccount",
-  //     options: SessionOptions(
-  //       contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-  //       responseType: ResponseType.json,
-  //     ),
-  //   );
-  //   final Map<String, dynamic> data = response.data;
-  //   final ApplicationMessageCount result = ApplicationMessageCount.fromJson(data['data']);
-  //   return result;
-  // }
-
   Future<List<YwbApplication>> getApplication(YwbApplicationType type) async {
     final response = await session.request(
       _getMessageListUrl(type),
@@ -49,10 +30,33 @@ class YwbApplicationService {
       ),
     );
     final List data = jsonDecode(response.data);
-    // filter empty application.
-    data.retainWhere((e) => (e['WorkID'] as String).isNotEmpty);
+    // filter empty application
+    data.retainWhere((e) => e["WorkID"] is int);
     final List<YwbApplication> messages = data.map((e) => YwbApplication.fromJson(e)).toList();
-    return messages;
+    final res = <YwbApplication>[];
+    for (final msg in messages) {
+      final track = await getTrack(workId: msg.workId, functionId: msg.functionId);
+      res.add(msg.copyWith(track: track));
+    }
+    return res;
+  }
+
+  Future<List<YwbApplicationTrack>> getTrack({
+    required int workId,
+    required String functionId,
+  }) async {
+    final res = await session.request(
+      "http://ywb.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?&DoType=HttpHandler&DoMethod=TimeBase_Init&HttpHandlerName=BP.WF.HttpHandler.WF_WorkOpt_OneWork",
+      ReqMethod.get,
+      data: "WorkID=$workId&FK_Flow=$functionId",
+      options: SessionOptions(
+        contentType: 'application/x-www-form-urlencoded',
+        responseType: ResponseType.json,
+      ),
+    );
+    final List trackRaw = res.data["Track"];
+    final track = trackRaw.map((e) => YwbApplicationTrack.fromJson(e)).toList();
+    return track;
   }
 
   Future<MyYwbApplications> getMyMessage() async {

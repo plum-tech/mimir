@@ -122,7 +122,7 @@ class Init {
     );
 
     YwbInit.init(
-      session : YwbSession(dio: Global.dio),
+      session: YwbSession(dio: Global.dio),
       cookieJar: Global.cookieJar,
       box: HiveInit.ywb,
     );

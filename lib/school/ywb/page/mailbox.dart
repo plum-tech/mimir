@@ -20,6 +20,9 @@ class _YwbMailboxPageState extends State<YwbMailboxPage> {
   @override
   void initState() {
     super.initState();
+    YwbInit.applicationService.getMyMessage().then((value) {
+      debugPrint(value.toString());
+    });
     // YwbInit.messageService.getAllMessage().then((value) {
     //   if (!mounted) return;
     //   setState(() {
