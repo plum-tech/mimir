@@ -82,7 +82,7 @@ class HiveTable<T> {
   }
 
   void _deleteOf(int id) {
-    box.delete("$_rowsK/id");
+    box.delete("$_rowsK/$id");
   }
 
   /// Return a new ID for the [row].
