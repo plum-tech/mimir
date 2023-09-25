@@ -63,13 +63,6 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
             ? i18n.title.text()
             : i18n.balanceInCard(lastTransaction.balanceAfter.toStringAsFixed(2)).text(),
         centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () async {
-                await refresh();
-              },
-              icon: const Icon(Icons.refresh))
-        ],
         bottom: isFetching
             ? const PreferredSize(
                 preferredSize: Size.fromHeight(4),
