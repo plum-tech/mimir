@@ -8,29 +8,32 @@ class _I18n with CommonI18nMixin {
 
   static const ns = "ywb";
 
-  final mailbox = const _Mailbox();
+  final mine = const _Mine();
+  final details = const _Details();
 
   String get title => "$ns.title".tr();
 
-  String get desc => "$ns.desc".tr();
+  String get info => "$ns.info".tr();
 
-  String get mailboxAction => mailbox.title;
+  String get mineAction => mine.title;
 
-  String get noApplicationsTip => "$ns.noApplicationsTip".tr();
-
-  String get apply => "$ns.apply".tr();
-
-  String get filerInfrequentlyUsed => "$ns.filerInfrequentlyUsed".tr();
+  String get noMetaTip => "$ns.noMetaTip".tr();
 }
 
-class _Mailbox {
-  const _Mailbox();
+class _Mine {
+  const _Mine();
 
-  static const ns = "${_I18n.ns}.mailbox";
+  static const ns = "${_I18n.ns}.mine";
 
   String get title => "$ns.title".tr();
 
-  String get noMailsTip => "$ns.noMailsTip".tr();
+  String get noApplicationsTip => "$ns.noApplicationsTip".tr();
+}
 
-  String get recent => "$ns.recent".tr();
+class _Details {
+  const _Details();
+
+  static const ns = "${_I18n.ns}.details";
+
+  String get apply => "$ns.apply".tr();
 }

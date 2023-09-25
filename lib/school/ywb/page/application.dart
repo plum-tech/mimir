@@ -9,14 +9,14 @@ import '../init.dart';
 import '../widgets/mail.dart';
 import '../i18n.dart';
 
-class YwbMailboxPage extends StatefulWidget {
-  const YwbMailboxPage({super.key});
+class YwbMyApplicationListPage extends StatefulWidget {
+  const YwbMyApplicationListPage({super.key});
 
   @override
-  State<YwbMailboxPage> createState() => _YwbMailboxPageState();
+  State<YwbMyApplicationListPage> createState() => _YwbMyApplicationListPageState();
 }
 
-class _YwbMailboxPageState extends State<YwbMailboxPage> {
+class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
   MyYwbApplications? applications;
 
   bool isLoading = false;
@@ -69,7 +69,7 @@ class _YwbMailboxPageState extends State<YwbMailboxPage> {
                 handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
                   pinned: true,
-                  title: i18n.mailbox.title.text(),
+                  title: i18n.mine.title.text(),
                   forceElevated: innerBoxIsScrolled,
                   bottom: TabBar(
                     isScrollable: true,
@@ -118,7 +118,7 @@ class YwbMailList extends StatelessWidget {
           SliverFillRemaining(
             child: LeavingBlank(
               icon: Icons.inbox_outlined,
-              desc: i18n.mailbox.noMailsTip,
+              desc: i18n.mine.noApplicationsTip,
             ),
           )
         else

@@ -10,24 +10,23 @@ import '../page/form.dart';
 import '../widgets/detail.dart';
 import "../i18n.dart";
 
-class YwbApplicationDetailsPage extends StatefulWidget {
+class YwbApplicationMetaDetailsPage extends StatefulWidget {
   final YwbApplicationMeta meta;
 
-  const YwbApplicationDetailsPage({super.key, required this.meta});
+  const YwbApplicationMetaDetailsPage({super.key, required this.meta});
 
   @override
-  State<YwbApplicationDetailsPage> createState() => _YwbApplicationDetailsPageState();
+  State<YwbApplicationMetaDetailsPage> createState() => _YwbApplicationMetaDetailsPageState();
 }
 
-class _YwbApplicationDetailsPageState extends State<YwbApplicationDetailsPage> {
-  YwbApplicationMeta get meta => widget.meta;
+class _YwbApplicationMetaDetailsPageState extends State<YwbApplicationMetaDetailsPage> {
   YwbApplicationMetaDetails? details;
   final controller = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    YwbInit.metaService.getApplicationDetails(meta.id).then((value) {
+    YwbInit.metaService.getApplicationDetails(widget.meta.id).then((value) {
       if (!mounted) return;
       setState(() {
         details = value;
@@ -50,7 +49,7 @@ class _YwbApplicationDetailsPageState extends State<YwbApplicationDetailsPage> {
         slivers: [
           SliverAppBar(
             pinned: true,
-            title: Text(meta.name).hero(meta.id),
+            title: Text(widget.meta.name).hero(widget.meta.id),
             bottom: details != null
                 ? null
                 : const PreferredSize(
@@ -70,7 +69,7 @@ class _YwbApplicationDetailsPageState extends State<YwbApplicationDetailsPage> {
         controller: controller,
         onPressed: () => openInApp(),
         icon: const Icon(Icons.east),
-        label: i18n.apply.text(),
+        label: i18n.details.apply.text(),
       ),
     );
   }
@@ -81,8 +80,8 @@ class _YwbApplicationDetailsPageState extends State<YwbApplicationDetailsPage> {
     } else {
       // 跳转到申请页面
       final String applyUrl =
-          'http://ywb.sit.edu.cn/v1/#/flow?src=http://ywb.sit.edu.cn/unifri-flow/WF/MyFlow.htm?FK_Flow=${meta.id}';
-      context.navigator.push(MaterialPageRoute(builder: (_) => YwbInAppViewPage(title: meta.name, url: applyUrl)));
+          'http://ywb.sit.edu.cn/v1/#/flow?src=http://ywb.sit.edu.cn/unifri-flow/WF/MyFlow.htm?FK_Flow=${widget.meta.id}';
+      context.navigator.push(MaterialPageRoute(builder: (_) => YwbInAppViewPage(title: widget.meta.name, url: applyUrl)));
     }
   }
 }

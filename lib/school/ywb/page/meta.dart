@@ -10,19 +10,14 @@ import '../widgets/application.dart';
 import "package:mimir/credential/widgets/oa_scope.dart";
 import '../i18n.dart';
 
-// 本科生常用功能列表
-const _commonUsed = <String>{'121', '011', '047', '123', '124', '024', '125', '165', '075', '202', '023', '067', '059'};
-
-class YwbApplicationListPage extends StatefulWidget {
-  const YwbApplicationListPage({super.key});
+class YwbApplicationMetaListPage extends StatefulWidget {
+  const YwbApplicationMetaListPage({super.key});
 
   @override
-  State<YwbApplicationListPage> createState() => _YwbApplicationListPageState();
+  State<YwbApplicationMetaListPage> createState() => _YwbApplicationMetaListPageState();
 }
 
-class _YwbApplicationListPageState extends State<YwbApplicationListPage> {
-  var enableFilter = false;
-
+class _YwbApplicationMetaListPageState extends State<YwbApplicationMetaListPage> {
   /// in descending order
   List<YwbApplicationMeta>? metas;
 
@@ -66,18 +61,9 @@ class _YwbApplicationListPageState extends State<YwbApplicationListPage> {
               onPressed: () async {
                 await context.showTip(
                   title: i18n.title,
-                  desc: i18n.desc,
+                  desc: i18n.info,
                   ok: i18n.close,
                 );
-              },
-            ),
-            IconButton(
-              icon: enableFilter ? const Icon(Icons.filter_alt_outlined) : const Icon(Icons.filter_alt_off_outlined),
-              tooltip: i18n.filerInfrequentlyUsed,
-              onPressed: () {
-                setState(() {
-                  enableFilter = !enableFilter;
-                });
               },
             ),
           ],
@@ -93,21 +79,15 @@ class _YwbApplicationListPageState extends State<YwbApplicationListPage> {
             SliverFillRemaining(
               child: LeavingBlank(
                 icon: Icons.inbox_outlined,
-                desc: i18n.noApplicationsTip,
+                desc: i18n.noMetaTip,
               ),
             )
           else
-            buildApplicationList(metas),
+            SliverList.builder(
+              itemCount: metas.length,
+              itemBuilder: (ctx, i) => ApplicationTile(meta: metas[i], isHot: i < 3),
+            ),
       ],
-    );
-  }
-
-  /// [list] is in descending order
-  Widget buildApplicationList(List<YwbApplicationMeta> list) {
-    list = enableFilter ? list.where((meta) => _commonUsed.contains(meta.id)).toList() : list;
-    return SliverList.builder(
-      itemCount: list.length,
-      itemBuilder: (ctx, i) => ApplicationTile(meta: list[i], isHot: i < 3),
     );
   }
 }

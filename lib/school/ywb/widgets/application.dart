@@ -52,7 +52,7 @@ class ApplicationTile extends StatelessWidget {
       trailing: views,
       onTap: () {
         // TODO: details page
-        context.navigator.push(MaterialPageRoute(builder: (_) => YwbApplicationDetailsPage(meta: meta)));
+        context.navigator.push(MaterialPageRoute(builder: (_) => YwbApplicationMetaDetailsPage(meta: meta)));
       },
     );
   }

@@ -27,9 +27,9 @@ class _YwbAppCardState extends State<YwbAppCard> {
         ),
         OutlinedButton.icon(
           onPressed: () {
-            context.push("/ywb/mailbox");
+            context.push("/ywb/mine");
           },
-          label: i18n.mailboxAction.text(),
+          label: i18n.mineAction.text(),
           icon: const Icon(Icons.mail_outlined),
         )
       ],

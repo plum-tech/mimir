@@ -101,16 +101,16 @@ class2nd:
   undertaker: Undertaker
 ywb:
   title: SIT YWB
-  desc: |
+  info: |
     This function is based on "SIT YWB".
     For most of types, you have to do the necessary procedure on the spot although you submitted an application online.
   apply: Apply
-  filerInfrequentlyUsed: Filter Infrequently-used
-  noApplicationsTip: No applications
-  mailbox:
-    title: Mailbox
-    noMailsTip: No mails
-    recent: Recent
+  noMetaTip: No applications
+  mine:
+    title: My applications
+    noApplicationsTip: No applications
+  details:
+    apply: Apply
   type:
     todo: Todo
     running: Running

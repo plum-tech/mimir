@@ -101,16 +101,16 @@ class2nd:
   undertaker: 承辦人
 ywb:
   title: 應網辦
-  desc: |
+  info: |
     此功能基於 "上应一网通办"。
     就大多數業務而言，即使你已在平台上完成申請，依舊需要到現場辦理。
   apply: 申請
-  filerInfrequentlyUsed: 篩選不常用的
-  noApplicationsTip: 無可用申請
-  mailbox:
-    title: 站內信
-    noMailsTip: 無站內信
-    recent: 最近
+  noMetaTip: 無可用申請
+  mine:
+    title: 我的申請
+    noApplicationsTip: 無申請
+  details:
+    apply: 申請
   type:
     todo: 待辦
     running: 在途

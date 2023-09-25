@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
-import 'package:mimir/school/ywb/page/list.dart';
-import 'package:mimir/school/ywb/page/mailbox.dart';
+import 'package:mimir/school/ywb/page/meta.dart';
+import 'package:mimir/school/ywb/page/application.dart';
 import 'package:mimir/settings/page/life.dart';
 import 'package:mimir/settings/page/proxy.dart';
 import 'package:mimir/settings/page/school.dart';
@@ -290,12 +290,12 @@ final router = GoRouter(
     ),
     GoRoute(
       path: "/ywb",
-      builder: (ctx, state) => const YwbApplicationListPage(),
+      builder: (ctx, state) => const YwbApplicationMetaListPage(),
       redirect: _loginRequired,
       routes: [
         GoRoute(
-          path: "mailbox",
-          builder: (ctx, state) => const YwbMailboxPage(),
+          path: "mine",
+          builder: (ctx, state) => const YwbMyApplicationListPage(),
         ),
       ],
     ),
