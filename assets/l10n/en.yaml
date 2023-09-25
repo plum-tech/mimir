@@ -330,6 +330,9 @@ settings:
   proxy:
     title: HTTP proxy
     desc: Connect to the campus network by HTTP proxy
+    enableProxy:
+      title: Enable HTTP proxy
+      desc: Proxy your HTTP requests
     global: Use as global proxy
     globalDesc: For debugging, exclude Webview
     proxyAddress: Proxy Address

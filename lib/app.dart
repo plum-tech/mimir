@@ -8,7 +8,6 @@ import 'package:mimir/r.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/session/widgets/scope.dart';
 import 'package:mimir/settings/settings.dart';
-import 'package:rettulf/rettulf.dart';
 
 class MimirApp extends StatefulWidget {
   const MimirApp({super.key});
@@ -18,7 +17,7 @@ class MimirApp extends StatefulWidget {
 }
 
 class _MimirAppState extends State<MimirApp> {
-  final onThemeChanged = Settings.listenThemeChange();
+  final onThemeChanged = Settings.theme.listenThemeChange();
 
   @override
   void initState() {
@@ -38,7 +37,7 @@ class _MimirAppState extends State<MimirApp> {
 
   @override
   Widget build(BuildContext context) {
-    final themeColor = Settings.themeColor ?? Colors.red;
+    final themeColor = Settings.theme.themeColor ?? Colors.red;
 
     ThemeData bakeTheme(ThemeData origin) {
       return origin.copyWith(
@@ -70,7 +69,7 @@ class _MimirAppState extends State<MimirApp> {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      themeMode: Settings.themeMode,
+      themeMode: Settings.theme.themeMode,
       theme: bakeTheme(ThemeData.light(
         useMaterial3: true,
       )),

@@ -106,8 +106,8 @@ class MimirHttpOverrides extends HttpOverrides {
   HttpClient createHttpClient(SecurityContext? context) {
     final client = super.createHttpClient(context);
 
-    final httpProxy = Settings.httpProxy;
-    final useHttpProxy = Settings.useHttpProxy;
+    final httpProxy = Settings.httpProxy.address;
+    final useHttpProxy = Settings.httpProxy.enableHttpProxy;
     // 设置证书检查
     if (config.allowBadCertificate || useHttpProxy || httpProxy != null) {
       client.badCertificateCallback = (cert, host, port) => true;

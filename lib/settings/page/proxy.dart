@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mimir/design/adaptive/editor.dart';
+import 'package:mimir/global/init.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
@@ -29,28 +31,57 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
             ),
           ),
           SliverList(
-            delegate: SliverChildListDelegate([]),
+            delegate: SliverChildListDelegate([
+              buildEnableProxyToggle(),
+              buildProxyAddressTile(),
+            ]),
           ),
         ],
       ),
     );
   }
 
-  Widget buildClass2ndAutoRefreshToggle() {
-    return StatefulBuilder(
-      builder: (ctx, setState) => ListTile(
-        title: i18n.school.class2nd.autoRefreshTitle.text(),
-        subtitle: i18n.school.class2nd.autoRefreshDesc.text(),
-        leading: const Icon(Icons.refresh_outlined),
-        trailing: Switch.adaptive(
-          value: Settings.school.class2nd.autoRefresh,
-          onChanged: (newV) {
-            setState(() {
-              Settings.school.class2nd.autoRefresh = newV;
-            });
-          },
-        ),
-      ),
-    );
+  Widget buildEnableProxyToggle() {
+    return Settings.httpProxy.listenHttpProxy() >>
+        (ctx, _) => ListTile(
+              title: i18n.proxy.enableProxyTitle.text(),
+              subtitle: i18n.proxy.enableProxyDesc.text(),
+              leading: const Icon(Icons.vpn_key),
+              trailing: Switch.adaptive(
+                value: Settings.httpProxy.enableHttpProxy,
+                onChanged: validateHttpProxy(Settings.httpProxy.address)
+                    ? (newV) async {
+                        Settings.httpProxy.enableHttpProxy = newV;
+                        await Init.init();
+                      }
+                    : null,
+              ),
+            );
   }
+
+  Widget buildProxyAddressTile() {
+    return Settings.httpProxy.listenHttpProxy() >>
+        (ctx, _) => ListTile(
+              leading: const Icon(Icons.link),
+              title: i18n.proxy.proxyAddress.text(),
+              subtitle: Settings.httpProxy.address.text(),
+              onTap: () async {
+                final newPwd = await Editor.showStringEditor(
+                  context,
+                  desc: i18n.proxy.proxyAddress,
+                  initial: Settings.httpProxy.address,
+                );
+                if (newPwd != Settings.httpProxy.address) {
+                  Settings.httpProxy.address = newPwd;
+                  await Init.init();
+                }
+              },
+              trailing: const Icon(Icons.edit),
+            );
+  }
+}
+
+bool validateHttpProxy(String? proxy) {
+  if (proxy == null) return false;
+  return proxy.isNotEmpty;
 }

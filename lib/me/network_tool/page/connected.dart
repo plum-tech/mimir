@@ -62,7 +62,7 @@ class _ConnectedInfoState extends State<ConnectedInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final useProxy = Settings.useHttpProxy;
+    final useProxy = Settings.httpProxy.enableHttpProxy;
     final icon = useProxy ? Icons.vpn_key : getConnectionTypeIcon(connectionType);
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 500),

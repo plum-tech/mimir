@@ -13,20 +13,6 @@ class _K {
   static const campus = '$ns/campus';
 }
 
-class _ThemeK {
-  static const ns = '/theme';
-  static const themeColor = '$ns/themeColor';
-  static const themeMode = '$ns/themeMode';
-  static const lastWindowSize = '$ns/lastWindowSize';
-}
-
-class _NetworkK {
-  static const ns = '/network';
-  static const httpProxy = '$ns/httpProxy';
-  static const useHttpProxy = '$ns/useHttpProxy';
-  static const isGlobalHttpProxy = '$ns/isGlobalHttpProxy';
-}
-
 class _DeveloperK {
   static const ns = '/developer';
   static const showErrorInfoDialog = '$ns/showErrorInfoDialog';
@@ -44,6 +30,8 @@ class SettingsImpl {
   late final life = LifeSettings(box);
   late final timetable = TimetableSettings(box);
   late final school = SchoolSettings(box);
+  late final theme = _Theme(box);
+  late final httpProxy = _HttpProxy(box);
 
   // settings
   Campus get campus => box.get(_K.campus) ?? Campus.fengxian;
@@ -51,6 +39,35 @@ class SettingsImpl {
   set campus(Campus newV) => box.put(_K.campus, newV);
 
   ValueListenable<Box> listenCampus() => box.listenable(keys: [_K.campus]);
+
+  Size? get lastWindowSize => box.get(_ThemeK.lastWindowSize, defaultValue: R.defaultWindowSize);
+
+  set lastWindowSize(Size? value) => box.put(_ThemeK.lastWindowSize, value ?? R.defaultWindowSize);
+
+  // Developer
+  bool? get showErrorInfoDialog => box.get(_DeveloperK.showErrorInfoDialog);
+
+  set showErrorInfoDialog(bool? newV) => box.put(_DeveloperK.showErrorInfoDialog, newV);
+
+  /// [false] by default.
+  bool get isDeveloperMode => box.get(_DeveloperK.devMode) ?? false;
+
+  set isDeveloperMode(bool newV) => box.put(_DeveloperK.devMode, newV);
+
+  ValueListenable<Box> listenIsDeveloperMode() => box.listenable(keys: [_DeveloperK.devMode]);
+}
+
+class _ThemeK {
+  static const ns = '/theme';
+  static const themeColor = '$ns/themeColor';
+  static const themeMode = '$ns/themeMode';
+  static const lastWindowSize = '$ns/lastWindowSize';
+}
+
+class _Theme {
+  final Box<dynamic> box;
+
+  const _Theme(this.box);
 
   // theme
   Color? get themeColor {
@@ -74,35 +91,34 @@ class SettingsImpl {
   ValueListenable<Box> listenThemeMode() => box.listenable(keys: [_ThemeK.themeMode]);
 
   ValueListenable<Box> listenThemeChange() => box.listenable(keys: [_ThemeK.themeMode, _ThemeK.themeColor]);
+}
 
-  Size? get lastWindowSize => box.get(_ThemeK.lastWindowSize, defaultValue: R.defaultWindowSize);
+class _HttpProxyK {
+  static const ns = '/httpProxy';
+  static const address = '$ns/address';
+  static const useHttpProxy = '$ns/useHttpProxy';
+  static const isGlobalHttpProxy = '$ns/isGlobalHttpProxy';
+}
 
-  set lastWindowSize(Size? value) => box.put(_ThemeK.lastWindowSize, value ?? R.defaultWindowSize);
+class _HttpProxy {
+  final Box<dynamic> box;
+
+  const _HttpProxy(this.box);
 
   // network
-  String? get httpProxy => box.get(_NetworkK.httpProxy);
+  String get address => box.get(_HttpProxyK.address) ?? "localhost";
 
-  set httpProxy(String? newV) => box.put(_NetworkK.httpProxy, newV);
-
-  /// [false] by default.
-  bool get useHttpProxy => box.get(_NetworkK.useHttpProxy) ?? false;
-
-  set useHttpProxy(bool newV) => box.put(_NetworkK.useHttpProxy, newV);
+  set address(String newV) => box.put(_HttpProxyK.address, newV);
 
   /// [false] by default.
-  bool get isGlobalHttpProxy => box.get(_NetworkK.isGlobalHttpProxy) ?? false;
+  bool get enableHttpProxy => box.get(_HttpProxyK.useHttpProxy) ?? false;
 
-  set isGlobalHttpProxy(bool newV) => box.put(_NetworkK.isGlobalHttpProxy, newV);
+  set enableHttpProxy(bool newV) => box.put(_HttpProxyK.useHttpProxy, newV);
 
-  // Developer
-  bool? get showErrorInfoDialog => box.get(_DeveloperK.showErrorInfoDialog);
-
-  set showErrorInfoDialog(bool? newV) => box.put(_DeveloperK.showErrorInfoDialog, newV);
+  ValueListenable listenHttpProxy() => box.listenable(keys: [_HttpProxyK.useHttpProxy, _HttpProxyK.address]);
 
   /// [false] by default.
-  bool get isDeveloperMode => box.get(_DeveloperK.devMode) ?? false;
+  bool get isGlobalHttpProxy => box.get(_HttpProxyK.isGlobalHttpProxy) ?? false;
 
-  set isDeveloperMode(bool newV) => box.put(_DeveloperK.devMode, newV);
-
-  ValueListenable<Box> listenIsDeveloperMode() => box.listenable(keys: [_DeveloperK.devMode]);
+  set isGlobalHttpProxy(bool newV) => box.put(_HttpProxyK.isGlobalHttpProxy, newV);
 }

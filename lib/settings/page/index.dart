@@ -66,41 +66,6 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
     );
 /*
-      SettingsGroup(title: i18n.networking, children: <Widget>[
-        SwitchSettingsTile(
-          settingKey: '/network/useProxy',
-          defaultValue: Kv.network.useProxy,
-          title: i18n.settingsHttpProxy,
-          subtitle: i18n.settingsHttpProxySub,
-          leading: const Icon(Icons.vpn_key),
-          onChange: (value) async {
-            Kv.network.useProxy = value;
-            await Initializer.init();
-          },
-          childrenIfEnabled: [
-            SwitchSettingsTile(
-              settingKey: '/network/isGlobalProxy',
-              defaultValue: Kv.network.isGlobalProxy,
-              title: i18n.settingsHttpProxyGlobal,
-              subtitle: i18n.settingsHttpProxyGlobalSub,
-              leading: const Icon(Icons.network_check),
-              onChange: (value) async {
-                Kv.network.isGlobalProxy = value;
-                await Initializer.init(debugNetwork: value);
-              },
-            ),
-            TextInputSettingsTile(
-              title: i18n.settingsProxyAddress,
-              settingKey: '/network/proxy',
-              initialValue: Kv.network.proxy,
-              validator: proxyValidator,
-              onChange: (value) async {
-                Kv.network.proxy = value;
-                if (Kv.network.useProxy) {
-                  await Initializer.init();
-                }
-              },
-            ),
             SimpleSettingsTile(
                 title: i18n.settingsTestConnect2School,
                 subtitle: i18n.settingsTestConnect2SchoolSub,
@@ -251,7 +216,7 @@ class ThemeModeTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return StatefulBuilder(
       builder: (ctx, setState) => ListTile(
-        leading: switch (Settings.themeMode) {
+        leading: switch (Settings.theme.themeMode) {
           ThemeMode.dark => const Icon(Icons.dark_mode),
           ThemeMode.light => const Icon(Icons.light_mode),
           ThemeMode.system => const Icon(Icons.brightness_6),
@@ -268,10 +233,10 @@ class ThemeModeTile extends StatelessWidget {
                     label: i18n.themeMode.of(e).text(),
                   ))
               .toList(),
-          selected: <ThemeMode>{Settings.themeMode},
+          selected: <ThemeMode>{Settings.theme.themeMode},
           onSelectionChanged: (newSelection) {
             setState(() {
-              Settings.themeMode = newSelection.first;
+              Settings.theme.themeMode = newSelection.first;
             });
           },
         ),

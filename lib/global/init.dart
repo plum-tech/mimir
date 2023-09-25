@@ -28,6 +28,7 @@ import 'package:universal_platform/universal_platform.dart';
 class Init {
   static late AppVersion currentVersion;
 
+  // TODO: Separate network initialization from it
   static Future<void> init() async {
     // 运行前初始化
     try {
@@ -39,6 +40,7 @@ class Init {
   }
 
   static Future<void> _init() async {
+    debugPrint("Initializing");
     // Initialize the window size before others for a better experience when loading.
     if (UniversalPlatform.isDesktop) {
       await DesktopInit.init();
