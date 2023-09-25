@@ -107,11 +107,13 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
         )
       ],
       rightActions: [
-        if (summary != null && !isCupertino)
+        if (!isCupertino)
           IconButton(
-            onPressed: () async {
-              await shareSummery(summary: summary, target: getTargetScore(), context: context);
-            },
+            onPressed: summary != null
+                ? () async {
+                    await shareSummery(summary: summary, target: getTargetScore(), context: context);
+                  }
+                : null,
             icon: const Icon(Icons.share_outlined),
           ),
       ],
