@@ -181,6 +181,7 @@ expenseRecords:
   lastTransaction: "¥{amount} {place}"
   income: "Income: ¥{}"
   outcome: "Outcome: ¥{}"
+  noTransactionsTip: No transactions
   refreshSuccessTip: Expense records refreshed successfully
   refreshFailedTip: Failed to refresh Expense records
   statsMode:

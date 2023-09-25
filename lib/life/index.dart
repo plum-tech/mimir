@@ -65,6 +65,8 @@ class _LifePageState extends State<LifePage> {
             const SliverToBoxAdapter(
               child: ElectricityBalanceAppCard(),
             ),
+          // FIXME: https://github.com/flutter/flutter/issues/36158
+          const SliverFillRemaining(),
         ],
       ).safeArea(),
     );

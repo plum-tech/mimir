@@ -44,13 +44,22 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
     setState(() {
       isFetching = true;
     });
-    await fetchAndSaveTransactionUntilNow(
-      studentId: oaCredential.account,
-    );
-    setState(() {
-      records = ExpenseRecordsInit.storage.getTransactionsByRange();
-      isFetching = false;
-    });
+    try {
+      await fetchAndSaveTransactionUntilNow(
+        studentId: oaCredential.account,
+      );
+      setState(() {
+        records = ExpenseRecordsInit.storage.getTransactionsByRange();
+        isFetching = false;
+      });
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      if (!mounted) return;
+      setState(() {
+        isFetching = false;
+      });
+    }
   }
 
   @override
@@ -70,7 +79,12 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
               )
             : null,
       ),
-      body: records == null ? const SizedBox() : TransactionList(records: records),
+      body: RefreshIndicator.adaptive(
+        onRefresh: () async {
+          await refresh();
+        },
+        child: records == null ? const SizedBox() : TransactionList(records: records),
+      ),
     );
   }
 }

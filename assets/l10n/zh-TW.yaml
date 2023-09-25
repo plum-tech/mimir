@@ -183,6 +183,7 @@ expenseRecords:
   outcome: "消費: ¥{}"
   balanceInCard: "卡內餘額 ¥{}"
   lastTransaction: "¥{amount} {place}"
+  noTransactionsTip: 無交易記錄
   refreshSuccessTip: 消費記錄重新整理成功
   refreshFailedTip: 消費記錄重新整理失敗
   statsMode:

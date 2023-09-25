@@ -181,6 +181,7 @@ expenseRecords:
   lastTransaction: "¥{amount} {place}"
   income: "收入: {} 元"
   outcome: "支出: {} 元"
+  noTransactionsTip: 没有交易记录
   refreshSuccessTip: 消费记录刷新成功
   refreshFailedTip: 消费记录刷新失败
   statsMode:
