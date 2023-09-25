@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/school/ywb/storage/application.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/application.dart';
@@ -29,13 +30,15 @@ class _YwbMailboxPageState extends State<YwbMailboxPage> {
   Future<void> refresh() async {
     if (!mounted) return;
     setState(() {
+      applications = YwbInit.applicationStorage.myApplications;
       isLoading = true;
     });
     try {
-      final myApplication = await YwbInit.applicationService.getMyApplications();
+      final myApplications = await YwbInit.applicationService.getMyApplications();
+      YwbInit.applicationStorage.myApplications = myApplications;
       if (!mounted) return;
       setState(() {
-        applications = myApplication;
+        applications = myApplications;
         isLoading = false;
       });
     } catch (error, stackTrace) {

@@ -4,13 +4,14 @@ import 'package:mimir/session/ywb.dart';
 
 import 'service/meta.dart';
 import 'service/application.dart';
+import 'storage/meta.dart';
 import 'storage/application.dart';
-import 'storage/message.dart';
 
 class YwbInit {
   static late CookieJar cookieJar;
   static late YwbApplicationMetaService metaService;
   static late YwbApplicationService applicationService;
+  static late YwbApplicationStorage applicationStorage;
   static late YwbSession session;
 
   static void init({
@@ -22,5 +23,6 @@ class YwbInit {
     YwbInit.session = session;
     metaService = YwbApplicationMetaService(session);
     applicationService = YwbApplicationService(session);
+    applicationStorage = YwbApplicationStorage(box);
   }
 }

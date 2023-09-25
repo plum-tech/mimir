@@ -1,35 +1,56 @@
 import 'package:hive/hive.dart';
-import 'package:mimir/cache/box.dart';
 
-import '../entity/meta.dart';
+import '../entity/application.dart';
 
-class ApplicationStorageBox with CachedBox {
-  @override
-  final Box<dynamic> box;
-  late final details = namespace<YwbApplicationMetaDetails, String>("/details", makeDetailsKey);
-  late final metas = namedList<YwbApplicationMeta>("/metas");
-
-  String makeDetailsKey(String applicationId) => applicationId;
-
-  ApplicationStorageBox(this.box);
+class _K {
+  static const ns = "/application";
+  static const todo = "$ns/todo";
+  static const running = "$ns/running";
+  static const complete = "$ns/complete";
 }
 
-class ApplicationStorage {
-  final ApplicationStorageBox box;
+class YwbApplicationStorage {
+  final Box<dynamic> box;
 
-  ApplicationStorage(Box<dynamic> hive) : box = ApplicationStorageBox(hive);
+  const YwbApplicationStorage(this.box);
 
-  List<YwbApplicationMeta>? get applicationMetas => box.metas.value;
+  List<YwbApplication>? get todo => (box.get(_K.todo) as List?)?.cast<YwbApplication>();
 
-  set applicationMetas(List<YwbApplicationMeta>? metas) => box.metas.value = metas;
+  set todo(List<YwbApplication>? newV) => box.put(_K.todo, newV);
 
-  YwbApplicationMetaDetails? getApplicationDetails(String applicationId) {
-    final cacheKey = box.details.make(applicationId);
-    return cacheKey.value;
+  List<YwbApplication>? get running => (box.get(_K.running) as List?)?.cast<YwbApplication>();
+
+  set running(List<YwbApplication>? newV) => box.put(_K.running, newV);
+
+  List<YwbApplication>? get complete => (box.get(_K.complete) as List?)?.cast<YwbApplication>();
+
+  set complete(List<YwbApplication>? newV) => box.put(_K.complete, newV);
+}
+
+extension YwbApplicationStorageX on YwbApplicationStorage {
+  MyYwbApplications? get myApplications {
+    final todo = this.todo;
+    final running = this.running;
+    final complete = this.complete;
+    if (todo == null || running == null || complete == null) {
+      return null;
+    }
+    return (
+      todo: todo,
+      running: running,
+      complete: complete,
+    );
   }
 
-  void setApplicationDetail(String applicationId, YwbApplicationMetaDetails? detail) {
-    final cacheKey = box.details.make(applicationId);
-    cacheKey.value = detail;
+  set myApplications(MyYwbApplications? newV) {
+    if (newV == null) {
+      todo = null;
+      running = null;
+      complete = null;
+    } else {
+      todo = newV.todo;
+      running = newV.running;
+      complete = newV.complete;
+    }
   }
 }
