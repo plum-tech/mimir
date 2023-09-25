@@ -13,7 +13,6 @@ class YwbApplicationMetaService {
   const YwbApplicationMetaService(this.session);
 
   Future<List<YwbApplicationMeta>> getApplicationMetas() async {
-
     final response = await session.request(
       _serviceFunctionList,
       ReqMethod.post,

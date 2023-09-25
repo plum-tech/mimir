@@ -81,7 +81,8 @@ class _YwbApplicationMetaDetailsPageState extends State<YwbApplicationMetaDetail
       // 跳转到申请页面
       final String applyUrl =
           'http://ywb.sit.edu.cn/v1/#/flow?src=http://ywb.sit.edu.cn/unifri-flow/WF/MyFlow.htm?FK_Flow=${widget.meta.id}';
-      context.navigator.push(MaterialPageRoute(builder: (_) => YwbInAppViewPage(title: widget.meta.name, url: applyUrl)));
+      context.navigator
+          .push(MaterialPageRoute(builder: (_) => YwbInAppViewPage(title: widget.meta.name, url: applyUrl)));
     }
   }
 }

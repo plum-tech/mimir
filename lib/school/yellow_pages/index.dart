@@ -80,13 +80,6 @@ class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
   Widget buildHistory(List<SchoolContact> history) {
     if (history.isEmpty) return const SizedBox();
     final contacts = history.sublist(0, min(_historyLength, history.length));
-    return contacts
-        .map(
-          (contact) {
-            return ContactTile(contact).inCard();
-          },
-        )
-        .toList()
-        .column(mas: MainAxisSize.min);
+    return contacts.map((contact) => ContactTile(contact).inCard()).toList().column(mas: MainAxisSize.min);
   }
 }

@@ -61,6 +61,7 @@ class HiveAdapter {
     ~YwbApplicationMetaDetailsAdapter();
     ~YwbApplicationMetaAdapter();
     ~YwbApplicationAdapter();
+    ~YwbApplicationTrackAdapter();
 
     // Exam Result
     ~ExamResultAdapter();

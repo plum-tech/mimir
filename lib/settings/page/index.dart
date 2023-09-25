@@ -126,20 +126,6 @@ class _SettingsPageState extends State<SettingsPage> {
     all.add(const VersionTile());
     return all;
   }
-
-/*
-
-  void _testPassword(BuildContext context, OACredential oaCredential) async {
-    try {
-      await Global.ssoSession.loginActive(oaCredential);
-      if (!mounted) return;
-      await context.showTip(title: i18n.success, desc: i18n.loginSuccessfulTip, ok: i18n.close);
-    } catch (e) {
-      if (!mounted) return;
-      await context.showTip(title: i18n.loginFailedWarn, desc: e.toString().split('\n')[0], ok: i18n.close);
-    }
-  }
-*/
 }
 
 class VersionTile extends StatefulWidget {
@@ -190,6 +176,7 @@ class _VersionTileState extends State<VersionTile> {
               if (clickCount >= 10) {
                 clickCount = 0;
                 Settings.isDeveloperMode = true;
+                // TODO: i18n
                 context.showSnackBar(const Text("Developer mode is on."));
               }
             },

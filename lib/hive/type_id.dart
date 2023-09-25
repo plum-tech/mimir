@@ -64,10 +64,8 @@ class HiveTypeYwb {
   static const metaDetails = 80;
   static const metaDetailSection = 81;
   static const meta = 82;
-  static const message = 83;
-  static const messagePage = 84;
-  static const messageCount = 85;
-  static const messageType = 86;
+  static const application = 83;
+  static const applicationTrack = 84;
 }
 
 /// Ywb 90-99

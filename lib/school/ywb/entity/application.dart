@@ -20,7 +20,7 @@ DateTime _parseTimestamp(dynamic ts) {
 }
 
 @JsonSerializable(createToJson: false)
-@HiveType(typeId: HiveTypeYwb.message)
+@HiveType(typeId: HiveTypeYwb.application)
 class YwbApplication {
   @JsonKey(name: 'WorkID')
   @HiveField(0)
@@ -72,24 +72,34 @@ class YwbApplication {
 }
 
 @JsonSerializable(createToJson: false)
+@HiveType(typeId: HiveTypeYwb.applicationTrack)
 class YwbApplicationTrack {
   @JsonKey(name: "ActionType")
+  @HiveField(0)
   final int actionType;
   @JsonKey(name: "ActionTypeText")
+  @HiveField(1)
   final String action;
   @JsonKey(name: "EmpFrom")
+  @HiveField(2)
   final String senderId;
   @JsonKey(name: "EmpFromT", fromJson: mapChinesePunctuations)
+  @HiveField(3)
   final String senderName;
   @JsonKey(name: "EmpTo")
+  @HiveField(4)
   final String receiverId;
   @JsonKey(name: "EmpToT", fromJson: mapChinesePunctuations)
+  @HiveField(5)
   final String receiverName;
   @JsonKey(name: "Msg", fromJson: mapChinesePunctuations)
+  @HiveField(6)
   final String message;
   @JsonKey(name: "RDT", fromJson: _parseTimestamp)
+  @HiveField(7)
   final DateTime timestamp;
   @JsonKey(name: "NDFromT", fromJson: mapChinesePunctuations)
+  @HiveField(8)
   final String step;
 
   bool get isActionOk {
