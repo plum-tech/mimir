@@ -1,35 +1,25 @@
 import 'package:hive/hive.dart';
-import 'package:mimir/cache/box.dart';
 
 import '../entity/meta.dart';
 
-class ApplicationStorageBox with CachedBox {
-  @override
-  final Box<dynamic> box;
-  late final details = namespace<YwbApplicationMetaDetails, String>("/details", makeDetailsKey);
-  late final metas = namedList<YwbApplicationMeta>("/metas");
+class _K {
+  static const ns = "/meta";
+  static const metaList = "$ns/metaList";
 
-  String makeDetailsKey(String applicationId) => applicationId;
-
-  ApplicationStorageBox(this.box);
+  static String details(String applicationId) => "$ns/details/$applicationId";
 }
 
-class ApplicationStorage {
-  final ApplicationStorageBox box;
+class YwbApplicationMetaStorage {
+  final Box<dynamic> box;
 
-  ApplicationStorage(Box<dynamic> hive) : box = ApplicationStorageBox(hive);
+  const YwbApplicationMetaStorage(this.box);
 
-  List<YwbApplicationMeta>? get applicationMetas => box.metas.value;
+  YwbApplicationMetaDetails? getMetaDetails(String applicationId) => box.get(_K.details(applicationId));
 
-  set applicationMetas(List<YwbApplicationMeta>? metas) => box.metas.value = metas;
+  void setMetaDetails(String applicationId, YwbApplicationMetaDetails? newV) =>
+      box.put(_K.details(applicationId), newV);
 
-  YwbApplicationMetaDetails? getApplicationDetails(String applicationId) {
-    final cacheKey = box.details.make(applicationId);
-    return cacheKey.value;
-  }
+  List<YwbApplicationMeta>? get metaList => box.get(_K.metaList);
 
-  void setApplicationDetail(String applicationId, YwbApplicationMetaDetails? detail) {
-    final cacheKey = box.details.make(applicationId);
-    cacheKey.value = detail;
-  }
+  set metaList(List<YwbApplicationMeta>? newV) => box.put(_K.metaList, newV);
 }

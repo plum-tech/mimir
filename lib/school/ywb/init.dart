@@ -10,6 +10,7 @@ import 'storage/application.dart';
 class YwbInit {
   static late CookieJar cookieJar;
   static late YwbApplicationMetaService metaService;
+  static late YwbApplicationMetaStorage metaStorage;
   static late YwbApplicationService applicationService;
   static late YwbApplicationStorage applicationStorage;
   static late YwbSession session;
@@ -22,6 +23,7 @@ class YwbInit {
     YwbInit.cookieJar = cookieJar;
     YwbInit.session = session;
     metaService = YwbApplicationMetaService(session);
+    metaStorage = YwbApplicationMetaStorage(box);
     applicationService = YwbApplicationService(session);
     applicationStorage = YwbApplicationStorage(box);
   }

@@ -7,7 +7,6 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/meta.dart';
 import '../init.dart';
 import '../widgets/application.dart';
-import "package:mimir/credential/widgets/oa_scope.dart";
 import '../i18n.dart';
 
 class YwbApplicationMetaListPage extends StatefulWidget {
@@ -19,37 +18,43 @@ class YwbApplicationMetaListPage extends StatefulWidget {
 
 class _YwbApplicationMetaListPageState extends State<YwbApplicationMetaListPage> {
   /// in descending order
-  List<YwbApplicationMeta>? metas;
+  List<YwbApplicationMeta>? metaList;
+  bool isLoading = false;
 
   @override
   void didChangeDependencies() {
-    fetchMetaList().then((value) {
-      if (!mounted) return;
-      setState(() {
-        metas = value;
-      });
-    });
     super.didChangeDependencies();
+    refresh();
   }
 
-  Future<List<YwbApplicationMeta>?> fetchMetaList() async {
-    final oaCredential = context.auth.credentials;
-    if (oaCredential == null) return null;
-    // TODO: login here is so weired
-    if (!YwbInit.session.isLogin) {
-      await YwbInit.session.login(
-        username: oaCredential.account,
-        password: oaCredential.password,
-      );
+  Future<void> refresh() async {
+    if (!mounted) return;
+    setState(() {
+      metaList = YwbInit.metaStorage.metaList;
+      isLoading = true;
+    });
+    try {
+      final metaList = await YwbInit.metaService.getApplicationMetas();
+      metaList.sortBy<num>((e) => -e.count);
+      YwbInit.metaStorage.metaList = metaList;
+      if (!mounted) return;
+      setState(() {
+        this.metaList = metaList;
+        isLoading = false;
+      });
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      if (!mounted) return;
+      setState(() {
+        isLoading = false;
+      });
     }
-    final metas = await YwbInit.metaService.getApplicationMetas();
-    metas.sortBy<num>((e) => -e.count);
-    return metas;
   }
 
   @override
   Widget build(BuildContext context) {
-    final metas = this.metas;
+    final metas = this.metaList;
     return CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -67,12 +72,12 @@ class _YwbApplicationMetaListPageState extends State<YwbApplicationMetaListPage>
               },
             ),
           ],
-          bottom: metas != null
-              ? null
-              : const PreferredSize(
+          bottom: isLoading
+              ? const PreferredSize(
                   preferredSize: Size.fromHeight(4),
                   child: LinearProgressIndicator(),
-                ),
+                )
+              : null,
         ),
         if (metas != null)
           if (metas.isEmpty)

@@ -13,12 +13,11 @@ class YwbApplicationMetaService {
   const YwbApplicationMetaService(this.session);
 
   Future<List<YwbApplicationMeta>> getApplicationMetas() async {
-    const String payload = '{"appObject":"student","appName":null}';
 
     final response = await session.request(
       _serviceFunctionList,
       ReqMethod.post,
-      data: payload,
+      data: '{"appObject":"student","appName":null}',
       options: SessionOptions(responseType: ResponseType.json),
     );
 
@@ -32,12 +31,10 @@ class YwbApplicationMetaService {
   }
 
   Future<YwbApplicationMetaDetails> getApplicationDetails(String functionId) async {
-    final String payload = '{"appID":"$functionId"}';
-
     final response = await session.request(
       _serviceFunctionDetail,
       ReqMethod.post,
-      data: payload,
+      data: '{"appID":"$functionId"}',
       options: SessionOptions(responseType: ResponseType.json),
     );
     final Map<String, dynamic> data = response.data;
