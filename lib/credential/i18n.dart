@@ -19,22 +19,6 @@ class CredentialI18n with CommonI18nMixin {
 
   String get savedOaPwd => "$ns.savedOaPwd".tr();
 
-  String get reloginRequestDesc => "$ns.reloginRequestDesc".tr();
-
-  String get relogin => "$ns.relogin".tr();
-
-  String get loginLoginBtn => "$ns.loginLoginBtn".tr();
-
-  String get loginPwdHint => "$ns.loginPwdHint".tr();
-
-  String get loginFailedWarn => "$ns.loginFailedWarn".tr();
-
-  String get accountOrPwdIncorrectTip => "$ns.accountOrPwdIncorrectTip".tr();
-
-  String get loginLoginAccountHint => "$ns.loginLoginAccountHint".tr();
-
-  String get formatError => "$ns.formatError".tr();
-
   String get changeSavedOaPwd => "$ns.changeSavedOaPwd".tr();
 
   String get changeSavedOaPwdDesc => "$ns.changeSavedOaPwdDesc".tr();

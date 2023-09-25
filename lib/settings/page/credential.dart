@@ -6,6 +6,7 @@ import 'package:mimir/credential/init.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/editor.dart';
+import 'package:mimir/global/global.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 
@@ -53,6 +54,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
       all.add((_) => const Divider());
       all.add((_) => buildPassword(credential));
       all.add((_) => buildChangeSavedPassword(credential));
+      all.add((_) => buildTestLogin(credential));
     }
     return SliverList(
       delegate: SliverChildBuilderDelegate(
@@ -108,7 +110,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
     return ListTile(
       title: CredentialI18n.instance.changeSavedOaPwd.text(),
       subtitle: CredentialI18n.instance.changeSavedOaPwdDesc.text(),
-      leading: const Icon(Icons.key_rounded),
+      leading: const Icon(Icons.edit),
       onTap: () async {
         final newPwd =
             await Editor.showStringEditor(context, desc: CredentialI18n.instance.savedOaPwd, initial: origin.password);
@@ -116,6 +118,25 @@ class _CredentialsPageState extends State<CredentialsPage> {
           if (!mounted) return;
           CredentialInit.storage.oaCredentials = origin.copyWith(password: newPwd);
           setState(() {});
+        }
+      },
+    );
+  }
+
+  Widget buildTestLogin(OaCredentials credential) {
+    // TODO: i18n
+    return ListTile(
+      title: "Test login OA".text(),
+      subtitle: "Try to login OA with current credentials".text(),
+      leading: const Icon(Icons.login),
+      onTap: () async {
+        try {
+          await Global.ssoSession.loginActiveLocked(credential);
+          if (!mounted) return;
+          await context.showTip(title: "OK", desc: "OK", ok: i18n.close);
+        } catch (e) {
+          if (!mounted) return;
+          await context.showTip(title: "ERROR", desc: e.toString(), ok: i18n.close);
         }
       },
     );

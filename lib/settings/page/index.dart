@@ -65,17 +65,6 @@ class _SettingsPageState extends State<SettingsPage> {
         ],
       ),
     );
-/*
-            SimpleSettingsTile(
-                title: i18n.settingsTestConnect2School,
-                subtitle: i18n.settingsTestConnect2SchoolSub,
-                onTap: () {
-                  Navigator.pushNamed(context, Routes.networkTool);
-                }),
-          ],
-        ),
-      ]),
-    ]);*/
   }
 
   List<Widget> buildEntries() {
