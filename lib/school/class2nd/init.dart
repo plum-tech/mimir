@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:mimir/session/sc.dart';
+import 'package:mimir/session/class2nd.dart';
 import 'package:mimir/session/sso.dart';
 
 import 'cache/detail.dart';

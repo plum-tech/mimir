@@ -40,6 +40,7 @@ class _LocalStoragePageState extends State<LocalStoragePage> {
   @override
   Widget build(BuildContext context) {
     final boxes = name2Box.entries.map((e) => (name: e.key, box: e.value)).toList();
+    boxes.sortBy((entry) => entry.name);
     return context.isPortrait ? StorageListPortrait(boxes) : StorageListLandscape(boxes);
   }
 }
