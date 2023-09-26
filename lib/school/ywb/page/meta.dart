@@ -6,7 +6,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/meta.dart';
 import '../init.dart';
-import '../widgets/application.dart';
+import '../widgets/meta.dart';
 import '../i18n.dart';
 
 class YwbApplicationMetaListPage extends StatefulWidget {
@@ -90,7 +90,7 @@ class _YwbApplicationMetaListPageState extends State<YwbApplicationMetaListPage>
           else
             SliverList.builder(
               itemCount: metas.length,
-              itemBuilder: (ctx, i) => ApplicationTile(meta: metas[i], isHot: i < 3),
+              itemBuilder: (ctx, i) => ApplicationMetaTile(meta: metas[i], isHot: i < 3),
             ),
       ],
     );

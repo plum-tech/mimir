@@ -6,7 +6,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/application.dart';
 import '../init.dart';
-import '../widgets/mail.dart';
+import '../widgets/application.dart';
 import '../i18n.dart';
 
 class YwbMyApplicationListPage extends StatefulWidget {

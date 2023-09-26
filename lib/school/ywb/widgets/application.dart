@@ -1,59 +1,56 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:mimir/design/widgets/expansion_tile.dart';
+import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/meta.dart';
-import '../page/details.dart';
+import '../entity/application.dart';
 
-const List<Color> _applicationColors = <Color>[
-  Colors.orangeAccent,
-  Colors.redAccent,
-  Colors.blueAccent,
-  Colors.grey,
-  Colors.green,
-  Colors.yellowAccent,
-  Colors.cyan,
-  Colors.purple,
-  Colors.teal,
-];
+class YwbApplicationTile extends StatelessWidget {
+  final YwbApplication application;
 
-class ApplicationTile extends StatelessWidget {
-  final YwbApplicationMeta meta;
-  final bool isHot;
-
-  const ApplicationTile({super.key, required this.meta, required this.isHot});
+  const YwbApplicationTile(
+    this.application, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final colorIndex = Random(meta.id.hashCode).nextInt(_applicationColors.length);
-    final color = _applicationColors[colorIndex];
-    final style = context.textTheme.bodyMedium;
-    final views = isHot
-        ? [
-            Text(meta.count.toString(), style: style),
-            const Icon(
-              Icons.local_fire_department_rounded,
-              color: Colors.red,
-            ),
-          ].row(mas: MainAxisSize.min)
-        : Text(meta.count.toString(), style: style);
-
-    return ListTile(
-      leading: Icon(meta.icon, size: 35, color: color).center().sized(w: 40, h: 40),
-      title: Text(
-        meta.name,
-        overflow: TextOverflow.ellipsis,
-      ),
-      subtitle: Text(
-        meta.summary,
-        overflow: TextOverflow.ellipsis,
-      ),
-      trailing: views,
-      onTap: () {
-        // TODO: details page
-        context.navigator.push(MaterialPageRoute(builder: (_) => YwbApplicationMetaDetailsPage(meta: meta)));
-      },
+    return AnimatedExpansionTile(
+      title: "${application.name} #${application.workId}".text(),
+      subtitle: context.formatYmdWeekText(application.startTs).text(),
+      trailing: Icon(Icons.keyboard_arrow_down),
+      children: application.track.map((e) => YwbApplicationTrackTile(e)).toList(),
     );
   }
 }
+
+class YwbApplicationTrackTile extends StatelessWidget {
+  final YwbApplicationTrack track;
+
+  const YwbApplicationTrackTile(
+    this.track, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      isThreeLine: true,
+      leading: track.isActionOk
+          ? const Icon(Icons.check, color: Colors.green)
+          : const Icon(Icons.error_outline, color: Colors.redAccent),
+      title: track.step.text(),
+      subtitle: [
+        context.formatYmdhmNum(track.timestamp).text(),
+        if (track.message.isNotEmpty) track.message.text(),
+        track.action.text(),
+      ].column(caa: CrossAxisAlignment.start),
+      trailing: track.senderName.text(),
+    );
+  }
+}
+
+// final String resultUrl =
+//     'https://xgfy.sit.edu.cn/unifri-flow/WF/mobile/index.html?ismobile=1&FK_Flow=${msg.functionId}&WorkID=${msg.workId}&IsReadonly=1&IsView=1';
+// Navigator.of(context)
+//     .push(MaterialPageRoute(builder: (_) => YwbInAppViewPage(title: msg.name, url: resultUrl)));

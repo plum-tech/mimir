@@ -8,7 +8,7 @@ import 'package:mimir/school/ywb/storage/application.dart';
 import 'package:rettulf/rettulf.dart';
 
 import "i18n.dart";
-import 'widgets/mail.dart';
+import 'widgets/application.dart';
 
 const _applicationLength = 2;
 
