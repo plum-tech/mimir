@@ -104,15 +104,14 @@ class Class2ndActivity {
   @HiveField(5)
   final DateTime ts;
 
-  const Class2ndActivity(this.id, this.category, this.title, this.ts, this.realTitle, this.tags);
-
-  const Class2ndActivity.named(
-      {required this.id,
-      required this.category,
-      required this.title,
-      required this.ts,
-      required this.realTitle,
-      required this.tags});
+  const Class2ndActivity({
+    required this.id,
+    required this.category,
+    required this.title,
+    required this.ts,
+    required this.realTitle,
+    required this.tags,
+  });
 
   @override
   String toString() {
@@ -123,12 +122,13 @@ class Class2ndActivity {
 extension ActivityParser on Class2ndActivity {
   static Class2ndActivity parse(Class2ndAttendedActivity activity) {
     final titleAndTags = splitTitleAndTags(activity.title);
-    return Class2ndActivity.named(
-        id: activity.activityId,
-        category: Class2ndActivityCat.unknown,
-        title: activity.title,
-        ts: activity.time,
-        realTitle: titleAndTags.title,
-        tags: titleAndTags.tags);
+    return Class2ndActivity(
+      id: activity.activityId,
+      category: Class2ndActivityCat.unknown,
+      title: activity.title,
+      ts: activity.time,
+      realTitle: titleAndTags.title,
+      tags: titleAndTags.tags,
+    );
   }
 }

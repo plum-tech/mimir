@@ -74,13 +74,14 @@ class Class2ndActivityListService {
         final String? x = re.firstMatch(link)?.group(0).toString();
         final int id = int.parse(x!);
         final titleAndTags = splitTitleAndTags(title);
-        return Class2ndActivity.named(
-            id: id,
-            category: Class2ndActivityCat.unknown,
-            title: title,
-            ts: dateFormatParser.parse(date),
-            realTitle: titleAndTags.title,
-            tags: titleAndTags.tags);
+        return Class2ndActivity(
+          id: id,
+          category: Class2ndActivityCat.unknown,
+          title: title,
+          ts: dateFormatParser.parse(date),
+          realTitle: titleAndTags.title,
+          tags: titleAndTags.tags,
+        );
       },
     ).toList();
     return result;

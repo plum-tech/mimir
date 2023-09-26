@@ -17,12 +17,12 @@ class Class2ndActivityAdapter extends TypeAdapter<Class2ndActivity> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Class2ndActivity(
-      fields[0] as int,
-      fields[1] as Class2ndActivityCat,
-      fields[2] as String,
-      fields[5] as DateTime,
-      fields[3] as String,
-      (fields[4] as List).cast<String>(),
+      id: fields[0] as int,
+      category: fields[1] as Class2ndActivityCat,
+      title: fields[2] as String,
+      ts: fields[5] as DateTime,
+      realTitle: fields[3] as String,
+      tags: (fields[4] as List).cast<String>(),
     );
   }
 

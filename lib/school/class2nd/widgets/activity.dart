@@ -21,11 +21,14 @@ class ActivityCard extends StatelessWidget {
         titleTextStyle: textTheme.titleMedium,
         trailing: context.formatYmdNum(activity.ts).text(style: textTheme.bodyMedium),
         subtitle: activity.tags
-            .map((tag) => RawChip(
-                  label: tag.text(),
-                  padding: EdgeInsets.zero,
-                  labelStyle: textTheme.bodySmall,
-                ))
+            .map(
+              (tag) => RawChip(
+                label: tag.text(),
+                padding: EdgeInsets.zero,
+                labelStyle: textTheme.bodySmall,
+                elevation: 4,
+              ),
+            )
             .toList()
             .wrap(spacing: 4),
         onTap: () {
