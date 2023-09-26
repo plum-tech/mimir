@@ -11,7 +11,7 @@ class ActivityName {
   static const creation = "三创";
   static const practice = "社会实践";
   static const safetyCivilizationEdu = "校园安全文明";
-  static const cyberSafetyEdu = "安全教育网络教学";
+  static const onlineSafetyEdu = "安全教育网络教学";
   static const schoolCulture = "校园文化";
   static const thematicEdu = "主题教育";
   static const unknown = "未知";
@@ -34,13 +34,36 @@ enum Class2ndActivityCat {
   @HiveField(5)
   voluntary(ActivityName.voluntary), // 志愿公益
   @HiveField(6)
-  cyberSafetyEdu(ActivityName.cyberSafetyEdu), // 安全教育网络教学
+  onlineSafetyEdu(ActivityName.onlineSafetyEdu), // 安全教育网络教学
   @HiveField(7)
   unknown(ActivityName.unknown); // 未知
 
   final String name;
 
   const Class2ndActivityCat(this.name);
+
+  /// Don't Change this.
+  /// Strings from school API
+  static Class2ndActivityCat? parse(String catName) {
+    if (catName.contains("讲座报告")) {
+      return Class2ndActivityCat.lecture;
+    } else if (catName.contains("主题教育")) {
+      return Class2ndActivityCat.lecture;
+    } else if (catName.contains("校园文化")) {
+      return Class2ndActivityCat.schoolCulture;
+    } else if (catName.contains("创新创业创意")) {
+      return Class2ndActivityCat.creation;
+    } else if (catName.contains("社会实践")) {
+      return Class2ndActivityCat.practice;
+    } else if (catName.contains("志愿公益")) {
+      return Class2ndActivityCat.voluntary;
+    } else if (catName.contains("安全教育")) {
+      return Class2ndActivityCat.onlineSafetyEdu;
+    } else if (catName.contains("校园文明")) {
+      return Class2ndActivityCat.schoolCulture;
+    }
+    return null;
+  }
 }
 
 enum ActivityScoreType {
@@ -65,19 +88,6 @@ const Map<String, ActivityScoreType> stringToActivityScoreType = {
   '校园文化': ActivityScoreType.schoolCulture,
   '公益志愿': ActivityScoreType.voluntary,
   '校园安全文明': ActivityScoreType.safetyCiviEdu,
-};
-
-/// Don't Change this.
-/// Strings from school API
-const Map<String, Class2ndActivityCat> stringToActivityType = {
-  '讲座报告': Class2ndActivityCat.lecture,
-  '主题教育': Class2ndActivityCat.thematicEdu,
-  '校园文化活动': Class2ndActivityCat.schoolCulture,
-  '创新创业创意': Class2ndActivityCat.creation, // 三创
-  '社会实践': Class2ndActivityCat.practice,
-  '志愿公益': Class2ndActivityCat.voluntary,
-  '安全教育网络教学': Class2ndActivityCat.cyberSafetyEdu,
-  '校园文明': Class2ndActivityCat.schoolCulture,
 };
 
 @HiveType(typeId: HiveTypeClass2nd.activity)

@@ -73,7 +73,7 @@ class Class2ndActivityCatAdapter extends TypeAdapter<Class2ndActivityCat> {
       case 5:
         return Class2ndActivityCat.voluntary;
       case 6:
-        return Class2ndActivityCat.cyberSafetyEdu;
+        return Class2ndActivityCat.onlineSafetyEdu;
       case 7:
         return Class2ndActivityCat.unknown;
       default:
@@ -102,7 +102,7 @@ class Class2ndActivityCatAdapter extends TypeAdapter<Class2ndActivityCat> {
       case Class2ndActivityCat.voluntary:
         writer.writeByte(5);
         break;
-      case Class2ndActivityCat.cyberSafetyEdu:
+      case Class2ndActivityCat.onlineSafetyEdu:
         writer.writeByte(6);
         break;
       case Class2ndActivityCat.unknown:
