@@ -329,7 +329,7 @@ settings:
     system: 系統
   proxy:
     title: HTTP 代理
-    desc: 開啟 HTTP 代理連線校園網路
+    desc: 代理校園網路連線
     enableProxy:
       title: 開啟 HTTP 代理
       desc: 代理你的 HTTP 請求

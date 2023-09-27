@@ -327,7 +327,7 @@ settings:
     system: System
   proxy:
     title: HTTP proxy
-    desc: Connect to the campus network by HTTP proxy
+    desc: Proxy the access to campus network
     enableProxy:
       title: Enable HTTP proxy
       desc: Proxy your HTTP requests

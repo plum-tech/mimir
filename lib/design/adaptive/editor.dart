@@ -21,7 +21,7 @@ class Editor {
   }
 
   static bool isSupport(dynamic test) {
-    return test is int || test is String || test is bool || _customEditor.containsKey(test.runtimeType);
+    return test is int || test is String || test is bool || test is DateTime || _customEditor.containsKey(test.runtimeType);
   }
 
   static Future<dynamic> showAnyEditor(BuildContext ctx, dynamic initial,
@@ -32,6 +32,14 @@ class Editor {
       return await showStringEditor(ctx, desc: desc, initial: initial);
     } else if (initial is bool) {
       return await showBoolEditor(ctx, desc: desc, initial: initial);
+    } else if (initial is DateTime) {
+      return await showDateTimeEditor(
+        ctx,
+        desc: desc,
+        initial: initial,
+        firstDate: DateTime(0),
+        lastDate: DateTime(9999),
+      );
     } else {
       final customEditorBuilder = _customEditor[initial.runtimeType];
       if (customEditorBuilder != null) {
@@ -51,7 +59,35 @@ class Editor {
     }
   }
 
-  static Future<bool> showBoolEditor(BuildContext ctx, {String? desc, required bool initial}) async {
+  static Future<DateTime> showDateTimeEditor(
+    BuildContext ctx, {
+    String? desc,
+    required DateTime initial,
+    required DateTime firstDate,
+    required DateTime lastDate,
+  }) async {
+    final newValue = await showDialog(
+      context: ctx,
+      builder: (ctx) => DateTimeEditor(
+        initial: initial,
+        title: desc,
+        firstDate: firstDate,
+        lastDate: lastDate,
+      ),
+    );
+
+    if (newValue != null) {
+      return newValue;
+    } else {
+      return initial;
+    }
+  }
+
+  static Future<bool> showBoolEditor(
+    BuildContext ctx, {
+    String? desc,
+    required bool initial,
+  }) async {
     final newValue = await showDialog(
       context: ctx,
       builder: (ctx) => _BoolEditor(
@@ -67,7 +103,11 @@ class Editor {
     }
   }
 
-  static Future<String> showStringEditor(BuildContext ctx, {String? desc, required String initial}) async {
+  static Future<String> showStringEditor(
+    BuildContext ctx, {
+    String? desc,
+    required String initial,
+  }) async {
     final newValue = await showDialog(
         context: ctx,
         builder: (ctx) => _StringEditor(
@@ -81,7 +121,11 @@ class Editor {
     }
   }
 
-  static Future<void> showReadonlyEditor(BuildContext ctx, {String? desc, required dynamic initial}) async {
+  static Future<void> showReadonlyEditor(
+    BuildContext ctx, {
+    String? desc,
+    required dynamic initial,
+  }) async {
     await showDialog(
       context: ctx,
       builder: (ctx) => _readonlyEditor(
@@ -92,7 +136,11 @@ class Editor {
     );
   }
 
-  static Future<int> showIntEditor(BuildContext ctx, {String? desc, required int initial}) async {
+  static Future<int> showIntEditor(
+    BuildContext ctx, {
+    String? desc,
+    required int initial,
+  }) async {
     final newValue = await showDialog(
       context: ctx,
       builder: (ctx) => _IntEditor(
@@ -130,54 +178,116 @@ Widget _readonlyEditor(BuildContext ctx, WidgetBuilder make, {String? title}) {
 }
 
 class EnumEditor<T> extends StatefulWidget {
-  final dynamic initial;
+  final T initial;
   final List<T> values;
   final String? title;
 
-  const EnumEditor({super.key, required this.initial, this.title, required this.values});
+  const EnumEditor({
+    super.key,
+    required this.initial,
+    this.title,
+    required this.values,
+  });
 
   @override
-  State<EnumEditor> createState() => _EnumEditorState();
+  State<EnumEditor<T>> createState() => _EnumEditorState<T>();
 }
 
-class _EnumEditorState extends State<EnumEditor> {
-  late dynamic current = widget.initial;
+class _EnumEditorState<T> extends State<EnumEditor<T>> {
+  late T current = widget.initial;
   late final int initialIndex = max(widget.values.indexOf(widget.initial), 0);
 
   @override
   Widget build(BuildContext context) {
     return $Dialog$(
-        title: widget.title,
-        primary: $Action$(
-            text: _i18n.submit,
-            isDefault: true,
-            onPressed: () {
-              context.navigator.pop(current);
-            }),
-        secondary: $Action$(
-            text: _i18n.cancel,
-            onPressed: () {
-              context.navigator.pop(widget.initial);
-            }),
-        make: (ctx) => CupertinoButton(
-              child: current.toString().text(),
-              onPressed: () async {
-                FixedExtentScrollController controller = FixedExtentScrollController(initialItem: initialIndex);
-                controller.addListener(() {
-                  final selected = widget.values[controller.selectedItem];
-                  if (selected != current) {
-                    setState(() {
-                      current = selected;
-                    });
-                  }
-                });
-                await ctx.showPicker(
-                    count: widget.values.length,
-                    controller: controller,
-                    make: (ctx, index) => widget.values[index].toString().text());
-                controller.dispose();
-              },
-            ));
+      title: widget.title,
+      primary: $Action$(
+          text: _i18n.submit,
+          isDefault: true,
+          onPressed: () {
+            context.navigator.pop(widget.initial);
+          }),
+      secondary: $Action$(
+          text: _i18n.cancel,
+          onPressed: () {
+            context.navigator.pop(widget.initial);
+          }),
+      make: (ctx) => CupertinoButton(
+        child: current.toString().text(),
+        onPressed: () async {
+          FixedExtentScrollController controller = FixedExtentScrollController(initialItem: initialIndex);
+          controller.addListener(() {
+            final selected = widget.values[controller.selectedItem];
+            if (selected != current) {
+              setState(() {
+                current = selected;
+              });
+            }
+          });
+          await ctx.showPicker(
+              count: widget.values.length,
+              controller: controller,
+              make: (ctx, index) => widget.values[index].toString().text());
+          controller.dispose();
+        },
+      ),
+    );
+  }
+}
+
+class DateTimeEditor extends StatefulWidget {
+  final DateTime initial;
+  final String? title;
+  final DateTime firstDate;
+  final DateTime lastDate;
+
+  const DateTimeEditor({
+    super.key,
+    required this.initial,
+    this.title,
+    required this.firstDate,
+    required this.lastDate,
+  });
+
+  @override
+  State<DateTimeEditor> createState() => _DateTimeEditorState();
+}
+
+class _DateTimeEditorState extends State<DateTimeEditor> {
+  late DateTime current = widget.initial;
+
+  @override
+  Widget build(BuildContext context) {
+    return $Dialog$(
+      title: widget.title,
+      primary: $Action$(
+          text: _i18n.submit,
+          isDefault: true,
+          onPressed: () {
+            context.navigator.pop(current);
+          }),
+      secondary: $Action$(
+          text: _i18n.cancel,
+          onPressed: () {
+            context.navigator.pop(widget.initial);
+          }),
+      make: (ctx) => CupertinoButton(
+        child: current.toString().text(),
+        onPressed: () async {
+          final newDate = await showDatePicker(
+            context: context,
+            initialDate: widget.initial,
+            firstDate: widget.firstDate,
+            lastDate: widget.lastDate,
+          );
+          if (newDate != null) {
+            setState(() {
+              current = newDate;
+            });
+          }
+        },
+      ),
+    );
   }
 }
 

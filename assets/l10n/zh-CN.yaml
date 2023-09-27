@@ -327,7 +327,7 @@ settings:
     system: 系统
   proxy:
     title: HTTP 代理
-    desc: 通过 HTTP 代理连接校园网
+    desc: 代理校园网连接
     enableProxy:
       title: 启用 HTTP 代理
       desc: 代理你的 HTTP 请求
