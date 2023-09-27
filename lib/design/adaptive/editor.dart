@@ -160,7 +160,7 @@ class _EnumEditorState extends State<EnumEditor> {
               context.navigator.pop(widget.initial);
             }),
         make: (ctx) => $ListTile$(
-              title: current.toString().text(style: const TextStyle(fontSize: 15)),
+              title: current.toString().text(),
               trailing: const Icon(Icons.edit).onTap(() async {
                 FixedExtentScrollController controller = FixedExtentScrollController(initialItem: initialIndex);
                 controller.addListener(() {
@@ -295,7 +295,7 @@ class _BoolEditorState extends State<_BoolEditor> {
               context.navigator.pop(widget.initial);
             }),
         make: (ctx) => $ListTile$(
-            title: (widget.desc ?? "").text(style: context.textTheme.bodyMedium),
+            title: (widget.desc ?? "").text(),
             trailing: Switch.adaptive(
               value: value,
               onChanged: (newValue) {

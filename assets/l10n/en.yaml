@@ -333,8 +333,6 @@ settings:
     enableProxy:
       title: Enable HTTP proxy
       desc: Proxy your HTTP requests
-    global: Use as global proxy
-    globalDesc: For debugging, exclude Webview
     authentication: Authentication
     protocol: Protocol
     address: Address

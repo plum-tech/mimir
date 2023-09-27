@@ -100,10 +100,6 @@ class _Proxy {
 
   String get enableProxyDesc => "$ns.enableProxy.desc".tr();
 
-  String get global => "$ns.global".tr();
-
-  String get globalDesc => "$ns.globalDesc".tr();
-
   String get protocol => "$ns.protocol".tr();
 
   String get address => "$ns.address".tr();

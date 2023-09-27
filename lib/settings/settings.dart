@@ -97,7 +97,6 @@ class _HttpProxyK {
   static const ns = '/httpProxy';
   static const address = '$ns/address';
   static const useHttpProxy = '$ns/useHttpProxy';
-  static const isGlobalHttpProxy = '$ns/isGlobalHttpProxy';
 }
 
 class _HttpProxy {
@@ -118,9 +117,4 @@ class _HttpProxy {
   ValueListenable listenHttpProxy() => box.listenable(keys: [_HttpProxyK.useHttpProxy, _HttpProxyK.address]);
 
   Stream<BoxEvent> watchHttpProxy() => box.watch(key: _HttpProxyK.address);
-
-  /// [false] by default.
-  bool get isGlobalHttpProxy => box.get(_HttpProxyK.isGlobalHttpProxy) ?? false;
-
-  set isGlobalHttpProxy(bool newV) => box.put(_HttpProxyK.isGlobalHttpProxy, newV);
 }
