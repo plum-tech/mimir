@@ -71,8 +71,13 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                 setNewAddress(proxyUri.replace(port: newPort));
               }),
               buildProxyAuthTile(auth, (newAuth) {
-                setNewAddress(
-                    proxyUri.replace(userInfo: newAuth == null ? "" : "${newAuth.username}:${newAuth.password}"));
+                if (newAuth == null) {
+                  setNewAddress(proxyUri.replace(userInfo: ""));
+                } else {
+                  setNewAddress(proxyUri.replace(
+                      userInfo:
+                          newAuth.password.isNotEmpty ? "${newAuth.username}:${newAuth.password}" : newAuth.username));
+                }
               }),
             ]),
           ),
@@ -81,8 +86,14 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     );
   }
 
-  void setNewAddress(Uri uri) {
-    Settings.httpProxy.address = uri.toString();
+  Future<void> setNewAddress(Uri uri) async {
+    final old = Settings.httpProxy.address;
+    final newAddress = uri.toString();
+    if (old != newAddress) {
+      Settings.httpProxy.address = newAddress;
+      // TODO: subscribe the proxy changes instead of directly calling init.
+      await Init.init();
+    }
   }
 
   Widget buildEnableProxyToggle() {
