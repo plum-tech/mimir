@@ -39,15 +39,17 @@ class _MimirAppState extends State<MimirApp> {
 
   @override
   Widget build(BuildContext context) {
-    final themeColor = Settings.theme.themeColor ?? Colors.red;
+    final themeColor = Settings.theme.themeColor;
 
     ThemeData bakeTheme(ThemeData origin) {
       return origin.copyWith(
         platform: R.debugCupertino ? TargetPlatform.iOS : null,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: themeColor,
-          brightness: origin.brightness,
-        ),
+        colorScheme: themeColor == null
+            ? null
+            : ColorScheme.fromSeed(
+                seedColor: themeColor,
+                brightness: origin.brightness,
+              ),
         visualDensity: VisualDensity.comfortable,
         appBarTheme: origin.appBarTheme.copyWith(
           backgroundColor: Colors.transparent,

@@ -159,9 +159,9 @@ class _EnumEditorState extends State<EnumEditor> {
             onPressed: () {
               context.navigator.pop(widget.initial);
             }),
-        make: (ctx) => $ListTile$(
-              title: current.toString().text(),
-              trailing: const Icon(Icons.edit).onTap(() async {
+        make: (ctx) => CupertinoButton(
+              child: current.toString().text(),
+              onPressed: () async {
                 FixedExtentScrollController controller = FixedExtentScrollController(initialItem: initialIndex);
                 controller.addListener(() {
                   final selected = widget.values[controller.selectedItem];
@@ -176,7 +176,7 @@ class _EnumEditorState extends State<EnumEditor> {
                     controller: controller,
                     make: (ctx, index) => widget.values[index].toString().text());
                 controller.dispose();
-              }),
+              },
             ));
   }
 }

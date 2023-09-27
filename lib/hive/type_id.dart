@@ -44,7 +44,8 @@ class HiveTypeClass2nd {
 
   // Second class score 55-59
   static const scoreSummary = 60;
-  static const scoreItem = 61;
+  static const activityApplication = 61;
+  static const scoreItem = 62;
 }
 
 /// Expense Records 70-74

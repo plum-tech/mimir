@@ -42,9 +42,14 @@ class Class2ndScoreSummary {
 
   @override
   String toString() {
-    return 'ScoreSummary{lecture: $lecture, practice: $practice, '
-        'creation: $creation, safetyEdu: $safetyEdu, '
-        'charity: $voluntary, campusCulture: $campusCulture}';
+    return {
+      "lecture": lecture,
+      "practice": practice,
+      "creation": creation,
+      "safetyEdu": safetyEdu,
+      "voluntary": voluntary,
+      "campusCulture": campusCulture,
+    }.toString();
   }
 
   List<({String name, double score})> toName2score() {
@@ -77,7 +82,11 @@ class Class2ndScoreItem {
 
   @override
   String toString() {
-    return 'ScScoreItem{activityId: $activityId, category: $type, amount: $amount}';
+    return {
+      "activityId": activityId,
+      "type": type,
+      "amount": amount,
+    }.toString();
   }
 }
 
@@ -114,7 +123,13 @@ class Class2ndActivityApplication {
 
   @override
   String toString() {
-    return 'ScActivityApplication{activityId: $activityId, time: $time, status: $status}';
+    return {
+      "applyId": applyId,
+      "activityId": activityId,
+      "title": title,
+      "time": time,
+      "status": status,
+    }.toString();
   }
 }
 
@@ -152,6 +167,18 @@ class Class2ndAttendedActivity {
     required this.status,
     required this.amount,
   });
+
+  @override
+  String toString() {
+    return {
+      "applyId": applyId,
+      "activityId": activityId,
+      "title": title,
+      "time": time,
+      "status": status,
+      "amount": amount
+    }.toString();
+  }
 }
 
 extension ScJoinedActivityHelper on Class2ndAttendedActivity {
