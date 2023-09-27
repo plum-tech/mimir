@@ -101,21 +101,19 @@ class MimirHttpOverrides extends HttpOverrides {
     if (config.allowBadCertificate || useHttpProxy) {
       client.badCertificateCallback = (cert, host, port) => true;
     }
-    if (httpProxy != null) {
-      // 设置代理.
-      if (useHttpProxy && httpProxy.isNotEmpty) {
-        Log.info('设置代理: $httpProxy');
-        client.findProxy = (url) {
-          final host = url.host;
-          if (_proxyFilter(host)) {
-            Log.info('使用代理访问 $url');
-            return 'PROXY $httpProxy';
-          } else {
-            Log.info('直连访问 $url');
-            return 'DIRECT';
-          }
-        };
-      }
+    // 设置代理.
+    if (useHttpProxy && httpProxy.isNotEmpty) {
+      Log.info('设置代理: $httpProxy');
+      client.findProxy = (url) {
+        final host = url.host;
+        if (_proxyFilter(host)) {
+          Log.info('使用代理访问 $url');
+          return 'PROXY $httpProxy';
+        } else {
+          Log.info('直连访问 $url');
+          return 'DIRECT';
+        }
+      };
     }
     return client;
   }

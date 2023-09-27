@@ -37,8 +37,10 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
   @override
   Widget build(BuildContext context) {
     final proxy = Settings.httpProxy.address;
-    final proxyUri = proxy == null ? null : Uri.tryParse(proxy);
-    final userInfoParts = proxyUri?.userInfo.split(":");
+    final proxyUri = Uri.tryParse(proxy) ?? Uri(scheme: "http", host: "localhost", port: 80);
+    final userInfoParts = proxyUri.userInfo.split(":");
+    final username = userInfoParts.elementAtOrNull(0);
+    final password = userInfoParts.elementAtOrNull(1);
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
@@ -55,16 +57,27 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
           SliverList(
             delegate: SliverChildListDelegate([
               buildEnableProxyToggle(),
-              buildProxyProtocolTile(proxyUri?.scheme ?? "http"),
-              buildProxyHostnameTile(proxyUri?.host ?? ""),
-              buildProxyPortTile(proxyUri?.port ?? 80),
-              buildProxyUsernameTile(userInfoParts?.elementAtOrNull(0)),
-              buildProxyPasswordTile(userInfoParts?.elementAtOrNull(1)),
+              buildProxyProtocolTile(proxyUri.scheme, (newProtocol) {
+                setNewAddress(proxyUri.replace(scheme: newProtocol));
+              }),
+              buildProxyHostnameTile(proxyUri.host, (newHost) {
+                setNewAddress(proxyUri.replace(host: newHost));
+              }),
+              buildProxyPortTile(proxyUri.port, (newPort) {
+                setNewAddress(proxyUri.replace(port: newPort));
+              }),
+              buildProxyAuthTile(username != null && password != null ? (username: username, password: password) : null,
+                  (newUsername) {
+              }),
             ]),
           ),
         ],
       ),
     );
+  }
+
+  void setNewAddress(Uri uri) {
+    Settings.httpProxy.address = uri.toString();
   }
 
   Widget buildEnableProxyToggle() {
@@ -85,7 +98,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
             );
   }
 
-  Widget buildProxyProtocolTile(String protocol) {
+  Widget buildProxyProtocolTile(String protocol, ValueChanged<String> onChanged) {
     return ListTile(
       leading: const Icon(Icons.link),
       title: i18n.proxy.protocol.text(),
@@ -97,13 +110,13 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
           ButtonSegment(value: "https", label: "HTTPS".text(), icon: const Icon(Icons.https)),
         ],
         onSelectionChanged: (newSelection) {
-
+          onChanged(newSelection.first);
         },
       ),
     );
   }
 
-  Widget buildProxyHostnameTile(String hostname) {
+  Widget buildProxyHostnameTile(String hostname, ValueChanged<String> onChanged) {
     return ListTile(
       leading: const Icon(Icons.link),
       title: i18n.proxy.address.text(),
@@ -123,7 +136,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     );
   }
 
-  Widget buildProxyPortTile(int port) {
+  Widget buildProxyPortTile(int port, ValueChanged<int> onChanged) {
     return ListTile(
       leading: const Icon(Icons.settings_input_component_outlined),
       title: i18n.proxy.port.text(),
@@ -139,33 +152,21 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     );
   }
 
-  Widget buildProxyUsernameTile(String? username) {
+  Widget buildProxyAuthTile(
+    ({String username, String password})? credentials,
+    ValueChanged<({String username, String password})?> onChanged,
+  ) {
+    final text = credentials != null ? "${credentials.username}:${credentials.password}" : null;
     return ListTile(
       leading: const Icon(Icons.person),
-      title: i18n.proxy.username.text(),
-      subtitle: username?.text(),
+      title: i18n.proxy.auth.text(),
+      subtitle: text?.text(),
       onTap: () async {
-        final newPort = await Editor.showStringEditor(
-          context,
-          desc: i18n.proxy.username,
-          initial: username ?? "",
-        );
-      },
-      trailing: const Icon(Icons.edit),
-    );
-  }
-
-  Widget buildProxyPasswordTile(String? password) {
-    return ListTile(
-      leading: const Icon(Icons.password),
-      title: i18n.proxy.password.text(),
-      subtitle: password?.text(),
-      onTap: () async {
-        final newPort = await Editor.showStringEditor(
-          context,
-          desc: i18n.proxy.password,
-          initial: password ?? "",
-        );
+        // final newPort = await Editor.showStringEditor(
+        //   context,
+        //   desc: i18n.proxy.username,
+        //   initial: username ?? "",
+        // );
       },
       trailing: const Icon(Icons.edit),
     );

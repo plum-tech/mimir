@@ -106,9 +106,9 @@ class _HttpProxy {
   const _HttpProxy(this.box);
 
   // network
-  String? get address => box.get(_HttpProxyK.address);
+  String get address => box.get(_HttpProxyK.address) ?? "http://localhost:80";
 
-  set address(String? newV) => box.put(_HttpProxyK.address, newV);
+  set address(String newV) => box.put(_HttpProxyK.address, newV);
 
   /// [false] by default.
   bool get enableHttpProxy => box.get(_HttpProxyK.useHttpProxy) ?? false;
