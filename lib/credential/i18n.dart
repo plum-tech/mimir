@@ -2,8 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:mimir/l10n/common.dart';
 
 class CredentialI18n with CommonI18nMixin {
-  static const instance = CredentialI18n();
-
   const CredentialI18n();
 
   final network = const NetworkI18n();
@@ -19,7 +17,5 @@ class CredentialI18n with CommonI18nMixin {
 
   String get savedOaPwd => "$ns.savedOaPwd".tr();
 
-  String get changeSavedOaPwd => "$ns.changeSavedOaPwd".tr();
-
-  String get changeSavedOaPwdDesc => "$ns.changeSavedOaPwdDesc".tr();
+  String get savedOaPwdDesc => "$ns.savedOaPwdDesc".tr();
 }

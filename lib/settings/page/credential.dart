@@ -10,7 +10,6 @@ import 'package:mimir/global/global.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 
-const _i18n = CredentialI18n();
 const _changePasswordUrl = "https://authserver.sit.edu.cn/authserver/passwordChange.do";
 
 class CredentialsPage extends StatefulWidget {
@@ -35,7 +34,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
             floating: false,
             expandedHeight: 100.0,
             flexibleSpace: FlexibleSpaceBar(
-              title: _i18n.oaAccount.text(style: context.textTheme.headlineSmall),
+              title: i18n.credential.oaAccount.text(style: context.textTheme.headlineSmall),
             ),
           ),
           buildBody(),
@@ -53,7 +52,6 @@ class _CredentialsPageState extends State<CredentialsPage> {
       all.add((_) => buildAccount(credential));
       all.add((_) => const Divider());
       all.add((_) => buildPassword(credential));
-      all.add((_) => buildChangeSavedPassword(credential));
       all.add((_) => buildTestLogin(credential));
     }
     return SliverList(
@@ -71,13 +69,15 @@ class _CredentialsPageState extends State<CredentialsPage> {
       title: "Login".text(),
       subtitle: "Please login".text(),
       leading: const Icon(Icons.person_rounded),
-      onTap: () async {},
+      onTap: () async {
+        // TODO: Login
+      },
     );
   }
 
   Widget buildAccount(OaCredentials credential) {
     return ListTile(
-      title: CredentialI18n.instance.oaAccount.text(),
+      title: i18n.credential.oaAccount.text(),
       subtitle: credential.account.text(),
       leading: const Icon(Icons.person_rounded),
       trailing: const Icon(Icons.copy_rounded),
@@ -93,33 +93,34 @@ class _CredentialsPageState extends State<CredentialsPage> {
     return AnimatedSize(
       duration: const Duration(milliseconds: 100),
       child: ListTile(
-        title: CredentialI18n.instance.savedOaPwd.text(),
-        subtitle: !showPassword ? null : credential.password.text(),
+        title: i18n.credential.savedOaPwd.text(),
+        subtitle: Text(!showPassword ? i18n.credential.savedOaPwdDesc : credential.password),
         leading: const Icon(Icons.password_rounded),
-        trailing: showPassword ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),
-        onTap: () {
-          setState(() {
-            showPassword = !showPassword;
-          });
-        },
+        trailing: [
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () async {
+              final newPwd = await Editor.showStringEditor(
+                context,
+                desc: i18n.credential.savedOaPwd,
+                initial: credential.password,
+              );
+              if (newPwd != credential.password) {
+                if (!mounted) return;
+                CredentialInit.storage.oaCredentials = credential.copyWith(password: newPwd);
+                setState(() {});
+              }
+            },
+          ),
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  showPassword = !showPassword;
+                });
+              },
+              icon: showPassword ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
+        ].wrap(),
       ),
-    );
-  }
-
-  Widget buildChangeSavedPassword(OaCredentials origin) {
-    return ListTile(
-      title: CredentialI18n.instance.changeSavedOaPwd.text(),
-      subtitle: CredentialI18n.instance.changeSavedOaPwdDesc.text(),
-      leading: const Icon(Icons.edit),
-      onTap: () async {
-        final newPwd =
-            await Editor.showStringEditor(context, desc: CredentialI18n.instance.savedOaPwd, initial: origin.password);
-        if (newPwd != origin.password) {
-          if (!mounted) return;
-          CredentialInit.storage.oaCredentials = origin.copyWith(password: newPwd);
-          setState(() {});
-        }
-      },
     );
   }
 

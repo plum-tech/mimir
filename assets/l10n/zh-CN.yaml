@@ -125,11 +125,9 @@ credential:
   oaAccount: OA 账号
   oaPwd: OA 密码
   savedOaPwd: 保存的 OA 密码
+  savedOaPwdDesc: 用于自动登录 OA
   pwd: 密码
-  reloginRequestDesc: 你的账号或密码不正确，是否想要重新登录？
   error: 登录凭据错误
-  changeSavedOaPwd: 修改保存的密码
-  changeSavedOaPwdDesc: 它不会修改你真正的 OA 密码
 easyconnect:
   launchBtn: 启动 EasyConnect
   launchFailed: 启动失败

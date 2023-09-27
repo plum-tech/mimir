@@ -125,11 +125,9 @@ credential:
   oaAccount: OA Account
   oaPwd: OA Password
   savedOaPwd: Saved OA Password
+  savedOaPwdDesc: Used to auto-login OA
   pwd: Password
-  reloginRequestDesc: Your account or password is incorrect, do you want to log in again?
   error: Credential Error
-  changeSavedOaPwd: Change Saved Password
-  changeSavedOaPwdDesc: Not affecting your actual OA password
 easyconnect:
   launchBtn: Launch EasyConnect
   launchFailed: Launch Failed

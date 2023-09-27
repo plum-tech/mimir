@@ -125,11 +125,9 @@ credential:
   oaAccount: OA 帳戶
   oaPwd: OA 密碼
   savedOaPwd: 儲存的 OA 密碼
+  savedOaPwdDesc: 用於自動登入 OA
   pwd: 密碼
-  reloginRequestDesc: 你的賬戶或密碼不正確，確認重新登入嗎？
   error: 登入憑證錯誤
-  changeSavedOaPwd: 修改儲存的 OA 密碼
-  changeSavedOaPwdDesc: 不會作用在你真正的 OA 密碼
 easyconnect:
   launchBtn: 啟用 EasyConnect
   launchFailed: 啟動失敗
