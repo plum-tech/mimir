@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -403,7 +404,11 @@ class _CourseCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = context.mediaQuery.size;
-    final color = TimetableStyle.of(context).platte.resolveColor(course).byTheme(context.theme);
+    final color = TimetableStyle.of(context)
+        .platte
+        .resolveColor(course)
+        .byTheme(context.theme)
+        .harmonizeWith(context.colorScheme.primary);
     final padding = context.isPortrait ? size.height / 40 : size.height / 80;
     return FilledCard(
       clipBehavior: Clip.hardEdge,

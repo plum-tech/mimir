@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -325,7 +326,11 @@ class LessonCard extends StatelessWidget {
 extension _LessonCardEx on SitTimetable {
   Widget buildSingleLesson(BuildContext context, SitTimetableLesson lesson, int timeslot) {
     final course = courseKey2Entity[lesson.courseKey];
-    final color = TimetableStyle.of(context).platte.resolveColor(course).byTheme(context.theme);
+    final color = TimetableStyle.of(context)
+        .platte
+        .resolveColor(course)
+        .byTheme(context.theme)
+        .harmonizeWith(context.colorScheme.primary);
     final classTime = course.buildingTimetable[timeslot];
     return [
       _buildClassTimeCard(color, classTime),

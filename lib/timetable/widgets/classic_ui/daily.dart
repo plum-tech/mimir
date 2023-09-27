@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widgets/card.dart';
@@ -319,7 +320,11 @@ class LessonCard extends StatelessWidget {
       height: iconSize,
     );
     final (:begin, :end) = course.calcBeginEndTimepoint();
-    final color = TimetableStyle.of(context).platte.resolveColor(course).byTheme(context.theme);
+    final color = TimetableStyle.of(context)
+        .platte
+        .resolveColor(course)
+        .byTheme(context.theme)
+        .harmonizeWith(context.colorScheme.primary);
     return FilledCard(
       color: color,
       margin: const EdgeInsets.all(8),

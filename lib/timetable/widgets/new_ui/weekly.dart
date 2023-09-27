@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -372,7 +373,11 @@ class _CourseCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Widget res;
-    final color = TimetableStyle.of(context).platte.resolveColor(course).byTheme(context.theme);
+    final color = TimetableStyle.of(context)
+        .platte
+        .resolveColor(course)
+        .byTheme(context.theme)
+        .harmonizeWith(context.colorScheme.primary);
     final info = TimetableSlotInfo(
       course: course,
       maxLines: context.isPortrait ? 8 : 5,
