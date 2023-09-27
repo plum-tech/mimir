@@ -39,6 +39,7 @@ class _SchoolPageState extends State<SchoolPage> {
       triggerMode: RefreshIndicatorTriggerMode.anywhere,
       onRefresh: () async {
         debugPrint("School page refreshed");
+        // TODO: using async event emitter
         schoolEventBus.fire(SchoolPageRefreshEvent());
       },
       child: CustomScrollView(

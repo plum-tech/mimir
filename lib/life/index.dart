@@ -53,6 +53,7 @@ class _LifePageState extends State<LifePage> {
       triggerMode: RefreshIndicatorTriggerMode.anywhere,
       onRefresh: () async {
         debugPrint("Life page refreshed");
+        // TODO: using async event emitter
         lifeEventBus.fire(LifePageRefreshEvent());
       },
       child: CustomScrollView(
