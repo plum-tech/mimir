@@ -116,7 +116,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
 
   Widget buildProxyProtocolTile(String protocol, ValueChanged<String> onChanged) {
     return ListTile(
-      leading: const Icon(Icons.link),
+      leading: const Icon(Icons.https),
       title: i18n.proxy.protocol.text(),
       subtitle: protocol.text(),
       trailing: SegmentedButton<String>(
