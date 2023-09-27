@@ -4,9 +4,11 @@
 
 <img src="assets/icon.svg" alt="Icon" width="256">
 
-#### A multiplatform app for SIT students.
+### A multiplatform app for SIT students.
 
-## Functions
+*Android, iOS, Windows, macOS, and Linux*
+
+## Features
 
 | Timetable       |   School Life    |    Daily Life    |
 |-----------------|:----------------:|:----------------:|
@@ -19,9 +21,9 @@
 
 ## Contact Us
 
-**If you met any bug, feel free to ask or make an issue.**
+If you met any bug, feel free to [make an issue](https://github.com/liplum/mimir/issues/new).
 
-**Welcome to contribute Mímir, please read the [contribution guide](specifications/CONTRIBUTION_GUIDE.md).**
+Welcome to contribute Mímir, please read the [contribution guide](specifications/CONTRIBUTION_GUIDE.md).
 
 ### Copyright
 
