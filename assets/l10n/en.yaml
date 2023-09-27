@@ -335,7 +335,11 @@ settings:
       desc: Proxy your HTTP requests
     global: Use as global proxy
     globalDesc: For debugging, exclude Webview
-    proxyAddress: Proxy Address
+    protocol: Protocol
+    address: Address
+    port: Port
+    username: Username
+    password: Password
   language:
     title: Language
   testConnect2School:

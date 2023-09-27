@@ -106,9 +106,9 @@ class _HttpProxy {
   const _HttpProxy(this.box);
 
   // network
-  String get address => box.get(_HttpProxyK.address) ?? "localhost";
+  String? get address => box.get(_HttpProxyK.address);
 
-  set address(String newV) => box.put(_HttpProxyK.address, newV);
+  set address(String? newV) => box.put(_HttpProxyK.address, newV);
 
   /// [false] by default.
   bool get enableHttpProxy => box.get(_HttpProxyK.useHttpProxy) ?? false;
@@ -116,6 +116,8 @@ class _HttpProxy {
   set enableHttpProxy(bool newV) => box.put(_HttpProxyK.useHttpProxy, newV);
 
   ValueListenable listenHttpProxy() => box.listenable(keys: [_HttpProxyK.useHttpProxy, _HttpProxyK.address]);
+
+  Stream<BoxEvent> watchHttpProxy() => box.watch(key: _HttpProxyK.address);
 
   /// [false] by default.
   bool get isGlobalHttpProxy => box.get(_HttpProxyK.isGlobalHttpProxy) ?? false;

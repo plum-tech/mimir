@@ -104,7 +104,15 @@ class _Proxy {
 
   String get globalDesc => "$ns.globalDesc".tr();
 
-  String get proxyAddress => "$ns.proxyAddress".tr();
+  String get protocol => "$ns.protocol".tr();
+
+  String get address => "$ns.address".tr();
+
+  String get port => "$ns.port".tr();
+
+  String get username => "$ns.username".tr();
+
+  String get password => "$ns.password".tr();
 }
 
 class _Language {

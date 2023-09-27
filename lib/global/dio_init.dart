@@ -91,17 +91,6 @@ class MimirHttpOverrides extends HttpOverrides {
 
   MimirHttpOverrides({required this.config});
 
-  String getProxyPolicyByUrl(Uri url, String httpProxy) {
-    final host = url.host;
-    if (_proxyFilter(host)) {
-      Log.info('使用代理访问 $url');
-      return 'PROXY $httpProxy';
-    } else {
-      Log.info('直连访问 $url');
-      return 'DIRECT';
-    }
-  }
-
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     final client = super.createHttpClient(context);
@@ -109,13 +98,24 @@ class MimirHttpOverrides extends HttpOverrides {
     final httpProxy = Settings.httpProxy.address;
     final useHttpProxy = Settings.httpProxy.enableHttpProxy;
     // 设置证书检查
-    if (config.allowBadCertificate || useHttpProxy || httpProxy != null) {
+    if (config.allowBadCertificate || useHttpProxy) {
       client.badCertificateCallback = (cert, host, port) => true;
     }
-    // 设置代理.
-    if (useHttpProxy && httpProxy != null && httpProxy.isNotEmpty) {
-      Log.info('设置代理: $httpProxy');
-      client.findProxy = (url) => getProxyPolicyByUrl(url, httpProxy);
+    if (httpProxy != null) {
+      // 设置代理.
+      if (useHttpProxy && httpProxy.isNotEmpty) {
+        Log.info('设置代理: $httpProxy');
+        client.findProxy = (url) {
+          final host = url.host;
+          if (_proxyFilter(host)) {
+            Log.info('使用代理访问 $url');
+            return 'PROXY $httpProxy';
+          } else {
+            Log.info('直连访问 $url');
+            return 'DIRECT';
+          }
+        };
+      }
     }
     return client;
   }

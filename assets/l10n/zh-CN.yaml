@@ -335,7 +335,11 @@ settings:
       desc: 代理你的 HTTP 请求
     global: 代理全部请求
     globalDesc: 调试用，不包含 Webview 发出的请求
-    proxyAddress: 代理地址
+    protocol: 协议
+    address: 地址
+    port: 端口
+    username: 用户名
+    password: 密码
   language:
     title: 语言
   testConnect2School:
