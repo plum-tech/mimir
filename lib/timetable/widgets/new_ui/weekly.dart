@@ -400,7 +400,9 @@ class _CourseCell extends StatelessWidget {
     }
 
     return res.inCard(color: color, elevation: elevation, margin: EdgeInsets.all(1.5.w)).onTap(() async {
-      await context.showSheet((ctx) => Sheet(courseCode: course.courseCode, timetable: timetable));
+      await context.showSheet(
+        (ctx) => TimetableCourseSheet(courseCode: course.courseCode, timetable: timetable),
+      );
     });
   }
 }

@@ -326,7 +326,9 @@ class LessonCard extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         onTap: () async {
-          await context.showSheet((ctx) => Sheet(courseCode: course.courseCode, timetable: timetable));
+          await context.showSheet(
+            (ctx) => TimetableCourseSheet(courseCode: course.courseCode, timetable: timetable),
+          );
         },
         child: ListTile(
           isThreeLine: true,

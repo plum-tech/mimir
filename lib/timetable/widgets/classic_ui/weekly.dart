@@ -411,7 +411,9 @@ class _CourseCell extends StatelessWidget {
       margin: EdgeInsets.all(0.5.w),
       child: InkWell(
         onTap: () async {
-          await context.showSheet((ctx) => Sheet(courseCode: course.courseCode, timetable: timetable));
+          await context.showSheet(
+            (ctx) => TimetableCourseSheet(courseCode: course.courseCode, timetable: timetable),
+          );
         },
         child: TimetableSlotInfo(
           course: course,

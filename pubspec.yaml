@@ -159,7 +159,6 @@ flutter:
   assets:
     - assets/
     - assets/fonts/
-    - assets/timetable/
     - assets/course/
     - assets/yellow_pages.json
     - assets/room_list.json

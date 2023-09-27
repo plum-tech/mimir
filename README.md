@@ -19,13 +19,13 @@
 |                 |   Second Class   |                  |
 |                 | YWB Application  |                  |
 
-## Contact Us
+## Contribution
 
 If you met any bug, feel free to [make an issue](https://github.com/liplum/mimir/issues/new).
 
 Welcome to contribute Mímir, please read the [contribution guide](specifications/CONTRIBUTION_GUIDE.md).
 
-### Copyright
+### License
 
 The source codes and configurations are open source under [GPL v3](LICENSE).
 </div>

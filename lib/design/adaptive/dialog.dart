@@ -4,6 +4,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'foundation.dart';
+import 'multiplatform.dart';
 
 typedef PickerActionWidgetBuilder = Widget Function(BuildContext context, int? selectedIndex);
 typedef DualPickerActionWidgetBuilder = Widget Function(BuildContext context, int? selectedIndexA, int? selectedIndexB);
@@ -99,14 +100,25 @@ extension DialogEx on BuildContext {
 
   Future<T?> showSheet<T>(
     WidgetBuilder builder, {
-    bool? dismissible,
+    bool dismissible = true,
+    bool useRootNavigator = true,
   }) async {
-    return await showCupertinoModalBottomSheet<T>(
-      context: this,
-      builder: builder,
-      animationCurve: Curves.fastEaseInToSlowEaseOut,
-      isDismissible: dismissible,
-    );
+    if (isCupertino) {
+      return await showCupertinoModalBottomSheet<T>(
+        context: this,
+        useRootNavigator: useRootNavigator,
+        builder: builder,
+        animationCurve: Curves.fastEaseInToSlowEaseOut,
+        isDismissible: dismissible,
+      );
+    } else {
+      return await showModalBottomSheet(
+        context: this,
+        builder: builder,
+        useRootNavigator: useRootNavigator,
+        isDismissible: dismissible,
+      );
+    }
   }
 
   Future<int?> showPicker({
