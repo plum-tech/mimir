@@ -46,6 +46,15 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
       },
       child: Scaffold(
         body: buildBody(),
+        appBar: AppBar(
+          // TODO: remove outer app bar
+          bottom: isLoggingIn
+              ? const PreferredSize(
+                  preferredSize: Size.fromHeight(4),
+                  child: LinearProgressIndicator(),
+                )
+              : null,
+        ),
         bottomNavigationBar: const ForgotPasswordButton(),
       ),
     );
@@ -142,13 +151,19 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
       password: $password.text,
     );
     try {
+      if (!mounted) return;
+      setState(() => isLoggingIn = true);
       await EduEmailInit.service.login(credential);
     } catch (err) {
       if (!mounted) return;
       await context.showTip(title: i18n.failedWarn, desc: "please check your pwd", ok: i18n.ok);
+      if (!mounted) return;
+      setState(() => isLoggingIn = false);
       return;
     }
     CredentialInit.storage.eduEmailCredentials = credential;
+    if (!mounted) return;
+    setState(() => isLoggingIn = false);
   }
 }
 

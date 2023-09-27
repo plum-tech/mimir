@@ -19,7 +19,6 @@ import 'package:rettulf/rettulf.dart';
 
 import '../init.dart';
 import '../i18n.dart';
-import '../utils.dart';
 
 class LoginPage extends StatefulWidget {
   final bool isGuarded;
