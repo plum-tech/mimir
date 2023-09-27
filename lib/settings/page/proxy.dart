@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:mimir/design/adaptive/editor.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
@@ -39,8 +40,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     final proxy = Settings.httpProxy.address;
     final proxyUri = Uri.tryParse(proxy) ?? Uri(scheme: "http", host: "localhost", port: 80);
     final userInfoParts = proxyUri.userInfo.split(":");
-    final username = userInfoParts.elementAtOrNull(0);
-    final password = userInfoParts.elementAtOrNull(1);
+    final auth = userInfoParts.length == 2 ? (username: userInfoParts[0], password: userInfoParts[1]) : null;
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
@@ -57,6 +57,10 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
           SliverList(
             delegate: SliverChildListDelegate([
               buildEnableProxyToggle(),
+              buildProxyFullTile(proxyUri, (newProxy) {
+                setNewAddress(newProxy);
+              }),
+              const Divider(),
               buildProxyProtocolTile(proxyUri.scheme, (newProtocol) {
                 setNewAddress(proxyUri.replace(scheme: newProtocol));
               }),
@@ -66,8 +70,10 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
               buildProxyPortTile(proxyUri.port, (newPort) {
                 setNewAddress(proxyUri.replace(port: newPort));
               }),
-              buildProxyAuthTile(username != null && password != null ? (username: username, password: password) : null,
-                  (newUsername) {}),
+              buildProxyAuthTile(auth, (newAuth) {
+                setNewAddress(
+                    proxyUri.replace(userInfo: newAuth == null ? "" : "${newAuth.username}:${newAuth.password}"));
+              }),
             ]),
           ),
         ],
@@ -80,7 +86,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
   }
 
   Widget buildEnableProxyToggle() {
-    return Settings.httpProxy.listenHttpProxy() >>
+    return Settings.httpProxy.listenEnableHttpProxy() >>
         (ctx, _) => ListTile(
               title: i18n.proxy.enableProxyTitle.text(),
               subtitle: i18n.proxy.enableProxyDesc.text(),
@@ -115,23 +121,40 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     );
   }
 
+  Widget buildProxyFullTile(Uri proxyUri, ValueChanged<Uri> onChanged) {
+    return ListTile(
+      leading: const Icon(Icons.link),
+      title: i18n.proxy.title.text(),
+      subtitle: proxyUri.toString().text(),
+      trailing: IconButton(
+        icon: const Icon(Icons.edit),
+        onPressed: () async {
+          final newHostName = await Editor.showStringEditor(
+            context,
+            desc: i18n.proxy.address,
+            initial: proxyUri.toString(),
+          );
+        },
+      ),
+    );
+  }
+
   Widget buildProxyHostnameTile(String hostname, ValueChanged<String> onChanged) {
     return ListTile(
       leading: const Icon(Icons.link),
       title: i18n.proxy.address.text(),
       subtitle: hostname.text(),
-      onTap: () async {
-        final newHostName = await Editor.showStringEditor(
-          context,
-          desc: i18n.proxy.address,
-          initial: hostname,
-        );
-        // if (newHostName != Settings.httpProxy.address) {
-        //   Settings.httpProxy.address = newHostName;
-        //   await Init.init();
-        // }
-      },
-      trailing: const Icon(Icons.edit),
+      trailing: IconButton(
+        icon: const Icon(Icons.edit),
+        onPressed: () async {
+          final newHostName = await Editor.showStringEditor(
+            context,
+            desc: i18n.proxy.address,
+            initial: hostname,
+          );
+          onChanged(newHostName);
+        },
+      ),
     );
   }
 
@@ -140,14 +163,17 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
       leading: const Icon(Icons.settings_input_component_outlined),
       title: i18n.proxy.port.text(),
       subtitle: port.toString().text(),
-      onTap: () async {
-        final newPort = await Editor.showIntEditor(
-          context,
-          desc: i18n.proxy.port,
-          initial: port,
-        );
-      },
-      trailing: const Icon(Icons.edit),
+      trailing: IconButton(
+        icon: const Icon(Icons.edit),
+        onPressed: () async {
+          final newPort = await Editor.showIntEditor(
+            context,
+            desc: i18n.proxy.port,
+            initial: port,
+          );
+          onChanged(newPort);
+        },
+      ),
     );
   }
 
@@ -156,18 +182,37 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     ValueChanged<({String username, String password})?> onChanged,
   ) {
     final text = credentials != null ? "${credentials.username}:${credentials.password}" : null;
+
     return ListTile(
-      leading: const Icon(Icons.person),
+      leading: const Icon(Icons.key),
       title: i18n.proxy.authentication.text(),
       subtitle: text?.text(),
-      onTap: () async {
-        // final newPort = await Editor.showStringEditor(
-        //   context,
-        //   desc: i18n.proxy.username,
-        //   initial: username ?? "",
-        // );
-      },
-      trailing: const Icon(Icons.edit),
+      trailing: [
+        if (credentials != null)
+          IconButton(
+            onPressed: () {
+              onChanged(null);
+            },
+            icon: const Icon(Icons.clear),
+          ),
+        IconButton(
+          icon: const Icon(Icons.edit),
+          onPressed: () async {
+            final newAuth = await context.show$Dialog$<({String username, String password})>(
+                make: (_) => StringsEditor(
+                      fields: [
+                        (name: "username", initial: credentials?.username ?? ""),
+                        (name: "password", initial: credentials?.password ?? ""),
+                      ],
+                      title: i18n.proxy.authentication,
+                      ctor: (values) => (username: values[0], password: values[1]),
+                    ));
+            if (newAuth != null) {
+              onChanged(newAuth);
+            }
+          },
+        ),
+      ].wrap(),
     );
   }
 }

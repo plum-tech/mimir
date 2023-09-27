@@ -114,7 +114,7 @@ class _HttpProxy {
 
   set enableHttpProxy(bool newV) => box.put(_HttpProxyK.useHttpProxy, newV);
 
-  ValueListenable listenHttpProxy() => box.listenable(keys: [_HttpProxyK.useHttpProxy, _HttpProxyK.address]);
+  ValueListenable listenEnableHttpProxy() => box.listenable(keys: [_HttpProxyK.useHttpProxy]);
 
   Stream<BoxEvent> watchHttpProxy() => box.watch(key: _HttpProxyK.address);
 }

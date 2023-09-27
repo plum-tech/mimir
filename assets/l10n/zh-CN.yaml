@@ -333,7 +333,7 @@ settings:
     enableProxy:
       title: 启用 HTTP 代理
       desc: 代理你的 HTTP 请求
-    authentication: 验证
+    authentication: 身份验证
     protocol: 协议
     address: 地址
     port: 端口

@@ -353,3 +353,65 @@ class _StringEditorState extends State<_StringEditor> {
             ));
   }
 }
+
+class StringsEditor<T> extends StatefulWidget {
+  final List<({String name, String initial})> fields;
+  final String? title;
+  final T Function(List<String> values) ctor;
+
+  const StringsEditor({
+    super.key,
+    required this.fields,
+    required this.title,
+    required this.ctor,
+  });
+
+  @override
+  State<StringsEditor> createState() => _StringsEditorState();
+}
+
+class _StringsEditorState extends State<StringsEditor> {
+  late List<({String name, TextEditingController $value})> $values;
+
+  late TextEditingController $password;
+
+  @override
+  void initState() {
+    super.initState();
+    $values = widget.fields.map((e) => (name: e.name, $value: TextEditingController(text: e.initial))).toList();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    for (final (name: _, :$value) in $values) {
+      $value.dispose();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return $Dialog$(
+      title: widget.title,
+      make: (ctx) => $values.map((e) => buildField(e.name, e.$value)).toList().column(mas: MainAxisSize.min),
+      primary: $Action$(
+          text: _i18n.submit,
+          onPressed: () {
+            context.navigator.pop(widget.ctor($values.map((e) => e.$value.text).toList()));
+          }),
+      secondary: $Action$(
+          text: _i18n.cancel,
+          onPressed: () {
+            context.navigator.pop(widget.ctor(widget.fields.map((e) => e.initial).toList()));
+          }),
+    );
+  }
+
+  Widget buildField(String fieldName, TextEditingController controller) {
+    return $TextField$(
+      controller: controller,
+      textInputAction: TextInputAction.next,
+      labelText: fieldName,
+    ).padV(1);
+  }
+}

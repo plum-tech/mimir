@@ -414,7 +414,11 @@ class _StorageListLandscapeState extends State<StorageListLandscape> {
     final name = selectedBoxName;
     final selected = widget.boxes.firstWhereOrNull((tuple) => tuple.name == name);
     if (selected == null) {
-      return _buildUnselectBoxTip(ValueKey(name), ctx);
+      return LeavingBlank(
+        key: ValueKey(name),
+        icon: Icons.unarchive_outlined,
+        desc: i18n.dev.storage.selectBoxTip,
+      );
     }
     final routeStyle = context.textTheme.titleMedium;
     final typeStyle = context.textTheme.bodySmall;
@@ -436,10 +440,6 @@ class _StorageListLandscapeState extends State<StorageListLandscape> {
         );
       },
     );
-  }
-
-  Widget _buildUnselectBoxTip(Key? key, BuildContext ctx) {
-    return LeavingBlank(key: key, icon: Icons.unarchive_outlined, desc: i18n.dev.storage.selectBoxTip);
   }
 }
 
