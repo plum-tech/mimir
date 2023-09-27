@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:markdown/markdown.dart';
 
-import 'html_widget.dart';
+import 'html.dart';
 
 class MyMarkdownWidget extends StatelessWidget {
   final String markdown;
@@ -23,6 +23,6 @@ class MyMarkdownWidget extends StatelessWidget {
         TableSyntax(),
       ],
     );
-    return MyHtmlWidget(html);
+    return StyledHtmlWidget(html);
   }
 }

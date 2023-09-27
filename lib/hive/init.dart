@@ -1,18 +1,21 @@
-import 'adapter.dart';
-import 'using.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mimir/school/library/search/entity/search_history.dart';
 
-class HiveBoxInit {
-  const HiveBoxInit._();
+import 'adapter.dart';
+
+class HiveInit {
+  const HiveInit._();
 
   static late Box<dynamic> credentials;
-  static late Box<LibrarySearchHistoryItem> librarySearchHistory;
+  static late Box<LibrarySearchHistoryItem> library;
   static late Box<dynamic> timetable;
   static late Box<dynamic> expense;
-  static late Box<dynamic> activityCache;
-  static late Box<dynamic> examArrCache;
-  static late Box<dynamic> examResultCache;
-  static late Box<dynamic> oaAnnounceCache;
-  static late Box<dynamic> applicationCache;
+  static late Box<dynamic> yellowPages;
+  static late Box<dynamic> class2nd;
+  static late Box<dynamic> examArrange;
+  static late Box<dynamic> examResult;
+  static late Box<dynamic> oaAnnounce;
+  static late Box<dynamic> ywb;
   static late Box<dynamic> eduEmail;
   static late Box<dynamic> settings;
   static late Box<dynamic> meta;
@@ -28,20 +31,19 @@ class HiveBoxInit {
       credentials = await Hive.openBox('credentials'),
       settings = await Hive.openBox('settings'),
       meta = await Hive.openBox('meta'),
-      librarySearchHistory = await Hive.openBox('library-search-history'),
-      cookies = await Hive.openBox('cookies'),
+      yellowPages = await Hive.openBox('yellow-pages'),
       timetable = await Hive.openBox('timetable'),
-      eduEmail = await Hive.openBox('eduEmail'),
       ...cacheBoxes = [
-        examArrCache = await Hive.openBox('exam-arr-Cache'),
-        examResultCache = await Hive.openBox('exam-result-cache'),
-        oaAnnounceCache = await Hive.openBox('oa-announce-cache'),
-        activityCache = await Hive.openBox('activity-cache'),
-        applicationCache = await Hive.openBox('application-cache'),
+        eduEmail = await Hive.openBox('eduEmail'),
+        cookies = await Hive.openBox('cookies'),
+        expense = await Hive.openBox('expense'),
+        library = await Hive.openBox('library'),
+        examArrange = await Hive.openBox('exam-arrange'),
+        examResult = await Hive.openBox('exam-result'),
+        oaAnnounce = await Hive.openBox('oa-announce'),
+        class2nd = await Hive.openBox('class2nd'),
+        ywb = await Hive.openBox('ywb'),
       ],
-      // almost time, this box is very very long which ends up low performance in building.
-      // So put this on the bottom
-      expense = await Hive.openBox('expense'),
     ]);
   }
 
@@ -55,9 +57,8 @@ class HiveBoxInit {
 
   static Future<void> clear() async {
     for (final box in name2Box.values) {
-      await box.deleteFromDisk();
+      await box.clear();
     }
-    await Hive.close();
   }
 
   static Future<void> clearCache() async {

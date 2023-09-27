@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
+import 'package:mimir/credential/init.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/network/session.dart';
 import 'package:mimir/session/common.dart';
@@ -21,7 +22,7 @@ class YwbSession extends ISession {
     required this.dio,
   });
 
-  Future<void> login({
+  Future<void> _login({
     required String username,
     required String password,
   }) async {
@@ -33,7 +34,7 @@ class YwbSession extends ISession {
 
     if (code != 0) {
       final String errMessage = (response.data as Map)['msg'];
-      throw CredentialsInvalidException(msg: '($code) $errMessage');
+      throw YwbCredentialsException(message: '($code) $errMessage');
     }
     jwtToken = ((response.data as Map)['data'])['authorization'];
     this.username = username;
@@ -59,6 +60,15 @@ class YwbSession extends ISession {
     SessionProgressCallback? onSendProgress,
     SessionProgressCallback? onReceiveProgress,
   }) async {
+    if (!isLogin) {
+      final credentials = CredentialInit.storage.oaCredentials;
+      if (credentials == null) throw LoginRequiredException(url: url);
+      await _login(
+        username: credentials.account,
+        password: credentials.password,
+      );
+    }
+
     Options newOptions = options?.toDioOptions() ?? Options();
 
     // Make default options.

@@ -50,6 +50,16 @@ mixin CommonI18nMixin {
   String get untitled => "untitled".tr();
 
   String get congratulations => "congratulations".tr();
+
+  String get search => "search".tr();
+
+  String get seeAll => "seeAll".tr();
+
+  String get select => "select".tr();
+
+  String get unselect => "unselect".tr();
+
+  String get share => "share".tr();
 }
 
 class CommonI18n with CommonI18nMixin {
@@ -112,9 +122,5 @@ class CampusI10n {
 
   String get xuhui => "$ns.xuhui".tr();
 
-  String get xuhuiDistrict => "$ns.xuhuiDistrict".tr();
-
   String get fengxian => "$ns.fengxian".tr();
-
-  String get fengxianDistrict => "$ns.fengxianDistrict".tr();
 }

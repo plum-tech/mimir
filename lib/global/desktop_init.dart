@@ -1,7 +1,7 @@
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/r.dart';
-import 'package:mimir/storage/settings.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -44,6 +44,7 @@ class DesktopInit {
   static bool resizing = false;
 
   static Future<void> init() async {
+    // TODO: multiple windows listener
     windowManager.addListener(DesktopWindowListener());
     desktopEventBus.on<WindowResizeEvent>().listen((e) {
       resizing = true;

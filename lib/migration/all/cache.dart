@@ -7,6 +7,6 @@ final ClearCacheMigration = _ClearCacheMigrationImpl();
 class _ClearCacheMigrationImpl extends Migration {
   @override
   Future<void> perform() async {
-    await HiveBoxInit.clearCache();
+    await HiveInit.clearCache();
   }
 }

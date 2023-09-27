@@ -6,8 +6,8 @@
 
 */
 
-NSCalendarsUsageDescription = "Mímir requires calendar premission.";
-NSCameraUsageDescription = "Mímir requires camera premission.";
-NSPhotoLibraryUsageDescription = "Mímir requires album premission.";
+NSCalendarsUsageDescription = "Requires calendar premission";
+NSCameraUsageDescription = "Requires camera premission";
+NSPhotoLibraryUsageDescription = "Requires album premission";
 CFBundleDisplayName = "Mímir";
-NFCReaderUsageDescription = "Mímir requires NFC premission.";
+NFCReaderUsageDescription = "Requires NFC premission";

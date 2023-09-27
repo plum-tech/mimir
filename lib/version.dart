@@ -2,31 +2,44 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:version/version.dart';
 
-class AppVersion {
-  String platform;
-  String version;
-  Version? full;
+enum AppPlatform {
+  android("Android"),
+  windows("Windows"),
+  iOS("iOS"),
+  macOS("macOS"),
+  linux("Linux"),
+  web("Web"),
+  unknown("?");
 
-  AppVersion(this.platform, this.version, {this.full});
+  final String name;
+  const AppPlatform(this.name);
+}
+
+class AppVersion {
+  final AppPlatform platform;
+  final String version;
+  final Version? full;
+
+  const AppVersion(this.platform, this.version, {this.full});
 }
 
 Future<AppVersion> getCurrentVersion() async {
   final packageInfo = await PackageInfo.fromPlatform();
-  final String platform;
+  final AppPlatform platform;
   if (UniversalPlatform.isAndroid) {
-    platform = "Android";
+    platform = AppPlatform.android;
   } else if (UniversalPlatform.isIOS) {
-    platform = "iOS";
+    platform = AppPlatform.iOS;
   } else if (UniversalPlatform.isMacOS) {
-    platform = "macOS";
+    platform = AppPlatform.macOS;
   } else if (UniversalPlatform.isLinux) {
-    platform = "Linux";
+    platform = AppPlatform.linux;
   } else if (UniversalPlatform.isWindows) {
-    platform = "Windows";
+    platform = AppPlatform.windows;
   } else if (UniversalPlatform.isWeb) {
-    platform = "Web";
+    platform = AppPlatform.web;
   } else {
-    platform = "Unknown";
+    platform = AppPlatform.unknown;
   }
   return AppVersion(platform, packageInfo.version, full: packageInfo.tryParseVersion());
 }

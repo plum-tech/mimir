@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = 上应小风筝
+PRODUCT_NAME = Mimir
 
 // The application's bundle identifier
 PRODUCT_BUNDLE_IDENTIFIER = net.liplum.Mimir
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright (C) 2022 上海应用技术大学 上应小风筝团队
+PRODUCT_COPYRIGHT = Copyright (C) 2023 Liplum

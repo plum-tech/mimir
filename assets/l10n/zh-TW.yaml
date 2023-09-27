@@ -2,47 +2,78 @@ language:
   en: English
   zh_CN: 简体中文
   zh_TW: 繁體中文
-app:
-  login:
-    name: 登入
-    desc: 登入你的 OA
-  activity:
-    name: 第二課堂
-    desc: 我的第二課堂學分和活動
-  application:
-    name: 應網辦
-    desc: 辦事要準備什麼材料呢?
-  eduEmail:
-    name: Edu 電郵
-    desc: 查看 Edu 電郵裡的郵件
-  elecBill:
-    name: 查電費
-    desc: 宿舍電費餘額與用電記錄
-  examArr:
-    name: 考試安排
-    desc: 查看我最近的考試安排
-  examResult:
-    name: 成績
-    desc: 天才出於勤奮
-  expense:
-    name: 查消費
-    desc: 校園卡的消費記錄
-  library:
-    name: 圖書館
-    desc: 館藏圖書與借閱情況
-  oaAnnouncement:
-    name: OA 公告
-    desc: 查看學校的公告
-  separator:
-    name: 分隔號
-    desc: 看什麼看！我是個分隔號
-  timetable:
-    name: 課程表
-    desc: 查看你的每週課表
-  yellowPages:
-    name: 學校黃頁
-    desc: 學校聯絡人黃頁
-activity:
+timetable:
+  navigation: 課程表
+  mine:
+    title: 我的課程表
+    edit: 編輯
+    exportFile: 匯出檔案
+    exportCalender: 匯出日曆
+    delete: 刪除
+    preview: 預覽
+    use: 使用
+    used: 已使用
+    deleteRequest: 確認刪除
+    deleteRequestDesc: 你會失去這個課程表，永久地。
+    emptyTip: 快去匯入一張新的課程表吧！
+  detail:
+    descFormTitle: 說明
+    nameFormTitle: 名稱
+    classId: "班级 {}"
+    courseId: "课程代码 {}"
+  import:
+    title: 匯入課程表
+    import: 匯入
+    fromFile: 從檔案
+    tryImportBtn: 嘗試匯入
+    fromFileBtn: 從檔案匯入
+    connectivityCheckerDesc: 你需要訪問校園網路，才能匯入一個新的課程表。現在就開始檢查吧。
+    selectSemesterTip: 請先選擇學年與學期
+    endTip: 請補充課程表的資訊。
+    failed: 匯入失敗
+    failedDesc: 無法匯入課程表，請之後再試。
+    failedTip: 匯入失敗，請之後再試。
+    importing: 正在擷取課程表數據……
+    timetableInfo: 課程表資訊
+    defaultName: "{semester} {yearStart}–{yearEnd} 課程表"
+  displayMode:
+    daily: 日
+    weekly: 周
+  weekStep:
+    single: 周
+    all: 周
+    odd: 單週
+    even: 雙週
+  jump: 前往
+  findToday: 尋找今天
+  startWith: "起始於"
+  weekOrderedName: "第 {} 周"
+  freeTip:
+    dayTip: 好喔，這天沒課！
+    isTodayTip: "祝你今日過得愉快！🎉"
+    weekTip: 棒耶，這週都沒課！
+    isThisWeekTip: "祝你這週過得愉快！🎉"
+    termTip: "太酷啦，這學期都沒課耶！ 🎉🎉🎉"
+    findNearestWeekWithClass: 尋找有課的一天
+    findNearestDayWithClass: 尋找有課的一週
+school:
+  navigation: 學校
+  schoolYear: 學年
+  semester:
+    title: 學期
+    all: 學年
+    term1: 第一學期
+    term2: 第二學期
+life:
+  navigation: 生活
+me:
+  navigation: 個人
+class2nd:
+  title: 第二課堂
+  activity: 活動
+  attended: 已參與
+  refreshSuccessTip: 第二課堂分重新整理成功
+  refreshFailedTip: 第二課堂分重新整理失敗
   navigation:
     all: 活動
     mine: 我的
@@ -56,7 +87,7 @@ activity:
     time: 申請時間
   id: 活動 ID
   contactInfo: 联络人
-  detailEmptyTip: 暫無資訊。
+  detailEmptyTip: 暫無資訊
   details: 活動詳情
   duration: 活動時長
   location: 活動地點
@@ -68,51 +99,48 @@ activity:
   startTime: 開始時間
   tags: 標籤
   undertaker: 承辦人
-application:
-  desc: |
+ywb:
+  title: 應網辦
+  info: |
     此功能基於 "上应一网通办"。
     就大多數業務而言，即使你已在平台上完成申請，依舊需要到現場辦理。
-  filerInfrequentlyUsed: 篩選不常用的
-  navigation:
-    all: 申請
-    mailbox: 站內信
-  mailbox:
-    title: 我的站內信
-    emptyTip: 一只空郵箱。
-    recent: 最近
+  apply: 申請
+  noMetaTip: 無可用申請
+  mine:
+    title: 我的申請
+    noApplicationsTip: 無申請
+  details:
+    apply: 申請
+  type:
+    todo: 待辦
+    running: 在途
+    complete: 辦結
 captcha:
   title: 驗證碼
   enterHint: 請鍵入驗證碼
-  emptyInputError: 未鍵入驗證碼。
+  emptyInputError: 未鍵入驗證碼
 credential:
   studentId: 學號
   account: 帳戶
   oaAccount: OA 帳戶
   oaPwd: OA 密碼
   savedOaPwd: 儲存的 OA 密碼
+  savedOaPwdDesc: 用於自動登入 OA
   pwd: 密碼
-  reloginRequestDesc: 你的賬戶或密碼不正確，確認重新登入嗎？
   error: 登入憑證錯誤
-  changeSavedOaPwd: 修改儲存的 OA 密碼
-  changeSavedOaPwdDesc: 不會作用在你真正的 OA 密碼
 easyconnect:
   launchBtn: 啟用 EasyConnect
   launchFailed: 啟動失敗
   launchFailedDesc: 無法為你啟動 EasyConnect，確保你安裝了它，或是現在開始下載？
-elecBill:
-  navigation:
-    bill: 電費
-    search: 搜尋
-  title: "#{room} 的賬單"
-  balance: 可用餘額
-  content: "¥{amount} {place}"
-  initialTip: 請先鍵入你的房間號
+electricity:
+  title: 電費餘額
+  balance: 電費餘額
   remainingPower: 可用電量
-  roomNumber: 房号
-  updateTime: 最後更新
-  lastBalance: "上次 ¥{balance} {room}室"
+  searchInvalidTip: 請先鍵入或選擇一個現有的房間號
+  refreshSuccessTip: 電費餘額重新整理成功
+  refreshFailedTip: 電費餘額重新整理失敗
 eduEmail:
-  title: 我的電郵
+  title: Edu 電郵
   noContent: 無內容
   noSubject: 無主題
   pluralSenderTailing: 等
@@ -122,7 +150,10 @@ eduEmail:
   failedWarn: 登入失敗
   forgotPwdBtn: 忘記密碼?
 examResult:
-  noResult: 暫無考試結果。
+  title: 考試成績
+  check: 查詢
+  teacherEval: 評價教師
+  noResultsTip: 無考試結果
   lessonNotEvaluated: 需評教
   teacherEvalTitle: 教師評價
   lessonEvaluationBtn: 課程評價
@@ -131,19 +162,39 @@ examResult:
   compulsory: 必修
   credit: 學分
   elective: 選修
-examArr:
+examArrange:
+  title: 考試安排
+  check: 查詢
+  date: 日期
+  time: 時間
   endTime: 結束時間
-  isRetake: 是否重修
+  retake: 重修
   location: 地點
-  noExamThisSemester: 此學期無考試。
-  resultBePatientLabel: 請耐心等候。
-  resultNoResult: 無成績記錄
+  noExamsTip: 無考試安排
   seatNumber: 座位號
   startTime: 開始時間
-expense:
-  navigation:
-    bill: 賬單
-    statistics: 統計
+expenseRecords:
+  title: 消費記錄
+  check: 查詢
+  statistics: 統計
+  income: "入賬: ¥{}"
+  outcome: "消費: ¥{}"
+  balanceInCard: "卡內餘額 ¥{}"
+  lastTransaction: "¥{amount} {place}"
+  noTransactionsTip: 無交易記錄
+  refreshSuccessTip: 消費記錄重新整理成功
+  refreshFailedTip: 消費記錄重新整理失敗
+  statsMode:
+    weekly: 周
+    monthly: 月
+    yearly: 年
+  view:
+    balance: 卡內餘額
+    rmb: 元
+  stats:
+    title: 消費統計
+    categories: 消費類別
+    total: 總計
   type:
     consume: 消費
     coffee: 咖啡
@@ -155,19 +206,6 @@ expense:
     topUp: 充值
     subsidy: 津貼
     other: 雜項
-  balanceInCard: "卡內餘額 ¥{}"
-  categories: 類別
-  fetchingRecordTip: 取回消費記錄中
-  fetchingTip: 從學校取回消費記錄中……請稍等, 網路速度有學校伺服器有關。
-  incomeStatistics: "入賬: ¥{}"
-  spentStatistics: "消費: ¥{}"
-  refreshMenuButton: 重新整理
-  statistics: 消費統計
-  toastLoadFailed: 網路錯誤
-  toastLoadSuccessful: 成功獲取最新數據
-  toastLoading: 正在加載……
-  total: 總計
-  lastTransaction: "¥{amount} {place}"
 homepage:
   campusNetworkConnected: 已連線校園網路
   campusNetworkUnconnected: 未連線校園網路
@@ -206,10 +244,15 @@ networkTool:
   connectedByWlan: 已通過 WLAN 連線校園網路。
   connectedByEthernet: 已通過乙太網路連線校園網路。
 login:
-  title: 歡迎！
-  validateInputAccountPwdRequest: 請檢查你鍵入的賬戶和密碼。
+  welcomeHeader: 歡迎！
+  loginOa: 登入 OA
+  validateInputAccountPwdRequest: 請檢查你鍵入的賬戶和密碼
   credentialsValidatedTip: 帳戶與密碼正確
-  accountOrPwdIncorrectTip: 賬戶或密碼錯誤，請檢查輸入後再試一次。
+  accountOrPwdErrorTip: 賬戶或密碼錯誤
+  captchaErrorTip: 驗證碼錯誤
+  accountFrozenTip: 賬戶處於凍結狀態
+  schoolServerUnconnectedTip: 無法連接學校伺服器
+  unknownAuthErrorTip: 未知的帳戶身份驗證錯誤
   accountHint: 學號/工號
   forgotPwdBtn: 忘記密碼?
   loggedInTip: 已登入
@@ -223,16 +266,55 @@ login:
   loginRequired: 需要登入
   neverLoggedInTip: 你必須先登入才能繼續。
 library:
+  title: 圖書館
   hotPost: 熱門
 settings:
   title: 設定
   version: 版本
-  developerOptions: 開發者選項
-  campus:
-    title: 你的校區
-    desc: 不同校區有不同的時間表
+  dev:
+    title: 開發者選項
+    devMode:
+      title: 開發者模式
+    localStorage:
+      title: 本機儲存
+      desc: 管理在本裝置上的儲存
+      selectBoxTip: 請先選擇一個盒子。
+      clearBoxDesc: 確認清空這個盒子嗎？
+      deleteItemDesc: 確認刪除這個 key-value對 嗎？
+      emptyValueDesc: 確認將這個 key-value對 設定為 null 嗎？
+    reload:
+      title: 重新載入
+      desc: 重新載入所有模塊
+    detailedXcpDialog:
+      title: 開啟詳細異常對話框
+      desc: 顯示更加詳細的異常堆棧追蹤資訊
+  timetable:
+    title: 課程表
+    autoUseImported:
+      title: 自動使用匯入的
+      desc: 使用新匯入的課程表
+  school:
+    title: 學校
+    class2nd:
+      autoRefresh:
+        title: 第二課堂分自動重新整理
+        desc: 啟動時重新整理第二課堂分
+    examResult:
+      appCardShowResultDetails:
+        title: 顯示考試成績詳細資料
+        desc: 在考試成績卡片中顯示分數資料
+  life:
+    title: 生活
+    electricity:
+      autoRefresh:
+        title: 電費餘額自動重新整理
+        desc: 啟動時重新整理電費餘額
+    expenseRecords:
+      autoRefresh:
+        title: 消費記錄自動重新整理
+        desc: 啟動時重新整理消費記錄
   studentId:
-    studentIdCopy2ClipboardTip: 你的學號被複製到剪貼板啦。
+    studentIdCopy2ClipboardTip: 你的學號被複製到剪貼板啦
   changeOaPwd:
     title: 修改 OA 密碼
     desc: 修改用於自動登入學校業務的 OA 密碼
@@ -240,28 +322,25 @@ settings:
     title: 清空快取
     desc: 清空使用過程中產生的離線緩存
     request: 確認清空快取嗎？為加載它們，你必須重新連線校園網路。
-  darkMode:
+  themeMode:
     title: 亮度
-    dark: 深色主題
-    light: 亮色主題
-    followSystem: 跟隨系統
-  detailedXcpDialog:
-    title: 開啟詳細異常對話框
-    desc: 顯示更加詳細的異常堆棧追蹤資訊
-  httpProxy:
-    title: 開啟 HTTP Proxy
-    desc: 開啟 HTTP Proxy 連線校園網路
-    global: 用於全局
-    globalDesc: 调试用，不包含 Webview 发出的请求
-    proxyAddress: Proxy
+    dark: 深色
+    light: 亮色
+    system: 系統
+  proxy:
+    title: HTTP 代理
+    desc: 代理校園網路連線
+    enableProxy:
+      title: 開啟 HTTP 代理
+      desc: 代理你的 HTTP 請求
+    authentication: 驗證
+    protocol: 通訊協定
+    address: 地址
+    port: 連接埠
+    username: 使用者名稱
+    password: 密碼
   language:
     title: 語言
-  localStorage:
-    title: 本機儲存
-    desc: 管理在本裝置上的儲存
-  reload:
-    title: 重新載入
-    desc: 重新初始化所有模塊
   testConnect2School:
     title: 測試連線校園網路
     desc: 檢查本裝置與校園網路的連線情況
@@ -269,75 +348,20 @@ settings:
     title: 擦除資料 & 登出
     desc: 擦除帳戶並登出當前 OA 賬戶
     request: 擦除所有資料
-    requestDesc: 這會擦除你本地除網頁快取外的登入資料與其他資料，例如導入的課程表。
-localStorage:
-  title: 本地儲存編輯器
-  selectBoxTip: 請先選擇一個盒子。
-  clearBoxDesc: 確認清空這個盒子嗎？
-  deleteItemDesc: 確認刪除這個 key-value對 嗎？
-  emptyValueDesc: 確認將這個 key-value對 設定為 null 嗎？
+    requestDesc: 這會擦除你本地除網頁快取外的登入資料與其他資料，例如匯入的課程表。
 oaAnnounce:
+  title: OA 公告
+  noOaAnnouncesTip: 無 OA 公告
   attachmentTip:
     one: 附件
     other: 附件
-  text: 公告正文
   downloadCompleted: 下載完成
   publishTime: 發佈日期
   publishingDepartment: 部門
-personalization:
-  themeColor: 主題顏色
-  wallpaper:
-    title: 墻紙
-    desc: 自定義主頁的墻紙
-timetable:
-  mine:
-    title: 我的課程表
-    edit: 編輯
-    delete: 刪除
-    preview: 預覽
-    deleteRequest: 確認刪除
-    deleteRequestDesc: 你會失去這個課程表，永久地。
-    emptyTip: 快去導入一張新的課程表吧！
-    setToDefault: 設為預設
-  detail:
-    descFormTitle: 說明
-    nameFormTitle: 名稱
-    classId: "班级 {}"
-    courseId: "课程代码 {}"
-  import:
-    title: 導入課程表
-    button: 嘗試導入
-    connectivityCheckerDesc: 你需要訪問校園網路，才能導入一個新的課程表。現在就開始檢查吧。
-    selectSemesterTip: 請先選擇學年與學期
-    endTip: 請補充課程表的資訊。
-    failed: 導入失敗
-    failedDesc: 無法導入課程表，請之後再試。
-    failedTip: 導入失敗，請之後再試。
-    importing: 正在擷取課程表數據……
-    timetableInfo: 課程表資訊
-    defaultName: "{semester} {yearStart}-{yearEnd} 課程表"
-  weekStep:
-    all: 周
-    odd: 單週
-    even: 雙週
-  jump: 前往
-  findToday: 尋找今天
-  startWith: "起始於"
-  weekOrderedName: "第 {} 周"
-  freeTip:
-    dayTip: 好喔，這天沒課！
-    isTodayTip: "祝你今日過得愉快！🎉"
-    weekTip: 棒耶，這週都沒課！
-    isThisWeekTip: "祝你這週過得愉快！🎉"
-    termTip: "太酷啦，這學期都沒課耶！ 🎉🎉🎉"
-    findNearestWeekWithClass: 尋找有課的一天
-    findNearestDayWithClass: 尋找有課的一週
+yellowPages:
+  title: 學校黃頁
 scanner:
   barcodeNotRecognized: 未識別到條碼或 QR 碼
-semester:
-  all: 學年
-  term1: 第一學期
-  term2: 第二學期
 greeting:
   headerA: 上應大與你一起度過了
   headerB:
@@ -361,11 +385,9 @@ weekdayShort:
   6: 日
 campus:
   xuhui: 徐匯
-  xuhuiDistrict: 徐匯區
   fengxian: 奉賢
-  fengxianDistrict: 奉賢區
 unit:
-  rmb: "¥{}"
+  rmb: "{} 元"
   powerKwh: "{} 千瓦時"
 time:
   minute: 分鐘
@@ -398,3 +420,8 @@ warning: 警告
 exceptionInfo: 異常資訊
 untitled: 無標題
 congratulations: 恭喜
+search: 搜尋
+seeAll: 查看全部
+select: 選擇
+unselect: 取消選擇
+share: 分享

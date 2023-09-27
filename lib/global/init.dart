@@ -3,44 +3,54 @@ import 'package:mimir/credential/init.dart';
 import 'package:mimir/global/desktop_init.dart';
 import 'package:mimir/global/global.dart';
 import 'package:mimir/hive/init.dart';
+import 'package:mimir/session/ywb.dart';
+import 'package:mimir/settings/meta.dart';
+import 'package:mimir/life/electricity/init.dart';
+import 'package:mimir/life/expense_records/init.dart';
 import 'package:mimir/login/init.dart';
-import 'package:mimir/main/init.dart';
-import 'package:mimir/main/network_tool/init.dart';
+import 'package:mimir/me/edu_email/init.dart';
+import 'package:mimir/me/network_tool/init.dart';
 import 'package:mimir/migration/migrations.dart';
-import 'package:mimir/mini_apps/symbol.dart';
+import 'package:mimir/school/ywb/init.dart';
+import 'package:mimir/school/exam_arrange/init.dart';
+import 'package:mimir/school/library/init.dart';
+import 'package:mimir/school/oa_announce/init.dart';
+import 'package:mimir/school/class2nd/init.dart';
+import 'package:mimir/school/exam_result/init.dart';
+import 'package:mimir/school/yellow_pages/init.dart';
 import 'package:mimir/session/sis.dart';
-import 'package:mimir/storage/settings.dart';
+import 'package:mimir/settings/settings.dart';
+import 'package:mimir/timetable/init.dart';
 import 'package:mimir/version.dart';
 import 'package:path/path.dart' as path;
 import 'package:universal_platform/universal_platform.dart';
 
-import '../storage/meta.dart';
-
 class Init {
   static late AppVersion currentVersion;
 
-  static Future<void> init({bool? debugNetwork}) async {
+  // TODO: Separate network initialization from it
+  static Future<void> init() async {
     // 运行前初始化
     try {
-      await _init(debugNetwork: debugNetwork);
+      await _init();
     } on Exception catch (error, stackTrace) {
-      if (kDebugMode) {
-        print(error);
-        print(stackTrace);
-      }
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
     }
   }
 
-  static Future<void> _init({bool? debugNetwork}) async {
+  static Future<void> _init() async {
+    debugPrint("Initializing");
     // Initialize the window size before others for a better experience when loading.
-    if (UniversalPlatform.isDesktop && !GlobalConfig.isTestEnv) {
+    if (UniversalPlatform.isDesktop) {
       await DesktopInit.init();
     }
 
     // 初始化Hive数据库
-    await HiveBoxInit.init(path.join("net.liplum.Mimir", "hive"));
-    Settings = SettingsImpl(HiveBoxInit.settings);
-    Meta = MetaImpl(HiveBoxInit.meta);
+    await HiveInit.init(path.join("net.liplum.Mimir", "hive"));
+    Settings = SettingsImpl(HiveInit.settings);
+    Settings.isDeveloperMode = kDebugMode;
+    Meta = MetaImpl(HiveInit.meta);
     currentVersion = await getCurrentVersion();
     await Migrations.perform(from: Meta.lastVersion, to: currentVersion.full);
     Meta.lastVersion = currentVersion.full;
@@ -53,12 +63,11 @@ class Init {
     }
 
     CredentialInit.init(
-      box: HiveBoxInit.credentials,
+      box: HiveInit.credentials,
     );
 
     await Global.init(
-      debugNetwork: debugNetwork ?? Settings.isGlobalProxy,
-      cookieBox: HiveBoxInit.cookies,
+      cookieBox: HiveInit.cookies,
       credentials: CredentialInit.storage,
     );
 
@@ -68,70 +77,70 @@ class Init {
 
     OaAnnounceInit.init(
       ssoSession: Global.ssoSession,
-      box: HiveBoxInit.oaAnnounceCache,
+      box: HiveInit.oaAnnounce,
     );
 
     ConnectivityInit.init(
       ssoSession: Global.ssoSession,
     );
 
-    final sisSessionSession = SisSession(
+    final sisSession = SisSession(
       Global.ssoSession,
     );
 
     ExamResultInit.init(
       cookieJar: Global.cookieJar,
-      sisSession: sisSessionSession,
-      box: HiveBoxInit.examResultCache,
+      sisSession: sisSession,
+      box: HiveInit.examResult,
     );
 
-    ExamArrInit.init(
-      eduSession: sisSessionSession,
-      box: HiveBoxInit.examArrCache,
+    ExamArrangeInit.init(
+      session: sisSession,
+      box: HiveInit.examArrange,
     );
 
     TimetableInit.init(
-      eduSession: sisSessionSession,
-      box: HiveBoxInit.timetable,
+      eduSession: sisSession,
+      box: HiveInit.timetable,
       ssoSession: Global.ssoSession,
     );
 
-    ExpenseTrackerInit.init(
+    ExpenseRecordsInit.init(
       session: Global.ssoSession,
-      expenseBox: HiveBoxInit.expense,
+      box: HiveInit.expense,
     );
 
-    HomeInit.init(
-      ssoSession: Global.ssoSession,
+    YellowPagesInit.init(
+      box: HiveInit.yellowPages,
     );
 
-    await LibraryInit.init(
+    LibraryInit.init(
       dio: Global.dio,
-      searchHistoryBox: HiveBoxInit.librarySearchHistory,
+      searchHistoryBox: HiveInit.library,
     );
 
-    await EduEmailInit.init(
-      box: HiveBoxInit.eduEmail,
+    EduEmailInit.init(
+      box: HiveInit.eduEmail,
     );
 
-    ApplicationInit.init(
-      dio: Global.dio,
+    YwbInit.init(
+      session: YwbSession(dio: Global.dio),
       cookieJar: Global.cookieJar,
-      box: HiveBoxInit.applicationCache,
+      box: HiveInit.ywb,
     );
 
-    ScInit.init(
+    Class2ndInit.init(
       ssoSession: Global.ssoSession,
-      box: HiveBoxInit.activityCache,
+      box: HiveInit.class2nd,
     );
 
     LoginInit.init(
       ssoSession: Global.ssoSession,
     );
 
-    ElectricityBillInit.init(
+    ElectricityBalanceInit.init(
       dio: Global.dio,
-      electricityBox: HiveBoxInit.settings,
+      electricityBox: HiveInit.settings,
     );
   }
 }

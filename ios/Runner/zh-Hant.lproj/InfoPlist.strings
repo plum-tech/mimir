@@ -6,8 +6,8 @@
 
 */
 
-NSCalendarsUsageDescription = "Mímir 需要行事曆权限。";
-NSCameraUsageDescription = "Mímir 需要相機權限。";
-NSPhotoLibraryUsageDescription = "Mímir 需要相簿權限。";
+NSCalendarsUsageDescription = "需要行事曆权限";
+NSCameraUsageDescription = "需要相機權限";
+NSPhotoLibraryUsageDescription = "需要相簿權限";
 CFBundleDisplayName = "Mímir";
-NFCReaderUsageDescription = "Mímir 需要NFC權限。";
+NFCReaderUsageDescription = "需要NFC權限";

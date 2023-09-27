@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/multiplatform.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/l10n/common.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -47,7 +47,7 @@ class _CaptchaBoxState extends State<CaptchaBox> {
         $TextField$(
           controller: $captcha,
           placeholder: _i18n.enterHint,
-          prefixIcon: const Icon(Icons.image_search_rounded),
+          autofillHints: const [AutofillHints.oneTimeCode],
           onSubmit: (value) {
             context.navigator.pop(value);
           },

@@ -1,52 +1,78 @@
 export "package:hive/hive.dart";
 
-class HiveTypeId {
-  HiveTypeId._();
+/// Basic 0-19
+class HiveTypeBasic {
+  static const size = 0;
+  static const themeMode = 1;
+  static const version = 2;
+}
 
-  // Basic 0-10
-  static const version = 0;
+/// Credential 20-29
+class HiveTypeCredentials {
+  static const oa = 20;
+  static const loginStatus = 21;
+  static const email = 22;
+  static const oaUserType = 23;
+}
 
-  // Credential 10-19
-  static const credential = 10;
-  static const loginStatus = 11;
-  static const emailCredential = 12;
+/// School 30-39
+class HiveTypeSchool {
+  static const campus = 30;
+  static const semester = 31;
 
-  // Electric Bill 20-29
-  static const balance = 20;
+  // School yellow pages 36-39
+  static const schoolContact = 36;
+}
 
-  // Activity 30-39
-  static const activityDetail = 30;
-  static const activity = 31;
-  static const scScoreSummary = 32;
-  static const scActivityApplication = 33;
-  static const scScoreItem = 34;
-  static const activityType = 35;
+/// Exam 40-49
+class HiveTypeExam {
+  // Exam arrange
+  static const entry = 40;
 
-  // Exam Arrangement 40-49
-  static const examEntry = 40;
+  // Exam result
+  static const result = 41;
+  static const resultItem = 42;
+}
 
-  // OA Announcement 50-59
-  static const announceDetail = 50;
-  static const announceAttachment = 51;
-  static const announceCatalogue = 52;
-  static const announceListPage = 53;
-  static const announceRecord = 54;
+/// Second Class 50-69
+class HiveTypeClass2nd {
+  // Second class activity 50-54
+  static const activity = 50;
+  static const activityDetails = 51;
+  static const activityCat = 52;
+  static const attendedActivity = 53;
 
-  // Application 60-69
-  static const applicationDetail = 61;
-  static const applicationDetailSection = 62;
-  static const applicationMeta = 63;
-  static const applicationMsg = 64;
-  static const applicationMsgPage = 65;
-  static const applicationMsgCount = 66;
-  static const applicationMessageType = 67;
+  // Second class score 55-59
+  static const scoreSummary = 60;
+  static const activityApplication = 61;
+  static const scoreItem = 62;
+}
 
-  // Exam Result 70-79
-  static const examResult = 70;
-  static const examResultDetail = 71;
-  static const semester = 72;
-  static const schoolYear = 73;
+/// Expense Records 70-74
+class HiveTypeExpenseRecords {
+  static const transaction = 70;
+  static const transactionType = 71;
+}
 
-  // Library 80-89
-  static const librarySearchHistory = 80;
+/// Electricity 75-79
+class HiveTypeElectricity {
+  static const balance = 75;
+}
+
+/// Ywb 80-89
+class HiveTypeYwb {
+  static const metaDetails = 80;
+  static const metaDetailSection = 81;
+  static const meta = 82;
+  static const application = 83;
+  static const applicationTrack = 84;
+}
+
+/// Ywb 90-99
+class HiveTypeOaAnnounce {
+  static const details = 90;
+  static const attachment = 91;
+  static const catalogue = 92;
+  static const listPayload = 93;
+  static const record = 94;
 }

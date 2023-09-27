@@ -2,51 +2,78 @@ language:
   en: English
   zh_CN: 简体中文
   zh_TW: 繁體中文
-main:
-  home: Home
-  networkTool: Network Tool
-  settings: Settings
-app:
-  login:
-    name: Login
-    desc: Login your OA
-  activity:
-    name: Activities
-    desc: The latest Second Class activities
-  application:
-    name: Application
-    desc: What should I prepare for applications?
-  eduEmail:
-    name: Edu Email
-    desc: Check your educational email
-  elecBill:
-    name: Electricity Bill
-    desc: Dormitory balance and ⚡ history
-  examArr:
-    name: Exam Arrangement
-    desc: Recent exam arrangement
-  examResult:
-    name: Exam Result
-    desc: Don't stop until you're proud
-  expense:
-    name: Expense Tracker
-    desc: School card shopping history
-  library:
-    name: Library
-    desc: Reading is thinking
-  oaAnnouncement:
-    name: OA Announcement
-    desc: School announcements
-  separator:
-    name: Separator
-    desc: For grouping functions
-  timetable:
-    name: Timetable
-    desc: School timetable
-  yellowPages:
-    name: Yellow Pages
-    desc: Contact school
-activity:
+timetable:
+  navigation: Timetable
+  mine:
+    title: My Timetables
+    edit: Edit
+    exportFile: Export File
+    exportCalender: Export Calender
+    delete: Delete
+    preview: Preview
+    use: Use
+    used: Used
+    deleteRequest: Confirm to delete?
+    deleteRequestDesc: You will lose this timetable permanently
+    emptyTip: Let's import a new timetable!
+  detail:
+    descFormTitle: Description
+    nameFormTitle: Name
+    classId: "Class Code {}"
+    courseId: "Course Code {}"
+  import:
+    title: Import timetable
+    import: Import
+    fromFile: From File
+    fromFileBtn: From file
+    tryImportBtn: Try import
+    connectivityCheckerDesc: You need to check the access to school server before importing a timetable.
+    selectSemesterTip: Please select a semester first
+    endTip: Please enter the info
+    failed: Import Failed
+    failedDesc: Can't import the timetable, please try again
+    failedTip: Failed to import, please try again
+    importing: Trying to fetch the timetable...
+    timetableInfo: Timetable Info
+    defaultName: "{semester}, {yearStart}–{yearEnd} Timetable"
+  displayMode:
+    daily: Daily
+    weekly: Weekly
+  weekStep:
+    single: week
+    all: week
+    odd: odd week
+    even: even week
+  jump: Jump
+  findToday: Find Today
+  startWith: "Start with"
+  weekOrderedName: "Week {}"
+  freeTip:
+    dayTip: It's a free day!
+    isTodayTip: "Have a nice day! 🎉"
+    weekTip: Wow, no class this week!
+    isThisWeekTip: "Enjoy this week! 🎉"
+    termTip: "Cool! You even have a free term! 🎉🎉🎉"
+    findNearestWeekWithClass: Find a week with class
+    findNearestDayWithClass: Find a day with class
+school:
+  navigation: School
+  schoolYear: School year
+  semester:
+    title: Semester
+    all: Full Year
+    term1: Fall
+    term2: Spring
+life:
+  navigation: Life
+me:
+  navigation: Me
+class2nd:
+  title: Second class
+  activity: Activity
+  attended: Attended
+  refreshSuccessTip: Second class score refreshed successfully
+  refreshFailedTip: Failed to refresh second class score
   navigation:
     all: All
     mine: Mine
@@ -60,7 +87,7 @@ activity:
     time: Application Time
   id: Activity ID
   contactInfo: Contact Info
-  detailEmptyTip: No detail given.
+  detailEmptyTip: No detail given
   details: Activity Details
   duration: Duration
   location: Location
@@ -72,51 +99,48 @@ activity:
   startTime: Start Time
   tags: Tags
   undertaker: Undertaker
-application:
-  desc: |
-    This function is based on "上应一网通办".
+ywb:
+  title: SIT YWB
+  info: |
+    This function is based on "SIT YWB".
     For most of types, you have to do the necessary procedure on the spot although you submitted an application online.
-  filerInfrequentlyUsed: Filter Infrequently-used
-  navigation:
-    all: All
-    mailbox: Mailbox
-  mailbox:
-    title: My Mailbox
-    emptyTip: Here is nothing.
-    recent: Recent
+  apply: Apply
+  noMetaTip: No applications
+  mine:
+    title: My applications
+    noApplicationsTip: No applications
+  details:
+    apply: Apply
+  type:
+    todo: Todo
+    running: Running
+    complete: Complete
 captcha:
   title: Captcha
   enterHint: Please enter captcha
-  emptyInputError: Captcha is empty.
+  emptyInputError: The captcha is empty
 credential:
   studentId: Student ID
   account: Account
   oaAccount: OA Account
   oaPwd: OA Password
   savedOaPwd: Saved OA Password
+  savedOaPwdDesc: Used to auto-login OA
   pwd: Password
-  reloginRequestDesc: Your account or password is incorrect, do you want to log in again?
   error: Credential Error
-  changeSavedOaPwd: Change Saved Password
-  changeSavedOaPwdDesc: Not affecting your actual OA password.
 easyconnect:
   launchBtn: Launch EasyConnect
   launchFailed: Launch Failed
   launchFailedDesc: Failed to launch EasyConnect, have you installed it or just download it now?
-elecBill:
-  navigation:
-    bill: Bill
-    search: Search
-  title: "Bill of #{room}"
+electricity:
+  title: Electricity balance
   balance: Balance
-  content: "last: ¥{balance} Room {room}"
-  initialTip: Please enter your room number first
   remainingPower: Remaining
-  roomNumber: Room
-  updateTime: Last Update
-  lastBalance: "Last ¥{balance} #{room}"
+  searchInvalidTip: Please enter or select a existing room number
+  refreshSuccessTip: Electricity balance refreshed successfully
+  refreshFailedTip: Failed to refresh electricity balance
 eduEmail:
-  title: My Email
+  title: Edu email
   noContent: No Content
   noSubject: No Subject
   pluralSenderTailing: ...
@@ -126,7 +150,10 @@ eduEmail:
   failedWarn: Login Failed
   forgotPwdBtn: Forgot password?
 examResult:
-  noResult: No result of examination
+  title: Exam result
+  check: Check
+  teacherEval: Teacher Eval
+  noResultsTip: No results
   lessonNotEvaluated: Not-eval
   teacherEvalTitle: Teacher Evaluation
   lessonEvaluationBtn: Lesson Eval
@@ -135,19 +162,37 @@ examResult:
   compulsory: Compulsory
   credit: Credit
   elective: Elective
-examArr:
-  endTime: End Time
-  isRetake: Is Retake
+examArrange:
+  title: Exam arrangement
+  check: Check
+  date: Date
+  time: Time
+  retake: Retake
   location: Location
-  noExamThisSemester: No exam in this semester.
-  resultBePatientLabel: Please be patient :)
-  resultNoResult: No result record
+  noExamsTip: No exams
   seatNumber: Seat No.
-  startTime: Start Time
-expense:
-  navigation:
-    bill: Bill
-    statistics: Statistics
+expenseRecords:
+  title: Expense records
+  check: Check
+  statistics: Statistics
+  balanceInCard: "¥{} in Card"
+  lastTransaction: "¥{amount} {place}"
+  income: "Income: ¥{}"
+  outcome: "Outcome: ¥{}"
+  noTransactionsTip: No transactions
+  refreshSuccessTip: Expense records refreshed successfully
+  refreshFailedTip: Failed to refresh Expense records
+  statsMode:
+    weekly: Weekly
+    monthly: Monthly
+    yearly: Yearly
+  view:
+    balance: Balance
+    rmb: RMB
+  stats:
+    title: Statistics
+    categories: Categories
+    total: Total
   type:
     consume: Consume
     coffee: Café
@@ -159,19 +204,6 @@ expense:
     topUp: Top Up
     subsidy: Subsidy
     other: Stuff
-  balanceInCard: "¥{} in Card"
-  categories: Categories
-  fetchingRecordTip: Fetching expense record
-  fetchingTip: Fetching expense records from school... Please wait a minute, the network speed depends on the school's server.
-  incomeStatistics: "Income: ¥{}"
-  spentStatistics: "Outcome: ¥{}"
-  refreshMenuButton: Force Refresh
-  statistics: Statistics
-  toastLoadFailed: Network error
-  toastLoadSuccessful: Successful!
-  toastLoading: Loading...
-  total: Total
-  lastTransaction: "¥{amount} {place}"
 homepage:
   campusNetworkConnected: Campus Network Available
   campusNetworkUnconnected: Campus Network Unavailable
@@ -193,7 +225,7 @@ network:
   connectionTimeoutErrorDesc: "This function requires access to the campus network. NOTE: It also occurs when the school server is down for maintenance."
   openToolBtn: Open Network Tool
 networkTool:
-  title: Network Tool
+  title: Network tool
   openWlanSettingsBtn: Open WLAN settings
   noAccessTip: Unable to access network. Please check network settings on your device, then try again.
   connectionFailedError: |
@@ -205,15 +237,20 @@ networkTool:
   connectionFailedButCampusNetworkConnected: |
     The campus network has been connected, but school server is still inaccessible.
     It's probably due to school server downtime for maintenance or even crash, please try again later.
-  connectedByProxy: Connected to campus network by HTTP proxy.
-  connectedByVpn: Connected to campus network by VPN.
-  connectedByWlan: Connected to campus network by WLAN.
-  connectedByEthernet: Connected to campus network by Ethernet.
+  connectedByProxy: Connected to campus network by HTTP proxy
+  connectedByVpn: Connected to campus network by VPN
+  connectedByWlan: Connected to campus network by WLAN
+  connectedByEthernet: Connected to campus network by Ethernet
 login:
-  title: Welcome!
-  validateInputAccountPwdRequest: Please check the account and password you entered.
-  credentialsValidatedTip: Account and password are correct.
-  accountOrPwdIncorrectTip: The account or password is incorrect. Please check them and try again.
+  welcomeHeader: Welcome!
+  loginOa: Login OA
+  validateInputAccountPwdRequest: Please check the account and password you entered
+  credentialsValidatedTip: Account and password are correct
+  accountOrPwdErrorTip: The account or password is incorrect
+  captchaErrorTip: The captcha is incorrect
+  accountFrozenTip: The account is frozen
+  schoolServerUnconnectedTip: Can't connect to school server
+  unknownAuthErrorTip: Unknown authentication error
   accountHint: Student ID/Work number
   forgotPwdBtn: Forgot password?
   loggedInTip: Logged in
@@ -225,123 +262,104 @@ login:
   loginBtn: Login
   formatError: Format Error
   loginRequired: Login Required
-  neverLoggedInTip: You have to login to perform this.
+  neverLoggedInTip: You have to login to perform this
 library:
+  title: Library
   hotPost: HOT
 settings:
   title: Settings
   version: Version
-  developerOptions: Developer Options
-  campus:
-    title: Your Campus
-    desc: Every campus has a different timetable
+  dev:
+    title: Developer options
+    devMode:
+      title: Developer mode
+    localStorage:
+      title: Local storage
+      desc: Manage storage on your device
+      selectBoxTip: Please select a box first
+      clearBoxDesc: Confirm to clear this box?
+      deleteItemDesc: Confirm to delete this key-value pair?
+      emptyValueDesc: Confirm to set this key-value pair to null?
+    reload:
+      title: Reload
+      desc: Reload all modules
+    detailedXcpDialog:
+      title: Enable detailed exception dialog
+      desc: Detailed stacktrace will be shown
+  timetable:
+    title: Timetable
+    autoUseImported:
+      title: Auto-use imported
+      desc: Use the timetable just imported
+  school:
+    title: School
+    class2nd:
+      autoRefresh:
+        title: Auto-refresh 2nd class scores
+        desc: Refresh scores when app is launched
+    examResult:
+      appCardShowResultDetails:
+        title: Show exam result details
+        desc: Show details in exam result card
+  life:
+    title: Life
+    electricity:
+      autoRefresh:
+        title: Auto-refresh electricity
+        desc: Refresh electricity when app is launched
+    expenseRecords:
+      autoRefresh:
+        title: Auto-refresh expense records
+        desc: Refresh expense records when app is launched
   studentId:
-    studentIdCopy2ClipboardTip: Your student ID is copied.
+    studentIdCopy2ClipboardTip: Your student ID is copied
   changeOaPwd:
-    title: Change OA Password
+    title: Change OA password
     desc: Change the OA password used for auto-logging in school business
   clearCache:
-    title: Clear Cache
+    title: Clear cache
     desc: Clear the offline cache during use
     request: Confirm to clear the cache? To reload them, you need connect to campus network again.
-  darkMode:
+  themeMode:
     title: Brightness
-    dark: Dark Mode
-    light: Light Mode
-    followSystem: Following System
-  detailedXcpDialog:
-    title: Enable detailed exception dialog
-    desc: Detailed stacktrace will be shown
-  httpProxy:
-    title: Enable HTTP Proxy
-    desc: Connect to the campus network by HTTP proxy
-    global: Use as global proxy
-    globalDesc: For debugging, exclude Webview
-    proxyAddress: Proxy Address
+    dark: Dark
+    light: Light
+    system: System
+  proxy:
+    title: HTTP proxy
+    desc: Proxy the access to campus network
+    enableProxy:
+      title: Enable HTTP proxy
+      desc: Proxy your HTTP requests
+    authentication: Authentication
+    protocol: Protocol
+    address: Address
+    port: Port
+    username: Username
+    password: Password
   language:
     title: Language
-  localStorage:
-    title: Local Storage
-    desc: Manage storage on your device
-  reload:
-    title: Reload
-    desc: Re-initialize all modules
   testConnect2School:
-    title: Test Connectivity
+    title: Test connectivity
     desc: Test connect with school
   wipeData:
-    title: Wipe Data & Log out
+    title: Wipe data & log-out
     desc: Wipe all data and log out
     request: Wipe ALL Data
     requestDesc: ALL data, such as login credentials and timetable imported, will be wiped permanently.
-localStorage:
-  title: Local Storage Editor
-  selectBoxTip: Please select a box first.
-  clearBoxDesc: Confirm to clear this box?
-  deleteItemDesc: Confirm to delete this key-value pair?
-  emptyValueDesc: Confirm to set this key-value pair to null?
 oaAnnounce:
+  title: OA announcement
+  noOaAnnouncesTip: No OA announces
   attachmentTip:
     one: Attachment
     other: Attachments
-  text: Text
   downloadCompleted: Download Completed
   publishTime: Publish Time
   publishingDepartment: Department
-personalization:
-  themeColor: Theme Color
-  wallpaper:
-    title: Wallpaper
-    desc: Customize the homepage wallpaper
-timetable:
-  mine:
-    title: My Timetables
-    edit: Edit
-    delete: Delete
-    preview: Preview
-    deleteRequest: Confirm to delete?
-    deleteRequestDesc: You will lose this timetable permanently.
-    emptyTip: Let's import a new timetable!
-    setToDefault: Set to Default
-  detail:
-    descFormTitle: Description
-    nameFormTitle: Name
-    classId: "Class Code {}"
-    courseId: "Course Code {}"
-  import:
-    title: Import Timetable
-    button: Try Import
-    connectivityCheckerDesc: You need access campus network before importing a new Timetable. Let's check it.
-    selectSemesterTip: Please select a semester first.
-    endTip: Please enter the info.
-    failed: Import Failed
-    failedDesc: Can't import the timetable, please try again.
-    failedTip: Failed to import, please try again.
-    importing: Trying to fetch the timetable...
-    timetableInfo: Timetable Info
-    defaultName: "{semester}, {yearStart}-{yearEnd} Timetable"
-  weekStep:
-    all: wk
-    odd: odd wk
-    even: even wk
-  jump: Jump
-  findToday: Find Today
-  startWith: "Start with"
-  weekOrderedName: "Week {}"
-  freeTip:
-    dayTip: It's a free day!
-    isTodayTip: "Have a nice day! 🎉"
-    weekTip: Wow, no class this week!
-    isThisWeekTip: "Enjoy this week! 🎉"
-    termTip: "Cool! You even have a free term! 🎉🎉🎉"
-    findNearestWeekWithClass: Find a week with class
-    findNearestDayWithClass: Find a day with class
+yellowPages:
+  title: Yellow pages
 scanner:
   barcodeNotRecognized: No Barcode or QR code
-semester:
-  all: Full Year
-  term1: Fall
-  term2: Spring
 greeting:
   headerA: SIT has accompanied you
   headerB:
@@ -365,9 +383,7 @@ weekdayShort:
   6: SUN
 campus:
   xuhui: Xuhui
-  xuhuiDistrict: Xuhui District
   fengxian: Fengxian
-  fengxianDistrict: Fengxian District
 unit:
   rmb: "¥{}"
   powerKwh: "{} kW·h"
@@ -402,3 +418,8 @@ warning: Warning
 exceptionInfo: Exception Info
 untitled: Untitled
 congratulations: Congratulations
+search: Search
+seeAll: See all
+select: Select
+unselect: Unselect
+share: Share

@@ -1,35 +1,23 @@
-import 'dart:ui';
-
 import 'package:intl/intl.dart';
-
-Locale buildLocaleFromJson(Map<String, dynamic> json) {
-  return Locale.fromSubtags(
-    languageCode: json['languageCode'],
-    scriptCode: json['scriptCode'],
-    countryCode: json['countryCode'],
-  );
-}
-
-extension LocaleToJson on Locale {
-  Map<String, dynamic> toJson() {
-    return {
-      'languageCode': languageCode,
-      'scriptCode': scriptCode,
-      'countryCode': countryCode,
-    };
-  }
-}
 
 abstract class _RegionalFormatter {
   DateFormat get ymdText;
 
   DateFormat get ymdWeekText;
 
+  DateFormat get mdWeekText;
+
   DateFormat get ymText;
 
   DateFormat get ymdNum;
 
   DateFormat get ymdhmsNum;
+
+  DateFormat get ymdhmNum;
+
+  DateFormat get mdHmNum;
+
+  DateFormat get mdNum;
 }
 
 class Lang {
@@ -40,13 +28,11 @@ class Lang {
   static const tw = "TW";
   static const en = "en";
 
-  static const zhLocale = Locale.fromSubtags(languageCode: "zh");
-  static const zhTwLocale = Locale.fromSubtags(languageCode: "zh", scriptCode: "Hant", countryCode: "TW");
-  static const enLocale = Locale.fromSubtags(languageCode: "en");
   static final zhFormatter = _ZhFormatter();
   static final zhTwFormatter = _ZhTwFormatter();
   static final enFormatter = _EnFormatter();
   static final hms = DateFormat("H:mm:ss");
+  static final hm = DateFormat("H:mm");
 
   static _RegionalFormatter _getFormatterFrom(String lang, String? country) {
     if (lang == zh) {
@@ -63,6 +49,8 @@ class Lang {
 
   static DateFormat ymdWeekText(String lang, String? country) => _getFormatterFrom(lang, country).ymdWeekText;
 
+  static DateFormat mdWeekText(String lang, String? country) => _getFormatterFrom(lang, country).mdWeekText;
+
   static DateFormat formatYmdText(String lang, String? country) => _getFormatterFrom(lang, country).ymdText;
 
   static DateFormat ymdNum(String lang, String? country) => _getFormatterFrom(lang, country).ymdNum;
@@ -71,48 +59,72 @@ class Lang {
 
   static DateFormat ymdhmsNum(String lang, String? country) => _getFormatterFrom(lang, country).ymdhmsNum;
 
-  static const supports = [
-    enLocale, // generic English 'en'
-    zhLocale, // generic Chinese 'zh'
-    zhTwLocale, // generic traditional Chinese 'zh_Hant'
-  ];
+  static DateFormat ymdhmNum(String lang, String? country) => _getFormatterFrom(lang, country).ymdhmNum;
+
+  static DateFormat mdHmNum(String lang, String? country) => _getFormatterFrom(lang, country).mdHmNum;
+
+  static DateFormat mdNum(String lang, String? country) => _getFormatterFrom(lang, country).mdNum;
 }
 
 class _ZhFormatter implements _RegionalFormatter {
   @override
-  DateFormat get ymdText => DateFormat("yyyy年M月d日", "zh_CN");
+  final ymdText = DateFormat("yyyy年M月d日", "zh_CN");
   @override
   final ymdWeekText = DateFormat("yyyy年M月d日 EEEE", "zh_CN");
   @override
+  final mdWeekText = DateFormat("M月d日 EEEE", "zh_CN");
+  @override
   final ymText = DateFormat("yyyy年M月", "zh_CN");
   @override
-  final ymdNum = DateFormat("yyyy-M-d", "zh_CN");
+  final ymdNum = DateFormat("yyyy/M/d", "zh_CN");
   @override
-  final ymdhmsNum = DateFormat("yyyy-MM-dd H:mm:ss", "zh_CN");
+  final ymdhmsNum = DateFormat("yyyy/M/d H:mm:ss", "zh_CN");
+  @override
+  final ymdhmNum = DateFormat("yyyy/M/d H:mm:ss", "zh_CN");
+  @override
+  final mdHmNum = DateFormat("M/d H:mm", "zh_CN");
+  @override
+  final mdNum = DateFormat("M/d", "zh_CN");
 }
 
 class _ZhTwFormatter implements _RegionalFormatter {
   @override
-  DateFormat get ymdText => DateFormat("yyyy年M月d日", "zh_TW");
+  final ymdText = DateFormat("yyyy年M月d日", "zh_TW");
   @override
   final ymdWeekText = DateFormat("yyyy年M月d日 EEEE", "zh_TW");
   @override
+  final mdWeekText = DateFormat("M月d日 EEEE", "zh_TW");
+  @override
   final ymText = DateFormat("yyyy年M月", "zh_TW");
   @override
-  final ymdNum = DateFormat("yyyy-M-d", "zh_TW");
+  final ymdNum = DateFormat("yyyy/M/d", "zh_TW");
   @override
-  final ymdhmsNum = DateFormat("yyyy-MM-dd H:mm:ss", "zh_TW");
+  final ymdhmsNum = DateFormat("yyyy/M/d H:mm:ss", "zh_TW");
+  @override
+  final ymdhmNum = DateFormat("yyyy/M/d H:mm:ss", "zh_TW");
+  @override
+  final mdHmNum = DateFormat("M/d H:mm", "zh_TW");
+  @override
+  final mdNum = DateFormat("M/d", "zh_TW");
 }
 
 class _EnFormatter implements _RegionalFormatter {
   @override
-  DateFormat get ymdText => DateFormat("MMMM d, yyyy", "en_US");
+  final ymdText = DateFormat("MMMM d, yyyy", "en_US");
   @override
   final ymdWeekText = DateFormat("EEEE, MMMM d, yyyy", "en_US");
   @override
+  final mdWeekText = DateFormat("EEEE, MMMM d", "en_US");
+  @override
   final ymText = DateFormat("MMMM, yyyy", "en_US");
   @override
-  final ymdNum = DateFormat("M-d-yyyy", "en_US");
+  final ymdNum = DateFormat("M/d/yyyy", "en_US");
   @override
-  final ymdhmsNum = DateFormat("MM-dd-yyyy H:mm:ss", "en_US");
+  final ymdhmsNum = DateFormat("M/d/yyyy H:mm:ss", "en_US");
+  @override
+  final ymdhmNum = DateFormat("M/d/yyyy H:mm", "en_US");
+  @override
+  final mdHmNum = DateFormat("M/d H:mm", "en_US");
+  @override
+  final mdNum = DateFormat("M/d", "en_US");
 }

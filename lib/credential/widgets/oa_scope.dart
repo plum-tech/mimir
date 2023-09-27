@@ -4,7 +4,7 @@ import 'package:mimir/credential/entity/credential.dart';
 import '../entity/login_status.dart';
 import '../init.dart';
 
-extension OaAuthEx on BuildContext {
+extension OaAuthX on BuildContext {
   OaAuth get auth => OaAuth.of(this);
 }
 
@@ -18,19 +18,21 @@ class OaAuthManager extends StatefulWidget {
 }
 
 class _OaAuthManagerState extends State<OaAuthManager> {
+  final onOaChanged = CredentialInit.storage.listenOaChange();
+
   @override
   void initState() {
     super.initState();
-    CredentialInit.storage.onOaChanged.addListener(_anyChange);
+    onOaChanged.addListener(anyChange);
   }
 
   @override
   void dispose() {
-    CredentialInit.storage.onOaChanged.removeListener(_anyChange);
+    onOaChanged.removeListener(anyChange);
     super.dispose();
   }
 
-  void _anyChange() {
+  void anyChange() {
     setState(() {});
   }
 
@@ -38,7 +40,7 @@ class _OaAuthManagerState extends State<OaAuthManager> {
   Widget build(BuildContext context) {
     final storage = CredentialInit.storage;
     return OaAuth(
-      credential: storage.oaCredential,
+      credentials: storage.oaCredentials,
       lastAuthTime: storage.oaLastAuthTime,
       loginStatus: storage.oaLoginStatus ?? LoginStatus.never,
       child: widget.child,
@@ -47,13 +49,13 @@ class _OaAuthManagerState extends State<OaAuthManager> {
 }
 
 class OaAuth extends InheritedWidget {
-  final OaCredential? credential;
+  final OaCredentials? credentials;
   final DateTime? lastAuthTime;
   final LoginStatus loginStatus;
 
   const OaAuth({
     super.key,
-    this.credential,
+    this.credentials,
     this.lastAuthTime,
     required super.child,
     required this.loginStatus,
@@ -67,28 +69,8 @@ class OaAuth extends InheritedWidget {
 
   @override
   bool updateShouldNotify(OaAuth oldWidget) {
-    return credential != oldWidget.credential ||
+    return credentials != oldWidget.credentials ||
         lastAuthTime != oldWidget.lastAuthTime ||
         loginStatus != oldWidget.loginStatus;
-  }
-
-  setOaCredential(OaCredential? newV) {
-    if (CredentialInit.storage.oaCredential != newV) {
-      CredentialInit.storage.oaCredential = newV;
-      if (newV != null) {
-        CredentialInit.storage.oaLoginStatus = LoginStatus.validated;
-        CredentialInit.storage.oaLastAuthTime = DateTime.now();
-      } else {
-        CredentialInit.storage.oaLoginStatus = LoginStatus.offline;
-      }
-    }
-  }
-
-  setLastOaAuthTime(DateTime? newV) {
-    CredentialInit.storage.oaLastAuthTime = newV;
-  }
-
-  setLoginStatus(LoginStatus status) {
-    CredentialInit.storage.oaLoginStatus = status;
   }
 }

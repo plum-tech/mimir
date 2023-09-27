@@ -1,16 +1,20 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/credential/entity/credential.dart';
 import 'package:mimir/credential/entity/email.dart';
+import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/init.dart';
-import 'package:mimir/credential/symbol.dart';
-import 'package:mimir/design/widgets/dialog.dart';
-import 'package:mimir/design/widgets/placeholder.dart';
+import 'package:mimir/credential/utils.dart';
+import 'package:mimir/credential/widgets/oa_scope.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/exception/session.dart';
 import 'package:mimir/r.dart';
+import 'package:mimir/settings/widgets/campus.dart';
 import 'package:mimir/utils/guard_launch.dart';
-import 'package:mimir/utils/validation.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../init.dart';
@@ -26,13 +30,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // Text field controllers.
-  final TextEditingController $account = TextEditingController();
-  final TextEditingController $password = TextEditingController();
-
-  final GlobalKey _formKey = GlobalKey<FormState>();
-
-  // State
+  final $account = TextEditingController();
+  final $password = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   bool isPasswordClear = false;
   bool isLoggingIn = false;
 
@@ -42,8 +42,15 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  void dispose() {
+    $account.dispose();
+    $password.dispose();
+    super.dispose();
+  }
+
+  @override
   void didChangeDependencies() {
-    final oaCredential = context.auth.credential;
+    final oaCredential = context.auth.credentials;
     if (oaCredential != null) {
       $account.text = oaCredential.account;
       $password.text = oaCredential.password;
@@ -82,44 +89,127 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     try {
-      final oaCredential = OaCredential(account: account, password: password);
-      await LoginInit.ssoSession.loginActive(oaCredential);
-      final personName = await LoginInit.authServerService.getPersonName();
+      final oaCredential = OaCredentials(account: account, password: password);
+      await LoginInit.ssoSession.loginActiveLocked(oaCredential);
+      // final personName = await LoginInit.authServerService.getPersonName();
       if (!mounted) return;
-      final auth = context.auth;
-      auth.setOaCredential(oaCredential);
-      auth.setLoginStatus(LoginStatus.validated);
+      setState(() => isLoggingIn = false);
+      CredentialInit.storage.oaCredentials = oaCredential;
+      CredentialInit.storage.oaLoginStatus = LoginStatus.validated;
+      CredentialInit.storage.oaLastAuthTime = DateTime.now();
       // Edu email has the same credential as OA by default.
       // So assume this can work at first time.
-      CredentialInit.storage.eduEmailCredential ??= EmailCredential(
+      CredentialInit.storage.eduEmailCredentials ??= EmailCredentials(
         address: R.formatEduEmail(username: oaCredential.account),
         password: oaCredential.password,
       );
       context.go("/");
       setState(() => isLoggingIn = false);
-    } on CredentialsInvalidException catch (e) {
-      if (!mounted) return;
-      await context.showTip(
-        title: i18n.failedWarn,
-        desc: e.msg,
-        ok: i18n.close,
-      );
-      return;
-    } catch (e, stacktrace) {
+    } on UnknownAuthException catch (e, stacktrace) {
       debugPrint(e.toString());
       debugPrintStack(stackTrace: stacktrace);
       if (!mounted) return;
+      setState(() => isLoggingIn = false);
       await context.showTip(
-        title: i18n.failedWarn,
-        desc: i18n.accountOrPwdIncorrectTip,
-        ok: i18n.close,
         serious: true,
+        title: i18n.failedWarn,
+        desc: i18n.unknownAuthErrorTip,
+        ok: i18n.close,
       );
-    } finally {
-      if (mounted) {
-        setState(() => isLoggingIn = false);
+    } on OaCredentialsException catch (e, stacktrace) {
+      debugPrint(e.toString());
+      debugPrintStack(stackTrace: stacktrace);
+      if (!mounted) return;
+      setState(() => isLoggingIn = false);
+      if (e.type == OaCredentialsErrorType.accountPassword) {
+        await context.showTip(
+          serious: true,
+          title: i18n.failedWarn,
+          desc: i18n.accountOrPwdErrorTip,
+          ok: i18n.close,
+        );
+      } else if (e.type == OaCredentialsErrorType.captcha) {
+        await context.showTip(
+          serious: true,
+          title: i18n.failedWarn,
+          desc: i18n.captchaErrorTip,
+          ok: i18n.close,
+        );
+      } else if (e.type == OaCredentialsErrorType.frozen) {
+        await context.showTip(
+          serious: true,
+          title: i18n.failedWarn,
+          desc: i18n.accountFrozenTip,
+          ok: i18n.close,
+        );
       }
+      return;
+    } on DioException catch (error, stacktrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stacktrace);
+      if (!mounted) return;
+      setState(() => isLoggingIn = false);
+      await context.showTip(
+        serious: true,
+        title: i18n.failedWarn,
+        desc: i18n.schoolServerUnconnectedTip,
+        ok: i18n.close,
+      );
+    } on LoginCaptchaCancelledException {
+      if (!mounted) return;
+      setState(() => isLoggingIn = false);
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // dismiss the keyboard when tap out of TextField.
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: widget.isGuarded ? i18n.loginRequired.text() : const CampusSelector(),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                context.push("/settings");
+              },
+            ),
+          ],
+          bottom: isLoggingIn
+              ? const PreferredSize(
+                  preferredSize: Size.fromHeight(4),
+                  child: LinearProgressIndicator(),
+                )
+              : null,
+        ),
+        body: buildBody(),
+        //to avoid overflow when keyboard is up.
+        bottomNavigationBar: const ForgotPasswordButton(),
+      ),
+    );
+  }
+
+  Widget buildBody() {
+    return [
+      widget.isGuarded
+          ? const Icon(
+              Icons.person_off_outlined,
+              size: 120,
+            )
+          : i18n.welcomeHeader.text(
+              style: context.textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+      Padding(padding: EdgeInsets.only(top: 40.h)),
+      // Form field: username and password.
+      buildLoginForm(),
+      SizedBox(height: 10.h),
+      buildLoginButton(),
+    ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25.h).center();
   }
 
   Widget buildLoginForm() {
@@ -131,8 +221,8 @@ class _LoginPageState extends State<LoginPage> {
           TextFormField(
             controller: $account,
             textInputAction: TextInputAction.next,
-            autofocus: true,
             autocorrect: false,
+            autofocus: true,
             enableSuggestions: false,
             validator: (account) => studentIdValidator(account, () => i18n.invalidAccountFormat),
             decoration: InputDecoration(
@@ -143,7 +233,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
           TextFormField(
             controller: $password,
-            autofocus: true,
             textInputAction: TextInputAction.send,
             contextMenuBuilder: (ctx, state) {
               return AdaptiveTextSelectionToolbar.editableText(
@@ -151,11 +240,12 @@ class _LoginPageState extends State<LoginPage> {
               );
             },
             autocorrect: false,
+            autofocus: true,
             enableSuggestions: false,
             obscureText: !isPasswordClear,
-            onFieldSubmitted: (inputted) {
+            onFieldSubmitted: (inputted) async {
               if (!isLoggingIn) {
-                onLogin();
+                await onLogin();
               }
             },
             decoration: InputDecoration(
@@ -180,7 +270,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget buildLoginButton() {
     return [
       $account >>
-          (ctx, account) => ElevatedButton(
+          (ctx, account) => FilledButton.icon(
                 // Online
                 onPressed: !isLoggingIn && account.text.isNotEmpty
                     ? () {
@@ -189,77 +279,19 @@ class _LoginPageState extends State<LoginPage> {
                         onLogin();
                       }
                     : null,
-                child: isLoggingIn ? const LoadingPlaceholder.drop() : i18n.loginBtn.text().padAll(5),
+                icon: const Icon(Icons.login),
+                label: i18n.loginBtn.text(),
               ),
       if (!widget.isGuarded)
-        ElevatedButton(
+        OutlinedButton(
           // Offline
           onPressed: () {
-            context.auth.setLoginStatus(LoginStatus.offline);
+            CredentialInit.storage.oaLoginStatus = LoginStatus.offline;
             context.go("/");
           },
-          child: i18n.offlineModeBtn.text().padAll(5),
+          child: i18n.offlineModeBtn.text(),
         ),
     ].row(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceAround);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: widget.isGuarded ? i18n.loginRequired.text() : null,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              context.push("/settings");
-            },
-          ),
-        ],
-      ),
-      body: buildBody(),
-      //to avoid overflow when keyboard is up.
-      bottomNavigationBar: [
-        const ForgotPasswordButton(),
-      ].wrap(align: WrapAlignment.center).padAll(10),
-    );
-  }
-
-  Widget buildBody() {
-    return [
-      widget.isGuarded ? buildOfflineIcon() : buildTitle(),
-      Padding(padding: EdgeInsets.only(top: 40.h)),
-      // Form field: username and password.
-      buildLoginForm(),
-      SizedBox(height: 10.h),
-      buildLoginButton(),
-    ]
-        .column(mas: MainAxisSize.min)
-        .scrolled(physics: const NeverScrollableScrollPhysics())
-        .padH(25.h)
-        .center()
-        .safeArea();
-  }
-
-  Widget buildTitle() {
-    return i18n.title.text(
-      style: context.textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
-      textAlign: TextAlign.center,
-    );
-  }
-
-  Widget buildOfflineIcon() {
-    return const Icon(
-      Icons.person_off_outlined,
-      size: 120,
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    $account.dispose();
-    $password.dispose();
   }
 }
 
@@ -271,7 +303,7 @@ class ForgotPasswordButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return CupertinoButton(
       child: i18n.forgotPwdBtn.text(
         style: const TextStyle(color: Colors.grey),
       ),
@@ -280,4 +312,14 @@ class ForgotPasswordButton extends StatelessWidget {
       },
     );
   }
+}
+
+/// Only allow student ID/ work number.
+String? studentIdValidator(String? account, String Function() invalidMessage) {
+  if (account != null && account.isNotEmpty) {
+    if (guessOaUserType(account) == null) {
+      return invalidMessage();
+    }
+  }
+  return null;
 }

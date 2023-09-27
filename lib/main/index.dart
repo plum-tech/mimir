@@ -1,82 +1,130 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/main/desktop/page/index.dart';
-import 'package:mimir/main/network_tool/page/index.dart';
-import 'package:mimir/main/settings/page/index.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mimir/timetable/i18n.dart' as $timetable;
+import 'package:mimir/school/i18n.dart' as $school;
+import 'package:mimir/life/i18n.dart' as $life;
+import 'package:mimir/me/i18n.dart' as $me;
 import 'package:rettulf/rettulf.dart';
-import "./i18n.dart";
 
 class MainStagePage extends StatefulWidget {
-  const MainStagePage({super.key});
+  final StatefulNavigationShell navigationShell;
+
+  const MainStagePage({super.key, required this.navigationShell});
 
   @override
   State<MainStagePage> createState() => _MainStagePageState();
 }
 
-class _Stage {
-  const _Stage._();
+typedef _NavigationDest = ({Widget icon, Widget activeIcon, String label});
 
-  static const home = 0;
-  static const networkTool = 1;
-  static const settings = 2;
+extension _NavigationDestX on _NavigationDest {
+  BottomNavigationBarItem toBarItem() {
+    return BottomNavigationBarItem(icon: icon, activeIcon: activeIcon, label: label);
+  }
+
+  NavigationRailDestination toRailDest() {
+    return NavigationRailDestination(icon: icon, selectedIcon: activeIcon, label: label.text());
+  }
 }
 
 class _MainStagePageState extends State<MainStagePage> {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  late final drawerDelegate = DrawerDelegate(scaffoldKey);
-  var currentStage = _Stage.home;
+  var currentStage = 0;
+  late var items = buildItems();
+
+  List<({String route, ({Widget icon, Widget activeIcon, String label}) item})> buildItems() {
+    return [
+      (
+        route: "/timetable",
+        item: (
+          icon: const Icon(Icons.calendar_month_outlined),
+          activeIcon: const Icon(Icons.calendar_month),
+          label: $timetable.i18n.navigation,
+        )
+      ),
+      (
+        route: "/school",
+        item: (
+          icon: const Icon(Icons.school_outlined),
+          activeIcon: const Icon(Icons.school),
+          label: $school.i18n.navigation,
+        )
+      ),
+      (
+        route: "/life",
+        item: (
+          icon: const Icon(Icons.spa_outlined),
+          activeIcon: const Icon(Icons.spa),
+          label: $life.i18n.navigation,
+        )
+      ),
+      (
+        route: "/me",
+        item: (
+          icon: const Icon(Icons.person_outline),
+          activeIcon: const Icon(Icons.person),
+          label: $me.i18n.navigation,
+        )
+      ),
+    ];
+  }
+
+  @override
+  void didChangeDependencies() {
+    items = buildItems();
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      drawer: buildDrawer(),
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 300),
-        child: buildStage(),
-      ),
-    );
-  }
-
-  Widget buildDrawer() {
-    return NavigationDrawer(
-      selectedIndex: currentStage,
-      onDestinationSelected: (i) {
-        setState(() {
-          currentStage = i;
-        });
-        drawerDelegate.closeDrawer();
-      },
-      children: [
-        DrawerHeader(child: "".text()),
-        NavigationDrawerDestination(
-          icon: const Icon(Icons.home_rounded),
-          label: i18n.home.text(),
-        ),
-        NavigationDrawerDestination(
-          icon: const Icon(Icons.lan),
-          label: i18n.networkTool.text(),
-        ),
-        NavigationDrawerDestination(
-          icon: const Icon(Icons.settings),
-          label: i18n.settings.text(),
-        ),
-      ],
-    );
-  }
-
-  Widget buildStage() {
-    final leading = IconButton(
-      icon: const Icon(Icons.menu),
-      onPressed: () => drawerDelegate.openDrawer(),
-    );
-    switch (currentStage) {
-      case _Stage.home:
-        return Homepage(leading: leading);
-      case _Stage.networkTool:
-        return NetworkToolPage(leading: leading);
-      default:
-        return SettingsPage(leading: leading);
+    if (context.isPortrait) {
+      return Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: widget.navigationShell,
+        bottomNavigationBar: buildButtonNavigationBar(),
+      );
+    } else {
+      return Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: [
+          buildNavigationRail(),
+          const VerticalDivider(),
+          widget.navigationShell.expanded(),
+        ].row(),
+      );
     }
+  }
+
+  Widget buildButtonNavigationBar() {
+    return BottomNavigationBar(
+      useLegacyColorScheme: false,
+      showUnselectedLabels: false,
+      type: BottomNavigationBarType.fixed,
+      landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
+      currentIndex: getSelectedIndex(),
+      onTap: onItemTapped,
+      items: items.map((e) => e.item.toBarItem()).toList(),
+    );
+  }
+
+  Widget buildNavigationRail() {
+    return NavigationRail(
+      labelType: NavigationRailLabelType.all,
+      selectedIndex: getSelectedIndex(),
+      onDestinationSelected: onItemTapped,
+      destinations: items.map((e) => e.item.toRailDest()).toList(),
+    );
+  }
+
+  int getSelectedIndex() {
+    final location = GoRouterState.of(context).uri.toString();
+    return items.indexWhere((e) => location.startsWith(e.route));
+  }
+
+  void onItemTapped(int index) {
+    widget.navigationShell.goBranch(
+      index,
+      initialLocation: index == widget.navigationShell.currentIndex,
+    );
   }
 }
 

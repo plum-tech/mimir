@@ -8,10 +8,4 @@ class MainI18n with CommonI18nMixin {
   const MainI18n();
 
   static const ns = "main";
-
-  String get home => "$ns.home".tr();
-
-  String get networkTool => "$ns.networkTool".tr();
-
-  String get settings => "$ns.settings".tr();
 }

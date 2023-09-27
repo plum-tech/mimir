@@ -1,4 +1,4 @@
-import 'package:mimir/session/sso/index.dart';
+import 'package:mimir/session/sso.dart';
 
 import 'service/authserver.dart';
 

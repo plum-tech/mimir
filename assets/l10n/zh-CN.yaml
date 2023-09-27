@@ -2,51 +2,78 @@ language:
   en: English
   zh_CN: 简体中文
   zh_TW: 繁體中文
-main:
-  home: 主页
-  networkTool: 网络工具
-  settings: 设置
-app:
-  login:
-    name: 登录
-    desc: 登录你的 OA
-  activity:
-    name: 第二课堂
-    desc: 我的第二课堂学分和活动
-  application:
-    name: 应网办
-    desc: 看看办事要准备什么材料？
-  eduEmail:
-    name: 教育邮箱
-    desc: 查看教育邮箱里的邮件
-  elecBill:
-    name: 查电费
-    desc: 宿舍电费余额与用电记录
-  examArr:
-    name: 考试安排
-    desc: 我最近的考试安排
-  examResult:
-    name: 成绩
-    desc: 愿每一天都有收获
-  expense:
-    name: 查消费
-    desc: 我的校园卡消费记录
-  library:
-    name: 图书馆
-    desc: 馆藏书籍与借阅情况
-  oaAnnouncement:
-    name: OA 公告
-    desc: 学校的公告
-  separator:
-    name: 分隔符
-    desc: 用于功能分组
-  timetable:
-    name: 课程表
-    desc: 查看近期课程
-  yellowPages:
-    name: 常用电话
-    desc: 查找学校部门的联系方式
-activity:
+timetable:
+  navigation: 课程表
+  mine:
+    title: 我的课程表
+    edit: 编辑
+    exportFile: 导出文件
+    exportCalender: 导出日历
+    delete: 删除
+    preview: 预览
+    use: 使用
+    used: 已使用
+    deleteRequest: 确认删除？
+    deleteRequestDesc: 这个课程表将被永久删除
+    emptyTip: 快去导入一个课程表吧！
+  detail:
+    descFormTitle: 描述
+    nameFormTitle: 名称
+    classId: "教学班 {}"
+    courseId: "课程代码 {}"
+  import:
+    title: 导入课程表
+    import: 导入
+    fromFile: 从文件
+    tryImportBtn: 尝试导入
+    fromFileBtn: 从文件导入
+    connectivityCheckerDesc: 在导入课程表之前，需要先检查你是否能访问校园网。
+    selectSemesterTip: 请先选择学年与学期
+    endTip: 请完善课程表的信息。
+    failed: 导入失败
+    failedDesc: 无法导入这个课程表, 请稍后再试
+    failedTip: 导入失败, 请稍后再试
+    importing: 正在尝试获取课程表的数据……
+    timetableInfo: 课程表信息
+    defaultName: "{yearStart}–{yearEnd}年 {semester} 课程表"
+  displayMode:
+    daily: 日
+    weekly: 周
+  weekStep:
+    single: 周
+    all: 周
+    odd: 单周
+    even: 双周
+  jump: 跳转
+  findToday: 找到今天
+  startWith: "起始于"
+  weekOrderedName: "第 {} 周"
+  freeTip:
+    dayTip: 好耶，没课的一天！
+    isTodayTip: 尽情享受今天吧！
+    weekTip: 哇，这周没课！
+    isThisWeekTip: 尽情享受这周吧！
+    termTip: 不可思议，这个学期你都在放假！
+    findNearestWeekWithClass: 找到有课的一周
+    findNearestDayWithClass: 找到有课的一天
+school:
+  navigation: 学校
+  schoolYear: 学年
+  semester:
+    title: 学期
+    all: 全学年
+    term1: 第一学期
+    term2: 第二学期
+life:
+  navigation: 生活
+me:
+  navigation: 个人
+class2nd:
+  title: 第二课堂
+  activity: 活动
+  attended: 已参与
+  refreshSuccessTip: 第二课堂分刷新成功
+  refreshFailedTip: 第二课堂分刷新失败
   navigation:
     all: 活动
     mine: 我的
@@ -72,49 +99,46 @@ activity:
   startTime: 开始时间
   tags: 标签
   undertaker: 承办方
-application:
-  desc: |
+ywb:
+  title: 应网办
+  info: |
     本功能基于 "上应一网通办"。
     对于绝大多数业务，即使你在平台上已完成申请，仍要去现场办理。
-  filerInfrequentlyUsed: 过滤不常用功能
-  navigation:
-    all: 全部
-    mailbox: 站内信
-  mailbox:
-    title: 我的站内信
-    emptyTip: 这里什么都没有。
-    recent: 最近更新
+  apply: 申请
+  noMetaTip: 没有可办事项
+  mine:
+    title: 我的申请
+    noApplicationsTip: 没有申请
+  details:
+    apply: 申请
+  type:
+    todo: 待办
+    running: 在途
+    complete: 办结
 captcha:
   title: 验证码
   enterHint: 请输入验证码
-  emptyInputError: 你输入的验证码为空。
+  emptyInputError: 你输入的验证码为空
 credential:
   studentId: 学号
   account: 账号
   oaAccount: OA 账号
   oaPwd: OA 密码
   savedOaPwd: 保存的 OA 密码
+  savedOaPwdDesc: 用于自动登录 OA
   pwd: 密码
-  reloginRequestDesc: 你的账号或密码不正确，是否想要重新登录？
   error: 登录凭据错误
-  changeSavedOaPwd: 修改保存的密码
-  changeSavedOaPwdDesc: 它不会修改你真正的 OA 密码
 easyconnect:
   launchBtn: 启动 EasyConnect
   launchFailed: 启动失败
   launchFailedDesc: 无法启动 EasyConnect，请确定你是否安装，或者立即下载？
-elecBill:
-  navigation:
-    bill: 电费
-    search: 搜索
-  title: "查 #{room} 电费"
-  balance: 余额
-  content: "¥{amount} {place}"
-  initialTip: 请输入你的房间号
+electricity:
+  title: 电费余额
+  balance: 可用余额
   remainingPower: 剩余电量
-  roomNumber: 房间号码
-  updateTime: 更新时间
-  lastBalance: "上次 ¥{balance} {room}室"
+  searchInvalidTip: 请输入或选择一个存在的房间号
+  refreshSuccessTip: 电费余额刷新成功
+  refreshFailedTip: 电费余额刷新失败
 eduEmail:
   title: 我的邮箱
   noContent: 无内容
@@ -126,7 +150,10 @@ eduEmail:
   failedWarn: 登录失败
   forgotPwdBtn: 忘记密码？
 examResult:
-  noResult: 暂无考试结果记录
+  title: 考试成绩
+  check: 查询
+  teacherEval: 评教
+  noResultsTip: 无考试结果记录
   lessonNotEvaluated: 未评教
   teacherEvalTitle: 评教
   lessonEvaluationBtn: 课程评价
@@ -135,19 +162,37 @@ examResult:
   compulsory: 必修
   credit: 学分
   elective: 选修
-examArr:
-  endTime: 结束时间
-  isRetake: 是否重修
+examArrange:
+  title: 考试安排
+  check: 查询
+  date: 日期
+  time: 时间
+  retake: 重修
   location: 地点
-  noExamThisSemester: 这个学期没有考试安排。
-  resultBePatientLabel: 耐心等等哦~
-  resultNoResult: 暂无考试结果记录
+  noExamsTip: 没有考试安排
   seatNumber: 座位号
-  startTime: 开始时间
-expense:
-  navigation:
-    bill: 账单
-    statistics: 统计
+expenseRecords:
+  title: 消费记录
+  check: 查询
+  statistics: 统计
+  balanceInCard: "卡内余额 {} 元"
+  lastTransaction: "¥{amount} {place}"
+  income: "收入: {} 元"
+  outcome: "支出: {} 元"
+  noTransactionsTip: 没有交易记录
+  refreshSuccessTip: 消费记录刷新成功
+  refreshFailedTip: 消费记录刷新失败
+  statsMode:
+    weekly: 周
+    monthly: 月
+    yearly: 年
+  view:
+    balance: 卡内余额
+    rmb: 元
+  stats:
+    title: 消费统计
+    categories: 消费名目
+    total: 总计
   type:
     consume: 消费
     coffee: 咖啡
@@ -159,19 +204,6 @@ expense:
     topUp: 充值
     subsidy: 补贴
     other: 杂项
-  balanceInCard: "卡内余额 ¥{}"
-  categories: 消费名目
-  fetchingRecordTip: 消费记录获取中
-  fetchingTip: 正在从学校获取消费记录，请稍等，速度取决于学校的服务器。
-  incomeStatistics: "收入: ¥{}"
-  spentStatistics: "支出: ¥{}"
-  refreshMenuButton: 刷新
-  statistics: 消费统计
-  toastLoadFailed: 网络异常，请稍后重试
-  toastLoadSuccessful: 成功获取最新数据
-  toastLoading: 正在加载最新数据……
-  total: 总计
-  lastTransaction: "¥{amount} {place}"
 homepage:
   campusNetworkConnected: 已连接校园网
   campusNetworkUnconnected: 未连接校园网
@@ -205,15 +237,20 @@ networkTool:
   connectionFailedButCampusNetworkConnected: |
     已经连接至校园网，但仍然无法访问学校服务器。
     可能因为是学校服务器停机维护或崩溃，请一段时间后重试。
-  connectedByProxy: 已通过 HTTP 代理连接到校园网。
-  connectedByVpn: 已通过 VPN 连接到校园网。
-  connectedByWlan: 已通过 WLAN 连接到校园网。
-  connectedByEthernet: 已通过以太网连接到校园网。
+  connectedByProxy: 已通过 HTTP 代理连接到校园网
+  connectedByVpn: 已通过 VPN 连接到校园网
+  connectedByWlan: 已通过 WLAN 连接到校园网
+  connectedByEthernet: 已通过以太网连接到校园网
 login:
-  title: 欢迎！
-  validateInputAccountPwdRequest: 请检查你输入的账号与密码。
+  welcomeHeader: 欢迎！
+  loginOa: 登录 OA
+  validateInputAccountPwdRequest: 请检查你输入的账号与密码
   credentialsValidatedTip: 账号与密码验证成功
-  accountOrPwdIncorrectTip: 账号或密码不正确，请检查后重试。
+  accountOrPwdErrorTip: 账号或密码不正确
+  captchaErrorTip: 验证码不正确
+  accountFrozenTip: 账号处于冻结状态
+  schoolServerUnconnectedTip: 无法连接学校服务器
+  unknownAuthErrorTip: 未知账号验证错误
   accountHint: 学号/工号
   forgotPwdBtn: 忘记密码？
   loggedInTip: 登录成功
@@ -227,14 +264,53 @@ login:
   loginRequired: 需要登录
   neverLoggedInTip: 你必须先登录才能继续。
 library:
+  title: 图书馆
   hotPost: 热搜
 settings:
   title: 设置
   version: 版本
-  developerOptions: 开发者选项
-  campus:
-    title: 你的校区
-    desc: 每个校区都有不同的日程表
+  dev:
+    title: 开发者选项
+    devMode:
+      title: 开发者模式
+    localStorage:
+      title: 本地存储
+      desc: 管理在此设备上存储的数据
+      selectBoxTip: 请先选择一个盒子。
+      clearBoxDesc: 确定清空这个盒子里的数据吗？
+      deleteItemDesc: 确定删除这个键值对吗？
+      emptyValueDesc: 确定将这个键值设 null 为对吗？
+    reload:
+      title: 重新加载
+      desc: 重新加载所有模块
+    detailedXcpDialog:
+      title: 启用详细异常对话框
+      desc: 显示更加详细的异常堆栈追踪信息
+  timetable:
+    title: 课程表
+    autoUseImported:
+      title: 自动使用新课程表
+      desc: 自动使用新导入的课程表
+  school:
+    title: 学校
+    class2nd:
+      autoRefresh:
+        title: 第二课堂分自动刷新
+        desc: 启动时刷新第二课堂分
+    examResult:
+      appCardShowResultDetails:
+        title: 显示考试成绩细则
+        desc: 在考试成绩卡片中显示详细分数
+  life:
+    title: 生活
+    electricity:
+      autoRefresh:
+        title: 电费余额自动刷新
+        desc: 启动时刷新电费余额
+    expenseRecords:
+      autoRefresh:
+        title: 消费记录自动刷新
+        desc: 启动时刷新消费记录
   studentId:
     studentIdCopy2ClipboardTip: 你的学号被复制到剪贴板啦
   changeOaPwd:
@@ -244,28 +320,25 @@ settings:
     title: 清空缓存
     desc: 清空使用过程中产生的离线缓存
     request: 确定清空缓存？你下次需要连接校园网才能重新加载它们。
-  darkMode:
+  themeMode:
     title: 亮度
-    dark: 黑暗模式
-    light: 明亮模式
-    followSystem: 跟随系统
-  detailedXcpDialog:
-    title: 启用详细异常对话框
-    desc: 显示更加详细的异常堆栈追踪信息
-  httpProxy:
-    title: 启用 HTTP 代理
-    desc: 通过 HTTP 代理连接校园网
-    global: 代理全部请求
-    globalDesc: 调试用，不包含 Webview 发出的请求
-    proxyAddress: 代理地址
+    dark: 黑暗
+    light: 明亮
+    system: 系统
+  proxy:
+    title: HTTP 代理
+    desc: 代理校园网连接
+    enableProxy:
+      title: 启用 HTTP 代理
+      desc: 代理你的 HTTP 请求
+    authentication: 身份验证
+    protocol: 协议
+    address: 地址
+    port: 端口
+    username: 用户名
+    password: 密码
   language:
     title: 语言
-  localStorage:
-    title: 本地存储
-    desc: 管理在此设备上存储的数据
-  reload:
-    title: 重新加载
-    desc: 重新初始化所有模块
   testConnect2School:
     title: 测试连接
     desc: 检查与校园网的连接
@@ -274,74 +347,19 @@ settings:
     desc: 擦除所有数据并登出当前 OA 账号
     request: 擦除所有数据
     requestDesc: 此操作将永久擦除你的登录凭据，缓存和其他信息，如已导入的课程表。
-localStorage:
-  title: 本地存储编辑器
-  selectBoxTip: 请先选择一个盒子。
-  clearBoxDesc: 确定清空这个盒子里的数据吗？
-  deleteItemDesc: 确定删除这个键值对吗？
-  emptyValueDesc: 确定将这个键值设 null 为对吗？
 oaAnnounce:
+  title: OA 公告
+  noOaAnnouncesTip: 无 OA 公告
   attachmentTip:
     one: 附件
     other: 附件
-  text: 公告正文
   downloadCompleted: 下载完成
   publishTime: 发布时间
   publishingDepartment: 发布部门
-personalization:
-  themeColor: 主题色
-  wallpaper:
-    title: 壁纸
-    desc: 自定义主页的壁纸
-timetable:
-  mine:
-    title: 我的课程表
-    edit: 编辑
-    delete: 删除
-    preview: 预览
-    deleteRequest: 确认删除？
-    deleteRequestDesc: 这个课程表将被永久删除。
-    emptyTip: 快去导入一个课程表吧!
-    setToDefault: 设为默认
-  detail:
-    descFormTitle: 描述
-    nameFormTitle: 名称
-    classId: "教学班 {}"
-    courseId: "课程代码 {}"
-  import:
-    title: 导入课程表
-    button: 尝试导入
-    connectivityCheckerDesc: 在导入课程表之前，需要先检查你是否能访问校园网。
-    selectSemesterTip: 请先选择学年与学期。
-    endTip: 请完善课程表的信息。
-    failed: 导入失败
-    failedDesc: 无法导入这个课程表, 请稍后再试。
-    failedTip: 导入失败, 请稍后再试。
-    importing: 正在尝试获取课程表的数据……
-    timetableInfo: 课程表信息
-    defaultName: "{yearStart}-{yearEnd}年 {semester} 课程表"
-  weekStep:
-    all: 周
-    odd: 单周
-    even: 双周
-  jump: 跳转
-  findToday: 找到今天
-  startWith: "起始于"
-  weekOrderedName: "第 {} 周"
-  freeTip:
-    dayTip: 好耶，没课的一天！
-    isTodayTip: 尽情享受今天吧！
-    weekTip: 哇，这周没课！
-    isThisWeekTip: 尽情享受这周吧！
-    termTip: 不可思议，这个学期你都在放假！
-    findNearestWeekWithClass: 找到有课的一周
-    findNearestDayWithClass: 找到有课的一天
+yellowPages:
+  title: 学校黄页
 scanner:
   barcodeNotRecognized: 未识别到条形码或二维码
-semester:
-  all: 全学年
-  term1: 第一学期
-  term2: 第二学期
 greeting:
   headerA: 今天是你在上应大的
   headerB:
@@ -365,11 +383,9 @@ weekdayShort:
   6: 日
 campus:
   xuhui: 徐汇
-  xuhuiDistrict: 徐汇区
   fengxian: 奉贤
-  fengxianDistrict: 奉贤区
 unit:
-  rmb: "¥{}"
+  rmb: "{} 元"
   powerKwh: "{} 度"
 time:
   minute: 分钟
@@ -402,3 +418,8 @@ warning: 警告
 exceptionInfo: 异常信息
 untitled: 无标题
 congratulations: 恭喜
+search: 搜索
+seeAll: 查看全部
+select: 选择
+unselect: 取消选择
+share: 分享

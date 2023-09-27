@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/multiplatform.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../i18n.dart';

@@ -389,10 +389,10 @@ packages:
     dependency: "direct main"
     description:
       name: dio
-      sha256: ce75a1b40947fea0a0e16ce73337122a86762e38b982e1ccb909daa3b9bc4197
+      sha256: "417e2a6f9d83ab396ec38ff4ea5da6c254da71e4db765ad737a42af6930140b7"
       url: "https://pub.dev"
     source: hosted
-    version: "5.3.2"
+    version: "5.3.3"
   dio_cookie_manager:
     dependency: "direct main"
     description:
@@ -401,14 +401,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0+1"
-  dynamic_color_theme:
+  dynamic_color:
     dependency: "direct main"
     description:
-      name: dynamic_color_theme
-      sha256: "09ce9e07dfb4b3ff00944fda556e5e569d040440f7c88a9ca23b6129bdca875e"
+      name: dynamic_color
+      sha256: de4798a7069121aee12d5895315680258415de9b00e717723a1bd73d58f0126d
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "1.6.6"
   easy_localization:
     dependency: "direct main"
     description:
@@ -577,6 +577,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.63.0"
+  flex_color_picker:
+    dependency: "direct main"
+    description:
+      name: flex_color_picker
+      sha256: f37476ab3e80dcaca94e428e159944d465dd16312fda9ff41e07e86f04bfa51c
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.0"
+  flex_seed_scheme:
+    dependency: transitive
+    description:
+      name: flex_seed_scheme
+      sha256: "29c12aba221eb8a368a119685371381f8035011d18de5ba277ad11d7dfb8657f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -598,22 +614,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.1"
-  flutter_colorpicker:
-    dependency: transitive
-    description:
-      name: flutter_colorpicker
-      sha256: e69dc0ccf69d394e5c207d050bafa2ce1eb9b6bb6729f2b9f5833000709710b9
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.0"
-  flutter_easyloading:
-    dependency: "direct main"
-    description:
-      name: flutter_easyloading
-      sha256: ba21a3c883544e582f9cc455a4a0907556714e1e9cf0eababfcb600da191d17c
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.5"
   flutter_html:
     dependency: "direct main"
     description:
@@ -651,14 +651,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.9.0"
-  flutter_spinkit:
-    dependency: transitive
+  flutter_staggered_grid_view:
+    dependency: "direct main"
     description:
-      name: flutter_spinkit
-      sha256: b39c753e909d4796906c5696a14daf33639a76e017136c8d82bf3e620ce5bb8e
+      name: flutter_staggered_grid_view
+      sha256: "19e7abb550c96fbfeb546b23f3ff356ee7c59a019a651f8f102a4ba9b7349395"
       url: "https://pub.dev"
     source: hosted
-    version: "5.2.0"
+    version: "0.7.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -757,15 +757,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.0+2"
-  geopattern_flutter:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "1065220bac59f864bc593fb9b54480b408abaf28"
-      url: "https://github.com/paolovalerdi/geopattern"
-    source: git
-    version: "0.1.1"
   glob:
     dependency: transitive
     description:
@@ -790,14 +781,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.1"
-  grouped_list:
-    dependency: "direct main"
-    description:
-      name: grouped_list
-      sha256: fef106470186081c32636aa055492eee7fc7fe8bf0921a48d31ded24821af19f
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.1.2"
   hive:
     dependency: "direct main"
     description:
@@ -874,10 +857,10 @@ packages:
     dependency: "direct main"
     description:
       name: image_picker
-      sha256: b6951e25b795d053a6ba03af5f710069c99349de9341af95155d52665cb4607c
+      sha256: "7d7f2768df2a8b0a3cefa5ef4f84636121987d403130e70b17ef7e2cf650ba84"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.9"
+    version: "1.0.4"
   image_picker_android:
     dependency: transitive
     description:
@@ -934,6 +917,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1+1"
+  infinite_scroll_pagination:
+    dependency: "direct main"
+    description:
+      name: infinite_scroll_pagination
+      sha256: b68bce20752fcf36c7739e60de4175494f74e99e9a69b4dd2fe3a1dd07a7f16a
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
   intl:
     dependency: "direct main"
     description:
@@ -1014,22 +1005,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
-  loading_animation_widget:
-    dependency: "direct main"
-    description:
-      name: loading_animation_widget
-      sha256: "1901682600273a966c34cf44a85fc5355da92a8d08a8a43c11adc4e471993e3a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.0+4"
   logger:
     dependency: "direct main"
     description:
       name: logger
-      sha256: "7ad7215c15420a102ec687bb320a7312afd449bac63bfb1c60d9787c27b9767f"
+      sha256: ba3bc83117b2b49bdd723c0ea7848e8285a0fbc597ba09203b20d329d020c24a
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.0"
+    version: "2.0.2"
   logging:
     dependency: transitive
     description:
@@ -1226,18 +1209,18 @@ packages:
     dependency: "direct main"
     description:
       name: permission_handler
-      sha256: "63e5216aae014a72fe9579ccd027323395ce7a98271d9defa9d57320d001af81"
+      sha256: ad65ba9af42a3d067203641de3fd9f547ded1410bad3b84400c2b4899faede70
       url: "https://pub.dev"
     source: hosted
-    version: "10.4.3"
+    version: "11.0.0"
   permission_handler_android:
     dependency: transitive
     description:
       name: permission_handler_android
-      sha256: d74e77a5ecd38649905db0a7d05ef16bed42ff263b9efb73ed794317c5764ec3
+      sha256: f2543a236584a5e8be79076f858022f100ce690e31530e6fa4c32ac94f276d3a
       url: "https://pub.dev"
     source: hosted
-    version: "10.3.4"
+    version: "11.0.3"
   permission_handler_apple:
     dependency: transitive
     description:
@@ -1250,10 +1233,10 @@ packages:
     dependency: transitive
     description:
       name: permission_handler_platform_interface
-      sha256: "7c6b1500385dd1d2ca61bb89e2488ca178e274a69144d26bbd65e33eae7c02a9"
+      sha256: f2343e9fa9c22ae4fd92d4732755bfe452214e7189afcc097380950cf567b4b2
       url: "https://pub.dev"
     source: hosted
-    version: "3.11.3"
+    version: "3.11.5"
   permission_handler_windows:
     dependency: transitive
     description:
@@ -1342,14 +1325,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
-  pull_to_refresh:
-    dependency: "direct main"
-    description:
-      name: pull_to_refresh
-      sha256: bbadd5a931837b57739cf08736bea63167e284e71fb23b218c8c9a6e042aad12
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   qr:
     dependency: transitive
     description:
@@ -1410,10 +1385,10 @@ packages:
     dependency: "direct main"
     description:
       name: rettulf
-      sha256: "2d93ec59525ee03f06feef8dabb984eb580ad554d81383c7abefaa6120913827"
+      sha256: "55fa6eadb2bc2e265d4034efc022687192a8b60df8d58318c38eb74d37e7e393"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
+    version: "2.0.1"
   rxdart:
     dependency: transitive
     description:
@@ -1422,6 +1397,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  sanitize_filename:
+    dependency: "direct main"
+    description:
+      name: sanitize_filename
+      sha256: "92fc3859d86ca4d087305a52c6823a2f323fa0935b1d8d17e05e00f80b027b03"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.5"
   screen_retriever:
     dependency: transitive
     description:
@@ -1430,6 +1413,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.9"
+  share_plus:
+    dependency: "direct main"
+    description:
+      name: share_plus
+      sha256: "6cec740fa0943a826951223e76218df002804adb588235a8910dc3d6b0654e11"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.1.0"
+  share_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: share_plus_platform_interface
+      sha256: "357412af4178d8e11d14f41723f80f12caea54cf0d5cd29af9dcdab85d58aea7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.0"
   shared_preferences:
     dependency: transitive
     description:
@@ -1507,6 +1506,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sliver_tools:
+    dependency: "direct main"
+    description:
+      name: sliver_tools
+      sha256: eae28220badfb9d0559207badcbbc9ad5331aac829a88cb0964d330d2a4636a6
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.12"
   source_gen:
     dependency: transitive
     description:

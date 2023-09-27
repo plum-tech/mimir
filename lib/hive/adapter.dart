@@ -1,60 +1,82 @@
-import 'package:mimir/credential/symbol.dart';
-import 'package:mimir/mini_apps/symbol.dart';
+import 'package:hive/hive.dart';
+import 'package:mimir/credential/entity/credential.dart';
+import 'package:mimir/credential/entity/email.dart';
+import 'package:mimir/credential/entity/login_status.dart';
+import 'package:mimir/entity/campus.dart';
+import 'package:mimir/life/electricity/entity/balance.dart';
+import 'package:mimir/life/expense_records/entity/local.dart';
+import 'package:mimir/school/ywb/entity/meta.dart';
+import 'package:mimir/school/ywb/entity/application.dart';
+import 'package:mimir/school/exam_arrange/entity/exam.dart';
+import 'package:mimir/school/oa_announce/entity/page.dart';
+import 'package:mimir/school/exam_result/entity/result.dart';
+import 'package:mimir/school/oa_announce/entity/announce.dart';
+import 'package:mimir/school/class2nd/entity/details.dart';
+import 'package:mimir/school/class2nd/entity/list.dart';
+import 'package:mimir/school/class2nd/entity/score.dart';
+import 'package:mimir/school/entity/school.dart';
+import 'package:mimir/school/yellow_pages/entity/contact.dart';
 
-import 'adapter/version.dart';
-import 'using.dart';
-import 'package:mimir/entities.dart';
+import 'builtins.dart';
 
 class HiveAdapter {
   HiveAdapter._();
 
   static void registerAll() {
     // Basic
+    ~SizeAdapter();
     ~VersionAdapter();
+    ~ThemeModeAdapter();
+    ~CampusAdapter();
 
     // Credential
-    ~OaCredentialAdapter();
-    ~EmailCredentialAdapter();
+    ~OaCredentialsAdapter();
+    ~EmailCredentialsAdapter();
     ~LoginStatusAdapter();
 
     // Electric Bill
-    ~BalanceAdapter();
+    ~ElectricityBalanceAdapter();
 
     // Activity
-    ~ActivityDetailAdapter();
-    ~ActivityAdapter();
-    ~ScScoreSummaryAdapter();
-    ~ScActivityApplicationAdapter();
-    ~ScScoreItemAdapter();
-    ~ActivityTypeAdapter();
+    ~Class2ndActivityDetailsAdapter();
+    ~Class2ndActivityAdapter();
+    ~Class2ndScoreSummaryAdapter();
+    ~Class2ndActivityApplicationAdapter();
+    ~Class2ndScoreItemAdapter();
+    ~Class2ndActivityCatAdapter();
+    ~Class2ndAttendedActivityAdapter();
 
     // Exam Arrangement
     ~ExamEntryAdapter();
 
     // OA Announcement
-    ~AnnounceDetailAdapter();
-    ~AnnounceCatalogueAdapter();
-    ~AnnounceRecordAdapter();
-    ~AnnounceAttachmentAdapter();
-    ~AnnounceListPageAdapter();
+    ~OaAnnounceDetailsAdapter();
+    ~OaAnnounceCatalogueAdapter();
+    ~OaAnnounceRecordAdapter();
+    ~OaAnnounceAttachmentAdapter();
+    ~OaAnnounceListPayloadAdapter();
 
     // Application
-    ~ApplicationDetailSectionAdapter();
-    ~ApplicationDetailAdapter();
-    ~ApplicationMetaAdapter();
-    ~ApplicationMsgCountAdapter();
-    ~ApplicationMsgAdapter();
-    ~ApplicationMsgPageAdapter();
-    ~ApplicationMessageTypeAdapter();
+    ~YwbApplicationMetaDetailSectionAdapter();
+    ~YwbApplicationMetaDetailsAdapter();
+    ~YwbApplicationMetaAdapter();
+    ~YwbApplicationAdapter();
+    ~YwbApplicationTrackAdapter();
 
     // Exam Result
     ~ExamResultAdapter();
-    ~ExamResultDetailAdapter();
-    ~SchoolYearAdapter();
+    ~ExamResultItemAdapter();
     ~SemesterAdapter();
 
     // Library
-    ~LibrarySearchHistoryItemAdapter();
+    // ~LibrarySearchHistoryItemAdapter();
+
+    // Expense Records
+    ~TransactionAdapter();
+    ~TransactionTypeAdapter();
+
+    // Yellow Pages
+    ~SchoolContactAdapter();
   }
 }
 

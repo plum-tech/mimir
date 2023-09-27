@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/app.dart';
+import 'package:mimir/route.dart';
 
 import 'lang.dart';
 
@@ -13,6 +13,12 @@ extension I18nBuildContext on BuildContext {
   String formatYmdWeekText(DateTime date) {
     final curLocale = locale;
     return Lang.ymdWeekText(curLocale.languageCode, curLocale.countryCode).format(date);
+  }
+
+  ///e.g.: Wednesday, September 21
+  String formatMdWeekText(DateTime date) {
+    final curLocale = locale;
+    return Lang.mdWeekText(curLocale.languageCode, curLocale.countryCode).format(date);
   }
 
   ///e.g.: September 21, 2022
@@ -33,13 +39,34 @@ extension I18nBuildContext on BuildContext {
     return Lang.ymdhmsNum(curLocale.languageCode, curLocale.countryCode).format(date);
   }
 
+  ///e.g.: 9/21/2022 23:57
+  String formatYmdhmNum(DateTime date) {
+    final curLocale = locale;
+    return Lang.ymdhmNum(curLocale.languageCode, curLocale.countryCode).format(date);
+  }
+
   String formatYmText(DateTime date) {
     final curLocale = locale;
     return Lang.ymText(curLocale.languageCode, curLocale.countryCode).format(date);
   }
 
   /// e.g.: 8:32:59
-  String formatHms(DateTime date) => Lang.hms.format(date);
+  String formatHmsNum(DateTime date) => Lang.hms.format(date);
+
+  /// e.g.: 8:32
+  String formatHmNum(DateTime date) => Lang.hm.format(date);
+
+  /// e.g.: 9/21
+  String formatMdNum(DateTime date) {
+    final curLocale = locale;
+    return Lang.mdNum(curLocale.languageCode, curLocale.countryCode).format(date);
+  }
+
+  /// e.g.: 9/21 7:32
+  String formatMdhmNum(DateTime date) {
+    final curLocale = locale;
+    return Lang.mdHmNum(curLocale.languageCode, curLocale.countryCode).format(date);
+  }
 }
 
 extension LocaleExtension on Locale {
@@ -55,25 +82,4 @@ bool yOrNo(String test, {bool defaultValue = false}) {
     default:
       return defaultValue;
   }
-}
-
-///e.g.: Wednesday, September 21, 2022
-/// [$Key.currentContext] is used
-String dateText(DateTime date) {
-  final curLocale = $Key.currentContext!.locale;
-  return Lang.ymdWeekText(curLocale.languageCode, curLocale.countryCode).format(date);
-}
-
-///e.g.:9/21/2022
-/// [$Key.currentContext] is used
-String dateNum(DateTime date) {
-  final curLocale = $Key.currentContext!.locale;
-  return Lang.ymdNum(curLocale.languageCode, curLocale.countryCode).format(date);
-}
-
-///e.g.: 9/21/2022 23:57:23
-/// [$Key.currentContext] is used
-String dateFullNum(DateTime date) {
-  final curLocale = $Key.currentContext!.locale;
-  return Lang.ymdhmsNum(curLocale.languageCode, curLocale.countryCode).format(date);
 }

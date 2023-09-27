@@ -114,11 +114,10 @@ class _InjectableWebViewState extends State<InjectableWebView> {
   Widget build(BuildContext context) {
     if (UniversalPlatform.isDesktop) {
       return LeavingBlank(icon: Icons.desktop_access_disabled_rounded);
-    } else {
-      return WebViewWidget(
-        controller: controller,
-      );
     }
+    return WebViewWidget(
+      controller: controller,
+    );
   }
 
   /// 根据当前url筛选所有符合条件的js脚本，执行js注入

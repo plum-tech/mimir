@@ -11,7 +11,9 @@ class LoginI18n with CommonI18nMixin {
   final credential = const CredentialI18n();
   static const ns = "login";
 
-  String get title => "$ns.title".tr();
+  String get welcomeHeader => "$ns.welcomeHeader".tr();
+
+  String get loginOa => "$ns.loginOa".tr();
 
   String get credentialsValidatedTip => "$ns.credentialsValidatedTip".tr();
 
@@ -35,7 +37,15 @@ class LoginI18n with CommonI18nMixin {
 
   String get failedWarn => "$ns.failedWarn".tr();
 
-  String get accountOrPwdIncorrectTip => "$ns.accountOrPwdIncorrectTip".tr();
+  String get accountOrPwdErrorTip => "$ns.accountOrPwdErrorTip".tr();
+
+  String get unknownAuthErrorTip => "$ns.unknownAuthErrorTip".tr();
+
+  String get captchaErrorTip => "$ns.captchaErrorTip".tr();
+
+  String get accountFrozenTip => "$ns.accountFrozenTip".tr();
+
+  String get schoolServerUnconnectedTip => "$ns.schoolServerUnconnectedTip".tr();
 
   String get loginBtn => "$ns.loginBtn".tr();
 

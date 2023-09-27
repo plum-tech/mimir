@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:mimir/network/session.dart';
-import 'package:mimir/session/sso/session.dart';
+import 'package:mimir/session/sso.dart';
 import 'package:mimir/utils/logger.dart';
 
 /// Student information system of SIT
@@ -51,7 +51,7 @@ class SisSession extends ISession {
     // 如果还是需要登录
     if (_isRedirectedToLoginPage(response)) {
       Log.info('SsoSession需要登录');
-      await ssoSession.makeSureLogin(url);
+      await ssoSession.ensureLoginLocked(url);
       await _refreshCookie();
       response = await fetch();
     }

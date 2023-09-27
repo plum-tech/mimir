@@ -44,20 +44,3 @@ class PlainButton extends StatelessWidget {
     );
   }
 }
-
-// ignore: non_constant_identifier_names
-Widget AnimatedSlideDown({
-  required bool upWhen,
-  required Widget child,
-}) {
-  const duration = Duration(milliseconds: 300);
-  return AnimatedSlide(
-    duration: duration,
-    offset: upWhen ? Offset.zero : const Offset(0, 2),
-    child: AnimatedOpacity(
-      duration: duration,
-      opacity: upWhen ? 1 : 0,
-      child: child,
-    ),
-  );
-}
