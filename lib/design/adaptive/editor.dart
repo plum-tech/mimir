@@ -159,29 +159,25 @@ class _EnumEditorState extends State<EnumEditor> {
             onPressed: () {
               context.navigator.pop(widget.initial);
             }),
-        make: (ctx) => buildBody(ctx));
-  }
-
-  Widget buildBody(BuildContext ctx) {
-    return ListTile(
-      title: current.toString().text(style: const TextStyle(fontSize: 15)),
-      trailing: const Icon(Icons.edit).onTap(() async {
-        FixedExtentScrollController controller = FixedExtentScrollController(initialItem: initialIndex);
-        controller.addListener(() {
-          final selected = widget.values[controller.selectedItem];
-          if (selected != current) {
-            setState(() {
-              current = selected;
-            });
-          }
-        });
-        await ctx.showPicker(
-            count: widget.values.length,
-            controller: controller,
-            make: (ctx, index) => widget.values[index].toString().text());
-        controller.dispose();
-      }),
-    );
+        make: (ctx) => $ListTile$(
+              title: current.toString().text(style: const TextStyle(fontSize: 15)),
+              trailing: const Icon(Icons.edit).onTap(() async {
+                FixedExtentScrollController controller = FixedExtentScrollController(initialItem: initialIndex);
+                controller.addListener(() {
+                  final selected = widget.values[controller.selectedItem];
+                  if (selected != current) {
+                    setState(() {
+                      current = selected;
+                    });
+                  }
+                });
+                await ctx.showPicker(
+                    count: widget.values.length,
+                    controller: controller,
+                    make: (ctx, index) => widget.values[index].toString().text());
+                controller.dispose();
+              }),
+            ));
   }
 }
 
@@ -207,8 +203,8 @@ class _IntEditorState extends State<_IntEditor> {
 
   @override
   void dispose() {
-    super.dispose();
     controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -242,8 +238,12 @@ class _IntEditorState extends State<_IntEditor> {
             });
           },
         ),
-        TextFormField(
+        $TextField$(
           controller: controller,
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.allow(RegExp(r'\d')),
+          ],
           onChanged: (v) {
             final newV = int.tryParse(v);
             if (newV != null) {
@@ -252,10 +252,6 @@ class _IntEditorState extends State<_IntEditor> {
               });
             }
           },
-          keyboardType: TextInputType.number,
-          inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.allow(RegExp(r'\d')),
-          ],
         ).sized(w: 100, h: 50),
         CupertinoButton(
           child: const Icon(Icons.add),
@@ -298,9 +294,9 @@ class _BoolEditorState extends State<_BoolEditor> {
             onPressed: () {
               context.navigator.pop(widget.initial);
             }),
-        make: (ctx) => ListTile(
-            title: widget.desc?.text(style: context.textTheme.bodyMedium),
-            trailing: CupertinoSwitch(
+        make: (ctx) => $ListTile$(
+            title: (widget.desc ?? "").text(style: context.textTheme.bodyMedium),
+            trailing: Switch.adaptive(
               value: value,
               onChanged: (newValue) {
                 setState(() {
@@ -352,10 +348,9 @@ class _StringEditorState extends State<_StringEditor> {
             onPressed: () {
               context.navigator.pop(widget.initial);
             }),
-        make: (ctx) => TextFormField(
+        make: (ctx) => $TextField$(
               maxLines: lines,
               controller: controller,
-              style: context.textTheme.bodyMedium,
             ));
   }
 }

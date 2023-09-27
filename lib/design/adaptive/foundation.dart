@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'multiplatform.dart';
@@ -144,6 +147,44 @@ class $Dialog$ extends StatelessWidget {
   }
 }
 
+class $ListTile$ extends StatelessWidget {
+  final Widget title;
+  final Widget? subtitle;
+  final Widget? leading;
+  final Widget? trailing;
+  final FutureOr<void> Function()? onTap;
+
+  const $ListTile$({
+    super.key,
+    required this.title,
+    this.subtitle,
+    this.leading,
+    this.trailing,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (isCupertino) {
+      return CupertinoListTile(
+        title: title,
+        subtitle: subtitle,
+        leading: leading,
+        trailing: trailing,
+        onTap: onTap,
+      );
+    } else {
+      return ListTile(
+        title: title,
+        subtitle: subtitle,
+        leading: leading,
+        trailing: trailing,
+        onTap: onTap,
+      );
+    }
+  }
+}
+
 class $TextField$ extends StatelessWidget {
   final TextEditingController? controller;
   final String? placeholder;
@@ -157,6 +198,11 @@ class $TextField$ extends StatelessWidget {
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onSubmit;
   final Iterable<String>? autofillHints;
+  final TextInputType? keyboardType;
+  final int? maxLines;
+  final List<TextInputFormatter>? inputFormatters;
+  final ValueChanged<String>? onChanged;
+
   const $TextField$({
     super.key,
     this.controller,
@@ -168,6 +214,10 @@ class $TextField$ extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.onSubmit,
+    this.maxLines,
+    this.keyboardType,
+    this.inputFormatters,
+    this.onChanged,
   });
 
   @override
@@ -182,6 +232,10 @@ class $TextField$ extends StatelessWidget {
           suffix: suffixIcon,
           autofillHints: autofillHints,
           onSubmitted: onSubmit,
+          maxLines: maxLines,
+          onChanged: onChanged,
+          keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
           decoration: const BoxDecoration(
             color: CupertinoDynamicColor.withBrightness(
               color: CupertinoColors.white,
@@ -196,6 +250,10 @@ class $TextField$ extends StatelessWidget {
         controller: controller,
         autofocus: autofocus,
         textInputAction: textInputAction,
+        maxLines: maxLines,
+        keyboardType: keyboardType,
+        inputFormatters: inputFormatters,
+        onChanged: onChanged,
         decoration: InputDecoration(
           hintText: placeholder,
           icon: prefixIcon,

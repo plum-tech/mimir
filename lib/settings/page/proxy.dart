@@ -159,7 +159,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     final text = credentials != null ? "${credentials.username}:${credentials.password}" : null;
     return ListTile(
       leading: const Icon(Icons.person),
-      title: i18n.proxy.auth.text(),
+      title: i18n.proxy.authentication.text(),
       subtitle: text?.text(),
       onTap: () async {
         // final newPort = await Editor.showStringEditor(

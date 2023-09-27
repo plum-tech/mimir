@@ -110,7 +110,7 @@ class _Proxy {
 
   String get port => "$ns.port".tr();
 
-  String get auth => "$ns.auth".tr();
+  String get authentication => "$ns.authentication".tr();
 
   String get username => "$ns.username".tr();
 

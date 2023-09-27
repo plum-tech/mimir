@@ -335,6 +335,7 @@ settings:
       desc: 代理你的 HTTP 请求
     global: 代理全部请求
     globalDesc: 调试用，不包含 Webview 发出的请求
+    authentication: 验证
     protocol: 协议
     address: 地址
     port: 端口
