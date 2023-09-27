@@ -10,14 +10,14 @@
 
 ## Features
 
-| Timetable       |   School Life    |    Daily Life    |
-|-----------------|:----------------:|:----------------:|
-| EAS Importing   |   Yellow Pages   | Expense Records  |
-| Sharing         |   Exam Result    | Electricity Bill |
-| Personalization | Exam Arrangement |                  |
-|                 | OA Announcement  |                  |
-|                 |   Second Class   |                  |
-|                 | YWB Application  |                  |
+| Timetable       |   School Life    |     Daily Life      |    Featured     |
+|-----------------|:----------------:|:-------------------:|:---------------:|
+| EAS Importing   |   Yellow Pages   |   Expense Records   |  Network Tool   |
+| Sharing         |   Exam Results   | Electricity Balance | QR Code Scanner |
+| Personalization | Exam Arrangement |      Edu Email      |                 |
+|                 | OA Announcement  |                     |                 |
+|                 |   Second Class   |                     |                 |
+|                 |     SIT YWB      |                     |                 |
 
 ## Contribution
 
