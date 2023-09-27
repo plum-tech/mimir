@@ -8,14 +8,14 @@
 
 ## Functions
 
-|    Daily Life    |   Learning   |  School Related   |
-|:----------------:|:------------:|:-----------------:|
-| Expense Tracker  |  Timetable   |   Announcement    |
-| Electricity Bill | Exam Related | Classroom Browser |
-|                  | Second Class |   Yellow Pages    |
-|                  |              |    Application    |
-
-## Announcement
+| Timetable       |   School Life    |    Daily Life    |
+|-----------------|:----------------:|:----------------:|
+| EAS Importing   |   Yellow Pages   | Expense Records  |
+| Sharing         |   Exam Result    | Electricity Bill |
+| Personalization | Exam Arrangement |                  |
+|                 | OA Announcement  |                  |
+|                 |   Second Class   |                  |
+|                 | YWB Application  |                  |
 
 ## Contact Us
 
