@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/design/utils.dart';
 import 'package:mimir/timetable/entity/platte.dart';
 
 import 'entity/timetable.dart';
@@ -41,5 +40,5 @@ extension TimetablePlatteX on ITimetablePalette {
 }
 
 extension Color2ModeX on Color2Mode {
-  Color byTheme(ThemeData theme) => theme.isDark ? dark : light;
+  Color byTheme(ThemeData theme) => theme.brightness == Brightness.dark ? dark : light;
 }

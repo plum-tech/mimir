@@ -323,19 +323,23 @@ class LessonCard extends StatelessWidget {
     return FilledCard(
       color: color,
       margin: const EdgeInsets.all(8),
-      child: ListTile(
-        isThreeLine: true,
-        leading: courseIcon,
-        title: Text(course.courseName),
-        subtitle: [
-          course.teachers.join(', ').text(),
-          "$begin–$end".text(),
-        ].column(caa: CrossAxisAlignment.start),
-        trailing: beautifyPlace(course.place)
-            .text(softWrap: true, overflow: TextOverflow.ellipsis, style: context.textTheme.bodyMedium),
+      clipBehavior: Clip.hardEdge,
+      child: InkWell(
+        onTap: () async {
+          await context.showSheet((ctx) => Sheet(courseCode: course.courseCode, timetable: timetable));
+        },
+        child: ListTile(
+          isThreeLine: true,
+          leading: courseIcon,
+          title: Text(course.courseName),
+          subtitle: [
+            course.teachers.join(', ').text(),
+            "$begin–$end".text(),
+          ].column(caa: CrossAxisAlignment.start),
+          trailing: beautifyPlace(course.place)
+              .text(softWrap: true, overflow: TextOverflow.ellipsis, style: context.textTheme.bodyMedium),
+        ),
       ),
-    ).on(tap: () async {
-      await context.showSheet((ctx) => Sheet(courseCode: course.courseCode, timetable: timetable));
-    });
+    );
   }
 }

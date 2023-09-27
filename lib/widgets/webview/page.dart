@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mimir/design/utils.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/l10n/common.dart';
-import 'package:mimir/utils/guard_launch.dart';
 import 'package:mimir/widgets/webview/injectable.dart';
-import 'package:mimir/utils/logger.dart';
 import 'package:mimir/utils/url_launcher.dart';
+import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+// TODO: remove this
 const _kUserAgent =
     "Mozilla/5.0 (Linux; Android 10; HMA-AL00 Build/HUAWEIHMA-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36";
 
@@ -183,7 +181,7 @@ class _WebViewPageState extends State<WebViewPage> {
           },
           pageStartedInjections: widget.pageStartedInjections,
           pageFinishedInjections: [
-            if (widget.followDarkMode && Theme.of(context).isDark)
+            if (widget.followDarkMode && context.isDarkMode)
               Injection(
                 matcher: (url) => true,
                 asyncJs: rootBundle.loadString('assets/webview/dark.js'),

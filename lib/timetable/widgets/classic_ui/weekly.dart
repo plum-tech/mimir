@@ -406,15 +406,19 @@ class _CourseCell extends StatelessWidget {
     final color = TimetableStyle.of(context).platte.resolveColor(course).byTheme(context.theme);
     final padding = context.isPortrait ? size.height / 40 : size.height / 80;
     return FilledCard(
+      clipBehavior: Clip.hardEdge,
       color: color,
       margin: EdgeInsets.all(0.5.w),
-      child: TimetableSlotInfo(
-        course: course,
-        maxLines: context.isPortrait ? 8 : 5,
-      ).padOnly(t: padding),
-    ).onTap(() async {
-      await context.showSheet((ctx) => Sheet(courseCode: course.courseCode, timetable: timetable));
-    });
+      child: InkWell(
+        onTap: () async {
+          await context.showSheet((ctx) => Sheet(courseCode: course.courseCode, timetable: timetable));
+        },
+        child: TimetableSlotInfo(
+          course: course,
+          maxLines: context.isPortrait ? 8 : 5,
+        ).padOnly(t: padding),
+      ),
+    );
   }
 
   Text buildText(String text, int maxLines) {
