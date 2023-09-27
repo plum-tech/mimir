@@ -227,7 +227,6 @@ class _IntEditorState extends State<_IntEditor> {
 
   Widget buildBody(BuildContext ctx) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         CupertinoButton(
           child: const Icon(Icons.remove),
@@ -252,7 +251,7 @@ class _IntEditorState extends State<_IntEditor> {
               });
             }
           },
-        ).sized(w: 100, h: 50),
+        ).sized(w: 100),
         CupertinoButton(
           child: const Icon(Icons.add),
           onPressed: () {

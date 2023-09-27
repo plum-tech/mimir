@@ -116,7 +116,11 @@ class Class2ndScoreService {
       assert(category != null, "Unknown class2nd category $categoryName");
       final double amount = double.parse(item.find($scoreDetail)!.innerHtml.trim());
 
-      return Class2ndScoreItem(id, category!, amount);
+      return Class2ndScoreItem(
+        activityId: id,
+        type: category!,
+        amount: amount,
+      );
     }
 
     // 得分列表里面，有一些条目加诚信分，此时常规得分为 0, 要把这些条目过滤掉。

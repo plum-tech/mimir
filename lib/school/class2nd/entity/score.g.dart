@@ -64,9 +64,9 @@ class Class2ndScoreItemAdapter extends TypeAdapter<Class2ndScoreItem> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Class2ndScoreItem(
-      fields[1] as int,
-      fields[2] as Class2ndActivityCat,
-      fields[3] as double,
+      activityId: fields[1] as int,
+      type: fields[2] as Class2ndActivityCat,
+      amount: fields[3] as double,
     );
   }
 

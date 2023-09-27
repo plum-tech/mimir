@@ -67,8 +67,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                 setNewAddress(proxyUri.replace(port: newPort));
               }),
               buildProxyAuthTile(username != null && password != null ? (username: username, password: password) : null,
-                  (newUsername) {
-              }),
+                  (newUsername) {}),
             ]),
           ),
         ],

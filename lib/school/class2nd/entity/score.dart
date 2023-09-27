@@ -78,7 +78,11 @@ class Class2ndScoreItem {
   @HiveField(3)
   final double amount;
 
-  Class2ndScoreItem(this.activityId, this.type, this.amount);
+  const Class2ndScoreItem({
+    required this.activityId,
+    required this.type,
+    required this.amount,
+  });
 
   @override
   String toString() {

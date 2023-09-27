@@ -224,27 +224,28 @@ class $TextField$ extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isCupertino) {
       return CupertinoTextField(
-          controller: controller,
-          autofocus: autofocus,
-          placeholder: placeholder ?? labelText,
-          textInputAction: textInputAction,
-          prefix: prefixIcon,
-          suffix: suffixIcon,
-          autofillHints: autofillHints,
-          onSubmitted: onSubmit,
-          maxLines: maxLines,
-          onChanged: onChanged,
-          keyboardType: keyboardType,
-          inputFormatters: inputFormatters,
-          decoration: const BoxDecoration(
-            color: CupertinoDynamicColor.withBrightness(
-              color: CupertinoColors.white,
-              darkColor: CupertinoColors.darkBackgroundGray,
-            ),
-            border: _kDefaultRoundedBorder,
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        controller: controller,
+        autofocus: autofocus,
+        placeholder: placeholder ?? labelText,
+        textInputAction: textInputAction,
+        prefix: prefixIcon,
+        suffix: suffixIcon,
+        autofillHints: autofillHints,
+        onSubmitted: onSubmit,
+        maxLines: maxLines,
+        onChanged: onChanged,
+        keyboardType: keyboardType,
+        inputFormatters: inputFormatters,
+        decoration: const BoxDecoration(
+          color: CupertinoDynamicColor.withBrightness(
+            color: CupertinoColors.white,
+            darkColor: CupertinoColors.darkBackgroundGray,
           ),
-          style: CupertinoTheme.of(context).textTheme.textStyle);
+          border: _kDefaultRoundedBorder,
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        ),
+        style: CupertinoTheme.of(context).textTheme.textStyle,
+      );
     } else {
       return TextFormField(
         controller: controller,
