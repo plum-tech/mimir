@@ -68,15 +68,16 @@ class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
         )
       ],
       rightActions: [
-        IconButton(
-          onPressed: YellowPagesInit.storage.interactHistory?.isNotEmpty != true
-              ? null
-              : () async {
-                  await HapticFeedback.heavyImpact();
-                  YellowPagesInit.storage.interactHistory = null;
-                },
-          icon: const Icon(Icons.delete_outlined),
-        )
+        if (!isCupertino)
+          IconButton(
+            onPressed: YellowPagesInit.storage.interactHistory?.isNotEmpty != true
+                ? null
+                : () async {
+                    await HapticFeedback.heavyImpact();
+                    YellowPagesInit.storage.interactHistory = null;
+                  },
+            icon: const Icon(Icons.delete_outlined),
+          )
       ],
     );
   }

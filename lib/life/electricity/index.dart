@@ -113,15 +113,16 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
             },
             icon: const Icon(Icons.share_outlined),
           ),
-        IconButton(
-          onPressed: selectedRoom == null
-              ? null
-              : () async {
-                  await HapticFeedback.heavyImpact();
-                  ElectricityBalanceInit.storage.selectedRoom = null;
-                },
-          icon: const Icon(Icons.delete_outlined),
-        ),
+        if (!isCupertino)
+          IconButton(
+            onPressed: selectedRoom == null
+                ? null
+                : () async {
+                    await HapticFeedback.heavyImpact();
+                    ElectricityBalanceInit.storage.selectedRoom = null;
+                  },
+            icon: const Icon(Icons.delete_outlined),
+          ),
       ],
     );
   }

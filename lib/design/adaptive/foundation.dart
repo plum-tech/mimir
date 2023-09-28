@@ -33,12 +33,10 @@ extension $BuildContextEx$ on BuildContext {
   Future<T?> show$Sheet$<T>(
     WidgetBuilder builder, {
     bool dismissible = true,
-    bool useRootNavigator = true,
   }) async {
     if (isCupertino) {
       return await showCupertinoModalBottomSheet<T>(
         context: this,
-        useRootNavigator: useRootNavigator,
         builder: builder,
         animationCurve: Curves.fastEaseInToSlowEaseOut,
         isDismissible: dismissible,
@@ -47,7 +45,6 @@ extension $BuildContextEx$ on BuildContext {
       return await showModalBottomSheet(
         context: this,
         builder: builder,
-        useRootNavigator: useRootNavigator,
         isDismissible: dismissible,
       );
     }

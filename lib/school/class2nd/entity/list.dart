@@ -115,7 +115,7 @@ class Class2ndActivity {
   String toString() {
     return {
       "id": id,
-      "title": fullTitle,
+      "fullTitle": fullTitle,
       "ts": ts,
       "realTitle": realTitle,
       "tags": tags,
