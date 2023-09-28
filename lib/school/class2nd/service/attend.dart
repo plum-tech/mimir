@@ -1,4 +1,5 @@
 import 'package:mimir/network/session.dart';
+import 'package:mimir/session/class2nd.dart';
 
 class Class2ndAttendActivityService {
   static const _applyCheck = 'http://sc.sit.edu.cn/public/pcenter/check.action?activityId=';
@@ -16,7 +17,7 @@ class Class2ndAttendActivityService {
     '对不起，您不在该活动的范围内！',
   ];
 
-  final ISession session;
+  final Class2ndSession session;
 
   const Class2ndAttendActivityService(this.session);
 

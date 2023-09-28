@@ -74,9 +74,7 @@ class2nd:
   attended: Attended
   refreshSuccessTip: Second class score refreshed successfully
   refreshFailedTip: Failed to refresh second class score
-  navigation:
-    all: All
-    mine: Mine
+  noAttendedActivities: No attended activities
   apply:
     btn: Apply
     replyTip: Reply from school
@@ -85,6 +83,17 @@ class2nd:
   application:
     id: Application ID
     time: Application Time
+  activityCat:
+    lecture: Lecture
+    thematicEdu: Thematic Edu
+    creation: Creation
+    schoolCultureActivity: Culture ACT
+    practice: Practice
+    voluntary: Voluntary
+    onlineSafetyEdu: Safety Edu
+    conference: Conf
+    schoolCultureCompetition: Culture COMP
+    paperAndPatent: Paper&Patent
   id: Activity ID
   contactInfo: Contact Info
   detailEmptyTip: No detail given

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
+import 'package:mimir/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/score.dart';
@@ -45,17 +46,17 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
     final scoreItemList = await Class2ndInit.scoreService.fetchScoreItemList();
     final attended = applicationList.map((application) {
       // 对于每一次申请, 找到对应的加分信息
-      final totalScore = scoreItemList
-          .where((e) => e.activityId == application.activityId)
-          .fold<double>(0.0, (double p, Class2ndScoreItem e) => p + e.points);
+      final relatedScoreItems = scoreItemList.where((e) => e.activityId == application.activityId).toList();
       // TODO: 潜在的 BUG，可能导致得分页面出现重复项。
       return Class2ndAttendedActivity(
         applyId: application.applyId,
         activityId: application.activityId,
-        title: application.title,
+        // because the application.title might have trailing ellipsis
+        title: relatedScoreItems.firstOrNull?.name ?? application.title,
         time: application.time,
         status: application.status,
-        amount: totalScore,
+        points: relatedScoreItems.fold<double>(0.0, (points, item) => points + item.points),
+        honestyPoints: relatedScoreItems.fold<double>(0.0, (points, item) => points + item.honestyPoints),
       );
     }).toList();
     Class2ndInit.scoreStorage.attendedList = attended;
@@ -73,7 +74,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            floating:  true,
+            floating: true,
             title: i18n.attended.title.text(),
             bottom: activities != null
                 ? null
@@ -83,9 +84,21 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                   ),
           ),
           if (activities != null)
-            ...activities.map((activity) {
-              return SliverToBoxAdapter(child: AttendedActivityTile(activity).inCard().hero(activity.applyId));
-            }),
+            if (activities.isEmpty)
+              SliverToBoxAdapter(
+                child: LeavingBlank(
+                  icon: Icons.inbox_outlined,
+                  desc: i18n.noAttendedActivities,
+                ),
+              )
+            else
+              SliverList.builder(
+                itemCount: activities.length,
+                itemBuilder: (ctx, i) {
+                  final activity = activities[i];
+                  return AttendedActivityCard(activity).inCard().hero(activity.applyId);
+                },
+              ),
         ],
       ),
     );

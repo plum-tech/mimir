@@ -13,6 +13,8 @@ class _I18n with CommonI18nMixin {
 
   String get title => "$ns.title".tr();
 
+  String get noAttendedActivities => "$ns.noAttendActivities".tr();
+
   String get activityAction => "$ns.activity".tr();
 
   String get attendedAction => "$ns.attended".tr();

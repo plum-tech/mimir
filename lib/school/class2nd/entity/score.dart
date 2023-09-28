@@ -179,7 +179,11 @@ class Class2ndAttendedActivity {
 
   /// 总得分
   @HiveField(5)
-  final double amount;
+  final double points;
+
+  /// 总诚信分
+  @HiveField(6)
+  final double honestyPoints;
 
   const Class2ndAttendedActivity({
     required this.applyId,
@@ -187,7 +191,8 @@ class Class2ndAttendedActivity {
     required this.title,
     required this.time,
     required this.status,
-    required this.amount,
+    required this.points,
+    required this.honestyPoints,
   });
 
   @override
@@ -198,7 +203,8 @@ class Class2ndAttendedActivity {
       "title": title,
       "time": time,
       "status": status,
-      "amount": amount
+      "points": points,
+      "honestyPoints": honestyPoints,
     }.toString();
   }
 }

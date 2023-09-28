@@ -7,33 +7,33 @@ import '../entity/list.dart';
 import '../entity/score.dart';
 import "../i18n.dart";
 
-class AttendedActivityTile extends StatelessWidget {
-  final Class2ndAttendedActivity rawActivity;
+class AttendedActivityCard extends StatelessWidget {
+  final Class2ndAttendedActivity attended;
 
-  const AttendedActivityTile(this.rawActivity, {super.key});
+  const AttendedActivityCard(this.attended, {super.key});
 
   @override
   Widget build(BuildContext context) {
     final titleStyle = context.textTheme.titleMedium;
     final subtitleStyle = context.textTheme.bodySmall;
 
-    final color = rawActivity.isPassed ? Colors.green : context.colorScheme.primary;
-    final trailingStyle = context.textTheme.titleLarge?.copyWith(color: color);
-    final activity = ActivityParser.parse(rawActivity);
+    final color = attended.isPassed ? Colors.green : context.colorScheme.primary;
+    final trailingStyle = context.textTheme.titleMedium?.copyWith(color: color);
+    final activity = ActivityParser.parse(attended);
 
     return ListTile(
       isThreeLine: true,
-      title: Text(activity.realTitle, style: titleStyle),
+      title: Text(attended.title, style: titleStyle),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('${i18n.attended.time}: ${context.formatYmdhmsNum(rawActivity.time)}', style: subtitleStyle),
-          Text('${i18n.attended.id}: ${rawActivity.applyId}', style: subtitleStyle),
+          Text('${i18n.attended.time}: ${context.formatYmdhmsNum(attended.time)}', style: subtitleStyle),
+          Text('${i18n.attended.id}: ${attended.applyId}', style: subtitleStyle),
         ],
       ),
-      trailing: Text(rawActivity.amount.abs() > 0.01 ? rawActivity.amount.toStringAsFixed(2) : rawActivity.status,
+      trailing: Text(attended.points.abs() > 0.01 ? attended.points.toStringAsFixed(2) : attended.status,
           style: trailingStyle),
-      onTap: rawActivity.activityId != -1
+      onTap: attended.activityId != -1
           ? () {
               context.push("/class2nd/activity-detail", extra: activity);
             }

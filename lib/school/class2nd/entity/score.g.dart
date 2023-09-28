@@ -160,14 +160,15 @@ class Class2ndAttendedActivityAdapter extends TypeAdapter<Class2ndAttendedActivi
       title: fields[2] as String,
       time: fields[3] as DateTime,
       status: fields[4] as String,
-      amount: fields[5] as double,
+      points: fields[5] as double,
+      honestyPoints: fields[6] as double,
     );
   }
 
   @override
   void write(BinaryWriter writer, Class2ndAttendedActivity obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.applyId)
       ..writeByte(1)
@@ -179,7 +180,9 @@ class Class2ndAttendedActivityAdapter extends TypeAdapter<Class2ndAttendedActivi
       ..writeByte(4)
       ..write(obj.status)
       ..writeByte(5)
-      ..write(obj.amount);
+      ..write(obj.points)
+      ..writeByte(6)
+      ..write(obj.honestyPoints);
   }
 
   @override

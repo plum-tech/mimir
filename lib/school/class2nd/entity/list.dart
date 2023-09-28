@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 import '../utils.dart';
 import 'package:mimir/hive/type_id.dart';
 import 'score.dart';
@@ -18,7 +20,7 @@ enum Class2ndActivityCat {
   @HiveField(2)
   creation,
 
-  /// 校园文化
+  /// 校园文化活动
   @HiveField(3)
   schoolCultureActivity,
 
@@ -47,6 +49,8 @@ enum Class2ndActivityCat {
   paperAndPatent;
 
   const Class2ndActivityCat();
+
+  String l10nName() => "class2nd.activityCat.$name".tr();
 
   /// Don't Change this.
   /// Strings from school API

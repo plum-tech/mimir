@@ -60,7 +60,7 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
                     tabs: categories
                         .mapIndexed(
                           (i, e) => Tab(
-                            child: e.name.text(),
+                            child: e.l10nName().text(),
                           ),
                         )
                         .toList(),

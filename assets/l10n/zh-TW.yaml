@@ -74,9 +74,7 @@ class2nd:
   attended: 已參與
   refreshSuccessTip: 第二課堂分重新整理成功
   refreshFailedTip: 第二課堂分重新整理失敗
-  navigation:
-    all: 活動
-    mine: 我的
+  noAttendedActivities: 無參加過的活動
   apply:
     btn: 申請
     replyTip: 校方回信
@@ -85,6 +83,17 @@ class2nd:
   application:
     id: 申請 ID
     time: 申請時間
+  activityCat:
+    lecture: 講座報告
+    thematicEdu: 主題教育
+    creation: 創新創業創意
+    schoolCultureActivity: 校園文化
+    practice: 社會實踐
+    voluntary: 志願公益
+    onlineSafetyEdu: 安全教育網路教學
+    conference: 會議
+    schoolCultureCompetition: 校園文化競賽
+    paperAndPatent: 論文專利
   id: 活動 ID
   contactInfo: 联络人
   detailEmptyTip: 暫無資訊
