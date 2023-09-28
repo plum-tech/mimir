@@ -20,7 +20,7 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
     Class2ndActivityCat.lecture,
     Class2ndActivityCat.creation,
     Class2ndActivityCat.thematicEdu,
-    Class2ndActivityCat.schoolCulture,
+    Class2ndActivityCat.schoolCultureActivity,
     Class2ndActivityCat.practice,
     Class2ndActivityCat.voluntary,
   ];

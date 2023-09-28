@@ -21,7 +21,11 @@ class Editor {
   }
 
   static bool isSupport(dynamic test) {
-    return test is int || test is String || test is bool || test is DateTime || _customEditor.containsKey(test.runtimeType);
+    return test is int ||
+        test is String ||
+        test is bool ||
+        test is DateTime ||
+        _customEditor.containsKey(test.runtimeType);
   }
 
   static Future<dynamic> showAnyEditor(BuildContext ctx, dynamic initial,

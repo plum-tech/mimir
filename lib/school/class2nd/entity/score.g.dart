@@ -64,22 +64,31 @@ class Class2ndScoreItemAdapter extends TypeAdapter<Class2ndScoreItem> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Class2ndScoreItem(
+      name: fields[0] as String,
       activityId: fields[1] as int,
       type: fields[2] as Class2ndActivityCat,
-      amount: fields[3] as double,
+      time: fields[3] as DateTime,
+      points: fields[4] as double,
+      honestyPoints: fields[5] as double,
     );
   }
 
   @override
   void write(BinaryWriter writer, Class2ndScoreItem obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(6)
+      ..writeByte(0)
+      ..write(obj.name)
       ..writeByte(1)
       ..write(obj.activityId)
       ..writeByte(2)
       ..write(obj.type)
       ..writeByte(3)
-      ..write(obj.amount);
+      ..write(obj.time)
+      ..writeByte(4)
+      ..write(obj.points)
+      ..writeByte(5)
+      ..write(obj.honestyPoints);
   }
 
   @override

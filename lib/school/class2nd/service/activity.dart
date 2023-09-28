@@ -10,7 +10,7 @@ import "package:intl/intl.dart";
 
 class Class2ndActivityListService {
   static const _scActivityType = {
-    Class2ndActivityCat.schoolCulture: '8ab17f543fe626a8013fe6278a880001',
+    Class2ndActivityCat.schoolCultureActivity: '8ab17f543fe626a8013fe6278a880001',
     Class2ndActivityCat.creation: 'ff8080814e241104014eb867e1481dc3',
     Class2ndActivityCat.lecture: '001',
     Class2ndActivityCat.practice: '8ab17f543fe62d5d013fe62efd3a0002',
@@ -76,7 +76,6 @@ class Class2ndActivityListService {
         final titleAndTags = splitTitleAndTags(title);
         return Class2ndActivity(
           id: id,
-          category: Class2ndActivityCat.unknown,
           title: title,
           ts: dateFormatParser.parse(date),
           realTitle: titleAndTags.title,

@@ -18,29 +18,26 @@ class Class2ndActivityAdapter extends TypeAdapter<Class2ndActivity> {
     };
     return Class2ndActivity(
       id: fields[0] as int,
-      category: fields[1] as Class2ndActivityCat,
-      title: fields[2] as String,
-      ts: fields[5] as DateTime,
-      realTitle: fields[3] as String,
-      tags: (fields[4] as List).cast<String>(),
+      title: fields[1] as String,
+      ts: fields[4] as DateTime,
+      realTitle: fields[2] as String,
+      tags: (fields[3] as List).cast<String>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, Class2ndActivity obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.category)
-      ..writeByte(2)
       ..write(obj.title)
-      ..writeByte(3)
+      ..writeByte(2)
       ..write(obj.realTitle)
-      ..writeByte(4)
+      ..writeByte(3)
       ..write(obj.tags)
-      ..writeByte(5)
+      ..writeByte(4)
       ..write(obj.ts);
   }
 
@@ -67,7 +64,7 @@ class Class2ndActivityCatAdapter extends TypeAdapter<Class2ndActivityCat> {
       case 2:
         return Class2ndActivityCat.creation;
       case 3:
-        return Class2ndActivityCat.schoolCulture;
+        return Class2ndActivityCat.schoolCultureActivity;
       case 4:
         return Class2ndActivityCat.practice;
       case 5:
@@ -75,7 +72,11 @@ class Class2ndActivityCatAdapter extends TypeAdapter<Class2ndActivityCat> {
       case 6:
         return Class2ndActivityCat.onlineSafetyEdu;
       case 7:
-        return Class2ndActivityCat.unknown;
+        return Class2ndActivityCat.conference;
+      case 8:
+        return Class2ndActivityCat.schoolCultureCompetition;
+      case 9:
+        return Class2ndActivityCat.paperAndPatent;
       default:
         return Class2ndActivityCat.lecture;
     }
@@ -93,7 +94,7 @@ class Class2ndActivityCatAdapter extends TypeAdapter<Class2ndActivityCat> {
       case Class2ndActivityCat.creation:
         writer.writeByte(2);
         break;
-      case Class2ndActivityCat.schoolCulture:
+      case Class2ndActivityCat.schoolCultureActivity:
         writer.writeByte(3);
         break;
       case Class2ndActivityCat.practice:
@@ -105,8 +106,14 @@ class Class2ndActivityCatAdapter extends TypeAdapter<Class2ndActivityCat> {
       case Class2ndActivityCat.onlineSafetyEdu:
         writer.writeByte(6);
         break;
-      case Class2ndActivityCat.unknown:
+      case Class2ndActivityCat.conference:
         writer.writeByte(7);
+        break;
+      case Class2ndActivityCat.schoolCultureCompetition:
+        writer.writeByte(8);
+        break;
+      case Class2ndActivityCat.paperAndPatent:
+        writer.writeByte(9);
         break;
     }
   }

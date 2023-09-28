@@ -41,13 +41,13 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   }
 
   Future<void> refresh() async {
-    final applicationLust = await Class2ndInit.scoreService.fetchApplicationList();
+    final applicationList = await Class2ndInit.scoreService.fetchActivityApplicationList();
     final scoreItemList = await Class2ndInit.scoreService.fetchScoreItemList();
-    final attended = applicationLust.map((application) {
+    final attended = applicationList.map((application) {
       // 对于每一次申请, 找到对应的加分信息
       final totalScore = scoreItemList
           .where((e) => e.activityId == application.activityId)
-          .fold<double>(0.0, (double p, Class2ndScoreItem e) => p + e.amount);
+          .fold<double>(0.0, (double p, Class2ndScoreItem e) => p + e.points);
       // TODO: 潜在的 BUG，可能导致得分页面出现重复项。
       return Class2ndAttendedActivity(
         applyId: application.applyId,
@@ -73,6 +73,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            floating:  true,
             title: i18n.attended.title.text(),
             bottom: activities != null
                 ? null

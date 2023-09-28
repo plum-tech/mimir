@@ -66,6 +66,10 @@ class Class2ndScoreSummary {
 
 @HiveType(typeId: HiveTypeClass2nd.scoreItem)
 class Class2ndScoreItem {
+  /// 活动名称
+  @HiveField(0)
+  final String name;
+
   /// 活动编号
   @HiveField(1)
   final int activityId;
@@ -74,22 +78,36 @@ class Class2ndScoreItem {
   @HiveField(2)
   final Class2ndActivityCat type;
 
-  /// 分数
+  /// 活动时间
   @HiveField(3)
-  final double amount;
+  final DateTime time;
+
+  /// 得分
+  @HiveField(4)
+  final double points;
+
+  /// 诚信分
+  @HiveField(5)
+  final double honestyPoints;
 
   const Class2ndScoreItem({
+    required this.name,
     required this.activityId,
     required this.type,
-    required this.amount,
+    required this.time,
+    required this.points,
+    required this.honestyPoints,
   });
 
   @override
   String toString() {
     return {
+      "name": name,
       "activityId": activityId,
       "type": type,
-      "amount": amount,
+      "time": time,
+      "points": points,
+      "honestyPoints": honestyPoints,
     }.toString();
   }
 }
