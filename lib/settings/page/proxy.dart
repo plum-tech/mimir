@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/editor.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/global/init.dart';
@@ -140,11 +141,21 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
       trailing: IconButton(
         icon: const Icon(Icons.edit),
         onPressed: () async {
-          final newHostName = await Editor.showStringEditor(
+          final newFullProxy = await Editor.showStringEditor(
             context,
             desc: i18n.proxy.address,
             initial: proxyUri.toString(),
           );
+          final newUri = Uri.tryParse(newFullProxy);
+
+          if (newUri != null && newUri.isAbsolute && (newUri.scheme == "http" || newUri.scheme == "https")) {
+            onChanged(newUri);
+          } else {
+            // TODO: i18n
+            if (!mounted) return;
+            context.showTip(title: "Error", desc: "Bad proxy URI", ok: i18n.close);
+            return;
+          }
         },
       ),
     );
