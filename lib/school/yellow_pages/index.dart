@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/r.dart';
@@ -66,6 +67,17 @@ class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
           child: i18n.seeAll.text(),
         )
       ],
+      rightActions: [
+        IconButton(
+          onPressed: YellowPagesInit.storage.interactHistory?.isNotEmpty != true
+              ? null
+              : () async {
+                  await HapticFeedback.heavyImpact();
+                  YellowPagesInit.storage.interactHistory = null;
+                },
+          icon: const Icon(Icons.delete_outlined),
+        )
+      ],
     );
   }
 
@@ -74,6 +86,9 @@ class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
     final contacts = history.sublist(0, min(_historyLength, history.length));
     return contacts
         .map((contact) {
+          if (!isCupertino) {
+            return ContactTile(contact).inCard();
+          }
           return Dismissible(
             direction: DismissDirection.endToStart,
             key: ValueKey("${contact.name}+${contact.phone}"),

@@ -113,6 +113,15 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
             },
             icon: const Icon(Icons.share_outlined),
           ),
+        IconButton(
+          onPressed: selectedRoom == null
+              ? null
+              : () async {
+            await HapticFeedback.heavyImpact();
+            ElectricityBalanceInit.storage.selectedRoom = null;
+          },
+          icon: const Icon(Icons.delete_outlined),
+        ),
       ],
     );
   }
@@ -121,19 +130,10 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
     required ElectricityBalance balance,
     required String selectedRoom,
   }) {
-    final card = Dismissible(
-      direction: DismissDirection.endToStart,
-      key: const ValueKey("Balance"),
-      onDismissed: (dir) async {
-        await HapticFeedback.heavyImpact();
-        ElectricityBalanceInit.storage.selectedRoom = null;
-      },
-      child: ElectricityBalanceCard(
-        balance: balance,
-      ).sized(h: 120),
-    );
     if (!isCupertino) {
-      return card;
+      return ElectricityBalanceCard(
+        balance: balance,
+      ).sized(h: 120);
     }
     return Builder(
       builder: (ctx) => CupertinoContextMenu.builder(
@@ -147,7 +147,17 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
             child: i18n.share.text(),
           ),
         ],
-        builder: (ctx, animation) => card,
+        builder: (ctx, animation) => Dismissible(
+          direction: DismissDirection.endToStart,
+          key: const ValueKey("Balance"),
+          onDismissed: (dir) async {
+            await HapticFeedback.heavyImpact();
+            ElectricityBalanceInit.storage.selectedRoom = null;
+          },
+          child: ElectricityBalanceCard(
+            balance: balance,
+          ).sized(h: 120),
+        ),
       ),
     );
   }
