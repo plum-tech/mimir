@@ -46,7 +46,7 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
               SliverOverlapAbsorber(
                 handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
-                  pinned: true,
+                  floating: true,
                   title: i18n.title.text(),
                   actions: [
                     IconButton(

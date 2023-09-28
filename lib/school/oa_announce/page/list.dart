@@ -42,7 +42,7 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            pinned: true,
+            floating: true,
             title: i18n.title.text(),
             bottom: records != null
                 ? null

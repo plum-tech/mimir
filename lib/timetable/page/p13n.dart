@@ -16,7 +16,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            pinned: true,
+            floating: true,
             title: "Personalization".text(),
           ),
           SliverToBoxAdapter(

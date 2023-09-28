@@ -58,7 +58,7 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            pinned: true,
+            floating: true,
             title: i18n.stats.title.text(),
             actions: [
               SegmentedButton<StatisticsMode>(

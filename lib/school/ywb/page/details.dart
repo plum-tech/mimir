@@ -48,7 +48,7 @@ class _YwbApplicationMetaDetailsPageState extends State<YwbApplicationMetaDetail
         controller: controller,
         slivers: [
           SliverAppBar(
-            pinned: true,
+            floating: true,
             title: Text(widget.meta.name).hero(widget.meta.id),
             bottom: details != null
                 ? null

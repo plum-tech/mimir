@@ -54,11 +54,11 @@ class _YwbApplicationMetaListPageState extends State<YwbApplicationMetaListPage>
 
   @override
   Widget build(BuildContext context) {
-    final metas = this.metaList;
+    final metaList = this.metaList;
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          pinned: true,
+          floating: true,
           title: i18n.title.text(),
           actions: [
             IconButton(
@@ -79,8 +79,8 @@ class _YwbApplicationMetaListPageState extends State<YwbApplicationMetaListPage>
                 )
               : null,
         ),
-        if (metas != null)
-          if (metas.isEmpty)
+        if (metaList != null)
+          if (metaList.isEmpty)
             SliverFillRemaining(
               child: LeavingBlank(
                 icon: Icons.inbox_outlined,
@@ -89,8 +89,8 @@ class _YwbApplicationMetaListPageState extends State<YwbApplicationMetaListPage>
             )
           else
             SliverList.builder(
-              itemCount: metas.length,
-              itemBuilder: (ctx, i) => ApplicationMetaTile(meta: metas[i], isHot: i < 3),
+              itemCount: metaList.length,
+              itemBuilder: (ctx, i) => ApplicationMetaTile(meta: metaList[i], isHot: i < 3),
             ),
       ],
     );

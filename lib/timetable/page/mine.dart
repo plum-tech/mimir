@@ -61,7 +61,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            pinned: true,
+            floating: true,
             title: i18n.mine.title.text(),
             actions: [
               IconButton(

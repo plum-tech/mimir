@@ -53,7 +53,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
         controller: scrollController,
         slivers: [
           SliverAppBar(
-            pinned: true,
+            floating: true,
             title: i18n.details.text(),
             actions: [
               IconButton(

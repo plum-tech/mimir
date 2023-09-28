@@ -51,7 +51,7 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            pinned: true,
+            floating: true,
             title: widget.record.title.text(),
             actions: [
               IconButton(

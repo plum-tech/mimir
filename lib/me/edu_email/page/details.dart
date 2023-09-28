@@ -22,7 +22,7 @@ class EduEmailDetailsPage extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
-              pinned: true,
+              floating: true,
               title: subject.text(),
             ),
             SliverToBoxAdapter(

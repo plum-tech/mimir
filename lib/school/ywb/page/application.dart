@@ -68,7 +68,7 @@ class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
               SliverOverlapAbsorber(
                 handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
-                  pinned: true,
+                  floating: true,
                   title: i18n.mine.title.text(),
                   forceElevated: innerBoxIsScrolled,
                   bottom: TabBar(
