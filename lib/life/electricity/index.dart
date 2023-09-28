@@ -117,9 +117,9 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
           onPressed: selectedRoom == null
               ? null
               : () async {
-            await HapticFeedback.heavyImpact();
-            ElectricityBalanceInit.storage.selectedRoom = null;
-          },
+                  await HapticFeedback.heavyImpact();
+                  ElectricityBalanceInit.storage.selectedRoom = null;
+                },
           icon: const Icon(Icons.delete_outlined),
         ),
       ],

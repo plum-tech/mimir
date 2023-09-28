@@ -85,7 +85,9 @@ class ExamResultCard extends StatelessWidget {
               )
           : i18n.lessonNotEvaluated.text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize)),
       onTap: onTap,
-    ).inCard();
+    ).inCard(
+      clip: Clip.hardEdge,
+    );
   }
 }
 

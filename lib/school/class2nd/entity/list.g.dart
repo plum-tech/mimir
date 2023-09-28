@@ -18,7 +18,7 @@ class Class2ndActivityAdapter extends TypeAdapter<Class2ndActivity> {
     };
     return Class2ndActivity(
       id: fields[0] as int,
-      title: fields[1] as String,
+      fullTitle: fields[1] as String,
       ts: fields[4] as DateTime,
       realTitle: fields[2] as String,
       tags: (fields[3] as List).cast<String>(),
@@ -32,7 +32,7 @@ class Class2ndActivityAdapter extends TypeAdapter<Class2ndActivity> {
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.title)
+      ..write(obj.fullTitle)
       ..writeByte(2)
       ..write(obj.realTitle)
       ..writeByte(3)

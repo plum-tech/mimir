@@ -64,7 +64,11 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
                 itemCount: records.length,
                 itemBuilder: (ctx, i) {
                   final record = records[i];
-                  return OaAnnounceTile(record).inCard().hero(record.uuid);
+                  return OaAnnounceTile(record)
+                      .inCard(
+                        clip: Clip.hardEdge,
+                      )
+                      .hero(record.uuid);
                 },
               )
         ],

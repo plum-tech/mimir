@@ -91,7 +91,7 @@ class Class2ndActivity {
 
   /// Title
   @HiveField(1)
-  final String title;
+  final String fullTitle;
 
   @HiveField(2)
   final String realTitle;
@@ -105,7 +105,7 @@ class Class2ndActivity {
 
   const Class2ndActivity({
     required this.id,
-    required this.title,
+    required this.fullTitle,
     required this.ts,
     required this.realTitle,
     required this.tags,
@@ -115,7 +115,7 @@ class Class2ndActivity {
   String toString() {
     return {
       "id": id,
-      "title": title,
+      "title": fullTitle,
       "ts": ts,
       "realTitle": realTitle,
       "tags": tags,
@@ -128,7 +128,7 @@ extension ActivityParser on Class2ndActivity {
     final (:title, :tags) = splitTitleAndTags(activity.title);
     return Class2ndActivity(
       id: activity.activityId,
-      title: activity.title,
+      fullTitle: activity.title,
       ts: activity.time,
       realTitle: title,
       tags: tags,

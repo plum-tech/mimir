@@ -2,6 +2,7 @@ import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mimir/network/session.dart';
+import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/session/class2nd.dart';
 
 import '../entity/list.dart';
@@ -68,15 +69,15 @@ class Class2ndActivityListService {
     List<Class2ndActivity> result = soup.findAll(selector).map(
       (element) {
         final date = element.nextSibling!.text;
-        final String title = element.text.substring(2);
+        final String fullTitle = mapChinesePunctuations(element.text.substring(2));
         final String link = element.attributes['href']!;
 
         final String? x = re.firstMatch(link)?.group(0).toString();
         final int id = int.parse(x!);
-        final (title: realTitle, :tags) = splitTitleAndTags(title);
+        final (title: realTitle, :tags) = splitTitleAndTags(fullTitle);
         return Class2ndActivity(
           id: id,
-          title: title,
+          fullTitle: fullTitle,
           ts: dateFormatParser.parse(date),
           realTitle: realTitle,
           tags: tags,

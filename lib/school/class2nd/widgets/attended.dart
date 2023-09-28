@@ -6,7 +6,6 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/list.dart';
 import '../entity/attended.dart';
-import "../i18n.dart";
 import '../utils.dart';
 import 'activity.dart';
 
@@ -23,6 +22,7 @@ class AttendedActivityCard extends StatelessWidget {
     final (:title, :tags) = splitTitleAndTags(attended.title);
     tags.insert(0, attended.category.l10nName());
     return FilledCard(
+      clipBehavior: Clip.hardEdge,
       child: ListTile(
         isThreeLine: true,
         titleTextStyle: context.textTheme.titleMedium,
