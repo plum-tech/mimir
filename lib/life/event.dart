@@ -1,5 +1,3 @@
-import 'package:event_bus/event_bus.dart';
+import 'package:mimir/utils/async_event.dart';
 
-final lifeEventBus = EventBus();
-
-class LifePageRefreshEvent {}
+final lifeEventBus = AsyncEventEmitter();

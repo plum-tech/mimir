@@ -482,7 +482,7 @@ packages:
     source: hosted
     version: "2.0.5"
   event_bus:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: event_bus
       sha256: "44baa799834f4c803921873e7446a2add0f3efa45e101a054b1f0ab9b95f8edc"

@@ -9,6 +9,7 @@ import 'package:mimir/school/event.dart';
 import 'package:mimir/school/exam_result/init.dart';
 import 'package:mimir/school/exam_result/widgets/item.dart';
 import 'package:mimir/settings/settings.dart';
+import 'package:mimir/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'entity/result.dart';
@@ -25,12 +26,12 @@ class ExamResultAppCard extends StatefulWidget {
 
 class _ExamResultAppCardState extends State<ExamResultAppCard> {
   List<ExamResult>? resultList;
-  late final StreamSubscription<SchoolPageRefreshEvent> $refreshEvent;
+  late final EventSubscription $refreshEvent;
 
   @override
   void initState() {
     super.initState();
-    $refreshEvent = schoolEventBus.on<SchoolPageRefreshEvent>().listen((event) {
+    $refreshEvent = schoolEventBus.addListener(() {
       refresh();
     });
     refresh();

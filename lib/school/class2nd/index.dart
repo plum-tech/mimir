@@ -10,6 +10,7 @@ import 'package:mimir/design/widgets/app.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/school/class2nd/widgets/summary.dart';
 import 'package:mimir/school/event.dart';
+import 'package:mimir/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -28,13 +29,13 @@ class Class2ndAppCard extends StatefulWidget {
 class _Class2ndAppCardState extends State<Class2ndAppCard> {
   var summary = Class2ndInit.scoreStorage.scoreSummary;
   final $scoreSummary = Class2ndInit.scoreStorage.listenScoreSummary();
-  late final StreamSubscription<SchoolPageRefreshEvent> $refreshEvent;
+  late final EventSubscription $refreshEvent;
 
   @override
   void initState() {
     $scoreSummary.addListener(onSummaryChanged);
-    $refreshEvent = schoolEventBus.on<SchoolPageRefreshEvent>().listen((event) {
-      refresh(active: true);
+    $refreshEvent = schoolEventBus.addListener(() async {
+      await refresh(active: true);
     });
     super.initState();
   }

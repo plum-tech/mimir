@@ -36,7 +36,6 @@ dependencies:
   format: ^1.3.0
   go_router: ^10.1.2
   rettulf: ^2.0.1
-  event_bus: ^2.0.0
 
   # Cryptography
   # Encryption (AES)

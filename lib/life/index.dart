@@ -54,7 +54,7 @@ class _LifePageState extends State<LifePage> {
       onRefresh: () async {
         debugPrint("Life page refreshed");
         // TODO: using async event emitter
-        lifeEventBus.fire(LifePageRefreshEvent());
+        await lifeEventBus.notifyListeners();
       },
       child: CustomScrollView(
         slivers: [

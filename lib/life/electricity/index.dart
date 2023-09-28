@@ -8,6 +8,7 @@ import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/life/electricity/storage/electricity.dart';
 import 'package:mimir/r.dart';
+import 'package:mimir/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -28,14 +29,14 @@ class ElectricityBalanceAppCard extends StatefulWidget {
 
 class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
   final onRoomBalanceChanged = ElectricityBalanceInit.storage.listenRoomBalanceChange();
-  late final StreamSubscription<LifePageRefreshEvent> $refreshEvent;
+  late final EventSubscription $refreshEvent;
 
   @override
   initState() {
     super.initState();
     onRoomBalanceChanged.addListener(updateRoomAndBalance);
-    $refreshEvent = lifeEventBus.on<LifePageRefreshEvent>().listen((event) {
-      refresh(active: true);
+    $refreshEvent = lifeEventBus.addListener(() async {
+      await refresh(active: true);
     });
     if (Settings.life.electricity.autoRefresh) {
       refresh(active: false);

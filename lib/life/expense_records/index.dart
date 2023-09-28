@@ -10,6 +10,7 @@ import 'package:mimir/life/event.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/life/expense_records/entity/local.dart';
 import 'package:mimir/life/expense_records/init.dart';
+import 'package:mimir/utils/async_event.dart';
 import 'utils.dart';
 import 'widget/balance.dart';
 import 'package:rettulf/rettulf.dart';
@@ -26,13 +27,13 @@ class ExpenseRecordsAppCard extends StatefulWidget {
 
 class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
   final $lastTransaction = ExpenseRecordsInit.storage.listenLastTransaction();
-  late final StreamSubscription<LifePageRefreshEvent> $refreshEvent;
+  late final EventSubscription $refreshEvent;
 
   @override
   void initState() {
     $lastTransaction.addListener(onLatestChanged);
-    $refreshEvent = lifeEventBus.on<LifePageRefreshEvent>().listen((event) {
-      refresh(active: true);
+    lifeEventBus.addListener(() async {
+      await refresh(active: true);
     });
     super.initState();
   }
