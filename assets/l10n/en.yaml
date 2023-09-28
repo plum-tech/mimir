@@ -70,8 +70,11 @@ me:
   navigation: Me
 class2nd:
   title: Second class
+  attended:
+    title: Attended
+    id: Application ID
+    time: Time
   activity: Activity
-  attended: Attended
   refreshSuccessTip: Second class score refreshed successfully
   refreshFailedTip: Failed to refresh second class score
   noAttendedActivities: No attended activities
@@ -80,9 +83,6 @@ class2nd:
     replyTip: Reply from school
     applyRequest: Apply
     applyRequestDesc: Confirm to apply this activity?
-  application:
-    id: Application ID
-    time: Application Time
   activityCat:
     lecture: Lecture
     thematicEdu: Thematic Edu

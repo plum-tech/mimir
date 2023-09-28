@@ -22,14 +22,7 @@ List<String> cleanDuplicate(List<String> tags) {
   return tags.toSet().toList();
 }
 
-class TitleAndTags {
-  final String title;
-  final List<String> tags;
-
-  const TitleAndTags(this.title, this.tags);
-}
-
-TitleAndTags splitTitleAndTags(String fullTitle) {
+({String title, List<String> tags}) splitTitleAndTags(String fullTitle) {
   final titleParts = extractTitle(fullTitle);
   var realTitle = titleParts.isNotEmpty ? titleParts.last : "";
   /*if (realTitle.startsWith(RegExp(r'[:：]'))) {
@@ -37,5 +30,5 @@ TitleAndTags splitTitleAndTags(String fullTitle) {
   }*/
   if (titleParts.isNotEmpty) titleParts.removeLast();
   final tags = cleanDuplicate(titleParts);
-  return TitleAndTags(realTitle, tags);
+  return (title: realTitle, tags: tags);
 }

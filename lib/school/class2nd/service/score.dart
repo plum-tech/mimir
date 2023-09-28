@@ -107,9 +107,9 @@ class Class2ndScoreService {
       final idRaw = item.find('td:nth-child(7)');
       final id = int.parse(idRaw!.innerHtml.trim());
       // 注意：“我的成绩” 页面中，成绩条目显示的是活动类型，而非加分类型, 因此使用 ActivityType.
-      final typeRaw = item.find('td:nth-child(5)')!.innerHtml.trim();
-      final category = Class2ndActivityCat.parse(typeRaw);
-      assert(category != null, "Unknown class2nd category $typeRaw");
+      final categoryRaw = item.find('td:nth-child(5)')!.innerHtml.trim();
+      final category = Class2ndActivityCat.parse(categoryRaw);
+      assert(category != null, "Unknown class2nd category $categoryRaw");
       final points = double.parse(item.find('td:nth-child(11) > span')!.innerHtml.trim());
       final honestyPoints = double.parse(item.find('td:nth-child(13) > span')!.innerHtml.trim());
 
@@ -163,14 +163,19 @@ class Class2ndScoreService {
     final activityIdText = item.find('td:nth-child(3)')!.innerHtml.trim();
     // 部分取消了的活动，活动链接不存在，这里将活动 id 记为 -1.
     final activityId = int.parse(activityIdRe.firstMatch(activityIdText)?.group(1) ?? '-1');
-    final String title = item.find('td:nth-child(3)')!.text.trim();
-    final DateTime time = attendedTimeFormat.parse(item.find('td:nth-child(7)')!.text.trim());
-    final String status = item.find('td:nth-child(9)')!.text.trim();
+    final title = item.find('td:nth-child(3)')!.text.trim();
+    final categoryRaw = item.find('td:nth-child(5)')!.text.trim();
+    final category = Class2ndActivityCat.parse(categoryRaw);
+    assert(category != null, "Unknown class2nd category $categoryRaw");
+    final timeRaw = item.find('td:nth-child(7)')!.text.trim();
+    final time = attendedTimeFormat.parse(timeRaw);
+    final status = item.find('td:nth-child(9)')!.text.trim();
 
     return Class2ndActivityApplication(
       applyId: applyId,
       activityId: activityId,
       title: title,
+      category: category!,
       time: time,
       status: status,
     );

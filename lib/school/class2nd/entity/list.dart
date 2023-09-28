@@ -71,7 +71,8 @@ enum Class2ndActivityCat {
       return Class2ndActivityCat.practice;
     } else if (catName == "志愿公益") {
       return Class2ndActivityCat.voluntary;
-    } else if (catName == "安全教育网络教学") {
+    } else if (catName.contains("安全教育网络教学")) {
+      // To prevent ellipsis
       return Class2ndActivityCat.onlineSafetyEdu;
     } else if (catName == "校园文明") {
       return Class2ndActivityCat.schoolCultureActivity;
@@ -124,13 +125,13 @@ class Class2ndActivity {
 
 extension ActivityParser on Class2ndActivity {
   static Class2ndActivity parse(Class2ndAttendedActivity activity) {
-    final titleAndTags = splitTitleAndTags(activity.title);
+    final (:title, :tags) = splitTitleAndTags(activity.title);
     return Class2ndActivity(
       id: activity.activityId,
       title: activity.title,
       ts: activity.time,
-      realTitle: titleAndTags.title,
-      tags: titleAndTags.tags,
+      realTitle: title,
+      tags: tags,
     );
   }
 }

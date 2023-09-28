@@ -20,21 +20,36 @@ class ActivityCard extends StatelessWidget {
         title: activity.realTitle.text(),
         titleTextStyle: textTheme.titleMedium,
         trailing: context.formatYmdNum(activity.ts).text(style: textTheme.bodyMedium),
-        subtitle: activity.tags
-            .map(
-              (tag) => RawChip(
-                label: tag.text(),
-                padding: EdgeInsets.zero,
-                labelStyle: textTheme.bodySmall,
-                elevation: 4,
-              ),
-            )
-            .toList()
-            .wrap(spacing: 4),
+        subtitle: ActivityTagsGroup(activity.tags),
         onTap: () {
           context.push("/class2nd/activity-detail?enable-apply=true", extra: activity);
         },
       ),
     );
+  }
+}
+
+class ActivityTagsGroup extends StatelessWidget {
+  final List<String> tags;
+
+  const ActivityTagsGroup(
+    this.tags, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = context.textTheme;
+    return tags
+        .map(
+          (tag) => RawChip(
+            label: tag.text(),
+            padding: EdgeInsets.zero,
+            labelStyle: textTheme.bodySmall,
+            elevation: 4,
+          ),
+        )
+        .toList()
+        .wrap(spacing: 4);
   }
 }

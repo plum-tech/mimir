@@ -71,7 +71,10 @@ me:
 class2nd:
   title: 第二課堂
   activity: 活動
-  attended: 已參與
+  attended:
+    title: 已參與
+    id: 申請 ID
+    time: 時間
   refreshSuccessTip: 第二課堂分重新整理成功
   refreshFailedTip: 第二課堂分重新整理失敗
   noAttendedActivities: 無參加過的活動
@@ -80,9 +83,6 @@ class2nd:
     replyTip: 校方回信
     applyRequest: 申請
     applyRequestDesc: 確認要申請這個活動嗎？
-  application:
-    id: 申請 ID
-    time: 申請時間
   activityCat:
     lecture: 講座報告
     thematicEdu: 主題教育

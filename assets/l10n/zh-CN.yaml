@@ -71,7 +71,10 @@ me:
 class2nd:
   title: 第二课堂
   activity: 活动
-  attended: 已参与
+  attended:
+    title: 已参与
+    id: 报名编号
+    time: 时间
   refreshSuccessTip: 第二课堂分刷新成功
   refreshFailedTip: 第二课堂分刷新失败
   noAttendedActivities: 没有参加过的活动
@@ -80,9 +83,6 @@ class2nd:
     replyTip: 校方回复
     applyRequest: 报名
     applyRequestDesc: 确认报名这个活动吗？
-  application:
-    id: 报名编号
-    time: 报名时间
   activityCat:
     lecture: 讲座报告
     thematicEdu: 主题教育

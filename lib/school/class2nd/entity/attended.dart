@@ -137,12 +137,16 @@ class Class2ndActivityApplication {
   @HiveField(4)
   final String status;
 
+  @HiveField(5)
+  final Class2ndActivityCat category;
+
   Class2ndActivityApplication({
     required this.applyId,
     required this.activityId,
     required this.title,
     required this.time,
     required this.status,
+    required this.category,
   });
 
   @override
@@ -153,6 +157,7 @@ class Class2ndActivityApplication {
       "title": title,
       "time": time,
       "status": status,
+      "category": category,
     }.toString();
   }
 }
@@ -225,16 +230,20 @@ class Class2ndAttendedActivity {
   @HiveField(3)
   final DateTime time;
 
-  /// 活动状态
+  /// 申请时间
   @HiveField(4)
+  final Class2ndActivityCat category;
+
+  /// 活动状态
+  @HiveField(5)
   final String status;
 
   /// 总得分
-  @HiveField(5)
+  @HiveField(6)
   final double points;
 
   /// 总诚信分
-  @HiveField(6)
+  @HiveField(7)
   final double honestyPoints;
 
   const Class2ndAttendedActivity({
@@ -242,6 +251,7 @@ class Class2ndAttendedActivity {
     required this.activityId,
     required this.title,
     required this.time,
+    required this.category,
     required this.status,
     required this.points,
     required this.honestyPoints,
@@ -256,6 +266,7 @@ class Class2ndAttendedActivity {
       "activityId": activityId,
       "title": title,
       "time": time,
+      "category": category,
       "status": status,
       "points": points,
       "honestyPoints": honestyPoints,

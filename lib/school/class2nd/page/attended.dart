@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/school/class2nd/entity/list.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/attended.dart';
@@ -54,6 +55,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
         // because the application.title might have trailing ellipsis
         title: relatedScoreItems.firstOrNull?.name ?? application.title,
         time: application.time,
+        category: application.category,
         status: application.status,
         points: relatedScoreItems.fold<double>(0.0, (points, item) => points + item.points),
         honestyPoints: relatedScoreItems.fold<double>(0.0, (points, item) => points + item.honestyPoints),
@@ -96,7 +98,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                 itemCount: activities.length,
                 itemBuilder: (ctx, i) {
                   final activity = activities[i];
-                  return AttendedActivityCard(activity).inCard().hero(activity.applyId);
+                  return AttendedActivityCard(activity).hero(activity.applyId);
                 },
               ),
         ],

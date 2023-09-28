@@ -17,7 +17,7 @@ class _I18n with CommonI18nMixin {
 
   String get activityAction => "$ns.activity".tr();
 
-  String get attendedAction => "$ns.attended".tr();
+  String get attendedAction => "$ns.attended.title".tr();
 
   String get refreshSuccessTip => "$ns.refreshSuccessTip".tr();
 
@@ -72,8 +72,6 @@ class _Attended {
   static const ns = "${_I18n.ns}.attended";
 
   String get title => "$ns.title".tr();
-
-  String get id => "$ns.id".tr();
 
   String get time => "$ns.time".tr();
 }

@@ -29,7 +29,7 @@ class ActivityDetailsCard extends StatelessWidget {
 
     return Column(
       children: [
-        Text(activity.realTitle, style: context.textTheme.titleLarge, softWrap: true).padAll(10),
+        Text(details?.title ?? activity.realTitle, style: context.textTheme.titleLarge, softWrap: true).padAll(10),
         Table(
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           columnWidths: const {

@@ -116,13 +116,14 @@ class Class2ndActivityApplicationAdapter extends TypeAdapter<Class2ndActivityApp
       title: fields[2] as String,
       time: fields[3] as DateTime,
       status: fields[4] as String,
+      category: fields[5] as Class2ndActivityCat,
     );
   }
 
   @override
   void write(BinaryWriter writer, Class2ndActivityApplication obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.applyId)
       ..writeByte(1)
@@ -132,7 +133,9 @@ class Class2ndActivityApplicationAdapter extends TypeAdapter<Class2ndActivityApp
       ..writeByte(3)
       ..write(obj.time)
       ..writeByte(4)
-      ..write(obj.status);
+      ..write(obj.status)
+      ..writeByte(5)
+      ..write(obj.category);
   }
 
   @override
@@ -159,16 +162,17 @@ class Class2ndAttendedActivityAdapter extends TypeAdapter<Class2ndAttendedActivi
       activityId: fields[1] as int,
       title: fields[2] as String,
       time: fields[3] as DateTime,
-      status: fields[4] as String,
-      points: fields[5] as double,
-      honestyPoints: fields[6] as double,
+      category: fields[4] as Class2ndActivityCat,
+      status: fields[5] as String,
+      points: fields[6] as double,
+      honestyPoints: fields[7] as double,
     );
   }
 
   @override
   void write(BinaryWriter writer, Class2ndAttendedActivity obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.applyId)
       ..writeByte(1)
@@ -178,10 +182,12 @@ class Class2ndAttendedActivityAdapter extends TypeAdapter<Class2ndAttendedActivi
       ..writeByte(3)
       ..write(obj.time)
       ..writeByte(4)
-      ..write(obj.status)
+      ..write(obj.category)
       ..writeByte(5)
-      ..write(obj.points)
+      ..write(obj.status)
       ..writeByte(6)
+      ..write(obj.points)
+      ..writeByte(7)
       ..write(obj.honestyPoints);
   }
 
