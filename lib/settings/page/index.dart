@@ -191,7 +191,7 @@ class _SettingsPageState extends State<SettingsPage> {
       title: i18n.themeColor.text(),
       subtitle: "0x${selected.hexAlpha}".text(),
       trailing: IconButton(
-        icon: Icon(Icons.colorize, color: selected),
+        icon: const Icon(Icons.colorize),
         onPressed: () async {
           final color = await context.show$Sheet$<Color>((_) => ThemeColorPicker(initialColor: selected));
           if (color != null) {
