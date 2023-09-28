@@ -5,7 +5,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
-import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/session/widgets/scope.dart';
@@ -78,23 +77,11 @@ class _MimirAppState extends State<MimirApp> {
       darkTheme: bakeTheme(ThemeData.dark(
         useMaterial3: true,
       )),
-      builder: (ctx, child) {
-        final body = OaAuthManager(
-          child: OaOnlineManager(
-            child: child ?? const SizedBox(),
-          ),
-        );
-        if (isCupertino) {
-          return CupertinoTheme(
-            data: CupertinoThemeData(
-              brightness: ctx.mediaQuery.platformBrightness,
-              primaryColor: themeColor,
-            ),
-            child: body,
-          );
-        }
-        return body;
-      },
+      builder: (ctx, child) => OaAuthManager(
+        child: OaOnlineManager(
+          child: child ?? const SizedBox(),
+        ),
+      ),
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         dragDevices: {
           PointerDeviceKind.mouse,
