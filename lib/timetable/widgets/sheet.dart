@@ -51,7 +51,7 @@ class TimetableCourseSheet extends StatelessWidget {
       children: [
         TableRow(children: [
           i18n.detail.courseId.text(),
-          courseCode.text(),
+          courseCode.text()
         ]),
         TableRow(children: [
           i18n.detail.classId.text(),
