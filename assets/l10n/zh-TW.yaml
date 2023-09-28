@@ -94,6 +94,25 @@ class2nd:
     conference: 會議
     schoolCultureCompetition: 校園文化競賽
     paperAndPatent: 論文專利
+  scoreType:
+    thematicReport:
+      full: 講座報告
+      short: 報告
+    creation:
+      full: 創新創業創意
+      short: 三創
+    schoolCulture:
+      full: 校園文化
+      short: 文化
+    practice:
+      full: 社會實踐
+      short: 實踐
+    voluntary:
+      full: 志願公益
+      short: 志願
+    schoolSafetyCivilization:
+      full: 校園安全文明
+      short: 安全
   id: 活動 ID
   contactInfo: 联络人
   detailEmptyTip: 暫無資訊

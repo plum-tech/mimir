@@ -2,18 +2,21 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/score.dart';
+import '../entity/attended.dart';
 
-const _targetScores2020 =
-    Class2ndScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, voluntary: 1, campusCulture: 1);
+const _targetScores2020 = Class2ndScoreSummary(
+    thematicReport: 1.5, practice: 2, creation: 1.5, schoolSafetyCivilization: 1, voluntary: 1, schoolCulture: 1);
 const _admissionYear2targetScores = {
-  2013: Class2ndScoreSummary(lecture: 1, campusCulture: 1),
-  2014: Class2ndScoreSummary(lecture: 1, practice: 1, campusCulture: 1),
-  2015: Class2ndScoreSummary(lecture: 1, practice: 1, creation: 1, campusCulture: 1),
-  2016: Class2ndScoreSummary(lecture: 1, practice: 1, creation: 1, campusCulture: 1),
-  2017: Class2ndScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, campusCulture: 2),
-  2018: Class2ndScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, campusCulture: 2),
-  2019: Class2ndScoreSummary(lecture: 1.5, practice: 2, creation: 1.5, safetyEdu: 1, voluntary: 1, campusCulture: 1),
+  2013: Class2ndScoreSummary(thematicReport: 1, schoolCulture: 1),
+  2014: Class2ndScoreSummary(thematicReport: 1, practice: 1, schoolCulture: 1),
+  2015: Class2ndScoreSummary(thematicReport: 1, practice: 1, creation: 1, schoolCulture: 1),
+  2016: Class2ndScoreSummary(thematicReport: 1, practice: 1, creation: 1, schoolCulture: 1),
+  2017: Class2ndScoreSummary(
+      thematicReport: 1.5, practice: 2, creation: 1.5, schoolSafetyCivilization: 1, schoolCulture: 2),
+  2018: Class2ndScoreSummary(
+      thematicReport: 1.5, practice: 2, creation: 1.5, schoolSafetyCivilization: 1, schoolCulture: 2),
+  2019: Class2ndScoreSummary(
+      thematicReport: 1.5, practice: 2, creation: 1.5, schoolSafetyCivilization: 1, voluntary: 1, schoolCulture: 1),
   2020: _targetScores2020,
 };
 
@@ -29,17 +32,19 @@ Class2ndScoreSummary getTargetScoreOf({required int? admissionYear}) {
 class Class2ndScoreSummeryCard extends StatelessWidget {
   final Class2ndScoreSummary targetScore;
   final Class2ndScoreSummary summary;
+  final double aspectRatio;
 
   const Class2ndScoreSummeryCard({
     super.key,
     required this.targetScore,
     required this.summary,
+    this.aspectRatio = 16 / 9,
   });
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.8,
+      aspectRatio: aspectRatio,
       child: Card(
         child: Class2ndScoreSummaryChart(targetScore: targetScore, summary: summary).padSymmetric(v: 4),
       ),
@@ -104,10 +109,13 @@ class Class2ndScoreSummaryChart extends StatelessWidget {
               getTitlesWidget: (double indexDouble, TitleMeta meta) {
                 final i = indexDouble.toInt();
                 final isComplete = scores[i].score / targetScores[i].score >= 1;
-                return [
-                  scores[i].name.text(style: isComplete ? completeStyle : null),
-                  scores[i].score.toString().text(style: isComplete ? completeStyle : null),
-                ].column();
+                return Tooltip(
+                  message: scores[i].type.l10nFullName(),
+                  child: [
+                    scores[i].type.l10nShortName().text(style: isComplete ? completeStyle : null),
+                    scores[i].score.toString().text(style: isComplete ? completeStyle : null),
+                  ].column(),
+                );
               },
             ),
           ),

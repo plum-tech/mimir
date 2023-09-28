@@ -12,7 +12,7 @@
 
 | Timetable       |   School Life    |     Daily Life      |    Featured     |
 |-----------------|:----------------:|:-------------------:|:---------------:|
-| EAS Importing   |   Yellow Pages   |   Expense Records   |  Network Tool   |
+| EMIS Importing  |   Yellow Pages   |   Expense Records   |  Network Tool   |
 | Sharing         |   Exam Results   | Electricity Balance | QR Code Scanner |
 | Personalization | Exam Arrangement |      Edu Email      |                 |
 |                 | OA Announcement  |                     |                 |

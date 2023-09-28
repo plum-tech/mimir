@@ -5,7 +5,7 @@ import 'package:mimir/network/session.dart';
 import 'package:mimir/session/class2nd.dart';
 
 import '../entity/list.dart';
-import '../entity/score.dart';
+import '../entity/attended.dart';
 
 class Class2ndScoreService {
   static const homeUrl = 'http://sc.sit.edu.cn/public/init/index.action';
@@ -51,25 +51,25 @@ class Class2ndScoreService {
     for (final item in matches) {
       final score = double.parse(item.group(1) ?? '0.0');
       final typeName = item.group(2)!;
-      final type = ActivityScoreType.parse(typeName);
+      final type = Class2ndActivityScoreType.parse(typeName);
 
       switch (type) {
-        case ActivityScoreType.thematicReport:
+        case Class2ndActivityScoreType.thematicReport:
           lecture = score;
           break;
-        case ActivityScoreType.creation:
+        case Class2ndActivityScoreType.creation:
           creation = score;
           break;
-        case ActivityScoreType.schoolCulture:
+        case Class2ndActivityScoreType.schoolCulture:
           campus = score;
           break;
-        case ActivityScoreType.practice:
+        case Class2ndActivityScoreType.practice:
           practice = score;
           break;
-        case ActivityScoreType.voluntary:
+        case Class2ndActivityScoreType.voluntary:
           voluntary = score;
           break;
-        case ActivityScoreType.schoolSafetyCivilization:
+        case Class2ndActivityScoreType.schoolSafetyCivilization:
           safetyEdu = score;
           break;
         case null:
@@ -77,12 +77,12 @@ class Class2ndScoreService {
       }
     }
     return Class2ndScoreSummary(
-      lecture: lecture,
+      thematicReport: lecture,
       practice: practice,
       creation: creation,
-      safetyEdu: safetyEdu,
+      schoolSafetyCivilization: safetyEdu,
       voluntary: voluntary,
-      campusCulture: campus,
+      schoolCulture: campus,
     );
   }
 
@@ -107,16 +107,16 @@ class Class2ndScoreService {
       final idRaw = item.find('td:nth-child(7)');
       final id = int.parse(idRaw!.innerHtml.trim());
       // 注意：“我的成绩” 页面中，成绩条目显示的是活动类型，而非加分类型, 因此使用 ActivityType.
-      final categoryName = item.find('td:nth-child(5)')!.innerHtml.trim();
-      final category = Class2ndActivityCat.parse(categoryName);
-      assert(category != null, "Unknown class2nd category $categoryName");
+      final typeRaw = item.find('td:nth-child(5)')!.innerHtml.trim();
+      final category = Class2ndActivityCat.parse(typeRaw);
+      assert(category != null, "Unknown class2nd category $typeRaw");
       final points = double.parse(item.find('td:nth-child(11) > span')!.innerHtml.trim());
       final honestyPoints = double.parse(item.find('td:nth-child(13) > span')!.innerHtml.trim());
 
       return Class2ndScoreItem(
         name: title,
         activityId: id,
-        type: category!,
+        category: category!,
         time: time,
         points: points,
         honestyPoints: honestyPoints,

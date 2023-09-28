@@ -3,7 +3,7 @@ import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/score.dart';
+import '../entity/attended.dart';
 import '../init.dart';
 import '../widgets/attended.dart';
 import '../widgets/summary.dart';

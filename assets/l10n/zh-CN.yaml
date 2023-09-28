@@ -94,6 +94,25 @@ class2nd:
     conference: 会议
     schoolCultureCompetition: 校园文化竞赛
     paperAndPatent: 论文专利
+  scoreType:
+    thematicReport:
+      full: 主题报告
+      short: 讲座
+    creation:
+      full: 创新创业创意
+      short: 三创
+    schoolCulture:
+      full: 校园文化
+      short: 文化
+    practice:
+      full: 社会实践
+      short: 实践
+    voluntary:
+      full: 志愿公益
+      short: 志愿
+    schoolSafetyCivilization:
+      full: 校园安全文明
+      short: 文明
   id: 活动编号
   contactInfo: 联系方式
   detailEmptyTip: 暂无信息。

@@ -13,7 +13,7 @@ import 'package:mimir/school/exam_result/entity/result.dart';
 import 'package:mimir/school/oa_announce/entity/announce.dart';
 import 'package:mimir/school/class2nd/entity/details.dart';
 import 'package:mimir/school/class2nd/entity/list.dart';
-import 'package:mimir/school/class2nd/entity/score.dart';
+import 'package:mimir/school/class2nd/entity/attended.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/yellow_pages/entity/contact.dart';
 
@@ -45,6 +45,7 @@ class HiveAdapter {
     ~Class2ndScoreItemAdapter();
     ~Class2ndActivityCatAdapter();
     ~Class2ndAttendedActivityAdapter();
+    ~Class2ndActivityScoreTypeAdapter();
 
     // Exam Arrangement
     ~ExamEntryAdapter();

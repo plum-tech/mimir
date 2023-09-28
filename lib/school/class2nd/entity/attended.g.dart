@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'score.dart';
+part of 'attended.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
@@ -17,12 +17,12 @@ class Class2ndScoreSummaryAdapter extends TypeAdapter<Class2ndScoreSummary> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Class2ndScoreSummary(
-      lecture: fields[0] as double,
+      thematicReport: fields[0] as double,
       practice: fields[1] as double,
       creation: fields[2] as double,
-      safetyEdu: fields[3] as double,
+      schoolSafetyCivilization: fields[3] as double,
       voluntary: fields[4] as double,
-      campusCulture: fields[5] as double,
+      schoolCulture: fields[5] as double,
     );
   }
 
@@ -31,17 +31,17 @@ class Class2ndScoreSummaryAdapter extends TypeAdapter<Class2ndScoreSummary> {
     writer
       ..writeByte(6)
       ..writeByte(0)
-      ..write(obj.lecture)
+      ..write(obj.thematicReport)
       ..writeByte(1)
       ..write(obj.practice)
       ..writeByte(2)
       ..write(obj.creation)
       ..writeByte(3)
-      ..write(obj.safetyEdu)
+      ..write(obj.schoolSafetyCivilization)
       ..writeByte(4)
       ..write(obj.voluntary)
       ..writeByte(5)
-      ..write(obj.campusCulture);
+      ..write(obj.schoolCulture);
   }
 
   @override
@@ -66,7 +66,7 @@ class Class2ndScoreItemAdapter extends TypeAdapter<Class2ndScoreItem> {
     return Class2ndScoreItem(
       name: fields[0] as String,
       activityId: fields[1] as int,
-      type: fields[2] as Class2ndActivityCat,
+      category: fields[2] as Class2ndActivityCat,
       time: fields[3] as DateTime,
       points: fields[4] as double,
       honestyPoints: fields[5] as double,
@@ -82,7 +82,7 @@ class Class2ndScoreItemAdapter extends TypeAdapter<Class2ndScoreItem> {
       ..writeByte(1)
       ..write(obj.activityId)
       ..writeByte(2)
-      ..write(obj.type)
+      ..write(obj.category)
       ..writeByte(3)
       ..write(obj.time)
       ..writeByte(4)
@@ -192,4 +192,61 @@ class Class2ndAttendedActivityAdapter extends TypeAdapter<Class2ndAttendedActivi
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is Class2ndAttendedActivityAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+}
+
+class Class2ndActivityScoreTypeAdapter extends TypeAdapter<Class2ndActivityScoreType> {
+  @override
+  final int typeId = 63;
+
+  @override
+  Class2ndActivityScoreType read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return Class2ndActivityScoreType.thematicReport;
+      case 1:
+        return Class2ndActivityScoreType.creation;
+      case 2:
+        return Class2ndActivityScoreType.schoolCulture;
+      case 3:
+        return Class2ndActivityScoreType.practice;
+      case 4:
+        return Class2ndActivityScoreType.voluntary;
+      case 5:
+        return Class2ndActivityScoreType.schoolSafetyCivilization;
+      default:
+        return Class2ndActivityScoreType.thematicReport;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, Class2ndActivityScoreType obj) {
+    switch (obj) {
+      case Class2ndActivityScoreType.thematicReport:
+        writer.writeByte(0);
+        break;
+      case Class2ndActivityScoreType.creation:
+        writer.writeByte(1);
+        break;
+      case Class2ndActivityScoreType.schoolCulture:
+        writer.writeByte(2);
+        break;
+      case Class2ndActivityScoreType.practice:
+        writer.writeByte(3);
+        break;
+      case Class2ndActivityScoreType.voluntary:
+        writer.writeByte(4);
+        break;
+      case Class2ndActivityScoreType.schoolSafetyCivilization:
+        writer.writeByte(5);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Class2ndActivityScoreTypeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../entity/score.dart';
+import '../entity/attended.dart';
 
 class _K {
   static const scoreSummary = "/scoreSummary";

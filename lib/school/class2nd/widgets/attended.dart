@@ -4,7 +4,7 @@ import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/list.dart';
-import '../entity/score.dart';
+import '../entity/attended.dart';
 import "../i18n.dart";
 
 class AttendedActivityCard extends StatelessWidget {

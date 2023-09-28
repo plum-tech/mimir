@@ -15,7 +15,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
 
-import 'entity/score.dart';
+import 'entity/attended.dart';
 import "i18n.dart";
 import 'init.dart';
 
@@ -159,7 +159,8 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
     final name2score = summary.toName2score();
     final name2target = target.toName2score();
     final text = name2score
-        .map((e) => "${e.name}: ${e.score}/${name2target.firstWhereOrNull((t) => t.name == e.name)?.score}")
+        .map((e) =>
+            "${e.type.l10nFullName()}: ${e.score}/${name2target.firstWhereOrNull((t) => t.type == e.type)?.score}")
         .join(", ");
 
     final box = context.findRenderObject() as RenderBox?;

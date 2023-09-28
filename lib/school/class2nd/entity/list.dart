@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 import '../utils.dart';
 import 'package:mimir/hive/type_id.dart';
-import 'score.dart';
+import 'attended.dart';
 
 part 'list.g.dart';
 
@@ -77,45 +77,6 @@ enum Class2ndActivityCat {
       return Class2ndActivityCat.schoolCultureActivity;
     } else if (catName.contains("会议")) {
       return Class2ndActivityCat.conference;
-    }
-    return null;
-  }
-}
-
-enum ActivityScoreType {
-  /// 讲座报告
-  thematicReport,
-
-  /// 创新创业创意
-  creation,
-
-  /// 校园文化
-  schoolCulture,
-
-  /// 社会实践
-  practice,
-
-  /// 志愿公益
-  voluntary,
-
-  /// 校园安全文明
-  schoolSafetyCivilization;
-
-  const ActivityScoreType();
-
-  static ActivityScoreType? parse(String typeName) {
-    if (typeName == "主题报告") {
-      return ActivityScoreType.thematicReport;
-    } else if (typeName == "社会实践") {
-      return ActivityScoreType.practice;
-    } else if (typeName == "创新创业创意") {
-      return ActivityScoreType.creation;
-    } else if (typeName == "校园文化") {
-      return ActivityScoreType.schoolCulture;
-    } else if (typeName == "公益志愿") {
-      return ActivityScoreType.voluntary;
-    } else if (typeName == "校园安全文明") {
-      return ActivityScoreType.schoolSafetyCivilization;
     }
     return null;
   }

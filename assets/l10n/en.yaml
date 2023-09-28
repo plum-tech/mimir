@@ -94,6 +94,25 @@ class2nd:
     conference: Conf
     schoolCultureCompetition: Culture COMP
     paperAndPatent: Paper&Patent
+  scoreType:
+    thematicReport:
+      full: Thematic Report
+      short: Report
+    creation:
+      full: Creation
+      short: Creation
+    schoolCulture:
+      full: School Culture
+      short: Culture
+    practice:
+      full: Practice
+      short: Practice
+    voluntary:
+      full: Voluntary
+      short: Voluntary
+    schoolSafetyCivilization:
+      full: School Safety&Civilization
+      short: Civil.
   id: Activity ID
   contactInfo: Contact Info
   detailEmptyTip: No detail given
