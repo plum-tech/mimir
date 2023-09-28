@@ -8,7 +8,10 @@ import '../entity/exam.dart';
 class ExamCard extends StatelessWidget {
   final ExamEntry exam;
 
-  const ExamCard({super.key, required this.exam});
+  const ExamCard(
+    this.exam, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +63,6 @@ class ExamCard extends StatelessWidget {
             ]),
         ],
       )
-    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 20, h: 20).inCard();
+    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 15, h: 20).inCard();
   }
 }
