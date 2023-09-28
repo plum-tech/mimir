@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/global/init.dart';
 import 'package:mimir/hive/init.dart';
 import 'package:mimir/l10n/extension.dart';
@@ -13,6 +14,7 @@ import 'package:mimir/settings/widgets/campus.dart';
 import 'package:mimir/version.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:unicons/unicons.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 
 import '../i18n.dart';
 import '../widgets/navigation.dart';
@@ -183,16 +185,19 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget buildThemeColorPicker() {
-    return StatefulBuilder(
-      builder: (ctx, setState) => ListTile(
-        leading: const Icon(Icons.color_lens_outlined),
-        title: i18n.themeColor.text(),
-        trailing: IconButton(
-          icon: Icon(Icons.colorize, color: Settings.theme.themeColor ?? context.colorScheme.primary),
-          onPressed: () {
-
-          },
-        ),
+    final selected = Settings.theme.themeColor ?? context.colorScheme.primary;
+    return ListTile(
+      leading: const Icon(Icons.color_lens_outlined),
+      title: i18n.themeColor.text(),
+      subtitle: "0x${selected.hexAlpha}".text(),
+      trailing: IconButton(
+        icon: Icon(Icons.colorize, color: selected),
+        onPressed: () async {
+          final color = await context.show$Sheet$<Color>((_) => ThemeColorPicker(initialColor: selected));
+          if (color != null) {
+            Settings.theme.themeColor = color;
+          }
+        },
       ),
     );
   }
@@ -325,4 +330,70 @@ void _gotoLogin(BuildContext context) {
     navigator.pop();
   }
   context.go("/login");
+}
+
+class ThemeColorPicker extends StatefulWidget {
+  final Color initialColor;
+
+  const ThemeColorPicker({
+    super.key,
+    required this.initialColor,
+  });
+
+  @override
+  State<ThemeColorPicker> createState() => _ThemeColorPickerState();
+}
+
+class _ThemeColorPickerState extends State<ThemeColorPicker> {
+  late Color selected = widget.initialColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: "Select color".text(),
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: const Icon(Icons.close),
+          onPressed: () {
+            context.navigator.pop();
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.check),
+            onPressed: () {
+              context.navigator.pop(selected);
+            },
+          ),
+        ],
+      ),
+      backgroundColor: Colors.transparent,
+      body: SizedBox(
+        width: double.infinity,
+        child: ColorPicker(
+          color: selected,
+          onColorChanged: (color) {
+            setState(() => selected = color);
+          },
+          pickersEnabled: const <ColorPickerType, bool>{
+            ColorPickerType.both: false,
+            ColorPickerType.primary: true,
+            ColorPickerType.accent: true,
+            ColorPickerType.bw: false,
+            ColorPickerType.custom: false,
+            ColorPickerType.wheel: true,
+          },
+          width: 44,
+          height: 44,
+          borderRadius: 22,
+          showMaterialName: true,
+          subheading: Text(
+            'Select color shade',
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+        ),
+      ),
+    );
+  }
 }

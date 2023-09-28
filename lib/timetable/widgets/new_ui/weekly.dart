@@ -4,6 +4,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/timetable/platte.dart';
@@ -405,7 +406,7 @@ class _CourseCell extends StatelessWidget {
     }
 
     return res.inCard(color: color, elevation: elevation, margin: EdgeInsets.all(1.5.w)).onTap(() async {
-      await context.showSheet(
+      await context.show$Sheet$(
         (ctx) => TimetableCourseSheet(courseCode: course.courseCode, timetable: timetable),
       );
     });

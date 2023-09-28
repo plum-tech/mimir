@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/animation/animated.dart';
 import 'package:mimir/design/widgets/connectivity_checker.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
@@ -149,7 +150,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       startDate: defaultStartDate,
       schoolYear: year,
     );
-    final newMeta = await ctx.showSheet<TimetableMeta>(
+    final newMeta = await ctx.show$Sheet$<TimetableMeta>(
       (ctx) => MetaEditor(meta: meta).padOnly(b: MediaQuery.of(ctx).viewInsets.bottom),
       dismissible: false,
     );

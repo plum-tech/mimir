@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/common.dart';
@@ -220,7 +221,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   }
 
   Future<void> onEdit(int id, SitTimetable timetable) async {
-    final newMeta = await context.showSheet<TimetableMeta>(
+    final newMeta = await context.show$Sheet$<TimetableMeta>(
       (ctx) => MetaEditor(meta: timetable.meta).padOnly(b: MediaQuery.of(ctx).viewInsets.bottom),
       dismissible: false,
     );

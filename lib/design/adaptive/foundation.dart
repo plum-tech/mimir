@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'multiplatform.dart';
@@ -25,6 +26,29 @@ extension $BuildContextEx$ on BuildContext {
         context: this,
         builder: make,
         barrierDismissible: dismissible,
+      );
+    }
+  }
+
+  Future<T?> show$Sheet$<T>(
+    WidgetBuilder builder, {
+    bool dismissible = true,
+    bool useRootNavigator = true,
+  }) async {
+    if (isCupertino) {
+      return await showCupertinoModalBottomSheet<T>(
+        context: this,
+        useRootNavigator: useRootNavigator,
+        builder: builder,
+        animationCurve: Curves.fastEaseInToSlowEaseOut,
+        isDismissible: dismissible,
+      );
+    } else {
+      return await showModalBottomSheet(
+        context: this,
+        builder: builder,
+        useRootNavigator: useRootNavigator,
+        isDismissible: dismissible,
       );
     }
   }

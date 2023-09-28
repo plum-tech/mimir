@@ -299,6 +299,7 @@ library:
 settings:
   title: 設定
   version: 版本
+  themeColor: 色彩主題
   dev:
     title: 開發者選項
     devMode:

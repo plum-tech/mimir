@@ -1,6 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
@@ -331,7 +332,7 @@ class LessonCard extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         onTap: () async {
-          await context.showSheet(
+          await context.show$Sheet$(
             (ctx) => TimetableCourseSheet(courseCode: course.courseCode, timetable: timetable),
           );
         },

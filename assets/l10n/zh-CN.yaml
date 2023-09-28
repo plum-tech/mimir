@@ -297,6 +297,7 @@ library:
 settings:
   title: 设置
   version: 版本
+  themeColor: 主题色
   dev:
     title: 开发者选项
     devMode:

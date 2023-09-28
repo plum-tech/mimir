@@ -297,6 +297,7 @@ library:
 settings:
   title: Settings
   version: Version
+  themeColor: Theme Color
   dev:
     title: Developer options
     devMode:
