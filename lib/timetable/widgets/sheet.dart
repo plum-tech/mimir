@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/school/entity/school.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../i18n.dart';
@@ -33,39 +32,32 @@ class TimetableCourseSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            buildTitle(context),
-            ...buildItems(context),
-          ],
-        ),
-      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(classes[0].courseName, style: context.textTheme.titleLarge),
+          const Divider(),
+          buildTable(),
+          const Divider(),
+          ...generateTimeString().map((e) => e.text()),
+        ],
+      ).padSymmetric(v: 20, h: 20),
     );
   }
 
-  Widget buildTitle(BuildContext context) {
-    final titleStyle = Theme.of(context).textTheme.titleLarge;
-
-    return Container(
-      padding: const EdgeInsets.fromLTRB(0, 25, 0, 5),
-      child: Container(
-        decoration: const BoxDecoration(),
-        child: Text(classes[0].courseName, style: titleStyle),
-      ),
+  Widget buildTable() {
+    return Table(
+      children: [
+        TableRow(children: [
+          i18n.detail.courseId.text(),
+          courseCode.text(),
+        ]),
+        TableRow(children: [
+          i18n.detail.classId.text(),
+          classes[0].classCode.text(),
+        ]),
+      ],
     );
-  }
-
-  List<Widget> buildItems(BuildContext context) {
-    return [
-      i18n.detail.courseId(courseCode).text(),
-      i18n.detail.classId(classes[0].classCode).text(),
-      classes[0].localizedCampusName().text(),
-      const Divider(),
-      ...generateTimeString().map((e) => e.text()),
-    ];
   }
 }

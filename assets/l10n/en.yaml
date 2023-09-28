@@ -19,8 +19,8 @@ timetable:
   detail:
     descFormTitle: Description
     nameFormTitle: Name
-    classId: "Class Code {}"
-    courseId: "Course Code {}"
+    classId: Class Code
+    courseId: Course Code
   import:
     title: Import timetable
     import: Import

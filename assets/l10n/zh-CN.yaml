@@ -19,8 +19,8 @@ timetable:
   detail:
     descFormTitle: 描述
     nameFormTitle: 名称
-    classId: "教学班 {}"
-    courseId: "课程代码 {}"
+    classId: 教学班
+    courseId: 课程代码
   import:
     title: 导入课程表
     import: 导入

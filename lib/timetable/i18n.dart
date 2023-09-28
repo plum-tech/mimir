@@ -66,9 +66,9 @@ class _Detail {
 
   String get descFormTitle => "$ns.descFormTitle".tr();
 
-  String classId(String code) => "$ns.classId".tr(args: [code]);
+  String get classId => "$ns.classId".tr();
 
-  String courseId(String code) => "$ns.courseId".tr(args: [code]);
+  String get courseId => "$ns.courseId".tr();
 }
 
 class _Import {
