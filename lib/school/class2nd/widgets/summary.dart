@@ -110,6 +110,7 @@ class Class2ndScoreSummaryChart extends StatelessWidget {
                 final i = indexDouble.toInt();
                 final isComplete = scores[i].score / targetScores[i].score >= 1;
                 return Tooltip(
+                  triggerMode: TooltipTriggerMode.tap,
                   message: scores[i].type.l10nFullName(),
                   child: [
                     scores[i].type.l10nShortName().text(style: isComplete ? completeStyle : null),

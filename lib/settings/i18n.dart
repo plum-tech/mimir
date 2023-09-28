@@ -27,6 +27,8 @@ class _I18n with CommonI18nMixin {
   String get title => "$ns.title".tr();
 
   String get version => "$ns.version".tr();
+
+  String get themeColor => "$ns.themeColor".tr();
 }
 
 class _Campus extends CampusI10n {

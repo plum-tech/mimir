@@ -2,6 +2,7 @@ import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:mimir/network/session.dart';
+import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/session/class2nd.dart';
 
 import '../entity/list.dart';
@@ -114,7 +115,7 @@ class Class2ndScoreService {
       final honestyPoints = double.parse(item.find('td:nth-child(13) > span')!.innerHtml.trim());
 
       return Class2ndScoreItem(
-        name: title,
+        name: mapChinesePunctuations(title),
         activityId: id,
         category: category!,
         time: time,
@@ -174,7 +175,7 @@ class Class2ndScoreService {
     return Class2ndActivityApplication(
       applyId: applyId,
       activityId: activityId,
-      title: title,
+      title: mapChinesePunctuations(title),
       category: category!,
       time: time,
       status: status,

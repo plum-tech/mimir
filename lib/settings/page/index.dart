@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/entity/login_status.dart';
-import 'package:mimir/credential/i18n.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/global/init.dart';
@@ -84,8 +83,9 @@ class _SettingsPageState extends State<SettingsPage> {
     }
     all.add(const Divider());
 
-    all.add(const LanguageSelectorTile());
-    all.add(const ThemeModeTile());
+    all.add(buildLanguageSelector());
+    all.add(buildThemeMode());
+    all.add(buildThemeColorPicker());
     all.add(const Divider());
 
     if (auth.loginStatus != LoginStatus.never) {
@@ -125,6 +125,76 @@ class _SettingsPageState extends State<SettingsPage> {
     all.add(const WipeDataTile());
     all.add(const VersionTile());
     return all;
+  }
+
+  Widget buildThemeMode() {
+    return ListTile(
+      leading: switch (Settings.theme.themeMode) {
+        ThemeMode.dark => const Icon(Icons.dark_mode),
+        ThemeMode.light => const Icon(Icons.light_mode),
+        ThemeMode.system => const Icon(Icons.brightness_6),
+      },
+      title: i18n.themeMode.title.text(),
+      trailing: SegmentedButton<ThemeMode>(
+        showSelectedIcon: false,
+        style: ButtonStyle(
+          padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 4)),
+        ),
+        segments: ThemeMode.values
+            .map((e) => ButtonSegment<ThemeMode>(
+                  value: e,
+                  label: i18n.themeMode.of(e).text(),
+                ))
+            .toList(),
+        selected: <ThemeMode>{Settings.theme.themeMode},
+        onSelectionChanged: (newSelection) {
+          setState(() {
+            Settings.theme.themeMode = newSelection.first;
+          });
+        },
+      ),
+    );
+  }
+
+  Widget buildLanguageSelector() {
+    final curLocale = context.locale;
+    return ListTile(
+      leading: const Icon(Icons.translate_rounded),
+      title: i18n.language.title.text(),
+      subtitle: i18n.language.languageOf(curLocale).text(),
+      trailing: DropdownMenu<Locale>(
+        initialSelection: curLocale,
+        onSelected: (Locale? locale) async {
+          if (locale == null) return;
+          await context.setLocale(locale);
+          final engine = WidgetsFlutterBinding.ensureInitialized();
+          engine.performReassemble();
+        },
+        dropdownMenuEntries: R.supportedLocales
+            .map<DropdownMenuEntry<Locale>>(
+              (locale) => DropdownMenuEntry<Locale>(
+                value: locale,
+                label: i18n.language.languageOf(locale),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
+
+  Widget buildThemeColorPicker() {
+    return StatefulBuilder(
+      builder: (ctx, setState) => ListTile(
+        leading: const Icon(Icons.color_lens_outlined),
+        title: i18n.themeColor.text(),
+        trailing: IconButton(
+          icon: Icon(Icons.colorize, color: Settings.theme.themeColor ?? context.colorScheme.primary),
+          onPressed: () {
+
+          },
+        ),
+      ),
+    );
   }
 }
 
@@ -181,73 +251,6 @@ class _VersionTileState extends State<VersionTile> {
               }
             },
       subtitle: "${version.platform.name} ${version.full?.toString() ?? i18n.unknown}".text(),
-    );
-  }
-}
-
-class ThemeModeTile extends StatelessWidget {
-  const ThemeModeTile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return StatefulBuilder(
-      builder: (ctx, setState) => ListTile(
-        leading: switch (Settings.theme.themeMode) {
-          ThemeMode.dark => const Icon(Icons.dark_mode),
-          ThemeMode.light => const Icon(Icons.light_mode),
-          ThemeMode.system => const Icon(Icons.brightness_6),
-        },
-        title: i18n.themeMode.title.text(),
-        trailing: SegmentedButton<ThemeMode>(
-          showSelectedIcon: false,
-          style: ButtonStyle(
-            padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 4)),
-          ),
-          segments: ThemeMode.values
-              .map((e) => ButtonSegment<ThemeMode>(
-                    value: e,
-                    label: i18n.themeMode.of(e).text(),
-                  ))
-              .toList(),
-          selected: <ThemeMode>{Settings.theme.themeMode},
-          onSelectionChanged: (newSelection) {
-            setState(() {
-              Settings.theme.themeMode = newSelection.first;
-            });
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class LanguageSelectorTile extends StatelessWidget {
-  const LanguageSelectorTile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final curLocale = context.locale;
-    return ListTile(
-      leading: const Icon(Icons.translate_rounded),
-      title: i18n.language.title.text(),
-      subtitle: i18n.language.languageOf(curLocale).text(),
-      trailing: DropdownMenu<Locale>(
-        initialSelection: curLocale,
-        onSelected: (Locale? locale) async {
-          if (locale == null) return;
-          await context.setLocale(locale);
-          final engine = WidgetsFlutterBinding.ensureInitialized();
-          engine.performReassemble();
-        },
-        dropdownMenuEntries: R.supportedLocales
-            .map<DropdownMenuEntry<Locale>>(
-              (locale) => DropdownMenuEntry<Locale>(
-                value: locale,
-                label: i18n.language.languageOf(locale),
-              ),
-            )
-            .toList(),
-      ),
     );
   }
 }

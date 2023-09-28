@@ -21,11 +21,12 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   List<Class2ndAttendedActivity>? attended = Class2ndInit.scoreStorage.attendedList;
   final _scrollController = ScrollController();
   final $attended = Class2ndInit.scoreStorage.listenAttendedList();
+  late bool isFetching = false;
 
   @override
   void initState() {
     super.initState();
-    refresh();
+    refresh(active: false);
     $attended.addListener(onAttendedChanged);
   }
 
@@ -42,26 +43,37 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
     });
   }
 
-  Future<void> refresh() async {
-    final applicationList = await Class2ndInit.scoreService.fetchActivityApplicationList();
-    final scoreItemList = await Class2ndInit.scoreService.fetchScoreItemList();
-    final attended = applicationList.map((application) {
-      // 对于每一次申请, 找到对应的加分信息
-      final relatedScoreItems = scoreItemList.where((e) => e.activityId == application.activityId).toList();
-      // TODO: 潜在的 BUG，可能导致得分页面出现重复项。
-      return Class2ndAttendedActivity(
-        applyId: application.applyId,
-        activityId: application.activityId,
-        // because the application.title might have trailing ellipsis
-        title: relatedScoreItems.firstOrNull?.name ?? application.title,
-        time: application.time,
-        category: application.category,
-        status: application.status,
-        points: relatedScoreItems.fold<double>(0.0, (points, item) => points + item.points),
-        honestyPoints: relatedScoreItems.fold<double>(0.0, (points, item) => points + item.honestyPoints),
-      );
-    }).toList();
-    Class2ndInit.scoreStorage.attendedList = attended;
+  Future<void> refresh({required bool active}) async {
+    if (!mounted) return;
+    setState(() => isFetching = true);
+    try {
+      final applicationList = await Class2ndInit.scoreService.fetchActivityApplicationList();
+      final scoreItemList = await Class2ndInit.scoreService.fetchScoreItemList();
+      final attended = applicationList.map((application) {
+        // 对于每一次申请, 找到对应的加分信息
+        final relatedScoreItems = scoreItemList.where((e) => e.activityId == application.activityId).toList();
+        // TODO: 潜在的 BUG，可能导致得分页面出现重复项。
+        return Class2ndAttendedActivity(
+          applyId: application.applyId,
+          activityId: application.activityId,
+          // because the application.title might have trailing ellipsis
+          title: relatedScoreItems.firstOrNull?.name ?? application.title,
+          time: application.time,
+          category: application.category,
+          status: application.status,
+          points: relatedScoreItems.fold<double>(0.0, (points, item) => points + item.points),
+          honestyPoints: relatedScoreItems.fold<double>(0.0, (points, item) => points + item.honestyPoints),
+        );
+      }).toList();
+      Class2ndInit.scoreStorage.attendedList = attended;
+      if (!mounted) return;
+      setState(() => isFetching = false);
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      if (!mounted) return;
+      setState(() => isFetching = false);
+    }
   }
 
   Class2ndScoreSummary getTargetScore() {
@@ -73,35 +85,43 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   Widget build(BuildContext context) {
     final activities = attended;
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            title: i18n.attended.title.text(),
-            bottom: activities != null
-                ? null
-                : const PreferredSize(
-                    preferredSize: Size.fromHeight(4),
-                    child: LinearProgressIndicator(),
+      body: RefreshIndicator(
+        triggerMode: RefreshIndicatorTriggerMode.anywhere,
+        onRefresh: () async {
+          if (!isFetching) {
+            await refresh(active: true);
+          }
+        },
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              floating: true,
+              title: i18n.attended.title.text(),
+              bottom: isFetching
+                  ? const PreferredSize(
+                      preferredSize: Size.fromHeight(4),
+                      child: LinearProgressIndicator(),
+                    )
+                  : null,
+            ),
+            if (activities != null)
+              if (activities.isEmpty)
+                SliverToBoxAdapter(
+                  child: LeavingBlank(
+                    icon: Icons.inbox_outlined,
+                    desc: i18n.noAttendedActivities,
                   ),
-          ),
-          if (activities != null)
-            if (activities.isEmpty)
-              SliverToBoxAdapter(
-                child: LeavingBlank(
-                  icon: Icons.inbox_outlined,
-                  desc: i18n.noAttendedActivities,
+                )
+              else
+                SliverList.builder(
+                  itemCount: activities.length,
+                  itemBuilder: (ctx, i) {
+                    final activity = activities[i];
+                    return AttendedActivityCard(activity).hero(activity.applyId);
+                  },
                 ),
-              )
-            else
-              SliverList.builder(
-                itemCount: activities.length,
-                itemBuilder: (ctx, i) {
-                  final activity = activities[i];
-                  return AttendedActivityCard(activity).hero(activity.applyId);
-                },
-              ),
-        ],
+          ],
+        ),
       ),
     );
   }

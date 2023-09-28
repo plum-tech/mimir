@@ -1,21 +1,20 @@
-List<String> extractTitle(String fullTitle) {
-  List<String> result = [];
+({String title, List<String> tags}) extractTitle(String fullTitle) {
+  List<String> tags = [];
 
   int lastPos = 0;
   for (int i = 0; i < fullTitle.length; ++i) {
-    if (fullTitle[i] == '[' || fullTitle[i] == '【') {
+    if (fullTitle[i] == '[') {
       lastPos = i + 1;
-    } else if (fullTitle[i] == ']' || fullTitle[i] == '】') {
+    } else if (fullTitle[i] == ']') {
       final newTag = fullTitle.substring(lastPos, i);
       if (newTag.isNotEmpty) {
-        result.add(newTag);
+        tags.addAll(newTag.split("&"));
       }
       lastPos = i + 1;
     }
   }
 
-  result.add(fullTitle.substring(lastPos));
-  return result;
+  return (tags: tags, title: fullTitle.substring(lastPos));
 }
 
 List<String> cleanDuplicate(List<String> tags) {
@@ -23,12 +22,7 @@ List<String> cleanDuplicate(List<String> tags) {
 }
 
 ({String title, List<String> tags}) splitTitleAndTags(String fullTitle) {
-  final titleParts = extractTitle(fullTitle);
-  var realTitle = titleParts.isNotEmpty ? titleParts.last : "";
-  /*if (realTitle.startsWith(RegExp(r'[:：]'))) {
-    realTitle = fullTitle.substring(1);
-  }*/
-  if (titleParts.isNotEmpty) titleParts.removeLast();
-  final tags = cleanDuplicate(titleParts);
-  return (title: realTitle, tags: tags);
+  var (:title, :tags) = extractTitle(fullTitle);
+  tags = cleanDuplicate(tags);
+  return (title: title, tags: tags);
 }

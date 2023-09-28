@@ -337,5 +337,6 @@ String beautifyPlace(String place) {
 
 /// Replace the full-width brackets to ASCII ones
 String mapChinesePunctuations(String name) {
-  return name.replaceAll("（", "(").replaceAll("）", ")");
+  // TODO: improve performance
+  return name.replaceAll("（", "(").replaceAll("）", ")").replaceAll("【", "[").replaceAll("】", "]").replaceAll("＆", "&");
 }
