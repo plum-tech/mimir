@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/widgets/app.dart';
+import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/r.dart';
 import 'init.dart';
 import 'storage/contact.dart';
@@ -64,22 +66,26 @@ class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
           child: i18n.seeAll.text(),
         )
       ],
-      rightActions: [
-        IconButton(
-          onPressed: YellowPagesInit.storage.interactHistory?.isNotEmpty != true
-              ? null
-              : () {
-                  YellowPagesInit.storage.interactHistory = null;
-                },
-          icon: const Icon(Icons.delete_outlined),
-        )
-      ],
     );
   }
 
   Widget buildHistory(List<SchoolContact> history) {
     if (history.isEmpty) return const SizedBox();
     final contacts = history.sublist(0, min(_historyLength, history.length));
-    return contacts.map((contact) => ContactTile(contact).inCard()).toList().column(mas: MainAxisSize.min);
+    return contacts
+        .map((contact) {
+          return Dismissible(
+            direction: DismissDirection.endToStart,
+            key: ValueKey("${contact.name}+${contact.phone}"),
+            onDismissed: (dir) async {
+              await HapticFeedback.heavyImpact();
+              history.remove(contact);
+              YellowPagesInit.storage.interactHistory = history;
+            },
+            child: ContactTile(contact).inCard(),
+          );
+        })
+        .toList()
+        .column(mas: MainAxisSize.min);
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
@@ -112,14 +113,6 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
             },
             icon: const Icon(Icons.share_outlined),
           ),
-        IconButton(
-          onPressed: selectedRoom == null
-              ? null
-              : () async {
-                  ElectricityBalanceInit.storage.selectedRoom = null;
-                },
-          icon: const Icon(Icons.delete_outlined),
-        ),
       ],
     );
   }
@@ -128,10 +121,19 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
     required ElectricityBalance balance,
     required String selectedRoom,
   }) {
-    if (!isCupertino) {
-      return ElectricityBalanceCard(
+    final card = Dismissible(
+      direction: DismissDirection.endToStart,
+      key: const ValueKey("Balance"),
+      onDismissed: (dir) async {
+        await HapticFeedback.heavyImpact();
+        ElectricityBalanceInit.storage.selectedRoom = null;
+      },
+      child: ElectricityBalanceCard(
         balance: balance,
-      ).sized(h: 120);
+      ).sized(h: 120),
+    );
+    if (!isCupertino) {
+      return card;
     }
     return Builder(
       builder: (ctx) => CupertinoContextMenu.builder(
@@ -145,9 +147,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
             child: i18n.share.text(),
           ),
         ],
-        builder: (ctx, animation) => ElectricityBalanceCard(
-          balance: balance,
-        ).sized(h: 120),
+        builder: (ctx, animation) => card,
       ),
     );
   }
