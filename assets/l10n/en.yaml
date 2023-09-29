@@ -100,16 +100,16 @@ class2nd:
       short: Report
     creation:
       full: Creation
-      short: Creation
+      short: Creat.
     schoolCulture:
       full: School Culture
-      short: Culture
+      short: Cult.
     practice:
       full: Practice
-      short: Practice
+      short: Pract.
     voluntary:
       full: Voluntary
-      short: Voluntary
+      short: Vol.
     schoolSafetyCivilization:
       full: School Safety&Civilization
       short: Civil.
