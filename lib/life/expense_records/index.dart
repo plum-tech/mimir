@@ -32,7 +32,7 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
   @override
   void initState() {
     $lastTransaction.addListener(onLatestChanged);
-    lifeEventBus.addListener(() async {
+    $refreshEvent = lifeEventBus.addListener(() async {
       await refresh(active: true);
     });
     super.initState();

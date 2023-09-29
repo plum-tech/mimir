@@ -8,6 +8,7 @@ class _I18n with CommonI18nMixin {
 
   static const ns = "eduEmail";
   final action = const _Action();
+  final login = const _Login();
 
   String get title => "$ns.title".tr();
 
@@ -18,14 +19,6 @@ class _I18n with CommonI18nMixin {
   String get pluralSenderTailing => "$ns.pluralSenderTailing".tr();
 
   String get text => "$ns.text".tr();
-
-  String get loginBtn => "$ns.loginBtn".tr();
-
-  String get addressHint => "$ns.addressHint".tr();
-
-  String get failedWarn => "$ns.failedWarn".tr();
-
-  String get forgotPwdBtn => "$ns.forgotPwdBtn".tr();
 }
 
 class _Action {
@@ -37,5 +30,21 @@ class _Action {
 
   String get inbox => "$ns.inbox".tr();
 
-  String get sentItems => "$ns.sentItems".tr();
+  String get outbox => "$ns.outbox".tr();
+}
+
+class _Login {
+  const _Login();
+
+  static const ns = "${_I18n.ns}.login";
+
+  String get title => "$ns.title".tr();
+
+  String get loginBtn => "$ns.loginBtn".tr();
+
+  String get addressHint => "$ns.addressHint".tr();
+
+  String get forgotPwdBtn => "$ns.forgotPwdBtn".tr();
+
+  String get failedWarn => "$ns.failedWarn".tr();
 }

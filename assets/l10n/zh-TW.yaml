@@ -172,15 +172,17 @@ eduEmail:
   action:
     login: 登入
     inbox: 收件匣
-    sentItems: 已發送
+    outbox: 寄件匣
+  login:
+    title: 登入 Edu 電郵
+    loginBtn: 登入
+    addressHint: 學號/工號
+    failedWarn: 登入失敗
+    forgotPwdBtn: 忘記密碼?
   noContent: 無內容
   noSubject: 無主題
   pluralSenderTailing: 等
   text: 正文
-  loginBtn: 登入
-  addressHint: 學號/工號
-  failedWarn: 登入失敗
-  forgotPwdBtn: 忘記密碼?
 examResult:
   title: 考試成績
   check: 查詢

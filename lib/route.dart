@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
+import 'package:mimir/me/edu_email/page/login.dart';
+import 'package:mimir/me/edu_email/page/outbox.dart';
 import 'package:mimir/school/ywb/page/meta.dart';
 import 'package:mimir/school/ywb/page/application.dart';
 import 'package:mimir/settings/page/life.dart';
@@ -14,7 +16,7 @@ import 'package:mimir/life/expense_records/page/statistics.dart';
 import 'package:mimir/life/index.dart';
 import 'package:mimir/login/page/index.dart';
 import 'package:mimir/main/index.dart';
-import 'package:mimir/me/edu_email/page/index.dart';
+import 'package:mimir/me/edu_email/page/inbox.dart';
 import 'package:mimir/me/network_tool/page/index.dart';
 import 'package:mimir/page/not_found.dart';
 import 'package:mimir/school/oa_announce/entity/announce.dart';
@@ -267,8 +269,16 @@ final router = GoRouter(
       builder: (ctx, state) => const YellowPagesListPage(),
     ),
     GoRoute(
-      path: "/edu-email",
-      builder: (ctx, state) => const EduEmailPage(),
+      path: "/edu-email/login",
+      builder: (ctx, state) => const EduEmailLoginPage(),
+    ),
+    GoRoute(
+      path: "/edu-email/inbox",
+      builder: (ctx, state) => const EduEmailInboxPage(),
+    ),
+    GoRoute(
+      path: "/edu-email/outbox",
+      builder: (ctx, state) => const EduEmailOutboxPage(),
     ),
     GoRoute(
       path: "/exam-result",

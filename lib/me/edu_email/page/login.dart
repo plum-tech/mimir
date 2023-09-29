@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/entity/email.dart';
 import 'package:mimir/credential/init.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
@@ -12,19 +13,15 @@ import '../init.dart';
 import '../i18n.dart';
 
 class EduEmailLoginPage extends StatefulWidget {
-  final String? studentId;
-
-  const EduEmailLoginPage({
-    super.key,
-    required this.studentId,
-  });
+  const EduEmailLoginPage({super.key});
 
   @override
   State<EduEmailLoginPage> createState() => _EduEmailLoginPageState();
 }
 
 class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
-  late final TextEditingController $username = TextEditingController(text: widget.studentId);
+  final initialAccount = CredentialInit.storage.oaCredentials?.account;
+  late final TextEditingController $username = TextEditingController(text: initialAccount);
   final $password = TextEditingController();
   final GlobalKey _formKey = GlobalKey<FormState>();
   bool isPasswordClear = false;
@@ -45,9 +42,8 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
-        body: buildBody(),
         appBar: AppBar(
-          // TODO: remove outer app bar
+          title: i18n.login.title.text(),
           bottom: isLoggingIn
               ? const PreferredSize(
                   preferredSize: Size.fromHeight(4),
@@ -55,6 +51,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
                 )
               : null,
         ),
+        body: buildBody(),
         bottomNavigationBar: const ForgotPasswordButton(),
       ),
     );
@@ -79,7 +76,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
             controller: $username,
             textInputAction: TextInputAction.next,
             autofocus: true,
-            readOnly: widget.studentId != null,
+            readOnly: initialAccount != null,
             autocorrect: false,
             enableSuggestions: false,
             validator: (username) {
@@ -134,14 +131,14 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
         (ctx, account) => FilledButton.icon(
               // Online
               onPressed: !isLoggingIn && account.text.isNotEmpty
-                  ? () {
+                  ? () async {
                       // un-focus the text field.
                       FocusScope.of(context).requestFocus(FocusNode());
-                      onLogin();
+                      await onLogin();
                     }
                   : null,
               icon: const Icon(Icons.login),
-              label: i18n.loginBtn.text().padAll(5),
+              label: i18n.login.loginBtn.text().padAll(5),
             );
   }
 
@@ -154,16 +151,17 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
       if (!mounted) return;
       setState(() => isLoggingIn = true);
       await EduEmailInit.service.login(credential);
+      CredentialInit.storage.eduEmailCredentials = credential;
+      if (!mounted) return;
+      setState(() => isLoggingIn = false);
+      context.replace("/edu-email/inbox");
     } catch (err) {
       if (!mounted) return;
-      await context.showTip(title: i18n.failedWarn, desc: "please check your pwd", ok: i18n.ok);
+      await context.showTip(title: i18n.login.failedWarn, desc: "please check your pwd", ok: i18n.ok);
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       return;
     }
-    CredentialInit.storage.eduEmailCredentials = credential;
-    if (!mounted) return;
-    setState(() => isLoggingIn = false);
   }
 }
 
@@ -176,7 +174,7 @@ class ForgotPasswordButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      child: i18n.forgotPwdBtn.text(
+      child: i18n.login.forgotPwdBtn.text(
         style: const TextStyle(color: Colors.grey),
       ),
       onPressed: () {

@@ -172,15 +172,17 @@ eduEmail:
   action:
     login: 登录
     inbox: 收件箱
-    sentItems: 已发送
+    outbox: 发件箱
+  login:
+    title: 登录教育邮箱
+    loginBtn: 登录
+    addressHint: 学号/工号
+    failedWarn: 登录失败
+    forgotPwdBtn: 忘记密码？
   noContent: 无内容
   noSubject: 无主题
   pluralSenderTailing: 等
   text: 正文
-  loginBtn: 登录
-  addressHint: 学号/工号
-  failedWarn: 登录失败
-  forgotPwdBtn: 忘记密码？
 examResult:
   title: 考试成绩
   check: 查询

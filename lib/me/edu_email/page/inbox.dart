@@ -2,8 +2,6 @@ import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/credential/entity/email.dart';
 import 'package:mimir/credential/init.dart';
-import 'package:mimir/credential/widgets/oa_scope.dart';
-import 'package:mimir/me/edu_email/page/login.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../init.dart';
@@ -11,14 +9,14 @@ import '../i18n.dart';
 import '../widgets/list.dart';
 
 // TODO: Send email
-class EduEmailPage extends StatefulWidget {
-  const EduEmailPage({super.key});
+class EduEmailInboxPage extends StatefulWidget {
+  const EduEmailInboxPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _EduEmailPageState();
+  State<StatefulWidget> createState() => _EduEmailInboxPageState();
 }
 
-class _EduEmailPageState extends State<EduEmailPage> {
+class _EduEmailInboxPageState extends State<EduEmailInboxPage> {
   List<MimeMessage>? messages;
   EmailCredentials? credential = CredentialInit.storage.eduEmailCredentials;
   final onEduEmailChanged = CredentialInit.storage.listenEduEmailChange();
@@ -90,9 +88,6 @@ class _EduEmailPageState extends State<EduEmailPage> {
   }
 
   Widget buildBody() {
-    if (credential == null) {
-      return EduEmailLoginPage(studentId: context.auth.credentials?.account);
-    }
     final messages = this.messages;
     if (messages == null) {
       return const SizedBox();

@@ -172,15 +172,17 @@ eduEmail:
   action:
     login: Login
     inbox: Inbox
-    sentItems: Sent Items
+    outbox: Outbox
+  login:
+    title: Login Edu email
+    loginBtn: Login
+    addressHint: Student ID/Work number
+    failedWarn: Login Failed
+    forgotPwdBtn: Forgot password?
   noContent: No Content
   noSubject: No Subject
   pluralSenderTailing: ...
   text: Text
-  loginBtn: Login
-  addressHint: Student ID/Work number
-  failedWarn: Login Failed
-  forgotPwdBtn: Forgot password?
 examResult:
   title: Exam result
   check: Check
