@@ -169,6 +169,10 @@ electricity:
   refreshFailedTip: Failed to refresh electricity balance
 eduEmail:
   title: Edu email
+  action:
+    login: Login
+    inbox: Inbox
+    sentItems: Sent Items
   noContent: No Content
   noSubject: No Subject
   pluralSenderTailing: ...

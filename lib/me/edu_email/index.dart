@@ -23,7 +23,7 @@ class _EduEmailAppCardState extends State<EduEmailAppCard> {
             context.push("/edu-email");
           },
           icon: const Icon(Icons.email_outlined),
-          label: "Mailbox".text(),
+          label: i18n.action.inbox.text(),
         )
       ],
     );

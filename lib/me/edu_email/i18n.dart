@@ -7,6 +7,7 @@ class _I18n with CommonI18nMixin {
   const _I18n();
 
   static const ns = "eduEmail";
+  final action = const _Action();
 
   String get title => "$ns.title".tr();
 
@@ -25,4 +26,16 @@ class _I18n with CommonI18nMixin {
   String get failedWarn => "$ns.failedWarn".tr();
 
   String get forgotPwdBtn => "$ns.forgotPwdBtn".tr();
+}
+
+class _Action {
+  const _Action();
+
+  static const ns = "${_I18n.ns}.action";
+
+  String get login => "$ns.login".tr();
+
+  String get inbox => "$ns.inbox".tr();
+
+  String get sentItems => "$ns.sentItems".tr();
 }

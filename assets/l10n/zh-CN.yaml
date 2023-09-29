@@ -168,7 +168,11 @@ electricity:
   refreshSuccessTip: 电费余额刷新成功
   refreshFailedTip: 电费余额刷新失败
 eduEmail:
-  title: 我的邮箱
+  title: 教育邮箱
+  action:
+    login: 登录
+    inbox: 收件箱
+    sentItems: 已发送
   noContent: 无内容
   noSubject: 无主题
   pluralSenderTailing: 等
