@@ -2,12 +2,11 @@ import 'package:hive/hive.dart';
 import 'storage/announce.dart';
 import 'package:mimir/session/sso.dart';
 
-import 'cache/announce.dart';
-import 'dao/announce.dart';
 import 'service/announce.dart';
 
 class OaAnnounceInit {
-  static late AnnounceDao service;
+  static late AnnounceService service;
+  static late AnnounceStorage storage;
   static late SsoSession session;
 
   static void init({
@@ -15,10 +14,7 @@ class OaAnnounceInit {
     required Box<dynamic> box,
   }) {
     session = ssoSession;
-    service = AnnounceCache(
-        from: AnnounceService(session),
-        to: AnnounceStorage(box),
-        detailExpire: const Duration(days: 180),
-        catalogueExpire: const Duration(days: 1));
+    service = AnnounceService(session);
+    storage =AnnounceStorage(box);
   }
 }

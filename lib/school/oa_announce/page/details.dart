@@ -30,7 +30,7 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
       'https://myportal.sit.edu.cn/detach.portal?action=bulletinBrowser&.ia=false&.pmn=view&.pen=${record.bulletinCatalogueId}&bulletinId=${record.uuid}';
 
   Future<OaAnnounceDetails?> fetchAnnounceDetail() async {
-    return await OaAnnounceInit.service.getAnnounceDetail(widget.record.bulletinCatalogueId, widget.record.uuid);
+    return await OaAnnounceInit.service.fetchAnnounceDetails(widget.record.bulletinCatalogueId, widget.record.uuid);
   }
 
   @override

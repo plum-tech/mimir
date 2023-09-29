@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:mimir/network/session.dart';
 import 'package:mimir/session/sso.dart';
 
-import '../dao/announce.dart';
 import '../entity/announce.dart';
 import '../entity/page.dart';
 
@@ -12,7 +11,7 @@ final _announceDateTimeFormat = DateFormat('yyyy-MM-dd');
 final _departmentSplitRegex = RegExp(r'\s+');
 final _dateFormat = DateFormat('yyyy年MM月dd日 hh:mm');
 
-class AnnounceService implements AnnounceDao {
+class AnnounceService {
   final SsoSession session;
 
   const AnnounceService(this.session);
@@ -45,8 +44,7 @@ class AnnounceService implements AnnounceDao {
     );
   }
 
-  @override
-  Future<List<OaAnnounceCatalogue>> getAllCatalogues() async {
+  Future<List<OaAnnounceCatalogue>> fetchCatalogues() async {
     return const [
       OaAnnounceCatalogue(name: '学生事务', id: 'pe2362'),
       OaAnnounceCatalogue(name: '学习课堂', id: 'pe2364'),
@@ -62,8 +60,7 @@ class AnnounceService implements AnnounceDao {
     return 'https://myportal.sit.edu.cn/detach.portal?action=bulletinBrowser&.ia=false&.pmn=view&.pen=$bulletinCatalogueId&bulletinId=$uuid';
   }
 
-  @override
-  Future<OaAnnounceDetails> getAnnounceDetail(String bulletinCatalogueId, String uuid) async {
+  Future<OaAnnounceDetails> fetchAnnounceDetails(String bulletinCatalogueId, String uuid) async {
     final response = await session.request(_buildBulletinUrl(bulletinCatalogueId, uuid), ReqMethod.get);
     return _parseBulletinDetail(BeautifulSoup(response.data).html!);
   }
@@ -103,7 +100,6 @@ class AnnounceService implements AnnounceDao {
     );
   }
 
-  @override
   Future<OaAnnounceListPayload> queryAnnounceList(int pageIndex, String bulletinCatalogueId) async {
     final response = await session.request(_buildBulletinListUrl(pageIndex, bulletinCatalogueId), ReqMethod.get);
     return _parseBulletinListPage(BeautifulSoup(response.data).html!);
