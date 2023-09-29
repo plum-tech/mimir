@@ -97,7 +97,10 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     if (old != newAddress) {
       Settings.httpProxy.address = newAddress;
       // TODO: subscribe the proxy changes instead of directly calling init.
-      await Init.init();
+      // Only when proxy is enabled, it calls init.
+      if (Settings.httpProxy.enableHttpProxy) {
+        await Init.init();
+      }
     }
   }
 
