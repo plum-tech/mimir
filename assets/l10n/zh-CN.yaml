@@ -387,6 +387,7 @@ settings:
 oaAnnounce:
   title: OA 公告
   noOaAnnouncesTip: 无 OA 公告
+  author: 作者
   attachmentTip:
     one: 附件
     other: 附件

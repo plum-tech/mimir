@@ -387,6 +387,7 @@ settings:
 oaAnnounce:
   title: OA announcement
   noOaAnnouncesTip: No OA announces
+  author: Author
   attachmentTip:
     one: Attachment
     other: Attachments

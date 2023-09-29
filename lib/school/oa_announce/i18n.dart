@@ -19,4 +19,6 @@ class _I18n with CommonI18nMixin {
   String get publishTime => "$ns.publishTime".tr();
 
   String get publishingDepartment => "$ns.publishingDepartment".tr();
+
+  String get author => "$ns.author".tr();
 }

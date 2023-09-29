@@ -49,7 +49,8 @@ class _EduEmailInboxPageState extends State<EduEmailInboxPage> {
     if (credential == null) return;
     try {
       await EduEmailInit.service.login(credential);
-    } catch (err, stacktrace) {
+    } catch (error, stacktrace) {
+      debugPrint(error.toString());
       debugPrintStack(stackTrace: stacktrace);
       CredentialInit.storage.eduEmailCredentials = null;
       return;

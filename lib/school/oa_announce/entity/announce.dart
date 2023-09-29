@@ -32,7 +32,7 @@ class OaAnnounceRecord {
 
   /// 目录id
   @HiveField(2)
-  final String bulletinCatalogueId;
+  final String catalogId;
 
   /// 发布时间
   @HiveField(3)
@@ -45,14 +45,20 @@ class OaAnnounceRecord {
   const OaAnnounceRecord({
     required this.title,
     required this.uuid,
-    required this.bulletinCatalogueId,
+    required this.catalogId,
     required this.dateTime,
     required this.departments,
   });
 
   @override
   String toString() {
-    return 'BulletinRecord{title: $title, uuid: $uuid, bulletinCatalogueId: $bulletinCatalogueId, dateTime: $dateTime, departments: $departments}';
+    return {
+      "title": title,
+      "uuid": uuid,
+      "bulletinCatalogueId": catalogId,
+      "dateTime": dateTime,
+      "departments": departments,
+    }.toString();
   }
 }
 
@@ -98,7 +104,15 @@ class OaAnnounceDetails {
 
   @override
   String toString() {
-    return 'OaAnnounceDetails{title: $title, dateTime: $dateTime, department: $department, author: $author, readNumber: $readNumber, content: $content, attachments: $attachments}';
+    return {
+      "title": title,
+      "dateTime": dateTime,
+      "department": department,
+      "author": author,
+      "readNumber": readNumber,
+      "content": content,
+      "attachments": attachments,
+    }.toString();
   }
 }
 
@@ -119,6 +133,9 @@ class OaAnnounceAttachment {
 
   @override
   String toString() {
-    return 'Attachment{name: $name, url: $url}';
+    return {
+      "name": name,
+      "url": url,
+    }.toString();
   }
 }

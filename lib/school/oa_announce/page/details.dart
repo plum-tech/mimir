@@ -7,6 +7,7 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/announce.dart';
 import '../init.dart';
 import '../i18n.dart';
+import '../service/announce.dart';
 import '../widget/attachment.dart';
 import '../widget/card.dart';
 
@@ -23,30 +24,45 @@ class AnnounceDetailsPage extends StatefulWidget {
 }
 
 class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
-  OaAnnounceDetails? details;
-
-  OaAnnounceRecord get record => widget.record;
-  late final url =
-      'https://myportal.sit.edu.cn/detach.portal?action=bulletinBrowser&.ia=false&.pmn=view&.pen=${record.bulletinCatalogueId}&bulletinId=${record.uuid}';
-
-  Future<OaAnnounceDetails?> fetchAnnounceDetail() async {
-    return await OaAnnounceInit.service.fetchAnnounceDetails(widget.record.bulletinCatalogueId, widget.record.uuid);
-  }
+  late OaAnnounceDetails? details =
+      OaAnnounceInit.storage.getAnnounceDetails(widget.record.catalogId, widget.record.uuid);
+  bool isFetching = false;
 
   @override
   void initState() {
     super.initState();
-    fetchAnnounceDetail().then((value) {
+    refresh();
+  }
+
+  Future<void> refresh() async {
+    if (!mounted) return;
+    setState(() {
+      isFetching = true;
+    });
+    try {
+      final catalogId = widget.record.catalogId;
+      final uuid = widget.record.uuid;
+      final details = await OaAnnounceInit.service.fetchAnnounceDetails(catalogId, uuid);
+      OaAnnounceInit.storage.setAnnounceDetails(catalogId, uuid, details);
       if (!mounted) return;
       setState(() {
-        details = value;
+        this.details = details;
+        isFetching = false;
       });
-    });
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      if (!mounted) return;
+      setState(() {
+        isFetching = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final details = this.details;
+    final record = widget.record;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -56,17 +72,17 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
             actions: [
               IconButton(
                 onPressed: () {
-                  launchUrlInBrowser(url);
+                  launchUrlInBrowser(OaAnnounceService.getAnnounceUrl(widget.record.catalogId, widget.record.uuid));
                 },
                 icon: const Icon(Icons.open_in_browser),
               ),
             ],
-            bottom: details != null
-                ? null
-                : const PreferredSize(
+            bottom: isFetching
+                ? const PreferredSize(
                     preferredSize: Size.fromHeight(4),
                     child: LinearProgressIndicator(),
-                  ),
+                  )
+                : null,
           ),
           SliverToBoxAdapter(
             child: OaAnnounceInfoCard(
@@ -104,7 +120,7 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
             Text(value, style: valueStyle),
           ],
         );
-
+    final author = details?.author;
     return Card(
       margin: const EdgeInsets.fromLTRB(2, 10, 2, 2),
       elevation: 3,
@@ -116,9 +132,9 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
               1: FlexColumnWidth(3),
             },
             children: [
-              buildRow(i18n.publishingDepartment, record.departments.join(",")),
-              buildRow(i18n.author, details?.author ?? ""),
-              buildRow(i18n.publishTime, context.formatYmdWeekText(record.dateTime)),
+              buildRow(i18n.publishingDepartment, widget.record.departments.join(",")),
+              if (author != null) buildRow(i18n.author, author),
+              buildRow(i18n.publishTime, context.formatYmdWeekText(widget.record.dateTime)),
             ],
           )),
     );

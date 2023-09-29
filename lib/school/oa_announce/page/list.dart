@@ -18,39 +18,58 @@ class OaAnnounceListPage extends StatefulWidget {
 }
 
 class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
-  List<OaAnnounceRecord>? records;
+  var recordList = OaAnnounceInit.storage.recordList;
+  bool isFetching = false;
 
   @override
   void initState() {
     super.initState();
-    _queryAnnounceListInAllCategory(1).then((value) {
-      if (!mounted) return;
-      // 公告项按时间排序
-      value.sort((a, b) => b.dateTime.difference(a.dateTime).inSeconds);
-      setState(() {
-        records = value;
-      });
+    refresh();
+  }
+
+  Future<void> refresh() async {
+    if (!mounted) return;
+    setState(() {
+      isFetching = true;
     });
+    try {
+      final recordList = await _queryAnnounceListInAllCategory(1);
+      // 公告项按时间排序
+      recordList.sort((a, b) => -b.dateTime.compareTo(a.dateTime));
+      OaAnnounceInit.storage.recordList = recordList;
+      if (!mounted) return;
+      setState(() {
+        this.recordList = recordList;
+        isFetching = false;
+      });
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      if (!mounted) return;
+      setState(() {
+        isFetching = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final records = this.records;
+    final recordList = this.recordList;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             floating: true,
             title: i18n.title.text(),
-            bottom: records != null
-                ? null
-                : const PreferredSize(
+            bottom: isFetching
+                ? const PreferredSize(
                     preferredSize: Size.fromHeight(4),
                     child: LinearProgressIndicator(),
-                  ),
+                  )
+                : null,
           ),
-          if (records != null)
-            if (records.isEmpty)
+          if (recordList != null)
+            if (recordList.isEmpty)
               SliverFillRemaining(
                 child: LeavingBlank(
                   icon: Icons.inbox_outlined,
@@ -59,9 +78,9 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
               )
             else
               SliverList.builder(
-                itemCount: records.length,
+                itemCount: recordList.length,
                 itemBuilder: (ctx, i) {
-                  final record = records[i];
+                  final record = recordList[i];
                   return OaAnnounceTile(record)
                       .inCard(
                         clip: Clip.hardEdge,

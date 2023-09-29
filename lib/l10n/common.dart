@@ -41,8 +41,6 @@ mixin CommonI18nMixin {
 
   String get downloading => "downloading".tr();
 
-  String get author => "author".tr();
-
   String get warning => "warning".tr();
 
   String get exceptionInfo => "exceptionInfo".tr();

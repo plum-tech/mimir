@@ -11,10 +11,10 @@ final _announceDateTimeFormat = DateFormat('yyyy-MM-dd');
 final _departmentSplitRegex = RegExp(r'\s+');
 final _dateFormat = DateFormat('yyyy年MM月dd日 hh:mm');
 
-class AnnounceService {
+class OaAnnounceService {
   final SsoSession session;
 
-  const AnnounceService(this.session);
+  const OaAnnounceService(this.session);
 
   List<OaAnnounceAttachment> _parseAttachment(Bs4Element element) {
     return element.find('#containerFrame > table')!.findAll('a').map((e) {
@@ -56,12 +56,12 @@ class AnnounceService {
     ];
   }
 
-  static String _buildBulletinUrl(String bulletinCatalogueId, String uuid) {
-    return 'https://myportal.sit.edu.cn/detach.portal?action=bulletinBrowser&.ia=false&.pmn=view&.pen=$bulletinCatalogueId&bulletinId=$uuid';
+  static String getAnnounceUrl(String catalogueId, String uuid) {
+    return 'https://myportal.sit.edu.cn/detach.portal?action=bulletinBrowser&.ia=false&.pmn=view&.pen=$catalogueId&bulletinId=$uuid';
   }
 
-  Future<OaAnnounceDetails> fetchAnnounceDetails(String bulletinCatalogueId, String uuid) async {
-    final response = await session.request(_buildBulletinUrl(bulletinCatalogueId, uuid), ReqMethod.get);
+  Future<OaAnnounceDetails> fetchAnnounceDetails(String catalogId, String uuid) async {
+    final response = await session.request(getAnnounceUrl(catalogId, uuid), ReqMethod.get);
     return _parseBulletinDetail(BeautifulSoup(response.data).html!);
   }
 
@@ -84,7 +84,7 @@ class AnnounceService {
         title: titleElement.text.trim(),
         departments: department.trim().split(_departmentSplitRegex),
         dateTime: _announceDateTimeFormat.parse(date),
-        bulletinCatalogueId: uri.queryParameters['.pen']!,
+        catalogId: uri.queryParameters['.pen']!,
         uuid: uri.queryParameters['bulletinId']!,
       );
     }).toList();

@@ -54,7 +54,7 @@ class OaAnnounceRecordAdapter extends TypeAdapter<OaAnnounceRecord> {
     return OaAnnounceRecord(
       title: fields[0] as String,
       uuid: fields[1] as String,
-      bulletinCatalogueId: fields[2] as String,
+      catalogId: fields[2] as String,
       dateTime: fields[3] as DateTime,
       departments: (fields[4] as List).cast<String>(),
     );
@@ -69,7 +69,7 @@ class OaAnnounceRecordAdapter extends TypeAdapter<OaAnnounceRecord> {
       ..writeByte(1)
       ..write(obj.uuid)
       ..writeByte(2)
-      ..write(obj.bulletinCatalogueId)
+      ..write(obj.catalogId)
       ..writeByte(3)
       ..write(obj.dateTime)
       ..writeByte(4)

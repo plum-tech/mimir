@@ -5,8 +5,8 @@ import 'package:mimir/session/sso.dart';
 import 'service/announce.dart';
 
 class OaAnnounceInit {
-  static late AnnounceService service;
-  static late AnnounceStorage storage;
+  static late OaAnnounceService service;
+  static late OaAnnounceStorage storage;
   static late SsoSession session;
 
   static void init({
@@ -14,7 +14,7 @@ class OaAnnounceInit {
     required Box<dynamic> box,
   }) {
     session = ssoSession;
-    service = AnnounceService(session);
-    storage =AnnounceStorage(box);
+    service = OaAnnounceService(session);
+    storage = OaAnnounceStorage(box);
   }
 }
