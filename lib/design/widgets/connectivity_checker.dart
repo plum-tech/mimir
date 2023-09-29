@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/animation/animated.dart';
 import 'package:mimir/global/global.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:mimir/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -61,7 +62,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
     networkChecker = runPeriodically(const Duration(milliseconds: 1000), (Timer t) async {
       var type = await Connectivity().checkConnectivity();
       if (type == ConnectivityResult.wifi || type == ConnectivityResult.ethernet) {
-        if (await CheckVpnConnection.isVpnActive()) {
+        if (Settings.httpProxy.enableHttpProxy || await CheckVpnConnection.isVpnActive()) {
           type = ConnectivityResult.vpn;
         }
       }

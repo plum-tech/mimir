@@ -5,6 +5,7 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:fk_user_agent/fk_user_agent.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/utils/logger.dart';
@@ -103,14 +104,20 @@ class MimirHttpOverrides extends HttpOverrides {
     }
     // 设置代理.
     if (useHttpProxy && httpProxy.isNotEmpty) {
-      Log.info('设置代理: $httpProxy');
+      debugPrint('Using proxy "$httpProxy"');
       client.findProxy = (url) {
         final host = url.host;
         if (_proxyFilter(host)) {
-          Log.info('使用代理访问 $url');
-          return 'PROXY $httpProxy';
+          debugPrint('Accessing "$url" by proxy "$httpProxy"');
+          return HttpClient.findProxyFromEnvironment(
+            url,
+            environment: {
+              "http_proxy": httpProxy,
+              "https_proxy": httpProxy,
+            },
+          );
         } else {
-          Log.info('直连访问 $url');
+          debugPrint('Accessing "$url" bypass proxy');
           return 'DIRECT';
         }
       };

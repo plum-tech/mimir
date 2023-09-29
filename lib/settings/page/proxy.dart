@@ -59,25 +59,30 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
             delegate: SliverChildListDelegate([
               buildEnableProxyToggle(),
               buildProxyFullTile(proxyUri, (newProxy) {
-                setNewAddress(newProxy);
+                setNewAddress(newProxy.toString());
               }),
               const Divider(),
               buildProxyProtocolTile(proxyUri.scheme, (newProtocol) {
-                setNewAddress(proxyUri.replace(scheme: newProtocol));
+                setNewAddress(proxyUri.replace(scheme: newProtocol).toString());
               }),
               buildProxyHostnameTile(proxyUri.host, (newHost) {
-                setNewAddress(proxyUri.replace(host: newHost));
+                setNewAddress(proxyUri.replace(host: newHost).toString());
               }),
               buildProxyPortTile(proxyUri.port, (newPort) {
-                setNewAddress(proxyUri.replace(port: newPort));
+                setNewAddress(proxyUri.replace(port: newPort).toString());
               }),
               buildProxyAuthTile(auth, (newAuth) {
                 if (newAuth == null) {
-                  setNewAddress(proxyUri.replace(userInfo: ""));
+                  setNewAddress(proxyUri.replace(userInfo: "").toString());
                 } else {
-                  setNewAddress(proxyUri.replace(
-                      userInfo:
-                          newAuth.password.isNotEmpty ? "${newAuth.username}:${newAuth.password}" : newAuth.username));
+                  setNewAddress(
+                    proxyUri
+                        .replace(
+                            userInfo: newAuth.password.isNotEmpty
+                                ? "${newAuth.username}:${newAuth.password}"
+                                : newAuth.username)
+                        .toString(),
+                  );
                 }
               }),
             ]),
@@ -87,9 +92,8 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     );
   }
 
-  Future<void> setNewAddress(Uri uri) async {
+  Future<void> setNewAddress(String newAddress) async {
     final old = Settings.httpProxy.address;
-    final newAddress = uri.toString();
     if (old != newAddress) {
       Settings.httpProxy.address = newAddress;
       // TODO: subscribe the proxy changes instead of directly calling init.
@@ -146,7 +150,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
             desc: i18n.proxy.address,
             initial: proxyUri.toString(),
           );
-          final newUri = Uri.tryParse(newFullProxy);
+          final newUri = Uri.tryParse(newFullProxy.trim());
 
           if (newUri != null && newUri.isAbsolute && (newUri.scheme == "http" || newUri.scheme == "https")) {
             onChanged(newUri);
@@ -174,7 +178,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
             desc: i18n.proxy.address,
             initial: hostname,
           );
-          onChanged(newHostName);
+          onChanged(newHostName.trim());
         },
       ),
     );
@@ -227,7 +231,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                         (name: "password", initial: credentials?.password ?? ""),
                       ],
                       title: i18n.proxy.authentication,
-                      ctor: (values) => (username: values[0], password: values[1]),
+                      ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
                     ));
             if (newAuth != null) {
               onChanged(newAuth);

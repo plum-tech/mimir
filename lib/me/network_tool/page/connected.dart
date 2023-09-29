@@ -86,7 +86,7 @@ class _ConnectedInfoState extends State<ConnectedInfo> {
     if (useProxy && proxy != null) {
       return Text(
         '${i18n.connectedByVpn}\n'
-        '${i18n.network.ipAddress}：$proxy',
+        '$proxy',
         textAlign: TextAlign.center,
         style: style,
       );
