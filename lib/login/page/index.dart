@@ -97,12 +97,6 @@ class _LoginPageState extends State<LoginPage> {
       CredentialInit.storage.oaCredentials = oaCredential;
       CredentialInit.storage.oaLoginStatus = LoginStatus.validated;
       CredentialInit.storage.oaLastAuthTime = DateTime.now();
-      // Edu email has the same credential as OA by default.
-      // So assume this can work at first time.
-      CredentialInit.storage.eduEmailCredentials ??= EmailCredentials(
-        address: R.formatEduEmail(username: oaCredential.account),
-        password: oaCredential.password,
-      );
       context.go("/");
       setState(() => isLoggingIn = false);
     } on UnknownAuthException catch (e, stacktrace) {
