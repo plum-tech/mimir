@@ -22,7 +22,7 @@ class _NetworkToolAppCardState extends State<NetworkToolAppCard> {
             context.push("/tools/network-tool");
           },
           icon: const Icon(Icons.network_check_outlined),
-          label: "Test".text(),
+          label: i18n.action.test.text(),
         ),
       ],
     );

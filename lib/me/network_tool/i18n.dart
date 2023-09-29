@@ -11,6 +11,7 @@ class _I18n with CommonI18nMixin {
   final easyconnect = const _Easyconnect();
   final network = const NetworkI18n();
   final credential = const CredentialI18n();
+  final action = const _Action();
 
   String get title => "$ns.title".tr();
 
@@ -41,4 +42,12 @@ class _Easyconnect {
   String get launchFailed => "$ns.launchFailed".tr();
 
   String get launchFailedDesc => "$ns.launchFailedDesc".tr();
+}
+
+class _Action {
+  const _Action();
+
+  static const ns = "${_I18n.ns}.action";
+
+  String get test => "$ns.test".tr();
 }

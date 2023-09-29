@@ -260,6 +260,8 @@ network:
   openToolBtn: 打開網路工具
 networkTool:
   title: 網路工具
+  action:
+    test: 測試
   openWlanSettingsBtn: 打開 WLAN 設定
   noAccessTip: 無法連線到網路，請檢查你的裝置上的網路設定，然後再試一次。
   connectionFailedError: |

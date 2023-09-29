@@ -258,6 +258,8 @@ network:
   openToolBtn: Open Network Tool
 networkTool:
   title: Network tool
+  action:
+    test: Test
   openWlanSettingsBtn: Open WLAN settings
   noAccessTip: Unable to access network. Please check network settings on your device, then try again.
   connectionFailedError: |
