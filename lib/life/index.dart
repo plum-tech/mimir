@@ -7,6 +7,7 @@ import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'event.dart';
+import "i18n.dart";
 
 class LifePage extends StatefulWidget {
   const LifePage({super.key});
@@ -49,27 +50,31 @@ class _LifePageState extends State<LifePage> {
   @override
   Widget build(BuildContext context) {
     final campus = Settings.campus;
-    return RefreshIndicator.adaptive(
-      triggerMode: RefreshIndicatorTriggerMode.anywhere,
-      onRefresh: () async {
-        debugPrint("Life page refreshed");
-        // TODO: using async event emitter
-        await lifeEventBus.notifyListeners();
-      },
-      child: CustomScrollView(
-        slivers: [
-          if (loginStatus != LoginStatus.never)
-            const SliverToBoxAdapter(
-              child: ExpenseRecordsAppCard(),
+    return Scaffold(
+      body: RefreshIndicator.adaptive(
+        triggerMode: RefreshIndicatorTriggerMode.anywhere,
+        onRefresh: () async {
+          debugPrint("Life page refreshed");
+          await lifeEventBus.notifyListeners();
+        },
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              title: i18n.navigation.text(),
             ),
-          if (campus.capability.enableElectricity)
-            const SliverToBoxAdapter(
-              child: ElectricityBalanceAppCard(),
-            ),
-          // FIXME: https://github.com/flutter/flutter/issues/36158
-          const SliverFillRemaining(),
-        ],
-      ).safeArea(),
+            if (loginStatus != LoginStatus.never)
+              const SliverToBoxAdapter(
+                child: ExpenseRecordsAppCard(),
+              ),
+            if (campus.capability.enableElectricity)
+              const SliverToBoxAdapter(
+                child: ElectricityBalanceAppCard(),
+              ),
+            // FIXME: https://github.com/flutter/flutter/issues/36158
+            const SliverFillRemaining(),
+          ],
+        ).safeArea(),
+      ),
     );
   }
 }

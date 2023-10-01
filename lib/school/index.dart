@@ -35,39 +35,44 @@ class _SchoolPageState extends State<SchoolPage> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator.adaptive(
-      triggerMode: RefreshIndicatorTriggerMode.anywhere,
-      onRefresh: () async {
-        debugPrint("School page refreshed");
-        await schoolEventBus.notifyListeners();
-      },
-      child: CustomScrollView(
-        slivers: [
-          if (loginStatus != LoginStatus.never)
-            const SliverToBoxAdapter(
-              child: Class2ndAppCard(),
+    return Scaffold(
+      body: RefreshIndicator.adaptive(
+        triggerMode: RefreshIndicatorTriggerMode.anywhere,
+        onRefresh: () async {
+          debugPrint("School page refreshed");
+          await schoolEventBus.notifyListeners();
+        },
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              title: i18n.navigation.text(),
             ),
-          if (loginStatus != LoginStatus.never)
+            if (loginStatus != LoginStatus.never)
+              const SliverToBoxAdapter(
+                child: Class2ndAppCard(),
+              ),
+            if (loginStatus != LoginStatus.never)
+              const SliverToBoxAdapter(
+                child: ExamArrangeAppCard(),
+              ),
+            if (loginStatus != LoginStatus.never)
+              const SliverToBoxAdapter(
+                child: ExamResultAppCard(),
+              ),
+            if (loginStatus != LoginStatus.never)
+              const SliverToBoxAdapter(
+                child: OaAnnounceAppCard(),
+              ),
+            if (loginStatus != LoginStatus.never)
+              const SliverToBoxAdapter(
+                child: YwbAppCard(),
+              ),
             const SliverToBoxAdapter(
-              child: ExamArrangeAppCard(),
+              child: YellowPagesAppCard(),
             ),
-          if (loginStatus != LoginStatus.never)
-            const SliverToBoxAdapter(
-              child: ExamResultAppCard(),
-            ),
-          if (loginStatus != LoginStatus.never)
-            const SliverToBoxAdapter(
-              child: OaAnnounceAppCard(),
-            ),
-          if (loginStatus != LoginStatus.never)
-            const SliverToBoxAdapter(
-              child: YwbAppCard(),
-            ),
-          const SliverToBoxAdapter(
-            child: YellowPagesAppCard(),
-          ),
-        ],
-      ).safeArea(),
+          ],
+        ),
+      ),
     );
   }
 }
