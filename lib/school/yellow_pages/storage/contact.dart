@@ -10,7 +10,7 @@ class _K {
 }
 
 class YellowPagesStorage {
-  final Box<dynamic> box;
+  final Box box;
   final int maxHistoryLength;
 
   const YellowPagesStorage(

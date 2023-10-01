@@ -10,7 +10,7 @@ class _K {
 }
 
 class OaAnnounceStorage {
-  final Box<dynamic> box;
+  final Box box;
 
   const OaAnnounceStorage(this.box);
 

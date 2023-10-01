@@ -8,7 +8,7 @@ class EduEmailInit {
   static late MailService service;
 
   static void init({
-    required Box<dynamic> box,
+    required Box box,
   }) {
     storage = EduEmailStorage(box);
     service = MailService();

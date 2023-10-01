@@ -8,7 +8,7 @@ class _K {
 }
 
 class ExamArrangeStorage {
-  final Box<dynamic> box;
+  final Box box;
 
   const ExamArrangeStorage(this.box);
 

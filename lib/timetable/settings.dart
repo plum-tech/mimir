@@ -8,7 +8,7 @@ class _K {
 }
 
 class TimetableSettings {
-  final Box<dynamic> box;
+  final Box box;
 
   const TimetableSettings(this.box);
 

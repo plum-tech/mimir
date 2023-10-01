@@ -48,7 +48,7 @@ class NamedCacheKey<T> extends CacheKey<T> {
 }
 
 class CacheNamespace<T> {
-  final Box<dynamic> box;
+  final Box box;
   final String namespace;
 
   CacheNamespace(this.box, this.namespace);
@@ -59,7 +59,7 @@ class CacheNamespace<T> {
 }
 
 class CacheNamespace1<T, Arg1> {
-  final Box<dynamic> box;
+  final Box box;
   final String namespace;
   final String Function(Arg1) maker;
 
@@ -71,7 +71,7 @@ class CacheNamespace1<T, Arg1> {
 }
 
 class CacheNamespace2<T, Arg1, Arg2> {
-  final Box<dynamic> box;
+  final Box box;
   final String namespace;
   final String Function(Arg1, Arg2) maker;
 

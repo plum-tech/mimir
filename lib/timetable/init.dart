@@ -12,7 +12,7 @@ class TimetableInit {
 
   static void init({
     required ISession eduSession,
-    required Box<dynamic> box,
+    required Box box,
     required SsoSession ssoSession,
   }) {
     service = TimetableService(eduSession);

@@ -5,7 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 const _kClass2ndAutoRefresh = true;
 
 class SchoolSettings {
-  final Box<dynamic> box;
+  final Box box;
 
   SchoolSettings(this.box);
 
@@ -21,7 +21,7 @@ class _Class2ndK {
 }
 
 class _Class2nd {
-  final Box<dynamic> box;
+  final Box box;
 
   const _Class2nd(this.box);
 
@@ -38,7 +38,7 @@ class _ExamResultK {
 }
 
 class _ExamResult {
-  final Box<dynamic> box;
+  final Box box;
 
   const _ExamResult(this.box);
 

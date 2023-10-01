@@ -5,20 +5,20 @@ import 'adapter.dart';
 class HiveInit {
   const HiveInit._();
 
-  static late Box<dynamic> credentials;
-  static late Box<dynamic> library;
-  static late Box<dynamic> timetable;
-  static late Box<dynamic> expense;
-  static late Box<dynamic> yellowPages;
-  static late Box<dynamic> class2nd;
-  static late Box<dynamic> examArrange;
-  static late Box<dynamic> examResult;
-  static late Box<dynamic> oaAnnounce;
-  static late Box<dynamic> ywb;
-  static late Box<dynamic> eduEmail;
-  static late Box<dynamic> settings;
-  static late Box<dynamic> meta;
-  static late Box<dynamic> cookies;
+  static late Box credentials;
+  static late Box library;
+  static late Box timetable;
+  static late Box expense;
+  static late Box yellowPages;
+  static late Box class2nd;
+  static late Box examArrange;
+  static late Box examResult;
+  static late Box oaAnnounce;
+  static late Box ywb;
+  static late Box eduEmail;
+  static late Box settings;
+  static late Box meta;
+  static late Box cookies;
 
   static late Map<String, Box> name2Box;
   static late List<Box> cacheBoxes;
@@ -46,7 +46,7 @@ class HiveInit {
     ]);
   }
 
-  static Map<String, Box> _name2Box(List<Box<dynamic>> boxes) {
+  static Map<String, Box> _name2Box(List<Box> boxes) {
     final map = <String, Box>{};
     for (final box in boxes) {
       map[box.name] = box;

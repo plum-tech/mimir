@@ -15,7 +15,7 @@ class Notifier with ChangeNotifier {
 
 class HiveTable<T> {
   final String base;
-  final Box<dynamic> box;
+  final Box box;
 
   final String _lastIdK;
   final String _idListK;

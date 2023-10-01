@@ -11,7 +11,7 @@ class OaAnnounceInit {
 
   static void init({
     required SsoSession ssoSession,
-    required Box<dynamic> box,
+    required Box box,
   }) {
     session = ssoSession;
     service = OaAnnounceService(session);

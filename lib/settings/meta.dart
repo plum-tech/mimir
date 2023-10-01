@@ -11,7 +11,7 @@ class _K {
 late MetaImpl Meta;
 
 class MetaImpl {
-  final Box<dynamic> box;
+  final Box box;
 
   const MetaImpl(this.box);
 

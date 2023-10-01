@@ -10,7 +10,7 @@ class ExamArrangeInit {
 
   static void init({
     required SisSession session,
-    required Box<dynamic> box,
+    required Box box,
   }) {
     service = ExamArrangeService(session);
     storage = ExamArrangeStorage(box);

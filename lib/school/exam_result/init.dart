@@ -13,7 +13,7 @@ class ExamResultInit {
   static void init({
     required CookieJar cookieJar,
     required SisSession sisSession,
-    required Box<dynamic> box,
+    required Box box,
   }) {
     ExamResultInit.cookieJar = cookieJar;
     service = ExamResultService(sisSession);

@@ -22,7 +22,7 @@ class Class2ndInit {
 
   static void init({
     required SsoSession ssoSession,
-    required Box<dynamic> box,
+    required Box box,
   }) {
     session = Class2ndSession(ssoSession);
     activityListService = Class2ndActivityListCache(

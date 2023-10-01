@@ -14,7 +14,7 @@ class _K {
 }
 
 class TimetableStorage {
-  final Box<dynamic> box;
+  final Box box;
 
   final HiveTable<SitTimetable> timetable;
 

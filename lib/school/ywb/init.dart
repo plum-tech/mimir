@@ -18,7 +18,7 @@ class YwbInit {
   static void init({
     required YwbSession session,
     required CookieJar cookieJar,
-    required Box<dynamic> box,
+    required Box box,
   }) {
     YwbInit.cookieJar = cookieJar;
     YwbInit.session = session;

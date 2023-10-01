@@ -10,7 +10,7 @@ class _K {
 }
 
 class YwbApplicationMetaStorage {
-  final Box<dynamic> box;
+  final Box box;
 
   const YwbApplicationMetaStorage(this.box);
 

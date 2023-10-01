@@ -10,7 +10,7 @@ class CredentialInit {
   static late CredentialStorage storage;
 
   static void init({
-    required Box<dynamic> box,
+    required Box box,
   }) {
     storage = CredentialStorage(box);
     Editor.registerEditor<OaCredentials>((ctx, desc, initial) => StringsEditor(

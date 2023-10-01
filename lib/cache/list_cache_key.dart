@@ -47,7 +47,7 @@ class NamedListCacheKey<T> extends CacheKey<List<T>> {
   }
 }
 
-void _clearNamespace(Box<dynamic> box, String namespace) {
+void _clearNamespace(Box box, String namespace) {
   for (final key in box.keys) {
     if (key is String && key.startsWith(namespace)) {
       box.delete(key);
@@ -56,7 +56,7 @@ void _clearNamespace(Box<dynamic> box, String namespace) {
 }
 
 class ListCacheNamespace<T> {
-  final Box<dynamic> box;
+  final Box box;
   final String namespace;
 
   ListCacheNamespace(this.box, this.namespace);
@@ -69,7 +69,7 @@ class ListCacheNamespace<T> {
 }
 
 class ListCacheNamespace1<T, Arg1> {
-  final Box<dynamic> box;
+  final Box box;
   final String namespace;
   final String Function(Arg1) maker;
 
@@ -83,7 +83,7 @@ class ListCacheNamespace1<T, Arg1> {
 }
 
 class ListCacheNamespace2<T, Arg1, Arg2> {
-  final Box<dynamic> box;
+  final Box box;
   final String namespace;
   final String Function(Arg1, Arg2) maker;
 
@@ -97,7 +97,7 @@ class ListCacheNamespace2<T, Arg1, Arg2> {
 }
 
 class ListCacheNamespace3<T, Arg1, Arg2, Arg3> {
-  final Box<dynamic> box;
+  final Box box;
   final String namespace;
   final String Function(Arg1, Arg2, Arg3) maker;
 

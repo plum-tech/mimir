@@ -6,7 +6,7 @@ import '../entity/details.dart';
 class Class2ndActivityDetailStorageBox with CachedBox {
   static const id2DetailKey = "/id2Detail";
   @override
-  final Box<dynamic> box;
+  final Box box;
   late final id2Detail = namespace<Class2ndActivityDetails, int>(id2DetailKey, makeId2Detail);
 
   String makeId2Detail(int activityId) => "$activityId";
@@ -17,7 +17,7 @@ class Class2ndActivityDetailStorageBox with CachedBox {
 class Class2ndActivityDetailStorage {
   final Class2ndActivityDetailStorageBox box;
 
-  Class2ndActivityDetailStorage(Box<dynamic> hive) : box = Class2ndActivityDetailStorageBox(hive);
+  Class2ndActivityDetailStorage(Box hive) : box = Class2ndActivityDetailStorageBox(hive);
 
   Future<Class2ndActivityDetails?> getActivityDetail(int activityId) async {
     final cacheKey = box.id2Detail.make(activityId);

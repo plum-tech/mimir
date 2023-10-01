@@ -39,7 +39,7 @@ class LibraryInit {
   /// 初始化图书馆相关的service
   static void init({
     required Dio dio,
-    required Box<dynamic> searchHistoryBox,
+    required Box searchHistoryBox,
   }) {
     // 图书馆初始化
 

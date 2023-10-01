@@ -6,7 +6,7 @@ import '../entity/list.dart';
 class Class2ndActivityListStorageBox with CachedBox {
   static const _activitiesNs = "/activities";
   @override
-  final Box<dynamic> box;
+  final Box box;
 
   Class2ndActivityListStorageBox(this.box);
 
@@ -18,7 +18,7 @@ class Class2ndActivityListStorageBox with CachedBox {
 class Class2ndActivityListStorage {
   final Class2ndActivityListStorageBox box;
 
-  Class2ndActivityListStorage(Box<dynamic> hive) : box = Class2ndActivityListStorageBox(hive);
+  Class2ndActivityListStorage(Box hive) : box = Class2ndActivityListStorageBox(hive);
 
   Future<List<Class2ndActivity>?> getActivityList(Class2ndActivityCat type, int page) async {
     final key = box.activities.make(type, page);

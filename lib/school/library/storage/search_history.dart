@@ -3,7 +3,7 @@ import '../dao/search_history.dart';
 import '../entity/search_history.dart';
 
 class SearchHistoryStorage implements SearchHistoryDao {
-  final Box<dynamic> box;
+  final Box box;
 
   const SearchHistoryStorage(this.box);
 

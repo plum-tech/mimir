@@ -12,7 +12,7 @@ class _K {
 }
 
 class ElectricityStorage {
-  final Box<dynamic> box;
+  final Box box;
   final int maxHistoryLength;
 
   ElectricityStorage(

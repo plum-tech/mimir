@@ -10,7 +10,7 @@ class ElectricityBalanceInit {
 
   static void init({
     required Dio dio,
-    required Box<dynamic> electricityBox,
+    required Box electricityBox,
   }) {
     service = ElectricityService(dio);
     storage = ElectricityStorage(electricityBox);

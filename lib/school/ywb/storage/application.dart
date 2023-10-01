@@ -10,7 +10,7 @@ class _K {
 }
 
 class YwbApplicationStorage {
-  final Box<dynamic> box;
+  final Box box;
 
   const YwbApplicationStorage(this.box);
 

@@ -9,7 +9,7 @@ class _K {
 }
 
 class ExamResultStorage {
-  final Box<dynamic> box;
+  final Box box;
 
   const ExamResultStorage(this.box);
 

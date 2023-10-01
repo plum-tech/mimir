@@ -11,7 +11,7 @@ class _K {
 }
 
 class Class2ndScoreStorage {
-  final Box<dynamic> box;
+  final Box box;
 
   const Class2ndScoreStorage(this.box);
 

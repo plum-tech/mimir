@@ -4,7 +4,7 @@ const _kElectricityAutoRefresh = true;
 const _kExpenseRecordsAutoRefresh = true;
 
 class LifeSettings {
-  final Box<dynamic> box;
+  final Box box;
 
   LifeSettings(this.box);
 
@@ -20,7 +20,7 @@ class _ElectricityK {
 }
 
 class _Electricity {
-  final Box<dynamic> box;
+  final Box box;
 
   const _Electricity(this.box);
 
@@ -35,7 +35,7 @@ class _ExpenseK {
 }
 
 class _ExpenseRecords {
-  final Box<dynamic> box;
+  final Box box;
 
   const _ExpenseRecords(this.box);
 

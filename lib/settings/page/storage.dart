@@ -81,7 +81,7 @@ class _StorageListPortraitState extends State<StorageListPortrait> {
 
 class BoxSection extends StatefulWidget {
   final String boxName;
-  final Box<dynamic> box;
+  final Box box;
 
   const BoxSection({
     super.key,
@@ -96,7 +96,7 @@ class BoxSection extends StatefulWidget {
 class _BoxSectionState extends State<BoxSection> {
   String get boxName => widget.boxName;
 
-  Box<dynamic> get box => widget.box;
+  Box get box => widget.box;
 
   Widget buildTitle(BuildContext ctx) {
     final box = this.box;
@@ -142,7 +142,7 @@ class _BoxSectionState extends State<BoxSection> {
 }
 
 class BoxItemList extends StatefulWidget {
-  final Box<dynamic> box;
+  final Box box;
 
   const BoxItemList({super.key, required this.box});
 
@@ -232,7 +232,7 @@ class BoxItem extends StatefulWidget {
   final TextStyle? typeStyle;
   final TextStyle? contentStyle;
   final dynamic keyInBox;
-  final Box<dynamic> box;
+  final Box box;
   final VoidCallback? onBoxChanged;
 
   const BoxItem({
@@ -317,7 +317,7 @@ class _BoxItemState extends State<BoxItem> {
     );
   }
 
-  Future<void> showContentDialog(BuildContext context, Box<dynamic> box, String key, dynamic value,
+  Future<void> showContentDialog(BuildContext context, Box box, String key, dynamic value,
       {bool readonly = false}) async {
     if (readonly || !Editor.isSupport(value)) {
       await Editor.showReadonlyEditor(context, desc: key, initial: value);

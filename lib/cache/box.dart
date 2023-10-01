@@ -13,7 +13,7 @@ const _lastUpdateKey = ".LAST_UPDATE";
 /// Please specify the concrete type parameter of a list.
 /// Otherwise, the list will be dynamic and cause type issue when the Hive is read next time.
 mixin CachedBox {
-  Box<dynamic> get box;
+  Box get box;
 
   /// Create a named cache key.
   /// As a best practice, it will be used as a name2value map, such as Map<String,T>.
@@ -68,7 +68,7 @@ mixin CachedBox {
 }
 
 abstract class CacheKey<T> {
-  final Box<dynamic> box;
+  final Box box;
 
   const CacheKey(this.box);
 

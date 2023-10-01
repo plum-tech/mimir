@@ -18,7 +18,7 @@ class _EmailK {
 }
 
 class CredentialStorage {
-  final Box<dynamic> box;
+  final Box box;
 
   CredentialStorage(this.box);
 

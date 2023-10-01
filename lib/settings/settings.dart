@@ -23,7 +23,7 @@ class _DeveloperK {
 late SettingsImpl Settings;
 
 class SettingsImpl {
-  final Box<dynamic> box;
+  final Box box;
 
   SettingsImpl(this.box);
 
@@ -65,7 +65,7 @@ class _ThemeK {
 }
 
 class _Theme {
-  final Box<dynamic> box;
+  final Box box;
 
   const _Theme(this.box);
 
@@ -100,7 +100,7 @@ class _HttpProxyK {
 }
 
 class _HttpProxy {
-  final Box<dynamic> box;
+  final Box box;
 
   const _HttpProxy(this.box);
 
