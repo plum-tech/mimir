@@ -61,7 +61,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    LibrarySearchInit.librarySearchHistory.add(
+    LibraryInit.librarySearchHistory.add(
       LibrarySearchHistoryItem()
         ..keyword = query
         ..time = DateTime.now(),
@@ -97,7 +97,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
             const SizedBox(height: 20),
             Text('历史记录', style: Theme.of(context).textTheme.bodyLarge),
             SuggestionItemView(
-              titleItems: LibrarySearchInit.librarySearchHistory.getAllByTimeDesc().map((e) => e.keyword).toList(),
+              titleItems: LibraryInit.librarySearchHistory.getAllByTimeDesc().map((e) => e.keyword).toList(),
               onItemTap: (title) => _searchByGiving(context, title),
             ),
             const SizedBox(height: 20),
@@ -110,14 +110,14 @@ class SearchBarDelegate extends SearchDelegate<String> {
                 ],
               ),
               onTap: () async {
-                LibrarySearchInit.librarySearchHistory.deleteAll();
+                LibraryInit.librarySearchHistory.deleteAll();
                 close(context, '');
               },
             ),
             const SizedBox(height: 20),
             Text('大家都在搜', style: Theme.of(context).textTheme.bodyLarge),
             PlaceholderFutureBuilder<HotSearch>(
-              future: LibrarySearchInit.hotSearchService.getHotSearch(),
+              future: LibraryInit.hotSearchService.getHotSearch(),
               builder: (ctx, data, state) {
                 if (data == null) return const CircularProgressIndicator();
                 return SuggestionItemView(

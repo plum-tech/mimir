@@ -1,5 +1,4 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:mimir/school/library/search/entity/search_history.dart';
 
 import 'adapter.dart';
 
@@ -7,7 +6,7 @@ class HiveInit {
   const HiveInit._();
 
   static late Box<dynamic> credentials;
-  static late Box<LibrarySearchHistoryItem> library;
+  static late Box<dynamic> library;
   static late Box<dynamic> timetable;
   static late Box<dynamic> expense;
   static late Box<dynamic> yellowPages;

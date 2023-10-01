@@ -23,7 +23,7 @@ class _BookInfoPageState extends State<BookInfoPage> {
   Widget buildBookDetail() {
     final bookId = widget.bookImageHolding.book.bookId;
     return PlaceholderFutureBuilder<BookInfo>(
-      future: LibrarySearchInit.bookInfo.query(bookId),
+      future: LibraryInit.bookInfo.query(bookId),
       builder: (ctx, data, state) {
         if (data == null) return const CircularProgressIndicator();
         return Table(
@@ -87,14 +87,14 @@ class _BookInfoPageState extends State<BookInfoPage> {
   /// 构造邻近的书
   Widget buildBookItem(String bookId) {
     Future<BookImageHolding> get() async {
-      final result = await LibrarySearchInit.bookSearch.search(
+      final result = await LibraryInit.bookSearch.search(
         keyword: bookId,
         rows: 1,
         searchWay: SearchWay.ctrlNo,
       );
       final ret = await BookImageHolding.simpleQuery(
-        LibrarySearchInit.bookImageSearch,
-        LibrarySearchInit.holdingPreview,
+        LibraryInit.bookImageSearch,
+        LibraryInit.holdingPreview,
         result.books,
       );
       return ret[0];
@@ -122,7 +122,7 @@ class _BookInfoPageState extends State<BookInfoPage> {
 
   Widget buildNearBooks(String bookId) {
     return PlaceholderFutureBuilder<List<String>>(
-      future: LibrarySearchInit.holdingInfo.searchNearBookIdList(bookId),
+      future: LibraryInit.holdingInfo.searchNearBookIdList(bookId),
       builder: (ctx, data, state) {
         if (data == null) return const CircularProgressIndicator();
         return Column(

@@ -54,7 +54,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> {
 
   /// 获得搜索结果
   Future<List<BookImageHolding>> _get(int rows, int page) async {
-    final searchResult = await LibrarySearchInit.bookSearch.search(
+    final searchResult = await LibraryInit.bookSearch.search(
       keyword: widget.keyword,
       rows: rows,
       page: page,
@@ -72,8 +72,8 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> {
 
     debugPrint(searchResult.toString());
     return await BookImageHolding.simpleQuery(
-      LibrarySearchInit.bookImageSearch,
-      LibrarySearchInit.holdingPreview,
+      LibraryInit.bookImageSearch,
+      LibraryInit.holdingPreview,
       searchResult.books,
     );
   }

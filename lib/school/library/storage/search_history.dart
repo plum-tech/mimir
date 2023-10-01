@@ -3,7 +3,7 @@ import '../dao/search_history.dart';
 import '../entity/search_history.dart';
 
 class SearchHistoryStorage implements SearchHistoryDao {
-  final Box<LibrarySearchHistoryItem> box;
+  final Box<dynamic> box;
 
   const SearchHistoryStorage(this.box);
 
@@ -28,6 +28,6 @@ class SearchHistoryStorage implements SearchHistoryDao {
   List<LibrarySearchHistoryItem> getAllByTimeDesc() {
     var result = box.values.toList();
     result.sort((a, b) => b.time.compareTo(a.time));
-    return result;
+    return result.cast<LibrarySearchHistoryItem>();
   }
 }
