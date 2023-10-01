@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/school/class2nd/entity/list.dart';
@@ -85,12 +86,11 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   Widget build(BuildContext context) {
     final activities = attended;
     return Scaffold(
-      body: RefreshIndicator(
+      body: RefreshIndicator.adaptive(
         triggerMode: RefreshIndicatorTriggerMode.anywhere,
         onRefresh: () async {
-          if (!isFetching) {
-            await refresh(active: true);
-          }
+          await HapticFeedback.heavyImpact();
+          await refresh(active: true);
         },
         child: CustomScrollView(
           slivers: [

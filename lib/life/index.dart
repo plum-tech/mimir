@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/life/electricity/index.dart';
@@ -55,6 +56,7 @@ class _LifePageState extends State<LifePage> {
         triggerMode: RefreshIndicatorTriggerMode.anywhere,
         onRefresh: () async {
           debugPrint("Life page refreshed");
+          await HapticFeedback.heavyImpact();
           await lifeEventBus.notifyListeners();
         },
         child: CustomScrollView(

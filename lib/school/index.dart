@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/card.dart';
@@ -40,6 +41,7 @@ class _SchoolPageState extends State<SchoolPage> {
         triggerMode: RefreshIndicatorTriggerMode.anywhere,
         onRefresh: () async {
           debugPrint("School page refreshed");
+          await HapticFeedback.heavyImpact();
           await schoolEventBus.notifyListeners();
         },
         child: CustomScrollView(

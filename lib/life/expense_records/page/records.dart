@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/life/expense_records/storage/local.dart';
 import 'package:rettulf/rettulf.dart';
@@ -81,6 +82,7 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
       ),
       body: RefreshIndicator.adaptive(
         onRefresh: () async {
+          await HapticFeedback.heavyImpact();
           await refresh();
         },
         child: records == null ? const SizedBox() : TransactionList(records: records),
