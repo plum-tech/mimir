@@ -138,6 +138,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
     }
     return Builder(
       builder: (ctx) => CupertinoContextMenu.builder(
+        enableHapticFeedback: true,
         actions: [
           CupertinoContextMenuAction(
             trailingIcon: CupertinoIcons.share,

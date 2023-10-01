@@ -119,6 +119,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
     }
     return Builder(
       builder: (ctx) => CupertinoContextMenu.builder(
+        enableHapticFeedback: true,
         actions: [
           if (!isSelected)
             CupertinoContextMenuAction(

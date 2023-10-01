@@ -133,6 +133,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
     }
     return Builder(
       builder: (ctx) => CupertinoContextMenu.builder(
+        enableHapticFeedback: true,
         actions: [
           CupertinoContextMenuAction(
             trailingIcon: CupertinoIcons.share,
