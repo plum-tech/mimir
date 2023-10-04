@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mimir/credential/entity/user_type.dart';
 
 import '../entity/credential.dart';
 import '../entity/email.dart';
@@ -10,6 +11,7 @@ class _OaK {
   static const credentials = "$ns/credentials";
   static const lastAuthTime = "$ns/lastAuthTime";
   static const loginStatus = "$ns/loginStatus";
+  static const userType = "$ns/userType";
 }
 
 class _EmailK {
@@ -35,10 +37,15 @@ class CredentialStorage {
 
   set oaLoginStatus(LoginStatus? newV) => box.put(_OaK.loginStatus, newV);
 
+  OaUserType? get oaUserType => box.get(_OaK.userType);
+
+  set oaUserType(OaUserType? newV) => box.put(_OaK.userType, newV);
+
   ValueListenable<Box> listenOaChange() => box.listenable(keys: [
         _OaK.credentials,
         _OaK.lastAuthTime,
         _OaK.loginStatus,
+        _OaK.userType,
       ]);
 
   // Edu Email

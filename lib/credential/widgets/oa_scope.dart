@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:mimir/credential/entity/credential.dart';
+import 'package:mimir/credential/entity/user_type.dart';
 
 import '../entity/login_status.dart';
 import '../init.dart';
@@ -43,6 +44,7 @@ class _OaAuthManagerState extends State<OaAuthManager> {
       credentials: storage.oaCredentials,
       lastAuthTime: storage.oaLastAuthTime,
       loginStatus: storage.oaLoginStatus ?? LoginStatus.never,
+      userType: storage.oaUserType ?? OaUserType.other,
       child: widget.child,
     );
   }
@@ -52,13 +54,15 @@ class OaAuth extends InheritedWidget {
   final OaCredentials? credentials;
   final DateTime? lastAuthTime;
   final LoginStatus loginStatus;
+  final OaUserType userType;
 
   const OaAuth({
     super.key,
     this.credentials,
     this.lastAuthTime,
-    required super.child,
     required this.loginStatus,
+    required this.userType,
+    required super.child,
   });
 
   static OaAuth of(BuildContext context) {
@@ -71,6 +75,7 @@ class OaAuth extends InheritedWidget {
   bool updateShouldNotify(OaAuth oldWidget) {
     return credentials != oldWidget.credentials ||
         lastAuthTime != oldWidget.lastAuthTime ||
-        loginStatus != oldWidget.loginStatus;
+        loginStatus != oldWidget.loginStatus ||
+        userType != oldWidget.userType;
   }
 }
