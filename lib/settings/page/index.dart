@@ -150,10 +150,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 ))
             .toList(),
         selected: <ThemeMode>{Settings.theme.themeMode},
-        onSelectionChanged: (newSelection) {
+        onSelectionChanged: (newSelection) async {
           setState(() {
             Settings.theme.themeMode = newSelection.first;
           });
+          await HapticFeedback.mediumImpact();
         },
       ),
     );
