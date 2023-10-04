@@ -30,21 +30,21 @@ class FilledCard extends StatelessWidget {
   final Widget? child;
   final EdgeInsetsGeometry? margin;
   final Color? color;
-  final Clip? clipBehavior;
+  final Clip? clip;
 
   const FilledCard({
     super.key,
     this.child,
     this.margin,
     this.color,
-    this.clipBehavior,
+    this.clip,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
-      clipBehavior: clipBehavior,
+      clipBehavior: clip,
       color: color ?? Theme.of(context).colorScheme.surfaceVariant,
       margin: margin,
       child: child,
@@ -53,10 +53,13 @@ class FilledCard extends StatelessWidget {
 }
 
 extension WidgetCardX on Widget {
-  Widget inOutlinedCard() {
+  Widget inOutlinedCard({
+    Clip? clip,
+  }) {
     return Builder(
       builder: (context) => Card(
         elevation: 0,
+        clipBehavior: clip,
         shape: RoundedRectangleBorder(
           side: BorderSide(
             color: Theme.of(context).colorScheme.outline,
@@ -68,10 +71,13 @@ extension WidgetCardX on Widget {
     );
   }
 
-  Widget inFilledCard() {
+  Widget inFilledCard({
+    Clip? clip,
+  }) {
     return Builder(
       builder: (context) => Card(
         elevation: 0,
+        clipBehavior: clip,
         color: Theme.of(context).colorScheme.surfaceVariant,
         child: this,
       ),

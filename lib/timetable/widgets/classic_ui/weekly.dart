@@ -408,7 +408,7 @@ class _CourseCell extends StatelessWidget {
         .harmonizeWith(context.colorScheme.primary);
     final padding = context.isPortrait ? size.height / 40 : size.height / 80;
     return FilledCard(
-      clipBehavior: Clip.hardEdge,
+      clip: Clip.hardEdge,
       color: color,
       margin: EdgeInsets.all(0.5.w),
       child: InkWell(

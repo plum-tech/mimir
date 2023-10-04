@@ -15,7 +15,7 @@ class ActivityCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = context.textTheme;
     return FilledCard(
-      clipBehavior: Clip.hardEdge,
+      clip: Clip.hardEdge,
       child: ListTile(
         isThreeLine: true,
         title: activity.realTitle.text(),

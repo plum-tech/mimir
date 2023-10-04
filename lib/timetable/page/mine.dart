@@ -174,8 +174,17 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           return TimetableEntry(
             id: id,
             timetable: timetable,
-            moreAction: isSelected ? Icon(CupertinoIcons.check_mark, color: context.colorScheme.primary) : null,
-          ).scrolled(physics: const NeverScrollableScrollPhysics());
+            moreAction: animation.value > 0.5
+                ? null
+                : IconButton(
+                    onPressed: () async {
+                      storage.timetable.selectedId = id;
+                      setState(() {});
+                    },
+                    icon: isSelected
+                        ? Icon(CupertinoIcons.check_mark, color: context.colorScheme.primary)
+                        : const Icon(CupertinoIcons.square)),
+          );
         },
       ),
     );
@@ -315,6 +324,12 @@ class TimetableEntry extends StatelessWidget {
       else if (moreAction != null)
         moreAction.align(at: Alignment.bottomRight),
     ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15);
-    return isSelected ? widget.inFilledCard() : widget.inOutlinedCard();
+    return isSelected
+        ? widget.inFilledCard(
+            clip: Clip.hardEdge,
+          )
+        : widget.inOutlinedCard(
+            clip: Clip.hardEdge,
+          );
   }
 }

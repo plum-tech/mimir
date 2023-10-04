@@ -22,7 +22,7 @@ class AttendedActivityCard extends StatelessWidget {
     final (:title, :tags) = splitTitleAndTags(attended.title);
     tags.insert(0, attended.category.l10nName());
     return FilledCard(
-      clipBehavior: Clip.hardEdge,
+      clip: Clip.hardEdge,
       child: ListTile(
         isThreeLine: true,
         titleTextStyle: context.textTheme.titleMedium,
