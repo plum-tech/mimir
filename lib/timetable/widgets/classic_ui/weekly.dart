@@ -94,11 +94,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
                   currentWeek: cur.week,
                   startDate: timetable.startDate,
                 ).flexible(flex: 500)
-      ].row().container(
-            decoration: BoxDecoration(
-              border: Border(left: side, top: side, right: side, bottom: side),
-            ),
-          ),
+      ].row(),
       NotificationListener<ScrollNotification>(
         onNotification: (e) {
           if (e is ScrollEndNotification) {
@@ -250,7 +246,7 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
       return Container(
         decoration: BoxDecoration(
           border: Border(
-            top: index != 0 ? side : BorderSide.none,
+            top: side,
             right: side,
             left: side,
             bottom: side,

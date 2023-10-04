@@ -1,25 +1,29 @@
+import 'dart:async';
+
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/adaptive/foundation.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/school/entity/school.dart';
 
 import '../../i18n.dart';
 import '../../entity/timetable.dart';
+import '../../events.dart';
 import '../../utils.dart';
-import 'header.dart';
 import '../style.dart';
-import '../sheet.dart';
 import '../../entity/pos.dart';
+import 'header.dart';
 
 class DailyTimetable extends StatefulWidget {
   final ScrollController? scrollController;
   final SitTimetable timetable;
+
   final ValueNotifier<TimetablePos> $currentPos;
 
   @override
@@ -51,21 +55,23 @@ class DailyTimetableState extends State<DailyTimetable> {
     return TimetablePos(week: week, day: day);
   }
 
-  TimetablePos? _lastPos;
-  bool isJumping = false;
+  late StreamSubscription<JumpToPosEvent> $jumpToPos;
 
   @override
   void initState() {
     super.initState();
     final pos = timetable.locate(DateTime.now());
     _pageController = PageController(initialPage: pos2PageOffset(pos))..addListener(onPageChange);
-    widget.$currentPos.addListener(() {
-      final curPos = widget.$currentPos.value;
-      if (_lastPos != curPos) {
-        jumpTo(curPos);
-        _lastPos = curPos;
-      }
+    $jumpToPos = eventBus.on<JumpToPosEvent>().listen((event) {
+      jumpTo(event.where);
     });
+  }
+
+  @override
+  void dispose() {
+    $jumpToPos.cancel();
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -77,7 +83,6 @@ class DailyTimetableState extends State<DailyTimetable> {
         _pageController.jumpToPage(targetOffset);
       }
     });
-    final side = getBorderSide(context);
     return [
       widget.$currentPos >>
           (ctx, cur) => TimetableHeader(
@@ -85,52 +90,39 @@ class DailyTimetableState extends State<DailyTimetable> {
                 currentWeek: cur.week,
                 startDate: timetable.startDate,
                 onDayTap: (selectedDay) {
-                  currentPos = TimetablePos(week: cur.week, day: selectedDay);
+                  eventBus.fire(JumpToPosEvent(TimetablePos(week: cur.week, day: selectedDay)));
                 },
-              )
-                  .container(decoration: BoxDecoration(border: Border(top: side, bottom: side, right: side)))
-                  .flexible(flex: 2),
-      NotificationListener<ScrollNotification>(
-          onNotification: (e) {
-            if (e is ScrollEndNotification) {
-              isJumping = false;
-            }
-            return false;
-          },
-          child: PageView.builder(
-            controller: _pageController,
-            scrollDirection: Axis.horizontal,
-            itemCount: 20 * 7,
-            itemBuilder: (_, int index) {
-              int weekIndex = index ~/ 7;
-              int dayIndex = index % 7;
-              final todayPos = timetable.locate(DateTime.now());
-              return _OneDayPage(
-                scrollController: widget.scrollController,
-                timetable: timetable,
-                todayPos: todayPos,
-                weekIndex: weekIndex,
-                dayIndex: dayIndex,
-                $currentPos: widget.$currentPos,
-              );
-            },
-          )).flexible(flex: 10)
+              ),
+      PageView.builder(
+        controller: _pageController,
+        scrollDirection: Axis.horizontal,
+        itemCount: 20 * 7,
+        itemBuilder: (_, int index) {
+          int weekIndex = index ~/ 7;
+          int dayIndex = index % 7;
+          final todayPos = timetable.locate(DateTime.now());
+          return _OneDayPage(
+            scrollController: widget.scrollController,
+            timetable: timetable,
+            todayPos: todayPos,
+            weekIndex: weekIndex,
+            dayIndex: dayIndex,
+          );
+        },
+      ).expanded(),
     ].column();
   }
 
   void onPageChange() {
-    if (!isJumping) {
-      setState(() {
-        final page = (_pageController.page ?? 0).round();
-        final newPos = page2Pos(page);
-        if (currentPos != newPos) {
-          currentPos = newPos;
-        }
-      });
-    }
+    setState(() {
+      final page = (_pageController.page ?? 0).round();
+      final newPos = page2Pos(page);
+      if (currentPos != newPos) {
+        currentPos = newPos;
+      }
+    });
   }
 
-  /// 跳转到指定星期与天
   void jumpTo(TimetablePos pos) {
     if (_pageController.hasClients) {
       final targetOffset = pos2PageOffset(pos);
@@ -141,14 +133,7 @@ class DailyTimetableState extends State<DailyTimetable> {
         duration: calcuSwitchAnimationDuration(distance),
         curve: Curves.fastEaseInToSlowEaseOut,
       );
-      isJumping = true;
     }
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
   }
 }
 
@@ -156,7 +141,6 @@ class _OneDayPage extends StatefulWidget {
   final ScrollController? scrollController;
   final SitTimetable timetable;
   final TimetablePos todayPos;
-  final ValueNotifier<TimetablePos> $currentPos;
   final int weekIndex;
   final int dayIndex;
 
@@ -164,7 +148,6 @@ class _OneDayPage extends StatefulWidget {
     super.key,
     required this.timetable,
     required this.todayPos,
-    required this.$currentPos,
     required this.weekIndex,
     required this.dayIndex,
     this.scrollController,
@@ -177,13 +160,8 @@ class _OneDayPage extends StatefulWidget {
 class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientMixin {
   SitTimetable get timetable => widget.timetable;
 
-  TimetablePos get currentPos => widget.$currentPos.value;
-
-  set currentPos(TimetablePos newValue) => widget.$currentPos.value = newValue;
-
   /// Cache the who page to avoid expensive rebuilding.
   Widget? _cached;
-
   Size? lastSize;
 
   @override
@@ -209,28 +187,42 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
     int dayIndex = widget.dayIndex;
     final week = timetable.weeks[weekIndex];
     if (week == null) {
-      return _buildFreeDayTip(ctx, weekIndex, dayIndex);
+      return [
+        const SizedBox(height: 60),
+        _buildFreeDayTip(ctx, weekIndex, dayIndex).expanded(),
+      ].column();
     } else {
       final day = week.days[dayIndex];
-      final lessonsInDay = day.browseUniqueLessonsAt(layer: 0).toList();
-      if (lessonsInDay.isEmpty) {
-        return _buildFreeDayTip(ctx, weekIndex, dayIndex);
+      if (!day.hasAnyLesson()) {
+        return [
+          const SizedBox(height: 60),
+          _buildFreeDayTip(ctx, weekIndex, dayIndex).expanded(),
+        ].column();
       } else {
-        return ListView.builder(
+        final slotCount = day.timeslots2Lessons.length;
+        final builder = _RowBuilder();
+        builder.setup();
+        for (int timeslot = 0; timeslot < slotCount; timeslot++) {
+          builder.add(timeslot, buildLessonsInTimeslot(ctx, day.timeslots2Lessons[timeslot], timeslot));
+        }
+        // Since the course list is small, no need to use [ListView.builder].
+        return ListView(
           controller: widget.scrollController,
-          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-          itemCount: lessonsInDay.length,
-          itemBuilder: (ctx, indexOfLessons) {
-            final lesson = lessonsInDay[indexOfLessons];
-            final course = timetable.courseKey2Entity[lesson.courseKey];
-            return LessonCard(
-              lesson: lesson,
-              course: course,
-              timetable: timetable,
-            );
-          },
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          children: builder.build(),
         );
       }
+    }
+  }
+
+  Widget? buildLessonsInTimeslot(BuildContext ctx, List<SitTimetableLesson> lessonsInSlot, int timeslot) {
+    if (lessonsInSlot.isEmpty) {
+      return null;
+    } else if (lessonsInSlot.length == 1) {
+      final lesson = lessonsInSlot[0];
+      return timetable.buildSingleLesson(ctx, lesson, timeslot);
+    } else {
+      return LessonOverlapGroup(lessonsInSlot, timeslot, timetable);
     }
   }
 
@@ -269,7 +261,7 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
         for (int j = dayIndexStart; j < week.days.length; j++) {
           final day = week.days[j];
           if (day.hasAnyLesson()) {
-            currentPos = TimetablePos(week: i + 1, day: j + 1);
+            eventBus.fire(JumpToPosEvent(TimetablePos(week: i + 1, day: j + 1)));
             return;
           }
         }
@@ -283,7 +275,7 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
         for (int j = dayIndexStart; 0 <= j; j--) {
           final day = week.days[j];
           if (day.hasAnyLesson()) {
-            currentPos = TimetablePos(week: i + 1, day: j + 1);
+            eventBus.fire(JumpToPosEvent(TimetablePos(week: i + 1, day: j + 1)));
             return;
           }
         }
@@ -302,13 +294,15 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
 class LessonCard extends StatelessWidget {
   final SitTimetableLesson lesson;
   final SitCourse course;
-  final SitTimetable timetable;
+  final List<SitCourse> courseKey2Entity;
+  final Color color;
 
   const LessonCard({
     super.key,
     required this.lesson,
     required this.course,
-    required this.timetable,
+    required this.courseKey2Entity,
+    required this.color,
   });
 
   static const iconSize = 45.0;
@@ -320,34 +314,151 @@ class LessonCard extends StatelessWidget {
       width: iconSize,
       height: iconSize,
     );
-    final (:begin, :end) = course.calcBeginEndTimepoint();
+    return FilledCard(
+      margin: const EdgeInsets.all(8),
+      color: color,
+      child: ListTile(
+        leading: courseIcon,
+        title: AutoSizeText(
+          course.courseName,
+          maxLines: 1,
+        ),
+        subtitle: [
+          Text(beautifyPlace(course.place), softWrap: true, overflow: TextOverflow.ellipsis),
+          course.teachers.join(', ').text(),
+        ].column(caa: CrossAxisAlignment.start),
+      ),
+    );
+  }
+}
+
+extension _LessonCardEx on SitTimetable {
+  Widget buildSingleLesson(BuildContext context, SitTimetableLesson lesson, int timeslot) {
+    final course = courseKey2Entity[lesson.courseKey];
     final color = TimetableStyle.of(context)
         .platte
         .resolveColor(course)
         .byTheme(context.theme)
         .harmonizeWith(context.colorScheme.primary);
+    final classTime = course.buildingTimetable[timeslot];
+    return [
+      _buildClassTimeCard(color, classTime),
+      LessonCard(
+        lesson: lesson,
+        course: course,
+        courseKey2Entity: courseKey2Entity,
+        color: color,
+      ).expanded()
+    ].row();
+  }
+}
+
+Widget _buildClassTimeCard(Color color, ClassTime classTime) {
+  return ElevatedText(
+    color: color,
+    margin: 10,
+    child: [
+      classTime.begin.toStringPrefixed0().text(style: const TextStyle(fontWeight: FontWeight.bold)),
+      SizedBox(height: 5.h),
+      classTime.end.toStringPrefixed0().text(),
+    ].column(),
+  );
+}
+
+class LessonOverlapGroup extends StatelessWidget {
+  final List<SitTimetableLesson> lessonsInSlot;
+  final int timeslot;
+  final SitTimetable timetable;
+
+  const LessonOverlapGroup(this.lessonsInSlot, this.timeslot, this.timetable, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    if (lessonsInSlot.isEmpty) return const SizedBox();
+    final List<Widget> all = [];
+    ClassTime? classTime;
+    for (int lessonIndex = 0; lessonIndex < lessonsInSlot.length; lessonIndex++) {
+      final lesson = lessonsInSlot[lessonIndex];
+      final course = timetable.courseKey2Entity[lesson.courseKey];
+      final color = TimetableStyle.of(context).platte.resolveColor(course).byTheme(context.theme);
+      classTime = course.buildingTimetable[timeslot];
+      final row = LessonCard(
+        lesson: lesson,
+        course: course,
+        courseKey2Entity: timetable.courseKey2Entity,
+        color: color,
+      );
+      all.add(row);
+    }
+    // [classTime] must be nonnull.
+    // TODO: Color for class overlap.
+    return OutlinedCard(
+      child: [
+        _buildClassTimeCard(TimetableStyle.of(context).platte.colors[0].byTheme(context.theme), classTime!),
+        all.column().expanded(),
+      ].row().padAll(3),
+    );
+  }
+}
+
+enum _RowBuilderState {
+  row,
+  divider,
+  none;
+}
+
+class _RowBuilder {
+  final List<Widget> _rows = [];
+  _RowBuilderState lastAdded = _RowBuilderState.none;
+
+  void add(int index, Widget? row) {
+    // WOW! MEAL TIME!
+    // For each four classes, there's a meal.
+    if (index != 0 && index % 4 == 0 && lastAdded != _RowBuilderState.divider) {
+      _rows.add(const Divider(thickness: 2));
+      lastAdded = _RowBuilderState.divider;
+    }
+    if (row != null) {
+      _rows.add(row);
+      lastAdded = _RowBuilderState.row;
+    }
+  }
+
+  void setup() {
+    // Leave the room for header.
+    _rows.add(const SizedBox(height: 60));
+  }
+
+  List<Widget> build() {
+    // Remove surplus dividers.
+    for (int i = _rows.length - 1; 0 <= i; i--) {
+      if (_rows[i] is Divider) {
+        _rows.removeLast();
+      } else {
+        break;
+      }
+    }
+    return _rows;
+  }
+}
+
+class ElevatedText extends StatelessWidget {
+  final Widget child;
+  final Color color;
+  final double margin;
+
+  const ElevatedText({
+    super.key,
+    required this.color,
+    required this.margin,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return FilledCard(
       color: color,
-      margin: const EdgeInsets.all(8),
-      clipBehavior: Clip.hardEdge,
-      child: InkWell(
-        onTap: () async {
-          await context.show$Sheet$(
-            (ctx) => TimetableCourseSheet(courseCode: course.courseCode, timetable: timetable),
-          );
-        },
-        child: ListTile(
-          isThreeLine: true,
-          leading: courseIcon,
-          title: Text(course.courseName),
-          subtitle: [
-            course.teachers.join(', ').text(),
-            "$begin–$end".text(),
-          ].column(caa: CrossAxisAlignment.start),
-          trailing: beautifyPlace(course.place)
-              .text(softWrap: true, overflow: TextOverflow.ellipsis, style: context.textTheme.bodyMedium),
-        ),
-      ),
+      child: child.padAll(margin),
     );
   }
 }

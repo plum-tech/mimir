@@ -42,17 +42,18 @@ class _TimetableHeaderState extends State<TimetableHeader> {
   /// 将该行分为 2 + 7 * 3 一共 23 个小份, 左侧的周数占 2 份, 每天的日期占 3 份.
   @override
   Widget build(BuildContext context) {
+    final side = getBorderSide(context);
     return Row(
       children: [
         for (int i = 1; i <= 7; ++i) buildDayNameHeader(i),
       ],
-    );
+    ).container(decoration: BoxDecoration(border: Border(top: side, bottom: side, right: side)));
   }
 
   Widget buildDayHeader(BuildContext ctx, int day, String name) {
+    final side = getBorderSide(context);
     final isSelected = day == selectedDay;
     final (:text, :bg) = ctx.makeTabHeaderTextBgColors(isSelected);
-    final side = getBorderSide(ctx);
     return AnimatedContainer(
       decoration: BoxDecoration(
         color: bg,
