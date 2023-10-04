@@ -52,30 +52,40 @@ class _LifePageState extends State<LifePage> {
   Widget build(BuildContext context) {
     final campus = Settings.campus;
     return Scaffold(
-      body: RefreshIndicator.adaptive(
-        triggerMode: RefreshIndicatorTriggerMode.anywhere,
-        onRefresh: () async {
-          debugPrint("Life page refreshed");
-          await HapticFeedback.heavyImpact();
-          await lifeEventBus.notifyListeners();
-        },
-        child: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              title: i18n.navigation.text(),
+      body: NestedScrollView(
+        headerSliverBuilder: (context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverAppBar(
+                title: i18n.navigation.text(),
+                forceElevated: innerBoxIsScrolled,
+              ),
             ),
-            if (loginStatus != LoginStatus.never)
-              const SliverToBoxAdapter(
-                child: ExpenseRecordsAppCard(),
-              ),
-            if (campus.capability.enableElectricity)
-              const SliverToBoxAdapter(
-                child: ElectricityBalanceAppCard(),
-              ),
-            // FIXME: https://github.com/flutter/flutter/issues/36158
-            const SliverFillRemaining(),
-          ],
-        ).safeArea(),
+          ];
+        },
+        body: RefreshIndicator.adaptive(
+          triggerMode: RefreshIndicatorTriggerMode.anywhere,
+          onRefresh: () async {
+            debugPrint("Life page refreshed");
+            await HapticFeedback.heavyImpact();
+            await lifeEventBus.notifyListeners();
+          },
+          child: CustomScrollView(
+            slivers: [
+              if (loginStatus != LoginStatus.never)
+                const SliverToBoxAdapter(
+                  child: ExpenseRecordsAppCard(),
+                ),
+              if (campus.capability.enableElectricity)
+                const SliverToBoxAdapter(
+                  child: ElectricityBalanceAppCard(),
+                ),
+              // FIXME: https://github.com/flutter/flutter/issues/36158
+              const SliverFillRemaining(),
+            ],
+          ),
+        ),
       ),
     );
   }

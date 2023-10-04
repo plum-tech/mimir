@@ -37,42 +37,52 @@ class _SchoolPageState extends State<SchoolPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: RefreshIndicator.adaptive(
-        triggerMode: RefreshIndicatorTriggerMode.anywhere,
-        onRefresh: () async {
-          debugPrint("School page refreshed");
-          await HapticFeedback.heavyImpact();
-          await schoolEventBus.notifyListeners();
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return <Widget>[
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverAppBar(
+                title: i18n.navigation.text(),
+                forceElevated: innerBoxIsScrolled,
+              ),
+            ),
+          ];
         },
-        child: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              title: i18n.navigation.text(),
-            ),
-            if (loginStatus != LoginStatus.never)
+        body: RefreshIndicator.adaptive(
+          triggerMode: RefreshIndicatorTriggerMode.anywhere,
+          onRefresh: () async {
+            debugPrint("School page refreshed");
+            await HapticFeedback.heavyImpact();
+            await schoolEventBus.notifyListeners();
+          },
+          child: CustomScrollView(
+            slivers: [
+              if (loginStatus != LoginStatus.never)
+                const SliverToBoxAdapter(
+                  child: Class2ndAppCard(),
+                ),
+              if (loginStatus != LoginStatus.never)
+                const SliverToBoxAdapter(
+                  child: ExamArrangeAppCard(),
+                ),
+              if (loginStatus != LoginStatus.never)
+                const SliverToBoxAdapter(
+                  child: ExamResultAppCard(),
+                ),
+              if (loginStatus != LoginStatus.never)
+                const SliverToBoxAdapter(
+                  child: OaAnnounceAppCard(),
+                ),
+              if (loginStatus != LoginStatus.never)
+                const SliverToBoxAdapter(
+                  child: YwbAppCard(),
+                ),
               const SliverToBoxAdapter(
-                child: Class2ndAppCard(),
+                child: YellowPagesAppCard(),
               ),
-            if (loginStatus != LoginStatus.never)
-              const SliverToBoxAdapter(
-                child: ExamArrangeAppCard(),
-              ),
-            if (loginStatus != LoginStatus.never)
-              const SliverToBoxAdapter(
-                child: ExamResultAppCard(),
-              ),
-            if (loginStatus != LoginStatus.never)
-              const SliverToBoxAdapter(
-                child: OaAnnounceAppCard(),
-              ),
-            if (loginStatus != LoginStatus.never)
-              const SliverToBoxAdapter(
-                child: YwbAppCard(),
-              ),
-            const SliverToBoxAdapter(
-              child: YellowPagesAppCard(),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
