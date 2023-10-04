@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credential/entity/login_status.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
@@ -168,6 +169,8 @@ class _SettingsPageState extends State<SettingsPage> {
         initialSelection: curLocale,
         onSelected: (Locale? locale) async {
           if (locale == null) return;
+          await HapticFeedback.mediumImpact();
+          if (!mounted) return;
           await context.setLocale(locale);
           final engine = WidgetsFlutterBinding.ensureInitialized();
           engine.performReassemble();
@@ -195,6 +198,7 @@ class _SettingsPageState extends State<SettingsPage> {
         onPressed: () async {
           final color = await context.show$Sheet$<Color>((_) => ThemeColorPicker(initialColor: selected));
           if (color != null) {
+            await HapticFeedback.mediumImpact();
             Settings.theme.themeColor = color;
           }
         },
@@ -245,7 +249,7 @@ class _VersionTileState extends State<VersionTile> {
       title: i18n.version.text(),
       onTap: Settings.isDeveloperMode && clickCount <= 10
           ? null
-          : () {
+          : () async {
               if (Settings.isDeveloperMode) return;
               clickCount++;
               if (clickCount >= 10) {
@@ -253,6 +257,7 @@ class _VersionTileState extends State<VersionTile> {
                 Settings.isDeveloperMode = true;
                 // TODO: i18n
                 context.showSnackBar(const Text("Developer mode is on."));
+                await HapticFeedback.mediumImpact();
               }
             },
       subtitle: "${version.platform.name} ${version.full?.toString() ?? i18n.unknown}".text(),
