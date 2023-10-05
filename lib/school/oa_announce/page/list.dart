@@ -36,7 +36,7 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
     try {
       final recordList = await _queryAnnounceListInAllCategory(1);
       // 公告项按时间排序
-      recordList.sort((a, b) => -b.dateTime.compareTo(a.dateTime));
+      recordList.sort((a, b) => b.dateTime.compareTo(a.dateTime));
       OaAnnounceInit.storage.recordList = recordList;
       if (!mounted) return;
       setState(() {
