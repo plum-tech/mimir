@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:intl/intl.dart';
 import 'package:mimir/credential/entity/user_type.dart';
 import 'package:mimir/network/session.dart';
+import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/session/sso.dart';
 
 import '../entity/announce.dart';
@@ -33,14 +34,16 @@ class OaAnnounceService {
     String meta = BeautifulSoup(metaHtml).text;
 
     final metaList = meta.split('|').map((e) => e.trim()).toList();
-
+    final title = item.find('div', class_: 'bulletin-title')?.text.trim() ?? '';
+    final author = metaList[2].substring(3);
+    final department = metaList[1].substring(5);
     return OaAnnounceDetails(
-      title: item.find('div', class_: 'bulletin-title')?.text.trim() ?? '',
+      title: mapChinesePunctuations(title),
       content: item.find('div', class_: 'bulletin-content')?.innerHtml ?? '',
       attachments: _parseAttachment(item),
       dateTime: _dateFormat.parse(metaList[0].substring(5)),
-      department: metaList[1].substring(5),
-      author: metaList[2].substring(3),
+      department: mapChinesePunctuations(department),
+      author: mapChinesePunctuations(author),
       readNumber: int.parse(metaList[3].substring(5)),
     );
   }
