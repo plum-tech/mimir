@@ -27,7 +27,7 @@ class OaAnnounceService {
     }).toList();
   }
 
-  OaAnnounceDetails _parseBulletinDetail(Bs4Element item) {
+  OaAnnounceDetails _parseAnnounceDetails(Bs4Element item) {
     String metaHtml = item.find('div', class_: 'bulletin-info')?.innerHtml ?? '';
     // 删除注释
     metaHtml = metaHtml.replaceAll('<!--', '').replaceAll(r'-->', '');
@@ -66,12 +66,7 @@ class OaAnnounceService {
 
   Future<OaAnnounceDetails> fetchAnnounceDetails(String catalogId, String uuid) async {
     final response = await session.request(getAnnounceUrl(catalogId, uuid), ReqMethod.get);
-    return _parseBulletinDetail(BeautifulSoup(response.data).html!);
-  }
-
-  // 构造获取文章列表的url
-  static String _buildBulletinListUrl(int pageIndex, String bulletinCatalogueId) {
-    return 'https://myportal.sit.edu.cn/detach.portal?pageIndex=$pageIndex&groupid=&action=bulletinsMoreView&.ia=false&pageSize=&.pmn=view&.pen=$bulletinCatalogueId';
+    return _parseAnnounceDetails(BeautifulSoup(response.data).html!);
   }
 
   static OaAnnounceListPayload _parseAnnounceListPage(Bs4Element element) {
@@ -105,7 +100,11 @@ class OaAnnounceService {
   }
 
   Future<OaAnnounceListPayload> queryAnnounceList(int pageIndex, String bulletinCatalogueId) async {
-    final response = await session.request(_buildBulletinListUrl(pageIndex, bulletinCatalogueId), ReqMethod.get);
+    final response = await session.request(
+      // 构造获取文章列表的url
+      'https://myportal.sit.edu.cn/detach.portal?pageIndex=$pageIndex&groupid=&action=bulletinsMoreView&.ia=false&pageSize=&.pmn=view&.pen=$bulletinCatalogueId',
+      ReqMethod.get,
+    );
     return _parseAnnounceListPage(BeautifulSoup(response.data).html!);
   }
 }
