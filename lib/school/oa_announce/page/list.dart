@@ -107,7 +107,7 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
     // 合并所有分类的第一页的公告项
     final List<OaAnnounceRecord> records = futureResult.whereNotNull().fold(
       <OaAnnounceRecord>[],
-      (List<OaAnnounceRecord> previousValue, OaAnnounceListPayload page) => previousValue + page.bulletinItems,
+      (List<OaAnnounceRecord> previousValue, OaAnnounceListPayload page) => previousValue + page.items,
     ).toList();
     return records;
   }

@@ -55,7 +55,6 @@ class HiveAdapter {
     ~OaAnnounceCatalogueAdapter();
     ~OaAnnounceRecordAdapter();
     ~OaAnnounceAttachmentAdapter();
-    ~OaAnnounceListPayloadAdapter();
 
     // Application
     ~YwbApplicationMetaDetailSectionAdapter();

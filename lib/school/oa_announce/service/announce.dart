@@ -70,7 +70,7 @@ class OaAnnounceService {
     return 'https://myportal.sit.edu.cn/detach.portal?pageIndex=$pageIndex&groupid=&action=bulletinsMoreView&.ia=false&pageSize=&.pmn=view&.pen=$bulletinCatalogueId';
   }
 
-  static OaAnnounceListPayload _parseBulletinListPage(Bs4Element element) {
+  static OaAnnounceListPayload _parseAnnounceListPage(Bs4Element element) {
     final list = element.findAll('li').map((e) {
       final departmentAndDate = e.find('span', class_: 'rss-time')!.text.trim();
       final departmentAndDateLen = departmentAndDate.length;
@@ -94,7 +94,7 @@ class OaAnnounceService {
     final lastElementHref = Uri.parse(lastElement.attributes['href']!);
     final lastPageIndex = lastElementHref.queryParameters['pageIndex']!;
     return OaAnnounceListPayload(
-      bulletinItems: list,
+      items: list,
       currentPage: int.parse(currentElement.text),
       totalPage: int.parse(lastPageIndex),
     );
@@ -102,6 +102,6 @@ class OaAnnounceService {
 
   Future<OaAnnounceListPayload> queryAnnounceList(int pageIndex, String bulletinCatalogueId) async {
     final response = await session.request(_buildBulletinListUrl(pageIndex, bulletinCatalogueId), ReqMethod.get);
-    return _parseBulletinListPage(BeautifulSoup(response.data).html!);
+    return _parseAnnounceListPage(BeautifulSoup(response.data).html!);
   }
 }
