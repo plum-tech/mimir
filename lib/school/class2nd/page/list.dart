@@ -114,7 +114,8 @@ class _ActivityListState extends State<ActivityList> {
   void initState() {
     super.initState();
     scrollController.addListener(() {
-      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+      // on iOS, the actual scroll position can exceed the max scroll extent.
+      if (scrollController.position.pixels >= scrollController.position.maxScrollExtent) {
         loadMoreActivities();
       }
     });
