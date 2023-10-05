@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/credential/entity/user_type.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/network/session.dart';
 import 'package:mimir/school/oa_announce/widget/tile.dart';
@@ -100,7 +101,8 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
     final service = OaAnnounceInit.service;
 
     // 获取所有分类
-    final catalogues = await service.fetchCatalogues();
+    // TODO: user type system
+    final catalogues = service.resolveCatalogs(OaUserType.undergraduate);
 
     // 获取所有分类中的第一页
     final futureResult = await Future.wait(catalogues.map((e) => service.queryAnnounceList(page, e.id)));

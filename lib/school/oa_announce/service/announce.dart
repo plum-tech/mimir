@@ -1,6 +1,7 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:intl/intl.dart';
+import 'package:mimir/credential/entity/user_type.dart';
 import 'package:mimir/network/session.dart';
 import 'package:mimir/session/sso.dart';
 
@@ -44,7 +45,7 @@ class OaAnnounceService {
     );
   }
 
-  Future<List<OaAnnounceCatalogue>> fetchCatalogues() async {
+  List<OaAnnounceCatalogue> resolveCatalogs(OaUserType userType) {
     return const [
       OaAnnounceCatalogue(name: '学生事务', id: 'pe2362'),
       OaAnnounceCatalogue(name: '学习课堂', id: 'pe2364'),
