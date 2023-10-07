@@ -222,7 +222,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
             onPressed: () {
               onChanged(null);
             },
-            icon: const Icon(Icons.clear),
+            icon: const Icon(Icons.delete),
           ),
         IconButton(
           icon: const Icon(Icons.edit),
