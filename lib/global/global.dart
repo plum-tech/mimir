@@ -46,7 +46,7 @@ class Global {
         final context = $Key.currentContext!;
         return await context.show$Dialog$(
           dismissible: false,
-          make: (context) => CaptchaBox(captchaData: imageBytes),
+          make: (context) => CaptchaDialog(captchaData: imageBytes),
         );
       },
     );

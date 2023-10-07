@@ -6,19 +6,19 @@ import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/l10n/common.dart';
 import 'package:rettulf/rettulf.dart';
 
-class CaptchaBox extends StatefulWidget {
+class CaptchaDialog extends StatefulWidget {
   final Uint8List captchaData;
 
-  const CaptchaBox({
+  const CaptchaDialog({
     super.key,
     required this.captchaData,
   });
 
   @override
-  State<CaptchaBox> createState() => _CaptchaBoxState();
+  State<CaptchaDialog> createState() => _CaptchaDialogState();
 }
 
-class _CaptchaBoxState extends State<CaptchaBox> {
+class _CaptchaDialogState extends State<CaptchaDialog> {
   final $captcha = TextEditingController();
 
   @override
@@ -47,9 +47,12 @@ class _CaptchaBoxState extends State<CaptchaBox> {
         $TextField$(
           controller: $captcha,
           placeholder: _i18n.enterHint,
+          keyboardType: TextInputType.text,
           autofillHints: const [AutofillHints.oneTimeCode],
           onSubmit: (value) {
-            context.navigator.pop(value);
+            if (value.isNotEmpty) {
+              context.navigator.pop(value);
+            }
           },
         ).padOnly(t: 15),
       ].column(mas: MainAxisSize.min).padAll(5),
