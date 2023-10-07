@@ -31,24 +31,20 @@ class _GroupedSectionState<T> extends State<GroupedSection<T>> {
       pushPinnedChildren: true,
       children: [
         SliverPinnedHeader(
-          child: ListTile(
-            title: widget.title,
-            subtitle: widget.subtitle,
-            dense: true,
-            onTap: () {
-              setState(() {
-                expanded = !expanded;
-              });
-            },
-            trailing: IconButton(
-              icon: expanded ? const Icon(Icons.expand_less) : const Icon(Icons.expand_more),
-              onPressed: () {
+          child: FilledCard(
+            clip: Clip.hardEdge,
+            child: ListTile(
+              title: widget.title,
+              subtitle: widget.subtitle,
+              dense: true,
+              onTap: () {
                 setState(() {
                   expanded = !expanded;
                 });
               },
+              trailing: expanded ? const Icon(Icons.expand_less) : const Icon(Icons.expand_more),
             ),
-          ).inFilledCard(),
+          ),
         ),
         SliverAnimatedPaintExtent(
           duration: const Duration(milliseconds: 300),
