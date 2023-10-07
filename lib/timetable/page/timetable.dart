@@ -155,7 +155,6 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     controller.dispose();
     if (week2Go != initialIndex) {
       eventBus.fire(JumpToPosEvent($currentPos.value.copyWith(week: week2Go + 1)));
-      $currentPos.value = $currentPos.value.copyWith(week: week2Go + 1);
     }
   }
 
@@ -197,7 +196,6 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     $day.dispose();
     if (week2Go != initialWeekIndex || day2Go != initialDayIndex) {
       eventBus.fire(JumpToPosEvent(TimetablePos(week: week2Go + 1, day: day2Go + 1)));
-      $currentPos.value = TimetablePos(week: week2Go + 1, day: day2Go + 1);
     }
   }
 }
