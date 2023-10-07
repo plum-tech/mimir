@@ -79,3 +79,61 @@ class FreeDayTip extends StatelessWidget {
     await ctx.showTip(title: i18n.congratulations, desc: i18n.freeTip.termTip, ok: i18n.ok);
   }
 }
+
+class FreeWeekTip extends StatelessWidget {
+  final TimetablePos todayPos;
+  final SitTimetable timetable;
+  final int weekIndex;
+
+  const FreeWeekTip({
+    super.key,
+    required this.todayPos,
+    required this.timetable,
+    required this.weekIndex,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isThisWeek = todayPos.week == (weekIndex + 1);
+    final String desc;
+    if (isThisWeek) {
+      desc = i18n.freeTip.isThisWeekTip;
+    } else {
+      desc = i18n.freeTip.weekTip;
+    }
+    return LeavingBlank(
+      icon: Icons.free_cancellation_rounded,
+      desc: desc,
+      subtitle: CupertinoButton(
+        onPressed: () async {
+          await jumpToNearestWeekWithClass(context, weekIndex);
+        },
+        child: i18n.freeTip.findNearestWeekWithClass.text(),
+      ),
+    );
+  }
+
+  /// Find the nearest week with class forward.
+  /// No need to look back to passed weeks, unless there's no week after [weekIndex] that has any class.
+  Future<void> jumpToNearestWeekWithClass(BuildContext ctx, int weekIndex) async {
+    for (int i = weekIndex; i < timetable.weeks.length; i++) {
+      final week = timetable.weeks[i];
+      if (week != null) {
+        eventBus.fire(JumpToPosEvent(TimetablePos(week: i + 1, day: 1)));
+        return;
+      }
+    }
+    // Now there's no class forward, so let's search backward.
+    for (int i = weekIndex; 0 <= i; i--) {
+      final week = timetable.weeks[i];
+      if (week != null) {
+        eventBus.fire(JumpToPosEvent(TimetablePos(week: i + 1, day: 1)));
+        return;
+      }
+    }
+    // WHAT? NO CLASS IN THE WHOLE TERM?
+    // Alright, let's congratulate them!
+    if (!ctx.mounted) return;
+    await ctx.showTip(title: i18n.congratulations, desc: i18n.freeTip.termTip, ok: i18n.ok);
+  }
+}

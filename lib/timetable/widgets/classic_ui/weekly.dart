@@ -1,20 +1,17 @@
 import 'dart:async';
 
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/widgets/card.dart';
-import 'package:mimir/design/widgets/common.dart';
-import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../events.dart';
-import '../../i18n.dart';
 import '../../entity/timetable.dart';
 import '../../utils.dart';
+import '../free.dart';
 import '../slot.dart';
 import 'header.dart';
 import '../style.dart';
@@ -53,15 +50,21 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   int page2Week(int page) => page + 1;
 
   int week2PageOffset(int week) => week - 1;
-  TimetablePos? _lastPos;
-  bool isJumping = false;
   late StreamSubscription<JumpToPosEvent> $jumpToPos;
 
   @override
   void initState() {
     super.initState();
     dateSemesterStart = timetable.startDate;
-    _pageController = PageController(initialPage: currentPos.week - 1)..addListener(onPageChange);
+    _pageController = PageController(initialPage: currentPos.week - 1)..addListener(() {
+      setState(() {
+        final page = (_pageController.page ?? 0).round();
+        final newWeek = page2Week(page);
+        if (newWeek != currentPos.week) {
+          currentPos = currentPos.copyWith(week: newWeek);
+        }
+      });
+    });
     $jumpToPos = eventBus.on<JumpToPosEvent>().listen((event) {
       jumpTo(event.where);
     });
@@ -76,6 +79,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
 
   @override
   void dispose() {
+    $jumpToPos.cancel();
     _pageController.dispose();
     super.dispose();
   }
@@ -110,18 +114,6 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
     ].column(mas: MainAxisSize.min, maa: MainAxisAlignment.start, caa: CrossAxisAlignment.start);
   }
 
-  void onPageChange() {
-    if (!isJumping) {
-      setState(() {
-        final page = (_pageController.page ?? 0).round();
-        final newWeek = page2Week(page);
-        if (newWeek != currentPos.week) {
-          currentPos = currentPos.copyWith(week: newWeek);
-        }
-      });
-    }
-  }
-
   /// 跳到某一周
   void jumpTo(TimetablePos pos) {
     if (_pageController.hasClients) {
@@ -133,7 +125,6 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
         duration: calcuSwitchAnimationDuration(distance),
         curve: Curves.fastEaseInToSlowEaseOut,
       );
-      isJumping = true;
     }
   }
 }
@@ -212,7 +203,11 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
       // free week
       return [
         buildLeftColumn(ctx).flexible(flex: 2),
-        buildFreeWeekTip(ctx, weekIndex).flexible(flex: 21),
+        FreeWeekTip(
+          todayPos: widget.todayPos,
+          timetable: timetable,
+          weekIndex: weekIndex,
+        ).flexible(flex: 21),
       ].row(textDirection: TextDirection.ltr);
     }
     return [
@@ -255,54 +250,6 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
       ),
       itemBuilder: buildCell,
     );
-  }
-
-  Widget buildFreeWeekTip(BuildContext ctx, int weekIndex) {
-    final isThisWeek = widget.todayPos.week == (weekIndex + 1);
-    final String desc;
-    if (isThisWeek) {
-      desc = i18n.freeTip.isThisWeekTip;
-    } else {
-      desc = i18n.freeTip.weekTip;
-    }
-    return LeavingBlank(
-      icon: Icons.free_cancellation_rounded,
-      desc: desc,
-      subtitle: buildJumpToNearestWeekWithClassBtn(ctx, weekIndex),
-    );
-  }
-
-  Widget buildJumpToNearestWeekWithClassBtn(BuildContext ctx, int weekIndex) {
-    return CupertinoButton(
-      onPressed: () async {
-        await jumpToNearestWeekWithClass(ctx, weekIndex);
-      },
-      child: i18n.freeTip.findNearestWeekWithClass.text(),
-    );
-  }
-
-  /// Find the nearest week with class forward.
-  /// No need to look back to passed weeks, unless there's no week after [weekIndex] that has any class.
-  Future<void> jumpToNearestWeekWithClass(BuildContext ctx, int weekIndex) async {
-    for (int i = weekIndex; i < timetable.weeks.length; i++) {
-      final week = timetable.weeks[i];
-      if (week != null) {
-        currentPos = currentPos.copyWith(week: i + 1);
-        return;
-      }
-    }
-    // Now there's no class forward, so let's search backward.
-    for (int i = weekIndex; 0 <= i; i--) {
-      final week = timetable.weeks[i];
-      if (week != null) {
-        currentPos = currentPos.copyWith(week: i + 1);
-        return;
-      }
-    }
-    // WHAT? NO CLASS IN THE WHOLE TERM?
-    // Alright, let's congratulate them!
-    if (!mounted) return;
-    await ctx.showTip(title: i18n.congratulations, desc: i18n.freeTip.termTip, ok: i18n.ok);
   }
 
   @override
