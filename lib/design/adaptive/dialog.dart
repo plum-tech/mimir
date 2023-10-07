@@ -144,7 +144,7 @@ extension DialogEx on BuildContext {
     return res;
   }
 
-  Future<DualPickerAB?> showDualPicker({
+  Future<(int, int)?> showDualPicker({
     required int countA,
     required int countB,
     String? ok,
@@ -157,70 +157,62 @@ extension DialogEx on BuildContext {
     required IndexedWidgetBuilder makeA,
     required IndexedWidgetBuilder makeB,
   }) async {
-    final $selectedA = ValueNotifier<int?>(controllerA?.initialItem);
-    final $selectedB = ValueNotifier<int?>(controllerB?.initialItem);
+    final $selectedA = ValueNotifier(controllerA?.initialItem ?? 0);
+    final $selectedB = ValueNotifier(controllerB?.initialItem ?? 0);
     final res = await navigator.push(
       CupertinoModalPopupRoute(
         builder: (ctx) => CupertinoActionSheet(
-            message: [
-              CupertinoPicker(
-                scrollController: controllerA,
-                magnification: 1.22,
-                useMagnifier: true,
-                // This is called when selected item is changed.
-                onSelectedItemChanged: (int selectedItem) {
-                  $selectedA.value = selectedItem;
-                },
-                squeeze: 1.5,
-                itemExtent: 32.0,
-                children: List<Widget>.generate(countA, (int index) {
-                  return makeA(ctx, index);
-                }),
-              ).expanded(),
-              CupertinoPicker(
-                scrollController: controllerB,
-                magnification: 1.22,
-                useMagnifier: true,
-                // This is called when selected item is changed.
-                onSelectedItemChanged: (int selectedItem) {
-                  $selectedB.value = selectedItem;
-                },
-                squeeze: 1.5,
-                itemExtent: 32.0,
-                children: List<Widget>.generate(countB, (int index) {
-                  return makeB(ctx, index);
-                }),
-              ).expanded(),
-            ].row().sized(h: targetHeight),
-            actions: actions?.map((e) => $selectedA >> (ctx, a) => $selectedB >> (ctx, b) => e(ctx, a, b)).toList(),
-            cancelButton: ok == null
-                ? null
-                : $selectedA >>
-                    (ctx, a) =>
-                        $selectedB >>
-                        (ctx, b) => CupertinoButton(
+          message: [
+            CupertinoPicker(
+              scrollController: controllerA,
+              magnification: 1.22,
+              useMagnifier: true,
+              // This is called when selected item is changed.
+              onSelectedItemChanged: (int selectedItem) {
+                $selectedA.value = selectedItem;
+              },
+              squeeze: 1.5,
+              itemExtent: 32.0,
+              children: List<Widget>.generate(countA, (index) => makeA(ctx, index)),
+            ).expanded(),
+            CupertinoPicker(
+              scrollController: controllerB,
+              magnification: 1.22,
+              useMagnifier: true,
+              // This is called when selected item is changed.
+              onSelectedItemChanged: (int selectedItem) {
+                $selectedB.value = selectedItem;
+              },
+              squeeze: 1.5,
+              itemExtent: 32.0,
+              children: List<Widget>.generate(countA, (index) => makeB(ctx, index)),
+            ).expanded(),
+          ].row().sized(h: targetHeight),
+          actions: actions?.map((e) => $selectedA >> (ctx, a) => $selectedB >> (ctx, b) => e(ctx, a, b)).toList(),
+          cancelButton: ok == null
+              ? null
+              : $selectedA >>
+                  (ctx, a) =>
+                      $selectedB >>
+                      (ctx, b) => CupertinoButton(
                             onPressed: okEnabled?.call(a, b) ?? true
                                 ? () {
-                                    Navigator.of(ctx).pop(DualPickerAB($selectedA.value, $selectedB.value));
+                                    Navigator.of(ctx).pop(($selectedA.value, $selectedB.value));
                                   }
                                 : null,
                             child: ok.text(
-                                style: TextStyle(
-                              color: highlight ? ctx.$red$ : null,
-                            )))),
+                              style: TextStyle(
+                                color: highlight ? ctx.$red$ : null,
+                              ),
+                            ),
+                          ),
+        ),
       ),
     );
     $selectedA.dispose();
     $selectedB.dispose();
     return res;
   }
-}
-
-class DualPickerAB {
-  final int? a;
-  final int? b;
-
-  const DualPickerAB(this.a, this.b);
 }
 
 extension SnackBarX on BuildContext {

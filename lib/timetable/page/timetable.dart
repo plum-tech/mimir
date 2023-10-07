@@ -170,34 +170,33 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     final todayPos = timetable.locate(DateTime.now());
     final todayWeekIndex = todayPos.week - 1;
     final todayDayIndex = todayPos.day - 1;
-    final indices2Go = await context.showDualPicker(
-        countA: 20,
-        countB: 7,
-        controllerA: $week,
-        controllerB: $day,
-        ok: i18n.jump,
-        okEnabled: (weekSelected, daySelected) => weekSelected != initialWeekIndex || daySelected != initialDayIndex,
-        actions: [
-          (ctx, week, day) => CupertinoButton(
-                onPressed: (week == todayWeekIndex && day == todayDayIndex)
-                    ? null
-                    : () {
-                        $week.animateToItem(todayWeekIndex,
-                            duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
+    final (week2Go, day2Go) = await context.showDualPicker(
+      countA: 20,
+      countB: 7,
+      controllerA: $week,
+      controllerB: $day,
+      ok: i18n.jump,
+      okEnabled: (weekSelected, daySelected) => weekSelected != initialWeekIndex || daySelected != initialDayIndex,
+      actions: [
+        (ctx, week, day) => CupertinoButton(
+              onPressed: (week == todayWeekIndex && day == todayDayIndex)
+                  ? null
+                  : () {
+                      $week.animateToItem(todayWeekIndex,
+                          duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
 
-                        $day.animateToItem(todayDayIndex,
-                            duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
-                      },
-                child: i18n.findToday.text(),
-              )
-        ],
-        makeA: (ctx, i) => i18n.weekOrderedName(number: i + 1).text(),
-        makeB: (ctx, i) => i18n.weekday(index: i).text());
+                      $day.animateToItem(todayDayIndex,
+                          duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
+                    },
+              child: i18n.findToday.text(),
+            )
+      ],
+      makeA: (ctx, i) => i18n.weekOrderedName(number: i + 1).text(),
+      makeB: (ctx, i) => i18n.weekday(index: i).text(),
+    ) ?? (initialWeekIndex, initialDayIndex);
     $week.dispose();
     $day.dispose();
-    final week2Go = indices2Go?.a;
-    final day2Go = indices2Go?.b;
-    if (week2Go != null && day2Go != null && (week2Go != initialWeekIndex || day2Go != initialDayIndex)) {
+    if (week2Go != initialWeekIndex || day2Go != initialDayIndex) {
       eventBus.fire(JumpToPosEvent(TimetablePos(week: week2Go + 1, day: day2Go + 1)));
       $currentPos.value = TimetablePos(week: week2Go + 1, day: day2Go + 1);
     }
