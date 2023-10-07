@@ -15,6 +15,7 @@ import '../../i18n.dart';
 import '../../entity/timetable.dart';
 import '../../events.dart';
 import '../../utils.dart';
+import '../free.dart';
 import '../style.dart';
 import '../../entity/pos.dart';
 
@@ -176,14 +177,24 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
     if (week == null) {
       return [
         const SizedBox(height: 60),
-        _buildFreeDayTip(ctx, weekIndex, dayIndex).expanded(),
+        FreeDayTip(
+          timetable: timetable,
+          todayPos: widget.todayPos,
+          weekIndex: weekIndex,
+          dayIndex: dayIndex,
+        ).expanded(),
       ].column();
     } else {
       final day = week.days[dayIndex];
       if (!day.hasAnyLesson()) {
         return [
           const SizedBox(height: 60),
-          _buildFreeDayTip(ctx, weekIndex, dayIndex).expanded(),
+          FreeDayTip(
+            timetable: timetable,
+            todayPos: widget.todayPos,
+            weekIndex: weekIndex,
+            dayIndex: dayIndex,
+          ).expanded(),
         ].column();
       } else {
         final slotCount = day.timeslots2Lessons.length;
@@ -211,67 +222,6 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
     } else {
       return LessonOverlapGroup(lessonsInSlot, timeslot, timetable);
     }
-  }
-
-  Widget _buildFreeDayTip(BuildContext ctx, int weekIndex, int dayIndex) {
-    final todayPos = widget.todayPos;
-    final isToday = todayPos.week == weekIndex + 1 && todayPos.day == dayIndex + 1;
-    final String desc;
-    if (isToday) {
-      desc = i18n.freeTip.isTodayTip;
-    } else {
-      desc = i18n.freeTip.dayTip;
-    }
-    return LeavingBlank(
-      icon: Icons.free_cancellation_rounded,
-      desc: desc,
-      subtitle: buildJumpToNearestDayWithClassBtn(ctx, weekIndex, dayIndex),
-    );
-  }
-
-  Widget buildJumpToNearestDayWithClassBtn(BuildContext ctx, int weekIndex, int dayIndex) {
-    return CupertinoButton(
-      onPressed: () async {
-        await jumpToNearestDayWithClass(ctx, weekIndex, dayIndex);
-      },
-      child: i18n.freeTip.findNearestDayWithClass.text(),
-    );
-  }
-
-  /// Find the nearest day with class forward.
-  /// No need to look back to passed days, unless there's no day after [weekIndex] and [dayIndex] that has any class.
-  Future<void> jumpToNearestDayWithClass(BuildContext ctx, int weekIndex, int dayIndex) async {
-    for (int i = weekIndex; i < timetable.weeks.length; i++) {
-      final week = timetable.weeks[i];
-      if (week != null) {
-        final dayIndexStart = weekIndex == i ? dayIndex : 0;
-        for (int j = dayIndexStart; j < week.days.length; j++) {
-          final day = week.days[j];
-          if (day.hasAnyLesson()) {
-            eventBus.fire(JumpToPosEvent(TimetablePos(week: i + 1, day: j + 1)));
-            return;
-          }
-        }
-      }
-    }
-    // Now there's no class forward, so let's search backward.
-    for (int i = weekIndex; 0 <= i; i--) {
-      final week = timetable.weeks[i];
-      if (week != null) {
-        final dayIndexStart = weekIndex == i ? dayIndex : week.days.length - 1;
-        for (int j = dayIndexStart; 0 <= j; j--) {
-          final day = week.days[j];
-          if (day.hasAnyLesson()) {
-            eventBus.fire(JumpToPosEvent(TimetablePos(week: i + 1, day: j + 1)));
-            return;
-          }
-        }
-      }
-    }
-    // WHAT? NO CLASS IN THE WHOLE TERM?
-    // Alright, let's congratulate them!
-    if (!mounted) return;
-    await ctx.showTip(title: i18n.congratulations, desc: i18n.freeTip.termTip, ok: i18n.ok);
   }
 
   @override
