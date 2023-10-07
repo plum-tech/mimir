@@ -198,12 +198,8 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     final week2Go = indices2Go?.a;
     final day2Go = indices2Go?.b;
     if (week2Go != null && day2Go != null && (week2Go != initialWeekIndex || day2Go != initialDayIndex)) {
-      if (!mounted) return;
-      if (TimetableStyle.of(context).useNewUI) {
-        eventBus.fire(JumpToPosEvent(TimetablePos(week: week2Go + 1, day: day2Go + 1)));
-      } else {
-        $currentPos.value = TimetablePos(week: week2Go + 1, day: day2Go + 1);
-      }
+      eventBus.fire(JumpToPosEvent(TimetablePos(week: week2Go + 1, day: day2Go + 1)));
+      $currentPos.value = TimetablePos(week: week2Go + 1, day: day2Go + 1);
     }
   }
 }
