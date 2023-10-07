@@ -24,7 +24,16 @@ Future<void> fetchAndSaveTransactionUntilNow({
   }
   final latest = transactions.firstOrNull;
   if (latest != null) {
-    ExpenseRecordsInit.storage.latestTransaction = latest;
+    final former = ExpenseRecordsInit.storage.latestTransaction;
+    // check if the transaction is kept for topping up
+    if (former != null && latest.type == TransactionType.topUp && latest.balanceBefore == 0 && latest.balanceAfter == 0) {
+      ExpenseRecordsInit.storage.latestTransaction = latest.copyWith(
+        balanceBefore: former.balanceBefore,
+        balanceAfter: former.balanceAfter,
+      );
+    } else {
+      ExpenseRecordsInit.storage.latestTransaction = latest;
+    }
   }
 }
 

@@ -50,9 +50,7 @@ class _CaptchaDialogState extends State<CaptchaDialog> {
           keyboardType: TextInputType.text,
           autofillHints: const [AutofillHints.oneTimeCode],
           onSubmit: (value) {
-            if (value.isNotEmpty) {
-              context.navigator.pop(value);
-            }
+            context.navigator.pop(value);
           },
         ).padOnly(t: 15),
       ].column(mas: MainAxisSize.min).padAll(5),
