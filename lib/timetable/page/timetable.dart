@@ -131,33 +131,31 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     final controller = FixedExtentScrollController(initialItem: initialIndex);
     final todayPos = timetable.locate(DateTime.now());
     final todayIndex = todayPos.week - 1;
-    final index2Go = await context.showPicker(
-        count: 20,
-        controller: controller,
-        ok: i18n.jump,
-        okEnabled: (curSelected) => curSelected != initialIndex,
-        actions: [
-          (ctx, curSelected) => CupertinoButton(
-                onPressed: (curSelected == todayIndex)
-                    ? null
-                    : () {
-                        controller.animateToItem(todayIndex,
-                            duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
-                      },
-                child: i18n.findToday.text(),
-              )
-        ],
-        make: (ctx, i) {
-          return Text(i18n.weekOrderedName(number: i + 1));
-        });
+    final week2Go = await context.showPicker(
+          count: 20,
+          controller: controller,
+          ok: i18n.jump,
+          okEnabled: (curSelected) => curSelected != initialIndex,
+          actions: [
+            (ctx, curSelected) => CupertinoButton(
+                  onPressed: (curSelected == todayIndex)
+                      ? null
+                      : () {
+                          controller.animateToItem(todayIndex,
+                              duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
+                        },
+                  child: i18n.findToday.text(),
+                )
+          ],
+          make: (ctx, i) {
+            return Text(i18n.weekOrderedName(number: i + 1));
+          },
+        ) ??
+        initialIndex;
     controller.dispose();
-    if (index2Go != null && index2Go != initialIndex) {
-      if (!mounted) return;
-      if (TimetableStyle.of(context).useNewUI) {
-        eventBus.fire(JumpToPosEvent($currentPos.value.copyWith(week: index2Go + 1)));
-      } else {
-        $currentPos.value = $currentPos.value.copyWith(week: index2Go + 1);
-      }
+    if (week2Go != initialIndex) {
+      eventBus.fire(JumpToPosEvent($currentPos.value.copyWith(week: week2Go + 1)));
+      $currentPos.value = $currentPos.value.copyWith(week: week2Go + 1);
     }
   }
 
@@ -171,29 +169,30 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     final todayWeekIndex = todayPos.week - 1;
     final todayDayIndex = todayPos.day - 1;
     final (week2Go, day2Go) = await context.showDualPicker(
-      countA: 20,
-      countB: 7,
-      controllerA: $week,
-      controllerB: $day,
-      ok: i18n.jump,
-      okEnabled: (weekSelected, daySelected) => weekSelected != initialWeekIndex || daySelected != initialDayIndex,
-      actions: [
-        (ctx, week, day) => CupertinoButton(
-              onPressed: (week == todayWeekIndex && day == todayDayIndex)
-                  ? null
-                  : () {
-                      $week.animateToItem(todayWeekIndex,
-                          duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
+          countA: 20,
+          countB: 7,
+          controllerA: $week,
+          controllerB: $day,
+          ok: i18n.jump,
+          okEnabled: (weekSelected, daySelected) => weekSelected != initialWeekIndex || daySelected != initialDayIndex,
+          actions: [
+            (ctx, week, day) => CupertinoButton(
+                  onPressed: (week == todayWeekIndex && day == todayDayIndex)
+                      ? null
+                      : () {
+                          $week.animateToItem(todayWeekIndex,
+                              duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
 
-                      $day.animateToItem(todayDayIndex,
-                          duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
-                    },
-              child: i18n.findToday.text(),
-            )
-      ],
-      makeA: (ctx, i) => i18n.weekOrderedName(number: i + 1).text(),
-      makeB: (ctx, i) => i18n.weekday(index: i).text(),
-    ) ?? (initialWeekIndex, initialDayIndex);
+                          $day.animateToItem(todayDayIndex,
+                              duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
+                        },
+                  child: i18n.findToday.text(),
+                )
+          ],
+          makeA: (ctx, i) => i18n.weekOrderedName(number: i + 1).text(),
+          makeB: (ctx, i) => i18n.weekday(index: i).text(),
+        ) ??
+        (initialWeekIndex, initialDayIndex);
     $week.dispose();
     $day.dispose();
     if (week2Go != initialWeekIndex || day2Go != initialDayIndex) {

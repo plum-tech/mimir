@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,7 @@ import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
 
+import '../../events.dart';
 import '../../i18n.dart';
 import '../../entity/timetable.dart';
 import '../../utils.dart';
@@ -52,19 +55,15 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   int week2PageOffset(int week) => week - 1;
   TimetablePos? _lastPos;
   bool isJumping = false;
-  int mood = 0;
+  late StreamSubscription<JumpToPosEvent> $jumpToPos;
 
   @override
   void initState() {
     super.initState();
     dateSemesterStart = timetable.startDate;
     _pageController = PageController(initialPage: currentPos.week - 1)..addListener(onPageChange);
-    widget.$currentPos.addListener(() {
-      final curPos = widget.$currentPos.value;
-      if (_lastPos != curPos) {
-        jumpTo(curPos);
-        _lastPos = curPos;
-      }
+    $jumpToPos = eventBus.on<JumpToPosEvent>().listen((event) {
+      jumpTo(event.where);
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final targetOffset = week2PageOffset(currentPos.week);
@@ -83,8 +82,6 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
 
   @override
   Widget build(BuildContext context) {
-    final side = getBorderSide(context);
-
     return [
       [
         const SizedBox().align(at: Alignment.center).flexible(flex: 47),
@@ -95,28 +92,20 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
                   startDate: timetable.startDate,
                 ).flexible(flex: 500)
       ].row(),
-      NotificationListener<ScrollNotification>(
-        onNotification: (e) {
-          if (e is ScrollEndNotification) {
-            isJumping = false;
-          }
-          return false;
+      PageView.builder(
+        controller: _pageController,
+        scrollDirection: Axis.horizontal,
+        itemCount: 20,
+        itemBuilder: (BuildContext ctx, int weekIndex) {
+          final todayPos = timetable.locate(DateTime.now());
+          return _OneWeekPage(
+            timetable: timetable,
+            todayPos: todayPos,
+            weekIndex: weekIndex,
+            $currentPos: widget.$currentPos,
+            scrollController: widget.scrollController,
+          );
         },
-        child: PageView.builder(
-          controller: _pageController,
-          scrollDirection: Axis.horizontal,
-          itemCount: 20,
-          itemBuilder: (BuildContext ctx, int weekIndex) {
-            final todayPos = timetable.locate(DateTime.now());
-            return _OneWeekPage(
-              timetable: timetable,
-              todayPos: todayPos,
-              weekIndex: weekIndex,
-              $currentPos: widget.$currentPos,
-              scrollController: widget.scrollController,
-            );
-          },
-        ),
       ).expanded()
     ].column(mas: MainAxisSize.min, maa: MainAxisAlignment.start, caa: CrossAxisAlignment.start);
   }
