@@ -13,7 +13,6 @@ import 'package:mimir/school/event.dart';
 import 'package:mimir/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 import 'entity/attended.dart';
 import "i18n.dart";
@@ -163,15 +162,9 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
         .map((e) =>
             "${e.type.l10nFullName()}: ${e.score}/${name2target.firstWhereOrNull((t) => t.type == e.type)?.score}")
         .join(", ");
-
-    final box = context.findRenderObject() as RenderBox?;
-    final sharePositionOrigin = box == null ? null : box.localToGlobal(Offset.zero) & box.size;
-    if (UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
-      assert(sharePositionOrigin != null, "sharePositionOrigin should be nonnull on iPad and macOS");
-    }
     await Share.share(
       text,
-      sharePositionOrigin: sharePositionOrigin,
+      sharePositionOrigin: context.getSharePositionOrigin(),
     );
   }
 }

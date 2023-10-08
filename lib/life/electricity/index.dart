@@ -12,7 +12,6 @@ import 'package:mimir/r.dart';
 import 'package:mimir/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 import '../event.dart';
 import 'entity/balance.dart';
@@ -188,13 +187,8 @@ Future<void> shareBalance({
   required BuildContext context,
 }) async {
   final text = "#$selectedRoom: ${balance.l10nBalance()}, ${balance.l10nPower()}";
-  final box = context.findRenderObject() as RenderBox?;
-  final sharePositionOrigin = box == null ? null : box.localToGlobal(Offset.zero) & box.size;
-  if (UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
-    assert(sharePositionOrigin != null, "sharePositionOrigin should be nonnull on iPad and macOS");
-  }
   await Share.share(
     text,
-    sharePositionOrigin: sharePositionOrigin,
+    sharePositionOrigin: context.getSharePositionOrigin(),
   );
 }
