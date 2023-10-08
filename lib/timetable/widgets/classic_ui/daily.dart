@@ -2,18 +2,14 @@ import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mimir/design/widgets/card.dart';
-import 'package:mimir/design/widgets/common.dart';
-import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/timetable/platte.dart';
 import 'package:mimir/timetable/widgets/free.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../../i18n.dart';
 import '../../entity/timetable.dart';
 import '../../events.dart';
 import '../../utils.dart';
@@ -188,38 +184,30 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
     int dayIndex = widget.dayIndex;
     final week = timetable.weeks[weekIndex];
     if (week == null) {
-      return [
-        const SizedBox(height: 60),
-        FreeDayTip(
+      return FreeDayTip(
+        timetable: timetable,
+        todayPos: widget.todayPos,
+        weekIndex: weekIndex,
+        dayIndex: dayIndex,
+      );
+    } else {
+      final day = week.days[dayIndex];
+      if (!day.hasAnyLesson()) {
+        return FreeDayTip(
           timetable: timetable,
           todayPos: widget.todayPos,
           weekIndex: weekIndex,
           dayIndex: dayIndex,
-        ).expanded(),
-      ].column();
-    } else {
-      final day = week.days[dayIndex];
-      if (!day.hasAnyLesson()) {
-        return [
-          const SizedBox(height: 60),
-          FreeDayTip(
-            timetable: timetable,
-            todayPos: widget.todayPos,
-            weekIndex: weekIndex,
-            dayIndex: dayIndex,
-          ).expanded(),
-        ].column();
+        );
       } else {
         final slotCount = day.timeslots2Lessons.length;
         final builder = _RowBuilder();
-        builder.setup();
         for (int timeslot = 0; timeslot < slotCount; timeslot++) {
           builder.add(timeslot, buildLessonsInTimeslot(ctx, day.timeslots2Lessons[timeslot], timeslot));
         }
         // Since the course list is small, no need to use [ListView.builder].
         return ListView(
           controller: widget.scrollController,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
           children: builder.build(),
         );
       }
@@ -372,11 +360,6 @@ class _RowBuilder {
       _rows.add(row);
       lastAdded = _RowBuilderState.row;
     }
-  }
-
-  void setup() {
-    // Leave the room for header.
-    _rows.add(const SizedBox(height: 60));
   }
 
   List<Widget> build() {

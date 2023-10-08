@@ -28,18 +28,15 @@ class TimetableBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     return $displayMode >>
         (ctx, mode) => (mode == DisplayMode.daily
-                    ? DailyTimetable(
-                        $currentPos: $currentPos,
-                        timetable: timetable,
-                        scrollController: scrollController,
-                      )
-                    : WeeklyTimetable(
-                        $currentPos: $currentPos,
-                        timetable: timetable,
-                        scrollController: scrollController,
-                      ))
-                .animatedSwitched(
-              duration: const Duration(milliseconds: 300),
-            );
+            ? DailyTimetable(
+                $currentPos: $currentPos,
+                timetable: timetable,
+                scrollController: scrollController,
+              )
+            : WeeklyTimetable(
+                $currentPos: $currentPos,
+                timetable: timetable,
+                scrollController: scrollController,
+              ));
   }
 }

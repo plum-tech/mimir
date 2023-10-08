@@ -56,15 +56,16 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   void initState() {
     super.initState();
     dateSemesterStart = timetable.startDate;
-    _pageController = PageController(initialPage: currentPos.week - 1)..addListener(() {
-      setState(() {
-        final page = (_pageController.page ?? 0).round();
-        final newWeek = page2Week(page);
-        if (newWeek != currentPos.week) {
-          currentPos = currentPos.copyWith(week: newWeek);
-        }
+    _pageController = PageController(initialPage: currentPos.week - 1)
+      ..addListener(() {
+        setState(() {
+          final page = (_pageController.page ?? 0).round();
+          final newWeek = page2Week(page);
+          if (newWeek != currentPos.week) {
+            currentPos = currentPos.copyWith(week: newWeek);
+          }
+        });
       });
-    });
     $jumpToPos = eventBus.on<JumpToPosEvent>().listen((event) {
       jumpTo(event.where);
     });
@@ -302,7 +303,7 @@ class TimetableSingleWeekView extends StatelessWidget {
 
         /// TODO: Range checking
         final course = timetable.courseKey2Entity[firstLayerLesson.courseKey];
-        final cell = _CourseCell(
+        final cell = CourseCell(
           lesson: firstLayerLesson,
           timetable: timetable,
           course: course,
@@ -322,12 +323,12 @@ class TimetableSingleWeekView extends StatelessWidget {
   }
 }
 
-class _CourseCell extends StatelessWidget {
+class CourseCell extends StatefulWidget {
   final SitTimetableLesson lesson;
   final SitCourse course;
   final SitTimetable timetable;
 
-  const _CourseCell({
+  const CourseCell({
     super.key,
     required this.lesson,
     required this.timetable,
@@ -335,38 +336,46 @@ class _CourseCell extends StatelessWidget {
   });
 
   @override
+  State<CourseCell> createState() => _CourseCellState();
+}
+
+class _CourseCellState extends State<CourseCell> {
+  final $tooltip = GlobalKey<TooltipState>(debugLabel: "tooltip");
+
+  @override
   Widget build(BuildContext context) {
     final size = context.mediaQuery.size;
     final color = TimetableStyle.of(context)
         .platte
-        .resolveColor(course)
+        .resolveColor(widget.course)
         .byTheme(context.theme)
         .harmonizeWith(context.colorScheme.primary);
     final padding = context.isPortrait ? size.height / 40 : size.height / 80;
-    return FilledCard(
-      clip: Clip.hardEdge,
-      color: color,
-      margin: EdgeInsets.all(0.5.w),
-      child: InkWell(
-        onTap: () async {
-          await context.show$Sheet$(
-            (ctx) => TimetableCourseSheet(courseCode: course.courseCode, timetable: timetable),
-          );
-        },
-        child: TimetableSlotInfo(
-          course: course,
-          maxLines: context.isPortrait ? 8 : 5,
-        ).padOnly(t: padding),
+    final (:begin, :end) = widget.course.calcBeginEndTimepoint();
+    return Tooltip(
+      key: $tooltip,
+      preferBelow: false,
+      triggerMode: TooltipTriggerMode.manual,
+      message: "${begin.toStringPrefixed0()}–${end.toStringPrefixed0()}",
+      child: FilledCard(
+        clip: Clip.hardEdge,
+        color: color,
+        margin: EdgeInsets.all(0.5.w),
+        child: InkWell(
+          onTap: () async {
+            $tooltip.currentState?.ensureTooltipVisible();
+          },
+          onLongPress: () async {
+            await context.show$Sheet$(
+              (ctx) => TimetableCourseSheet(courseCode: widget.course.courseCode, timetable: widget.timetable),
+            );
+          },
+          child: TimetableSlotInfo(
+            course: widget.course,
+            maxLines: context.isPortrait ? 8 : 5,
+          ).padOnly(t: padding),
+        ),
       ),
-    );
-  }
-
-  Text buildText(String text, int maxLines) {
-    return Text(
-      text,
-      softWrap: true,
-      overflow: TextOverflow.ellipsis,
-      maxLines: maxLines,
     );
   }
 }
