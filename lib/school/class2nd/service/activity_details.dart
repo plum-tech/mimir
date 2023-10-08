@@ -7,29 +7,26 @@ import 'package:mimir/session/class2nd.dart';
 
 import '../entity/details.dart';
 
+final _spacesRx = RegExp(r'\s{2}\s+');
+
 class Class2ndActivityDetailsService {
-  static const _scDetailUrlBase = 'http://sc.sit.edu.cn/public/activity/activityDetail.action?activityId=';
-
-  static RegExp reSpaces = RegExp(r'\s{2}\s+');
-  static String selectorFrame = '.box-1';
-  static String selectorTitle = 'h1';
-  static String selectorBanner = 'div[style=" color:#7a7a7a; text-align:center"]';
-  static String selectorDescription = 'div[style="padding:30px 50px; font-size:14px;"]';
-
   final Class2ndSession session;
 
   const Class2ndActivityDetailsService(this.session);
 
   /// 获取第二课堂活动详情
   Future<Class2ndActivityDetails> getActivityDetails(int activityId) async {
-    final response = await session.request(_scDetailUrlBase + activityId.toString(), ReqMethod.post);
+    final response = await session.request(
+      'http://sc.sit.edu.cn/public/activity/activityDetail.action?activityId=$activityId',
+      ReqMethod.post,
+    );
     final data = response.data;
     return _parseActivityDetail(data);
   }
 
   static String _cleanText(String banner) {
     String result = banner.replaceAll('&nbsp;', ' ').replaceAll('<br>', '');
-    return result.replaceAll(reSpaces, '\n');
+    return result.replaceAll(_spacesRx, '\n');
   }
 
   static HashMap<String, String> _splitActivityProperties(String banner) {
@@ -55,9 +52,11 @@ class Class2ndActivityDetailsService {
   }
 
   static Class2ndActivityDetails _parseProperties(Bs4Element item) {
-    String title = item.findAll(selectorTitle).map((e) => e.innerHtml.trim()).elementAt(0);
-    String description = item.findAll(selectorDescription).map((e) => e.innerHtml.trim()).elementAt(0);
-    String banner = item.findAll(selectorBanner).map((e) => e.innerHtml.trim()).elementAt(0);
+    String title = item.findAll('h1').map((e) => e.innerHtml.trim()).elementAt(0);
+    String description =
+        item.findAll('div[style="padding:30px 50px; font-size:14px;"]').map((e) => e.innerHtml.trim()).elementAt(0);
+    String banner =
+        item.findAll('div[style=" color:#7a7a7a; text-align:center"]').map((e) => e.innerHtml.trim()).elementAt(0);
 
     final properties = _splitActivityProperties(banner);
     final signTime = _parseSignTime(properties['刷卡时间段']!);
@@ -80,7 +79,7 @@ class Class2ndActivityDetailsService {
 
   static Class2ndActivityDetails _parseActivityDetail(String htmlPage) {
     final BeautifulSoup soup = BeautifulSoup(htmlPage);
-    final frame = soup.find(selectorFrame);
+    final frame = soup.find('.box-1');
     final detail = _parseProperties(frame!);
 
     return detail;

@@ -2,9 +2,6 @@ import 'package:mimir/network/session.dart';
 import 'package:mimir/session/class2nd.dart';
 
 class Class2ndAttendActivityService {
-  static const _applyCheck = 'http://sc.sit.edu.cn/public/pcenter/check.action?activityId=';
-  static const _applyRequest = 'http://sc.sit.edu.cn/public/pcenter/applyActivity.action?activityId=';
-
   static const _codeMessage = [
     '检查成功',
     '您的个人信息不全，请补全您的信息！',
@@ -23,13 +20,19 @@ class Class2ndAttendActivityService {
 
   /// 提交最后的活动申请
   Future<String> _sendFinalRequest(int activityId) async {
-    final url = _applyRequest + activityId.toString();
-    return (await session.request(url, ReqMethod.get)).data;
+    final res = await session.request(
+      'http://sc.sit.edu.cn/public/pcenter/applyActivity.action?activityId=$activityId',
+      ReqMethod.get,
+    );
+    return res.data as String;
   }
 
   Future<String> _sendCheckRequest(int activityId) async {
-    final url = _applyCheck + activityId.toString();
-    final code = ((await session.request(url, ReqMethod.get)).data as String).trim();
+    final res = await session.request(
+      'http://sc.sit.edu.cn/public/pcenter/check.action?activityId=$activityId',
+      ReqMethod.get,
+    );
+    final code = (res.data as String).trim();
 
     return _codeMessage[int.parse(code)];
   }
@@ -42,6 +45,7 @@ class Class2ndAttendActivityService {
         return result;
       }
     }
-    return (await _sendFinalRequest(activityId)).contains('申请成功') ? '申请成功' : '申请失败';
+    final result = await _sendFinalRequest(activityId);
+    return result.contains('申请成功') ? '申请成功' : '申请失败';
   }
 }
