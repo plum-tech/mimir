@@ -141,14 +141,12 @@ class _ActivityListState extends State<ActivityList> {
             // This is the flip side of the SliverOverlapAbsorber above.
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (ctx, index) {
-                final activity = activities[index];
-                return ActivityCard(activity).hero(activity.id);
-              },
-              childCount: activities.length,
-            ),
+          SliverList.builder(
+            itemCount: activities.length,
+            itemBuilder: (ctx, index) {
+              final activity = activities[index];
+              return ActivityCard(activity).hero(activity.id);
+            },
           ),
         ],
       ),

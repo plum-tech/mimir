@@ -18,11 +18,17 @@ class ActivitySearchDelegate extends SearchDelegate<String> {
   }
 
   Widget buildEventResult(List<Class2ndActivity> activities) {
-    return ListView.builder(
-        itemCount: activities.length,
-        itemBuilder: (ctx, i) {
-          return ActivityCard(activities[i]).sized(w: 400, h: 200);
-        });
+    return CustomScrollView(
+      slivers: [
+        SliverList.builder(
+          itemCount: activities.length,
+          itemBuilder: (ctx, i) {
+            final activity = activities[i];
+            return ActivityCard(activity).hero(activity.id);
+          },
+        ),
+      ],
+    );
   }
 
   Widget _buildSearch() {
