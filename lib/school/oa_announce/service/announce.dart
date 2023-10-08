@@ -65,8 +65,12 @@ class OaAnnounceService {
   }
 
   Future<OaAnnounceDetails> fetchAnnounceDetails(String catalogId, String uuid) async {
-    final response = await session.request(getAnnounceUrl(catalogId, uuid), ReqMethod.get);
-    return _parseAnnounceDetails(BeautifulSoup(response.data).html!);
+    final response = await session.request(
+      getAnnounceUrl(catalogId, uuid),
+      ReqMethod.get,
+    );
+    final soup = BeautifulSoup(response.data);
+    return _parseAnnounceDetails(soup.html!);
   }
 
   static OaAnnounceListPayload _parseAnnounceListPage(Bs4Element element) {
@@ -105,6 +109,7 @@ class OaAnnounceService {
       'https://myportal.sit.edu.cn/detach.portal?pageIndex=$pageIndex&groupid=&action=bulletinsMoreView&.ia=false&pageSize=&.pmn=view&.pen=$bulletinCatalogueId',
       ReqMethod.get,
     );
-    return _parseAnnounceListPage(BeautifulSoup(response.data).html!);
+    final soup = BeautifulSoup(response.data);
+    return _parseAnnounceListPage(soup.html!);
   }
 }
