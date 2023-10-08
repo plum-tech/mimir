@@ -248,7 +248,7 @@ class _VersionTileState extends State<VersionTile> {
         AppPlatform.unknown => const Icon(Icons.device_unknown_outlined),
       },
       title: i18n.version.text(),
-      // subtitle: "${version.platform.name} master-231007A".text(),
+      // subtitle: "${version.platform.name} master-231008A".text(),
       subtitle: "${version.platform.name} ${version.full?.toString() ?? i18n.unknown}".text(),
       onTap: Settings.isDeveloperMode && clickCount <= 10
           ? null
