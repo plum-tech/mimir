@@ -132,7 +132,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
       leading: const Icon(Icons.login),
       onTap: () async {
         try {
-          await Global.ssoSession.loginActiveLocked(credential);
+          await Global.ssoSession.loginLocked(credential);
           if (!mounted) return;
           await context.showTip(title: "OK", desc: "OK", ok: i18n.close);
         } catch (e) {

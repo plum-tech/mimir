@@ -83,21 +83,8 @@ class SsoSession with DioDownloaderMixin implements ISession {
     return response.realUri.toString().contains(_loginUrl);
   }
 
-  /// 进行登录操作
-  Future<void> ensureLoginLocked(String url) async {
-    await loginLock.synchronized(() async {
-      // 只有用户名与密码均不为空时，才尝试重新登录，否则就抛异常
-      final credentials = CredentialInit.storage.oaCredentials;
-      if (credentials != null) {
-        await _login(credentials);
-      } else {
-        throw LoginRequiredException(url: url);
-      }
-    });
-  }
-
   /// - User try to log in actively on a login page.
-  Future<Response> loginActiveLocked(OaCredentials credential) async {
+  Future<Response> loginLocked(OaCredentials credential) async {
     return await loginLock.synchronized(() async {
       return await _login(credential);
     });
@@ -163,7 +150,11 @@ class SsoSession with DioDownloaderMixin implements ISession {
 
     // 如果跳转登录页，那就先登录
     if (isLoginPage(firstResponse)) {
-      await ensureLoginLocked(url);
+      final credentials = CredentialInit.storage.oaCredentials;
+      if (credentials == null) {
+        throw LoginRequiredException(url: url);
+      }
+      await loginLocked(credentials);
       return await requestNormally();
     } else {
       return firstResponse;

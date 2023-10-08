@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:mimir/credential/init.dart';
+import 'package:mimir/exception/session.dart';
 import 'package:mimir/network/session.dart';
 import 'package:mimir/session/sso.dart';
 import 'package:mimir/utils/logger.dart';
@@ -51,7 +53,11 @@ class SisSession extends ISession {
     // 如果还是需要登录
     if (_isRedirectedToLoginPage(response)) {
       Log.info('SsoSession需要登录');
-      await ssoSession.ensureLoginLocked(url);
+      final credential = CredentialInit.storage.oaCredentials;
+      if (credential == null) {
+        throw LoginRequiredException(url: url);
+      }
+      await ssoSession.loginLocked(credential);
       await _refreshCookie();
       response = await fetch();
     }
