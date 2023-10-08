@@ -32,6 +32,7 @@ class ActivitySearchDelegate extends SearchDelegate<String> {
   }
 
   Widget _buildSearch() {
+    // TODO: Don't use placeholder future builder
     return PlaceholderFutureBuilder<List<Class2ndActivity>?>(
       future: Class2ndInit.activityListService.query(query),
       builder: (context, data, state) {

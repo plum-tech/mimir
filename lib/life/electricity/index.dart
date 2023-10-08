@@ -148,18 +148,35 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
             },
             child: i18n.share.text(),
           ),
+          CupertinoContextMenuAction(
+            trailingIcon: CupertinoIcons.delete,
+            isDestructiveAction: true,
+            onPressed: () async {
+              Navigator.of(context, rootNavigator: true).pop();
+              await HapticFeedback.heavyImpact();
+              ElectricityBalanceInit.storage.selectedRoom = null;
+            },
+            child: i18n.delete.text(),
+          ),
         ],
-        builder: (ctx, animation) => Dismissible(
-          direction: DismissDirection.endToStart,
-          key: const ValueKey("Balance"),
-          onDismissed: (dir) async {
-            await HapticFeedback.heavyImpact();
-            ElectricityBalanceInit.storage.selectedRoom = null;
-          },
-          child: ElectricityBalanceCard(
+        builder: (ctx, animation) {
+          final card = ElectricityBalanceCard(
             balance: balance,
-          ).sized(h: 120),
-        ),
+          ).sized(h: 120);
+          // pressing
+          if (animation.value == 0) {
+            return Dismissible(
+              direction: DismissDirection.endToStart,
+              key: const ValueKey("Balance"),
+              onDismissed: (dir) async {
+                await HapticFeedback.heavyImpact();
+                ElectricityBalanceInit.storage.selectedRoom = null;
+              },
+              child: card,
+            );
+          }
+          return card;
+        },
       ),
     );
   }
