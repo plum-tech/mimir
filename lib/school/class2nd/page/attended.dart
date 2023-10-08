@@ -86,41 +86,51 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   Widget build(BuildContext context) {
     final activities = attended;
     return Scaffold(
-      body: RefreshIndicator.adaptive(
-        triggerMode: RefreshIndicatorTriggerMode.anywhere,
-        onRefresh: () async {
-          await HapticFeedback.heavyImpact();
-          await refresh(active: true);
-        },
-        child: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              floating: true,
-              title: i18n.attended.title.text(),
-              bottom: isFetching
-                  ? const PreferredSize(
-                      preferredSize: Size.fromHeight(4),
-                      child: LinearProgressIndicator(),
-                    )
-                  : null,
-            ),
-            if (activities != null)
-              if (activities.isEmpty)
-                SliverToBoxAdapter(
-                  child: LeavingBlank(
-                    icon: Icons.inbox_outlined,
-                    desc: i18n.noAttendedActivities,
-                  ),
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return <Widget>[
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverAppBar(
+                floating: true,
+                title: i18n.attended.title.text(),
+                bottom: isFetching
+                    ? const PreferredSize(
+                  preferredSize: Size.fromHeight(4),
+                  child: LinearProgressIndicator(),
                 )
-              else
-                SliverList.builder(
-                  itemCount: activities.length,
-                  itemBuilder: (ctx, i) {
-                    final activity = activities[i];
-                    return AttendedActivityCard(activity).hero(activity.applyId);
-                  },
-                ),
-          ],
+                    : null,
+                forceElevated: innerBoxIsScrolled,
+              ),
+            ),
+          ];
+        },
+        body: RefreshIndicator.adaptive(
+          triggerMode: RefreshIndicatorTriggerMode.anywhere,
+          onRefresh: () async {
+            await HapticFeedback.heavyImpact();
+            await refresh(active: true);
+          },
+          child: CustomScrollView(
+            slivers: [
+              if (activities != null)
+                if (activities.isEmpty)
+                  SliverToBoxAdapter(
+                    child: LeavingBlank(
+                      icon: Icons.inbox_outlined,
+                      desc: i18n.noAttendedActivities,
+                    ),
+                  )
+                else
+                  SliverList.builder(
+                    itemCount: activities.length,
+                    itemBuilder: (ctx, i) {
+                      final activity = activities[i];
+                      return AttendedActivityCard(activity).hero(activity.applyId);
+                    },
+                  ),
+            ],
+          ),
         ),
       ),
     );

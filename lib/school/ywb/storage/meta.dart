@@ -19,7 +19,7 @@ class YwbApplicationMetaStorage {
   void setMetaDetails(String applicationId, YwbApplicationMetaDetails? newV) =>
       box.put(_K.details(applicationId), newV);
 
-  List<YwbApplicationMeta>? get metaList => box.get(_K.metaList);
+  List<YwbApplicationMeta>? get metaList => (box.get(_K.metaList) as List?)?.cast<YwbApplicationMeta>();
 
   set metaList(List<YwbApplicationMeta>? newV) => box.put(_K.metaList, newV);
 }
