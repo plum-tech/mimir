@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "kite")
-set(APPLICATION_ID "net.liplum.Mimir")
+set(BINARY_NAME "SIT_Life")
+set(APPLICATION_ID "net.liplum.SIT")
 
 cmake_policy(SET CMP0063 NEW)
 
