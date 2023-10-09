@@ -69,11 +69,11 @@ class _SchoolPageState extends State<SchoolPage> {
                 const SliverToBoxAdapter(
                   child: Class2ndAppCard(),
                 ),
-              if (loginStatus != LoginStatus.never  && userType?.capability.enableExamArrange == true)
+              if (loginStatus != LoginStatus.never && userType?.capability.enableExamArrange == true)
                 const SliverToBoxAdapter(
                   child: ExamArrangeAppCard(),
                 ),
-              if (loginStatus != LoginStatus.never  && userType?.capability.enableExamResult == true)
+              if (loginStatus != LoginStatus.never && userType?.capability.enableExamResult == true)
                 const SliverToBoxAdapter(
                   child: ExamResultAppCard(),
                 ),

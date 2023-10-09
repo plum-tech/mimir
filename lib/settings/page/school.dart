@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mimir/credential/entity/user_type.dart';
+import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
@@ -13,6 +15,20 @@ class SchoolSettingsPage extends StatefulWidget {
 }
 
 class _SchoolSettingsPageState extends State<SchoolSettingsPage> {
+  OaUserType? userType;
+
+  @override
+  void didChangeDependencies() {
+    final auth = context.auth;
+    final newUserType = auth.userType;
+    if (userType != newUserType) {
+      setState(() {
+        userType = newUserType;
+      });
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,12 +44,11 @@ class _SchoolSettingsPageState extends State<SchoolSettingsPage> {
               title: i18n.school.title.text(style: context.textTheme.headlineSmall),
             ),
           ),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              buildClass2ndAutoRefreshToggle(),
-              const Divider(),
-              buildExamResultShowDetailsToggle(),
-            ]),
+          SliverList.list(
+            children: [
+              if (userType?.capability.enableClass2nd == true) buildClass2ndAutoRefreshToggle(),
+              if (userType?.capability.enableExamResult == true) buildExamResultShowDetailsToggle(),
+            ],
           ),
         ],
       ),
