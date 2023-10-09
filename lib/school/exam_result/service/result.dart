@@ -1,6 +1,7 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:mimir/network/session.dart';
 import 'package:mimir/school/entity/school.dart';
+import 'package:mimir/session/sis.dart';
 
 import '../entity/result.dart';
 
@@ -22,7 +23,7 @@ class ExamResultService {
   static const _scoreFormSelector = 'td:nth-child(1)';
   static const _scorePercentageSelector = 'td:nth-child(3)';
   static const _scoreValueSelector = 'td:nth-child(5)';
-  final ISession session;
+  final SisSession session;
 
   const ExamResultService(this.session);
 

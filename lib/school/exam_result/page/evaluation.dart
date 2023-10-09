@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/network/session.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/widgets/webview/page.dart';
 import 'package:rettulf/rettulf.dart';
@@ -54,6 +55,8 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
   }
 
   Future<void> loadCookies() async {
+    // refresh the cookies
+    await ExamResultInit.service.session.request(evaluationUri.toString(), ReqMethod.get);
     final cookies = await ExamResultInit.cookieJar.loadAsWebViewCookie(evaluationUri);
     setState(() {
       this.cookies = cookies;
@@ -76,7 +79,7 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
   Widget buildAutofillScore() {
     return $autoScore >>
         (context, value) => [
-              "Autofill Score：$value".text(),
+              "Fill Score：$value".text(),
               Slider(
                 min: 0,
                 max: 100,
