@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 
 import '../utils.dart';
-import 'package:mimir/hive/type_id.dart';
+import 'package:sit/hive/type_id.dart';
 import 'attended.dart';
 
 part 'list.g.dart';

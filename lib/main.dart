@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mimir/global/init.dart';
-import 'package:mimir/migration/migrations.dart';
-import 'package:mimir/school/yellow_pages/entity/contact.dart';
+import 'package:sit/global/init.dart';
+import 'package:sit/migration/migrations.dart';
+import 'package:sit/school/yellow_pages/entity/contact.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'app.dart';

@@ -6,9 +6,9 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:fk_user_agent/fk_user_agent.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mimir/r.dart';
-import 'package:mimir/settings/settings.dart';
-import 'package:mimir/utils/logger.dart';
+import 'package:sit/r.dart';
+import 'package:sit/settings/settings.dart';
+import 'package:sit/utils/logger.dart';
 
 final _rand = Random();
 

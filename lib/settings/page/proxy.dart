@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:mimir/design/adaptive/dialog.dart';
-import 'package:mimir/design/adaptive/editor.dart';
-import 'package:mimir/design/adaptive/foundation.dart';
-import 'package:mimir/global/init.dart';
-import 'package:mimir/settings/settings.dart';
+import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/adaptive/editor.dart';
+import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/global/init.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 

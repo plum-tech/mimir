@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:mimir/network/session.dart';
-import 'package:mimir/session/ywb.dart';
+import 'package:sit/network/session.dart';
+import 'package:sit/session/ywb.dart';
 
 import '../entity/meta.dart';
 

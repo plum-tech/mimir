@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:mimir/cache/box.dart';
+import 'package:sit/cache/box.dart';
 
 import '../entity/details.dart';
 

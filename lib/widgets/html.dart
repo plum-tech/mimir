@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/utils/guard_launch.dart';
+import 'package:sit/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 
 class StyledHtmlWidget extends StatelessWidget {

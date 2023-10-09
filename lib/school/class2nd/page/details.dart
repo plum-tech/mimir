@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:mimir/design/adaptive/dialog.dart';
-import 'package:mimir/design/widgets/fab.dart';
-import 'package:mimir/utils/url_launcher.dart';
-import 'package:mimir/widgets/html.dart';
+import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/widgets/fab.dart';
+import 'package:sit/utils/url_launcher.dart';
+import 'package:sit/widgets/html.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/details.dart';

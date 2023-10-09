@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mimir/hive/type_id.dart';
-import 'package:mimir/school/entity/school.dart';
+import 'package:sit/hive/type_id.dart';
+import 'package:sit/school/entity/school.dart';
 
 part 'result.g.dart';
 

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mimir/utils/url_launcher.dart';
+import 'package:sit/utils/url_launcher.dart';
 
 import '../entity/course.dart';
 import '../entity/timetable.dart';

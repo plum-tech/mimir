@@ -1,6 +1,6 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mimir/network/session.dart';
+import 'package:sit/network/session.dart';
 
 import '../dao/holding.dart';
 import '../entity/holding.dart';

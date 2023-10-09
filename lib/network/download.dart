@@ -1,4 +1,4 @@
-import 'package:mimir/network/session.dart';
+import 'package:sit/network/session.dart';
 
 abstract class Downloader {
   Future<void> download(

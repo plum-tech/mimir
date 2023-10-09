@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mimir/l10n/common.dart';
+import 'package:sit/l10n/common.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'foundation.dart';

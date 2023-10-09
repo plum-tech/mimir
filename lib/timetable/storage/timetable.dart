@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:mimir/hive/table.dart';
-import 'package:mimir/timetable/entity/timetable.dart';
+import 'package:sit/hive/table.dart';
+import 'package:sit/timetable/entity/timetable.dart';
 
 import '../entity/display.dart';
 

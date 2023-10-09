@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:mimir/school/entity/school.dart';
+import 'package:sit/school/entity/school.dart';
 
 class CourseIcon extends StatelessWidget {
   final String courseName;

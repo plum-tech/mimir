@@ -1,3 +1,3 @@
-import 'package:mimir/utils/async_event.dart';
+import 'package:sit/utils/async_event.dart';
 
 final schoolEventBus = AsyncEventEmitter();

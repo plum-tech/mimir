@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mimir/entity/campus.dart';
-import 'package:mimir/settings/settings.dart';
+import 'package:sit/entity/campus.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 
 class CampusSelector extends StatelessWidget {

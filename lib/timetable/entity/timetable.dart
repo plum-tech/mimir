@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mimir/school/entity/school.dart';
+import 'package:sit/school/entity/school.dart';
 
 import '../i18n.dart';
 import '../utils.dart';

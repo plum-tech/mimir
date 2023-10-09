@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/card.dart';
-import 'package:mimir/life/expense_records/entity/statistics.dart';
-import 'package:mimir/life/expense_records/storage/local.dart';
-import 'package:mimir/life/expense_records/utils.dart';
+import 'package:sit/design/widgets/card.dart';
+import 'package:sit/life/expense_records/entity/statistics.dart';
+import 'package:sit/life/expense_records/storage/local.dart';
+import 'package:sit/life/expense_records/utils.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:fl_chart/fl_chart.dart';
 

@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:mimir/design/widgets/card.dart';
-import 'package:mimir/design/widgets/common.dart';
-import 'package:mimir/design/adaptive/dialog.dart';
-import 'package:mimir/design/adaptive/editor.dart';
-import 'package:mimir/hive/init.dart';
-import 'package:mimir/widgets/page_grouper.dart';
+import 'package:sit/design/widgets/card.dart';
+import 'package:sit/design/widgets/common.dart';
+import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/adaptive/editor.dart';
+import 'package:sit/hive/init.dart';
+import 'package:sit/widgets/page_grouper.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../i18n.dart';

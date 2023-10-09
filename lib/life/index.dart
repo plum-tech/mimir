@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mimir/credential/entity/login_status.dart';
-import 'package:mimir/credential/widgets/oa_scope.dart';
-import 'package:mimir/life/electricity/index.dart';
-import 'package:mimir/life/expense_records/index.dart';
-import 'package:mimir/settings/settings.dart';
+import 'package:sit/credential/entity/login_status.dart';
+import 'package:sit/credential/widgets/oa_scope.dart';
+import 'package:sit/life/electricity/index.dart';
+import 'package:sit/life/expense_records/index.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'event.dart';

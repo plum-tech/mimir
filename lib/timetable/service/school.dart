@@ -1,5 +1,5 @@
-import 'package:mimir/network/session.dart';
-import 'package:mimir/school/entity/school.dart';
+import 'package:sit/network/session.dart';
+import 'package:sit/school/entity/school.dart';
 
 import '../entity/course.dart';
 import '../entity/timetable.dart';

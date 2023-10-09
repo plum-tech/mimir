@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/widgets/placeholder_future_builder.dart';
+import 'package:sit/widgets/placeholder_future_builder.dart';
 
 import '../entity/book_search.dart';
 import '../entity/hot_search.dart';

@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:mimir/credential/i18n.dart';
-import 'package:mimir/l10n/common.dart';
+import 'package:sit/credential/i18n.dart';
+import 'package:sit/l10n/common.dart';
 
 const i18n = _I18n();
 

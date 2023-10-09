@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/card.dart';
+import 'package:sit/design/widgets/card.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class GroupedSection<T> extends StatefulWidget {

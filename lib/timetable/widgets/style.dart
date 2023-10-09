@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/timetable/entity/platte.dart';
-import 'package:mimir/timetable/platte.dart';
+import 'package:sit/timetable/entity/platte.dart';
+import 'package:sit/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../init.dart';

@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mimir/hive/type_id.dart';
+import 'package:sit/hive/type_id.dart';
 
 part 'balance.g.dart';
 

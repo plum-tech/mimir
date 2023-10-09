@@ -4,10 +4,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mimir/design/widgets/card.dart';
-import 'package:mimir/school/entity/school.dart';
-import 'package:mimir/timetable/platte.dart';
-import 'package:mimir/timetable/widgets/free.dart';
+import 'package:sit/design/widgets/card.dart';
+import 'package:sit/school/entity/school.dart';
+import 'package:sit/timetable/platte.dart';
+import 'package:sit/timetable/widgets/free.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../entity/timetable.dart';

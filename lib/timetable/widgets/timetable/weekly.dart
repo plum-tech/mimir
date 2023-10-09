@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mimir/design/adaptive/foundation.dart';
-import 'package:mimir/design/widgets/card.dart';
-import 'package:mimir/timetable/platte.dart';
+import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/widgets/card.dart';
+import 'package:sit/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../events.dart';

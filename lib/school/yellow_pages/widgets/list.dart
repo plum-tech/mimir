@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/card.dart';
-import 'package:mimir/design/widgets/grouped.dart';
-import 'package:mimir/school/yellow_pages/init.dart';
+import 'package:sit/design/widgets/card.dart';
+import 'package:sit/design/widgets/grouped.dart';
+import 'package:sit/school/yellow_pages/init.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/contact.dart';

@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:mimir/hive/type_id.dart';
-import 'package:mimir/l10n/common.dart';
+import 'package:sit/hive/type_id.dart';
+import 'package:sit/l10n/common.dart';
 
 part 'school.g.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/timetable/entity/platte.dart';
+import 'package:sit/timetable/entity/platte.dart';
 
 import 'entity/timetable.dart';
 

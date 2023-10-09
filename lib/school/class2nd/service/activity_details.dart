@@ -2,8 +2,8 @@ import 'dart:collection';
 
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:intl/intl.dart';
-import 'package:mimir/network/session.dart';
-import 'package:mimir/session/class2nd.dart';
+import 'package:sit/network/session.dart';
+import 'package:sit/session/class2nd.dart';
 
 import '../entity/details.dart';
 

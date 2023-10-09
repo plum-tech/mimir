@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/school/entity/school.dart';
+import 'package:sit/school/entity/school.dart';
 import 'package:rettulf/rettulf.dart';
 import '../entity/timetable.dart';
 

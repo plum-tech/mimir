@@ -1,8 +1,8 @@
-name: mimir
+name: sit
 # For beta version
 version: 1.0.0+1
 
-description: 'Mímir.'
+description: 'For SIT life'
 
 homepage: https://github.com/liplum/mimir
 repository: https://github.com/liplum/mimir

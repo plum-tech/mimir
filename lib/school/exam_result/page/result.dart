@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/credential/widgets/oa_scope.dart';
-import 'package:mimir/design/widgets/common.dart';
-import 'package:mimir/design/widgets/fab.dart';
-import 'package:mimir/design/widgets/multi_select.dart';
-import 'package:mimir/school/utils.dart';
-import 'package:mimir/school/widgets/selector.dart';
+import 'package:sit/credential/widgets/oa_scope.dart';
+import 'package:sit/design/widgets/common.dart';
+import 'package:sit/design/widgets/fab.dart';
+import 'package:sit/design/widgets/multi_select.dart';
+import 'package:sit/school/utils.dart';
+import 'package:sit/school/widgets/selector.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/school/entity/school.dart';
+import 'package:sit/school/entity/school.dart';
 
 import '../entity/result.dart';
 import '../init.dart';

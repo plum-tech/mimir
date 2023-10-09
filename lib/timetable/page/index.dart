@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/timetable/storage/timetable.dart';
+import 'package:sit/timetable/storage/timetable.dart';
 
 import '../entity/timetable.dart';
 import '../init.dart';

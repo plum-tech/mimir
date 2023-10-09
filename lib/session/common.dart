@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:mimir/network/session.dart';
+import 'package:sit/network/session.dart';
 
 import '../network/download.dart';
 

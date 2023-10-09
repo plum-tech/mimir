@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mimir/design/widgets/common.dart';
-import 'package:mimir/l10n/common.dart';
-import 'package:mimir/widgets/webview/injectable.dart';
-import 'package:mimir/utils/url_launcher.dart';
+import 'package:sit/design/widgets/common.dart';
+import 'package:sit/l10n/common.dart';
+import 'package:sit/widgets/webview/injectable.dart';
+import 'package:sit/utils/url_launcher.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:universal_platform/universal_platform.dart';

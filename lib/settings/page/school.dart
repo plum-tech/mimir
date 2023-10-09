@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/credential/entity/user_type.dart';
-import 'package:mimir/credential/widgets/oa_scope.dart';
-import 'package:mimir/settings/settings.dart';
+import 'package:sit/credential/entity/user_type.dart';
+import 'package:sit/credential/widgets/oa_scope.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 

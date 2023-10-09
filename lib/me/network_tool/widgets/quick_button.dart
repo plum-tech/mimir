@@ -1,7 +1,7 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/adaptive/dialog.dart';
-import 'package:mimir/utils/guard_launch.dart';
+import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../i18n.dart';

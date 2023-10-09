@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:mimir/school/exam_arrange/storage/exam.dart';
-import 'package:mimir/session/sis.dart';
+import 'package:sit/school/exam_arrange/storage/exam.dart';
+import 'package:sit/session/sis.dart';
 
 import 'service/exam.dart';
 

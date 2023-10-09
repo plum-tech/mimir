@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/multi_select.dart';
-import 'package:mimir/school/widgets/course.dart';
-import 'package:mimir/utils/format.dart';
+import 'package:sit/design/widgets/multi_select.dart';
+import 'package:sit/school/widgets/course.dart';
+import 'package:sit/utils/format.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../i18n.dart';

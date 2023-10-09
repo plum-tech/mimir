@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:mimir/l10n/common.dart';
+import 'package:sit/l10n/common.dart';
 
 class CredentialI18n with CommonI18nMixin {
   const CredentialI18n();

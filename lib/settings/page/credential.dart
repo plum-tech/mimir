@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mimir/credential/entity/credential.dart';
-import 'package:mimir/credential/i18n.dart';
-import 'package:mimir/credential/init.dart';
-import 'package:mimir/credential/widgets/oa_scope.dart';
-import 'package:mimir/design/adaptive/dialog.dart';
-import 'package:mimir/design/adaptive/editor.dart';
-import 'package:mimir/global/global.dart';
+import 'package:sit/credential/entity/credential.dart';
+import 'package:sit/credential/i18n.dart';
+import 'package:sit/credential/init.dart';
+import 'package:sit/credential/widgets/oa_scope.dart';
+import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/adaptive/editor.dart';
+import 'package:sit/global/global.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 

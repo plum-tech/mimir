@@ -1,5 +1,5 @@
-import 'package:mimir/hive/init.dart';
-import 'package:mimir/migration/foundation.dart';
+import 'package:sit/hive/init.dart';
+import 'package:sit/migration/foundation.dart';
 
 // ignore: non_constant_identifier_names
 final ClearCacheMigration = _ClearCacheMigrationImpl();

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/school/entity/school.dart';
-import 'package:mimir/timetable/widgets/style.dart';
+import 'package:sit/school/entity/school.dart';
+import 'package:sit/timetable/widgets/style.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../i18n.dart';

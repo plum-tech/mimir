@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/global/init.dart';
-import 'package:mimir/settings/settings.dart';
-import 'package:mimir/settings/widgets/navigation.dart';
+import 'package:sit/global/init.dart';
+import 'package:sit/settings/settings.dart';
+import 'package:sit/settings/widgets/navigation.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 

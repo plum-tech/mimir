@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/design/widgets/app.dart';
-import 'package:mimir/school/ywb/init.dart';
-import 'package:mimir/school/ywb/storage/application.dart';
+import 'package:sit/design/widgets/app.dart';
+import 'package:sit/school/ywb/init.dart';
+import 'package:sit/school/ywb/storage/application.dart';
 import 'package:rettulf/rettulf.dart';
 
 import "i18n.dart";

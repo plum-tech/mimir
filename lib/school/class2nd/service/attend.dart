@@ -1,5 +1,5 @@
-import 'package:mimir/network/session.dart';
-import 'package:mimir/session/class2nd.dart';
+import 'package:sit/network/session.dart';
+import 'package:sit/session/class2nd.dart';
 
 class Class2ndAttendActivityService {
   static const _codeMessage = [

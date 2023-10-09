@@ -1,4 +1,4 @@
-import 'package:mimir/credential/entity/user_type.dart';
+import 'package:sit/credential/entity/user_type.dart';
 
 /// 本、专科生（10位学号）
 final RegExp _reUndergraduateId = RegExp(r'^(\d{6}[YGHE\d]\d{3})$');

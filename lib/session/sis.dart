@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:mimir/credential/init.dart';
-import 'package:mimir/exception/session.dart';
-import 'package:mimir/network/session.dart';
-import 'package:mimir/session/sso.dart';
-import 'package:mimir/utils/logger.dart';
+import 'package:sit/credential/init.dart';
+import 'package:sit/exception/session.dart';
+import 'package:sit/network/session.dart';
+import 'package:sit/session/sso.dart';
+import 'package:sit/utils/logger.dart';
 
 /// Student information system of SIT
 class SisSession extends ISession {

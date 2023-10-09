@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:sit/design/adaptive/dialog.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:rettulf/rettulf.dart';
 

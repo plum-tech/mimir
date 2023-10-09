@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/common.dart';
-import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:sit/design/widgets/common.dart';
+import 'package:sit/design/adaptive/dialog.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/meta.dart';

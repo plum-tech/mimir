@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
-import 'package:mimir/school/yellow_pages/entity/contact.dart';
+import 'package:sit/school/yellow_pages/entity/contact.dart';
 import 'package:version/version.dart';
 
 class R {

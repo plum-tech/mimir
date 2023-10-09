@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/route.dart';
+import 'package:sit/route.dart';
 
 import 'lang.dart';
 
-export 'package:mimir/r.dart';
+export 'package:sit/r.dart';
 
 export 'lang.dart';
 

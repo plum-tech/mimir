@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/school/oa_announce/widget/article.dart';
-import 'package:mimir/utils/url_launcher.dart';
+import 'package:sit/l10n/extension.dart';
+import 'package:sit/school/oa_announce/widget/article.dart';
+import 'package:sit/utils/url_launcher.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/announce.dart';

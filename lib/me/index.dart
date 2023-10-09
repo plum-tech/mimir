@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/design/adaptive/dialog.dart';
-import 'package:mimir/me/edu_email/index.dart';
-import 'package:mimir/me/network_tool/index.dart';
-import 'package:mimir/me/widgets/greeting.dart';
+import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/me/edu_email/index.dart';
+import 'package:sit/me/network_tool/index.dart';
+import 'package:sit/me/widgets/greeting.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import "i18n.dart";

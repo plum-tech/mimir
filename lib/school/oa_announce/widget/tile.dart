@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/l10n/extension.dart';
+import 'package:sit/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/announce.dart';

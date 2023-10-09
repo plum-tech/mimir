@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:sit/design/adaptive/dialog.dart';
 
 import '../entity/book_search.dart';
 import '../init.dart';

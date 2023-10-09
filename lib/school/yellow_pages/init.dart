@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:mimir/school/yellow_pages/storage/contact.dart';
+import 'package:sit/school/yellow_pages/storage/contact.dart';
 
 class YellowPagesInit {
   static late YellowPagesStorage storage;

@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:mimir/life/expense_records/entity/local.dart';
+import 'package:sit/life/expense_records/entity/local.dart';
 
 import 'init.dart';
 

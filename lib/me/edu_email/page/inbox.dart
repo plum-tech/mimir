@@ -1,7 +1,7 @@
 import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/credential/entity/email.dart';
-import 'package:mimir/credential/init.dart';
+import 'package:sit/credential/entity/email.dart';
+import 'package:sit/credential/init.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../init.dart';

@@ -1,4 +1,4 @@
-import 'package:mimir/r.dart';
+import 'package:sit/r.dart';
 import 'package:version/version.dart';
 
 import 'all/cache.dart';

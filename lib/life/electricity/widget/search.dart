@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mimir/widgets/search.dart';
+import 'package:sit/widgets/search.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 

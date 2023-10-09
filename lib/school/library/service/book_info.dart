@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
-import 'package:mimir/network/session.dart';
+import 'package:sit/network/session.dart';
 
 import '../dao/book_info.dart';
 import '../entity/book_info.dart';

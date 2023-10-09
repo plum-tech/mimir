@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/widgets/placeholder_future_builder.dart';
+import 'package:sit/widgets/placeholder_future_builder.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/list.dart';

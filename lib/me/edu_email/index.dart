@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/credential/init.dart';
-import 'package:mimir/design/widgets/app.dart';
+import 'package:sit/credential/init.dart';
+import 'package:sit/design/widgets/app.dart';
 import 'package:rettulf/rettulf.dart';
 
 import "i18n.dart";

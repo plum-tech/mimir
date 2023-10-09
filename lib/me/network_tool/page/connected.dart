@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:check_vpn_connection/check_vpn_connection.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/connectivity_checker.dart';
-import 'package:mimir/settings/settings.dart';
-import 'package:mimir/utils/timer.dart';
+import 'package:sit/design/widgets/connectivity_checker.dart';
+import 'package:sit/settings/settings.dart';
+import 'package:sit/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../service/network.dart';

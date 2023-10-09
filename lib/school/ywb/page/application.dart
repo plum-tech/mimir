@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/common.dart';
-import 'package:mimir/school/ywb/storage/application.dart';
+import 'package:sit/design/widgets/common.dart';
+import 'package:sit/school/ywb/storage/application.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/application.dart';

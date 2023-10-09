@@ -1,6 +1,6 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:hive/hive.dart';
-import 'package:mimir/session/ywb.dart';
+import 'package:sit/session/ywb.dart';
 
 import 'service/meta.dart';
 import 'service/application.dart';

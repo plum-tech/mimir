@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/card.dart';
+import 'package:sit/design/widgets/card.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/local.dart';

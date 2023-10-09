@@ -1,4 +1,4 @@
-import 'package:mimir/school/class2nd/service/activity_details.dart';
+import 'package:sit/school/class2nd/service/activity_details.dart';
 
 import '../entity/details.dart';
 import '../storage/detail.dart';

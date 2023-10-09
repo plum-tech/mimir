@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:mimir/entity/campus.dart';
-import 'package:mimir/school/settings.dart';
-import 'package:mimir/timetable/settings.dart';
+import 'package:sit/entity/campus.dart';
+import 'package:sit/school/settings.dart';
+import 'package:sit/timetable/settings.dart';
 
 import '../life/settings.dart';
 import '../r.dart';

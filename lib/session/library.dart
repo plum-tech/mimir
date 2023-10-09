@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:encrypt/encrypt.dart';
-import 'package:mimir/exception/session.dart';
-import 'package:mimir/network/session.dart';
-import 'package:mimir/session/common.dart';
-import 'package:mimir/utils/dio_utils.dart';
+import 'package:sit/exception/session.dart';
+import 'package:sit/network/session.dart';
+import 'package:sit/session/common.dart';
+import 'package:sit/utils/dio_utils.dart';
 
 class LibrarySession extends DefaultDioSession {
   static const _opacUrl = 'http://210.35.66.106/opac';

@@ -5,10 +5,10 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/animation/animated.dart';
-import 'package:mimir/global/global.dart';
-import 'package:mimir/settings/settings.dart';
-import 'package:mimir/utils/timer.dart';
+import 'package:sit/design/animation/animated.dart';
+import 'package:sit/global/global.dart';
+import 'package:sit/settings/settings.dart';
+import 'package:sit/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 
 enum ConnectivityStatus {

@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/credential/widgets/oa_scope.dart';
-import 'package:mimir/entity/campus.dart';
-import 'package:mimir/l10n/common.dart';
-import 'package:mimir/settings/settings.dart';
-import 'package:mimir/utils/timer.dart';
+import 'package:sit/credential/widgets/oa_scope.dart';
+import 'package:sit/entity/campus.dart';
+import 'package:sit/l10n/common.dart';
+import 'package:sit/settings/settings.dart';
+import 'package:sit/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 
 class Greeting extends StatefulWidget {

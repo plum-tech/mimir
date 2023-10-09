@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mimir/utils/timer.dart';
+import 'package:sit/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 import '../init.dart';
 import 'connected.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mimir/credential/widgets/oa_scope.dart';
-import 'package:mimir/design/widgets/common.dart';
-import 'package:mimir/school/class2nd/entity/list.dart';
+import 'package:sit/credential/widgets/oa_scope.dart';
+import 'package:sit/design/widgets/common.dart';
+import 'package:sit/school/class2nd/entity/list.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/attended.dart';

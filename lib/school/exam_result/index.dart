@@ -3,13 +3,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/design/widgets/app.dart';
-import 'package:mimir/school/entity/school.dart';
-import 'package:mimir/school/event.dart';
-import 'package:mimir/school/exam_result/init.dart';
-import 'package:mimir/school/exam_result/widgets/item.dart';
-import 'package:mimir/settings/settings.dart';
-import 'package:mimir/utils/async_event.dart';
+import 'package:sit/design/widgets/app.dart';
+import 'package:sit/school/entity/school.dart';
+import 'package:sit/school/event.dart';
+import 'package:sit/school/exam_result/init.dart';
+import 'package:sit/school/exam_result/widgets/item.dart';
+import 'package:sit/settings/settings.dart';
+import 'package:sit/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'entity/result.dart';

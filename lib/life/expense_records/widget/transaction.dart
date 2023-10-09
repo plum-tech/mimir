@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/l10n/extension.dart';
+import 'package:sit/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 import '../entity/local.dart';
 import "../i18n.dart";

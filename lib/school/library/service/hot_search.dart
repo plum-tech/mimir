@@ -1,5 +1,5 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
-import 'package:mimir/network/session.dart';
+import 'package:sit/network/session.dart';
 
 import '../dao/hot_search.dart';
 import '../entity/hot_search.dart';

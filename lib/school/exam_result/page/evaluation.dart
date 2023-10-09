@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/network/session.dart';
-import 'package:mimir/settings/settings.dart';
-import 'package:mimir/widgets/webview/page.dart';
+import 'package:sit/network/session.dart';
+import 'package:sit/settings/settings.dart';
+import 'package:sit/widgets/webview/page.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:mimir/utils/cookies.dart';
+import 'package:sit/utils/cookies.dart';
 
 import '../init.dart';
 import '../i18n.dart';

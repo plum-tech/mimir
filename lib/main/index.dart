@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/timetable/i18n.dart' as $timetable;
-import 'package:mimir/school/i18n.dart' as $school;
-import 'package:mimir/life/i18n.dart' as $life;
-import 'package:mimir/me/i18n.dart' as $me;
+import 'package:sit/timetable/i18n.dart' as $timetable;
+import 'package:sit/school/i18n.dart' as $school;
+import 'package:sit/life/i18n.dart' as $life;
+import 'package:sit/me/i18n.dart' as $me;
 import 'package:rettulf/rettulf.dart';
 
 class MainStagePage extends StatefulWidget {

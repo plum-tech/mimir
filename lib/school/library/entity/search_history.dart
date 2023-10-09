@@ -1,4 +1,4 @@
-import 'package:mimir/hive/type_id.dart';
+import 'package:sit/hive/type_id.dart';
 
 part 'search_history.g.dart';
 
