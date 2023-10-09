@@ -19,11 +19,11 @@ class CampusSelector extends StatelessWidget {
                 ))
             .toList(),
         selected: <Campus>{Settings.campus},
-        onSelectionChanged: (newSelection)async  {
+        onSelectionChanged: (newSelection) async {
           setState(() {
             Settings.campus = newSelection.first;
           });
-          await HapticFeedback.mediumImpact ();
+          await HapticFeedback.mediumImpact();
         },
       ),
     );

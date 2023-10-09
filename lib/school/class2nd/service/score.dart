@@ -112,7 +112,10 @@ class Class2ndScoreService {
       final category = Class2ndActivityCat.parse(categoryRaw);
       assert(category != null, "Unknown class2nd category $categoryRaw");
       final points = double.parse(item.find('td:nth-child(11) > span')!.innerHtml.trim());
-      final honestyPoints = double.parse(item.find('td:nth-child(13) > span')!.innerHtml.trim());
+      final honestyPointsRaw = item.find('td:nth-child(13) > span')!.innerHtml.trim();
+      final honestyPoints = honestyPointsRaw.startsWith("+-")
+          ? double.parse(honestyPointsRaw.substring(1))
+          : double.parse(honestyPointsRaw);
 
       return Class2ndScoreItem(
         name: mapChinesePunctuations(title),
@@ -124,13 +127,9 @@ class Class2ndScoreService {
       );
     }
 
-    // 得分列表里面，有一些条目加诚信分，此时常规得分为 0, 要把这些条目过滤掉。
-    bool filterZeroScore(Class2ndScoreItem item) => item.points > 0.01;
-
     return BeautifulSoup(htmlPage)
         .findAll('#div1 > div.table_style_4 > form > table:nth-child(7) > tbody > tr')
         .map(nodeToScoreItem)
-        .where(filterZeroScore)
         .toList();
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
@@ -8,6 +9,7 @@ import '../entity/list.dart';
 import '../entity/attended.dart';
 import '../utils.dart';
 import 'activity.dart';
+import "../i18n.dart";
 
 class AttendedActivityCard extends StatelessWidget {
   final Class2ndAttendedActivity attended;
@@ -16,11 +18,11 @@ class AttendedActivityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = attended.isPassed ? Colors.green : context.colorScheme.primary;
-    final trailingStyle = context.textTheme.titleMedium?.copyWith(color: color);
     final activity = ActivityParser.parse(attended);
     final (:title, :tags) = splitTitleAndTags(attended.title);
     tags.insert(0, attended.category.l10nName());
+    final points = attended.points;
+    final honestyPoints = attended.honestyPoints;
     return FilledCard(
       clip: Clip.hardEdge,
       child: ListTile(
@@ -31,10 +33,20 @@ class AttendedActivityCard extends StatelessWidget {
         subtitle: [
           Divider(color: context.colorScheme.onSurfaceVariant),
           context.formatYmdhmsNum(attended.time).text(),
+          if (honestyPoints != null && honestyPoints.abs() > 0)
+            "${honestyPoints.toStringAsFixed(2)} ${i18n.attended.honestyPoints}"
+                .text(style: TextStyle(color: honestyPoints.isNegative ? context.$red$ : null)),
           ActivityTagsGroup(tags),
         ].column(caa: CrossAxisAlignment.start),
-        trailing: Text(attended.points.abs() > 0.01 ? attended.points.toStringAsFixed(2) : attended.status,
-            style: trailingStyle),
+        trailing: points != null
+            ? Text(
+                points.toStringAsFixed(2),
+                style: context.textTheme.titleMedium?.copyWith(color: points > 0 ? Colors.green : null),
+              )
+            : Text(
+                attended.status,
+                style: context.textTheme.titleMedium?.copyWith(color: attended.isPassed ? Colors.green : null),
+              ),
         onTap: attended.activityId != -1
             ? () {
                 context.push("/class2nd/activity-detail", extra: activity);

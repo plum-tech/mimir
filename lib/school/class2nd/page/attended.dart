@@ -62,8 +62,12 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
           time: application.time,
           category: application.category,
           status: application.status,
-          points: relatedScoreItems.fold<double>(0.0, (points, item) => points + item.points),
-          honestyPoints: relatedScoreItems.fold<double>(0.0, (points, item) => points + item.honestyPoints),
+          points: relatedScoreItems.isEmpty
+              ? null
+              : relatedScoreItems.fold<double>(0.0, (points, item) => points + item.points),
+          honestyPoints: relatedScoreItems.isEmpty
+              ? null
+              : relatedScoreItems.fold<double>(0.0, (points, item) => points + item.honestyPoints),
         );
       }).toList();
       Class2ndInit.scoreStorage.attendedList = attended;
@@ -87,6 +91,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
     final activities = attended;
     return Scaffold(
       body: NestedScrollView(
+        floatHeaderSlivers: true,
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return <Widget>[
             SliverOverlapAbsorber(
@@ -96,9 +101,9 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                 title: i18n.attended.title.text(),
                 bottom: isFetching
                     ? const PreferredSize(
-                  preferredSize: Size.fromHeight(4),
-                  child: LinearProgressIndicator(),
-                )
+                        preferredSize: Size.fromHeight(4),
+                        child: LinearProgressIndicator(),
+                      )
                     : null,
                 forceElevated: innerBoxIsScrolled,
               ),
@@ -126,7 +131,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                     itemCount: activities.length,
                     itemBuilder: (ctx, i) {
                       final activity = activities[i];
-                      return AttendedActivityCard(activity).hero(activity.applyId);
+                      return AttendedActivityCard(activity).hero(activity.activityId);
                     },
                   ),
             ],

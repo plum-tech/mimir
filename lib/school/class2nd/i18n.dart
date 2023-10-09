@@ -74,4 +74,6 @@ class _Attended {
   String get title => "$ns.title".tr();
 
   String get time => "$ns.time".tr();
+
+  String get honestyPoints => "$ns.honestyPoints".tr();
 }

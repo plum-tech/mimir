@@ -55,15 +55,16 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: currentPos.week - 1)..addListener(() {
-      setState(() {
-        final page = (_pageController.page ?? 0).round();
-        final newWeek = page2Week(page);
-        if (newWeek != currentPos.week) {
-          currentPos = currentPos.copyWith(week: newWeek);
-        }
+    _pageController = PageController(initialPage: currentPos.week - 1)
+      ..addListener(() {
+        setState(() {
+          final page = (_pageController.page ?? 0).round();
+          final newWeek = page2Week(page);
+          if (newWeek != currentPos.week) {
+            currentPos = currentPos.copyWith(week: newWeek);
+          }
+        });
       });
-    });
     $jumpToPos = eventBus.on<JumpToPosEvent>().listen((event) {
       jumpTo(event.where);
     });

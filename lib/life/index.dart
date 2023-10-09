@@ -53,6 +53,7 @@ class _LifePageState extends State<LifePage> {
     final campus = Settings.campus;
     return Scaffold(
       body: NestedScrollView(
+        floatHeaderSlivers: true,
         headerSliverBuilder: (context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverOverlapAbsorber(

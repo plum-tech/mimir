@@ -74,6 +74,7 @@ class2nd:
     title: Attended
     id: Application ID
     time: Time
+    honestyPoints: Honesty Points
   activity: Activity
   refreshSuccessTip: Second class score refreshed successfully
   refreshFailedTip: Failed to refresh second class score

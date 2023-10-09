@@ -240,11 +240,11 @@ class Class2ndAttendedActivity {
 
   /// 总得分
   @HiveField(6)
-  final double points;
+  final double? points;
 
   /// 总诚信分
   @HiveField(7)
-  final double honestyPoints;
+  final double? honestyPoints;
 
   const Class2ndAttendedActivity({
     required this.applyId,

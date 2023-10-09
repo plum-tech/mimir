@@ -75,6 +75,7 @@ class2nd:
     title: 已參與
     id: 申請 ID
     time: 時間
+    honestyPoints: 誠信分
   refreshSuccessTip: 第二課堂分重新整理成功
   refreshFailedTip: 第二課堂分重新整理失敗
   noAttendedActivities: 無參加過的活動

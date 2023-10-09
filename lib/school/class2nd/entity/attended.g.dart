@@ -164,8 +164,8 @@ class Class2ndAttendedActivityAdapter extends TypeAdapter<Class2ndAttendedActivi
       time: fields[3] as DateTime,
       category: fields[4] as Class2ndActivityCat,
       status: fields[5] as String,
-      points: fields[6] as double,
-      honestyPoints: fields[7] as double,
+      points: fields[6] as double?,
+      honestyPoints: fields[7] as double?,
     );
   }
 

@@ -62,6 +62,7 @@ class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
       body: DefaultTabController(
         length: YwbApplicationType.values.length,
         child: NestedScrollView(
+          floatHeaderSlivers: true,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             // These are the slivers that show up in the "outer" scroll view.
             return <Widget>[

@@ -40,6 +40,7 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
       body: DefaultTabController(
         length: categories.length,
         child: NestedScrollView(
+          floatHeaderSlivers: true,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             // These are the slivers that show up in the "outer" scroll view.
             return <Widget>[

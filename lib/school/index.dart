@@ -38,6 +38,7 @@ class _SchoolPageState extends State<SchoolPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
+        floatHeaderSlivers: true,
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return <Widget>[
             SliverOverlapAbsorber(
