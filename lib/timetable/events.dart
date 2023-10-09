@@ -2,10 +2,10 @@ import 'package:event_bus/event_bus.dart';
 
 import 'entity/pos.dart';
 
-EventBus eventBus = EventBus();
+final eventBus = EventBus();
 
 class JumpToPosEvent {
   final TimetablePos where;
 
-  JumpToPosEvent(this.where);
+  const JumpToPosEvent(this.where);
 }

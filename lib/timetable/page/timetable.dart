@@ -49,8 +49,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:
-            $displayMode >> (ctx, mode) => $currentPos >> (ctx, pos) => i18n.weekOrderedName(number: pos.week).text(),
+        title: $currentPos >> (ctx, pos) => i18n.weekOrderedName(number: pos.week).text(),
         actions: [
           buildSwitchViewButton(),
           buildMyTimetablesButton(),
