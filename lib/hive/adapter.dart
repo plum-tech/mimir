@@ -2,13 +2,13 @@ import 'package:hive/hive.dart';
 import 'package:mimir/credential/entity/credential.dart';
 import 'package:mimir/credential/entity/email.dart';
 import 'package:mimir/credential/entity/login_status.dart';
+import 'package:mimir/credential/entity/user_type.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/life/electricity/entity/balance.dart';
 import 'package:mimir/life/expense_records/entity/local.dart';
 import 'package:mimir/school/ywb/entity/meta.dart';
 import 'package:mimir/school/ywb/entity/application.dart';
 import 'package:mimir/school/exam_arrange/entity/exam.dart';
-import 'package:mimir/school/oa_announce/entity/page.dart';
 import 'package:mimir/school/exam_result/entity/result.dart';
 import 'package:mimir/school/oa_announce/entity/announce.dart';
 import 'package:mimir/school/class2nd/entity/details.dart';
@@ -33,6 +33,7 @@ class HiveAdapter {
     ~OaCredentialsAdapter();
     ~EmailCredentialsAdapter();
     ~LoginStatusAdapter();
+    ~OaUserTypeAdapter();
 
     // Electric Bill
     ~ElectricityBalanceAdapter();

@@ -57,10 +57,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   /// 用户点击登录按钮后
-  Future<void> onLogin() async {
-    bool formValid = (_formKey.currentState as FormState).validate();
+  Future<void> login() async {
     final account = $account.text;
     final password = $password.text;
+    final userType = guessOaUserType(account);
+    bool formValid = (_formKey.currentState as FormState).validate() && userType != null;
     if (!formValid || account.isEmpty || password.isEmpty) {
       await context.showTip(
         title: i18n.formatError,
@@ -95,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
       CredentialInit.storage.oaCredentials = oaCredential;
       CredentialInit.storage.oaLoginStatus = LoginStatus.validated;
       CredentialInit.storage.oaLastAuthTime = DateTime.now();
+      CredentialInit.storage.oaUserType = userType;
       context.go("/");
       setState(() => isLoggingIn = false);
     } on UnknownAuthException catch (e, stacktrace) {
@@ -237,7 +239,7 @@ class _LoginPageState extends State<LoginPage> {
             obscureText: !isPasswordClear,
             onFieldSubmitted: (inputted) async {
               if (!isLoggingIn) {
-                await onLogin();
+                await login();
               }
             },
             decoration: InputDecoration(
@@ -268,7 +270,7 @@ class _LoginPageState extends State<LoginPage> {
                     ? () {
                         // un-focus the text field.
                         FocusScope.of(context).requestFocus(FocusNode());
-                        onLogin();
+                        login();
                       }
                     : null,
                 icon: const Icon(Icons.login),

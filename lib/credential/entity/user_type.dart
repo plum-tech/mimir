@@ -19,8 +19,9 @@ enum OaUserType {
   @HiveField(1)
   postgraduate((
     enableClass2nd: false,
-    enableExamArrange: true,
-    enableExamResult: true,
+    // postgraduates use a different SIS, so disable them temporarily
+    enableExamArrange: false,
+    enableExamResult: false,
   )),
   @HiveField(2)
   other((

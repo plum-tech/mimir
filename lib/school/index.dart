@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mimir/credential/entity/login_status.dart';
+import 'package:mimir/credential/entity/user_type.dart';
+import 'package:mimir/credential/init.dart';
 import 'package:mimir/credential/widgets/oa_scope.dart';
 import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/school/class2nd/index.dart';
@@ -22,13 +24,17 @@ class SchoolPage extends StatefulWidget {
 
 class _SchoolPageState extends State<SchoolPage> {
   LoginStatus? loginStatus;
+  OaUserType? userType;
 
   @override
   void didChangeDependencies() {
-    final newLoginStatus = context.auth.loginStatus;
-    if (loginStatus != newLoginStatus) {
+    final auth = context.auth;
+    final newLoginStatus = auth.loginStatus;
+    final newUserType = auth.userType;
+    if (loginStatus != newLoginStatus || userType != newUserType) {
       setState(() {
         loginStatus = newLoginStatus;
+        userType = newUserType;
       });
     }
     super.didChangeDependencies();
@@ -59,15 +65,15 @@ class _SchoolPageState extends State<SchoolPage> {
           },
           child: CustomScrollView(
             slivers: [
-              if (loginStatus != LoginStatus.never)
+              if (loginStatus != LoginStatus.never && userType?.capability.enableClass2nd == true)
                 const SliverToBoxAdapter(
                   child: Class2ndAppCard(),
                 ),
-              if (loginStatus != LoginStatus.never)
+              if (loginStatus != LoginStatus.never  && userType?.capability.enableExamArrange == true)
                 const SliverToBoxAdapter(
                   child: ExamArrangeAppCard(),
                 ),
-              if (loginStatus != LoginStatus.never)
+              if (loginStatus != LoginStatus.never  && userType?.capability.enableExamResult == true)
                 const SliverToBoxAdapter(
                   child: ExamResultAppCard(),
                 ),
