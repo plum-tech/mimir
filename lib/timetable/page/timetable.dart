@@ -24,11 +24,7 @@ class TimetableBoardPage extends StatefulWidget {
 
 class _TimetableBoardPageState extends State<TimetableBoardPage> {
   final scrollController = ScrollController();
-
-  // 模式：周课表 日课表
-  late ValueNotifier<DisplayMode> $displayMode;
-
-  // 课表元数据
+  final $displayMode = ValueNotifier(TimetableInit.storage.lastDisplayMode ?? DisplayMode.weekly);
   late final ValueNotifier<TimetablePos> $currentPos;
 
   SitTimetable get timetable => widget.timetable;
@@ -36,12 +32,9 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
   @override
   void initState() {
     super.initState();
-    final initialMode = TimetableInit.storage.lastDisplayMode ?? DisplayMode.weekly;
-    $displayMode = ValueNotifier(initialMode);
     $displayMode.addListener(() {
       TimetableInit.storage.lastDisplayMode = $displayMode.value;
     });
-    TimetableInit.storage.lastDisplayMode = initialMode;
     $currentPos = ValueNotifier(timetable.locate(DateTime.now()));
   }
 
