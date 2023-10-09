@@ -29,7 +29,7 @@ class YwbApplicationMetaService {
     return functionList;
   }
 
-  Future<YwbApplicationMetaDetails> getApplicationDetails(String functionId) async {
+  Future<YwbApplicationMetaDetails> getMetaDetails(String functionId) async {
     final response = await session.request(
       _serviceFunctionDetail,
       ReqMethod.post,

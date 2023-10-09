@@ -20,19 +20,37 @@ class YwbApplicationMetaDetailsPage extends StatefulWidget {
 }
 
 class _YwbApplicationMetaDetailsPageState extends State<YwbApplicationMetaDetailsPage> {
-  YwbApplicationMetaDetails? details;
+  late YwbApplicationMetaDetails? details = YwbInit.metaStorage.getMetaDetails(widget.meta.id);
   final controller = ScrollController();
+  bool isFetching = false;
 
   @override
   void initState() {
     super.initState();
-    // TODO: Cache
-    YwbInit.metaService.getApplicationDetails(widget.meta.id).then((value) {
+    refresh();
+  }
+
+  Future<void> refresh() async {
+    if (!mounted) return;
+    setState(() {
+      isFetching = true;
+    });
+    try {
+      final meta = await YwbInit.metaService.getMetaDetails(widget.meta.id);
+      YwbInit.metaStorage.setMetaDetails(widget.meta.id, meta);
       if (!mounted) return;
       setState(() {
-        details = value;
+        isFetching = false;
+        details = meta;
       });
-    });
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      if (!mounted) return;
+      setState(() {
+        isFetching = false;
+      });
+    }
   }
 
   @override
@@ -52,12 +70,12 @@ class _YwbApplicationMetaDetailsPageState extends State<YwbApplicationMetaDetail
             SliverAppBar(
               floating: true,
               title: Text(widget.meta.name).hero(widget.meta.id),
-              bottom: details != null
-                  ? null
-                  : const PreferredSize(
+              bottom: isFetching
+                  ? const PreferredSize(
                       preferredSize: Size.fromHeight(4),
                       child: LinearProgressIndicator(),
-                    ),
+                    )
+                  : null,
             ),
             if (details != null)
               SliverList.separated(

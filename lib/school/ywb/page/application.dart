@@ -19,7 +19,7 @@ class YwbMyApplicationListPage extends StatefulWidget {
 class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
   MyYwbApplications? applications;
 
-  bool isLoading = false;
+  bool isFetching = false;
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
     if (!mounted) return;
     setState(() {
       applications = YwbInit.applicationStorage.myApplications;
-      isLoading = true;
+      isFetching = true;
     });
     try {
       final myApplications = await YwbInit.applicationService.getMyApplications();
@@ -39,14 +39,14 @@ class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
       if (!mounted) return;
       setState(() {
         applications = myApplications;
-        isLoading = false;
+        isFetching = false;
       });
     } catch (error, stackTrace) {
       debugPrint(error.toString());
       debugPrintStack(stackTrace: stackTrace);
       if (!mounted) return;
       setState(() {
-        isLoading = false;
+        isFetching = false;
       });
     }
   }
@@ -57,7 +57,7 @@ class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
     return Scaffold(
       bottomNavigationBar: PreferredSize(
         preferredSize: const Size.fromHeight(4),
-        child: isLoading ? const LinearProgressIndicator() : const SizedBox(),
+        child: isFetching ? const LinearProgressIndicator() : const SizedBox(),
       ),
       body: DefaultTabController(
         length: YwbApplicationType.values.length,
