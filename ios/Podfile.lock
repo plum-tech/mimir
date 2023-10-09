@@ -1,4 +1,6 @@
 PODS:
+  - add_2_calendar (0.0.1):
+    - Flutter
   - app_settings (4.3.0):
     - Flutter
   - audio_session (0.0.1):
@@ -145,6 +147,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - add_2_calendar (from `.symlinks/plugins/add_2_calendar/ios`)
   - app_settings (from `.symlinks/plugins/app_settings/ios`)
   - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
@@ -191,6 +194,8 @@ SPEC REPOS:
     - SwiftyGif
 
 EXTERNAL SOURCES:
+  add_2_calendar:
+    :path: ".symlinks/plugins/add_2_calendar/ios"
   app_settings:
     :path: ".symlinks/plugins/app_settings/ios"
   audio_session:
@@ -239,6 +244,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
+  add_2_calendar: e9d68636aed37fb18e12f5a3d74c2e0589487af0
   app_settings: ee4ae4d1c9a907a23b81c40e5c56a5ca8a20a62b
   audio_session: 4f3e461722055d21515cf3261b64c973c062f345
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
