@@ -329,6 +329,16 @@ extension SitCourseEx on SitCourse {
     final (:start, :end) = timeslots;
     return (begin: timetable[start].begin, end: timetable[end].end);
   }
+
+  List<ClassTime> calcBeginEndTimepointForEachLesson() {
+    final timetable = buildingTimetable;
+    final (:start, :end) = timeslots;
+    final result = <ClassTime>[];
+    for (var timeslot = start; timeslot <= end; timeslot++) {
+      result.add(timetable[timeslot]);
+    }
+    return result;
+  }
 }
 
 const _kAll = "a";

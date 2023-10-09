@@ -350,11 +350,12 @@ class _CourseCellState extends State<CourseCell> {
         .harmonizeWith(context.colorScheme.primary);
     final padding = context.isPortrait ? size.height / 40 : size.height / 80;
     final (:begin, :end) = widget.course.calcBeginEndTimepoint();
+    final lessons = widget.course.calcBeginEndTimepointForEachLesson();
     return Tooltip(
       key: $tooltip,
       preferBelow: false,
       triggerMode: TooltipTriggerMode.manual,
-      message: "${begin.toStringPrefixed0()}–${end.toStringPrefixed0()}",
+      message: lessons.map((time) => "${time.begin.toStringPrefixed0()}–${time.end.toStringPrefixed0()}").join("\n"),
       child: FilledCard(
         clip: Clip.hardEdge,
         color: color,
