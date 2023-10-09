@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/foundation.dart';
@@ -9,7 +10,7 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/route.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:add_2_calendar/add_2_calendar.dart';
+import 'package:sit/timetable/page/export.dart';
 
 import '../i18n.dart';
 import '../entity/timetable.dart';
@@ -219,15 +220,17 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             },
           ),
         ),
-        // PopupMenuItem(
-        //   child: ListTile(
-        //     leading: const Icon(Icons.edit_calendar_outlined),
-        //     title: i18n.mine.exportCalender.text(),
-        //     onTap: () async {
-        //       ctx.pop();
-        //     },
-        //   ),
-        // ),
+        if (kDebugMode)
+          PopupMenuItem(
+            child: ListTile(
+              leading: const Icon(Icons.edit_calendar_outlined),
+              title: i18n.mine.exportCalender.text(),
+              onTap: () async {
+                ctx.pop();
+                await exportTimetableToICalendar(ctx, timetable: timetable);
+              },
+            ),
+          ),
         PopupMenuItem(
           child: ListTile(
             leading: const Icon(Icons.delete, color: Colors.redAccent),
