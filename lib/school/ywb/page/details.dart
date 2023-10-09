@@ -26,6 +26,7 @@ class _YwbApplicationMetaDetailsPageState extends State<YwbApplicationMetaDetail
   @override
   void initState() {
     super.initState();
+    // TODO: Cache
     YwbInit.metaService.getApplicationDetails(widget.meta.id).then((value) {
       if (!mounted) return;
       setState(() {
@@ -44,26 +45,28 @@ class _YwbApplicationMetaDetailsPageState extends State<YwbApplicationMetaDetail
   Widget build(BuildContext context) {
     final details = this.details;
     return Scaffold(
-      body: CustomScrollView(
-        controller: controller,
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            title: Text(widget.meta.name).hero(widget.meta.id),
-            bottom: details != null
-                ? null
-                : const PreferredSize(
-                    preferredSize: Size.fromHeight(4),
-                    child: LinearProgressIndicator(),
-                  ),
-          ),
-          if (details != null)
-            SliverList.separated(
-              itemCount: details.sections.length,
-              itemBuilder: (ctx, i) => YwbApplicationDetailSectionBlock(details.sections[i]),
-              separatorBuilder: (ctx, i) => const Divider(),
+      body: SelectionArea(
+        child: CustomScrollView(
+          controller: controller,
+          slivers: [
+            SliverAppBar(
+              floating: true,
+              title: Text(widget.meta.name).hero(widget.meta.id),
+              bottom: details != null
+                  ? null
+                  : const PreferredSize(
+                      preferredSize: Size.fromHeight(4),
+                      child: LinearProgressIndicator(),
+                    ),
             ),
-        ],
+            if (details != null)
+              SliverList.separated(
+                itemCount: details.sections.length,
+                itemBuilder: (ctx, i) => YwbApplicationDetailSectionBlock(details.sections[i]),
+                separatorBuilder: (ctx, i) => const Divider(),
+              ),
+          ],
+        ),
       ),
       floatingActionButton: AutoHideFAB.extended(
         controller: controller,

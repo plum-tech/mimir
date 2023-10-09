@@ -64,48 +64,50 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
     final details = this.details;
     final record = widget.record;
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            title: widget.record.title.text(),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  launchUrlInBrowser(OaAnnounceService.getAnnounceUrl(widget.record.catalogId, widget.record.uuid));
-                },
-                icon: const Icon(Icons.open_in_browser),
-              ),
-            ],
-            bottom: isFetching
-                ? const PreferredSize(
-                    preferredSize: Size.fromHeight(4),
-                    child: LinearProgressIndicator(),
-                  )
-                : null,
-          ),
-          SliverToBoxAdapter(
-            child: OaAnnounceInfoCard(
-              record: record,
-              details: details,
-            ).hero(record.uuid),
-          ),
-          if (details != null)
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              sliver: AnnounceArticle(details),
+      body: SelectionArea(
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              floating: true,
+              title: widget.record.title.text(),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    launchUrlInBrowser(OaAnnounceService.getAnnounceUrl(widget.record.catalogId, widget.record.uuid));
+                  },
+                  icon: const Icon(Icons.open_in_browser),
+                ),
+              ],
+              bottom: isFetching
+                  ? const PreferredSize(
+                      preferredSize: Size.fromHeight(4),
+                      child: LinearProgressIndicator(),
+                    )
+                  : null,
             ),
-          if (details != null && details.attachments.isNotEmpty) ...[
-            const SliverToBoxAdapter(child: Divider()),
             SliverToBoxAdapter(
-              child: i18n.attachmentTip(details.attachments.length).text(
-                    style: context.textTheme.titleLarge,
-                    textAlign: TextAlign.center,
-                  ),
-            )
+              child: OaAnnounceInfoCard(
+                record: record,
+                details: details,
+              ).hero(record.uuid),
+            ),
+            if (details != null)
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                sliver: AnnounceArticle(details),
+              ),
+            if (details != null && details.attachments.isNotEmpty) ...[
+              const SliverToBoxAdapter(child: Divider()),
+              SliverToBoxAdapter(
+                child: i18n.attachmentTip(details.attachments.length).text(
+                      style: context.textTheme.titleLarge,
+                      textAlign: TextAlign.center,
+                    ),
+              )
+            ],
+            if (details != null) ...details.attachments.map((e) => SliverToBoxAdapter(child: AttachmentLink(e))),
           ],
-          if (details != null) ...details.attachments.map((e) => SliverToBoxAdapter(child: AttachmentLink(e))),
-        ],
+        ),
       ),
     );
   }

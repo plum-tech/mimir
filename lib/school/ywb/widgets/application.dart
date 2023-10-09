@@ -18,7 +18,7 @@ class YwbApplicationTile extends StatelessWidget {
     return AnimatedExpansionTile(
       title: "${application.name} #${application.workId}".text(),
       subtitle: context.formatYmdWeekText(application.startTs).text(),
-      trailing: Icon(Icons.keyboard_arrow_down),
+      trailing: const Icon(Icons.keyboard_arrow_down),
       children: application.track.map((e) => YwbApplicationTrackTile(e)).toList(),
     );
   }

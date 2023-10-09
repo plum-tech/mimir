@@ -49,37 +49,39 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
   Widget build(BuildContext context) {
     final details = this.details;
     return Scaffold(
-      body: CustomScrollView(
-        controller: scrollController,
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            title: i18n.details.text(),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.open_in_browser),
-                onPressed: () {
-                  launchUrlInBrowser(_getActivityUrl(activity.id));
-                },
-              )
-            ],
-            bottom: details == null
-                ? const PreferredSize(
-                    preferredSize: Size.fromHeight(4),
-                    child: LinearProgressIndicator(),
-                  )
-                : null,
-          ),
-          SliverToBoxAdapter(child: ActivityDetailsCard(activity: activity, details: details).hero(activity.id)),
-          if (details != null)
-            if (details.description == null)
-              SliverToBoxAdapter(child: i18n.detailEmptyTip.text(style: context.textTheme.titleLarge))
-            else
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                sliver: StyledHtmlWidget(details.description ?? "", renderMode: RenderMode.sliverList),
-              ),
-        ],
+      body: SelectionArea(
+        child: CustomScrollView(
+          controller: scrollController,
+          slivers: [
+            SliverAppBar(
+              floating: true,
+              title: i18n.details.text(),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.open_in_browser),
+                  onPressed: () {
+                    launchUrlInBrowser(_getActivityUrl(activity.id));
+                  },
+                )
+              ],
+              bottom: details == null
+                  ? const PreferredSize(
+                      preferredSize: Size.fromHeight(4),
+                      child: LinearProgressIndicator(),
+                    )
+                  : null,
+            ),
+            SliverToBoxAdapter(child: ActivityDetailsCard(activity: activity, details: details).hero(activity.id)),
+            if (details != null)
+              if (details.description == null)
+                SliverToBoxAdapter(child: i18n.detailEmptyTip.text(style: context.textTheme.titleLarge))
+              else
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  sliver: StyledHtmlWidget(details.description ?? "", renderMode: RenderMode.sliverList),
+                ),
+          ],
+        ),
       ),
       floatingActionButton: widget.enableApply
           ? AutoHideFAB.extended(
