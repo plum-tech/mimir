@@ -10,9 +10,8 @@ import '../events.dart';
 import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
-import '../widgets/style.dart';
 import '../entity/pos.dart';
-import '../widgets/view.dart';
+import '../widgets/timetable/board.dart';
 
 class TimetableBoardPage extends StatefulWidget {
   final SitTimetable timetable;
@@ -83,10 +82,11 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
           },
         ),
       ),
-      body: TimetableViewer(
+      body: TimetableBoard(
         timetable: timetable,
-        $currentPos: $currentPos,
         $displayMode: $displayMode,
+        $currentPos: $currentPos,
+        scrollController: scrollController,
       ),
     );
   }

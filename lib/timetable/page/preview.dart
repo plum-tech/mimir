@@ -5,8 +5,9 @@ import '../entity/display.dart';
 import '../entity/timetable.dart';
 import '../widgets/style.dart';
 import '../entity/pos.dart';
-import '../widgets/view.dart';
+import '../widgets/timetable/board.dart';
 
+// TODO: new view page
 /// There is no need to persist a preview after activity destroyed.
 class TimetablePreviewPage extends StatefulWidget {
   final SitTimetable timetable;
@@ -23,7 +24,7 @@ class TimetablePreviewPage extends StatefulWidget {
 class _TimetablePreviewPageState extends State<TimetablePreviewPage> {
   final $displayMode = ValueNotifier(DisplayMode.weekly);
   late final $currentPos = ValueNotifier(widget.timetable.locate(DateTime.now()));
-
+  final scrollController = ScrollController();
   @override
   void dispose() {
     $displayMode.dispose();
@@ -48,10 +49,11 @@ class _TimetablePreviewPageState extends State<TimetablePreviewPage> {
           ],
         ),
         body: TimetableStyleProv(
-          builder: (ctx) => TimetableViewer(
-            timetable: widget.timetable,
-            $currentPos: $currentPos,
+          builder: (ctx) => TimetableBoard(
+            timetable: widget. timetable,
             $displayMode: $displayMode,
+            $currentPos: $currentPos,
+            scrollController: null,
           ),
         ));
   }

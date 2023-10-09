@@ -31,17 +31,13 @@ extension DesignExtension on BuildContext {
 
 class TimetableStyleData {
   final ITimetablePalette platte;
-  final bool useNewUI;
 
-  const TimetableStyleData(this.platte, this.useNewUI);
+  const TimetableStyleData(this.platte);
 
   @override
   // ignore: hash_and_equals
   bool operator ==(Object other) {
-    return other is TimetableStyleData &&
-        runtimeType == other.runtimeType &&
-        platte == other.platte &&
-        useNewUI == other.useNewUI;
+    return other is TimetableStyleData && runtimeType == other.runtimeType && platte == other.platte;
   }
 }
 
@@ -78,30 +74,13 @@ class TimetableStyleProv extends StatefulWidget {
 }
 
 class TimetableStyleProvState extends State<TimetableStyleProv> {
-  final onThemeChanged = TimetableInit.storage.onThemeChanged;
-
-  @override
-  void initState() {
-    super.initState();
-    onThemeChanged.addListener(rebuild);
-  }
-
-  @override
-  void dispose() {
-    onThemeChanged.removeListener(rebuild);
-    super.dispose();
-  }
-
-  void rebuild() {
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
     return TimetableStyle(
       data: TimetableStyleData(
+        // TODO: Custom color palette
         BuiltinTimetablePalettes.newUI,
-        TimetableInit.storage.useNewUI ?? false,
       ),
       child: buildChild(),
     );
