@@ -1,6 +1,6 @@
 <div align="center">
 
-# Mímir
+# SIT Life
 
 <img src="assets/icon.svg" alt="Icon" width="256">
 
@@ -23,7 +23,7 @@
 
 If you met any bug, feel free to [make an issue](https://github.com/liplum/mimir/issues/new).
 
-Welcome to contribute Mímir, please read the [contribution guide](specifications/CONTRIBUTION_GUIDE.md).
+Welcome to contribute SIT Life, please read the [contribution guide](specifications/CONTRIBUTION_GUIDE.md).
 
 ### License
 

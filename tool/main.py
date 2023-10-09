@@ -119,7 +119,7 @@ def main():
 
 def shell(*, proj: Proj, cmdlist: CommandList, terminal: Terminal, cmdargs: Sequence[str] | Args):
     terminal.logging << f'Project root found at "{proj.root}".'
-    terminal.both << f'Mímir Tool v{version}'
+    terminal.both << f'Build Tool v{version}'
     proj.settings.load()
     import yml
     proj.pubspec = yml.load(proj.pubspec_fi.read())
@@ -152,7 +152,7 @@ def shell(*, proj: Proj, cmdlist: CommandList, terminal: Terminal, cmdargs: Sequ
             fullargs = Args.by(seq=cmdargs)
         cli_mode(proj=proj, cmdlist=cmdlist, terminal=terminal, cmdargs=fullargs)
     proj.settings.save()
-    terminal.both << "Mímir Tool exits."
+    terminal.both << "Build Tool exits."
 
 
 def cli_mode(*, proj: Proj, cmdlist: CommandList, terminal: Terminal, cmdargs: Args):

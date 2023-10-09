@@ -18,7 +18,7 @@ String getExportTimetableFilename() {
 String convertTableToIcs(SitTimetable timetable, Duration? alarmBefore) {
   final ICalendar iCal = ICalendar(
     company: 'Liplum',
-    product: 'Mímir',
+    product: 'SIT Life',
     lang: 'ZH',
     refreshInterval: const Duration(days: 36500),
   );

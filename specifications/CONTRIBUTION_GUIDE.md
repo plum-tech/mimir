@@ -23,7 +23,7 @@ flutter pub get
 flutter pub run build_runner build
 ```
 
-Finally, build the Mímir based on your platform.
+Finally, build the SIT Life based on your platform.
 
 ```shell
 # For Android
@@ -39,7 +39,7 @@ flutter build linux     # build for Linux
 
 ### iOS Build
 
-Mímir for iOS requires `Xcode 13.4.1`, the latest Xcode 13.
+SIT Life for iOS requires `Xcode 13.4.1`, the latest Xcode 13.
 You can download it [here](https://developer.apple.com/download/all/?q=Xcode%2013.4.1).
 
 Be aware that Xcode 14 or higher doesn't work due to the compatibility issue of some dependencies.
@@ -71,9 +71,9 @@ As to formatting, the indent is 2 spaces.
 As to naming, please keep the key `lowerCamelCase`,
 which can be mapped to a valid dart variable name.
 
-### Mímir Tool
+### Build Tool
 
-Mímir tool always works on the latest python.
+Build tool always works on the latest python.
 Requirements:
 
 ```
@@ -93,5 +93,5 @@ If the current working directory is [the root of project](..).
 python ./tool/main.py
 ```
 
-Mímir tool will locate the project automatically,
+Build tool will locate the project automatically,
 so you can run the [main.py](/tool/main.py) anywhere.
