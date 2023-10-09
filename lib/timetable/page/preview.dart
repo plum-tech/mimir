@@ -50,7 +50,7 @@ class _TimetablePreviewPageState extends State<TimetablePreviewPage> {
         ),
         body: TimetableStyleProv(
           builder: (ctx) => TimetableBoard(
-            timetable: widget. timetable,
+            timetable: widget.timetable,
             $displayMode: $displayMode,
             $currentPos: $currentPos,
             scrollController: null,

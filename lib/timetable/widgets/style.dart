@@ -74,7 +74,6 @@ class TimetableStyleProv extends StatefulWidget {
 }
 
 class TimetableStyleProvState extends State<TimetableStyleProv> {
-
   @override
   Widget build(BuildContext context) {
     return TimetableStyle(
