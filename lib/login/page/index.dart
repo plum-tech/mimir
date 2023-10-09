@@ -210,53 +210,57 @@ class _LoginPageState extends State<LoginPage> {
     return Form(
       autovalidateMode: AutovalidateMode.always,
       key: _formKey,
-      child: Column(
-        children: [
-          TextFormField(
-            controller: $account,
-            textInputAction: TextInputAction.next,
-            autocorrect: false,
-            autofocus: true,
-            enableSuggestions: false,
-            validator: (account) => studentIdValidator(account, () => i18n.invalidAccountFormat),
-            decoration: InputDecoration(
-              labelText: i18n.credential.account,
-              hintText: i18n.accountHint,
-              icon: const Icon(Icons.person),
-            ),
-          ),
-          TextFormField(
-            controller: $password,
-            textInputAction: TextInputAction.send,
-            contextMenuBuilder: (ctx, state) {
-              return AdaptiveTextSelectionToolbar.editableText(
-                editableTextState: state,
-              );
-            },
-            autocorrect: false,
-            autofocus: true,
-            enableSuggestions: false,
-            obscureText: !isPasswordClear,
-            onFieldSubmitted: (inputted) async {
-              if (!isLoggingIn) {
-                await login();
-              }
-            },
-            decoration: InputDecoration(
-              labelText: i18n.credential.oaPwd,
-              hintText: i18n.oaPwdHint,
-              icon: const Icon(Icons.lock),
-              suffixIcon: IconButton(
-                icon: Icon(isPasswordClear ? Icons.visibility : Icons.visibility_off),
-                onPressed: () {
-                  setState(() {
-                    isPasswordClear = !isPasswordClear;
-                  });
-                },
+      child: AutofillGroup(
+        child: Column(
+          children: [
+            TextFormField(
+              controller: $account,
+              autofillHints: const [AutofillHints.username],
+              textInputAction: TextInputAction.next,
+              autocorrect: false,
+              autofocus: true,
+              readOnly: isLoggingIn,
+              enableSuggestions: false,
+              validator: (account) => studentIdValidator(account, () => i18n.invalidAccountFormat),
+              decoration: InputDecoration(
+                labelText: i18n.credential.account,
+                hintText: i18n.accountHint,
+                icon: const Icon(Icons.person),
               ),
             ),
-          ),
-        ],
+            TextFormField(
+              controller: $password,
+              autofillHints: const [AutofillHints.password],
+              textInputAction: TextInputAction.send,
+              readOnly: isLoggingIn,
+              contextMenuBuilder: (ctx, state) {
+                return AdaptiveTextSelectionToolbar.editableText(
+                  editableTextState: state,
+                );
+              },
+              autocorrect: false,
+              autofocus: true,
+              enableSuggestions: false,
+              obscureText: !isPasswordClear,
+              onFieldSubmitted: (inputted) async {
+                await login();
+              },
+              decoration: InputDecoration(
+                labelText: i18n.credential.oaPwd,
+                hintText: i18n.oaPwdHint,
+                icon: const Icon(Icons.lock),
+                suffixIcon: IconButton(
+                  icon: Icon(isPasswordClear ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      isPasswordClear = !isPasswordClear;
+                    });
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
