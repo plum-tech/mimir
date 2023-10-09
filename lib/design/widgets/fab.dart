@@ -59,7 +59,7 @@ class _AutoHideFABState extends State<AutoHideFAB> {
   }
 
   void onScrollChanged() {
-    final direction = widget.controller.position.userScrollDirection;
+    final direction = widget.controller.positions.last.userScrollDirection;
     if (direction == ScrollDirection.forward) {
       if (!showBtn) {
         setState(() {

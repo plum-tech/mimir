@@ -19,7 +19,6 @@ import '../sheet.dart';
 import '../../entity/pos.dart';
 
 class WeeklyTimetable extends StatefulWidget {
-  final ScrollController? scrollController;
   final SitTimetable timetable;
 
   final ValueNotifier<TimetablePos> $currentPos;
@@ -31,7 +30,6 @@ class WeeklyTimetable extends StatefulWidget {
     super.key,
     required this.timetable,
     required this.$currentPos,
-    this.scrollController,
   });
 }
 
@@ -108,7 +106,6 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
             todayPos: todayPos,
             weekIndex: weekIndex,
             $currentPos: widget.$currentPos,
-            scrollController: widget.scrollController,
           );
         },
       ).expanded()
@@ -131,7 +128,6 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
 }
 
 class _OneWeekPage extends StatefulWidget {
-  final ScrollController? scrollController;
   final SitTimetable timetable;
   final TimetablePos todayPos;
   final ValueNotifier<TimetablePos> $currentPos;
@@ -143,7 +139,6 @@ class _OneWeekPage extends StatefulWidget {
     required this.todayPos,
     required this.$currentPos,
     required this.weekIndex,
-    this.scrollController,
   });
 
   @override

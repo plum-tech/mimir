@@ -9,7 +9,6 @@ import 'daily.dart';
 import 'weekly.dart';
 
 class TimetableBoard extends StatelessWidget {
-  final ScrollController? scrollController;
   final SitTimetable timetable;
 
   final ValueNotifier<DisplayMode> $displayMode;
@@ -21,7 +20,6 @@ class TimetableBoard extends StatelessWidget {
     required this.timetable,
     required this.$displayMode,
     required this.$currentPos,
-    this.scrollController,
   });
 
   @override
@@ -31,12 +29,10 @@ class TimetableBoard extends StatelessWidget {
             ? DailyTimetable(
                 $currentPos: $currentPos,
                 timetable: timetable,
-                scrollController: scrollController,
               )
             : WeeklyTimetable(
                 $currentPos: $currentPos,
                 timetable: timetable,
-                scrollController: scrollController,
               ));
   }
 }

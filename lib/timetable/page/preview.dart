@@ -53,7 +53,6 @@ class _TimetablePreviewPageState extends State<TimetablePreviewPage> {
             timetable: widget.timetable,
             $displayMode: $displayMode,
             $currentPos: $currentPos,
-            scrollController: null,
           ),
         ));
   }

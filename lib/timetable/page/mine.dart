@@ -177,10 +177,12 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             moreAction: animation.value > 0.5
                 ? null
                 : IconButton(
-                    onPressed: () async {
-                      storage.timetable.selectedId = id;
-                      setState(() {});
-                    },
+                    onPressed: isSelected
+                        ? null
+                        : () async {
+                            storage.timetable.selectedId = id;
+                            setState(() {});
+                          },
                     icon: isSelected
                         ? Icon(CupertinoIcons.check_mark, color: context.colorScheme.primary)
                         : const Icon(CupertinoIcons.square)),

@@ -86,7 +86,6 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         timetable: timetable,
         $displayMode: $displayMode,
         $currentPos: $currentPos,
-        scrollController: scrollController,
       ),
     );
   }
