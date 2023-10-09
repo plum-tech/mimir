@@ -13,7 +13,7 @@ class YwbCredentialsException implements Exception {
 
   @override
   String toString() {
-    return message;
+    return "YwbCredentialsException: $message";
   }
 }
 
@@ -29,7 +29,7 @@ class OaCredentialsException implements Exception {
 
   @override
   String toString() {
-    return "$type $message";
+    return "OaCredentialsException: $type $message";
   }
 }
 
@@ -45,11 +45,17 @@ class LoginRequiredException implements Exception {
 
   @override
   String toString() {
-    return url;
+    return "LoginRequiredException: $url";
   }
 }
 
 /// 未知的验证错误
 class UnknownAuthException implements Exception {
-  const UnknownAuthException();
+  final String message;
+  const UnknownAuthException(this.message);
+
+  @override
+  String toString() {
+    return "UnknownAuthException: $message";
+  }
 }

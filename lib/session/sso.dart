@@ -199,7 +199,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
     if (response.realUri.toString() != _loginSuccessUrl) {
       Log.error('未知验证错误,此时url为: ${response.realUri}');
       _setOnline(false);
-      throw const UnknownAuthException();
+      throw UnknownAuthException(response.data.toString());
     }
     Log.info('登录成功：${credentials.account}');
     CredentialInit.storage.oaLastAuthTime = DateTime.now();

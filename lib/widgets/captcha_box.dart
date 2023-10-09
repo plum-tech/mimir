@@ -46,6 +46,7 @@ class _CaptchaDialogState extends State<CaptchaDialog> {
         ),
         $TextField$(
           controller: $captcha,
+          autofocus: true,
           placeholder: _i18n.enterHint,
           keyboardType: TextInputType.text,
           autofillHints: const [AutofillHints.oneTimeCode],

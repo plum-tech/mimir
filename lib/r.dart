@@ -20,7 +20,7 @@ class R {
     zhCnLocale,
     zhTwLocale,
   ];
-  static const appName = "Mimir";
+  static const appName = "SIT Life";
   static late final String appDir;
   static late final String tmpDir;
   static late List<String> roomList;

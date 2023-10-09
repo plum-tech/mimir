@@ -54,7 +54,7 @@ android {
 //    }
 //  }
   defaultConfig {
-    applicationId "net.liplum.Mimir"
+    applicationId "net.liplum.SIT"
     minSdkVersion 21
     targetSdkVersion 33
     versionCode flutterVersionCode.toInteger()
@@ -82,7 +82,7 @@ android {
       }
     }
   }
-    namespace 'net.liplum.Mimir'
+    namespace 'net.liplum.SIT'
 }
 
 flutter {

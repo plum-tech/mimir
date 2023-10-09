@@ -26,7 +26,6 @@ doc/api/
 # Flutter
 .flutter-plugins-dependencies
 .flutter-plugins
-mimir.iml
 
 # iOS/XCode related
 **/ios/**/*.mode1v3
