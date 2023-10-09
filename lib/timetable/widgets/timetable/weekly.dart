@@ -4,6 +4,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/dash_decoration.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
@@ -226,10 +227,8 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
       return Container(
         decoration: BoxDecoration(
           border: Border(
-            top: side,
+            top: index == 0 ? side : BorderSide.none,
             right: side,
-            left: side,
-            bottom: side,
           ),
         ),
         child: (index + 1).toString().text(style: textStyle).center(),
@@ -291,7 +290,14 @@ class TimetableSingleWeekView extends StatelessWidget {
     for (int timeslot = 0; timeslot < day.timeslots2Lessons.length; timeslot++) {
       final lessons = day.timeslots2Lessons[timeslot];
       if (lessons.isEmpty) {
-        cells.add(SizedBox(width: cellSize.width, height: cellSize.height).sized());
+        cells.add(Container(
+          decoration: DashDecoration(
+            color: context.colorScheme.onBackground.withOpacity(0.3),
+            strokeWidth: 0.5,
+            borders: const {LinePosition.bottom},
+          ),
+          child: SizedBox(width: cellSize.width, height: cellSize.height),
+        ));
       } else {
         /// TODO: Multi-layer lessons
         final firstLayerLesson = lessons[0];

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sit/school/entity/school.dart';
-import 'package:sit/timetable/widgets/style.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../i18n.dart';
@@ -42,47 +41,54 @@ class _TimetableHeaderState extends State<TimetableHeader> {
   /// 将该行分为 2 + 7 * 3 一共 23 个小份, 左侧的周数占 2 份, 每天的日期占 3 份.
   @override
   Widget build(BuildContext context) {
-    final side = getBorderSide(context);
-    return Row(
-      children: [
-        for (int i = 1; i <= 7; ++i) buildDayNameHeader(i),
-      ],
-    ).container(decoration: BoxDecoration(border: Border(top: side, bottom: side, right: side)));
-  }
-
-  Widget buildDayHeader(BuildContext ctx, int day, String name) {
-    final side = getBorderSide(context);
-    final isSelected = day == selectedDay;
-    final (:text, :bg) = ctx.makeTabHeaderTextBgColors(isSelected);
-    return AnimatedContainer(
-      decoration: BoxDecoration(
-        color: bg,
-        border: Border(left: day == 1 ? side : BorderSide.none, right: day != 7 ? side : BorderSide.none),
-      ),
-      duration: const Duration(milliseconds: 1000),
-      curve: Curves.fastEaseInToSlowEaseOut,
-      child: Text(
-        name,
-        textAlign: TextAlign.center,
-        style: TextStyle(color: text),
-      ).padOnly(t: 5, b: 5),
-    );
+    return [
+      for (int i = 1; i <= 7; ++i) buildDayNameHeader(i),
+    ].row(maa: MainAxisAlignment.spaceEvenly);
   }
 
   ///每天的列
   Widget buildDayNameHeader(int day) {
     final date = parseWeekDayNumberToDate(week: widget.currentWeek, day: day, basedOn: widget.startDate);
-    final dateString = '${date.month}/${date.day}';
     final onDayTap = widget.onDayTap;
     return Expanded(
       flex: 3,
       child: InkWell(
-          onTap: onDayTap != null
-              ? () {
-                  widget.onDayTap?.call(day);
-                }
-              : null,
-          child: buildDayHeader(context, day, '${i18n.weekdayShort(index: day - 1)}\n$dateString')),
+        onTap: onDayTap != null
+            ? () {
+          widget.onDayTap?.call(day);
+        }
+            : null,
+        child: buildDayHeader(day),
+      ),
+    );
+  }
+
+  Widget buildDayHeader(int day) {
+    final date = parseWeekDayNumberToDate(week: widget.currentWeek, day: day, basedOn: widget.startDate);
+    final isSelected = day == selectedDay;
+    final side = getBorderSide(context);
+    return AnimatedContainer(
+      decoration: BoxDecoration(
+        color: isSelected ? context.colorScheme.secondaryContainer : null,
+        border: Border(
+          left: day == 1 ? side : BorderSide.none,
+          right: day == 7 ? side : BorderSide.none,
+          top: side,
+          bottom: side,
+        ),
+      ),
+      duration: const Duration(milliseconds: 1000),
+      curve: Curves.fastLinearToSlowEaseIn,
+      child: [
+        i18n.weekdayShort(index: day - 1).text(
+          textAlign: TextAlign.center,
+          style: context.textTheme.titleSmall,
+        ),
+        '${date.month}/${date.day}'.text(
+          textAlign: TextAlign.center,
+          style: context.textTheme.labelSmall,
+        ),
+      ].column().padOnly(t: 5, b: 5),
     );
   }
 }
