@@ -252,7 +252,6 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
 }
 
 class TimetableSingleWeekView extends StatelessWidget {
-  final ScrollController? scrollController;
   final SitTimetableWeek timetableWeek;
   final SitTimetable timetable;
   final int currentWeek;
@@ -262,7 +261,6 @@ class TimetableSingleWeekView extends StatelessWidget {
     required this.timetableWeek,
     required this.timetable,
     required this.currentWeek,
-    this.scrollController,
   });
 
   @override
@@ -274,7 +272,6 @@ class TimetableSingleWeekView extends StatelessWidget {
       height: rawColumnSize.height,
       child: ListView.builder(
         itemCount: 7,
-        controller: scrollController,
         scrollDirection: Axis.horizontal,
         physics: const NeverScrollableScrollPhysics(),
         // The scrolling has been handled outside
