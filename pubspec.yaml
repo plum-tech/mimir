@@ -18,23 +18,26 @@ dependencies:
   # I18n
   intl: ^0.17.0
   easy_localization: ^3.0.3
-  event_bus: ^2.0.0
 
   # Basic
-  # logger
   logger: ^2.0.2
   device_info_plus: ^9.0.3
   audio_session: ^0.1.16
+  event_bus: ^2.0.0
+
   # Path
   path_provider: ^2.0.15
   # Version comparison
   version: ^3.0.2
+
   yaml: ^3.1.2
   path: ^1.8.2
   quiver: ^3.1.0
   collection: ^1.17.2
+
   # String formatting
   format: ^1.3.0
+
   go_router: ^10.1.2
   rettulf: ^2.0.1
 
@@ -49,9 +52,10 @@ dependencies:
   # File format
   # iCalendar file generator
   ical: ^0.2.2
+  add_2_calendar: ^2.2.4
+
   # JSON
   json_serializable: ^6.7.1
-  # JSON code generation
   json_annotation: ^4.8.1
   # HTML parser
   beautiful_soup_dart: ^0.3.0

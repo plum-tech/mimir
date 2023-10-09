@@ -9,6 +9,7 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/route.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:add_2_calendar/add_2_calendar.dart';
 
 import '../i18n.dart';
 import '../entity/timetable.dart';
@@ -218,6 +219,15 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             },
           ),
         ),
+        // PopupMenuItem(
+        //   child: ListTile(
+        //     leading: const Icon(Icons.edit_calendar_outlined),
+        //     title: i18n.mine.exportCalender.text(),
+        //     onTap: () async {
+        //       ctx.pop();
+        //     },
+        //   ),
+        // ),
         PopupMenuItem(
           child: ListTile(
             leading: const Icon(Icons.delete, color: Colors.redAccent),

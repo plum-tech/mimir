@@ -22,6 +22,8 @@ class ConnectivityChecker extends StatefulWidget {
   final double iconSize;
   final String? initialDesc;
   final VoidCallback onConnected;
+  /// Whether it's connected will be turned.
+  /// Throw any error if connection fails.
   final Future<bool> Function() check;
 
   const ConnectivityChecker({
@@ -90,17 +92,15 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
     ].column(maa: MainAxisAlignment.spaceAround, caa: CrossAxisAlignment.center).center().padAll(20);
   }
 
-  void startCheck() {
+  Future<void> startCheck() async {
+    if (!mounted) return;
     setState(() {
       networkChecker.cancel();
       status = ConnectivityStatus.connecting;
     });
-    Future.wait([
-      widget.check(),
-      Future.delayed(const Duration(milliseconds: 800)),
-    ]).then((value) {
+    try {
+      final connected = await widget.check();
       if (!mounted) return;
-      final bool connected = value[0];
       setState(() {
         if (connected) {
           status = ConnectivityStatus.connected;
@@ -108,11 +108,14 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
           status = ConnectivityStatus.disconnected;
         }
       });
-    }).onError((error, stackTrace) {
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      if (!mounted) return;
       setState(() {
         status = ConnectivityStatus.disconnected;
       });
-    });
+    }
   }
 
   Widget buildStatus(BuildContext ctx) {
