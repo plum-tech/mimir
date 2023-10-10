@@ -163,6 +163,14 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             child: i18n.mine.exportFile.text(),
           ),
           CupertinoContextMenuAction(
+            trailingIcon: CupertinoIcons.calendar_badge_plus,
+            onPressed: () async {
+              Navigator.of(context, rootNavigator: true).pop();
+              await exportTimetableToICalendar(ctx, timetable: timetable.resolve());
+            },
+            child: i18n.mine.exportCalender.text(),
+          ),
+          CupertinoContextMenuAction(
             trailingIcon: CupertinoIcons.delete,
             onPressed: () async {
               Navigator.of(context, rootNavigator: true).pop();
@@ -227,7 +235,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
               title: i18n.mine.exportCalender.text(),
               onTap: () async {
                 ctx.pop();
-                await exportTimetableToICalendar(ctx, timetable: timetable);
+                await exportTimetableToICalendar(ctx, timetable: timetable.resolve());
               },
             ),
           ),

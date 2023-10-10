@@ -48,11 +48,14 @@ String convertTableToIcs({
           final date = reflectWeekDayNumberToDate(week: week.index, day: course.dayIndex, startDate: startDate);
           final eventStartTime = date.add(Duration(hours: begin.hour, minutes: begin.minute));
           final eventEndTime = date.add(Duration(hours: end.hour, minutes: end.minute));
-          final desc = "$timeslotText, ${course.place}, ${course.teachers.join(', ')}";
+          final desc = timeslotText;
           final IEvent event = IEvent(
             uid: "SIT-Course-${course.courseCode}-${week.index}-${day.index}",
             summary: course.courseName,
             location: course.place,
+            organizer: IOrganizer(
+              name: course.teachers.join(", "),
+            ),
             description: desc,
             start: eventStartTime,
             end: eventEndTime,
