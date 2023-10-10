@@ -325,8 +325,12 @@ List<ClassTime> getTeacherBuildingTimetable(String campus, String place) {
 }
 
 /// 将 "第几周、周几" 转换为日期. 如, 开学日期为 2021-9-1, 那么将第一周周一转换为 2021-9-1
-DateTime reflectWeekDayNumberToDate({required DateTime startDate, required int week, required int day}) {
-  return startDate.add(Duration(days: (week - 1) * 7 + day - 1));
+DateTime reflectWeekDayNumberToDate({
+  required DateTime startDate,
+  required int weekIndex,
+  required int dayIndex,
+}) {
+  return startDate.add(Duration(days: weekIndex * 7 + dayIndex));
 }
 
 /// 删去 place 括号里的描述信息. 如, 二教F301（机电18中外合作专用）

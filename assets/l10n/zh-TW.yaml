@@ -8,7 +8,8 @@ timetable:
     title: 我的課程表
     edit: 編輯
     exportFile: 匯出檔案
-    exportCalender: 匯出日曆
+    exportCalendar: 匯出日曆
+    add2Calendar: 添加到日曆
     delete: 刪除
     preview: 預覽
     use: 使用

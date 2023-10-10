@@ -1,23 +1,53 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:ical/serializer.dart';
-import 'package:intl/intl.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path/path.dart';
+import 'package:sanitize_filename/sanitize_filename.dart';
+import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/entity/school.dart';
-import 'package:sit/utils/file.dart';
-import 'package:sit/utils/url_launcher.dart';
-
-import '../entity/course.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../entity/timetable.dart';
-
-final timetableDateFormat = DateFormat('yyyyMMdd_hhmmss');
-
-String getExportTimetableFilename() {
-  return 'sit-timetable-${timetableDateFormat.format(DateTime.now())}.ics';
-}
 
 typedef TimetableExportConfig = ({
   Duration? alarmBefore,
 });
+
+String _getICalFileName(BuildContext context, SitTimetableEntity timetable) {
+  return sanitizeFilename(
+    "${timetable.type.name} ${context.formatYmdNum(timetable.type.startDate)}.ics",
+    replacement: "-",
+  );
+}
+
+Future<void> exportTimetableAsICalendarAndOpen(
+  BuildContext context, {
+  required SitTimetableEntity timetable,
+}) async {
+  final fileName = _getICalFileName(context, timetable);
+  final imgFi = File(join(R.tmpDir, fileName));
+  final data = convertTableToIcs(
+    timetable: timetable,
+    config: (alarmBefore: null,),
+  );
+  await imgFi.writeAsString(data);
+  await OpenFile.open(imgFi.path, type: "text/calendar");
+}
+
+Future<void> addTimetableToCalendar(
+  BuildContext context, {
+  required SitTimetableEntity timetable,
+}) async {
+  final data = convertTableToIcs(
+    timetable: timetable,
+    config: (alarmBefore: null,),
+  );
+  final uri = "data:text/calendar;charset=utf8,$data";
+  final result = await launchUrlString(uri, mode: LaunchMode.externalApplication);
+  debugPrint(result.toString());
+}
 
 ///导出的方法
 String convertTableToIcs({
@@ -45,11 +75,11 @@ String convertTableToIcs({
           // 这里需要使用UTC时间
           // 实际测试得出，如果不使用UTC，有的手机会将其看作本地时间
           // 有的手机会将其看作UTC+0的时间从而导致实际显示时间与预期不一致
-          final thatDay = reflectWeekDayNumberToDate(week: week.index, day: course.dayIndex, startDate: startDate);
+          final thatDay = reflectWeekDayNumberToDate(weekIndex: week.index, dayIndex: day.index, startDate: startDate);
           final eventStartTime = thatDay.add(Duration(hours: begin.hour, minutes: begin.minute));
           final eventEndTime = thatDay.add(Duration(hours: end.hour, minutes: end.minute));
           final desc = timeslotText;
-          final IEvent event = IEvent(
+          final event = IEvent(
             uid: "SIT-Course-${course.courseCode}-${week.index}-${day.index}",
             summary: course.courseName,
             location: course.place,
@@ -73,61 +103,3 @@ String convertTableToIcs({
   }
   return calendar.serialize();
 }
-
-Future<void> exportTimetableToICalendar(
-  BuildContext context, {
-  required SitTimetableEntity timetable,
-}) async {
-  await FileUtils.writeToTempFileAndOpen(
-    content: convertTableToIcs(
-      timetable: timetable,
-      config: (alarmBefore: null,),
-    ),
-    filename: getExportTimetableFilename(),
-    type: 'text/calendar',
-  );
-}
-
-// void _exportByUrl(Duration? alarmBefore) async {
-//   final url = 'http://localhost:8081/${getExportTimetableFilename()}';
-//   HttpServer? server;
-//   try {
-//     server = await HttpServer.bind(InternetAddress.loopbackIPv4, 8081, shared: true);
-//
-//     debugPrint('HTTP服务启动成功');
-//     server.listen((HttpRequest request) {
-//       request.response.headers.contentType = ContentType.parse('text/calendar');
-//       request.response.write(convertTableToIcs(meta, courses, alarmBefore));
-//       request.response.close();
-//     });
-//
-//     // ignore: use_build_context_synchronously
-//     await showAlertDialog(
-//       context,
-//       title: '已生成链接',
-//       content: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           TextButton(
-//             onPressed: () => launchUrlInBrowser(url),
-//             child: Text(url),
-//           ),
-//           TextButton(
-//             onPressed: () async {
-//               await Clipboard.setData(ClipboardData(text: url));
-//             },
-//             child: const Text('点击此处可复制链接'),
-//           ),
-//           const Text('注意：关闭本对话框后链接将失效'),
-//         ],
-//       ),
-//       actionTextList: ['关闭'],
-//     );
-//   } catch (e, st) {
-//     debugPrint('HTTP服务启动失败');
-//     return;
-//   } finally {
-//     server?.close();
-//     debugPrint('HTTP服务已关闭');
-//   }
-// }

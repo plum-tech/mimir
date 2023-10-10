@@ -40,7 +40,9 @@ class _Mine {
 
   String get exportFile => "$ns.exportFile".tr();
 
-  String get exportCalender => "$ns.exportCalender".tr();
+  String get exportCalendar => "$ns.exportCalendar".tr();
+
+  String get add2Calendar => "$ns.add2Calendar".tr();
 
   String get use => "$ns.use".tr();
 

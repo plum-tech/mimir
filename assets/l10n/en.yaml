@@ -7,8 +7,9 @@ timetable:
   mine:
     title: My Timetables
     edit: Edit
-    exportFile: Export File
-    exportCalender: Export Calender
+    exportFile: Export file
+    exportCalendar: Export calendar
+    add2Calendar: Add to calendar
     delete: Delete
     preview: Preview
     use: Use
