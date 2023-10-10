@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ical/serializer.dart';
 import 'package:intl/intl.dart';
+import 'package:sit/school/entity/school.dart';
 import 'package:sit/utils/file.dart';
 import 'package:sit/utils/url_launcher.dart';
 
@@ -14,70 +15,74 @@ String getExportTimetableFilename() {
   return 'sit-timetable-${timetableDateFormat.format(DateTime.now())}.ics';
 }
 
+typedef TimetableExportConfig = ({
+  Duration? alarmBefore,
+});
+
 ///导出的方法
-String convertTableToIcs(SitTimetable timetable, Duration? alarmBefore) {
-  final ICalendar iCal = ICalendar(
-    company: 'Liplum',
+String convertTableToIcs({
+  required SitTimetableEntity timetable,
+  required TimetableExportConfig config,
+}) {
+  final ICalendar calendar = ICalendar(
+    company: 'mysit.life',
     product: 'SIT Life',
-    lang: 'ZH',
-    refreshInterval: const Duration(days: 36500),
+    lang: "ZH",
   );
   // 需要把
-  final startDate = DateTime(timetable.startDate.year, timetable.startDate.month, timetable.startDate.day);
-  for (final course in timetable.courseKey2Entity) {
-    // _addEventForCourse(iCal, course, startDate, alarmBefore);
+  final startDate = timetable.type.startDate;
+  final alarmBefore = config.alarmBefore;
+
+  for (final week in timetable.weeks) {
+    if (week == null) continue;
+    for (final day in week.days) {
+      for (final lessonSlot in day.timeslot2LessonSlot) {
+        for (final lesson in lessonSlot.lessons) {
+          final course = lesson.course;
+          final (:begin, :end) = course.calcBeginEndTimepoint();
+          final (start: startTimeslot, end: endTimeslot) = course.timeslots;
+          final timeslotText = "${startTimeslot == endTimeslot ? startTimeslot : '$startTimeslot–$endTimeslot'}";
+          // 这里需要使用UTC时间
+          // 实际测试得出，如果不使用UTC，有的手机会将其看作本地时间
+          // 有的手机会将其看作UTC+0的时间从而导致实际显示时间与预期不一致
+          final date = reflectWeekDayNumberToDate(week: week.index, day: course.dayIndex, startDate: startDate);
+          final eventStartTime = date.add(Duration(hours: begin.hour, minutes: begin.minute));
+          final eventEndTime = date.add(Duration(hours: end.hour, minutes: end.minute));
+          final desc = "$timeslotText, ${course.place}, ${course.teachers.join(', ')}";
+          final IEvent event = IEvent(
+            uid: "SIT-Course-${course.courseCode}-${week.index}-${day.index}",
+            summary: course.courseName,
+            location: course.place,
+            description: desc,
+            start: eventStartTime,
+            end: eventEndTime,
+            alarm: alarmBefore == null
+                ? null
+                : IAlarm.display(
+                    trigger: eventStartTime.subtract(alarmBefore),
+                    description: desc,
+                  ),
+          );
+          calendar.addElement(event);
+        }
+      }
+    }
   }
-  return iCal.serialize();
+  return calendar.serialize();
 }
 
 Future<void> exportTimetableToICalendar(
   BuildContext context, {
-  required SitTimetable timetable,
+  required SitTimetableEntity timetable,
 }) async {
   await FileUtils.writeToTempFileAndOpen(
-    content: convertTableToIcs(timetable, null),
+    content: convertTableToIcs(
+      timetable: timetable,
+      config: (alarmBefore: null,),
+    ),
     filename: getExportTimetableFilename(),
     type: 'text/calendar',
   );
-}
-
-void _addEventForCourse(ICalendar cal, CourseRaw course, DateTime startDate, Duration? alarmBefore) {
-  // final timetable = getTeacherBuildingTimetable(course.campus, course.place);
-  // final indexStart = getIndexStart(course.timeIndex);
-  // final indexEnd = getIndexEnd(indexStart, course.timeIndex);
-  // final timeStart = timetable[indexStart - 1].begin;
-  // final timeEnd = timetable[indexEnd - 1].end;
-  //
-  // final description =
-  //     '第 ${indexStart == indexEnd ? indexStart : '$indexStart-$indexEnd'} 节，${course.place}，${course.teacher.join(' ')}';
-  //
-  // // 一学期最多有 20 周
-  // for (int currentWeek = 1; currentWeek < 20; ++currentWeek) {
-  //   // 本周没课, 跳过
-  //   if ((1 << currentWeek) & course.weekIndex == 0) continue;
-  //
-  //   // 这里需要使用UTC时间
-  //   // 实际测试得出，如果不使用UTC，有的手机会将其看作本地时间
-  //   // 有的手机会将其看作UTC+0的时间从而导致实际显示时间与预期不一致
-  //   final date = parseWeekDayNumberToDate(week: currentWeek, day: course.dayIndex, basedOn: startDate);
-  //   final eventStartTime = date.add(Duration(hours: timeStart.hour, minutes: timeStart.minute));
-  //   final eventEndTime = date.add(Duration(hours: timeEnd.hour, minutes: timeEnd.minute));
-  //   final IEvent event = IEvent(
-  //     // uid: 'SIT-${course.courseId}-${const Uuid().v1()}',
-  //     summary: course.courseName,
-  //     location: course.place,
-  //     description: description,
-  //     start: eventStartTime,
-  //     end: eventEndTime,
-  //     alarm: alarmBefore == null
-  //         ? null
-  //         : IAlarm.display(
-  //             trigger: eventStartTime.subtract(alarmBefore),
-  //             description: description,
-  //           ),
-  //   );
-  //   cal.addElement(event);
-  // }
 }
 
 // void _exportByUrl(Duration? alarmBefore) async {

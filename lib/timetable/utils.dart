@@ -132,7 +132,7 @@ SitTimetable parseTimetable(List<CourseRaw> all) {
 SitTimetableEntity resolveTimetableEntity(SitTimetable timetable) {
   final List<SitTimetableWeek?> weeks = List.generate(20, (index) => null);
   SitTimetableWeek getWeekAt(int index) {
-    final week = weeks[index] ??= SitTimetableWeek.$7days();
+    final week = weeks[index] ??= SitTimetableWeek.$7days(index);
     weeks[index] = week;
     return week;
   }

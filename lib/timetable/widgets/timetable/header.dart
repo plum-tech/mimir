@@ -48,7 +48,7 @@ class _TimetableHeaderState extends State<TimetableHeader> {
 
   ///每天的列
   Widget buildDayNameHeader(int day) {
-    final date = parseWeekDayNumberToDate(week: widget.currentWeek, day: day, basedOn: widget.startDate);
+    final date = reflectWeekDayNumberToDate(week: widget.currentWeek, day: day, startDate: widget.startDate);
     final onDayTap = widget.onDayTap;
     return Expanded(
       flex: 3,
@@ -64,7 +64,7 @@ class _TimetableHeaderState extends State<TimetableHeader> {
   }
 
   Widget buildDayHeader(int day) {
-    final date = parseWeekDayNumberToDate(week: widget.currentWeek, day: day, basedOn: widget.startDate);
+    final date = reflectWeekDayNumberToDate(week: widget.currentWeek, day: day, startDate: widget.startDate);
     final isSelected = day == selectedDay;
     final side = getBorderSide(context);
     return AnimatedContainer(

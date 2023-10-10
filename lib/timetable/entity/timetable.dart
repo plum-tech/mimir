@@ -99,13 +99,21 @@ class SitTimetableEntity {
 }
 
 class SitTimetableWeek {
+  final int index;
+
   /// The 7 days in a week
   final List<SitTimetableDay> days;
 
-  SitTimetableWeek(this.days);
+  SitTimetableWeek({
+    required this.index,
+    required this.days,
+  });
 
-  factory SitTimetableWeek.$7days() {
-    return SitTimetableWeek(List.generate(7, (index) => SitTimetableDay.$11slots()));
+  factory SitTimetableWeek.$7days(int weekIndex) {
+    return SitTimetableWeek(
+      index: weekIndex,
+      days: List.generate(7, (index) => SitTimetableDay.$11slots(index)),
+    );
   }
 
   @override
@@ -120,15 +128,23 @@ class SitTimetableLessonSlot {
 }
 
 class SitTimetableDay {
+  final int index;
+
   /// The Default number of lesson in one day is 11. But the length of lessons can be more.
   /// When two lessons are overlapped, it can be 12+.
   /// A Timeslot contain one or more lesson.
-  List<SitTimetableLessonSlot> timeslot2LessonSlot;
+  final List<SitTimetableLessonSlot> timeslot2LessonSlot;
 
-  SitTimetableDay(this.timeslot2LessonSlot);
+  SitTimetableDay({
+    required this.index,
+    required this.timeslot2LessonSlot,
+  });
 
-  factory SitTimetableDay.$11slots() {
-    return SitTimetableDay(List.generate(11, (index) => SitTimetableLessonSlot(lessons: [])));
+  factory SitTimetableDay.$11slots(int dayIndex) {
+    return SitTimetableDay(
+      index: dayIndex,
+      timeslot2LessonSlot: List.generate(11, (index) => SitTimetableLessonSlot(lessons: [])),
+    );
   }
 
   void add(SitTimetableLesson lesson, {required int at}) {
