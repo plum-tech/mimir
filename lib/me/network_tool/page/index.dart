@@ -23,7 +23,8 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
   @override
   void initState() {
     super.initState();
-    connectivityChecker = runPeriodically(const Duration(milliseconds: 1000), (Timer t) async {
+    // FIXME: Bad practice to use periodically, because the next request will not await the former one.
+    connectivityChecker = runPeriodically(const Duration(milliseconds: 3000), (Timer t) async {
       bool connected;
       try {
         connected = await ConnectivityInit.ssoSession.checkConnectivity();
@@ -34,13 +35,13 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
       if (isConnected != connected) {
         setState(() => isConnected = connected);
       }
-      if (connected) {
-        // if connected, check the connection slowly
-        await Future.delayed(const Duration(seconds: 3));
-      } else {
-        // if not connected, check the connection frequently
-        await Future.delayed(const Duration(seconds: 1));
-      }
+      // if (connected) {
+      //   // if connected, check the connection slowly
+      //   await Future.delayed(const Duration(seconds: 3));
+      // } else {
+      //   // if not connected, check the connection frequently
+      //   await Future.delayed(const Duration(seconds: 1));
+      // }
     });
   }
 

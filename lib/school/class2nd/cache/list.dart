@@ -31,10 +31,14 @@ class Class2ndActivityListCache {
     }
   }
 
-  Future<List<Class2ndActivity>?> query(String queryString) async {
-    var res = _queried[queryString];
-    res ??= await from.query(queryString);
-    _queried[queryString] = res;
-    return res;
+  Future<List<Class2ndActivity>> query(String queryString) async {
+    final cached = _queried[queryString];
+    if (cached != null) {
+      return cached;
+    } else {
+      final justQueried = await from.query(queryString);
+      _queried[queryString] = justQueried;
+      return justQueried;
+    }
   }
 }
