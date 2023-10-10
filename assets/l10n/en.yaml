@@ -43,10 +43,10 @@ timetable:
       subtitle: How to arrange
       merged:
         name: Merged
-        info: Several parts of the same lesson will be combined into one event
+        info: Several parts of the same class will be combined into one event
       separate:
         name: Separate
-        info: Several parts of the same lesson will be separated into multiple events
+        info: Several parts of the same class will be separated into multiple events
     enableAlarm:
       title: Enable alarm
       subtitle: Add alarm before class
@@ -56,7 +56,9 @@ timetable:
       sound: Sound
       display: Display
     alarmDuration: Alarm duration
-    alarmBeforeClassBegins: Alarm before class begins
+    alarmBeforeClassBegins:
+      title: Alarm before class begins
+      subtitle: "{duration} before"
   displayMode:
     daily: Daily
     weekly: Weekly

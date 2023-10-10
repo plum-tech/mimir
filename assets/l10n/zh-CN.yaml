@@ -57,7 +57,9 @@ timetable:
       sound: 声音
       display: 显示
     alarmDuration: 提醒时长
-    alarmBeforeClassBegins: 在上课前提醒
+    alarmBeforeClassBegins:
+      title: 在上课前提醒
+      subtitle: "提前 {duration}"
   displayMode:
     daily: 日
     weekly: 周
@@ -451,9 +453,9 @@ unit:
 time:
   minute: 分钟
   hour: 小时
-  hourMinuteFormat: "{hour}小时{minute}分钟"
-  minuteFormat: "{}分钟"
-  hourFormat: "{}小时"
+  hourMinuteFormat: "{hour} 小时 {minute} 分钟"
+  minuteFormat: "{} 分钟"
+  hourFormat: "{} 小时"
 open: 打开
 delete: 删除
 confirm: 确定

@@ -232,7 +232,6 @@ Future<void> exportTimetableAsICalendarAndOpen(
   await OpenFile.open(imgFi.path, type: "text/calendar");
 }
 
-///导出的方法
 String convertTimetable2ICal({
   required SitTimetableEntity timetable,
   required TimetableExportCalendarConfig config,

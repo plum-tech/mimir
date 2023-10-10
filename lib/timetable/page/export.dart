@@ -203,8 +203,8 @@ class _TimetableExportCalendarConfigPageState extends State<TimetableExportCalen
             $alarmBeforeClass >>
             (ctx, duration) => ListTile(
                   enabled: enabled,
-                  title: i18n.export.alarmBeforeClassBegins.text(),
-                  subtitle: i18n.time.minuteFormat(duration.inMinutes.toString()).text(),
+                  title: i18n.export.alarmBeforeClassBeginsTitle.text(),
+                  subtitle: i18n.export.alarmBeforeClassBeginsSubtitle(duration).text(),
                   trailing: IconButton(
                     icon: const Icon(Icons.edit),
                     onPressed: !enabled

@@ -159,7 +159,11 @@ class _Export {
 
   String get alarmDuration => "$ns.alarmDuration".tr();
 
-  String get alarmBeforeClassBegins => "$ns.alarmBeforeClassBegins".tr();
+  String get alarmBeforeClassBeginsTitle => "$ns.alarmBeforeClassBegins.title".tr();
+
+  String alarmBeforeClassBeginsSubtitle(Duration duration) => "$ns.alarmBeforeClassBegins.subtitle".tr(namedArgs: {
+        "duration": i18n.time.minuteFormat(duration.inMinutes.toString()),
+      });
 }
 
 class _FreeTip {
