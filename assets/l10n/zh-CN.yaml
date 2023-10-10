@@ -9,7 +9,6 @@ timetable:
     edit: 编辑
     exportFile: 导出文件
     exportCalendar: 导出日历
-    add2Calendar: 添加到日历
     delete: 删除
     preview: 预览
     use: 使用

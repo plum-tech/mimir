@@ -9,7 +9,6 @@ timetable:
     edit: Edit
     exportFile: Export file
     exportCalendar: Export calendar
-    add2Calendar: Add to calendar
     delete: Delete
     preview: Preview
     use: Use

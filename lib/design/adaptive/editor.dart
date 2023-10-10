@@ -47,7 +47,10 @@ class Editor {
     } else {
       final customEditorBuilder = _customEditor[initial.runtimeType];
       if (customEditorBuilder != null) {
-        final newValue = await ctx.show$Dialog$(make: (ctx) => customEditorBuilder(ctx, desc, initial));
+        final newValue = await showAdaptiveDialog(
+          context: ctx,
+          builder: (ctx) => customEditorBuilder(ctx, desc, initial),
+        );
         if (newValue != null) {
           return newValue;
         } else {

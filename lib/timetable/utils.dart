@@ -3,15 +3,16 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/widgets.dart';
+import 'package:ical/serializer.dart';
+import 'package:open_file/open_file.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/r.dart';
+import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/settings.dart';
 import 'package:sit/timetable/storage/timetable.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:universal_platform/universal_platform.dart';
 import 'entity/timetable.dart';
 
 import 'entity/course.dart';
@@ -19,6 +20,8 @@ import 'dart:math';
 
 import 'init.dart';
 import 'package:path/path.dart' show join;
+
+import 'page/export.dart';
 
 const maxWeekLength = 20;
 
@@ -208,4 +211,78 @@ Future<void> exportTimetableFileAndShare(
     [XFile(timetableFi.path)],
     sharePositionOrigin: sharePositionOrigin,
   );
+}
+
+String _getICalFileName(BuildContext context, SitTimetableEntity timetable) {
+  return sanitizeFilename(
+    "${timetable.type.name}, ${context.formatYmdNum(timetable.type.startDate)} #${DateTime.now().millisecondsSinceEpoch / 1000}.ics",
+    replacement: "-",
+  );
+}
+
+Future<void> exportTimetableAsICalendarAndOpen(
+  BuildContext context, {
+  required SitTimetableEntity timetable,
+  required TimetableCalendarExportConfig config,
+}) async {
+  final fileName = _getICalFileName(context, timetable);
+  final imgFi = File(join(R.tmpDir, fileName));
+  final data = convertTimetable2ICal(timetable: timetable, config: config);
+  await imgFi.writeAsString(data);
+  await OpenFile.open(imgFi.path, type: "text/calendar");
+}
+
+///导出的方法
+String convertTimetable2ICal({
+  required SitTimetableEntity timetable,
+  required TimetableCalendarExportConfig config,
+}) {
+  final calendar = ICalendar(
+    company: 'mysit.life',
+    product: 'SIT Life',
+    lang: config.locale?.toLanguageTag() ?? "EN",
+  );
+  final startDate = timetable.type.startDate;
+  final alarm = config.alarm;
+
+  for (final week in timetable.weeks) {
+    if (week == null) continue;
+    for (final day in week.days) {
+      for (final lessonSlot in day.timeslot2LessonSlot) {
+        for (final lesson in lessonSlot.lessons) {
+          final course = lesson.course;
+          final (:begin, :end) = course.calcBeginEndTimepoint();
+          // 这里需要使用UTC时间
+          // 实际测试得出，如果不使用UTC，有的手机会将其看作本地时间
+          // 有的手机会将其看作UTC+0的时间从而导致实际显示时间与预期不一致
+          final thatDay = reflectWeekDayNumberToDate(weekIndex: week.index, dayIndex: day.index, startDate: startDate);
+          final eventStartTime = thatDay.add(Duration(hours: begin.hour, minutes: begin.minute));
+          final eventEndTime = thatDay.add(Duration(hours: end.hour, minutes: end.minute));
+          final classDuration = lesson.calcuClassDuration();
+          final teachers = course.teachers.join(', ');
+          final event = IEvent(
+            uid: "SIT-Course-${course.courseCode}-${week.index}-${day.index}",
+            summary: course.courseName,
+            location: course.place,
+            description: teachers,
+            start: eventStartTime,
+            end: eventEndTime,
+            duration: Duration(hours: classDuration.hour, minutes: classDuration.minute),
+            alarm: alarm == null
+                ? null
+                : alarm.isSoundAlarm
+                    ? IAlarm.audio(
+                        trigger: eventStartTime.subtract(alarm.alarmBeforeClass),
+                      )
+                    : IAlarm.display(
+                        trigger: eventStartTime.subtract(alarm.alarmBeforeClass),
+                        description: "${course.courseName} ${course.place} $teachers",
+                      ),
+          );
+          calendar.addElement(event);
+        }
+      }
+    }
+  }
+  return calendar.serialize();
 }

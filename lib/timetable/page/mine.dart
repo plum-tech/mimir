@@ -163,22 +163,13 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             child: i18n.mine.exportFile.text(),
           ),
           CupertinoContextMenuAction(
-            trailingIcon: CupertinoIcons.calendar,
+            trailingIcon: CupertinoIcons.calendar_badge_plus,
             onPressed: () async {
               Navigator.of(context, rootNavigator: true).pop();
-              await exportTimetableAsICalendarAndOpen(ctx, timetable: timetable.resolve());
+              await ctx.push("/timetable/calendar-export/$id", extra: timetable);
             },
             child: i18n.mine.exportCalendar.text(),
           ),
-          if (kDebugMode)
-            CupertinoContextMenuAction(
-              trailingIcon: CupertinoIcons.calendar_badge_plus,
-              onPressed: () async {
-                Navigator.of(context, rootNavigator: true).pop();
-                await addTimetableToCalendar(ctx, timetable: timetable.resolve());
-              },
-              child: i18n.mine.add2Calendar.text(),
-            ),
           CupertinoContextMenuAction(
             trailingIcon: CupertinoIcons.delete,
             onPressed: () async {
@@ -238,11 +229,11 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         ),
         PopupMenuItem(
           child: ListTile(
-            leading: const Icon(Icons.edit_calendar_outlined),
+            leading: const Icon(Icons.calendar_month),
             title: i18n.mine.exportCalendar.text(),
             onTap: () async {
               ctx.pop();
-              await exportTimetableAsICalendarAndOpen(ctx, timetable: timetable.resolve());
+              await ctx.push("/timetable/calendar-export/$id", extra: timetable);
             },
           ),
         ),

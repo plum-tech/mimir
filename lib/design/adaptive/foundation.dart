@@ -11,25 +11,6 @@ import 'multiplatform.dart';
 const _kDialogAlpha = 0.89;
 
 extension $BuildContextEx$ on BuildContext {
-  Future<T?> show$Dialog$<T>({
-    required WidgetBuilder make,
-    bool dismissible = true,
-  }) async {
-    if (isCupertino) {
-      return await showCupertinoDialog<T>(
-        context: this,
-        builder: make,
-        barrierDismissible: dismissible,
-      );
-    } else {
-      return await showDialog<T>(
-        context: this,
-        builder: make,
-        barrierDismissible: dismissible,
-      );
-    }
-  }
-
   Future<T?> show$Sheet$<T>(
     WidgetBuilder builder, {
     bool dismissible = true,

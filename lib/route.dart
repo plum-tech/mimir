@@ -40,6 +40,7 @@ import 'package:sit/school/index.dart';
 import 'package:sit/settings/page/timetable.dart';
 import 'package:sit/timetable/entity/timetable.dart';
 import 'package:sit/timetable/init.dart';
+import 'package:sit/timetable/page/export.dart';
 import 'package:sit/timetable/page/import.dart';
 import 'package:sit/timetable/page/index.dart';
 import 'package:sit/timetable/page/mine.dart';
@@ -123,6 +124,18 @@ final router = GoRouter(
                 GoRoute(
                   path: "p13n",
                   builder: (ctx, state) => const TimetableP13nPage(),
+                ),
+                GoRoute(
+                  path: "calendar-export/:id",
+                  builder: (ctx, state) {
+                    final extra = state.extra;
+                    if (extra is SitTimetable) return TimetableCalendarExportConfigPage(timetable: extra);
+                    final id = int.tryParse(state.pathParameters["id"] ?? "");
+                    if (id == null) throw 404;
+                    final timetable = TimetableInit.storage.timetable.getOf(id);
+                    if (timetable == null) throw 404;
+                    return TimetableCalendarExportConfigPage(timetable: timetable);
+                  },
                 ),
               ],
             ),

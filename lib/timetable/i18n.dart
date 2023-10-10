@@ -7,6 +7,7 @@ class _I18n with CommonI18nMixin {
   const _I18n();
 
   static const ns = "timetable";
+  final time = const TimeI18n();
   final mine = const _Mine();
   final details = const _Details();
   final import = const _Import();

@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 
-mixin CommonI18nMixin {
+mixin class CommonI18nMixin {
   String get open => "open".tr();
 
   String get delete => "delete".tr();

@@ -5,9 +5,9 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:sit/credential/storage/credential.dart';
-import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/global/cookie_init.dart';
 import 'package:sit/global/dio_init.dart';
 import 'package:sit/route.dart';
@@ -44,9 +44,10 @@ class Global {
       },
       inputCaptcha: (Uint8List imageBytes) async {
         final context = $Key.currentContext!;
-        return await context.show$Dialog$(
-          dismissible: false,
-          make: (context) => CaptchaDialog(captchaData: imageBytes),
+        return await showAdaptiveDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => CaptchaDialog(captchaData: imageBytes),
         );
       },
     );

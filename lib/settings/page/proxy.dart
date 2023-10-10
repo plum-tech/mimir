@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
-import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/global/init.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
@@ -227,15 +226,17 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
         IconButton(
           icon: const Icon(Icons.edit),
           onPressed: () async {
-            final newAuth = await context.show$Dialog$<({String username, String password})>(
-                make: (_) => StringsEditor(
-                      fields: [
-                        (name: "username", initial: credentials?.username ?? ""),
-                        (name: "password", initial: credentials?.password ?? ""),
-                      ],
-                      title: i18n.proxy.authentication,
-                      ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
-                    ));
+            final newAuth = await showAdaptiveDialog<({String username, String password})>(
+              context: context,
+              builder: (_) => StringsEditor(
+                fields: [
+                  (name: "username", initial: credentials?.username ?? ""),
+                  (name: "password", initial: credentials?.password ?? ""),
+                ],
+                title: i18n.proxy.authentication,
+                ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
+              ),
+            );
             if (newAuth != null) {
               onChanged(newAuth);
             }

@@ -32,8 +32,9 @@ extension DialogEx on BuildContext {
     bool highlight = false,
     bool serious = false,
   }) async {
-    final dynamic confirm = await show$Dialog$(
-      make: (ctx) => $Dialog$(
+    final dynamic confirm = await showAdaptiveDialog(
+      context: this,
+      builder: (ctx) => $Dialog$(
           title: title,
           serious: serious,
           make: make,
@@ -74,8 +75,9 @@ extension DialogEx on BuildContext {
     bool highlight = false,
     bool serious = false,
   }) async {
-    return await show$Dialog$(
-      make: (ctx) => $Dialog$(
+    return await showAdaptiveDialog(
+      context: this,
+      builder: (ctx) => $Dialog$(
         title: title,
         serious: serious,
         make: make,
