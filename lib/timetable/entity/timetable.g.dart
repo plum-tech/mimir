@@ -22,8 +22,8 @@ Map<String, dynamic> _$SitTimetableToJson(SitTimetable instance) => <String, dyn
       'startDate': instance.startDate.toIso8601String(),
       'schoolYear': instance.schoolYear,
       'semester': _$SemesterEnumMap[instance.semester]!,
-      'courseKey2Entity': instance.courseKey2Entity,
       'courseKeyCounter': instance.courseKeyCounter,
+      'courseKey2Entity': instance.courseKey2Entity,
     };
 
 const _$SemesterEnumMap = {
@@ -31,36 +31,6 @@ const _$SemesterEnumMap = {
   Semester.term1: 'term1',
   Semester.term2: 'term2',
 };
-
-SitTimetableWeek _$SitTimetableWeekFromJson(Map<String, dynamic> json) => SitTimetableWeek(
-      (json['days'] as List<dynamic>).map((e) => SitTimetableDay.fromJson(e as Map<String, dynamic>)).toList(),
-    );
-
-Map<String, dynamic> _$SitTimetableWeekToJson(SitTimetableWeek instance) => <String, dynamic>{
-      'days': instance.days,
-    };
-
-SitTimetableDay _$SitTimetableDayFromJson(Map<String, dynamic> json) => SitTimetableDay(
-      (json['timeslots2Lessons'] as List<dynamic>)
-          .map((e) => (e as List<dynamic>).map((e) => SitTimetableLesson.fromJson(e as Map<String, dynamic>)).toList())
-          .toList(),
-    );
-
-Map<String, dynamic> _$SitTimetableDayToJson(SitTimetableDay instance) => <String, dynamic>{
-      'timeslots2Lessons': instance.timeslots2Lessons,
-    };
-
-SitTimetableLesson _$SitTimetableLessonFromJson(Map<String, dynamic> json) => SitTimetableLesson(
-      json['startIndex'] as int,
-      json['endIndex'] as int,
-      json['courseKey'] as int,
-    );
-
-Map<String, dynamic> _$SitTimetableLessonToJson(SitTimetableLesson instance) => <String, dynamic>{
-      'startIndex': instance.startIndex,
-      'endIndex': instance.endIndex,
-      'courseKey': instance.courseKey,
-    };
 
 SitCourse _$SitCourseFromJson(Map<String, dynamic> json) => SitCourse(
       courseKey: json['courseKey'] as int,

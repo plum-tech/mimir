@@ -18,10 +18,12 @@ class SitTimetable {
   final int schoolYear;
   @JsonKey()
   final Semester semester;
+  @JsonKey()
+  final int courseKeyCounter;
 
   /// The index is the CourseKey.
+  @JsonKey()
   final List<SitCourse> courseKey2Entity;
-  final int courseKeyCounter;
 
   const SitTimetable({
     required this.courseKey2Entity,
@@ -100,10 +102,8 @@ class SitTimetableEntity {
   }
 }
 
-@JsonSerializable()
 class SitTimetableWeek {
   /// The 7 days in a week
-  @JsonKey()
   final List<SitTimetableDay> days;
 
   SitTimetableWeek(this.days);
@@ -114,21 +114,15 @@ class SitTimetableWeek {
 
   @override
   String toString() => "$days";
-
-  factory SitTimetableWeek.fromJson(Map<String, dynamic> json) => _$SitTimetableWeekFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SitTimetableWeekToJson(this);
 }
 
 /// Lessons in the same Timeslot.
 typedef LessonsInSlot = List<SitTimetableLesson>;
 
-@JsonSerializable()
 class SitTimetableDay {
   /// The Default number of lesson in one day is 11. But the length of lessons can be more.
   /// When two lessons are overlapped, it can be 12+.
   /// A Timeslot contain one or more lesson.
-  @JsonKey()
   List<LessonsInSlot> timeslots2Lessons;
 
   SitTimetableDay(this.timeslots2Lessons);
@@ -177,26 +171,18 @@ class SitTimetableDay {
 
   @override
   String toString() => "$timeslots2Lessons";
-
-  factory SitTimetableDay.fromJson(Map<String, dynamic> json) => _$SitTimetableDayFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SitTimetableDayToJson(this);
 }
 
-@JsonSerializable()
 class SitTimetableLesson {
   /// The start index of this lesson in a [SitTimetableWeek]
-  @JsonKey()
   final int startIndex;
 
   /// The end index of this lesson in a [SitTimetableWeek]
-  @JsonKey()
   final int endIndex;
 
   /// A lesson may last two or more time slots.
   /// If current [SitTimetableLesson] is a part of the whole lesson, they all have the same [courseKey].
   /// If there's no lesson, the [courseKey] is null.
-  @JsonKey()
   final int courseKey;
 
   /// How many timeslots this lesson takes.
@@ -207,10 +193,6 @@ class SitTimetableLesson {
 
   @override
   String toString() => "[$courseKey] $startIndex-$endIndex";
-
-  factory SitTimetableLesson.fromJson(Map<String, dynamic> json) => _$SitTimetableLessonFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SitTimetableLessonToJson(this);
 }
 
 extension SitTimetableLessonEx on SitTimetableLesson {
