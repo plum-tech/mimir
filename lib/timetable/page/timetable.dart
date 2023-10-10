@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' show join;
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
@@ -18,8 +19,10 @@ import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
 import '../entity/pos.dart';
+import '../widgets/style.dart';
 import '../widgets/timetable/board.dart';
 import '../widgets/timetable/weekly.dart';
+import '../widgets/timetable/weekly.screenshot.dart';
 
 class TimetableBoardPage extends StatefulWidget {
   final SitTimetableEntity timetable;
@@ -144,14 +147,22 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
   final screenshotController = ScreenshotController();
 
   Future<void> takeScreenshotOfTimetable() async {
+    var fullSize = context.mediaQuery.size;
+    fullSize = Size(fullSize.width, fullSize.height * 1.2);
     final screenshot = await screenshotController.captureFromLongWidget(
       InheritedTheme.captureAll(
         context,
-        Material(
-          child: TimetableWeeklyScreenshotFilm(
-            timetable: timetable,
-            todayPos: timetable.type.locate(DateTime.now()),
-            weekIndex: 3,
+        MediaQuery(
+          data: MediaQueryData(size: fullSize),
+          child: Material(
+            child: TimetableStyleProv(
+              child: TimetableWeeklyScreenshotFilm(
+                timetable: timetable,
+                todayPos: timetable.type.locate(DateTime.now()),
+                weekIndex: 3,
+                fullSize: fullSize,
+              ),
+            ),
           ),
         ),
       ),
@@ -162,10 +173,12 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     final imgFi = await File(join(R.tmpDir, "screenshot.png")).create();
     await imgFi.writeAsBytes(screenshot);
 
+    await OpenFile.open(imgFi.path, type: "image/png");
+
     /// Share Plugin
-    await Share.shareXFiles(
-      [XFile(imgFi.path, mimeType: "image/png")],
-    );
+    // await Share.shareXFiles(
+    //   [XFile(imgFi.path, mimeType: "image/png")],
+    // );
   }
 
   Future<void> selectWeeklyTimetablePageToJump() async {

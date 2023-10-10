@@ -183,7 +183,7 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
     BuildContext ctx, {
     required Size fullSize,
   }) {
-    // TODO: Support screenshot
+    // TODO: No magic number
     fullSize = Size(fullSize.width, fullSize.height * 1.5);
     final cellSize = Size(fullSize.width * 3 / 23, fullSize.height / 11);
     final weekIndex = widget.weekIndex;
@@ -195,7 +195,7 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
         todayPos: widget.todayPos,
         timetable: timetable,
         weekIndex: weekIndex,
-      );
+      ).scrolled().center();
     }
     return SizedBox(
       width: fullSize.width,
@@ -273,6 +273,7 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
           lesson: firstLayerLesson,
           timetable: timetable,
           course: course,
+          cellSize: cellSize,
         );
         cells.add(cell.sized(w: cellSize.width, h: cellSize.height * firstLayerLesson.duration));
 
@@ -293,12 +294,14 @@ class CourseCell extends StatefulWidget {
   final SitTimetableLesson lesson;
   final SitCourse course;
   final SitTimetableEntity timetable;
+  final Size cellSize;
 
   const CourseCell({
     super.key,
     required this.lesson,
     required this.timetable,
     required this.course,
+    required this.cellSize,
   });
 
   @override
@@ -310,13 +313,11 @@ class _CourseCellState extends State<CourseCell> {
 
   @override
   Widget build(BuildContext context) {
-    final size = context.mediaQuery.size;
     final color = TimetableStyle.of(context)
         .platte
         .resolveColor(widget.course)
         .byTheme(context.theme)
         .harmonizeWith(context.colorScheme.primary);
-    final padding = context.isPortrait ? size.height / 40 : size.height / 80;
     final lessons = widget.course.calcBeginEndTimePointForEachLesson();
     return Tooltip(
       key: $tooltip,
@@ -341,31 +342,9 @@ class _CourseCellState extends State<CourseCell> {
           child: TimetableSlotInfo(
             course: widget.course,
             maxLines: context.isPortrait ? 8 : 5,
-          ).padOnly(t: padding),
+          ).padOnly(t: widget.cellSize.height * 0.2),
         ),
       ),
-    );
-  }
-}
-
-class TimetableWeeklyScreenshotFilm extends StatelessWidget {
-  final SitTimetableEntity timetable;
-  final int weekIndex;
-  final TimetablePos todayPos;
-
-  const TimetableWeeklyScreenshotFilm({
-    super.key,
-    required this.timetable,
-    required this.todayPos,
-    required this.weekIndex,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TimetableOneWeekPage(
-      timetable: timetable,
-      todayPos: todayPos,
-      weekIndex: weekIndex,
     );
   }
 }

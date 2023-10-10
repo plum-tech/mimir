@@ -185,7 +185,7 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
         todayPos: widget.todayPos,
         weekIndex: weekIndex,
         dayIndex: dayIndex,
-      );
+      ).scrolled().center();
     } else {
       final day = week.days[dayIndex];
       if (!day.hasAnyLesson()) {
@@ -194,7 +194,7 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
           todayPos: widget.todayPos,
           weekIndex: weekIndex,
           dayIndex: dayIndex,
-        );
+        ).scrolled().center();
       } else {
         final slotCount = day.timeslot2LessonSlot.length;
         final builder = _RowBuilder();

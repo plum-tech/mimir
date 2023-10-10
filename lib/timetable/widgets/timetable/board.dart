@@ -6,6 +6,7 @@ import '../../entity/pos.dart';
 import '../../entity/timetable.dart';
 import 'daily.dart';
 import 'weekly.dart';
+import 'weekly.screenshot.dart';
 
 class TimetableBoard extends StatelessWidget {
   final SitTimetableEntity timetable;
@@ -23,11 +24,6 @@ class TimetableBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return TimetableWeeklyScreenshotFilm(
-    //   timetable: timetable,
-    //   todayPos: timetable.type.locate(DateTime.now()),
-    //   weekIndex: 3,
-    // );
     return $displayMode >>
         (ctx, mode) => (mode == DisplayMode.daily
             ? DailyTimetable(
