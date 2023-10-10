@@ -266,7 +266,8 @@ String convertTimetable2ICal({
               description: teachers,
               start: eventStartTime,
               end: eventEndTime,
-              duration: lesson.calcuClassDuration().toDuration(),
+              // DON'T USE duration, that breaks iOS.
+              // duration: lesson.calcuClassDuration().toDuration(),
               alarm: alarm == null
                   ? null
                   : alarm.isSoundAlarm
@@ -292,7 +293,6 @@ String convertTimetable2ICal({
                 description: teachers,
                 start: eventStartTime,
                 end: eventEndTime,
-                duration: timePoint.duration.toDuration(),
                 alarm: alarm == null
                     ? null
                     : alarm.isSoundAlarm
