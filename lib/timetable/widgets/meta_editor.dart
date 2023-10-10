@@ -36,7 +36,7 @@ class _MetaEditorState extends State<MetaEditor> {
           TextFormField(
             controller: _nameController,
             maxLines: 1,
-            decoration: InputDecoration(labelText: i18n.detail.nameFormTitle, border: const OutlineInputBorder()),
+            decoration: InputDecoration(labelText: i18n.details.nameFormTitle, border: const OutlineInputBorder()),
           ).padAll(10),
         ]));
   }

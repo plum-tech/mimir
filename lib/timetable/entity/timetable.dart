@@ -288,13 +288,6 @@ extension SitCourseEx on SitCourse {
 
   List<ClassTime> get buildingTimetable => getTeacherBuildingTimetable(campus, place);
 
-  TimeDuration duration({required SitTimetableLesson basedOn}) {
-    final timetable = buildingTimetable;
-    final classBegin = timetable[basedOn.startIndex].begin;
-    final classOver = timetable[basedOn.endIndex].end;
-    return classOver.difference(classBegin);
-  }
-
   /// Based on [SitCourse.timeslots], compose a full-length class time.
   /// Starts with the first part starts.
   /// Ends with the last part ends.
@@ -312,6 +305,15 @@ extension SitCourseEx on SitCourse {
       result.add(timetable[timeslot]);
     }
     return result;
+  }
+}
+
+extension SitTimetableLessonX on SitTimetableLesson {
+  TimeDuration calcuClassDuration() {
+    final timetable = course.buildingTimetable;
+    final classBegin = timetable[startIndex].begin;
+    final classOver = timetable[endIndex].end;
+    return classOver.difference(classBegin);
   }
 }
 

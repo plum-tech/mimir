@@ -16,8 +16,7 @@ timetable:
     used: Used
     deleteRequest: Confirm to delete?
     deleteRequestDesc: You will lose this timetable permanently
-    emptyTip: Let's import a new timetable!
-  detail:
+  details:
     descFormTitle: Description
     nameFormTitle: Name
     classId: Class Code

@@ -8,7 +8,7 @@ class _I18n with CommonI18nMixin {
 
   static const ns = "timetable";
   final mine = const _Mine();
-  final detail = const _Detail();
+  final details = const _Details();
   final import = const _Import();
   final edit = const _Edit();
   final freeTip = const _FreeTip();
@@ -59,10 +59,10 @@ class _Mine {
   String get emptyTip => "$ns.emptyTip".tr();
 }
 
-class _Detail {
-  const _Detail();
+class _Details {
+  const _Details();
 
-  static const ns = "${_I18n.ns}.detail";
+  static const ns = "${_I18n.ns}.details";
 
   String get nameFormTitle => "$ns.nameFormTitle".tr();
 

@@ -17,7 +17,7 @@ timetable:
     deleteRequest: 确认删除？
     deleteRequestDesc: 这个课程表将被永久删除
     emptyTip: 快去导入一个课程表吧！
-  detail:
+  details:
     descFormTitle: 描述
     nameFormTitle: 名称
     classId: 教学班
