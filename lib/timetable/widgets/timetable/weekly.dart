@@ -183,63 +183,45 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
     required Size fullSize,
   }) {
     // TODO: Support screenshot
-    fullSize = ctx.mediaQuery.size;
+    fullSize = Size(fullSize.width, fullSize.height * 1.5);
     final cellSize = Size(fullSize.width * 3 / 23, fullSize.height / 11);
     final weekIndex = widget.weekIndex;
     final timetableWeek = timetable.weeks[weekIndex];
+
     if (timetableWeek == null) {
       // free week
-      return [
-        buildLeftColumn(ctx).flexible(flex: 2),
-        FreeWeekTip(
-          todayPos: widget.todayPos,
-          timetable: timetable,
-          weekIndex: weekIndex,
-        ).flexible(flex: 21),
-      ].row(textDirection: TextDirection.ltr);
+      return FreeWeekTip(
+        todayPos: widget.todayPos,
+        timetable: timetable,
+        weekIndex: weekIndex,
+      );
     }
-    return [
-      buildLeftColumn(ctx).flexible(flex: 2),
-      SizedBox(
-        width: fullSize.width,
-        height: fullSize.height,
-        child: buildSingleWeekView(
-          timetableWeek,
-          cellSize: cellSize,
-          fullSize: fullSize,
-        ),
-      ).flexible(flex: 21),
-    ].row(textDirection: TextDirection.ltr).scrolled();
+    return SizedBox(
+      width: fullSize.width,
+      height: fullSize.height,
+      child: buildSingleWeekView(
+        timetableWeek,
+        cellSize: cellSize,
+        fullSize: fullSize,
+      ),
+    ).scrolled();
   }
 
   /// 布局左侧边栏, 显示节次
-  Widget buildLeftColumn(BuildContext ctx) {
-    /// 构建每一个格子
-    Widget buildCell(BuildContext ctx, int index) {
-      final textStyle = ctx.textTheme.bodyMedium;
-      final side = getBorderSide(ctx);
-
+  Widget buildLeftColumn(BuildContext ctx, Size cellSize) {
+    final textStyle = ctx.textTheme.bodyMedium;
+    final side = getBorderSide(ctx);
+    return Iterable.generate(11, (index) {
       return Container(
         decoration: BoxDecoration(
-          border: Border(
-            top: index == 0 ? side : BorderSide.none,
-            right: side,
-          ),
+          border: Border(right: side),
         ),
-        child: (index + 1).toString().text(style: textStyle).center(),
+        child: SizedBox.fromSize(
+          size: Size(cellSize.width * 0.6, cellSize.height),
+          child: (index + 1).toString().text(style: textStyle).center(),
+        ),
       );
-    }
-
-    // 用 [GridView] 构造整个左侧边栏
-    return GridView.builder(
-      shrinkWrap: true,
-      itemCount: 11,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 1,
-        childAspectRatio: 22 / 23 * (1.sw) / (1.sh),
-      ),
-      itemBuilder: buildCell,
-    );
+    }).toList().column();
   }
 
   Widget buildSingleWeekView(
@@ -248,12 +230,17 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
     required Size fullSize,
   }) {
     return ListView.builder(
-      itemCount: 7,
+      itemCount: 8,
       scrollDirection: Axis.horizontal,
       physics: const NeverScrollableScrollPhysics(),
       // The scrolling has been handled outside
-      itemBuilder: (BuildContext context, int index) =>
-          _buildCellsByDay(context, timetableWeek.days[index], cellSize).center(),
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return buildLeftColumn(context, cellSize);
+        } else {
+          return _buildCellsByDay(context, timetableWeek.days[index - 1], cellSize).center();
+        }
+      },
     );
   }
 

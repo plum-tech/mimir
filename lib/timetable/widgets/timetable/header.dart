@@ -70,12 +70,7 @@ class _TimetableHeaderState extends State<TimetableHeader> {
     return AnimatedContainer(
       decoration: BoxDecoration(
         color: isSelected ? context.colorScheme.secondaryContainer : null,
-        border: Border(
-          left: day == 1 ? side : BorderSide.none,
-          right: day == 7 ? side : BorderSide.none,
-          top: side,
-          bottom: side,
-        ),
+        border: Border(bottom: side),
       ),
       duration: const Duration(milliseconds: 1000),
       curve: Curves.fastLinearToSlowEaseIn,
