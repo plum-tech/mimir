@@ -41,6 +41,11 @@ class _TimetableCalendarExportConfigPageState extends State<TimetableCalendarExp
 
   @override
   void dispose() {
+    $enableAlarm.dispose();
+    $alarmDuration.dispose();
+    $alarmBeforeClass.dispose();
+    $merged.dispose();
+    $isSoundAlarm.dispose();
     super.dispose();
   }
 
@@ -91,7 +96,12 @@ class _TimetableCalendarExportConfigPageState extends State<TimetableCalendarExp
   Widget buildModeSwitch() {
     return ListTile(
       title: "Lesson Mode".text(),
-      subtitle: "How lesson to event".text(),
+      leading: Tooltip(
+        triggerMode: TooltipTriggerMode.tap,
+        message: "",
+        child: Icon(Icons.info_outline, color: context.colorScheme.primary),
+      ),
+      subtitle: "How to arrange".text(),
       trailing: $merged >>
           (ctx, value) => SegmentedButton<bool>(
                 showSelectedIcon: false,

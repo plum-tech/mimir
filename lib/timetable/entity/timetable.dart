@@ -291,13 +291,13 @@ extension SitCourseEx on SitCourse {
   /// Based on [SitCourse.timeslots], compose a full-length class time.
   /// Starts with the first part starts.
   /// Ends with the last part ends.
-  ClassTime calcBeginEndTimepoint() {
+  ClassTime calcBeginEndTimePoint() {
     final timetable = buildingTimetable;
     final (:start, :end) = timeslots;
     return (begin: timetable[start].begin, end: timetable[end].end);
   }
 
-  List<ClassTime> calcBeginEndTimepointForEachLesson() {
+  List<ClassTime> calcBeginEndTimePointForEachLesson() {
     final timetable = buildingTimetable;
     final (:start, :end) = timeslots;
     final result = <ClassTime>[];

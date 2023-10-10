@@ -244,42 +244,69 @@ String convertTimetable2ICal({
   );
   final startDate = timetable.type.startDate;
   final alarm = config.alarm;
-
+  // 这里需要使用UTC时间
+  // 实际测试得出，如果不使用UTC，有的手机会将其看作本地时间
+  // 有的手机会将其看作UTC+0的时间从而导致实际显示时间与预期不一致
   for (final week in timetable.weeks) {
     if (week == null) continue;
     for (final day in week.days) {
       for (final lessonSlot in day.timeslot2LessonSlot) {
         for (final lesson in lessonSlot.lessons) {
           final course = lesson.course;
-          final (:begin, :end) = course.calcBeginEndTimepoint();
-          // 这里需要使用UTC时间
-          // 实际测试得出，如果不使用UTC，有的手机会将其看作本地时间
-          // 有的手机会将其看作UTC+0的时间从而导致实际显示时间与预期不一致
-          final thatDay = reflectWeekDayNumberToDate(weekIndex: week.index, dayIndex: day.index, startDate: startDate);
-          final eventStartTime = thatDay.add(Duration(hours: begin.hour, minutes: begin.minute));
-          final eventEndTime = thatDay.add(Duration(hours: end.hour, minutes: end.minute));
-          final classDuration = lesson.calcuClassDuration();
           final teachers = course.teachers.join(', ');
-          final event = IEvent(
-            uid: "SIT-Course-${course.courseCode}-${week.index}-${day.index}",
-            summary: course.courseName,
-            location: course.place,
-            description: teachers,
-            start: eventStartTime,
-            end: eventEndTime,
-            duration: Duration(hours: classDuration.hour, minutes: classDuration.minute),
-            alarm: alarm == null
-                ? null
-                : alarm.isSoundAlarm
-                    ? IAlarm.audio(
-                        trigger: eventStartTime.subtract(alarm.alarmBeforeClass),
-                      )
-                    : IAlarm.display(
-                        trigger: eventStartTime.subtract(alarm.alarmBeforeClass),
-                        description: "${course.courseName} ${course.place} $teachers",
-                      ),
-          );
-          calendar.addElement(event);
+          final thatDay = reflectWeekDayIndexToDate(weekIndex: week.index, dayIndex: day.index, startDate: startDate);
+          if (config.isLessonMerged) {
+            final (:begin, :end) = course.calcBeginEndTimePoint();
+            final eventStartTime = thatDay.addTimePoint(begin);
+            final eventEndTime = thatDay.addTimePoint(end);
+            final event = IEvent(
+              uid: "${R.appId}.${course.courseCode}.${week.index}.${day.index}",
+              summary: course.courseName,
+              location: course.place,
+              description: teachers,
+              start: eventStartTime,
+              end: eventEndTime,
+              duration: lesson.calcuClassDuration().toDuration(),
+              alarm: alarm == null
+                  ? null
+                  : alarm.isSoundAlarm
+                      ? IAlarm.audio(
+                          trigger: eventStartTime.subtract(alarm.alarmBeforeClass),
+                        )
+                      : IAlarm.display(
+                          trigger: eventStartTime.subtract(alarm.alarmBeforeClass),
+                          description: "${course.courseName} ${course.place} $teachers",
+                        ),
+            );
+            calendar.addElement(event);
+          } else {
+            final lessonTimePoints = course.calcBeginEndTimePointForEachLesson();
+            for (var timePointsIndex = 0; timePointsIndex < lessonTimePoints.length; timePointsIndex++) {
+              final timePoint = lessonTimePoints[timePointsIndex];
+              final eventStartTime = thatDay.addTimePoint(timePoint.begin);
+              final eventEndTime = thatDay.addTimePoint(timePoint.end);
+              final event = IEvent(
+                uid: "${R.appId}.${course.courseCode}.${week.index}.${day.index}.$timePointsIndex",
+                summary: course.courseName,
+                location: course.place,
+                description: teachers,
+                start: eventStartTime,
+                end: eventEndTime,
+                duration: timePoint.duration.toDuration(),
+                alarm: alarm == null
+                    ? null
+                    : alarm.isSoundAlarm
+                        ? IAlarm.audio(
+                            trigger: eventStartTime.subtract(alarm.alarmBeforeClass),
+                          )
+                        : IAlarm.display(
+                            trigger: eventStartTime.subtract(alarm.alarmBeforeClass),
+                            description: "${course.courseName} ${course.place} $teachers",
+                          ),
+              );
+              calendar.addElement(event);
+            }
+          }
         }
       }
     }

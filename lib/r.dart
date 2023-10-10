@@ -20,6 +20,7 @@ class R {
     zhCnLocale,
     zhTwLocale,
   ];
+  static const appId = "life.mysit.SITLife";
   static const appName = "SIT Life";
   static late final String appDir;
   static late final String tmpDir;

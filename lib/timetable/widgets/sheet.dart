@@ -22,7 +22,7 @@ class TimetableCourseSheet extends StatelessWidget {
   List<String> generateTimeString() {
     return classes.map((e) {
       final weekNumbers = e.localizedWeekNumbers();
-      final (:begin, :end) = e.calcBeginEndTimepoint();
+      final (:begin, :end) = e.calcBeginEndTimePoint();
       final timeText = "$begin–$end";
       return "$weekNumbers $timeText\n ${e.place}";
     }).toList();

@@ -317,7 +317,7 @@ class _CourseCellState extends State<CourseCell> {
         .byTheme(context.theme)
         .harmonizeWith(context.colorScheme.primary);
     final padding = context.isPortrait ? size.height / 40 : size.height / 80;
-    final lessons = widget.course.calcBeginEndTimepointForEachLesson();
+    final lessons = widget.course.calcBeginEndTimePointForEachLesson();
     return Tooltip(
       key: $tooltip,
       preferBelow: false,
