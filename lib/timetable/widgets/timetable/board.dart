@@ -23,6 +23,11 @@ class TimetableBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return TimetableWeeklyScreenshotFilm(
+    //   timetable: timetable,
+    //   todayPos: timetable.type.locate(DateTime.now()),
+    //   weekIndex: 3,
+    // );
     return $displayMode >>
         (ctx, mode) => (mode == DisplayMode.daily
             ? DailyTimetable(

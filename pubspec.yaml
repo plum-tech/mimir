@@ -54,6 +54,9 @@ dependencies:
   ical: ^0.2.2
   add_2_calendar: ^2.2.4
 
+  # Screenshot
+  screenshot: ^2.1.0
+
   # JSON
   json_serializable: ^6.7.1
   json_annotation: ^4.8.1

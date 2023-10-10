@@ -102,7 +102,6 @@ class _BoxSectionState extends State<BoxSection> {
     final box = this.box;
     final boxNameStyle = ctx.textTheme.headlineSmall;
     final action = PopupMenuButton(
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
       position: PopupMenuPosition.under,
       padding: EdgeInsets.zero,
       itemBuilder: (ctx) => <PopupMenuEntry>[
@@ -275,7 +274,6 @@ class _BoxItemState extends State<BoxItem> {
 
   Widget buildActionButton(String key, dynamic value) {
     return PopupMenuButton(
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
       position: PopupMenuPosition.under,
       padding: EdgeInsets.zero,
       itemBuilder: (ctx) => <PopupMenuEntry>[

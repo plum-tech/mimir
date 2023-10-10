@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/r.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/settings/settings.dart';
@@ -201,11 +202,7 @@ Future<void> exportTimetableFileAndShare(
   final content = jsonEncode(timetable.toJson());
   final fileName = sanitizeFilename("${timetable.name}.timetable", replacement: "-");
   final timetableFi = File(join(R.tmpDir, fileName));
-  final box = context.findRenderObject() as RenderBox?;
-  final sharePositionOrigin = box == null ? null : box.localToGlobal(Offset.zero) & box.size;
-  if (UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
-    assert(sharePositionOrigin != null, "sharePositionOrigin should be nonnull on iPad and macOS");
-  }
+  final sharePositionOrigin = context.getSharePositionOrigin();
   await timetableFi.writeAsString(content);
   await Share.shareXFiles(
     [XFile(timetableFi.path)],

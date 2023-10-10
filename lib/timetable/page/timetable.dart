@@ -1,9 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:path/path.dart' show join;
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/r.dart';
 
 import '../entity/display.dart';
 import '../events.dart';
@@ -12,6 +19,7 @@ import '../entity/timetable.dart';
 import '../init.dart';
 import '../entity/pos.dart';
 import '../widgets/timetable/board.dart';
+import '../widgets/timetable/weekly.dart';
 
 class TimetableBoardPage extends StatefulWidget {
   final SitTimetableEntity timetable;
@@ -52,6 +60,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         title: $currentPos >> (ctx, pos) => i18n.weekOrderedName(number: pos.week).text(),
         actions: [
           buildSwitchViewButton(),
+          if (kDebugMode) buildMoreActionsButton(),
           buildMyTimetablesButton(),
         ],
       ),
@@ -110,6 +119,52 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         await context.push("/timetable/mine");
         setState(() {});
       },
+    );
+  }
+
+  Widget buildMoreActionsButton() {
+    return PopupMenuButton(
+      position: PopupMenuPosition.under,
+      padding: EdgeInsets.zero,
+      itemBuilder: (ctx) => <PopupMenuEntry>[
+        PopupMenuItem(
+          child: ListTile(
+            leading: const Icon(Icons.screenshot),
+            title: i18n.screenshot.text(),
+            onTap: () async {
+              ctx.pop();
+              await takeScreenshotOfTimetable();
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  final screenshotController = ScreenshotController();
+
+  Future<void> takeScreenshotOfTimetable() async {
+    final screenshot = await screenshotController.captureFromLongWidget(
+      InheritedTheme.captureAll(
+        context,
+        Material(
+          child: TimetableWeeklyScreenshotFilm(
+            timetable: timetable,
+            todayPos: timetable.type.locate(DateTime.now()),
+            weekIndex: 3,
+          ),
+        ),
+      ),
+      delay: const Duration(milliseconds: 100),
+      context: context,
+      pixelRatio: View.of(context).devicePixelRatio,
+    );
+    final imgFi = await File(join(R.tmpDir, "screenshot.png")).create();
+    await imgFi.writeAsBytes(screenshot);
+
+    /// Share Plugin
+    await Share.shareXFiles(
+      [XFile(imgFi.path, mimeType: "image/png")],
     );
   }
 

@@ -204,7 +204,6 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
 
   Widget buildActionPopup(int id, SitTimetable timetable, bool isSelected) {
     return PopupMenuButton(
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
       position: PopupMenuPosition.under,
       padding: EdgeInsets.zero,
       itemBuilder: (ctx) => <PopupMenuEntry>[

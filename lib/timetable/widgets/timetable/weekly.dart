@@ -102,11 +102,10 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
         itemCount: 20,
         itemBuilder: (BuildContext ctx, int weekIndex) {
           final todayPos = timetable.type.locate(DateTime.now());
-          return _OneWeekPage(
+          return TimetableOneWeekPage(
             timetable: timetable,
             todayPos: todayPos,
             weekIndex: weekIndex,
-            $currentPos: widget.$currentPos,
           );
         },
       ).expanded()
@@ -128,25 +127,23 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   }
 }
 
-class _OneWeekPage extends StatefulWidget {
+class TimetableOneWeekPage extends StatefulWidget {
   final SitTimetableEntity timetable;
   final TimetablePos todayPos;
-  final ValueNotifier<TimetablePos> $currentPos;
   final int weekIndex;
 
-  const _OneWeekPage({
+  const TimetableOneWeekPage({
     super.key,
     required this.timetable,
     required this.todayPos,
-    required this.$currentPos,
     required this.weekIndex,
   });
 
   @override
-  State<_OneWeekPage> createState() => _OneWeekPageState();
+  State<TimetableOneWeekPage> createState() => _TimetableOneWeekPageState();
 }
 
-class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClientMixin {
+class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with AutomaticKeepAliveClientMixin {
   SitTimetableEntity get timetable => widget.timetable;
 
   /// Cache the who page to avoid expensive rebuilding.
@@ -165,13 +162,29 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
     if (cache != null) {
       return cache;
     } else {
-      final res = buildPage(context);
+      final res = LayoutBuilder(
+        builder: (context, box) {
+          return buildPage(
+            context,
+            fullSize: Size(box.maxWidth, box.maxHeight),
+          );
+        },
+      );
       _cached = res;
       return res;
     }
   }
 
-  Widget buildPage(BuildContext ctx) {
+  @override
+  bool get wantKeepAlive => true;
+
+  Widget buildPage(
+    BuildContext ctx, {
+    required Size fullSize,
+  }) {
+    // TODO: Support screenshot
+    fullSize = ctx.mediaQuery.size;
+    final cellSize = Size(fullSize.width * 3 / 23, fullSize.height / 11);
     final weekIndex = widget.weekIndex;
     final timetableWeek = timetable.weeks[weekIndex];
     if (timetableWeek == null) {
@@ -187,11 +200,15 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
     }
     return [
       buildLeftColumn(ctx).flexible(flex: 2),
-      TimetableSingleWeekView(
-        timetableWeek: timetableWeek,
-        timetable: timetable,
-        currentWeek: weekIndex,
-      ).flexible(flex: 21)
+      SizedBox(
+        width: fullSize.width,
+        height: fullSize.height,
+        child: buildSingleWeekView(
+          timetableWeek,
+          cellSize: cellSize,
+          fullSize: fullSize,
+        ),
+      ).flexible(flex: 21),
     ].row(textDirection: TextDirection.ltr).scrolled();
   }
 
@@ -225,42 +242,27 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
-}
-
-class TimetableSingleWeekView extends StatelessWidget {
-  final SitTimetableWeek timetableWeek;
-  final SitTimetableEntity timetable;
-  final int currentWeek;
-
-  const TimetableSingleWeekView({
-    super.key,
-    required this.timetableWeek,
-    required this.timetable,
-    required this.currentWeek,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final rawColumnSize = MediaQuery.of(context).size;
-    final cellSize = Size(rawColumnSize.width * 3 / 23, rawColumnSize.height / 11);
-    return SizedBox(
-      width: rawColumnSize.width * 7,
-      height: rawColumnSize.height,
-      child: ListView.builder(
-        itemCount: 7,
-        scrollDirection: Axis.horizontal,
-        physics: const NeverScrollableScrollPhysics(),
-        // The scrolling has been handled outside
-        itemBuilder: (BuildContext context, int index) =>
-            _buildCellsByDay(context, timetableWeek.days[index], cellSize).center(),
-      ),
+  Widget buildSingleWeekView(
+    SitTimetableWeek timetableWeek, {
+    required Size cellSize,
+    required Size fullSize,
+  }) {
+    return ListView.builder(
+      itemCount: 7,
+      scrollDirection: Axis.horizontal,
+      physics: const NeverScrollableScrollPhysics(),
+      // The scrolling has been handled outside
+      itemBuilder: (BuildContext context, int index) =>
+          _buildCellsByDay(context, timetableWeek.days[index], cellSize).center(),
     );
   }
 
   /// 构建某一天的那一列格子.
-  Widget _buildCellsByDay(BuildContext context, SitTimetableDay day, Size cellSize) {
+  Widget _buildCellsByDay(
+    BuildContext context,
+    SitTimetableDay day,
+    Size cellSize,
+  ) {
     final cells = <Widget>[];
     for (int timeslot = 0; timeslot < day.timeslot2LessonSlot.length; timeslot++) {
       final lessonSlot = day.timeslot2LessonSlot[timeslot];
@@ -352,6 +354,28 @@ class _CourseCellState extends State<CourseCell> {
           ).padOnly(t: padding),
         ),
       ),
+    );
+  }
+}
+
+class TimetableWeeklyScreenshotFilm extends StatelessWidget {
+  final SitTimetableEntity timetable;
+  final int weekIndex;
+  final TimetablePos todayPos;
+
+  const TimetableWeeklyScreenshotFilm({
+    super.key,
+    required this.timetable,
+    required this.todayPos,
+    required this.weekIndex,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TimetableOneWeekPage(
+      timetable: timetable,
+      todayPos: todayPos,
+      weekIndex: weekIndex,
     );
   }
 }
