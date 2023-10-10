@@ -152,12 +152,6 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
   /// Cache the who page to avoid expensive rebuilding.
   Widget? _cached;
 
-  TimetablePos get currentPos => widget.$currentPos.value;
-
-  set currentPos(TimetablePos newValue) => widget.$currentPos.value = newValue;
-
-  Size? lastSize;
-
   @override
   void didChangeDependencies() {
     _cached = null;
@@ -167,21 +161,11 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
   @override
   void didUpdateWidget(covariant _OneWeekPage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.timetable != oldWidget.timetable ||
-        widget.todayPos != oldWidget.todayPos ||
-        widget.weekIndex != oldWidget.weekIndex ||
-        widget.$currentPos != oldWidget.$currentPos) {
-      _cached = null;
-    }
+    _cached = null;
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = context.mediaQuery.size;
-    if (lastSize != size) {
-      _cached = null;
-      lastSize = size;
-    }
     super.build(context);
     final cache = _cached;
     if (cache != null) {

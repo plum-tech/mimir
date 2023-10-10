@@ -60,6 +60,14 @@ class DailyTimetableState extends State<DailyTimetable> {
     $jumpToPos = eventBus.on<JumpToPosEvent>().listen((event) {
       jumpTo(event.where);
     });
+    // TODO: flash when switching
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final targetOffset = pos2PageOffset(currentPos);
+      final currentOffset = _pageController.page?.round() ?? targetOffset;
+      if (currentOffset != targetOffset) {
+        _pageController.jumpToPage(targetOffset);
+      }
+    });
   }
 
   @override
@@ -71,13 +79,6 @@ class DailyTimetableState extends State<DailyTimetable> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final targetOffset = pos2PageOffset(currentPos);
-      final currentOffset = _pageController.page?.round() ?? targetOffset;
-      if (currentOffset != targetOffset) {
-        _pageController.jumpToPage(targetOffset);
-      }
-    });
     return [
       widget.$currentPos >>
           (ctx, cur) => TimetableHeader(
@@ -154,15 +155,15 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
 
   /// Cache the who page to avoid expensive rebuilding.
   Widget? _cached;
-  Size? lastSize;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _cached = null;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final size = context.mediaQuery.size;
-    if (lastSize != size) {
-      _cached = null;
-      lastSize = size;
-    }
     super.build(context);
     final cache = _cached;
     if (cache != null) {
