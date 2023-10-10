@@ -18,7 +18,7 @@ import '../../entity/pos.dart';
 import 'header.dart';
 
 class DailyTimetable extends StatefulWidget {
-  final SitTimetable timetable;
+  final SitTimetableEntity timetable;
 
   final ValueNotifier<TimetablePos> $currentPos;
 
@@ -33,7 +33,7 @@ class DailyTimetable extends StatefulWidget {
 }
 
 class DailyTimetableState extends State<DailyTimetable> {
-  SitTimetable get timetable => widget.timetable;
+  SitTimetableEntity get timetable => widget.timetable;
 
   TimetablePos get currentPos => widget.$currentPos.value;
 
@@ -55,7 +55,7 @@ class DailyTimetableState extends State<DailyTimetable> {
   @override
   void initState() {
     super.initState();
-    final pos = timetable.locate(DateTime.now());
+    final pos = timetable.type.locate(DateTime.now());
     _pageController = PageController(initialPage: pos2PageOffset(pos))..addListener(onPageChange);
     $jumpToPos = eventBus.on<JumpToPosEvent>().listen((event) {
       jumpTo(event.where);
@@ -83,7 +83,7 @@ class DailyTimetableState extends State<DailyTimetable> {
           (ctx, cur) => TimetableHeader(
                 selectedDay: cur.day,
                 currentWeek: cur.week,
-                startDate: timetable.startDate,
+                startDate: timetable.type.startDate,
                 onDayTap: (selectedDay) {
                   eventBus.fire(JumpToPosEvent(TimetablePos(week: cur.week, day: selectedDay)));
                 },
@@ -95,7 +95,7 @@ class DailyTimetableState extends State<DailyTimetable> {
         itemBuilder: (_, int index) {
           int weekIndex = index ~/ 7;
           int dayIndex = index % 7;
-          final todayPos = timetable.locate(DateTime.now());
+          final todayPos = timetable.type.locate(DateTime.now());
           return _OneDayPage(
             timetable: timetable,
             todayPos: todayPos,
@@ -132,7 +132,7 @@ class DailyTimetableState extends State<DailyTimetable> {
 }
 
 class _OneDayPage extends StatefulWidget {
-  final SitTimetable timetable;
+  final SitTimetableEntity timetable;
   final TimetablePos todayPos;
   final int weekIndex;
   final int dayIndex;
@@ -150,7 +150,7 @@ class _OneDayPage extends StatefulWidget {
 }
 
 class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientMixin {
-  SitTimetable get timetable => widget.timetable;
+  SitTimetableEntity get timetable => widget.timetable;
 
   /// Cache the who page to avoid expensive rebuilding.
   Widget? _cached;
@@ -213,10 +213,42 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
       return null;
     } else if (lessonsInSlot.length == 1) {
       final lesson = lessonsInSlot[0];
-      return timetable.buildSingleLesson(ctx, lesson, timeslot);
+      return buildSingleLesson(
+        ctx,
+        timetable: timetable,
+        lesson: lesson,
+        timeslot: timeslot,
+      );
     } else {
       return LessonOverlapGroup(lessonsInSlot, timeslot, timetable);
     }
+  }
+
+  Widget buildSingleLesson(
+    BuildContext context, {
+    required SitTimetableEntity timetable,
+    required SitTimetableLesson lesson,
+    required int timeslot,
+  }) {
+    final course = timetable.getCourseByKey(lesson.courseKey);
+    final color = TimetableStyle.of(context)
+        .platte
+        .resolveColor(course)
+        .byTheme(context.theme)
+        .harmonizeWith(context.colorScheme.primary);
+    final classTime = course.buildingTimetable[timeslot];
+    return [
+      ClassTimeCard(
+        color: color,
+        classTime: classTime,
+      ),
+      LessonCard(
+        lesson: lesson,
+        timetable: timetable,
+        course: course,
+        color: color,
+      ).expanded()
+    ].row();
   }
 
   @override
@@ -226,14 +258,14 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
 class LessonCard extends StatelessWidget {
   final SitTimetableLesson lesson;
   final SitCourse course;
-  final List<SitCourse> courseKey2Entity;
+  final SitTimetableEntity timetable;
   final Color color;
 
   const LessonCard({
     super.key,
     required this.lesson,
     required this.course,
-    required this.courseKey2Entity,
+    required this.timetable,
     required this.color,
   });
 
@@ -264,45 +296,41 @@ class LessonCard extends StatelessWidget {
   }
 }
 
-extension _LessonCardEx on SitTimetable {
-  Widget buildSingleLesson(BuildContext context, SitTimetableLesson lesson, int timeslot) {
-    final course = courseKey2Entity[lesson.courseKey];
-    final color = TimetableStyle.of(context)
-        .platte
-        .resolveColor(course)
-        .byTheme(context.theme)
-        .harmonizeWith(context.colorScheme.primary);
-    final classTime = course.buildingTimetable[timeslot];
-    return [
-      _buildClassTimeCard(color, classTime),
-      LessonCard(
-        lesson: lesson,
-        course: course,
-        courseKey2Entity: courseKey2Entity,
-        color: color,
-      ).expanded()
-    ].row();
-  }
-}
+class ClassTimeCard extends StatelessWidget {
+  final Color color;
+  final ClassTime classTime;
 
-Widget _buildClassTimeCard(Color color, ClassTime classTime) {
-  return ElevatedText(
-    color: color,
-    margin: 10,
-    child: [
-      classTime.begin.toStringPrefixed0().text(style: const TextStyle(fontWeight: FontWeight.bold)),
-      SizedBox(height: 5.h),
-      classTime.end.toStringPrefixed0().text(),
-    ].column(),
-  );
+  const ClassTimeCard({
+    super.key,
+    required this.color,
+    required this.classTime,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedText(
+      color: color,
+      margin: 10,
+      child: [
+        classTime.begin.toStringPrefixed0().text(style: const TextStyle(fontWeight: FontWeight.bold)),
+        SizedBox(height: 5.h),
+        classTime.end.toStringPrefixed0().text(),
+      ].column(),
+    );
+  }
 }
 
 class LessonOverlapGroup extends StatelessWidget {
   final List<SitTimetableLesson> lessonsInSlot;
   final int timeslot;
-  final SitTimetable timetable;
+  final SitTimetableEntity timetable;
 
-  const LessonOverlapGroup(this.lessonsInSlot, this.timeslot, this.timetable, {super.key});
+  const LessonOverlapGroup(
+    this.lessonsInSlot,
+    this.timeslot,
+    this.timetable, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -311,13 +339,13 @@ class LessonOverlapGroup extends StatelessWidget {
     ClassTime? classTime;
     for (int lessonIndex = 0; lessonIndex < lessonsInSlot.length; lessonIndex++) {
       final lesson = lessonsInSlot[lessonIndex];
-      final course = timetable.courseKey2Entity[lesson.courseKey];
+      final course = timetable.getCourseByKey(lesson.courseKey);
       final color = TimetableStyle.of(context).platte.resolveColor(course).byTheme(context.theme);
       classTime = course.buildingTimetable[timeslot];
       final row = LessonCard(
         lesson: lesson,
         course: course,
-        courseKey2Entity: timetable.courseKey2Entity,
+        timetable: timetable,
         color: color,
       );
       all.add(row);
@@ -326,7 +354,10 @@ class LessonOverlapGroup extends StatelessWidget {
     // TODO: Color for class overlap.
     return OutlinedCard(
       child: [
-        _buildClassTimeCard(TimetableStyle.of(context).platte.colors[0].byTheme(context.theme), classTime!),
+        ClassTimeCard(
+          color: TimetableStyle.of(context).platte.colors[0].byTheme(context.theme),
+          classTime: classTime!,
+        ),
         all.column().expanded(),
       ].row().padAll(3),
     );

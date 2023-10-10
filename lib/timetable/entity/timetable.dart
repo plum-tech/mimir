@@ -19,15 +19,11 @@ class SitTimetable {
   @JsonKey()
   final Semester semester;
 
-  /// The Default number of weeks is 20.
-  final List<SitTimetableWeek?> weeks;
-
   /// The index is the CourseKey.
   final List<SitCourse> courseKey2Entity;
   final int courseKeyCounter;
 
-  SitTimetable({
-    required this.weeks,
+  const SitTimetable({
     required this.courseKey2Entity,
     required this.courseKeyCounter,
     required this.name,
@@ -36,23 +32,12 @@ class SitTimetable {
     required this.semester,
   });
 
-  static SitTimetable parse(List<CourseRaw> all) => parseTimetableEntity(all);
-  final Map<String, List<SitCourse>> _code2CoursesCache = {};
+  factory SitTimetable.parse(List<CourseRaw> all) {
+    return parseTimetable(all);
+  }
 
-  List<SitCourse> findAndCacheCoursesByCourseCode(String courseCode) {
-    final found = _code2CoursesCache[courseCode];
-    if (found != null) {
-      return found;
-    } else {
-      final res = <SitCourse>[];
-      for (final course in courseKey2Entity) {
-        if (course.courseCode == courseCode) {
-          res.add(course);
-        }
-      }
-      _code2CoursesCache[courseCode] = res;
-      return res;
-    }
+  SitTimetableEntity resolve() {
+    return resolveTimetableEntity(this);
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -67,7 +52,6 @@ class SitTimetable {
 
   SitTimetable copyWithMeta(TimetableMeta meta) {
     return SitTimetable(
-      weeks: weeks,
       courseKey2Entity: courseKey2Entity,
       courseKeyCounter: courseKeyCounter,
       name: meta.name,
@@ -83,6 +67,40 @@ class SitTimetable {
   factory SitTimetable.fromJson(Map<String, dynamic> json) => _$SitTimetableFromJson(json);
 
   Map<String, dynamic> toJson() => _$SitTimetableToJson(this);
+}
+
+class SitTimetableEntity {
+  final SitTimetable type;
+
+  /// The Default number of weeks is 20.
+  final List<SitTimetableWeek?> weeks;
+
+  final Map<String, List<SitCourse>> _code2CoursesCache = {};
+
+  SitTimetableEntity({
+    required this.type,
+    required this.weeks,
+  });
+
+  SitCourse getCourseByKey(int courseKey) {
+    return type.courseKey2Entity[courseKey];
+  }
+
+  List<SitCourse> findAndCacheCoursesByCourseCode(String courseCode) {
+    final found = _code2CoursesCache[courseCode];
+    if (found != null) {
+      return found;
+    } else {
+      final res = <SitCourse>[];
+      for (final course in type.courseKey2Entity) {
+        if (course.courseCode == courseCode) {
+          res.add(course);
+        }
+      }
+      _code2CoursesCache[courseCode] = res;
+      return res;
+    }
+  }
 }
 
 class TimetableMeta {

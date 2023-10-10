@@ -55,8 +55,8 @@ class _TimetableHeaderState extends State<TimetableHeader> {
       child: InkWell(
         onTap: onDayTap != null
             ? () {
-          widget.onDayTap?.call(day);
-        }
+                widget.onDayTap?.call(day);
+              }
             : null,
         child: buildDayHeader(day),
       ),
@@ -81,9 +81,9 @@ class _TimetableHeaderState extends State<TimetableHeader> {
       curve: Curves.fastLinearToSlowEaseIn,
       child: [
         i18n.weekdayShort(index: day - 1).text(
-          textAlign: TextAlign.center,
-          style: context.textTheme.titleSmall,
-        ),
+              textAlign: TextAlign.center,
+              style: context.textTheme.titleSmall,
+            ),
         '${date.month}/${date.day}'.text(
           textAlign: TextAlign.center,
           style: context.textTheme.labelSmall,

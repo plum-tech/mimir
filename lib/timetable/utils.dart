@@ -89,14 +89,7 @@ TimetableWeekIndices _parseWeekText2RangedNumbers(String weekText) {
   return TimetableWeekIndices(indices);
 }
 
-SitTimetable parseTimetableEntity(List<CourseRaw> all) {
-  final List<SitTimetableWeek?> weeks = List.generate(20, (index) => null);
-  SitTimetableWeek getWeekAt(int index) {
-    final week = weeks[index] ??= SitTimetableWeek.$7days();
-    weeks[index] = week;
-    return week;
-  }
-
+SitTimetable parseTimetable(List<CourseRaw> all) {
   final List<SitCourse> courseKey2Entity = [];
   var counter = 0;
   for (final raw in all) {
@@ -126,21 +119,8 @@ SitTimetable parseTimetableEntity(List<CourseRaw> all) {
       teachers: raw.teachers.split(","),
     );
     courseKey2Entity.add(course);
-
-    for (final weekIndex in weekIndices.getWeekIndices()) {
-      assert(0 <= weekIndex && weekIndex < maxWeekLength,
-          "Week index is more out of range [0,$maxWeekLength) but $weekIndex.");
-      if (0 <= weekIndex && weekIndex < maxWeekLength) {
-        final week = getWeekAt(weekIndex);
-        final day = week.days[dayIndex];
-        for (int slot = timeslots.start; slot <= timeslots.end; slot++) {
-          day.add(SitTimetableLesson(timeslots.start, timeslots.end, courseKey), at: slot);
-        }
-      }
-    }
   }
   final res = SitTimetable(
-    weeks: weeks,
     courseKey2Entity: courseKey2Entity,
     courseKeyCounter: counter,
     name: "",
@@ -149,6 +129,35 @@ SitTimetable parseTimetableEntity(List<CourseRaw> all) {
     semester: Semester.term1,
   );
   return res;
+}
+
+SitTimetableEntity resolveTimetableEntity(SitTimetable timetable) {
+  final List<SitTimetableWeek?> weeks = List.generate(20, (index) => null);
+  SitTimetableWeek getWeekAt(int index) {
+    final week = weeks[index] ??= SitTimetableWeek.$7days();
+    weeks[index] = week;
+    return week;
+  }
+
+  for (var courseKey = 0; courseKey < timetable.courseKey2Entity.length; courseKey++) {
+    final course = timetable.courseKey2Entity[courseKey];
+    final timeslots = course.timeslots;
+    for (final weekIndex in course.weekIndices.getWeekIndices()) {
+      assert(0 <= weekIndex && weekIndex < maxWeekLength,
+          "Week index is more out of range [0,$maxWeekLength) but $weekIndex.");
+      if (0 <= weekIndex && weekIndex < maxWeekLength) {
+        final week = getWeekAt(weekIndex);
+        final day = week.days[course.dayIndex];
+        for (int slot = timeslots.start; slot <= timeslots.end; slot++) {
+          day.add(SitTimetableLesson(timeslots.start, timeslots.end, courseKey), at: slot);
+        }
+      }
+    }
+  }
+  return SitTimetableEntity(
+    type: timetable,
+    weeks: weeks,
+  );
 }
 
 Duration calcuSwitchAnimationDuration(num distance) {

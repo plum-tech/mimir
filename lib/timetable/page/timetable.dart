@@ -14,7 +14,7 @@ import '../entity/pos.dart';
 import '../widgets/timetable/board.dart';
 
 class TimetableBoardPage extends StatefulWidget {
-  final SitTimetable timetable;
+  final SitTimetableEntity timetable;
 
   const TimetableBoardPage({super.key, required this.timetable});
 
@@ -27,7 +27,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
   final $displayMode = ValueNotifier(TimetableInit.storage.lastDisplayMode ?? DisplayMode.weekly);
   late final ValueNotifier<TimetablePos> $currentPos;
 
-  SitTimetable get timetable => widget.timetable;
+  SitTimetableEntity get timetable => widget.timetable;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     $displayMode.addListener(() {
       TimetableInit.storage.lastDisplayMode = $displayMode.value;
     });
-    $currentPos = ValueNotifier(timetable.locate(DateTime.now()));
+    $currentPos = ValueNotifier(timetable.type.locate(DateTime.now()));
   }
 
   @override
@@ -57,7 +57,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
       ),
       floatingActionButton: InkWell(
         onLongPress: () {
-          final today = timetable.locate(DateTime.now());
+          final today = timetable.type.locate(DateTime.now());
           if ($currentPos.value != today) {
             eventBus.fire(JumpToPosEvent(today));
           }
@@ -117,7 +117,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     final currentWeek = $currentPos.value.week;
     final initialIndex = currentWeek - 1;
     final controller = FixedExtentScrollController(initialItem: initialIndex);
-    final todayPos = timetable.locate(DateTime.now());
+    final todayPos = timetable.type.locate(DateTime.now());
     final todayIndex = todayPos.week - 1;
     final week2Go = await context.showPicker(
           count: 20,
@@ -152,7 +152,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     final initialDayIndex = currentPos.day - 1;
     final $week = FixedExtentScrollController(initialItem: initialWeekIndex);
     final $day = FixedExtentScrollController(initialItem: initialDayIndex);
-    final todayPos = timetable.locate(DateTime.now());
+    final todayPos = timetable.type.locate(DateTime.now());
     final todayWeekIndex = todayPos.week - 1;
     final todayDayIndex = todayPos.day - 1;
     final (week2Go, day2Go) = await context.showDualPicker(

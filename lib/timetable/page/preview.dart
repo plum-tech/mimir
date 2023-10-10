@@ -25,12 +25,19 @@ class _TimetablePreviewPageState extends State<TimetablePreviewPage> {
   final $displayMode = ValueNotifier(DisplayMode.weekly);
   late final $currentPos = ValueNotifier(widget.timetable.locate(DateTime.now()));
   final scrollController = ScrollController();
+  late SitTimetableEntity timetable;
 
   @override
   void dispose() {
     $displayMode.dispose();
     $currentPos.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    timetable = widget.timetable.resolve();
+    super.didChangeDependencies();
   }
 
   @override
@@ -51,7 +58,7 @@ class _TimetablePreviewPageState extends State<TimetablePreviewPage> {
       ),
       body: TimetableStyleProv(
         builder: (ctx) => TimetableBoard(
-          timetable: widget.timetable,
+          timetable: timetable,
           $displayMode: $displayMode,
           $currentPos: $currentPos,
         ),

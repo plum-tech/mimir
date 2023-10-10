@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:sit/design/animation/animated.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../entity/display.dart';
@@ -9,7 +8,7 @@ import 'daily.dart';
 import 'weekly.dart';
 
 class TimetableBoard extends StatelessWidget {
-  final SitTimetable timetable;
+  final SitTimetableEntity timetable;
 
   final ValueNotifier<DisplayMode> $displayMode;
 

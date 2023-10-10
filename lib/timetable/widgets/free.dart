@@ -10,7 +10,7 @@ import '../i18n.dart';
 
 class FreeDayTip extends StatelessWidget {
   final TimetablePos todayPos;
-  final SitTimetable timetable;
+  final SitTimetableEntity timetable;
   final int weekIndex;
   final int dayIndex;
 
@@ -82,7 +82,7 @@ class FreeDayTip extends StatelessWidget {
 
 class FreeWeekTip extends StatelessWidget {
   final TimetablePos todayPos;
-  final SitTimetable timetable;
+  final SitTimetableEntity timetable;
   final int weekIndex;
 
   const FreeWeekTip({

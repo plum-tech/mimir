@@ -20,7 +20,7 @@ import '../sheet.dart';
 import '../../entity/pos.dart';
 
 class WeeklyTimetable extends StatefulWidget {
-  final SitTimetable timetable;
+  final SitTimetableEntity timetable;
 
   final ValueNotifier<TimetablePos> $currentPos;
 
@@ -40,7 +40,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   final $cellSize = ValueNotifier(Size.zero);
   final faceIndex = 0;
 
-  SitTimetable get timetable => widget.timetable;
+  SitTimetableEntity get timetable => widget.timetable;
 
   TimetablePos get currentPos => widget.$currentPos.value;
 
@@ -54,7 +54,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   @override
   void initState() {
     super.initState();
-    dateSemesterStart = timetable.startDate;
+    dateSemesterStart = timetable.type.startDate;
     _pageController = PageController(initialPage: currentPos.week - 1)
       ..addListener(() {
         setState(() {
@@ -93,7 +93,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
             (ctx, cur) => TimetableHeader(
                   selectedDay: 0,
                   currentWeek: cur.week,
-                  startDate: timetable.startDate,
+                  startDate: timetable.type.startDate,
                 ).flexible(flex: 500)
       ].row(),
       PageView.builder(
@@ -101,7 +101,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
         scrollDirection: Axis.horizontal,
         itemCount: 20,
         itemBuilder: (BuildContext ctx, int weekIndex) {
-          final todayPos = timetable.locate(DateTime.now());
+          final todayPos = timetable.type.locate(DateTime.now());
           return _OneWeekPage(
             timetable: timetable,
             todayPos: todayPos,
@@ -129,7 +129,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
 }
 
 class _OneWeekPage extends StatefulWidget {
-  final SitTimetable timetable;
+  final SitTimetableEntity timetable;
   final TimetablePos todayPos;
   final ValueNotifier<TimetablePos> $currentPos;
   final int weekIndex;
@@ -147,7 +147,7 @@ class _OneWeekPage extends StatefulWidget {
 }
 
 class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClientMixin {
-  SitTimetable get timetable => widget.timetable;
+  SitTimetableEntity get timetable => widget.timetable;
 
   /// Cache the who page to avoid expensive rebuilding.
   Widget? _cached;
@@ -253,7 +253,7 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
 
 class TimetableSingleWeekView extends StatelessWidget {
   final SitTimetableWeek timetableWeek;
-  final SitTimetable timetable;
+  final SitTimetableEntity timetable;
   final int currentWeek;
 
   const TimetableSingleWeekView({
@@ -300,7 +300,7 @@ class TimetableSingleWeekView extends StatelessWidget {
         final firstLayerLesson = lessons[0];
 
         /// TODO: Range checking
-        final course = timetable.courseKey2Entity[firstLayerLesson.courseKey];
+        final course = timetable.getCourseByKey(firstLayerLesson.courseKey);
         final cell = CourseCell(
           lesson: firstLayerLesson,
           timetable: timetable,
@@ -324,7 +324,7 @@ class TimetableSingleWeekView extends StatelessWidget {
 class CourseCell extends StatefulWidget {
   final SitTimetableLesson lesson;
   final SitCourse course;
-  final SitTimetable timetable;
+  final SitTimetableEntity timetable;
 
   const CourseCell({
     super.key,
@@ -349,7 +349,6 @@ class _CourseCellState extends State<CourseCell> {
         .byTheme(context.theme)
         .harmonizeWith(context.colorScheme.primary);
     final padding = context.isPortrait ? size.height / 40 : size.height / 80;
-    final (:begin, :end) = widget.course.calcBeginEndTimepoint();
     final lessons = widget.course.calcBeginEndTimepointForEachLesson();
     return Tooltip(
       key: $tooltip,

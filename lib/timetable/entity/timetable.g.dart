@@ -7,9 +7,6 @@ part of 'timetable.dart';
 // **************************************************************************
 
 SitTimetable _$SitTimetableFromJson(Map<String, dynamic> json) => SitTimetable(
-      weeks: (json['weeks'] as List<dynamic>)
-          .map((e) => e == null ? null : SitTimetableWeek.fromJson(e as Map<String, dynamic>))
-          .toList(),
       courseKey2Entity: (json['courseKey2Entity'] as List<dynamic>)
           .map((e) => SitCourse.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -25,7 +22,6 @@ Map<String, dynamic> _$SitTimetableToJson(SitTimetable instance) => <String, dyn
       'startDate': instance.startDate.toIso8601String(),
       'schoolYear': instance.schoolYear,
       'semester': _$SemesterEnumMap[instance.semester]!,
-      'weeks': instance.weeks,
       'courseKey2Entity': instance.courseKey2Entity,
       'courseKeyCounter': instance.courseKeyCounter,
     };

@@ -22,6 +22,7 @@ class ConnectivityChecker extends StatefulWidget {
   final double iconSize;
   final String? initialDesc;
   final VoidCallback onConnected;
+
   /// Whether it's connected will be turned.
   /// Throw any error if connection fails.
   final Future<bool> Function() check;

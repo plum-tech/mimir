@@ -123,4 +123,3 @@ void _addEventForCourse(ICalendar cal, CourseRaw course, DateTime startDate, Dur
 //     debugPrint('HTTP服务已关闭');
 //   }
 // }
-
