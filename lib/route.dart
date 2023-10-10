@@ -126,15 +126,15 @@ final router = GoRouter(
                   builder: (ctx, state) => const TimetableP13nPage(),
                 ),
                 GoRoute(
-                  path: "calendar-export/:id",
+                  path: "export-calendar/:id",
                   builder: (ctx, state) {
                     final extra = state.extra;
-                    if (extra is SitTimetable) return TimetableCalendarExportConfigPage(timetable: extra);
+                    if (extra is SitTimetable) return TimetableExportCalendarConfigPage(timetable: extra);
                     final id = int.tryParse(state.pathParameters["id"] ?? "");
                     if (id == null) throw 404;
                     final timetable = TimetableInit.storage.timetable.getOf(id);
                     if (timetable == null) throw 404;
-                    return TimetableCalendarExportConfigPage(timetable: timetable);
+                    return TimetableExportCalendarConfigPage(timetable: timetable);
                   },
                 ),
               ],

@@ -166,7 +166,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             trailingIcon: CupertinoIcons.calendar_badge_plus,
             onPressed: () async {
               Navigator.of(context, rootNavigator: true).pop();
-              await ctx.push("/timetable/calendar-export/$id", extra: timetable);
+              await ctx.push("/timetable/export-calendar/$id", extra: timetable);
             },
             child: i18n.mine.exportCalendar.text(),
           ),
@@ -233,7 +233,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             title: i18n.mine.exportCalendar.text(),
             onTap: () async {
               ctx.pop();
-              await ctx.push("/timetable/calendar-export/$id", extra: timetable);
+              await ctx.push("/timetable/export-calendar/$id", extra: timetable);
             },
           ),
         ),

@@ -8,31 +8,31 @@ import '../entity/timetable.dart';
 import '../utils.dart';
 import "../i18n.dart";
 
-typedef TimetableCalendarExportAlarmConfig = ({
+typedef TimetableExportCalendarAlarmConfig = ({
   Duration alarmBeforeClass,
   Duration alarmDuration,
   bool isSoundAlarm,
 });
 
-typedef TimetableCalendarExportConfig = ({
-  TimetableCalendarExportAlarmConfig? alarm,
+typedef TimetableExportCalendarConfig = ({
+  TimetableExportCalendarAlarmConfig? alarm,
   Locale? locale,
   bool isLessonMerged,
 });
 
-class TimetableCalendarExportConfigPage extends StatefulWidget {
+class TimetableExportCalendarConfigPage extends StatefulWidget {
   final SitTimetable timetable;
 
-  const TimetableCalendarExportConfigPage({
+  const TimetableExportCalendarConfigPage({
     super.key,
     required this.timetable,
   });
 
   @override
-  State<TimetableCalendarExportConfigPage> createState() => _TimetableCalendarExportConfigPageState();
+  State<TimetableExportCalendarConfigPage> createState() => _TimetableExportCalendarConfigPageState();
 }
 
-class _TimetableCalendarExportConfigPageState extends State<TimetableCalendarExportConfigPage> {
+class _TimetableExportCalendarConfigPageState extends State<TimetableExportCalendarConfigPage> {
   final $enableAlarm = ValueNotifier(false);
   final $alarmDuration = ValueNotifier(const Duration(minutes: 15));
   final $alarmBeforeClass = ValueNotifier(const Duration(minutes: 15));
@@ -56,10 +56,10 @@ class _TimetableCalendarExportConfigPageState extends State<TimetableCalendarExp
         slivers: [
           SliverAppBar(
             floating: true,
-            title: "Calendar export".text(),
+            title: i18n.export.title.text(),
             actions: [
               CupertinoButton(
-                child: "Export".text(),
+                child: i18n.export.export.text(),
                 onPressed: () async {
                   await exportTimetableAsICalendarAndOpen(
                     context,
@@ -94,41 +94,41 @@ class _TimetableCalendarExportConfigPageState extends State<TimetableCalendarExp
   }
 
   Widget buildModeSwitch() {
-    return ListTile(
-      title: "Lesson Mode".text(),
-      leading: Tooltip(
-        triggerMode: TooltipTriggerMode.tap,
-        message: "",
-        child: Icon(Icons.info_outline, color: context.colorScheme.primary),
-      ),
-      subtitle: "How to arrange".text(),
-      trailing: $merged >>
-          (ctx, value) => SegmentedButton<bool>(
+    return $merged >>
+        (ctx, merged) => ListTile(
+              title: i18n.export.lessonModeTitle.text(),
+              leading: Tooltip(
+                triggerMode: TooltipTriggerMode.tap,
+                message: merged ? i18n.export.lessonModeMergedInfo : i18n.export.lessonModeSeparateInfo,
+                child: Icon(Icons.info_outline, color: context.colorScheme.primary),
+              ),
+              subtitle: i18n.export.lessonModeSubtitle.text(),
+              trailing: SegmentedButton<bool>(
                 showSelectedIcon: false,
                 segments: [
                   ButtonSegment<bool>(
                     value: true,
-                    label: "Merged".text(),
+                    label: i18n.export.lessonModeMerged.text(),
                   ),
                   ButtonSegment<bool>(
                     value: false,
-                    label: "Separate".text(),
+                    label: i18n.export.lessonModeSeparate.text(),
                   ),
                 ],
-                selected: <bool>{value},
+                selected: <bool>{merged},
                 onSelectionChanged: (newSelection) async {
                   $merged.value = newSelection.first;
                   await HapticFeedback.selectionClick();
                 },
               ),
-    );
+            );
   }
 
   Widget buildAlarmToggle() {
     return ListTile(
       leading: const Icon(Icons.alarm),
-      title: "Enable alarm".text(),
-      subtitle: "Add alarm before class".text(),
+      title: i18n.export.enableAlarmTitle.text(),
+      subtitle: i18n.export.enableAlarmSubtitle.text(),
       trailing: $enableAlarm >>
           (ctx, value) => Switch(
                 value: value,
@@ -143,19 +143,19 @@ class _TimetableCalendarExportConfigPageState extends State<TimetableCalendarExp
     return $enableAlarm >>
         (ctx, enabled) => ListTile(
               enabled: enabled,
-              title: "Alarm mode".text(),
-              subtitle: "How to notify you".text(),
+              title: i18n.export.enableAlarmTitle.text(),
+              subtitle: i18n.export.alarmModeSubtitle.text(),
               trailing: $isSoundAlarm >>
                   (ctx, value) => SegmentedButton<bool>(
                         showSelectedIcon: false,
                         segments: [
                           ButtonSegment<bool>(
                             value: true,
-                            label: "Sound".text(),
+                            label: i18n.export.alarmModeSound.text(),
                           ),
                           ButtonSegment<bool>(
                             value: false,
-                            label: "Display".text(),
+                            label: i18n.export.alarmModeDisplay.text(),
                           ),
                         ],
                         selected: <bool>{value},
@@ -175,7 +175,7 @@ class _TimetableCalendarExportConfigPageState extends State<TimetableCalendarExp
             $alarmDuration >>
             (ctx, duration) => ListTile(
                   enabled: enabled,
-                  title: "Alarm duration".text(),
+                  title: i18n.export.alarmDuration.text(),
                   subtitle: i18n.time.minuteFormat(duration.inMinutes.toString()).text(),
                   trailing: IconButton(
                     icon: const Icon(Icons.edit),
@@ -200,7 +200,7 @@ class _TimetableCalendarExportConfigPageState extends State<TimetableCalendarExp
             $alarmBeforeClass >>
             (ctx, duration) => ListTile(
                   enabled: enabled,
-                  title: "Alarm before class starts".text(),
+                  title: i18n.export.alarmBeforeClassBegins.text(),
                   subtitle: i18n.time.minuteFormat(duration.inMinutes.toString()).text(),
                   trailing: IconButton(
                     icon: const Icon(Icons.edit),

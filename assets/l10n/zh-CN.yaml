@@ -36,6 +36,28 @@ timetable:
     importing: 正在尝试获取课程表的数据……
     timetableInfo: 课程表信息
     defaultName: "{yearStart}–{yearEnd}年 {semester} 课程表"
+  export:
+    title: 导出到日历
+    export: 导出
+    lessonMode:
+      title: 课程模式
+      subtitle: 如何排布
+      merged:
+        name: 合并
+        info: 同属一节课的几个部分会被合并成为一个日程
+      separate:
+        name: 分离
+        info: 同属一节课的几个部分会被分离为多个日程
+    enableAlarm:
+      title: 启用提醒
+      subtitle: 在课前添加提醒
+    alarmMode:
+      title: 提醒模式
+      subtitle: 如何通知你
+      sound: 声音
+      display: 显示
+    alarmDuration: 提醒时长
+    alarmBeforeClassBegins: 在上课前提醒
   displayMode:
     daily: 日
     weekly: 周

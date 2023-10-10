@@ -215,7 +215,7 @@ Future<void> exportTimetableFileAndShare(
 
 String _getICalFileName(BuildContext context, SitTimetableEntity timetable) {
   return sanitizeFilename(
-    "${timetable.type.name}, ${context.formatYmdNum(timetable.type.startDate)} #${DateTime.now().millisecondsSinceEpoch / 1000}.ics",
+    "${timetable.type.name}, ${context.formatYmdNum(timetable.type.startDate)} #${DateTime.now().millisecondsSinceEpoch ~/ 1000}.ics",
     replacement: "-",
   );
 }
@@ -223,7 +223,7 @@ String _getICalFileName(BuildContext context, SitTimetableEntity timetable) {
 Future<void> exportTimetableAsICalendarAndOpen(
   BuildContext context, {
   required SitTimetableEntity timetable,
-  required TimetableCalendarExportConfig config,
+  required TimetableExportCalendarConfig config,
 }) async {
   final fileName = _getICalFileName(context, timetable);
   final imgFi = File(join(R.tmpDir, fileName));
@@ -235,7 +235,7 @@ Future<void> exportTimetableAsICalendarAndOpen(
 ///导出的方法
 String convertTimetable2ICal({
   required SitTimetableEntity timetable,
-  required TimetableCalendarExportConfig config,
+  required TimetableExportCalendarConfig config,
 }) {
   final calendar = ICalendar(
     company: 'mysit.life',

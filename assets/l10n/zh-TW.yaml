@@ -8,7 +8,7 @@ timetable:
     title: 我的課程表
     edit: 編輯
     exportFile: 匯出檔案
-    exportCalendar: 匯出日曆
+    exportCalendar: 匯出行事曆
     delete: 刪除
     preview: 預覽
     use: 使用
@@ -36,6 +36,28 @@ timetable:
     importing: 正在擷取課程表數據……
     timetableInfo: 課程表資訊
     defaultName: "{semester} {yearStart}–{yearEnd} 課程表"
+  export:
+    title: 匯出行事曆
+    export: 匯出
+    lessonMode:
+      title: 課程模式
+      subtitle: 如何排列
+      merged:
+        name: 合併
+        info: 同一節課的幾個部分會被合併為一個日程
+      separate:
+        name: 分離
+        info: 同一節課的幾個部分會被分離為多個日程
+    enableAlarm:
+      title: 啟用提醒
+      subtitle: 在課前增加提醒
+    alarmMode:
+      title: 提醒模式
+      subtitle: 如何通知你
+      sound: 音效
+      display: 顯示
+    alarmDuration: 提醒時長
+    alarmBeforeClassBegins: 在上課前提醒
   displayMode:
     daily: 日
     weekly: 周
@@ -252,7 +274,7 @@ networkChecker:
     none: 檢查我的連線
   status:
     connected: 好喔！你能夠訪問學校伺服器！
-    connecting: 這可能需要幾秒鐘的時間，請確認在裝置上開啟了網路。
+    connecting: 這可能需要幾秒鐘的時間，請確認在裝置上啟用了網路。
     disconnected: 哎呀！你無法訪問學校伺服器誒，請檢查你的網路設定，然後再試一次。
     none: 你需要訪問學校伺服器才能繼續，現在就開始檢查吧！
 network:
@@ -324,7 +346,7 @@ settings:
       title: 重新載入
       desc: 重新載入所有模塊
     detailedXcpDialog:
-      title: 開啟詳細異常對話框
+      title: 啟用詳細異常對話框
       desc: 顯示更加詳細的異常堆棧追蹤資訊
   timetable:
     title: 課程表
@@ -369,7 +391,7 @@ settings:
     title: HTTP 代理
     desc: 代理校園網路連線
     enableProxy:
-      title: 開啟 HTTP 代理
+      title: 啟用 HTTP 代理
       desc: 代理你的 HTTP 請求
     authentication: 驗證
     protocol: 通訊協定

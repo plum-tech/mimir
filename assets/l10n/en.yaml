@@ -35,6 +35,28 @@ timetable:
     importing: Trying to fetch the timetable...
     timetableInfo: Timetable Info
     defaultName: "{semester}, {yearStart}–{yearEnd} Timetable"
+  export:
+    title: Export to calendar
+    export: Export
+    lessonMode:
+      title: Lesson mode
+      subtitle: How to arrange
+      merged:
+        name: Merged
+        info: Several parts of the same lesson will be combined into one event
+      separate:
+        name: Separate
+        info: Several parts of the same lesson will be separated into multiple events
+    enableAlarm:
+      title: Enable alarm
+      subtitle: Add alarm before class
+    alarmMode:
+      title: Alarm mode
+      subtitle: How to notify you
+      sound: Sound
+      display: Display
+    alarmDuration: Alarm duration
+    alarmBeforeClassBegins: Alarm before class begins
   displayMode:
     daily: Daily
     weekly: Weekly

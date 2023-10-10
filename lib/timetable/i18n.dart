@@ -11,6 +11,7 @@ class _I18n with CommonI18nMixin {
   final mine = const _Mine();
   final details = const _Details();
   final import = const _Import();
+  final export = const _Export();
   final edit = const _Edit();
   final freeTip = const _FreeTip();
   final campus = const CampusI10n();
@@ -121,6 +122,44 @@ class _Edit {
   const _Edit();
 
   static const ns = "${_I18n.ns}.edit";
+}
+
+class _Export {
+  const _Export();
+
+  static const ns = "${_I18n.ns}.export";
+
+  String get title => "$ns.title".tr();
+
+  String get export => "$ns.export".tr();
+
+  String get lessonModeTitle => "$ns.lessonMode.title".tr();
+
+  String get lessonModeSubtitle => "$ns.lessonMode.subtitle".tr();
+
+  String get lessonModeMerged => "$ns.lessonMode.merged.name".tr();
+
+  String get lessonModeMergedInfo => "$ns.lessonMode.merged.info".tr();
+
+  String get lessonModeSeparate => "$ns.lessonMode.separate.name".tr();
+
+  String get lessonModeSeparateInfo => "$ns.lessonMode.separate.info".tr();
+
+  String get enableAlarmTitle => "$ns.enableAlarm.title".tr();
+
+  String get enableAlarmSubtitle => "$ns.enableAlarm.subtitle".tr();
+
+  String get alarmModeTitle => "$ns.alarmMode.title".tr();
+
+  String get alarmModeSubtitle => "$ns.alarmMode.subtitle".tr();
+
+  String get alarmModeSound => "$ns.alarmMode.sound".tr();
+
+  String get alarmModeDisplay => "$ns.alarmMode.display".tr();
+
+  String get alarmDuration => "$ns.alarmDuration".tr();
+
+  String get alarmBeforeClassBegins => "$ns.alarmBeforeClassBegins".tr();
 }
 
 class _FreeTip {
