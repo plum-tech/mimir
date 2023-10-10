@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/dash_decoration.dart';
@@ -331,6 +332,8 @@ class _CourseCellState extends State<CourseCell> {
             $tooltip.currentState?.ensureTooltipVisible();
           },
           onLongPress: () async {
+            await HapticFeedback.lightImpact();
+            if (!mounted) return;
             await context.show$Sheet$(
               (ctx) => TimetableCourseSheet(courseCode: widget.course.courseCode, timetable: widget.timetable),
             );

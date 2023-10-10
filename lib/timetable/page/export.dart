@@ -45,9 +45,9 @@ String convertTableToIcs({
           // 这里需要使用UTC时间
           // 实际测试得出，如果不使用UTC，有的手机会将其看作本地时间
           // 有的手机会将其看作UTC+0的时间从而导致实际显示时间与预期不一致
-          final date = reflectWeekDayNumberToDate(week: week.index, day: course.dayIndex, startDate: startDate);
-          final eventStartTime = date.add(Duration(hours: begin.hour, minutes: begin.minute));
-          final eventEndTime = date.add(Duration(hours: end.hour, minutes: end.minute));
+          final thatDay = reflectWeekDayNumberToDate(week: week.index, day: course.dayIndex, startDate: startDate);
+          final eventStartTime = thatDay.add(Duration(hours: begin.hour, minutes: begin.minute));
+          final eventEndTime = thatDay.add(Duration(hours: end.hour, minutes: end.minute));
           final desc = timeslotText;
           final IEvent event = IEvent(
             uid: "SIT-Course-${course.courseCode}-${week.index}-${day.index}",
