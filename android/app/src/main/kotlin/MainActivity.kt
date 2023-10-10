@@ -1,4 +1,4 @@
-package net.liplum.SIT
+package life.mysit.SITLife
 
 import io.flutter.embedding.android.FlutterActivity
 
