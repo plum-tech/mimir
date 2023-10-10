@@ -246,12 +246,11 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   }
 
   Future<void> onEdit(int id, SitTimetable timetable) async {
-    final newMeta = await context.show$Sheet$<TimetableMeta>(
-      (ctx) => MetaEditor(meta: timetable.meta).padOnly(b: MediaQuery.of(ctx).viewInsets.bottom),
+    final newTimetable = await context.show$Sheet$<SitTimetable>(
+      (ctx) => MetaEditor(timetable: timetable).padOnly(b: MediaQuery.of(ctx).viewInsets.bottom),
       dismissible: false,
     );
-    if (newMeta != null) {
-      final newTimetable = timetable.copyWithMeta(newMeta);
+    if (newTimetable != null) {
       storage.timetable.setOf(id, newTimetable);
       if (!mounted) return;
       setState(() {});

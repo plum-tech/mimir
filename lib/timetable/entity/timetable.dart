@@ -40,24 +40,21 @@ class SitTimetable {
     return resolveTimetableEntity(this);
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  TimetableMeta get meta {
-    return TimetableMeta(
-      name: name,
-      startDate: startDate,
-      schoolYear: schoolYear,
-      semester: semester,
-    );
-  }
-
-  SitTimetable copyWithMeta(TimetableMeta meta) {
+  SitTimetable copyWith({
+    String? name,
+    DateTime? startDate,
+    int? schoolYear,
+    Semester? semester,
+    List<SitCourse>? courseKey2Entity,
+    int? courseKeyCounter,
+  }) {
     return SitTimetable(
-      courseKey2Entity: courseKey2Entity,
-      courseKeyCounter: courseKeyCounter,
-      name: meta.name,
-      startDate: meta.startDate,
-      schoolYear: meta.schoolYear,
-      semester: meta.semester,
+      name: name ?? this.name,
+      startDate: startDate ?? this.startDate,
+      schoolYear: schoolYear ?? this.schoolYear,
+      semester: semester ?? this.semester,
+      courseKey2Entity: courseKey2Entity ?? this.courseKey2Entity,
+      courseKeyCounter: courseKeyCounter ?? this.courseKeyCounter,
     );
   }
 
@@ -100,39 +97,6 @@ class SitTimetableEntity {
       _code2CoursesCache[courseCode] = res;
       return res;
     }
-  }
-}
-
-class TimetableMeta {
-  final String name;
-  final DateTime startDate;
-  final int schoolYear;
-  final Semester semester;
-
-  const TimetableMeta({
-    required this.name,
-    required this.startDate,
-    required this.schoolYear,
-    required this.semester,
-  });
-
-  TimetableMeta copyWith({
-    String? name,
-    DateTime? startDate,
-    int? schoolYear,
-    Semester? semester,
-  }) {
-    return TimetableMeta(
-      name: name ?? this.name,
-      startDate: startDate ?? this.startDate,
-      schoolYear: schoolYear ?? this.schoolYear,
-      semester: semester ?? this.semester,
-    );
-  }
-
-  @override
-  String toString() {
-    return 'TimetableMeta{name: $name, startDate: $startDate, schoolYear: $schoolYear, semester: $semester}';
   }
 }
 

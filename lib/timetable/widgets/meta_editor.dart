@@ -8,9 +8,9 @@ import '../entity/timetable.dart';
 import '../i18n.dart';
 
 class MetaEditor extends StatefulWidget {
-  final TimetableMeta meta;
+  final SitTimetable timetable;
 
-  const MetaEditor({super.key, required this.meta});
+  const MetaEditor({super.key, required this.timetable});
 
   @override
   State<MetaEditor> createState() => _MetaEditorState();
@@ -18,8 +18,8 @@ class MetaEditor extends StatefulWidget {
 
 class _MetaEditorState extends State<MetaEditor> {
   final GlobalKey _formKey = GlobalKey<FormState>();
-  late final _nameController = TextEditingController(text: widget.meta.name);
-  late final ValueNotifier<DateTime> $selectedDate = ValueNotifier(widget.meta.startDate);
+  late final _nameController = TextEditingController(text: widget.timetable.name);
+  late final ValueNotifier<DateTime> $selectedDate = ValueNotifier(widget.timetable.startDate);
 
   @override
   Widget build(BuildContext context) {
@@ -76,11 +76,10 @@ class _MetaEditorState extends State<MetaEditor> {
               ),
               CupertinoButton(
                 onPressed: () {
-                  final meta = widget.meta.copyWith(
+                  ctx.pop(widget.timetable.copyWith(
                     name: _nameController.text,
                     startDate: $selectedDate.value,
-                  );
-                  ctx.pop(meta);
+                  ));
                 },
                 child: i18n.save.text(style: actionStyle),
               ),
