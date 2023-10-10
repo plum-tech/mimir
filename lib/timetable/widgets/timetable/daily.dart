@@ -196,10 +196,10 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
           dayIndex: dayIndex,
         );
       } else {
-        final slotCount = day.timeslots2Lessons.length;
+        final slotCount = day.timeslot2LessonSlot.length;
         final builder = _RowBuilder();
         for (int timeslot = 0; timeslot < slotCount; timeslot++) {
-          builder.add(timeslot, buildLessonsInTimeslot(ctx, day.timeslots2Lessons[timeslot], timeslot));
+          builder.add(timeslot, buildLessonsInTimeslot(ctx, day.timeslot2LessonSlot[timeslot].lessons, timeslot));
         }
         // Since the course list is small, no need to use [ListView.builder].
         return ListView(
@@ -209,7 +209,11 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
     }
   }
 
-  Widget? buildLessonsInTimeslot(BuildContext ctx, List<SitTimetableLesson> lessonsInSlot, int timeslot) {
+  Widget? buildLessonsInTimeslot(
+    BuildContext ctx,
+    List<SitTimetableLesson> lessonsInSlot,
+    int timeslot,
+  ) {
     if (lessonsInSlot.isEmpty) {
       return null;
     } else if (lessonsInSlot.length == 1) {
@@ -231,7 +235,7 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
     required SitTimetableLesson lesson,
     required int timeslot,
   }) {
-    final course = timetable.getCourseByKey(lesson.courseKey);
+    final course = lesson.course;
     final color = TimetableStyle.of(context)
         .platte
         .resolveColor(course)
@@ -340,7 +344,7 @@ class LessonOverlapGroup extends StatelessWidget {
     ClassTime? classTime;
     for (int lessonIndex = 0; lessonIndex < lessonsInSlot.length; lessonIndex++) {
       final lesson = lessonsInSlot[lessonIndex];
-      final course = timetable.getCourseByKey(lesson.courseKey);
+      final course = lesson.course;
       final color = TimetableStyle.of(context).platte.resolveColor(course).byTheme(context.theme);
       classTime = course.buildingTimetable[timeslot];
       final row = LessonCard(

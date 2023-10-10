@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sit/r.dart';
@@ -9,7 +8,6 @@ import 'package:sit/school/entity/school.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/settings.dart';
 import 'package:sit/timetable/storage/timetable.dart';
-import 'package:sit/utils/file.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -149,7 +147,7 @@ SitTimetableEntity resolveTimetableEntity(SitTimetable timetable) {
         final week = getWeekAt(weekIndex);
         final day = week.days[course.dayIndex];
         for (int slot = timeslots.start; slot <= timeslots.end; slot++) {
-          day.add(SitTimetableLesson(timeslots.start, timeslots.end, courseKey), at: slot);
+          day.add(SitTimetableLesson(timeslots.start, timeslots.end, course), at: slot);
         }
       }
     }

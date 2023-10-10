@@ -262,9 +262,9 @@ class TimetableSingleWeekView extends StatelessWidget {
   /// 构建某一天的那一列格子.
   Widget _buildCellsByDay(BuildContext context, SitTimetableDay day, Size cellSize) {
     final cells = <Widget>[];
-    for (int timeslot = 0; timeslot < day.timeslots2Lessons.length; timeslot++) {
-      final lessons = day.timeslots2Lessons[timeslot];
-      if (lessons.isEmpty) {
+    for (int timeslot = 0; timeslot < day.timeslot2LessonSlot.length; timeslot++) {
+      final lessonSlot = day.timeslot2LessonSlot[timeslot];
+      if (lessonSlot.lessons.isEmpty) {
         cells.add(Container(
           decoration: DashDecoration(
             color: context.colorScheme.onBackground.withOpacity(0.3),
@@ -274,11 +274,11 @@ class TimetableSingleWeekView extends StatelessWidget {
           child: SizedBox(width: cellSize.width, height: cellSize.height),
         ));
       } else {
-        /// TODO: Multi-layer lessons
-        final firstLayerLesson = lessons[0];
+        /// TODO: Multi-layer lessonSlot
+        final firstLayerLesson = lessonSlot.lessons[0];
 
         /// TODO: Range checking
-        final course = timetable.getCourseByKey(firstLayerLesson.courseKey);
+        final course = firstLayerLesson.course;
         final cell = CourseCell(
           lesson: firstLayerLesson,
           timetable: timetable,

@@ -81,10 +81,6 @@ class SitTimetableEntity {
     required this.weeks,
   });
 
-  SitCourse getCourseByKey(int courseKey) {
-    return type.courseKey2Entity[courseKey];
-  }
-
   List<SitCourse> findAndCacheCoursesByCourseCode(String courseCode) {
     final found = _code2CoursesCache[courseCode];
     if (found != null) {
@@ -117,32 +113,37 @@ class SitTimetableWeek {
 }
 
 /// Lessons in the same Timeslot.
-typedef LessonsInSlot = List<SitTimetableLesson>;
+class SitTimetableLessonSlot {
+  final List<SitTimetableLesson> lessons;
+
+  SitTimetableLessonSlot({required this.lessons});
+}
 
 class SitTimetableDay {
   /// The Default number of lesson in one day is 11. But the length of lessons can be more.
   /// When two lessons are overlapped, it can be 12+.
   /// A Timeslot contain one or more lesson.
-  List<LessonsInSlot> timeslots2Lessons;
+  List<SitTimetableLessonSlot> timeslot2LessonSlot;
 
-  SitTimetableDay(this.timeslots2Lessons);
+  SitTimetableDay(this.timeslot2LessonSlot);
 
   factory SitTimetableDay.$11slots() {
-    return SitTimetableDay(List.generate(11, (index) => <SitTimetableLesson>[]));
+    return SitTimetableDay(List.generate(11, (index) => SitTimetableLessonSlot(lessons: [])));
   }
 
   void add(SitTimetableLesson lesson, {required int at}) {
-    assert(0 <= at && at < timeslots2Lessons.length);
-    if (0 <= at && at < timeslots2Lessons.length) {
-      timeslots2Lessons[at].add(lesson);
+    assert(0 <= at && at < timeslot2LessonSlot.length);
+    if (0 <= at && at < timeslot2LessonSlot.length) {
+      final lessonSlot = timeslot2LessonSlot[at];
+      lessonSlot.lessons.add(lesson);
     }
   }
 
   /// At all lessons [layer]
   Iterable<SitTimetableLesson> browseLessonsAt({required int layer}) sync* {
-    for (final lessonsInTimeslot in timeslots2Lessons) {
-      if (0 <= layer && layer < lessonsInTimeslot.length) {
-        yield lessonsInTimeslot[layer];
+    for (final lessonSlot in timeslot2LessonSlot) {
+      if (0 <= layer && layer < lessonSlot.lessons.length) {
+        yield lessonSlot.lessons[layer];
       }
     }
   }
@@ -150,10 +151,10 @@ class SitTimetableDay {
   /// At the unique lessons [layer].
   /// So, if the [SitTimetableLesson.duration] is more than 1, it will only yield the first lesson.
   Iterable<SitTimetableLesson> browseUniqueLessonsAt({required int layer}) sync* {
-    for (int timeslot = 0; timeslot < timeslots2Lessons.length; timeslot++) {
-      final lessons = timeslots2Lessons[timeslot];
-      if (0 <= layer && layer < lessons.length) {
-        final lesson = lessons[layer];
+    for (int timeslot = 0; timeslot < timeslot2LessonSlot.length; timeslot++) {
+      final lessonSlot = timeslot2LessonSlot[timeslot];
+      if (0 <= layer && layer < lessonSlot.lessons.length) {
+        final lesson = lessonSlot.lessons[layer];
         yield lesson;
         timeslot = lesson.endIndex;
       }
@@ -161,8 +162,8 @@ class SitTimetableDay {
   }
 
   bool hasAnyLesson() {
-    for (final lessonsInTimeslot in timeslots2Lessons) {
-      if (lessonsInTimeslot.isNotEmpty) {
+    for (final lessonSlot in timeslot2LessonSlot) {
+      if (lessonSlot.lessons.isNotEmpty) {
         return true;
       }
     }
@@ -170,7 +171,7 @@ class SitTimetableDay {
   }
 
   @override
-  String toString() => "$timeslots2Lessons";
+  String toString() => "$timeslot2LessonSlot";
 }
 
 class SitTimetableLesson {
@@ -182,23 +183,16 @@ class SitTimetableLesson {
 
   /// A lesson may last two or more time slots.
   /// If current [SitTimetableLesson] is a part of the whole lesson, they all have the same [courseKey].
-  /// If there's no lesson, the [courseKey] is null.
-  final int courseKey;
+  final SitCourse course;
 
   /// How many timeslots this lesson takes.
   /// It's at least 1 timeslot.
   int get duration => endIndex - startIndex + 1;
 
-  SitTimetableLesson(this.startIndex, this.endIndex, this.courseKey);
+  const SitTimetableLesson(this.startIndex, this.endIndex, this.course);
 
   @override
-  String toString() => "[$courseKey] $startIndex-$endIndex";
-}
-
-extension SitTimetableLessonEx on SitTimetableLesson {
-  SitCourse getCourseIn(List<SitCourse> courseKey2Entity) {
-    return courseKey2Entity[courseKey];
-  }
+  String toString() => "[$course] $startIndex-$endIndex";
 }
 
 @JsonSerializable()
