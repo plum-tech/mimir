@@ -159,12 +159,6 @@ class _OneWeekPageState extends State<_OneWeekPage> with AutomaticKeepAliveClien
   }
 
   @override
-  void didUpdateWidget(covariant _OneWeekPage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _cached = null;
-  }
-
-  @override
   Widget build(BuildContext context) {
     super.build(context);
     final cache = _cached;
