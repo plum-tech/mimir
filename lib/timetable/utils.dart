@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ical/serializer.dart';
 import 'package:open_file/open_file.dart';
@@ -229,6 +230,8 @@ Future<void> exportTimetableAsICalendarAndOpen(
   final imgFi = File(join(R.tmpDir, fileName));
   final data = convertTimetable2ICal(timetable: timetable, config: config);
   await imgFi.writeAsString(data);
+  // final url = Uri.encodeFull("data:text/calendar,$data");
+  // await Clipboard.setData(ClipboardData(text: url));
   await OpenFile.open(imgFi.path, type: "text/calendar");
 }
 

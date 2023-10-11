@@ -168,7 +168,6 @@ class SsoSession with DioDownloaderMixin implements ISession {
     }
   }
 
-  /// 带异常的登录, 但不处理验证码识别错误问题.
   Future<Response> _login(OaCredentials credentials) async {
     Log.info('尝试登录：${credentials.account}');
     Log.debug('当前登录UA: ${dio.options.headers['User-Agent']}');
@@ -218,7 +217,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
 
   /// 登录流程
   Future<Response> _postLoginProcess(OaCredentials credential) async {
-    debug(m) => Log.debug(m);
+    void debug(m) => Log.debug(m);
 
     /// 提取认证页面中的加密盐
     String getSaltFromAuthHtml(String htmlText) {
@@ -248,7 +247,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
     }
 
     /// 判断是否需要验证码
-    Future<bool> needCaptcha(String username) async {
+    Future<bool> isCaptchaRequired(String username) async {
       final response = await dio.get(
         _needCaptchaUrl,
         queryParameters: {
@@ -285,7 +284,7 @@ class SsoSession with DioDownloaderMixin implements ISession {
 
     // 获取首页验证码
     var captcha = '';
-    if (await needCaptcha(credential.account)) {
+    if (await isCaptchaRequired(credential.account)) {
       // 识别验证码
       final captchaImage = await getCaptcha();
       final c = await inputCaptcha(captchaImage);

@@ -335,11 +335,21 @@ class _DualPickerState extends State<DualPicker> {
 extension SnackBarX on BuildContext {
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(
     Widget content, {
-    Duration duration = const Duration(milliseconds: 800),
+    Duration duration = const Duration(milliseconds: 1000),
+    SnackBarAction? action,
+    VoidCallback? onVisible,
+    SnackBarBehavior? behavior,
+    bool? showCloseIcon,
+    DismissDirection dismissDirection = DismissDirection.down,
   }) {
     final snackBar = SnackBar(
       content: content,
       duration: duration,
+      action: action,
+      onVisible: onVisible,
+      behavior: behavior,
+      showCloseIcon: showCloseIcon,
+      dismissDirection: dismissDirection,
     );
 
     return ScaffoldMessenger.of(this).showSnackBar(snackBar);

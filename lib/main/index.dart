@@ -98,6 +98,7 @@ class _MainStagePageState extends State<MainStagePage> {
     return BottomNavigationBar(
       useLegacyColorScheme: false,
       showUnselectedLabels: false,
+      enableFeedback: true,
       type: BottomNavigationBarType.fixed,
       landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
       currentIndex: getSelectedIndex(),
