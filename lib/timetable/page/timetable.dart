@@ -8,9 +8,11 @@ import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' show join;
 import 'package:screenshot/screenshot.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/r.dart';
+import 'package:sit/timetable/page/screenshot.dart';
 
 import '../entity/display.dart';
 import '../events.dart';
@@ -132,7 +134,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         PopupMenuItem(
           child: ListTile(
             leading: const Icon(Icons.screenshot),
-            title: i18n.screenshot.text(),
+            title: i18n.screenshot.screenshot.text(),
             onTap: () async {
               ctx.pop();
               await takeTimetableScreenshot();
@@ -143,11 +145,14 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     );
   }
 
-  final screenshotController = ScreenshotController();
-
   Future<void> takeTimetableScreenshot() async {
+    final config = await context
+        .show$Sheet$<TimetableScreenshotConfig>((context) => TimetableScreenshotConfigEditor(timetable: timetable));
+    if (config == null) return;
+    if (!mounted) return;
     var fullSize = context.mediaQuery.size;
     fullSize = Size(fullSize.width, fullSize.height);
+    final screenshotController = ScreenshotController();
     final screenshot = await screenshotController.captureFromLongWidget(
       InheritedTheme.captureAll(
         context,
@@ -156,6 +161,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
           child: Material(
             child: TimetableStyleProv(
               child: TimetableWeeklyScreenshotFilm(
+                config: config,
                 timetable: timetable,
                 todayPos: timetable.type.locate(DateTime.now()),
                 weekIndex: $currentPos.value.weekIndex,
@@ -174,7 +180,6 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
 
     await OpenFile.open(imgFi.path, type: "image/png");
 
-    /// Share Plugin
     // await Share.shareXFiles(
     //   [XFile(imgFi.path, mimeType: "image/png")],
     // );

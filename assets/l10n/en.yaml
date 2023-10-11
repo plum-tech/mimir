@@ -36,7 +36,7 @@ timetable:
     timetableInfo: Timetable Info
     defaultName: "{semester}, {yearStart}–{yearEnd} Timetable"
   export:
-    title: Export to calendar
+    title: Export options
     export: Export
     lessonMode:
       title: Lesson mode
@@ -59,6 +59,11 @@ timetable:
     alarmBeforeClassBegins:
       title: Alarm before class begins
       desc: "{duration} before"
+  screenshot:
+    screenshot: Screenshot
+    title: Screenshot options
+    signature: Signature
+    signaturePlaceholder: Your name
   displayMode:
     daily: Daily
     weekly: Weekly
@@ -489,4 +494,3 @@ seeAll: See all
 select: Select
 unselect: Unselect
 share: Share
-screenshot: Screenshot

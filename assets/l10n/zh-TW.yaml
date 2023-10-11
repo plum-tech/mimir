@@ -37,7 +37,7 @@ timetable:
     timetableInfo: 課程表資訊
     defaultName: "{semester} {yearStart}–{yearEnd} 課程表"
   export:
-    title: 匯出行事曆
+    title: 匯出選項
     export: 匯出
     lessonMode:
       title: 課程模式
@@ -60,6 +60,11 @@ timetable:
     alarmBeforeClassBegins:
       title: 在上課前提醒
       desc: "提前 {duration}"
+  screenshot:
+    screenshot: 螢幕截圖
+    title: 螢幕截圖選項
+    signature: 簽名
+    signaturePlaceholder: 你的名稱
   displayMode:
     daily: 日
     weekly: 周
@@ -492,4 +497,3 @@ seeAll: 查看全部
 select: 選擇
 unselect: 取消選擇
 share: 分享
-screenshot: 螢幕截圖

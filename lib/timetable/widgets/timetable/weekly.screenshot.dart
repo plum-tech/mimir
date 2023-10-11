@@ -7,6 +7,7 @@ import 'package:sit/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../entity/timetable.dart';
+import '../../page/screenshot.dart';
 import '../slot.dart';
 import 'header.dart';
 import '../style.dart';
@@ -14,6 +15,7 @@ import '../../entity/pos.dart';
 import '../../i18n.dart';
 
 class TimetableWeeklyScreenshotFilm extends StatelessWidget {
+  final TimetableScreenshotConfig config;
   final SitTimetableEntity timetable;
   final TimetablePos todayPos;
   final int weekIndex;
@@ -25,6 +27,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
     required this.todayPos,
     required this.weekIndex,
     required this.fullSize,
+    required this.config,
   });
 
   @override
@@ -32,9 +35,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
     final cellSize = Size(fullSize.width * 3 / 23, fullSize.height / 11);
     final timetableWeek = timetable.weeks[weekIndex];
     return [
-      i18n.weekOrderedName(number: weekIndex + 1).text(
-            style: context.textTheme.titleLarge,
-          ),
+      buildTitle().text(style: context.textTheme.titleLarge).padSymmetric(v: 10),
       buildSingleWeekView(
         timetableWeek,
         context: context,
@@ -42,6 +43,15 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
         fullSize: fullSize,
       ),
     ].column();
+  }
+
+  String buildTitle() {
+    final week = i18n.weekOrderedName(number: weekIndex + 1);
+    final signature = config.signature;
+    if (signature.isNotEmpty) {
+      return "$signature $week";
+    }
+    return week;
   }
 
   Widget buildSingleWeekView(

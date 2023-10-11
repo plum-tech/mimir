@@ -12,6 +12,7 @@ class _I18n with CommonI18nMixin {
   final details = const _Details();
   final import = const _Import();
   final export = const _Export();
+  final screenshot = const _Screenshot();
   final edit = const _Edit();
   final freeTip = const _FreeTip();
   final campus = const CampusI10n();
@@ -73,6 +74,20 @@ class _Details {
   String get classId => "$ns.classId".tr();
 
   String get courseId => "$ns.courseId".tr();
+}
+
+class _Screenshot {
+  const _Screenshot();
+
+  static const ns = "${_I18n.ns}.screenshot";
+
+  String get screenshot => "$ns.screenshot".tr();
+
+  String get title => "$ns.title".tr();
+
+  String get signature => "$ns.signature".tr();
+
+  String get signaturePlaceholder => "$ns.signaturePlaceholder".tr();
 }
 
 class _Import {

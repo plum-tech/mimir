@@ -59,22 +59,7 @@ class _TimetableExportCalendarConfigEditorState extends State<TimetableExportCal
             floating: true,
             title: i18n.export.title.text(),
             actions: [
-              CupertinoButton(
-                child: i18n.export.export.text(),
-                onPressed: () async {
-                  context.pop<TimetableExportCalendarConfig>((
-                    alarm: $enableAlarm.value
-                        ? (
-                            alarmBeforeClass: $alarmBeforeClass.value,
-                            alarmDuration: $alarmDuration.value,
-                            isSoundAlarm: $isSoundAlarm.value,
-                          )
-                        : null,
-                    locale: context.locale,
-                    isLessonMerged: $merged.value,
-                  ));
-                },
-              ),
+              buildExportAction(),
             ],
           ),
           SliverList.list(children: [
@@ -87,6 +72,25 @@ class _TimetableExportCalendarConfigEditorState extends State<TimetableExportCal
           ]),
         ],
       ),
+    );
+  }
+
+  Widget buildExportAction(){
+    return CupertinoButton(
+      child: i18n.export.export.text(),
+      onPressed: () async {
+        context.pop<TimetableExportCalendarConfig>((
+        alarm: $enableAlarm.value
+            ? (
+        alarmBeforeClass: $alarmBeforeClass.value,
+        alarmDuration: $alarmDuration.value,
+        isSoundAlarm: $isSoundAlarm.value,
+        )
+            : null,
+        locale: context.locale,
+        isLessonMerged: $merged.value,
+        ));
+      },
     );
   }
 
