@@ -179,7 +179,8 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
     int weekIndex = widget.weekIndex;
     int dayIndex = widget.dayIndex;
     final week = timetable.weeks[weekIndex];
-    if (week == null) {
+    final day = week.days[dayIndex];
+    if (!day.hasAnyLesson()) {
       return FreeDayTip(
         timetable: timetable,
         todayPos: widget.todayPos,
@@ -187,25 +188,15 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
         dayIndex: dayIndex,
       ).scrolled().center();
     } else {
-      final day = week.days[dayIndex];
-      if (!day.hasAnyLesson()) {
-        return FreeDayTip(
-          timetable: timetable,
-          todayPos: widget.todayPos,
-          weekIndex: weekIndex,
-          dayIndex: dayIndex,
-        ).scrolled().center();
-      } else {
-        final slotCount = day.timeslot2LessonSlot.length;
-        final builder = _RowBuilder();
-        for (int timeslot = 0; timeslot < slotCount; timeslot++) {
-          builder.add(timeslot, buildLessonsInTimeslot(ctx, day.timeslot2LessonSlot[timeslot].lessons, timeslot));
-        }
-        // Since the course list is small, no need to use [ListView.builder].
-        return ListView(
-          children: builder.build(),
-        );
+      final slotCount = day.timeslot2LessonSlot.length;
+      final builder = _RowBuilder();
+      for (int timeslot = 0; timeslot < slotCount; timeslot++) {
+        builder.add(timeslot, buildLessonsInTimeslot(ctx, day.timeslot2LessonSlot[timeslot].lessons, timeslot));
       }
+      // Since the course list is small, no need to use [ListView.builder].
+      return ListView(
+        children: builder.build(),
+      );
     }
   }
 

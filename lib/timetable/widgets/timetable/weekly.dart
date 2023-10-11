@@ -189,7 +189,7 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
     final weekIndex = widget.weekIndex;
     final timetableWeek = timetable.weeks[weekIndex];
 
-    if (timetableWeek == null) {
+    if (timetableWeek.isFree()) {
       // free week
       return FreeWeekTip(
         todayPos: widget.todayPos,

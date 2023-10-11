@@ -72,7 +72,7 @@ class SitTimetableEntity {
   final SitTimetable type;
 
   /// The Default number of weeks is 20.
-  final List<SitTimetableWeek?> weeks;
+  final List<SitTimetableWeek> weeks;
 
   final Map<String, List<SitCourse>> _code2CoursesCache = {};
 
@@ -116,6 +116,10 @@ class SitTimetableWeek {
     );
   }
 
+  bool isFree() {
+    return days.every((day) => day.isFree());
+  }
+
   @override
   String toString() => "$days";
 }
@@ -145,6 +149,10 @@ class SitTimetableDay {
       index: dayIndex,
       timeslot2LessonSlot: List.generate(11, (index) => SitTimetableLessonSlot(lessons: [])),
     );
+  }
+
+  bool isFree() {
+    return timeslot2LessonSlot.every((lessonSlot) => lessonSlot.lessons.isEmpty);
   }
 
   void add(SitTimetableLesson lesson, {required int at}) {

@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' show join;
 import 'package:screenshot/screenshot.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
@@ -21,7 +20,6 @@ import '../init.dart';
 import '../entity/pos.dart';
 import '../widgets/style.dart';
 import '../widgets/timetable/board.dart';
-import '../widgets/timetable/weekly.dart';
 import '../widgets/timetable/weekly.screenshot.dart';
 
 class TimetableBoardPage extends StatefulWidget {
