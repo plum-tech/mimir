@@ -81,29 +81,19 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
 
   @override
   Widget build(BuildContext context) {
-    return [
-      [
-        const SizedBox().align(at: Alignment.center).flexible(flex: 47),
-        widget.$currentPos >>
-            (ctx, cur) => TimetableHeader(
-                  weekIndex: cur.weekIndex,
-                  startDate: timetable.type.startDate,
-                ).flexible(flex: 500)
-      ].row(),
-      PageView.builder(
-        controller: _pageController,
-        scrollDirection: Axis.horizontal,
-        itemCount: 20,
-        itemBuilder: (ctx, weekIndex) {
-          final todayPos = timetable.type.locate(DateTime.now());
-          return TimetableOneWeekPage(
-            timetable: timetable,
-            todayPos: todayPos,
-            weekIndex: weekIndex,
-          );
-        },
-      ).expanded()
-    ].column(mas: MainAxisSize.min, maa: MainAxisAlignment.start, caa: CrossAxisAlignment.start);
+    return PageView.builder(
+      controller: _pageController,
+      scrollDirection: Axis.horizontal,
+      itemCount: 20,
+      itemBuilder: (ctx, weekIndex) {
+        final todayPos = timetable.type.locate(DateTime.now());
+        return TimetableOneWeekPage(
+          timetable: timetable,
+          todayPos: todayPos,
+          weekIndex: weekIndex,
+        );
+      },
+    );
   }
 
   /// 跳到某一周
@@ -190,14 +180,10 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
         weekIndex: weekIndex,
       ).scrolled().center();
     }
-    return SizedBox(
-      width: fullSize.width,
-      height: fullSize.height,
-      child: buildSingleWeekView(
-        timetableWeek,
-        cellSize: cellSize,
-        fullSize: fullSize,
-      ),
+    return buildSingleWeekView(
+      timetableWeek,
+      cellSize: cellSize,
+      fullSize: fullSize,
     ).scrolled();
   }
 
@@ -206,6 +192,10 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
     final textStyle = ctx.textTheme.bodyMedium;
     final side = getBorderSide(ctx);
     final cells = <Widget>[];
+    cells.add(SizedBox(
+      width: cellSize.width * 0.6,
+      child: const EmptyHeaderCellTextBox(),
+    ));
     for (var i = 0; i < 11; i++) {
       cells.add(Container(
         decoration: BoxDecoration(
@@ -225,19 +215,13 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
     required Size cellSize,
     required Size fullSize,
   }) {
-    return ListView.builder(
-      itemCount: 8,
-      scrollDirection: Axis.horizontal,
-      physics: const NeverScrollableScrollPhysics(),
-      // The scrolling has been handled outside
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          return buildLeftColumn(context, cellSize);
-        } else {
-          return _buildCellsByDay(context, timetableWeek.days[index - 1], cellSize).center();
-        }
-      },
-    );
+    return List.generate(8, (index) {
+      if (index == 0) {
+        return buildLeftColumn(context, cellSize);
+      } else {
+        return _buildCellsByDay(context, timetableWeek.days[index - 1], cellSize);
+      }
+    }).row();
   }
 
   /// 构建某一天的那一列格子.
@@ -247,6 +231,19 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
     Size cellSize,
   ) {
     final cells = <Widget>[];
+    cells.add(SizedBox(
+      width: cellSize.width,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(bottom: getBorderSide(context)),
+        ),
+        child: HeaderCellTextBox(
+          weekIndex: widget.weekIndex,
+          dayIndex: day.index,
+          startDate: timetable.type.startDate,
+        ),
+      ),
+    ));
     for (int timeslot = 0; timeslot < day.timeslot2LessonSlot.length; timeslot++) {
       final lessonSlot = day.timeslot2LessonSlot[timeslot];
       if (lessonSlot.lessons.isEmpty) {
@@ -277,11 +274,7 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
       }
     }
 
-    return SizedBox(
-      width: cellSize.width,
-      height: cellSize.height * 11,
-      child: Column(children: cells),
-    );
+    return cells.column();
   }
 }
 

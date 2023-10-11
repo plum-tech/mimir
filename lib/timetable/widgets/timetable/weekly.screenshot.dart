@@ -50,7 +50,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
     required Size cellSize,
     required Size fullSize,
   }) {
-    return Iterable.generate(
+    return List.generate(
       8,
       (index) {
         if (index == 0) {
@@ -59,7 +59,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
           return _buildCellsByDay(context, timetableWeek.days[index - 1], cellSize);
         }
       },
-    ).toList().row();
+    ).row();
   }
 
   /// 布局左侧边栏, 显示节次
@@ -69,10 +69,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
     final cells = <Widget>[];
     cells.add(SizedBox(
       width: cellSize.width * 0.6,
-      child: [
-        Text("", style: ctx.textTheme.titleSmall),
-        Text("", style: ctx.textTheme.labelSmall),
-      ].column().padOnly(t: 5, b: 5),
+      child: const EmptyHeaderCellTextBox(),
     ));
     for (var i = 0; i < 11; i++) {
       cells.add(Container(

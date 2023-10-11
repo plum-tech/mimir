@@ -60,7 +60,6 @@ class HeaderCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final date = reflectWeekDayIndexToDate(weekIndex: weekIndex, dayIndex: dayIndex, startDate: startDate);
     final side = getBorderSide(context);
     return AnimatedContainer(
       decoration: BoxDecoration(
@@ -69,16 +68,59 @@ class HeaderCell extends StatelessWidget {
       ),
       duration: const Duration(milliseconds: 1000),
       curve: Curves.fastLinearToSlowEaseIn,
-      child: [
-        i18n.weekdayShort(index: dayIndex).text(
-              textAlign: TextAlign.center,
-              style: context.textTheme.titleSmall,
-            ),
-        '${date.month}/${date.day}'.text(
-          textAlign: TextAlign.center,
-          style: context.textTheme.labelSmall,
-        ),
-      ].column().padOnly(t: 5, b: 5),
+      child: HeaderCellTextBox(
+        weekIndex: weekIndex,
+        dayIndex: dayIndex,
+        startDate: startDate,
+      ),
     );
+  }
+}
+
+class HeaderCellTextBox extends StatelessWidget {
+  final int weekIndex;
+  final int dayIndex;
+  final DateTime startDate;
+
+  const HeaderCellTextBox({
+    super.key,
+    required this.weekIndex,
+    required this.dayIndex,
+    required this.startDate,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final date = reflectWeekDayIndexToDate(weekIndex: weekIndex, dayIndex: dayIndex, startDate: startDate);
+    return [
+      i18n.weekdayShort(index: dayIndex).text(
+            textAlign: TextAlign.center,
+            style: context.textTheme.titleSmall,
+          ),
+      '${date.month}/${date.day}'.text(
+        textAlign: TextAlign.center,
+        style: context.textTheme.labelSmall,
+      ),
+    ].column().padOnly(t: 5, b: 5);
+  }
+}
+
+class EmptyHeaderCellTextBox extends StatelessWidget {
+  const EmptyHeaderCellTextBox({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      "".text(
+        textAlign: TextAlign.center,
+        style: context.textTheme.titleSmall,
+      ),
+      "".text(
+        textAlign: TextAlign.center,
+        style: context.textTheme.labelSmall,
+      ),
+    ].column().padOnly(t: 5, b: 5);
   }
 }
