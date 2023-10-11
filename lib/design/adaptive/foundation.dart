@@ -23,7 +23,7 @@ extension $BuildContextEx$ on BuildContext {
         isDismissible: dismissible,
       );
     } else {
-      return await showModalBottomSheet(
+      return await showModalBottomSheet<T>(
         context: this,
         builder: builder,
         isDismissible: dismissible,

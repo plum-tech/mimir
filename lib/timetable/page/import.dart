@@ -145,7 +145,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       defaultStartDate = findFirstWeekdayInCurrentMonth(DateTime(year + 1, 2), DateTime.monday);
     }
     final newTimetable = await ctx.show$Sheet$<SitTimetable>(
-      (ctx) => MetaEditor(
+      (ctx) => TimetableMetaEditor(
         timetable: timetable.copyWith(
           name: defaultName,
           semester: semester,

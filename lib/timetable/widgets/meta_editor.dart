@@ -7,25 +7,58 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/timetable.dart';
 import '../i18n.dart';
 
-class MetaEditor extends StatefulWidget {
+class TimetableMetaEditor extends StatefulWidget {
   final SitTimetable timetable;
 
-  const MetaEditor({super.key, required this.timetable});
+  const TimetableMetaEditor({super.key, required this.timetable});
 
   @override
-  State<MetaEditor> createState() => _MetaEditorState();
+  State<TimetableMetaEditor> createState() => _TimetableMetaEditorState();
 }
 
-class _MetaEditorState extends State<MetaEditor> {
+class _TimetableMetaEditorState extends State<TimetableMetaEditor> {
   final GlobalKey _formKey = GlobalKey<FormState>();
   late final _nameController = TextEditingController(text: widget.timetable.name);
   late final ValueNotifier<DateTime> $selectedDate = ValueNotifier(widget.timetable.startDate);
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: buildMetaEditor(context),
+  Widget build(BuildContext ctx) {
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            title: i18n.import.timetableInfo.text(),
+            actions: [
+              CupertinoButton(
+                onPressed: () {
+                  ctx.pop(widget.timetable.copyWith(
+                    name: _nameController.text,
+                    startDate: $selectedDate.value,
+                  ));
+                },
+                child: i18n.save.text(),
+              ),
+            ],
+          ),
+          SliverList.list(children: [
+            buildDescForm(ctx),
+            ListTile(
+              leading: const Icon(Icons.alarm),
+              title: i18n.startWith.text(),
+              trailing: FilledButton(
+                child: $selectedDate >> (ctx, value) => ctx.formatYmdText(value).text(),
+                onPressed: () async {
+                  final date = await _pickTimetableStartDate(context, initial: $selectedDate.value);
+                  if (date != null) {
+                    $selectedDate.value = DateTime(date.year, date.month, date.day);
+                  }
+                },
+              ),
+            ),
+          ])
+        ],
+      ),
     );
   }
 
@@ -39,55 +72,6 @@ class _MetaEditorState extends State<MetaEditor> {
             decoration: InputDecoration(labelText: i18n.details.nameFormTitle, border: const OutlineInputBorder()),
           ).padAll(10),
         ]));
-  }
-
-  Widget buildMetaEditor(BuildContext ctx) {
-    final actionStyle = TextStyle(fontSize: ctx.textTheme.titleLarge?.fontSize);
-    return Center(
-      heightFactor: 1,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(i18n.import.timetableInfo, style: ctx.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
-          buildDescForm(ctx),
-          [
-            i18n.startWith.text(style: ctx.textTheme.titleLarge),
-            FilledButton(
-              child: $selectedDate >>
-                  (ctx, value) =>
-                      ctx.formatYmdText(value).text(style: TextStyle(fontSize: ctx.textTheme.bodyLarge?.fontSize)),
-              onPressed: () async {
-                final date = await _pickTimetableStartDate(context, initial: $selectedDate.value);
-                if (date != null) {
-                  $selectedDate.value = DateTime(date.year, date.month, date.day);
-                }
-              },
-            )
-          ].row(maa: MainAxisAlignment.spaceEvenly),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CupertinoButton(
-                onPressed: () {
-                  ctx.pop();
-                },
-                child: i18n.cancel.text(style: actionStyle),
-              ),
-              CupertinoButton(
-                onPressed: () {
-                  ctx.pop(widget.timetable.copyWith(
-                    name: _nameController.text,
-                    startDate: $selectedDate.value,
-                  ));
-                },
-                child: i18n.save.text(style: actionStyle),
-              ),
-            ],
-          ).padV(12)
-        ],
-      ),
-    );
   }
 }
 

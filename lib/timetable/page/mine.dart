@@ -166,7 +166,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             trailingIcon: CupertinoIcons.calendar_badge_plus,
             onPressed: () async {
               Navigator.of(context, rootNavigator: true).pop();
-              await ctx.push("/timetable/export-calendar/$id", extra: timetable);
+              await onExportCalendar(timetable);
             },
             child: i18n.mine.exportCalendar.text(),
           ),
@@ -233,7 +233,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             title: i18n.mine.exportCalendar.text(),
             onTap: () async {
               ctx.pop();
-              await ctx.push("/timetable/export-calendar/$id", extra: timetable);
+              await onExportCalendar(timetable);
             },
           ),
         ),
@@ -251,10 +251,21 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
     );
   }
 
+  Future<void> onExportCalendar(SitTimetable timetable) async {
+    final config = await context.show$Sheet$<TimetableExportCalendarConfig>(
+        (context) => TimetableExportCalendarConfigEditor(timetable: timetable));
+    if (config == null) return;
+    if (!mounted) return;
+    await exportTimetableAsICalendarAndOpen(
+      context,
+      timetable: timetable.resolve(),
+      config: config,
+    );
+  }
+
   Future<void> onEdit(int id, SitTimetable timetable) async {
     final newTimetable = await context.show$Sheet$<SitTimetable>(
-      (ctx) => MetaEditor(timetable: timetable).padOnly(b: MediaQuery.of(ctx).viewInsets.bottom),
-      dismissible: false,
+      (ctx) => TimetableMetaEditor(timetable: timetable).padOnly(b: MediaQuery.of(ctx).viewInsets.bottom),
     );
     if (newTimetable != null) {
       storage.timetable.setOf(id, newTimetable);

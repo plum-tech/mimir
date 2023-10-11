@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/widgets/duration_picker.dart';
 import '../entity/timetable.dart';
-import '../utils.dart';
 import "../i18n.dart";
 
 typedef TimetableExportCalendarAlarmConfig = ({
@@ -21,19 +20,19 @@ typedef TimetableExportCalendarConfig = ({
   bool isLessonMerged,
 });
 
-class TimetableExportCalendarConfigPage extends StatefulWidget {
+class TimetableExportCalendarConfigEditor extends StatefulWidget {
   final SitTimetable timetable;
 
-  const TimetableExportCalendarConfigPage({
+  const TimetableExportCalendarConfigEditor({
     super.key,
     required this.timetable,
   });
 
   @override
-  State<TimetableExportCalendarConfigPage> createState() => _TimetableExportCalendarConfigPageState();
+  State<TimetableExportCalendarConfigEditor> createState() => _TimetableExportCalendarConfigEditorState();
 }
 
-class _TimetableExportCalendarConfigPageState extends State<TimetableExportCalendarConfigPage> {
+class _TimetableExportCalendarConfigEditorState extends State<TimetableExportCalendarConfigEditor> {
   final $enableAlarm = ValueNotifier(false);
   final $alarmDuration = ValueNotifier(const Duration(minutes: 15));
   final $alarmBeforeClass = ValueNotifier(const Duration(minutes: 15));
@@ -62,23 +61,17 @@ class _TimetableExportCalendarConfigPageState extends State<TimetableExportCalen
               CupertinoButton(
                 child: i18n.export.export.text(),
                 onPressed: () async {
-                  await exportTimetableAsICalendarAndOpen(
-                    context,
-                    timetable: widget.timetable.resolve(),
-                    config: (
-                      alarm: $enableAlarm.value
-                          ? (
-                              alarmBeforeClass: $alarmBeforeClass.value,
-                              alarmDuration: $alarmDuration.value,
-                              isSoundAlarm: $isSoundAlarm.value,
-                            )
-                          : null,
-                      locale: context.locale,
-                      isLessonMerged: $merged.value,
-                    ),
-                  );
-                  if(!mounted) return;
-                  context.pop();
+                  context.pop<TimetableExportCalendarConfig>((
+                    alarm: $enableAlarm.value
+                        ? (
+                            alarmBeforeClass: $alarmBeforeClass.value,
+                            alarmDuration: $alarmDuration.value,
+                            isSoundAlarm: $isSoundAlarm.value,
+                          )
+                        : null,
+                    locale: context.locale,
+                    isLessonMerged: $merged.value,
+                  ));
                 },
               ),
             ],

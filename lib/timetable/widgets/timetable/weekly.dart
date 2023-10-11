@@ -101,7 +101,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
         controller: _pageController,
         scrollDirection: Axis.horizontal,
         itemCount: 20,
-        itemBuilder: (BuildContext ctx, int weekIndex) {
+        itemBuilder: (ctx, weekIndex) {
           final todayPos = timetable.type.locate(DateTime.now());
           return TimetableOneWeekPage(
             timetable: timetable,
