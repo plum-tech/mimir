@@ -122,18 +122,17 @@ class _SkipBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
+    return Material(
+      clipBehavior: Clip.hardEdge,
       borderRadius: buttonStyles.borderRadius ?? BorderRadius.circular(0),
-      child: Material(
-        color: context.theme.colorScheme.background,
-        child: InkWell(
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: isPre
-                ? buttonStyles.icon ?? const Icon(Icons.chevron_left, size: 35)
-                : buttonStyles.icon ?? const Icon(Icons.chevron_right, size: 35),
-          ),
+      color: context.theme.colorScheme.background,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: isPre
+              ? buttonStyles.icon ?? const Icon(Icons.chevron_left, size: 35)
+              : buttonStyles.icon ?? const Icon(Icons.chevron_right, size: 35),
         ),
       ),
     ).sized(h: height);
@@ -160,24 +159,22 @@ class _PageBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
+    return Material(
+      clipBehavior: Clip.hardEdge,
       borderRadius: buttonStyles.borderRadius ?? BorderRadius.circular(0),
-      child: Material(
-        color:
-            active ? context.theme.secondaryHeaderColor : buttonStyles.bgColor ?? context.theme.colorScheme.background,
-        child: InkWell(
-          onTap: () {
-            onTap(page);
-          },
-          child: page
-              .toString()
-              .text(style: active ? buttonStyles.activeTextStyle : buttonStyles.textStyle, textAlign: TextAlign.center)
-              .center(),
-        ),
-      ).sized(
-        h: height,
-        w: MediaQuery.of(context).size.width,
+      color: active ? context.colorScheme.surfaceVariant : buttonStyles.bgColor ?? context.theme.colorScheme.background,
+      child: InkWell(
+        onTap: () {
+          onTap(page);
+        },
+        child: page
+            .toString()
+            .text(style: active ? buttonStyles.activeTextStyle : buttonStyles.textStyle, textAlign: TextAlign.center)
+            .center(),
       ),
+    ).sized(
+      h: height,
+      w: MediaQuery.of(context).size.width,
     );
   }
 }
