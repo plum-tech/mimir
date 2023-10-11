@@ -15,18 +15,18 @@ class PageGrouper extends StatefulWidget {
   final double? height;
   final Function(int number) onPageChange;
 
-  const PageGrouper(
-      {Key? key,
-      this.width,
-      this.height,
-      this.useSkipButton = true,
-      required this.preBtnStyles,
-      required this.paginateButtonStyles,
-      required this.onPageChange,
-      required this.totalPage,
-      required this.btnPerGroup,
-      required this.currentPageIndex})
-      : super(key: key);
+  const PageGrouper({
+    Key? key,
+    this.width,
+    this.height,
+    this.useSkipButton = true,
+    required this.preBtnStyles,
+    required this.paginateButtonStyles,
+    required this.onPageChange,
+    required this.totalPage,
+    required this.btnPerGroup,
+    required this.currentPageIndex,
+  }) : super(key: key);
 
   @override
   State<PageGrouper> createState() => _PageGrouperState();
@@ -115,8 +115,13 @@ class _SkipBtn extends StatelessWidget {
   final bool isPre;
   final VoidCallback onTap;
 
-  const _SkipBtn({Key? key, required this.buttonStyles, required this.height, required this.isPre, required this.onTap})
-      : super(key: key);
+  const _SkipBtn({
+    super.key,
+    required this.buttonStyles,
+    required this.height,
+    required this.isPre,
+    required this.onTap,
+  });
 
   final double radius = 20;
 
@@ -147,15 +152,15 @@ class _PageBtn extends StatelessWidget {
   final Function(int number) onTap;
   final PageBtnStyles buttonStyles;
 
-  const _PageBtn(
-      {Key? key,
-      required this.active,
-      required this.buttonStyles,
-      required this.page,
-      required this.height,
-      required this.color,
-      required this.onTap})
-      : super(key: key);
+  const _PageBtn({
+    super.key,
+    required this.active,
+    required this.buttonStyles,
+    required this.page,
+    required this.height,
+    required this.color,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +224,11 @@ class SkipBtnStyle {
   final BorderRadius? borderRadius;
   final Color? color;
 
-  SkipBtnStyle({this.icon, this.borderRadius, this.color});
+  SkipBtnStyle({
+    this.icon,
+    this.borderRadius,
+    this.color,
+  });
 
   SkipBtnStyle copyWith({
     Icon? icon,
