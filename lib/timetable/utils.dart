@@ -176,22 +176,8 @@ Future<({int id, SitTimetable timetable})?> importTimetableFromFile() async {
   final content = await file.readAsString();
   final json = jsonDecode(content);
   final timetable = SitTimetable.fromJson(json);
-  final id = addNewTimetable(timetable);
-  return (id: id, timetable: timetable);
-}
-
-/// Adds the [timetable] into [TimetableStorage.timetable].
-/// Updates the selected timetable id.
-/// If [TimetableSettings.autoUseImported] is enabled, the [timetable] will be used.
-int addNewTimetable(SitTimetable timetable) {
   final id = TimetableInit.storage.timetable.add(timetable);
-  if (Settings.timetable.autoUseImported) {
-    TimetableInit.storage.timetable.selectedId = id;
-  } else {
-    // use this timetable if no one else
-    TimetableInit.storage.timetable.selectedId ??= id;
-  }
-  return id;
+  return (id: id, timetable: timetable);
 }
 
 Future<void> exportTimetableFileAndShare(

@@ -156,7 +156,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       dismissible: false,
     );
     if (newTimetable != null) {
-      final id = addNewTimetable(newTimetable);
+      final id = TimetableInit.storage.timetable.add(newTimetable);
       return (id: id, timetable: timetable);
     }
     return null;

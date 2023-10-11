@@ -9,6 +9,7 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/route.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/page/export.dart';
 
 import '../i18n.dart';
@@ -27,31 +28,43 @@ class MyTimetableListPage extends StatefulWidget {
 class _MyTimetableListPageState extends State<MyTimetableListPage> {
   final storage = TimetableInit.storage;
 
+  /// Import a new timetable.
+  /// Updates the selected timetable id.
+  /// If [TimetableSettings.autoUseImported] is enabled, the newly-imported will be used.
   Future<void> goImport() async {
+    final ({int id, SitTimetable timetable})? result;
     if (isLoginGuarded(context)) {
-      await importFromFile();
+      result = await importFromFile();
     } else {
-      await importFromSchoolServer();
+      result = await importFromSchoolServer();
     }
-  }
 
-  Future<void> importFromSchoolServer() async {
-    await context.push<({int id, SitTimetable timetable})>("/timetable/import");
+    if (result != null) {
+      if (Settings.timetable.autoUseImported) {
+        TimetableInit.storage.timetable.selectedId = result.id;
+      } else {
+        // use this timetable if no one else
+        TimetableInit.storage.timetable.selectedId ??= result.id;
+      }
+    }
     if (!mounted) return;
     setState(() {});
   }
 
-  Future<void> importFromFile() async {
+  Future<({int id, SitTimetable timetable})?> importFromSchoolServer() async {
+    return await context.push<({int id, SitTimetable timetable})>("/timetable/import");
+  }
+
+  Future<({int id, SitTimetable timetable})?> importFromFile() async {
     try {
-      await importTimetableFromFile();
-      if (!mounted) return;
-      setState(() {});
+      return await importTimetableFromFile();
     } catch (err, stackTrace) {
       // TODO: Handle permission error
       debugPrint(err.toString());
       debugPrintStack(stackTrace: stackTrace);
-      if (!mounted) return;
+      if (!mounted) return null;
       context.showSnackBar("Format Error. Please select a timetable file.".text());
+      return null;
     }
   }
 
@@ -284,10 +297,6 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
     if (confirm == true) {
       storage.timetable.delete(id);
       if (!mounted) return;
-      if (!storage.timetable.hasAny) {
-        // If no timetable exists, go out.
-        context.pop();
-      }
       setState(() {});
     }
   }
