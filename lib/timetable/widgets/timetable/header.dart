@@ -66,8 +66,7 @@ class HeaderCell extends StatelessWidget {
         color: backgroundColor,
         border: Border(bottom: side),
       ),
-      duration: const Duration(milliseconds: 1000),
-      curve: Curves.fastLinearToSlowEaseIn,
+      duration: const Duration(milliseconds: 100),
       child: HeaderCellTextBox(
         weekIndex: weekIndex,
         dayIndex: dayIndex,
