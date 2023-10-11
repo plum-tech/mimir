@@ -155,6 +155,7 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
   }
 
   Widget _buildChartView() {
+    // TODO: take current month into account
     // 得到该年该月有多少天, 生成数组记录每一天的消费.
     final List<double> daysAmount = List.filled(_getDayCountOfMonth(selectedYear, selectedMonth), 0.00);
     // 便利该月消费情况, 加到上述统计列表中.
