@@ -159,9 +159,8 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
     BuildContext ctx, {
     required Size fullSize,
   }) {
-    // TODO: No magic number
-    fullSize = Size(fullSize.width, fullSize.height * 1.5);
-    final cellSize = Size(fullSize.width * 3 / 23, fullSize.height / 11);
+    fullSize = Size(fullSize.width, fullSize.height * 1.2);
+    final cellSize = Size(fullSize.width / 7.62, fullSize.height / 11);
     final weekIndex = widget.weekIndex;
     final timetableWeek = timetable.weeks[weekIndex];
 
