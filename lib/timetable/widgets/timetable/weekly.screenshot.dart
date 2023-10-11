@@ -107,7 +107,10 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
           decoration: DashDecoration(
             color: context.colorScheme.onBackground.withOpacity(0.3),
             strokeWidth: 0.5,
-            borders: const {LinePosition.bottom},
+            borders: {
+              if (timeslot != 0) LinePosition.top,
+              if (timeslot != day.timeslot2LessonSlot.length - 1) LinePosition.bottom,
+            },
           ),
           child: SizedBox(width: cellSize.width, height: cellSize.height),
         ));

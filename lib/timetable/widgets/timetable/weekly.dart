@@ -63,13 +63,6 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
     $jumpToPos = eventBus.on<JumpToPosEvent>().listen((event) {
       jumpTo(event.where);
     });
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final targetOffset = currentPos.weekIndex;
-      final currentOffset = _pageController.page?.round() ?? targetOffset;
-      if (currentOffset != targetOffset) {
-        _pageController.jumpToPage(targetOffset);
-      }
-    });
   }
 
   @override
@@ -172,19 +165,23 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
     final weekIndex = widget.weekIndex;
     final timetableWeek = timetable.weeks[weekIndex];
 
-    if (timetableWeek.isFree()) {
-      // free week
-      return FreeWeekTip(
-        todayPos: widget.todayPos,
-        timetable: timetable,
-        weekIndex: weekIndex,
-      ).scrolled().center();
-    }
-    return buildSingleWeekView(
+    final view = buildSingleWeekView(
       timetableWeek,
       cellSize: cellSize,
       fullSize: fullSize,
-    ).scrolled();
+    );
+    if (timetableWeek.isFree()) {
+      // free week
+      return [
+        view,
+        FreeWeekTip(
+          todayPos: widget.todayPos,
+          timetable: timetable,
+          weekIndex: weekIndex,
+        ).padOnly(t: fullSize.height * 0.2),
+      ].stack().scrolled();
+    }
+    return view.scrolled();
   }
 
   /// 布局左侧边栏, 显示节次
@@ -251,7 +248,10 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
           decoration: DashDecoration(
             color: context.colorScheme.onBackground.withOpacity(0.3),
             strokeWidth: 0.5,
-            borders: const {LinePosition.bottom},
+            borders: {
+              if (timeslot != 0) LinePosition.top,
+              if (timeslot != day.timeslot2LessonSlot.length - 1) LinePosition.bottom,
+            },
           ),
           child: SizedBox(width: cellSize.width, height: cellSize.height),
         ));

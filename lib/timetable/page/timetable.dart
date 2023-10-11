@@ -51,6 +51,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
   void dispose() {
     scrollController.dispose();
     $displayMode.dispose();
+    $currentPos.dispose();
     super.dispose();
   }
 

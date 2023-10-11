@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 project(sit_life LANGUAGES CXX)
 
-set(BINARY_NAME "SIT Life")
+set(BINARY_NAME "sit_life")
 
 cmake_policy(SET CMP0063 NEW)
 

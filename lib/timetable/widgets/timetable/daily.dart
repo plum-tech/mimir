@@ -51,8 +51,7 @@ class DailyTimetableState extends State<DailyTimetable> {
   @override
   void initState() {
     super.initState();
-    final pos = timetable.type.locate(DateTime.now());
-    _pageController = PageController(initialPage: pos2PageOffset(pos))
+    _pageController = PageController(initialPage: pos2PageOffset(widget.$currentPos.value))
       ..addListener(() {
         setState(() {
           final page = (_pageController.page ?? 0).round();
@@ -64,14 +63,6 @@ class DailyTimetableState extends State<DailyTimetable> {
       });
     $jumpToPos = eventBus.on<JumpToPosEvent>().listen((event) {
       jumpTo(event.where);
-    });
-    // TODO: flash when switching
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final targetOffset = pos2PageOffset(currentPos);
-      final currentOffset = _pageController.page?.round() ?? targetOffset;
-      if (currentOffset != targetOffset) {
-        _pageController.jumpToPage(targetOffset);
-      }
     });
   }
 

@@ -53,6 +53,11 @@ class TimetablePos {
 
   @override
   int get hashCode => hash2(weekIndex, dayIndex);
+
+  @override
+  String toString() {
+    return (week: weekIndex, day: dayIndex).toString();
+  }
 }
 
 extension _DateTimeX on DateTime {
