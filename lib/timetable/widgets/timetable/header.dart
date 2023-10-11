@@ -26,7 +26,6 @@ class TimetableHeader extends StatelessWidget {
     return [
       for (int dayIndex = 0; dayIndex < 7; dayIndex++)
         Expanded(
-          flex: 3,
           child: InkWell(
             onTap: onDayTap != null
                 ? () {

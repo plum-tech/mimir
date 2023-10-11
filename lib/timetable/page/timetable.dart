@@ -136,7 +136,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
             title: i18n.screenshot.text(),
             onTap: () async {
               ctx.pop();
-              await takeScreenshotOfTimetable();
+              await takeTimetableScreenshot();
             },
           ),
         ),
@@ -146,7 +146,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
 
   final screenshotController = ScreenshotController();
 
-  Future<void> takeScreenshotOfTimetable() async {
+  Future<void> takeTimetableScreenshot() async {
     var fullSize = context.mediaQuery.size;
     fullSize = Size(fullSize.width, fullSize.height * 1.2);
     final screenshot = await screenshotController.captureFromLongWidget(

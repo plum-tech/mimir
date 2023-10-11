@@ -58,6 +58,24 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
     );
   }
 
+  Widget buildSingleWeekView(
+    SitTimetableWeek timetableWeek, {
+    required BuildContext context,
+    required Size cellSize,
+    required Size fullSize,
+  }) {
+    return Iterable.generate(
+      8,
+      (index) {
+        if (index == 0) {
+          return buildLeftColumn(context, cellSize);
+        } else {
+          return _buildCellsByDay(context, timetableWeek.days[index - 1], cellSize);
+        }
+      },
+    ).toList().row();
+  }
+
   /// 布局左侧边栏, 显示节次
   Widget buildLeftColumn(BuildContext ctx, Size cellSize) {
     final textStyle = ctx.textTheme.bodyMedium;
@@ -73,24 +91,6 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
         ),
       );
     }).toList().column();
-  }
-
-  Widget buildSingleWeekView(
-    SitTimetableWeek timetableWeek, {
-    required BuildContext context,
-    required Size cellSize,
-    required Size fullSize,
-  }) {
-    return Iterable.generate(
-      8,
-      (index) {
-        if (index == 0) {
-          return buildLeftColumn(context, cellSize);
-        } else {
-          return _buildCellsByDay(context, timetableWeek.days[index - 1], cellSize).center();
-        }
-      },
-    ).toList().row();
   }
 
   /// 构建某一天的那一列格子.
@@ -130,11 +130,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
       }
     }
 
-    return SizedBox(
-      width: cellSize.width,
-      height: cellSize.height * 11,
-      child: Column(children: cells),
-    );
+    return Column(children: cells);
   }
 }
 
