@@ -40,6 +40,7 @@ class StyledHtmlWidget extends StatelessWidget {
 
 class StyledWidgetFactory extends WidgetFactory {
   final TextStyle? textStyle;
+
   StyledWidgetFactory({
     required this.textStyle,
   });
@@ -54,22 +55,13 @@ class StyledWidgetFactory extends WidgetFactory {
     return super.buildTextSpan(
       children: children,
       recognizer: recognizer,
-      style: style?.copyWith(
-        fontSize: textStyle?.fontSize,
-        textBaseline: textStyle?.textBaseline,
-        fontWeight: textStyle?.fontWeight,
-        backgroundColor: textStyle?.backgroundColor,
-        background: textStyle?.background,
-        leadingDistribution: textStyle?.leadingDistribution,
-        locale: textStyle?.locale,
-        height: textStyle?.height,
-        shadows: textStyle?.shadows,
-        fontFeatures: textStyle?.fontFeatures,
-        decorationColor: textStyle?.decorationColor,
-        decorationStyle: textStyle?.decorationStyle,
-        decorationThickness: textStyle?.decorationThickness,
-        wordSpacing: textStyle?.wordSpacing,
-        letterSpacing: textStyle?.letterSpacing,
+      style: textStyle?.copyWith(
+        color: style?.color,
+        decoration: style?.decoration,
+        decorationColor: style?.decorationColor,
+        decorationStyle: style?.decorationStyle,
+        decorationThickness: style?.decorationThickness,
+        fontStyle: style?.fontStyle,
       ),
       text: text,
     );

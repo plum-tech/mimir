@@ -1,9 +1,9 @@
-import 'dart:typed_data';
 import 'dart:math';
 
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' hide Key;
 import 'package:sit/credential/entity/credential.dart';
 import 'package:sit/credential/init.dart';
 import 'package:sit/exception/session.dart';
@@ -176,7 +176,35 @@ class SsoSession with DioDownloaderMixin implements ISession {
     cookieJar.deleteAll();
     final Response response;
     try {
-      response = await _postLoginProcess(credentials);
+      // 首先获取AuthServer首页
+      final html = await _getAuthServerHtml();
+
+      // await cookieJar.saveFromResponse(
+      //   Uri.parse('https://authserver.sit.edu.cn'),
+      //   [Cookie('org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE', 'zh')],
+      // );
+
+      // 获取首页验证码
+      var captcha = '';
+      if (await _isCaptchaRequired(credentials.account)) {
+        // 识别验证码
+        final captchaImage = await _getCaptcha();
+        final c = await inputCaptcha(captchaImage);
+        if (c != null) {
+          captcha = c;
+        } else {
+          // 用户未输入验证码
+          throw const LoginCaptchaCancelledException();
+        }
+      }
+      // 获取casTicket
+      final casTicket = _getCasTicketFromAuthHtml(html);
+      // 获取salt
+      final salt = _getSaltFromAuthHtml(html);
+      // 加密密码
+      final hashedPwd = hashPassword(salt, credentials.password);
+      // 登录系统，获得cookie
+      response = await _postLoginRequest(credentials.account, hashedPwd, captcha, casTicket);
     } catch (e) {
       _setOnline(false);
       rethrow;
@@ -215,94 +243,59 @@ class SsoSession with DioDownloaderMixin implements ISession {
     return OaCredentialsErrorType.accountPassword;
   }
 
-  /// 登录流程
-  Future<Response> _postLoginProcess(OaCredentials credential) async {
-    void debug(m) => Log.debug(m);
+  /// 提取认证页面中的加密盐
+  String _getSaltFromAuthHtml(String htmlText) {
+    final a = RegExp(r'var pwdDefaultEncryptSalt = "(.*?)";');
+    final matchResult = a.firstMatch(htmlText)!.group(0)!;
+    final salt = matchResult.substring(29, matchResult.length - 2);
+    debugPrint('当前页面加密盐: $salt');
+    return salt;
+  }
 
-    /// 提取认证页面中的加密盐
-    String getSaltFromAuthHtml(String htmlText) {
-      final a = RegExp(r'var pwdDefaultEncryptSalt = "(.*?)";');
-      final matchResult = a.firstMatch(htmlText)!.group(0)!;
-      final salt = matchResult.substring(29, matchResult.length - 2);
-      debug('当前页面加密盐: $salt');
-      return salt;
-    }
+  /// 提取认证页面中的Cas Ticket
+  String _getCasTicketFromAuthHtml(String htmlText) {
+    final a = RegExp(r'<input type="hidden" name="lt" value="(.*?)"');
+    final matchResult = a.firstMatch(htmlText)!.group(0)!;
+    final casTicket = matchResult.substring(38, matchResult.length - 1);
+    debugPrint('当前页面CAS Ticket: $casTicket');
+    return casTicket;
+  }
 
-    /// 提取认证页面中的Cas Ticket
-    String getCasTicketFromAuthHtml(String htmlText) {
-      final a = RegExp(r'<input type="hidden" name="lt" value="(.*?)"');
-      final matchResult = a.firstMatch(htmlText)!.group(0)!;
-      final casTicket = matchResult.substring(38, matchResult.length - 1);
-      debug('当前页面CAS Ticket: $casTicket');
-      return casTicket;
-    }
+  /// 获取认证页面内容
+  Future<String> _getAuthServerHtml() async {
+    final response = await dio.get(
+      _loginUrl,
+      options: Options(headers: Map.from(_neededHeaders)..remove('Referer')),
+    );
+    return response.data;
+  }
 
-    /// 获取认证页面内容
-    Future<String> getAuthServerHtml() async {
-      final response = await dio.get(
-        _loginUrl,
-        options: Options(headers: Map.from(_neededHeaders)..remove('Referer')),
-      );
-      return response.data;
-    }
+  /// 判断是否需要验证码
+  Future<bool> _isCaptchaRequired(String username) async {
+    final response = await dio.get(
+      _needCaptchaUrl,
+      queryParameters: {
+        'username': username,
+        'pwdEncrypt2': 'pwdEncryptSalt',
+      },
+      options: Options(headers: _neededHeaders),
+    );
+    final needCaptcha = response.data == 'true';
+    debugPrint('当前账户: $username, 是否需要验证码: $needCaptcha');
+    return needCaptcha;
+  }
 
-    /// 判断是否需要验证码
-    Future<bool> isCaptchaRequired(String username) async {
-      final response = await dio.get(
-        _needCaptchaUrl,
-        queryParameters: {
-          'username': username,
-          'pwdEncrypt2': 'pwdEncryptSalt',
-        },
-        options: Options(headers: _neededHeaders),
-      );
-      final needCaptcha = response.data == 'true';
-      debug('当前账户: $username, 是否需要验证码: $needCaptcha');
-      return needCaptcha;
-    }
-
-    /// 获取验证码
-    Future<Uint8List> getCaptcha() async {
-      final response = await dio.get(
-        _captchaUrl,
-        options: Options(
-          responseType: ResponseType.bytes,
-          headers: _neededHeaders,
-        ),
-      );
-      Uint8List captchaData = response.data;
-      return captchaData;
-    }
-
-    // 首先获取AuthServer首页
-    final html = await getAuthServerHtml();
-
-    // await cookieJar.saveFromResponse(
-    //   Uri.parse('https://authserver.sit.edu.cn'),
-    //   [Cookie('org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE', 'zh')],
-    // );
-
-    // 获取首页验证码
-    var captcha = '';
-    if (await isCaptchaRequired(credential.account)) {
-      // 识别验证码
-      final captchaImage = await getCaptcha();
-      final c = await inputCaptcha(captchaImage);
-      if (c != null) {
-        captcha = c;
-      } else {
-        // 用户未输入验证码
-        throw const LoginCaptchaCancelledException();
-      }
-    }
-    // 获取casTicket
-    final casTicket = getCasTicketFromAuthHtml(html);
-    // 获取salt
-    final salt = getSaltFromAuthHtml(html);
-    // 加密密码
-    final hashedPwd = hashPassword(salt, credential.password);
-    // 登录系统，获得cookie
-    return await _postLoginRequest(credential.account, hashedPwd, captcha, casTicket);
+  /// 获取验证码
+  Future<Uint8List> _getCaptcha() async {
+    final response = await dio.get(
+      _captchaUrl,
+      options: Options(
+        responseType: ResponseType.bytes,
+        headers: _neededHeaders,
+      ),
+    );
+    Uint8List captchaData = response.data;
+    return captchaData;
   }
 
   /// 登录统一认证平台
