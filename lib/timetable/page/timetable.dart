@@ -61,7 +61,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         title: $currentPos >> (ctx, pos) => i18n.weekOrderedName(number: pos.weekIndex + 1).text(),
         actions: [
           buildSwitchViewButton(),
-          if (kDebugMode) buildMoreActionsButton(),
+          buildMoreActionsButton(),
           buildMyTimetablesButton(),
         ],
       ),
