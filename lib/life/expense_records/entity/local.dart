@@ -85,7 +85,8 @@ class Transaction {
 final _textInBrackets = RegExp(r'\([^)]*\)');
 
 extension TransactionX on Transaction {
-  bool get isConsume => (balanceAfter - balanceBefore) < 0;
+  bool get isConsume =>
+      (balanceAfter - balanceBefore) < 0 && type != TransactionType.topUp && type != TransactionType.subsidy;
 
   String? get bestTitle {
     if (deviceName.isNotEmpty) {

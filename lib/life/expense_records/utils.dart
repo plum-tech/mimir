@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:sit/life/expense_records/entity/local.dart';
 
@@ -14,30 +16,45 @@ Future<void> fetchAndSaveTransactionUntilNow({
     from: start,
     to: end,
   );
-  ExpenseRecordsInit.storage.lastFetchedTs = end;
+  // the next fetching starts with yesterday.
+  ExpenseRecordsInit.storage.lastFetchedTs = end.copyWith(day: end.day - 1);
   final newTsList = {...transactions.map((e) => e.timestamp), ...storage.transactionTsList ?? const []}.toList();
   // the latest goes first
-  newTsList.sort((a, b) => a.compareTo(b));
+  newTsList.sort((a, b) => -a.compareTo(b));
   storage.transactionTsList = newTsList;
   for (final transaction in transactions) {
     storage.setTransactionByTs(transaction.timestamp, transaction);
   }
   final latest = transactions.firstOrNull;
   if (latest != null) {
-    final former = ExpenseRecordsInit.storage.latestTransaction;
+    final latestValidBalance = _findLatestValidBalanceTransaction(transactions, newTsList);
     // check if the transaction is kept for topping up
-    if (former != null &&
-        latest.type == TransactionType.topUp &&
-        latest.balanceBefore == 0 &&
-        latest.balanceAfter == 0) {
+    if (latestValidBalance != null) {
       ExpenseRecordsInit.storage.latestTransaction = latest.copyWith(
-        balanceBefore: former.balanceBefore,
-        balanceAfter: former.balanceAfter,
+        balanceBefore: latestValidBalance.balanceBefore,
+        balanceAfter: latestValidBalance.balanceAfter,
       );
     } else {
       ExpenseRecordsInit.storage.latestTransaction = latest;
     }
   }
+}
+
+/// [newlyFetched] is descending by time.
+Transaction? _findLatestValidBalanceTransaction(List<Transaction> newlyFetched, List<DateTime> allTsList) {
+  for (final transaction in newlyFetched) {
+    if (transaction.type != TransactionType.topUp && transaction.balanceBefore != 0 && transaction.balanceAfter != 0) {
+      return transaction;
+    }
+  }
+  for (final ts in allTsList) {
+    final transaction = ExpenseRecordsInit.storage.getTransactionByTs(ts);
+    if (transaction == null) continue;
+    if (transaction.type != TransactionType.topUp && transaction.balanceBefore != 0 && transaction.balanceAfter != 0) {
+      return transaction;
+    }
+  }
+  return null;
 }
 
 typedef YearMonth = ({int year, int month});
