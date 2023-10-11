@@ -24,6 +24,7 @@ class _TimetableMetaEditorState extends State<TimetableMetaEditor> {
   @override
   Widget build(BuildContext ctx) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(

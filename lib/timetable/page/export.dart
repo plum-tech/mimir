@@ -52,6 +52,7 @@ class _TimetableExportCalendarConfigEditorState extends State<TimetableExportCal
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(

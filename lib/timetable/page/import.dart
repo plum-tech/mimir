@@ -152,7 +152,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
           startDate: defaultStartDate,
           schoolYear: year,
         ),
-      ).padOnly(b: MediaQuery.of(ctx).viewInsets.bottom),
+      ),
       dismissible: false,
     );
     if (newTimetable != null) {
