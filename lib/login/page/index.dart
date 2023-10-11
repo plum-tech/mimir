@@ -11,6 +11,7 @@ import 'package:sit/credential/utils.dart';
 import 'package:sit/credential/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/exception/session.dart';
+import 'package:sit/login/utils.dart';
 import 'package:sit/settings/widgets/campus.dart';
 import 'package:sit/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
@@ -98,60 +99,10 @@ class _LoginPageState extends State<LoginPage> {
       CredentialInit.storage.oaLastAuthTime = DateTime.now();
       CredentialInit.storage.oaUserType = userType;
       context.go("/");
-      setState(() => isLoggingIn = false);
-    } on UnknownAuthException catch (e, stacktrace) {
-      debugPrint(e.toString());
-      debugPrintStack(stackTrace: stacktrace);
+    } on Exception catch (error, stackTrace) {
       if (!mounted) return;
       setState(() => isLoggingIn = false);
-      await context.showTip(
-        serious: true,
-        title: i18n.failedWarn,
-        desc: i18n.unknownAuthErrorTip,
-        ok: i18n.close,
-      );
-    } on OaCredentialsException catch (e, stacktrace) {
-      debugPrint(e.toString());
-      debugPrintStack(stackTrace: stacktrace);
-      if (!mounted) return;
-      setState(() => isLoggingIn = false);
-      if (e.type == OaCredentialsErrorType.accountPassword) {
-        await context.showTip(
-          serious: true,
-          title: i18n.failedWarn,
-          desc: i18n.accountOrPwdErrorTip,
-          ok: i18n.close,
-        );
-      } else if (e.type == OaCredentialsErrorType.captcha) {
-        await context.showTip(
-          serious: true,
-          title: i18n.failedWarn,
-          desc: i18n.captchaErrorTip,
-          ok: i18n.close,
-        );
-      } else if (e.type == OaCredentialsErrorType.frozen) {
-        await context.showTip(
-          serious: true,
-          title: i18n.failedWarn,
-          desc: i18n.accountFrozenTip,
-          ok: i18n.close,
-        );
-      }
-      return;
-    } on DioException catch (error, stacktrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stacktrace);
-      if (!mounted) return;
-      setState(() => isLoggingIn = false);
-      await context.showTip(
-        serious: true,
-        title: i18n.failedWarn,
-        desc: i18n.schoolServerUnconnectedTip,
-        ok: i18n.close,
-      );
-    } on LoginCaptchaCancelledException {
-      if (!mounted) return;
-      setState(() => isLoggingIn = false);
+      await handleLoginException(context: context, error: error, stackTrace: stackTrace);
     }
   }
 

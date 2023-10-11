@@ -10,7 +10,7 @@ class _I18n with CommonI18nMixin {
   static const ns = "networkTool";
   final easyconnect = const _Easyconnect();
   final network = const NetworkI18n();
-  final credential = const CredentialI18n();
+  final credential = const CredentialsI18n();
   final action = const _Action();
 
   String get title => "$ns.title".tr();

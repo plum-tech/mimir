@@ -133,9 +133,9 @@ class _Export {
 
   String get export => "$ns.export".tr();
 
-  String get lessonModeTitle => "$ns.lessonMode.title".tr();
+  String get lessonMode => "$ns.lessonMode.title".tr();
 
-  String get lessonModeSubtitle => "$ns.lessonMode.subtitle".tr();
+  String get lessonModeDesc => "$ns.lessonMode.desc".tr();
 
   String get lessonModeMerged => "$ns.lessonMode.merged.name".tr();
 
@@ -145,13 +145,13 @@ class _Export {
 
   String get lessonModeSeparateInfo => "$ns.lessonMode.separate.info".tr();
 
-  String get enableAlarmTitle => "$ns.enableAlarm.title".tr();
+  String get enableAlarm => "$ns.enableAlarm.title".tr();
 
-  String get enableAlarmSubtitle => "$ns.enableAlarm.subtitle".tr();
+  String get enableAlarmDesc => "$ns.enableAlarm.desc".tr();
 
-  String get alarmModeTitle => "$ns.alarmMode.title".tr();
+  String get alarmMode => "$ns.alarmMode.title".tr();
 
-  String get alarmModeSubtitle => "$ns.alarmMode.subtitle".tr();
+  String get alarmModeDesc => "$ns.alarmMode.desc".tr();
 
   String get alarmModeSound => "$ns.alarmMode.sound".tr();
 
@@ -159,9 +159,9 @@ class _Export {
 
   String get alarmDuration => "$ns.alarmDuration".tr();
 
-  String get alarmBeforeClassBeginsTitle => "$ns.alarmBeforeClassBegins.title".tr();
+  String get alarmBeforeClassBegins => "$ns.alarmBeforeClassBegins.title".tr();
 
-  String alarmBeforeClassBeginsSubtitle(Duration duration) => "$ns.alarmBeforeClassBegins.subtitle".tr(namedArgs: {
+  String alarmBeforeClassBeginsDesc(Duration duration) => "$ns.alarmBeforeClassBegins.desc".tr(namedArgs: {
         "duration": i18n.time.minuteFormat(duration.inMinutes.toString()),
       });
 }

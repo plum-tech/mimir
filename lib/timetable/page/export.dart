@@ -93,13 +93,13 @@ class _TimetableExportCalendarConfigEditorState extends State<TimetableExportCal
   Widget buildModeSwitch() {
     return $merged >>
         (ctx, merged) => ListTile(
-              title: i18n.export.lessonModeTitle.text(),
+              title: i18n.export.lessonMode.text(),
               leading: Tooltip(
                 triggerMode: TooltipTriggerMode.tap,
                 message: merged ? i18n.export.lessonModeMergedInfo : i18n.export.lessonModeSeparateInfo,
                 child: Icon(Icons.info_outline, color: context.colorScheme.primary),
               ),
-              subtitle: i18n.export.lessonModeSubtitle.text(),
+              subtitle: i18n.export.lessonModeDesc.text(),
               trailing: SegmentedButton<bool>(
                 showSelectedIcon: false,
                 segments: [
@@ -124,8 +124,8 @@ class _TimetableExportCalendarConfigEditorState extends State<TimetableExportCal
   Widget buildAlarmToggle() {
     return ListTile(
       leading: const Icon(Icons.alarm),
-      title: i18n.export.enableAlarmTitle.text(),
-      subtitle: i18n.export.enableAlarmSubtitle.text(),
+      title: i18n.export.enableAlarm.text(),
+      subtitle: i18n.export.enableAlarmDesc.text(),
       trailing: $enableAlarm >>
           (ctx, value) => Switch(
                 value: value,
@@ -140,8 +140,8 @@ class _TimetableExportCalendarConfigEditorState extends State<TimetableExportCal
     return $enableAlarm >>
         (ctx, enabled) => ListTile(
               enabled: enabled,
-              title: i18n.export.enableAlarmTitle.text(),
-              subtitle: i18n.export.alarmModeSubtitle.text(),
+              title: i18n.export.enableAlarm.text(),
+              subtitle: i18n.export.alarmModeDesc.text(),
               trailing: $isSoundAlarm >>
                   (ctx, value) => SegmentedButton<bool>(
                         showSelectedIcon: false,
@@ -197,8 +197,8 @@ class _TimetableExportCalendarConfigEditorState extends State<TimetableExportCal
             $alarmBeforeClass >>
             (ctx, duration) => ListTile(
                   enabled: enabled,
-                  title: i18n.export.alarmBeforeClassBeginsTitle.text(),
-                  subtitle: i18n.export.alarmBeforeClassBeginsSubtitle(duration).text(),
+                  title: i18n.export.alarmBeforeClassBegins.text(),
+                  subtitle: i18n.export.alarmBeforeClassBeginsDesc(duration).text(),
                   trailing: IconButton(
                     icon: const Icon(Icons.edit),
                     onPressed: !enabled

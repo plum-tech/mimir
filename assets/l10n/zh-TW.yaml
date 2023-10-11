@@ -41,7 +41,7 @@ timetable:
     export: 匯出
     lessonMode:
       title: 課程模式
-      subtitle: 如何排列
+      desc: 如何排列
       merged:
         name: 合併
         info: 同一節課的幾個部分會被合併為一個日程
@@ -50,16 +50,16 @@ timetable:
         info: 同一節課的幾個部分會被分離為多個日程
     enableAlarm:
       title: 啟用提醒
-      subtitle: 在課前增加提醒
+      desc: 在課前增加提醒
     alarmMode:
       title: 提醒模式
-      subtitle: 如何通知你
+      desc: 如何通知你
       sound: 音效
       display: 顯示
     alarmDuration: 提醒時長
     alarmBeforeClassBegins:
       title: 在上課前提醒
-      subtitle: "提前 {duration}"
+      desc: "提前 {duration}"
   displayMode:
     daily: 日
     weekly: 周
@@ -172,7 +172,7 @@ captcha:
   title: 驗證碼
   enterHint: 請鍵入驗證碼
   emptyInputError: 未鍵入驗證碼
-credential:
+credentials:
   studentId: 學號
   account: 帳戶
   oaAccount: OA 帳戶
@@ -180,7 +180,7 @@ credential:
   savedOaPwd: 儲存的 OA 密碼
   savedOaPwdDesc: 用於自動登入 OA
   pwd: 密碼
-  error: 登入憑證錯誤
+  error: 登入認證錯誤
 easyconnect:
   launchBtn: 啟用 EasyConnect
   launchFailed: 啟動失敗
@@ -333,6 +333,10 @@ settings:
   title: 設定
   version: 版本
   themeColor: 色彩主題
+  credentials:
+    testLoginOa:
+      title: 測試登入 OA
+      desc: 嘗試用當前的登入認證登入 OA
   dev:
     title: 開發者選項
     devMode:

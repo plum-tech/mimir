@@ -40,7 +40,7 @@ timetable:
     export: Export
     lessonMode:
       title: Lesson mode
-      subtitle: How to arrange
+      desc: How to arrange
       merged:
         name: Merged
         info: Several parts of the same class will be combined into one event
@@ -49,16 +49,16 @@ timetable:
         info: Several parts of the same class will be separated into multiple events
     enableAlarm:
       title: Enable alarm
-      subtitle: Add alarm before class
+      desc: Add alarm before class
     alarmMode:
       title: Alarm mode
-      subtitle: How to notify you
+      desc: How to notify you
       sound: Sound
       display: Display
     alarmDuration: Alarm duration
     alarmBeforeClassBegins:
       title: Alarm before class begins
-      subtitle: "{duration} before"
+      desc: "{duration} before"
   displayMode:
     daily: Daily
     weekly: Weekly
@@ -171,7 +171,7 @@ captcha:
   title: Captcha
   enterHint: Please enter captcha
   emptyInputError: The captcha is empty
-credential:
+credentials:
   studentId: Student ID
   account: Account
   oaAccount: OA Account
@@ -179,7 +179,7 @@ credential:
   savedOaPwd: Saved OA Password
   savedOaPwdDesc: Used to auto-login OA
   pwd: Password
-  error: Credential Error
+  error: Credentials Error
 easyconnect:
   launchBtn: Launch EasyConnect
   launchFailed: Launch Failed
@@ -330,6 +330,10 @@ settings:
   title: Settings
   version: Version
   themeColor: Theme Color
+  credentials:
+    testLoginOa:
+      title: Test login OA
+      desc: Try to login OA with current credentials
   dev:
     title: Developer options
     devMode:

@@ -8,7 +8,7 @@ class LoginI18n with CommonI18nMixin {
   const LoginI18n();
 
   final network = const NetworkI18n();
-  final credential = const CredentialI18n();
+  final credential = const CredentialsI18n();
   static const ns = "login";
 
   String get welcomeHeader => "$ns.welcomeHeader".tr();

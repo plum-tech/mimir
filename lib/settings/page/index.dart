@@ -78,7 +78,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final credential = auth.credentials;
     if (credential != null) {
       all.add(PageNavigationTile(
-        title: i18n.credential.oaAccount.text(),
+        title: i18n.credentials.oaAccount.text(),
         subtitle: credential.account.text(),
         icon: const Icon(Icons.person_rounded),
         path: "/settings/credentials",

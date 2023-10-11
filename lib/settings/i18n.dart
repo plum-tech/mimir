@@ -8,7 +8,7 @@ const i18n = _I18n();
 class _I18n with CommonI18nMixin {
   const _I18n();
 
-  final credential = const CredentialI18n();
+  final credentials = const _Credentials();
   final campus = const _Campus();
   final studentId = const _StudentId();
   final changeOaPwd = const _ChangeOaPwd();
@@ -259,4 +259,13 @@ class _Storage with CommonI18nMixin {
   String get deleteItemDesc => "$ns.deleteItemDesc".tr();
 
   String get emptyValueDesc => "$ns.emptyValueDesc".tr();
+}
+
+class _Credentials extends CredentialsI18n {
+  static const ns = "${_I18n.ns}.credentials";
+  const _Credentials();
+
+  String get testLoginOa => "$ns.testLoginOa.title".tr();
+
+  String get testLoginOaDesc => "$ns.testLoginOa.desc".tr();
 }

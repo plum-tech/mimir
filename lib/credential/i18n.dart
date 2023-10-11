@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sit/l10n/common.dart';
 
-class CredentialI18n with CommonI18nMixin {
-  const CredentialI18n();
+class CredentialsI18n with CommonI18nMixin {
+  const CredentialsI18n();
 
   final network = const NetworkI18n();
-  static const ns = "credential";
+  static const ns = "credentials";
 
   String get studentId => "$ns.studentId".tr();
 

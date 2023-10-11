@@ -7,7 +7,7 @@ import '../i18n.dart';
 
 typedef CredentialCtor<T> = T Function(String account, String password);
 
-const _i18n = CredentialI18n();
+const _i18n = CredentialsI18n();
 
 class CredentialEditor<T> extends StatefulWidget {
   final String account;
