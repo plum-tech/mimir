@@ -92,7 +92,6 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
         const SizedBox().align(at: Alignment.center).flexible(flex: 47),
         widget.$currentPos >>
             (ctx, cur) => TimetableHeader(
-                  selectedDay: 0,
                   currentWeek: cur.week,
                   startDate: timetable.type.startDate,
                 ).flexible(flex: 500)
@@ -212,17 +211,19 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
   Widget buildLeftColumn(BuildContext ctx, Size cellSize) {
     final textStyle = ctx.textTheme.bodyMedium;
     final side = getBorderSide(ctx);
-    return Iterable.generate(11, (index) {
-      return Container(
+    final cells = <Widget>[];
+    for (var i = 0; i < 11; i++) {
+      cells.add(Container(
         decoration: BoxDecoration(
           border: Border(right: side),
         ),
         child: SizedBox.fromSize(
           size: Size(cellSize.width * 0.6, cellSize.height),
-          child: (index + 1).toString().text(style: textStyle).center(),
+          child: (i + 1).toString().text(style: textStyle).center(),
         ),
-      );
-    }).toList().column();
+      ));
+    }
+    return cells.column();
   }
 
   Widget buildSingleWeekView(

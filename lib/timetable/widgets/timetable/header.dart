@@ -8,15 +8,15 @@ BorderSide getBorderSide(BuildContext ctx) => BorderSide(color: ctx.colorScheme.
 
 class TimetableHeader extends StatelessWidget {
   final int currentWeek;
-  final int selectedDay;
+  final int? selectedDay;
   final Function(int)? onDayTap;
   final DateTime startDate;
 
   const TimetableHeader({
     super.key,
     required this.currentWeek,
-    required this.selectedDay,
     required this.startDate,
+    this.selectedDay,
     this.onDayTap,
   });
 

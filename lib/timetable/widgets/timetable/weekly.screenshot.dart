@@ -1,19 +1,12 @@
-import 'dart:async';
-
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/dash_decoration.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../../events.dart';
 import '../../entity/timetable.dart';
-import '../../utils.dart';
-import '../free.dart';
 import '../slot.dart';
 import 'header.dart';
 import '../style.dart';
@@ -37,15 +30,6 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
   Widget build(BuildContext context) {
     final cellSize = Size(fullSize.width * 3 / 23, fullSize.height / 11);
     final timetableWeek = timetable.weeks[weekIndex];
-
-    if (timetableWeek == null) {
-      // free week
-      return FreeWeekTip(
-        todayPos: todayPos,
-        timetable: timetable,
-        weekIndex: weekIndex,
-      );
-    }
     return SizedBox(
       width: fullSize.width,
       height: fullSize.height,
@@ -80,17 +64,19 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
   Widget buildLeftColumn(BuildContext ctx, Size cellSize) {
     final textStyle = ctx.textTheme.bodyMedium;
     final side = getBorderSide(ctx);
-    return Iterable.generate(11, (index) {
-      return Container(
+    final cells = <Widget>[];
+    for (var i = 0; i < 11; i++) {
+      cells.add(Container(
         decoration: BoxDecoration(
           border: Border(right: side),
         ),
         child: SizedBox.fromSize(
           size: Size(cellSize.width * 0.6, cellSize.height),
-          child: (index + 1).toString().text(style: textStyle).center(),
+          child: (i + 1).toString().text(style: textStyle).center(),
         ),
-      );
-    }).toList().column();
+      ));
+    }
+    return cells.column();
   }
 
   /// 构建某一天的那一列格子.
