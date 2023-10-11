@@ -24,7 +24,7 @@ class FreeDayTip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isToday = todayPos.week == weekIndex + 1 && todayPos.day == dayIndex + 1;
+    final isToday = todayPos.weekIndex == weekIndex && todayPos.dayIndex == dayIndex;
     final String desc;
     if (isToday) {
       desc = i18n.freeTip.isTodayTip;
@@ -48,12 +48,12 @@ class FreeDayTip extends StatelessWidget {
   Future<void> jumpToNearestDayWithClass(BuildContext ctx, int weekIndex, int dayIndex) async {
     for (int i = weekIndex; i < timetable.weeks.length; i++) {
       final week = timetable.weeks[i];
-      if (week != null) {
+      if (!week.isFree()) {
         final dayIndexStart = weekIndex == i ? dayIndex : 0;
         for (int j = dayIndexStart; j < week.days.length; j++) {
           final day = week.days[j];
           if (day.hasAnyLesson()) {
-            eventBus.fire(JumpToPosEvent(TimetablePos(week: i + 1, day: j + 1)));
+            eventBus.fire(JumpToPosEvent(TimetablePos(weekIndex: i, dayIndex: j)));
             return;
           }
         }
@@ -62,12 +62,12 @@ class FreeDayTip extends StatelessWidget {
     // Now there's no class forward, so let's search backward.
     for (int i = weekIndex; 0 <= i; i--) {
       final week = timetable.weeks[i];
-      if (week != null) {
+      if (!week.isFree()) {
         final dayIndexStart = weekIndex == i ? dayIndex : week.days.length - 1;
         for (int j = dayIndexStart; 0 <= j; j--) {
           final day = week.days[j];
           if (day.hasAnyLesson()) {
-            eventBus.fire(JumpToPosEvent(TimetablePos(week: i + 1, day: j + 1)));
+            eventBus.fire(JumpToPosEvent(TimetablePos(weekIndex: i, dayIndex: j)));
             return;
           }
         }
@@ -94,9 +94,8 @@ class FreeWeekTip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isThisWeek = todayPos.week == (weekIndex + 1);
     final String desc;
-    if (isThisWeek) {
+    if (todayPos.weekIndex == weekIndex) {
       desc = i18n.freeTip.isThisWeekTip;
     } else {
       desc = i18n.freeTip.weekTip;
@@ -118,16 +117,16 @@ class FreeWeekTip extends StatelessWidget {
   Future<void> jumpToNearestWeekWithClass(BuildContext ctx, int weekIndex) async {
     for (int i = weekIndex; i < timetable.weeks.length; i++) {
       final week = timetable.weeks[i];
-      if (week != null) {
-        eventBus.fire(JumpToPosEvent(TimetablePos(week: i + 1, day: 1)));
+      if (!week.isFree()) {
+        eventBus.fire(JumpToPosEvent(TimetablePos(weekIndex: i, dayIndex: 0)));
         return;
       }
     }
     // Now there's no class forward, so let's search backward.
     for (int i = weekIndex; 0 <= i; i--) {
       final week = timetable.weeks[i];
-      if (week != null) {
-        eventBus.fire(JumpToPosEvent(TimetablePos(week: i + 1, day: 1)));
+      if (!week.isFree()) {
+        eventBus.fire(JumpToPosEvent(TimetablePos(weekIndex: i, dayIndex: 0)));
         return;
       }
     }

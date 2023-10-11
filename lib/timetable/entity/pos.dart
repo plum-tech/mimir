@@ -3,26 +3,18 @@ import 'package:quiver/core.dart';
 import 'timetable.dart';
 
 class TimetablePos {
-  /// starts with 1
-  /// If you want week index, please do
-  /// ```dart
-  /// final weekIndex = position.week - 1;
-  /// ```
-  final int week;
+  /// starts with 0
+  final int weekIndex;
 
-  /// starts with 1
-  /// If you want day index, please do
-  /// ```dart
-  /// final dayIndex = position.day - 1;
-  /// ```
-  final int day;
+  /// starts with 0
+  final int dayIndex;
 
   const TimetablePos({
-    required this.week,
-    required this.day,
+    required this.weekIndex,
+    required this.dayIndex,
   });
 
-  static const initial = TimetablePos(week: 1, day: 1);
+  static const initial = TimetablePos(weekIndex: 0, dayIndex: 0);
 
   static TimetablePos locate(
     DateTime current, {
@@ -35,25 +27,32 @@ class TimetablePos {
     int week = totalDays ~/ 7 + 1;
     int day = totalDays % 7 + 1;
     if (totalDays >= 0 && 1 <= week && week <= 20 && 1 <= day && day <= 7) {
-      return TimetablePos(week: week, day: day);
+      return TimetablePos(weekIndex: week - 1, dayIndex: day - 1);
     } else {
       // if out of range, fallback will be return.
-      return fallback ?? const TimetablePos(week: 1, day: 1);
+      return fallback ?? initial;
     }
   }
 
-  TimetablePos copyWith({int? week, int? day}) => TimetablePos(
-        week: week ?? this.week,
-        day: day ?? this.day,
+  TimetablePos copyWith({
+    int? weekIndex,
+    int? dayIndex,
+  }) =>
+      TimetablePos(
+        weekIndex: weekIndex ?? this.weekIndex,
+        dayIndex: dayIndex ?? this.dayIndex,
       );
 
   @override
   bool operator ==(Object other) {
-    return other is TimetablePos && runtimeType == other.runtimeType && week == other.week && day == other.day;
+    return other is TimetablePos &&
+        runtimeType == other.runtimeType &&
+        weekIndex == other.weekIndex &&
+        dayIndex == other.dayIndex;
   }
 
   @override
-  int get hashCode => hash2(week, day);
+  int get hashCode => hash2(weekIndex, dayIndex);
 }
 
 extension _DateTimeX on DateTime {

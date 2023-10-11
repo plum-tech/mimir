@@ -42,13 +42,9 @@ class DailyTimetableState extends State<DailyTimetable> {
   /// 翻页控制
   late PageController _pageController;
 
-  int pos2PageOffset(TimetablePos pos) => (pos.week - 1) * 7 + pos.day - 1;
+  int pos2PageOffset(TimetablePos pos) => pos.weekIndex * 7 + pos.dayIndex;
 
-  TimetablePos page2Pos(int page) {
-    final week = page ~/ 7 + 1;
-    final day = page % 7 + 1;
-    return TimetablePos(week: week, day: day);
-  }
+  TimetablePos page2Pos(int page) => TimetablePos(weekIndex: page ~/ 7, dayIndex: page % 7);
 
   late StreamSubscription<JumpToPosEvent> $jumpToPos;
 
@@ -56,7 +52,16 @@ class DailyTimetableState extends State<DailyTimetable> {
   void initState() {
     super.initState();
     final pos = timetable.type.locate(DateTime.now());
-    _pageController = PageController(initialPage: pos2PageOffset(pos))..addListener(onPageChange);
+    _pageController = PageController(initialPage: pos2PageOffset(pos))
+      ..addListener(() {
+        setState(() {
+          final page = (_pageController.page ?? 0).round();
+          final newPos = page2Pos(page);
+          if (currentPos != newPos) {
+            currentPos = newPos;
+          }
+        });
+      });
     $jumpToPos = eventBus.on<JumpToPosEvent>().listen((event) {
       jumpTo(event.where);
     });
@@ -82,11 +87,11 @@ class DailyTimetableState extends State<DailyTimetable> {
     return [
       widget.$currentPos >>
           (ctx, cur) => TimetableHeader(
-                selectedDay: cur.day,
-                currentWeek: cur.week,
+                selectedDayIndex: cur.dayIndex,
+                weekIndex: cur.weekIndex,
                 startDate: timetable.type.startDate,
-                onDayTap: (selectedDay) {
-                  eventBus.fire(JumpToPosEvent(TimetablePos(week: cur.week, day: selectedDay)));
+                onDayTap: (dayIndex) {
+                  eventBus.fire(JumpToPosEvent(TimetablePos(weekIndex: cur.weekIndex, dayIndex: dayIndex)));
                 },
               ),
       PageView.builder(
@@ -106,16 +111,6 @@ class DailyTimetableState extends State<DailyTimetable> {
         },
       ).expanded(),
     ].column();
-  }
-
-  void onPageChange() {
-    setState(() {
-      final page = (_pageController.page ?? 0).round();
-      final newPos = page2Pos(page);
-      if (currentPos != newPos) {
-        currentPos = newPos;
-      }
-    });
   }
 
   void jumpTo(TimetablePos pos) {

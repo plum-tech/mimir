@@ -7,16 +7,16 @@ import '../../i18n.dart';
 BorderSide getBorderSide(BuildContext ctx) => BorderSide(color: ctx.colorScheme.primary.withOpacity(0.4), width: 0.8);
 
 class TimetableHeader extends StatelessWidget {
-  final int currentWeek;
-  final int? selectedDay;
-  final Function(int)? onDayTap;
+  final int weekIndex;
+  final int? selectedDayIndex;
+  final Function(int dayIndex)? onDayTap;
   final DateTime startDate;
 
   const TimetableHeader({
     super.key,
-    required this.currentWeek,
+    required this.weekIndex,
     required this.startDate,
-    this.selectedDay,
+    this.selectedDayIndex,
     this.onDayTap,
   });
 
@@ -29,14 +29,14 @@ class TimetableHeader extends StatelessWidget {
           child: InkWell(
             onTap: onDayTap != null
                 ? () {
-                    onDayTap.call(dayIndex + 1);
+                    onDayTap.call(dayIndex);
                   }
                 : null,
             child: HeaderCell(
-              weekIndex: currentWeek - 1,
+              weekIndex: weekIndex,
               dayIndex: dayIndex,
               startDate: startDate,
-              backgroundColor: dayIndex + 1 == selectedDay ? context.colorScheme.secondaryContainer : null,
+              backgroundColor: dayIndex == selectedDayIndex ? context.colorScheme.secondaryContainer : null,
             ),
           ),
         ),

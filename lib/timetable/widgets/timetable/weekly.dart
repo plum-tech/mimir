@@ -39,30 +39,24 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   late PageController _pageController;
   late DateTime dateSemesterStart;
   final $cellSize = ValueNotifier(Size.zero);
-  final faceIndex = 0;
 
   SitTimetableEntity get timetable => widget.timetable;
 
   TimetablePos get currentPos => widget.$currentPos.value;
 
   set currentPos(TimetablePos newValue) => widget.$currentPos.value = newValue;
-
-  int page2Week(int page) => page + 1;
-
-  int week2PageOffset(int week) => week - 1;
   late StreamSubscription<JumpToPosEvent> $jumpToPos;
 
   @override
   void initState() {
     super.initState();
     dateSemesterStart = timetable.type.startDate;
-    _pageController = PageController(initialPage: currentPos.week - 1)
+    _pageController = PageController(initialPage: currentPos.weekIndex)
       ..addListener(() {
         setState(() {
-          final page = (_pageController.page ?? 0).round();
-          final newWeek = page2Week(page);
-          if (newWeek != currentPos.week) {
-            currentPos = currentPos.copyWith(week: newWeek);
+          final newWeek = (_pageController.page ?? 0).round();
+          if (newWeek != currentPos.weekIndex) {
+            currentPos = currentPos.copyWith(weekIndex: newWeek);
           }
         });
       });
@@ -70,7 +64,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
       jumpTo(event.where);
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final targetOffset = week2PageOffset(currentPos.week);
+      final targetOffset = currentPos.weekIndex;
       final currentOffset = _pageController.page?.round() ?? targetOffset;
       if (currentOffset != targetOffset) {
         _pageController.jumpToPage(targetOffset);
@@ -92,7 +86,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
         const SizedBox().align(at: Alignment.center).flexible(flex: 47),
         widget.$currentPos >>
             (ctx, cur) => TimetableHeader(
-                  currentWeek: cur.week,
+                  weekIndex: cur.weekIndex,
                   startDate: timetable.type.startDate,
                 ).flexible(flex: 500)
       ].row(),
@@ -115,7 +109,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   /// 跳到某一周
   void jumpTo(TimetablePos pos) {
     if (_pageController.hasClients) {
-      final targetOffset = week2PageOffset(pos.week);
+      final targetOffset = pos.weekIndex;
       final currentPos = _pageController.page ?? targetOffset;
       final distance = (targetOffset - currentPos).abs();
       _pageController.animateToPage(

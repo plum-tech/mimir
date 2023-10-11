@@ -58,7 +58,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: $currentPos >> (ctx, pos) => i18n.weekOrderedName(number: pos.week).text(),
+        title: $currentPos >> (ctx, pos) => i18n.weekOrderedName(number: pos.weekIndex + 1).text(),
         actions: [
           buildSwitchViewButton(),
           if (kDebugMode) buildMoreActionsButton(),
@@ -180,11 +180,10 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
   }
 
   Future<void> selectWeeklyTimetablePageToJump() async {
-    final currentWeek = $currentPos.value.week;
-    final initialIndex = currentWeek - 1;
+    final initialIndex = $currentPos.value.weekIndex;
     final controller = FixedExtentScrollController(initialItem: initialIndex);
     final todayPos = timetable.type.locate(DateTime.now());
-    final todayIndex = todayPos.week - 1;
+    final todayIndex = todayPos.weekIndex;
     final week2Go = await context.showPicker(
           count: 20,
           controller: controller,
@@ -208,19 +207,19 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         initialIndex;
     controller.dispose();
     if (week2Go != initialIndex) {
-      eventBus.fire(JumpToPosEvent($currentPos.value.copyWith(week: week2Go + 1)));
+      eventBus.fire(JumpToPosEvent($currentPos.value.copyWith(weekIndex: week2Go)));
     }
   }
 
   Future<void> selectDailyTimetablePageToJump() async {
     final currentPos = $currentPos.value;
-    final initialWeekIndex = currentPos.week - 1;
-    final initialDayIndex = currentPos.day - 1;
+    final initialWeekIndex = currentPos.weekIndex;
+    final initialDayIndex = currentPos.dayIndex;
     final $week = FixedExtentScrollController(initialItem: initialWeekIndex);
     final $day = FixedExtentScrollController(initialItem: initialDayIndex);
     final todayPos = timetable.type.locate(DateTime.now());
-    final todayWeekIndex = todayPos.week - 1;
-    final todayDayIndex = todayPos.day - 1;
+    final todayWeekIndex = todayPos.weekIndex;
+    final todayDayIndex = todayPos.dayIndex;
     final (week2Go, day2Go) = await context.showDualPicker(
           countA: 20,
           countB: 7,
@@ -249,7 +248,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     $week.dispose();
     $day.dispose();
     if (week2Go != initialWeekIndex || day2Go != initialDayIndex) {
-      eventBus.fire(JumpToPosEvent(TimetablePos(week: week2Go + 1, day: day2Go + 1)));
+      eventBus.fire(JumpToPosEvent(TimetablePos(weekIndex: week2Go, dayIndex: day2Go)));
     }
   }
 }
