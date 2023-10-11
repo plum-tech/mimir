@@ -11,6 +11,7 @@ import '../slot.dart';
 import 'header.dart';
 import '../style.dart';
 import '../../entity/pos.dart';
+import '../../i18n.dart';
 
 class TimetableWeeklyScreenshotFilm extends StatelessWidget {
   final SitTimetableEntity timetable;
@@ -30,16 +31,17 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
   Widget build(BuildContext context) {
     final cellSize = Size(fullSize.width * 3 / 23, fullSize.height / 11);
     final timetableWeek = timetable.weeks[weekIndex];
-    return SizedBox(
-      width: fullSize.width,
-      height: fullSize.height,
-      child: buildSingleWeekView(
+    return [
+      i18n.weekOrderedName(number: weekIndex + 1).text(
+            style: context.textTheme.titleLarge,
+          ),
+      buildSingleWeekView(
         timetableWeek,
         context: context,
         cellSize: cellSize,
         fullSize: fullSize,
       ),
-    );
+    ].column();
   }
 
   Widget buildSingleWeekView(
@@ -65,6 +67,13 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
     final textStyle = ctx.textTheme.bodyMedium;
     final side = getBorderSide(ctx);
     final cells = <Widget>[];
+    cells.add(SizedBox(
+      width: cellSize.width * 0.6,
+      child: [
+        Text("", style: ctx.textTheme.titleSmall),
+        Text("", style: ctx.textTheme.labelSmall),
+      ].column().padOnly(t: 5, b: 5),
+    ));
     for (var i = 0; i < 11; i++) {
       cells.add(Container(
         decoration: BoxDecoration(
@@ -86,6 +95,14 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
     Size cellSize,
   ) {
     final cells = <Widget>[];
+    cells.add(SizedBox(
+      width: cellSize.width,
+      child: HeaderCell(
+        weekIndex: weekIndex,
+        dayIndex: day.index,
+        startDate: timetable.type.startDate,
+      ),
+    ));
     for (int timeslot = 0; timeslot < day.timeslot2LessonSlot.length; timeslot++) {
       final lessonSlot = day.timeslot2LessonSlot[timeslot];
       if (lessonSlot.lessons.isEmpty) {

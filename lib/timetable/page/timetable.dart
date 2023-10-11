@@ -146,7 +146,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
 
   Future<void> takeTimetableScreenshot() async {
     var fullSize = context.mediaQuery.size;
-    fullSize = Size(fullSize.width, fullSize.height * 1.2);
+    fullSize = Size(fullSize.width, fullSize.height);
     final screenshot = await screenshotController.captureFromLongWidget(
       InheritedTheme.captureAll(
         context,
@@ -157,7 +157,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
               child: TimetableWeeklyScreenshotFilm(
                 timetable: timetable,
                 todayPos: timetable.type.locate(DateTime.now()),
-                weekIndex: 3,
+                weekIndex: $currentPos.value.weekIndex,
                 fullSize: fullSize,
               ),
             ),
