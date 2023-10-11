@@ -23,7 +23,7 @@ class TransactionGroupSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (:income, :outcome) = accumulateTransactionIncomeOutcome(records);
-    return GroupedSection(
+    return GroupedSection<Transaction>(
       title: context.formatYmText((time.toDateTime())).text(style: context.textTheme.titleMedium),
       subtitle: "${i18n.income(income.toStringAsFixed(2))}\n${i18n.outcome(outcome.toStringAsFixed(2))}".text(
         maxLines: 2,
