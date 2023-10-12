@@ -43,16 +43,15 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
   }
 
   Future<void> fetch() async {
-    if (details != null) {
-      setState(() {
-        isFetching = true;
-      });
-      final data = await Class2ndInit.activityDetailsService.getActivityDetails(activity.id);
-      setState(() {
-        details = data;
-        isFetching = false;
-      });
-    }
+    if (details != null) return;
+    setState(() {
+      isFetching = true;
+    });
+    final data = await Class2ndInit.activityDetailsService.getActivityDetails(activity.id);
+    setState(() {
+      details = data;
+      isFetching = false;
+    });
   }
 
   @override
@@ -74,7 +73,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
                   },
                 )
               ],
-              bottom: details == null
+              bottom: isFetching
                   ? const PreferredSize(
                       preferredSize: Size.fromHeight(4),
                       child: LinearProgressIndicator(),
@@ -84,7 +83,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
             SliverToBoxAdapter(child: ActivityDetailsCard(activity: activity, details: details).hero(activity.id)),
             if (details != null)
               if (details.description == null)
-                SliverToBoxAdapter(child: i18n.detailEmptyTip.text(style: context.textTheme.titleLarge))
+                SliverToBoxAdapter(child: i18n.noDetails.text(style: context.textTheme.titleLarge))
               else
                 SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),

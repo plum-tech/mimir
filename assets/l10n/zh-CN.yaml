@@ -145,7 +145,7 @@ class2nd:
       short: 文明
   id: 活动编号
   contactInfo: 联系方式
-  detailEmptyTip: 暂无信息。
+  noDetails: 暂无信息
   details: 活动资料
   duration: 活动时长
   location: 活动地点

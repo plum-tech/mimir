@@ -35,6 +35,7 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
   }
 
   Future<void> refresh() async {
+    if(details != null) return;
     if (!mounted) return;
     setState(() {
       isFetching = true;

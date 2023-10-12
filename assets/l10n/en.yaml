@@ -144,7 +144,7 @@ class2nd:
       short: Civil.
   id: Activity ID
   contactInfo: Contact Info
-  detailEmptyTip: No detail given
+  noDetails: No details given
   details: Activity Details
   duration: Duration
   location: Location

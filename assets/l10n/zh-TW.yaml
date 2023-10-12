@@ -145,7 +145,7 @@ class2nd:
       short: 安全
   id: 活動 ID
   contactInfo: 联络人
-  detailEmptyTip: 暫無資訊
+  noDetails: 暫無資訊
   details: 活動詳情
   duration: 活動時長
   location: 活動地點

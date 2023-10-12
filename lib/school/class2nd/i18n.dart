@@ -27,7 +27,7 @@ class _I18n with CommonI18nMixin {
 
   String get contactInfo => "$ns.contactInfo".tr();
 
-  String get detailEmptyTip => "$ns.detailEmptyTip".tr();
+  String get noDetails => "$ns.noDetails".tr();
 
   String get details => "$ns.details".tr();
 
