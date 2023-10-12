@@ -7,6 +7,7 @@ import 'package:sit/school/utils.dart';
 import 'package:sit/school/widgets/selector.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/entity/school.dart';
+import 'package:sit/settings/settings.dart';
 
 import '../entity/result.dart';
 import '../init.dart';
@@ -29,7 +30,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
   final multiselect = MultiselectController();
   late SemesterInfo initial = () {
     final now = DateTime.now();
-    return (
+    return Settings.school.examResult.lastSemesterInfo ?? (
       year: now.month >= 9 ? now.year : now.year - 1,
       semester: Semester.all,
     );

@@ -4,6 +4,7 @@ import 'package:sit/school/utils.dart';
 import 'package:sit/school/widgets/selector.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/entity/school.dart';
+import 'package:sit/settings/settings.dart';
 
 import '../../../design/widgets/common.dart';
 import '../entity/exam.dart';
@@ -23,7 +24,7 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
   bool isLoading = false;
   late SemesterInfo initial = () {
     final now = DateTime.now();
-    return (
+    return Settings.school.examArrange.lastSemesterInfo ?? (
       year: now.month >= 9 ? now.year : now.year - 1,
       semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
     );
