@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rettulf/rettulf.dart';
+import '../i18n.dart';
 
 class EduEmailOutboxPage extends StatefulWidget {
   const EduEmailOutboxPage({super.key});
@@ -10,6 +12,14 @@ class EduEmailOutboxPage extends StatefulWidget {
 class _EduEmailOutboxPageState extends State<EduEmailOutboxPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: i18n.outbox.title.text(),
+          ),
+        ],
+      ),
+    );
   }
 }

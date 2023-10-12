@@ -6,7 +6,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../init.dart';
 import '../i18n.dart';
-import '../widgets/list.dart';
+import '../widgets/item.dart';
 
 // TODO: Send email
 class EduEmailInboxPage extends StatefulWidget {
@@ -73,26 +73,29 @@ class _EduEmailInboxPageState extends State<EduEmailInboxPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Using sliver
-    return Scaffold(
-      appBar: AppBar(
-        title: (CredentialInit.storage.eduEmailCredentials?.address ?? i18n.title).text(),
-        bottom: credential != null && messages == null
-            ? const PreferredSize(
-                preferredSize: Size.fromHeight(4),
-                child: LinearProgressIndicator(),
-              )
-            : null,
-      ),
-      body: buildBody(),
-    );
-  }
-
-  Widget buildBody() {
     final messages = this.messages;
-    if (messages == null) {
-      return const SizedBox();
-    }
-    return EduEmailList(messages: messages);
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            title: i18n.inbox.title.text(),
+            bottom: credential != null && messages == null
+                ? const PreferredSize(
+                    preferredSize: Size.fromHeight(4),
+                    child: LinearProgressIndicator(),
+                  )
+                : null,
+          ),
+          if (messages != null)
+            SliverList.builder(
+              itemCount: messages.length,
+              itemBuilder: (ctx, i) {
+                return EmailItem(messages[i]);
+              },
+            )
+        ],
+      ),
+    );
   }
 }

@@ -37,6 +37,7 @@ class _EduEmailAppCardState extends State<EduEmailAppCard> {
     final credentials = CredentialInit.storage.eduEmailCredentials;
     return AppCard(
       title: i18n.title.text(),
+      subtitle: credentials?.address.toString().text(),
       leftActions: credentials == null
           ? [
               FilledButton.icon(

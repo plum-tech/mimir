@@ -9,6 +9,8 @@ class _I18n with CommonI18nMixin {
   static const ns = "eduEmail";
   final action = const _Action();
   final login = const _Login();
+  final inbox = const _Inbox();
+  final outbox = const _Outbox();
 
   String get title => "$ns.title".tr();
 
@@ -47,4 +49,20 @@ class _Login {
   String get forgotPwdBtn => "$ns.forgotPwdBtn".tr();
 
   String get failedWarn => "$ns.failedWarn".tr();
+}
+
+class _Outbox {
+  const _Outbox();
+
+  static const ns = "${_I18n.ns}.outbox";
+
+  String get title => "$ns.title".tr();
+}
+
+class _Inbox {
+  const _Inbox();
+
+  static const ns = "${_I18n.ns}.inbox";
+
+  String get title => "$ns.title".tr();
 }

@@ -209,6 +209,10 @@ eduEmail:
     addressHint: 学号/工号
     failedWarn: 登录失败
     forgotPwdBtn: 忘记密码？
+  inbox:
+    title: 收件箱
+  outbox:
+    title: 发件箱
   noContent: 无内容
   noSubject: 无主题
   pluralSenderTailing: 等

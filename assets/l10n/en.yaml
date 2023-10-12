@@ -208,6 +208,10 @@ eduEmail:
     addressHint: Student ID/Work number
     failedWarn: Login Failed
     forgotPwdBtn: Forgot password?
+  inbox:
+    title: Inbox
+  outbox:
+    title: Outbox
   noContent: No Content
   noSubject: No Subject
   pluralSenderTailing: ...
