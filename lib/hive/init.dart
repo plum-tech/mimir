@@ -33,7 +33,7 @@ class HiveInit {
       yellowPages = await Hive.openBox('yellow-pages'),
       timetable = await Hive.openBox('timetable'),
       ...cacheBoxes = [
-        eduEmail = await Hive.openBox('eduEmail'),
+        eduEmail = await Hive.openBox('edu-email'),
         cookies = await Hive.openBox('cookies'),
         expense = await Hive.openBox('expense'),
         library = await Hive.openBox('library'),

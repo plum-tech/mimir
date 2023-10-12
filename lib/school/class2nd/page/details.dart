@@ -32,17 +32,27 @@ class Class2ndActivityDetailsPage extends StatefulWidget {
 
 class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPage> {
   Class2ndActivity get activity => widget.activity;
-  Class2ndActivityDetails? details;
+  late Class2ndActivityDetails? details = Class2ndInit.activityDetailsStorage.getActivityDetail(activity.id);
   final scrollController = ScrollController();
+  bool isFetching = false;
 
   @override
   void initState() {
     super.initState();
-    Class2ndInit.activityDetailService.getActivityDetail(activity.id).then((value) {
+    fetch();
+  }
+
+  Future<void> fetch() async {
+    if (details != null) {
       setState(() {
-        details = value;
+        isFetching = true;
       });
-    });
+      final data = await Class2ndInit.activityDetailsService.getActivityDetails(activity.id);
+      setState(() {
+        details = data;
+        isFetching = false;
+      });
+    }
   }
 
   @override
