@@ -128,14 +128,10 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
           course: course,
           cellSize: cellSize,
         );
-        cells.add(DashLined(
-          top: timeslot != 0,
-          bottom: timeslot != day.timeslot2LessonSlot.length - 1,
-          child: SizedBox(
-            width: cellSize.width,
-            height: cellSize.height * firstLayerLesson.duration,
-            child: cell,
-          ),
+        cells.add(SizedBox(
+          width: cellSize.width,
+          height: cellSize.height * firstLayerLesson.duration,
+          child: cell,
         ));
 
         /// Skip to the end
