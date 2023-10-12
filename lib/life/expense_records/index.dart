@@ -84,10 +84,10 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
           : [
               BalanceCard(
                 balance: lastTransaction.balanceAfter,
-              ).expanded(flex: 6),
+              ).expanded(),
               TransactionCard(
                 transaction: lastTransaction,
-              ).expanded(flex: 5),
+              ).expanded(),
             ].row().sized(h: 140),
       title: i18n.title.text(),
       leftActions: [
