@@ -11,20 +11,17 @@ import '../../page/screenshot.dart';
 import '../slot.dart';
 import 'header.dart';
 import '../style.dart';
-import '../../entity/pos.dart';
 import '../../i18n.dart';
 
 class TimetableWeeklyScreenshotFilm extends StatelessWidget {
   final TimetableScreenshotConfig config;
   final SitTimetableEntity timetable;
-  final TimetablePos todayPos;
   final int weekIndex;
   final Size fullSize;
 
   const TimetableWeeklyScreenshotFilm({
     super.key,
     required this.timetable,
-    required this.todayPos,
     required this.weekIndex,
     required this.fullSize,
     required this.config,

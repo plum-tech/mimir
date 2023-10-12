@@ -163,7 +163,6 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
               child: TimetableWeeklyScreenshotFilm(
                 config: config,
                 timetable: timetable,
-                todayPos: timetable.type.locate(DateTime.now()),
                 weekIndex: $currentPos.value.weekIndex,
                 fullSize: fullSize,
               ),

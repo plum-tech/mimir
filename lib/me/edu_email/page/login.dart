@@ -21,9 +21,9 @@ class EduEmailLoginPage extends StatefulWidget {
 
 class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
   final initialAccount = CredentialInit.storage.oaCredentials?.account;
-  late final TextEditingController $username = TextEditingController(text: initialAccount);
+  late final $username = TextEditingController(text: initialAccount);
   final $password = TextEditingController();
-  final GlobalKey _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   bool isPasswordClear = false;
   bool isLoggingIn = false;
 
