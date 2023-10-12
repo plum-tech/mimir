@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:sit/credential/entity/credential.dart';
-import 'package:sit/credential/entity/user_type.dart';
+import 'package:sit/credentials/entity/credential.dart';
+import 'package:sit/credentials/entity/user_type.dart';
 
 import '../entity/login_status.dart';
 import '../init.dart';

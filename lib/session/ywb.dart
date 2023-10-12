@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
-import 'package:sit/credential/init.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/exception/session.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/session/common.dart';

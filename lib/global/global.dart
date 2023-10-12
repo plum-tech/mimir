@@ -7,7 +7,7 @@ import 'package:event_bus/event_bus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:sit/credential/storage/credential.dart';
+import 'package:sit/credentials/storage/credential.dart';
 import 'package:sit/global/cookie_init.dart';
 import 'package:sit/global/dio_init.dart';
 import 'package:sit/route.dart';

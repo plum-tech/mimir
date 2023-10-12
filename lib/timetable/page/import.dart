@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/credential/widgets/oa_scope.dart';
+import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/animation/animated.dart';
 import 'package:sit/design/widgets/connectivity_checker.dart';

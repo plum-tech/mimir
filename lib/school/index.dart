@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sit/credential/entity/login_status.dart';
-import 'package:sit/credential/entity/user_type.dart';
-import 'package:sit/credential/init.dart';
-import 'package:sit/credential/widgets/oa_scope.dart';
+import 'package:sit/credentials/entity/login_status.dart';
+import 'package:sit/credentials/entity/user_type.dart';
+import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/school/class2nd/index.dart';
 import 'package:sit/school/event.dart';

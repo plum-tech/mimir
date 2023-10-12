@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sit/credential/entity/credential.dart';
-import 'package:sit/credential/i18n.dart';
-import 'package:sit/credential/init.dart';
-import 'package:sit/credential/widgets/oa_scope.dart';
+import 'package:sit/credentials/entity/credential.dart';
+import 'package:sit/credentials/i18n.dart';
+import 'package:sit/credentials/init.dart';
+import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/global/global.dart';

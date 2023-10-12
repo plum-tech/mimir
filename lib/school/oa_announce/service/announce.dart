@@ -1,7 +1,7 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:intl/intl.dart';
-import 'package:sit/credential/entity/user_type.dart';
+import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/sso.dart';

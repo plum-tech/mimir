@@ -4,7 +4,11 @@ import 'package:flutter/rendering.dart';
 import 'dart:ui' as ui;
 
 class WidgetCaptureController {
-  GlobalKey containerKey = GlobalKey();
+  final GlobalKey containerKey;
+
+  const WidgetCaptureController({
+    required this.containerKey,
+  });
 
   /// to capture widget to image by GlobalKey in RenderRepaintBoundary
   Future<Uint8List?> capture() async {

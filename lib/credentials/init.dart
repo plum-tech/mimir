@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:sit/credential/entity/credential.dart';
-import 'package:sit/credential/entity/email.dart';
+import 'package:sit/credentials/entity/credential.dart';
+import 'package:sit/credentials/entity/email.dart';
 import 'package:sit/design/adaptive/editor.dart';
 
 import 'entity/login_status.dart';

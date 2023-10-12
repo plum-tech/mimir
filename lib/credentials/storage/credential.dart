@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sit/credential/entity/user_type.dart';
+import 'package:sit/credentials/entity/user_type.dart';
 
 import '../entity/credential.dart';
 import '../entity/email.dart';

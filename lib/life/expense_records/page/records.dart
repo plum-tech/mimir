@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sit/credential/widgets/oa_scope.dart';
+import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/life/expense_records/storage/local.dart';
 import 'package:rettulf/rettulf.dart';
 

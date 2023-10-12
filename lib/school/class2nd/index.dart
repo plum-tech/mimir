@@ -4,7 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/credential/widgets/oa_scope.dart';
+import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:sit/design/adaptive/dialog.dart';

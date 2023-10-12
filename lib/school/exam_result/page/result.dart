@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sit/credential/widgets/oa_scope.dart';
+import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/design/widgets/multi_select.dart';

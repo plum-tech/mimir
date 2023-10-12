@@ -1,5 +1,5 @@
 import 'package:enough_mail/enough_mail.dart';
-import 'package:sit/credential/entity/email.dart';
+import 'package:sit/credentials/entity/email.dart';
 
 const _server = "imap.mail.sit.edu.cn";
 const _port = 993;

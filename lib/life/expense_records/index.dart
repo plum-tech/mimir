@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/credential/widgets/oa_scope.dart';
+import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/life/event.dart';

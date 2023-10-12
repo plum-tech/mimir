@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:sit/credential/init.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/global/desktop_init.dart';
 import 'package:sit/global/global.dart';
 import 'package:sit/hive/init.dart';

@@ -1,8 +1,8 @@
 import 'package:hive/hive.dart';
-import 'package:sit/credential/entity/credential.dart';
-import 'package:sit/credential/entity/email.dart';
-import 'package:sit/credential/entity/login_status.dart';
-import 'package:sit/credential/entity/user_type.dart';
+import 'package:sit/credentials/entity/credential.dart';
+import 'package:sit/credentials/entity/email.dart';
+import 'package:sit/credentials/entity/login_status.dart';
+import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/life/electricity/entity/balance.dart';
 import 'package:sit/life/expense_records/entity/local.dart';

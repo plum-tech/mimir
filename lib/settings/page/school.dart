@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sit/credential/entity/user_type.dart';
-import 'package:sit/credential/widgets/oa_scope.dart';
+import 'package:sit/credentials/entity/user_type.dart';
+import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';

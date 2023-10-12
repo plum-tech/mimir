@@ -2,14 +2,12 @@ import 'dart:ui';
 
 import 'package:animations/animations.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sit/credential/widgets/oa_scope.dart';
+import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/r.dart';
 import 'package:sit/route.dart';
 import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:rettulf/rettulf.dart';
 
 class MimirApp extends StatefulWidget {
   const MimirApp({super.key});
