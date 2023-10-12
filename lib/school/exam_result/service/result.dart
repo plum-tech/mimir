@@ -1,4 +1,5 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:sit/design/animation/progress.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/sis.dart';
@@ -28,7 +29,11 @@ class ExamResultService {
   const ExamResultService(this.session);
 
   /// 获取成绩
-  Future<List<ExamResult>> getResultList(SemesterInfo info) async {
+  Future<List<ExamResult>> getResultList(
+    SemesterInfo info, {
+    void Function(double progress)? onProgress,
+  }) async {
+    final progress = ProgressWatcher(callback: onProgress);
     final response = await session.request(_scoreUrl, ReqMethod.post, para: {
       'gnmkdm': 'N305005',
       'doType': 'query',
@@ -40,13 +45,16 @@ class ExamResultService {
       // 获取成绩最大数量
       'queryModel.showCount': 100,
     });
+    progress.value = 0.2;
     final resultList = _parseScoreListPage(response.data);
     final newResultList = <ExamResult>[];
     for (final result in resultList) {
       final resultItems =
           await getResultItems((year: result.year, semester: result.semester), classId: result.innerClassId);
       newResultList.add(result.copyWith(items: resultItems));
+      progress.value += 0.8 / resultList.length;
     }
+    progress.value = 1;
     return newResultList;
   }
 

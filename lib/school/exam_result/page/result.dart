@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/design/widgets/multi_select.dart';
@@ -27,13 +28,15 @@ class _ExamResultPageState extends State<ExamResultPage> {
   bool isLoading = false;
   final controller = ScrollController();
   bool isSelecting = false;
+  final $loadingProgress = ValueNotifier(0.0);
   final multiselect = MultiselectController();
   late SemesterInfo initial = () {
     final now = DateTime.now();
-    return Settings.school.examResult.lastSemesterInfo ?? (
-      year: now.month >= 9 ? now.year : now.year - 1,
-      semester: Semester.all,
-    );
+    return Settings.school.examResult.lastSemesterInfo ??
+        (
+          year: now.month >= 9 ? now.year : now.year - 1,
+          semester: Semester.all,
+        );
   }();
   late SemesterInfo selected = initial;
 
@@ -56,7 +59,9 @@ class _ExamResultPageState extends State<ExamResultPage> {
       isLoading = true;
     });
     try {
-      final resultList = await ExamResultInit.service.getResultList(info);
+      final resultList = await ExamResultInit.service.getResultList(info, onProgress: (p) {
+        $loadingProgress.value = p;
+      });
       ExamResultInit.storage.setResultList(info, resultList);
       // Prevents the former query replace new query.
       if (info == selected) {
@@ -73,7 +78,9 @@ class _ExamResultPageState extends State<ExamResultPage> {
       setState(() {
         isLoading = false;
       });
-    } finally {}
+    } finally {
+      $loadingProgress.value = 0;
+    }
   }
 
   @override
@@ -106,9 +113,9 @@ class _ExamResultPageState extends State<ExamResultPage> {
                 background: buildSemesterSelector(),
               ),
               bottom: isLoading
-                  ? const PreferredSize(
-                      preferredSize: Size.fromHeight(4),
-                      child: LinearProgressIndicator(),
+                  ? PreferredSize(
+                      preferredSize: const Size.fromHeight(4),
+                      child: $loadingProgress >> (ctx, value) => AnimatedProgressBar(value: value),
                     )
                   : null,
             ),

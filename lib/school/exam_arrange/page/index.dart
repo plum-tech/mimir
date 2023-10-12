@@ -24,10 +24,11 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
   bool isLoading = false;
   late SemesterInfo initial = () {
     final now = DateTime.now();
-    return Settings.school.examArrange.lastSemesterInfo ?? (
-      year: now.month >= 9 ? now.year : now.year - 1,
-      semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
-    );
+    return Settings.school.examArrange.lastSemesterInfo ??
+        (
+          year: now.month >= 9 ? now.year : now.year - 1,
+          semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
+        );
   }();
   late SemesterInfo selected = initial;
 
