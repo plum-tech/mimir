@@ -12,6 +12,7 @@ import '../slot.dart';
 import 'header.dart';
 import '../style.dart';
 import '../../i18n.dart';
+import 'weekly.dart';
 
 class TimetableWeeklyScreenshotFilm extends StatelessWidget {
   final TimetableScreenshotConfig config;
@@ -110,15 +111,9 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
     for (int timeslot = 0; timeslot < day.timeslot2LessonSlot.length; timeslot++) {
       final lessonSlot = day.timeslot2LessonSlot[timeslot];
       if (lessonSlot.lessons.isEmpty) {
-        cells.add(Container(
-          decoration: DashDecoration(
-            color: context.colorScheme.onBackground.withOpacity(0.3),
-            strokeWidth: 0.5,
-            borders: {
-              if (timeslot != 0) LinePosition.top,
-              if (timeslot != day.timeslot2LessonSlot.length - 1) LinePosition.bottom,
-            },
-          ),
+        cells.add(DashLined(
+          top: timeslot != 0,
+          bottom: timeslot != day.timeslot2LessonSlot.length - 1,
           child: SizedBox(width: cellSize.width, height: cellSize.height),
         ));
       } else {
@@ -133,7 +128,15 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
           course: course,
           cellSize: cellSize,
         );
-        cells.add(cell.sized(w: cellSize.width, h: cellSize.height * firstLayerLesson.duration));
+        cells.add(DashLined(
+          top: timeslot != 0,
+          bottom: timeslot != day.timeslot2LessonSlot.length - 1,
+          child: SizedBox(
+            width: cellSize.width,
+            height: cellSize.height * firstLayerLesson.duration,
+            child: cell,
+          ),
+        ));
 
         /// Skip to the end
         timeslot = firstLayerLesson.endIndex;

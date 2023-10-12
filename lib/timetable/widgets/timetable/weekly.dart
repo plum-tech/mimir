@@ -135,7 +135,7 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
   @override
   void didUpdateWidget(covariant TimetableOneWeekPage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if(widget.timetable != oldWidget.timetable){
+    if (widget.timetable != oldWidget.timetable) {
       _cached = null;
     }
   }
@@ -251,15 +251,9 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
     for (int timeslot = 0; timeslot < day.timeslot2LessonSlot.length; timeslot++) {
       final lessonSlot = day.timeslot2LessonSlot[timeslot];
       if (lessonSlot.lessons.isEmpty) {
-        cells.add(Container(
-          decoration: DashDecoration(
-            color: context.colorScheme.onBackground.withOpacity(0.3),
-            strokeWidth: 0.5,
-            borders: {
-              if (timeslot != 0) LinePosition.top,
-              if (timeslot != day.timeslot2LessonSlot.length - 1) LinePosition.bottom,
-            },
-          ),
+        cells.add(DashLined(
+          top: timeslot != 0,
+          bottom: timeslot != day.timeslot2LessonSlot.length - 1,
           child: SizedBox(width: cellSize.width, height: cellSize.height),
         ));
       } else {
@@ -274,7 +268,12 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
           course: course,
           cellSize: cellSize,
         );
-        cells.add(cell.sized(w: cellSize.width, h: cellSize.height * firstLayerLesson.duration));
+
+        cells.add(SizedBox(
+          width: cellSize.width,
+          height: cellSize.height * firstLayerLesson.duration,
+          child: cell,
+        ));
 
         /// Skip to the end
         timeslot = firstLayerLesson.endIndex;
@@ -340,6 +339,40 @@ class _CourseCellState extends State<CourseCell> {
           ).padOnly(t: widget.cellSize.height * 0.2),
         ),
       ),
+    );
+  }
+}
+
+class DashLined extends StatelessWidget {
+  final Widget? child;
+  final bool top;
+  final bool bottom;
+  final bool left;
+  final bool right;
+
+  const DashLined({
+    super.key,
+    this.child,
+    this.top = false,
+    this.bottom = false,
+    this.left = false,
+    this.right = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: DashDecoration(
+        color: context.colorScheme.onBackground.withOpacity(0.3),
+        strokeWidth: 0.5,
+        borders: {
+          if (right) LinePosition.right,
+          if (bottom) LinePosition.bottom,
+          if (left) LinePosition.left,
+          if (top) LinePosition.top,
+        },
+      ),
+      child: child,
     );
   }
 }
