@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/school/ywb/storage/application.dart';
 import 'package:rettulf/rettulf.dart';
@@ -18,7 +19,7 @@ class YwbMyApplicationListPage extends StatefulWidget {
 
 class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
   MyYwbApplications? allApplications;
-
+  final $loadingProgress = ValueNotifier(0.0);
   bool isFetching = false;
 
   @override
@@ -34,7 +35,9 @@ class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
       isFetching = true;
     });
     try {
-      final myApplications = await YwbInit.applicationService.getMyApplications();
+      final myApplications = await YwbInit.applicationService.getMyApplications(onProgress: (p) {
+        $loadingProgress.value = p;
+      });
       YwbInit.applicationStorage.myApplications = myApplications;
       if (!mounted) return;
       setState(() {
@@ -57,7 +60,7 @@ class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
     return Scaffold(
       bottomNavigationBar: PreferredSize(
         preferredSize: const Size.fromHeight(4),
-        child: isFetching ? const LinearProgressIndicator() : const SizedBox(),
+        child: isFetching ? $loadingProgress >> (ctx, value) => AnimatedProgressBar(value: value) : const SizedBox(),
       ),
       body: DefaultTabController(
         length: YwbApplicationType.values.length,

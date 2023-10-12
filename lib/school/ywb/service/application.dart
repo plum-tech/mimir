@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:sit/design/animation/progress.dart';
 import 'package:sit/network/session.dart';
 
 import '../entity/application.dart';
@@ -19,7 +20,11 @@ class YwbApplicationService {
 
   const YwbApplicationService(this.session);
 
-  Future<List<YwbApplication>> getApplication(YwbApplicationType type) async {
+  Future<List<YwbApplication>> getApplication(
+    YwbApplicationType type, {
+    void Function(double progress)? onProgress,
+  }) async {
+    final progress = ProgressWatcher(callback: onProgress);
     final response = await session.request(
       _getMessageListUrl(type),
       ReqMethod.post,
@@ -29,6 +34,7 @@ class YwbApplicationService {
         responseType: ResponseType.json,
       ),
     );
+    progress.value = 0.2;
     final List data = jsonDecode(response.data);
     // filter empty application
     data.retainWhere((e) => e["WorkID"] is int);
@@ -37,7 +43,9 @@ class YwbApplicationService {
     for (final msg in messages) {
       final track = await getTrack(workId: msg.workId, functionId: msg.functionId);
       res.add(msg.copyWith(track: track));
+      progress.value += 0.8 / messages.length;
     }
+    progress.value = 1;
     return res;
   }
 
@@ -61,11 +69,21 @@ class YwbApplicationService {
     return track;
   }
 
-  Future<MyYwbApplications> getMyApplications() async {
+  Future<MyYwbApplications> getMyApplications({
+    void Function(double progress)? onProgress,
+  }) async {
+    final progress = ProgressWatcher(callback: onProgress);
     return (
-      todo: await getApplication(YwbApplicationType.todo),
-      running: await getApplication(YwbApplicationType.running),
-      complete: await getApplication(YwbApplicationType.complete),
+      todo: await getApplication(YwbApplicationType.todo, onProgress: (double p) {
+        progress.value = p / 3;
+      }),
+      running: await getApplication(YwbApplicationType.running, onProgress: (double p) {
+        progress.value = 1 / 3 + p / 3;
+      }),
+      complete: await getApplication(YwbApplicationType.complete, onProgress: (double p) {
+        progress.value = 2 / 3 + p / 3;
+      }),
     );
+    progress.value = 1;
   }
 }
