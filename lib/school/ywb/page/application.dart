@@ -17,7 +17,7 @@ class YwbMyApplicationListPage extends StatefulWidget {
 }
 
 class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
-  MyYwbApplications? applications;
+  MyYwbApplications? allApplications;
 
   bool isFetching = false;
 
@@ -30,7 +30,7 @@ class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
   Future<void> refresh() async {
     if (!mounted) return;
     setState(() {
-      applications = YwbInit.applicationStorage.myApplications;
+      allApplications = YwbInit.applicationStorage.myApplications;
       isFetching = true;
     });
     try {
@@ -38,7 +38,7 @@ class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
       YwbInit.applicationStorage.myApplications = myApplications;
       if (!mounted) return;
       setState(() {
-        applications = myApplications;
+        allApplications = myApplications;
         isFetching = false;
       });
     } catch (error, stackTrace) {
@@ -53,7 +53,7 @@ class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final applications = this.applications;
+    final allApplications = this.allApplications;
     return Scaffold(
       bottomNavigationBar: PreferredSize(
         preferredSize: const Size.fromHeight(4),
@@ -63,7 +63,7 @@ class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
         length: YwbApplicationType.values.length,
         child: NestedScrollView(
           floatHeaderSlivers: true,
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
             // These are the slivers that show up in the "outer" scroll view.
             return <Widget>[
               SliverOverlapAbsorber(
@@ -86,13 +86,14 @@ class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
               ),
             ];
           },
-          body: TabBarView(
-            // These are the contents of the tab views, below the tabs.
-            children: YwbApplicationType.values.map((type) {
-              if (applications == null) return const SizedBox();
-              return YwbMailList(applications.resolve(type));
-            }).toList(),
-          ),
+          body: allApplications == null
+              ? const SizedBox()
+              : TabBarView(
+                  // These are the contents of the tab views, below the tabs.
+                  children: YwbApplicationType.values.map((type) {
+                    return YwbMailList(allApplications.resolve(type));
+                  }).toList(),
+                ),
         ),
       ),
     );

@@ -47,15 +47,16 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
               SliverOverlapAbsorber(
                 handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
+                  // FIXME: when using floating, the AppBar cannot slide down.
                   floating: true,
                   title: i18n.title.text(),
+                  forceElevated: innerBoxIsScrolled,
                   actions: [
                     IconButton(
                       icon: const Icon(Icons.search),
                       onPressed: () => showSearch(context: context, delegate: ActivitySearchDelegate()),
                     ),
                   ],
-                  forceElevated: innerBoxIsScrolled,
                   bottom: TabBar(
                     isScrollable: true,
                     tabs: categories
@@ -73,7 +74,7 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
           body: TabBarView(
             // These are the contents of the tab views, below the tabs.
             children: categories.mapIndexed((i, cat) {
-              return ActivityList(
+              return ActivityLoadingList(
                 cat: cat,
                 onLoadingChanged: (state) {
                   final newStates = List.of(loadingStates.value);
@@ -90,53 +91,46 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
 }
 
 /// Thanks to the cache, don't worry about that switching tab will re-fetch the activity list.
-class ActivityList extends StatefulWidget {
+class ActivityLoadingList extends StatefulWidget {
   final Class2ndActivityCat cat;
   final ValueChanged<bool> onLoadingChanged;
 
-  const ActivityList({
+  const ActivityLoadingList({
     super.key,
     required this.cat,
     required this.onLoadingChanged,
   });
 
   @override
-  State<StatefulWidget> createState() => _ActivityListState();
+  State<StatefulWidget> createState() => _ActivityLoadingListState();
 }
 
 /// Note: Changing orientation will cause a rebuild.
 /// The solution is to use any state manager framework, such as `provider`.
-class _ActivityListState extends State<ActivityList> {
+class _ActivityLoadingListState extends State<ActivityLoadingList> {
   int lastPage = 1;
   List<Class2ndActivity> activities = [];
-  final scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    scrollController.addListener(() {
-      // on iOS, the actual scroll position can exceed the max scroll extent.
-      if (scrollController.position.pixels >= scrollController.position.maxScrollExtent) {
-        loadMoreActivities();
-      }
-    });
     Future.delayed(Duration.zero).then((value) async {
       await loadMoreActivities();
     });
   }
 
   @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        controller: scrollController,
-        key: PageStorageKey(widget.cat),
+    return NotificationListener<ScrollNotification>(
+      onNotification: (event) {
+        if (event.metrics.pixels >= event.metrics.maxScrollExtent) {
+          loadMoreActivities();
+        }
+        return true;
+      },
+      child: CustomScrollView(
+        // CAN'T USE ScrollController, and I don't know why
+        // controller: scrollController,
         slivers: <Widget>[
           SliverOverlapInjector(
             // This is the flip side of the SliverOverlapAbsorber above.
