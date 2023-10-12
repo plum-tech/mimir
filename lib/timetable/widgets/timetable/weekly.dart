@@ -133,6 +133,14 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
   }
 
   @override
+  void didUpdateWidget(covariant TimetableOneWeekPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if(widget.timetable != oldWidget.timetable){
+      _cached = null;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     final cache = _cached;
