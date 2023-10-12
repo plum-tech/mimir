@@ -52,6 +52,7 @@ class _LifePageState extends State<LifePage> {
   Widget build(BuildContext context) {
     final campus = Settings.campus;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: NestedScrollView(
         floatHeaderSlivers: true,
         headerSliverBuilder: (context, bool innerBoxIsScrolled) {

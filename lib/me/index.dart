@@ -23,33 +23,36 @@ class MePage extends StatefulWidget {
 class _MePageState extends State<MePage> {
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          titleTextStyle: context.textTheme.headlineSmall,
-          actions: [
-            buildScannerAction(),
-            IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: () {
-                context.push("/settings");
-              },
-            ),
-          ],
-        ),
-        const SliverToBoxAdapter(
-          child: Greeting(),
-        ),
-        const SliverToBoxAdapter(
-          child: EduEmailAppCard(),
-        ),
-        const SliverToBoxAdapter(
-          child: NetworkToolAppCard(),
-        ),
-        SliverToBoxAdapter(
-          child: buildGroupInvitation(),
-        ),
-      ],
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            titleTextStyle: context.textTheme.headlineSmall,
+            actions: [
+              buildScannerAction(),
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () {
+                  context.push("/settings");
+                },
+              ),
+            ],
+          ),
+          const SliverToBoxAdapter(
+            child: Greeting(),
+          ),
+          const SliverToBoxAdapter(
+            child: EduEmailAppCard(),
+          ),
+          const SliverToBoxAdapter(
+            child: NetworkToolAppCard(),
+          ),
+          SliverToBoxAdapter(
+            child: buildGroupInvitation(),
+          ),
+        ],
+      ),
     );
   }
 

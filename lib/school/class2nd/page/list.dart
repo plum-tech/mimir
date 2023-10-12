@@ -41,7 +41,7 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
         length: categories.length,
         child: NestedScrollView(
           floatHeaderSlivers: true,
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
             // These are the slivers that show up in the "outer" scroll view.
             return <Widget>[
               SliverOverlapAbsorber(
