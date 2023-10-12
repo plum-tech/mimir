@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/life/event.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/life/expense_records/entity/local.dart';
 import 'package:sit/life/expense_records/init.dart';
 import 'package:sit/utils/async_event.dart';
 import 'utils.dart';
@@ -81,7 +79,16 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
   Widget build(BuildContext context) {
     final lastTransaction = ExpenseRecordsInit.storage.latestTransaction;
     return AppCard(
-      view: lastTransaction == null ? const SizedBox() : TransactionCardPanel(lastTransaction),
+      view: lastTransaction == null
+          ? const SizedBox()
+          : [
+              BalanceCard(
+                balance: lastTransaction.balanceAfter,
+              ).expanded(flex: 6),
+              TransactionCard(
+                transaction: lastTransaction,
+              ).expanded(flex: 5),
+            ].row().sized(h: 140),
       title: i18n.title.text(),
       leftActions: [
         FilledButton.icon(
@@ -101,40 +108,5 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
         ),
       ],
     );
-  }
-}
-
-class TransactionCardPanel extends StatefulWidget {
-  final Transaction transaction;
-
-  const TransactionCardPanel(this.transaction, {super.key});
-
-  @override
-  State<TransactionCardPanel> createState() => _TransactionCardPanelState();
-}
-
-class _TransactionCardPanelState extends State<TransactionCardPanel> {
-  final balanceCardKey = GlobalKey();
-
-  @override
-  void initState() {
-    super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      setState(() {});
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final box = balanceCardKey.currentContext?.findRenderObject() as RenderBox?;
-    return [
-      BalanceCard(
-        key: balanceCardKey,
-        balance: widget.transaction.balanceAfter,
-      ).expanded(flex: 6),
-      TransactionCard(
-        transaction: widget.transaction,
-      ).expanded(flex: 5),
-    ].row().sized(h: box?.size.height);
   }
 }
