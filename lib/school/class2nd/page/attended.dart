@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -22,6 +23,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   final _scrollController = ScrollController();
   final $attended = Class2ndInit.scoreStorage.listenAttendedList();
   late bool isFetching = false;
+  final $loadingProgress = ValueNotifier(0.0);
 
   @override
   void initState() {
@@ -47,8 +49,11 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
     if (!mounted) return;
     setState(() => isFetching = true);
     try {
+      $loadingProgress.value = 0;
       final applicationList = await Class2ndInit.scoreService.fetchActivityApplicationList();
+      $loadingProgress.value = 0.5;
       final scoreItemList = await Class2ndInit.scoreService.fetchScoreItemList();
+      $loadingProgress.value = 1.0;
       final attended = applicationList.map((application) {
         // 对于每一次申请, 找到对应的加分信息
         final relatedScoreItems = scoreItemList.where((e) => e.activityId == application.activityId).toList();
@@ -77,6 +82,8 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
       debugPrintStack(stackTrace: stackTrace);
       if (!mounted) return;
       setState(() => isFetching = false);
+    } finally {
+      $loadingProgress.value = 0;
     }
   }
 
@@ -99,9 +106,9 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                 floating: true,
                 title: i18n.attended.title.text(),
                 bottom: isFetching
-                    ? const PreferredSize(
-                        preferredSize: Size.fromHeight(4),
-                        child: LinearProgressIndicator(),
+                    ? PreferredSize(
+                        preferredSize: const Size.fromHeight(4),
+                        child: $loadingProgress >> (ctx, value) => AnimatedProgressBar(value: value),
                       )
                     : null,
                 forceElevated: innerBoxIsScrolled,

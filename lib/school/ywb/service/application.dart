@@ -20,7 +20,7 @@ class YwbApplicationService {
 
   const YwbApplicationService(this.session);
 
-  Future<List<YwbApplication>> getApplication(
+  Future<List<YwbApplication>> getApplicationsOf(
     YwbApplicationType type, {
     void Function(double progress)? onProgress,
   }) async {
@@ -74,13 +74,13 @@ class YwbApplicationService {
   }) async {
     final progress = ProgressWatcher(callback: onProgress);
     return (
-      todo: await getApplication(YwbApplicationType.todo, onProgress: (double p) {
+      todo: await getApplicationsOf(YwbApplicationType.todo, onProgress: (double p) {
         progress.value = p / 3;
       }),
-      running: await getApplication(YwbApplicationType.running, onProgress: (double p) {
+      running: await getApplicationsOf(YwbApplicationType.running, onProgress: (double p) {
         progress.value = 1 / 3 + p / 3;
       }),
-      complete: await getApplication(YwbApplicationType.complete, onProgress: (double p) {
+      complete: await getApplicationsOf(YwbApplicationType.complete, onProgress: (double p) {
         progress.value = 2 / 3 + p / 3;
       }),
     );

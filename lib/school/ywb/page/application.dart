@@ -51,6 +51,8 @@ class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
       setState(() {
         isFetching = false;
       });
+    } finally {
+      $loadingProgress.value = 0;
     }
   }
 
