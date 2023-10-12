@@ -48,6 +48,11 @@ class _YwbAppCardState extends State<YwbAppCard> {
     final mine = YwbInit.applicationStorage.myApplications;
     if (mine == null) return const SizedBox();
     final applications = mine.running.sublist(0, min(_applicationLength, mine.running.length));
-    return applications.map((e) => YwbApplicationTile(e).inCard()).toList().column();
+    return applications
+        .map((e) => YwbApplicationTile(e).inCard(
+              clip: Clip.hardEdge,
+            ))
+        .toList()
+        .column();
   }
 }

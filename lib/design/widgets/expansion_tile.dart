@@ -29,7 +29,8 @@ class AnimatedExpansionTile extends StatefulWidget {
   final Widget? trailing;
   final VisualDensity? visualDensity;
   final Duration? duration;
-  final Curve? curve;
+  final Curve? fadeCurve;
+  final Curve? sizeCurve;
   final EdgeInsets? childrenPadding;
   final bool? rotateTrailing;
   final bool? noTrailing;
@@ -66,7 +67,8 @@ class AnimatedExpansionTile extends StatefulWidget {
     this.rotateTrailing,
     this.noTrailing,
     this.initiallyExpanded = false,
-    this.curve,
+    this.fadeCurve,
+    this.sizeCurve,
   });
 
   @override
@@ -163,7 +165,8 @@ class AnimatedExpansionTileState extends State<AnimatedExpansionTile> with Ticke
           itemCount: widget.children.length,
           itemBuilder: (ctx, i) => AnimatedCrossFade(
             duration: widget.duration ?? _kDefaultDuration,
-            firstCurve: widget.curve ?? Curves.fastEaseInToSlowEaseOut,
+            firstCurve: widget.fadeCurve ?? Curves.linear,
+            sizeCurve: widget.sizeCurve ?? Curves.fastEaseInToSlowEaseOut,
             firstChild: widget.children[i],
             secondChild: const SizedBox(),
             crossFadeState: _expanded ? CrossFadeState.showFirst : CrossFadeState.showSecond,
