@@ -49,10 +49,23 @@ class _CredentialEditorState extends State<CredentialEditor> {
   Widget build(BuildContext context) {
     return $Dialog$(
       title: widget.title,
-      make: (ctx) => [
-        buildField("account", $account),
-        buildField("password", $password),
-      ].column(mas: MainAxisSize.min),
+      make: (ctx) => AutofillGroup(
+        child: [
+          buildField(
+            "account",
+            $account,
+            textInputAction: TextInputAction.next,
+          ).padAll(1),
+          buildField(
+            "password",
+            $password,
+            textInputAction: TextInputAction.send,
+            onSubmit: (value) {
+              context.navigator.pop(widget.ctor($account.text, $password.text));
+            },
+          ).padAll(1),
+        ].column(mas: MainAxisSize.min),
+      ),
       primary: $Action$(
           text: _i18n.submit,
           onPressed: () {
@@ -68,12 +81,15 @@ class _CredentialEditorState extends State<CredentialEditor> {
 
   Widget buildField(
     String fieldName,
-    TextEditingController textEditingController,
-  ) {
+    TextEditingController textEditingController, {
+    TextInputAction? textInputAction,
+    ValueChanged<String>? onSubmit,
+  }) {
     return $TextField$(
       controller: textEditingController,
-      textInputAction: TextInputAction.next,
+      textInputAction: textInputAction,
       labelText: fieldName,
-    ).padV(1);
+      onSubmit: onSubmit,
+    );
   }
 }

@@ -94,6 +94,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
           TextFormField(
             controller: $password,
             autofocus: true,
+            keyboardType: isPasswordClear ? TextInputType.visiblePassword : null,
             textInputAction: TextInputAction.send,
             contextMenuBuilder: (ctx, state) {
               return AdaptiveTextSelectionToolbar.editableText(

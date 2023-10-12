@@ -179,6 +179,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             TextFormField(
               controller: $password,
+              keyboardType: isPasswordClear ? TextInputType.visiblePassword : null,
               autofillHints: const [AutofillHints.password],
               textInputAction: TextInputAction.send,
               readOnly: isLoggingIn,
