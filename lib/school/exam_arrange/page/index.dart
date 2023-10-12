@@ -74,7 +74,6 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
             expandedHeight: 200,
             flexibleSpace: FlexibleSpaceBar(
               title: i18n.title.text(),
-              centerTitle: true,
               background: buildSemesterSelector(),
             ),
             bottom: isLoading
@@ -110,6 +109,7 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
         setState(() {
           selected = newSelection;
         });
+        Settings.school.examArrange.lastSemesterInfo = newSelection;
         refresh(newSelection);
       },
     );

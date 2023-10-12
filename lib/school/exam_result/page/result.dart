@@ -158,6 +158,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
         setState(() {
           selected = newSelection;
         });
+        Settings.school.examResult.lastSemesterInfo = newSelection;
         refresh(newSelection);
       },
     );
