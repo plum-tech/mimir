@@ -336,7 +336,7 @@ class _CourseCellState extends State<CourseCell> {
           child: TimetableSlotInfo(
             course: widget.course,
             maxLines: context.isPortrait ? 8 : 5,
-          ).padOnly(t: widget.cellSize.height * 0.2),
+          ).center(),
         ),
       ),
     );

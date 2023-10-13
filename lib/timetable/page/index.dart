@@ -40,10 +40,6 @@ class _TimetablePageState extends State<TimetablePage> {
     setState(() {
       _selected = current?.resolve();
     });
-    if (!storage.timetable.hasAny) {
-      // if no timetables, go out.
-      context.pop();
-    }
   }
 
   @override

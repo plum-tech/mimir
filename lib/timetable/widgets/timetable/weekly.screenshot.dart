@@ -171,7 +171,7 @@ class CourseCell extends StatelessWidget {
       child: TimetableSlotInfo(
         course: course,
         maxLines: context.isPortrait ? 8 : 5,
-      ).padOnly(t: cellSize.height * 0.2),
+      ).center(),
     );
   }
 }
