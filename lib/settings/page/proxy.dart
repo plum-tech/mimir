@@ -145,7 +145,9 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
           final newUri = Uri.tryParse(newFullProxy.trim());
 
           if (newUri != null && newUri.isAbsolute && (newUri.scheme == "http" || newUri.scheme == "https")) {
-            onChanged(newUri);
+            if (newUri != proxyUri) {
+              onChanged(newUri);
+            }
           } else {
             // TODO: i18n
             if (!mounted) return;
@@ -189,12 +191,15 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
       trailing: IconButton(
         icon: const Icon(Icons.edit),
         onPressed: () async {
-          final newHostName = await Editor.showStringEditor(
+          final newHostName = (await Editor.showStringEditor(
             context,
             desc: i18n.proxy.address,
             initial: hostname,
-          );
-          onChanged(newHostName.trim());
+          ))
+              .trim();
+          if (newHostName != hostname) {
+            onChanged(newHostName);
+          }
         },
       ),
     );
@@ -219,7 +224,9 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
             desc: i18n.proxy.port,
             initial: port,
           );
-          onChanged(newPort);
+          if (newPort != port) {
+            onChanged(newPort);
+          }
         },
       ),
     );
@@ -257,7 +264,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                 ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
               ),
             );
-            if (newAuth != null) {
+            if (newAuth != null && newAuth != credentials) {
               onChanged(newAuth);
             }
           },
@@ -278,6 +285,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
           await context.navigator.push(
             MaterialPageRoute(
               builder: (ctx) => QrCodePage(
+                title: i18n.proxy.title.text(),
                 data: qrCodeData.toString(),
               ),
             ),
@@ -310,6 +318,7 @@ Future<void> onHttpProxyFromQrCode({
   required Uri httpProxy,
 }) async {
   await _setHttpProxy(httpProxy.toString());
+  await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
   context.showSnackBar("HTTP proxy was changed from QR code".text());
   context.push("/settings/proxy");

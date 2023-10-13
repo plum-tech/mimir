@@ -20,14 +20,25 @@ class QrCodePage extends StatelessWidget {
       appBar: AppBar(
         title: title,
       ),
-      body: Container(
-        color: context.isDarkMode ? Colors.white : null,
-        child: QrImageView(
-          data: data,
-          version: QrVersions.auto,
-          size: size,
-        ),
-      ),
+      body: [
+        Container(
+          color: context.isDarkMode ? Colors.white : null,
+          child: QrImageView(
+            data: data,
+            version: QrVersions.auto,
+            size: size,
+          ),
+        ).padAll(20),
+        RichText(
+            text: TextSpan(children: [
+          TextSpan(text: 'Please navigate to Me'),
+          WidgetSpan(child: Icon(Icons.person)),
+          TextSpan(text: ''),
+          TextSpan(text: ', and click the scanner '),
+          WidgetSpan(child: Icon(Icons.qr_code_scanner)),
+          TextSpan(text: ' on the right corner.'),
+        ])),
+      ].column().padAll(10),
     );
   }
 }
