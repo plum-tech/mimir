@@ -341,22 +341,29 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
 
   @override
   Widget build(BuildContext context) {
+    final lessons = widget.course.calcBeginEndTimePointForEachLesson();
     return CourseCell(
       lesson: widget.lesson,
       timetable: widget.timetable,
       course: widget.course,
-      builder: (ctx, child) => InkWell(
-        onTap: () async {
-          $tooltip.currentState?.ensureTooltipVisible();
-        },
-        onLongPress: () async {
-          await HapticFeedback.lightImpact();
-          if (!mounted) return;
-          await context.show$Sheet$(
-            (ctx) => TimetableCourseSheet(courseCode: widget.course.courseCode, timetable: widget.timetable),
-          );
-        },
-        child: child,
+      builder: (ctx, child) => Tooltip(
+        key: $tooltip,
+        preferBelow: false,
+        triggerMode: TooltipTriggerMode.manual,
+        message: lessons.map((time) => "${time.begin.toStringPrefixed0()}–${time.end.toStringPrefixed0()}").join("\n"),
+        child: InkWell(
+          onTap: () async {
+            $tooltip.currentState?.ensureTooltipVisible();
+          },
+          onLongPress: () async {
+            await HapticFeedback.lightImpact();
+            if (!mounted) return;
+            await context.show$Sheet$(
+              (ctx) => TimetableCourseSheet(courseCode: widget.course.courseCode, timetable: widget.timetable),
+            );
+          },
+          child: child,
+        ),
       ),
     );
   }

@@ -22,15 +22,6 @@ class EmailItem extends StatelessWidget {
     final dateText = date != null ? context.formatYmdNum(date) : '';
 
     return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: Theme.of(context).primaryColor,
-        radius: 20,
-        child: Text(
-          subjectText[0],
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[50]),
-        ),
-      ),
-      // isThreeLine: true,
       title: Text(subjectText, style: titleStyle, maxLines: 1, overflow: TextOverflow.fade),
       subtitle: Text(senderText, style: subtitleStyle),
       trailing: Text(dateText, style: subtitleStyle),
