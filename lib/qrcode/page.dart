@@ -66,7 +66,7 @@ class QrCodePage extends StatelessWidget {
             children: _i18n.hint,
           ),
         ),
-      ].column().scrolled().padAll(10),
+      ].column().scrolled().padAll(10).center(),
     );
   }
 }

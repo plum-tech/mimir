@@ -24,6 +24,7 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
     formats: [BarcodeFormat.qrCode],
     facing: CameraFacing.back,
   );
+
   @override
   void initState() {
     super.initState();
@@ -67,12 +68,12 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
       controller: controller,
       fit: BoxFit.contain,
       onDetect: (captured) async {
-        HapticFeedback.heavyImpact();
         final qrcode = captured.barcodes.firstOrNull;
         if (qrcode != null) {
           context.pop(qrcode.rawValue);
           // dispose the controller to stop scanning
           controller.dispose();
+          await HapticFeedback.heavyImpact();
         }
       },
     );
