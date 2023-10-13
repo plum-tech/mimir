@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rettulf/rettulf.dart';
@@ -35,21 +37,30 @@ class QrCodePage extends StatelessWidget {
         title: title,
       ),
       body: [
-        Container(
-          color: context.isDarkMode ? context.colorScheme.inverseSurface : context.colorScheme.surface,
-          child: QrImageView(
-            data: data,
-            version: QrVersions.auto,
-            size: size,
-          ),
-        ).padAll(20),
+        LayoutBuilder(
+          builder: (ctx, box) {
+            final side = min(box.maxWidth, 512.0);
+            return SizedBox(
+              width: side,
+              height: side,
+              child: Container(
+                color: context.isDarkMode ? context.colorScheme.inverseSurface : context.colorScheme.surface,
+                child: QrImageView(
+                  data: data,
+                  version: QrVersions.auto,
+                  size: size,
+                ),
+              ).padAll(20),
+            );
+          },
+        ),
         RichText(
           text: TextSpan(
             style: context.textTheme.bodyLarge,
             children: _i18n.hint,
           ),
         ),
-      ].column().padAll(10),
+      ].column().scrolled().padAll(10),
     );
   }
 }

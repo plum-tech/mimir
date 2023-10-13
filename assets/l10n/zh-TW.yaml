@@ -447,7 +447,7 @@ greeting:
     one: 1 天
     other: "{} 天"
 qrCode:
-  hint: 請在頁面下方導航至 個人{me}，然後點擊右上角的 掃描{scan}
+  hint: 請導航至 個人{me}，然後點擊右上角的 掃描{scan}
 weekday:
   0: 週一
   1: 週二
