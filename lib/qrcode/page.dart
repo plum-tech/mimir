@@ -43,13 +43,19 @@ class QrCodePage extends StatelessWidget {
             return SizedBox(
               width: side,
               height: side,
-              child: Container(
-                color: context.isDarkMode ? context.colorScheme.inverseSurface : context.colorScheme.surface,
-                child: QrImageView(
-                  data: data,
-                  version: QrVersions.auto,
-                  size: size,
+              child: QrImageView(
+                backgroundColor: context.colorScheme.surface,
+                data: data,
+                eyeStyle: QrEyeStyle(
+                  eyeShape: QrEyeShape.square,
+                  color: context.colorScheme.onSurface,
                 ),
+                dataModuleStyle: QrDataModuleStyle(
+                  dataModuleShape: QrDataModuleShape.square,
+                  color: context.colorScheme.onSurface,
+                ),
+                version: QrVersions.auto,
+                size: size,
               ).padAll(20),
             );
           },
