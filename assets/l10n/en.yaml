@@ -408,13 +408,17 @@ settings:
       desc: Proxy your HTTP requests
     authentication: Authentication
     protocol: Protocol
-    address: Address
+    hostname: Hostname
     port: Port
     username: Username
     password: Password
     shareQrCode:
       title: Share QR code
       desc: Share HTTP proxy as QR code
+    copyTip:
+      full: HTTP proxy is copied
+      hostname: Hostname is copied
+      port: Port is copied
   language:
     title: Language
   testConnect2School:

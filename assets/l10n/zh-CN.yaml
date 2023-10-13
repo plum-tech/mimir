@@ -387,7 +387,7 @@ settings:
         title: 消费记录自动刷新
         desc: 启动时刷新消费记录
   studentId:
-    studentIdCopy2ClipboardTip: 你的学号被复制到剪贴板啦
+    studentIdCopy2ClipboardTip: 你的学号被复制到剪贴板了
   changeOaPwd:
     title: 修改 OA 密码
     desc: 修改用于自动登录学校业务的 OA 密码
@@ -408,13 +408,17 @@ settings:
       desc: 代理你的 HTTP 请求
     authentication: 身份验证
     protocol: 协议
-    address: 地址
+    hostname: 主机名
     port: 端口
     username: 用户名
     password: 密码
     shareQrCode:
       title: 分享二维码
       desc: 将 HTTP 代理通过二维码分享
+    copyTip:
+      full: HTTP 代理被复制到剪切板了
+      hostname: 主机名被复制到剪切板了
+      port: 端口被复制到剪切板了
   language:
     title: 语言
   testConnect2School:

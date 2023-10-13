@@ -389,7 +389,7 @@ settings:
         title: 消費記錄自動重新整理
         desc: 啟動時重新整理消費記錄
   studentId:
-    studentIdCopy2ClipboardTip: 你的學號被複製到剪貼板啦
+    studentIdCopy2ClipboardTip: 你的學號被複製到剪貼板了
   changeOaPwd:
     title: 修改 OA 密碼
     desc: 修改用於自動登入學校業務的 OA 密碼
@@ -410,13 +410,17 @@ settings:
       desc: 代理你的 HTTP 請求
     authentication: 驗證
     protocol: 通訊協定
-    address: 地址
+    hostname: 主機名稱
     port: 連接埠
     username: 使用者名稱
     password: 密碼
     shareQrCode:
       title: 分享 QR 碼
       desc: 使用 QR 碼分享 HTTP 代理
+    copyTip:
+      full: HTTP 代理被複製到剪貼板了
+      hostname: 主機名稱被複製到剪貼板了
+      port: 連接埠被複製到剪貼板了
   language:
     title: 語言
   testConnect2School:

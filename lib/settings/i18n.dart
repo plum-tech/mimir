@@ -108,9 +108,15 @@ class _Proxy {
 
   String get protocol => "$ns.protocol".tr();
 
-  String get address => "$ns.address".tr();
+  String get hostname => "$ns.hostname".tr();
 
   String get port => "$ns.port".tr();
+
+  String get fullCopyTip => "$ns.copyTip.full".tr();
+
+  String get hostnameCopyTip => "$ns.copyTip.hostname".tr();
+
+  String get portCopyTip => "$ns.copyTip.port".tr();
 
   String get authentication => "$ns.authentication".tr();
 

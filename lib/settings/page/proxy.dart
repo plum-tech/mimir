@@ -131,15 +131,14 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
       onLongPress: () async {
         await Clipboard.setData(ClipboardData(text: proxyUri.toString()));
         if (!mounted) return;
-        // TODO: i18n
-        context.showSnackBar("HTTP proxy is copied".text());
+        context.showSnackBar(i18n.proxy.fullCopyTip.text());
       },
       trailing: IconButton(
         icon: const Icon(Icons.edit),
         onPressed: () async {
           final newFullProxy = await Editor.showStringEditor(
             context,
-            desc: i18n.proxy.address,
+            desc: i18n.proxy.hostname,
             initial: proxyUri.toString(),
           );
           final newUri = Uri.tryParse(newFullProxy.trim());
@@ -180,20 +179,19 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
   Widget buildProxyHostnameTile(String hostname, ValueChanged<String> onChanged) {
     return ListTile(
       leading: const Icon(Icons.link),
-      title: i18n.proxy.address.text(),
+      title: i18n.proxy.hostname.text(),
       subtitle: hostname.text(),
       onLongPress: () async {
         await Clipboard.setData(ClipboardData(text: hostname));
         if (!mounted) return;
-        // TODO: i18n
-        context.showSnackBar("Hostname is copied".text());
+        context.showSnackBar(i18n.proxy.hostnameCopyTip.text());
       },
       trailing: IconButton(
         icon: const Icon(Icons.edit),
         onPressed: () async {
           final newHostName = (await Editor.showStringEditor(
             context,
-            desc: i18n.proxy.address,
+            desc: i18n.proxy.hostname,
             initial: hostname,
           ))
               .trim();
@@ -213,8 +211,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
       onLongPress: () async {
         await Clipboard.setData(ClipboardData(text: port.toString()));
         if (!mounted) return;
-        // TODO: i18n
-        context.showSnackBar("Port is copied".text());
+        context.showSnackBar(i18n.proxy.portCopyTip.text());
       },
       trailing: IconButton(
         icon: const Icon(Icons.edit),
