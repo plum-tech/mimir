@@ -9,6 +9,7 @@ class NotFoundPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: i18n
     return Scaffold(
       appBar: AppBar(
         title: "notFound404".tr().text(),

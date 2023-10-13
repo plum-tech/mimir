@@ -102,6 +102,10 @@ class _Proxy {
 
   String get enableProxyDesc => "$ns.enableProxy.desc".tr();
 
+  String get shareQrCode => "$ns.shareQrCode.title".tr();
+
+  String get shareQrCodeDesc => "$ns.shareQrCode.desc".tr();
+
   String get protocol => "$ns.protocol".tr();
 
   String get address => "$ns.address".tr();
@@ -263,6 +267,7 @@ class _Storage with CommonI18nMixin {
 
 class _Credentials extends CredentialsI18n {
   static const ns = "${_I18n.ns}.credentials";
+
   const _Credentials();
 
   String get testLoginOa => "$ns.testLoginOa.title".tr();

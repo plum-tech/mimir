@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/global/init.dart';
+import 'package:sit/qrcode/page.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
@@ -84,6 +86,8 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                   );
                 }
               }),
+              const Divider(),
+              buildShareQrCode(proxyUri),
             ]),
           ),
         ],
@@ -121,29 +125,17 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
             );
   }
 
-  Widget buildProxyProtocolTile(String protocol, ValueChanged<String> onChanged) {
-    return ListTile(
-      leading: const Icon(Icons.https),
-      title: i18n.proxy.protocol.text(),
-      subtitle: protocol.text(),
-      trailing: SegmentedButton<String>(
-        selected: {protocol},
-        segments: [
-          ButtonSegment(value: "http", label: "HTTP".text(), icon: const Icon(Icons.http)),
-          ButtonSegment(value: "https", label: "HTTPS".text(), icon: const Icon(Icons.https)),
-        ],
-        onSelectionChanged: (newSelection) {
-          onChanged(newSelection.first);
-        },
-      ),
-    );
-  }
-
   Widget buildProxyFullTile(Uri proxyUri, ValueChanged<Uri> onChanged) {
     return ListTile(
       leading: const Icon(Icons.link),
       title: i18n.proxy.title.text(),
       subtitle: proxyUri.toString().text(),
+      onLongPress: () async {
+        await Clipboard.setData(ClipboardData(text: proxyUri.toString()));
+        if (!mounted) return;
+        // TODO: i18n
+        context.showSnackBar("HTTP proxy is copied".text());
+      },
       trailing: IconButton(
         icon: const Icon(Icons.edit),
         onPressed: () async {
@@ -167,11 +159,35 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     );
   }
 
+  Widget buildProxyProtocolTile(String protocol, ValueChanged<String> onChanged) {
+    return ListTile(
+      leading: const Icon(Icons.https),
+      title: i18n.proxy.protocol.text(),
+      subtitle: protocol.text(),
+      trailing: SegmentedButton<String>(
+        selected: {protocol},
+        segments: [
+          ButtonSegment(value: "http", label: "HTTP".text(), icon: const Icon(Icons.http)),
+          ButtonSegment(value: "https", label: "HTTPS".text(), icon: const Icon(Icons.https)),
+        ],
+        onSelectionChanged: (newSelection) {
+          onChanged(newSelection.first);
+        },
+      ),
+    );
+  }
+
   Widget buildProxyHostnameTile(String hostname, ValueChanged<String> onChanged) {
     return ListTile(
       leading: const Icon(Icons.link),
       title: i18n.proxy.address.text(),
       subtitle: hostname.text(),
+      onLongPress: () async {
+        await Clipboard.setData(ClipboardData(text: hostname));
+        if (!mounted) return;
+        // TODO: i18n
+        context.showSnackBar("Hostname is copied".text());
+      },
       trailing: IconButton(
         icon: const Icon(Icons.edit),
         onPressed: () async {
@@ -191,6 +207,12 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
       leading: const Icon(Icons.settings_input_component_outlined),
       title: i18n.proxy.port.text(),
       subtitle: port.toString().text(),
+      onLongPress: () async {
+        await Clipboard.setData(ClipboardData(text: port.toString()));
+        if (!mounted) return;
+        // TODO: i18n
+        context.showSnackBar("Port is copied".text());
+      },
       trailing: IconButton(
         icon: const Icon(Icons.edit),
         onPressed: () async {
@@ -243,6 +265,26 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
           },
         ),
       ].wrap(),
+    );
+  }
+
+  Widget buildShareQrCode(Uri proxyUri) {
+    return ListTile(
+      leading: const Icon(Icons.qr_code),
+      title: i18n.proxy.shareQrCode.text(),
+      subtitle: i18n.proxy.shareQrCodeDesc.text(),
+      trailing: IconButton(
+        icon: const Icon(Icons.share),
+        onPressed: () async {
+          await context.navigator.push(
+            MaterialPageRoute(
+              builder: (ctx) => QrCodePage(
+                data: proxyUri.toString(),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

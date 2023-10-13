@@ -18,7 +18,7 @@ import 'package:sit/login/page/index.dart';
 import 'package:sit/main/index.dart';
 import 'package:sit/me/edu_email/page/inbox.dart';
 import 'package:sit/me/network_tool/page/index.dart';
-import 'package:sit/page/not_found.dart';
+import 'package:sit/widgets/not_found.dart';
 import 'package:sit/school/oa_announce/entity/announce.dart';
 import 'package:sit/school/oa_announce/page/details.dart';
 import 'package:sit/school/exam_arrange/page/index.dart';
