@@ -15,6 +15,7 @@ timetable:
     used: Used
     deleteRequest: Confirm to delete?
     deleteRequestDesc: You will lose this timetable permanently
+    emptyTip: Let's import a timetable!
   details:
     descFormTitle: Description
     nameFormTitle: Name
@@ -411,6 +412,9 @@ settings:
     port: Port
     username: Username
     password: Password
+    shareQrCode:
+      title: Share QR code
+      desc: share HTTP proxy as QR code
   language:
     title: Language
   testConnect2School:

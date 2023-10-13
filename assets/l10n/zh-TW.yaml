@@ -414,6 +414,9 @@ settings:
     port: 連接埠
     username: 使用者名稱
     password: 密碼
+    shareQrCode:
+      title: 分享 QR 碼
+      desc: 使用 QR 碼分享 HTTP 代理
   language:
     title: 語言
   testConnect2School:

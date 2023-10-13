@@ -6,6 +6,7 @@ import 'package:sit/me/edu_email/index.dart';
 import 'package:sit/me/network_tool/index.dart';
 import 'package:sit/me/widgets/greeting.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/qrcode/handle.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import "i18n.dart";
 
@@ -90,7 +91,14 @@ class _MePageState extends State<MePage> {
     return IconButton(
       onPressed: () async {
         final res = await context.push("/tools/scanner");
-        if (!mounted) return;
+        if (res is String) {
+          if (!mounted) return;
+          final result = await onHandleQrCodeData(context: context, data: res);
+          if (result == QrCodeHandleResult.success) {
+            return;
+          }
+        }
+        if(!mounted) return;
         // TODO: QR Code
         await context.showTip(title: "Result", desc: res.toString(), ok: i18n.ok);
       },

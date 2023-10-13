@@ -2,14 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/global/init.dart';
 import 'package:sit/qrcode/page.dart';
+import 'package:sit/qrcode/protocol.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
+
+const _qrCode = HttpProxyQrCode();
 
 class ProxySettingsPage extends StatefulWidget {
   const ProxySettingsPage({
@@ -96,15 +100,9 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
   }
 
   Future<void> setNewAddress(String newAddress) async {
-    final old = Settings.httpProxy.address;
-    if (old != newAddress) {
-      Settings.httpProxy.address = newAddress;
-      // TODO: subscribe the proxy changes instead of directly calling init.
-      // Only when proxy is enabled, it calls init.
-      if (Settings.httpProxy.enableHttpProxy) {
-        await Init.init();
-      }
-    }
+    await _setHttpProxy(newAddress);
+    if (!mounted) return;
+    context.showSnackBar("HTTP proxy was changed".text());
   }
 
   Widget buildEnableProxyToggle() {
@@ -115,7 +113,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
               leading: const Icon(Icons.vpn_key),
               trailing: Switch.adaptive(
                 value: Settings.httpProxy.enableHttpProxy,
-                onChanged: validateHttpProxy(Settings.httpProxy.address)
+                onChanged: _validateHttpProxy(Settings.httpProxy.address)
                     ? (newV) async {
                         Settings.httpProxy.enableHttpProxy = newV;
                         await Init.init();
@@ -276,10 +274,11 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
       trailing: IconButton(
         icon: const Icon(Icons.share),
         onPressed: () async {
+          final qrCodeData = _qrCode.encode(proxyUri);
           await context.navigator.push(
             MaterialPageRoute(
               builder: (ctx) => QrCodePage(
-                data: proxyUri.toString(),
+                data: qrCodeData.toString(),
               ),
             ),
           );
@@ -289,7 +288,29 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
   }
 }
 
-bool validateHttpProxy(String? proxy) {
+bool _validateHttpProxy(String? proxy) {
   if (proxy == null) return false;
   return proxy.isNotEmpty;
+}
+
+Future<void> _setHttpProxy(String newAddress) async {
+  final old = Settings.httpProxy.address;
+  if (old != newAddress) {
+    Settings.httpProxy.address = newAddress;
+    // TODO: subscribe the proxy changes instead of directly calling init.
+    // Only when proxy is enabled, it calls init.
+    if (Settings.httpProxy.enableHttpProxy) {
+      await Init.init();
+    }
+  }
+}
+
+Future<void> onHttpProxyFromQrCode({
+  required BuildContext context,
+  required Uri httpProxy,
+}) async {
+  await _setHttpProxy(httpProxy.toString());
+  if (!context.mounted) return;
+  context.showSnackBar("HTTP proxy was changed from QR code".text());
+  context.push("/settings/proxy");
 }

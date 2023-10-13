@@ -412,6 +412,9 @@ settings:
     port: 端口
     username: 用户名
     password: 密码
+    shareQrCode:
+      title: 分享二维码
+      desc: 将 HTTP 代理通过二维码分享
   language:
     title: 语言
   testConnect2School:
