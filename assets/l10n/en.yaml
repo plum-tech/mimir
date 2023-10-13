@@ -444,6 +444,8 @@ greeting:
   headerB:
     one: 1 Day
     other: "{} Days"
+qrCode:
+  hint: Please navigate to Me {me} on the bottom of page, and click the Scanner {scan} on the right corner
 weekday:
   0: Monday
   1: Tuesday
