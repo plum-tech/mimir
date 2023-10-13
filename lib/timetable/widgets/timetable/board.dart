@@ -6,7 +6,6 @@ import '../../entity/pos.dart';
 import '../../entity/timetable.dart';
 import 'daily.dart';
 import 'weekly.dart';
-import 'weekly.screenshot.dart';
 
 class TimetableBoard extends StatelessWidget {
   final SitTimetableEntity timetable;

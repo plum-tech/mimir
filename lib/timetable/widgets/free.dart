@@ -9,7 +9,7 @@ import '../events.dart';
 import '../i18n.dart';
 
 class FreeDayTip extends StatelessWidget {
-  final TimetablePos todayPos;
+  final TimetablePos? todayPos;
   final SitTimetableEntity timetable;
   final int weekIndex;
   final int dayIndex;
@@ -17,14 +17,14 @@ class FreeDayTip extends StatelessWidget {
   const FreeDayTip({
     super.key,
     required this.timetable,
-    required this.todayPos,
+    this.todayPos,
     required this.weekIndex,
     required this.dayIndex,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isToday = todayPos.weekIndex == weekIndex && todayPos.dayIndex == dayIndex;
+    final isToday = todayPos?.weekIndex == weekIndex && todayPos?.dayIndex == dayIndex;
     final String desc;
     if (isToday) {
       desc = i18n.freeTip.isTodayTip;
@@ -81,13 +81,13 @@ class FreeDayTip extends StatelessWidget {
 }
 
 class FreeWeekTip extends StatelessWidget {
-  final TimetablePos todayPos;
+  final TimetablePos? todayPos;
   final SitTimetableEntity timetable;
   final int weekIndex;
 
   const FreeWeekTip({
     super.key,
-    required this.todayPos,
+    this.todayPos,
     required this.timetable,
     required this.weekIndex,
   });
@@ -95,7 +95,7 @@ class FreeWeekTip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String desc;
-    if (todayPos.weekIndex == weekIndex) {
+    if (todayPos?.weekIndex == weekIndex) {
       desc = i18n.freeTip.isThisWeekTip;
     } else {
       desc = i18n.freeTip.weekTip;

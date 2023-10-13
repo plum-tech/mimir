@@ -80,7 +80,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
       itemCount: 20,
       itemBuilder: (ctx, weekIndex) {
         final todayPos = timetable.type.locate(DateTime.now());
-        return TimetableOneWeekPage(
+        return TimetableOneWeekCached(
           timetable: timetable,
           todayPos: todayPos,
           weekIndex: weekIndex,
@@ -104,12 +104,12 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   }
 }
 
-class TimetableOneWeekPage extends StatefulWidget {
+class TimetableOneWeekCached extends StatefulWidget {
   final SitTimetableEntity timetable;
   final TimetablePos todayPos;
   final int weekIndex;
 
-  const TimetableOneWeekPage({
+  const TimetableOneWeekCached({
     super.key,
     required this.timetable,
     required this.todayPos,
@@ -117,14 +117,15 @@ class TimetableOneWeekPage extends StatefulWidget {
   });
 
   @override
-  State<TimetableOneWeekPage> createState() => _TimetableOneWeekPageState();
+  State<TimetableOneWeekCached> createState() => _TimetableOneWeekCachedState();
 }
 
-class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with AutomaticKeepAliveClientMixin {
-  SitTimetableEntity get timetable => widget.timetable;
-
+class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with AutomaticKeepAliveClientMixin {
   /// Cache the who page to avoid expensive rebuilding.
   Widget? _cached;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void didChangeDependencies() {
@@ -133,7 +134,7 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
   }
 
   @override
-  void didUpdateWidget(covariant TimetableOneWeekPage oldWidget) {
+  void didUpdateWidget(covariant TimetableOneWeekCached oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.timetable != oldWidget.timetable) {
       _cached = null;
@@ -149,10 +150,14 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
     } else {
       final res = LayoutBuilder(
         builder: (context, box) {
-          return buildPage(
-            context,
-            fullSize: Size(box.maxWidth, box.maxHeight),
-          );
+          return TimetableOneWeek(
+            fullSize: Size(box.maxWidth, box.maxHeight * 1.2),
+            timetable: widget.timetable,
+            todayPos: widget.todayPos,
+            weekIndex: widget.weekIndex,
+            showFreeTip: true,
+            cellBuilder: buildCell,
+          ).scrolled();
         },
       );
       _cached = res;
@@ -160,35 +165,67 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
     }
   }
 
-  @override
-  bool get wantKeepAlive => true;
-
-  Widget buildPage(
-    BuildContext ctx, {
-    required Size fullSize,
+  Widget buildCell({
+    required BuildContext context,
+    required SitTimetableLesson lesson,
+    required SitCourse course,
+    required SitTimetableEntity timetable,
   }) {
-    fullSize = Size(fullSize.width, fullSize.height * 1.2);
+    return InteractiveCourseCell(
+      lesson: lesson,
+      timetable: timetable,
+      course: course,
+    );
+  }
+}
+
+class TimetableOneWeek extends StatelessWidget {
+  final SitTimetableEntity timetable;
+  final TimetablePos? todayPos;
+  final int weekIndex;
+  final Size fullSize;
+  final bool showFreeTip;
+  final Widget Function({
+    required BuildContext context,
+    required SitTimetableLesson lesson,
+    required SitCourse course,
+    required SitTimetableEntity timetable,
+  }) cellBuilder;
+
+  const TimetableOneWeek({
+    super.key,
+    required this.timetable,
+    required this.weekIndex,
+    required this.fullSize,
+    required this.cellBuilder,
+    this.todayPos,
+    this.showFreeTip = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     final cellSize = Size(fullSize.width / 7.62, fullSize.height / 11);
-    final weekIndex = widget.weekIndex;
     final timetableWeek = timetable.weeks[weekIndex];
 
     final view = buildSingleWeekView(
       timetableWeek,
+      context: context,
       cellSize: cellSize,
       fullSize: fullSize,
     );
-    if (timetableWeek.isFree()) {
+    if (showFreeTip && timetableWeek.isFree()) {
       // free week
       return [
         view,
         FreeWeekTip(
-          todayPos: widget.todayPos,
+          todayPos: todayPos,
           timetable: timetable,
           weekIndex: weekIndex,
         ).padOnly(t: fullSize.height * 0.2),
-      ].stack().scrolled();
+      ].stack();
+    } else {
+      return view;
     }
-    return view.scrolled();
   }
 
   /// 布局左侧边栏, 显示节次
@@ -216,6 +253,7 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
 
   Widget buildSingleWeekView(
     SitTimetableWeek timetableWeek, {
+    required BuildContext context,
     required Size cellSize,
     required Size fullSize,
   }) {
@@ -242,7 +280,7 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
           border: Border(bottom: getBorderSide(context)),
         ),
         child: HeaderCellTextBox(
-          weekIndex: widget.weekIndex,
+          weekIndex: weekIndex,
           dayIndex: day.index,
           startDate: timetable.type.startDate,
         ),
@@ -262,17 +300,15 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
 
         /// TODO: Range checking
         final course = firstLayerLesson.course;
-        final cell = CourseCell(
-          lesson: firstLayerLesson,
-          timetable: timetable,
-          course: course,
-          cellSize: cellSize,
-        );
-
         cells.add(SizedBox(
           width: cellSize.width,
           height: cellSize.height * firstLayerLesson.duration,
-          child: cell,
+          child: cellBuilder(
+            context: context,
+            lesson: firstLayerLesson,
+            timetable: timetable,
+            course: course,
+          ),
         ));
 
         /// Skip to the end
@@ -284,61 +320,79 @@ class _TimetableOneWeekPageState extends State<TimetableOneWeekPage> with Automa
   }
 }
 
-class CourseCell extends StatefulWidget {
+class InteractiveCourseCell extends StatefulWidget {
   final SitTimetableLesson lesson;
   final SitCourse course;
   final SitTimetableEntity timetable;
-  final Size cellSize;
+
+  const InteractiveCourseCell({
+    super.key,
+    required this.lesson,
+    required this.timetable,
+    required this.course,
+  });
+
+  @override
+  State<InteractiveCourseCell> createState() => _InteractiveCourseCellState();
+}
+
+class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
+  final $tooltip = GlobalKey<TooltipState>(debugLabel: "tooltip");
+
+  @override
+  Widget build(BuildContext context) {
+    return CourseCell(
+      lesson: widget.lesson,
+      timetable: widget.timetable,
+      course: widget.course,
+      builder: (ctx, child) => InkWell(
+        onTap: () async {
+          $tooltip.currentState?.ensureTooltipVisible();
+        },
+        onLongPress: () async {
+          await HapticFeedback.lightImpact();
+          if (!mounted) return;
+          await context.show$Sheet$(
+            (ctx) => TimetableCourseSheet(courseCode: widget.course.courseCode, timetable: widget.timetable),
+          );
+        },
+        child: child,
+      ),
+    );
+  }
+}
+
+class CourseCell extends StatelessWidget {
+  final SitTimetableLesson lesson;
+  final SitCourse course;
+  final SitTimetableEntity timetable;
+  final Widget Function(BuildContext context, Widget child)? builder;
 
   const CourseCell({
     super.key,
     required this.lesson,
     required this.timetable,
     required this.course,
-    required this.cellSize,
+    this.builder,
   });
 
   @override
-  State<CourseCell> createState() => _CourseCellState();
-}
-
-class _CourseCellState extends State<CourseCell> {
-  final $tooltip = GlobalKey<TooltipState>(debugLabel: "tooltip");
-
-  @override
   Widget build(BuildContext context) {
+    final builder = this.builder;
     final color = TimetableStyle.of(context)
         .platte
-        .resolveColor(widget.course)
+        .resolveColor(course)
         .byTheme(context.theme)
         .harmonizeWith(context.colorScheme.primary);
-    final lessons = widget.course.calcBeginEndTimePointForEachLesson();
-    return Tooltip(
-      key: $tooltip,
-      preferBelow: false,
-      triggerMode: TooltipTriggerMode.manual,
-      message: lessons.map((time) => "${time.begin.toStringPrefixed0()}–${time.end.toStringPrefixed0()}").join("\n"),
-      child: FilledCard(
-        clip: Clip.hardEdge,
-        color: color,
-        margin: EdgeInsets.all(0.5.w),
-        child: InkWell(
-          onTap: () async {
-            $tooltip.currentState?.ensureTooltipVisible();
-          },
-          onLongPress: () async {
-            await HapticFeedback.lightImpact();
-            if (!mounted) return;
-            await context.show$Sheet$(
-              (ctx) => TimetableCourseSheet(courseCode: widget.course.courseCode, timetable: widget.timetable),
-            );
-          },
-          child: TimetableSlotInfo(
-            course: widget.course,
-            maxLines: context.isPortrait ? 8 : 5,
-          ).center(),
-        ),
-      ),
+    final info = TimetableSlotInfo(
+      course: course,
+      maxLines: context.isPortrait ? 8 : 5,
+    ).center();
+    return FilledCard(
+      clip: Clip.hardEdge,
+      color: color,
+      margin: EdgeInsets.all(0.5.w),
+      child: builder != null ? builder(context, info) : info,
     );
   }
 }

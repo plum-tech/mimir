@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/timetable/entity/timetable.dart';
 import "../i18n.dart";
+import '../widgets/timetable/weekly.dart';
 
 typedef TimetableScreenshotConfig = ({
   String signature,
@@ -71,5 +72,48 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
         ),
       ),
     );
+  }
+}
+
+class TimetableWeeklyScreenshotFilm extends StatelessWidget {
+  final TimetableScreenshotConfig config;
+  final SitTimetableEntity timetable;
+  final int weekIndex;
+  final Size fullSize;
+
+  const TimetableWeeklyScreenshotFilm({
+    super.key,
+    required this.timetable,
+    required this.weekIndex,
+    required this.fullSize,
+    required this.config,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      buildTitle().text(style: context.textTheme.titleLarge).padSymmetric(v: 10),
+      TimetableOneWeek(
+        fullSize: fullSize,
+        timetable: timetable,
+        weekIndex: weekIndex,
+        cellBuilder: ({required context, required lesson, required course, required timetable}) {
+          return CourseCell(
+            lesson: lesson,
+            timetable: timetable,
+            course: course,
+          );
+        },
+      ),
+    ].column();
+  }
+
+  String buildTitle() {
+    final week = i18n.weekOrderedName(number: weekIndex + 1);
+    final signature = config.signature;
+    if (signature.isNotEmpty) {
+      return "$signature $week";
+    }
+    return week;
   }
 }

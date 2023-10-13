@@ -21,7 +21,6 @@ import '../init.dart';
 import '../entity/pos.dart';
 import '../widgets/style.dart';
 import '../widgets/timetable/board.dart';
-import '../widgets/timetable/weekly.screenshot.dart';
 
 class TimetableBoardPage extends StatefulWidget {
   final SitTimetableEntity timetable;
