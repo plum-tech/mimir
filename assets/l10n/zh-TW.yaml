@@ -405,9 +405,6 @@ settings:
   proxy:
     title: HTTP 代理
     desc: 代理校園網路連線
-    enableProxy:
-      title: 啟用 HTTP 代理
-      desc: 代理你的 HTTP 請求
     authentication: 驗證
     protocol: 通訊協定
     hostname: 主機名稱
@@ -417,15 +414,18 @@ settings:
     shareQrCode:
       title: 分享 QR 碼
       desc: 使用 QR 碼分享 HTTP 代理
+    enableProxy:
+      title: 啟用 HTTP 代理
+      desc: 代理你的 HTTP 請求
+    testConnection:
+      title: 測試連線
+      desc: 測試與校園網路的連線情況
     copyTip:
       full: HTTP 代理被複製到剪貼板了
       hostname: 主機名稱被複製到剪貼板了
       port: 連接埠被複製到剪貼板了
   language:
     title: 語言
-  testConnect2School:
-    title: 測試連線校園網路
-    desc: 檢查本裝置與校園網路的連線情況
   wipeData:
     title: 擦除資料 & 登出
     desc: 擦除帳戶並登出當前 OA 賬戶

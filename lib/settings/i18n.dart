@@ -20,7 +20,6 @@ class _I18n with CommonI18nMixin {
   final timetable = const _Timetable();
   final school = const _School();
   final life = const _Life();
-  final testConnect2School = const _TestConnect2School();
   final wipeData = const _WipeData();
   static const ns = "settings";
 
@@ -98,13 +97,17 @@ class _Proxy {
 
   String get desc => "$ns.desc".tr();
 
-  String get enableProxyTitle => "$ns.enableProxy.title".tr();
+  String get enableProxy => "$ns.enableProxy.title".tr();
 
   String get enableProxyDesc => "$ns.enableProxy.desc".tr();
 
   String get shareQrCode => "$ns.shareQrCode.title".tr();
 
   String get shareQrCodeDesc => "$ns.shareQrCode.desc".tr();
+
+  String get testConnection => "$ns.testConnection.title".tr();
+
+  String get testConnectionDesc => "$ns.testConnection.desc".tr();
 
   String get protocol => "$ns.protocol".tr();
 
@@ -229,16 +232,6 @@ class _DevOptions {
   String get detailedXcpDialogTitle => "$ns.detailedXcpDialog.title".tr();
 
   String get detailedXcpDialogDesc => "$ns.detailedXcpDialog.desc".tr();
-}
-
-class _TestConnect2School {
-  const _TestConnect2School();
-
-  static const ns = "${_I18n.ns}.testConnect2School";
-
-  String get title => "$ns.title".tr();
-
-  String get desc => "$ns.desc".tr();
 }
 
 class _WipeData {

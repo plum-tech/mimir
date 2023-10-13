@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
+import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/global/global.dart';
 import 'package:sit/global/init.dart';
 import 'package:sit/qrcode/page.dart';
 import 'package:sit/qrcode/protocol.dart';
@@ -24,8 +26,16 @@ class ProxySettingsPage extends StatefulWidget {
   State<ProxySettingsPage> createState() => _ProxySettingsPageState();
 }
 
+enum _TestConnectionState {
+  notStart,
+  testing,
+  failed,
+  success,
+}
+
 class _ProxySettingsPageState extends State<ProxySettingsPage> {
   late final StreamSubscription<BoxEvent> $address;
+  var testState = _TestConnectionState.notStart;
 
   @override
   void initState() {
@@ -91,6 +101,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                 }
               }),
               const Divider(),
+              buildTestConnection(),
               buildShareQrCode(proxyUri),
             ]),
           ),
@@ -108,7 +119,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
   Widget buildEnableProxyToggle() {
     return Settings.httpProxy.listenEnableHttpProxy() >>
         (ctx, _) => ListTile(
-              title: i18n.proxy.enableProxyTitle.text(),
+              title: i18n.proxy.enableProxy.text(),
               subtitle: i18n.proxy.enableProxyDesc.text(),
               leading: const Icon(Icons.vpn_key),
               trailing: Switch.adaptive(
@@ -289,6 +300,38 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
           );
         },
       ),
+    );
+  }
+
+  Widget buildTestConnection() {
+    return ListTile(
+      leading: const Icon(Icons.network_check),
+      title: i18n.proxy.testConnection.text(),
+      subtitle: i18n.proxy.testConnectionDesc.text(),
+      trailing: switch (testState) {
+        _TestConnectionState.testing => const CircularProgressIndicator(),
+        _TestConnectionState.success => const Icon(Icons.check, color: Colors.green),
+        _TestConnectionState.failed => Icon(Icons.public_off_rounded, color: context.$red$),
+        _ => null,
+      },
+      onTap: () async {
+        setState(() {
+          testState = _TestConnectionState.testing;
+        });
+        final bool connected;
+        try {
+          connected = await Global.ssoSession.checkConnectivity();
+          if (!mounted) return;
+          setState(() {
+            testState = connected ? _TestConnectionState.success : _TestConnectionState.failed;
+          });
+        } catch (error) {
+          if (!mounted) return;
+          setState(() {
+            testState = _TestConnectionState.failed;
+          });
+        }
+      },
     );
   }
 }

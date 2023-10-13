@@ -137,11 +137,11 @@ class _CredentialsPageState extends State<CredentialsPage> {
       title: i18n.credentials.testLoginOa.text(),
       subtitle: i18n.credentials.testLoginOaDesc.text(),
       leading: const Icon(Icons.login),
-      trailing: loggingState == _TestLoginState.loggingIn
-          ? const CircularProgressIndicator()
-          : loggingState == _TestLoginState.success
-              ? const Icon(Icons.check, color: Colors.green)
-              : null,
+      trailing: switch (loggingState) {
+        _TestLoginState.loggingIn => const CircularProgressIndicator(),
+        _TestLoginState.success => const Icon(Icons.check, color: Colors.green),
+        _ => null,
+      },
       onTap: loggingState == _TestLoginState.loggingIn
           ? null
           : () async {
