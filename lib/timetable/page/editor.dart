@@ -7,16 +7,16 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/timetable.dart';
 import '../i18n.dart';
 
-class TimetableMetaEditor extends StatefulWidget {
+class TimetableEditor extends StatefulWidget {
   final SitTimetable timetable;
 
-  const TimetableMetaEditor({super.key, required this.timetable});
+  const TimetableEditor({super.key, required this.timetable});
 
   @override
-  State<TimetableMetaEditor> createState() => _TimetableMetaEditorState();
+  State<TimetableEditor> createState() => _TimetableEditorState();
 }
 
-class _TimetableMetaEditorState extends State<TimetableMetaEditor> {
+class _TimetableEditorState extends State<TimetableEditor> {
   final GlobalKey _formKey = GlobalKey<FormState>();
   late final _nameController = TextEditingController(text: widget.timetable.name);
   late final ValueNotifier<DateTime> $selectedDate = ValueNotifier(widget.timetable.startDate);

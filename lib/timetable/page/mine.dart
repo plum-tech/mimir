@@ -16,7 +16,7 @@ import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
 import '../utils.dart';
-import '../widgets/meta_editor.dart';
+import 'editor.dart';
 
 class MyTimetableListPage extends StatefulWidget {
   const MyTimetableListPage({super.key});
@@ -277,7 +277,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
 
   Future<void> onEdit(int id, SitTimetable timetable) async {
     final newTimetable = await context.show$Sheet$<SitTimetable>(
-      (ctx) => TimetableMetaEditor(timetable: timetable),
+      (ctx) => TimetableEditor(timetable: timetable),
     );
     if (newTimetable != null) {
       storage.timetable.setOf(id, newTimetable);
