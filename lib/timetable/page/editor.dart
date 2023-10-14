@@ -17,12 +17,12 @@ class TimetableEditor extends StatefulWidget {
 }
 
 class _TimetableEditorState extends State<TimetableEditor> {
-  final GlobalKey _formKey = GlobalKey<FormState>();
-  late final _nameController = TextEditingController(text: widget.timetable.name);
-  late final ValueNotifier<DateTime> $selectedDate = ValueNotifier(widget.timetable.startDate);
+  final _formKey = GlobalKey<FormState>();
+  late final $name = TextEditingController(text: widget.timetable.name);
+  late final $selectedDate = ValueNotifier(widget.timetable.startDate);
 
   @override
-  Widget build(BuildContext ctx) {
+  Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: CustomScrollView(
@@ -31,19 +31,11 @@ class _TimetableEditorState extends State<TimetableEditor> {
             floating: true,
             title: i18n.import.timetableInfo.text(),
             actions: [
-              CupertinoButton(
-                onPressed: () {
-                  ctx.pop(widget.timetable.copyWith(
-                    name: _nameController.text,
-                    startDate: $selectedDate.value,
-                  ));
-                },
-                child: i18n.save.text(),
-              ),
+              buildSaveAction(),
             ],
           ),
           SliverList.list(children: [
-            buildDescForm(ctx),
+            buildDescForm(),
             ListTile(
               leading: const Icon(Icons.alarm),
               title: i18n.startWith.text(),
@@ -63,16 +55,34 @@ class _TimetableEditorState extends State<TimetableEditor> {
     );
   }
 
-  Widget buildDescForm(BuildContext ctx) {
+  Widget buildSaveAction() {
+    return CupertinoButton(
+      onPressed: () {
+        context.pop(widget.timetable.copyWith(
+          name: $name.text,
+          startDate: $selectedDate.value,
+        ));
+      },
+      child: i18n.save.text(),
+    );
+  }
+
+  Widget buildDescForm() {
     return Form(
-        key: _formKey,
-        child: Column(children: [
+      key: _formKey,
+      child: Column(
+        children: [
           TextFormField(
-            controller: _nameController,
+            controller: $name,
             maxLines: 1,
-            decoration: InputDecoration(labelText: i18n.details.nameFormTitle, border: const OutlineInputBorder()),
+            decoration: InputDecoration(
+              labelText: i18n.details.nameFormTitle,
+              border: const OutlineInputBorder(),
+            ),
           ).padAll(10),
-        ]));
+        ],
+      ),
+    );
   }
 }
 
