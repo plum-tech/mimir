@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -344,7 +343,6 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
     final lessons = widget.course.calcBeginEndTimePointForEachLesson();
     return CourseCell(
       lesson: widget.lesson,
-      timetable: widget.timetable,
       course: widget.course,
       builder: (ctx, child) => Tooltip(
         key: $tooltip,
@@ -373,13 +371,11 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
 class CourseCell extends StatelessWidget {
   final SitTimetableLesson lesson;
   final SitCourse course;
-  final SitTimetableEntity timetable;
   final Widget Function(BuildContext context, Widget child)? builder;
 
   const CourseCell({
     super.key,
     required this.lesson,
-    required this.timetable,
     required this.course,
     this.builder,
   });

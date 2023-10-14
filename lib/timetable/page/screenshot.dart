@@ -100,7 +100,6 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
         cellBuilder: ({required context, required lesson, required course, required timetable}) {
           return CourseCell(
             lesson: lesson,
-            timetable: timetable,
             course: course,
           );
         },
