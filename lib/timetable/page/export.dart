@@ -75,20 +75,20 @@ class _TimetableExportCalendarConfigEditorState extends State<TimetableExportCal
     );
   }
 
-  Widget buildExportAction(){
+  Widget buildExportAction() {
     return CupertinoButton(
       child: i18n.export.export.text(),
       onPressed: () async {
         context.pop<TimetableExportCalendarConfig>((
-        alarm: $enableAlarm.value
-            ? (
-        alarmBeforeClass: $alarmBeforeClass.value,
-        alarmDuration: $alarmDuration.value,
-        isSoundAlarm: $isSoundAlarm.value,
-        )
-            : null,
-        locale: context.locale,
-        isLessonMerged: $merged.value,
+          alarm: $enableAlarm.value
+              ? (
+                  alarmBeforeClass: $alarmBeforeClass.value,
+                  alarmDuration: $alarmDuration.value,
+                  isSoundAlarm: $isSoundAlarm.value,
+                )
+              : null,
+          locale: context.locale,
+          isLessonMerged: $merged.value,
         ));
       },
     );

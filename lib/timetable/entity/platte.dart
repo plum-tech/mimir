@@ -10,23 +10,28 @@ int _colorToJson(Color color) => color.value;
 
 Color _colorFromJson(int value) => Color(value);
 
-@JsonSerializable()
-class Color2Mode {
-  final String? name;
-  @JsonKey(toJson: _colorToJson, fromJson: _colorFromJson)
-  final Color light;
-  @JsonKey(toJson: _colorToJson, fromJson: _colorFromJson)
-  final Color dark;
+typedef Color2Mode = ({Color light, Color dark});
 
-  const Color2Mode({
-    this.name,
-    required this.light,
-    required this.dark,
-  });
+Color2Mode _color2ModeFromJson(Map json) {
+  return (
+    light: _colorFromJson(json["light"]),
+    dark: _colorFromJson(json["dark"]),
+  );
+}
 
-  factory Color2Mode.fromJson(Map<String, dynamic> json) => _$Color2ModeFromJson(json);
+Map _color2ModeToJson(Color2Mode colors) {
+  return {
+    "light": _colorToJson(colors.light),
+    "dark": _colorToJson(colors.dark),
+  };
+}
 
-  Map<String, dynamic> toJson() => _$Color2ModeToJson(this);
+List<Color2Mode> _colorsFromJson(List json) {
+  return json.map((entry) => _color2ModeFromJson(entry)).toList();
+}
+
+List _colorsToJson(List<Color2Mode> colors) {
+  return colors.map((entry) => _color2ModeToJson(entry)).toList();
 }
 
 abstract interface class ITimetablePalette {
@@ -41,7 +46,7 @@ class TimetablePalette implements ITimetablePalette {
   @JsonKey()
   final String name;
   @override
-  @JsonKey()
+  @JsonKey(fromJson: _colorsFromJson, toJson: _colorsToJson)
   final List<Color2Mode> colors;
 
   const TimetablePalette({

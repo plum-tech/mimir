@@ -30,7 +30,7 @@ class Class2ndInit {
       to: Class2ndActivityListStorage(box),
       expiration: const Duration(minutes: 30),
     );
-    activityDetailsService = Class2ndActivityDetailsService(session) ;
+    activityDetailsService = Class2ndActivityDetailsService(session);
     activityDetailsStorage = Class2ndActivityDetailsStorage(box);
     scoreStorage = Class2ndScoreStorage(box);
     scoreService = Class2ndScoreService(session);
