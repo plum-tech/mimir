@@ -350,6 +350,7 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
         key: $tooltip,
         preferBelow: false,
         triggerMode: TooltipTriggerMode.manual,
+        // TODO: don't prefix it with zero
         message: lessons.map((time) => "${time.begin.toStringPrefixed0()}–${time.end.toStringPrefixed0()}").join("\n"),
         child: InkWell(
           onTap: () async {
