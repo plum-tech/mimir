@@ -40,8 +40,8 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
       itemBuilder: (ctx, i) {
         final id = idList[i];
         final palette = TimetableInit.storage.palette[id];
-        assert(palette != null , "#$id palette not found.");
-        if(palette == null) return const SizedBox();
+        assert(palette != null, "#$id palette not found.");
+        if (palette == null) return const SizedBox();
         return PaletteCard(palette: palette);
       },
     );
@@ -81,16 +81,31 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
 
 class PaletteCard extends StatelessWidget {
   final TimetablePalette palette;
+  final ({bool isSelected, void Function() onSelect})? selectable;
 
   const PaletteCard({
     super.key,
     required this.palette,
+    this.selectable,
   });
 
   @override
   Widget build(BuildContext context) {
+    final selectable = this.selectable;
     return ListTile(
       title: palette.name.text(),
+      trailing: selectable == null
+          ? null
+          : IconButton(
+              icon: selectable.isSelected
+                  ? const Icon(Icons.check_box_outlined)
+                  : const Icon(Icons.check_box_outline_blank),
+              onPressed: selectable.isSelected
+                  ? null
+                  : () {
+                      selectable.onSelect();
+                    },
+            ),
     );
   }
 

@@ -121,11 +121,11 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         timetable: timetable,
         moreAction: buildActionPopup(id, timetable, isSelected),
         actions: (
-          use: (id, timetable) {
+          use: () {
             storage.timetable.selectedId = id;
             setState(() {});
           },
-          preview: (id, timetable) {
+          preview: () {
             context.push("/timetable/preview/$id", extra: timetable);
           }
         ),
@@ -302,8 +302,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   }
 }
 
-typedef TimetableCallback = void Function(int id, SitTimetable tiemtable);
-typedef TimetableActions = ({TimetableCallback use, TimetableCallback preview});
+typedef TimetableActions = ({void Function() use, void Function() preview});
 
 class TimetableEntry extends StatelessWidget {
   final int id;
@@ -345,14 +344,14 @@ class TimetableEntry extends StatelessWidget {
               else
                 FilledButton(
                   onPressed: () {
-                    actions.use(id, timetable);
+                    actions.use();
                   },
                   child: i18n.mine.use.text(),
                 ),
               if (!isSelected)
                 OutlinedButton(
                   onPressed: () {
-                    actions.preview(id, timetable);
+                    actions.preview();
                   },
                   child: i18n.mine.preview.text(),
                 )
