@@ -280,7 +280,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       (ctx) => TimetableEditor(timetable: timetable),
     );
     if (newTimetable != null) {
-      storage.timetable.setOf(id, newTimetable);
+      storage.timetable[id] = newTimetable;
       if (!mounted) return;
       setState(() {});
     }

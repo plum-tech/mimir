@@ -55,10 +55,10 @@ class HiveTable<T> {
     if (id == null) {
       return null;
     }
-    return getOf(id);
+    return this[id];
   }
 
-  T? getOf(int id) {
+  T? operator [](int id) {
     final row = box.get("$_rowsK/$id");
     final useJson = this.useJson;
     if (useJson == null || row == null) {
@@ -68,7 +68,7 @@ class HiveTable<T> {
     }
   }
 
-  void setOf(int id, T? newValue) {
+  void operator []=(int id, T? newValue) {
     dynamic row = newValue;
     final useJson = this.useJson;
     if (useJson == null || row == null) {
@@ -90,7 +90,7 @@ class HiveTable<T> {
     final curId = lastId++;
     final ids = idList ?? <int>[];
     ids.add(curId);
-    setOf(curId, row);
+    this[curId] = row;
     idList = ids;
     return curId;
   }
@@ -129,7 +129,7 @@ class HiveTable<T> {
     final res = <({int id, T row})>[];
     if (ids == null) return res;
     for (final id in ids) {
-      final row = getOf(id);
+      final row = this[id];
       if (row != null) {
         res.add((id: id, row: row));
       }

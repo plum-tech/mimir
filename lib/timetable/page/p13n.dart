@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/timetable/entity/platte.dart';
+import 'package:sit/timetable/init.dart';
 
 class TimetableP13nPage extends StatefulWidget {
   const TimetableP13nPage({super.key});
@@ -18,6 +20,58 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
           SliverAppBar(
             floating: true,
             title: "Personalization".text(),
+          ),
+          SliverList.list(children: [
+            buildEditCellStyleTile(),
+          ]),
+          const SliverToBoxAdapter(
+            child: Divider(),
+          ),
+          buildPaletteList(),
+        ],
+      ),
+    );
+  }
+
+  Widget buildPaletteList() {
+    final idList = TimetableInit.storage.palette.idList ?? const [];
+    return SliverList.builder(
+      itemCount: idList.length,
+      itemBuilder: (ctx, i) {
+        final id = idList[i];
+        final palette = TimetableInit.storage.palette[id];
+        assert(palette != null , "#$id palette not found.");
+        if(palette == null) return const SizedBox();
+        return PaletteCard(palette: palette);
+      },
+    );
+  }
+
+  Widget buildEditCellStyleTile() {
+    return ListTile(
+      title: "Edit cell style".text(),
+      onTap: () async {
+        await context.show$Sheet$((ctx) => TimetableCellStyleEditor());
+      },
+    );
+  }
+}
+
+class TimetableCellStyleEditor extends StatefulWidget {
+  const TimetableCellStyleEditor({super.key});
+
+  @override
+  State<TimetableCellStyleEditor> createState() => _TimetableCellStyleEditorState();
+}
+
+class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: "Cell style".text(),
           ),
         ],
       ),

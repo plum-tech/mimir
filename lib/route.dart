@@ -106,7 +106,7 @@ final router = GoRouter(
                     if (extra is SitTimetable) return TimetablePreviewPage(timetable: extra);
                     final id = int.tryParse(state.pathParameters["id"] ?? "");
                     if (id == null) throw 404;
-                    final timetable = TimetableInit.storage.timetable.getOf(id);
+                    final timetable = TimetableInit.storage.timetable[id];
                     if (timetable == null) throw 404;
                     return TimetablePreviewPage(timetable: timetable);
                   },
