@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sit/design/widgets/card.dart';
@@ -169,7 +168,6 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
     if (!day.hasAnyLesson()) {
       return FreeDayTip(
         timetable: timetable,
-        todayPos: widget.todayPos,
         weekIndex: weekIndex,
         dayIndex: dayIndex,
       ).scrolled().center();

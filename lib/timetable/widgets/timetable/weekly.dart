@@ -78,10 +78,8 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
       scrollDirection: Axis.horizontal,
       itemCount: 20,
       itemBuilder: (ctx, weekIndex) {
-        final todayPos = timetable.type.locate(DateTime.now());
         return TimetableOneWeekCached(
           timetable: timetable,
-          todayPos: todayPos,
           weekIndex: weekIndex,
         );
       },
@@ -105,13 +103,11 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
 
 class TimetableOneWeekCached extends StatefulWidget {
   final SitTimetableEntity timetable;
-  final TimetablePos todayPos;
   final int weekIndex;
 
   const TimetableOneWeekCached({
     super.key,
     required this.timetable,
-    required this.todayPos,
     required this.weekIndex,
   });
 
@@ -152,7 +148,6 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
           return TimetableOneWeek(
             fullSize: Size(box.maxWidth, box.maxHeight * 1.2),
             timetable: widget.timetable,
-            todayPos: widget.todayPos,
             weekIndex: widget.weekIndex,
             showFreeTip: true,
             cellBuilder: buildCell,
@@ -180,7 +175,6 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
 
 class TimetableOneWeek extends StatelessWidget {
   final SitTimetableEntity timetable;
-  final TimetablePos? todayPos;
   final int weekIndex;
   final Size fullSize;
   final bool showFreeTip;
@@ -197,7 +191,6 @@ class TimetableOneWeek extends StatelessWidget {
     required this.weekIndex,
     required this.fullSize,
     required this.cellBuilder,
-    this.todayPos,
     this.showFreeTip = false,
   });
 
@@ -217,7 +210,6 @@ class TimetableOneWeek extends StatelessWidget {
       return [
         view,
         FreeWeekTip(
-          todayPos: todayPos,
           timetable: timetable,
           weekIndex: weekIndex,
         ).padOnly(t: fullSize.height * 0.2),
