@@ -40,7 +40,41 @@ class PaletteCard extends StatelessWidget {
     );
   }
 
-  Widget buildColor() {
-    return const Placeholder();
+  Widget buildColor(Color2Mode colors) {
+    return CustomPaint(
+      painter: DiagonalTwoColorsPainter((colors.light, colors.dark)),
+    );
+  }
+}
+
+class DiagonalTwoColorsPainter extends CustomPainter {
+  final (Color a, Color b) colors;
+
+  DiagonalTwoColorsPainter(this.colors);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint();
+
+    paint.color = colors.$1;
+    canvas.drawPath(
+      Path()
+        ..moveTo(0, size.height)
+        ..lineTo(size.width, 0),
+      paint,
+    );
+
+    paint.color = colors.$2;
+    canvas.drawPath(
+      Path()
+        ..moveTo(0, 0)
+        ..lineTo(size.width, size.height),
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }
