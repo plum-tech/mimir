@@ -87,8 +87,8 @@ timetable:
     findNearestDayWithClass: 找到有课的一天
   p13n:
     builtinPalette:
+      classic: Classic
       oldSchool: Old School
-      newUI: New UI
 school:
   navigation: 学校
   schoolYear: 学年

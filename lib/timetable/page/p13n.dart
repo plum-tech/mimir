@@ -42,7 +42,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
     if (customIdList != null) {
       allIds.addAll(customIdList);
     }
-    final selectedId = TimetableInit.storage.palette.selectedId ?? BuiltinTimetablePalettes.newUI.id;
+    final selectedId = TimetableInit.storage.palette.selectedId ?? BuiltinTimetablePalettes.classic.id;
     return SliverList.builder(
       itemCount: allIds.length,
       itemBuilder: (ctx, i) {
@@ -51,11 +51,13 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
         if (palette == null) return const SizedBox();
         return PaletteCard(
           palette: palette,
-          selectable: (
-            isSelected: selectedId == id,
-            onSelect: () {
+          isSelected: selectedId == id,
+          actions: (
+            use: () {
               TimetableInit.storage.palette.selectedId = id;
+              setState(() {});
             },
+            edit: () {}
           ),
         );
       },
@@ -97,50 +99,62 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
   }
 }
 
+typedef PaletteActions = ({void Function() use, void Function()? edit});
+
 class PaletteCard extends StatelessWidget {
   final TimetablePalette palette;
-  final ({bool isSelected, void Function() onSelect})? selectable;
-  final ({void Function() onEdit})? editable;
+  final bool isSelected;
+  final PaletteActions? actions;
 
   const PaletteCard({
     super.key,
     required this.palette,
-    this.selectable,
-    this.editable,
+    required this.isSelected,
+    this.actions,
   });
 
   @override
   Widget build(BuildContext context) {
-    final selectable = this.selectable;
-    final editable = this.editable;
-    final widget = ListTile(
-      title: palette.name.text(),
-      trailing: [
-        if (editable != null)
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: editable.onEdit,
-          ),
-        if (selectable != null)
-          IconButton(
-            icon: selectable.isSelected
-                ? const Icon(Icons.check_box_outlined)
-                : const Icon(Icons.check_box_outline_blank),
-            onPressed: selectable.isSelected
-                ? null
-                : () {
-                    selectable.onSelect();
+    final actions = this.actions;
+    final textTheme = context.textTheme;
+    final widget = [
+      palette.name.text(style: textTheme.titleLarge),
+      if (actions != null)
+        OverflowBar(
+          alignment: MainAxisAlignment.spaceBetween,
+          children: [
+            [
+              if (isSelected)
+                FilledButton.icon(
+                  icon: const Icon(Icons.check),
+                  onPressed: null,
+                  label: "Used".text(),
+                )
+              else
+                FilledButton(
+                  onPressed: () {
+                    actions.use();
                   },
-          ),
-      ].row(mas: MainAxisSize.min),
-    );
-    return selectable?.isSelected == true
+                  child: "Used".text(),
+                ),
+              if (actions.edit != null)
+                OutlinedButton(
+                  onPressed: () {
+                    actions.edit!.call();
+                  },
+                  child: "Edit".text(),
+                )
+            ].wrap(spacing: 12),
+          ],
+        ),
+    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15);
+    return isSelected
         ? widget.inFilledCard(
-      clip: Clip.hardEdge,
-    )
+            clip: Clip.hardEdge,
+          )
         : widget.inOutlinedCard(
-      clip: Clip.hardEdge,
-    );
+            clip: Clip.hardEdge,
+          );
   }
 
   Widget buildColor(Color2Mode colors) {

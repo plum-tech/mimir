@@ -87,8 +87,8 @@ timetable:
     findNearestDayWithClass: Find a day with class
   p13n:
     builtinPalette:
+      classic: Classic
       oldSchool: Old School
-      newUI: New UI
 school:
   navigation: School
   schoolYear: School year

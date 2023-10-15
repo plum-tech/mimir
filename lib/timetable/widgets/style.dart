@@ -32,7 +32,9 @@ extension DesignExtension on BuildContext {
 class TimetableStyleData {
   final TimetablePalette platte;
 
-  const TimetableStyleData(this.platte);
+  const TimetableStyleData({
+    required this.platte,
+  });
 
   @override
   // ignore: hash_and_equals
@@ -74,12 +76,36 @@ class TimetableStyleProv extends StatefulWidget {
 }
 
 class TimetableStyleProvState extends State<TimetableStyleProv> {
+  TimetablePalette _selected = BuiltinTimetablePalettes.classic;
+  final $selected = TimetableInit.storage.palette.$selected;
+
+  @override
+  void initState() {
+    super.initState();
+    $selected.addListener(refresh);
+  }
+
+  @override
+  void dispose() {
+    $selected.removeListener(refresh);
+    super.dispose();
+  }
+
+  void refresh() {
+    final current = TimetableInit.storage.palette.selectedRow;
+    if (!mounted) return;
+    if (current != null) {
+      setState(() {
+        _selected = current;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return TimetableStyle(
       data: TimetableStyleData(
-        // TODO: Custom color palette
-        BuiltinTimetablePalettes.newUI,
+        platte: _selected,
       ),
       child: buildChild(),
     );

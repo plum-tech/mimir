@@ -117,8 +117,8 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   Widget buildTimetableEntry(int id, SitTimetable timetable, bool isSelected) {
     if (!isCupertino) {
       return TimetableEntry(
-        id: id,
         timetable: timetable,
+        isSelected: TimetableInit.storage.timetable.selectedId == id,
         moreAction: buildActionPopup(id, timetable, isSelected),
         actions: (
           use: () {
@@ -194,7 +194,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         ],
         builder: (ctx, animation) {
           return TimetableEntry(
-            id: id,
+            isSelected: TimetableInit.storage.timetable.selectedId == id,
             timetable: timetable,
             moreAction: animation.value > 0.5
                 ? null
@@ -305,22 +305,21 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
 typedef TimetableActions = ({void Function() use, void Function() preview});
 
 class TimetableEntry extends StatelessWidget {
-  final int id;
   final SitTimetable timetable;
   final Widget? moreAction;
   final TimetableActions? actions;
+  final bool isSelected;
 
   const TimetableEntry({
     super.key,
-    required this.id,
     required this.timetable,
     this.actions,
     this.moreAction,
+    required this.isSelected,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isSelected = TimetableInit.storage.timetable.selectedId == id;
     final year = '${timetable.schoolYear}–${timetable.schoolYear + 1}';
     final semester = timetable.semester.localized();
     final textTheme = context.textTheme;
