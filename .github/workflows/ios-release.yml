@@ -22,7 +22,7 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git add .
         git commit -m "Update build number"
-        
+
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
@@ -71,11 +71,18 @@ jobs:
     - name: Export ipa
       run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
 
-#    - name: Publish iOS Artifacts
-#      uses: actions/upload-artifact@v1
-#      with:
-#        name: release-ios
-#        path: build-output/ios
+    - name: Publish iOS Artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: release-ios
+        path: build-output/ios
+      run: |
+        # 显示当前目录
+        pwd
+        # 显示当前目录下所有文件
+        ls -al
+        # 显示github.workspace
+        echo ${{ github.workspace }}
 
     - name: Deploy to App Store (Testflight)
       uses: apple-actions/upload-testflight-build@v1
