@@ -21,7 +21,12 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git add .
         git commit -m "Update build number"
-        git push
+        
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
 
     - name: Change Develop to Distribution
       run: |
