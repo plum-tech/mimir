@@ -76,6 +76,8 @@ jobs:
       with:
         name: release-ios
         path: build-output/ios
+
+    - name: Show files(test)
       run: |
         # 显示当前目录
         pwd
