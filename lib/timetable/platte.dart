@@ -5,7 +5,7 @@ import 'entity/timetable.dart';
 
 /// https://m3.material.io/theme-builder#/custom
 class BuiltinTimetablePalettes {
-  static const oldSchool = BuiltinTimetablePalette(id: -1, colors: [
+  static const oldSchool = BuiltinTimetablePalette(id: -1, key: "oldSchool", colors: [
     (light: Color(0xB2FB5352), dark: Color(0xB2F4534B)),
     (light: Color(0x99737BFA), dark: Color(0xB2646EDC)),
     (light: Color(0xB274B9FF), dark: Color(0xB25A87C8)),
@@ -17,7 +17,7 @@ class BuiltinTimetablePalettes {
     (light: Color(0xB274B9FF), dark: Color(0xB23855C8)),
   ]);
 
-  static const newUI = BuiltinTimetablePalette(id: -2, colors: [
+  static const newUI = BuiltinTimetablePalette(id: -2, key: "newUI", colors: [
     (light: Color(0xD285e779), dark: Color(0xDF21520f)), // green
     (light: Color(0xD2c3e8ff), dark: Color(0xDF004c68)), // sky
     (light: Color(0xD2ffa6bb), dark: Color(0xDF8e2f56)), // pink
@@ -38,7 +38,7 @@ class BuiltinTimetablePalettes {
 }
 
 extension TimetablePlatteX on TimetablePalette {
-  resolveColor(SitCourse course) {
+  Color2Mode resolveColor(SitCourse course) {
     return colors[course.courseCode.hashCode.abs() % colors.length];
   }
 }

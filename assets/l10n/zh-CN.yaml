@@ -85,6 +85,10 @@ timetable:
     termTip: 不可思议，这个学期你都在放假！
     findNearestWeekWithClass: 找到有课的一周
     findNearestDayWithClass: 找到有课的一天
+  p13n:
+    builtinPalette:
+      oldSchool: Old School
+      newUI: New UI
 school:
   navigation: 学校
   schoolYear: 学年

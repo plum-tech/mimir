@@ -85,6 +85,10 @@ timetable:
     termTip: "太酷啦，這學期都沒課耶！ 🎉🎉🎉"
     findNearestWeekWithClass: 尋找有課的一天
     findNearestDayWithClass: 尋找有課的一週
+  p13n:
+    builtinPalette:
+      oldSchool: Old School
+      newUI: New UI
 school:
   navigation: 學校
   schoolYear: 學年

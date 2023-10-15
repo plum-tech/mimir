@@ -53,13 +53,15 @@ class TimetablePalette {
 
 class BuiltinTimetablePalette implements TimetablePalette {
   final int id;
+  final String key;
 
   @override
-  String get name => "timetable.p13n.builtinPalette.$id".tr();
+  String get name => "timetable.p13n.builtinPalette.$key".tr();
   @override
   final List<Color2Mode> colors;
 
   const BuiltinTimetablePalette({
+    required this.key,
     required this.id,
     required this.colors,
   });

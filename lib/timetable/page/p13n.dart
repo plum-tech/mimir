@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/widgets/card.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/platte.dart';
@@ -38,16 +39,15 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
     final allIds = <int>[];
     allIds.addAll(BuiltinTimetablePalettes.all.map((e) => e.id));
     final customIdList = TimetableInit.storage.palette.idList;
-    if(customIdList !=null){
+    if (customIdList != null) {
       allIds.addAll(customIdList);
     }
-    final selectedId = TimetableInit.storage.palette.selectedId;
+    final selectedId = TimetableInit.storage.palette.selectedId ?? BuiltinTimetablePalettes.newUI.id;
     return SliverList.builder(
       itemCount: allIds.length,
       itemBuilder: (ctx, i) {
         final id = allIds[i];
         final palette = TimetableInit.storage.palette[id];
-        assert(palette != null, "#$id palette not found.");
         if (palette == null) return const SizedBox();
         return PaletteCard(
           palette: palette,
@@ -64,7 +64,10 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
 
   Widget buildEditCellStyleTile() {
     return ListTile(
+      leading: const Icon(Icons.style_outlined),
       title: "Edit cell style".text(),
+      subtitle: "How does course cell look like".text(),
+      trailing: const Icon(Icons.open_in_new),
       onTap: () async {
         await context.show$Sheet$((ctx) => TimetableCellStyleEditor());
       },
@@ -97,30 +100,46 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
 class PaletteCard extends StatelessWidget {
   final TimetablePalette palette;
   final ({bool isSelected, void Function() onSelect})? selectable;
+  final ({void Function() onEdit})? editable;
 
   const PaletteCard({
     super.key,
     required this.palette,
     this.selectable,
+    this.editable,
   });
 
   @override
   Widget build(BuildContext context) {
     final selectable = this.selectable;
-    return ListTile(
+    final editable = this.editable;
+    final widget = ListTile(
       title: palette.name.text(),
-      trailing: selectable == null
-          ? null
-          : IconButton(
-              icon: selectable.isSelected
-                  ? const Icon(Icons.check_box_outlined)
-                  : const Icon(Icons.check_box_outline_blank),
-              onPressed: selectable.isSelected
-                  ? null
-                  : () {
-                      selectable.onSelect();
-                    },
-            ),
+      trailing: [
+        if (editable != null)
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: editable.onEdit,
+          ),
+        if (selectable != null)
+          IconButton(
+            icon: selectable.isSelected
+                ? const Icon(Icons.check_box_outlined)
+                : const Icon(Icons.check_box_outline_blank),
+            onPressed: selectable.isSelected
+                ? null
+                : () {
+                    selectable.onSelect();
+                  },
+          ),
+      ].row(mas: MainAxisSize.min),
+    );
+    return selectable?.isSelected == true
+        ? widget.inFilledCard(
+      clip: Clip.hardEdge,
+    )
+        : widget.inOutlinedCard(
+      clip: Clip.hardEdge,
     );
   }
 
