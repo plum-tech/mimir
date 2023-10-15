@@ -35,6 +35,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
 
   Widget buildPaletteList() {
     final idList = TimetableInit.storage.palette.idList ?? const [];
+    final selectedId = TimetableInit.storage.palette.selectedId;
     return SliverList.builder(
       itemCount: idList.length,
       itemBuilder: (ctx, i) {
@@ -42,7 +43,15 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
         final palette = TimetableInit.storage.palette[id];
         assert(palette != null, "#$id palette not found.");
         if (palette == null) return const SizedBox();
-        return PaletteCard(palette: palette);
+        return PaletteCard(
+          palette: palette,
+          selectable: (
+            isSelected: selectedId == id,
+            onSelect: () {
+              TimetableInit.storage.palette.selectedId = id;
+            },
+          ),
+        );
       },
     );
   }

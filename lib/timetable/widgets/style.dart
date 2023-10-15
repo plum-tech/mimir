@@ -30,7 +30,7 @@ extension DesignExtension on BuildContext {
 }
 
 class TimetableStyleData {
-  final ITimetablePalette platte;
+  final TimetablePalette platte;
 
   const TimetableStyleData(this.platte);
 

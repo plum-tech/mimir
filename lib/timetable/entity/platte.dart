@@ -34,18 +34,10 @@ List _colorsToJson(List<Color2Mode> colors) {
   return colors.map((entry) => _color2ModeToJson(entry)).toList();
 }
 
-abstract interface class ITimetablePalette {
-  String get name;
-
-  List<Color2Mode> get colors;
-}
-
 @JsonSerializable()
-class TimetablePalette implements ITimetablePalette {
-  @override
+class TimetablePalette {
   @JsonKey()
   final String name;
-  @override
   @JsonKey(fromJson: _colorsFromJson, toJson: _colorsToJson)
   final List<Color2Mode> colors;
 
@@ -59,15 +51,22 @@ class TimetablePalette implements ITimetablePalette {
   Map<String, dynamic> toJson() => _$TimetablePaletteToJson(this);
 }
 
-class BuiltinTimetablePalette implements ITimetablePalette {
+class BuiltinTimetablePalette implements TimetablePalette {
+  final int id;
+
   @override
-  String get name => "timetable.platte.builtin.$id".tr();
+  String get name => "timetable.p13n.builtinPalette.$id".tr();
   @override
   final List<Color2Mode> colors;
-  final String id;
 
   const BuiltinTimetablePalette({
     required this.id,
     required this.colors,
   });
+
+  @override
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'id': id,
+        'colors': _colorsToJson(colors),
+      };
 }

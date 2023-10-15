@@ -4,6 +4,7 @@ import 'package:sit/timetable/entity/timetable.dart';
 
 import '../entity/display.dart';
 import '../entity/platte.dart';
+import '../platte.dart';
 
 class _K {
   static const timetable = "/timetable";
@@ -27,6 +28,20 @@ class TimetableStorage {
           base: _K.palette,
           box: box,
           useJson: (fromJson: TimetablePalette.fromJson, toJson: (palette) => palette.toJson()),
+          get: (id, builtin) {
+            // intercept builtin timetable
+            for (final timetable in BuiltinTimetablePalettes.all) {
+              if (timetable.id == id) return timetable;
+            }
+            return builtin(id);
+          },
+          set: (id, newV, builtin) {
+            // skip builtin timetable
+            for (final timetable in BuiltinTimetablePalettes.all) {
+              if (timetable.id == id) return;
+            }
+            builtin(id, newV);
+          },
         );
 
   DisplayMode? get lastDisplayMode => DisplayMode.at(box.get(_K.lastDisplayMode));

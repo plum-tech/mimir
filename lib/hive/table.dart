@@ -23,10 +23,16 @@ class HiveTable<T> {
   final String _selectedIdK;
   final ({T Function(Map<String, dynamic> json) fromJson, Map<String, dynamic> Function(T row) toJson})? useJson;
   final $selected = Notifier();
+  /// The delegate of getting row
+  final T? Function(int id, T? Function(int id) builtin)? get;
+  /// The delegate of setting row
+  final void Function(int id, T? newV, void Function(int id, T? newV) builtin)? set;
 
   HiveTable({
     required this.base,
     required this.box,
+    this.get,
+    this.set,
     this.useJson,
   })  : _lastIdK = "$base/$_kLastId",
         _idListK = "$base/$_kIdList",
@@ -59,6 +65,14 @@ class HiveTable<T> {
   }
 
   T? operator [](int id) {
+    final get = this.get;
+    if (get != null) {
+      return get(id, _get);
+    }
+    return _get(id);
+  }
+
+  T? _get(int id) {
     final row = box.get("$_rowsK/$id");
     final useJson = this.useJson;
     if (useJson == null || row == null) {
@@ -69,12 +83,19 @@ class HiveTable<T> {
   }
 
   void operator []=(int id, T? newValue) {
-    dynamic row = newValue;
+    final set = this.set;
+    if (set != null) {
+      set(id, newValue, _set);
+    }
+    return _set(id, newValue);
+  }
+
+  void _set(int id, T? newValue) {
     final useJson = this.useJson;
-    if (useJson == null || row == null) {
-      box.put("$_rowsK/$id", row);
+    if (useJson == null || newValue == null) {
+      box.put("$_rowsK/$id", newValue);
     } else {
-      box.put("$_rowsK/$id", jsonEncode(useJson.toJson(row)));
+      box.put("$_rowsK/$id", jsonEncode(useJson.toJson(newValue)));
     }
     if (selectedId == id) {
       $selected.notifier();
@@ -124,6 +145,7 @@ class HiveTable<T> {
     box.delete(_lastIdK);
   }
 
+  // TODO: Row delegate?
   List<({int id, T row})> getRows() {
     final ids = idList;
     final res = <({int id, T row})>[];
