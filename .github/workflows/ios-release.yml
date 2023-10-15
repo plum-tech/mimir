@@ -3,6 +3,7 @@ name: Flutter_iOS
 on: workflow_dispatch
 #  push:
 #    branches: [master]
+permissions: write-all
 
 jobs:
   build_ios:
