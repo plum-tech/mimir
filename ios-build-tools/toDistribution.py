@@ -3,7 +3,7 @@ with open('ios/Runner.xcodeproj/project.pbxproj', 'r') as file:
 
 # CODE_SIGN_IDENTITY所在行进行替换更改，变为CODE_SIGN_IDENTITY = "iPhone Distribution";
 # 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-filedata = filedata.replace('CODE_SIGN_IDENTITY = "Apple Development";', 'CODE_SIGN_IDENTITY = "iPhone Distribution";\n				CODE_SIGN_IDENTITY[sdk=iphoneos*] = "iPhone Distribution: ziqi wei (M5APZD5CKA)";')
+filedata = filedata.replace('CODE_SIGN_IDENTITY = "Apple Development";', 'CODE_SIGN_IDENTITY = "iPhone Distribution";\n\t\t\t\t"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ziqi wei (M5APZD5CKA)";')
 
 # CODE_SIGN_STYLE所在行进行替换更改，变为CODE_SIGN_STYLE = Manual;
 filedata = filedata.replace('CODE_SIGN_STYLE = Automatic;', 'CODE_SIGN_STYLE = Manual;')
