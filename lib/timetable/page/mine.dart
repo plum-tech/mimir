@@ -78,14 +78,6 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           SliverAppBar(
             floating: true,
             title: i18n.mine.title.text(),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  context.push("/timetable/p13n");
-                },
-                icon: const Icon(Icons.color_lens_outlined),
-              ),
-            ],
           ),
           if (timetables.isEmpty)
             SliverFillRemaining(
