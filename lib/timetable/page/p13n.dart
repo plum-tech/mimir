@@ -29,8 +29,19 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
           const SliverToBoxAdapter(
             child: Divider(),
           ),
+          SliverToBoxAdapter(
+            child: ListTile(
+              leading: const Icon(Icons.color_lens_outlined),
+              title: "Palettes".text(),
+            ),
+          ),
           buildPaletteList(),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        label: "Palette".text(),
+        icon: const Icon(Icons.add),
       ),
     );
   }
@@ -59,7 +70,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
             },
             edit: () {}
           ),
-        );
+        ).padH(12);
       },
     );
   }
