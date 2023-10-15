@@ -3,6 +3,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/init.dart';
+import 'package:sit/timetable/platte.dart';
 
 class TimetableP13nPage extends StatefulWidget {
   const TimetableP13nPage({super.key});
@@ -34,12 +35,17 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
   }
 
   Widget buildPaletteList() {
-    final idList = TimetableInit.storage.palette.idList ?? const [];
+    final allIds = <int>[];
+    allIds.addAll(BuiltinTimetablePalettes.all.map((e) => e.id));
+    final customIdList = TimetableInit.storage.palette.idList;
+    if(customIdList !=null){
+      allIds.addAll(customIdList);
+    }
     final selectedId = TimetableInit.storage.palette.selectedId;
     return SliverList.builder(
-      itemCount: idList.length,
+      itemCount: allIds.length,
       itemBuilder: (ctx, i) {
-        final id = idList[i];
+        final id = allIds[i];
         final palette = TimetableInit.storage.palette[id];
         assert(palette != null, "#$id palette not found.");
         if (palette == null) return const SizedBox();
