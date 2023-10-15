@@ -33,6 +33,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
             child: ListTile(
               leading: const Icon(Icons.color_lens_outlined),
               title: "Palettes".text(),
+              subtitle: "How timetable colors look".text(),
             ),
           ),
           buildPaletteList(),
@@ -79,7 +80,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
     return ListTile(
       leading: const Icon(Icons.style_outlined),
       title: "Edit cell style".text(),
-      subtitle: "How does course cell look like".text(),
+      subtitle: "How course cell looks like".text(),
       trailing: const Icon(Icons.open_in_new),
       onTap: () async {
         await context.show$Sheet$((ctx) => TimetableCellStyleEditor());
@@ -104,7 +105,39 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
           SliverAppBar(
             title: "Cell style".text(),
           ),
+          SliverList.list(children: [
+            buildTeachersToggle(),
+            buildFadeOutPassedLesson(),
+          ]),
         ],
+      ),
+    );
+  }
+
+  Widget buildPreview(){
+    return const Placeholder();
+  }
+
+  Widget buildTeachersToggle(){
+    return ListTile(
+      leading: const Icon(Icons.person_pin),
+      title: "Teachers".text(),
+      subtitle: "Show teachers in cell".text(),
+      trailing: Switch.adaptive(
+        value: true,
+        onChanged: (newV) {},
+      ),
+    );
+  }
+
+  Widget buildFadeOutPassedLesson() {
+    return ListTile(
+      leading: const Icon(Icons.timelapse),
+      title: "Fade out passed lessons".text(),
+      subtitle: "Before today".text(),
+      trailing: Switch.adaptive(
+        value: true,
+        onChanged: (newV) {},
       ),
     );
   }
