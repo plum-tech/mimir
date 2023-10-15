@@ -4,7 +4,7 @@ import re
 version = '1.0.0'
 # 实际构建版本号。默认情况时，每次构建时，都会自动+1。如果需要手动指定构建版本号，请将0修改为所需修改的值。
 # 务必注意，App Store上架时，构建版本号必须大于上一次上架的构建版本号。
-buildNumber = 0
+buildNumber = 4
 
 # 读取project.pbxproj文件，查看CURRENT_PROJECT_VERSION的值，然后+1，再写回去
 with open('ios/Runner.xcodeproj/project.pbxproj', 'r') as file:
