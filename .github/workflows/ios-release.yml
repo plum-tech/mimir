@@ -80,7 +80,7 @@ jobs:
     - name: Deploy to App Store (Testflight)
       uses: apple-actions/upload-testflight-build@v1
       with:
-        app-path: build-output/ios/ipa/life.mysit.SITLife.ipa
+        app-path: ${{ github.workspace }}/build-output/ios/ipa/life.mysit.SITLife.ipa
         issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
         api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
         api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
