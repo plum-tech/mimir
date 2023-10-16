@@ -20,15 +20,15 @@ class BuiltinTimetablePalettes {
     (light: Color(0xD2eaf141), dark: Color(0xDF4b4c00)), // toxic
   ]);
   static const oldSchool = BuiltinTimetablePalette(id: -1, key: "oldSchool", colors: [
-    (light: Color(0xB2FB5352), dark: Color(0xB2F4534B)),
-    (light: Color(0x99737BFA), dark: Color(0xB2646EDC)),
-    (light: Color(0xB274B9FF), dark: Color(0xB25A87C8)),
-    (light: Color(0xB2767EFD), dark: Color(0xB2586AD5)),
-    (light: Color(0xB2F5AF4D), dark: Color(0xB2C87D6B)),
-    (light: Color(0xB2BB896A), dark: Color(0xB2785C42)),
-    (light: Color(0xB2E84393), dark: Color(0xB2B42375)),
-    (light: Color(0xB2BC8CF0), dark: Color(0xB29464B4)),
-    (light: Color(0xB274B9FF), dark: Color(0xB23855C8)),
+    (light: Color(0xD2FB5352), dark: Color(0xDFF4534B)),
+    (light: Color(0xD2737BFA), dark: Color(0xDF646EDC)),
+    (light: Color(0xD274B9FF), dark: Color(0xDF5A87C8)),
+    (light: Color(0xD2767EFD), dark: Color(0xDF586AD5)),
+    (light: Color(0xD2F5AF4D), dark: Color(0xDFC87D6B)),
+    (light: Color(0xD2BB896A), dark: Color(0xDF785C42)),
+    (light: Color(0xD2E84393), dark: Color(0xDFB42375)),
+    (light: Color(0xD2BC8CF0), dark: Color(0xDF9464B4)),
+    (light: Color(0xD274B9FF), dark: Color(0xDF3855C8)),
   ]);
   static const all = [
     classic,
@@ -44,4 +44,6 @@ extension TimetablePlatteX on TimetablePalette {
 
 extension Color2ModeX on Color2Mode {
   Color byTheme(ThemeData theme) => theme.brightness == Brightness.dark ? dark : light;
+
+  Color byBrightness(Brightness brightness) => brightness == Brightness.dark ? dark : light;
 }

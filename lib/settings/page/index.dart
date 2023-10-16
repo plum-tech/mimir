@@ -147,7 +147,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ThemeMode.dark => const Icon(Icons.dark_mode),
         ThemeMode.light => const Icon(Icons.light_mode),
         ThemeMode.system => const Icon(Icons.brightness_6),
-     },
+      },
       title: i18n.themeMode.title.text(),
       trailing: SegmentedButton<ThemeMode>(
         showSelectedIcon: false,
@@ -206,10 +206,20 @@ class _SettingsPageState extends State<SettingsPage> {
       title: i18n.themeColor.text(),
       subtitle: "0x${selected.hexAlpha}".text(),
       onTap: () async {
-        final color = await context.show$Sheet$<Color>((_) => ThemeColorPicker(initialColor: selected));
-        if (color != null) {
+        final newColor = await showColorPickerDialog(
+          context,
+          selected,
+          pickersEnabled: const <ColorPickerType, bool>{
+            ColorPickerType.both: true,
+            ColorPickerType.primary: false,
+            ColorPickerType.accent: false,
+            ColorPickerType.custom: true,
+            ColorPickerType.wheel: true,
+          },
+        );
+        if (newColor != selected) {
           await HapticFeedback.mediumImpact();
-          Settings.theme.themeColor = color;
+          Settings.theme.themeColor = newColor;
         }
       },
       trailing: FilledCard(

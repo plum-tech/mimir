@@ -117,9 +117,14 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
             edit: palette is BuiltinTimetablePalette
                 ? null
                 : () async {
-                    final newPalette = context.show$Sheet$<TimetablePalette>(
-                      (context) => TimetablePaletteEditor(palette: palette.clone()),
+                    final newPalette = await context.show$Sheet$<TimetablePalette>(
+                      (context) => TimetablePaletteEditor(
+                        palette: palette.clone(),
+                        initialBrightness: context.theme.brightness,
+                      ),
                     );
+                    if (newPalette == null) return;
+                    TimetableInit.storage.palette[id] = newPalette;
                   },
           ),
         ).padH(12);
@@ -338,10 +343,12 @@ class PaletteCard extends StatelessWidget {
 
 class TimetablePaletteEditor extends StatefulWidget {
   final TimetablePalette palette;
+  final Brightness initialBrightness;
 
   const TimetablePaletteEditor({
     super.key,
     required this.palette,
+    required this.initialBrightness,
   });
 
   @override
@@ -350,7 +357,8 @@ class TimetablePaletteEditor extends StatefulWidget {
 
 class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
   late final $name = TextEditingController(text: widget.palette.name);
-  late final $isLightMode = ValueNotifier(true);
+  late final $brightness = ValueNotifier(widget.initialBrightness);
+  late var colors = widget.palette.colors;
 
   @override
   void dispose() {
@@ -360,34 +368,41 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = widget.palette;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             floating: true,
-            title: "Palette".text(),
+            title: $brightness >>
+                (ctx, value) => SegmentedButton<Brightness>(
+                      segments: [
+                        ButtonSegment<Brightness>(
+                          value: Brightness.light,
+                          label: "Light".text(),
+                          icon: const Icon(Icons.light_mode),
+                        ),
+                        ButtonSegment<Brightness>(
+                          value: Brightness.dark,
+                          label: "Dark".text(),
+                          icon: const Icon(Icons.dark_mode),
+                        ),
+                      ],
+                      selected: <Brightness>{value},
+                      onSelectionChanged: (newSelection) async {
+                        $brightness.value = newSelection.first;
+                        await HapticFeedback.selectionClick();
+                      },
+                    ),
             actions: [
-              $isLightMode >>
-                  (ctx, value) => SegmentedButton<bool>(
-                        segments: [
-                          ButtonSegment<bool>(
-                            value: true,
-                            label: "Light".text(),
-                            icon: const Icon(Icons.light_mode),
-                          ),
-                          ButtonSegment<bool>(
-                            value: false,
-                            label: "Dark".text(),
-                            icon: const Icon(Icons.dark_mode),
-                          ),
-                        ],
-                        selected: <bool>{value},
-                        onSelectionChanged: (newSelection) async {
-                          $isLightMode.value = newSelection.first;
-                          await HapticFeedback.selectionClick();
-                        },
-                      ),
+              IconButton(
+                icon: const Icon(Icons.check),
+                onPressed: () {
+                  context.navigator.pop(TimetablePalette(
+                    name: $name.text,
+                    colors: colors,
+                  ));
+                },
+              ),
             ],
           ),
           SliverList.list(children: [
@@ -396,20 +411,67 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
           const SliverToBoxAdapter(
             child: Divider(),
           ),
-          $isLightMode >>
-              (ctx, isLightMode) => SliverGrid.builder(
-                    itemCount: palette.colors.length,
-                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 200,
-                      childAspectRatio: 1.5,
-                    ),
+          $brightness >>
+              (ctx, brightness) => SliverList.separated(
+                    itemCount: colors.length,
                     itemBuilder: (ctx, i) {
+                      final color = colors[i];
                       return PaletteColorCard(
-                        colors: palette.colors[i],
-                        isLightMode: isLightMode,
+                        colors: colors[i],
+                        brightness: brightness,
+                        number: i + 1,
+                        onDelete: () {
+                          setState(() {
+                            colors.removeAt(i);
+                          });
+                        },
+                        onEdit: () async {
+                          final current = color.byBrightness(brightness);
+                          final newColor = await showColorPickerDialog(
+                            context,
+                            current,
+                            pickersEnabled: const <ColorPickerType, bool>{
+                              ColorPickerType.both: true,
+                              ColorPickerType.primary: false,
+                              ColorPickerType.accent: false,
+                              ColorPickerType.custom: true,
+                              ColorPickerType.wheel: true,
+                            },
+                          );
+                          if (newColor != current) {
+                            await HapticFeedback.mediumImpact();
+                            setState(() {
+                              if (brightness == Brightness.light) {
+                                colors[i] = (light: newColor, dark: color.dark);
+                              } else {
+                                colors[i] = (light: color.light, dark: newColor);
+                              }
+                            });
+                          }
+                        },
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Divider(),
                       );
                     },
                   ),
+          const SliverToBoxAdapter(
+            child: Divider(),
+          ),
+          SliverToBoxAdapter(
+            child: ListTile(
+              leading: const Icon(Icons.add),
+              title: "Add a pair of color".text(),
+              onTap: () {
+                setState(() {
+                  colors.add((light: Colors.white30, dark: Colors.black12));
+                });
+              },
+            ),
+          )
         ],
       ),
     );
@@ -432,30 +494,57 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
 
 class PaletteColorCard extends StatelessWidget {
   final Color2Mode colors;
-  final bool isLightMode;
+  final Brightness brightness;
+  final int number;
+  final void Function()? onDelete;
+  final void Function()? onEdit;
 
   const PaletteColorCard({
     super.key,
     required this.colors,
-    required this.isLightMode,
+    required this.brightness,
+    required this.number,
+    this.onDelete,
+    this.onEdit,
   });
 
   @override
   Widget build(BuildContext context) {
-    final color = isLightMode ? colors.light : colors.dark;
-    return FilledCard(
-      clip: Clip.hardEdge,
-      child: [
-        Container(
-          color: color,
-          child: "0x${color.hex}".text().center(),
-        ).flexible(flex: 3),
-        OverflowBar(
-          children: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
-          ],
-        ).flexible(flex: 2),
-      ].column(caa: CrossAxisAlignment.start, mas: MainAxisSize.min),
+    final onDelete = this.onDelete;
+    final onEdit = this.onEdit;
+    final color = colors.byBrightness(brightness);
+    return ListTile(
+      isThreeLine: true,
+      visualDensity: VisualDensity.compact,
+      title: TweenAnimationBuilder(
+        tween: ColorTween(begin: color, end: color),
+        duration: const Duration(milliseconds: 300),
+        builder: (ctx, value, child) => FilledCard(
+          color: value,
+          margin: EdgeInsets.zero,
+          child: SizedBox(
+            height: 35,
+            child: "#$number".text(style: context.textTheme.titleLarge).center(),
+          ),
+        ),
+      ),
+      subtitle: "0x${color.hexAlpha}".text(),
+      trailing: [
+        IconButton(
+          visualDensity: VisualDensity.compact,
+          icon: const Icon(Icons.edit),
+          onPressed: () {
+            onEdit?.call();
+          },
+        ),
+        IconButton(
+          visualDensity: VisualDensity.compact,
+          icon: const Icon(Icons.delete),
+          onPressed: () {
+            onDelete?.call();
+          },
+        ),
+      ].row(mas: MainAxisSize.min),
     );
   }
 }

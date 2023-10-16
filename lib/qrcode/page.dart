@@ -33,39 +33,47 @@ class QrCodePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: title,
-      ),
-      body: [
-        LayoutBuilder(
-          builder: (ctx, box) {
-            final side = min(box.maxWidth, maxSize ?? 256.0);
-            return SizedBox(
-              width: side,
-              height: side,
-              child: QrImageView(
-                backgroundColor: context.colorScheme.surface,
-                data: data,
-                eyeStyle: QrEyeStyle(
-                  eyeShape: QrEyeShape.square,
-                  color: context.colorScheme.onSurface,
-                ),
-                dataModuleStyle: QrDataModuleStyle(
-                  dataModuleShape: QrDataModuleShape.square,
-                  color: context.colorScheme.onSurface,
-                ),
-                version: QrVersions.auto,
-              ),
-            );
-          },
-        ),
-        RichText(
-          text: TextSpan(
-            style: context.textTheme.bodyLarge,
-            children: _i18n.hint,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            title: title,
           ),
-        ).padAll(10),
-      ].column().scrolled().center(),
+          SliverToBoxAdapter(
+            child: LayoutBuilder(
+              builder: (ctx, box) {
+                final side = min(box.maxWidth, maxSize ?? 256.0);
+                return SizedBox(
+                  width: side,
+                  height: side,
+                  child: QrImageView(
+                    backgroundColor: context.colorScheme.surface,
+                    data: data,
+                    eyeStyle: QrEyeStyle(
+                      eyeShape: QrEyeShape.square,
+                      color: context.colorScheme.onSurface,
+                    ),
+                    dataModuleStyle: QrDataModuleStyle(
+                      dataModuleShape: QrDataModuleShape.square,
+                      color: context.colorScheme.onSurface,
+                    ),
+                    version: QrVersions.auto,
+                    size: side,
+                  ),
+                ).center();
+              },
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: RichText(
+              text: TextSpan(
+                style: context.textTheme.bodyLarge,
+                children: _i18n.hint,
+              ),
+            ).padAll(10),
+          )
+        ],
+      ),
     );
   }
 }
