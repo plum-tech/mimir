@@ -397,9 +397,18 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
             child: Divider(),
           ),
           $isLightMode >>
-              (ctx, isLightMode) => SliverList.builder(
+              (ctx, isLightMode) => SliverGrid.builder(
                     itemCount: palette.colors.length,
-                    itemBuilder: (ctx, i) => buildColors(palette.colors[i], isLightMode: isLightMode),
+                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 200,
+                      childAspectRatio: 1.5,
+                    ),
+                    itemBuilder: (ctx, i) {
+                      return PaletteColorCard(
+                        colors: palette.colors[i],
+                        isLightMode: isLightMode,
+                      );
+                    },
                   ),
         ],
       ),
@@ -419,18 +428,34 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
       ),
     );
   }
+}
 
-  Widget buildColors(
-    Color2Mode colors, {
-    required bool isLightMode,
-  }) {
+class PaletteColorCard extends StatelessWidget {
+  final Color2Mode colors;
+  final bool isLightMode;
+
+  const PaletteColorCard({
+    super.key,
+    required this.colors,
+    required this.isLightMode,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     final color = isLightMode ? colors.light : colors.dark;
-    return ListTile(
-      title: "0x${color.hex}".text(),
-      trailing: FilledCard(
-        color: color,
-        child: const SizedBox(width: 32, height: 32),
-      ),
+    return FilledCard(
+      clip: Clip.hardEdge,
+      child: [
+        Container(
+          color: color,
+          child: "0x${color.hex}".text().center(),
+        ).flexible(flex: 3),
+        OverflowBar(
+          children: [
+            IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+          ],
+        ).flexible(flex: 2),
+      ].column(caa: CrossAxisAlignment.start, mas: MainAxisSize.min),
     );
   }
 }
