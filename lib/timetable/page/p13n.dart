@@ -1,3 +1,4 @@
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -113,7 +114,13 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
               TimetableInit.storage.palette.selectedId = id;
               setState(() {});
             },
-            edit: palette is BuiltinTimetablePalette ? null : () {},
+            edit: palette is BuiltinTimetablePalette
+                ? null
+                : () async {
+                    final newPalette = context.show$Sheet$<TimetablePalette>(
+                      (context) => TimetablePaletteEditor(palette: palette.clone()),
+                    );
+                  },
           ),
         ).padH(12);
       },
@@ -324,6 +331,105 @@ class PaletteCard extends StatelessWidget {
       child: const SizedBox(
         width: 32,
         height: 32,
+      ),
+    );
+  }
+}
+
+class TimetablePaletteEditor extends StatefulWidget {
+  final TimetablePalette palette;
+
+  const TimetablePaletteEditor({
+    super.key,
+    required this.palette,
+  });
+
+  @override
+  State<TimetablePaletteEditor> createState() => _TimetablePaletteEditorState();
+}
+
+class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
+  late final $name = TextEditingController(text: widget.palette.name);
+  late final $isLightMode = ValueNotifier(true);
+
+  @override
+  void dispose() {
+    $name.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = widget.palette;
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            title: "Palette".text(),
+            actions: [
+              $isLightMode >>
+                  (ctx, value) => SegmentedButton<bool>(
+                        segments: [
+                          ButtonSegment<bool>(
+                            value: true,
+                            label: "Light".text(),
+                            icon: const Icon(Icons.light_mode),
+                          ),
+                          ButtonSegment<bool>(
+                            value: false,
+                            label: "Dark".text(),
+                            icon: const Icon(Icons.dark_mode),
+                          ),
+                        ],
+                        selected: <bool>{value},
+                        onSelectionChanged: (newSelection) async {
+                          $isLightMode.value = newSelection.first;
+                          await HapticFeedback.selectionClick();
+                        },
+                      ),
+            ],
+          ),
+          SliverList.list(children: [
+            buildName(),
+          ]),
+          const SliverToBoxAdapter(
+            child: Divider(),
+          ),
+          $isLightMode >>
+              (ctx, isLightMode) => SliverList.builder(
+                    itemCount: palette.colors.length,
+                    itemBuilder: (ctx, i) => buildColors(palette.colors[i], isLightMode: isLightMode),
+                  ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildName() {
+    return ListTile(
+      isThreeLine: true,
+      leading: const Icon(Icons.drive_file_rename_outline),
+      title: "Name".text(),
+      subtitle: TextField(
+        controller: $name,
+        decoration: InputDecoration(
+          hintText: "Please enter name",
+        ),
+      ),
+    );
+  }
+
+  Widget buildColors(
+    Color2Mode colors, {
+    required bool isLightMode,
+  }) {
+    final color = isLightMode ? colors.light : colors.dark;
+    return ListTile(
+      title: "0x${color.hex}".text(),
+      trailing: FilledCard(
+        color: color,
+        child: const SizedBox(width: 32, height: 32),
       ),
     );
   }

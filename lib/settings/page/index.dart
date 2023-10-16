@@ -147,7 +147,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ThemeMode.dark => const Icon(Icons.dark_mode),
         ThemeMode.light => const Icon(Icons.light_mode),
         ThemeMode.system => const Icon(Icons.brightness_6),
-      },
+     },
       title: i18n.themeMode.title.text(),
       trailing: SegmentedButton<ThemeMode>(
         showSelectedIcon: false,
