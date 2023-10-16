@@ -6,6 +6,7 @@ import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/route.dart';
 import 'package:rettulf/rettulf.dart';
@@ -26,7 +27,24 @@ class MyTimetableListPage extends StatefulWidget {
 }
 
 class _MyTimetableListPageState extends State<MyTimetableListPage> {
-  final storage = TimetableInit.storage;
+  final $timetableList = TimetableInit.storage.timetable.$any;
+  final scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    $timetableList.addListener(refresh);
+  }
+
+  @override
+  void dispose() {
+    $timetableList.removeListener(refresh);
+    super.dispose();
+  }
+
+  void refresh() {
+    setState(() {});
+  }
 
   /// Import a new timetable.
   /// Updates the selected timetable id.
@@ -47,8 +65,6 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         TimetableInit.storage.timetable.selectedId ??= result.id;
       }
     }
-    if (!mounted) return;
-    setState(() {});
   }
 
   Future<({int id, SitTimetable timetable})?> importFromSchoolServer() async {
@@ -70,10 +86,11 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final timetables = storage.timetable.getRows();
-    final selectedId = storage.timetable.selectedId;
+    final timetables = TimetableInit.storage.timetable.getRows();
+    final selectedId = TimetableInit.storage.timetable.selectedId;
     return Scaffold(
       body: CustomScrollView(
+        controller: scrollController,
         slivers: [
           SliverAppBar(
             floating: true,
@@ -104,9 +121,11 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
                 return buildTimetableEntry(id, timetable, isSelected);
               },
             ),
+          const SliverFillRemaining(),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: AutoHideFAB.extended(
+        controller: scrollController,
         onPressed: goImport,
         label: Text(isLoginGuarded(context) ? i18n.import.fromFile : i18n.import.import),
         icon: const Icon(Icons.add_outlined),
@@ -122,7 +141,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         moreAction: buildActionPopup(id, timetable, isSelected),
         actions: (
           use: () {
-            storage.timetable.selectedId = id;
+            TimetableInit.storage.timetable.selectedId = id;
             setState(() {});
           },
           preview: () {
@@ -141,9 +160,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
               onPressed: () async {
                 Navigator.of(context, rootNavigator: true).pop();
                 await Future.delayed(const Duration(milliseconds: 336));
-                if (!mounted) return;
-                storage.timetable.selectedId = id;
-                setState(() {});
+                TimetableInit.storage.timetable.selectedId = id;
               },
               child: i18n.mine.use.text(),
             ),
@@ -202,8 +219,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
                     onPressed: isSelected
                         ? null
                         : () async {
-                            storage.timetable.selectedId = id;
-                            setState(() {});
+                            TimetableInit.storage.timetable.selectedId = id;
                           },
                     icon: isSelected
                         ? Icon(CupertinoIcons.check_mark, color: context.colorScheme.primary)
@@ -280,9 +296,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       (ctx) => TimetableEditor(timetable: timetable),
     );
     if (newTimetable != null) {
-      storage.timetable[id] = newTimetable;
-      if (!mounted) return;
-      setState(() {});
+      TimetableInit.storage.timetable[id] = newTimetable;
     }
   }
 
@@ -295,9 +309,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       highlight: true,
     );
     if (confirm == true) {
-      storage.timetable.delete(id);
-      if (!mounted) return;
-      setState(() {});
+      TimetableInit.storage.timetable.delete(id);
     }
   }
 }
@@ -329,11 +341,11 @@ class TimetableEntry extends StatelessWidget {
       timetable.name.text(style: textTheme.titleLarge),
       "$year, $semester".text(style: textTheme.titleMedium),
       "${i18n.startWith} ${context.formatYmdText(timetable.startDate)}".text(style: textTheme.bodyLarge),
-      if (actions != null)
-        OverflowBar(
-          alignment: MainAxisAlignment.spaceBetween,
-          children: [
-            [
+      OverflowBar(
+        alignment: MainAxisAlignment.spaceBetween,
+        children: [
+          [
+            if (actions != null)
               if (isSelected)
                 FilledButton.icon(
                   icon: const Icon(Icons.check),
@@ -347,6 +359,7 @@ class TimetableEntry extends StatelessWidget {
                   },
                   child: i18n.mine.use.text(),
                 ),
+            if (actions != null)
               if (!isSelected)
                 OutlinedButton(
                   onPressed: () {
@@ -354,12 +367,10 @@ class TimetableEntry extends StatelessWidget {
                   },
                   child: i18n.mine.preview.text(),
                 )
-            ].wrap(spacing: 4),
-            if (moreAction != null) moreAction,
-          ],
-        )
-      else if (moreAction != null)
-        moreAction.align(at: Alignment.bottomRight),
+          ].wrap(spacing: 4),
+          if (moreAction != null) moreAction,
+        ],
+      ),
     ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15);
     return isSelected
         ? widget.inFilledCard(

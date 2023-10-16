@@ -51,6 +51,14 @@ class TimetablePalette {
   Map<String, dynamic> toJson() => _$TimetablePaletteToJson(this);
 }
 
+extension TimetablePaletteX on TimetablePalette {
+  TimetablePalette clone({
+    required String Function(String origin) getNewName,
+  }) {
+    return TimetablePalette(name: getNewName(name), colors: List.of(colors));
+  }
+}
+
 class BuiltinTimetablePalette implements TimetablePalette {
   final int id;
   final String key;

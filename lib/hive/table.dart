@@ -22,7 +22,10 @@ class HiveTable<T> {
   final String _rowsK;
   final String _selectedIdK;
   final ({T Function(Map<String, dynamic> json) fromJson, Map<String, dynamic> Function(T row) toJson})? useJson;
+  /// notify if selected row was changed.
   final $selected = Notifier();
+  /// notify if any row was changed.
+  final $any = Notifier();
   /// The delegate of getting row
   final T? Function(int id, T? Function(int id) builtin)? get;
   /// The delegate of setting row
@@ -100,10 +103,7 @@ class HiveTable<T> {
     if (selectedId == id) {
       $selected.notifier();
     }
-  }
-
-  void _deleteOf(int id) {
-    box.delete("$_rowsK/$id");
+    $any.notifier();
   }
 
   /// Return a new ID for the [row].
@@ -130,7 +130,8 @@ class HiveTable<T> {
           selectedId = null;
         }
       }
-      _deleteOf(id);
+      box.delete("$_rowsK/$id");
+      $any.notifier();
     }
   }
 
@@ -138,14 +139,17 @@ class HiveTable<T> {
     final ids = idList;
     if (ids == null) return;
     for (final id in ids) {
-      _deleteOf(id);
+      box.delete("$_rowsK/$id");
     }
     box.delete(_idListK);
     box.delete(_selectedIdK);
     box.delete(_lastIdK);
+    $selected.notifier();
+    $any.notifier();
   }
 
   // TODO: Row delegate?
+  /// ignore null row
   List<({int id, T row})> getRows() {
     final ids = idList;
     final res = <({int id, T row})>[];
