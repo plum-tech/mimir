@@ -146,9 +146,7 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
     if (cache != null) {
       return cache;
     } else {
-      final style = CourseCellStyle(
-        showTeachers: Settings.timetable.cell.showTeachers,
-      );
+      final cellStyle = TimetableStyle.of(context).cell;
       Widget buildCell({
         required BuildContext context,
         required SitTimetableLesson lesson,
@@ -157,7 +155,7 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
       }) {
         return InteractiveCourseCell(
           lesson: lesson,
-          style: style,
+          style: cellStyle,
           timetable: timetable,
           course: course,
         );

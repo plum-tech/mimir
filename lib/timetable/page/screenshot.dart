@@ -93,10 +93,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = CourseCellStyle(
-      showTeachers: Settings.timetable.cell.showTeachers,
-    );
-
+    final cellStyle = TimetableStyle.of(context).cell;
     return [
       buildTitle().text(style: context.textTheme.titleLarge).padSymmetric(v: 10),
       TimetableOneWeek(
@@ -107,7 +104,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
           return CourseCell(
             lesson: lesson,
             course: course,
-            style: style,
+            style: cellStyle,
           );
         },
       ),
