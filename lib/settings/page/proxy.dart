@@ -15,8 +15,6 @@ import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 
-const _qrCode = HttpProxyQrCode();
-
 class ProxySettingsPage extends StatefulWidget {
   const ProxySettingsPage({
     super.key,
@@ -289,13 +287,11 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
       trailing: IconButton(
         icon: const Icon(Icons.share),
         onPressed: () async {
-          final qrCodeData = _qrCode.encode(proxyUri);
-          await context.navigator.push(
-            MaterialPageRoute(
-              builder: (ctx) => QrCodePage(
-                title: i18n.proxy.title.text(),
-                data: qrCodeData.toString(),
-              ),
+          final qrCodeData = const HttpProxyDeepLink().encode(proxyUri);
+          context.show$Sheet$(
+            (context) => QrCodePage(
+              title: i18n.proxy.title.text(),
+              data: qrCodeData.toString(),
             ),
           );
         },

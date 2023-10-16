@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/fab.dart';
+import 'package:sit/qrcode/page.dart';
+import 'package:sit/qrcode/protocol.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/platte.dart';
@@ -147,6 +151,13 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
               title: "Share QR code".text(),
               onTap: () async {
                 ctx.pop();
+                final qrCodeData = const TimetablePaletteDeepLink().encode(palette);
+                context.show$Sheet$(
+                  (context) => QrCodePage(
+                    title: "Timetable Palette".text(),
+                    data: qrCodeData.toString(),
+                  ),
+                );
               },
             ),
           ),
@@ -250,7 +261,7 @@ class PaletteCard extends StatelessWidget {
     final textTheme = context.textTheme;
     final widget = [
       palette.name.text(style: textTheme.titleLarge),
-      buildColors(context).padSymmetric(h: 4, v: 4),
+      buildColors(context),
       OverflowBar(
         alignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -309,4 +320,15 @@ class PaletteCard extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> onTimetablePaletteFromQrCode({
+  required BuildContext context,
+  required TimetablePalette palette,
+}) async {
+  TimetableInit.storage.palette.add(palette);
+  await HapticFeedback.mediumImpact();
+  if (!context.mounted) return;
+  context.showSnackBar("Timetable palette was added from QR code".text());
+  context.push("/timetable/p13n");
 }

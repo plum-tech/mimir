@@ -20,13 +20,13 @@ const _i18n = _I18n();
 
 class QrCodePage extends StatelessWidget {
   final String data;
-  final double? size;
+  final double? maxSize;
   final Widget? title;
 
   const QrCodePage({
     super.key,
     required this.data,
-    this.size,
+    this.maxSize,
     this.title,
   });
 
@@ -39,7 +39,7 @@ class QrCodePage extends StatelessWidget {
       body: [
         LayoutBuilder(
           builder: (ctx, box) {
-            final side = min(box.maxWidth, 512.0);
+            final side = min(box.maxWidth, maxSize ?? 256.0);
             return SizedBox(
               width: side,
               height: side,
@@ -55,8 +55,7 @@ class QrCodePage extends StatelessWidget {
                   color: context.colorScheme.onSurface,
                 ),
                 version: QrVersions.auto,
-                size: size,
-              ).padAll(20),
+              ),
             );
           },
         ),
@@ -65,8 +64,8 @@ class QrCodePage extends StatelessWidget {
             style: context.textTheme.bodyLarge,
             children: _i18n.hint,
           ),
-        ),
-      ].column().scrolled().padAll(10).center(),
+        ).padAll(10),
+      ].column().scrolled().center(),
     );
   }
 }
