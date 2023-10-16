@@ -142,8 +142,22 @@ SitTimetableEntity resolveTimetableEntity(SitTimetable timetable) {
       if (0 <= weekIndex && weekIndex < maxWeekLength) {
         final week = weeks[weekIndex];
         final day = week.days[course.dayIndex];
+        final thatDay = reflectWeekDayIndexToDate(
+          weekIndex: week.index,
+          dayIndex: day.index,
+          startDate: timetable.startDate,
+        );
         for (int slot = timeslots.start; slot <= timeslots.end; slot++) {
-          day.add(SitTimetableLesson(timeslots.start, timeslots.end, course), at: slot);
+          final classTime = course.calcBeginEndTimePointOfLesson(slot);
+          day.add(
+              SitTimetableLesson(
+                startIndex: timeslots.start,
+                endIndex: timeslots.end,
+                startTime: thatDay.addTimePoint(classTime.begin),
+                endTime: thatDay.addTimePoint(classTime.end),
+                course: course,
+              ),
+              at: slot);
         }
       }
     }
@@ -230,7 +244,11 @@ String convertTimetable2ICal({
         for (final lesson in lessonSlot.lessons) {
           final course = lesson.course;
           final teachers = course.teachers.join(', ');
-          final thatDay = reflectWeekDayIndexToDate(weekIndex: week.index, dayIndex: day.index, startDate: startDate);
+          final thatDay = reflectWeekDayIndexToDate(
+            weekIndex: week.index,
+            dayIndex: day.index,
+            startDate: startDate,
+          );
           void addEvent(ClassTime classTime) {
             // Use UTC
             final eventStartTime = thatDay.addTimePoint(classTime.begin).toUtc();

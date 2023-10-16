@@ -212,7 +212,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
           ),
           SliverList.list(children: [
             buildTeachersToggle(),
-            buildFadeOutPassedLesson(),
+            buildGrayOutPassedLesson(),
           ]),
         ],
       ),
@@ -241,15 +241,23 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
     });
   }
 
-  Widget buildFadeOutPassedLesson() {
-    return ListTile(
-      leading: const Icon(Icons.timelapse),
-      title: "Fade out passed lessons".text(),
-      subtitle: "Before today".text(),
-      trailing: Switch.adaptive(
-        value: true,
-        onChanged: (newV) {},
-      ),
+  Widget buildGrayOutPassedLesson() {
+    return StatefulBuilder(
+      builder: (context,setState) {
+        return ListTile(
+          leading: const Icon(Icons.timelapse),
+          title: "Gray out passed lessons".text(),
+          subtitle: "Before today".text(),
+          trailing: Switch.adaptive(
+            value: Settings.timetable.cell.grayOutPassedLessons ,
+            onChanged: (newV) {
+              setState((){
+                Settings.timetable.cell.grayOutPassedLessons = newV;
+              });
+            },
+          ),
+        );
+      }
     );
   }
 }

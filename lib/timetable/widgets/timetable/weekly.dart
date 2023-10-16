@@ -9,9 +9,9 @@ import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/dash_decoration.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/school/entity/school.dart';
-import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/utils/color.dart';
 
 import '../../events.dart';
 import '../../entity/timetable.dart';
@@ -344,6 +344,9 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
       lesson: widget.lesson,
       course: widget.course,
       style: widget.style,
+      // TODO: fade out
+      grayOut:
+          TimetableStyle.of(context).cell.grayOutPassedLessons ? widget.lesson.endTime.isBefore(DateTime.now()) : false,
       builder: (ctx, child) => Tooltip(
         key: $tooltip,
         preferBelow: false,
@@ -373,6 +376,7 @@ class CourseCell extends StatelessWidget {
   final SitCourse course;
   final Widget Function(BuildContext context, Widget child)? builder;
   final CourseCellStyle style;
+  final bool grayOut;
 
   const CourseCell({
     super.key,
@@ -380,6 +384,7 @@ class CourseCell extends StatelessWidget {
     required this.course,
     required this.style,
     this.builder,
+    this.grayOut = false,
   });
 
   @override
@@ -390,6 +395,7 @@ class CourseCell extends StatelessWidget {
         .resolveColor(course)
         .byTheme(context.theme)
         .harmonizeWith(context.colorScheme.primary);
+
     final info = TimetableSlotInfo(
       course: course,
       maxLines: context.isPortrait ? 8 : 5,
@@ -397,7 +403,7 @@ class CourseCell extends StatelessWidget {
     ).center();
     return FilledCard(
       clip: Clip.hardEdge,
-      color: color,
+      color: grayOut ? color.monochrome(progress: 1) : color,
       margin: EdgeInsets.all(0.5.w),
       child: builder != null ? builder(context, info) : info,
     );

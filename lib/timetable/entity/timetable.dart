@@ -205,6 +205,9 @@ class SitTimetableLesson {
   /// The end index of this lesson in a [SitTimetableWeek]
   final int endIndex;
 
+  final DateTime startTime;
+  final DateTime endTime;
+
   /// A lesson may last two or more time slots.
   /// If current [SitTimetableLesson] is a part of the whole lesson, they all have the same [courseKey].
   final SitCourse course;
@@ -213,7 +216,13 @@ class SitTimetableLesson {
   /// It's at least 1 timeslot.
   int get duration => endIndex - startIndex + 1;
 
-  const SitTimetableLesson(this.startIndex, this.endIndex, this.course);
+  const SitTimetableLesson({
+    required this.startIndex,
+    required this.endIndex,
+    required this.startTime,
+    required this.endTime,
+    required this.course,
+  });
 
   @override
   String toString() => "[$course] $startIndex-$endIndex";
@@ -313,6 +322,11 @@ extension SitCourseEx on SitCourse {
       result.add(timetable[timeslot]);
     }
     return result;
+  }
+
+  ClassTime calcBeginEndTimePointOfLesson(int timeslot) {
+    final timetable = buildingTimetable;
+    return timetable[timeslot];
   }
 }
 

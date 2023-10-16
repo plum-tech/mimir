@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 const _kAutoUseImported = true;
 const _kShowTeachers = true;
+const _kGrayOutPassedLessons = false;
 
 class _K {
   static const ns = "/timetable";
@@ -25,6 +25,7 @@ class TimetableSettings {
 class _CellK {
   static const ns = "${_K.ns}/cell";
   static const showTeachers = "$ns/showTeachers";
+  static const grayOutPassedLessons = "$ns/grayOutPassedLessons";
 }
 
 class _Cell {
@@ -36,5 +37,9 @@ class _Cell {
 
   set showTeachers(bool newV) => box.put(_CellK.showTeachers, newV);
 
-  ValueListenable listenStyle() => box.listenable(keys: [_CellK.showTeachers]);
+  bool get grayOutPassedLessons => box.get(_CellK.grayOutPassedLessons) ?? _kGrayOutPassedLessons;
+
+  set grayOutPassedLessons(bool newV) => box.put(_CellK.grayOutPassedLessons, newV);
+
+  ValueListenable listenStyle() => box.listenable(keys: [_CellK.showTeachers, _CellK.grayOutPassedLessons]);
 }

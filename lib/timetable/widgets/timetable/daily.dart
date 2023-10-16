@@ -9,6 +9,7 @@ import 'package:sit/school/entity/school.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:sit/timetable/widgets/free.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/utils/color.dart';
 
 import '../../entity/timetable.dart';
 import '../../events.dart';
@@ -212,11 +213,14 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
     required int timeslot,
   }) {
     final course = lesson.course;
-    final color = TimetableStyle.of(context)
+    var color = TimetableStyle.of(context)
         .platte
         .resolveColor(course)
         .byTheme(context.theme)
         .harmonizeWith(context.colorScheme.primary);
+    if (TimetableStyle.of(context).cell.grayOutPassedLessons && lesson.endTime.isBefore(DateTime.now())) {
+      color = color.monochrome();
+    }
     final classTime = course.buildingTimetable[timeslot];
     return [
       ClassTimeCard(
