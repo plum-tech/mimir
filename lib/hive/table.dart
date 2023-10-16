@@ -57,6 +57,7 @@ class HiveTable<T> {
   set selectedId(int? newValue) {
     box.put(_selectedIdK, newValue);
     $selected.notifier();
+    $any.notifier();
   }
 
   T? get selectedRow {

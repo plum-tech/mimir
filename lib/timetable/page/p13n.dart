@@ -120,6 +120,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
                 ? null
                 : () async {
                     final newPalette = await context.show$Sheet$<TimetablePalette>(
+                      dismissible: false,
                       (context) => TimetablePaletteEditor(
                         palette: palette.clone(),
                         initialBrightness: context.theme.brightness,
