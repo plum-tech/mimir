@@ -531,30 +531,27 @@ class PaletteColorCard extends StatelessWidget {
         duration: const Duration(milliseconds: 300),
         builder: (ctx, value, child) => FilledCard(
           color: value,
+          clip: Clip.hardEdge,
           margin: EdgeInsets.zero,
-          child: SizedBox(
-            height: 35,
-            child: "#$number".text(style: context.textTheme.titleLarge).center(),
+          child: InkWell(
+            onTap: () {
+              onEdit?.call();
+            },
+            child: SizedBox(
+              height: 35,
+              child: "#$number".text(style: context.textTheme.titleLarge).center(),
+            ),
           ),
         ),
       ),
       subtitle: "0x${color.hexAlpha}".text(),
-      trailing: [
-        IconButton(
-          visualDensity: VisualDensity.compact,
-          icon: const Icon(Icons.edit),
-          onPressed: () {
-            onEdit?.call();
-          },
-        ),
-        IconButton(
-          visualDensity: VisualDensity.compact,
-          icon: const Icon(Icons.delete),
-          onPressed: () {
-            onDelete?.call();
-          },
-        ),
-      ].row(mas: MainAxisSize.min),
+      trailing: IconButton(
+        visualDensity: VisualDensity.compact,
+        icon: const Icon(Icons.delete),
+        onPressed: () {
+          onDelete?.call();
+        },
+      ),
     );
   }
 }
