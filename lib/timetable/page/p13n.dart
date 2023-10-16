@@ -71,9 +71,12 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
       ),
       floatingActionButton: AutoHideFAB.extended(
         controller: scrollController,
-        onPressed: () {},
         label: "Palette".text(),
         icon: const Icon(Icons.add),
+        onPressed: () {
+          final palette = TimetablePalette(name: "New palette", colors: []);
+          TimetableInit.storage.palette.add(palette);
+        },
       ),
     );
   }
@@ -112,7 +115,6 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
           actions: (
             use: () {
               TimetableInit.storage.palette.selectedId = id;
-              setState(() {});
             },
             edit: palette is BuiltinTimetablePalette
                 ? null
@@ -242,23 +244,21 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
   }
 
   Widget buildGrayOutPassedLesson() {
-    return StatefulBuilder(
-      builder: (context,setState) {
-        return ListTile(
-          leading: const Icon(Icons.timelapse),
-          title: "Gray out passed lessons".text(),
-          subtitle: "Before today".text(),
-          trailing: Switch.adaptive(
-            value: Settings.timetable.cell.grayOutPassedLessons ,
-            onChanged: (newV) {
-              setState((){
-                Settings.timetable.cell.grayOutPassedLessons = newV;
-              });
-            },
-          ),
-        );
-      }
-    );
+    return StatefulBuilder(builder: (context, setState) {
+      return ListTile(
+        leading: const Icon(Icons.timelapse),
+        title: "Gray out passed lessons".text(),
+        subtitle: "Before today".text(),
+        trailing: Switch.adaptive(
+          value: Settings.timetable.cell.grayOutPassedLessons,
+          onChanged: (newV) {
+            setState(() {
+              Settings.timetable.cell.grayOutPassedLessons = newV;
+            });
+          },
+        ),
+      );
+    });
   }
 }
 
@@ -316,9 +316,11 @@ class PaletteCard extends StatelessWidget {
       ));
     } else {
       all.add(FilledButton(
-        onPressed: () {
-          actions.use();
-        },
+        onPressed: palette.colors.isEmpty
+            ? null
+            : () {
+                actions.use();
+              },
         child: "Use".text(),
       ));
     }
