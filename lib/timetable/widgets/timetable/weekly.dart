@@ -12,12 +12,12 @@ import 'package:rettulf/rettulf.dart';
 
 import '../../events.dart';
 import '../../entity/timetable.dart';
+import '../../page/details.dart';
 import '../../utils.dart';
 import '../free.dart';
 import '../slot.dart';
 import 'header.dart';
 import '../style.dart';
-import '../sheet.dart';
 import '../../entity/pos.dart';
 
 class WeeklyTimetable extends StatefulWidget {
@@ -351,7 +351,7 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
             await HapticFeedback.lightImpact();
             if (!mounted) return;
             await context.show$Sheet$(
-              (ctx) => TimetableCourseSheet(courseCode: widget.course.courseCode, timetable: widget.timetable),
+              (ctx) => TimetableCourseDetailsSheet(courseCode: widget.course.courseCode, timetable: widget.timetable),
             );
           },
           child: child,
