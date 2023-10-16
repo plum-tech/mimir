@@ -8,6 +8,7 @@ import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/qrcode/page.dart';
 import 'package:sit/qrcode/protocol.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/platte.dart';
@@ -83,7 +84,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
       subtitle: "How course cell looks like".text(),
       trailing: const Icon(Icons.open_in_new),
       onTap: () async {
-        await context.show$Sheet$((ctx) => TimetableCellStyleEditor());
+        await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
       },
     );
   }
@@ -211,15 +212,21 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
   }
 
   Widget buildTeachersToggle() {
-    return ListTile(
-      leading: const Icon(Icons.person_pin),
-      title: "Teachers".text(),
-      subtitle: "Show teachers in cell".text(),
-      trailing: Switch.adaptive(
-        value: true,
-        onChanged: (newV) {},
-      ),
-    );
+    return StatefulBuilder(builder: (context, setState) {
+      return ListTile(
+        leading: const Icon(Icons.person_pin),
+        title: "Teachers".text(),
+        subtitle: "Show teachers in cell".text(),
+        trailing: Switch.adaptive(
+          value: Settings.timetable.cell.showTeachers,
+          onChanged: (newV) {
+            setState(() {
+              Settings.timetable.cell.showTeachers = newV;
+            });
+          },
+        ),
+      );
+    });
   }
 
   Widget buildFadeOutPassedLesson() {

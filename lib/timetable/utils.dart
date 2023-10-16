@@ -2,16 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ical/serializer.dart';
 import 'package:open_file/open_file.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/entity/school.dart';
-import 'package:sit/settings/settings.dart';
-import 'package:sit/timetable/settings.dart';
-import 'package:sit/timetable/storage/timetable.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
 import 'entity/timetable.dart';
@@ -229,7 +225,6 @@ String convertTimetable2ICal({
   final alarm = config.alarm;
 
   for (final week in timetable.weeks) {
-    if (week == null) continue;
     for (final day in week.days) {
       for (final lessonSlot in day.timeslot2LessonSlot) {
         for (final lesson in lessonSlot.lessons) {

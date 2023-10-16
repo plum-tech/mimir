@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
@@ -29,17 +30,30 @@ extension DesignExtension on BuildContext {
   }
 }
 
+class CourseCellStyle {
+  final bool showTeachers;
+
+  const CourseCellStyle({
+    required this.showTeachers,
+  });
+}
+
 class TimetableStyleData {
   final TimetablePalette platte;
+  final CourseCellStyle cell;
 
   const TimetableStyleData({
     required this.platte,
+    required this.cell,
   });
 
   @override
   // ignore: hash_and_equals
   bool operator ==(Object other) {
-    return other is TimetableStyleData && runtimeType == other.runtimeType && platte == other.platte;
+    return other is TimetableStyleData &&
+        runtimeType == other.runtimeType &&
+        platte == other.platte &&
+        cell == other.cell;
   }
 }
 
@@ -76,36 +90,33 @@ class TimetableStyleProv extends StatefulWidget {
 }
 
 class TimetableStyleProvState extends State<TimetableStyleProv> {
-  TimetablePalette _selected = BuiltinTimetablePalettes.classic;
   final $selected = TimetableInit.storage.palette.$selected;
+  final $cellStyle = Settings.timetable.cell.listenStyle();
 
   @override
   void initState() {
     super.initState();
     $selected.addListener(refresh);
+    $cellStyle.addListener(refresh);
   }
 
   @override
   void dispose() {
     $selected.removeListener(refresh);
+    $cellStyle.removeListener(refresh);
     super.dispose();
   }
 
   void refresh() {
-    final current = TimetableInit.storage.palette.selectedRow;
-    if (!mounted) return;
-    if (current != null) {
-      setState(() {
-        _selected = current;
-      });
-    }
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return TimetableStyle(
       data: TimetableStyleData(
-        platte: _selected,
+        platte: TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic,
+        cell: CourseCellStyle(showTeachers: Settings.timetable.cell.showTeachers),
       ),
       child: buildChild(),
     );
