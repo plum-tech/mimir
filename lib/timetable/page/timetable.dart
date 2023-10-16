@@ -64,6 +64,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         actions: [
           buildSwitchViewButton(),
           buildMoreActionsButton(),
+          buildMyTimetablesButton(),
         ],
       ),
       floatingActionButton: InkWell(
@@ -114,33 +115,21 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
             );
   }
 
+  Widget buildMyTimetablesButton() {
+    return IconButton(
+      icon: const Icon(Icons.person_rounded),
+      onPressed: () async {
+        await context.push("/timetable/mine");
+        setState(() {});
+      },
+    );
+  }
+
   Widget buildMoreActionsButton() {
     return PopupMenuButton(
       position: PopupMenuPosition.under,
       padding: EdgeInsets.zero,
       itemBuilder: (ctx) => <PopupMenuEntry>[
-        PopupMenuItem(
-          child: ListTile(
-            leading: const Icon(Icons.person_rounded),
-            // TODO: i18n
-            title: "My timetables".text(),
-            onTap: () async {
-              await context.push("/timetable/mine");
-              // TODO: is this necessary?
-              setState(() {});
-            },
-          ),
-        ),
-        PopupMenuItem(
-          child: ListTile(
-            leading: const Icon(Icons.color_lens_outlined),
-            // TODO: i18n
-            title: "Personalization".text(),
-            onTap: () async {
-              await context.push("/timetable/p13n");
-            },
-          ),
-        ),
         PopupMenuItem(
           child: ListTile(
             leading: const Icon(Icons.screenshot),

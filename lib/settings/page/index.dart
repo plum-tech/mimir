@@ -83,6 +83,16 @@ class _SettingsPageState extends State<SettingsPage> {
         icon: const Icon(Icons.person_rounded),
         path: "/settings/credentials",
       ));
+    } else {
+      // TODO: i18n
+      all.add(ListTile(
+        title: "Login".text(),
+        subtitle: "Please login".text(),
+        leading: const Icon(Icons.person_rounded),
+        onTap: () {
+          context.go("/login");
+        },
+      ));
     }
     all.add(const Divider());
 

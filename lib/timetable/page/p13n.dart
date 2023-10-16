@@ -69,7 +69,8 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
               TimetableInit.storage.palette.selectedId = id;
               setState(() {});
             },
-            edit: () {}
+            edit: () {},
+            duplicate: () {},
           ),
         ).padH(12);
       },
@@ -114,11 +115,11 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
     );
   }
 
-  Widget buildPreview(){
+  Widget buildPreview() {
     return const Placeholder();
   }
 
-  Widget buildTeachersToggle(){
+  Widget buildTeachersToggle() {
     return ListTile(
       leading: const Icon(Icons.person_pin),
       title: "Teachers".text(),
@@ -143,7 +144,11 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
   }
 }
 
-typedef PaletteActions = ({void Function() use, void Function()? edit});
+typedef PaletteActions = ({
+  void Function() use,
+  void Function()? edit,
+  void Function()? duplicate,
+});
 
 class PaletteCard extends StatelessWidget {
   final TimetablePalette palette;
@@ -163,35 +168,19 @@ class PaletteCard extends StatelessWidget {
     final textTheme = context.textTheme;
     final widget = [
       palette.name.text(style: textTheme.titleLarge),
+      buildColors(context).padSymmetric(h: 4, v: 4),
       if (actions != null)
         OverflowBar(
           alignment: MainAxisAlignment.spaceBetween,
           children: [
-            [
-              if (isSelected)
-                FilledButton.icon(
-                  icon: const Icon(Icons.check),
-                  onPressed: null,
-                  label: "Used".text(),
-                )
-              else
-                FilledButton(
-                  onPressed: () {
-                    actions.use();
-                  },
-                  child: "Used".text(),
-                ),
-              if (actions.edit != null)
-                OutlinedButton(
-                  onPressed: () {
-                    actions.edit!.call();
-                  },
-                  child: "Edit".text(),
-                )
-            ].wrap(spacing: 12),
+            buildActions(actions).wrap(spacing: 4),
           ],
         ),
-    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15);
+    ]
+        .column(
+          caa: CrossAxisAlignment.start,
+        )
+        .padSymmetric(v: 10, h: 15);
     return isSelected
         ? widget.inFilledCard(
             clip: Clip.hardEdge,
@@ -201,9 +190,59 @@ class PaletteCard extends StatelessWidget {
           );
   }
 
-  Widget buildColor(Color2Mode colors) {
+  List<Widget> buildActions(PaletteActions actions) {
+    final all = <Widget>[];
+    if (isSelected) {
+      all.add(FilledButton.icon(
+        icon: const Icon(Icons.check),
+        onPressed: null,
+        label: "Used".text(),
+      ));
+    } else {
+      all.add(FilledButton(
+        onPressed: () {
+          actions.use();
+        },
+        child: "Use".text(),
+      ));
+    }
+    final edit = actions.edit;
+    if (edit != null) {
+      all.add(OutlinedButton(
+        onPressed: () {
+          edit.call();
+        },
+        child: "Edit".text(),
+      ));
+    }
+    final duplicate = actions.duplicate;
+    if (duplicate != null) {
+      all.add(OutlinedButton(
+        onPressed: () {
+          duplicate.call();
+        },
+        child: "Duplicate".text(),
+      ));
+    }
+    return all;
+  }
+
+  Widget buildColors(BuildContext context) {
+    return palette.colors.map((c) => buildColor(context, c)).toList().wrap(
+          spacing: 4,
+          runSpacing: 4,
+        );
+  }
+
+  Widget buildColor(BuildContext context, Color2Mode colors) {
+    return SizedBox(
+      width: 32,
+      height: 32,
+      child: ColoredBox(color: colors.byTheme(context.theme)),
+    );
     return CustomPaint(
       painter: DiagonalTwoColorsPainter((colors.light, colors.dark)),
+      child: SizedBox(width: 16, height: 16),
     );
   }
 }
