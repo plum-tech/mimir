@@ -94,7 +94,7 @@ class DailyTimetableState extends State<DailyTimetable> {
           int weekIndex = index ~/ 7;
           int dayIndex = index % 7;
           final todayPos = timetable.type.locate(DateTime.now());
-          return _OneDayPage(
+          return TimetableOneDayPage(
             timetable: timetable,
             todayPos: todayPos,
             weekIndex: weekIndex,
@@ -119,13 +119,13 @@ class DailyTimetableState extends State<DailyTimetable> {
   }
 }
 
-class _OneDayPage extends StatefulWidget {
+class TimetableOneDayPage extends StatefulWidget {
   final SitTimetableEntity timetable;
   final TimetablePos todayPos;
   final int weekIndex;
   final int dayIndex;
 
-  const _OneDayPage({
+  const TimetableOneDayPage({
     super.key,
     required this.timetable,
     required this.todayPos,
@@ -134,10 +134,10 @@ class _OneDayPage extends StatefulWidget {
   });
 
   @override
-  State<_OneDayPage> createState() => _OneDayPageState();
+  State<TimetableOneDayPage> createState() => _TimetableOneDayPageState();
 }
 
-class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientMixin {
+class _TimetableOneDayPageState extends State<TimetableOneDayPage> with AutomaticKeepAliveClientMixin {
   SitTimetableEntity get timetable => widget.timetable;
 
   /// Cache the who page to avoid expensive rebuilding.

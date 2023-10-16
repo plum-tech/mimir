@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/timetable.dart';
 import "../i18n.dart";
 import '../widgets/style.dart';
@@ -10,14 +9,17 @@ import '../widgets/timetable/weekly.dart';
 
 typedef TimetableScreenshotConfig = ({
   String signature,
+  bool grayOutPassedLessons,
 });
 
 class TimetableScreenshotConfigEditor extends StatefulWidget {
   final SitTimetableEntity timetable;
+  final bool initialGrayOutPassedLessons;
 
   const TimetableScreenshotConfigEditor({
     super.key,
     required this.timetable,
+    this.initialGrayOutPassedLessons = false,
   });
 
   @override
@@ -26,11 +28,17 @@ class TimetableScreenshotConfigEditor extends StatefulWidget {
 
 class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotConfigEditor> {
   final $signature = TextEditingController(text: "");
+  late bool grayOutPassedLessons = widget.initialGrayOutPassedLessons;
 
   @override
   void dispose() {
     $signature.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
@@ -47,6 +55,7 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
           ),
           SliverList.list(children: [
             buildSignatureInput(),
+            buildGrayOutPassedLessons(),
           ]),
         ],
       ),
@@ -57,7 +66,10 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
     return CupertinoButton(
       child: i18n.screenshot.screenshot.text(),
       onPressed: () async {
-        context.pop<TimetableScreenshotConfig>((signature: $signature.text.trim(),));
+        context.pop<TimetableScreenshotConfig>((
+          signature: $signature.text.trim(),
+          grayOutPassedLessons: grayOutPassedLessons == true,
+        ));
       },
     );
   }
@@ -72,6 +84,22 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
         decoration: InputDecoration(
           hintText: i18n.screenshot.signaturePlaceholder,
         ),
+      ),
+    );
+  }
+
+  Widget buildGrayOutPassedLessons() {
+    return ListTile(
+      leading: const Icon(Icons.timelapse),
+      title: "Gray out passed lessons".text(),
+      subtitle: "Before today".text(),
+      trailing: Switch.adaptive(
+        value: grayOutPassedLessons == true,
+        onChanged: (newV) {
+          setState(() {
+            grayOutPassedLessons = newV;
+          });
+        },
       ),
     );
   }
@@ -94,6 +122,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cellStyle = TimetableStyle.of(context).cell;
+    final today = DateTime.now();
     return [
       buildTitle().text(style: context.textTheme.titleLarge).padSymmetric(v: 10),
       TimetableOneWeek(
@@ -105,6 +134,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
             lesson: lesson,
             course: course,
             style: cellStyle,
+            grayOut: config.grayOutPassedLessons ? lesson.endTime.isBefore(today) : false,
           );
         },
       ),

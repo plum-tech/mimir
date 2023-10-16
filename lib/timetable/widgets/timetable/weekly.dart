@@ -147,6 +147,7 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
       return cache;
     } else {
       final cellStyle = TimetableStyle.of(context).cell;
+      final today = DateTime.now();
       Widget buildCell({
         required BuildContext context,
         required SitTimetableLesson lesson,
@@ -158,6 +159,7 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
           style: cellStyle,
           timetable: timetable,
           course: course,
+          grayOut: cellStyle.grayOutPassedLessons ? lesson.endTime.isBefore(today) : false,
         );
       }
 
@@ -321,6 +323,7 @@ class InteractiveCourseCell extends StatefulWidget {
   final SitCourse course;
   final SitTimetableEntity timetable;
   final CourseCellStyle style;
+  final bool grayOut;
 
   const InteractiveCourseCell({
     super.key,
@@ -328,6 +331,7 @@ class InteractiveCourseCell extends StatefulWidget {
     required this.timetable,
     required this.course,
     required this.style,
+    this.grayOut = false,
   });
 
   @override
@@ -344,9 +348,7 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
       lesson: widget.lesson,
       course: widget.course,
       style: widget.style,
-      // TODO: fade out
-      grayOut:
-          TimetableStyle.of(context).cell.grayOutPassedLessons ? widget.lesson.endTime.isBefore(DateTime.now()) : false,
+      grayOut: widget.grayOut,
       builder: (ctx, child) => Tooltip(
         key: $tooltip,
         preferBelow: false,
