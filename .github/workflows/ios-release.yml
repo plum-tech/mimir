@@ -3,6 +3,7 @@ name: Flutter_iOS
 on: workflow_dispatch
 #  push:
 #    branches: [master]
+permissions: write-all
 
 jobs:
   build_ios:
@@ -11,6 +12,26 @@ jobs:
     steps:
     - name: Checkout the code
       uses: actions/checkout@v2
+
+    - name: Change Version info
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      run: |
+        python3 ./ios-build-tools/addBuildNumber.py
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+        git add .
+        git commit -m "Update build number"
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+
+    - name: Change Develop to Distribution
+      run: |
+        python3 ./ios-build-tools/toDistribution.py
 
     - name: Install Apple Certificate
       uses: apple-actions/import-codesign-certs@v1
@@ -50,9 +71,16 @@ jobs:
     - name: Export ipa
       run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
 
-    - name: Publish iOS Artefacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: release-ios
-        path: build-output/ios
+#    - name: Publish iOS Artifacts
+#      uses: actions/upload-artifact@v1
+#      with:
+#        name: release-ios
+#        path: build-output/ios
 
+    - name: Deploy to App Store (Testflight)
+      uses: apple-actions/upload-testflight-build@v1
+      with:
+        app-path: ${{ github.workspace }}/build-output/ios/life.mysit.SITLife.ipa
+        issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+        api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+        api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
