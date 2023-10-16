@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 import '../i18n.dart';
 import '../entity/timetable.dart';
 
-class TimetableCourseSheet extends StatelessWidget {
+class TimetableCourseDetailsSheet extends StatelessWidget {
   final String courseCode;
   final SitTimetableEntity timetable;
 
   /// 一门课可能包括实践和理论课. 由于正方不支持这种设置, 实际教务系统在处理中会把这两部分拆开, 但是它们的课程名称和课程代码是一样的
   /// classes 中存放的就是对应的所有课程, 我们在这把它称为班级.
-  const TimetableCourseSheet({
+  const TimetableCourseDetailsSheet({
     super.key,
     required this.courseCode,
     required this.timetable,
@@ -30,19 +31,24 @@ class TimetableCourseSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(classes[0].courseName, style: context.textTheme.titleLarge),
-          const Divider(),
-          buildTable(),
-          const Divider(),
-          ...generateTimeString().map((e) => e.text()),
-        ],
-      ).padSymmetric(v: 20, h: 20),
+    return Scaffold(
+      appBar: AppBar(
+        title: TextScroll(
+          classes[0].courseName,
+        ),
+      ),
+      body: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildTable(),
+            const Divider(),
+            ...generateTimeString().map((e) => e.text()),
+          ],
+        ).padSymmetric(v: 20, h: 20),
+      ),
     );
   }
 

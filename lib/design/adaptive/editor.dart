@@ -450,7 +450,7 @@ class _StringEditorState extends State<_StringEditor> {
 
   @override
   Widget build(BuildContext context) {
-    final lines = context.isPortrait ? widget.initial.length ~/ 40 + 1 : widget.initial.length ~/ 120 + 1;
+    final lines = context.isPortrait ? widget.initial.length ~/ 30 + 1 : widget.initial.length ~/ 100 + 1;
     return $Dialog$(
         title: widget.title,
         primary: $Action$(

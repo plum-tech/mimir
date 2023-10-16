@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/timetable.dart';
 import "../i18n.dart";
+import '../widgets/style.dart';
 import '../widgets/timetable/weekly.dart';
 
 typedef TimetableScreenshotConfig = ({
@@ -91,6 +93,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cellStyle = TimetableStyle.of(context).cell;
     return [
       buildTitle().text(style: context.textTheme.titleLarge).padSymmetric(v: 10),
       TimetableOneWeek(
@@ -100,8 +103,8 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
         cellBuilder: ({required context, required lesson, required course, required timetable}) {
           return CourseCell(
             lesson: lesson,
-            timetable: timetable,
             course: course,
+            style: cellStyle,
           );
         },
       ),

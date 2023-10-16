@@ -17,7 +17,7 @@ import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
-import '../widgets/meta_editor.dart';
+import 'editor.dart';
 
 enum ImportStatus {
   none,
@@ -145,7 +145,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       defaultStartDate = findFirstWeekdayInCurrentMonth(DateTime(year + 1, 2), DateTime.monday);
     }
     final newTimetable = await ctx.show$Sheet$<SitTimetable>(
-      (ctx) => TimetableMetaEditor(
+      (ctx) => TimetableEditor(
         timetable: timetable.copyWith(
           name: defaultName,
           semester: semester,

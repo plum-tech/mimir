@@ -85,6 +85,10 @@ timetable:
     termTip: "Cool! You even have a free term! 🎉🎉🎉"
     findNearestWeekWithClass: Find a week with class
     findNearestDayWithClass: Find a day with class
+  p13n:
+    builtinPalette:
+      classic: Classic
+      oldSchool: Old School
 school:
   navigation: School
   schoolYear: School year

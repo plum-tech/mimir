@@ -98,7 +98,7 @@ class _MePageState extends State<MePage> {
             return;
           }
         }
-        if(!mounted) return;
+        if (!mounted) return;
         // TODO: QR Code
         await context.showTip(title: "Result", desc: res.toString(), ok: i18n.ok);
       },

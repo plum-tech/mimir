@@ -115,6 +115,7 @@ dependencies:
   cached_network_image: ^3.2.3
   modal_bottom_sheet: ^3.0.0-pre
   auto_size_text: ^3.0.0
+  text_scroll: ^0.2.0
   markdown: ^7.1.0
   auto_animated: ^3.1.0
   animations: ^2.0.8

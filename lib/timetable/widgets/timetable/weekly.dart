@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,17 +8,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/dash_decoration.dart';
 import 'package:sit/design/widgets/card.dart';
+import 'package:sit/school/entity/school.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../events.dart';
 import '../../entity/timetable.dart';
+import '../../page/details.dart';
 import '../../utils.dart';
 import '../free.dart';
-import '../slot.dart';
 import 'header.dart';
 import '../style.dart';
-import '../sheet.dart';
 import '../../entity/pos.dart';
 
 class WeeklyTimetable extends StatefulWidget {
@@ -79,10 +81,8 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
       scrollDirection: Axis.horizontal,
       itemCount: 20,
       itemBuilder: (ctx, weekIndex) {
-        final todayPos = timetable.type.locate(DateTime.now());
         return TimetableOneWeekCached(
           timetable: timetable,
-          todayPos: todayPos,
           weekIndex: weekIndex,
         );
       },
@@ -106,13 +106,11 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
 
 class TimetableOneWeekCached extends StatefulWidget {
   final SitTimetableEntity timetable;
-  final TimetablePos todayPos;
   final int weekIndex;
 
   const TimetableOneWeekCached({
     super.key,
     required this.timetable,
-    required this.todayPos,
     required this.weekIndex,
   });
 
@@ -148,12 +146,26 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
     if (cache != null) {
       return cache;
     } else {
+      final cellStyle = TimetableStyle.of(context).cell;
+      Widget buildCell({
+        required BuildContext context,
+        required SitTimetableLesson lesson,
+        required SitCourse course,
+        required SitTimetableEntity timetable,
+      }) {
+        return InteractiveCourseCell(
+          lesson: lesson,
+          style: cellStyle,
+          timetable: timetable,
+          course: course,
+        );
+      }
+
       final res = LayoutBuilder(
         builder: (context, box) {
           return TimetableOneWeek(
             fullSize: Size(box.maxWidth, box.maxHeight * 1.2),
             timetable: widget.timetable,
-            todayPos: widget.todayPos,
             weekIndex: widget.weekIndex,
             showFreeTip: true,
             cellBuilder: buildCell,
@@ -164,24 +176,10 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
       return res;
     }
   }
-
-  Widget buildCell({
-    required BuildContext context,
-    required SitTimetableLesson lesson,
-    required SitCourse course,
-    required SitTimetableEntity timetable,
-  }) {
-    return InteractiveCourseCell(
-      lesson: lesson,
-      timetable: timetable,
-      course: course,
-    );
-  }
 }
 
 class TimetableOneWeek extends StatelessWidget {
   final SitTimetableEntity timetable;
-  final TimetablePos? todayPos;
   final int weekIndex;
   final Size fullSize;
   final bool showFreeTip;
@@ -198,7 +196,6 @@ class TimetableOneWeek extends StatelessWidget {
     required this.weekIndex,
     required this.fullSize,
     required this.cellBuilder,
-    this.todayPos,
     this.showFreeTip = false,
   });
 
@@ -218,7 +215,6 @@ class TimetableOneWeek extends StatelessWidget {
       return [
         view,
         FreeWeekTip(
-          todayPos: todayPos,
           timetable: timetable,
           weekIndex: weekIndex,
         ).padOnly(t: fullSize.height * 0.2),
@@ -324,12 +320,14 @@ class InteractiveCourseCell extends StatefulWidget {
   final SitTimetableLesson lesson;
   final SitCourse course;
   final SitTimetableEntity timetable;
+  final CourseCellStyle style;
 
   const InteractiveCourseCell({
     super.key,
     required this.lesson,
     required this.timetable,
     required this.course,
+    required this.style,
   });
 
   @override
@@ -344,8 +342,8 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
     final lessons = widget.course.calcBeginEndTimePointForEachLesson();
     return CourseCell(
       lesson: widget.lesson,
-      timetable: widget.timetable,
       course: widget.course,
+      style: widget.style,
       builder: (ctx, child) => Tooltip(
         key: $tooltip,
         preferBelow: false,
@@ -360,7 +358,7 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
             await HapticFeedback.lightImpact();
             if (!mounted) return;
             await context.show$Sheet$(
-              (ctx) => TimetableCourseSheet(courseCode: widget.course.courseCode, timetable: widget.timetable),
+              (ctx) => TimetableCourseDetailsSheet(courseCode: widget.course.courseCode, timetable: widget.timetable),
             );
           },
           child: child,
@@ -373,14 +371,14 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
 class CourseCell extends StatelessWidget {
   final SitTimetableLesson lesson;
   final SitCourse course;
-  final SitTimetableEntity timetable;
   final Widget Function(BuildContext context, Widget child)? builder;
+  final CourseCellStyle style;
 
   const CourseCell({
     super.key,
     required this.lesson,
-    required this.timetable,
     required this.course,
+    required this.style,
     this.builder,
   });
 
@@ -395,6 +393,7 @@ class CourseCell extends StatelessWidget {
     final info = TimetableSlotInfo(
       course: course,
       maxLines: context.isPortrait ? 8 : 5,
+      showTeachers: style.showTeachers,
     ).center();
     return FilledCard(
       clip: Clip.hardEdge,
@@ -435,6 +434,44 @@ class DashLined extends StatelessWidget {
         },
       ),
       child: child,
+    );
+  }
+}
+
+class TimetableSlotInfo extends StatelessWidget {
+  final SitCourse course;
+  final int maxLines;
+  final bool showTeachers;
+
+  const TimetableSlotInfo({
+    super.key,
+    required this.course,
+    required this.maxLines,
+    required this.showTeachers,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AutoSizeText.rich(
+      TextSpan(children: [
+        TextSpan(
+          text: course.courseName,
+          style: context.textTheme.bodyMedium,
+        ),
+        TextSpan(
+          text: "\n${beautifyPlace(course.place)}",
+          style: context.textTheme.bodySmall,
+        ),
+        if (showTeachers)
+          TextSpan(
+            text: "\n${course.teachers.join(',')}",
+            style: context.textTheme.bodySmall,
+          ),
+      ]),
+      minFontSize: 0,
+      stepGranularity: 0.1,
+      maxLines: maxLines,
+      textAlign: TextAlign.center,
     );
   }
 }

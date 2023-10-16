@@ -22,11 +22,20 @@ class HiveTable<T> {
   final String _rowsK;
   final String _selectedIdK;
   final ({T Function(Map<String, dynamic> json) fromJson, Map<String, dynamic> Function(T row) toJson})? useJson;
+  /// notify if selected row was changed.
   final $selected = Notifier();
+  /// notify if any row was changed.
+  final $any = Notifier();
+  /// The delegate of getting row
+  final T? Function(int id, T? Function(int id) builtin)? get;
+  /// The delegate of setting row
+  final void Function(int id, T? newV, void Function(int id, T? newV) builtin)? set;
 
   HiveTable({
     required this.base,
     required this.box,
+    this.get,
+    this.set,
     this.useJson,
   })  : _lastIdK = "$base/$_kLastId",
         _idListK = "$base/$_kIdList",
@@ -55,10 +64,18 @@ class HiveTable<T> {
     if (id == null) {
       return null;
     }
-    return getOf(id);
+    return this[id];
   }
 
-  T? getOf(int id) {
+  T? operator [](int id) {
+    final get = this.get;
+    if (get != null) {
+      return get(id, _get);
+    }
+    return _get(id);
+  }
+
+  T? _get(int id) {
     final row = box.get("$_rowsK/$id");
     final useJson = this.useJson;
     if (useJson == null || row == null) {
@@ -68,21 +85,25 @@ class HiveTable<T> {
     }
   }
 
-  void setOf(int id, T? newValue) {
-    dynamic row = newValue;
+  void operator []=(int id, T? newValue) {
+    final set = this.set;
+    if (set != null) {
+      set(id, newValue, _set);
+    }
+    return _set(id, newValue);
+  }
+
+  void _set(int id, T? newValue) {
     final useJson = this.useJson;
-    if (useJson == null || row == null) {
-      box.put("$_rowsK/$id", row);
+    if (useJson == null || newValue == null) {
+      box.put("$_rowsK/$id", newValue);
     } else {
-      box.put("$_rowsK/$id", jsonEncode(useJson.toJson(row)));
+      box.put("$_rowsK/$id", jsonEncode(useJson.toJson(newValue)));
     }
     if (selectedId == id) {
       $selected.notifier();
     }
-  }
-
-  void _deleteOf(int id) {
-    box.delete("$_rowsK/$id");
+    $any.notifier();
   }
 
   /// Return a new ID for the [row].
@@ -90,7 +111,7 @@ class HiveTable<T> {
     final curId = lastId++;
     final ids = idList ?? <int>[];
     ids.add(curId);
-    setOf(curId, row);
+    this[curId] = row;
     idList = ids;
     return curId;
   }
@@ -109,7 +130,8 @@ class HiveTable<T> {
           selectedId = null;
         }
       }
-      _deleteOf(id);
+      box.delete("$_rowsK/$id");
+      $any.notifier();
     }
   }
 
@@ -117,19 +139,23 @@ class HiveTable<T> {
     final ids = idList;
     if (ids == null) return;
     for (final id in ids) {
-      _deleteOf(id);
+      box.delete("$_rowsK/$id");
     }
     box.delete(_idListK);
     box.delete(_selectedIdK);
     box.delete(_lastIdK);
+    $selected.notifier();
+    $any.notifier();
   }
 
+  // TODO: Row delegate?
+  /// ignore null row
   List<({int id, T row})> getRows() {
     final ids = idList;
     final res = <({int id, T row})>[];
     if (ids == null) return res;
     for (final id in ids) {
-      final row = getOf(id);
+      final row = this[id];
       if (row != null) {
         res.add((id: id, row: row));
       }

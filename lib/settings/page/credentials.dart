@@ -53,9 +53,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
   Widget buildBody() {
     final credential = context.auth.credentials;
     final all = <WidgetBuilder>[];
-    if (credential == null) {
-      all.add((_) => buildLogin());
-    } else {
+    if (credential != null) {
       all.add((_) => buildAccount(credential));
       all.add((_) => const Divider());
       all.add((_) => buildPassword(credential));
@@ -68,17 +66,6 @@ class _CredentialsPageState extends State<CredentialsPage> {
           return all[index](ctx);
         },
       ),
-    );
-  }
-
-  Widget buildLogin() {
-    return ListTile(
-      title: "Login".text(),
-      subtitle: "Please login".text(),
-      leading: const Icon(Icons.person_rounded),
-      onTap: () async {
-        // TODO: Login
-      },
     );
   }
 

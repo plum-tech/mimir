@@ -169,7 +169,6 @@ class _OneDayPageState extends State<_OneDayPage> with AutomaticKeepAliveClientM
     if (!day.hasAnyLesson()) {
       return FreeDayTip(
         timetable: timetable,
-        todayPos: widget.todayPos,
         weekIndex: weekIndex,
         dayIndex: dayIndex,
       ).scrolled().center();

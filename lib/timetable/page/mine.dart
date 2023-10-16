@@ -6,6 +6,7 @@ import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/route.dart';
 import 'package:rettulf/rettulf.dart';
@@ -16,7 +17,7 @@ import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
 import '../utils.dart';
-import '../widgets/meta_editor.dart';
+import 'editor.dart';
 
 class MyTimetableListPage extends StatefulWidget {
   const MyTimetableListPage({super.key});
@@ -26,7 +27,24 @@ class MyTimetableListPage extends StatefulWidget {
 }
 
 class _MyTimetableListPageState extends State<MyTimetableListPage> {
-  final storage = TimetableInit.storage;
+  final $timetableList = TimetableInit.storage.timetable.$any;
+  final scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    $timetableList.addListener(refresh);
+  }
+
+  @override
+  void dispose() {
+    $timetableList.removeListener(refresh);
+    super.dispose();
+  }
+
+  void refresh() {
+    setState(() {});
+  }
 
   /// Import a new timetable.
   /// Updates the selected timetable id.
@@ -47,8 +65,6 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         TimetableInit.storage.timetable.selectedId ??= result.id;
       }
     }
-    if (!mounted) return;
-    setState(() {});
   }
 
   Future<({int id, SitTimetable timetable})?> importFromSchoolServer() async {
@@ -70,10 +86,11 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final timetables = storage.timetable.getRows();
-    final selectedId = storage.timetable.selectedId;
+    final timetables = TimetableInit.storage.timetable.getRows();
+    final selectedId = TimetableInit.storage.timetable.selectedId;
     return Scaffold(
       body: CustomScrollView(
+        controller: scrollController,
         slivers: [
           SliverAppBar(
             floating: true,
@@ -104,9 +121,11 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
                 return buildTimetableEntry(id, timetable, isSelected);
               },
             ),
+          const SliverFillRemaining(),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: AutoHideFAB.extended(
+        controller: scrollController,
         onPressed: goImport,
         label: Text(isLoginGuarded(context) ? i18n.import.fromFile : i18n.import.import),
         icon: const Icon(Icons.add_outlined),
@@ -117,15 +136,15 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   Widget buildTimetableEntry(int id, SitTimetable timetable, bool isSelected) {
     if (!isCupertino) {
       return TimetableEntry(
-        id: id,
         timetable: timetable,
+        isSelected: TimetableInit.storage.timetable.selectedId == id,
         moreAction: buildActionPopup(id, timetable, isSelected),
         actions: (
-          use: (id, timetable) {
-            storage.timetable.selectedId = id;
+          use: () {
+            TimetableInit.storage.timetable.selectedId = id;
             setState(() {});
           },
-          preview: (id, timetable) {
+          preview: () {
             context.push("/timetable/preview/$id", extra: timetable);
           }
         ),
@@ -141,9 +160,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
               onPressed: () async {
                 Navigator.of(context, rootNavigator: true).pop();
                 await Future.delayed(const Duration(milliseconds: 336));
-                if (!mounted) return;
-                storage.timetable.selectedId = id;
-                setState(() {});
+                TimetableInit.storage.timetable.selectedId = id;
               },
               child: i18n.mine.use.text(),
             ),
@@ -194,7 +211,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         ],
         builder: (ctx, animation) {
           return TimetableEntry(
-            id: id,
+            isSelected: TimetableInit.storage.timetable.selectedId == id,
             timetable: timetable,
             moreAction: animation.value > 0.5
                 ? null
@@ -202,8 +219,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
                     onPressed: isSelected
                         ? null
                         : () async {
-                            storage.timetable.selectedId = id;
-                            setState(() {});
+                            TimetableInit.storage.timetable.selectedId = id;
                           },
                     icon: isSelected
                         ? Icon(CupertinoIcons.check_mark, color: context.colorScheme.primary)
@@ -277,12 +293,10 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
 
   Future<void> onEdit(int id, SitTimetable timetable) async {
     final newTimetable = await context.show$Sheet$<SitTimetable>(
-      (ctx) => TimetableMetaEditor(timetable: timetable),
+      (ctx) => TimetableEditor(timetable: timetable),
     );
     if (newTimetable != null) {
-      storage.timetable.setOf(id, newTimetable);
-      if (!mounted) return;
-      setState(() {});
+      TimetableInit.storage.timetable[id] = newTimetable;
     }
   }
 
@@ -295,33 +309,29 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       highlight: true,
     );
     if (confirm == true) {
-      storage.timetable.delete(id);
-      if (!mounted) return;
-      setState(() {});
+      TimetableInit.storage.timetable.delete(id);
     }
   }
 }
 
-typedef TimetableCallback = void Function(int id, SitTimetable tiemtable);
-typedef TimetableActions = ({TimetableCallback use, TimetableCallback preview});
+typedef TimetableActions = ({void Function() use, void Function() preview});
 
 class TimetableEntry extends StatelessWidget {
-  final int id;
   final SitTimetable timetable;
   final Widget? moreAction;
   final TimetableActions? actions;
+  final bool isSelected;
 
   const TimetableEntry({
     super.key,
-    required this.id,
     required this.timetable,
     this.actions,
     this.moreAction,
+    required this.isSelected,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isSelected = TimetableInit.storage.timetable.selectedId == id;
     final year = '${timetable.schoolYear}–${timetable.schoolYear + 1}';
     final semester = timetable.semester.localized();
     final textTheme = context.textTheme;
@@ -331,11 +341,11 @@ class TimetableEntry extends StatelessWidget {
       timetable.name.text(style: textTheme.titleLarge),
       "$year, $semester".text(style: textTheme.titleMedium),
       "${i18n.startWith} ${context.formatYmdText(timetable.startDate)}".text(style: textTheme.bodyLarge),
-      if (actions != null)
-        OverflowBar(
-          alignment: MainAxisAlignment.spaceBetween,
-          children: [
-            [
+      OverflowBar(
+        alignment: MainAxisAlignment.spaceBetween,
+        children: [
+          [
+            if (actions != null)
               if (isSelected)
                 FilledButton.icon(
                   icon: const Icon(Icons.check),
@@ -345,23 +355,22 @@ class TimetableEntry extends StatelessWidget {
               else
                 FilledButton(
                   onPressed: () {
-                    actions.use(id, timetable);
+                    actions.use();
                   },
                   child: i18n.mine.use.text(),
                 ),
+            if (actions != null)
               if (!isSelected)
                 OutlinedButton(
                   onPressed: () {
-                    actions.preview(id, timetable);
+                    actions.preview();
                   },
                   child: i18n.mine.preview.text(),
                 )
-            ].wrap(spacing: 12),
-            if (moreAction != null) moreAction,
-          ],
-        )
-      else if (moreAction != null)
-        moreAction.align(at: Alignment.bottomRight),
+          ].wrap(spacing: 4),
+          if (moreAction != null) moreAction,
+        ],
+      ),
     ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15);
     return isSelected
         ? widget.inFilledCard(
