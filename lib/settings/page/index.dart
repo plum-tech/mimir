@@ -6,6 +6,7 @@ import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/widgets/card.dart';
 import 'package:sit/global/init.dart';
 import 'package:sit/hive/init.dart';
 import 'package:sit/l10n/extension.dart';
@@ -204,15 +205,19 @@ class _SettingsPageState extends State<SettingsPage> {
       leading: const Icon(Icons.color_lens_outlined),
       title: i18n.themeColor.text(),
       subtitle: "0x${selected.hexAlpha}".text(),
-      trailing: IconButton(
-        icon: const Icon(Icons.colorize),
-        onPressed: () async {
-          final color = await context.show$Sheet$<Color>((_) => ThemeColorPicker(initialColor: selected));
-          if (color != null) {
-            await HapticFeedback.mediumImpact();
-            Settings.theme.themeColor = color;
-          }
-        },
+      onTap: () async {
+        final color = await context.show$Sheet$<Color>((_) => ThemeColorPicker(initialColor: selected));
+        if (color != null) {
+          await HapticFeedback.mediumImpact();
+          Settings.theme.themeColor = color;
+        }
+      },
+      trailing: FilledCard(
+        color: selected,
+        child: const SizedBox(
+          width: 32,
+          height: 32,
+        ),
       ),
     );
   }
@@ -366,10 +371,10 @@ class _ThemeColorPickerState extends State<ThemeColorPicker> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: i18n
     return Scaffold(
       appBar: AppBar(
         title: "Select color".text(),
-        backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {
@@ -385,7 +390,6 @@ class _ThemeColorPickerState extends State<ThemeColorPicker> {
           ),
         ],
       ),
-      backgroundColor: Colors.transparent,
       body: SizedBox(
         width: double.infinity,
         child: ColorPicker(
@@ -394,11 +398,11 @@ class _ThemeColorPickerState extends State<ThemeColorPicker> {
             setState(() => selected = color);
           },
           pickersEnabled: const <ColorPickerType, bool>{
-            ColorPickerType.both: false,
-            ColorPickerType.primary: true,
-            ColorPickerType.accent: true,
-            ColorPickerType.bw: false,
-            ColorPickerType.custom: false,
+            ColorPickerType.both: true,
+            ColorPickerType.primary: false,
+            ColorPickerType.accent: false,
+            ColorPickerType.bw: true,
+            ColorPickerType.custom: true,
             ColorPickerType.wheel: true,
           },
           width: 44,
@@ -410,7 +414,7 @@ class _ThemeColorPickerState extends State<ThemeColorPicker> {
             style: Theme.of(context).textTheme.titleSmall,
           ),
         ),
-      ),
+      ).scrolled(),
     );
   }
 }
