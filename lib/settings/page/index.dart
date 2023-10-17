@@ -204,7 +204,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return ListTile(
       leading: const Icon(Icons.color_lens_outlined),
       title: i18n.themeColor.text(),
-      subtitle: "0x${selected.hexAlpha}".text(),
+      subtitle: "#${selected.hexAlpha}".text(),
       onTap: () async {
         final newColor = await showColorPickerDialog(
           context,

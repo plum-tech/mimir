@@ -568,7 +568,7 @@ class PaletteColorCard extends StatelessWidget {
           ),
         ),
       ),
-      subtitle: "0x${color.hexAlpha}".text(),
+      subtitle: "#${color.hexAlpha}".text(),
       trailing: IconButton(
         visualDensity: VisualDensity.compact,
         icon: const Icon(Icons.delete),
