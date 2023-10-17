@@ -213,12 +213,13 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
     required int timeslot,
   }) {
     final course = lesson.course;
-    var color = TimetableStyle.of(context)
-        .platte
-        .resolveColor(course)
-        .byTheme(context.theme)
-        .harmonizeWith(context.colorScheme.primary);
-    if (TimetableStyle.of(context).cell.grayOutPassedLessons && lesson.endTime.isBefore(DateTime.now())) {
+    final style = TimetableStyle.of(context);
+
+    var color = style.platte.resolveColor(course).byTheme(context.theme);
+    if (style.cell.harmonizeWithThemeColor) {
+      color = color.harmonizeWith(context.colorScheme.primary);
+    }
+    if (style.cell.grayOutPassedLessons && lesson.endTime.isBefore(DateTime.now())) {
       color = color.monochrome();
     }
     final classTime = course.buildingTimetable[timeslot];

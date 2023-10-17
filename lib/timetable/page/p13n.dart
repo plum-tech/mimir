@@ -216,7 +216,12 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
           SliverList.list(children: [
             buildTeachersToggle(),
             buildGrayOutPassedLesson(),
+            buildHarmonizeWithThemeColor(),
           ]),
+          // const SliverToBoxAdapter(
+          //   child: Divider(),
+          // ),
+          // TODO: add preview
         ],
       ),
     );
@@ -255,6 +260,24 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
           onChanged: (newV) {
             setState(() {
               Settings.timetable.cell.grayOutPassedLessons = newV;
+            });
+          },
+        ),
+      );
+    });
+  }
+
+  Widget buildHarmonizeWithThemeColor() {
+    return StatefulBuilder(builder: (context, setState) {
+      return ListTile(
+        leading: const Icon(Icons.format_color_fill),
+        title: "Harmonize with theme color".text(),
+        subtitle: "Mix the cell color with theme color".text(),
+        trailing: Switch.adaptive(
+          value: Settings.timetable.cell.harmonizeWithThemeColor,
+          onChanged: (newV) {
+            setState(() {
+              Settings.timetable.cell.harmonizeWithThemeColor = newV;
             });
           },
         ),

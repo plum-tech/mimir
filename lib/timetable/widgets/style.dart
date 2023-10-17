@@ -33,10 +33,12 @@ extension DesignExtension on BuildContext {
 class CourseCellStyle {
   final bool showTeachers;
   final bool grayOutPassedLessons;
+  final bool harmonizeWithThemeColor;
 
   const CourseCellStyle({
     required this.showTeachers,
     required this.grayOutPassedLessons,
+    required this.harmonizeWithThemeColor,
   });
 }
 
@@ -121,6 +123,7 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
         cell: CourseCellStyle(
           showTeachers: Settings.timetable.cell.showTeachers,
           grayOutPassedLessons: Settings.timetable.cell.grayOutPassedLessons,
+          harmonizeWithThemeColor: Settings.timetable.cell.harmonizeWithThemeColor,
         ),
       ),
       child: buildChild(),

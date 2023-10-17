@@ -392,20 +392,22 @@ class CourseCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final builder = this.builder;
-    final color = TimetableStyle.of(context)
-        .platte
-        .resolveColor(course)
-        .byTheme(context.theme)
-        .harmonizeWith(context.colorScheme.primary);
-
+    final style = TimetableStyle.of(context);
+    var color = style.platte.resolveColor(course).byTheme(context.theme);
+    if (style.cell.harmonizeWithThemeColor) {
+      color = color.harmonizeWith(context.colorScheme.primary);
+    }
+    if (grayOut) {
+      color = color.monochrome();
+    }
     final info = TimetableSlotInfo(
       course: course,
       maxLines: context.isPortrait ? 8 : 5,
-      showTeachers: style.showTeachers,
+      showTeachers: style.cell.showTeachers,
     ).center();
     return FilledCard(
       clip: Clip.hardEdge,
-      color: grayOut ? color.monochrome(progress: 1) : color,
+      color: color,
       margin: EdgeInsets.all(0.5.w),
       child: builder != null ? builder(context, info) : info,
     );
