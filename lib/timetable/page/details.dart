@@ -17,50 +17,78 @@ class TimetableCourseDetailsSheet extends StatelessWidget {
     required this.timetable,
   });
 
-  List<SitCourse> get classes => timetable.findAndCacheCoursesByCourseCode(courseCode);
-
-  /// 解析课程ID对应的不同时间段的课程信息
-  List<String> generateTimeString() {
-    return classes.map((e) {
-      final weekNumbers = e.localizedWeekNumbers();
-      final (:begin, :end) = e.calcBeginEndTimePoint();
-      final timeText = "$begin–$end";
-      return "$weekNumbers $timeText\n ${e.place}";
-    }).toList();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final courses = timetable.findAndCacheCoursesByCourseCode(courseCode);
     return Scaffold(
-      appBar: AppBar(
-        title: TextScroll(
-          classes[0].courseName,
-        ),
-      ),
-      body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            buildTable(),
-            const Divider(),
-            ...generateTimeString().map((e) => e.text()),
-          ],
-        ).padSymmetric(v: 20, h: 20),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: TextScroll(
+              courses[0].courseName,
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            sliver: SliverToBoxAdapter(
+              child: buildTable(courses),
+            ),
+          ),
+          const SliverToBoxAdapter(
+            child: Divider(),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            sliver: SliverList.builder(
+              itemCount: courses.length,
+              itemBuilder: (ctx, i) {
+                final course = courses[i];
+                return CourseDescCard(course);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget buildTable() {
+  Widget buildTable(List<SitCourse> courses) {
     return Table(
       children: [
-        TableRow(children: [i18n.details.courseId.text(), courseCode.text()]),
+        TableRow(children: [
+          i18n.details.courseId.text(),
+          courseCode.text(),
+        ]),
         TableRow(children: [
           i18n.details.classId.text(),
-          classes[0].classCode.text(),
+          courses[0].classCode.text(),
+        ]),
+        TableRow(children: [
+          i18n.details.teacher.text(),
+          // TODO: merge all teachers?
+          courses[0].teachers.join(", ").text(),
         ]),
       ],
+    );
+  }
+}
+
+class CourseDescCard extends StatelessWidget {
+  final SitCourse course;
+
+  const CourseDescCard(
+    this.course, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final weekNumbers = course.localizedWeekNumbers();
+    final (:begin, :end) = course.calcBeginEndTimePoint();
+    final timeText = "$begin–$end";
+    return ListTile(
+      title: "$weekNumbers $timeText".text(),
+      subtitle: "${course.place} ${course.teachers.join(", ")}".text(),
     );
   }
 }

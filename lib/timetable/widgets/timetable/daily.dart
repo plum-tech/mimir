@@ -4,8 +4,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/school/entity/school.dart';
+import 'package:sit/timetable/page/details.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:sit/timetable/widgets/free.dart';
 import 'package:rettulf/rettulf.dart';
@@ -267,8 +269,15 @@ class LessonCard extends StatelessWidget {
     return FilledCard(
       margin: const EdgeInsets.all(8),
       color: color,
+      clip: Clip.hardEdge,
       child: ListTile(
         leading: courseIcon,
+        onTap: () async {
+          if (!context.mounted) return;
+          await context.show$Sheet$(
+            (ctx) => TimetableCourseDetailsSheet(courseCode: course.courseCode, timetable: timetable),
+          );
+        },
         title: AutoSizeText(
           course.courseName,
           maxLines: 1,

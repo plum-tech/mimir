@@ -67,13 +67,11 @@ class _Details {
 
   static const ns = "${_I18n.ns}.details";
 
-  String get nameFormTitle => "$ns.nameFormTitle".tr();
-
-  String get descFormTitle => "$ns.descFormTitle".tr();
-
   String get classId => "$ns.classId".tr();
 
   String get courseId => "$ns.courseId".tr();
+
+  String get teacher => "$ns.teacher".tr();
 }
 
 class _Screenshot {
@@ -137,6 +135,8 @@ class _Edit {
   const _Edit();
 
   static const ns = "${_I18n.ns}.edit";
+
+  String get name => "$ns.name".tr();
 }
 
 class _Export {

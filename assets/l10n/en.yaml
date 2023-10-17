@@ -17,10 +17,11 @@ timetable:
     deleteRequestDesc: You will lose this timetable permanently
     emptyTip: Let's import a timetable!
   details:
-    descFormTitle: Description
-    nameFormTitle: Name
     classId: Class Code
     courseId: Course Code
+    teacher: Teacher
+  edit:
+    name: Name
   import:
     title: Import timetable
     import: Import

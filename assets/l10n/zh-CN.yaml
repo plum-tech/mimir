@@ -17,10 +17,11 @@ timetable:
     deleteRequestDesc: 这个课程表将被永久删除
     emptyTip: 快去导入一个课程表吧！
   details:
-    descFormTitle: 描述
-    nameFormTitle: 名称
     classId: 教学班
     courseId: 课程代码
+    teacher: 教师
+  edit:
+    name: 名称
   import:
     title: 导入课程表
     import: 导入
