@@ -244,58 +244,46 @@ String convertTimetable2ICal({
     lang: config.locale?.toLanguageTag() ?? "EN",
   );
   final alarm = config.alarm;
-
+  final merged = config.isLessonMerged;
   for (final week in timetable.weeks) {
     for (final day in week.days) {
       for (final lessonSlot in day.timeslot2LessonSlot) {
         for (final part in lessonSlot.lessons) {
           final course = part.course;
           final teachers = course.teachers.join(', ');
-          void addEvent(
-            SitTimetableLessonPart part, {
-            required DateTime startTime,
-            required DateTime endTime,
-          }) {
-            // Use UTC
-            final event = IEvent(
-              uid: "${R.appId}.${course.courseCode}.${week.index}.${day.index}.${part.index}",
-              summary: course.courseName,
-              location: course.place,
-              description: teachers,
-              start: startTime,
-              end: endTime,
-              // DON'T USE duration, that is broken on iOS.
-              // duration: part.calcuClassDuration().toDuration(),
-              alarm: alarm == null
-                  ? null
-                  : alarm.isSoundAlarm
-                      ? IAlarm.audio(
-                          trigger: startTime.subtract(alarm.alarmBeforeClass).toUtc(),
-                          duration: alarm.alarmDuration,
-                        )
-                      : IAlarm.display(
-                          trigger: startTime.subtract(alarm.alarmBeforeClass).toUtc(),
-                          description: "${course.courseName} ${course.place} $teachers",
-                          duration: alarm.alarmDuration,
-                        ),
-            );
-            calendar.addElement(event);
-          }
-
-          if (config.isLessonMerged) {
-            addEvent(
-              part,
-              startTime: part.type.startTime.toUtc(),
-              endTime: part.type.endTime.toUtc(),
-            );
+          final lesson = part.type;
+          final startTime = (merged ? lesson.startTime : part.startTime).toUtc();
+          final endTime = (merged ? lesson.endTime : part.endTime).toUtc();
+          final uid = merged
+              ? "${R.appId}.${course.courseCode}.${week.index}.${day.index}.${lesson.startIndex}-${lesson.endIndex}"
+              : "${R.appId}.${course.courseCode}.${week.index}.${day.index}.${part.index}";
+          // Use UTC
+          final event = IEvent(
+            uid: uid,
+            summary: course.courseName,
+            location: course.place,
+            description: teachers,
+            start: startTime,
+            end: endTime,
+            // DON'T USE duration, that is broken on iOS.
+            // duration: part.calcuClassDuration().toDuration(),
+            alarm: alarm == null
+                ? null
+                : alarm.isSoundAlarm
+                    ? IAlarm.audio(
+                        trigger: startTime.subtract(alarm.alarmBeforeClass).toUtc(),
+                        duration: alarm.alarmDuration,
+                      )
+                    : IAlarm.display(
+                        trigger: startTime.subtract(alarm.alarmBeforeClass).toUtc(),
+                        description: "${course.courseName} ${course.place} $teachers",
+                        duration: alarm.alarmDuration,
+                      ),
+          );
+          calendar.addElement(event);
+          if (merged) {
             // skip the `lessonParts` loop
             break;
-          } else {
-            addEvent(
-              part,
-              startTime: part.startTime.toUtc(),
-              endTime: part.endTime.toUtc(),
-            );
           }
         }
       }

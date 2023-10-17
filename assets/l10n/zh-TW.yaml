@@ -43,7 +43,7 @@ timetable:
       title: 課程模式
       desc: 如何排列
       merged:
-        name: 合併
+        name: 完整
         info: 同一節課的幾個部分會被合併為一個日程
       separate:
         name: 分離

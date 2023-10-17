@@ -43,7 +43,7 @@ timetable:
       title: Lesson mode
       desc: How to arrange
       merged:
-        name: Merged
+        name: Full
         info: Several parts of the same class will be combined into one event
       separate:
         name: Separate
