@@ -24,6 +24,7 @@ class TimetableCourseDetailsSheet extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            floating: true,
             title: TextScroll(
               courses[0].courseName,
             ),

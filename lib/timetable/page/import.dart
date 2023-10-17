@@ -122,7 +122,6 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     return [
       buildTip(context).padSymmetric(v: 30),
       SemesterSelector(
-        showNextYear: true,
         baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
         initial: initial,
         onSelected: (newSelection) {

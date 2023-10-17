@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/timetable/page/p13n.dart';
 import '../i18n.dart';
 
 class TimetableSettingsPage extends StatefulWidget {
@@ -18,7 +19,7 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
-        slivers: <Widget>[
+        slivers: [
           SliverAppBar(
             pinned: true,
             snap: false,
@@ -28,10 +29,11 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
               title: i18n.timetable.title.text(style: context.textTheme.headlineSmall),
             ),
           ),
-          SliverList(
-            delegate: SliverChildListDelegate([
+          SliverList.list(
+            children: [
               buildAutoUseImportedToggle(),
-            ]),
+              const TimetableEditCellStyleTile(),
+            ],
           ),
         ],
       ),

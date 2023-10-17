@@ -34,7 +34,7 @@ class _SchoolSettingsPageState extends State<SchoolSettingsPage> {
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
-        slivers: <Widget>[
+        slivers: [
           SliverAppBar(
             pinned: true,
             snap: false,

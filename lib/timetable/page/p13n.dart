@@ -52,8 +52,8 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
             floating: true,
             title: "Personalization".text(),
           ),
-          SliverList.list(children: [
-            buildEditCellStyleTile(),
+          SliverList.list(children:  [
+            const TimetableEditCellStyleTile(),
           ]),
           const SliverToBoxAdapter(
             child: Divider(),
@@ -78,18 +78,6 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
           TimetableInit.storage.palette.add(palette);
         },
       ),
-    );
-  }
-
-  Widget buildEditCellStyleTile() {
-    return ListTile(
-      leading: const Icon(Icons.style_outlined),
-      title: "Edit cell style".text(),
-      subtitle: "How course cell looks like".text(),
-      trailing: const Icon(Icons.open_in_new),
-      onTap: () async {
-        await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
-      },
     );
   }
 
@@ -197,6 +185,24 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
   }
 }
 
+class TimetableEditCellStyleTile extends StatelessWidget {
+  const TimetableEditCellStyleTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: const Icon(Icons.style_outlined),
+      title: "Edit cell style".text(),
+      subtitle: "How course cell looks like".text(),
+      trailing: const Icon(Icons.open_in_new),
+      onTap: () async {
+        await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
+      },
+    );
+  }
+}
+
+
 class TimetableCellStyleEditor extends StatefulWidget {
   const TimetableCellStyleEditor({super.key});
 
@@ -218,10 +224,9 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
             buildGrayOutPassedLesson(),
             buildHarmonizeWithThemeColor(),
           ]),
-          // const SliverToBoxAdapter(
-          //   child: Divider(),
-          // ),
-          // TODO: add preview
+          const SliverToBoxAdapter(
+            child: Divider(),
+          ),
         ],
       ),
     );

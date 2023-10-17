@@ -21,7 +21,7 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
-        slivers: <Widget>[
+        slivers: [
           SliverAppBar(
             pinned: true,
             snap: false,

@@ -10,7 +10,6 @@ class SemesterSelector extends StatefulWidget {
 
   /// 是否显示整个学年
   final bool showEntireYear;
-  final bool showNextYear;
   final void Function(SemesterInfo newSelection)? onSelected;
 
   const SemesterSelector({
@@ -19,7 +18,6 @@ class SemesterSelector extends StatefulWidget {
     this.onSelected,
     this.initial,
     this.showEntireYear = false,
-    this.showNextYear = false,
   });
 
   @override
@@ -60,9 +58,7 @@ class _SemesterSelectorState extends State<SemesterSelector> {
   }
 
   List<int> _generateYearList() {
-    var endYear = now.month >= 9 ? now.year : now.year - 1;
-
-    endYear += (widget.showNextYear) ? 1 : 0;
+    final endYear = now.month >= 9 ? now.year : now.year - 1;
     List<int> yearItems = [];
     for (var year = widget.baseYear ?? now.year; year <= endYear; year++) {
       yearItems.add(year);
