@@ -150,7 +150,7 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
       final today = DateTime.now();
       Widget buildCell({
         required BuildContext context,
-        required SitTimetableLesson lesson,
+        required SitTimetableLessonPart lesson,
         required SitCourse course,
         required SitTimetableEntity timetable,
       }) {
@@ -187,7 +187,7 @@ class TimetableOneWeek extends StatelessWidget {
   final bool showFreeTip;
   final Widget Function({
     required BuildContext context,
-    required SitTimetableLesson lesson,
+    required SitTimetableLessonPart lesson,
     required SitCourse course,
     required SitTimetableEntity timetable,
   }) cellBuilder;
@@ -300,7 +300,7 @@ class TimetableOneWeek extends StatelessWidget {
         final course = firstLayerLesson.course;
         cells.add(SizedBox(
           width: cellSize.width,
-          height: cellSize.height * firstLayerLesson.duration,
+          height: cellSize.height * firstLayerLesson.type.timeslotDuration,
           child: cellBuilder(
             context: context,
             lesson: firstLayerLesson,
@@ -310,7 +310,7 @@ class TimetableOneWeek extends StatelessWidget {
         ));
 
         /// Skip to the end
-        timeslot = firstLayerLesson.endIndex;
+        timeslot = firstLayerLesson.type.endIndex;
       }
     }
 
@@ -319,7 +319,7 @@ class TimetableOneWeek extends StatelessWidget {
 }
 
 class InteractiveCourseCell extends StatefulWidget {
-  final SitTimetableLesson lesson;
+  final SitTimetableLessonPart lesson;
   final SitCourse course;
   final SitTimetableEntity timetable;
   final CourseCellStyle style;
@@ -374,7 +374,7 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
 }
 
 class CourseCell extends StatelessWidget {
-  final SitTimetableLesson lesson;
+  final SitTimetableLessonPart lesson;
   final SitCourse course;
   final Widget Function(BuildContext context, Widget child)? builder;
   final CourseCellStyle style;

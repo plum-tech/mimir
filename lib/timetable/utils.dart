@@ -147,17 +147,25 @@ SitTimetableEntity resolveTimetableEntity(SitTimetable timetable) {
           dayIndex: day.index,
           startDate: timetable.startDate,
         );
+        final fullClassTime = course.calcBeginEndTimePoint();
+        final lesson = SitTimetableLesson(
+          course: course,
+          startIndex: timeslots.start,
+          endIndex: timeslots.end,
+          startTime: thatDay.addTimePoint(fullClassTime.begin),
+          endTime: thatDay.addTimePoint(fullClassTime.end),
+        );
         for (int slot = timeslots.start; slot <= timeslots.end; slot++) {
           final classTime = course.calcBeginEndTimePointOfLesson(slot);
           day.add(
-              SitTimetableLesson(
-                startIndex: timeslots.start,
-                endIndex: timeslots.end,
-                startTime: thatDay.addTimePoint(classTime.begin),
-                endTime: thatDay.addTimePoint(classTime.end),
-                course: course,
-              ),
-              at: slot);
+            SitTimetableLessonPart(
+              type: lesson,
+              index: slot,
+              startTime: thatDay.addTimePoint(classTime.begin),
+              endTime: thatDay.addTimePoint(classTime.end),
+            ),
+            at: slot,
+          );
         }
       }
     }
@@ -235,54 +243,59 @@ String convertTimetable2ICal({
     product: 'SIT Life',
     lang: config.locale?.toLanguageTag() ?? "EN",
   );
-  final startDate = timetable.type.startDate;
   final alarm = config.alarm;
 
   for (final week in timetable.weeks) {
     for (final day in week.days) {
       for (final lessonSlot in day.timeslot2LessonSlot) {
-        for (final lesson in lessonSlot.lessons) {
-          final course = lesson.course;
+        for (final part in lessonSlot.lessons) {
+          final course = part.course;
           final teachers = course.teachers.join(', ');
-          final thatDay = reflectWeekDayIndexToDate(
-            weekIndex: week.index,
-            dayIndex: day.index,
-            startDate: startDate,
-          );
-          void addEvent(ClassTime classTime) {
+          void addEvent(
+            SitTimetableLessonPart part, {
+            required DateTime startTime,
+            required DateTime endTime,
+          }) {
             // Use UTC
-            final eventStartTime = thatDay.addTimePoint(classTime.begin).toUtc();
-            final eventEndTime = thatDay.addTimePoint(classTime.end).toUtc();
             final event = IEvent(
-              uid: "${R.appId}.${course.courseCode}.${week.index}.${day.index}",
+              uid: "${R.appId}.${course.courseCode}.${week.index}.${day.index}.${part.index}",
               summary: course.courseName,
               location: course.place,
               description: teachers,
-              start: eventStartTime,
-              end: eventEndTime,
-              // DON'T USE duration, that breaks iOS.
-              // duration: lesson.calcuClassDuration().toDuration(),
+              start: startTime,
+              end: endTime,
+              // DON'T USE duration, that is broken on iOS.
+              // duration: part.calcuClassDuration().toDuration(),
               alarm: alarm == null
                   ? null
                   : alarm.isSoundAlarm
                       ? IAlarm.audio(
-                          trigger: eventStartTime.subtract(alarm.alarmBeforeClass).toUtc(),
+                          trigger: startTime.subtract(alarm.alarmBeforeClass).toUtc(),
+                          duration: alarm.alarmDuration,
                         )
                       : IAlarm.display(
-                          trigger: eventStartTime.subtract(alarm.alarmBeforeClass).toUtc(),
+                          trigger: startTime.subtract(alarm.alarmBeforeClass).toUtc(),
                           description: "${course.courseName} ${course.place} $teachers",
+                          duration: alarm.alarmDuration,
                         ),
             );
             calendar.addElement(event);
           }
 
           if (config.isLessonMerged) {
-            addEvent(course.calcBeginEndTimePoint());
+            addEvent(
+              part,
+              startTime: part.type.startTime.toUtc(),
+              endTime: part.type.endTime.toUtc(),
+            );
+            // skip the `lessonParts` loop
+            break;
           } else {
-            final lessonTimePoints = course.calcBeginEndTimePointForEachLesson();
-            for (var timePointsIndex = 0; timePointsIndex < lessonTimePoints.length; timePointsIndex++) {
-              addEvent(lessonTimePoints[timePointsIndex]);
-            }
+            addEvent(
+              part,
+              startTime: part.startTime.toUtc(),
+              endTime: part.endTime.toUtc(),
+            );
           }
         }
       }

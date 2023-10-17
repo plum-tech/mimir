@@ -188,7 +188,7 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
 
   Widget? buildLessonsInTimeslot(
     BuildContext ctx,
-    List<SitTimetableLesson> lessonsInSlot,
+    List<SitTimetableLessonPart> lessonsInSlot,
     int timeslot,
   ) {
     if (lessonsInSlot.isEmpty) {
@@ -209,7 +209,7 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
   Widget buildSingleLesson(
     BuildContext context, {
     required SitTimetableEntity timetable,
-    required SitTimetableLesson lesson,
+    required SitTimetableLessonPart lesson,
     required int timeslot,
   }) {
     final course = lesson.course;
@@ -242,7 +242,7 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
 }
 
 class LessonCard extends StatelessWidget {
-  final SitTimetableLesson lesson;
+  final SitTimetableLessonPart lesson;
   final SitCourse course;
   final SitTimetableEntity timetable;
   final Color color;
@@ -307,7 +307,7 @@ class ClassTimeCard extends StatelessWidget {
 }
 
 class LessonOverlapGroup extends StatelessWidget {
-  final List<SitTimetableLesson> lessonsInSlot;
+  final List<SitTimetableLessonPart> lessonsInSlot;
   final int timeslot;
   final SitTimetableEntity timetable;
 

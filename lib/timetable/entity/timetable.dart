@@ -96,6 +96,14 @@ class SitTimetableEntity {
       return res;
     }
   }
+
+  String get name => type.name;
+
+  DateTime get startDate => type.startDate;
+
+  int get schoolYear => type.schoolYear;
+
+  Semester get semester => type.semester;
 }
 
 class SitTimetableWeek {
@@ -126,7 +134,7 @@ class SitTimetableWeek {
 
 /// Lessons in the same Timeslot.
 class SitTimetableLessonSlot {
-  final List<SitTimetableLesson> lessons;
+  final List<SitTimetableLessonPart> lessons;
 
   SitTimetableLessonSlot({required this.lessons});
 }
@@ -155,7 +163,7 @@ class SitTimetableDay {
     return timeslot2LessonSlot.every((lessonSlot) => lessonSlot.lessons.isEmpty);
   }
 
-  void add(SitTimetableLesson lesson, {required int at}) {
+  void add(SitTimetableLessonPart lesson, {required int at}) {
     assert(0 <= at && at < timeslot2LessonSlot.length);
     if (0 <= at && at < timeslot2LessonSlot.length) {
       final lessonSlot = timeslot2LessonSlot[at];
@@ -164,23 +172,10 @@ class SitTimetableDay {
   }
 
   /// At all lessons [layer]
-  Iterable<SitTimetableLesson> browseLessonsAt({required int layer}) sync* {
+  Iterable<SitTimetableLessonPart> browseLessonsAt({required int layer}) sync* {
     for (final lessonSlot in timeslot2LessonSlot) {
       if (0 <= layer && layer < lessonSlot.lessons.length) {
         yield lessonSlot.lessons[layer];
-      }
-    }
-  }
-
-  /// At the unique lessons [layer].
-  /// So, if the [SitTimetableLesson.duration] is more than 1, it will only yield the first lesson.
-  Iterable<SitTimetableLesson> browseUniqueLessonsAt({required int layer}) sync* {
-    for (int timeslot = 0; timeslot < timeslot2LessonSlot.length; timeslot++) {
-      final lessonSlot = timeslot2LessonSlot[timeslot];
-      if (0 <= layer && layer < lessonSlot.lessons.length) {
-        final lesson = lessonSlot.lessons[layer];
-        yield lesson;
-        timeslot = lesson.endIndex;
       }
     }
   }
@@ -204,28 +199,46 @@ class SitTimetableLesson {
 
   /// The end index of this lesson in a [SitTimetableWeek]
   final int endIndex;
-
   final DateTime startTime;
   final DateTime endTime;
 
   /// A lesson may last two or more time slots.
-  /// If current [SitTimetableLesson] is a part of the whole lesson, they all have the same [courseKey].
+  /// If current [SitTimetableLessonPart] is a part of the whole lesson, they all have the same [courseKey].
   final SitCourse course;
 
   /// How many timeslots this lesson takes.
   /// It's at least 1 timeslot.
-  int get duration => endIndex - startIndex + 1;
+  int get timeslotDuration => endIndex - startIndex + 1;
 
-  const SitTimetableLesson({
+  SitTimetableLesson({
+    required this.course,
     required this.startIndex,
     required this.endIndex,
     required this.startTime,
     required this.endTime,
-    required this.course,
+  });
+}
+
+class SitTimetableLessonPart {
+  final SitTimetableLesson type;
+
+  /// The start index of this lesson in a [SitTimetableWeek]
+  final int index;
+
+  final DateTime startTime;
+  final DateTime endTime;
+
+  SitCourse get course => type.course;
+
+  const SitTimetableLessonPart({
+    required this.type,
+    required this.index,
+    required this.startTime,
+    required this.endTime,
   });
 
   @override
-  String toString() => "[$course] $startIndex-$endIndex";
+  String toString() => "$course at $index";
 }
 
 @JsonSerializable()
@@ -327,15 +340,6 @@ extension SitCourseEx on SitCourse {
   ClassTime calcBeginEndTimePointOfLesson(int timeslot) {
     final timetable = buildingTimetable;
     return timetable[timeslot];
-  }
-}
-
-extension SitTimetableLessonX on SitTimetableLesson {
-  TimeDuration calcuClassDuration() {
-    final timetable = course.buildingTimetable;
-    final classBegin = timetable[startIndex].begin;
-    final classOver = timetable[endIndex].end;
-    return classOver.difference(classBegin);
   }
 }
 
