@@ -98,7 +98,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             actions: [
               IconButton(
                 onPressed: () {
-                  context.push("/timetable/p13n");
+                  context.push("/timetable/p13n?enableCellStyle");
                 },
                 icon: const Icon(Icons.color_lens_outlined),
               ),

@@ -122,7 +122,10 @@ final router = GoRouter(
                 ),
                 GoRoute(
                   path: "p13n",
-                  builder: (ctx, state) => const TimetableP13nPage(),
+                  builder: (ctx, state) {
+                    final enableCellStyle = state.uri.queryParameters["enableCellStyle"] != null;
+                    return TimetableP13nPage(editCellStyle: enableCellStyle);
+                  },
                 ),
               ],
             ),

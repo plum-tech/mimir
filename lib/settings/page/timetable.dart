@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/timetable/page/cell_style.dart';
+import 'package:sit/timetable/page/p13n.dart';
 import '../i18n.dart';
 
 class TimetableSettingsPage extends StatefulWidget {
@@ -33,6 +36,7 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
             children: [
               buildAutoUseImportedToggle(),
               const TimetableEditCellStyleTile(),
+              buildP13n(),
             ],
           ),
         ],
@@ -53,6 +57,18 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
           });
         },
       ),
+    );
+  }
+
+  Widget buildP13n() {
+    return ListTile(
+      leading: const Icon(Icons.color_lens_outlined),
+      title: "Personalization".text(),
+      subtitle: "How timetable looks like".text(),
+      trailing: const Icon(Icons.open_in_new),
+      onTap: () async {
+        await context.push("/timetable/p13n");
+      },
     );
   }
 }

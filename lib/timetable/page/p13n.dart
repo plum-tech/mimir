@@ -17,7 +17,12 @@ import 'palette.dart';
 
 // TODO: i18n
 class TimetableP13nPage extends StatefulWidget {
-  const TimetableP13nPage({super.key});
+  final bool editCellStyle;
+
+  const TimetableP13nPage({
+    super.key,
+    required this.editCellStyle,
+  });
 
   @override
   State<TimetableP13nPage> createState() => _TimetableP13nPageState();
@@ -45,6 +50,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
 
   @override
   Widget build(BuildContext context) {
+    final editCellStyle = widget.editCellStyle;
     return Scaffold(
       body: CustomScrollView(
         controller: scrollController,
@@ -53,19 +59,16 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
             floating: true,
             title: "Personalization".text(),
           ),
-          SliverList.list(children: [
-            const TimetableEditCellStyleTile(),
-          ]),
-          const SliverToBoxAdapter(
-            child: Divider(),
-          ),
-          SliverToBoxAdapter(
-            child: ListTile(
-              leading: const Icon(Icons.color_lens_outlined),
-              title: "Palettes".text(),
-              subtitle: "How timetable colors look".text(),
-            ),
-          ),
+          if (editCellStyle)
+            SliverList.list(children: [
+              const TimetableEditCellStyleTile(),
+              const Divider(),
+              ListTile(
+                leading: const Icon(Icons.color_lens_outlined),
+                title: "Palettes".text(),
+                subtitle: "How timetable colors look".text(),
+              ),
+            ]),
           buildPaletteList(),
           const SliverFillRemaining(),
         ],
