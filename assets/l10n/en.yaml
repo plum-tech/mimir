@@ -6,13 +6,8 @@ timetable:
   navigation: Timetable
   mine:
     title: My Timetables
-    edit: Edit
     exportFile: Export file
     exportCalendar: Export calendar
-    delete: Delete
-    preview: Preview
-    use: Use
-    used: Used
     deleteRequest: Confirm to delete?
     deleteRequestDesc: You will lose this timetable permanently
     emptyTip: Let's import a timetable!
@@ -87,9 +82,55 @@ timetable:
     findNearestWeekWithClass: Find a week with class
     findNearestDayWithClass: Find a day with class
   p13n:
+    title: Personalization
     builtinPalette:
       classic: Classic
       oldSchool: Old School
+    palette:
+      header:
+        title: Palettes
+        desc: How timetable looks like
+      name: Name
+      namePlaceholder: Please enter a name
+      fab: Palette
+      shareQrCode: Share QR code
+      newPaletteName: New palette
+      copyPaletteName: "{}-Copy"
+      deleteRequest: Conform to delete?
+      deleteRequestDesc: QR code backup can be saved before deletion
+      addFromQrCode: Palette was added from QR code
+      addColor: Add a color
+    cellStyle:
+      title: Cell Style
+      entrance:
+        title: Edit cell style
+        desc: How course cell looks like
+      showTeachers:
+        title: Teachers
+        desc: Show teachers in cell
+      grayOut:
+        title: Gray out passed lessons
+        desc: Before today
+      harmonize:
+        title: Harmonize with theme color
+        desc: Mix the cell color with theme color
+      livePreview:
+        0:
+          name: Passed
+          place: Stadium
+          teachers: John
+        1:
+          name: Passed
+          place: Classroom
+          teachers: Martin
+        2:
+          name: Today
+          place: Church
+          teachers: James
+        3:
+          name: Tomorrow
+          place: Lab
+          teachers: Thomas
 school:
   navigation: School
   schoolYear: School year
@@ -483,6 +524,9 @@ time:
   hourMinuteFormat: "{hour} h {minute} min"
   minuteFormat: "{} min"
   hourFormat: "{} h"
+brightness:
+  light: Light
+  dark: Dark
 open: Open
 delete: Delete
 confirm: Confirm
@@ -513,3 +557,8 @@ seeAll: See all
 select: Select
 unselect: Unselect
 share: Share
+use: Use
+used: Used
+edit: Edit
+copy: Copy
+preview: Preview

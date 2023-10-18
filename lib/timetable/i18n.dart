@@ -9,11 +9,12 @@ class _I18n with CommonI18nMixin {
   static const ns = "timetable";
   final time = const TimeI18n();
   final mine = const _Mine();
+  final p13n = const _P13n();
   final details = const _Details();
   final import = const _Import();
   final export = const _Export();
   final screenshot = const _Screenshot();
-  final edit = const _Edit();
+  final editor = const _Editor();
   final freeTip = const _FreeTip();
   final campus = const CampusI10n();
 
@@ -39,27 +40,89 @@ class _Mine {
 
   String get title => "$ns.title".tr();
 
-  String get edit => "$ns.edit".tr();
-
   String get exportFile => "$ns.exportFile".tr();
 
   String get exportCalendar => "$ns.exportCalendar".tr();
 
   String get add2Calendar => "$ns.add2Calendar".tr();
 
-  String get use => "$ns.use".tr();
-
-  String get used => "$ns.used".tr();
-
-  String get delete => "$ns.delete".tr();
-
-  String get preview => "$ns.preview".tr();
-
   String get deleteRequest => "$ns.deleteRequest".tr();
 
   String get deleteRequestDesc => "$ns.deleteRequestDesc".tr();
 
   String get emptyTip => "$ns.emptyTip".tr();
+}
+
+class _P13n {
+  const _P13n();
+
+  static const ns = "${_I18n.ns}.p13n";
+  final cell = const _CellStyle();
+  final palette = const _Palette();
+
+  String get title => "$ns.title".tr();
+}
+
+class _CellStyle {
+  const _CellStyle();
+
+  static const ns = "${_P13n.ns}.cellStyle";
+
+  String get title => "$ns.title".tr();
+
+  String get entranceTitle => "$ns.entrance.title".tr();
+
+  String get entranceDesc => "$ns.entrance.desc".tr();
+
+  String get showTeachersTitle => "$ns.showTeachers.title".tr();
+
+  String get showTeachersDesc => "$ns.showTeachers.desc".tr();
+
+  String get grayOutTitle => "$ns.grayOut.title".tr();
+
+  String get grayOutDesc => "$ns.grayOut.desc".tr();
+
+  String get harmonizeTitle => "$ns.harmonize.title".tr();
+
+  String get harmonizeDesc => "$ns.harmonize.desc".tr();
+
+  ({String name, String place, List<String> teachers}) livePreview(int index) {
+    return (
+      name: "$ns.livePreview.$index.name".tr(),
+      place: "$ns.livePreview.$index.place".tr(),
+      teachers: "$ns.livePreview.$index.teachers".tr().split(","),
+    );
+  }
+}
+
+class _Palette {
+  const _Palette();
+
+  static const ns = "${_P13n.ns}.palette";
+
+  String get fab => "$ns.fab".tr();
+
+  String get headerTitle => "$ns.header.title".tr();
+
+  String get headerDesc => "$ns.header.desc".tr();
+
+  String get shareQrCode => "$ns.shareQrCode".tr();
+
+  String get newPaletteName => "$ns.newPaletteName".tr();
+
+  String copyPaletteName(String old) => "$ns.copyPaletteName".tr(args: [old]);
+
+  String get deleteRequest => "$ns.deleteRequest".tr();
+
+  String get deleteRequestDesc => "$ns.deleteRequestDesc".tr();
+
+  String get addFromQrCode => "$ns.addFromQrCode".tr();
+
+  String get addColor => "$ns.addColor".tr();
+
+  String get name => "$ns.name".tr();
+
+  String get namePlaceholder => "$ns.namePlaceholder".tr();
 }
 
 class _Details {
@@ -131,8 +194,8 @@ class _Import {
       });
 }
 
-class _Edit {
-  const _Edit();
+class _Editor {
+  const _Editor();
 
   static const ns = "${_I18n.ns}.edit";
 

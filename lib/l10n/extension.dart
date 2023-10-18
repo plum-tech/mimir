@@ -83,3 +83,7 @@ bool yOrNo(String test, {bool defaultValue = false}) {
       return defaultValue;
   }
 }
+
+extension BrightnessL10nX on Brightness {
+  String l10n() => "brightness.$name".tr();
+}

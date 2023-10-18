@@ -18,7 +18,6 @@ import 'cell_style.dart';
 import 'palette.dart';
 import '../i18n.dart';
 
-// TODO: i18n
 class TimetableP13nPage extends StatefulWidget {
   final bool editCellStyle;
 
@@ -60,7 +59,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
         slivers: [
           SliverAppBar(
             floating: true,
-            title: "Personalization".text(),
+            title: i18n.p13n.title.text(),
           ),
           if (editCellStyle)
             SliverList.list(children: const [
@@ -70,8 +69,8 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
           SliverToBoxAdapter(
             child: ListTile(
               leading: const Icon(Icons.color_lens_outlined),
-              title: "Palettes".text(),
-              subtitle: "How timetable colors look".text(),
+              title: i18n.p13n.palette.headerTitle.text(),
+              subtitle: i18n.p13n.palette.headerDesc.text(),
             ),
           ),
           buildPaletteList(),
@@ -80,10 +79,13 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
       ),
       floatingActionButton: AutoHideFAB.extended(
         controller: scrollController,
-        label: "Palette".text(),
+        label: i18n.p13n.palette.fab.text(),
         icon: const Icon(Icons.add),
         onPressed: () {
-          TimetableInit.storage.palette.add(TimetablePalette(name: "New palette", colors: []));
+          TimetableInit.storage.palette.add(TimetablePalette(
+            name: i18n.p13n.palette.newPaletteName,
+            colors: [],
+          ));
         },
       ),
     );
@@ -117,8 +119,8 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
     return EntryCard(
       selected: selected,
       selectAction: (ctx) => EntrySelectAction(
-        selectLabel: "Use",
-        selectedLabel: "Used",
+        selectLabel: i18n.use,
+        selectedLabel: i18n.used,
         action: palette.colors.isEmpty
             ? null
             : () async {
@@ -129,8 +131,8 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
         label: i18n.delete,
         action: () async {
           final confirm = await ctx.showRequest(
-            title: "Delete?",
-            desc: "Delete",
+            title: i18n.p13n.palette.deleteRequest,
+            desc: i18n.p13n.palette.deleteRequestDesc,
             yes: i18n.delete,
             no: i18n.cancel,
             highlight: true,
@@ -144,7 +146,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
         if (palette is! BuiltinTimetablePalette)
           EntryAction(
             main: true,
-            label: "Edit",
+            label: i18n.edit,
             icon: Icons.edit,
             cupertinoIcon: CupertinoIcons.pencil,
             action: () async {
@@ -160,23 +162,23 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
             },
           ),
         EntryAction(
-          label: "Copy",
-          icon: Icons.output_outlined,
+          label: i18n.copy,
+          icon: Icons.copy,
           cupertinoIcon: CupertinoIcons.doc_on_clipboard,
           action: () async {
-            final duplicate = palette.clone(getNewName: (old) => "$old-Copy");
+            final duplicate = palette.clone(getNewName: (old) => i18n.p13n.palette.copyPaletteName(old));
             TimetableInit.storage.palette.add(duplicate);
           },
         ),
         EntryAction(
-          label: "Share QR code",
+          label: i18n.p13n.palette.shareQrCode,
           icon: Icons.qr_code,
           cupertinoIcon: CupertinoIcons.qrcode,
           action: () async {
             final qrCodeData = const TimetablePaletteDeepLink().encode(palette);
             await ctx.show$Sheet$(
               (context) => QrCodePage(
-                title: "Timetable Palette".text(),
+                title: i18n.p13n.palette.newPaletteName.text(),
                 data: qrCodeData.toString(),
               ),
             );
@@ -207,6 +209,6 @@ Future<void> onTimetablePaletteFromQrCode({
   TimetableInit.storage.palette.add(palette);
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
-  context.showSnackBar("Timetable palette was added from QR code".text());
+  context.showSnackBar(i18n.p13n.palette.addFromQrCode.text());
   context.push("/timetable/p13n");
 }

@@ -147,14 +147,14 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
     return EntryCard(
       selected: selected,
       selectAction: (ctx) => EntrySelectAction(
-        selectLabel: i18n.mine.use,
-        selectedLabel: i18n.mine.used,
+        selectLabel: i18n.use,
+        selectedLabel: i18n.used,
         action: () async {
           TimetableInit.storage.timetable.selectedId = id;
         },
       ),
       deleteAction: (ctx) => EntryDeleteAction(
-        label: i18n.mine.delete,
+        label: i18n.delete,
         action: () async {
           final confirm = await context.showRequest(
             title: i18n.mine.deleteRequest,
@@ -172,7 +172,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         if (!selected)
           EntryAction(
             main: true,
-            label: i18n.mine.preview,
+            label: i18n.preview,
             icon: Icons.preview,
             cupertinoIcon: CupertinoIcons.eye,
             action: () async {
@@ -181,7 +181,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             },
           ),
         EntryAction(
-          label: i18n.mine.edit,
+          label: i18n.edit,
           icon: Icons.edit,
           cupertinoIcon: CupertinoIcons.pencil,
           action: () async {

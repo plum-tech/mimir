@@ -58,6 +58,16 @@ mixin class CommonI18nMixin {
   String get unselect => "unselect".tr();
 
   String get share => "share".tr();
+
+  String get edit => "edit".tr();
+
+  String get use => "use".tr();
+
+  String get used => "used".tr();
+
+  String get preview => "preview".tr();
+
+  String get copy => "copy".tr();
 }
 
 class CommonI18n with CommonI18nMixin {

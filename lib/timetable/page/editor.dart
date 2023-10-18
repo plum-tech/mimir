@@ -76,7 +76,7 @@ class _TimetableEditorState extends State<TimetableEditor> {
             controller: $name,
             maxLines: 1,
             decoration: InputDecoration(
-              labelText: i18n.edit.name,
+              labelText: i18n.editor.name,
               border: const OutlineInputBorder(),
             ),
           ).padAll(10),

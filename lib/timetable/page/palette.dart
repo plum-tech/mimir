@@ -1,4 +1,3 @@
-import 'package:bordered_text/bordered_text.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
+import 'package:sit/l10n/extension.dart';
 import 'package:sit/timetable/platte.dart';
 
 import '../entity/platte.dart';
@@ -70,7 +70,7 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
             if (colors.isNotEmpty) const Divider(),
             ListTile(
               leading: const Icon(Icons.add),
-              title: "Add a pair of color".text(),
+              title:i18n.p13n.palette.addFromQrCode.text(),
               onTap: () {
                 setState(() {
                   colors.add((light: Colors.white30, dark: Colors.black12));
@@ -88,12 +88,12 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
       segments: [
         ButtonSegment<Brightness>(
           value: Brightness.light,
-          label: "Light".text(),
+          label: Brightness.light.l10n().text(),
           icon: const Icon(Icons.light_mode),
         ),
         ButtonSegment<Brightness>(
           value: Brightness.dark,
-          label: "Dark".text(),
+          label: Brightness.light.l10n().text(),
           icon: const Icon(Icons.dark_mode),
         ),
       ],
@@ -178,11 +178,11 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
     return ListTile(
       isThreeLine: true,
       leading: const Icon(Icons.drive_file_rename_outline),
-      title: "Name".text(),
+      title: i18n.p13n.palette.name.text(),
       subtitle: TextField(
         controller: $name,
         decoration: InputDecoration(
-          hintText: "Please enter name",
+          hintText: i18n.p13n.palette.namePlaceholder,
         ),
       ),
     );

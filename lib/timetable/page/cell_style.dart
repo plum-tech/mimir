@@ -26,7 +26,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
         slivers: [
           SliverAppBar(
             floating: true,
-            title: "Cell style".text(),
+            title: i18n.p13n.cell.title.text(),
           ),
           SliverToBoxAdapter(
             child: TimetableStyleProv(
@@ -56,8 +56,8 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
   Widget buildTeachersToggle() {
     return ListTile(
       leading: const Icon(Icons.person_pin),
-      title: "Teachers".text(),
-      subtitle: "Show teachers in cell".text(),
+      title: i18n.p13n.cell.showTeachersTitle.text(),
+      subtitle: i18n.p13n.cell.showTeachersDesc.text(),
       trailing: Switch.adaptive(
         value: Settings.timetable.cell.showTeachers,
         onChanged: (newV) {
@@ -72,8 +72,8 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
   Widget buildGrayOutPassedLesson() {
     return ListTile(
       leading: const Icon(Icons.timelapse),
-      title: "Gray out passed lessons".text(),
-      subtitle: "Before today".text(),
+      title: i18n.p13n.cell.grayOutTitle.text(),
+      subtitle: i18n.p13n.cell.grayOutDesc.text(),
       trailing: Switch.adaptive(
         value: Settings.timetable.cell.grayOutPassedLessons,
         onChanged: (newV) {
@@ -88,8 +88,8 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
   Widget buildHarmonizeWithThemeColor() {
     return ListTile(
       leading: const Icon(Icons.format_color_fill),
-      title: "Harmonize with theme color".text(),
-      subtitle: "Mix the cell color with theme color".text(),
+      title: i18n.p13n.cell.harmonizeTitle.text(),
+      subtitle: i18n.p13n.cell.harmonizeDesc.text(),
       trailing: Switch.adaptive(
         value: Settings.timetable.cell.harmonizeWithThemeColor,
         onChanged: (newV) {
@@ -155,33 +155,23 @@ class TimetableCellStylePreview extends StatelessWidget {
       );
     }
 
+    Widget livePreview(int index, {bool grayOut = false}) {
+      final data = i18n.p13n.cell.livePreview(index);
+      return buildCell(
+        id: index,
+        name: data.name,
+        place: data.place,
+        teachers: data.teachers,
+        grayOut: grayOut,
+      );
+    }
+
+    final grayOut = style.grayOutPassedLessons;
     return [
-      buildCell(
-        id: 0,
-        name: "Passed",
-        place: "Anywhere",
-        teachers: ["John"],
-        grayOut: style.grayOutPassedLessons,
-      ),
-      buildCell(
-        id: 1,
-        name: "Passed",
-        place: "Anywhere",
-        teachers: ["Martin"],
-        grayOut: style.grayOutPassedLessons,
-      ),
-      buildCell(
-        id: 2,
-        name: "Today",
-        place: "Anywhere",
-        teachers: ["James"],
-      ),
-      buildCell(
-        id: 3,
-        name: "Tomorrow",
-        place: "Anywhere",
-        teachers: ["Thomas"],
-      ),
+      livePreview(0, grayOut: grayOut),
+      livePreview(1, grayOut: grayOut),
+      livePreview(2),
+      livePreview(3),
     ].row(maa: MainAxisAlignment.spaceEvenly);
   }
 }
@@ -193,8 +183,8 @@ class TimetableEditCellStyleTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.style_outlined),
-      title: "Edit cell style".text(),
-      subtitle: "How course cell looks like".text(),
+      title: i18n.p13n.cell.entranceTitle.text(),
+      subtitle: i18n.p13n.cell.entranceDesc.text(),
       trailing: const Icon(Icons.open_in_new),
       onTap: () async {
         await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
