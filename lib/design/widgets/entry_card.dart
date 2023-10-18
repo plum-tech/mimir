@@ -168,6 +168,7 @@ class EntryCard extends StatelessWidget {
             ? null
             : () async {
                 Navigator.of(context, rootNavigator: true).pop();
+                await Future.delayed(const Duration(milliseconds: 336));
                 await callback();
               },
         child: action.label.text(),
@@ -178,6 +179,7 @@ class EntryCard extends StatelessWidget {
         trailingIcon: CupertinoIcons.delete,
         onPressed: () async {
           Navigator.of(context, rootNavigator: true).pop();
+          await Future.delayed(const Duration(milliseconds: 336));
           await deleteAction.action?.call();
         },
         isDestructiveAction: true,

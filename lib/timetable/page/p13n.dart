@@ -113,18 +113,22 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
 
   Widget buildPaletteList(List<int> idList) {
     final selectedId = TimetableInit.storage.palette.selectedId ?? BuiltinTimetablePalettes.classic.id;
-    return ListView.builder(
-      itemCount: idList.length,
-      itemBuilder: (ctx, i) {
-        final id = idList[i];
-        final palette = TimetableInit.storage.palette[id];
-        if (palette == null) return const SizedBox();
-        return buildPaletteCard(
-          id,
-          palette,
-          selected: selectedId == id,
-        ).padH(6);
-      },
+    return CustomScrollView(
+      slivers: [
+        SliverList.builder(
+          itemCount: idList.length,
+          itemBuilder: (ctx, i) {
+            final id = idList[i];
+            final palette = TimetableInit.storage.palette[id];
+            if (palette == null) return const SizedBox();
+            return buildPaletteCard(
+              id,
+              palette,
+              selected: selectedId == id,
+            ).padH(6);
+          },
+        ),
+      ],
     );
   }
 
