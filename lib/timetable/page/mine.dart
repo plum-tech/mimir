@@ -134,20 +134,20 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   }
 
   Widget buildTimetableEntry(int id, SitTimetable timetable, bool isSelected) {
+    final TimetableActions actions = (
+      use: () {
+        TimetableInit.storage.timetable.selectedId = id;
+      },
+      preview: () {
+        context.push("/timetable/preview/$id", extra: timetable);
+      }
+    );
     if (!isCupertino) {
       return TimetableEntry(
         timetable: timetable,
         isSelected: TimetableInit.storage.timetable.selectedId == id,
         moreAction: buildActionPopup(id, timetable, isSelected),
-        actions: (
-          use: () {
-            TimetableInit.storage.timetable.selectedId = id;
-            setState(() {});
-          },
-          preview: () {
-            context.push("/timetable/preview/$id", extra: timetable);
-          }
-        ),
+        actions: actions,
       );
     }
     return Builder(
@@ -160,7 +160,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
               onPressed: () async {
                 Navigator.of(context, rootNavigator: true).pop();
                 await Future.delayed(const Duration(milliseconds: 336));
-                TimetableInit.storage.timetable.selectedId = id;
+                actions.use();
               },
               child: i18n.mine.use.text(),
             ),
@@ -179,7 +179,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
                 Navigator.of(context, rootNavigator: true).pop();
                 await Future.delayed(const Duration(milliseconds: 336));
                 if (!mounted) return;
-                context.push("/timetable/preview/$id", extra: timetable);
+                actions.preview();
               },
               child: i18n.mine.preview.text(),
             ),
@@ -213,14 +213,10 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           return TimetableEntry(
             isSelected: TimetableInit.storage.timetable.selectedId == id,
             timetable: timetable,
-            moreAction: animation.value > 0.5
+            moreAction: animation.value > 0
                 ? null
                 : IconButton(
-                    onPressed: isSelected
-                        ? null
-                        : () async {
-                            TimetableInit.storage.timetable.selectedId = id;
-                          },
+                    onPressed: isSelected ? null : actions.use,
                     icon: isSelected
                         ? Icon(CupertinoIcons.check_mark, color: context.colorScheme.primary)
                         : const Icon(CupertinoIcons.square)),
@@ -341,36 +337,18 @@ class TimetableEntry extends StatelessWidget {
       timetable.name.text(style: textTheme.titleLarge),
       "$year, $semester".text(style: textTheme.titleMedium),
       "${i18n.startWith} ${context.formatYmdText(timetable.startDate)}".text(style: textTheme.bodyLarge),
-      OverflowBar(
-        alignment: MainAxisAlignment.spaceBetween,
-        children: [
-          [
-            if (actions != null)
-              if (isSelected)
-                FilledButton.icon(
-                  icon: const Icon(Icons.check),
-                  label: i18n.mine.used.text(),
-                  onPressed: null,
-                )
-              else
-                FilledButton(
-                  onPressed: () {
-                    actions.use();
-                  },
-                  child: i18n.mine.use.text(),
-                ),
-            if (actions != null)
-              if (!isSelected)
-                OutlinedButton(
-                  onPressed: () {
-                    actions.preview();
-                  },
-                  child: i18n.mine.preview.text(),
-                )
-          ].wrap(spacing: 4),
-          if (moreAction != null) moreAction,
-        ],
-      ),
+      if (moreAction != null || actions != null)
+        OverflowBar(
+          alignment: moreAction != null
+              ? actions != null
+                  ? MainAxisAlignment.spaceBetween
+                  : MainAxisAlignment.end
+              : MainAxisAlignment.spaceBetween,
+          children: [
+            if (actions != null) buildActions(actions).wrap(spacing: 4),
+            if (moreAction != null) moreAction,
+          ],
+        ),
     ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15);
     return isSelected
         ? widget.inFilledCard(
@@ -379,5 +357,30 @@ class TimetableEntry extends StatelessWidget {
         : widget.inOutlinedCard(
             clip: Clip.hardEdge,
           );
+  }
+
+  List<Widget> buildActions(TimetableActions actions) {
+    return [
+      if (isSelected)
+        FilledButton.icon(
+          icon: const Icon(Icons.check),
+          label: i18n.mine.used.text(),
+          onPressed: null,
+        )
+      else
+        FilledButton(
+          onPressed: () {
+            actions.use();
+          },
+          child: i18n.mine.use.text(),
+        ),
+      if (!isSelected)
+        OutlinedButton(
+          onPressed: () {
+            actions.preview();
+          },
+          child: i18n.mine.preview.text(),
+        )
+    ];
   }
 }

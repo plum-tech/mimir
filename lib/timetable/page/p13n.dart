@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/qrcode/page.dart';
@@ -14,6 +16,7 @@ import 'package:sit/timetable/platte.dart';
 
 import 'cell_style.dart';
 import 'palette.dart';
+import '../i18n.dart';
 
 // TODO: i18n
 class TimetableP13nPage extends StatefulWidget {
@@ -60,15 +63,17 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
             title: "Personalization".text(),
           ),
           if (editCellStyle)
-            SliverList.list(children: [
-              const TimetableEditCellStyleTile(),
-              const Divider(),
-              ListTile(
-                leading: const Icon(Icons.color_lens_outlined),
-                title: "Palettes".text(),
-                subtitle: "How timetable colors look".text(),
-              ),
+            SliverList.list(children: const [
+              TimetableEditCellStyleTile(),
+              Divider(),
             ]),
+          SliverToBoxAdapter(
+            child: ListTile(
+              leading: const Icon(Icons.color_lens_outlined),
+              title: "Palettes".text(),
+              subtitle: "How timetable colors look".text(),
+            ),
+          ),
           buildPaletteList(),
           const SliverFillRemaining(),
         ],
@@ -78,8 +83,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
         label: "Palette".text(),
         icon: const Icon(Icons.add),
         onPressed: () {
-          final palette = TimetablePalette(name: "New palette", colors: []);
-          TimetableInit.storage.palette.add(palette);
+          TimetableInit.storage.palette.add(TimetablePalette(name: "New palette", colors: []));
         },
       ),
     );
@@ -98,32 +102,107 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
       itemBuilder: (ctx, i) {
         final id = allIds[i];
         final palette = TimetableInit.storage.palette[id];
-        final isSelected = selectedId == id;
         if (palette == null) return const SizedBox();
-        return PaletteCard(
-          palette: palette,
-          isSelected: isSelected,
-          moreAction: buildActionPopup(id, palette, isSelected),
-          actions: (
-            use: () {
-              TimetableInit.storage.palette.selectedId = id;
-            },
-            edit: palette is BuiltinTimetablePalette
-                ? null
-                : () async {
-                    final newPalette = await context.show$Sheet$<TimetablePalette>(
-                      dismissible: false,
-                      (context) => TimetablePaletteEditor(
-                        palette: palette.clone(),
-                        initialBrightness: context.theme.brightness,
-                      ),
-                    );
-                    if (newPalette == null) return;
-                    TimetableInit.storage.palette[id] = newPalette;
-                  },
-          ),
-        ).padH(12);
+        return buildPaletteCard(id, palette, isSelected: selectedId == id).padH(12);
       },
+    );
+  }
+
+  Widget buildPaletteCard(
+    int id,
+    TimetablePalette palette, {
+    required bool isSelected,
+  }) {
+    final PaletteActions actions = (
+      use: () {
+        TimetableInit.storage.palette.selectedId = id;
+      },
+      edit: palette is BuiltinTimetablePalette
+          ? null
+          : () async {
+              final newPalette = await context.show$Sheet$<TimetablePalette>(
+                dismissible: false,
+                (context) => TimetablePaletteEditor(
+                  palette: palette.clone(),
+                  initialBrightness: context.theme.brightness,
+                ),
+              );
+              if (newPalette == null) return;
+              TimetableInit.storage.palette[id] = newPalette;
+            },
+    );
+    if (!isCupertino) {
+      return PaletteCard(
+        palette: palette,
+        isSelected: isSelected,
+        moreAction: buildActionPopup(id, palette, isSelected),
+        actions: actions,
+      );
+    }
+    return Builder(
+      builder: (context) => CupertinoContextMenu.builder(
+        enableHapticFeedback: true,
+        actions: [
+          if (!isSelected)
+            CupertinoContextMenuAction(
+              trailingIcon: CupertinoIcons.check_mark,
+              onPressed: () async {
+                Navigator.of(context, rootNavigator: true).pop();
+                await Future.delayed(const Duration(milliseconds: 336));
+                actions.use();
+              },
+              child: "Use".text(),
+            ),
+          if (actions.edit != null)
+            CupertinoContextMenuAction(
+              trailingIcon: CupertinoIcons.pencil,
+              onPressed: () async {
+                Navigator.of(context, rootNavigator: true).pop();
+                actions.edit?.call();
+              },
+              child: "Edit".text(),
+            ),
+          CupertinoContextMenuAction(
+            trailingIcon: CupertinoIcons.doc_on_clipboard,
+            onPressed: () async {
+              Navigator.of(context, rootNavigator: true).pop();
+              copyPalette(palette);
+            },
+            child: "Copy".text(),
+          ),
+          CupertinoContextMenuAction(
+            trailingIcon: CupertinoIcons.qrcode,
+            onPressed: () async {
+              Navigator.of(context, rootNavigator: true).pop();
+              await shareQrCode(palette);
+            },
+            child: "Share QR code".text(),
+          ),
+          if (palette is! BuiltinTimetablePalette)
+            CupertinoContextMenuAction(
+              trailingIcon: CupertinoIcons.delete,
+              onPressed: () async {
+                Navigator.of(context, rootNavigator: true).pop();
+                await onDelete(id);
+              },
+              isDestructiveAction: true,
+              child: i18n.mine.delete.text(),
+            ),
+        ],
+        builder: (context, animation) {
+          return PaletteCard(
+            palette: palette,
+            isSelected: isSelected,
+            moreAction: animation.value > 0
+                ? null
+                : IconButton(
+                    onPressed: isSelected ? null : actions.use,
+                    icon: isSelected
+                        ? Icon(CupertinoIcons.check_mark, color: context.colorScheme.primary)
+                        : const Icon(CupertinoIcons.square)),
+          );
+        },
+      ),
     );
   }
 
@@ -152,35 +231,52 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
               },
             ),
           ),
-        if (palette is! BuiltinTimetablePalette)
-          PopupMenuItem(
-            child: ListTile(
-              leading: const Icon(Icons.qr_code),
-              title: "Share QR code".text(),
-              onTap: () async {
-                ctx.pop();
-                final qrCodeData = const TimetablePaletteDeepLink().encode(palette);
-                context.show$Sheet$(
-                  (context) => QrCodePage(
-                    title: "Timetable Palette".text(),
-                    data: qrCodeData.toString(),
-                  ),
-                );
-              },
-            ),
-          ),
         PopupMenuItem(
           child: ListTile(
-            leading: const Icon(Icons.delete, color: Colors.redAccent),
-            title: "Delete".text(style: const TextStyle(color: Colors.redAccent)),
+            leading: const Icon(Icons.qr_code),
+            title: "Share QR code".text(),
             onTap: () async {
               ctx.pop();
-              TimetableInit.storage.palette.delete(id);
+              await shareQrCode(palette);
             },
           ),
         ),
+        if (palette is! BuiltinTimetablePalette)
+          PopupMenuItem(
+            child: ListTile(
+              leading: const Icon(Icons.delete, color: Colors.redAccent),
+              title: "Delete".text(style: const TextStyle(color: Colors.redAccent)),
+              onTap: () async {
+                ctx.pop();
+                TimetableInit.storage.palette.delete(id);
+              },
+            ),
+          ),
       ],
     );
+  }
+
+  Future<void> shareQrCode(TimetablePalette palette) async {
+    final qrCodeData = const TimetablePaletteDeepLink().encode(palette);
+    await context.show$Sheet$(
+      (context) => QrCodePage(
+        title: "Timetable Palette".text(),
+        data: qrCodeData.toString(),
+      ),
+    );
+  }
+
+  Future<void> onDelete(int id) async {
+    final confirm = await context.showRequest(
+      title: "Delete?",
+      desc: "Delete",
+      yes: i18n.delete,
+      no: i18n.cancel,
+      highlight: true,
+    );
+    if (confirm == true) {
+      TimetableInit.storage.palette.delete(id);
+    }
   }
 
   void copyPalette(TimetablePalette palette) {
@@ -216,13 +312,18 @@ class PaletteCard extends StatelessWidget {
     final widget = [
       palette.name.text(style: textTheme.titleLarge),
       buildColors(context),
-      OverflowBar(
-        alignment: MainAxisAlignment.spaceBetween,
-        children: [
-          if (actions != null) buildActions(actions).wrap(spacing: 4),
-          if (moreAction != null) moreAction,
-        ],
-      ),
+      if (moreAction != null || actions != null)
+        OverflowBar(
+          alignment: moreAction != null
+              ? actions != null
+                  ? MainAxisAlignment.spaceBetween
+                  : MainAxisAlignment.end
+              : MainAxisAlignment.spaceBetween,
+          children: [
+            if (actions != null) buildActions(actions).wrap(spacing: 4),
+            if (moreAction != null) moreAction,
+          ],
+        ),
     ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15);
     return isSelected
         ? widget.inFilledCard(
