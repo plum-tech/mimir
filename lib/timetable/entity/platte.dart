@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sit/utils/byte_io.dart';
 
 part 'platte.g.dart';
 
@@ -58,29 +59,14 @@ class TimetablePalette {
   }
 
   static decodeFromByteList(Uint8List bytes) {
-    final ByteData byteData = bytes.buffer.asByteData();
-    int index = 0;
-
-    int nameLength = byteData.getUint8(index);
-    index++;
-
-    List<int> nameCodeUnits = [];
-    for (int i = 0; i < nameLength; i++) {
-      nameCodeUnits.add(byteData.getUint8(index));
-      index++;
-    }
-
-    String name = String.fromCharCodes(nameCodeUnits);
-
-    int colorsLength = byteData.getUint8(index);
-    index++;
+    final reader = ByteReader(bytes);
+    final name = reader.strUtf8();
+    final colorLen = reader.uint32();
 
     List<Color2Mode> colors = [];
-    for (int i = 0; i < colorsLength; i++) {
-      Color light = Color(byteData.getUint32(index));
-      index += 4;
-      Color dark = Color(byteData.getUint32(index));
-      index += 4;
+    for (int i = 0; i < colorLen; i++) {
+      Color light = Color(reader.uint32());
+      Color dark = Color(reader.uint32());
       colors.add((light: light, dark: dark));
     }
 
@@ -102,30 +88,15 @@ extension TimetablePaletteX on TimetablePalette {
   }
 
   List<int> encodeByteList() {
-    final buffer = Uint8List(1024);
-    final ByteData byteData = buffer.buffer.asByteData();
-    int index = 0;
-
-    List<int> nameBytes = utf8.encode(name);
-    byteData.setUint8(index, nameBytes.length);
-    index++;
-
-    for (int i = 0; i < nameBytes.length; i++) {
-      byteData.setUint8(index, nameBytes[i]);
-      index++;
-    }
-
-    byteData.setUint8(index, colors.length);
-    index++;
-
+    final writer = ByteWriter(1024);
+    writer.strUtf8(name);
+    writer.uint32(colors.length);
     for (var color in colors) {
-      byteData.setUint32(index, color.light.value);
-      index += 4;
-      byteData.setUint32(index, color.dark.value);
-      index += 4;
+      writer.uint32(color.light.value);
+      writer.uint32(color.dark.value);
     }
 
-    return buffer.sublist(0, index);
+    return writer.build();
   }
 }
 
