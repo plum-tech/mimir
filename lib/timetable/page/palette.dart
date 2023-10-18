@@ -61,15 +61,32 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
             const Divider(),
           ]),
           $brightness >>
-              (ctx, brightness) => SliverList.builder(
+              (ctx, brightness) {
+                if (isCupertino) {
+                  return SliverList.builder(
                     itemCount: colors.length,
                     itemBuilder: buildColorTile,
+                  );
+                }
+                return SliverList.separated(
+                  itemCount: colors.length,
+                  itemBuilder: buildColorTile,
+                  separatorBuilder: (ctx, i) => const Divider(
+                    height: 4,
+                    indent: 12,
+                    endIndent: 12,
                   ),
+                );
+              },
           SliverList.list(children: [
-            if (colors.isNotEmpty) const Divider(),
+            if (colors.isNotEmpty)
+              const Divider(
+                indent: 12,
+                endIndent: 12,
+              ),
             ListTile(
               leading: const Icon(Icons.add),
-              title:i18n.p13n.palette.addColor.text(),
+              title: i18n.p13n.palette.addColor.text(),
               onTap: () {
                 setState(() {
                   colors.add((light: Colors.white30, dark: Colors.black12));
@@ -203,25 +220,13 @@ class PaletteColorTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onDelete = this.onDelete;
-    final onEdit = this.onEdit;
     return ListTile(
       isThreeLine: true,
       visualDensity: VisualDensity.compact,
       title: "#${color.hexAlpha}".text(),
-      subtitle: TweenAnimationBuilder(
-        tween: ColorTween(begin: color, end: color),
-        duration: const Duration(milliseconds: 300),
-        builder: (ctx, value, child) => FilledCard(
-          color: value,
-          clip: Clip.hardEdge,
-          margin: EdgeInsets.zero,
-          child: InkWell(
-            onTap: () {
-              onEdit?.call();
-            },
-            child: const SizedBox(height: 35),
-          ),
-        ),
+      subtitle: OutlinedCard(
+        margin: EdgeInsets.zero,
+        child: buildColorBar(),
       ),
       trailing: onDelete == null
           ? null
@@ -232,6 +237,27 @@ class PaletteColorTile extends StatelessWidget {
                 onDelete.call();
               },
             ),
+    );
+  }
+
+  Widget buildColorBar() {
+    final onEdit = this.onEdit;
+    return TweenAnimationBuilder(
+      tween: ColorTween(begin: color, end: color),
+      duration: const Duration(milliseconds: 300),
+      builder: (ctx, value, child) => FilledCard(
+        color: value,
+        clip: Clip.hardEdge,
+        margin: EdgeInsets.zero,
+        child: InkWell(
+          onTap: onEdit == null
+              ? null
+              : () {
+                  onEdit.call();
+                },
+          child: const SizedBox(height: 35),
+        ),
+      ),
     );
   }
 }
