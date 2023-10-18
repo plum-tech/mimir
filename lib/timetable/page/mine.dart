@@ -116,11 +116,11 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
               itemCount: timetables.length,
               itemBuilder: (ctx, i) {
                 final (:id, row: timetable) = timetables[i];
-                return buildTimetableEntry(
+                return buildTimetableCard(
                   id,
                   timetable,
                   selected: selectedId == id,
-                );
+                ).padH(6);
               },
             ),
           const SliverFillRemaining(),
@@ -135,7 +135,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
     );
   }
 
-  Widget buildTimetableEntry(
+  Widget buildTimetableCard(
     int id,
     SitTimetable timetable, {
     required bool selected,

@@ -104,7 +104,11 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
         final id = allIds[i];
         final palette = TimetableInit.storage.palette[id];
         if (palette == null) return const SizedBox();
-        return buildPaletteCard(id, palette, selected: selectedId == id).padH(12);
+        return buildPaletteCard(
+          id,
+          palette,
+          selected: selectedId == id,
+        ).padH(12);
       },
     );
   }
