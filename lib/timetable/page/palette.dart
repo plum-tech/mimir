@@ -93,7 +93,7 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
         ),
         ButtonSegment<Brightness>(
           value: Brightness.dark,
-          label: Brightness.light.l10n().text(),
+          label: Brightness.dark.l10n().text(),
           icon: const Icon(Icons.dark_mode),
         ),
       ],

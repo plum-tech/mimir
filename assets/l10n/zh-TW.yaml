@@ -99,7 +99,7 @@ timetable:
       deleteRequest: 確認刪除？
       deleteRequestDesc: 除非儲存了 QR 碼備份，否則調色板將被永久刪除
       addFromQrCode: 已從 QR 碼加載調色盤
-      addColor: 增加一种顏色
+      addColor: 增加一種顏色
     cellStyle:
       title: 單元樣式
       entrance:
@@ -412,6 +412,9 @@ settings:
     autoUseImported:
       title: 自動使用匯入的
       desc: 使用新匯入的課程表
+    p13n:
+      title: 個人化
+      desc: 個人化課程表樣式
   school:
     title: 學校
     class2nd:

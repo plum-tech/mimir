@@ -148,6 +148,10 @@ class _Timetable {
   String get autoUseImportedTitle => "$ns.autoUseImported.title".tr();
 
   String get autoUseImportedDesc => "$ns.autoUseImported.desc".tr();
+
+  String get p13nTitle => "$ns.p13n.title".tr();
+
+  String get p13nDesc => "$ns.p13n.desc".tr();
 }
 
 class _School {

@@ -412,6 +412,9 @@ settings:
     autoUseImported:
       title: 自动使用新课程表
       desc: 自动使用新导入的课程表
+    p13n:
+      title: 个性化
+      desc: 个性化课程表风格
   school:
     title: 学校
     class2nd:

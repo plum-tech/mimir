@@ -412,6 +412,9 @@ settings:
     autoUseImported:
       title: Auto-use imported
       desc: Use the timetable just imported
+    p13n:
+      title: Personalization
+      desc: Personalize timetable style
   school:
     title: School
     class2nd:

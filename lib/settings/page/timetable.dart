@@ -63,8 +63,8 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
   Widget buildP13n() {
     return ListTile(
       leading: const Icon(Icons.color_lens_outlined),
-      title: "Personalization".text(),
-      subtitle: "How timetable looks like".text(),
+      title: i18n.timetable.p13nTitle.text(),
+      subtitle: i18n.timetable.p13nDesc.text(),
       trailing: const Icon(Icons.open_in_new),
       onTap: () async {
         await context.push("/timetable/p13n");
