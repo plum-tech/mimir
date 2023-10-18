@@ -7,15 +7,17 @@ Future<void> fetchAndSaveTransactionUntilNow({
   required String studentId,
 }) async {
   final storage = ExpenseRecordsInit.storage;
-  final end = DateTime.now();
-  final start = storage.lastFetchedTs ?? end.copyWith(year: end.year - 4);
+  final now = DateTime.now();
+  final start = storage.lastFetchedTs ?? now.copyWith(year: now.year - 4);
   final transactions = await ExpenseRecordsInit.service.fetch(
     studentID: studentId,
     from: start,
-    to: end,
+    to: now,
   );
-  // the next fetching starts with yesterday.
-  ExpenseRecordsInit.storage.lastFetchedTs = end.copyWith(day: end.day - 1);
+  // if anything was fetched, the next fetching will start with now.
+  if (transactions.isNotEmpty) {
+    ExpenseRecordsInit.storage.lastFetchedTs = now;
+  }
   final newTsList = {...transactions.map((e) => e.timestamp), ...storage.transactionTsList ?? const []}.toList();
   // the latest goes first
   newTsList.sort((a, b) => -a.compareTo(b));
