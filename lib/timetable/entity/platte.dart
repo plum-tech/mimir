@@ -100,6 +100,7 @@ extension TimetablePaletteX on TimetablePalette {
   List<int> encodeByteList() {
     final writer = ByteWriter(1024);
     writer.strUtf8(name);
+    writer.strUtf8(author);
     writer.uint32(colors.length);
     for (var color in colors) {
       writer.uint32(color.light.value);
