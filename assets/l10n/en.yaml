@@ -95,9 +95,9 @@ timetable:
       fab: Palette
       shareQrCode: Share QR code
       newPaletteName: New palette
-      copyPaletteName: "{}-Copy"
+      copyPaletteName: "{} Copy"
       deleteRequest: Conform to delete?
-      deleteRequestDesc: QR code backup can be saved before deletion
+      deleteRequestDesc: The palette will be deleted permanently without unless a QR code backup is saved
       addFromQrCode: Palette was added from QR code
       addColor: Add a color
     cellStyle:
@@ -109,18 +109,18 @@ timetable:
         title: Teachers
         desc: Show teachers in cell
       grayOut:
-        title: Gray out passed lessons
-        desc: Before today
+        title: Gray out taken lessons
+        desc: All lessons before now
       harmonize:
         title: Harmonize with theme color
         desc: Mix the cell color with theme color
       livePreview:
         0:
-          name: Passed
+          name: Taken
           place: Stadium
           teachers: John
         1:
-          name: Passed
+          name: Taken
           place: Classroom
           teachers: Martin
         2:

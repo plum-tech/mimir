@@ -6,13 +6,8 @@ timetable:
   navigation: 课程表
   mine:
     title: 我的课程表
-    edit: 编辑
     exportFile: 导出文件
     exportCalendar: 导出日历
-    delete: 删除
-    preview: 预览
-    use: 使用
-    used: 已使用
     deleteRequest: 确认删除？
     deleteRequestDesc: 这个课程表将被永久删除
     emptyTip: 快去导入一个课程表吧！
@@ -87,9 +82,55 @@ timetable:
     findNearestWeekWithClass: 找到有课的一周
     findNearestDayWithClass: 找到有课的一天
   p13n:
+    title: 个性化
     builtinPalette:
-      classic: Classic
-      oldSchool: Old School
+      classic: 经典
+      oldSchool: 老派
+    palette:
+      header:
+        title: 配色方案
+        desc: 课程表如何显示
+      name: 名称
+      namePlaceholder: 请输入名称
+      fab: 配色方案
+      shareQrCode: 分享二维码
+      newPaletteName: 新的配色方案
+      copyPaletteName: "{} 复制"
+      deleteRequest: 确认删除？
+      deleteRequestDesc: 推荐先保存二维码备份再删除
+      addFromQrCode: 已从二维码添加配色方案
+      addColor: 添加一种配色
+    cellStyle:
+      title: 单元格风格
+      entrance:
+        title: 编辑单元格风格
+        desc: 课程单元格如何显示
+      showTeachers:
+        title: 教师
+        desc: 在单元格内显示教师
+      grayOut:
+        title: 上过的课程变灰
+        desc: 现在之前的所有课程
+      harmonize:
+        title: 与主题色相协调
+        desc: 将单元格颜色与主题色混合
+      livePreview:
+        0:
+          name: 上过的
+          place: 体育馆
+          teachers: 李老师
+        1:
+          name: 上过的
+          place: 教室
+          teachers: 王老师
+        2:
+          name: 今天的
+          place: 活动中心
+          teachers: 张老师
+        3:
+          name: 明天的
+          place: 实验室
+          teachers: 刘老师
 school:
   navigation: 学校
   schoolYear: 学年
@@ -483,6 +524,9 @@ time:
   hourMinuteFormat: "{hour} 小时 {minute} 分钟"
   minuteFormat: "{} 分钟"
   hourFormat: "{} 小时"
+brightness:
+  light: 明亮
+  dark: 黑暗
 open: 打开
 delete: 删除
 confirm: 确定
@@ -513,3 +557,8 @@ seeAll: 查看全部
 select: 选择
 unselect: 取消选择
 share: 分享
+use: 使用
+used: 已使用
+edit: 编辑
+copy: 复制
+preview: 预览

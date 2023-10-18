@@ -6,13 +6,8 @@ timetable:
   navigation: 課程表
   mine:
     title: 我的課程表
-    edit: 編輯
     exportFile: 匯出檔案
     exportCalendar: 匯出行事曆
-    delete: 刪除
-    preview: 預覽
-    use: 使用
-    used: 已使用
     deleteRequest: 確認刪除
     deleteRequestDesc: 你會失去這個課程表，永久地。
     emptyTip: 快去匯入一張新的課程表吧！
@@ -87,9 +82,55 @@ timetable:
     findNearestWeekWithClass: 尋找有課的一天
     findNearestDayWithClass: 尋找有課的一週
   p13n:
+    title: 個人化
     builtinPalette:
-      classic: Classic
-      oldSchool: Old School
+      classic: 經典
+      oldSchool: 老派
+    palette:
+      header:
+        title: 調色盤
+        desc: 課程表看上去如何
+      name: 名稱
+      namePlaceholder: 請輸入名稱
+      fab: 調色盤
+      shareQrCode: 分享 QR 碼
+      newPaletteName: 新的調色盤
+      copyPaletteName: "{} 複製"
+      deleteRequest: 確認刪除？
+      deleteRequestDesc: 除非儲存了 QR 碼備份，否則調色板將被永久刪除
+      addFromQrCode: 已從 QR 碼加載調色盤
+      addColor: 增加一种顏色
+    cellStyle:
+      title: 單元樣式
+      entrance:
+        title: 編輯單元樣式
+        desc: 課程單元看上去如何
+      showTeachers:
+        title: 教師
+        desc: 在單元內顯示教師
+      grayOut:
+        title: 已上的課程灰顯
+        desc: 之前的所有課程
+      harmonize:
+        title: 與主題顏色結合
+        desc: 將單元格顏色與主題顏色混合
+      livePreview:
+        0:
+          name: 上過的
+          place: 體育館
+          teachers: 李老師
+        1:
+          name: 上過的
+          place: 教室
+          teachers: 王老師
+        2:
+          name: 今天的
+          place: 活動中心
+          teachers: 張老師
+        3:
+          name: 明天的
+          place: 實驗室
+          teachers: 劉老師
 school:
   navigation: 學校
   schoolYear: 學年
@@ -240,12 +281,10 @@ examArrange:
   check: 查詢
   date: 日期
   time: 時間
-  endTime: 結束時間
   retake: 重修
   location: 地點
   noExamsTip: 無考試安排
   seatNumber: 座位號
-  startTime: 開始時間
 expenseRecords:
   title: 消費記錄
   check: 查詢
@@ -346,7 +385,7 @@ library:
 settings:
   title: 設定
   version: 版本
-  themeColor: 色彩主題
+  themeColor: 主題顏色
   credentials:
     testLoginOa:
       title: 測試登入 OA
@@ -485,6 +524,9 @@ time:
   hourMinuteFormat: "{hour} 小時 {minute} 分鐘"
   minuteFormat: "{} 分鐘"
   hourFormat: "{} 小時"
+brightness:
+  light: 明亮
+  dark: 黑暗
 open: 打開
 delete: 刪除
 confirm: 確認
@@ -515,3 +557,8 @@ seeAll: 查看全部
 select: 選擇
 unselect: 取消選擇
 share: 分享
+use: 使用
+used: 已使用
+edit: 編輯
+copy: 複製
+preview: 預覽
