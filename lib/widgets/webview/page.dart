@@ -145,7 +145,7 @@ class _WebViewPageState extends State<WebViewPage> {
     final curTitle = widget.fixedTitle ?? title;
     return WillPopScope(
       onWillPop: () async {
-        final canGoBack = await controller.canGoBack() ?? false;
+        final canGoBack = await controller.canGoBack();
         if (canGoBack) controller.goBack();
         // 如果wv能后退就不能退出路由
         return !canGoBack;

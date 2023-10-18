@@ -69,7 +69,7 @@ class StyledWidgetFactory extends WidgetFactory {
 
   @override
   Widget? buildDecoration(
-    BuildMetadata meta,
+    BuildTree tree,
     Widget child, {
     BoxBorder? border,
     BorderRadius? borderRadius,
@@ -77,12 +77,11 @@ class StyledWidgetFactory extends WidgetFactory {
     bool isBorderBox = true,
   }) {
     return super.buildDecoration(
-      meta,
+      tree,
       child,
       border: border,
       borderRadius: borderRadius,
       color: Colors.transparent,
-      isBorderBox: isBorderBox,
     );
   }
 }

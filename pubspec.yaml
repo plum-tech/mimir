@@ -21,12 +21,12 @@ dependencies:
 
   # Basic
   logger: ^2.0.2
-  device_info_plus: ^9.0.3
+  device_info_plus: ^9.1.0
   audio_session: ^0.1.16
   event_bus: ^2.0.0
 
   # Path
-  path_provider: ^2.0.15
+  path_provider: ^2.1.1
   # Version comparison
   version: ^3.0.2
 
@@ -38,7 +38,7 @@ dependencies:
   # String formatting
   format: ^1.3.0
 
-  go_router: ^10.1.2
+  go_router: ^11.1.4
   rettulf: ^2.0.1
 
   # Cryptography
@@ -52,7 +52,7 @@ dependencies:
   # File format
   # iCalendar file generator
   ical: ^0.2.2
-  add_2_calendar: ^2.2.4
+  add_2_calendar: ^2.2.5
 
   # Screenshot
   screenshot: ^2.1.0
@@ -72,12 +72,11 @@ dependencies:
   dio_cookie_manager: ^3.1.0+1
 
   # WebView and browser related
-  webview_flutter: ^4.2.4
+  webview_flutter: ^4.4.1
   fk_user_agent: ^2.1.0
-  flutter_widget_from_html: ^0.10.4
-  chewie: ^1.7.0
+  flutter_widget_from_html: ^0.14.3
+  chewie: ^1.7.1
   cookie_jar: ^4.0.8
-  flutter_widget_from_html_core: ^0.10.4
   flutter_html: ^3.0.0-beta.2
 
   # Email
@@ -85,7 +84,7 @@ dependencies:
   enough_mail_html: ^2.0.0
 
   # Settings
-  app_settings: ^5.0.0
+  app_settings: ^5.1.1
 
   # Platform
   # Android / iOS / Windows Permission
@@ -100,8 +99,8 @@ dependencies:
   url_launcher: ^6.1.14
   # Open Android / iOS system image picker
   image_picker: ^1.0.4
-  file_picker: ^5.5.0
-  share_plus: ^7.1.0
+  file_picker: ^6.0.0
+  share_plus: ^7.2.1
 
   # UI
   fl_chart: ^0.63.0
@@ -143,7 +142,7 @@ dependencies:
   sanitize_filename: ^1.0.5
 
   # Desktop support
-  window_manager: ^0.3.6
+  window_manager: ^0.3.7
 
 dependency_overrides:
   intl: ^0.18.0

@@ -13,10 +13,10 @@ packages:
     dependency: "direct main"
     description:
       name: add_2_calendar
-      sha256: "7153285bb68321a0e0733d4cbc86336a808ac25efcddce74f5194eda6c5a4906"
+      sha256: dbcd0bf296fbbe00861a6f101af8cdb3c163a8c3ff5d3c99a4b081c2f37c724f
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.4"
+    version: "2.2.5"
   analyzer:
     dependency: transitive
     description:
@@ -349,10 +349,10 @@ packages:
     dependency: "direct main"
     description:
       name: device_info_plus
-      sha256: "86add5ef97215562d2e090535b0a16f197902b10c369c558a100e74ea06e8659"
+      sha256: "7035152271ff67b072a211152846e9f1259cf1be41e34cd3e0b5463d2d6b8419"
       url: "https://pub.dev"
     source: hosted
-    version: "9.0.3"
+    version: "9.1.0"
   device_info_plus_platform_interface:
     dependency: transitive
     description:
@@ -485,10 +485,10 @@ packages:
     dependency: "direct main"
     description:
       name: file_picker
-      sha256: be325344c1f3070354a1d84a231a1ba75ea85d413774ec4bdf444c023342e030
+      sha256: "903dd4ba13eae7cef64acc480e91bf54c3ddd23b5b90b639c170f3911e489620"
       url: "https://pub.dev"
     source: hosted
-    version: "5.5.0"
+    version: "6.0.0"
   file_selector_linux:
     dependency: transitive
     description:
@@ -649,18 +649,18 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_widget_from_html
-      sha256: "8d2a9a7979a9c1a5d866d1f4134d2ec2cca78716c112c76803d6a552281405cc"
+      sha256: "146ccbc481921477fa023848883f237c33cb5cf69121a3a4862a4190929ddb57"
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.6"
+    version: "0.14.3"
   flutter_widget_from_html_core:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_widget_from_html_core
-      sha256: "22140caa191cb4bba0fe4d5e4ad875c7e8a9ba47d61517f56d733019cf76396d"
+      sha256: bf896211759a972c14054921ec9a97f551769cd0c8d970ac750d204d98322bdc
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.6"
+    version: "0.14.3"
   format:
     dependency: "direct main"
     description:
@@ -681,50 +681,50 @@ packages:
     dependency: transitive
     description:
       name: fwfh_cached_network_image
-      sha256: "3de22aa3a6943c968e0d9fbcba4463b3dbbf7103171d62c84b6c672fb83eebdf"
+      sha256: "952aea958a5fda7d616cc297ba4bc08427e381459e75526fa375d6d8345630d3"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.0+7"
+    version: "0.14.2"
   fwfh_chewie:
     dependency: transitive
     description:
       name: fwfh_chewie
-      sha256: "0b51a1c976bb74da5e8e45d545c74cb54a7168ad3938dd77103a7aee485f55fa"
+      sha256: b74673d1b2f8710df5addd0ceb82c148f28b9fca9fe619048eebc734d055d55b
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.1+4"
+    version: "0.14.2"
   fwfh_just_audio:
     dependency: transitive
     description:
       name: fwfh_just_audio
-      sha256: "237b93a4cb9f0495a4b51940f361adda2a5abd57231dd44f07459db00144a6cd"
+      sha256: "4962bc59cf8bbb0a77a55ff56a7b925612b0d8263bc2ede3636b9c86113cb493"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.0+3"
+    version: "0.14.2"
   fwfh_svg:
     dependency: transitive
     description:
       name: fwfh_svg
-      sha256: "176b3c1e47fe88dae0a033bd893e0ace03601784ab74af7826607346e50f5718"
+      sha256: "26df142c1784c29c3675ad0d37f589fc5c2173a14fc002d2c38cde3d0f117302"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0+3"
+    version: "0.8.0+4"
   fwfh_url_launcher:
     dependency: transitive
     description:
       name: fwfh_url_launcher
-      sha256: e2b377dce049d58d8cb9573773d94ca3015f3372cf84f6b5dbcf089a2ea43436
+      sha256: "2a526c9819f74b4106ba2fba4dac79f0082deecd8d2c7011cd0471cb710e3eff"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.0+3"
+    version: "0.9.0+4"
   fwfh_webview:
     dependency: transitive
     description:
       name: fwfh_webview
-      sha256: "90a8dda0695403cf57abd7e8b83f6fb1f1a12933930a0bf9cac7cafb06e06a18"
+      sha256: "86531afae48a5838d2dce9719dfc6d46c3179237dacf47ea2b2c068243b2e88f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.0+2"
+    version: "0.14.2"
   glob:
     dependency: transitive
     description:
@@ -737,10 +737,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: e1a30a66d734f9e498b1b6522d6a75ded28242bad2359a9158df38a1c30bcf1f
+      sha256: "2ccd74480706e0a70a0e0dfa9543dede41bc11d0fe3b146a6ad7b7686f6b4407"
       url: "https://pub.dev"
     source: hosted
-    version: "10.2.0"
+    version: "11.1.4"
   graphs:
     dependency: transitive
     description:
@@ -1369,18 +1369,18 @@ packages:
     dependency: "direct main"
     description:
       name: share_plus
-      sha256: "6cec740fa0943a826951223e76218df002804adb588235a8910dc3d6b0654e11"
+      sha256: f74fc3f1cbd99f39760182e176802f693fa0ec9625c045561cfad54681ea93dd
       url: "https://pub.dev"
     source: hosted
-    version: "7.1.0"
+    version: "7.2.1"
   share_plus_platform_interface:
     dependency: transitive
     description:
       name: share_plus_platform_interface
-      sha256: "357412af4178d8e11d14f41723f80f12caea54cf0d5cd29af9dcdab85d58aea7"
+      sha256: df08bc3a07d01f5ea47b45d03ffcba1fa9cd5370fb44b3f38c70e42cced0f956
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.0"
+    version: "3.3.1"
   shared_preferences:
     dependency: transitive
     description:
