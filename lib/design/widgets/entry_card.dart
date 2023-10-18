@@ -21,37 +21,33 @@ class EntryAction {
 }
 
 class EntrySelectAction {
-  final String useLabel;
-  final String usedLabel;
+  final String selectLabel;
+  final String selectedLabel;
   final Future<void> Function()? action;
 
   EntrySelectAction({
-    required this.useLabel,
-    required this.usedLabel,
+    required this.selectLabel,
+    required this.selectedLabel,
     required this.action,
   });
 }
 
 class EntryDeleteAction {
   final String label;
-  final IconData? icon;
-  final IconData? cupertinoIcon;
   final Future<void> Function()? action;
 
   EntryDeleteAction({
     required this.label,
     required this.action,
-    this.icon,
-    this.cupertinoIcon,
   });
 }
 
 class EntryCard extends StatelessWidget {
   final bool selected;
   final List<Widget> children;
-  final List<EntryAction> actions;
-  final EntrySelectAction selectAction;
-  final EntryDeleteAction? deleteAction;
+  final List<EntryAction> Function(BuildContext context) actions;
+  final EntrySelectAction Function(BuildContext context) selectAction;
+  final EntryDeleteAction Function(BuildContext context)? deleteAction;
 
   const EntryCard({
     super.key,
@@ -64,18 +60,18 @@ class EntryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return isCupertino ? buildCupertinoCard(context) : buildCard(context);
+    return isCupertino ? buildCupertinoCard(context) : buildMaterialCard(context);
   }
 
-  Widget buildCard(BuildContext context) {
-    final actions = this.actions;
+  Widget buildMaterialCard(BuildContext context) {
+    final actions = this.actions(context);
     final body = [
       ...children,
       OverflowBar(
         alignment: MainAxisAlignment.spaceBetween,
         children: [
-          buildMainActions(actions.where((action) => action.main).toList()),
-          buildActionPopup(actions.where((action) => !action.main).toList()),
+          buildMaterialMainActions(context, actions.where((action) => action.main).toList()),
+          buildMaterialActionPopup(context, actions.where((action) => !action.main).toList()),
         ],
       ),
     ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15);
@@ -90,22 +86,34 @@ class EntryCard extends StatelessWidget {
 
   Widget buildCupertinoCard(BuildContext context) {
     return Builder(
-      builder: (context) => CupertinoContextMenu.builder(
-        enableHapticFeedback: true,
-        actions: buildContextMenuActions(context, actions),
-        builder: (context, animation) {
-          return buildCupertinoCardBody(
+      builder: (context) {
+        final actions = this.actions(context);
+        final selectAction = this.selectAction(context);
+        final deleteAction = this.deleteAction?.call(context);
+        return CupertinoContextMenu.builder(
+          enableHapticFeedback: true,
+          actions: buildContextMenuActions(
             context,
-            showMoreAction: animation.value <= 0,
-          );
-        },
-      ),
+            actions: actions,
+            selectAction: selectAction,
+            deleteAction: deleteAction,
+          ),
+          builder: (context, animation) {
+            return buildCupertinoCardBody(
+              context,
+              selectAction: selectAction,
+              showMoreAction: animation.value <= 0,
+            );
+          },
+        );
+      },
     );
   }
 
   Widget buildCupertinoCardBody(
     BuildContext context, {
     required bool showMoreAction,
+    required EntrySelectAction selectAction,
   }) {
     final body = [
       ...children,
@@ -131,7 +139,12 @@ class EntryCard extends StatelessWidget {
           );
   }
 
-  List<Widget> buildContextMenuActions(BuildContext context, List<EntryAction> actions) {
+  List<Widget> buildContextMenuActions(
+    BuildContext context, {
+    required List<EntryAction> actions,
+    required EntrySelectAction selectAction,
+    required EntryDeleteAction? deleteAction,
+  }) {
     final all = <Widget>[];
     if (!selected) {
       final selectCallback = selectAction.action;
@@ -144,7 +157,7 @@ class EntryCard extends StatelessWidget {
                 await Future.delayed(const Duration(milliseconds: 336));
                 await selectCallback();
               },
-        child: selectAction.useLabel.text(),
+        child: selectAction.selectLabel.text(),
       ));
     }
     for (final action in actions) {
@@ -160,7 +173,6 @@ class EntryCard extends StatelessWidget {
         child: action.label.text(),
       ));
     }
-    final deleteAction = this.deleteAction;
     if (deleteAction != null) {
       all.add(CupertinoContextMenuAction(
         trailingIcon: CupertinoIcons.delete,
@@ -176,9 +188,9 @@ class EntryCard extends StatelessWidget {
     return all;
   }
 
-  Widget buildMainActions(List<EntryAction> mainActions) {
+  Widget buildMaterialMainActions(BuildContext context, List<EntryAction> mainActions) {
     final all = <Widget>[];
-    all.add(buildSelectAction());
+    all.add(buildMaterialSelectAction(context));
     for (final action in mainActions) {
       all.add(OutlinedButton(
         onPressed: action.action,
@@ -188,22 +200,23 @@ class EntryCard extends StatelessWidget {
     return all.wrap(spacing: 4);
   }
 
-  Widget buildSelectAction() {
+  Widget buildMaterialSelectAction(BuildContext context) {
+    final selectAction = this.selectAction(context);
     if (selected) {
       return FilledButton.icon(
         icon: const Icon(Icons.check),
         onPressed: null,
-        label: selectAction.usedLabel.text(),
+        label: selectAction.selectedLabel.text(),
       );
     } else {
       return FilledButton(
         onPressed: selectAction.action,
-        child: selectAction.useLabel.text(),
+        child: selectAction.selectLabel.text(),
       );
     }
   }
 
-  Widget buildActionPopup(List<EntryAction> secondaryActions) {
+  Widget buildMaterialActionPopup(BuildContext context, List<EntryAction> secondaryActions) {
     return PopupMenuButton(
       position: PopupMenuPosition.under,
       padding: EdgeInsets.zero,
@@ -227,13 +240,14 @@ class EntryCard extends StatelessWidget {
         }
         final deleteAction = this.deleteAction;
         if (deleteAction != null) {
+          final deleteActionWidget = deleteAction(context);
           all.add(PopupMenuItem(
             child: ListTile(
               leading: const Icon(Icons.delete, color: Colors.redAccent),
-              title: deleteAction.label.text(style: const TextStyle(color: Colors.redAccent)),
+              title: deleteActionWidget.label.text(style: const TextStyle(color: Colors.redAccent)),
               onTap: () async {
                 ctx.navigator.pop();
-                await deleteAction.action?.call();
+                await deleteActionWidget.action?.call();
               },
             ),
           ));

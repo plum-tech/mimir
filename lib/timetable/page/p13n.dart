@@ -116,33 +116,43 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
     final theme = context.theme;
     return EntryCard(
       selected: selected,
-      selectAction: EntrySelectAction(
-        useLabel: "Use",
-        usedLabel: "Used",
+      selectAction: (ctx) => EntrySelectAction(
+        selectLabel: "Use",
+        selectedLabel: "Used",
         action: palette.colors.isEmpty
             ? null
             : () async {
                 TimetableInit.storage.palette.selectedId = id;
               },
       ),
-      deleteAction: EntryDeleteAction(
+      deleteAction: (ctx) => EntryDeleteAction(
         label: i18n.delete,
         action: () async {
-          await onDelete(id);
+          final confirm = await ctx.showRequest(
+            title: "Delete?",
+            desc: "Delete",
+            yes: i18n.delete,
+            no: i18n.cancel,
+            highlight: true,
+          );
+          if (confirm == true) {
+            TimetableInit.storage.palette.delete(id);
+          }
         },
       ),
-      actions: [
+      actions: (ctx) => [
         if (palette is! BuiltinTimetablePalette)
           EntryAction(
             main: true,
             label: "Edit",
+            icon: Icons.edit,
             cupertinoIcon: CupertinoIcons.pencil,
             action: () async {
-              final newPalette = await context.show$Sheet$<TimetablePalette>(
+              final newPalette = await ctx.show$Sheet$<TimetablePalette>(
                 dismissible: false,
-                (context) => TimetablePaletteEditor(
+                (ctx) => TimetablePaletteEditor(
                   palette: palette.clone(),
-                  initialBrightness: context.theme.brightness,
+                  initialBrightness: ctx.theme.brightness,
                 ),
               );
               if (newPalette == null) return;
@@ -159,18 +169,19 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
           },
         ),
         EntryAction(
-            label: "Share QR code",
-            icon: Icons.qr_code,
-            cupertinoIcon: CupertinoIcons.qrcode,
-            action: () async {
-              final qrCodeData = const TimetablePaletteDeepLink().encode(palette);
-              await context.show$Sheet$(
-                (context) => QrCodePage(
-                  title: "Timetable Palette".text(),
-                  data: qrCodeData.toString(),
-                ),
-              );
-            }),
+          label: "Share QR code",
+          icon: Icons.qr_code,
+          cupertinoIcon: CupertinoIcons.qrcode,
+          action: () async {
+            final qrCodeData = const TimetablePaletteDeepLink().encode(palette);
+            await ctx.show$Sheet$(
+              (context) => QrCodePage(
+                title: "Timetable Palette".text(),
+                data: qrCodeData.toString(),
+              ),
+            );
+          },
+        ),
       ],
       children: [
         palette.name.text(style: theme.textTheme.titleLarge),
@@ -186,19 +197,6 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
             .wrap(),
       ],
     );
-  }
-
-  Future<void> onDelete(int id) async {
-    final confirm = await context.showRequest(
-      title: "Delete?",
-      desc: "Delete",
-      yes: i18n.delete,
-      no: i18n.cancel,
-      highlight: true,
-    );
-    if (confirm == true) {
-      TimetableInit.storage.palette.delete(id);
-    }
   }
 }
 
