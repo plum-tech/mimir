@@ -106,10 +106,10 @@ extension TimetablePaletteX on TimetablePalette {
     final ByteData byteData = buffer.buffer.asByteData();
     int index = 0;
 
-    byteData.setUint8(index, name.length);
+    List<int> nameBytes = utf8.encode(name);
+    byteData.setUint8(index, nameBytes.length);
     index++;
 
-    List<int> nameBytes = utf8.encode(name);
     for (int i = 0; i < nameBytes.length; i++) {
       byteData.setUint8(index, nameBytes[i]);
       index++;
