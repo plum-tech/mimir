@@ -196,6 +196,6 @@ class ByteReader {
       final code = uint8();
       charCodes.add(code);
     }
-    return String.fromCharCodes(charCodes);
+    return utf8.decode(charCodes);
   }
 }
