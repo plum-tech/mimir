@@ -178,7 +178,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
             final qrCodeData = const TimetablePaletteDeepLink().encode(palette);
             await ctx.show$Sheet$(
               (context) => QrCodePage(
-                title: i18n.p13n.palette.newPaletteName.text(),
+                title: palette.name.text(),
                 data: qrCodeData.toString(),
               ),
             );
