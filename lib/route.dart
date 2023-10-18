@@ -124,7 +124,14 @@ final router = GoRouter(
                 ),
                 GoRoute(
                   path: "p13n",
-                  builder: (ctx, state) => const TimetableP13nPage(),
+                  builder: (ctx, state) {
+                    final query = state.uri.query;
+                    return switch (query) {
+                      "custom" => const TimetableP13nPage(tab: TimetableP13nTab.custom),
+                      "builtin" => const TimetableP13nPage(tab: TimetableP13nTab.builtin),
+                      _ => const TimetableP13nPage(),
+                    };
+                  },
                   routes: [
                     GoRoute(
                         path: "palette/:id",

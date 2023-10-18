@@ -16,13 +16,18 @@ import 'package:sit/timetable/platte.dart';
 import '../i18n.dart';
 
 class TimetableP13nPage extends StatefulWidget {
-  const TimetableP13nPage({super.key});
+  final int? tab;
+
+  const TimetableP13nPage({
+    super.key,
+    this.tab,
+  }) : assert(tab == null || (0 <= tab && tab < TimetableP13nTab.length), "#$tab tab not found");
 
   @override
   State<TimetableP13nPage> createState() => _TimetableP13nPageState();
 }
 
-class _Tab {
+class TimetableP13nTab {
   static const length = 2;
   static const custom = 0;
   static const builtin = 1;
@@ -36,10 +41,13 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
   void initState() {
     super.initState();
     $paletteList.addListener(refresh);
-    tabController = TabController(vsync: this, length: _Tab.length);
+    tabController = TabController(vsync: this, length: TimetableP13nTab.length);
     final selectedId = TimetableInit.storage.palette.selectedId;
-    if (BuiltinTimetablePalettes.all.any((palette) => palette.id == selectedId)) {
-      tabController.index = _Tab.builtin;
+    final forceTab = widget.tab;
+    if (forceTab != null) {
+      tabController.index = forceTab.clamp(TimetableP13nTab.custom, TimetableP13nTab.builtin);
+    } else if (BuiltinTimetablePalettes.all.any((palette) => palette.id == selectedId)) {
+      tabController.index = TimetableP13nTab.builtin;
     }
   }
 
@@ -66,7 +74,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
             author: "",
             colors: [],
           ));
-          tabController.index = _Tab.custom;
+          tabController.index = TimetableP13nTab.custom;
         },
       ),
       body: NestedScrollView(
@@ -179,7 +187,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
               author: "",
             );
             TimetableInit.storage.palette.add(duplicate);
-            tabController.index = _Tab.custom;
+            tabController.index = TimetableP13nTab.custom;
           },
         ),
         EntryAction(
@@ -227,5 +235,5 @@ Future<void> onTimetablePaletteFromQrCode({
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
   context.showSnackBar(i18n.p13n.palette.addFromQrCode.text());
-  context.push("/timetable/p13n");
+  context.push("/timetable/p13n?custom");
 }
