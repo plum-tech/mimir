@@ -18,6 +18,8 @@ import 'package:sit/login/page/index.dart';
 import 'package:sit/main/index.dart';
 import 'package:sit/me/edu_email/page/inbox.dart';
 import 'package:sit/me/network_tool/page/index.dart';
+import 'package:sit/timetable/entity/platte.dart';
+import 'package:sit/timetable/page/palette.dart';
 import 'package:sit/widgets/not_found.dart';
 import 'package:sit/school/oa_announce/entity/announce.dart';
 import 'package:sit/school/oa_announce/page/details.dart';
@@ -126,6 +128,19 @@ final router = GoRouter(
                     final enableCellStyle = state.uri.queryParameters["enableCellStyle"] != null;
                     return TimetableP13nPage(editCellStyle: enableCellStyle);
                   },
+                  routes: [
+                    GoRoute(
+                        path: "palette/:id",
+                        builder: (ctx, state) {
+                          final extra = state.extra;
+                          if (extra is TimetablePalette) return TimetablePaletteEditor(palette: extra);
+                          final id = int.tryParse(state.pathParameters["id"] ?? "");
+                          if (id == null) throw 404;
+                          final palette = TimetableInit.storage.palette[id];
+                          if (palette == null) throw 404;
+                          return TimetablePaletteEditor(palette: palette);
+                        }),
+                  ],
                 ),
               ],
             ),

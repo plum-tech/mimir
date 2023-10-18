@@ -14,12 +14,10 @@ import '../i18n.dart';
 
 class TimetablePaletteEditor extends StatefulWidget {
   final TimetablePalette palette;
-  final Brightness initialBrightness;
 
   const TimetablePaletteEditor({
     super.key,
     required this.palette,
-    required this.initialBrightness,
   });
 
   @override
@@ -28,12 +26,13 @@ class TimetablePaletteEditor extends StatefulWidget {
 
 class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
   late final $name = TextEditingController(text: widget.palette.name);
-  late final $brightness = ValueNotifier(widget.initialBrightness);
+  late final $brightness = ValueNotifier(context.theme.brightness);
   late var colors = widget.palette.colors;
 
   @override
   void dispose() {
     $name.dispose();
+    $brightness.dispose();
     super.dispose();
   }
 
@@ -70,7 +69,7 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
             if (colors.isNotEmpty) const Divider(),
             ListTile(
               leading: const Icon(Icons.add),
-              title:i18n.p13n.palette.addFromQrCode.text(),
+              title:i18n.p13n.palette.addColor.text(),
               onTap: () {
                 setState(() {
                   colors.add((light: Colors.white30, dark: Colors.black12));

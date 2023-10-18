@@ -15,7 +15,6 @@ import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/platte.dart';
 
 import 'cell_style.dart';
-import 'palette.dart';
 import '../i18n.dart';
 
 class TimetableP13nPage extends StatefulWidget {
@@ -150,12 +149,9 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
             icon: Icons.edit,
             cupertinoIcon: CupertinoIcons.pencil,
             action: () async {
-              final newPalette = await ctx.show$Sheet$<TimetablePalette>(
-                dismissible: false,
-                (ctx) => TimetablePaletteEditor(
-                  palette: palette.clone(),
-                  initialBrightness: ctx.theme.brightness,
-                ),
+              final newPalette = await ctx.push<TimetablePalette>(
+                "/timetable/p13n/palette/$id",
+                extra: palette.clone(),
               );
               if (newPalette == null) return;
               TimetableInit.storage.palette[id] = newPalette;
