@@ -213,15 +213,20 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
             fontStyle: FontStyle.italic,
           )),
         palette.colors
-            .map((c) => FilledCard(
-                  color: c.byTheme(theme),
-                  child: const SizedBox(
-                    width: 32,
-                    height: 32,
+            .map((c) => OutlinedCard(
+                  margin: EdgeInsets.zero,
+                  child: FilledCard(
+                    margin: EdgeInsets.zero,
+                    color: c.byTheme(theme),
+                    child: const SizedBox(
+                      width: 32,
+                      height: 32,
+                    ),
                   ),
                 ))
             .toList()
-            .wrap(),
+            .wrap(spacing: 4, runSpacing: 4)
+            .padV(4),
       ],
     );
   }
