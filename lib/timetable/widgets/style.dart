@@ -32,23 +32,23 @@ extension DesignExtension on BuildContext {
 
 class CourseCellStyle {
   final bool showTeachers;
-  final bool grayOutPassedLessons;
+  final bool grayOutTakenLessons;
   final bool harmonizeWithThemeColor;
 
   const CourseCellStyle({
     required this.showTeachers,
-    required this.grayOutPassedLessons,
+    required this.grayOutTakenLessons,
     required this.harmonizeWithThemeColor,
   });
 
   CourseCellStyle copyWith({
     bool? showTeachers,
-    bool? grayOutPassedLessons,
+    bool? grayOutTakenLessons,
     bool? harmonizeWithThemeColor,
   }) {
     return CourseCellStyle(
       showTeachers: showTeachers ?? this.showTeachers,
-      grayOutPassedLessons: grayOutPassedLessons ?? this.grayOutPassedLessons,
+      grayOutTakenLessons: grayOutTakenLessons ?? this.grayOutTakenLessons,
       harmonizeWithThemeColor: harmonizeWithThemeColor ?? this.harmonizeWithThemeColor,
     );
   }
@@ -133,7 +133,7 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
       platte: TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic,
       cell: CourseCellStyle(
         showTeachers: Settings.timetable.cell.showTeachers,
-        grayOutPassedLessons: Settings.timetable.cell.grayOutPassedLessons,
+        grayOutTakenLessons: Settings.timetable.cell.grayOutTakenLessons,
         harmonizeWithThemeColor: Settings.timetable.cell.harmonizeWithThemeColor,
       ),
     );

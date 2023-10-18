@@ -147,7 +147,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
   Future<void> takeTimetableScreenshot() async {
     final config = await context.show$Sheet$<TimetableScreenshotConfig>((ctx) => TimetableScreenshotConfigEditor(
           timetable: timetable,
-          initialGrayOutPassedLessons: TimetableStyle.of(context).cell.grayOutPassedLessons,
+          initialGrayOutTakenLessons: TimetableStyle.of(context).cell.grayOutTakenLessons,
         ));
     if (config == null) return;
     if (!mounted) return;

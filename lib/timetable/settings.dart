@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 const _kAutoUseImported = true;
 const _kShowTeachers = true;
-const _kGrayOutPassedLessons = false;
+const _kGrayOutTakenLessons = false;
 const _kHarmonizeWithThemeColor = true;
 
 class _K {
@@ -26,7 +26,7 @@ class TimetableSettings {
 class _CellK {
   static const ns = "${_K.ns}/cell";
   static const showTeachers = "$ns/showTeachers";
-  static const grayOutPassedLessons = "$ns/grayOutPassedLessons";
+  static const grayOutTakenLessons = "$ns/grayOutTakenLessons";
   static const harmonizeWithThemeColor = "$ns/harmonizeWithThemeColor";
 }
 
@@ -39,14 +39,14 @@ class _Cell {
 
   set showTeachers(bool newV) => box.put(_CellK.showTeachers, newV);
 
-  bool get grayOutPassedLessons => box.get(_CellK.grayOutPassedLessons) ?? _kGrayOutPassedLessons;
+  bool get grayOutTakenLessons => box.get(_CellK.grayOutTakenLessons) ?? _kGrayOutTakenLessons;
 
-  set grayOutPassedLessons(bool newV) => box.put(_CellK.grayOutPassedLessons, newV);
+  set grayOutTakenLessons(bool newV) => box.put(_CellK.grayOutTakenLessons, newV);
 
   bool get harmonizeWithThemeColor => box.get(_CellK.harmonizeWithThemeColor) ?? _kHarmonizeWithThemeColor;
 
   set harmonizeWithThemeColor(bool newV) => box.put(_CellK.harmonizeWithThemeColor, newV);
 
   ValueListenable listenStyle() =>
-      box.listenable(keys: [_CellK.showTeachers, _CellK.grayOutPassedLessons, _CellK.harmonizeWithThemeColor]);
+      box.listenable(keys: [_CellK.showTeachers, _CellK.grayOutTakenLessons, _CellK.harmonizeWithThemeColor]);
 }

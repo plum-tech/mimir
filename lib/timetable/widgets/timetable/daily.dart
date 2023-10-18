@@ -221,7 +221,7 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
     if (style.cell.harmonizeWithThemeColor) {
       color = color.harmonizeWith(context.colorScheme.primary);
     }
-    if (style.cell.grayOutPassedLessons && lesson.endTime.isBefore(DateTime.now())) {
+    if (style.cell.grayOutTakenLessons && lesson.endTime.isBefore(DateTime.now())) {
       color = color.monochrome();
     }
     final classTime = course.buildingTimetable[timeslot];

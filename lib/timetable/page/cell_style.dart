@@ -48,7 +48,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
   CourseCellStyle buildStyle() {
     return CourseCellStyle(
       showTeachers: Settings.timetable.cell.showTeachers,
-      grayOutPassedLessons: Settings.timetable.cell.grayOutPassedLessons,
+      grayOutTakenLessons: Settings.timetable.cell.grayOutTakenLessons,
       harmonizeWithThemeColor: Settings.timetable.cell.harmonizeWithThemeColor,
     );
   }
@@ -75,10 +75,10 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
       title: i18n.p13n.cell.grayOutTitle.text(),
       subtitle: i18n.p13n.cell.grayOutDesc.text(),
       trailing: Switch.adaptive(
-        value: Settings.timetable.cell.grayOutPassedLessons,
+        value: Settings.timetable.cell.grayOutTakenLessons,
         onChanged: (newV) {
           setState(() {
-            Settings.timetable.cell.grayOutPassedLessons = newV;
+            Settings.timetable.cell.grayOutTakenLessons = newV;
           });
         },
       ),
@@ -166,7 +166,7 @@ class TimetableCellStylePreview extends StatelessWidget {
       );
     }
 
-    final grayOut = style.grayOutPassedLessons;
+    final grayOut = style.grayOutTakenLessons;
     return [
       livePreview(0, grayOut: grayOut),
       livePreview(1, grayOut: grayOut),

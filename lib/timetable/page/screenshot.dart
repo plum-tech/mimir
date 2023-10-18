@@ -9,17 +9,17 @@ import '../widgets/timetable/weekly.dart';
 
 typedef TimetableScreenshotConfig = ({
   String signature,
-  bool grayOutPassedLessons,
+  bool grayOutTakenLessons,
 });
 
 class TimetableScreenshotConfigEditor extends StatefulWidget {
   final SitTimetableEntity timetable;
-  final bool initialGrayOutPassedLessons;
+  final bool initialGrayOutTakenLessons;
 
   const TimetableScreenshotConfigEditor({
     super.key,
     required this.timetable,
-    this.initialGrayOutPassedLessons = false,
+    this.initialGrayOutTakenLessons = false,
   });
 
   @override
@@ -28,7 +28,7 @@ class TimetableScreenshotConfigEditor extends StatefulWidget {
 
 class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotConfigEditor> {
   final $signature = TextEditingController(text: "");
-  late bool grayOutPassedLessons = widget.initialGrayOutPassedLessons;
+  late bool grayOutTakenLessons = widget.initialGrayOutTakenLessons;
 
   @override
   void dispose() {
@@ -55,7 +55,7 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
           ),
           SliverList.list(children: [
             buildSignatureInput(),
-            buildGrayOutPassedLessons(),
+            buildGrayOutTakenLessons(),
           ]),
         ],
       ),
@@ -68,7 +68,7 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
       onPressed: () async {
         context.pop<TimetableScreenshotConfig>((
           signature: $signature.text.trim(),
-          grayOutPassedLessons: grayOutPassedLessons == true,
+          grayOutTakenLessons: grayOutTakenLessons == true,
         ));
       },
     );
@@ -88,16 +88,16 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
     );
   }
 
-  Widget buildGrayOutPassedLessons() {
+  Widget buildGrayOutTakenLessons() {
     return ListTile(
       leading: const Icon(Icons.timelapse),
-      title: "Gray out passed lessons".text(),
-      subtitle: "Before today".text(),
+      title: i18n.p13n.cell.grayOutTitle.text(),
+      subtitle: i18n.p13n.cell.grayOutDesc.text(),
       trailing: Switch.adaptive(
-        value: grayOutPassedLessons == true,
+        value: grayOutTakenLessons == true,
         onChanged: (newV) {
           setState(() {
-            grayOutPassedLessons = newV;
+            grayOutTakenLessons = newV;
           });
         },
       ),
@@ -133,7 +133,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
           return StyledCourseCell(
             style: style,
             course: lesson.course,
-            grayOut: config.grayOutPassedLessons ? lesson.endTime.isBefore(today) : false,
+            grayOut: config.grayOutTakenLessons ? lesson.endTime.isBefore(today) : false,
           );
         },
       ),
