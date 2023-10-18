@@ -123,7 +123,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
           id,
           palette,
           selected: selectedId == id,
-        ).padH(12);
+        ).padH(6);
       },
     );
   }
@@ -145,21 +145,23 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
                 TimetableInit.storage.palette.selectedId = id;
               },
       ),
-      deleteAction: (ctx) => EntryDeleteAction(
-        label: i18n.delete,
-        action: () async {
-          final confirm = await ctx.showRequest(
-            title: i18n.p13n.palette.deleteRequest,
-            desc: i18n.p13n.palette.deleteRequestDesc,
-            yes: i18n.delete,
-            no: i18n.cancel,
-            highlight: true,
-          );
-          if (confirm == true) {
-            TimetableInit.storage.palette.delete(id);
-          }
-        },
-      ),
+      deleteAction: palette is BuiltinTimetablePalette
+          ? null
+          : (ctx) => EntryDeleteAction(
+                label: i18n.delete,
+                action: () async {
+                  final confirm = await ctx.showRequest(
+                    title: i18n.p13n.palette.deleteRequest,
+                    desc: i18n.p13n.palette.deleteRequestDesc,
+                    yes: i18n.delete,
+                    no: i18n.cancel,
+                    highlight: true,
+                  );
+                  if (confirm == true) {
+                    TimetableInit.storage.palette.delete(id);
+                  }
+                },
+              ),
       actions: (ctx) => [
         if (palette is! BuiltinTimetablePalette)
           EntryAction(
