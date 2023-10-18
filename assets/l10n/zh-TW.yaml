@@ -84,14 +84,20 @@ timetable:
   p13n:
     title: 個人化
     builtinPalette:
-      classic: 經典
-      oldSchool: 老派
+      classic:
+        name: 經典
+        author: Liplum
+      oldSchool:
+        name: 老派
+        author: 上應小風箏
     palette:
       header:
         title: 調色盤
         desc: 課程表看上去如何
       name: 名稱
-      namePlaceholder: 請輸入名稱
+      namePlaceholder: 調色盤名稱
+      author: 作者
+      authorPlaceholder: 你的姓名，電郵，或 url
       fab: 調色盤
       shareQrCode: 分享 QR 碼
       newPaletteName: 新的調色盤

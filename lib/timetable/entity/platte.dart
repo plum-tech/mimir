@@ -41,11 +41,14 @@ List _colorsToJson(List<Color2Mode> colors) {
 class TimetablePalette {
   @JsonKey()
   final String name;
+  @JsonKey()
+  final String author;
   @JsonKey(fromJson: _colorsFromJson, toJson: _colorsToJson)
   final List<Color2Mode> colors;
 
   const TimetablePalette({
     required this.name,
+    required this.author,
     required this.colors,
   });
 
@@ -61,6 +64,7 @@ class TimetablePalette {
   static decodeFromByteList(Uint8List bytes) {
     final reader = ByteReader(bytes);
     final name = reader.strUtf8();
+    final author = reader.strUtf8();
     final colorLen = reader.uint32();
 
     List<Color2Mode> colors = [];
@@ -70,15 +74,21 @@ class TimetablePalette {
       colors.add((light: light, dark: dark));
     }
 
-    return TimetablePalette(name: name, colors: colors);
+    return TimetablePalette(name: name, author: author, colors: colors);
   }
 }
 
 extension TimetablePaletteX on TimetablePalette {
-  TimetablePalette clone({
-    String Function(String origin)? getNewName,
+  TimetablePalette copyWith({
+    String? name,
+    List<Color2Mode>? colors,
+    String? author,
   }) {
-    return TimetablePalette(name: getNewName?.call(name) ?? name, colors: List.of(colors));
+    return TimetablePalette(
+      name: name ?? this.name,
+      colors: colors ?? List.of(this.colors),
+      author: author ?? this.author,
+    );
   }
 
   String encodeBase64() {
@@ -105,7 +115,10 @@ class BuiltinTimetablePalette implements TimetablePalette {
   final String key;
 
   @override
-  String get name => "timetable.p13n.builtinPalette.$key".tr();
+  String get name => "timetable.p13n.builtinPalette.$key.name".tr();
+
+  @override
+  String get author => "timetable.p13n.builtinPalette.$key.author".tr();
   @override
   final List<Color2Mode> colors;
 
@@ -117,7 +130,8 @@ class BuiltinTimetablePalette implements TimetablePalette {
 
   @override
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'id': id,
-        'colors': _colorsToJson(colors),
+        "id": id,
+        "author": author,
+        "colors": _colorsToJson(colors),
       };
 }

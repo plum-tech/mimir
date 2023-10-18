@@ -84,14 +84,20 @@ timetable:
   p13n:
     title: 个性化
     builtinPalette:
-      classic: 经典
-      oldSchool: 老派
+      classic:
+        name: 经典
+        author: Liplum
+      oldSchool:
+        name: 老派
+        author: 上应小风筝
     palette:
       header:
         title: 配色方案
         desc: 课程表如何显示
       name: 名称
-      namePlaceholder: 请输入名称
+      namePlaceholder: 配色方案的名称
+      author: 作者
+      authorPlaceholder: 你的姓名，电子邮箱，或 url
       fab: 配色方案
       shareQrCode: 分享二维码
       newPaletteName: 新的配色方案

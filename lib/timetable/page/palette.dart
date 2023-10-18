@@ -26,12 +26,14 @@ class TimetablePaletteEditor extends StatefulWidget {
 
 class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
   late final $name = TextEditingController(text: widget.palette.name);
+  late final $author = TextEditingController(text: widget.palette.author);
   late final $brightness = ValueNotifier(context.theme.brightness);
   late var colors = widget.palette.colors;
 
   @override
   void dispose() {
     $name.dispose();
+    $author.dispose();
     $brightness.dispose();
     super.dispose();
   }
@@ -50,6 +52,7 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
                 onPressed: () {
                   context.navigator.pop(TimetablePalette(
                     name: $name.text,
+                    author: $author.text,
                     colors: colors,
                   ));
                 },
@@ -58,11 +61,13 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
           ),
           SliverList.list(children: [
             buildName(),
+            buildAuthor(),
             const Divider(),
           ]),
           $brightness >>
               (ctx, brightness) {
                 if (isCupertino) {
+                  // on iOS, SwipeAction is used, so ignore the separator
                   return SliverList.builder(
                     itemCount: colors.length,
                     itemBuilder: buildColorTile,
@@ -193,12 +198,24 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
   Widget buildName() {
     return ListTile(
       isThreeLine: true,
-      leading: const Icon(Icons.drive_file_rename_outline),
       title: i18n.p13n.palette.name.text(),
       subtitle: TextField(
         controller: $name,
         decoration: InputDecoration(
           hintText: i18n.p13n.palette.namePlaceholder,
+        ),
+      ),
+    );
+  }
+
+  Widget buildAuthor(){
+    return ListTile(
+      isThreeLine: true,
+      title: i18n.p13n.palette.author.text(),
+      subtitle: TextField(
+        controller: $author,
+        decoration: InputDecoration(
+          hintText: i18n.p13n.palette.authorPlaceholder,
         ),
       ),
     );

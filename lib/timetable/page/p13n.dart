@@ -83,6 +83,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
         onPressed: () {
           TimetableInit.storage.palette.add(TimetablePalette(
             name: i18n.p13n.palette.newPaletteName,
+            author: "",
             colors: [],
           ));
         },
@@ -155,7 +156,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
             action: () async {
               final newPalette = await ctx.push<TimetablePalette>(
                 "/timetable/p13n/palette/$id",
-                extra: palette.clone(),
+                extra: palette.copyWith(),
               );
               if (newPalette == null) return;
               TimetableInit.storage.palette[id] = newPalette;
@@ -166,7 +167,11 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
           icon: Icons.copy,
           cupertinoIcon: CupertinoIcons.doc_on_clipboard,
           action: () async {
-            final duplicate = palette.clone(getNewName: (old) => i18n.p13n.palette.copyPaletteName(old));
+            final duplicate = palette.copyWith(
+              name: i18n.p13n.palette.copyPaletteName(palette.name),
+              // copy will ignore the original author
+              author: "",
+            );
             TimetableInit.storage.palette.add(duplicate);
           },
         ),
@@ -187,6 +192,11 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
       ],
       children: [
         palette.name.text(style: theme.textTheme.titleLarge),
+        if (palette.author.isNotEmpty)
+          palette.author.text(
+              style: const TextStyle(
+            fontStyle: FontStyle.italic,
+          )),
         palette.colors
             .map((c) => FilledCard(
                   color: c.byTheme(theme),

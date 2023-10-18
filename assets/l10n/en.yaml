@@ -84,14 +84,20 @@ timetable:
   p13n:
     title: Personalization
     builtinPalette:
-      classic: Classic
-      oldSchool: Old School
+      classic:
+        name: Classic
+        author: Liplum
+      oldSchool:
+        name: Old School
+        author: SIT Kite
     palette:
       header:
         title: Palettes
         desc: How timetable looks like
       name: Name
-      namePlaceholder: Please enter a name
+      namePlaceholder: Palette name
+      author: Author
+      authorPlaceholder: Your name, email, or url
       fab: Palette
       shareQrCode: Share QR code
       newPaletteName: New palette

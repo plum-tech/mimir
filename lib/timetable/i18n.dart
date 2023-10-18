@@ -123,6 +123,10 @@ class _Palette {
   String get name => "$ns.name".tr();
 
   String get namePlaceholder => "$ns.namePlaceholder".tr();
+
+  String get author => "$ns.author".tr();
+
+  String get authorPlaceholder => "$ns.authorPlaceholder".tr();
 }
 
 class _Details {
