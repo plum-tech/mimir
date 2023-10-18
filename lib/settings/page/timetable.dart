@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/timetable/page/p13n.dart';
+import 'package:sit/timetable/page/cell_style.dart';
 import '../i18n.dart';
 
 class TimetableSettingsPage extends StatefulWidget {
