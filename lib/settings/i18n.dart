@@ -149,9 +149,13 @@ class _Timetable {
 
   String get autoUseImportedDesc => "$ns.autoUseImported.desc".tr();
 
-  String get p13nTitle => "$ns.p13n.title".tr();
+  String get paletteTitle => "$ns.palette.title".tr();
 
-  String get p13nDesc => "$ns.p13n.desc".tr();
+  String get paletteDesc => "$ns.palette.desc".tr();
+
+  String get cellStyleTitle => "$ns.cellStyle.title".tr();
+
+  String get cellStyleDesc => "$ns.cellStyle.desc".tr();
 }
 
 class _School {

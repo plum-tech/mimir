@@ -4,7 +4,6 @@ import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/timetable/page/cell_style.dart';
-import 'package:sit/timetable/page/p13n.dart';
 import '../i18n.dart';
 
 class TimetableSettingsPage extends StatefulWidget {
@@ -35,7 +34,7 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
           SliverList.list(
             children: [
               buildAutoUseImportedToggle(),
-              const TimetableEditCellStyleTile(),
+              buildCellStyle(),
               buildP13n(),
             ],
           ),
@@ -63,11 +62,23 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
   Widget buildP13n() {
     return ListTile(
       leading: const Icon(Icons.color_lens_outlined),
-      title: i18n.timetable.p13nTitle.text(),
-      subtitle: i18n.timetable.p13nDesc.text(),
+      title: i18n.timetable.paletteTitle.text(),
+      subtitle: i18n.timetable.paletteDesc.text(),
       trailing: const Icon(Icons.open_in_new),
       onTap: () async {
         await context.push("/timetable/p13n");
+      },
+    );
+  }
+
+  Widget buildCellStyle(){
+    return ListTile(
+      leading: const Icon(Icons.style_outlined),
+      title: i18n.timetable.cellStyleTitle.text(),
+      subtitle: i18n.timetable.cellStyleDesc.text(),
+      trailing: const Icon(Icons.open_in_new),
+      onTap: () async {
+        await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
       },
     );
   }

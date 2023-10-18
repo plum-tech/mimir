@@ -82,7 +82,6 @@ timetable:
     findNearestWeekWithClass: Find a week with class
     findNearestDayWithClass: Find a day with class
   p13n:
-    title: Personalization
     builtinPalette:
       classic:
         name: Classic
@@ -91,10 +90,11 @@ timetable:
         name: Old School
         author: SIT Kite
     palette:
-      header:
-        title: Palettes
-        desc: How timetable looks like
+      title: Palettes
       name: Name
+      tab:
+        custom: Custom
+        builtin: Builtin
       namePlaceholder: Palette name
       author: Author
       authorPlaceholder: Your name, email, or url
@@ -108,9 +108,6 @@ timetable:
       addColor: Add a color
     cellStyle:
       title: Cell Style
-      entrance:
-        title: Edit cell style
-        desc: How course cell looks like
       showTeachers:
         title: Teachers
         desc: Show teachers in cell
@@ -418,9 +415,12 @@ settings:
     autoUseImported:
       title: Auto-use imported
       desc: Use the timetable just imported
-    p13n:
-      title: Personalization
-      desc: Personalize timetable style
+    palette:
+      title: Palette
+      desc: Customize the timetable palette
+    cellStyle:
+      title: Edit cell style
+      desc: How course cell looks like
   school:
     title: School
     class2nd:

@@ -16,6 +16,7 @@ import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
 import '../utils.dart';
+import 'cell_style.dart';
 import 'editor.dart';
 
 class MyTimetableListPage extends StatefulWidget {
@@ -96,8 +97,14 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             title: i18n.mine.title.text(),
             actions: [
               IconButton(
+                onPressed: () async {
+                  await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
+                },
+                icon: const Icon(Icons.style_outlined),
+              ),
+              IconButton(
                 onPressed: () {
-                  context.push("/timetable/p13n?enableCellStyle");
+                  context.push("/timetable/p13n");
                 },
                 icon: const Icon(Icons.color_lens_outlined),
               ),

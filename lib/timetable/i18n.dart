@@ -59,8 +59,6 @@ class _P13n {
   static const ns = "${_I18n.ns}.p13n";
   final cell = const _CellStyle();
   final palette = const _Palette();
-
-  String get title => "$ns.title".tr();
 }
 
 class _CellStyle {
@@ -100,11 +98,13 @@ class _Palette {
 
   static const ns = "${_P13n.ns}.palette";
 
+  String get title => "$ns.title".tr();
+
   String get fab => "$ns.fab".tr();
 
-  String get headerTitle => "$ns.header.title".tr();
+  String get customTab => "$ns.tab.custom".tr();
 
-  String get headerDesc => "$ns.header.desc".tr();
+  String get builtinTab => "$ns.tab.builtin".tr();
 
   String get shareQrCode => "$ns.shareQrCode".tr();
 

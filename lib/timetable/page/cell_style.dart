@@ -1,7 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/platte.dart';
@@ -173,22 +172,5 @@ class TimetableCellStylePreview extends StatelessWidget {
       livePreview(2),
       livePreview(3),
     ].row(maa: MainAxisAlignment.spaceEvenly);
-  }
-}
-
-class TimetableEditCellStyleTile extends StatelessWidget {
-  const TimetableEditCellStyleTile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: const Icon(Icons.style_outlined),
-      title: i18n.p13n.cell.entranceTitle.text(),
-      subtitle: i18n.p13n.cell.entranceDesc.text(),
-      trailing: const Icon(Icons.open_in_new),
-      onTap: () async {
-        await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
-      },
-    );
   }
 }

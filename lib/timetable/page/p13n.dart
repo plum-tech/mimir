@@ -7,41 +7,46 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/entry_card.dart';
-import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/qrcode/page.dart';
 import 'package:sit/qrcode/protocol.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/platte.dart';
 
-import 'cell_style.dart';
 import '../i18n.dart';
 
 class TimetableP13nPage extends StatefulWidget {
-  final bool editCellStyle;
-
-  const TimetableP13nPage({
-    super.key,
-    required this.editCellStyle,
-  });
+  const TimetableP13nPage({super.key});
 
   @override
   State<TimetableP13nPage> createState() => _TimetableP13nPageState();
 }
 
-class _TimetableP13nPageState extends State<TimetableP13nPage> {
+class _Tab {
+  static const length = 2;
+  static const custom = 0;
+  static const builtin = 1;
+}
+
+class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTickerProviderStateMixin {
   final $paletteList = TimetableInit.storage.palette.$any;
-  final scrollController = ScrollController();
+  late final TabController tabController;
 
   @override
   void initState() {
     super.initState();
     $paletteList.addListener(refresh);
+    tabController = TabController(vsync: this, length: _Tab.length);
+    final selectedId = TimetableInit.storage.palette.selectedId;
+    if (BuiltinTimetablePalettes.all.any((palette) => palette.id == selectedId)) {
+      tabController.index = _Tab.builtin;
+    }
   }
 
   @override
   void dispose() {
     $paletteList.removeListener(refresh);
+    tabController.dispose();
     super.dispose();
   }
 
@@ -51,33 +56,8 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
 
   @override
   Widget build(BuildContext context) {
-    final editCellStyle = widget.editCellStyle;
     return Scaffold(
-      body: CustomScrollView(
-        controller: scrollController,
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            title: i18n.p13n.title.text(),
-          ),
-          if (editCellStyle)
-            SliverList.list(children: const [
-              TimetableEditCellStyleTile(),
-              Divider(),
-            ]),
-          SliverToBoxAdapter(
-            child: ListTile(
-              leading: const Icon(Icons.color_lens_outlined),
-              title: i18n.p13n.palette.headerTitle.text(),
-              subtitle: i18n.p13n.palette.headerDesc.text(),
-            ),
-          ),
-          buildPaletteList(),
-          const SliverFillRemaining(),
-        ],
-      ),
-      floatingActionButton: AutoHideFAB.extended(
-        controller: scrollController,
+      floatingActionButton: FloatingActionButton.extended(
         label: i18n.p13n.palette.fab.text(),
         icon: const Icon(Icons.add),
         onPressed: () {
@@ -86,23 +66,49 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
             author: "",
             colors: [],
           ));
+          tabController.index = _Tab.custom;
         },
+      ),
+      body: NestedScrollView(
+        floatHeaderSlivers: true,
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          // These are the slivers that show up in the "outer" scroll view.
+          return <Widget>[
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverAppBar(
+                floating: true,
+                title: i18n.p13n.palette.title.text(),
+                forceElevated: innerBoxIsScrolled,
+                bottom: TabBar(
+                  controller: tabController,
+                  isScrollable: true,
+                  tabs: [
+                    Tab(child: i18n.p13n.palette.customTab.text()),
+                    Tab(child: i18n.p13n.palette.builtinTab.text()),
+                  ],
+                ),
+              ),
+            ),
+          ];
+        },
+        body: TabBarView(
+          controller: tabController,
+          children: [
+            buildPaletteList(TimetableInit.storage.palette.idList ?? const []),
+            buildPaletteList(BuiltinTimetablePalettes.all.map((e) => e.id).toList()),
+          ],
+        ),
       ),
     );
   }
 
-  Widget buildPaletteList() {
-    final allIds = <int>[];
-    allIds.addAll(BuiltinTimetablePalettes.all.map((e) => e.id));
-    final customIdList = TimetableInit.storage.palette.idList;
-    if (customIdList != null) {
-      allIds.addAll(customIdList);
-    }
+  Widget buildPaletteList(List<int> idList) {
     final selectedId = TimetableInit.storage.palette.selectedId ?? BuiltinTimetablePalettes.classic.id;
-    return SliverList.builder(
-      itemCount: allIds.length,
+    return ListView.builder(
+      itemCount: idList.length,
       itemBuilder: (ctx, i) {
-        final id = allIds[i];
+        final id = idList[i];
         final palette = TimetableInit.storage.palette[id];
         if (palette == null) return const SizedBox();
         return buildPaletteCard(
@@ -173,6 +179,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> {
               author: "",
             );
             TimetableInit.storage.palette.add(duplicate);
+            tabController.index = _Tab.custom;
           },
         ),
         EntryAction(

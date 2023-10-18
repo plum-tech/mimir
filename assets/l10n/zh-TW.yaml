@@ -91,10 +91,11 @@ timetable:
         name: 老派
         author: 上應小風箏
     palette:
-      header:
-        title: 調色盤
-        desc: 課程表看上去如何
+      title: 調色盤
       name: 名稱
+      tab:
+        custom: 自訂
+        builtin: 內建
       namePlaceholder: 調色盤名稱
       author: 作者
       authorPlaceholder: 你的姓名，電郵，或 url
@@ -108,9 +109,6 @@ timetable:
       addColor: 增加一種顏色
     cellStyle:
       title: 單元樣式
-      entrance:
-        title: 編輯單元樣式
-        desc: 課程單元看上去如何
       showTeachers:
         title: 教師
         desc: 在單元內顯示教師
@@ -418,9 +416,12 @@ settings:
     autoUseImported:
       title: 自動使用匯入的
       desc: 使用新匯入的課程表
-    p13n:
-      title: 個人化
-      desc: 個人化課程表樣式
+    palette:
+      title: 調色盤
+      desc: 自訂課程表的調色盤
+    cellStyle:
+      title: 編輯單元樣式
+      desc: 課程單元看上去如何
   school:
     title: 學校
     class2nd:

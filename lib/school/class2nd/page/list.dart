@@ -47,7 +47,6 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
               SliverOverlapAbsorber(
                 handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
-                  // FIXME: when using floating, the AppBar cannot slide down.
                   floating: true,
                   title: i18n.title.text(),
                   forceElevated: innerBoxIsScrolled,
