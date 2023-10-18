@@ -40,6 +40,10 @@ extension TimetablePlatteX on TimetablePalette {
   Color2Mode resolveColor(SitCourse course) {
     return colors[course.courseCode.hashCode.abs() % colors.length];
   }
+
+  Color2Mode safeGetColor(int index) {
+    return colors[index % colors.length];
+  }
 }
 
 extension Color2ModeX on Color2Mode {

@@ -1,5 +1,5 @@
-
 import 'package:flex_color_picker/flex_color_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rettulf/rettulf.dart';
@@ -7,6 +7,7 @@ import 'package:sit/design/widgets/card.dart';
 import 'package:sit/timetable/platte.dart';
 
 import '../entity/platte.dart';
+import '../i18n.dart';
 
 class TimetablePaletteEditor extends StatefulWidget {
   final TimetablePalette palette;
@@ -41,28 +42,28 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
           SliverAppBar(
             floating: true,
             title: $brightness >>
-                    (ctx, value) => SegmentedButton<Brightness>(
-                  segments: [
-                    ButtonSegment<Brightness>(
-                      value: Brightness.light,
-                      label: "Light".text(),
-                      icon: const Icon(Icons.light_mode),
+                (ctx, value) => SegmentedButton<Brightness>(
+                      segments: [
+                        ButtonSegment<Brightness>(
+                          value: Brightness.light,
+                          label: "Light".text(),
+                          icon: const Icon(Icons.light_mode),
+                        ),
+                        ButtonSegment<Brightness>(
+                          value: Brightness.dark,
+                          label: "Dark".text(),
+                          icon: const Icon(Icons.dark_mode),
+                        ),
+                      ],
+                      selected: <Brightness>{value},
+                      onSelectionChanged: (newSelection) async {
+                        $brightness.value = newSelection.first;
+                        await HapticFeedback.selectionClick();
+                      },
                     ),
-                    ButtonSegment<Brightness>(
-                      value: Brightness.dark,
-                      label: "Dark".text(),
-                      icon: const Icon(Icons.dark_mode),
-                    ),
-                  ],
-                  selected: <Brightness>{value},
-                  onSelectionChanged: (newSelection) async {
-                    $brightness.value = newSelection.first;
-                    await HapticFeedback.selectionClick();
-                  },
-                ),
             actions: [
-              IconButton(
-                icon: const Icon(Icons.check),
+              CupertinoButton(
+                child: i18n.save.text(),
                 onPressed: () {
                   context.navigator.pop(TimetablePalette(
                     name: $name.text,
@@ -79,52 +80,52 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
             child: Divider(),
           ),
           $brightness >>
-                  (ctx, brightness) => SliverList.separated(
-                itemCount: colors.length,
-                itemBuilder: (ctx, i) {
-                  final color = colors[i];
-                  return PaletteColorCard(
-                    colors: colors[i],
-                    brightness: brightness,
-                    number: i + 1,
-                    onDelete: () {
-                      setState(() {
-                        colors.removeAt(i);
-                      });
-                    },
-                    onEdit: () async {
-                      final current = color.byBrightness(brightness);
-                      final newColor = await showColorPickerDialog(
-                        context,
-                        current,
-                        pickersEnabled: const <ColorPickerType, bool>{
-                          ColorPickerType.both: true,
-                          ColorPickerType.primary: false,
-                          ColorPickerType.accent: false,
-                          ColorPickerType.custom: true,
-                          ColorPickerType.wheel: true,
+              (ctx, brightness) => SliverList.separated(
+                    itemCount: colors.length,
+                    itemBuilder: (ctx, i) {
+                      final color = colors[i];
+                      return PaletteColorCard(
+                        colors: colors[i],
+                        brightness: brightness,
+                        number: i + 1,
+                        onDelete: () {
+                          setState(() {
+                            colors.removeAt(i);
+                          });
+                        },
+                        onEdit: () async {
+                          final current = color.byBrightness(brightness);
+                          final newColor = await showColorPickerDialog(
+                            context,
+                            current,
+                            pickersEnabled: const <ColorPickerType, bool>{
+                              ColorPickerType.both: true,
+                              ColorPickerType.primary: false,
+                              ColorPickerType.accent: false,
+                              ColorPickerType.custom: true,
+                              ColorPickerType.wheel: true,
+                            },
+                          );
+                          if (newColor != current) {
+                            await HapticFeedback.mediumImpact();
+                            setState(() {
+                              if (brightness == Brightness.light) {
+                                colors[i] = (light: newColor, dark: color.dark);
+                              } else {
+                                colors[i] = (light: color.light, dark: newColor);
+                              }
+                            });
+                          }
                         },
                       );
-                      if (newColor != current) {
-                        await HapticFeedback.mediumImpact();
-                        setState(() {
-                          if (brightness == Brightness.light) {
-                            colors[i] = (light: newColor, dark: color.dark);
-                          } else {
-                            colors[i] = (light: color.light, dark: newColor);
-                          }
-                        });
-                      }
                     },
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    child: Divider(),
-                  );
-                },
-              ),
+                    separatorBuilder: (context, index) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Divider(),
+                      );
+                    },
+                  ),
           const SliverToBoxAdapter(
             child: Divider(),
           ),

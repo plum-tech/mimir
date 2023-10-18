@@ -40,6 +40,18 @@ class CourseCellStyle {
     required this.grayOutPassedLessons,
     required this.harmonizeWithThemeColor,
   });
+
+  CourseCellStyle copyWith({
+    bool? showTeachers,
+    bool? grayOutPassedLessons,
+    bool? harmonizeWithThemeColor,
+  }) {
+    return CourseCellStyle(
+      showTeachers: showTeachers ?? this.showTeachers,
+      grayOutPassedLessons: grayOutPassedLessons ?? this.grayOutPassedLessons,
+      harmonizeWithThemeColor: harmonizeWithThemeColor ?? this.harmonizeWithThemeColor,
+    );
+  }
 }
 
 class TimetableStyleData {
@@ -72,7 +84,7 @@ class TimetableStyle extends InheritedWidget {
 
   static TimetableStyleData of(BuildContext context) {
     final TimetableStyle? result = context.dependOnInheritedWidgetOfExactType<TimetableStyle>();
-    assert(result != null, 'No TimetablePalette found in context');
+    assert(result != null, 'No TimetableStyle found in context');
     return result!.data;
   }
 
@@ -84,7 +96,7 @@ class TimetableStyle extends InheritedWidget {
 
 class TimetableStyleProv extends StatefulWidget {
   final Widget? child;
-  final WidgetBuilder? builder;
+  final Widget Function(BuildContext context, TimetableStyleData style)? builder;
 
   const TimetableStyleProv({super.key, this.child, this.builder})
       : assert(builder != null || child != null, "TimetableStyleProv should have at least one child.");
@@ -117,27 +129,28 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
 
   @override
   Widget build(BuildContext context) {
-    return TimetableStyle(
-      data: TimetableStyleData(
-        platte: TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic,
-        cell: CourseCellStyle(
-          showTeachers: Settings.timetable.cell.showTeachers,
-          grayOutPassedLessons: Settings.timetable.cell.grayOutPassedLessons,
-          harmonizeWithThemeColor: Settings.timetable.cell.harmonizeWithThemeColor,
-        ),
+    final data = TimetableStyleData(
+      platte: TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic,
+      cell: CourseCellStyle(
+        showTeachers: Settings.timetable.cell.showTeachers,
+        grayOutPassedLessons: Settings.timetable.cell.grayOutPassedLessons,
+        harmonizeWithThemeColor: Settings.timetable.cell.harmonizeWithThemeColor,
       ),
-      child: buildChild(),
+    );
+    return TimetableStyle(
+      data: data,
+      child: buildChild(data),
     );
   }
 
-  Widget buildChild() {
+  Widget buildChild(TimetableStyleData data) {
     final child = widget.child;
     if (child != null) {
       return child;
     }
     final builder = widget.builder;
     if (builder != null) {
-      return Builder(builder: builder);
+      return Builder(builder: (ctx) => builder(ctx, data));
     }
     return const SizedBox();
   }

@@ -121,19 +121,18 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cellStyle = TimetableStyle.of(context).cell;
     final today = DateTime.now();
+    final style = TimetableStyle.of(context);
     return [
       buildTitle().text(style: context.textTheme.titleLarge).padSymmetric(v: 10),
       TimetableOneWeek(
         fullSize: fullSize,
         timetable: timetable,
         weekIndex: weekIndex,
-        cellBuilder: ({required context, required lesson, required course, required timetable}) {
-          return CourseCell(
-            lesson: lesson,
-            course: course,
-            style: cellStyle,
+        cellBuilder: ({required context, required lesson, required timetable}) {
+          return StyledCourseCell(
+            style: style,
+            course: lesson.course,
             grayOut: config.grayOutPassedLessons ? lesson.endTime.isBefore(today) : false,
           );
         },

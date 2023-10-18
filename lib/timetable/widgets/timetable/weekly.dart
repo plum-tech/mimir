@@ -146,20 +146,18 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
     if (cache != null) {
       return cache;
     } else {
-      final cellStyle = TimetableStyle.of(context).cell;
+      final style = TimetableStyle.of(context);
       final today = DateTime.now();
       Widget buildCell({
         required BuildContext context,
         required SitTimetableLessonPart lesson,
-        required SitCourse course,
         required SitTimetableEntity timetable,
       }) {
         return InteractiveCourseCell(
           lesson: lesson,
-          style: cellStyle,
+          style: style,
           timetable: timetable,
-          course: course,
-          grayOut: cellStyle.grayOutPassedLessons ? lesson.endTime.isBefore(today) : false,
+          grayOut: style.cell.grayOutPassedLessons ? lesson.endTime.isBefore(today) : false,
         );
       }
 
@@ -188,7 +186,6 @@ class TimetableOneWeek extends StatelessWidget {
   final Widget Function({
     required BuildContext context,
     required SitTimetableLessonPart lesson,
-    required SitCourse course,
     required SitTimetableEntity timetable,
   }) cellBuilder;
 
@@ -305,7 +302,6 @@ class TimetableOneWeek extends StatelessWidget {
             context: context,
             lesson: firstLayerLesson,
             timetable: timetable,
-            course: course,
           ),
         ));
 
@@ -320,18 +316,16 @@ class TimetableOneWeek extends StatelessWidget {
 
 class InteractiveCourseCell extends StatefulWidget {
   final SitTimetableLessonPart lesson;
-  final SitCourse course;
   final SitTimetableEntity timetable;
-  final CourseCellStyle style;
   final bool grayOut;
+  final TimetableStyleData style;
 
   const InteractiveCourseCell({
     super.key,
     required this.lesson,
     required this.timetable,
-    required this.course,
-    required this.style,
     this.grayOut = false,
+    required this.style,
   });
 
   @override
@@ -343,13 +337,12 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
 
   @override
   Widget build(BuildContext context) {
-    final lessons = widget.course.calcBeginEndTimePointForEachLesson();
-    return CourseCell(
-      lesson: widget.lesson,
-      course: widget.course,
-      style: widget.style,
+    final lessons = widget.lesson.course.calcBeginEndTimePointForEachLesson();
+    return StyledCourseCell(
+      course: widget.lesson.course,
       grayOut: widget.grayOut,
-      builder: (ctx, child) => Tooltip(
+      style: widget.style,
+      innerBuilder: (ctx, child) => Tooltip(
         key: $tooltip,
         preferBelow: false,
         triggerMode: TooltipTriggerMode.manual,
@@ -363,7 +356,10 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
             await HapticFeedback.lightImpact();
             if (!mounted) return;
             await context.show$Sheet$(
-              (ctx) => TimetableCourseDetailsSheet(courseCode: widget.course.courseCode, timetable: widget.timetable),
+              (ctx) => TimetableCourseDetailsSheet(
+                courseCode: widget.lesson.course.courseCode,
+                timetable: widget.timetable,
+              ),
             );
           },
           child: child,
@@ -374,25 +370,55 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
 }
 
 class CourseCell extends StatelessWidget {
-  final SitTimetableLessonPart lesson;
-  final SitCourse course;
-  final Widget Function(BuildContext context, Widget child)? builder;
-  final CourseCellStyle style;
-  final bool grayOut;
+  final String courseName;
+  final String place;
+  final List<String>? teachers;
+  final Widget Function(BuildContext context, Widget child)? innerBuilder;
+  final Color color;
 
   const CourseCell({
     super.key,
-    required this.lesson,
-    required this.course,
-    required this.style,
-    this.builder,
-    this.grayOut = false,
+    required this.courseName,
+    required this.color,
+    required this.place,
+    this.teachers,
+    this.innerBuilder,
   });
 
   @override
   Widget build(BuildContext context) {
-    final builder = this.builder;
-    final style = TimetableStyle.of(context);
+    final innerBuilder = this.innerBuilder;
+    final info = TimetableSlotInfo(
+      courseName: courseName,
+      maxLines: context.isPortrait ? 8 : 5,
+      place: place,
+      teachers: teachers,
+    ).center();
+    return FilledCard(
+      clip: Clip.hardEdge,
+      color: color,
+      margin: EdgeInsets.all(0.5.w),
+      child: innerBuilder != null ? innerBuilder(context, info) : info,
+    );
+  }
+}
+
+class StyledCourseCell extends StatelessWidget {
+  final SitCourse course;
+  final bool grayOut;
+  final Widget Function(BuildContext context, Widget child)? innerBuilder;
+  final TimetableStyleData style;
+
+  const StyledCourseCell({
+    super.key,
+    required this.course,
+    required this.grayOut,
+    required this.style,
+    this.innerBuilder,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     var color = style.platte.resolveColor(course).byTheme(context.theme);
     if (style.cell.harmonizeWithThemeColor) {
       color = color.harmonizeWith(context.colorScheme.primary);
@@ -400,16 +426,13 @@ class CourseCell extends StatelessWidget {
     if (grayOut) {
       color = color.monochrome();
     }
-    final info = TimetableSlotInfo(
-      course: course,
-      maxLines: context.isPortrait ? 8 : 5,
-      showTeachers: style.cell.showTeachers,
-    ).center();
-    return FilledCard(
-      clip: Clip.hardEdge,
+
+    return CourseCell(
+      courseName: course.courseName,
       color: color,
-      margin: EdgeInsets.all(0.5.w),
-      child: builder != null ? builder(context, info) : info,
+      place: course.place,
+      teachers: style.cell.showTeachers ? course.teachers : null,
+      innerBuilder: innerBuilder,
     );
   }
 }
@@ -449,32 +472,35 @@ class DashLined extends StatelessWidget {
 }
 
 class TimetableSlotInfo extends StatelessWidget {
-  final SitCourse course;
+  final String courseName;
+  final String place;
+  final List<String>? teachers;
   final int maxLines;
-  final bool showTeachers;
 
   const TimetableSlotInfo({
     super.key,
-    required this.course,
     required this.maxLines,
-    required this.showTeachers,
+    required this.courseName,
+    required this.place,
+    this.teachers,
   });
 
   @override
   Widget build(BuildContext context) {
+    final teachers = this.teachers;
     return AutoSizeText.rich(
       TextSpan(children: [
         TextSpan(
-          text: course.courseName,
+          text: courseName,
           style: context.textTheme.bodyMedium,
         ),
         TextSpan(
-          text: "\n${beautifyPlace(course.place)}",
+          text: "\n${beautifyPlace(place)}",
           style: context.textTheme.bodySmall,
         ),
-        if (showTeachers)
+        if (teachers != null)
           TextSpan(
-            text: "\n${course.teachers.join(',')}",
+            text: "\n${teachers.join(',')}",
             style: context.textTheme.bodySmall,
           ),
       ]),
