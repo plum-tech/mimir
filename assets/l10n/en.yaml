@@ -288,6 +288,7 @@ examArrange:
   location: Location
   noExamsTip: No exams
   seatNumber: Seat No.
+  addCalendarEvent: Add event
 expenseRecords:
   title: Expense records
   check: Check
