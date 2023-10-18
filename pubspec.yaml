@@ -117,14 +117,13 @@ dependencies:
   auto_size_text: ^3.0.0
   text_scroll: ^0.2.0
   markdown: ^7.1.0
-  auto_animated: ^3.1.0
   animations: ^2.0.8
   dynamic_color: ^1.6.6
   unicons: ^2.1.1
   sliver_tools: ^0.2.12
   flutter_staggered_grid_view: ^0.7.0
-  infinite_scroll_pagination: ^4.0.0
   flex_color_picker: ^3.3.0
+  flutter_swipe_action_cell: ^3.1.2
 
   # Utils
   # Get package info (version)
