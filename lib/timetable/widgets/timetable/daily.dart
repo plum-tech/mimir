@@ -179,7 +179,14 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
       final slotCount = day.timeslot2LessonSlot.length;
       final builder = _RowBuilder();
       for (int timeslot = 0; timeslot < slotCount; timeslot++) {
-        builder.add(timeslot, buildLessonsInTimeslot(ctx, day.timeslot2LessonSlot[timeslot].lessons, timeslot));
+        builder.add(
+          timeslot,
+          buildLessonsInTimeslot(
+            ctx,
+            day.timeslot2LessonSlot[timeslot].lessons,
+            timeslot,
+          ),
+        );
       }
       // Since the course list is small, no need to use [ListView.builder].
       return ListView(
@@ -202,9 +209,9 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
         timetable: timetable,
         lesson: lesson,
         timeslot: timeslot,
-      );
+      ).padH(6);
     } else {
-      return LessonOverlapGroup(lessonsInSlot, timeslot, timetable);
+      return LessonOverlapGroup(lessonsInSlot, timeslot, timetable).padH(6);
     }
   }
 
