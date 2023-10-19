@@ -133,7 +133,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
           return StyledCourseCell(
             style: style,
             course: lesson.course,
-            grayOut: config.grayOutTakenLessons ? lesson.endTime.isBefore(today) : false,
+            grayOut: config.grayOutTakenLessons ? lesson.type.endTime.isBefore(today) : false,
           );
         },
       ),

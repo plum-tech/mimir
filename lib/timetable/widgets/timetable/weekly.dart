@@ -157,7 +157,7 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
           lesson: lesson,
           style: style,
           timetable: timetable,
-          grayOut: style.cell.grayOutTakenLessons ? lesson.endTime.isBefore(today) : false,
+          grayOut: style.cell.grayOutTakenLessons ? lesson.type.endTime.isBefore(today) : false,
         );
       }
 
