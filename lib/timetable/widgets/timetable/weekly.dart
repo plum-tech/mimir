@@ -200,6 +200,7 @@ class TimetableOneWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final todayPos = timetable.type.locate(DateTime.now());
     final cellSize = Size(fullSize.width / 7.62, fullSize.height / 11);
     final timetableWeek = timetable.weeks[weekIndex];
 
@@ -208,6 +209,7 @@ class TimetableOneWeek extends StatelessWidget {
       context: context,
       cellSize: cellSize,
       fullSize: fullSize,
+      todayPos: todayPos,
     );
     if (showFreeTip && timetableWeek.isFree()) {
       // free week
@@ -251,12 +253,18 @@ class TimetableOneWeek extends StatelessWidget {
     required BuildContext context,
     required Size cellSize,
     required Size fullSize,
+    required TimetablePos todayPos,
   }) {
     return List.generate(8, (index) {
       if (index == 0) {
         return buildLeftColumn(context, cellSize);
       } else {
-        return _buildCellsByDay(context, timetableWeek.days[index - 1], cellSize);
+        return _buildCellsByDay(
+          context,
+          timetableWeek.days[index - 1],
+          cellSize,
+          todayPos: todayPos,
+        );
       }
     }).row();
   }
@@ -265,13 +273,17 @@ class TimetableOneWeek extends StatelessWidget {
   Widget _buildCellsByDay(
     BuildContext context,
     SitTimetableDay day,
-    Size cellSize,
-  ) {
+    Size cellSize, {
+    required TimetablePos todayPos,
+  }) {
     final cells = <Widget>[];
     cells.add(SizedBox(
       width: cellSize.width,
       child: Container(
         decoration: BoxDecoration(
+          color: todayPos.weekIndex == weekIndex && todayPos.dayIndex == day.index
+              ? context.colorScheme.secondaryContainer
+              : null,
           border: Border(bottom: getBorderSide(context)),
         ),
         child: HeaderCellTextBox(
