@@ -7,7 +7,6 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/extension.dart';
-import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/page/preview.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:sit/timetable/widgets/style.dart';
@@ -40,6 +39,7 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
   late final $brightness = ValueNotifier(context.theme.brightness);
   late var colors = widget.palette.colors;
   final $selected = TimetableInit.storage.timetable.$selected;
+  var selectedTimetable = TimetableInit.storage.timetable.selectedRow;
 
   @override
   void initState() {
@@ -57,7 +57,9 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
   }
 
   void refresh() {
-    setState(() {});
+    setState(() {
+      selectedTimetable = TimetableInit.storage.timetable.selectedRow;
+    });
   }
 
   @override
@@ -87,7 +89,7 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
                                 timetable: selectedTimetable,
                                 style: TimetableStyleData(
                                   platte: buildPalette(),
-                                  cell: buildCellStyle(),
+                                  cell: CourseCellStyle.fromStorage(),
                                 ),
                               ),
                             ),
@@ -175,14 +177,6 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
       name: $name.text,
       author: $author.text,
       colors: colors,
-    );
-  }
-
-  CourseCellStyle buildCellStyle() {
-    return CourseCellStyle(
-      showTeachers: Settings.timetable.cell.showTeachers,
-      grayOutTakenLessons: Settings.timetable.cell.grayOutTakenLessons,
-      harmonizeWithThemeColor: Settings.timetable.cell.harmonizeWithThemeColor,
     );
   }
 

@@ -18,6 +18,7 @@ import 'package:sit/utils/color.dart';
 import '../i18n.dart';
 import '../widgets/style.dart';
 import '../widgets/timetable/weekly.dart';
+import 'preview.dart';
 
 class TimetableP13nPage extends StatefulWidget {
   final int? tab;
@@ -40,10 +41,13 @@ class TimetableP13nTab {
 class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTickerProviderStateMixin {
   final $paletteList = TimetableInit.storage.palette.$any;
   late final TabController tabController;
+  final $selected = TimetableInit.storage.timetable.$selected;
+  var selectedTimetable = TimetableInit.storage.timetable.selectedRow;
 
   @override
   void initState() {
     super.initState();
+    $selected.addListener(refresh);
     $paletteList.addListener(refresh);
     tabController = TabController(vsync: this, length: TimetableP13nTab.length);
     final selectedId = TimetableInit.storage.palette.selectedId;
@@ -59,11 +63,14 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
   void dispose() {
     $paletteList.removeListener(refresh);
     tabController.dispose();
+    $selected.removeListener(refresh);
     super.dispose();
   }
 
   void refresh() {
-    setState(() {});
+    setState(() {
+      selectedTimetable = TimetableInit.storage.timetable.selectedRow;
+    });
   }
 
   @override
@@ -142,6 +149,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
     required bool selected,
   }) {
     final theme = context.theme;
+    final selectedTimetable = this.selectedTimetable;
     return EntryCard(
       selected: selected,
       selectAction: (ctx) => EntrySelectAction(
@@ -184,6 +192,25 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
               );
               if (newPalette == null) return;
               TimetableInit.storage.palette[id] = newPalette;
+            },
+          ),
+        if (selectedTimetable != null)
+          EntryAction(
+            label: i18n.preview,
+            icon: Icons.preview,
+            cupertinoIcon: CupertinoIcons.eye,
+            action: () async {
+              await context.navigator.push(
+                MaterialPageRoute(
+                  builder: (ctx) => TimetablePreviewPage(
+                    timetable: selectedTimetable,
+                    style: TimetableStyleData(
+                      platte: palette,
+                      cell: CourseCellStyle.fromStorage(),
+                    ),
+                  ),
+                ),
+              );
             },
           ),
         EntryAction(
@@ -261,9 +288,9 @@ class TimetableP13nLivePreview extends StatelessWidget {
   }
 
   Widget buildLivePreview(
-      BuildContext context, {
-        required Size fullSize,
-      }) {
+    BuildContext context, {
+    required Size fullSize,
+  }) {
     final cellSize = Size(fullSize.width / 5, fullSize.height / 3);
     final themeColor = context.colorScheme.primary;
     Widget buildCell({
@@ -315,7 +342,6 @@ class TimetableP13nLivePreview extends StatelessWidget {
     ].row(maa: MainAxisAlignment.spaceEvenly);
   }
 }
-
 
 Future<void> onTimetablePaletteFromQrCode({
   required BuildContext context,

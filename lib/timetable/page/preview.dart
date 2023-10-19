@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rettulf/rettulf.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 import '../entity/display.dart';
 import '../entity/timetable.dart';
@@ -44,9 +44,7 @@ class _TimetablePreviewPageState extends State<TimetablePreviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: widget.timetable.name.text(
-          overflow: TextOverflow.ellipsis,
-        ),
+        title: TextScroll(widget.timetable.name),
         actions: [
           IconButton(
             icon: const Icon(Icons.swap_horiz_rounded),

@@ -52,6 +52,14 @@ class CourseCellStyle {
       harmonizeWithThemeColor: harmonizeWithThemeColor ?? this.harmonizeWithThemeColor,
     );
   }
+
+  static CourseCellStyle fromStorage(){
+    return CourseCellStyle(
+      showTeachers: Settings.timetable.cell.showTeachers,
+      grayOutTakenLessons: Settings.timetable.cell.grayOutTakenLessons,
+      harmonizeWithThemeColor: Settings.timetable.cell.harmonizeWithThemeColor,
+    );
+  }
 }
 
 class TimetableStyleData {
