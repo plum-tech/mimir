@@ -101,6 +101,7 @@ timetable:
       namePlaceholder: 調色盤名稱
       author: 作者
       authorPlaceholder: 你的姓名，電郵，或 url
+      colorCopyTip: 顏色被複製到剪貼板了
       fab: 調色盤
       shareQrCode: 分享 QR 碼
       newPaletteName: 新的調色盤
@@ -108,7 +109,7 @@ timetable:
       deleteRequest: 確認刪除？
       deleteRequestDesc: 除非儲存了 QR 碼備份，否則調色板將被永久刪除
       addFromQrCode: 已從 QR 碼加載調色盤
-      addColor: 增加一種顏色
+      addColor: 增加一對顏色
     cellStyle:
       title: 單元樣式
       showTeachers:

@@ -45,7 +45,7 @@ class _StudentId {
 
   static const ns = "${_I18n.ns}.studentId";
 
-  String get studentIdCopy2ClipboardTip => "$ns.studentIdCopy2ClipboardTip".tr();
+  String get copyTip => "$ns.copyTip".tr();
 }
 
 class _ChangeOaPwd {

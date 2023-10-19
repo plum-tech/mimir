@@ -133,6 +133,8 @@ class _Palette {
   String get author => "$ns.author".tr();
 
   String get authorPlaceholder => "$ns.authorPlaceholder".tr();
+
+  String get colorCopyTip => "$ns.colorCopyTip".tr();
 }
 
 class _Details {

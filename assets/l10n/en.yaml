@@ -101,6 +101,7 @@ timetable:
       namePlaceholder: Palette name
       author: Author
       authorPlaceholder: Your name, email, or url
+      colorCopyTip: The color was copied
       fab: Palette
       shareQrCode: Share QR code
       newPaletteName: New palette

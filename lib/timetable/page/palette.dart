@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/extension.dart';
@@ -281,17 +282,28 @@ class PaletteColorTile extends StatelessWidget {
         "#${dark.hexAlpha}".text(),
       ].row(maa: MainAxisAlignment.spaceBetween),
       subtitle: [
-        buildColorBar(light, Brightness.light).expanded(),
+        PaletteColorBar(color: light, brightness: Brightness.light, onEdit: onEdit).expanded(),
         const SizedBox(width: 5),
-        buildColorBar(dark, Brightness.dark).expanded(),
+        PaletteColorBar(color: dark, brightness: Brightness.dark, onEdit: onEdit).expanded(),
       ].row(mas: MainAxisSize.min, maa: MainAxisAlignment.spaceEvenly),
     );
   }
+}
 
-  Widget buildColorBar(
-    Color color,
-    Brightness brightness,
-  ) {
+class PaletteColorBar extends StatelessWidget {
+  final Color color;
+  final Brightness brightness;
+  final void Function(Color old, Brightness brightness)? onEdit;
+
+  const PaletteColorBar({
+    super.key,
+    required this.color,
+    required this.brightness,
+    this.onEdit,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     final onEdit = this.onEdit;
     return OutlinedCard(
       color: brightness == Brightness.light ? Colors.black : Colors.white,
@@ -308,6 +320,8 @@ class PaletteColorTile extends StatelessWidget {
                 },
           onLongPress: () async {
             await Clipboard.setData(ClipboardData(text: "#${color.hexAlpha}"));
+            if(!context.mounted) return;
+            context.showSnackBar(i18n.p13n.palette.colorCopyTip.text());
           },
           child: const SizedBox(height: 35),
         ),
