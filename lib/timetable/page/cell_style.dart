@@ -40,14 +40,6 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
     );
   }
 
-  CourseCellStyle buildStyle() {
-    return CourseCellStyle(
-      showTeachers: Settings.timetable.cell.showTeachers,
-      grayOutTakenLessons: Settings.timetable.cell.grayOutTakenLessons,
-      harmonizeWithThemeColor: Settings.timetable.cell.harmonizeWithThemeColor,
-    );
-  }
-
   Widget buildTeachersToggle() {
     return ListTile(
       leading: const Icon(Icons.person_pin),

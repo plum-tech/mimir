@@ -7,10 +7,14 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/extension.dart';
+import 'package:sit/settings/settings.dart';
+import 'package:sit/timetable/page/preview.dart';
 import 'package:sit/timetable/platte.dart';
+import 'package:sit/timetable/widgets/style.dart';
 
 import '../entity/platte.dart';
 import '../i18n.dart';
+import '../init.dart';
 
 class TimetablePaletteEditor extends StatefulWidget {
   final TimetablePalette palette;
@@ -35,13 +39,25 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
   late final $author = TextEditingController(text: widget.palette.author);
   late final $brightness = ValueNotifier(context.theme.brightness);
   late var colors = widget.palette.colors;
+  final $selected = TimetableInit.storage.timetable.$selected;
+
+  @override
+  void initState() {
+    super.initState();
+    $selected.addListener(refresh);
+  }
 
   @override
   void dispose() {
     $name.dispose();
     $author.dispose();
     $brightness.dispose();
+    $selected.removeListener(refresh);
     super.dispose();
+  }
+
+  void refresh() {
+    setState(() {});
   }
 
   @override
@@ -53,6 +69,7 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
           floatHeaderSlivers: true,
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             // These are the slivers that show up in the "outer" scroll view.
+            final selectedTimetable = TimetableInit.storage.timetable.selectedRow;
             return <Widget>[
               SliverOverlapAbsorber(
                 handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
@@ -60,18 +77,27 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
                   floating: true,
                   title: i18n.p13n.palette.title.text(),
                   actions: [
-                    PlatformTextButton(
-                      child: i18n.preview.text(),
-                      onPressed: () {},
-                    ),
+                    if (selectedTimetable != null)
+                      PlatformTextButton(
+                        child: i18n.preview.text(),
+                        onPressed: () async {
+                          await context.navigator.push(
+                            MaterialPageRoute(
+                              builder: (ctx) => TimetablePreviewPage(
+                                timetable: selectedTimetable,
+                                style: TimetableStyleData(
+                                  platte: buildPalette(),
+                                  cell: buildCellStyle(),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     PlatformTextButton(
                       child: i18n.save.text(),
                       onPressed: () {
-                        context.navigator.pop(TimetablePalette(
-                          name: $name.text,
-                          author: $author.text,
-                          colors: colors,
-                        ));
+                        context.navigator.pop(buildPalette());
                       },
                     ),
                   ],
@@ -141,6 +167,22 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
           ),
         ),
       ),
+    );
+  }
+
+  TimetablePalette buildPalette() {
+    return TimetablePalette(
+      name: $name.text,
+      author: $author.text,
+      colors: colors,
+    );
+  }
+
+  CourseCellStyle buildCellStyle() {
+    return CourseCellStyle(
+      showTeachers: Settings.timetable.cell.showTeachers,
+      grayOutTakenLessons: Settings.timetable.cell.grayOutTakenLessons,
+      harmonizeWithThemeColor: Settings.timetable.cell.harmonizeWithThemeColor,
     );
   }
 

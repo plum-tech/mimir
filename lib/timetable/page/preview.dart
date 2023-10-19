@@ -7,14 +7,14 @@ import '../widgets/style.dart';
 import '../entity/pos.dart';
 import '../widgets/timetable/board.dart';
 
-// TODO: new view page
-/// There is no need to persist a preview after activity destroyed.
 class TimetablePreviewPage extends StatefulWidget {
   final SitTimetable timetable;
+  final TimetableStyleData? style;
 
   const TimetablePreviewPage({
     super.key,
     required this.timetable,
+    this.style,
   });
 
   @override
@@ -56,13 +56,24 @@ class _TimetablePreviewPageState extends State<TimetablePreviewPage> {
           )
         ],
       ),
-      body: TimetableStyleProv(
-        builder: (ctx, style) => TimetableBoard(
-          timetable: timetable,
-          $displayMode: $displayMode,
-          $currentPos: $currentPos,
-        ),
-      ),
+      body: buildBody(),
+    );
+  }
+
+  Widget buildBody() {
+    final style = widget.style;
+    if (style != null) {
+      return TimetableStyle(data: style, child: buildBoard());
+    } else {
+      return TimetableStyleProv(builder: (ctx, style) => buildBoard());
+    }
+  }
+
+  Widget buildBoard() {
+    return TimetableBoard(
+      timetable: timetable,
+      $displayMode: $displayMode,
+      $currentPos: $currentPos,
     );
   }
 }
