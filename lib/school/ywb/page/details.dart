@@ -13,7 +13,10 @@ import "../i18n.dart";
 class YwbApplicationMetaDetailsPage extends StatefulWidget {
   final YwbApplicationMeta meta;
 
-  const YwbApplicationMetaDetailsPage({super.key, required this.meta});
+  const YwbApplicationMetaDetailsPage({
+    super.key,
+    required this.meta,
+  });
 
   @override
   State<YwbApplicationMetaDetailsPage> createState() => _YwbApplicationMetaDetailsPageState();
