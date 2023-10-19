@@ -251,7 +251,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
           },
         ),
       ],
-      previewBuilder: (ctx) {
+      detailsBuilder: (ctx) {
         return CustomScrollView(
           slivers: [
             SliverList.list(children: [

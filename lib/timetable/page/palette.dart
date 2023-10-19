@@ -166,6 +166,10 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
       final newColor = await showColorPickerDialog(
         ctx,
         old,
+        enableOpacity: true,
+        enableShadesSelection: true,
+        enableTonalPalette: true,
+        showColorCode: true,
         pickersEnabled: const <ColorPickerType, bool>{
           ColorPickerType.both: true,
           ColorPickerType.primary: false,
@@ -314,8 +318,9 @@ class PaletteColorBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onEdit = this.onEdit;
+    final inverseColor = brightness == Brightness.light ? Colors.black : Colors.white;
     return OutlinedCard(
-      color: brightness == Brightness.light ? Colors.black : Colors.white,
+      color: inverseColor,
       margin: EdgeInsets.zero,
       child: FilledCard(
         color: color,
@@ -332,7 +337,14 @@ class PaletteColorBar extends StatelessWidget {
             if (!context.mounted) return;
             context.showSnackBar(i18n.p13n.palette.colorCopyTip.text());
           },
-          child: const SizedBox(height: 35),
+          child: SizedBox(
+            height: 35,
+            child: brightness.l10n().text(
+              style: context.textTheme.bodyLarge?.copyWith(
+                color: inverseColor,
+              )
+            ).center(),
+          ),
         ),
       ),
     );

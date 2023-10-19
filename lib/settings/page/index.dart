@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/global/init.dart';
 import 'package:sit/hive/init.dart';
@@ -209,6 +208,10 @@ class _SettingsPageState extends State<SettingsPage> {
         final newColor = await showColorPickerDialog(
           context,
           selected,
+          enableOpacity: true,
+          enableShadesSelection: true,
+          enableTonalPalette: true,
+          showColorCode: true,
           pickersEnabled: const <ColorPickerType, bool>{
             ColorPickerType.both: true,
             ColorPickerType.primary: false,

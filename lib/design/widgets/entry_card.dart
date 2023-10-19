@@ -63,7 +63,7 @@ class EntryCard extends StatelessWidget {
   final bool selected;
   final String title;
   final List<Widget> Function(BuildContext context, Animation<double>? animation) itemBuilder;
-  final Widget Function(BuildContext context)? previewBuilder;
+  final Widget Function(BuildContext context)? detailsBuilder;
   final List<EntryAction> Function(BuildContext context) actions;
   final EntrySelectAction Function(BuildContext context) selectAction;
   final EntryDeleteAction Function(BuildContext context)? deleteAction;
@@ -75,7 +75,7 @@ class EntryCard extends StatelessWidget {
     required this.itemBuilder,
     required this.actions,
     required this.selectAction,
-    this.previewBuilder,
+    this.detailsBuilder,
     this.deleteAction,
   });
 
@@ -95,7 +95,18 @@ class EntryCard extends StatelessWidget {
           buildMaterialActionPopup(context, actions.where((action) => !action.main).toList()),
         ],
       ),
-    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15);
+    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15).inkWell(onTap: () async {
+      await context.navigator.push(
+        MaterialPageRoute(
+          builder: (ctx) => EntryDetailsPage(
+            title: title,
+            itemBuilder: (ctx) => itemBuilder(ctx, null),
+            detailsBuilder: detailsBuilder,
+            selected: selected,
+          ),
+        ),
+      );
+    });
     return selected
         ? body.inFilledCard(
             clip: Clip.hardEdge,
@@ -162,7 +173,7 @@ class EntryCard extends StatelessWidget {
           builder: (ctx) => EntryCupertinoDetailsPage(
             title: title,
             itemBuilder: (ctx) => itemBuilder(ctx, null),
-            previewBuilder: previewBuilder,
+            detailsBuilder: detailsBuilder,
             selected: selected,
             selectAction: selectAction,
             actions: actions,
@@ -305,13 +316,13 @@ class EntryCupertinoDetailsPage extends StatelessWidget {
   final EntrySelectAction Function(BuildContext context)? selectAction;
   final EntryDeleteAction Function(BuildContext context)? deleteAction;
   final List<Widget> Function(BuildContext context) itemBuilder;
-  final Widget Function(BuildContext context)? previewBuilder;
+  final Widget Function(BuildContext context)? detailsBuilder;
 
   const EntryCupertinoDetailsPage({
     super.key,
     required this.title,
     required this.itemBuilder,
-    this.previewBuilder,
+    this.detailsBuilder,
     required this.actions,
     required this.selectAction,
     required this.selected,
@@ -390,9 +401,43 @@ class EntryCupertinoDetailsPage extends StatelessWidget {
   }
 
   Widget buildBody(BuildContext context) {
-    final previewBuilder = this.previewBuilder;
-    if (previewBuilder != null) {
-      return previewBuilder.call(context);
+    final detailsBuilder = this.detailsBuilder;
+    if (detailsBuilder != null) {
+      return detailsBuilder.call(context);
+    }
+    return itemBuilder(context).column(mas: MainAxisSize.min).padSymmetric(v: 10, h: 15).inFilledCard().center();
+  }
+}
+
+class EntryDetailsPage extends StatelessWidget {
+  final String title;
+  final bool selected;
+  final List<Widget> Function(BuildContext context) itemBuilder;
+  final Widget Function(BuildContext context)? detailsBuilder;
+
+  const EntryDetailsPage({
+    super.key,
+    required this.title,
+    required this.itemBuilder,
+    this.detailsBuilder,
+    required this.selected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: TextScroll(title),
+        centerTitle: isCupertino,
+      ),
+      body: buildBody(context),
+    );
+  }
+
+  Widget buildBody(BuildContext context) {
+    final detailsBuilder = this.detailsBuilder;
+    if (detailsBuilder != null) {
+      return detailsBuilder.call(context);
     }
     return itemBuilder(context).column(mas: MainAxisSize.min).padSymmetric(v: 10, h: 15).inFilledCard().center();
   }

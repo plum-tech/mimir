@@ -222,7 +222,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           },
         ),
       ],
-      previewBuilder: (ctx) {
+      detailsBuilder: (ctx) {
         final palette = TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic;
         return CustomScrollView(
           slivers: [
