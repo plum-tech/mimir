@@ -34,6 +34,7 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
           SliverList.list(
             children: [
               buildAutoUseImportedToggle(),
+              const Divider(),
               buildCellStyle(),
               buildP13n(),
             ],

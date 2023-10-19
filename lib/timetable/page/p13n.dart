@@ -259,6 +259,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
                 .map((c) {
                   final color = c.byBrightness(brightness);
                   return OutlinedCard(
+                    color: brightness == Brightness.light ? Colors.black : Colors.white,
                     margin: EdgeInsets.zero,
                     child: TweenAnimationBuilder(
                       tween: ColorTween(begin: color, end: color),
