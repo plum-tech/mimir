@@ -82,6 +82,7 @@ timetable:
     findNearestWeekWithClass: Find a week with class
     findNearestDayWithClass: Find a day with class
   p13n:
+    title: Palettes
     builtinPalette:
       classic:
         name: Classic
@@ -90,7 +91,7 @@ timetable:
         name: Old School
         author: SIT Kite
     palette:
-      title: Palettes
+      title: Palette
       name: Name
       tab:
         custom: Custom
@@ -117,23 +118,23 @@ timetable:
       harmonize:
         title: Harmonize with theme color
         desc: Mix the cell color with theme color
-      livePreview:
-        0:
-          name: Taken
-          place: Stadium
-          teachers: John
-        1:
-          name: Taken
-          place: Classroom
-          teachers: Martin
-        2:
-          name: Today
-          place: Church
-          teachers: James
-        3:
-          name: Tomorrow
-          place: Lab
-          teachers: Thomas
+    livePreview:
+      0:
+        name: Taken
+        place: Stadium
+        teachers: John
+      1:
+        name: Taken
+        place: Classroom
+        teachers: Martin
+      2:
+        name: Today
+        place: Church
+        teachers: James
+      3:
+        name: Tomorrow
+        place: Lab
+        teachers: Thomas
 school:
   navigation: School
   schoolYear: School year

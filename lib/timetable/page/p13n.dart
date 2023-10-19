@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,8 +13,11 @@ import 'package:sit/qrcode/protocol.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/platte.dart';
+import 'package:sit/utils/color.dart';
 
 import '../i18n.dart';
+import '../widgets/style.dart';
+import '../widgets/timetable/weekly.dart';
 
 class TimetableP13nPage extends StatefulWidget {
   final int? tab;
@@ -237,6 +241,81 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
     );
   }
 }
+
+class TimetableP13nLivePreview extends StatelessWidget {
+  final CourseCellStyle style;
+  final TimetablePalette palette;
+
+  const TimetableP13nLivePreview({
+    required this.style,
+    required this.palette,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (ctx, box) {
+      final height = box.maxHeight.isFinite ? box.maxHeight : context.mediaQuery.size.height / 2;
+      return buildLivePreview(context, fullSize: Size(box.maxWidth, height));
+    });
+  }
+
+  Widget buildLivePreview(
+      BuildContext context, {
+        required Size fullSize,
+      }) {
+    final cellSize = Size(fullSize.width / 5, fullSize.height / 3);
+    final themeColor = context.colorScheme.primary;
+    Widget buildCell({
+      required int id,
+      required String name,
+      required String place,
+      required List<String> teachers,
+      bool grayOut = false,
+    }) {
+      var color = palette.safeGetColor(id).byTheme(context.theme);
+      if (style.harmonizeWithThemeColor) {
+        color = color.harmonizeWith(themeColor);
+      }
+      if (grayOut) {
+        color = color.monochrome();
+      }
+      return SizedBox.fromSize(
+        size: cellSize,
+        child: TweenAnimationBuilder(
+          tween: ColorTween(begin: color, end: color),
+          duration: const Duration(milliseconds: 300),
+          builder: (ctx, value, child) => CourseCell(
+            courseName: name,
+            color: value!,
+            place: place,
+            teachers: style.showTeachers ? teachers : null,
+          ),
+        ),
+      );
+    }
+
+    Widget livePreview(int index, {bool grayOut = false}) {
+      final data = i18n.p13n.livePreview(index);
+      return buildCell(
+        id: index,
+        name: data.name,
+        place: data.place,
+        teachers: data.teachers,
+        grayOut: grayOut,
+      );
+    }
+
+    final grayOut = style.grayOutTakenLessons;
+    return [
+      livePreview(0, grayOut: grayOut),
+      livePreview(1, grayOut: grayOut),
+      livePreview(2),
+      livePreview(3),
+    ].row(maa: MainAxisAlignment.spaceEvenly);
+  }
+}
+
 
 Future<void> onTimetablePaletteFromQrCode({
   required BuildContext context,

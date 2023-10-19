@@ -59,6 +59,16 @@ class _P13n {
   static const ns = "${_I18n.ns}.p13n";
   final cell = const _CellStyle();
   final palette = const _Palette();
+
+  String get title => "$ns.title".tr();
+
+  ({String name, String place, List<String> teachers}) livePreview(int index) {
+    return (
+      name: "$ns.livePreview.$index.name".tr(),
+      place: "$ns.livePreview.$index.place".tr(),
+      teachers: "$ns.livePreview.$index.teachers".tr().split(","),
+    );
+  }
 }
 
 class _CellStyle {
@@ -83,14 +93,6 @@ class _CellStyle {
   String get harmonizeTitle => "$ns.harmonize.title".tr();
 
   String get harmonizeDesc => "$ns.harmonize.desc".tr();
-
-  ({String name, String place, List<String> teachers}) livePreview(int index) {
-    return (
-      name: "$ns.livePreview.$index.name".tr(),
-      place: "$ns.livePreview.$index.place".tr(),
-      teachers: "$ns.livePreview.$index.teachers".tr().split(","),
-    );
-  }
 }
 
 class _Palette {

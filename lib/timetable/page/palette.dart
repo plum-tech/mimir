@@ -45,8 +45,12 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
         slivers: [
           SliverAppBar(
             floating: true,
-            title: $brightness >> (ctx, value) => buildBrightnessSwitch(value),
+            title: i18n.p13n.palette.title.text(),
             actions: [
+              PlatformTextButton(
+                child: i18n.preview.text(),
+                onPressed: () {},
+              ),
               PlatformTextButton(
                 child: i18n.save.text(),
                 onPressed: () {
@@ -104,26 +108,27 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
     );
   }
 
-  Widget buildBrightnessSwitch(Brightness brightness) {
-    return SegmentedButton<Brightness>(
-      segments: [
-        ButtonSegment<Brightness>(
-          value: Brightness.light,
-          label: Brightness.light.l10n().text(),
-          icon: const Icon(Icons.light_mode),
-        ),
-        ButtonSegment<Brightness>(
-          value: Brightness.dark,
-          label: Brightness.dark.l10n().text(),
-          icon: const Icon(Icons.dark_mode),
-        ),
-      ],
-      selected: <Brightness>{brightness},
-      onSelectionChanged: (newSelection) async {
-        $brightness.value = newSelection.first;
-        await HapticFeedback.selectionClick();
-      },
-    );
+  Widget buildBrightnessSwitch() {
+    return $brightness >>
+        (ctx, brightness) => SegmentedButton<Brightness>(
+              segments: [
+                ButtonSegment<Brightness>(
+                  value: Brightness.light,
+                  label: Brightness.light.l10n().text(),
+                  icon: const Icon(Icons.light_mode),
+                ),
+                ButtonSegment<Brightness>(
+                  value: Brightness.dark,
+                  label: Brightness.dark.l10n().text(),
+                  icon: const Icon(Icons.dark_mode),
+                ),
+              ],
+              selected: <Brightness>{brightness},
+              onSelectionChanged: (newSelection) async {
+                $brightness.value = newSelection.first;
+                await HapticFeedback.selectionClick();
+              },
+            );
   }
 
   Widget buildColorTile(BuildContext ctx, int index) {
@@ -208,7 +213,7 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
     );
   }
 
-  Widget buildAuthor(){
+  Widget buildAuthor() {
     return ListTile(
       isThreeLine: true,
       title: i18n.p13n.palette.author.text(),

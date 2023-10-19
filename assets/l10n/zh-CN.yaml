@@ -82,7 +82,7 @@ timetable:
     findNearestWeekWithClass: 找到有课的一周
     findNearestDayWithClass: 找到有课的一天
   p13n:
-    title: 个性化
+    title: 配色方案
     builtinPalette:
       classic:
         name: 经典
@@ -118,23 +118,23 @@ timetable:
       harmonize:
         title: 与主题色相协调
         desc: 将单元格颜色与主题色混合
-      livePreview:
-        0:
-          name: 上过的
-          place: 体育馆
-          teachers: 李老师
-        1:
-          name: 上过的
-          place: 教室
-          teachers: 王老师
-        2:
-          name: 今天的
-          place: 活动中心
-          teachers: 张老师
-        3:
-          name: 明天的
-          place: 实验室
-          teachers: 刘老师
+    livePreview:
+      0:
+        name: 上过的
+        place: 体育馆
+        teachers: 李老师
+      1:
+        name: 上过的
+        place: 教室
+        teachers: 王老师
+      2:
+        name: 今天的
+        place: 活动中心
+        teachers: 张老师
+      3:
+        name: 明天的
+        place: 实验室
+        teachers: 刘老师
 school:
   navigation: 学校
   schoolYear: 学年

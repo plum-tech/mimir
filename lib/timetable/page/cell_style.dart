@@ -1,14 +1,10 @@
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/timetable/entity/platte.dart';
-import 'package:sit/timetable/platte.dart';
-import 'package:sit/timetable/widgets/timetable/weekly.dart';
-import 'package:sit/utils/color.dart';
 
 import '../widgets/style.dart';
 import '../i18n.dart';
+import 'p13n.dart';
 
 class TimetableCellStyleEditor extends StatefulWidget {
   const TimetableCellStyleEditor({super.key});
@@ -30,7 +26,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
           SliverToBoxAdapter(
             child: TimetableStyleProv(
               builder: (ctx, style) {
-                return TimetableCellStylePreview(style: style.cell, palette: style.platte);
+                return TimetableP13nLivePreview(style: style.cell, palette: style.platte);
               },
             ),
           ),
@@ -98,79 +94,5 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
         },
       ),
     );
-  }
-}
-
-class TimetableCellStylePreview extends StatelessWidget {
-  final CourseCellStyle style;
-  final TimetablePalette palette;
-
-  const TimetableCellStylePreview({
-    required this.style,
-    required this.palette,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (ctx, box) {
-      final height = box.maxHeight.isFinite ? box.maxHeight : context.mediaQuery.size.height / 2;
-      return buildView(context, fullSize: Size(box.maxWidth, height));
-    });
-  }
-
-  Widget buildView(
-    BuildContext context, {
-    required Size fullSize,
-  }) {
-    final cellSize = Size(fullSize.width / 5, fullSize.height / 3);
-    final themeColor = context.colorScheme.primary;
-    Widget buildCell({
-      required int id,
-      required String name,
-      required String place,
-      required List<String> teachers,
-      bool grayOut = false,
-    }) {
-      var color = palette.safeGetColor(id).byTheme(context.theme);
-      if (style.harmonizeWithThemeColor) {
-        color = color.harmonizeWith(themeColor);
-      }
-      if (grayOut) {
-        color = color.monochrome();
-      }
-      return SizedBox.fromSize(
-        size: cellSize,
-        child: TweenAnimationBuilder(
-          tween: ColorTween(begin: color, end: color),
-          duration: const Duration(milliseconds: 300),
-          builder: (ctx, value, child) => CourseCell(
-            courseName: name,
-            color: value!,
-            place: place,
-            teachers: style.showTeachers ? teachers : null,
-          ),
-        ),
-      );
-    }
-
-    Widget livePreview(int index, {bool grayOut = false}) {
-      final data = i18n.p13n.cell.livePreview(index);
-      return buildCell(
-        id: index,
-        name: data.name,
-        place: data.place,
-        teachers: data.teachers,
-        grayOut: grayOut,
-      );
-    }
-
-    final grayOut = style.grayOutTakenLessons;
-    return [
-      livePreview(0, grayOut: grayOut),
-      livePreview(1, grayOut: grayOut),
-      livePreview(2),
-      livePreview(3),
-    ].row(maa: MainAxisAlignment.spaceEvenly);
   }
 }
