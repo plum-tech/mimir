@@ -380,6 +380,10 @@ class TimetableP13nLivePreview extends StatelessWidget {
       if (grayOut) {
         color = color.monochrome();
       }
+      final alpha = cellStyle.alpha;
+      if (alpha < 1.0) {
+        color = color.withOpacity(alpha);
+      }
       return SizedBox.fromSize(
         size: cellSize,
         child: TweenAnimationBuilder(

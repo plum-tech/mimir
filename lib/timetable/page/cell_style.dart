@@ -34,6 +34,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
             buildTeachersToggle(),
             buildGrayOutPassedLesson(),
             buildHarmonizeWithThemeColor(),
+            buildAlpha(),
           ]),
         ],
       ),
@@ -82,6 +83,27 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
         onChanged: (newV) {
           setState(() {
             Settings.timetable.cell.harmonizeWithThemeColor = newV;
+          });
+        },
+      ),
+    );
+  }
+
+  Widget buildAlpha() {
+    final value = Settings.timetable.cell.alpha;
+    return ListTile(
+      isThreeLine: true,
+      leading: const Icon(Icons.invert_colors),
+      title: i18n.p13n.cell.alphaTitle.text(),
+      subtitle: Slider(
+        min: 0.0,
+        max: 1.0,
+        divisions: 255,
+        label: (value * 255).toInt().toString(),
+        value: value,
+        onChanged: (double value) {
+          setState(() {
+            Settings.timetable.cell.alpha = value;
           });
         },
       ),

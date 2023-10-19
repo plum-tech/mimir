@@ -95,6 +95,8 @@ class _CellStyle {
   String get harmonizeTitle => "$ns.harmonize.title".tr();
 
   String get harmonizeDesc => "$ns.harmonize.desc".tr();
+
+  String get alphaTitle => "$ns.alpha.title".tr();
 }
 
 class _Palette {

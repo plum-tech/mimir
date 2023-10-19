@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../entity/display.dart';
@@ -23,15 +23,24 @@ class TimetableBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: background
+    return buildBoard();
+    return [
+      FlutterLogo(size: 512).center(),
+      buildBoard(),
+    ].stack();
+  }
+
+  Widget buildBoard(){
     return $displayMode >>
-        (ctx, mode) => (mode == DisplayMode.daily
+            (ctx, mode) => mode == DisplayMode.daily
             ? DailyTimetable(
-                $currentPos: $currentPos,
-                timetable: timetable,
-              )
+          $currentPos: $currentPos,
+          timetable: timetable,
+        )
             : WeeklyTimetable(
-                $currentPos: $currentPos,
-                timetable: timetable,
-              ));
+          $currentPos: $currentPos,
+          timetable: timetable,
+        );
   }
 }

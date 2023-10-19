@@ -123,6 +123,8 @@ timetable:
       harmonize:
         title: Harmonize with theme color
         desc: Mix the cell color with theme color
+      alpha:
+        title: Cell alpha
     livePreview:
       0:
         name: Taken

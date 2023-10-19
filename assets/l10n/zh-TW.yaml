@@ -123,6 +123,8 @@ timetable:
       harmonize:
         title: 與主題顏色結合
         desc: 將單元格顏色與主題顏色混合
+      alpha:
+        title: 單元 alpha
     livePreview:
       0:
         name: 上過的

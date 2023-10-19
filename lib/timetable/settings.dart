@@ -5,6 +5,7 @@ const _kAutoUseImported = true;
 const _kShowTeachers = true;
 const _kGrayOutTakenLessons = false;
 const _kHarmonizeWithThemeColor = true;
+const _kAlpha = 1.0;
 
 class _K {
   static const ns = "/timetable";
@@ -28,6 +29,7 @@ class _CellK {
   static const showTeachers = "$ns/showTeachers";
   static const grayOutTakenLessons = "$ns/grayOutTakenLessons";
   static const harmonizeWithThemeColor = "$ns/harmonizeWithThemeColor";
+  static const alpha = "$ns/alpha";
 }
 
 class _Cell {
@@ -47,6 +49,14 @@ class _Cell {
 
   set harmonizeWithThemeColor(bool newV) => box.put(_CellK.harmonizeWithThemeColor, newV);
 
-  ValueListenable listenStyle() =>
-      box.listenable(keys: [_CellK.showTeachers, _CellK.grayOutTakenLessons, _CellK.harmonizeWithThemeColor]);
+  double get alpha => box.get(_CellK.alpha) ?? _kAlpha;
+
+  set alpha(double newV) => box.put(_CellK.alpha, newV);
+
+  ValueListenable listenStyle() => box.listenable(keys: [
+        _CellK.showTeachers,
+        _CellK.grayOutTakenLessons,
+        _CellK.harmonizeWithThemeColor,
+        _CellK.alpha,
+      ]);
 }

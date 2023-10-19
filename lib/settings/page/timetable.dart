@@ -74,7 +74,7 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
 
   Widget buildCellStyle() {
     return ListTile(
-      leading: const Icon(Icons.style_outlined),
+      leading: const Icon(Icons.view_comfortable_outlined),
       title: i18n.timetable.cellStyleTitle.text(),
       subtitle: i18n.timetable.cellStyleDesc.text(),
       trailing: const Icon(Icons.open_in_new),

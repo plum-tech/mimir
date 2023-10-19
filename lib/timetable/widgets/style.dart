@@ -9,22 +9,26 @@ class CourseCellStyle {
   final bool showTeachers;
   final bool grayOutTakenLessons;
   final bool harmonizeWithThemeColor;
+  final double alpha;
 
   const CourseCellStyle({
     required this.showTeachers,
     required this.grayOutTakenLessons,
     required this.harmonizeWithThemeColor,
+    required this.alpha,
   });
 
   CourseCellStyle copyWith({
     bool? showTeachers,
     bool? grayOutTakenLessons,
     bool? harmonizeWithThemeColor,
+    double? alpha,
   }) {
     return CourseCellStyle(
       showTeachers: showTeachers ?? this.showTeachers,
       grayOutTakenLessons: grayOutTakenLessons ?? this.grayOutTakenLessons,
       harmonizeWithThemeColor: harmonizeWithThemeColor ?? this.harmonizeWithThemeColor,
+      alpha: alpha ?? this.alpha,
     );
   }
 
@@ -33,6 +37,7 @@ class CourseCellStyle {
       showTeachers: Settings.timetable.cell.showTeachers,
       grayOutTakenLessons: Settings.timetable.cell.grayOutTakenLessons,
       harmonizeWithThemeColor: Settings.timetable.cell.harmonizeWithThemeColor,
+      alpha: Settings.timetable.cell.alpha,
     );
   }
 }
@@ -89,36 +94,42 @@ class TimetableStyleProv extends StatefulWidget {
 }
 
 class TimetableStyleProvState extends State<TimetableStyleProv> {
-  final $selected = TimetableInit.storage.palette.$selected;
+  final $palette = TimetableInit.storage.palette.$selected;
   final $cellStyle = Settings.timetable.cell.listenStyle();
+  var palette = TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic;
+  var cellStyle = CourseCellStyle.fromStorage();
 
   @override
   void initState() {
     super.initState();
-    $selected.addListener(refresh);
-    $cellStyle.addListener(refresh);
+    $palette.addListener(refreshPalette);
+    $cellStyle.addListener(refreshCellStyle);
   }
 
   @override
   void dispose() {
-    $selected.removeListener(refresh);
-    $cellStyle.removeListener(refresh);
+    $palette.removeListener(refreshPalette);
+    $cellStyle.removeListener(refreshCellStyle);
     super.dispose();
   }
 
-  void refresh() {
-    setState(() {});
+  void refreshPalette() {
+    setState(() {
+      palette = TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic;
+    });
+  }
+
+  void refreshCellStyle() {
+    setState(() {
+      cellStyle = CourseCellStyle.fromStorage();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final data = TimetableStyleData(
-      platte: TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic,
-      cell: CourseCellStyle(
-        showTeachers: Settings.timetable.cell.showTeachers,
-        grayOutTakenLessons: Settings.timetable.cell.grayOutTakenLessons,
-        harmonizeWithThemeColor: Settings.timetable.cell.harmonizeWithThemeColor,
-      ),
+      platte: palette,
+      cell: cellStyle,
     );
     return TimetableStyle(
       data: data,

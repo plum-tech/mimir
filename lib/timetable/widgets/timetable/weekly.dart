@@ -426,7 +426,10 @@ class StyledCourseCell extends StatelessWidget {
     if (grayOut) {
       color = color.monochrome();
     }
-
+    final alpha = style.cell.alpha;
+    if (alpha < 1.0) {
+      color = color.withOpacity(color.opacity * alpha);
+    }
     return CourseCell(
       courseName: course.courseName,
       color: color,

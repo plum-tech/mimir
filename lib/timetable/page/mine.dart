@@ -18,6 +18,7 @@ import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
 import '../utils.dart';
+import 'background.dart';
 import 'cell_style.dart';
 import 'editor.dart';
 
@@ -99,16 +100,22 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             title: i18n.mine.title.text(),
             actions: [
               IconButton(
+                icon: const Icon(Icons.image_outlined),
+                onPressed: () async {
+                  await context.show$Sheet$((ctx) => const TimetableBackgroundEditor());
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.view_comfortable_outlined),
                 onPressed: () async {
                   await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
                 },
-                icon: const Icon(Icons.style_outlined),
               ),
               IconButton(
+                icon: const Icon(Icons.color_lens_outlined),
                 onPressed: () {
                   context.push("/timetable/p13n");
                 },
-                icon: const Icon(Icons.color_lens_outlined),
               ),
             ],
           ),
