@@ -210,7 +210,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
               TimetableInit.storage.palette[id] = newPalette;
             },
           ),
-        if (selectedTimetable != null)
+        if (selectedTimetable != null && palette.colors.isNotEmpty)
           EntryAction(
             label: i18n.preview,
             icon: Icons.preview,

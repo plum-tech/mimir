@@ -77,7 +77,7 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
                   floating: true,
                   title: i18n.p13n.palette.title.text(),
                   actions: [
-                    if (selectedTimetable != null)
+                    if (selectedTimetable != null && colors.isNotEmpty)
                       PlatformTextButton(
                         child: i18n.preview.text(),
                         onPressed: () async {
@@ -339,11 +339,13 @@ class PaletteColorBar extends StatelessWidget {
           },
           child: SizedBox(
             height: 35,
-            child: brightness.l10n().text(
-              style: context.textTheme.bodyLarge?.copyWith(
-                color: inverseColor,
-              )
-            ).center(),
+            child: brightness
+                .l10n()
+                .text(
+                    style: context.textTheme.bodyLarge?.copyWith(
+                  color: inverseColor,
+                ))
+                .center(),
           ),
         ),
       ),
