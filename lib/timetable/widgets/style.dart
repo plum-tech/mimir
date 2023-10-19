@@ -31,15 +31,6 @@ class CourseCellStyle {
       alpha: alpha ?? this.alpha,
     );
   }
-
-  static CourseCellStyle fromStorage() {
-    return CourseCellStyle(
-      showTeachers: Settings.timetable.cell.showTeachers,
-      grayOutTakenLessons: Settings.timetable.cell.grayOutTakenLessons,
-      harmonizeWithThemeColor: Settings.timetable.cell.harmonizeWithThemeColor,
-      alpha: Settings.timetable.cell.alpha,
-    );
-  }
 }
 
 class TimetableStyleData {
@@ -97,7 +88,7 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
   final $palette = TimetableInit.storage.palette.$selected;
   final $cellStyle = Settings.timetable.cell.listenStyle();
   var palette = TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic;
-  var cellStyle = CourseCellStyle.fromStorage();
+  var cellStyle = Settings.timetable.cell.cellStyle;
 
   @override
   void initState() {
@@ -121,7 +112,7 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
 
   void refreshCellStyle() {
     setState(() {
-      cellStyle = CourseCellStyle.fromStorage();
+      cellStyle = Settings.timetable.cell.cellStyle;
     });
   }
 

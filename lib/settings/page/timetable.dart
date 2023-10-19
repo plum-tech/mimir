@@ -79,7 +79,8 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
       subtitle: i18n.timetable.cellStyleDesc.text(),
       trailing: const Icon(Icons.open_in_new),
       onTap: () async {
-        await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
+        final cellStyle = await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
+        Settings.timetable.cell.cellStyle = cellStyle;
       },
     );
   }

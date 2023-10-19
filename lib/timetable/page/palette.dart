@@ -8,6 +8,7 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/extension.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/page/preview.dart';
 import 'package:sit/timetable/widgets/style.dart';
 
@@ -87,7 +88,7 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
                                 timetable: selectedTimetable,
                                 style: TimetableStyleData(
                                   platte: buildPalette(),
-                                  cell: CourseCellStyle.fromStorage(),
+                                  cell: Settings.timetable.cell.cellStyle,
                                 ),
                               ),
                             ),

@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'widgets/style.dart';
+
 const _kAutoUseImported = true;
 const _kShowTeachers = true;
 const _kGrayOutTakenLessons = false;
@@ -59,4 +61,18 @@ class _Cell {
         _CellK.harmonizeWithThemeColor,
         _CellK.alpha,
       ]);
+
+  CourseCellStyle get cellStyle => CourseCellStyle(
+        showTeachers: showTeachers,
+        grayOutTakenLessons: grayOutTakenLessons,
+        harmonizeWithThemeColor: harmonizeWithThemeColor,
+        alpha: alpha,
+      );
+
+  set cellStyle(CourseCellStyle newV) {
+    showTeachers = newV.showTeachers;
+    grayOutTakenLessons = newV.grayOutTakenLessons;
+    harmonizeWithThemeColor = newV.harmonizeWithThemeColor;
+    alpha = newV.alpha;
+  }
 }

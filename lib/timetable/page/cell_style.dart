@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
 
@@ -14,6 +16,11 @@ class TimetableCellStyleEditor extends StatefulWidget {
 }
 
 class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
+  var showTeachers = Settings.timetable.cell.showTeachers;
+  var grayOutTakenLessons = Settings.timetable.cell.grayOutTakenLessons;
+  var harmonizeWithThemeColor = Settings.timetable.cell.harmonizeWithThemeColor;
+  var alpha = Settings.timetable.cell.alpha;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,11 +29,22 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
           SliverAppBar(
             floating: true,
             title: i18n.p13n.cell.title.text(),
+            actions: [
+              PlatformTextButton(
+                child: i18n.save.text(),
+                onPressed: () async {
+                  context.pop(buildCellStyle());
+                },
+              ),
+            ],
           ),
           SliverToBoxAdapter(
             child: TimetableStyleProv(
               builder: (ctx, style) {
-                return TimetableP13nLivePreview(cellStyle: style.cell, palette: style.platte);
+                return TimetableP13nLivePreview(
+                  cellStyle: buildCellStyle(),
+                  palette: style.platte,
+                );
               },
             ),
           ),
@@ -41,16 +59,25 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
     );
   }
 
+  CourseCellStyle buildCellStyle() {
+    return CourseCellStyle(
+      showTeachers: showTeachers,
+      grayOutTakenLessons: grayOutTakenLessons,
+      harmonizeWithThemeColor: harmonizeWithThemeColor,
+      alpha: alpha,
+    );
+  }
+
   Widget buildTeachersToggle() {
     return ListTile(
       leading: const Icon(Icons.person_pin),
       title: i18n.p13n.cell.showTeachersTitle.text(),
       subtitle: i18n.p13n.cell.showTeachersDesc.text(),
       trailing: Switch.adaptive(
-        value: Settings.timetable.cell.showTeachers,
+        value: showTeachers,
         onChanged: (newV) {
           setState(() {
-            Settings.timetable.cell.showTeachers = newV;
+            showTeachers = newV;
           });
         },
       ),
@@ -63,10 +90,10 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
       title: i18n.p13n.cell.grayOutTitle.text(),
       subtitle: i18n.p13n.cell.grayOutDesc.text(),
       trailing: Switch.adaptive(
-        value: Settings.timetable.cell.grayOutTakenLessons,
+        value: grayOutTakenLessons,
         onChanged: (newV) {
           setState(() {
-            Settings.timetable.cell.grayOutTakenLessons = newV;
+            grayOutTakenLessons = newV;
           });
         },
       ),
@@ -79,10 +106,10 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
       title: i18n.p13n.cell.harmonizeTitle.text(),
       subtitle: i18n.p13n.cell.harmonizeDesc.text(),
       trailing: Switch.adaptive(
-        value: Settings.timetable.cell.harmonizeWithThemeColor,
+        value: harmonizeWithThemeColor,
         onChanged: (newV) {
           setState(() {
-            Settings.timetable.cell.harmonizeWithThemeColor = newV;
+            harmonizeWithThemeColor = newV;
           });
         },
       ),
@@ -90,7 +117,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
   }
 
   Widget buildAlpha() {
-    final value = Settings.timetable.cell.alpha;
+    final value = alpha;
     return ListTile(
       isThreeLine: true,
       leading: const Icon(Icons.invert_colors),
@@ -103,7 +130,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
         value: value,
         onChanged: (double value) {
           setState(() {
-            Settings.timetable.cell.alpha = value;
+            alpha = value;
           });
         },
       ),

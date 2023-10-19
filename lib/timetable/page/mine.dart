@@ -108,7 +108,8 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
               IconButton(
                 icon: const Icon(Icons.view_comfortable_outlined),
                 onPressed: () async {
-                  await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
+                  final cellStyle = await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
+                  Settings.timetable.cell.cellStyle = cellStyle;
                 },
               ),
               IconButton(

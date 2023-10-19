@@ -11,6 +11,7 @@ import 'package:sit/design/widgets/entry_card.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/qrcode/page.dart';
 import 'package:sit/qrcode/protocol.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/platte.dart';
@@ -230,7 +231,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
                     timetable: selectedTimetable,
                     style: TimetableStyleData(
                       platte: palette,
-                      cell: CourseCellStyle.fromStorage(),
+                      cell: Settings.timetable.cell.cellStyle,
                     ),
                   ),
                 ),
@@ -286,7 +287,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
               if (palette.colors.isNotEmpty) const Divider(),
               if (palette.colors.isNotEmpty)
                 TimetableP13nLivePreview(
-                  cellStyle: CourseCellStyle.fromStorage(),
+                  cellStyle: Settings.timetable.cell.cellStyle,
                   palette: palette,
                 ),
               const Divider(),
