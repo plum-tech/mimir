@@ -6,7 +6,7 @@ import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
-import 'package:sit/l10n/extension.dart';
+import 'package:sit/timetable/page/p13n.dart';
 import 'package:sit/timetable/page/preview.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:sit/timetable/widgets/style.dart';
@@ -127,7 +127,7 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
               ),
               CustomScrollView(
                 slivers: [
-                  SliverToBoxAdapter(child: buildBrightnessSwitch().padSymmetric(h: 12, v: 4)),
+                  SliverToBoxAdapter(child: BrightnessSwitch($brightness).padSymmetric(h: 12, v: 4)),
                   $brightness >>
                       (ctx, brightness) {
                         if (isCupertino) {
@@ -178,29 +178,6 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
       author: $author.text,
       colors: colors,
     );
-  }
-
-  Widget buildBrightnessSwitch() {
-    return $brightness >>
-        (ctx, brightness) => SegmentedButton<Brightness>(
-              segments: [
-                ButtonSegment<Brightness>(
-                  value: Brightness.light,
-                  label: Brightness.light.l10n().text(),
-                  icon: const Icon(Icons.light_mode),
-                ),
-                ButtonSegment<Brightness>(
-                  value: Brightness.dark,
-                  label: Brightness.dark.l10n().text(),
-                  icon: const Icon(Icons.dark_mode),
-                ),
-              ],
-              selected: <Brightness>{brightness},
-              onSelectionChanged: (newSelection) async {
-                $brightness.value = newSelection.first;
-                await HapticFeedback.selectionClick();
-              },
-            );
   }
 
   Widget buildColorTile(BuildContext ctx, int index) {

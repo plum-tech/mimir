@@ -8,6 +8,7 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/entry_card.dart';
+import 'package:sit/l10n/extension.dart';
 import 'package:sit/qrcode/page.dart';
 import 'package:sit/qrcode/protocol.dart';
 import 'package:sit/timetable/entity/platte.dart';
@@ -43,6 +44,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
   late final TabController tabController;
   final $selected = TimetableInit.storage.timetable.$selected;
   var selectedTimetable = TimetableInit.storage.timetable.selectedRow;
+  late final $brightness = ValueNotifier(context.theme.brightness);
 
   @override
   void initState() {
@@ -54,7 +56,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
     final forceTab = widget.tab;
     if (forceTab != null) {
       tabController.index = forceTab.clamp(TimetableP13nTab.custom, TimetableP13nTab.builtin);
-    } else if (BuiltinTimetablePalettes.all.any((palette) => palette.id == selectedId)) {
+    } else if (selectedId == null || BuiltinTimetablePalettes.all.any((palette) => palette.id == selectedId)) {
       tabController.index = TimetableP13nTab.builtin;
     }
   }
@@ -99,6 +101,9 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
                 floating: true,
                 title: i18n.p13n.palette.title.text(),
                 forceElevated: innerBoxIsScrolled,
+                actions: [
+                  BrightnessSwitch($brightness),
+                ],
                 bottom: TabBar(
                   controller: tabController,
                   isScrollable: true,
@@ -249,32 +254,40 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
               style: const TextStyle(
             fontStyle: FontStyle.italic,
           )),
-        palette.colors
-            .map((c) => OutlinedCard(
-                  margin: EdgeInsets.zero,
-                  child: FilledCard(
+        $brightness >>
+            (ctx, brightness) => palette.colors
+                .map((c) {
+                  final color = c.byBrightness(brightness);
+                  return OutlinedCard(
                     margin: EdgeInsets.zero,
-                    color: c.byTheme(theme),
-                    child: const SizedBox(
-                      width: 32,
-                      height: 32,
+                    child: TweenAnimationBuilder(
+                      tween: ColorTween(begin: color, end: color),
+                      duration: const Duration(milliseconds: 300),
+                      builder: (ctx, value, child) => FilledCard(
+                        margin: EdgeInsets.zero,
+                        color: value,
+                        child: const SizedBox(
+                          width: 32,
+                          height: 32,
+                        ),
+                      ),
                     ),
-                  ),
-                ))
-            .toList()
-            .wrap(spacing: 4, runSpacing: 4)
-            .padV(4),
+                  );
+                })
+                .toList()
+                .wrap(spacing: 4, runSpacing: 4)
+                .padV(4),
       ],
     );
   }
 }
 
 class TimetableP13nLivePreview extends StatelessWidget {
-  final CourseCellStyle style;
+  final CourseCellStyle cellStyle;
   final TimetablePalette palette;
 
   const TimetableP13nLivePreview({
-    required this.style,
+    required this.cellStyle,
     required this.palette,
     super.key,
   });
@@ -301,7 +314,7 @@ class TimetableP13nLivePreview extends StatelessWidget {
       bool grayOut = false,
     }) {
       var color = palette.safeGetColor(id).byTheme(context.theme);
-      if (style.harmonizeWithThemeColor) {
+      if (cellStyle.harmonizeWithThemeColor) {
         color = color.harmonizeWith(themeColor);
       }
       if (grayOut) {
@@ -316,7 +329,7 @@ class TimetableP13nLivePreview extends StatelessWidget {
             courseName: name,
             color: value!,
             place: place,
-            teachers: style.showTeachers ? teachers : null,
+            teachers: cellStyle.showTeachers ? teachers : null,
           ),
         ),
       );
@@ -333,13 +346,46 @@ class TimetableP13nLivePreview extends StatelessWidget {
       );
     }
 
-    final grayOut = style.grayOutTakenLessons;
+    final grayOut = cellStyle.grayOutTakenLessons;
     return [
       livePreview(0, grayOut: grayOut),
       livePreview(1, grayOut: grayOut),
       livePreview(2),
       livePreview(3),
     ].row(maa: MainAxisAlignment.spaceEvenly);
+  }
+}
+
+class BrightnessSwitch extends StatelessWidget {
+  final ValueNotifier<Brightness> $brightness;
+
+  const BrightnessSwitch(
+    this.$brightness, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return $brightness >>
+        (ctx, brightness) => SegmentedButton<Brightness>(
+              segments: [
+                ButtonSegment<Brightness>(
+                  value: Brightness.light,
+                  label: Brightness.light.l10n().text(),
+                  icon: const Icon(Icons.light_mode),
+                ),
+                ButtonSegment<Brightness>(
+                  value: Brightness.dark,
+                  label: Brightness.dark.l10n().text(),
+                  icon: const Icon(Icons.dark_mode),
+                ),
+              ],
+              selected: <Brightness>{brightness},
+              onSelectionChanged: (newSelection) async {
+                $brightness.value = newSelection.first;
+                await HapticFeedback.selectionClick();
+              },
+            );
   }
 }
 

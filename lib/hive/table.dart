@@ -58,6 +58,10 @@ class HiveTable<T> {
 
   int? get selectedId => box.get(_selectedIdK);
 
+  bool get isEmpty => idList?.isEmpty != true;
+
+  bool get isNotEmpty => !isEmpty;
+
   set selectedId(int? newValue) {
     box.put(_selectedIdK, newValue);
     $selected.notifier();
