@@ -82,13 +82,20 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
       floatingActionButton: FloatingActionButton.extended(
         label: i18n.p13n.palette.fab.text(),
         icon: const Icon(Icons.add),
-        onPressed: () {
-          TimetableInit.storage.palette.add(TimetablePalette(
+        onPressed: () async {
+          final palette = TimetablePalette(
             name: i18n.p13n.palette.newPaletteName,
             author: "",
             colors: [],
-          ));
+          );
+          final id = TimetableInit.storage.palette.add(palette);
           tabController.index = TimetableP13nTab.custom;
+          final newPalette = await context.push<TimetablePalette>(
+            "/timetable/p13n/palette/$id",
+            extra: palette,
+          );
+          if (newPalette == null) return;
+          TimetableInit.storage.palette[id] = newPalette;
         },
       ),
       body: NestedScrollView(
@@ -266,11 +273,12 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
                   title: i18n.p13n.palette.author.text(),
                   subtitle: palette.author.text(),
                 ),
-              const Divider(),
-              TimetableP13nLivePreview(
-                cellStyle: CourseCellStyle.fromStorage(),
-                palette: palette,
-              ),
+              if (palette.colors.isNotEmpty) const Divider(),
+              if (palette.colors.isNotEmpty)
+                TimetableP13nLivePreview(
+                  cellStyle: CourseCellStyle.fromStorage(),
+                  palette: palette,
+                ),
               const Divider(),
               const LightDarkColorsHeaderTitle(),
             ]),
