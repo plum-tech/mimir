@@ -38,7 +38,7 @@ class Class2ndAttendActivityService {
   }
 
   /// 参加活动
-  Future<String> join(int activityId, [bool force = false]) async {
+  Future<String> join(int activityId, {bool force = false}) async {
     if (!force) {
       final result = await _sendCheckRequest(activityId);
       if (result != '检查成功') {
