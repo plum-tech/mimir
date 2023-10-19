@@ -96,6 +96,8 @@ timetable:
       tab:
         custom: 自訂
         builtin: 內建
+        info: 資訊
+        colors: 顏色
       namePlaceholder: 調色盤名稱
       author: 作者
       authorPlaceholder: 你的姓名，電郵，或 url

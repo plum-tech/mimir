@@ -77,10 +77,11 @@ class _MainStagePageState extends State<MainStagePage> {
   @override
   Widget build(BuildContext context) {
     if (context.isPortrait) {
+      final isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom != 0.0;
       return Scaffold(
         resizeToAvoidBottomInset: false,
         body: widget.navigationShell,
-        bottomNavigationBar: buildButtonNavigationBar(),
+        bottomNavigationBar: isKeyboardOpen ? null : buildButtonNavigationBar(),
       );
     } else {
       return Scaffold(

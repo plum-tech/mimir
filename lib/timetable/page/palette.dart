@@ -24,6 +24,12 @@ class TimetablePaletteEditor extends StatefulWidget {
   State<TimetablePaletteEditor> createState() => _TimetablePaletteEditorState();
 }
 
+class _Tab {
+  static const length = 2;
+  static const info = 0;
+  static const colors = 1;
+}
+
 class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
   late final $name = TextEditingController(text: widget.palette.name);
   late final $author = TextEditingController(text: widget.palette.author);
@@ -41,69 +47,99 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            title: i18n.p13n.palette.title.text(),
-            actions: [
-              PlatformTextButton(
-                child: i18n.preview.text(),
-                onPressed: () {},
+      body: DefaultTabController(
+        length: _Tab.length,
+        child: NestedScrollView(
+          floatHeaderSlivers: true,
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            // These are the slivers that show up in the "outer" scroll view.
+            return <Widget>[
+              SliverOverlapAbsorber(
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                sliver: SliverAppBar(
+                  floating: true,
+                  title: i18n.p13n.palette.title.text(),
+                  actions: [
+                    PlatformTextButton(
+                      child: i18n.preview.text(),
+                      onPressed: () {},
+                    ),
+                    PlatformTextButton(
+                      child: i18n.save.text(),
+                      onPressed: () {
+                        context.navigator.pop(TimetablePalette(
+                          name: $name.text,
+                          author: $author.text,
+                          colors: colors,
+                        ));
+                      },
+                    ),
+                  ],
+                  forceElevated: innerBoxIsScrolled,
+                  bottom: TabBar(
+                    isScrollable: true,
+                    tabs: [
+                      Tab(child: i18n.p13n.palette.infoTab.text()),
+                      Tab(child: i18n.p13n.palette.colorsTab.text()),
+                    ],
+                  ),
+                ),
               ),
-              PlatformTextButton(
-                child: i18n.save.text(),
-                onPressed: () {
-                  context.navigator.pop(TimetablePalette(
-                    name: $name.text,
-                    author: $author.text,
-                    colors: colors,
-                  ));
-                },
+            ];
+          },
+          body: TabBarView(
+            children: [
+              CustomScrollView(
+                slivers: [
+                  SliverList.list(children: [
+                    buildName(),
+                    buildAuthor(),
+                  ]),
+                ],
               ),
+              CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(child: buildBrightnessSwitch().padSymmetric(h: 12, v: 4)),
+                  $brightness >>
+                      (ctx, brightness) {
+                        if (isCupertino) {
+                          // on iOS, SwipeAction is used, so ignore the separator
+                          return SliverList.builder(
+                            itemCount: colors.length,
+                            itemBuilder: buildColorTile,
+                          );
+                        }
+                        return SliverList.separated(
+                          itemCount: colors.length,
+                          itemBuilder: buildColorTile,
+                          separatorBuilder: (ctx, i) => const Divider(
+                            height: 4,
+                            indent: 12,
+                            endIndent: 12,
+                          ),
+                        );
+                      },
+                  SliverList.list(children: [
+                    if (colors.isNotEmpty)
+                      const Divider(
+                        indent: 12,
+                        endIndent: 12,
+                      ),
+                    ListTile(
+                      leading: const Icon(Icons.add),
+                      title: i18n.p13n.palette.addColor.text(),
+                      onTap: () {
+                        setState(() {
+                          colors.add((light: Colors.white30, dark: Colors.black12));
+                        });
+                      },
+                    ),
+                  ]),
+                ],
+              )
             ],
           ),
-          SliverList.list(children: [
-            buildName(),
-            buildAuthor(),
-            const Divider(),
-          ]),
-          $brightness >>
-              (ctx, brightness) {
-                if (isCupertino) {
-                  // on iOS, SwipeAction is used, so ignore the separator
-                  return SliverList.builder(
-                    itemCount: colors.length,
-                    itemBuilder: buildColorTile,
-                  );
-                }
-                return SliverList.separated(
-                  itemCount: colors.length,
-                  itemBuilder: buildColorTile,
-                  separatorBuilder: (ctx, i) => const Divider(
-                    height: 4,
-                    indent: 12,
-                    endIndent: 12,
-                  ),
-                );
-              },
-          SliverList.list(children: [
-            if (colors.isNotEmpty)
-              const Divider(
-                indent: 12,
-                endIndent: 12,
-              ),
-            ListTile(
-              leading: const Icon(Icons.add),
-              title: i18n.p13n.palette.addColor.text(),
-              onTap: () {
-                setState(() {
-                  colors.add((light: Colors.white30, dark: Colors.black12));
-                });
-              },
-            ),
-          ]),
-        ],
+        ),
       ),
     );
   }

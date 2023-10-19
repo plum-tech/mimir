@@ -108,6 +108,10 @@ class _Palette {
 
   String get builtinTab => "$ns.tab.builtin".tr();
 
+  String get infoTab => "$ns.tab.info".tr();
+
+  String get colorsTab => "$ns.tab.colors".tr();
+
   String get shareQrCode => "$ns.shareQrCode".tr();
 
   String get newPaletteName => "$ns.newPaletteName".tr();
