@@ -106,13 +106,6 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
                 },
               ),
               IconButton(
-                icon: const Icon(Icons.view_comfortable_outlined),
-                onPressed: () async {
-                  final cellStyle = await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
-                  Settings.timetable.cell.cellStyle = cellStyle;
-                },
-              ),
-              IconButton(
                 icon: const Icon(Icons.color_lens_outlined),
                 onPressed: () {
                   context.push("/timetable/p13n");
@@ -174,15 +167,18 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       deleteAction: (ctx) => EntryDeleteAction(
         label: i18n.delete,
         action: () async {
-          final confirm = await context.showRequest(
+          final confirm = await ctx.showRequest(
             title: i18n.mine.deleteRequest,
             desc: i18n.mine.deleteRequestDesc,
             yes: i18n.delete,
             no: i18n.cancel,
             highlight: true,
           );
-          if (confirm == true) {
-            TimetableInit.storage.timetable.delete(id);
+          if (confirm != true) return;
+          TimetableInit.storage.timetable.delete(id);
+          if (TimetableInit.storage.timetable.isEmpty) {
+            if (!ctx.mounted) return;
+            ctx.pop();
           }
         },
       ),

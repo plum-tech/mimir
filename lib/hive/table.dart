@@ -58,7 +58,7 @@ class HiveTable<T> {
 
   int? get selectedId => box.get(_selectedIdK);
 
-  bool get isEmpty => idList?.isEmpty != true;
+  bool get isEmpty => idList?.isEmpty != false;
 
   bool get isNotEmpty => !isEmpty;
 

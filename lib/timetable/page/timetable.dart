@@ -12,6 +12,7 @@ import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/r.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/page/screenshot.dart';
 
 import '../entity/display.dart';
@@ -22,6 +23,7 @@ import '../init.dart';
 import '../entity/pos.dart';
 import '../widgets/style.dart';
 import '../widgets/timetable/board.dart';
+import 'cell_style.dart';
 
 class TimetableBoardPage extends StatefulWidget {
   final SitTimetableEntity timetable;
@@ -121,7 +123,6 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
       icon: const Icon(Icons.person_rounded),
       onPressed: () async {
         await context.push("/timetable/mine");
-        setState(() {});
       },
     );
   }
@@ -138,6 +139,17 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
             onTap: () async {
               ctx.pop();
               await takeTimetableScreenshot();
+            },
+          ),
+        ),
+        PopupMenuItem(
+          child: ListTile(
+            leading: const Icon(Icons.view_comfortable_outlined),
+            title: i18n.p13n.cell.title.text(),
+            onTap: () async {
+              ctx.pop();
+              final cellStyle = await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
+              Settings.timetable.cell.cellStyle = cellStyle;
             },
           ),
         ),
