@@ -72,7 +72,7 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
     );
   }
 
-  Widget buildCellStyle(){
+  Widget buildCellStyle() {
     return ListTile(
       leading: const Icon(Icons.style_outlined),
       title: i18n.timetable.cellStyleTitle.text(),

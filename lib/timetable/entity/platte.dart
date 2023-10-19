@@ -45,11 +45,14 @@ class TimetablePalette {
   final String author;
   @JsonKey(fromJson: _colorsFromJson, toJson: _colorsToJson)
   final List<Color2Mode> colors;
+  @JsonKey()
+  final DateTime? lastModified;
 
   const TimetablePalette({
     required this.name,
     required this.author,
     required this.colors,
+    this.lastModified,
   });
 
   factory TimetablePalette.fromJson(Map<String, dynamic> json) => _$TimetablePaletteFromJson(json);
@@ -74,7 +77,12 @@ class TimetablePalette {
       colors.add((light: light, dark: dark));
     }
 
-    return TimetablePalette(name: name, author: author, colors: colors);
+    return TimetablePalette(
+      name: name,
+      author: author,
+      colors: colors,
+      lastModified: DateTime.now(),
+    );
   }
 }
 
@@ -122,6 +130,9 @@ class BuiltinTimetablePalette implements TimetablePalette {
   String get author => "timetable.p13n.builtinPalette.$key.author".tr();
   @override
   final List<Color2Mode> colors;
+
+  @override
+  DateTime? get lastModified => null;
 
   const BuiltinTimetablePalette({
     required this.key,

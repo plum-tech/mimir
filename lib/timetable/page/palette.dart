@@ -158,6 +158,7 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
       name: $name.text,
       author: $author.text,
       colors: colors,
+      lastModified: DateTime.now(),
     );
   }
 

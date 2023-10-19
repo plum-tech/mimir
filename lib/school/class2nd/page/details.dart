@@ -132,7 +132,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
 
   Future<void> sendForceRequest(BuildContext context) async {
     try {
-      final response = await Class2ndInit.attendActivityService.join(activity.id, force:true);
+      final response = await Class2ndInit.attendActivityService.join(activity.id, force: true);
       if (!mounted) return;
       context.showSnackBar(Text(response));
     } catch (e) {

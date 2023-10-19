@@ -28,7 +28,7 @@ class CourseCellStyle {
     );
   }
 
-  static CourseCellStyle fromStorage(){
+  static CourseCellStyle fromStorage() {
     return CourseCellStyle(
       showTeachers: Settings.timetable.cell.showTeachers,
       grayOutTakenLessons: Settings.timetable.cell.grayOutTakenLessons,

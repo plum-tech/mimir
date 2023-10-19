@@ -87,15 +87,10 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
             name: i18n.p13n.palette.newPaletteName,
             author: "",
             colors: [],
+            lastModified: DateTime.now(),
           );
-          final id = TimetableInit.storage.palette.add(palette);
+          TimetableInit.storage.palette.add(palette);
           tabController.index = TimetableP13nTab.custom;
-          final newPalette = await context.push<TimetablePalette>(
-            "/timetable/p13n/palette/$id",
-            extra: palette,
-          );
-          if (newPalette == null) return;
-          TimetableInit.storage.palette[id] = newPalette;
         },
       ),
       body: NestedScrollView(
@@ -127,24 +122,33 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
         body: TabBarView(
           controller: tabController,
           children: [
-            buildPaletteList(TimetableInit.storage.palette.idList ?? const []),
-            buildPaletteList(BuiltinTimetablePalettes.all.map((e) => e.id).toList()),
+            buildPaletteList(TimetableInit.storage.palette.getRows()),
+            buildPaletteList(BuiltinTimetablePalettes.all.map((e) => (id: e.id, row: e)).toList()),
           ],
         ),
       ),
     );
   }
 
-  Widget buildPaletteList(List<int> idList) {
+  Widget buildPaletteList(List<({int id, TimetablePalette row})> palettes) {
     final selectedId = TimetableInit.storage.palette.selectedId ?? BuiltinTimetablePalettes.classic.id;
+    palettes.sort((a, b) {
+      final $a = a.row.lastModified;
+      final $b = b.row.lastModified;
+      if ($a == $b) return 0;
+      if ($a == null) {
+        return 1;
+      } else if ($b == null) {
+        return -1;
+      }
+      return $b.compareTo($a);
+    });
     return CustomScrollView(
       slivers: [
         SliverList.builder(
-          itemCount: idList.length,
+          itemCount: palettes.length,
           itemBuilder: (ctx, i) {
-            final id = idList[i];
-            final palette = TimetableInit.storage.palette[id];
-            if (palette == null) return const SizedBox();
+            final (:id, row: palette) = palettes[i];
             return buildPaletteCard(
               id,
               palette,
