@@ -53,8 +53,6 @@ class ExamResultCard extends StatelessWidget {
     this.showDetails = true,
   });
 
-  static const iconSize = 45.0;
-
   @override
   Widget build(BuildContext context) {
     final textTheme = context.textTheme;
@@ -63,8 +61,9 @@ class ExamResultCard extends StatelessWidget {
         result.items.where((e) => !e.score.isNaN && !(e.scoreType == "总评" && e.score == result.score)).toList();
     return ListTile(
       selected: selected,
-      leading: iconOverride?.sized(w: iconSize, h: iconSize) ??
-          CourseIcon(courseName: result.courseName).sized(w: iconSize, h: iconSize),
+      isThreeLine: true,
+      leading: iconOverride?.sized(w: CourseIcon.kDefaultSize, h: CourseIcon.kDefaultSize) ??
+          CourseIcon(courseName: result.courseName),
       titleTextStyle: textTheme.titleMedium,
       title: Text(result.courseName),
       subtitleTextStyle: textTheme.bodyMedium,

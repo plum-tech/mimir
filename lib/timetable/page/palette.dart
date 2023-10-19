@@ -125,13 +125,8 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
               ),
               CustomScrollView(
                 slivers: [
-                  SliverToBoxAdapter(
-                    child: ListTile(
-                      title: [
-                        [const Icon(Icons.light_mode), Brightness.light.l10n().text()].row(mas: MainAxisSize.min),
-                        [const Icon(Icons.dark_mode), Brightness.dark.l10n().text()].row(mas: MainAxisSize.min),
-                      ].row(maa: MainAxisAlignment.spaceBetween),
-                    ),
+                  const SliverToBoxAdapter(
+                    child: LightDarkColorsHeaderTitle(),
                   ),
                   SliverList.builder(
                     itemCount: colors.length,
@@ -261,6 +256,20 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
   }
 }
 
+class LightDarkColorsHeaderTitle extends StatelessWidget {
+  const LightDarkColorsHeaderTitle({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: [
+        [const Icon(Icons.light_mode), Brightness.light.l10n().text()].row(mas: MainAxisSize.min),
+        [const Icon(Icons.dark_mode), Brightness.dark.l10n().text()].row(mas: MainAxisSize.min),
+      ].row(maa: MainAxisAlignment.spaceBetween),
+    );
+  }
+}
+
 class PaletteColorTile extends StatelessWidget {
   final Color2Mode colors;
   final void Function(Color old, Brightness brightness)? onEdit;
@@ -320,7 +329,7 @@ class PaletteColorBar extends StatelessWidget {
                 },
           onLongPress: () async {
             await Clipboard.setData(ClipboardData(text: "#${color.hexAlpha}"));
-            if(!context.mounted) return;
+            if (!context.mounted) return;
             context.showSnackBar(i18n.p13n.palette.colorCopyTip.text());
           },
           child: const SizedBox(height: 35),

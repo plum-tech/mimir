@@ -11,6 +11,8 @@ import 'package:sit/route.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/page/export.dart';
+import 'package:sit/timetable/platte.dart';
+import 'package:sit/timetable/widgets/course.dart';
 
 import '../i18n.dart';
 import '../entity/timetable.dart';
@@ -152,6 +154,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
     final textTheme = context.textTheme;
 
     return EntryCard(
+      title: timetable.name,
       selected: selected,
       selectAction: (ctx) => EntrySelectAction(
         selectLabel: i18n.use,
@@ -191,6 +194,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           label: i18n.edit,
           icon: Icons.edit,
           cupertinoIcon: CupertinoIcons.pencil,
+          type: EntryActionType.edit,
           action: () async {
             final newTimetable = await ctx.show$Sheet$<SitTimetable>(
               (ctx) => TimetableEditor(timetable: timetable),
@@ -204,6 +208,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           label: i18n.mine.exportFile,
           icon: Icons.output_outlined,
           cupertinoIcon: CupertinoIcons.share,
+          type: EntryActionType.share,
           action: () async {
             await exportTimetableFileAndShare(timetable, context: ctx);
           },
@@ -217,7 +222,36 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           },
         ),
       ],
-      children: [
+      previewBuilder: (ctx) {
+        final palette = TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic;
+        return CustomScrollView(
+          slivers: [
+            SliverList.list(children: [
+              ListTile(
+                leading: const Icon(Icons.drive_file_rename_outline),
+                title: i18n.editor.name.text(),
+                subtitle: timetable.name.text(),
+              ),
+              ListTile(
+                leading: const Icon(Icons.date_range),
+                title: i18n.startWith.text(),
+                subtitle: context.formatYmdText(timetable.startDate).text(),
+              ),
+              const Divider(),
+            ]),
+            SliverList.builder(
+              itemCount: timetable.courseKey2Entity.length,
+              itemBuilder: (ctx, i) {
+                return TimetableCourseCard(
+                  timetable.courseKey2Entity[i],
+                  palette: palette,
+                );
+              },
+            )
+          ],
+        );
+      },
+      itemBuilder: (ctx, animation) => [
         timetable.name.text(style: textTheme.titleLarge),
         "$year, $semester".text(style: textTheme.titleMedium),
         "${i18n.startWith} ${context.formatYmdText(timetable.startDate)}".text(style: textTheme.bodyLarge),

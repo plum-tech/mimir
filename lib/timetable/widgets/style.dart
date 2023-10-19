@@ -2,33 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/platte.dart';
-import 'package:rettulf/rettulf.dart';
 
 import '../init.dart';
-
-extension DesignExtension on BuildContext {
-  ({Color bg, Color text}) makeTabHeaderTextBgColors(bool isSelected) {
-    final Color text;
-    final Color bg;
-    if (isDarkMode) {
-      if (isSelected) {
-        bg = theme.secondaryHeaderColor;
-      } else {
-        bg = Colors.transparent;
-      }
-      text = Colors.white;
-    } else {
-      if (isSelected) {
-        bg = theme.primaryColor;
-        text = Colors.white;
-      } else {
-        bg = Colors.transparent;
-        text = Colors.black;
-      }
-    }
-    return (text: text, bg: bg);
-  }
-}
 
 class CourseCellStyle {
   final bool showTeachers;

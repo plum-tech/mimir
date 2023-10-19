@@ -19,6 +19,7 @@ import 'package:sit/utils/color.dart';
 import '../i18n.dart';
 import '../widgets/style.dart';
 import '../widgets/timetable/weekly.dart';
+import 'palette.dart';
 import 'preview.dart';
 
 class TimetableP13nPage extends StatefulWidget {
@@ -156,6 +157,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
     final theme = context.theme;
     final selectedTimetable = this.selectedTimetable;
     return EntryCard(
+      title: palette.name,
       selected: selected,
       selectAction: (ctx) => EntrySelectAction(
         selectLabel: i18n.use,
@@ -190,6 +192,8 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
             label: i18n.edit,
             icon: Icons.edit,
             cupertinoIcon: CupertinoIcons.pencil,
+            type: EntryActionType.edit,
+            oneShot: true,
             action: () async {
               final newPalette = await ctx.push<TimetablePalette>(
                 "/timetable/p13n/palette/$id",
@@ -247,39 +251,76 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
           },
         ),
       ],
-      children: [
+      previewBuilder: (ctx) {
+        return CustomScrollView(
+          slivers: [
+            SliverList.list(children: [
+              ListTile(
+                leading: const Icon(Icons.drive_file_rename_outline),
+                title: i18n.p13n.palette.name.text(),
+                subtitle: palette.name.text(),
+              ),
+              if (palette.author.isNotEmpty)
+                ListTile(
+                  leading: const Icon(Icons.person),
+                  title: i18n.p13n.palette.author.text(),
+                  subtitle: palette.author.text(),
+                ),
+              const Divider(),
+              TimetableP13nLivePreview(
+                cellStyle: CourseCellStyle.fromStorage(),
+                palette: palette,
+              ),
+              const Divider(),
+              const LightDarkColorsHeaderTitle(),
+            ]),
+            SliverList.builder(
+              itemCount: palette.colors.length,
+              itemBuilder: (ctx, i) {
+                return PaletteColorTile(colors: palette.colors[i]);
+              },
+            )
+          ],
+        );
+      },
+      itemBuilder: (ctx, animation) => [
         palette.name.text(style: theme.textTheme.titleLarge),
         if (palette.author.isNotEmpty)
           palette.author.text(
-              style: const TextStyle(
-            fontStyle: FontStyle.italic,
-          )),
-        $brightness >>
-            (ctx, brightness) => palette.colors
-                .map((c) {
-                  final color = c.byBrightness(brightness);
-                  return OutlinedCard(
-                    color: brightness == Brightness.light ? Colors.black : Colors.white,
-                    margin: EdgeInsets.zero,
-                    child: TweenAnimationBuilder(
-                      tween: ColorTween(begin: color, end: color),
-                      duration: const Duration(milliseconds: 300),
-                      builder: (ctx, value, child) => FilledCard(
-                        margin: EdgeInsets.zero,
-                        color: value,
-                        child: const SizedBox(
-                          width: 32,
-                          height: 32,
-                        ),
-                      ),
-                    ),
-                  );
-                })
-                .toList()
-                .wrap(spacing: 4, runSpacing: 4)
-                .padV(4),
+            style: const TextStyle(
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        buildPaletteColorsPreview(palette),
       ],
     );
+  }
+
+  Widget buildPaletteColorsPreview(TimetablePalette palette) {
+    return $brightness >>
+        (ctx, brightness) => palette.colors
+            .map((c) {
+              final color = c.byBrightness(brightness);
+              return OutlinedCard(
+                color: brightness == Brightness.light ? Colors.black : Colors.white,
+                margin: EdgeInsets.zero,
+                child: TweenAnimationBuilder(
+                  tween: ColorTween(begin: color, end: color),
+                  duration: const Duration(milliseconds: 300),
+                  builder: (ctx, value, child) => FilledCard(
+                    margin: EdgeInsets.zero,
+                    color: value,
+                    child: const SizedBox(
+                      width: 32,
+                      height: 32,
+                    ),
+                  ),
+                ),
+              );
+            })
+            .toList()
+            .wrap(spacing: 4, runSpacing: 4)
+            .padV(4);
   }
 }
 

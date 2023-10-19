@@ -125,6 +125,7 @@ dependencies:
   flutter_swipe_action_cell: ^3.1.2
   bordered_text: ^2.0.0
   flutter_platform_widgets: ^3.3.5
+  pull_down_button: ^0.9.3
 
   # Utils
   # Get package info (version)
