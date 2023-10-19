@@ -91,11 +91,13 @@ extension TimetablePaletteX on TimetablePalette {
     String? name,
     List<Color2Mode>? colors,
     String? author,
+    DateTime? lastModified,
   }) {
     return TimetablePalette(
       name: name ?? this.name,
       colors: colors ?? List.of(this.colors),
       author: author ?? this.author,
+      lastModified: lastModified ?? this.lastModified,
     );
   }
 

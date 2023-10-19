@@ -59,6 +59,16 @@ class EntryDeleteAction {
   });
 }
 
+class EntryDetailsAction {
+  final String label;
+  final IconData? icon;
+
+  EntryDetailsAction({
+    required this.label,
+    this.icon,
+  });
+}
+
 class EntryCard extends StatelessWidget {
   final bool selected;
   final String title;
@@ -67,6 +77,7 @@ class EntryCard extends StatelessWidget {
   final List<EntryAction> Function(BuildContext context) actions;
   final EntrySelectAction Function(BuildContext context) selectAction;
   final EntryDeleteAction Function(BuildContext context)? deleteAction;
+  final EntryDetailsAction Function(BuildContext context) detailsAction;
 
   const EntryCard({
     super.key,
@@ -75,6 +86,7 @@ class EntryCard extends StatelessWidget {
     required this.itemBuilder,
     required this.actions,
     required this.selectAction,
+    required this.detailsAction,
     this.detailsBuilder,
     this.deleteAction,
   });
@@ -95,18 +107,7 @@ class EntryCard extends StatelessWidget {
           buildMaterialActionPopup(context, actions.where((action) => !action.main).toList()),
         ],
       ),
-    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15).inkWell(onTap: () async {
-      await context.navigator.push(
-        MaterialPageRoute(
-          builder: (ctx) => EntryDetailsPage(
-            title: title,
-            itemBuilder: (ctx) => itemBuilder(ctx, null),
-            detailsBuilder: detailsBuilder,
-            selected: selected,
-          ),
-        ),
-      );
-    });
+    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15);
     return selected
         ? body.inFilledCard(
             clip: Clip.hardEdge,
@@ -268,11 +269,31 @@ class EntryCard extends StatelessWidget {
   }
 
   Widget buildMaterialActionPopup(BuildContext context, List<EntryAction> secondaryActions) {
+    final detailsAction = this.detailsAction(context);
     return PopupMenuButton(
       position: PopupMenuPosition.under,
       padding: EdgeInsets.zero,
       itemBuilder: (ctx) {
         final all = <PopupMenuEntry>[];
+        all.add(PopupMenuItem(
+          child: ListTile(
+            leading: Icon(detailsAction.icon),
+            title: detailsAction.label.text(),
+            onTap: () async {
+              ctx.navigator.pop();
+              await context.navigator.push(
+                MaterialPageRoute(
+                  builder: (ctx) => EntryDetailsPage(
+                    title: title,
+                    itemBuilder: (ctx) => itemBuilder(ctx, null),
+                    detailsBuilder: detailsBuilder,
+                    selected: selected,
+                  ),
+                ),
+              );
+            },
+          ),
+        ));
         for (final action in secondaryActions) {
           final callback = action.action;
           all.add(PopupMenuItem(
@@ -331,73 +352,98 @@ class EntryCupertinoDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final actions = this.actions(context);
-    final selectAction = this.selectAction?.call(context);
-    final deleteAction = this.deleteAction?.call(context);
-    final editAction = actions.firstWhereOrNull((action) => action.type == EntryActionType.edit);
-    if ((selectAction == null || selected) && editAction != null) {
-      actions.retainWhere((action) => action.type != EntryActionType.edit);
-    }
     return Scaffold(
       appBar: AppBar(
         title: TextScroll(title),
         centerTitle: isCupertino,
-        actions: [
-          if (selectAction != null && !selected)
-            CupertinoButton(
-              onPressed: selectAction.action == null
-                  ? null
-                  : () async {
-                      await selectAction.action?.call();
-                      if (!context.mounted) return;
-                      context.navigator.pop();
-                    },
-              child: selectAction.selectLabel.text(),
-            )
-          else if (editAction != null)
-            CupertinoButton(
-              onPressed: editAction.action == null
-                  ? null
-                  : () async {
-                      await editAction.action?.call();
-                      if (editAction.oneShot) {
-                        if (!context.mounted) return;
-                        context.navigator.pop();
-                      }
-                    },
-              child: editAction.label.text(),
-            ),
-          PullDownButton(
-            itemBuilder: (context) => [
-              ...actions.map((action) => PullDownMenuItem(
-                    icon: action.cupertinoIcon,
-                    title: action.label,
-                    onTap: action.action,
-                  )),
-              if (deleteAction != null) ...[
-                const PullDownMenuDivider.large(),
-                PullDownMenuItem(
-                  icon: CupertinoIcons.delete,
-                  title: deleteAction.label,
-                  onTap: () async {
-                    await deleteAction.action?.call();
-                    if (!context.mounted) return;
-                    context.navigator.pop();
-                  },
-                  isDestructive: true,
-                ),
-              ],
-            ],
-            buttonBuilder: (context, showMenu) => CupertinoButton(
-              onPressed: showMenu,
-              padding: EdgeInsets.zero,
-              child: const Icon(CupertinoIcons.ellipsis_circle),
-            ),
-          ),
-        ],
+        actions: buildActions(context),
       ),
       body: buildBody(context),
     );
+  }
+
+  List<Widget> buildActions(BuildContext context) {
+    final all = <Widget>[];
+    final actions = this.actions(context);
+    final selectAction = this.selectAction?.call(context);
+    final deleteAction = this.deleteAction?.call(context);
+    final editAction = actions.firstWhereOrNull((action) => action.type == EntryActionType.edit);
+    if (editAction != null) {
+      all.add(CupertinoButton(
+        onPressed: editAction.action == null
+            ? null
+            : () async {
+                await editAction.action?.call();
+                if (editAction.oneShot) {
+                  if (!context.mounted) return;
+                  context.navigator.pop();
+                }
+              },
+        child: editAction.label.text(),
+      ));
+      // remove edit action
+      actions.retainWhere((action) => action.type != EntryActionType.edit);
+      if (selectAction != null && !selected) {
+        actions.insert(
+          0,
+          EntryAction(
+            label: selectAction.selectLabel,
+            oneShot: true,
+            cupertinoIcon: CupertinoIcons.check_mark,
+            action: selectAction.action,
+          ),
+        );
+      }
+    } else if (selectAction != null && !selected) {
+      all.add(CupertinoButton(
+        onPressed: selectAction.action == null
+            ? null
+            : () async {
+                await selectAction.action?.call();
+                if (!context.mounted) return;
+                context.navigator.pop();
+              },
+        child: selectAction.selectLabel.text(),
+      ));
+    }
+    all.add(PullDownButton(
+      itemBuilder: (context) => [
+        ...actions.map(
+          (action) => PullDownMenuItem(
+            icon: action.cupertinoIcon,
+            title: action.label,
+            onTap: action.action == null
+                ? null
+                : () async {
+                    await action.action?.call();
+                    if (action.oneShot) {
+                      if (!context.mounted) return;
+                      context.navigator.pop();
+                    }
+                  },
+          ),
+        ),
+        if (deleteAction != null) ...[
+          const PullDownMenuDivider.large(),
+          PullDownMenuItem(
+            icon: CupertinoIcons.delete,
+            title: deleteAction.label,
+            onTap: () async {
+              await deleteAction.action?.call();
+              if (!context.mounted) return;
+              context.navigator.pop();
+            },
+            isDestructive: true,
+          ),
+        ],
+      ],
+      buttonBuilder: (context, showMenu) => CupertinoButton(
+        onPressed: showMenu,
+        padding: EdgeInsets.zero,
+        child: const Icon(CupertinoIcons.ellipsis_circle),
+      ),
+    ));
+    return all;
   }
 
   Widget buildBody(BuildContext context) {

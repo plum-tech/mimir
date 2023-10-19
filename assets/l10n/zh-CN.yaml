@@ -11,6 +11,7 @@ timetable:
     deleteRequest: 确认删除？
     deleteRequestDesc: 这个课程表将被永久删除
     emptyTip: 快去导入一个课程表吧！
+    details: 详情
   details:
     classId: 教学班
     courseId: 课程代码
@@ -102,6 +103,7 @@ timetable:
       author: 作者
       authorPlaceholder: 你的姓名，电子邮箱，或 url
       colorCopyTip: 已复制该颜色到剪贴板了
+      details: 详情
       fab: 配色方案
       shareQrCode: 分享二维码
       newPaletteName: 新的配色方案

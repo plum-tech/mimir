@@ -178,6 +178,10 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           }
         },
       ),
+      detailsAction: (ctx) => EntryDetailsAction(
+        label: i18n.mine.details,
+        icon: Icons.details,
+      ),
       actions: (ctx) => [
         if (!selected)
           EntryAction(
@@ -195,6 +199,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           icon: Icons.edit,
           cupertinoIcon: CupertinoIcons.pencil,
           type: EntryActionType.edit,
+          oneShot: true,
           action: () async {
             final newTimetable = await ctx.show$Sheet$<SitTimetable>(
               (ctx) => TimetableEditor(timetable: timetable),

@@ -11,6 +11,7 @@ timetable:
     deleteRequest: 確認刪除
     deleteRequestDesc: 你會失去這個課程表，永久地。
     emptyTip: 快去匯入一張新的課程表吧！
+    details: 詳細資料
   details:
     classId: 班级
     courseId: 课程代码
@@ -102,6 +103,7 @@ timetable:
       author: 作者
       authorPlaceholder: 你的姓名，電郵，或 url
       colorCopyTip: 顏色被複製到剪貼板了
+      details: 詳細資料
       fab: 調色盤
       shareQrCode: 分享 QR 碼
       newPaletteName: 新的調色盤
@@ -199,7 +201,7 @@ class2nd:
   id: 活動 ID
   contactInfo: 联络人
   noDetails: 暫無資訊
-  details: 活動詳情
+  details: 詳細資料
   duration: 活動時長
   location: 活動地點
   myScoreTitle: 第二課堂學分

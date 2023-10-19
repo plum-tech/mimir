@@ -196,6 +196,10 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
                   }
                 },
               ),
+      detailsAction: (ctx) => EntryDetailsAction(
+        label: i18n.p13n.palette.details,
+        icon: Icons.details,
+      ),
       actions: (ctx) => [
         if (palette is! BuiltinTimetablePalette)
           EntryAction(
@@ -236,12 +240,14 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
         EntryAction(
           label: i18n.copy,
           icon: Icons.copy,
+          oneShot: true,
           cupertinoIcon: CupertinoIcons.doc_on_clipboard,
           action: () async {
             final duplicate = palette.copyWith(
               name: i18n.p13n.palette.copyPaletteName(palette.name),
               // copy will ignore the original author
               author: "",
+              lastModified: DateTime.now(),
             );
             TimetableInit.storage.palette.add(duplicate);
             tabController.index = TimetableP13nTab.custom;

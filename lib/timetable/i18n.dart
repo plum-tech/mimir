@@ -51,6 +51,8 @@ class _Mine {
   String get deleteRequestDesc => "$ns.deleteRequestDesc".tr();
 
   String get emptyTip => "$ns.emptyTip".tr();
+
+  String get details => "$ns.details".tr();
 }
 
 class _P13n {
@@ -135,6 +137,8 @@ class _Palette {
   String get authorPlaceholder => "$ns.authorPlaceholder".tr();
 
   String get colorCopyTip => "$ns.colorCopyTip".tr();
+
+  String get details => "$ns.details".tr();
 }
 
 class _Details {

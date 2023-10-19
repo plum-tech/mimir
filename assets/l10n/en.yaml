@@ -11,6 +11,7 @@ timetable:
     deleteRequest: Confirm to delete?
     deleteRequestDesc: You will lose this timetable permanently
     emptyTip: Let's import a timetable!
+    details: Details
   details:
     classId: Class Code
     courseId: Course Code
@@ -102,6 +103,7 @@ timetable:
       author: Author
       authorPlaceholder: Your name, email, or url
       colorCopyTip: The color was copied
+      details: Details
       fab: Palette
       shareQrCode: Share QR code
       newPaletteName: New palette
