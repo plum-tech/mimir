@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' show join;
@@ -196,7 +197,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
           ok: i18n.jump,
           okEnabled: (curSelected) => curSelected != initialIndex,
           actions: [
-            (ctx, curSelected) => CupertinoButton(
+            (ctx, curSelected) => PlatformTextButton(
                   onPressed: (curSelected == todayIndex)
                       ? null
                       : () {
@@ -234,7 +235,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
           ok: i18n.jump,
           okEnabled: (weekSelected, daySelected) => weekSelected != initialWeekIndex || daySelected != initialDayIndex,
           actions: [
-            (ctx, week, day) => CupertinoButton(
+            (ctx, week, day) => PlatformTextButton(
                   onPressed: (week == todayWeekIndex && day == todayDayIndex)
                       ? null
                       : () {

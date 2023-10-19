@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/widgets/duration_picker.dart';
@@ -76,7 +77,7 @@ class _TimetableExportCalendarConfigEditorState extends State<TimetableExportCal
   }
 
   Widget buildExportAction() {
-    return CupertinoButton(
+    return PlatformTextButton(
       child: i18n.export.export.text(),
       onPressed: () async {
         context.pop<TimetableExportCalendarConfig>((

@@ -32,26 +32,6 @@ extension $BuildContextEx$ on BuildContext {
   }
 }
 
-class $Button$ extends StatelessWidget {
-  final String text;
-  final VoidCallback? onPressed;
-
-  const $Button$({
-    super.key,
-    required this.text,
-    this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    if (isCupertino) {
-      return CupertinoButton(onPressed: onPressed, child: text.text());
-    } else {
-      return FilledButton(onPressed: onPressed, child: text.text());
-    }
-  }
-}
-
 class $Action$ {
   final String text;
   final bool isDefault;

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -20,7 +21,7 @@ class AttachmentLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoButton(
+    return PlatformTextButton(
       onPressed: () async => _onDownloadFile(context, attachment),
       child: Text(attachment.name),
     );
@@ -45,6 +46,7 @@ Future<void> _onDownloadFile(BuildContext context, OaAnnounceAttachment attachme
   }
 
   if (!context.mounted) return;
+  // TODO: redesign
   context.showSnackBar(
     Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,7 +60,7 @@ Future<void> _onDownloadFile(BuildContext context, OaAnnounceAttachment attachme
             ],
           ),
         ),
-        CupertinoButton(
+        PlatformTextButton(
           onPressed: () => OpenFile.open(targetPath),
           child: i18n.open.text(),
         ),

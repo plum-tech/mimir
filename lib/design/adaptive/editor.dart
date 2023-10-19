@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/l10n/common.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -219,7 +220,7 @@ class _EnumEditorState<T> extends State<EnumEditor<T>> {
           onPressed: () {
             context.navigator.pop(widget.initial);
           }),
-      make: (ctx) => CupertinoButton(
+      make: (ctx) => PlatformTextButton(
         child: current.toString().text(),
         onPressed: () async {
           FixedExtentScrollController controller = FixedExtentScrollController(initialItem: initialIndex);
@@ -278,7 +279,7 @@ class _DateTimeEditorState extends State<DateTimeEditor> {
           onPressed: () {
             context.navigator.pop(widget.initial);
           }),
-      make: (ctx) => CupertinoButton(
+      make: (ctx) => PlatformTextButton(
         child: current.toString().text(),
         onPressed: () async {
           final newDate = await showDatePicker(
@@ -345,7 +346,7 @@ class _IntEditorState extends State<_IntEditor> {
   Widget buildBody(BuildContext ctx) {
     return Row(
       children: [
-        CupertinoButton(
+        PlatformTextButton(
           child: const Icon(Icons.remove),
           onPressed: () {
             setState(() {
@@ -354,7 +355,7 @@ class _IntEditorState extends State<_IntEditor> {
             });
           },
         ),
-        $TextField$(
+        PlatformTextField(
           controller: controller,
           keyboardType: TextInputType.number,
           inputFormatters: <TextInputFormatter>[
@@ -369,7 +370,7 @@ class _IntEditorState extends State<_IntEditor> {
             }
           },
         ).sized(w: 100),
-        CupertinoButton(
+        PlatformTextButton(
           child: const Icon(Icons.add),
           onPressed: () {
             setState(() {
@@ -464,7 +465,7 @@ class _StringEditorState extends State<_StringEditor> {
             onPressed: () {
               context.navigator.pop(widget.initial);
             }),
-        make: (ctx) => $TextField$(
+        make: (ctx) => PlatformTextField(
               maxLines: lines,
               controller: controller,
             ));

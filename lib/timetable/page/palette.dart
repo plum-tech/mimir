@@ -1,7 +1,7 @@
 import 'package:flex_color_picker/flex_color_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
@@ -47,7 +47,7 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
             floating: true,
             title: $brightness >> (ctx, value) => buildBrightnessSwitch(value),
             actions: [
-              CupertinoButton(
+              PlatformTextButton(
                 child: i18n.save.text(),
                 onPressed: () {
                   context.navigator.pop(TimetablePalette(

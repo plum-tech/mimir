@@ -5,6 +5,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/design/animation/animated.dart';
 import 'package:sit/global/global.dart';
 import 'package:sit/settings/settings.dart';
@@ -136,7 +137,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
       ConnectivityStatus.connected => (_i18n.button.connected, widget.onConnected),
       ConnectivityStatus.disconnected => (_i18n.button.disconnected, startCheck),
     };
-    return CupertinoButton(
+    return PlatformTextButton(
       onPressed: onTap,
       child: tip.text(key: ValueKey(status)),
     );

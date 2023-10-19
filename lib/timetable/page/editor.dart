@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
@@ -56,7 +57,7 @@ class _TimetableEditorState extends State<TimetableEditor> {
   }
 
   Widget buildSaveAction() {
-    return CupertinoButton(
+    return PlatformTextButton(
       onPressed: () {
         context.pop(widget.timetable.copyWith(
           name: $name.text,

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/foundation.dart';
@@ -57,7 +58,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       appBar: AppBar(
         title: i18n.import.title.text(),
         actions: [
-          CupertinoButton(onPressed: importFromFile, child: i18n.import.fromFileBtn.text()),
+          PlatformTextButton(onPressed: importFromFile, child: i18n.import.fromFileBtn.text()),
         ],
         bottom: !isImporting
             ? null

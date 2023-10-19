@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'foundation.dart';
@@ -208,32 +209,33 @@ class _SoloPickerState extends State<SoloPicker> {
   Widget build(BuildContext context) {
     final ok = widget.ok;
     return CupertinoActionSheet(
-        message: CupertinoPicker(
-          scrollController: widget.controller,
-          magnification: 1.22,
-          useMagnifier: true,
-          // This is called when selected item is changed.
-          onSelectedItemChanged: (int selectedItem) {
-            $selected.value = selectedItem;
-          },
-          squeeze: 1.5,
-          itemExtent: 32.0,
-          children: List<Widget>.generate(widget.count, (index) => widget.make(context, index)),
-        ).sized(h: widget.targetHeight),
-        actions: widget.actions
-            ?.map((e) =>
-                ValueListenableBuilder(valueListenable: $selected, builder: (ctx, value, child) => e(ctx, value)))
-            .toList(),
-        cancelButton: ok == null
-            ? null
-            : $selected >>
-                (ctx, selected) => CupertinoButton(
-                    onPressed: widget.okEnabled?.call(selected) ?? true
-                        ? () {
-                            Navigator.of(ctx).pop($selected.value);
-                          }
-                        : null,
-                    child: ok.text(style: TextStyle(color: widget.highlight ? ctx.$red$ : null))));
+      message: CupertinoPicker(
+        scrollController: widget.controller,
+        magnification: 1.22,
+        useMagnifier: true,
+        // This is called when selected item is changed.
+        onSelectedItemChanged: (int selectedItem) {
+          $selected.value = selectedItem;
+        },
+        squeeze: 1.5,
+        itemExtent: 32.0,
+        children: List<Widget>.generate(widget.count, (index) => widget.make(context, index)),
+      ).sized(h: widget.targetHeight),
+      actions: widget.actions
+          ?.map(
+              (e) => ValueListenableBuilder(valueListenable: $selected, builder: (ctx, value, child) => e(ctx, value)))
+          .toList(),
+      cancelButton: ok == null
+          ? null
+          : $selected >>
+              (ctx, selected) => PlatformTextButton(
+                  onPressed: widget.okEnabled?.call(selected) ?? true
+                      ? () {
+                          Navigator.of(ctx).pop($selected.value);
+                        }
+                      : null,
+                  child: ok.text(style: TextStyle(color: widget.highlight ? ctx.$red$ : null))),
+    );
   }
 }
 

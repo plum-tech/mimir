@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/timetable/entity/timetable.dart';
@@ -33,7 +34,7 @@ class FreeDayTip extends StatelessWidget {
     return LeavingBlank(
       icon: Icons.free_cancellation_rounded,
       desc: desc,
-      subtitle: CupertinoButton(
+      subtitle: PlatformTextButton(
         onPressed: () async {
           await jumpToNearestDayWithClass(context, weekIndex, dayIndex);
         },
@@ -101,7 +102,7 @@ class FreeWeekTip extends StatelessWidget {
     return LeavingBlank(
       icon: Icons.free_cancellation_rounded,
       desc: desc,
-      subtitle: CupertinoButton(
+      subtitle: PlatformTextButton(
         onPressed: () async {
           await jumpToNearestWeekWithClass(context, weekIndex);
         },
