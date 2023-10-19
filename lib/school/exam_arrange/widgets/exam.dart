@@ -8,10 +8,12 @@ import '../entity/exam.dart';
 
 class ExamCard extends StatelessWidget {
   final ExamEntry exam;
+  final bool enableAddEvent;
 
   const ExamCard(
     this.exam, {
     super.key,
+    this.enableAddEvent = false,
   });
 
   @override
@@ -34,10 +36,10 @@ class ExamCard extends StatelessWidget {
       }
     }
 
-    final style = context.textTheme.bodyLarge;
+    final style = context.textTheme.bodyMedium;
     return [
       [
-        exam.courseName.text(style: context.textTheme.titleLarge),
+        exam.courseName.text(style: context.textTheme.titleMedium),
         if (exam.isRetake == true) Chip(label: i18n.retake.text(), elevation: 2),
       ].row(maa: MainAxisAlignment.spaceBetween),
       const Divider(),
@@ -64,8 +66,10 @@ class ExamCard extends StatelessWidget {
             ]),
         ],
       ),
-      if (exam.time.isNotEmpty) const Divider(),
-      if (exam.time.isNotEmpty) buildAddToCalenderAction(startTime: exam.time[0], endTime: exam.time[1]),
+      if (enableAddEvent && exam.time.isNotEmpty) ...[
+        const Divider(),
+        buildAddToCalenderAction(startTime: exam.time[0], endTime: exam.time[1]),
+      ],
     ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 15, h: 20).inCard();
   }
 

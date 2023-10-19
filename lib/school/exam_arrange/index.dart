@@ -69,7 +69,7 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
   Widget buildMostRecentExam(List<ExamEntry> examList) {
     if (examList.isEmpty) return const SizedBox();
     final now = DateTime.now();
-    examList = examList.where((exam) => exam.time.length == 2 && exam.time[0].isBefore(now)).toList();
+    examList = examList.where((exam) => exam.time.length == 2 && exam.time[0].isAfter(now)).toList();
     examList.sort((a, b) => a.time[0].compareTo(b.time[0]));
     final mostRecent = examList.firstOrNull;
     if (mostRecent == null) return const SizedBox();

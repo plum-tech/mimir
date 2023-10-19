@@ -95,7 +95,7 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
             else
               SliverList.builder(
                 itemCount: examList.length,
-                itemBuilder: (ctx, i) => ExamCard(examList[i]).padH(6),
+                itemBuilder: (ctx, i) => ExamCard(examList[i], enableAddEvent: true).padH(6),
               ),
         ],
       ),
