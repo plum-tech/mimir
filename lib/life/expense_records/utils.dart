@@ -14,16 +14,17 @@ Future<void> fetchAndSaveTransactionUntilNow({
     from: start,
     to: now,
   );
-  // if anything was fetched, the next fetching will start with now.
-  if (transactions.isNotEmpty) {
-    ExpenseRecordsInit.storage.lastFetchedTs = now;
-  }
-  final newTsList = {...transactions.map((e) => e.timestamp), ...storage.transactionTsList ?? const []}.toList();
+  final oldTsList = storage.transactionTsList ?? const [];
+  final newTsList = {...transactions.map((e) => e.timestamp), ...oldTsList}.toList();
   // the latest goes first
   newTsList.sort((a, b) => -a.compareTo(b));
-  storage.transactionTsList = newTsList;
   for (final transaction in transactions) {
     storage.setTransactionByTs(transaction.timestamp, transaction);
+  }
+  storage.transactionTsList = newTsList;
+  // if anything was fetched, the next fetching will start with now.
+  if (newTsList.length != oldTsList.length) {
+    ExpenseRecordsInit.storage.lastFetchedTs = now;
   }
   final latest = transactions.firstOrNull;
   if (latest != null) {
