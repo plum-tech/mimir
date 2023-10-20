@@ -12,10 +12,10 @@
 
 | Timetable       |   School Life    |     Daily Life      |    Featured     |
 |-----------------|:----------------:|:-------------------:|:---------------:|
-| EMIS Importing  |   Yellow Pages   |   Expense Records   |  Network Tool   |
-| Sharing         |   Exam Results   | Electricity Balance | QR Code Scanner |
-| Personalization | Exam Arrangement |      Edu Email      |                 |
-|                 | OA Announcement  |                     |                 |
+| Importing       |   Yellow Pages   |   Expense Records   |  Network Tool   |
+| Sharing         |   Exam Results   | Electricity Balance | QR Code Sharing |
+| Personalization | Exam Arrangement |      Edu Email      |   HTTP proxy    |
+| Screenshot      | OA Announcement  |                     |  Localization   |
 |                 |   Second Class   |                     |                 |
 |                 |     SIT YWB      |                     |                 |
 
