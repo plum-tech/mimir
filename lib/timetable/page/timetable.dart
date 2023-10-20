@@ -23,6 +23,7 @@ import '../init.dart';
 import '../entity/pos.dart';
 import '../widgets/style.dart';
 import '../widgets/timetable/board.dart';
+import 'background.dart';
 import 'cell_style.dart';
 
 class TimetableBoardPage extends StatefulWidget {
@@ -150,6 +151,16 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
               ctx.pop();
               final cellStyle = await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
               Settings.timetable.cell.cellStyle = cellStyle;
+            },
+          ),
+        ),
+        PopupMenuItem(
+          child: ListTile(
+            leading: const Icon(Icons.image_outlined),
+            title: "Background".text(),
+            onTap: () async {
+              ctx.pop();
+              await context.show$Sheet$((ctx) => const TimetableBackgroundEditor());
             },
           ),
         ),

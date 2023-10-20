@@ -100,12 +100,6 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             title: i18n.mine.title.text(),
             actions: [
               IconButton(
-                icon: const Icon(Icons.image_outlined),
-                onPressed: () async {
-                  await context.show$Sheet$((ctx) => const TimetableBackgroundEditor());
-                },
-              ),
-              IconButton(
                 icon: const Icon(Icons.color_lens_outlined),
                 onPressed: () {
                   context.push("/timetable/p13n");
