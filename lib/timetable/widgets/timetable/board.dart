@@ -31,7 +31,7 @@ class TimetableBoard extends StatelessWidget {
     final background = style.background;
     if (background != null) {
       return [
-        buildBackground(background).center(),
+        TimetableBackground(background: background),
         buildBoard(),
       ].stack();
     }
@@ -50,12 +50,53 @@ class TimetableBoard extends StatelessWidget {
                 timetable: timetable,
               );
   }
+}
 
-  Widget buildBackground(BackgroundImage bk) {
-    return Image.file(
-      File(bk.path),
-      opacity: AlwaysStoppedAnimation(
-        bk.opacity,
+class TimetableBackground extends StatefulWidget {
+  final BackgroundImage background;
+
+  const TimetableBackground({
+    super.key,
+    required this.background,
+  });
+
+  @override
+  State<TimetableBackground> createState() => _TimetableBackgroundState();
+}
+
+class _TimetableBackgroundState extends State<TimetableBackground> with SingleTickerProviderStateMixin {
+  late final AnimationController $opacity;
+
+  @override
+  void initState() {
+    super.initState();
+    $opacity = AnimationController(vsync: this, value: widget.background.opacity);
+  }
+
+  @override
+  void dispose() {
+    $opacity.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant TimetableBackground oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    $opacity.animateTo(
+      widget.background.opacity,
+      duration: const Duration(milliseconds: 100),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bk = widget.background;
+    return Positioned.fill(
+      child: Image.file(
+        File(bk.path),
+        opacity: $opacity,
+        filterQuality: bk.antialias ? FilterQuality.high : FilterQuality.none,
+        repeat: bk.repeat ? ImageRepeat.repeat : ImageRepeat.noRepeat,
       ),
     );
   }

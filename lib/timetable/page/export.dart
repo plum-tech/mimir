@@ -132,7 +132,7 @@ class _TimetableExportCalendarConfigEditorState extends State<TimetableExportCal
       title: i18n.export.enableAlarm.text(),
       subtitle: i18n.export.enableAlarmDesc.text(),
       trailing: $enableAlarm >>
-          (ctx, value) => Switch(
+          (ctx, value) => Switch.adaptive(
                 value: value,
                 onChanged: (newV) {
                   $enableAlarm.value = newV;

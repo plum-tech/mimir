@@ -125,7 +125,15 @@ timetable:
         desc: Mix the cell color with theme color
       alpha: Cell alpha
     background:
-      opacity: Background opacity
+      title: Wallpaper
+      opacity: Wallpaper opacity
+      pickTip: Pick your favorite image
+      repeat:
+        title: Repeat image
+        desc: Repeat image as a pattern to fill wallpaper
+      antialias:
+        title: Anti-alias
+        desc: Turn off this if image is low in pixels
     livePreview:
       0:
         name: Taken
@@ -581,3 +589,5 @@ used: Used
 edit: Edit
 copy: Copy
 preview: Preview
+upload: Upload
+pick: Pick

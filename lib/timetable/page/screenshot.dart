@@ -91,7 +91,7 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
   Widget buildGrayOutTakenLessons() {
     return ListTile(
       leading: const Icon(Icons.timelapse),
-      title: i18n.p13n.cell.grayOutTitle.text(),
+      title: i18n.p13n.cell.grayOut.text(),
       subtitle: i18n.p13n.cell.grayOutDesc.text(),
       trailing: Switch.adaptive(
         value: grayOutTakenLessons == true,

@@ -125,7 +125,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                     ? (newV) async {
                         Settings.httpProxy.enableHttpProxy = newV;
                         await Init.initNetwork();
-                }
+                      }
                     : null,
               ),
             );

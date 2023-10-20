@@ -125,7 +125,15 @@ timetable:
         desc: 將單元格顏色與主題顏色混合
       alpha: 單元 alpha
     background:
+      title: 桌布
       opacity: 背景不透明度
+      pickTip: 選取你最喜愛的影像
+      repeat:
+        title: 重複影像
+        desc: 重複影像作為圖案來填滿桌布
+      antialias:
+        title: 反鋸齒
+        desc: 如果影像像素較低，請關閉此功能
     livePreview:
       0:
         name: 上過的
@@ -581,3 +589,5 @@ used: 已使用
 edit: 編輯
 copy: 複製
 preview: 預覽
+upload: 上傳
+pick: 選取

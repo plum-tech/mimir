@@ -73,7 +73,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
   Widget buildTeachersToggle() {
     return ListTile(
       leading: const Icon(Icons.person_pin),
-      title: i18n.p13n.cell.showTeachersTitle.text(),
+      title: i18n.p13n.cell.showTeachers.text(),
       subtitle: i18n.p13n.cell.showTeachersDesc.text(),
       trailing: Switch.adaptive(
         value: showTeachers,
@@ -89,7 +89,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
   Widget buildGrayOutPassedLesson() {
     return ListTile(
       leading: const Icon(Icons.timelapse),
-      title: i18n.p13n.cell.grayOutTitle.text(),
+      title: i18n.p13n.cell.grayOut.text(),
       subtitle: i18n.p13n.cell.grayOutDesc.text(),
       trailing: Switch.adaptive(
         value: grayOutTakenLessons,
@@ -105,7 +105,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
   Widget buildHarmonizeWithThemeColor() {
     return ListTile(
       leading: const Icon(Icons.format_color_fill),
-      title: i18n.p13n.cell.harmonizeTitle.text(),
+      title: i18n.p13n.cell.harmonize.text(),
       subtitle: i18n.p13n.cell.harmonizeDesc.text(),
       trailing: Switch.adaptive(
         value: harmonizeWithThemeColor,
@@ -124,6 +124,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
       isThreeLine: true,
       leading: const Icon(Icons.invert_colors),
       title: i18n.p13n.cell.alpha.text(),
+      trailing: "${(value * 100).toInt()}%".toString().text(),
       subtitle: Slider(
         min: 0.0,
         max: 1.0,

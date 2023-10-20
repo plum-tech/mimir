@@ -21,4 +21,3 @@ class HiveCookieJar implements Storage {
   @override
   Future<void> deleteAll(List<String> keys) async => box.deleteAll(keys);
 }
-

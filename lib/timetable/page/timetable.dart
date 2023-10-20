@@ -154,7 +154,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         PopupMenuItem(
           child: ListTile(
             leading: const Icon(Icons.image_outlined),
-            title: "Background".text(),
+            title: i18n.p13n.background.title.text(),
             onTap: () async {
               ctx.pop();
               await context.show$Sheet$((ctx) => const TimetableBackgroundEditor());

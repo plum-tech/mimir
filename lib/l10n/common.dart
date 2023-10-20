@@ -68,6 +68,10 @@ mixin class CommonI18nMixin {
   String get preview => "preview".tr();
 
   String get copy => "copy".tr();
+
+  String get upload => "upload".tr();
+
+  String get pick => "pick".tr();
 }
 
 class CommonI18n with CommonI18nMixin {

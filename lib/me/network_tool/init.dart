@@ -1,5 +1,3 @@
 class ConnectivityInit {
-
-  static void init() {
-  }
+  static void init() {}
 }

@@ -125,7 +125,15 @@ timetable:
         desc: 将单元格颜色与主题色混合
       alpha: 单元格 alpha 通道
     background:
+      title: 壁纸
       opacity: 背景不透明度
+      pickTip: 选择你最喜欢的图片
+      repeat:
+        title: 重复图像
+        desc: 重复图像作为填充壁纸的图案
+      antialias:
+        title: 抗锯齿
+        desc: 如果图像像素较低，请关闭此功能
     livePreview:
       0:
         name: 上过的
@@ -581,3 +589,5 @@ used: 已使用
 edit: 编辑
 copy: 复制
 preview: 预览
+upload: 上传
+pick: 选择

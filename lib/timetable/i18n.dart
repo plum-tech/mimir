@@ -81,19 +81,19 @@ class _CellStyle {
 
   String get title => "$ns.title".tr();
 
-  String get entranceTitle => "$ns.entrance.title".tr();
+  String get entrance => "$ns.entrance.title".tr();
 
   String get entranceDesc => "$ns.entrance.desc".tr();
 
-  String get showTeachersTitle => "$ns.showTeachers.title".tr();
+  String get showTeachers => "$ns.showTeachers.title".tr();
 
   String get showTeachersDesc => "$ns.showTeachers.desc".tr();
 
-  String get grayOutTitle => "$ns.grayOut.title".tr();
+  String get grayOut => "$ns.grayOut.title".tr();
 
   String get grayOutDesc => "$ns.grayOut.desc".tr();
 
-  String get harmonizeTitle => "$ns.harmonize.title".tr();
+  String get harmonize => "$ns.harmonize.title".tr();
 
   String get harmonizeDesc => "$ns.harmonize.desc".tr();
 
@@ -151,7 +151,17 @@ class _Background {
 
   String get title => "$ns.title".tr();
 
+  String get pickTip => "$ns.pickTip".tr();
+
   String get opacity => "$ns.opacity".tr();
+
+  String get repeat => "$ns.repeat.title".tr();
+
+  String get repeatDesc => "$ns.repeat.desc".tr();
+
+  String get antialias => "$ns.antialias.title".tr();
+
+  String get antialiasDesc => "$ns.antialias.desc".tr();
 }
 
 class _Details {
