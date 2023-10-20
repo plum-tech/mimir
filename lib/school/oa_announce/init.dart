@@ -1,20 +1,16 @@
 import 'package:hive/hive.dart';
 import 'storage/announce.dart';
-import 'package:sit/session/sso.dart';
 
 import 'service/announce.dart';
 
 class OaAnnounceInit {
   static late OaAnnounceService service;
   static late OaAnnounceStorage storage;
-  static late SsoSession session;
 
   static void init({
-    required SsoSession ssoSession,
     required Box box,
   }) {
-    session = ssoSession;
-    service = OaAnnounceService(session);
+    service = const OaAnnounceService();
     storage = OaAnnounceStorage(box);
   }
 }

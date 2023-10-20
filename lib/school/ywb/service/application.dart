@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:sit/design/animation/progress.dart';
+import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
+import 'package:sit/session/ywb.dart';
 
 import '../entity/application.dart';
 
@@ -16,9 +18,9 @@ String _getMessageListUrl(YwbApplicationType type) {
 }
 
 class YwbApplicationService {
-  final ISession session;
+  YwbSession get session => Init.ywbSession;
 
-  const YwbApplicationService(this.session);
+  const YwbApplicationService();
 
   Future<List<YwbApplication>> getApplicationsOf(
     YwbApplicationType type, {
@@ -84,6 +86,5 @@ class YwbApplicationService {
         progress.value = 2 / 3 + p / 3;
       }),
     );
-    progress.value = 1;
   }
 }

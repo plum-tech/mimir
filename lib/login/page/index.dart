@@ -10,12 +10,12 @@ import 'package:sit/credentials/init.dart';
 import 'package:sit/credentials/utils.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/init.dart';
 import 'package:sit/login/utils.dart';
 import 'package:sit/settings/widgets/campus.dart';
 import 'package:sit/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../init.dart';
 import '../i18n.dart';
 
 class LoginPage extends StatefulWidget {
@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
 
     try {
       final oaCredential = OaCredentials(account: account, password: password);
-      await LoginInit.ssoSession.loginLocked(oaCredential);
+      await Init.ssoSession.loginLocked(oaCredential);
       // final personName = await LoginInit.authServerService.getPersonName();
       if (!mounted) return;
       setState(() => isLoggingIn = false);

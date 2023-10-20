@@ -1,13 +1,15 @@
+import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
+import 'package:sit/session/library.dart';
 
 import '../dao/holding_preview.dart';
 import '../entity/holding_preview.dart';
 import 'constant.dart';
 
 class HoldingPreviewService implements HoldingPreviewDao {
-  final ISession session;
+  LibrarySession get session => Init.librarySession;
 
-  const HoldingPreviewService(this.session);
+  const HoldingPreviewService();
 
   @override
   Future<HoldingPreviews> getHoldingPreviews(List<String> bookIdList) async {

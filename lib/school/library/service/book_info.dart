@@ -1,16 +1,18 @@
 import 'dart:collection';
 
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
+import 'package:sit/session/library.dart';
 
 import '../dao/book_info.dart';
 import '../entity/book_info.dart';
 import 'constant.dart';
 
 class BookInfoService implements BookInfoDao {
-  final ISession session;
+  LibrarySession get session => Init.librarySession;
 
-  const BookInfoService(this.session);
+  const BookInfoService();
 
   BookInfo _createBookInfo(LinkedHashMap<String, String> rawDetail) {
     final isbnAndPriceStr = rawDetail['ISBN']!;

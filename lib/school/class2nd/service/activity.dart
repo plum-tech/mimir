@@ -1,6 +1,7 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/class2nd.dart';
@@ -24,9 +25,9 @@ class Class2ndActivityListService {
 
   static bool _initializedCookie = false;
 
-  final Class2ndSession session;
+  Class2ndSession get session => Init.class2ndSession;
 
-  const Class2ndActivityListService(this.session);
+  const Class2ndActivityListService();
 
   Future<void> _refreshCookie() async {
     if (!_initializedCookie) {

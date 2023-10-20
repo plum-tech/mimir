@@ -7,8 +7,7 @@ import 'package:hive/hive.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/global/global.dart';
-import 'package:sit/global/init.dart';
+import 'package:sit/init.dart';
 import 'package:sit/qrcode/page.dart';
 import 'package:sit/qrcode/protocol.dart';
 import 'package:sit/settings/settings.dart';
@@ -125,8 +124,8 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                 onChanged: _validateHttpProxy(Settings.httpProxy.address)
                     ? (newV) async {
                         Settings.httpProxy.enableHttpProxy = newV;
-                        await Init.init();
-                      }
+                        await Init.initNetwork();
+                }
                     : null,
               ),
             );
@@ -316,7 +315,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
         });
         final bool connected;
         try {
-          connected = await Global.ssoSession.checkConnectivity();
+          connected = await Init.ssoSession.checkConnectivity();
           if (!mounted) return;
           setState(() {
             testState = connected ? _TestConnectionState.success : _TestConnectionState.failed;
@@ -344,7 +343,7 @@ Future<void> _setHttpProxy(String newAddress) async {
     // TODO: subscribe the proxy changes instead of directly calling init.
     // Only when proxy is enabled, it calls init.
     if (Settings.httpProxy.enableHttpProxy) {
-      await Init.init();
+      await Init.initNetwork();
     }
   }
 }

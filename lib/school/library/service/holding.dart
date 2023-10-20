@@ -1,6 +1,8 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
+import 'package:sit/session/library.dart';
 
 import '../dao/holding.dart';
 import '../entity/holding.dart';
@@ -200,9 +202,9 @@ class _BookHoldingInfo {
 }
 
 class HoldingInfoService implements HoldingInfoDao {
-  final ISession session;
+  LibrarySession get session => Init.librarySession;
 
-  const HoldingInfoService(this.session);
+  const HoldingInfoService();
 
   @override
   Future<HoldingInfo> queryByBookId(String bookId) async {

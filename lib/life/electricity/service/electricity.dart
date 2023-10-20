@@ -1,14 +1,15 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:sit/init.dart';
 import '../entity/balance.dart';
 
 const _balanceUrl = "https://xgfy.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=DBAccess_RunSQLReturnTable";
 
 class ElectricityService {
-  final Dio dio;
+  Dio get dio => Init.dio;
 
-  const ElectricityService(this.dio);
+  const ElectricityService();
 
   Future<ElectricityBalance> getBalance(String room) async {
     final response = await dio.post(

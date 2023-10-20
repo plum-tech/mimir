@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:intl/intl.dart';
+import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/session/class2nd.dart';
 
@@ -10,9 +11,9 @@ import '../entity/details.dart';
 final _spacesRx = RegExp(r'\s{2}\s+');
 
 class Class2ndActivityDetailsService {
-  final Class2ndSession session;
+  Class2ndSession get session => Init.class2ndSession;
 
-  const Class2ndActivityDetailsService(this.session);
+  const Class2ndActivityDetailsService();
 
   /// 获取第二课堂活动详情
   Future<Class2ndActivityDetails> getActivityDetails(int activityId) async {

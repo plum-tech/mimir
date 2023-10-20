@@ -5,8 +5,8 @@ import 'package:sit/credentials/init.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
-import 'package:sit/global/global.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/init.dart';
 import 'package:sit/login/utils.dart';
 import '../i18n.dart';
 
@@ -134,7 +134,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
           : () async {
               setState(() => loggingState = _TestLoginState.loggingIn);
               try {
-                await Global.ssoSession.loginLocked(credential);
+                await Init.ssoSession.loginLocked(credential);
                 if (!mounted) return;
                 setState(() => loggingState = _TestLoginState.success);
               } on Exception catch (error, stackTrace) {

@@ -1,6 +1,4 @@
-import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
-import 'package:sit/session/library.dart';
 import 'dao/book_info.dart';
 import 'dao/book_search.dart';
 import 'dao/holding.dart';
@@ -34,22 +32,17 @@ class LibraryInit {
 
   static late HotSearchDao hotSearchService;
 
-  static late LibrarySession session;
-
   /// 初始化图书馆相关的service
   static void init({
-    required Dio dio,
     required Box searchHistoryBox,
   }) {
     // 图书馆初始化
-
-    session = LibrarySession(dio);
-    bookInfo = BookInfoService(session);
-    holdingInfo = HoldingInfoService(session);
-    bookSearch = BookSearchService(session);
-    bookImageSearch = BookImageSearchService(session);
-    holdingPreview = HoldingPreviewService(session);
-    hotSearchService = HotSearchService(session);
+    bookInfo = const BookInfoService();
+    holdingInfo = const HoldingInfoService();
+    bookSearch = const BookSearchService();
+    bookImageSearch = const BookImageSearchService();
+    holdingPreview = const HoldingPreviewService();
+    hotSearchService = const HotSearchService();
 
     librarySearchHistory = SearchHistoryStorage(searchHistoryBox);
   }

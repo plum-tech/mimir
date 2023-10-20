@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
+import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/session/sso.dart';
 
@@ -16,9 +17,10 @@ class ExpenseFetchService {
 
   static const String magicNumber = "adc4ac6822fd462780f878b86cb94688";
   static const urlPath = "https://xgfy.sit.edu.cn/yktapi/services/querytransservice/querytrans";
-  final SsoSession session;
 
-  const ExpenseFetchService(this.session);
+  SsoSession get session => Init.ssoSession;
+
+  const ExpenseFetchService();
 
   Future<List<Transaction>> fetch({
     required String studentID,

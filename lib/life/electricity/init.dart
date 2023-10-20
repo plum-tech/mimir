@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 
 import 'service/electricity.dart';
@@ -9,10 +8,9 @@ class ElectricityBalanceInit {
   static late ElectricityService service;
 
   static void init({
-    required Dio dio,
     required Box electricityBox,
   }) {
-    service = ElectricityService(dio);
+    service = const ElectricityService();
     storage = ElectricityStorage(electricityBox);
   }
 }

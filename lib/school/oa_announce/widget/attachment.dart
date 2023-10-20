@@ -36,7 +36,7 @@ Future<void> _onDownloadFile(BuildContext context, OaAnnounceAttachment attachme
   debugPrint('下载到：$targetPath');
   // 如果文件不存在，那么下载文件
   if (!await File(targetPath).exists()) {
-    await OaAnnounceInit.session.download(
+    await OaAnnounceInit.service.session.download(
       attachment.url,
       savePath: targetPath,
       onReceiveProgress: (int count, int total) {

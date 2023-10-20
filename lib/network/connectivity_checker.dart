@@ -6,7 +6,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/design/animation/animated.dart';
-import 'package:sit/global/global.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
@@ -53,8 +52,6 @@ IconData getConnectionTypeIcon(ConnectivityResult? type, {IconData? fallback}) {
 }
 
 class _ConnectivityCheckerState extends State<ConnectivityChecker> {
-  final service = Global.ssoSession;
-
   ConnectivityStatus status = ConnectivityStatus.none;
   ConnectivityResult? connectionType;
   late Timer networkChecker;

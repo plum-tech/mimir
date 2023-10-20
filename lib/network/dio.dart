@@ -8,7 +8,6 @@ import 'package:fk_user_agent/fk_user_agent.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sit/r.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/utils/logger.dart';
 
 final _rand = Random();
 

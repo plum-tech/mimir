@@ -1,14 +1,16 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
+import 'package:sit/session/library.dart';
 
 import '../dao/book_search.dart';
 import '../entity/book_search.dart';
 import 'constant.dart';
 
 class BookSearchService implements BookSearchDao {
-  final ISession session;
+  LibrarySession get session => Init.librarySession;
 
-  const BookSearchService(this.session);
+  const BookSearchService();
 
   static String _searchWayToString(SearchWay sw) {
     return {

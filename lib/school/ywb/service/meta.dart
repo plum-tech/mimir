@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/session/ywb.dart';
 
@@ -8,9 +9,9 @@ const String _serviceFunctionList = 'https://xgfy.sit.edu.cn/app/public/queryApp
 const String _serviceFunctionDetail = 'https://xgfy.sit.edu.cn/app/public/queryAppFormJson';
 
 class YwbApplicationMetaService {
-  final YwbSession session;
+  YwbSession get session => Init.ywbSession;
 
-  const YwbApplicationMetaService(this.session);
+  const YwbApplicationMetaService();
 
   Future<List<YwbApplicationMeta>> getApplicationMetas() async {
     final response = await session.request(

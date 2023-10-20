@@ -1,6 +1,7 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/class2nd.dart';
@@ -17,9 +18,9 @@ class Class2ndScoreService {
 
   static final activityIdRe = RegExp(r'activityId=(\d+)');
 
-  final Class2ndSession session;
+  Class2ndSession get session => Init.class2ndSession;
 
-  const Class2ndScoreService(this.session);
+  const Class2ndScoreService();
 
   static bool _initializedCookie = false;
 

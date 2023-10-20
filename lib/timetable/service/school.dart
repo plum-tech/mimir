@@ -1,5 +1,7 @@
+import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/school/entity/school.dart';
+import 'package:sit/session/sis.dart';
 
 import '../entity/course.dart';
 import '../entity/timetable.dart';
@@ -7,9 +9,9 @@ import '../entity/timetable.dart';
 class TimetableService {
   static const _timetableUrl = 'http://jwxt.sit.edu.cn/jwglxt/kbcx/xskbcx_cxXsgrkb.html';
 
-  final ISession session;
+  SisSession get session => Init.sisSession;
 
-  TimetableService(this.session);
+  const TimetableService();
 
   /// 获取课表
   Future<SitTimetable> getTimetable(SchoolYear schoolYear, Semester semester) async {

@@ -1,11 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:sit/utils/cookies.dart';
 import 'package:sit/widgets/webview/page.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:sit/utils/cookies.dart';
 
 import '../init.dart';
 import '../i18n.dart';
@@ -57,7 +58,7 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
   Future<void> loadCookies() async {
     // refresh the cookies
     await ExamResultInit.service.session.request(evaluationUri.toString(), ReqMethod.get);
-    final cookies = await ExamResultInit.cookieJar.loadAsWebViewCookie(evaluationUri);
+    final cookies = await Init.cookieJar.loadAsWebViewCookie(evaluationUri);
     setState(() {
       this.cookies = cookies;
     });

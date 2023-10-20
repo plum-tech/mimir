@@ -2,6 +2,7 @@ import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:intl/intl.dart';
 import 'package:sit/credentials/entity/user_type.dart';
+import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/sso.dart';
@@ -14,9 +15,9 @@ final _departmentSplitRegex = RegExp(r'\s+');
 final _dateFormat = DateFormat('yyyy年MM月dd日 hh:mm');
 
 class OaAnnounceService {
-  final SsoSession session;
+  SsoSession get session => Init.ssoSession;
 
-  const OaAnnounceService(this.session);
+  const OaAnnounceService();
 
   List<OaAnnounceAttachment> _parseAttachment(Bs4Element element) {
     return element.find('#containerFrame > table')!.findAll('a').map((e) {

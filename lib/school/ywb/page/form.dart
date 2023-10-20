@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sit/init.dart';
 import 'package:sit/utils/cookies.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
-import '../init.dart';
 
 const ywbUrl = 'https://xgfy.sit.edu.cn';
 
@@ -24,7 +23,7 @@ class _YwbInAppViewPageState extends State<YwbInAppViewPage> {
   @override
   void initState() {
     super.initState();
-    YwbInit.cookieJar.loadAsWebViewCookie(Uri.parse(ywbUrl)).then((value) {
+    Init.cookieJar.loadAsWebViewCookie(Uri.parse(ywbUrl)).then((value) {
       cookies = value;
       for (final cookie in value) {
         cookieManager.setCookie(cookie);

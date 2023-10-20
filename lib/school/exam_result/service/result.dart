@@ -1,5 +1,6 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:sit/design/animation/progress.dart';
+import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/sis.dart';
@@ -24,9 +25,9 @@ class ExamResultService {
   static const _scoreFormSelector = 'td:nth-child(1)';
   static const _scorePercentageSelector = 'td:nth-child(3)';
   static const _scoreValueSelector = 'td:nth-child(5)';
-  final SisSession session;
+  SisSession get session => Init.sisSession;
 
-  const ExamResultService(this.session);
+  const ExamResultService();
 
   /// 获取成绩
   Future<List<ExamResult>> getResultList(

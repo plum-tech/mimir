@@ -96,7 +96,7 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
 
   Future<List<OaAnnounceRecord>> _queryAnnounceListInAllCategory(int page) async {
     // Make sure login.
-    await OaAnnounceInit.session.request('https://myportal.sit.edu.cn/', ReqMethod.get);
+    await OaAnnounceInit.service.session.request('https://myportal.sit.edu.cn/', ReqMethod.get);
 
     final service = OaAnnounceInit.service;
 

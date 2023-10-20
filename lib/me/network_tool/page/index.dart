@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:sit/init.dart';
 import 'package:sit/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
-import '../init.dart';
 import 'connected.dart';
 import 'disconnected.dart';
 
@@ -27,7 +27,7 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
     connectivityChecker = runPeriodically(const Duration(milliseconds: 3000), (Timer t) async {
       bool connected;
       try {
-        connected = await ConnectivityInit.ssoSession.checkConnectivity();
+        connected = await Init.ssoSession.checkConnectivity();
       } catch (err) {
         connected = false;
       }
