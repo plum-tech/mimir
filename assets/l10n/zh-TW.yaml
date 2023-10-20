@@ -322,9 +322,9 @@ expenseRecords:
   refreshSuccessTip: 消費記錄重新整理成功
   refreshFailedTip: 消費記錄重新整理失敗
   statsMode:
-    weekly: 周
-    monthly: 月
-    yearly: 年
+    week: 周
+    month: 月
+    year: 年
   view:
     balance: 卡內餘額
     rmb: 元

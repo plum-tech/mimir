@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/fab.dart';
-import 'package:sit/utils/url_launcher.dart';
 import 'package:sit/widgets/html.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../entity/details.dart';
 import '../init.dart';
@@ -69,7 +69,10 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
                 IconButton(
                   icon: const Icon(Icons.open_in_browser),
                   onPressed: () {
-                    launchUrlInBrowser(_getActivityUrl(activity.id));
+                    launchUrlString(
+                      _getActivityUrl(activity.id),
+                      mode: LaunchMode.externalApplication,
+                    );
                   },
                 )
               ],

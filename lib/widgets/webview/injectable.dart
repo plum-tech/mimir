@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/utils/logger.dart';
-import 'package:sit/utils/url_launcher.dart';
 import 'package:universal_platform/universal_platform.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 typedef JavaScriptMessageCallback = void Function(JavaScriptMessage msg);
@@ -143,7 +143,10 @@ class _InjectableWebViewState extends State<InjectableWebView> {
 
   void onResourceError(WebResourceError error) {
     if (error.description.startsWith('http')) {
-      launchUrlInBrowser(error.description);
+      launchUrlString(
+        error.description,
+        mode: LaunchMode.externalApplication,
+      );
       controller.goBack();
     }
   }

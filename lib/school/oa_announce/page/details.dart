@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/oa_announce/widget/article.dart';
-import 'package:sit/utils/url_launcher.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../entity/announce.dart';
 import '../init.dart';
@@ -74,7 +74,10 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
               actions: [
                 IconButton(
                   onPressed: () {
-                    launchUrlInBrowser(OaAnnounceService.getAnnounceUrl(widget.record.catalogId, widget.record.uuid));
+                    launchUrlString(
+                      OaAnnounceService.getAnnounceUrl(widget.record.catalogId, widget.record.uuid),
+                      mode: LaunchMode.externalApplication,
+                    );
                   },
                   icon: const Icon(Icons.open_in_browser),
                 ),

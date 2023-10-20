@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/l10n/common.dart';
 import 'package:sit/widgets/webview/injectable.dart';
-import 'package:sit/utils/url_launcher.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 // TODO: remove this
@@ -137,7 +137,10 @@ class _WebViewPageState extends State<WebViewPage> {
         ),
       if (widget.showOpenInBrowser)
         IconButton(
-          onPressed: () => launchUrlInBrowser(widget.initialUrl),
+          onPressed: () => launchUrlString(
+            widget.initialUrl,
+            mode: LaunchMode.externalApplication,
+          ),
           icon: const Icon(Icons.open_in_browser),
         ),
       ...?widget.otherActions,

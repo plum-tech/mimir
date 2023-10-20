@@ -72,7 +72,7 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
                           label: e.l10nName().text(),
                         ))
                     .toList(),
-                selected: <StatisticsMode>{StatisticsMode.weekly},
+                selected: <StatisticsMode>{StatisticsMode.week},
                 onSelectionChanged: (newSelection) {
                   setState(() {});
                 },
@@ -148,7 +148,7 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
     return result;
   }
 
-  static int _getDayCountOfMonth(int year, int month) {
+  static int getDayCountOfMonth(int year, int month) {
     final int daysFeb = (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) ? 29 : 28;
     List<int> days = [31, daysFeb, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     return days[month - 1];
@@ -157,7 +157,7 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
   Widget _buildChartView() {
     // TODO: take current month into account
     // 得到该年该月有多少天, 生成数组记录每一天的消费.
-    final List<double> daysAmount = List.filled(_getDayCountOfMonth(selectedYear, selectedMonth), 0.00);
+    final List<double> daysAmount = List.filled(getDayCountOfMonth(selectedYear, selectedMonth), 0.00);
     // 便利该月消费情况, 加到上述统计列表中.
     for (final record in records) {
       daysAmount[record.timestamp.day - 1] += record.deltaAmount;
@@ -170,6 +170,27 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
           values: daysAmount,
         ).padSymmetric(v: 12, h: 8),
       ),
+    );
+  }
+
+  Widget buildWeekChart(){
+    return BaseLineChartWidget(
+      bottomTitles: [],
+      values: [],
+    );
+  }
+
+  Widget buildMonthChart(){
+    return BaseLineChartWidget(
+      bottomTitles: [],
+      values: [],
+    );
+  }
+
+  Widget buildYearChart(){
+    return BaseLineChartWidget(
+      bottomTitles: [],
+      values: [],
     );
   }
 }
