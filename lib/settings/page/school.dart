@@ -58,7 +58,7 @@ class _SchoolSettingsPageState extends State<SchoolSettingsPage> {
   Widget buildClass2ndAutoRefreshToggle() {
     return StatefulBuilder(
       builder: (ctx, setState) => ListTile(
-        title: i18n.school.class2nd.autoRefreshTitle.text(),
+        title: i18n.school.class2nd.autoRefresh.text(),
         subtitle: i18n.school.class2nd.autoRefreshDesc.text(),
         leading: const Icon(Icons.refresh_outlined),
         trailing: Switch.adaptive(
@@ -76,7 +76,7 @@ class _SchoolSettingsPageState extends State<SchoolSettingsPage> {
   Widget buildExamResultShowDetailsToggle() {
     return StatefulBuilder(
       builder: (ctx, setState) => ListTile(
-        title: i18n.school.examResult.appCardShowResultDetailsTitle.text(),
+        title: i18n.school.examResult.appCardShowResultDetails.text(),
         subtitle: i18n.school.examResult.appCardShowResultDetailsDesc.text(),
         leading: const Icon(Icons.refresh_outlined),
         trailing: Switch.adaptive(

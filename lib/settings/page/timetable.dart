@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/timetable/page/background.dart';
 import 'package:sit/timetable/page/cell_style.dart';
 import '../i18n.dart';
 
@@ -37,6 +38,7 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
               const Divider(),
               buildCellStyle(),
               buildP13n(),
+              buildBackground(),
             ],
           ),
         ],
@@ -46,7 +48,7 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
 
   Widget buildAutoUseImportedToggle() {
     return ListTile(
-      title: i18n.timetable.autoUseImportedTitle.text(),
+      title: i18n.timetable.autoUseImported.text(),
       subtitle: i18n.timetable.autoUseImportedDesc.text(),
       leading: const Icon(Icons.auto_mode_outlined),
       trailing: Switch.adaptive(
@@ -63,7 +65,7 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
   Widget buildP13n() {
     return ListTile(
       leading: const Icon(Icons.color_lens_outlined),
-      title: i18n.timetable.paletteTitle.text(),
+      title: i18n.timetable.palette.text(),
       subtitle: i18n.timetable.paletteDesc.text(),
       trailing: const Icon(Icons.open_in_new),
       onTap: () async {
@@ -75,11 +77,22 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
   Widget buildCellStyle() {
     return ListTile(
       leading: const Icon(Icons.view_comfortable_outlined),
-      title: i18n.timetable.cellStyleTitle.text(),
+      title: i18n.timetable.cellStyle.text(),
       subtitle: i18n.timetable.cellStyleDesc.text(),
       trailing: const Icon(Icons.open_in_new),
       onTap: () async {
         await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
+      },
+    );
+  }
+  Widget buildBackground() {
+    return ListTile(
+      leading: const Icon(Icons.image_outlined),
+      title: i18n.timetable.background.text(),
+      subtitle: i18n.timetable.backgroundDesc.text(),
+      trailing: const Icon(Icons.open_in_new),
+      onTap: () async {
+        await context.show$Sheet$((ctx) => const TimetableBackgroundEditor());
       },
     );
   }

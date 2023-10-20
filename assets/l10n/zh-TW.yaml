@@ -439,6 +439,9 @@ settings:
     cellStyle:
       title: 編輯單元樣式
       desc: 課程單元看上去如何
+    background:
+      title: 桌布
+      desc: 課程表的背景
   school:
     title: 學校
     class2nd:

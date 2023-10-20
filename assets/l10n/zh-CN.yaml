@@ -439,6 +439,9 @@ settings:
     cellStyle:
       title: 编辑单元格风格
       desc: 课程单元格如何显示
+    background:
+      title: 壁纸
+      desc: 课程表的背景
   school:
     title: 学校
     class2nd:

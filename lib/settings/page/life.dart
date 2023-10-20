@@ -42,7 +42,7 @@ class _LifeSettingsPageState extends State<LifeSettingsPage> {
   Widget buildElectricityAutoRefreshToggle() {
     return StatefulBuilder(
       builder: (ctx, setState) => ListTile(
-        title: i18n.life.electricity.autoRefreshTitle.text(),
+        title: i18n.life.electricity.autoRefresh.text(),
         subtitle: i18n.life.electricity.autoRefreshDesc.text(),
         leading: const Icon(Icons.refresh_outlined),
         trailing: Switch.adaptive(
@@ -60,7 +60,7 @@ class _LifeSettingsPageState extends State<LifeSettingsPage> {
   Widget buildExpenseAutoRefreshToggle() {
     return StatefulBuilder(
       builder: (ctx, setState) => ListTile(
-        title: i18n.life.expense.autoRefreshTitle.text(),
+        title: i18n.life.expense.autoRefresh.text(),
         subtitle: i18n.life.expense.autoRefreshDesc.text(),
         leading: const Icon(Icons.refresh_outlined),
         trailing: Switch.adaptive(

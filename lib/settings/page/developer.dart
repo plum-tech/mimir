@@ -35,7 +35,7 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
             delegate: SliverChildListDelegate([
               buildDevModeToggle(),
               PageNavigationTile(
-                title: i18n.dev.localStorageTitle.text(),
+                title: i18n.dev.localStorage.text(),
                 subtitle: i18n.dev.localStorageDesc.text(),
                 icon: const Icon(Icons.storage),
                 path: "/settings/developer/local-storage",
@@ -68,7 +68,7 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
 
   Widget buildReload() {
     return ListTile(
-      title: i18n.dev.reloadTitle.text(),
+      title: i18n.dev.reload.text(),
       subtitle: i18n.dev.reloadDesc.text(),
       leading: const Icon(Icons.refresh_rounded),
       onTap: () async {

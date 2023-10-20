@@ -145,17 +145,21 @@ class _Timetable {
 
   String get title => "$ns.title".tr();
 
-  String get autoUseImportedTitle => "$ns.autoUseImported.title".tr();
+  String get autoUseImported => "$ns.autoUseImported.title".tr();
 
   String get autoUseImportedDesc => "$ns.autoUseImported.desc".tr();
 
-  String get paletteTitle => "$ns.palette.title".tr();
+  String get palette => "$ns.palette.title".tr();
 
   String get paletteDesc => "$ns.palette.desc".tr();
 
-  String get cellStyleTitle => "$ns.cellStyle.title".tr();
+  String get cellStyle => "$ns.cellStyle.title".tr();
 
   String get cellStyleDesc => "$ns.cellStyle.desc".tr();
+
+  String get background => "$ns.background.title".tr();
+
+  String get backgroundDesc => "$ns.background.desc".tr();
 }
 
 class _School {
@@ -173,7 +177,7 @@ class _Class2nd {
 
   const _Class2nd();
 
-  String get autoRefreshTitle => "$ns.autoRefresh.title".tr();
+  String get autoRefresh => "$ns.autoRefresh.title".tr();
 
   String get autoRefreshDesc => "$ns.autoRefresh.desc".tr();
 }
@@ -183,7 +187,7 @@ class _ExamResult {
 
   const _ExamResult();
 
-  String get appCardShowResultDetailsTitle => "$ns.appCardShowResultDetails.title".tr();
+  String get appCardShowResultDetails => "$ns.appCardShowResultDetails.title".tr();
 
   String get appCardShowResultDetailsDesc => "$ns.appCardShowResultDetails.desc".tr();
 }
@@ -203,7 +207,7 @@ class _Electricity {
 
   const _Electricity();
 
-  String get autoRefreshTitle => "$ns.autoRefresh.title".tr();
+  String get autoRefresh => "$ns.autoRefresh.title".tr();
 
   String get autoRefreshDesc => "$ns.autoRefresh.desc".tr();
 }
@@ -213,7 +217,7 @@ class _Expense {
 
   const _Expense();
 
-  String get autoRefreshTitle => "$ns.autoRefresh.title".tr();
+  String get autoRefresh => "$ns.autoRefresh.title".tr();
 
   String get autoRefreshDesc => "$ns.autoRefresh.desc".tr();
 }
@@ -229,15 +233,15 @@ class _DevOptions {
 
   String get devMode => "$ns.devMode.title".tr();
 
-  String get reloadTitle => "$ns.reload.title".tr();
+  String get reload => "$ns.reload.title".tr();
 
   String get reloadDesc => "$ns.reload.desc".tr();
 
-  String get localStorageTitle => "$ns.localStorage.title".tr();
+  String get localStorage => "$ns.localStorage.title".tr();
 
   String get localStorageDesc => "$ns.localStorage.desc".tr();
 
-  String get detailedXcpDialogTitle => "$ns.detailedXcpDialog.title".tr();
+  String get detailedXcpDialog => "$ns.detailedXcpDialog.title".tr();
 
   String get detailedXcpDialogDesc => "$ns.detailedXcpDialog.desc".tr();
 }

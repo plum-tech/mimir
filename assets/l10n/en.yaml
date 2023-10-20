@@ -434,11 +434,14 @@ settings:
       title: Auto-use imported
       desc: Use the timetable just imported
     palette:
-      title: Palette
-      desc: Customize the timetable palette
+      title: Palettes
+      desc: Customize timetable colors
     cellStyle:
       title: Edit cell style
       desc: How course cell looks like
+    background:
+      title: Wallpaper
+      desc: The background of timetable
   school:
     title: School
     class2nd:
