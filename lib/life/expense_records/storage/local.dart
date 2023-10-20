@@ -44,6 +44,12 @@ class ExpenseStorage {
 }
 
 extension ExpenseStorageX on ExpenseStorage {
+  void clearIndex() {
+    transactionTsList = null;
+    lastFetchedTs = null;
+    latestTransaction = null;
+  }
+
   /// Gets the transaction timestamps in range of start to end.
   /// [start] is inclusive.
   /// [end] is exclusive.
