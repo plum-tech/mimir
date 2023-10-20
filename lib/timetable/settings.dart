@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sit/timetable/entity/background.dart';
 
 import 'widgets/style.dart';
 
@@ -12,6 +15,7 @@ const _kAlpha = 1.0;
 class _K {
   static const ns = "/timetable";
   static const autoUseImported = "$ns/autoUseImported";
+  static const backgroundImage = "$ns/backgroundImage";
 }
 
 class TimetableSettings {
@@ -24,6 +28,16 @@ class TimetableSettings {
   bool get autoUseImported => box.get(_K.autoUseImported) ?? _kAutoUseImported;
 
   set autoUseImported(bool newV) => box.put(_K.autoUseImported, newV);
+
+  BackgroundImage? get backgroundImage {
+    final json = box.get(_K.backgroundImage);
+    if (json == null) return null;
+    return BackgroundImage.fromJson(jsonDecode(json));
+  }
+
+  set backgroundImage(BackgroundImage? newV) {
+    box.put(_K.backgroundImage, newV == null ? null : jsonEncode(newV.toJson()));
+  }
 }
 
 class _CellK {

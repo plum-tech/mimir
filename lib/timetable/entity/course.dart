@@ -50,7 +50,7 @@ class CourseRaw {
 
   factory CourseRaw.fromJson(Map<String, dynamic> json) => _$CourseRawFromJson(json);
 
-  CourseRaw({
+  const CourseRaw({
     required this.courseName,
     required this.weekDayText,
     required this.timeslotsText,

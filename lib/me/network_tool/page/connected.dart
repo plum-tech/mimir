@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:check_vpn_connection/check_vpn_connection.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:sit/design/widgets/connectivity_checker.dart';
+import 'package:sit/network/connectivity_checker.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';

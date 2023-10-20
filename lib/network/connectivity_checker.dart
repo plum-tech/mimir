@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:check_vpn_connection/check_vpn_connection.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/design/animation/animated.dart';
@@ -139,7 +138,10 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
     };
     return PlatformTextButton(
       onPressed: onTap,
-      child: tip.text(key: ValueKey(status)),
+      child: tip.text(
+        key: ValueKey(status),
+        style: TextStyle(fontSize: context.textTheme.titleMedium?.fontSize),
+      ),
     );
   }
 

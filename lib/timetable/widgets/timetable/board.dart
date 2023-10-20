@@ -31,16 +31,16 @@ class TimetableBoard extends StatelessWidget {
     ].stack();
   }
 
-  Widget buildBoard(){
+  Widget buildBoard() {
     return $displayMode >>
-            (ctx, mode) => mode == DisplayMode.daily
+        (ctx, mode) => mode == DisplayMode.daily
             ? DailyTimetable(
-          $currentPos: $currentPos,
-          timetable: timetable,
-        )
+                $currentPos: $currentPos,
+                timetable: timetable,
+              )
             : WeeklyTimetable(
-          $currentPos: $currentPos,
-          timetable: timetable,
-        );
+                $currentPos: $currentPos,
+                timetable: timetable,
+              );
   }
 }

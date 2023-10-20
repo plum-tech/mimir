@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/animation/animated.dart';
-import 'package:sit/design/widgets/connectivity_checker.dart';
+import 'package:sit/network/connectivity_checker.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/utils.dart';
