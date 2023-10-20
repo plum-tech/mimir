@@ -101,14 +101,14 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
     super.initState();
     $palette.addListener(refreshPalette);
     $cellStyle.addListener(refreshCellStyle);
-    $cellStyle.addListener(refreshBackground);
+    $background.addListener(refreshBackground);
   }
 
   @override
   void dispose() {
     $palette.removeListener(refreshPalette);
     $cellStyle.removeListener(refreshCellStyle);
-    $cellStyle.removeListener(refreshBackground);
+    $background.removeListener(refreshBackground);
     super.dispose();
   }
 

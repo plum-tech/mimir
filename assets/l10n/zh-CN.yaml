@@ -123,8 +123,9 @@ timetable:
       harmonize:
         title: 与主题色相协调
         desc: 将单元格颜色与主题色混合
-      alpha:
-        title: 单元格 alpha 通道
+      alpha: 单元格 alpha 通道
+    background:
+      opacity: 背景不透明度
     livePreview:
       0:
         name: 上过的

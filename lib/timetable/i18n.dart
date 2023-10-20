@@ -61,6 +61,7 @@ class _P13n {
   static const ns = "${_I18n.ns}.p13n";
   final cell = const _CellStyle();
   final palette = const _Palette();
+  final background = const _Background();
 
   String get title => "$ns.title".tr();
 
@@ -96,7 +97,7 @@ class _CellStyle {
 
   String get harmonizeDesc => "$ns.harmonize.desc".tr();
 
-  String get alphaTitle => "$ns.alpha.title".tr();
+  String get alpha => "$ns.alpha".tr();
 }
 
 class _Palette {
@@ -141,6 +142,16 @@ class _Palette {
   String get colorCopyTip => "$ns.colorCopyTip".tr();
 
   String get details => "$ns.details".tr();
+}
+
+class _Background {
+  const _Background();
+
+  static const ns = "${_P13n.ns}.background";
+
+  String get title => "$ns.title".tr();
+
+  String get opacity => "$ns.opacity".tr();
 }
 
 class _Details {

@@ -52,6 +52,11 @@ class TimetableBoard extends StatelessWidget {
   }
 
   Widget buildBackground(BackgroundImage bk) {
-    return Image.file(File(bk.path));
+    return Image.file(
+      File(bk.path),
+      opacity: AlwaysStoppedAnimation(
+        bk.opacity,
+      ),
+    );
   }
 }

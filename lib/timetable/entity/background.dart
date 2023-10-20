@@ -18,6 +18,16 @@ class BackgroundImage {
 
   Map<String, dynamic> toJson() => _$BackgroundImageToJson(this);
 
+  BackgroundImage copyWith({
+    String? path,
+    double? opacity,
+  }) {
+    return BackgroundImage(
+      path: path ?? this.path,
+      opacity: opacity ?? this.opacity,
+    );
+  }
+
   @override
   String toString() {
     return toJson().toString();

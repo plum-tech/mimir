@@ -123,7 +123,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
     return ListTile(
       isThreeLine: true,
       leading: const Icon(Icons.invert_colors),
-      title: i18n.p13n.cell.alphaTitle.text(),
+      title: i18n.p13n.cell.alpha.text(),
       subtitle: Slider(
         min: 0.0,
         max: 1.0,
