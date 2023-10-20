@@ -96,7 +96,7 @@ class _TimetableBackgroundState extends State<TimetableBackground> with SingleTi
     return Image.file(
       File(bk.path),
       opacity: $opacity,
-      filterQuality: bk.antialias ? FilterQuality.high : FilterQuality.none,
+      filterQuality: bk.antialias ? FilterQuality.low : FilterQuality.none,
       repeat: bk.repeat ? ImageRepeat.repeat : ImageRepeat.noRepeat,
     );
   }

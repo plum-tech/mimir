@@ -92,11 +92,13 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
   Widget buildImage(BackgroundImage bk) {
     return OutlinedCard(
       clip: Clip.hardEdge,
-      child: Image.file(
-        File(bk.path),
-        opacity: $opacity,
-        height: context.mediaQuery.size.height / 3,
-        filterQuality: bk.antialias ? FilterQuality.high : FilterQuality.none,
+      child: InteractiveViewer(
+        child: Image.file(
+          File(bk.path),
+          opacity: $opacity,
+          height: context.mediaQuery.size.height / 3,
+          filterQuality: bk.antialias ? FilterQuality.low : FilterQuality.none,
+        ),
       ).inkWell(
         onTap: pickImage,
       ),
