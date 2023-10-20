@@ -17,10 +17,12 @@ import '../i18n.dart';
 import '../init.dart';
 
 class TimetablePaletteEditor extends StatefulWidget {
+  final int id;
   final TimetablePalette palette;
 
   const TimetablePaletteEditor({
     super.key,
+    required this.id,
     required this.palette,
   });
 
@@ -98,7 +100,9 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
                     PlatformTextButton(
                       child: i18n.save.text(),
                       onPressed: () {
-                        context.navigator.pop(buildPalette());
+                        final palette = buildPalette();
+                        TimetableInit.storage.palette[widget.id] = palette;
+                        context.navigator.pop(palette);
                       },
                     ),
                   ],

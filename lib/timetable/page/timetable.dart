@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -12,7 +11,6 @@ import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/r.dart';
-import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/page/screenshot.dart';
 
 import '../entity/display.dart';
@@ -149,8 +147,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
             title: i18n.p13n.cell.title.text(),
             onTap: () async {
               ctx.pop();
-              final cellStyle = await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
-              Settings.timetable.cell.cellStyle = cellStyle;
+              await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
             },
           ),
         ),

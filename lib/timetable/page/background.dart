@@ -33,6 +33,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> {
               PlatformTextButton(
                 child: i18n.save.text(),
                 onPressed: () async {
+                  Settings.timetable.backgroundImage = background;
                   context.pop(background);
                 },
               ),

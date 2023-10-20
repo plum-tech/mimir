@@ -211,12 +211,10 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
             type: EntryActionType.edit,
             oneShot: true,
             action: () async {
-              final newPalette = await ctx.push<TimetablePalette>(
+              await ctx.push<TimetablePalette>(
                 "/timetable/p13n/palette/$id",
                 extra: palette.copyWith(),
               );
-              if (newPalette == null) return;
-              TimetableInit.storage.palette[id] = newPalette;
             },
           ),
         if (selectedTimetable != null && palette.colors.isNotEmpty)

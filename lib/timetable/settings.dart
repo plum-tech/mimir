@@ -38,6 +38,8 @@ class TimetableSettings {
   set backgroundImage(BackgroundImage? newV) {
     box.put(_K.backgroundImage, newV == null ? null : jsonEncode(newV.toJson()));
   }
+
+  ValueListenable listenBackgroundImage() => box.listenable(keys: [_K.backgroundImage]);
 }
 
 class _CellK {

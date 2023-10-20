@@ -33,7 +33,9 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
               PlatformTextButton(
                 child: i18n.save.text(),
                 onPressed: () async {
-                  context.pop(buildCellStyle());
+                  final cellStyle = buildCellStyle();
+                  Settings.timetable.cell.cellStyle = cellStyle;
+                  context.pop(cellStyle);
                 },
               ),
             ],

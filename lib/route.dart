@@ -137,12 +137,12 @@ final router = GoRouter(
                         path: "palette/:id",
                         builder: (ctx, state) {
                           final extra = state.extra;
-                          if (extra is TimetablePalette) return TimetablePaletteEditor(palette: extra);
                           final id = int.tryParse(state.pathParameters["id"] ?? "");
                           if (id == null) throw 404;
+                          if (extra is TimetablePalette) return TimetablePaletteEditor(id: id, palette: extra);
                           final palette = TimetableInit.storage.palette[id];
                           if (palette == null) throw 404;
-                          return TimetablePaletteEditor(palette: palette);
+                          return TimetablePaletteEditor(id: id, palette: palette);
                         }),
                   ],
                 ),

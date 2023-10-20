@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/timetable/entity/background.dart';
+import 'package:sit/timetable/widgets/style.dart';
 
 import '../../entity/display.dart';
 import '../../entity/pos.dart';
@@ -23,12 +27,15 @@ class TimetableBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: background
+    final style = TimetableStyle.of(context);
+    final background = style.background;
+    if (background != null) {
+      return [
+        buildBackground(background).center(),
+        buildBoard(),
+      ].stack();
+    }
     return buildBoard();
-    return [
-      FlutterLogo(size: 512).center(),
-      buildBoard(),
-    ].stack();
   }
 
   Widget buildBoard() {
@@ -42,5 +49,9 @@ class TimetableBoard extends StatelessWidget {
                 $currentPos: $currentPos,
                 timetable: timetable,
               );
+  }
+
+  Widget buildBackground(BackgroundImage bk) {
+    return Image.file(File(bk.path));
   }
 }

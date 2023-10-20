@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/entity/email.dart';
+import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/design/adaptive/editor.dart';
 
 import 'entity/login_status.dart';
@@ -30,5 +31,6 @@ class CredentialInit {
           ctor: (values) => EmailCredentials(address: values[0], password: values[1]),
         ));
     EditorEx.registerEnumEditor(LoginStatus.values);
+    EditorEx.registerEnumEditor(OaUserType.values);
   }
 }

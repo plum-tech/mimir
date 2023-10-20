@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:sit/timetable/entity/background.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/platte.dart';
 
@@ -36,10 +37,12 @@ class CourseCellStyle {
 class TimetableStyleData {
   final TimetablePalette platte;
   final CourseCellStyle cell;
+  final BackgroundImage? background;
 
   const TimetableStyleData({
     required this.platte,
     required this.cell,
+    this.background,
   });
 
   @override
@@ -48,6 +51,7 @@ class TimetableStyleData {
     return other is TimetableStyleData &&
         runtimeType == other.runtimeType &&
         platte == other.platte &&
+        background == other.background &&
         cell == other.cell;
   }
 }
@@ -87,20 +91,24 @@ class TimetableStyleProv extends StatefulWidget {
 class TimetableStyleProvState extends State<TimetableStyleProv> {
   final $palette = TimetableInit.storage.palette.$selected;
   final $cellStyle = Settings.timetable.cell.listenStyle();
+  final $background = Settings.timetable.listenBackgroundImage();
   var palette = TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic;
   var cellStyle = Settings.timetable.cell.cellStyle;
+  var background = Settings.timetable.backgroundImage;
 
   @override
   void initState() {
     super.initState();
     $palette.addListener(refreshPalette);
     $cellStyle.addListener(refreshCellStyle);
+    $cellStyle.addListener(refreshBackground);
   }
 
   @override
   void dispose() {
     $palette.removeListener(refreshPalette);
     $cellStyle.removeListener(refreshCellStyle);
+    $cellStyle.removeListener(refreshBackground);
     super.dispose();
   }
 
@@ -116,11 +124,18 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
     });
   }
 
+  void refreshBackground() {
+    setState(() {
+      background = Settings.timetable.backgroundImage;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final data = TimetableStyleData(
       platte: palette,
       cell: cellStyle,
+      background: background,
     );
     return TimetableStyle(
       data: data,
