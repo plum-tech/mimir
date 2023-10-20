@@ -13,10 +13,10 @@ class CourseCellStyle {
   final double alpha;
 
   const CourseCellStyle({
-    required this.showTeachers,
-    required this.grayOutTakenLessons,
-    required this.harmonizeWithThemeColor,
-    required this.alpha,
+    this.showTeachers = true,
+    this.grayOutTakenLessons = false,
+    this.harmonizeWithThemeColor = true,
+    this.alpha = 1.0,
   });
 
   CourseCellStyle copyWith({
@@ -40,8 +40,8 @@ class TimetableStyleData {
   final BackgroundImage? background;
 
   const TimetableStyleData({
-    required this.platte,
-    required this.cell,
+    this.platte = BuiltinTimetablePalettes.classic,
+    this.cell = const CourseCellStyle(),
     this.background,
   });
 
@@ -53,6 +53,18 @@ class TimetableStyleData {
         platte == other.platte &&
         background == other.background &&
         cell == other.cell;
+  }
+
+  TimetableStyleData copyWith({
+    TimetablePalette? platte,
+    CourseCellStyle? cell,
+    BackgroundImage? background,
+  }) {
+    return TimetableStyleData(
+      platte: platte ?? this.platte,
+      cell: cell ?? this.cell,
+      background: background ?? this.background,
+    );
   }
 }
 
@@ -69,6 +81,11 @@ class TimetableStyle extends InheritedWidget {
     final TimetableStyle? result = context.dependOnInheritedWidgetOfExactType<TimetableStyle>();
     assert(result != null, 'No TimetableStyle found in context');
     return result!.data;
+  }
+
+  static TimetableStyleData? maybeOf(BuildContext context) {
+    final TimetableStyle? result = context.dependOnInheritedWidgetOfExactType<TimetableStyle>();
+    return result?.data;
   }
 
   @override

@@ -31,7 +31,9 @@ class TimetableBoard extends StatelessWidget {
     final background = style.background;
     if (background != null) {
       return [
-        TimetableBackground(background: background),
+        Positioned.fill(
+          child: TimetableBackground(background: background),
+        ),
         buildBoard(),
       ].stack();
     }
@@ -91,13 +93,11 @@ class _TimetableBackgroundState extends State<TimetableBackground> with SingleTi
   @override
   Widget build(BuildContext context) {
     final bk = widget.background;
-    return Positioned.fill(
-      child: Image.file(
-        File(bk.path),
-        opacity: $opacity,
-        filterQuality: bk.antialias ? FilterQuality.high : FilterQuality.none,
-        repeat: bk.repeat ? ImageRepeat.repeat : ImageRepeat.noRepeat,
-      ),
+    return Image.file(
+      File(bk.path),
+      opacity: $opacity,
+      filterQuality: bk.antialias ? FilterQuality.high : FilterQuality.none,
+      repeat: bk.repeat ? ImageRepeat.repeat : ImageRepeat.noRepeat,
     );
   }
 }

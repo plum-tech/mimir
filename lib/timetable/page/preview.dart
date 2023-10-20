@@ -59,19 +59,20 @@ class _TimetablePreviewPageState extends State<TimetablePreviewPage> {
   }
 
   Widget buildBody() {
-    final style = widget.style;
-    if (style != null) {
-      return TimetableStyle(data: style, child: buildBoard());
-    } else {
-      return TimetableStyleProv(builder: (ctx, style) => buildBoard());
-    }
-  }
-
-  Widget buildBoard() {
-    return TimetableBoard(
-      timetable: timetable,
-      $displayMode: $displayMode,
-      $currentPos: $currentPos,
-    );
+    final override = widget.style;
+    return TimetableStyleProv(builder: (ctx, style) {
+      return TimetableStyle(
+        data: style.copyWith(
+          platte: override?.platte,
+          background: override?.background,
+          cell: override?.cell,
+        ),
+        child: TimetableBoard(
+          timetable: timetable,
+          $displayMode: $displayMode,
+          $currentPos: $currentPos,
+        ),
+      );
+    });
   }
 }

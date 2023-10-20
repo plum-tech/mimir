@@ -229,7 +229,6 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
                     timetable: selectedTimetable,
                     style: TimetableStyleData(
                       platte: palette,
-                      cell: Settings.timetable.cell.cellStyle,
                     ),
                   ),
                 ),

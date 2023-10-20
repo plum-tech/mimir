@@ -90,7 +90,6 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
                                 timetable: selectedTimetable,
                                 style: TimetableStyleData(
                                   platte: buildPalette(),
-                                  cell: Settings.timetable.cell.cellStyle,
                                 ),
                               ),
                             ),
