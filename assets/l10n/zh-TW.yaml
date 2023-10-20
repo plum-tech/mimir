@@ -59,9 +59,13 @@ timetable:
       desc: "提前 {duration}"
   screenshot:
     screenshot: 螢幕截圖
-    title: 螢幕截圖選項
+    take: 截圖
+    title: 螢幕截圖
     signature: 簽名
     signaturePlaceholder: 你的名稱
+    enableBackground:
+      title: 顯示桌布
+      desc: 在螢幕截圖中顯示課程表桌布
   displayMode:
     daily: 日
     weekly: 周

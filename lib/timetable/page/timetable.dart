@@ -1,16 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:open_file/open_file.dart';
-import 'package:path/path.dart' show join;
-import 'package:screenshot/screenshot.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/r.dart';
 import 'package:sit/timetable/page/screenshot.dart';
 
 import '../entity/display.dart';
@@ -19,7 +13,6 @@ import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
 import '../entity/pos.dart';
-import '../widgets/style.dart';
 import '../widgets/timetable/board.dart';
 import 'background.dart';
 import 'cell_style.dart';
@@ -137,7 +130,11 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
             title: i18n.screenshot.screenshot.text(),
             onTap: () async {
               ctx.pop();
-              await takeTimetableScreenshot();
+              await takeTimetableScreenshot(
+                context: context,
+                timetable: timetable,
+                weekIndex: $currentPos.value.weekIndex,
+              );
             },
           ),
         ),
@@ -163,47 +160,6 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         ),
       ],
     );
-  }
-
-  Future<void> takeTimetableScreenshot() async {
-    final config = await context.show$Sheet$<TimetableScreenshotConfig>((ctx) => TimetableScreenshotConfigEditor(
-          timetable: timetable,
-          initialGrayOutTakenLessons: TimetableStyle.of(context).cell.grayOutTakenLessons,
-        ));
-    if (config == null) return;
-    if (!mounted) return;
-    var fullSize = context.mediaQuery.size;
-    fullSize = Size(fullSize.width, fullSize.height);
-    final screenshotController = ScreenshotController();
-    final screenshot = await screenshotController.captureFromLongWidget(
-      InheritedTheme.captureAll(
-        context,
-        MediaQuery(
-          data: MediaQueryData(size: fullSize),
-          child: Material(
-            child: TimetableStyleProv(
-              child: TimetableWeeklyScreenshotFilm(
-                config: config,
-                timetable: timetable,
-                weekIndex: $currentPos.value.weekIndex,
-                fullSize: fullSize,
-              ),
-            ),
-          ),
-        ),
-      ),
-      delay: const Duration(milliseconds: 100),
-      context: context,
-      pixelRatio: View.of(context).devicePixelRatio,
-    );
-    final imgFi = await File(join(R.tmpDir, "screenshot.png")).create();
-    await imgFi.writeAsBytes(screenshot);
-
-    await OpenFile.open(imgFi.path, type: "image/png");
-
-    // await Share.shareXFiles(
-    //   [XFile(imgFi.path, mimeType: "image/png")],
-    // );
   }
 
   Future<void> selectWeeklyTimetablePageToJump() async {

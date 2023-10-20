@@ -181,13 +181,19 @@ class _Screenshot {
 
   static const ns = "${_I18n.ns}.screenshot";
 
+  String get title => "$ns.title".tr();
+
   String get screenshot => "$ns.screenshot".tr();
 
-  String get title => "$ns.title".tr();
+  String get take => "$ns.take".tr();
 
   String get signature => "$ns.signature".tr();
 
   String get signaturePlaceholder => "$ns.signaturePlaceholder".tr();
+
+  String get enableBackground => "$ns.enableBackground.title".tr();
+
+  String get enableBackgroundDesc => "$ns.enableBackground.desc".tr();
 }
 
 class _Import {

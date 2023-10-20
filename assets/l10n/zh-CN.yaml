@@ -59,9 +59,13 @@ timetable:
       desc: "提前 {duration}"
   screenshot:
     screenshot: 截图
-    title: 截图选项
+    take: 截图
+    title: 截图
     signature: 签名
     signaturePlaceholder: 你的名字
+    enableBackground:
+      title: 显示壁纸
+      desc: 在截图中显示课程表壁纸
   displayMode:
     daily: 日
     weekly: 周
