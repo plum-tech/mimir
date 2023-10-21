@@ -30,7 +30,7 @@ class ElectricityBalanceCard extends StatelessWidget {
         titleTextStyle: context.textTheme.titleMedium,
         title: i18n.remainingPower.text(),
         trailing: powerText == null
-            ? const LimitedBox(maxWidth: 8, maxHeight: 8, child: CircularProgressIndicator())
+            ? const LimitedBox(maxWidth: 8, maxHeight: 8, child: CircularProgressIndicator.adaptive())
             : powerText.text(style: context.textTheme.titleMedium),
       ),
       ListTile(
@@ -38,7 +38,7 @@ class ElectricityBalanceCard extends StatelessWidget {
         titleTextStyle: context.textTheme.titleMedium?.copyWith(color: balanceColor),
         title: i18n.balance.text(),
         trailing: balanceText == null
-            ? const LimitedBox(maxWidth: 8, maxHeight: 8, child: CircularProgressIndicator())
+            ? const LimitedBox(maxWidth: 8, maxHeight: 8, child: CircularProgressIndicator.adaptive())
             : balanceText.text(style: context.textTheme.titleMedium?.copyWith(color: balanceColor)),
       ),
     ].column(maa: MainAxisAlignment.spaceEvenly).inCard();

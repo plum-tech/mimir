@@ -131,7 +131,7 @@ class _AsyncGroupSectionState<T> extends State<AsyncGroupSection<T>> {
                 await fetchData();
               },
               trailing: isFetching
-                  ? const CircularProgressIndicator()
+                  ? const CircularProgressIndicator.adaptive()
                   : expanded
                       ? const Icon(Icons.expand_less)
                       : const Icon(Icons.expand_more),

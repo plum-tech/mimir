@@ -105,7 +105,7 @@ class _ImageViewState extends State<ImageView> {
           final current = loadingProgress.cumulativeBytesLoaded;
           final total = loadingProgress.expectedTotalBytes;
           if (total == null || total == 0) {
-            return const CircularProgressIndicator();
+            return const CircularProgressIndicator.adaptive();
           } else {
             return CircularProgressIndicator(value: current / total);
           }

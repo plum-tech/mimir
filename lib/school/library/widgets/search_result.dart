@@ -106,7 +106,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> {
       context.showSnackBar(
           Row(
             children: [
-              const CircularProgressIndicator(),
+              const CircularProgressIndicator.adaptive(),
               const SizedBox(
                 width: 15,
               ),
@@ -234,7 +234,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> {
         Expanded(
           child: firstPageLoaded
               ? (dataList.isEmpty ? buildNotFound() : buildListView())
-              : const CircularProgressIndicator(),
+              : const CircularProgressIndicator.adaptive(),
         ),
       ],
     );

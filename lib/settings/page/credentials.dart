@@ -125,7 +125,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
       subtitle: i18n.credentials.testLoginOaDesc.text(),
       leading: const Icon(Icons.login),
       trailing: switch (loggingState) {
-        _TestLoginState.loggingIn => const CircularProgressIndicator(),
+        _TestLoginState.loggingIn => const CircularProgressIndicator.adaptive(),
         _TestLoginState.success => const Icon(Icons.check, color: Colors.green),
         _ => null,
       },

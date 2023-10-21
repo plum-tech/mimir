@@ -40,7 +40,7 @@ class _YwbInAppViewPageState extends State<YwbInAppViewPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: cookies == null ? const CircularProgressIndicator() : buildWebPage(cookies),
+      body: cookies == null ? const CircularProgressIndicator.adaptive() : buildWebPage(cookies),
     );
   }
 

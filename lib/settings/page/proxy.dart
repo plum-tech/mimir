@@ -304,7 +304,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
       title: i18n.proxy.testConnection.text(),
       subtitle: i18n.proxy.testConnectionDesc.text(),
       trailing: switch (testState) {
-        _TestConnectionState.testing => const CircularProgressIndicator(),
+        _TestConnectionState.testing => const CircularProgressIndicator.adaptive(),
         _TestConnectionState.success => const Icon(Icons.check, color: Colors.green),
         _TestConnectionState.failed => Icon(Icons.public_off_rounded, color: context.$red$),
         _ => null,
