@@ -80,7 +80,7 @@ dependencies:
   flutter_html: ^3.0.0-beta.2
 
   # Email
-  enough_mail: ^2.1.1
+  enough_mail: ^2.1.3
   enough_mail_html: ^2.0.0
 
   # Settings
@@ -88,7 +88,7 @@ dependencies:
 
   # Platform
   # Android / iOS / Windows Permission
-  permission_handler: ^11.0.0
+  permission_handler: ^11.0.1
   # Android / iOS Home screen quick actions
   quick_actions: ^1.0.6
 
@@ -117,7 +117,7 @@ dependencies:
   text_scroll: ^0.2.0
   markdown: ^7.1.1
   animations: ^2.0.8
-  dynamic_color: ^1.6.6
+  dynamic_color: ^1.6.8
   unicons: ^2.1.1
   sliver_tools: ^0.2.12
   flutter_staggered_grid_view: ^0.7.0
