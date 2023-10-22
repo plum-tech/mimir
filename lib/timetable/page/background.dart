@@ -37,6 +37,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
 
   @override
   Widget build(BuildContext context) {
+    final old = Settings.timetable.backgroundImage ?? const BackgroundImage.disabled();
     final background = this.background;
     return Scaffold(
       body: CustomScrollView(
@@ -45,26 +46,22 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
             floating: true,
             title: i18n.p13n.background.title.text(),
             actions: [
-              PlatformTextButton(
-                child: i18n.delete.text(style: TextStyle(color: context.$red$)),
-                onPressed: () async {
-                  setState(() {
-                    this.background = const BackgroundImage.disabled();
-                  });
-                },
-              ),
-              if (background != Settings.timetable.backgroundImage)
+              if (background.enabled)
+                PlatformTextButton(
+                  onPressed: () async {
+                    setState(() {
+                      this.background = const BackgroundImage.disabled();
+                    });
+                  },
+                  child: i18n.delete.text(style: TextStyle(color: context.$red$)),
+                ),
+              if (background != old)
                 PlatformTextButton(
                   child: i18n.save.text(),
                   onPressed: () async {
                     Settings.timetable.backgroundImage = background;
                     context.pop(background);
                   },
-                )
-              else
-                PlatformTextButton(
-                  onPressed: pickImage,
-                  child: i18n.pick.text(),
                 ),
             ],
           ),

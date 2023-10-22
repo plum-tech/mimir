@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:quiver/core.dart';
 
 part 'background.g.dart';
 
@@ -31,6 +32,20 @@ class BackgroundImage {
   factory BackgroundImage.fromJson(Map<String, dynamic> json) => _$BackgroundImageFromJson(json);
 
   Map<String, dynamic> toJson() => _$BackgroundImageToJson(this);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is BackgroundImage &&
+            runtimeType == other.runtimeType &&
+            path == other.path &&
+            opacity == other.opacity &&
+            repeat == other.repeat &&
+            antialias == other.antialias;
+  }
+
+  @override
+  int get hashCode => hash4(path, opacity, repeat, antialias);
 
   BackgroundImage copyWith({
     String? path,
