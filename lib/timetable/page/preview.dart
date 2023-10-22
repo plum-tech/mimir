@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:text_scroll/text_scroll.dart';
 
+import '../entity/background.dart';
 import '../entity/display.dart';
+import '../entity/platte.dart';
 import '../entity/timetable.dart';
 import '../widgets/style.dart';
 import '../entity/pos.dart';
@@ -9,12 +11,16 @@ import '../widgets/timetable/board.dart';
 
 class TimetablePreviewPage extends StatefulWidget {
   final SitTimetable timetable;
-  final TimetableStyleData? style;
+  final TimetablePalette? platte;
+  final CourseCellStyle? cell;
+  final BackgroundImage? background;
 
   const TimetablePreviewPage({
     super.key,
     required this.timetable,
-    this.style,
+    this.platte,
+    this.cell,
+    this.background,
   });
 
   @override
@@ -59,20 +65,17 @@ class _TimetablePreviewPageState extends State<TimetablePreviewPage> {
   }
 
   Widget buildBody() {
-    final override = widget.style;
-    return TimetableStyleProv(builder: (ctx, style) {
-      return TimetableStyle(
-        data: style.copyWith(
-          platte: override?.platte,
-          background: override?.background,
-          cell: override?.cell,
-        ),
-        child: TimetableBoard(
+    return TimetableStyleProv(
+      palette: widget.platte,
+      background: widget.background,
+      cellStyle: widget.cell,
+      builder: (ctx, style) {
+        return TimetableBoard(
           timetable: timetable,
           $displayMode: $displayMode,
           $currentPos: $currentPos,
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }

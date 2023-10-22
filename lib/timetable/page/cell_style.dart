@@ -42,12 +42,8 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
           ),
           SliverToBoxAdapter(
             child: TimetableStyleProv(
-              builder: (ctx, style) {
-                return TimetableP13nLivePreview(
-                  cellStyle: buildCellStyle(),
-                  palette: style.platte,
-                );
-              },
+              cellStyle: buildCellStyle(),
+              child: const TimetableP13nLivePreview(),
             ),
           ),
           SliverList.list(children: [

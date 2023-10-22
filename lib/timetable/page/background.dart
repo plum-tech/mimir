@@ -20,13 +20,13 @@ class TimetableBackgroundEditor extends StatefulWidget {
 }
 
 class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> with SingleTickerProviderStateMixin {
-  BackgroundImage? background = Settings.timetable.backgroundImage;
+  var background = Settings.timetable.backgroundImage ?? const BackgroundImage.disabled();
   late final AnimationController $opacity;
 
   @override
   void initState() {
     super.initState();
-    $opacity = AnimationController(vsync: this, value: background?.opacity ?? 1.0);
+    $opacity = AnimationController(vsync: this, value: background.opacity);
   }
 
   @override
@@ -45,15 +45,14 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
             floating: true,
             title: i18n.p13n.background.title.text(),
             actions: [
-              if (background != null)
-                PlatformTextButton(
-                  child: i18n.delete.text(style: TextStyle(color: context.$red$)),
-                  onPressed: () async {
-                    setState(() {
-                      this.background = null;
-                    });
-                  },
-                ),
+              PlatformTextButton(
+                child: i18n.delete.text(style: TextStyle(color: context.$red$)),
+                onPressed: () async {
+                  setState(() {
+                    this.background = const BackgroundImage.disabled();
+                  });
+                },
+              ),
               if (background != Settings.timetable.backgroundImage)
                 PlatformTextButton(
                   child: i18n.save.text(),
@@ -69,21 +68,12 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
                 ),
             ],
           ),
-          if (background == null)
-            SliverFillRemaining(
-              child: LeavingBlank(
-                icon: Icons.imagesearch_roller,
-                desc: i18n.p13n.background.pickTip,
-                onIconTap: pickImage,
-              ),
-            )
-          else
-            SliverList.list(children: [
-              buildImage(background),
-              buildOpacity(background),
-              buildRepeat(background),
-              buildAntialias(background),
-            ]),
+          SliverList.list(children: [
+            buildImage(background),
+            buildOpacity(background),
+            buildRepeat(background),
+            buildAntialias(background),
+          ]),
         ],
       ),
     );
@@ -92,17 +82,28 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
   Widget buildImage(BackgroundImage bk) {
     return OutlinedCard(
       clip: Clip.hardEdge,
-      child: InteractiveViewer(
+      child: buildPreviewBoxContent(bk).inkWell(
+        onTap: pickImage,
+      ),
+    );
+  }
+
+  Widget buildPreviewBoxContent(BackgroundImage bk) {
+    if (background.enabled) {
+      return InteractiveViewer(
         child: Image.file(
           File(bk.path),
           opacity: $opacity,
           height: context.mediaQuery.size.height / 3,
           filterQuality: bk.antialias ? FilterQuality.low : FilterQuality.none,
         ),
-      ).inkWell(
-        onTap: pickImage,
-      ),
-    );
+      );
+    } else {
+      return LeavingBlank(
+        icon: Icons.add_photo_alternate_outlined,
+        desc: i18n.p13n.background.pickTip,
+      );
+    }
   }
 
   Future<void> pickImage() async {
@@ -113,7 +114,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     );
     if (fi == null) return;
     if (!mounted) return;
-    final newBk = background?.copyWith(path: fi.path) ?? BackgroundImage(path: fi.path);
+    final newBk = background.copyWith(path: fi.path);
     setState(() {
       background = newBk;
     });
@@ -122,7 +123,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
 
   void setOpacity(double newValue) {
     final background = this.background;
-    if (background != null && (background.opacity - newValue).abs() > 0.1) {
+    if ((background.opacity - newValue).abs() > 0.1) {
       $opacity.animateTo(
         newValue,
         duration: const Duration(milliseconds: 300),

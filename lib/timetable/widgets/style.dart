@@ -36,13 +36,13 @@ class CourseCellStyle {
 
 class TimetableStyleData {
   final TimetablePalette platte;
-  final CourseCellStyle cell;
-  final BackgroundImage? background;
+  final CourseCellStyle cellStyle;
+  final BackgroundImage background;
 
   const TimetableStyleData({
     this.platte = BuiltinTimetablePalettes.classic,
-    this.cell = const CourseCellStyle(),
-    this.background,
+    this.cellStyle = const CourseCellStyle(),
+    this.background = const BackgroundImage.disabled(),
   });
 
   @override
@@ -52,7 +52,7 @@ class TimetableStyleData {
         runtimeType == other.runtimeType &&
         platte == other.platte &&
         background == other.background &&
-        cell == other.cell;
+        cellStyle == other.cellStyle;
   }
 
   TimetableStyleData copyWith({
@@ -62,7 +62,7 @@ class TimetableStyleData {
   }) {
     return TimetableStyleData(
       platte: platte ?? this.platte,
-      cell: cell ?? this.cell,
+      cellStyle: cell ?? this.cellStyle,
       background: background ?? this.background,
     );
   }
@@ -96,10 +96,20 @@ class TimetableStyle extends InheritedWidget {
 
 class TimetableStyleProv extends StatefulWidget {
   final Widget? child;
+  final TimetablePalette? palette;
+  final CourseCellStyle? cellStyle;
+  final BackgroundImage? background;
+
   final Widget Function(BuildContext context, TimetableStyleData style)? builder;
 
-  const TimetableStyleProv({super.key, this.child, this.builder})
-      : assert(builder != null || child != null, "TimetableStyleProv should have at least one child.");
+  const TimetableStyleProv({
+    super.key,
+    this.child,
+    this.builder,
+    this.palette,
+    this.cellStyle,
+    this.background,
+  }) : assert(builder != null || child != null, "TimetableStyleProv should have at least one child.");
 
   @override
   TimetableStyleProvState createState() => TimetableStyleProvState();
@@ -111,7 +121,7 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
   final $background = Settings.timetable.listenBackgroundImage();
   var palette = TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic;
   var cellStyle = Settings.timetable.cell.cellStyle;
-  var background = Settings.timetable.backgroundImage;
+  var background = Settings.timetable.backgroundImage ?? const BackgroundImage.disabled();
 
   @override
   void initState() {
@@ -143,7 +153,7 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
 
   void refreshBackground() {
     setState(() {
-      background = Settings.timetable.backgroundImage;
+      background = Settings.timetable.backgroundImage ?? const BackgroundImage.disabled();
     });
   }
 
@@ -151,8 +161,12 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
   Widget build(BuildContext context) {
     final data = TimetableStyleData(
       platte: palette,
-      cell: cellStyle,
+      cellStyle: cellStyle,
       background: background,
+    ).copyWith(
+      platte: widget.palette,
+      cell: widget.cellStyle,
+      background: widget.background,
     );
     return TimetableStyle(
       data: data,

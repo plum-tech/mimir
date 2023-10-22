@@ -151,7 +151,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = TimetableStyle.of(context);
     final background = style.background;
-    if (config.enableBackground && background != null) {
+    if (config.enableBackground) {
       return [
         Positioned.fill(
           child: TimetableBackground(background: background),
@@ -198,7 +198,7 @@ Future<void> takeTimetableScreenshot({
 }) async {
   final config = await context.show$Sheet$<TimetableScreenshotConfig>((ctx) => TimetableScreenshotConfigEditor(
         timetable: timetable,
-        initialGrayOut: TimetableStyle.of(context).cell.grayOutTakenLessons,
+        initialGrayOut: TimetableStyle.of(context).cellStyle.grayOutTakenLessons,
       ));
   if (config == null) return;
   if (!context.mounted) return;

@@ -11,7 +11,6 @@ import 'package:sit/design/widgets/entry_card.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/qrcode/page.dart';
 import 'package:sit/qrcode/protocol.dart';
-import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/platte.dart';
@@ -227,9 +226,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
                 MaterialPageRoute(
                   builder: (ctx) => TimetablePreviewPage(
                     timetable: selectedTimetable,
-                    style: TimetableStyleData(
-                      platte: palette,
-                    ),
+                    platte: palette,
                   ),
                 ),
               );
@@ -283,9 +280,9 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
                 ),
               if (palette.colors.isNotEmpty) const Divider(),
               if (palette.colors.isNotEmpty)
-                TimetableP13nLivePreview(
-                  cellStyle: Settings.timetable.cell.cellStyle,
+                TimetableStyleProv(
                   palette: palette,
+                  child: const TimetableP13nLivePreview(),
                 ),
               const Divider(),
               const LightDarkColorsHeaderTitle(),
@@ -341,12 +338,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
 }
 
 class TimetableP13nLivePreview extends StatelessWidget {
-  final CourseCellStyle cellStyle;
-  final TimetablePalette palette;
-
   const TimetableP13nLivePreview({
-    required this.cellStyle,
-    required this.palette,
     super.key,
   });
 
@@ -362,6 +354,9 @@ class TimetableP13nLivePreview extends StatelessWidget {
     BuildContext context, {
     required Size fullSize,
   }) {
+    final style = TimetableStyle.of(context);
+    final cellStyle = style.cellStyle;
+    final palette = style.platte;
     final cellSize = Size(fullSize.width / 5, fullSize.height / 3);
     final themeColor = context.colorScheme.primary;
     Widget buildCell({

@@ -8,9 +8,7 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/extension.dart';
-import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/page/preview.dart';
-import 'package:sit/timetable/widgets/style.dart';
 
 import '../entity/platte.dart';
 import '../i18n.dart';
@@ -87,10 +85,8 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
                           await context.navigator.push(
                             MaterialPageRoute(
                               builder: (ctx) => TimetablePreviewPage(
+                                platte: buildPalette(),
                                 timetable: selectedTimetable,
-                                style: TimetableStyleData(
-                                  platte: buildPalette(),
-                                ),
                               ),
                             ),
                           );

@@ -157,7 +157,7 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
           lesson: lesson,
           style: style,
           timetable: timetable,
-          grayOut: style.cell.grayOutTakenLessons ? lesson.type.endTime.isBefore(today) : false,
+          grayOut: style.cellStyle.grayOutTakenLessons ? lesson.type.endTime.isBefore(today) : false,
         );
       }
 
@@ -432,13 +432,13 @@ class StyledCourseCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var color = style.platte.resolveColor(course).byTheme(context.theme);
-    if (style.cell.harmonizeWithThemeColor) {
+    if (style.cellStyle.harmonizeWithThemeColor) {
       color = color.harmonizeWith(context.colorScheme.primary);
     }
     if (grayOut) {
       color = color.monochrome();
     }
-    final alpha = style.cell.alpha;
+    final alpha = style.cellStyle.alpha;
     if (alpha < 1.0) {
       color = color.withOpacity(color.opacity * alpha);
     }
@@ -446,7 +446,7 @@ class StyledCourseCell extends StatelessWidget {
       courseName: course.courseName,
       color: color,
       place: course.place,
-      teachers: style.cell.showTeachers ? course.teachers : null,
+      teachers: style.cellStyle.showTeachers ? course.teachers : null,
       innerBuilder: innerBuilder,
     );
   }

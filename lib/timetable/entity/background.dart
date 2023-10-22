@@ -20,6 +20,14 @@ class BackgroundImage {
     this.antialias = true,
   });
 
+  const BackgroundImage.disabled({
+    this.opacity = 1.0,
+    this.repeat = true,
+    this.antialias = true,
+  }) : path = "";
+
+  bool get enabled => path.isNotEmpty;
+
   factory BackgroundImage.fromJson(Map<String, dynamic> json) => _$BackgroundImageFromJson(json);
 
   Map<String, dynamic> toJson() => _$BackgroundImageToJson(this);
