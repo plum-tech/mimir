@@ -55,44 +55,46 @@ class _YwbApplicationMetaListPageState extends State<YwbApplicationMetaListPage>
   @override
   Widget build(BuildContext context) {
     final metaList = this.metaList;
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          floating: true,
-          title: i18n.title.text(),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.info_outline),
-              onPressed: () async {
-                await context.showTip(
-                  title: i18n.title,
-                  desc: i18n.info,
-                  ok: i18n.close,
-                );
-              },
-            ),
-          ],
-          bottom: isLoading
-              ? const PreferredSize(
-                  preferredSize: Size.fromHeight(4),
-                  child: LinearProgressIndicator(),
-                )
-              : null,
-        ),
-        if (metaList != null)
-          if (metaList.isEmpty)
-            SliverFillRemaining(
-              child: LeavingBlank(
-                icon: Icons.inbox_outlined,
-                desc: i18n.noMetaTip,
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            title: i18n.title.text(),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.info_outline),
+                onPressed: () async {
+                  await context.showTip(
+                    title: i18n.title,
+                    desc: i18n.info,
+                    ok: i18n.close,
+                  );
+                },
               ),
-            )
-          else
-            SliverList.builder(
-              itemCount: metaList.length,
-              itemBuilder: (ctx, i) => ApplicationMetaTile(meta: metaList[i], isHot: i < 3),
-            ),
-      ],
+            ],
+            bottom: isLoading
+                ? const PreferredSize(
+                    preferredSize: Size.fromHeight(4),
+                    child: LinearProgressIndicator(),
+                  )
+                : null,
+          ),
+          if (metaList != null)
+            if (metaList.isEmpty)
+              SliverFillRemaining(
+                child: LeavingBlank(
+                  icon: Icons.inbox_outlined,
+                  desc: i18n.noMetaTip,
+                ),
+              )
+            else
+              SliverList.builder(
+                itemCount: metaList.length,
+                itemBuilder: (ctx, i) => ApplicationMetaTile(meta: metaList[i], isHot: i < 3),
+              ),
+        ],
+      ),
     );
   }
 }
