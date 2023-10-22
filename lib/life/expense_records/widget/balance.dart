@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:sit/design/animation/number.dart';
 import 'package:sit/utils/format.dart';
 import 'package:rettulf/rettulf.dart';
 import "../i18n.dart";
@@ -29,11 +30,15 @@ class BalanceCard extends StatelessWidget {
         style: textTheme.titleLarge,
         maxLines: 1,
       ),
-      AutoSizeText(
-        removeTrailingZeros ? formatWithoutTrailingZeros(balance) : balance.toStringAsFixed(2),
-        style: textTheme.displayMedium?.copyWith(color: balanceColor),
-        maxLines: 1,
-      ),
+      AnimatedNumber(
+          value: balance,
+          builder: (context, balance) {
+            return AutoSizeText(
+              removeTrailingZeros ? formatWithoutTrailingZeros(balance) : balance.toStringAsFixed(2),
+              style: textTheme.displayMedium?.copyWith(color: balanceColor),
+              maxLines: 1,
+            );
+          }),
       AutoSizeText(
         i18n.view.rmb,
         style: textTheme.titleMedium,
