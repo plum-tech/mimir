@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -159,7 +160,20 @@ class EntryCard extends StatelessWidget {
             ),
           ],
         ),
-    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15);
+    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15).inkWell(onTap: () async {
+      if (animation.value > 0) return;
+      await context.show$Sheet$(
+            (ctx) => EntryCupertinoDetailsPage(
+          title: title,
+          itemBuilder: (ctx) => itemBuilder(ctx, null),
+          detailsBuilder: detailsBuilder,
+          selected: selected,
+          selectAction: selectAction,
+          actions: actions,
+          deleteAction: deleteAction,
+        ),
+      );
+    });
     final widget = selected
         ? body.inFilledCard(
             clip: Clip.hardEdge,
@@ -167,22 +181,7 @@ class EntryCard extends StatelessWidget {
         : body.inOutlinedCard(
             clip: Clip.hardEdge,
           );
-    return widget.onTap(() async {
-      if (animation.value > 0) return;
-      await context.navigator.push(
-        MaterialPageRoute(
-          builder: (ctx) => EntryCupertinoDetailsPage(
-            title: title,
-            itemBuilder: (ctx) => itemBuilder(ctx, null),
-            detailsBuilder: detailsBuilder,
-            selected: selected,
-            selectAction: selectAction,
-            actions: actions,
-            deleteAction: deleteAction,
-          ),
-        ),
-      );
-    });
+    return widget;
   }
 
   List<Widget> buildContextMenuActions(
