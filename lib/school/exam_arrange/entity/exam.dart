@@ -1,6 +1,8 @@
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/hive/type_id.dart';
+import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/entity/school.dart';
 
 part 'exam.g.dart';
@@ -109,5 +111,29 @@ class ExamEntry {
       return 0;
     }
     return a.time[0].isAfter(b.time[0]) ? 1 : -1;
+  }
+}
+
+extension ExamEntryX on ExamEntry {
+  DateTime get start => time[0];
+
+  DateTime get end => time[1];
+
+  String buildDate(BuildContext context) {
+    if (start.year == end.year && start.month == end.month && start.day == end.day) {
+      // at the same day
+      return context.formatMdWeekText(start);
+    } else {
+      return "${context.formatMdNum(start)}–${context.formatMdNum(end)}";
+    }
+  }
+
+  String buildTime(BuildContext context) {
+    if (start.year == end.year && start.month == end.month && start.day == end.day) {
+      // at the same day
+      return "${context.formatHmNum(start)}–${context.formatHmNum(end)}";
+    } else {
+      return "${context.formatMdhmNum(start)}–${context.formatMdhmNum(end)}";
+    }
   }
 }
