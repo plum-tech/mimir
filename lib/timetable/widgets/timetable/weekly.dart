@@ -21,6 +21,7 @@ import '../free.dart';
 import 'header.dart';
 import '../style.dart';
 import '../../entity/pos.dart';
+import '../../i18n.dart';
 
 class WeeklyTimetable extends StatefulWidget {
   final SitTimetableEntity timetable;
@@ -350,6 +351,9 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
   @override
   Widget build(BuildContext context) {
     final lessons = widget.lesson.course.calcBeginEndTimePointForEachLesson();
+    final lessonTimeTip =
+        lessons.map((time) => "${time.begin.toStringPrefixed0()}–${time.end.toStringPrefixed0()}").join("\n");
+    final course = widget.lesson.course;
     return StyledCourseCell(
       course: widget.lesson.course,
       grayOut: widget.grayOut,
@@ -359,7 +363,9 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
         preferBelow: false,
         triggerMode: TooltipTriggerMode.manual,
         // TODO: don't prefix it with zero
-        message: lessons.map((time) => "${time.begin.toStringPrefixed0()}–${time.end.toStringPrefixed0()}").join("\n"),
+        message:
+            "${i18n.details.courseCode} ${course.courseCode}\n${i18n.details.classCode} ${course.classCode}\n$lessonTimeTip",
+        textAlign: TextAlign.center,
         child: InkWell(
           onTap: () async {
             $tooltip.currentState?.ensureTooltipVisible();

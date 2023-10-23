@@ -169,9 +169,9 @@ class _Details {
 
   static const ns = "${_I18n.ns}.details";
 
-  String get classId => "$ns.classId".tr();
+  String get classCode => "$ns.classCode".tr();
 
-  String get courseId => "$ns.courseId".tr();
+  String get courseCode => "$ns.courseCode".tr();
 
   String get teacher => "$ns.teacher".tr();
 }

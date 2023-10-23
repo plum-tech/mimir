@@ -13,8 +13,8 @@ timetable:
     emptyTip: 快去导入一个课程表吧！
     details: 详情
   details:
-    classId: 教学班
-    courseId: 课程代码
+    classCode: 教学班
+    courseCode: 课程代码
     teacher: 教师
   edit:
     name: 名称

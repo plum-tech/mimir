@@ -13,8 +13,8 @@ timetable:
     emptyTip: Let's import a timetable!
     details: Details
   details:
-    classId: Class Code
-    courseId: Course Code
+    classCode: Class Code
+    courseCode: Course Code
     teacher: Teacher
   edit:
     name: Name
