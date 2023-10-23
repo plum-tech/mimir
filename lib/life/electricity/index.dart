@@ -186,7 +186,8 @@ Future<void> shareBalance({
   required String selectedRoom,
   required BuildContext context,
 }) async {
-  final text = "#$selectedRoom: ${balance.l10nBalance()}, ${balance.l10nPower()}";
+  final text =
+      "#$selectedRoom: ${i18n.unit.rmb(balance.balance.toStringAsFixed(2))}, ${i18n.unit.powerKwh(balance.remainingPower.toStringAsFixed(2))}";
   await Share.share(
     text,
     sharePositionOrigin: context.getSharePositionOrigin(),
