@@ -316,7 +316,7 @@ extension SitCourseEx on SitCourse {
     }
   }
 
-  List<ClassTime> get buildingTimetable => getTeacherBuildingTimetable(campus, place);
+  List<ClassTime> get buildingTimetable => getTeachingBuildingTimetable(campus, place);
 
   /// Based on [SitCourse.timeslots], compose a full-length class time.
   /// Starts with the first part starts.

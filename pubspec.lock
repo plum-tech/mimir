@@ -566,6 +566,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_adaptive_ui:
+    dependency: "direct main"
+    description:
+      name: flutter_adaptive_ui
+      sha256: de6891c6a97512ca70cc30798a85808dfac834a592f5381220f791628972a804
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.0+1"
   flutter_cache_manager:
     dependency: transitive
     description:

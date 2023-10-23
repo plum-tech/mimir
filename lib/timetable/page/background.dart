@@ -82,7 +82,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
       child: buildPreviewBoxContent(bk).inkWell(
         onTap: pickImage,
       ),
-    );
+    ).padH(10);
   }
 
   Widget buildPreviewBoxContent(BackgroundImage bk) {
