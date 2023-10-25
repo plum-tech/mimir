@@ -63,20 +63,20 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         ],
       ),
       floatingActionButton: InkWell(
-        onLongPress: () {
-          final today = timetable.type.locate(DateTime.now());
-          if ($currentPos.value != today) {
-            eventBus.fire(JumpToPosEvent(today));
+        onLongPress: () async {
+          if ($displayMode.value == DisplayMode.weekly) {
+            await selectWeeklyTimetablePageToJump();
+          } else {
+            await selectDailyTimetablePageToJump();
           }
         },
         child: AutoHideFAB(
           controller: scrollController,
           child: const Icon(Icons.undo_rounded),
           onPressed: () async {
-            if ($displayMode.value == DisplayMode.weekly) {
-              await selectWeeklyTimetablePageToJump();
-            } else {
-              await selectDailyTimetablePageToJump();
+            final today = timetable.type.locate(DateTime.now());
+            if ($currentPos.value != today) {
+              eventBus.fire(JumpToPosEvent(today));
             }
           },
         ),
