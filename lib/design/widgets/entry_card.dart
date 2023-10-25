@@ -163,7 +163,7 @@ class EntryCard extends StatelessWidget {
     ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15).inkWell(onTap: () async {
       if (animation.value > 0) return;
       await context.show$Sheet$(
-            (ctx) => EntryCupertinoDetailsPage(
+        (ctx) => EntryCupertinoDetailsPage(
           title: title,
           itemBuilder: (ctx) => itemBuilder(ctx, null),
           detailsBuilder: detailsBuilder,
@@ -278,20 +278,19 @@ class EntryCard extends StatelessWidget {
           child: ListTile(
             leading: Icon(detailsAction.icon),
             title: detailsAction.label.text(),
-            onTap: () async {
-              ctx.navigator.pop();
-              await context.navigator.push(
-                MaterialPageRoute(
-                  builder: (ctx) => EntryDetailsPage(
-                    title: title,
-                    itemBuilder: (ctx) => itemBuilder(ctx, null),
-                    detailsBuilder: detailsBuilder,
-                    selected: selected,
-                  ),
-                ),
-              );
-            },
           ),
+          onTap: () async {
+            await context.navigator.push(
+              MaterialPageRoute(
+                builder: (ctx) => EntryDetailsPage(
+                  title: title,
+                  itemBuilder: (ctx) => itemBuilder(ctx, null),
+                  detailsBuilder: detailsBuilder,
+                  selected: selected,
+                ),
+              ),
+            );
+          },
         ));
         for (final action in secondaryActions) {
           final callback = action.action;

@@ -128,35 +128,32 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
           child: ListTile(
             leading: const Icon(Icons.screenshot),
             title: i18n.screenshot.screenshot.text(),
-            onTap: () async {
-              ctx.pop();
-              await takeTimetableScreenshot(
-                context: context,
-                timetable: timetable,
-                weekIndex: $currentPos.value.weekIndex,
-              );
-            },
           ),
+          onTap: () async {
+            await takeTimetableScreenshot(
+              context: context,
+              timetable: timetable,
+              weekIndex: $currentPos.value.weekIndex,
+            );
+          },
         ),
         PopupMenuItem(
           child: ListTile(
             leading: const Icon(Icons.view_comfortable_outlined),
             title: i18n.p13n.cell.title.text(),
-            onTap: () async {
-              ctx.pop();
-              await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
-            },
           ),
+          onTap: () async {
+            await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
+          },
         ),
         PopupMenuItem(
           child: ListTile(
             leading: const Icon(Icons.image_outlined),
             title: i18n.p13n.background.title.text(),
-            onTap: () async {
-              ctx.pop();
-              await context.show$Sheet$((ctx) => const TimetableBackgroundEditor());
-            },
           ),
+          onTap: () async {
+            await context.show$Sheet$((ctx) => const TimetableBackgroundEditor());
+          },
         ),
       ],
     );

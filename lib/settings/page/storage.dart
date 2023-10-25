@@ -109,18 +109,17 @@ class _BoxSectionState extends State<BoxSection> {
           child: ListTile(
             leading: const Icon(Icons.edit, color: Colors.redAccent),
             title: i18n.clear.text(style: const TextStyle(color: Colors.redAccent)),
-            onTap: () async {
-              ctx.pop();
-              final confirm = await _showDeleteBoxRequest(ctx);
-              if (confirm == true) {
-                box.clear();
-                // Add a delay to ensure the box is really empty.
-                await Future.delayed(const Duration(milliseconds: 500));
-                if (!mounted) return;
-                setState(() {});
-              }
-            },
           ),
+          onTap: () async {
+            final confirm = await _showDeleteBoxRequest(ctx);
+            if (confirm == true) {
+              box.clear();
+              // Add a delay to ensure the box is really empty.
+              await Future.delayed(const Duration(milliseconds: 500));
+              if (!mounted) return;
+              setState(() {});
+            }
+          },
         ),
       ],
     );
@@ -281,21 +280,20 @@ class _BoxItemState extends State<BoxItem> {
           child: ListTile(
             leading: const Icon(Icons.cleaning_services_outlined, color: Colors.redAccent),
             title: i18n.clear.text(style: const TextStyle(color: Colors.redAccent)),
-            onTap: () async {
-              ctx.pop();
-              final confirm = await context.showRequest(
-                  title: i18n.warning,
-                  desc: i18n.dev.storage.emptyValueDesc,
-                  yes: i18n.confirm,
-                  no: i18n.cancel,
-                  highlight: true);
-              if (confirm == true) {
-                widget.box.put(key, _emptyValue(value));
-                if (!mounted) return;
-                setState(() {});
-              }
-            },
           ),
+          onTap: () async {
+            final confirm = await context.showRequest(
+                title: i18n.warning,
+                desc: i18n.dev.storage.emptyValueDesc,
+                yes: i18n.confirm,
+                no: i18n.cancel,
+                highlight: true);
+            if (confirm == true) {
+              widget.box.put(key, _emptyValue(value));
+              if (!mounted) return;
+              setState(() {});
+            }
+          },
         ),
         PopupMenuItem(
           child: ListTile(
@@ -381,16 +379,15 @@ class _StorageListLandscapeState extends State<StorageListLandscape> {
               child: ListTile(
                 leading: const Icon(Icons.edit, color: Colors.redAccent),
                 title: i18n.clear.text(style: const TextStyle(color: Colors.redAccent)),
-                onTap: () async {
-                  ctx.pop();
-                  final confirm = await _showDeleteBoxRequest(ctx);
-                  if (confirm == true) {
-                    box.clear();
-                    if (!mounted) return;
-                    setState(() {});
-                  }
-                },
               ),
+              onTap: () async {
+                final confirm = await _showDeleteBoxRequest(ctx);
+                if (confirm == true) {
+                  box.clear();
+                  if (!mounted) return;
+                  setState(() {});
+                }
+              },
             ),
           ],
         );
