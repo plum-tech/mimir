@@ -11,7 +11,7 @@ import '../r.dart';
 class _K {
   static const ns = "/settings";
   static const campus = '$ns/campus';
-  static const focusMode = '$ns/focusMode';
+  static const focusTimetable = '$ns/focusTimetable';
 }
 
 class _DeveloperK {
@@ -40,11 +40,11 @@ class SettingsImpl {
 
   ValueListenable<Box> listenCampus() => box.listenable(keys: [_K.campus]);
 
-  bool get focusMode => box.get(_K.focusMode) ?? false;
+  bool get focusTimetable => box.get(_K.focusTimetable) ?? false;
 
-  set focusMode(bool newV) => box.put(_K.focusMode, newV);
+  set focusTimetable(bool newV) => box.put(_K.focusTimetable, newV);
 
-  ValueListenable<Box> listenFocusMode() => box.listenable(keys: [_K.focusMode]);
+  ValueListenable<Box> listenFocusTimetable() => box.listenable(keys: [_K.focusTimetable]);
 
   Size? get lastWindowSize => box.get(_ThemeK.lastWindowSize, defaultValue: R.defaultWindowSize);
 

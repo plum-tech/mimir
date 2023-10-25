@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sit/timetable/storage/timetable.dart';
 
 import '../entity/timetable.dart';
 import '../init.dart';
@@ -15,14 +14,13 @@ class TimetablePage extends StatefulWidget {
 }
 
 class _TimetablePageState extends State<TimetablePage> {
-  TimetableStorage get storage => TimetableInit.storage;
   late SitTimetableEntity? _selected;
   final $selected = TimetableInit.storage.timetable.$selected;
 
   @override
   void initState() {
     super.initState();
-    _selected = storage.timetable.selectedRow?.resolve();
+    _selected = TimetableInit.storage.timetable.selectedRow?.resolve();
     $selected.addListener(onSelectChange);
   }
 
@@ -33,7 +31,7 @@ class _TimetablePageState extends State<TimetablePage> {
   }
 
   void onSelectChange() {
-    final current = storage.timetable.selectedRow;
+    final current = TimetableInit.storage.timetable.selectedRow;
     if (!mounted) return;
     setState(() {
       _selected = current?.resolve();

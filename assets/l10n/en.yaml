@@ -4,6 +4,12 @@ language:
   zh_TW: 繁體中文
 timetable:
   navigation: Timetable
+  jump: Jump
+  findToday: Find today
+  startWith: "Start with"
+  weekOrderedName: "Week {}"
+  focusTimetable: Focus timetable
+  unfocusTimetable: Unfocus timetable
   mine:
     title: My Timetables
     exportFile: Export file
@@ -74,10 +80,6 @@ timetable:
     all: week
     odd: odd week
     even: even week
-  jump: Jump
-  findToday: Find Today
-  startWith: "Start with"
-  weekOrderedName: "Week {}"
   freeTip:
     dayTip: It's a free day!
     isTodayTip: "Have a nice day! 🎉"

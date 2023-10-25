@@ -31,6 +31,10 @@ class _I18n with CommonI18nMixin {
   String get jump => "$ns.jump".tr();
 
   String get findToday => "$ns.findToday".tr();
+
+  String get focusTimetable => "$ns.focusTimetable".tr();
+
+  String get unfocusTimetable => "$ns.unfocusTimetable".tr();
 }
 
 class _Mine {

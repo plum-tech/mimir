@@ -97,12 +97,13 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             floating: true,
             title: i18n.mine.title.text(),
             actions: [
-              IconButton(
-                icon: const Icon(Icons.color_lens_outlined),
-                onPressed: () {
-                  context.push("/timetable/p13n");
-                },
-              ),
+              if (!Settings.focusTimetable)
+                IconButton(
+                  icon: const Icon(Icons.color_lens_outlined),
+                  onPressed: () {
+                    context.push("/timetable/p13n");
+                  },
+                ),
             ],
           ),
           if (timetables.isEmpty)

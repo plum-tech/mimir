@@ -4,6 +4,12 @@ language:
   zh_TW: 繁體中文
 timetable:
   navigation: 課程表
+  jump: 前往
+  findToday: 尋找今天
+  startWith: "起始於"
+  weekOrderedName: "第 {} 周"
+  focusTimetable: 對焦課程表
+  unfocusTimetable: 取消對焦課程表
   mine:
     title: 我的課程表
     exportFile: 匯出檔案
@@ -74,10 +80,6 @@ timetable:
     all: 周
     odd: 單週
     even: 雙週
-  jump: 前往
-  findToday: 尋找今天
-  startWith: "起始於"
-  weekOrderedName: "第 {} 周"
   freeTip:
     dayTip: 好喔，這天沒課！
     isTodayTip: "祝你今日過得愉快！🎉"
