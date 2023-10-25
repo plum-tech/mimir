@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
@@ -24,8 +25,8 @@ class R {
   ];
   static const appId = "life.mysit.SITLife";
   static const appName = "SIT Life";
-  static late final String appDir;
-  static late final String tmpDir;
+  static late final Directory appDir;
+  static late final Directory tmpDir;
   static late List<String> roomList;
   static late List<String> userAgents;
 

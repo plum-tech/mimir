@@ -8,6 +8,7 @@ import 'package:path/path.dart' show join;
 import 'package:rettulf/rettulf.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/fs/manager.dart';
 import 'package:sit/r.dart';
 import 'package:sit/timetable/entity/timetable.dart';
 import "../i18n.dart";
@@ -226,7 +227,7 @@ Future<void> takeTimetableScreenshot({
     context: context,
     pixelRatio: View.of(context).devicePixelRatio,
   );
-  final imgFi = await File(join(R.tmpDir, "screenshot.png")).create();
+  final imgFi = R.tmpDir.sub("screenshot.png");
   await imgFi.writeAsBytes(screenshot);
 
   await OpenFile.open(imgFi.path, type: "image/png");

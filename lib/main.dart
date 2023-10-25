@@ -21,10 +21,8 @@ void main() async {
   // debugPaintSizeEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  final appDocDir = await getApplicationDocumentsDirectory();
-  R.appDir = appDocDir.path;
-  final tmpDir = await getTemporaryDirectory();
-  R.tmpDir = tmpDir.path;
+  R.appDir = await getApplicationDocumentsDirectory();
+  R.tmpDir = await getTemporaryDirectory();
   R.roomList = await _loadRoomNumberList();
   R.userAgents = await _loadUserAgents();
   R.yellowPages = await _loadYellowPages();

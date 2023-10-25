@@ -110,8 +110,8 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
       requestFullMetadata: false,
     );
     if (fi == null) return;
-    if (!mounted) return;
     final newBk = background.copyWith(path: fi.path);
+    if (!mounted) return;
     setState(() {
       background = newBk;
     });
