@@ -295,16 +295,15 @@ class EntryCard extends StatelessWidget {
         for (final action in secondaryActions) {
           final callback = action.action;
           all.add(PopupMenuItem(
+            onTap: callback == null
+                ? null
+                : () async {
+                    await callback();
+                  },
             child: ListTile(
               leading: Icon(action.icon),
               title: action.label.text(),
               enabled: callback != null,
-              onTap: callback == null
-                  ? null
-                  : () async {
-                      ctx.navigator.pop();
-                      await callback();
-                    },
             ),
           ));
         }
@@ -312,13 +311,12 @@ class EntryCard extends StatelessWidget {
         if (deleteAction != null) {
           final deleteActionWidget = deleteAction(context);
           all.add(PopupMenuItem(
+            onTap: () async {
+              await deleteActionWidget.action?.call();
+            },
             child: ListTile(
               leading: const Icon(Icons.delete, color: Colors.redAccent),
               title: deleteActionWidget.label.text(style: const TextStyle(color: Colors.redAccent)),
-              onTap: () async {
-                ctx.navigator.pop();
-                await deleteActionWidget.action?.call();
-              },
             ),
           ));
         }
