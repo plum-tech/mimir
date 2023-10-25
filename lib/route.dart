@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -66,7 +68,89 @@ String? _loginRequired(BuildContext ctx, GoRouterState state) {
   return null;
 }
 
-final toolRoutes = [
+FutureOr<String?> _redirectRoot(BuildContext ctx, GoRouterState state) {
+  final auth = ctx.auth;
+  if (auth.loginStatus == LoginStatus.never) {
+// allow to access settings page.
+    if (state.matchedLocation.startsWith("/tools")) return null;
+    if (state.matchedLocation.startsWith("/settings")) return null;
+// allow to access browser page.
+    if (state.matchedLocation == "/browser") return null;
+    return "/login";
+  }
+  return null;
+}
+
+Widget _onError(BuildContext context, GoRouterState state) {
+  return NotFoundPage(state.uri.toString());
+}
+
+final _timetableRoute = GoRoute(
+  path: "/timetable",
+// Timetable is the home page.
+  builder: (ctx, state) => const TimetablePage(),
+  routes: [
+    GoRoute(
+      path: "preview/:id",
+      builder: (ctx, state) {
+        final extra = state.extra;
+        if (extra is SitTimetable) return TimetablePreviewPage(timetable: extra);
+        final id = int.tryParse(state.pathParameters["id"] ?? "");
+        if (id == null) throw 404;
+        final timetable = TimetableInit.storage.timetable[id];
+        if (timetable == null) throw 404;
+        return TimetablePreviewPage(timetable: timetable);
+      },
+    ),
+    GoRoute(
+      path: "import",
+      builder: (ctx, state) => const ImportTimetablePage(),
+      redirect: _loginRequired,
+    ),
+    GoRoute(
+      path: "mine",
+      builder: (ctx, state) => const MyTimetableListPage(),
+    ),
+    GoRoute(
+      path: "p13n",
+      builder: (ctx, state) {
+        final query = state.uri.query;
+        return switch (query) {
+          "custom" => const TimetableP13nPage(tab: TimetableP13nTab.custom),
+          "builtin" => const TimetableP13nPage(tab: TimetableP13nTab.builtin),
+          _ => const TimetableP13nPage(),
+        };
+      },
+      routes: [
+        GoRoute(
+            path: "palette/:id",
+            builder: (ctx, state) {
+              final extra = state.extra;
+              final id = int.tryParse(state.pathParameters["id"] ?? "");
+              if (id == null) throw 404;
+              if (extra is TimetablePalette) return TimetablePaletteEditor(id: id, palette: extra);
+              final palette = TimetableInit.storage.palette[id];
+              if (palette == null) throw 404;
+              return TimetablePaletteEditor(id: id, palette: palette);
+            }),
+      ],
+    ),
+  ],
+);
+
+final _schoolRoute = GoRoute(
+  path: "/school",
+  builder: (ctx, state) => const SchoolPage(),
+);
+final _lifeRoute = GoRoute(
+  path: "/life",
+  builder: (ctx, state) => const LifePage(),
+);
+final _meRoute = GoRoute(
+  path: "/me",
+  builder: (ctx, state) => const MePage(),
+);
+final _toolRoutes = [
   GoRoute(
     path: "/tools/network-tool",
     builder: (ctx, state) => const NetworkToolPage(),
@@ -77,7 +161,7 @@ final toolRoutes = [
     builder: (ctx, state) => const ScannerPage(),
   ),
 ];
-final settingsRoute = GoRoute(
+final _settingsRoute = GoRoute(
   path: "/settings",
   builder: (ctx, state) => const SettingsPage(),
   routes: [
@@ -113,7 +197,7 @@ final settingsRoute = GoRoute(
     ),
   ],
 );
-final expenseRoute = GoRoute(
+final _expenseRoute = GoRoute(
   path: "/expense-records",
   builder: (ctx, state) => const ExpenseRecordsPage(),
   redirect: _loginRequired,
@@ -126,7 +210,7 @@ final expenseRoute = GoRoute(
   ],
 );
 
-final class2ndRoute = GoRoute(
+final _class2ndRoute = GoRoute(
   path: "/class2nd",
   builder: (ctx, state) => const ActivityListPage(),
   redirect: _loginRequired,
@@ -151,7 +235,7 @@ final class2ndRoute = GoRoute(
   ],
 );
 
-final oaAnnounceRoute = GoRoute(
+final _oaAnnounceRoute = GoRoute(
   path: "/oa-announce",
   builder: (ctx, state) => const OaAnnounceListPage(),
   redirect: _loginRequired,
@@ -168,7 +252,7 @@ final oaAnnounceRoute = GoRoute(
     ),
   ],
 );
-final eduEmailRoutes = [
+final _eduEmailRoutes = [
   GoRoute(
     path: "/yellow-pages",
     builder: (ctx, state) => const YellowPagesListPage(),
@@ -187,7 +271,7 @@ final eduEmailRoutes = [
   ),
 ];
 
-final ywbRoute = GoRoute(
+final _ywbRoute = GoRoute(
   path: "/ywb",
   builder: (ctx, state) => const YwbApplicationMetaListPage(),
   redirect: _loginRequired,
@@ -199,23 +283,68 @@ final ywbRoute = GoRoute(
   ],
 );
 
+final _imageRoute = GoRoute(
+  path: "/image",
+  builder: (ctx, state) {
+    final extra = state.extra;
+    if (extra is String?) {
+      return ImageViewPage(
+        extra,
+        title: state.uri.queryParameters["title"],
+      );
+    }
+    throw 400;
+  },
+);
+
+final _loginRoute = GoRoute(
+  path: "/login",
+  builder: (ctx, state) {
+    final guarded = state.uri.queryParameters["guard"] == "true";
+    return LoginPage(isGuarded: guarded);
+  },
+);
+
+final _teacherEvalRoute = GoRoute(
+  path: "/teacher-eval",
+  builder: (ctx, state) => const TeacherEvaluationPage(),
+  redirect: _loginRequired,
+);
+
+final _libraryRoute = GoRoute(
+  path: "/library",
+  builder: (ctx, state) => const LibraryPage(),
+);
+
+final _examArrange = GoRoute(
+  path: "/exam-arrange",
+  builder: (ctx, state) => const ExamArrangePage(),
+  redirect: _loginRequired,
+);
+
+final _examResult = GoRoute(
+  path: "/exam-result",
+  builder: (ctx, state) => const ExamResultPage(),
+  redirect: _loginRequired,
+);
+
+final _browserRoute = GoRoute(
+  path: "/browser",
+  builder: (ctx, state) {
+    final extra = state.extra;
+    if (extra is String) {
+      return WebViewPage(initialUrl: extra);
+    }
+    throw 404;
+  },
+);
+
 final router = GoRouter(
   navigatorKey: $Key,
   initialLocation: "/",
   debugLogDiagnostics: kDebugMode,
-  errorBuilder: (ctx, state) => NotFoundPage(state.uri.toString()),
-  redirect: (ctx, state) {
-    final auth = ctx.auth;
-    if (auth.loginStatus == LoginStatus.never) {
-// allow to access settings page.
-      if (state.matchedLocation.startsWith("/tools")) return null;
-      if (state.matchedLocation.startsWith("/settings")) return null;
-// allow to access browser page.
-      if (state.matchedLocation == "/browser") return null;
-      return "/login";
-    }
-    return null;
-  },
+  errorBuilder: _onError,
+  redirect: _redirectRoot,
   routes: [
     GoRoute(
       path: "/",
@@ -229,144 +358,42 @@ final router = GoRouter(
         StatefulShellBranch(
           navigatorKey: $TimetableShellKey,
           routes: [
-            GoRoute(
-              path: "/timetable",
-// Timetable is the home page.
-              builder: (ctx, state) => const TimetablePage(),
-              routes: [
-                GoRoute(
-                  path: "preview/:id",
-                  builder: (ctx, state) {
-                    final extra = state.extra;
-                    if (extra is SitTimetable) return TimetablePreviewPage(timetable: extra);
-                    final id = int.tryParse(state.pathParameters["id"] ?? "");
-                    if (id == null) throw 404;
-                    final timetable = TimetableInit.storage.timetable[id];
-                    if (timetable == null) throw 404;
-                    return TimetablePreviewPage(timetable: timetable);
-                  },
-                ),
-                GoRoute(
-                  path: "import",
-                  builder: (ctx, state) => const ImportTimetablePage(),
-                  redirect: _loginRequired,
-                ),
-                GoRoute(
-                  path: "mine",
-                  builder: (ctx, state) => const MyTimetableListPage(),
-                ),
-                GoRoute(
-                  path: "p13n",
-                  builder: (ctx, state) {
-                    final query = state.uri.query;
-                    return switch (query) {
-                      "custom" => const TimetableP13nPage(tab: TimetableP13nTab.custom),
-                      "builtin" => const TimetableP13nPage(tab: TimetableP13nTab.builtin),
-                      _ => const TimetableP13nPage(),
-                    };
-                  },
-                  routes: [
-                    GoRoute(
-                        path: "palette/:id",
-                        builder: (ctx, state) {
-                          final extra = state.extra;
-                          final id = int.tryParse(state.pathParameters["id"] ?? "");
-                          if (id == null) throw 404;
-                          if (extra is TimetablePalette) return TimetablePaletteEditor(id: id, palette: extra);
-                          final palette = TimetableInit.storage.palette[id];
-                          if (palette == null) throw 404;
-                          return TimetablePaletteEditor(id: id, palette: palette);
-                        }),
-                  ],
-                ),
-              ],
-            ),
+            _timetableRoute,
           ],
         ),
         StatefulShellBranch(
           navigatorKey: $SchoolShellKey,
           routes: [
-            GoRoute(
-              path: "/school",
-              builder: (ctx, state) => const SchoolPage(),
-            ),
+            _schoolRoute,
           ],
         ),
         StatefulShellBranch(
           navigatorKey: $LifeShellKey,
           routes: [
-            GoRoute(
-              path: "/life",
-              builder: (ctx, state) => const LifePage(),
-            ),
+            _lifeRoute,
           ],
         ),
         StatefulShellBranch(
           navigatorKey: $MeShellKey,
           routes: [
-            GoRoute(
-              path: "/me",
-              builder: (ctx, state) => const MePage(),
-            ),
+            _meRoute,
           ],
         ),
       ],
     ),
-    GoRoute(
-      path: "/browser",
-      builder: (ctx, state) {
-        final extra = state.extra;
-        if (extra is String) {
-          return WebViewPage(initialUrl: extra);
-        }
-        throw 404;
-      },
-    ),
-    expenseRoute,
-    settingsRoute,
-    ...toolRoutes,
-    class2ndRoute,
-    oaAnnounceRoute,
-    ...eduEmailRoutes,
-    ywbRoute,
-    GoRoute(
-      path: "/exam-result",
-      builder: (ctx, state) => const ExamResultPage(),
-      redirect: _loginRequired,
-    ),
-    GoRoute(
-      path: "/exam-arrange",
-      builder: (ctx, state) => const ExamArrangePage(),
-      redirect: _loginRequired,
-    ),
-    GoRoute(
-      path: "/library",
-      builder: (ctx, state) => const LibraryPage(),
-    ),
-    GoRoute(
-      path: "/teacher-eval",
-      builder: (ctx, state) => const TeacherEvaluationPage(),
-      redirect: _loginRequired,
-    ),
-    GoRoute(
-      path: "/login",
-      builder: (ctx, state) {
-        final guarded = state.uri.queryParameters["guard"] == "true";
-        return LoginPage(isGuarded: guarded);
-      },
-    ),
-    GoRoute(
-      path: "/image",
-      builder: (ctx, state) {
-        final extra = state.extra;
-        if (extra is String?) {
-          return ImageViewPage(
-            extra,
-            title: state.uri.queryParameters["title"],
-          );
-        }
-        throw 400;
-      },
-    ),
+    _browserRoute,
+    _expenseRoute,
+    _settingsRoute,
+    ..._toolRoutes,
+    _class2ndRoute,
+    _oaAnnounceRoute,
+    ..._eduEmailRoutes,
+    _ywbRoute,
+    _examResult,
+    _examArrange,
+    _libraryRoute,
+    _teacherEvalRoute,
+    _loginRoute,
+    _imageRoute,
   ],
 );
