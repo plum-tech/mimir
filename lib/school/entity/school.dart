@@ -312,6 +312,7 @@ DateTime reflectWeekDayIndexToDate({
 }
 
 /// 删去 place 括号里的描述信息. 如, 二教F301（机电18中外合作专用）
+/// But it will keep the "三教" in buckets.
 String beautifyPlace(String place) {
   int indexOfBucket = place.indexOf('(');
   return indexOfBucket != -1 ? place.substring(0, indexOfBucket) : place;
@@ -319,6 +320,31 @@ String beautifyPlace(String place) {
 
 /// Replace the full-width brackets to ASCII ones
 String mapChinesePunctuations(String name) {
-  // TODO: improve performance
-  return name.replaceAll("（", "(").replaceAll("）", ")").replaceAll("【", "[").replaceAll("】", "]").replaceAll("＆", "&");
+  final b = StringBuffer();
+  for (final c in name.runes) {
+    switch (c) {
+      case 0xFF08: // （
+        b.writeCharCode(c);
+        break;
+
+      case 0xFF09: // ）
+        b.writeCharCode(c);
+        break;
+
+      case 0x3010: // 【
+        b.writeCharCode(c);
+        break;
+
+      case 0x3011: // 】
+        b.writeCharCode(c);
+        break;
+
+      case 0xFF06: // ＆
+        b.writeCharCode(c);
+        break;
+      default:
+        b.writeCharCode(c);
+    }
+  }
+  return b.toString();
 }
