@@ -339,12 +339,18 @@ final _browserRoute = GoRoute(
   },
 );
 
-GoRouter buildRouter() {
-  return GoRouter(
+GoRouter buildRouter(ValueNotifier<RoutingConfig> $routingConfig) {
+  return GoRouter.routingConfig(
+    routingConfig: $routingConfig,
     navigatorKey: $Key,
     initialLocation: "/",
     debugLogDiagnostics: kDebugMode,
     errorBuilder: _onError,
+  );
+}
+
+RoutingConfig buildRoutingConfig() {
+  return RoutingConfig(
     redirect: _redirectRoot,
     routes: [
       GoRoute(
@@ -382,6 +388,36 @@ GoRouter buildRouter() {
           ),
         ],
       ),
+      _browserRoute,
+      _expenseRoute,
+      _settingsRoute,
+      ..._toolRoutes,
+      _class2ndRoute,
+      _oaAnnounceRoute,
+      ..._eduEmailRoutes,
+      _ywbRoute,
+      _examResult,
+      _examArrange,
+      _libraryRoute,
+      _teacherEvalRoute,
+      _loginRoute,
+      _imageRoute,
+    ],
+  );
+}
+
+RoutingConfig buildFocusModeRouter() {
+  return RoutingConfig(
+    redirect: _redirectRoot,
+    routes: [
+      GoRoute(
+        path: "/",
+        redirect: (ctx, state) => "/timetable",
+      ),
+      _timetableRoute,
+      _meRoute,
+      _schoolRoute,
+      _lifeRoute,
       _browserRoute,
       _expenseRoute,
       _settingsRoute,

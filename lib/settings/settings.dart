@@ -11,6 +11,7 @@ import '../r.dart';
 class _K {
   static const ns = "/settings";
   static const campus = '$ns/campus';
+  static const focusMode = '$ns/focusMode';
 }
 
 class _DeveloperK {
@@ -33,12 +34,17 @@ class SettingsImpl {
   late final theme = _Theme(box);
   late final httpProxy = _HttpProxy(box);
 
-  // settings
   Campus get campus => box.get(_K.campus) ?? Campus.fengxian;
 
   set campus(Campus newV) => box.put(_K.campus, newV);
 
   ValueListenable<Box> listenCampus() => box.listenable(keys: [_K.campus]);
+
+  bool get focusMode => box.get(_K.focusMode) ?? false;
+
+  set focusMode(bool newV) => box.put(_K.focusMode, newV);
+
+  ValueListenable<Box> listenFocusMode() => box.listenable(keys: [_K.focusMode]);
 
   Size? get lastWindowSize => box.get(_ThemeK.lastWindowSize, defaultValue: R.defaultWindowSize);
 

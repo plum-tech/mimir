@@ -23,19 +23,21 @@ class _TimetablePageState extends State<TimetablePage> {
   void initState() {
     super.initState();
     _selected = storage.timetable.selectedRow?.resolve();
-    $selected.addListener(() {
-      final current = storage.timetable.selectedRow;
-      if (!mounted) return;
-      setState(() {
-        _selected = current?.resolve();
-      });
-    });
+    $selected.addListener(onSelectChange);
   }
 
   @override
   void dispose() {
-    $selected.dispose();
+    $selected.removeListener(onSelectChange);
     super.dispose();
+  }
+
+  void onSelectChange() {
+    final current = storage.timetable.selectedRow;
+    if (!mounted) return;
+    setState(() {
+      _selected = current?.resolve();
+    });
   }
 
   @override

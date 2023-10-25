@@ -5,6 +5,7 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/page/screenshot.dart';
 
 import '../entity/display.dart';
@@ -91,17 +92,19 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
 
   Widget buildSwitchViewButton() {
     return $displayMode >>
-        (ctx, mode) => SegmentedButton<DisplayMode>(
+            (ctx, mode) =>
+            SegmentedButton<DisplayMode>(
               showSelectedIcon: false,
               style: ButtonStyle(
                 padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 4)),
                 visualDensity: VisualDensity.compact,
               ),
               segments: DisplayMode.values
-                  .map((e) => ButtonSegment<DisplayMode>(
-                        value: e,
-                        label: e.l10n().text(),
-                      ))
+                  .map((e) =>
+                  ButtonSegment<DisplayMode>(
+                    value: e,
+                    label: e.l10n().text(),
+                  ))
                   .toList(),
               selected: <DisplayMode>{mode},
               onSelectionChanged: (newSelection) {
@@ -123,7 +126,8 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     return PopupMenuButton(
       position: PopupMenuPosition.under,
       padding: EdgeInsets.zero,
-      itemBuilder: (ctx) => <PopupMenuEntry>[
+      itemBuilder: (ctx) =>
+      <PopupMenuEntry>[
         PopupMenuItem(
           child: ListTile(
             leading: const Icon(Icons.screenshot),
@@ -155,6 +159,17 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
             await context.show$Sheet$((ctx) => const TimetableBackgroundEditor());
           },
         ),
+
+        PopupMenuItem(
+          child: ListTile(
+            leading: const Icon(Icons.filter_center_focus),
+            title: "Focus Mode".text(),
+          ),
+          onTap: () async {
+            Settings.focusMode = !Settings.focusMode;
+          },
+        ),
+
       ],
     );
   }
@@ -165,25 +180,26 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     final todayPos = timetable.type.locate(DateTime.now());
     final todayIndex = todayPos.weekIndex;
     final week2Go = await context.showPicker(
-          count: 20,
-          controller: controller,
-          ok: i18n.jump,
-          okEnabled: (curSelected) => curSelected != initialIndex,
-          actions: [
-            (ctx, curSelected) => PlatformTextButton(
-                  onPressed: (curSelected == todayIndex)
-                      ? null
-                      : () {
-                          controller.animateToItem(todayIndex,
-                              duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
-                        },
-                  child: i18n.findToday.text(),
-                )
-          ],
-          make: (ctx, i) {
-            return Text(i18n.weekOrderedName(number: i + 1));
-          },
-        ) ??
+      count: 20,
+      controller: controller,
+      ok: i18n.jump,
+      okEnabled: (curSelected) => curSelected != initialIndex,
+      actions: [
+            (ctx, curSelected) =>
+            PlatformTextButton(
+              onPressed: (curSelected == todayIndex)
+                  ? null
+                  : () {
+                controller.animateToItem(todayIndex,
+                    duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
+              },
+              child: i18n.findToday.text(),
+            )
+      ],
+      make: (ctx, i) {
+        return Text(i18n.weekOrderedName(number: i + 1));
+      },
+    ) ??
         initialIndex;
     controller.dispose();
     if (week2Go != initialIndex) {
@@ -201,29 +217,30 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     final todayWeekIndex = todayPos.weekIndex;
     final todayDayIndex = todayPos.dayIndex;
     final (week2Go, day2Go) = await context.showDualPicker(
-          countA: 20,
-          countB: 7,
-          controllerA: $week,
-          controllerB: $day,
-          ok: i18n.jump,
-          okEnabled: (weekSelected, daySelected) => weekSelected != initialWeekIndex || daySelected != initialDayIndex,
-          actions: [
-            (ctx, week, day) => PlatformTextButton(
-                  onPressed: (week == todayWeekIndex && day == todayDayIndex)
-                      ? null
-                      : () {
-                          $week.animateToItem(todayWeekIndex,
-                              duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
+      countA: 20,
+      countB: 7,
+      controllerA: $week,
+      controllerB: $day,
+      ok: i18n.jump,
+      okEnabled: (weekSelected, daySelected) => weekSelected != initialWeekIndex || daySelected != initialDayIndex,
+      actions: [
+            (ctx, week, day) =>
+            PlatformTextButton(
+              onPressed: (week == todayWeekIndex && day == todayDayIndex)
+                  ? null
+                  : () {
+                $week.animateToItem(todayWeekIndex,
+                    duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
 
-                          $day.animateToItem(todayDayIndex,
-                              duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
-                        },
-                  child: i18n.findToday.text(),
-                )
-          ],
-          makeA: (ctx, i) => i18n.weekOrderedName(number: i + 1).text(),
-          makeB: (ctx, i) => i18n.weekday(index: i).text(),
-        ) ??
+                $day.animateToItem(todayDayIndex,
+                    duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
+              },
+              child: i18n.findToday.text(),
+            )
+      ],
+      makeA: (ctx, i) => i18n.weekOrderedName(number: i + 1).text(),
+      makeB: (ctx, i) => i18n.weekday(index: i).text(),
+    ) ??
         (initialWeekIndex, initialDayIndex);
     $week.dispose();
     $day.dispose();

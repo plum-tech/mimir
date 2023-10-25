@@ -17,22 +17,30 @@ class MimirApp extends StatefulWidget {
 }
 
 class _MimirAppState extends State<MimirApp> {
-  final onThemeChanged = Settings.theme.listenThemeChange();
+  final $theme = Settings.theme.listenThemeChange();
+  final $routingConfig = ValueNotifier(buildRoutingConfig());
+  final $focusMode = Settings.listenFocusMode();
 
   @override
   void initState() {
     super.initState();
-    onThemeChanged.addListener(refresh);
+    $theme.addListener(refresh);
+    $focusMode.addListener(refreshFocusMode);
   }
 
   @override
   void dispose() {
-    onThemeChanged.removeListener(refresh);
+    $theme.removeListener(refresh);
+    $focusMode.removeListener(refreshFocusMode);
     super.dispose();
   }
 
   void refresh() {
     setState(() {});
+  }
+
+  void refreshFocusMode() {
+    $routingConfig.value = Settings.focusMode ? buildFocusModeRouter() : buildRoutingConfig();
   }
 
   @override
@@ -62,10 +70,9 @@ class _MimirAppState extends State<MimirApp> {
       );
     }
 
-    final router = buildRouter();
     return MaterialApp.router(
       title: R.appName,
-      routerConfig: router,
+      routerConfig: buildRouter($routingConfig),
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
