@@ -186,11 +186,11 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         if (focusMode) ...buildFocusPopupActions(),
         PopupMenuItem(
           child: ListTile(
-            leading: const Icon(Icons.filter_center_focus),
+            leading: Icon(focusMode? Icons.center_focus_strong_outlined :Icons.filter_center_focus),
             title: focusMode ? i18n.unfocusTimetable.text() : i18n.focusTimetable.text(),
           ),
           onTap: () async {
-            Settings.focusTimetable = !Settings.focusTimetable;
+            Settings.focusTimetable = !focusMode;
           },
         ),
       ],
