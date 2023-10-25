@@ -349,7 +349,7 @@ GoRouter buildRouter(ValueNotifier<RoutingConfig> $routingConfig) {
   );
 }
 
-RoutingConfig buildRoutingConfig() {
+RoutingConfig buildCommonRoutingConfig() {
   return RoutingConfig(
     redirect: _redirectRoot,
     routes: [
@@ -406,7 +406,7 @@ RoutingConfig buildRoutingConfig() {
   );
 }
 
-RoutingConfig buildFocusModeRouter() {
+RoutingConfig buildTimetableFocusRouter() {
   return RoutingConfig(
     redirect: _redirectRoot,
     routes: [

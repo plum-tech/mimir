@@ -18,7 +18,9 @@ class MimirApp extends StatefulWidget {
 
 class _MimirAppState extends State<MimirApp> {
   final $theme = Settings.theme.listenThemeChange();
-  final $routingConfig = ValueNotifier(buildRoutingConfig());
+  final $routingConfig = ValueNotifier(
+    Settings.focusTimetable ? buildTimetableFocusRouter() : buildCommonRoutingConfig(),
+  );
   final $focusMode = Settings.listenFocusTimetable();
 
   @override
@@ -40,7 +42,7 @@ class _MimirAppState extends State<MimirApp> {
   }
 
   void refreshFocusMode() {
-    $routingConfig.value = Settings.focusTimetable ? buildFocusModeRouter() : buildRoutingConfig();
+    $routingConfig.value = Settings.focusTimetable ? buildTimetableFocusRouter() : buildCommonRoutingConfig();
   }
 
   @override
