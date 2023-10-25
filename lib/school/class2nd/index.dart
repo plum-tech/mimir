@@ -94,7 +94,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
-            await context.push("/class2nd/activity");
+            await context.push("/class2nd");
           },
           label: i18n.activityAction.text(),
           icon: const Icon(Icons.local_activity),

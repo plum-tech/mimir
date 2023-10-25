@@ -66,6 +66,139 @@ String? _loginRequired(BuildContext ctx, GoRouterState state) {
   return null;
 }
 
+final toolRoutes = [
+  GoRoute(
+    path: "/tools/network-tool",
+    builder: (ctx, state) => const NetworkToolPage(),
+  ),
+  GoRoute(
+    path: "/tools/scanner",
+    parentNavigatorKey: $Key,
+    builder: (ctx, state) => const ScannerPage(),
+  ),
+];
+final settingsRoute = GoRoute(
+  path: "/settings",
+  builder: (ctx, state) => const SettingsPage(),
+  routes: [
+    GoRoute(
+      path: "credentials",
+      builder: (ctx, state) => const CredentialsPage(),
+    ),
+    GoRoute(
+      path: "timetable",
+      builder: (ctx, state) => const TimetableSettingsPage(),
+    ),
+    GoRoute(
+      path: "school",
+      builder: (ctx, state) => const SchoolSettingsPage(),
+    ),
+    GoRoute(
+      path: "life",
+      builder: (ctx, state) => const LifeSettingsPage(),
+    ),
+    GoRoute(
+      path: "proxy",
+      builder: (ctx, state) => const ProxySettingsPage(),
+    ),
+    GoRoute(
+      path: "developer",
+      builder: (ctx, state) => const DeveloperOptionsPage(),
+      routes: [
+        GoRoute(
+          path: "local-storage",
+          builder: (ctx, state) => const LocalStoragePage(),
+        )
+      ],
+    ),
+  ],
+);
+final expenseRoute = GoRoute(
+  path: "/expense-records",
+  builder: (ctx, state) => const ExpenseRecordsPage(),
+  redirect: _loginRequired,
+  routes: [
+    GoRoute(
+      path: "statistics",
+      builder: (ctx, state) => const ExpenseStatisticsPage(),
+      redirect: _loginRequired,
+    )
+  ],
+);
+
+final class2ndRoute = GoRoute(
+  path: "/class2nd",
+  builder: (ctx, state) => const ActivityListPage(),
+  redirect: _loginRequired,
+  routes: [
+    GoRoute(
+      path: "attended",
+      builder: (ctx, state) => const AttendedActivityPage(),
+      redirect: _loginRequired,
+    ),
+    GoRoute(
+      path: "activity-detail",
+      builder: (ctx, state) {
+        final enableApply = state.uri.queryParameters["enable-apply"] != null;
+        final extra = state.extra;
+        if (extra is Class2ndActivity) {
+          return Class2ndActivityDetailsPage(extra, enableApply: enableApply);
+        }
+        throw 404;
+      },
+      redirect: _loginRequired,
+    ),
+  ],
+);
+
+final oaAnnounceRoute = GoRoute(
+  path: "/oa-announce",
+  builder: (ctx, state) => const OaAnnounceListPage(),
+  redirect: _loginRequired,
+  routes: [
+    GoRoute(
+      path: "details",
+      builder: (ctx, state) {
+        final extra = state.extra;
+        if (extra is OaAnnounceRecord) {
+          return AnnounceDetailsPage(extra);
+        }
+        throw 404;
+      },
+    ),
+  ],
+);
+final eduEmailRoutes = [
+  GoRoute(
+    path: "/yellow-pages",
+    builder: (ctx, state) => const YellowPagesListPage(),
+  ),
+  GoRoute(
+    path: "/edu-email/login",
+    builder: (ctx, state) => const EduEmailLoginPage(),
+  ),
+  GoRoute(
+    path: "/edu-email/inbox",
+    builder: (ctx, state) => const EduEmailInboxPage(),
+  ),
+  GoRoute(
+    path: "/edu-email/outbox",
+    builder: (ctx, state) => const EduEmailOutboxPage(),
+  ),
+];
+
+final ywbRoute = GoRoute(
+  path: "/ywb",
+  builder: (ctx, state) => const YwbApplicationMetaListPage(),
+  redirect: _loginRequired,
+  routes: [
+    GoRoute(
+      path: "mine",
+      builder: (ctx, state) => const YwbMyApplicationListPage(),
+    ),
+  ],
+);
+
 final router = GoRouter(
   navigatorKey: $Key,
   initialLocation: "/",
@@ -74,10 +207,10 @@ final router = GoRouter(
   redirect: (ctx, state) {
     final auth = ctx.auth;
     if (auth.loginStatus == LoginStatus.never) {
-      // allow to access settings page.
+// allow to access settings page.
       if (state.matchedLocation.startsWith("/tools")) return null;
       if (state.matchedLocation.startsWith("/settings")) return null;
-      // allow to access browser page.
+// allow to access browser page.
       if (state.matchedLocation == "/browser") return null;
       return "/login";
     }
@@ -98,7 +231,7 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: "/timetable",
-              // Timetable is the home page.
+// Timetable is the home page.
               builder: (ctx, state) => const TimetablePage(),
               routes: [
                 GoRoute(
@@ -189,119 +322,13 @@ final router = GoRouter(
         throw 404;
       },
     ),
-    GoRoute(
-      path: "/settings",
-      builder: (ctx, state) => const SettingsPage(),
-      routes: [
-        GoRoute(
-          path: "credentials",
-          builder: (ctx, state) => const CredentialsPage(),
-        ),
-        GoRoute(
-          path: "timetable",
-          builder: (ctx, state) => const TimetableSettingsPage(),
-        ),
-        GoRoute(
-          path: "school",
-          builder: (ctx, state) => const SchoolSettingsPage(),
-        ),
-        GoRoute(
-          path: "life",
-          builder: (ctx, state) => const LifeSettingsPage(),
-        ),
-        GoRoute(
-          path: "proxy",
-          builder: (ctx, state) => const ProxySettingsPage(),
-        ),
-        GoRoute(
-          path: "developer",
-          builder: (ctx, state) => const DeveloperOptionsPage(),
-          routes: [
-            GoRoute(
-              path: "local-storage",
-              builder: (ctx, state) => const LocalStoragePage(),
-            )
-          ],
-        ),
-      ],
-    ),
-    GoRoute(
-      path: "/tools/network-tool",
-      builder: (ctx, state) => const NetworkToolPage(),
-    ),
-    GoRoute(
-      path: "/tools/scanner",
-      parentNavigatorKey: $Key,
-      builder: (ctx, state) => const ScannerPage(),
-    ),
-    GoRoute(
-      path: "/class2nd/activity",
-      builder: (ctx, state) => const ActivityListPage(),
-      redirect: _loginRequired,
-    ),
-    GoRoute(
-      path: "/class2nd/attended",
-      builder: (ctx, state) => const AttendedActivityPage(),
-      redirect: _loginRequired,
-    ),
-    GoRoute(
-      path: "/class2nd/activity-detail",
-      builder: (ctx, state) {
-        final enableApply = state.uri.queryParameters["enable-apply"] != null;
-        final extra = state.extra;
-        // TODO: Fix restoration issues
-        if (extra is Class2ndActivity) {
-          return Class2ndActivityDetailsPage(
-            extra,
-            enableApply: enableApply,
-          );
-        }
-        throw 404;
-      },
-      redirect: _loginRequired,
-    ),
-    GoRoute(
-      path: "/expense-records",
-      builder: (ctx, state) => const ExpenseRecordsPage(),
-      redirect: _loginRequired,
-    ),
-    GoRoute(
-      path: "/expense-records/statistics",
-      builder: (ctx, state) => const ExpenseStatisticsPage(),
-      redirect: _loginRequired,
-    ),
-    GoRoute(
-        path: "/oa-announce",
-        builder: (ctx, state) => const OaAnnounceListPage(),
-        redirect: _loginRequired,
-        routes: [
-          GoRoute(
-            path: "details",
-            builder: (ctx, state) {
-              final extra = state.extra;
-              if (extra is OaAnnounceRecord) {
-                return AnnounceDetailsPage(extra);
-              }
-              throw 404;
-            },
-          ),
-        ]),
-    GoRoute(
-      path: "/yellow-pages",
-      builder: (ctx, state) => const YellowPagesListPage(),
-    ),
-    GoRoute(
-      path: "/edu-email/login",
-      builder: (ctx, state) => const EduEmailLoginPage(),
-    ),
-    GoRoute(
-      path: "/edu-email/inbox",
-      builder: (ctx, state) => const EduEmailInboxPage(),
-    ),
-    GoRoute(
-      path: "/edu-email/outbox",
-      builder: (ctx, state) => const EduEmailOutboxPage(),
-    ),
+    expenseRoute,
+    settingsRoute,
+    ...toolRoutes,
+    class2ndRoute,
+    oaAnnounceRoute,
+    ...eduEmailRoutes,
+    ywbRoute,
     GoRoute(
       path: "/exam-result",
       builder: (ctx, state) => const ExamResultPage(),
@@ -315,21 +342,6 @@ final router = GoRouter(
     GoRoute(
       path: "/library",
       builder: (ctx, state) => const LibraryPage(),
-    ),
-    GoRoute(
-      path: "/timetable",
-      builder: (ctx, state) => const TimetablePage(),
-    ),
-    GoRoute(
-      path: "/ywb",
-      builder: (ctx, state) => const YwbApplicationMetaListPage(),
-      redirect: _loginRequired,
-      routes: [
-        GoRoute(
-          path: "mine",
-          builder: (ctx, state) => const YwbMyApplicationListPage(),
-        ),
-      ],
     ),
     GoRoute(
       path: "/teacher-eval",
