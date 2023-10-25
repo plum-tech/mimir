@@ -39,7 +39,9 @@ class ElectricityBalanceCard extends StatelessWidget {
         title: i18n.balance.text(),
         trailing: AnimatedNumber(
           value: balance.balance,
-          builder: (ctx, value) => i18n.unit.rmb(value.toStringAsFixed(2)).text(style: style),
+          builder: (ctx, value) => i18n.unit.rmb(value.toStringAsFixed(2)).text(
+                style: style?.copyWith(color: balanceColor),
+              ),
         ),
       ),
     ].column(maa: MainAxisAlignment.spaceEvenly).inCard();
