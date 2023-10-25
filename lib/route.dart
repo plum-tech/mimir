@@ -339,61 +339,63 @@ final _browserRoute = GoRoute(
   },
 );
 
-final router = GoRouter(
-  navigatorKey: $Key,
-  initialLocation: "/",
-  debugLogDiagnostics: kDebugMode,
-  errorBuilder: _onError,
-  redirect: _redirectRoot,
-  routes: [
-    GoRoute(
-      path: "/",
-      redirect: (ctx, state) => "/timetable",
-    ),
-    StatefulShellRoute.indexedStack(
-      builder: (ctx, state, navigationShell) {
-        return MainStagePage(navigationShell: navigationShell);
-      },
-      branches: [
-        StatefulShellBranch(
-          navigatorKey: $TimetableShellKey,
-          routes: [
-            _timetableRoute,
-          ],
-        ),
-        StatefulShellBranch(
-          navigatorKey: $SchoolShellKey,
-          routes: [
-            _schoolRoute,
-          ],
-        ),
-        StatefulShellBranch(
-          navigatorKey: $LifeShellKey,
-          routes: [
-            _lifeRoute,
-          ],
-        ),
-        StatefulShellBranch(
-          navigatorKey: $MeShellKey,
-          routes: [
-            _meRoute,
-          ],
-        ),
-      ],
-    ),
-    _browserRoute,
-    _expenseRoute,
-    _settingsRoute,
-    ..._toolRoutes,
-    _class2ndRoute,
-    _oaAnnounceRoute,
-    ..._eduEmailRoutes,
-    _ywbRoute,
-    _examResult,
-    _examArrange,
-    _libraryRoute,
-    _teacherEvalRoute,
-    _loginRoute,
-    _imageRoute,
-  ],
-);
+GoRouter buildRouter() {
+  return GoRouter(
+    navigatorKey: $Key,
+    initialLocation: "/",
+    debugLogDiagnostics: kDebugMode,
+    errorBuilder: _onError,
+    redirect: _redirectRoot,
+    routes: [
+      GoRoute(
+        path: "/",
+        redirect: (ctx, state) => "/timetable",
+      ),
+      StatefulShellRoute.indexedStack(
+        builder: (ctx, state, navigationShell) {
+          return MainStagePage(navigationShell: navigationShell);
+        },
+        branches: [
+          StatefulShellBranch(
+            navigatorKey: $TimetableShellKey,
+            routes: [
+              _timetableRoute,
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: $SchoolShellKey,
+            routes: [
+              _schoolRoute,
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: $LifeShellKey,
+            routes: [
+              _lifeRoute,
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: $MeShellKey,
+            routes: [
+              _meRoute,
+            ],
+          ),
+        ],
+      ),
+      _browserRoute,
+      _expenseRoute,
+      _settingsRoute,
+      ..._toolRoutes,
+      _class2ndRoute,
+      _oaAnnounceRoute,
+      ..._eduEmailRoutes,
+      _ywbRoute,
+      _examResult,
+      _examArrange,
+      _libraryRoute,
+      _teacherEvalRoute,
+      _loginRoute,
+      _imageRoute,
+    ],
+  );
+}

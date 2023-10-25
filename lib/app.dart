@@ -62,6 +62,7 @@ class _MimirAppState extends State<MimirApp> {
       );
     }
 
+    final router = buildRouter();
     return MaterialApp.router(
       title: R.appName,
       routerConfig: router,
