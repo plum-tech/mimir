@@ -13,7 +13,7 @@ class ExamCard extends StatelessWidget {
   const ExamCard(
     this.exam, {
     super.key,
-    this.enableAddEvent = false,
+    required this.enableAddEvent,
   });
 
   @override
@@ -48,7 +48,7 @@ class ExamCard extends StatelessWidget {
             ]),
         ],
       ),
-      if (enableAddEvent && exam.time.isNotEmpty && UniversalPlatform.isAndroid && UniversalPlatform.isIOS) ...[
+      if (enableAddEvent && exam.time.isNotEmpty && (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)) ...[
         const Divider(),
         buildAddToCalenderAction(),
       ],

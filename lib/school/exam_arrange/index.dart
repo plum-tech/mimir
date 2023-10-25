@@ -82,7 +82,7 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
 
   Widget buildExam(ExamEntry exam) {
     if (!isCupertino) {
-      return ExamCard(exam);
+      return ExamCard(exam, enableAddEvent: false);
     }
     return Builder(builder: (context) {
       return CupertinoContextMenu.builder(
@@ -107,7 +107,7 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
           ),
         ],
         builder: (context, animation) {
-          return ExamCard(exam).scrolled(physics: const NeverScrollableScrollPhysics());
+          return ExamCard(exam, enableAddEvent: false).scrolled(physics: const NeverScrollableScrollPhysics());
         },
       );
     });
