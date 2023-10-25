@@ -110,7 +110,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
   Future<void> setNewAddress(String newAddress) async {
     await _setHttpProxy(newAddress);
     if (!mounted) return;
-    context.showSnackBar("HTTP proxy was changed".text());
+    context.showSnackBar(content: "HTTP proxy was changed".text());
   }
 
   Widget buildEnableProxyToggle() {
@@ -139,7 +139,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
       onLongPress: () async {
         await Clipboard.setData(ClipboardData(text: proxyUri.toString()));
         if (!mounted) return;
-        context.showSnackBar(i18n.proxy.fullCopyTip.text());
+        context.showSnackBar(content: i18n.proxy.fullCopyTip.text());
       },
       trailing: IconButton(
         icon: const Icon(Icons.edit),
@@ -192,7 +192,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
       onLongPress: () async {
         await Clipboard.setData(ClipboardData(text: hostname));
         if (!mounted) return;
-        context.showSnackBar(i18n.proxy.hostnameCopyTip.text());
+        context.showSnackBar(content: i18n.proxy.hostnameCopyTip.text());
       },
       trailing: IconButton(
         icon: const Icon(Icons.edit),
@@ -219,7 +219,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
       onLongPress: () async {
         await Clipboard.setData(ClipboardData(text: port.toString()));
         if (!mounted) return;
-        context.showSnackBar(i18n.proxy.portCopyTip.text());
+        context.showSnackBar(content: i18n.proxy.portCopyTip.text());
       },
       trailing: IconButton(
         icon: const Icon(Icons.edit),
@@ -355,6 +355,6 @@ Future<void> onHttpProxyFromQrCode({
   await _setHttpProxy(httpProxy.toString());
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
-  context.showSnackBar("HTTP proxy was changed from QR code".text());
+  context.showSnackBar(content: "HTTP proxy was changed from QR code".text());
   context.push("/settings/proxy");
 }

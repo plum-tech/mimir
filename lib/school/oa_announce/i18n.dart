@@ -16,6 +16,10 @@ class _I18n with CommonI18nMixin {
 
   String get downloadCompleted => "$ns.downloadCompleted".tr();
 
+  String get downloadFailed => "$ns.downloadFailed".tr();
+
+  String get downloading => "$ns.downloading".tr();
+
   String get publishTime => "$ns.publishTime".tr();
 
   String get publishingDepartment => "$ns.publishingDepartment".tr();

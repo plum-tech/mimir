@@ -78,7 +78,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
       onTap: () {
         // Copy the student ID to clipboard
         Clipboard.setData(ClipboardData(text: credential.account));
-        context.showSnackBar(i18n.studentId.copyTip.text());
+        context.showSnackBar(content: i18n.studentId.copyTip.text());
       },
     );
   }

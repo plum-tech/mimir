@@ -104,7 +104,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> {
         isLoading = true;
       });
       context.showSnackBar(
-          Row(
+          content: Row(
             children: [
               const CircularProgressIndicator.adaptive(),
               const SizedBox(
@@ -123,11 +123,11 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> {
           });
         } else {
           if (!mounted) return;
-          context.showSnackBar(const Text('找不到更多了'));
+          context.showSnackBar(content: const Text('找不到更多了'));
           isLoading = false;
         }
       } catch (e) {
-        context.showSnackBar(const Text('网络异常，再试一次'));
+        context.showSnackBar(content: const Text('网络异常，再试一次'));
         isLoading = false;
       }
     }

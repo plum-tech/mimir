@@ -13,6 +13,7 @@ class Files {
   static Directory get screenshot => temp.subDir("screenshot");
 
   static const timetable = TimetableFiles();
+  static const oaAnnounce = OaAnnounceFiles();
 
   static Future<void> init() async {
     await screenshot.create(recursive: true);
@@ -30,6 +31,7 @@ class TimetableFiles {
   const TimetableFiles();
 
   File get screenshotFile => Files.screenshot.subFile("timetable.png");
+
   File get backgroundFile => Files.user.subFile("timetable", "background.png");
 
   Directory get calendarDir => Files.user.subDir("timetable", "calendar");
@@ -37,4 +39,12 @@ class TimetableFiles {
   Future<void> init() async {
     await calendarDir.create(recursive: true);
   }
+}
+
+class OaAnnounceFiles {
+  const OaAnnounceFiles();
+
+  Directory attachmentDir(String uuid) => Files.internal.subDir("attachment", uuid);
+
+  Future<void> init() async {}
 }

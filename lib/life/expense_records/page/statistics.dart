@@ -173,21 +173,21 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
     );
   }
 
-  Widget buildWeekChart(){
+  Widget buildWeekChart() {
     return BaseLineChartWidget(
       bottomTitles: [],
       values: [],
     );
   }
 
-  Widget buildMonthChart(){
+  Widget buildMonthChart() {
     return BaseLineChartWidget(
       bottomTitles: [],
       values: [],
     );
   }
 
-  Widget buildYearChart(){
+  Widget buildYearChart() {
     return BaseLineChartWidget(
       bottomTitles: [],
       values: [],

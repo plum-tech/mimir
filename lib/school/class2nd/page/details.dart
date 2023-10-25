@@ -137,9 +137,9 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
     try {
       final response = await Class2ndInit.attendActivityService.join(activity.id, force: true);
       if (!mounted) return;
-      context.showSnackBar(Text(response));
+      context.showSnackBar(content: Text(response));
     } catch (e) {
-      context.showSnackBar(Text('错误: ${e.runtimeType}'), duration: const Duration(seconds: 3));
+      context.showSnackBar(content: Text('错误: ${e.runtimeType}'), duration: const Duration(seconds: 3));
       rethrow;
     }
   }

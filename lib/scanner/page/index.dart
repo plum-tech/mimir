@@ -105,7 +105,7 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
         if (image != null) {
           if (!await controller.analyzeImage(image.path)) {
             if (!mounted) return;
-            context.showSnackBar(i18n.barcodeNotRecognized.text());
+            context.showSnackBar(content: i18n.barcodeNotRecognized.text());
           }
         }
       },

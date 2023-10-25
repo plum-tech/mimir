@@ -85,6 +85,7 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
       },
     );
   }
+
   Widget buildBackground() {
     return ListTile(
       leading: const Icon(Icons.image_outlined),

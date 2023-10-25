@@ -18,8 +18,6 @@ import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
 import '../utils.dart';
-import 'background.dart';
-import 'cell_style.dart';
 import 'editor.dart';
 
 class MyTimetableListPage extends StatefulWidget {
@@ -82,7 +80,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       debugPrint(err.toString());
       debugPrintStack(stackTrace: stackTrace);
       if (!mounted) return null;
-      context.showSnackBar("Format Error. Please select a timetable file.".text());
+      context.showSnackBar(content: "Format Error. Please select a timetable file.".text());
       return null;
     }
   }

@@ -75,7 +75,7 @@ class _MePageState extends State<MePage> {
           onPressed: () async {
             await Clipboard.setData(const ClipboardData(text: _qGroupNumber));
             if (!mounted) return;
-            context.showSnackBar("已复制到剪贴板".text());
+            context.showSnackBar(content: "已复制到剪贴板".text());
           },
           icon: const Icon(Icons.copy),
         ),

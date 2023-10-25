@@ -516,7 +516,9 @@ oaAnnounce:
   attachmentTip:
     one: Attachment
     other: Attachments
-  downloadCompleted: Download Completed
+  downloadCompleted: Download completed
+  downloadFailed: Download failed
+  downloading: Downloading
   publishTime: Publish Time
   publishingDepartment: Department
 yellowPages:
@@ -580,7 +582,6 @@ unknown: Unknown
 failed: Failed
 download: Download
 fetching: Fetching
-downloading: Downloading
 notFound404: 404 Not Found
 warning: Warning
 exceptionInfo: Exception Info

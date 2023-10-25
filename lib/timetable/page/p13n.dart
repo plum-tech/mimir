@@ -453,6 +453,6 @@ Future<void> onTimetablePaletteFromQrCode({
   TimetableInit.storage.palette.add(palette);
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
-  context.showSnackBar(i18n.p13n.palette.addFromQrCode.text());
+  context.showSnackBar(content: i18n.p13n.palette.addFromQrCode.text());
   context.push("/timetable/p13n?custom");
 }

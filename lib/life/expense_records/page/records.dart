@@ -44,7 +44,7 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
   }
 
   void updateRecords(List<Transaction>? records) {
-    if(!mounted) return;
+    if (!mounted) return;
     setState(() {
       this.records = records;
       month2records = records == null ? null : groupTransactionsByMonthYear(records);

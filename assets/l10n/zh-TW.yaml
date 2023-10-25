@@ -517,6 +517,8 @@ oaAnnounce:
     one: 附件
     other: 附件
   downloadCompleted: 下載完成
+  downloadFailed: 下載失敗
+  downloading: 下載中
   publishTime: 發佈日期
   publishingDepartment: 部門
 yellowPages:
@@ -580,7 +582,6 @@ unknown: 未知
 failed: 失敗
 download: 下載
 fetching: 取回中
-downloading: 下載中
 notFound404: 404 找不到頁面
 warning: 警告
 exceptionInfo: 異常資訊

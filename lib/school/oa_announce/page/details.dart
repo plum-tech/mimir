@@ -109,7 +109,14 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
                     ),
               )
             ],
-            if (details != null) ...details.attachments.map((e) => SliverToBoxAdapter(child: AttachmentLink(e))),
+            if (details != null)
+              SliverList.builder(
+                itemCount: details.attachments.length,
+                itemBuilder: (ctx, i) => AttachmentLinkTile(
+                  details.attachments[i],
+                  uuid: record.uuid,
+                ),
+              ),
           ],
         ),
       ),

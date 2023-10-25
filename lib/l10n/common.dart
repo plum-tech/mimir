@@ -39,8 +39,6 @@ mixin class CommonI18nMixin {
 
   String get fetching => "fetching".tr();
 
-  String get downloading => "downloading".tr();
-
   String get warning => "warning".tr();
 
   String get exceptionInfo => "exceptionInfo".tr();
@@ -72,6 +70,8 @@ mixin class CommonI18nMixin {
   String get upload => "upload".tr();
 
   String get pick => "pick".tr();
+
+  String get retry => "retry".tr();
 }
 
 class CommonI18n with CommonI18nMixin {

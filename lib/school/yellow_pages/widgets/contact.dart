@@ -58,7 +58,7 @@ class ContactTile extends StatelessWidget {
                   YellowPagesInit.storage.addInteractHistory(contact);
                   await Clipboard.setData(ClipboardData(text: contact.phone));
                   if (!context.mounted) return;
-                  context.showSnackBar("Phone number is copied".text());
+                  context.showSnackBar(content: "Phone number is copied".text());
                 },
               ),
             ].row(mas: MainAxisSize.min),
