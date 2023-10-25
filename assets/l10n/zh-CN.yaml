@@ -131,7 +131,7 @@ timetable:
     background:
       title: 壁纸
       opacity: 背景不透明度
-      pickTip: 选择你最喜欢的图片
+      pickTip: 选择你喜欢的图片
       repeat:
         title: 重复图像
         desc: 重复图像作为填充壁纸的图案

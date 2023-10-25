@@ -131,7 +131,7 @@ timetable:
     background:
       title: 桌布
       opacity: 背景不透明度
-      pickTip: 選取你最喜愛的影像
+      pickTip: 選取你喜愛的影像
       repeat:
         title: 重複影像
         desc: 重複影像作為圖案來填滿桌布

@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/files.dart';
 import 'package:sit/timetable/entity/background.dart';
 import 'package:sit/timetable/widgets/style.dart';
 
@@ -94,7 +93,8 @@ class _TimetableBackgroundState extends State<TimetableBackground> with SingleTi
   Widget build(BuildContext context) {
     final bk = widget.background;
     return Image.file(
-      File(bk.path),
+      key: ValueKey(bk.path),
+      Files.timetable.backgroundFile,
       opacity: $opacity,
       filterQuality: bk.antialias ? FilterQuality.low : FilterQuality.none,
       repeat: bk.repeat ? ImageRepeat.repeat : ImageRepeat.noRepeat,

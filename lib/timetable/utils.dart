@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:ical/serializer.dart';
 import 'package:open_file/open_file.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/fs/manager.dart';
+import 'package:sit/files.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
@@ -204,7 +204,7 @@ Future<void> exportTimetableFileAndShare(
 }) async {
   final content = jsonEncode(timetable.toJson());
   final fileName = sanitizeFilename("${timetable.name}.timetable", replacement: "-");
-  final timetableFi = R.tmpDir.sub(fileName);
+  final timetableFi = Files.temp.subFile(fileName);
   final sharePositionOrigin = context.getSharePositionOrigin();
   await timetableFi.writeAsString(content);
   await Share.shareXFiles(
@@ -226,7 +226,7 @@ Future<void> exportTimetableAsICalendarAndOpen(
   required TimetableExportCalendarConfig config,
 }) async {
   final fileName = _getICalFileName(context, timetable);
-  final calendarFi = R.appDir.sub(fileName);
+  final calendarFi = Files.timetable.calendarDir.subFile(fileName);
   final data = convertTimetable2ICal(timetable: timetable, config: config);
   await calendarFi.writeAsString(data);
   // final url = Uri.encodeFull("data:text/calendar,$data");

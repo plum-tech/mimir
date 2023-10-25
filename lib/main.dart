@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sit/files.dart';
 import 'package:sit/init.dart';
 import 'package:sit/migration/migrations.dart';
 import 'package:sit/school/yellow_pages/entity/contact.dart';
@@ -21,8 +22,12 @@ void main() async {
   // debugPaintSizeEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  R.appDir = await getApplicationDocumentsDirectory();
-  R.tmpDir = await getTemporaryDirectory();
+  Files.cache = await getApplicationCacheDirectory();
+  Files.temp = await getTemporaryDirectory();
+  Files.internal = await getApplicationSupportDirectory();
+  Files.user = await getApplicationDocumentsDirectory();
+  await Files.init();
+
   R.roomList = await _loadRoomNumberList();
   R.userAgents = await _loadUserAgents();
   R.yellowPages = await _loadYellowPages();

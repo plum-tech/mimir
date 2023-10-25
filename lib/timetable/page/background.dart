@@ -8,6 +8,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
+import 'package:sit/files.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/background.dart';
 import "../i18n.dart";
@@ -59,7 +60,10 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
                 PlatformTextButton(
                   child: i18n.save.text(),
                   onPressed: () async {
+                    final backgroundFi = await File(background.path).copy(Files.timetable.backgroundFile.path);
+                    await FileImage(backgroundFi).evict();
                     Settings.timetable.backgroundImage = background;
+                    if (!mounted) return;
                     context.pop(background);
                   },
                 ),
