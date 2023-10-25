@@ -108,7 +108,7 @@ SitTimetable parseTimetable(List<CourseRaw> all) {
       courseCode: raw.courseCode.trim(),
       classCode: raw.classCode.trim(),
       campus: raw.campus,
-      place: mapChinesePunctuations(raw.place),
+      place: reformatPlace(mapChinesePunctuations(raw.place)),
       iconName: CourseCategory.query(raw.courseName),
       weekIndices: weekIndices,
       timeslots: timeslots,

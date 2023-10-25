@@ -311,8 +311,22 @@ DateTime reflectWeekDayIndexToDate({
   return startDate.add(Duration(days: weekIndex * 7 + dayIndex));
 }
 
+final _parenthesesRegx = RegExp("\\((.*?)\\)");
+
+/// Exchange a string in brackets with a string out of brackets,
+/// if the string in brackets has a substring such as "一教", "二教", and "三教".
+String reformatPlace(String place) {
+  final matched = _parenthesesRegx.firstMatch(place);
+  if (matched == null) return place;
+  final inParentheses = matched.group(1);
+  if (inParentheses == null) return place;
+  if (!inParentheses.contains("一教") && !inParentheses.contains("二教") && !inParentheses.contains("三教")) return place;
+  final outParentheses = place.replaceRange(matched.start, matched.end, "");
+  return "$inParentheses($outParentheses)";
+}
+
 /// 删去 place 括号里的描述信息. 如, 二教F301（机电18中外合作专用）
-/// But it will keep the "三教" in buckets.
+/// But it will keep the "三教" in brackets.
 String beautifyPlace(String place) {
   int indexOfBucket = place.indexOf('(');
   return indexOfBucket != -1 ? place.substring(0, indexOfBucket) : place;
