@@ -30,7 +30,7 @@ class EduEmailDetailsPage extends StatelessWidget {
             ),
             SliverPadding(
               padding: const EdgeInsets.all(8),
-              sliver: StyledHtmlWidget(
+              sliver: RestyledHtmlWidget(
                 _generateHtml(context, message),
                 renderMode: RenderMode.sliverList,
               ),

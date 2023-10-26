@@ -13,7 +13,7 @@ class AnnounceArticle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final htmlContent = _linkTel(details.content);
-    return StyledHtmlWidget(
+    return RestyledHtmlWidget(
       htmlContent,
       renderMode: RenderMode.sliverList,
     );

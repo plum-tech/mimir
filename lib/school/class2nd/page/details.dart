@@ -90,7 +90,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
               else
                 SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  sliver: StyledHtmlWidget(details.description ?? "", renderMode: RenderMode.sliverList),
+                  sliver: RestyledHtmlWidget(details.description ?? "", renderMode: RenderMode.sliverList),
                 ),
           ],
         ),

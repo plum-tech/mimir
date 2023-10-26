@@ -5,12 +5,12 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 
-class StyledHtmlWidget extends StatelessWidget {
+class RestyledHtmlWidget extends StatelessWidget {
   final String html;
   final RenderMode renderMode;
   final TextStyle? textStyle;
 
-  const StyledHtmlWidget(
+  const RestyledHtmlWidget(
     this.html, {
     super.key,
     this.renderMode = RenderMode.column,
@@ -24,7 +24,10 @@ class StyledHtmlWidget extends StatelessWidget {
       html,
       buildAsync: true,
       renderMode: renderMode,
-      factoryBuilder: () => StyledWidgetFactory(textStyle: textStyle),
+      factoryBuilder: () => RestyledWidgetFactory(
+        textStyle: textStyle,
+        borderColor: context.colorScheme.surfaceVariant,
+      ),
       textStyle: textStyle,
       onTapUrl: (url) async {
         return await guardLaunchUrlString(context, url);
@@ -38,11 +41,13 @@ class StyledHtmlWidget extends StatelessWidget {
   }
 }
 
-class StyledWidgetFactory extends WidgetFactory {
+class RestyledWidgetFactory extends WidgetFactory {
   final TextStyle? textStyle;
+  final Color? borderColor;
 
-  StyledWidgetFactory({
-    required this.textStyle,
+  RestyledWidgetFactory({
+    this.textStyle,
+    this.borderColor,
   });
 
   @override
@@ -79,9 +84,26 @@ class StyledWidgetFactory extends WidgetFactory {
     return super.buildDecoration(
       tree,
       child,
-      border: border,
+      border: _restyleBorder(border, borderColor),
       borderRadius: borderRadius,
       color: Colors.transparent,
     );
   }
+}
+
+BoxBorder? _restyleBorder(BoxBorder? border, Color? color) {
+  if (border is Border) {
+    return Border(
+      top: _restyleBorderSide(border.top, color),
+      right: _restyleBorderSide(border.right, color),
+      bottom: _restyleBorderSide(border.top, color),
+      left: _restyleBorderSide(border.left, color),
+    );
+  } else {
+    return border;
+  }
+}
+
+BorderSide _restyleBorderSide(BorderSide side, Color? color) {
+  return side.copyWith(color: color);
 }

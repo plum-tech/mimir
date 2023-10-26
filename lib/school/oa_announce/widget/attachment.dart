@@ -51,7 +51,7 @@ class _AttachmentLinkTileState extends State<AttachmentLinkTile> {
     if (await target.exists()) {
       await OpenFile.open(target.path);
     } else {
-      if (!context.mounted) return;
+      if (!mounted) return;
       context.showSnackBar(
         content: i18n.downloading.text(),
         duration: const Duration(seconds: 1),
@@ -61,13 +61,13 @@ class _AttachmentLinkTileState extends State<AttachmentLinkTile> {
           attachment: widget.attachment,
           target: target,
           onProgress: (progress) {
-            if (!context.mounted) return;
+            if (!mounted) return;
             setState(() {
               this.progress = progress;
             });
           },
         );
-        if (!context.mounted) return;
+        if (!mounted) return;
         context.showSnackBar(
           content: widget.attachment.name.text(),
           duration: const Duration(seconds: 5),
@@ -84,7 +84,7 @@ class _AttachmentLinkTileState extends State<AttachmentLinkTile> {
       } catch (error, stackTrace) {
         debugPrint(error.toString());
         debugPrintStack(stackTrace: stackTrace);
-        if (!context.mounted) return;
+        if (!mounted) return;
         setState(() {
           progress = null;
         });

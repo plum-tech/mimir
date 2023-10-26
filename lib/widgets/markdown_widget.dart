@@ -23,6 +23,6 @@ class MyMarkdownWidget extends StatelessWidget {
         TableSyntax(),
       ],
     );
-    return StyledHtmlWidget(html);
+    return RestyledHtmlWidget(html);
   }
 }
