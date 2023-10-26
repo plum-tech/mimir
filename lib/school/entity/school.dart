@@ -338,23 +338,23 @@ String mapChinesePunctuations(String name) {
   for (final c in name.runes) {
     switch (c) {
       case 0xFF08: // （
-        b.writeCharCode(c);
+        b.writeCharCode(0x28); // (
         break;
 
       case 0xFF09: // ）
-        b.writeCharCode(c);
+        b.writeCharCode(0x29); // )
         break;
 
       case 0x3010: // 【
-        b.writeCharCode(c);
+        b.writeCharCode(0x5B); // [
         break;
 
       case 0x3011: // 】
-        b.writeCharCode(c);
+        b.writeCharCode(0x5D); // ]
         break;
 
       case 0xFF06: // ＆
-        b.writeCharCode(c);
+        b.writeCharCode(0x26); // &
         break;
       default:
         b.writeCharCode(c);
