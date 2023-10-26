@@ -78,6 +78,9 @@ class _AttachmentLinkTileState extends State<AttachmentLinkTile> {
             },
           ),
         );
+        setState(() {
+          progress = 1;
+        });
       } catch (error, stackTrace) {
         debugPrint(error.toString());
         debugPrintStack(stackTrace: stackTrace);
@@ -111,7 +114,7 @@ Future<void> _onDownloadFile({
     attachment.url,
     savePath: target.path,
     onReceiveProgress: (int count, int total) {
-      onProgress?.call(total == 0 ? double.nan : count / total);
+      onProgress?.call(total <= 0 ? double.nan : count / total);
     },
   );
   debugPrint('Downloaded [${attachment.name}](${attachment.url})');
