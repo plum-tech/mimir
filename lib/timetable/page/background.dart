@@ -51,7 +51,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
                 PlatformTextButton(
                   onPressed: () async {
                     setState(() {
-                      this.background = const BackgroundImage.disabled();
+                      this.background = background.disabledCopyWith();
                     });
                   },
                   child: i18n.delete.text(style: TextStyle(color: context.$red$)),
@@ -60,8 +60,10 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
                 PlatformTextButton(
                   child: i18n.save.text(),
                   onPressed: () async {
-                    final backgroundFi = await File(background.path).copy(Files.timetable.backgroundFile.path);
-                    await FileImage(backgroundFi).evict();
+                    if (background.enabled) {
+                      final backgroundFi = await File(background.path).copy(Files.timetable.backgroundFile.path);
+                      await FileImage(backgroundFi).evict();
+                    }
                     Settings.timetable.backgroundImage = background;
                     if (!mounted) return;
                     context.pop(background);

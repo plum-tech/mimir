@@ -60,6 +60,18 @@ class BackgroundImage {
       antialias: antialias ?? this.antialias,
     );
   }
+  BackgroundImage disabledCopyWith({
+    double? opacity,
+    bool? repeat,
+    bool? antialias,
+  }) {
+    return BackgroundImage(
+      path: "",
+      opacity: opacity ?? this.opacity,
+      repeat: repeat ?? this.repeat,
+      antialias: antialias ?? this.antialias,
+    );
+  }
 
   @override
   String toString() {
