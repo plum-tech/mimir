@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:path/path.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class Files {
   const Files._();
@@ -34,7 +35,8 @@ class TimetableFiles {
 
   File get backgroundFile => Files.user.subFile("timetable", "background.png");
 
-  Directory get calendarDir => Files.user.subDir("timetable", "calendar");
+  // on MIUI, OpenFile can't open file under `Files.user`
+  Directory get calendarDir => (UniversalPlatform.isAndroid ? Files.cache : Files.user).subDir("timetable", "calendar");
 
   Future<void> init() async {
     await calendarDir.create(recursive: true);

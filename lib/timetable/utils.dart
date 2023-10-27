@@ -11,6 +11,7 @@ import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'entity/timetable.dart';
 
 import 'entity/course.dart';
@@ -213,24 +214,19 @@ Future<void> exportTimetableFileAndShare(
   );
 }
 
-String _getICalFileName(BuildContext context, SitTimetableEntity timetable) {
-  return sanitizeFilename(
-    "${timetable.type.name}, ${context.formatYmdNum(timetable.type.startDate)} #${DateTime.now().millisecondsSinceEpoch ~/ 1000}.ics",
-    replacement: "-",
-  );
-}
-
 Future<void> exportTimetableAsICalendarAndOpen(
   BuildContext context, {
   required SitTimetableEntity timetable,
   required TimetableExportCalendarConfig config,
 }) async {
-  final fileName = _getICalFileName(context, timetable);
+  final name = "${timetable.type.name}, ${context.formatYmdNum(timetable.type.startDate)}";
+  final fileName = sanitizeFilename(
+    UniversalPlatform.isAndroid ? "$name #${DateTime.now().millisecondsSinceEpoch ~/ 1000}.ics" : "$name.ics",
+    replacement: "-",
+  );
   final calendarFi = Files.timetable.calendarDir.subFile(fileName);
   final data = convertTimetable2ICal(timetable: timetable, config: config);
   await calendarFi.writeAsString(data);
-  // final url = Uri.encodeFull("data:text/calendar,$data");
-  // await Clipboard.setData(ClipboardData(text: url));
   await OpenFile.open(calendarFi.path, type: "text/calendar");
 }
 
