@@ -10,7 +10,7 @@ issue_tracker: https://github.com/liplum/mimir/issues
 documentation: https://github.com/liplum/mimir#readme
 
 publish_to: none
-environment: { sdk: '>=3.0.0 <4.0.0', flutter: ^3.0.0 }
+environment: { sdk: '>=3.0.0 <4.0.0', flutter: ^3.13.9 }
 
 dependencies:
   flutter: { sdk: flutter }
