@@ -24,13 +24,13 @@ import 'page/export.dart';
 const maxWeekLength = 20;
 
 final Map<String, int> _weekday2Index = {
-  '星期一': 1,
-  '星期二': 2,
-  '星期三': 3,
-  '星期四': 4,
-  '星期五': 5,
-  '星期六': 6,
-  '星期日': 7,
+  '星期一': 0,
+  '星期二': 1,
+  '星期三': 2,
+  '星期四': 3,
+  '星期五': 4,
+  '星期六': 5,
+  '星期日': 6,
 };
 
 extension StringEx on String {
@@ -43,15 +43,15 @@ extension StringEx on String {
 /// The return value should be
 /// ```dart
 /// TimetableWeekIndices([
-///  WeekIndexType(
+///  TimetableWeekIndex(
 ///    type: WeekIndexType.all,
 ///    range: (start: 0, end: 4),
 ///  ),
-///  WeekIndexType(
+///  TimetableWeekIndex(
 ///    type: WeekIndexType.single,
 ///    range: (start: 13, end: 13),
 ///  ),
-///  WeekIndexType(
+///  TimetableWeekIndex(
 ///    type: WeekIndexType.odd,
 ///    range: (start: 7, end: 9),
 ///  ),
@@ -66,41 +66,29 @@ TimetableWeekIndices _parseWeekText2RangedNumbers(String weekText) {
     if (week.endsWith("(单)")) {
       final rangeText = week.removeSuffix("周(单)");
       final range = rangeFromString(rangeText, number2index: true);
-      indices.add(TimetableWeekIndex(
-        type: TimetableWeekIndexType.odd,
-        range: range,
-      ));
+      indices.add(TimetableWeekIndex.odd(range));
     } else if (week.endsWith("(双)")) {
       final rangeText = week.removeSuffix("周(双)");
       final range = rangeFromString(rangeText, number2index: true);
-      indices.add(TimetableWeekIndex(
-        type: TimetableWeekIndexType.even,
-        range: range,
-      ));
+      indices.add(TimetableWeekIndex.even(range));
     } else {
       final numberText = week.removeSuffix("周");
       final range = rangeFromString(numberText, number2index: true);
-      indices.add(TimetableWeekIndex(
-        type: TimetableWeekIndexType.all,
-        range: range,
-      ));
+      indices.add(TimetableWeekIndex.all(range));
     }
   }
   return TimetableWeekIndices(indices);
 }
 
-SitTimetable parseUngraduateTimetableFromCourseRaw(List<CourseRaw> all) {
+SitTimetable parseUndergraduateTimetableFromCourseRaw(List<CourseRaw> all) {
   final List<SitCourse> courseKey2Entity = [];
   var counter = 0;
   for (final raw in all) {
     final courseKey = counter++;
-    final weekIndices = _parseWeekText2RangedNumbers(raw.weekText);
-    final dayLiteral = _weekday2Index[raw.weekDayText];
-    assert(dayLiteral != null, "It's no corresponding dayIndex of ${raw.weekDayText}");
-    if (dayLiteral == null) continue;
-    final dayIndex = dayLiteral - 1;
-    assert(0 <= dayIndex && dayIndex < 7, "dayIndex is out of range [0,6] but $dayIndex");
-    if (!(0 <= dayIndex && dayIndex < 7)) continue;
+    final weekIndices = _parseWeekText2RangedNumbers(mapChinesePunctuations(raw.weekText));
+    final dayIndex = _weekday2Index[raw.weekDayText];
+    assert(dayIndex != null && 0 <= dayIndex && dayIndex < 7, "dayIndex isn't in range [0,6] but $dayIndex");
+    if (dayIndex == null || !(0 <= dayIndex && dayIndex < 7)) continue;
     final timeslots = rangeFromString(raw.timeslotsText, number2index: true);
     assert(timeslots.start <= timeslots.end, "${timeslots.start} > ${timeslots.end} actually. ${raw.courseName}");
     final course = SitCourse(

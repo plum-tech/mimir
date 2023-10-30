@@ -4,7 +4,6 @@ import 'package:sit/school/entity/school.dart';
 
 import '../i18n.dart';
 import '../utils.dart';
-import 'course.dart';
 
 part 'timetable.g.dart';
 
@@ -374,6 +373,18 @@ class TimetableWeekIndex {
     required this.type,
     required this.range,
   });
+
+  const TimetableWeekIndex.all(
+    this.range,
+  ) : type = TimetableWeekIndexType.all;
+
+  const TimetableWeekIndex.odd(
+    this.range,
+  ) : type = TimetableWeekIndexType.odd;
+
+  const TimetableWeekIndex.even(
+    this.range,
+  ) : type = TimetableWeekIndexType.even;
 
   /// week number start by
   bool match(int weekIndex) {
