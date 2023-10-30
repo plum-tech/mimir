@@ -23,7 +23,7 @@ import 'package:sit/school/oa_announce/init.dart';
 import 'package:sit/school/class2nd/init.dart';
 import 'package:sit/school/exam_result/init.dart';
 import 'package:sit/school/yellow_pages/init.dart';
-import 'package:sit/session/sis.dart';
+import 'package:sit/session/jwxt.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/version.dart';
@@ -51,7 +51,7 @@ class Init {
   static late CookieJar cookieJar;
   static late Dio dio;
   static late SsoSession ssoSession;
-  static late SisSession sisSession;
+  static late JwxtSession sisSession;
   static late YwbSession ywbSession;
   static late LibrarySession librarySession;
   static late Class2ndSession class2ndSession;
@@ -94,7 +94,7 @@ class Init {
         );
       },
     );
-    sisSession = SisSession(
+    sisSession = JwxtSession(
       ssoSession,
     );
     ywbSession = YwbSession(

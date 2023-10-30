@@ -1,6 +1,6 @@
 import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
-import 'package:sit/session/sis.dart';
+import 'package:sit/session/jwxt.dart';
 
 import '../entity/exam.dart';
 import 'package:sit/school/entity/school.dart';
@@ -8,7 +8,7 @@ import 'package:sit/school/entity/school.dart';
 class ExamArrangeService {
   static const _examRoomUrl = 'http://jwxt.sit.edu.cn/jwglxt/kwgl/kscx_cxXsksxxIndex.html';
 
-  SisSession get session => Init.sisSession;
+  JwxtSession get session => Init.sisSession;
 
   const ExamArrangeService();
 

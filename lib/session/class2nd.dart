@@ -1,14 +1,15 @@
 import 'package:dio/dio.dart';
+import 'package:sit/session/sso.dart';
 
 import '../network/session.dart';
 
-class Class2ndSession extends ISession {
-  final ISession _session;
+class Class2ndSession {
+  final SsoSession session;
 
-  Class2ndSession(this._session);
+  Class2ndSession(this.session);
 
   Future<void> _refreshCookie() async {
-    await _session.request(
+    await session.request(
       'https://authserver.sit.edu.cn/authserver/login?service=http%3A%2F%2Fsc.sit.edu.cn%2Flogin.jsp',
       ReqMethod.get,
     );
@@ -18,7 +19,6 @@ class Class2ndSession extends ISession {
     return data.startsWith('<script');
   }
 
-  @override
   Future<Response> request(
     String url,
     ReqMethod method, {
@@ -28,7 +28,7 @@ class Class2ndSession extends ISession {
     SessionProgressCallback? onSendProgress,
     SessionProgressCallback? onReceiveProgress,
   }) async {
-    Future<Response> fetch() => _session.request(
+    Future<Response> fetch() => session.request(
           url,
           method,
           para: para,

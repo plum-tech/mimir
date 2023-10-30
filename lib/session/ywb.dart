@@ -12,7 +12,7 @@ const _ywbUrl = "https://ywb.sit.edu.cn/v1";
 /// 应网办登录地址, POST 请求
 const String _officeLoginUrl = "https://xgfy.sit.edu.cn/unifri-flow/login";
 
-class YwbSession extends ISession {
+class YwbSession {
   bool isLogin = false;
   String? username;
   String? jwtToken;
@@ -50,7 +50,6 @@ class YwbSession extends ISession {
     return md5.convert(content).toString();
   }
 
-  @override
   Future<Response> request(
     String url,
     ReqMethod method, {

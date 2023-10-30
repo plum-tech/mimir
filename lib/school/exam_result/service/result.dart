@@ -3,7 +3,7 @@ import 'package:sit/design/animation/progress.dart';
 import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/school/entity/school.dart';
-import 'package:sit/session/sis.dart';
+import 'package:sit/session/jwxt.dart';
 
 import '../entity/result.dart';
 
@@ -25,7 +25,7 @@ class ExamResultService {
   static const _scoreFormSelector = 'td:nth-child(1)';
   static const _scorePercentageSelector = 'td:nth-child(3)';
   static const _scoreValueSelector = 'td:nth-child(5)';
-  SisSession get session => Init.sisSession;
+  JwxtSession get session => Init.sisSession;
 
   const ExamResultService();
 

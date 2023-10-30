@@ -30,7 +30,7 @@ const _neededHeaders = {
 
 // TODO: improve login flow.
 /// Single Sign-On
-class SsoSession with DioDownloaderMixin implements ISession {
+class SsoSession with DioDownloaderMixin {
   static const String _authServerUrl = 'https://authserver.sit.edu.cn/authserver';
   static const String _loginUrl = '$_authServerUrl/login';
   static const String _needCaptchaUrl = '$_authServerUrl/needCaptcha.html';
@@ -325,7 +325,6 @@ class SsoSession with DioDownloaderMixin implements ISession {
     return await DioUtils.processRedirect(dio, res, headers: _neededHeaders);
   }
 
-  @override
   Future<Response> request(
     String url,
     ReqMethod method, {

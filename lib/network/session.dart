@@ -41,14 +41,3 @@ enum ReqMethod {
   const ReqMethod(this.uppercaseName);
 }
 
-abstract class ISession {
-  Future<Response> request(
-    String url,
-    ReqMethod method, {
-    Map<String, String>? para,
-    dynamic data,
-    SessionOptions? options,
-    SessionProgressCallback? onSendProgress,
-    SessionProgressCallback? onReceiveProgress,
-  });
-}

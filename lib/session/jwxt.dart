@@ -5,11 +5,12 @@ import 'package:sit/network/session.dart';
 import 'package:sit/session/sso.dart';
 import 'package:sit/utils/logger.dart';
 
-/// Student information system of SIT
-class SisSession extends ISession {
+/// jwxt.sit.edu.cn
+/// for undergraduate
+class JwxtSession {
   final SsoSession ssoSession;
 
-  SisSession(this.ssoSession);
+  const JwxtSession(this.ssoSession);
 
   Future<void> _refreshCookie() async {
     await ssoSession.request('http://jwxt.sit.edu.cn/sso/jziotlogin', ReqMethod.get);
@@ -19,7 +20,6 @@ class SisSession extends ISession {
     return response.realUri.path == '/jwglxt/xtgl/login_slogin.html';
   }
 
-  @override
   Future<Response> request(
     String url,
     ReqMethod method, {
@@ -46,13 +46,13 @@ class SisSession extends ISession {
     var response = await fetch();
     // 如果返回值是登录页面，那就从 SSO 跳转一次以登录.
     if (_isRedirectedToLoginPage(response)) {
-      Log.info('EduSession需要登录');
+      Log.info('JwxtSession requires login');
       await _refreshCookie();
       response = await fetch();
     }
     // 如果还是需要登录
     if (_isRedirectedToLoginPage(response)) {
-      Log.info('SsoSession需要登录');
+      Log.info('SsoSession login');
       final credential = CredentialInit.storage.oaCredentials;
       if (credential == null) {
         throw LoginRequiredException(url: url);

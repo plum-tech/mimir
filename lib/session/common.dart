@@ -65,13 +65,12 @@ mixin DioDownloaderMixin implements Downloader {
   }
 }
 
-class DefaultDioSession with DioDownloaderMixin implements ISession {
+class DefaultDioSession with DioDownloaderMixin {
   @override
   Dio dio;
 
   DefaultDioSession(this.dio);
 
-  @override
   Future<Response> request(
     String url,
     ReqMethod method, {
