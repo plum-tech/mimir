@@ -10,8 +10,10 @@ import '../entity/timetable.dart';
 import '../utils.dart';
 
 class TimetableService {
-  static const _undergraduateTimetableUrl = 'http://jwxt.sit.edu.cn/jwglxt/kbcx/xskbcx_cxXsgrkb.html';
-  static const _postgraduateTimetableUrl = '"http://gms.sit.edu.cn/epstar/web/swms/mainframe/home/index.jsp';
+  static const _undergraduateTimetableUrl =
+      'http://jwxt.sit.edu.cn/jwglxt/kbcx/xskbcx_cxXsgrkb.html';
+  static const _postgraduateTimetableUrl =
+      '"http://gms.sit.edu.cn/epstar/web/swms/mainframe/home/index.jsp';
 
   JwxtSession get jwxtSession => Init.jwxtSession;
 
@@ -99,18 +101,19 @@ List parseTimeTable(String htmlContent) {
   final trList = table?.querySelectorAll('tr');
   for (var tr in trList!) {
     final tdList = tr.querySelectorAll('td');
-    tdList.forEach((td) {
+    for (var td in tdList) {
       if (td.innerHtml.contains("br")) {
         var index = tdList.indexOf(td);
-        var weekday;
-        if (tdList.length > 8)
+        String weekday;
+        if (tdList.length > 8) {
           weekday = mapOfWeekday[index - 2];
-        else
+        } else {
           weekday = mapOfWeekday[index - 1];
+        }
         var nodes = td.nodes;
         processNodes(nodes, weekday);
       }
-    });
+    }
   }
   return courseList;
 }
