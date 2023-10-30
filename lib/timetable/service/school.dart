@@ -37,7 +37,7 @@ class TimetableService {
     final json = response.data;
     final List<dynamic> courseList = json['kbList'];
     final rawCourses = courseList.map((e) => CourseRaw.fromJson(e)).toList();
-    final timetableEntity = parseUngraduateTimetableFromCourseRaw(rawCourses);
+    final timetableEntity = parseUndergraduateTimetableFromCourseRaw(rawCourses);
     return timetableEntity;
   }
 
