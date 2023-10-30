@@ -13,7 +13,7 @@ class LibrarySession extends DefaultDioSession {
   static const _pemUrl = '$_opacUrl/certificate/pem';
   static const _doLoginUrl = '$_opacUrl/reader/doLogin';
 
-  LibrarySession(Dio dio) : super(dio);
+  LibrarySession({required Dio dio}) : super(dio);
 
   Future<Response> login(String username, String password) async {
     final response = await _login(username, password);

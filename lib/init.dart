@@ -7,6 +7,7 @@ import 'package:sit/credentials/init.dart';
 import 'package:sit/platform/desktop.dart';
 import 'package:sit/hive/init.dart';
 import 'package:sit/session/class2nd.dart';
+import 'package:sit/session/gms.dart';
 import 'package:sit/session/library.dart';
 import 'package:sit/session/ywb.dart';
 import 'package:sit/settings/meta.dart';
@@ -52,6 +53,7 @@ class Init {
   static late Dio dio;
   static late SsoSession ssoSession;
   static late JwxtSession sisSession;
+  static late GmsSession gmsSession;
   static late YwbSession ywbSession;
   static late LibrarySession librarySession;
   static late Class2ndSession class2ndSession;
@@ -95,16 +97,19 @@ class Init {
       },
     );
     sisSession = JwxtSession(
-      ssoSession,
+      ssoSession: ssoSession,
     );
     ywbSession = YwbSession(
       dio: dio,
     );
     librarySession = LibrarySession(
-      dio,
+      dio: dio,
     );
     class2ndSession = Class2ndSession(
-      ssoSession,
+      ssoSession: ssoSession,
+    );
+    gmsSession = GmsSession(
+      ssoSession: ssoSession,
     );
   }
 

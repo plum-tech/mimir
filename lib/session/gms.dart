@@ -5,5 +5,5 @@ import 'package:sit/session/sso.dart';
 class GmsSession {
   final SsoSession ssoSession;
 
-  const GmsSession(this.ssoSession);
+  const GmsSession({required this.ssoSession});
 }

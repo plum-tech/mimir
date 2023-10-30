@@ -10,7 +10,7 @@ import 'package:sit/utils/logger.dart';
 class JwxtSession {
   final SsoSession ssoSession;
 
-  const JwxtSession(this.ssoSession);
+  const JwxtSession({required this.ssoSession});
 
   Future<void> _refreshCookie() async {
     await ssoSession.request('http://jwxt.sit.edu.cn/sso/jziotlogin', ReqMethod.get);
