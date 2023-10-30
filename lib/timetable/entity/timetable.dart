@@ -34,10 +34,6 @@ class SitTimetable {
     required this.semester,
   });
 
-  factory SitTimetable.parse(List<CourseRaw> all) {
-    return parseTimetable(all);
-  }
-
   SitTimetableEntity resolve() {
     return resolveTimetableEntity(this);
   }

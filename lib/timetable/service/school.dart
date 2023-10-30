@@ -6,9 +6,11 @@ import 'package:sit/session/jwxt.dart';
 
 import '../entity/course.dart';
 import '../entity/timetable.dart';
+import '../utils.dart';
 
 class TimetableService {
   static const _undergraduateTimetableUrl = 'http://jwxt.sit.edu.cn/jwglxt/kbcx/xskbcx_cxXsgrkb.html';
+  static const _postgraduateTimetableUrl = '"http://gms.sit.edu.cn/epstar/web/swms/mainframe/home/index.jsp';
 
   JwxtSession get jwxtSession => Init.jwxtSession;
 
@@ -32,11 +34,15 @@ class TimetableService {
     final json = response.data;
     final List<dynamic> courseList = json['kbList'];
     final rawCourses = courseList.map((e) => CourseRaw.fromJson(e)).toList();
-    final timetableEntity = SitTimetable.parse(rawCourses);
+    final timetableEntity = parseUngraduateTimetableFromCourseRaw(rawCourses);
     return timetableEntity;
   }
 
   Future<SitTimetable> getPostgraduateTimetable(SemesterInfo info) async {
+    final response = await gmsSession.request(
+      _postgraduateTimetableUrl,
+      ReqMethod.get,
+    );
     throw Exception("");
   }
 }
