@@ -52,7 +52,7 @@ class Init {
   static late CookieJar cookieJar;
   static late Dio dio;
   static late SsoSession ssoSession;
-  static late JwxtSession sisSession;
+  static late JwxtSession jwxtSession;
   static late GmsSession gmsSession;
   static late YwbSession ywbSession;
   static late LibrarySession librarySession;
@@ -96,7 +96,7 @@ class Init {
         );
       },
     );
-    sisSession = JwxtSession(
+    jwxtSession = JwxtSession(
       ssoSession: ssoSession,
     );
     ywbSession = YwbSession(

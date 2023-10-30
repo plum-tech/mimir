@@ -8,7 +8,7 @@ import 'package:sit/school/entity/school.dart';
 class ExamArrangeService {
   static const _examRoomUrl = 'http://jwxt.sit.edu.cn/jwglxt/kwgl/kscx_cxXsksxxIndex.html';
 
-  JwxtSession get session => Init.sisSession;
+  JwxtSession get session => Init.jwxtSession;
 
   const ExamArrangeService();
 

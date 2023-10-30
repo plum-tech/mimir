@@ -25,7 +25,7 @@ class ExamResultService {
   static const _scoreFormSelector = 'td:nth-child(1)';
   static const _scorePercentageSelector = 'td:nth-child(3)';
   static const _scoreValueSelector = 'td:nth-child(5)';
-  JwxtSession get session => Init.sisSession;
+  JwxtSession get session => Init.jwxtSession;
 
   const ExamResultService();
 

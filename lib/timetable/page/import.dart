@@ -180,7 +180,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     });
     try {
       final (:year, :semester) = selected;
-      final timetable = await TimetableInit.service.getTimetable(year, semester);
+      final timetable = await TimetableInit.service.getUndergraduateTimetable((year: year, semester: semester));
       if (!mounted) return;
       setState(() {
         _status = ImportStatus.end;
