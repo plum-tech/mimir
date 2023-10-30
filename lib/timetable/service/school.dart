@@ -36,7 +36,7 @@ class TimetableService {
     return timetableEntity;
   }
 
-  Future<SitTimetable?> getPostgraduateTimetable(SemesterInfo info) async {
-
+  Future<SitTimetable> getPostgraduateTimetable(SemesterInfo info) async {
+    throw Exception("");
   }
 }

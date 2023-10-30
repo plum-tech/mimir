@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/animation/animated.dart';
@@ -137,7 +138,11 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   }
 
   Future<({int id, SitTimetable timetable})?> handleTimetableData(
-      BuildContext ctx, SitTimetable timetable, int year, Semester semester) async {
+    BuildContext ctx,
+    SitTimetable timetable,
+    SemesterInfo info,
+  ) async {
+    final (:year, :semester) = info;
     final defaultName = i18n.import.defaultName(semester.localized(), year.toString(), (year + 1).toString());
     DateTime defaultStartDate;
     if (semester == Semester.term1) {
@@ -174,18 +179,26 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     );
   }
 
+  Future<SitTimetable> getTimetable(SemesterInfo info) async {
+    return switch (context.auth.userType) {
+      OaUserType.undergraduate => TimetableInit.service.getUndergraduateTimetable(info),
+      OaUserType.postgraduate => TimetableInit.service.getPostgraduateTimetable(info),
+      OaUserType.other => throw Exception("Timetable importing not supported"),
+    };
+  }
+
   void _onImport() async {
     setState(() {
       _status = ImportStatus.importing;
     });
     try {
-      final (:year, :semester) = selected;
-      final timetable = await TimetableInit.service.getUndergraduateTimetable((year: year, semester: semester));
+      final selected = this.selected;
+      final timetable = await getTimetable(selected);
       if (!mounted) return;
       setState(() {
         _status = ImportStatus.end;
       });
-      final id2timetable = await handleTimetableData(context, timetable, year, semester);
+      final id2timetable = await handleTimetableData(context, timetable, selected);
       if (!mounted) return;
       context.pop(id2timetable);
     } catch (e, stackTrace) {
