@@ -58,7 +58,8 @@ class _AttachmentLinkTileState extends State<AttachmentLinkTile> {
       );
       try {
         await _onDownloadFile(
-          attachment: widget.attachment,
+          name: widget.attachment.name,
+          url: widget.attachment.url,
           target: target,
           onProgress: (progress) {
             if (!mounted) return;
@@ -104,18 +105,19 @@ class _AttachmentLinkTileState extends State<AttachmentLinkTile> {
 }
 
 Future<void> _onDownloadFile({
-  required OaAnnounceAttachment attachment,
+  required String name,
+  required String url,
   required File target,
   void Function(double progress)? onProgress,
 }) async {
-  debugPrint('Start downloading [${attachment.name}](${attachment.url}) to $target');
+  debugPrint('Start downloading [$name]($url) to $target');
   // 如果文件不存在，那么下载文件
   await OaAnnounceInit.service.session.download(
-    attachment.url,
+    url,
     savePath: target.path,
     onReceiveProgress: (int count, int total) {
       onProgress?.call(total <= 0 ? double.nan : count / total);
     },
   );
-  debugPrint('Downloaded [${attachment.name}](${attachment.url})');
+  debugPrint('Downloaded [$name]($url)');
 }

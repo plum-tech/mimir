@@ -112,16 +112,6 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
             },
             icon: const Icon(Icons.share_outlined),
           ),
-        if (!isCupertino)
-          IconButton(
-            onPressed: selectedRoom == null
-                ? null
-                : () async {
-                    await HapticFeedback.heavyImpact();
-                    ElectricityBalanceInit.storage.selectedRoom = null;
-                  },
-            icon: const Icon(Icons.delete_outlined),
-          ),
       ],
     );
   }
@@ -131,9 +121,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
     required String selectedRoom,
   }) {
     if (!isCupertino) {
-      return ElectricityBalanceCard(
-        balance: balance,
-      ).sized(h: 120);
+      return buildCard(balance);
     }
     return Builder(
       builder: (ctx) => CupertinoContextMenu.builder(
@@ -159,24 +147,23 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
           ),
         ],
         builder: (ctx, animation) {
-          final card = ElectricityBalanceCard(
-            balance: balance,
-          ).sized(h: 120);
-          // pressing
-          if (animation.value == 0) {
-            return Dismissible(
-              direction: DismissDirection.endToStart,
-              key: const ValueKey("Balance"),
-              onDismissed: (dir) async {
-                await HapticFeedback.heavyImpact();
-                ElectricityBalanceInit.storage.selectedRoom = null;
-              },
-              child: card,
-            );
-          }
-          return card;
+          return buildCard(balance);
         },
       ),
+    );
+  }
+
+  Widget buildCard(ElectricityBalance balance){
+    return Dismissible(
+      direction: DismissDirection.endToStart,
+      key: const ValueKey("Balance"),
+      onDismissed: (dir) async {
+        await HapticFeedback.heavyImpact();
+        ElectricityBalanceInit.storage.selectedRoom = null;
+      },
+      child: ElectricityBalanceCard(
+        balance: balance,
+      ).sized(h: 120),
     );
   }
 }

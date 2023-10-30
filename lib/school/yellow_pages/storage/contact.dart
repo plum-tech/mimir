@@ -15,7 +15,7 @@ class YellowPagesStorage {
 
   const YellowPagesStorage(
     this.box, {
-    this.maxHistoryLength = 5,
+    this.maxHistoryLength = 2,
   });
 
   List<SchoolContact>? get interactHistory => (box.get(_K.history) as List?)?.cast<SchoolContact>();
