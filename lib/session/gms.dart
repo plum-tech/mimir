@@ -35,16 +35,21 @@ class GmsSession {
         onReceiveProgress: onReceiveProgress,
       );
     }
+
     final response = await fetch();
     final content = response.data;
     if (content is String && content.contains("正在登录") == true) {
-      final credential = CredentialInit.storage.oaCredentials;
-      if (credential == null) {
-        throw LoginRequiredException(url: url);
-      }
-      await ssoSession.loginLocked(credential);
+      await authGmsService();
       return await fetch();
     }
     return response;
+  }
+
+  Future<bool> authGmsService() async {
+    final authRes = await ssoSession.request(
+      "https://authserver.sit.edu.cn/authserver/login?service=http%3A%2F%2Fgms.sit.edu.cn%2Fepstar%2Fweb%2Fswms%2Fmainframe%2Fhome%2Findex.jsp",
+      ReqMethod.get,
+    );
+    return authRes.statusCode == 302;
   }
 }
