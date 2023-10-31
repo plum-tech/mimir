@@ -108,7 +108,6 @@ SitTimetable parseUndergraduateTimetableFromCourseRaw(List<UndergraduateCourseRa
       weekIndices: weekIndices,
       timeslots: timeslots,
       courseCredit: double.tryParse(raw.courseCredit) ?? 0.0,
-      creditHour: int.tryParse(raw.creditHour) ?? 0,
       dayIndex: dayIndex,
       teachers: raw.teachers.split(","),
     );
@@ -394,7 +393,6 @@ SitTimetable parsePostgraduateTimetableFromCourseRaw(List<PostgraduateCourseRaw>
       weekIndices: weekIndices,
       timeslots: timeslots,
       courseCredit: double.tryParse(raw.courseCredit) ?? 0.0,
-      creditHour: int.tryParse(raw.creditHour) ?? 0,
       dayIndex: dayIndex,
       teachers: raw.teachers.split(","),
     );

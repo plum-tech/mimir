@@ -260,8 +260,6 @@ class SitCourse {
   final ({int start, int end}) timeslots;
   @JsonKey()
   final double courseCredit;
-  @JsonKey()
-  final int creditHour;
 
   /// e.g.: `0` means `Monday`
   /// Starts with 0
@@ -280,7 +278,6 @@ class SitCourse {
     required this.weekIndices,
     required this.timeslots,
     required this.courseCredit,
-    required this.creditHour,
     required this.dayIndex,
     required this.teachers,
   });
