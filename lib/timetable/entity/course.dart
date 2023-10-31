@@ -64,3 +64,54 @@ class UndergraduateCourseRaw {
     required this.courseCode,
   });
 }
+
+
+class PostgraduateCourseRaw {
+  /// 课程名称
+  final String courseName;
+
+  /// 星期
+  final String weekDayText;
+
+  /// 节次
+  final String timeslotsText;
+
+  /// 周次
+  final String weekText;
+
+  /// 教室
+  final String place;
+
+  /// 教师
+  final String teachers;
+
+  /// 校区
+  final String campus;
+
+  /// 学分
+  final String courseCredit;
+
+  /// 学时
+  final String creditHour;
+
+  /// 教学班
+  final String classCode;
+
+  /// 课程代码
+  final String courseCode;
+
+  const PostgraduateCourseRaw({
+    required this.courseName,
+    required this.weekDayText,
+    required this.timeslotsText,
+    required this.weekText,
+    required this.place,
+    required this.teachers,
+    required this.campus,
+    required this.courseCredit,
+    required this.creditHour,
+    required this.classCode,
+    required this.courseCode,
+  });
+
+}

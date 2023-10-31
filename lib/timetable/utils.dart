@@ -20,6 +20,7 @@ import 'dart:math';
 import 'init.dart';
 
 import 'page/export.dart';
+import 'package:html/parser.dart';
 
 const maxWeekLength = 20;
 
@@ -280,4 +281,88 @@ String convertTimetable2ICal({
     }
   }
   return calendar.serialize();
+}
+
+List<PostgraduateCourseRaw> generatePostgraduateCourseRawsFromHtml(String htmlContent) {
+  List<PostgraduateCourseRaw> courseList = [];
+  var mapOfWeekday = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
+
+  void processNodes(List nodes, String weekday) {
+    if (nodes.length < 5) {
+      // 如果节点数量小于 5，不足以构成一个完整的 Course，忽略
+      return;
+    }
+
+    var locationWithTeacherStr = mapChinesePunctuations(nodes[4].text);
+    var locationWithTeacherList = locationWithTeacherStr.split("  ");
+    var location = locationWithTeacherList[0];
+    var teacher = locationWithTeacherList[1];
+    var courseNameWithClassCode = mapChinesePunctuations(nodes[0].text);
+    late String courseName;
+    late String classCode;
+    RegExpMatch? courseNameWithClassCodeMatch =
+        RegExp(r"(.*?)(基础\d+班|学硕\d+班|专硕\d+班|\d+班)$").firstMatch(courseNameWithClassCode);
+    if (courseNameWithClassCodeMatch != null) {
+      courseName = courseNameWithClassCodeMatch.group(1) ?? "";
+      classCode = courseNameWithClassCodeMatch.group(2) ?? "";
+    } else {
+      courseName = courseNameWithClassCode;
+      classCode = "";
+    }
+    var weekTextWithTimeslotsText = mapChinesePunctuations(nodes[2].text);
+    late String weekText;
+    late String timeslotsText;
+    RegExpMatch? weekTextWithTimeslotsTextMatch =
+        RegExp(r"([\d-]+周(\([^)]*\))?)([\d-]+节)").firstMatch(weekTextWithTimeslotsText);
+    if (weekTextWithTimeslotsTextMatch != null) {
+      weekText = weekTextWithTimeslotsTextMatch.group(1) ?? "";
+      timeslotsText = weekTextWithTimeslotsTextMatch.group(3) ?? "";
+    } else {
+      weekText = "";
+      timeslotsText = "";
+    }
+
+    final course = PostgraduateCourseRaw(
+        courseName: courseName,
+        weekDayText: weekday,
+        weekText: weekText,
+        timeslotsText: timeslotsText,
+        teachers: teacher,
+        place: location,
+        classCode: classCode,
+        campus: "",
+        courseCode: "",
+        courseCredit: "",
+        creditHour: "");
+
+    courseList.add(course);
+
+    // 移除处理过的节点，继续处理剩余的节点
+    nodes.removeRange(0, 7);
+
+    if (nodes.isNotEmpty) {
+      processNodes(nodes, weekday);
+    }
+  }
+
+  final document = parse(htmlContent);
+  final table = document.querySelector('table');
+  final trList = table!.querySelectorAll('tr');
+  for (var tr in trList) {
+    final tdList = tr.querySelectorAll('td');
+    for (var td in tdList) {
+      if (td.innerHtml.contains("br")) {
+        var index = tdList.indexOf(td);
+        String weekday;
+        if (tdList.length > 8) {
+          weekday = mapOfWeekday[index - 2];
+        } else {
+          weekday = mapOfWeekday[index - 1];
+        }
+        var nodes = td.nodes;
+        processNodes(nodes, weekday);
+      }
+    }
+  }
+  return courseList;
 }
