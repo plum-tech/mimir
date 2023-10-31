@@ -11,6 +11,10 @@ enum Weekday {
 
   int toJson() => index;
 
+  int getIndex({required Weekday firstDay}) {
+    return (this - firstDay.index).index;
+  }
+
   factory Weekday.fromJson(int json) => Weekday.values.elementAtOrNull(json) ?? Weekday.monday;
 
   factory Weekday.fromIndex(int index) {
@@ -26,12 +30,12 @@ enum Weekday {
     return List.generate(7, (index) => firstDay + index);
   }
 
-  Weekday operator +(int index) {
-    return Weekday.values[(this.index + index) % Weekday.values.length];
+  Weekday operator +(int delta) {
+    return Weekday.values[(index + delta) % Weekday.values.length];
   }
 
-  Weekday operator -(int index) {
-    return Weekday.values[(this.index - index) % Weekday.values.length];
+  Weekday operator -(int delta) {
+    return Weekday.values[(index - delta) % Weekday.values.length];
   }
 
   List<Weekday> genSequenceStartWithThis() => genSequence(this);
