@@ -64,30 +64,3 @@ mixin DioDownloaderMixin implements Downloader {
     );
   }
 }
-
-class DefaultDioSession with DioDownloaderMixin {
-  @override
-  Dio dio;
-
-  DefaultDioSession(this.dio);
-
-  Future<Response> request(
-    String url,
-    ReqMethod method, {
-    Map<String, String>? para,
-    data,
-    SessionOptions? options,
-    SessionProgressCallback? onSendProgress,
-    SessionProgressCallback? onReceiveProgress,
-  }) async {
-    final response = await dio.request(
-      url,
-      queryParameters: para,
-      data: data,
-      options: options?.toDioOptions().copyWith(
-            method: method.name.toUpperCase(),
-          ),
-    );
-    return response;
-  }
-}

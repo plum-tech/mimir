@@ -1,10 +1,8 @@
 import 'dart:math';
 
-import '../dao/book_search.dart';
 import '../entity/book_search.dart';
 
-class BookSearchMock implements BookSearchDao {
-  @override
+class BookSearchMock {
   Future<BookSearchResult> search({
     String keyword = '',
     int rows = 10,
