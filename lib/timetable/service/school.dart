@@ -46,7 +46,10 @@ class TimetableService {
     final response = await gmsSession.request(
       _postgraduateTimetableUrl,
       ReqMethod.post,
-      data: {"excel": "true", "XQDM": "202309"},
+      data: {
+        "excel": "true",
+        "XQDM": _toPostgraduateSemesterText(info),
+      },
     );
     if (response.statusCode == 200) {
       final htmlContent = response.data;
@@ -54,6 +57,15 @@ class TimetableService {
     }
 
     throw Exception("");
+  }
+
+  String _toPostgraduateSemesterText(SemesterInfo info) {
+    assert(info.semester != Semester.all);
+    if (info.semester == Semester.term1) {
+      return "${info.year}09";
+    } else {
+      return "${info.year + 1}02";
+    }
   }
 }
 
