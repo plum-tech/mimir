@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:sit/entity/campus.dart';
 import 'package:sit/hive/type_id.dart';
 import 'package:sit/l10n/common.dart';
 
@@ -292,11 +293,11 @@ int getIndexEnd(int start, int index) {
   return i;
 }
 
-List<ClassTime> getTeachingBuildingTimetable(String campus, String place) {
-  if (campus.contains('徐汇')) {
+List<ClassTime> getTeachingBuildingTimetable(Campus campus, String place) {
+  if (campus == Campus.xuhui) {
     return xuhuiCampusTimetable;
   }
-  if (campus.contains("奉贤")) {
+  if (campus == Campus.fengxian) {
     return fengxianTimetable;
   }
   return fengxianTimetable;

@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sit/entity/campus.dart';
 import 'package:sit/school/entity/school.dart';
 
-import '../i18n.dart';
 import '../utils.dart';
 
 part 'timetable.g.dart';
@@ -246,8 +246,8 @@ class SitCourse {
   final String courseCode;
   @JsonKey()
   final String classCode;
-  @JsonKey()
-  final String campus;
+  @JsonKey(defaultValue: Campus.fengxian)
+  final Campus campus;
   @JsonKey()
   final String place;
 
@@ -293,14 +293,6 @@ class SitCourse {
 extension SitCourseEx on SitCourse {
   String localizedWeekNumbers({String separateBy = ", "}) {
     return weekIndices.l10n().join(separateBy);
-  }
-
-  String localizedCampusName() {
-    if (campus.contains("徐汇")) {
-      return i18n.campus.xuhui;
-    } else {
-      return i18n.campus.fengxian;
-    }
   }
 
   List<ClassTime> get buildingTimetable => getTeachingBuildingTimetable(campus, place);

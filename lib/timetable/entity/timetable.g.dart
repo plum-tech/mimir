@@ -37,7 +37,7 @@ SitCourse _$SitCourseFromJson(Map<String, dynamic> json) => SitCourse(
       courseName: json['courseName'] as String,
       courseCode: json['courseCode'] as String,
       classCode: json['classCode'] as String,
-      campus: json['campus'] as String,
+      campus: $enumDecodeNullable(_$CampusEnumMap, json['campus']) ?? Campus.fengxian,
       place: json['place'] as String,
       weekIndices: _weekIndicesFromJson(json['weekIndices'] as List),
       timeslots: rangeFromString(json['timeslots'] as String),
@@ -51,7 +51,7 @@ Map<String, dynamic> _$SitCourseToJson(SitCourse instance) => <String, dynamic>{
       'courseName': instance.courseName,
       'courseCode': instance.courseCode,
       'classCode': instance.classCode,
-      'campus': instance.campus,
+      'campus': _$CampusEnumMap[instance.campus]!,
       'place': instance.place,
       'weekIndices': _weekIndicesToJson(instance.weekIndices),
       'timeslots': rangeToString(instance.timeslots),
@@ -59,3 +59,8 @@ Map<String, dynamic> _$SitCourseToJson(SitCourse instance) => <String, dynamic>{
       'dayIndex': instance.dayIndex,
       'teachers': instance.teachers,
     };
+
+const _$CampusEnumMap = {
+  Campus.fengxian: 'fengxian',
+  Campus.xuhui: 'xuhui',
+};

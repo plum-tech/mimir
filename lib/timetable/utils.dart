@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:ical/serializer.dart';
 import 'package:open_file/open_file.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/entity/campus.dart';
 import 'package:sit/files.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/entity/school.dart';
@@ -55,7 +56,8 @@ extension StringEx on String {
 ///  ),
 /// ])
 /// ```
-TimetableWeekIndices _parseWeekText2RangedNumbers(String weekText, {
+TimetableWeekIndices _parseWeekText2RangedNumbers(
+  String weekText, {
   required String allSuffix,
   required String oddSuffix,
   required String evenSuffix,
@@ -82,6 +84,14 @@ TimetableWeekIndices _parseWeekText2RangedNumbers(String weekText, {
   return TimetableWeekIndices(indices);
 }
 
+Campus _parseCampus(String campus) {
+  if (campus.contains("徐汇")) {
+    return Campus.xuhui;
+  } else {
+    return Campus.fengxian;
+  }
+}
+
 SitTimetable parseUndergraduateTimetableFromCourseRaw(List<UndergraduateCourseRaw> all) {
   final List<SitCourse> courseKey2Entity = [];
   var counter = 0;
@@ -103,7 +113,7 @@ SitTimetable parseUndergraduateTimetableFromCourseRaw(List<UndergraduateCourseRa
       courseName: mapChinesePunctuations(raw.courseName).trim(),
       courseCode: raw.courseCode.trim(),
       classCode: raw.classCode.trim(),
-      campus: raw.campus,
+      campus: _parseCampus(raw.campus),
       place: reformatPlace(mapChinesePunctuations(raw.place)),
       weekIndices: weekIndices,
       timeslots: timeslots,
@@ -132,7 +142,7 @@ SitTimetableEntity resolveTimetableEntity(SitTimetable timetable) {
     final timeslots = course.timeslots;
     for (final weekIndex in course.weekIndices.getWeekIndices()) {
       assert(0 <= weekIndex && weekIndex < maxWeekLength,
-      "Week index is more out of range [0,$maxWeekLength) but $weekIndex.");
+          "Week index is more out of range [0,$maxWeekLength) but $weekIndex.");
       if (0 <= weekIndex && weekIndex < maxWeekLength) {
         final week = weeks[weekIndex];
         final day = week.days[course.dayIndex];
@@ -177,10 +187,10 @@ Duration calcuSwitchAnimationDuration(num distance) {
 
 Future<({int id, SitTimetable timetable})?> importTimetableFromFile() async {
   final result = await FilePicker.platform.pickFiles(
-    // Cannot limit the extensions. My RedMi phone just reject all files.
-    // type: FileType.custom,
-    // allowedExtensions: const ["timetable", "json"],
-  );
+      // Cannot limit the extensions. My RedMi phone just reject all files.
+      // type: FileType.custom,
+      // allowedExtensions: const ["timetable", "json"],
+      );
   if (result == null) return null;
   final path = result.files.single.path;
   if (path == null) return null;
@@ -192,7 +202,8 @@ Future<({int id, SitTimetable timetable})?> importTimetableFromFile() async {
   return (id: id, timetable: timetable);
 }
 
-Future<void> exportTimetableFileAndShare(SitTimetable timetable, {
+Future<void> exportTimetableFileAndShare(
+  SitTimetable timetable, {
   required BuildContext context,
 }) async {
   final content = jsonEncode(timetable.toJson());
@@ -206,15 +217,14 @@ Future<void> exportTimetableFileAndShare(SitTimetable timetable, {
   );
 }
 
-Future<void> exportTimetableAsICalendarAndOpen(BuildContext context, {
+Future<void> exportTimetableAsICalendarAndOpen(
+  BuildContext context, {
   required SitTimetableEntity timetable,
   required TimetableExportCalendarConfig config,
 }) async {
   final name = "${timetable.type.name}, ${context.formatYmdNum(timetable.type.startDate)}";
   final fileName = sanitizeFilename(
-    UniversalPlatform.isAndroid ? "$name #${DateTime
-        .now()
-        .millisecondsSinceEpoch ~/ 1000}.ics" : "$name.ics",
+    UniversalPlatform.isAndroid ? "$name #${DateTime.now().millisecondsSinceEpoch ~/ 1000}.ics" : "$name.ics",
     replacement: "-",
   );
   final calendarFi = Files.timetable.calendarDir.subFile(fileName);
@@ -259,15 +269,15 @@ String convertTimetable2ICal({
             alarm: alarm == null
                 ? null
                 : alarm.isSoundAlarm
-                ? IAlarm.audio(
-              trigger: startTime.subtract(alarm.alarmBeforeClass).toUtc(),
-              duration: alarm.alarmDuration,
-            )
-                : IAlarm.display(
-              trigger: startTime.subtract(alarm.alarmBeforeClass).toUtc(),
-              description: "${course.courseName} ${course.place} $teachers",
-              duration: alarm.alarmDuration,
-            ),
+                    ? IAlarm.audio(
+                        trigger: startTime.subtract(alarm.alarmBeforeClass).toUtc(),
+                        duration: alarm.alarmDuration,
+                      )
+                    : IAlarm.display(
+                        trigger: startTime.subtract(alarm.alarmBeforeClass).toUtc(),
+                        description: "${course.courseName} ${course.place} $teachers",
+                        duration: alarm.alarmDuration,
+                      ),
           );
           calendar.addElement(event);
           if (merged) {
@@ -299,7 +309,7 @@ List<PostgraduateCourseRaw> generatePostgraduateCourseRawsFromHtml(String htmlCo
     late String courseName;
     late String classCode;
     RegExpMatch? courseNameWithClassCodeMatch =
-    RegExp(r"(.*?)(基础\d+班|学硕\d+班|专硕\d+班|\d+班)$").firstMatch(courseNameWithClassCode);
+        RegExp(r"(.*?)(基础\d+班|学硕\d+班|专硕\d+班|\d+班)$").firstMatch(courseNameWithClassCode);
     if (courseNameWithClassCodeMatch != null) {
       courseName = courseNameWithClassCodeMatch.group(1) ?? "";
       classCode = courseNameWithClassCodeMatch.group(2) ?? "";
@@ -311,7 +321,7 @@ List<PostgraduateCourseRaw> generatePostgraduateCourseRawsFromHtml(String htmlCo
     late String weekText;
     late String timeslotsText;
     RegExpMatch? weekTextWithTimeslotsTextMatch =
-    RegExp(r"([\d-]+周(\([^)]*\))?)([\d-]+节)").firstMatch(weekTextWithTimeslotsText);
+        RegExp(r"([\d-]+周(\([^)]*\))?)([\d-]+节)").firstMatch(weekTextWithTimeslotsText);
     if (weekTextWithTimeslotsTextMatch != null) {
       weekText = weekTextWithTimeslotsTextMatch.group(1) ?? "";
       timeslotsText = weekTextWithTimeslotsTextMatch.group(3) ?? "";
@@ -379,8 +389,9 @@ SitTimetable parsePostgraduateTimetableFromCourseRaw(List<PostgraduateCourseRaw>
     final dayIndex = _weekday2Index[raw.weekDayText];
     assert(dayIndex != null && 0 <= dayIndex && dayIndex < 7, "dayIndex isn't in range [0,6] but $dayIndex");
     if (dayIndex == null || !(0 <= dayIndex && dayIndex < 7)) continue;
-    final timeslotsText = raw.timeslotsText.endsWith("节") ? raw.timeslotsText.substring(
-        0, raw.timeslotsText.length - 1) : raw.timeslotsText;
+    final timeslotsText = raw.timeslotsText.endsWith("节")
+        ? raw.timeslotsText.substring(0, raw.timeslotsText.length - 1)
+        : raw.timeslotsText;
     final timeslots = rangeFromString(timeslotsText, number2index: true);
     assert(timeslots.start <= timeslots.end, "${timeslots.start} > ${timeslots.end} actually. ${raw.courseName}");
     final course = SitCourse(
@@ -388,7 +399,7 @@ SitTimetable parsePostgraduateTimetableFromCourseRaw(List<PostgraduateCourseRaw>
       courseName: mapChinesePunctuations(raw.courseName).trim(),
       courseCode: raw.courseCode.trim(),
       classCode: raw.classCode.trim(),
-      campus: raw.campus,
+      campus: _parseCampus(raw.campus),
       place: reformatPlace(mapChinesePunctuations(raw.place)),
       weekIndices: weekIndices,
       timeslots: timeslots,

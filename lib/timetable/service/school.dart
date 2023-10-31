@@ -1,11 +1,8 @@
-
-
 import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/gms.dart';
 import 'package:sit/session/jwxt.dart';
-
 
 import '../entity/course.dart';
 import '../entity/timetable.dart';

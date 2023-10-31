@@ -65,7 +65,6 @@ class UndergraduateCourseRaw {
   });
 }
 
-
 class PostgraduateCourseRaw {
   /// 课程名称
   final String courseName;
@@ -113,5 +112,4 @@ class PostgraduateCourseRaw {
     required this.classCode,
     required this.courseCode,
   });
-
 }
