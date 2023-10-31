@@ -107,6 +107,7 @@ class ExamResult {
   }
 
   bool get hasScore => !score.isNaN;
+
   bool get passed => hasScore ? score >= 60.0 : false;
 
   factory ExamResult.fromJson(Map<String, dynamic> json) => _$ExamResultFromJson(json);

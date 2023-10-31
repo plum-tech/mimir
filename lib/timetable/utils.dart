@@ -82,7 +82,7 @@ TimetableWeekIndices _parseWeekText2RangedNumbers(
   return TimetableWeekIndices(indices);
 }
 
-SitTimetable parseUndergraduateTimetableFromCourseRaw(List<CourseRaw> all) {
+SitTimetable parseUndergraduateTimetableFromCourseRaw(List<UndergraduateCourseRaw> all) {
   final List<SitCourse> courseKey2Entity = [];
   var counter = 0;
   for (final raw in all) {

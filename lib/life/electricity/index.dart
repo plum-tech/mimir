@@ -153,7 +153,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
     );
   }
 
-  Widget buildCard(ElectricityBalance balance){
+  Widget buildCard(ElectricityBalance balance) {
     return Dismissible(
       direction: DismissDirection.endToStart,
       key: const ValueKey("Balance"),

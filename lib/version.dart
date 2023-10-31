@@ -12,6 +12,7 @@ enum AppPlatform {
   unknown("?");
 
   final String name;
+
   const AppPlatform(this.name);
 }
 

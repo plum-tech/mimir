@@ -13,7 +13,8 @@ import '../utils.dart';
 
 class TimetableService {
   static const _undergraduateTimetableUrl = 'http://jwxt.sit.edu.cn/jwglxt/kbcx/xskbcx_cxXsgrkb.html';
-  static const _postgraduateTimetableUrl = 'http://gms.sit.edu.cn/epstar/yjs/T_PYGL_KWGL_WSXK/T_PYGL_KWGL_WSXK_XSKB_NEW.jsp';
+  static const _postgraduateTimetableUrl =
+      'http://gms.sit.edu.cn/epstar/yjs/T_PYGL_KWGL_WSXK/T_PYGL_KWGL_WSXK_XSKB_NEW.jsp';
 
   JwxtSession get jwxtSession => Init.jwxtSession;
 
@@ -36,7 +37,7 @@ class TimetableService {
     );
     final json = response.data;
     final List<dynamic> courseList = json['kbList'];
-    final rawCourses = courseList.map((e) => CourseRaw.fromJson(e)).toList();
+    final rawCourses = courseList.map((e) => UndergraduateCourseRaw.fromJson(e)).toList();
     final timetableEntity = parseUndergraduateTimetableFromCourseRaw(rawCourses);
     return timetableEntity;
   }

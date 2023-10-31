@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'course.g.dart';
 
 @JsonSerializable(createToJson: false)
-class CourseRaw {
+class UndergraduateCourseRaw {
   /// 课程名称
   @JsonKey(name: 'kcmc')
   final String courseName;
@@ -48,9 +48,9 @@ class CourseRaw {
   @JsonKey(name: 'kch')
   final String courseCode;
 
-  factory CourseRaw.fromJson(Map<String, dynamic> json) => _$CourseRawFromJson(json);
+  factory UndergraduateCourseRaw.fromJson(Map<String, dynamic> json) => _$UndergraduateCourseRawFromJson(json);
 
-  const CourseRaw({
+  const UndergraduateCourseRaw({
     required this.courseName,
     required this.weekDayText,
     required this.timeslotsText,

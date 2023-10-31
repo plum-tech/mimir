@@ -40,4 +40,3 @@ enum ReqMethod {
 
   const ReqMethod(this.uppercaseName);
 }
-
