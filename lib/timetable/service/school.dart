@@ -51,12 +51,12 @@ class TimetableService {
         "XQDM": _toPostgraduateSemesterText(info),
       },
     );
-    if (response.statusCode == 200) {
-      final htmlContent = response.data;
-      final courseList = generatePostgraduateCourseRawsFromHtml(htmlContent);
-    }
-
-    throw Exception("");
+    final htmlContent = response.data;
+    final courseList = generatePostgraduateCourseRawsFromHtml(htmlContent);
+    final timetableEntity = parsePostgraduateTimetableFromCourseRaw(courseList);
+    return timetableEntity;
+    //
+    // throw Exception("");
   }
 
   String _toPostgraduateSemesterText(SemesterInfo info) {
