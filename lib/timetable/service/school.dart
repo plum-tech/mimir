@@ -10,10 +10,8 @@ import '../entity/timetable.dart';
 import '../utils.dart';
 
 class TimetableService {
-  static const _undergraduateTimetableUrl =
-      'http://jwxt.sit.edu.cn/jwglxt/kbcx/xskbcx_cxXsgrkb.html';
-  static const _postgraduateTimetableUrl =
-      '"http://gms.sit.edu.cn/epstar/web/swms/mainframe/home/index.jsp';
+  static const _undergraduateTimetableUrl = 'http://jwxt.sit.edu.cn/jwglxt/kbcx/xskbcx_cxXsgrkb.html';
+  static const _postgraduateTimetableUrl = 'http://gms.sit.edu.cn/epstar/web/swms/mainframe/home/index.jsp';
 
   JwxtSession get jwxtSession => Init.jwxtSession;
 
@@ -44,7 +42,8 @@ class TimetableService {
   Future<SitTimetable> getPostgraduateTimetable(SemesterInfo info) async {
     final response = await gmsSession.request(
       _postgraduateTimetableUrl,
-      ReqMethod.get,
+      ReqMethod.post,
+      data: "excel=true&XQDM=202309",
     );
     if (response.statusCode == 200) {
       final htmlContent = response.data;

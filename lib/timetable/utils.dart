@@ -57,22 +57,27 @@ extension StringEx on String {
 ///  ),
 /// ])
 /// ```
-TimetableWeekIndices _parseWeekText2RangedNumbers(String weekText) {
+TimetableWeekIndices _parseWeekText2RangedNumbers(
+  String weekText, {
+  required String allSuffix,
+  required String oddSuffix,
+  required String evenSuffix,
+}) {
   final weeks = weekText.split(',');
 // Then the weeks should be ["1-5周","14周","8-10周(单)"]
   final indices = <TimetableWeekIndex>[];
   for (final week in weeks) {
     // odd week
-    if (week.endsWith("(单)")) {
-      final rangeText = week.removeSuffix("周(单)");
+    if (week.endsWith(oddSuffix)) {
+      final rangeText = week.removeSuffix(oddSuffix);
       final range = rangeFromString(rangeText, number2index: true);
       indices.add(TimetableWeekIndex.odd(range));
-    } else if (week.endsWith("(双)")) {
-      final rangeText = week.removeSuffix("周(双)");
+    } else if (week.endsWith(evenSuffix)) {
+      final rangeText = week.removeSuffix(evenSuffix);
       final range = rangeFromString(rangeText, number2index: true);
       indices.add(TimetableWeekIndex.even(range));
-    } else {
-      final numberText = week.removeSuffix("周");
+    } else if (week.endsWith(allSuffix)) {
+      final numberText = week.removeSuffix(allSuffix);
       final range = rangeFromString(numberText, number2index: true);
       indices.add(TimetableWeekIndex.all(range));
     }
@@ -85,7 +90,12 @@ SitTimetable parseUndergraduateTimetableFromCourseRaw(List<CourseRaw> all) {
   var counter = 0;
   for (final raw in all) {
     final courseKey = counter++;
-    final weekIndices = _parseWeekText2RangedNumbers(mapChinesePunctuations(raw.weekText));
+    final weekIndices = _parseWeekText2RangedNumbers(
+      mapChinesePunctuations(raw.weekText),
+      allSuffix: "周",
+      oddSuffix: "周(单)",
+      evenSuffix: "周(双)",
+    );
     final dayIndex = _weekday2Index[raw.weekDayText];
     assert(dayIndex != null && 0 <= dayIndex && dayIndex < 7, "dayIndex isn't in range [0,6] but $dayIndex");
     if (dayIndex == null || !(0 <= dayIndex && dayIndex < 7)) continue;
