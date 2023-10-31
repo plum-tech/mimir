@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sit/hive/type_id.dart';
 import 'package:sit/l10n/common.dart';
+import 'package:sit/l10n/time.dart';
 
 part 'school.g.dart';
 
@@ -306,9 +307,9 @@ List<ClassTime> getTeachingBuildingTimetable(String campus, String place) {
 DateTime reflectWeekDayIndexToDate({
   required DateTime startDate,
   required int weekIndex,
-  required int dayIndex,
+  required Weekday weekday,
 }) {
-  return startDate.add(Duration(days: weekIndex * 7 + dayIndex));
+  return startDate.add(Duration(days: weekIndex * 7 + weekday.index));
 }
 
 final _parenthesesRegx = RegExp("\\((.*?)\\)");

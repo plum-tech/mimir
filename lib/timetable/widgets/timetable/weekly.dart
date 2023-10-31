@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/dash_decoration.dart';
 import 'package:sit/design/widgets/card.dart';
+import 'package:sit/l10n/time.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
@@ -229,7 +230,7 @@ class TimetableOneWeek extends StatelessWidget {
   /// 布局左侧边栏, 显示节次
   Widget buildLeftColumn(BuildContext ctx, Size cellSize) {
     final textStyle = ctx.textTheme.bodyMedium;
-    final side = getBorderSide(ctx);
+    final side = getTimetableBorderSide(ctx);
     final cells = <Widget>[];
     cells.add(SizedBox(
       width: cellSize.width * 0.6,
@@ -278,18 +279,19 @@ class TimetableOneWeek extends StatelessWidget {
     required TimetablePos todayPos,
   }) {
     final cells = <Widget>[];
+    final weekday = Weekday.fromIndex(day.index);
     cells.add(SizedBox(
       width: cellSize.width,
       child: Container(
         decoration: BoxDecoration(
-          color: todayPos.weekIndex == weekIndex && todayPos.dayIndex == day.index
+          color: todayPos.weekIndex == weekIndex && todayPos.weekday == weekday
               ? context.colorScheme.secondaryContainer
               : null,
-          border: Border(bottom: getBorderSide(context)),
+          border: Border(bottom: getTimetableBorderSide(context)),
         ),
         child: HeaderCellTextBox(
           weekIndex: weekIndex,
-          dayIndex: day.index,
+          weekday: weekday,
           startDate: timetable.type.startDate,
         ),
       ),

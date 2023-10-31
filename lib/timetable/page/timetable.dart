@@ -5,6 +5,7 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/l10n/time.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/page/screenshot.dart';
 import 'package:sit/school/i18n.dart' as $school;
@@ -186,7 +187,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         if (focusMode) ...buildFocusPopupActions(),
         PopupMenuItem(
           child: ListTile(
-            leading: Icon(focusMode? Icons.center_focus_strong_outlined :Icons.filter_center_focus),
+            leading: Icon(focusMode ? Icons.center_focus_strong_outlined : Icons.filter_center_focus),
             title: focusMode ? i18n.unfocusTimetable.text() : i18n.focusTimetable.text(),
           ),
           onTap: () async {
@@ -255,12 +256,12 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
   Future<void> selectDailyTimetablePageToJump() async {
     final currentPos = $currentPos.value;
     final initialWeekIndex = currentPos.weekIndex;
-    final initialDayIndex = currentPos.dayIndex;
+    final initialDayIndex = currentPos.weekday.index;
     final $week = FixedExtentScrollController(initialItem: initialWeekIndex);
     final $day = FixedExtentScrollController(initialItem: initialDayIndex);
     final todayPos = timetable.type.locate(DateTime.now());
     final todayWeekIndex = todayPos.weekIndex;
-    final todayDayIndex = todayPos.dayIndex;
+    final todayDayIndex = todayPos.weekday.index;
     final (week2Go, day2Go) = await context.showDualPicker(
           countA: 20,
           countB: 7,
@@ -283,13 +284,13 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
                 )
           ],
           makeA: (ctx, i) => i18n.weekOrderedName(number: i + 1).text(),
-          makeB: (ctx, i) => i18n.weekday(index: i).text(),
+          makeB: (ctx, i) => Weekday.fromIndex(i).l10n().text(),
         ) ??
         (initialWeekIndex, initialDayIndex);
     $week.dispose();
     $day.dispose();
     if (week2Go != initialWeekIndex || day2Go != initialDayIndex) {
-      eventBus.fire(JumpToPosEvent(TimetablePos(weekIndex: week2Go, dayIndex: day2Go)));
+      eventBus.fire(JumpToPosEvent(TimetablePos(weekIndex: week2Go, weekday: Weekday.fromIndex(day2Go))));
     }
   }
 }

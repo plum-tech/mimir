@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
+import 'package:sit/l10n/time.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/widgets/course.dart';
 import 'package:sit/timetable/page/details.dart';
@@ -46,9 +47,9 @@ class DailyTimetableState extends State<DailyTimetable> {
   /// 翻页控制
   late PageController _pageController;
 
-  int pos2PageOffset(TimetablePos pos) => pos.weekIndex * 7 + pos.dayIndex;
+  int pos2PageOffset(TimetablePos pos) => pos.weekIndex * 7 + pos.weekday.index;
 
-  TimetablePos page2Pos(int page) => TimetablePos(weekIndex: page ~/ 7, dayIndex: page % 7);
+  TimetablePos page2Pos(int page) => TimetablePos(weekIndex: page ~/ 7, weekday: Weekday.fromIndex(page % 7));
 
   late StreamSubscription<JumpToPosEvent> $jumpToPos;
 
@@ -82,11 +83,11 @@ class DailyTimetableState extends State<DailyTimetable> {
     return [
       widget.$currentPos >>
           (ctx, cur) => TimetableHeader(
-                selectedDayIndex: cur.dayIndex,
+                selectedWeekday: cur.weekday,
                 weekIndex: cur.weekIndex,
                 startDate: timetable.type.startDate,
                 onDayTap: (dayIndex) {
-                  eventBus.fire(JumpToPosEvent(TimetablePos(weekIndex: cur.weekIndex, dayIndex: dayIndex)));
+                  eventBus.fire(JumpToPosEvent(TimetablePos(weekIndex: cur.weekIndex, weekday: dayIndex)));
                 },
               ),
       PageView.builder(
@@ -101,7 +102,7 @@ class DailyTimetableState extends State<DailyTimetable> {
             timetable: timetable,
             todayPos: todayPos,
             weekIndex: weekIndex,
-            dayIndex: dayIndex,
+            weekday: Weekday.fromIndex(dayIndex),
           );
         },
       ).expanded(),
@@ -126,14 +127,14 @@ class TimetableOneDayPage extends StatefulWidget {
   final SitTimetableEntity timetable;
   final TimetablePos todayPos;
   final int weekIndex;
-  final int dayIndex;
+  final Weekday weekday;
 
   const TimetableOneDayPage({
     super.key,
     required this.timetable,
     required this.todayPos,
     required this.weekIndex,
-    required this.dayIndex,
+    required this.weekday,
   });
 
   @override
@@ -167,14 +168,13 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
 
   Widget buildPage(BuildContext ctx) {
     int weekIndex = widget.weekIndex;
-    int dayIndex = widget.dayIndex;
     final week = timetable.weeks[weekIndex];
-    final day = week.days[dayIndex];
+    final day = week.days[widget.weekday.index];
     if (!day.hasAnyLesson()) {
       return FreeDayTip(
         timetable: timetable,
         weekIndex: weekIndex,
-        dayIndex: dayIndex,
+        weekday: widget.weekday,
       ).scrolled().center();
     } else {
       final slotCount = day.timeslot2LessonSlot.length;

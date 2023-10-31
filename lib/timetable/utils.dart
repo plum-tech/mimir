@@ -8,6 +8,7 @@ import 'package:open_file/open_file.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/files.dart';
 import 'package:sit/l10n/extension.dart';
+import 'package:sit/l10n/time.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
@@ -129,7 +130,7 @@ SitTimetableEntity resolveTimetableEntity(SitTimetable timetable) {
         final day = week.days[course.dayIndex];
         final thatDay = reflectWeekDayIndexToDate(
           weekIndex: week.index,
-          dayIndex: day.index,
+          weekday: Weekday.fromIndex(day.index),
           startDate: timetable.startDate,
         );
         final fullClassTime = course.calcBeginEndTimePoint();
