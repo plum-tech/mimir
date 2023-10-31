@@ -95,7 +95,6 @@ SitTimetable parseUndergraduateTimetableFromCourseRaw(List<CourseRaw> all) {
       classCode: raw.classCode.trim(),
       campus: raw.campus,
       place: reformatPlace(mapChinesePunctuations(raw.place)),
-      iconName: CourseCategory.query(raw.courseName),
       weekIndices: weekIndices,
       timeslots: timeslots,
       courseCredit: double.tryParse(raw.courseCredit) ?? 0.0,

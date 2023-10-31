@@ -251,10 +251,6 @@ class SitCourse {
   @JsonKey()
   final String place;
 
-  /// The icon name in
-  @JsonKey()
-  final String iconName;
-
   @JsonKey(toJson: _weekIndicesToJson, fromJson: _weekIndicesFromJson)
   final TimetableWeekIndices weekIndices;
 
@@ -281,7 +277,6 @@ class SitCourse {
     required this.classCode,
     required this.campus,
     required this.place,
-    required this.iconName,
     required this.weekIndices,
     required this.timeslots,
     required this.courseCredit,

@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/school/entity/school.dart';
+import 'package:sit/school/widgets/course.dart';
 import 'package:sit/timetable/page/details.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:sit/timetable/widgets/free.dart';
@@ -272,17 +273,12 @@ class LessonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget courseIcon = Image.asset(
-      CourseCategory.iconPathOf(iconName: course.iconName),
-      width: iconSize,
-      height: iconSize,
-    );
     return FilledCard(
       margin: const EdgeInsets.all(8),
       color: color,
       clip: Clip.hardEdge,
       child: ListTile(
-        leading: courseIcon,
+        leading: CourseIcon(courseName: course.courseName),
         onTap: () async {
           if (!context.mounted) return;
           await context.show$Sheet$(
