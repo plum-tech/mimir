@@ -6,7 +6,7 @@ part of 'course.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CourseRaw _$CourseRawFromJson(Map<String, dynamic> json) => CourseRaw(
+UndergraduateCourseRaw _$UndergraduateCourseRawFromJson(Map<String, dynamic> json) => UndergraduateCourseRaw(
       courseName: json['kcmc'] as String,
       weekDayText: json['xqjmc'] as String,
       timeslotsText: json['jcs'] as String,

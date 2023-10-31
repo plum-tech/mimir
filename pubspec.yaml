@@ -62,6 +62,7 @@ dependencies:
   json_annotation: ^4.8.1
   # HTML parser
   beautiful_soup_dart: ^0.3.0
+  html: ^0.15.4
 
   # hive (key-value database)
   hive: ^2.2.3

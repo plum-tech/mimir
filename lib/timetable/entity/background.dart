@@ -60,6 +60,7 @@ class BackgroundImage {
       antialias: antialias ?? this.antialias,
     );
   }
+
   BackgroundImage disabledCopyWith({
     double? opacity,
     bool? repeat,

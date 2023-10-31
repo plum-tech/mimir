@@ -290,7 +290,8 @@ class LessonCard extends StatelessWidget {
           maxLines: 1,
         ),
         subtitle: [
-          Text(beautifyPlace(course.place), softWrap: true, overflow: TextOverflow.ellipsis),
+          if (course.place.isNotEmpty)
+            Text(beautifyPlace(course.place), softWrap: true, overflow: TextOverflow.ellipsis),
           course.teachers.join(', ').text(),
         ].column(caa: CrossAxisAlignment.start),
       ),

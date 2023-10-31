@@ -6,7 +6,7 @@ import 'package:sit/session/library.dart';
 import '../entity/book_search.dart';
 import 'constant.dart';
 
-class BookSearchService  {
+class BookSearchService {
   LibrarySession get session => Init.librarySession;
 
   const BookSearchService();

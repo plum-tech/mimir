@@ -1,12 +1,14 @@
 import 'dart:math';
 
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:collection/collection.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' hide Key;
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/exception/session.dart';
+import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/route.dart';
 import 'package:sit/session/common.dart';
@@ -166,6 +168,11 @@ class SsoSession with DioDownloaderMixin {
     if (ctx != null && ctx.mounted) {
       OaOnlineManagerState.of(ctx).isOnline = isOnline;
     }
+  }
+
+  Future<Cookie?> getJSessionId() async {
+    final cookies = await Init.cookieJar.loadForRequest(Uri.parse(_authServerUrl));
+    return cookies.firstWhereOrNull((cookie) => cookie.name == "JSESSIONID");
   }
 
   Future<Response> _login(OaCredentials credentials) async {

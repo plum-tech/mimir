@@ -5,6 +5,7 @@ class CourseIcon extends StatelessWidget {
   final String courseName;
   final double? size;
   static const kDefaultSize = 45.0;
+
   const CourseIcon({
     super.key,
     required this.courseName,

@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sit/entity/campus.dart';
 import 'package:sit/school/entity/school.dart';
 
-import '../i18n.dart';
 import '../utils.dart';
 
 part 'timetable.g.dart';
@@ -246,8 +246,8 @@ class SitCourse {
   final String courseCode;
   @JsonKey()
   final String classCode;
-  @JsonKey()
-  final String campus;
+  @JsonKey(unknownEnumValue: Campus.fengxian)
+  final Campus campus;
   @JsonKey()
   final String place;
 
@@ -260,8 +260,6 @@ class SitCourse {
   final ({int start, int end}) timeslots;
   @JsonKey()
   final double courseCredit;
-  @JsonKey()
-  final int creditHour;
 
   /// e.g.: `0` means `Monday`
   /// Starts with 0
@@ -280,7 +278,6 @@ class SitCourse {
     required this.weekIndices,
     required this.timeslots,
     required this.courseCredit,
-    required this.creditHour,
     required this.dayIndex,
     required this.teachers,
   });
@@ -296,14 +293,6 @@ class SitCourse {
 extension SitCourseEx on SitCourse {
   String localizedWeekNumbers({String separateBy = ", "}) {
     return weekIndices.l10n().join(separateBy);
-  }
-
-  String localizedCampusName() {
-    if (campus.contains("徐汇")) {
-      return i18n.campus.xuhui;
-    } else {
-      return i18n.campus.fengxian;
-    }
   }
 
   List<ClassTime> get buildingTimetable => getTeachingBuildingTimetable(campus, place);
@@ -428,17 +417,14 @@ class TimetableWeekIndices {
   /// e.g.:
   /// ```dart
   /// TimetableWeekIndices([
-  ///  WeekIndexType(
-  ///    type: WeekIndexType.all,
-  ///    range: (start: 0, end: 4),
+  ///  TimetableWeekIndex.all(
+  ///    (start: 0, end: 4),
   ///  ),
-  ///  WeekIndexType(
-  ///    type: WeekIndexType.all,
-  ///    range: (start: 13, end: 13),
+  ///  TimetableWeekIndex.single(
+  ///    13,
   ///  ),
-  ///  WeekIndexType(
-  ///    type: WeekIndexType.odd,
-  ///    range: (start: 7, end: 9),
+  ///  TimetableWeekIndex.odd(
+  ///    (start: 7, end: 9),
   ///  ),
   /// ])
   /// ```

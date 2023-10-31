@@ -52,6 +52,7 @@ class LoginRequiredException implements Exception {
 /// 未知的验证错误
 class UnknownAuthException implements Exception {
   final String message;
+
   const UnknownAuthException(this.message);
 
   @override

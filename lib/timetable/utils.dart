@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:ical/serializer.dart';
 import 'package:open_file/open_file.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/entity/campus.dart';
 import 'package:sit/files.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/entity/school.dart';
@@ -20,6 +21,7 @@ import 'dart:math';
 import 'init.dart';
 
 import 'page/export.dart';
+import 'package:html/parser.dart';
 
 const maxWeekLength = 20;
 
@@ -54,22 +56,27 @@ extension StringEx on String {
 ///  ),
 /// ])
 /// ```
-TimetableWeekIndices _parseWeekText2RangedNumbers(String weekText) {
+TimetableWeekIndices _parseWeekText2RangedNumbers(
+  String weekText, {
+  required String allSuffix,
+  required String oddSuffix,
+  required String evenSuffix,
+}) {
   final weeks = weekText.split(',');
 // Then the weeks should be ["1-5周","14周","8-10周(单)"]
   final indices = <TimetableWeekIndex>[];
   for (final week in weeks) {
     // odd week
-    if (week.endsWith("(单)")) {
-      final rangeText = week.removeSuffix("周(单)");
+    if (week.endsWith(oddSuffix)) {
+      final rangeText = week.removeSuffix(oddSuffix);
       final range = rangeFromString(rangeText, number2index: true);
       indices.add(TimetableWeekIndex.odd(range));
-    } else if (week.endsWith("(双)")) {
-      final rangeText = week.removeSuffix("周(双)");
+    } else if (week.endsWith(evenSuffix)) {
+      final rangeText = week.removeSuffix(evenSuffix);
       final range = rangeFromString(rangeText, number2index: true);
       indices.add(TimetableWeekIndex.even(range));
-    } else {
-      final numberText = week.removeSuffix("周");
+    } else if (week.endsWith(allSuffix)) {
+      final numberText = week.removeSuffix(allSuffix);
       final range = rangeFromString(numberText, number2index: true);
       indices.add(TimetableWeekIndex.all(range));
     }
@@ -77,12 +84,25 @@ TimetableWeekIndices _parseWeekText2RangedNumbers(String weekText) {
   return TimetableWeekIndices(indices);
 }
 
-SitTimetable parseUndergraduateTimetableFromCourseRaw(List<CourseRaw> all) {
+Campus _parseCampus(String campus) {
+  if (campus.contains("徐汇")) {
+    return Campus.xuhui;
+  } else {
+    return Campus.fengxian;
+  }
+}
+
+SitTimetable parseUndergraduateTimetableFromCourseRaw(List<UndergraduateCourseRaw> all) {
   final List<SitCourse> courseKey2Entity = [];
   var counter = 0;
   for (final raw in all) {
     final courseKey = counter++;
-    final weekIndices = _parseWeekText2RangedNumbers(mapChinesePunctuations(raw.weekText));
+    final weekIndices = _parseWeekText2RangedNumbers(
+      mapChinesePunctuations(raw.weekText),
+      allSuffix: "周",
+      oddSuffix: "周(单)",
+      evenSuffix: "周(双)",
+    );
     final dayIndex = _weekday2Index[raw.weekDayText];
     assert(dayIndex != null && 0 <= dayIndex && dayIndex < 7, "dayIndex isn't in range [0,6] but $dayIndex");
     if (dayIndex == null || !(0 <= dayIndex && dayIndex < 7)) continue;
@@ -93,12 +113,11 @@ SitTimetable parseUndergraduateTimetableFromCourseRaw(List<CourseRaw> all) {
       courseName: mapChinesePunctuations(raw.courseName).trim(),
       courseCode: raw.courseCode.trim(),
       classCode: raw.classCode.trim(),
-      campus: raw.campus,
+      campus: _parseCampus(raw.campus),
       place: reformatPlace(mapChinesePunctuations(raw.place)),
       weekIndices: weekIndices,
       timeslots: timeslots,
       courseCredit: double.tryParse(raw.courseCredit) ?? 0.0,
-      creditHour: int.tryParse(raw.creditHour) ?? 0,
       dayIndex: dayIndex,
       teachers: raw.teachers.split(","),
     );
@@ -270,4 +289,180 @@ String convertTimetable2ICal({
     }
   }
   return calendar.serialize();
+}
+
+List<PostgraduateCourseRaw> generatePostgraduateCourseRawsFromHtml(
+    String timetableHtmlContent, String scoresHtmlContent) {
+  List<PostgraduateCourseRaw> courseList = [];
+  const mapOfWeekday = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
+
+  void processNodes(List nodes, String weekday) {
+    if (nodes.length < 5) {
+      // 如果节点数量小于 5，不足以构成一个完整的 Course，忽略
+      return;
+    }
+
+    var locationWithTeacherStr = mapChinesePunctuations(nodes[4].text);
+    var locationWithTeacherList = locationWithTeacherStr.split("  ");
+    var location = locationWithTeacherList[0];
+    var teacher = locationWithTeacherList[1];
+    var courseNameWithClassCode = mapChinesePunctuations(nodes[0].text);
+    late String courseName;
+    late String classCode;
+    RegExpMatch? courseNameWithClassCodeMatch =
+        RegExp(r"(.*?)(基础\d+班|学硕\d+班|专硕\d+班|\d+班)$").firstMatch(courseNameWithClassCode);
+    if (courseNameWithClassCodeMatch != null) {
+      courseName = courseNameWithClassCodeMatch.group(1) ?? "";
+      classCode = courseNameWithClassCodeMatch.group(2) ?? "";
+    } else {
+      courseName = courseNameWithClassCode;
+      classCode = "";
+    }
+    var weekTextWithTimeslotsText = mapChinesePunctuations(nodes[2].text);
+    late String weekText;
+    late String timeslotsText;
+    RegExpMatch? weekTextWithTimeslotsTextMatch =
+        RegExp(r"([\d-]+周(\([^)]*\))?)([\d-]+节)").firstMatch(weekTextWithTimeslotsText);
+    if (weekTextWithTimeslotsTextMatch != null) {
+      weekText = weekTextWithTimeslotsTextMatch.group(1) ?? "";
+      timeslotsText = weekTextWithTimeslotsTextMatch.group(3) ?? "";
+    } else {
+      weekText = "";
+      timeslotsText = "";
+    }
+
+    final course = PostgraduateCourseRaw(
+        courseName: courseName,
+        weekDayText: weekday,
+        weekText: weekText,
+        timeslotsText: timeslotsText,
+        teachers: teacher,
+        place: location,
+        classCode: classCode,
+        courseCode: "",
+        courseCredit: "",
+        creditHour: "");
+
+    courseList.add(course);
+
+    // 移除处理过的节点，继续处理剩余的节点
+    nodes.removeRange(0, 7);
+
+    if (nodes.isNotEmpty) {
+      processNodes(nodes, weekday);
+    }
+  }
+
+  final document = parse(timetableHtmlContent);
+  final table = document.querySelector('table');
+  final trList = table!.querySelectorAll('tr');
+  for (var tr in trList) {
+    final tdList = tr.querySelectorAll('td');
+    for (var td in tdList) {
+      if (td.innerHtml.contains("br")) {
+        var index = tdList.indexOf(td);
+        String weekday;
+        if (tdList.length > 8) {
+          weekday = mapOfWeekday[index - 2];
+        } else {
+          weekday = mapOfWeekday[index - 1];
+        }
+        var nodes = td.nodes;
+        processNodes(nodes, weekday);
+      }
+    }
+  }
+  completePostgraduateTimetableFromScoresHtml(courseList, scoresHtmlContent);
+  return courseList;
+}
+
+void completePostgraduateTimetableFromScoresHtml(List<PostgraduateCourseRaw> courseList, String scoresHtmlContent) {
+  var name2Course = <String, PostgraduateCourseRaw>{};
+
+  final htmlDocument = parse(scoresHtmlContent);
+  final table = htmlDocument
+      .querySelectorAll('table.t_table')[1]
+      .querySelector("tbody")!
+      .querySelectorAll("tr")[1]
+      .querySelector("td");
+  final tbody = table!.querySelector("tbody");
+  final trList = tbody!.querySelectorAll("tr");
+  for (var tr in trList) {
+    if (tr.className == "tr_fld_v") {
+      final tdList = tr.querySelectorAll("td");
+      var courseName = tdList[2].text.trim();
+      var courseCode = tdList[1].text.trim();
+      var courseCredit = tdList[3].text.trim();
+      final courseInfo = PostgraduateCourseRaw(
+          courseName: courseName,
+          weekDayText: "",
+          timeslotsText: "",
+          weekText: "",
+          place: "",
+          teachers: "",
+          courseCredit: courseCredit,
+          creditHour: "",
+          classCode: "",
+          courseCode: courseCode);
+      var key = courseName.replaceAll(" ", "");
+      name2Course[key] = courseInfo;
+    }
+
+    for (var course in courseList) {
+      var key = course.courseName.replaceAll(" ", "");
+      var courseInfo = name2Course[key];
+      if (courseInfo != null) {
+        course.courseCode = courseInfo.courseCode;
+        course.courseCredit = courseInfo.courseCredit;
+      }
+    }
+  }
+}
+
+SitTimetable parsePostgraduateTimetableFromCourseRaw(
+  List<PostgraduateCourseRaw> all, {
+  required Campus campus,
+}) {
+  final List<SitCourse> courseKey2Entity = [];
+  var counter = 0;
+  for (final raw in all) {
+    final courseKey = counter++;
+    final weekIndices = _parseWeekText2RangedNumbers(
+      mapChinesePunctuations(raw.weekText),
+      allSuffix: "周",
+      oddSuffix: "周(单周)",
+      evenSuffix: "周(双周)",
+    );
+    final dayIndex = _weekday2Index[raw.weekDayText];
+    assert(dayIndex != null && 0 <= dayIndex && dayIndex < 7, "dayIndex isn't in range [0,6] but $dayIndex");
+    if (dayIndex == null || !(0 <= dayIndex && dayIndex < 7)) continue;
+    final timeslotsText = raw.timeslotsText.endsWith("节")
+        ? raw.timeslotsText.substring(0, raw.timeslotsText.length - 1)
+        : raw.timeslotsText;
+    final timeslots = rangeFromString(timeslotsText, number2index: true);
+    assert(timeslots.start <= timeslots.end, "${timeslots.start} > ${timeslots.end} actually. ${raw.courseName}");
+    final course = SitCourse(
+      courseKey: courseKey,
+      courseName: mapChinesePunctuations(raw.courseName).trim(),
+      courseCode: raw.courseCode.trim(),
+      classCode: raw.classCode.trim(),
+      campus: campus,
+      place: reformatPlace(mapChinesePunctuations(raw.place)),
+      weekIndices: weekIndices,
+      timeslots: timeslots,
+      courseCredit: double.tryParse(raw.courseCredit) ?? 0.0,
+      dayIndex: dayIndex,
+      teachers: raw.teachers.split(","),
+    );
+    courseKey2Entity.add(course);
+  }
+  final res = SitTimetable(
+    courseKey2Entity: courseKey2Entity,
+    courseKeyCounter: counter,
+    name: "",
+    startDate: DateTime.utc(0),
+    schoolYear: 0,
+    semester: Semester.term1,
+  );
+  return res;
 }
