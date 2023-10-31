@@ -26,7 +26,6 @@ import 'package:sit/widgets/not_found.dart';
 import 'package:sit/school/oa_announce/entity/announce.dart';
 import 'package:sit/school/oa_announce/page/details.dart';
 import 'package:sit/school/exam_arrange/page/index.dart';
-import 'package:sit/school/library/index.dart';
 import 'package:sit/school/oa_announce/page/list.dart';
 import 'package:sit/scanner/page/index.dart';
 import 'package:sit/school/class2nd/entity/list.dart';
@@ -313,7 +312,8 @@ final _teacherEvalRoute = GoRoute(
 
 final _libraryRoute = GoRoute(
   path: "/library",
-  builder: (ctx, state) => const LibraryPage(),
+  // TODO: library
+  builder: (ctx, state) => const Placeholder(),
 );
 
 final _examArrange = GoRoute(

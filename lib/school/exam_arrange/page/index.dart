@@ -74,7 +74,7 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
             pinned: true,
             expandedHeight: 200,
             flexibleSpace: FlexibleSpaceBar(
-              title: i18n.title.text(),
+              title: i18n.title.text(style: context.textTheme.headlineSmall),
               background: buildSemesterSelector(),
             ),
             bottom: isLoading

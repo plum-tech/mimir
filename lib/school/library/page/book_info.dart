@@ -149,7 +149,7 @@ class _BookInfoPageState extends State<BookInfoPage> {
             BookItemWidget(
               widget.bookImageHolding,
               onAuthorTap: (String key) {
-                showSearch(context: context, delegate: SearchBarDelegate(), query: key);
+                showSearch(context: context, delegate: LibrarySearchDelegate(), query: key);
               },
             ),
             const SizedBox(height: 20),

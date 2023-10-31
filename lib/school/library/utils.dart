@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:sit/school/library/service/holding_preview.dart';
+import 'package:sit/school/library/service/image_search.dart';
 
-import 'dao/holding_preview.dart';
-import 'dao/image_search.dart';
 import 'entity/book_image.dart';
 import 'entity/book_search.dart';
 import 'entity/holding_preview.dart';
@@ -30,8 +30,8 @@ class BookImageHolding {
 
   /// 可以很简单地并发查询一批书的图片与馆藏信息并join出结果
   static Future<List<BookImageHolding>> simpleQuery(
-    BookImageSearchDao bookImageSearchDao, // 图片搜索服务
-    HoldingPreviewDao holdingPreviewDao, // 馆藏检索服务
+    BookImageSearchService bookImageSearchDao, // 图片搜索服务
+    HoldingPreviewService holdingPreviewDao, // 馆藏检索服务
     List<Book> books, // 图书搜索结果
   ) async {
     Future<Map<String, BookImage>> searchBookImages() async {

@@ -1,30 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/widgets/app.dart';
 
+import './i18n.dart';
 import 'page/search_delegate.dart';
-import '../i18n.dart';
 
-class LibraryPage extends StatelessWidget {
-  const LibraryPage({super.key});
+class LibraryAppCard extends StatefulWidget {
+  const LibraryAppCard({super.key});
 
   @override
+  State<LibraryAppCard> createState() => _LibraryAppCardState();
+}
+
+class _LibraryAppCardState extends State<LibraryAppCard> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: i18n.title.text(),
-        actions: [
-          IconButton(
-            onPressed: () {
-              showSearch(context: context, delegate: SearchBarDelegate());
-            },
-            icon: const Icon(
-              Icons.search,
-            ),
-          )
-        ],
-      ),
-      // TODO: new body
-      body: null,
+    return AppCard(
+      title: i18n.title.text(),
+      leftActions: [
+        FilledButton.icon(
+          onPressed: () async {
+            await showSearch(context: context, delegate: LibrarySearchDelegate());
+          },
+          icon: const Icon(Icons.search),
+          label: i18n.search.text(),
+        ),
+        OutlinedButton(
+          onPressed: () {},
+          child: i18n.seeAll.text(),
+        )
+      ],
     );
   }
 }

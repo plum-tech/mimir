@@ -3,14 +3,12 @@ import 'package:intl/intl.dart';
 import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 
-import '../dao/borrow.dart';
 import '../entity/borrow.dart';
 import 'constant.dart';
 
-class LibraryBorrowService implements LibraryBorrowDao {
+class LibraryBorrowService {
   const LibraryBorrowService();
 
-  @override
   Future<List<HistoryBorrowBookItem>> getHistoryBorrowBookList(int page, int rows) async {
     final response = await Init.librarySession.request(
       Constants.historyLoanListUrl,
@@ -39,7 +37,6 @@ class LibraryBorrowService implements LibraryBorrowDao {
     }).toList();
   }
 
-  @override
   Future<List<BorrowBookItem>> getMyBorrowBookList(int page, int rows) async {
     final response = await Init.librarySession.request(
       Constants.currentLoanListUrl,
@@ -87,7 +84,6 @@ class LibraryBorrowService implements LibraryBorrowDao {
     return BeautifulSoup(response.data).find('div', id: 'content')!.text;
   }
 
-  @override
   Future<String> renewBook({
     required List<String> barcodeList,
     bool renewAll = false,

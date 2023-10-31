@@ -5,11 +5,10 @@ import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/session/library.dart';
 
-import '../dao/book_info.dart';
 import '../entity/book_info.dart';
 import 'constant.dart';
 
-class BookInfoService implements BookInfoDao {
+class BookInfoService {
   LibrarySession get session => Init.librarySession;
 
   const BookInfoService();
@@ -27,7 +26,6 @@ class BookInfoService implements BookInfoDao {
       ..rawDetail = rawDetail;
   }
 
-  @override
   Future<BookInfo> query(String bookId) async {
     final response = await session.request('${Constants.bookUrl}/$bookId', ReqMethod.get);
     final html = response.data;
