@@ -378,6 +378,12 @@ class TimetableWeekIndex {
     this.range,
   ) : type = TimetableWeekIndexType.all;
 
+  /// [start] will equal to [end].
+  const TimetableWeekIndex.single(
+    int weekIndex,
+  )   : type = TimetableWeekIndexType.all,
+        range = (start: weekIndex, end: weekIndex);
+
   const TimetableWeekIndex.odd(
     this.range,
   ) : type = TimetableWeekIndexType.odd;
