@@ -354,6 +354,11 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
     final lessonTimeTip =
         lessons.map((time) => "${time.begin.toStringPrefixed0()}–${time.end.toStringPrefixed0()}").join("\n");
     final course = widget.lesson.course;
+    var tooltip = "${i18n.details.courseCode} ${course.courseCode}";
+    if (course.classCode.isNotEmpty) {
+      tooltip += "\n${i18n.details.classCode} ${course.classCode}";
+    }
+    tooltip += "\n$lessonTimeTip";
     return StyledCourseCell(
       course: widget.lesson.course,
       grayOut: widget.grayOut,
@@ -363,8 +368,7 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
         preferBelow: false,
         triggerMode: TooltipTriggerMode.manual,
         // TODO: don't prefix it with zero
-        message:
-            "${i18n.details.courseCode} ${course.courseCode}\n${i18n.details.classCode} ${course.classCode}\n$lessonTimeTip",
+        message: tooltip,
         textAlign: TextAlign.center,
         child: InkWell(
           onTap: () async {
@@ -515,10 +519,11 @@ class TimetableSlotInfo extends StatelessWidget {
           text: courseName,
           style: context.textTheme.bodyMedium,
         ),
-        TextSpan(
-          text: "\n${beautifyPlace(place)}",
-          style: context.textTheme.bodySmall,
-        ),
+        if (place.isNotEmpty)
+          TextSpan(
+            text: "\n${beautifyPlace(place)}",
+            style: context.textTheme.bodySmall,
+          ),
         if (teachers != null)
           TextSpan(
             text: "\n${teachers.join(',')}",

@@ -417,17 +417,14 @@ class TimetableWeekIndices {
   /// e.g.:
   /// ```dart
   /// TimetableWeekIndices([
-  ///  WeekIndexType(
-  ///    type: WeekIndexType.all,
-  ///    range: (start: 0, end: 4),
+  ///  TimetableWeekIndex.all(
+  ///    (start: 0, end: 4),
   ///  ),
-  ///  WeekIndexType(
-  ///    type: WeekIndexType.all,
-  ///    range: (start: 13, end: 13),
+  ///  TimetableWeekIndex.single(
+  ///    13,
   ///  ),
-  ///  WeekIndexType(
-  ///    type: WeekIndexType.odd,
-  ///    range: (start: 7, end: 9),
+  ///  TimetableWeekIndex.odd(
+  ///    (start: 7, end: 9),
   ///  ),
   /// ])
   /// ```
