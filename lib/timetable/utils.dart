@@ -293,9 +293,10 @@ String convertTimetable2ICal({
   return calendar.serialize();
 }
 
-List<PostgraduateCourseRaw> generatePostgraduateCourseRawsFromHtml(String htmlContent) {
+List<PostgraduateCourseRaw> generatePostgraduateCourseRawsFromHtml(
+    String timetableHtmlContent, String scoresHtmlContent) {
   List<PostgraduateCourseRaw> courseList = [];
-  var mapOfWeekday = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
+  const mapOfWeekday = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
 
   void processNodes(List nodes, String weekday) {
     if (nodes.length < 5) {
@@ -354,7 +355,7 @@ List<PostgraduateCourseRaw> generatePostgraduateCourseRawsFromHtml(String htmlCo
     }
   }
 
-  final document = parse(htmlContent);
+  final document = parse(timetableHtmlContent);
   final table = document.querySelector('table');
   final trList = table!.querySelectorAll('tr');
   for (var tr in trList) {
@@ -373,7 +374,51 @@ List<PostgraduateCourseRaw> generatePostgraduateCourseRawsFromHtml(String htmlCo
       }
     }
   }
+  completePostgraduateTimetableFromScoresHtml(courseList, scoresHtmlContent);
   return courseList;
+}
+
+void completePostgraduateTimetableFromScoresHtml(List<PostgraduateCourseRaw> courseList, String scoresHtmlContent) {
+  var name2Course = <String, PostgraduateCourseRaw>{};
+
+  final htmlDocument = parse(scoresHtmlContent);
+  final table = htmlDocument
+      .querySelectorAll('table.t_table')[1]
+      .querySelector("tbody")!
+      .querySelectorAll("tr")[1]
+      .querySelector("td");
+  final tbody = table!.querySelector("tbody");
+  final trList = tbody!.querySelectorAll("tr");
+  for (var tr in trList) {
+    if (tr.className == "tr_fld_v") {
+      final tdList = tr.querySelectorAll("td");
+      var courseName = tdList[2].text.trim();
+      var courseCode = tdList[1].text.trim();
+      var courseCredit = tdList[3].text.trim();
+      final courseInfo = PostgraduateCourseRaw(
+          courseName: courseName,
+          weekDayText: "",
+          timeslotsText: "",
+          weekText: "",
+          place: "",
+          teachers: "",
+          courseCredit: courseCredit,
+          creditHour: "",
+          classCode: "",
+          courseCode: courseCode);
+      var key = courseName.replaceAll(" ", "");
+      name2Course[key] = courseInfo;
+    }
+
+    for (var course in courseList) {
+      var key = course.courseName.replaceAll(" ", "");
+      var courseInfo = name2Course[key];
+      if (courseInfo != null) {
+        course.courseCode = courseInfo.courseCode;
+        course.courseCredit = courseInfo.courseCredit;
+      }
+    }
+  }
 }
 
 SitTimetable parsePostgraduateTimetableFromCourseRaw(

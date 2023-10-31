@@ -42,7 +42,7 @@ class TimetableService {
   }
 
   Future<SitTimetable> getPostgraduateTimetable(SemesterInfo info) async {
-    final response = await gmsSession.request(
+    final timetableRes = await gmsSession.request(
       _postgraduateTimetableUrl,
       ReqMethod.post,
       data: {
@@ -50,15 +50,22 @@ class TimetableService {
         "XQDM": _toPostgraduateSemesterText(info),
       },
     );
-    final htmlContent = response.data;
-    final courseList = generatePostgraduateCourseRawsFromHtml(htmlContent);
+    final scoresRes = await gmsSession.request(
+      _postgraduateScoresUrl,
+      ReqMethod.get,
+      para: {
+        "mainobj": "YJSXT/PYGL/CJGLST/V_PYGL_CJGL_KSCJHZB",
+        "tfile": "KSCJHZB_CJCX_CD/KSCJHZB_XSCX_CD_BD",
+      },
+    );
+    final timetableHtmlContent = timetableRes.data;
+    final scoresHtmlContent = scoresRes.data;
+    final courseList = generatePostgraduateCourseRawsFromHtml(timetableHtmlContent, scoresHtmlContent);
     final timetableEntity = parsePostgraduateTimetableFromCourseRaw(
       courseList,
       campus: Settings.campus,
     );
     return timetableEntity;
-    //
-    // throw Exception("");
   }
 
   String _toPostgraduateSemesterText(SemesterInfo info) {
