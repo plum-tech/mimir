@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
+import 'package:sit/l10n/time.dart';
 
-abstract class _RegionalFormatter {
+abstract class RegionalFormatter {
   DateFormat get ymdText;
 
   DateFormat get ymdWeekText;
@@ -18,6 +19,8 @@ abstract class _RegionalFormatter {
   DateFormat get mdHmNum;
 
   DateFormat get mdNum;
+
+  Weekday get firstDayInWeek;
 }
 
 class Lang {
@@ -34,7 +37,7 @@ class Lang {
   static final hms = DateFormat("H:mm:ss");
   static final hm = DateFormat("H:mm");
 
-  static _RegionalFormatter _getFormatterFrom(String lang, String? country) {
+  static RegionalFormatter getFormatterFrom(String lang, String? country) {
     if (lang == zh) {
       if (country == null) {
         return zhFormatter;
@@ -47,26 +50,26 @@ class Lang {
     return zhFormatter;
   }
 
-  static DateFormat ymdWeekText(String lang, String? country) => _getFormatterFrom(lang, country).ymdWeekText;
+  static DateFormat ymdWeekText(String lang, String? country) => getFormatterFrom(lang, country).ymdWeekText;
 
-  static DateFormat mdWeekText(String lang, String? country) => _getFormatterFrom(lang, country).mdWeekText;
+  static DateFormat mdWeekText(String lang, String? country) => getFormatterFrom(lang, country).mdWeekText;
 
-  static DateFormat formatYmdText(String lang, String? country) => _getFormatterFrom(lang, country).ymdText;
+  static DateFormat formatYmdText(String lang, String? country) => getFormatterFrom(lang, country).ymdText;
 
-  static DateFormat ymdNum(String lang, String? country) => _getFormatterFrom(lang, country).ymdNum;
+  static DateFormat ymdNum(String lang, String? country) => getFormatterFrom(lang, country).ymdNum;
 
-  static DateFormat ymText(String lang, String? country) => _getFormatterFrom(lang, country).ymText;
+  static DateFormat ymText(String lang, String? country) => getFormatterFrom(lang, country).ymText;
 
-  static DateFormat ymdhmsNum(String lang, String? country) => _getFormatterFrom(lang, country).ymdhmsNum;
+  static DateFormat ymdhmsNum(String lang, String? country) => getFormatterFrom(lang, country).ymdhmsNum;
 
-  static DateFormat ymdhmNum(String lang, String? country) => _getFormatterFrom(lang, country).ymdhmNum;
+  static DateFormat ymdhmNum(String lang, String? country) => getFormatterFrom(lang, country).ymdhmNum;
 
-  static DateFormat mdHmNum(String lang, String? country) => _getFormatterFrom(lang, country).mdHmNum;
+  static DateFormat mdHmNum(String lang, String? country) => getFormatterFrom(lang, country).mdHmNum;
 
-  static DateFormat mdNum(String lang, String? country) => _getFormatterFrom(lang, country).mdNum;
+  static DateFormat mdNum(String lang, String? country) => getFormatterFrom(lang, country).mdNum;
 }
 
-class _ZhFormatter implements _RegionalFormatter {
+class _ZhFormatter implements RegionalFormatter {
   @override
   final ymdText = DateFormat("yyyy年M月d日", "zh_CN");
   @override
@@ -85,9 +88,11 @@ class _ZhFormatter implements _RegionalFormatter {
   final mdHmNum = DateFormat("M/d H:mm", "zh_CN");
   @override
   final mdNum = DateFormat("M/d", "zh_CN");
+  @override
+  final firstDayInWeek = Weekday.monday;
 }
 
-class _ZhTwFormatter implements _RegionalFormatter {
+class _ZhTwFormatter implements RegionalFormatter {
   @override
   final ymdText = DateFormat("yyyy年M月d日", "zh_TW");
   @override
@@ -106,10 +111,12 @@ class _ZhTwFormatter implements _RegionalFormatter {
   final mdHmNum = DateFormat("M/d H:mm", "zh_TW");
   @override
   final mdNum = DateFormat("M/d", "zh_TW");
+  @override
+  final firstDayInWeek = Weekday.monday;
 }
 
 // TODO: Using AM and PM
-class _EnFormatter implements _RegionalFormatter {
+class _EnFormatter implements RegionalFormatter {
   @override
   final ymdText = DateFormat("MMMM d, yyyy", "en_US");
   @override
@@ -128,4 +135,6 @@ class _EnFormatter implements _RegionalFormatter {
   final mdHmNum = DateFormat("M/d H:mm", "en_US");
   @override
   final mdNum = DateFormat("M/d", "en_US");
+  @override
+  final firstDayInWeek = Weekday.sunday;
 }

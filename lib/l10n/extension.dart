@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:sit/l10n/time.dart';
 import 'package:sit/route.dart';
 
 import 'lang.dart';
@@ -66,6 +67,11 @@ extension I18nBuildContext on BuildContext {
   String formatMdhmNum(DateTime date) {
     final curLocale = locale;
     return Lang.mdHmNum(curLocale.languageCode, curLocale.countryCode).format(date);
+  }
+
+  Weekday firstDayInWeek(){
+    final curLocale = locale;
+    return Lang.getFormatterFrom(curLocale.languageCode, curLocale.countryCode).firstDayInWeek;
   }
 }
 
