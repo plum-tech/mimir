@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/exception/session.dart';
+import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/session/sso.dart';
 
@@ -22,6 +23,7 @@ class GmsSession {
   }) async {
     options ??= SessionOptions();
     options.contentType = 'application/x-www-form-urlencoded;charset=utf-8';
+
     Future<Response> fetch() async {
       return await ssoSession.request(
         url,
@@ -35,7 +37,7 @@ class GmsSession {
     }
     final response = await fetch();
     final content = response.data;
-    if (content is String && content.contains("登录") == true) {
+    if (content is String && content.contains("正在登录") == true) {
       final credential = CredentialInit.storage.oaCredentials;
       if (credential == null) {
         throw LoginRequiredException(url: url);
