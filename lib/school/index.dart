@@ -8,6 +8,7 @@ import 'package:sit/school/class2nd/index.dart';
 import 'package:sit/school/event.dart';
 import 'package:sit/school/exam_arrange/index.dart';
 import 'package:sit/school/exam_result/index.dart';
+import 'package:sit/school/library/index.dart';
 import 'package:sit/school/oa_announce/index.dart';
 import 'package:sit/school/yellow_pages/index.dart';
 import 'package:sit/school/ywb/index.dart';
@@ -85,6 +86,9 @@ class _SchoolPageState extends State<SchoolPage> {
                 const SliverToBoxAdapter(
                   child: YwbAppCard(),
                 ),
+              // const SliverToBoxAdapter(
+              //   child: LibraryAppCard(),
+              // ),
               const SliverToBoxAdapter(
                 child: YellowPagesAppCard(),
               ),

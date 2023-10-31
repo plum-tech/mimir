@@ -8,5 +8,7 @@ class _I18n with CommonI18nMixin {
 
   static const ns = "library";
 
+  String get title => "$ns.title".tr();
+
   String get hotPost => "$ns.hotPost".tr();
 }

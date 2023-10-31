@@ -8,7 +8,7 @@ import '../init.dart';
 import '../widgets/search_result.dart';
 import '../widgets/suggestion_item.dart';
 
-class SearchBarDelegate extends SearchDelegate<String> {
+class LibrarySearchDelegate extends SearchDelegate<String> {
   Widget? _suggestionView;
 
   /// 当前的搜索模式

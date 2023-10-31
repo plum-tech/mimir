@@ -1,11 +1,4 @@
 import 'package:hive/hive.dart';
-import 'dao/book_info.dart';
-import 'dao/book_search.dart';
-import 'dao/holding.dart';
-import 'dao/holding_preview.dart';
-import 'dao/hot_search.dart';
-import 'dao/image_search.dart';
-import 'dao/search_history.dart';
 import 'service/book_info.dart';
 import 'service/book_search.dart';
 import 'service/holding.dart';
@@ -16,21 +9,21 @@ import 'storage/search_history.dart';
 
 class LibraryInit {
   /// 图书信息访问
-  static late BookInfoDao bookInfo;
+  static late BookInfoService bookInfo;
 
   /// 馆藏信息访问
-  static late HoldingInfoDao holdingInfo;
+  static late HoldingInfoService holdingInfo;
 
   /// 图书
-  static late BookSearchDao bookSearch;
+  static late BookSearchService bookSearch;
 
-  static late BookImageSearchDao bookImageSearch;
+  static late BookImageSearchService bookImageSearch;
 
-  static late HoldingPreviewDao holdingPreview;
+  static late HoldingPreviewService holdingPreview;
 
-  static late SearchHistoryDao librarySearchHistory;
+  static late SearchHistoryStorage librarySearchHistory;
 
-  static late HotSearchDao hotSearchService;
+  static late HotSearchService hotSearchService;
 
   /// 初始化图书馆相关的service
   static void init({
@@ -42,8 +35,8 @@ class LibraryInit {
     bookSearch = const BookSearchService();
     bookImageSearch = const BookImageSearchService();
     holdingPreview = const HoldingPreviewService();
-    hotSearchService = const HotSearchService();
 
     librarySearchHistory = SearchHistoryStorage(searchHistoryBox);
+    hotSearchService = const HotSearchService();
   }
 }

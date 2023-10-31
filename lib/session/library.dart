@@ -3,17 +3,21 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:encrypt/encrypt.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/exception/session.dart';
+import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/session/common.dart';
 import 'package:sit/utils/dio_utils.dart';
 
-class LibrarySession extends DefaultDioSession {
+class LibrarySession {
   static const _opacUrl = 'http://210.35.66.106/opac';
   static const _pemUrl = '$_opacUrl/certificate/pem';
   static const _doLoginUrl = '$_opacUrl/reader/doLogin';
 
-  LibrarySession({required Dio dio}) : super(dio);
+  final Dio dio;
+
+  LibrarySession({required this.dio});
 
   Future<Response> login(String username, String password) async {
     final response = await _login(username, password);
@@ -55,11 +59,40 @@ class LibrarySession extends DefaultDioSession {
   }
 
   Future<dynamic> _getRSAPublicKey() async {
-    final pemResponse = await request(_pemUrl, ReqMethod.get);
+    final pemResponse = await dio.get(_pemUrl);
     String publicKeyStr = pemResponse.data;
     final pemFileContent = '-----BEGIN PUBLIC KEY-----\n$publicKeyStr\n-----END PUBLIC KEY-----';
 
     final parser = RSAKeyParser();
     return parser.parse(pemFileContent);
+  }
+
+  bool _loggedIn = false;
+
+  Future<Response> request(
+    String url,
+    ReqMethod method, {
+    Map<String, String>? para,
+    data,
+    SessionOptions? options,
+    SessionProgressCallback? onSendProgress,
+    SessionProgressCallback? onReceiveProgress,
+  }) async {
+    if (!_loggedIn) {
+      final credentials = CredentialInit.storage.oaCredentials;
+      if (credentials != null) {
+        await login(credentials.account, credentials.password);
+      }
+      _loggedIn = true;
+    }
+    final response = await dio.request(
+      url,
+      queryParameters: para,
+      data: data,
+      options: options?.toDioOptions().copyWith(
+            method: method.name.toUpperCase(),
+          ),
+    );
+    return response;
   }
 }

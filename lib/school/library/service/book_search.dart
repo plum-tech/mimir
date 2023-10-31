@@ -3,11 +3,10 @@ import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/session/library.dart';
 
-import '../dao/book_search.dart';
 import '../entity/book_search.dart';
 import 'constant.dart';
 
-class BookSearchService implements BookSearchDao {
+class BookSearchService  {
   LibrarySession get session => Init.librarySession;
 
   const BookSearchService();
@@ -70,7 +69,6 @@ class BookSearchService implements BookSearchDao {
     return Book(bookId, isbn, title, author, publisher, publishDate, callNo);
   }
 
-  @override
   Future<BookSearchResult> search({
     String keyword = '',
     int rows = 10,

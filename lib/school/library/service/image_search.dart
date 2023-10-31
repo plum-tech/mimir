@@ -5,17 +5,15 @@ import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/session/library.dart';
 
-import '../dao/image_search.dart';
 import '../entity/book_image.dart';
 import 'constant.dart';
 
 /// 本类提供了一系列，通过查询图书图片的方法，返回结果类型为字典，以ISBN为键
-class BookImageSearchService implements BookImageSearchDao {
+class BookImageSearchService {
   LibrarySession get session => Init.librarySession;
 
   const BookImageSearchService();
 
-  @override
   Future<Map<String, BookImage>> searchByIsbnList(List<String> isbnList) async {
     return await searchByIsbnStr(isbnList.join(','));
   }

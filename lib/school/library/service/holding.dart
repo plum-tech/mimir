@@ -4,7 +4,6 @@ import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/session/library.dart';
 
-import '../dao/holding.dart';
 import '../entity/holding.dart';
 import 'constant.dart';
 
@@ -201,12 +200,11 @@ class _BookHoldingInfo {
   Map<String, dynamic> toJson() => _$BookHoldingInfoToJson(this);
 }
 
-class HoldingInfoService implements HoldingInfoDao {
+class HoldingInfoService {
   LibrarySession get session => Init.librarySession;
 
   const HoldingInfoService();
 
-  @override
   Future<HoldingInfo> queryByBookId(String bookId) async {
     var response = await session.request('${Constants.bookHoldingUrl}/$bookId', ReqMethod.get);
 
@@ -248,7 +246,6 @@ class HoldingInfoService implements HoldingInfoDao {
   }
 
   /// 搜索附近的书的id号
-  @override
   Future<List<String>> searchNearBookIdList(String bookId) async {
     var response = await session.request(
       Constants.virtualBookshelfUrl,
