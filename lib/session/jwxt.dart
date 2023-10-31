@@ -43,12 +43,12 @@ class JwxtSession {
       );
     }
 
-    var response = await fetch();
+    final response = await fetch();
     // 如果返回值是登录页面，那就从 SSO 跳转一次以登录.
     if (_isRedirectedToLoginPage(response)) {
       Log.info('JwxtSession requires login');
       await _refreshCookie();
-      response = await fetch();
+      return await fetch();
     }
     // 如果还是需要登录
     if (_isRedirectedToLoginPage(response)) {
@@ -59,7 +59,7 @@ class JwxtSession {
       }
       await ssoSession.loginLocked(credential);
       await _refreshCookie();
-      response = await fetch();
+      return await fetch();
     }
     return response;
   }

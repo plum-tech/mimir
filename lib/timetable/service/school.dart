@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/school/entity/school.dart';
@@ -11,7 +13,7 @@ import '../utils.dart';
 
 class TimetableService {
   static const _undergraduateTimetableUrl = 'http://jwxt.sit.edu.cn/jwglxt/kbcx/xskbcx_cxXsgrkb.html';
-  static const _postgraduateTimetableUrl = 'http://gms.sit.edu.cn/epstar/web/swms/mainframe/home/index.jsp';
+  static const _postgraduateTimetableUrl = 'http://gms.sit.edu.cn/epstar/yjs/T_PYGL_KWGL_WSXK/T_PYGL_KWGL_WSXK_XSKB_NEW.jsp';
 
   JwxtSession get jwxtSession => Init.jwxtSession;
 
@@ -43,7 +45,7 @@ class TimetableService {
     final response = await gmsSession.request(
       _postgraduateTimetableUrl,
       ReqMethod.post,
-      data: "excel=true&XQDM=202309",
+      data: {"excel": "true", "XQDM": "202309"},
     );
     if (response.statusCode == 200) {
       final htmlContent = response.data;
@@ -65,7 +67,7 @@ class Course {
 
 List parseTimeTable(String htmlContent) {
   var courseList = [];
-  var mapOfWeekday = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
+  const mapOfWeekday = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
 
   void processNodes(List nodes, String weekday) {
     if (nodes.length < 5) {
