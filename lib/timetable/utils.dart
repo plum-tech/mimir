@@ -43,17 +43,14 @@ extension StringEx on String {
 /// The return value should be
 /// ```dart
 /// TimetableWeekIndices([
-///  TimetableWeekIndex(
-///    type: WeekIndexType.all,
-///    range: (start: 0, end: 4),
+///  TimetableWeekIndex.all(
+///    (start: 0, end: 4)
 ///  ),
-///  TimetableWeekIndex(
-///    type: WeekIndexType.single,
-///    range: (start: 13, end: 13),
+///  TimetableWeekIndex.single(
+///    13,
 ///  ),
-///  TimetableWeekIndex(
-///    type: WeekIndexType.odd,
-///    range: (start: 7, end: 9),
+///  TimetableWeekIndex.odd(
+///    (start: 7, end: 9),
 ///  ),
 /// ])
 /// ```
