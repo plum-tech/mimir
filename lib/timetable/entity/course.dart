@@ -67,46 +67,42 @@ class UndergraduateCourseRaw {
 
 class PostgraduateCourseRaw {
   /// 课程名称
-  final String courseName;
+  late String courseName;
 
   /// 星期
-  final String weekDayText;
+  late String weekDayText;
 
   /// 节次
-  final String timeslotsText;
+  late String timeslotsText;
 
   /// 周次
-  final String weekText;
+  late String weekText;
 
   /// 教室
-  final String place;
+  late String place;
 
   /// 教师
-  final String teachers;
-
-  /// 校区
-  final String campus;
+  late String teachers;
 
   /// 学分
-  final String courseCredit;
+  late String courseCredit;
 
   /// 学时
-  final String creditHour;
+  late String creditHour;
 
   /// 教学班
-  final String classCode;
+  late String classCode;
 
   /// 课程代码
-  final String courseCode;
+  late String courseCode;
 
-  const PostgraduateCourseRaw({
+  PostgraduateCourseRaw({
     required this.courseName,
     required this.weekDayText,
     required this.timeslotsText,
     required this.weekText,
     required this.place,
     required this.teachers,
-    required this.campus,
     required this.courseCredit,
     required this.creditHour,
     required this.classCode,
