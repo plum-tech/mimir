@@ -37,7 +37,7 @@ SitCourse _$SitCourseFromJson(Map<String, dynamic> json) => SitCourse(
       courseName: json['courseName'] as String,
       courseCode: json['courseCode'] as String,
       classCode: json['classCode'] as String,
-      campus: $enumDecodeNullable(_$CampusEnumMap, json['campus']) ?? Campus.fengxian,
+      campus: $enumDecode(_$CampusEnumMap, json['campus'], unknownValue: Campus.fengxian),
       place: json['place'] as String,
       weekIndices: _weekIndicesFromJson(json['weekIndices'] as List),
       timeslots: rangeFromString(json['timeslots'] as String),

@@ -246,7 +246,7 @@ class SitCourse {
   final String courseCode;
   @JsonKey()
   final String classCode;
-  @JsonKey(defaultValue: Campus.fengxian)
+  @JsonKey(unknownEnumValue: Campus.fengxian)
   final Campus campus;
   @JsonKey()
   final String place;
