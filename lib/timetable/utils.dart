@@ -5,7 +5,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ical/serializer.dart';
 import 'package:open_file/open_file.dart';
-import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/files.dart';
@@ -13,7 +12,6 @@ import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:sit/settings/settings.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'entity/timetable.dart';
 
@@ -308,11 +306,12 @@ List<PostgraduateCourseRaw> generatePostgraduateCourseRawsFromHtml(
     var locationWithTeacherList = locationWithTeacherStr.split("  ");
     var location = locationWithTeacherList[0];
     var teacher = locationWithTeacherList[1];
+
     var courseNameWithClassCode = mapChinesePunctuations(nodes[0].text);
     late String courseName;
     late String classCode;
     RegExpMatch? courseNameWithClassCodeMatch =
-        RegExp(r"(.*?)(基础\d+班|学硕\d+班|专硕\d+班|\d+班)$").firstMatch(courseNameWithClassCode);
+        RegExp(r"(.*?)(学硕\d+班|专硕\d+班|\d+班)$").firstMatch(courseNameWithClassCode);
     if (courseNameWithClassCodeMatch != null) {
       courseName = courseNameWithClassCodeMatch.group(1) ?? "";
       classCode = courseNameWithClassCodeMatch.group(2) ?? "";
@@ -320,6 +319,7 @@ List<PostgraduateCourseRaw> generatePostgraduateCourseRawsFromHtml(
       courseName = courseNameWithClassCode;
       classCode = "";
     }
+
     var weekTextWithTimeslotsText = mapChinesePunctuations(nodes[2].text);
     late String weekText;
     late String timeslotsText;
@@ -392,7 +392,7 @@ void completePostgraduateTimetableFromScoresHtml(List<PostgraduateCourseRaw> cou
   for (var tr in trList) {
     if (tr.className == "tr_fld_v") {
       final tdList = tr.querySelectorAll("td");
-      var courseName = tdList[2].text.trim();
+      var courseName = mapChinesePunctuations(tdList[2].text.trim());
       var courseCode = tdList[1].text.trim();
       var courseCredit = tdList[3].text.trim();
       final courseInfo = PostgraduateCourseRaw(
@@ -409,14 +409,13 @@ void completePostgraduateTimetableFromScoresHtml(List<PostgraduateCourseRaw> cou
       var key = courseName.replaceAll(" ", "");
       name2Course[key] = courseInfo;
     }
-
-    for (var course in courseList) {
-      var key = course.courseName.replaceAll(" ", "");
-      var courseInfo = name2Course[key];
-      if (courseInfo != null) {
-        course.courseCode = courseInfo.courseCode;
-        course.courseCredit = courseInfo.courseCredit;
-      }
+  }
+  for (var course in courseList) {
+    var key = course.courseName.replaceAll(" ", "");
+    var courseInfo = name2Course[key];
+    if (courseInfo != null) {
+      course.courseCode = courseInfo.courseCode;
+      course.courseCredit = courseInfo.courseCredit;
     }
   }
 }
