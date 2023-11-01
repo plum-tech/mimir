@@ -13,6 +13,7 @@ import 'package:sit/school/entity/school.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
+import '../school/exam_result/entity/score.dart';
 import 'entity/timetable.dart';
 
 import 'entity/course.dart';
@@ -291,8 +292,7 @@ String convertTimetable2ICal({
   return calendar.serialize();
 }
 
-List<PostgraduateCourseRaw> generatePostgraduateCourseRawsFromHtml(
-    String timetableHtmlContent, String scoresHtmlContent) {
+List<PostgraduateCourseRaw> parsePostgraduateCourseRawsFromHtml(String timetableHtmlContent) {
   List<PostgraduateCourseRaw> courseList = [];
   const mapOfWeekday = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
 
@@ -374,48 +374,24 @@ List<PostgraduateCourseRaw> generatePostgraduateCourseRawsFromHtml(
       }
     }
   }
-  completePostgraduateTimetableFromScoresHtml(courseList, scoresHtmlContent);
   return courseList;
 }
 
-void completePostgraduateTimetableFromScoresHtml(List<PostgraduateCourseRaw> courseList, String scoresHtmlContent) {
-  var name2Course = <String, PostgraduateCourseRaw>{};
+void completePostgraduateCourseRawsFromPostgraduateScoreRaws(
+    List<PostgraduateCourseRaw> courseList, List<PostgraduateScoreRaw> scoreList) {
+  var name2Score = <String, PostgraduateScoreRaw>{};
 
-  final htmlDocument = parse(scoresHtmlContent);
-  final table = htmlDocument
-      .querySelectorAll('table.t_table')[1]
-      .querySelector("tbody")!
-      .querySelectorAll("tr")[1]
-      .querySelector("td");
-  final tbody = table!.querySelector("tbody");
-  final trList = tbody!.querySelectorAll("tr");
-  for (var tr in trList) {
-    if (tr.className == "tr_fld_v") {
-      final tdList = tr.querySelectorAll("td");
-      var courseName = mapChinesePunctuations(tdList[2].text.trim());
-      var courseCode = tdList[1].text.trim();
-      var courseCredit = tdList[3].text.trim();
-      final courseInfo = PostgraduateCourseRaw(
-          courseName: courseName,
-          weekDayText: "",
-          timeslotsText: "",
-          weekText: "",
-          place: "",
-          teachers: "",
-          courseCredit: courseCredit,
-          creditHour: "",
-          classCode: "",
-          courseCode: courseCode);
-      var key = courseName.replaceAll(" ", "");
-      name2Course[key] = courseInfo;
-    }
+  for (var score in scoreList) {
+    var key = score.courseName.replaceAll(" ", "");
+    name2Score[key] = score;
   }
+
   for (var course in courseList) {
     var key = course.courseName.replaceAll(" ", "");
-    var courseInfo = name2Course[key];
-    if (courseInfo != null) {
-      course.courseCode = courseInfo.courseCode;
-      course.courseCredit = courseInfo.courseCredit;
+    var score = name2Score[key];
+    if (score != null) {
+      course.courseCode = score.courseCode;
+      course.courseCredit = score.courseCredit;
     }
   }
 }

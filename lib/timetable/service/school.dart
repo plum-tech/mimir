@@ -5,6 +5,7 @@ import 'package:sit/session/gms.dart';
 import 'package:sit/session/jwxt.dart';
 import 'package:sit/settings/settings.dart';
 
+import '../../school/exam_result/utils.dart';
 import '../entity/course.dart';
 import '../entity/timetable.dart';
 import '../utils.dart';
@@ -21,7 +22,7 @@ class TimetableService {
 
   const TimetableService();
 
-  /// 获取课表
+  /// 获取本科生课表
   Future<SitTimetable> getUndergraduateTimetable(SemesterInfo info) async {
     final response = await jwxtSession.request(
       _undergraduateTimetableUrl,
@@ -41,6 +42,7 @@ class TimetableService {
     return timetableEntity;
   }
 
+  /// 获取研究生课表
   Future<SitTimetable> getPostgraduateTimetable(SemesterInfo info) async {
     final timetableRes = await gmsSession.request(
       _postgraduateTimetableUrl,
@@ -60,7 +62,9 @@ class TimetableService {
     );
     final timetableHtmlContent = timetableRes.data;
     final scoresHtmlContent = scoresRes.data;
-    final courseList = generatePostgraduateCourseRawsFromHtml(timetableHtmlContent, scoresHtmlContent);
+    final scoreList = parsePostgraduateScoreRawFromScoresHtml(scoresHtmlContent);
+    final courseList = parsePostgraduateCourseRawsFromHtml(timetableHtmlContent);
+    completePostgraduateCourseRawsFromPostgraduateScoreRaws(courseList, scoreList);
     final timetableEntity = parsePostgraduateTimetableFromCourseRaw(
       courseList,
       campus: Settings.campus,
