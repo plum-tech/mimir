@@ -141,9 +141,6 @@ class TimetableOneDayPage extends StatefulWidget {
 }
 
 class _TimetableOneDayPageState extends State<TimetableOneDayPage> with AutomaticKeepAliveClientMixin {
-  SitTimetableEntity get timetable => widget.timetable;
-
-  /// Cache the who page to avoid expensive rebuilding.
   Widget? _cached;
 
   @override
@@ -168,11 +165,11 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
   Widget buildPage(BuildContext ctx) {
     int weekIndex = widget.weekIndex;
     int dayIndex = widget.dayIndex;
-    final week = timetable.weeks[weekIndex];
+    final week = widget.timetable.weeks[weekIndex];
     final day = week.days[dayIndex];
     if (!day.hasAnyLesson()) {
       return FreeDayTip(
-        timetable: timetable,
+        timetable: widget.timetable,
         weekIndex: weekIndex,
         dayIndex: dayIndex,
       ).scrolled().center();
@@ -207,12 +204,12 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
       final lesson = lessonsInSlot[0];
       return buildSingleLesson(
         ctx,
-        timetable: timetable,
+        timetable: widget.timetable,
         lesson: lesson,
         timeslot: timeslot,
       ).padH(6);
     } else {
-      return LessonOverlapGroup(lessonsInSlot, timeslot, timetable).padH(6);
+      return LessonOverlapGroup(lessonsInSlot, timeslot, widget.timetable).padH(6);
     }
   }
 

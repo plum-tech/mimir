@@ -120,7 +120,7 @@ class TimetableOneWeekCached extends StatefulWidget {
 }
 
 class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with AutomaticKeepAliveClientMixin {
-  /// Cache the who page to avoid expensive rebuilding.
+  /// Cache the entire page to avoid expensive rebuilding.
   Widget? _cached;
 
   @override
