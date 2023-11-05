@@ -6,6 +6,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/files.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/timetable.dart';
 import "../i18n.dart";
 import '../widgets/style.dart';
@@ -33,7 +34,7 @@ class TimetableScreenshotConfigEditor extends StatefulWidget {
 }
 
 class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotConfigEditor> {
-  final $signature = TextEditingController(text: "");
+  final $signature = TextEditingController(text: Settings.lastSignature);
   late bool grayOutTakenLessons = widget.initialGrayOut;
   var enableBackground = true;
 
@@ -74,6 +75,7 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
     return PlatformTextButton(
       child: i18n.screenshot.take.text(),
       onPressed: () async {
+        Settings.lastSignature = $signature.text;
         context.pop<TimetableScreenshotConfig>((
           signature: $signature.text.trim(),
           grayOutTakenLessons: grayOutTakenLessons == true,

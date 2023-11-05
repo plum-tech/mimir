@@ -12,6 +12,7 @@ class _K {
   static const ns = "/settings";
   static const campus = '$ns/campus';
   static const focusTimetable = '$ns/focusTimetable';
+  static const lastSignature = '$ns/lastSignature';
 }
 
 class _DeveloperK {
@@ -45,6 +46,10 @@ class SettingsImpl {
   set focusTimetable(bool newV) => box.put(_K.focusTimetable, newV);
 
   ValueListenable<Box> listenFocusTimetable() => box.listenable(keys: [_K.focusTimetable]);
+
+  String? get lastSignature => box.get(_K.lastSignature);
+
+  set lastSignature(String? value) => box.put(_K.lastSignature, value);
 
   Size? get lastWindowSize => box.get(_ThemeK.lastWindowSize, defaultValue: R.defaultWindowSize);
 
