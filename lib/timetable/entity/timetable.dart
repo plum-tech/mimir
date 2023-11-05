@@ -19,6 +19,8 @@ class SitTimetable {
   final Semester semester;
   @JsonKey()
   final int courseKeyCounter;
+  @JsonKey(defaultValue: "")
+  final String signature;
 
   /// The index is the CourseKey.
   @JsonKey()
@@ -31,6 +33,7 @@ class SitTimetable {
     required this.startDate,
     required this.schoolYear,
     required this.semester,
+    this.signature = "",
   });
 
   SitTimetableEntity resolve() {
@@ -44,6 +47,7 @@ class SitTimetable {
     Semester? semester,
     List<SitCourse>? courseKey2Entity,
     int? courseKeyCounter,
+    String? signature,
   }) {
     return SitTimetable(
       name: name ?? this.name,
@@ -52,11 +56,20 @@ class SitTimetable {
       semester: semester ?? this.semester,
       courseKey2Entity: courseKey2Entity ?? this.courseKey2Entity,
       courseKeyCounter: courseKeyCounter ?? this.courseKeyCounter,
+      signature: signature ?? this.signature,
     );
   }
 
   @override
-  String toString() => "[$courseKeyCounter]";
+  String toString() {
+    return {
+      "name": name,
+      "startDate": startDate,
+      "schoolYear": schoolYear,
+      "semester": semester,
+      "signature": signature,
+    }.toString();
+  }
 
   factory SitTimetable.fromJson(Map<String, dynamic> json) => _$SitTimetableFromJson(json);
 

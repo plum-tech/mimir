@@ -43,6 +43,6 @@ class PostgraduateScoreRaw {
     required this.examNature,
     required this.examForm,
     required this.examTime,
-    required this.notes
+    required this.notes,
   });
 }

@@ -69,7 +69,7 @@ extension I18nBuildContext on BuildContext {
     return Lang.mdHmNum(curLocale.languageCode, curLocale.countryCode).format(date);
   }
 
-  Weekday firstDayInWeek(){
+  Weekday firstDayInWeek() {
     final curLocale = locale;
     return Lang.getFormatterFrom(curLocale.languageCode, curLocale.countryCode).firstDayInWeek;
   }
