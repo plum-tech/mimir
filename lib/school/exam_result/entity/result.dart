@@ -157,4 +157,13 @@ class ExamResultItem {
     this.percentage,
     this.score,
   );
+
+  @override
+  String toString() {
+    return {
+      "scoreType": scoreType,
+      "percentage": percentage,
+      "score": score,
+    }.toString();
+  }
 }

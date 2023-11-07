@@ -69,6 +69,18 @@ class YwbApplication {
   }
 
   factory YwbApplication.fromJson(Map<String, dynamic> json) => _$YwbApplicationFromJson(json);
+
+  @override
+  String toString() {
+    return {
+      "workId": workId,
+      "functionId": functionId,
+      "name": name,
+      "note": note,
+      "startTs": startTs,
+      "track": track,
+    }.toString();
+  }
 }
 
 @JsonSerializable(createToJson: false)
@@ -125,6 +137,21 @@ class YwbApplicationTrack {
   });
 
   factory YwbApplicationTrack.fromJson(Map<String, dynamic> json) => _$YwbApplicationTrackFromJson(json);
+
+  @override
+  String toString() {
+    return {
+      "actionType": actionType,
+      "action": action,
+      "senderId": senderId,
+      "senderName": senderName,
+      "receiverId": receiverId,
+      "receiverName": receiverName,
+      "message": message,
+      "timestamp": timestamp,
+      "step": step,
+    }.toString();
+  }
 }
 
 typedef MyYwbApplications = ({

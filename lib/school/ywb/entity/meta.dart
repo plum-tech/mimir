@@ -39,6 +39,18 @@ class YwbApplicationMeta {
   });
 
   factory YwbApplicationMeta.fromJson(Map<String, dynamic> json) => _$YwbApplicationMetaFromJson(json);
+
+  @override
+  String toString() {
+    return {
+      "id": id,
+      "name": name,
+      "summary": summary,
+      "status": status,
+      "count": count,
+      "iconName": iconName,
+    }.toString();
+  }
 }
 
 @HiveType(typeId: HiveTypeYwb.metaDetails)
@@ -52,6 +64,14 @@ class YwbApplicationMetaDetails {
     required this.id,
     required this.sections,
   });
+
+  @override
+  String toString() {
+    return {
+      "id": id,
+      "sections": sections,
+    }.toString();
+  }
 }
 
 @JsonSerializable(createToJson: false)
@@ -71,14 +91,24 @@ class YwbApplicationMetaDetailSection {
   final String content;
 
   const YwbApplicationMetaDetailSection({
-    required this.section,
     required this.type,
+    required this.section,
     required this.createTime,
     required this.content,
   });
 
   factory YwbApplicationMetaDetailSection.fromJson(Map<String, dynamic> json) =>
       _$YwbApplicationMetaDetailSectionFromJson(json);
+
+  @override
+  String toString() {
+    return {
+      "type": type,
+      "section": section,
+      "createTime": createTime,
+      "content": content,
+    }.toString();
+  }
 }
 
 extension YwbApplicationMetaDetailSectionX on YwbApplicationMetaDetailSection {
