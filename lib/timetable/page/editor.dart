@@ -22,7 +22,7 @@ class _TimetableEditorState extends State<TimetableEditor> {
   final _formKey = GlobalKey<FormState>();
   late final $name = TextEditingController(text: widget.timetable.name);
   late final $selectedDate = ValueNotifier(widget.timetable.startDate);
-  final $signature = TextEditingController(text: Settings.lastSignature);
+  late final $signature = TextEditingController(text: widget.timetable.signature);
 
   @override
   void dispose() {

@@ -208,7 +208,11 @@ Future<void> exportTimetableFileAndShare(
   required BuildContext context,
 }) async {
   final content = jsonEncode(timetable.toJson());
-  final fileName = sanitizeFilename("${timetable.name}.timetable", replacement: "-");
+  var fileName = "${timetable.name}.timetable";
+  if (timetable.signature.isNotEmpty) {
+    fileName = "${timetable.signature} $fileName";
+  }
+  fileName = sanitizeFilename(fileName, replacement: "-");
   final timetableFi = Files.temp.subFile(fileName);
   final sharePositionOrigin = context.getSharePositionOrigin();
   await timetableFi.writeAsString(content);
