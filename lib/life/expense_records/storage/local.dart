@@ -11,6 +11,7 @@ class _K {
     return '/transactions/$id';
   }
 
+  // Don't use lastFetchedTs, and just fetch all translations
   static const lastFetchedTs = "/lastFetchedTs";
   static const latestTransaction = "/latestTransaction";
 }
@@ -32,10 +33,6 @@ class ExpenseStorage {
 
   setTransactionByTs(DateTime ts, Transaction? transaction) => box.put(_K.buildTransactionsKey(ts), transaction);
 
-  DateTime? get lastFetchedTs => box.get(_K.lastFetchedTs);
-
-  set lastFetchedTs(DateTime? v) => box.put(_K.lastFetchedTs, v);
-
   Transaction? get latestTransaction => box.get(_K.latestTransaction);
 
   set latestTransaction(Transaction? v) => box.put(_K.latestTransaction, v);
@@ -46,7 +43,6 @@ class ExpenseStorage {
 extension ExpenseStorageX on ExpenseStorage {
   void clearIndex() {
     transactionTsList = null;
-    lastFetchedTs = null;
     latestTransaction = null;
   }
 
