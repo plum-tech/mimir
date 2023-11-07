@@ -160,7 +160,7 @@ class EntryCard extends StatelessWidget {
             ),
           ],
         ),
-    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15).inkWell(onTap: () async {
+    ].column(caa: CrossAxisAlignment.start).padOnly(t: 15, l: 15, r: 15).inkWell(onTap: () async {
       if (animation.value > 0) return;
       await context.show$Sheet$(
         (ctx) => EntryCupertinoDetailsPage(
