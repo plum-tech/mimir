@@ -40,6 +40,7 @@ class TimetableFiles {
 
   Future<void> init() async {
     await calendarDir.create(recursive: true);
+    await Files.user.subDir("timetable").create(recursive: true);
   }
 }
 
