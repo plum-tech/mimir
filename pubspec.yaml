@@ -2,7 +2,7 @@ name: sit
 description: 'For SIT life'
 
 # 以下构建版本号将自增，请勿改动
-version: 1.0.0+11
+version: 1.0.0+12
 
 homepage: https://github.com/liplum/mimir
 repository: https://github.com/liplum/mimir
