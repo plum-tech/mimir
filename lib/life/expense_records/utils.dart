@@ -24,19 +24,19 @@ Future<void> fetchAndSaveTransactionUntilNow({
   storage.transactionTsList = newTsList;
   // if anything was fetched, the next fetching will start with now.
   if (newTsList.length != oldTsList.length) {
-    ExpenseRecordsInit.storage.lastFetchedTs = now;
+    storage.lastFetchedTs = now;
   }
   final latest = transactions.firstOrNull;
   if (latest != null) {
     final latestValidBalance = _findLatestValidBalanceTransaction(transactions, newTsList);
     // check if the transaction is kept for topping up
     if (latestValidBalance != null) {
-      ExpenseRecordsInit.storage.latestTransaction = latest.copyWith(
+      storage.latestTransaction = latest.copyWith(
         balanceBefore: latestValidBalance.balanceBefore,
         balanceAfter: latestValidBalance.balanceAfter,
       );
     } else {
-      ExpenseRecordsInit.storage.latestTransaction = latest;
+      storage.latestTransaction = latest;
     }
   }
 }

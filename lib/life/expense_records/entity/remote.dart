@@ -27,7 +27,7 @@ class DataPackRaw {
 @JsonSerializable(createToJson: false)
 class TransactionRaw {
   /// transaction name
-  /// example: "pos消费", "支付宝充值", "补助领取", "批量销户" or "卡冻结", "下发补助" or "补助撤销"
+  /// example: "pos消费", "支付宝充值", "补助领取", "批量销户" or "卡冻结", "余额转移", "下发补助" or "补助撤销"
   @JsonKey(name: "transname")
   final String name;
 
