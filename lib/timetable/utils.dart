@@ -302,14 +302,14 @@ List<PostgraduateCourseRaw> parsePostgraduateCourseRawsFromHtml(String timetable
       return;
     }
 
-    var locationWithTeacherStr = mapChinesePunctuations(nodes[4].text);
-    var locationWithTeacherList = locationWithTeacherStr.split("  ");
-    var location = locationWithTeacherList[0];
-    var teacher = locationWithTeacherList[1];
+    final locationWithTeacherStr = mapChinesePunctuations(nodes[4].text);
+    final locationWithTeacherList = locationWithTeacherStr.split("  ");
+    final location = locationWithTeacherList[0];
+    final teacher = locationWithTeacherList[1];
 
     var courseNameWithClassCode = mapChinesePunctuations(nodes[0].text);
-    late String courseName;
-    late String classCode;
+    final String courseName;
+    final String classCode;
     RegExpMatch? courseNameWithClassCodeMatch =
         RegExp(r"(.*?)(学硕\d+班|专硕\d+班|\d+班)$").firstMatch(courseNameWithClassCode);
     if (courseNameWithClassCodeMatch != null) {
@@ -321,8 +321,8 @@ List<PostgraduateCourseRaw> parsePostgraduateCourseRawsFromHtml(String timetable
     }
 
     var weekTextWithTimeslotsText = mapChinesePunctuations(nodes[2].text);
-    late String weekText;
-    late String timeslotsText;
+    final String weekText;
+    final String timeslotsText;
     RegExpMatch? weekTextWithTimeslotsTextMatch =
         RegExp(r"([\d-]+周(\([^)]*\))?)([\d-]+节)").firstMatch(weekTextWithTimeslotsText);
     if (weekTextWithTimeslotsTextMatch != null) {
@@ -334,16 +334,17 @@ List<PostgraduateCourseRaw> parsePostgraduateCourseRawsFromHtml(String timetable
     }
 
     final course = PostgraduateCourseRaw(
-        courseName: courseName,
-        weekDayText: weekday,
-        weekText: weekText,
-        timeslotsText: timeslotsText,
-        teachers: teacher,
-        place: location,
-        classCode: classCode,
-        courseCode: "",
-        courseCredit: "",
-        creditHour: "");
+      courseName: courseName,
+      weekDayText: weekday,
+      weekText: weekText,
+      timeslotsText: timeslotsText,
+      teachers: teacher,
+      place: location,
+      classCode: classCode,
+      courseCode: "",
+      courseCredit: "",
+      creditHour: "",
+    );
 
     courseList.add(course);
 
@@ -362,14 +363,14 @@ List<PostgraduateCourseRaw> parsePostgraduateCourseRawsFromHtml(String timetable
     final tdList = tr.querySelectorAll('td');
     for (var td in tdList) {
       if (td.innerHtml.contains("br")) {
-        var index = tdList.indexOf(td);
+        final index = tdList.indexOf(td);
         String weekday;
         if (tdList.length > 8) {
           weekday = mapOfWeekday[index - 2];
         } else {
           weekday = mapOfWeekday[index - 1];
         }
-        var nodes = td.nodes;
+        final nodes = td.nodes;
         processNodes(nodes, weekday);
       }
     }

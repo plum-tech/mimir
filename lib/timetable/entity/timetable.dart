@@ -26,6 +26,9 @@ class SitTimetable {
   @JsonKey()
   final List<SitCourse> courseKey2Entity;
 
+  @JsonKey(defaultValue: 1)
+  final int version;
+
   const SitTimetable({
     required this.courseKey2Entity,
     required this.courseKeyCounter,
@@ -34,6 +37,7 @@ class SitTimetable {
     required this.schoolYear,
     required this.semester,
     this.signature = "",
+    this.version = 1,
   });
 
   SitTimetableEntity resolve() {
