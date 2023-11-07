@@ -22,6 +22,7 @@ class _MimirAppState extends State<MimirApp> {
     Settings.focusTimetable ? buildTimetableFocusRouter() : buildCommonRoutingConfig(),
   );
   final $focusMode = Settings.listenFocusTimetable();
+  late final router = buildRouter($routingConfig);
 
   @override
   void initState() {
@@ -74,7 +75,7 @@ class _MimirAppState extends State<MimirApp> {
 
     return MaterialApp.router(
       title: R.appName,
-      routerConfig: buildRouter($routingConfig),
+      routerConfig: router,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
