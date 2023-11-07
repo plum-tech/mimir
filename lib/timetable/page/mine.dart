@@ -207,7 +207,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           },
         ),
         EntryAction(
-          label: i18n.mine.exportFile,
+          label: i18n.share,
           icon: Icons.output_outlined,
           cupertinoIcon: CupertinoIcons.share,
           type: EntryActionType.share,
@@ -239,6 +239,11 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
                 title: i18n.startWith.text(),
                 subtitle: context.formatYmdText(timetable.startDate).text(),
               ),
+              ListTile(
+                leading: const Icon(Icons.drive_file_rename_outline),
+                title: i18n.signature.text(),
+                subtitle: timetable.signature .text(),
+              ),
               const Divider(),
             ]),
             SliverList.builder(
@@ -256,6 +261,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       itemBuilder: (ctx, animation) => [
         timetable.name.text(style: textTheme.titleLarge),
         "$year, $semester".text(style: textTheme.titleMedium),
+        if (timetable.signature.isNotEmpty) timetable.signature.text(style: textTheme.titleMedium),
         "${i18n.startWith} ${context.formatYmdText(timetable.startDate)}".text(style: textTheme.bodyLarge),
       ],
     );

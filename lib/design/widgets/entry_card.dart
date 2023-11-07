@@ -369,11 +369,11 @@ class EntryCupertinoDetailsPage extends StatelessWidget {
         onPressed: editAction.action == null
             ? null
             : () async {
-                await editAction.action?.call();
                 if (editAction.oneShot) {
                   if (!context.mounted) return;
                   context.navigator.pop();
                 }
+                await editAction.action?.call();
               },
         child: editAction.label.text(),
       ));
@@ -411,11 +411,11 @@ class EntryCupertinoDetailsPage extends StatelessWidget {
             onTap: action.action == null
                 ? null
                 : () async {
-                    await action.action?.call();
                     if (action.oneShot) {
                       if (!context.mounted) return;
                       context.navigator.pop();
                     }
+                    await action.action?.call();
                   },
           ),
         ),

@@ -10,9 +10,10 @@ timetable:
   weekOrderedName: "第 {} 周"
   focusTimetable: 對焦課程表
   unfocusTimetable: 取消對焦課程表
+  signature: 簽名
+  signaturePlaceholder: 你的名稱
   mine:
     title: 我的課程表
-    exportFile: 匯出檔案
     exportCalendar: 匯出行事曆
     deleteRequest: 確認刪除
     deleteRequestDesc: 你會失去這個課程表，永久地。
@@ -67,8 +68,6 @@ timetable:
     screenshot: 螢幕截圖
     take: 截圖
     title: 螢幕截圖
-    signature: 簽名
-    signaturePlaceholder: 你的名稱
     enableBackground:
       title: 顯示桌布
       desc: 在螢幕截圖中顯示課程表桌布

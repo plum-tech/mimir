@@ -10,9 +10,10 @@ timetable:
   weekOrderedName: "Week {}"
   focusTimetable: Focus timetable
   unfocusTimetable: Unfocus timetable
+  signature: Signature
+  signaturePlaceholder: Your name
   mine:
     title: My Timetables
-    exportFile: Export file
     exportCalendar: Export calendar
     deleteRequest: Confirm to delete?
     deleteRequestDesc: You will lose this timetable permanently
@@ -67,8 +68,6 @@ timetable:
     screenshot: Screenshot
     take: Take
     title: Screenshot
-    signature: Signature
-    signaturePlaceholder: Your name
     enableBackground:
       title: Show wallpaper
       desc: Show timetable wallpaper in the screenshot

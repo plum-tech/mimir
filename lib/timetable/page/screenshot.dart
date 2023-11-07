@@ -34,7 +34,7 @@ class TimetableScreenshotConfigEditor extends StatefulWidget {
 }
 
 class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotConfigEditor> {
-  final $signature = TextEditingController(text: Settings.lastSignature);
+  late final $signature = TextEditingController(text: widget.timetable.signature);
   late bool grayOutTakenLessons = widget.initialGrayOut;
   var enableBackground = true;
 
@@ -42,11 +42,6 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
   void dispose() {
     $signature.dispose();
     super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
   }
 
   @override
@@ -89,11 +84,11 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
     return ListTile(
       isThreeLine: true,
       leading: const Icon(Icons.drive_file_rename_outline),
-      title: i18n.screenshot.signature.text(),
+      title: i18n.signature.text(),
       subtitle: TextField(
         controller: $signature,
         decoration: InputDecoration(
-          hintText: i18n.screenshot.signaturePlaceholder,
+          hintText: i18n.signaturePlaceholder,
         ),
       ),
     );

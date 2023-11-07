@@ -112,6 +112,8 @@ class SitTimetableEntity {
   int get schoolYear => type.schoolYear;
 
   Semester get semester => type.semester;
+
+  String get signature => type.signature;
 }
 
 class SitTimetableWeek {

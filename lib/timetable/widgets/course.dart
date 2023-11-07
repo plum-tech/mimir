@@ -24,8 +24,8 @@ class TimetableCourseCard extends StatelessWidget {
         leading: CourseIcon(courseName: course.courseName),
         title: course.courseName.text(),
         subtitle: [
-          course.place.text(),
-          course.teachers.join(", ").text(),
+          if (course.place.isNotEmpty) course.place.text(),
+          if (course.teachers.isNotEmpty) course.teachers.join(", ").text(),
         ].column(caa: CrossAxisAlignment.start),
         trailing: FilledCard(
           color: palette?.resolveColor(course).byTheme(context.theme),
