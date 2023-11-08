@@ -18,9 +18,12 @@ class Room {
       final buildingRaw = full[0];
       final roomNumberRaw = full.substring(1);
       return Room(building: int.tryParse(buildingRaw) ?? 0, roomNumber: int.tryParse(roomNumberRaw) ?? 0);
-    } else if(full.length == 5){
-      // building is in 2 digit,
+    } else if(full.length == 5 || full.length == 6){
+      // building is in 2 digit,like 12 301
+      final buildingRaw = full.substring(0, 2);
+      final roomNumberRaw = full.substring(2);
+      return Room(building: int.tryParse(buildingRaw) ?? 0, roomNumber: int.tryParse(roomNumberRaw) ?? 0);
     }
-    return Room(building: 0, roomNumber: 0);
+    return const Room(building: 0, roomNumber: 0);
   }
 }
