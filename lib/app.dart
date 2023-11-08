@@ -4,6 +4,7 @@ import 'package:animations/animations.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/files.dart';
 import 'package:sit/r.dart';
 import 'package:sit/route.dart';
 import 'package:sit/session/widgets/scope.dart';
@@ -29,6 +30,14 @@ class _MimirAppState extends State<MimirApp> {
     super.initState();
     $theme.addListener(refresh);
     $focusMode.addListener(refreshFocusMode);
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (Settings.timetable.backgroundImage?.enabled == true) {
+      precacheImage(FileImage(Files.timetable.backgroundFile), context);
+    }
+    super.didChangeDependencies();
   }
 
   @override
