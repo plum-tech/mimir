@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -121,11 +120,15 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     final query = getRealQuery();
-    if (T == String && predicate(query, query as T)) {
-      return const SizedBox();
-    }
     if (query.isEmpty && emptyIndicator != null) {
       return const SizedBox();
+    }
+    if (T == String && predicate(query, query as T)) {
+      if (candidates.contains(query)) {
+        return const SizedBox();
+      } else {
+        return LeavingBlank(icon: Icons.search_off_rounded, desc: invalidSearchTip);
+      }
     }
     return LeavingBlank(icon: Icons.search_off_rounded, desc: invalidSearchTip);
   }
@@ -134,12 +137,12 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   void showResults(BuildContext context) {
     super.showResults(context);
     final query = getRealQuery();
-    if (T == String && predicate(query, query as T)) {
-      close(context, query);
-      return;
-    }
     if (query.isEmpty && emptyIndicator != null) {
       close(context, emptyIndicator);
+      return;
+    }
+    if (T == String && predicate(query, query as T) && candidates.contains(query)) {
+      close(context, query);
       return;
     }
   }

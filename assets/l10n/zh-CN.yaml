@@ -564,6 +564,7 @@ time:
 brightness:
   light: 明亮
   dark: 黑暗
+dormitoryRoom: "{building}号楼 #{room}"
 open: 打开
 delete: 删除
 confirm: 确定

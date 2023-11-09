@@ -564,6 +564,7 @@ time:
 brightness:
   light: Light
   dark: Dark
+dormitoryRoom: "Building {building} #{room}"
 open: Open
 delete: Delete
 confirm: Confirm

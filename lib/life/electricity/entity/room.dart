@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:sit/utils/strings.dart';
 
 class DormitoryRoom {
@@ -35,5 +36,12 @@ class DormitoryRoom {
   @override
   String toString() {
     return "Building $building #$roomNumber";
+  }
+
+  String l10n() {
+    return "dormitoryRoom".tr(namedArgs: {
+      "building": building.toString(),
+      "room": roomNumber.toString(),
+    });
   }
 }
