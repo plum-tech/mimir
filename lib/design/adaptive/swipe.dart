@@ -73,10 +73,10 @@ class SwipeToDismiss extends StatelessWidget {
         onDismissed: (dir) async {
           if (dir == DismissDirection.startToEnd) {
             await HapticFeedback.heavyImpact();
-            right?.action();
+            left?.action();
           } else if (dir == DismissDirection.endToStart) {
             await HapticFeedback.heavyImpact();
-            left?.action();
+            right?.action();
           }
         },
         child: child,

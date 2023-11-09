@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/life/electricity/entity/room.dart';
 import 'package:sit/widgets/search.dart';
 import 'package:rettulf/rettulf.dart';
@@ -9,14 +10,14 @@ const _emptyIndicator = Object();
 Future<String?> searchRoom({
   String? initial,
   required BuildContext ctx,
-  required List<String> searchHistory,
+  required ValueNotifier<List<String>> $searchHistory,
   required List<String> roomList,
 }) async {
   final result = await showSearch(
     context: ctx,
     query: initial,
     delegate: ItemSearchDelegate.highlight(
-      searchHistory: searchHistory,
+      searchHistory: $searchHistory,
       candidateBuilder: (ctx, items, highlight, selectIt) {
         return ListView.builder(
           itemCount: items.length,
@@ -41,12 +42,23 @@ Future<String?> searchRoom({
             final item = items[i];
             final full = stringify(item);
             final room = DormitoryRoom.fromFullString(full);
-            return ListTile(
-              title: HighlightedText(full: full),
-              subtitle: room.l10n().text(),
-              onTap: () {
-                selectIt(item);
-              },
+            return SwipeToDismiss(
+              right: SwipeToDismissAction(
+                label: i18n.delete,
+                action: () {
+                  final newList = List.of($searchHistory.value);
+                  newList.removeAt(i);
+                  $searchHistory.value = newList;
+                },
+              ),
+              childKey: ValueKey(item),
+              child: ListTile(
+                title: HighlightedText(full: full),
+                subtitle: room.l10n().text(),
+                onTap: () {
+                  selectIt(item);
+                },
+              ),
             );
           },
         );

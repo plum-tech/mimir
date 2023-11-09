@@ -30,7 +30,7 @@ typedef HighlightedHistoryBuilder<T> = Widget Function(
 );
 
 class ItemSearchDelegate<T> extends SearchDelegate {
-  final ({List<T> history, HistoryBuilder<T> builder})? searchHistory;
+  final ({ValueNotifier<List<T>> history, HistoryBuilder<T> builder})? searchHistory;
   final List<T> candidates;
   final CandidateBuilder<T> candidateBuilder;
   final ItemPredicate<T> predicate;
@@ -63,7 +63,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
 
     /// Using [String.contains] by default.
     ItemPredicate<String>? predicate,
-    List<T>? searchHistory,
+    ValueNotifier<List<T>>? searchHistory,
     QueryProcessor? queryProcessor,
     required double maxCrossAxisExtent,
     required double childAspectRatio,
@@ -171,7 +171,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     final searchHistory = this.searchHistory;
     if (query.isEmpty && searchHistory != null) {
       final (:history, :builder) = searchHistory;
-      return builder(context, history, (item) => close(context, item));
+      return history >> (ctx, value) => builder(context, value, (item) => close(context, item));
     } else {
       final query = getRealQuery();
       final matched = candidates.where((candidate) => predicate(query, candidate)).toList();
