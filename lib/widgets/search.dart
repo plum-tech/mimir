@@ -53,6 +53,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   factory ItemSearchDelegate.highlight({
     required ItemBuilder itemBuilder,
     required List<T> candidates,
+    required HistoryBuilder historyBuilder,
 
     /// Using [String.contains] by default.
     ItemPredicate<String>? predicate,
@@ -80,7 +81,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
               history: searchHistory,
               builder: (ctx, item, selectIt) {
                 final candidate = stringifier?.call(item) ?? item.toString();
-                return itemBuilder(ctx, candidate, TextRange.empty, selectIt);
+                return historyBuilder(ctx, candidate, selectIt);
               }
             ),
       predicate: (query, item) {
@@ -197,7 +198,7 @@ class HighlightedText extends StatelessWidget {
   const HighlightedText({
     super.key,
     required this.full,
-    required this.highlighted,
+    this.highlighted = TextRange.empty,
   });
 
   @override

@@ -20,9 +20,19 @@ Future<String?> searchRoom({
       itemBuilder: (ctx, full, highlighted, selectIt) {
         final room = DormitoryRoom.fromFullString(full);
         return ListTile(
-          title: HighlightedText(full:full  ,highlighted: highlighted),
+          title: HighlightedText(full: full, highlighted: highlighted),
           subtitle: room.l10n().text(),
-          onTap: (){
+          onTap: () {
+            selectIt();
+          },
+        );
+      },
+      historyBuilder: (ctx, item, selectIt) {
+        final room = DormitoryRoom.fromFullString(item);
+        return ListTile(
+          title: HighlightedText(full: item),
+          subtitle: room.l10n().text(),
+          onTap: () {
             selectIt();
           },
         );
