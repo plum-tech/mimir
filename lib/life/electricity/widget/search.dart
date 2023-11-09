@@ -17,23 +17,37 @@ Future<String?> searchRoom({
     query: initial,
     delegate: ItemSearchDelegate.highlight(
       searchHistory: searchHistory,
-      itemBuilder: (ctx, full, highlighted, selectIt) {
-        final room = DormitoryRoom.fromFullString(full);
-        return ListTile(
-          title: HighlightedText(full: full, highlighted: highlighted),
-          subtitle: room.l10n().text(),
-          onTap: () {
-            selectIt();
+      candidateBuilder: (ctx, items, highlight, selectIt) {
+        return ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (ctx, i) {
+            final item = items[i];
+            final (full, highlighted) = highlight(item);
+            final room = DormitoryRoom.fromFullString(full);
+            return ListTile(
+              title: HighlightedText(full: full, highlighted: highlighted),
+              subtitle: room.l10n().text(),
+              onTap: () {
+                selectIt(item);
+              },
+            );
           },
         );
       },
-      historyBuilder: (ctx, item, selectIt) {
-        final room = DormitoryRoom.fromFullString(item);
-        return ListTile(
-          title: HighlightedText(full: item),
-          subtitle: room.l10n().text(),
-          onTap: () {
-            selectIt();
+      historyBuilder: (ctx, items, stringify, selectIt) {
+        return ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (ctx, i) {
+            final item = items[i];
+            final full = stringify(item);
+            final room = DormitoryRoom.fromFullString(full);
+            return ListTile(
+              title: HighlightedText(full: full),
+              subtitle: room.l10n().text(),
+              onTap: () {
+                selectIt(item);
+              },
+            );
           },
         );
       },

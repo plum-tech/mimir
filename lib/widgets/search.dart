@@ -4,23 +4,29 @@ import 'package:rettulf/rettulf.dart';
 
 typedef CandidateBuilder<T> = Widget Function(
   BuildContext ctx,
-  T item,
+  List<T> matchedItems,
   String query,
-  VoidCallback selectIt,
+  void Function(T item) selectIt,
 );
 typedef HistoryBuilder<T> = Widget Function(
   BuildContext ctx,
-  T item,
-  VoidCallback selectIt,
+  List<T> items,
+  void Function(T item) selectIt,
 );
 typedef Stringifier<T> = String Function(T item);
 typedef QueryProcessor = String Function(String raw);
 typedef ItemPredicate<T> = bool Function(String query, T item);
-typedef ItemBuilder = Widget Function(
+typedef HighlightedCandidateBuilder<T> = Widget Function(
   BuildContext ctx,
-  String item,
-  TextRange highlighted,
-  VoidCallback selectIt,
+  List<T> matchedItems,
+  (String full, TextRange highlighted) Function(T item) highlight,
+  void Function(T item) selectIt,
+);
+typedef HighlightedHistoryBuilder<T> = Widget Function(
+  BuildContext ctx,
+  List<T> items,
+  String Function(T item) stringify,
+  void Function(T item) selectIt,
 );
 
 class ItemSearchDelegate<T> extends SearchDelegate {
@@ -51,9 +57,9 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   });
 
   factory ItemSearchDelegate.highlight({
-    required ItemBuilder itemBuilder,
+    required HighlightedCandidateBuilder<T> candidateBuilder,
     required List<T> candidates,
-    required HistoryBuilder historyBuilder,
+    required HighlightedHistoryBuilder<T> historyBuilder,
 
     /// Using [String.contains] by default.
     ItemPredicate<String>? predicate,
@@ -79,9 +85,13 @@ class ItemSearchDelegate<T> extends SearchDelegate {
           ? null
           : (
               history: searchHistory,
-              builder: (ctx, item, selectIt) {
-                final candidate = stringifier?.call(item) ?? item.toString();
-                return historyBuilder(ctx, candidate, selectIt);
+              builder: (ctx, items, selectIt) {
+                return historyBuilder(
+                  ctx,
+                  items,
+                  (item) => stringifier?.call(item) ?? item.toString(),
+                  selectIt,
+                );
               }
             ),
       predicate: (query, item) {
@@ -90,10 +100,17 @@ class ItemSearchDelegate<T> extends SearchDelegate {
         if (predicate == null) return candidate.contains(query);
         return predicate(query, candidate);
       },
-      candidateBuilder: (ctx, item, query, selectIt) {
-        final candidate = stringifier?.call(item) ?? item.toString();
-        final highlighted = findSelected(full: candidate, selected: query);
-        return itemBuilder(ctx, candidate, highlighted, selectIt);
+      candidateBuilder: (ctx, items, query, selectIt) {
+        return candidateBuilder(
+          ctx,
+          items,
+          (item) {
+            final candidate = stringifier?.call(item) ?? item.toString();
+            final highlighted = findSelected(full: candidate, selected: query);
+            return (candidate, highlighted);
+          },
+          selectIt,
+        );
       },
     );
   }
@@ -148,36 +165,17 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     }
   }
 
-  Widget buildSearchHistory(BuildContext ctx, List<T> history, HistoryBuilder<T> builder) {
-    return ListView.builder(
-      itemCount: history.length,
-      itemBuilder: (ctx, i) {
-        final item = history[i];
-        return builder(ctx, item, () => close(ctx, item));
-      },
-    );
-  }
-
-  Widget buildCandidateList(BuildContext ctx) {
-    final query = getRealQuery();
-    final matched = candidates.where((candidate) => predicate(query, candidate)).toList();
-    return ListView.builder(
-      itemCount: matched.length,
-      itemBuilder: (ctx, i) {
-        final candidate = matched[i];
-        return candidateBuilder(ctx, candidate, query, () => close(ctx, candidate));
-      },
-    );
-  }
-
   @override
   Widget buildSuggestions(BuildContext context) {
     final query = getRealQuery();
     final searchHistory = this.searchHistory;
     if (query.isEmpty && searchHistory != null) {
-      return buildSearchHistory(context, searchHistory.history, searchHistory.builder);
+      final (:history, :builder) = searchHistory;
+      return builder(context, history, (item) => close(context, item));
     } else {
-      return buildCandidateList(context);
+      final query = getRealQuery();
+      final matched = candidates.where((candidate) => predicate(query, candidate)).toList();
+      return candidateBuilder(context, matched, query, (candidate) => close(context, candidate));
     }
   }
 }
