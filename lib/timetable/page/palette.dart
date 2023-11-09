@@ -2,10 +2,9 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
-import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/timetable/page/preview.dart';
@@ -192,39 +191,16 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
     }
 
     final current = colors[index];
-    if (!isCupertino) {
-      return Dismissible(
-        direction: DismissDirection.endToStart,
-        key: ObjectKey(current),
-        onDismissed: (dir) async {
+    return SwipeToDismiss(
+      childKey: ObjectKey(current),
+      right: SwipeToDismissAction(
+        label: i18n.delete,
+        action: () async {
           setState(() {
             colors.removeAt(index);
           });
         },
-        child: PaletteColorTile(
-          colors: current,
-          onEdit: (old, brightness) async {
-            await changeColor(old, brightness);
-          },
-        ),
-      );
-    }
-    return SwipeActionCell(
-      key: ObjectKey(current),
-      trailingActions: <SwipeAction>[
-        SwipeAction(
-          title: i18n.delete,
-          style: context.textTheme.titleSmall ?? const TextStyle(),
-          performsFirstActionWithFullSwipe: true,
-          onTap: (CompletionHandler handler) async {
-            await handler(true);
-            setState(() {
-              colors.removeAt(index);
-            });
-          },
-          color: Colors.red,
-        ),
-      ],
+      ),
       child: PaletteColorTile(
         colors: current,
         onEdit: (old, brightness) async {

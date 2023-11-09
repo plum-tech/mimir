@@ -12,7 +12,7 @@ class R {
   static const baseScheme = "sitlife";
 
   /// For debugging iOS on other platforms.
-  static const _debugCupertino = false;
+  static const _debugCupertino = true;
   static const enLocale = Locale('en');
   static const zhCnLocale = Locale('zh', "CN");
   static const zhTwLocale = Locale('zh', "TW");
