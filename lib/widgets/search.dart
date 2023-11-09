@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
 
-typedef CandidateBuilder<T> = Widget Function(BuildContext ctx, T item, String query, VoidCallback selectIt);
-typedef HistoryBuilder<T> = Widget Function(BuildContext ctx, T item, VoidCallback selectIt);
+typedef CandidateBuilder<T> = Widget Function(
+  BuildContext ctx,
+  T item,
+  String query,
+  VoidCallback selectIt,
+);
+typedef HistoryBuilder<T> = Widget Function(
+  BuildContext ctx,
+  T item,
+  VoidCallback selectIt,
+);
 typedef Stringifier<T> = String Function(T item);
 typedef QueryProcessor = String Function(String raw);
 typedef ItemPredicate<T> = bool Function(String query, T item);
-typedef ItemBuilder = Widget Function(BuildContext ctx, VoidCallback selectIt, Widget child);
+typedef ItemBuilder = Widget Function(
+  BuildContext ctx,
+  String item,
+  TextRange highlighted,
+  VoidCallback selectIt,
+);
 
 class ItemSearchDelegate<T> extends SearchDelegate {
   final ({List<T> history, HistoryBuilder<T> builder})? searchHistory;
@@ -66,7 +81,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
               history: searchHistory,
               builder: (ctx, item, selectIt) {
                 final candidate = stringifier?.call(item) ?? item.toString();
-                return itemBuilder(ctx, selectIt, candidate.text());
+                return itemBuilder(ctx, candidate, TextRange.empty, selectIt);
               }
             ),
       predicate: (query, item) {
@@ -77,12 +92,8 @@ class ItemSearchDelegate<T> extends SearchDelegate {
       },
       candidateBuilder: (ctx, item, query, selectIt) {
         final candidate = stringifier?.call(item) ?? item.toString();
-        final highlighted = highlight(
-          ctx,
-          candidate: candidate,
-          query: query,
-        );
-        return itemBuilder(ctx, selectIt, highlighted);
+        final highlighted = findSelected(full: candidate, selected: query);
+        return itemBuilder(ctx, candidate, highlighted, selectIt);
       },
     );
   }
@@ -134,9 +145,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   }
 
   Widget buildSearchHistory(BuildContext ctx, List<T> history, HistoryBuilder<T> builder) {
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: maxCrossAxisExtent, childAspectRatio: childAspectRatio),
+    return ListView.builder(
       itemCount: history.length,
       itemBuilder: (ctx, i) {
         final item = history[i];
@@ -148,9 +157,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   Widget buildCandidateList(BuildContext ctx) {
     final query = getRealQuery();
     final matched = candidates.where((candidate) => predicate(query, candidate)).toList();
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: maxCrossAxisExtent, childAspectRatio: childAspectRatio),
+    return ListView.builder(
       itemCount: matched.length,
       itemBuilder: (ctx, i) {
         final candidate = matched[i];
@@ -171,21 +178,42 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   }
 }
 
-Widget highlight(
-  BuildContext ctx, {
-  required String candidate,
-  required String query,
+TextRange findSelected({
+  required String full,
+  required String selected,
 }) {
-  final parts = candidate.split(query);
-  final texts = <TextSpan>[];
-  final baseStyle = ctx.textTheme.titleSmall;
-  final plainStyle = baseStyle?.copyWith(color: baseStyle.color?.withOpacity(0.5));
-  final highlightedStyle = baseStyle?.copyWith(color: ctx.colorScheme.primary, fontWeight: FontWeight.bold);
-  for (var i = 0; i < parts.length; i++) {
-    texts.add(TextSpan(text: parts[i], style: plainStyle));
-    if (i < parts.length - 1) {
-      texts.add(TextSpan(text: query, style: highlightedStyle));
-    }
+  final start = full.indexOf(selected);
+  if (start < 0) return TextRange.empty;
+  return TextRange(start: start, end: start + selected.length);
+}
+
+class HighlightedText extends StatelessWidget {
+  final String full;
+  final TextRange highlighted;
+
+  const HighlightedText({
+    super.key,
+    required this.full,
+    required this.highlighted,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final baseStyle = context.textTheme.titleSmall;
+    final plainStyle = baseStyle?.copyWith(color: baseStyle.color?.withOpacity(0.5));
+    final highlightedStyle = baseStyle?.copyWith(color: context.colorScheme.primary, fontWeight: FontWeight.bold);
+    return RichText(
+      text: TextSpan(
+        children: !highlighted.isValid || !highlighted.isNormalized
+            ? [
+                TextSpan(text: full, style: highlightedStyle),
+              ]
+            : [
+                TextSpan(text: highlighted.textBefore(full), style: plainStyle),
+                TextSpan(text: highlighted.textInside(full), style: highlightedStyle),
+                TextSpan(text: highlighted.textAfter(full), style: plainStyle),
+              ],
+      ),
+    );
   }
-  return RichText(text: TextSpan(children: texts));
 }

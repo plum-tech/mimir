@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:sit/life/electricity/entity/room.dart';
 import 'package:sit/widgets/search.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
@@ -16,14 +17,19 @@ Future<String?> searchRoom({
     query: initial,
     delegate: ItemSearchDelegate.highlight(
       searchHistory: searchHistory,
-      itemBuilder: (ctx, selectIt, child) {
+      itemBuilder: (ctx, full, highlighted, selectIt) {
+        final room = DormitoryRoom.fromFullString(full);
+        return ListTile(
+          title: HighlightedText(full:full  ,highlighted: highlighted),
+          subtitle: room.toString().text(),
+        );
         // TODO: Using filled button
-        return ElevatedButton(
-          onPressed: () {
-            selectIt();
-          },
-          child: child,
-        ).padSymmetric(h: 6, v: 8);
+        // return ElevatedButton(
+        //   onPressed: () {
+        //     selectIt();
+        //   },
+        //   child: child,
+        // ).padSymmetric(h: 6, v: 8);
       },
       candidates: roomList,
       queryProcessor: _keepOnlyNumber,

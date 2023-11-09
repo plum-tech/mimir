@@ -31,4 +31,9 @@ class DormitoryRoom {
     }
     return const DormitoryRoom(building: 0, roomNumber: 0);
   }
+
+  @override
+  String toString() {
+    return "Building $building #$roomNumber";
+  }
 }
