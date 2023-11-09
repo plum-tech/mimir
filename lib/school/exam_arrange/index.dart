@@ -88,7 +88,7 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
       return CupertinoContextMenu.builder(
         enableHapticFeedback: true,
         actions: [
-          if (UniversalPlatform.isAndroid && UniversalPlatform.isIOS)
+          if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)
             CupertinoContextMenuAction(
               trailingIcon: CupertinoIcons.calendar_badge_plus,
               child: i18n.addCalendarEvent.text(),
