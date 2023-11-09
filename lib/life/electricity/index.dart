@@ -89,11 +89,16 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
+            final $searchHistory = ValueNotifier(ElectricityBalanceInit.storage.searchHistory ?? const <String>[]);
+            $searchHistory.addListener(() {
+              ElectricityBalanceInit.storage.searchHistory = $searchHistory.value;
+            });
             final room = await searchRoom(
               ctx: context,
-              searchHistory: ElectricityBalanceInit.storage.searchHistory ?? const <String>[],
+              $searchHistory: $searchHistory,
               roomList: R.roomList,
             );
+            $searchHistory.dispose();
             if (room == null) return;
             if (ElectricityBalanceInit.storage.selectedRoom != room) {
               ElectricityBalanceInit.storage.selectNewRoom(room);

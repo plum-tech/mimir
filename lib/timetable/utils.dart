@@ -12,6 +12,7 @@ import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:sit/utils/strings.dart';
 import 'package:universal_platform/universal_platform.dart';
 import '../school/exam_result/entity/score.dart';
 import 'entity/timetable.dart';
@@ -35,12 +36,6 @@ final Map<String, int> _weekday2Index = {
   '星期六': 5,
   '星期日': 6,
 };
-
-extension StringEx on String {
-  String removeSuffix(String suffix) => endsWith(suffix) ? substring(0, length - suffix.length) : this;
-
-  String removePrefix(String prefix) => startsWith(prefix) ? substring(prefix.length) : this;
-}
 
 /// Then the [weekText] could be `1-5周,14周,8-10周(单)`
 /// The return value should be
