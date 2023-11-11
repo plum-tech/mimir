@@ -294,8 +294,35 @@ String convertTimetable2ICal({
 }
 
 List<PostgraduateCourseRaw> parsePostgraduateCourseRawsFromHtml(String timetableHtmlContent) {
+  List<List<int>> generateTimetable() {
+    List<List<int>> timetable = [];
+    for (int i = 0; i < 9; i++) {
+      List<int> timeslots = List.generate(14, (index) => -1);
+      timetable.add(timeslots);
+    }
+    return timetable;
+  }
+
   List<PostgraduateCourseRaw> courseList = [];
+  List<List<int>> timetable = generateTimetable();
   const mapOfWeekday = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
+  final courseCodeRegExp = RegExp(r"(.*?)(学硕\d+班|专硕\d+班|\d+班)$");
+  final weekTextRegExp = RegExp(r"([\d-]+周(\([^)]*\))?)([\d-]+节)");
+
+  int parseWeekdayCodeFromIndex(int index, int row, {bool isFirst = false, int rowspan = 1}) {
+    if (!isFirst) {
+      index = index + 1;
+    }
+    for (int i = 0; i <= index; i++) {
+      if (timetable[i][row] != -1 && timetable[i][row] != row) {
+        index++;
+      }
+    }
+    for (int r = 0; r < rowspan; r++) {
+      timetable[index][row + r] = row;
+    }
+    return index - 2;
+  }
 
   void processNodes(List nodes, String weekday) {
     if (nodes.length < 5) {
@@ -311,8 +338,7 @@ List<PostgraduateCourseRaw> parsePostgraduateCourseRawsFromHtml(String timetable
     var courseNameWithClassCode = mapChinesePunctuations(nodes[0].text);
     final String courseName;
     final String classCode;
-    RegExpMatch? courseNameWithClassCodeMatch =
-        RegExp(r"(.*?)(学硕\d+班|专硕\d+班|\d+班)$").firstMatch(courseNameWithClassCode);
+    RegExpMatch? courseNameWithClassCodeMatch = courseCodeRegExp.firstMatch(courseNameWithClassCode);
     if (courseNameWithClassCodeMatch != null) {
       courseName = courseNameWithClassCodeMatch.group(1) ?? "";
       classCode = courseNameWithClassCodeMatch.group(2) ?? "";
@@ -324,8 +350,7 @@ List<PostgraduateCourseRaw> parsePostgraduateCourseRawsFromHtml(String timetable
     var weekTextWithTimeslotsText = mapChinesePunctuations(nodes[2].text);
     final String weekText;
     final String timeslotsText;
-    RegExpMatch? weekTextWithTimeslotsTextMatch =
-        RegExp(r"([\d-]+周(\([^)]*\))?)([\d-]+节)").firstMatch(weekTextWithTimeslotsText);
+    RegExpMatch? weekTextWithTimeslotsTextMatch = weekTextRegExp.firstMatch(weekTextWithTimeslotsText);
     if (weekTextWithTimeslotsTextMatch != null) {
       weekText = weekTextWithTimeslotsTextMatch.group(1) ?? "";
       timeslotsText = weekTextWithTimeslotsTextMatch.group(3) ?? "";
@@ -361,16 +386,16 @@ List<PostgraduateCourseRaw> parsePostgraduateCourseRawsFromHtml(String timetable
   final table = document.querySelector('table');
   final trList = table!.querySelectorAll('tr');
   for (var tr in trList) {
+    final row = trList.indexOf(tr);
     final tdList = tr.querySelectorAll('td');
     for (var td in tdList) {
+      String firstTdContent = tdList[0].text;
+      bool isFirst = const ["上午", "下午", "晚上"].contains(firstTdContent);
       if (td.innerHtml.contains("br")) {
         final index = tdList.indexOf(td);
-        String weekday;
-        if (tdList.length > 8) {
-          weekday = mapOfWeekday[index - 2];
-        } else {
-          weekday = mapOfWeekday[index - 1];
-        }
+        final rowspan = int.parse(td.attributes["rowspan"] ?? "1");
+        int weekdayCode = parseWeekdayCodeFromIndex(index, row, isFirst: isFirst, rowspan: rowspan);
+        String weekday = mapOfWeekday[weekdayCode];
         final nodes = td.nodes;
         processNodes(nodes, weekday);
       }
