@@ -15,7 +15,6 @@ class _I18n with CommonI18nMixin {
   final clearCache = const _ClearCache();
   final themeMode = const _ThemeMode();
   final proxy = const _Proxy();
-  final language = const _Language();
   final dev = const _DevOptions();
   final timetable = const _Timetable();
   final school = const _School();
@@ -24,6 +23,8 @@ class _I18n with CommonI18nMixin {
   static const ns = "settings";
 
   String get title => "$ns.title".tr();
+
+  String get language => "$ns.language".tr();
 
   String get version => "$ns.version".tr();
 
@@ -126,16 +127,6 @@ class _Proxy {
   String get username => "$ns.username".tr();
 
   String get password => "$ns.password".tr();
-}
-
-class _Language {
-  const _Language();
-
-  static const ns = "${_I18n.ns}.language";
-
-  String get title => "$ns.title".tr();
-
-  String languageOf(Locale locale) => "language.$locale".tr();
 }
 
 class _Timetable {

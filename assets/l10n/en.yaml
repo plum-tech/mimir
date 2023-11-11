@@ -1,7 +1,3 @@
-language:
-  en: English
-  zh_CN: 简体中文
-  zh_TW: 繁體中文
 timetable:
   navigation: Timetable
   jump: Jump
@@ -503,8 +499,7 @@ settings:
       full: HTTP proxy is copied
       hostname: Hostname is copied
       port: Port is copied
-  language:
-    title: Language
+  language: Language
   wipeData:
     title: Wipe data & log-out
     desc: Wipe all data and log out

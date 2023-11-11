@@ -1,7 +1,3 @@
-language:
-  en: English
-  zh_CN: 简体中文
-  zh_TW: 繁體中文
 timetable:
   navigation: 課程表
   jump: 前往
@@ -503,8 +499,7 @@ settings:
       full: HTTP 代理被複製到剪貼板了
       hostname: 主機名稱被複製到剪貼板了
       port: 連接埠被複製到剪貼板了
-  language:
-    title: 語言
+  language: 語言
   wipeData:
     title: 擦除資料 & 登出
     desc: 擦除帳戶並登出當前 OA 賬戶

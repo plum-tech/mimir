@@ -16,6 +16,7 @@ import 'package:sit/version.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:unicons/unicons.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
+import 'package:locale_names/locale_names.dart';
 
 import '../i18n.dart';
 import '../widgets/navigation.dart';
@@ -174,8 +175,8 @@ class _SettingsPageState extends State<SettingsPage> {
     final curLocale = context.locale;
     return ListTile(
       leading: const Icon(Icons.translate_rounded),
-      title: i18n.language.title.text(),
-      subtitle: i18n.language.languageOf(curLocale).text(),
+      title: i18n.language.text(),
+      subtitle: curLocale.nativeDisplayLanguageScript.text(),
       trailing: DropdownMenu<Locale>(
         initialSelection: curLocale,
         onSelected: (Locale? locale) async {
@@ -190,7 +191,7 @@ class _SettingsPageState extends State<SettingsPage> {
             .map<DropdownMenuEntry<Locale>>(
               (locale) => DropdownMenuEntry<Locale>(
                 value: locale,
-                label: i18n.language.languageOf(locale),
+                label: locale.nativeDisplayLanguageScript,
               ),
             )
             .toList(),

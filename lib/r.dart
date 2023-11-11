@@ -14,13 +14,13 @@ class R {
   /// For debugging iOS on other platforms.
   static const _debugCupertino = false;
   static const enLocale = Locale('en');
-  static const zhCnLocale = Locale('zh', "CN");
-  static const zhTwLocale = Locale('zh', "TW");
-  static const defaultLocale = zhCnLocale;
+  static const zhHansLocale = Locale.fromSubtags(languageCode: "zh", scriptCode: "Hans");
+  static const zhHantLocale = Locale.fromSubtags(languageCode: "zh", scriptCode: "Hant");
+  static const defaultLocale = zhHansLocale;
   static const supportedLocales = [
     enLocale,
-    zhCnLocale,
-    zhTwLocale,
+    zhHansLocale,
+    zhHantLocale,
   ];
   static const appId = "life.mysit.SITLife";
   static const appName = "SIT Life";

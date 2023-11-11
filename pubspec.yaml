@@ -128,6 +128,7 @@ dependencies:
   flutter_platform_widgets: ^3.3.5
   pull_down_button: ^0.9.3
   flutter_adaptive_ui: ^0.8.0+1
+  locale_names: ^1.1.1
 
   # Utils
   # Get package info (version)

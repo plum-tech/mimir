@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:intl/intl.dart';
 import 'package:sit/l10n/time.dart';
+import 'package:sit/r.dart';
 
 abstract class RegionalFormatter {
   DateFormat get ymdText;
@@ -26,91 +29,63 @@ abstract class RegionalFormatter {
 class Lang {
   Lang._();
 
-  static const zh = "zh";
-  static const zhTw = "zh_TW";
-  static const tw = "TW";
-  static const en = "en";
-
-  static final zhFormatter = _ZhFormatter();
-  static final zhTwFormatter = _ZhTwFormatter();
+  static final zhHansFormatter = _ZhHansFormatter();
+  static final zhHantFormatter = _ZhHantFormatter();
   static final enFormatter = _EnFormatter();
+  static final locale2Format = {
+    R.enLocale: _EnFormatter(),
+    R.zhHansLocale: _ZhHansFormatter(),
+    R.zhHantLocale: _ZhHantFormatter(),
+  };
+
   static final hms = DateFormat("H:mm:ss");
   static final hm = DateFormat("H:mm");
 
-  static RegionalFormatter getFormatterFrom(String lang, String? country) {
-    if (lang == zh) {
-      if (country == null) {
-        return zhFormatter;
-      } else if (country == tw) {
-        return zhTwFormatter;
-      }
-    } else if (lang == en) {
-      return enFormatter;
-    }
-    return zhFormatter;
-  }
-
-  static DateFormat ymdWeekText(String lang, String? country) => getFormatterFrom(lang, country).ymdWeekText;
-
-  static DateFormat mdWeekText(String lang, String? country) => getFormatterFrom(lang, country).mdWeekText;
-
-  static DateFormat formatYmdText(String lang, String? country) => getFormatterFrom(lang, country).ymdText;
-
-  static DateFormat ymdNum(String lang, String? country) => getFormatterFrom(lang, country).ymdNum;
-
-  static DateFormat ymText(String lang, String? country) => getFormatterFrom(lang, country).ymText;
-
-  static DateFormat ymdhmsNum(String lang, String? country) => getFormatterFrom(lang, country).ymdhmsNum;
-
-  static DateFormat ymdhmNum(String lang, String? country) => getFormatterFrom(lang, country).ymdhmNum;
-
-  static DateFormat mdHmNum(String lang, String? country) => getFormatterFrom(lang, country).mdHmNum;
-
-  static DateFormat mdNum(String lang, String? country) => getFormatterFrom(lang, country).mdNum;
+  static RegionalFormatter formatOf(Locale locale) => locale2Format[locale] ?? zhHansFormatter;
 }
 
-class _ZhFormatter implements RegionalFormatter {
+class _ZhHansFormatter implements RegionalFormatter {
   @override
-  final ymdText = DateFormat("yyyy年M月d日", "zh_CN");
+  final ymdText = DateFormat("yyyy年M月d日", "zh_Hans");
   @override
-  final ymdWeekText = DateFormat("yyyy年M月d日 EEEE", "zh_CN");
+  final ymdWeekText = DateFormat("yyyy年M月d日 EEEE", "zh_Hans");
   @override
-  final mdWeekText = DateFormat("M月d日 EEEE", "zh_CN");
+  final mdWeekText = DateFormat("M月d日 EEEE", "zh_Hans");
   @override
-  final ymText = DateFormat("yyyy年M月", "zh_CN");
+  final ymText = DateFormat("yyyy年M月", "zh_Hans");
   @override
-  final ymdNum = DateFormat("yyyy/M/d", "zh_CN");
+  final ymdNum = DateFormat("yyyy/M/d", "zh_Hans");
   @override
-  final ymdhmsNum = DateFormat("yyyy/M/d H:mm:ss", "zh_CN");
+  final ymdhmsNum = DateFormat("yyyy/M/d H:mm:ss", "zh_Hans");
   @override
-  final ymdhmNum = DateFormat("yyyy/M/d H:mm:ss", "zh_CN");
+  final ymdhmNum = DateFormat("yyyy/M/d H:mm:ss", "zh_Hans");
   @override
-  final mdHmNum = DateFormat("M/d H:mm", "zh_CN");
+  final mdHmNum = DateFormat("M/d H:mm", "zh_Hans");
   @override
-  final mdNum = DateFormat("M/d", "zh_CN");
+  final mdNum = DateFormat("M/d", "zh_Hans");
   @override
   final firstDayInWeek = Weekday.monday;
 }
 
-class _ZhTwFormatter implements RegionalFormatter {
+class _ZhHantFormatter implements RegionalFormatter {
   @override
-  final ymdText = DateFormat("yyyy年M月d日", "zh_TW");
+  final ymdText = DateFormat("yyyy年M月d日", "zh_Hant");
   @override
-  final ymdWeekText = DateFormat("yyyy年M月d日 EEEE", "zh_TW");
+  final ymdWeekText = DateFormat("yyyy年M月d日 EEEE", "zh_Hant");
   @override
-  final mdWeekText = DateFormat("M月d日 EEEE", "zh_TW");
+  final mdWeekText = DateFormat("M月d日 EEEE", "zh_Hant");
   @override
-  final ymText = DateFormat("yyyy年M月", "zh_TW");
+  final ymText = DateFormat("yyyy年M月", "zh_Hant");
   @override
-  final ymdNum = DateFormat("yyyy/M/d", "zh_TW");
+  final ymdNum = DateFormat("yyyy/M/d", "zh_Hant");
   @override
-  final ymdhmsNum = DateFormat("yyyy/M/d H:mm:ss", "zh_TW");
+  final ymdhmsNum = DateFormat("yyyy/M/d H:mm:ss", "zh_Hant");
   @override
-  final ymdhmNum = DateFormat("yyyy/M/d H:mm:ss", "zh_TW");
+  final ymdhmNum = DateFormat("yyyy/M/d H:mm:ss", "zh_Hant");
   @override
-  final mdHmNum = DateFormat("M/d H:mm", "zh_TW");
+  final mdHmNum = DateFormat("M/d H:mm", "zh_Hant");
   @override
-  final mdNum = DateFormat("M/d", "zh_TW");
+  final mdNum = DateFormat("M/d", "zh_Hant");
   @override
   final firstDayInWeek = Weekday.monday;
 }
