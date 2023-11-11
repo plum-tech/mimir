@@ -146,7 +146,7 @@ class EntryCard extends StatelessWidget {
     BuildContext context, {
     required Animation<double> animation,
   }) {
-    final body = [
+    Widget body = [
       ...itemBuilder(context, animation),
       if (animation.value <= 0)
         OverflowBar(
@@ -160,20 +160,24 @@ class EntryCard extends StatelessWidget {
             ),
           ],
         ),
-    ].column(caa: CrossAxisAlignment.start).padOnly(t: 15, l: 15, r: 15).inkWell(onTap: () async {
-      if (animation.value > 0) return;
-      await context.show$Sheet$(
-        (ctx) => EntryCupertinoDetailsPage(
-          title: title,
-          itemBuilder: (ctx) => itemBuilder(ctx, null),
-          detailsBuilder: detailsBuilder,
-          selected: selected,
-          selectAction: selectAction,
-          actions: actions,
-          deleteAction: deleteAction,
-        ),
-      );
-    });
+    ].column(caa: CrossAxisAlignment.start).padOnly(t: 15, l: 15, r: 15);
+    if (animation.value <= 0) {
+      body = body.inkWell(onTap: () async {
+        if (animation.value <= 0) {
+          await context.show$Sheet$(
+            (ctx) => EntryCupertinoDetailsPage(
+              title: title,
+              itemBuilder: (ctx) => itemBuilder(ctx, null),
+              detailsBuilder: detailsBuilder,
+              selected: selected,
+              selectAction: selectAction,
+              actions: actions,
+              deleteAction: deleteAction,
+            ),
+          );
+        }
+      });
+    }
     final widget = selected
         ? body.inFilledCard(
             clip: Clip.hardEdge,
