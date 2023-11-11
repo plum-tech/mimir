@@ -45,7 +45,6 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
   late final TabController tabController;
   final $selected = TimetableInit.storage.timetable.$selected;
   var selectedTimetable = TimetableInit.storage.timetable.selectedRow;
-  late final $brightness = ValueNotifier(context.theme.brightness);
 
   @override
   void initState() {
@@ -104,9 +103,6 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
                 floating: true,
                 title: i18n.p13n.palette.title.text(),
                 forceElevated: innerBoxIsScrolled,
-                actions: [
-                  BrightnessSwitch($brightness),
-                ],
                 bottom: TabBar(
                   controller: tabController,
                   isScrollable: true,
@@ -310,30 +306,30 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
   }
 
   Widget buildPaletteColorsPreview(TimetablePalette palette) {
-    return $brightness >>
-        (ctx, brightness) => palette.colors
-            .map((c) {
-              final color = c.byBrightness(brightness);
-              return OutlinedCard(
-                color: brightness == Brightness.light ? Colors.black : Colors.white,
+    final brightness = context.theme.brightness;
+    return palette.colors
+        .map((c) {
+          final color = c.byBrightness(brightness);
+          return OutlinedCard(
+            color: brightness == Brightness.light ? Colors.black : Colors.white,
+            margin: EdgeInsets.zero,
+            child: TweenAnimationBuilder(
+              tween: ColorTween(begin: color, end: color),
+              duration: const Duration(milliseconds: 300),
+              builder: (ctx, value, child) => FilledCard(
                 margin: EdgeInsets.zero,
-                child: TweenAnimationBuilder(
-                  tween: ColorTween(begin: color, end: color),
-                  duration: const Duration(milliseconds: 300),
-                  builder: (ctx, value, child) => FilledCard(
-                    margin: EdgeInsets.zero,
-                    color: value,
-                    child: const SizedBox(
-                      width: 32,
-                      height: 32,
-                    ),
-                  ),
+                color: value,
+                child: const SizedBox(
+                  width: 32,
+                  height: 32,
                 ),
-              );
-            })
-            .toList()
-            .wrap(spacing: 4, runSpacing: 4)
-            .padV(4);
+              ),
+            ),
+          );
+        })
+        .toList()
+        .wrap(spacing: 4, runSpacing: 4)
+        .padV(4);
   }
 }
 
