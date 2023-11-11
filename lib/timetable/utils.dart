@@ -137,8 +137,10 @@ SitTimetableEntity resolveTimetableEntity(SitTimetable timetable) {
     final course = timetable.courseKey2Entity[courseKey];
     final timeslots = course.timeslots;
     for (final weekIndex in course.weekIndices.getWeekIndices()) {
-      assert(0 <= weekIndex && weekIndex < maxWeekLength,
-          "Week index is more out of range [0,$maxWeekLength) but $weekIndex.");
+      assert(
+        0 <= weekIndex && weekIndex < maxWeekLength,
+        "Week index is more out of range [0,$maxWeekLength) but $weekIndex.",
+      );
       if (0 <= weekIndex && weekIndex < maxWeekLength) {
         final week = weeks[weekIndex];
         final day = week.days[course.dayIndex];
@@ -158,13 +160,13 @@ SitTimetableEntity resolveTimetableEntity(SitTimetable timetable) {
         for (int slot = timeslots.start; slot <= timeslots.end; slot++) {
           final classTime = course.calcBeginEndTimePointOfLesson(slot);
           day.add(
-            SitTimetableLessonPart(
+            at: slot,
+            lesson: SitTimetableLessonPart(
               type: lesson,
               index: slot,
               startTime: thatDay.addTimePoint(classTime.begin),
               endTime: thatDay.addTimePoint(classTime.end),
             ),
-            at: slot,
           );
         }
       }

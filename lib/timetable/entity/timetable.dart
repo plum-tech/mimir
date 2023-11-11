@@ -177,7 +177,7 @@ class SitTimetableDay {
     return timeslot2LessonSlot.every((lessonSlot) => lessonSlot.lessons.isEmpty);
   }
 
-  void add(SitTimetableLessonPart lesson, {required int at}) {
+  void add({required SitTimetableLessonPart lesson, required int at}) {
     assert(0 <= at && at < timeslot2LessonSlot.length);
     if (0 <= at && at < timeslot2LessonSlot.length) {
       final lessonSlot = timeslot2LessonSlot[at];
