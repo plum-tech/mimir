@@ -10,7 +10,9 @@ import 'package:sit/credentials/utils.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/init.dart';
+import 'package:sit/login/init.dart';
 import 'package:sit/login/utils.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/settings/widgets/campus.dart';
 import 'package:sit/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
@@ -89,7 +91,9 @@ class _LoginPageState extends State<LoginPage> {
     try {
       final oaCredential = OaCredentials(account: account, password: password);
       await Init.ssoSession.loginLocked(oaCredential);
-      // final personName = await LoginInit.authServerService.getPersonName();
+      // set user's real name to signature by default.
+      final personName = await LoginInit.authServerService.getPersonName();
+      Settings.lastSignature ??= personName;
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       CredentialInit.storage.oaCredentials = oaCredential;
