@@ -79,7 +79,7 @@ class RestyledWidgetFactory extends WidgetFactory {
     BoxBorder? border,
     BorderRadius? borderRadius,
     Color? color,
-    bool isBorderBox = true,
+    DecorationImage? image,
   }) {
     return super.buildDecoration(
       tree,
@@ -87,6 +87,7 @@ class RestyledWidgetFactory extends WidgetFactory {
       border: _restyleBorder(border, borderColor),
       borderRadius: borderRadius,
       color: Colors.transparent,
+      image: image,
     );
   }
 }
