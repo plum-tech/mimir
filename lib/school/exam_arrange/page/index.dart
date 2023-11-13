@@ -100,7 +100,7 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
                   final exam = examList[i];
                   return ExamCard(
                     exam,
-                    enableAddEvent: exam.time?.end.isBefore(now) ?? false,
+                    enableAddEvent: exam.time?.end.isAfter(now) ?? false,
                   ).padH(6);
                 },
               ),
