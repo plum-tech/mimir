@@ -82,7 +82,7 @@ class Class2ndScoreItem {
 
   /// 活动时间
   @HiveField(3)
-  final DateTime time;
+  final DateTime? time;
 
   /// 得分
   @HiveField(4)

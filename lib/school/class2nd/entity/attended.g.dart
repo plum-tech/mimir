@@ -67,7 +67,7 @@ class Class2ndScoreItemAdapter extends TypeAdapter<Class2ndScoreItem> {
       name: fields[0] as String,
       activityId: fields[1] as int,
       category: fields[2] as Class2ndActivityCat,
-      time: fields[3] as DateTime,
+      time: fields[3] as DateTime?,
       points: fields[4] as double,
       honestyPoints: fields[5] as double,
     );

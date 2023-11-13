@@ -99,8 +99,8 @@ class YwbApplicationMetaDetailSectionAdapter extends TypeAdapter<YwbApplicationM
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return YwbApplicationMetaDetailSection(
-      section: fields[0] as String,
       type: fields[1] as String,
+      section: fields[0] as String,
       createTime: fields[2] as DateTime,
       content: fields[3] as String,
     );
@@ -144,8 +144,8 @@ YwbApplicationMeta _$YwbApplicationMetaFromJson(Map<String, dynamic> json) => Yw
 
 YwbApplicationMetaDetailSection _$YwbApplicationMetaDetailSectionFromJson(Map<String, dynamic> json) =>
     YwbApplicationMetaDetailSection(
-      section: json['formName'] as String,
       type: json['type'] as String,
+      section: json['formName'] as String,
       createTime: DateTime.parse(json['createTime'] as String),
       content: json['content'] as String,
     );

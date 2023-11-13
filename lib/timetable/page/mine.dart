@@ -242,7 +242,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
               ListTile(
                 leading: const Icon(Icons.drive_file_rename_outline),
                 title: i18n.signature.text(),
-                subtitle: timetable.signature .text(),
+                subtitle: timetable.signature.text(),
               ),
               const Divider(),
             ]),

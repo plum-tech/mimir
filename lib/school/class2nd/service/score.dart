@@ -99,8 +99,8 @@ class Class2ndScoreService {
   static List<Class2ndScoreItem> _parseScoreList(String htmlPage) {
     Class2ndScoreItem nodeToScoreItem(Bs4Element item) {
       final title = item.find('td:nth-child(3)')!.text.trim();
-      final timeRaw = item.find('td:nth-child(9) > a')!.text.trim();
-      final time = scoreItemTimeFormat.parse(timeRaw);
+      final timeRaw = item.find('td:nth-child(9) > a');
+      final time = timeRaw == null ? null : scoreItemTimeFormat.parse(timeRaw.text.trim());
       final idRaw = item.find('td:nth-child(7)');
       final id = int.parse(idRaw!.innerHtml.trim());
       // 注意：“我的成绩” 页面中，成绩条目显示的是活动类型，而非加分类型, 因此使用 ActivityType.

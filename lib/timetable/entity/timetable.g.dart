@@ -16,6 +16,7 @@ SitTimetable _$SitTimetableFromJson(Map<String, dynamic> json) => SitTimetable(
       schoolYear: json['schoolYear'] as int,
       semester: $enumDecode(_$SemesterEnumMap, json['semester']),
       signature: json['signature'] as String? ?? '',
+      version: json['version'] as int? ?? 1,
     );
 
 Map<String, dynamic> _$SitTimetableToJson(SitTimetable instance) => <String, dynamic>{
@@ -26,6 +27,7 @@ Map<String, dynamic> _$SitTimetableToJson(SitTimetable instance) => <String, dyn
       'courseKeyCounter': instance.courseKeyCounter,
       'signature': instance.signature,
       'courseKey2Entity': instance.courseKey2Entity,
+      'version': instance.version,
     };
 
 const _$SemesterEnumMap = {
