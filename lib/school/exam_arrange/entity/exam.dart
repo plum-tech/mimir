@@ -58,7 +58,7 @@ class ExamEntry {
   @JsonKey(name: 'kssj', fromJson: _parseTime)
   @HiveField(1)
   // TODO: Use record
-  final List<DateTime> time;
+  final List<DateTime> _timeRaw;
 
   /// 考试地点
   @JsonKey(name: 'cdmc', fromJson: _parsePlace)
@@ -80,14 +80,30 @@ class ExamEntry {
   @HiveField(5)
   final bool? isRetake;
 
-  const ExamEntry({
+  ({DateTime start, DateTime end})? get time {
+    if (_timeRaw.length == 2) {
+      return (start: _timeRaw.first, end: _timeRaw.last);
+    }
+    return null;
+  }
+
+  ExamEntry({
     required this.courseName,
     required this.place,
     required this.campus,
-    required this.time,
+    ({DateTime start, DateTime end})? time,
     required this.seatNumber,
     required this.isRetake,
-  });
+  }) : _timeRaw = time == null ? [] : [time.start, time.end];
+
+  ExamEntry.legacy({
+    required this.courseName,
+    required this.place,
+    required this.campus,
+    required List<DateTime> time,
+    required this.seatNumber,
+    required this.isRetake,
+  }) : _timeRaw = time;
 
   factory ExamEntry.fromJson(Map<String, dynamic> json) => _$ExamEntryFromJson(json);
 
@@ -104,22 +120,24 @@ class ExamEntry {
   }
 
   static int comparator(ExamEntry a, ExamEntry b) {
-    if (a.time.isEmpty || b.time.isEmpty) {
-      if (a.time.isEmpty != b.time.isEmpty) {
-        return a.time.isEmpty ? 1 : -1;
+    final timeA = a.time;
+    final timeB = b.time;
+    if (timeA == null || timeB == null) {
+      if (timeA != timeB) {
+        return timeA == null ? 1 : -1;
       }
       return 0;
     }
-    return a.time[0].isAfter(b.time[0]) ? 1 : -1;
+    return timeA.start.isAfter(timeB.start) ? 1 : -1;
   }
 }
 
 extension ExamEntryX on ExamEntry {
-  DateTime get start => time[0];
-
-  DateTime get end => time[1];
-
   String buildDate(BuildContext context) {
+    final time = this.time;
+    assert(time != null);
+    if (time == null) return "null";
+    final (:start, :end) = time;
     if (start.year == end.year && start.month == end.month && start.day == end.day) {
       // at the same day
       return context.formatMdWeekText(start);
@@ -129,6 +147,10 @@ extension ExamEntryX on ExamEntry {
   }
 
   String buildTime(BuildContext context) {
+    final time = this.time;
+    assert(time != null);
+    if (time == null) return "null";
+    final (:start, :end) = time;
     if (start.year == end.year && start.month == end.month && start.day == end.day) {
       // at the same day
       return "${context.formatHmNum(start)}–${context.formatHmNum(end)}";

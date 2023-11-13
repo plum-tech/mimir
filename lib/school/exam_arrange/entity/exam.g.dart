@@ -16,7 +16,7 @@ class ExamEntryAdapter extends TypeAdapter<ExamEntry> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ExamEntry(
+    return ExamEntry.legacy(
       courseName: fields[0] as String,
       place: fields[2] as String,
       campus: fields[3] as String,
@@ -33,7 +33,7 @@ class ExamEntryAdapter extends TypeAdapter<ExamEntry> {
       ..writeByte(0)
       ..write(obj.courseName)
       ..writeByte(1)
-      ..write(obj.time)
+      ..write(obj._timeRaw)
       ..writeByte(2)
       ..write(obj.place)
       ..writeByte(3)
@@ -56,7 +56,7 @@ class ExamEntryAdapter extends TypeAdapter<ExamEntry> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-ExamEntry _$ExamEntryFromJson(Map<String, dynamic> json) => ExamEntry(
+ExamEntry _$ExamEntryFromJson(Map<String, dynamic> json) => ExamEntry.legacy(
       courseName: _parseCourseName(json['kcmc']),
       place: _parsePlace(json['cdmc']),
       campus: json['cdxqmc'] as String,

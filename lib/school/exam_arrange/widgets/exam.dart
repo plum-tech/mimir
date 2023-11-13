@@ -19,6 +19,7 @@ class ExamCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = context.textTheme.bodyMedium;
+    final time = exam.time;
     return [
       [
         exam.courseName.text(style: context.textTheme.titleMedium),
@@ -36,19 +37,19 @@ class ExamCard extends StatelessWidget {
               i18n.seatNumber.text(style: style),
               exam.seatNumber.toString().text(style: style),
             ]),
-          if (exam.time.length >= 2)
+          if (time != null) ...[
             TableRow(children: [
               i18n.date.text(style: style),
               exam.buildDate(context).text(style: style),
             ]),
-          if (exam.time.length >= 2)
             TableRow(children: [
               i18n.time.text(style: style),
               exam.buildTime(context).text(style: style),
             ]),
+          ],
         ],
       ),
-      if (enableAddEvent && exam.time.isNotEmpty && (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)) ...[
+      if (enableAddEvent && time != null && (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)) ...[
         const Divider(),
         buildAddToCalenderAction(),
       ],
@@ -69,15 +70,15 @@ class ExamCard extends StatelessWidget {
 }
 
 Future<void> addExamArrangeToCalendar(ExamEntry exam) async {
-  if (exam.time.length < 2) return;
-  final startTime = exam.time[0];
-  final endTime = exam.time[1];
+  final time = exam.time;
+  if (time == null) return;
+  final (:start, :end) = time;
   final event = Event(
     title: exam.courseName,
     description: "${i18n.seatNumber} ${exam.seatNumber}",
     location: "${exam.place} #${exam.seatNumber}",
-    startDate: startTime,
-    endDate: endTime,
+    startDate: start,
+    endDate: end,
   );
   await Add2Calendar.addEvent2Cal(event);
 }
