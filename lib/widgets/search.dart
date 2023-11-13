@@ -192,18 +192,20 @@ TextRange findSelected({
 class HighlightedText extends StatelessWidget {
   final String full;
   final TextRange highlighted;
+  final TextStyle? baseStyle;
 
   const HighlightedText({
     super.key,
     required this.full,
     this.highlighted = TextRange.empty,
+    this.baseStyle,
   });
 
   @override
   Widget build(BuildContext context) {
-    final baseStyle = context.textTheme.titleSmall;
-    final plainStyle = baseStyle?.copyWith(color: baseStyle.color?.withOpacity(0.5));
-    final highlightedStyle = baseStyle?.copyWith(color: context.colorScheme.primary, fontWeight: FontWeight.bold);
+    final baseStyle = this.baseStyle ?? const TextStyle();
+    final plainStyle = baseStyle.copyWith(color: baseStyle.color?.withOpacity(0.5));
+    final highlightedStyle = baseStyle.copyWith(color: context.colorScheme.primary, fontWeight: FontWeight.bold);
     return RichText(
       text: TextSpan(
         children: !highlighted.isValid || !highlighted.isNormalized

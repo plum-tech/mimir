@@ -26,7 +26,11 @@ Future<String?> searchRoom({
             final (full, highlighted) = highlight(item);
             final room = DormitoryRoom.fromFullString(full);
             return ListTile(
-              title: HighlightedText(full: full, highlighted: highlighted),
+              title: HighlightedText(
+                full: full,
+                highlighted: highlighted,
+                baseStyle: ctx.textTheme.titleLarge,
+              ),
               subtitle: room.l10n().text(),
               onTap: () {
                 selectIt(item);
@@ -53,7 +57,10 @@ Future<String?> searchRoom({
               ),
               childKey: ValueKey(item),
               child: ListTile(
-                title: HighlightedText(full: full),
+                title: HighlightedText(
+                  full: full,
+                  baseStyle: ctx.textTheme.titleLarge,
+                ),
                 subtitle: room.l10n().text(),
                 onTap: () {
                   selectIt(item);
