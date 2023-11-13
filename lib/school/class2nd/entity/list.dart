@@ -10,45 +10,47 @@ part 'list.g.dart';
 enum Class2ndActivityCat {
   /// 讲座报告
   @HiveField(0)
-  lecture,
+  lecture("001"),
 
   /// 主题教育
   @HiveField(1)
-  thematicEdu,
+  thematicEdu("ff808081674ec4720167ce60dda77cea"),
 
   /// 创新创业创意
   @HiveField(2)
-  creation,
+  creation("ff8080814e241104014eb867e1481dc3"),
 
   /// 校园文化活动
   @HiveField(3)
-  schoolCultureActivity,
+  schoolCultureActivity("8ab17f543fe626a8013fe6278a880001"),
 
   /// 社会实践
   @HiveField(4)
-  practice,
+  practice("8ab17f543fe62d5d013fe62efd3a0002"),
 
   /// 志愿公益
   @HiveField(5)
-  voluntary,
+  voluntary("8ab17f543fe62d5d013fe62e6dc70001"),
 
   /// 安全教育网络教学
   @HiveField(6)
-  onlineSafetyEdu,
+  onlineSafetyEdu("402881de5d62ba57015d6320f1a7000c"),
 
   /// 会议（无学分）
   @HiveField(7)
-  conference,
+  conference("ff8080814e241104014fedbbf7fd329d"),
 
   /// 校园文化竞赛活动
   @HiveField(8)
-  schoolCultureCompetition,
+  schoolCultureCompetition("8ab17f2a3fe6585e013fe6596c300001"),
 
   /// 论文专利
   @HiveField(9)
-  paperAndPatent;
+  paperAndPatent("8ab17f533ff05c27013ff06d10bf0001");
 
-  const Class2ndActivityCat();
+  final String id;
+
+  const Class2ndActivityCat(this.id);
 
   String l10nName() => "class2nd.activityCat.$name".tr();
 

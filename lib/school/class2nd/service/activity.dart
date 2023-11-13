@@ -10,14 +10,6 @@ import '../utils.dart';
 import "package:intl/intl.dart";
 
 class Class2ndActivityListService {
-  static const _scActivityType = {
-    Class2ndActivityCat.schoolCultureActivity: '8ab17f543fe626a8013fe6278a880001',
-    Class2ndActivityCat.creation: 'ff8080814e241104014eb867e1481dc3',
-    Class2ndActivityCat.lecture: '001',
-    Class2ndActivityCat.practice: '8ab17f543fe62d5d013fe62efd3a0002',
-    Class2ndActivityCat.thematicEdu: 'ff808081674ec4720167ce60dda77cea',
-    Class2ndActivityCat.voluntary: '8ab17f543fe62d5d013fe62e6dc70001',
-  };
   static final re = RegExp(r"(\d){7}");
   static const selector = '.ul_7 li > a';
   static final dateFormatParser = DateFormat('yyyy-MM-dd hh:mm:ss');
@@ -36,7 +28,7 @@ class Class2ndActivityListService {
   }
 
   String generateUrl(Class2ndActivityCat category, int page, [int pageSize = 20]) {
-    return 'http://sc.sit.edu.cn/public/activity/activityList.action?pageNo=$page&pageSize=$pageSize&categoryId=${_scActivityType[category]}';
+    return 'http://sc.sit.edu.cn/public/activity/activityList.action?pageNo=$page&pageSize=$pageSize&categoryId=${category.id}';
   }
 
   /// 获取第二课堂活动列表

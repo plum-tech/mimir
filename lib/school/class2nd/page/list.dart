@@ -23,6 +23,7 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
     Class2ndActivityCat.schoolCultureActivity,
     Class2ndActivityCat.practice,
     Class2ndActivityCat.voluntary,
+    Class2ndActivityCat.schoolCultureCompetition,
   ];
 
   final loadingStates = ValueNotifier(categories.map((cat) => false).toList());

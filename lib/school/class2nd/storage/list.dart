@@ -14,7 +14,9 @@ class Class2ndActivityListStorageBox with CachedBox {
 
   static String makeActivityKey(Class2ndActivityCat type, int page) => "$type/$page";
 }
-
+class _K{
+  static const ns = "/activities";
+}
 class Class2ndActivityListStorage {
   final Class2ndActivityListStorageBox box;
 
