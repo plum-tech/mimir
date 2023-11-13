@@ -312,7 +312,7 @@ DateTime reflectWeekDayIndexToDate({
   return startDate.add(Duration(days: weekIndex * 7 + dayIndex));
 }
 
-final _parenthesesRegx = RegExp("\\((.*?)\\)");
+final _parenthesesRegx = RegExp(r"\((.*?)\)");
 
 /// Exchange a string in brackets with a string out of brackets,
 /// if the string in brackets has a substring such as "一教", "二教", and "三教".
