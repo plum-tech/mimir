@@ -15,8 +15,8 @@ class Class2ndSession {
     );
   }
 
-  bool _isRedirectedToLoginPage(String data) {
-    return data.startsWith('<script');
+  bool _needRedirectToLoginPage(String data) {
+    return data.startsWith('<script') || data.contains('<meta http-equiv="refresh" content="0;URL=http://my.sit.edu.cn"/>');
   }
 
   Future<Response> request(
@@ -28,19 +28,21 @@ class Class2ndSession {
     SessionProgressCallback? onSendProgress,
     SessionProgressCallback? onReceiveProgress,
   }) async {
-    Future<Response> fetch() => ssoSession.request(
-          url,
-          method,
-          para: para,
-          data: data,
-          options: options,
-          onSendProgress: onSendProgress,
-          onReceiveProgress: onReceiveProgress,
-        );
+    Future<Response> fetch() {
+      return ssoSession.request(
+        url,
+        method,
+        para: para,
+        data: data,
+        options: options,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+      );
+    }
 
     Response response = await fetch();
     // 如果返回值是登录页面，那就从 SSO 跳转一次以登录.
-    if (_isRedirectedToLoginPage(response.data as String)) {
+    if (_needRedirectToLoginPage(response.data as String)) {
       await _refreshCookie();
       response = await fetch();
     }

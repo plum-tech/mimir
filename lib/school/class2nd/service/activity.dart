@@ -1,6 +1,5 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/school/entity/school.dart';
@@ -62,10 +61,6 @@ class Class2ndActivityListService {
   }
 
   static List<Class2ndActivity> _parseActivityList(String htmlPage) {
-    if (htmlPage.contains('<meta http-equiv="refresh" content="0;URL=http://my.sit.edu.cn"/>')) {
-      debugPrint("Activity list needs refresh.");
-      throw Exception("Activity list needs refresh.");
-    }
     final BeautifulSoup soup = BeautifulSoup(htmlPage);
     List<Class2ndActivity> result = soup.findAll(selector).map(
       (element) {

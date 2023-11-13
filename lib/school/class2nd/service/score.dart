@@ -1,5 +1,4 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
@@ -98,10 +97,6 @@ class Class2ndScoreService {
   static final scoreItemTimeFormat = DateFormat('yyyy-MM-dd hh:mm');
 
   static List<Class2ndScoreItem> _parseScoreList(String htmlPage) {
-    if (htmlPage.contains('<meta http-equiv="refresh" content="0;URL=http://my.sit.edu.cn"/>')) {
-      debugPrint("My score list needs refresh.");
-      throw Exception("My score list needs refresh.");
-    }
     Class2ndScoreItem nodeToScoreItem(Bs4Element item) {
       final title = item.find('td:nth-child(3)')!.text.trim();
       final timeRaw = item.find('td:nth-child(9) > a')!.text.trim();
@@ -142,11 +137,6 @@ class Class2ndScoreService {
   }
 
   static List<Class2ndActivityApplication> _parseActivityApplicationList(String htmlPage) {
-    if (htmlPage.contains('<meta http-equiv="refresh" content="0;URL=http://my.sit.edu.cn"/>')) {
-      debugPrint("My involved list needs refresh.");
-      throw Exception("My involved list needs refresh.");
-    }
-
     return BeautifulSoup(htmlPage)
         .findAll('#content-box > div:nth-child(23) > div.table_style_4 > form > table > tbody > tr')
         .map((e) => _activityMapDetail(e))
