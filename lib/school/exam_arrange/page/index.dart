@@ -67,6 +67,7 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
   @override
   Widget build(BuildContext context) {
     final examList = this.examList;
+    final now = DateTime.now();
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -95,7 +96,13 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
             else
               SliverList.builder(
                 itemCount: examList.length,
-                itemBuilder: (ctx, i) => ExamCard(examList[i], enableAddEvent: true).padH(6),
+                itemBuilder: (ctx, i) {
+                  final exam = examList[i];
+                  return ExamCard(
+                    exam,
+                    enableAddEvent: exam.time?.end.isBefore(now) ?? false,
+                  ).padH(6);
+                },
               ),
         ],
       ),
