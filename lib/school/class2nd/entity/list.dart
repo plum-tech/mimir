@@ -127,7 +127,7 @@ class Class2ndActivity {
 
 extension ActivityParser on Class2ndActivity {
   static Class2ndActivity parse(Class2ndAttendedActivity activity) {
-    final (:title, :tags) = splitTitleAndTags(activity.title);
+    final (:title, :tags) = separateTagsFromTitle(activity.title);
     return Class2ndActivity(
       id: activity.activityId,
       fullTitle: activity.title,

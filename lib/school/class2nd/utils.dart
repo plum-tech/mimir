@@ -1,6 +1,6 @@
 final _tagParenthesesRegx = RegExp(r"\[(.*?)\]");
 
-({String title, List<String> tags}) extractTagsFromTitle(String full) {
+({String title, List<String> tags}) separateTagsFromTitle(String full) {
   final allMatched = _tagParenthesesRegx.allMatches(full);
   final resultTags = <String>[];
   for (final matched in allMatched) {
@@ -13,11 +13,5 @@ final _tagParenthesesRegx = RegExp(r"\[(.*?)\]");
     }
   }
   final title = full.replaceAll(_tagParenthesesRegx, "");
-  return (title: title, tags: resultTags);
-}
-
-({String title, List<String> tags}) splitTitleAndTags(String fullTitle) {
-  var (:title, :tags) = extractTagsFromTitle(fullTitle);
-  tags = tags.toSet().toList();
-  return (title: title, tags: tags);
+  return (title: title, tags: resultTags.toSet().toList());
 }

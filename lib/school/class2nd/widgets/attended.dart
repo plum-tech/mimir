@@ -19,7 +19,7 @@ class AttendedActivityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final activity = ActivityParser.parse(attended);
-    final (:title, :tags) = splitTitleAndTags(attended.title);
+    final (:title, :tags) = separateTagsFromTitle(attended.title);
     tags.insert(0, attended.category.l10nName());
     final points = attended.points;
     final honestyPoints = attended.honestyPoints;

@@ -62,7 +62,7 @@ class Class2ndActivityListService {
 
         final String? x = re.firstMatch(link)?.group(0).toString();
         final int id = int.parse(x!);
-        final (title: realTitle, :tags) = splitTitleAndTags(fullTitle);
+        final (title: realTitle, :tags) = separateTagsFromTitle(fullTitle);
         return Class2ndActivity(
           id: id,
           fullTitle: fullTitle,
