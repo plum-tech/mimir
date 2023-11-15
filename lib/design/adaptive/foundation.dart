@@ -27,6 +27,8 @@ extension $BuildContextEx$ on BuildContext {
         context: this,
         builder: builder,
         isDismissible: dismissible,
+        isScrollControlled: true,
+        useSafeArea: true,
       );
     }
   }
