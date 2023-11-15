@@ -18,7 +18,9 @@ import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
 import '../utils.dart';
+import '../widgets/style.dart';
 import 'editor.dart';
+import 'preview.dart';
 
 class MyTimetableListPage extends StatefulWidget {
   const MyTimetableListPage({super.key});
@@ -188,7 +190,13 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             cupertinoIcon: CupertinoIcons.eye,
             action: () async {
               if (!mounted) return;
-              await ctx.push("/timetable/preview/$id", extra: timetable);
+              await context.show$Sheet$(
+                (context) => TimetableStyleProv(
+                  child: TimetablePreviewPage(
+                    timetable: timetable,
+                  ),
+                ),
+              );
             },
           ),
         EntryAction(

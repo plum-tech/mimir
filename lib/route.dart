@@ -41,13 +41,11 @@ import 'package:sit/settings/page/index.dart';
 import 'package:sit/me/index.dart';
 import 'package:sit/school/index.dart';
 import 'package:sit/settings/page/timetable.dart';
-import 'package:sit/timetable/entity/timetable.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/page/import.dart';
 import 'package:sit/timetable/page/index.dart';
 import 'package:sit/timetable/page/mine.dart';
 import 'package:sit/timetable/page/p13n.dart';
-import 'package:sit/timetable/page/preview.dart';
 import 'package:sit/widgets/image.dart';
 import 'package:sit/widgets/webview/page.dart';
 
@@ -89,18 +87,6 @@ final _timetableRoute = GoRoute(
 // Timetable is the home page.
   builder: (ctx, state) => const TimetablePage(),
   routes: [
-    GoRoute(
-      path: "preview/:id",
-      builder: (ctx, state) {
-        final extra = state.extra;
-        if (extra is SitTimetable) return TimetablePreviewPage(timetable: extra);
-        final id = int.tryParse(state.pathParameters["id"] ?? "");
-        if (id == null) throw 404;
-        final timetable = TimetableInit.storage.timetable[id];
-        if (timetable == null) throw 404;
-        return TimetablePreviewPage(timetable: timetable);
-      },
-    ),
     GoRoute(
       path: "import",
       builder: (ctx, state) => const ImportTimetablePage(),

@@ -218,11 +218,11 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
             icon: Icons.preview,
             cupertinoIcon: CupertinoIcons.eye,
             action: () async {
-              await context.navigator.push(
-                MaterialPageRoute(
-                  builder: (ctx) => TimetablePreviewPage(
+              await context.show$Sheet$(
+                (context) => TimetableStyleProv(
+                  palette: palette,
+                  child: TimetablePreviewPage(
                     timetable: selectedTimetable,
-                    platte: palette,
                   ),
                 ),
               );

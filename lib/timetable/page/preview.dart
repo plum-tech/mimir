@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:text_scroll/text_scroll.dart';
 
-import '../entity/background.dart';
 import '../entity/display.dart';
-import '../entity/platte.dart';
 import '../entity/timetable.dart';
-import '../widgets/style.dart';
 import '../entity/pos.dart';
 import '../widgets/timetable/board.dart';
 
 class TimetablePreviewPage extends StatefulWidget {
   final SitTimetable timetable;
-  final TimetablePalette? platte;
-  final CourseCellStyle? cell;
-  final BackgroundImage? background;
 
   const TimetablePreviewPage({
     super.key,
     required this.timetable,
-    this.platte,
-    this.cell,
-    this.background,
   });
 
   @override
@@ -60,22 +51,11 @@ class _TimetablePreviewPageState extends State<TimetablePreviewPage> {
           )
         ],
       ),
-      body: buildBody(),
-    );
-  }
-
-  Widget buildBody() {
-    return TimetableStyleProv(
-      palette: widget.platte,
-      background: widget.background,
-      cellStyle: widget.cell,
-      builder: (ctx, style) {
-        return TimetableBoard(
-          timetable: timetable,
-          $displayMode: $displayMode,
-          $currentPos: $currentPos,
-        );
-      },
+      body: TimetableBoard(
+        timetable: timetable,
+        $displayMode: $displayMode,
+        $currentPos: $currentPos,
+      ),
     );
   }
 }

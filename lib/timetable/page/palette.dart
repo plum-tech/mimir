@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/extension.dart';
@@ -12,6 +13,7 @@ import 'package:sit/timetable/page/preview.dart';
 import '../entity/platte.dart';
 import '../i18n.dart';
 import '../init.dart';
+import '../widgets/style.dart';
 
 class TimetablePaletteEditor extends StatefulWidget {
   final int id;
@@ -81,10 +83,9 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
                       PlatformTextButton(
                         child: i18n.preview.text(),
                         onPressed: () async {
-                          await context.navigator.push(
-                            MaterialPageRoute(
-                              builder: (ctx) => TimetablePreviewPage(
-                                platte: buildPalette(),
+                          await context.show$Sheet$(
+                            (context) => TimetableStyleProv(
+                              child: TimetablePreviewPage(
                                 timetable: selectedTimetable,
                               ),
                             ),
