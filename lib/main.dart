@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -22,10 +23,12 @@ void main() async {
   // debugPaintSizeEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  Files.cache = await getApplicationCacheDirectory();
-  Files.temp = await getTemporaryDirectory();
-  Files.internal = await getApplicationSupportDirectory();
-  Files.user = await getApplicationDocumentsDirectory();
+  if (!kIsWeb) {
+    Files.cache = await getApplicationCacheDirectory();
+    Files.temp = await getTemporaryDirectory();
+    Files.internal = await getApplicationSupportDirectory();
+    Files.user = await getApplicationDocumentsDirectory();
+  }
   await Files.init();
 
   R.roomList = await _loadRoomNumberList();

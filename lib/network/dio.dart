@@ -36,7 +36,9 @@ class DioInit {
 
     Dio dio = Dio();
     // 添加拦截器
-    dio.interceptors.add(CookieManager(config.cookieJar));
+    if (!kIsWeb) {
+      dio.interceptors.add(CookieManager(config.cookieJar));
+    }
 
     // 设置默认超时时间
     dio.options = dio.options.copyWith(

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ical/serializer.dart';
 import 'package:open_file/open_file.dart';
@@ -190,14 +191,24 @@ Future<({int id, SitTimetable timetable})?> importTimetableFromFile() async {
       // allowedExtensions: const ["timetable", "json"],
       );
   if (result == null) return null;
-  final path = result.files.single.path;
-  if (path == null) return null;
-  final file = File(path);
-  final content = await file.readAsString();
+  final content = await _readTimetableFi(result.files.single);
+  if (content == null) return null;
   final json = jsonDecode(content);
   final timetable = SitTimetable.fromJson(json);
   final id = TimetableInit.storage.timetable.add(timetable);
   return (id: id, timetable: timetable);
+}
+
+Future<String?> _readTimetableFi(PlatformFile fi) async {
+  if (kIsWeb) {
+    final bytes = fi.bytes;
+    return bytes == null ? null : String.fromCharCodes(bytes);
+  } else {
+    final path = fi.path;
+    if (path == null) return null;
+    final file = File(path);
+    return await file.readAsString();
+  }
 }
 
 Future<void> exportTimetableFileAndShare(
