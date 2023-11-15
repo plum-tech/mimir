@@ -20,8 +20,6 @@ import 'package:sit/life/index.dart';
 import 'package:sit/login/page/index.dart';
 import 'package:sit/me/edu_email/page/inbox.dart';
 import 'package:sit/me/network_tool/page/index.dart';
-import 'package:sit/timetable/entity/platte.dart';
-import 'package:sit/timetable/page/palette.dart';
 import 'package:sit/widgets/not_found.dart';
 import 'package:sit/school/oa_announce/entity/announce.dart';
 import 'package:sit/school/oa_announce/page/details.dart';
@@ -41,7 +39,6 @@ import 'package:sit/settings/page/index.dart';
 import 'package:sit/me/index.dart';
 import 'package:sit/school/index.dart';
 import 'package:sit/settings/page/timetable.dart';
-import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/page/import.dart';
 import 'package:sit/timetable/page/index.dart';
 import 'package:sit/timetable/page/mine.dart';
@@ -106,19 +103,6 @@ final _timetableRoute = GoRoute(
           _ => const TimetableP13nPage(),
         };
       },
-      routes: [
-        GoRoute(
-            path: "palette/:id",
-            builder: (ctx, state) {
-              final extra = state.extra;
-              final id = int.tryParse(state.pathParameters["id"] ?? "");
-              if (id == null) throw 404;
-              if (extra is TimetablePalette) return TimetablePaletteEditor(id: id, palette: extra);
-              final palette = TimetableInit.storage.palette[id];
-              if (palette == null) throw 404;
-              return TimetablePaletteEditor(id: id, palette: palette);
-            }),
-      ],
     ),
   ],
 );

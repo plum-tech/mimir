@@ -206,9 +206,8 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
             type: EntryActionType.edit,
             oneShot: true,
             action: () async {
-              await ctx.push<TimetablePalette>(
-                "/timetable/p13n/palette/$id",
-                extra: palette.copyWith(),
+              await context.show$Sheet$(
+                (context) => TimetablePaletteEditor(id: id, palette: palette),
               );
             },
           ),
