@@ -71,8 +71,7 @@ class _MimirAppState extends State<MimirApp> {
         visualDensity: VisualDensity.comfortable,
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
-            TargetPlatform.android:
-                SharedAxisPageTransitionsBuilder(transitionType: SharedAxisTransitionType.horizontal),
+            TargetPlatform.android: ZoomPageTransitionsBuilder(),
             TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
             TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
             TargetPlatform.linux: SharedAxisPageTransitionsBuilder(transitionType: SharedAxisTransitionType.vertical),
