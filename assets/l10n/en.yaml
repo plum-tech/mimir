@@ -264,6 +264,7 @@ electricity:
   searchInvalidTip: Please enter or select a existing room number
   refreshSuccessTip: Electricity balance refreshed successfully
   refreshFailedTip: Failed to refresh electricity balance
+  searchRoom: Search Room
 eduEmail:
   title: Edu email
   action:

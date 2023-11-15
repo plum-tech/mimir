@@ -11,6 +11,8 @@ class _I18n with CommonI18nMixin {
 
   String get title => "$ns.title".tr();
 
+  String get searchRoom => "$ns.searchRoom".tr();
+
   String get balance => "$ns.balance".tr();
 
   String get remainingPower => "$ns.remainingPower".tr();

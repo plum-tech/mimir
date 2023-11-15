@@ -375,8 +375,6 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
             $tooltip.currentState?.ensureTooltipVisible();
           },
           onLongPress: () async {
-            await HapticFeedback.lightImpact();
-            if (!mounted) return;
             await context.show$Sheet$(
               (ctx) => TimetableCourseDetailsSheet(
                 courseCode: widget.lesson.course.courseCode,

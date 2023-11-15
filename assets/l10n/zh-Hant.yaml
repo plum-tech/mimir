@@ -264,6 +264,7 @@ electricity:
   searchInvalidTip: 請先鍵入或選擇一個現有的房間號
   refreshSuccessTip: 電費餘額重新整理成功
   refreshFailedTip: 電費餘額重新整理失敗
+  searchRoom: 搜尋房間
 eduEmail:
   title: Edu 電郵
   action:

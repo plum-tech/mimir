@@ -105,7 +105,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
               await refresh(active: true);
             }
           },
-          label: i18n.search.text(),
+          label: i18n.searchRoom.text(),
           icon: const Icon(Icons.search),
         ),
       ],

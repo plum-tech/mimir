@@ -264,6 +264,7 @@ electricity:
   searchInvalidTip: 请输入或选择一个存在的房间号
   refreshSuccessTip: 电费余额刷新成功
   refreshFailedTip: 电费余额刷新失败
+  searchRoom: 搜索房间
 eduEmail:
   title: 教育邮箱
   action:
