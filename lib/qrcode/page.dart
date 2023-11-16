@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/tr.dart';
@@ -46,19 +48,8 @@ class QrCodePage extends StatelessWidget {
                 return SizedBox(
                   width: side,
                   height: side,
-                  child: QrImageView(
-                    backgroundColor: context.colorScheme.surface,
+                  child: PlainQrCodeView(
                     data: data,
-                    eyeStyle: QrEyeStyle(
-                      eyeShape: QrEyeShape.square,
-                      color: context.colorScheme.onSurface,
-                    ),
-                    dataModuleStyle: QrDataModuleStyle(
-                      dataModuleShape: QrDataModuleShape.square,
-                      color: context.colorScheme.onSurface,
-                    ),
-                    version: QrVersions.auto,
-                    size: side,
                   ),
                 ).center();
               },
@@ -73,6 +64,56 @@ class QrCodePage extends StatelessWidget {
             ).padAll(10),
           )
         ],
+      ),
+    );
+  }
+}
+
+class PlainQrCodeView extends StatelessWidget {
+  final String data;
+
+  const PlainQrCodeView({
+    super.key,
+    required this.data,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return QrImageView(
+      backgroundColor: context.colorScheme.surface,
+      data: data,
+      eyeStyle: QrEyeStyle(
+        eyeShape: QrEyeShape.square,
+        color: context.colorScheme.onSurface,
+      ),
+      dataModuleStyle: QrDataModuleStyle(
+        dataModuleShape: QrDataModuleShape.square,
+        color: context.colorScheme.onSurface,
+      ),
+      version: QrVersions.auto,
+    );
+  }
+}
+
+class BrandQrCodeView extends StatelessWidget {
+  final String data;
+
+  const BrandQrCodeView({
+    super.key,
+    required this.data,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return PrettyQrView.data(
+      data: data,
+      decoration: PrettyQrDecoration(
+        shape: PrettyQrSmoothSymbol(
+          color: context.colorScheme.onSurface,
+        ),
+        image: const PrettyQrDecorationImage(
+          image: Svg("assets/icon.svg"),
+        ),
       ),
     );
   }

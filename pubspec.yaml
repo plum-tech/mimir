@@ -18,28 +18,20 @@ dependencies:
   # I18n
   intl: ^0.17.0
   easy_localization: ^3.0.3
+  locale_names: ^1.1.1
 
   # Basic
   logger: ^2.0.2
   device_info_plus: ^9.1.0
   audio_session: ^0.1.17
   event_bus: ^2.0.0
-
-  # Path
   path_provider: ^2.1.1
-  # Version comparison
   version: ^3.0.2
-
   yaml: ^3.1.2
   path: ^1.8.2
   quiver: ^3.1.0
   collection: ^1.17.2
-
-  # String formatting
   format: ^1.4.0
-
-  go_router: ^12.1.1
-  rettulf: ^2.0.1
 
   # Cryptography
   # Encryption (AES)
@@ -104,12 +96,16 @@ dependencies:
   share_plus: ^7.2.1
 
   # UI
+  go_router: ^12.1.1
   fl_chart: ^0.64.0
   flutter_svg: ^2.0.9
+  flutter_svg_provider: ^1.0.6
   # Screen adaptation
   flutter_screenutil: ^5.9.0
+  flutter_adaptive_ui: ^0.8.0+1
   # Qr code generate
   qr_flutter: ^4.1.0
+  pretty_qr_code: ^3.0.0
   # qrcode scanner
   mobile_scanner: ^3.5.2
   cached_network_image: ^3.3.0
@@ -127,8 +123,6 @@ dependencies:
   bordered_text: ^2.0.0
   flutter_platform_widgets: ^5.0.0
   pull_down_button: ^0.9.3
-  flutter_adaptive_ui: ^0.8.0+1
-  locale_names: ^1.1.1
 
   # Utils
   # Get package info (version)
@@ -138,6 +132,7 @@ dependencies:
   # Check VPN connection status
   check_vpn_connection: ^0.0.2
   connectivity_plus: ^5.0.1
+  rettulf: ^2.0.1
   # lock
   synchronized: ^3.1.0
   # parse stacktrace
