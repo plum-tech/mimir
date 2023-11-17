@@ -278,20 +278,18 @@ class TimetableOneWeek extends StatelessWidget {
     required TimetablePos todayPos,
   }) {
     final cells = <Widget>[];
-    cells.add(SizedBox(
+    cells.add(Container(
       width: cellSize.width,
-      child: Container(
-        decoration: BoxDecoration(
-          color: todayPos.weekIndex == weekIndex && todayPos.dayIndex == day.index
-              ? context.colorScheme.secondaryContainer
-              : null,
-          border: Border(bottom: getBorderSide(context)),
-        ),
-        child: HeaderCellTextBox(
-          weekIndex: weekIndex,
-          dayIndex: day.index,
-          startDate: timetable.type.startDate,
-        ),
+      decoration: BoxDecoration(
+        color: todayPos.weekIndex == weekIndex && todayPos.dayIndex == day.index
+            ? context.colorScheme.secondaryContainer
+            : null,
+        border: Border(bottom: getBorderSide(context)),
+      ),
+      child: HeaderCellTextBox(
+        weekIndex: weekIndex,
+        dayIndex: day.index,
+        startDate: timetable.type.startDate,
       ),
     ));
     for (int timeslot = 0; timeslot < day.timeslot2LessonSlot.length; timeslot++) {
