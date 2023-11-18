@@ -9,6 +9,8 @@ import 'package:sit/r.dart';
 import 'package:sit/route.dart';
 import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:sit/utils/color.dart';
+import 'package:system_theme/system_theme.dart';
 
 class MimirApp extends StatefulWidget {
   const MimirApp({super.key});
@@ -57,7 +59,7 @@ class _MimirAppState extends State<MimirApp> {
 
   @override
   Widget build(BuildContext context) {
-    final themeColor = Settings.theme.themeColor;
+    final themeColor = Settings.theme.themeColor?? SystemTheme.accentColor.maybeAccent;
 
     ThemeData bakeTheme(ThemeData origin) {
       return origin.copyWith(

@@ -12,8 +12,10 @@ import 'package:sit/l10n/extension.dart';
 import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/settings/widgets/campus.dart';
+import 'package:sit/utils/color.dart';
 import 'package:sit/version.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:system_theme/system_theme.dart';
 import 'package:unicons/unicons.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:locale_names/locale_names.dart';
@@ -200,39 +202,56 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget buildThemeColorPicker() {
-    final selected = Settings.theme.themeColor ?? context.colorScheme.primary;
+    final selected = Settings.theme.themeColor ?? SystemTheme.accentColor.maybeAccent ?? context.colorScheme.primary;
+    final usingSystemDefault = supportSystemAccentColor && Settings.theme.themeColor == null;
+
+    Future<void> selectNewThemeColor() async {
+      final newColor = await showColorPickerDialog(
+        context,
+        selected,
+        enableOpacity: true,
+        enableShadesSelection: true,
+        enableTonalPalette: true,
+        showColorCode: true,
+        pickersEnabled: const <ColorPickerType, bool>{
+          ColorPickerType.both: true,
+          ColorPickerType.primary: false,
+          ColorPickerType.accent: false,
+          ColorPickerType.custom: true,
+          ColorPickerType.wheel: true,
+        },
+      );
+      if (newColor != selected) {
+        await HapticFeedback.mediumImpact();
+        Settings.theme.themeColor = newColor;
+      }
+    }
+
     return ListTile(
       leading: const Icon(Icons.color_lens_outlined),
       title: i18n.themeColor.text(),
       subtitle: "#${selected.hexAlpha}".text(),
-      onTap: () async {
-        final newColor = await showColorPickerDialog(
-          context,
-          selected,
-          enableOpacity: true,
-          enableShadesSelection: true,
-          enableTonalPalette: true,
-          showColorCode: true,
-          pickersEnabled: const <ColorPickerType, bool>{
-            ColorPickerType.both: true,
-            ColorPickerType.primary: false,
-            ColorPickerType.accent: false,
-            ColorPickerType.custom: true,
-            ColorPickerType.wheel: true,
-          },
-        );
-        if (newColor != selected) {
-          await HapticFeedback.mediumImpact();
-          Settings.theme.themeColor = newColor;
-        }
-      },
-      trailing: FilledCard(
-        color: selected,
-        child: const SizedBox(
-          width: 32,
-          height: 32,
-        ),
-      ),
+      onTap: usingSystemDefault ? selectNewThemeColor : null,
+      trailing: usingSystemDefault
+          ? "From system".text(style: context.textTheme.bodyMedium)
+          : [
+              FilledCard(
+                color: selected,
+                child: InkWell(
+                  onTap: selectNewThemeColor,
+                  child: const SizedBox(
+                    width: 32,
+                    height: 32,
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Settings.theme.themeColor = null;
+                },
+                icon: const Icon(Icons.delete),
+              ),
+            ].row(mas: MainAxisSize.min),
     );
   }
 }

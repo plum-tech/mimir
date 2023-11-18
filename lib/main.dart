@@ -11,6 +11,7 @@ import 'package:sit/init.dart';
 import 'package:sit/migration/migrations.dart';
 import 'package:sit/school/yellow_pages/entity/contact.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:system_theme/system_theme.dart';
 
 import 'app.dart';
 
@@ -21,6 +22,7 @@ void main() async {
   // debugRepaintRainbowEnabled = true;
   // debugRepaintTextRainbowEnabled = true;
   // debugPaintSizeEnabled = true;
+  await SystemTheme.accentColor.load();
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   if (!kIsWeb) {
