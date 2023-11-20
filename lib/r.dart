@@ -25,7 +25,7 @@ class R {
   static const appId = "life.mysit.SITLife";
   static const appName = "SIT Life";
   static late List<String> roomList;
-  static late List<String> userAgents;
+  static late List<String> userAgentList;
 
   static late List<SchoolContact> yellowPages;
 

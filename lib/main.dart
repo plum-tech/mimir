@@ -35,7 +35,7 @@ void main() async {
   await Files.init();
 
   R.roomList = await _loadRoomNumberList();
-  R.userAgents = await _loadUserAgents();
+  R.userAgentList = await _loadUserAgents();
   R.yellowPages = await _loadYellowPages();
   Migrations.init();
   await Init.init();
@@ -77,7 +77,7 @@ Future<List<String>> _loadRoomNumberList() async {
 }
 
 Future<List<String>> _loadUserAgents() async {
-  String jsonData = await rootBundle.loadString("assets/ua.json");
+  String jsonData = await rootBundle.loadString("assets/user_agent.json");
   List<dynamic> list = await jsonDecode(jsonData);
   return list.cast<String>();
 }

@@ -4,6 +4,7 @@ import 'package:sit/school/entity/school.dart';
 import 'entity/result.dart';
 import 'entity/score.dart';
 
+// TODO: calculate GPA
 double calcGPA(Iterable<ExamResult> scoreList) {
   double totalCredits = 0.0;
   double sum = 0.0;

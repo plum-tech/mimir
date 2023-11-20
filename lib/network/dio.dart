@@ -50,7 +50,7 @@ class DioInit {
   }
 
   static String getRandomUa() {
-    return R.userAgents[_rand.nextInt(R.userAgents.length)].trim();
+    return R.userAgentList[_rand.nextInt(R.userAgentList.length)].trim();
   }
 
   static Future<void> _initUserAgentString({
