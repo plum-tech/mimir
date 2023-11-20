@@ -22,9 +22,10 @@ void main() async {
   // debugRepaintRainbowEnabled = true;
   // debugRepaintTextRainbowEnabled = true;
   // debugPaintSizeEnabled = true;
-  await SystemTheme.accentColor.load();
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemTheme.accentColor.load();
   await EasyLocalization.ensureInitialized();
+
   if (!kIsWeb) {
     Files.cache = await getApplicationCacheDirectory();
     Files.temp = await getTemporaryDirectory();

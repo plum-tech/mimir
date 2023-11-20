@@ -409,6 +409,7 @@ settings:
   title: 設定
   version: 版本
   themeColor: 主題顏色
+  fromSystem: 從系統
   credentials:
     testLoginOa:
       title: 測試登入 OA

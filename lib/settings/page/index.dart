@@ -203,7 +203,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget buildThemeColorPicker() {
     final selected = Settings.theme.themeColor ?? SystemTheme.accentColor.maybeAccent ?? context.colorScheme.primary;
-    final usingSystemDefault = supportSystemAccentColor && Settings.theme.themeColor == null;
+    final usingSystemDefault = supportsSystemAccentColor && Settings.theme.themeColor == null;
 
     Future<void> selectNewThemeColor() async {
       final newColor = await showColorPickerDialog(
@@ -233,7 +233,7 @@ class _SettingsPageState extends State<SettingsPage> {
       subtitle: "#${selected.hexAlpha}".text(),
       onTap: usingSystemDefault ? selectNewThemeColor : null,
       trailing: usingSystemDefault
-          ? "From system".text(style: context.textTheme.bodyMedium)
+          ? i18n.fromSystem.text(style: context.textTheme.bodyMedium)
           : [
               FilledCard(
                 color: selected,

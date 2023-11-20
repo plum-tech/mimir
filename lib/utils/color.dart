@@ -1,7 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:system_theme/system_theme.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 extension ColorX on Color {
   Color monochrome({double progress = 1}) {
@@ -17,12 +17,7 @@ extension ColorX on Color {
 }
 
 extension SystemAccentColorX on SystemAccentColor {
-  Color? get maybeAccent => supportSystemAccentColor ? accent : null;
+  Color? get maybeAccent => supportsSystemAccentColor ? accent : null;
 }
 
-bool get supportSystemAccentColor =>
-    UniversalPlatform.isWeb ||
-    UniversalPlatform.isWindows ||
-    UniversalPlatform.isMacOS ||
-    UniversalPlatform.isAndroid ||
-    UniversalPlatform.isLinux;
+bool get supportsSystemAccentColor => defaultTargetPlatform.supportsAccentColor;

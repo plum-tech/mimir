@@ -408,7 +408,8 @@ library:
 settings:
   title: Settings
   version: Version
-  themeColor: Theme Color
+  themeColor: Theme color
+  fromSystem: From system
   credentials:
     testLoginOa:
       title: Test login OA
