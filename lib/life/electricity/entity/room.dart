@@ -3,12 +3,16 @@ import 'package:sit/utils/strings.dart';
 
 class DormitoryRoom {
   final int building;
-  final int floorWithRoomNumber;
-  final int floorNumber;
-  final int roomNumber;
+  final int floorWithRoom;
+  final int floor;
+  final int room;
 
-  const DormitoryRoom(
-      {required this.building, required this.floorWithRoomNumber, required this.floorNumber, required this.roomNumber});
+  const DormitoryRoom({
+    required this.building,
+    required this.floorWithRoom,
+    required this.floor,
+    required this.room,
+  });
 
   /// For buildings #1 through #10, their floors are all below 10.
   /// ## examples:
@@ -18,7 +22,7 @@ class DormitoryRoom {
     full = full.removePrefix("10");
     assert(full.length >= 4 && full.length <= 6, '"$full" is too long.');
     if (full.length < 4) {
-      return const DormitoryRoom(building: 0, floorWithRoomNumber: 0, floorNumber: 0, roomNumber: 0);
+      return const DormitoryRoom(building: 0, floorWithRoom: 0, floor: 0, room: 0);
     } else if (full.length == 4) {
       // building is in 1 digit, like 1 301
       final buildingRaw = full[0];
@@ -26,10 +30,11 @@ class DormitoryRoom {
       final floorNumberRaw = full.substring(1, 2);
       final roomNumberRaw = full.substring(2);
       return DormitoryRoom(
-          building: int.tryParse(buildingRaw) ?? 0,
-          floorWithRoomNumber: int.tryParse(floorWithRoomNumberRaw) ?? 0,
-          floorNumber: int.tryParse(floorNumberRaw) ?? 0,
-          roomNumber: int.tryParse(roomNumberRaw) ?? 0);
+        building: int.tryParse(buildingRaw) ?? 0,
+        floorWithRoom: int.tryParse(floorWithRoomNumberRaw) ?? 0,
+        floor: int.tryParse(floorNumberRaw) ?? 0,
+        room: int.tryParse(roomNumberRaw) ?? 0,
+      );
     } else if (full.length == 5) {
       // building is in 2 digit,like 12 301
       final buildingRaw = full.substring(0, 2);
@@ -37,10 +42,11 @@ class DormitoryRoom {
       final floorNumberRaw = full.substring(2, 3);
       final roomNumberRaw = full.substring(3);
       return DormitoryRoom(
-          building: int.tryParse(buildingRaw) ?? 0,
-          floorWithRoomNumber: int.tryParse(floorWithRoomNumber) ?? 0,
-          floorNumber: int.tryParse(floorNumberRaw) ?? 0,
-          roomNumber: int.tryParse(roomNumberRaw) ?? 0);
+        building: int.tryParse(buildingRaw) ?? 0,
+        floorWithRoom: int.tryParse(floorWithRoomNumber) ?? 0,
+        floor: int.tryParse(floorNumberRaw) ?? 0,
+        room: int.tryParse(roomNumberRaw) ?? 0,
+      );
     } else if (full.length == 6) {
       // building is in 2 digit,like 12 1301
       final buildingRaw = full.substring(0, 2);
@@ -48,23 +54,24 @@ class DormitoryRoom {
       final floorNumberRaw = full.substring(2, 4);
       final roomNumberRaw = full.substring(4);
       return DormitoryRoom(
-          building: int.tryParse(buildingRaw) ?? 0,
-          floorWithRoomNumber: int.tryParse(floorWithRoomNumber) ?? 0,
-          floorNumber: int.tryParse(floorNumberRaw) ?? 0,
-          roomNumber: int.tryParse(roomNumberRaw) ?? 0);
+        building: int.tryParse(buildingRaw) ?? 0,
+        floorWithRoom: int.tryParse(floorWithRoomNumber) ?? 0,
+        floor: int.tryParse(floorNumberRaw) ?? 0,
+        room: int.tryParse(roomNumberRaw) ?? 0,
+      );
     }
-    return const DormitoryRoom(building: 0, floorWithRoomNumber: 0, floorNumber: 0, roomNumber: 0);
+    return const DormitoryRoom(building: 0, floorWithRoom: 0, floor: 0, room: 0);
   }
 
   @override
   String toString() {
-    return "Building $building #$floorWithRoomNumber";
+    return "Building $building #$floorWithRoom";
   }
 
   String l10n() {
     return "dormitoryRoom".tr(namedArgs: {
       "building": building.toString(),
-      "room": floorWithRoomNumber.toString(),
+      "room": floorWithRoom.toString(),
     });
   }
 
@@ -124,14 +131,14 @@ class DormitoryRoom {
     } else if (dormitoryRoom1.building > dormitoryRoom2.building) {
       return 1;
     } else {
-      if (dormitoryRoom1.floorNumber < dormitoryRoom2.floorNumber) {
+      if (dormitoryRoom1.floor < dormitoryRoom2.floor) {
         return -1;
-      } else if (dormitoryRoom1.floorNumber > dormitoryRoom2.floorNumber) {
+      } else if (dormitoryRoom1.floor > dormitoryRoom2.floor) {
         return 1;
       } else {
-        if (dormitoryRoom1.roomNumber < dormitoryRoom2.roomNumber) {
+        if (dormitoryRoom1.room < dormitoryRoom2.room) {
           return -1;
-        } else if (dormitoryRoom1.roomNumber > dormitoryRoom2.roomNumber) {
+        } else if (dormitoryRoom1.room > dormitoryRoom2.room) {
           return 1;
         } else {
           return 0;
@@ -140,4 +147,3 @@ class DormitoryRoom {
     }
   }
 }
-
