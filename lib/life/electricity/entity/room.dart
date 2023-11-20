@@ -21,9 +21,7 @@ class DormitoryRoom {
   factory DormitoryRoom.fromFullString(String full) {
     full = full.removePrefix("10");
     assert(full.length >= 4 && full.length <= 6, '"$full" is too long.');
-    if (full.length < 4) {
-      return const DormitoryRoom(building: 0, floorWithRoom: 0, floor: 0, room: 0);
-    } else if (full.length == 4) {
+    if (full.length == 4) {
       // building is in 1 digit, like 1 301
       final buildingRaw = full[0];
       final floorWithRoomNumberRaw = full.substring(1);
@@ -60,6 +58,7 @@ class DormitoryRoom {
         room: int.tryParse(roomNumberRaw) ?? 0,
       );
     }
+    // fallback
     return const DormitoryRoom(building: 0, floorWithRoom: 0, floor: 0, room: 0);
   }
 

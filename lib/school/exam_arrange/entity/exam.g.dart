@@ -32,7 +32,7 @@ class ExamEntryAdapter extends TypeAdapter<ExamEntry> {
       ..writeByte(0)
       ..write(obj.courseName)
       ..writeByte(1)
-      ..write(obj._timeRaw)
+      ..write(obj.timeRaw)
       ..writeByte(2)
       ..write(obj.place)
       ..writeByte(3)
@@ -55,23 +55,11 @@ class ExamEntryAdapter extends TypeAdapter<ExamEntry> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-ExamEntry _$ExamEntryFromJson(Map<String, dynamic> json) => ExamEntry(
+ExamEntry _$ExamEntryFromJson(Map<String, dynamic> json) => ExamEntry.legacy(
       courseName: _parseCourseName(json['kcmc']),
       place: _parsePlace(json['cdmc']),
       campus: json['cdxqmc'] as String,
-      time: _$recordConvertNullable(
-        json['time'],
-        ($jsonValue) => (
-          end: DateTime.parse($jsonValue['end'] as String),
-          start: DateTime.parse($jsonValue['start'] as String),
-        ),
-      ),
+      timeRaw: _parseTime(json['kssj'] as String),
       seatNumber: _parseSeatNumber(json['zwh'] as String),
       isRetake: _parseRetake(json['cxbj']),
     );
-
-$Rec? _$recordConvertNullable<$Rec>(
-  Object? value,
-  $Rec Function(Map) convert,
-) =>
-    value == null ? null : convert(value as Map<String, dynamic>);

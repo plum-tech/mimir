@@ -46,7 +46,7 @@ bool? _parseRetake(dynamic status) {
   };
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable(createToJson: false, constructor: "legacy")
 @HiveType(typeId: HiveTypeExam.entry)
 class ExamEntry {
   /// 课程名称
@@ -58,7 +58,7 @@ class ExamEntry {
   @JsonKey(name: 'kssj', fromJson: _parseTime)
   @HiveField(1)
   // TODO: Use record
-  final List<DateTime> _timeRaw;
+  final List<DateTime> timeRaw;
 
   /// 考试地点
   @JsonKey(name: 'cdmc', fromJson: _parsePlace)
@@ -81,8 +81,8 @@ class ExamEntry {
   final bool? isRetake;
 
   ({DateTime start, DateTime end})? get time {
-    if (_timeRaw.length == 2) {
-      return (start: _timeRaw.first, end: _timeRaw.last);
+    if (timeRaw.length == 2) {
+      return (start: timeRaw.first, end: timeRaw.last);
     }
     return null;
   }
@@ -94,16 +94,16 @@ class ExamEntry {
     ({DateTime start, DateTime end})? time,
     required this.seatNumber,
     required this.isRetake,
-  }) : _timeRaw = time == null ? [] : [time.start, time.end];
+  }) : timeRaw = time == null ? [] : [time.start, time.end];
 
   ExamEntry.legacy({
     required this.courseName,
     required this.place,
     required this.campus,
-    required List<DateTime> time,
+    required this.timeRaw,
     required this.seatNumber,
     required this.isRetake,
-  }) : _timeRaw = time;
+  });
 
   factory ExamEntry.fromJson(Map<String, dynamic> json) => _$ExamEntryFromJson(json);
 

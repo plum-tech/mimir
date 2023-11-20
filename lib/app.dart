@@ -59,7 +59,7 @@ class _MimirAppState extends State<MimirApp> {
 
   @override
   Widget build(BuildContext context) {
-    final themeColor = Settings.theme.themeColor?? SystemTheme.accentColor.maybeAccent;
+    final themeColor = Settings.theme.themeColor ?? SystemTheme.accentColor.maybeAccent;
 
     ThemeData bakeTheme(ThemeData origin) {
       return origin.copyWith(
