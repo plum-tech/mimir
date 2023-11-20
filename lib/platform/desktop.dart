@@ -44,8 +44,8 @@ class DesktopInit {
   static bool resizing = false;
 
   static Future<void> init() async {
+    if (!UniversalPlatform.isDesktop) return;
     // TODO: multiple windows listener
-    windowManager.addListener(DesktopWindowListener());
     desktopEventBus.on<WindowResizeEvent>().listen((e) {
       resizing = true;
     });
@@ -61,6 +61,10 @@ class DesktopInit {
       await windowManager.setMinimumSize(R.minWindowSize);
       await windowManager.show();
     });
+  }
+
+  static Future<void> postInit() async {
+    windowManager.addListener(DesktopWindowListener());
   }
 
   static Future<void> resizeTo(Size newSize, {bool center = true}) async {

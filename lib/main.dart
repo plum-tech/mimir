@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sit/files.dart';
 import 'package:sit/init.dart';
 import 'package:sit/migration/migrations.dart';
+import 'package:sit/platform/desktop.dart';
 import 'package:sit/school/yellow_pages/entity/contact.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:system_theme/system_theme.dart';
@@ -23,6 +24,8 @@ void main() async {
   // debugRepaintTextRainbowEnabled = true;
   // debugPaintSizeEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
+  // Initialize the window size before others for a better experience when loading.
+  await DesktopInit.init();
   await SystemTheme.accentColor.load();
   await EasyLocalization.ensureInitialized();
 

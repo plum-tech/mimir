@@ -116,10 +116,7 @@ class Init {
   static Future<void> _init() async {
     debugPrint("Initializing");
     await initStorage();
-    // Initialize the window size before others for a better experience when loading.
-    if (UniversalPlatform.isDesktop) {
-      await DesktopInit.init();
-    }
+    await DesktopInit.postInit();
     _registerEditor();
     if (UniversalPlatform.isDesktop) {
       final lastWindowSize = Settings.lastWindowSize;
