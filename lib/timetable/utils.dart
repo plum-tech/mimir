@@ -90,7 +90,7 @@ Campus _parseCampus(String campus) {
 }
 
 SitTimetable parseUndergraduateTimetableFromCourseRaw(List<UndergraduateCourseRaw> all) {
-  final List<SitCourse> courseKey2Entity = [];
+  final courseKey2Entity = <String, SitCourse>{};
   var counter = 0;
   for (final raw in all) {
     final courseKey = counter++;
@@ -118,11 +118,11 @@ SitTimetable parseUndergraduateTimetableFromCourseRaw(List<UndergraduateCourseRa
       dayIndex: dayIndex,
       teachers: raw.teachers.split(","),
     );
-    courseKey2Entity.add(course);
+    courseKey2Entity["$courseKey"] = course;
   }
   final res = SitTimetable(
-    courseKey2Entity: courseKey2Entity,
-    courseKeyCounter: counter,
+    courses: courseKey2Entity,
+    lastCourseKey: counter,
     name: "",
     startDate: DateTime.utc(0),
     schoolYear: 0,
@@ -134,8 +134,7 @@ SitTimetable parseUndergraduateTimetableFromCourseRaw(List<UndergraduateCourseRa
 SitTimetableEntity resolveTimetableEntity(SitTimetable timetable) {
   final weeks = List.generate(20, (index) => SitTimetableWeek.$7days(index));
 
-  for (var courseKey = 0; courseKey < timetable.courseKey2Entity.length; courseKey++) {
-    final course = timetable.courseKey2Entity[courseKey];
+  for (final course in timetable.courses.values) {
     final timeslots = course.timeslots;
     for (final weekIndex in course.weekIndices.getWeekIndices()) {
       assert(
@@ -438,7 +437,7 @@ SitTimetable parsePostgraduateTimetableFromCourseRaw(
   List<PostgraduateCourseRaw> all, {
   required Campus campus,
 }) {
-  final List<SitCourse> courseKey2Entity = [];
+  final courseKey2Entity = <String, SitCourse>{};
   var counter = 0;
   for (final raw in all) {
     final courseKey = counter++;
@@ -469,11 +468,11 @@ SitTimetable parsePostgraduateTimetableFromCourseRaw(
       dayIndex: dayIndex,
       teachers: raw.teachers.split(","),
     );
-    courseKey2Entity.add(course);
+    courseKey2Entity["$courseKey"] = course;
   }
   final res = SitTimetable(
-    courseKey2Entity: courseKey2Entity,
-    courseKeyCounter: counter,
+    courses: courseKey2Entity,
+    lastCourseKey: counter,
     name: "",
     startDate: DateTime.utc(0),
     schoolYear: 0,

@@ -234,6 +234,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       ],
       detailsBuilder: (ctx) {
         final palette = TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic;
+        final courses = timetable.courses.values.toList();
         return CustomScrollView(
           slivers: [
             SliverList.list(children: [
@@ -255,10 +256,10 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
               const Divider(),
             ]),
             SliverList.builder(
-              itemCount: timetable.courseKey2Entity.length,
+              itemCount: courses.length,
               itemBuilder: (ctx, i) {
                 return TimetableCourseCard(
-                  timetable.courseKey2Entity[i],
+                  courses[i],
                   palette: palette,
                 );
               },
