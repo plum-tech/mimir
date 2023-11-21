@@ -8,7 +8,6 @@ import 'package:sit/life/electricity/entity/balance.dart';
 import 'package:sit/life/expense_records/entity/local.dart';
 import 'package:sit/school/ywb/entity/meta.dart';
 import 'package:sit/school/ywb/entity/application.dart';
-import 'package:sit/school/exam_arrange/entity/exam.dart';
 import 'package:sit/school/exam_result/entity/result.dart';
 import 'package:sit/school/oa_announce/entity/announce.dart';
 import 'package:sit/school/class2nd/entity/details.dart';
@@ -47,9 +46,6 @@ class HiveAdapter {
     ~Class2ndActivityCatAdapter();
     ~Class2ndAttendedActivityAdapter();
     ~Class2ndActivityScoreTypeAdapter();
-
-    // Exam Arrangement
-    ~ExamEntryAdapter();
 
     // OA Announcement
     ~OaAnnounceDetailsAdapter();

@@ -26,9 +26,6 @@ class HiveTypeSchool {
 
 /// Exam 40-49
 class HiveTypeExam {
-  // Exam arrange
-  static const entry = 40;
-
   // Exam result
   static const result = 41;
   static const resultItem = 42;

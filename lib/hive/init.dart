@@ -35,6 +35,7 @@ class HiveInit {
     await Hive.initFlutter(dir);
     HiveAdapter.registerAll();
   }
+
   static Future<void> initBox() async {
     debugPrint("Initializing hive box");
     name2Box = _name2Box([

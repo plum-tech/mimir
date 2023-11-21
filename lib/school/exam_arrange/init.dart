@@ -8,6 +8,6 @@ class ExamArrangeInit {
 
   static void init() {
     service = const ExamArrangeService();
-    storage =const ExamArrangeStorage();
+    storage = const ExamArrangeStorage();
   }
 }
