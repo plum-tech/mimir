@@ -1,4 +1,8 @@
-import 'package:hive_flutter/hive_flutter.dart';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:hive/hive.dart';
 
 import 'adapter.dart';
 
@@ -23,8 +27,8 @@ class HiveInit {
   static late Map<String, Box> name2Box;
   static late List<Box> cacheBoxes;
 
-  static Future<void> init(String root) async {
-    await Hive.initFlutter(root);
+  static Future<void> initBox(Directory dir) async {
+    await Hive.initFlutter(dir);
     HiveAdapter.registerAll();
     name2Box = _name2Box([
       credentials = await Hive.openBox('credentials'),
@@ -64,5 +68,17 @@ class HiveInit {
     for (final box in cacheBoxes) {
       await box.clear();
     }
+  }
+}
+
+/// Flutter extensions for Hive.
+extension _HiveX on HiveInterface {
+  /// Initializes Hive with the path from [getApplicationDocumentsDirectory].
+  ///
+  /// You can provide a [subDir] where the boxes should be stored.
+  Future<void> initFlutter(Directory dir) async {
+    WidgetsFlutterBinding.ensureInitialized();
+    if (kIsWeb) return;
+    init(dir.path);
   }
 }

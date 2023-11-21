@@ -4,8 +4,10 @@ import 'package:sit/entity/campus.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:sit/credentials/init.dart';
+import 'package:sit/files.dart';
 import 'package:sit/platform/desktop.dart';
 import 'package:sit/hive/init.dart';
+import 'package:sit/r.dart';
 import 'package:sit/session/class2nd.dart';
 import 'package:sit/session/gms.dart';
 import 'package:sit/session/library.dart';
@@ -28,7 +30,6 @@ import 'package:sit/session/jwxt.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/version.dart';
-import 'package:path/path.dart' as path;
 import 'package:universal_platform/universal_platform.dart';
 import 'dart:async';
 
@@ -134,7 +135,7 @@ class Init {
 
   static Future<void> initStorage() async {
     debugPrint("Initializing storage");
-    await HiveInit.init(path.join("life.mysit.SITLife", "hive"));
+    await HiveInit.initBox(Files.internal.subDir("hive", R.hiveStorageVersion));
     Settings = SettingsImpl(HiveInit.settings);
     Settings.isDeveloperMode = kDebugMode;
     Meta = MetaImpl(HiveInit.meta);
