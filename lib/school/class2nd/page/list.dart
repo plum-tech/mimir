@@ -4,6 +4,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/list.dart';
 import '../init.dart';
+import '../utils.dart';
 import '../widgets/activity.dart';
 import '../widgets/search.dart';
 import '../i18n.dart';
@@ -16,17 +17,9 @@ class ActivityListPage extends StatefulWidget {
 }
 
 class _ActivityListPageState extends State<ActivityListPage> with SingleTickerProviderStateMixin {
-  static const categories = [
-    Class2ndActivityCat.lecture,
-    Class2ndActivityCat.creation,
-    Class2ndActivityCat.thematicEdu,
-    Class2ndActivityCat.schoolCultureActivity,
-    Class2ndActivityCat.practice,
-    Class2ndActivityCat.voluntary,
-    Class2ndActivityCat.schoolCultureCompetition,
-  ];
 
-  final loadingStates = ValueNotifier(categories.map((cat) => false).toList());
+
+  final loadingStates = ValueNotifier(commonClass2ndCategories.map((cat) => false).toList());
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +32,7 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
             },
       ),
       body: DefaultTabController(
-        length: categories.length,
+        length: commonClass2ndCategories.length,
         child: NestedScrollView(
           floatHeaderSlivers: true,
           headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -59,7 +52,7 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
                   ],
                   bottom: TabBar(
                     isScrollable: true,
-                    tabs: categories
+                    tabs: commonClass2ndCategories
                         .mapIndexed(
                           (i, e) => Tab(
                             child: e.l10nName().text(),
@@ -73,7 +66,7 @@ class _ActivityListPageState extends State<ActivityListPage> with SingleTickerPr
           },
           body: TabBarView(
             // These are the contents of the tab views, below the tabs.
-            children: categories.mapIndexed((i, cat) {
+            children: commonClass2ndCategories.mapIndexed((i, cat) {
               return ActivityLoadingList(
                 cat: cat,
                 onLoadingChanged: (state) {

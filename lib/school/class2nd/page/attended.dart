@@ -24,6 +24,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   final $attended = Class2ndInit.scoreStorage.listenAttendedList();
   late bool isFetching = false;
   final $loadingProgress = ValueNotifier(0.0);
+  late var selectedCats = (attended ?? const []).map((activity) => activity.category).toSet();
 
   @override
   void initState() {
@@ -94,11 +95,13 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
 
   @override
   Widget build(BuildContext context) {
-    final activities = attended;
+    final attended = this.attended ?? const [];
+    final filteredActivities = attended.where((activity) => selectedCats.contains(activity.category)).toList();
     return Scaffold(
       body: NestedScrollView(
         floatHeaderSlivers: true,
         headerSliverBuilder: (context, innerBoxIsScrolled) {
+          final activities = attended;
           return <Widget>[
             SliverOverlapAbsorber(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
@@ -114,6 +117,30 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                 forceElevated: innerBoxIsScrolled,
               ),
             ),
+            SliverToBoxAdapter(
+              child: activities
+                  .map((activity) => activity.category)
+                  .toSet()
+                  .map(
+                    (cat) => FilterChip(
+                      label: cat.l10nName().text(),
+                      selected: selectedCats.contains(cat),
+                      onSelected: (value) {
+                        setState(() {
+                          final newSelection = Set.of(selectedCats);
+                          if (value) {
+                            newSelection.add(cat);
+                          } else {
+                            newSelection.remove(cat);
+                          }
+                          selectedCats = newSelection;
+                        });
+                      },
+                    ),
+                  )
+                  .toList()
+                  .wrap(spacing: 4),
+            ),
           ];
         },
         body: RefreshIndicator.adaptive(
@@ -124,22 +151,21 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
           },
           child: CustomScrollView(
             slivers: [
-              if (activities != null)
-                if (activities.isEmpty)
-                  SliverToBoxAdapter(
-                    child: LeavingBlank(
-                      icon: Icons.inbox_outlined,
-                      desc: i18n.noAttendedActivities,
-                    ),
-                  )
-                else
-                  SliverList.builder(
-                    itemCount: activities.length,
-                    itemBuilder: (ctx, i) {
-                      final activity = activities[i];
-                      return AttendedActivityCard(activity).hero(activity.activityId);
-                    },
+              if (filteredActivities.isEmpty)
+                SliverFillRemaining(
+                  child: LeavingBlank(
+                    icon: Icons.inbox_outlined,
+                    desc: i18n.noAttendedActivities,
                   ),
+                )
+              else
+                SliverList.builder(
+                  itemCount: filteredActivities.length,
+                  itemBuilder: (ctx, i) {
+                    final activity = filteredActivities[i];
+                    return AttendedActivityCard(activity).hero(activity.activityId);
+                  },
+                ),
             ],
           ),
         ),
