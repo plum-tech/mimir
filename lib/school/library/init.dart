@@ -1,4 +1,3 @@
-import 'package:hive/hive.dart';
 import 'service/book_info.dart';
 import 'service/book_search.dart';
 import 'service/holding.dart';
@@ -26,9 +25,7 @@ class LibraryInit {
   static late HotSearchService hotSearchService;
 
   /// 初始化图书馆相关的service
-  static void init({
-    required Box searchHistoryBox,
-  }) {
+  static void init() {
     // 图书馆初始化
     bookInfo = const BookInfoService();
     holdingInfo = const HoldingInfoService();
@@ -36,7 +33,7 @@ class LibraryInit {
     bookImageSearch = const BookImageSearchService();
     holdingPreview = const HoldingPreviewService();
 
-    librarySearchHistory = SearchHistoryStorage(searchHistoryBox);
+    librarySearchHistory = const SearchHistoryStorage();
     hotSearchService = const HotSearchService();
   }
 }

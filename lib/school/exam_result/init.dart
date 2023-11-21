@@ -1,5 +1,3 @@
-import 'package:hive/hive.dart';
-
 import 'service/result.dart';
 import 'storage/result.dart';
 
@@ -7,10 +5,8 @@ class ExamResultInit {
   static late ExamResultService service;
   static late ExamResultStorage storage;
 
-  static void init({
-    required Box box,
-  }) {
+  static void init() {
     service = const ExamResultService();
-    storage = ExamResultStorage(box);
+    storage = const ExamResultStorage();
   }
 }

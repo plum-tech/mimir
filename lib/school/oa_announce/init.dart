@@ -1,4 +1,3 @@
-import 'package:hive/hive.dart';
 import 'storage/announce.dart';
 
 import 'service/announce.dart';
@@ -7,10 +6,8 @@ class OaAnnounceInit {
   static late OaAnnounceService service;
   static late OaAnnounceStorage storage;
 
-  static void init({
-    required Box box,
-  }) {
+  static void init() {
     service = const OaAnnounceService();
-    storage = OaAnnounceStorage(box);
+    storage = const OaAnnounceStorage();
   }
 }

@@ -285,7 +285,7 @@ class _VersionTileState extends State<VersionTile> {
 
   @override
   Widget build(BuildContext context) {
-    final version = Init.currentVersion;
+    final version = R.currentVersion;
     return ListTile(
       leading: switch (version.platform) {
         AppPlatform.iOS || AppPlatform.macOS => const Icon(UniconsLine.apple),
@@ -296,7 +296,7 @@ class _VersionTileState extends State<VersionTile> {
         AppPlatform.unknown => const Icon(Icons.device_unknown_outlined),
       },
       title: i18n.version.text(),
-      subtitle: "${version.platform.name} ${version.full?.toString() ?? i18n.unknown}".text(),
+      subtitle: "${version.platform.name} ${version.full.toString()}".text(),
       onTap: Settings.isDeveloperMode && clickCount <= 10
           ? null
           : () async {
@@ -371,7 +371,7 @@ void _onWipeData(BuildContext context) async {
   );
   if (confirm == true) {
     await HiveInit.clear(); // 清除存储
-    await Init.init();
+    await Init.initNetwork();
     if (!context.mounted) return;
     OaOnlineManagerState.of(context).isOnline = false;
     _gotoLogin(context);

@@ -18,14 +18,13 @@ enum AppPlatform {
 
 class AppVersion {
   final AppPlatform platform;
-  final String version;
-  final Version? full;
+  final Version full;
 
-  const AppVersion(this.platform, this.version, {this.full});
+  const AppVersion(this.platform, this.full);
 }
 
 Future<AppVersion> getCurrentVersion() async {
-  final packageInfo = await PackageInfo.fromPlatform();
+  final info = await PackageInfo.fromPlatform();
   final AppPlatform platform;
   if (UniversalPlatform.isAndroid) {
     platform = AppPlatform.android;
@@ -42,16 +41,5 @@ Future<AppVersion> getCurrentVersion() async {
   } else {
     platform = AppPlatform.unknown;
   }
-  return AppVersion(platform, packageInfo.version, full: packageInfo.tryParseVersion());
-}
-
-extension PackageInfoEx on PackageInfo {
-  Version? tryParseVersion() {
-    try {
-      final res = Version.parse(version);
-      return Version(res.major, res.minor, res.patch, build: buildNumber);
-    } catch (_) {
-      return null;
-    }
-  }
+  return AppVersion(platform, Version.parse(info.version));
 }

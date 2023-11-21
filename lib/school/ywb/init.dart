@@ -1,5 +1,3 @@
-import 'package:hive/hive.dart';
-
 import 'service/meta.dart';
 import 'service/application.dart';
 import 'storage/meta.dart';
@@ -11,12 +9,10 @@ class YwbInit {
   static late YwbApplicationService applicationService;
   static late YwbApplicationStorage applicationStorage;
 
-  static void init({
-    required Box box,
-  }) {
+  static void init() {
     metaService = const YwbApplicationMetaService();
-    metaStorage = YwbApplicationMetaStorage(box);
+    metaStorage = const YwbApplicationMetaStorage();
     applicationService = const YwbApplicationService();
-    applicationStorage = YwbApplicationStorage(box);
+    applicationStorage = const YwbApplicationStorage();
   }
 }

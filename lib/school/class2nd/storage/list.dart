@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:sit/cache/box.dart';
+import 'package:sit/hive/init.dart';
 
 import '../entity/list.dart';
 
@@ -22,7 +23,7 @@ class _K {
 class Class2ndActivityListStorage {
   final Class2ndActivityListStorageBox box;
 
-  Class2ndActivityListStorage(Box hive) : box = Class2ndActivityListStorageBox(hive);
+  Class2ndActivityListStorage() : box = Class2ndActivityListStorageBox(HiveInit.class2nd);
 
   Future<List<Class2ndActivity>?> getActivityList(Class2ndActivityCat type, int page) async {
     final key = box.activities.make(type, page);

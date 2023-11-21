@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:sit/hive/init.dart';
 
 import '../entity/announce.dart';
 
@@ -10,9 +11,9 @@ class _K {
 }
 
 class OaAnnounceStorage {
-  final Box box;
+  Box get box => HiveInit.oaAnnounce;
 
-  const OaAnnounceStorage(this.box);
+  const OaAnnounceStorage();
 
   /// 获取所有的分类信息
   List<OaAnnounceCatalogue>? get allCatalogues => (box.get(_K.catalogues) as List?)?.cast<OaAnnounceCatalogue>();

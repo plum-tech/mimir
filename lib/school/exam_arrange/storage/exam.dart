@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:sit/hive/init.dart';
 import 'package:sit/school/entity/school.dart';
 
 import '../entity/exam.dart';
@@ -8,9 +9,9 @@ class _K {
 }
 
 class ExamArrangeStorage {
-  final Box box;
+  Box get box => HiveInit.examArrange;
 
-  const ExamArrangeStorage(this.box);
+  const ExamArrangeStorage();
 
   List<ExamEntry>? getExamList(SemesterInfo info) =>
       (box.get(_K.examList(info.year, info.semester)) as List?)?.cast<ExamEntry>();

@@ -1,8 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:version/version.dart';
 
 class _K {
-  static const lastVersion = "/lastVersion";
   static const lastStartupTime = "/lastStartupTime";
   static const installTime = '/installTime';
 }
@@ -14,10 +12,6 @@ class MetaImpl {
   final Box box;
 
   const MetaImpl(this.box);
-
-  Version? get lastVersion => box.get(_K.lastVersion);
-
-  set lastVersion(Version? newV) => box.put(_K.lastVersion, newV);
 
   DateTime? get lastStartupTime => box.get(_K.lastStartupTime);
 

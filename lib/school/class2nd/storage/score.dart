@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sit/hive/init.dart';
 
 import '../entity/attended.dart';
 
@@ -11,9 +12,9 @@ class _K {
 }
 
 class Class2ndScoreStorage {
-  final Box box;
+  Box get box => HiveInit.class2nd;
 
-  const Class2ndScoreStorage(this.box);
+  const Class2ndScoreStorage();
 
   Class2ndScoreSummary? get scoreSummary => box.get(_K.scoreSummary);
 

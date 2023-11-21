@@ -1,4 +1,3 @@
-import 'package:hive/hive.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/entity/email.dart';
 import 'package:sit/credentials/entity/user_type.dart';
@@ -10,10 +9,8 @@ import 'storage/credential.dart';
 class CredentialInit {
   static late CredentialStorage storage;
 
-  static void init({
-    required Box box,
-  }) {
-    storage = CredentialStorage(box);
+  static void init() {
+    storage = const CredentialStorage();
     Editor.registerEditor<OaCredentials>((ctx, desc, initial) => StringsEditor(
           fields: [
             (name: "account", initial: initial.account),

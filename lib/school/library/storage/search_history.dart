@@ -1,10 +1,11 @@
 import 'package:hive/hive.dart';
+import 'package:sit/hive/init.dart';
 import '../entity/search_history.dart';
 
 class SearchHistoryStorage {
-  final Box box;
+  Box get box => HiveInit.library;
 
-  const SearchHistoryStorage(this.box);
+  const SearchHistoryStorage();
 
   void add(LibrarySearchHistoryItem item) {
     // box.put(item.keyword.hashCode, item);

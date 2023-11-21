@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:sit/hive/init.dart';
 
 import '../entity/meta.dart';
 
@@ -10,9 +11,9 @@ class _K {
 }
 
 class YwbApplicationMetaStorage {
-  final Box box;
+  Box get box => HiveInit.ywb;
 
-  const YwbApplicationMetaStorage(this.box);
+  const YwbApplicationMetaStorage();
 
   YwbApplicationMetaDetails? getMetaDetails(String applicationId) => box.get(_K.details(applicationId));
 

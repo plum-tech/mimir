@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sit/hive/init.dart';
 
 import '../entity/local.dart';
 
@@ -17,9 +18,9 @@ class _K {
 }
 
 class ExpenseStorage {
-  final Box box;
+  Box get box => HiveInit.expense;
 
-  const ExpenseStorage(this.box);
+  const ExpenseStorage();
 
   /// 所有交易记录的索引，记录所有的交易时间，需要保证有序，以实现二分查找
   List<DateTime>? get transactionTsList => (box.get(_K.transactionTsList) as List?)?.cast<DateTime>();
