@@ -19,7 +19,7 @@ class Class2ndActivityAdapter extends TypeAdapter<Class2ndActivity> {
     return Class2ndActivity(
       id: fields[0] as int,
       title: fields[1] as String,
-      ts: fields[2] as DateTime,
+      time: fields[2] as DateTime,
     );
   }
 
@@ -32,7 +32,7 @@ class Class2ndActivityAdapter extends TypeAdapter<Class2ndActivity> {
       ..writeByte(1)
       ..write(obj.title)
       ..writeByte(2)
-      ..write(obj.ts);
+      ..write(obj.time);
   }
 
   @override

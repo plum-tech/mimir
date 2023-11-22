@@ -22,10 +22,12 @@ class ActivityCard extends StatelessWidget {
         isThreeLine: true,
         title: title.text(),
         titleTextStyle: textTheme.titleMedium,
-        trailing: context.formatYmdNum(activity.ts).text(style: textTheme.bodyMedium),
+        trailing: context.formatYmdNum(activity.time).text(style: textTheme.bodyMedium),
         subtitle: ActivityTagsGroup(tags),
         onTap: () async {
-          await context.push("/class2nd/activity-details?enable-apply=true", extra: activity);
+          await context.push(
+            "/class2nd/activity-details/${activity.id}?title=${activity.title}&time=${activity.time}&enable-apply=true",
+          );
         },
       ),
     );

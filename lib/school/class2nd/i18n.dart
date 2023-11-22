@@ -29,6 +29,8 @@ class _I18n with CommonI18nMixin {
   String get infoTab => "$ns.tab.info".tr();
 
   String get descriptionTab => "$ns.tab.description".tr();
+
+  String get viewDetails => "$ns.viewDetails".tr();
 }
 
 class _Apply {

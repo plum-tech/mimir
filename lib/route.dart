@@ -27,7 +27,6 @@ import 'package:sit/school/oa_announce/page/details.dart';
 import 'package:sit/school/exam_arrange/page/index.dart';
 import 'package:sit/school/oa_announce/page/list.dart';
 import 'package:sit/scanner/page/index.dart';
-import 'package:sit/school/class2nd/entity/list.dart';
 import 'package:sit/school/class2nd/page/activity_details.dart';
 import 'package:sit/school/class2nd/page/list.dart';
 import 'package:sit/school/class2nd/page/attended.dart';
@@ -191,14 +190,14 @@ final _class2ndRoute = GoRoute(
       redirect: _loginRequired,
     ),
     GoRoute(
-      path: "activity-details",
+      path: "activity-details/:id",
       builder: (ctx, state) {
+        final id = int.tryParse(state.pathParameters["id"] ?? "");
+        if (id == null) throw 404;
         final enableApply = state.uri.queryParameters["enable-apply"] != null;
-        final extra = state.extra;
-        if (extra is Class2ndActivity) {
-          return Class2ndActivityDetailsPage(extra, enableApply: enableApply);
-        }
-        throw 404;
+        final title = state.uri.queryParameters["title"];
+        final time = DateTime.tryParse(state.uri.queryParameters["time"] ?? "");
+        return Class2ndActivityDetailsPage(activityId: id, title: title, time: time, enableApply: enableApply);
       },
       redirect: _loginRequired,
     ),

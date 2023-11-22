@@ -4,6 +4,7 @@ import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:intl/intl.dart';
 import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
+import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/class2nd.dart';
 
 import '../entity/details.dart';
@@ -22,7 +23,7 @@ class Class2ndActivityDetailsService {
       ReqMethod.post,
     );
     final data = response.data;
-    return _parseActivityDetail(data);
+    return _parseActivityDetails(data);
   }
 
   static String _cleanText(String banner) {
@@ -64,7 +65,7 @@ class Class2ndActivityDetailsService {
 
     return Class2ndActivityDetails(
       id: int.parse(properties['活动编号']!),
-      title: title,
+      title: mapChinesePunctuations(title),
       startTime: _parseDateTime(properties['活动开始时间']!),
       signStartTime: signTime[0],
       signEndTime: signTime[1],
@@ -78,7 +79,7 @@ class Class2ndActivityDetailsService {
     );
   }
 
-  static Class2ndActivityDetails _parseActivityDetail(String htmlPage) {
+  static Class2ndActivityDetails _parseActivityDetails(String htmlPage) {
     final BeautifulSoup soup = BeautifulSoup(htmlPage);
     final frame = soup.find('.box-1');
     final detail = _parseProperties(frame!);

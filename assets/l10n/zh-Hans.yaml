@@ -175,6 +175,7 @@ class2nd:
   refreshSuccessTip: 第二课堂分刷新成功
   refreshFailedTip: 第二课堂分刷新失败
   noAttendedActivities: 没有参加过的活动
+  viewDetails: 查看详情
   apply:
     btn: 报名
     replyTip: 校方回复
@@ -235,7 +236,7 @@ class2nd:
     schoolSafetyCivilization:
       full: 校园安全文明
       short: 文明
-  noDetails: 暂无信息
+  noDetails: 暂无资料
   details: 活动资料
 ywb:
   title: 应网办

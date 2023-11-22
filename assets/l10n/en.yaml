@@ -175,6 +175,7 @@ class2nd:
   refreshSuccessTip: Second class score refreshed successfully
   refreshFailedTip: Failed to refresh second class score
   noAttendedActivities: No attended activities
+  viewDetails: View details
   apply:
     btn: Apply
     replyTip: Reply from school

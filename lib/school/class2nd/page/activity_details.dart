@@ -9,7 +9,6 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../entity/details.dart';
 import '../init.dart';
-import '../entity/list.dart';
 import '../i18n.dart';
 import '../utils.dart';
 import '../widgets/activity.dart';
@@ -19,12 +18,16 @@ String _getActivityUrl(int activityId) {
 }
 
 class Class2ndActivityDetailsPage extends StatefulWidget {
-  final Class2ndActivity activity;
+  final int activityId;
+  final String? title;
+  final DateTime? time;
   final bool enableApply;
 
-  const Class2ndActivityDetailsPage(
-    this.activity, {
+  const Class2ndActivityDetailsPage({
     super.key,
+    required this.activityId,
+    this.title,
+    this.time,
     this.enableApply = false,
   });
 
@@ -35,12 +38,12 @@ class Class2ndActivityDetailsPage extends StatefulWidget {
 class _Tab {
   static const length = 2;
   static const info = 0;
-  static const document = 1;
+  static const description = 1;
 }
 
 class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPage> {
-  Class2ndActivity get activity => widget.activity;
-  late Class2ndActivityDetails? details = Class2ndInit.activityDetailsStorage.getActivityDetail(activity.id);
+  int get activityId => widget.activityId;
+  late Class2ndActivityDetails? details = Class2ndInit.activityDetailsStorage.getActivityDetails(activityId);
   bool isFetching = false;
 
   @override
@@ -54,7 +57,8 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
     setState(() {
       isFetching = true;
     });
-    final data = await Class2ndInit.activityDetailsService.getActivityDetails(activity.id);
+    final data = await Class2ndInit.activityDetailsService.getActivityDetails(activityId);
+    Class2ndInit.activityDetailsStorage.setActivityDetails(activityId, data);
     setState(() {
       details = data;
       isFetching = false;
@@ -74,19 +78,20 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
                 handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
                   floating: true,
-                  title: i18n.info.activityOf(activity.id).text(),
+                  title: i18n.info.activityOf(activityId).text(),
                   actions: [
-                    PlatformTextButton(
-                      child: i18n.apply.btn.text(),
-                      onPressed: () async {
-                        await showApplyRequest();
-                      },
-                    ),
+                    if (widget.enableApply)
+                      PlatformTextButton(
+                        child: i18n.apply.btn.text(),
+                        onPressed: () async {
+                          await showApplyRequest();
+                        },
+                      ),
                     IconButton(
                       icon: const Icon(Icons.open_in_browser),
                       onPressed: () {
                         launchUrlString(
-                          _getActivityUrl(activity.id),
+                          _getActivityUrl(activityId),
                           mode: LaunchMode.externalApplication,
                         );
                       },
@@ -106,7 +111,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
           },
           body: TabBarView(
             children: [
-              ActivityDetailsInfoTabView(activity: activity, details: details),
+              ActivityDetailsInfoTabView(activityTitle: widget.title, activityTime: widget.time, details: details),
               ActivityDetailsDocumentTabView(details: details),
             ],
           ),
@@ -130,7 +135,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
         highlight: true);
     if (confirm == true) {
       try {
-        final response = await Class2ndInit.attendActivityService.join(activity.id);
+        final response = await Class2ndInit.attendActivityService.join(activityId);
         if (!mounted) return;
         await context.showTip(title: i18n.apply.replyTip, desc: response, ok: i18n.ok);
       } catch (e) {
@@ -148,7 +153,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
 
   Future<void> sendForceRequest(BuildContext context) async {
     try {
-      final response = await Class2ndInit.attendActivityService.join(activity.id, force: true);
+      final response = await Class2ndInit.attendActivityService.join(activityId, force: true);
       if (!mounted) return;
       context.showSnackBar(content: Text(response));
     } catch (e) {
@@ -159,12 +164,14 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
 }
 
 class ActivityDetailsInfoTabView extends StatefulWidget {
-  final Class2ndActivity activity;
+  final String? activityTitle;
+  final DateTime? activityTime;
   final Class2ndActivityDetails? details;
 
   const ActivityDetailsInfoTabView({
     super.key,
-    required this.activity,
+    this.activityTitle,
+    this.activityTime,
     this.details,
   });
 
@@ -180,8 +187,8 @@ class _ActivityDetailsInfoTabViewState extends State<ActivityDetailsInfoTabView>
   Widget build(BuildContext context) {
     super.build(context);
     final details = widget.details;
-    final (:title, :tags) = separateTagsFromTitle(widget.activity.title);
-
+    final (:title, :tags) = separateTagsFromTitle(widget.activityTitle ?? details?.title ?? "");
+    final time = details?.startTime ?? widget.activityTime;
     return SelectionArea(
       child: CustomScrollView(
         slivers: [
@@ -191,12 +198,13 @@ class _ActivityDetailsInfoTabViewState extends State<ActivityDetailsInfoTabView>
               subtitle: title.text(),
               visualDensity: VisualDensity.compact,
             ),
-            if (details != null) ...[
+            if (time != null)
               ListTile(
                 title: i18n.info.startTime.text(),
-                subtitle: context.formatYmdhmNum(details.startTime).text(),
+                subtitle: context.formatYmdhmNum(time).text(),
                 visualDensity: VisualDensity.compact,
               ),
+            if (details != null) ...[
               if (details.place != null)
                 ListTile(
                   title: i18n.info.location.text(),

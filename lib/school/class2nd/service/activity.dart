@@ -64,7 +64,7 @@ class Class2ndActivityListService {
         return Class2ndActivity(
           id: id,
           title: fullTitle,
-          ts: dateFormatParser.parse(date),
+          time: dateFormatParser.parse(date),
         );
       },
     ).toList();

@@ -14,7 +14,7 @@ class Class2ndActivityDetailsStorage {
 
   const Class2ndActivityDetailsStorage();
 
-  Class2ndActivityDetails? getActivityDetail(int activityId) => box.get(_K.details(activityId));
+  Class2ndActivityDetails? getActivityDetails(int activityId) => box.get(_K.details(activityId));
 
-  void setActivityDetail(int activityId, Class2ndActivityDetails? details) => box.put(_K.details(activityId), details);
+  void setActivityDetails(int activityId, Class2ndActivityDetails? details) => box.put(_K.details(activityId), details);
 }

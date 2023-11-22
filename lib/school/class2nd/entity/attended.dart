@@ -232,6 +232,10 @@ class Class2ndAttendedActivity {
     return scores.fold<double>(0.0, (pre, e) => pre + e.honestyPoints);
   }
 
+  int get activityId => application.activityId;
+
+  int get applicationId => application.applicationId;
+
   Class2ndActivityCat get category => application.category;
 
   Class2ndScoreType? get scoreType => application.category.scoreType;

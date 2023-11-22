@@ -296,11 +296,13 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
                 visualDensity: VisualDensity.compact,
               ),
             ListTile(
-              title: "Open details".text(),
-              subtitle: i18n.info.activityOf(activity.application.activityId).text(),
+              title: i18n.viewDetails.text(),
+              subtitle: i18n.info.activityOf(activity.activityId).text(),
               trailing: const Icon(Icons.open_in_new),
               onTap: () async {
-                // TODO: Open activity details page
+                await context.push(
+                  "/class2nd/activity-details/${activity.activityId}?title=${activity.title}",
+                );
               },
             ),
           ]),
@@ -368,7 +370,7 @@ class Class2ndScoreTile extends StatelessWidget {
       );
     } else {
       return ListTile(
-        title: "".text(),
+        title: "+0".text(),
         subtitle: subtitle,
       );
     }

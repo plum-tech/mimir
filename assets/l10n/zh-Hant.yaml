@@ -175,6 +175,7 @@ class2nd:
   refreshSuccessTip: 第二課堂分重新整理成功
   refreshFailedTip: 第二課堂分重新整理失敗
   noAttendedActivities: 無參加過的活動
+  viewDetails: 檢視詳細資料
   apply:
     btn: 申請
     replyTip: 校方回信

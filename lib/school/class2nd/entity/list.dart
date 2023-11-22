@@ -131,12 +131,12 @@ class Class2ndActivity {
 
   /// Date
   @HiveField(2)
-  final DateTime ts;
+  final DateTime time;
 
   const Class2ndActivity({
     required this.id,
     required this.title,
-    required this.ts,
+    required this.time,
   });
 
   @override
@@ -144,7 +144,7 @@ class Class2ndActivity {
     return {
       "id": id,
       "fullTitle": title,
-      "ts": ts,
+      "time": time,
     }.toString();
   }
 }

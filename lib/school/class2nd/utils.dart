@@ -5,6 +5,7 @@ import 'entity/attended.dart';
 final _tagParenthesesRegx = RegExp(r"\[(.*?)\]");
 
 ({String title, List<String> tags}) separateTagsFromTitle(String full) {
+  if (full.isEmpty) return (title: "", tags: <String>[]);
   final allMatched = _tagParenthesesRegx.allMatches(full);
   final resultTags = <String>[];
   for (final matched in allMatched) {
