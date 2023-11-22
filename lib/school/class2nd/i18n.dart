@@ -78,6 +78,8 @@ class _Info {
 
   String get category => "$ns.category".tr();
 
+  String get scoreType => "$ns.scoreType".tr();
+
   String get applicationTime => "$ns.applicationTime".tr();
 
   String get status => "$ns.status".tr();

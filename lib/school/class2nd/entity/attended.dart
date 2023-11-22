@@ -198,6 +198,8 @@ enum Class2ndScoreType {
 
   String l10nFullName() => "class2nd.scoreType.$name.full".tr();
 
+  static String allCatL10n() => "class2nd.scoreType.all".tr();
+
   static Class2ndScoreType? parse(String typeName) {
     if (typeName == "主题报告") {
       return Class2ndScoreType.thematicReport;
@@ -231,6 +233,8 @@ class Class2ndAttendedActivity {
   }
 
   Class2ndActivityCat get category => application.category;
+
+  Class2ndScoreType? get scoreType => application.category.scoreType;
 
   /// Because the [application.name] might have trailing ellipsis
   String get title => scores.firstOrNull?.name ?? application.title;

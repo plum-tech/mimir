@@ -187,7 +187,8 @@ class2nd:
     applicationOf: "申请 #{}"
     name: 活动名称
     tags: 标签
-    category: 类别
+    category: 活动类别
+    scoreType: 加分类型
     applicationTime: 申请时间
     status: 状态
     contactInfo: 联系方式
@@ -201,6 +202,7 @@ class2nd:
     startTime: 开始时间
     undertaker: 承办方
   activityCat:
+    all: 全部
     lecture: 讲座报告
     thematicEdu: 主题教育
     creation: 创新创业创意
@@ -213,6 +215,7 @@ class2nd:
     schoolCultureCompetition: 校园文化竞赛
     paperAndPatent: 论文专利
   scoreType:
+    all: 全部
     thematicReport:
       full: 主题报告
       short: 讲座

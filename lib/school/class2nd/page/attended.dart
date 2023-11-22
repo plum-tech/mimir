@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -37,7 +38,8 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   final _scrollController = ScrollController();
   late bool isFetching = false;
   final $loadingProgress = ValueNotifier(0.0);
-  late var selectedCats = Class2ndActivityCat.values.toSet();
+  Class2ndActivityCat? selectedCat;
+  Class2ndScoreType? selectedScoreType;
 
   @override
   void initState() {
@@ -86,7 +88,10 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   @override
   Widget build(BuildContext context) {
     final attended = this.attended ?? const [];
-    final filteredActivities = attended.where((activity) => selectedCats.contains(activity.category)).toList();
+    final filteredActivities = attended
+        .where((activity) => selectedCat == null || activity.category == selectedCat)
+        .where((activity) => selectedScoreType == null || activity.scoreType == selectedScoreType)
+        .toList();
     return Scaffold(
       body: NestedScrollView(
         floatHeaderSlivers: true,
@@ -116,32 +121,64 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
           },
           child: CustomScrollView(
             slivers: [
-              SliverToBoxAdapter(
-                child: ListView(
+              SliverList.list(children: [
+                ListTile(
+                  title: i18n.info.category.text(),
+                ),
+                ListView(
                   scrollDirection: Axis.horizontal,
-                  children:
-                      (attended.isEmpty ? Class2ndActivityCat.values : attended.map((activity) => activity.category))
-                          .toSet()
-                          .map(
-                            (cat) => FilterChip(
-                              label: cat.l10nName().text(),
-                              selected: selectedCats.contains(cat),
-                              onSelected: (value) {
-                                setState(() {
-                                  final newSelection = Set.of(selectedCats);
-                                  if (value) {
-                                    newSelection.add(cat);
-                                  } else {
-                                    newSelection.remove(cat);
-                                  }
-                                  selectedCats = newSelection;
-                                });
-                              },
-                            ).padH(4),
-                          )
-                          .toList(),
+                  children: [
+                    FilterChip(
+                      label: Class2ndActivityCat.allCatL10n().text(),
+                      selected: selectedCat == null,
+                      onSelected: (value) {
+                        setState(() {
+                          selectedCat = null;
+                        });
+                      },
+                    ).padH(4),
+                    ...attended.map((activity) => activity.category).toSet().map(
+                          (cat) => FilterChip(
+                            label: cat.l10nName().text(),
+                            selected: selectedCat == cat,
+                            onSelected: (value) {
+                              setState(() {
+                                selectedCat = cat;
+                              });
+                            },
+                          ).padH(4),
+                        ),
+                  ],
                 ).sized(h: 40),
-              ),
+                ListTile(
+                  title: i18n.info.scoreType.text(),
+                ),
+                ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    FilterChip(
+                      label: Class2ndScoreType.allCatL10n().text(),
+                      selected: selectedScoreType == null,
+                      onSelected: (value) {
+                        setState(() {
+                          selectedScoreType = null;
+                        });
+                      },
+                    ).padH(4),
+                    ...attended.map((activity) => activity.category.scoreType).whereNotNull().toSet().map(
+                          (scoreType) => FilterChip(
+                            label: scoreType.l10nFullName().text(),
+                            selected: selectedScoreType == scoreType,
+                            onSelected: (value) {
+                              setState(() {
+                                selectedScoreType = scoreType;
+                              });
+                            },
+                          ).padH(4),
+                        ),
+                  ],
+                ).sized(h: 40),
+              ]),
               const SliverToBoxAdapter(
                 child: Divider(),
               ),
@@ -318,9 +355,9 @@ class Class2ndScoreTile extends StatelessWidget {
     } else if (score.points != 0) {
       return ListTile(
         titleTextStyle: context.textTheme.bodyLarge?.copyWith(color: _pointsColor(context, score.points)),
-        title: (scoreType != null
-            ? "${scoreType.l10nFullName()} ${_pointsText(score.points)}"
-            : _pointsText(score.points)).text(),
+        title:
+            (scoreType != null ? "${scoreType.l10nFullName()} ${_pointsText(score.points)}" : _pointsText(score.points))
+                .text(),
         subtitle: subtitle,
       );
     } else if (score.honestyPoints != 0) {

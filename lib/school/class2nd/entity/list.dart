@@ -10,7 +10,8 @@ part 'list.g.dart';
 enum Class2ndActivityCat {
   /// 讲座报告
   @HiveField(0)
-  lecture("001",
+  lecture(
+    "001",
     Class2ndScoreType.thematicReport,
   ),
 
@@ -84,6 +85,8 @@ enum Class2ndActivityCat {
   const Class2ndActivityCat(this.id, [this.scoreType]);
 
   String l10nName() => "class2nd.activityCat.$name".tr();
+
+  static String allCatL10n() => "class2nd.activityCat.all".tr();
 
   /// Don't Change this.
   /// Strings from school API

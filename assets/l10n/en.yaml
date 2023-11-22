@@ -187,7 +187,8 @@ class2nd:
     applicationOf: "Application #{}"
     name: Name
     tags: Tags
-    category: Category
+    category: Activity category
+    scoreType: Score type
     applicationTime: Application Time
     status: Status
     organizer: Organizer
@@ -199,6 +200,7 @@ class2nd:
     duration: Duration
     location: Location
   activityCat:
+    all: All
     lecture: Lecture
     thematicEdu: Thematic Edu
     creation: Creation
@@ -211,6 +213,7 @@ class2nd:
     schoolCultureCompetition: Culture COMP
     paperAndPatent: Paper&Patent
   scoreType:
+    all: All
     thematicReport:
       full: Thematic Report
       short: Report
@@ -227,7 +230,7 @@ class2nd:
       full: Voluntary
       short: Vol.
     schoolSafetyCivilization:
-      full: School Safety&Civilization
+      full: Safety&Civil.
       short: Civil.
   contactInfo: Contact Info
   noDetails: No details given
