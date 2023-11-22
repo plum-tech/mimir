@@ -118,28 +118,30 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
               ),
             ),
             SliverToBoxAdapter(
-              child: activities
-                  .map((activity) => activity.category)
-                  .toSet()
-                  .map(
-                    (cat) => FilterChip(
-                      label: cat.l10nName().text(),
-                      selected: selectedCats.contains(cat),
-                      onSelected: (value) {
-                        setState(() {
-                          final newSelection = Set.of(selectedCats);
-                          if (value) {
-                            newSelection.add(cat);
-                          } else {
-                            newSelection.remove(cat);
-                          }
-                          selectedCats = newSelection;
-                        });
-                      },
-                    ),
-                  )
-                  .toList()
-                  .wrap(spacing: 4),
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: activities
+                    .map((activity) => activity.category)
+                    .toSet()
+                    .map(
+                      (cat) => FilterChip(
+                        label: cat.l10nName().text(),
+                        selected: selectedCats.contains(cat),
+                        onSelected: (value) {
+                          setState(() {
+                            final newSelection = Set.of(selectedCats);
+                            if (value) {
+                              newSelection.add(cat);
+                            } else {
+                              newSelection.remove(cat);
+                            }
+                            selectedCats = newSelection;
+                          });
+                        },
+                      ).padH(4),
+                    )
+                    .toList(),
+              ).sized(h: 40),
             ),
           ];
         },
@@ -151,6 +153,9 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
           },
           child: CustomScrollView(
             slivers: [
+              const SliverToBoxAdapter(
+                child: Divider(),
+              ),
               if (filteredActivities.isEmpty)
                 SliverFillRemaining(
                   child: LeavingBlank(

@@ -21,18 +21,8 @@ class Class2ndScoreService {
 
   const Class2ndScoreService();
 
-  static bool _initializedCookie = false;
-
-  Future<void> _refreshCookie() async {
-    if (!_initializedCookie) {
-      await session.request('http://sc.sit.edu.cn/', ReqMethod.get);
-      _initializedCookie = true;
-    }
-  }
-
   /// 获取第二课堂分数
   Future<Class2ndScoreSummary> fetchScoreSummary() async {
-    await _refreshCookie();
     final response = await session.request(homeUrl, ReqMethod.post);
     final data = response.data;
     return _parseScoreSummary(data);
@@ -89,7 +79,6 @@ class Class2ndScoreService {
 
   /// 获取我的得分列表
   Future<List<Class2ndScoreItem>> fetchScoreItemList() async {
-    await _refreshCookie();
     final response = await session.request(scoreUrl, ReqMethod.post);
     return _parseScoreList(response.data);
   }
@@ -131,7 +120,6 @@ class Class2ndScoreService {
 
   /// 获取我的活动列表
   Future<List<Class2ndActivityApplication>> fetchActivityApplicationList() async {
-    await _refreshCookie();
     final response = await session.request(myEventUrl, ReqMethod.post);
     return _parseActivityApplicationList(response.data);
   }
