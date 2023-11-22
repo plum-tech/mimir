@@ -44,7 +44,7 @@ class HiveAdapter {
     ~Class2ndActivityApplicationAdapter();
     ~Class2ndScoreItemAdapter();
     ~Class2ndActivityCatAdapter();
-    ~Class2ndActivityScoreTypeAdapter();
+    ~Class2ndScoreTypeAdapter();
 
     // OA Announcement
     ~OaAnnounceDetailsAdapter();

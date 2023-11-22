@@ -147,49 +147,49 @@ class Class2ndActivityApplicationAdapter extends TypeAdapter<Class2ndActivityApp
       other is Class2ndActivityApplicationAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class Class2ndActivityScoreTypeAdapter extends TypeAdapter<Class2ndActivityScoreType> {
+class Class2ndScoreTypeAdapter extends TypeAdapter<Class2ndScoreType> {
   @override
   final int typeId = 63;
 
   @override
-  Class2ndActivityScoreType read(BinaryReader reader) {
+  Class2ndScoreType read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return Class2ndActivityScoreType.thematicReport;
+        return Class2ndScoreType.thematicReport;
       case 1:
-        return Class2ndActivityScoreType.creation;
+        return Class2ndScoreType.creation;
       case 2:
-        return Class2ndActivityScoreType.schoolCulture;
+        return Class2ndScoreType.schoolCulture;
       case 3:
-        return Class2ndActivityScoreType.practice;
+        return Class2ndScoreType.practice;
       case 4:
-        return Class2ndActivityScoreType.voluntary;
+        return Class2ndScoreType.voluntary;
       case 5:
-        return Class2ndActivityScoreType.schoolSafetyCivilization;
+        return Class2ndScoreType.schoolSafetyCivilization;
       default:
-        return Class2ndActivityScoreType.thematicReport;
+        return Class2ndScoreType.thematicReport;
     }
   }
 
   @override
-  void write(BinaryWriter writer, Class2ndActivityScoreType obj) {
+  void write(BinaryWriter writer, Class2ndScoreType obj) {
     switch (obj) {
-      case Class2ndActivityScoreType.thematicReport:
+      case Class2ndScoreType.thematicReport:
         writer.writeByte(0);
         break;
-      case Class2ndActivityScoreType.creation:
+      case Class2ndScoreType.creation:
         writer.writeByte(1);
         break;
-      case Class2ndActivityScoreType.schoolCulture:
+      case Class2ndScoreType.schoolCulture:
         writer.writeByte(2);
         break;
-      case Class2ndActivityScoreType.practice:
+      case Class2ndScoreType.practice:
         writer.writeByte(3);
         break;
-      case Class2ndActivityScoreType.voluntary:
+      case Class2ndScoreType.voluntary:
         writer.writeByte(4);
         break;
-      case Class2ndActivityScoreType.schoolSafetyCivilization:
+      case Class2ndScoreType.schoolSafetyCivilization:
         writer.writeByte(5);
         break;
     }
@@ -201,5 +201,5 @@ class Class2ndActivityScoreTypeAdapter extends TypeAdapter<Class2ndActivityScore
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Class2ndActivityScoreTypeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is Class2ndScoreTypeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

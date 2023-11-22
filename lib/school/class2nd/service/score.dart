@@ -42,25 +42,25 @@ class Class2ndScoreService {
     for (final item in matches) {
       final score = double.parse(item.group(1) ?? '0.0');
       final typeName = item.group(2)!;
-      final type = Class2ndActivityScoreType.parse(typeName);
+      final type = Class2ndScoreType.parse(typeName);
 
       switch (type) {
-        case Class2ndActivityScoreType.thematicReport:
+        case Class2ndScoreType.thematicReport:
           lecture = score;
           break;
-        case Class2ndActivityScoreType.creation:
+        case Class2ndScoreType.creation:
           creation = score;
           break;
-        case Class2ndActivityScoreType.schoolCulture:
+        case Class2ndScoreType.schoolCulture:
           campus = score;
           break;
-        case Class2ndActivityScoreType.practice:
+        case Class2ndScoreType.practice:
           practice = score;
           break;
-        case Class2ndActivityScoreType.voluntary:
+        case Class2ndScoreType.voluntary:
           voluntary = score;
           break;
-        case Class2ndActivityScoreType.schoolSafetyCivilization:
+        case Class2ndScoreType.schoolSafetyCivilization:
           safetyEdu = score;
           break;
         case null:

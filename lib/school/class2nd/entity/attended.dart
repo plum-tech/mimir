@@ -54,14 +54,14 @@ class Class2ndScoreSummary {
     }.toString();
   }
 
-  List<({Class2ndActivityScoreType type, double score})> toName2score() {
+  List<({Class2ndScoreType type, double score})> toName2score() {
     return [
-      (type: Class2ndActivityScoreType.voluntary, score: voluntary),
-      (type: Class2ndActivityScoreType.schoolCulture, score: schoolCulture),
-      (type: Class2ndActivityScoreType.creation, score: creation),
-      (type: Class2ndActivityScoreType.schoolSafetyCivilization, score: schoolSafetyCivilization),
-      (type: Class2ndActivityScoreType.thematicReport, score: thematicReport),
-      (type: Class2ndActivityScoreType.practice, score: practice),
+      (type: Class2ndScoreType.voluntary, score: voluntary),
+      (type: Class2ndScoreType.schoolCulture, score: schoolCulture),
+      (type: Class2ndScoreType.creation, score: creation),
+      (type: Class2ndScoreType.schoolSafetyCivilization, score: schoolSafetyCivilization),
+      (type: Class2ndScoreType.thematicReport, score: thematicReport),
+      (type: Class2ndScoreType.practice, score: practice),
     ];
   }
 }
@@ -91,6 +91,8 @@ class Class2ndScoreItem {
   /// 诚信分
   @HiveField(5)
   final double honestyPoints;
+
+  Class2ndScoreType? get scoreType => category.scoreType;
 
   const Class2ndScoreItem({
     required this.name,
@@ -165,7 +167,7 @@ class Class2ndActivityApplication {
 }
 
 @HiveType(typeId: HiveTypeClass2nd.scoreType)
-enum Class2ndActivityScoreType {
+enum Class2ndScoreType {
   /// 讲座报告
   @HiveField(0)
   thematicReport,
@@ -190,25 +192,25 @@ enum Class2ndActivityScoreType {
   @HiveField(5)
   schoolSafetyCivilization;
 
-  const Class2ndActivityScoreType();
+  const Class2ndScoreType();
 
   String l10nShortName() => "class2nd.scoreType.$name.short".tr();
 
   String l10nFullName() => "class2nd.scoreType.$name.full".tr();
 
-  static Class2ndActivityScoreType? parse(String typeName) {
+  static Class2ndScoreType? parse(String typeName) {
     if (typeName == "主题报告") {
-      return Class2ndActivityScoreType.thematicReport;
+      return Class2ndScoreType.thematicReport;
     } else if (typeName == "社会实践") {
-      return Class2ndActivityScoreType.practice;
+      return Class2ndScoreType.practice;
     } else if (typeName == "创新创业创意") {
-      return Class2ndActivityScoreType.creation;
+      return Class2ndScoreType.creation;
     } else if (typeName == "校园文化") {
-      return Class2ndActivityScoreType.schoolCulture;
+      return Class2ndScoreType.schoolCulture;
     } else if (typeName == "公益志愿") {
-      return Class2ndActivityScoreType.voluntary;
+      return Class2ndScoreType.voluntary;
     } else if (typeName == "校园安全文明") {
-      return Class2ndActivityScoreType.schoolSafetyCivilization;
+      return Class2ndScoreType.schoolSafetyCivilization;
     }
     return null;
   }

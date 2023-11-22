@@ -295,15 +295,18 @@ class Class2ndScoreTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final time = score.time;
     final subtitle = time == null ? null : context.formatYmdhmNum(time).text();
+    final scoreType = score.scoreType;
     if (score.points != 0 && score.honestyPoints != 0) {
       return ListTile(
         title: RichText(
           text: TextSpan(children: [
             TextSpan(
-              text: "${score.category.l10nName()} ${_pointsText(score.points)}",
+              text: scoreType != null
+                  ? "${scoreType.l10nFullName()} ${_pointsText(score.points)}"
+                  : _pointsText(score.points),
               style: context.textTheme.bodyLarge?.copyWith(color: _pointsColor(context, score.points)),
             ),
-            const TextSpan(text: ", "),
+            const TextSpan(text: "\n"),
             TextSpan(
               text: "${i18n.attended.honestyPoints} ${_pointsText(score.honestyPoints)}",
               style: context.textTheme.bodyLarge?.copyWith(color: _pointsColor(context, score.honestyPoints)),
@@ -315,7 +318,9 @@ class Class2ndScoreTile extends StatelessWidget {
     } else if (score.points != 0) {
       return ListTile(
         titleTextStyle: context.textTheme.bodyLarge?.copyWith(color: _pointsColor(context, score.points)),
-        title: "${score.category.l10nName()} ${_pointsText(score.points)}".text(),
+        title: (scoreType != null
+            ? "${scoreType.l10nFullName()} ${_pointsText(score.points)}"
+            : _pointsText(score.points)).text(),
         subtitle: subtitle,
       );
     } else if (score.honestyPoints != 0) {

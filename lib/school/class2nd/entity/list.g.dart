@@ -66,16 +66,18 @@ class Class2ndActivityCatAdapter extends TypeAdapter<Class2ndActivityCat> {
       case 3:
         return Class2ndActivityCat.schoolCultureActivity;
       case 4:
-        return Class2ndActivityCat.practice;
+        return Class2ndActivityCat.schoolCivilization;
       case 5:
-        return Class2ndActivityCat.voluntary;
+        return Class2ndActivityCat.practice;
       case 6:
-        return Class2ndActivityCat.onlineSafetyEdu;
+        return Class2ndActivityCat.voluntary;
       case 7:
-        return Class2ndActivityCat.conference;
+        return Class2ndActivityCat.onlineSafetyEdu;
       case 8:
-        return Class2ndActivityCat.schoolCultureCompetition;
+        return Class2ndActivityCat.conference;
       case 9:
+        return Class2ndActivityCat.schoolCultureCompetition;
+      case 10:
         return Class2ndActivityCat.paperAndPatent;
       default:
         return Class2ndActivityCat.lecture;
@@ -97,23 +99,26 @@ class Class2ndActivityCatAdapter extends TypeAdapter<Class2ndActivityCat> {
       case Class2ndActivityCat.schoolCultureActivity:
         writer.writeByte(3);
         break;
-      case Class2ndActivityCat.practice:
+      case Class2ndActivityCat.schoolCivilization:
         writer.writeByte(4);
         break;
-      case Class2ndActivityCat.voluntary:
+      case Class2ndActivityCat.practice:
         writer.writeByte(5);
         break;
-      case Class2ndActivityCat.onlineSafetyEdu:
+      case Class2ndActivityCat.voluntary:
         writer.writeByte(6);
         break;
-      case Class2ndActivityCat.conference:
+      case Class2ndActivityCat.onlineSafetyEdu:
         writer.writeByte(7);
         break;
-      case Class2ndActivityCat.schoolCultureCompetition:
+      case Class2ndActivityCat.conference:
         writer.writeByte(8);
         break;
-      case Class2ndActivityCat.paperAndPatent:
+      case Class2ndActivityCat.schoolCultureCompetition:
         writer.writeByte(9);
+        break;
+      case Class2ndActivityCat.paperAndPatent:
+        writer.writeByte(10);
         break;
     }
   }
