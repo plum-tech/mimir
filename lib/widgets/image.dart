@@ -88,6 +88,7 @@ class _ImageViewState extends State<ImageView> {
     } else {
       provider = null;
     }
+    // TODO: zoom overlay
     return InteractiveViewer(
       minScale: 1,
       maxScale: 10.0,

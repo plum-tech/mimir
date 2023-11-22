@@ -18,26 +18,20 @@ class Class2ndActivityAdapter extends TypeAdapter<Class2ndActivity> {
     };
     return Class2ndActivity(
       id: fields[0] as int,
-      fullTitle: fields[1] as String,
-      ts: fields[4] as DateTime,
-      realTitle: fields[2] as String,
-      tags: (fields[3] as List).cast<String>(),
+      title: fields[1] as String,
+      ts: fields[2] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, Class2ndActivity obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.fullTitle)
+      ..write(obj.title)
       ..writeByte(2)
-      ..write(obj.realTitle)
-      ..writeByte(3)
-      ..write(obj.tags)
-      ..writeByte(4)
       ..write(obj.ts);
   }
 

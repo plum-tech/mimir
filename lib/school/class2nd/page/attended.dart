@@ -119,8 +119,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
           },
           child: CustomScrollView(
             slivers: [
-              SliverList.list(
-              children: [
+              SliverList.list(children: [
                 ListTile(
                   title: i18n.info.category.text(),
                 ),

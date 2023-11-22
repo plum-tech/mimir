@@ -127,34 +127,24 @@ class Class2ndActivity {
 
   /// Title
   @HiveField(1)
-  final String fullTitle;
-
-  @HiveField(2)
-  final String realTitle;
-
-  @HiveField(3)
-  final List<String> tags;
+  final String title;
 
   /// Date
-  @HiveField(4)
+  @HiveField(2)
   final DateTime ts;
 
   const Class2ndActivity({
     required this.id,
-    required this.fullTitle,
+    required this.title,
     required this.ts,
-    required this.realTitle,
-    required this.tags,
   });
 
   @override
   String toString() {
     return {
       "id": id,
-      "fullTitle": fullTitle,
+      "fullTitle": title,
       "ts": ts,
-      "realTitle": realTitle,
-      "tags": tags,
     }.toString();
   }
 }

@@ -5,6 +5,7 @@ import 'package:sit/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/list.dart';
+import '../utils.dart';
 
 class ActivityCard extends StatelessWidget {
   final Class2ndActivity activity;
@@ -14,14 +15,15 @@ class ActivityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = context.textTheme;
+    final (:title, :tags) = separateTagsFromTitle(activity.title);
     return FilledCard(
       clip: Clip.hardEdge,
       child: ListTile(
         isThreeLine: true,
-        title: activity.realTitle.text(),
+        title: title.text(),
         titleTextStyle: textTheme.titleMedium,
         trailing: context.formatYmdNum(activity.ts).text(style: textTheme.bodyMedium),
-        subtitle: ActivityTagsGroup(activity.tags),
+        subtitle: ActivityTagsGroup(tags),
         onTap: () {
           context.push("/class2nd/activity-details?enable-apply=true", extra: activity);
         },

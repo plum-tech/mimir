@@ -10,6 +10,7 @@ import '../entity/details.dart';
 import '../init.dart';
 import '../entity/list.dart';
 import '../i18n.dart';
+import '../utils.dart';
 import '../widgets/details.dart';
 
 String _getActivityUrl(int activityId) {
@@ -57,6 +58,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
   @override
   Widget build(BuildContext context) {
     final details = this.details;
+    final (:title, :tags) = separateTagsFromTitle(activity.title);
     return Scaffold(
       body: SelectionArea(
         child: CustomScrollView(
@@ -64,7 +66,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
           slivers: [
             SliverAppBar(
               floating: true,
-              title: i18n.details.text(),
+              title: i18n.info.activityOf(activity.id).text(),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.open_in_browser),
@@ -83,7 +85,9 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
                     )
                   : null,
             ),
-            SliverToBoxAdapter(child: ActivityDetailsCard(activity: activity, details: details).hero(activity.id)),
+            SliverToBoxAdapter(
+              child: ActivityDetailsCard(activity: activity, details: details).hero(activity.id),
+            ),
             if (details != null)
               if (details.description == null)
                 SliverToBoxAdapter(child: i18n.noDetails.text(style: context.textTheme.titleLarge))

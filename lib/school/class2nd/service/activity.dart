@@ -6,7 +6,6 @@ import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/class2nd.dart';
 
 import '../entity/list.dart';
-import '../utils.dart';
 import "package:intl/intl.dart";
 
 class Class2ndActivityListService {
@@ -62,13 +61,10 @@ class Class2ndActivityListService {
 
         final String? x = re.firstMatch(link)?.group(0).toString();
         final int id = int.parse(x!);
-        final (title: realTitle, :tags) = separateTagsFromTitle(fullTitle);
         return Class2ndActivity(
           id: id,
-          fullTitle: fullTitle,
+          title: fullTitle,
           ts: dateFormatParser.parse(date),
-          realTitle: realTitle,
-          tags: tags,
         );
       },
     ).toList();

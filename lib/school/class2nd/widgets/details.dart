@@ -4,6 +4,7 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/details.dart';
 import '../entity/list.dart';
 import '../i18n.dart';
+import '../utils.dart';
 
 class ActivityDetailsCard extends StatelessWidget {
   final Class2ndActivityDetails? details;
@@ -19,6 +20,7 @@ class ActivityDetailsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final valueStyle = Theme.of(context).textTheme.bodyMedium;
     final keyStyle = valueStyle?.copyWith(fontWeight: FontWeight.bold);
+    final (:title, :tags) = separateTagsFromTitle(activity.title);
 
     buildRow(String key, Object? value) => TableRow(
           children: [
@@ -29,7 +31,7 @@ class ActivityDetailsCard extends StatelessWidget {
 
     return Column(
       children: [
-        Text(details?.title ?? activity.realTitle, style: context.textTheme.titleLarge, softWrap: true).padAll(10),
+        Text(details?.title ?? title, style: context.textTheme.titleLarge, softWrap: true).padAll(10),
         Table(
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           columnWidths: const {
@@ -45,7 +47,7 @@ class ActivityDetailsCard extends StatelessWidget {
             buildRow(i18n.info.contactInfo, details?.contactInfo),
             buildRow(i18n.info.startTime, details?.startTime),
             buildRow(i18n.info.duration, details?.duration),
-            buildRow(i18n.info.tags, activity.tags.join(' ')),
+            buildRow(i18n.info.tags, tags.join(' ')),
           ],
         ).padH(10),
       ],
