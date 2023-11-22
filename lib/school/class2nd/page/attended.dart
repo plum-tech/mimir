@@ -35,7 +35,6 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
       scores: scores,
     );
   }();
-  final _scrollController = ScrollController();
   late bool isFetching = false;
   final $loadingProgress = ValueNotifier(0.0);
   Class2ndActivityCat? selectedCat;
@@ -49,7 +48,6 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
     super.dispose();
   }
 
@@ -121,12 +119,14 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
           },
           child: CustomScrollView(
             slivers: [
-              SliverList.list(children: [
+              SliverList.list(
+              children: [
                 ListTile(
                   title: i18n.info.category.text(),
                 ),
                 ListView(
                   scrollDirection: Axis.horizontal,
+                  physics: const RangeMaintainingScrollPhysics(),
                   children: [
                     FilterChip(
                       label: Class2ndActivityCat.allCatL10n().text(),
@@ -155,6 +155,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                 ),
                 ListView(
                   scrollDirection: Axis.horizontal,
+                  physics: const RangeMaintainingScrollPhysics(),
                   children: [
                     FilterChip(
                       label: Class2ndScoreType.allCatL10n().text(),
