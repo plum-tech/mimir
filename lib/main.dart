@@ -16,7 +16,7 @@ import 'package:sit/school/yellow_pages/entity/contact.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sit/settings/meta.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/version.dart';
+import 'package:sit/entity/version.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:version/version.dart';

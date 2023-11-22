@@ -13,7 +13,7 @@ import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/settings/widgets/campus.dart';
 import 'package:sit/utils/color.dart';
-import 'package:sit/version.dart';
+import 'package:sit/entity/version.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:unicons/unicons.dart';

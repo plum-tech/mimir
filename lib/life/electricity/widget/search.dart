@@ -29,7 +29,7 @@ Future<String?> searchRoom({
               title: HighlightedText(
                 full: full,
                 highlighted: highlighted,
-                baseStyle: ctx.textTheme.titleLarge,
+                baseStyle: ctx.textTheme.bodyLarge,
               ),
               subtitle: room.l10n().text(),
               onTap: () {

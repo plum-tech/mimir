@@ -8,6 +8,8 @@ import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/index.dart';
 import 'package:sit/me/edu_email/page/login.dart';
 import 'package:sit/me/edu_email/page/outbox.dart';
+import 'package:sit/school/class2nd/entity/attended.dart';
+import 'package:sit/school/class2nd/page/attend_details.dart';
 import 'package:sit/school/ywb/page/meta.dart';
 import 'package:sit/school/ywb/page/application.dart';
 import 'package:sit/settings/page/life.dart';
@@ -190,12 +192,23 @@ final _class2ndRoute = GoRoute(
       redirect: _loginRequired,
     ),
     GoRoute(
-      path: "activity-detail",
+      path: "activity-details",
       builder: (ctx, state) {
         final enableApply = state.uri.queryParameters["enable-apply"] != null;
         final extra = state.extra;
         if (extra is Class2ndActivity) {
           return Class2ndActivityDetailsPage(extra, enableApply: enableApply);
+        }
+        throw 404;
+      },
+      redirect: _loginRequired,
+    ),
+    GoRoute(
+      path: "attended-details",
+      builder: (ctx, state) {
+        final extra = state.extra;
+        if (extra is Class2ndAttendedActivity) {
+          return Class2ndAttendDetailsPage(extra);
         }
         throw 404;
       },

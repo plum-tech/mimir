@@ -1,8 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 
-import '../utils.dart';
 import 'package:sit/hive/type_id.dart';
-import 'attended.dart';
 
 part 'list.g.dart';
 
@@ -122,18 +120,5 @@ class Class2ndActivity {
       "realTitle": realTitle,
       "tags": tags,
     }.toString();
-  }
-}
-
-extension ActivityParser on Class2ndActivity {
-  static Class2ndActivity parse(Class2ndAttendedActivity activity) {
-    final (:title, :tags) = separateTagsFromTitle(activity.title);
-    return Class2ndActivity(
-      id: activity.application.activityId,
-      fullTitle: activity.title,
-      ts: activity.application.time,
-      realTitle: title,
-      tags: tags,
-    );
   }
 }
