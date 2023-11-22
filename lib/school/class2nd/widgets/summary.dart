@@ -39,12 +39,7 @@ const _admissionYear2targetScores = {
 };
 
 Class2ndScoreSummary getTargetScoreOf({required int? admissionYear}) {
-  final targetScores = _admissionYear2targetScores[admissionYear];
-  if (targetScores != null) {
-    return targetScores;
-  } else {
-    return _targetScores2019;
-  }
+  return _admissionYear2targetScores[admissionYear] ?? _targetScores2019;
 }
 
 class Class2ndScoreSummeryCard extends StatelessWidget {

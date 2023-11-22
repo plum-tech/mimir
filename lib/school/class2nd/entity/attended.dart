@@ -218,13 +218,16 @@ class Class2ndAttendedActivity {
   final Class2ndActivityApplication application;
   final List<Class2ndScoreItem> scores;
 
-  /// 总得分
-  final double? points;
+  double? calcTotalPoints() {
+    if (scores.isEmpty) return null;
+    return scores.fold<double>(0.0, (pre, e) => pre + e.points);
+  }
+  double? calcTotalHonestyPoints() {
+    if (scores.isEmpty) return null;
+    return scores.fold<double>(0.0, (pre, e) => pre + e.honestyPoints);
+  }
 
   Class2ndActivityCat get category => application.category;
-
-  /// 总诚信分
-  final double? honestyPoints;
 
   /// Because the [application.title] might have trailing ellipsis
   String get title => scores.firstOrNull?.name ?? application.title;
@@ -232,8 +235,6 @@ class Class2ndAttendedActivity {
   const Class2ndAttendedActivity({
     required this.application,
     required this.scores,
-    required this.points,
-    required this.honestyPoints,
   });
 
   @override
@@ -241,8 +242,6 @@ class Class2ndAttendedActivity {
     return {
       "application": application,
       "scores": scores,
-      "points": points,
-      "honestyPoints": honestyPoints,
     }.toString();
   }
 }

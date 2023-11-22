@@ -39,12 +39,6 @@ List<Class2ndAttendedActivity> buildAttendedActivityList({
     return Class2ndAttendedActivity(
       application: application,
       scores: relatedScoreItems,
-      points: relatedScoreItems.isEmpty
-          ? null
-          : relatedScoreItems.fold<double>(0.0, (points, item) => points + item.points),
-      honestyPoints: relatedScoreItems.isEmpty
-          ? null
-          : relatedScoreItems.fold<double>(0.0, (points, item) => points + item.honestyPoints),
     );
   }).toList();
   return attended;

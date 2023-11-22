@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/animation/progress.dart';
+import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/class2nd/entity/list.dart';
 import 'package:sit/school/class2nd/utils.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 import '../entity/attended.dart';
 import '../init.dart';
-import '../widgets/attended.dart';
+import '../widgets/activity.dart';
 import '../widgets/summary.dart';
 import '../i18n.dart';
 
@@ -161,5 +166,151 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
         ),
       ),
     );
+  }
+}
+
+class AttendedActivityCard extends StatelessWidget {
+  final Class2ndAttendedActivity attended;
+
+  const AttendedActivityCard(this.attended, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final (:title, :tags) = separateTagsFromTitle(attended.title);
+    tags.insert(0, attended.category.l10nName());
+    final points = attended.calcTotalPoints();
+    return FilledCard(
+      clip: Clip.hardEdge,
+      child: ListTile(
+          isThreeLine: true,
+          titleTextStyle: context.textTheme.titleMedium,
+          title: title.text(),
+          subtitleTextStyle: context.textTheme.bodyMedium,
+          subtitle: [
+            "#${attended.application.applyId}".text(),
+            Divider(color: context.colorScheme.onSurfaceVariant),
+            context.formatYmdhmsNum(attended.application.time).text(),
+            ActivityTagsGroup(tags),
+          ].column(caa: CrossAxisAlignment.start),
+          trailing: points != null
+              ? Text(
+                  _pointsText(points),
+                  style: context.textTheme.titleMedium?.copyWith(color: _pointsColor(context, points)),
+                )
+              : Text(
+                  attended.application.status,
+                  style: context.textTheme.titleMedium
+                      ?.copyWith(color: attended.application.isPassed ? Colors.green : null),
+                ),
+          onTap: () async {
+            await context.push("/class2nd/attended-details", extra: attended);
+          }),
+    );
+  }
+}
+
+class Class2ndAttendDetailsPage extends StatefulWidget {
+  final Class2ndAttendedActivity activity;
+
+  const Class2ndAttendDetailsPage(
+    this.activity, {
+    super.key,
+  });
+
+  @override
+  State<Class2ndAttendDetailsPage> createState() => _Class2ndAttendDetailsPageState();
+}
+
+class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
+  @override
+  Widget build(BuildContext context) {
+    final (:title, :tags) = separateTagsFromTitle(widget.activity.title);
+    final scores = widget.activity.scores;
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            title: TextScroll(title),
+          ),
+          SliverList.builder(
+            itemCount: scores.length,
+            itemBuilder: (ctx, i) {
+              return Class2ndScoreTile(scores[i]);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Class2ndScoreTile extends StatelessWidget {
+  final Class2ndScoreItem score;
+
+  const Class2ndScoreTile(
+    this.score, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final time = score.time;
+    final subtitle = time == null ? null : context.formatYmdhmNum(time).text();
+    if (score.points != 0 && score.honestyPoints != 0) {
+      return ListTile(
+        title: RichText(
+          text: TextSpan(children: [
+            TextSpan(
+              text: "${score.category.l10nName()} ${_pointsText(score.points)}",
+              style: context.textTheme.bodyLarge?.copyWith(color: _pointsColor(context, score.points)),
+            ),
+            const TextSpan(text: ", "),
+            TextSpan(
+              text: "${i18n.attended.honestyPoints} ${_pointsText(score.honestyPoints)}",
+              style: context.textTheme.bodyLarge?.copyWith(color: _pointsColor(context, score.honestyPoints)),
+            ),
+          ]),
+        ),
+        subtitle: subtitle,
+      );
+    } else if (score.points != 0) {
+      return ListTile(
+        titleTextStyle: context.textTheme.bodyLarge?.copyWith(color: _pointsColor(context, score.points)),
+        title: "${score.category.l10nName()} ${_pointsText(score.points)}".text(),
+        subtitle: subtitle,
+      );
+    } else if (score.honestyPoints != 0) {
+      return ListTile(
+        titleTextStyle: context.textTheme.bodyLarge?.copyWith(color: _pointsColor(context, score.honestyPoints)),
+        title: "${i18n.attended.honestyPoints} ${_pointsText(score.honestyPoints)}".text(),
+        subtitle: subtitle,
+      );
+    } else {
+      return ListTile(
+        title: "".text(),
+        subtitle: subtitle,
+      );
+    }
+  }
+}
+
+String _pointsText(double points) {
+  if (points > 0) {
+    return "+${points.toStringAsFixed(2)}";
+  } else if (points == 0) {
+    return "+0";
+  } else {
+    return points.toStringAsFixed(2);
+  }
+}
+
+Color? _pointsColor(BuildContext ctx, double points) {
+  if (points > 0) {
+    return Colors.green;
+  } else if (points == 0) {
+    return null;
+  } else {
+    return ctx.$red$;
   }
 }
