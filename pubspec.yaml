@@ -22,7 +22,6 @@ dependencies:
   # Basic
   logger: ^2.0.2
   device_info_plus: ^9.1.0
-  audio_session: ^0.1.17
   event_bus: ^2.0.0
   path_provider: ^2.1.1
   version: ^3.0.2
@@ -109,7 +108,7 @@ dependencies:
   qr_flutter: ^4.1.0
   pretty_qr_code: ^3.0.0
   # qrcode scanner
-  mobile_scanner: ^3.5.3
+  mobile_scanner: ^3.5.4
   cached_network_image: ^3.3.0
   modal_bottom_sheet: ^3.0.0-pre
   auto_size_text: ^3.0.0
@@ -135,7 +134,7 @@ dependencies:
   universal_platform: ^1.0.0+1
   # Check VPN connection status
   check_vpn_connection: ^0.0.2
-  connectivity_plus: ^5.0.1
+  connectivity_plus: ^5.0.2
   rettulf: ^2.0.1
   # lock
   synchronized: ^3.1.0
