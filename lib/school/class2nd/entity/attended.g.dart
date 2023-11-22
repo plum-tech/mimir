@@ -147,59 +147,6 @@ class Class2ndActivityApplicationAdapter extends TypeAdapter<Class2ndActivityApp
       other is Class2ndActivityApplicationAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class Class2ndAttendedActivityAdapter extends TypeAdapter<Class2ndAttendedActivity> {
-  @override
-  final int typeId = 53;
-
-  @override
-  Class2ndAttendedActivity read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return Class2ndAttendedActivity(
-      applyId: fields[0] as int,
-      activityId: fields[1] as int,
-      title: fields[2] as String,
-      time: fields[3] as DateTime,
-      category: fields[4] as Class2ndActivityCat,
-      status: fields[5] as String,
-      points: fields[6] as double?,
-      honestyPoints: fields[7] as double?,
-    );
-  }
-
-  @override
-  void write(BinaryWriter writer, Class2ndAttendedActivity obj) {
-    writer
-      ..writeByte(8)
-      ..writeByte(0)
-      ..write(obj.applyId)
-      ..writeByte(1)
-      ..write(obj.activityId)
-      ..writeByte(2)
-      ..write(obj.title)
-      ..writeByte(3)
-      ..write(obj.time)
-      ..writeByte(4)
-      ..write(obj.category)
-      ..writeByte(5)
-      ..write(obj.status)
-      ..writeByte(6)
-      ..write(obj.points)
-      ..writeByte(7)
-      ..write(obj.honestyPoints);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Class2ndAttendedActivityAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
-}
-
 class Class2ndActivityScoreTypeAdapter extends TypeAdapter<Class2ndActivityScoreType> {
   @override
   final int typeId = 63;

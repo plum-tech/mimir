@@ -17,8 +17,6 @@ class ActivityListPage extends StatefulWidget {
 }
 
 class _ActivityListPageState extends State<ActivityListPage> with SingleTickerProviderStateMixin {
-
-
   final loadingStates = ValueNotifier(commonClass2ndCategories.map((cat) => false).toList());
 
   @override

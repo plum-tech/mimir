@@ -28,11 +28,11 @@ class AttendedActivityCard extends StatelessWidget {
       child: ListTile(
         isThreeLine: true,
         titleTextStyle: context.textTheme.titleMedium,
-        title: Text("$title #${attended.applyId}"),
+        title: Text("$title #${attended.application.applyId}"),
         subtitleTextStyle: context.textTheme.bodyMedium,
         subtitle: [
           Divider(color: context.colorScheme.onSurfaceVariant),
-          context.formatYmdhmsNum(attended.time).text(),
+          context.formatYmdhmsNum(attended.application.time).text(),
           if (honestyPoints != null && honestyPoints.abs() > 0)
             "${honestyPoints.toStringAsFixed(2)} ${i18n.attended.honestyPoints}"
                 .text(style: TextStyle(color: honestyPoints.isNegative ? context.$red$ : null)),
@@ -44,10 +44,11 @@ class AttendedActivityCard extends StatelessWidget {
                 style: context.textTheme.titleMedium?.copyWith(color: points > 0 ? Colors.green : null),
               )
             : Text(
-                attended.status,
-                style: context.textTheme.titleMedium?.copyWith(color: attended.isPassed ? Colors.green : null),
+                attended.application.status,
+                style:
+                    context.textTheme.titleMedium?.copyWith(color: attended.application.isPassed ? Colors.green : null),
               ),
-        onTap: attended.activityId != -1
+        onTap: attended.application.activityId != -1
             ? () {
                 context.push("/class2nd/activity-detail", extra: activity);
               }

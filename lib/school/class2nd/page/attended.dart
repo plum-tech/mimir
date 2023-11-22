@@ -4,6 +4,8 @@ import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/school/class2nd/entity/list.dart';
+import 'package:sit/school/class2nd/utils.dart';
 
 import '../entity/attended.dart';
 import '../init.dart';
@@ -19,31 +21,30 @@ class AttendedActivityPage extends StatefulWidget {
 }
 
 class _AttendedActivityPageState extends State<AttendedActivityPage> {
-  List<Class2ndAttendedActivity>? attended = Class2ndInit.scoreStorage.attendedList;
+  List<Class2ndAttendedActivity>? attended = () {
+    final applications = Class2ndInit.scoreStorage.applicationList;
+    final scores = Class2ndInit.scoreStorage.scoreItemList;
+    if (applications == null || scores == null) return null;
+    return buildAttendedActivityList(
+      applications: applications,
+      scores: scores,
+    );
+  }();
   final _scrollController = ScrollController();
-  final $attended = Class2ndInit.scoreStorage.listenAttendedList();
   late bool isFetching = false;
   final $loadingProgress = ValueNotifier(0.0);
-  late var selectedCats = (attended ?? const []).map((activity) => activity.category).toSet();
+  late var selectedCats = Class2ndActivityCat.values.toSet();
 
   @override
   void initState() {
     super.initState();
     refresh(active: false);
-    $attended.addListener(onAttendedChanged);
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
-    $attended.removeListener(onAttendedChanged);
     super.dispose();
-  }
-
-  void onAttendedChanged() {
-    setState(() {
-      attended = Class2ndInit.scoreStorage.attendedList;
-    });
   }
 
   Future<void> refresh({required bool active}) async {
@@ -55,29 +56,14 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
       $loadingProgress.value = 0.5;
       final scoreItemList = await Class2ndInit.scoreService.fetchScoreItemList();
       $loadingProgress.value = 1.0;
-      final attended = applicationList.map((application) {
-        // 对于每一次申请, 找到对应的加分信息
-        final relatedScoreItems = scoreItemList.where((e) => e.activityId == application.activityId).toList();
-        // TODO: 潜在的 BUG，可能导致得分页面出现重复项。
-        return Class2ndAttendedActivity(
-          applyId: application.applyId,
-          activityId: application.activityId,
-          // because the application.title might have trailing ellipsis
-          title: relatedScoreItems.firstOrNull?.name ?? application.title,
-          time: application.time,
-          category: application.category,
-          status: application.status,
-          points: relatedScoreItems.isEmpty
-              ? null
-              : relatedScoreItems.fold<double>(0.0, (points, item) => points + item.points),
-          honestyPoints: relatedScoreItems.isEmpty
-              ? null
-              : relatedScoreItems.fold<double>(0.0, (points, item) => points + item.honestyPoints),
-        );
-      }).toList();
-      Class2ndInit.scoreStorage.attendedList = attended;
+      Class2ndInit.scoreStorage.applicationList = applicationList;
+      Class2ndInit.scoreStorage.scoreItemList = scoreItemList;
+
       if (!mounted) return;
-      setState(() => isFetching = false);
+      setState(() {
+        attended = buildAttendedActivityList(applications: applicationList, scores: scoreItemList);
+        isFetching = false;
+      });
     } catch (error, stackTrace) {
       debugPrint(error.toString());
       debugPrintStack(stackTrace: stackTrace);
@@ -101,7 +87,6 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
       body: NestedScrollView(
         floatHeaderSlivers: true,
         headerSliverBuilder: (context, innerBoxIsScrolled) {
-          final activities = attended;
           return <Widget>[
             SliverOverlapAbsorber(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
@@ -117,32 +102,6 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                 forceElevated: innerBoxIsScrolled,
               ),
             ),
-            SliverToBoxAdapter(
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: activities
-                    .map((activity) => activity.category)
-                    .toSet()
-                    .map(
-                      (cat) => FilterChip(
-                        label: cat.l10nName().text(),
-                        selected: selectedCats.contains(cat),
-                        onSelected: (value) {
-                          setState(() {
-                            final newSelection = Set.of(selectedCats);
-                            if (value) {
-                              newSelection.add(cat);
-                            } else {
-                              newSelection.remove(cat);
-                            }
-                            selectedCats = newSelection;
-                          });
-                        },
-                      ).padH(4),
-                    )
-                    .toList(),
-              ).sized(h: 40),
-            ),
           ];
         },
         body: RefreshIndicator.adaptive(
@@ -153,6 +112,32 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
           },
           child: CustomScrollView(
             slivers: [
+              SliverToBoxAdapter(
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children:
+                      (attended.isEmpty ? Class2ndActivityCat.values : attended.map((activity) => activity.category))
+                          .toSet()
+                          .map(
+                            (cat) => FilterChip(
+                              label: cat.l10nName().text(),
+                              selected: selectedCats.contains(cat),
+                              onSelected: (value) {
+                                setState(() {
+                                  final newSelection = Set.of(selectedCats);
+                                  if (value) {
+                                    newSelection.add(cat);
+                                  } else {
+                                    newSelection.remove(cat);
+                                  }
+                                  selectedCats = newSelection;
+                                });
+                              },
+                            ).padH(4),
+                          )
+                          .toList(),
+                ).sized(h: 40),
+              ),
               const SliverToBoxAdapter(
                 child: Divider(),
               ),
@@ -168,7 +153,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                   itemCount: filteredActivities.length,
                   itemBuilder: (ctx, i) {
                     final activity = filteredActivities[i];
-                    return AttendedActivityCard(activity).hero(activity.activityId);
+                    return AttendedActivityCard(activity);
                   },
                 ),
             ],

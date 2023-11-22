@@ -37,7 +37,6 @@ class HiveTypeClass2nd {
   static const activity = 50;
   static const activityDetails = 51;
   static const activityCat = 52;
-  static const attendedActivity = 53;
 
   // Second class score 55-59
   static const scoreSummary = 60;

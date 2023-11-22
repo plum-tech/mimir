@@ -8,7 +8,6 @@ class _K {
   static const scoreSummary = "/scoreSummary";
   static const scoreItemList = "/scoreItemList";
   static const applicationList = "/applicationList";
-  static const attendedList = "/attendedList";
 }
 
 class Class2ndScoreStorage {
@@ -30,11 +29,4 @@ class Class2ndScoreStorage {
       (box.get(_K.applicationList) as List?)?.cast<Class2ndActivityApplication>();
 
   set applicationList(List<Class2ndActivityApplication>? newValue) => box.put(_K.applicationList, newValue);
-
-  List<Class2ndAttendedActivity>? get attendedList =>
-      (box.get(_K.attendedList) as List?)?.cast<Class2ndAttendedActivity>();
-
-  set attendedList(List<Class2ndAttendedActivity>? newValue) => box.put(_K.attendedList, newValue);
-
-  ValueListenable<Box> listenAttendedList() => box.listenable(keys: [_K.attendedList]);
 }

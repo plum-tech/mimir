@@ -129,9 +129,9 @@ extension ActivityParser on Class2ndActivity {
   static Class2ndActivity parse(Class2ndAttendedActivity activity) {
     final (:title, :tags) = separateTagsFromTitle(activity.title);
     return Class2ndActivity(
-      id: activity.activityId,
+      id: activity.application.activityId,
       fullTitle: activity.title,
-      ts: activity.time,
+      ts: activity.application.time,
       realTitle: title,
       tags: tags,
     );

@@ -140,7 +140,7 @@ class Class2ndActivityApplication {
   @HiveField(5)
   final Class2ndActivityCat category;
 
-  Class2ndActivityApplication({
+  const Class2ndActivityApplication({
     required this.applyId,
     required this.activityId,
     required this.title,
@@ -148,6 +148,8 @@ class Class2ndActivityApplication {
     required this.status,
     required this.category,
   });
+
+  bool get isPassed => status == "通过";
 
   @override
   String toString() {
@@ -212,62 +214,33 @@ enum Class2ndActivityScoreType {
   }
 }
 
-@HiveType(typeId: HiveTypeClass2nd.attendedActivity)
 class Class2ndAttendedActivity {
-  /// 申请编号
-  @HiveField(0)
-  final int applyId;
-
-  /// 活动编号
-  @HiveField(1)
-  final int activityId;
-
-  /// 活动标题
-  @HiveField(2)
-  final String title;
-
-  /// 申请时间
-  @HiveField(3)
-  final DateTime time;
-
-  /// 申请时间
-  @HiveField(4)
-  final Class2ndActivityCat category;
-
-  /// 活动状态
-  @HiveField(5)
-  final String status;
+  final Class2ndActivityApplication application;
+  final List<Class2ndScoreItem> scores;
 
   /// 总得分
-  @HiveField(6)
   final double? points;
 
+  Class2ndActivityCat get category => application.category;
+
   /// 总诚信分
-  @HiveField(7)
   final double? honestyPoints;
 
+  /// Because the [application.title] might have trailing ellipsis
+  String get title => scores.firstOrNull?.name ?? application.title;
+
   const Class2ndAttendedActivity({
-    required this.applyId,
-    required this.activityId,
-    required this.title,
-    required this.time,
-    required this.category,
-    required this.status,
+    required this.application,
+    required this.scores,
     required this.points,
     required this.honestyPoints,
   });
 
-  bool get isPassed => status == "通过";
-
   @override
   String toString() {
     return {
-      "applyId": applyId,
-      "activityId": activityId,
-      "title": title,
-      "time": time,
-      "category": category,
-      "status": status,
+      "application": application,
+      "scores": scores,
       "points": points,
       "honestyPoints": honestyPoints,
     }.toString();

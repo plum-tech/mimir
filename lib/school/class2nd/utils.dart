@@ -1,5 +1,7 @@
 import 'package:sit/school/class2nd/entity/list.dart';
 
+import 'entity/attended.dart';
+
 final _tagParenthesesRegx = RegExp(r"\[(.*?)\]");
 
 ({String title, List<String> tags}) separateTagsFromTitle(String full) {
@@ -27,3 +29,23 @@ const commonClass2ndCategories = [
   Class2ndActivityCat.schoolCultureActivity,
   Class2ndActivityCat.schoolCultureCompetition,
 ];
+
+List<Class2ndAttendedActivity> buildAttendedActivityList({
+  required List<Class2ndActivityApplication> applications,
+  required List<Class2ndScoreItem> scores,
+}) {
+  final attended = applications.map((application) {
+    final relatedScoreItems = scores.where((e) => e.activityId == application.activityId).toList();
+    return Class2ndAttendedActivity(
+      application: application,
+      scores: relatedScoreItems,
+      points: relatedScoreItems.isEmpty
+          ? null
+          : relatedScoreItems.fold<double>(0.0, (points, item) => points + item.points),
+      honestyPoints: relatedScoreItems.isEmpty
+          ? null
+          : relatedScoreItems.fold<double>(0.0, (points, item) => points + item.honestyPoints),
+    );
+  }).toList();
+  return attended;
+}
