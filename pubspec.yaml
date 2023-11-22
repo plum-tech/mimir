@@ -127,6 +127,7 @@ dependencies:
   flutter_platform_widgets: ^6.0.2
   pull_down_button: ^0.9.3
   system_theme: ^2.3.1 # read system theme color
+  cupertino_onboarding: ^1.2.0
 
   # Utils
   # Get package info (version)
