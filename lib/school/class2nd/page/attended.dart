@@ -176,7 +176,6 @@ class AttendedActivityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (:title, :tags) = separateTagsFromTitle(attended.title);
-    tags.insert(0, attended.category.l10nName());
     final points = attended.calcTotalPoints();
     return FilledCard(
       clip: Clip.hardEdge,
@@ -185,9 +184,9 @@ class AttendedActivityCard extends StatelessWidget {
           title: title.text(),
           subtitleTextStyle: context.textTheme.bodyMedium,
           subtitle: [
-            "#${attended.application.applicationId}".text(),
+            "${attended.category.l10nName()} #${attended.application.applicationId}".text(),
             context.formatYmdhmsNum(attended.application.time).text(),
-            ActivityTagsGroup(tags),
+            if (tags.isNotEmpty) ActivityTagsGroup(tags),
           ].column(caa: CrossAxisAlignment.start),
           trailing: points != null
               ? Text(
