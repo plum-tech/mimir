@@ -1,6 +1,6 @@
 import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
-import 'package:sit/credentials/entity/email.dart';
+import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -18,7 +18,7 @@ class EduEmailInboxPage extends StatefulWidget {
 
 class _EduEmailInboxPageState extends State<EduEmailInboxPage> {
   List<MimeMessage>? messages;
-  EmailCredentials? credential = CredentialInit.storage.eduEmailCredentials;
+  Credentials? credential = CredentialInit.storage.eduEmailCredentials;
   final onEduEmailChanged = CredentialInit.storage.listenEduEmailChange();
 
   @override

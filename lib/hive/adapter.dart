@@ -1,6 +1,5 @@
 import 'package:hive/hive.dart';
 import 'package:sit/credentials/entity/credential.dart';
-import 'package:sit/credentials/entity/email.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/entity/campus.dart';
@@ -29,8 +28,7 @@ class HiveAdapter {
     ~CampusAdapter();
 
     // Credential
-    ~OaCredentialsAdapter();
-    ~EmailCredentialsAdapter();
+    ~CredentialsAdapter();
     ~LoginStatusAdapter();
     ~OaUserTypeAdapter();
 

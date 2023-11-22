@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/credentials/entity/email.dart';
+import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/r.dart';
@@ -145,8 +145,8 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
   }
 
   Future<void> onLogin() async {
-    final credential = EmailCredentials(
-      address: R.formatEduEmail(username: $username.text),
+    final credential = Credentials(
+      account: R.formatEduEmail(username: $username.text),
       password: $password.text,
     );
     try {

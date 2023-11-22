@@ -69,7 +69,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
     );
   }
 
-  Widget buildAccount(OaCredentials credential) {
+  Widget buildAccount(Credentials credential) {
     return ListTile(
       title: i18n.credentials.oaAccount.text(),
       subtitle: credential.account.text(),
@@ -83,7 +83,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
     );
   }
 
-  Widget buildPassword(OaCredentials credential) {
+  Widget buildPassword(Credentials credential) {
     return AnimatedSize(
       duration: const Duration(milliseconds: 100),
       child: ListTile(
@@ -118,7 +118,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
     );
   }
 
-  Widget buildTestLogin(OaCredentials credential) {
+  Widget buildTestLogin(Credentials credential) {
     return ListTile(
       enabled: loggingState != _TestLoginState.loggingIn,
       title: i18n.credentials.testLoginOa.text(),

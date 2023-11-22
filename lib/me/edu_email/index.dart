@@ -35,7 +35,7 @@ class _EduEmailAppCardState extends State<EduEmailAppCard> {
   @override
   Widget build(BuildContext context) {
     final credentials = CredentialInit.storage.eduEmailCredentials;
-    final email = credentials?.address.toString();
+    final email = credentials?.account.toString();
     return AppCard(
       title: i18n.title.text(),
       subtitle: email != null ? SelectableText(email) : null,

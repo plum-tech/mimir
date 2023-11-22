@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     try {
-      final oaCredential = OaCredentials(account: account, password: password);
+      final oaCredential = Credentials(account: account, password: password);
       await Init.ssoSession.loginLocked(oaCredential);
       // set user's real name to signature by default.
       final personName = await LoginInit.authServerService.getPersonName();

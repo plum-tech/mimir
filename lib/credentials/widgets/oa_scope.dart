@@ -51,7 +51,7 @@ class _OaAuthManagerState extends State<OaAuthManager> {
 }
 
 class OaAuth extends InheritedWidget {
-  final OaCredentials? credentials;
+  final Credentials? credentials;
   final DateTime? lastAuthTime;
   final LoginStatus loginStatus;
   final OaUserType userType;

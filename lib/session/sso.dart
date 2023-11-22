@@ -86,7 +86,7 @@ class SsoSession with DioDownloaderMixin {
   }
 
   /// - User try to log in actively on a login page.
-  Future<Response> loginLocked(OaCredentials credential) async {
+  Future<Response> loginLocked(Credentials credential) async {
     return await loginLock.synchronized(() async {
       return await _login(credential);
     });
@@ -175,7 +175,7 @@ class SsoSession with DioDownloaderMixin {
     return cookies.firstWhereOrNull((cookie) => cookie.name == "JSESSIONID");
   }
 
-  Future<Response> _login(OaCredentials credentials) async {
+  Future<Response> _login(Credentials credentials) async {
     Log.info('尝试登录：${credentials.account}');
     Log.debug('当前登录UA: ${dio.options.headers['User-Agent']}');
     // 在 OA 登录时, 服务端会记录同一 cookie 用户登录次数和输入错误次数,
