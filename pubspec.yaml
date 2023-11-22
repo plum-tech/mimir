@@ -16,7 +16,6 @@ dependencies:
   flutter: { sdk: flutter }
 
   # I18n
-  intl: ^0.17.0
   easy_localization: ^3.0.3
   locale_names: ^1.1.1
 
@@ -42,7 +41,7 @@ dependencies:
   # Hash (MD5)
   crypto: ^3.0.3
   # UUID generator
-  uuid: ^3.0.7
+  uuid: ^4.2.1
 
   # File format
   # iCalendar file generator
@@ -64,7 +63,7 @@ dependencies:
   hive_flutter: ^1.1.0
 
   # Dio (http client)
-  dio: ^5.3.3
+  dio: ^5.3.4
   dio_cookie_manager: ^3.1.1
 
   # WebView and browser related
@@ -84,7 +83,7 @@ dependencies:
 
   # Platform
   # Android / iOS / Windows Permission
-  permission_handler: ^11.0.1
+  permission_handler: ^11.1.0
   # Android / iOS Home screen quick actions
   quick_actions: ^1.0.6
 
@@ -110,7 +109,7 @@ dependencies:
   qr_flutter: ^4.1.0
   pretty_qr_code: ^3.0.0
   # qrcode scanner
-  mobile_scanner: ^3.5.2
+  mobile_scanner: ^3.5.3
   cached_network_image: ^3.3.0
   modal_bottom_sheet: ^3.0.0-pre
   auto_size_text: ^3.0.0
@@ -122,7 +121,7 @@ dependencies:
   sliver_tools: ^0.2.12
   flutter_staggered_grid_view: ^0.7.0
   flex_color_picker: ^3.3.0
-  flutter_swipe_action_cell: ^3.1.2
+  flutter_swipe_action_cell: ^3.1.3
   bordered_text: ^2.0.0
   flutter_platform_widgets: ^6.0.2
   pull_down_button: ^0.9.3
@@ -131,7 +130,7 @@ dependencies:
 
   # Utils
   # Get package info (version)
-  package_info_plus: ^4.2.0
+  package_info_plus: ^5.0.1
   # dart.io.Platform API for Web
   universal_platform: ^1.0.0+1
   # Check VPN connection status
@@ -154,7 +153,7 @@ dependency_overrides:
 
 dev_dependencies:
   flutter_test: { sdk: flutter }
-  flutter_lints: ^2.0.1
+  flutter_lints: ^3.0.1
   build_runner: ^2.2.0
   hive_generator: ^2.0.0
   test: ^1.24.9
