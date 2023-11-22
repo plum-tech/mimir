@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/fab.dart';
+import 'package:sit/l10n/extension.dart';
 import 'package:sit/widgets/html.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -11,7 +12,7 @@ import '../init.dart';
 import '../entity/list.dart';
 import '../i18n.dart';
 import '../utils.dart';
-import '../widgets/details.dart';
+import '../widgets/activity.dart';
 
 String _getActivityUrl(int activityId) {
   return 'http://sc.sit.edu.cn/public/activity/activityDetail.action?activityId=$activityId';
@@ -59,6 +60,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
   Widget build(BuildContext context) {
     final details = this.details;
     final (:title, :tags) = separateTagsFromTitle(activity.title);
+
     return Scaffold(
       body: SelectionArea(
         child: CustomScrollView(
@@ -85,9 +87,73 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
                     )
                   : null,
             ),
-            SliverToBoxAdapter(
-              child: ActivityDetailsCard(activity: activity, details: details).hero(activity.id),
-            ),
+            SliverList.list(children: [
+              ListTile(
+                title: i18n.info.name.text(),
+                subtitle: title.text(),
+                visualDensity: VisualDensity.compact,
+              ),
+              if (details != null) ...[
+                ListTile(
+                  title: i18n.info.startTime.text(),
+                  subtitle: context.formatYmdhmNum(details.startTime).text(),
+                  visualDensity: VisualDensity.compact,
+                ),
+                if (details.place != null)
+                  ListTile(
+                    title: i18n.info.location.text(),
+                    subtitle: details.place!.text(),
+                    visualDensity: VisualDensity.compact,
+                  ),
+                if (details.principal != null)
+                  ListTile(
+                    title: i18n.info.principal.text(),
+                    subtitle: details.principal!.text(),
+                    visualDensity: VisualDensity.compact,
+                  ),
+                if (details.organizer != null)
+                  ListTile(
+                    title: i18n.info.organizer.text(),
+                    subtitle: details.organizer!.text(),
+                    visualDensity: VisualDensity.compact,
+                  ),
+                if (details.undertaker != null)
+                  ListTile(
+                    title: i18n.info.undertaker.text(),
+                    subtitle: details.undertaker!.text(),
+                    visualDensity: VisualDensity.compact,
+                  ),
+                if (details.contactInfo != null)
+                  ListTile(
+                    title: i18n.info.contactInfo.text(),
+                    subtitle: details.contactInfo!.text(),
+                    visualDensity: VisualDensity.compact,
+                  ),
+                ListTile(
+                  title: i18n.info.signInTime.text(),
+                  subtitle: context.formatYmdhmNum(details.signStartTime).text(),
+                  visualDensity: VisualDensity.compact,
+                ),
+                ListTile(
+                  title: i18n.info.signOutTime.text(),
+                  subtitle: context.formatYmdhmNum(details.signEndTime).text(),
+                  visualDensity: VisualDensity.compact,
+                ),
+                if (details.duration != null)
+                  ListTile(
+                    title: i18n.info.duration.text(),
+                    subtitle: details.duration!.text(),
+                    visualDensity: VisualDensity.compact,
+                  ),
+              ],
+              if (tags.isNotEmpty)
+                ListTile(
+                  isThreeLine: true,
+                  title: i18n.info.tags.text(),
+                  subtitle: ActivityTagsGroup(tags),
+                  visualDensity: VisualDensity.compact,
+                ),
+            ]),
             if (details != null)
               if (details.description == null)
                 SliverToBoxAdapter(child: i18n.noDetails.text(style: context.textTheme.titleLarge))

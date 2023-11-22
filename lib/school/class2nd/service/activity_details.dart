@@ -62,20 +62,20 @@ class Class2ndActivityDetailsService {
     final properties = _splitActivityProperties(banner);
     final signTime = _parseSignTime(properties['刷卡时间段']!);
 
-    return Class2ndActivityDetails.named(
-        id: int.parse(properties['活动编号']!),
-        category: 0,
-        title: title,
-        startTime: _parseDateTime(properties['活动开始时间']!),
-        signStartTime: signTime[0],
-        signEndTime: signTime[1],
-        place: properties['活动地点'],
-        duration: properties['活动时长'],
-        principal: properties['负责人'],
-        contactInfo: properties['负责人电话'],
-        organizer: properties['主办方'],
-        undertaker: properties['承办方'],
-        description: description);
+    return Class2ndActivityDetails(
+      id: int.parse(properties['活动编号']!),
+      title: title,
+      startTime: _parseDateTime(properties['活动开始时间']!),
+      signStartTime: signTime[0],
+      signEndTime: signTime[1],
+      place: properties['活动地点'],
+      duration: properties['活动时长'],
+      principal: properties['负责人'],
+      contactInfo: properties['负责人电话'],
+      organizer: properties['主办方'],
+      undertaker: properties['承办方'],
+      description: description,
+    );
   }
 
   static Class2ndActivityDetails _parseActivityDetail(String htmlPage) {

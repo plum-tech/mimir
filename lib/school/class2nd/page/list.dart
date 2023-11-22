@@ -131,7 +131,7 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> {
             itemCount: activities.length,
             itemBuilder: (ctx, index) {
               final activity = activities[index];
-              return ActivityCard(activity).hero(activity.id);
+              return ActivityCard(activity);
             },
           ),
         ],
