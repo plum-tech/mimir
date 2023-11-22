@@ -59,7 +59,7 @@ Future<String?> searchRoom({
               child: ListTile(
                 title: HighlightedText(
                   full: full,
-                  baseStyle: ctx.textTheme.titleLarge,
+                  baseStyle: ctx.textTheme.bodyLarge,
                 ),
                 subtitle: room.l10n().text(),
                 onTap: () {
