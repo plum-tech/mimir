@@ -24,8 +24,8 @@ class ActivityCard extends StatelessWidget {
         titleTextStyle: textTheme.titleMedium,
         trailing: context.formatYmdNum(activity.ts).text(style: textTheme.bodyMedium),
         subtitle: ActivityTagsGroup(tags),
-        onTap: () {
-          context.push("/class2nd/activity-details?enable-apply=true", extra: activity);
+        onTap: () async {
+          await context.push("/class2nd/activity-details?enable-apply=true", extra: activity);
         },
       ),
     );

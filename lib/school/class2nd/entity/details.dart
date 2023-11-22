@@ -48,7 +48,7 @@ class Class2ndActivityDetails {
   @HiveField(10)
   final String? undertaker;
 
-  /// Description in text[]
+  /// Description in text.
   @HiveField(11)
   final String? description;
 

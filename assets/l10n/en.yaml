@@ -168,9 +168,9 @@ class2nd:
   title: Second class
   attended:
     title: Attended
-    id: Application ID
-    time: Time
-    honestyPoints: Honesty Points
+  tab:
+    info: Info
+    description: Description
   activity: Activity
   refreshSuccessTip: Second class score refreshed successfully
   refreshFailedTip: Failed to refresh second class score
@@ -189,6 +189,7 @@ class2nd:
     tags: Tags
     category: Activity category
     scoreType: Score type
+    honestyPoints: Honesty Points
     applicationTime: Application Time
     status: Status
     organizer: Organizer

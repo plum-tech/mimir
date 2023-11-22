@@ -26,7 +26,9 @@ class _I18n with CommonI18nMixin {
 
   String get noDetails => "$ns.noDetails".tr();
 
-  String get details => "$ns.details".tr();
+  String get infoTab => "$ns.tab.info".tr();
+
+  String get descriptionTab => "$ns.tab.description".tr();
 }
 
 class _Apply {
@@ -49,10 +51,6 @@ class _Attended {
   static const ns = "${_I18n.ns}.attended";
 
   String get title => "$ns.title".tr();
-
-  String get time => "$ns.time".tr();
-
-  String get honestyPoints => "$ns.honestyPoints".tr();
 }
 
 class _Info {
@@ -79,6 +77,8 @@ class _Info {
   String get category => "$ns.category".tr();
 
   String get scoreType => "$ns.scoreType".tr();
+
+  String get honestyPoints => "$ns.honestyPoints".tr();
 
   String get applicationTime => "$ns.applicationTime".tr();
 

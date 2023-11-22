@@ -169,9 +169,9 @@ class2nd:
   activity: 活動
   attended:
     title: 已參與
-    id: 申請 ID
-    time: 時間
-    honestyPoints: 誠信分
+  tab:
+    info: 資訊
+    description: 描述
   refreshSuccessTip: 第二課堂分重新整理成功
   refreshFailedTip: 第二課堂分重新整理失敗
   noAttendedActivities: 無參加過的活動
@@ -190,6 +190,7 @@ class2nd:
     tags: 標籤
     category: 活動類別
     scoreType: 加分類型
+    honestyPoints: 誠信分
     applicationTime: 申請時間
     contactInfo: 联络人
     duration: 活動時長

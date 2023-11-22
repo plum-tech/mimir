@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/widgets/html.dart';
 import 'package:rettulf/rettulf.dart';
@@ -32,10 +32,15 @@ class Class2ndActivityDetailsPage extends StatefulWidget {
   State<StatefulWidget> createState() => _Class2ndActivityDetailsPageState();
 }
 
+class _Tab {
+  static const length = 2;
+  static const info = 0;
+  static const document = 1;
+}
+
 class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPage> {
   Class2ndActivity get activity => widget.activity;
   late Class2ndActivityDetails? details = Class2ndInit.activityDetailsStorage.getActivityDetail(activity.id);
-  final scrollController = ScrollController();
   bool isFetching = false;
 
   @override
@@ -58,121 +63,59 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
 
   @override
   Widget build(BuildContext context) {
-    final details = this.details;
-    final (:title, :tags) = separateTagsFromTitle(activity.title);
-
     return Scaffold(
-      body: SelectionArea(
-        child: CustomScrollView(
-          controller: scrollController,
-          slivers: [
-            SliverAppBar(
-              floating: true,
-              title: i18n.info.activityOf(activity.id).text(),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.open_in_browser),
-                  onPressed: () {
-                    launchUrlString(
-                      _getActivityUrl(activity.id),
-                      mode: LaunchMode.externalApplication,
-                    );
-                  },
-                )
-              ],
-              bottom: isFetching
-                  ? const PreferredSize(
-                      preferredSize: Size.fromHeight(4),
-                      child: LinearProgressIndicator(),
+      body: DefaultTabController(
+        length: _Tab.length,
+        child: NestedScrollView(
+          floatHeaderSlivers: true,
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return <Widget>[
+              SliverOverlapAbsorber(
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                sliver: SliverAppBar(
+                  floating: true,
+                  title: i18n.info.activityOf(activity.id).text(),
+                  actions: [
+                    PlatformTextButton(
+                      child: i18n.apply.btn.text(),
+                      onPressed: () async {
+                        await showApplyRequest();
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.open_in_browser),
+                      onPressed: () {
+                        launchUrlString(
+                          _getActivityUrl(activity.id),
+                          mode: LaunchMode.externalApplication,
+                        );
+                      },
                     )
-                  : null,
-            ),
-            SliverList.list(children: [
-              ListTile(
-                title: i18n.info.name.text(),
-                subtitle: title.text(),
-                visualDensity: VisualDensity.compact,
+                  ],
+                  forceElevated: innerBoxIsScrolled,
+                  bottom: TabBar(
+                    isScrollable: true,
+                    tabs: [
+                      Tab(child: i18n.infoTab.text()),
+                      Tab(child: i18n.descriptionTab.text()),
+                    ],
+                  ),
+                ),
               ),
-              if (details != null) ...[
-                ListTile(
-                  title: i18n.info.startTime.text(),
-                  subtitle: context.formatYmdhmNum(details.startTime).text(),
-                  visualDensity: VisualDensity.compact,
-                ),
-                if (details.place != null)
-                  ListTile(
-                    title: i18n.info.location.text(),
-                    subtitle: details.place!.text(),
-                    visualDensity: VisualDensity.compact,
-                  ),
-                if (details.principal != null)
-                  ListTile(
-                    title: i18n.info.principal.text(),
-                    subtitle: details.principal!.text(),
-                    visualDensity: VisualDensity.compact,
-                  ),
-                if (details.organizer != null)
-                  ListTile(
-                    title: i18n.info.organizer.text(),
-                    subtitle: details.organizer!.text(),
-                    visualDensity: VisualDensity.compact,
-                  ),
-                if (details.undertaker != null)
-                  ListTile(
-                    title: i18n.info.undertaker.text(),
-                    subtitle: details.undertaker!.text(),
-                    visualDensity: VisualDensity.compact,
-                  ),
-                if (details.contactInfo != null)
-                  ListTile(
-                    title: i18n.info.contactInfo.text(),
-                    subtitle: details.contactInfo!.text(),
-                    visualDensity: VisualDensity.compact,
-                  ),
-                ListTile(
-                  title: i18n.info.signInTime.text(),
-                  subtitle: context.formatYmdhmNum(details.signStartTime).text(),
-                  visualDensity: VisualDensity.compact,
-                ),
-                ListTile(
-                  title: i18n.info.signOutTime.text(),
-                  subtitle: context.formatYmdhmNum(details.signEndTime).text(),
-                  visualDensity: VisualDensity.compact,
-                ),
-                if (details.duration != null)
-                  ListTile(
-                    title: i18n.info.duration.text(),
-                    subtitle: details.duration!.text(),
-                    visualDensity: VisualDensity.compact,
-                  ),
-              ],
-              if (tags.isNotEmpty)
-                ListTile(
-                  isThreeLine: true,
-                  title: i18n.info.tags.text(),
-                  subtitle: ActivityTagsGroup(tags),
-                  visualDensity: VisualDensity.compact,
-                ),
-            ]),
-            if (details != null)
-              if (details.description == null)
-                SliverToBoxAdapter(child: i18n.noDetails.text(style: context.textTheme.titleLarge))
-              else
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  sliver: RestyledHtmlWidget(details.description ?? "", renderMode: RenderMode.sliverList),
-                ),
-          ],
+            ];
+          },
+          body: TabBarView(
+            children: [
+              ActivityDetailsInfoTabView(activity: activity, details: details),
+              ActivityDetailsDocumentTabView(details: details),
+            ],
+          ),
         ),
       ),
-      floatingActionButton: widget.enableApply
-          ? AutoHideFAB.extended(
-              controller: scrollController,
-              icon: const Icon(Icons.person_add),
-              label: i18n.apply.btn.text(),
-              onPressed: () async {
-                await showApplyRequest();
-              },
+      bottomNavigationBar: isFetching
+          ? const PreferredSize(
+              preferredSize: Size.fromHeight(4),
+              child: LinearProgressIndicator(),
             )
           : null,
     );
@@ -212,5 +155,142 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
       context.showSnackBar(content: Text('错误: ${e.runtimeType}'), duration: const Duration(seconds: 3));
       rethrow;
     }
+  }
+}
+
+class ActivityDetailsInfoTabView extends StatefulWidget {
+  final Class2ndActivity activity;
+  final Class2ndActivityDetails? details;
+
+  const ActivityDetailsInfoTabView({
+    super.key,
+    required this.activity,
+    this.details,
+  });
+
+  @override
+  State<ActivityDetailsInfoTabView> createState() => _ActivityDetailsInfoTabViewState();
+}
+
+class _ActivityDetailsInfoTabViewState extends State<ActivityDetailsInfoTabView> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    final details = widget.details;
+    final (:title, :tags) = separateTagsFromTitle(widget.activity.title);
+
+    return SelectionArea(
+      child: CustomScrollView(
+        slivers: [
+          SliverList.list(children: [
+            ListTile(
+              title: i18n.info.name.text(),
+              subtitle: title.text(),
+              visualDensity: VisualDensity.compact,
+            ),
+            if (details != null) ...[
+              ListTile(
+                title: i18n.info.startTime.text(),
+                subtitle: context.formatYmdhmNum(details.startTime).text(),
+                visualDensity: VisualDensity.compact,
+              ),
+              if (details.place != null)
+                ListTile(
+                  title: i18n.info.location.text(),
+                  subtitle: details.place!.text(),
+                  visualDensity: VisualDensity.compact,
+                ),
+              if (details.principal != null)
+                ListTile(
+                  title: i18n.info.principal.text(),
+                  subtitle: details.principal!.text(),
+                  visualDensity: VisualDensity.compact,
+                ),
+              if (details.organizer != null)
+                ListTile(
+                  title: i18n.info.organizer.text(),
+                  subtitle: details.organizer!.text(),
+                  visualDensity: VisualDensity.compact,
+                ),
+              if (details.undertaker != null)
+                ListTile(
+                  title: i18n.info.undertaker.text(),
+                  subtitle: details.undertaker!.text(),
+                  visualDensity: VisualDensity.compact,
+                ),
+              if (details.contactInfo != null)
+                ListTile(
+                  title: i18n.info.contactInfo.text(),
+                  subtitle: details.contactInfo!.text(),
+                  visualDensity: VisualDensity.compact,
+                ),
+              if (tags.isNotEmpty)
+                ListTile(
+                  isThreeLine: true,
+                  title: i18n.info.tags.text(),
+                  subtitle: ActivityTagsGroup(tags),
+                  visualDensity: VisualDensity.compact,
+                ),
+              ListTile(
+                title: i18n.info.signInTime.text(),
+                subtitle: context.formatYmdhmNum(details.signStartTime).text(),
+                visualDensity: VisualDensity.compact,
+              ),
+              ListTile(
+                title: i18n.info.signOutTime.text(),
+                subtitle: context.formatYmdhmNum(details.signEndTime).text(),
+                visualDensity: VisualDensity.compact,
+              ),
+              if (details.duration != null)
+                ListTile(
+                  title: i18n.info.duration.text(),
+                  subtitle: details.duration!.text(),
+                  visualDensity: VisualDensity.compact,
+                ),
+            ],
+          ]),
+        ],
+      ),
+    );
+  }
+}
+
+class ActivityDetailsDocumentTabView extends StatefulWidget {
+  final Class2ndActivityDetails? details;
+
+  const ActivityDetailsDocumentTabView({
+    super.key,
+    this.details,
+  });
+
+  @override
+  State<ActivityDetailsDocumentTabView> createState() => _ActivityDetailsDocumentTabViewState();
+}
+
+class _ActivityDetailsDocumentTabViewState extends State<ActivityDetailsDocumentTabView>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    final description = widget.details?.description;
+    return SelectionArea(
+      child: CustomScrollView(
+        slivers: [
+          if (description == null)
+            SliverToBoxAdapter(child: i18n.noDetails.text(style: context.textTheme.titleLarge))
+          else
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              sliver: RestyledHtmlWidget(description, renderMode: RenderMode.sliverList),
+            )
+        ],
+      ),
+    );
   }
 }

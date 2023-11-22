@@ -345,7 +345,7 @@ class Class2ndScoreTile extends StatelessWidget {
             ),
             const TextSpan(text: "\n"),
             TextSpan(
-              text: "${i18n.attended.honestyPoints} ${_pointsText(score.honestyPoints)}",
+              text: "${i18n.info.honestyPoints} ${_pointsText(score.honestyPoints)}",
               style: context.textTheme.bodyLarge?.copyWith(color: _pointsColor(context, score.honestyPoints)),
             ),
           ]),
@@ -363,7 +363,7 @@ class Class2ndScoreTile extends StatelessWidget {
     } else if (score.honestyPoints != 0) {
       return ListTile(
         titleTextStyle: context.textTheme.bodyLarge?.copyWith(color: _pointsColor(context, score.honestyPoints)),
-        title: "${i18n.attended.honestyPoints} ${_pointsText(score.honestyPoints)}".text(),
+        title: "${i18n.info.honestyPoints} ${_pointsText(score.honestyPoints)}".text(),
         subtitle: subtitle,
       );
     } else {
