@@ -180,6 +180,26 @@ class2nd:
     replyTip: 校方回复
     applyRequest: 报名
     applyRequestDesc: 确认报名这个活动吗？
+  info:
+    activityId: 活动编号
+    applicationId: 申请编号
+    activityOf: "活动 #{}"
+    applicationOf: "申请 #{}"
+    name: 活动名称
+    tags: 标签
+    category: 类别
+    applicationTime: 申请时间
+    status: 状态
+    contactInfo: 联系方式
+    duration: 活动时长
+    location: 活动地点
+    myScoreTitle: 第二课堂学分
+    organizer: 主办方
+    principal: 负责人
+    signInTime: 签到时间
+    signOutTime: 签退时间
+    startTime: 开始时间
+    undertaker: 承办方
   activityCat:
     lecture: 讲座报告
     thematicEdu: 主题教育
@@ -210,20 +230,8 @@ class2nd:
     schoolSafetyCivilization:
       full: 校园安全文明
       short: 文明
-  id: 活动编号
-  contactInfo: 联系方式
   noDetails: 暂无信息
   details: 活动资料
-  duration: 活动时长
-  location: 活动地点
-  myScoreTitle: 第二课堂学分
-  organizer: 主办方
-  principal: 负责人
-  signInTime: 签到时间
-  signOutTime: 签退时间
-  startTime: 开始时间
-  tags: 标签
-  undertaker: 承办方
 ywb:
   title: 应网办
   info: |

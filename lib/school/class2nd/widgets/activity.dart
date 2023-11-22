@@ -43,7 +43,7 @@ class ActivityTagsGroup extends StatelessWidget {
     final textTheme = context.textTheme;
     return tags
         .map(
-          (tag) => RawChip(
+          (tag) => Chip(
             label: tag.text(),
             padding: EdgeInsets.zero,
             labelStyle: textTheme.bodySmall,

@@ -180,6 +180,26 @@ class2nd:
     replyTip: 校方回信
     applyRequest: 申請
     applyRequestDesc: 確認要申請這個活動嗎？
+  info:
+    activityId: 活動 ID
+    applicationId: 申請 ID
+    activityOf: "活動 #{}"
+    applicationOf: "申請 #{}"
+    status: 狀態
+    name: 活動名稱
+    tags: 標籤
+    category: 類別
+    applicationTime: 申請時間
+    contactInfo: 联络人
+    duration: 活動時長
+    location: 活動地點
+    myScoreTitle: 第二課堂學分
+    organizer: 組織者
+    principal: 主辦方
+    signInTime: 簽到時間
+    signOutTime: 簽退時間
+    startTime: 開始時間
+    undertaker: 承辦人
   activityCat:
     lecture: 講座報告
     thematicEdu: 主題教育
@@ -210,20 +230,8 @@ class2nd:
     schoolSafetyCivilization:
       full: 校園安全文明
       short: 安全
-  id: 活動 ID
-  contactInfo: 联络人
   noDetails: 暫無資訊
   details: 詳細資料
-  duration: 活動時長
-  location: 活動地點
-  myScoreTitle: 第二課堂學分
-  organizer: 組織者
-  principal: 主辦方
-  signInTime: 簽到時間
-  signOutTime: 簽退時間
-  startTime: 開始時間
-  tags: 標籤
-  undertaker: 承辦人
 ywb:
   title: 應網辦
   info: |

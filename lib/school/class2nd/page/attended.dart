@@ -10,7 +10,6 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/class2nd/entity/list.dart';
 import 'package:sit/school/class2nd/utils.dart';
-import 'package:text_scroll/text_scroll.dart';
 
 import '../entity/attended.dart';
 import '../init.dart';
@@ -183,12 +182,10 @@ class AttendedActivityCard extends StatelessWidget {
       clip: Clip.hardEdge,
       child: ListTile(
           isThreeLine: true,
-          titleTextStyle: context.textTheme.titleMedium,
           title: title.text(),
           subtitleTextStyle: context.textTheme.bodyMedium,
           subtitle: [
-            "#${attended.application.applyId}".text(),
-            Divider(color: context.colorScheme.onSurfaceVariant),
+            "#${attended.application.applicationId}".text(),
             context.formatYmdhmsNum(attended.application.time).text(),
             ActivityTagsGroup(tags),
           ].column(caa: CrossAxisAlignment.start),
@@ -224,15 +221,57 @@ class Class2ndAttendDetailsPage extends StatefulWidget {
 class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
   @override
   Widget build(BuildContext context) {
-    final (:title, :tags) = separateTagsFromTitle(widget.activity.title);
-    final scores = widget.activity.scores;
+    final activity = widget.activity;
+    final (:title, :tags) = separateTagsFromTitle(activity.title);
+    final scores = activity.scores;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             floating: true,
-            title: TextScroll(title),
+            title: i18n.info.applicationOf(activity.application.applicationId).text(),
           ),
+          SliverList.list(children: [
+            ListTile(
+              title: i18n.info.name.text(),
+              subtitle: title.text(),
+              visualDensity: VisualDensity.compact,
+            ),
+            ListTile(
+              title: i18n.info.category.text(),
+              subtitle: activity.category.l10nName().text(),
+              visualDensity: VisualDensity.compact,
+            ),
+            ListTile(
+              title: i18n.info.applicationTime.text(),
+              subtitle: context.formatYmdhmNum(activity.application.time).text(),
+              visualDensity: VisualDensity.compact,
+            ),
+            ListTile(
+              title: i18n.info.status.text(),
+              subtitle: activity.application.status.text(),
+              visualDensity: VisualDensity.compact,
+            ),
+            if (tags.isNotEmpty)
+              ListTile(
+                isThreeLine: true,
+                title: i18n.info.tags.text(),
+                subtitle: ActivityTagsGroup(tags),
+                visualDensity: VisualDensity.compact,
+              ),
+            ListTile(
+              title: "Open details".text(),
+              subtitle: i18n.info.activityOf(activity.application.activityId).text(),
+              trailing: const Icon(Icons.open_in_new),
+              onTap: () async {
+                // TODO: Open activity details page
+              },
+            ),
+          ]),
+          if (scores.isNotEmpty)
+            const SliverToBoxAdapter(
+              child: Divider(),
+            ),
           SliverList.builder(
             itemCount: scores.length,
             itemBuilder: (ctx, i) {

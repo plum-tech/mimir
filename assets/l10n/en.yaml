@@ -180,6 +180,24 @@ class2nd:
     replyTip: Reply from school
     applyRequest: Apply
     applyRequestDesc: Confirm to apply this activity?
+  info:
+    activityId: Activity ID
+    applicationId: Application ID
+    activityOf: "Activity #{}"
+    applicationOf: "Application #{}"
+    name: Name
+    tags: Tags
+    category: Category
+    applicationTime: Application Time
+    status: Status
+    organizer: Organizer
+    principal: Principal
+    signInTime: Sign-in
+    signOutTime: Sign-out
+    startTime: Start Time
+    undertaker: Undertaker
+    duration: Duration
+    location: Location
   activityCat:
     lecture: Lecture
     thematicEdu: Thematic Edu
@@ -210,20 +228,9 @@ class2nd:
     schoolSafetyCivilization:
       full: School Safety&Civilization
       short: Civil.
-  id: Activity ID
   contactInfo: Contact Info
   noDetails: No details given
   details: Activity Details
-  duration: Duration
-  location: Location
-  myScoreTitle: Second Class Score
-  organizer: Organizer
-  principal: Principal
-  signInTime: Sign-in
-  signOutTime: Sign-out
-  startTime: Start Time
-  tags: Tags
-  undertaker: Undertaker
 ywb:
   title: SIT YWB
   info: |

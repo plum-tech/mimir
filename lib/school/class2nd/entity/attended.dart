@@ -118,7 +118,7 @@ class Class2ndScoreItem {
 class Class2ndActivityApplication {
   /// 申请编号
   @HiveField(0)
-  final int applyId;
+  final int applicationId;
 
   /// 活动编号
   /// -1 if the activity was cancelled.
@@ -141,7 +141,7 @@ class Class2ndActivityApplication {
   final Class2ndActivityCat category;
 
   const Class2ndActivityApplication({
-    required this.applyId,
+    required this.applicationId,
     required this.activityId,
     required this.title,
     required this.time,
@@ -154,7 +154,7 @@ class Class2ndActivityApplication {
   @override
   String toString() {
     return {
-      "applyId": applyId,
+      "applyId": applicationId,
       "activityId": activityId,
       "title": title,
       "time": time,
@@ -222,6 +222,7 @@ class Class2ndAttendedActivity {
     if (scores.isEmpty) return null;
     return scores.fold<double>(0.0, (pre, e) => pre + e.points);
   }
+
   double? calcTotalHonestyPoints() {
     if (scores.isEmpty) return null;
     return scores.fold<double>(0.0, (pre, e) => pre + e.honestyPoints);
@@ -229,7 +230,7 @@ class Class2ndAttendedActivity {
 
   Class2ndActivityCat get category => application.category;
 
-  /// Because the [application.title] might have trailing ellipsis
+  /// Because the [application.name] might have trailing ellipsis
   String get title => scores.firstOrNull?.name ?? application.title;
 
   const Class2ndAttendedActivity({

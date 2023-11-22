@@ -138,7 +138,7 @@ class Class2ndScoreService {
 
   static Class2ndActivityApplication _activityMapDetail(Bs4Element item) {
     final applyIdText = item.find('td:nth-child(1)')!.text.trim();
-    final applyId = int.parse(applyIdText);
+    final applicationId = int.parse(applyIdText);
     final activityIdText = item.find('td:nth-child(3)')!.innerHtml.trim();
     // 部分取消了的活动，活动链接不存在，这里将活动 id 记为 -1.
     final activityId = int.parse(activityIdRe.firstMatch(activityIdText)?.group(1) ?? '-1');
@@ -151,7 +151,7 @@ class Class2ndScoreService {
     final status = item.find('td:nth-child(9)')!.text.trim();
 
     return Class2ndActivityApplication(
-      applyId: applyId,
+      applicationId: applicationId,
       activityId: activityId,
       title: mapChinesePunctuations(title),
       category: category!,

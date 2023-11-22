@@ -111,7 +111,7 @@ class Class2ndActivityApplicationAdapter extends TypeAdapter<Class2ndActivityApp
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Class2ndActivityApplication(
-      applyId: fields[0] as int,
+      applicationId: fields[0] as int,
       activityId: fields[1] as int,
       title: fields[2] as String,
       time: fields[3] as DateTime,
@@ -125,7 +125,7 @@ class Class2ndActivityApplicationAdapter extends TypeAdapter<Class2ndActivityApp
     writer
       ..writeByte(6)
       ..writeByte(0)
-      ..write(obj.applyId)
+      ..write(obj.applicationId)
       ..writeByte(1)
       ..write(obj.activityId)
       ..writeByte(2)
