@@ -33,6 +33,19 @@ class OaCredentialsException implements Exception {
   }
 }
 
+class LibraryCredentialsException implements Exception {
+  final String message;
+
+  const LibraryCredentialsException({
+    required this.message,
+  });
+
+  @override
+  String toString() {
+    return "LibraryCredentialsException: $message";
+  }
+}
+
 class LoginCaptchaCancelledException implements Exception {
   const LoginCaptchaCancelledException();
 }

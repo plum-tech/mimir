@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:sit/credentials/i18n.dart';
 import 'package:sit/l10n/common.dart';
 
 const i18n = _I18n();
@@ -38,15 +39,13 @@ class _Action {
 class _Login {
   const _Login();
 
+  final credentials = const CredentialsI18n();
+
   static const ns = "${_I18n.ns}.login";
 
   String get title => "$ns.title".tr();
 
-  String get loginBtn => "$ns.loginBtn".tr();
-
   String get addressHint => "$ns.addressHint".tr();
-
-  String get forgotPwdBtn => "$ns.forgotPwdBtn".tr();
 
   String get failedWarn => "$ns.failedWarn".tr();
 }

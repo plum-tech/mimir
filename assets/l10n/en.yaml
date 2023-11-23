@@ -245,7 +245,7 @@ ywb:
   apply: Apply
   noMetaTip: No applications
   mine:
-    title: My applications
+    title: Mine
     noApplicationsTip: No applications
   details:
     apply: Apply
@@ -260,12 +260,15 @@ captcha:
 credentials:
   studentId: Student ID
   account: Account
-  oaAccount: OA Account
-  oaPwd: OA Password
-  savedOaPwd: Saved OA Password
+  password: Password
+  oaAccount: OA account
+  oaPwd: OA password
+  savedOaPwd: Saved OA password
   savedOaPwdDesc: Used to auto-login OA
   pwd: Password
-  error: Credentials Error
+  error: Credentials error
+  login: Login
+  forgotPwd: Forgot password?
 easyconnect:
   launchBtn: Launch EasyConnect
   launchFailed: Launch Failed
@@ -286,10 +289,8 @@ eduEmail:
     outbox: Outbox
   login:
     title: Login Edu email
-    loginBtn: Login
     addressHint: Student ID/Work number
     failedWarn: Login Failed
-    forgotPwdBtn: Forgot password?
   inbox:
     title: Inbox
   outbox:
@@ -404,20 +405,23 @@ login:
   schoolServerUnconnectedTip: Can't connect to school server
   unknownAuthErrorTip: Unknown authentication error
   accountHint: Student ID/Work number
-  forgotPwdBtn: Forgot password?
   loggedInTip: Logged in
   notLoggedIn: Not Logged In
   invalidAccountFormat: Invalid Account format
   offlineModeBtn: Offline Mode
   oaPwdHint: Enter your OA password
   failedWarn: Login Failed
-  loginBtn: Login
   formatError: Format Error
   loginRequired: Login Required
   neverLoggedInTip: You have to login to perform this
 library:
   title: Library
   hotPost: HOT
+  readerId: Reader Id
+  login:
+    title: Login library
+    readerIdHint: your Student ID
+    passwordHint: 888888 by default
 settings:
   title: Settings
   version: Version

@@ -9,6 +9,7 @@ import 'package:sit/index.dart';
 import 'package:sit/me/edu_email/page/login.dart';
 import 'package:sit/me/edu_email/page/outbox.dart';
 import 'package:sit/school/class2nd/entity/attended.dart';
+import 'package:sit/school/library/page/login.dart';
 import 'package:sit/school/ywb/page/meta.dart';
 import 'package:sit/school/ywb/page/application.dart';
 import 'package:sit/settings/page/life.dart';
@@ -291,11 +292,12 @@ final _teacherEvalRoute = GoRoute(
   redirect: _loginRequired,
 );
 
-final _libraryRoute = GoRoute(
-  path: "/library",
-  // TODO: library
-  builder: (ctx, state) => const Placeholder(),
-);
+final _libraryRoutes = [
+  GoRoute(
+    path: "/library/login",
+    builder: (ctx, state) => const LibraryLoginPage(),
+  ),
+];
 
 final _examArrange = GoRoute(
   path: "/exam-arrange",
@@ -379,7 +381,7 @@ RoutingConfig buildCommonRoutingConfig() {
       _ywbRoute,
       _examResult,
       _examArrange,
-      _libraryRoute,
+      ..._libraryRoutes,
       _teacherEvalRoute,
       _loginRoute,
       _imageRoute,
@@ -409,7 +411,7 @@ RoutingConfig buildTimetableFocusRouter() {
       _ywbRoute,
       _examResult,
       _examArrange,
-      _libraryRoute,
+      ..._libraryRoutes,
       _teacherEvalRoute,
       _loginRoute,
       _imageRoute,

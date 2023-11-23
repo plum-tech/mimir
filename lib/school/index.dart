@@ -86,9 +86,9 @@ class _SchoolPageState extends State<SchoolPage> {
                 const SliverToBoxAdapter(
                   child: YwbAppCard(),
                 ),
-              // const SliverToBoxAdapter(
-              //   child: LibraryAppCard(),
-              // ),
+              const SliverToBoxAdapter(
+                child: LibraryAppCard(),
+              ),
               const SliverToBoxAdapter(
                 child: YellowPagesAppCard(),
               ),

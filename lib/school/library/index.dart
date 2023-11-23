@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/design/widgets/app.dart';
 
 import './i18n.dart';
@@ -13,8 +15,27 @@ class LibraryAppCard extends StatefulWidget {
 }
 
 class _LibraryAppCardState extends State<LibraryAppCard> {
+  final $credentials = CredentialInit.storage.listenLibraryChange();
+
+  @override
+  void initState() {
+    $credentials.addListener(onCredentialsChanged);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    $credentials.removeListener(onCredentialsChanged);
+    super.dispose();
+  }
+
+  void onCredentialsChanged() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    final credentials = CredentialInit.storage.libraryCredentials;
     return AppCard(
       title: i18n.title.text(),
       leftActions: [
@@ -25,10 +46,18 @@ class _LibraryAppCardState extends State<LibraryAppCard> {
           icon: const Icon(Icons.search),
           label: i18n.search.text(),
         ),
-        OutlinedButton(
-          onPressed: () {},
-          child: i18n.seeAll.text(),
-        )
+        if (credentials == null)
+          OutlinedButton(
+            onPressed: () async {
+              await context.push("/library/login");
+            },
+            child: "Login".text(),
+          )
+        else
+          OutlinedButton(
+            onPressed: () {},
+            child: "Me".text(),
+          )
       ],
     );
   }

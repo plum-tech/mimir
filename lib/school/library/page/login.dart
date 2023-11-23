@@ -1,4 +1,3 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -6,24 +5,22 @@ import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/login/widgets/forgot_pwd.dart';
-import 'package:sit/r.dart';
 import 'package:rettulf/rettulf.dart';
 import '../init.dart';
 import '../i18n.dart';
 
-const _forgotLoginPasswordUrl =
-    "http://imap.mail.sit.edu.cn//edu_reg/retrieve/redirect?redirectURL=http://imap.mail.sit.edu.cn/coremail/index.jsp";
+const _forgotLoginPasswordUrl = "http://210.35.66.106/opac/reader/retrievePassword";
 
-class EduEmailLoginPage extends StatefulWidget {
-  const EduEmailLoginPage({super.key});
+class LibraryLoginPage extends StatefulWidget {
+  const LibraryLoginPage({super.key});
 
   @override
-  State<EduEmailLoginPage> createState() => _EduEmailLoginPageState();
+  State<LibraryLoginPage> createState() => _LibraryLoginPageState();
 }
 
-class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
+class _LibraryLoginPageState extends State<LibraryLoginPage> {
   final initialAccount = CredentialInit.storage.oaCredentials?.account;
-  late final $username = TextEditingController(text: initialAccount);
+  late final $readerId = TextEditingController(text: initialAccount);
   final $password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isPasswordClear = false;
@@ -31,7 +28,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
 
   @override
   void dispose() {
-    $username.dispose();
+    $readerId.dispose();
     $password.dispose();
     super.dispose();
   }
@@ -68,29 +65,22 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
   }
 
   Widget buildForm() {
-    // TODO: i18n
     return Form(
       autovalidateMode: AutovalidateMode.always,
       key: _formKey,
       child: Column(
         children: [
           TextFormField(
-            controller: $username,
+            controller: $readerId,
             textInputAction: TextInputAction.next,
             autofocus: true,
             readOnly: initialAccount != null,
             autocorrect: false,
             enableSuggestions: false,
-            validator: (username) {
-              if (username == null) return null;
-              if (EmailValidator.validate(R.formatEduEmail(username: username))) return null;
-              return "invalid email address format";
-            },
             decoration: InputDecoration(
-              labelText: "Email Address",
-              hintText: "your Student ID",
-              suffixText: "@${R.eduEmailDomain}",
-              icon: const Icon(Icons.alternate_email_outlined),
+              labelText: i18n.readerId,
+              hintText: i18n.login.readerIdHint,
+              icon: const Icon(Icons.chrome_reader_mode),
             ),
           ),
           TextFormField(
@@ -113,6 +103,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
             },
             decoration: InputDecoration(
               labelText: i18n.login.credentials.password,
+              hintText: i18n.login.passwordHint,
               icon: const Icon(Icons.lock),
               suffixIcon: IconButton(
                 icon: Icon(isPasswordClear ? Icons.visibility : Icons.visibility_off),
@@ -130,7 +121,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
   }
 
   Widget buildLoginButton() {
-    return $username >>
+    return $readerId >>
         (ctx, account) => FilledButton.icon(
               // Online
               onPressed: !isLoggingIn && account.text.isNotEmpty
@@ -147,14 +138,14 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
 
   Future<void> onLogin() async {
     final credential = Credentials(
-      account: R.formatEduEmail(username: $username.text),
+      account: $readerId.text,
       password: $password.text,
     );
     try {
       if (!mounted) return;
       setState(() => isLoggingIn = true);
-      await EduEmailInit.service.login(credential);
-      CredentialInit.storage.eduEmailCredentials = credential;
+      await LibraryInit.auth.login(credential);
+      CredentialInit.storage.libraryCredentials = credential;
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       context.replace("/edu-email/inbox");
