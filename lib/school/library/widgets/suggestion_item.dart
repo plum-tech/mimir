@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rettulf/rettulf.dart';
 
 typedef SuggestionItemTap = void Function(String item);
 
@@ -8,14 +9,14 @@ class SuggestionItemView extends StatefulWidget {
   final int limitLength;
 
   const SuggestionItemView({
-    Key? key,
+    super.key,
     this.onItemTap,
     this.titleItems = const [],
     this.limitLength = 20,
-  }) : super(key: key);
+  });
 
   @override
-  _SuggestionItemViewState createState() => _SuggestionItemViewState();
+  State<SuggestionItemView> createState() => _SuggestionItemViewState();
 }
 
 class _SuggestionItemViewState extends State<SuggestionItemView> {
@@ -56,49 +57,21 @@ class _SuggestionItemViewState extends State<SuggestionItemView> {
     bool shouldShowExpandButton = widget.titleItems.length > widget.limitLength;
     return Column(
       children: [
-        Wrap(
-          alignment: WrapAlignment.start,
-          children: items.map((item) {
-            return Container(
-              padding: const EdgeInsets.all(5),
-              child: SuggestionItem(
-                title: item,
-                onTap: () {
+        items
+            .map((item) {
+              return ActionChip(
+                label: item.text(),
+                onPressed: () {
                   if (widget.onItemTap != null) {
                     widget.onItemTap!(item);
                   }
                 },
-              ),
-            );
-          }).toList(),
-        ),
+              );
+            })
+            .toList()
+            .wrap(spacing: 4),
         shouldShowExpandButton ? buildExpandButton() : const SizedBox(),
       ],
-    );
-  }
-}
-
-class SuggestionItem extends StatefulWidget {
-  final String? title;
-  final GestureTapCallback? onTap;
-
-  const SuggestionItem({Key? key, this.title, this.onTap}) : super(key: key);
-
-  @override
-  _SuggestionItemState createState() => _SuggestionItemState();
-}
-
-class _SuggestionItemState extends State<SuggestionItem> {
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      child: Chip(
-        label: Text(widget.title ?? ''),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-      onTap: widget.onTap,
     );
   }
 }

@@ -96,10 +96,10 @@ class BookSearchService {
       },
     );
 
-    var htmlElement = BeautifulSoup(response.data);
+    final soup = BeautifulSoup(response.data);
 
-    var currentPage = htmlElement.find('b', selector: '.meneame > b')?.text.trim() ?? '$page';
-    var resultNumAndTime = htmlElement
+    var currentPage = soup.find('b', selector: '.meneame > b')?.text.trim() ?? '$page';
+    var resultNumAndTime = soup
         .find(
           'div',
           selector: '#search_meta > div:nth-child(1)',
@@ -108,13 +108,13 @@ class BookSearchService {
     var resultCount =
         int.parse(RegExp(r'检索到: (\S*) 条结果').allMatches(resultNumAndTime).first.group(1)!.replaceAll(',', ''));
     var useTime = double.parse(RegExp(r'检索时间: (\S*) 秒').allMatches(resultNumAndTime).first.group(1)!);
-    var totalPages = htmlElement.find('div', class_: 'meneame')!.find('span', class_: 'disabled')!.text.trim();
+    var totalPages = soup.find('div', class_: 'meneame')!.find('span', class_: 'disabled')!.text.trim();
 
     return BookSearchResult(
         resultCount,
         useTime,
         int.parse(currentPage),
         int.parse(totalPages.substring(1, totalPages.length - 1).trim().replaceAll(',', '')),
-        htmlElement.find('table', class_: 'resultTable')!.findAll('tr').map((e) => _parseBook(e)).toList());
+        soup.find('table', class_: 'resultTable')!.findAll('tr').map((e) => _parseBook(e)).toList());
   }
 }

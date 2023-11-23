@@ -7,7 +7,7 @@ import '../entity/holding_preview.dart';
 import '../init.dart';
 import '../widgets/search_result_item.dart';
 import '../utils.dart';
-import 'search_delegate.dart';
+import 'search.dart';
 
 class BookInfoPage extends StatefulWidget {
   /// 上一层传递进来的数据

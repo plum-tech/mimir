@@ -5,7 +5,7 @@ import 'package:sit/credentials/init.dart';
 import 'package:sit/design/widgets/app.dart';
 
 import './i18n.dart';
-import 'page/search_delegate.dart';
+import 'page/search.dart';
 
 class LibraryAppCard extends StatefulWidget {
   const LibraryAppCard({super.key});

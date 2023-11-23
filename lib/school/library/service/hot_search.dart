@@ -20,8 +20,9 @@ class HotSearchService {
   }
 
   Future<HotSearch> getHotSearch() async {
-    var response = await session.request(Constants.hotSearchUrl, ReqMethod.get);
-    var fieldsets = BeautifulSoup(response.data).findAll('fieldset');
+    final response = await session.request(Constants.hotSearchUrl, ReqMethod.get);
+    final soup = BeautifulSoup(response.data);
+    final fieldsets = soup.findAll('fieldset');
 
     List<HotSearchItem> getHotSearchItems(Bs4Element fieldset) {
       return fieldset.findAll('a').map((e) => _parse(e.text)).toList();
