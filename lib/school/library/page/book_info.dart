@@ -121,37 +121,14 @@ class _BookInfoPageState extends State<BookInfoPage> {
           .toList(),
     );
   }
-
-  Widget buildHoldingItem(HoldingPreviewItem item) {
-    return Card(
-      child: Container(
-        padding: const EdgeInsets.all(15),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('索书号：' + item.callNo),
-                  Text('所在馆：' + item.currentLocation),
-                ],
-              ),
-            ),
-            Text('在馆(${item.loanableCount})/馆藏(${item.copyCount})'),
-          ],
-        ),
-      ),
-    );
-  }
-
   /// 构造馆藏信息列表
   Widget buildHolding(List<HoldingPreviewItem> items) {
     return Column(
       children: items.map((item) {
         return FilledCard(
           child: ListTile(
-            title: Text('所在馆：' + item.currentLocation),
-            subtitle: Text('索书号：' + item.callNo),
+            title: Text('所在馆：${item.currentLocation}'),
+            subtitle: Text('索书号：${item.callNo}'),
             trailing: Text('在馆(${item.loanableCount})/馆藏(${item.copyCount})'),
           ),
         );
@@ -159,6 +136,16 @@ class _BookInfoPageState extends State<BookInfoPage> {
     );
   }
 }
+
+class BookHoldingCard extends StatelessWidget {
+  const BookHoldingCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
 
 class NearBooksGroup extends StatefulWidget {
   final int maxSize;
