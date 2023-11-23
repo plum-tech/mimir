@@ -97,8 +97,6 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
 
     debugPrint(searchResult.toString());
     return await BookImageHolding.simpleQuery(
-      LibraryInit.bookImageSearch,
-      LibraryInit.holdingPreview,
       searchResult.books,
     );
   }

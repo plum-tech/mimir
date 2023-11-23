@@ -2,15 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/widgets/image.dart';
-import 'package:sit/widgets/placeholder_future_builder.dart';
+import 'package:sit/design/widgets/card.dart';
 
 import '../entity/book_info.dart';
 import '../entity/book_search.dart';
 import '../entity/holding_preview.dart';
 import '../init.dart';
 import '../utils.dart';
-import 'search.dart';
 import 'search_result.dart';
 
 class BookInfoPage extends StatefulWidget {
@@ -56,6 +54,7 @@ class _BookInfoPageState extends State<BookInfoPage> {
                     imageUrl: imgUrl,
                     placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
                     errorWidget: (context, url, error) => const Icon(Icons.error),
+                    fit: BoxFit.fitHeight,
                   ),
           ),
           SliverList.list(children: [
@@ -90,25 +89,11 @@ class _BookInfoPageState extends State<BookInfoPage> {
               visualDensity: VisualDensity.compact,
             ),
           ]),
-          const SliverToBoxAdapter(
-            child: Divider(),
-          ),
-          SliverToBoxAdapter(
-            child: buildBookDetails().padAll(10),
-          ),
-          const SliverToBoxAdapter(
-            child: Divider(),
-          ),
           SliverList.list(children: [
-            buildTitle('馆藏信息'),
+            const Divider(),
+            buildBookDetails().padAll(10),
+            const Divider(),
             buildHolding(widget.bookImageHolding.holding ?? []),
-          ]),
-          const SliverToBoxAdapter(
-            child: Divider(),
-          ),
-          SliverList.list(children: [
-            buildTitle('邻近的书'),
-            NearBooksGroup(bookId: widget.bookImageHolding.book.bookId),
           ]),
         ],
       ),
@@ -162,15 +147,15 @@ class _BookInfoPageState extends State<BookInfoPage> {
   /// 构造馆藏信息列表
   Widget buildHolding(List<HoldingPreviewItem> items) {
     return Column(
-      children: items.map(buildHoldingItem).toList(),
-    );
-  }
-
-  /// 构造标题样式的文本
-  Widget buildTitle(String text) {
-    return Text(
-      text,
-      style: Theme.of(context).textTheme.titleLarge,
+      children: items.map((item) {
+        return FilledCard(
+          child: ListTile(
+            title: Text('所在馆：' + item.currentLocation),
+            subtitle: Text('索书号：' + item.callNo),
+            trailing: Text('在馆(${item.loanableCount})/馆藏(${item.copyCount})'),
+          ),
+        );
+      }).toList(),
     );
   }
 }
@@ -212,37 +197,53 @@ class _NearBooksGroupState extends State<NearBooksGroup> {
     if (nearBookIdList == null) return const CircularProgressIndicator.adaptive();
     return Column(
       children: nearBookIdList.sublist(0, widget.maxSize).map((bookId) {
-        return buildBookItem(bookId);
+        return AsyncBookItem(bookId: bookId);
       }).toList(),
     );
   }
+}
 
-  /// 构造邻近的书
-  Widget buildBookItem(String bookId) {
-    Future<BookImageHolding> get() async {
-      final result = await LibraryInit.bookSearch.search(
-        keyword: bookId,
-        rows: 1,
-        searchWay: SearchMethod.bookId,
-      );
-      final ret = await BookImageHolding.simpleQuery(
-        LibraryInit.bookImageSearch,
-        LibraryInit.holdingPreview,
-        result.books,
-      );
-      return ret[0];
-    }
+class AsyncBookItem extends StatefulWidget {
+  final String bookId;
 
-    return PlaceholderFutureBuilder<BookImageHolding>(
-      future: get(),
-      builder: (ctx, data, state) {
-        if (data == null) return const CircularProgressIndicator.adaptive();
-        return BookCard(
-          data,
-          onTap: () async {
-            await context.show$Sheet$((ctx) => BookInfoPage(data));
-          },
-        );
+  const AsyncBookItem({super.key, required this.bookId});
+
+  @override
+  State<AsyncBookItem> createState() => _AsyncBookItemState();
+}
+
+class _AsyncBookItemState extends State<AsyncBookItem> {
+  BookImageHolding? holding;
+
+  @override
+  void initState() {
+    super.initState();
+    fetch();
+  }
+
+  Future<void> fetch() async {
+    final result = await LibraryInit.bookSearch.search(
+      keyword: widget.bookId,
+      rows: 1,
+      searchWay: SearchMethod.bookId,
+    );
+    final ret = await BookImageHolding.simpleQuery(
+      result.books,
+    );
+    if (!context.mounted) return;
+    setState(() {
+      holding = ret[0];
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final holding = this.holding;
+    if (holding == null) return const CircularProgressIndicator.adaptive();
+    return BookCard(
+      holding,
+      onTap: () async {
+        await context.show$Sheet$((ctx) => BookInfoPage(holding));
       },
     );
   }
