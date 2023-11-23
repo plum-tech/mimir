@@ -1,8 +1,13 @@
-import 'dart:collection';
-
 class BookInfo {
-  String title = '';
-  String isbn = '';
-  String price = '';
-  LinkedHashMap<String, String> rawDetail = LinkedHashMap<String, String>();
+  final String title;
+  final String isbn;
+  final String price;
+  final Map<String, String> rawDetail;
+
+  BookInfo({
+    required this.title,
+    required this.isbn,
+    required this.price,
+    required this.rawDetail,
+  });
 }

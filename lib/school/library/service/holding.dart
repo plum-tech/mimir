@@ -257,9 +257,8 @@ class HoldingInfoService {
         'holding': '1',
       },
     );
-    String html = response.data;
-
-    return BeautifulSoup(html)
+    final soup = BeautifulSoup(response.data);
+    return soup
         .findAll(
           'a',
           attrs: {'target': '_blank'},

@@ -1,4 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/widgets/image.dart';
 import 'package:sit/widgets/placeholder_future_builder.dart';
 
 import '../entity/book_info.dart';
@@ -38,31 +42,80 @@ class _BookInfoPageState extends State<BookInfoPage> {
 
   @override
   Widget build(BuildContext context) {
+    final book = widget.bookImageHolding.book;
+    final imgUrl = widget.bookImageHolding.image?.resourceLink;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
+          SliverAppBar(
+            automaticallyImplyLeading: false,
+            expandedHeight: 300.0,
+            flexibleSpace: imgUrl == null
+                ? null
+                : CachedNetworkImage(
+                    imageUrl: imgUrl,
+                    placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  ),
+          ),
           SliverList.list(children: [
-            BookCard(
-              widget.bookImageHolding,
-              onAuthorTap: (String key) {
-                showSearch(context: context, delegate: LibrarySearchDelegate(), query: key);
-              },
+            ListTile(
+              title: "Title".text(),
+              subtitle: book.title.text(),
+              visualDensity: VisualDensity.compact,
             ),
-            const SizedBox(height: 20),
-            buildBookDetail(),
-            const SizedBox(height: 20),
+            ListTile(
+              title: "Author".text(),
+              subtitle: book.author.text(),
+              visualDensity: VisualDensity.compact,
+            ),
+            ListTile(
+              title: "ISBN".text(),
+              subtitle: book.isbn.text(),
+              visualDensity: VisualDensity.compact,
+            ),
+            ListTile(
+              title: "Call No.".text(),
+              subtitle: book.callNo.text(),
+              visualDensity: VisualDensity.compact,
+            ),
+            ListTile(
+              title: "Publisher".text(),
+              subtitle: book.publisher.text(),
+              visualDensity: VisualDensity.compact,
+            ),
+            ListTile(
+              title: "Publish date".text(),
+              subtitle: book.publishDate.text(),
+              visualDensity: VisualDensity.compact,
+            ),
+          ]),
+          const SliverToBoxAdapter(
+            child: Divider(),
+          ),
+          SliverToBoxAdapter(
+            child: buildBookDetails().padAll(10),
+          ),
+          const SliverToBoxAdapter(
+            child: Divider(),
+          ),
+          SliverList.list(children: [
             buildTitle('馆藏信息'),
             buildHolding(widget.bookImageHolding.holding ?? []),
-            const SizedBox(height: 20),
+          ]),
+          const SliverToBoxAdapter(
+            child: Divider(),
+          ),
+          SliverList.list(children: [
             buildTitle('邻近的书'),
-            buildNearBooks(widget.bookImageHolding.book.bookId),
-          ])
+            NearBooksGroup(bookId: widget.bookImageHolding.book.bookId),
+          ]),
         ],
       ),
     );
   }
 
-  Widget buildBookDetail() {
+  Widget buildBookDetails() {
     final info = this.info;
     if (info == null) return const CircularProgressIndicator.adaptive();
     return Table(
@@ -74,12 +127,12 @@ class _BookInfoPageState extends State<BookInfoPage> {
       children: info.rawDetail.entries
           .map(
             (e) => TableRow(
-          children: [
-            Text(e.key, style: Theme.of(context).textTheme.titleSmall),
-            SelectableText(e.value, style: Theme.of(context).textTheme.bodyMedium),
-          ],
-        ),
-      )
+              children: [
+                Text(e.key, style: Theme.of(context).textTheme.titleSmall),
+                SelectableText(e.value, style: Theme.of(context).textTheme.bodyMedium),
+              ],
+            ),
+          )
           .toList(),
     );
   }
@@ -117,7 +170,50 @@ class _BookInfoPageState extends State<BookInfoPage> {
   Widget buildTitle(String text) {
     return Text(
       text,
-      style: Theme.of(context).textTheme.displayLarge,
+      style: Theme.of(context).textTheme.titleLarge,
+    );
+  }
+}
+
+class NearBooksGroup extends StatefulWidget {
+  final int maxSize;
+  final String bookId;
+
+  const NearBooksGroup({
+    super.key,
+    required this.bookId,
+    this.maxSize = 5,
+  });
+
+  @override
+  State<NearBooksGroup> createState() => _NearBooksGroupState();
+}
+
+class _NearBooksGroupState extends State<NearBooksGroup> {
+  List<String>? nearBookIdList;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchNearBooks();
+  }
+
+  Future<void> fetchNearBooks() async {
+    final nearBookIdList = await LibraryInit.holdingInfo.searchNearBookIdList(widget.bookId);
+    if (!context.mounted) return;
+    setState(() {
+      this.nearBookIdList = nearBookIdList;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final nearBookIdList = this.nearBookIdList;
+    if (nearBookIdList == null) return const CircularProgressIndicator.adaptive();
+    return Column(
+      children: nearBookIdList.sublist(0, widget.maxSize).map((bookId) {
+        return buildBookItem(bookId);
+      }).toList(),
     );
   }
 
@@ -141,33 +237,11 @@ class _BookInfoPageState extends State<BookInfoPage> {
       future: get(),
       builder: (ctx, data, state) {
         if (data == null) return const CircularProgressIndicator.adaptive();
-        return InkWell(
-          child: Card(
-            child: BookCard(data),
-          ),
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (BuildContext context) {
-                return BookInfoPage(data);
-              }),
-            );
+        return BookCard(
+          data,
+          onTap: () async {
+            await context.show$Sheet$((ctx) => BookInfoPage(data));
           },
-        );
-      },
-    );
-  }
-
-  Widget buildNearBooks(String bookId) {
-    return PlaceholderFutureBuilder<List<String>>(
-      future: LibraryInit.holdingInfo.searchNearBookIdList(bookId),
-      builder: (ctx, data, state) {
-        if (data == null) return const CircularProgressIndicator.adaptive();
-        return Column(
-          children: data.sublist(0, 5).map((bookId) {
-            return Container(
-              child: buildBookItem(bookId),
-            );
-          }).toList(),
         );
       },
     );

@@ -13,24 +13,10 @@ class BookInfoService {
 
   const BookInfoService();
 
-  BookInfo _createBookInfo(LinkedHashMap<String, String> rawDetail) {
-    final isbnAndPriceStr = rawDetail['ISBN']!;
-    final isbnAndPrice = isbnAndPriceStr.split('价格：');
-    final isbn = isbnAndPrice[0];
-    final price = isbnAndPrice[1];
-
-    return BookInfo()
-      ..title = rawDetail.entries.first.value
-      ..isbn = isbn
-      ..price = price
-      ..rawDetail = rawDetail;
-  }
-
   Future<BookInfo> query(String bookId) async {
     final response = await session.request('${Constants.bookUrl}/$bookId', ReqMethod.get);
-    final html = response.data;
-
-    final detailItems = BeautifulSoup(html)
+    final soup = BeautifulSoup(response.data);
+    final detailItems = soup
         .find('table', id: 'bookInfoTable')!
         .findAll('tr')
         .map(
@@ -57,7 +43,7 @@ class BookInfoService {
       },
     ).toList();
 
-    final rawDetail = LinkedHashMap.fromEntries(
+    final rawDetails = LinkedHashMap.fromEntries(
       detailItems.sublist(1).map(
             (e) => MapEntry(
               e[0].substring(0, e[0].length - 1),
@@ -65,6 +51,20 @@ class BookInfoService {
             ),
           ),
     );
-    return _createBookInfo(rawDetail);
+    return createBookInfo(rawDetails);
+  }
+
+  BookInfo createBookInfo(LinkedHashMap<String, String> rawDetails) {
+    final isbnAndPriceStr = rawDetails['ISBN']!;
+    final isbnAndPrice = isbnAndPriceStr.split('价格：');
+    final isbn = isbnAndPrice[0];
+    final price = isbnAndPrice[1];
+
+    return BookInfo(
+      title: rawDetails.entries.first.value,
+      isbn: isbn,
+      price: price,
+      rawDetail: rawDetails,
+    );
   }
 }

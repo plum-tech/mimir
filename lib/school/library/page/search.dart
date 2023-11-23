@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/widgets/placeholder_future_builder.dart';
 
 import '../entity/book_search.dart';
 import '../entity/hot_search.dart';
 import '../entity/search_history.dart';
 import '../init.dart';
 import 'search_result.dart';
-import '../widgets/suggestion_item.dart';
 
 class LibrarySearchDelegate extends SearchDelegate<String> {
   Widget? _suggestionView;
@@ -117,19 +115,123 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
             ),
             const SizedBox(height: 20),
             Text('大家都在搜', style: Theme.of(context).textTheme.bodyLarge),
-            PlaceholderFutureBuilder<HotSearch>(
-              future: LibraryInit.hotSearchService.getHotSearch(),
-              builder: (ctx, data, state) {
-                if (data == null) return const CircularProgressIndicator.adaptive().center();
-                return SuggestionItemView(
-                  titleItems: data.recentMonth.map((e) => e.hotSearchWord).toList(),
-                  onItemTap: (title) => _searchByGiving(context, title),
-                );
-              },
-            ),
+            HotSearchGroup(onTap: (title) => _searchByGiving(context, title)),
           ],
         ),
       ),
+    );
+  }
+}
+
+class HotSearchGroup extends StatefulWidget {
+  final void Function(String keyword)? onTap;
+
+  const HotSearchGroup({
+    super.key,
+    this.onTap,
+  });
+
+  @override
+  State<HotSearchGroup> createState() => _HotSearchGroupState();
+}
+
+class _HotSearchGroupState extends State<HotSearchGroup> {
+  HotSearch? hotSearch;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchHotSearch();
+  }
+
+  Future<void> fetchHotSearch() async {
+    final hotSearch = await LibraryInit.hotSearchService.getHotSearch();
+    if (!context.mounted) return;
+    setState(() {
+      this.hotSearch = hotSearch;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final hotSearch = this.hotSearch;
+    if (hotSearch == null) return const SizedBox();
+    return SuggestionItemView(
+      titleItems: hotSearch.recentMonth.map((e) => e.hotSearchWord).toList(),
+      onItemTap: (title) => widget.onTap?.call(title),
+    );
+  }
+}
+
+class SuggestionItemView extends StatefulWidget {
+  final void Function(String item)? onItemTap;
+  final List<String> titleItems;
+  final int limitLength;
+
+  const SuggestionItemView({
+    super.key,
+    this.onItemTap,
+    this.titleItems = const [],
+    this.limitLength = 20,
+  });
+
+  @override
+  State<SuggestionItemView> createState() => _SuggestionItemViewState();
+}
+
+class _SuggestionItemViewState extends State<SuggestionItemView> {
+  bool showMore = false;
+
+  Widget buildExpandButton() {
+    return InkWell(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: showMore
+            ? [
+                const Icon(Icons.expand_less),
+                const Text('点击合起'),
+              ]
+            : [
+                const Icon(Icons.expand_more),
+                const Text('点击展开'),
+              ],
+      ),
+      onTap: () {
+        setState(() {
+          showMore = !showMore;
+        });
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var items = widget.titleItems;
+    // 没展开时候显示的数目
+    int limitLength = items.length >= widget.limitLength ? widget.limitLength : items.length;
+    // 根据情况切片到小于等于指定长度
+    items = items.sublist(0, showMore ? items.length : limitLength);
+
+    // 是否应当显示展开按钮
+    // 只有当超过限制时才显示
+    bool shouldShowExpandButton = widget.titleItems.length > widget.limitLength;
+    return Column(
+      children: [
+        items
+            .map((item) {
+              return ActionChip(
+                label: item.text(),
+                onPressed: () {
+                  if (widget.onItemTap != null) {
+                    widget.onItemTap!(item);
+                  }
+                },
+              );
+            })
+            .toList()
+            .wrap(spacing: 4),
+        shouldShowExpandButton ? buildExpandButton() : const SizedBox(),
+      ],
     );
   }
 }
