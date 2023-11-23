@@ -428,12 +428,12 @@ library:
     author: Author
     isbn: ISBN
     publisher: Publisher
-    callNumber: Call number
+    callNumber: Call No.
     titleProper: Primary title
     subject: Subject
     class: Class
     bookId: Book ID
-    orderNumber: Order number
+    orderNumber: Order No.
 settings:
   title: Settings
   version: Version

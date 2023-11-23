@@ -13,37 +13,74 @@ class BookInfoPage extends StatefulWidget {
   /// 上一层传递进来的数据
   final BookImageHolding bookImageHolding;
 
-  const BookInfoPage(this.bookImageHolding, {Key? key}) : super(key: key);
+  const BookInfoPage(this.bookImageHolding, {super.key});
 
   @override
   State<BookInfoPage> createState() => _BookInfoPageState();
 }
 
 class _BookInfoPageState extends State<BookInfoPage> {
+  BookInfo? info;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDetails();
+  }
+
+  Future<void> fetchDetails() async {
+    final info = await LibraryInit.bookInfo.query(widget.bookImageHolding.book.bookId);
+    if (!context.mounted) return;
+    setState(() {
+      this.info = info;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverList.list(children: [
+            BookCard(
+              widget.bookImageHolding,
+              onAuthorTap: (String key) {
+                showSearch(context: context, delegate: LibrarySearchDelegate(), query: key);
+              },
+            ),
+            const SizedBox(height: 20),
+            buildBookDetail(),
+            const SizedBox(height: 20),
+            buildTitle('馆藏信息'),
+            buildHolding(widget.bookImageHolding.holding ?? []),
+            const SizedBox(height: 20),
+            buildTitle('邻近的书'),
+            buildNearBooks(widget.bookImageHolding.book.bookId),
+          ])
+        ],
+      ),
+    );
+  }
+
   Widget buildBookDetail() {
-    final bookId = widget.bookImageHolding.book.bookId;
-    return PlaceholderFutureBuilder<BookInfo>(
-      future: LibraryInit.bookInfo.query(bookId),
-      builder: (ctx, data, state) {
-        if (data == null) return const CircularProgressIndicator.adaptive();
-        return Table(
-          columnWidths: const {
-            0: FlexColumnWidth(2),
-            1: FlexColumnWidth(5),
-          },
-          // border: TableBorder.all(color: Colors.red),
-          children: data.rawDetail.entries
-              .map(
-                (e) => TableRow(
-                  children: [
-                    Text(e.key, style: Theme.of(context).textTheme.titleSmall),
-                    SelectableText(e.value, style: Theme.of(context).textTheme.bodyMedium),
-                  ],
-                ),
-              )
-              .toList(),
-        );
+    final info = this.info;
+    if (info == null) return const CircularProgressIndicator.adaptive();
+    return Table(
+      columnWidths: const {
+        0: FlexColumnWidth(2),
+        1: FlexColumnWidth(5),
       },
+      // border: TableBorder.all(color: Colors.red),
+      children: info.rawDetail.entries
+          .map(
+            (e) => TableRow(
+          children: [
+            Text(e.key, style: Theme.of(context).textTheme.titleSmall),
+            SelectableText(e.value, style: Theme.of(context).textTheme.bodyMedium),
+          ],
+        ),
+      )
+          .toList(),
     );
   }
 
@@ -133,36 +170,6 @@ class _BookInfoPageState extends State<BookInfoPage> {
           }).toList(),
         );
       },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('图书详情'),
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        child: SingleChildScrollView(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            BookCard(
-              widget.bookImageHolding,
-              onAuthorTap: (String key) {
-                showSearch(context: context, delegate: LibrarySearchDelegate(), query: key);
-              },
-            ),
-            const SizedBox(height: 20),
-            buildBookDetail(),
-            const SizedBox(height: 20),
-            buildTitle('馆藏信息'),
-            buildHolding(widget.bookImageHolding.holding ?? []),
-            const SizedBox(height: 20),
-            buildTitle('邻近的书'),
-            buildNearBooks(widget.bookImageHolding.book.bookId),
-          ]),
-        ),
-      ),
     );
   }
 }

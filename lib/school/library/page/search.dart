@@ -68,8 +68,8 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
         ..time = DateTime.now(),
     );
     return BookSearchResultWidget(
-      query,
-      requestQueryKeyCallback: (String key) {
+      query: query,
+      onAuthorTap: (String key) {
         _searchByGiving(
           context,
           key,

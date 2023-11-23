@@ -422,6 +422,18 @@ library:
     title: 登入圖書館
     readerIdHint: 你的學號
     passwordHint: 預設密碼為 888888
+  searchMethod:
+    any: 任意
+    title: 標題
+    author: 作者
+    isbn: ISBN
+    publisher: 發行商
+    callNumber: 索書號
+    titleProper: 主要標題
+    subject: 主題
+    class: 類別
+    bookId: 圖書 ID
+    orderNumber: 訂購號
 settings:
   title: 設定
   version: 版本
