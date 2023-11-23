@@ -7,8 +7,8 @@ class BookSearchMock {
     String keyword = '',
     int rows = 10,
     int page = 1,
-    SearchWay searchWay = SearchWay.title,
-    SortWay sortWay = SortWay.matchScore,
+    SearchMethod searchWay = SearchMethod.title,
+    SortMethod sortWay = SortMethod.matchScore,
     SortOrder sortOrder = SortOrder.desc,
   }) async {
     await Future.delayed(const Duration(microseconds: 300));

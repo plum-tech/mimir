@@ -422,6 +422,18 @@ library:
     title: Login library
     readerIdHint: your Student ID
     passwordHint: 888888 by default
+  searchMethod:
+    any: Any
+    title: Title
+    author: Author
+    isbn: ISBN
+    publisher: Publisher
+    callNumber: Call number
+    titleProper: Primary title
+    subject: Subject
+    class: Class
+    bookId: Book ID
+    orderNumber: Order number
 settings:
   title: Settings
   version: Version

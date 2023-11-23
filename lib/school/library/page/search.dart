@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:rettulf/rettulf.dart';
 import 'package:sit/widgets/placeholder_future_builder.dart';
 
 import '../entity/book_search.dart';
 import '../entity/hot_search.dart';
 import '../entity/search_history.dart';
 import '../init.dart';
-import '../widgets/search_result.dart';
+import 'search_result.dart';
 import '../widgets/suggestion_item.dart';
 
 class LibrarySearchDelegate extends SearchDelegate<String> {
   Widget? _suggestionView;
 
   /// 当前的搜索模式
-  SearchWay _searchWay = SearchWay.any;
+  SearchMethod _searchWay = SearchMethod.any;
 
   /// 给定一个关键词，开始搜索该关键词
-  void _searchByGiving(BuildContext context, String key, {SearchWay searchWay = SearchWay.any}) async {
+  void _searchByGiving(BuildContext context, String key, {SearchMethod searchWay = SearchMethod.any}) async {
     query = key;
 
     // 若已经显示过结果，这里无法直接再次显示结果
@@ -72,10 +73,10 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
         _searchByGiving(
           context,
           key,
-          searchWay: SearchWay.author,
+          searchWay: SearchMethod.author,
         );
       },
-      searchWay: _searchWay,
+      initialSearchMethod: _searchWay,
     );
   }
 
@@ -119,7 +120,7 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
             PlaceholderFutureBuilder<HotSearch>(
               future: LibraryInit.hotSearchService.getHotSearch(),
               builder: (ctx, data, state) {
-                if (data == null) return const CircularProgressIndicator.adaptive();
+                if (data == null) return const CircularProgressIndicator.adaptive().center();
                 return SuggestionItemView(
                   titleItems: data.recentMonth.map((e) => e.hotSearchWord).toList(),
                   onItemTap: (title) => _searchByGiving(context, title),

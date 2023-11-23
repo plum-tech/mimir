@@ -127,7 +127,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                   scrollDirection: Axis.horizontal,
                   physics: const RangeMaintainingScrollPhysics(),
                   children: [
-                    FilterChip(
+                    ChoiceChip(
                       label: Class2ndActivityCat.allCatL10n().text(),
                       selected: selectedCat == null,
                       onSelected: (value) {
@@ -137,7 +137,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                       },
                     ).padH(4),
                     ...attended.map((activity) => activity.category).toSet().map(
-                          (cat) => FilterChip(
+                          (cat) => ChoiceChip(
                             label: cat.l10nName().text(),
                             selected: selectedCat == cat,
                             onSelected: (value) {
@@ -156,7 +156,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                   scrollDirection: Axis.horizontal,
                   physics: const RangeMaintainingScrollPhysics(),
                   children: [
-                    FilterChip(
+                    ChoiceChip(
                       label: Class2ndScoreType.allCatL10n().text(),
                       selected: selectedScoreType == null,
                       onSelected: (value) {
@@ -166,7 +166,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                       },
                     ).padH(4),
                     ...attended.map((activity) => activity.category.scoreType).whereNotNull().toSet().map(
-                          (scoreType) => FilterChip(
+                          (scoreType) => ChoiceChip(
                             label: scoreType.l10nFullName().text(),
                             selected: selectedScoreType == scoreType,
                             onSelected: (value) {

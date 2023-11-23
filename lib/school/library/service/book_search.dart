@@ -11,36 +11,36 @@ class BookSearchService {
 
   const BookSearchService();
 
-  static String _searchWayToString(SearchWay sw) {
+  static String _searchWayToString(SearchMethod sw) {
     return {
-      SearchWay.any: '',
-      SearchWay.title: 'title',
-      SearchWay.titleProper: 'title200a',
-      SearchWay.isbn: 'isbn',
-      SearchWay.author: 'author',
-      SearchWay.subjectWord: 'subject',
-      SearchWay.classNo: 'class',
-      SearchWay.ctrlNo: 'ctrlno',
-      SearchWay.orderNo: 'orderno',
-      SearchWay.publisher: 'publisher',
-      SearchWay.callNo: 'callno',
+      SearchMethod.any: '',
+      SearchMethod.title: 'title',
+      SearchMethod.primaryTitle: 'title200a',
+      SearchMethod.isbn: 'isbn',
+      SearchMethod.author: 'author',
+      SearchMethod.subject: 'subject',
+      SearchMethod.$class: 'class',
+      SearchMethod.bookId: 'ctrlno',
+      SearchMethod.orderNumber: 'orderno',
+      SearchMethod.publisher: 'publisher',
+      SearchMethod.callNumber: 'callno',
     }[sw]!;
   }
 
-  static String _sortWayToString(SortWay sw) {
+  static String _sortWayToString(SortMethod sw) {
     return {
-      SortWay.matchScore: 'score',
-      SortWay.publishDate: 'pubdate_sort',
-      SortWay.subject: 'subject_sort',
-      SortWay.title: 'title_sort',
-      SortWay.author: 'author_sort',
-      SortWay.callNo: 'callno_sort',
-      SortWay.pinyin: 'pinyin_sort',
-      SortWay.loanCount: 'loannum_sort',
-      SortWay.renewCount: 'renew_sort',
-      SortWay.titleWeight: 'title200Weight',
-      SortWay.titleProperWeight: 'title200aWeight',
-      SortWay.volume: 'title200h',
+      SortMethod.matchScore: 'score',
+      SortMethod.publishDate: 'pubdate_sort',
+      SortMethod.subject: 'subject_sort',
+      SortMethod.title: 'title_sort',
+      SortMethod.author: 'author_sort',
+      SortMethod.callNo: 'callno_sort',
+      SortMethod.pinyin: 'pinyin_sort',
+      SortMethod.loanCount: 'loannum_sort',
+      SortMethod.renewCount: 'renew_sort',
+      SortMethod.titleWeight: 'title200Weight',
+      SortMethod.titleProperWeight: 'title200aWeight',
+      SortMethod.volume: 'title200h',
     }[sw]!;
   }
 
@@ -73,8 +73,8 @@ class BookSearchService {
     String keyword = '',
     int rows = 10,
     int page = 1,
-    SearchWay searchWay = SearchWay.any,
-    SortWay sortWay = SortWay.matchScore,
+    SearchMethod searchWay = SearchMethod.any,
+    SortMethod sortWay = SortMethod.matchScore,
     SortOrder sortOrder = SortOrder.desc,
   }) async {
     var response = await session.request(

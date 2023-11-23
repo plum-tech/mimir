@@ -422,6 +422,18 @@ library:
     title: 登录图书馆
     readerIdHint: 你的学号
     passwordHint: 初始密码为 888888
+  searchMethod:
+    any: 任意
+    title: 标题
+    author: 作者
+    isbn: ISBN
+    publisher: 出版社
+    callNumber: 索书号
+    titleProper: 正题
+    subject: 主题
+    class: 分类
+    bookId: 图书号
+    orderNumber: 订购号
 settings:
   title: 设置
   version: 版本

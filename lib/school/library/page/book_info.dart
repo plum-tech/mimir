@@ -5,9 +5,9 @@ import '../entity/book_info.dart';
 import '../entity/book_search.dart';
 import '../entity/holding_preview.dart';
 import '../init.dart';
-import '../widgets/search_result_item.dart';
 import '../utils.dart';
 import 'search.dart';
+import 'search_result.dart';
 
 class BookInfoPage extends StatefulWidget {
   /// 上一层传递进来的数据
@@ -90,7 +90,7 @@ class _BookInfoPageState extends State<BookInfoPage> {
       final result = await LibraryInit.bookSearch.search(
         keyword: bookId,
         rows: 1,
-        searchWay: SearchWay.ctrlNo,
+        searchWay: SearchMethod.bookId,
       );
       final ret = await BookImageHolding.simpleQuery(
         LibraryInit.bookImageSearch,
@@ -106,7 +106,7 @@ class _BookInfoPageState extends State<BookInfoPage> {
         if (data == null) return const CircularProgressIndicator.adaptive();
         return InkWell(
           child: Card(
-            child: BookItemWidget(data),
+            child: BookCard(data),
           ),
           onTap: () {
             Navigator.of(context).push(
@@ -146,7 +146,7 @@ class _BookInfoPageState extends State<BookInfoPage> {
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            BookItemWidget(
+            BookCard(
               widget.bookImageHolding,
               onAuthorTap: (String key) {
                 showSearch(context: context, delegate: LibrarySearchDelegate(), query: key);

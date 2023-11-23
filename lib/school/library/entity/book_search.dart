@@ -1,29 +1,22 @@
-enum SearchWay {
-  // 按任意词查询
+import 'package:easy_localization/easy_localization.dart';
+
+enum SearchMethod {
   any,
-  // 标题名
   title,
-  // 正题名：一本书的主要名称
-  titleProper,
-  // ISBN号
+  primaryTitle,
   isbn,
-  // 著者
   author,
-  // 主题词
-  subjectWord,
-  // 分类号
-  classNo,
-  // 控制号(就是搜索结果的bookId图书号)
-  ctrlNo,
-  // 订购号
-  orderNo,
-  // 出版社
+  subject,
+  $class,
+  bookId,
+  orderNumber,
   publisher,
-  // 索书号
-  callNo,
+  callNumber;
+
+  String l10nName() => "library.searchMethod.$name".tr();
 }
 
-enum SortWay {
+enum SortMethod {
   // 匹配度
   matchScore,
   // 出版日期
@@ -47,7 +40,9 @@ enum SortWay {
   // 正题名权重
   titleProperWeight,
   // 卷册号
-  volume,
+  volume;
+
+  String l10nName() => "library.sortMethod.$name".tr();
 }
 
 enum SortOrder {
