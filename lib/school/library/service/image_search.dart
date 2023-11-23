@@ -6,7 +6,7 @@ import 'package:sit/network/session.dart';
 import 'package:sit/session/library.dart';
 
 import '../entity/book_image.dart';
-import 'constant.dart';
+import '../constant.dart';
 
 /// 本类提供了一系列，通过查询图书图片的方法，返回结果类型为字典，以ISBN为键
 class BookImageSearchService {
@@ -20,7 +20,7 @@ class BookImageSearchService {
 
   Future<Map<String, BookImage>> searchByIsbnStr(String isbnStr) async {
     var response = await session.request(
-      Constants.bookImageInfoUrl,
+      LibraryConst.bookImageInfoUrl,
       ReqMethod.get,
       para: {
         'glc': 'U1SH021060',

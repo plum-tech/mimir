@@ -5,7 +5,7 @@ import 'package:sit/network/session.dart';
 import 'package:sit/session/library.dart';
 
 import '../entity/holding.dart';
-import 'constant.dart';
+import '../constant.dart';
 
 part 'holding.g.dart';
 
@@ -206,7 +206,7 @@ class HoldingInfoService {
   const HoldingInfoService();
 
   Future<HoldingInfo> queryByBookId(String bookId) async {
-    var response = await session.request('${Constants.bookHoldingUrl}/$bookId', ReqMethod.get);
+    var response = await session.request('${LibraryConst.bookHoldingUrl}/$bookId', ReqMethod.get);
 
     var rawBookHoldingInfo = _BookHoldingInfo.fromJson(response.data);
     var result = rawBookHoldingInfo.holdingList.map((rawHoldingItem) {
@@ -248,7 +248,7 @@ class HoldingInfoService {
   /// 搜索附近的书的id号
   Future<List<String>> searchNearBookIdList(String bookId) async {
     var response = await session.request(
-      Constants.virtualBookshelfUrl,
+      LibraryConst.virtualBookshelfUrl,
       ReqMethod.get,
       para: {
         'bookrecno': bookId,

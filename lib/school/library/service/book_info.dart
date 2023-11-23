@@ -6,7 +6,7 @@ import 'package:sit/network/session.dart';
 import 'package:sit/session/library.dart';
 
 import '../entity/book_info.dart';
-import 'constant.dart';
+import '../constant.dart';
 
 class BookInfoService {
   LibrarySession get session => Init.librarySession;
@@ -14,7 +14,7 @@ class BookInfoService {
   const BookInfoService();
 
   Future<BookInfo> query(String bookId) async {
-    final response = await session.request('${Constants.bookUrl}/$bookId', ReqMethod.get);
+    final response = await session.request('${LibraryConst.bookUrl}/$bookId', ReqMethod.get);
     final soup = BeautifulSoup(response.data);
     final detailItems = soup
         .find('table', id: 'bookInfoTable')!

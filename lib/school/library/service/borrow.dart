@@ -4,14 +4,14 @@ import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 
 import '../entity/borrow.dart';
-import 'constant.dart';
+import '../constant.dart';
 
 class LibraryBorrowService {
   const LibraryBorrowService();
 
   Future<List<HistoryBorrowBookItem>> getHistoryBorrowBookList(int page, int rows) async {
     final response = await Init.librarySession.request(
-      Constants.historyLoanListUrl,
+      LibraryConst.historyLoanListUrl,
       ReqMethod.get,
       para: {
         'page': page.toString(),
@@ -39,7 +39,7 @@ class LibraryBorrowService {
 
   Future<List<BorrowBookItem>> getMyBorrowBookList(int page, int rows) async {
     final response = await Init.librarySession.request(
-      Constants.currentLoanListUrl,
+      LibraryConst.currentLoanListUrl,
       ReqMethod.get,
       para: {
         'page': page.toString(),
@@ -72,7 +72,7 @@ class LibraryBorrowService {
     bool renewAll = false,
   }) async {
     final response = await Init.librarySession.request(
-      Constants.doRenewUrl,
+      LibraryConst.doRenewUrl,
       ReqMethod.post,
       data: {
         'pdsToken': pdsToken,
@@ -88,7 +88,7 @@ class LibraryBorrowService {
     required List<String> barcodeList,
     bool renewAll = false,
   }) async {
-    final response = await Init.librarySession.request(Constants.renewList, ReqMethod.get);
+    final response = await Init.librarySession.request(LibraryConst.renewList, ReqMethod.get);
     final pdsToken = BeautifulSoup(response.data).find('input', attrs: {'name': 'pdsToken'})!.attributes['value'] ?? '';
     return await _doRenew(
       pdsToken: pdsToken,

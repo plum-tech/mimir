@@ -1,6 +1,7 @@
-class Constants {
+class LibraryConst {
   static const homeUrl = 'http://210.35.66.106';
   static const opacUrl = '$homeUrl/opac';
+  static const forgotLoginPasswordUrl = "$opacUrl/reader/retrievePassword";
 
   static const searchUrl = '$opacUrl/search';
   static const hotSearchUrl = '$opacUrl/hotsearch';

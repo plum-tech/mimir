@@ -4,7 +4,7 @@ import 'package:sit/network/session.dart';
 import 'package:sit/session/library.dart';
 
 import '../entity/book_search.dart';
-import 'constant.dart';
+import '../constant.dart';
 
 class BookSearchService {
   LibrarySession get session => Init.librarySession;
@@ -78,7 +78,7 @@ class BookSearchService {
     SortOrder sortOrder = SortOrder.desc,
   }) async {
     var response = await session.request(
-      Constants.searchUrl,
+      LibraryConst.searchUrl,
       ReqMethod.get,
       para: {
         'q': keyword,

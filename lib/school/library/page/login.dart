@@ -6,10 +6,9 @@ import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/login/widgets/forgot_pwd.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/school/library/constant.dart';
 import '../init.dart';
 import '../i18n.dart';
-
-const _forgotLoginPasswordUrl = "http://210.35.66.106/opac/reader/retrievePassword";
 
 class LibraryLoginPage extends StatefulWidget {
   const LibraryLoginPage({super.key});
@@ -51,7 +50,7 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
               : null,
         ),
         body: buildBody(),
-        bottomNavigationBar: const ForgotPasswordButton(url: _forgotLoginPasswordUrl),
+        bottomNavigationBar: const ForgotPasswordButton(url: LibraryConst.forgotLoginPasswordUrl),
       ),
     );
   }
