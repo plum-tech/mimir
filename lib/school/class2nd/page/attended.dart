@@ -143,6 +143,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                             onSelected: (value) {
                               setState(() {
                                 selectedCat = cat;
+                                selectedScoreType = null;
                               });
                             },
                           ).padH(4),
@@ -172,6 +173,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                             onSelected: (value) {
                               setState(() {
                                 selectedScoreType = scoreType;
+                                selectedCat = null;
                               });
                             },
                           ).padH(4),
