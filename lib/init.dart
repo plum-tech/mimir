@@ -57,9 +57,6 @@ class Init {
     dio = await DioInit.init(
       config: DioConfig()
         ..cookieJar = cookieJar
-        ..sendTimeout = const Duration(seconds: 6)
-        ..receiveTimeout = const Duration(seconds: 6)
-        ..connectTimeout = const Duration(seconds: 6),
     );
     ssoSession = SsoSession(
       dio: dio,
