@@ -1,17 +1,23 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
-import 'package:sit/widgets/image.dart';
 
 import '../entity/book_search.dart';
 import '../init.dart';
 import 'book_info.dart';
 import '../utils.dart';
+
+const _searchMethods = [
+  SearchMethod.any,
+  SearchMethod.title,
+  SearchMethod.author,
+  SearchMethod.isbn,
+  SearchMethod.publisher,
+];
 
 class BookSearchResultWidget extends StatefulWidget {
   /// 要搜索的关键字
@@ -161,7 +167,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
   }
 
   Widget buildSearchMethodSwitcher() {
-    return [SearchMethod.any, SearchMethod.title, SearchMethod.author, SearchMethod.isbn]
+    return _searchMethods
         .map((method) {
           return ChoiceChip(
             label: method.l10nName().text(),

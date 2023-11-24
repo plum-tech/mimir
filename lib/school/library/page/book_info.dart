@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/design/widgets/card.dart';
 
 import '../entity/book_info.dart';
 import '../entity/book_search.dart';
-import '../entity/holding_preview.dart';
 import '../init.dart';
 import '../utils.dart';
 import 'search_result.dart';
@@ -58,12 +58,12 @@ class _BookInfoPageState extends State<BookInfoPage> {
     final info = this.info;
     final book = widget.bookImageHolding.book;
     final imgUrl = widget.bookImageHolding.image?.resourceLink;
+    final holding = widget.bookImageHolding.holding;
     return SelectionArea(
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              automaticallyImplyLeading: false,
               expandedHeight: 300.0,
               flexibleSpace: imgUrl == null
                   ? null
@@ -112,15 +112,30 @@ class _BookInfoPageState extends State<BookInfoPage> {
                 visualDensity: VisualDensity.compact,
               ),
             ]),
+            if (holding != null)
+              const SliverToBoxAdapter(
+                child: Divider(),
+              ),
+            if (holding != null)
+              SliverList.builder(
+                  itemCount: holding.length,
+                  itemBuilder: (ctx, i) {
+                    final item = holding[i];
+                    return ListTile(
+                      title: Text('所在馆：${item.currentLocation}'),
+                      subtitle: '索书号：${item.callNo}'.text(),
+                      trailing: Text('在馆(${item.loanableCount})/馆藏(${item.copyCount})'),
+                      onTap: () async {
+                        context.showSnackBar(content: "Call number is copied".text());
+                        await Clipboard.setData(ClipboardData(text: item.callNo));
+                      },
+                    );
+                  }),
             if (info != null)
-            SliverList.list(children: [
-              const Divider(),
-               buildBookDetails(info).padAll(10),
-            ]),
-            SliverList.list(children: [
-              const Divider(),
-              buildHolding(widget.bookImageHolding.holding ?? []),
-            ]),
+              SliverList.list(children: [
+                const Divider(),
+                buildBookDetails(info).padAll(10),
+              ]),
           ],
         ),
       ),
@@ -146,31 +161,7 @@ class _BookInfoPageState extends State<BookInfoPage> {
           .toList(),
     );
   }
-  /// 构造馆藏信息列表
-  Widget buildHolding(List<HoldingPreviewItem> items) {
-    return Column(
-      children: items.map((item) {
-        return FilledCard(
-          child: ListTile(
-            title: Text('所在馆：${item.currentLocation}'),
-            subtitle: Text('索书号：${item.callNo}'),
-            trailing: Text('在馆(${item.loanableCount})/馆藏(${item.copyCount})'),
-          ),
-        );
-      }).toList(),
-    );
-  }
 }
-
-class BookHoldingCard extends StatelessWidget {
-  const BookHoldingCard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-
 
 class NearBooksGroup extends StatefulWidget {
   final int maxSize;
