@@ -148,7 +148,9 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       context.replace("/edu-email/inbox");
-    } catch (err) {
+    } catch (error,stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
       if (!mounted) return;
       await context.showTip(title: i18n.login.failedWarn, desc: "please check your pwd", ok: i18n.ok);
       if (!mounted) return;

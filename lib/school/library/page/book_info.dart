@@ -12,7 +12,6 @@ import '../utils.dart';
 import 'search_result.dart';
 
 class BookInfoPage extends StatefulWidget {
-  /// 上一层传递进来的数据
   final BookImageHolding bookImageHolding;
 
   const BookInfoPage(this.bookImageHolding, {super.key});
@@ -23,6 +22,7 @@ class BookInfoPage extends StatefulWidget {
 
 class _BookInfoPageState extends State<BookInfoPage> {
   BookInfo? info;
+  bool isFetching = false;
 
   @override
   void initState() {
@@ -31,78 +31,103 @@ class _BookInfoPageState extends State<BookInfoPage> {
   }
 
   Future<void> fetchDetails() async {
-    final info = await LibraryInit.bookInfo.query(widget.bookImageHolding.book.bookId);
     if (!context.mounted) return;
     setState(() {
-      this.info = info;
+      isFetching = true;
+    });
+    try {
+      final info = await LibraryInit.bookInfo.query(widget.bookImageHolding.book.bookId);
+      if (!context.mounted) return;
+      setState(() {
+        this.info = info;
+        isFetching = false;
+      });
+    } catch (error, stacktrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stacktrace);
+      return;
+    }
+    if (!context.mounted) return;
+    setState(() {
+      isFetching = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final info = this.info;
     final book = widget.bookImageHolding.book;
     final imgUrl = widget.bookImageHolding.image?.resourceLink;
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            expandedHeight: 300.0,
-            flexibleSpace: imgUrl == null
-                ? null
-                : CachedNetworkImage(
-                    imageUrl: imgUrl,
-                    placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                    fit: BoxFit.fitHeight,
-                  ),
-          ),
-          SliverList.list(children: [
-            ListTile(
-              title: "Title".text(),
-              subtitle: book.title.text(),
-              visualDensity: VisualDensity.compact,
+    return SelectionArea(
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              expandedHeight: 300.0,
+              flexibleSpace: imgUrl == null
+                  ? null
+                  : CachedNetworkImage(
+                      imageUrl: imgUrl,
+                      placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                      fit: BoxFit.fitHeight,
+                    ),
+              bottom: isFetching
+                  ? const PreferredSize(
+                      preferredSize: Size.fromHeight(4),
+                      child: LinearProgressIndicator(),
+                    )
+                  : null,
             ),
-            ListTile(
-              title: "Author".text(),
-              subtitle: book.author.text(),
-              visualDensity: VisualDensity.compact,
-            ),
-            ListTile(
-              title: "ISBN".text(),
-              subtitle: book.isbn.text(),
-              visualDensity: VisualDensity.compact,
-            ),
-            ListTile(
-              title: "Call No.".text(),
-              subtitle: book.callNo.text(),
-              visualDensity: VisualDensity.compact,
-            ),
-            ListTile(
-              title: "Publisher".text(),
-              subtitle: book.publisher.text(),
-              visualDensity: VisualDensity.compact,
-            ),
-            ListTile(
-              title: "Publish date".text(),
-              subtitle: book.publishDate.text(),
-              visualDensity: VisualDensity.compact,
-            ),
-          ]),
-          SliverList.list(children: [
-            const Divider(),
-            buildBookDetails().padAll(10),
-            const Divider(),
-            buildHolding(widget.bookImageHolding.holding ?? []),
-          ]),
-        ],
+            SliverList.list(children: [
+              ListTile(
+                title: "Title".text(),
+                subtitle: book.title.text(),
+                visualDensity: VisualDensity.compact,
+              ),
+              ListTile(
+                title: "Author".text(),
+                subtitle: book.author.text(),
+                visualDensity: VisualDensity.compact,
+              ),
+              ListTile(
+                title: "ISBN".text(),
+                subtitle: book.isbn.text(),
+                visualDensity: VisualDensity.compact,
+              ),
+              ListTile(
+                title: "Call No.".text(),
+                subtitle: book.callNo.text(),
+                visualDensity: VisualDensity.compact,
+              ),
+              ListTile(
+                title: "Publisher".text(),
+                subtitle: book.publisher.text(),
+                visualDensity: VisualDensity.compact,
+              ),
+              ListTile(
+                title: "Publish date".text(),
+                subtitle: book.publishDate.text(),
+                visualDensity: VisualDensity.compact,
+              ),
+            ]),
+            if (info != null)
+            SliverList.list(children: [
+              const Divider(),
+               buildBookDetails(info).padAll(10),
+            ]),
+            SliverList.list(children: [
+              const Divider(),
+              buildHolding(widget.bookImageHolding.holding ?? []),
+            ]),
+          ],
+        ),
       ),
     );
   }
 
-  Widget buildBookDetails() {
-    final info = this.info;
-    if (info == null) return const CircularProgressIndicator.adaptive();
+  Widget buildBookDetails(BookInfo info) {
     return Table(
       columnWidths: const {
         0: FlexColumnWidth(2),
