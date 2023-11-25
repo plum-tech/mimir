@@ -8,6 +8,7 @@ import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/class2nd/entity/list.dart';
 import 'package:sit/school/class2nd/utils.dart';
@@ -270,25 +271,21 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
             title: i18n.info.applicationOf(activity.application.applicationId).text(),
           ),
           SliverList.list(children: [
-            ListTile(
-              title: i18n.info.name.text(),
-              subtitle: title.text(),
-              visualDensity: VisualDensity.compact,
+            DetailListTile(
+              title: i18n.info.name,
+              subtitle: title,
             ),
-            ListTile(
-              title: i18n.info.category.text(),
-              subtitle: activity.category.l10nName().text(),
-              visualDensity: VisualDensity.compact,
+            DetailListTile(
+              title: i18n.info.category,
+              subtitle: activity.category.l10nName(),
             ),
-            ListTile(
-              title: i18n.info.applicationTime.text(),
-              subtitle: context.formatYmdhmNum(activity.application.time).text(),
-              visualDensity: VisualDensity.compact,
+            DetailListTile(
+              title: i18n.info.applicationTime,
+              subtitle: context.formatYmdhmNum(activity.application.time),
             ),
-            ListTile(
-              title: i18n.info.status.text(),
-              subtitle: activity.application.status.text(),
-              visualDensity: VisualDensity.compact,
+            DetailListTile(
+              title: i18n.info.status,
+              subtitle: activity.application.status,
             ),
             if (tags.isNotEmpty)
               ListTile(

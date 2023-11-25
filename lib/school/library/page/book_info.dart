@@ -1,9 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/widgets/list_tile.dart';
 
 import '../entity/book_info.dart';
 import '../entity/search.dart';
@@ -81,35 +80,29 @@ class _BookInfoPageState extends State<BookInfoPage> {
                   : null,
             ),
             SliverList.list(children: [
-              ListTile(
-                title: "Title".text(),
-                subtitle: book.title.text(),
-                visualDensity: VisualDensity.compact,
+              DetailListTile(
+                title: "Title",
+                subtitle: book.title,
               ),
-              ListTile(
-                title: "Author".text(),
-                subtitle: book.author.text(),
-                visualDensity: VisualDensity.compact,
+              DetailListTile(
+                title: "Author",
+                subtitle: book.author,
               ),
-              ListTile(
-                title: "ISBN".text(),
-                subtitle: book.isbn.text(),
-                visualDensity: VisualDensity.compact,
+              DetailListTile(
+                title: "ISBN",
+                subtitle: book.isbn,
               ),
-              ListTile(
-                title: "Call No.".text(),
-                subtitle: book.callNo.text(),
-                visualDensity: VisualDensity.compact,
+              DetailListTile(
+                title: "Call No.",
+                subtitle: book.callNo,
               ),
-              ListTile(
-                title: "Publisher".text(),
-                subtitle: book.publisher.text(),
-                visualDensity: VisualDensity.compact,
+              DetailListTile(
+                title: "Publisher",
+                subtitle: book.publisher,
               ),
-              ListTile(
-                title: "Publish date".text(),
-                subtitle: book.publishDate.text(),
-                visualDensity: VisualDensity.compact,
+              DetailListTile(
+                title: "Publish date",
+                subtitle: book.publishDate,
               ),
             ]),
             if (holding != null)
@@ -123,12 +116,8 @@ class _BookInfoPageState extends State<BookInfoPage> {
                     final item = holding[i];
                     return ListTile(
                       title: Text('所在馆：${item.currentLocation}'),
-                      subtitle: '索书号：${item.callNo}'.text(),
+                      subtitle: item.callNo == book.callNo ? null : '索书号：${item.callNo}'.text(),
                       trailing: Text('在馆(${item.loanableCount})/馆藏(${item.copyCount})'),
-                      onTap: () async {
-                        context.showSnackBar(content: "Call number is copied".text());
-                        await Clipboard.setData(ClipboardData(text: item.callNo));
-                      },
                     );
                   }),
             if (info != null)
@@ -153,8 +142,8 @@ class _BookInfoPageState extends State<BookInfoPage> {
           .map(
             (e) => TableRow(
               children: [
-                Text(e.key, style: Theme.of(context).textTheme.titleSmall),
-                SelectableText(e.value, style: Theme.of(context).textTheme.bodyMedium),
+                e.key.text(),
+                e.value.text(),
               ],
             ),
           )
