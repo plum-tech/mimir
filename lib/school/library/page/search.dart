@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/book_search.dart';
 import '../entity/hot_search.dart';
+import '../entity/search.dart';
 import '../entity/search_history.dart';
 import '../init.dart';
 import 'search_result.dart';
@@ -14,7 +14,7 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
   SearchMethod _searchWay = SearchMethod.any;
 
   /// 给定一个关键词，开始搜索该关键词
-  void _searchByGiving(BuildContext context, String key, {SearchMethod searchWay = SearchMethod.any}) async {
+  void _searchByGiving(BuildContext context, String key, {SearchMethod searchMethod = SearchMethod.any}) async {
     query = key;
 
     // 若已经显示过结果，这里无法直接再次显示结果
@@ -22,7 +22,7 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
     showSuggestions(context);
     await Future.delayed(const Duration(seconds: 1));
 
-    _searchWay = searchWay;
+    _searchWay = searchMethod;
     showResults(context);
   }
 
@@ -71,7 +71,7 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
         _searchByGiving(
           context,
           key,
-          searchWay: SearchMethod.author,
+          searchMethod: SearchMethod.author,
         );
       },
       initialSearchMethod: _searchWay,

@@ -6,7 +6,7 @@ import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 
-import '../entity/book_search.dart';
+import '../entity/search.dart';
 import '../init.dart';
 import 'book_info.dart';
 import '../utils.dart';
@@ -83,30 +83,6 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
     super.dispose();
   }
 
-  /// 获得搜索结果
-  Future<List<BookImageHolding>> _get(int rows, int page) async {
-    final searchResult = await LibraryInit.bookSearch.search(
-      keyword: widget.query,
-      rows: rows,
-      page: page,
-      searchWay: selectedSearchMethod,
-    );
-
-    // 页数越界
-    if (searchResult.currentPage > totalPage) {
-      return [];
-    }
-    useTime = searchResult.useTime;
-    searchResultCount = searchResult.resultCount;
-    currentPage = searchResult.currentPage + 1;
-    totalPage = searchResult.totalPages;
-
-    debugPrint(searchResult.toString());
-    return await BookImageHolding.simpleQuery(
-      searchResult.books,
-    );
-  }
-
   Future<void> fetchNextPage() async {
     if (isFetching) return;
     if (currentPage > totalPage) return;
@@ -114,14 +90,45 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
       isFetching = true;
     });
     try {
-      final nextPage = await _get(sizePerPage, currentPage);
-      if (!mounted) return;
+      final searchResult = await LibraryInit.bookSearch.search(
+        keyword: widget.query,
+        rows: sizePerPage,
+        page: currentPage,
+        searchMethod: selectedSearchMethod,
+      );
+
+      // 页数越界
+      if (searchResult.currentPage > totalPage) {
+        setState(() {
+          isFetching = false;
+        });
+        return;
+      } else {
+        useTime = searchResult.useTime;
+        searchResultCount = searchResult.resultCount;
+        currentPage = searchResult.currentPage + 1;
+        totalPage = searchResult.totalPages;
+
+        debugPrint(searchResult.toString());
+        final nextPage = await BookImageHolding.simpleQuery(
+          searchResult.books,
+        );
+        if (!mounted) return;
+        setState(() {
+          books.addAll(nextPage);
+          isFetching = false;
+        });
+      }
       setState(() {
-        books.addAll(nextPage);
         isFetching = false;
       });
-    } catch (e) {
-      isFetching = false;
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      if (!mounted) return;
+      setState(() {
+        isFetching = false;
+      });
     }
   }
 
@@ -199,25 +206,12 @@ class BookCard extends StatelessWidget {
     this.onTap,
   });
 
-  /// 构造图书封皮预览图片
-  Widget buildBookCover(String? imageUrl) {
-    const def = Icon(Icons.library_books_sharp);
-    if (imageUrl == null) {
-      return def;
-    }
-
-    return CachedNetworkImage(
-      imageUrl: imageUrl,
-      placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final book = bookImageHolding.book;
     final onAuthorTap = this.onAuthorTap;
     final holding = bookImageHolding.holding ?? const [];
+    final imgUrl = bookImageHolding.image?.resourceLink;
     // 计算总共馆藏多少书
     int copyCount = holding.map((e) => e.copyCount).reduce((value, element) => value + element);
     // 计算总共可借多少书
@@ -225,7 +219,13 @@ class BookCard extends StatelessWidget {
     return FilledCard(
       clip: Clip.hardEdge,
       child: ListTile(
-        leading: buildBookCover(bookImageHolding.image?.resourceLink),
+        leading: imgUrl == null
+            ? null
+            : CachedNetworkImage(
+                imageUrl: imgUrl,
+                placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
         title: book.title.text(),
         onTap: onTap,
         subtitle: [
@@ -241,7 +241,7 @@ class BookCard extends StatelessWidget {
             ))
           else
             book.author.text(),
-          "${SearchMethod.isbn.l10nName()} ${book.isbn}".text(),
+          if (book.isbn.isNotEmpty) "${SearchMethod.isbn.l10nName()} ${book.isbn}".text(),
           "${SearchMethod.callNumber.l10nName()} ${book.callNo}".text(),
           "${book.publisher}  ${book.publishDate}".text(),
         ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),

@@ -6,7 +6,7 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 
 import '../entity/book_info.dart';
-import '../entity/book_search.dart';
+import '../entity/search.dart';
 import '../init.dart';
 import '../utils.dart';
 import 'search_result.dart';
@@ -64,7 +64,7 @@ class _BookInfoPageState extends State<BookInfoPage> {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              expandedHeight: 300.0,
+              expandedHeight:imgUrl == null ? null: 300.0,
               flexibleSpace: imgUrl == null
                   ? null
                   : CachedNetworkImage(
@@ -228,7 +228,7 @@ class _AsyncBookItemState extends State<AsyncBookItem> {
     final result = await LibraryInit.bookSearch.search(
       keyword: widget.bookId,
       rows: 1,
-      searchWay: SearchMethod.bookId,
+      searchMethod: SearchMethod.bookId,
     );
     final ret = await BookImageHolding.simpleQuery(
       result.books,
