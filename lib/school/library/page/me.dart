@@ -108,6 +108,14 @@ class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistor
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: "Borrowing history".text(),
+          ),
+        ],
+      ),
+    );
   }
 }

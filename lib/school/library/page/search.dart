@@ -156,7 +156,7 @@ class HotSearchGroup extends StatefulWidget {
 }
 
 class _HotSearchGroupState extends State<HotSearchGroup> {
-  List<HotSearchItem>? hotSearch;
+  HotSearch? hotSearch;
 
   @override
   void initState() {
@@ -177,7 +177,8 @@ class _HotSearchGroupState extends State<HotSearchGroup> {
     final hotSearch = this.hotSearch;
     if (hotSearch == null) return const SizedBox();
     return SuggestionItemView(
-      titleItems: hotSearch.map((e) => e.word).toList(),
+      // TODO: and total
+      titleItems: hotSearch.recent30days.map((e) => e.keyword).toList(),
       onItemTap: (title) => widget.onTap?.call(title),
     );
   }

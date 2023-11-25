@@ -16,10 +16,13 @@ class HotSearchService {
     final title = texts.sublist(0, texts.length - 1).join('(');
     final numWithRight = texts[texts.length - 1];
     final numText = numWithRight.substring(0, numWithRight.length - 1);
-    return HotSearchItem(title, int.parse(numText));
+    return HotSearchItem(
+      keyword: title,
+      count: int.parse(numText),
+    );
   }
 
-  Future<List<HotSearchItem>> getHotSearch() async {
+  Future<HotSearch> getHotSearch() async {
     final response = await session.request(LibraryConst.hotSearchUrl, ReqMethod.get);
     final soup = BeautifulSoup(response.data);
     final fieldsets = soup.findAll('fieldset');
@@ -28,6 +31,9 @@ class HotSearchService {
       return fieldset.findAll('a').map((e) => _parse(e.text)).toList();
     }
 
-    return getHotSearchItems(fieldsets[0]);
+    return HotSearch(
+      recent30days: getHotSearchItems(fieldsets[0]),
+      total: getHotSearchItems(fieldsets[1]),
+    );
   }
 }

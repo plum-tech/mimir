@@ -1,11 +1,32 @@
 class HotSearchItem {
-  String word;
-  int count;
+  final String keyword;
+  final int count;
 
-  HotSearchItem(this.word, this.count);
+  const HotSearchItem({
+    required this.keyword,
+    required this.count,
+  });
 
   @override
   String toString() {
-    return 'HotSearchItem{hotSearchWord: $word, count: $count}';
+    return "$keyword($count)";
+  }
+}
+
+class HotSearch {
+  final List<HotSearchItem> recent30days;
+  final List<HotSearchItem> total;
+
+  const HotSearch({
+    required this.recent30days,
+    required this.total,
+  });
+
+  @override
+  String toString() {
+    return {
+      "recent30days": recent30days,
+      "total": total,
+    }.toString();
   }
 }
