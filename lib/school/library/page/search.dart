@@ -4,7 +4,7 @@ import 'package:sit/school/library/widgets/search.dart';
 
 import '../entity/hot_search.dart';
 import '../entity/search.dart';
-import '../entity/search_history.dart';
+import '../entity/history.dart';
 import '../init.dart';
 import 'search_result.dart';
 
@@ -67,12 +67,17 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
   }
 
   @override
+  void showResults(BuildContext context) {
+    super.showResults(context);
+    LibraryInit.searchHistoryStorage.add(SearchHistoryItem(
+      keyword: query,
+      time: DateTime.now(),
+      searchMethod: $searchMethod.value,
+    ));
+  }
+
+  @override
   Widget buildResults(BuildContext context) {
-    LibraryInit.librarySearchHistory.add(
-      LibrarySearchHistoryItem()
-        ..keyword = query
-        ..time = DateTime.now(),
-    );
     return BookSearchResultWidget(
       query: query,
       onSearchTap: (method, keyword) {
@@ -112,7 +117,7 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
             const SizedBox(height: 20),
             Text('历史记录', style: Theme.of(context).textTheme.bodyLarge),
             SuggestionItemView(
-              titleItems: LibraryInit.librarySearchHistory.getAllByTimeDesc().map((e) => e.keyword).toList(),
+              titleItems: LibraryInit.searchHistoryStorage.getAllByTimeDesc().map((e) => e.keyword).toList(),
               onItemTap: (title) => searchByGiving(context, keyword: title),
             ),
             const SizedBox(height: 20),
@@ -125,7 +130,7 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
                 ],
               ),
               onTap: () async {
-                LibraryInit.librarySearchHistory.deleteAll();
+                LibraryInit.searchHistoryStorage.deleteAll();
                 close(context, '');
               },
             ),

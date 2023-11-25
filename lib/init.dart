@@ -54,10 +54,7 @@ class Init {
     cookieJar = PersistCookieJar(
       storage: HiveCookieJar(HiveInit.cookies),
     );
-    dio = await DioInit.init(
-      config: DioConfig()
-        ..cookieJar = cookieJar
-    );
+    dio = await DioInit.init(config: DioConfig()..cookieJar = cookieJar);
     ssoSession = SsoSession(
       dio: dio,
       cookieJar: cookieJar,

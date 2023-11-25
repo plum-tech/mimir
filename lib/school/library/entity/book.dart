@@ -1,11 +1,11 @@
 class Book {
- final String bookId;
- final String isbn;
- final String title;
- final String author;
- final String publisher;
- final String publishDate;
- final String callNo;
+  final String bookId;
+  final String isbn;
+  final String title;
+  final String author;
+  final String publisher;
+  final String publishDate;
+  final String callNo;
 
   const Book({
     required this.bookId,
@@ -24,11 +24,11 @@ class Book {
 }
 
 class BookSearchResult {
- final int resultCount;
- final double useTime;
- final int currentPage;
- final int totalPages;
- final List<Book> books;
+  final int resultCount;
+  final double useTime;
+  final int currentPage;
+  final int totalPages;
+  final List<Book> books;
 
   const BookSearchResult({
     required this.resultCount,

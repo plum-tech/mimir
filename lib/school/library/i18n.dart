@@ -9,6 +9,7 @@ class _I18n with CommonI18nMixin {
 
   static const ns = "library";
   final login = const _Login();
+  final info = const _Info();
 
   String get title => "$ns.title".tr();
 
@@ -31,4 +32,24 @@ class _Login {
   String get passwordHint => "$ns.passwordHint".tr();
 
   String get failedWarn => "$ns.failedWarn".tr();
+}
+
+class _Info {
+  const _Info();
+
+  static const ns = "${_I18n.ns}.info";
+
+  String get title => "$ns.title".tr();
+
+  String get author => "$ns.author".tr();
+
+  String get isbn => "$ns.isbn".tr();
+
+  String get publisher => "$ns.publisher".tr();
+
+  String get publishDate => "$ns.publishDate".tr();
+
+  String get callNumber => "$ns.callNumber".tr();
+
+  String get bookId => "$ns.bookId".tr();
 }

@@ -434,6 +434,14 @@ library:
     $class: 類別
     bookId: 圖書 ID
     orderNumber: 訂購號
+  info:
+    title: 標題
+    author: 作者
+    isbn: ISBN
+    publisher: 發行商
+    publishDate: 發行日期
+    callNumber: 索書號
+    bookId: 圖書 ID
 settings:
   title: 設定
   version: 版本

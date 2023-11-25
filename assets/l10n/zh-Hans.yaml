@@ -434,6 +434,14 @@ library:
     $class: 分类
     bookId: 图书号
     orderNumber: 订购号
+  info:
+    title: 标题
+    author: 作者
+    isbn: ISBN
+    publisher: 出版社
+    publishDate: 出版日期
+    callNumber: 索书号
+    bookId: 图书号
 settings:
   title: 设置
   version: 版本

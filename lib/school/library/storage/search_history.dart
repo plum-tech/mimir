@@ -1,13 +1,13 @@
 import 'package:hive/hive.dart';
 import 'package:sit/hive/init.dart';
-import '../entity/search_history.dart';
+import '../entity/history.dart';
 
 class SearchHistoryStorage {
   Box get box => HiveInit.library;
 
   const SearchHistoryStorage();
 
-  void add(LibrarySearchHistoryItem item) {
+  void add(SearchHistoryItem item) {
     // box.put(item.keyword.hashCode, item);
   }
 
@@ -21,9 +21,9 @@ class SearchHistoryStorage {
   }
 
   /// 按时间降序获取所有
-  List<LibrarySearchHistoryItem> getAllByTimeDesc() {
+  List<SearchHistoryItem> getAllByTimeDesc() {
     var result = box.values.toList();
     result.sort((a, b) => b.time.compareTo(a.time));
-    return result.cast<LibrarySearchHistoryItem>();
+    return result.cast<SearchHistoryItem>();
   }
 }

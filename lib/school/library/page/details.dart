@@ -7,6 +7,7 @@ import 'package:sit/design/widgets/list_tile.dart';
 import '../entity/book.dart';
 import '../entity/search.dart';
 import '../init.dart';
+import '../i18n.dart';
 import '../utils.dart';
 import 'search_result.dart';
 
@@ -86,7 +87,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
             ),
             SliverList.list(children: [
               DetailListTile(
-                title: "Title",
+                title: i18n.info.title,
                 subtitle: book.title,
                 trailing: IconButton(
                   icon: const Icon(Icons.youtube_searched_for),
@@ -98,7 +99,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                 ),
               ),
               DetailListTile(
-                title: "Author",
+                title: i18n.info.author,
                 subtitle: book.author,
                 trailing: IconButton(
                   icon: const Icon(Icons.youtube_searched_for),
@@ -110,15 +111,15 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                 ),
               ),
               DetailListTile(
-                title: "ISBN",
+                title: i18n.info.isbn,
                 subtitle: book.isbn,
               ),
               DetailListTile(
-                title: "Call No.",
+                title: i18n.info.callNumber,
                 subtitle: book.callNo,
               ),
               DetailListTile(
-                title: "Publisher",
+                title: i18n.info.publisher,
                 subtitle: book.publisher,
                 trailing: IconButton(
                   icon: const Icon(Icons.youtube_searched_for),
@@ -130,7 +131,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                 ),
               ),
               DetailListTile(
-                title: "Publish date",
+                title: i18n.info.publishDate,
                 subtitle: book.publishDate,
               ),
             ]),

@@ -148,7 +148,7 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       context.replace("/edu-email/inbox");
-    } catch (error,stackTrace) {
+    } catch (error, stackTrace) {
       debugPrint(error.toString());
       debugPrintStack(stackTrace: stackTrace);
       if (!mounted) return;

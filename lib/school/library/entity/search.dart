@@ -12,6 +12,7 @@ enum SearchMethod {
   orderNumber("orderno"),
   publisher("publisher"),
   callNumber("callno");
+
   final String internalQueryParameter;
 
   const SearchMethod(this.internalQueryParameter);
@@ -43,6 +44,7 @@ enum SortMethod {
   primaryTitleWeight("title200aWeight"),
   // 卷册号
   volume("title200h");
+
   final String internalQueryParameter;
 
   const SortMethod(this.internalQueryParameter);
@@ -53,6 +55,7 @@ enum SortMethod {
 enum SortOrder {
   asc("asc"),
   desc("desc");
+
   final String internalQueryParameter;
 
   const SortOrder(this.internalQueryParameter);

@@ -10,6 +10,7 @@ import 'storage/search_history.dart';
 
 class LibraryInit {
   static late LibraryAuthService auth;
+
   /// 图书信息访问
   static late BookInfoService bookInfo;
 
@@ -23,7 +24,7 @@ class LibraryInit {
 
   static late HoldingPreviewService holdingPreview;
 
-  static late SearchHistoryStorage librarySearchHistory;
+  static late SearchHistoryStorage searchHistoryStorage;
 
   static late HotSearchService hotSearchService;
 
@@ -37,7 +38,7 @@ class LibraryInit {
     bookImageSearch = const BookImageSearchService();
     holdingPreview = const HoldingPreviewService();
 
-    librarySearchHistory = const SearchHistoryStorage();
+   searchHistoryStorage = const SearchHistoryStorage();
     hotSearchService = const HotSearchService();
   }
 }

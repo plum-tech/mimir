@@ -434,6 +434,14 @@ library:
     $class: Class
     bookId: Book ID
     orderNumber: Order No.
+  info:
+    title: Title
+    author: Author
+    isbn: ISBN
+    publisher: Publisher
+    publishDate: Publish date
+    callNumber: Call Number
+    bookId: Book ID
 settings:
   title: Settings
   version: Version
