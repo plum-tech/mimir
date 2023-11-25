@@ -30,12 +30,16 @@ class LibrarySession {
     }
 
     final response = await fetch();
-    if (response.data.toString().contains("用户名或密码错误")) {
-      final credentials = CredentialInit.storage.libraryCredentials;
-      if (credentials != null) {
-        LibraryInit.auth.login(credentials);
+    final resData = response.data as String?;
+    // renew login
+    final credentials = CredentialInit.storage.libraryCredentials;
+    if (credentials != null) {
+      if (resData != null) {
+        if (resData.contains("/opac/reader/doLogin")) {
+          await LibraryInit.auth.login(credentials);
+        }
+        return await fetch();
       }
-      return await fetch();
     }
     return response;
   }

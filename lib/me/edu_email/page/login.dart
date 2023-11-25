@@ -1,4 +1,5 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -78,7 +79,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
             controller: $username,
             textInputAction: TextInputAction.next,
             autofocus: true,
-            readOnly: initialAccount != null,
+            readOnly: !kDebugMode && initialAccount != null,
             autocorrect: false,
             enableSuggestions: false,
             validator: (username) {

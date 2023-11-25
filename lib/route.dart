@@ -10,7 +10,7 @@ import 'package:sit/me/edu_email/page/login.dart';
 import 'package:sit/me/edu_email/page/outbox.dart';
 import 'package:sit/school/class2nd/entity/attended.dart';
 import 'package:sit/school/library/page/login.dart';
-import 'package:sit/school/library/page/my_borrowing.dart';
+import 'package:sit/school/library/page/me.dart';
 import 'package:sit/school/ywb/page/meta.dart';
 import 'package:sit/school/ywb/page/application.dart';
 import 'package:sit/settings/page/life.dart';

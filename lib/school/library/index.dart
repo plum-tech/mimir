@@ -54,11 +54,12 @@ class _LibraryAppCardState extends State<LibraryAppCard> {
             child: "Login".text(),
           )
         else
-          OutlinedButton(
+          OutlinedButton.icon(
             onPressed: () async {
-              await context.push("/library/me");
+              await context.push("/library/my-borrowing");
             },
-            child: "Me".text(),
+            icon: const Icon(Icons.person),
+            label: "Me".text(),
           )
       ],
     );

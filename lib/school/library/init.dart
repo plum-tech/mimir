@@ -2,6 +2,7 @@ import 'package:sit/school/library/service/auth.dart';
 
 import 'service/book_info.dart';
 import 'service/book_search.dart';
+import 'service/borrow.dart';
 import 'service/holding.dart';
 import 'service/holding_preview.dart';
 import 'service/hot_search.dart';
@@ -27,6 +28,7 @@ class LibraryInit {
   static late SearchHistoryStorage searchHistoryStorage;
 
   static late HotSearchService hotSearchService;
+  static late LibraryBorrowService borrowService;
 
   /// 初始化图书馆相关的service
   static void init() {
@@ -40,5 +42,6 @@ class LibraryInit {
 
     searchHistoryStorage = const SearchHistoryStorage();
     hotSearchService = const HotSearchService();
+    borrowService = const LibraryBorrowService();
   }
 }
