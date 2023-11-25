@@ -4,7 +4,7 @@ import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 
 import '../entity/borrow.dart';
-import '../constant.dart';
+import '../const.dart';
 
 class LibraryBorrowService {
   const LibraryBorrowService();

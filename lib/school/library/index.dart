@@ -55,7 +55,9 @@ class _LibraryAppCardState extends State<LibraryAppCard> {
           )
         else
           OutlinedButton(
-            onPressed: () {},
+            onPressed: () async {
+              await context.push("/library/me");
+            },
             child: "Me".text(),
           )
       ],

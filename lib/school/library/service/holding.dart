@@ -5,7 +5,7 @@ import 'package:sit/network/session.dart';
 import 'package:sit/session/library.dart';
 
 import '../entity/holding.dart';
-import '../constant.dart';
+import '../const.dart';
 
 part 'holding.g.dart';
 

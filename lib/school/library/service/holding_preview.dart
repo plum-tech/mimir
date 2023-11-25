@@ -3,7 +3,7 @@ import 'package:sit/network/session.dart';
 import 'package:sit/session/library.dart';
 
 import '../entity/holding_preview.dart';
-import '../constant.dart';
+import '../const.dart';
 
 class HoldingPreviewService {
   LibrarySession get session => Init.librarySession;

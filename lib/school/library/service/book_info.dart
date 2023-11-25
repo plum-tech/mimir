@@ -5,7 +5,7 @@ import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
 import 'package:sit/session/library.dart';
 
-import '../constant.dart';
+import '../const.dart';
 import '../entity/book.dart';
 
 class BookInfoService {
