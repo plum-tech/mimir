@@ -6,36 +6,27 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
+import 'package:sit/school/library/widgets/search.dart';
 
 import '../entity/search.dart';
 import '../init.dart';
 import 'details.dart';
 import '../utils.dart';
 
-const _searchMethods = [
-  SearchMethod.any,
-  SearchMethod.title,
-  SearchMethod.author,
-  SearchMethod.isbn,
-  SearchMethod.publisher,
-];
-
 typedef BookSearchCallback = void Function(SearchMethod method, String keyword);
 
 class BookSearchResultWidget extends StatefulWidget {
-  /// 要搜索的关键字
   final String query;
 
-  /// 检索方式
-  final SearchMethod initialSearchMethod;
+  final ValueNotifier<SearchMethod> $searchMethod;
 
   final BookSearchCallback? onSearchTap;
 
   const BookSearchResultWidget({
     required this.query,
+    required this.$searchMethod,
     super.key,
     this.onSearchTap,
-    this.initialSearchMethod = SearchMethod.title,
   });
 
   @override
@@ -64,13 +55,9 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
   /// 是否处于加载状态
   bool isFetching = false;
 
-  /// 当前的搜索方式
-  late SearchMethod selectedSearchMethod;
-
   @override
   void initState() {
     super.initState();
-    selectedSearchMethod = widget.initialSearchMethod;
     // Fetch the first page
     fetchNextPage();
     scrollController.addListener(() {
@@ -97,7 +84,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
         keyword: widget.query,
         rows: sizePerPage,
         page: currentPage,
-        searchMethod: selectedSearchMethod,
+        searchMethod: widget.$searchMethod.value,
       );
 
       // 页数越界
@@ -189,25 +176,18 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
   }
 
   Widget buildSearchMethodSwitcher() {
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: _searchMethods.length,
-      itemBuilder: (ctx, i) {
-        final method = _searchMethods[i];
-        return ChoiceChip(
-          label: method.l10nName().text(),
-          selected: selectedSearchMethod == method,
-          onSelected: (value) {
-            setState(() {
-              selectedSearchMethod = method;
-              books = [];
-              currentPage = 1;
-            });
-            fetchNextPage();
-          },
-        ).padH(4);
-      },
-    );
+    return widget.$searchMethod >>
+        (ctx, _) => SearchMethodSwitcher(
+              selected: widget.$searchMethod.value,
+              onSelect: (newSelection) {
+                setState(() {
+                  widget.$searchMethod.value = newSelection;
+                  books = [];
+                  currentPage = 1;
+                });
+                fetchNextPage();
+              },
+            );
   }
 }
 

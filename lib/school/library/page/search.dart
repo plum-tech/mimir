@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/school/library/widgets/search.dart';
 
 import '../entity/hot_search.dart';
 import '../entity/search.dart';
@@ -11,18 +12,25 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
   Widget? _suggestionView;
 
   /// 当前的搜索模式
-  SearchMethod _searchWay = SearchMethod.any;
+  final $searchMethod = ValueNotifier(SearchMethod.any);
 
   /// 给定一个关键词，开始搜索该关键词
-  void _searchByGiving(BuildContext context, String key, {SearchMethod searchMethod = SearchMethod.any}) async {
-    query = key;
+  void searchByGiving(
+    BuildContext context, {
+    required String keyword,
+    SearchMethod? searchMethod,
+  }) async {
+    query = keyword;
 
     // 若已经显示过结果，这里无法直接再次显示结果
     // 经测试，需要先返回搜索建议页，在等待若干时间后显示结果
     showSuggestions(context);
     await Future.delayed(const Duration(seconds: 1));
 
-    _searchWay = searchMethod;
+    if (searchMethod != null) {
+      $searchMethod.value = searchMethod;
+    }
+    if (!context.mounted) return;
     showResults(context);
   }
 
@@ -68,13 +76,13 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
     return BookSearchResultWidget(
       query: query,
       onSearchTap: (method, keyword) {
-        _searchByGiving(
+        searchByGiving(
           context,
-          keyword,
+          keyword: keyword,
           searchMethod: method,
         );
       },
-      initialSearchMethod: _searchWay,
+      $searchMethod: $searchMethod,
     );
   }
 
@@ -93,11 +101,19 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            ($searchMethod >>
+                    (ctx, _) => SearchMethodSwitcher(
+                          selected: $searchMethod.value,
+                          onSelect: (newSelection) {
+                            $searchMethod.value = newSelection;
+                          },
+                        ))
+                .sized(h: 40),
             const SizedBox(height: 20),
             Text('历史记录', style: Theme.of(context).textTheme.bodyLarge),
             SuggestionItemView(
               titleItems: LibraryInit.librarySearchHistory.getAllByTimeDesc().map((e) => e.keyword).toList(),
-              onItemTap: (title) => _searchByGiving(context, title),
+              onItemTap: (title) => searchByGiving(context, keyword: title),
             ),
             const SizedBox(height: 20),
             InkWell(
@@ -115,7 +131,7 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
             ),
             const SizedBox(height: 20),
             Text('大家都在搜', style: Theme.of(context).textTheme.bodyLarge),
-            HotSearchGroup(onTap: (title) => _searchByGiving(context, title)),
+            HotSearchGroup(onTap: (title) => searchByGiving(context, keyword: title)),
           ],
         ),
       ),
