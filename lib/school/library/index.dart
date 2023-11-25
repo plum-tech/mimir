@@ -56,7 +56,7 @@ class _LibraryAppCardState extends State<LibraryAppCard> {
         else
           OutlinedButton.icon(
             onPressed: () async {
-              await context.push("/library/my-borrowing");
+              await context.push("/library/my-borrowed");
             },
             icon: const Icon(Icons.person),
             label: "Me".text(),

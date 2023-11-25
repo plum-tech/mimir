@@ -52,7 +52,6 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
   /// 最终前端展示的数据
   List<BookImageHolding> books = [];
 
-  /// 是否处于加载状态
   bool isFetching = false;
 
   @override

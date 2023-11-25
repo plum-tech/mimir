@@ -13,13 +13,13 @@ class LibraryBorrowService {
   LibrarySession get session =>Init.librarySession;
   const LibraryBorrowService();
 
-  Future<List<HistoryBorrowBookItem>> getHistoryBorrowBookList(int page, int rows) async {
+  Future<List<BorrowBookHistoryItem>> getHistoryBorrowBookList() async {
     final response = await session.request(
       LibraryConst.historyLoanListUrl,
       ReqMethod.get,
       para: {
-        'page': page.toString(),
-        'rows': rows.toString(),
+        'page': 1.toString(),
+        'rows': 99999.toString(),
       },
     );
     final html = BeautifulSoup(response.data);
@@ -27,7 +27,7 @@ class LibraryBorrowService {
     return table.findAll('tr').where((e) => e.id != 'contentHeader').map((e) {
       final columns = e.findAll('td');
       final columnsText = columns.map((e) => e.text.trim()).toList();
-      return HistoryBorrowBookItem(
+      return BorrowBookHistoryItem(
         bookId: columns[0].find('input')!.attributes['value']!,
         operateType: columnsText[0],
         barcode: columnsText[1],
@@ -42,13 +42,13 @@ class LibraryBorrowService {
     }).toList();
   }
 
-  Future<List<BorrowBookItem>> getMyBorrowBookList(int page, int rows) async {
+  Future<List<BorrowBookItem>> getMyBorrowBookList() async {
     final response = await session.request(
       LibraryConst.currentLoanListUrl,
       ReqMethod.get,
       para: {
-        'page': page.toString(),
-        'rows': rows.toString(),
+        'page': 1.toString(),
+        'rows': 99999.toString(),
       },
     );
     final html = BeautifulSoup(response.data);

@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/library/init.dart';
 
-class LibraryMyBorrowingPage extends StatefulWidget {
-  const LibraryMyBorrowingPage({super.key});
+import '../entity/borrow.dart';
+
+class LibraryMyBorrowedPage extends StatefulWidget {
+  const LibraryMyBorrowedPage({super.key});
 
   @override
-  State<LibraryMyBorrowingPage> createState() => _LibraryMyBorrowingPageState();
+  State<LibraryMyBorrowedPage> createState() => _LibraryMyBorrowedPageState();
 }
 
-class _LibraryMyBorrowingPageState extends State<LibraryMyBorrowingPage> {
+class _LibraryMyBorrowedPageState extends State<LibraryMyBorrowedPage> {
+  bool isFetching = false;
+  List<BorrowBookItem>? borrowed;
+
   @override
   void initState() {
     super.initState();
@@ -16,10 +24,25 @@ class _LibraryMyBorrowingPageState extends State<LibraryMyBorrowingPage> {
   }
 
   Future<void> fetch() async {
-    final res1 = await LibraryInit.borrowService.getMyBorrowBookList(1, 9999);
-    final res2 = await LibraryInit.borrowService.getHistoryBorrowBookList(1, 9999);
-    print(res1);
-    print(res2);
+    if (!mounted) return;
+    setState(() {
+      isFetching = true;
+    });
+    try {
+      final borrowed = await LibraryInit.borrowService.getMyBorrowBookList();
+      if (!mounted) return;
+      setState(() {
+        this.borrowed = borrowed;
+        isFetching = false;
+      });
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      if (!mounted) return;
+      setState(() {
+        isFetching = false;
+      });
+    }
   }
 
   @override
@@ -27,9 +50,64 @@ class _LibraryMyBorrowingPageState extends State<LibraryMyBorrowingPage> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(),
+          SliverAppBar(
+            title: "Borrowing".text(),
+            actions: [
+              PlatformTextButton(
+                child: "History".text(),
+                onPressed: () async {
+                  await context.push("/library/my-borrowing-history");
+                },
+              )
+            ],
+          ),
         ],
       ),
     );
+  }
+}
+
+class LibraryMyBorrowingHistoryPage extends StatefulWidget {
+  const LibraryMyBorrowingHistoryPage({super.key});
+
+  @override
+  State<LibraryMyBorrowingHistoryPage> createState() => _LibraryMyBorrowingHistoryPageState();
+}
+
+class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistoryPage> {
+  bool isFetching = false;
+  List<BorrowBookHistoryItem>? history;
+
+  @override
+  void initState() {
+    super.initState();
+    fetch();
+  }
+
+  Future<void> fetch() async {
+    if (!mounted) return;
+    setState(() {
+      isFetching = true;
+    });
+    try {
+      final history = await LibraryInit.borrowService.getHistoryBorrowBookList();
+      if (!mounted) return;
+      setState(() {
+        this.history = history;
+        isFetching = false;
+      });
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      if (!mounted) return;
+      setState(() {
+        isFetching = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }

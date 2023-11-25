@@ -299,8 +299,12 @@ final _libraryRoutes = [
     builder: (ctx, state) => const LibraryLoginPage(),
   ),
   GoRoute(
-    path: "/library/my-borrowing",
-    builder: (ctx, state) => const LibraryMyBorrowingPage(),
+    path: "/library/my-borrowed",
+    builder: (ctx, state) => const LibraryMyBorrowedPage(),
+  ),
+  GoRoute(
+    path: "/library/my-borrowing-history",
+    builder: (ctx, state) => const LibraryMyBorrowingHistoryPage(),
   ),
 ];
 
