@@ -1,51 +1,59 @@
 import 'package:easy_localization/easy_localization.dart';
 
 enum SearchMethod {
-  any,
-  title,
-  primaryTitle,
-  isbn,
-  author,
-  subject,
-  $class,
-  bookId,
-  orderNumber,
-  publisher,
-  callNumber;
+  any(""),
+  title("title"),
+  primaryTitle("title200a"),
+  isbn("isbn"),
+  author("author"),
+  subject("subject"),
+  $class("class"),
+  bookId("ctrlno"),
+  orderNumber("orderno"),
+  publisher("publisher"),
+  callNumber("callno");
+  final String internalQueryParameter;
 
+  const SearchMethod(this.internalQueryParameter);
   String l10nName() => "library.searchMethod.$name".tr();
 }
 
 enum SortMethod {
   // 匹配度
-  matchScore,
+  matchScore("score"),
   // 出版日期
-  publishDate,
+  publishDate("pubdate_sort"),
   // 主题词
-  subject,
+  subject("subject_sort"),
   // 标题名
-  title,
+  title("title_sort"),
   // 作者
-  author,
+  author("author_sort"),
   // 索书号
-  callNo,
+  callNo("callno_sort"),
   // 标题名拼音
-  pinyin,
+  pinyin("pinyin_sort"),
   // 借阅次数
-  loanCount,
+  loanCount("loannum_sort"),
   // 续借次数
-  renewCount,
+  renewCount("renew_sort"),
   // 题名权重
-  titleWeight,
+  titleWeight("title200Weight"),
   // 正题名权重
-  titleProperWeight,
+  primaryTitleWeight("title200aWeight"),
   // 卷册号
-  volume;
+  volume("title200h");
+  final String internalQueryParameter;
+
+  const SortMethod(this.internalQueryParameter);
 
   String l10nName() => "library.sortMethod.$name".tr();
 }
 
 enum SortOrder {
-  asc,
-  desc,
+  asc("asc"),
+  desc("desc");
+  final String internalQueryParameter;
+
+  const SortOrder(this.internalQueryParameter);
 }

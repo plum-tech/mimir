@@ -429,9 +429,9 @@ library:
     isbn: ISBN
     publisher: 發行商
     callNumber: 索書號
-    titleProper: 主要標題
+    primaryTitle: 主要標題
     subject: 主題
-    class: 類別
+    $class: 類別
     bookId: 圖書 ID
     orderNumber: 訂購號
 settings:

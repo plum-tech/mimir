@@ -429,9 +429,9 @@ library:
     isbn: ISBN
     publisher: 出版社
     callNumber: 索书号
-    titleProper: 正题
+    primaryTitle: 正题
     subject: 主题
-    class: 分类
+    $class: 分类
     bookId: 图书号
     orderNumber: 订购号
 settings:

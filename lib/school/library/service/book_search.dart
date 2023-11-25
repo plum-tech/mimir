@@ -12,46 +12,6 @@ class BookSearchService {
 
   const BookSearchService();
 
-  static String _searchWayToString(SearchMethod sw) {
-    return {
-      SearchMethod.any: '',
-      SearchMethod.title: 'title',
-      SearchMethod.primaryTitle: 'title200a',
-      SearchMethod.isbn: 'isbn',
-      SearchMethod.author: 'author',
-      SearchMethod.subject: 'subject',
-      SearchMethod.$class: 'class',
-      SearchMethod.bookId: 'ctrlno',
-      SearchMethod.orderNumber: 'orderno',
-      SearchMethod.publisher: 'publisher',
-      SearchMethod.callNumber: 'callno',
-    }[sw]!;
-  }
-
-  static String _sortWayToString(SortMethod sw) {
-    return {
-      SortMethod.matchScore: 'score',
-      SortMethod.publishDate: 'pubdate_sort',
-      SortMethod.subject: 'subject_sort',
-      SortMethod.title: 'title_sort',
-      SortMethod.author: 'author_sort',
-      SortMethod.callNo: 'callno_sort',
-      SortMethod.pinyin: 'pinyin_sort',
-      SortMethod.loanCount: 'loannum_sort',
-      SortMethod.renewCount: 'renew_sort',
-      SortMethod.titleWeight: 'title200Weight',
-      SortMethod.titleProperWeight: 'title200aWeight',
-      SortMethod.volume: 'title200h',
-    }[sw]!;
-  }
-
-  static String _sortOrderToString(SortOrder sw) {
-    return {
-      SortOrder.asc: 'asc',
-      SortOrder.desc: 'desc',
-    }[sw]!;
-  }
-
   static Book _parseBook(Bs4Element e) {
     // 获得图书信息
     String getBookInfo(String name, String selector) {
@@ -94,10 +54,10 @@ class BookSearchService {
         'searchType': 'standard',
         'isFacet': 'true',
         'view': 'standard',
-        'searchWay': _searchWayToString(searchMethod),
+        'searchWay': searchMethod.internalQueryParameter,
         'rows': rows.toString(),
-        'sortWay': _sortWayToString(sortMethod),
-        'sortOrder': _sortOrderToString(sortOrder),
+        'sortWay': sortMethod.internalQueryParameter,
+        'sortOrder': sortOrder.internalQueryParameter,
         'hasholding': '1',
         'searchWay0': 'marc',
         'logical0': 'AND',

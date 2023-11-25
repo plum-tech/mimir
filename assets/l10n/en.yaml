@@ -429,9 +429,9 @@ library:
     isbn: ISBN
     publisher: Publisher
     callNumber: Call No.
-    titleProper: Primary title
+    primaryTitle: Primary title
     subject: Subject
-    class: Class
+    $class: Class
     bookId: Book ID
     orderNumber: Order No.
 settings:

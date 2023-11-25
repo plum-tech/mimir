@@ -140,7 +140,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
         controller: scrollController,
         slivers: [
           SliverToBoxAdapter(
-            child: buildSearchMethodSwitcher(),
+            child: buildSearchMethodSwitcher().sized(h: 40),
           ),
           if (books.isEmpty)
             SliverFillRemaining(
@@ -174,23 +174,25 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
   }
 
   Widget buildSearchMethodSwitcher() {
-    return _searchMethods
-        .map((method) {
-          return ChoiceChip(
-            label: method.l10nName().text(),
-            selected: selectedSearchMethod == method,
-            onSelected: (value) {
-              setState(() {
-                selectedSearchMethod = method;
-                books = [];
-                currentPage = 1;
-              });
-              fetchNextPage();
-            },
-          );
-        })
-        .toList()
-        .wrap(spacing: 4);
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: _searchMethods.length,
+      itemBuilder: (ctx, i) {
+        final method = _searchMethods[i];
+        return ChoiceChip(
+          label: method.l10nName().text(),
+          selected: selectedSearchMethod == method,
+          onSelected: (value) {
+            setState(() {
+              selectedSearchMethod = method;
+              books = [];
+              currentPage = 1;
+            });
+            fetchNextPage();
+          },
+        ).padH(4);
+      },
+    );
   }
 }
 
