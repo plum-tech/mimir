@@ -67,11 +67,11 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
     );
     return BookSearchResultWidget(
       query: query,
-      onAuthorTap: (String key) {
+      onSearchTap: (method, keyword) {
         _searchByGiving(
           context,
-          key,
-          searchMethod: SearchMethod.author,
+          keyword,
+          searchMethod: method,
         );
       },
       initialSearchMethod: _searchWay,

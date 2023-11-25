@@ -10,19 +10,21 @@ import '../init.dart';
 import '../utils.dart';
 import 'search_result.dart';
 
-class BookInfoPage extends StatefulWidget {
+class BookDetailsPage extends StatefulWidget {
   final BookImageHolding bookImageHolding;
+  final BookSearchCallback? onSearchTap;
 
-  const BookInfoPage(
+  const BookDetailsPage(
     this.bookImageHolding, {
     super.key,
+    this.onSearchTap,
   });
 
   @override
-  State<BookInfoPage> createState() => _BookInfoPageState();
+  State<BookDetailsPage> createState() => _BookDetailsPageState();
 }
 
-class _BookInfoPageState extends State<BookInfoPage> {
+class _BookDetailsPageState extends State<BookDetailsPage> {
   BookInfo? info;
   bool isFetching = false;
 
@@ -86,10 +88,26 @@ class _BookInfoPageState extends State<BookInfoPage> {
               DetailListTile(
                 title: "Title",
                 subtitle: book.title,
+                trailing: IconButton(
+                  icon: const Icon(Icons.youtube_searched_for),
+                  onPressed: widget.onSearchTap == null
+                      ? null
+                      : () {
+                          widget.onSearchTap?.call(SearchMethod.title, book.title);
+                        },
+                ),
               ),
               DetailListTile(
                 title: "Author",
                 subtitle: book.author,
+                trailing: IconButton(
+                  icon: const Icon(Icons.youtube_searched_for),
+                  onPressed: widget.onSearchTap == null
+                      ? null
+                      : () {
+                          widget.onSearchTap?.call(SearchMethod.author, book.author);
+                        },
+                ),
               ),
               DetailListTile(
                 title: "ISBN",
@@ -102,6 +120,14 @@ class _BookInfoPageState extends State<BookInfoPage> {
               DetailListTile(
                 title: "Publisher",
                 subtitle: book.publisher,
+                trailing: IconButton(
+                  icon: const Icon(Icons.youtube_searched_for),
+                  onPressed: widget.onSearchTap == null
+                      ? null
+                      : () {
+                          widget.onSearchTap?.call(SearchMethod.publisher, book.publisher);
+                        },
+                ),
               ),
               DetailListTile(
                 title: "Publish date",
@@ -238,7 +264,7 @@ class _AsyncBookItemState extends State<AsyncBookItem> {
     return BookCard(
       holding,
       onTap: () async {
-        await context.show$Sheet$((ctx) => BookInfoPage(holding));
+        await context.show$Sheet$((ctx) => BookDetailsPage(holding));
       },
     );
   }

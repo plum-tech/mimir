@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
@@ -8,7 +9,7 @@ import 'package:sit/design/widgets/common.dart';
 
 import '../entity/search.dart';
 import '../init.dart';
-import 'book_info.dart';
+import 'details.dart';
 import '../utils.dart';
 
 const _searchMethods = [
@@ -19,6 +20,8 @@ const _searchMethods = [
   SearchMethod.publisher,
 ];
 
+typedef BookSearchCallback = void Function(SearchMethod method, String keyword);
+
 class BookSearchResultWidget extends StatefulWidget {
   /// 要搜索的关键字
   final String query;
@@ -26,12 +29,12 @@ class BookSearchResultWidget extends StatefulWidget {
   /// 检索方式
   final SearchMethod initialSearchMethod;
 
-  final void Function(String author)? onAuthorTap;
+  final BookSearchCallback? onSearchTap;
 
   const BookSearchResultWidget({
     required this.query,
     super.key,
-    this.onAuthorTap,
+    this.onSearchTap,
     this.initialSearchMethod = SearchMethod.title,
   });
 
@@ -135,6 +138,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final onSearchTap = widget.onSearchTap;
     return Scaffold(
       body: CustomScrollView(
         controller: scrollController,
@@ -156,9 +160,20 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
                   final book = books[i];
                   return BookCard(
                     book,
-                    onAuthorTap: widget.onAuthorTap,
+                    onSearchTap: onSearchTap,
                     onTap: () async {
-                      await context.show$Sheet$((ctx) => BookInfoPage(book));
+                      await context.show$Sheet$(
+                        (ctx) => BookDetailsPage(
+                          book,
+                          onSearchTap: onSearchTap == null
+                              ? null
+                              : (method, keyword) {
+                                  // pop the sheet
+                                  ctx.pop();
+                                  onSearchTap(method, keyword);
+                                },
+                        ),
+                      );
                     },
                   );
                 })
@@ -199,19 +214,19 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
 class BookCard extends StatelessWidget {
   final BookImageHolding bookImageHolding;
   final void Function()? onTap;
-  final void Function(String author)? onAuthorTap;
+  final BookSearchCallback? onSearchTap;
 
   const BookCard(
     this.bookImageHolding, {
     super.key,
-    this.onAuthorTap,
+    this.onSearchTap,
     this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     final book = bookImageHolding.book;
-    final onAuthorTap = this.onAuthorTap;
+    final onSearchTap = this.onSearchTap;
     final holding = bookImageHolding.holding ?? const [];
     final imgUrl = bookImageHolding.image?.resourceLink;
     // 计算总共馆藏多少书
@@ -231,21 +246,43 @@ class BookCard extends StatelessWidget {
         title: book.title.text(),
         onTap: onTap,
         subtitle: [
-          if (onAuthorTap != null)
-            RichText(
-                text: TextSpan(
-              style: const TextStyle(color: Colors.blue),
-              text: book.author,
-              recognizer: TapGestureRecognizer()
-                ..onTap = () async {
-                  onAuthorTap(book.author);
-                },
-            ))
-          else
-            book.author.text(),
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: book.author,
+                  style: const TextStyle(color: Colors.blue),
+                  recognizer: onSearchTap == null
+                      ? null
+                      : (TapGestureRecognizer()
+                        ..onTap = () async {
+                          onSearchTap(SearchMethod.author, book.author);
+                        }),
+                )
+              ],
+              style: context.textTheme.bodyMedium?.copyWith(color: context.colorScheme.onSurfaceVariant),
+            ),
+          ),
           if (book.isbn.isNotEmpty) "${SearchMethod.isbn.l10nName()} ${book.isbn}".text(),
           "${SearchMethod.callNumber.l10nName()} ${book.callNo}".text(),
-          "${book.publisher}  ${book.publishDate}".text(),
+          RichText(
+              text: TextSpan(
+            children: [
+              TextSpan(
+                style: const TextStyle(color: Colors.blue),
+                text: book.publisher,
+                recognizer: onSearchTap == null
+                    ? null
+                    : (TapGestureRecognizer()
+                      ..onTap = () async {
+                        onSearchTap(SearchMethod.publisher, book.publisher);
+                      }),
+              ),
+              const TextSpan(text: " "),
+              TextSpan(text: book.publishDate),
+            ],
+            style: context.textTheme.bodyMedium?.copyWith(color: context.colorScheme.onSurfaceVariant),
+          ))
         ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
       ),
     );
