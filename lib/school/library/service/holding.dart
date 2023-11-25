@@ -106,21 +106,22 @@ class _HoldingItem {
   // 总价
   final double totalPrice;
 
-  const _HoldingItem(
-      this.bookRecordId,
-      this.bookId,
-      this.stateType,
-      this.barcode,
-      this.callNo,
-      this.originLibraryCode,
-      this.originLocationCode,
-      this.currentLibraryCode,
-      this.currentLocationCode,
-      this.circulateType,
-      this.registerDate,
-      this.inDate,
-      this.singlePrice,
-      this.totalPrice);
+  const _HoldingItem({
+    required this.bookRecordId,
+    required this.bookId,
+    required this.stateType,
+    required this.barcode,
+    required this.callNo,
+    required this.originLibraryCode,
+    required this.originLocationCode,
+    required this.currentLibraryCode,
+    required this.currentLocationCode,
+    required this.circulateType,
+    required this.registerDate,
+    required this.inDate,
+    required this.singlePrice,
+    required this.totalPrice,
+  });
 
 // double totalLoanNum;
   factory _HoldingItem.fromJson(Map<String, dynamic> json) => _$HoldingItemFromJson(json);
@@ -192,8 +193,15 @@ class _BookHoldingInfo {
   // },
   final Map<String, String> barcodeLocationUrlMap;
 
-  const _BookHoldingInfo(this.holdingList, this.libraryCodeMap, this.locationMap, this.circulateTypeMap,
-      this.holdStateMap, this.libcodeDeferDateMap, this.barcodeLocationUrlMap);
+  const _BookHoldingInfo({
+    required this.holdingList,
+    required this.libraryCodeMap,
+    required this.locationMap,
+    required this.circulateTypeMap,
+    required this.holdStateMap,
+    required this.libcodeDeferDateMap,
+    required this.barcodeLocationUrlMap,
+  });
 
   factory _BookHoldingInfo.fromJson(Map<String, dynamic> json) => _$BookHoldingInfoFromJson(json);
 
@@ -206,25 +214,25 @@ class HoldingInfoService {
   const HoldingInfoService();
 
   Future<HoldingInfo> queryByBookId(String bookId) async {
-    var response = await session.request('${LibraryConst.bookHoldingUrl}/$bookId', ReqMethod.get);
+    final response = await session.request('${LibraryConst.bookHoldingUrl}/$bookId', ReqMethod.get);
 
-    var rawBookHoldingInfo = _BookHoldingInfo.fromJson(response.data);
-    var result = rawBookHoldingInfo.holdingList.map((rawHoldingItem) {
-      var bookRecordId = rawHoldingItem.bookRecordId;
-      var bookId = rawHoldingItem.bookId;
-      var stateTypeName = rawBookHoldingInfo.holdStateMap[rawHoldingItem.stateType.toString()]!.stateName;
-      var barcode = rawHoldingItem.barcode;
-      var callNo = rawHoldingItem.callNo;
-      var originLibrary = rawBookHoldingInfo.libraryCodeMap[rawHoldingItem.originLibraryCode]!;
-      var originLocation = rawBookHoldingInfo.locationMap[rawHoldingItem.originLocationCode]!;
-      var currentLibrary = rawBookHoldingInfo.libraryCodeMap[rawHoldingItem.currentLibraryCode]!;
-      var currentLocation = rawBookHoldingInfo.locationMap[rawHoldingItem.currentLocationCode]!;
-      var circulateTypeName = rawBookHoldingInfo.circulateTypeMap[rawHoldingItem.circulateType]!.name;
-      var circulateTypeDescription = rawBookHoldingInfo.circulateTypeMap[rawHoldingItem.circulateType]!.description;
-      var registerDate = DateTime.parse(rawHoldingItem.registerDate);
-      var inDate = DateTime.parse(rawHoldingItem.inDate);
-      var singlePrice = rawHoldingItem.singlePrice;
-      var totalPrice = rawHoldingItem.totalPrice;
+    final rawBookHoldingInfo = _BookHoldingInfo.fromJson(response.data);
+    final result = rawBookHoldingInfo.holdingList.map((rawHoldingItem) {
+      final bookRecordId = rawHoldingItem.bookRecordId;
+      final bookId = rawHoldingItem.bookId;
+      final stateTypeName = rawBookHoldingInfo.holdStateMap[rawHoldingItem.stateType.toString()]!.stateName;
+      final barcode = rawHoldingItem.barcode;
+      final callNo = rawHoldingItem.callNo;
+      final originLibrary = rawBookHoldingInfo.libraryCodeMap[rawHoldingItem.originLibraryCode]!;
+      final originLocation = rawBookHoldingInfo.locationMap[rawHoldingItem.originLocationCode]!;
+      final currentLibrary = rawBookHoldingInfo.libraryCodeMap[rawHoldingItem.currentLibraryCode]!;
+      final currentLocation = rawBookHoldingInfo.locationMap[rawHoldingItem.currentLocationCode]!;
+      final circulateTypeName = rawBookHoldingInfo.circulateTypeMap[rawHoldingItem.circulateType]!.name;
+      final circulateTypeDescription = rawBookHoldingInfo.circulateTypeMap[rawHoldingItem.circulateType]!.description;
+      final registerDate = DateTime.parse(rawHoldingItem.registerDate);
+      final inDate = DateTime.parse(rawHoldingItem.inDate);
+      final singlePrice = rawHoldingItem.singlePrice;
+      final totalPrice = rawHoldingItem.totalPrice;
       return HoldingItem(
         bookRecordId: bookRecordId,
         bookId: bookId,
@@ -248,7 +256,7 @@ class HoldingInfoService {
 
   /// 搜索附近的书的id号
   Future<List<String>> searchNearBookIdList(String bookId) async {
-    var response = await session.request(
+    final response = await session.request(
       LibraryConst.virtualBookshelfUrl,
       ReqMethod.get,
       para: {

@@ -38,7 +38,7 @@ class LibraryInit {
     bookImageSearch = const BookImageSearchService();
     holdingPreview = const HoldingPreviewService();
 
-   searchHistoryStorage = const SearchHistoryStorage();
+    searchHistoryStorage = const SearchHistoryStorage();
     hotSearchService = const HotSearchService();
   }
 }

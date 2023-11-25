@@ -35,20 +35,20 @@ Map<String, dynamic> _$HoldStateToJson(_HoldState instance) => <String, dynamic>
     };
 
 _HoldingItem _$HoldingItemFromJson(Map<String, dynamic> json) => _HoldingItem(
-      json['recno'] as int,
-      json['bookrecno'] as int,
-      json['state'] as int,
-      json['barcode'] as String,
-      json['callno'] as String,
-      json['orglib'] as String,
-      json['orglocal'] as String,
-      json['curlib'] as String,
-      json['curlocal'] as String,
-      json['cirtype'] as String,
-      json['regdate'] as String,
-      json['indate'] as String,
-      (json['singlePrice'] as num).toDouble(),
-      (json['totalPrice'] as num).toDouble(),
+      bookRecordId: json['recno'] as int,
+      bookId: json['bookrecno'] as int,
+      stateType: json['state'] as int,
+      barcode: json['barcode'] as String,
+      callNo: json['callno'] as String,
+      originLibraryCode: json['orglib'] as String,
+      originLocationCode: json['orglocal'] as String,
+      currentLibraryCode: json['curlib'] as String,
+      currentLocationCode: json['curlocal'] as String,
+      circulateType: json['cirtype'] as String,
+      registerDate: json['regdate'] as String,
+      inDate: json['indate'] as String,
+      singlePrice: (json['singlePrice'] as num).toDouble(),
+      totalPrice: (json['totalPrice'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$HoldingItemToJson(_HoldingItem instance) => <String, dynamic>{
@@ -69,17 +69,18 @@ Map<String, dynamic> _$HoldingItemToJson(_HoldingItem instance) => <String, dyna
     };
 
 _BookHoldingInfo _$BookHoldingInfoFromJson(Map<String, dynamic> json) => _BookHoldingInfo(
-      (json['holdingList'] as List<dynamic>).map((e) => _HoldingItem.fromJson(e as Map<String, dynamic>)).toList(),
-      Map<String, String>.from(json['libcodeMap'] as Map),
-      Map<String, String>.from(json['localMap'] as Map),
-      (json['pBCtypeMap'] as Map<String, dynamic>).map(
+      holdingList:
+          (json['holdingList'] as List<dynamic>).map((e) => _HoldingItem.fromJson(e as Map<String, dynamic>)).toList(),
+      libraryCodeMap: Map<String, String>.from(json['libcodeMap'] as Map),
+      locationMap: Map<String, String>.from(json['localMap'] as Map),
+      circulateTypeMap: (json['pBCtypeMap'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k, _CirculateType.fromJson(e as Map<String, dynamic>)),
       ),
-      (json['holdStateMap'] as Map<String, dynamic>).map(
+      holdStateMap: (json['holdStateMap'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k, _HoldState.fromJson(e as Map<String, dynamic>)),
       ),
-      Map<String, int>.from(json['libcodeDeferDateMap'] as Map),
-      Map<String, String>.from(json['barcodeLocationUrlMap'] as Map),
+      libcodeDeferDateMap: Map<String, int>.from(json['libcodeDeferDateMap'] as Map),
+      barcodeLocationUrlMap: Map<String, String>.from(json['barcodeLocationUrlMap'] as Map),
     );
 
 Map<String, dynamic> _$BookHoldingInfoToJson(_BookHoldingInfo instance) => <String, dynamic>{

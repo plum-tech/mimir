@@ -20,16 +20,15 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
     required String keyword,
     SearchMethod? searchMethod,
   }) async {
+    if (searchMethod != null) {
+      $searchMethod.value = searchMethod;
+    }
     query = keyword;
 
     // 若已经显示过结果，这里无法直接再次显示结果
     // 经测试，需要先返回搜索建议页，在等待若干时间后显示结果
     showSuggestions(context);
     await Future.delayed(const Duration(seconds: 1));
-
-    if (searchMethod != null) {
-      $searchMethod.value = searchMethod;
-    }
     if (!context.mounted) return;
     showResults(context);
   }
