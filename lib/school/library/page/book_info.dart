@@ -4,7 +4,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/list_tile.dart';
 
-import '../entity/book_info.dart';
+import '../entity/book.dart';
 import '../entity/search.dart';
 import '../init.dart';
 import '../utils.dart';
@@ -13,7 +13,10 @@ import 'search_result.dart';
 class BookInfoPage extends StatefulWidget {
   final BookImageHolding bookImageHolding;
 
-  const BookInfoPage(this.bookImageHolding, {super.key});
+  const BookInfoPage(
+    this.bookImageHolding, {
+    super.key,
+  });
 
   @override
   State<BookInfoPage> createState() => _BookInfoPageState();
@@ -63,7 +66,7 @@ class _BookInfoPageState extends State<BookInfoPage> {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              expandedHeight:imgUrl == null ? null: 300.0,
+              expandedHeight: imgUrl == null ? null : 300.0,
               flexibleSpace: imgUrl == null
                   ? null
                   : CachedNetworkImage(

@@ -3,7 +3,7 @@ import 'package:sit/school/library/service/holding_preview.dart';
 import 'package:sit/school/library/service/image_search.dart';
 
 import 'entity/book_image.dart';
-import 'entity/book_search.dart';
+import 'entity/book.dart';
 import 'entity/holding_preview.dart';
 import 'init.dart';
 

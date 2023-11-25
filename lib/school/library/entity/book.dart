@@ -43,3 +43,17 @@ class BookSearchResult {
     return 'BookSearchResult{resultCount: $resultCount, useTime: $useTime, currentPage: $currentPage, totalPages: $totalPages, books: $books}';
   }
 }
+
+class BookInfo {
+  final String title;
+  final String isbn;
+  final String price;
+  final Map<String, String> rawDetail;
+
+  const BookInfo({
+    required this.title,
+    required this.isbn,
+    required this.price,
+    required this.rawDetail,
+  });
+}

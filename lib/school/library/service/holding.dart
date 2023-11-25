@@ -226,21 +226,22 @@ class HoldingInfoService {
       var singlePrice = rawHoldingItem.singlePrice;
       var totalPrice = rawHoldingItem.totalPrice;
       return HoldingItem(
-          bookRecordId,
-          bookId,
-          stateTypeName,
-          barcode,
-          callNo,
-          originLibrary,
-          originLocation,
-          currentLibrary,
-          currentLocation,
-          circulateTypeName,
-          circulateTypeDescription,
-          registerDate,
-          inDate,
-          singlePrice,
-          totalPrice);
+        bookRecordId: bookRecordId,
+        bookId: bookId,
+        stateTypeName: stateTypeName,
+        barcode: barcode,
+        callNo: callNo,
+        originLibrary: originLibrary,
+        originLocation: originLocation,
+        currentLibrary: currentLibrary,
+        currentLocation: currentLocation,
+        circulateTypeName: circulateTypeName,
+        circulateTypeDescription: circulateTypeDescription,
+        registerDate: registerDate,
+        inDate: inDate,
+        singlePrice: singlePrice,
+        totalPrice: totalPrice,
+      );
     }).toList();
     return HoldingInfo(result);
   }

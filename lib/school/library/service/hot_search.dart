@@ -19,7 +19,7 @@ class HotSearchService {
     return HotSearchItem(title, int.parse(numText));
   }
 
-  Future<HotSearch> getHotSearch() async {
+  Future<List<HotSearchItem>> getHotSearch() async {
     final response = await session.request(LibraryConst.hotSearchUrl, ReqMethod.get);
     final soup = BeautifulSoup(response.data);
     final fieldsets = soup.findAll('fieldset');
@@ -28,9 +28,6 @@ class HotSearchService {
       return fieldset.findAll('a').map((e) => _parse(e.text)).toList();
     }
 
-    return HotSearch(
-      recentMonth: getHotSearchItems(fieldsets[0]),
-      totalTime: getHotSearchItems(fieldsets[0]),
-    );
+    return getHotSearchItems(fieldsets[0]);
   }
 }
