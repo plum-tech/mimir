@@ -82,7 +82,7 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
 
   Widget buildExam(ExamEntry exam) {
     if (!isCupertino) {
-      return ExamCard(exam, enableAddEvent: false);
+      return ExamCard(exam);
     }
     return Builder(builder: (context) {
       return CupertinoContextMenu.builder(
@@ -107,7 +107,7 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
           ),
         ],
         builder: (context, animation) {
-          return ExamCard(exam, enableAddEvent: false).scrolled(physics: const NeverScrollableScrollPhysics());
+          return ExamCard(exam).scrolled(physics: const NeverScrollableScrollPhysics());
         },
       );
     });
@@ -126,4 +126,25 @@ Future<void> shareExamArrange({
     text,
     sharePositionOrigin: context.getSharePositionOrigin(),
   );
+}
+
+class ExamCard extends StatelessWidget {
+  final ExamEntry exam;
+
+  const ExamCard(
+    this.exam, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      [
+        exam.courseName.text(style: context.textTheme.titleMedium),
+        if (exam.isRetake == true) Chip(label: i18n.retake.text(), elevation: 2),
+      ].row(maa: MainAxisAlignment.spaceBetween),
+      const Divider(),
+      ExamEntryDetailsTable(exam),
+    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 15, h: 20).inCard();
+  }
 }

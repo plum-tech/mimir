@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/design/widgets/card.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/school/widgets/selector.dart';
 import 'package:rettulf/rettulf.dart';
@@ -12,14 +13,14 @@ import '../init.dart';
 import '../widgets/exam.dart';
 import '../i18n.dart';
 
-class ExamArrangePage extends StatefulWidget {
-  const ExamArrangePage({super.key});
+class ExamArrangementListPage extends StatefulWidget {
+  const ExamArrangementListPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _ExamArrangePageState();
+  State<StatefulWidget> createState() => _ExamArrangementListPageState();
 }
 
-class _ExamArrangePageState extends State<ExamArrangePage> {
+class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
   List<ExamEntry>? examList;
   bool isLoading = false;
   late SemesterInfo initial = () {
@@ -98,9 +99,11 @@ class _ExamArrangePageState extends State<ExamArrangePage> {
                 itemCount: examList.length,
                 itemBuilder: (ctx, i) {
                   final exam = examList[i];
-                  return ExamCard(
-                    exam,
-                    enableAddEvent: exam.time?.end.isAfter(now) ?? false,
+                  return FilledCard(
+                    child: ExamCard(
+                      exam,
+                      enableAddEvent: exam.time?.end.isAfter(now) ?? false,
+                    ),
                   ).padH(6);
                 },
               ),

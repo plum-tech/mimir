@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import '../i18n.dart';
@@ -19,44 +18,19 @@ class ExamCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.textTheme.bodyMedium;
     final time = exam.time;
-    return FilledCard(
-      child: [
-        [
-          exam.courseName.text(style: context.textTheme.titleMedium),
-          if (exam.isRetake == true) Chip(label: i18n.retake.text(), elevation: 2),
-        ].row(maa: MainAxisAlignment.spaceBetween),
+    return [
+      [
+        exam.courseName.text(style: context.textTheme.titleMedium),
+        if (exam.isRetake == true) Chip(label: i18n.retake.text(), elevation: 2),
+      ].row(maa: MainAxisAlignment.spaceBetween),
+      Divider(color: context.colorScheme.onSurfaceVariant),
+      ExamEntryDetailsTable(exam),
+      if (enableAddEvent && time != null && (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)) ...[
         Divider(color: context.colorScheme.onSurfaceVariant),
-        Table(
-          children: [
-            TableRow(children: [
-              i18n.location.text(style: style),
-              exam.place.text(style: style),
-            ]),
-            if (exam.seatNumber != null)
-              TableRow(children: [
-                i18n.seatNumber.text(style: style),
-                exam.seatNumber.toString().text(style: style),
-              ]),
-            if (time != null) ...[
-              TableRow(children: [
-                i18n.date.text(style: style),
-                exam.buildDate(context).text(style: style),
-              ]),
-              TableRow(children: [
-                i18n.time.text(style: style),
-                exam.buildTime(context).text(style: style),
-              ]),
-            ],
-          ],
-        ),
-        if (enableAddEvent && time != null && (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)) ...[
-          Divider(color: context.colorScheme.onSurfaceVariant),
-          buildAddToCalenderAction(),
-        ],
-      ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 15, h: 20),
-    );
+        buildAddToCalenderAction(),
+      ],
+    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 15, h: 20);
   }
 
   Widget buildAddToCalenderAction() {
@@ -68,6 +42,44 @@ class ExamCard extends StatelessWidget {
         );
       },
       label: i18n.addCalendarEvent.text(),
+    );
+  }
+}
+
+class ExamEntryDetailsTable extends StatelessWidget {
+  final ExamEntry exam;
+
+  const ExamEntryDetailsTable(
+    this.exam, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final style = context.textTheme.bodyMedium;
+    final time = exam.time;
+    return Table(
+      children: [
+        TableRow(children: [
+          i18n.location.text(style: style),
+          exam.place.text(style: style),
+        ]),
+        if (exam.seatNumber != null)
+          TableRow(children: [
+            i18n.seatNumber.text(style: style),
+            exam.seatNumber.toString().text(style: style),
+          ]),
+        if (time != null) ...[
+          TableRow(children: [
+            i18n.date.text(style: style),
+            exam.buildDate(context).text(style: style),
+          ]),
+          TableRow(children: [
+            i18n.time.text(style: style),
+            exam.buildTime(context).text(style: style),
+          ]),
+        ],
+      ],
     );
   }
 }
