@@ -1,7 +1,7 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/class2nd.dart';
 
@@ -21,7 +21,12 @@ class Class2ndActivityListService {
 
   Future<void> _refreshCookie() async {
     if (!_initializedCookie) {
-      await session.request('http://sc.sit.edu.cn/', ReqMethod.get);
+      await session.request(
+        'http://sc.sit.edu.cn/',
+        options: Options(
+          method: "GET",
+        ),
+      );
       _initializedCookie = true;
     }
   }
@@ -34,7 +39,12 @@ class Class2ndActivityListService {
   Future<List<Class2ndActivity>> getActivityList(Class2ndActivityCat type, int page) async {
     await _refreshCookie();
     final url = generateUrl(type, page);
-    final response = await session.request(url, ReqMethod.get);
+    final response = await session.request(
+      url,
+      options: Options(
+        method: "GET",
+      ),
+    );
     return _parseActivityList(response.data);
   }
 
@@ -43,9 +53,11 @@ class Class2ndActivityListService {
     await _refreshCookie();
     final response = await session.request(
       url,
-      ReqMethod.post,
       data: 'activityName=$queryString',
-      options: Options(contentType: Headers.formUrlEncodedContentType),
+      options: Options(
+        contentType: Headers.formUrlEncodedContentType,
+        method: "POST",
+      ),
     );
 
     return _parseActivityList(response.data);

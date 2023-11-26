@@ -34,8 +34,8 @@ class HiveInit {
   static late List<Box> cacheBoxes;
 
   static Future<void> init({
-  required  Directory coreDir,
-  required  Directory cacheDir,
+    required Directory coreDir,
+    required Directory cacheDir,
   }) async {
     debugPrint("Initializing hive");
     await core.initFlutter(coreDir);

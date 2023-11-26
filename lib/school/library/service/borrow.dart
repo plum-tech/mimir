@@ -2,7 +2,7 @@ import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/session/library.dart';
 
 import '../entity/borrow.dart';
@@ -18,11 +18,13 @@ class LibraryBorrowService {
   Future<List<BorrowedBookHistoryItem>> getHistoryBorrowBookList() async {
     final response = await session.request(
       LibraryConst.historyLoanListUrl,
-      ReqMethod.get,
       para: {
         'page': 1.toString(),
         'rows': 99999.toString(),
       },
+      options: Options(
+        method: "GET",
+      ),
     );
     final html = BeautifulSoup(response.data);
     final table = html.find('table', id: 'contentTable');
@@ -50,11 +52,13 @@ class LibraryBorrowService {
   Future<List<BorrowedBookItem>> getMyBorrowBookList() async {
     final response = await session.request(
       LibraryConst.currentLoanListUrl,
-      ReqMethod.get,
       para: {
         'page': 1.toString(),
         'rows': 99999.toString(),
       },
+      options: Options(
+        method: "GET",
+      ),
     );
     final html = BeautifulSoup(response.data);
     final table = html.find('table', id: 'contentTable');
@@ -84,19 +88,32 @@ class LibraryBorrowService {
     required List<String> barcodeList,
     bool renewAll = false,
   }) async {
-    await session.request(LibraryConst.renewList, ReqMethod.get);
-    final listRes = await session.request(LibraryConst.renewList, ReqMethod.get);
+    await session.request(
+      LibraryConst.renewList,
+      options: Options(
+        method: "GET",
+      ),
+    );
+    final listRes = await session.request(
+      LibraryConst.renewList,
+      options: Options(
+        method: "GET",
+      ),
+    );
     final listHtml = BeautifulSoup(listRes.data);
     final pdsToken = listHtml.find('input', attrs: {'name': 'pdsToken'})!.attributes['value'] ?? '';
     final renewRes = await session.request(
       LibraryConst.doRenewUrl,
-      ReqMethod.post,
       data: FormData.fromMap({
         'pdsToken': pdsToken,
         'barcodeList': barcodeList.join(','),
         'furl': '/opac/loan/renewList',
         'renewAll': renewAll ? 'all' : '',
       }),
+      options: Options(
+        method: "POST",
+        contentType: Headers.formUrlEncodedContentType,
+      ),
     );
     final renewHtml = BeautifulSoup(renewRes.data);
     final result = renewHtml.find('div', id: 'content')!.text;

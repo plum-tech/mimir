@@ -1,7 +1,8 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/class2nd.dart';
 
@@ -23,7 +24,12 @@ class Class2ndScoreService {
 
   /// 获取第二课堂分数
   Future<Class2ndScoreSummary> fetchScoreSummary() async {
-    final response = await session.request(homeUrl, ReqMethod.post);
+    final response = await session.request(
+      homeUrl,
+      options: Options(
+        method: "POST",
+      ),
+    );
     final data = response.data;
     return _parseScoreSummary(data);
   }
@@ -79,7 +85,12 @@ class Class2ndScoreService {
 
   /// 获取我的得分列表
   Future<List<Class2ndScoreItem>> fetchScoreItemList() async {
-    final response = await session.request(scoreUrl, ReqMethod.post);
+    final response = await session.request(
+      scoreUrl,
+      options: Options(
+        method: "POST",
+      ),
+    );
     return _parseScoreList(response.data);
   }
 
@@ -120,7 +131,12 @@ class Class2ndScoreService {
 
   /// 获取我的活动列表
   Future<List<Class2ndActivityApplication>> fetchActivityApplicationList() async {
-    final response = await session.request(myEventUrl, ReqMethod.post);
+    final response = await session.request(
+      myEventUrl,
+      options: Options(
+        method: "POST",
+      ),
+    );
     return _parseActivityApplicationList(response.data);
   }
 

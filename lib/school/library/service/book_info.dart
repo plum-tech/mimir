@@ -1,8 +1,9 @@
 import 'dart:collection';
 
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:dio/dio.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/session/library.dart';
 
 import '../const.dart';
@@ -14,7 +15,12 @@ class BookInfoService {
   const BookInfoService();
 
   Future<BookInfo> query(String bookId) async {
-    final response = await session.request('${LibraryConst.bookUrl}/$bookId', ReqMethod.get);
+    final response = await session.request(
+      '${LibraryConst.bookUrl}/$bookId',
+      options: Options(
+        method: "GET",
+      ),
+    );
     final html = BeautifulSoup(response.data);
     final detailItems = html
         .find('table', id: 'bookInfoTable')!

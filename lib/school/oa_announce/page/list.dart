@@ -1,8 +1,9 @@
 import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/design/widgets/common.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/school/oa_announce/widget/tile.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -94,9 +95,15 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
     );
   }
 
+  // TODO: move this into service folder
   Future<List<OaAnnounceRecord>> _queryAnnounceListInAllCategory(int page) async {
     // Make sure login.
-    await OaAnnounceInit.service.session.request('https://myportal.sit.edu.cn/', ReqMethod.get);
+    await OaAnnounceInit.service.session.request(
+      'https://myportal.sit.edu.cn/',
+      options: Options(
+        method: "GET",
+      ),
+    );
 
     final service = OaAnnounceInit.service;
 

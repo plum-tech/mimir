@@ -1,7 +1,8 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:dio/dio.dart';
 import 'package:sit/design/animation/progress.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/jwxt.dart';
 
@@ -36,17 +37,24 @@ class ExamResultService {
     void Function(double progress)? onProgress,
   }) async {
     final progress = ProgressWatcher(callback: onProgress);
-    final response = await session.request(_scoreUrl, ReqMethod.post, para: {
-      'gnmkdm': 'N305005',
-      'doType': 'query',
-    }, data: {
-      // 学年名
-      'xnm': info.year.toString(),
-      // 学期名
-      'xqm': semesterToFormField(info.semester),
-      // 获取成绩最大数量
-      'queryModel.showCount': 100,
-    });
+    final response = await session.request(
+      _scoreUrl,
+      options: Options(
+        method: "POST",
+      ),
+      para: {
+        'gnmkdm': 'N305005',
+        'doType': 'query',
+      },
+      data: {
+        // 学年名
+        'xnm': info.year.toString(),
+        // 学期名
+        'xqm': semesterToFormField(info.semester),
+        // 获取成绩最大数量
+        'queryModel.showCount': 100,
+      },
+    );
     progress.value = 0.2;
     final resultList = _parseScoreListPage(response.data);
     final newResultList = <ExamResult>[];
@@ -67,7 +75,9 @@ class ExamResultService {
   }) async {
     final response = await session.request(
       _scoreDetailUrl,
-      ReqMethod.post,
+      options: Options(
+        method: "POST",
+      ),
       para: {'gnmkdm': 'N305005'},
       data: {
         // 班级

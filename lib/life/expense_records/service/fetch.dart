@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/session/sso.dart';
 
 import '../entity/local.dart';
@@ -35,7 +35,10 @@ class ExpenseFetchService {
 
     final res = await session.request(
       urlPath,
-      ReqMethod.post,
+      options: Options(
+        contentType: 'text/plain',
+        method: "POST",
+      ),
       para: {
         'timestamp': curTs,
         'starttime': fromTs,
@@ -44,7 +47,6 @@ class ExpenseFetchService {
         'sign_method': 'HMAC',
         'stuempno': studentID,
       },
-      options: Options(contentType: 'text/plain'),
     );
     final raw = parseDataPack(res.data);
     final list = raw.transactions.map(parseFull).toList();

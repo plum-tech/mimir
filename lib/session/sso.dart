@@ -9,9 +9,9 @@ import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/exception/session.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+import 'package:sit/network/download.dart';
+
 import 'package:sit/route.dart';
-import 'package:sit/session/common.dart';
 import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/utils/logger.dart';
 import 'package:synchronized/synchronized.dart';
@@ -67,8 +67,8 @@ class SsoSession with DioDownloaderMixin {
     try {
       await _dioRequest(
         url,
-        'GET',
         options: Options(
+          method: "GET",
           contentType: Headers.formUrlEncodedContentType,
           followRedirects: false,
           validateStatus: (status) => status! < 400,
@@ -93,8 +93,7 @@ class SsoSession with DioDownloaderMixin {
   }
 
   Future<Response> _dioRequest(
-    String url,
-    String method, {
+    String url, {
     Map<String, String>? queryParameters,
     dynamic data,
     Options? options,
@@ -104,7 +103,6 @@ class SsoSession with DioDownloaderMixin {
     try {
       return await _request(
         url,
-        method,
         queryParameters: queryParameters,
         data: data,
         options: options,
@@ -116,8 +114,7 @@ class SsoSession with DioDownloaderMixin {
   }
 
   Future<Response> _request(
-    String url,
-    String method, {
+    String url, {
     Map<String, String>? queryParameters,
     dynamic data,
     Options? options,
@@ -132,8 +129,6 @@ class SsoSession with DioDownloaderMixin {
         url,
         queryParameters: queryParameters,
         options: options?.copyWith(
-          headers: options.headers,
-          method: method,
           followRedirects: false,
           validateStatus: (status) {
             return status! < 400;
@@ -332,20 +327,18 @@ class SsoSession with DioDownloaderMixin {
   }
 
   Future<Response> request(
-    String url,
-    ReqMethod method, {
+    String url, {
     Map<String, String>? para,
     data,
     Options? options,
-    SessionProgressCallback? onSendProgress,
-    SessionProgressCallback? onReceiveProgress,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
     Response response = await _dioRequest(
       url,
-      method.uppercaseName,
       queryParameters: para,
       data: data,
-      options: options?.toDioOptions(),
+      options: options,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
     );

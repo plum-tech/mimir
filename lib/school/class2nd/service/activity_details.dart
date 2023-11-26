@@ -1,9 +1,10 @@
 import 'dart:collection';
 
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/class2nd.dart';
 
@@ -20,7 +21,9 @@ class Class2ndActivityDetailsService {
   Future<Class2ndActivityDetails> getActivityDetails(int activityId) async {
     final response = await session.request(
       'http://sc.sit.edu.cn/public/activity/activityDetail.action?activityId=$activityId',
-      ReqMethod.post,
+      options: Options(
+        method: "POST",
+      ),
     );
     final data = response.data;
     return _parseActivityDetails(data);

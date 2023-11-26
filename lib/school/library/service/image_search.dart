@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/session/library.dart';
 
 import '../entity/book_image.dart';
@@ -21,14 +21,16 @@ class BookImageSearchService {
   Future<Map<String, BookImage>> searchByIsbnStr(String isbnStr) async {
     var response = await session.request(
       LibraryConst.bookImageInfoUrl,
-      ReqMethod.get,
       para: {
         'glc': 'U1SH021060',
         'cmdACT': 'getImages',
         'type': '0',
         'isbns': isbnStr,
       },
-      options: Options(responseType: ResponseType.plain),
+      options: Options(
+        responseType: ResponseType.plain,
+        method: "GET",
+      ),
     );
     var responseStr = (response.data as String).trim();
     responseStr = responseStr.substring(1, responseStr.length - 1);

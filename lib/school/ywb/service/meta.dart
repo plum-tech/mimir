@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/session/ywb.dart';
 
 import '../entity/meta.dart';
@@ -16,9 +16,11 @@ class YwbApplicationMetaService {
   Future<List<YwbApplicationMeta>> getApplicationMetas() async {
     final response = await session.request(
       _serviceFunctionList,
-      ReqMethod.post,
       data: '{"appObject":"student","appName":null}',
-      options: Options(responseType: ResponseType.json),
+      options: Options(
+        responseType: ResponseType.json,
+        method: "POST",
+      ),
     );
 
     final Map<String, dynamic> data = response.data;
@@ -33,9 +35,11 @@ class YwbApplicationMetaService {
   Future<YwbApplicationMetaDetails> getMetaDetails(String functionId) async {
     final response = await session.request(
       _serviceFunctionDetail,
-      ReqMethod.post,
       data: '{"appID":"$functionId"}',
-      options: Options(responseType: ResponseType.json),
+      options: Options(
+        responseType: ResponseType.json,
+        method: "POST",
+      ),
     );
     final Map<String, dynamic> data = response.data;
     final List<YwbApplicationMetaDetailSection> sections =

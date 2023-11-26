@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:sit/session/sso.dart';
 
-import '../network/session.dart';
-
 class Class2ndSession {
   final SsoSession ssoSession;
 
@@ -11,7 +9,9 @@ class Class2ndSession {
   Future<void> _refreshCookie() async {
     await ssoSession.request(
       'https://authserver.sit.edu.cn/authserver/login?service=http%3A%2F%2Fsc.sit.edu.cn%2Flogin.jsp',
-      ReqMethod.get,
+      options: Options(
+        method: "GET",
+      ),
     );
   }
 
@@ -21,18 +21,16 @@ class Class2ndSession {
   }
 
   Future<Response> request(
-    String url,
-    ReqMethod method, {
+    String url, {
     Map<String, String>? para,
     data,
     Options? options,
-    SessionProgressCallback? onSendProgress,
-    SessionProgressCallback? onReceiveProgress,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
     Future<Response> fetch() {
       return ssoSession.request(
         url,
-        method,
         para: para,
         data: data,
         options: options,

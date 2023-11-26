@@ -1,9 +1,10 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:intl/intl.dart';
 import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/sso.dart';
 
@@ -68,7 +69,9 @@ class OaAnnounceService {
   Future<OaAnnounceDetails> fetchAnnounceDetails(String catalogId, String uuid) async {
     final response = await session.request(
       getAnnounceUrl(catalogId, uuid),
-      ReqMethod.get,
+      options: Options(
+        method: "GET",
+      ),
     );
     final soup = BeautifulSoup(response.data);
     return _parseAnnounceDetails(soup.html!);
@@ -108,7 +111,9 @@ class OaAnnounceService {
     final response = await session.request(
       // 构造获取文章列表的url
       'https://myportal.sit.edu.cn/detach.portal?pageIndex=$pageIndex&groupid=&action=bulletinsMoreView&.ia=false&pageSize=&.pmn=view&.pen=$bulletinCatalogueId',
-      ReqMethod.get,
+      options: Options(
+        method: "GET",
+      ),
     );
     final soup = BeautifulSoup(response.data);
     return _parseAnnounceListPage(soup.html!);

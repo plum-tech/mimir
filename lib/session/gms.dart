@@ -1,8 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:sit/credentials/init.dart';
-import 'package:sit/exception/session.dart';
-import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/session/sso.dart';
 
 /// gms.sit.edu.cn
@@ -13,13 +10,12 @@ class GmsSession {
   const GmsSession({required this.ssoSession});
 
   Future<Response> request(
-    String url,
-    ReqMethod method, {
+    String url, {
     Map<String, String>? para,
     data,
     Options? options,
-    SessionProgressCallback? onSendProgress,
-    SessionProgressCallback? onReceiveProgress,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
     options ??= Options();
     // TODO: is this really necessary?
@@ -28,7 +24,6 @@ class GmsSession {
     Future<Response> fetch() async {
       return await ssoSession.request(
         url,
-        method,
         para: para,
         data: data,
         options: options,
@@ -49,7 +44,9 @@ class GmsSession {
   Future<bool> authGmsService() async {
     final authRes = await ssoSession.request(
       "https://authserver.sit.edu.cn/authserver/login?service=http%3A%2F%2Fgms.sit.edu.cn%2Fepstar%2Fweb%2Fswms%2Fmainframe%2Fhome%2Findex.jsp",
-      ReqMethod.get,
+      options: Options(
+        method: "GET",
+      ),
     );
     return authRes.statusCode == 302;
   }

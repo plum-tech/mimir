@@ -1,7 +1,8 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:dio/dio.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/session/library.dart';
 
 import '../entity/holding.dart';
@@ -214,7 +215,12 @@ class HoldingInfoService {
   const HoldingInfoService();
 
   Future<HoldingInfo> queryByBookId(String bookId) async {
-    final response = await session.request('${LibraryConst.bookHoldingUrl}/$bookId', ReqMethod.get);
+    final response = await session.request(
+      '${LibraryConst.bookHoldingUrl}/$bookId',
+      options: Options(
+        method: "GET",
+      ),
+    );
 
     final rawBookHoldingInfo = _BookHoldingInfo.fromJson(response.data);
     final result = rawBookHoldingInfo.holdingList.map((rawHoldingItem) {
@@ -258,13 +264,15 @@ class HoldingInfoService {
   Future<List<String>> searchNearBookIdList(String bookId) async {
     final response = await session.request(
       LibraryConst.virtualBookshelfUrl,
-      ReqMethod.get,
       para: {
         'bookrecno': bookId,
 
         // 1 表示不出现同一本书的重复书籍
         'holding': '1',
       },
+      options: Options(
+        method: "GET",
+      ),
     );
     final soup = BeautifulSoup(response.data);
     return soup

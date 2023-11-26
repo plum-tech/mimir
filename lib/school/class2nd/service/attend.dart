@@ -1,5 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/session/class2nd.dart';
 
 class Class2ndAttendActivityService {
@@ -23,7 +24,9 @@ class Class2ndAttendActivityService {
   Future<String> _sendFinalRequest(int activityId) async {
     final res = await session.request(
       'http://sc.sit.edu.cn/public/pcenter/applyActivity.action?activityId=$activityId',
-      ReqMethod.get,
+      options: Options(
+        method: "GET",
+      ),
     );
     return res.data as String;
   }
@@ -31,7 +34,9 @@ class Class2ndAttendActivityService {
   Future<String> _sendCheckRequest(int activityId) async {
     final res = await session.request(
       'http://sc.sit.edu.cn/public/pcenter/check.action?activityId=$activityId',
-      ReqMethod.get,
+      options: Options(
+        method: "GET",
+      ),
     );
     final code = (res.data as String).trim();
 

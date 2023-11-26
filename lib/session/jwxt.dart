@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/exception/session.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/session/sso.dart';
 import 'package:sit/utils/logger.dart';
 
@@ -13,7 +13,12 @@ class JwxtSession {
   const JwxtSession({required this.ssoSession});
 
   Future<void> _refreshCookie() async {
-    await ssoSession.request('http://jwxt.sit.edu.cn/sso/jziotlogin', ReqMethod.get);
+    await ssoSession.request(
+      'http://jwxt.sit.edu.cn/sso/jziotlogin',
+      options: Options(
+        method: "GET",
+      ),
+    );
   }
 
   bool _isRedirectedToLoginPage(Response response) {
@@ -21,13 +26,12 @@ class JwxtSession {
   }
 
   Future<Response> request(
-    String url,
-    ReqMethod method, {
+    String url, {
     Map<String, String>? para,
     data,
     Options? options,
-    SessionProgressCallback? onSendProgress,
-    SessionProgressCallback? onReceiveProgress,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
     options ??= Options();
     // TODO: is this really necessary?
@@ -35,7 +39,6 @@ class JwxtSession {
     Future<Response> fetch() async {
       return await ssoSession.request(
         url,
-        method,
         para: para,
         data: data,
         options: options,

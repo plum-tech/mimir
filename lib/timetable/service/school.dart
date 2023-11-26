@@ -1,5 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/gms.dart';
 import 'package:sit/session/jwxt.dart';
@@ -26,7 +27,9 @@ class TimetableService {
   Future<SitTimetable> getUndergraduateTimetable(SemesterInfo info) async {
     final response = await jwxtSession.request(
       _undergraduateTimetableUrl,
-      ReqMethod.post,
+      options: Options(
+        method: "POST",
+      ),
       para: {'gnmkdm': 'N253508'},
       data: {
         // 学年名
@@ -46,7 +49,9 @@ class TimetableService {
   Future<SitTimetable> getPostgraduateTimetable(SemesterInfo info) async {
     final timetableRes = await gmsSession.request(
       _postgraduateTimetableUrl,
-      ReqMethod.post,
+      options: Options(
+        method: "POST",
+      ),
       data: {
         "excel": "true",
         "XQDM": _toPostgraduateSemesterText(info),
@@ -54,7 +59,9 @@ class TimetableService {
     );
     final scoresRes = await gmsSession.request(
       _postgraduateScoresUrl,
-      ReqMethod.get,
+      options: Options(
+        method: "GET",
+      ),
       para: {
         "mainobj": "YJSXT/PYGL/CJGLST/V_PYGL_CJGL_KSCJHZB",
         "tfile": "KSCJHZB_CJCX_CD/KSCJHZB_XSCX_CD_BD",
