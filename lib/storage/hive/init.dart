@@ -5,11 +5,14 @@ import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import 'package:sit/settings/meta.dart';
 import 'package:sit/settings/settings.dart';
-
+import "package:hive/src/hive_impl.dart";
 import 'adapter.dart';
 
 class HiveInit {
   const HiveInit._();
+
+  static final core = HiveImpl();
+  static final cache = HiveImpl();
 
   static late Box credentials;
   static late Box library;
@@ -30,35 +33,41 @@ class HiveInit {
   static late Map<String, Box> name2Box;
   static late List<Box> cacheBoxes;
 
-  static Future<void> init(Directory dir) async {
+  static Future<void> init({
+  required  Directory coreDir,
+  required  Directory cacheDir,
+  }) async {
     debugPrint("Initializing hive");
-    await Hive.initFlutter(dir);
-    HiveAdapter.registerAll();
+    await core.initFlutter(coreDir);
+    await cache.initFlutter(cacheDir);
+
+    HiveAdapter.registerCoreAdapters(core);
+    HiveAdapter.registerCacheAdapters(cache);
   }
 
   static Future<void> initBox() async {
     debugPrint("Initializing hive box");
     name2Box = _name2Box([
-      credentials = await Hive.openBox('credentials'),
-      settings = await Hive.openBox('settings'),
-      meta = await Hive.openBox('meta'),
-      yellowPages = await Hive.openBox('yellow-pages'),
-      timetable = await Hive.openBox('timetable'),
+      credentials = await core.openBox('credentials'),
+      settings = await core.openBox('settings'),
+      meta = await core.openBox('meta'),
+      timetable = await core.openBox('timetable'),
       ...cacheBoxes = [
-        eduEmail = await Hive.openBox('edu-email'),
-        cookies = await Hive.openBox('cookies'),
-        expense = await Hive.openBox('expense'),
-        library = await Hive.openBox('library'),
-        examArrange = await Hive.openBox('exam-arrange'),
-        examResult = await Hive.openBox('exam-result'),
-        oaAnnounce = await Hive.openBox('oa-announce'),
-        class2nd = await Hive.openBox('class2nd'),
-        ywb = await Hive.openBox('ywb'),
-        electricity = await Hive.openBox('electricity'),
+        yellowPages = await cache.openBox('yellow-pages'),
+        eduEmail = await cache.openBox('edu-email'),
+        cookies = await cache.openBox('cookies'),
+        expense = await cache.openBox('expense'),
+        library = await cache.openBox('library'),
+        examArrange = await cache.openBox('exam-arrange'),
+        examResult = await cache.openBox('exam-result'),
+        oaAnnounce = await cache.openBox('oa-announce'),
+        class2nd = await cache.openBox('class2nd'),
+        ywb = await cache.openBox('ywb'),
+        electricity = await cache.openBox('electricity'),
       ],
     ]);
-    Settings = SettingsImpl(HiveInit.settings);
-    Meta = MetaImpl(HiveInit.meta);
+    Settings = SettingsImpl(settings);
+    Meta = MetaImpl(meta);
   }
 
   static Map<String, Box> _name2Box(List<Box> boxes) {
@@ -83,7 +92,7 @@ class HiveInit {
 }
 
 /// Flutter extensions for Hive.
-extension _HiveX on HiveInterface {
+extension HiveX on HiveInterface {
   /// Initializes Hive with the path from [getApplicationDocumentsDirectory].
   ///
   /// You can provide a [subDir] where the boxes should be stored.
@@ -91,5 +100,11 @@ extension _HiveX on HiveInterface {
     WidgetsFlutterBinding.ensureInitialized();
     if (kIsWeb) return;
     init(dir.path);
+  }
+
+  void addAdapter<T>(TypeAdapter<T> adapter) {
+    if (!isAdapterRegistered(adapter.typeId)) {
+      registerAdapter<T>(adapter);
+    }
   }
 }

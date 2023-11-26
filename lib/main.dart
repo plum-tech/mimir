@@ -63,7 +63,10 @@ void main() async {
   R.yellowPages = await _loadYellowPages();
 
   // Initialize Hive
-  await HiveInit.init(Files.internal.subDir("hive", R.hiveStorageVersion));
+  await HiveInit.init(
+    coreDir: Files.internal.subDir("hive", R.hiveStorageVersion),
+    cacheDir: Files.cache.subDir("hive", R.hiveStorageVersion),
+  );
   await HiveInit.initBox();
 
   // Setup Settings and Meta

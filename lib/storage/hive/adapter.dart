@@ -14,70 +14,65 @@ import 'package:sit/school/class2nd/entity/list.dart';
 import 'package:sit/school/class2nd/entity/attended.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/yellow_pages/entity/contact.dart';
+import 'package:sit/storage/hive/init.dart';
 
 import 'builtins.dart';
 
 class HiveAdapter {
   HiveAdapter._();
 
-  static void registerAll() {
+  static void registerCoreAdapters(HiveInterface hive) {
     // Basic
-    ~SizeAdapter();
-    ~VersionAdapter();
-    ~ThemeModeAdapter();
-    ~CampusAdapter();
+    hive.addAdapter(SizeAdapter());
+    hive.addAdapter(VersionAdapter());
+    hive.addAdapter(ThemeModeAdapter());
+    hive.addAdapter(CampusAdapter());
 
     // Credential
-    ~CredentialsAdapter();
-    ~LoginStatusAdapter();
-    ~OaUserTypeAdapter();
+    hive.addAdapter(CredentialsAdapter());
+    hive.addAdapter(LoginStatusAdapter());
+    hive.addAdapter(OaUserTypeAdapter());
+  }
 
+  static void registerCacheAdapters(HiveInterface hive) {
     // Electric Bill
-    ~ElectricityBalanceAdapter();
+    hive.addAdapter(ElectricityBalanceAdapter());
 
     // Activity
-    ~Class2ndActivityDetailsAdapter();
-    ~Class2ndActivityAdapter();
-    ~Class2ndScoreSummaryAdapter();
-    ~Class2ndActivityApplicationAdapter();
-    ~Class2ndScoreItemAdapter();
-    ~Class2ndActivityCatAdapter();
-    ~Class2ndScoreTypeAdapter();
+    hive.addAdapter(Class2ndActivityDetailsAdapter());
+    hive.addAdapter(Class2ndActivityAdapter());
+    hive.addAdapter(Class2ndScoreSummaryAdapter());
+    hive.addAdapter(Class2ndActivityApplicationAdapter());
+    hive.addAdapter(Class2ndScoreItemAdapter());
+    hive.addAdapter(Class2ndActivityCatAdapter());
+    hive.addAdapter(Class2ndScoreTypeAdapter());
 
     // OA Announcement
-    ~OaAnnounceDetailsAdapter();
-    ~OaAnnounceCatalogueAdapter();
-    ~OaAnnounceRecordAdapter();
-    ~OaAnnounceAttachmentAdapter();
+    hive.addAdapter(OaAnnounceDetailsAdapter());
+    hive.addAdapter(OaAnnounceCatalogueAdapter());
+    hive.addAdapter(OaAnnounceRecordAdapter());
+    hive.addAdapter(OaAnnounceAttachmentAdapter());
 
     // Application
-    ~YwbApplicationMetaDetailSectionAdapter();
-    ~YwbApplicationMetaDetailsAdapter();
-    ~YwbApplicationMetaAdapter();
-    ~YwbApplicationAdapter();
-    ~YwbApplicationTrackAdapter();
+    hive.addAdapter(YwbApplicationMetaDetailSectionAdapter());
+    hive.addAdapter(YwbApplicationMetaDetailsAdapter());
+    hive.addAdapter(YwbApplicationMetaAdapter());
+    hive.addAdapter(YwbApplicationAdapter());
+    hive.addAdapter(YwbApplicationTrackAdapter());
 
     // Exam Result
-    ~ExamResultAdapter();
-    ~ExamResultItemAdapter();
-    ~SemesterAdapter();
+    hive.addAdapter(ExamResultAdapter());
+    hive.addAdapter(ExamResultItemAdapter());
+    hive.addAdapter(SemesterAdapter());
 
     // Library
     // ~LibrarySearchHistoryItemAdapter();
 
     // Expense Records
-    ~TransactionAdapter();
-    ~TransactionTypeAdapter();
+    hive.addAdapter(TransactionAdapter());
+    hive.addAdapter(TransactionTypeAdapter());
 
     // Yellow Pages
-    ~SchoolContactAdapter();
-  }
-}
-
-extension _TypeAdapterEx<T> on TypeAdapter<T> {
-  void operator ~() {
-    if (!Hive.isAdapterRegistered(typeId)) {
-      Hive.registerAdapter(this);
-    }
+    hive.addAdapter(SchoolContactAdapter());
   }
 }
