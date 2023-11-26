@@ -3,8 +3,9 @@ import 'package:sit/school/library/service/holding_preview.dart';
 import 'package:sit/school/library/service/image_search.dart';
 
 import 'entity/book_image.dart';
-import 'entity/book_search.dart';
+import 'entity/book.dart';
 import 'entity/holding_preview.dart';
+import 'init.dart';
 
 class BookImageHolding {
   Book book;
@@ -30,15 +31,13 @@ class BookImageHolding {
 
   /// 可以很简单地并发查询一批书的图片与馆藏信息并join出结果
   static Future<List<BookImageHolding>> simpleQuery(
-    BookImageSearchService bookImageSearchDao, // 图片搜索服务
-    HoldingPreviewService holdingPreviewDao, // 馆藏检索服务
     List<Book> books, // 图书搜索结果
   ) async {
     Future<Map<String, BookImage>> searchBookImages() async {
       try {
         debugPrint('批量查询图书图片信息');
         final isbnList = books.map((e) => e.isbn).toList();
-        return await bookImageSearchDao.searchByIsbnList(isbnList);
+        return await LibraryInit.bookImageSearch.searchByIsbnList(isbnList);
       } catch (e) {
         // 查询出错
         debugPrint('查询图书图片信息错误: $e');
@@ -50,7 +49,7 @@ class BookImageHolding {
       try {
         debugPrint('批量获取馆藏信息');
         final bookIdList = books.map((e) => e.bookId).toList();
-        return await holdingPreviewDao.getHoldingPreviews(bookIdList);
+        return await LibraryInit.holdingPreview.getHoldingPreviews(bookIdList);
       } catch (e) {
         // 查询出错
         debugPrint('获取馆藏信息出错: $e');

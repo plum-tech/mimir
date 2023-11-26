@@ -44,22 +44,23 @@ class HoldingItem {
   // 总价
   final double totalPrice;
 
-  const HoldingItem(
-      this.bookRecordId,
-      this.bookId,
-      this.stateTypeName,
-      this.barcode,
-      this.callNo,
-      this.originLibrary,
-      this.originLocation,
-      this.currentLibrary,
-      this.currentLocation,
-      this.circulateTypeName,
-      this.circulateTypeDescription,
-      this.registerDate,
-      this.inDate,
-      this.singlePrice,
-      this.totalPrice);
+  const HoldingItem({
+    required this.bookRecordId,
+    required this.bookId,
+    required this.stateTypeName,
+    required this.barcode,
+    required this.callNo,
+    required this.originLibrary,
+    required this.originLocation,
+    required this.currentLibrary,
+    required this.currentLocation,
+    required this.circulateTypeName,
+    required this.circulateTypeDescription,
+    required this.registerDate,
+    required this.inDate,
+    required this.singlePrice,
+    required this.totalPrice,
+  });
 
   @override
   String toString() {

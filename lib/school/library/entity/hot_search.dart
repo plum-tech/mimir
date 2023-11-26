@@ -1,29 +1,32 @@
 class HotSearchItem {
-  String hotSearchWord;
-  int count;
+  final String keyword;
+  final int count;
 
-  HotSearchItem(this.hotSearchWord, this.count);
-
-  @override
-  String toString() {
-    return 'HotSearchItem{hotSearchWord: $hotSearchWord, count: $count}';
-  }
-}
-
-class HotSearch {
-  // 近30天的热搜
-  List<HotSearchItem> recentMonth;
-
-  // 总共的热搜
-  List<HotSearchItem> totalTime;
-
-  HotSearch({
-    this.recentMonth = const [],
-    this.totalTime = const [],
+  const HotSearchItem({
+    required this.keyword,
+    required this.count,
   });
 
   @override
   String toString() {
-    return 'HotSearch{recentMonth: $recentMonth, totalTime: $totalTime}';
+    return "$keyword($count)";
+  }
+}
+
+class HotSearch {
+  final List<HotSearchItem> recent30days;
+  final List<HotSearchItem> total;
+
+  const HotSearch({
+    required this.recent30days,
+    required this.total,
+  });
+
+  @override
+  String toString() {
+    return {
+      "recent30days": recent30days,
+      "total": total,
+    }.toString();
   }
 }

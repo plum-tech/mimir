@@ -54,13 +54,7 @@ class Init {
     cookieJar = PersistCookieJar(
       storage: HiveCookieJar(HiveInit.cookies),
     );
-    dio = await DioInit.init(
-      config: DioConfig()
-        ..cookieJar = cookieJar
-        ..sendTimeout = const Duration(seconds: 6)
-        ..receiveTimeout = const Duration(seconds: 6)
-        ..connectTimeout = const Duration(seconds: 6),
-    );
+    dio = await DioInit.init(config: DioConfig()..cookieJar = cookieJar);
     ssoSession = SsoSession(
       dio: dio,
       cookieJar: cookieJar,

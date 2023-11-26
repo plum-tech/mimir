@@ -42,6 +42,10 @@ void main() async {
     Files.temp = await getTemporaryDirectory();
     Files.internal = await getApplicationSupportDirectory();
     Files.user = await getApplicationDocumentsDirectory();
+    debugPrint("Cache ${Files.cache}");
+    debugPrint("Temp ${Files.temp}");
+    debugPrint("Internal ${Files.internal}");
+    debugPrint("User ${Files.user}");
   }
   await Files.init();
   final prefs = await SharedPreferences.getInstance();

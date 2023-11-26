@@ -196,7 +196,6 @@ class2nd:
     contactInfo: 联系方式
     duration: 活动时长
     location: 活动地点
-    myScoreTitle: 第二课堂学分
     organizer: 主办方
     principal: 负责人
     signInTime: 签到时间
@@ -261,12 +260,15 @@ captcha:
 credentials:
   studentId: 学号
   account: 账号
+  password: 密码
   oaAccount: OA 账号
   oaPwd: OA 密码
   savedOaPwd: 保存的 OA 密码
   savedOaPwdDesc: 用于自动登录 OA
   pwd: 密码
   error: 登录凭据错误
+  login: 登录
+  forgotPwd: 忘记密码？
 easyconnect:
   launchBtn: 启动 EasyConnect
   launchFailed: 启动失败
@@ -287,10 +289,8 @@ eduEmail:
     outbox: 发件箱
   login:
     title: 登录教育邮箱
-    loginBtn: 登录
     addressHint: 学号/工号
     failedWarn: 登录失败
-    forgotPwdBtn: 忘记密码？
   inbox:
     title: 收件箱
   outbox:
@@ -405,20 +405,43 @@ login:
   schoolServerUnconnectedTip: 无法连接学校服务器
   unknownAuthErrorTip: 未知账号验证错误
   accountHint: 学号/工号
-  forgotPwdBtn: 忘记密码？
   loggedInTip: 登录成功
   notLoggedIn: 未登录
   invalidAccountFormat: 账号格式不正确
   offlineModeBtn: 离线模式
   oaPwdHint: 输入你的OA密码
   failedWarn: 登录失败
-  loginBtn: 登录
   formatError: 格式错误
   loginRequired: 需要登录
   neverLoggedInTip: 你必须先登录才能继续。
 library:
   title: 图书馆
   hotPost: 热搜
+  readerId: 读者证号
+  login:
+    title: 登录图书馆
+    readerIdHint: 你的学号
+    passwordHint: 初始密码为 888888
+  searchMethod:
+    any: 任意
+    title: 标题
+    author: 作者
+    isbn: ISBN
+    publisher: 出版社
+    callNumber: 索书号
+    primaryTitle: 正题
+    subject: 主题
+    $class: 分类
+    bookId: 图书号
+    orderNumber: 订购号
+  info:
+    title: 标题
+    author: 作者
+    isbn: ISBN
+    publisher: 出版社
+    publishDate: 出版日期
+    callNumber: 索书号
+    bookId: 图书号
 settings:
   title: 设置
   version: 版本

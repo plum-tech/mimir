@@ -4,7 +4,7 @@ import 'package:sit/network/session.dart';
 import 'package:sit/session/library.dart';
 
 import '../entity/hot_search.dart';
-import 'constant.dart';
+import '../const.dart';
 
 class HotSearchService {
   LibrarySession get session => Init.librarySession;
@@ -16,20 +16,24 @@ class HotSearchService {
     final title = texts.sublist(0, texts.length - 1).join('(');
     final numWithRight = texts[texts.length - 1];
     final numText = numWithRight.substring(0, numWithRight.length - 1);
-    return HotSearchItem(title, int.parse(numText));
+    return HotSearchItem(
+      keyword: title,
+      count: int.parse(numText),
+    );
   }
 
   Future<HotSearch> getHotSearch() async {
-    var response = await session.request(Constants.hotSearchUrl, ReqMethod.get);
-    var fieldsets = BeautifulSoup(response.data).findAll('fieldset');
+    final response = await session.request(LibraryConst.hotSearchUrl, ReqMethod.get);
+    final soup = BeautifulSoup(response.data);
+    final fieldsets = soup.findAll('fieldset');
 
     List<HotSearchItem> getHotSearchItems(Bs4Element fieldset) {
       return fieldset.findAll('a').map((e) => _parse(e.text)).toList();
     }
 
     return HotSearch(
-      recentMonth: getHotSearchItems(fieldsets[0]),
-      totalTime: getHotSearchItems(fieldsets[0]),
+      recent30days: getHotSearchItems(fieldsets[0]),
+      total: getHotSearchItems(fieldsets[1]),
     );
   }
 }

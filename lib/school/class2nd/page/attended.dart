@@ -8,6 +8,7 @@ import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/class2nd/entity/list.dart';
 import 'package:sit/school/class2nd/utils.dart';
@@ -127,7 +128,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                   scrollDirection: Axis.horizontal,
                   physics: const RangeMaintainingScrollPhysics(),
                   children: [
-                    FilterChip(
+                    ChoiceChip(
                       label: Class2ndActivityCat.allCatL10n().text(),
                       selected: selectedCat == null,
                       onSelected: (value) {
@@ -137,12 +138,13 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                       },
                     ).padH(4),
                     ...attended.map((activity) => activity.category).toSet().map(
-                          (cat) => FilterChip(
+                          (cat) => ChoiceChip(
                             label: cat.l10nName().text(),
                             selected: selectedCat == cat,
                             onSelected: (value) {
                               setState(() {
                                 selectedCat = cat;
+                                selectedScoreType = null;
                               });
                             },
                           ).padH(4),
@@ -156,7 +158,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                   scrollDirection: Axis.horizontal,
                   physics: const RangeMaintainingScrollPhysics(),
                   children: [
-                    FilterChip(
+                    ChoiceChip(
                       label: Class2ndScoreType.allCatL10n().text(),
                       selected: selectedScoreType == null,
                       onSelected: (value) {
@@ -166,12 +168,13 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                       },
                     ).padH(4),
                     ...attended.map((activity) => activity.category.scoreType).whereNotNull().toSet().map(
-                          (scoreType) => FilterChip(
+                          (scoreType) => ChoiceChip(
                             label: scoreType.l10nFullName().text(),
                             selected: selectedScoreType == scoreType,
                             onSelected: (value) {
                               setState(() {
                                 selectedScoreType = scoreType;
+                                selectedCat = null;
                               });
                             },
                           ).padH(4),
@@ -268,25 +271,21 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
             title: i18n.info.applicationOf(activity.application.applicationId).text(),
           ),
           SliverList.list(children: [
-            ListTile(
-              title: i18n.info.name.text(),
-              subtitle: title.text(),
-              visualDensity: VisualDensity.compact,
+            DetailListTile(
+              title: i18n.info.name,
+              subtitle: title,
             ),
-            ListTile(
-              title: i18n.info.category.text(),
-              subtitle: activity.category.l10nName().text(),
-              visualDensity: VisualDensity.compact,
+            DetailListTile(
+              title: i18n.info.category,
+              subtitle: activity.category.l10nName(),
             ),
-            ListTile(
-              title: i18n.info.applicationTime.text(),
-              subtitle: context.formatYmdhmNum(activity.application.time).text(),
-              visualDensity: VisualDensity.compact,
+            DetailListTile(
+              title: i18n.info.applicationTime,
+              subtitle: context.formatYmdhmNum(activity.application.time),
             ),
-            ListTile(
-              title: i18n.info.status.text(),
-              subtitle: activity.application.status.text(),
-              visualDensity: VisualDensity.compact,
+            DetailListTile(
+              title: i18n.info.status,
+              subtitle: activity.application.status,
             ),
             if (tags.isNotEmpty)
               ListTile(

@@ -8,7 +8,7 @@ class LoginI18n with CommonI18nMixin {
   const LoginI18n();
 
   final network = const NetworkI18n();
-  final credential = const CredentialsI18n();
+  final credentials = const CredentialsI18n();
   static const ns = "login";
 
   String get welcomeHeader => "$ns.welcomeHeader".tr();
@@ -22,8 +22,6 @@ class LoginI18n with CommonI18nMixin {
   String get formatError => "$ns.formatError".tr();
 
   String get validateInputAccountPwdRequest => "$ns.validateInputAccountPwdRequest".tr();
-
-  String get forgotPwdBtn => "$ns.forgotPwdBtn".tr();
 
   String get loggedInTip => "$ns.loggedInTip".tr();
 
@@ -46,8 +44,6 @@ class LoginI18n with CommonI18nMixin {
   String get accountFrozenTip => "$ns.accountFrozenTip".tr();
 
   String get schoolServerUnconnectedTip => "$ns.schoolServerUnconnectedTip".tr();
-
-  String get loginBtn => "$ns.loginBtn".tr();
 
   String get loginRequired => "$ns.loginRequired".tr();
 

@@ -196,7 +196,6 @@ class2nd:
     contactInfo: 联络人
     duration: 活動時長
     location: 活動地點
-    myScoreTitle: 第二課堂學分
     organizer: 組織者
     principal: 主辦方
     signInTime: 簽到時間
@@ -261,12 +260,15 @@ captcha:
 credentials:
   studentId: 學號
   account: 帳戶
+  password: 密碼
   oaAccount: OA 帳戶
   oaPwd: OA 密碼
   savedOaPwd: 儲存的 OA 密碼
   savedOaPwdDesc: 用於自動登入 OA
   pwd: 密碼
   error: 登入認證錯誤
+  login: 登入
+  forgotPwd: 忘記密碼?
 easyconnect:
   launchBtn: 啟用 EasyConnect
   launchFailed: 啟動失敗
@@ -287,10 +289,8 @@ eduEmail:
     outbox: 寄件匣
   login:
     title: 登入 Edu 電郵
-    loginBtn: 登入
     addressHint: 學號/工號
     failedWarn: 登入失敗
-    forgotPwdBtn: 忘記密碼?
   inbox:
     title: 收件匣
   outbox:
@@ -405,20 +405,43 @@ login:
   schoolServerUnconnectedTip: 無法連接學校伺服器
   unknownAuthErrorTip: 未知的帳戶身份驗證錯誤
   accountHint: 學號/工號
-  forgotPwdBtn: 忘記密碼?
   loggedInTip: 已登入
   notLoggedIn: 未登入
   invalidAccountFormat: 錯誤的學號格式
   offlineModeBtn: 離線模式
   oaPwdHint: 鍵入你的 OA 密碼
   failedWarn: 登入失敗
-  loginBtn: 登入
   formatError: 格式錯誤
   loginRequired: 需要登入
   neverLoggedInTip: 你必須先登入才能繼續。
 library:
   title: 圖書館
   hotPost: 熱門
+  readerId: 讀者 ID
+  login:
+    title: 登入圖書館
+    readerIdHint: 你的學號
+    passwordHint: 預設密碼為 888888
+  searchMethod:
+    any: 任意
+    title: 標題
+    author: 作者
+    isbn: ISBN
+    publisher: 發行商
+    callNumber: 索書號
+    primaryTitle: 主要標題
+    subject: 主題
+    $class: 類別
+    bookId: 圖書 ID
+    orderNumber: 訂購號
+  info:
+    title: 標題
+    author: 作者
+    isbn: ISBN
+    publisher: 發行商
+    publishDate: 發行日期
+    callNumber: 索書號
+    bookId: 圖書 ID
 settings:
   title: 設定
   version: 版本
