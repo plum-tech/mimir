@@ -7,8 +7,12 @@ import 'package:window_manager/window_manager.dart';
 
 class DesktopWindowListener extends WindowListener {
   @override
-  Future<void> onWindowResized() async{
+  void onWindowResized(){
     super.onWindowResized();
+    saveWindowSize();
+  }
+
+  Future<void> saveWindowSize() async{
     final prefs = await SharedPreferences.getInstance();
     final curSize = await windowManager.getSize();
     await prefs.setLastWindowSize(curSize);
