@@ -50,9 +50,10 @@ class BookImageHolding {
         debugPrint('批量获取馆藏信息');
         final bookIdList = books.map((e) => e.bookId).toList();
         return await LibraryInit.holdingPreview.getHoldingPreviews(bookIdList);
-      } catch (e) {
-        // 查询出错
-        debugPrint('获取馆藏信息出错: $e');
+      } catch (error, stackTrace) {
+        debugPrint(error.toString());
+        debugPrintStack(stackTrace: stackTrace);
+        debugPrint('获取馆藏信息出错: $error');
         return const HoldingPreviews({});
       }
     }

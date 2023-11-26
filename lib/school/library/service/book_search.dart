@@ -77,14 +77,18 @@ class BookSearchService {
     final resultCount =
         int.parse(RegExp(r'检索到: (\S*) 条结果').allMatches(resultNumAndTime).first.group(1)!.replaceAll(',', ''));
     final useTime = double.parse(RegExp(r'检索时间: (\S*) 秒').allMatches(resultNumAndTime).first.group(1)!);
-    final totalPages = soup.find('div', class_: 'meneame')!.find('span', class_: 'disabled')!.text.trim();
-
+    final totalPages = soup.find('div', class_: 'meneame')?.find('span', class_: 'disabled')?.text.trim();
+    final booksRaw = soup.find('table', class_: 'resultTable')?.findAll('tr');
+    if (totalPages == null || booksRaw == null) {
+      return BookSearchResult.empty(useTime: useTime);
+    }
+    final books = booksRaw.map((e) => _parseBook(e)).toList();
     return BookSearchResult(
       resultCount: resultCount,
       useTime: useTime,
       currentPage: int.parse(currentPage),
       totalPages: int.parse(totalPages.substring(1, totalPages.length - 1).trim().replaceAll(',', '')),
-      books: soup.find('table', class_: 'resultTable')!.findAll('tr').map((e) => _parseBook(e)).toList(),
+      books: books,
     );
   }
 }

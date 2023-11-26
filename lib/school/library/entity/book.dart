@@ -38,6 +38,14 @@ class BookSearchResult {
     required this.books,
   });
 
+  const BookSearchResult.empty({
+    this.resultCount = 0,
+    required this.useTime,
+    this.currentPage = 0,
+    this.totalPages = 0,
+    this.books = const [],
+  });
+
   @override
   String toString() {
     return 'BookSearchResult{resultCount: $resultCount, useTime: $useTime, currentPage: $currentPage, totalPages: $totalPages, books: $books}';
