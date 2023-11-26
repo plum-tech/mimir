@@ -9,7 +9,7 @@ import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/entry_card.dart';
 import 'package:sit/l10n/extension.dart';
-import 'package:sit/qrcode/page.dart';
+import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/qrcode/protocol.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/init.dart';

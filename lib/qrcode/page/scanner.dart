@@ -55,11 +55,8 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
         const QRScannerOverlay(
           overlayColour: Colors.black26,
         ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: buildControllerView(),
-        ),
       ].stack(),
+      bottomNavigationBar: buildControllerView(),
     );
   }
 
@@ -80,17 +77,13 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
   }
 
   Widget buildControllerView() {
-    return Container(
-      alignment: Alignment.bottomCenter,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          buildTorchButton(),
-          buildSwitchButton(),
-          buildImagePicker(),
-        ],
-      ),
+    return [
+      buildTorchButton(),
+      buildSwitchButton(),
+      buildImagePicker(),
+    ].row(
+      caa: CrossAxisAlignment.center,
+      maa: MainAxisAlignment.spaceEvenly,
     );
   }
 

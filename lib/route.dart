@@ -28,7 +28,7 @@ import 'package:sit/school/oa_announce/entity/announce.dart';
 import 'package:sit/school/oa_announce/page/details.dart';
 import 'package:sit/school/exam_arrange/page/list.dart';
 import 'package:sit/school/oa_announce/page/list.dart';
-import 'package:sit/scanner/page/index.dart';
+import 'package:sit/qrcode/page/scanner.dart';
 import 'package:sit/school/class2nd/page/activity_details.dart';
 import 'package:sit/school/class2nd/page/list.dart';
 import 'package:sit/school/class2nd/page/attended.dart';

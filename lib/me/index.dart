@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -92,9 +93,13 @@ class _MePageState extends State<MePage> {
     return IconButton(
       onPressed: () async {
         final res = await context.push("/tools/scanner");
+        if (!mounted) return;
+        if (kDebugMode) {
+          await context.showTip(title: "Result", desc: res.toString(), ok: i18n.ok);
+        }
+        if (!mounted) return;
         if (res == null) return;
         if (res is String) {
-          if (!mounted) return;
           final result = await onHandleQrCodeData(context: context, data: res);
           if (result == QrCodeHandleResult.success) {
             return;
@@ -105,10 +110,10 @@ class _MePageState extends State<MePage> {
             await guardLaunchUrlString(context, res);
             return;
           }
+          await context.showTip(title: "Result", desc: res.toString(), ok: i18n.ok);
+        } else {
+          await context.showTip(title: "Result", desc: res.toString(), ok: i18n.ok);
         }
-        if (!mounted) return;
-        // TODO: QR Code
-        await context.showTip(title: "Result", desc: res.toString(), ok: i18n.ok);
       },
       icon: const Icon(Icons.qr_code_scanner_outlined),
     );

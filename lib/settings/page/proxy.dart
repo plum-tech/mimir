@@ -8,7 +8,7 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/init.dart';
-import 'package:sit/qrcode/page.dart';
+import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/qrcode/protocol.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
