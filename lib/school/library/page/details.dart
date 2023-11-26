@@ -168,7 +168,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
         1: FlexColumnWidth(5),
       },
       // border: TableBorder.all(color: Colors.red),
-      children: info.rawDetail.entries
+      children: info.rawDetails.entries
           .map(
             (e) => TableRow(
               children: [

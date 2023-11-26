@@ -3,9 +3,11 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/widgets/card.dart';
+import 'package:sit/school/library/entity/book.dart';
 import 'package:sit/school/library/init.dart';
 
 import '../entity/borrow.dart';
+import '../i18n.dart';
 
 class LibraryMyBorrowedPage extends StatefulWidget {
   const LibraryMyBorrowedPage({super.key});
@@ -91,9 +93,18 @@ class BorrowedBookCard extends StatelessWidget {
         isThreeLine: true,
         title: book.title.text(),
         subtitle: [
-          book.bookId.text(),
-          book.isbn.text(),
+          book.author.text(),
+          "${i18n.info.barcode} ${book.barcode}".text(),
+          "${i18n.info.callNumber} ${book.callNumber}".text(),
+          "${i18n.info.isbn} ${book.isbn}".text(),
         ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
+        trailing: FilledButton.icon(
+          onPressed: () async{
+            // LibraryInit.borrowService.renewBook(barcodeList: barcodeList)
+          },
+          icon: Icon(Icons.autorenew),
+          label: "Renew".text(),
+        ),
       ),
     );
   }

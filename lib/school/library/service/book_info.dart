@@ -15,8 +15,8 @@ class BookInfoService {
 
   Future<BookInfo> query(String bookId) async {
     final response = await session.request('${LibraryConst.bookUrl}/$bookId', ReqMethod.get);
-    final soup = BeautifulSoup(response.data);
-    final detailItems = soup
+    final html = BeautifulSoup(response.data);
+    final detailItems = html
         .find('table', id: 'bookInfoTable')!
         .findAll('tr')
         .map(
@@ -64,7 +64,7 @@ class BookInfoService {
       title: rawDetails.entries.first.value,
       isbn: isbn,
       price: price,
-      rawDetail: rawDetails,
+      rawDetails: rawDetails,
     );
   }
 }

@@ -52,4 +52,6 @@ class _Info {
   String get callNumber => "$ns.callNumber".tr();
 
   String get bookId => "$ns.bookId".tr();
+
+  String get barcode => "$ns.barcode".tr();
 }

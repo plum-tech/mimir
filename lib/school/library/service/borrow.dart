@@ -63,7 +63,7 @@ class LibraryBorrowService {
         title: columnsText[1],
         isbn: columnsText[2],
         author: columnsText[3],
-        callNo: columnsText[4],
+        callNumber: columnsText[4],
         location: columnsText[5],
         type: columnsText[6],
         borrowDate: dataFormat.parse(columnsText[7]),

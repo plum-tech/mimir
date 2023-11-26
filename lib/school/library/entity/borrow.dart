@@ -14,7 +14,7 @@ class BorrowedBookItem {
   final String title;
 
   /// 索书号
-  final String callNo;
+  final String callNumber;
 
   /// 馆藏地点
   final String location;
@@ -34,7 +34,7 @@ class BorrowedBookItem {
     required this.isbn,
     required this.author,
     required this.title,
-    required this.callNo,
+    required this.callNumber,
     required this.location,
     required this.type,
     required this.borrowDate,
@@ -43,7 +43,7 @@ class BorrowedBookItem {
 
   @override
   String toString() {
-    return 'BorrowBookItem{bookId: $bookId, barcode: $barcode, isbn: $isbn, author: $author, title: $title, callNo: $callNo, location: $location, type: $type, borrowDate: $borrowDate, expireDate: $expireDate}';
+    return 'BorrowBookItem{bookId: $bookId, barcode: $barcode, isbn: $isbn, author: $author, title: $title, callNo: $callNumber, location: $location, type: $type, borrowDate: $borrowDate, expireDate: $expireDate}';
   }
 }
 
