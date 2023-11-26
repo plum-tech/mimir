@@ -148,7 +148,7 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
       CredentialInit.storage.libraryCredentials = credential;
       if (!mounted) return;
       setState(() => isLoggingIn = false);
-      context.replace("/library/my-borrowing");
+      context.replace("/library/my-borrowed");
     } catch (error, stackTrace) {
       debugPrint(error.toString());
       debugPrintStack(stackTrace: stackTrace);

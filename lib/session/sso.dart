@@ -307,21 +307,20 @@ class SsoSession with DioDownloaderMixin {
 
   /// 登录统一认证平台
   Future<Response> _postLoginRequest(String username, String hashedPassword, String captcha, String casTicket) async {
-    final requestBody = {
-      'username': username,
-      'password': hashedPassword,
-      'captchaResponse': captcha,
-      'lt': casTicket,
-      'dllt': 'userNamePasswordLogin',
-      'execution': 'e1s1',
-      '_eventId': 'submit',
-      'rmShown': '1',
-    };
     // 登录系统
     final res = await dio.post(_loginUrl,
-        data: requestBody,
+        data: {
+          'username': username,
+          'password': hashedPassword,
+          'captchaResponse': captcha,
+          'lt': casTicket,
+          'dllt': 'userNamePasswordLogin',
+          'execution': 'e1s1',
+          '_eventId': 'submit',
+          'rmShown': '1',
+        },
         options: Options(
-          contentType: 'application/x-www-form-urlencoded',
+          contentType: Headers.formUrlEncodedContentType,
           followRedirects: false,
           validateStatus: (status) {
             return status! < 400;

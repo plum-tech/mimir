@@ -30,18 +30,19 @@ class LibraryAuthService {
   }
 
   Future<Response> _login(String username, String password) async {
+    final rdPasswd = await _encryptPassword(password);
     final response = await dio.post(
       _loginUrl,
       data: {
         'vToken': '',
         'rdLoginId': username,
         'p': '',
-        'rdPasswd': await _encryptPassword(password),
+        'rdPasswd': rdPasswd,
         'returnUrl': '',
         'password': '',
       },
       options: DioUtils.NON_REDIRECT_OPTION_WITH_FORM_TYPE.copyWith(
-        contentType: 'application/x-www-form-urlencoded',
+        contentType: Headers.formUrlEncodedContentType,
       ),
     );
     return DioUtils.processRedirect(dio, response);

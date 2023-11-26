@@ -1,11 +1,5 @@
 import "package:dio/dio.dart";
 
-class HeaderConstants {
-  static const jsonContentType = 'application/json; charset=utf-8';
-  static const formUrlEncodedContentType = 'application/x-www-form-urlencoded;charset=utf-8';
-  static const textPlainContentType = 'text/plain';
-}
-
 class SessionOptions {
   String? method;
   Duration? sendTimeout;
