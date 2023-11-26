@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/hive/type_id.dart';
 import 'package:sit/school/library/entity/search.dart';
 
 part 'history.g.dart';

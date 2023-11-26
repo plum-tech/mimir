@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sit/hive/init.dart';
+import 'package:sit/storage/hive/init.dart';
 
 import '../entity/contact.dart';
 

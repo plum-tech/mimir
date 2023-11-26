@@ -4,7 +4,7 @@ import 'package:sit/entity/campus.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:sit/credentials/init.dart';
-import 'package:sit/hive/init.dart';
+import 'package:sit/storage/hive/init.dart';
 import 'package:sit/session/class2nd.dart';
 import 'package:sit/session/gms.dart';
 import 'package:sit/session/library.dart';
@@ -28,7 +28,7 @@ import 'dart:async';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:event_bus/event_bus.dart';
-import 'package:sit/hive/cookie.dart';
+import 'package:sit/storage/hive/cookie.dart';
 import 'package:sit/network/dio.dart';
 import 'package:sit/route.dart';
 import 'package:sit/session/sso.dart';
@@ -88,7 +88,7 @@ class Init {
     );
   }
 
-  static Future<void> initModuleStorage() async {
+  static Future<void> initModules() async {
     debugPrint("Initializing module storage");
     CredentialInit.init();
     OaAnnounceInit.init();

@@ -6,7 +6,7 @@ import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/card.dart';
-import 'package:sit/hive/init.dart';
+import 'package:sit/storage/hive/init.dart';
 import 'package:sit/init.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/session/widgets/scope.dart';

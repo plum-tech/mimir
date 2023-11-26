@@ -6,7 +6,6 @@ import 'package:sit/school/settings.dart';
 import 'package:sit/timetable/settings.dart';
 
 import '../life/settings.dart';
-import '../r.dart';
 
 class _K {
   static const ns = "/settings";
@@ -51,10 +50,6 @@ class SettingsImpl {
 
   set lastSignature(String? value) => box.put(_K.lastSignature, value);
 
-  Size? get lastWindowSize => box.get(_ThemeK.lastWindowSize, defaultValue: R.defaultWindowSize);
-
-  set lastWindowSize(Size? value) => box.put(_ThemeK.lastWindowSize, value ?? R.defaultWindowSize);
-
   // Developer
   bool? get showErrorInfoDialog => box.get(_DeveloperK.showErrorInfoDialog);
 
@@ -72,7 +67,6 @@ class _ThemeK {
   static const ns = '/theme';
   static const themeColor = '$ns/themeColor';
   static const themeMode = '$ns/themeMode';
-  static const lastWindowSize = '$ns/lastWindowSize';
 }
 
 class _Theme {

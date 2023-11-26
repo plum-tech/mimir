@@ -1,4 +1,4 @@
-import 'package:sit/hive/init.dart';
+import 'package:sit/storage/hive/init.dart';
 import 'package:sit/migration/foundation.dart';
 
 // ignore: non_constant_identifier_names

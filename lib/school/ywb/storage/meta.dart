@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:sit/hive/init.dart';
+import 'package:sit/storage/hive/init.dart';
 
 import '../entity/meta.dart';
 

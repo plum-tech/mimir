@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sit/entity/campus.dart';
-import 'package:sit/hive/type_id.dart';
+import 'package:sit/storage/hive/type_id.dart';
 import 'package:sit/l10n/common.dart';
 
 part 'school.g.dart';

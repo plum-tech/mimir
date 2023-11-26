@@ -1,70 +1,38 @@
-import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sit/r.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:sit/storage/prefs.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_manager/window_manager.dart';
 
-enum WindowEvent {
-  onWindowResize,
-  onWindowResized,
-}
-
-class WindowResizeEvent {
-  final Size size;
-
-  const WindowResizeEvent(this.size);
-}
-
-class WindowResizeEndEvent {
-  final Size finalSize;
-
-  const WindowResizeEndEvent(this.finalSize);
-}
-
-final EventBus desktopEventBus = EventBus();
-
 class DesktopWindowListener extends WindowListener {
   @override
-  void onWindowResize() async {
-    final size = await windowManager.getSize();
-    desktopEventBus.fire(WindowResizeEvent(size));
-    Settings.lastWindowSize = size;
-  }
-
-  @override
-  void onWindowResized() async {
-    final size = await windowManager.getSize();
-    desktopEventBus.fire(WindowResizeEndEvent(size));
-    Settings.lastWindowSize = size;
+  Future<void> onWindowResized() async{
+    super.onWindowResized();
+    final prefs = await SharedPreferences.getInstance();
+    final curSize = await windowManager.getSize();
+    await prefs.setLastWindowSize(curSize);
+    debugPrint("Saved last window size $curSize");
   }
 }
 
 class DesktopInit {
-  static bool resizing = false;
-
-  static Future<void> init() async {
+  static Future<void> init({
+    Size? size,
+  }) async {
     if (!UniversalPlatform.isDesktop) return;
-    // TODO: multiple windows listener
-    desktopEventBus.on<WindowResizeEvent>().listen((e) {
-      resizing = true;
-    });
-    desktopEventBus.on<WindowResizeEndEvent>().listen((e) {
-      resizing = false;
-    });
-    await windowManager.ensureInitialized();
-    windowManager.waitUntilReadyToShow().then((_) async {
-      await DesktopInit.setTitle(R.appName);
-      await windowManager.setSize(R.defaultWindowSize);
-      // Center the window.
-      await windowManager.center();
-      await windowManager.setMinimumSize(R.minWindowSize);
-      await windowManager.show();
-    });
-  }
-
-  static Future<void> postInit() async {
     windowManager.addListener(DesktopWindowListener());
+    await windowManager.ensureInitialized();
+    final options = WindowOptions(
+      title: R.appName,
+      size: size ?? R.defaultWindowSize,
+      center: true,
+      minimumSize: R.minWindowSize,
+    );
+    windowManager.waitUntilReadyToShow(options).then((_) async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
   }
 
   static Future<void> resizeTo(Size newSize, {bool center = true}) async {

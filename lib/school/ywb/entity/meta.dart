@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/hive/type_id.dart';
+import 'package:sit/storage/hive/type_id.dart';
 import 'package:sit/utils/iconfont.dart';
 
 part 'meta.g.dart';

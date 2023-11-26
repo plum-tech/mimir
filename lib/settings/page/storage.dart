@@ -9,7 +9,7 @@ import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
-import 'package:sit/hive/init.dart';
+import 'package:sit/storage/hive/init.dart';
 import 'package:sit/widgets/page_grouper.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -160,7 +160,6 @@ class _BoxItemListState extends State<BoxItemList> {
   }
 
   Widget buildBody(BuildContext context) {
-    final box = widget.box;
     final keys = widget.box.keys.toList();
     final length = keys.length;
     if (length < pageSize) {

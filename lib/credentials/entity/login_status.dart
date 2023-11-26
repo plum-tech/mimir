@@ -1,4 +1,4 @@
-import 'package:sit/hive/type_id.dart';
+import 'package:sit/storage/hive/type_id.dart';
 
 part 'login_status.g.dart';
 

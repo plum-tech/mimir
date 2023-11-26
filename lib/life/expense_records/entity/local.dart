@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:sit/hive/type_id.dart';
+import 'package:sit/storage/hive/type_id.dart';
 import 'package:unicons/unicons.dart';
 
 import 'remote.dart';

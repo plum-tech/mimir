@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sit/files.dart';
-import 'package:sit/hive/init.dart';
+import 'package:sit/storage/hive/init.dart';
 import 'package:sit/init.dart';
 import 'package:sit/migration/migrations.dart';
 import 'package:sit/platform/desktop.dart';
@@ -17,8 +17,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sit/settings/meta.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/entity/version.dart';
+import 'package:sit/storage/prefs.dart';
 import 'package:system_theme/system_theme.dart';
-import 'package:universal_platform/universal_platform.dart';
 import 'package:version/version.dart';
 
 import 'app.dart';
@@ -31,36 +31,36 @@ void main() async {
   // debugRepaintTextRainbowEnabled = true;
   // debugPaintSizeEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
-  Migrations.init();
+  final prefs = await SharedPreferences.getInstance();
+  final lastSize = prefs.getLastWindowSize();
+  await DesktopInit.init(size: lastSize);
   // Initialize the window size before others for a better experience when loading.
-  await DesktopInit.init();
   await SystemTheme.accentColor.load();
   await EasyLocalization.ensureInitialized();
+  Migrations.init();
 
   if (!kIsWeb) {
     Files.cache = await getApplicationCacheDirectory();
-    Files.temp = await getTemporaryDirectory();
-    Files.internal = await getApplicationSupportDirectory();
-    Files.user = await getApplicationDocumentsDirectory();
     debugPrint("Cache ${Files.cache}");
+    Files.temp = await getTemporaryDirectory();
     debugPrint("Temp ${Files.temp}");
+    Files.internal = await getApplicationSupportDirectory();
     debugPrint("Internal ${Files.internal}");
+    Files.user = await getApplicationDocumentsDirectory();
     debugPrint("User ${Files.user}");
   }
   await Files.init();
-  final prefs = await SharedPreferences.getInstance();
+  // Perform migrations
+  R.currentVersion = await getCurrentVersion();
+  final currentVersion = R.currentVersion.full;
+  final lastVersionRaw = prefs.getLastVersion();
+  final lastVersion = lastVersionRaw != null ? Version.parse(lastVersionRaw) : currentVersion;
+  await Migrations.perform(from: lastVersion, to: currentVersion);
+  await prefs.setLastVersion(lastVersion.toString());
 
   R.roomList = await _loadRoomNumberList();
   R.userAgentList = await _loadUserAgents();
   R.yellowPages = await _loadYellowPages();
-  R.currentVersion = await getCurrentVersion();
-
-  // Perform migrations
-  final currentVersion = R.currentVersion.full;
-  final lastVersionRaw = prefs.getString("${R.appId}.lastVersion");
-  final lastVersion = lastVersionRaw != null ? Version.parse(lastVersionRaw) : currentVersion;
-  await Migrations.perform(from: lastVersion, to: currentVersion);
-  await prefs.setString("${R.appId}.lastVersion", lastVersion.toString());
 
   // Initialize Hive
   await HiveInit.init(Files.internal.subDir("hive", R.hiveStorageVersion));
@@ -72,16 +72,9 @@ void main() async {
   Meta.installTime ??= DateTime.now();
   // The last time when user launch this app
   Meta.lastStartupTime = DateTime.now();
-  if (UniversalPlatform.isDesktop) {
-    final lastWindowSize = Settings.lastWindowSize;
-    if (lastWindowSize != null) {
-      DesktopInit.resizeTo(lastWindowSize);
-    }
-  }
-  await DesktopInit.postInit();
   Init.registerCustomEditor();
   await Init.initNetwork();
-  await Init.initModuleStorage();
+  await Init.initModules();
   runApp(
     const MimirApp().withEasyLocalization().withScreenUtils(),
   );

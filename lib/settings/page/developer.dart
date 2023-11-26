@@ -73,7 +73,7 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
       leading: const Icon(Icons.refresh_rounded),
       onTap: () async {
         await Init.initNetwork();
-        await Init.initModuleStorage();
+        await Init.initModules();
         final engine = WidgetsFlutterBinding.ensureInitialized();
         engine.performReassemble();
         if (!mounted) return;
