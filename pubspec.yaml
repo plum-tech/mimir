@@ -99,7 +99,7 @@ dependencies:
 
   # UI
   go_router: ^12.1.1
-  fl_chart: ^0.64.0
+  fl_chart: ^0.65.0
   flutter_svg: ^2.0.9
   flutter_svg_provider: ^1.0.6
   # Screen adaptation
