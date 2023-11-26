@@ -85,6 +85,7 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
                         onPressed: () async {
                           await context.show$Sheet$(
                             (context) => TimetableStyleProv(
+                              palette: buildPalette(),
                               child: TimetablePreviewPage(
                                 timetable: selectedTimetable,
                               ),
