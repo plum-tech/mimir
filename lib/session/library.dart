@@ -18,8 +18,8 @@ class LibrarySession {
     SessionProgressCallback? onSendProgress,
     SessionProgressCallback? onReceiveProgress,
   }) async {
-    Future<Response> fetch() async {
-      return await dio.request(
+    Future<Response> fetch() {
+      return dio.request(
         url,
         queryParameters: para,
         data: data,
@@ -37,8 +37,8 @@ class LibrarySession {
       if (resData != null) {
         if (resData.contains("/opac/reader/doLogin")) {
           await LibraryInit.auth.login(credentials);
+          return await fetch();
         }
-        return await fetch();
       }
     }
     return response;

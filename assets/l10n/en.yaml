@@ -313,7 +313,7 @@ examResult:
   credit: Credit
   elective: Elective
 examArrange:
-  title: Exam arrangement
+  title: Exams
   check: Check
   date: Date
   time: Time
@@ -442,6 +442,7 @@ library:
     publishDate: Publish date
     callNumber: Call Number
     bookId: Book ID
+    barcode: Barcode
 settings:
   title: Settings
   version: Version

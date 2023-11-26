@@ -1,4 +1,5 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:sit/init.dart';
 import 'package:sit/network/session.dart';
@@ -24,7 +25,10 @@ class LibraryBorrowService {
       },
     );
     final html = BeautifulSoup(response.data);
-    final table = html.find('table', id: 'contentTable')!;
+    final table = html.find('table', id: 'contentTable');
+    if (table == null) {
+      return const <BorrowedBookHistoryItem>[];
+    }
     return table.findAll('tr').where((e) => e.id != 'contentHeader').map((e) {
       final columns = e.findAll('td');
       final columnsText = columns.map((e) => e.text.trim()).toList();
@@ -53,7 +57,10 @@ class LibraryBorrowService {
       },
     );
     final html = BeautifulSoup(response.data);
-    final table = html.find('table', id: 'contentTable')!;
+    final table = html.find('table', id: 'contentTable');
+    if (table == null) {
+      return const <BorrowedBookItem>[];
+    }
     return table.findAll('tr').where((e) => e.id != 'contentHeader').map((e) {
       final columns = e.findAll('td');
       final columnsText = columns.map((e) => e.text.trim()).toList();
@@ -73,37 +80,26 @@ class LibraryBorrowService {
     }).toList();
   }
 
-  Future<String> _doRenew({
-    required String pdsToken,
-    required List<String> barcodeList,
-    bool renewAll = false,
-  }) async {
-    final response = await session.request(
-      LibraryConst.doRenewUrl,
-      ReqMethod.post,
-      para: {
-        'pdsToken': pdsToken,
-        'barcodeList': barcodeList.join(','),
-        'furl': '/opac/loan/renewList',
-        'renewAll': renewAll ? 'all' : '',
-      },
-    );
-    final html = BeautifulSoup(response.data);
-    final result = html.find('div', id: 'content')!.text;
-    return result;
-  }
-
   Future<String> renewBook({
     required List<String> barcodeList,
     bool renewAll = false,
   }) async {
-    final response = await session.request(LibraryConst.renewList, ReqMethod.get);
-    final html = BeautifulSoup(response.data);
-    final pdsToken = html.find('input', attrs: {'name': 'pdsToken'})!.attributes['value'] ?? '';
-    return await _doRenew(
-      pdsToken: pdsToken,
-      barcodeList: barcodeList,
-      renewAll: renewAll,
+    await session.request(LibraryConst.renewList, ReqMethod.get);
+    final listRes = await session.request(LibraryConst.renewList, ReqMethod.get);
+    final listHtml = BeautifulSoup(listRes.data);
+    final pdsToken = listHtml.find('input', attrs: {'name': 'pdsToken'})!.attributes['value'] ?? '';
+    final renewRes = await session.request(
+      LibraryConst.doRenewUrl,
+      ReqMethod.post,
+      data: FormData.fromMap({
+        'pdsToken': pdsToken,
+        'barcodeList': barcodeList.join(','),
+        'furl': '/opac/loan/renewList',
+        'renewAll': renewAll ? 'all' : '',
+      }),
     );
+    final renewHtml = BeautifulSoup(renewRes.data);
+    final result = renewHtml.find('div', id: 'content')!.text;
+    return result;
   }
 }

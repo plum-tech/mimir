@@ -99,16 +99,15 @@ class BorrowedBookCard extends StatelessWidget {
           "${i18n.info.callNumber} ${book.callNumber}".text(),
           "${i18n.info.isbn} ${book.isbn}".text(),
           "${context.formatYmdText(book.borrowDate)}–${context.formatYmdText(book.expireDate)}".text(),
+          Divider(color: context.colorScheme.onSurfaceVariant),
+          FilledButton.icon(
+            onPressed: () async {
+              await LibraryInit.borrowService.renewBook(barcodeList: [book.barcode]);
+            },
+            icon: const Icon(Icons.autorenew),
+            label: "Renew".text(),
+          ),
         ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
-        trailing: FilledButton.icon(
-          onPressed: () async{
-            await LibraryInit.borrowService.renewBook(barcodeList: [
-              book.barcode
-            ]);
-          },
-          icon: const Icon(Icons.autorenew),
-          label: "Renew".text(),
-        ),
       ),
     );
   }

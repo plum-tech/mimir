@@ -442,6 +442,7 @@ library:
     publishDate: 出版日期
     callNumber: 索书号
     bookId: 图书号
+    barcode: 条形码
 settings:
   title: 设置
   version: 版本
