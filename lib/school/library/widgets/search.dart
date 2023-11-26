@@ -9,6 +9,7 @@ const _searchMethods = [
   SearchMethod.author,
   SearchMethod.isbn,
   SearchMethod.publisher,
+  SearchMethod.subject,
 ];
 
 class SearchMethodSwitcher extends StatelessWidget {

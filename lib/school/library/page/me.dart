@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/widgets/card.dart';
 import 'package:sit/school/library/init.dart';
 
 import '../entity/borrow.dart';
@@ -15,7 +16,7 @@ class LibraryMyBorrowedPage extends StatefulWidget {
 
 class _LibraryMyBorrowedPageState extends State<LibraryMyBorrowedPage> {
   bool isFetching = false;
-  List<BorrowBookItem>? borrowed;
+  List<BorrowedBookItem>? borrowed;
 
   @override
   void initState() {
@@ -47,6 +48,7 @@ class _LibraryMyBorrowedPageState extends State<LibraryMyBorrowedPage> {
 
   @override
   Widget build(BuildContext context) {
+    final borrowed = this.borrowed;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -58,10 +60,40 @@ class _LibraryMyBorrowedPageState extends State<LibraryMyBorrowedPage> {
                 onPressed: () async {
                   await context.push("/library/my-borrowing-history");
                 },
-              )
+              ),
             ],
           ),
+          if (borrowed != null)
+            SliverList.builder(
+              itemCount: borrowed.length,
+              itemBuilder: (ctx, i) {
+                return BorrowedBookCard(borrowed[i]);
+              },
+            ),
         ],
+      ),
+    );
+  }
+}
+
+class BorrowedBookCard extends StatelessWidget {
+  final BorrowedBookItem book;
+
+  const BorrowedBookCard(
+    this.book, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FilledCard(
+      child: ListTile(
+        isThreeLine: true,
+        title: book.title.text(),
+        subtitle: [
+          book.bookId.text(),
+          book.isbn.text(),
+        ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
       ),
     );
   }
@@ -76,7 +108,7 @@ class LibraryMyBorrowingHistoryPage extends StatefulWidget {
 
 class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistoryPage> {
   bool isFetching = false;
-  List<BorrowBookHistoryItem>? history;
+  List<BorrowedBookHistoryItem>? history;
 
   @override
   void initState() {
@@ -108,13 +140,44 @@ class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistor
 
   @override
   Widget build(BuildContext context) {
+    final history = this.history;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             title: "Borrowing history".text(),
           ),
+          if (history != null)
+            SliverList.builder(
+              itemCount: history.length,
+              itemBuilder: (ctx, i) {
+                return BorrowedBookHistoryCard(history[i]);
+              },
+            ),
         ],
+      ),
+    );
+  }
+}
+
+class BorrowedBookHistoryCard extends StatelessWidget {
+  final BorrowedBookHistoryItem book;
+
+  const BorrowedBookHistoryCard(
+    this.book, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FilledCard(
+      child: ListTile(
+        isThreeLine: true,
+        title: book.title.text(),
+        subtitle: [
+          book.bookId.text(),
+          book.isbn.text(),
+        ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
       ),
     );
   }

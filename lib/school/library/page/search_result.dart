@@ -209,9 +209,10 @@ class BookCard extends StatelessWidget {
     final holding = bookImageHolding.holding ?? const [];
     final imgUrl = bookImageHolding.image?.resourceLink;
     // 计算总共馆藏多少书
-    int copyCount = holding.map((e) => e.copyCount).reduce((value, element) => value + element);
+    int copyCount = holding.isEmpty ? 0 : holding.map((e) => e.copyCount).reduce((value, element) => value + element);
     // 计算总共可借多少书
-    int loanableCount = holding.map((e) => e.loanableCount).reduce((value, element) => value + element);
+    int loanableCount =
+        holding.isEmpty ? 0 : holding.map((e) => e.loanableCount).reduce((value, element) => value + element);
     return FilledCard(
       clip: Clip.hardEdge,
       child: ListTile(

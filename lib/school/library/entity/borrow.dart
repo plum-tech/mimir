@@ -1,5 +1,5 @@
 /// 借书记录
-class BorrowBookItem {
+class BorrowedBookItem {
   /// 图书号
   final String bookId;
 
@@ -28,7 +28,7 @@ class BorrowBookItem {
   /// 应还日期
   final DateTime expireDate;
 
-  const BorrowBookItem({
+  const BorrowedBookItem({
     required this.bookId,
     required this.barcode,
     required this.isbn,
@@ -48,7 +48,7 @@ class BorrowBookItem {
 }
 
 /// 历史借书记录
-class BorrowBookHistoryItem {
+class BorrowedBookHistoryItem {
   /// 图书号
   final String bookId;
 
@@ -78,7 +78,7 @@ class BorrowBookHistoryItem {
   /// 处理日期
   final DateTime processDate;
 
-  const BorrowBookHistoryItem({
+  const BorrowedBookHistoryItem({
     required this.bookId,
     required this.operateType,
     required this.barcode,

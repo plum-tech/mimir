@@ -13,7 +13,7 @@ class LibraryBorrowService {
   LibrarySession get session =>Init.librarySession;
   const LibraryBorrowService();
 
-  Future<List<BorrowBookHistoryItem>> getHistoryBorrowBookList() async {
+  Future<List<BorrowedBookHistoryItem>> getHistoryBorrowBookList() async {
     final response = await session.request(
       LibraryConst.historyLoanListUrl,
       ReqMethod.get,
@@ -27,7 +27,7 @@ class LibraryBorrowService {
     return table.findAll('tr').where((e) => e.id != 'contentHeader').map((e) {
       final columns = e.findAll('td');
       final columnsText = columns.map((e) => e.text.trim()).toList();
-      return BorrowBookHistoryItem(
+      return BorrowedBookHistoryItem(
         bookId: columns[0].find('input')!.attributes['value']!,
         operateType: columnsText[0],
         barcode: columnsText[1],
@@ -42,7 +42,7 @@ class LibraryBorrowService {
     }).toList();
   }
 
-  Future<List<BorrowBookItem>> getMyBorrowBookList() async {
+  Future<List<BorrowedBookItem>> getMyBorrowBookList() async {
     final response = await session.request(
       LibraryConst.currentLoanListUrl,
       ReqMethod.get,
@@ -57,7 +57,7 @@ class LibraryBorrowService {
       final columns = e.findAll('td');
       final columnsText = columns.map((e) => e.text.trim()).toList();
       final dataFormat = DateFormat('yyyy-MM-dd');
-      return BorrowBookItem(
+      return BorrowedBookItem(
         bookId: columns[0].find('input')!.attributes['value']!,
         barcode: columnsText[0],
         title: columnsText[1],
