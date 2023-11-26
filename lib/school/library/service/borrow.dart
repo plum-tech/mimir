@@ -10,7 +10,8 @@ import '../const.dart';
 final _historyDateFormat = DateFormat('yyyy-MM-dd');
 
 class LibraryBorrowService {
-  LibrarySession get session =>Init.librarySession;
+  LibrarySession get session => Init.librarySession;
+
   const LibraryBorrowService();
 
   Future<List<BorrowedBookHistoryItem>> getHistoryBorrowBookList() async {
@@ -80,7 +81,7 @@ class LibraryBorrowService {
     final response = await session.request(
       LibraryConst.doRenewUrl,
       ReqMethod.post,
-      data: {
+      para: {
         'pdsToken': pdsToken,
         'barcodeList': barcodeList.join(','),
         'furl': '/opac/loan/renewList',
@@ -88,7 +89,8 @@ class LibraryBorrowService {
       },
     );
     final html = BeautifulSoup(response.data);
-    return html.find('div', id: 'content')!.text;
+    final result = html.find('div', id: 'content')!.text;
+    return result;
   }
 
   Future<String> renewBook({
