@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:sit/network/session.dart';
 
 abstract class Downloader {
@@ -7,6 +8,6 @@ abstract class Downloader {
     SessionProgressCallback? onReceiveProgress,
     Map<String, String>? queryParameters,
     dynamic data,
-    SessionOptions? options,
+    Options? options,
   });
 }

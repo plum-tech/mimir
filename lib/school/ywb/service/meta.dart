@@ -18,7 +18,7 @@ class YwbApplicationMetaService {
       _serviceFunctionList,
       ReqMethod.post,
       data: '{"appObject":"student","appName":null}',
-      options: SessionOptions(responseType: ResponseType.json),
+      options: Options(responseType: ResponseType.json),
     );
 
     final Map<String, dynamic> data = response.data;
@@ -35,7 +35,7 @@ class YwbApplicationMetaService {
       _serviceFunctionDetail,
       ReqMethod.post,
       data: '{"appID":"$functionId"}',
-      options: SessionOptions(responseType: ResponseType.json),
+      options: Options(responseType: ResponseType.json),
     );
     final Map<String, dynamic> data = response.data;
     final List<YwbApplicationMetaDetailSection> sections =

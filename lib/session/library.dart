@@ -14,7 +14,7 @@ class LibrarySession {
     ReqMethod method, {
     Map<String, String>? para,
     data,
-    SessionOptions? options,
+    Options? options,
     SessionProgressCallback? onSendProgress,
     SessionProgressCallback? onReceiveProgress,
   }) async {

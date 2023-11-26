@@ -17,11 +17,11 @@ class GmsSession {
     ReqMethod method, {
     Map<String, String>? para,
     data,
-    SessionOptions? options,
+    Options? options,
     SessionProgressCallback? onSendProgress,
     SessionProgressCallback? onReceiveProgress,
   }) async {
-    options ??= SessionOptions();
+    options ??= Options();
     // TODO: is this really necessary?
     options.contentType = 'application/x-www-form-urlencoded;charset=utf-8';
 

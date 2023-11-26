@@ -35,7 +35,7 @@ class YwbApplicationService {
         "pageIdx": 1,
         "pageSize": 99,
       },
-      options: SessionOptions(contentType: Headers.formUrlEncodedContentType),
+      options: Options(contentType: Headers.formUrlEncodedContentType),
     );
     progress.value = 0.2;
     final List data = jsonDecode(response.data);
@@ -64,7 +64,7 @@ class YwbApplicationService {
         "WorkID": workId,
         "FK_Flow": functionId,
       },
-      options: SessionOptions(contentType: Headers.formUrlEncodedContentType),
+      options: Options(contentType: Headers.formUrlEncodedContentType),
     );
     final Map payload = jsonDecode(res.data);
     final List trackRaw = payload["Track"];

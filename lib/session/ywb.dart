@@ -55,7 +55,7 @@ class YwbSession {
     ReqMethod method, {
     Map<String, String>? para,
     dynamic data,
-    SessionOptions? options,
+    Options? options,
     SessionProgressCallback? onSendProgress,
     SessionProgressCallback? onReceiveProgress,
   }) async {

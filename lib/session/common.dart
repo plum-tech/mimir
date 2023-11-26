@@ -3,7 +3,7 @@ import 'package:sit/network/session.dart';
 
 import '../network/download.dart';
 
-extension DioOptionsConverter on SessionOptions {
+extension DioOptionsConverter on Options {
   Options toDioOptions() {
     return Options(
       method: method,
@@ -29,7 +29,7 @@ class DioDownloader implements Downloader {
     SessionProgressCallback? onReceiveProgress,
     Map<String, String>? queryParameters,
     data,
-    SessionOptions? options,
+    Options? options,
   }) async {
     await dio.download(
       url,
@@ -52,7 +52,7 @@ mixin DioDownloaderMixin implements Downloader {
     SessionProgressCallback? onReceiveProgress,
     Map<String, String>? queryParameters,
     data,
-    SessionOptions? options,
+    Options? options,
   }) async {
     await DioDownloader(dio).download(
       url,

@@ -45,7 +45,7 @@ class Class2ndActivityListService {
       url,
       ReqMethod.post,
       data: 'activityName=$queryString',
-      options: SessionOptions(contentType: Headers.formUrlEncodedContentType),
+      options: Options(contentType: Headers.formUrlEncodedContentType),
     );
 
     return _parseActivityList(response.data);
