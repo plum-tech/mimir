@@ -7,7 +7,7 @@ import '../entity/local.dart';
 class _K {
   static const transactionTsList = '/transactionTsList';
 
-  static String buildTransactionsKey(DateTime timestamp) {
+  static String transaction(DateTime timestamp) {
     final id = (timestamp.millisecondsSinceEpoch ~/ 1000).toRadixString(16);
     return '/transactions/$id';
   }
@@ -30,9 +30,9 @@ class ExpenseStorage {
   ValueListenable<Box> listenTransactionTsList() => box.listenable(keys: [_K.transactionTsList]);
 
   /// 通过某个时刻来获得交易记录
-  Transaction? getTransactionByTs(DateTime ts) => box.get(_K.buildTransactionsKey(ts));
+  Transaction? getTransactionByTs(DateTime ts) => box.get(_K.transaction(ts));
 
-  setTransactionByTs(DateTime ts, Transaction? transaction) => box.put(_K.buildTransactionsKey(ts), transaction);
+  setTransactionByTs(DateTime ts, Transaction? transaction) => box.put(_K.transaction(ts), transaction);
 
   Transaction? get latestTransaction => box.get(_K.latestTransaction);
 

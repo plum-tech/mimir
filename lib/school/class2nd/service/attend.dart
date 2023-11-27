@@ -3,7 +3,7 @@ import 'package:sit/init.dart';
 
 import 'package:sit/session/class2nd.dart';
 
-class Class2ndAttendActivityService {
+class Class2ndApplicationService {
   static const _codeMessage = [
     '检查成功',
     '您的个人信息不全，请补全您的信息！',
@@ -18,7 +18,7 @@ class Class2ndAttendActivityService {
 
   Class2ndSession get session => Init.class2ndSession;
 
-  const Class2ndAttendActivityService();
+  const Class2ndApplicationService();
 
   /// 提交最后的活动申请
   Future<String> _sendFinalRequest(int activityId) async {

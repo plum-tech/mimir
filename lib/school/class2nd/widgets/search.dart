@@ -53,7 +53,7 @@ class _ActivityAsyncSearchListState extends State<_ActivityAsyncSearchList> {
   }
 
   Future<void> load() async {
-    final result = await Class2ndInit.activityListService.query(widget.query);
+    final result = await Class2ndInit.activityService.query(widget.query);
     setState(() {
       activityList = result;
     });

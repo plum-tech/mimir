@@ -98,9 +98,13 @@ class ActivityLoadingList extends StatefulWidget {
 
 /// Note: Changing orientation will cause a rebuild.
 /// The solution is to use any state manager framework, such as `provider`.
-class _ActivityLoadingListState extends State<ActivityLoadingList> {
+class _ActivityLoadingListState extends State<ActivityLoadingList> with AutomaticKeepAliveClientMixin {
   int lastPage = 1;
-  List<Class2ndActivity> activities = [];
+  late List<Class2ndActivity> activities =
+      Class2ndInit.activityStorage.getActivities(widget.cat) ?? <Class2ndActivity>[];
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -112,6 +116,7 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return NotificationListener<ScrollNotification>(
       onNotification: (event) {
         if (event.metrics.pixels >= event.metrics.maxScrollExtent) {
@@ -141,17 +146,16 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> {
 
   Future<void> loadMoreActivities() async {
     widget.onLoadingChanged(true);
-    final lastActivities = await Class2ndInit.activityListService.getActivityList(widget.cat, lastPage);
-    if (lastActivities != null) {
-      widget.onLoadingChanged(false);
-      if (!mounted) return;
-      setState(() {
-        lastPage++;
-        activities.addAll(lastActivities);
-        // The incoming activities may be the same as before, so distinct is necessary.
-        activities.distinctBy((a) => a.id);
-      });
-    }
+    final lastActivities = await Class2ndInit.activityService.getActivityList(widget.cat, lastPage);
+    activities.addAll(lastActivities);
+    // The incoming activities may be the same as before, so distinct is necessary.
+    activities.distinctBy((a) => a.id);
+    await Class2ndInit.activityStorage.setActivities(widget.cat, List.of(activities));
+    if (!mounted) return;
+    setState(() {
+      lastPage++;
+    });
+    widget.onLoadingChanged(false);
   }
 }
 

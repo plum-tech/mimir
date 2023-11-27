@@ -43,7 +43,7 @@ class _Tab {
 
 class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPage> {
   int get activityId => widget.activityId;
-  late Class2ndActivityDetails? details = Class2ndInit.activityDetailsStorage.getActivityDetails(activityId);
+  late Class2ndActivityDetails? details = Class2ndInit.activityStorage.getActivityDetails(activityId);
   bool isFetching = false;
 
   @override
@@ -57,8 +57,8 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
     setState(() {
       isFetching = true;
     });
-    final data = await Class2ndInit.activityDetailsService.getActivityDetails(activityId);
-    Class2ndInit.activityDetailsStorage.setActivityDetails(activityId, data);
+    final data = await Class2ndInit.activityService.getActivityDetails(activityId);
+    await Class2ndInit.activityStorage.setActivityDetails(activityId, data);
     setState(() {
       details = data;
       isFetching = false;
@@ -135,7 +135,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
         highlight: true);
     if (confirm == true) {
       try {
-        final response = await Class2ndInit.attendActivityService.join(activityId);
+        final response = await Class2ndInit.applicationService.join(activityId);
         if (!mounted) return;
         await context.showTip(title: i18n.apply.replyTip, desc: response, ok: i18n.ok);
       } catch (e) {
@@ -153,7 +153,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
 
   Future<void> sendForceRequest(BuildContext context) async {
     try {
-      final response = await Class2ndInit.attendActivityService.join(activityId, force: true);
+      final response = await Class2ndInit.applicationService.join(activityId, force: true);
       if (!mounted) return;
       context.showSnackBar(content: Text(response));
     } catch (e) {
