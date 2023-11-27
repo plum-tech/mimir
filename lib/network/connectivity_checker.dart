@@ -21,6 +21,7 @@ class ConnectivityChecker extends StatefulWidget {
   final double iconSize;
   final String? initialDesc;
   final VoidCallback onConnected;
+  final Duration? autoStartDelay;
 
   /// Whether it's connected will be turned.
   /// Throw any error if connection fails.
@@ -32,6 +33,7 @@ class ConnectivityChecker extends StatefulWidget {
     this.initialDesc,
     required this.onConnected,
     required this.check,
+    this.autoStartDelay,
   });
 
   @override
@@ -73,6 +75,12 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
         });
       }
     });
+    final autoStartDelay = widget.autoStartDelay;
+    if (autoStartDelay != null) {
+      Future.delayed(autoStartDelay).then((value) {
+        startCheck();
+      });
+    }
   }
 
   @override

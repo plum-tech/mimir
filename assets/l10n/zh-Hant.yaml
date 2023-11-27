@@ -305,7 +305,6 @@ examResult:
   noResultsTip: 無考試結果
   lessonNotEvaluated: 需評教
   teacherEvalTitle: 教師評價
-  lessonEvaluationBtn: 課程評價
   lessonSelected: "已選 {} 門"
   gpaResult: "績點: {}"
   compulsory: 必修
@@ -624,7 +623,6 @@ download: 下載
 fetching: 取回中
 notFound404: 404 找不到頁面
 warning: 警告
-exceptionInfo: 異常資訊
 untitled: 無標題
 congratulations: 恭喜
 search: 搜尋

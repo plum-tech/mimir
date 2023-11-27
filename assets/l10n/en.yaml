@@ -189,15 +189,15 @@ class2nd:
     tags: Tags
     category: Activity category
     scoreType: Score type
-    honestyPoints: Honesty Points
-    applicationTime: Application Time
+    honestyPoints: Honesty points
+    applicationTime: Application time
     status: Status
     contactInfo: Contact Info
     organizer: Organizer
     principal: Principal
     signInTime: Sign-in
     signOutTime: Sign-out
-    startTime: Start Time
+    startTime: Start time
     undertaker: Undertaker
     duration: Duration
     location: Location
@@ -235,7 +235,7 @@ class2nd:
       full: Safety&Civil.
       short: Civil.
   noDetails: No details given
-  details: Activity Details
+  details: Activity eetails
 ywb:
   title: SIT YWB
   info: |
@@ -276,7 +276,7 @@ electricity:
   title: Electricity balance
   balance: Balance
   remainingPower: Remaining
-  searchInvalidTip: Please enter or select a existing room number
+  searchInvalidTip: Please enter or select an existing room number
   refreshSuccessTip: Electricity balance refreshed successfully
   refreshFailedTip: Failed to refresh electricity balance
   searchRoom: Search Room
@@ -289,13 +289,13 @@ eduEmail:
   login:
     title: Login Edu email
     addressHint: Student ID/Work number
-    failedWarn: Login Failed
+    failedWarn: Login failed
   inbox:
     title: Inbox
   outbox:
     title: Outbox
-  noContent: No Content
-  noSubject: No Subject
+  noContent: No content
+  noSubject: No subject
   pluralSenderTailing: ...
   text: Text
 examResult:
@@ -304,8 +304,7 @@ examResult:
   teacherEval: Teacher Eval
   noResultsTip: No results
   lessonNotEvaluated: Not-eval
-  teacherEvalTitle: Teacher Evaluation
-  lessonEvaluationBtn: Lesson Eval
+  teacherEvalTitle: Teacher evaluation
   lessonSelected: "{} Selected"
   gpaResult: "GPA: {}"
   compulsory: Compulsory
@@ -331,7 +330,7 @@ expenseRecords:
   outcome: "Outcome: ¥{}"
   noTransactionsTip: No transactions
   refreshSuccessTip: Expense records refreshed successfully
-  refreshFailedTip: Failed to refresh Expense records
+  refreshFailedTip: Failed to refresh expense records
   statsMode:
     week: Week
     month: Month
@@ -355,25 +354,25 @@ expenseRecords:
     subsidy: Subsidy
     other: Stuff
 homepage:
-  campusNetworkConnected: Campus Network Available
-  campusNetworkUnconnected: Campus Network Unavailable
+  campusNetworkConnected: Campus network available
+  campusNetworkUnconnected: Campus network unavailable
 networkChecker:
   button:
     connected: Continue
     connecting: Checking...
     disconnected: Retry
-    none: Check My Connection
+    none: Check my Connection
   status:
     connected: Right! You have connected to school server!
     connecting: It will take a few seconds, please ensure you have turned on the network on your device.
     disconnected: Oops! You can't access the school server. Please check your network settings or use Easy Connect, then try again.
     none: You need the access to school server to continue. Let's check it now.
 network:
-  error: Network Error
+  error: Network error
   ipAddress: IP Address
-  connectionTimeoutError: Network Timeout
+  connectionTimeoutError: Network timeout
   connectionTimeoutErrorDesc: "This function requires access to the campus network. NOTE: It also occurs when the school server is down for maintenance."
-  openToolBtn: Open Network Tool
+  openToolBtn: Open network tool
 networkTool:
   title: Network tool
   action:
@@ -405,13 +404,13 @@ login:
   unknownAuthErrorTip: Unknown authentication error
   accountHint: Student ID/Work number
   loggedInTip: Logged in
-  notLoggedIn: Not Logged In
-  invalidAccountFormat: Invalid Account format
-  offlineModeBtn: Offline Mode
+  notLoggedIn: Not logged In
+  invalidAccountFormat: Invalid account format
+  offlineModeBtn: Offline mode
   oaPwdHint: Enter your OA password
   failedWarn: Login Failed
-  formatError: Format Error
-  loginRequired: Login Required
+  formatError: Format error
+  loginRequired: Login required
   neverLoggedInTip: You have to login to perform this
 library:
   title: Library
@@ -624,7 +623,6 @@ download: Download
 fetching: Fetching
 notFound404: 404 Not Found
 warning: Warning
-exceptionInfo: Exception Info
 untitled: Untitled
 congratulations: Congratulations
 search: Search

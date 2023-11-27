@@ -305,7 +305,6 @@ examResult:
   noResultsTip: 无考试结果记录
   lessonNotEvaluated: 未评教
   teacherEvalTitle: 评教
-  lessonEvaluationBtn: 课程评价
   lessonSelected: "已选 {} 门"
   gpaResult: "绩点: {}"
   compulsory: 必修
@@ -624,7 +623,6 @@ download: 下载
 fetching: 获取中
 notFound404: 404 找不到页面
 warning: 警告
-exceptionInfo: 异常信息
 untitled: 无标题
 congratulations: 恭喜
 search: 搜索
