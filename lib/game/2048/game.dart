@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 
 import 'components/button.dart';
-import 'components/empy_board.dart';
+import 'components/empty_board.dart';
 import 'components/score_board.dart';
 import 'components/tile_board.dart';
 import 'const/colors.dart';
