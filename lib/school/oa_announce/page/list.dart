@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/credentials/entity/user_type.dart';
+import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 
 import 'package:sit/school/oa_announce/widget/tile.dart';
@@ -83,11 +84,10 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
                 itemCount: recordList.length,
                 itemBuilder: (ctx, i) {
                   final record = recordList[i];
-                  return OaAnnounceTile(record)
-                      .inCard(
-                        clip: Clip.hardEdge,
-                      )
-                      .hero(record.uuid);
+                  return FilledCard(
+                    clip: Clip.hardEdge,
+                    child: OaAnnounceTile(record).hero(record.uuid),
+                  );
                 },
               )
         ],

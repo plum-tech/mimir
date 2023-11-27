@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 import '../entity/announce.dart';
@@ -26,8 +27,7 @@ class OaAnnounceInfoCard extends StatelessWidget {
           ],
         );
 
-    return Card(
-      elevation: 3,
+    return FilledCard(
       child: [
         record.title.text(style: context.textTheme.titleLarge),
         Table(
