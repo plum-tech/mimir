@@ -12,6 +12,7 @@ import 'package:sit/init.dart';
 import 'package:sit/network/download.dart';
 
 import 'package:sit/route.dart';
+import 'package:sit/session/auth.dart';
 import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/utils/logger.dart';
 import 'package:synchronized/synchronized.dart';
@@ -86,9 +87,23 @@ class SsoSession with DioDownloaderMixin {
   }
 
   /// - User try to log in actively on a login page.
-  Future<Response> loginLocked(Credentials credential) async {
+  Future<Response> loginLocked(Credentials credentials) async {
     return await loginLock.synchronized(() async {
-      return await _login(credential);
+      try {
+        final autoCaptcha = await _login(
+          credentials: credentials,
+          inputCaptcha: (captchaImage) => AuthSession.recognizeOaCaptcha(captchaImage),
+        );
+        return autoCaptcha;
+      } catch (error, stackTrace) {
+        debugPrint(error.toString());
+        debugPrintStack(stackTrace: stackTrace);
+      }
+      final manuallyCaptcha = await _login(
+        credentials: credentials,
+        inputCaptcha: inputCaptcha,
+      );
+      return manuallyCaptcha;
     });
   }
 
@@ -170,7 +185,10 @@ class SsoSession with DioDownloaderMixin {
     return cookies.firstWhereOrNull((cookie) => cookie.name == "JSESSIONID");
   }
 
-  Future<Response> _login(Credentials credentials) async {
+  Future<Response> _login({
+    required Credentials credentials,
+    required Future<String?> Function(Uint8List imageBytes) inputCaptcha,
+  }) async {
     Log.info('尝试登录：${credentials.account}');
     Log.debug('当前登录UA: ${dio.options.headers['User-Agent']}');
     // 在 OA 登录时, 服务端会记录同一 cookie 用户登录次数和输入错误次数,
@@ -188,9 +206,9 @@ class SsoSession with DioDownloaderMixin {
 
       // 获取首页验证码
       var captcha = '';
-      if (await _isCaptchaRequired(credentials.account)) {
+      if (await isCaptchaRequired(credentials.account)) {
         // 识别验证码
-        final captchaImage = await _getCaptcha();
+        final captchaImage = await getCaptcha();
         final c = await inputCaptcha(captchaImage);
         if (c != null) {
           captcha = c;
@@ -273,7 +291,7 @@ class SsoSession with DioDownloaderMixin {
   }
 
   /// 判断是否需要验证码
-  Future<bool> _isCaptchaRequired(String username) async {
+  Future<bool> isCaptchaRequired(String username) async {
     final response = await dio.get(
       _needCaptchaUrl,
       queryParameters: {
@@ -288,7 +306,7 @@ class SsoSession with DioDownloaderMixin {
   }
 
   /// 获取验证码
-  Future<Uint8List> _getCaptcha() async {
+  Future<Uint8List> getCaptcha() async {
     final response = await dio.get(
       _captchaUrl,
       options: Options(
