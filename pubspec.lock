@@ -643,6 +643,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.17"
+  flutter_riverpod:
+    dependency: "direct main"
+    description:
+      name: flutter_riverpod
+      sha256: da9591d1f8d5881628ccd5c25c40e74fc3eef50ba45e40c3905a06e1712412d5
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.9"
   flutter_screenutil:
     dependency: "direct main"
     description:
@@ -683,6 +691,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.3"
+  flutter_swipe_detector:
+    dependency: "direct main"
+    description:
+      name: flutter_swipe_detector
+      sha256: ae6fe331de414632c0122a7047d64dfe2332c95b3f06a05118a7ea538ff19eda
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -1421,6 +1437,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  riverpod:
+    dependency: transitive
+    description:
+      name: riverpod
+      sha256: "942999ee48b899f8a46a860f1e13cee36f2f77609eb54c5b7a669bb20d550b11"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.9"
   rxdart:
     dependency: transitive
     description:
@@ -1642,6 +1666,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.1"
+  state_notifier:
+    dependency: transitive
+    description:
+      name: state_notifier
+      sha256: b8677376aa54f2d7c58280d5a007f9e8774f1968d1fb1c096adcb4792fba29bb
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   stream_channel:
     dependency: transitive
     description:

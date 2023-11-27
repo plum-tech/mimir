@@ -31,6 +31,11 @@ dependencies:
   quiver: ^3.1.0
   collection: ^1.18.0
   shared_preferences: ^2.2.2
+  flutter_riverpod: ^2.4.9
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  json_serializable: ^6.7.1
+  json_annotation: ^4.8.1
 
   # String formatting
   format: ^1.4.0
@@ -51,16 +56,9 @@ dependencies:
   # Screenshot
   screenshot: ^2.1.0
 
-  # JSON
-  json_serializable: ^6.7.1
-  json_annotation: ^4.8.1
   # HTML parser
   beautiful_soup_dart: ^0.3.0
   html: ^0.15.4
-
-  # hive (key-value database)
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
 
   # Dio (http client)
   dio: ^5.3.4
@@ -127,6 +125,7 @@ dependencies:
   pull_down_button: ^0.9.3
   system_theme: ^2.3.1 # read system theme color
   cupertino_onboarding: ^1.2.0
+  flutter_swipe_detector: ^2.0.0
 
   # Utils
   # Get package info (version)
