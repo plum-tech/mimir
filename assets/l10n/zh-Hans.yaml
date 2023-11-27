@@ -4,8 +4,7 @@ timetable:
   findToday: 找到今天
   startWith: "起始于"
   weekOrderedName: "第 {} 周"
-  focusTimetable: 进入课程表模式
-  unfocusTimetable: 退出课程表模式
+  focusTimetable: 课程表模式
   signature: 签名
   signaturePlaceholder: 你的名字
   mine:

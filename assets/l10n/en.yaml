@@ -5,7 +5,6 @@ timetable:
   startWith: "Start with"
   weekOrderedName: "Week {}"
   focusTimetable: Focus timetable
-  unfocusTimetable: Unfocus timetable
   signature: Signature
   signaturePlaceholder: Your name
   mine:

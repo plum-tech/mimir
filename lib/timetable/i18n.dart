@@ -34,8 +34,6 @@ class _I18n with CommonI18nMixin {
 
   String get focusTimetable => "$ns.focusTimetable".tr();
 
-  String get unfocusTimetable => "$ns.unfocusTimetable".tr();
-
   String get signature => "$ns.signature".tr();
 
   String get signaturePlaceholder => "$ns.signaturePlaceholder".tr();

@@ -5,7 +5,6 @@ timetable:
   startWith: "起始於"
   weekOrderedName: "第 {} 周"
   focusTimetable: 對焦課程表
-  unfocusTimetable: 取消對焦課程表
   signature: 簽名
   signaturePlaceholder: 你的名稱
   mine:
