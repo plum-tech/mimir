@@ -191,7 +191,7 @@ class SsoSession with DioDownloaderMixin {
     debugPrint('UA: ${dio.options.headers['User-Agent']}');
     // 在 OA 登录时, 服务端会记录同一 cookie 用户登录次数和输入错误次数,
     // 所以需要在登录前清除所有 cookie, 避免用户重试时出错.
-    cookieJar.deleteAll();
+    await cookieJar.delete(Uri.parse(_authServerUrl));
     final Response response;
     try {
       // 首先获取AuthServer首页
