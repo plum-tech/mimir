@@ -168,7 +168,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
         onPressed: () async {
           final newFullProxy = await Editor.showStringEditor(
             context,
-            desc: i18n.proxy.hostname,
+            desc: i18n.proxy.title,
             initial: proxyUri.toString(),
           );
           final newUri = Uri.tryParse(newFullProxy.trim());
