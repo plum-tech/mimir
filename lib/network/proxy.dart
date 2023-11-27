@@ -29,7 +29,7 @@ class SitHttpOverrides extends HttpOverrides {
     final client = super.createHttpClient(context);
 
     // 设置证书检查
-    client.badCertificateCallback = (cert, host, port) => _isSchoolNetwork(host);
+    client.badCertificateCallback = (cert, host, port) => true;
     // 设置代理.
     if (enableHttpProxy && proxyAddress.isNotEmpty) {
       debugPrint('Using proxy "$proxyAddress"');
