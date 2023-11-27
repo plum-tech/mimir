@@ -531,6 +531,10 @@ settings:
     enableProxy:
       title: 啟用 HTTP 代理
       desc: 代理你的 HTTP 請求
+    globalMode:
+      title: 全域模式
+      on: 通過代理訪問所有網路
+      off: 繞過代理訪問非校園網路
     testConnection:
       title: 測試連線
       desc: 測試與校園網路的連線情況

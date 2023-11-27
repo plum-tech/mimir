@@ -102,6 +102,7 @@ class _HttpProxyK {
   static const ns = '/httpProxy';
   static const address = '$ns/address';
   static const useHttpProxy = '$ns/useHttpProxy';
+  static const globalMode = '$ns/globalMode';
 }
 
 class _HttpProxy {
@@ -119,7 +120,14 @@ class _HttpProxy {
 
   set enableHttpProxy(bool newV) => box.put(_HttpProxyK.useHttpProxy, newV);
 
+  /// [false] by default.
+  bool get globalMode => box.get(_HttpProxyK.globalMode) ?? false;
+
+  set globalMode(bool newV) => box.put(_HttpProxyK.globalMode, newV);
+
   ValueListenable listenEnableHttpProxy() => box.listenable(keys: [_HttpProxyK.useHttpProxy]);
+
+  ValueListenable listenGlobalMode() => box.listenable(keys: [_HttpProxyK.globalMode]);
 
   Stream<BoxEvent> watchHttpProxy() => box.watch(key: _HttpProxyK.address);
 }

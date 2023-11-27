@@ -104,6 +104,12 @@ class _Proxy {
 
   String get enableProxyDesc => "$ns.enableProxy.desc".tr();
 
+  String get globalMode => "$ns.globalMode.title".tr();
+
+  String get globalModeOnDesc => "$ns.globalMode.on".tr();
+
+  String get globalModeOffDesc => "$ns.globalMode.off".tr();
+
   String get shareQrCode => "$ns.shareQrCode.title".tr();
 
   String get shareQrCodeDesc => "$ns.shareQrCode.desc".tr();

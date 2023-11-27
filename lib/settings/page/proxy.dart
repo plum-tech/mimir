@@ -70,6 +70,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
           SliverList(
             delegate: SliverChildListDelegate([
               buildEnableProxyToggle(),
+              buildIsGlobalToggle(),
               buildProxyFullTile(proxyUri, (newProxy) {
                 setNewAddress(newProxy.toString());
               }),
@@ -127,6 +128,25 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                         await Init.initNetwork();
                       }
                     : null,
+              ),
+            );
+  }
+
+  Widget buildIsGlobalToggle() {
+    return Settings.httpProxy.listenGlobalMode() >>
+        (ctx, _) => ListTile(
+              title: i18n.proxy.globalMode.text(),
+              subtitle: Settings.httpProxy.globalMode ? i18n.proxy.globalModeOnDesc.text() : i18n.proxy.globalModeOffDesc.text(),
+              leading: const Icon(Icons.public),
+              trailing: Switch.adaptive(
+                value: Settings.httpProxy.globalMode,
+                onChanged: (newV) async {
+                  Settings.httpProxy.globalMode = newV;
+                  // TODO: subscribe the proxy changes instead of directly calling init.
+                  if (Settings.httpProxy.enableHttpProxy) {
+                    await Init.initNetwork();
+                  }
+                },
               ),
             );
   }
