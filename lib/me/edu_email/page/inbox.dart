@@ -49,25 +49,26 @@ class _EduEmailInboxPageState extends State<EduEmailInboxPage> {
     if (credential == null) return;
     try {
       await EduEmailInit.service.login(credential);
-    } catch (error, stacktrace) {
+    } catch (error, stackTrace) {
       debugPrint(error.toString());
-      debugPrintStack(stackTrace: stacktrace);
+      debugPrintStack(stackTrace: stackTrace);
       CredentialInit.storage.eduEmailCredentials = null;
       return;
     }
     try {
       final result = await EduEmailInit.service.getInboxMessage(30);
-      final msgs = result.messages;
+      final messages = result.messages;
       // The more recent the time, the smaller the index in the list.
-      msgs.sort((a, b) {
+      messages.sort((a, b) {
         return a.decodeDate()!.isAfter(b.decodeDate()!) ? -1 : 1;
       });
       if (!mounted) return;
       setState(() {
-        messages = msgs;
+        this.messages = messages;
       });
-    } catch (err, stacktrace) {
-      debugPrintStack(stackTrace: stacktrace);
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
     }
   }
 

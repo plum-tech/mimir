@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/list.dart';
@@ -100,6 +101,7 @@ class ActivityLoadingList extends StatefulWidget {
 /// The solution is to use any state manager framework, such as `provider`.
 class _ActivityLoadingListState extends State<ActivityLoadingList> with AutomaticKeepAliveClientMixin {
   int lastPage = 1;
+  bool isFetching = false;
   late List<Class2ndActivity> activities =
       Class2ndInit.activityStorage.getActivities(widget.cat) ?? <Class2ndActivity>[];
 
@@ -136,7 +138,14 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
             itemCount: activities.length,
             itemBuilder: (ctx, index) {
               final activity = activities[index];
-              return ActivityCard(activity);
+              return ActivityCard(
+                activity,
+                onTap: () async {
+                  await context.push(
+                    "/class2nd/activity-details/${activity.id}?title=${activity.title}&time=${activity.time}&enable-apply=true",
+                  );
+                },
+              );
             },
           ),
         ],
@@ -145,17 +154,34 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
   }
 
   Future<void> loadMoreActivities() async {
-    widget.onLoadingChanged(true);
-    final lastActivities = await Class2ndInit.activityService.getActivityList(widget.cat, lastPage);
-    activities.addAll(lastActivities);
-    // The incoming activities may be the same as before, so distinct is necessary.
-    activities.distinctBy((a) => a.id);
-    await Class2ndInit.activityStorage.setActivities(widget.cat, List.of(activities));
+    if (isFetching) return;
     if (!mounted) return;
     setState(() {
       lastPage++;
+      isFetching = true;
     });
-    widget.onLoadingChanged(false);
+    widget.onLoadingChanged(true);
+    try {
+      final lastActivities = await Class2ndInit.activityService.getActivityList(widget.cat, lastPage);
+      activities.addAll(lastActivities);
+      // The incoming activities may be the same as before, so distinct is necessary.
+      activities.distinctBy((a) => a.id);
+      await Class2ndInit.activityStorage.setActivities(widget.cat, List.of(activities));
+      if (!mounted) return;
+      setState(() {
+        lastPage++;
+        isFetching = false;
+      });
+      widget.onLoadingChanged(false);
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      if (!mounted) return;
+      setState(() {
+        isFetching = false;
+      });
+      widget.onLoadingChanged(false);
+    }
   }
 }
 

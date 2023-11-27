@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 
 import '../entity/list.dart';
 import '../init.dart';
+import '../page/details.dart';
 import 'activity.dart';
 
 class ActivitySearchDelegate extends SearchDelegate<String> {
@@ -69,7 +70,17 @@ class _ActivityAsyncSearchListState extends State<_ActivityAsyncSearchList> {
             itemCount: activityList.length,
             itemBuilder: (ctx, i) {
               final activity = activityList[i];
-              return ActivityCard(activity).hero(activity.id);
+              return ActivityCard(
+                activity,
+                onTap: () async {
+                  await context.show$Sheet$((ctx) => Class2ndActivityDetailsPage(
+                        activityId: activity.id,
+                        title: activity.title,
+                        time: activity.time,
+                        enableApply: true,
+                      ));
+                },
+              );
             },
           ),
       ],

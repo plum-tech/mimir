@@ -9,8 +9,13 @@ import '../utils.dart';
 
 class ActivityCard extends StatelessWidget {
   final Class2ndActivity activity;
+  final VoidCallback? onTap;
 
-  const ActivityCard(this.activity, {super.key});
+  const ActivityCard(
+    this.activity, {
+    super.key,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +29,7 @@ class ActivityCard extends StatelessWidget {
         titleTextStyle: textTheme.titleMedium,
         trailing: context.formatYmdNum(activity.time).text(style: textTheme.bodyMedium),
         subtitle: ActivityTagsGroup(tags),
-        onTap: () async {
-          await context.push(
-            "/class2nd/activity-details/${activity.id}?title=${activity.title}&time=${activity.time}&enable-apply=true",
-          );
-        },
+        onTap: onTap,
       ),
     );
   }

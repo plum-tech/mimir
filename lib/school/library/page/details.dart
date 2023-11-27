@@ -47,9 +47,9 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
         this.info = info;
         isFetching = false;
       });
-    } catch (error, stacktrace) {
+    } catch (error, stackTrace) {
       debugPrint(error.toString());
-      debugPrintStack(stackTrace: stacktrace);
+      debugPrintStack(stackTrace: stackTrace);
       return;
     }
     if (!context.mounted) return;
