@@ -187,13 +187,13 @@ class2nd:
     activityOf: "活動 #{}"
     applicationOf: "申請 #{}"
     status: 狀態
+    contactInfo: 联络人
     name: 活動名稱
     tags: 標籤
     category: 活動類別
     scoreType: 加分類型
     honestyPoints: 誠信分
     applicationTime: 申請時間
-    contactInfo: 联络人
     duration: 活動時長
     location: 活動地點
     organizer: 組織者

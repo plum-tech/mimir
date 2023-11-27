@@ -193,6 +193,7 @@ class2nd:
     honestyPoints: Honesty Points
     applicationTime: Application Time
     status: Status
+    contactInfo: Contact Info
     organizer: Organizer
     principal: Principal
     signInTime: Sign-in
@@ -234,7 +235,6 @@ class2nd:
     schoolSafetyCivilization:
       full: Safety&Civil.
       short: Civil.
-  contactInfo: Contact Info
   noDetails: No details given
   details: Activity Details
 ywb:

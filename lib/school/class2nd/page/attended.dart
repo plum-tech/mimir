@@ -228,7 +228,7 @@ class AttendedActivityCard extends StatelessWidget {
             context.formatYmdhmsNum(attended.application.time).text(),
             if (tags.isNotEmpty) ActivityTagsGroup(tags),
           ].column(caa: CrossAxisAlignment.start),
-          trailing: points != null
+          trailing: points != null && points != 0
               ? Text(
                   _pointsText(points),
                   style: context.textTheme.titleMedium?.copyWith(color: _pointsColor(context, points)),
@@ -294,16 +294,17 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
                 subtitle: ActivityTagsGroup(tags),
                 visualDensity: VisualDensity.compact,
               ),
-            ListTile(
-              title: i18n.viewDetails.text(),
-              subtitle: i18n.info.activityOf(activity.activityId).text(),
-              trailing: const Icon(Icons.open_in_new),
-              onTap: () async {
-                await context.push(
-                  "/class2nd/activity-details/${activity.activityId}?title=${activity.title}",
-                );
-              },
-            ),
+            if (!activity.cancelled)
+              ListTile(
+                title: i18n.viewDetails.text(),
+                subtitle: i18n.info.activityOf(activity.activityId).text(),
+                trailing: const Icon(Icons.open_in_new),
+                onTap: () async {
+                  await context.push(
+                    "/class2nd/activity-details/${activity.activityId}?title=${activity.title}",
+                  );
+                },
+              ),
           ]),
           if (scores.isNotEmpty)
             const SliverToBoxAdapter(
