@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:sit/design/widgets/common.dart';
-import 'package:sit/utils/logger.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -84,12 +83,12 @@ class _InjectableWebViewState extends State<InjectableWebView> {
       ..setNavigationDelegate(NavigationDelegate(
         onWebResourceError: onResourceError,
         onPageStarted: (String url) async {
-          Log.info('"$url" starts loading.');
+          debugPrint('"$url" starts loading.');
           await Future.wait(widget.pageStartedInjections.matching(url).map(injectJs));
           widget.onPageStarted?.call(url);
         },
         onPageFinished: (String url) async {
-          Log.info('"$url" loaded.');
+          debugPrint('"$url" loaded.');
           await Future.wait(widget.pageFinishedInjections.matching(url).map(injectJs));
           widget.onPageFinished?.call(url);
         },
@@ -137,7 +136,7 @@ class _InjectableWebViewState extends State<InjectableWebView> {
       }
     }
     if (injected) {
-      Log.info('JavaScript code was injected.');
+      debugPrint('JavaScript code was injected.');
     }
   }
 

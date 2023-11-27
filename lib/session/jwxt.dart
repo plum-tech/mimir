@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/exception/session.dart';
 
 import 'package:sit/session/sso.dart';
-import 'package:sit/utils/logger.dart';
 
 /// jwxt.sit.edu.cn
 /// for undergraduate
@@ -50,13 +50,13 @@ class JwxtSession {
     final response = await fetch();
     // 如果返回值是登录页面，那就从 SSO 跳转一次以登录.
     if (_isRedirectedToLoginPage(response)) {
-      Log.info('JwxtSession requires login');
+      debugPrint('JwxtSession requires login');
       await _refreshCookie();
       return await fetch();
     }
     // 如果还是需要登录
     if (_isRedirectedToLoginPage(response)) {
-      Log.info('SsoSession login');
+      debugPrint('SsoSession login');
       final credential = CredentialInit.storage.oaCredentials;
       if (credential == null) {
         throw LoginRequiredException(url: url);

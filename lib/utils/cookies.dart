@@ -1,8 +1,5 @@
 import 'package:cookie_jar/cookie_jar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
-import 'logger.dart';
 
 extension WebViewCookieJarX on CookieJar {
   Future<List<WebViewCookie>> loadAsWebViewCookie(Uri uri) async {

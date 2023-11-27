@@ -14,7 +14,6 @@ import 'package:sit/network/download.dart';
 import 'package:sit/route.dart';
 import 'package:sit/session/auth.dart';
 import 'package:sit/session/widgets/scope.dart';
-import 'package:sit/utils/logger.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:encrypt/encrypt.dart';
 
@@ -31,7 +30,6 @@ const _neededHeaders = {
   "Referer": "https://authserver.sit.edu.cn/authserver/login",
 };
 
-// TODO: improve login flow.
 /// Single Sign-On
 class SsoSession with DioDownloaderMixin {
   static const String _authServerUrl = 'https://authserver.sit.edu.cn/authserver';
@@ -189,8 +187,8 @@ class SsoSession with DioDownloaderMixin {
     required Credentials credentials,
     required Future<String?> Function(Uint8List imageBytes) inputCaptcha,
   }) async {
-    Log.info('尝试登录：${credentials.account}');
-    Log.debug('当前登录UA: ${dio.options.headers['User-Agent']}');
+    debugPrint('${credentials.account} logging in');
+    debugPrint('UA: ${dio.options.headers['User-Agent']}');
     // 在 OA 登录时, 服务端会记录同一 cookie 用户登录次数和输入错误次数,
     // 所以需要在登录前清除所有 cookie, 避免用户重试时出错.
     cookieJar.deleteAll();
@@ -244,11 +242,11 @@ class SsoSession with DioDownloaderMixin {
     }
 
     if (response.realUri.toString() != _loginSuccessUrl) {
-      Log.error('未知验证错误,此时url为: ${response.realUri}');
+      debugPrint('Unknown auth error at "${response.realUri}"');
       _setOnline(false);
       throw UnknownAuthException(response.data.toString());
     }
-    Log.info('登录成功：${credentials.account}');
+    debugPrint('${credentials.account} logged in');
     CredentialInit.storage.oaLastAuthTime = DateTime.now();
     _setOnline(true);
     return response;
@@ -268,7 +266,7 @@ class SsoSession with DioDownloaderMixin {
     final a = RegExp(r'var pwdDefaultEncryptSalt = "(.*?)";');
     final matchResult = a.firstMatch(htmlText)!.group(0)!;
     final salt = matchResult.substring(29, matchResult.length - 2);
-    debugPrint('当前页面加密盐: $salt');
+    debugPrint('Salt: $salt');
     return salt;
   }
 
@@ -277,7 +275,7 @@ class SsoSession with DioDownloaderMixin {
     final a = RegExp(r'<input type="hidden" name="lt" value="(.*?)"');
     final matchResult = a.firstMatch(htmlText)!.group(0)!;
     final casTicket = matchResult.substring(38, matchResult.length - 1);
-    debugPrint('当前页面CAS Ticket: $casTicket');
+    debugPrint('CAS Ticket: $casTicket');
     return casTicket;
   }
 
@@ -301,7 +299,7 @@ class SsoSession with DioDownloaderMixin {
       options: Options(headers: _neededHeaders),
     );
     final needCaptcha = response.data == 'true';
-    debugPrint('当前账户: $username, 是否需要验证码: $needCaptcha');
+    debugPrint('Account: $username, Captcha required: $needCaptcha');
     return needCaptcha;
   }
 

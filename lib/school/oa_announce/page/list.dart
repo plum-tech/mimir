@@ -86,7 +86,8 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
                   final record = recordList[i];
                   return FilledCard(
                     clip: Clip.hardEdge,
-                    child: OaAnnounceTile(record).hero(record.uuid),
+                    child: OaAnnounceTile(record)
+                        .hero(record.uuid),
                   );
                 },
               )
