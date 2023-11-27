@@ -9,7 +9,6 @@ class DetailListTile extends StatelessWidget {
   final Widget? leading;
   final Widget? trailing;
   final bool copyable;
-
   const DetailListTile({
     super.key,
     this.title,

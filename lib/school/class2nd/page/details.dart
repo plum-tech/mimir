@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/widgets/html.dart';
 import 'package:rettulf/rettulf.dart';
@@ -193,70 +194,59 @@ class _ActivityDetailsInfoTabViewState extends State<ActivityDetailsInfoTabView>
       child: CustomScrollView(
         slivers: [
           SliverList.list(children: [
-            ListTile(
-              title: i18n.info.name.text(),
-              subtitle: title.text(),
-              visualDensity: VisualDensity.compact,
+            DetailListTile(
+              title: i18n.info.name,
+              subtitle: title,
             ),
             if (time != null)
-              ListTile(
-                title: i18n.info.startTime.text(),
-                subtitle: context.formatYmdhmNum(time).text(),
-                visualDensity: VisualDensity.compact,
+              DetailListTile(
+                title: i18n.info.startTime,
+                subtitle: context.formatYmdhmNum(time),
               ),
             if (details != null) ...[
               if (details.place != null)
-                ListTile(
-                  title: i18n.info.location.text(),
-                  subtitle: details.place!.text(),
-                  visualDensity: VisualDensity.compact,
+                DetailListTile(
+                  title: i18n.info.location,
+                  subtitle: details.place!,
                 ),
               if (details.principal != null)
-                ListTile(
-                  title: i18n.info.principal.text(),
-                  subtitle: details.principal!.text(),
-                  visualDensity: VisualDensity.compact,
+                DetailListTile(
+                  title: i18n.info.principal,
+                  subtitle: details.principal!,
                 ),
               if (details.organizer != null)
-                ListTile(
-                  title: i18n.info.organizer.text(),
-                  subtitle: details.organizer!.text(),
-                  visualDensity: VisualDensity.compact,
+                DetailListTile(
+                  title: i18n.info.organizer,
+                  subtitle: details.organizer!,
                 ),
               if (details.undertaker != null)
-                ListTile(
-                  title: i18n.info.undertaker.text(),
-                  subtitle: details.undertaker!.text(),
-                  visualDensity: VisualDensity.compact,
+                DetailListTile(
+                  title: i18n.info.undertaker,
+                  subtitle: details.undertaker!,
                 ),
               if (details.contactInfo != null)
-                ListTile(
-                  title: i18n.info.contactInfo.text(),
-                  subtitle: details.contactInfo!.text(),
-                  visualDensity: VisualDensity.compact,
+                DetailListTile(
+                  title: i18n.info.contactInfo,
+                  subtitle: details.contactInfo!,
                 ),
               if (tags.isNotEmpty)
                 ListTile(
                   isThreeLine: true,
                   title: i18n.info.tags.text(),
                   subtitle: ActivityTagsGroup(tags),
-                  visualDensity: VisualDensity.compact,
                 ),
-              ListTile(
-                title: i18n.info.signInTime.text(),
-                subtitle: context.formatYmdhmNum(details.signStartTime).text(),
-                visualDensity: VisualDensity.compact,
+              DetailListTile(
+                title: i18n.info.signInTime,
+                subtitle: context.formatYmdhmNum(details.signStartTime),
               ),
-              ListTile(
-                title: i18n.info.signOutTime.text(),
-                subtitle: context.formatYmdhmNum(details.signEndTime).text(),
-                visualDensity: VisualDensity.compact,
+              DetailListTile(
+                title: i18n.info.signOutTime,
+                subtitle: context.formatYmdhmNum(details.signEndTime),
               ),
               if (details.duration != null)
-                ListTile(
-                  title: i18n.info.duration.text(),
-                  subtitle: details.duration!.text(),
-                  visualDensity: VisualDensity.compact,
+                DetailListTile(
+                  title: i18n.info.duration,
+                  subtitle: details.duration!,
                 ),
             ],
           ]),
