@@ -14,7 +14,7 @@ class BookInfoService {
 
   const BookInfoService();
 
-  Future<BookInfo> query(String bookId) async {
+  Future<BookDetails> query(String bookId) async {
     final response = await session.request(
       '${LibraryConst.bookUrl}/$bookId',
       options: Options(
@@ -57,20 +57,22 @@ class BookInfoService {
             ),
           ),
     );
-    return createBookInfo(rawDetails);
+    return parseBookDetails(rawDetails);
   }
 
-  BookInfo createBookInfo(LinkedHashMap<String, String> rawDetails) {
-    final isbnAndPriceStr = rawDetails['ISBN']!;
-    final isbnAndPrice = isbnAndPriceStr.split('价格：');
+  BookDetails parseBookDetails(Map<String, String> details) {
+    final isbnAndPrice = details['ISBN']!.split('价格：');
     final isbn = isbnAndPrice[0];
     final price = isbnAndPrice[1];
+    details["ISBN"] = isbn;
+    details["价格"] = price;
 
-    return BookInfo(
-      title: rawDetails.entries.first.value,
-      isbn: isbn,
-      price: price,
-      rawDetails: rawDetails,
+    final classAndEdition = details['中图分类法']!.split('版次：');
+    details["中图分类法"] = classAndEdition[0];
+    details["版次"] = classAndEdition[1];
+
+    return BookDetails(
+      details: details,
     );
   }
 }

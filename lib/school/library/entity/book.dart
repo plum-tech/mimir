@@ -52,16 +52,10 @@ class BookSearchResult {
   }
 }
 
-class BookInfo {
-  final String title;
-  final String isbn;
-  final String price;
-  final Map<String, String> rawDetails;
+class BookDetails {
+  final Map<String, String> details;
 
-  const BookInfo({
-    required this.title,
-    required this.isbn,
-    required this.price,
-    required this.rawDetails,
+  const BookDetails({
+    required this.details,
   });
 }

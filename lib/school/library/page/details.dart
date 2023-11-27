@@ -26,7 +26,7 @@ class BookDetailsPage extends StatefulWidget {
 }
 
 class _BookDetailsPageState extends State<BookDetailsPage> {
-  BookInfo? info;
+  BookDetails? info;
   bool isFetching = false;
 
   @override
@@ -161,14 +161,14 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
     );
   }
 
-  Widget buildBookDetails(BookInfo info) {
+  Widget buildBookDetails(BookDetails info) {
     return Table(
       columnWidths: const {
         0: FlexColumnWidth(2),
         1: FlexColumnWidth(5),
       },
       // border: TableBorder.all(color: Colors.red),
-      children: info.rawDetails.entries
+      children: info.details.entries
           .map(
             (e) => TableRow(
               children: [
