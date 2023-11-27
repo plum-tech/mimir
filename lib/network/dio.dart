@@ -9,15 +9,12 @@ import 'package:sit/r.dart';
 
 final _rand = Random();
 
-/// 用于初始化Dio,全局只有一份dio对象
 class DioInit {
-  /// 初始化SessionPool
   static Future<Dio> init({
     required CookieJar cookieJar,
     BaseOptions? config,
   }) async {
-    // 设置 HTTP 代理
-    Dio dio = Dio();
+    final dio = Dio();
     if (!kIsWeb) {
       dio.interceptors.add(CookieManager(cookieJar));
     }

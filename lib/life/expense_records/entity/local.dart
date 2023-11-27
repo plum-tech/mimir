@@ -9,7 +9,7 @@ import 'remote.dart';
 
 part 'local.g.dart';
 
-@HiveType(typeId: HiveTypeExpenseRecords.transaction)
+@HiveType(typeId: CacheHiveType.expenseTransaction)
 class Transaction {
   /// The compound of [TransactionRaw.date] and [TransactionRaw.time].
   @HiveField(0)
@@ -113,7 +113,7 @@ extension TransactionX on Transaction {
   }
 }
 
-@HiveType(typeId: HiveTypeExpenseRecords.transactionType)
+@HiveType(typeId: CacheHiveType.expenseTransactionType)
 enum TransactionType {
   @HiveField(0)
   water((UniconsLine.water_glass, Color(0xff8acde1)), isConsume: true),

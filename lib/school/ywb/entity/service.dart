@@ -3,11 +3,11 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/storage/hive/type_id.dart';
 import 'package:sit/utils/iconfont.dart';
 
-part 'meta.g.dart';
+part 'service.g.dart';
 
 @JsonSerializable(createToJson: false)
-@HiveType(typeId: HiveTypeYwb.meta)
-class YwbApplicationMeta {
+@HiveType(typeId: CacheHiveType.ywbService)
+class YwbService {
   @JsonKey(name: 'appID')
   @HiveField(0)
   final String id;
@@ -29,7 +29,7 @@ class YwbApplicationMeta {
 
   IconData get icon => IconFont.query(iconName);
 
-  const YwbApplicationMeta({
+  const YwbService({
     required this.id,
     required this.name,
     required this.summary,
@@ -38,7 +38,7 @@ class YwbApplicationMeta {
     required this.iconName,
   });
 
-  factory YwbApplicationMeta.fromJson(Map<String, dynamic> json) => _$YwbApplicationMetaFromJson(json);
+  factory YwbService.fromJson(Map<String, dynamic> json) => _$YwbServiceFromJson(json);
 
   @override
   String toString() {
@@ -53,14 +53,14 @@ class YwbApplicationMeta {
   }
 }
 
-@HiveType(typeId: HiveTypeYwb.metaDetails)
-class YwbApplicationMetaDetails {
+@HiveType(typeId: CacheHiveType.ywbServiceDetails)
+class YwbServiceDetails {
   @HiveField(0)
   final String id;
   @HiveField(1)
-  final List<YwbApplicationMetaDetailSection> sections;
+  final List<YwbServiceDetailSection> sections;
 
-  const YwbApplicationMetaDetails({
+  const YwbServiceDetails({
     required this.id,
     required this.sections,
   });
@@ -75,8 +75,8 @@ class YwbApplicationMetaDetails {
 }
 
 @JsonSerializable(createToJson: false)
-@HiveType(typeId: HiveTypeYwb.metaDetailSection)
-class YwbApplicationMetaDetailSection {
+@HiveType(typeId: CacheHiveType.ywbServiceDetailSection)
+class YwbServiceDetailSection {
   @JsonKey(name: 'formName')
   @HiveField(0)
   final String section;
@@ -90,15 +90,14 @@ class YwbApplicationMetaDetailSection {
   @HiveField(3)
   final String content;
 
-  const YwbApplicationMetaDetailSection({
+  const YwbServiceDetailSection({
     required this.type,
     required this.section,
     required this.createTime,
     required this.content,
   });
 
-  factory YwbApplicationMetaDetailSection.fromJson(Map<String, dynamic> json) =>
-      _$YwbApplicationMetaDetailSectionFromJson(json);
+  factory YwbServiceDetailSection.fromJson(Map<String, dynamic> json) => _$YwbServiceDetailSectionFromJson(json);
 
   @override
   String toString() {
@@ -111,7 +110,7 @@ class YwbApplicationMetaDetailSection {
   }
 }
 
-extension YwbApplicationMetaDetailSectionX on YwbApplicationMetaDetailSection {
+extension YwbServiceDetailSectionX on YwbServiceDetailSection {
   bool get isEmpty => content.isEmpty;
 
   bool get isNotEmpty => content.isNotEmpty;

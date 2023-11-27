@@ -5,7 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:sit/init.dart';
 
 class AuthSession {
-  static final String _ocrServerUrl = utf8.decode(base64Decode('aHR0cHM6Ly9hcGkua2l0ZS5zdW5ueXNhYi5jbi9hcGkvb2NyL2NhcHRjaGE='));
+  static final String _ocrServerUrl =
+      utf8.decode(base64Decode('aHR0cHM6Ly9hcGkua2l0ZS5zdW5ueXNhYi5jbi9hcGkvb2NyL2NhcHRjaGE='));
 
   static Dio get dio => Init.dio;
 

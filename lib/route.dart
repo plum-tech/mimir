@@ -256,7 +256,7 @@ final _eduEmailRoutes = [
 
 final _ywbRoute = GoRoute(
   path: "/ywb",
-  builder: (ctx, state) => const YwbApplicationMetaListPage(),
+  builder: (ctx, state) => const YwbServiceListPage(),
   redirect: _loginRequired,
   routes: [
     GoRoute(

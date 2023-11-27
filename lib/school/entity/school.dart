@@ -7,7 +7,7 @@ part 'school.g.dart';
 
 typedef SchoolYear = int;
 
-@HiveType(typeId: HiveTypeSchool.semester)
+@HiveType(typeId: CoreHiveType.semester)
 enum Semester {
   @HiveField(0)
   all,

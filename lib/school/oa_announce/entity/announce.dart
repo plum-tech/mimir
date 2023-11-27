@@ -3,14 +3,19 @@ import 'package:sit/storage/hive/type_id.dart';
 part 'announce.g.dart';
 
 /// 通知分类
-@HiveType(typeId: HiveTypeOaAnnounce.catalogue)
-class OaAnnounceCatalogue {
+enum OaAnnounceCatalogue {
+  studentAffairs(name: '学生事务', id: 'pe2362'),
+  learning(name: '学习课堂', id: 'pe2364'),
+  collegeNotification(name: '二级学院通知', id: 'pe2368'),
+  culture(name: '校园文化', id: 'pe2366'),
+  announcement(name: '公告信息', id: 'pe2367'),
+  life(name: '生活服务', id: 'pe2365'),
+  download(name: '文件下载专区', id: 'pe2382');
+
   /// 分类名
-  @HiveField(0)
   final String name;
 
   /// 分类代号(OA上命名为pen，以pe打头)
-  @HiveField(1)
   final String id;
 
   const OaAnnounceCatalogue({
@@ -20,7 +25,7 @@ class OaAnnounceCatalogue {
 }
 
 /// 某篇通知的记录信息，根据该信息可寻找到对应文章
-@HiveType(typeId: HiveTypeOaAnnounce.record)
+@HiveType(typeId: CacheHiveType.oaAnnounceRecord)
 class OaAnnounceRecord {
   /// 标题
   @HiveField(0)
@@ -62,7 +67,7 @@ class OaAnnounceRecord {
   }
 }
 
-@HiveType(typeId: HiveTypeOaAnnounce.details)
+@HiveType(typeId: CacheHiveType.oaAnnounceDetails)
 class OaAnnounceDetails {
   /// 标题
   @HiveField(0)
@@ -116,7 +121,7 @@ class OaAnnounceDetails {
   }
 }
 
-@HiveType(typeId: HiveTypeOaAnnounce.attachment)
+@HiveType(typeId: CacheHiveType.oaAnnounceAttachment)
 class OaAnnounceAttachment {
   /// 附件标题
   @HiveField(0)

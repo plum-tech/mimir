@@ -136,7 +136,9 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     return Settings.httpProxy.listenGlobalMode() >>
         (ctx, _) => ListTile(
               title: i18n.proxy.globalMode.text(),
-              subtitle: Settings.httpProxy.globalMode ? i18n.proxy.globalModeOnDesc.text() : i18n.proxy.globalModeOffDesc.text(),
+              subtitle: Settings.httpProxy.globalMode
+                  ? i18n.proxy.globalModeOnDesc.text()
+                  : i18n.proxy.globalModeOffDesc.text(),
               leading: const Icon(Icons.public),
               trailing: Switch.adaptive(
                 value: Settings.httpProxy.globalMode,

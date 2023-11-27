@@ -6,7 +6,7 @@ import 'attended.dart';
 
 part 'list.g.dart';
 
-@HiveType(typeId: HiveTypeClass2nd.activityCat)
+@HiveType(typeId: CacheHiveType.activityCat)
 enum Class2ndActivityCat {
   /// 讲座报告
   @HiveField(0)
@@ -119,7 +119,7 @@ enum Class2ndActivityCat {
   }
 }
 
-@HiveType(typeId: HiveTypeClass2nd.activity)
+@HiveType(typeId: CacheHiveType.activity)
 class Class2ndActivity {
   /// Activity id
   @HiveField(0)

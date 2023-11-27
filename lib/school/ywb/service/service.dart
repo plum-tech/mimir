@@ -3,17 +3,17 @@ import 'package:sit/init.dart';
 
 import 'package:sit/session/ywb.dart';
 
-import '../entity/meta.dart';
+import '../entity/service.dart';
 
 const String _serviceFunctionList = 'https://xgfy.sit.edu.cn/app/public/queryAppManageJson';
 const String _serviceFunctionDetail = 'https://xgfy.sit.edu.cn/app/public/queryAppFormJson';
 
-class YwbApplicationMetaService {
+class YwbServiceService {
   YwbSession get session => Init.ywbSession;
 
-  const YwbApplicationMetaService();
+  const YwbServiceService();
 
-  Future<List<YwbApplicationMeta>> getApplicationMetas() async {
+  Future<List<YwbService>> getServices() async {
     final response = await session.request(
       _serviceFunctionList,
       data: '{"appObject":"student","appName":null}',
@@ -24,15 +24,15 @@ class YwbApplicationMetaService {
     );
 
     final Map<String, dynamic> data = response.data;
-    final List<YwbApplicationMeta> functionList = (data['value'] as List<dynamic>)
-        .map((e) => YwbApplicationMeta.fromJson(e))
+    final List<YwbService> functionList = (data['value'] as List<dynamic>)
+        .map((e) => YwbService.fromJson(e))
         .where((element) => element.status == 1) // Filter functions unavailable.
         .toList();
 
     return functionList;
   }
 
-  Future<YwbApplicationMetaDetails> getMetaDetails(String functionId) async {
+  Future<YwbServiceDetails> getServiceDetails(String functionId) async {
     final response = await session.request(
       _serviceFunctionDetail,
       data: '{"appID":"$functionId"}',
@@ -42,9 +42,9 @@ class YwbApplicationMetaService {
       ),
     );
     final Map<String, dynamic> data = response.data;
-    final List<YwbApplicationMetaDetailSection> sections =
-        (data['value'] as List<dynamic>).map((e) => YwbApplicationMetaDetailSection.fromJson(e)).toList();
+    final List<YwbServiceDetailSection> sections =
+        (data['value'] as List<dynamic>).map((e) => YwbServiceDetailSection.fromJson(e)).toList();
 
-    return YwbApplicationMetaDetails(id: functionId, sections: sections);
+    return YwbServiceDetails(id: functionId, sections: sections);
   }
 }

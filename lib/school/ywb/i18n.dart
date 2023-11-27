@@ -17,7 +17,7 @@ class _I18n with CommonI18nMixin {
 
   String get mineAction => mine.title;
 
-  String get noMetaTip => "$ns.noMetaTip".tr();
+  String get noServicesTip => "$ns.noServicesTip".tr();
 }
 
 class _Mine {

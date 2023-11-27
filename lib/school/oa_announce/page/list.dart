@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 
@@ -86,8 +85,7 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
                   final record = recordList[i];
                   return FilledCard(
                     clip: Clip.hardEdge,
-                    child: OaAnnounceTile(record)
-                        .hero(record.uuid),
+                    child: OaAnnounceTile(record).hero(record.uuid),
                   );
                 },
               )
@@ -110,7 +108,7 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
 
     // 获取所有分类
     // TODO: user type system
-    final catalogues = service.resolveCatalogs(OaUserType.undergraduate);
+    const catalogues = OaAnnounceCatalogue.values;
 
     // 获取所有分类中的第一页
     final futureResult = await Future.wait(catalogues.map((e) => service.queryAnnounceList(page, e.id)));

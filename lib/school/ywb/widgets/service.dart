@@ -3,10 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/meta.dart';
+import '../entity/service.dart';
 import '../page/details.dart';
 
-const List<Color> _applicationColors = <Color>[
+const List<Color> _serviceColors = <Color>[
   Colors.orangeAccent,
   Colors.redAccent,
   Colors.blueAccent,
@@ -18,16 +18,16 @@ const List<Color> _applicationColors = <Color>[
   Colors.teal,
 ];
 
-class ApplicationMetaTile extends StatelessWidget {
-  final YwbApplicationMeta meta;
+class YwbServiceTile extends StatelessWidget {
+  final YwbService meta;
   final bool isHot;
 
-  const ApplicationMetaTile({super.key, required this.meta, required this.isHot});
+  const YwbServiceTile({super.key, required this.meta, required this.isHot});
 
   @override
   Widget build(BuildContext context) {
-    final colorIndex = Random(meta.id.hashCode).nextInt(_applicationColors.length);
-    final color = _applicationColors[colorIndex];
+    final colorIndex = Random(meta.id.hashCode).nextInt(_serviceColors.length);
+    final color = _serviceColors[colorIndex];
     final style = context.textTheme.bodyMedium;
     final views = isHot
         ? [
@@ -52,7 +52,7 @@ class ApplicationMetaTile extends StatelessWidget {
       trailing: views,
       onTap: () {
         // TODO: details page
-        context.navigator.push(MaterialPageRoute(builder: (_) => YwbApplicationMetaDetailsPage(meta: meta)));
+        context.navigator.push(MaterialPageRoute(builder: (_) => YwbServiceDetailsPage(meta: meta)));
       },
     );
   }

@@ -2,7 +2,7 @@ import 'package:sit/storage/hive/type_id.dart';
 
 part 'credential.g.dart';
 
-@HiveType(typeId: HiveTypeCredentials.credentials)
+@HiveType(typeId: CoreHiveType.credentials)
 class Credentials {
   @HiveField(0)
   final String account;

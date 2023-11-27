@@ -242,7 +242,7 @@ ywb:
     此功能基於 "上应一网通办"。
     就大多數業務而言，即使你已在平台上完成申請，依舊需要到現場辦理。
   apply: 申請
-  noMetaTip: 無可用申請
+  noServicesTip: 無可用申請
   mine:
     title: 我的申請
     noApplicationsTip: 無申請

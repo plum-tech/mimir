@@ -5,7 +5,7 @@ import 'type_id.dart';
 
 class VersionAdapter extends TypeAdapter<Version> {
   @override
-  final int typeId = HiveTypeBasic.version;
+  final int typeId = CoreHiveType.version;
 
   @override
   Version read(BinaryReader reader) {
@@ -34,7 +34,7 @@ class VersionAdapter extends TypeAdapter<Version> {
 
 class ThemeModeAdapter extends TypeAdapter<ThemeMode> {
   @override
-  final int typeId = HiveTypeBasic.themeMode;
+  final int typeId = CoreHiveType.themeMode;
 
   @override
   ThemeMode read(BinaryReader reader) {
@@ -58,7 +58,7 @@ class ThemeModeAdapter extends TypeAdapter<ThemeMode> {
 /// There is no need to consider revision
 class SizeAdapter extends TypeAdapter<Size> {
   @override
-  final int typeId = HiveTypeBasic.size;
+  final int typeId = CoreHiveType.size;
 
   @override
   Size read(BinaryReader reader) {

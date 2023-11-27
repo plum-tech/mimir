@@ -8,7 +8,7 @@ part of 'credential.dart';
 
 class CredentialsAdapter extends TypeAdapter<Credentials> {
   @override
-  final int typeId = 20;
+  final int typeId = 4;
 
   @override
   Credentials read(BinaryReader reader) {

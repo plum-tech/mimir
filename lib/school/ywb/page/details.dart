@@ -4,26 +4,28 @@ import 'package:sit/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
 
-import '../entity/meta.dart';
+import '../entity/service.dart';
 import '../init.dart';
 import '../page/form.dart';
 import '../widgets/detail.dart';
 import "../i18n.dart";
 
-class YwbApplicationMetaDetailsPage extends StatefulWidget {
-  final YwbApplicationMeta meta;
+class YwbServiceDetailsPage extends StatefulWidget {
+  final YwbService meta;
 
-  const YwbApplicationMetaDetailsPage({
+  const YwbServiceDetailsPage({
     super.key,
     required this.meta,
   });
 
   @override
-  State<YwbApplicationMetaDetailsPage> createState() => _YwbApplicationMetaDetailsPageState();
+  State<YwbServiceDetailsPage> createState() => _YwbServiceDetailsPageState();
 }
 
-class _YwbApplicationMetaDetailsPageState extends State<YwbApplicationMetaDetailsPage> {
-  late YwbApplicationMetaDetails? details = YwbInit.metaStorage.getMetaDetails(widget.meta.id);
+class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
+  String get id => widget.meta.id;
+  String get name => widget.meta.name;
+  late YwbServiceDetails? details = YwbInit.serviceStorage.getServiceDetails(id);
   final controller = ScrollController();
   bool isFetching = false;
 
@@ -39,8 +41,8 @@ class _YwbApplicationMetaDetailsPageState extends State<YwbApplicationMetaDetail
       isFetching = true;
     });
     try {
-      final meta = await YwbInit.metaService.getMetaDetails(widget.meta.id);
-      YwbInit.metaStorage.setMetaDetails(widget.meta.id, meta);
+      final meta = await YwbInit.serviceService.getServiceDetails(id);
+      YwbInit.serviceStorage.setMetaDetails(id, meta);
       if (!mounted) return;
       setState(() {
         isFetching = false;
@@ -72,7 +74,7 @@ class _YwbApplicationMetaDetailsPageState extends State<YwbApplicationMetaDetail
           slivers: [
             SliverAppBar(
               floating: true,
-              title: Text(widget.meta.name).hero(widget.meta.id),
+              title: Text(name).hero(id),
               bottom: isFetching
                   ? const PreferredSize(
                       preferredSize: Size.fromHeight(4),
@@ -104,9 +106,8 @@ class _YwbApplicationMetaDetailsPageState extends State<YwbApplicationMetaDetail
     } else {
       // 跳转到申请页面
       final String applyUrl =
-          'http://ywb.sit.edu.cn/v1/#/flow?src=http://ywb.sit.edu.cn/unifri-flow/WF/MyFlow.htm?FK_Flow=${widget.meta.id}';
-      context.navigator
-          .push(MaterialPageRoute(builder: (_) => YwbInAppViewPage(title: widget.meta.name, url: applyUrl)));
+          'http://ywb.sit.edu.cn/v1/#/flow?src=http://ywb.sit.edu.cn/unifri-flow/WF/MyFlow.htm?FK_Flow=$id';
+      context.navigator.push(MaterialPageRoute(builder: (_) => YwbInAppViewPage(title: name, url: applyUrl)));
     }
   }
 }

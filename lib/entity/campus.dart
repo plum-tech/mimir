@@ -5,7 +5,7 @@ part 'campus.g.dart';
 
 typedef CampusCapability = ({bool enableElectricity});
 
-@HiveType(typeId: HiveTypeSchool.campus)
+@HiveType(typeId: CoreHiveType.campus)
 enum Campus {
   @HiveField(0)
   fengxian((enableElectricity: true)),

@@ -18,13 +18,13 @@ class DioDownloader implements Downloader {
 
   @override
   Future<void> download(
-      String url, {
-        String? savePath,
-        ProgressCallback? onReceiveProgress,
-        Map<String, String>? queryParameters,
-        data,
-        Options? options,
-      }) async {
+    String url, {
+    String? savePath,
+    ProgressCallback? onReceiveProgress,
+    Map<String, String>? queryParameters,
+    data,
+    Options? options,
+  }) async {
     await dio.download(
       url,
       savePath,
@@ -41,13 +41,13 @@ mixin DioDownloaderMixin implements Downloader {
 
   @override
   Future<void> download(
-      String url, {
-        String? savePath,
-        ProgressCallback? onReceiveProgress,
-        Map<String, String>? queryParameters,
-        data,
-        Options? options,
-      }) async {
+    String url, {
+    String? savePath,
+    ProgressCallback? onReceiveProgress,
+    Map<String, String>? queryParameters,
+    data,
+    Options? options,
+  }) async {
     await DioDownloader(dio).download(
       url,
       savePath: savePath,

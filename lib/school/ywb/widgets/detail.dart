@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:sit/widgets/html.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/meta.dart';
+import '../entity/service.dart';
 
 class YwbApplicationDetailSectionBlock extends StatelessWidget {
-  final YwbApplicationMetaDetailSection section;
+  final YwbServiceDetailSection section;
 
   const YwbApplicationDetailSectionBlock(this.section, {super.key});
 

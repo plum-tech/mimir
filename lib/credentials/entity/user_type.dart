@@ -8,7 +8,7 @@ typedef UserCapability = ({
   bool enableExamResult,
 });
 
-@HiveType(typeId: HiveTypeCredentials.oaUserType)
+@HiveType(typeId: CoreHiveType.oaUserType)
 enum OaUserType {
   @HiveField(0)
   undergraduate((

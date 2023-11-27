@@ -5,7 +5,7 @@ import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/life/electricity/entity/balance.dart';
 import 'package:sit/life/expense_records/entity/local.dart';
-import 'package:sit/school/ywb/entity/meta.dart';
+import 'package:sit/school/ywb/entity/service.dart';
 import 'package:sit/school/ywb/entity/application.dart';
 import 'package:sit/school/exam_result/entity/result.dart';
 import 'package:sit/school/oa_announce/entity/announce.dart';
@@ -16,7 +16,7 @@ import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/yellow_pages/entity/contact.dart';
 import 'package:sit/storage/hive/init.dart';
 
-import 'builtins.dart';
+import 'builtin.dart';
 
 class HiveAdapter {
   HiveAdapter._();
@@ -32,6 +32,9 @@ class HiveAdapter {
     hive.addAdapter(CredentialsAdapter());
     hive.addAdapter(LoginStatusAdapter());
     hive.addAdapter(OaUserTypeAdapter());
+
+    // School
+    hive.addAdapter(SemesterAdapter());
   }
 
   static void registerCacheAdapters(HiveInterface hive) {
@@ -49,21 +52,19 @@ class HiveAdapter {
 
     // OA Announcement
     hive.addAdapter(OaAnnounceDetailsAdapter());
-    hive.addAdapter(OaAnnounceCatalogueAdapter());
     hive.addAdapter(OaAnnounceRecordAdapter());
     hive.addAdapter(OaAnnounceAttachmentAdapter());
 
     // Application
-    hive.addAdapter(YwbApplicationMetaDetailSectionAdapter());
-    hive.addAdapter(YwbApplicationMetaDetailsAdapter());
-    hive.addAdapter(YwbApplicationMetaAdapter());
+    hive.addAdapter(YwbServiceDetailSectionAdapter());
+    hive.addAdapter(YwbServiceDetailsAdapter());
+    hive.addAdapter(YwbServiceAdapter());
     hive.addAdapter(YwbApplicationAdapter());
     hive.addAdapter(YwbApplicationTrackAdapter());
 
     // Exam Result
     hive.addAdapter(ExamResultAdapter());
     hive.addAdapter(ExamResultItemAdapter());
-    hive.addAdapter(SemesterAdapter());
 
     // Library
     // ~LibrarySearchHistoryItemAdapter();

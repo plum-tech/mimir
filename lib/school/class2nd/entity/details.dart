@@ -2,7 +2,7 @@ import 'package:sit/storage/hive/type_id.dart';
 
 part 'details.g.dart';
 
-@HiveType(typeId: HiveTypeClass2nd.activityDetails)
+@HiveType(typeId: CacheHiveType.activityDetails)
 class Class2ndActivityDetails {
   /// Activity id
   @HiveField(0)

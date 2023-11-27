@@ -20,7 +20,7 @@ DateTime _parseTimestamp(dynamic ts) {
 }
 
 @JsonSerializable(createToJson: false)
-@HiveType(typeId: HiveTypeYwb.application)
+@HiveType(typeId: CacheHiveType.ywbApplication)
 class YwbApplication {
   @JsonKey(name: 'WorkID')
   @HiveField(0)
@@ -84,7 +84,7 @@ class YwbApplication {
 }
 
 @JsonSerializable(createToJson: false)
-@HiveType(typeId: HiveTypeYwb.applicationTrack)
+@HiveType(typeId: CacheHiveType.ywbApplicationTrack)
 class YwbApplicationTrack {
   @JsonKey(name: "ActionType")
   @HiveField(0)

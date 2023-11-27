@@ -7,7 +7,7 @@ import 'package:sit/storage/hive/type_id.dart';
 
 part 'attended.g.dart';
 
-@HiveType(typeId: HiveTypeClass2nd.scoreSummary)
+@HiveType(typeId: CacheHiveType.class2ndScoreSummary)
 class Class2ndScoreSummary {
   /// 主题报告
   @HiveField(0)
@@ -66,7 +66,7 @@ class Class2ndScoreSummary {
   }
 }
 
-@HiveType(typeId: HiveTypeClass2nd.scoreItem)
+@HiveType(typeId: CacheHiveType.class2ndScoreItem)
 class Class2ndScoreItem {
   /// 活动名称
   @HiveField(0)
@@ -116,7 +116,7 @@ class Class2ndScoreItem {
   }
 }
 
-@HiveType(typeId: HiveTypeClass2nd.activityApplication)
+@HiveType(typeId: CacheHiveType.class2ndActivityApplication)
 class Class2ndActivityApplication {
   /// 申请编号
   @HiveField(0)
@@ -166,7 +166,7 @@ class Class2ndActivityApplication {
   }
 }
 
-@HiveType(typeId: HiveTypeClass2nd.scoreType)
+@HiveType(typeId: CacheHiveType.class2ndScoreType)
 enum Class2ndScoreType {
   /// 讲座报告
   @HiveField(0)
