@@ -78,7 +78,6 @@ class EntryCard extends StatelessWidget {
   final List<EntryAction> Function(BuildContext context) actions;
   final EntrySelectAction Function(BuildContext context) selectAction;
   final EntryDeleteAction Function(BuildContext context)? deleteAction;
-  final EntryDetailsAction Function(BuildContext context) detailsAction;
 
   const EntryCard({
     super.key,
@@ -87,7 +86,6 @@ class EntryCard extends StatelessWidget {
     required this.itemBuilder,
     required this.actions,
     required this.selectAction,
-    required this.detailsAction,
     this.detailsBuilder,
     this.deleteAction,
   });
@@ -99,16 +97,26 @@ class EntryCard extends StatelessWidget {
 
   Widget buildMaterialCard(BuildContext context) {
     final actions = this.actions(context);
-    final body = [
-      ...itemBuilder(context, null),
-      OverflowBar(
-        alignment: MainAxisAlignment.spaceBetween,
-        children: [
-          buildMaterialMainActions(context, actions.where((action) => action.main).toList()),
-          buildMaterialActionPopup(context, actions.where((action) => !action.main).toList()),
-        ],
-      ),
-    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15);
+    final body = InkWell(
+      child: [
+        ...itemBuilder(context, null),
+        OverflowBar(
+          alignment: MainAxisAlignment.spaceBetween,
+          children: [
+            buildMaterialMainActions(context, actions.where((action) => action.main).toList()),
+            buildMaterialActionPopup(context, actions.where((action) => !action.main).toList()),
+          ],
+        ),
+      ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15),
+      onTap: () async {
+        await context.show$Sheet$((context) => EntryDetailsPage(
+              title: title,
+              itemBuilder: (ctx) => itemBuilder(ctx, null),
+              detailsBuilder: detailsBuilder,
+              selected: selected,
+            ));
+      },
+    );
     return selected
         ? body.inFilledCard(
             clip: Clip.hardEdge,
@@ -273,30 +281,11 @@ class EntryCard extends StatelessWidget {
   }
 
   Widget buildMaterialActionPopup(BuildContext context, List<EntryAction> secondaryActions) {
-    final detailsAction = this.detailsAction(context);
     return PopupMenuButton(
       position: PopupMenuPosition.under,
       padding: EdgeInsets.zero,
       itemBuilder: (ctx) {
         final all = <PopupMenuEntry>[];
-        all.add(PopupMenuItem(
-          child: ListTile(
-            leading: Icon(detailsAction.icon),
-            title: detailsAction.label.text(),
-          ),
-          onTap: () async {
-            await context.navigator.push(
-              MaterialPageRoute(
-                builder: (ctx) => EntryDetailsPage(
-                  title: title,
-                  itemBuilder: (ctx) => itemBuilder(ctx, null),
-                  detailsBuilder: detailsBuilder,
-                  selected: selected,
-                ),
-              ),
-            );
-          },
-        ));
         for (final action in secondaryActions) {
           final callback = action.action;
           all.add(PopupMenuItem(

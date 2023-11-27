@@ -192,10 +192,6 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
                   }
                 },
               ),
-      detailsAction: (ctx) => EntryDetailsAction(
-        label: i18n.p13n.palette.details,
-        icon: Icons.details,
-      ),
       actions: (ctx) => [
         if (palette is! BuiltinTimetablePalette)
           EntryAction(

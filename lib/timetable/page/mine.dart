@@ -177,10 +177,6 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           }
         },
       ),
-      detailsAction: (ctx) => EntryDetailsAction(
-        label: i18n.mine.details,
-        icon: Icons.details,
-      ),
       actions: (ctx) => [
         if (!selected)
           EntryAction(
