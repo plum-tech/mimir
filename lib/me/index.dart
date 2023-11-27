@@ -51,15 +51,23 @@ class _MePageState extends State<MePage> {
           const SliverToBoxAdapter(
             child: NetworkToolAppCard(),
           ),
-          SliverToBoxAdapter(
-            child: buildGroupInvitation(),
-          ),
+          SliverList.list(children: [
+            buildGroupInvitationTile(),
+            ListTile(
+              leading: const Icon(Icons.videogame_asset),
+              title: "2048 Game".text(),
+              trailing: const Icon(Icons.navigate_next),
+              onTap: () async {
+                await context.push("/game/2048");
+              },
+            )
+          ]),
         ],
       ),
     );
   }
 
-  Widget buildGroupInvitation() {
+  Widget buildGroupInvitationTile() {
     return ListTile(
       title: "预览版 QQ交流群".text(),
       subtitle: _qGroupNumber.text(),

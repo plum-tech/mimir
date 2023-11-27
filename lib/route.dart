@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/game/2048/index.dart';
 import 'package:sit/index.dart';
 import 'package:sit/me/edu_email/page/login.dart';
 import 'package:sit/me/edu_email/page/outbox.dart';
@@ -330,6 +331,12 @@ final _browserRoute = GoRoute(
     throw 404;
   },
 );
+final _gameRoutes = [
+  GoRoute(
+    path: "/game/2048",
+    builder: (ctx, state) => const Game2048Page(),
+  ),
+];
 
 GoRouter buildRouter(ValueNotifier<RoutingConfig> $routingConfig) {
   return GoRouter.routingConfig(
@@ -394,6 +401,7 @@ RoutingConfig buildCommonRoutingConfig() {
       _teacherEvalRoute,
       _loginRoute,
       _imageRoute,
+      ..._gameRoutes,
     ],
   );
 }
@@ -424,6 +432,7 @@ RoutingConfig buildTimetableFocusRouter() {
       _teacherEvalRoute,
       _loginRoute,
       _imageRoute,
+      ..._gameRoutes,
     ],
   );
 }
