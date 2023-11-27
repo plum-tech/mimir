@@ -6,7 +6,7 @@ import 'package:encrypt/encrypt.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/exception/session.dart';
 import 'package:sit/init.dart';
-import 'package:sit/utils/dio_utils.dart';
+import 'package:sit/utils/dio.dart';
 
 const _opacUrl = 'http://210.35.66.106/opac';
 const _pemUrl = '$_opacUrl/certificate/pem';
@@ -41,11 +41,9 @@ class LibraryAuthService {
         'returnUrl': '',
         'password': '',
       },
-      options: DioUtils.NON_REDIRECT_OPTION_WITH_FORM_TYPE.copyWith(
-        contentType: Headers.formUrlEncodedContentType,
-      ),
+      options: disableRedirectFormEncodedOptions(),
     );
-    return DioUtils.processRedirect(dio, response);
+    return processRedirect(dio, response);
   }
 
   Future<String> _encryptPassword(String password) async {

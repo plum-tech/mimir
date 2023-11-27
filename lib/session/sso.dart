@@ -17,7 +17,7 @@ import 'package:sit/session/widgets/scope.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:encrypt/encrypt.dart';
 
-import '../utils/dio_utils.dart';
+import '../utils/dio.dart';
 
 const _neededHeaders = {
   "Accept-Encoding": "gzip, deflate, br",
@@ -152,7 +152,7 @@ class SsoSession with DioDownloaderMixin {
         onReceiveProgress: onReceiveProgress,
       );
       // 处理重定向
-      return await DioUtils.processRedirect(dio, response, headers: _neededHeaders);
+      return await processRedirect(dio, response, headers: _neededHeaders);
     }
 
     // 第一次先正常请求
@@ -339,7 +339,7 @@ class SsoSession with DioDownloaderMixin {
           headers: _neededHeaders,
         ));
     // 处理重定向
-    return await DioUtils.processRedirect(dio, res, headers: _neededHeaders);
+    return await processRedirect(dio, res, headers: _neededHeaders);
   }
 
   Future<Response> request(
