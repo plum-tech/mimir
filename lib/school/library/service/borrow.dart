@@ -117,6 +117,6 @@ class LibraryBorrowService {
     );
     final renewHtml = BeautifulSoup(renewRes.data);
     final result = renewHtml.find('div', id: 'content')!.text;
-    return result;
+    return result.replaceAll(RegExp(r"\s+"), "");
   }
 }

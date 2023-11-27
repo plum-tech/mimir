@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/library/entity/book.dart';
@@ -102,7 +103,9 @@ class BorrowedBookCard extends StatelessWidget {
           Divider(color: context.colorScheme.onSurfaceVariant),
           FilledButton.icon(
             onPressed: () async {
-              await LibraryInit.borrowService.renewBook(barcodeList: [book.barcode]);
+              final result = await LibraryInit.borrowService.renewBook(barcodeList: [book.barcode]);
+              if (!context.mounted) return;
+              await context.showTip(title: "Result", ok: i18n.ok, desc: result);
             },
             icon: const Icon(Icons.autorenew),
             label: "Renew".text(),
