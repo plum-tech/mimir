@@ -10,7 +10,7 @@ issue_tracker: https://github.com/liplum/mimir/issues
 documentation: https://github.com/liplum/mimir#readme
 
 publish_to: none
-environment: { sdk: '>=3.0.0 <4.0.0', flutter: ^3.16.0 }
+environment: { sdk: '>=3.0.0 <4.0.0', flutter: ^3.16.1 }
 
 dependencies:
   flutter: { sdk: flutter }
@@ -68,7 +68,7 @@ dependencies:
   webview_flutter: ^4.4.2
   fk_user_agent: ^2.1.0
   flutter_widget_from_html: ^0.14.6
-  chewie: ^1.7.1
+  chewie: ^1.7.2
   cookie_jar: ^4.0.8
   flutter_html: ^3.0.0-beta.2
 
@@ -107,7 +107,7 @@ dependencies:
   qr_flutter: ^4.1.0
   pretty_qr_code: ^3.0.0
   # qrcode scanner
-  mobile_scanner: ^3.5.4
+  mobile_scanner: ^3.5.5
   cached_network_image: ^3.3.0
   modal_bottom_sheet: ^3.0.0-pre
   auto_size_text: ^3.0.0

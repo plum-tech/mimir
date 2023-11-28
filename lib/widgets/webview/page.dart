@@ -4,6 +4,7 @@ import 'package:sit/l10n/common.dart';
 import 'package:sit/widgets/webview/injectable.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:text_scroll/text_scroll.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -149,7 +150,7 @@ class _WebViewPageState extends State<WebViewPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(curTitle),
+          title: TextScroll(curTitle),
           actions: actions,
           bottom: buildTopIndicator(),
         ),
