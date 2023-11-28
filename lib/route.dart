@@ -270,9 +270,10 @@ final _imageRoute = GoRoute(
   path: "/image",
   builder: (ctx, state) {
     final extra = state.extra;
-    if (extra is String?) {
+    final data = state.uri.queryParameters["origin"] ?? extra as String?;
+    if (data != null) {
       return ImageViewPage(
-        extra,
+        data,
         title: state.uri.queryParameters["title"],
       );
     }
