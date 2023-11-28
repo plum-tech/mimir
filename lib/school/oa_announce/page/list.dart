@@ -108,7 +108,7 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
 
     // 获取所有分类
     // TODO: user type system
-    const catalogues = OaAnnounceCatalogue.values;
+    const catalogues = OaAnnounceCat.values;
 
     // 获取所有分类中的第一页
     final futureResult = await Future.wait(catalogues.map((e) => service.queryAnnounceList(page, e.id)));
@@ -118,5 +118,95 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
       (List<OaAnnounceRecord> previousValue, OaAnnounceListPayload page) => previousValue + page.items,
     ).toList();
     return records;
+  }
+}
+
+class OaAnnounceLoadingList extends StatefulWidget {
+  final OaAnnounceCat cat;
+  final ValueChanged<bool> onLoadingChanged;
+
+  const OaAnnounceLoadingList({
+    super.key,
+    required this.cat,
+    required this.onLoadingChanged,
+  });
+
+  @override
+  State<OaAnnounceLoadingList> createState() => _OaAnnounceLoadingListState();
+}
+
+class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with AutomaticKeepAliveClientMixin {
+  int lastPage = 1;
+  bool isFetching = false;
+  late List<OaAnnounceRecord> announcements =
+      // Class2ndInit.activityStorage.getActivities(widget.cat)??
+      <OaAnnounceRecord>[];
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero).then((value) async {
+      await loadMore();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return NotificationListener<ScrollNotification>(
+      onNotification: (event) {
+        if (event.metrics.pixels >= event.metrics.maxScrollExtent) {
+          loadMore();
+        }
+        return true;
+      },
+      child: CustomScrollView(
+        // CAN'T USE ScrollController, and I don't know why
+        // controller: scrollController,
+        slivers: <Widget>[
+          SliverOverlapInjector(
+            // This is the flip side of the SliverOverlapAbsorber above.
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+          ),
+          SliverList.builder(
+            itemCount: announcements.length,
+            itemBuilder: (ctx, index) {
+              return FilledCard(
+                clip: Clip.hardEdge,
+                child: OaAnnounceTile(announcements[index]),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> loadMore() async {
+    if (isFetching) return;
+    if (!mounted) return;
+    setState(() {
+      isFetching = true;
+    });
+    widget.onLoadingChanged(true);
+    try {
+      if (!mounted) return;
+      setState(() {
+        lastPage++;
+        isFetching = false;
+      });
+      widget.onLoadingChanged(false);
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      if (!mounted) return;
+      setState(() {
+        isFetching = false;
+      });
+      widget.onLoadingChanged(false);
+    }
   }
 }

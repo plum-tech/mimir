@@ -3,7 +3,7 @@ import 'package:sit/storage/hive/type_id.dart';
 part 'announce.g.dart';
 
 /// 通知分类
-enum OaAnnounceCatalogue {
+enum OaAnnounceCat {
   studentAffairs(name: '学生事务', id: 'pe2362'),
   learning(name: '学习课堂', id: 'pe2364'),
   collegeNotification(name: '二级学院通知', id: 'pe2368'),
@@ -18,7 +18,7 @@ enum OaAnnounceCatalogue {
   /// 分类代号(OA上命名为pen，以pe打头)
   final String id;
 
-  const OaAnnounceCatalogue({
+  const OaAnnounceCat({
     required this.name,
     required this.id,
   });

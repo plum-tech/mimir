@@ -16,9 +16,9 @@ class OaAnnounceStorage {
   const OaAnnounceStorage();
 
   /// 获取所有的分类信息
-  List<OaAnnounceCatalogue>? get allCatalogues => (box.get(_K.catalogues) as List?)?.cast<OaAnnounceCatalogue>();
+  List<OaAnnounceCat>? get allCatalogues => (box.get(_K.catalogues) as List?)?.cast<OaAnnounceCat>();
 
-  set allCatalogues(List<OaAnnounceCatalogue>? newV) => box.put(_K.catalogues, newV);
+  set allCatalogues(List<OaAnnounceCat>? newV) => box.put(_K.catalogues, newV);
 
   List<OaAnnounceRecord>? get recordList => (box.get(_K.recordList) as List?)?.cast<OaAnnounceRecord>();
 

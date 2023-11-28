@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/utils/collection.dart';
 
 import '../entity/list.dart';
 import '../init.dart';
@@ -97,8 +98,6 @@ class ActivityLoadingList extends StatefulWidget {
   State<StatefulWidget> createState() => _ActivityLoadingListState();
 }
 
-/// Note: Changing orientation will cause a rebuild.
-/// The solution is to use any state manager framework, such as `provider`.
 class _ActivityLoadingListState extends State<ActivityLoadingList> with AutomaticKeepAliveClientMixin {
   int lastPage = 1;
   bool isFetching = false;
@@ -112,7 +111,7 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
   void initState() {
     super.initState();
     Future.delayed(Duration.zero).then((value) async {
-      await loadMoreActivities();
+      await loadMore();
     });
   }
 
@@ -122,7 +121,7 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
     return NotificationListener<ScrollNotification>(
       onNotification: (event) {
         if (event.metrics.pixels >= event.metrics.maxScrollExtent) {
-          loadMoreActivities();
+          loadMore();
         }
         return true;
       },
@@ -153,7 +152,7 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
     );
   }
 
-  Future<void> loadMoreActivities() async {
+  Future<void> loadMore() async {
     if (isFetching) return;
     if (!mounted) return;
     setState(() {
@@ -185,18 +184,3 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
   }
 }
 
-extension DistinctEx<E> on List<E> {
-  List<E> distinct({bool inplace = true}) {
-    final ids = <E>{};
-    var list = inplace ? this : List<E>.from(this);
-    list.retainWhere((x) => ids.add(x));
-    return list;
-  }
-
-  List<E> distinctBy<Id>(Id Function(E element) id, {bool inplace = true}) {
-    final ids = <Id>{};
-    var list = inplace ? this : List<E>.from(this);
-    list.retainWhere((x) => ids.add(id(x)));
-    return list;
-  }
-}
