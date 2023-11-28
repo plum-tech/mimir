@@ -112,9 +112,9 @@ Future<void> _onDownloadFile({
 }) async {
   debugPrint('Start downloading [$name]($url) to $target');
   // 如果文件不存在，那么下载文件
-  await OaAnnounceInit.service.session.download(
+  await OaAnnounceInit.service.session.dio.download(
     url,
-    savePath: target.path,
+    target.path,
     onReceiveProgress: (int count, int total) {
       onProgress?.call(total <= 0 ? double.nan : count / total);
     },

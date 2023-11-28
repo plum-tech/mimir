@@ -9,7 +9,6 @@ import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/exception/session.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/download.dart';
 
 import 'package:sit/route.dart';
 import 'package:sit/session/auth.dart';
@@ -31,17 +30,14 @@ const _neededHeaders = {
 };
 
 /// Single Sign-On
-class SsoSession with DioDownloaderMixin {
+class SsoSession {
   static const String _authServerUrl = 'https://authserver.sit.edu.cn/authserver';
   static const String _loginUrl = '$_authServerUrl/login';
   static const String _needCaptchaUrl = '$_authServerUrl/needCaptcha.html';
   static const String _captchaUrl = '$_authServerUrl/captcha.html';
   static const String _loginSuccessUrl = 'https://authserver.sit.edu.cn/authserver/index.do';
 
-  // http客户端对象和缓存
-  @override
   final Dio dio;
-
   final CookieJar cookieJar;
 
   /// Session错误拦截器
