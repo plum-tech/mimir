@@ -29,9 +29,10 @@ class OaAnnounceTile extends StatelessWidget {
           .map((e) => Chip(
                 label: e.trim().text(style: textTheme.bodySmall),
                 padding: EdgeInsets.zero,
+                elevation: 4,
               ))
           .toList()
-          .wrap(spacing: 8),
+          .wrap(spacing: 4),
       trailing: context.formatYmdNum(record.dateTime).text(style: textTheme.bodySmall),
       onTap: () {
         context.push("/oa-announce/details", extra: record);

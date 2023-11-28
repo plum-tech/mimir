@@ -195,6 +195,7 @@ class BorrowedBookHistoryCard extends StatelessWidget {
           book.bookId.text(),
           book.isbn.text(),
         ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
+        trailing: book.operateType.text(),
       ),
     );
   }

@@ -63,6 +63,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
     final info = this.info;
     final book = widget.bookImageHolding.book;
     final imgUrl = widget.bookImageHolding.image?.resourceLink;
+    // FIXME: always null
     final holding = widget.bookImageHolding.holding;
     return SelectionArea(
       child: Scaffold(
