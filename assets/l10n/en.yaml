@@ -173,6 +173,7 @@ class2nd:
   activity: Activity
   refreshSuccessTip: Second class score refreshed successfully
   refreshFailedTip: Failed to refresh second class score
+  noActivities: No activities
   noAttendedActivities: No attended activities
   viewDetails: View details
   apply:

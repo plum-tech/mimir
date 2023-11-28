@@ -141,7 +141,8 @@ class Class2ndScoreService {
   }
 
   static List<Class2ndActivityApplication> _parseActivityApplicationList(String htmlPage) {
-    return BeautifulSoup(htmlPage)
+    final html = BeautifulSoup(htmlPage);
+    return html
         .findAll('#content-box > div:nth-child(23) > div.table_style_4 > form > table > tbody > tr')
         .map((e) => _activityMapDetail(e))
         .where(filterDeletedActivity)

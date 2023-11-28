@@ -173,6 +173,7 @@ class2nd:
     description: 描述
   refreshSuccessTip: 第二課堂分重新整理成功
   refreshFailedTip: 第二課堂分重新整理失敗
+  noActivities: 無活動
   noAttendedActivities: 無參加過的活動
   viewDetails: 檢視詳細資料
   apply:

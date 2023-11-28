@@ -39,12 +39,13 @@ class Class2ndSession {
       );
     }
 
-    Response response = await fetch();
+    var res = await fetch();
+    final responseData = res.data;
     // 如果返回值是登录页面，那就从 SSO 跳转一次以登录.
-    if (_needRedirectToLoginPage(response.data as String)) {
+    if (responseData is String && _needRedirectToLoginPage(responseData)) {
       await _refreshCookie();
-      response = await fetch();
+      res = await fetch();
     }
-    return response;
+    return res;
   }
 }

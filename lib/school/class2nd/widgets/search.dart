@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/widgets/common.dart';
 
 import '../entity/list.dart';
 import '../init.dart';
+import '../i18n.dart';
 import '../page/details.dart';
 import 'activity.dart';
 
@@ -66,23 +68,31 @@ class _ActivityAsyncSearchListState extends State<_ActivityAsyncSearchList> {
     return CustomScrollView(
       slivers: [
         if (activityList != null)
-          SliverList.builder(
-            itemCount: activityList.length,
-            itemBuilder: (ctx, i) {
-              final activity = activityList[i];
-              return ActivityCard(
-                activity,
-                onTap: () async {
-                  await context.show$Sheet$((ctx) => Class2ndActivityDetailsPage(
-                        activityId: activity.id,
-                        title: activity.title,
-                        time: activity.time,
-                        enableApply: true,
-                      ));
-                },
-              );
-            },
-          ),
+          if (activityList.isNotEmpty)
+            SliverList.builder(
+              itemCount: activityList.length,
+              itemBuilder: (ctx, i) {
+                final activity = activityList[i];
+                return ActivityCard(
+                  activity,
+                  onTap: () async {
+                    await context.show$Sheet$((ctx) => Class2ndActivityDetailsPage(
+                          activityId: activity.id,
+                          title: activity.title,
+                          time: activity.time,
+                          enableApply: true,
+                        ));
+                  },
+                );
+              },
+            )
+          else
+            SliverFillRemaining(
+              child: LeavingBlank(
+                icon: Icons.inbox_outlined,
+                desc: i18n.noActivities,
+              ),
+            ),
       ],
     );
   }

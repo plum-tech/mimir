@@ -15,23 +15,9 @@ class Class2ndActivityService {
   static const selector = '.ul_7 li > a';
   static final dateFormatParser = DateFormat('yyyy-MM-dd hh:mm:ss');
 
-  static bool _initializedCookie = false;
-
   Class2ndSession get session => Init.class2ndSession;
 
   const Class2ndActivityService();
-
-  Future<void> _refreshCookie() async {
-    if (!_initializedCookie) {
-      await session.request(
-        'http://sc.sit.edu.cn/',
-        options: Options(
-          method: "GET",
-        ),
-      );
-      _initializedCookie = true;
-    }
-  }
 
   String generateUrl(Class2ndActivityCat category, int page, [int pageSize = 20]) {
     return 'http://sc.sit.edu.cn/public/activity/activityList.action?pageNo=$page&pageSize=$pageSize&categoryId=${category.id}';
@@ -39,7 +25,6 @@ class Class2ndActivityService {
 
   /// 获取第二课堂活动列表
   Future<List<Class2ndActivity>> getActivityList(Class2ndActivityCat type, int page) async {
-    await _refreshCookie();
     final url = generateUrl(type, page);
     final response = await session.request(
       url,
@@ -52,7 +37,6 @@ class Class2ndActivityService {
 
   Future<List<Class2ndActivity>> query(String queryString) async {
     const String url = 'http://sc.sit.edu.cn/public/activity/activityList.action';
-    await _refreshCookie();
     final response = await session.request(
       url,
       data: 'activityName=$queryString',

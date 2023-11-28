@@ -173,6 +173,7 @@ class2nd:
     description: 描述
   refreshSuccessTip: 第二课堂分刷新成功
   refreshFailedTip: 第二课堂分刷新失败
+  noActivities: 没有活动
   noAttendedActivities: 没有参加过的活动
   viewDetails: 查看详情
   apply:
