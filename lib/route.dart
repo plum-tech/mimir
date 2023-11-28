@@ -325,11 +325,14 @@ final _examResult = GoRoute(
 final _browserRoute = GoRoute(
   path: "/browser",
   builder: (ctx, state) {
-    final extra = state.extra;
-    if (extra is String) {
-      return WebViewPage(initialUrl: extra);
+    var url = state.uri.queryParameters["url"] ?? state.extra;
+    if (url is String) {
+      if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = "http://$url";
+      }
+      return WebViewPage(initialUrl: url);
     }
-    throw 404;
+    throw 400;
   },
 );
 final _gameRoutes = [

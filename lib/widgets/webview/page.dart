@@ -86,8 +86,7 @@ class WebViewPage extends StatefulWidget {
 
 class _WebViewPageState extends State<WebViewPage> {
   late WebViewController controller;
-
-  String title = const CommonI18n().untitled;
+  late String? title = Uri.tryParse(widget.initialUrl)?.authority;
   int progress = 0;
 
   @override
@@ -140,11 +139,11 @@ class _WebViewPageState extends State<WebViewPage> {
         ),
       ...?widget.otherActions,
     ];
-    final curTitle = widget.fixedTitle ?? title;
+    final curTitle = widget.fixedTitle ?? title ?? const CommonI18n().untitled;
     return WillPopScope(
       onWillPop: () async {
         final canGoBack = await controller.canGoBack();
-        if (canGoBack) controller.goBack();
+        if (canGoBack) await controller.goBack();
         // 如果wv能后退就不能退出路由
         return !canGoBack;
       },
@@ -164,7 +163,7 @@ class _WebViewPageState extends State<WebViewPage> {
             if (!mounted) return;
             if (widget.fixedTitle == null) {
               final newTitle = await controller.getTitle();
-              if (newTitle != title && newTitle != null) {
+              if (newTitle != title && newTitle != null && newTitle.isNotEmpty) {
                 setState(() {
                   title = newTitle;
                 });
