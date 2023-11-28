@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/l10n/extension.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/widgets/html.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -88,15 +90,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
                           await showApplyRequest();
                         },
                       ),
-                    IconButton(
-                      icon: const Icon(Icons.open_in_browser),
-                      onPressed: () {
-                        launchUrlString(
-                          _getActivityUrl(activityId),
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                    )
+                    buildMoreActions(),
                   ],
                   forceElevated: innerBoxIsScrolled,
                   bottom: TabBar(
@@ -127,38 +121,81 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
     );
   }
 
+  Widget buildMoreActions() {
+    return PopupMenuButton(
+      position: PopupMenuPosition.under,
+      padding: EdgeInsets.zero,
+      itemBuilder: (ctx) => <PopupMenuEntry>[
+        PopupMenuItem(
+          child: ListTile(
+            leading: const Icon(Icons.open_in_browser),
+            title: "Open in browser".text(),
+          ),
+          onTap: () async {
+            await launchUrlString(
+              _getActivityUrl(activityId),
+              mode: LaunchMode.externalApplication,
+            );
+          },
+        ),
+        if (Settings.isDeveloperMode)
+          PopupMenuItem(
+            child: ListTile(
+              leading: const Icon(Icons.send),
+              title: "Forcibly apply".text(),
+            ),
+            onTap: () async {
+              await showForciblyApplyRequest();
+            },
+          ),
+      ],
+    );
+  }
+
   Future<void> showApplyRequest() async {
     final confirm = await context.showRequest(
-        title: i18n.apply.applyRequest,
-        desc: i18n.apply.applyRequestDesc,
-        yes: i18n.confirm,
-        no: i18n.notNow,
-        highlight: true);
-    if (confirm == true) {
-      try {
-        final response = await Class2ndInit.applicationService.join(activityId);
-        if (!mounted) return;
-        await context.showTip(title: i18n.apply.replyTip, desc: response, ok: i18n.ok);
-      } catch (e) {
-        if (!mounted) return;
-        await context.showTip(
-          title: i18n.error,
-          desc: e.toString(),
-          ok: i18n.ok,
-          serious: true,
-        );
-        rethrow;
-      }
+      title: i18n.apply.applyRequest,
+      desc: i18n.apply.applyRequestDesc,
+      yes: i18n.confirm,
+      no: i18n.notNow,
+      highlight: true,
+    );
+    if (confirm != true) return;
+    try {
+      final response = await Class2ndInit.applicationService.join(activityId);
+      if (!mounted) return;
+      await context.showTip(title: i18n.apply.replyTip, desc: response, ok: i18n.ok);
+    } catch (e) {
+      if (!mounted) return;
+      await context.showTip(
+        title: i18n.error,
+        desc: e.toString(),
+        ok: i18n.ok,
+        serious: true,
+      );
+      rethrow;
     }
   }
 
-  Future<void> sendForceRequest(BuildContext context) async {
+  Future<void> showForciblyApplyRequest() async {
+    final confirm = await context.showRequest(
+      title: "Forcibly apply",
+      desc: "Confirm to apply this activity forcibly?",
+      yes: i18n.confirm,
+      no: i18n.notNow,
+      highlight: true,
+      serious: true,
+    );
+    if (confirm != true) return;
     try {
       final response = await Class2ndInit.applicationService.join(activityId, force: true);
       if (!mounted) return;
-      context.showSnackBar(content: Text(response));
-    } catch (e) {
-      context.showSnackBar(content: Text('错误: ${e.runtimeType}'), duration: const Duration(seconds: 3));
+      await context.showTip(title: i18n.apply.replyTip, desc: response, ok: i18n.ok);
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      if (!mounted) return;
+      await context.showTip(title: i18n.apply.replyTip, desc: error.toString(), ok: i18n.ok);
       rethrow;
     }
   }

@@ -157,7 +157,6 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
     if (isFetching) return;
     if (!mounted) return;
     setState(() {
-      lastPage++;
       isFetching = true;
     });
     widget.onLoadingChanged(true);
@@ -166,6 +165,7 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
       activities.addAll(lastActivities);
       // The incoming activities may be the same as before, so distinct is necessary.
       activities.distinctBy((a) => a.id);
+      activities.sort((a,b)=>b.time.compareTo(a.time));
       await Class2ndInit.activityStorage.setActivities(widget.cat, List.of(activities));
       if (!mounted) return;
       setState(() {
