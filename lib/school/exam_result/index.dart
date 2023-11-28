@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -62,15 +61,15 @@ class _ExamResultAppCardState extends State<ExamResultAppCard> {
       view: resultList != null ? buildRecentResults(resultList) : const SizedBox(),
       leftActions: [
         FilledButton.icon(
-          onPressed: () {
-            context.push("/exam-result");
+          onPressed: () async {
+            await context.push("/exam-result");
           },
           icon: const Icon(Icons.fact_check),
           label: i18n.check.text(),
         ),
         OutlinedButton(
-          onPressed: () {
-            context.push("/teacher-eval");
+          onPressed: () async {
+            await context.push("/teacher-eval");
           },
           child: i18n.teacherEval.text(),
         )

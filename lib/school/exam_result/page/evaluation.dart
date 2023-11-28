@@ -89,20 +89,24 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
           js: _skipCountingDownPageJs,
         ),
       ],
-      bottomNavigationBar: Settings.isDeveloperMode || kDebugMode ? BottomAppBar(child: buildAutofillScore()) : null,
+      bottomNavigationBar: Settings.isDeveloperMode
+          ? BottomAppBar(
+              height: 40,
+              child: buildAutofillScore(),
+            )
+          : null,
     );
   }
 
   Widget buildAutofillScore() {
     return $autoScore >>
-        (context, value) => [
-              "Fill Score：$value".text(),
-              Slider(
-                min: 0,
-                max: 100,
-                value: value.toDouble(),
-                onChanged: (v) => $autoScore.value = v.toInt(),
-              ).expanded(),
-            ].row();
+        (context, value) => Slider(
+              min: 0,
+              max: 100,
+              divisions: 100,
+              label: value.toString(),
+              value: value.toDouble(),
+              onChanged: (v) => $autoScore.value = v.toInt(),
+            );
   }
 }
