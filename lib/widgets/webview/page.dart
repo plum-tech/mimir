@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sit/design/widgets/common.dart';
 import 'package:sit/l10n/common.dart';
 import 'package:sit/widgets/webview/injectable.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -121,9 +119,6 @@ class _WebViewPageState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (UniversalPlatform.isDesktop) {
-      return LeavingBlank(icon: Icons.desktop_access_disabled_rounded);
-    }
     final actions = <Widget>[
       if (widget.showRefreshButton)
         IconButton(

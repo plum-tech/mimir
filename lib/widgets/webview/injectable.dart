@@ -10,16 +10,16 @@ typedef JavaScriptMessageCallback = void Function(JavaScriptMessage msg);
 
 class Injection {
   /// js注入的url匹配规则
-  bool Function(String url) matcher;
+  final bool Function(String url)? matcher;
 
   /// 若为空，则表示不注入
-  String? js;
+  final String? js;
 
   /// 异步js字符串，若为空，则表示不注入
-  Future<String?>? asyncJs;
+  final Future<String?>? asyncJs;
 
-  Injection({
-    required this.matcher,
+  const Injection({
+    this.matcher,
     this.js,
     this.asyncJs,
   });
@@ -52,7 +52,7 @@ class InjectableWebView extends StatefulWidget {
   final Map<String, JavaScriptMessageCallback>? javaScriptChannels;
 
   const InjectableWebView({
-    Key? key,
+    super.key,
     required this.initialUrl,
     this.controller,
     this.mode = JavaScriptMode.unrestricted,
@@ -64,7 +64,7 @@ class InjectableWebView extends StatefulWidget {
     this.userAgent,
     this.initialCookies,
     this.javaScriptChannels,
-  }) : super(key: key);
+  });
 
   @override
   State<InjectableWebView> createState() => _InjectableWebViewState();
@@ -157,7 +157,7 @@ extension _InjectionsX on List<Injection>? {
     final injections = this;
     if (injections != null) {
       for (final injection in injections) {
-        if (injection.matcher(url)) {
+        if (injection.matcher?.call(url) != false) {
           yield injection;
         }
       }

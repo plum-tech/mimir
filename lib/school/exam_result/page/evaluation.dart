@@ -5,6 +5,7 @@ import 'package:sit/init.dart';
 
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/cookies.dart';
+import 'package:sit/widgets/webview/injectable.dart';
 import 'package:sit/widgets/webview/page.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -30,6 +31,10 @@ final evaluationUri = Uri(
     // 'su': studentId,
   },
 );
+
+const _skipCountingDownPageJs = """
+onClickMenu.call(this, '/xspjgl/xspj_cxXspjIndex.html?doType=details', 'N401605', { "offDetails": "1" })
+""";
 
 class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
   final $autoScore = ValueNotifier(100);
@@ -79,6 +84,11 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
       initialUrl: evaluationUri.toString(),
       fixedTitle: i18n.teacherEvalTitle,
       initialCookies: cookies,
+      pageFinishedInjections: const [
+        Injection(
+          js: _skipCountingDownPageJs,
+        ),
+      ],
       bottomNavigationBar: Settings.isDeveloperMode || kDebugMode ? BottomAppBar(child: buildAutofillScore()) : null,
     );
   }
