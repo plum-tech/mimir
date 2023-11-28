@@ -1,27 +1,32 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:sit/storage/hive/type_id.dart';
 
 part 'announce.g.dart';
 
 /// 通知分类
 enum OaAnnounceCat {
-  studentAffairs(name: '学生事务', id: 'pe2362'),
-  learning(name: '学习课堂', id: 'pe2364'),
-  collegeNotification(name: '二级学院通知', id: 'pe2368'),
-  culture(name: '校园文化', id: 'pe2366'),
-  announcement(name: '公告信息', id: 'pe2367'),
-  life(name: '生活服务', id: 'pe2365'),
-  download(name: '文件下载专区', id: 'pe2382');
+  studentAffairs('学生事务', 'pe2362'),
+  learning('学习课堂', 'pe2364'),
+  collegeNotification('二级学院通知', 'pe2368'),
+  culture('校园文化', 'pe2366'),
+  announcement('公告信息', 'pe2367'),
+  life('生活服务', 'pe2365'),
+  download('文件下载专区', 'pe2382');
 
   /// 分类名
-  final String name;
+  final String catName;
 
   /// 分类代号(OA上命名为pen，以pe打头)
-  final String id;
+  final String internalId;
 
-  const OaAnnounceCat({
-    required this.name,
-    required this.id,
-  });
+  String l10nName() => "oaAnnounce.oaAnnounceCat.$name".tr();
+
+  static String allCatL10n() => "oaAnnounce.oaAnnounceCat.all".tr();
+
+  const OaAnnounceCat(
+    this.catName,
+    this.internalId,
+  );
 }
 
 /// 某篇通知的记录信息，根据该信息可寻找到对应文章

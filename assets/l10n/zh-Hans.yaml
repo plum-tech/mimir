@@ -560,6 +560,14 @@ oaAnnounce:
   downloading: 下载中
   publishTime: 发布时间
   publishingDepartment: 发布部门
+  oaAnnounceCat:
+    studentAffairs: 学生事务
+    learning: 学习课堂
+    collegeNotification: 二级学院通知
+    culture: 校园文化
+    announcement: 公告信息
+    life: 生活服务
+    download: 文件下载专区
 yellowPages:
   title: 学校黄页
 scanner:

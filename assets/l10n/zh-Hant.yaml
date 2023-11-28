@@ -560,6 +560,14 @@ oaAnnounce:
   downloading: 下載中
   publishTime: 發佈日期
   publishingDepartment: 部門
+  oaAnnounceCat:
+    studentAffairs: 學生事務
+    learning: 學習課堂
+    collegeNotification: 學院通知
+    culture: 校園文化
+    announcement: 公告
+    life: 生活服務
+    download: 文件下載
 yellowPages:
   title: 學校黃頁
 scanner:

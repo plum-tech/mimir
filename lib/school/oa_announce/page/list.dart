@@ -6,11 +6,22 @@ import 'package:sit/design/widgets/common.dart';
 
 import 'package:sit/school/oa_announce/widget/tile.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/utils/collection.dart';
 
 import '../entity/announce.dart';
 import '../entity/page.dart';
 import '../init.dart';
 import '../i18n.dart';
+
+const _commonOaAnnounceCats = [
+  OaAnnounceCat.studentAffairs,
+  OaAnnounceCat.learning,
+  OaAnnounceCat.announcement,
+  OaAnnounceCat.culture,
+  OaAnnounceCat.download,
+  OaAnnounceCat.collegeNotification,
+  OaAnnounceCat.life,
+];
 
 class OaAnnounceListPage extends StatefulWidget {
   const OaAnnounceListPage({super.key});
@@ -20,104 +31,61 @@ class OaAnnounceListPage extends StatefulWidget {
 }
 
 class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
-  var recordList = OaAnnounceInit.storage.recordList;
-  bool isFetching = false;
-
-  @override
-  void initState() {
-    super.initState();
-    refresh();
-  }
-
-  Future<void> refresh() async {
-    if (!mounted) return;
-    setState(() {
-      isFetching = true;
-    });
-    try {
-      final recordList = await _queryAnnounceListInAllCategory(1);
-      // 公告项按时间排序
-      recordList.sort((a, b) => b.dateTime.compareTo(a.dateTime));
-      OaAnnounceInit.storage.recordList = recordList;
-      if (!mounted) return;
-      setState(() {
-        this.recordList = recordList;
-        isFetching = false;
-      });
-    } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
-      if (!mounted) return;
-      setState(() {
-        isFetching = false;
-      });
-    }
-  }
+  final loadingStates = ValueNotifier(_commonOaAnnounceCats.map((cat) => false).toList());
 
   @override
   Widget build(BuildContext context) {
-    final recordList = this.recordList;
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            title: i18n.title.text(),
-            bottom: isFetching
-                ? const PreferredSize(
-                    preferredSize: Size.fromHeight(4),
-                    child: LinearProgressIndicator(),
-                  )
-                : null,
-          ),
-          if (recordList != null)
-            if (recordList.isEmpty)
-              SliverFillRemaining(
-                child: LeavingBlank(
-                  icon: Icons.inbox_outlined,
-                  desc: i18n.noOaAnnouncesTip,
+      bottomNavigationBar: PreferredSize(
+        preferredSize: const Size.fromHeight(4),
+        child: loadingStates >>
+            (ctx, states) {
+              return !states.any((state) => state == true) ? const SizedBox() : const LinearProgressIndicator();
+            },
+      ),
+      body: DefaultTabController(
+        length: _commonOaAnnounceCats.length,
+        child: NestedScrollView(
+          floatHeaderSlivers: true,
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            // These are the slivers that show up in the "outer" scroll view.
+            return <Widget>[
+              SliverOverlapAbsorber(
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                sliver: SliverAppBar(
+                  floating: true,
+                  title: i18n.title.text(),
+                  forceElevated: innerBoxIsScrolled,
+                  bottom: TabBar(
+                    isScrollable: true,
+                    tabs: _commonOaAnnounceCats
+                        .mapIndexed(
+                          (i, e) => Tab(
+                            child: e.l10nName().text(),
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
-              )
-            else
-              SliverList.builder(
-                itemCount: recordList.length,
-                itemBuilder: (ctx, i) {
-                  final record = recordList[i];
-                  return FilledCard(
-                    clip: Clip.hardEdge,
-                    child: OaAnnounceTile(record).hero(record.uuid),
-                  );
+              ),
+            ];
+          },
+          body: TabBarView(
+            // These are the contents of the tab views, below the tabs.
+            children: _commonOaAnnounceCats.mapIndexed((i, cat) {
+              return OaAnnounceLoadingList(
+                cat: cat,
+                onLoadingChanged: (state) {
+                  final newStates = List.of(loadingStates.value);
+                  newStates[i] = state;
+                  loadingStates.value = newStates;
                 },
-              )
-        ],
+              );
+            }).toList(),
+          ),
+        ),
       ),
     );
-  }
-
-  // TODO: move this into service folder
-  Future<List<OaAnnounceRecord>> _queryAnnounceListInAllCategory(int page) async {
-    // Make sure login.
-    await OaAnnounceInit.service.session.request(
-      'https://myportal.sit.edu.cn/',
-      options: Options(
-        method: "GET",
-      ),
-    );
-
-    final service = OaAnnounceInit.service;
-
-    // 获取所有分类
-    // TODO: user type system
-    const catalogues = OaAnnounceCat.values;
-
-    // 获取所有分类中的第一页
-    final futureResult = await Future.wait(catalogues.map((e) => service.queryAnnounceList(page, e.id)));
-    // 合并所有分类的第一页的公告项
-    final List<OaAnnounceRecord> records = futureResult.whereNotNull().fold(
-      <OaAnnounceRecord>[],
-      (List<OaAnnounceRecord> previousValue, OaAnnounceListPayload page) => previousValue + page.items,
-    ).toList();
-    return records;
   }
 }
 
@@ -193,6 +161,11 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
     });
     widget.onLoadingChanged(true);
     try {
+      final lastPayload = await OaAnnounceInit.service.getAnnounceList(widget.cat, lastPage);
+      announcements.addAll(lastPayload.items);
+      announcements.distinctBy((a) => a.uuid);
+      announcements.sort((a,b)=>b.dateTime.compareTo(a.dateTime));
+      // TODO: storage
       if (!mounted) return;
       setState(() {
         lastPage++;

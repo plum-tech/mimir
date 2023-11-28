@@ -560,6 +560,14 @@ oaAnnounce:
   downloading: Downloading
   publishTime: Publish Time
   publishingDepartment: Department
+  oaAnnounceCat:
+    studentAffairs: Student Affairs
+    learning: Learning
+    collegeNotification: College Notif.
+    culture: Culture
+    announcement: Announcement
+    life: Life
+    download: Download
 yellowPages:
   title: Yellow pages
 scanner:

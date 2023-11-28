@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:intl/intl.dart';
 import 'package:sit/init.dart';
-
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/sso.dart';
 
@@ -94,15 +93,14 @@ class OaAnnounceService {
     );
   }
 
-  Future<OaAnnounceListPayload> queryAnnounceList(int pageIndex, String bulletinCatalogueId) async {
+  Future<OaAnnounceListPayload> getAnnounceList(OaAnnounceCat cat, int pageIndex) async {
     final response = await session.request(
-      // 构造获取文章列表的url
-      'https://myportal.sit.edu.cn/detach.portal?pageIndex=$pageIndex&groupid=&action=bulletinsMoreView&.ia=false&pageSize=&.pmn=view&.pen=$bulletinCatalogueId',
+      'https://myportal.sit.edu.cn/detach.portal?pageIndex=$pageIndex&groupid=&action=bulletinsMoreView&.ia=false&pageSize=&.pmn=view&.pen=${cat.internalId}',
       options: Options(
         method: "GET",
       ),
     );
-    final soup = BeautifulSoup(response.data);
-    return _parseAnnounceListPage(soup.html!);
+    final html = BeautifulSoup(response.data);
+    return _parseAnnounceListPage(html.html!);
   }
 }
