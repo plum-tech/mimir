@@ -4,29 +4,51 @@ import 'package:sit/storage/hive/init.dart';
 import '../entity/announce.dart';
 
 class _K {
-  static const catalogues = "/catalogues";
-  static const recordList = "/recordList";
+  static String announce(String uuid) => '/announce/$uuid';
 
-  static String details(String catalogueId, String uuid) => "/details/$catalogueId/$uuid";
+  static String announceDetails(String uuid) => '/announceDetails/$uuid';
+
+  static String announceIdList(OaAnnounceCat type) => '/announceIdList/$type';
 }
 
 class OaAnnounceStorage {
   Box get box => HiveInit.oaAnnounce;
 
   const OaAnnounceStorage();
+  List<String>? getAnnounceIdList(OaAnnounceCat type) => box.get(_K.announceIdList(type));
 
-  /// 获取所有的分类信息
-  List<OaAnnounceCat>? get allCatalogues => (box.get(_K.catalogues) as List?)?.cast<OaAnnounceCat>();
+  Future<void> setAnnounceIdList(OaAnnounceCat type, List<String>? announceIdList) =>
+      box.put(_K.announceIdList(type), announceIdList);
 
-  set allCatalogues(List<OaAnnounceCat>? newV) => box.put(_K.catalogues, newV);
+  OaAnnounceRecord? getAnnounce(String uuid) => box.get(_K.announce(uuid));
 
-  List<OaAnnounceRecord>? get recordList => (box.get(_K.recordList) as List?)?.cast<OaAnnounceRecord>();
+  Future<void> setAnnounce(String uuid, OaAnnounceRecord announce) => box.put(_K.announce(uuid), announce);
 
-  set recordList(List<OaAnnounceRecord>? newV) => box.put(_K.recordList, newV);
+  OaAnnounceDetails? getAnnounceDetails(String uuid) => box.get(_K.announceDetails(uuid));
 
-  /// 获取某篇文章内容
-  OaAnnounceDetails? getAnnounceDetails(String catalogueId, String uuid) => box.get(_K.details(catalogueId, uuid));
+  Future<void> setAnnounceDetails(String uuid, OaAnnounceDetails details) => box.put(_K.announceDetails(uuid), details);
 
-  void setAnnounceDetails(String catalogueId, String uuid, OaAnnounceDetails? newV) =>
-      box.put(_K.details(catalogueId, uuid), newV);
+  List<OaAnnounceRecord>? getAnnouncements(OaAnnounceCat type) {
+    final idList = getAnnounceIdList(type);
+    if (idList == null) return null;
+    final res = <OaAnnounceRecord>[];
+    for (final id in idList) {
+      final announce = getAnnounce(id);
+      if (announce != null) {
+        res.add(announce);
+      }
+    }
+    return res;
+  }
+
+  Future<void>? setAnnouncements(OaAnnounceCat type, List<OaAnnounceRecord>? announcements) async {
+    if (announcements == null) {
+      await setAnnouncements(type, null);
+    } else {
+      await setAnnounceIdList(type, announcements.map((e) => e.uuid).toList(growable: false));
+      for (final announce in announcements) {
+        await setAnnounce(announce.uuid, announce);
+      }
+    }
+  }
 }

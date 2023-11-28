@@ -5,17 +5,11 @@ import '../entity/details.dart';
 import '../entity/list.dart';
 
 class _K {
-  static String activity(int id) {
-    return '/activities/$id';
-  }
+  static String activity(int id) => '/activities/$id';
 
-  static String activityDetails(int id) {
-    return '/activityDetails/$id';
-  }
+  static String activityDetails(int id) => '/activityDetails/$id';
 
-  static String activityIdList(Class2ndActivityCat type) {
-    return '/activityIdList/$type';
-  }
+  static String activityIdList(Class2ndActivityCat type) => '/activityIdList/$type';
 }
 
 class Class2ndActivityStorage {

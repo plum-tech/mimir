@@ -74,7 +74,7 @@ class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
           slivers: [
             SliverAppBar(
               floating: true,
-              title: Text(name).hero(id),
+              title: Text(name),
               bottom: isFetching
                   ? const PreferredSize(
                       preferredSize: Size.fromHeight(4),

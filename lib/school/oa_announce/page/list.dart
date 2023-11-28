@@ -1,15 +1,12 @@
 import 'package:collection/collection.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/design/widgets/card.dart';
-import 'package:sit/design/widgets/common.dart';
 
 import 'package:sit/school/oa_announce/widget/tile.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/utils/collection.dart';
 
 import '../entity/announce.dart';
-import '../entity/page.dart';
 import '../init.dart';
 import '../i18n.dart';
 
@@ -107,8 +104,7 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
   int lastPage = 1;
   bool isFetching = false;
   late List<OaAnnounceRecord> announcements =
-      // Class2ndInit.activityStorage.getActivities(widget.cat)??
-      <OaAnnounceRecord>[];
+      OaAnnounceInit.storage.getAnnouncements(widget.cat) ?? <OaAnnounceRecord>[];
 
   @override
   bool get wantKeepAlive => true;
@@ -164,8 +160,8 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
       final lastPayload = await OaAnnounceInit.service.getAnnounceList(widget.cat, lastPage);
       announcements.addAll(lastPayload.items);
       announcements.distinctBy((a) => a.uuid);
-      announcements.sort((a,b)=>b.dateTime.compareTo(a.dateTime));
-      // TODO: storage
+      announcements.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+      await OaAnnounceInit.storage.setAnnouncements(widget.cat, announcements);
       if (!mounted) return;
       setState(() {
         lastPage++;

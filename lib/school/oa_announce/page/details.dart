@@ -24,8 +24,7 @@ class AnnounceDetailsPage extends StatefulWidget {
 }
 
 class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
-  late OaAnnounceDetails? details =
-      OaAnnounceInit.storage.getAnnounceDetails(widget.record.catalogId, widget.record.uuid);
+  late OaAnnounceDetails? details = OaAnnounceInit.storage.getAnnounceDetails(widget.record.uuid);
   bool isFetching = false;
 
   @override
@@ -44,7 +43,7 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
       final catalogId = widget.record.catalogId;
       final uuid = widget.record.uuid;
       final details = await OaAnnounceInit.service.fetchAnnounceDetails(catalogId, uuid);
-      OaAnnounceInit.storage.setAnnounceDetails(catalogId, uuid, details);
+      OaAnnounceInit.storage.setAnnounceDetails(uuid, details);
       if (!mounted) return;
       setState(() {
         this.details = details;
@@ -93,7 +92,7 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
               child: OaAnnounceInfoCard(
                 record: record,
                 details: details,
-              ).hero(record.uuid),
+              ),
             ),
             if (details != null)
               SliverPadding(

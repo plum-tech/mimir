@@ -74,7 +74,7 @@ class OaAnnounceService {
       final uri = Uri.parse(titleElement.attributes['href']!);
 
       return OaAnnounceRecord(
-        title: titleElement.text.trim(),
+        title: mapChinesePunctuations(titleElement.text.trim()),
         departments: department.trim().split(_departmentSplitRegex),
         dateTime: _announceDateTimeFormat.parse(date),
         catalogId: uri.queryParameters['.pen']!,

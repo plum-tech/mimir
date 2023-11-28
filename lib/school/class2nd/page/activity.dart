@@ -18,7 +18,7 @@ class ActivityListPage extends StatefulWidget {
   State<StatefulWidget> createState() => _ActivityListPageState();
 }
 
-class _ActivityListPageState extends State<ActivityListPage> with SingleTickerProviderStateMixin {
+class _ActivityListPageState extends State<ActivityListPage> {
   final loadingStates = ValueNotifier(commonClass2ndCategories.map((cat) => false).toList());
 
   @override
@@ -164,7 +164,7 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
       activities.addAll(lastActivities);
       // The incoming activities may be the same as before, so distinct is necessary.
       activities.distinctBy((a) => a.id);
-      activities.sort((a,b)=>b.time.compareTo(a.time));
+      activities.sort((a, b) => b.time.compareTo(a.time));
       await Class2ndInit.activityStorage.setActivities(widget.cat, List.of(activities));
       if (!mounted) return;
       setState(() {
@@ -183,4 +183,3 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
     }
   }
 }
-
