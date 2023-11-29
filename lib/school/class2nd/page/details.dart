@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/list_tile.dart';
+import 'package:sit/design/widgets/tags.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/widgets/html.dart';
@@ -269,7 +270,7 @@ class _ActivityDetailsInfoTabViewState extends State<ActivityDetailsInfoTabView>
                 ListTile(
                   isThreeLine: true,
                   title: i18n.info.tags.text(),
-                  subtitle: ActivityTagsGroup(tags),
+                  subtitle: TagsGroup(tags),
                 ),
               DetailListTile(
                 title: i18n.info.signInTime,

@@ -11,7 +11,8 @@ enum OaAnnounceCat {
   culture('校园文化', 'pe2366'),
   announcement('公告信息', 'pe2367'),
   life('生活服务', 'pe2365'),
-  download('文件下载专区', 'pe2382');
+  download('文件下载专区', 'pe2382'),
+  training('培养信息', 'pe3442', postgraduate: true);
 
   /// 分类名
   final String catName;
@@ -19,14 +20,17 @@ enum OaAnnounceCat {
   /// 分类代号(OA上命名为pen，以pe打头)
   final String internalId;
 
+  final bool postgraduate;
+
   String l10nName() => "oaAnnounce.oaAnnounceCat.$name".tr();
 
   static String allCatL10n() => "oaAnnounce.oaAnnounceCat.all".tr();
 
   const OaAnnounceCat(
     this.catName,
-    this.internalId,
-  );
+    this.internalId, {
+    this.postgraduate = false,
+  });
 }
 
 /// 某篇通知的记录信息，根据该信息可寻找到对应文章

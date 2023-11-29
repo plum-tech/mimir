@@ -18,6 +18,8 @@ const _commonOaAnnounceCats = [
   OaAnnounceCat.download,
   OaAnnounceCat.collegeNotification,
   OaAnnounceCat.life,
+  // TODO: For postgraduates
+  // OaAnnounceCat.training,
 ];
 
 class OaAnnounceListPage extends StatefulWidget {

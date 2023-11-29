@@ -9,6 +9,7 @@ import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/widgets/list_tile.dart';
+import 'package:sit/design/widgets/tags.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/class2nd/entity/list.dart';
 import 'package:sit/school/class2nd/utils.dart';
@@ -226,7 +227,7 @@ class AttendedActivityCard extends StatelessWidget {
           subtitle: [
             "${attended.category.l10nName()} #${attended.application.applicationId}".text(),
             context.formatYmdhmsNum(attended.application.time).text(),
-            if (tags.isNotEmpty) ActivityTagsGroup(tags),
+            if (tags.isNotEmpty) TagsGroup(tags),
           ].column(caa: CrossAxisAlignment.start),
           trailing: points != null && points != 0
               ? Text(
@@ -291,7 +292,7 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
               ListTile(
                 isThreeLine: true,
                 title: i18n.info.tags.text(),
-                subtitle: ActivityTagsGroup(tags),
+                subtitle: TagsGroup(tags),
                 visualDensity: VisualDensity.compact,
               ),
             if (!activity.cancelled)
