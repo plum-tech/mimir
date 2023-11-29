@@ -1,10 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/entity/campus.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:sit/credentials/init.dart';
-import 'package:sit/network/proxy.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/session/class2nd.dart';
 import 'package:sit/session/gms.dart';
@@ -55,7 +55,6 @@ class Init {
     cookieJar = PersistCookieJar(
       storage: HiveCookieJar(HiveInit.cookies),
     );
-    await ProxyInit.init();
     dio = await DioInit.init(
       cookieJar: cookieJar,
     );

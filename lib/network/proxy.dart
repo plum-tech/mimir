@@ -3,53 +3,33 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:sit/settings/settings.dart';
 
-class ProxyInit {
-  static Future<void> init() async {
-    HttpOverrides.global = SitHttpOverrides(
-      proxyAddress: Settings.httpProxy.address,
-      enableHttpProxy: Settings.httpProxy.enableHttpProxy,
-      globalMode: Settings.httpProxy.globalMode,
-    );
-  }
-}
-
 class SitHttpOverrides extends HttpOverrides {
-  final String proxyAddress;
-  final bool enableHttpProxy;
-  final bool globalMode;
-
-  SitHttpOverrides({
-    required this.proxyAddress,
-    required this.enableHttpProxy,
-    required this.globalMode,
-  });
+  SitHttpOverrides();
 
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     final client = super.createHttpClient(context);
-
-    // 设置证书检查
     client.badCertificateCallback = (cert, host, port) => true;
-    // 设置代理.
-    if (enableHttpProxy && proxyAddress.isNotEmpty) {
-      debugPrint('Using proxy "$proxyAddress"');
-      client.findProxy = (url) {
-        final host = url.host;
-        if (globalMode || _isSchoolNetwork(host)) {
-          debugPrint('Accessing "$url" by proxy "$proxyAddress"');
-          return HttpClient.findProxyFromEnvironment(
-            url,
-            environment: {
-              "http_proxy": proxyAddress,
-              "https_proxy": proxyAddress,
-            },
-          );
-        } else {
-          debugPrint('Accessing "$url" bypass proxy');
-          return 'DIRECT';
-        }
-      };
-    }
+    client.findProxy = (url) {
+      final enableHttpProxy = Settings.httpProxy.enableHttpProxy;
+      final globalMode = Settings.httpProxy.globalMode;
+      final address = Settings.httpProxy.address;
+      if (!enableHttpProxy) return 'DIRECT';
+      final host = url.host;
+      if (globalMode || _isSchoolNetwork(host)) {
+        debugPrint('Accessing "$url" by proxy "$address"');
+        return HttpClient.findProxyFromEnvironment(
+          url,
+          environment: {
+            "http_proxy": address,
+            "https_proxy": address,
+          },
+        );
+      } else {
+        debugPrint('Accessing "$url" bypass proxy');
+        return 'DIRECT';
+      }
+    };
     return client;
   }
 }

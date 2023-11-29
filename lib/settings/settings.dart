@@ -129,5 +129,5 @@ class _HttpProxy {
 
   ValueListenable listenGlobalMode() => box.listenable(keys: [_HttpProxyK.globalMode]);
 
-  Stream<BoxEvent> watchHttpProxy() => box.watch(key: _HttpProxyK.address);
+  ValueListenable listenAddress() => box.listenable(keys: [_HttpProxyK.address]);
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sit/files.dart';
+import 'package:sit/network/proxy.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/init.dart';
 import 'package:sit/migration/migrations.dart';
@@ -76,6 +78,7 @@ void main() async {
   // The last time when user launch this app
   Meta.lastStartupTime = DateTime.now();
   Init.registerCustomEditor();
+  HttpOverrides.global = SitHttpOverrides();
   await Init.initNetwork();
   await Init.initModules();
   runApp(
