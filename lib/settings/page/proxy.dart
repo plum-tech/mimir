@@ -210,19 +210,25 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
 
   Widget buildProxyProtocolTile(String protocol, ValueChanged<String> onChanged) {
     return ListTile(
+      isThreeLine: true,
       leading: const Icon(Icons.https),
       title: i18n.proxy.protocol.text(),
-      subtitle: protocol.text(),
-      trailing: SegmentedButton<String>(
-        selected: {protocol},
-        segments: [
-          ButtonSegment(value: "http", label: "HTTP".text(), icon: const Icon(Icons.http)),
-          ButtonSegment(value: "https", label: "HTTPS".text(), icon: const Icon(Icons.https)),
-        ],
-        onSelectionChanged: (newSelection) {
-          onChanged(newSelection.first);
-        },
-      ),
+      subtitle: [
+        ChoiceChip(
+          label: "http".text(),
+          selected: protocol == "http",
+          onSelected: (value) {
+            onChanged("http");
+          },
+        ),
+        ChoiceChip(
+          label: "https".text(),
+          selected: protocol == "https",
+          onSelected: (value) {
+            onChanged("https");
+          },
+        ),
+      ].wrap(spacing: 4),
     );
   }
 
