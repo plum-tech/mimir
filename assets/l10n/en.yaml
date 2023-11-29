@@ -40,19 +40,15 @@ timetable:
     export: Export
     lessonMode:
       title: Lesson mode
-      desc: How to arrange
-      merged:
-        name: Full
-        info: Several parts of the same class will be combined into one event
-      separate:
-        name: Separate
-        info: Several parts of the same class will be separated into multiple events
+      merged: Full
+      mergedTip: Several parts of the same class will be combined into one event
+      separate: Separate
+      separateTip: Several parts of the same class will be separated into multiple events
     enableAlarm:
       title: Enable alarm
       desc: Add alarm before class
     alarmMode:
       title: Alarm mode
-      desc: How to notify you
       sound: Sound
       display: Display
     alarmDuration: Alarm duration

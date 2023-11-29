@@ -1,7 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
@@ -98,30 +96,29 @@ class _TimetableExportCalendarConfigEditorState extends State<TimetableExportCal
   Widget buildModeSwitch() {
     return $merged >>
         (ctx, merged) => ListTile(
+              isThreeLine: true,
+              leading: const Icon(Icons.calendar_month),
               title: i18n.export.lessonMode.text(),
-              leading: Tooltip(
+              subtitle: [
+                ChoiceChip(
+                  label: i18n.export.lessonModeMerged.text(),
+                  selected: merged,
+                  onSelected: (value) {
+                    $merged.value = true;
+                  },
+                ),
+                ChoiceChip(
+                  label: i18n.export.lessonModeSeparate.text(),
+                  selected: !merged,
+                  onSelected: (value) {
+                    $merged.value = false;
+                  },
+                ),
+              ].wrap(spacing: 4),
+              trailing: Tooltip(
                 triggerMode: TooltipTriggerMode.tap,
-                message: merged ? i18n.export.lessonModeMergedInfo : i18n.export.lessonModeSeparateInfo,
-                child: Icon(Icons.info_outline, color: context.colorScheme.primary),
-              ),
-              subtitle: i18n.export.lessonModeDesc.text(),
-              trailing: SegmentedButton<bool>(
-                showSelectedIcon: false,
-                segments: [
-                  ButtonSegment<bool>(
-                    value: true,
-                    label: i18n.export.lessonModeMerged.text(),
-                  ),
-                  ButtonSegment<bool>(
-                    value: false,
-                    label: i18n.export.lessonModeSeparate.text(),
-                  ),
-                ],
-                selected: <bool>{merged},
-                onSelectionChanged: (newSelection) async {
-                  $merged.value = newSelection.first;
-                  await HapticFeedback.selectionClick();
-                },
+                message: merged ? i18n.export.lessonModeMergedTip : i18n.export.lessonModeSeparateTip,
+                child: const Icon(Icons.info_outline),
               ),
             );
   }
@@ -143,32 +140,33 @@ class _TimetableExportCalendarConfigEditorState extends State<TimetableExportCal
 
   Widget buildAlarmModeSwitch() {
     return $enableAlarm >>
-        (ctx, enabled) => ListTile(
-              enabled: enabled,
-              title: i18n.export.enableAlarm.text(),
-              subtitle: i18n.export.alarmModeDesc.text(),
-              trailing: $isSoundAlarm >>
-                  (ctx, value) => SegmentedButton<bool>(
-                        showSelectedIcon: false,
-                        segments: [
-                          ButtonSegment<bool>(
-                            value: true,
-                            label: i18n.export.alarmModeSound.text(),
-                          ),
-                          ButtonSegment<bool>(
-                            value: false,
-                            label: i18n.export.alarmModeDisplay.text(),
-                          ),
-                        ],
-                        selected: <bool>{value},
-                        onSelectionChanged: !enabled
-                            ? null
-                            : (newSelection) async {
-                                $isSoundAlarm.value = newSelection.first;
-                                await HapticFeedback.selectionClick();
-                              },
-                      ),
-            );
+        (ctx, enabled) =>
+            $isSoundAlarm >>
+            (ctx, soundAlarm) => ListTile(
+                  isThreeLine: true,
+                  enabled: enabled,
+                  title: i18n.export.alarmMode.text(),
+                  subtitle: [
+                    ChoiceChip(
+                      label: i18n.export.alarmModeSound.text(),
+                      selected: soundAlarm,
+                      onSelected: !enabled
+                          ? null
+                          : (value) {
+                              $isSoundAlarm.value = true;
+                            },
+                    ),
+                    ChoiceChip(
+                      label: i18n.export.alarmModeDisplay.text(),
+                      selected: !soundAlarm,
+                      onSelected: !enabled
+                          ? null
+                          : (value) {
+                              $isSoundAlarm.value = false;
+                            },
+                    ),
+                  ].wrap(spacing: 4),
+                );
   }
 
   Widget buildAlarmDuration() {

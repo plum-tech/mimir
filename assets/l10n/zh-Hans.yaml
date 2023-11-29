@@ -40,19 +40,15 @@ timetable:
     export: 导出
     lessonMode:
       title: 课程模式
-      desc: 如何排布
-      merged:
-        name: 完整
-        info: 同属一节课的几个部分会被合并成为一个日程
-      separate:
-        name: 分离
-        info: 同属一节课的几个部分会被分离为多个日程
+      merged: 完整
+      mergedTip: 同属一节课的几个部分会被合并成为一个日程
+      separate: 分离
+      separateTip: 同属一节课的几个部分会被分离为多个日程
     enableAlarm:
       title: 启用提醒
       desc: 在课前添加提醒
     alarmMode:
       title: 提醒模式
-      desc: 如何通知你
       sound: 声音
       display: 显示
     alarmDuration: 提醒时长

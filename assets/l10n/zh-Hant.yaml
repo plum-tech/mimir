@@ -40,13 +40,10 @@ timetable:
     export: 匯出
     lessonMode:
       title: 課程模式
-      desc: 如何排列
-      merged:
-        name: 完整
-        info: 同一節課的幾個部分會被合併為一個日程
-      separate:
-        name: 分離
-        info: 同一節課的幾個部分會被分離為多個日程
+      merged: 完整
+      mergedTip: 同一節課的幾個部分會被合併為一個日程
+      separate: 分離
+      separateTip: 同一節課的幾個部分會被分離為多個日程
     enableAlarm:
       title: 啟用提醒
       desc: 在課前增加提醒
