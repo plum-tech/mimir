@@ -550,16 +550,22 @@ settings:
     requestDesc: 此操作将永久擦除你的登录凭据，缓存和其他信息，如已导入的课程表。
 oaAnnounce:
   title: OA 公告
-  noOaAnnouncesTip: 无 OA 公告
-  author: 作者
-  attachmentTip:
-    one: 附件
-    other: 附件
+  tab:
+    info: 信息
+    content: 内容
+  noOaAnnouncesTip: 无公告
   downloadCompleted: 下载完成
   downloadFailed: 下载失败
   downloading: 下载中
-  publishTime: 发布时间
-  publishingDepartment: 发布部门
+  info:
+    title: 标题
+    publishTime: 发布时间
+    department: 发布部门
+    author: 作者
+    tags: 标签
+    attachmentHeader:
+      one: 附件
+      other: 附件
   oaAnnounceCat:
     studentAffairs: 学生事务
     learning: 学习课堂

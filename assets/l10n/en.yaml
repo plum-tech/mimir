@@ -550,16 +550,22 @@ settings:
     requestDesc: ALL data, such as login credentials and timetable imported, will be wiped permanently.
 oaAnnounce:
   title: OA announcement
-  noOaAnnouncesTip: No OA announces
-  author: Author
-  attachmentTip:
-    one: Attachment
-    other: Attachments
+  tab:
+    info: Info
+    content: Content
+  noOaAnnouncementsTip: No announcements
   downloadCompleted: Download completed
   downloadFailed: Download failed
   downloading: Downloading
-  publishTime: Publish Time
-  publishingDepartment: Department
+  info:
+    title: Title
+    publishTime: Publish Time
+    department: Department
+    author: Author
+    tags: Tags
+    attachmentHeader:
+      one: Attachment
+      other: Attachments
   oaAnnounceCat:
     studentAffairs: Student Affairs
     learning: Learning

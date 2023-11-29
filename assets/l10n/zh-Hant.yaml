@@ -550,16 +550,22 @@ settings:
     requestDesc: 這會擦除你本地除網頁快取外的登入資料與其他資料，例如匯入的課程表。
 oaAnnounce:
   title: OA 公告
-  noOaAnnouncesTip: 無 OA 公告
-  author: 作者
-  attachmentTip:
-    one: 附件
-    other: 附件
+  tab:
+    info: 資訊
+    content: 內容
+  noOaAnnouncesTip: 無公告
   downloadCompleted: 下載完成
   downloadFailed: 下載失敗
   downloading: 下載中
-  publishTime: 發佈日期
-  publishingDepartment: 部門
+  info:
+    title: 標題
+    publishTime: 發佈日期
+    department: 部門
+    author: 作者
+    tags: 標籤
+    attachmentHeader:
+      one: 附件
+      other: 附件
   oaAnnounceCat:
     studentAffairs: 學生事務
     learning: 學習課堂

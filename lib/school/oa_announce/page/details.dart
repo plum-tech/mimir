@@ -82,7 +82,7 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
                 handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
                   floating: true,
-                  title: widget.record.title.text(),
+                  title: i18n.title.text(),
                   actions: [
                     IconButton(
                       onPressed: () {
@@ -98,8 +98,8 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
                   bottom: TabBar(
                     isScrollable: true,
                     tabs: [
-                      Tab(child: "info tab".text()),
-                      Tab(child: "content tab".text()),
+                      Tab(child: i18n.infoTab.text()),
+                      Tab(child: i18n.contentTab.text()),
                     ],
                   ),
                 ),
@@ -154,26 +154,26 @@ class _OaAnnounceDetailsInfoTabViewState extends State<OaAnnounceDetailsInfoTabV
         slivers: [
           SliverList.list(children: [
             DetailListTile(
-              title: "Title",
+              title: i18n.info.title,
               subtitle: title,
             ),
             if (details != null)
               DetailListTile(
-                title: "Author",
+                title: i18n.info.author,
                 subtitle: details.author,
               ),
             DetailListTile(
-              title: "Publish date",
+              title: i18n.info.publishTime,
               subtitle: context.formatYmdText(record.dateTime),
             ),
             DetailListTile(
-              title: "Publish department",
+              title: i18n.info.department,
               subtitle: record.departments.join(", "),
             ),
             if (tags.isNotEmpty)
               ListTile(
                 isThreeLine: true,
-                title: "Tags".text(),
+                title: i18n.info.tags.text(),
                 subtitle: TagsGroup(tags),
               )
           ]),
@@ -182,7 +182,7 @@ class _OaAnnounceDetailsInfoTabViewState extends State<OaAnnounceDetailsInfoTabV
               const Divider(),
               ListTile(
                 leading: const Icon(Icons.attach_file),
-                title: i18n.attachmentTip(details.attachments.length).text(),
+                title: i18n.info.attachmentHeader(details.attachments.length).text(),
               )
             ]),
           if (details != null)
