@@ -11,8 +11,8 @@ import '../init.dart';
 import '../i18n.dart';
 
 const _commonOaAnnounceCats = [
-  OaAnnounceCat.studentAffairs,
   OaAnnounceCat.learning,
+  OaAnnounceCat.studentAffairs,
   OaAnnounceCat.announcement,
   OaAnnounceCat.culture,
   OaAnnounceCat.download,
