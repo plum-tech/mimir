@@ -134,23 +134,43 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
 
   Widget buildIsGlobalToggle() {
     return Settings.httpProxy.listenGlobalMode() >>
-        (ctx, _) => ListTile(
-              title: i18n.proxy.globalMode.text(),
-              subtitle: Settings.httpProxy.globalMode
-                  ? i18n.proxy.globalModeOnDesc.text()
-                  : i18n.proxy.globalModeOffDesc.text(),
-              leading: const Icon(Icons.public),
-              trailing: Switch.adaptive(
-                value: Settings.httpProxy.globalMode,
-                onChanged: (newV) async {
-                  Settings.httpProxy.globalMode = newV;
+        (ctx, _) {
+          final globalMode = Settings.httpProxy.globalMode;
+          return ListTile(
+            isThreeLine: true,
+            leading: const Icon(Icons.public),
+            title: i18n.proxy.proxyMode.text(),
+            subtitle: [
+              ChoiceChip(
+                label: i18n.proxy.proxyModeGlobal.text(),
+                selected: globalMode,
+                onSelected: (value) async {
+                  Settings.httpProxy.globalMode = true;
                   // TODO: subscribe the proxy changes instead of directly calling init.
                   if (Settings.httpProxy.enableHttpProxy) {
                     await Init.initNetwork();
                   }
                 },
               ),
-            );
+              ChoiceChip(
+                label: i18n.proxy.proxyModeSchool.text(),
+                selected: !globalMode,
+                onSelected: (value) async {
+                  Settings.httpProxy.globalMode = false;
+                  // TODO: subscribe the proxy changes instead of directly calling init.
+                  if (Settings.httpProxy.enableHttpProxy) {
+                    await Init.initNetwork();
+                  }
+                },
+              ),
+            ].wrap(spacing: 4),
+            trailing: Tooltip(
+              triggerMode: TooltipTriggerMode.tap,
+              message: globalMode ? i18n.proxy.proxyModeGlobalTip : i18n.proxy.proxyModeSchoolTip,
+              child: const Icon(Icons.info_outline),
+            ),
+          );
+        };
   }
 
   Widget buildProxyFullTile(Uri proxyUri, ValueChanged<Uri> onChanged) {

@@ -531,10 +531,12 @@ settings:
     enableProxy:
       title: 启用 HTTP 代理
       desc: 代理你的 HTTP 请求
-    globalMode:
-      title: 全局模式
-      on: 通过代理访问所有网络
-      off: 仅通过代理访问学校服务器
+    proxyMode:
+      title: 代理模式
+      global: 全局
+      school: 仅学校服务器
+      globalTip: 通过代理访问所有网络
+      schoolTip: 仅通过代理访问学校服务器
     testConnection:
       title: 测试连接
       desc: 测试与学校服务器的连接

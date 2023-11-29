@@ -531,10 +531,12 @@ settings:
     enableProxy:
       title: Enable HTTP proxy
       desc: Proxy your HTTP requests
-    globalMode:
-      title: Global mode
-      on: Access all networks by proxy
-      off: Access non-school networks bypass proxy
+    proxyMode:
+      title: Proxy mode
+      global: Global
+      school: School-only
+      globalTip: Access all networks by proxy
+      schoolTip: Access non-school networks bypass proxy
     testConnection:
       title: Test connection
       desc: Test connecting to school server
