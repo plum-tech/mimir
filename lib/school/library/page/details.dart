@@ -5,7 +5,7 @@ import 'package:sit/school/library/page/details.model.dart';
 import 'package:sit/widgets/image.dart';
 
 import '../entity/book.dart';
-import '../entity/book_image.dart';
+import '../entity/image.dart';
 import '../entity/holding_preview.dart';
 import '../entity/search.dart';
 import '../init.dart';

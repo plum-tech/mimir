@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'entity/book_image.dart';
+import 'entity/image.dart';
 import 'entity/book.dart';
 import 'entity/holding_preview.dart';
 import 'init.dart';

@@ -5,7 +5,7 @@ import 'package:sit/init.dart';
 
 import 'package:sit/session/library.dart';
 
-import '../entity/book_image.dart';
+import '../entity/image.dart';
 import '../const.dart';
 
 /// 本类提供了一系列，通过查询图书图片的方法，返回结果类型为字典，以ISBN为键
