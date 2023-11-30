@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/school/library/storage/search.dart';
 import 'package:sit/school/library/widgets/search.dart';
 
 import '../entity/search.dart';
@@ -7,12 +10,8 @@ import '../init.dart';
 import 'search_result.dart';
 
 class LibrarySearchDelegate extends SearchDelegate<String> {
-  Widget? _suggestionView;
-
-  /// 当前的搜索模式
   final $searchMethod = ValueNotifier(SearchMethod.any);
 
-  /// 给定一个关键词，开始搜索该关键词
   void searchByGiving(
     BuildContext context, {
     required String keyword,
@@ -23,10 +22,8 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
     }
     query = keyword;
 
-    // 若已经显示过结果，这里无法直接再次显示结果
-    // 经测试，需要先返回搜索建议页，在等待若干时间后显示结果
     showSuggestions(context);
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(milliseconds: 500));
     if (!context.mounted) return;
     showResults(context);
   }
@@ -66,10 +63,10 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
   @override
   void showResults(BuildContext context) {
     super.showResults(context);
-    LibraryInit.searchStorage.add(SearchHistoryItem(
+    LibraryInit.searchStorage.addSearchHistory(SearchHistoryItem(
       keyword: query,
-      time: DateTime.now(),
       searchMethod: $searchMethod.value,
+      time: DateTime.now(),
     ));
   }
 
@@ -90,54 +87,20 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // 第一次使用时，_suggestionView为空，那就构造，后面直接用
-    _suggestionView ??= _buildSearchSuggestion(context);
-    return _suggestionView!;
-  }
-
-  /// 构造下方搜索建议
-  Widget _buildSearchSuggestion(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            ($searchMethod >>
-                    (ctx, _) => SearchMethodSwitcher(
-                          selected: $searchMethod.value,
-                          onSelect: (newSelection) {
-                            $searchMethod.value = newSelection;
-                          },
-                        ))
-                .sized(h: 40),
-            const SizedBox(height: 20),
-            Text('历史记录', style: Theme.of(context).textTheme.bodyLarge),
-            SuggestionItemView(
-              titleItems: LibraryInit.searchStorage.getAllByTimeDesc().map((e) => e.keyword).toList(),
-              onItemTap: (title) => searchByGiving(context, keyword: title),
-            ),
-            const SizedBox(height: 20),
-            InkWell(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.clear_all),
-                  Text('清空搜索历史', style: Theme.of(context).textTheme.bodyMedium),
-                ],
-              ),
-              onTap: () async {
-                LibraryInit.searchStorage.deleteAll();
-                close(context, '');
-              },
-            ),
-            const SizedBox(height: 20),
-            Text('大家都在搜', style: Theme.of(context).textTheme.bodyLarge),
-            HotSearchGroup(onTap: (title) => searchByGiving(context, keyword: title)),
-          ],
-        ),
+    return [
+      ($searchMethod >>
+              (ctx, _) => SearchMethodSwitcher(
+                    selected: $searchMethod.value,
+                    onSelect: (newSelection) {
+                      $searchMethod.value = newSelection;
+                    },
+                  ))
+          .sized(h: 40),
+      SearchHistoryGroup(
+        onTap: (method, title) => searchByGiving(context, keyword: title, searchMethod: method),
       ),
-    );
+      HotSearchGroup(onTap: (title) => searchByGiving(context, keyword: title)),
+    ].column().scrolled();
   }
 }
 
@@ -154,7 +117,8 @@ class HotSearchGroup extends StatefulWidget {
 }
 
 class _HotSearchGroupState extends State<HotSearchGroup> {
-  HotSearch? hotSearch;
+  HotSearch? hotSearch = LibraryInit.searchStorage.getHotSearch();
+  bool recentOrTotal = true;
 
   @override
   void initState() {
@@ -164,6 +128,7 @@ class _HotSearchGroupState extends State<HotSearchGroup> {
 
   Future<void> fetchHotSearch() async {
     final hotSearch = await LibraryInit.hotSearchService.getHotSearch();
+    await LibraryInit.searchStorage.setHotSearch(hotSearch);
     if (!context.mounted) return;
     setState(() {
       this.hotSearch = hotSearch;
@@ -172,85 +137,132 @@ class _HotSearchGroupState extends State<HotSearchGroup> {
 
   @override
   Widget build(BuildContext context) {
+    final onTap = widget.onTap;
     final hotSearch = this.hotSearch;
-    if (hotSearch == null) return const SizedBox();
-    return SuggestionItemView(
-      // TODO: and total
-      titleItems: hotSearch.recent30days.map((e) => e.keyword).toList(),
-      onItemTap: (title) => widget.onTap?.call(title),
+    return SuggestionItemView<HotSearchItem>(
+      tileLeading: Icon(recentOrTotal ? Icons.local_fire_department : Icons.people),
+      title: recentOrTotal ? "Recent hot".text() : "Most popular".text(),
+      tileTrailing: IconButton(
+        icon: const Icon(Icons.swap_horiz),
+        onPressed: () {
+          setState(() {
+            recentOrTotal = !recentOrTotal;
+          });
+        },
+      ),
+      items: recentOrTotal ? hotSearch?.recent30days : hotSearch?.total,
+      itemBuilder: (ctx, item) {
+        return ActionChip(
+          label: item.keyword.text(),
+          onPressed: () {
+            onTap?.call(item.keyword);
+          },
+        );
+      },
     );
   }
 }
 
-class SuggestionItemView extends StatefulWidget {
-  final void Function(String item)? onItemTap;
-  final List<String> titleItems;
-  final int limitLength;
+class SearchHistoryGroup extends StatefulWidget {
+  final void Function(SearchMethod method, String keyword)? onTap;
 
-  const SuggestionItemView({
+  const SearchHistoryGroup({
     super.key,
-    this.onItemTap,
-    this.titleItems = const [],
-    this.limitLength = 20,
+    this.onTap,
   });
 
   @override
-  State<SuggestionItemView> createState() => _SuggestionItemViewState();
+  State<SearchHistoryGroup> createState() => _SearchHistoryGroupState();
 }
 
-class _SuggestionItemViewState extends State<SuggestionItemView> {
-  bool showMore = false;
+class _SearchHistoryGroupState extends State<SearchHistoryGroup> {
+  List<SearchHistoryItem>? history = LibraryInit.searchStorage.getSearchHistory();
+  final $history = LibraryInit.searchStorage.listenSearchHistory();
 
-  Widget buildExpandButton() {
-    return InkWell(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: showMore
-            ? [
-                const Icon(Icons.expand_less),
-                const Text('点击合起'),
-              ]
-            : [
-                const Icon(Icons.expand_more),
-                const Text('点击展开'),
-              ],
-      ),
-      onTap: () {
-        setState(() {
-          showMore = !showMore;
-        });
-      },
-    );
+  @override
+  void initState() {
+    super.initState();
+    $history.addListener(onChange);
+  }
+
+  @override
+  void dispose() {
+    $history.removeListener(onChange);
+    super.dispose();
+  }
+
+  void onChange() {
+    setState(() {
+      history = LibraryInit.searchStorage.getSearchHistory();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    var items = widget.titleItems;
-    // 没展开时候显示的数目
-    int limitLength = items.length >= widget.limitLength ? widget.limitLength : items.length;
-    // 根据情况切片到小于等于指定长度
-    items = items.sublist(0, showMore ? items.length : limitLength);
-
-    // 是否应当显示展开按钮
-    // 只有当超过限制时才显示
-    bool shouldShowExpandButton = widget.titleItems.length > widget.limitLength;
-    return Column(
-      children: [
-        items
-            .map((item) {
-              return ActionChip(
-                label: item.text(),
-                onPressed: () {
-                  if (widget.onItemTap != null) {
-                    widget.onItemTap!(item);
-                  }
-                },
-              );
-            })
-            .toList()
-            .wrap(spacing: 4),
-        shouldShowExpandButton ? buildExpandButton() : const SizedBox(),
-      ],
+    final onTap = widget.onTap;
+    final history = this.history;
+    return SuggestionItemView<SearchHistoryItem>(
+      tileLeading: const Icon(Icons.history),
+      title: "Search history".text(),
+      items: history,
+      tileTrailing: IconButton(
+        icon: const Icon(Icons.delete),
+        onPressed: history?.isNotEmpty == true
+            ? () {
+                LibraryInit.searchStorage.setSearchHistory(null);
+              }
+            : null,
+      ),
+      itemBuilder: (ctx, item) {
+        return ActionChip(
+          label: item.keyword.text(),
+          onPressed: () {
+            onTap?.call(item.searchMethod, item.keyword);
+          },
+        );
+      },
     );
+  }
+}
+
+class SuggestionItemView<T> extends StatelessWidget {
+  final Widget title;
+  final List<T>? items;
+  final Widget Function(BuildContext context, T item) itemBuilder;
+  final int limitLength;
+  final Widget? tileTrailing;
+  final Widget? tileLeading;
+
+  const SuggestionItemView({
+    super.key,
+    required this.title,
+    required this.items,
+    required this.itemBuilder,
+    this.limitLength = 20,
+    this.tileTrailing,
+    this.tileLeading,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final items = this.items;
+    return [
+      ListTile(
+        leading: tileLeading,
+        title: title,
+        trailing: tileTrailing,
+      ),
+      AnimatedSize(
+        duration: Durations.long2,
+        curve: Curves.fastEaseInToSlowEaseOut,
+        child: items != null
+            ? items
+                .sublist(0, min(items.length, limitLength))
+                .map((e) => itemBuilder(context, e))
+                .toList(growable: false)
+                .wrap(spacing: 4)
+            : const SizedBox(),
+      ),
+    ].column(caa: CrossAxisAlignment.start, mas: MainAxisSize.min);
   }
 }

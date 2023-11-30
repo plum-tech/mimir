@@ -44,7 +44,7 @@ class _TimetablePreviewPageState extends State<TimetablePreviewPage> {
         title: TextScroll(widget.timetable.name),
         actions: [
           IconButton(
-            icon: const Icon(Icons.swap_horiz_rounded),
+            icon: const Icon(Icons.swap_horiz),
             onPressed: () {
               $displayMode.value = $displayMode.value.toggle();
             },

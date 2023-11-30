@@ -99,7 +99,9 @@ class SearchHistoryItem {
 
 @JsonSerializable()
 class HotSearchItem {
+  @JsonKey()
   final String keyword;
+  @JsonKey()
   final int count;
 
   const HotSearchItem({
@@ -119,7 +121,9 @@ class HotSearchItem {
 
 @JsonSerializable()
 class HotSearch {
+  @JsonKey()
   final List<HotSearchItem> recent30days;
+  @JsonKey()
   final List<HotSearchItem> total;
 
   const HotSearch({

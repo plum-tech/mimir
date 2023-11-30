@@ -12,6 +12,8 @@ import '../const.dart';
 class BookImageSearchService {
   LibrarySession get session => Init.librarySession;
 
+  Dio get dio => Init.dio;
+
   const BookImageSearchService();
 
   Future<Map<String, BookImage>> searchByIsbnList(List<String> isbnList) async {
@@ -19,9 +21,9 @@ class BookImageSearchService {
   }
 
   Future<Map<String, BookImage>> searchByIsbnStr(String isbnStr) async {
-    var response = await session.request(
+    var response = await dio.request(
       LibraryConst.bookImageInfoUrl,
-      para: {
+      queryParameters: {
         'glc': 'U1SH021060',
         'cmdACT': 'getImages',
         'type': '0',
