@@ -38,8 +38,7 @@ class WeeklyTimetable extends StatefulWidget {
 }
 
 class WeeklyTimetableState extends State<WeeklyTimetable> {
-  late PageController _pageController;
-  late DateTime dateSemesterStart;
+  late PageController pageController;
   final $cellSize = ValueNotifier(Size.zero);
 
   SitTimetableEntity get timetable => widget.timetable;
@@ -52,11 +51,10 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   @override
   void initState() {
     super.initState();
-    dateSemesterStart = timetable.type.startDate;
-    _pageController = PageController(initialPage: currentPos.weekIndex)
+    pageController = PageController(initialPage: currentPos.weekIndex)
       ..addListener(() {
         setState(() {
-          final newWeek = (_pageController.page ?? 0).round();
+          final newWeek = (pageController.page ?? 0).round();
           if (newWeek != currentPos.weekIndex) {
             currentPos = currentPos.copyWith(weekIndex: newWeek);
           }
@@ -70,14 +68,14 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   @override
   void dispose() {
     $jumpToPos.cancel();
-    _pageController.dispose();
+    pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
-      controller: _pageController,
+      controller: pageController,
       scrollDirection: Axis.horizontal,
       itemCount: 20,
       itemBuilder: (ctx, weekIndex) {
@@ -91,11 +89,11 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
 
   /// 跳到某一周
   void jumpTo(TimetablePos pos) {
-    if (_pageController.hasClients) {
+    if (pageController.hasClients) {
       final targetOffset = pos.weekIndex;
-      final currentPos = _pageController.page ?? targetOffset;
+      final currentPos = pageController.page ?? targetOffset;
       final distance = (targetOffset - currentPos).abs();
-      _pageController.animateToPage(
+      pageController.animateToPage(
         targetOffset,
         duration: calcuSwitchAnimationDuration(distance),
         curve: Curves.fastEaseInToSlowEaseOut,
@@ -351,6 +349,7 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
     final lessonTimeTip =
         lessons.map((time) => "${time.begin.toStringPrefixed0()}–${time.end.toStringPrefixed0()}").join("\n");
     final course = widget.lesson.course;
+    // TODO: don't prefix it with zero
     var tooltip = "${i18n.details.courseCode} ${course.courseCode}";
     if (course.classCode.isNotEmpty) {
       tooltip += "\n${i18n.details.classCode} ${course.classCode}";
@@ -364,7 +363,6 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
         key: $tooltip,
         preferBelow: false,
         triggerMode: TooltipTriggerMode.manual,
-        // TODO: don't prefix it with zero
         message: tooltip,
         textAlign: TextAlign.center,
         child: InkWell(
