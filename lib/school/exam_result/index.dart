@@ -33,7 +33,7 @@ class _ExamResultAppCardState extends State<ExamResultAppCard> {
   @override
   void initState() {
     super.initState();
-    $refreshEvent = schoolEventBus.addListener(() {
+    $refreshEvent = schoolEventBus.addListener(() async {
       refresh();
     });
     refresh();
@@ -61,7 +61,7 @@ class _ExamResultAppCardState extends State<ExamResultAppCard> {
     final resultList = this.resultList;
     return AppCard(
       title: i18n.title.text(),
-      view: resultList != null ? buildRecentResults(resultList) : const SizedBox(),
+      view: resultList == null ? null : buildRecentResults(resultList),
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
@@ -84,8 +84,8 @@ class _ExamResultAppCardState extends State<ExamResultAppCard> {
     );
   }
 
-  Widget buildRecentResults(List<ExamResult> resultList) {
-    if (resultList.isEmpty) return const SizedBox();
+  Widget? buildRecentResults(List<ExamResult> resultList) {
+    if (resultList.isEmpty) return null;
     resultList.sort((a, b) => -ExamResult.compareByTime(a, b));
     final results = resultList.sublist(0, min(_recentLength, resultList.length));
     return Settings.school.examResult.listenAppCardShowResultDetails() >>
