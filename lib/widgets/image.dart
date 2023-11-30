@@ -14,12 +14,28 @@ enum _ImageMode {
   error,
 }
 
+class CachedNetworkImageView extends StatelessWidget {
+  final String imageUrl;
+
+  const CachedNetworkImageView({super.key, required this.imageUrl,});
+
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
+      errorWidget: (context, url, error) => const Icon(Icons.broken_image_rounded),
+      fit: BoxFit.fitHeight,
+    );
+  }
+}
+
+
 class ImageView extends StatefulWidget {
   /// It could be a url of image, or a base64 string.
   final String? data;
 
-  const ImageView(
-    this.data, {
+  const ImageView(this.data, {
     super.key,
   });
 
@@ -130,8 +146,7 @@ class ImageViewPage extends StatelessWidget {
   final String? data;
   final String? title;
 
-  const ImageViewPage(
-    this.data, {
+  const ImageViewPage(this.data, {
     super.key,
     this.title,
   });

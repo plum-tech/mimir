@@ -35,7 +35,7 @@ class BookSearchService {
       author: author,
       publisher: publisher,
       publishDate: publishDate,
-      callNo: callNo,
+      callNumber: callNo,
     );
   }
 

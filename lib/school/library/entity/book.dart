@@ -5,7 +5,7 @@ class Book {
   final String author;
   final String publisher;
   final String publishDate;
-  final String callNo;
+  final String callNumber;
 
   const Book({
     required this.bookId,
@@ -14,12 +14,20 @@ class Book {
     required this.author,
     required this.publisher,
     required this.publishDate,
-    required this.callNo,
+    required this.callNumber,
   });
 
   @override
   String toString() {
-    return 'Book{bookId: $bookId, isbn: $isbn, title: $title, author: $author, publisher: $publisher, publishDate: $publishDate, callNo: $callNo}';
+    return {
+      "bookId": bookId,
+      "isbn": isbn,
+      "title": title,
+      "author": author,
+      "publisher": publisher,
+      "publishDate": publishDate,
+      "callNumber": callNumber,
+    }.toString();
   }
 }
 

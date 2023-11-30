@@ -1,24 +1,31 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/list_tile.dart';
+import 'package:sit/school/library/page/details.model.dart';
+import 'package:sit/widgets/image.dart';
 
 import '../entity/book.dart';
+import '../entity/book_image.dart';
+import '../entity/holding_preview.dart';
 import '../entity/search.dart';
 import '../init.dart';
 import '../i18n.dart';
-import '../utils.dart';
 import 'search_result.dart';
 
 class BookDetailsPage extends StatefulWidget {
-  final BookImageHolding bookImageHolding;
+  final BookModel book;
+  final BookImage? image;
+  final List<HoldingPreviewItem>? holding;
   final BookSearchCallback? onSearchTap;
+  final List<Widget>? actions;
 
-  const BookDetailsPage(
-    this.bookImageHolding, {
+  const BookDetailsPage({
     super.key,
+    required this.book,
+    this.image,
+    this.holding,
     this.onSearchTap,
+    this.actions,
   });
 
   @override
@@ -41,7 +48,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
       isFetching = true;
     });
     try {
-      final info = await LibraryInit.bookInfo.query(widget.bookImageHolding.book.bookId);
+      final info = await LibraryInit.bookInfo.query(widget.book.bookId);
       if (!context.mounted) return;
       setState(() {
         this.info = info;
@@ -61,24 +68,21 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   @override
   Widget build(BuildContext context) {
     final info = this.info;
-    final book = widget.bookImageHolding.book;
-    final imgUrl = widget.bookImageHolding.image?.resourceLink;
+    final book = widget.book;
+    final imgUrl = widget.image?.resourceLink;
     // FIXME: always null
-    final holding = widget.bookImageHolding.holding;
+    final holding = widget.holding;
+    final onSearchTap = widget.onSearchTap;
+    final publisher = book.publisher;
+    final publishDate = book.publishDate;
     return SelectionArea(
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
               expandedHeight: imgUrl == null ? null : 300.0,
-              flexibleSpace: imgUrl == null
-                  ? null
-                  : CachedNetworkImage(
-                      imageUrl: imgUrl,
-                      placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
-                      fit: BoxFit.fitHeight,
-                    ),
+              flexibleSpace: imgUrl == null ? null : CachedNetworkImageView(imageUrl: imgUrl),
+              actions: widget.actions,
               bottom: isFetching
                   ? const PreferredSize(
                       preferredSize: Size.fromHeight(4),
@@ -90,26 +94,26 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
               DetailListTile(
                 title: i18n.info.title,
                 subtitle: book.title,
-                trailing: IconButton(
-                  icon: const Icon(Icons.youtube_searched_for),
-                  onPressed: widget.onSearchTap == null
-                      ? null
-                      : () {
-                          widget.onSearchTap?.call(SearchMethod.title, book.title);
+                trailing: onSearchTap == null
+                    ? null
+                    : IconButton(
+                        icon: const Icon(Icons.youtube_searched_for),
+                        onPressed: () {
+                          onSearchTap.call(SearchMethod.title, book.title);
                         },
-                ),
+                      ),
               ),
               DetailListTile(
                 title: i18n.info.author,
                 subtitle: book.author,
-                trailing: IconButton(
-                  icon: const Icon(Icons.youtube_searched_for),
-                  onPressed: widget.onSearchTap == null
-                      ? null
-                      : () {
-                          widget.onSearchTap?.call(SearchMethod.author, book.author);
+                trailing: onSearchTap == null
+                    ? null
+                    : IconButton(
+                        icon: const Icon(Icons.youtube_searched_for),
+                        onPressed: () {
+                          onSearchTap.call(SearchMethod.author, book.author);
                         },
-                ),
+                      ),
               ),
               DetailListTile(
                 title: i18n.info.isbn,
@@ -117,24 +121,26 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
               ),
               DetailListTile(
                 title: i18n.info.callNumber,
-                subtitle: book.callNo,
+                subtitle: book.callNumber,
               ),
-              DetailListTile(
-                title: i18n.info.publisher,
-                subtitle: book.publisher,
-                trailing: IconButton(
-                  icon: const Icon(Icons.youtube_searched_for),
-                  onPressed: widget.onSearchTap == null
+              if (publisher != null)
+                DetailListTile(
+                  title: i18n.info.publisher,
+                  subtitle: publisher,
+                  trailing: onSearchTap == null
                       ? null
-                      : () {
-                          widget.onSearchTap?.call(SearchMethod.publisher, book.publisher);
-                        },
+                      : IconButton(
+                          icon: const Icon(Icons.youtube_searched_for),
+                          onPressed: () {
+                            onSearchTap.call(SearchMethod.publisher, publisher);
+                          },
+                        ),
                 ),
-              ),
-              DetailListTile(
-                title: i18n.info.publishDate,
-                subtitle: book.publishDate,
-              ),
+              if (publishDate != null)
+                DetailListTile(
+                  title: i18n.info.publishDate,
+                  subtitle: book.publishDate,
+                ),
             ]),
             if (holding != null)
               const SliverToBoxAdapter(
@@ -147,7 +153,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                     final item = holding[i];
                     return ListTile(
                       title: Text('所在馆：${item.currentLocation}'),
-                      subtitle: item.callNo == book.callNo ? null : '索书号：${item.callNo}'.text(),
+                      subtitle: item.callNo == book.callNumber ? null : '索书号：${item.callNo}'.text(),
                       trailing: Text('在馆(${item.loanableCount})/馆藏(${item.copyCount})'),
                     );
                   }),
@@ -179,95 +185,6 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
             ),
           )
           .toList(),
-    );
-  }
-}
-
-class NearBooksGroup extends StatefulWidget {
-  final int maxSize;
-  final String bookId;
-
-  const NearBooksGroup({
-    super.key,
-    required this.bookId,
-    this.maxSize = 5,
-  });
-
-  @override
-  State<NearBooksGroup> createState() => _NearBooksGroupState();
-}
-
-class _NearBooksGroupState extends State<NearBooksGroup> {
-  List<String>? nearBookIdList;
-
-  @override
-  void initState() {
-    super.initState();
-    fetchNearBooks();
-  }
-
-  Future<void> fetchNearBooks() async {
-    final nearBookIdList = await LibraryInit.holdingInfo.searchNearBookIdList(widget.bookId);
-    if (!context.mounted) return;
-    setState(() {
-      this.nearBookIdList = nearBookIdList;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final nearBookIdList = this.nearBookIdList;
-    if (nearBookIdList == null) return const CircularProgressIndicator.adaptive();
-    return Column(
-      children: nearBookIdList.sublist(0, widget.maxSize).map((bookId) {
-        return AsyncBookItem(bookId: bookId);
-      }).toList(),
-    );
-  }
-}
-
-class AsyncBookItem extends StatefulWidget {
-  final String bookId;
-
-  const AsyncBookItem({super.key, required this.bookId});
-
-  @override
-  State<AsyncBookItem> createState() => _AsyncBookItemState();
-}
-
-class _AsyncBookItemState extends State<AsyncBookItem> {
-  BookImageHolding? holding;
-
-  @override
-  void initState() {
-    super.initState();
-    fetch();
-  }
-
-  Future<void> fetch() async {
-    final result = await LibraryInit.bookSearch.search(
-      keyword: widget.bookId,
-      rows: 1,
-      searchMethod: SearchMethod.bookId,
-    );
-    final ret = await BookImageHolding.simpleQuery(
-      result.books,
-    );
-    if (!context.mounted) return;
-    setState(() {
-      holding = ret[0];
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final holding = this.holding;
-    if (holding == null) return const CircularProgressIndicator.adaptive();
-    return BookCard(
-      holding,
-      onTap: () async {
-        await context.show$Sheet$((ctx) => BookDetailsPage(holding));
-      },
     );
   }
 }

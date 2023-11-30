@@ -3,13 +3,15 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/extension.dart';
-import 'package:sit/school/library/entity/book.dart';
 import 'package:sit/school/library/init.dart';
 
 import '../entity/borrow.dart';
 import '../i18n.dart';
+import 'details.dart';
+import 'details.model.dart';
 
 class LibraryMyBorrowedPage extends StatefulWidget {
   const LibraryMyBorrowedPage({super.key});
@@ -57,7 +59,7 @@ class _LibraryMyBorrowedPageState extends State<LibraryMyBorrowedPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            title: "Borrowing".text(),
+            title: "Borrowed".text(),
             actions: [
               PlatformTextButton(
                 child: "History".text(),
@@ -97,20 +99,27 @@ class BorrowedBookCard extends StatelessWidget {
         subtitle: [
           book.author.text(),
           "${i18n.info.barcode} ${book.barcode}".text(),
-          "${i18n.info.callNumber} ${book.callNumber}".text(),
-          "${i18n.info.isbn} ${book.isbn}".text(),
+          // "${i18n.info.callNumber} ${book.callNumber}".text(),
+          // "${i18n.info.isbn} ${book.isbn}".text(),
           "${context.formatYmdText(book.borrowDate)}–${context.formatYmdText(book.expireDate)}".text(),
-          Divider(color: context.colorScheme.onSurfaceVariant),
-          FilledButton.icon(
-            onPressed: () async {
-              final result = await LibraryInit.borrowService.renewBook(barcodeList: [book.barcode]);
-              if (!context.mounted) return;
-              await context.showTip(title: "Result", ok: i18n.ok, desc: result);
-            },
-            icon: const Icon(Icons.autorenew),
-            label: "Renew".text(),
-          ),
         ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
+        onTap: () async {
+          await context.show$Sheet$(
+            (ctx) => BookDetailsPage(
+              book: BookModel.fromBorrowed(book),
+              actions: [
+                PlatformTextButton(
+                  onPressed: () async {
+                    final result = await LibraryInit.borrowService.renewBook(barcodeList: [book.barcode]);
+                    if (!context.mounted) return;
+                    await context.showTip(title: "Result", ok: i18n.ok, desc: result);
+                  },
+                  child: "Renew".text(),
+                )
+              ],
+            ),
+          );
+        },
       ),
     );
   }

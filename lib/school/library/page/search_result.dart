@@ -6,6 +6,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
+import 'package:sit/school/library/page/details.model.dart';
 import 'package:sit/school/library/widgets/search.dart';
 
 import '../entity/search.dart';
@@ -150,7 +151,9 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
                     onTap: () async {
                       await context.show$Sheet$(
                         (ctx) => BookDetailsPage(
-                          book,
+                          book: BookModel.fromBook(book.book),
+                          image: book.image,
+                          holding: book.holding,
                           onSearchTap: onSearchTap == null
                               ? null
                               : (method, keyword) {
@@ -244,7 +247,7 @@ class BookCard extends StatelessWidget {
             ),
           ),
           if (book.isbn.isNotEmpty) "${SearchMethod.isbn.l10nName()} ${book.isbn}".text(),
-          "${SearchMethod.callNumber.l10nName()} ${book.callNo}".text(),
+          "${SearchMethod.callNumber.l10nName()} ${book.callNumber}".text(),
           RichText(
               text: TextSpan(
             children: [
