@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/init.dart';
+import 'package:sit/network/checker.dart';
 import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/qrcode/protocol.dart';
 import 'package:sit/settings/settings.dart';
@@ -22,15 +22,8 @@ class ProxySettingsPage extends StatefulWidget {
   State<ProxySettingsPage> createState() => _ProxySettingsPageState();
 }
 
-enum _TestConnectionState {
-  notStart,
-  testing,
-  failed,
-  success,
-}
 
 class _ProxySettingsPageState extends State<ProxySettingsPage> {
-  var testState = _TestConnectionState.notStart;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +47,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
           SliverList(
             delegate: SliverChildListDelegate([
               buildEnableProxyToggle(),
-              buildIsGlobalToggle(),
+              buildProxyModeSwitcher(),
               buildProxyFullTile(proxyUri, (newProxy) {
                 setNewAddress(newProxy.toString());
               }),
@@ -83,7 +76,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                 }
               }),
               const Divider(),
-              buildTestConnection(),
+              const TestConnectionTile(),
               buildShareQrCode(proxyUri),
             ]),
           ),
@@ -115,7 +108,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
             );
   }
 
-  Widget buildIsGlobalToggle() {
+  Widget buildProxyModeSwitcher() {
     return Settings.httpProxy.listenGlobalMode() >>
         (ctx, _) {
           final globalMode = Settings.httpProxy.globalMode;
@@ -143,7 +136,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
               triggerMode: TooltipTriggerMode.tap,
               message: globalMode ? i18n.proxy.proxyModeGlobalTip : i18n.proxy.proxyModeSchoolTip,
               child: const Icon(Icons.info_outline),
-            ),
+            ).padAll(8),
           );
         };
   }
@@ -329,38 +322,6 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
           );
         },
       ),
-    );
-  }
-
-  Widget buildTestConnection() {
-    return ListTile(
-      leading: const Icon(Icons.network_check),
-      title: i18n.proxy.testConnection.text(),
-      subtitle: i18n.proxy.testConnectionDesc.text(),
-      trailing: switch (testState) {
-        _TestConnectionState.testing => const CircularProgressIndicator.adaptive(),
-        _TestConnectionState.success => const Icon(Icons.check, color: Colors.green),
-        _TestConnectionState.failed => Icon(Icons.public_off_rounded, color: context.$red$),
-        _ => null,
-      },
-      onTap: () async {
-        setState(() {
-          testState = _TestConnectionState.testing;
-        });
-        final bool connected;
-        try {
-          connected = await Init.ssoSession.checkConnectivity();
-          if (!mounted) return;
-          setState(() {
-            testState = connected ? _TestConnectionState.success : _TestConnectionState.failed;
-          });
-        } catch (error) {
-          if (!mounted) return;
-          setState(() {
-            testState = _TestConnectionState.failed;
-          });
-        }
-      },
     );
   }
 }

@@ -355,6 +355,9 @@ homepage:
   campusNetworkConnected: 已連線校園網路
   campusNetworkUnconnected: 未連線校園網路
 networkChecker:
+  testConnection:
+    title: 測試連線
+    desc: 測試與校園網路的連線情況
   button:
     connected: 繼續
     connecting: 檢查中……
@@ -534,9 +537,6 @@ settings:
       school: 僅校園網路
       globalTip: 通過代理訪問所有網路
       schoolTip: 繞過代理訪問非校園網路
-    testConnection:
-      title: 測試連線
-      desc: 測試與校園網路的連線情況
     copyTip:
       full: HTTP 代理被複製到剪貼板了
       hostname: 主機名稱被複製到剪貼板了

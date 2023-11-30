@@ -19,15 +19,8 @@ class CredentialsPage extends StatefulWidget {
   State<CredentialsPage> createState() => _CredentialsPageState();
 }
 
-enum _TestLoginState {
-  notStart,
-  loggingIn,
-  success,
-}
-
 class _CredentialsPageState extends State<CredentialsPage> {
   var showPassword = false;
-  var loggingState = _TestLoginState.notStart;
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +44,13 @@ class _CredentialsPageState extends State<CredentialsPage> {
   }
 
   Widget buildBody() {
-    final credential = context.auth.credentials;
+    final credentials = context.auth.credentials;
     final all = <WidgetBuilder>[];
-    if (credential != null) {
-      all.add((_) => buildAccount(credential));
+    if (credentials != null) {
+      all.add((_) => buildAccount(credentials));
       all.add((_) => const Divider());
-      all.add((_) => buildPassword(credential));
-      all.add((_) => buildTestLogin(credential));
+      all.add((_) => buildPassword(credentials));
+      all.add((_) => TestLoginTile(credentials: credentials));
     }
     return SliverList(
       delegate: SliverChildBuilderDelegate(
@@ -117,24 +110,50 @@ class _CredentialsPageState extends State<CredentialsPage> {
       ),
     );
   }
+}
 
-  Widget buildTestLogin(Credentials credential) {
+enum _TestLoginState {
+  notStart,
+  loggingIn,
+  success,
+}
+
+class TestLoginTile extends StatefulWidget {
+  final Credentials credentials;
+
+  const TestLoginTile({
+    super.key,
+    required this.credentials,
+  });
+
+  @override
+  State<TestLoginTile> createState() => _TestLoginTileState();
+}
+
+class _TestLoginTileState extends State<TestLoginTile> {
+  var loggingState = _TestLoginState.notStart;
+
+  @override
+  Widget build(BuildContext context) {
     return ListTile(
       enabled: loggingState != _TestLoginState.loggingIn,
       title: i18n.credentials.testLoginOa.text(),
       subtitle: i18n.credentials.testLoginOaDesc.text(),
       leading: const Icon(Icons.login),
-      trailing: switch (loggingState) {
-        _TestLoginState.loggingIn => const CircularProgressIndicator.adaptive(),
-        _TestLoginState.success => const Icon(Icons.check, color: Colors.green),
-        _ => null,
-      },
+      trailing: Padding(
+        padding: const EdgeInsets.all(8),
+        child: switch (loggingState) {
+          _TestLoginState.loggingIn => const CircularProgressIndicator.adaptive(),
+          _TestLoginState.success => const Icon(Icons.check, color: Colors.green),
+          _ => null,
+        },
+      ),
       onTap: loggingState == _TestLoginState.loggingIn
           ? null
           : () async {
               setState(() => loggingState = _TestLoginState.loggingIn);
               try {
-                await Init.ssoSession.loginLocked(credential);
+                await Init.ssoSession.loginLocked(widget.credentials);
                 if (!mounted) return;
                 setState(() => loggingState = _TestLoginState.success);
               } on Exception catch (error, stackTrace) {

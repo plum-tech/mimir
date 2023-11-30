@@ -119,7 +119,7 @@ class _TimetableExportCalendarConfigEditorState extends State<TimetableExportCal
                 triggerMode: TooltipTriggerMode.tap,
                 message: merged ? i18n.export.lessonModeMergedTip : i18n.export.lessonModeSeparateTip,
                 child: const Icon(Icons.info_outline),
-              ),
+              ).padAll(8),
             );
   }
 

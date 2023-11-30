@@ -5,7 +5,9 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/animation/animated.dart';
+import 'package:sit/init.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
@@ -190,16 +192,20 @@ const _i18n = _NetworkCheckerI18n();
 class _NetworkCheckerI18n {
   const _NetworkCheckerI18n();
 
-  static const _ns = "networkChecker";
+  static const ns = "networkChecker";
 
   final button = const _NetworkCheckerI18nEntry("button");
   final status = const _NetworkCheckerI18nEntry("status");
+
+  String get testConnection => "$ns.testConnection.title".tr();
+
+  String get testConnectionDesc => "$ns.testConnection.desc".tr();
 }
 
 class _NetworkCheckerI18nEntry {
   final String scheme;
 
-  String get _ns => "${_NetworkCheckerI18n._ns}.$scheme";
+  String get _ns => "${_NetworkCheckerI18n.ns}.$scheme";
 
   const _NetworkCheckerI18nEntry(this.scheme);
 
@@ -210,4 +216,51 @@ class _NetworkCheckerI18nEntry {
   String get disconnected => "$_ns.disconnected".tr();
 
   String get none => "$_ns.none".tr();
+}
+
+class TestConnectionTile extends StatefulWidget {
+  const TestConnectionTile({super.key});
+
+  @override
+  State<TestConnectionTile> createState() => _TestConnectionTileState();
+}
+
+class _TestConnectionTileState extends State<TestConnectionTile> {
+  var testState = ConnectivityStatus.none;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      enabled: testState != ConnectivityStatus.connecting,
+      leading: const Icon(Icons.network_check),
+      title: _i18n.testConnection.text(),
+      subtitle: _i18n.testConnectionDesc.text(),
+      trailing: Padding(
+          padding: const EdgeInsets.all(8),
+          child: switch (testState) {
+            ConnectivityStatus.connecting => const CircularProgressIndicator.adaptive(),
+            ConnectivityStatus.connected => const Icon(Icons.check, color: Colors.green),
+            ConnectivityStatus.disconnected => Icon(Icons.public_off_rounded, color: context.$red$),
+            _ => null,
+          }),
+      onTap: () async {
+        setState(() {
+          testState = ConnectivityStatus.connecting;
+        });
+        final bool connected;
+        try {
+          connected = await Init.ssoSession.checkConnectivity();
+          if (!mounted) return;
+          setState(() {
+            testState = connected ? ConnectivityStatus.connected : ConnectivityStatus.disconnected;
+          });
+        } catch (error) {
+          if (!mounted) return;
+          setState(() {
+            testState = ConnectivityStatus.disconnected;
+          });
+        }
+      },
+    );
+  }
 }

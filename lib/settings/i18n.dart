@@ -118,10 +118,6 @@ class _Proxy {
 
   String get shareQrCodeDesc => "$ns.shareQrCode.desc".tr();
 
-  String get testConnection => "$ns.testConnection.title".tr();
-
-  String get testConnectionDesc => "$ns.testConnection.desc".tr();
-
   String get protocol => "$ns.protocol".tr();
 
   String get hostname => "$ns.hostname".tr();

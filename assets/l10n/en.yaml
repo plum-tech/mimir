@@ -354,6 +354,9 @@ homepage:
   campusNetworkConnected: Campus network available
   campusNetworkUnconnected: Campus network unavailable
 networkChecker:
+  testConnection:
+    title: Test connection
+    desc: Test connecting to school server
   button:
     connected: Continue
     connecting: Checking...
@@ -533,9 +536,6 @@ settings:
       school: School-only
       globalTip: Access all networks by proxy
       schoolTip: Access non-school networks bypass proxy
-    testConnection:
-      title: Test connection
-      desc: Test connecting to school server
     copyTip:
       full: HTTP proxy is copied
       hostname: Hostname is copied
