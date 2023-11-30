@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/entity/campus.dart';

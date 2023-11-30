@@ -1,5 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'search.g.dart';
+
+@JsonEnum()
 enum SearchMethod {
   any(""),
   title("title"),
@@ -16,9 +20,11 @@ enum SearchMethod {
   final String internalQueryParameter;
 
   const SearchMethod(this.internalQueryParameter);
+
   String l10nName() => "library.searchMethod.$name".tr();
 }
 
+@JsonEnum()
 enum SortMethod {
   // 匹配度
   matchScore("score"),
@@ -52,6 +58,7 @@ enum SortMethod {
   String l10nName() => "library.sortMethod.$name".tr();
 }
 
+@JsonEnum()
 enum SortOrder {
   asc("asc"),
   desc("desc");
@@ -59,4 +66,33 @@ enum SortOrder {
   final String internalQueryParameter;
 
   const SortOrder(this.internalQueryParameter);
+}
+
+@JsonSerializable()
+class SearchHistoryItem {
+  @JsonKey()
+  final String keyword;
+  @JsonKey()
+  final SearchMethod searchMethod;
+  @JsonKey()
+  final DateTime time;
+
+  SearchHistoryItem({
+    required this.keyword,
+    required this.searchMethod,
+    required this.time,
+  });
+
+  @override
+  String toString() {
+    return {
+      "keyword": keyword,
+      "searchMethod": searchMethod,
+      "time": time,
+    }.toString();
+  }
+
+  factory SearchHistoryItem.fromJson(Map<String, dynamic> json) => _$SearchHistoryItemFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SearchHistoryItemToJson(this);
 }

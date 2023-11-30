@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/library/widgets/search.dart';
 
-import '../entity/hot_search.dart';
+import '../entity/hot.dart';
 import '../entity/search.dart';
-import '../entity/history.dart';
 import '../init.dart';
 import 'search_result.dart';
 

@@ -15,7 +15,7 @@ class Migrations {
   static MigrationMatch match({
     required Version? from,
     required Version? to,
-  })  {
+  }) {
     final result = <Migration>[];
     if (from == null) {
       final onNullVersion = _onNullVersion;

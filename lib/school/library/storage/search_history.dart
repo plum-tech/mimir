@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:sit/storage/hive/init.dart';
-import '../entity/history.dart';
+import '../entity/search.dart';
 
 class SearchHistoryStorage {
   Box get box => HiveInit.library;

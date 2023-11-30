@@ -4,7 +4,7 @@ import 'package:sit/init.dart';
 
 import 'package:sit/session/library.dart';
 
-import '../entity/hot_search.dart';
+import '../entity/hot.dart';
 import '../const.dart';
 
 class HotSearchService {

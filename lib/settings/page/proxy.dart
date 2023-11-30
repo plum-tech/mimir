@@ -22,9 +22,7 @@ class ProxySettingsPage extends StatefulWidget {
   State<ProxySettingsPage> createState() => _ProxySettingsPageState();
 }
 
-
 class _ProxySettingsPageState extends State<ProxySettingsPage> {
-
   @override
   Widget build(BuildContext context) {
     final proxy = Settings.httpProxy.address;

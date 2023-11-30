@@ -27,7 +27,6 @@ class ExamResultAppCard extends StatefulWidget {
 }
 
 class _ExamResultAppCardState extends State<ExamResultAppCard> {
-
   List<ExamResult>? resultList;
   late final EventSubscription $refreshEvent;
 
