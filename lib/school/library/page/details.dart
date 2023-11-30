@@ -153,7 +153,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                     final item = holding[i];
                     return ListTile(
                       title: Text('所在馆：${item.currentLocation}'),
-                      subtitle: item.callNo == book.callNumber ? null : '索书号：${item.callNo}'.text(),
+                      subtitle: item.callNumber == book.callNumber ? null : '索书号：${item.callNumber}'.text(),
                       trailing: Text('在馆(${item.loanableCount})/馆藏(${item.copyCount})'),
                     );
                   }),

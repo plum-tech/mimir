@@ -26,11 +26,11 @@ class LibrarySession {
     }
 
     final response = await fetch();
-    final resData = response.data as String?;
-    // renew login
-    final credentials = CredentialInit.storage.libraryCredentials;
-    if (credentials != null) {
-      if (resData != null) {
+    final resData = response.data;
+    if (resData is String) {
+      // renew login
+      final credentials = CredentialInit.storage.libraryCredentials;
+      if (credentials != null) {
         if (resData.contains("/opac/reader/doLogin")) {
           await LibraryInit.auth.login(credentials);
           return await fetch();

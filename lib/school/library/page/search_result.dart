@@ -9,6 +9,9 @@ import 'package:sit/design/widgets/common.dart';
 import 'package:sit/school/library/page/details.model.dart';
 import 'package:sit/school/library/widgets/search.dart';
 
+import '../entity/book.dart';
+import '../entity/holding_preview.dart';
+import '../entity/image.dart';
 import '../entity/search.dart';
 import '../init.dart';
 import 'details.dart';
@@ -51,7 +54,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
   var totalPage = 10;
 
   /// 最终前端展示的数据
-  List<BookImageHolding> books = [];
+  List<({Book book, BookImage? image, List<HoldingPreviewItem>? holding})>? books;
 
   bool isFetching = false;
 
@@ -100,12 +103,12 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
         totalPage = searchResult.totalPages;
 
         debugPrint(searchResult.toString());
-        final nextPage = await BookImageHolding.simpleQuery(
+        final nextPage = await libraryComposableQuery(
           searchResult.books,
         );
         if (!mounted) return;
         setState(() {
-          books.addAll(nextPage);
+          (books ??= <({Book book, BookImage? image, List<HoldingPreviewItem>? holding})>[]).addAll(nextPage);
           isFetching = false;
         });
       }
@@ -126,6 +129,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
   Widget build(BuildContext context) {
     super.build(context);
     final onSearchTap = widget.onSearchTap;
+    final books = this.books;
     return Scaffold(
       body: CustomScrollView(
         controller: scrollController,
@@ -133,39 +137,42 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
           SliverToBoxAdapter(
             child: buildSearchMethodSwitcher().sized(h: 40),
           ),
-          if (books.isEmpty)
-            SliverFillRemaining(
-              child: LeavingBlank(
-                icon: Icons.inbox_outlined,
-                desc: "No books",
-              ),
-            )
-          else
-            SliverList.builder(
-                itemCount: books.length,
-                itemBuilder: (ctx, i) {
-                  final book = books[i];
-                  return BookCard(
-                    book,
-                    onSearchTap: onSearchTap,
-                    onTap: () async {
-                      await context.show$Sheet$(
-                        (ctx) => BookDetailsPage(
-                          book: BookModel.fromBook(book.book),
-                          image: book.image,
-                          holding: book.holding,
-                          onSearchTap: onSearchTap == null
-                              ? null
-                              : (method, keyword) {
-                                  // pop the sheet
-                                  ctx.pop();
-                                  onSearchTap(method, keyword);
-                                },
-                        ),
-                      );
-                    },
-                  );
-                })
+          if (books != null)
+            if (books.isEmpty)
+              SliverFillRemaining(
+                child: LeavingBlank(
+                  icon: Icons.inbox_outlined,
+                  desc: "No books",
+                ),
+              )
+            else
+              SliverList.builder(
+                  itemCount: books.length,
+                  itemBuilder: (ctx, i) {
+                    final (:book, :image, :holding) = books[i];
+                    return BookCard(
+                      book: book,
+                      image: image,
+                      holding: holding,
+                      onSearchTap: onSearchTap,
+                      onTap: () async {
+                        await context.show$Sheet$(
+                          (ctx) => BookDetailsPage(
+                            book: BookModel.fromBook(book),
+                            image: image,
+                            holding: holding,
+                            onSearchTap: onSearchTap == null
+                                ? null
+                                : (method, keyword) {
+                                    // pop the sheet
+                                    ctx.pop();
+                                    onSearchTap(method, keyword);
+                                  },
+                          ),
+                        );
+                      },
+                    );
+                  })
         ],
       ),
       bottomNavigationBar: isFetching
@@ -194,23 +201,27 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
 }
 
 class BookCard extends StatelessWidget {
-  final BookImageHolding bookImageHolding;
+  final Book book;
+  final BookImage? image;
+  final List<HoldingPreviewItem>? holding;
   final void Function()? onTap;
   final BookSearchCallback? onSearchTap;
 
-  const BookCard(
-    this.bookImageHolding, {
+  const BookCard({
     super.key,
     this.onSearchTap,
     this.onTap,
+    required this.book,
+    this.image,
+    this.holding,
   });
 
   @override
   Widget build(BuildContext context) {
-    final book = bookImageHolding.book;
+    final book = this.book;
     final onSearchTap = this.onSearchTap;
-    final holding = bookImageHolding.holding ?? const [];
-    final imgUrl = bookImageHolding.image?.resourceLink;
+    final holding = this.holding ?? const [];
+    final imgUrl = image?.resourceLink;
     // 计算总共馆藏多少书
     int copyCount = holding.isEmpty ? 0 : holding.map((e) => e.copyCount).reduce((value, element) => value + element);
     // 计算总共可借多少书
