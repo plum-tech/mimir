@@ -6,6 +6,7 @@ import 'package:sit/r.dart';
 class _K {
   static const lastVersion = "${R.appId}.lastVersion";
   static const lastWindowSize = "${R.appId}.lastWindowSize";
+  static const installTime = "${R.appId}.installTime";
 }
 
 extension PrefsX on SharedPreferences {
@@ -16,6 +17,15 @@ extension PrefsX on SharedPreferences {
   Size? getLastWindowSize() => _string2Size(getString(_K.lastWindowSize));
 
   Future<void> setLastWindowSize(Size value) => setString(_K.lastWindowSize, _size2String(value));
+
+  /// The first time when user launch this app
+  DateTime? getInstallTime() {
+    final raw = getString(_K.installTime);
+    if (raw == null) return null;
+    return DateTime.tryParse(raw);
+  }
+
+  Future<void> setInstallTime(DateTime value) => setString(_K.installTime, value.toString());
 }
 
 Size? _string2Size(String? value) {

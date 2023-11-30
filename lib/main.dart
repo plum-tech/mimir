@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sit/files.dart';
+import 'package:sit/migration/foundation.dart';
 import 'package:sit/network/proxy.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/init.dart';
@@ -36,6 +37,9 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   final lastSize = prefs.getLastWindowSize();
   await DesktopInit.init(size: lastSize);
+  if (prefs.getInstallTime() == null) {
+    await prefs.setInstallTime(DateTime.now());
+  }
   // Initialize the window size before others for a better experience when loading.
   await SystemTheme.accentColor.load();
   await EasyLocalization.ensureInitialized();
@@ -57,7 +61,9 @@ void main() async {
   final currentVersion = R.currentVersion.full;
   final lastVersionRaw = prefs.getLastVersion();
   final lastVersion = lastVersionRaw != null ? Version.parse(lastVersionRaw) : currentVersion;
-  await Migrations.perform(from: lastVersion, to: currentVersion);
+  final migrations = Migrations.match(from: lastVersion, to: currentVersion);
+
+  await migrations.perform(MigrationPhrase.beforeHive);
   await prefs.setLastVersion(lastVersion.toString());
 
   R.roomList = await _loadRoomNumberList();
@@ -73,10 +79,9 @@ void main() async {
 
   // Setup Settings and Meta
   Settings.isDeveloperMode = kDebugMode;
-  // The first time when user launch this app
-  Meta.installTime ??= DateTime.now();
   // The last time when user launch this app
   Meta.lastStartupTime = DateTime.now();
+  await migrations.perform(MigrationPhrase.afterHive);
   Init.registerCustomEditor();
   HttpOverrides.global = SitHttpOverrides();
   await Init.initNetwork();
