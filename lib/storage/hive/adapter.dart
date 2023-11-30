@@ -5,6 +5,7 @@ import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/life/electricity/entity/balance.dart';
 import 'package:sit/life/expense_records/entity/local.dart';
+import 'package:sit/school/library/entity/book.dart';
 import 'package:sit/school/ywb/entity/service.dart';
 import 'package:sit/school/ywb/entity/application.dart';
 import 'package:sit/school/exam_result/entity/result.dart';
@@ -75,5 +76,9 @@ class HiveAdapter {
 
     // Yellow Pages
     hive.addAdapter(SchoolContactAdapter());
+
+    // Library
+    hive.addAdapter(BookAdapter());
+    hive.addAdapter(BookDetailsAdapter());
   }
 }

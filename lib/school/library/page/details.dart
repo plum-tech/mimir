@@ -33,7 +33,7 @@ class BookDetailsPage extends StatefulWidget {
 }
 
 class _BookDetailsPageState extends State<BookDetailsPage> {
-  BookDetails? info;
+  late BookDetails? details = LibraryInit.bookStorage.getBookDetails(widget.book.bookId);
   bool isFetching = false;
 
   @override
@@ -43,15 +43,18 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   }
 
   Future<void> fetchDetails() async {
+    if (details != null) return;
     if (!context.mounted) return;
     setState(() {
       isFetching = true;
     });
+    final bookId = widget.book.bookId;
     try {
-      final info = await LibraryInit.bookDetailsService.query(widget.book.bookId);
+      final details = await LibraryInit.bookDetailsService.query(bookId);
+      await LibraryInit.bookStorage.setBookDetails(bookId, details);
       if (!context.mounted) return;
       setState(() {
-        this.info = info;
+        this.details = details;
         isFetching = false;
       });
     } catch (error, stackTrace) {
@@ -67,7 +70,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final info = this.info;
+    final details = this.details;
     final book = widget.book;
     final imgUrl = widget.image?.resourceLink;
     // FIXME: always null
@@ -157,10 +160,10 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                       trailing: Text('在馆(${item.loanableCount})/馆藏(${item.copyCount})'),
                     );
                   }),
-            if (info != null)
+            if (details != null)
               SliverList.list(children: [
                 const Divider(),
-                buildBookDetails(info).padAll(10),
+                buildBookDetails(details).padAll(10),
               ]),
           ],
         ),

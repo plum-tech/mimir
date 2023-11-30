@@ -1,10 +1,22 @@
+import 'package:sit/storage/hive/type_id.dart';
+
+part "book.g.dart";
+
+@HiveType(typeId: CacheHiveType.libraryBook)
 class Book {
+  @HiveField(0)
   final String bookId;
+  @HiveField(1)
   final String isbn;
+  @HiveField(2)
   final String title;
+  @HiveField(3)
   final String author;
+  @HiveField(4)
   final String publisher;
+  @HiveField(5)
   final String publishDate;
+  @HiveField(6)
   final String callNumber;
 
   const Book({
@@ -29,6 +41,16 @@ class Book {
       "callNumber": callNumber,
     }.toString();
   }
+}
+
+@HiveType(typeId: CacheHiveType.libraryBookDetails)
+class BookDetails {
+  @HiveField(0)
+  final Map<String, String> details;
+
+  const BookDetails({
+    required this.details,
+  });
 }
 
 class BookSearchResult {
@@ -56,14 +78,12 @@ class BookSearchResult {
 
   @override
   String toString() {
-    return 'BookSearchResult{resultCount: $resultCount, useTime: $useTime, currentPage: $currentPage, totalPages: $totalPages, books: $books}';
+    return {
+      "resultCount": resultCount,
+      "useTime": useTime,
+      "currentPage": currentPage,
+      "totalPages": totalPages,
+      "books": books,
+    }.toString();
   }
-}
-
-class BookDetails {
-  final Map<String, String> details;
-
-  const BookDetails({
-    required this.details,
-  });
 }

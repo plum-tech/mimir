@@ -66,7 +66,7 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
   @override
   void showResults(BuildContext context) {
     super.showResults(context);
-    LibraryInit.searchHistoryStorage.add(SearchHistoryItem(
+    LibraryInit.searchStorage.add(SearchHistoryItem(
       keyword: query,
       time: DateTime.now(),
       searchMethod: $searchMethod.value,
@@ -114,7 +114,7 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
             const SizedBox(height: 20),
             Text('历史记录', style: Theme.of(context).textTheme.bodyLarge),
             SuggestionItemView(
-              titleItems: LibraryInit.searchHistoryStorage.getAllByTimeDesc().map((e) => e.keyword).toList(),
+              titleItems: LibraryInit.searchStorage.getAllByTimeDesc().map((e) => e.keyword).toList(),
               onItemTap: (title) => searchByGiving(context, keyword: title),
             ),
             const SizedBox(height: 20),
@@ -127,7 +127,7 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
                 ],
               ),
               onTap: () async {
-                LibraryInit.searchHistoryStorage.deleteAll();
+                LibraryInit.searchStorage.deleteAll();
                 close(context, '');
               },
             ),

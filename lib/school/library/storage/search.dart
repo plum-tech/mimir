@@ -3,7 +3,7 @@ import 'package:sit/storage/hive/init.dart';
 import '../entity/search.dart';
 
 class _K {
-  static const ns = "/library/search";
+  static const ns = "/search";
   static const searchHistory = "$ns/searchHistory";
   static const hotSearch = "$ns/hotSearch";
 }

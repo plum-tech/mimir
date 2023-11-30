@@ -22,11 +22,12 @@ class OaAnnounceStorage {
 
   OaAnnounceRecord? getAnnounce(String uuid) => box.get(_K.announce(uuid));
 
-  Future<void> setAnnounce(String uuid, OaAnnounceRecord announce) => box.put(_K.announce(uuid), announce);
+  Future<void> setAnnounce(String uuid, OaAnnounceRecord? announce) => box.put(_K.announce(uuid), announce);
 
   OaAnnounceDetails? getAnnounceDetails(String uuid) => box.get(_K.announceDetails(uuid));
 
-  Future<void> setAnnounceDetails(String uuid, OaAnnounceDetails details) => box.put(_K.announceDetails(uuid), details);
+  Future<void> setAnnounceDetails(String uuid, OaAnnounceDetails? details) =>
+      box.put(_K.announceDetails(uuid), details);
 
   List<OaAnnounceRecord>? getAnnouncements(OaAnnounceCat type) {
     final idList = getAnnounceIdList(type);

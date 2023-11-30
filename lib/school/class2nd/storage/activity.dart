@@ -24,11 +24,11 @@ class Class2ndActivityStorage {
 
   Class2ndActivity? getActivity(int id) => box.get(_K.activity(id));
 
-  Future<void> setActivity(int id, Class2ndActivity activity) => box.put(_K.activity(id), activity);
+  Future<void> setActivity(int id, Class2ndActivity? activity) => box.put(_K.activity(id), activity);
 
   Class2ndActivityDetails? getActivityDetails(int id) => box.get(_K.activityDetails(id));
 
-  Future<void> setActivityDetails(int id, Class2ndActivityDetails details) => box.put(_K.activityDetails(id), details);
+  Future<void> setActivityDetails(int id, Class2ndActivityDetails? details) => box.put(_K.activityDetails(id), details);
 
   List<Class2ndActivity>? getActivities(Class2ndActivityCat type) {
     final idList = getActivityIdList(type);

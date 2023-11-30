@@ -49,4 +49,8 @@ class CacheHiveType {
 
   // School yellow pages 70-79
   static const schoolContact = 70;
+
+  // Library 80-89
+  static const libraryBook = 80;
+  static const libraryBookDetails = 81;
 }
