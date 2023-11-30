@@ -10,7 +10,12 @@ class BookImage {
   final String resourceLink;
   final int status;
 
-  const BookImage(this.isbn, this.coverLink, this.resourceLink, this.status);
+  const BookImage({
+    required this.isbn,
+    required this.coverLink,
+    required this.resourceLink,
+    required this.status,
+  });
 
   factory BookImage.fromJson(Map<String, dynamic> json) => _$BookImageFromJson(json);
 

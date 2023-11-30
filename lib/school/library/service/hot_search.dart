@@ -4,8 +4,8 @@ import 'package:sit/init.dart';
 
 import 'package:sit/session/library.dart';
 
-import '../entity/hot.dart';
 import '../const.dart';
+import '../entity/search.dart';
 
 class HotSearchService {
   LibrarySession get session => Init.librarySession;

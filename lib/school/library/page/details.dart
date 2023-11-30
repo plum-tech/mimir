@@ -48,7 +48,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
       isFetching = true;
     });
     try {
-      final info = await LibraryInit.bookInfo.query(widget.book.bookId);
+      final info = await LibraryInit.bookDetailsService.query(widget.book.bookId);
       if (!context.mounted) return;
       setState(() {
         this.info = info;

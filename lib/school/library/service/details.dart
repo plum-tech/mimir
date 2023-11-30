@@ -9,10 +9,10 @@ import 'package:sit/session/library.dart';
 import '../const.dart';
 import '../entity/book.dart';
 
-class BookInfoService {
+class BookDetailsService {
   LibrarySession get session => Init.librarySession;
 
-  const BookInfoService();
+  const BookDetailsService();
 
   Future<BookDetails> query(String bookId) async {
     final response = await session.request(

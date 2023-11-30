@@ -13,32 +13,6 @@ class BookSearchService {
 
   const BookSearchService();
 
-  static Book _parseBook(Bs4Element e) {
-    // 获得图书信息
-    String getBookInfo(String name, String selector) {
-      return e.find(name, selector: selector)!.text.trim();
-    }
-
-    final bookCoverImage = e.find('img', class_: 'bookcover_img')!;
-    final author = getBookInfo('a', '.author-link');
-    final bookId = bookCoverImage.attributes['bookrecno']!;
-    final isbn = bookCoverImage.attributes['isbn']!;
-    final callNo = getBookInfo('span', '.callnosSpan');
-    final publishDate = getBookInfo('div', 'div').split('出版日期:')[1].split('\n')[0].trim();
-
-    final publisher = getBookInfo('a', '.publisher-link');
-    final title = getBookInfo('a', '.title-link');
-    return Book(
-      bookId: bookId,
-      isbn: isbn,
-      title: title,
-      author: author,
-      publisher: publisher,
-      publishDate: publishDate,
-      callNumber: callNo,
-    );
-  }
-
   Future<BookSearchResult> search({
     String keyword = '',
     int rows = 10,
@@ -92,6 +66,32 @@ class BookSearchService {
       currentPage: int.parse(currentPage),
       totalPages: int.parse(totalPages.substring(1, totalPages.length - 1).trim().replaceAll(',', '')),
       books: books,
+    );
+  }
+
+  static Book _parseBook(Bs4Element e) {
+    // 获得图书信息
+    String getBookInfo(String name, String selector) {
+      return e.find(name, selector: selector)!.text.trim();
+    }
+
+    final bookCoverImage = e.find('img', class_: 'bookcover_img')!;
+    final author = getBookInfo('a', '.author-link');
+    final bookId = bookCoverImage.attributes['bookrecno']!;
+    final isbn = bookCoverImage.attributes['isbn']!;
+    final callNo = getBookInfo('span', '.callnosSpan');
+    final publishDate = getBookInfo('div', 'div').split('出版日期:')[1].split('\n')[0].trim();
+
+    final publisher = getBookInfo('a', '.publisher-link');
+    final title = getBookInfo('a', '.title-link');
+    return Book(
+      bookId: bookId,
+      isbn: isbn,
+      title: title,
+      author: author,
+      publisher: publisher,
+      publishDate: publishDate,
+      callNumber: callNo,
     );
   }
 }
