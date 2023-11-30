@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/school/class2nd/index.dart';
 import 'package:sit/school/event.dart';
 import 'package:sit/school/exam_arrange/index.dart';
@@ -96,31 +95,6 @@ class _SchoolPageState extends State<SchoolPage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class ExamArrApp extends StatefulWidget {
-  const ExamArrApp({super.key});
-
-  @override
-  State<ExamArrApp> createState() => _ExamArrAppState();
-}
-
-class _ExamArrAppState extends State<ExamArrApp> {
-  @override
-  Widget build(BuildContext context) {
-    return FilledCard(
-      child: [
-        ListTile(
-          titleTextStyle: context.textTheme.titleLarge,
-          title: "Exam Arrangement".text(),
-          subtitle: "aa".text(),
-        ),
-        OverflowBar(
-          children: [],
-        ),
-      ].column(),
     );
   }
 }

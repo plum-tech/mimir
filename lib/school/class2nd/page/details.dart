@@ -14,7 +14,6 @@ import '../entity/details.dart';
 import '../init.dart';
 import '../i18n.dart';
 import '../utils.dart';
-import '../widgets/activity.dart';
 
 String _getActivityUrl(int activityId) {
   return 'http://sc.sit.edu.cn/public/activity/activityDetail.action?activityId=$activityId';
@@ -36,12 +35,6 @@ class Class2ndActivityDetailsPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _Class2ndActivityDetailsPageState();
-}
-
-class _Tab {
-  static const length = 2;
-  static const info = 0;
-  static const description = 1;
 }
 
 class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPage> {
@@ -72,7 +65,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTabController(
-        length: _Tab.length,
+        length: 2,
         child: NestedScrollView(
           floatHeaderSlivers: true,
           headerSliverBuilder: (context, innerBoxIsScrolled) {

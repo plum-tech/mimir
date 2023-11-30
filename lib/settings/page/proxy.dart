@@ -227,12 +227,12 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
               trailing: IconButton(
                 icon: const Icon(Icons.edit),
                 onPressed: () async {
-                  final newHostName = (await Editor.showStringEditor(
+                  final newHostNameRaw = await Editor.showStringEditor(
                     context,
                     desc: i18n.proxy.hostname,
                     initial: hostname,
-                  ))
-                      .trim();
+                  );
+                  final newHostName = newHostNameRaw.trim();
                   if (newHostName != hostname) {
                     onChanged(newHostName);
                   }

@@ -46,8 +46,8 @@ class OaOnlineScope extends InheritedWidget {
   const OaOnlineScope({
     super.key,
     required this.isOnline,
-    required Widget child,
-  }) : super(child: child);
+    required super.child,
+  });
 
   static OaOnlineScope of(BuildContext context) {
     final OaOnlineScope? result = context.dependOnInheritedWidgetOfExactType<OaOnlineScope>();

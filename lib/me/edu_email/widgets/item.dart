@@ -8,7 +8,7 @@ import '../page/details.dart';
 class EmailItem extends StatelessWidget {
   final MimeMessage _message;
 
-  const EmailItem(this._message, {Key? key}) : super(key: key);
+  const EmailItem(this._message, {super.key});
 
   @override
   Widget build(BuildContext context) {

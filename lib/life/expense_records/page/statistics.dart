@@ -174,21 +174,21 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
   }
 
   Widget buildWeekChart() {
-    return BaseLineChartWidget(
+    return const BaseLineChartWidget(
       bottomTitles: [],
       values: [],
     );
   }
 
   Widget buildMonthChart() {
-    return BaseLineChartWidget(
+    return const BaseLineChartWidget(
       bottomTitles: [],
       values: [],
     );
   }
 
   Widget buildYearChart() {
-    return BaseLineChartWidget(
+    return const BaseLineChartWidget(
       bottomTitles: [],
       values: [],
     );
@@ -200,10 +200,10 @@ class BaseLineChartWidget extends StatelessWidget {
   final List<double> values;
 
   const BaseLineChartWidget({
-    Key? key,
+    super.key,
     required this.bottomTitles,
     required this.values,
-  }) : super(key: key);
+  });
 
   ///底部标题栏
   Widget bottomTitle(BuildContext ctx, double value, TitleMeta mate) {
@@ -240,7 +240,7 @@ class BaseLineChartWidget extends StatelessWidget {
     return LineChart(
       LineChartData(
         ///触摸控制
-        lineTouchData: LineTouchData(
+        lineTouchData: const LineTouchData(
           touchTooltipData: LineTouchTooltipData(
             tooltipBgColor: Colors.transparent,
           ),
@@ -275,7 +275,7 @@ class BaseLineChartWidget extends StatelessWidget {
         ///图表线表线框
         titlesData: FlTitlesData(
           show: true,
-          rightTitles: AxisTitles(),
+          rightTitles: const AxisTitles(),
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
@@ -283,7 +283,7 @@ class BaseLineChartWidget extends StatelessWidget {
               getTitlesWidget: (v, meta) => leftTitle(context, v, meta),
             ),
           ),
-          topTitles: AxisTitles(),
+          topTitles: const AxisTitles(),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,

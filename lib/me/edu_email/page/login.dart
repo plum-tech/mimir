@@ -87,11 +87,11 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
               if (EmailValidator.validate(R.formatEduEmail(username: username))) return null;
               return "invalid email address format";
             },
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: "Email Address",
               hintText: "your Student ID",
               suffixText: "@${R.eduEmailDomain}",
-              icon: const Icon(Icons.alternate_email_outlined),
+              icon: Icon(Icons.alternate_email_outlined),
             ),
           ),
           TextFormField(

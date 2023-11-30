@@ -16,7 +16,6 @@ import 'package:sit/school/class2nd/utils.dart';
 
 import '../entity/attended.dart';
 import '../init.dart';
-import '../widgets/activity.dart';
 import '../widgets/summary.dart';
 import '../i18n.dart';
 

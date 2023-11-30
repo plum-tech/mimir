@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/tags.dart';
 import 'package:sit/l10n/extension.dart';

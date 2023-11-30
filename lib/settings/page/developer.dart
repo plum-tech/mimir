@@ -108,7 +108,7 @@ class _DebugGoRouteTileState extends State<DebugGoRouteTile> {
       title: "Go route".text(),
       subtitle: TextField(
         controller: $route,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           hintText: "/anywhere",
         ),
       ),
@@ -120,7 +120,7 @@ class _DebugGoRouteTileState extends State<DebugGoRouteTile> {
                     : () {
                         context.push(route.text);
                       },
-                icon: Icon(Icons.arrow_forward))
+                icon: const Icon(Icons.arrow_forward))
       ].row(mas: MainAxisSize.min),
     );
   }

@@ -57,12 +57,12 @@ class TimetableStyleData {
 
   TimetableStyleData copyWith({
     TimetablePalette? platte,
-    CourseCellStyle? cell,
+    CourseCellStyle? cellStyle,
     BackgroundImage? background,
   }) {
     return TimetableStyleData(
       platte: platte ?? this.platte,
-      cellStyle: cell ?? this.cellStyle,
+      cellStyle: cellStyle ?? this.cellStyle,
       background: background ?? this.background,
     );
   }
@@ -165,7 +165,7 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
       background: background,
     ).copyWith(
       platte: widget.palette,
-      cell: widget.cellStyle,
+      cellStyle: widget.cellStyle,
       background: widget.background,
     );
     return TimetableStyle(

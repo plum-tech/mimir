@@ -1,6 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:sit/school/library/service/holding_preview.dart';
-import 'package:sit/school/library/service/image_search.dart';
 
 import 'entity/book_image.dart';
 import 'entity/book.dart';
