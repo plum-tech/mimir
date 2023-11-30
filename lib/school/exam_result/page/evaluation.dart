@@ -19,7 +19,7 @@ class TeacherEvaluationPage extends StatefulWidget {
   State<TeacherEvaluationPage> createState() => _TeacherEvaluationPageState();
 }
 
-final evaluationUri = Uri(
+final teacherEvaluationUri = Uri(
   scheme: 'http',
   host: 'jwxt.sit.edu.cn',
   path: '/jwglxt/xspjgl/xspj_cxXspjIndex.html',
@@ -63,12 +63,12 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
   Future<void> loadCookies() async {
     // refresh the cookies
     await ExamResultInit.service.session.request(
-      evaluationUri.toString(),
+      teacherEvaluationUri.toString(),
       options: Options(
         method: "GET",
       ),
     );
-    final cookies = await Init.cookieJar.loadAsWebViewCookie(evaluationUri);
+    final cookies = await Init.cookieJar.loadAsWebViewCookie(teacherEvaluationUri);
     setState(() {
       this.cookies = cookies;
     });
@@ -80,7 +80,7 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
     if (cookies == null) return const SizedBox();
     return WebViewPage(
       controller: controller,
-      initialUrl: evaluationUri.toString(),
+      initialUrl: teacherEvaluationUri.toString(),
       fixedTitle: i18n.teacherEvalTitle,
       initialCookies: cookies,
       pageFinishedInjections: const [

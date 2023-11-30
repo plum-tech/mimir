@@ -6,10 +6,13 @@ import 'package:sit/design/widgets/app.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/event.dart';
 import 'package:sit/school/exam_result/init.dart';
+import 'package:sit/school/exam_result/page/evaluation.dart';
 import 'package:sit/school/exam_result/widgets/item.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/utils/guard_launch.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import 'entity/result.dart';
 import "i18n.dart";
@@ -69,7 +72,11 @@ class _ExamResultAppCardState extends State<ExamResultAppCard> {
         ),
         OutlinedButton(
           onPressed: () async {
-            await context.push("/teacher-eval");
+            if (UniversalPlatform.isDesktop) {
+              await guardLaunchUrl(context, teacherEvaluationUri);
+            } else {
+              await context.push("/teacher-eval");
+            }
           },
           child: i18n.teacherEval.text(),
         )

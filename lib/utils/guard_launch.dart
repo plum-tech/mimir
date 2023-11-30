@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 Future<bool> guardLaunchUrl(BuildContext ctx, Uri url) async {
   if (url.scheme == "http" || url.scheme == "https") {
     // guards the http(s)
-    if (!UniversalPlatform.isDesktopOrWeb) {
+    if (!UniversalPlatform.isDesktop) {
       ctx.push(Uri(
         path: "/browser",
         queryParameters: {"url": url},
