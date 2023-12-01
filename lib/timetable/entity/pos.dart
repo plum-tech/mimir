@@ -1,4 +1,5 @@
 import 'package:quiver/core.dart';
+import 'package:sit/l10n/time.dart';
 
 import 'timetable.dart';
 
@@ -7,14 +8,14 @@ class TimetablePos {
   final int weekIndex;
 
   /// starts with 0
-  final int dayIndex;
+  final Weekday weekday;
 
   const TimetablePos({
     required this.weekIndex,
-    required this.dayIndex,
+    required this.weekday,
   });
 
-  static const initial = TimetablePos(weekIndex: 0, dayIndex: 0);
+  static const initial = TimetablePos(weekIndex: 0, weekday: Weekday.monday);
 
   static TimetablePos locate(
     DateTime current, {
@@ -27,7 +28,7 @@ class TimetablePos {
     int week = totalDays ~/ 7 + 1;
     int day = totalDays % 7 + 1;
     if (totalDays >= 0 && 1 <= week && week <= 20 && 1 <= day && day <= 7) {
-      return TimetablePos(weekIndex: week - 1, dayIndex: day - 1);
+      return TimetablePos(weekIndex: week - 1, weekday: Weekday.fromIndex(day - 1));
     } else {
       // if out of range, fallback will be return.
       return fallback ?? initial;
@@ -36,11 +37,11 @@ class TimetablePos {
 
   TimetablePos copyWith({
     int? weekIndex,
-    int? dayIndex,
+    Weekday? weekday,
   }) =>
       TimetablePos(
         weekIndex: weekIndex ?? this.weekIndex,
-        dayIndex: dayIndex ?? this.dayIndex,
+        weekday: weekday ?? this.weekday,
       );
 
   @override
@@ -48,15 +49,15 @@ class TimetablePos {
     return other is TimetablePos &&
         runtimeType == other.runtimeType &&
         weekIndex == other.weekIndex &&
-        dayIndex == other.dayIndex;
+        weekday == other.weekday;
   }
 
   @override
-  int get hashCode => hash2(weekIndex, dayIndex);
+  int get hashCode => hash2(weekIndex, weekday);
 
   @override
   String toString() {
-    return (week: weekIndex, day: dayIndex).toString();
+    return (week: weekIndex, day: weekday).toString();
   }
 }
 

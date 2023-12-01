@@ -20,10 +20,6 @@ class _I18n with CommonI18nMixin {
 
   String get navigation => "$ns.navigation".tr();
 
-  String weekday({required int index}) => "weekday.$index".tr();
-
-  String weekdayShort({required int index}) => "weekdayShort.$index".tr();
-
   String weekOrderedName({required int number}) => "$ns.weekOrderedName".tr(args: [number.toString()]);
 
   String get startWith => "$ns.startWith".tr();

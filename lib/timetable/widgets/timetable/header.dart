@@ -1,66 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:sit/l10n/time.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../../i18n.dart';
-
-BorderSide getBorderSide(BuildContext ctx) => BorderSide(color: ctx.colorScheme.primary.withOpacity(0.4), width: 0.8);
+BorderSide getTimetableBorderSide(BuildContext ctx) => BorderSide(color: ctx.colorScheme.primary.withOpacity(0.4), width: 0.8);
 
 class TimetableHeader extends StatelessWidget {
   final int weekIndex;
-  final int? selectedDayIndex;
-  final Function(int dayIndex)? onDayTap;
+  final Weekday? selectedWeekday;
+  final Function(Weekday dayIndex)? onDayTap;
   final DateTime startDate;
 
   const TimetableHeader({
     super.key,
     required this.weekIndex,
     required this.startDate,
-    this.selectedDayIndex,
+    this.selectedWeekday,
     this.onDayTap,
   });
 
   @override
   Widget build(BuildContext context) {
     final onDayTap = this.onDayTap;
-    return [
-      for (int dayIndex = 0; dayIndex < 7; dayIndex++)
-        Expanded(
-          child: InkWell(
-            onTap: onDayTap != null
-                ? () {
-                    onDayTap.call(dayIndex);
-                  }
-                : null,
-            child: HeaderCell(
-              weekIndex: weekIndex,
-              dayIndex: dayIndex,
-              startDate: startDate,
-              backgroundColor: dayIndex == selectedDayIndex ? context.colorScheme.secondaryContainer : null,
+
+    return Weekday.monday
+        .genSequenceStartWithThis()
+        .map((weekday) {
+          return Expanded(
+            child: InkWell(
+              onTap: onDayTap != null
+                  ? () {
+                      onDayTap.call(weekday);
+                    }
+                  : null,
+              child: HeaderCell(
+                weekIndex: weekIndex,
+                weekday: weekday,
+                startDate: startDate,
+                backgroundColor: weekday == selectedWeekday ? context.colorScheme.secondaryContainer : null,
+              ),
             ),
-          ),
-        ),
-    ].row(maa: MainAxisAlignment.spaceEvenly);
+          );
+        })
+        .toList()
+        .row(maa: MainAxisAlignment.spaceEvenly);
   }
 }
 
 class HeaderCell extends StatelessWidget {
   final int weekIndex;
-  final int dayIndex;
+  final Weekday weekday;
   final DateTime startDate;
   final Color? backgroundColor;
 
   const HeaderCell({
     super.key,
     required this.weekIndex,
-    required this.dayIndex,
+    required this.weekday,
     required this.startDate,
     this.backgroundColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    final side = getBorderSide(context);
+    final side = getTimetableBorderSide(context);
     return AnimatedContainer(
       decoration: BoxDecoration(
         color: backgroundColor,
@@ -69,7 +72,7 @@ class HeaderCell extends StatelessWidget {
       duration: const Duration(milliseconds: 100),
       child: HeaderCellTextBox(
         weekIndex: weekIndex,
-        dayIndex: dayIndex,
+        weekday: weekday,
         startDate: startDate,
       ),
     );
@@ -78,21 +81,25 @@ class HeaderCell extends StatelessWidget {
 
 class HeaderCellTextBox extends StatelessWidget {
   final int weekIndex;
-  final int dayIndex;
+  final Weekday weekday;
   final DateTime startDate;
 
   const HeaderCellTextBox({
     super.key,
     required this.weekIndex,
-    required this.dayIndex,
+    required this.weekday,
     required this.startDate,
   });
 
   @override
   Widget build(BuildContext context) {
-    final date = reflectWeekDayIndexToDate(weekIndex: weekIndex, dayIndex: dayIndex, startDate: startDate);
+    final date = reflectWeekDayIndexToDate(
+      weekIndex: weekIndex,
+      weekday: weekday,
+      startDate: startDate,
+    );
     return [
-      i18n.weekdayShort(index: dayIndex).text(
+      weekday.l10nShort().text(
             textAlign: TextAlign.center,
             style: context.textTheme.titleSmall,
           ),
