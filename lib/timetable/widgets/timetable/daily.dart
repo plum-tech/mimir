@@ -165,9 +165,8 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
 
   Widget buildPage(BuildContext ctx) {
     int weekIndex = widget.weekIndex;
-    int dayIndex = widget.dayIndex;
     final week = widget.timetable.weeks[weekIndex];
-    final day = week.days[dayIndex];
+    final day = week[widget.weekday];
     if (!day.hasAnyLesson()) {
       return FreeDayTip(
         timetable: widget.timetable,

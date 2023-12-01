@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/entity/campus.dart';
+import 'package:sit/l10n/time.dart';
 import 'package:sit/school/entity/school.dart';
 
 import '../utils.dart';
@@ -410,6 +411,10 @@ class SitTimetableWeek {
 
   @override
   String toString() => "$days";
+
+  SitTimetableDay operator [](Weekday weekday) => days[weekday.index];
+
+  operator []=(Weekday weekday, SitTimetableDay day) => days[weekday.index] = day;
 }
 
 /// Lessons in the same Timeslot.
