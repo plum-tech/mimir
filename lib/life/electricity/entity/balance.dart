@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/hive/type_id.dart';
+import 'package:sit/storage/hive/type_id.dart';
 
 part 'balance.g.dart';
 
@@ -19,7 +19,7 @@ const rmbPerKwh = 0.61;
 /// }]
 /// ```
 @JsonSerializable(createToJson: false)
-@HiveType(typeId: HiveTypeElectricity.balance)
+@HiveType(typeId: CacheHiveType.electricityBalance)
 class ElectricityBalance {
   @JsonKey(name: "Balance", fromJson: _parseBalance)
   @HiveField(0)
@@ -47,4 +47,14 @@ class ElectricityBalance {
   factory ElectricityBalance.fromJson(Map<String, dynamic> json) => _$ElectricityBalanceFromJson(json);
 
   double get remainingPower => balance / rmbPerKwh;
+
+  @override
+  String toString() {
+    return {
+      "balance": balance,
+      "baseBalance": baseBalance,
+      "electricityBalance": electricityBalance,
+      "roomNumber": roomNumber,
+    }.toString();
+  }
 }

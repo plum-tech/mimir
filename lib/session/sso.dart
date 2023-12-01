@@ -1,21 +1,22 @@
 import 'dart:math';
 
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:collection/collection.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' hide Key;
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/exception/session.dart';
-import 'package:sit/network/session.dart';
+import 'package:sit/init.dart';
+
 import 'package:sit/route.dart';
-import 'package:sit/session/common.dart';
+import 'package:sit/session/auth.dart';
 import 'package:sit/session/widgets/scope.dart';
-import 'package:sit/utils/logger.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:encrypt/encrypt.dart';
 
-import '../utils/dio_utils.dart';
+import '../utils/dio.dart';
 
 const _neededHeaders = {
   "Accept-Encoding": "gzip, deflate, br",
@@ -28,19 +29,15 @@ const _neededHeaders = {
   "Referer": "https://authserver.sit.edu.cn/authserver/login",
 };
 
-// TODO: improve login flow.
 /// Single Sign-On
-class SsoSession with DioDownloaderMixin {
+class SsoSession {
   static const String _authServerUrl = 'https://authserver.sit.edu.cn/authserver';
   static const String _loginUrl = '$_authServerUrl/login';
   static const String _needCaptchaUrl = '$_authServerUrl/needCaptcha.html';
   static const String _captchaUrl = '$_authServerUrl/captcha.html';
   static const String _loginSuccessUrl = 'https://authserver.sit.edu.cn/authserver/index.do';
 
-  // http客户端对象和缓存
-  @override
   final Dio dio;
-
   final CookieJar cookieJar;
 
   /// Session错误拦截器
@@ -65,8 +62,8 @@ class SsoSession with DioDownloaderMixin {
     try {
       await _dioRequest(
         url,
-        'GET',
         options: Options(
+          method: "GET",
           contentType: Headers.formUrlEncodedContentType,
           followRedirects: false,
           validateStatus: (status) => status! < 400,
@@ -84,15 +81,28 @@ class SsoSession with DioDownloaderMixin {
   }
 
   /// - User try to log in actively on a login page.
-  Future<Response> loginLocked(OaCredentials credential) async {
+  Future<Response> loginLocked(Credentials credentials) async {
     return await loginLock.synchronized(() async {
-      return await _login(credential);
+      try {
+        final autoCaptcha = await _login(
+          credentials: credentials,
+          inputCaptcha: (captchaImage) => AuthSession.recognizeOaCaptcha(captchaImage),
+        );
+        return autoCaptcha;
+      } catch (error, stackTrace) {
+        debugPrint(error.toString());
+        debugPrintStack(stackTrace: stackTrace);
+      }
+      final manuallyCaptcha = await _login(
+        credentials: credentials,
+        inputCaptcha: inputCaptcha,
+      );
+      return manuallyCaptcha;
     });
   }
 
   Future<Response> _dioRequest(
-    String url,
-    String method, {
+    String url, {
     Map<String, String>? queryParameters,
     dynamic data,
     Options? options,
@@ -102,7 +112,6 @@ class SsoSession with DioDownloaderMixin {
     try {
       return await _request(
         url,
-        method,
         queryParameters: queryParameters,
         data: data,
         options: options,
@@ -114,8 +123,7 @@ class SsoSession with DioDownloaderMixin {
   }
 
   Future<Response> _request(
-    String url,
-    String method, {
+    String url, {
     Map<String, String>? queryParameters,
     dynamic data,
     Options? options,
@@ -130,8 +138,6 @@ class SsoSession with DioDownloaderMixin {
         url,
         queryParameters: queryParameters,
         options: options?.copyWith(
-          headers: options.headers,
-          method: method,
           followRedirects: false,
           validateStatus: (status) {
             return status! < 400;
@@ -142,7 +148,7 @@ class SsoSession with DioDownloaderMixin {
         onReceiveProgress: onReceiveProgress,
       );
       // 处理重定向
-      return await DioUtils.processRedirect(dio, response, headers: _neededHeaders);
+      return await processRedirect(dio, response, headers: _neededHeaders);
     }
 
     // 第一次先正常请求
@@ -168,12 +174,20 @@ class SsoSession with DioDownloaderMixin {
     }
   }
 
-  Future<Response> _login(OaCredentials credentials) async {
-    Log.info('尝试登录：${credentials.account}');
-    Log.debug('当前登录UA: ${dio.options.headers['User-Agent']}');
+  Future<Cookie?> getJSessionId() async {
+    final cookies = await Init.cookieJar.loadForRequest(Uri.parse(_authServerUrl));
+    return cookies.firstWhereOrNull((cookie) => cookie.name == "JSESSIONID");
+  }
+
+  Future<Response> _login({
+    required Credentials credentials,
+    required Future<String?> Function(Uint8List imageBytes) inputCaptcha,
+  }) async {
+    debugPrint('${credentials.account} logging in');
+    debugPrint('UA: ${dio.options.headers['User-Agent']}');
     // 在 OA 登录时, 服务端会记录同一 cookie 用户登录次数和输入错误次数,
     // 所以需要在登录前清除所有 cookie, 避免用户重试时出错.
-    cookieJar.deleteAll();
+    await cookieJar.delete(Uri.parse(_authServerUrl));
     final Response response;
     try {
       // 首先获取AuthServer首页
@@ -186,9 +200,9 @@ class SsoSession with DioDownloaderMixin {
 
       // 获取首页验证码
       var captcha = '';
-      if (await _isCaptchaRequired(credentials.account)) {
+      if (await isCaptchaRequired(credentials.account)) {
         // 识别验证码
-        final captchaImage = await _getCaptcha();
+        final captchaImage = await getCaptcha();
         final c = await inputCaptcha(captchaImage);
         if (c != null) {
           captcha = c;
@@ -224,11 +238,11 @@ class SsoSession with DioDownloaderMixin {
     }
 
     if (response.realUri.toString() != _loginSuccessUrl) {
-      Log.error('未知验证错误,此时url为: ${response.realUri}');
+      debugPrint('Unknown auth error at "${response.realUri}"');
       _setOnline(false);
       throw UnknownAuthException(response.data.toString());
     }
-    Log.info('登录成功：${credentials.account}');
+    debugPrint('${credentials.account} logged in');
     CredentialInit.storage.oaLastAuthTime = DateTime.now();
     _setOnline(true);
     return response;
@@ -248,7 +262,7 @@ class SsoSession with DioDownloaderMixin {
     final a = RegExp(r'var pwdDefaultEncryptSalt = "(.*?)";');
     final matchResult = a.firstMatch(htmlText)!.group(0)!;
     final salt = matchResult.substring(29, matchResult.length - 2);
-    debugPrint('当前页面加密盐: $salt');
+    debugPrint('Salt: $salt');
     return salt;
   }
 
@@ -257,7 +271,7 @@ class SsoSession with DioDownloaderMixin {
     final a = RegExp(r'<input type="hidden" name="lt" value="(.*?)"');
     final matchResult = a.firstMatch(htmlText)!.group(0)!;
     final casTicket = matchResult.substring(38, matchResult.length - 1);
-    debugPrint('当前页面CAS Ticket: $casTicket');
+    debugPrint('CAS Ticket: $casTicket');
     return casTicket;
   }
 
@@ -271,7 +285,7 @@ class SsoSession with DioDownloaderMixin {
   }
 
   /// 判断是否需要验证码
-  Future<bool> _isCaptchaRequired(String username) async {
+  Future<bool> isCaptchaRequired(String username) async {
     final response = await dio.get(
       _needCaptchaUrl,
       queryParameters: {
@@ -281,12 +295,12 @@ class SsoSession with DioDownloaderMixin {
       options: Options(headers: _neededHeaders),
     );
     final needCaptcha = response.data == 'true';
-    debugPrint('当前账户: $username, 是否需要验证码: $needCaptcha');
+    debugPrint('Account: $username, Captcha required: $needCaptcha');
     return needCaptcha;
   }
 
   /// 获取验证码
-  Future<Uint8List> _getCaptcha() async {
+  Future<Uint8List> getCaptcha() async {
     final response = await dio.get(
       _captchaUrl,
       options: Options(
@@ -300,21 +314,20 @@ class SsoSession with DioDownloaderMixin {
 
   /// 登录统一认证平台
   Future<Response> _postLoginRequest(String username, String hashedPassword, String captcha, String casTicket) async {
-    final requestBody = {
-      'username': username,
-      'password': hashedPassword,
-      'captchaResponse': captcha,
-      'lt': casTicket,
-      'dllt': 'userNamePasswordLogin',
-      'execution': 'e1s1',
-      '_eventId': 'submit',
-      'rmShown': '1',
-    };
     // 登录系统
     final res = await dio.post(_loginUrl,
-        data: requestBody,
+        data: {
+          'username': username,
+          'password': hashedPassword,
+          'captchaResponse': captcha,
+          'lt': casTicket,
+          'dllt': 'userNamePasswordLogin',
+          'execution': 'e1s1',
+          '_eventId': 'submit',
+          'rmShown': '1',
+        },
         options: Options(
-          contentType: 'application/x-www-form-urlencoded',
+          contentType: Headers.formUrlEncodedContentType,
           followRedirects: false,
           validateStatus: (status) {
             return status! < 400;
@@ -322,24 +335,22 @@ class SsoSession with DioDownloaderMixin {
           headers: _neededHeaders,
         ));
     // 处理重定向
-    return await DioUtils.processRedirect(dio, res, headers: _neededHeaders);
+    return await processRedirect(dio, res, headers: _neededHeaders);
   }
 
   Future<Response> request(
-    String url,
-    ReqMethod method, {
+    String url, {
     Map<String, String>? para,
     data,
-    SessionOptions? options,
-    SessionProgressCallback? onSendProgress,
-    SessionProgressCallback? onReceiveProgress,
+    Options? options,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
     Response response = await _dioRequest(
       url,
-      method.uppercaseName,
       queryParameters: para,
       data: data,
-      options: options?.toDioOptions(),
+      options: options,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
     );

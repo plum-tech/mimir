@@ -10,6 +10,7 @@ import 'package:sit/design/widgets/app.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/school/class2nd/widgets/summary.dart';
 import 'package:sit/school/event.dart';
+import 'package:sit/school/utils.dart';
 import 'package:sit/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
@@ -76,7 +77,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
   }
 
   Class2ndScoreSummary getTargetScore() {
-    final admissionYear = int.tryParse(context.auth.credentials?.account.substring(0, 2) ?? "");
+    final admissionYear = getAdmissionYearFromStudentId(context.auth.credentials?.account);
     return getTargetScoreOf(admissionYear: admissionYear);
   }
 

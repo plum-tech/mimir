@@ -33,6 +33,19 @@ class OaCredentialsException implements Exception {
   }
 }
 
+class LibraryCredentialsException implements Exception {
+  final String message;
+
+  const LibraryCredentialsException({
+    required this.message,
+  });
+
+  @override
+  String toString() {
+    return "LibraryCredentialsException: $message";
+  }
+}
+
 class LoginCaptchaCancelledException implements Exception {
   const LoginCaptchaCancelledException();
 }
@@ -52,6 +65,7 @@ class LoginRequiredException implements Exception {
 /// 未知的验证错误
 class UnknownAuthException implements Exception {
   final String message;
+
   const UnknownAuthException(this.message);
 
   @override

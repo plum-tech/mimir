@@ -1,29 +1,74 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:sit/design/adaptive/swipe.dart';
+import 'package:sit/life/electricity/entity/room.dart';
 import 'package:sit/widgets/search.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 
+const _emptyIndicator = Object();
+
 Future<String?> searchRoom({
   String? initial,
   required BuildContext ctx,
-  required List<String> searchHistory,
+  required ValueNotifier<List<String>> $searchHistory,
   required List<String> roomList,
 }) async {
   final result = await showSearch(
     context: ctx,
     query: initial,
     delegate: ItemSearchDelegate.highlight(
-      searchHistory: searchHistory,
-      itemBuilder: (ctx, selectIt, child) {
-        // TODO: Using filled button
-        return ElevatedButton(
-          onPressed: () {
-            selectIt();
+      searchHistory: $searchHistory,
+      candidateBuilder: (ctx, items, highlight, selectIt) {
+        return ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (ctx, i) {
+            final item = items[i];
+            final (full, highlighted) = highlight(item);
+            final room = DormitoryRoom.fromFullString(full);
+            return ListTile(
+              title: HighlightedText(
+                full: full,
+                highlighted: highlighted,
+                baseStyle: ctx.textTheme.bodyLarge,
+              ),
+              subtitle: room.l10n().text(),
+              onTap: () {
+                selectIt(item);
+              },
+            );
           },
-          child: child,
-        ).padSymmetric(h: 6, v: 8);
+        );
+      },
+      historyBuilder: (ctx, items, stringify, selectIt) {
+        return ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (ctx, i) {
+            final item = items[i];
+            final full = stringify(item);
+            final room = DormitoryRoom.fromFullString(full);
+            return SwipeToDismiss(
+              right: SwipeToDismissAction(
+                label: i18n.delete,
+                action: () {
+                  final newList = List.of($searchHistory.value);
+                  newList.removeAt(i);
+                  $searchHistory.value = newList;
+                },
+              ),
+              childKey: ValueKey(item),
+              child: ListTile(
+                title: HighlightedText(
+                  full: full,
+                  baseStyle: ctx.textTheme.bodyLarge,
+                ),
+                subtitle: room.l10n().text(),
+                onTap: () {
+                  selectIt(item);
+                },
+              ),
+            );
+          },
+        );
       },
       candidates: roomList,
       queryProcessor: _keepOnlyNumber,
@@ -31,6 +76,7 @@ Future<String?> searchRoom({
       invalidSearchTip: i18n.searchInvalidTip,
       childAspectRatio: 2,
       maxCrossAxisExtent: 150.0,
+      emptyIndicator: _emptyIndicator,
     ),
   );
   return result is String ? result : null;
@@ -38,38 +84,4 @@ Future<String?> searchRoom({
 
 String _keepOnlyNumber(String raw) {
   return String.fromCharCodes(raw.codeUnits.where((e) => e >= 48 && e < 58));
-}
-
-class Search extends StatefulWidget {
-  final List<String> searchHistory;
-  final VoidCallback? onSearch;
-  final void Function(String roomNumber)? onSelected;
-
-  const Search({super.key, required this.searchHistory, this.onSearch, this.onSelected});
-
-  @override
-  State<Search> createState() => _SearchState();
-}
-
-class _SearchState extends State<Search> {
-  @override
-  Widget build(BuildContext context) {
-    return [
-      Icons.pageview_outlined.make(size: 120).padAll(20).on(tap: widget.onSearch).expanded(),
-      [
-        "Recent Search".text(style: context.textTheme.titleLarge).padAll(10),
-        buildRecentSearch(context).padAll(10),
-      ].column().expanded(),
-    ].column(maa: MainAxisAlignment.spaceAround).center();
-  }
-
-  Widget buildRecentSearch(BuildContext ctx) {
-    final recent = widget.searchHistory.getRange(0, min(3, widget.searchHistory.length));
-    return recent
-        .map((e) => e.text(style: ctx.textTheme.displayMedium).padAll(10).inCard(elevation: 5).onTap(() {
-              widget.onSelected?.call(e);
-            }))
-        .toList()
-        .row(maa: MainAxisAlignment.center);
-  }
 }

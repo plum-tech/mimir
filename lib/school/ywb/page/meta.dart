@@ -4,21 +4,21 @@ import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/meta.dart';
+import '../entity/service.dart';
 import '../init.dart';
-import '../widgets/meta.dart';
+import '../widgets/service.dart';
 import '../i18n.dart';
 
-class YwbApplicationMetaListPage extends StatefulWidget {
-  const YwbApplicationMetaListPage({super.key});
+class YwbServiceListPage extends StatefulWidget {
+  const YwbServiceListPage({super.key});
 
   @override
-  State<YwbApplicationMetaListPage> createState() => _YwbApplicationMetaListPageState();
+  State<YwbServiceListPage> createState() => _YwbServiceListPageState();
 }
 
-class _YwbApplicationMetaListPageState extends State<YwbApplicationMetaListPage> {
+class _YwbServiceListPageState extends State<YwbServiceListPage> {
   /// in descending order
-  List<YwbApplicationMeta>? metaList;
+  List<YwbService>? metaList;
   bool isLoading = false;
 
   @override
@@ -30,13 +30,13 @@ class _YwbApplicationMetaListPageState extends State<YwbApplicationMetaListPage>
   Future<void> refresh() async {
     if (!mounted) return;
     setState(() {
-      metaList = YwbInit.metaStorage.metaList;
+      metaList = YwbInit.serviceStorage.serviceList;
       isLoading = true;
     });
     try {
-      final metaList = await YwbInit.metaService.getApplicationMetas();
+      final metaList = await YwbInit.serviceService.getServices();
       metaList.sortBy<num>((e) => -e.count);
-      YwbInit.metaStorage.metaList = metaList;
+      YwbInit.serviceStorage.serviceList = metaList;
       if (!mounted) return;
       setState(() {
         this.metaList = metaList;
@@ -85,13 +85,13 @@ class _YwbApplicationMetaListPageState extends State<YwbApplicationMetaListPage>
               SliverFillRemaining(
                 child: LeavingBlank(
                   icon: Icons.inbox_outlined,
-                  desc: i18n.noMetaTip,
+                  desc: i18n.noServicesTip,
                 ),
               )
             else
               SliverList.builder(
                 itemCount: metaList.length,
-                itemBuilder: (ctx, i) => ApplicationMetaTile(meta: metaList[i], isHot: i < 3),
+                itemBuilder: (ctx, i) => YwbServiceTile(meta: metaList[i], isHot: i < 3),
               ),
         ],
       ),

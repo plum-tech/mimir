@@ -89,18 +89,23 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
+            final $searchHistory = ValueNotifier(ElectricityBalanceInit.storage.searchHistory ?? const <String>[]);
+            $searchHistory.addListener(() {
+              ElectricityBalanceInit.storage.searchHistory = $searchHistory.value;
+            });
             final room = await searchRoom(
               ctx: context,
-              searchHistory: ElectricityBalanceInit.storage.searchHistory ?? const <String>[],
+              $searchHistory: $searchHistory,
               roomList: R.roomList,
             );
+            $searchHistory.dispose();
             if (room == null) return;
             if (ElectricityBalanceInit.storage.selectedRoom != room) {
               ElectricityBalanceInit.storage.selectNewRoom(room);
               await refresh(active: true);
             }
           },
-          label: i18n.search.text(),
+          label: i18n.searchRoom.text(),
           icon: const Icon(Icons.search),
         ),
       ],
@@ -153,7 +158,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
     );
   }
 
-  Widget buildCard(ElectricityBalance balance){
+  Widget buildCard(ElectricityBalance balance) {
     return Dismissible(
       direction: DismissDirection.endToStart,
       key: const ValueKey("Balance"),

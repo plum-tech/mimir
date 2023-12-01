@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:sit/storage/hive/init.dart';
 
 import '../entity/application.dart';
 
@@ -10,9 +11,9 @@ class _K {
 }
 
 class YwbApplicationStorage {
-  final Box box;
+  Box get box => HiveInit.ywb;
 
-  const YwbApplicationStorage(this.box);
+  const YwbApplicationStorage();
 
   List<YwbApplication>? get todo => (box.get(_K.todo) as List?)?.cast<YwbApplication>();
 

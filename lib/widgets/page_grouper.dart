@@ -16,7 +16,7 @@ class PageGrouper extends StatefulWidget {
   final Function(int number) onPageChange;
 
   const PageGrouper({
-    Key? key,
+    super.key,
     this.width,
     this.height,
     this.useSkipButton = true,
@@ -26,7 +26,7 @@ class PageGrouper extends StatefulWidget {
     required this.totalPage,
     required this.btnPerGroup,
     required this.currentPageIndex,
-  }) : super(key: key);
+  });
 
   @override
   State<PageGrouper> createState() => _PageGrouperState();

@@ -7,12 +7,11 @@ class _I18n with CommonI18nMixin {
   const _I18n();
 
   static const ns = "oaAnnounce";
-
-  String attachmentTip(int count) => "$ns.attachmentTip".plural(count);
+  final info = const _Info();
 
   String get title => "$ns.title".tr();
 
-  String get noOaAnnouncesTip => "$ns.noOaAnnouncesTip".tr();
+  String get noOaAnnouncementsTip => "$ns.noOaAnnouncementsTip".tr();
 
   String get downloadCompleted => "$ns.downloadCompleted".tr();
 
@@ -20,9 +19,25 @@ class _I18n with CommonI18nMixin {
 
   String get downloading => "$ns.downloading".tr();
 
+  String get infoTab => "$ns.tab.info".tr();
+
+  String get contentTab => "$ns.tab.content".tr();
+}
+
+class _Info {
+  const _Info();
+
+  static const ns = "${_I18n.ns}.info";
+
+  String attachmentHeader(int count) => "$ns.attachmentHeader".plural(count);
+
+  String get title => "$ns.title".tr();
+
   String get publishTime => "$ns.publishTime".tr();
 
-  String get publishingDepartment => "$ns.publishingDepartment".tr();
+  String get department => "$ns.department".tr();
 
   String get author => "$ns.author".tr();
+
+  String get tags => "$ns.tags".tr();
 }

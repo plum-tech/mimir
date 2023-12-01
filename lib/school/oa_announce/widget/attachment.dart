@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
@@ -33,9 +34,16 @@ class _AttachmentLinkTileState extends State<AttachmentLinkTile> {
   Widget build(BuildContext context) {
     final progress = this.progress;
     return ListTile(
-      title: PlatformTextButton(
-        onPressed: onDownload,
-        child: Text(widget.attachment.name),
+      title: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: widget.attachment.name,
+              style: const TextStyle(color: Colors.blue),
+              recognizer: TapGestureRecognizer()..onTap = onDownload,
+            ),
+          ],
+        ),
       ),
       subtitle: progress == null
           ? null
@@ -112,9 +120,9 @@ Future<void> _onDownloadFile({
 }) async {
   debugPrint('Start downloading [$name]($url) to $target');
   // 如果文件不存在，那么下载文件
-  await OaAnnounceInit.service.session.download(
+  await OaAnnounceInit.service.session.dio.download(
     url,
-    savePath: target.path,
+    target.path,
     onReceiveProgress: (int count, int total) {
       onProgress?.call(total <= 0 ? double.nan : count / total);
     },

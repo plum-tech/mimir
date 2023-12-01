@@ -1,8 +1,8 @@
-import 'package:sit/hive/type_id.dart';
+import 'package:sit/storage/hive/type_id.dart';
 
 part 'login_status.g.dart';
 
-@HiveType(typeId: HiveTypeCredentials.loginStatus)
+@HiveType(typeId: CoreHiveType.loginStatus)
 enum LoginStatus {
   @HiveField(0)
   never,

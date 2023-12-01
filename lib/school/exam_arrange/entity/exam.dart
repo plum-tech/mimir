@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/hive/type_id.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/entity/school.dart';
 
@@ -18,23 +17,20 @@ String _parsePlace(dynamic place) {
 int? _parseSeatNumber(String s) => int.tryParse(s);
 final _timeFormat = DateFormat('yyyy-MM-dd hh:mm');
 
-List<DateTime> _parseTime(String s) {
-  List<DateTime> result = [];
-
+ExamTime? _parseTime(String s) {
   try {
     final date = s.split('(')[0];
     final time = s.split('(')[1].replaceAll(')', '');
-    String start = '$date ${time.split('-')[0]}';
-    String end = '$date ${time.split('-')[1]}';
+    final startRaw = '$date ${time.split('-')[0]}';
+    final endRaw = '$date ${time.split('-')[1]}';
 
-    final startTime = _timeFormat.parse(start);
-    final endTime = _timeFormat.parse(end);
+    final startTime = _timeFormat.parse(startRaw);
+    final endTime = _timeFormat.parse(endRaw);
 
-    result.add(startTime);
-    result.add(endTime);
-  } catch (_) {}
-
-  return result;
+    return (start: startTime, end: endTime);
+  } catch (_) {
+    return null;
+  }
 }
 
 bool? _parseRetake(dynamic status) {
@@ -46,38 +42,32 @@ bool? _parseRetake(dynamic status) {
   };
 }
 
-@JsonSerializable(createToJson: false)
-@HiveType(typeId: HiveTypeExam.entry)
+typedef ExamTime = ({DateTime start, DateTime end});
+
+@JsonSerializable()
 class ExamEntry {
   /// 课程名称
-  @JsonKey(name: 'kcmc', fromJson: _parseCourseName)
-  @HiveField(0)
+  @JsonKey()
   final String courseName;
 
   /// 考试时间. 若无数据, 列表未空.
-  @JsonKey(name: 'kssj', fromJson: _parseTime)
-  @HiveField(1)
-  // TODO: Use record
-  final List<DateTime> time;
+  @JsonKey()
+  final ExamTime? time;
 
   /// 考试地点
-  @JsonKey(name: 'cdmc', fromJson: _parsePlace)
-  @HiveField(2)
+  @JsonKey()
   final String place;
 
   /// 考试校区
-  @JsonKey(name: 'cdxqmc')
-  @HiveField(3)
+  @JsonKey()
   final String campus;
 
   /// 考试座号
-  @JsonKey(name: 'zwh', fromJson: _parseSeatNumber)
-  @HiveField(4)
+  @JsonKey()
   final int? seatNumber;
 
   /// 是否重修
-  @JsonKey(name: 'cxbj', fromJson: _parseRetake)
-  @HiveField(5)
+  @JsonKey()
   final bool? isRetake;
 
   const ExamEntry({
@@ -90,6 +80,19 @@ class ExamEntry {
   });
 
   factory ExamEntry.fromJson(Map<String, dynamic> json) => _$ExamEntryFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ExamEntryToJson(this);
+
+  factory ExamEntry.parseRemoteJson(Map<String, dynamic> json) {
+    return ExamEntry(
+      courseName: _parseCourseName(json['kcmc']),
+      place: _parsePlace(json['cdmc']),
+      campus: json['cdxqmc'] as String,
+      time: _parseTime(json['kssj'] as String),
+      seatNumber: _parseSeatNumber(json['zwh'] as String),
+      isRetake: _parseRetake(json['cxbj']),
+    );
+  }
 
   @override
   String toString() {
@@ -104,22 +107,24 @@ class ExamEntry {
   }
 
   static int comparator(ExamEntry a, ExamEntry b) {
-    if (a.time.isEmpty || b.time.isEmpty) {
-      if (a.time.isEmpty != b.time.isEmpty) {
-        return a.time.isEmpty ? 1 : -1;
+    final timeA = a.time;
+    final timeB = b.time;
+    if (timeA == null || timeB == null) {
+      if (timeA != timeB) {
+        return timeA == null ? 1 : -1;
       }
       return 0;
     }
-    return a.time[0].isAfter(b.time[0]) ? 1 : -1;
+    return timeA.start.isAfter(timeB.start) ? 1 : -1;
   }
 }
 
 extension ExamEntryX on ExamEntry {
-  DateTime get start => time[0];
-
-  DateTime get end => time[1];
-
   String buildDate(BuildContext context) {
+    final time = this.time;
+    assert(time != null);
+    if (time == null) return "null";
+    final (:start, :end) = time;
     if (start.year == end.year && start.month == end.month && start.day == end.day) {
       // at the same day
       return context.formatMdWeekText(start);
@@ -129,6 +134,10 @@ extension ExamEntryX on ExamEntry {
   }
 
   String buildTime(BuildContext context) {
+    final time = this.time;
+    assert(time != null);
+    if (time == null) return "null";
+    final (:start, :end) = time;
     if (start.year == end.year && start.month == end.month && start.day == end.day) {
       // at the same day
       return "${context.formatHmNum(start)}–${context.formatHmNum(end)}";

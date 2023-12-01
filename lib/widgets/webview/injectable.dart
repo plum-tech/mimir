@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:sit/design/widgets/common.dart';
-import 'package:sit/utils/logger.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -11,16 +10,16 @@ typedef JavaScriptMessageCallback = void Function(JavaScriptMessage msg);
 
 class Injection {
   /// js注入的url匹配规则
-  bool Function(String url) matcher;
+  final bool Function(String url)? matcher;
 
   /// 若为空，则表示不注入
-  String? js;
+  final String? js;
 
   /// 异步js字符串，若为空，则表示不注入
-  Future<String?>? asyncJs;
+  final Future<String?>? asyncJs;
 
-  Injection({
-    required this.matcher,
+  const Injection({
+    this.matcher,
     this.js,
     this.asyncJs,
   });
@@ -53,7 +52,7 @@ class InjectableWebView extends StatefulWidget {
   final Map<String, JavaScriptMessageCallback>? javaScriptChannels;
 
   const InjectableWebView({
-    Key? key,
+    super.key,
     required this.initialUrl,
     this.controller,
     this.mode = JavaScriptMode.unrestricted,
@@ -65,7 +64,7 @@ class InjectableWebView extends StatefulWidget {
     this.userAgent,
     this.initialCookies,
     this.javaScriptChannels,
-  }) : super(key: key);
+  });
 
   @override
   State<InjectableWebView> createState() => _InjectableWebViewState();
@@ -84,12 +83,12 @@ class _InjectableWebViewState extends State<InjectableWebView> {
       ..setNavigationDelegate(NavigationDelegate(
         onWebResourceError: onResourceError,
         onPageStarted: (String url) async {
-          Log.info('"$url" starts loading.');
+          debugPrint('"$url" starts loading.');
           await Future.wait(widget.pageStartedInjections.matching(url).map(injectJs));
           widget.onPageStarted?.call(url);
         },
         onPageFinished: (String url) async {
-          Log.info('"$url" loaded.');
+          debugPrint('"$url" loaded.');
           await Future.wait(widget.pageFinishedInjections.matching(url).map(injectJs));
           widget.onPageFinished?.call(url);
         },
@@ -137,7 +136,7 @@ class _InjectableWebViewState extends State<InjectableWebView> {
       }
     }
     if (injected) {
-      Log.info('JavaScript code was injected.');
+      debugPrint('JavaScript code was injected.');
     }
   }
 
@@ -158,7 +157,7 @@ extension _InjectionsX on List<Injection>? {
     final injections = this;
     if (injections != null) {
       for (final injection in injections) {
-        if (injection.matcher(url)) {
+        if (injection.matcher?.call(url) != false) {
           yield injection;
         }
       }

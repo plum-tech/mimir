@@ -25,7 +25,6 @@ class ElectricityService {
     );
     final data = jsonDecode(response.data as String) as List;
     final list = data.map((e) => ElectricityBalance.fromJson(e)).toList();
-    ElectricityBalance balance = list.first;
-    return balance;
+    return list.first;
   }
 }

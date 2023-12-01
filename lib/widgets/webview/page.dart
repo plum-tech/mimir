@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sit/design/widgets/common.dart';
 import 'package:sit/l10n/common.dart';
 import 'package:sit/widgets/webview/injectable.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:universal_platform/universal_platform.dart';
+import 'package:text_scroll/text_scroll.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -88,8 +87,7 @@ class WebViewPage extends StatefulWidget {
 
 class _WebViewPageState extends State<WebViewPage> {
   late WebViewController controller;
-
-  String title = const CommonI18n().untitled;
+  late String? title = Uri.tryParse(widget.initialUrl)?.authority;
   int progress = 0;
 
   @override
@@ -121,9 +119,6 @@ class _WebViewPageState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (UniversalPlatform.isDesktop) {
-      return LeavingBlank(icon: Icons.desktop_access_disabled_rounded);
-    }
     final actions = <Widget>[
       if (widget.showRefreshButton)
         IconButton(
@@ -145,17 +140,17 @@ class _WebViewPageState extends State<WebViewPage> {
         ),
       ...?widget.otherActions,
     ];
-    final curTitle = widget.fixedTitle ?? title;
+    final curTitle = widget.fixedTitle ?? title ?? const CommonI18n().untitled;
     return WillPopScope(
       onWillPop: () async {
         final canGoBack = await controller.canGoBack();
-        if (canGoBack) controller.goBack();
+        if (canGoBack) await controller.goBack();
         // 如果wv能后退就不能退出路由
         return !canGoBack;
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(curTitle),
+          title: TextScroll(curTitle),
           actions: actions,
           bottom: buildTopIndicator(),
         ),
@@ -169,7 +164,7 @@ class _WebViewPageState extends State<WebViewPage> {
             if (!mounted) return;
             if (widget.fixedTitle == null) {
               final newTitle = await controller.getTitle();
-              if (newTitle != title && newTitle != null) {
+              if (newTitle != title && newTitle != null && newTitle.isNotEmpty) {
                 setState(() {
                   title = newTitle;
                 });

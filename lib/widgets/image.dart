@@ -14,6 +14,25 @@ enum _ImageMode {
   error,
 }
 
+class CachedNetworkImageView extends StatelessWidget {
+  final String imageUrl;
+
+  const CachedNetworkImageView({
+    super.key,
+    required this.imageUrl,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
+      errorWidget: (context, url, error) => const Icon(Icons.broken_image_rounded),
+      fit: BoxFit.fitHeight,
+    );
+  }
+}
+
 class ImageView extends StatefulWidget {
   /// It could be a url of image, or a base64 string.
   final String? data;
@@ -88,6 +107,7 @@ class _ImageViewState extends State<ImageView> {
     } else {
       provider = null;
     }
+    // TODO: zoom overlay
     return InteractiveViewer(
       minScale: 1,
       maxScale: 10.0,

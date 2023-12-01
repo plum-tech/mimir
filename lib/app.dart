@@ -4,10 +4,13 @@ import 'package:animations/animations.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/files.dart';
 import 'package:sit/r.dart';
 import 'package:sit/route.dart';
 import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:sit/utils/color.dart';
+import 'package:system_theme/system_theme.dart';
 
 class MimirApp extends StatefulWidget {
   const MimirApp({super.key});
@@ -22,12 +25,21 @@ class _MimirAppState extends State<MimirApp> {
     Settings.focusTimetable ? buildTimetableFocusRouter() : buildCommonRoutingConfig(),
   );
   final $focusMode = Settings.listenFocusTimetable();
+  late final router = buildRouter($routingConfig);
 
   @override
   void initState() {
     super.initState();
     $theme.addListener(refresh);
     $focusMode.addListener(refreshFocusMode);
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (Settings.timetable.backgroundImage?.enabled == true) {
+      precacheImage(FileImage(Files.timetable.backgroundFile), context);
+    }
+    super.didChangeDependencies();
   }
 
   @override
@@ -47,7 +59,7 @@ class _MimirAppState extends State<MimirApp> {
 
   @override
   Widget build(BuildContext context) {
-    final themeColor = Settings.theme.themeColor;
+    final themeColor = Settings.theme.themeColor ?? SystemTheme.accentColor.maybeAccent;
 
     ThemeData bakeTheme(ThemeData origin) {
       return origin.copyWith(
@@ -61,8 +73,7 @@ class _MimirAppState extends State<MimirApp> {
         visualDensity: VisualDensity.comfortable,
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
-            TargetPlatform.android:
-                SharedAxisPageTransitionsBuilder(transitionType: SharedAxisTransitionType.horizontal),
+            TargetPlatform.android: ZoomPageTransitionsBuilder(),
             TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
             TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
             TargetPlatform.linux: SharedAxisPageTransitionsBuilder(transitionType: SharedAxisTransitionType.vertical),
@@ -74,7 +85,7 @@ class _MimirAppState extends State<MimirApp> {
 
     return MaterialApp.router(
       title: R.appName,
-      routerConfig: buildRouter($routingConfig),
+      routerConfig: router,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,

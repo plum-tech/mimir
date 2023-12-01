@@ -1,69 +1,95 @@
 /// 借书记录
-class BorrowBookItem {
+class BorrowedBookItem {
   /// 图书号
-  String bookId = '';
+  final String bookId;
 
   /// 条码号
-  String barcode = '';
+  final String barcode;
 
-  String isbn = '';
+  final String isbn;
 
-  String author = '';
+  final String author;
 
   /// 题名
-  String title = '';
+  final String title;
 
   /// 索书号
-  String callNo = '';
+  final String callNumber;
 
   /// 馆藏地点
-  String location = '';
+  final String location;
 
   /// 图书类型
-  String type = '';
+  final String type;
 
   /// 借出日期
-  DateTime borrowDate = DateTime.now();
+  final DateTime borrowDate;
 
   /// 应还日期
-  DateTime expireDate = DateTime.now();
+  final DateTime expireDate;
+
+  const BorrowedBookItem({
+    required this.bookId,
+    required this.barcode,
+    required this.isbn,
+    required this.author,
+    required this.title,
+    required this.callNumber,
+    required this.location,
+    required this.type,
+    required this.borrowDate,
+    required this.expireDate,
+  });
 
   @override
   String toString() {
-    return 'BorrowBookItem{bookId: $bookId, barcode: $barcode, isbn: $isbn, author: $author, title: $title, callNo: $callNo, location: $location, type: $type, borrowDate: $borrowDate, expireDate: $expireDate}';
+    return 'BorrowBookItem{bookId: $bookId, barcode: $barcode, isbn: $isbn, author: $author, title: $title, callNo: $callNumber, location: $location, type: $type, borrowDate: $borrowDate, expireDate: $expireDate}';
   }
 }
 
 /// 历史借书记录
-class HistoryBorrowBookItem {
+class BorrowedBookHistoryItem {
   /// 图书号
-  String bookId = '';
+  final String bookId;
 
   /// 操作类型
-  String operateType = '';
+  final String operateType;
 
   /// 条码号
-  String barcode = '';
+  final String barcode;
 
   /// 题名
-  String title = '';
+  final String title;
 
-  String isbn = '';
+  final String isbn;
 
   /// 索书号
-  String callNo = '';
+  final String callNo;
 
   /// 馆藏地点
-  String location = '';
+  final String location;
 
   /// 图书类型
-  String type = '';
+  final String type;
 
   /// 著者
-  String author = '';
+  final String author;
 
   /// 处理日期
-  DateTime processDate = DateTime.now();
+  final DateTime processDate;
+
+  const BorrowedBookHistoryItem({
+    required this.bookId,
+    required this.operateType,
+    required this.barcode,
+    required this.title,
+    required this.isbn,
+    required this.callNo,
+    required this.location,
+    required this.type,
+    required this.author,
+    required this.processDate,
+  });
 
   @override
   String toString() {

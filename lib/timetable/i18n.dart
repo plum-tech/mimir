@@ -30,7 +30,9 @@ class _I18n with CommonI18nMixin {
 
   String get focusTimetable => "$ns.focusTimetable".tr();
 
-  String get unfocusTimetable => "$ns.unfocusTimetable".tr();
+  String get signature => "$ns.signature".tr();
+
+  String get signaturePlaceholder => "$ns.signaturePlaceholder".tr();
 }
 
 class _Mine {
@@ -187,10 +189,6 @@ class _Screenshot {
 
   String get take => "$ns.take".tr();
 
-  String get signature => "$ns.signature".tr();
-
-  String get signaturePlaceholder => "$ns.signaturePlaceholder".tr();
-
   String get enableBackground => "$ns.enableBackground.title".tr();
 
   String get enableBackgroundDesc => "$ns.enableBackground.desc".tr();
@@ -258,23 +256,19 @@ class _Export {
 
   String get lessonMode => "$ns.lessonMode.title".tr();
 
-  String get lessonModeDesc => "$ns.lessonMode.desc".tr();
+  String get lessonModeMerged => "$ns.lessonMode.merged".tr();
 
-  String get lessonModeMerged => "$ns.lessonMode.merged.name".tr();
+  String get lessonModeMergedTip => "$ns.lessonMode.mergedTip".tr();
 
-  String get lessonModeMergedInfo => "$ns.lessonMode.merged.info".tr();
+  String get lessonModeSeparate => "$ns.lessonMode.separate".tr();
 
-  String get lessonModeSeparate => "$ns.lessonMode.separate.name".tr();
-
-  String get lessonModeSeparateInfo => "$ns.lessonMode.separate.info".tr();
+  String get lessonModeSeparateTip => "$ns.lessonMode.separateTip".tr();
 
   String get enableAlarm => "$ns.enableAlarm.title".tr();
 
   String get enableAlarmDesc => "$ns.enableAlarm.desc".tr();
 
   String get alarmMode => "$ns.alarmMode.title".tr();
-
-  String get alarmModeDesc => "$ns.alarmMode.desc".tr();
 
   String get alarmModeSound => "$ns.alarmMode.sound".tr();
 

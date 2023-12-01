@@ -1,5 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/session/jwxt.dart';
 
 import '../entity/exam.dart';
@@ -16,7 +17,6 @@ class ExamArrangeService {
   Future<List<ExamEntry>> getExamList(SemesterInfo info) async {
     final response = await session.request(
       _examRoomUrl,
-      ReqMethod.post,
       para: {
         'doType': 'query',
         'gnmkdm': 'N358105',
@@ -27,9 +27,12 @@ class ExamArrangeService {
         // 学期名
         'xqm': semesterToFormField(info.semester),
       },
+      options: Options(
+        method: "POST",
+      ),
     );
     final List<dynamic> itemsData = response.data['items'];
-    final list = itemsData.map((e) => ExamEntry.fromJson(e as Map<String, dynamic>)).toList();
+    final list = itemsData.map((e) => ExamEntry.parseRemoteJson(e as Map<String, dynamic>)).toList();
     list.sort(ExamEntry.comparator);
     return list;
   }

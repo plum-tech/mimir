@@ -1,5 +1,7 @@
 import 'package:hive/hive.dart';
+import 'package:sit/storage/hive/init.dart';
 import 'package:sit/school/entity/school.dart';
+import 'package:sit/utils/json.dart';
 
 import '../entity/exam.dart';
 
@@ -8,16 +10,16 @@ class _K {
 }
 
 class ExamArrangeStorage {
-  final Box box;
+  Box get box => HiveInit.examArrange;
 
-  const ExamArrangeStorage(this.box);
+  const ExamArrangeStorage();
 
   List<ExamEntry>? getExamList(SemesterInfo info) =>
-      (box.get(_K.examList(info.year, info.semester)) as List?)?.cast<ExamEntry>();
+      decodeJsonList(box.get(_K.examList(info.year, info.semester)), (e) => ExamEntry.fromJson(e));
 
   void setExamList(
     SemesterInfo info,
     List<ExamEntry>? exams,
   ) =>
-      box.put(_K.examList(info.year, info.semester), exams);
+      box.put(_K.examList(info.year, info.semester), encodeJsonList(exams, (e) => e.toJson()));
 }

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sit/storage/hive/init.dart';
 
 import '../entity/balance.dart';
 
@@ -12,11 +13,10 @@ class _K {
 }
 
 class ElectricityStorage {
-  final Box box;
+  Box get box => HiveInit.electricity;
   final int maxHistoryLength;
 
-  ElectricityStorage(
-    this.box, {
+  const ElectricityStorage({
     this.maxHistoryLength = 20,
   });
 

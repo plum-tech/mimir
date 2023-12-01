@@ -1,5 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sit/hive/table.dart';
+import 'package:sit/storage/hive/init.dart';
+import 'package:sit/storage/hive/table.dart';
 import 'package:sit/timetable/entity/timetable.dart';
 
 import '../entity/display.dart';
@@ -13,20 +14,20 @@ class _K {
 }
 
 class TimetableStorage {
-  final Box box;
+  Box get box => HiveInit.timetable;
 
   final HiveTable<SitTimetable> timetable;
   final HiveTable<TimetablePalette> palette;
 
-  TimetableStorage(this.box)
+  TimetableStorage()
       : timetable = HiveTable<SitTimetable>(
           base: _K.timetable,
-          box: box,
+          box: HiveInit.timetable,
           useJson: (fromJson: SitTimetable.fromJson, toJson: (timetable) => timetable.toJson()),
         ),
         palette = HiveTable<TimetablePalette>(
           base: _K.palette,
-          box: box,
+          box: HiveInit.timetable,
           useJson: (fromJson: TimetablePalette.fromJson, toJson: (palette) => palette.toJson()),
           get: (id, builtin) {
             // intercept builtin timetable

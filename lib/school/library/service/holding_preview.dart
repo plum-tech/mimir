@@ -1,28 +1,33 @@
+import 'package:dio/dio.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/session/library.dart';
 
-import '../dao/holding_preview.dart';
 import '../entity/holding_preview.dart';
-import 'constant.dart';
+import '../const.dart';
 
-class HoldingPreviewService implements HoldingPreviewDao {
+class HoldingPreviewService {
   LibrarySession get session => Init.librarySession;
 
   const HoldingPreviewService();
 
-  @override
-  Future<HoldingPreviews> getHoldingPreviews(List<String> bookIdList) async {
-    var response = await session.request(
-      Constants.bookHoldingPreviewsUrl,
-      ReqMethod.get,
+  Future<Map<String, List<HoldingPreviewItem>>> getHoldingPreviews(List<String> bookIdList) async {
+    final response = await session.request(
+      LibraryConst.bookHoldingPreviewsUrl,
       para: {
         'bookrecnos': bookIdList.join(','),
         'curLibcodes': '',
         'return_fmt': 'json',
       },
+      options: Options(
+        method: "GET",
+      ),
     );
-
-    return HoldingPreviews.fromJson(response.data);
+    final json = response.data;
+    final previewsRaw = json['previews'] as Map<String, dynamic>?;
+    if (previewsRaw == null) return <String, List<HoldingPreviewItem>>{};
+    final previews = previewsRaw.map((k, e) =>
+        MapEntry(k, (e as List<dynamic>).map((e) => HoldingPreviewItem.fromJson(e as Map<String, dynamic>)).toList()));
+    return previews;
   }
 }

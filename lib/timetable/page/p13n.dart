@@ -9,7 +9,7 @@ import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/entry_card.dart';
 import 'package:sit/l10n/extension.dart';
-import 'package:sit/qrcode/page.dart';
+import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/qrcode/protocol.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/init.dart';
@@ -45,7 +45,6 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
   late final TabController tabController;
   final $selected = TimetableInit.storage.timetable.$selected;
   var selectedTimetable = TimetableInit.storage.timetable.selectedRow;
-  late final $brightness = ValueNotifier(context.theme.brightness);
 
   @override
   void initState() {
@@ -104,9 +103,6 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
                 floating: true,
                 title: i18n.p13n.palette.title.text(),
                 forceElevated: innerBoxIsScrolled,
-                actions: [
-                  BrightnessSwitch($brightness),
-                ],
                 bottom: TabBar(
                   controller: tabController,
                   isScrollable: true,
@@ -196,10 +192,6 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
                   }
                 },
               ),
-      detailsAction: (ctx) => EntryDetailsAction(
-        label: i18n.p13n.palette.details,
-        icon: Icons.details,
-      ),
       actions: (ctx) => [
         if (palette is! BuiltinTimetablePalette)
           EntryAction(
@@ -210,9 +202,8 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
             type: EntryActionType.edit,
             oneShot: true,
             action: () async {
-              await ctx.push<TimetablePalette>(
-                "/timetable/p13n/palette/$id",
-                extra: palette.copyWith(),
+              await context.show$Sheet$(
+                (context) => TimetablePaletteEditor(id: id, palette: palette),
               );
             },
           ),
@@ -222,11 +213,11 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
             icon: Icons.preview,
             cupertinoIcon: CupertinoIcons.eye,
             action: () async {
-              await context.navigator.push(
-                MaterialPageRoute(
-                  builder: (ctx) => TimetablePreviewPage(
+              await context.show$Sheet$(
+                (context) => TimetableStyleProv(
+                  palette: palette,
+                  child: TimetablePreviewPage(
                     timetable: selectedTimetable,
-                    platte: palette,
                   ),
                 ),
               );
@@ -310,30 +301,30 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
   }
 
   Widget buildPaletteColorsPreview(TimetablePalette palette) {
-    return $brightness >>
-        (ctx, brightness) => palette.colors
-            .map((c) {
-              final color = c.byBrightness(brightness);
-              return OutlinedCard(
-                color: brightness == Brightness.light ? Colors.black : Colors.white,
+    final brightness = context.theme.brightness;
+    return palette.colors
+        .map((c) {
+          final color = c.byBrightness(brightness);
+          return OutlinedCard(
+            color: brightness == Brightness.light ? Colors.black : Colors.white,
+            margin: EdgeInsets.zero,
+            child: TweenAnimationBuilder(
+              tween: ColorTween(begin: color, end: color),
+              duration: const Duration(milliseconds: 300),
+              builder: (ctx, value, child) => FilledCard(
                 margin: EdgeInsets.zero,
-                child: TweenAnimationBuilder(
-                  tween: ColorTween(begin: color, end: color),
-                  duration: const Duration(milliseconds: 300),
-                  builder: (ctx, value, child) => FilledCard(
-                    margin: EdgeInsets.zero,
-                    color: value,
-                    child: const SizedBox(
-                      width: 32,
-                      height: 32,
-                    ),
-                  ),
+                color: value,
+                child: const SizedBox(
+                  width: 32,
+                  height: 32,
                 ),
-              );
-            })
-            .toList()
-            .wrap(spacing: 4, runSpacing: 4)
-            .padV(4);
+              ),
+            ),
+          );
+        })
+        .toList()
+        .wrap(spacing: 4, runSpacing: 4)
+        .padV(4);
   }
 }
 

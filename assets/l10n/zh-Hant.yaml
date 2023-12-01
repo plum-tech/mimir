@@ -1,0 +1,653 @@
+timetable:
+  navigation: 課程表
+  jump: 前往
+  findToday: 尋找今天
+  startWith: "起始於"
+  weekOrderedName: "第 {} 周"
+  focusTimetable: 對焦課程表
+  signature: 簽名
+  signaturePlaceholder: 你的名稱
+  mine:
+    title: 我的課程表
+    exportCalendar: 匯出行事曆
+    deleteRequest: 確認刪除
+    deleteRequestDesc: 你會失去這個課程表，永久地。
+    emptyTip: 快去匯入一張新的課程表吧！
+    details: 詳細資料
+  details:
+    classCode: 班级
+    courseCode: 课程代码
+    teacher: 教師
+  edit:
+    name: 名稱
+  import:
+    title: 匯入課程表
+    import: 匯入
+    fromFile: 從檔案
+    tryImportBtn: 嘗試匯入
+    fromFileBtn: 從檔案匯入
+    connectivityCheckerDesc: 你需要訪問校園網路，才能匯入一個新的課程表。現在就開始檢查吧。
+    selectSemesterTip: 請先選擇學年與學期
+    endTip: 請補充課程表的資訊。
+    failed: 匯入失敗
+    failedDesc: 無法匯入課程表，請之後再試。
+    failedTip: 匯入失敗，請之後再試。
+    importing: 正在擷取課程表數據……
+    timetableInfo: 課程表資訊
+    defaultName: "{semester} {yearStart}–{yearEnd} 課程表"
+  export:
+    title: 匯出選項
+    export: 匯出
+    lessonMode:
+      title: 課程模式
+      merged: 完整
+      mergedTip: 同一節課的幾個部分會被合併為一個日程
+      separate: 分離
+      separateTip: 同一節課的幾個部分會被分離為多個日程
+    enableAlarm:
+      title: 啟用提醒
+      desc: 在課前增加提醒
+    alarmMode:
+      title: 提醒模式
+      desc: 如何通知你
+      sound: 音效
+      display: 顯示
+    alarmDuration: 提醒時長
+    alarmBeforeClassBegins:
+      title: 在上課前提醒
+      desc: "提前 {duration}"
+  screenshot:
+    screenshot: 螢幕截圖
+    take: 截圖
+    title: 螢幕截圖
+    enableBackground:
+      title: 顯示桌布
+      desc: 在螢幕截圖中顯示課程表桌布
+  displayMode:
+    daily: 日
+    weekly: 周
+  weekStep:
+    single: 周
+    all: 周
+    odd: 單週
+    even: 雙週
+  freeTip:
+    dayTip: 好喔，這天沒課！
+    isTodayTip: "祝你今日過得愉快！🎉"
+    weekTip: 棒耶，這週都沒課！
+    isThisWeekTip: "祝你這週過得愉快！🎉"
+    termTip: "太酷啦，這學期都沒課耶！ 🎉🎉🎉"
+    findNearestWeekWithClass: 尋找有課的一天
+    findNearestDayWithClass: 尋找有課的一週
+  p13n:
+    title: 調色盤
+    builtinPalette:
+      classic:
+        name: 經典
+        author: Liplum
+      oldSchool:
+        name: 老派
+        author: 上應小風箏
+    palette:
+      title: 調色盤
+      name: 名稱
+      tab:
+        custom: 自訂
+        builtin: 內建
+        info: 資訊
+        colors: 顏色
+      namePlaceholder: 調色盤名稱
+      author: 作者
+      authorPlaceholder: 你的姓名，電郵，或 url
+      colorCopyTip: 顏色被複製到剪貼板了
+      details: 詳細資料
+      fab: 調色盤
+      shareQrCode: 分享 QR 碼
+      newPaletteName: 新的調色盤
+      copyPaletteName: "{} 複製"
+      deleteRequest: 確認刪除？
+      deleteRequestDesc: 除非儲存了 QR 碼備份，否則調色板將被永久刪除
+      addFromQrCode: 已從 QR 碼加載調色盤
+      addColor: 增加一對顏色
+    cellStyle:
+      title: 單元樣式
+      showTeachers:
+        title: 教師
+        desc: 在單元內顯示教師
+      grayOut:
+        title: 已上的課程灰顯
+        desc: 之前的所有課程
+      harmonize:
+        title: 與主題顏色結合
+        desc: 將單元格顏色與主題顏色混合
+      alpha: 單元 alpha
+    background:
+      title: 桌布
+      opacity: 背景不透明度
+      pickTip: 選取你喜愛的影像
+      repeat:
+        title: 重複影像
+        desc: 重複影像作為圖案來填滿桌布
+      antialias:
+        title: 反鋸齒
+        desc: 如果影像像素較低，請關閉此功能
+    livePreview:
+      0:
+        name: 上過的
+        place: 體育館
+        teachers: 李老師
+      1:
+        name: 上過的
+        place: 教室
+        teachers: 王老師
+      2:
+        name: 今天的
+        place: 活動中心
+        teachers: 張老師
+      3:
+        name: 明天的
+        place: 實驗室
+        teachers: 劉老師
+school:
+  navigation: 學校
+  schoolYear: 學年
+  semester:
+    title: 學期
+    all: 學年
+    term1: 第一學期
+    term2: 第二學期
+life:
+  navigation: 生活
+me:
+  navigation: 個人
+class2nd:
+  title: 第二課堂
+  activity: 活動
+  attended:
+    title: 已參與
+  tab:
+    info: 資訊
+    description: 描述
+  refreshSuccessTip: 第二課堂分重新整理成功
+  refreshFailedTip: 第二課堂分重新整理失敗
+  noActivities: 無活動
+  noAttendedActivities: 無參加過的活動
+  viewDetails: 檢視詳細資料
+  apply:
+    btn: 申請
+    replyTip: 校方回信
+    applyRequest: 申請
+    applyRequestDesc: 確認要申請這個活動嗎？
+  info:
+    activityId: 活動 ID
+    applicationId: 申請 ID
+    activityOf: "活動 #{}"
+    applicationOf: "申請 #{}"
+    status: 狀態
+    contactInfo: 联络人
+    name: 活動名稱
+    tags: 標籤
+    category: 活動類別
+    scoreType: 加分類型
+    honestyPoints: 誠信分
+    applicationTime: 申請時間
+    duration: 活動時長
+    location: 活動地點
+    organizer: 組織者
+    principal: 主辦方
+    signInTime: 簽到時間
+    signOutTime: 簽退時間
+    startTime: 開始時間
+    undertaker: 承辦人
+  activityCat:
+    all: 全部
+    lecture: 講座報告
+    thematicEdu: 主題教育
+    creation: 創新創業創意
+    schoolCultureActivity: 校園文化
+    schoolCivilization: 校園文明
+    practice: 社會實踐
+    voluntary: 志願公益
+    onlineSafetyEdu: 安全教育網路教學
+    conference: 會議
+    schoolCultureCompetition: 校園文化競賽
+    paperAndPatent: 論文專利
+  scoreType:
+    all: 全部
+    thematicReport:
+      full: 講座報告
+      short: 報告
+    creation:
+      full: 創新創業創意
+      short: 三創
+    schoolCulture:
+      full: 校園文化
+      short: 文化
+    practice:
+      full: 社會實踐
+      short: 實踐
+    voluntary:
+      full: 志願公益
+      short: 志願
+    schoolSafetyCivilization:
+      full: 校園安全文明
+      short: 安全
+  noDetails: 暫無資訊
+  details: 詳細資料
+ywb:
+  title: 應網辦
+  info: |
+    此功能基於 "上应一网通办"。
+    就大多數業務而言，即使你已在平台上完成申請，依舊需要到現場辦理。
+  apply: 申請
+  noServicesTip: 無可用申請
+  mine:
+    title: 我的申請
+    noApplicationsTip: 無申請
+  details:
+    apply: 申請
+  type:
+    todo: 待辦
+    running: 在途
+    complete: 辦結
+captcha:
+  title: 驗證碼
+  enterHint: 請鍵入驗證碼
+  emptyInputError: 未鍵入驗證碼
+credentials:
+  studentId: 學號
+  account: 帳戶
+  password: 密碼
+  oaAccount: OA 帳戶
+  oaPwd: OA 密碼
+  savedOaPwd: 儲存的 OA 密碼
+  savedOaPwdDesc: 用於自動登入 OA
+  pwd: 密碼
+  error: 登入認證錯誤
+  login: 登入
+  forgotPwd: 忘記密碼?
+easyconnect:
+  launchBtn: 啟用 EasyConnect
+  launchFailed: 啟動失敗
+  launchFailedDesc: 無法為你啟動 EasyConnect，確保你安裝了它，或是現在開始下載？
+electricity:
+  title: 電費餘額
+  balance: 電費餘額
+  remainingPower: 可用電量
+  searchInvalidTip: 請先鍵入或選擇一個現有的房間號
+  refreshSuccessTip: 電費餘額重新整理成功
+  refreshFailedTip: 電費餘額重新整理失敗
+  searchRoom: 搜尋房間
+eduEmail:
+  title: Edu 電郵
+  action:
+    login: 登入
+    inbox: 收件匣
+    outbox: 寄件匣
+  login:
+    title: 登入 Edu 電郵
+    addressHint: 學號/工號
+    failedWarn: 登入失敗
+  inbox:
+    title: 收件匣
+  outbox:
+    title: 寄件匣
+  noContent: 無內容
+  noSubject: 無主題
+  pluralSenderTailing: 等
+  text: 正文
+examResult:
+  title: 考試成績
+  check: 查詢
+  teacherEval: 評價教師
+  noResultsTip: 無考試結果
+  lessonNotEvaluated: 需評教
+  teacherEvalTitle: 教師評價
+  lessonSelected: "已選 {} 門"
+  gpaResult: "績點: {}"
+  compulsory: 必修
+  credit: 學分
+  elective: 選修
+examArrange:
+  title: 考試安排
+  check: 查詢
+  date: 日期
+  time: 時間
+  retake: 重修
+  location: 地點
+  noExamsTip: 無考試安排
+  seatNumber: 座位號
+  addCalendarEvent: 增加事項
+expenseRecords:
+  title: 消費記錄
+  check: 查詢
+  statistics: 統計
+  income: "入賬: ¥{}"
+  outcome: "消費: ¥{}"
+  balanceInCard: "卡內餘額 ¥{}"
+  lastTransaction: "¥{amount} {place}"
+  noTransactionsTip: 無交易記錄
+  refreshSuccessTip: 消費記錄重新整理成功
+  refreshFailedTip: 消費記錄重新整理失敗
+  statsMode:
+    week: 周
+    month: 月
+    year: 年
+  view:
+    balance: 卡內餘額
+    rmb: 元
+  stats:
+    title: 消費統計
+    categories: 消費類別
+    total: 總計
+  type:
+    consume: 消費
+    coffee: 咖啡
+    food: 食堂
+    store: 超商
+    water: 熱水
+    library: 圖書館
+    shower: 洗浴
+    topUp: 充值
+    subsidy: 津貼
+    other: 雜項
+homepage:
+  campusNetworkConnected: 已連線校園網路
+  campusNetworkUnconnected: 未連線校園網路
+networkChecker:
+  testConnection:
+    title: 測試連線
+    desc: 測試與校園網路的連線情況
+  button:
+    connected: 繼續
+    connecting: 檢查中……
+    disconnected: 重試
+    none: 檢查我的連線
+  status:
+    connected: 好喔！你能夠訪問學校伺服器！
+    connecting: 這可能需要幾秒鐘的時間，請確認在裝置上啟用了網路。
+    disconnected: 哎呀！你無法訪問學校伺服器誒，請檢查你的網路設定，然後再試一次。
+    none: 你需要訪問學校伺服器才能繼續，現在就開始檢查吧！
+network:
+  error: 網路錯誤
+  ipAddress: IP 地址
+  connectionTimeoutError: 網路逾時
+  connectionTimeoutErrorDesc: "這個功能需要訪問學校網路。備註：這或許由於學校服務器當機或正在維護。"
+  openToolBtn: 打開網路工具
+networkTool:
+  title: 網路工具
+  action:
+    test: 測試
+  openWlanSettingsBtn: 打開 WLAN 設定
+  noAccessTip: 無法連線到網路，請檢查你的裝置上的網路設定，然後再試一次。
+  connectionFailedError: |
+    無法連線到校園網路。疑難排解:
+    1. 嘗試連線學校的Wi-Fi: "i-SIT","i-SIT-1x" 或 "eduroam"。
+    2. 嘗試啟用"EasyConnect" VPN 連線校園網路。
+    3. 嘗試通過自建的 HTTP Proxy 伺服器連線校園網路。
+    如果上述都無法工作, 或許因為學校伺服器停機維護或崩潰, 請稍後重試。
+  connectionFailedButCampusNetworkConnected: |
+    已經連線到校園網路，但依然無法訪問學校伺服器。
+    這或許因為學校伺服器停機維護或崩潰, 請稍後重試。
+  connectedByProxy: 已通過 HTTP Proxy 連線校園網路。
+  connectedByVpn: 已通過 VPN 連線校園網路。
+  connectedByWlan: 已通過 WLAN 連線校園網路。
+  connectedByEthernet: 已通過乙太網路連線校園網路。
+login:
+  welcomeHeader: 歡迎！
+  loginOa: 登入 OA
+  validateInputAccountPwdRequest: 請檢查你鍵入的賬戶和密碼
+  credentialsValidatedTip: 帳戶與密碼正確
+  accountOrPwdErrorTip: 賬戶或密碼錯誤
+  captchaErrorTip: 驗證碼錯誤
+  accountFrozenTip: 賬戶處於凍結狀態
+  schoolServerUnconnectedTip: 無法連接學校伺服器
+  unknownAuthErrorTip: 未知的帳戶身份驗證錯誤
+  accountHint: 學號/工號
+  loggedInTip: 已登入
+  notLoggedIn: 未登入
+  invalidAccountFormat: 錯誤的學號格式
+  offlineModeBtn: 離線模式
+  oaPwdHint: 鍵入你的 OA 密碼
+  failedWarn: 登入失敗
+  formatError: 格式錯誤
+  loginRequired: 需要登入
+  neverLoggedInTip: 你必須先登入才能繼續。
+library:
+  title: 圖書館
+  hotPost: 熱門
+  readerId: 讀者 ID
+  login:
+    title: 登入圖書館
+    readerIdHint: 你的學號
+    passwordHint: 預設密碼為 888888
+  searchMethod:
+    any: 任意
+    title: 標題
+    author: 作者
+    isbn: ISBN
+    publisher: 發行商
+    callNumber: 索書號
+    primaryTitle: 主要標題
+    subject: 主題
+    $class: 類別
+    bookId: 圖書 ID
+    orderNumber: 訂購號
+  info:
+    title: 標題
+    author: 作者
+    isbn: ISBN
+    publisher: 發行商
+    publishDate: 發行日期
+    callNumber: 索書號
+    bookId: 圖書 ID
+    barcode: 條碼
+settings:
+  title: 設定
+  version: 版本
+  themeColor: 主題顏色
+  fromSystem: 從系統
+  credentials:
+    testLoginOa:
+      title: 測試登入 OA
+      desc: 嘗試用當前的登入認證登入 OA
+  dev:
+    title: 開發者選項
+    devMode:
+      title: 開發者模式
+    localStorage:
+      title: 本機儲存
+      desc: 管理在本裝置上的儲存
+      selectBoxTip: 請先選擇一個盒子。
+      clearBoxDesc: 確認清空這個盒子嗎？
+      deleteItemDesc: 確認刪除這個 key-value對 嗎？
+      emptyValueDesc: 確認將這個 key-value對 設定為 null 嗎？
+    reload:
+      title: 重新載入
+      desc: 重新載入所有模塊
+    detailedXcpDialog:
+      title: 啟用詳細異常對話框
+      desc: 顯示更加詳細的異常堆棧追蹤資訊
+  timetable:
+    title: 課程表
+    autoUseImported:
+      title: 自動使用匯入的
+      desc: 使用新匯入的課程表
+    palette:
+      title: 調色盤
+      desc: 自訂課程表的調色盤
+    cellStyle:
+      title: 編輯單元樣式
+      desc: 課程單元看上去如何
+    background:
+      title: 桌布
+      desc: 課程表的背景
+  school:
+    title: 學校
+    class2nd:
+      autoRefresh:
+        title: 第二課堂分自動重新整理
+        desc: 啟動時重新整理第二課堂分
+    examResult:
+      appCardShowResultDetails:
+        title: 顯示考試成績詳細資料
+        desc: 在考試成績卡片中顯示分數資料
+  life:
+    title: 生活
+    electricity:
+      autoRefresh:
+        title: 電費餘額自動重新整理
+        desc: 啟動時重新整理電費餘額
+    expenseRecords:
+      autoRefresh:
+        title: 消費記錄自動重新整理
+        desc: 啟動時重新整理消費記錄
+  studentId:
+    studentIdCopy2ClipboardTip: 你的學號被複製到剪貼板了
+  changeOaPwd:
+    title: 修改 OA 密碼
+    desc: 修改用於自動登入學校業務的 OA 密碼
+  clearCache:
+    title: 清空快取
+    desc: 清空使用過程中產生的離線緩存
+    request: 確認清空快取嗎？為加載它們，你必須重新連線校園網路。
+  themeMode:
+    title: 亮度
+    dark: 深色
+    light: 亮色
+    system: 系統
+  proxy:
+    title: HTTP 代理
+    desc: 代理校園網路連線
+    authentication: 驗證
+    protocol: 通訊協定
+    hostname: 主機名稱
+    port: 連接埠
+    username: 使用者名稱
+    password: 密碼
+    shareQrCode:
+      title: 分享 QR 碼
+      desc: 使用 QR 碼分享 HTTP 代理
+    enableProxy:
+      title: 啟用 HTTP 代理
+      desc: 代理你的 HTTP 請求
+    proxyMode:
+      title: 代理模式
+      global: 全域
+      school: 僅校園網路
+      globalTip: 通過代理訪問所有網路
+      schoolTip: 繞過代理訪問非校園網路
+    copyTip:
+      full: HTTP 代理被複製到剪貼板了
+      hostname: 主機名稱被複製到剪貼板了
+      port: 連接埠被複製到剪貼板了
+  language: 語言
+  wipeData:
+    title: 擦除資料 & 登出
+    desc: 擦除帳戶並登出當前 OA 賬戶
+    request: 擦除所有資料
+    requestDesc: 這會擦除你本地除網頁快取外的登入資料與其他資料，例如匯入的課程表。
+oaAnnounce:
+  title: OA 公告
+  tab:
+    info: 資訊
+    content: 內容
+  noOaAnnouncesTip: 無公告
+  downloadCompleted: 下載完成
+  downloadFailed: 下載失敗
+  downloading: 下載中
+  info:
+    title: 標題
+    publishTime: 發佈日期
+    department: 部門
+    author: 作者
+    tags: 標籤
+    attachmentHeader:
+      one: 附件
+      other: 附件
+  oaAnnounceCat:
+    studentAffairs: 學生事務
+    learning: 學習課堂
+    collegeNotification: 學院通知
+    culture: 校園文化
+    announcement: 公告
+    life: 生活服務
+    download: 文件下載
+yellowPages:
+  title: 學校黃頁
+scanner:
+  barcodeNotRecognized: 未識別到條碼或 QR 碼
+greeting:
+  headerA: 上應大與你一起度過了
+  headerB:
+    one: 1 天
+    other: "{} 天"
+qrCode:
+  hint: 請導航至 個人{me}，然後點擊右上角的 掃描{scan}
+weekday:
+  0: 週一
+  1: 週二
+  2: 週三
+  3: 週四
+  4: 週五
+  5: 週六
+  6: 週日
+weekdayShort:
+  0: 一
+  1: 二
+  2: 三
+  3: 四
+  4: 五
+  5: 六
+  6: 日
+campus:
+  xuhui: 徐匯
+  fengxian: 奉賢
+unit:
+  rmb: "{} 元"
+  powerKwh: "{} 千瓦時"
+time:
+  minute: 分鐘
+  hour: 小時
+  hourMinuteFormat: "{hour} 小時 {minute} 分鐘"
+  minuteFormat: "{} 分鐘"
+  hourFormat: "{} 小時"
+brightness:
+  light: 明亮
+  dark: 黑暗
+dormitoryRoom: "{building}號樓 #{room}"
+open: 打開
+delete: 刪除
+confirm: 確認
+notNow: 現在不行
+error: 錯誤
+ok: 好的
+close: 關閉
+submit: 提交
+cancel: 取消
+save: 儲存
+yes: 好
+refresh: 重新整理
+back: 後退
+clear: 清除
+continue: 繼續
+unknown: 未知
+failed: 失敗
+download: 下載
+fetching: 取回中
+notFound404: 404 找不到頁面
+warning: 警告
+untitled: 無標題
+congratulations: 恭喜
+search: 搜尋
+seeAll: 查看全部
+select: 選擇
+unselect: 取消選擇
+share: 分享
+use: 使用
+used: 已使用
+edit: 編輯
+copy: 複製
+preview: 預覽
+upload: 上傳
+pick: 選取

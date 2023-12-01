@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/hive/type_id.dart';
+import 'package:sit/storage/hive/type_id.dart';
 import 'package:quiver/core.dart';
 
 part 'contact.g.dart';
 
 @JsonSerializable(createToJson: false)
-@HiveType(typeId: HiveTypeSchool.schoolContact)
+@HiveType(typeId: CacheHiveType.schoolContact)
 class SchoolContact {
   @JsonKey()
   @HiveField(0)

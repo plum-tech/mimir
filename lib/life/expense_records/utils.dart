@@ -8,35 +8,31 @@ Future<void> fetchAndSaveTransactionUntilNow({
 }) async {
   final storage = ExpenseRecordsInit.storage;
   final now = DateTime.now();
-  final start = storage.lastFetchedTs ?? now.copyWith(year: now.year - 4);
-  final transactions = await ExpenseRecordsInit.service.fetch(
+  final start = now.copyWith(year: now.year - 4);
+  final newlyFetched = await ExpenseRecordsInit.service.fetch(
     studentID: studentId,
     from: start,
     to: now,
   );
   final oldTsList = storage.transactionTsList ?? const [];
-  final newTsList = {...transactions.map((e) => e.timestamp), ...oldTsList}.toList();
+  final newTsList = {...newlyFetched.map((e) => e.timestamp), ...oldTsList}.toList();
   // the latest goes first
   newTsList.sort((a, b) => -a.compareTo(b));
-  for (final transaction in transactions) {
+  for (final transaction in newlyFetched) {
     storage.setTransactionByTs(transaction.timestamp, transaction);
   }
   storage.transactionTsList = newTsList;
-  // if anything was fetched, the next fetching will start with now.
-  if (newTsList.length != oldTsList.length) {
-    ExpenseRecordsInit.storage.lastFetchedTs = now;
-  }
-  final latest = transactions.firstOrNull;
+  final latest = newlyFetched.firstOrNull;
   if (latest != null) {
-    final latestValidBalance = _findLatestValidBalanceTransaction(transactions, newTsList);
+    final latestValidBalance = _findLatestValidBalanceTransaction(newlyFetched, newTsList);
     // check if the transaction is kept for topping up
     if (latestValidBalance != null) {
-      ExpenseRecordsInit.storage.latestTransaction = latest.copyWith(
+      storage.latestTransaction = latest.copyWith(
         balanceBefore: latestValidBalance.balanceBefore,
         balanceAfter: latestValidBalance.balanceAfter,
       );
     } else {
-      ExpenseRecordsInit.storage.latestTransaction = latest;
+      storage.latestTransaction = latest;
     }
   }
 }

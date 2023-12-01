@@ -2,7 +2,7 @@ name: sit
 description: 'For SIT life'
 
 # 以下构建版本号将自增，请勿改动
-version: 1.0.0+10
+version: 1.0.0+13
 
 homepage: https://github.com/liplum/mimir
 repository: https://github.com/liplum/mimir
@@ -10,36 +10,35 @@ issue_tracker: https://github.com/liplum/mimir/issues
 documentation: https://github.com/liplum/mimir#readme
 
 publish_to: none
-environment: { sdk: '>=3.0.0 <4.0.0', flutter: ^3.13.9 }
+environment: { sdk: '>=3.0.0 <4.0.0', flutter: ^3.16.1 }
 
 dependencies:
   flutter: { sdk: flutter }
 
   # I18n
-  intl: ^0.17.0
   easy_localization: ^3.0.3
+  locale_names: ^1.1.1
+  intl: ^0.17.0
 
   # Basic
   logger: ^2.0.2
   device_info_plus: ^9.1.0
-  audio_session: ^0.1.16
   event_bus: ^2.0.0
-
-  # Path
   path_provider: ^2.1.1
-  # Version comparison
   version: ^3.0.2
-
   yaml: ^3.1.2
   path: ^1.8.2
   quiver: ^3.1.0
-  collection: ^1.17.2
+  collection: ^1.18.0
+  shared_preferences: ^2.2.2
+  flutter_riverpod: ^2.4.9
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  json_serializable: ^6.7.1
+  json_annotation: ^4.8.1
 
   # String formatting
-  format: ^1.3.0
-
-  go_router: ^12.0.0
-  rettulf: ^2.0.1
+  format: ^1.4.0
 
   # Cryptography
   # Encryption (AES)
@@ -47,48 +46,42 @@ dependencies:
   # Hash (MD5)
   crypto: ^3.0.3
   # UUID generator
-  uuid: ^3.0.7
+  uuid: ^4.2.1
 
   # File format
   # iCalendar file generator
   ical: ^0.2.2
-  add_2_calendar: ^2.2.5
+  add_2_calendar: ^3.0.1
 
   # Screenshot
   screenshot: ^2.1.0
 
-  # JSON
-  json_serializable: ^6.7.1
-  json_annotation: ^4.8.1
   # HTML parser
   beautiful_soup_dart: ^0.3.0
-
-  # hive (key-value database)
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
+  html: ^0.15.4
 
   # Dio (http client)
-  dio: ^5.3.3
+  dio: ^5.3.4
   dio_cookie_manager: ^3.1.1
 
   # WebView and browser related
-  webview_flutter: ^4.4.1
+  webview_flutter: ^4.4.2
   fk_user_agent: ^2.1.0
-  flutter_widget_from_html: ^0.14.3
-  chewie: ^1.7.1
+  flutter_widget_from_html: ^0.14.6
+  chewie: ^1.7.2
   cookie_jar: ^4.0.8
   flutter_html: ^3.0.0-beta.2
 
   # Email
-  enough_mail: ^2.1.3
-  enough_mail_html: ^2.0.0
+  enough_mail: ^2.1.5
+  enough_mail_html: ^2.0.1
 
   # Settings
   app_settings: ^5.1.1
 
   # Platform
   # Android / iOS / Windows Permission
-  permission_handler: ^11.0.1
+  permission_handler: ^11.1.0
   # Android / iOS Home screen quick actions
   quick_actions: ^1.0.6
 
@@ -96,21 +89,25 @@ dependencies:
   # Open files
   open_file: ^3.3.2
   # Open URLs
-  url_launcher: ^6.1.14
+  url_launcher: ^6.2.1
   # Open Android / iOS system image picker
   image_picker: ^1.0.4
   file_picker: ^6.0.0
   share_plus: ^7.2.1
 
   # UI
-  fl_chart: ^0.64.0
-  flutter_svg: ^2.0.7
+  go_router: ^12.1.1
+  fl_chart: ^0.65.0
+  flutter_svg: ^2.0.9
+  flutter_svg_provider: ^1.0.6
   # Screen adaptation
   flutter_screenutil: ^5.9.0
+  flutter_adaptive_ui: ^0.8.0+1
   # Qr code generate
   qr_flutter: ^4.1.0
+  pretty_qr_code: ^3.0.0
   # qrcode scanner
-  mobile_scanner: ^3.4.1
+  mobile_scanner: ^3.5.5
   cached_network_image: ^3.3.0
   modal_bottom_sheet: ^3.0.0-pre
   auto_size_text: ^3.0.0
@@ -122,20 +119,23 @@ dependencies:
   sliver_tools: ^0.2.12
   flutter_staggered_grid_view: ^0.7.0
   flex_color_picker: ^3.3.0
-  flutter_swipe_action_cell: ^3.1.2
+  flutter_swipe_action_cell: ^3.1.3
   bordered_text: ^2.0.0
-  flutter_platform_widgets: ^3.3.5
+  flutter_platform_widgets: ^6.0.2
   pull_down_button: ^0.9.3
-  flutter_adaptive_ui: ^0.8.0+1
+  system_theme: ^2.3.1 # read system theme color
+  cupertino_onboarding: ^1.2.0
+  flutter_swipe_detector: ^2.0.0
 
   # Utils
   # Get package info (version)
-  package_info_plus: ^4.2.0
+  package_info_plus: ^5.0.1
   # dart.io.Platform API for Web
   universal_platform: ^1.0.0+1
   # Check VPN connection status
   check_vpn_connection: ^0.0.2
-  connectivity_plus: ^5.0.1
+  connectivity_plus: ^5.0.2
+  rettulf: ^2.0.1
   # lock
   synchronized: ^3.1.0
   # parse stacktrace
@@ -152,10 +152,10 @@ dependency_overrides:
 
 dev_dependencies:
   flutter_test: { sdk: flutter }
-  flutter_lints: ^2.0.1
+  flutter_lints: ^3.0.1
   build_runner: ^2.2.0
   hive_generator: ^2.0.0
-  test: ^1.24.3
+  test: ^1.24.9
 
 # ------------------------------------------------------------------------------
 

@@ -13,10 +13,10 @@ const deviceName2Type = {
 };
 
 TransactionType parseType(Transaction trans) {
-  if (trans.note.contains("充值")) {
-    return TransactionType.topUp;
-  } else if (trans.note.contains("补助")) {
+  if (trans.note.contains("补助")) {
     return TransactionType.subsidy;
+  } else if (trans.note.contains("充值") || trans.note.contains("余额转移") || !trans.isConsume) {
+    return TransactionType.topUp;
   } else if (trans.note.contains("消费") || trans.isConsume) {
     for (MapEntry<String, TransactionType> entry in deviceName2Type.entries) {
       String name = entry.key;

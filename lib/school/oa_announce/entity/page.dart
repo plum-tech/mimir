@@ -1,5 +1,3 @@
-import 'package:sit/hive/type_id.dart';
-
 import 'announce.dart';
 
 /// 获取到的通知页

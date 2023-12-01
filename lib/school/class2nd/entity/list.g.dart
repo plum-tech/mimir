@@ -8,7 +8,7 @@ part of 'list.dart';
 
 class Class2ndActivityAdapter extends TypeAdapter<Class2ndActivity> {
   @override
-  final int typeId = 50;
+  final int typeId = 10;
 
   @override
   Class2ndActivity read(BinaryReader reader) {
@@ -18,27 +18,21 @@ class Class2ndActivityAdapter extends TypeAdapter<Class2ndActivity> {
     };
     return Class2ndActivity(
       id: fields[0] as int,
-      fullTitle: fields[1] as String,
-      ts: fields[4] as DateTime,
-      realTitle: fields[2] as String,
-      tags: (fields[3] as List).cast<String>(),
+      title: fields[1] as String,
+      time: fields[2] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, Class2ndActivity obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.fullTitle)
+      ..write(obj.title)
       ..writeByte(2)
-      ..write(obj.realTitle)
-      ..writeByte(3)
-      ..write(obj.tags)
-      ..writeByte(4)
-      ..write(obj.ts);
+      ..write(obj.time);
   }
 
   @override
@@ -52,7 +46,7 @@ class Class2ndActivityAdapter extends TypeAdapter<Class2ndActivity> {
 
 class Class2ndActivityCatAdapter extends TypeAdapter<Class2ndActivityCat> {
   @override
-  final int typeId = 52;
+  final int typeId = 12;
 
   @override
   Class2ndActivityCat read(BinaryReader reader) {
@@ -66,16 +60,18 @@ class Class2ndActivityCatAdapter extends TypeAdapter<Class2ndActivityCat> {
       case 3:
         return Class2ndActivityCat.schoolCultureActivity;
       case 4:
-        return Class2ndActivityCat.practice;
+        return Class2ndActivityCat.schoolCivilization;
       case 5:
-        return Class2ndActivityCat.voluntary;
+        return Class2ndActivityCat.practice;
       case 6:
-        return Class2ndActivityCat.onlineSafetyEdu;
+        return Class2ndActivityCat.voluntary;
       case 7:
-        return Class2ndActivityCat.conference;
+        return Class2ndActivityCat.onlineSafetyEdu;
       case 8:
-        return Class2ndActivityCat.schoolCultureCompetition;
+        return Class2ndActivityCat.conference;
       case 9:
+        return Class2ndActivityCat.schoolCultureCompetition;
+      case 10:
         return Class2ndActivityCat.paperAndPatent;
       default:
         return Class2ndActivityCat.lecture;
@@ -97,23 +93,26 @@ class Class2ndActivityCatAdapter extends TypeAdapter<Class2ndActivityCat> {
       case Class2ndActivityCat.schoolCultureActivity:
         writer.writeByte(3);
         break;
-      case Class2ndActivityCat.practice:
+      case Class2ndActivityCat.schoolCivilization:
         writer.writeByte(4);
         break;
-      case Class2ndActivityCat.voluntary:
+      case Class2ndActivityCat.practice:
         writer.writeByte(5);
         break;
-      case Class2ndActivityCat.onlineSafetyEdu:
+      case Class2ndActivityCat.voluntary:
         writer.writeByte(6);
         break;
-      case Class2ndActivityCat.conference:
+      case Class2ndActivityCat.onlineSafetyEdu:
         writer.writeByte(7);
         break;
-      case Class2ndActivityCat.schoolCultureCompetition:
+      case Class2ndActivityCat.conference:
         writer.writeByte(8);
         break;
-      case Class2ndActivityCat.paperAndPatent:
+      case Class2ndActivityCat.schoolCultureCompetition:
         writer.writeByte(9);
+        break;
+      case Class2ndActivityCat.paperAndPatent:
+        writer.writeByte(10);
         break;
     }
   }

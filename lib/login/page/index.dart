@@ -1,6 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
@@ -10,12 +9,17 @@ import 'package:sit/credentials/utils.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/init.dart';
+import 'package:sit/login/init.dart';
 import 'package:sit/login/utils.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/settings/widgets/campus.dart';
-import 'package:sit/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../i18n.dart';
+import '../widgets/forgot_pwd.dart';
+
+const _forgotLoginPasswordUrl =
+    "https://authserver.sit.edu.cn/authserver/getBackPasswordMainPage.do?service=https%3A%2F%2Fmyportal.sit.edu.cn%3A443%2F";
 
 class LoginPage extends StatefulWidget {
   final bool isGuarded;
@@ -87,9 +91,11 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     try {
-      final oaCredential = OaCredentials(account: account, password: password);
+      final oaCredential = Credentials(account: account, password: password);
       await Init.ssoSession.loginLocked(oaCredential);
-      // final personName = await LoginInit.authServerService.getPersonName();
+      // set user's real name to signature by default.
+      final personName = await LoginInit.authServerService.getPersonName();
+      Settings.lastSignature ??= personName;
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       CredentialInit.storage.oaCredentials = oaCredential;
@@ -131,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         body: buildBody(),
         //to avoid overflow when keyboard is up.
-        bottomNavigationBar: const ForgotPasswordButton(),
+        bottomNavigationBar: const ForgotPasswordButton(url: _forgotLoginPasswordUrl),
       ),
     );
   }
@@ -172,7 +178,7 @@ class _LoginPageState extends State<LoginPage> {
               enableSuggestions: false,
               validator: (account) => studentIdValidator(account, () => i18n.invalidAccountFormat),
               decoration: InputDecoration(
-                labelText: i18n.credential.account,
+                labelText: i18n.credentials.account,
                 hintText: i18n.accountHint,
                 icon: const Icon(Icons.person),
               ),
@@ -196,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                 await login();
               },
               decoration: InputDecoration(
-                labelText: i18n.credential.oaPwd,
+                labelText: i18n.credentials.oaPwd,
                 hintText: i18n.oaPwdHint,
                 icon: const Icon(Icons.lock),
                 suffixIcon: IconButton(
@@ -228,7 +234,7 @@ class _LoginPageState extends State<LoginPage> {
                       }
                     : null,
                 icon: const Icon(Icons.login),
-                label: i18n.loginBtn.text(),
+                label: i18n.credentials.login.text(),
               ),
       if (!widget.isGuarded)
         OutlinedButton(
@@ -240,25 +246,6 @@ class _LoginPageState extends State<LoginPage> {
           child: i18n.offlineModeBtn.text(),
         ),
     ].row(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceAround);
-  }
-}
-
-const forgotLoginPasswordUrl =
-    "https://authserver.sit.edu.cn/authserver/getBackPasswordMainPage.do?service=https%3A%2F%2Fmyportal.sit.edu.cn%3A443%2F";
-
-class ForgotPasswordButton extends StatelessWidget {
-  const ForgotPasswordButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return PlatformTextButton(
-      child: i18n.forgotPwdBtn.text(
-        style: const TextStyle(color: Colors.grey),
-      ),
-      onPressed: () {
-        guardLaunchUrlString(context, forgotLoginPasswordUrl);
-      },
-    );
   }
 }
 

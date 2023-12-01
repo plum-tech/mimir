@@ -6,6 +6,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/files.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/timetable.dart';
 import "../i18n.dart";
 import '../widgets/style.dart';
@@ -33,7 +34,7 @@ class TimetableScreenshotConfigEditor extends StatefulWidget {
 }
 
 class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotConfigEditor> {
-  final $signature = TextEditingController(text: "");
+  late final $signature = TextEditingController(text: widget.timetable.signature);
   late bool grayOutTakenLessons = widget.initialGrayOut;
   var enableBackground = true;
 
@@ -41,11 +42,6 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
   void dispose() {
     $signature.dispose();
     super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
   }
 
   @override
@@ -74,6 +70,7 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
     return PlatformTextButton(
       child: i18n.screenshot.take.text(),
       onPressed: () async {
+        Settings.lastSignature = $signature.text;
         context.pop<TimetableScreenshotConfig>((
           signature: $signature.text.trim(),
           grayOutTakenLessons: grayOutTakenLessons == true,
@@ -87,11 +84,11 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
     return ListTile(
       isThreeLine: true,
       leading: const Icon(Icons.drive_file_rename_outline),
-      title: i18n.screenshot.signature.text(),
+      title: i18n.signature.text(),
       subtitle: TextField(
         controller: $signature,
         decoration: InputDecoration(
-          hintText: i18n.screenshot.signaturePlaceholder,
+          hintText: i18n.signaturePlaceholder,
         ),
       ),
     );
@@ -148,7 +145,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = TimetableStyle.of(context);
     final background = style.background;
-    if (config.enableBackground) {
+    if (config.enableBackground && background.enabled) {
       return [
         Positioned.fill(
           child: TimetableBackground(background: background),

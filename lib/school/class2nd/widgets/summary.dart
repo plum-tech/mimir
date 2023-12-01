@@ -4,29 +4,42 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/attended.dart';
 
-const _targetScores2020 = Class2ndScoreSummary(
-    thematicReport: 1.5, practice: 2, creation: 1.5, schoolSafetyCivilization: 1, voluntary: 1, schoolCulture: 1);
+const _targetScores2019 = Class2ndScoreSummary(
+  thematicReport: 1.5,
+  practice: 2,
+  creation: 1.5,
+  schoolSafetyCivilization: 1,
+  voluntary: 1,
+  schoolCulture: 1,
+);
 const _admissionYear2targetScores = {
   2013: Class2ndScoreSummary(thematicReport: 1, schoolCulture: 1),
   2014: Class2ndScoreSummary(thematicReport: 1, practice: 1, schoolCulture: 1),
   2015: Class2ndScoreSummary(thematicReport: 1, practice: 1, creation: 1, schoolCulture: 1),
   2016: Class2ndScoreSummary(thematicReport: 1, practice: 1, creation: 1, schoolCulture: 1),
   2017: Class2ndScoreSummary(
-      thematicReport: 1.5, practice: 2, creation: 1.5, schoolSafetyCivilization: 1, schoolCulture: 2),
+    thematicReport: 1.5,
+    practice: 2,
+    creation: 1.5,
+    schoolSafetyCivilization: 1,
+    schoolCulture: 2,
+  ),
   2018: Class2ndScoreSummary(
-      thematicReport: 1.5, practice: 2, creation: 1.5, schoolSafetyCivilization: 1, schoolCulture: 2),
-  2019: Class2ndScoreSummary(
-      thematicReport: 1.5, practice: 2, creation: 1.5, schoolSafetyCivilization: 1, voluntary: 1, schoolCulture: 1),
-  2020: _targetScores2020,
+    thematicReport: 1.5,
+    practice: 2,
+    creation: 1.5,
+    schoolSafetyCivilization: 1,
+    schoolCulture: 2,
+  ),
+  2019: _targetScores2019,
+  2020: _targetScores2019,
+  2021: _targetScores2019,
+  2022: _targetScores2019,
+  2023: _targetScores2019,
 };
 
 Class2ndScoreSummary getTargetScoreOf({required int? admissionYear}) {
-  final targetScores = _admissionYear2targetScores[admissionYear];
-  if (targetScores != null) {
-    return targetScores;
-  } else {
-    return _targetScores2020;
-  }
+  return _admissionYear2targetScores[admissionYear] ?? _targetScores2019;
 }
 
 class Class2ndScoreSummeryCard extends StatelessWidget {

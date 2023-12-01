@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/hive/type_id.dart';
+import 'package:sit/storage/hive/type_id.dart';
 import 'package:sit/school/entity/school.dart';
 
 part 'application.g.dart';
@@ -20,7 +20,7 @@ DateTime _parseTimestamp(dynamic ts) {
 }
 
 @JsonSerializable(createToJson: false)
-@HiveType(typeId: HiveTypeYwb.application)
+@HiveType(typeId: CacheHiveType.ywbApplication)
 class YwbApplication {
   @JsonKey(name: 'WorkID')
   @HiveField(0)
@@ -69,10 +69,22 @@ class YwbApplication {
   }
 
   factory YwbApplication.fromJson(Map<String, dynamic> json) => _$YwbApplicationFromJson(json);
+
+  @override
+  String toString() {
+    return {
+      "workId": workId,
+      "functionId": functionId,
+      "name": name,
+      "note": note,
+      "startTs": startTs,
+      "track": track,
+    }.toString();
+  }
 }
 
 @JsonSerializable(createToJson: false)
-@HiveType(typeId: HiveTypeYwb.applicationTrack)
+@HiveType(typeId: CacheHiveType.ywbApplicationTrack)
 class YwbApplicationTrack {
   @JsonKey(name: "ActionType")
   @HiveField(0)
@@ -125,6 +137,21 @@ class YwbApplicationTrack {
   });
 
   factory YwbApplicationTrack.fromJson(Map<String, dynamic> json) => _$YwbApplicationTrackFromJson(json);
+
+  @override
+  String toString() {
+    return {
+      "actionType": actionType,
+      "action": action,
+      "senderId": senderId,
+      "senderName": senderName,
+      "receiverId": receiverId,
+      "receiverName": receiverName,
+      "message": message,
+      "timestamp": timestamp,
+      "step": step,
+    }.toString();
+  }
 }
 
 typedef MyYwbApplications = ({

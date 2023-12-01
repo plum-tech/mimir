@@ -6,12 +6,12 @@ import 'package:sit/school/settings.dart';
 import 'package:sit/timetable/settings.dart';
 
 import '../life/settings.dart';
-import '../r.dart';
 
 class _K {
   static const ns = "/settings";
   static const campus = '$ns/campus';
   static const focusTimetable = '$ns/focusTimetable';
+  static const lastSignature = '$ns/lastSignature';
 }
 
 class _DeveloperK {
@@ -46,9 +46,9 @@ class SettingsImpl {
 
   ValueListenable<Box> listenFocusTimetable() => box.listenable(keys: [_K.focusTimetable]);
 
-  Size? get lastWindowSize => box.get(_ThemeK.lastWindowSize, defaultValue: R.defaultWindowSize);
+  String? get lastSignature => box.get(_K.lastSignature);
 
-  set lastWindowSize(Size? value) => box.put(_ThemeK.lastWindowSize, value ?? R.defaultWindowSize);
+  set lastSignature(String? value) => box.put(_K.lastSignature, value);
 
   // Developer
   bool? get showErrorInfoDialog => box.get(_DeveloperK.showErrorInfoDialog);
@@ -67,7 +67,6 @@ class _ThemeK {
   static const ns = '/theme';
   static const themeColor = '$ns/themeColor';
   static const themeMode = '$ns/themeMode';
-  static const lastWindowSize = '$ns/lastWindowSize';
 }
 
 class _Theme {
@@ -103,6 +102,7 @@ class _HttpProxyK {
   static const ns = '/httpProxy';
   static const address = '$ns/address';
   static const useHttpProxy = '$ns/useHttpProxy';
+  static const globalMode = '$ns/globalMode';
 }
 
 class _HttpProxy {
@@ -120,7 +120,14 @@ class _HttpProxy {
 
   set enableHttpProxy(bool newV) => box.put(_HttpProxyK.useHttpProxy, newV);
 
+  /// [false] by default.
+  bool get globalMode => box.get(_HttpProxyK.globalMode) ?? false;
+
+  set globalMode(bool newV) => box.put(_HttpProxyK.globalMode, newV);
+
   ValueListenable listenEnableHttpProxy() => box.listenable(keys: [_HttpProxyK.useHttpProxy]);
 
-  Stream<BoxEvent> watchHttpProxy() => box.watch(key: _HttpProxyK.address);
+  ValueListenable listenGlobalMode() => box.listenable(keys: [_HttpProxyK.globalMode]);
+
+  ValueListenable listenAddress() => box.listenable(keys: [_HttpProxyK.address]);
 }

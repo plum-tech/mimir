@@ -5,9 +5,13 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/game/2048/index.dart';
 import 'package:sit/index.dart';
 import 'package:sit/me/edu_email/page/login.dart';
 import 'package:sit/me/edu_email/page/outbox.dart';
+import 'package:sit/school/class2nd/entity/attended.dart';
+import 'package:sit/school/library/page/login.dart';
+import 'package:sit/school/library/page/me.dart';
 import 'package:sit/school/ywb/page/meta.dart';
 import 'package:sit/school/ywb/page/application.dart';
 import 'package:sit/settings/page/life.dart';
@@ -20,18 +24,14 @@ import 'package:sit/life/index.dart';
 import 'package:sit/login/page/index.dart';
 import 'package:sit/me/edu_email/page/inbox.dart';
 import 'package:sit/me/network_tool/page/index.dart';
-import 'package:sit/timetable/entity/platte.dart';
-import 'package:sit/timetable/page/palette.dart';
 import 'package:sit/widgets/not_found.dart';
 import 'package:sit/school/oa_announce/entity/announce.dart';
 import 'package:sit/school/oa_announce/page/details.dart';
-import 'package:sit/school/exam_arrange/page/index.dart';
-import 'package:sit/school/library/index.dart';
+import 'package:sit/school/exam_arrange/page/list.dart';
 import 'package:sit/school/oa_announce/page/list.dart';
-import 'package:sit/scanner/page/index.dart';
-import 'package:sit/school/class2nd/entity/list.dart';
+import 'package:sit/qrcode/page/scanner.dart';
 import 'package:sit/school/class2nd/page/details.dart';
-import 'package:sit/school/class2nd/page/list.dart';
+import 'package:sit/school/class2nd/page/activity.dart';
 import 'package:sit/school/class2nd/page/attended.dart';
 import 'package:sit/school/exam_result/page/evaluation.dart';
 import 'package:sit/school/exam_result/page/result.dart';
@@ -42,13 +42,10 @@ import 'package:sit/settings/page/index.dart';
 import 'package:sit/me/index.dart';
 import 'package:sit/school/index.dart';
 import 'package:sit/settings/page/timetable.dart';
-import 'package:sit/timetable/entity/timetable.dart';
-import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/page/import.dart';
 import 'package:sit/timetable/page/index.dart';
 import 'package:sit/timetable/page/mine.dart';
 import 'package:sit/timetable/page/p13n.dart';
-import 'package:sit/timetable/page/preview.dart';
 import 'package:sit/widgets/image.dart';
 import 'package:sit/widgets/webview/page.dart';
 
@@ -91,18 +88,6 @@ final _timetableRoute = GoRoute(
   builder: (ctx, state) => const TimetablePage(),
   routes: [
     GoRoute(
-      path: "preview/:id",
-      builder: (ctx, state) {
-        final extra = state.extra;
-        if (extra is SitTimetable) return TimetablePreviewPage(timetable: extra);
-        final id = int.tryParse(state.pathParameters["id"] ?? "");
-        if (id == null) throw 404;
-        final timetable = TimetableInit.storage.timetable[id];
-        if (timetable == null) throw 404;
-        return TimetablePreviewPage(timetable: timetable);
-      },
-    ),
-    GoRoute(
       path: "import",
       builder: (ctx, state) => const ImportTimetablePage(),
       redirect: _loginRequired,
@@ -121,19 +106,6 @@ final _timetableRoute = GoRoute(
           _ => const TimetableP13nPage(),
         };
       },
-      routes: [
-        GoRoute(
-            path: "palette/:id",
-            builder: (ctx, state) {
-              final extra = state.extra;
-              final id = int.tryParse(state.pathParameters["id"] ?? "");
-              if (id == null) throw 404;
-              if (extra is TimetablePalette) return TimetablePaletteEditor(id: id, palette: extra);
-              final palette = TimetableInit.storage.palette[id];
-              if (palette == null) throw 404;
-              return TimetablePaletteEditor(id: id, palette: palette);
-            }),
-      ],
     ),
   ],
 );
@@ -221,12 +193,23 @@ final _class2ndRoute = GoRoute(
       redirect: _loginRequired,
     ),
     GoRoute(
-      path: "activity-detail",
+      path: "activity-details/:id",
       builder: (ctx, state) {
+        final id = int.tryParse(state.pathParameters["id"] ?? "");
+        if (id == null) throw 404;
         final enableApply = state.uri.queryParameters["enable-apply"] != null;
+        final title = state.uri.queryParameters["title"];
+        final time = DateTime.tryParse(state.uri.queryParameters["time"] ?? "");
+        return Class2ndActivityDetailsPage(activityId: id, title: title, time: time, enableApply: enableApply);
+      },
+      redirect: _loginRequired,
+    ),
+    GoRoute(
+      path: "attended-details",
+      builder: (ctx, state) {
         final extra = state.extra;
-        if (extra is Class2ndActivity) {
-          return Class2ndActivityDetailsPage(extra, enableApply: enableApply);
+        if (extra is Class2ndAttendedActivity) {
+          return Class2ndAttendDetailsPage(extra);
         }
         throw 404;
       },
@@ -273,7 +256,7 @@ final _eduEmailRoutes = [
 
 final _ywbRoute = GoRoute(
   path: "/ywb",
-  builder: (ctx, state) => const YwbApplicationMetaListPage(),
+  builder: (ctx, state) => const YwbServiceListPage(),
   redirect: _loginRequired,
   routes: [
     GoRoute(
@@ -287,9 +270,10 @@ final _imageRoute = GoRoute(
   path: "/image",
   builder: (ctx, state) {
     final extra = state.extra;
-    if (extra is String?) {
+    final data = state.uri.queryParameters["origin"] ?? extra as String?;
+    if (data != null) {
       return ImageViewPage(
-        extra,
+        data,
         title: state.uri.queryParameters["title"],
       );
     }
@@ -311,14 +295,24 @@ final _teacherEvalRoute = GoRoute(
   redirect: _loginRequired,
 );
 
-final _libraryRoute = GoRoute(
-  path: "/library",
-  builder: (ctx, state) => const LibraryPage(),
-);
+final _libraryRoutes = [
+  GoRoute(
+    path: "/library/login",
+    builder: (ctx, state) => const LibraryLoginPage(),
+  ),
+  GoRoute(
+    path: "/library/my-borrowed",
+    builder: (ctx, state) => const LibraryMyBorrowedPage(),
+  ),
+  GoRoute(
+    path: "/library/my-borrowing-history",
+    builder: (ctx, state) => const LibraryMyBorrowingHistoryPage(),
+  ),
+];
 
 final _examArrange = GoRoute(
   path: "/exam-arrange",
-  builder: (ctx, state) => const ExamArrangePage(),
+  builder: (ctx, state) => const ExamArrangementListPage(),
   redirect: _loginRequired,
 );
 
@@ -331,13 +325,22 @@ final _examResult = GoRoute(
 final _browserRoute = GoRoute(
   path: "/browser",
   builder: (ctx, state) {
-    final extra = state.extra;
-    if (extra is String) {
-      return WebViewPage(initialUrl: extra);
+    var url = state.uri.queryParameters["url"] ?? state.extra;
+    if (url is String) {
+      if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = "http://$url";
+      }
+      return WebViewPage(initialUrl: url);
     }
-    throw 404;
+    throw 400;
   },
 );
+final _gameRoutes = [
+  GoRoute(
+    path: "/game/2048",
+    builder: (ctx, state) => const Game2048Page(),
+  ),
+];
 
 GoRouter buildRouter(ValueNotifier<RoutingConfig> $routingConfig) {
   return GoRouter.routingConfig(
@@ -398,10 +401,11 @@ RoutingConfig buildCommonRoutingConfig() {
       _ywbRoute,
       _examResult,
       _examArrange,
-      _libraryRoute,
+      ..._libraryRoutes,
       _teacherEvalRoute,
       _loginRoute,
       _imageRoute,
+      ..._gameRoutes,
     ],
   );
 }
@@ -428,10 +432,11 @@ RoutingConfig buildTimetableFocusRouter() {
       _ywbRoute,
       _examResult,
       _examArrange,
-      _libraryRoute,
+      ..._libraryRoutes,
       _teacherEvalRoute,
       _loginRoute,
       _imageRoute,
+      ..._gameRoutes,
     ],
   );
 }

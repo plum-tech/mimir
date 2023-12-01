@@ -55,6 +55,10 @@ class TimetableCourseDetailsSheet extends StatelessWidget {
 
   Widget buildTable(List<SitCourse> courses) {
     return Table(
+      columnWidths: const {
+        0: FlexColumnWidth(1),
+        1: FlexColumnWidth(2),
+      },
       children: [
         TableRow(children: [
           i18n.details.courseCode.text(),
@@ -66,8 +70,7 @@ class TimetableCourseDetailsSheet extends StatelessWidget {
         ]),
         TableRow(children: [
           i18n.details.teacher.text(),
-          // TODO: merge all teachers?
-          courses[0].teachers.join(", ").text(),
+          courses.expand((course) => course.teachers).toSet().join(", ").text(),
         ]),
       ],
     );
@@ -88,8 +91,11 @@ class CourseDescCard extends StatelessWidget {
     final (:begin, :end) = course.calcBeginEndTimePoint();
     final timeText = "$begin–$end";
     return ListTile(
-      title: "$weekNumbers $timeText".text(),
-      subtitle: "${course.place} ${course.teachers.join(", ")}".text(),
+      title: course.place.text(),
+      subtitle: [
+        "$weekNumbers $timeText".text(),
+        course.teachers.join(", ").text(),
+      ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
     );
   }
 }

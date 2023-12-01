@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:sit/session/sso.dart';
 
-import '../network/session.dart';
-
 class Class2ndSession {
   final SsoSession ssoSession;
 
@@ -11,39 +9,43 @@ class Class2ndSession {
   Future<void> _refreshCookie() async {
     await ssoSession.request(
       'https://authserver.sit.edu.cn/authserver/login?service=http%3A%2F%2Fsc.sit.edu.cn%2Flogin.jsp',
-      ReqMethod.get,
+      options: Options(
+        method: "GET",
+      ),
     );
   }
 
-  bool _isRedirectedToLoginPage(String data) {
-    return data.startsWith('<script');
+  bool _needRedirectToLoginPage(String data) {
+    return data.startsWith('<script') ||
+        data.contains('<meta http-equiv="refresh" content="0;URL=http://my.sit.edu.cn"/>');
   }
 
   Future<Response> request(
-    String url,
-    ReqMethod method, {
+    String url, {
     Map<String, String>? para,
     data,
-    SessionOptions? options,
-    SessionProgressCallback? onSendProgress,
-    SessionProgressCallback? onReceiveProgress,
+    Options? options,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
-    Future<Response> fetch() => ssoSession.request(
-          url,
-          method,
-          para: para,
-          data: data,
-          options: options,
-          onSendProgress: onSendProgress,
-          onReceiveProgress: onReceiveProgress,
-        );
-
-    Response response = await fetch();
-    // 如果返回值是登录页面，那就从 SSO 跳转一次以登录.
-    if (_isRedirectedToLoginPage(response.data as String)) {
-      await _refreshCookie();
-      response = await fetch();
+    Future<Response> fetch() {
+      return ssoSession.request(
+        url,
+        para: para,
+        data: data,
+        options: options,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+      );
     }
-    return response;
+
+    var res = await fetch();
+    final responseData = res.data;
+    // 如果返回值是登录页面，那就从 SSO 跳转一次以登录.
+    if (responseData is String && _needRedirectToLoginPage(responseData)) {
+      await _refreshCookie();
+      res = await fetch();
+    }
+    return res;
   }
 }

@@ -15,7 +15,6 @@ class _I18n with CommonI18nMixin {
   final clearCache = const _ClearCache();
   final themeMode = const _ThemeMode();
   final proxy = const _Proxy();
-  final language = const _Language();
   final dev = const _DevOptions();
   final timetable = const _Timetable();
   final school = const _School();
@@ -25,9 +24,13 @@ class _I18n with CommonI18nMixin {
 
   String get title => "$ns.title".tr();
 
+  String get language => "$ns.language".tr();
+
   String get version => "$ns.version".tr();
 
   String get themeColor => "$ns.themeColor".tr();
+
+  String get fromSystem => "$ns.fromSystem".tr();
 }
 
 class _Campus extends CampusI10n {
@@ -101,13 +104,19 @@ class _Proxy {
 
   String get enableProxyDesc => "$ns.enableProxy.desc".tr();
 
+  String get proxyMode => "$ns.proxyMode.title".tr();
+
+  String get proxyModeGlobal => "$ns.proxyMode.global".tr();
+
+  String get proxyModeSchool => "$ns.proxyMode.school".tr();
+
+  String get proxyModeGlobalTip => "$ns.proxyMode.globalTip".tr();
+
+  String get proxyModeSchoolTip => "$ns.proxyMode.schoolTip".tr();
+
   String get shareQrCode => "$ns.shareQrCode.title".tr();
 
   String get shareQrCodeDesc => "$ns.shareQrCode.desc".tr();
-
-  String get testConnection => "$ns.testConnection.title".tr();
-
-  String get testConnectionDesc => "$ns.testConnection.desc".tr();
 
   String get protocol => "$ns.protocol".tr();
 
@@ -126,16 +135,6 @@ class _Proxy {
   String get username => "$ns.username".tr();
 
   String get password => "$ns.password".tr();
-}
-
-class _Language {
-  const _Language();
-
-  static const ns = "${_I18n.ns}.language";
-
-  String get title => "$ns.title".tr();
-
-  String languageOf(Locale locale) => "language.$locale".tr();
 }
 
 class _Timetable {

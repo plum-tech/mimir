@@ -12,19 +12,38 @@ class Migrations {
     R.v1_0_0 << ClearCacheMigration;
   }
 
-  static Future<void> perform({required Version? from, required Version? to}) async {
+  static MigrationMatch match({
+    required Version? from,
+    required Version? to,
+  }) {
+    final result = <Migration>[];
     if (from == null) {
-      await _onNullVersion?.perform();
-    } else {
-      if (to != null) {
-        await _manager.upgrade(from, to);
+      final onNullVersion = _onNullVersion;
+      if (onNullVersion != null) {
+        result.add(onNullVersion);
       }
+    } else if (to != null) {
+      final all = _manager.collectBetween(from, to);
+      result.addAll(all);
+    }
+    return MigrationMatch(result);
+  }
+}
+
+class MigrationMatch {
+  final List<Migration> _migrations;
+
+  const MigrationMatch(this._migrations);
+
+  Future<void> perform(MigrationPhrase phrase) async {
+    for (final migration in _migrations) {
+      await migration.perform(phrase);
     }
   }
 }
 
 extension _MigrationEx on Version {
   void operator <<(Migration migration) {
-    Migrations._manager.when(this, perform: migration);
+    Migrations._manager.addWhen(this, perform: migration);
   }
 }

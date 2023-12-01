@@ -1,26 +1,40 @@
-import 'package:sit/hive/type_id.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:sit/storage/hive/type_id.dart';
 
 part 'announce.g.dart';
 
 /// 通知分类
-@HiveType(typeId: HiveTypeOaAnnounce.catalogue)
-class OaAnnounceCatalogue {
+enum OaAnnounceCat {
+  studentAffairs('学生事务', 'pe2362'),
+  learning('学习课堂', 'pe2364'),
+  collegeNotification('二级学院通知', 'pe2368'),
+  culture('校园文化', 'pe2366'),
+  announcement('公告信息', 'pe2367'),
+  life('生活服务', 'pe2365'),
+  download('文件下载专区', 'pe2382'),
+  training('培养信息', 'pe3442', postgraduate: true);
+
   /// 分类名
-  @HiveField(0)
-  final String name;
+  final String catName;
 
   /// 分类代号(OA上命名为pen，以pe打头)
-  @HiveField(1)
-  final String id;
+  final String internalId;
 
-  const OaAnnounceCatalogue({
-    required this.name,
-    required this.id,
+  final bool postgraduate;
+
+  String l10nName() => "oaAnnounce.oaAnnounceCat.$name".tr();
+
+  static String allCatL10n() => "oaAnnounce.oaAnnounceCat.all".tr();
+
+  const OaAnnounceCat(
+    this.catName,
+    this.internalId, {
+    this.postgraduate = false,
   });
 }
 
 /// 某篇通知的记录信息，根据该信息可寻找到对应文章
-@HiveType(typeId: HiveTypeOaAnnounce.record)
+@HiveType(typeId: CacheHiveType.oaAnnounceRecord)
 class OaAnnounceRecord {
   /// 标题
   @HiveField(0)
@@ -62,7 +76,7 @@ class OaAnnounceRecord {
   }
 }
 
-@HiveType(typeId: HiveTypeOaAnnounce.details)
+@HiveType(typeId: CacheHiveType.oaAnnounceDetails)
 class OaAnnounceDetails {
   /// 标题
   @HiveField(0)
@@ -116,7 +130,7 @@ class OaAnnounceDetails {
   }
 }
 
-@HiveType(typeId: HiveTypeOaAnnounce.attachment)
+@HiveType(typeId: CacheHiveType.oaAnnounceAttachment)
 class OaAnnounceAttachment {
   /// 附件标题
   @HiveField(0)

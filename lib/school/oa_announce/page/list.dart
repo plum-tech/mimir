@@ -1,15 +1,26 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:sit/credentials/entity/user_type.dart';
-import 'package:sit/design/widgets/common.dart';
-import 'package:sit/network/session.dart';
+import 'package:sit/design/widgets/card.dart';
+
 import 'package:sit/school/oa_announce/widget/tile.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/utils/collection.dart';
 
 import '../entity/announce.dart';
-import '../entity/page.dart';
 import '../init.dart';
 import '../i18n.dart';
+
+const _commonOaAnnounceCats = [
+  OaAnnounceCat.learning,
+  OaAnnounceCat.studentAffairs,
+  OaAnnounceCat.announcement,
+  OaAnnounceCat.culture,
+  OaAnnounceCat.download,
+  OaAnnounceCat.collegeNotification,
+  OaAnnounceCat.life,
+  // TODO: For postgraduates
+  // OaAnnounceCat.training,
+];
 
 class OaAnnounceListPage extends StatefulWidget {
   const OaAnnounceListPage({super.key});
@@ -19,98 +30,155 @@ class OaAnnounceListPage extends StatefulWidget {
 }
 
 class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
-  var recordList = OaAnnounceInit.storage.recordList;
+  final loadingStates = ValueNotifier(_commonOaAnnounceCats.map((cat) => false).toList());
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      bottomNavigationBar: PreferredSize(
+        preferredSize: const Size.fromHeight(4),
+        child: loadingStates >>
+            (ctx, states) {
+              return !states.any((state) => state == true) ? const SizedBox() : const LinearProgressIndicator();
+            },
+      ),
+      body: DefaultTabController(
+        length: _commonOaAnnounceCats.length,
+        child: NestedScrollView(
+          floatHeaderSlivers: true,
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            // These are the slivers that show up in the "outer" scroll view.
+            return <Widget>[
+              SliverOverlapAbsorber(
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                sliver: SliverAppBar(
+                  floating: true,
+                  title: i18n.title.text(),
+                  forceElevated: innerBoxIsScrolled,
+                  bottom: TabBar(
+                    isScrollable: true,
+                    tabs: _commonOaAnnounceCats
+                        .mapIndexed(
+                          (i, e) => Tab(
+                            child: e.l10nName().text(),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ),
+            ];
+          },
+          body: TabBarView(
+            // These are the contents of the tab views, below the tabs.
+            children: _commonOaAnnounceCats.mapIndexed((i, cat) {
+              return OaAnnounceLoadingList(
+                cat: cat,
+                onLoadingChanged: (state) {
+                  final newStates = List.of(loadingStates.value);
+                  newStates[i] = state;
+                  loadingStates.value = newStates;
+                },
+              );
+            }).toList(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class OaAnnounceLoadingList extends StatefulWidget {
+  final OaAnnounceCat cat;
+  final ValueChanged<bool> onLoadingChanged;
+
+  const OaAnnounceLoadingList({
+    super.key,
+    required this.cat,
+    required this.onLoadingChanged,
+  });
+
+  @override
+  State<OaAnnounceLoadingList> createState() => _OaAnnounceLoadingListState();
+}
+
+class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with AutomaticKeepAliveClientMixin {
+  int lastPage = 1;
   bool isFetching = false;
+  late List<OaAnnounceRecord> announcements =
+      OaAnnounceInit.storage.getAnnouncements(widget.cat) ?? <OaAnnounceRecord>[];
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
-    refresh();
-  }
-
-  Future<void> refresh() async {
-    if (!mounted) return;
-    setState(() {
-      isFetching = true;
+    Future.delayed(Duration.zero).then((value) async {
+      await loadMore();
     });
-    try {
-      final recordList = await _queryAnnounceListInAllCategory(1);
-      // 公告项按时间排序
-      recordList.sort((a, b) => b.dateTime.compareTo(a.dateTime));
-      OaAnnounceInit.storage.recordList = recordList;
-      if (!mounted) return;
-      setState(() {
-        this.recordList = recordList;
-        isFetching = false;
-      });
-    } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
-      if (!mounted) return;
-      setState(() {
-        isFetching = false;
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final recordList = this.recordList;
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            title: i18n.title.text(),
-            bottom: isFetching
-                ? const PreferredSize(
-                    preferredSize: Size.fromHeight(4),
-                    child: LinearProgressIndicator(),
-                  )
-                : null,
+    super.build(context);
+    return NotificationListener<ScrollNotification>(
+      onNotification: (event) {
+        if (event.metrics.pixels >= event.metrics.maxScrollExtent) {
+          loadMore();
+        }
+        return true;
+      },
+      child: CustomScrollView(
+        // CAN'T USE ScrollController, and I don't know why
+        // controller: scrollController,
+        slivers: <Widget>[
+          SliverOverlapInjector(
+            // This is the flip side of the SliverOverlapAbsorber above.
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
           ),
-          if (recordList != null)
-            if (recordList.isEmpty)
-              SliverFillRemaining(
-                child: LeavingBlank(
-                  icon: Icons.inbox_outlined,
-                  desc: i18n.noOaAnnouncesTip,
-                ),
-              )
-            else
-              SliverList.builder(
-                itemCount: recordList.length,
-                itemBuilder: (ctx, i) {
-                  final record = recordList[i];
-                  return OaAnnounceTile(record)
-                      .inCard(
-                        clip: Clip.hardEdge,
-                      )
-                      .hero(record.uuid);
-                },
-              )
+          SliverList.builder(
+            itemCount: announcements.length,
+            itemBuilder: (ctx, index) {
+              return FilledCard(
+                clip: Clip.hardEdge,
+                child: OaAnnounceTile(announcements[index]),
+              );
+            },
+          ),
         ],
       ),
     );
   }
 
-  Future<List<OaAnnounceRecord>> _queryAnnounceListInAllCategory(int page) async {
-    // Make sure login.
-    await OaAnnounceInit.service.session.request('https://myportal.sit.edu.cn/', ReqMethod.get);
-
-    final service = OaAnnounceInit.service;
-
-    // 获取所有分类
-    // TODO: user type system
-    final catalogues = service.resolveCatalogs(OaUserType.undergraduate);
-
-    // 获取所有分类中的第一页
-    final futureResult = await Future.wait(catalogues.map((e) => service.queryAnnounceList(page, e.id)));
-    // 合并所有分类的第一页的公告项
-    final List<OaAnnounceRecord> records = futureResult.whereNotNull().fold(
-      <OaAnnounceRecord>[],
-      (List<OaAnnounceRecord> previousValue, OaAnnounceListPayload page) => previousValue + page.items,
-    ).toList();
-    return records;
+  Future<void> loadMore() async {
+    if (isFetching) return;
+    if (!mounted) return;
+    setState(() {
+      isFetching = true;
+    });
+    widget.onLoadingChanged(true);
+    final cat = widget.cat;
+    try {
+      final lastPayload = await OaAnnounceInit.service.getAnnounceList(cat, lastPage);
+      announcements.addAll(lastPayload.items);
+      announcements.distinctBy((a) => a.uuid);
+      announcements.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+      await OaAnnounceInit.storage.setAnnouncements(cat, announcements);
+      if (!mounted) return;
+      setState(() {
+        lastPage++;
+        isFetching = false;
+      });
+      widget.onLoadingChanged(false);
+    } catch (error, stackTrace) {
+      debugPrint("$cat $error");
+      debugPrintStack(stackTrace: stackTrace);
+      if (!mounted) return;
+      setState(() {
+        isFetching = false;
+      });
+      widget.onLoadingChanged(false);
+    }
   }
 }

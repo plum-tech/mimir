@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/dash_decoration.dart';
@@ -40,8 +39,7 @@ class WeeklyTimetable extends StatefulWidget {
 }
 
 class WeeklyTimetableState extends State<WeeklyTimetable> {
-  late PageController _pageController;
-  late DateTime dateSemesterStart;
+  late PageController pageController;
   final $cellSize = ValueNotifier(Size.zero);
 
   SitTimetableEntity get timetable => widget.timetable;
@@ -54,11 +52,10 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   @override
   void initState() {
     super.initState();
-    dateSemesterStart = timetable.type.startDate;
-    _pageController = PageController(initialPage: currentPos.weekIndex)
+    pageController = PageController(initialPage: currentPos.weekIndex)
       ..addListener(() {
         setState(() {
-          final newWeek = (_pageController.page ?? 0).round();
+          final newWeek = (pageController.page ?? 0).round();
           if (newWeek != currentPos.weekIndex) {
             currentPos = currentPos.copyWith(weekIndex: newWeek);
           }
@@ -72,14 +69,14 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   @override
   void dispose() {
     $jumpToPos.cancel();
-    _pageController.dispose();
+    pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
-      controller: _pageController,
+      controller: pageController,
       scrollDirection: Axis.horizontal,
       itemCount: 20,
       itemBuilder: (ctx, weekIndex) {
@@ -93,11 +90,11 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
 
   /// 跳到某一周
   void jumpTo(TimetablePos pos) {
-    if (_pageController.hasClients) {
+    if (pageController.hasClients) {
       final targetOffset = pos.weekIndex;
-      final currentPos = _pageController.page ?? targetOffset;
+      final currentPos = pageController.page ?? targetOffset;
       final distance = (targetOffset - currentPos).abs();
-      _pageController.animateToPage(
+      pageController.animateToPage(
         targetOffset,
         duration: calcuSwitchAnimationDuration(distance),
         curve: Curves.fastEaseInToSlowEaseOut,
@@ -121,7 +118,7 @@ class TimetableOneWeekCached extends StatefulWidget {
 }
 
 class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with AutomaticKeepAliveClientMixin {
-  /// Cache the who page to avoid expensive rebuilding.
+  /// Cache the entire page to avoid expensive rebuilding.
   Widget? _cached;
 
   @override
@@ -280,20 +277,18 @@ class TimetableOneWeek extends StatelessWidget {
   }) {
     final cells = <Widget>[];
     final weekday = Weekday.fromIndex(day.index);
-    cells.add(SizedBox(
+    cells.add(Container(
       width: cellSize.width,
-      child: Container(
-        decoration: BoxDecoration(
-          color: todayPos.weekIndex == weekIndex && todayPos.weekday == weekday
-              ? context.colorScheme.secondaryContainer
-              : null,
-          border: Border(bottom: getTimetableBorderSide(context)),
-        ),
-        child: HeaderCellTextBox(
-          weekIndex: weekIndex,
-          weekday: weekday,
-          startDate: timetable.type.startDate,
-        ),
+      decoration: BoxDecoration(
+        color: todayPos.weekIndex == weekIndex && todayPos.weekday == weekday
+            ? context.colorScheme.secondaryContainer
+            : null,
+        border: Border(bottom: getTimetableBorderSide(context)),
+      ),
+      child: HeaderCellTextBox(
+        weekIndex: weekIndex,
+        weekday: weekday,
+        startDate: timetable.type.startDate,
       ),
     ));
     for (int timeslot = 0; timeslot < day.timeslot2LessonSlot.length; timeslot++) {
@@ -356,6 +351,12 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
     final lessonTimeTip =
         lessons.map((time) => "${time.begin.toStringPrefixed0()}–${time.end.toStringPrefixed0()}").join("\n");
     final course = widget.lesson.course;
+    // TODO: don't prefix it with zero
+    var tooltip = "${i18n.details.courseCode} ${course.courseCode}";
+    if (course.classCode.isNotEmpty) {
+      tooltip += "\n${i18n.details.classCode} ${course.classCode}";
+    }
+    tooltip += "\n$lessonTimeTip";
     return StyledCourseCell(
       course: widget.lesson.course,
       grayOut: widget.grayOut,
@@ -364,17 +365,13 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
         key: $tooltip,
         preferBelow: false,
         triggerMode: TooltipTriggerMode.manual,
-        // TODO: don't prefix it with zero
-        message:
-            "${i18n.details.courseCode} ${course.courseCode}\n${i18n.details.classCode} ${course.classCode}\n$lessonTimeTip",
+        message: tooltip,
         textAlign: TextAlign.center,
         child: InkWell(
           onTap: () async {
             $tooltip.currentState?.ensureTooltipVisible();
           },
           onLongPress: () async {
-            await HapticFeedback.lightImpact();
-            if (!mounted) return;
             await context.show$Sheet$(
               (ctx) => TimetableCourseDetailsSheet(
                 courseCode: widget.lesson.course.courseCode,
@@ -517,10 +514,11 @@ class TimetableSlotInfo extends StatelessWidget {
           text: courseName,
           style: context.textTheme.bodyMedium,
         ),
-        TextSpan(
-          text: "\n${beautifyPlace(place)}",
-          style: context.textTheme.bodySmall,
-        ),
+        if (place.isNotEmpty)
+          TextSpan(
+            text: "\n${beautifyPlace(place)}",
+            style: context.textTheme.bodySmall,
+          ),
         if (teachers != null)
           TextSpan(
             text: "\n${teachers.join(',')}",

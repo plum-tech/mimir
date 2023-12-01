@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "net.liplum" "\0"
-            VALUE "FileDescription", "mimir" "\0"
+            VALUE "CompanyName", "life.mysit" "\0"
+            VALUE "FileDescription", "SIT Life" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "mimir" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 net.liplum. All rights reserved." "\0"
-            VALUE "OriginalFilename", "mimir.exe" "\0"
-            VALUE "ProductName", "mimir" "\0"
+            VALUE "InternalName", "life.mysit.SITLife" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2023 SIT Life(mysit.life). All rights reserved." "\0"
+            VALUE "OriginalFilename", "SIT_Life.exe" "\0"
+            VALUE "ProductName", "SIT Life" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

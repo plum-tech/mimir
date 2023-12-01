@@ -1,8 +1,8 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/class2nd.dart';
 
@@ -22,19 +22,14 @@ class Class2ndScoreService {
 
   const Class2ndScoreService();
 
-  static bool _initializedCookie = false;
-
-  Future<void> _refreshCookie() async {
-    if (!_initializedCookie) {
-      await session.request('http://sc.sit.edu.cn/', ReqMethod.get);
-      _initializedCookie = true;
-    }
-  }
-
   /// 获取第二课堂分数
   Future<Class2ndScoreSummary> fetchScoreSummary() async {
-    await _refreshCookie();
-    final response = await session.request(homeUrl, ReqMethod.post);
+    final response = await session.request(
+      homeUrl,
+      options: Options(
+        method: "POST",
+      ),
+    );
     final data = response.data;
     return _parseScoreSummary(data);
   }
@@ -53,25 +48,25 @@ class Class2ndScoreService {
     for (final item in matches) {
       final score = double.parse(item.group(1) ?? '0.0');
       final typeName = item.group(2)!;
-      final type = Class2ndActivityScoreType.parse(typeName);
+      final type = Class2ndScoreType.parse(typeName);
 
       switch (type) {
-        case Class2ndActivityScoreType.thematicReport:
+        case Class2ndScoreType.thematicReport:
           lecture = score;
           break;
-        case Class2ndActivityScoreType.creation:
+        case Class2ndScoreType.creation:
           creation = score;
           break;
-        case Class2ndActivityScoreType.schoolCulture:
+        case Class2ndScoreType.schoolCulture:
           campus = score;
           break;
-        case Class2ndActivityScoreType.practice:
+        case Class2ndScoreType.practice:
           practice = score;
           break;
-        case Class2ndActivityScoreType.voluntary:
+        case Class2ndScoreType.voluntary:
           voluntary = score;
           break;
-        case Class2ndActivityScoreType.schoolSafetyCivilization:
+        case Class2ndScoreType.schoolSafetyCivilization:
           safetyEdu = score;
           break;
         case null:
@@ -90,22 +85,22 @@ class Class2ndScoreService {
 
   /// 获取我的得分列表
   Future<List<Class2ndScoreItem>> fetchScoreItemList() async {
-    await _refreshCookie();
-    final response = await session.request(scoreUrl, ReqMethod.post);
+    final response = await session.request(
+      scoreUrl,
+      options: Options(
+        method: "POST",
+      ),
+    );
     return _parseScoreList(response.data);
   }
 
   static final scoreItemTimeFormat = DateFormat('yyyy-MM-dd hh:mm');
 
   static List<Class2ndScoreItem> _parseScoreList(String htmlPage) {
-    if (htmlPage.contains('<meta http-equiv="refresh" content="0;URL=http://my.sit.edu.cn"/>')) {
-      debugPrint("My score list needs refresh.");
-      throw Exception("My score list needs refresh.");
-    }
     Class2ndScoreItem nodeToScoreItem(Bs4Element item) {
       final title = item.find('td:nth-child(3)')!.text.trim();
-      final timeRaw = item.find('td:nth-child(9) > a')!.text.trim();
-      final time = scoreItemTimeFormat.parse(timeRaw);
+      final timeRaw = item.find('td:nth-child(9) > a');
+      final time = timeRaw == null ? null : scoreItemTimeFormat.parse(timeRaw.text.trim());
       final idRaw = item.find('td:nth-child(7)');
       final id = int.parse(idRaw!.innerHtml.trim());
       // 注意：“我的成绩” 页面中，成绩条目显示的是活动类型，而非加分类型, 因此使用 ActivityType.
@@ -136,18 +131,18 @@ class Class2ndScoreService {
 
   /// 获取我的活动列表
   Future<List<Class2ndActivityApplication>> fetchActivityApplicationList() async {
-    await _refreshCookie();
-    final response = await session.request(myEventUrl, ReqMethod.post);
+    final response = await session.request(
+      myEventUrl,
+      options: Options(
+        method: "POST",
+      ),
+    );
     return _parseActivityApplicationList(response.data);
   }
 
   static List<Class2ndActivityApplication> _parseActivityApplicationList(String htmlPage) {
-    if (htmlPage.contains('<meta http-equiv="refresh" content="0;URL=http://my.sit.edu.cn"/>')) {
-      debugPrint("My involved list needs refresh.");
-      throw Exception("My involved list needs refresh.");
-    }
-
-    return BeautifulSoup(htmlPage)
+    final html = BeautifulSoup(htmlPage);
+    return html
         .findAll('#content-box > div:nth-child(23) > div.table_style_4 > form > table > tbody > tr')
         .map((e) => _activityMapDetail(e))
         .where(filterDeletedActivity)
@@ -160,7 +155,7 @@ class Class2ndScoreService {
 
   static Class2ndActivityApplication _activityMapDetail(Bs4Element item) {
     final applyIdText = item.find('td:nth-child(1)')!.text.trim();
-    final applyId = int.parse(applyIdText);
+    final applicationId = int.parse(applyIdText);
     final activityIdText = item.find('td:nth-child(3)')!.innerHtml.trim();
     // 部分取消了的活动，活动链接不存在，这里将活动 id 记为 -1.
     final activityId = int.parse(activityIdRe.firstMatch(activityIdText)?.group(1) ?? '-1');
@@ -173,7 +168,7 @@ class Class2ndScoreService {
     final status = item.find('td:nth-child(9)')!.text.trim();
 
     return Class2ndActivityApplication(
-      applyId: applyId,
+      applicationId: applicationId,
       activityId: activityId,
       title: mapChinesePunctuations(title),
       category: category!,

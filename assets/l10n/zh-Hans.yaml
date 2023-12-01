@@ -1,0 +1,652 @@
+timetable:
+  navigation: 课程表
+  jump: 跳转
+  findToday: 找到今天
+  startWith: "起始于"
+  weekOrderedName: "第 {} 周"
+  focusTimetable: 课程表模式
+  signature: 签名
+  signaturePlaceholder: 你的名字
+  mine:
+    title: 我的课程表
+    exportCalendar: 导出日历
+    deleteRequest: 确认删除？
+    deleteRequestDesc: 这个课程表将被永久删除
+    emptyTip: 快去导入一个课程表吧！
+    details: 详情
+  details:
+    classCode: 教学班
+    courseCode: 课程代码
+    teacher: 教师
+  edit:
+    name: 名称
+  import:
+    title: 导入课程表
+    import: 导入
+    fromFile: 从文件
+    tryImportBtn: 尝试导入
+    fromFileBtn: 从文件导入
+    connectivityCheckerDesc: 在导入课程表之前，需要先检查你是否能访问校园网。
+    selectSemesterTip: 请先选择学年与学期
+    endTip: 请完善课程表的信息。
+    failed: 导入失败
+    failedDesc: 无法导入这个课程表, 请稍后再试
+    failedTip: 导入失败, 请稍后再试
+    importing: 正在尝试获取课程表的数据……
+    timetableInfo: 课程表信息
+    defaultName: "{yearStart}–{yearEnd}年 {semester} 课程表"
+  export:
+    title: 导出选项
+    export: 导出
+    lessonMode:
+      title: 课程模式
+      merged: 完整
+      mergedTip: 同属一节课的几个部分会被合并成为一个日程
+      separate: 分离
+      separateTip: 同属一节课的几个部分会被分离为多个日程
+    enableAlarm:
+      title: 启用提醒
+      desc: 在课前添加提醒
+    alarmMode:
+      title: 提醒模式
+      sound: 声音
+      display: 显示
+    alarmDuration: 提醒时长
+    alarmBeforeClassBegins:
+      title: 在上课前提醒
+      desc: "提前 {duration}"
+  screenshot:
+    screenshot: 截图
+    take: 截图
+    title: 截图
+    enableBackground:
+      title: 显示壁纸
+      desc: 在截图中显示课程表壁纸
+  displayMode:
+    daily: 日
+    weekly: 周
+  weekStep:
+    single: 周
+    all: 周
+    odd: 单周
+    even: 双周
+  freeTip:
+    dayTip: 好耶，没课的一天！
+    isTodayTip: 尽情享受今天吧！
+    weekTip: 哇，这周没课！
+    isThisWeekTip: 尽情享受这周吧！
+    termTip: 不可思议，这个学期你都在放假！
+    findNearestWeekWithClass: 找到有课的一周
+    findNearestDayWithClass: 找到有课的一天
+  p13n:
+    title: 配色方案
+    builtinPalette:
+      classic:
+        name: 经典
+        author: Liplum
+      oldSchool:
+        name: 老派
+        author: 上应小风筝
+    palette:
+      title: 配色方案
+      name: 名称
+      tab:
+        custom: 自定义
+        builtin: 内置
+        info: 信息
+        colors: 颜色
+      namePlaceholder: 配色方案的名称
+      author: 作者
+      authorPlaceholder: 你的姓名，电子邮箱，或 url
+      colorCopyTip: 已复制该颜色到剪贴板了
+      details: 详情
+      fab: 配色方案
+      shareQrCode: 分享二维码
+      newPaletteName: 新的配色方案
+      copyPaletteName: "{} 复制"
+      deleteRequest: 确认删除？
+      deleteRequestDesc: 推荐先保存二维码备份再删除
+      addFromQrCode: 已从二维码添加配色方案
+      addColor: 添加一种配色
+    cellStyle:
+      title: 单元格风格
+      showTeachers:
+        title: 教师
+        desc: 在单元格内显示教师
+      grayOut:
+        title: 上过的课程变灰
+        desc: 现在之前的所有课程
+      harmonize:
+        title: 与主题色相协调
+        desc: 将单元格颜色与主题色混合
+      alpha: 单元格 alpha 通道
+    background:
+      title: 壁纸
+      opacity: 背景不透明度
+      pickTip: 选择你喜欢的图片
+      repeat:
+        title: 重复图像
+        desc: 重复图像作为填充壁纸的图案
+      antialias:
+        title: 抗锯齿
+        desc: 如果图像像素较低，请关闭此功能
+    livePreview:
+      0:
+        name: 上过的
+        place: 体育馆
+        teachers: 李老师
+      1:
+        name: 上过的
+        place: 教室
+        teachers: 王老师
+      2:
+        name: 今天的
+        place: 活动中心
+        teachers: 张老师
+      3:
+        name: 明天的
+        place: 实验室
+        teachers: 刘老师
+school:
+  navigation: 学校
+  schoolYear: 学年
+  semester:
+    title: 学期
+    all: 全学年
+    term1: 第一学期
+    term2: 第二学期
+life:
+  navigation: 生活
+me:
+  navigation: 个人
+class2nd:
+  title: 第二课堂
+  activity: 活动
+  attended:
+    title: 已参与
+  tab:
+    info: 信息
+    description: 描述
+  refreshSuccessTip: 第二课堂分刷新成功
+  refreshFailedTip: 第二课堂分刷新失败
+  noActivities: 没有活动
+  noAttendedActivities: 没有参加过的活动
+  viewDetails: 查看详情
+  apply:
+    btn: 报名
+    replyTip: 校方回复
+    applyRequest: 报名
+    applyRequestDesc: 确认报名这个活动吗？
+  info:
+    activityId: 活动编号
+    applicationId: 申请编号
+    activityOf: "活动 #{}"
+    applicationOf: "申请 #{}"
+    name: 活动名称
+    tags: 标签
+    category: 活动类别
+    scoreType: 加分类型
+    honestyPoints: 诚信分
+    applicationTime: 申请时间
+    status: 状态
+    contactInfo: 联系方式
+    duration: 活动时长
+    location: 活动地点
+    organizer: 主办方
+    principal: 负责人
+    signInTime: 签到时间
+    signOutTime: 签退时间
+    startTime: 开始时间
+    undertaker: 承办方
+  activityCat:
+    all: 全部
+    lecture: 讲座报告
+    thematicEdu: 主题教育
+    creation: 创新创业创意
+    schoolCultureActivity: 校园文化
+    schoolCivilization: 校园文明
+    practice: 社会实践
+    voluntary: 志愿公益
+    onlineSafetyEdu: 安全教育网络教学
+    conference: 会议
+    schoolCultureCompetition: 校园文化竞赛
+    paperAndPatent: 论文专利
+  scoreType:
+    all: 全部
+    thematicReport:
+      full: 主题报告
+      short: 讲座
+    creation:
+      full: 创新创业创意
+      short: 三创
+    schoolCulture:
+      full: 校园文化
+      short: 文化
+    practice:
+      full: 社会实践
+      short: 实践
+    voluntary:
+      full: 志愿公益
+      short: 志愿
+    schoolSafetyCivilization:
+      full: 校园安全文明
+      short: 文明
+  noDetails: 暂无资料
+  details: 活动资料
+ywb:
+  title: 应网办
+  info: |
+    本功能基于 "上应一网通办"。
+    对于绝大多数业务，即使你在平台上已完成申请，仍要去现场办理。
+  apply: 申请
+  noServicesTip: 没有可办事项
+  mine:
+    title: 我的申请
+    noApplicationsTip: 没有申请
+  details:
+    apply: 申请
+  type:
+    todo: 待办
+    running: 在途
+    complete: 办结
+captcha:
+  title: 验证码
+  enterHint: 请输入验证码
+  emptyInputError: 你输入的验证码为空
+credentials:
+  studentId: 学号
+  account: 账号
+  password: 密码
+  oaAccount: OA 账号
+  oaPwd: OA 密码
+  savedOaPwd: 保存的 OA 密码
+  savedOaPwdDesc: 用于自动登录 OA
+  pwd: 密码
+  error: 登录凭据错误
+  login: 登录
+  forgotPwd: 忘记密码？
+easyconnect:
+  launchBtn: 启动 EasyConnect
+  launchFailed: 启动失败
+  launchFailedDesc: 无法启动 EasyConnect，请确定你是否安装，或者立即下载？
+electricity:
+  title: 电费余额
+  balance: 可用余额
+  remainingPower: 剩余电量
+  searchInvalidTip: 请输入或选择一个存在的房间号
+  refreshSuccessTip: 电费余额刷新成功
+  refreshFailedTip: 电费余额刷新失败
+  searchRoom: 搜索房间
+eduEmail:
+  title: 教育邮箱
+  action:
+    login: 登录
+    inbox: 收件箱
+    outbox: 发件箱
+  login:
+    title: 登录教育邮箱
+    addressHint: 学号/工号
+    failedWarn: 登录失败
+  inbox:
+    title: 收件箱
+  outbox:
+    title: 发件箱
+  noContent: 无内容
+  noSubject: 无主题
+  pluralSenderTailing: 等
+  text: 正文
+examResult:
+  title: 考试成绩
+  check: 查询
+  teacherEval: 评教
+  noResultsTip: 无考试结果记录
+  lessonNotEvaluated: 未评教
+  teacherEvalTitle: 评教
+  lessonSelected: "已选 {} 门"
+  gpaResult: "绩点: {}"
+  compulsory: 必修
+  credit: 学分
+  elective: 选修
+examArrange:
+  title: 考试安排
+  check: 查询
+  date: 日期
+  time: 时间
+  retake: 重修
+  location: 地点
+  noExamsTip: 没有考试安排
+  seatNumber: 座位号
+  addCalendarEvent: 添加事项
+expenseRecords:
+  title: 消费记录
+  check: 查询
+  statistics: 统计
+  balanceInCard: "卡内余额 {} 元"
+  lastTransaction: "¥{amount} {place}"
+  income: "收入: {} 元"
+  outcome: "支出: {} 元"
+  noTransactionsTip: 没有交易记录
+  refreshSuccessTip: 消费记录刷新成功
+  refreshFailedTip: 消费记录刷新失败
+  statsMode:
+    week: 周
+    month: 月
+    year: 年
+  view:
+    balance: 卡内余额
+    rmb: 元
+  stats:
+    title: 消费统计
+    categories: 消费名目
+    total: 总计
+  type:
+    consume: 消费
+    coffee: 咖啡
+    food: 食堂
+    store: 商店
+    water: 热水
+    library: 图书馆
+    shower: 洗浴
+    topUp: 充值
+    subsidy: 补贴
+    other: 杂项
+homepage:
+  campusNetworkConnected: 已连接校园网
+  campusNetworkUnconnected: 未连接校园网
+networkChecker:
+  testConnection:
+    title: 测试连接
+    desc: 测试与学校服务器的连接
+  button:
+    connected: 继续
+    connecting: 正在检查中……
+    disconnected: 重试
+    none: 检查我的网络连接
+  status:
+    connected: 好耶！你能够访问学校服务器！
+    connecting: 这可能需要几秒钟，请确保你在设备上已经打开了网络连接。
+    disconnected: 糟糕！你无法访问学校服务器，请检查你的网络设置，然后再试一次。
+    none: 你需要访问学校服务器才能继续，现在就检查一下吧。
+network:
+  error: 网络错误
+  ipAddress: IP 地址
+  connectionTimeoutError: 网络连接超时
+  connectionTimeoutErrorDesc: "此功能需要访问校园网。注意: 在学校服务器崩溃或停机维护时, 也可能会出现这样的情况。"
+  openToolBtn: 打开网络工具
+networkTool:
+  title: 网络工具
+  action:
+    test: 测试
+  openWlanSettingsBtn: 打开 WLAN 设置
+  noAccessTip: 无法连接到网络，请检查你设备的网络设置后再试。
+  connectionFailedError: |
+    无法连接到校园网。疑难解答:
+    1. 尝试连接学校的Wi-Fi: "i-SIT","i-SIT-1x" 或 "eduroam"。
+    2. 尝试使用"EasyConnect" VPN 连接校园网。
+    3. 尝试通过自行搭建的代理服务器使用 HTTP 代理连接校园网。
+    如果以上都不起作用, 可能因为是学校服务器停机维护或崩溃，请一段时间后重试。
+  connectionFailedButCampusNetworkConnected: |
+    已经连接至校园网，但仍然无法访问学校服务器。
+    可能因为是学校服务器停机维护或崩溃，请一段时间后重试。
+  connectedByProxy: 已通过 HTTP 代理连接到校园网
+  connectedByVpn: 已通过 VPN 连接到校园网
+  connectedByWlan: 已通过 WLAN 连接到校园网
+  connectedByEthernet: 已通过以太网连接到校园网
+login:
+  welcomeHeader: 欢迎！
+  loginOa: 登录 OA
+  validateInputAccountPwdRequest: 请检查你输入的账号与密码
+  credentialsValidatedTip: 账号与密码验证成功
+  accountOrPwdErrorTip: 账号或密码不正确
+  captchaErrorTip: 验证码不正确
+  accountFrozenTip: 账号处于冻结状态
+  schoolServerUnconnectedTip: 无法连接学校服务器
+  unknownAuthErrorTip: 未知账号验证错误
+  accountHint: 学号/工号
+  loggedInTip: 登录成功
+  notLoggedIn: 未登录
+  invalidAccountFormat: 账号格式不正确
+  offlineModeBtn: 离线模式
+  oaPwdHint: 输入你的OA密码
+  failedWarn: 登录失败
+  formatError: 格式错误
+  loginRequired: 需要登录
+  neverLoggedInTip: 你必须先登录才能继续。
+library:
+  title: 图书馆
+  hotPost: 热搜
+  readerId: 读者证号
+  login:
+    title: 登录图书馆
+    readerIdHint: 你的学号
+    passwordHint: 初始密码为 888888
+  searchMethod:
+    any: 任意
+    title: 标题
+    author: 作者
+    isbn: ISBN
+    publisher: 出版社
+    callNumber: 索书号
+    primaryTitle: 正题
+    subject: 主题
+    $class: 分类
+    bookId: 图书号
+    orderNumber: 订购号
+  info:
+    title: 标题
+    author: 作者
+    isbn: ISBN
+    publisher: 出版社
+    publishDate: 出版日期
+    callNumber: 索书号
+    bookId: 图书号
+    barcode: 条形码
+settings:
+  title: 设置
+  version: 版本
+  themeColor: 主题色
+  fromSystem: 根据系统
+  credentials:
+    testLoginOa:
+      title: 测试登录 OA
+      desc: 尝试使用当前的登录凭据登录 OA
+  dev:
+    title: 开发者选项
+    devMode:
+      title: 开发者模式
+    localStorage:
+      title: 本地存储
+      desc: 管理在此设备上存储的数据
+      selectBoxTip: 请先选择一个盒子。
+      clearBoxDesc: 确定清空这个盒子里的数据吗？
+      deleteItemDesc: 确定删除这个键值对吗？
+      emptyValueDesc: 确定将这个键值设 null 为对吗？
+    reload:
+      title: 重新加载
+      desc: 重新加载所有模块
+    detailedXcpDialog:
+      title: 启用详细异常对话框
+      desc: 显示更加详细的异常堆栈追踪信息
+  timetable:
+    title: 课程表
+    autoUseImported:
+      title: 自动使用新课程表
+      desc: 自动使用新导入的课程表
+    palette:
+      title: 配色方案
+      desc: 自定义课程表的颜色
+    cellStyle:
+      title: 编辑单元格风格
+      desc: 课程单元格如何显示
+    background:
+      title: 壁纸
+      desc: 课程表的背景
+  school:
+    title: 学校
+    class2nd:
+      autoRefresh:
+        title: 第二课堂分自动刷新
+        desc: 启动时刷新第二课堂分
+    examResult:
+      appCardShowResultDetails:
+        title: 显示考试成绩细则
+        desc: 在考试成绩卡片中显示详细分数
+  life:
+    title: 生活
+    electricity:
+      autoRefresh:
+        title: 电费余额自动刷新
+        desc: 启动时刷新电费余额
+    expenseRecords:
+      autoRefresh:
+        title: 消费记录自动刷新
+        desc: 启动时刷新消费记录
+  studentId:
+    copyTip: 已复制你的学号到剪贴板了
+  changeOaPwd:
+    title: 修改 OA 密码
+    desc: 修改用于自动登录学校业务的 OA 密码
+  clearCache:
+    title: 清空缓存
+    desc: 清空使用过程中产生的离线缓存
+    request: 确定清空缓存？你下次需要连接校园网才能重新加载它们。
+  themeMode:
+    title: 亮度
+    dark: 黑暗
+    light: 明亮
+    system: 系统
+  proxy:
+    title: HTTP 代理
+    desc: 代理校园网连接
+    authentication: 身份验证
+    protocol: 协议
+    hostname: 主机名
+    port: 端口
+    username: 用户名
+    password: 密码
+    shareQrCode:
+      title: 分享二维码
+      desc: 将 HTTP 代理通过二维码分享
+    enableProxy:
+      title: 启用 HTTP 代理
+      desc: 代理你的 HTTP 请求
+    proxyMode:
+      title: 代理模式
+      global: 全局
+      school: 仅学校服务器
+      globalTip: 通过代理访问所有网络
+      schoolTip: 仅通过代理访问学校服务器
+    copyTip:
+      full: 已复制 HTTP 代理到剪贴板了
+      hostname: 已复制主机名代理到剪贴板了
+      port: 已复制端口到剪贴板了
+  language: 语言
+  wipeData:
+    title: 擦除数据并登出
+    desc: 擦除所有数据并登出当前 OA 账号
+    request: 擦除所有数据
+    requestDesc: 此操作将永久擦除你的登录凭据，缓存和其他信息，如已导入的课程表。
+oaAnnounce:
+  title: OA 公告
+  tab:
+    info: 信息
+    content: 内容
+  noOaAnnouncesTip: 无公告
+  downloadCompleted: 下载完成
+  downloadFailed: 下载失败
+  downloading: 下载中
+  info:
+    title: 标题
+    publishTime: 发布时间
+    department: 发布部门
+    author: 作者
+    tags: 标签
+    attachmentHeader:
+      one: 附件
+      other: 附件
+  oaAnnounceCat:
+    studentAffairs: 学生事务
+    learning: 学习课堂
+    collegeNotification: 二级学院通知
+    culture: 校园文化
+    announcement: 公告信息
+    life: 生活服务
+    download: 文件下载专区
+yellowPages:
+  title: 学校黄页
+scanner:
+  barcodeNotRecognized: 未识别到条形码或二维码
+greeting:
+  headerA: 今天是你在上应大的
+  headerB:
+    one: 第 1 天
+    other: "第 {} 天"
+qrCode:
+  hint: 请切换至 个人{me}，然后点击右上角的 扫一扫{scan}
+weekday:
+  0: 周一
+  1: 周二
+  2: 周三
+  3: 周四
+  4: 周五
+  5: 周六
+  6: 周日
+weekdayShort:
+  0: 一
+  1: 二
+  2: 三
+  3: 四
+  4: 五
+  5: 六
+  6: 日
+campus:
+  xuhui: 徐汇
+  fengxian: 奉贤
+unit:
+  rmb: "{} 元"
+  powerKwh: "{} 度"
+time:
+  minute: 分钟
+  hour: 小时
+  hourMinuteFormat: "{hour} 小时 {minute} 分钟"
+  minuteFormat: "{} 分钟"
+  hourFormat: "{} 小时"
+brightness:
+  light: 明亮
+  dark: 黑暗
+dormitoryRoom: "{building}号楼 #{room}"
+open: 打开
+delete: 删除
+confirm: 确定
+notNow: 再等等
+error: 错误
+ok: 好的
+close: 关闭
+submit: 提交
+cancel: 取消
+save: 保存
+yes: 是的
+refresh: 刷新
+back: 返回
+clear: 清空
+continue: 继续
+unknown: 未知
+failed: 失败
+download: 下载
+fetching: 获取中
+notFound404: 404 找不到页面
+warning: 警告
+untitled: 无标题
+congratulations: 恭喜
+search: 搜索
+seeAll: 查看全部
+select: 选择
+unselect: 取消选择
+share: 分享
+use: 使用
+used: 已使用
+edit: 编辑
+copy: 复制
+preview: 预览
+upload: 上传
+pick: 选择

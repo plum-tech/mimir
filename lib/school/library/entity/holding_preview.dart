@@ -14,7 +14,7 @@ class HoldingPreviewItem {
 
   // 索书号
   @JsonKey(name: 'callno')
-  final String callNo;
+  final String callNumber;
 
   // 文献所在馆
   @JsonKey(name: 'curlibName')
@@ -32,15 +32,15 @@ class HoldingPreviewItem {
   @JsonKey(name: 'loanableCount')
   final int loanableCount;
 
-  const HoldingPreviewItem(
-    this.bookId,
-    this.barcode,
-    this.callNo,
-    this.currentLibrary,
-    this.currentLocation,
-    this.copyCount,
-    this.loanableCount,
-  );
+  const HoldingPreviewItem({
+    required this.bookId,
+    required this.barcode,
+    required this.callNumber,
+    required this.currentLibrary,
+    required this.currentLocation,
+    required this.copyCount,
+    required this.loanableCount,
+  });
 
   factory HoldingPreviewItem.fromJson(Map<String, dynamic> json) => _$HoldingPreviewItemFromJson(json);
 
@@ -48,23 +48,14 @@ class HoldingPreviewItem {
 
   @override
   String toString() {
-    return 'HoldingPreviewItem{bookId: $bookId, barcode: $barcode, callNo: $callNo, currentLibrary: $currentLibrary, currentLocation: $currentLocation, copyCount: $copyCount, loanableCount: $loanableCount}';
-  }
-}
-
-@JsonSerializable()
-class HoldingPreviews {
-  @JsonKey(name: 'previews')
-  final Map<String, List<HoldingPreviewItem>> previews;
-
-  const HoldingPreviews(this.previews);
-
-  factory HoldingPreviews.fromJson(Map<String, dynamic> json) => _$HoldingPreviewsFromJson(json);
-
-  Map<String, dynamic> toJson() => _$HoldingPreviewsToJson(this);
-
-  @override
-  String toString() {
-    return 'HoldingPreviews{previews: $previews}';
+    return {
+      "bookId": bookId,
+      "barcode": barcode,
+      "callNo": callNumber,
+      "currentLibrary": currentLibrary,
+      "currentLocation": currentLocation,
+      "copyCount": copyCount,
+      "loanableCount": loanableCount,
+    }.toString();
   }
 }

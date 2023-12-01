@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -7,10 +6,13 @@ import 'package:sit/design/widgets/app.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/event.dart';
 import 'package:sit/school/exam_result/init.dart';
+import 'package:sit/school/exam_result/page/evaluation.dart';
 import 'package:sit/school/exam_result/widgets/item.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/utils/guard_launch.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import 'entity/result.dart';
 import "i18n.dart";
@@ -31,7 +33,7 @@ class _ExamResultAppCardState extends State<ExamResultAppCard> {
   @override
   void initState() {
     super.initState();
-    $refreshEvent = schoolEventBus.addListener(() {
+    $refreshEvent = schoolEventBus.addListener(() async {
       refresh();
     });
     refresh();
@@ -59,18 +61,22 @@ class _ExamResultAppCardState extends State<ExamResultAppCard> {
     final resultList = this.resultList;
     return AppCard(
       title: i18n.title.text(),
-      view: resultList != null ? buildRecentResults(resultList) : const SizedBox(),
+      view: resultList == null ? null : buildRecentResults(resultList),
       leftActions: [
         FilledButton.icon(
-          onPressed: () {
-            context.push("/exam-result");
+          onPressed: () async {
+            await context.push("/exam-result");
           },
           icon: const Icon(Icons.fact_check),
           label: i18n.check.text(),
         ),
         OutlinedButton(
-          onPressed: () {
-            context.push("/teacher-eval");
+          onPressed: () async {
+            if (UniversalPlatform.isDesktop) {
+              await guardLaunchUrl(context, teacherEvaluationUri);
+            } else {
+              await context.push("/teacher-eval");
+            }
           },
           child: i18n.teacherEval.text(),
         )
@@ -78,8 +84,8 @@ class _ExamResultAppCardState extends State<ExamResultAppCard> {
     );
   }
 
-  Widget buildRecentResults(List<ExamResult> resultList) {
-    if (resultList.isEmpty) return const SizedBox();
+  Widget? buildRecentResults(List<ExamResult> resultList) {
+    if (resultList.isEmpty) return null;
     resultList.sort((a, b) => -ExamResult.compareByTime(a, b));
     final results = resultList.sublist(0, min(_recentLength, resultList.length));
     return Settings.school.examResult.listenAppCardShowResultDetails() >>

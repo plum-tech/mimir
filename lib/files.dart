@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -17,6 +18,7 @@ class Files {
   static const oaAnnounce = OaAnnounceFiles();
 
   static Future<void> init() async {
+    if (kIsWeb) return;
     await screenshot.create(recursive: true);
     await timetable.init();
   }
@@ -40,6 +42,7 @@ class TimetableFiles {
 
   Future<void> init() async {
     await calendarDir.create(recursive: true);
+    await Files.user.subDir("timetable").create(recursive: true);
   }
 }
 

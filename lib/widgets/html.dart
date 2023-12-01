@@ -35,7 +35,13 @@ class RestyledHtmlWidget extends StatelessWidget {
       onTapImage: (ImageMetadata image) {
         final url = image.sources.toList().firstOrNull?.url;
         final title = image.title ?? image.alt;
-        context.push(title != null ? "/image?title=$title" : "/image", extra: url);
+        context.push(
+          Uri(path: "/image", queryParameters: {
+            if (title != null && title.isNotEmpty) "title": title,
+            if (url?.startsWith("http") == true) "origin": url,
+          }).toString(),
+          extra: url,
+        );
       },
     );
   }
@@ -79,7 +85,7 @@ class RestyledWidgetFactory extends WidgetFactory {
     BoxBorder? border,
     BorderRadius? borderRadius,
     Color? color,
-    bool isBorderBox = true,
+    DecorationImage? image,
   }) {
     return super.buildDecoration(
       tree,
@@ -87,6 +93,7 @@ class RestyledWidgetFactory extends WidgetFactory {
       border: _restyleBorder(border, borderColor),
       borderRadius: borderRadius,
       color: Colors.transparent,
+      image: image,
     );
   }
 }

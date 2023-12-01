@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sit/storage/hive/init.dart';
 
 import '../entity/attended.dart';
 
@@ -7,13 +8,12 @@ class _K {
   static const scoreSummary = "/scoreSummary";
   static const scoreItemList = "/scoreItemList";
   static const applicationList = "/applicationList";
-  static const attendedList = "/attendedList";
 }
 
 class Class2ndScoreStorage {
-  final Box box;
+  Box get box => HiveInit.class2nd;
 
-  const Class2ndScoreStorage(this.box);
+  const Class2ndScoreStorage();
 
   Class2ndScoreSummary? get scoreSummary => box.get(_K.scoreSummary);
 
@@ -29,11 +29,4 @@ class Class2ndScoreStorage {
       (box.get(_K.applicationList) as List?)?.cast<Class2ndActivityApplication>();
 
   set applicationList(List<Class2ndActivityApplication>? newValue) => box.put(_K.applicationList, newValue);
-
-  List<Class2ndAttendedActivity>? get attendedList =>
-      (box.get(_K.attendedList) as List?)?.cast<Class2ndAttendedActivity>();
-
-  set attendedList(List<Class2ndAttendedActivity>? newValue) => box.put(_K.attendedList, newValue);
-
-  ValueListenable<Box> listenAttendedList() => box.listenable(keys: [_K.attendedList]);
 }

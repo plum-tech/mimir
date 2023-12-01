@@ -1,18 +1,21 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import 'logger.dart';
-
-extension ConvertAsWebViewCookie on CookieJar {
+extension WebViewCookieJarX on CookieJar {
   Future<List<WebViewCookie>> loadAsWebViewCookie(Uri uri) async {
     final cookies = await loadForRequest(uri);
     return cookies.map((cookie) {
-      Log.info('Cookie: $cookie');
-      return WebViewCookie(
-        name: cookie.name,
-        value: cookie.value,
-        domain: cookie.domain ?? uri.host,
-      );
+      return cookie.toWebviewCooke(uri);
     }).toList();
+  }
+}
+
+extension WebViewCookieX on Cookie {
+  WebViewCookie toWebviewCooke(Uri uri) {
+    return WebViewCookie(
+      name: name,
+      value: value,
+      domain: domain ?? uri.host,
+    );
   }
 }

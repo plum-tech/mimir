@@ -1,7 +1,3 @@
-language:
-  en: English
-  zh_CN: 简体中文
-  zh_TW: 繁體中文
 timetable:
   navigation: Timetable
   jump: Jump
@@ -9,10 +5,10 @@ timetable:
   startWith: "Start with"
   weekOrderedName: "Week {}"
   focusTimetable: Focus timetable
-  unfocusTimetable: Unfocus timetable
+  signature: Signature
+  signaturePlaceholder: Your name
   mine:
     title: My Timetables
-    exportFile: Export file
     exportCalendar: Export calendar
     deleteRequest: Confirm to delete?
     deleteRequestDesc: You will lose this timetable permanently
@@ -44,19 +40,15 @@ timetable:
     export: Export
     lessonMode:
       title: Lesson mode
-      desc: How to arrange
-      merged:
-        name: Full
-        info: Several parts of the same class will be combined into one event
-      separate:
-        name: Separate
-        info: Several parts of the same class will be separated into multiple events
+      merged: Full
+      mergedTip: Several parts of the same class will be combined into one event
+      separate: Separate
+      separateTip: Several parts of the same class will be separated into multiple events
     enableAlarm:
       title: Enable alarm
       desc: Add alarm before class
     alarmMode:
       title: Alarm mode
-      desc: How to notify you
       sound: Sound
       display: Display
     alarmDuration: Alarm duration
@@ -67,8 +59,6 @@ timetable:
     screenshot: Screenshot
     take: Take
     title: Screenshot
-    signature: Signature
-    signaturePlaceholder: Your name
     enableBackground:
       title: Show wallpaper
       desc: Show timetable wallpaper in the screenshot
@@ -173,23 +163,48 @@ class2nd:
   title: Second class
   attended:
     title: Attended
-    id: Application ID
-    time: Time
-    honestyPoints: Honesty Points
+  tab:
+    info: Info
+    description: Description
   activity: Activity
   refreshSuccessTip: Second class score refreshed successfully
   refreshFailedTip: Failed to refresh second class score
+  noActivities: No activities
   noAttendedActivities: No attended activities
+  viewDetails: View details
   apply:
     btn: Apply
     replyTip: Reply from school
     applyRequest: Apply
     applyRequestDesc: Confirm to apply this activity?
+  info:
+    activityId: Activity ID
+    applicationId: Application ID
+    activityOf: "Activity #{}"
+    applicationOf: "Application #{}"
+    name: Name
+    tags: Tags
+    category: Activity category
+    scoreType: Score type
+    honestyPoints: Honesty points
+    applicationTime: Application time
+    status: Status
+    contactInfo: Contact Info
+    organizer: Organizer
+    principal: Principal
+    signInTime: Sign-in
+    signOutTime: Sign-out
+    startTime: Start time
+    undertaker: Undertaker
+    duration: Duration
+    location: Location
   activityCat:
+    all: All
     lecture: Lecture
     thematicEdu: Thematic Edu
     creation: Creation
     schoolCultureActivity: Culture ACT
+    schoolCivilization: Civilization
     practice: Practice
     voluntary: Voluntary
     onlineSafetyEdu: Safety Edu
@@ -197,6 +212,7 @@ class2nd:
     schoolCultureCompetition: Culture COMP
     paperAndPatent: Paper&Patent
   scoreType:
+    all: All
     thematicReport:
       full: Thematic Report
       short: Report
@@ -213,31 +229,19 @@ class2nd:
       full: Voluntary
       short: Vol.
     schoolSafetyCivilization:
-      full: School Safety&Civilization
+      full: Safety&Civil.
       short: Civil.
-  id: Activity ID
-  contactInfo: Contact Info
   noDetails: No details given
-  details: Activity Details
-  duration: Duration
-  location: Location
-  myScoreTitle: Second Class Score
-  organizer: Organizer
-  principal: Principal
-  signInTime: Sign-in
-  signOutTime: Sign-out
-  startTime: Start Time
-  tags: Tags
-  undertaker: Undertaker
+  details: Activity eetails
 ywb:
   title: SIT YWB
   info: |
     This function is based on "SIT YWB".
     For most of types, you have to do the necessary procedure on the spot although you submitted an application online.
   apply: Apply
-  noMetaTip: No applications
+  noServicesTip: No services
   mine:
-    title: My applications
+    title: Mine
     noApplicationsTip: No applications
   details:
     apply: Apply
@@ -252,12 +256,15 @@ captcha:
 credentials:
   studentId: Student ID
   account: Account
-  oaAccount: OA Account
-  oaPwd: OA Password
-  savedOaPwd: Saved OA Password
+  password: Password
+  oaAccount: OA account
+  oaPwd: OA password
+  savedOaPwd: Saved OA password
   savedOaPwdDesc: Used to auto-login OA
   pwd: Password
-  error: Credentials Error
+  error: Credentials error
+  login: Login
+  forgotPwd: Forgot password?
 easyconnect:
   launchBtn: Launch EasyConnect
   launchFailed: Launch Failed
@@ -266,9 +273,10 @@ electricity:
   title: Electricity balance
   balance: Balance
   remainingPower: Remaining
-  searchInvalidTip: Please enter or select a existing room number
+  searchInvalidTip: Please enter or select an existing room number
   refreshSuccessTip: Electricity balance refreshed successfully
   refreshFailedTip: Failed to refresh electricity balance
+  searchRoom: Search Room
 eduEmail:
   title: Edu email
   action:
@@ -277,16 +285,14 @@ eduEmail:
     outbox: Outbox
   login:
     title: Login Edu email
-    loginBtn: Login
     addressHint: Student ID/Work number
-    failedWarn: Login Failed
-    forgotPwdBtn: Forgot password?
+    failedWarn: Login failed
   inbox:
     title: Inbox
   outbox:
     title: Outbox
-  noContent: No Content
-  noSubject: No Subject
+  noContent: No content
+  noSubject: No subject
   pluralSenderTailing: ...
   text: Text
 examResult:
@@ -295,15 +301,14 @@ examResult:
   teacherEval: Teacher Eval
   noResultsTip: No results
   lessonNotEvaluated: Not-eval
-  teacherEvalTitle: Teacher Evaluation
-  lessonEvaluationBtn: Lesson Eval
+  teacherEvalTitle: Teacher evaluation
   lessonSelected: "{} Selected"
   gpaResult: "GPA: {}"
   compulsory: Compulsory
   credit: Credit
   elective: Elective
 examArrange:
-  title: Exam arrangement
+  title: Exams
   check: Check
   date: Date
   time: Time
@@ -322,7 +327,7 @@ expenseRecords:
   outcome: "Outcome: ¥{}"
   noTransactionsTip: No transactions
   refreshSuccessTip: Expense records refreshed successfully
-  refreshFailedTip: Failed to refresh Expense records
+  refreshFailedTip: Failed to refresh expense records
   statsMode:
     week: Week
     month: Month
@@ -346,25 +351,28 @@ expenseRecords:
     subsidy: Subsidy
     other: Stuff
 homepage:
-  campusNetworkConnected: Campus Network Available
-  campusNetworkUnconnected: Campus Network Unavailable
+  campusNetworkConnected: Campus network available
+  campusNetworkUnconnected: Campus network unavailable
 networkChecker:
+  testConnection:
+    title: Test connection
+    desc: Test connecting to school server
   button:
     connected: Continue
     connecting: Checking...
     disconnected: Retry
-    none: Check My Connection
+    none: Check my Connection
   status:
     connected: Right! You have connected to school server!
     connecting: It will take a few seconds, please ensure you have turned on the network on your device.
     disconnected: Oops! You can't access the school server. Please check your network settings or use Easy Connect, then try again.
     none: You need the access to school server to continue. Let's check it now.
 network:
-  error: Network Error
+  error: Network error
   ipAddress: IP Address
-  connectionTimeoutError: Network Timeout
+  connectionTimeoutError: Network timeout
   connectionTimeoutErrorDesc: "This function requires access to the campus network. NOTE: It also occurs when the school server is down for maintenance."
-  openToolBtn: Open Network Tool
+  openToolBtn: Open network tool
 networkTool:
   title: Network tool
   action:
@@ -395,24 +403,49 @@ login:
   schoolServerUnconnectedTip: Can't connect to school server
   unknownAuthErrorTip: Unknown authentication error
   accountHint: Student ID/Work number
-  forgotPwdBtn: Forgot password?
   loggedInTip: Logged in
-  notLoggedIn: Not Logged In
-  invalidAccountFormat: Invalid Account format
-  offlineModeBtn: Offline Mode
+  notLoggedIn: Not logged In
+  invalidAccountFormat: Invalid account format
+  offlineModeBtn: Offline mode
   oaPwdHint: Enter your OA password
   failedWarn: Login Failed
-  loginBtn: Login
-  formatError: Format Error
-  loginRequired: Login Required
+  formatError: Format error
+  loginRequired: Login required
   neverLoggedInTip: You have to login to perform this
 library:
   title: Library
   hotPost: HOT
+  readerId: Reader Id
+  login:
+    title: Login library
+    readerIdHint: your Student ID
+    passwordHint: 888888 by default
+  searchMethod:
+    any: Any
+    title: Title
+    author: Author
+    isbn: ISBN
+    publisher: Publisher
+    callNumber: Call No.
+    primaryTitle: Primary title
+    subject: Subject
+    $class: Class
+    bookId: Book ID
+    orderNumber: Order No.
+  info:
+    title: Title
+    author: Author
+    isbn: ISBN
+    publisher: Publisher
+    publishDate: Publish date
+    callNumber: Call Number
+    bookId: Book ID
+    barcode: Barcode
 settings:
   title: Settings
   version: Version
-  themeColor: Theme Color
+  themeColor: Theme color
+  fromSystem: From system
   credentials:
     testLoginOa:
       title: Test login OA
@@ -497,15 +530,17 @@ settings:
     enableProxy:
       title: Enable HTTP proxy
       desc: Proxy your HTTP requests
-    testConnection:
-      title: Test connection
-      desc: Test connecting to school server
+    proxyMode:
+      title: Proxy mode
+      global: Global
+      school: School-only
+      globalTip: Access all networks by proxy
+      schoolTip: Access non-school networks bypass proxy
     copyTip:
       full: HTTP proxy is copied
       hostname: Hostname is copied
       port: Port is copied
-  language:
-    title: Language
+  language: Language
   wipeData:
     title: Wipe data & log-out
     desc: Wipe all data and log out
@@ -513,16 +548,30 @@ settings:
     requestDesc: ALL data, such as login credentials and timetable imported, will be wiped permanently.
 oaAnnounce:
   title: OA announcement
-  noOaAnnouncesTip: No OA announces
-  author: Author
-  attachmentTip:
-    one: Attachment
-    other: Attachments
+  tab:
+    info: Info
+    content: Content
+  noOaAnnouncementsTip: No announcements
   downloadCompleted: Download completed
   downloadFailed: Download failed
   downloading: Downloading
-  publishTime: Publish Time
-  publishingDepartment: Department
+  info:
+    title: Title
+    publishTime: Publish Time
+    department: Department
+    author: Author
+    tags: Tags
+    attachmentHeader:
+      one: Attachment
+      other: Attachments
+  oaAnnounceCat:
+    studentAffairs: Student Affairs
+    learning: Learning
+    collegeNotification: College Notif.
+    culture: Culture
+    announcement: Announcement
+    life: Life
+    download: Download
 yellowPages:
   title: Yellow pages
 scanner:
@@ -565,6 +614,7 @@ time:
 brightness:
   light: Light
   dark: Dark
+dormitoryRoom: "Building {building} #{room}"
 open: Open
 delete: Delete
 confirm: Confirm
@@ -586,7 +636,6 @@ download: Download
 fetching: Fetching
 notFound404: 404 Not Found
 warning: Warning
-exceptionInfo: Exception Info
 untitled: Untitled
 congratulations: Congratulations
 search: Search

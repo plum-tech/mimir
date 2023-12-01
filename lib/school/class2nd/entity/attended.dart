@@ -3,11 +3,11 @@ import 'dart:core';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'list.dart';
-import 'package:sit/hive/type_id.dart';
+import 'package:sit/storage/hive/type_id.dart';
 
 part 'attended.g.dart';
 
-@HiveType(typeId: HiveTypeClass2nd.scoreSummary)
+@HiveType(typeId: CacheHiveType.class2ndScoreSummary)
 class Class2ndScoreSummary {
   /// 主题报告
   @HiveField(0)
@@ -54,19 +54,19 @@ class Class2ndScoreSummary {
     }.toString();
   }
 
-  List<({Class2ndActivityScoreType type, double score})> toName2score() {
+  List<({Class2ndScoreType type, double score})> toName2score() {
     return [
-      (type: Class2ndActivityScoreType.voluntary, score: voluntary),
-      (type: Class2ndActivityScoreType.schoolCulture, score: schoolCulture),
-      (type: Class2ndActivityScoreType.creation, score: creation),
-      (type: Class2ndActivityScoreType.schoolSafetyCivilization, score: schoolSafetyCivilization),
-      (type: Class2ndActivityScoreType.thematicReport, score: thematicReport),
-      (type: Class2ndActivityScoreType.practice, score: practice),
+      (type: Class2ndScoreType.voluntary, score: voluntary),
+      (type: Class2ndScoreType.schoolCulture, score: schoolCulture),
+      (type: Class2ndScoreType.creation, score: creation),
+      (type: Class2ndScoreType.schoolSafetyCivilization, score: schoolSafetyCivilization),
+      (type: Class2ndScoreType.thematicReport, score: thematicReport),
+      (type: Class2ndScoreType.practice, score: practice),
     ];
   }
 }
 
-@HiveType(typeId: HiveTypeClass2nd.scoreItem)
+@HiveType(typeId: CacheHiveType.class2ndScoreItem)
 class Class2ndScoreItem {
   /// 活动名称
   @HiveField(0)
@@ -82,7 +82,7 @@ class Class2ndScoreItem {
 
   /// 活动时间
   @HiveField(3)
-  final DateTime time;
+  final DateTime? time;
 
   /// 得分
   @HiveField(4)
@@ -91,6 +91,8 @@ class Class2ndScoreItem {
   /// 诚信分
   @HiveField(5)
   final double honestyPoints;
+
+  Class2ndScoreType? get scoreType => category.scoreType;
 
   const Class2ndScoreItem({
     required this.name,
@@ -114,11 +116,11 @@ class Class2ndScoreItem {
   }
 }
 
-@HiveType(typeId: HiveTypeClass2nd.activityApplication)
+@HiveType(typeId: CacheHiveType.class2ndActivityApplication)
 class Class2ndActivityApplication {
   /// 申请编号
   @HiveField(0)
-  final int applyId;
+  final int applicationId;
 
   /// 活动编号
   /// -1 if the activity was cancelled.
@@ -140,8 +142,8 @@ class Class2ndActivityApplication {
   @HiveField(5)
   final Class2ndActivityCat category;
 
-  Class2ndActivityApplication({
-    required this.applyId,
+  const Class2ndActivityApplication({
+    required this.applicationId,
     required this.activityId,
     required this.title,
     required this.time,
@@ -149,10 +151,12 @@ class Class2ndActivityApplication {
     required this.category,
   });
 
+  bool get isPassed => status == "通过";
+
   @override
   String toString() {
     return {
-      "applyId": applyId,
+      "applyId": applicationId,
       "activityId": activityId,
       "title": title,
       "time": time,
@@ -162,8 +166,8 @@ class Class2ndActivityApplication {
   }
 }
 
-@HiveType(typeId: HiveTypeClass2nd.scoreType)
-enum Class2ndActivityScoreType {
+@HiveType(typeId: CacheHiveType.class2ndScoreType)
+enum Class2ndScoreType {
   /// 讲座报告
   @HiveField(0)
   thematicReport,
@@ -188,88 +192,68 @@ enum Class2ndActivityScoreType {
   @HiveField(5)
   schoolSafetyCivilization;
 
-  const Class2ndActivityScoreType();
+  const Class2ndScoreType();
 
   String l10nShortName() => "class2nd.scoreType.$name.short".tr();
 
   String l10nFullName() => "class2nd.scoreType.$name.full".tr();
 
-  static Class2ndActivityScoreType? parse(String typeName) {
+  static String allCatL10n() => "class2nd.scoreType.all".tr();
+
+  static Class2ndScoreType? parse(String typeName) {
     if (typeName == "主题报告") {
-      return Class2ndActivityScoreType.thematicReport;
+      return Class2ndScoreType.thematicReport;
     } else if (typeName == "社会实践") {
-      return Class2ndActivityScoreType.practice;
+      return Class2ndScoreType.practice;
     } else if (typeName == "创新创业创意") {
-      return Class2ndActivityScoreType.creation;
+      return Class2ndScoreType.creation;
     } else if (typeName == "校园文化") {
-      return Class2ndActivityScoreType.schoolCulture;
+      return Class2ndScoreType.schoolCulture;
     } else if (typeName == "公益志愿") {
-      return Class2ndActivityScoreType.voluntary;
+      return Class2ndScoreType.voluntary;
     } else if (typeName == "校园安全文明") {
-      return Class2ndActivityScoreType.schoolSafetyCivilization;
+      return Class2ndScoreType.schoolSafetyCivilization;
     }
     return null;
   }
 }
 
-@HiveType(typeId: HiveTypeClass2nd.attendedActivity)
 class Class2ndAttendedActivity {
-  /// 申请编号
-  @HiveField(0)
-  final int applyId;
+  final Class2ndActivityApplication application;
+  final List<Class2ndScoreItem> scores;
 
-  /// 活动编号
-  @HiveField(1)
-  final int activityId;
+  double? calcTotalPoints() {
+    if (scores.isEmpty) return null;
+    return scores.fold<double>(0.0, (pre, e) => pre + e.points);
+  }
 
-  /// 活动标题
-  @HiveField(2)
-  final String title;
+  double? calcTotalHonestyPoints() {
+    if (scores.isEmpty) return null;
+    return scores.fold<double>(0.0, (pre, e) => pre + e.honestyPoints);
+  }
 
-  /// 申请时间
-  @HiveField(3)
-  final DateTime time;
+  int get activityId => application.activityId;
+  bool get cancelled => application.activityId == -1;
 
-  /// 申请时间
-  @HiveField(4)
-  final Class2ndActivityCat category;
+  int get applicationId => application.applicationId;
 
-  /// 活动状态
-  @HiveField(5)
-  final String status;
+  Class2ndActivityCat get category => application.category;
 
-  /// 总得分
-  @HiveField(6)
-  final double? points;
+  Class2ndScoreType? get scoreType => application.category.scoreType;
 
-  /// 总诚信分
-  @HiveField(7)
-  final double? honestyPoints;
+  /// Because the [application.name] might have trailing ellipsis
+  String get title => scores.firstOrNull?.name ?? application.title;
 
   const Class2ndAttendedActivity({
-    required this.applyId,
-    required this.activityId,
-    required this.title,
-    required this.time,
-    required this.category,
-    required this.status,
-    required this.points,
-    required this.honestyPoints,
+    required this.application,
+    required this.scores,
   });
-
-  bool get isPassed => status == "通过";
 
   @override
   String toString() {
     return {
-      "applyId": applyId,
-      "activityId": activityId,
-      "title": title,
-      "time": time,
-      "category": category,
-      "status": status,
-      "points": points,
-      "honestyPoints": honestyPoints,
+      "application": application,
+      "scores": scores,
     }.toString();
   }
 }

@@ -72,7 +72,8 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
       subtitle: i18n.dev.reloadDesc.text(),
       leading: const Icon(Icons.refresh_rounded),
       onTap: () async {
-        await Init.init();
+        await Init.initNetwork();
+        await Init.initModules();
         final engine = WidgetsFlutterBinding.ensureInitialized();
         engine.performReassemble();
         if (!mounted) return;
@@ -107,7 +108,7 @@ class _DebugGoRouteTileState extends State<DebugGoRouteTile> {
       title: "Go route".text(),
       subtitle: TextField(
         controller: $route,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           hintText: "/anywhere",
         ),
       ),
@@ -119,7 +120,7 @@ class _DebugGoRouteTileState extends State<DebugGoRouteTile> {
                     : () {
                         context.push(route.text);
                       },
-                icon: Icon(Icons.arrow_forward))
+                icon: const Icon(Icons.arrow_forward))
       ].row(mas: MainAxisSize.min),
     );
   }

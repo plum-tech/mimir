@@ -18,7 +18,9 @@ import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
 import '../utils.dart';
+import '../widgets/style.dart';
 import 'editor.dart';
+import 'preview.dart';
 
 class MyTimetableListPage extends StatefulWidget {
   const MyTimetableListPage({super.key});
@@ -175,10 +177,6 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           }
         },
       ),
-      detailsAction: (ctx) => EntryDetailsAction(
-        label: i18n.mine.details,
-        icon: Icons.details,
-      ),
       actions: (ctx) => [
         if (!selected)
           EntryAction(
@@ -188,7 +186,13 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             cupertinoIcon: CupertinoIcons.eye,
             action: () async {
               if (!mounted) return;
-              await ctx.push("/timetable/preview/$id", extra: timetable);
+              await context.show$Sheet$(
+                (context) => TimetableStyleProv(
+                  child: TimetablePreviewPage(
+                    timetable: timetable,
+                  ),
+                ),
+              );
             },
           ),
         EntryAction(
@@ -207,7 +211,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           },
         ),
         EntryAction(
-          label: i18n.mine.exportFile,
+          label: i18n.share,
           icon: Icons.output_outlined,
           cupertinoIcon: CupertinoIcons.share,
           type: EntryActionType.share,
@@ -226,6 +230,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       ],
       detailsBuilder: (ctx) {
         final palette = TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic;
+        final courses = timetable.courses.values.toList();
         return CustomScrollView(
           slivers: [
             SliverList.list(children: [
@@ -239,13 +244,18 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
                 title: i18n.startWith.text(),
                 subtitle: context.formatYmdText(timetable.startDate).text(),
               ),
+              ListTile(
+                leading: const Icon(Icons.drive_file_rename_outline),
+                title: i18n.signature.text(),
+                subtitle: timetable.signature.text(),
+              ),
               const Divider(),
             ]),
             SliverList.builder(
-              itemCount: timetable.courseKey2Entity.length,
+              itemCount: courses.length,
               itemBuilder: (ctx, i) {
                 return TimetableCourseCard(
-                  timetable.courseKey2Entity[i],
+                  courses[i],
                   palette: palette,
                 );
               },
@@ -256,6 +266,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       itemBuilder: (ctx, animation) => [
         timetable.name.text(style: textTheme.titleLarge),
         "$year, $semester".text(style: textTheme.titleMedium),
+        if (timetable.signature.isNotEmpty) timetable.signature.text(style: textTheme.titleMedium),
         "${i18n.startWith} ${context.formatYmdText(timetable.startDate)}".text(style: textTheme.bodyLarge),
       ],
     );

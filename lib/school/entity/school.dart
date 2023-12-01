@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:sit/hive/type_id.dart';
+import 'package:sit/entity/campus.dart';
+import 'package:sit/storage/hive/type_id.dart';
 import 'package:sit/l10n/common.dart';
 import 'package:sit/l10n/time.dart';
 
@@ -7,7 +8,7 @@ part 'school.g.dart';
 
 typedef SchoolYear = int;
 
-@HiveType(typeId: HiveTypeSchool.semester)
+@HiveType(typeId: CoreHiveType.semester)
 enum Semester {
   @HiveField(0)
   all,
@@ -293,11 +294,11 @@ int getIndexEnd(int start, int index) {
   return i;
 }
 
-List<ClassTime> getTeachingBuildingTimetable(String campus, String place) {
-  if (campus.contains('徐汇')) {
+List<ClassTime> getTeachingBuildingTimetable(Campus campus, String place) {
+  if (campus == Campus.xuhui) {
     return xuhuiCampusTimetable;
   }
-  if (campus.contains("奉贤")) {
+  if (campus == Campus.fengxian) {
     return fengxianTimetable;
   }
   return fengxianTimetable;
@@ -312,7 +313,7 @@ DateTime reflectWeekDayIndexToDate({
   return startDate.add(Duration(days: weekIndex * 7 + weekday.index));
 }
 
-final _parenthesesRegx = RegExp("\\((.*?)\\)");
+final _parenthesesRegx = RegExp(r"\((.*?)\)");
 
 /// Exchange a string in brackets with a string out of brackets,
 /// if the string in brackets has a substring such as "一教", "二教", and "三教".

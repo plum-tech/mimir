@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:sit/design/animation/progress.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/session/ywb.dart';
 
 import '../entity/application.dart';
@@ -29,11 +29,14 @@ class YwbApplicationService {
     final progress = ProgressWatcher(callback: onProgress);
     final response = await session.request(
       _getMessageListUrl(type),
-      ReqMethod.post,
-      data: "myFlow=1&pageIdx=1&pageSize=999",
-      options: SessionOptions(
-        contentType: 'application/x-www-form-urlencoded',
-        responseType: ResponseType.json,
+      data: {
+        "myFlow": 1,
+        "pageIdx": 1,
+        "pageSize": 99,
+      },
+      options: Options(
+        contentType: Headers.formUrlEncodedContentType,
+        method: "POST",
       ),
     );
     progress.value = 0.2;
@@ -58,11 +61,13 @@ class YwbApplicationService {
     // Authentication cookie is even not required!
     final res = await session.request(
       "http://ywb.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?&DoType=HttpHandler&DoMethod=TimeBase_Init&HttpHandlerName=BP.WF.HttpHandler.WF_WorkOpt_OneWork",
-      ReqMethod.post,
-      data: "WorkID=$workId&FK_Flow=$functionId",
-      options: SessionOptions(
-        contentType: 'application/x-www-form-urlencoded',
-        responseType: ResponseType.json,
+      data: {
+        "WorkID": workId,
+        "FK_Flow": functionId,
+      },
+      options: Options(
+        contentType: Headers.formUrlEncodedContentType,
+        method: "POST",
       ),
     );
     final Map payload = jsonDecode(res.data);

@@ -10,10 +10,13 @@ class _I18n with CommonI18nMixin {
 
   final apply = const _Apply();
   final attended = const _Attended();
+  final info = const _Info();
 
   String get title => "$ns.title".tr();
 
   String get noAttendedActivities => "$ns.noAttendedActivities".tr();
+
+  String get noActivities => "$ns.noActivities".tr();
 
   String get activityAction => "$ns.activity".tr();
 
@@ -23,33 +26,13 @@ class _I18n with CommonI18nMixin {
 
   String get refreshFailedTip => "$ns.refreshFailedTip".tr();
 
-  String get id => "$ns.id".tr();
-
-  String get contactInfo => "$ns.contactInfo".tr();
-
   String get noDetails => "$ns.noDetails".tr();
 
-  String get details => "$ns.details".tr();
+  String get infoTab => "$ns.tab.info".tr();
 
-  String get duration => "$ns.duration".tr();
+  String get descriptionTab => "$ns.tab.description".tr();
 
-  String get location => "$ns.location".tr();
-
-  String get myScoreTitle => "$ns.myScoreTitle".tr();
-
-  String get organizer => "$ns.organizer".tr();
-
-  String get principal => "$ns.principal".tr();
-
-  String get signInTime => "$ns.signInTime".tr();
-
-  String get signOutTime => "$ns.signOutTime".tr();
-
-  String get startTime => "$ns.startTime".tr();
-
-  String get tags => "$ns.tags".tr();
-
-  String get undertaker => "$ns.undertaker".tr();
+  String get viewDetails => "$ns.viewDetails".tr();
 }
 
 class _Apply {
@@ -72,8 +55,54 @@ class _Attended {
   static const ns = "${_I18n.ns}.attended";
 
   String get title => "$ns.title".tr();
+}
 
-  String get time => "$ns.time".tr();
+class _Info {
+  const _Info();
+
+  static const ns = "${_I18n.ns}.info";
+
+  String get applicationId => "$ns.applicationId".tr();
+
+  String get activityId => "$ns.activityId".tr();
+
+  String applicationOf(int applicationId) => "$ns.applicationOf".tr(
+        args: [applicationId.toString()],
+      );
+
+  String activityOf(int activityId) => "$ns.activityOf".tr(
+        args: [activityId.toString()],
+      );
+
+  String get name => "$ns.name".tr();
+
+  String get tags => "$ns.tags".tr();
+
+  String get category => "$ns.category".tr();
+
+  String get scoreType => "$ns.scoreType".tr();
 
   String get honestyPoints => "$ns.honestyPoints".tr();
+
+  String get applicationTime => "$ns.applicationTime".tr();
+
+  String get status => "$ns.status".tr();
+
+  String get duration => "$ns.duration".tr();
+
+  String get location => "$ns.location".tr();
+
+  String get organizer => "$ns.organizer".tr();
+
+  String get principal => "$ns.principal".tr();
+
+  String get signInTime => "$ns.signInTime".tr();
+
+  String get signOutTime => "$ns.signOutTime".tr();
+
+  String get startTime => "$ns.startTime".tr();
+
+  String get undertaker => "$ns.undertaker".tr();
+
+  String get contactInfo => "$ns.contactInfo".tr();
 }

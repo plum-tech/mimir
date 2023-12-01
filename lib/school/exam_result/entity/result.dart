@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/hive/type_id.dart';
+import 'package:sit/storage/hive/type_id.dart';
 import 'package:sit/school/entity/school.dart';
 
 part 'result.g.dart';
@@ -17,7 +17,7 @@ DateTime? _parseTime(dynamic time) {
 }
 
 @JsonSerializable()
-@HiveType(typeId: HiveTypeExam.result)
+@HiveType(typeId: CacheHiveType.examResult)
 class ExamResult {
   /// If the teacher of class hasn't been evaluated, the score is NaN.
   @JsonKey(name: 'cj', fromJson: stringToDouble)
@@ -85,7 +85,7 @@ class ExamResult {
     String? courseName,
     String? courseId,
     String? innerClassId,
-    SchoolYear? schoolYear,
+    SchoolYear? year,
     Semester? semester,
     String? dynClassId,
     double? credit,
@@ -97,7 +97,7 @@ class ExamResult {
       courseName: courseName ?? this.courseName,
       courseId: courseId ?? this.courseId,
       innerClassId: innerClassId ?? this.innerClassId,
-      year: schoolYear ?? this.year,
+      year: year ?? this.year,
       semester: semester ?? this.semester,
       credit: credit ?? this.credit,
       dynClassId: dynClassId ?? this.dynClassId,
@@ -107,6 +107,7 @@ class ExamResult {
   }
 
   bool get hasScore => !score.isNaN;
+
   bool get passed => hasScore ? score >= 60.0 : false;
 
   factory ExamResult.fromJson(Map<String, dynamic> json) => _$ExamResultFromJson(json);
@@ -137,7 +138,7 @@ class ExamResult {
   }
 }
 
-@HiveType(typeId: HiveTypeExam.resultItem)
+@HiveType(typeId: CacheHiveType.examResultItem)
 class ExamResultItem {
   /// 成绩名称
   @HiveField(0)
@@ -156,4 +157,13 @@ class ExamResultItem {
     this.percentage,
     this.score,
   );
+
+  @override
+  String toString() {
+    return {
+      "scoreType": scoreType,
+      "percentage": percentage,
+      "score": score,
+    }.toString();
+  }
 }

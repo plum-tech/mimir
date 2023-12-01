@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/credentials/entity/user_type.dart';
+import 'package:sit/storage/hive/init.dart';
 
 import '../entity/credential.dart';
-import '../entity/email.dart';
 import '../entity/login_status.dart';
 
 class _OaK {
@@ -19,15 +19,20 @@ class _EmailK {
   static const credentials = "$ns/credentials";
 }
 
-class CredentialStorage {
-  final Box box;
+class _LibraryK {
+  static const ns = "/library";
+  static const credentials = "$ns/credentials";
+}
 
-  CredentialStorage(this.box);
+class CredentialStorage {
+  Box get box => HiveInit.credentials;
+
+  const CredentialStorage();
 
   // OA
-  OaCredentials? get oaCredentials => box.get(_OaK.credentials);
+  Credentials? get oaCredentials => box.get(_OaK.credentials);
 
-  set oaCredentials(OaCredentials? newV) => box.put(_OaK.credentials, newV);
+  set oaCredentials(Credentials? newV) => box.put(_OaK.credentials, newV);
 
   DateTime? get oaLastAuthTime => box.get(_OaK.lastAuthTime);
 
@@ -49,11 +54,20 @@ class CredentialStorage {
       ]);
 
   // Edu Email
-  EmailCredentials? get eduEmailCredentials => box.get(_EmailK.credentials);
+  Credentials? get eduEmailCredentials => box.get(_EmailK.credentials);
 
-  set eduEmailCredentials(EmailCredentials? newV) => box.put(_EmailK.credentials, newV);
+  set eduEmailCredentials(Credentials? newV) => box.put(_EmailK.credentials, newV);
 
   ValueListenable<Box> listenEduEmailChange() => box.listenable(keys: [
         _EmailK.credentials,
+      ]);
+
+  // Library
+  Credentials? get libraryCredentials => box.get(_LibraryK.credentials);
+
+  set libraryCredentials(Credentials? newV) => box.put(_LibraryK.credentials, newV);
+
+  ValueListenable<Box> listenLibraryChange() => box.listenable(keys: [
+        _LibraryK.credentials,
       ]);
 }

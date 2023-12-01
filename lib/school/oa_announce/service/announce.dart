@@ -1,9 +1,8 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:intl/intl.dart';
-import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/sso.dart';
 
@@ -49,18 +48,6 @@ class OaAnnounceService {
     );
   }
 
-  List<OaAnnounceCatalogue> resolveCatalogs(OaUserType userType) {
-    return const [
-      OaAnnounceCatalogue(name: '学生事务', id: 'pe2362'),
-      OaAnnounceCatalogue(name: '学习课堂', id: 'pe2364'),
-      OaAnnounceCatalogue(name: '二级学院通知', id: 'pe2368'),
-      OaAnnounceCatalogue(name: '校园文化', id: 'pe2366'),
-      OaAnnounceCatalogue(name: '公告信息', id: 'pe2367'),
-      OaAnnounceCatalogue(name: '生活服务', id: 'pe2365'),
-      OaAnnounceCatalogue(name: '文件下载专区', id: 'pe2382')
-    ];
-  }
-
   static String getAnnounceUrl(String catalogueId, String uuid) {
     return 'https://myportal.sit.edu.cn/detach.portal?action=bulletinBrowser&.ia=false&.pmn=view&.pen=$catalogueId&bulletinId=$uuid';
   }
@@ -68,7 +55,9 @@ class OaAnnounceService {
   Future<OaAnnounceDetails> fetchAnnounceDetails(String catalogId, String uuid) async {
     final response = await session.request(
       getAnnounceUrl(catalogId, uuid),
-      ReqMethod.get,
+      options: Options(
+        method: "GET",
+      ),
     );
     final soup = BeautifulSoup(response.data);
     return _parseAnnounceDetails(soup.html!);
@@ -85,7 +74,7 @@ class OaAnnounceService {
       final uri = Uri.parse(titleElement.attributes['href']!);
 
       return OaAnnounceRecord(
-        title: titleElement.text.trim(),
+        title: mapChinesePunctuations(titleElement.text.trim()),
         departments: department.trim().split(_departmentSplitRegex),
         dateTime: _announceDateTimeFormat.parse(date),
         catalogId: uri.queryParameters['.pen']!,
@@ -104,13 +93,14 @@ class OaAnnounceService {
     );
   }
 
-  Future<OaAnnounceListPayload> queryAnnounceList(int pageIndex, String bulletinCatalogueId) async {
+  Future<OaAnnounceListPayload> getAnnounceList(OaAnnounceCat cat, int pageIndex) async {
     final response = await session.request(
-      // 构造获取文章列表的url
-      'https://myportal.sit.edu.cn/detach.portal?pageIndex=$pageIndex&groupid=&action=bulletinsMoreView&.ia=false&pageSize=&.pmn=view&.pen=$bulletinCatalogueId',
-      ReqMethod.get,
+      'https://myportal.sit.edu.cn/detach.portal?pageIndex=$pageIndex&groupid=&action=bulletinsMoreView&.ia=false&pageSize=&.pmn=view&.pen=${cat.internalId}',
+      options: Options(
+        method: "GET",
+      ),
     );
-    final soup = BeautifulSoup(response.data);
-    return _parseAnnounceListPage(soup.html!);
+    final html = BeautifulSoup(response.data);
+    return _parseAnnounceListPage(html.html!);
   }
 }

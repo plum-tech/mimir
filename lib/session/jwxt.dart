@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/exception/session.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/session/sso.dart';
-import 'package:sit/utils/logger.dart';
 
 /// jwxt.sit.edu.cn
 /// for undergraduate
@@ -13,7 +13,12 @@ class JwxtSession {
   const JwxtSession({required this.ssoSession});
 
   Future<void> _refreshCookie() async {
-    await ssoSession.request('http://jwxt.sit.edu.cn/sso/jziotlogin', ReqMethod.get);
+    await ssoSession.request(
+      'http://jwxt.sit.edu.cn/sso/jziotlogin',
+      options: Options(
+        method: "GET",
+      ),
+    );
   }
 
   bool _isRedirectedToLoginPage(Response response) {
@@ -21,20 +26,19 @@ class JwxtSession {
   }
 
   Future<Response> request(
-    String url,
-    ReqMethod method, {
+    String url, {
     Map<String, String>? para,
     data,
-    SessionOptions? options,
-    SessionProgressCallback? onSendProgress,
-    SessionProgressCallback? onReceiveProgress,
+    Options? options,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
-    options ??= SessionOptions();
+    options ??= Options();
+    // TODO: is this really necessary?
     options.contentType = 'application/x-www-form-urlencoded;charset=utf-8';
     Future<Response> fetch() async {
       return await ssoSession.request(
         url,
-        method,
         para: para,
         data: data,
         options: options,
@@ -43,23 +47,23 @@ class JwxtSession {
       );
     }
 
-    var response = await fetch();
+    final response = await fetch();
     // 如果返回值是登录页面，那就从 SSO 跳转一次以登录.
     if (_isRedirectedToLoginPage(response)) {
-      Log.info('JwxtSession requires login');
+      debugPrint('JwxtSession requires login');
       await _refreshCookie();
-      response = await fetch();
+      return await fetch();
     }
     // 如果还是需要登录
     if (_isRedirectedToLoginPage(response)) {
-      Log.info('SsoSession login');
+      debugPrint('SsoSession login');
       final credential = CredentialInit.storage.oaCredentials;
       if (credential == null) {
         throw LoginRequiredException(url: url);
       }
       await ssoSession.loginLocked(credential);
       await _refreshCookie();
-      response = await fetch();
+      return await fetch();
     }
     return response;
   }

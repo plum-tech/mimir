@@ -1,24 +1,26 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sit/storage/hive/init.dart';
 
 import '../entity/local.dart';
 
 class _K {
   static const transactionTsList = '/transactionTsList';
 
-  static String buildTransactionsKey(DateTime timestamp) {
+  static String transaction(DateTime timestamp) {
     final id = (timestamp.millisecondsSinceEpoch ~/ 1000).toRadixString(16);
     return '/transactions/$id';
   }
 
+  // Don't use lastFetchedTs, and just fetch all translations
   static const lastFetchedTs = "/lastFetchedTs";
   static const latestTransaction = "/latestTransaction";
 }
 
 class ExpenseStorage {
-  final Box box;
+  Box get box => HiveInit.expense;
 
-  const ExpenseStorage(this.box);
+  const ExpenseStorage();
 
   /// 所有交易记录的索引，记录所有的交易时间，需要保证有序，以实现二分查找
   List<DateTime>? get transactionTsList => (box.get(_K.transactionTsList) as List?)?.cast<DateTime>();
@@ -28,13 +30,9 @@ class ExpenseStorage {
   ValueListenable<Box> listenTransactionTsList() => box.listenable(keys: [_K.transactionTsList]);
 
   /// 通过某个时刻来获得交易记录
-  Transaction? getTransactionByTs(DateTime ts) => box.get(_K.buildTransactionsKey(ts));
+  Transaction? getTransactionByTs(DateTime ts) => box.get(_K.transaction(ts));
 
-  setTransactionByTs(DateTime ts, Transaction? transaction) => box.put(_K.buildTransactionsKey(ts), transaction);
-
-  DateTime? get lastFetchedTs => box.get(_K.lastFetchedTs);
-
-  set lastFetchedTs(DateTime? v) => box.put(_K.lastFetchedTs, v);
+  setTransactionByTs(DateTime ts, Transaction? transaction) => box.put(_K.transaction(ts), transaction);
 
   Transaction? get latestTransaction => box.get(_K.latestTransaction);
 
@@ -46,7 +44,6 @@ class ExpenseStorage {
 extension ExpenseStorageX on ExpenseStorage {
   void clearIndex() {
     transactionTsList = null;
-    lastFetchedTs = null;
     latestTransaction = null;
   }
 

@@ -1,17 +1,19 @@
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/credentials/entity/email.dart';
+import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/login/widgets/forgot_pwd.dart';
 import 'package:sit/r.dart';
-import 'package:sit/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 import '../init.dart';
 import '../i18n.dart';
+
+const _forgotLoginPasswordUrl =
+    "http://imap.mail.sit.edu.cn//edu_reg/retrieve/redirect?redirectURL=http://imap.mail.sit.edu.cn/coremail/index.jsp";
 
 class EduEmailLoginPage extends StatefulWidget {
   const EduEmailLoginPage({super.key});
@@ -53,7 +55,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
               : null,
         ),
         body: buildBody(),
-        bottomNavigationBar: const ForgotPasswordButton(),
+        bottomNavigationBar: const ForgotPasswordButton(url: _forgotLoginPasswordUrl),
       ),
     );
   }
@@ -77,7 +79,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
             controller: $username,
             textInputAction: TextInputAction.next,
             autofocus: true,
-            readOnly: initialAccount != null,
+            readOnly: !kDebugMode && initialAccount != null,
             autocorrect: false,
             enableSuggestions: false,
             validator: (username) {
@@ -85,11 +87,11 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
               if (EmailValidator.validate(R.formatEduEmail(username: username))) return null;
               return "invalid email address format";
             },
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: "Email Address",
               hintText: "your Student ID",
               suffixText: "@${R.eduEmailDomain}",
-              icon: const Icon(Icons.alternate_email_outlined),
+              icon: Icon(Icons.alternate_email_outlined),
             ),
           ),
           TextFormField(
@@ -111,7 +113,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
               }
             },
             decoration: InputDecoration(
-              labelText: "Password",
+              labelText: i18n.login.credentials.password,
               icon: const Icon(Icons.lock),
               suffixIcon: IconButton(
                 icon: Icon(isPasswordClear ? Icons.visibility : Icons.visibility_off),
@@ -140,13 +142,13 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
                     }
                   : null,
               icon: const Icon(Icons.login),
-              label: i18n.login.loginBtn.text().padAll(5),
+              label: i18n.login.credentials.login.text().padAll(5),
             );
   }
 
   Future<void> onLogin() async {
-    final credential = EmailCredentials(
-      address: R.formatEduEmail(username: $username.text),
+    final credential = Credentials(
+      account: R.formatEduEmail(username: $username.text),
       password: $password.text,
     );
     try {
@@ -164,24 +166,5 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
       setState(() => isLoggingIn = false);
       return;
     }
-  }
-}
-
-const forgotLoginPasswordUrl =
-    "http://imap.mail.sit.edu.cn//edu_reg/retrieve/redirect?redirectURL=http://imap.mail.sit.edu.cn/coremail/index.jsp";
-
-class ForgotPasswordButton extends StatelessWidget {
-  const ForgotPasswordButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return PlatformTextButton(
-      child: i18n.login.forgotPwdBtn.text(
-        style: const TextStyle(color: Colors.grey),
-      ),
-      onPressed: () {
-        guardLaunchUrlString(context, forgotLoginPasswordUrl);
-      },
-    );
   }
 }

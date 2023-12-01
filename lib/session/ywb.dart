@@ -3,8 +3,6 @@ import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/exception/session.dart';
-import 'package:sit/network/session.dart';
-import 'package:sit/session/common.dart';
 
 /// 应网办 official website
 const _ywbUrl = "https://ywb.sit.edu.cn/v1";
@@ -51,13 +49,12 @@ class YwbSession {
   }
 
   Future<Response> request(
-    String url,
-    ReqMethod method, {
+    String url, {
     Map<String, String>? para,
     dynamic data,
-    SessionOptions? options,
-    SessionProgressCallback? onSendProgress,
-    SessionProgressCallback? onReceiveProgress,
+    Options? options,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
     if (!isLogin) {
       final credentials = CredentialInit.storage.oaCredentials;
@@ -68,7 +65,7 @@ class YwbSession {
       );
     }
 
-    Options newOptions = options?.toDioOptions() ?? Options();
+    Options newOptions = options ?? Options();
 
     // Make default options.
     final String ts = _getTimestamp();
@@ -80,7 +77,7 @@ class YwbSession {
     };
 
     newOptions.headers == null ? newOptions.headers = newHeaders : newOptions.headers?.addAll(newHeaders);
-    newOptions.method = method.uppercaseName;
+    newOptions.method = options?.method;
 
     final response = await dio.request(
       url,

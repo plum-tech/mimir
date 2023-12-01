@@ -6,44 +6,9 @@ part of 'announce.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class OaAnnounceCatalogueAdapter extends TypeAdapter<OaAnnounceCatalogue> {
-  @override
-  final int typeId = 92;
-
-  @override
-  OaAnnounceCatalogue read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return OaAnnounceCatalogue(
-      name: fields[0] as String,
-      id: fields[1] as String,
-    );
-  }
-
-  @override
-  void write(BinaryWriter writer, OaAnnounceCatalogue obj) {
-    writer
-      ..writeByte(2)
-      ..writeByte(0)
-      ..write(obj.name)
-      ..writeByte(1)
-      ..write(obj.id);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is OaAnnounceCatalogueAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
-}
-
 class OaAnnounceRecordAdapter extends TypeAdapter<OaAnnounceRecord> {
   @override
-  final int typeId = 94;
+  final int typeId = 62;
 
   @override
   OaAnnounceRecord read(BinaryReader reader) {
@@ -87,7 +52,7 @@ class OaAnnounceRecordAdapter extends TypeAdapter<OaAnnounceRecord> {
 
 class OaAnnounceDetailsAdapter extends TypeAdapter<OaAnnounceDetails> {
   @override
-  final int typeId = 90;
+  final int typeId = 60;
 
   @override
   OaAnnounceDetails read(BinaryReader reader) {
@@ -137,7 +102,7 @@ class OaAnnounceDetailsAdapter extends TypeAdapter<OaAnnounceDetails> {
 
 class OaAnnounceAttachmentAdapter extends TypeAdapter<OaAnnounceAttachment> {
   @override
-  final int typeId = 91;
+  final int typeId = 61;
 
   @override
   OaAnnounceAttachment read(BinaryReader reader) {

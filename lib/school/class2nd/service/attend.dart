@@ -1,8 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/session.dart';
+
 import 'package:sit/session/class2nd.dart';
 
-class Class2ndAttendActivityService {
+class Class2ndApplicationService {
   static const _codeMessage = [
     '检查成功',
     '您的个人信息不全，请补全您的信息！',
@@ -17,13 +18,15 @@ class Class2ndAttendActivityService {
 
   Class2ndSession get session => Init.class2ndSession;
 
-  const Class2ndAttendActivityService();
+  const Class2ndApplicationService();
 
   /// 提交最后的活动申请
   Future<String> _sendFinalRequest(int activityId) async {
     final res = await session.request(
       'http://sc.sit.edu.cn/public/pcenter/applyActivity.action?activityId=$activityId',
-      ReqMethod.get,
+      options: Options(
+        method: "GET",
+      ),
     );
     return res.data as String;
   }
@@ -31,7 +34,9 @@ class Class2ndAttendActivityService {
   Future<String> _sendCheckRequest(int activityId) async {
     final res = await session.request(
       'http://sc.sit.edu.cn/public/pcenter/check.action?activityId=$activityId',
-      ReqMethod.get,
+      options: Options(
+        method: "GET",
+      ),
     );
     final code = (res.data as String).trim();
 
@@ -39,7 +44,10 @@ class Class2ndAttendActivityService {
   }
 
   /// 参加活动
-  Future<String> join(int activityId, {bool force = false}) async {
+  Future<String> join(
+    int activityId, {
+    bool force = false,
+  }) async {
     if (!force) {
       final result = await _sendCheckRequest(activityId);
       if (result != '检查成功') {

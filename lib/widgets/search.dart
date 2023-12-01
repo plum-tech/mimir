@@ -2,15 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
 
-typedef CandidateBuilder<T> = Widget Function(BuildContext ctx, T item, String query, VoidCallback selectIt);
-typedef HistoryBuilder<T> = Widget Function(BuildContext ctx, T item, VoidCallback selectIt);
+typedef CandidateBuilder<T> = Widget Function(
+  BuildContext ctx,
+  List<T> matchedItems,
+  String query,
+  void Function(T item) selectIt,
+);
+typedef HistoryBuilder<T> = Widget Function(
+  BuildContext ctx,
+  List<T> items,
+  void Function(T item) selectIt,
+);
 typedef Stringifier<T> = String Function(T item);
 typedef QueryProcessor = String Function(String raw);
 typedef ItemPredicate<T> = bool Function(String query, T item);
-typedef ItemBuilder = Widget Function(BuildContext ctx, VoidCallback selectIt, Widget child);
+typedef HighlightedCandidateBuilder<T> = Widget Function(
+  BuildContext ctx,
+  List<T> matchedItems,
+  (String full, TextRange highlighted) Function(T item) highlight,
+  void Function(T item) selectIt,
+);
+typedef HighlightedHistoryBuilder<T> = Widget Function(
+  BuildContext ctx,
+  List<T> items,
+  String Function(T item) stringify,
+  void Function(T item) selectIt,
+);
 
 class ItemSearchDelegate<T> extends SearchDelegate {
-  final ({List<T> history, HistoryBuilder<T> builder})? searchHistory;
+  final ({ValueNotifier<List<T>> history, HistoryBuilder<T> builder})? searchHistory;
   final List<T> candidates;
   final CandidateBuilder<T> candidateBuilder;
   final ItemPredicate<T> predicate;
@@ -37,12 +57,13 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   });
 
   factory ItemSearchDelegate.highlight({
-    required ItemBuilder itemBuilder,
+    required HighlightedCandidateBuilder<T> candidateBuilder,
     required List<T> candidates,
+    required HighlightedHistoryBuilder<T> historyBuilder,
 
     /// Using [String.contains] by default.
     ItemPredicate<String>? predicate,
-    List<T>? searchHistory,
+    ValueNotifier<List<T>>? searchHistory,
     QueryProcessor? queryProcessor,
     required double maxCrossAxisExtent,
     required double childAspectRatio,
@@ -64,9 +85,13 @@ class ItemSearchDelegate<T> extends SearchDelegate {
           ? null
           : (
               history: searchHistory,
-              builder: (ctx, item, selectIt) {
-                final candidate = stringifier?.call(item) ?? item.toString();
-                return itemBuilder(ctx, selectIt, candidate.text());
+              builder: (ctx, items, selectIt) {
+                return historyBuilder(
+                  ctx,
+                  items,
+                  (item) => stringifier?.call(item) ?? item.toString(),
+                  selectIt,
+                );
               }
             ),
       predicate: (query, item) {
@@ -75,14 +100,17 @@ class ItemSearchDelegate<T> extends SearchDelegate {
         if (predicate == null) return candidate.contains(query);
         return predicate(query, candidate);
       },
-      candidateBuilder: (ctx, item, query, selectIt) {
-        final candidate = stringifier?.call(item) ?? item.toString();
-        final highlighted = highlight(
+      candidateBuilder: (ctx, items, query, selectIt) {
+        return candidateBuilder(
           ctx,
-          candidate: candidate,
-          query: query,
+          items,
+          (item) {
+            final candidate = stringifier?.call(item) ?? item.toString();
+            final highlighted = findSelected(full: candidate, selected: query);
+            return (candidate, highlighted);
+          },
+          selectIt,
         );
-        return itemBuilder(ctx, selectIt, highlighted);
       },
     );
   }
@@ -110,11 +138,15 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     final query = getRealQuery();
-    if (T == String && predicate(query, query as T)) {
-      return const SizedBox();
-    }
     if (query.isEmpty && emptyIndicator != null) {
       return const SizedBox();
+    }
+    if (T == String && predicate(query, query as T)) {
+      if (candidates.contains(query)) {
+        return const SizedBox();
+      } else {
+        return LeavingBlank(icon: Icons.search_off_rounded, desc: invalidSearchTip);
+      }
     }
     return LeavingBlank(icon: Icons.search_off_rounded, desc: invalidSearchTip);
   }
@@ -123,40 +155,14 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   void showResults(BuildContext context) {
     super.showResults(context);
     final query = getRealQuery();
-    if (T == String && predicate(query, query as T)) {
-      close(context, query);
-      return;
-    }
     if (query.isEmpty && emptyIndicator != null) {
       close(context, emptyIndicator);
       return;
     }
-  }
-
-  Widget buildSearchHistory(BuildContext ctx, List<T> history, HistoryBuilder<T> builder) {
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: maxCrossAxisExtent, childAspectRatio: childAspectRatio),
-      itemCount: history.length,
-      itemBuilder: (ctx, i) {
-        final item = history[i];
-        return builder(ctx, item, () => close(ctx, item));
-      },
-    );
-  }
-
-  Widget buildCandidateList(BuildContext ctx) {
-    final query = getRealQuery();
-    final matched = candidates.where((candidate) => predicate(query, candidate)).toList();
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: maxCrossAxisExtent, childAspectRatio: childAspectRatio),
-      itemCount: matched.length,
-      itemBuilder: (ctx, i) {
-        final candidate = matched[i];
-        return candidateBuilder(ctx, candidate, query, () => close(ctx, candidate));
-      },
-    );
+    if (T == String && predicate(query, query as T) && candidates.contains(query)) {
+      close(context, query);
+      return;
+    }
   }
 
   @override
@@ -164,28 +170,54 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     final query = getRealQuery();
     final searchHistory = this.searchHistory;
     if (query.isEmpty && searchHistory != null) {
-      return buildSearchHistory(context, searchHistory.history, searchHistory.builder);
+      final (:history, :builder) = searchHistory;
+      return history >> (ctx, value) => builder(context, value, (item) => close(context, item));
     } else {
-      return buildCandidateList(context);
+      final query = getRealQuery();
+      final matched = candidates.where((candidate) => predicate(query, candidate)).toList();
+      return candidateBuilder(context, matched, query, (candidate) => close(context, candidate));
     }
   }
 }
 
-Widget highlight(
-  BuildContext ctx, {
-  required String candidate,
-  required String query,
+TextRange findSelected({
+  required String full,
+  required String selected,
 }) {
-  final parts = candidate.split(query);
-  final texts = <TextSpan>[];
-  final baseStyle = ctx.textTheme.titleSmall;
-  final plainStyle = baseStyle?.copyWith(color: baseStyle.color?.withOpacity(0.5));
-  final highlightedStyle = baseStyle?.copyWith(color: ctx.colorScheme.primary, fontWeight: FontWeight.bold);
-  for (var i = 0; i < parts.length; i++) {
-    texts.add(TextSpan(text: parts[i], style: plainStyle));
-    if (i < parts.length - 1) {
-      texts.add(TextSpan(text: query, style: highlightedStyle));
-    }
+  final start = full.indexOf(selected);
+  if (start < 0) return TextRange.empty;
+  return TextRange(start: start, end: start + selected.length);
+}
+
+class HighlightedText extends StatelessWidget {
+  final String full;
+  final TextRange highlighted;
+  final TextStyle? baseStyle;
+
+  const HighlightedText({
+    super.key,
+    required this.full,
+    this.highlighted = TextRange.empty,
+    this.baseStyle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final baseStyle = this.baseStyle ?? const TextStyle();
+    final plainStyle = baseStyle.copyWith(color: baseStyle.color?.withOpacity(0.5));
+    final highlightedStyle = baseStyle.copyWith(color: context.colorScheme.primary, fontWeight: FontWeight.bold);
+    return RichText(
+      text: TextSpan(
+        children: !highlighted.isValid || !highlighted.isNormalized
+            ? [
+                TextSpan(text: full, style: highlightedStyle),
+              ]
+            : [
+                TextSpan(text: highlighted.textBefore(full), style: plainStyle),
+                TextSpan(text: highlighted.textInside(full), style: highlightedStyle),
+                TextSpan(text: highlighted.textAfter(full), style: plainStyle),
+              ],
+      ),
+    );
   }
-  return RichText(text: TextSpan(children: texts));
 }

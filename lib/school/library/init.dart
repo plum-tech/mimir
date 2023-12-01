@@ -1,49 +1,41 @@
-import 'package:hive/hive.dart';
-import 'dao/book_info.dart';
-import 'dao/book_search.dart';
-import 'dao/holding.dart';
-import 'dao/holding_preview.dart';
-import 'dao/hot_search.dart';
-import 'dao/image_search.dart';
-import 'dao/search_history.dart';
-import 'service/book_info.dart';
-import 'service/book_search.dart';
+import 'package:sit/school/library/service/auth.dart';
+import 'package:sit/school/library/storage/book.dart';
+
+import 'service/details.dart';
+import 'service/book.dart';
+import 'service/borrow.dart';
 import 'service/holding.dart';
 import 'service/holding_preview.dart';
 import 'service/hot_search.dart';
 import 'service/image_search.dart';
-import 'storage/search_history.dart';
+import 'storage/search.dart';
 
 class LibraryInit {
-  /// 图书信息访问
-  static late BookInfoDao bookInfo;
+  static late LibraryAuthService auth;
+  static late BookDetailsService bookDetailsService;
+  static late HoldingInfoService holdingInfo;
+  static late BookSearchService bookSearch;
+  static late BookImageSearchService bookImageSearch;
+  static late HoldingPreviewService holdingPreview;
+  static late HotSearchService hotSearchService;
+  static late LibraryBorrowService borrowService;
 
-  /// 馆藏信息访问
-  static late HoldingInfoDao holdingInfo;
+  static late LibrarySearchStorage searchStorage;
+  static late LibraryBookStorage bookStorage;
 
-  /// 图书
-  static late BookSearchDao bookSearch;
+  static void init() {
+    auth = const LibraryAuthService();
 
-  static late BookImageSearchDao bookImageSearch;
-
-  static late HoldingPreviewDao holdingPreview;
-
-  static late SearchHistoryDao librarySearchHistory;
-
-  static late HotSearchDao hotSearchService;
-
-  /// 初始化图书馆相关的service
-  static void init({
-    required Box searchHistoryBox,
-  }) {
-    // 图书馆初始化
-    bookInfo = const BookInfoService();
-    holdingInfo = const HoldingInfoService();
     bookSearch = const BookSearchService();
+    bookDetailsService = const BookDetailsService();
+    holdingInfo = const HoldingInfoService();
     bookImageSearch = const BookImageSearchService();
     holdingPreview = const HoldingPreviewService();
     hotSearchService = const HotSearchService();
 
-    librarySearchHistory = SearchHistoryStorage(searchHistoryBox);
+    borrowService = const LibraryBorrowService();
+
+    searchStorage = const LibrarySearchStorage();
+    bookStorage = const LibraryBookStorage();
   }
 }

@@ -73,8 +73,8 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
   Widget? buildMostRecentExam(List<ExamEntry> examList) {
     if (examList.isEmpty) return const SizedBox();
     final now = DateTime.now();
-    examList = examList.where((exam) => exam.time.length == 2 && exam.time[0].isAfter(now)).toList();
-    examList.sort((a, b) => a.time[0].compareTo(b.time[0]));
+    examList = examList.where((exam) => exam.time?.start.isAfter(now) ?? false).toList();
+    examList.sort(ExamEntry.comparator);
     final mostRecent = examList.firstOrNull;
     if (mostRecent == null) return null;
     return buildExam(mostRecent);
@@ -82,13 +82,13 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
 
   Widget buildExam(ExamEntry exam) {
     if (!isCupertino) {
-      return ExamCard(exam, enableAddEvent: false);
+      return ExamCard(exam);
     }
     return Builder(builder: (context) {
       return CupertinoContextMenu.builder(
         enableHapticFeedback: true,
         actions: [
-          if (UniversalPlatform.isAndroid && UniversalPlatform.isIOS)
+          if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)
             CupertinoContextMenuAction(
               trailingIcon: CupertinoIcons.calendar_badge_plus,
               child: i18n.addCalendarEvent.text(),
@@ -107,7 +107,7 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
           ),
         ],
         builder: (context, animation) {
-          return ExamCard(exam, enableAddEvent: false).scrolled(physics: const NeverScrollableScrollPhysics());
+          return ExamCard(exam).scrolled(physics: const NeverScrollableScrollPhysics());
         },
       );
     });
@@ -126,4 +126,25 @@ Future<void> shareExamArrange({
     text,
     sharePositionOrigin: context.getSharePositionOrigin(),
   );
+}
+
+class ExamCard extends StatelessWidget {
+  final ExamEntry exam;
+
+  const ExamCard(
+    this.exam, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      [
+        exam.courseName.text(style: context.textTheme.titleMedium),
+        if (exam.isRetake == true) Chip(label: i18n.retake.text(), elevation: 2),
+      ].row(maa: MainAxisAlignment.spaceBetween),
+      const Divider(),
+      ExamEntryDetailsTable(exam),
+    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 15, h: 20).inCard();
+  }
 }

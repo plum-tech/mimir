@@ -8,7 +8,7 @@ part of 'attended.dart';
 
 class Class2ndScoreSummaryAdapter extends TypeAdapter<Class2ndScoreSummary> {
   @override
-  final int typeId = 60;
+  final int typeId = 20;
 
   @override
   Class2ndScoreSummary read(BinaryReader reader) {
@@ -55,7 +55,7 @@ class Class2ndScoreSummaryAdapter extends TypeAdapter<Class2ndScoreSummary> {
 
 class Class2ndScoreItemAdapter extends TypeAdapter<Class2ndScoreItem> {
   @override
-  final int typeId = 62;
+  final int typeId = 22;
 
   @override
   Class2ndScoreItem read(BinaryReader reader) {
@@ -67,7 +67,7 @@ class Class2ndScoreItemAdapter extends TypeAdapter<Class2ndScoreItem> {
       name: fields[0] as String,
       activityId: fields[1] as int,
       category: fields[2] as Class2ndActivityCat,
-      time: fields[3] as DateTime,
+      time: fields[3] as DateTime?,
       points: fields[4] as double,
       honestyPoints: fields[5] as double,
     );
@@ -102,7 +102,7 @@ class Class2ndScoreItemAdapter extends TypeAdapter<Class2ndScoreItem> {
 
 class Class2ndActivityApplicationAdapter extends TypeAdapter<Class2ndActivityApplication> {
   @override
-  final int typeId = 61;
+  final int typeId = 21;
 
   @override
   Class2ndActivityApplication read(BinaryReader reader) {
@@ -111,7 +111,7 @@ class Class2ndActivityApplicationAdapter extends TypeAdapter<Class2ndActivityApp
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Class2ndActivityApplication(
-      applyId: fields[0] as int,
+      applicationId: fields[0] as int,
       activityId: fields[1] as int,
       title: fields[2] as String,
       time: fields[3] as DateTime,
@@ -125,7 +125,7 @@ class Class2ndActivityApplicationAdapter extends TypeAdapter<Class2ndActivityApp
     writer
       ..writeByte(6)
       ..writeByte(0)
-      ..write(obj.applyId)
+      ..write(obj.applicationId)
       ..writeByte(1)
       ..write(obj.activityId)
       ..writeByte(2)
@@ -147,102 +147,49 @@ class Class2ndActivityApplicationAdapter extends TypeAdapter<Class2ndActivityApp
       other is Class2ndActivityApplicationAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class Class2ndAttendedActivityAdapter extends TypeAdapter<Class2ndAttendedActivity> {
+class Class2ndScoreTypeAdapter extends TypeAdapter<Class2ndScoreType> {
   @override
-  final int typeId = 53;
+  final int typeId = 23;
 
   @override
-  Class2ndAttendedActivity read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return Class2ndAttendedActivity(
-      applyId: fields[0] as int,
-      activityId: fields[1] as int,
-      title: fields[2] as String,
-      time: fields[3] as DateTime,
-      category: fields[4] as Class2ndActivityCat,
-      status: fields[5] as String,
-      points: fields[6] as double?,
-      honestyPoints: fields[7] as double?,
-    );
-  }
-
-  @override
-  void write(BinaryWriter writer, Class2ndAttendedActivity obj) {
-    writer
-      ..writeByte(8)
-      ..writeByte(0)
-      ..write(obj.applyId)
-      ..writeByte(1)
-      ..write(obj.activityId)
-      ..writeByte(2)
-      ..write(obj.title)
-      ..writeByte(3)
-      ..write(obj.time)
-      ..writeByte(4)
-      ..write(obj.category)
-      ..writeByte(5)
-      ..write(obj.status)
-      ..writeByte(6)
-      ..write(obj.points)
-      ..writeByte(7)
-      ..write(obj.honestyPoints);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Class2ndAttendedActivityAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
-}
-
-class Class2ndActivityScoreTypeAdapter extends TypeAdapter<Class2ndActivityScoreType> {
-  @override
-  final int typeId = 63;
-
-  @override
-  Class2ndActivityScoreType read(BinaryReader reader) {
+  Class2ndScoreType read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return Class2ndActivityScoreType.thematicReport;
+        return Class2ndScoreType.thematicReport;
       case 1:
-        return Class2ndActivityScoreType.creation;
+        return Class2ndScoreType.creation;
       case 2:
-        return Class2ndActivityScoreType.schoolCulture;
+        return Class2ndScoreType.schoolCulture;
       case 3:
-        return Class2ndActivityScoreType.practice;
+        return Class2ndScoreType.practice;
       case 4:
-        return Class2ndActivityScoreType.voluntary;
+        return Class2ndScoreType.voluntary;
       case 5:
-        return Class2ndActivityScoreType.schoolSafetyCivilization;
+        return Class2ndScoreType.schoolSafetyCivilization;
       default:
-        return Class2ndActivityScoreType.thematicReport;
+        return Class2ndScoreType.thematicReport;
     }
   }
 
   @override
-  void write(BinaryWriter writer, Class2ndActivityScoreType obj) {
+  void write(BinaryWriter writer, Class2ndScoreType obj) {
     switch (obj) {
-      case Class2ndActivityScoreType.thematicReport:
+      case Class2ndScoreType.thematicReport:
         writer.writeByte(0);
         break;
-      case Class2ndActivityScoreType.creation:
+      case Class2ndScoreType.creation:
         writer.writeByte(1);
         break;
-      case Class2ndActivityScoreType.schoolCulture:
+      case Class2ndScoreType.schoolCulture:
         writer.writeByte(2);
         break;
-      case Class2ndActivityScoreType.practice:
+      case Class2ndScoreType.practice:
         writer.writeByte(3);
         break;
-      case Class2ndActivityScoreType.voluntary:
+      case Class2ndScoreType.voluntary:
         writer.writeByte(4);
         break;
-      case Class2ndActivityScoreType.schoolSafetyCivilization:
+      case Class2ndScoreType.schoolSafetyCivilization:
         writer.writeByte(5);
         break;
     }
@@ -254,5 +201,5 @@ class Class2ndActivityScoreTypeAdapter extends TypeAdapter<Class2ndActivityScore
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Class2ndActivityScoreTypeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is Class2ndScoreTypeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
