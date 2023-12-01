@@ -1,8 +1,6 @@
 name: Flutter_iOS
 
 on: workflow_dispatch
-#  push:
-#    branches: [master]
 permissions: write-all
 
 jobs:
@@ -13,7 +11,7 @@ jobs:
     - name: Checkout the code
       uses: actions/checkout@v2
 
-    - name: Change Version info
+    - name: Change version info
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       run: |
@@ -22,12 +20,6 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git add .
         git commit -m "Update build number"
-
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
 
     - name: Change Develop to Distribution
       run: |
@@ -84,3 +76,9 @@ jobs:
         issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
         api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
         api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
