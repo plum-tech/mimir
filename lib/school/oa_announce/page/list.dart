@@ -158,12 +158,13 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
       isFetching = true;
     });
     widget.onLoadingChanged(true);
+    final cat = widget.cat;
     try {
-      final lastPayload = await OaAnnounceInit.service.getAnnounceList(widget.cat, lastPage);
+      final lastPayload = await OaAnnounceInit.service.getAnnounceList(cat, lastPage);
       announcements.addAll(lastPayload.items);
       announcements.distinctBy((a) => a.uuid);
       announcements.sort((a, b) => b.dateTime.compareTo(a.dateTime));
-      await OaAnnounceInit.storage.setAnnouncements(widget.cat, announcements);
+      await OaAnnounceInit.storage.setAnnouncements(cat, announcements);
       if (!mounted) return;
       setState(() {
         lastPage++;
@@ -171,7 +172,7 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
       });
       widget.onLoadingChanged(false);
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
+      debugPrint("$cat $error");
       debugPrintStack(stackTrace: stackTrace);
       if (!mounted) return;
       setState(() {
