@@ -1,32 +1,37 @@
-/// 借书记录
+import 'package:sit/storage/hive/type_id.dart';
+
+part "borrow.g.dart";
+
+@HiveType(typeId: CacheHiveType.libraryBorrowedBook)
 class BorrowedBookItem {
-  /// 图书号
+  @HiveField(0)
   final String bookId;
 
-  /// 条码号
-  final String barcode;
-
-  final String isbn;
-
-  final String author;
-
-  /// 题名
-  final String title;
-
-  /// 索书号
-  final String callNumber;
-
-  /// 馆藏地点
-  final String location;
-
-  /// 图书类型
-  final String type;
-
-  /// 借出日期
+  @HiveField(1)
   final DateTime borrowDate;
 
-  /// 应还日期
+  @HiveField(2)
   final DateTime expireDate;
+
+  @HiveField(3)
+  final String barcode;
+
+  @HiveField(4)
+  final String isbn;
+
+  @HiveField(5)
+  final String callNumber;
+
+  @HiveField(6)
+  final String title;
+
+  @HiveField(7)
+  final String location;
+
+  @HiveField(8)
+  final String author;
+  @HiveField(9)
+  final String type;
 
   const BorrowedBookItem({
     required this.bookId,
@@ -43,48 +48,61 @@ class BorrowedBookItem {
 
   @override
   String toString() {
-    return 'BorrowBookItem{bookId: $bookId, barcode: $barcode, isbn: $isbn, author: $author, title: $title, callNo: $callNumber, location: $location, type: $type, borrowDate: $borrowDate, expireDate: $expireDate}';
+    return {
+      "bookId": bookId,
+      "barcode": barcode,
+      "isbn": isbn,
+      "author": author,
+      "title": title,
+      "callNumber": callNumber,
+      "location": location,
+      "type": type,
+      "borrowDate": borrowDate,
+      "expireDate": expireDate,
+    }.toString();
   }
 }
 
 /// 历史借书记录
-class BorrowedBookHistoryItem {
-  /// 图书号
+@HiveType(typeId: CacheHiveType.libraryBorrowHistory)
+class BookBorrowHistoryItem {
+  @HiveField(0)
   final String bookId;
 
-  /// 操作类型
-  final String operateType;
-
-  /// 条码号
-  final String barcode;
-
-  /// 题名
-  final String title;
-
-  final String isbn;
-
-  /// 索书号
-  final String callNo;
-
-  /// 馆藏地点
-  final String location;
-
-  /// 图书类型
-  final String type;
-
-  /// 著者
-  final String author;
-
-  /// 处理日期
+  @HiveField(1)
   final DateTime processDate;
 
-  const BorrowedBookHistoryItem({
+  @HiveField(2)
+  final String operateType;
+
+  @HiveField(3)
+  final String barcode;
+
+  @HiveField(4)
+  final String title;
+
+  @HiveField(5)
+  final String isbn;
+
+  @HiveField(6)
+  final String callNumber;
+
+  @HiveField(7)
+  final String author;
+
+  @HiveField(8)
+  final String location;
+
+  @HiveField(9)
+  final String type;
+
+  const BookBorrowHistoryItem({
     required this.bookId,
     required this.operateType,
     required this.barcode,
     required this.title,
     required this.isbn,
-    required this.callNo,
+    required this.callNumber,
     required this.location,
     required this.type,
     required this.author,
@@ -93,6 +111,17 @@ class BorrowedBookHistoryItem {
 
   @override
   String toString() {
-    return 'HistoryBorrowBookItem{bookId: $bookId, operateType: $operateType, barcode: $barcode, title: $title, isbn: $isbn, callNo: $callNo, location: $location, type: $type, author: $author, processDate: $processDate}';
+    return {
+      "bookId": bookId,
+      "operateType": operateType,
+      "barcode": barcode,
+      "title": title,
+      "isbn": isbn,
+      "callNo": callNumber,
+      "location": location,
+      "type": type,
+      "author": author,
+      "processDate": processDate,
+    }.toString();
   }
 }

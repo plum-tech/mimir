@@ -22,7 +22,7 @@ class LibraryMyBorrowedPage extends StatefulWidget {
 
 class _LibraryMyBorrowedPageState extends State<LibraryMyBorrowedPage> {
   bool isFetching = false;
-  List<BorrowedBookItem>? borrowed;
+  List<BorrowedBookItem>? borrowed = LibraryInit.borrowStorage.getBorrowedBooks();
 
   @override
   void initState() {
@@ -37,6 +37,7 @@ class _LibraryMyBorrowedPageState extends State<LibraryMyBorrowedPage> {
     });
     try {
       final borrowed = await LibraryInit.borrowService.getMyBorrowBookList();
+      await LibraryInit.borrowStorage.setBorrowedBooks(borrowed);
       if (!mounted) return;
       setState(() {
         this.borrowed = borrowed;
@@ -68,6 +69,12 @@ class _LibraryMyBorrowedPageState extends State<LibraryMyBorrowedPage> {
                 },
               ),
             ],
+            bottom: isFetching
+                ? const PreferredSize(
+                    preferredSize: Size.fromHeight(4),
+                    child: LinearProgressIndicator(),
+                  )
+                : null,
           ),
           if (borrowed != null)
             SliverList.builder(
@@ -134,7 +141,7 @@ class LibraryMyBorrowingHistoryPage extends StatefulWidget {
 
 class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistoryPage> {
   bool isFetching = false;
-  List<BorrowedBookHistoryItem>? history;
+  List<BookBorrowHistoryItem>? history = LibraryInit.borrowStorage.getBorrowHistory();
 
   @override
   void initState() {
@@ -149,6 +156,7 @@ class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistor
     });
     try {
       final history = await LibraryInit.borrowService.getHistoryBorrowBookList();
+      await LibraryInit.borrowStorage.setBorrowHistory(history);
       if (!mounted) return;
       setState(() {
         this.history = history;
@@ -172,6 +180,12 @@ class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistor
         slivers: [
           SliverAppBar(
             title: "Borrowing history".text(),
+            bottom: isFetching
+                ? const PreferredSize(
+                    preferredSize: Size.fromHeight(4),
+                    child: LinearProgressIndicator(),
+                  )
+                : null,
           ),
           if (history != null)
             SliverList.builder(
@@ -187,7 +201,7 @@ class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistor
 }
 
 class BorrowedBookHistoryCard extends StatelessWidget {
-  final BorrowedBookHistoryItem book;
+  final BookBorrowHistoryItem book;
 
   const BorrowedBookHistoryCard(
     this.book, {

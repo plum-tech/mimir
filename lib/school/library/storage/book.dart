@@ -18,9 +18,9 @@ class LibraryBookStorage {
 
   Book? getBook(String bookId) => box.get(_K.info(bookId));
 
-  Future<void> setBook(String bookId, Book? book) => box.put(_K.info(bookId), book);
+  Future<void> setBook(String bookId, Book? value) => box.put(_K.info(bookId), value);
 
   BookDetails? getBookDetails(String bookId) => box.get(_K.details(bookId));
 
-  Future<void> setBookDetails(String bookId, BookDetails? book) => box.put(_K.details(bookId), book);
+  Future<void> setBookDetails(String bookId, BookDetails? value) => box.put(_K.details(bookId), value);
 }

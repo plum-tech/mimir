@@ -6,6 +6,7 @@ import 'package:sit/entity/campus.dart';
 import 'package:sit/life/electricity/entity/balance.dart';
 import 'package:sit/life/expense_records/entity/local.dart';
 import 'package:sit/school/library/entity/book.dart';
+import 'package:sit/school/library/entity/borrow.dart';
 import 'package:sit/school/ywb/entity/service.dart';
 import 'package:sit/school/ywb/entity/application.dart';
 import 'package:sit/school/exam_result/entity/result.dart';
@@ -80,5 +81,7 @@ class HiveAdapter {
     // Library
     hive.addAdapter(BookAdapter());
     hive.addAdapter(BookDetailsAdapter());
+    hive.addAdapter(BorrowedBookItemAdapter());
+    hive.addAdapter(BookBorrowHistoryItemAdapter());
   }
 }

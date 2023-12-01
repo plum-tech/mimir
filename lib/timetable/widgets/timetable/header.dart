@@ -3,7 +3,8 @@ import 'package:sit/l10n/time.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:rettulf/rettulf.dart';
 
-BorderSide getTimetableBorderSide(BuildContext ctx) => BorderSide(color: ctx.colorScheme.primary.withOpacity(0.4), width: 0.8);
+BorderSide getTimetableBorderSide(BuildContext ctx) =>
+    BorderSide(color: ctx.colorScheme.primary.withOpacity(0.4), width: 0.8);
 
 class TimetableHeader extends StatelessWidget {
   final int weekIndex;

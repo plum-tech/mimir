@@ -1,5 +1,6 @@
 import 'package:sit/school/library/service/auth.dart';
 import 'package:sit/school/library/storage/book.dart';
+import 'package:sit/school/library/storage/borrow.dart';
 
 import 'service/details.dart';
 import 'service/book.dart';
@@ -8,6 +9,7 @@ import 'service/holding.dart';
 import 'service/holding_preview.dart';
 import 'service/hot_search.dart';
 import 'service/image_search.dart';
+import 'storage/browse.dart';
 import 'storage/search.dart';
 
 class LibraryInit {
@@ -22,6 +24,8 @@ class LibraryInit {
 
   static late LibrarySearchStorage searchStorage;
   static late LibraryBookStorage bookStorage;
+  static late LibraryBorrowStorage borrowStorage;
+  static late LibraryBrowseStorage browseStorage;
 
   static void init() {
     auth = const LibraryAuthService();
@@ -37,5 +41,7 @@ class LibraryInit {
 
     searchStorage = const LibrarySearchStorage();
     bookStorage = const LibraryBookStorage();
+    borrowStorage = const LibraryBorrowStorage();
+    browseStorage = const LibraryBrowseStorage();
   }
 }
