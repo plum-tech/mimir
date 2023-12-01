@@ -47,14 +47,8 @@ android {
     main.java.srcDirs += 'src/main/kotlin'
   }
 
-//  defaultConfig {
-//    ndk {
-//      // 设置支持的 so 库架构 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
-//      abiFilters 'arm64-v8a', 'x86'
-//    }
-//  }
   defaultConfig {
-    applicationId "life.mysit.SITLife"
+    applicationId "life.mysit.sit_life"
     minSdkVersion 21
     targetSdkVersion 33
     versionCode flutterVersionCode.toInteger()
@@ -82,7 +76,7 @@ android {
       }
     }
   }
-    namespace 'life.mysit.SITLife'
+    namespace 'life.mysit.sit_life'
 }
 
 flutter {
