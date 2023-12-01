@@ -12,6 +12,12 @@ import 'search_result.dart';
 class LibrarySearchDelegate extends SearchDelegate<String> {
   final $searchMethod = ValueNotifier(SearchMethod.any);
 
+  @override
+  void dispose() {
+    $searchMethod.dispose();
+    super.dispose();
+  }
+
   void searchByGiving(
     BuildContext context, {
     required String keyword,
@@ -30,14 +36,13 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
 
   @override
   List<Widget>? buildActions(BuildContext context) {
-    // 右侧的action区域，这里放置一个清除按钮
     return [
       IconButton(
+        icon: const Icon(Icons.clear),
         onPressed: () {
           query = '';
           showSuggestions(context);
         },
-        icon: const Icon(Icons.clear),
       ),
     ];
   }
@@ -63,9 +68,13 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
   @override
   void showResults(BuildContext context) {
     super.showResults(context);
-    LibraryInit.searchStorage.addSearchHistory(SearchHistoryItem(
-      keyword: query,
-      searchMethod: $searchMethod.value,
+    addHistory(query, $searchMethod.value);
+  }
+
+  Future<void> addHistory(String keyword, SearchMethod searchMethod) async {
+    await LibraryInit.searchStorage.addSearchHistory(SearchHistoryItem(
+      keyword: keyword,
+      searchMethod: searchMethod,
       time: DateTime.now(),
     ));
   }
