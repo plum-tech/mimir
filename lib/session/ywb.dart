@@ -20,9 +20,6 @@ class YwbCredentialsException implements Exception {
   }
 }
 
-/// 应网办登录地址, POST 请求
-const String _officeLoginUrl = "https://xgfy.sit.edu.cn/unifri-flow/login";
-
 class YwbSession {
   bool isLogin = false;
   String? username;
@@ -37,17 +34,25 @@ class YwbSession {
     required String username,
     required String password,
   }) async {
-    final Map<String, String> credential = {'account': username, 'userPassword': password, 'remember': 'true'};
-
-    final response =
-        await dio.post(_officeLoginUrl, data: credential, options: Options(contentType: Headers.jsonContentType));
-    final int code = (response.data as Map)['code'];
+    final response = await dio.post(
+      "https://xgfy.sit.edu.cn/unifri-flow/login",
+      data: {
+        'account': username,
+        'userPassword': password,
+        'remember': 'true',
+      },
+      options: Options(
+        contentType: Headers.jsonContentType,
+      ),
+    );
+    final resData = response.data as Map;
+    final int code = resData['code'];
 
     if (code != 0) {
-      final String errMessage = (response.data as Map)['msg'];
+      final String errMessage = resData['msg'];
       throw YwbCredentialsException(message: '($code) $errMessage');
     }
-    jwtToken = ((response.data as Map)['data'])['authorization'];
+    jwtToken = resData['data']['authorization'];
     this.username = username;
     isLogin = true;
   }
