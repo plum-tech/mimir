@@ -16,10 +16,12 @@ class BookImageSearchService {
 
   const BookImageSearchService();
 
+  /// The result isbn doesn't have hyphen `-`
   Future<Map<String, BookImage>> searchByIsbnList(List<String> isbnList) async {
     return await searchByIsbnStr(isbnList.join(','));
   }
 
+  /// The result isbn doesn't have hyphen `-`
   Future<Map<String, BookImage>> searchByIsbnStr(String isbnStr) async {
     var response = await dio.request(
       LibraryConst.bookImageInfoUrl,
@@ -34,15 +36,14 @@ class BookImageSearchService {
         method: "GET",
       ),
     );
-    var responseStr = (response.data as String).trim();
-    responseStr = responseStr.substring(1, responseStr.length - 1);
-    // debugPrint(responseStr);
-    var result = <String, BookImage>{};
-    (jsonDecode(responseStr)['result'] as List<dynamic>).map((e) => BookImage.fromJson(e)).forEach(
-      (e) {
-        result[e.isbn] = e;
-      },
-    );
+    var resStr = (response.data as String).trim();
+    resStr = resStr.substring(1, resStr.length - 1);
+    final result = <String, BookImage>{};
+    final resultRaw = jsonDecode(resStr)['result'] as List<dynamic>;
+    final images = resultRaw.map((e) => BookImage.fromJson(e));
+    for (final image in images) {
+      result[image.isbn] = image;
+    }
     return result;
   }
 }

@@ -55,4 +55,5 @@ class CacheHiveType {
   static const libraryBookDetails = 81;
   static const libraryBorrowedBook = 82;
   static const libraryBorrowHistory = 83;
+  static const libraryBookImage = 84;
 }

@@ -21,5 +21,5 @@ class LibraryBorrowStorage {
   List<BookBorrowHistoryItem>? getBorrowHistory() =>
       (box.get(_K.borrowHistory) as List<dynamic>?)?.cast<BookBorrowHistoryItem>();
 
-  Future<void> setBorrowHistory( List<BookBorrowHistoryItem>? value) => box.put(_K.borrowHistory, value);
+  Future<void> setBorrowHistory(List<BookBorrowHistoryItem>? value) => box.put(_K.borrowHistory, value);
 }

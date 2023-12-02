@@ -103,7 +103,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
         totalPage = searchResult.totalPages;
 
         debugPrint(searchResult.toString());
-        final nextPage = await libraryComposableQuery(
+        final nextPage = await libraryAggregatedQuery(
           searchResult.books,
         );
         if (!mounted) return;

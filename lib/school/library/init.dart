@@ -10,6 +10,7 @@ import 'service/holding_preview.dart';
 import 'service/hot_search.dart';
 import 'service/image_search.dart';
 import 'storage/browse.dart';
+import 'storage/image.dart';
 import 'storage/search.dart';
 
 class LibraryInit {
@@ -25,6 +26,8 @@ class LibraryInit {
   static late LibrarySearchStorage searchStorage;
   static late LibraryBookStorage bookStorage;
   static late LibraryBorrowStorage borrowStorage;
+  static late LibraryImageStorage imageStorage;
+
   static late LibraryBrowseStorage browseStorage;
 
   static void init() {
@@ -42,6 +45,8 @@ class LibraryInit {
     searchStorage = const LibrarySearchStorage();
     bookStorage = const LibraryBookStorage();
     borrowStorage = const LibraryBorrowStorage();
+    imageStorage = const LibraryImageStorage();
+
     browseStorage = const LibraryBrowseStorage();
   }
 }

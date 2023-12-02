@@ -222,7 +222,7 @@ class BookBorrowHistoryCard extends StatelessWidget {
         trailing: book.operateType.text(),
         onTap: () async {
           await context.show$Sheet$(
-                (ctx) => BookDetailsPage(
+            (ctx) => BookDetailsPage(
               book: BookModel.fromBorrowHistory(book),
             ),
           );

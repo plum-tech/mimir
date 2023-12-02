@@ -369,10 +369,10 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
     );
   }
 
-  String buildTooltipMessage(){
+  String buildTooltipMessage() {
     final lessons = widget.lesson.course.calcBeginEndTimePointForEachLesson();
     final lessonTimeTip =
-    lessons.map((time) => "${time.begin.toStringPrefixed0()}–${time.end.toStringPrefixed0()}").join("\n");
+        lessons.map((time) => "${time.begin.toStringPrefixed0()}–${time.end.toStringPrefixed0()}").join("\n");
     final course = widget.lesson.course;
     var tooltip = "${i18n.details.courseCode} ${course.courseCode}";
     if (course.classCode.isNotEmpty) {
