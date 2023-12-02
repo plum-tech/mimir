@@ -115,20 +115,20 @@ jobs:
       run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
     
     # Debug only
-    - name: Publish iOS Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: SITLife-iOS-release
-        path: build-output/ios
+    # - name: Publish iOS Artifact
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: SITLife-iOS-release
+    #     path: build-output/ios
     
     # Release
-    # - name: Deploy to App Store (Testflight)
-    #   uses: apple-actions/upload-testflight-build@v1
-    #   with:
-    #     app-path: ${{ github.workspace }}/build-output/ios/life.mysit.SITLife.ipa
-    #     issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-    #     api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-    #     api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
+    - name: Deploy to App Store (Testflight)
+      uses: apple-actions/upload-testflight-build@v1
+      with:
+        app-path: ${{ github.workspace }}/build-output/ios/life.mysit.SITLife.ipa
+        issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+        api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+        api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
 
   after_build:
     runs-on: ubuntu-latest
