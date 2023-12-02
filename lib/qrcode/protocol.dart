@@ -4,7 +4,7 @@ import 'package:sit/settings/page/proxy.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/page/p13n.dart';
 
-/// convert any data to a URI with [R.baseScheme].
+/// convert any data to a URI with [R.scheme].
 sealed class DeepLinkHandlerProtocol {
   const DeepLinkHandlerProtocol();
 
@@ -26,7 +26,7 @@ class HttpProxyDeepLink extends DeepLinkHandlerProtocol {
 
   const HttpProxyDeepLink();
 
-  Uri encode(Uri httpProxy) => Uri(scheme: R.baseScheme, path: path, query: httpProxy.toString());
+  Uri encode(Uri httpProxy) => Uri(scheme: R.scheme, path: path, query: httpProxy.toString());
 
   Uri decode(Uri qrCodeData) => Uri.parse(qrCodeData.query);
 
@@ -53,7 +53,7 @@ class TimetablePaletteDeepLink implements DeepLinkHandlerProtocol {
 
   const TimetablePaletteDeepLink();
 
-  Uri encode(TimetablePalette palette) => Uri(scheme: R.baseScheme, path: path, query: palette.encodeBase64());
+  Uri encode(TimetablePalette palette) => Uri(scheme: R.scheme, path: path, query: palette.encodeBase64());
 
   TimetablePalette decode(Uri qrCodeData) => TimetablePalette.decodeFromBase64(qrCodeData.query);
 

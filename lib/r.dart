@@ -8,7 +8,7 @@ import 'package:version/version.dart';
 class R {
   const R._();
 
-  static const baseScheme = "sitlife";
+  static const scheme = "life.mysit";
   static const hiveStorageVersion = "1.0.0+13";
   static const appId = "life.mysit.SITLife";
   static const appName = "SIT Life";

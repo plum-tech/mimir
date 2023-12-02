@@ -23,6 +23,22 @@
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
+      <intent-filter android:label="App Links">
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <!-- Accepts URIs that begin with "http://mysit.life/app” -->
+        <data android:scheme="http"
+              android:host="mysit.life"
+              android:pathPrefix="/app"/>
+      </intent-filter>
+      <intent-filter android:label="Deep Links">
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <!-- Accepts URIs that begin with "life.mysit://” -->
+        <data android:scheme="life.mysit"/>
+      </intent-filter>
     </activity>
     <!-- Don't delete the meta-data below.
          This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
