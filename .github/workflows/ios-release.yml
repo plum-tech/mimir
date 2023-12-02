@@ -1,7 +1,10 @@
-name: Flutter_iOS
+name: Flutter_build
 
 on: workflow_dispatch
 permissions: write-all
+
+env:
+  flutter_version: '3.16.1'
 
 jobs:
   build_ios:
@@ -9,17 +12,15 @@ jobs:
 
     steps:
     - name: Checkout the code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Change version info
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       run: |
-        python3 ./ios-build-tools/addBuildNumber.py
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
-        git add .
-        git commit -m "Update build number"
+        python3 ./ios-build-tools/addBuildNumber.py
 
     - name: Change Develop to Distribution
       run: |
@@ -43,14 +44,16 @@ jobs:
         cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
     - name: Install and set Flutter version
-      uses: subosito/flutter-action@v2.11.0
+      uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.16.2'
+        flutter-version: ${{ env.flutter_version }}
+        channel: stable
+        cache: true
 
     - name: Restore packages
       run: flutter pub get
 
-    - name: Build Flutter
+    - name: Build iOS
       run: flutter build ios --release --no-codesign
 
     - name: Build resolve Swift dependencies
@@ -58,27 +61,44 @@ jobs:
 
     - name: Build xArchive
       run: |
-        xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release DEVELOPMENT_TEAM="M5APZD5CKA" -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE="6145142a-0edd-4eac-a77e-fff7d043e943" clean archive CODE_SIGN_IDENTITY="iPhone Distribution: ziqi wei"
+        xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release DEVELOPMENT_TEAM="M5APZD5CKA" -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE="f69b0889-cf87-4194-a4f4-6e93e8d8c700" clean archive CODE_SIGN_IDENTITY="Apple Distribution: ziqi wei"
 
     - name: Export ipa
       run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
-
-#    - name: Publish iOS Artifacts
-#      uses: actions/upload-artifact@v1
-#      with:
-#        name: release-ios
-#        path: build-output/ios
-
-    - name: Deploy to App Store (Testflight)
-      uses: apple-actions/upload-testflight-build@v1
+    
+    # Debug only
+    - name: Publish iOS Artifact
+      uses: actions/upload-artifact@v3
       with:
-        app-path: ${{ github.workspace }}/build-output/ios/life.mysit.SITLife.ipa
-        issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-        api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-        api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
+        name: SITLife-iOS-release
+        path: build-output/ios
+    
+    # Release
+    # - name: Deploy to App Store (Testflight)
+    #   uses: apple-actions/upload-testflight-build@v1
+    #   with:
+    #     app-path: ${{ github.workspace }}/build-output/ios/life.mysit.SITLife.ipa
+    #     issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+    #     api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+    #     api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
 
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
+  after_build:
+    runs-on: ubuntu-latest
+    needs: build_ios
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: Change version info
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          python3 ./ios-build-tools/addBuildNumber.py ${{ github.server_url }} ${{ github.repository }} ${{ github.run_id }} ${{ github.run_attempt }}
+      
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
