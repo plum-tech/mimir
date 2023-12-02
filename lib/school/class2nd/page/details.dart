@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/design/widgets/tags.dart';
 import 'package:sit/l10n/extension.dart';
@@ -311,7 +312,12 @@ class _ActivityDetailsDocumentTabViewState extends State<ActivityDetailsDocument
       child: CustomScrollView(
         slivers: [
           if (description == null)
-            SliverToBoxAdapter(child: i18n.noDetails.text(style: context.textTheme.titleLarge))
+            SliverToBoxAdapter(
+              child: LeavingBlank(
+                icon: Icons.inbox_outlined,
+                desc: i18n.noDetails,
+              ),
+            )
           else
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
