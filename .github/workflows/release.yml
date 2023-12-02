@@ -16,8 +16,6 @@ jobs:
       
       - name: Change version info
         run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
           python3 ./ios-build-tools/addBuildNumber.py
 
       - name: Install and set Flutter version
@@ -28,10 +26,12 @@ jobs:
           cache: true
 
       - name: Restore packages
-        run: flutter pub get
+        run: |
+          flutter pub get
 
       - name: Build APK
-        run: flutter build apk
+        run: |
+          flutter build apk
 
       - name: Sign APK
         uses: r0adkll/sign-android-release@v1
@@ -62,8 +62,6 @@ jobs:
 
     - name: Change version info
       run: |
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
         python3 ./ios-build-tools/addBuildNumber.py
 
     - name: Change Develop to Distribution
@@ -95,20 +93,24 @@ jobs:
         cache: true
 
     - name: Restore packages
-      run: flutter pub get
+      run: |
+        flutter pub get
 
     - name: Build iOS
-      run: flutter build ios --release --no-codesign
+      run: |
+        flutter build ios --release --no-codesign
 
     - name: Build resolve Swift dependencies
-      run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release
+      run: |
+        xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release
 
     - name: Build xArchive
       run: |
         xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release DEVELOPMENT_TEAM="M5APZD5CKA" -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE="f69b0889-cf87-4194-a4f4-6e93e8d8c700" clean archive CODE_SIGN_IDENTITY="Apple Distribution: ziqi wei"
 
     - name: Export ipa
-      run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
+      run: |
+        xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
     
     # Debug only
     # - name: Publish iOS Artifact

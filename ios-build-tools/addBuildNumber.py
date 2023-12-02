@@ -25,13 +25,13 @@ filedata = filedata.replace(f'version: ' + oldVersion, 'version: ' + newVersion)
 with open('pubspec.yaml', 'w') as file:
     file.write(filedata)
 
-cmd = f'git add .'
-subprocess.run(cmd, shell=True)
-cmd = f'git commit -m "build: {newVersion}"'
-subprocess.run(cmd, shell=True)
-
 # 接收参数，如果传值参数无输入，则跳过
 if len(sys.argv) != 1:
+    cmd = f'git add .'
+    subprocess.run(cmd, shell=True)
+    cmd = f'git commit -m "build: {newVersion}"'
+    subprocess.run(cmd, shell=True)
+
     # {{ github.server_url }}
     server_url = sys.argv[1]
     # {{ github.repository }}
