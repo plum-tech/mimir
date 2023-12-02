@@ -32,5 +32,16 @@
 	<string>NSApplication</string>
 	<key>UILaunchStoryboardName</key>
 	<string></string>
+	<key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLName</key>
+      <string>SIT Life URL</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>life.mysit</string>
+      </array>
+    </dict>
+  </array>
 </dict>
 </plist>
