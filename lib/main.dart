@@ -84,7 +84,8 @@ void main() async {
     Settings.isDeveloperMode = true;
   }
   // The last time when user launch this app
-  Meta.lastStartupTime = DateTime.now();
+  Meta.lastLaunchTime = Meta.thisLaunchTime;
+  Meta.thisLaunchTime = DateTime.now();
   await migrations.perform(MigrationPhrase.afterHive);
   Init.registerCustomEditor();
   HttpOverrides.global = SitHttpOverrides();
