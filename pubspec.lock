@@ -33,6 +33,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.8"
+  app_links:
+    dependency: "direct main"
+    description:
+      name: app_links
+      sha256: eb83c2b15b78a66db04e95132678e910fcdb8dc3a9b0aed0c138f50b2bef0dae
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.4.5"
   app_settings:
     dependency: "direct main"
     description:

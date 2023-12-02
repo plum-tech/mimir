@@ -48,14 +48,6 @@ dependencies:
   # UUID generator
   uuid: ^4.2.1
 
-  # File format
-  # iCalendar file generator
-  ical: ^0.2.2
-  add_2_calendar: ^3.0.1
-
-  # Screenshot
-  screenshot: ^2.1.0
-
   # HTML parser
   beautiful_soup_dart: ^0.3.0
   html: ^0.15.4
@@ -76,24 +68,32 @@ dependencies:
   enough_mail: ^2.1.5
   enough_mail_html: ^2.0.1
 
-  # Settings
-  app_settings: ^5.1.1
-
   # Platform
   # Android / iOS / Windows Permission
   permission_handler: ^11.1.0
   # Android / iOS Home screen quick actions
   quick_actions: ^1.0.6
-
+  # Deep links on Android and custom scheme links on iOS
+  app_links: ^3.4.5
   # Open with other APP/programs
-  # Open files
   open_file: ^3.3.2
-  # Open URLs
   url_launcher: ^6.2.1
   # Open Android / iOS system image picker
   image_picker: ^1.0.4
   file_picker: ^6.0.0
   share_plus: ^7.2.1
+  app_settings: ^5.1.1
+  # Desktop support
+  window_manager: ^0.3.7
+  # Get package info (version)
+  package_info_plus: ^5.0.1
+  # Check VPN connection status
+  check_vpn_connection: ^0.0.2
+  connectivity_plus: ^5.0.2
+  vibration: ^1.8.4
+  # qrcode scanner
+  mobile_scanner: ^3.5.5
+  add_2_calendar: ^3.0.1
 
   # UI
   go_router: ^12.1.1
@@ -106,8 +106,6 @@ dependencies:
   # Qr code generate
   qr_flutter: ^4.1.0
   pretty_qr_code: ^3.0.0
-  # qrcode scanner
-  mobile_scanner: ^3.5.5
   cached_network_image: ^3.3.0
   modal_bottom_sheet: ^3.0.0-pre
   auto_size_text: ^3.0.0
@@ -126,26 +124,21 @@ dependencies:
   system_theme: ^2.3.1 # read system theme color
   cupertino_onboarding: ^1.2.0
   flutter_swipe_detector: ^2.0.0
+  # iCalendar file generator
+  ical: ^0.2.2
 
   # Utils
-  # Get package info (version)
-  package_info_plus: ^5.0.1
   # dart.io.Platform API for Web
   universal_platform: ^1.0.0+1
-  # Check VPN connection status
-  check_vpn_connection: ^0.0.2
-  connectivity_plus: ^5.0.2
   rettulf: ^2.0.1
   # lock
   synchronized: ^3.1.0
   # parse stacktrace
   stack_trace: ^1.11.0
   email_validator: ^2.1.17
-  vibration: ^1.8.4
   sanitize_filename: ^1.0.5
-
-  # Desktop support
-  window_manager: ^0.3.7
+  # Take screenshot of flutter widgets
+  screenshot: ^2.1.0
 
 dependency_overrides:
   intl: ^0.18.0
