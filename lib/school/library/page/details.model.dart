@@ -54,4 +54,14 @@ class BookModel {
       callNumber: book.callNumber,
     );
   }
+
+  factory BookModel.fromBorrowHistory(BookBorrowHistoryItem book) {
+    return BookModel(
+      bookId: book.bookId,
+      isbn: book.isbn,
+      title: book.title,
+      author: book.author,
+      callNumber: book.callNumber,
+    );
+  }
 }

@@ -106,8 +106,7 @@ class BorrowedBookCard extends StatelessWidget {
         subtitle: [
           book.author.text(),
           "${i18n.info.barcode} ${book.barcode}".text(),
-          // "${i18n.info.callNumber} ${book.callNumber}".text(),
-          // "${i18n.info.isbn} ${book.isbn}".text(),
+          "${i18n.info.isbn} ${book.isbn}".text(),
           "${context.formatYmdText(book.borrowDate)}–${context.formatYmdText(book.expireDate)}".text(),
         ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
         onTap: () async {
@@ -191,7 +190,7 @@ class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistor
             SliverList.builder(
               itemCount: history.length,
               itemBuilder: (ctx, i) {
-                return BorrowedBookHistoryCard(history[i]);
+                return BookBorrowHistoryCard(history[i]);
               },
             ),
         ],
@@ -200,10 +199,10 @@ class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistor
   }
 }
 
-class BorrowedBookHistoryCard extends StatelessWidget {
+class BookBorrowHistoryCard extends StatelessWidget {
   final BookBorrowHistoryItem book;
 
-  const BorrowedBookHistoryCard(
+  const BookBorrowHistoryCard(
     this.book, {
     super.key,
   });
@@ -215,10 +214,19 @@ class BorrowedBookHistoryCard extends StatelessWidget {
         isThreeLine: true,
         title: book.title.text(),
         subtitle: [
-          book.bookId.text(),
-          book.isbn.text(),
+          book.author.text(),
+          "${i18n.info.barcode} ${book.barcode}".text(),
+          "${i18n.info.isbn} ${book.isbn}".text(),
+          context.formatYmdText(book.processDate).text(),
         ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
         trailing: book.operateType.text(),
+        onTap: () async {
+          await context.show$Sheet$(
+                (ctx) => BookDetailsPage(
+              book: BookModel.fromBorrowHistory(book),
+            ),
+          );
+        },
       ),
     );
   }
