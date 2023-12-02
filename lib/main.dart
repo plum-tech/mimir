@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sit/files.dart';
 import 'package:sit/migration/foundation.dart';
 import 'package:sit/network/proxy.dart';
+import 'package:sit/platform/windows.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/init.dart';
 import 'package:sit/migration/migrations.dart';
@@ -37,6 +38,7 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   final lastSize = prefs.getLastWindowSize();
   await DesktopInit.init(size: lastSize);
+  await WindowsInit.registerCustomScheme(R.scheme);
   if (prefs.getInstallTime() == null) {
     await prefs.setInstallTime(DateTime.now());
   }

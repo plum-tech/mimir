@@ -85,6 +85,7 @@ dependencies:
   app_settings: ^5.1.1
   # Desktop support
   window_manager: ^0.3.7
+  win32_registry: ^1.1.2
   # Get package info (version)
   package_info_plus: ^5.0.1
   # Check VPN connection status

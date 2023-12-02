@@ -27,7 +27,6 @@ import 'dart:async';
 
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
-import 'package:event_bus/event_bus.dart';
 import 'package:sit/storage/hive/cookie.dart';
 import 'package:sit/network/dio.dart';
 import 'package:sit/route.dart';
@@ -37,8 +36,6 @@ import '../widgets/captcha_box.dart';
 
 class Init {
   const Init._();
-
-  static final eventBus = EventBus();
 
   static late CookieJar cookieJar;
   static late Dio dio;

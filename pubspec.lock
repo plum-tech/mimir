@@ -2067,7 +2067,7 @@ packages:
     source: hosted
     version: "5.1.1"
   win32_registry:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: win32_registry
       sha256: "41fd8a189940d8696b1b810efb9abcf60827b6cbfab90b0c43e8439e3a39d85a"
