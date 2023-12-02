@@ -7,6 +7,54 @@ env:
   flutter_version: '3.16.1'
 
 jobs:
+  build_android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+      
+      - name: Change version info
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          python3 ./ios-build-tools/addBuildNumber.py
+
+      - name: Install and set Flutter version
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.flutter_version }}
+          channel: stable
+          cache: true
+
+      - name: Restore packages
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk
+
+      - name: Sign APK
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: build/app/outputs/flutter-apk
+          signingKeyBase64: ${{ secrets.APK_SIGN_JKS_BASE64 }}
+          alias: ${{ secrets.APK_SIGN_ALIAS }}
+          keyStorePassword: ${{ secrets.APK_SIGN_PASS }}
+          keyPassword: ${{ secrets.APK_SIGN_ALIAS_PASS }}
+
+      - name: Rename APK file
+        run: |
+          cd build/app/outputs/flutter-apk/
+          mv app-release-signed.apk SITLife-release-signed.apk
+
+      - name: Publish Android Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: SITLife-Android-release
+          path: build/app/outputs/flutter-apk/SITLife-release-signed.apk
+
   build_ios:
     runs-on: macos-latest
 
@@ -84,7 +132,7 @@ jobs:
 
   after_build:
     runs-on: ubuntu-latest
-    needs: build_ios
+    needs: [build_android, build_ios]
     steps:
       - name: Checkout the code
         uses: actions/checkout@v3
