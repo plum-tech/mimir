@@ -10,7 +10,7 @@ issue_tracker: https://github.com/liplum/mimir/issues
 documentation: https://github.com/liplum/mimir#readme
 
 publish_to: none
-environment: { sdk: '>=3.0.0 <4.0.0', flutter: ^3.16.1 }
+environment: { sdk: '>=3.0.0 <4.0.0', flutter: ^3.16.2 }
 
 dependencies:
   flutter: { sdk: flutter }
@@ -67,7 +67,7 @@ dependencies:
   # WebView and browser related
   webview_flutter: ^4.4.2
   fk_user_agent: ^2.1.0
-  flutter_widget_from_html: ^0.14.8
+  flutter_widget_from_html: ^0.14.9
   chewie: ^1.7.4
   cookie_jar: ^4.0.8
   flutter_html: ^3.0.0-beta.2
