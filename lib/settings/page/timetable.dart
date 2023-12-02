@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/timetable/page/background.dart';
-import 'package:sit/timetable/page/cell_style.dart';
 import '../i18n.dart';
 
 class TimetableSettingsPage extends StatefulWidget {
@@ -81,7 +78,7 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
       subtitle: i18n.timetable.cellStyleDesc.text(),
       trailing: const Icon(Icons.open_in_new),
       onTap: () async {
-        await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
+        await context.push("/timetable/cell-style");
       },
     );
   }
@@ -93,7 +90,7 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
       subtitle: i18n.timetable.backgroundDesc.text(),
       trailing: const Icon(Icons.open_in_new),
       onTap: () async {
-        await context.show$Sheet$((ctx) => const TimetableBackgroundEditor());
+        await context.push("/timetable/background");
       },
     );
   }

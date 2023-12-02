@@ -195,6 +195,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget buildThemeColorPicker() {
+    // TODO: Better UI
     final selected = Settings.theme.themeColor ?? SystemTheme.accentColor.maybeAccent ?? context.colorScheme.primary;
     final usingSystemDefault = supportsSystemAccentColor && Settings.theme.themeColor == null;
 

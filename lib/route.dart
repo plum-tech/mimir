@@ -24,6 +24,8 @@ import 'package:sit/life/index.dart';
 import 'package:sit/login/page/index.dart';
 import 'package:sit/me/edu_email/page/inbox.dart';
 import 'package:sit/me/network_tool/page/index.dart';
+import 'package:sit/timetable/page/background.dart';
+import 'package:sit/timetable/page/cell_style.dart';
 import 'package:sit/widgets/not_found.dart';
 import 'package:sit/school/oa_announce/entity/announce.dart';
 import 'package:sit/school/oa_announce/page/details.dart';
@@ -98,14 +100,25 @@ final _timetableRoute = GoRoute(
     ),
     GoRoute(
       path: "p13n",
-      builder: (ctx, state) {
-        final query = state.uri.query;
-        return switch (query) {
-          "custom" => const TimetableP13nPage(tab: TimetableP13nTab.custom),
-          "builtin" => const TimetableP13nPage(tab: TimetableP13nTab.builtin),
-          _ => const TimetableP13nPage(),
-        };
-      },
+      builder: (ctx, state) => const TimetableP13nPage(),
+      routes: [
+        GoRoute(
+          path: "custom",
+          builder: (ctx, state) => const TimetableP13nPage(tab: TimetableP13nTab.custom),
+        ),
+        GoRoute(
+          path: "builtin",
+          builder: (ctx, state) => const TimetableP13nPage(tab: TimetableP13nTab.builtin),
+        ),
+      ],
+    ),
+    GoRoute(
+      path: "cell-style",
+      builder: (ctx, state) => const TimetableCellStyleEditor(),
+    ),
+    GoRoute(
+      path: "background",
+      builder: (ctx, state) => const TimetableBackgroundEditor(),
     ),
   ],
 );
