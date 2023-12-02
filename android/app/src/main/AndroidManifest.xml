@@ -27,10 +27,9 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <!-- Accepts URIs that begin with "http://mysit.life/app” -->
-        <data android:scheme="http"
-              android:host="mysit.life"
-              android:pathPrefix="/app"/>
+        <!-- Accepts URIs that begin with "https://mysit.life” -->
+        <data android:scheme="https"
+              android:host="mysit.life"/>
       </intent-filter>
       <intent-filter android:label="Deep Links">
         <action android:name="android.intent.action.VIEW"/>
