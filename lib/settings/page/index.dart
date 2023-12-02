@@ -144,33 +144,26 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget buildThemeMode() {
-    return ListTile(
-      leading: switch (Settings.theme.themeMode) {
-        ThemeMode.dark => const Icon(Icons.dark_mode),
-        ThemeMode.light => const Icon(Icons.light_mode),
-        ThemeMode.system => const Icon(Icons.brightness_6),
-      },
-      title: i18n.themeMode.title.text(),
-      trailing: SegmentedButton<ThemeMode>(
-        showSelectedIcon: false,
-        style: ButtonStyle(
-          padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 4)),
-        ),
-        segments: ThemeMode.values
-            .map((e) => ButtonSegment<ThemeMode>(
-                  value: e,
-                  label: i18n.themeMode.of(e).text(),
-                ))
-            .toList(),
-        selected: <ThemeMode>{Settings.theme.themeMode},
-        onSelectionChanged: (newSelection) async {
-          setState(() {
-            Settings.theme.themeMode = newSelection.first;
-          });
-          await HapticFeedback.mediumImpact();
-        },
-      ),
-    );
+    return Settings.theme.listenThemeMode() >>
+        (ctx, _) => ListTile(
+              leading: switch (Settings.theme.themeMode) {
+                ThemeMode.dark => const Icon(Icons.dark_mode),
+                ThemeMode.light => const Icon(Icons.light_mode),
+                ThemeMode.system => const Icon(Icons.brightness_auto),
+              },
+              title: i18n.themeMode.title.text(),
+              subtitle: ThemeMode.values
+                  .map((mode) => ChoiceChip(
+                        label: i18n.themeMode.of(mode).text(),
+                        selected: Settings.theme.themeMode == mode,
+                        onSelected: (value) async {
+                          Settings.theme.themeMode = mode;
+                          await HapticFeedback.mediumImpact();
+                        },
+                      ))
+                  .toList()
+                  .wrap(spacing: 4),
+            );
   }
 
   Widget buildLanguageSelector() {
