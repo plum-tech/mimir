@@ -80,7 +80,9 @@ void main() async {
   await HiveInit.initBox();
 
   // Setup Settings and Meta
-  Settings.isDeveloperMode = kDebugMode;
+  if (kDebugMode) {
+    Settings.isDeveloperMode = true;
+  }
   // The last time when user launch this app
   Meta.lastStartupTime = DateTime.now();
   await migrations.perform(MigrationPhrase.afterHive);
