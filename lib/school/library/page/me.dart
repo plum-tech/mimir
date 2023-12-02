@@ -6,10 +6,13 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/extension.dart';
+import 'package:sit/school/library/aggregated.dart';
 import 'package:sit/school/library/init.dart';
 
 import '../entity/borrow.dart';
+import '../entity/image.dart';
 import '../i18n.dart';
+import '../widgets/book.dart';
 import 'details.dart';
 import 'details.model.dart';
 
@@ -102,6 +105,7 @@ class BorrowedBookCard extends StatelessWidget {
     return FilledCard(
       child: ListTile(
         isThreeLine: true,
+        leading: AsyncBookImage(isbn: book.isbn),
         title: book.title.text(),
         subtitle: [
           book.author.text(),
@@ -211,7 +215,7 @@ class BookBorrowHistoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return FilledCard(
       child: ListTile(
-        isThreeLine: true,
+        leading: AsyncBookImage(isbn: book.isbn),
         title: book.title.text(),
         subtitle: [
           book.author.text(),

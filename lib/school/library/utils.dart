@@ -9,7 +9,7 @@ Future<List<({Book book, BookImage? image, List<HoldingPreviewItem>? holding})>>
   List<Book> books, // 图书搜索结果
 ) async {
   final isbnList = books.map((e) => e.isbn).toList();
-  final imageResult = await LibraryAggregated.searchBookImageByIsbnList(isbnList);
+  final imageResult = await LibraryAggregated.searchBookImagesByIsbnList(isbnList);
   final bookIdList = books.map((e) => e.bookId).toList();
   final previews = await LibraryInit.holdingPreview.getHoldingPreviews(bookIdList);
 

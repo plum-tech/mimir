@@ -18,18 +18,13 @@ class BookImageSearchService {
 
   /// The result isbn doesn't have hyphen `-`
   Future<Map<String, BookImage>> searchByIsbnList(List<String> isbnList) async {
-    return await searchByIsbnStr(isbnList.join(','));
-  }
-
-  /// The result isbn doesn't have hyphen `-`
-  Future<Map<String, BookImage>> searchByIsbnStr(String isbnStr) async {
-    var response = await dio.request(
+    final response = await dio.request(
       LibraryConst.bookImageInfoUrl,
       queryParameters: {
         'glc': 'U1SH021060',
         'cmdACT': 'getImages',
         'type': '0',
-        'isbns': isbnStr,
+        'isbns': isbnList.join(','),
       },
       options: Options(
         responseType: ResponseType.plain,

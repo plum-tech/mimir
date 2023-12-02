@@ -3,13 +3,13 @@ import 'init.dart';
 
 class LibraryAggregated {
   /// The result isbn the same as [isbnList]
-  static Future<Map<String, BookImage>> searchBookImageByIsbnList(
+  static Future<Map<String, BookImage>> searchBookImagesByIsbnList(
     List<String> isbnList,
   ) async {
     final result = <String, BookImage>{};
     final searchRequired = <String>[];
     for (final isbn in isbnList) {
-      final image = LibraryInit.imageStorage.getImage(isbn.replaceAll('-', ''));
+      final image = LibraryInit.imageStorage.getImage(isbn);
       if (image == null) {
         searchRequired.add(isbn);
       } else {
@@ -26,7 +26,15 @@ class LibraryAggregated {
         }
       }
     }
-
     return result;
+  }
+
+  static Future<BookImage?> fetchBookImageByIsbn(String isbn) async {
+    final result = await searchBookImagesByIsbnList([isbn]);
+    return result.entries.firstOrNull?.value;
+  }
+
+  static BookImage? getCachedBookImageByIsbn(String isbn) {
+    return LibraryInit.imageStorage.getImage(isbn);
   }
 }
