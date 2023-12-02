@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/widgets/card.dart';
+import 'package:sit/design/widgets/common.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/school/widgets/selector.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/settings/settings.dart';
 
-import '../../../design/widgets/common.dart';
 import '../entity/exam.dart';
 import '../init.dart';
 import '../widgets/exam.dart';

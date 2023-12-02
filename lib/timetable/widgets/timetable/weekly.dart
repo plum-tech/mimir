@@ -343,34 +343,18 @@ class InteractiveCourseCell extends StatefulWidget {
 }
 
 class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
-  final $tooltip = GlobalKey<TooltipState>(debugLabel: "tooltip");
-
   @override
   Widget build(BuildContext context) {
-    final lessons = widget.lesson.course.calcBeginEndTimePointForEachLesson();
-    final lessonTimeTip =
-        lessons.map((time) => "${time.begin.toStringPrefixed0()}–${time.end.toStringPrefixed0()}").join("\n");
-    final course = widget.lesson.course;
-    // TODO: don't prefix it with zero
-    var tooltip = "${i18n.details.courseCode} ${course.courseCode}";
-    if (course.classCode.isNotEmpty) {
-      tooltip += "\n${i18n.details.classCode} ${course.classCode}";
-    }
-    tooltip += "\n$lessonTimeTip";
     return StyledCourseCell(
       course: widget.lesson.course,
       grayOut: widget.grayOut,
       style: widget.style,
       innerBuilder: (ctx, child) => Tooltip(
-        key: $tooltip,
         preferBelow: false,
-        triggerMode: TooltipTriggerMode.manual,
-        message: tooltip,
+        triggerMode: TooltipTriggerMode.tap,
+        message: buildTooltipMessage(),
         textAlign: TextAlign.center,
         child: InkWell(
-          onTap: () async {
-            $tooltip.currentState?.ensureTooltipVisible();
-          },
           onLongPress: () async {
             await context.show$Sheet$(
               (ctx) => TimetableCourseDetailsSheet(
@@ -383,6 +367,19 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
         ),
       ),
     );
+  }
+
+  String buildTooltipMessage(){
+    final lessons = widget.lesson.course.calcBeginEndTimePointForEachLesson();
+    final lessonTimeTip =
+    lessons.map((time) => "${time.begin.toStringPrefixed0()}–${time.end.toStringPrefixed0()}").join("\n");
+    final course = widget.lesson.course;
+    var tooltip = "${i18n.details.courseCode} ${course.courseCode}";
+    if (course.classCode.isNotEmpty) {
+      tooltip += "\n${i18n.details.classCode} ${course.classCode}";
+    }
+    tooltip += "\n$lessonTimeTip";
+    return tooltip;
   }
 }
 
