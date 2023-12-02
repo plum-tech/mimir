@@ -86,9 +86,9 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
 
   @override
   Widget build(BuildContext context) {
-    final attended = this.attended ?? const [];
+    final attended = this.attended;
     final filteredActivities = attended
-        .where((activity) => selectedCat == null || activity.category == selectedCat)
+        ?.where((activity) => selectedCat == null || activity.category == selectedCat)
         .where((activity) => selectedScoreType == null || activity.scoreType == selectedScoreType)
         .toList();
     return Scaffold(
@@ -137,7 +137,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                         });
                       },
                     ).padH(4),
-                    ...attended.map((activity) => activity.category).toSet().map(
+                    ...(attended ?? const []).map((activity) => activity.category).toSet().map(
                           (cat) => ChoiceChip(
                             label: cat.l10nName().text(),
                             selected: selectedCat == cat,
@@ -167,7 +167,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                         });
                       },
                     ).padH(4),
-                    ...attended.map((activity) => activity.category.scoreType).whereNotNull().toSet().map(
+                    ...(attended ?? const []).map((activity) => activity.category.scoreType).whereNotNull().toSet().map(
                           (scoreType) => ChoiceChip(
                             label: scoreType.l10nFullName().text(),
                             selected: selectedScoreType == scoreType,
@@ -185,21 +185,22 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
               const SliverToBoxAdapter(
                 child: Divider(),
               ),
-              if (filteredActivities.isEmpty)
-                SliverFillRemaining(
-                  child: LeavingBlank(
-                    icon: Icons.inbox_outlined,
-                    desc: i18n.noAttendedActivities,
+              if (filteredActivities != null)
+                if (filteredActivities.isEmpty)
+                  SliverFillRemaining(
+                    child: LeavingBlank(
+                      icon: Icons.inbox_outlined,
+                      desc: i18n.noAttendedActivities,
+                    ),
+                  )
+                else
+                  SliverList.builder(
+                    itemCount: filteredActivities.length,
+                    itemBuilder: (ctx, i) {
+                      final activity = filteredActivities[i];
+                      return AttendedActivityCard(activity);
+                    },
                   ),
-                )
-              else
-                SliverList.builder(
-                  itemCount: filteredActivities.length,
-                  itemBuilder: (ctx, i) {
-                    final activity = filteredActivities[i];
-                    return AttendedActivityCard(activity);
-                  },
-                ),
             ],
           ),
         ),
