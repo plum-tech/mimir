@@ -2,10 +2,23 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:sit/credentials/init.dart';
-import 'package:sit/exception/session.dart';
+import 'package:sit/session/sso.dart';
 
 /// 应网办 official website
 const _ywbUrl = "https://ywb.sit.edu.cn/v1";
+
+class YwbCredentialsException implements Exception {
+  final String message;
+
+  const YwbCredentialsException({
+    required this.message,
+  });
+
+  @override
+  String toString() {
+    return "YwbCredentialsException: $message";
+  }
+}
 
 /// 应网办登录地址, POST 请求
 const String _officeLoginUrl = "https://xgfy.sit.edu.cn/unifri-flow/login";
@@ -58,7 +71,7 @@ class YwbSession {
   }) async {
     if (!isLogin) {
       final credentials = CredentialInit.storage.oaCredentials;
-      if (credentials == null) throw LoginRequiredException(url: url);
+      if (credentials == null) throw OaCredentialsRequiredException(url: url);
       await _login(
         username: credentials.account,
         password: credentials.password,

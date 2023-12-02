@@ -4,8 +4,8 @@ import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:sit/credentials/entity/credential.dart';
-import 'package:sit/exception/session.dart';
 import 'package:sit/init.dart';
+import 'package:sit/session/library.dart';
 import 'package:sit/utils/dio.dart';
 
 const _opacUrl = 'http://210.35.66.106/opac';

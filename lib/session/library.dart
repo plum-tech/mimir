@@ -3,6 +3,19 @@ import 'package:sit/credentials/init.dart';
 
 import 'package:sit/school/library/init.dart';
 
+class LibraryCredentialsException implements Exception {
+  final String message;
+
+  const LibraryCredentialsException({
+    required this.message,
+  });
+
+  @override
+  String toString() {
+    return "LibraryCredentialsException: $message";
+  }
+}
+
 class LibrarySession {
   final Dio dio;
 

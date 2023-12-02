@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/exception/session.dart';
+import 'package:sit/session/sso.dart';
 import "./i18n.dart";
 
 Future<void> handleLoginException({

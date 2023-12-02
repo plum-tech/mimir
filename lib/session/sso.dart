@@ -7,7 +7,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' hide Key;
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
-import 'package:sit/exception/session.dart';
 import 'package:sit/init.dart';
 
 import 'package:sit/route.dart';
@@ -17,6 +16,53 @@ import 'package:synchronized/synchronized.dart';
 import 'package:encrypt/encrypt.dart';
 
 import '../utils/dio.dart';
+
+enum OaCredentialsErrorType {
+  accountPassword,
+  captcha,
+  frozen,
+}
+
+class OaCredentialsException implements Exception {
+  final OaCredentialsErrorType type;
+  final String message;
+
+  const OaCredentialsException({
+    required this.type,
+    required this.message,
+  });
+
+  @override
+  String toString() {
+    return "OaCredentialsException: $type $message";
+  }
+}
+
+class UnknownAuthException implements Exception {
+  final String message;
+
+  const UnknownAuthException(this.message);
+
+  @override
+  String toString() {
+    return "UnknownAuthException: $message";
+  }
+}
+
+class LoginCaptchaCancelledException implements Exception {
+  const LoginCaptchaCancelledException();
+}
+
+class OaCredentialsRequiredException implements Exception {
+  final String url;
+
+  const OaCredentialsRequiredException({required this.url});
+
+  @override
+  String toString() {
+    return "OaCredentialsRequiredException: $url";
+  }
+}
 
 const _neededHeaders = {
   "Accept-Encoding": "gzip, deflate, br",
@@ -158,7 +204,7 @@ class SsoSession {
     if (isLoginPage(firstResponse)) {
       final credentials = CredentialInit.storage.oaCredentials;
       if (credentials == null) {
-        throw LoginRequiredException(url: url);
+        throw OaCredentialsRequiredException(url: url);
       }
       await loginLocked(credentials);
       return await requestNormally();

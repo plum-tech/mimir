@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sit/credentials/init.dart';
-import 'package:sit/exception/session.dart';
 
 import 'package:sit/session/sso.dart';
 
@@ -12,7 +10,7 @@ class JwxtSession {
 
   const JwxtSession({required this.ssoSession});
 
-  Future<void> _refreshCookie() async {
+  Future<void> refreshCookie() async {
     await ssoSession.request(
       'http://jwxt.sit.edu.cn/sso/jziotlogin',
       options: Options(
@@ -51,18 +49,13 @@ class JwxtSession {
     // 如果返回值是登录页面，那就从 SSO 跳转一次以登录.
     if (_isRedirectedToLoginPage(response)) {
       debugPrint('JwxtSession requires login');
-      await _refreshCookie();
+      await refreshCookie();
       return await fetch();
     }
     // 如果还是需要登录
     if (_isRedirectedToLoginPage(response)) {
-      debugPrint('SsoSession login');
-      final credential = CredentialInit.storage.oaCredentials;
-      if (credential == null) {
-        throw LoginRequiredException(url: url);
-      }
-      await ssoSession.loginLocked(credential);
-      await _refreshCookie();
+      debugPrint('JwxtSession still requires login');
+      await refreshCookie();
       return await fetch();
     }
     return response;
