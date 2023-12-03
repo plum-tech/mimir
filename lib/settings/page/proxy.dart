@@ -158,6 +158,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                     desc: i18n.proxy.title,
                     initial: proxyUri.toString(),
                   );
+                  if (newFullProxy == null) return;
                   final newUri = Uri.tryParse(newFullProxy.trim());
 
                   if (newUri != null && newUri.isAbsolute && (newUri.scheme == "http" || newUri.scheme == "https")) {
@@ -223,6 +224,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                     desc: i18n.proxy.hostname,
                     initial: hostname,
                   );
+                  if (newHostNameRaw == null) return;
                   final newHostName = newHostNameRaw.trim();
                   if (newHostName != hostname) {
                     onChanged(newHostName);
@@ -251,6 +253,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                     desc: i18n.proxy.port,
                     initial: port,
                   );
+                  if (newPort == null) return;
                   if (newPort != port) {
                     onChanged(newPort);
                   }

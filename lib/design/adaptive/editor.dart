@@ -47,15 +47,10 @@ class Editor {
     } else {
       final customEditorBuilder = _customEditor[initial.runtimeType];
       if (customEditorBuilder != null) {
-        final newValue = await showAdaptiveDialog(
+        return await showAdaptiveDialog(
           context: ctx,
           builder: (ctx) => customEditorBuilder(ctx, desc, initial),
         );
-        if (newValue != null) {
-          return newValue;
-        } else {
-          return initial;
-        }
       } else {
         if (readonlyIfNotSupport) {
           return await showReadonlyEditor(ctx, desc: desc, initial: initial);
@@ -66,14 +61,14 @@ class Editor {
     }
   }
 
-  static Future<DateTime> showDateTimeEditor(
+  static Future<DateTime?> showDateTimeEditor(
     BuildContext ctx, {
     String? desc,
     required DateTime initial,
     required DateTime firstDate,
     required DateTime lastDate,
   }) async {
-    final newValue = await showDialog(
+    final newValue = await showAdaptiveDialog(
       context: ctx,
       builder: (ctx) => DateTimeEditor(
         initial: initial,
@@ -82,50 +77,39 @@ class Editor {
         lastDate: lastDate,
       ),
     );
-
-    if (newValue != null) {
-      return newValue;
-    } else {
-      return initial;
-    }
+    if (newValue == null) return null;
+    return newValue;
   }
 
-  static Future<bool> showBoolEditor(
+  static Future<bool?> showBoolEditor(
     BuildContext ctx, {
     String? desc,
     required bool initial,
   }) async {
-    final newValue = await showDialog(
+    final newValue = await showAdaptiveDialog(
       context: ctx,
       builder: (ctx) => _BoolEditor(
         initial: initial,
         desc: desc,
       ),
     );
-
-    if (newValue != null) {
-      return newValue;
-    } else {
-      return initial;
-    }
+    if (newValue == null) return null;
+    return newValue;
   }
 
-  static Future<String> showStringEditor(
+  static Future<String?> showStringEditor(
     BuildContext ctx, {
     String? desc,
     required String initial,
   }) async {
-    final newValue = await showDialog(
+    final newValue = await showAdaptiveDialog(
         context: ctx,
         builder: (ctx) => _StringEditor(
               initial: initial,
               title: desc,
             ));
-    if (newValue != null) {
-      return newValue;
-    } else {
-      return initial;
-    }
+    if (newValue == null) return null;
+    return newValue;
   }
 
   static Future<void> showReadonlyEditor(
@@ -143,23 +127,20 @@ class Editor {
     );
   }
 
-  static Future<int> showIntEditor(
+  static Future<int?> showIntEditor(
     BuildContext ctx, {
     String? desc,
     required int initial,
   }) async {
-    final newValue = await showDialog(
+    final newValue = await showAdaptiveDialog(
       context: ctx,
       builder: (ctx) => _IntEditor(
         initial: initial,
         title: desc,
       ),
     );
-    if (newValue == null) {
-      return initial;
-    } else {
-      return newValue;
-    }
+    if (newValue == null) return null;
+    return newValue;
   }
 }
 
@@ -519,7 +500,7 @@ class _StringsEditorState extends State<StringsEditor> {
       secondary: $Action$(
           text: _i18n.cancel,
           onPressed: () {
-            context.navigator.pop(widget.ctor(widget.fields.map((e) => e.initial).toList()));
+            context.navigator.pop();
           }),
     );
   }

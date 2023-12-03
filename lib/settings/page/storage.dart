@@ -318,6 +318,7 @@ class _BoxItemState extends State<BoxItem> {
       await Editor.showReadonlyEditor(context, desc: key, initial: value);
     } else {
       final newValue = await Editor.showAnyEditor(context, value, desc: key);
+      if (newValue == null) return;
       bool isModified = value != newValue;
       if (isModified) {
         box.put(key, newValue);
