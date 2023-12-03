@@ -238,22 +238,14 @@ class SsoSession {
     try {
       // 首先获取AuthServer首页
       final html = await _getAuthServerHtml();
-
-      // await cookieJar.saveFromResponse(
-      //   Uri.parse('https://authserver.sit.edu.cn'),
-      //   [Cookie('org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE', 'zh')],
-      // );
-
-      // 获取首页验证码
       var captcha = '';
       if (await isCaptchaRequired(credentials.account)) {
-        // 识别验证码
         final captchaImage = await getCaptcha();
         final c = await inputCaptcha(captchaImage);
         if (c != null) {
           captcha = c;
+          debugPrint("Captcha entered is $captcha");
         } else {
-          // 用户未输入验证码
           throw const LoginCaptchaCancelledException();
         }
       }
