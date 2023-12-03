@@ -11,6 +11,7 @@ class _I18n with CommonI18nMixin {
   final login = const _Login();
   final info = const _Info();
   final action = const _Action();
+  final searching = const _Search();
 
   String get title => "$ns.title".tr();
 
@@ -67,4 +68,16 @@ class _Info {
   String get bookId => "$ns.bookId".tr();
 
   String get barcode => "$ns.barcode".tr();
+}
+
+class _Search {
+  const _Search();
+
+  static const ns = "${_I18n.ns}.search";
+
+  String get searchHistory => "$ns.searchHistory".tr();
+
+  String get trending => "$ns.trending".tr();
+
+  String get mostPopular => "$ns.mostPopular".tr();
 }

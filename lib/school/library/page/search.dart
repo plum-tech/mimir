@@ -7,6 +7,7 @@ import 'package:sit/school/library/widgets/search.dart';
 
 import '../entity/search.dart';
 import '../init.dart';
+import '../i18n.dart';
 import 'search_result.dart';
 
 class LibrarySearchDelegate extends SearchDelegate<String> {
@@ -105,28 +106,28 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
                     },
                   ))
           .sized(h: 40),
-      SearchHistoryGroup(
+      LibrarySearchHistoryGroup(
         onTap: (method, title) => searchByGiving(context, keyword: title, searchMethod: method),
       ),
-      HotSearchGroup(onTap: (title) => searchByGiving(context, keyword: title)),
+      LibraryTrendsGroup(onTap: (title) => searchByGiving(context, keyword: title)),
     ].column().scrolled();
   }
 }
 
-class HotSearchGroup extends StatefulWidget {
+class LibraryTrendsGroup extends StatefulWidget {
   final void Function(String keyword)? onTap;
 
-  const HotSearchGroup({
+  const LibraryTrendsGroup({
     super.key,
     this.onTap,
   });
 
   @override
-  State<HotSearchGroup> createState() => _HotSearchGroupState();
+  State<LibraryTrendsGroup> createState() => _LibraryTrendsGroupState();
 }
 
-class _HotSearchGroupState extends State<HotSearchGroup> {
-  HotSearch? hotSearch = LibraryInit.searchStorage.getHotSearch();
+class _LibraryTrendsGroupState extends State<LibraryTrendsGroup> {
+  LibraryTrends? trends = LibraryInit.searchStorage.getTrends();
   bool recentOrTotal = true;
 
   @override
@@ -136,21 +137,21 @@ class _HotSearchGroupState extends State<HotSearchGroup> {
   }
 
   Future<void> fetchHotSearch() async {
-    final hotSearch = await LibraryInit.hotSearchService.getHotSearch();
-    await LibraryInit.searchStorage.setHotSearch(hotSearch);
+    final trends = await LibraryInit.hotSearchService.getTrends();
+    await LibraryInit.searchStorage.setTrends(trends);
     if (!context.mounted) return;
     setState(() {
-      this.hotSearch = hotSearch;
+      this.trends = trends;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final onTap = widget.onTap;
-    final hotSearch = this.hotSearch;
-    return SuggestionItemView<HotSearchItem>(
+    final trends = this.trends;
+    return SuggestionItemView<LibraryTrendsItem>(
       tileLeading: Icon(recentOrTotal ? Icons.local_fire_department : Icons.people),
-      title: recentOrTotal ? "Recent hot".text() : "Most popular".text(),
+      title: recentOrTotal ? i18n.searching.trending.text() : i18n.searching.mostPopular.text(),
       tileTrailing: IconButton(
         icon: const Icon(Icons.swap_horiz),
         onPressed: () {
@@ -159,7 +160,7 @@ class _HotSearchGroupState extends State<HotSearchGroup> {
           });
         },
       ),
-      items: recentOrTotal ? hotSearch?.recent30days : hotSearch?.total,
+      items: recentOrTotal ? trends?.recent30days : trends?.total,
       itemBuilder: (ctx, item) {
         return ActionChip(
           label: item.keyword.text(),
@@ -172,19 +173,19 @@ class _HotSearchGroupState extends State<HotSearchGroup> {
   }
 }
 
-class SearchHistoryGroup extends StatefulWidget {
+class LibrarySearchHistoryGroup extends StatefulWidget {
   final void Function(SearchMethod method, String keyword)? onTap;
 
-  const SearchHistoryGroup({
+  const LibrarySearchHistoryGroup({
     super.key,
     this.onTap,
   });
 
   @override
-  State<SearchHistoryGroup> createState() => _SearchHistoryGroupState();
+  State<LibrarySearchHistoryGroup> createState() => _LibrarySearchHistoryGroupState();
 }
 
-class _SearchHistoryGroupState extends State<SearchHistoryGroup> {
+class _LibrarySearchHistoryGroupState extends State<LibrarySearchHistoryGroup> {
   List<SearchHistoryItem>? history = LibraryInit.searchStorage.getSearchHistory();
   final $history = LibraryInit.searchStorage.listenSearchHistory();
 
@@ -212,7 +213,7 @@ class _SearchHistoryGroupState extends State<SearchHistoryGroup> {
     final history = this.history;
     return SuggestionItemView<SearchHistoryItem>(
       tileLeading: const Icon(Icons.history),
-      title: "Search history".text(),
+      title: i18n.searching.searchHistory.text(),
       items: history,
       tileTrailing: IconButton(
         icon: const Icon(Icons.delete),

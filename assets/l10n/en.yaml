@@ -424,6 +424,10 @@ library:
     title: Login library
     readerIdHint: your Student ID
     passwordHint: 888888 by default
+  search:
+    searchHistory: Search history
+    trending: Trending
+    mostPopular: Most popular
   searchMethod:
     any: Any
     title: Title

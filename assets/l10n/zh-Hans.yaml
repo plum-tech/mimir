@@ -424,6 +424,10 @@ library:
     title: 登录图书馆
     readerIdHint: 你的学号
     passwordHint: 初始密码为 888888
+  search:
+    searchHistory: 搜索历史
+    trending: 近期流行
+    mostPopular: 最热门
   searchMethod:
     any: 任意
     title: 标题

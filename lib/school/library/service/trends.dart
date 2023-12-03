@@ -7,23 +7,23 @@ import 'package:sit/session/library.dart';
 import '../const.dart';
 import '../entity/search.dart';
 
-class HotSearchService {
+class LibraryTrendsService {
   LibrarySession get session => Init.librarySession;
 
-  const HotSearchService();
+  const LibraryTrendsService();
 
-  HotSearchItem _parse(String rawText) {
+  LibraryTrendsItem _parse(String rawText) {
     final texts = rawText.split('(').map((e) => e.trim()).toList();
     final title = texts.sublist(0, texts.length - 1).join('(');
     final numWithRight = texts[texts.length - 1];
     final numText = numWithRight.substring(0, numWithRight.length - 1);
-    return HotSearchItem(
+    return LibraryTrendsItem(
       keyword: title,
       count: int.parse(numText),
     );
   }
 
-  Future<HotSearch> getHotSearch() async {
+  Future<LibraryTrends> getTrends() async {
     final response = await session.request(
       LibraryConst.hotSearchUrl,
       options: Options(
@@ -33,11 +33,11 @@ class HotSearchService {
     final soup = BeautifulSoup(response.data);
     final fieldsets = soup.findAll('fieldset');
 
-    List<HotSearchItem> getHotSearchItems(Bs4Element fieldset) {
+    List<LibraryTrendsItem> getHotSearchItems(Bs4Element fieldset) {
       return fieldset.findAll('a').map((e) => _parse(e.text)).toList();
     }
 
-    return HotSearch(
+    return LibraryTrends(
       recent30days: getHotSearchItems(fieldsets[0]),
       total: getHotSearchItems(fieldsets[1]),
     );

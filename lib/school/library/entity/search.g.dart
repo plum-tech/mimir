@@ -32,24 +32,25 @@ const _$SearchMethodEnumMap = {
   SearchMethod.callNumber: 'callNumber',
 };
 
-HotSearchItem _$HotSearchItemFromJson(Map<String, dynamic> json) => HotSearchItem(
+LibraryTrendsItem _$LibraryTrendsItemFromJson(Map<String, dynamic> json) => LibraryTrendsItem(
       keyword: json['keyword'] as String,
       count: json['count'] as int,
     );
 
-Map<String, dynamic> _$HotSearchItemToJson(HotSearchItem instance) => <String, dynamic>{
+Map<String, dynamic> _$LibraryTrendsItemToJson(LibraryTrendsItem instance) => <String, dynamic>{
       'keyword': instance.keyword,
       'count': instance.count,
     };
 
-HotSearch _$HotSearchFromJson(Map<String, dynamic> json) => HotSearch(
+LibraryTrends _$LibraryTrendsFromJson(Map<String, dynamic> json) => LibraryTrends(
       recent30days: (json['recent30days'] as List<dynamic>)
-          .map((e) => HotSearchItem.fromJson(e as Map<String, dynamic>))
+          .map((e) => LibraryTrendsItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      total: (json['total'] as List<dynamic>).map((e) => HotSearchItem.fromJson(e as Map<String, dynamic>)).toList(),
+      total:
+          (json['total'] as List<dynamic>).map((e) => LibraryTrendsItem.fromJson(e as Map<String, dynamic>)).toList(),
     );
 
-Map<String, dynamic> _$HotSearchToJson(HotSearch instance) => <String, dynamic>{
+Map<String, dynamic> _$LibraryTrendsToJson(LibraryTrends instance) => <String, dynamic>{
       'recent30days': instance.recent30days,
       'total': instance.total,
     };

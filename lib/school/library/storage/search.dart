@@ -8,7 +8,7 @@ import '../entity/search.dart';
 class _K {
   static const ns = "/search";
   static const searchHistory = "$ns/searchHistory";
-  static const hotSearch = "$ns/hotSearch";
+  static const trends = "$ns/trends";
 }
 
 class LibrarySearchStorage {
@@ -16,9 +16,9 @@ class LibrarySearchStorage {
 
   const LibrarySearchStorage();
 
-  HotSearch? getHotSearch() => decodeJsonObject(box.get(_K.hotSearch), (obj) => HotSearch.fromJson(obj));
+  LibraryTrends? getTrends() => decodeJsonObject(box.get(_K.trends), (obj) => LibraryTrends.fromJson(obj));
 
-  Future<void> setHotSearch(HotSearch value) => box.put(_K.hotSearch, encodeJsonObject(value));
+  Future<void> setTrends(LibraryTrends value) => box.put(_K.trends, encodeJsonObject(value));
 
   List<SearchHistoryItem>? getSearchHistory() =>
       decodeJsonList(box.get(_K.searchHistory), (obj) => SearchHistoryItem.fromJson(obj));

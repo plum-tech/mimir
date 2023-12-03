@@ -98,13 +98,13 @@ class SearchHistoryItem {
 }
 
 @JsonSerializable()
-class HotSearchItem {
+class LibraryTrendsItem {
   @JsonKey()
   final String keyword;
   @JsonKey()
   final int count;
 
-  const HotSearchItem({
+  const LibraryTrendsItem({
     required this.keyword,
     required this.count,
   });
@@ -114,19 +114,19 @@ class HotSearchItem {
     return "$keyword($count)";
   }
 
-  factory HotSearchItem.fromJson(Map<String, dynamic> json) => _$HotSearchItemFromJson(json);
+  factory LibraryTrendsItem.fromJson(Map<String, dynamic> json) => _$LibraryTrendsItemFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HotSearchItemToJson(this);
+  Map<String, dynamic> toJson() => _$LibraryTrendsItemToJson(this);
 }
 
 @JsonSerializable()
-class HotSearch {
+class LibraryTrends {
   @JsonKey()
-  final List<HotSearchItem> recent30days;
+  final List<LibraryTrendsItem> recent30days;
   @JsonKey()
-  final List<HotSearchItem> total;
+  final List<LibraryTrendsItem> total;
 
-  const HotSearch({
+  const LibraryTrends({
     required this.recent30days,
     required this.total,
   });
@@ -139,7 +139,7 @@ class HotSearch {
     }.toString();
   }
 
-  factory HotSearch.fromJson(Map<String, dynamic> json) => _$HotSearchFromJson(json);
+  factory LibraryTrends.fromJson(Map<String, dynamic> json) => _$LibraryTrendsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HotSearchToJson(this);
+  Map<String, dynamic> toJson() => _$LibraryTrendsToJson(this);
 }
