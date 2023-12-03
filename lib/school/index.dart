@@ -6,7 +6,8 @@ import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/school/class2nd/index.dart';
 import 'package:sit/school/event.dart';
 import 'package:sit/school/exam_arrange/index.dart';
-import 'package:sit/school/exam_result/index.dart';
+import 'package:sit/school/exam_result/index.pg.dart';
+import 'package:sit/school/exam_result/index.ug.dart';
 import 'package:sit/school/library/index.dart';
 import 'package:sit/school/oa_announce/index.dart';
 import 'package:sit/school/yellow_pages/index.dart';
@@ -65,18 +66,24 @@ class _SchoolPageState extends State<SchoolPage> {
           },
           child: CustomScrollView(
             slivers: [
-              if (loginStatus != LoginStatus.never && userType?.capability.enableClass2nd == true)
-                const SliverToBoxAdapter(
-                  child: Class2ndAppCard(),
-                ),
-              if (loginStatus != LoginStatus.never && userType?.capability.enableExamArrange == true)
-                const SliverToBoxAdapter(
-                  child: ExamArrangeAppCard(),
-                ),
-              if (loginStatus != LoginStatus.never && userType?.capability.enableExamResult == true)
-                const SliverToBoxAdapter(
-                  child: ExamResultAppCard(),
-                ),
+              if (loginStatus != LoginStatus.never) ...[
+                if (userType?.capability.enableClass2nd == true)
+                  const SliverToBoxAdapter(
+                    child: Class2ndAppCard(),
+                  ),
+                if (userType?.capability.enableExamArrange == true)
+                  const SliverToBoxAdapter(
+                    child: ExamArrangeAppCard(),
+                  ),
+                if (userType == OaUserType.undergraduate)
+                  const SliverToBoxAdapter(
+                    child: ExamResultUgAppCard(),
+                  )
+                else if (userType == OaUserType.postgraduate)
+                  const SliverToBoxAdapter(
+                    child: ExamResultPgAppCard(),
+                  ),
+              ],
               if (loginStatus != LoginStatus.never)
                 const SliverToBoxAdapter(
                   child: OaAnnounceAppCard(),

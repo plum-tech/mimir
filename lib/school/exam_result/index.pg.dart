@@ -6,27 +6,24 @@ import 'package:sit/design/widgets/app.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/event.dart';
 import 'package:sit/school/exam_result/init.dart';
-import 'package:sit/school/exam_result/page/evaluation.dart';
 import 'package:sit/school/exam_result/widgets/item.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/utils/guard_launch.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 import 'entity/result.ug.dart';
 import "i18n.dart";
 
 const _recentLength = 2;
 
-class ExamResultAppCard extends StatefulWidget {
-  const ExamResultAppCard({super.key});
+class ExamResultPgAppCard extends StatefulWidget {
+  const ExamResultPgAppCard({super.key});
 
   @override
-  State<ExamResultAppCard> createState() => _ExamResultAppCardState();
+  State<ExamResultPgAppCard> createState() => _ExamResultPgAppCardState();
 }
 
-class _ExamResultAppCardState extends State<ExamResultAppCard> {
+class _ExamResultPgAppCardState extends State<ExamResultPgAppCard> {
   List<ExamResultUg>? resultList;
   late final EventSubscription $refreshEvent;
 
@@ -65,21 +62,11 @@ class _ExamResultAppCardState extends State<ExamResultAppCard> {
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
-            await context.push("/exam-result");
+            await context.push("/exam-result/postgraduate");
           },
           icon: const Icon(Icons.fact_check),
           label: i18n.check.text(),
         ),
-        OutlinedButton(
-          onPressed: () async {
-            if (UniversalPlatform.isDesktop) {
-              await guardLaunchUrl(context, teacherEvaluationUri);
-            } else {
-              await context.push("/teacher-eval");
-            }
-          },
-          child: i18n.teacherEval.text(),
-        )
       ],
     );
   }
