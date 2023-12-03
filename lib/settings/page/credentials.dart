@@ -68,10 +68,10 @@ class _CredentialsPageState extends State<CredentialsPage> {
       subtitle: credential.account.text(),
       leading: const Icon(Icons.person_rounded),
       trailing: const Icon(Icons.copy_rounded),
-      onTap: () {
-        // Copy the student ID to clipboard
-        Clipboard.setData(ClipboardData(text: credential.account));
+      onTap: () async {
         context.showSnackBar(content: i18n.credentials.studentIdCopyTip.text());
+        // Copy the student ID to clipboard
+        await Clipboard.setData(ClipboardData(text: credential.account));
       },
     );
   }

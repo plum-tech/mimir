@@ -8,13 +8,11 @@ import 'package:sit/credentials/init.dart';
 import 'package:sit/credentials/utils.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/init.dart';
-import 'package:sit/login/init.dart';
 import 'package:sit/login/utils.dart';
-import 'package:sit/settings/settings.dart';
 import 'package:sit/settings/widgets/campus.dart';
 import 'package:rettulf/rettulf.dart';
 
+import '../aggregated.dart';
 import '../i18n.dart';
 import '../widgets/forgot_pwd.dart';
 
@@ -91,17 +89,9 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     try {
-      final oaCredential = Credentials(account: account, password: password);
-      await Init.ssoSession.loginLocked(oaCredential);
-      // set user's real name to signature by default.
-      final personName = await LoginInit.authServerService.getPersonName();
-      Settings.lastSignature ??= personName;
+      await LoginAggregated.login(Credentials(account: account, password: password));
       if (!mounted) return;
       setState(() => isLoggingIn = false);
-      CredentialInit.storage.oaCredentials = oaCredential;
-      CredentialInit.storage.oaLoginStatus = LoginStatus.validated;
-      CredentialInit.storage.oaLastAuthTime = DateTime.now();
-      CredentialInit.storage.oaUserType = userType;
       context.go("/");
     } on Exception catch (error, stackTrace) {
       if (!mounted) return;
