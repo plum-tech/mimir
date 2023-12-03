@@ -55,7 +55,7 @@ class BookModel {
     );
   }
 
-  factory BookModel.fromBorrowHistory(BookBorrowHistoryItem book) {
+  factory BookModel.fromBorrowHistory(BookBorrowingHistoryItem book) {
     return BookModel(
       bookId: book.bookId,
       isbn: book.isbn,

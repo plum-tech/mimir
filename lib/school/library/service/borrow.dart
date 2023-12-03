@@ -15,7 +15,7 @@ class LibraryBorrowService {
 
   const LibraryBorrowService();
 
-  Future<List<BookBorrowHistoryItem>> getHistoryBorrowBookList() async {
+  Future<List<BookBorrowingHistoryItem>> getHistoryBorrowBookList() async {
     final response = await session.request(
       LibraryConst.historyLoanListUrl,
       para: {
@@ -29,12 +29,12 @@ class LibraryBorrowService {
     final html = BeautifulSoup(response.data);
     final table = html.find('table', id: 'contentTable');
     if (table == null) {
-      return const <BookBorrowHistoryItem>[];
+      return const <BookBorrowingHistoryItem>[];
     }
     return table.findAll('tr').where((e) => e.id != 'contentHeader').map((e) {
       final columns = e.findAll('td');
       final columnsText = columns.map((e) => e.text.trim()).toList();
-      return BookBorrowHistoryItem(
+      return BookBorrowingHistoryItem(
         bookId: columns[0].find('input')!.attributes['value']!,
         operateType: columnsText[0],
         barcode: columnsText[1],

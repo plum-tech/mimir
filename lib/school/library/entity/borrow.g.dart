@@ -65,17 +65,17 @@ class BorrowedBookItemAdapter extends TypeAdapter<BorrowedBookItem> {
       other is BorrowedBookItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class BookBorrowHistoryItemAdapter extends TypeAdapter<BookBorrowHistoryItem> {
+class BookBorrowingHistoryItemAdapter extends TypeAdapter<BookBorrowingHistoryItem> {
   @override
   final int typeId = 83;
 
   @override
-  BookBorrowHistoryItem read(BinaryReader reader) {
+  BookBorrowingHistoryItem read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return BookBorrowHistoryItem(
+    return BookBorrowingHistoryItem(
       bookId: fields[0] as String,
       operateType: fields[2] as String,
       barcode: fields[3] as String,
@@ -90,7 +90,7 @@ class BookBorrowHistoryItemAdapter extends TypeAdapter<BookBorrowHistoryItem> {
   }
 
   @override
-  void write(BinaryWriter writer, BookBorrowHistoryItem obj) {
+  void write(BinaryWriter writer, BookBorrowingHistoryItem obj) {
     writer
       ..writeByte(10)
       ..writeByte(0)
@@ -121,5 +121,5 @@ class BookBorrowHistoryItemAdapter extends TypeAdapter<BookBorrowHistoryItem> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is BookBorrowHistoryItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is BookBorrowingHistoryItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

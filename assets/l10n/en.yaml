@@ -416,6 +416,10 @@ library:
   title: Library
   hotPost: HOT
   readerId: Reader Id
+  action:
+    searchBooks: Search books
+    login: Login
+    borrowing: Borrowing
   login:
     title: Login library
     readerIdHint: your Student ID

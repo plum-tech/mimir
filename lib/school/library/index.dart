@@ -44,14 +44,14 @@ class _LibraryAppCardState extends State<LibraryAppCard> {
             await showSearch(context: context, delegate: LibrarySearchDelegate());
           },
           icon: const Icon(Icons.search),
-          label: i18n.search.text(),
+          label: i18n.action.searchBooks.text(),
         ),
         if (credentials == null)
           OutlinedButton(
             onPressed: () async {
               await context.push("/library/login");
             },
-            child: "Login".text(),
+            child: i18n.action.login.text(),
           )
         else
           OutlinedButton.icon(
@@ -59,7 +59,7 @@ class _LibraryAppCardState extends State<LibraryAppCard> {
               await context.push("/library/my-borrowed");
             },
             icon: const Icon(Icons.person),
-            label: "Me".text(),
+            label: i18n.action.borrowing.text(),
           )
       ],
     );

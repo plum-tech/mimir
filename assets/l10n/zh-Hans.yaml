@@ -416,6 +416,10 @@ library:
   title: 图书馆
   hotPost: 热搜
   readerId: 读者证号
+  action:
+    searchBooks: 搜索图书
+    login: 登录
+    borrowing: 我的借阅
   login:
     title: 登录图书馆
     readerIdHint: 你的学号

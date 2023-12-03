@@ -10,12 +10,25 @@ class _I18n with CommonI18nMixin {
   static const ns = "library";
   final login = const _Login();
   final info = const _Info();
+  final action = const _Action();
 
   String get title => "$ns.title".tr();
 
   String get hotPost => "$ns.hotPost".tr();
 
   String get readerId => "$ns.readerId".tr();
+}
+
+class _Action {
+  const _Action();
+
+  static const ns = "${_I18n.ns}.action";
+
+  String get login => "$ns.login".tr();
+
+  String get searchBooks => "$ns.searchBooks".tr();
+
+  String get borrowing => "$ns.borrowing".tr();
 }
 
 class _Login {

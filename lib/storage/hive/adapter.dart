@@ -83,7 +83,7 @@ class HiveAdapter {
     hive.addAdapter(BookAdapter());
     hive.addAdapter(BookDetailsAdapter());
     hive.addAdapter(BorrowedBookItemAdapter());
-    hive.addAdapter(BookBorrowHistoryItemAdapter());
+    hive.addAdapter(BookBorrowingHistoryItemAdapter());
     hive.addAdapter(BookImageAdapter());
   }
 }

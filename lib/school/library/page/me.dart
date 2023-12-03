@@ -144,7 +144,7 @@ class LibraryMyBorrowingHistoryPage extends StatefulWidget {
 
 class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistoryPage> {
   bool isFetching = false;
-  List<BookBorrowHistoryItem>? history = LibraryInit.borrowStorage.getBorrowHistory();
+  List<BookBorrowingHistoryItem>? history = LibraryInit.borrowStorage.getBorrowHistory();
 
   @override
   void initState() {
@@ -204,7 +204,7 @@ class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistor
 }
 
 class BookBorrowHistoryCard extends StatelessWidget {
-  final BookBorrowHistoryItem book;
+  final BookBorrowingHistoryItem book;
 
   const BookBorrowHistoryCard(
     this.book, {

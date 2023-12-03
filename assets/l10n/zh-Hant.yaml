@@ -417,6 +417,10 @@ library:
   title: 圖書館
   hotPost: 熱門
   readerId: 讀者 ID
+  action:
+    searchBooks: 搜尋書
+    login: 登入
+    borrowing: 我的借閱
   login:
     title: 登入圖書館
     readerIdHint: 你的學號

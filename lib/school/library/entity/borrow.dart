@@ -64,8 +64,8 @@ class BorrowedBookItem {
 }
 
 /// 历史借书记录
-@HiveType(typeId: CacheHiveType.libraryBorrowHistory)
-class BookBorrowHistoryItem {
+@HiveType(typeId: CacheHiveType.libraryBorrowingHistory)
+class BookBorrowingHistoryItem {
   @HiveField(0)
   final String bookId;
 
@@ -96,7 +96,7 @@ class BookBorrowHistoryItem {
   @HiveField(9)
   final String type;
 
-  const BookBorrowHistoryItem({
+  const BookBorrowingHistoryItem({
     required this.bookId,
     required this.operateType,
     required this.barcode,
