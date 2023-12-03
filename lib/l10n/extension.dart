@@ -47,3 +47,7 @@ extension I18nBuildContext on BuildContext {
 extension BrightnessL10nX on Brightness {
   String l10n() => "brightness.$name".tr();
 }
+
+extension ThemeModeL10nX on ThemeMode {
+  String l10n() => "themeMode.$name".tr();
+}

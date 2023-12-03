@@ -465,6 +465,7 @@ settings:
     testLoginOa:
       title: 測試登入 OA
       desc: 嘗試用當前的登入認證登入 OA
+    studentIdCopyTip: 你的學號被複製到剪貼板了
   dev:
     title: 開發者選項
     devMode:
@@ -479,9 +480,6 @@ settings:
     reload:
       title: 重新載入
       desc: 重新載入所有模塊
-    detailedXcpDialog:
-      title: 啟用詳細異常對話框
-      desc: 顯示更加詳細的異常堆棧追蹤資訊
   timetable:
     title: 課程表
     autoUseImported:
@@ -516,20 +514,12 @@ settings:
       autoRefresh:
         title: 消費記錄自動重新整理
         desc: 啟動時重新整理消費記錄
-  studentId:
-    studentIdCopy2ClipboardTip: 你的學號被複製到剪貼板了
-  changeOaPwd:
-    title: 修改 OA 密碼
-    desc: 修改用於自動登入學校業務的 OA 密碼
   clearCache:
     title: 清空快取
     desc: 清空使用過程中產生的離線緩存
     request: 確認清空快取嗎？為加載它們，你必須重新連線校園網路。
   themeMode:
     title: 亮度
-    dark: 深色
-    light: 亮色
-    system: 系統
   proxy:
     title: HTTP 代理
     desc: 代理校園網路連線
@@ -629,6 +619,10 @@ time:
 brightness:
   light: 明亮
   dark: 黑暗
+themeMode:
+  dark: 深色
+  light: 亮色
+  system: 系統
 dormitoryRoom: "{building}號樓 #{room}"
 open: 打開
 delete: 刪除

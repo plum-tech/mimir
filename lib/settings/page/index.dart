@@ -151,10 +151,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 ThemeMode.light => const Icon(Icons.light_mode),
                 ThemeMode.system => const Icon(Icons.brightness_auto),
               },
-              title: i18n.themeMode.title.text(),
+              title: i18n.themeModeTitle.text(),
               subtitle: ThemeMode.values
                   .map((mode) => ChoiceChip(
-                        label: i18n.themeMode.of(mode).text(),
+                        label: mode.l10n().text(),
                         selected: Settings.theme.themeMode == mode,
                         onSelected: (value) async {
                           Settings.theme.themeMode = mode;
@@ -314,8 +314,8 @@ class ClearCacheTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: i18n.clearCache.title.text(),
-      subtitle: i18n.clearCache.desc.text(),
+      title: i18n.clearCacheTitle.text(),
+      subtitle: i18n.clearCacheDesc.text(),
       leading: const Icon(Icons.folder_delete_outlined),
       onTap: () {
         _onClearCache(context);
@@ -326,8 +326,8 @@ class ClearCacheTile extends StatelessWidget {
 
 void _onClearCache(BuildContext context) async {
   final confirm = await context.showRequest(
-    title: i18n.clearCache.title,
-    desc: i18n.clearCache.request,
+    title: i18n.clearCacheTitle,
+    desc: i18n.clearCacheRequest,
     yes: i18n.confirm,
     no: i18n.notNow,
     highlight: true,
@@ -344,8 +344,8 @@ class WipeDataTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: i18n.wipeData.title.text(),
-      subtitle: i18n.wipeData.desc.text(),
+      title: i18n.wipeDataTitle.text(),
+      subtitle: i18n.wipeDataDesc.text(),
       leading: const Icon(Icons.delete_forever_rounded),
       onTap: () {
         _onWipeData(context);
@@ -356,8 +356,8 @@ class WipeDataTile extends StatelessWidget {
 
 void _onWipeData(BuildContext context) async {
   final confirm = await context.showRequest(
-    title: i18n.wipeData.request,
-    desc: i18n.wipeData.requestDesc,
+    title: i18n.wipeDataRequest,
+    desc: i18n.wipeDataRequestDesc,
     yes: i18n.confirm,
     no: i18n.notNow,
     highlight: true,

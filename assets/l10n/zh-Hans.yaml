@@ -464,6 +464,7 @@ settings:
     testLoginOa:
       title: 测试登录 OA
       desc: 尝试使用当前的登录凭据登录 OA
+  studentIdCopyTip: 已复制你的学号到剪贴板了
   dev:
     title: 开发者选项
     devMode:
@@ -478,9 +479,6 @@ settings:
     reload:
       title: 重新加载
       desc: 重新加载所有模块
-    detailedXcpDialog:
-      title: 启用详细异常对话框
-      desc: 显示更加详细的异常堆栈追踪信息
   timetable:
     title: 课程表
     autoUseImported:
@@ -515,20 +513,12 @@ settings:
       autoRefresh:
         title: 消费记录自动刷新
         desc: 启动时刷新消费记录
-  studentId:
-    copyTip: 已复制你的学号到剪贴板了
-  changeOaPwd:
-    title: 修改 OA 密码
-    desc: 修改用于自动登录学校业务的 OA 密码
   clearCache:
     title: 清空缓存
     desc: 清空使用过程中产生的离线缓存
     request: 确定清空缓存？你下次需要连接校园网才能重新加载它们。
   themeMode:
     title: 亮度
-    dark: 黑暗
-    light: 明亮
-    system: 系统
   proxy:
     title: HTTP 代理
     desc: 代理校园网连接
@@ -628,6 +618,10 @@ time:
 brightness:
   light: 明亮
   dark: 黑暗
+themeMode:
+  dark: 黑暗
+  light: 明亮
+  system: 系统
 dormitoryRoom: "{building}号楼 #{room}"
 open: 打开
 delete: 删除

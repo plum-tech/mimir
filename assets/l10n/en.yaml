@@ -464,6 +464,7 @@ settings:
     testLoginOa:
       title: Test login OA
       desc: Try to login OA with current credentials
+    studentIdCopyTip: Your student ID was copied
   dev:
     title: Developer options
     devMode:
@@ -478,9 +479,6 @@ settings:
     reload:
       title: Reload
       desc: Reload all modules
-    detailedXcpDialog:
-      title: Enable detailed exception dialog
-      desc: Detailed stacktrace will be shown
   timetable:
     title: Timetable
     autoUseImported:
@@ -515,20 +513,12 @@ settings:
       autoRefresh:
         title: Auto-refresh expense records
         desc: Refresh expense records when app is launched
-  studentId:
-    studentIdCopy2ClipboardTip: Your student ID is copied
-  changeOaPwd:
-    title: Change OA password
-    desc: Change the OA password used for auto-logging in school business
   clearCache:
     title: Clear cache
     desc: Clear the offline cache during use
     request: Confirm to clear the cache? To reload them, you need connect to campus network again.
   themeMode:
     title: Brightness
-    dark: Dark
-    light: Light
-    system: System
   proxy:
     title: HTTP proxy
     desc: Proxy the access to campus network
@@ -628,6 +618,10 @@ time:
 brightness:
   light: Light
   dark: Dark
+themeMode:
+  dark: Dark
+  light: Light
+  system: System
 dormitoryRoom: "Building {building} #{room}"
 open: Open
 delete: Delete

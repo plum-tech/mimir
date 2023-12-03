@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
 import 'package:sit/credentials/i18n.dart';
 import 'package:sit/l10n/common.dart';
 
@@ -9,17 +8,12 @@ class _I18n with CommonI18nMixin {
   const _I18n();
 
   final credentials = const _Credentials();
-  final campus = const _Campus();
-  final studentId = const _StudentId();
-  final changeOaPwd = const _ChangeOaPwd();
-  final clearCache = const _ClearCache();
-  final themeMode = const _ThemeMode();
   final proxy = const _Proxy();
   final dev = const _DevOptions();
   final timetable = const _Timetable();
   final school = const _School();
   final life = const _Life();
-  final wipeData = const _WipeData();
+
   static const ns = "settings";
 
   String get title => "$ns.title".tr();
@@ -31,64 +25,22 @@ class _I18n with CommonI18nMixin {
   String get themeColor => "$ns.themeColor".tr();
 
   String get fromSystem => "$ns.fromSystem".tr();
-}
 
-class _Campus extends CampusI10n {
-  const _Campus();
+  String get themeModeTitle => "$ns.themeMode.title".tr();
 
-  static const ns = "${_I18n.ns}.campus";
+  String get clearCacheTitle => "$ns.clearCache.title".tr();
 
-  String get title => "$ns.title".tr();
+  String get clearCacheDesc => "$ns.clearCache.desc".tr();
 
-  String get desc => "$ns.desc".tr();
-}
+  String get clearCacheRequest => "$ns.clearCache.request".tr();
 
-class _StudentId {
-  const _StudentId();
+  String get wipeDataTitle => "$ns.wipeData.title".tr();
 
-  static const ns = "${_I18n.ns}.studentId";
+  String get wipeDataDesc => "$ns.wipeData.desc".tr();
 
-  String get copyTip => "$ns.copyTip".tr();
-}
+  String get wipeDataRequest => "$ns.wipeData.request".tr();
 
-class _ChangeOaPwd {
-  const _ChangeOaPwd();
-
-  static const ns = "${_I18n.ns}.changeOaPwd";
-
-  String get title => "$ns.title".tr();
-
-  String get desc => "$ns.desc".tr();
-}
-
-class _ClearCache {
-  const _ClearCache();
-
-  static const ns = "${_I18n.ns}.clearCache";
-
-  String get title => "$ns.title".tr();
-
-  String get desc => "$ns.desc".tr();
-
-  String get request => "$ns.request".tr();
-}
-
-class _ThemeMode {
-  const _ThemeMode();
-
-  static const ns = "${_I18n.ns}.themeMode";
-
-  String get title => "$ns.title".tr();
-
-  String get dark => "$ns.dark".tr();
-
-  String get light => "$ns.light".tr();
-
-  String get system => "$ns.system".tr();
-
-  String of(ThemeMode mode) {
-    return "$ns.${mode.name}".tr();
-  }
+  String get wipeDataRequestDesc => "$ns.wipeData.requestDesc".tr();
 }
 
 class _Proxy {
@@ -239,24 +191,6 @@ class _DevOptions {
   String get localStorage => "$ns.localStorage.title".tr();
 
   String get localStorageDesc => "$ns.localStorage.desc".tr();
-
-  String get detailedXcpDialog => "$ns.detailedXcpDialog.title".tr();
-
-  String get detailedXcpDialogDesc => "$ns.detailedXcpDialog.desc".tr();
-}
-
-class _WipeData {
-  const _WipeData();
-
-  static const ns = "${_I18n.ns}.wipeData";
-
-  String get title => "$ns.title".tr();
-
-  String get desc => "$ns.desc".tr();
-
-  String get request => "$ns.request".tr();
-
-  String get requestDesc => "$ns.requestDesc".tr();
 }
 
 class _Storage with CommonI18nMixin {
@@ -283,4 +217,6 @@ class _Credentials extends CredentialsI18n {
   String get testLoginOa => "$ns.testLoginOa.title".tr();
 
   String get testLoginOaDesc => "$ns.testLoginOa.desc".tr();
+
+  String get studentIdCopyTip => "$ns.studentIdCopyTip".tr();
 }

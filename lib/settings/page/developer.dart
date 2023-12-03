@@ -41,6 +41,7 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
                 path: "/settings/developer/local-storage",
               ),
               buildReload(),
+              buildSwitchAccount(),
               const DebugGoRouteTile(),
             ]),
           ),
@@ -69,6 +70,21 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
   Widget buildReload() {
     return ListTile(
       title: i18n.dev.reload.text(),
+      subtitle: i18n.dev.reloadDesc.text(),
+      leading: const Icon(Icons.refresh_rounded),
+      onTap: () async {
+        await Init.initNetwork();
+        await Init.initModules();
+        final engine = WidgetsFlutterBinding.ensureInitialized();
+        engine.performReassemble();
+        if (!mounted) return;
+        context.navigator.pop();
+      },
+    );
+  }
+  Widget buildSwitchAccount() {
+    return ListTile(
+      title: "Switch account".text(),
       subtitle: i18n.dev.reloadDesc.text(),
       leading: const Icon(Icons.refresh_rounded),
       onTap: () async {
