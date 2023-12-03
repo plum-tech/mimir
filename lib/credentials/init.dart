@@ -5,7 +5,7 @@ import 'package:sit/design/adaptive/editor.dart';
 import 'entity/login_status.dart';
 import 'storage/credential.dart';
 
-class CredentialInit {
+class CredentialsInit {
   static late CredentialStorage storage;
 
   static void init() {

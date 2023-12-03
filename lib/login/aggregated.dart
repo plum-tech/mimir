@@ -14,9 +14,9 @@ class LoginAggregated {
     // set user's real name to signature by default.
     final personName = await LoginInit.authServerService.getPersonName();
     Settings.lastSignature ??= personName;
-    CredentialInit.storage.oaCredentials = credentials;
-    CredentialInit.storage.oaLoginStatus = LoginStatus.validated;
-    CredentialInit.storage.oaLastAuthTime = DateTime.now();
-    CredentialInit.storage.oaUserType = userType;
+    CredentialsInit.storage.oaCredentials = credentials;
+    CredentialsInit.storage.oaLoginStatus = LoginStatus.validated;
+    CredentialsInit.storage.oaLastAuthTime = DateTime.now();
+    CredentialsInit.storage.oaUserType = userType;
   }
 }

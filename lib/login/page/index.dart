@@ -230,7 +230,7 @@ class _LoginPageState extends State<LoginPage> {
         OutlinedButton(
           // Offline
           onPressed: () {
-            CredentialInit.storage.oaLoginStatus = LoginStatus.offline;
+            CredentialsInit.storage.oaLoginStatus = LoginStatus.offline;
             context.go("/");
           },
           child: i18n.offlineModeBtn.text(),

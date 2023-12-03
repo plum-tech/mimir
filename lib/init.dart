@@ -89,7 +89,7 @@ class Init {
 
   static Future<void> initModules() async {
     debugPrint("Initializing module storage");
-    CredentialInit.init();
+    CredentialsInit.init();
     OaAnnounceInit.init();
     ConnectivityInit.init();
     ExamResultInit.init();

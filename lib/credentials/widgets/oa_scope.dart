@@ -19,7 +19,7 @@ class OaAuthManager extends StatefulWidget {
 }
 
 class _OaAuthManagerState extends State<OaAuthManager> {
-  final onOaChanged = CredentialInit.storage.listenOaChange();
+  final onOaChanged = CredentialsInit.storage.listenOaChange();
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _OaAuthManagerState extends State<OaAuthManager> {
 
   @override
   Widget build(BuildContext context) {
-    final storage = CredentialInit.storage;
+    final storage = CredentialsInit.storage;
     return OaAuth(
       credentials: storage.oaCredentials,
       lastAuthTime: storage.oaLastAuthTime,

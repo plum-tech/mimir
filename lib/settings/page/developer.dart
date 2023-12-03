@@ -1,7 +1,10 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/editor.dart';
+import 'package:sit/design/widgets/expansion_tile.dart';
 import 'package:sit/init.dart';
 import 'package:sit/login/aggregated.dart';
 import 'package:sit/login/utils.dart';
@@ -22,6 +25,7 @@ class DeveloperOptionsPage extends StatefulWidget {
 class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
   @override
   Widget build(BuildContext context) {
+    final oaCredentials = CredentialsInit.storage.oaCredentials;
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
@@ -45,7 +49,10 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
                 path: "/settings/developer/local-storage",
               ),
               buildReload(),
-              const SwitchAccountTile(),
+              if (oaCredentials != null)
+                SwitchOaUserTile(
+                  currentCredentials: oaCredentials,
+                ),
               const DebugGoRouteTile(),
             ]),
           ),
@@ -131,45 +138,89 @@ class _DebugGoRouteTileState extends State<DebugGoRouteTile> {
   }
 }
 
-class SwitchAccountTile extends StatefulWidget {
-  const SwitchAccountTile({super.key});
+class SwitchOaUserTile extends StatefulWidget {
+  final Credentials currentCredentials;
+
+  const SwitchOaUserTile({
+    super.key,
+    required this.currentCredentials,
+  });
 
   @override
-  State<SwitchAccountTile> createState() => _SwitchAccountTileState();
+  State<SwitchOaUserTile> createState() => _SwitchOaUserTileState();
 }
 
-class _SwitchAccountTileState extends State<SwitchAccountTile> {
+class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
   bool isLoggingIn = false;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: "Switch account".text(),
+    final credentialsList = Settings.getSavedOaCredentialsList() ?? [];
+    if (credentialsList.none((c) => c.account == widget.currentCredentials.account)) {
+      credentialsList.add(widget.currentCredentials);
+    }
+    return AnimatedExpansionTile(
+      title: "Switch OA user".text(),
       subtitle: "Without logging out".text(),
+      initiallyExpanded: true,
       leading: const Icon(Icons.swap_horiz),
-      trailing: Padding(
-        padding: const EdgeInsets.all(8),
-        child: isLoggingIn ? const CircularProgressIndicator.adaptive() : null,
-      ),
+      trailing: isLoggingIn
+          ? const Padding(
+              padding: EdgeInsets.all(8),
+              child: CircularProgressIndicator.adaptive(),
+            )
+          : null,
+      children: [
+        ...credentialsList.map(buildCredentialsHistoryTile),
+        buildLoginNewTile(),
+      ],
+    );
+  }
+
+  Widget buildCredentialsHistoryTile(Credentials credentials) {
+    final isCurrent = credentials == widget.currentCredentials;
+    return ListTile(
+      leading: const Icon(Icons.account_circle),
+      title: credentials.account.text(),
+      subtitle: isCurrent ? "Current user".text() : null,
+      trailing: const Icon(Icons.login).padAll(8),
+      enabled: !isCurrent,
+      onTap: () async {
+        await loginWith(credentials);
+      },
+    ).padH(12);
+  }
+
+  Widget buildLoginNewTile() {
+    return ListTile(
+      leading: const Icon(Icons.add),
+      title: "New account".text(),
       onTap: () async {
         final credentials = await await Editor.showAnyEditor(
           context,
           Credentials(account: "", password: ""),
         );
         if (credentials == null) return;
-        setState(() => isLoggingIn = true);
-        try {
-          await Init.cookieJar.deleteAll();
-          await LoginAggregated.login(credentials);
-          if (!mounted) return;
-          setState(() => isLoggingIn = false);
-          context.go("/");
-        } on Exception catch (error, stackTrace) {
-          if (!mounted) return;
-          setState(() => isLoggingIn = false);
-          await handleLoginException(context: context, error: error, stackTrace: stackTrace);
-        }
+        await loginWith(credentials);
       },
-    );
+    ).padH(12);
+  }
+
+  Future<void> loginWith(Credentials credentials) async {
+    setState(() => isLoggingIn = true);
+    try {
+      await Init.cookieJar.deleteAll();
+      await LoginAggregated.login(credentials);
+      final former = Settings.getSavedOaCredentialsList() ?? [];
+      former.add(credentials);
+      await Settings.setSavedOaCredentialsList(former);
+      if (!mounted) return;
+      setState(() => isLoggingIn = false);
+      context.go("/");
+    } on Exception catch (error, stackTrace) {
+      if (!mounted) return;
+      setState(() => isLoggingIn = false);
+      await handleLoginException(context: context, error: error, stackTrace: stackTrace);
+    }
   }
 }

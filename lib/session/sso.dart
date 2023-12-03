@@ -202,7 +202,7 @@ class SsoSession {
 
     // 如果跳转登录页，那就先登录
     if (isLoginPage(firstResponse)) {
-      final credentials = CredentialInit.storage.oaCredentials;
+      final credentials = CredentialsInit.storage.oaCredentials;
       if (credentials == null) {
         throw OaCredentialsRequiredException(url: url);
       }
@@ -281,7 +281,7 @@ class SsoSession {
       throw UnknownAuthException(response.data.toString());
     }
     debugPrint('${credentials.account} logged in');
-    CredentialInit.storage.oaLastAuthTime = DateTime.now();
+    CredentialsInit.storage.oaLastAuthTime = DateTime.now();
     _setOnline(true);
     return response;
   }

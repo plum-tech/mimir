@@ -14,7 +14,7 @@ class EduEmailAppCard extends StatefulWidget {
 }
 
 class _EduEmailAppCardState extends State<EduEmailAppCard> {
-  final $credentials = CredentialInit.storage.listenEduEmailChange();
+  final $credentials = CredentialsInit.storage.listenEduEmailChange();
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _EduEmailAppCardState extends State<EduEmailAppCard> {
 
   @override
   Widget build(BuildContext context) {
-    final credentials = CredentialInit.storage.eduEmailCredentials;
+    final credentials = CredentialsInit.storage.eduEmailCredentials;
     final email = credentials?.account.toString();
     return AppCard(
       title: i18n.title.text(),

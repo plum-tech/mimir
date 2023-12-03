@@ -42,7 +42,7 @@ class LibrarySession {
     final resData = response.data;
     if (resData is String) {
       // renew login
-      final credentials = CredentialInit.storage.libraryCredentials;
+      final credentials = CredentialsInit.storage.libraryCredentials;
       if (credentials != null) {
         if (resData.contains("/opac/reader/doLogin")) {
           await LibraryInit.auth.login(credentials);

@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/school/settings.dart';
 import 'package:sit/timetable/settings.dart';
+import 'package:sit/utils/collection.dart';
 
 import '../life/settings.dart';
 
@@ -16,8 +18,8 @@ class _K {
 
 class _DeveloperK {
   static const ns = '/developer';
-  static const showErrorInfoDialog = '$ns/showErrorInfoDialog';
   static const devMode = '$ns/devMode';
+  static const savedOaCredentialsList = '$ns/savedOaCredentialsList';
 }
 
 // ignore: non_constant_identifier_names
@@ -50,17 +52,20 @@ class SettingsImpl {
 
   set lastSignature(String? value) => box.put(_K.lastSignature, value);
 
-  // Developer
-  bool? get showErrorInfoDialog => box.get(_DeveloperK.showErrorInfoDialog);
-
-  set showErrorInfoDialog(bool? newV) => box.put(_DeveloperK.showErrorInfoDialog, newV);
-
   /// [false] by default.
   bool get isDeveloperMode => box.get(_DeveloperK.devMode) ?? false;
 
   set isDeveloperMode(bool newV) => box.put(_DeveloperK.devMode, newV);
 
   ValueListenable<Box> listenIsDeveloperMode() => box.listenable(keys: [_DeveloperK.devMode]);
+
+  List<Credentials>? getSavedOaCredentialsList() =>
+      (box.get(_DeveloperK.savedOaCredentialsList) as List?)?.cast<Credentials>();
+
+  Future<void> setSavedOaCredentialsList(List<Credentials>? newV) async {
+    newV?.distinctBy((c) => c.account);
+    await box.put(_DeveloperK.savedOaCredentialsList, newV);
+  }
 }
 
 class _ThemeK {

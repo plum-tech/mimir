@@ -15,7 +15,7 @@ class LibraryAppCard extends StatefulWidget {
 }
 
 class _LibraryAppCardState extends State<LibraryAppCard> {
-  final $credentials = CredentialInit.storage.listenLibraryChange();
+  final $credentials = CredentialsInit.storage.listenLibraryChange();
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _LibraryAppCardState extends State<LibraryAppCard> {
 
   @override
   Widget build(BuildContext context) {
-    final credentials = CredentialInit.storage.libraryCredentials;
+    final credentials = CredentialsInit.storage.libraryCredentials;
     return AppCard(
       title: i18n.title.text(),
       leftActions: [

@@ -75,7 +75,7 @@ class YwbSession {
     ProgressCallback? onReceiveProgress,
   }) async {
     if (!isLogin) {
-      final credentials = CredentialInit.storage.oaCredentials;
+      final credentials = CredentialsInit.storage.oaCredentials;
       if (credentials == null) throw OaCredentialsRequiredException(url: url);
       await _login(
         username: credentials.account,

@@ -94,7 +94,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
               );
               if (newPwd != credential.password) {
                 if (!mounted) return;
-                CredentialInit.storage.oaCredentials = credential.copyWith(password: newPwd);
+                CredentialsInit.storage.oaCredentials = credential.copyWith(password: newPwd);
                 setState(() {});
               }
             },

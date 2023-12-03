@@ -18,8 +18,8 @@ class EduEmailInboxPage extends StatefulWidget {
 
 class _EduEmailInboxPageState extends State<EduEmailInboxPage> {
   List<MimeMessage>? messages;
-  Credentials? credential = CredentialInit.storage.eduEmailCredentials;
-  final onEduEmailChanged = CredentialInit.storage.listenEduEmailChange();
+  Credentials? credential = CredentialsInit.storage.eduEmailCredentials;
+  final onEduEmailChanged = CredentialsInit.storage.listenEduEmailChange();
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _EduEmailInboxPageState extends State<EduEmailInboxPage> {
   }
 
   void updateCredential() {
-    final newCredential = CredentialInit.storage.eduEmailCredentials;
+    final newCredential = CredentialsInit.storage.eduEmailCredentials;
     setState(() {
       credential = newCredential;
     });
@@ -52,7 +52,7 @@ class _EduEmailInboxPageState extends State<EduEmailInboxPage> {
     } catch (error, stackTrace) {
       debugPrint(error.toString());
       debugPrintStack(stackTrace: stackTrace);
-      CredentialInit.storage.eduEmailCredentials = null;
+      CredentialsInit.storage.eduEmailCredentials = null;
       return;
     }
     try {
