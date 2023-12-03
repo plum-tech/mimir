@@ -1,4 +1,3 @@
-import 'package:sit/r.dart';
 import 'package:version/version.dart';
 
 import 'all/cache.dart';
@@ -9,7 +8,7 @@ class Migrations {
   static Migration? _onNullVersion;
 
   static void init() {
-    R.v1_0_0 << ClearCacheMigration;
+    Version(1, 0, 0) << ClearCacheMigration;
   }
 
   static MigrationMatch match({

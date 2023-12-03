@@ -85,15 +85,10 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
   Widget buildSwitchAccount() {
     return ListTile(
       title: "Switch account".text(),
-      subtitle: i18n.dev.reloadDesc.text(),
-      leading: const Icon(Icons.refresh_rounded),
+      subtitle: "Without logging out".text(),
+      leading: const Icon(Icons.swap_horiz),
       onTap: () async {
-        await Init.initNetwork();
-        await Init.initModules();
-        final engine = WidgetsFlutterBinding.ensureInitialized();
-        engine.performReassemble();
-        if (!mounted) return;
-        context.navigator.pop();
+
       },
     );
   }

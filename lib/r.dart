@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:sit/school/yellow_pages/entity/contact.dart';
 import 'package:sit/entity/version.dart';
-import 'package:version/version.dart';
 
 class R {
   const R._();
@@ -12,7 +11,6 @@ class R {
   static const hiveStorageVersion = "1.0.0+13";
   static const appId = "life.mysit.SITLife";
   static const appName = "SIT Life";
-  static final v1_0_0 = Version(1, 0, 0);
   static late AppVersion currentVersion;
 
   /// For debugging iOS on other platforms.

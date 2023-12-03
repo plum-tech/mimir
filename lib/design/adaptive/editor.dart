@@ -354,7 +354,7 @@ class _IntEditorState extends State<_IntEditor> {
             });
           },
         ),
-        PlatformTextField(
+        $TextField$(
           controller: controller,
           keyboardType: TextInputType.number,
           inputFormatters: <TextInputFormatter>[
@@ -464,7 +464,7 @@ class _StringEditorState extends State<_StringEditor> {
             onPressed: () {
               context.navigator.pop(widget.initial);
             }),
-        make: (ctx) => PlatformTextField(
+        make: (ctx) => $TextField$(
               maxLines: lines,
               controller: controller,
             ));
