@@ -426,9 +426,15 @@ library:
     readerIdHint: 你的學號
     passwordHint: 預設密碼為 888888
   search:
-    searchHistory: 搜尋記錄
+    searchHistory: 搜尋歷史
     trending: 熱門
     mostPopular: 最受歡迎
+  borrowing:
+    title: 我的借閱
+    history: 歷史
+    renew: 續借
+  history:
+    title: 借閱歷史
   searchMethod:
     any: 任意
     title: 標題

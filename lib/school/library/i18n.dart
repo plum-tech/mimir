@@ -12,6 +12,8 @@ class _I18n with CommonI18nMixin {
   final info = const _Info();
   final action = const _Action();
   final searching = const _Search();
+  final borrowing = const _Borrowing();
+  final history = const _BorrowingHistory();
 
   String get title => "$ns.title".tr();
 
@@ -80,4 +82,24 @@ class _Search {
   String get trending => "$ns.trending".tr();
 
   String get mostPopular => "$ns.mostPopular".tr();
+}
+
+class _Borrowing {
+  const _Borrowing();
+
+  static const ns = "${_I18n.ns}.borrowing";
+
+  String get title => "$ns.title".tr();
+
+  String get history => "$ns.history".tr();
+
+  String get renew => "$ns.renew".tr();
+}
+
+class _BorrowingHistory {
+  const _BorrowingHistory();
+
+  static const ns = "${_I18n.ns}.history";
+
+  String get title => "$ns.title".tr();
 }

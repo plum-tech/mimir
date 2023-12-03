@@ -428,6 +428,12 @@ library:
     searchHistory: 搜索历史
     trending: 近期流行
     mostPopular: 最热门
+  borrowing:
+    title: 我的借阅
+    history: 历史
+    renew: 续借
+  history:
+    title: Borrowing history
   searchMethod:
     any: 任意
     title: 标题

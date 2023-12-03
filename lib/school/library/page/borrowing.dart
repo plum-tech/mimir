@@ -16,14 +16,14 @@ import '../widgets/book.dart';
 import 'details.dart';
 import 'details.model.dart';
 
-class LibraryMyBorrowedPage extends StatefulWidget {
-  const LibraryMyBorrowedPage({super.key});
+class LibraryBorrowingPage extends StatefulWidget {
+  const LibraryBorrowingPage({super.key});
 
   @override
-  State<LibraryMyBorrowedPage> createState() => _LibraryMyBorrowedPageState();
+  State<LibraryBorrowingPage> createState() => _LibraryBorrowingPageState();
 }
 
-class _LibraryMyBorrowedPageState extends State<LibraryMyBorrowedPage> {
+class _LibraryBorrowingPageState extends State<LibraryBorrowingPage> {
   bool isFetching = false;
   List<BorrowedBookItem>? borrowed = LibraryInit.borrowStorage.getBorrowedBooks();
 
@@ -63,12 +63,12 @@ class _LibraryMyBorrowedPageState extends State<LibraryMyBorrowedPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            title: "Borrowed".text(),
+            title: i18n.borrowing.title.text(),
             actions: [
               PlatformTextButton(
-                child: "History".text(),
+                child: i18n.borrowing.history.text(),
                 onPressed: () async {
-                  await context.push("/library/my-borrowing-history");
+                  await context.push("/library/borrowing-history");
                 },
               ),
             ],
@@ -124,7 +124,7 @@ class BorrowedBookCard extends StatelessWidget {
                     if (!context.mounted) return;
                     await context.showTip(title: "Result", ok: i18n.ok, desc: result);
                   },
-                  child: "Renew".text(),
+                  child: i18n.borrowing.renew.text(),
                 )
               ],
             ),
@@ -182,7 +182,7 @@ class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistor
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            title: "Borrowing history".text(),
+            title: i18n.history.title.text(),
             bottom: isFetching
                 ? const PreferredSize(
                     preferredSize: Size.fromHeight(4),

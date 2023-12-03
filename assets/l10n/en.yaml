@@ -428,6 +428,12 @@ library:
     searchHistory: Search history
     trending: Trending
     mostPopular: Most popular
+  borrowing:
+    title: Borrowing
+    history: History
+    renew: Renew
+  history:
+    title: Borrowing history
   searchMethod:
     any: Any
     title: Title
