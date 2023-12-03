@@ -6,7 +6,7 @@ part of 'holding.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_CirculateType _$CirculateTypeFromJson(Map<String, dynamic> json) => _CirculateType(
+BookCirculateType _$BookCirculateTypeFromJson(Map<String, dynamic> json) => BookCirculateType(
       json['cirtype'] as String,
       json['libcode'] as String,
       json['name'] as String,
@@ -15,7 +15,7 @@ _CirculateType _$CirculateTypeFromJson(Map<String, dynamic> json) => _CirculateT
       json['isPreviService'] as int,
     );
 
-Map<String, dynamic> _$CirculateTypeToJson(_CirculateType instance) => <String, dynamic>{
+Map<String, dynamic> _$BookCirculateTypeToJson(BookCirculateType instance) => <String, dynamic>{
       'cirtype': instance.circulateType,
       'libcode': instance.libraryCode,
       'name': instance.name,
@@ -24,17 +24,17 @@ Map<String, dynamic> _$CirculateTypeToJson(_CirculateType instance) => <String, 
       'isPreviService': instance.isPreviService,
     };
 
-_HoldState _$HoldStateFromJson(Map<String, dynamic> json) => _HoldState(
+BookHoldingState _$BookHoldingStateFromJson(Map<String, dynamic> json) => BookHoldingState(
       json['stateType'] as int,
       json['stateName'] as String,
     );
 
-Map<String, dynamic> _$HoldStateToJson(_HoldState instance) => <String, dynamic>{
+Map<String, dynamic> _$BookHoldingStateToJson(BookHoldingState instance) => <String, dynamic>{
       'stateType': instance.stateType,
       'stateName': instance.stateName,
     };
 
-_HoldingItem _$HoldingItemFromJson(Map<String, dynamic> json) => _HoldingItem(
+BookHoldingItem _$BookHoldingItemFromJson(Map<String, dynamic> json) => BookHoldingItem(
       bookRecordId: json['recno'] as int,
       bookId: json['bookrecno'] as int,
       stateType: json['state'] as int,
@@ -51,7 +51,7 @@ _HoldingItem _$HoldingItemFromJson(Map<String, dynamic> json) => _HoldingItem(
       totalPrice: (json['totalPrice'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$HoldingItemToJson(_HoldingItem instance) => <String, dynamic>{
+Map<String, dynamic> _$BookHoldingItemToJson(BookHoldingItem instance) => <String, dynamic>{
       'recno': instance.bookRecordId,
       'bookrecno': instance.bookId,
       'state': instance.stateType,
@@ -68,22 +68,23 @@ Map<String, dynamic> _$HoldingItemToJson(_HoldingItem instance) => <String, dyna
       'totalPrice': instance.totalPrice,
     };
 
-_BookHoldingInfo _$BookHoldingInfoFromJson(Map<String, dynamic> json) => _BookHoldingInfo(
-      holdingList:
-          (json['holdingList'] as List<dynamic>).map((e) => _HoldingItem.fromJson(e as Map<String, dynamic>)).toList(),
+BookHoldingInfo _$BookHoldingInfoFromJson(Map<String, dynamic> json) => BookHoldingInfo(
+      holdingList: (json['holdingList'] as List<dynamic>)
+          .map((e) => BookHoldingItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
       libraryCodeMap: Map<String, String>.from(json['libcodeMap'] as Map),
       locationMap: Map<String, String>.from(json['localMap'] as Map),
       circulateTypeMap: (json['pBCtypeMap'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, _CirculateType.fromJson(e as Map<String, dynamic>)),
+        (k, e) => MapEntry(k, BookCirculateType.fromJson(e as Map<String, dynamic>)),
       ),
       holdStateMap: (json['holdStateMap'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, _HoldState.fromJson(e as Map<String, dynamic>)),
+        (k, e) => MapEntry(k, BookHoldingState.fromJson(e as Map<String, dynamic>)),
       ),
       libcodeDeferDateMap: Map<String, int>.from(json['libcodeDeferDateMap'] as Map),
       barcodeLocationUrlMap: Map<String, String>.from(json['barcodeLocationUrlMap'] as Map),
     );
 
-Map<String, dynamic> _$BookHoldingInfoToJson(_BookHoldingInfo instance) => <String, dynamic>{
+Map<String, dynamic> _$BookHoldingInfoToJson(BookHoldingInfo instance) => <String, dynamic>{
       'holdingList': instance.holdingList,
       'libcodeMap': instance.libraryCodeMap,
       'localMap': instance.locationMap,

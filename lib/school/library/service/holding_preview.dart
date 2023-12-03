@@ -11,7 +11,9 @@ class HoldingPreviewService {
 
   const HoldingPreviewService();
 
-  Future<Map<String, List<HoldingPreviewItem>>> getHoldingPreviews(List<String> bookIdList) async {
+  Future<Map<String, List<HoldingPreviewItem>>> getHoldingPreviews(
+    List<String> bookIdList,
+  ) async {
     final response = await session.request(
       LibraryConst.bookHoldingPreviewsUrl,
       para: {

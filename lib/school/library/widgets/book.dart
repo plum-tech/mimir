@@ -26,7 +26,7 @@ class _AsyncBookImageState extends State<AsyncBookImage> {
   }
 
   Future<void> fetch() async {
-    final image = await LibraryAggregated.fetchBookImageByIsbn(widget.isbn);
+    final image = await LibraryAggregated.fetchBookImage(isbn: widget.isbn);
     setState(() {
       this.image = image;
     });
