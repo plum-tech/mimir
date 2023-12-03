@@ -12,7 +12,7 @@ import 'package:sit/settings/settings.dart';
 
 import '../entity/result.ug.dart';
 import '../init.dart';
-import '../widgets/item.dart';
+import '../widgets/ug.dart';
 import '../utils.dart';
 import '../i18n.dart';
 
@@ -25,7 +25,7 @@ class ExamResultUgPage extends StatefulWidget {
 
 class _ExamResultUgPageState extends State<ExamResultUgPage> {
   List<ExamResultUg>? resultList;
-  bool isLoading = false;
+  bool isFetching = false;
   final controller = ScrollController();
   bool isSelecting = false;
   final $loadingProgress = ValueNotifier(0.0);
@@ -55,20 +55,20 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
   Future<void> refresh(SemesterInfo info) async {
     if (!mounted) return;
     setState(() {
-      resultList = ExamResultInit.storage.getResultList(info);
-      isLoading = true;
+      resultList = ExamResultInit.ugStorage.getResultList(info);
+      isFetching = true;
     });
     try {
-      final resultList = await ExamResultInit.service.getResultList(info, onProgress: (p) {
+      final resultList = await ExamResultInit.ugService.fetchResultList(info, onProgress: (p) {
         $loadingProgress.value = p;
       });
-      ExamResultInit.storage.setResultList(info, resultList);
+      await ExamResultInit.ugStorage.setResultList(info, resultList);
       // Prevents the former query replace new query.
       if (info == selected) {
         if (!mounted) return;
         setState(() {
           this.resultList = resultList;
-          isLoading = false;
+          isFetching = false;
         });
       }
     } catch (error, stackTrace) {
@@ -76,7 +76,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
       debugPrintStack(stackTrace: stackTrace);
       if (!mounted) return;
       setState(() {
-        isLoading = false;
+        isFetching = false;
       });
     } finally {
       $loadingProgress.value = 0;
@@ -112,7 +112,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
                 centerTitle: true,
                 background: buildSemesterSelector(),
               ),
-              bottom: isLoading
+              bottom: isFetching
                   ? PreferredSize(
                       preferredSize: const Size.fromHeight(4),
                       child: $loadingProgress >> (ctx, value) => AnimatedProgressBar(value: value),
@@ -130,7 +130,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
               else
                 SliverList.builder(
                   itemCount: resultList.length,
-                  itemBuilder: (item, i) => ExamResultSelectableCard(
+                  itemBuilder: (item, i) => ExamResultUgSelectableCard(
                     resultList[i],
                     index: i,
                     isSelectingMode: isSelecting,

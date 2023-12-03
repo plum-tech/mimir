@@ -4,7 +4,7 @@ part 'result.pg.g.dart';
 
 class ExamResultPgRaw {
   /// 课程类别
-  final String courseClass;
+  final String courseType;
 
   /// 课程编号
   final String courseCode;
@@ -13,7 +13,7 @@ class ExamResultPgRaw {
   final String courseName;
 
   /// 学分
-  final String courseCredit;
+  final String credit;
 
   /// 教师
   final String teacher;
@@ -40,10 +40,10 @@ class ExamResultPgRaw {
   final String notes;
 
   const ExamResultPgRaw({
-    required this.courseClass,
+    required this.courseType,
     required this.courseCode,
     required this.courseName,
-    required this.courseCredit,
+    required this.credit,
     required this.teacher,
     required this.score,
     required this.passStatus,
@@ -56,10 +56,10 @@ class ExamResultPgRaw {
   @override
   String toString() {
     return {
-      "courseClass": courseClass,
+      "courseClass": courseType,
       "courseCode": courseCode,
       "courseName": courseName,
-      "courseCredit": courseCredit,
+      "courseCredit": credit,
       "teacher": teacher,
       "score": score,
       "isPassed": passStatus,
@@ -71,13 +71,13 @@ class ExamResultPgRaw {
 
   ExamResultPg parse() {
     return ExamResultPg(
-      courseClass: courseClass,
+      courseType: courseType,
       courseCode: courseCode,
       courseName: courseName,
-      courseCredit: int.parse(courseCredit),
+      credit: int.parse(credit),
       teacher: teacher,
       score: double.parse(score),
-      isPassed: passStatus == "及格",
+      passed: passStatus == "及格",
       examType: examType,
       form: examForm,
       // currently, time is not given
@@ -86,7 +86,7 @@ class ExamResultPgRaw {
     );
   }
 
-  bool canParse(){
+  bool canParse() {
     return double.tryParse(score) != null;
   }
 }
@@ -94,7 +94,7 @@ class ExamResultPgRaw {
 @HiveType(typeId: CacheHiveType.examResultPg)
 class ExamResultPg {
   @HiveField(0)
-  final String courseClass;
+  final String courseType;
 
   @HiveField(1)
   final String courseCode;
@@ -103,7 +103,7 @@ class ExamResultPg {
   final String courseName;
 
   @HiveField(3)
-  final int courseCredit;
+  final int credit;
 
   @HiveField(4)
   final String teacher;
@@ -113,7 +113,7 @@ class ExamResultPg {
   final double score;
 
   @HiveField(6)
-  final bool isPassed;
+  final bool passed;
 
   @HiveField(7)
   final String examType;
@@ -128,13 +128,13 @@ class ExamResultPg {
   final String notes;
 
   const ExamResultPg({
-    required this.courseClass,
+    required this.courseType,
     required this.courseCode,
     required this.courseName,
-    required this.courseCredit,
+    required this.credit,
     required this.teacher,
     required this.score,
-    required this.isPassed,
+    required this.passed,
     required this.examType,
     required this.form,
     required this.time,
@@ -144,13 +144,13 @@ class ExamResultPg {
   @override
   String toString() {
     return {
-      "courseClass": courseClass,
+      "courseClass": courseType,
       "courseCode": courseCode,
       "courseName": courseName,
-      "courseCredit": courseCredit,
+      "courseCredit": credit,
       "teacher": teacher,
       "score": score,
-      "isPassed": isPassed,
+      "isPassed": passed,
       "examNature": examType,
       "examForm": form,
       "examTime": time,

@@ -2,11 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:sit/init.dart';
 
 import 'package:sit/school/entity/school.dart';
+import 'package:sit/school/exam_result/init.dart';
 import 'package:sit/session/gms.dart';
 import 'package:sit/session/jwxt.dart';
 import 'package:sit/settings/settings.dart';
 
-import '../../school/exam_result/utils.dart';
 import '../entity/course.dart';
 import '../entity/timetable.dart';
 import '../utils.dart';
@@ -15,7 +15,6 @@ class TimetableService {
   static const _undergraduateTimetableUrl = 'http://jwxt.sit.edu.cn/jwglxt/kbcx/xskbcx_cxXsgrkb.html';
   static const _postgraduateTimetableUrl =
       'http://gms.sit.edu.cn/epstar/yjs/T_PYGL_KWGL_WSXK/T_PYGL_KWGL_WSXK_XSKB_NEW.jsp';
-  static const _postgraduateScoresUrl = "http://gms.sit.edu.cn/epstar/app/template.jsp";
 
   JwxtSession get jwxtSession => Init.jwxtSession;
 
@@ -57,20 +56,8 @@ class TimetableService {
         "XQDM": _toPostgraduateSemesterText(info),
       },
     );
-    final scoresRes = await gmsSession.request(
-      _postgraduateScoresUrl,
-      options: Options(
-        method: "GET",
-      ),
-      para: {
-        "mainobj": "YJSXT/PYGL/CJGLST/V_PYGL_CJGL_KSCJHZB",
-        "tfile": "KSCJHZB_CJCX_CD/KSCJHZB_XSCX_CD_BD",
-      },
-    );
-    final timetableHtmlContent = timetableRes.data;
-    final scoresHtmlContent = scoresRes.data;
-    final scoreList = parsePostgraduateScoreRawFromScoresHtml(scoresHtmlContent);
-    final courseList = parsePostgraduateCourseRawsFromHtml(timetableHtmlContent);
+    final scoreList = await ExamResultInit.pgService.fetchResultRawList();
+    final courseList = parsePostgraduateCourseRawsFromHtml(timetableRes.data);
     completePostgraduateCourseRawsFromPostgraduateScoreRaws(courseList, scoreList);
     final timetableEntity = parsePostgraduateTimetableFromCourseRaw(
       courseList,

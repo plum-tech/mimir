@@ -8,7 +8,7 @@ import 'package:sit/session/jwxt.dart';
 
 import '../entity/result.ug.dart';
 
-class ExamResultService {
+class ExamResultUgService {
   static const _scoreUrl = 'http://jwxt.sit.edu.cn/jwglxt/cjcx/cjcx_cxDgXscj.html';
   static const _scoreDetailUrl = 'http://jwxt.sit.edu.cn/jwglxt/cjcx/cjcx_cxCjxqGjh.html';
 
@@ -29,10 +29,10 @@ class ExamResultService {
 
   JwxtSession get session => Init.jwxtSession;
 
-  const ExamResultService();
+  const ExamResultUgService();
 
   /// 获取成绩
-  Future<List<ExamResultUg>> getResultList(
+  Future<List<ExamResultUg>> fetchResultList(
     SemesterInfo info, {
     void Function(double progress)? onProgress,
   }) async {

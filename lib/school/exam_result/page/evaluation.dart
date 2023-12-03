@@ -62,7 +62,7 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
 
   Future<void> loadCookies() async {
     // refresh the cookies
-    await ExamResultInit.service.session.request(
+    await ExamResultInit.ugService.session.request(
       teacherEvaluationUri.toString(),
       options: Options(
         method: "GET",

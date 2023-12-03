@@ -1,12 +1,18 @@
-import 'service/result.dart';
-import 'storage/result.dart';
+import 'service/result.pg.dart';
+import 'service/result.ug.dart';
+import 'storage/result.pg.dart';
+import 'storage/result.ug.dart';
 
 class ExamResultInit {
-  static late ExamResultService service;
-  static late ExamResultStorage storage;
+  static late ExamResultUgService ugService;
+  static late ExamResultPgService pgService;
+  static late ExamResultUgStorage ugStorage;
+  static late ExamResultPgStorage pgStorage;
 
   static void init() {
-    service = const ExamResultService();
-    storage = const ExamResultStorage();
+    ugService = const ExamResultUgService();
+    pgService = const ExamResultPgService();
+    ugStorage = const ExamResultUgStorage();
+    pgStorage = const ExamResultPgStorage();
   }
 }

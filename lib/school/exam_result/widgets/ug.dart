@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/multi_select.dart';
 import 'package:sit/school/widgets/course.dart';
 import 'package:sit/utils/format.dart';
@@ -7,12 +8,12 @@ import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 import '../entity/result.ug.dart';
 
-class ExamResultSelectableCard extends StatelessWidget {
+class ExamResultUgSelectableCard extends StatelessWidget {
   final ExamResultUg result;
   final int index;
   final bool isSelectingMode;
 
-  const ExamResultSelectableCard(
+  const ExamResultUgSelectableCard(
     this.result, {
     super.key,
     required this.index,
@@ -23,7 +24,7 @@ class ExamResultSelectableCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = MultiselectScope.controllerOf(context);
     final selected = controller.isSelected(index);
-    return ExamResultCard(
+    return ExamResultUgCard(
       result,
       selected: selected,
       showDetails: !isSelectingMode,
@@ -37,14 +38,14 @@ class ExamResultSelectableCard extends StatelessWidget {
   }
 }
 
-class ExamResultCard extends StatelessWidget {
+class ExamResultUgCard extends StatelessWidget {
   final ExamResultUg result;
   final VoidCallback? onTap;
   final Widget? iconOverride;
   final bool selected;
   final bool showDetails;
 
-  const ExamResultCard(
+  const ExamResultUgCard(
     this.result, {
     super.key,
     this.onTap,

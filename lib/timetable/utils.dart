@@ -429,7 +429,7 @@ void completePostgraduateCourseRawsFromPostgraduateScoreRaws(
     var score = name2Score[key];
     if (score != null) {
       course.courseCode = score.courseCode;
-      course.courseCredit = score.courseCredit;
+      course.courseCredit = score.credit;
     }
   }
 }

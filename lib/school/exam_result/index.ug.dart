@@ -7,7 +7,7 @@ import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/event.dart';
 import 'package:sit/school/exam_result/init.dart';
 import 'package:sit/school/exam_result/page/evaluation.dart';
-import 'package:sit/school/exam_result/widgets/item.dart';
+import 'package:sit/school/exam_result/widgets/ug.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
@@ -52,7 +52,7 @@ class _ExamResultUgAppCardState extends State<ExamResultUgAppCard> {
       semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
     );
     setState(() {
-      resultList = ExamResultInit.storage.getResultList(current);
+      resultList = ExamResultInit.ugStorage.getResultList(current);
     });
   }
 
@@ -92,7 +92,7 @@ class _ExamResultUgAppCardState extends State<ExamResultUgAppCard> {
         (ctx, _) {
           final showDetails = Settings.school.examResult.appCardShowResultDetails;
           return results
-              .map((result) => ExamResultCard(
+              .map((result) => ExamResultUgCard(
                     result,
                     showDetails: showDetails,
                   ))

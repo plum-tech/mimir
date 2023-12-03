@@ -17,13 +17,13 @@ class ExamResultPgAdapter extends TypeAdapter<ExamResultPg> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ExamResultPg(
-      courseClass: fields[0] as String,
+      courseType: fields[0] as String,
       courseCode: fields[1] as String,
       courseName: fields[2] as String,
-      courseCredit: fields[3] as int,
+      credit: fields[3] as int,
       teacher: fields[4] as String,
       score: fields[5] as double,
-      isPassed: fields[6] as bool,
+      passed: fields[6] as bool,
       examType: fields[7] as String,
       form: fields[8] as String,
       time: fields[9] as DateTime?,
@@ -36,19 +36,19 @@ class ExamResultPgAdapter extends TypeAdapter<ExamResultPg> {
     writer
       ..writeByte(11)
       ..writeByte(0)
-      ..write(obj.courseClass)
+      ..write(obj.courseType)
       ..writeByte(1)
       ..write(obj.courseCode)
       ..writeByte(2)
       ..write(obj.courseName)
       ..writeByte(3)
-      ..write(obj.courseCredit)
+      ..write(obj.credit)
       ..writeByte(4)
       ..write(obj.teacher)
       ..writeByte(5)
       ..write(obj.score)
       ..writeByte(6)
-      ..write(obj.isPassed)
+      ..write(obj.passed)
       ..writeByte(7)
       ..write(obj.examType)
       ..writeByte(8)
