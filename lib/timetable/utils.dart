@@ -16,7 +16,7 @@ import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sit/utils/strings.dart';
 import 'package:universal_platform/universal_platform.dart';
-import '../school/exam_result/entity/score.dart';
+import '../school/exam_result/entity/result.pg.dart';
 import 'entity/timetable.dart';
 
 import 'entity/course.dart';
@@ -416,8 +416,8 @@ List<PostgraduateCourseRaw> parsePostgraduateCourseRawsFromHtml(String timetable
 }
 
 void completePostgraduateCourseRawsFromPostgraduateScoreRaws(
-    List<PostgraduateCourseRaw> courseList, List<PostgraduateScoreRaw> scoreList) {
-  var name2Score = <String, PostgraduateScoreRaw>{};
+    List<PostgraduateCourseRaw> courseList, List<ExamResultPgRaw> scoreList) {
+  var name2Score = <String, ExamResultPgRaw>{};
 
   for (var score in scoreList) {
     var key = score.courseName.replaceAll(" ", "");

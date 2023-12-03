@@ -10,6 +10,7 @@ import 'package:sit/index.dart';
 import 'package:sit/me/edu_email/page/login.dart';
 import 'package:sit/me/edu_email/page/outbox.dart';
 import 'package:sit/school/class2nd/entity/attended.dart';
+import 'package:sit/school/exam_result/page/result.pg.dart';
 import 'package:sit/school/library/page/login.dart';
 import 'package:sit/school/library/page/borrowing.dart';
 import 'package:sit/school/ywb/page/meta.dart';
@@ -36,7 +37,7 @@ import 'package:sit/school/class2nd/page/details.dart';
 import 'package:sit/school/class2nd/page/activity.dart';
 import 'package:sit/school/class2nd/page/attended.dart';
 import 'package:sit/school/exam_result/page/evaluation.dart';
-import 'package:sit/school/exam_result/page/result.dart';
+import 'package:sit/school/exam_result/page/result.ug.dart';
 import 'package:sit/school/yellow_pages/page/index.dart';
 import 'package:sit/settings/page/credentials.dart';
 import 'package:sit/settings/page/developer.dart';
@@ -329,9 +330,18 @@ final _examArrange = GoRoute(
   redirect: _loginRequired,
 );
 
-final _examResult = GoRoute(
+final _examResultRoute = GoRoute(
   path: "/exam-result",
-  builder: (ctx, state) => const ExamResultPage(),
+  routes: [
+    GoRoute(
+      path: "undergraduate",
+      builder: (ctx, state) => const ExamResultUgPage(),
+    ),
+    GoRoute(
+      path: "postgraduate",
+      builder: (ctx, state) => const ExamResultPgPage(),
+    ),
+  ],
   redirect: _loginRequired,
 );
 
@@ -412,7 +422,7 @@ RoutingConfig buildCommonRoutingConfig() {
       _oaAnnounceRoute,
       ..._eduEmailRoutes,
       _ywbRoute,
-      _examResult,
+      _examResultRoute,
       _examArrange,
       ..._libraryRoutes,
       _teacherEvalRoute,
@@ -443,7 +453,7 @@ RoutingConfig buildTimetableFocusRouter() {
       _oaAnnounceRoute,
       ..._eduEmailRoutes,
       _ywbRoute,
-      _examResult,
+      _examResultRoute,
       _examArrange,
       ..._libraryRoutes,
       _teacherEvalRoute,

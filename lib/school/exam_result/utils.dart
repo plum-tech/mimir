@@ -1,11 +1,11 @@
 import 'package:html/parser.dart';
 import 'package:sit/school/entity/school.dart';
 
-import 'entity/result.dart';
-import 'entity/score.dart';
+import 'entity/result.ug.dart';
+import 'entity/result.pg.dart';
 
 // TODO: calculate GPA
-double calcGPA(Iterable<ExamResult> scoreList) {
+double calcGPA(Iterable<ExamResultUg> scoreList) {
   double totalCredits = 0.0;
   double sum = 0.0;
 
@@ -18,8 +18,8 @@ double calcGPA(Iterable<ExamResult> scoreList) {
   return res.isNaN ? 0 : res;
 }
 
-List<PostgraduateScoreRaw> parsePostgraduateScoreRawFromScoresHtml(String scoresHtmlContent) {
-  List<PostgraduateScoreRaw> all = [];
+List<ExamResultPgRaw> parsePostgraduateScoreRawFromScoresHtml(String scoresHtmlContent) {
+  List<ExamResultPgRaw> all = [];
 
   final htmlDocument = parse(scoresHtmlContent);
   final table = htmlDocument
@@ -43,15 +43,15 @@ List<PostgraduateScoreRaw> parsePostgraduateScoreRawFromScoresHtml(String scores
       var examForm = tdList[8].text.trim();
       var examTime = tdList[9].text.trim();
       var notes = tdList[9].text.trim();
-      final scoresRaw = PostgraduateScoreRaw(
+      final scoresRaw = ExamResultPgRaw(
           courseClass: courseClass,
           courseCode: courseCode,
           courseName: courseName,
           courseCredit: courseCredit,
           teacher: teacher,
           score: score,
-          isPassed: isPassed,
-          examNature: examNature,
+          passStatus: isPassed,
+          examType: examNature,
           examForm: examForm,
           examTime: examTime,
           notes: notes);

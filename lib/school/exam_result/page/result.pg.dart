@@ -10,21 +10,21 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/settings/settings.dart';
 
-import '../entity/result.dart';
+import '../entity/result.ug.dart';
 import '../init.dart';
 import '../widgets/item.dart';
 import '../utils.dart';
 import '../i18n.dart';
 
-class ExamResultPage extends StatefulWidget {
-  const ExamResultPage({super.key});
+class ExamResultPgPage extends StatefulWidget {
+  const ExamResultPgPage({super.key});
 
   @override
-  State<ExamResultPage> createState() => _ExamResultPageState();
+  State<ExamResultPgPage> createState() => _ExamResultPgPageState();
 }
 
-class _ExamResultPageState extends State<ExamResultPage> {
-  List<ExamResult>? resultList;
+class _ExamResultPgPageState extends State<ExamResultPgPage> {
+  List<ExamResultUg>? resultList;
   bool isLoading = false;
   final controller = ScrollController();
   bool isSelecting = false;
@@ -87,7 +87,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
   Widget build(BuildContext context) {
     final resultList = this.resultList;
     return Scaffold(
-      body: MultiselectScope<ExamResult>(
+      body: MultiselectScope<ExamResultUg>(
         controller: multiselect,
         dataSource: resultList ?? const [],
         // Set this to true if you want automatically
@@ -174,7 +174,7 @@ class _ExamResultPageState extends State<ExamResultPage> {
   Widget buildTitle() {
     final resultList = this.resultList;
     final style = context.textTheme.headlineSmall;
-    final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResult>() : resultList;
+    final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResultUg>() : resultList;
     if (selectedExams != null) {
       final gpa = calcGPA(selectedExams.where((exam) => exam.hasScore));
       if (isSelecting) {

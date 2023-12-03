@@ -14,8 +14,9 @@ class CoreHiveType {
 
 class CacheHiveType {
   // Exam result 0-9
-  static const examResult = 0;
-  static const examResultItem = 1;
+  static const examResultUndergraduate = 0;
+  static const examResultUndergraduateItem = 1;
+  static const examResultPg = 2;
 
   // Second class activity 10-19
   static const activity = 10;

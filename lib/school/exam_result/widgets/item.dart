@@ -5,10 +5,10 @@ import 'package:sit/utils/format.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../i18n.dart';
-import '../entity/result.dart';
+import '../entity/result.ug.dart';
 
 class ExamResultSelectableCard extends StatelessWidget {
-  final ExamResult result;
+  final ExamResultUg result;
   final int index;
   final bool isSelectingMode;
 
@@ -38,7 +38,7 @@ class ExamResultSelectableCard extends StatelessWidget {
 }
 
 class ExamResultCard extends StatelessWidget {
-  final ExamResult result;
+  final ExamResultUg result;
   final VoidCallback? onTap;
   final Widget? iconOverride;
   final bool selected;

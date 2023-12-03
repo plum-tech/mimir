@@ -5,12 +5,13 @@ import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/life/electricity/entity/balance.dart';
 import 'package:sit/life/expense_records/entity/local.dart';
+import 'package:sit/school/exam_result/entity/result.pg.dart';
 import 'package:sit/school/library/entity/book.dart';
 import 'package:sit/school/library/entity/borrow.dart';
 import 'package:sit/school/library/entity/image.dart';
 import 'package:sit/school/ywb/entity/service.dart';
 import 'package:sit/school/ywb/entity/application.dart';
-import 'package:sit/school/exam_result/entity/result.dart';
+import 'package:sit/school/exam_result/entity/result.ug.dart';
 import 'package:sit/school/oa_announce/entity/announce.dart';
 import 'package:sit/school/class2nd/entity/details.dart';
 import 'package:sit/school/class2nd/entity/list.dart';
@@ -66,8 +67,10 @@ class HiveAdapter {
     hive.addAdapter(YwbApplicationTrackAdapter());
 
     // Exam Result
-    hive.addAdapter(ExamResultAdapter());
+    hive.addAdapter(ExamResultUgAdapter());
     hive.addAdapter(ExamResultItemAdapter());
+    hive.addAdapter(ExamResultPgAdapter());
+    hive.addAdapter(ExamResultUgAdapter());
 
     // Library
     // ~LibrarySearchHistoryItemAdapter();

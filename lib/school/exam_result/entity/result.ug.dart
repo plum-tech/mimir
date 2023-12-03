@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/storage/hive/type_id.dart';
 import 'package:sit/school/entity/school.dart';
 
-part 'result.g.dart';
+part 'result.ug.g.dart';
 
 String _parseCourseName(dynamic courseName) {
   return mapChinesePunctuations(courseName.toString());
@@ -17,8 +17,8 @@ DateTime? _parseTime(dynamic time) {
 }
 
 @JsonSerializable()
-@HiveType(typeId: CacheHiveType.examResult)
-class ExamResult {
+@HiveType(typeId: CacheHiveType.examResultUndergraduate)
+class ExamResultUg {
   /// If the teacher of class hasn't been evaluated, the score is NaN.
   @JsonKey(name: 'cj', fromJson: stringToDouble)
   @HiveField(0)
@@ -67,7 +67,7 @@ class ExamResult {
   @HiveField(9)
   final List<ExamResultItem> items;
 
-  const ExamResult({
+  const ExamResultUg({
     required this.score,
     required this.courseName,
     required this.courseId,
@@ -80,7 +80,7 @@ class ExamResult {
     required this.time,
   });
 
-  ExamResult copyWith({
+  ExamResultUg copyWith({
     double? score,
     String? courseName,
     String? courseId,
@@ -92,7 +92,7 @@ class ExamResult {
     DateTime? time,
     List<ExamResultItem>? items,
   }) {
-    return ExamResult(
+    return ExamResultUg(
       score: score ?? this.score,
       courseName: courseName ?? this.courseName,
       courseId: courseId ?? this.courseId,
@@ -110,7 +110,7 @@ class ExamResult {
 
   bool get passed => hasScore ? score >= 60.0 : false;
 
-  factory ExamResult.fromJson(Map<String, dynamic> json) => _$ExamResultFromJson(json);
+  factory ExamResultUg.fromJson(Map<String, dynamic> json) => _$ExamResultUgFromJson(json);
 
   @override
   String toString() {
@@ -128,7 +128,7 @@ class ExamResult {
     }.toString();
   }
 
-  static int compareByTime(ExamResult a, ExamResult b) {
+  static int compareByTime(ExamResultUg a, ExamResultUg b) {
     final timeA = a.time;
     final timeB = b.time;
     if (timeA == null && timeB == null) return 0;
@@ -138,7 +138,7 @@ class ExamResult {
   }
 }
 
-@HiveType(typeId: CacheHiveType.examResultItem)
+@HiveType(typeId: CacheHiveType.examResultUndergraduateItem)
 class ExamResultItem {
   /// 成绩名称
   @HiveField(0)

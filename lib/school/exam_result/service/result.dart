@@ -6,7 +6,7 @@ import 'package:sit/init.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/session/jwxt.dart';
 
-import '../entity/result.dart';
+import '../entity/result.ug.dart';
 
 class ExamResultService {
   static const _scoreUrl = 'http://jwxt.sit.edu.cn/jwglxt/cjcx/cjcx_cxDgXscj.html';
@@ -32,7 +32,7 @@ class ExamResultService {
   const ExamResultService();
 
   /// 获取成绩
-  Future<List<ExamResult>> getResultList(
+  Future<List<ExamResultUg>> getResultList(
     SemesterInfo info, {
     void Function(double progress)? onProgress,
   }) async {
@@ -57,7 +57,7 @@ class ExamResultService {
     );
     progress.value = 0.2;
     final resultList = _parseScoreListPage(response.data);
-    final newResultList = <ExamResult>[];
+    final newResultList = <ExamResultUg>[];
     for (final result in resultList) {
       final resultItems =
           await getResultItems((year: result.year, semester: result.semester), classId: result.innerClassId);
@@ -92,10 +92,10 @@ class ExamResultService {
     return _parseDetailPage(html);
   }
 
-  static List<ExamResult> _parseScoreListPage(Map<String, dynamic> jsonPage) {
+  static List<ExamResultUg> _parseScoreListPage(Map<String, dynamic> jsonPage) {
     final List? scoreList = jsonPage['items'];
     if (scoreList == null) return const [];
-    return scoreList.map((e) => ExamResult.fromJson(e as Map<String, dynamic>)).toList();
+    return scoreList.map((e) => ExamResultUg.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   static ExamResultItem _mapToDetailItem(Bs4Element item) {

@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'result.dart';
+part of 'result.ug.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ExamResultAdapter extends TypeAdapter<ExamResult> {
+class ExamResultUgAdapter extends TypeAdapter<ExamResultUg> {
   @override
   final int typeId = 0;
 
   @override
-  ExamResult read(BinaryReader reader) {
+  ExamResultUg read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ExamResult(
+    return ExamResultUg(
       score: fields[0] as double,
       courseName: fields[1] as String,
       courseId: fields[2] as String,
@@ -31,7 +31,7 @@ class ExamResultAdapter extends TypeAdapter<ExamResult> {
   }
 
   @override
-  void write(BinaryWriter writer, ExamResult obj) {
+  void write(BinaryWriter writer, ExamResultUg obj) {
     writer
       ..writeByte(10)
       ..writeByte(0)
@@ -62,7 +62,7 @@ class ExamResultAdapter extends TypeAdapter<ExamResult> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ExamResultAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ExamResultUgAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
 class ExamResultItemAdapter extends TypeAdapter<ExamResultItem> {
@@ -107,7 +107,7 @@ class ExamResultItemAdapter extends TypeAdapter<ExamResultItem> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-ExamResult _$ExamResultFromJson(Map<String, dynamic> json) => ExamResult(
+ExamResultUg _$ExamResultUgFromJson(Map<String, dynamic> json) => ExamResultUg(
       score: stringToDouble(json['cj'] as String),
       courseName: _parseCourseName(json['kcmc']),
       courseId: json['kch'] as String,
@@ -119,7 +119,7 @@ ExamResult _$ExamResultFromJson(Map<String, dynamic> json) => ExamResult(
       time: _parseTime(json['tjsj']),
     );
 
-Map<String, dynamic> _$ExamResultToJson(ExamResult instance) => <String, dynamic>{
+Map<String, dynamic> _$ExamResultUgToJson(ExamResultUg instance) => <String, dynamic>{
       'cj': instance.score,
       'kcmc': instance.courseName,
       'kch': instance.courseId,

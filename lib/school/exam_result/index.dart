@@ -14,7 +14,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/utils/guard_launch.dart';
 import 'package:universal_platform/universal_platform.dart';
 
-import 'entity/result.dart';
+import 'entity/result.ug.dart';
 import "i18n.dart";
 
 const _recentLength = 2;
@@ -27,7 +27,7 @@ class ExamResultAppCard extends StatefulWidget {
 }
 
 class _ExamResultAppCardState extends State<ExamResultAppCard> {
-  List<ExamResult>? resultList;
+  List<ExamResultUg>? resultList;
   late final EventSubscription $refreshEvent;
 
   @override
@@ -84,9 +84,9 @@ class _ExamResultAppCardState extends State<ExamResultAppCard> {
     );
   }
 
-  Widget? buildRecentResults(List<ExamResult> resultList) {
+  Widget? buildRecentResults(List<ExamResultUg> resultList) {
     if (resultList.isEmpty) return null;
-    resultList.sort((a, b) => -ExamResult.compareByTime(a, b));
+    resultList.sort((a, b) => -ExamResultUg.compareByTime(a, b));
     final results = resultList.sublist(0, min(_recentLength, resultList.length));
     return Settings.school.examResult.listenAppCardShowResultDetails() >>
         (ctx, _) {
