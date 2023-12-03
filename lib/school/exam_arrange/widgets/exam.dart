@@ -6,11 +6,11 @@ import 'package:universal_platform/universal_platform.dart';
 import '../i18n.dart';
 import '../entity/exam.dart';
 
-class ExamCard extends StatelessWidget {
+class ExamCardContent extends StatelessWidget {
   final ExamEntry exam;
   final bool enableAddEvent;
 
-  const ExamCard(
+  const ExamCardContent(
     this.exam, {
     super.key,
     required this.enableAddEvent,

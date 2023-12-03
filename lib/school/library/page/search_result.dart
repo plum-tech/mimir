@@ -213,7 +213,6 @@ class BookCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final book = this.book;
-    final onSearchTap = this.onSearchTap;
     final holding = this.holding ?? const [];
     // 计算总共馆藏多少书
     int copyCount = holding.isEmpty ? 0 : holding.map((e) => e.copyCount).reduce((value, element) => value + element);
@@ -227,45 +226,59 @@ class BookCard extends StatelessWidget {
         title: book.title.text(),
         onTap: onTap,
         subtitle: [
-          RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: book.author,
-                  style: const TextStyle(color: Colors.blue),
-                  recognizer: onSearchTap == null
-                      ? null
-                      : (TapGestureRecognizer()
-                        ..onTap = () async {
-                          onSearchTap(SearchMethod.author, book.author);
-                        }),
-                )
-              ],
-              style: context.textTheme.bodyMedium?.copyWith(color: context.colorScheme.onSurfaceVariant),
-            ),
-          ),
+          buildAuthor(context),
           if (book.isbn.isNotEmpty) "${SearchMethod.isbn.l10nName()} ${book.isbn}".text(),
           "${SearchMethod.callNumber.l10nName()} ${book.callNumber}".text(),
-          RichText(
-              text: TextSpan(
-            children: [
-              TextSpan(
-                style: const TextStyle(color: Colors.blue),
-                text: book.publisher,
-                recognizer: onSearchTap == null
-                    ? null
-                    : (TapGestureRecognizer()
-                      ..onTap = () async {
-                        onSearchTap(SearchMethod.publisher, book.publisher);
-                      }),
-              ),
-              const TextSpan(text: " "),
-              TextSpan(text: book.publishDate),
-            ],
-            style: context.textTheme.bodyMedium?.copyWith(color: context.colorScheme.onSurfaceVariant),
-          ))
+          buildPublisher(context),
         ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
       ),
+    );
+  }
+
+  Widget buildAuthor(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        children: [
+          buildSearchableField(
+            method: SearchMethod.author,
+            text: book.author,
+          ),
+        ],
+        style: context.textTheme.bodyMedium?.copyWith(color: context.colorScheme.onSurfaceVariant),
+      ),
+    );
+  }
+
+  Widget buildPublisher(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        children: [
+          buildSearchableField(
+            method: SearchMethod.publisher,
+            text: book.publisher,
+          ),
+          const TextSpan(text: " "),
+          TextSpan(text: book.publishDate),
+        ],
+        style: context.textTheme.bodyMedium?.copyWith(color: context.colorScheme.onSurfaceVariant),
+      ),
+    );
+  }
+
+  TextSpan buildSearchableField({
+    required SearchMethod method,
+    required String text,
+  }) {
+    final onSearchTap = this.onSearchTap;
+    return TextSpan(
+      text: text,
+      style: const TextStyle(color: Colors.blue),
+      recognizer: onSearchTap == null
+          ? null
+          : (TapGestureRecognizer()
+            ..onTap = () async {
+              onSearchTap(method, text);
+            }),
     );
   }
 }

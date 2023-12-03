@@ -100,7 +100,7 @@ class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
                 itemBuilder: (ctx, i) {
                   final exam = examList[i];
                   return FilledCard(
-                    child: ExamCard(
+                    child: ExamCardContent(
                       exam,
                       enableAddEvent: exam.time?.end.isAfter(now) ?? false,
                     ),

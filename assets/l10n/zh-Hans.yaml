@@ -433,7 +433,7 @@ library:
     history: 历史
     renew: 续借
   history:
-    title: Borrowing history
+    title: 借阅历史
   searchMethod:
     any: 任意
     title: 标题

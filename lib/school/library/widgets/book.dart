@@ -43,3 +43,21 @@ class _AsyncBookImageState extends State<AsyncBookImage> {
     );
   }
 }
+
+class BookCachedImage extends StatelessWidget {
+  final String url;
+
+  const BookCachedImage({
+    super.key,
+    required this.url,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: url,
+      placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
+    );
+  }
+}
