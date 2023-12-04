@@ -23,13 +23,14 @@ class Class2ndScoreSummaryAdapter extends TypeAdapter<Class2ndScoreSummary> {
       schoolSafetyCivilization: fields[3] as double,
       voluntary: fields[4] as double,
       schoolCulture: fields[5] as double,
+      honestyPoints: fields[6] as double,
     );
   }
 
   @override
   void write(BinaryWriter writer, Class2ndScoreSummary obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.thematicReport)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class Class2ndScoreSummaryAdapter extends TypeAdapter<Class2ndScoreSummary> {
       ..writeByte(4)
       ..write(obj.voluntary)
       ..writeByte(5)
-      ..write(obj.schoolCulture);
+      ..write(obj.schoolCulture)
+      ..writeByte(6)
+      ..write(obj.honestyPoints);
   }
 
   @override

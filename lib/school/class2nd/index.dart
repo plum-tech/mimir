@@ -92,6 +92,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
               summary: summary,
               target: getTargetScore(),
             ),
+      subtitle: summary == null ? null : "${i18n.info.honestyPoints}: ${summary.honestyPoints}".text(),
       leftActions: [
         FilledButton.icon(
           onPressed: () async {

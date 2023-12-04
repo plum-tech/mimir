@@ -17,6 +17,7 @@ class Class2ndScoreService {
   static const $totalScore = '#content-box > div.user-info > div:nth-child(3) > font';
 
   static final activityIdRe = RegExp(r'activityId=(\d+)');
+  static final honestyPointsRe = RegExp(r'诚信积分：(\S+)');
 
   Class2ndSession get session => Init.class2ndSession;
 
@@ -35,10 +36,10 @@ class Class2ndScoreService {
   }
 
   static Class2ndScoreSummary _parseScoreSummary(String htmlPage) {
-    final BeautifulSoup soup = BeautifulSoup(htmlPage);
+    final html = BeautifulSoup(htmlPage);
 
     // 学分=1.5(主题报告)+2.0(社会实践)+1.5(创新创业创意)+1.0(校园安全文明)+0.0(公益志愿)+2.0(校园文化)
-    final found = soup.find('#span_score')!;
+    final found = html.find('#span_score')!;
     final String scoreText = found.text.toString();
     final regExp = RegExp(r'([\d.]+)\(([\u4e00-\u9fa5]+)\)');
 
@@ -73,6 +74,17 @@ class Class2ndScoreService {
           break;
       }
     }
+    final element = html.find("div", attrs: {"onmouseover": "showSynopsis()"});
+    var honestyPoints = 0.0;
+    if (element != null) {
+      final pointsRaw = honestyPointsRe.firstMatch(element.text)?.group(1);
+      if (pointsRaw != null) {
+        final points = double.tryParse(pointsRaw);
+        if (points != null) {
+          honestyPoints = points;
+        }
+      }
+    }
     return Class2ndScoreSummary(
       thematicReport: lecture,
       practice: practice,
@@ -80,6 +92,7 @@ class Class2ndScoreService {
       schoolSafetyCivilization: safetyEdu,
       voluntary: voluntary,
       schoolCulture: campus,
+      honestyPoints: honestyPoints,
     );
   }
 

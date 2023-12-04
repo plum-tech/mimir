@@ -33,6 +33,10 @@ class Class2ndScoreSummary {
   @HiveField(5)
   final double schoolCulture;
 
+  /// 诚信积分
+  @HiveField(6)
+  final double honestyPoints;
+
   const Class2ndScoreSummary({
     this.thematicReport = 0,
     this.practice = 0,
@@ -40,6 +44,7 @@ class Class2ndScoreSummary {
     this.schoolSafetyCivilization = 0,
     this.voluntary = 0,
     this.schoolCulture = 0,
+    this.honestyPoints = 0,
   });
 
   @override
@@ -51,6 +56,7 @@ class Class2ndScoreSummary {
       "safetyEdu": schoolSafetyCivilization,
       "voluntary": voluntary,
       "schoolCulture": schoolCulture,
+      "honestyPoints": honestyPoints,
     }.toString();
   }
 
