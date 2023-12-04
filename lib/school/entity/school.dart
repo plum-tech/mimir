@@ -36,10 +36,7 @@ class SemesterInfo {
 
   @override
   String toString() {
-    return {
-      "year": year,
-      "semester": semester,
-    }.toString();
+    return "$year:$semester";
   }
 }
 

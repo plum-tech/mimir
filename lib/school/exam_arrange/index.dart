@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -25,11 +27,22 @@ class ExamArrangeAppCard extends StatefulWidget {
 class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
   List<ExamEntry>? examList;
   late final EventSubscription $refreshEvent;
+  late final StreamSubscription $examList;
+  late final currentSemester = () {
+    final now = DateTime.now();
+    return SemesterInfo(
+      year: now.month >= 9 ? now.year : now.year - 1,
+      semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
+    );
+  }();
 
   @override
   void initState() {
     super.initState();
     $refreshEvent = schoolEventBus.addListener(() {
+      refresh();
+    });
+    $examList = ExamArrangeInit.storage.watchExamList(() => currentSemester).listen((event) {
       refresh();
     });
     refresh();
@@ -38,17 +51,13 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
   @override
   void dispose() {
     $refreshEvent.cancel();
+    $examList.cancel();
     super.dispose();
   }
 
   void refresh() {
-    final now = DateTime.now();
-    final current = SemesterInfo(
-      year: now.month >= 9 ? now.year : now.year - 1,
-      semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
-    );
     setState(() {
-      examList = ExamArrangeInit.storage.getExamList(current);
+      examList = ExamArrangeInit.storage.getExamList(currentSemester);
     });
   }
 

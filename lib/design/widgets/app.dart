@@ -33,7 +33,6 @@ class AppCard extends StatelessWidget {
     final leftActions = this.leftActions ?? const <Widget>[];
     final rightActions = this.rightActions ?? const <Widget>[];
     final textTheme = context.textTheme;
-    final view = this.view;
     return FilledCard(
       child: [
         Theme(

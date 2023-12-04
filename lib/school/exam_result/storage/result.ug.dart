@@ -9,7 +9,7 @@ class _K {
   static const ns = "/ug";
   static const lastSemesterInfo = "$ns/lastSemesterInfo";
 
-  static String resultList(SchoolYear schoolYear, Semester semester) => "$ns/resultList/$schoolYear/$semester";
+  static String resultList(SemesterInfo info) => "$ns/resultList/$info";
 }
 
 class ExamResultUgStorage {
@@ -17,16 +17,16 @@ class ExamResultUgStorage {
 
   const ExamResultUgStorage();
 
-  List<ExamResultUg>? getResultList(SemesterInfo info) =>
-      (box.get(_K.resultList(info.year, info.semester)) as List?)?.cast<ExamResultUg>();
+  List<ExamResultUg>? getResultList(SemesterInfo info) => (box.get(_K.resultList(info)) as List?)?.cast<ExamResultUg>();
 
-  Future<void> setResultList(SemesterInfo info, List<ExamResultUg>? results) =>
-      box.put(_K.resultList(info.year, info.semester), results);
+  Future<void> setResultList(SemesterInfo info, List<ExamResultUg>? results) => box.put(_K.resultList(info), results);
 
-  ValueListenable<Box> listenResultList(SemesterInfo info) =>
-      box.listenable(keys: [_K.resultList(info.year, info.semester)]);
+  ValueListenable<Box> listenResultList(SemesterInfo info) => box.listenable(keys: [_K.resultList(info)]);
 
   SemesterInfo? get lastSemesterInfo => box.get(_K.lastSemesterInfo);
 
   set lastSemesterInfo(SemesterInfo? newV) => box.put(_K.lastSemesterInfo, newV);
+
+  Stream<BoxEvent> watchResultList(SemesterInfo Function() getFilter) =>
+      box.watch().where((event) => event.key == _K.resultList(getFilter()));
 }

@@ -24,19 +24,21 @@ class ExamResultPgAppCard extends StatefulWidget {
 class _ExamResultPgAppCardState extends State<ExamResultPgAppCard> {
   List<ExamResultPg>? resultList;
   late final EventSubscription $refreshEvent;
-
+  final $resultList = ExamResultInit.pgStorage.listenResultList();
   @override
   void initState() {
     super.initState();
     $refreshEvent = schoolEventBus.addListener(() async {
       refresh();
     });
+    $resultList.addListener(refresh);
     refresh();
   }
 
   @override
   void dispose() {
     $refreshEvent.cancel();
+    $resultList.removeListener(refresh);
     super.dispose();
   }
 
