@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/widgets/card.dart';
 
 import 'package:sit/school/oa_announce/widget/tile.dart';
@@ -10,18 +11,6 @@ import '../entity/announce.dart';
 import '../init.dart';
 import '../i18n.dart';
 
-const _commonOaAnnounceCats = [
-  OaAnnounceCat.learning,
-  OaAnnounceCat.studentAffairs,
-  OaAnnounceCat.announcement,
-  OaAnnounceCat.culture,
-  OaAnnounceCat.download,
-  OaAnnounceCat.collegeNotification,
-  OaAnnounceCat.life,
-  // TODO: For postgraduates
-  // OaAnnounceCat.training,
-];
-
 class OaAnnounceListPage extends StatefulWidget {
   const OaAnnounceListPage({super.key});
 
@@ -30,7 +19,27 @@ class OaAnnounceListPage extends StatefulWidget {
 }
 
 class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
-  final loadingStates = ValueNotifier(_commonOaAnnounceCats.map((cat) => false).toList());
+  @override
+  Widget build(BuildContext context) {
+    final cats = OaAnnounceCat.resolve(context.auth.userType);
+    return OaAnnounceListPageInternal(cats: cats);
+  }
+}
+
+class OaAnnounceListPageInternal extends StatefulWidget {
+  final List<OaAnnounceCat> cats;
+
+  const OaAnnounceListPageInternal({
+    super.key,
+    required this.cats,
+  });
+
+  @override
+  State<OaAnnounceListPageInternal> createState() => _OaAnnounceListPageInternalState();
+}
+
+class _OaAnnounceListPageInternalState extends State<OaAnnounceListPageInternal> {
+  late final loadingStates = ValueNotifier(widget.cats.map((cat) => false).toList());
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +52,7 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
             },
       ),
       body: DefaultTabController(
-        length: _commonOaAnnounceCats.length,
+        length: widget.cats.length,
         child: NestedScrollView(
           floatHeaderSlivers: true,
           headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -57,7 +66,7 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
                   forceElevated: innerBoxIsScrolled,
                   bottom: TabBar(
                     isScrollable: true,
-                    tabs: _commonOaAnnounceCats
+                    tabs: widget.cats
                         .mapIndexed(
                           (i, e) => Tab(
                             child: e.l10nName().text(),
@@ -71,8 +80,9 @@ class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
           },
           body: TabBarView(
             // These are the contents of the tab views, below the tabs.
-            children: _commonOaAnnounceCats.mapIndexed((i, cat) {
+            children: widget.cats.mapIndexed((i, cat) {
               return OaAnnounceLoadingList(
+                key: ValueKey(cat),
                 cat: cat,
                 onLoadingChanged: (state) {
                   final newStates = List.of(loadingStates.value);

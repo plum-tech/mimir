@@ -576,6 +576,8 @@ oaAnnounce:
     announcement: Announcement
     life: Life
     download: Download
+    training: Training
+    academicReport: Report
 yellowPages:
   title: Yellow pages
 scanner:

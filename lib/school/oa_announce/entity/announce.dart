@@ -1,18 +1,29 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/storage/hive/type_id.dart';
 
 part 'announce.g.dart';
 
 /// 通知分类
 enum OaAnnounceCat {
+  // ug, pg
   studentAffairs('学生事务', 'pe2362'),
+  // ug
   learning('学习课堂', 'pe2364'),
+  // ug, pg
   collegeNotification('二级学院通知', 'pe2368'),
+  // ug
   culture('校园文化', 'pe2366'),
+  // ug, pg
   announcement('公告信息', 'pe2367'),
+  // ug, pg
   life('生活服务', 'pe2365'),
+  // ug
   download('文件下载专区', 'pe2382'),
-  training('培养信息', 'pe3442', postgraduate: true);
+  // pg
+  training('培养信息', 'pe3442'),
+  // pg
+  academicReport('学术报告', 'pe3422');
 
   /// 分类名
   final String catName;
@@ -20,17 +31,43 @@ enum OaAnnounceCat {
   /// 分类代号(OA上命名为pen，以pe打头)
   final String internalId;
 
-  final bool postgraduate;
-
   String l10nName() => "oaAnnounce.oaAnnounceCat.$name".tr();
 
   static String allCatL10n() => "oaAnnounce.oaAnnounceCat.all".tr();
 
-  const OaAnnounceCat(
-    this.catName,
-    this.internalId, {
-    this.postgraduate = false,
-  });
+  const OaAnnounceCat(this.catName, this.internalId);
+
+  static const common = [
+    OaAnnounceCat.studentAffairs,
+    OaAnnounceCat.announcement,
+    OaAnnounceCat.collegeNotification,
+    OaAnnounceCat.life,
+  ];
+  static const undergraduate = [
+    OaAnnounceCat.learning,
+    OaAnnounceCat.studentAffairs,
+    OaAnnounceCat.announcement,
+    OaAnnounceCat.culture,
+    OaAnnounceCat.download,
+    OaAnnounceCat.collegeNotification,
+    OaAnnounceCat.life,
+    OaAnnounceCat.academicReport,
+  ];
+  static const postgraduate = [
+    OaAnnounceCat.studentAffairs,
+    OaAnnounceCat.announcement,
+    OaAnnounceCat.training,
+    OaAnnounceCat.collegeNotification,
+    OaAnnounceCat.life,
+  ];
+
+  static List<OaAnnounceCat> resolve(OaUserType? userType) {
+    return switch (userType) {
+      OaUserType.undergraduate => undergraduate,
+      OaUserType.postgraduate => postgraduate,
+      _ => common,
+    };
+  }
 }
 
 /// 某篇通知的记录信息，根据该信息可寻找到对应文章

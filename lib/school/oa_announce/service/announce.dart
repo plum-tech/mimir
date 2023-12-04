@@ -75,21 +75,28 @@ class OaAnnounceService {
 
       return OaAnnounceRecord(
         title: mapChinesePunctuations(titleElement.text.trim()),
-        departments: department.trim().split(_departmentSplitRegex),
+        departments: department.trim().split(_departmentSplitRegex).map(mapChinesePunctuations).toList(),
         dateTime: _announceDateTimeFormat.parse(date),
         catalogId: uri.queryParameters['.pen']!,
         uuid: uri.queryParameters['bulletinId']!,
       );
     }).toList();
 
-    final currentElement = element.find('div', attrs: {'title': '当前页'})!;
-    final lastElement = element.find('a', attrs: {'title': '点击跳转到最后页'})!;
-    final lastElementHref = Uri.parse(lastElement.attributes['href']!);
-    final lastPageIndex = lastElementHref.queryParameters['pageIndex']!;
+    ({int currentPage, int totalPage})? parsePage() {
+      final currentRaw = element.find('div', attrs: {'title': '当前页'})?.text;
+      if (currentRaw == null) return null;
+      final lastElement = element.find('a', attrs: {'title': '点击跳转到最后页'});
+      if (lastElement == null) return null;
+      final lastElementHref = Uri.parse(lastElement.attributes['href']!);
+      final lastPageIndex = lastElementHref.queryParameters['pageIndex']!;
+      return (currentPage: int.parse(currentRaw),totalPage: int.parse(lastPageIndex));
+    }
+    final page = parsePage();
+
     return OaAnnounceListPayload(
       items: list,
-      currentPage: int.parse(currentElement.text),
-      totalPage: int.parse(lastPageIndex),
+      currentPage: page?.currentPage ?? 1,
+      totalPage: page?.totalPage ?? 1,
     );
   }
 
