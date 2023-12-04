@@ -8,7 +8,7 @@ part of 'application.dart';
 
 class YwbApplicationAdapter extends TypeAdapter<YwbApplication> {
   @override
-  final int typeId = 53;
+  final int typeId = 73;
 
   @override
   YwbApplication read(BinaryReader reader) {
@@ -55,7 +55,7 @@ class YwbApplicationAdapter extends TypeAdapter<YwbApplication> {
 
 class YwbApplicationTrackAdapter extends TypeAdapter<YwbApplicationTrack> {
   @override
-  final int typeId = 54;
+  final int typeId = 74;
 
   @override
   YwbApplicationTrack read(BinaryReader reader) {

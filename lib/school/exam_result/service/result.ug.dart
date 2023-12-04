@@ -59,8 +59,8 @@ class ExamResultUgService {
     final resultList = _parseScoreListPage(response.data);
     final newResultList = <ExamResultUg>[];
     for (final result in resultList) {
-      final resultItems =
-          await getResultItems((year: result.year, semester: result.semester), classId: result.innerClassId);
+      final resultItems = await getResultItems(SemesterInfo(year: result.year, semester: result.semester),
+          classId: result.innerClassId);
       newResultList.add(result.copyWith(items: resultItems));
       progress.value += 0.8 / resultList.length;
     }

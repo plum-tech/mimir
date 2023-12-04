@@ -7,6 +7,7 @@ import '../entity/result.ug.dart';
 
 class _K {
   static const ns = "/ug";
+  static const lastSemesterInfo = "$ns/lastSemesterInfo";
 
   static String resultList(SchoolYear schoolYear, Semester semester) => "$ns/resultList/$schoolYear/$semester";
 }
@@ -24,4 +25,8 @@ class ExamResultUgStorage {
 
   ValueListenable<Box> listenResultList(SemesterInfo info) =>
       box.listenable(keys: [_K.resultList(info.year, info.semester)]);
+
+  SemesterInfo? get lastSemesterInfo => box.get(_K.lastSemesterInfo);
+
+  set lastSemesterInfo(SemesterInfo? newV) => box.put(_K.lastSemesterInfo, newV);
 }

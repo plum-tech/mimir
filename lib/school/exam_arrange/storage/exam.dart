@@ -6,6 +6,8 @@ import 'package:sit/utils/json.dart';
 import '../entity/exam.dart';
 
 class _K {
+  static const lastSemesterInfo = "/lastSemesterInfo";
+
   static String examList(SchoolYear schoolYear, Semester semester) => "/examList/$schoolYear/$semester";
 }
 
@@ -22,4 +24,8 @@ class ExamArrangeStorage {
     List<ExamEntry>? exams,
   ) =>
       box.put(_K.examList(info.year, info.semester), encodeJsonList(exams, (e) => e.toJson()));
+
+  SemesterInfo? get lastSemesterInfo => box.get(_K.lastSemesterInfo);
+
+  set lastSemesterInfo(SemesterInfo? newV) => box.put(_K.lastSemesterInfo, newV);
 }

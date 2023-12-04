@@ -37,8 +37,9 @@ class HiveAdapter {
     hive.addAdapter(LoginStatusAdapter());
     hive.addAdapter(OaUserTypeAdapter());
 
-    // School
+    // Shared
     hive.addAdapter(SemesterAdapter());
+    hive.addAdapter(SemesterInfoAdapter());
   }
 
   static void registerCacheAdapters(HiveInterface hive) {
@@ -88,5 +89,9 @@ class HiveAdapter {
     hive.addAdapter(BorrowedBookItemAdapter());
     hive.addAdapter(BookBorrowingHistoryItemAdapter());
     hive.addAdapter(BookImageAdapter());
+
+    // Shared
+    hive.addAdapter(SemesterAdapter());
+    hive.addAdapter(SemesterInfoAdapter());
   }
 }

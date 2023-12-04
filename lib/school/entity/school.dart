@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/storage/hive/type_id.dart';
 import 'package:sit/l10n/common.dart';
@@ -8,7 +9,8 @@ part 'school.g.dart';
 
 typedef SchoolYear = int;
 
-@HiveType(typeId: CoreHiveType.semester)
+@HiveType(typeId: CacheHiveType.semester)
+@JsonEnum()
 enum Semester {
   @HiveField(0)
   all,
@@ -20,7 +22,26 @@ enum Semester {
   String localized() => "school.semester.$name".tr();
 }
 
-typedef SemesterInfo = ({SchoolYear year, Semester semester});
+@HiveType(typeId: CacheHiveType.semesterInfo)
+class SemesterInfo {
+  @HiveField(0)
+  final SchoolYear year;
+  @HiveField(1)
+  final Semester semester;
+
+  const SemesterInfo({
+    required this.year,
+    required this.semester,
+  });
+
+  @override
+  String toString() {
+    return {
+      "year": year,
+      "semester": semester,
+    }.toString();
+  }
+}
 
 String semesterToFormField(Semester semester) {
   const mapping = {

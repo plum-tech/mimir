@@ -6,7 +6,6 @@ import 'package:sit/school/utils.dart';
 import 'package:sit/school/widgets/selector.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/entity/school.dart';
-import 'package:sit/settings/settings.dart';
 
 import '../entity/exam.dart';
 import '../init.dart';
@@ -25,8 +24,8 @@ class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
   bool isLoading = false;
   late SemesterInfo initial = () {
     final now = DateTime.now();
-    return Settings.school.examArrange.lastSemesterInfo ??
-        (
+    return ExamArrangeInit.storage.lastSemesterInfo ??
+        SemesterInfo(
           year: now.month >= 9 ? now.year : now.year - 1,
           semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
         );
@@ -120,7 +119,7 @@ class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
         setState(() {
           selected = newSelection;
         });
-        Settings.school.examArrange.lastSemesterInfo = newSelection;
+        ExamArrangeInit.storage.lastSemesterInfo = newSelection;
         refresh(newSelection);
       },
     );

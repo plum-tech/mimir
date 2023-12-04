@@ -43,7 +43,7 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
 
   void refresh() {
     final now = DateTime.now();
-    final current = (
+    final current = SemesterInfo(
       year: now.month >= 9 ? now.year : now.year - 1,
       semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
     );

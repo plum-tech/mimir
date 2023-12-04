@@ -88,4 +88,30 @@ extension WidgetCardX on Widget {
       ),
     );
   }
+
+  Widget inAnyCard({
+    Clip? clip,
+    CardType type = CardType.plain,
+  }) {
+    return switch (type) {
+      CardType.plain => Card(
+          clipBehavior: clip,
+          child: this,
+        ),
+      CardType.filled => FilledCard(
+          clip: clip,
+          child: this,
+        ),
+      CardType.outlined => OutlinedCard(
+          clip: clip,
+          child: this,
+        ),
+    };
+  }
+}
+
+enum CardType {
+  plain,
+  filled,
+  outlined;
 }

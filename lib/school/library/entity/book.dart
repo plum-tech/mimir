@@ -51,6 +51,11 @@ class BookDetails {
   const BookDetails({
     required this.details,
   });
+
+  @override
+  String toString() {
+    return details.toString();
+  }
 }
 
 class BookSearchResult {

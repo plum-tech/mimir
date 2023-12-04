@@ -83,6 +83,7 @@ class _ExamResultPgPageState extends State<ExamResultPgPage> {
                 itemCount: resultList.length,
                 itemBuilder: (item, i) => ExamResultPgCard(
                   resultList[i],
+                  elevated: false,
                 ),
               ),
         ],

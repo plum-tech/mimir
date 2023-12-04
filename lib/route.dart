@@ -334,11 +334,11 @@ final _examResultRoute = GoRoute(
   path: "/exam-result",
   routes: [
     GoRoute(
-      path: "undergraduate",
+      path: "ug",
       builder: (ctx, state) => const ExamResultUgPage(),
     ),
     GoRoute(
-      path: "postgraduate",
+      path: "pg",
       builder: (ctx, state) => const ExamResultPgPage(),
     ),
   ],

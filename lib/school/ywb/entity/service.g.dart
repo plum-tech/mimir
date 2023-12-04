@@ -8,7 +8,7 @@ part of 'service.dart';
 
 class YwbServiceAdapter extends TypeAdapter<YwbService> {
   @override
-  final int typeId = 52;
+  final int typeId = 72;
 
   @override
   YwbService read(BinaryReader reader) {
@@ -55,7 +55,7 @@ class YwbServiceAdapter extends TypeAdapter<YwbService> {
 
 class YwbServiceDetailsAdapter extends TypeAdapter<YwbServiceDetails> {
   @override
-  final int typeId = 50;
+  final int typeId = 70;
 
   @override
   YwbServiceDetails read(BinaryReader reader) {
@@ -90,7 +90,7 @@ class YwbServiceDetailsAdapter extends TypeAdapter<YwbServiceDetails> {
 
 class YwbServiceDetailSectionAdapter extends TypeAdapter<YwbServiceDetailSection> {
   @override
-  final int typeId = 51;
+  final int typeId = 71;
 
   @override
   YwbServiceDetailSection read(BinaryReader reader) {

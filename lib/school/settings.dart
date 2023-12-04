@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sit/school/entity/school.dart';
 
 const _kClass2ndAutoRefresh = true;
 
@@ -36,7 +35,6 @@ const _kExamResulAppCardShowResultDetails = false;
 class _ExamResultK {
   static const ns = "${SchoolSettings.ns}/examResult";
   static const appCardShowResultDetails = "$ns/appCardShowResultDetails";
-  static const lastSemesterInfo = "$ns/lastSemesterInfo";
 }
 
 class _ExamResult {
@@ -51,43 +49,14 @@ class _ExamResult {
 
   ValueListenable<Box> listenAppCardShowResultDetails() =>
       box.listenable(keys: [_ExamResultK.appCardShowResultDetails]);
-
-  SemesterInfo? get lastSemesterInfo {
-    final Semester? semester = box.get("${_ExamResultK.lastSemesterInfo}/semester");
-    final int? year = box.get("${_ExamResultK.lastSemesterInfo}/year");
-    if (semester != null && year != null) {
-      return (semester: semester, year: year);
-    }
-    return null;
-  }
-
-  set lastSemesterInfo(SemesterInfo? newV) {
-    box.put("${_ExamResultK.lastSemesterInfo}/semester", newV?.semester);
-    box.put("${_ExamResultK.lastSemesterInfo}/year", newV?.year);
-  }
 }
 
 class _ExamArrangeK {
   static const ns = "${SchoolSettings.ns}/examArrange";
-  static const lastSemesterInfo = "$ns/lastSemesterInfo";
 }
 
 class _ExamArrange {
   final Box box;
 
   const _ExamArrange(this.box);
-
-  SemesterInfo? get lastSemesterInfo {
-    final Semester? semester = box.get("${_ExamArrangeK.lastSemesterInfo}/semester");
-    final int? year = box.get("${_ExamArrangeK.lastSemesterInfo}/year");
-    if (semester != null && year != null) {
-      return (semester: semester, year: year);
-    }
-    return null;
-  }
-
-  set lastSemesterInfo(SemesterInfo? newV) {
-    box.put("${_ExamArrangeK.lastSemesterInfo}/semester", newV?.semester);
-    box.put("${_ExamArrangeK.lastSemesterInfo}/year", newV?.year);
-  }
 }

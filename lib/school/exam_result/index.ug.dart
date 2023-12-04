@@ -47,7 +47,7 @@ class _ExamResultUgAppCardState extends State<ExamResultUgAppCard> {
 
   void refresh() {
     final now = DateTime.now();
-    final current = (
+    final current = SemesterInfo(
       year: now.month >= 9 ? now.year : now.year - 1,
       semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
     );
@@ -65,7 +65,7 @@ class _ExamResultUgAppCardState extends State<ExamResultUgAppCard> {
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
-            await context.push("/exam-result");
+            await context.push("/exam-result/ug");
           },
           icon: const Icon(Icons.fact_check),
           label: i18n.check.text(),

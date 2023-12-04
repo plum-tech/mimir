@@ -17,7 +17,7 @@ DateTime? _parseTime(dynamic time) {
 }
 
 @JsonSerializable()
-@HiveType(typeId: CacheHiveType.examResultUndergraduate)
+@HiveType(typeId: CacheHiveType.examResultUg)
 class ExamResultUg {
   /// If the teacher of class hasn't been evaluated, the score is NaN.
   @JsonKey(name: 'cj', fromJson: stringToDouble)
@@ -138,7 +138,7 @@ class ExamResultUg {
   }
 }
 
-@HiveType(typeId: CacheHiveType.examResultUndergraduateItem)
+@HiveType(typeId: CacheHiveType.examResultUgItem)
 class ExamResultItem {
   /// 成绩名称
   @HiveField(0)

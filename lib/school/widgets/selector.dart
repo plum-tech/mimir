@@ -77,7 +77,7 @@ class _SemesterSelectorState extends State<SemesterSelector> {
       onSelected: (int? newSelection) {
         if (newSelection != null && newSelection != selectedYear) {
           setState(() => selectedYear = newSelection);
-          widget.onSelected?.call((year: newSelection, semester: selectedSemester));
+          widget.onSelected?.call(SemesterInfo(year: newSelection, semester: selectedSemester));
         }
       },
       dropdownMenuEntries: yearList
@@ -100,7 +100,7 @@ class _SemesterSelectorState extends State<SemesterSelector> {
       onSelected: (Semester? newSelection) {
         if (newSelection != null && newSelection != selectedSemester) {
           setState(() => selectedSemester = newSelection);
-          widget.onSelected?.call((year: selectedYear, semester: newSelection));
+          widget.onSelected?.call(SemesterInfo(year: selectedYear, semester: newSelection));
         }
       },
       dropdownMenuEntries: semesters

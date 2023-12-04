@@ -41,7 +41,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   var _status = ImportStatus.none;
   late SemesterInfo initial = () {
     final now = DateTime.now();
-    return (
+    return SemesterInfo(
       year: now.month >= 9 ? now.year : now.year - 1,
       semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
     );
@@ -142,7 +142,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     SitTimetable timetable,
     SemesterInfo info,
   ) async {
-    final (:year, :semester) = info;
+    final SemesterInfo(:year, :semester) = info;
     final defaultName = i18n.import.defaultName(semester.localized(), year.toString(), (year + 1).toString());
     DateTime defaultStartDate;
     if (semester == Semester.term1) {

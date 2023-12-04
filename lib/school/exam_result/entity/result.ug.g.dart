@@ -8,7 +8,7 @@ part of 'result.ug.dart';
 
 class ExamResultUgAdapter extends TypeAdapter<ExamResultUg> {
   @override
-  final int typeId = 0;
+  final int typeId = 20;
 
   @override
   ExamResultUg read(BinaryReader reader) {
@@ -67,7 +67,7 @@ class ExamResultUgAdapter extends TypeAdapter<ExamResultUg> {
 
 class ExamResultItemAdapter extends TypeAdapter<ExamResultItem> {
   @override
-  final int typeId = 1;
+  final int typeId = 21;
 
   @override
   ExamResultItem read(BinaryReader reader) {

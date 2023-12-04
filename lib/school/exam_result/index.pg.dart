@@ -55,7 +55,7 @@ class _ExamResultPgAppCardState extends State<ExamResultPgAppCard> {
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
-            await context.push("/exam-result/postgraduate");
+            await context.push("/exam-result/pg");
           },
           icon: const Icon(Icons.fact_check),
           label: i18n.check.text(),
@@ -67,6 +67,12 @@ class _ExamResultPgAppCardState extends State<ExamResultPgAppCard> {
   Widget? buildRecentResults(List<ExamResultPg> resultList) {
     if (resultList.isEmpty) return null;
     final results = resultList.sublist(0, min(_recentLength, resultList.length));
-    return results.map((result) => ExamResultPgCard(result)).toList().column();
+    return results
+        .map((result) => ExamResultPgCard(
+              result,
+              elevated: true,
+            ))
+        .toList()
+        .column();
   }
 }

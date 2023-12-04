@@ -8,7 +8,7 @@ part of 'attended.dart';
 
 class Class2ndScoreSummaryAdapter extends TypeAdapter<Class2ndScoreSummary> {
   @override
-  final int typeId = 20;
+  final int typeId = 33;
 
   @override
   Class2ndScoreSummary read(BinaryReader reader) {
@@ -55,7 +55,7 @@ class Class2ndScoreSummaryAdapter extends TypeAdapter<Class2ndScoreSummary> {
 
 class Class2ndScoreItemAdapter extends TypeAdapter<Class2ndScoreItem> {
   @override
-  final int typeId = 22;
+  final int typeId = 35;
 
   @override
   Class2ndScoreItem read(BinaryReader reader) {
@@ -102,7 +102,7 @@ class Class2ndScoreItemAdapter extends TypeAdapter<Class2ndScoreItem> {
 
 class Class2ndActivityApplicationAdapter extends TypeAdapter<Class2ndActivityApplication> {
   @override
-  final int typeId = 21;
+  final int typeId = 34;
 
   @override
   Class2ndActivityApplication read(BinaryReader reader) {
@@ -149,7 +149,7 @@ class Class2ndActivityApplicationAdapter extends TypeAdapter<Class2ndActivityApp
 
 class Class2ndScoreTypeAdapter extends TypeAdapter<Class2ndScoreType> {
   @override
-  final int typeId = 23;
+  final int typeId = 36;
 
   @override
   Class2ndScoreType read(BinaryReader reader) {

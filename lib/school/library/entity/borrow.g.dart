@@ -8,7 +8,7 @@ part of 'borrow.dart';
 
 class BorrowedBookItemAdapter extends TypeAdapter<BorrowedBookItem> {
   @override
-  final int typeId = 82;
+  final int typeId = 97;
 
   @override
   BorrowedBookItem read(BinaryReader reader) {
@@ -67,7 +67,7 @@ class BorrowedBookItemAdapter extends TypeAdapter<BorrowedBookItem> {
 
 class BookBorrowingHistoryItemAdapter extends TypeAdapter<BookBorrowingHistoryItem> {
   @override
-  final int typeId = 83;
+  final int typeId = 98;
 
   @override
   BookBorrowingHistoryItem read(BinaryReader reader) {

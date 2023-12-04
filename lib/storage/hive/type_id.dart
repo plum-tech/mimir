@@ -9,52 +9,62 @@ class CoreHiveType {
   static const credentials = 4;
   static const loginStatus = 5;
   static const oaUserType = 6;
-  static const semester = 7;
 }
 
 class CacheHiveType {
-  // Exam result 0-9
-  static const examResultUndergraduate = 0;
-  static const examResultUndergraduateItem = 1;
-  static const examResultPg = 2;
+  // School 20
+  static const _school = 0;
+  static const semester = _school + 0;
+  static const semesterInfo = _school + 1;
 
-  // Second class activity 10-19
-  static const activity = 10;
-  static const activityDetails = 11;
-  static const activityCat = 12;
+  // Exam result 10
+  static const _examResult = _school + 20;
+  static const examResultUg = _examResult + 0;
+  static const examResultUgItem = _examResult + 1;
+  static const examResultPg = _examResult + 2;
 
-  // Second class score 20-29
-  static const class2ndScoreSummary = 20;
-  static const class2ndActivityApplication = 21;
-  static const class2ndScoreItem = 22;
-  static const class2ndScoreType = 23;
+  // Second class 20
+  static const _class2nd = _examResult + 10;
+  static const activity = _class2nd + 0;
+  static const activityDetails = _class2nd + 1;
+  static const activityCat = _class2nd + 2;
+  static const class2ndScoreSummary = _class2nd + 3;
+  static const class2ndActivityApplication = _class2nd + 4;
+  static const class2ndScoreItem = _class2nd + 5;
+  static const class2ndScoreType = _class2nd + 6;
 
-  // Expense Records 30-39
-  static const expenseTransactionType = 30;
-  static const expenseTransaction = 39;
+  // Expense 10
+  static const _expense = _class2nd + 20;
+  static const expenseTransactionType = _expense + 0;
+  static const expenseTransaction = _expense + 1;
 
-  // Electricity 40-49
-  static const electricityBalance = 40;
+  // Electricity 10
+  static const _electricity = _expense + 10;
+  static const electricityBalance = _electricity + 0;
 
-  // Ywb 50-59
-  static const ywbServiceDetails = 50;
-  static const ywbServiceDetailSection = 51;
-  static const ywbService = 52;
-  static const ywbApplication = 53;
-  static const ywbApplicationTrack = 54;
+  // Ywb 20
+  static const _ywb = _electricity + 10;
+  static const ywbServiceDetails = _ywb + 0;
+  static const ywbServiceDetailSection = _ywb + 1;
+  static const ywbService = _ywb + 2;
+  static const ywbApplication = _ywb + 3;
+  static const ywbApplicationTrack = _ywb + 4;
 
-  // OaAnnounce 60-69
-  static const oaAnnounceDetails = 60;
-  static const oaAnnounceAttachment = 61;
-  static const oaAnnounceRecord = 62;
+  // OaAnnounce 10
+  static const _oaAnnounce = _ywb + 20;
+  static const oaAnnounceDetails = _oaAnnounce + 0;
+  static const oaAnnounceAttachment = _oaAnnounce + 1;
+  static const oaAnnounceRecord = _oaAnnounce + 2;
 
-  // School yellow pages 70-79
-  static const schoolContact = 70;
+  // School yellow pages 5
+  static const _yellowPages = _oaAnnounce + 10;
+  static const schoolContact = _yellowPages + 0;
 
-  // Library 80-89
-  static const libraryBook = 80;
-  static const libraryBookDetails = 81;
-  static const libraryBorrowedBook = 82;
-  static const libraryBorrowingHistory = 83;
-  static const libraryBookImage = 84;
+  // Library 20
+  static const _library = _oaAnnounce + 5;
+  static const libraryBook = _library + 0;
+  static const libraryBookDetails = _library + 1;
+  static const libraryBorrowedBook = _library + 2;
+  static const libraryBorrowingHistory = _library + 3;
+  static const libraryBookImage = _library + 4;
 }

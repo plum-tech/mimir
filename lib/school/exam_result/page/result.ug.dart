@@ -8,7 +8,6 @@ import 'package:sit/school/utils.dart';
 import 'package:sit/school/widgets/selector.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/entity/school.dart';
-import 'package:sit/settings/settings.dart';
 
 import '../entity/result.ug.dart';
 import '../init.dart';
@@ -32,8 +31,8 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
   final multiselect = MultiselectController();
   late SemesterInfo initial = () {
     final now = DateTime.now();
-    return Settings.school.examResult.lastSemesterInfo ??
-        (
+    return ExamResultInit.ugStorage.lastSemesterInfo ??
+        SemesterInfo(
           year: now.month >= 9 ? now.year : now.year - 1,
           semester: Semester.all,
         );
@@ -165,7 +164,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
         setState(() {
           selected = newSelection;
         });
-        Settings.school.examResult.lastSemesterInfo = newSelection;
+        ExamResultInit.ugStorage.lastSemesterInfo = newSelection;
         refresh(newSelection);
       },
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sit/design/widgets/card.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/multi_select.dart';
 import 'package:sit/school/widgets/course.dart';
 import 'package:sit/utils/format.dart';
@@ -80,7 +80,7 @@ class ExamResultUgCard extends StatelessWidget {
           ? result.score.toString().text(
                 style: TextStyle(
                   fontSize: textTheme.bodyLarge?.fontSize,
-                  color: result.passed ? null : Colors.redAccent,
+                  color: result.passed ? null : context.$red$,
                 ),
               )
           : i18n.lessonNotEvaluated.text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize)),
