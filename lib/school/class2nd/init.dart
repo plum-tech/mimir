@@ -1,5 +1,5 @@
 import 'service/activity.dart';
-import 'service/attend.dart';
+import 'service/application.dart';
 import 'service/score.dart';
 import 'storage/activity.dart';
 import 'storage/score.dart';

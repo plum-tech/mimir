@@ -13,7 +13,7 @@ import 'package:sit/school/class2nd/entity/attended.dart';
 import 'package:sit/school/exam_result/page/result.pg.dart';
 import 'package:sit/school/library/page/login.dart';
 import 'package:sit/school/library/page/borrowing.dart';
-import 'package:sit/school/ywb/page/meta.dart';
+import 'package:sit/school/ywb/page/service.dart';
 import 'package:sit/school/ywb/page/application.dart';
 import 'package:sit/settings/page/life.dart';
 import 'package:sit/settings/page/proxy.dart';
