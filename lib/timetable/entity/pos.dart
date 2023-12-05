@@ -53,7 +53,7 @@ class TimetablePos {
   }
 
   @override
-  int get hashCode => hash2(weekIndex, weekday);
+  int get hashCode => Object.hash(weekIndex, weekday);
 
   @override
   String toString() {

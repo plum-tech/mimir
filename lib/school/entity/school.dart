@@ -38,6 +38,25 @@ class SemesterInfo {
   String toString() {
     return "$year:$semester";
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SemesterInfo &&
+        runtimeType == other.runtimeType &&
+        year == other.year &&
+        semester == other.semester;
+  }
+
+  @override
+  int get hashCode => Object.hash(year, semester);
+}
+
+SemesterInfo estimateCurrentSemester() {
+  final now = DateTime.now();
+  return SemesterInfo(
+    year: now.month >= 9 ? now.year : now.year - 1,
+    semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
+  );
 }
 
 String semesterToFormField(Semester semester) {

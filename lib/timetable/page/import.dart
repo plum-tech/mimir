@@ -143,11 +143,14 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   ) async {
     final SemesterInfo(:year, :semester) = info;
     final defaultName = i18n.import.defaultName(semester.localized(), year.toString(), (year + 1).toString());
-    DateTime defaultStartDate = guessStartDate(year, semester);
+    DateTime defaultStartDate = estimateStartDate(year, semester);
     if (context.auth.userType == OaUserType.undergraduate) {
-      final span = await TimetableInit.service.getUgSemesterSpan();
-      if (span != null) {
-        defaultStartDate = span.start;
+      final current = estimateCurrentSemester();
+      if (info == current) {
+        final span = await TimetableInit.service.getUgSemesterSpan();
+        if (span != null) {
+          defaultStartDate = span.start;
+        }
       }
     }
     if (!mounted) return null;
@@ -170,7 +173,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     return null;
   }
 
-  DateTime guessStartDate(int year, Semester semester) {
+  DateTime estimateStartDate(int year, Semester semester) {
     if (semester == Semester.term1) {
       return findFirstWeekdayInCurrentMonth(DateTime(year, 9), DateTime.monday);
     } else {

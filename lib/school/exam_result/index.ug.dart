@@ -31,13 +31,7 @@ class _ExamResultUgAppCardState extends State<ExamResultUgAppCard> {
   List<ExamResultUg>? resultList;
   late final EventSubscription $refreshEvent;
   late final StreamSubscription $resultList;
-  late final currentSemester = () {
-    final now = DateTime.now();
-    return SemesterInfo(
-      year: now.month >= 9 ? now.year : now.year - 1,
-      semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
-    );
-  }();
+  late final currentSemester = estimateCurrentSemester();
 
   @override
   void initState() {

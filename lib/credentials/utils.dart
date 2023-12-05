@@ -10,7 +10,7 @@ final RegExp _rePostgraduateId = RegExp(r'^(\d{2}6\d{6})$');
 final RegExp _reTeacherId = RegExp(r'^(\d{4})$');
 
 /// [oaAccount] can be a student ID or a work number.
-OaUserType? guessOaUserType(String oaAccount) {
+OaUserType? estimateOaUserType(String oaAccount) {
   if (oaAccount.length == 10 && _reUndergraduateId.hasMatch(oaAccount.toUpperCase())) {
     return OaUserType.undergraduate;
   } else if (oaAccount.length == 9 && _rePostgraduateId.hasMatch(oaAccount)) {

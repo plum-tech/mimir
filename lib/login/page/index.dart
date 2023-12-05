@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> login() async {
     final account = $account.text;
     final password = $password.text;
-    final userType = guessOaUserType(account);
+    final userType = estimateOaUserType(account);
     bool formValid = (_formKey.currentState as FormState).validate() && userType != null;
     if (!formValid || account.isEmpty || password.isEmpty) {
       await context.showTip(
@@ -242,7 +242,7 @@ class _LoginPageState extends State<LoginPage> {
 /// Only allow student ID/ work number.
 String? studentIdValidator(String? account, String Function() invalidMessage) {
   if (account != null && account.isNotEmpty) {
-    if (guessOaUserType(account) == null) {
+    if (estimateOaUserType(account) == null) {
       return invalidMessage();
     }
   }

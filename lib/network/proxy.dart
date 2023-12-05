@@ -43,7 +43,7 @@ bool _isSchoolNetwork(String host) {
     // Second class
     return true;
   } else if (host == 'card.sit.edu.cn') {
-    // TODO: what's this
+    // 校园卡
     return true;
   } else if (host == 'myportal.sit.edu.cn') {
     // OA

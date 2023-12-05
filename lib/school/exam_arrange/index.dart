@@ -28,13 +28,7 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
   List<ExamEntry>? examList;
   late final EventSubscription $refreshEvent;
   late final StreamSubscription $examList;
-  late final currentSemester = () {
-    final now = DateTime.now();
-    return SemesterInfo(
-      year: now.month >= 9 ? now.year : now.year - 1,
-      semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
-    );
-  }();
+  late final currentSemester = estimateCurrentSemester();
 
   @override
   void initState() {
