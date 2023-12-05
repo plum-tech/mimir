@@ -12,6 +12,7 @@ import 'package:sit/school/entity/school.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/utils/color.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../../events.dart';
 import '../../entity/timetable.dart';
@@ -343,6 +344,8 @@ class InteractiveCourseCell extends StatefulWidget {
 }
 
 class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
+  final $tooltip = GlobalKey<TooltipState>(debugLabel: "tooltip");
+
   @override
   Widget build(BuildContext context) {
     return StyledCourseCell(
@@ -350,11 +353,17 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
       grayOut: widget.grayOut,
       style: widget.style,
       innerBuilder: (ctx, child) => Tooltip(
+        key: $tooltip,
         preferBelow: false,
-        triggerMode: TooltipTriggerMode.tap,
+        triggerMode: UniversalPlatform.isDesktop ? TooltipTriggerMode.tap : TooltipTriggerMode.manual,
         message: buildTooltipMessage(),
         textAlign: TextAlign.center,
         child: InkWell(
+          onTap: UniversalPlatform.isDesktop
+              ? null
+              : () async {
+                  $tooltip.currentState?.ensureTooltipVisible();
+                },
           onLongPress: () async {
             await context.show$Sheet$(
               (ctx) => TimetableCourseDetailsSheet(
