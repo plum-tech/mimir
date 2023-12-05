@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/storage/hive/type_id.dart';
-import 'package:quiver/core.dart';
 
 part 'contact.g.dart';
 
@@ -43,5 +42,5 @@ class SchoolContact {
           description == other.description;
 
   @override
-  int get hashCode => hash4(department, name, phone, description);
+  int get hashCode => Object.hash(department, name, phone, description);
 }

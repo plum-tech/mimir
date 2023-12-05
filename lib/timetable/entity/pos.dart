@@ -1,4 +1,3 @@
-import 'package:quiver/core.dart';
 import 'package:sit/l10n/time.dart';
 
 import 'timetable.dart';

@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:quiver/core.dart';
 
 part 'background.g.dart';
 
@@ -45,7 +44,7 @@ class BackgroundImage {
   }
 
   @override
-  int get hashCode => hash4(path, opacity, repeat, antialias);
+  int get hashCode => Object.hash(path, opacity, repeat, antialias);
 
   BackgroundImage copyWith({
     String? path,
