@@ -12,7 +12,6 @@ import "package:intl/intl.dart";
 class Class2ndActivityService {
   static final re = RegExp(r"(\d){7}");
   static final _spacesRx = RegExp(r'\s{2}\s+');
-  static const selector = '.ul_7 li > a';
   static final dateFormatParser = DateFormat('yyyy-MM-dd hh:mm:ss');
 
   Class2ndSession get session => Init.class2ndSession;
@@ -51,7 +50,7 @@ class Class2ndActivityService {
 
   static List<Class2ndActivity> _parseActivityList(String htmlPage) {
     final BeautifulSoup soup = BeautifulSoup(htmlPage);
-    List<Class2ndActivity> result = soup.findAll(selector).map(
+    List<Class2ndActivity> result = soup.findAll('.ul_7 li > a').map(
       (element) {
         final date = element.nextSibling!.text;
         final String fullTitle = mapChinesePunctuations(element.text.substring(2));

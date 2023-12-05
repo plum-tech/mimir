@@ -1,5 +1,5 @@
 name: sit
-description: 'For SIT life'
+description: "A multiplatform app for SIT students."
 
 # 以下构建版本号将自增，请勿改动
 version: 1.0.0+13

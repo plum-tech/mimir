@@ -138,19 +138,20 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   }
 
   Future<({int id, SitTimetable timetable})?> handleTimetableData(
-    BuildContext ctx,
     SitTimetable timetable,
     SemesterInfo info,
   ) async {
     final SemesterInfo(:year, :semester) = info;
     final defaultName = i18n.import.defaultName(semester.localized(), year.toString(), (year + 1).toString());
-    DateTime defaultStartDate;
-    if (semester == Semester.term1) {
-      defaultStartDate = findFirstWeekdayInCurrentMonth(DateTime(year, 9), DateTime.monday);
-    } else {
-      defaultStartDate = findFirstWeekdayInCurrentMonth(DateTime(year + 1, 2), DateTime.monday);
+    DateTime defaultStartDate = guessStartDate(year, semester);
+    if (context.auth.userType == OaUserType.undergraduate) {
+      final span = await TimetableInit.service.getUgSemesterSpan();
+      if (span != null) {
+        defaultStartDate = span.start;
+      }
     }
-    final newTimetable = await ctx.show$Sheet$<SitTimetable>(
+    if (!mounted) return null;
+    final newTimetable = await context.show$Sheet$<SitTimetable>(
       (ctx) => TimetableEditor(
         timetable: timetable.copyWith(
           name: defaultName,
@@ -169,6 +170,14 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     return null;
   }
 
+  DateTime guessStartDate(int year, Semester semester) {
+    if (semester == Semester.term1) {
+      return findFirstWeekdayInCurrentMonth(DateTime(year, 9), DateTime.monday);
+    } else {
+      return findFirstWeekdayInCurrentMonth(DateTime(year + 1, 2), DateTime.monday);
+    }
+  }
+
   Widget buildImportButton(BuildContext ctx) {
     return FilledButton(
       onPressed: _status == ImportStatus.importing ? null : _onImport,
@@ -182,8 +191,8 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
 
   Future<SitTimetable> getTimetable(SemesterInfo info) async {
     return switch (context.auth.userType) {
-      OaUserType.undergraduate => TimetableInit.service.getUndergraduateTimetable(info),
-      OaUserType.postgraduate => TimetableInit.service.getPostgraduateTimetable(info),
+      OaUserType.undergraduate => TimetableInit.service.getUgTimetable(info),
+      OaUserType.postgraduate => TimetableInit.service.getPgTimetable(info),
       OaUserType.other => throw Exception("Timetable importing not supported"),
     };
   }
@@ -199,7 +208,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       setState(() {
         _status = ImportStatus.end;
       });
-      final id2timetable = await handleTimetableData(context, timetable, selected);
+      final id2timetable = await handleTimetableData(timetable, selected);
       if (!mounted) return;
       context.pop(id2timetable);
     } catch (e, stackTrace) {
