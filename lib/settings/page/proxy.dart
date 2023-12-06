@@ -89,8 +89,6 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
 
   Future<void> setNewAddress(String newAddress) async {
     await _setHttpProxy(newAddress);
-    if (!mounted) return;
-    context.showSnackBar(content: "HTTP proxy was changed".text());
   }
 
   Widget buildEnableProxyToggle() {
@@ -163,17 +161,15 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
           );
           if (newFullProxy == null) return;
           final newUri = Uri.tryParse(newFullProxy.trim());
-
           if (newUri != null && newUri.isAbsolute && (newUri.scheme == "http" || newUri.scheme == "https")) {
             if (newUri != proxyUri) {
               onChanged(newUri);
             }
           } else {
-            // TODO: i18n
             if (!mounted) return;
             context.showTip(
               title: i18n.error,
-              desc: "Invalid proxy URI format",
+              desc: i18n.proxy.invalidProxyFormatTip,
               ok: i18n.close,
             );
             return;
@@ -343,6 +339,6 @@ Future<void> onHttpProxyFromQrCode({
   await _setHttpProxy(httpProxy.toString());
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
-  context.showSnackBar(content: "HTTP proxy was changed from QR code".text());
+  context.showSnackBar(content: i18n.proxy.proxyChangedTip.text());
   context.push("/settings/proxy");
 }

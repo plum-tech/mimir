@@ -528,6 +528,8 @@ settings:
     port: 端口
     username: 用户名
     password: 密码
+    invalidProxyFormatTip: 代理的格式无效
+    proxyChangedTip: HTTP 代理已更改
     shareQrCode:
       title: 分享二维码
       desc: 将 HTTP 代理通过二维码分享

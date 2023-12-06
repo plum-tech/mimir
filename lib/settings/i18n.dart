@@ -87,6 +87,10 @@ class _Proxy {
   String get username => "$ns.username".tr();
 
   String get password => "$ns.password".tr();
+
+  String get invalidProxyFormatTip => "$ns.invalidProxyFormatTip".tr();
+
+  String get proxyChangedTip => "$ns.proxyChangedTip".tr();
 }
 
 class _Timetable {

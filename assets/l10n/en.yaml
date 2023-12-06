@@ -528,6 +528,8 @@ settings:
     port: Port
     username: Username
     password: Password
+    invalidProxyFormatTip: Invalid proxy format
+    proxyChangedTip: HTTP proxy was changed
     shareQrCode:
       title: Share QR code
       desc: Share HTTP proxy as QR code

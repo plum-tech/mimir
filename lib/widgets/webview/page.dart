@@ -12,6 +12,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 const _kUserAgent =
     "Mozilla/5.0 (Linux; Android 10; HMA-AL00 Build/HUAWEIHMA-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36";
 
+// TODO: Support proxy
 class WebViewPage extends StatefulWidget {
   /// 初始的url
   final String initialUrl;
