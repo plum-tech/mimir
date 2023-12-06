@@ -109,6 +109,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
               flexibleSpace: FlexibleSpaceBar(
                 title: buildTitle(),
                 centerTitle: true,
+                titlePadding: const EdgeInsetsDirectional.only(start: 16, bottom: 16),
                 background: buildSemesterSelector(),
               ),
               bottom: isFetching

@@ -30,12 +30,11 @@ class ExamResultPgCard extends StatelessWidget {
         '${result.courseType} ${result.teacher}'.text(),
         '${result.examType} | ${i18n.credit}: ${result.credit}'.text(),
       ].column(caa: CrossAxisAlignment.start),
-      trailing: result.score.toString().text(
-            style: TextStyle(
-              fontSize: textTheme.bodyLarge?.fontSize,
-              color: result.passed ? null : context.$red$,
-            ),
-          ),
+      leadingAndTrailingTextStyle: TextStyle(
+        fontSize: textTheme.bodyLarge?.fontSize,
+        color: result.passed ? null : context.$red$,
+      ),
+      trailing: result.score.toString().text(),
     ).inAnyCard(clip: Clip.hardEdge, type: elevated ? CardType.plain : CardType.filled);
   }
 }

@@ -76,13 +76,12 @@ class ExamResultUgCard extends StatelessWidget {
           child: showDetails ? ExamResultItemChipGroup(resultItems) : const SizedBox(),
         ),
       ].column(caa: CrossAxisAlignment.start),
+      leadingAndTrailingTextStyle: TextStyle(
+        fontSize: textTheme.bodyLarge?.fontSize,
+        color: result.passed ? null : context.$red$,
+      ),
       trailing: result.hasScore
-          ? result.score.toString().text(
-                style: TextStyle(
-                  fontSize: textTheme.bodyLarge?.fontSize,
-                  color: result.passed ? null : context.$red$,
-                ),
-              )
+          ? result.score.toString().text()
           : i18n.lessonNotEvaluated.text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize)),
       onTap: onTap,
     ).inCard(
