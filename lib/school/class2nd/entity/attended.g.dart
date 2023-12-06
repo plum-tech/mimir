@@ -6,17 +6,17 @@ part of 'attended.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class Class2ndScoreSummaryAdapter extends TypeAdapter<Class2ndScoreSummary> {
+class Class2ndPointsSummaryAdapter extends TypeAdapter<Class2ndPointsSummary> {
   @override
   final int typeId = 33;
 
   @override
-  Class2ndScoreSummary read(BinaryReader reader) {
+  Class2ndPointsSummary read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Class2ndScoreSummary(
+    return Class2ndPointsSummary(
       thematicReport: fields[0] as double,
       practice: fields[1] as double,
       creation: fields[2] as double,
@@ -24,13 +24,14 @@ class Class2ndScoreSummaryAdapter extends TypeAdapter<Class2ndScoreSummary> {
       voluntary: fields[4] as double,
       schoolCulture: fields[5] as double,
       honestyPoints: fields[6] as double,
+      totalPoints: fields[7] as double,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Class2ndScoreSummary obj) {
+  void write(BinaryWriter writer, Class2ndPointsSummary obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.thematicReport)
       ..writeByte(1)
@@ -44,7 +45,9 @@ class Class2ndScoreSummaryAdapter extends TypeAdapter<Class2ndScoreSummary> {
       ..writeByte(5)
       ..write(obj.schoolCulture)
       ..writeByte(6)
-      ..write(obj.honestyPoints);
+      ..write(obj.honestyPoints)
+      ..writeByte(7)
+      ..write(obj.totalPoints);
   }
 
   @override
@@ -53,20 +56,20 @@ class Class2ndScoreSummaryAdapter extends TypeAdapter<Class2ndScoreSummary> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Class2ndScoreSummaryAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is Class2ndPointsSummaryAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class Class2ndScoreItemAdapter extends TypeAdapter<Class2ndScoreItem> {
+class Class2ndPointItemAdapter extends TypeAdapter<Class2ndPointItem> {
   @override
   final int typeId = 35;
 
   @override
-  Class2ndScoreItem read(BinaryReader reader) {
+  Class2ndPointItem read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Class2ndScoreItem(
+    return Class2ndPointItem(
       name: fields[0] as String,
       activityId: fields[1] as int,
       category: fields[2] as Class2ndActivityCat,
@@ -77,7 +80,7 @@ class Class2ndScoreItemAdapter extends TypeAdapter<Class2ndScoreItem> {
   }
 
   @override
-  void write(BinaryWriter writer, Class2ndScoreItem obj) {
+  void write(BinaryWriter writer, Class2ndPointItem obj) {
     writer
       ..writeByte(6)
       ..writeByte(0)
@@ -100,7 +103,7 @@ class Class2ndScoreItemAdapter extends TypeAdapter<Class2ndScoreItem> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Class2ndScoreItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is Class2ndPointItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
 class Class2ndActivityApplicationAdapter extends TypeAdapter<Class2ndActivityApplication> {
@@ -150,49 +153,49 @@ class Class2ndActivityApplicationAdapter extends TypeAdapter<Class2ndActivityApp
       other is Class2ndActivityApplicationAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class Class2ndScoreTypeAdapter extends TypeAdapter<Class2ndScoreType> {
+class Class2ndPointTypeAdapter extends TypeAdapter<Class2ndPointType> {
   @override
   final int typeId = 36;
 
   @override
-  Class2ndScoreType read(BinaryReader reader) {
+  Class2ndPointType read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return Class2ndScoreType.thematicReport;
+        return Class2ndPointType.thematicReport;
       case 1:
-        return Class2ndScoreType.creation;
+        return Class2ndPointType.creation;
       case 2:
-        return Class2ndScoreType.schoolCulture;
+        return Class2ndPointType.schoolCulture;
       case 3:
-        return Class2ndScoreType.practice;
+        return Class2ndPointType.practice;
       case 4:
-        return Class2ndScoreType.voluntary;
+        return Class2ndPointType.voluntary;
       case 5:
-        return Class2ndScoreType.schoolSafetyCivilization;
+        return Class2ndPointType.schoolSafetyCivilization;
       default:
-        return Class2ndScoreType.thematicReport;
+        return Class2ndPointType.thematicReport;
     }
   }
 
   @override
-  void write(BinaryWriter writer, Class2ndScoreType obj) {
+  void write(BinaryWriter writer, Class2ndPointType obj) {
     switch (obj) {
-      case Class2ndScoreType.thematicReport:
+      case Class2ndPointType.thematicReport:
         writer.writeByte(0);
         break;
-      case Class2ndScoreType.creation:
+      case Class2ndPointType.creation:
         writer.writeByte(1);
         break;
-      case Class2ndScoreType.schoolCulture:
+      case Class2ndPointType.schoolCulture:
         writer.writeByte(2);
         break;
-      case Class2ndScoreType.practice:
+      case Class2ndPointType.practice:
         writer.writeByte(3);
         break;
-      case Class2ndScoreType.voluntary:
+      case Class2ndPointType.voluntary:
         writer.writeByte(4);
         break;
-      case Class2ndScoreType.schoolSafetyCivilization:
+      case Class2ndPointType.schoolSafetyCivilization:
         writer.writeByte(5);
         break;
     }
@@ -204,5 +207,5 @@ class Class2ndScoreTypeAdapter extends TypeAdapter<Class2ndScoreType> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Class2ndScoreTypeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is Class2ndPointTypeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

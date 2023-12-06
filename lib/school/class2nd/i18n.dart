@@ -84,6 +84,8 @@ class _Info {
 
   String get honestyPoints => "$ns.honestyPoints".tr();
 
+  String get totalPoints => "$ns.totalPoints".tr();
+
   String get applicationTime => "$ns.applicationTime".tr();
 
   String get status => "$ns.status".tr();

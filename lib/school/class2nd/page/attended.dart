@@ -28,8 +28,8 @@ class AttendedActivityPage extends StatefulWidget {
 
 class _AttendedActivityPageState extends State<AttendedActivityPage> {
   List<Class2ndAttendedActivity>? attended = () {
-    final applications = Class2ndInit.scoreStorage.applicationList;
-    final scores = Class2ndInit.scoreStorage.scoreItemList;
+    final applications = Class2ndInit.pointStorage.applicationList;
+    final scores = Class2ndInit.pointStorage.pointItemList;
     if (applications == null || scores == null) return null;
     return buildAttendedActivityList(
       applications: applications,
@@ -39,7 +39,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   late bool isFetching = false;
   final $loadingProgress = ValueNotifier(0.0);
   Class2ndActivityCat? selectedCat;
-  Class2ndScoreType? selectedScoreType;
+  Class2ndPointType? selectedScoreType;
 
   @override
   void initState() {
@@ -57,12 +57,12 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
     setState(() => isFetching = true);
     try {
       $loadingProgress.value = 0;
-      final applicationList = await Class2ndInit.scoreService.fetchActivityApplicationList();
+      final applicationList = await Class2ndInit.pointService.fetchActivityApplicationList();
       $loadingProgress.value = 0.5;
-      final scoreItemList = await Class2ndInit.scoreService.fetchScoreItemList();
+      final scoreItemList = await Class2ndInit.pointService.fetchScoreItemList();
       $loadingProgress.value = 1.0;
-      Class2ndInit.scoreStorage.applicationList = applicationList;
-      Class2ndInit.scoreStorage.scoreItemList = scoreItemList;
+      Class2ndInit.pointStorage.applicationList = applicationList;
+      Class2ndInit.pointStorage.pointItemList = scoreItemList;
 
       if (!mounted) return;
       setState(() {
@@ -79,7 +79,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
     }
   }
 
-  Class2ndScoreSummary getTargetScore() {
+  Class2ndPointsSummary getTargetScore() {
     final admissionYear = int.tryParse(context.auth.credentials?.account.substring(0, 2) ?? "") ?? 2000;
     return getTargetScoreOf(admissionYear: admissionYear);
   }
@@ -159,7 +159,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                   physics: const RangeMaintainingScrollPhysics(),
                   children: [
                     ChoiceChip(
-                      label: Class2ndScoreType.allCatL10n().text(),
+                      label: Class2ndPointType.allCatL10n().text(),
                       selected: selectedScoreType == null,
                       onSelected: (value) {
                         setState(() {
@@ -167,7 +167,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                         });
                       },
                     ).padH(4),
-                    ...(attended ?? const []).map((activity) => activity.category.scoreType).whereNotNull().toSet().map(
+                    ...(attended ?? const []).map((activity) => activity.category.pointType).whereNotNull().toSet().map(
                           (scoreType) => ChoiceChip(
                             label: scoreType.l10nFullName().text(),
                             selected: selectedScoreType == scoreType,
@@ -324,7 +324,7 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
 }
 
 class Class2ndScoreTile extends StatelessWidget {
-  final Class2ndScoreItem score;
+  final Class2ndPointItem score;
 
   const Class2ndScoreTile(
     this.score, {
@@ -335,7 +335,7 @@ class Class2ndScoreTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final time = score.time;
     final subtitle = time == null ? null : context.formatYmdhmNum(time).text();
-    final scoreType = score.scoreType;
+    final scoreType = score.pointType;
     if (score.points != 0 && score.honestyPoints != 0) {
       return ListTile(
         title: RichText(

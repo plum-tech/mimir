@@ -7,8 +7,8 @@ import 'package:sit/storage/hive/type_id.dart';
 
 part 'attended.g.dart';
 
-@HiveType(typeId: CacheHiveType.class2ndScoreSummary)
-class Class2ndScoreSummary {
+@HiveType(typeId: CacheHiveType.class2ndPointsSummary)
+class Class2ndPointsSummary {
   /// 主题报告
   @HiveField(0)
   final double thematicReport;
@@ -37,7 +37,11 @@ class Class2ndScoreSummary {
   @HiveField(6)
   final double honestyPoints;
 
-  const Class2ndScoreSummary({
+  /// Total points
+  @HiveField(7)
+  final double totalPoints;
+
+  const Class2ndPointsSummary({
     this.thematicReport = 0,
     this.practice = 0,
     this.creation = 0,
@@ -45,6 +49,7 @@ class Class2ndScoreSummary {
     this.voluntary = 0,
     this.schoolCulture = 0,
     this.honestyPoints = 0,
+    this.totalPoints = 0,
   });
 
   @override
@@ -60,20 +65,20 @@ class Class2ndScoreSummary {
     }.toString();
   }
 
-  List<({Class2ndScoreType type, double score})> toName2score() {
+  List<({Class2ndPointType type, double score})> toName2score() {
     return [
-      (type: Class2ndScoreType.voluntary, score: voluntary),
-      (type: Class2ndScoreType.schoolCulture, score: schoolCulture),
-      (type: Class2ndScoreType.creation, score: creation),
-      (type: Class2ndScoreType.schoolSafetyCivilization, score: schoolSafetyCivilization),
-      (type: Class2ndScoreType.thematicReport, score: thematicReport),
-      (type: Class2ndScoreType.practice, score: practice),
+      (type: Class2ndPointType.voluntary, score: voluntary),
+      (type: Class2ndPointType.schoolCulture, score: schoolCulture),
+      (type: Class2ndPointType.creation, score: creation),
+      (type: Class2ndPointType.schoolSafetyCivilization, score: schoolSafetyCivilization),
+      (type: Class2ndPointType.thematicReport, score: thematicReport),
+      (type: Class2ndPointType.practice, score: practice),
     ];
   }
 }
 
-@HiveType(typeId: CacheHiveType.class2ndScoreItem)
-class Class2ndScoreItem {
+@HiveType(typeId: CacheHiveType.class2ndPointItem)
+class Class2ndPointItem {
   /// 活动名称
   @HiveField(0)
   final String name;
@@ -98,9 +103,9 @@ class Class2ndScoreItem {
   @HiveField(5)
   final double honestyPoints;
 
-  Class2ndScoreType? get scoreType => category.scoreType;
+  Class2ndPointType? get pointType => category.pointType;
 
-  const Class2ndScoreItem({
+  const Class2ndPointItem({
     required this.name,
     required this.activityId,
     required this.category,
@@ -173,7 +178,7 @@ class Class2ndActivityApplication {
 }
 
 @HiveType(typeId: CacheHiveType.class2ndScoreType)
-enum Class2ndScoreType {
+enum Class2ndPointType {
   /// 讲座报告
   @HiveField(0)
   thematicReport,
@@ -198,7 +203,7 @@ enum Class2ndScoreType {
   @HiveField(5)
   schoolSafetyCivilization;
 
-  const Class2ndScoreType();
+  const Class2ndPointType();
 
   String l10nShortName() => "class2nd.scoreType.$name.short".tr();
 
@@ -206,19 +211,19 @@ enum Class2ndScoreType {
 
   static String allCatL10n() => "class2nd.scoreType.all".tr();
 
-  static Class2ndScoreType? parse(String typeName) {
+  static Class2ndPointType? parse(String typeName) {
     if (typeName == "主题报告") {
-      return Class2ndScoreType.thematicReport;
+      return Class2ndPointType.thematicReport;
     } else if (typeName == "社会实践") {
-      return Class2ndScoreType.practice;
+      return Class2ndPointType.practice;
     } else if (typeName == "创新创业创意") {
-      return Class2ndScoreType.creation;
+      return Class2ndPointType.creation;
     } else if (typeName == "校园文化") {
-      return Class2ndScoreType.schoolCulture;
+      return Class2ndPointType.schoolCulture;
     } else if (typeName == "公益志愿") {
-      return Class2ndScoreType.voluntary;
+      return Class2ndPointType.voluntary;
     } else if (typeName == "校园安全文明") {
-      return Class2ndScoreType.schoolSafetyCivilization;
+      return Class2ndPointType.schoolSafetyCivilization;
     }
     return null;
   }
@@ -226,7 +231,7 @@ enum Class2ndScoreType {
 
 class Class2ndAttendedActivity {
   final Class2ndActivityApplication application;
-  final List<Class2ndScoreItem> scores;
+  final List<Class2ndPointItem> scores;
 
   double? calcTotalPoints() {
     if (scores.isEmpty) return null;
@@ -239,13 +244,14 @@ class Class2ndAttendedActivity {
   }
 
   int get activityId => application.activityId;
+
   bool get cancelled => application.activityId == -1;
 
   int get applicationId => application.applicationId;
 
   Class2ndActivityCat get category => application.category;
 
-  Class2ndScoreType? get scoreType => application.category.scoreType;
+  Class2ndPointType? get scoreType => application.category.pointType;
 
   /// Because the [application.name] might have trailing ellipsis
   String get title => scores.firstOrNull?.name ?? application.title;

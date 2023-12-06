@@ -187,6 +187,7 @@ class2nd:
     category: Activity category
     scoreType: Score type
     honestyPoints: Honesty points
+    totalPoints: Total points
     applicationTime: Application time
     status: Status
     contactInfo: Contact Info

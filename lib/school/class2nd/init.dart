@@ -1,19 +1,19 @@
 import 'service/activity.dart';
 import 'service/application.dart';
-import 'service/score.dart';
+import 'service/points.dart';
 import 'storage/activity.dart';
-import 'storage/score.dart';
+import 'storage/points.dart';
 
 class Class2ndInit {
-  static late Class2ndScoreService scoreService;
-  static late Class2ndScoreStorage scoreStorage;
+  static late Class2ndPointsService pointService;
+  static late Class2ndPointsStorage pointStorage;
   static late Class2ndActivityService activityService;
   static late Class2ndActivityStorage activityStorage;
   static late Class2ndApplicationService applicationService;
 
   static void init() {
-    scoreStorage = const Class2ndScoreStorage();
-    scoreService = const Class2ndScoreService();
+    pointStorage = const Class2ndPointsStorage();
+    pointService = const Class2ndPointsService();
     activityService = const Class2ndActivityService();
     activityStorage = const Class2ndActivityStorage();
     applicationService = const Class2ndApplicationService();

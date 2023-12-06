@@ -9,22 +9,17 @@ import 'package:sit/session/class2nd.dart';
 import '../entity/list.dart';
 import '../entity/attended.dart';
 
-class Class2ndScoreService {
+class Class2ndPointsService {
   static const homeUrl = 'http://sc.sit.edu.cn/public/init/index.action';
   static const scoreUrl = 'http://sc.sit.edu.cn/public/pcenter/scoreDetail.action';
   static const myEventUrl = 'http://sc.sit.edu.cn/public/pcenter/activityOrderList.action?pageSize=999';
 
-  static const $totalScore = '#content-box > div.user-info > div:nth-child(3) > font';
-
-  static final activityIdRe = RegExp(r'activityId=(\d+)');
-  static final honestyPointsRe = RegExp(r'诚信积分：(\S+)');
-
   Class2ndSession get session => Init.class2ndSession;
 
-  const Class2ndScoreService();
+  const Class2ndPointsService();
 
   /// 获取第二课堂分数
-  Future<Class2ndScoreSummary> fetchScoreSummary() async {
+  Future<Class2ndPointsSummary> fetchScoreSummary() async {
     final response = await session.request(
       homeUrl,
       options: Options(
@@ -35,45 +30,83 @@ class Class2ndScoreService {
     return _parseScoreSummary(data);
   }
 
-  static Class2ndScoreSummary _parseScoreSummary(String htmlPage) {
+  static Class2ndPointsSummary _parseScoreSummary(String htmlPage) {
     final html = BeautifulSoup(htmlPage);
 
+    final (:thematicReport, :practice, :creation, :schoolCulture, :schoolSafetyCivilization, :voluntary) =
+        _parseAllStatus(html);
+
+    final honestyPoints = _parseHonestyPoints(html);
+    final total = _parseTotalPoints(html);
+    return Class2ndPointsSummary(
+      thematicReport: thematicReport,
+      practice: practice,
+      creation: creation,
+      schoolSafetyCivilization: schoolSafetyCivilization,
+      voluntary: voluntary,
+      schoolCulture: schoolCulture,
+      honestyPoints: honestyPoints,
+      totalPoints: total,
+    );
+  }
+
+  static ({
+    double thematicReport,
+    double practice,
+    double creation,
+    double schoolSafetyCivilization,
+    double voluntary,
+    double schoolCulture,
+  }) _parseAllStatus(BeautifulSoup html) {
     // 学分=1.5(主题报告)+2.0(社会实践)+1.5(创新创业创意)+1.0(校园安全文明)+0.0(公益志愿)+2.0(校园文化)
     final found = html.find('#span_score')!;
-    final String scoreText = found.text.toString();
+    final String scoreText = found.text;
     final regExp = RegExp(r'([\d.]+)\(([\u4e00-\u9fa5]+)\)');
 
-    final matches = regExp.allMatches(scoreText);
     late final double lecture, practice, creation, safetyEdu, voluntary, campus;
 
+    final matches = regExp.allMatches(scoreText);
     for (final item in matches) {
       final score = double.parse(item.group(1) ?? '0.0');
       final typeName = item.group(2)!;
-      final type = Class2ndScoreType.parse(typeName);
+      final type = Class2ndPointType.parse(typeName);
 
       switch (type) {
-        case Class2ndScoreType.thematicReport:
+        case Class2ndPointType.thematicReport:
           lecture = score;
           break;
-        case Class2ndScoreType.creation:
+        case Class2ndPointType.creation:
           creation = score;
           break;
-        case Class2ndScoreType.schoolCulture:
+        case Class2ndPointType.schoolCulture:
           campus = score;
           break;
-        case Class2ndScoreType.practice:
+        case Class2ndPointType.practice:
           practice = score;
           break;
-        case Class2ndScoreType.voluntary:
+        case Class2ndPointType.voluntary:
           voluntary = score;
           break;
-        case Class2ndScoreType.schoolSafetyCivilization:
+        case Class2ndPointType.schoolSafetyCivilization:
           safetyEdu = score;
           break;
         case null:
           break;
       }
     }
+    return (
+      thematicReport: lecture,
+      practice: practice,
+      creation: creation,
+      schoolSafetyCivilization: safetyEdu,
+      voluntary: voluntary,
+      schoolCulture: campus,
+    );
+  }
+
+  static final honestyPointsRe = RegExp(r'诚信积分：(\S+)');
+
+  static double _parseHonestyPoints(BeautifulSoup html) {
     final element = html.find("div", attrs: {"onmouseover": "showSynopsis()"});
     var honestyPoints = 0.0;
     if (element != null) {
@@ -85,19 +118,24 @@ class Class2ndScoreService {
         }
       }
     }
-    return Class2ndScoreSummary(
-      thematicReport: lecture,
-      practice: practice,
-      creation: creation,
-      schoolSafetyCivilization: safetyEdu,
-      voluntary: voluntary,
-      schoolCulture: campus,
-      honestyPoints: honestyPoints,
-    );
+    return honestyPoints;
+  }
+
+  static const totalPoints = '#content-box > div.user-info > div:nth-child(3) > font';
+
+  static double _parseTotalPoints(BeautifulSoup html) {
+    final pointsRaw = html.find(totalPoints);
+    if (pointsRaw != null) {
+      final total = double.tryParse(pointsRaw.text);
+      if (total != null) {
+        return total;
+      }
+    }
+    return 0.0;
   }
 
   /// 获取我的得分列表
-  Future<List<Class2ndScoreItem>> fetchScoreItemList() async {
+  Future<List<Class2ndPointItem>> fetchScoreItemList() async {
     final response = await session.request(
       scoreUrl,
       options: Options(
@@ -109,8 +147,8 @@ class Class2ndScoreService {
 
   static final scoreItemTimeFormat = DateFormat('yyyy-MM-dd hh:mm');
 
-  static List<Class2ndScoreItem> _parseScoreList(String htmlPage) {
-    Class2ndScoreItem nodeToScoreItem(Bs4Element item) {
+  static List<Class2ndPointItem> _parseScoreList(String htmlPage) {
+    Class2ndPointItem nodeToScoreItem(Bs4Element item) {
       final title = item.find('td:nth-child(3)')!.text.trim();
       final timeRaw = item.find('td:nth-child(9) > a');
       final time = timeRaw == null ? null : scoreItemTimeFormat.parse(timeRaw.text.trim());
@@ -126,7 +164,7 @@ class Class2ndScoreService {
           ? double.parse(honestyPointsRaw.substring(1))
           : double.parse(honestyPointsRaw);
 
-      return Class2ndScoreItem(
+      return Class2ndPointItem(
         name: mapChinesePunctuations(title),
         activityId: id,
         category: category!,
@@ -165,6 +203,7 @@ class Class2ndScoreService {
   static bool filterDeletedActivity(Class2ndActivityApplication x) => x.activityId != 0;
 
   static final attendedTimeFormat = DateFormat('yyyy-MM-dd hh:mm:ss');
+  static final activityIdRe = RegExp(r'activityId=(\d+)');
 
   static Class2ndActivityApplication _activityMapDetail(Bs4Element item) {
     final applyIdText = item.find('td:nth-child(1)')!.text.trim();

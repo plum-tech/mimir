@@ -27,13 +27,13 @@ class Class2ndAppCard extends StatefulWidget {
 }
 
 class _Class2ndAppCardState extends State<Class2ndAppCard> {
-  var summary = Class2ndInit.scoreStorage.scoreSummary;
-  final $scoreSummary = Class2ndInit.scoreStorage.listenScoreSummary();
+  var summary = Class2ndInit.pointStorage.pointsSummary;
+  final $pointsSummary = Class2ndInit.pointStorage.listenPointsSummary();
   late final EventSubscription $refreshEvent;
 
   @override
   void initState() {
-    $scoreSummary.addListener(onSummaryChanged);
+    $pointsSummary.addListener(onSummaryChanged);
     $refreshEvent = schoolEventBus.addListener(() async {
       await refresh(active: true);
     });
@@ -48,22 +48,22 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
 
   @override
   void dispose() {
-    $scoreSummary.removeListener(onSummaryChanged);
+    $pointsSummary.removeListener(onSummaryChanged);
     $refreshEvent.cancel();
     super.dispose();
   }
 
   void onSummaryChanged() {
     setState(() {
-      summary = Class2ndInit.scoreStorage.scoreSummary;
+      summary = Class2ndInit.pointStorage.pointsSummary;
     });
   }
 
   Future<void> refresh({required bool active}) async {
     // TODO: Error when school server unavailable.
     try {
-      final summary = await Class2ndInit.scoreService.fetchScoreSummary();
-      Class2ndInit.scoreStorage.scoreSummary = summary;
+      final summary = await Class2ndInit.pointService.fetchScoreSummary();
+      Class2ndInit.pointStorage.pointsSummary = summary;
       if (active) {
         if (!mounted) return;
         context.showSnackBar(content: i18n.refreshSuccessTip.text());
@@ -76,7 +76,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
     }
   }
 
-  Class2ndScoreSummary getTargetScore() {
+  Class2ndPointsSummary getTargetScore() {
     final admissionYear = getAdmissionYearFromStudentId(context.auth.credentials?.account);
     return getTargetScoreOf(admissionYear: admissionYear);
   }
@@ -92,7 +92,12 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
               summary: summary,
               target: getTargetScore(),
             ),
-      subtitle: summary == null ? null : "${i18n.info.honestyPoints}: ${summary.honestyPoints}".text(),
+      subtitle: summary == null
+          ? null
+          : [
+              "${i18n.info.honestyPoints}: ${summary.honestyPoints}".text(),
+              "${i18n.info.totalPoints}: ${summary.totalPoints}".text(),
+            ].column(caa: CrossAxisAlignment.start),
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
@@ -123,8 +128,8 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
   }
 
   Widget buildSummeryCard({
-    required Class2ndScoreSummary summary,
-    required Class2ndScoreSummary target,
+    required Class2ndPointsSummary summary,
+    required Class2ndPointsSummary target,
   }) {
     if (!isCupertino) {
       return Class2ndScoreSummeryCard(
@@ -154,8 +159,8 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
   }
 
   Future<void> shareSummery({
-    required Class2ndScoreSummary summary,
-    required Class2ndScoreSummary target,
+    required Class2ndPointsSummary summary,
+    required Class2ndPointsSummary target,
     required BuildContext context,
   }) async {
     final name2score = summary.toName2score();

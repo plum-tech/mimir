@@ -16,7 +16,7 @@ Future<QrCodeHandleResult> onHandleQrCodeData({
   final qrCodeData = Uri.tryParse(data);
   if (qrCodeData == null) return QrCodeHandleResult.invalidFormat;
   // backwards supports.
-  if (qrCodeData.scheme != R.scheme && qrCodeData.scheme != "sitlife" ) return QrCodeHandleResult.unrecognized;
+  if (qrCodeData.scheme != R.scheme && qrCodeData.scheme != "sitlife") return QrCodeHandleResult.unrecognized;
   for (final handler in DeepLinkHandlerProtocol.all) {
     if (handler.match(qrCodeData)) {
       await handler.onHandle(context: context, qrCodeData: qrCodeData);

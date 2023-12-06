@@ -49,11 +49,11 @@ class HiveAdapter {
     // Activity
     hive.addAdapter(Class2ndActivityDetailsAdapter());
     hive.addAdapter(Class2ndActivityAdapter());
-    hive.addAdapter(Class2ndScoreSummaryAdapter());
+    hive.addAdapter(Class2ndPointsSummaryAdapter());
     hive.addAdapter(Class2ndActivityApplicationAdapter());
-    hive.addAdapter(Class2ndScoreItemAdapter());
+    hive.addAdapter(Class2ndPointItemAdapter());
     hive.addAdapter(Class2ndActivityCatAdapter());
-    hive.addAdapter(Class2ndScoreTypeAdapter());
+    hive.addAdapter(Class2ndPointTypeAdapter());
 
     // OA Announcement
     hive.addAdapter(OaAnnounceDetailsAdapter());

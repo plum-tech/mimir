@@ -33,7 +33,7 @@ const commonClass2ndCategories = [
 
 List<Class2ndAttendedActivity> buildAttendedActivityList({
   required List<Class2ndActivityApplication> applications,
-  required List<Class2ndScoreItem> scores,
+  required List<Class2ndPointItem> scores,
 }) {
   final attended = applications.map((application) {
     final relatedScoreItems = scores.where((e) => e.activityId == application.activityId).toList();

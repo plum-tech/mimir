@@ -52,7 +52,7 @@ class AppCard extends StatelessWidget {
         ListTile(
           titleTextStyle: textTheme.titleLarge,
           title: title,
-          subtitleTextStyle: textTheme.bodyLarge,
+          subtitleTextStyle: textTheme.bodyLarge?.copyWith(color: context.colorScheme.onSurfaceVariant),
           subtitle: subtitle,
         ),
         OverflowBar(

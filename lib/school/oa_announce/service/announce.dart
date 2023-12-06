@@ -89,8 +89,9 @@ class OaAnnounceService {
       if (lastElement == null) return null;
       final lastElementHref = Uri.parse(lastElement.attributes['href']!);
       final lastPageIndex = lastElementHref.queryParameters['pageIndex']!;
-      return (currentPage: int.parse(currentRaw),totalPage: int.parse(lastPageIndex));
+      return (currentPage: int.parse(currentRaw), totalPage: int.parse(lastPageIndex));
     }
+
     final page = parsePage();
 
     return OaAnnounceListPayload(

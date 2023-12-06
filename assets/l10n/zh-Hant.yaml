@@ -190,6 +190,7 @@ class2nd:
     category: 活動類別
     scoreType: 加分類型
     honestyPoints: 誠信分
+    totalPoints: 總分
     applicationTime: 申請時間
     duration: 活動時長
     location: 活動地點

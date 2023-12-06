@@ -4,7 +4,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/attended.dart';
 
-const _targetScores2019 = Class2ndScoreSummary(
+const _targetScores2019 = Class2ndPointsSummary(
   thematicReport: 1.5,
   practice: 2,
   creation: 1.5,
@@ -13,18 +13,18 @@ const _targetScores2019 = Class2ndScoreSummary(
   schoolCulture: 1,
 );
 const _admissionYear2targetScores = {
-  2013: Class2ndScoreSummary(thematicReport: 1, schoolCulture: 1),
-  2014: Class2ndScoreSummary(thematicReport: 1, practice: 1, schoolCulture: 1),
-  2015: Class2ndScoreSummary(thematicReport: 1, practice: 1, creation: 1, schoolCulture: 1),
-  2016: Class2ndScoreSummary(thematicReport: 1, practice: 1, creation: 1, schoolCulture: 1),
-  2017: Class2ndScoreSummary(
+  2013: Class2ndPointsSummary(thematicReport: 1, schoolCulture: 1),
+  2014: Class2ndPointsSummary(thematicReport: 1, practice: 1, schoolCulture: 1),
+  2015: Class2ndPointsSummary(thematicReport: 1, practice: 1, creation: 1, schoolCulture: 1),
+  2016: Class2ndPointsSummary(thematicReport: 1, practice: 1, creation: 1, schoolCulture: 1),
+  2017: Class2ndPointsSummary(
     thematicReport: 1.5,
     practice: 2,
     creation: 1.5,
     schoolSafetyCivilization: 1,
     schoolCulture: 2,
   ),
-  2018: Class2ndScoreSummary(
+  2018: Class2ndPointsSummary(
     thematicReport: 1.5,
     practice: 2,
     creation: 1.5,
@@ -38,13 +38,13 @@ const _admissionYear2targetScores = {
   2023: _targetScores2019,
 };
 
-Class2ndScoreSummary getTargetScoreOf({required int? admissionYear}) {
+Class2ndPointsSummary getTargetScoreOf({required int? admissionYear}) {
   return _admissionYear2targetScores[admissionYear] ?? _targetScores2019;
 }
 
 class Class2ndScoreSummeryCard extends StatelessWidget {
-  final Class2ndScoreSummary targetScore;
-  final Class2ndScoreSummary summary;
+  final Class2ndPointsSummary targetScore;
+  final Class2ndPointsSummary summary;
   final double aspectRatio;
 
   const Class2ndScoreSummeryCard({
@@ -66,8 +66,8 @@ class Class2ndScoreSummeryCard extends StatelessWidget {
 }
 
 class Class2ndScoreSummaryChart extends StatelessWidget {
-  final Class2ndScoreSummary targetScore;
-  final Class2ndScoreSummary summary;
+  final Class2ndPointsSummary targetScore;
+  final Class2ndPointsSummary summary;
 
   const Class2ndScoreSummaryChart({
     super.key,

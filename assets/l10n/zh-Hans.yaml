@@ -187,6 +187,7 @@ class2nd:
     category: 活动类别
     scoreType: 加分类型
     honestyPoints: 诚信分
+    totalPoints: 总分
     applicationTime: 申请时间
     status: 状态
     contactInfo: 联系方式
