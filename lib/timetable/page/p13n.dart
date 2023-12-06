@@ -1,5 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -15,6 +16,7 @@ import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:sit/utils/color.dart';
+import 'package:sit/utils/format.dart';
 
 import '../i18n.dart';
 import '../widgets/style.dart';
@@ -224,15 +226,14 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
             },
           ),
         EntryAction(
-          label: i18n.copy,
+          label: i18n.duplicate,
           icon: Icons.copy,
           oneShot: true,
-          cupertinoIcon: CupertinoIcons.doc_on_clipboard,
+          cupertinoIcon: CupertinoIcons.plus_square_on_square,
           action: () async {
             final duplicate = palette.copyWith(
-              name: i18n.p13n.palette.copyPaletteName(palette.name),
-              // copy will ignore the original author
-              author: "",
+              name: getDuplicateFileName(palette.name),
+              author: palette.author,
               lastModified: DateTime.now(),
             );
             TimetableInit.storage.palette.add(duplicate);
@@ -253,6 +254,13 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
             );
           },
         ),
+        if (kDebugMode)
+          EntryAction(
+            label: "Copy Dart code",
+            action: () async {
+              await Clipboard.setData(ClipboardData(text: palette.toDartCode()));
+            },
+          ),
       ],
       detailsBuilder: (ctx) {
         return CustomScrollView(

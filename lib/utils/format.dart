@@ -14,3 +14,16 @@ String formatWithoutTrailingZeros(double amount) {
   }
   return number;
 }
+
+final _trailingIntRe = RegExp(r"(.*\s+)(\d+)$");
+
+String getDuplicateFileName(String origin) {
+  final matched = _trailingIntRe.firstMatch(origin);
+  if (matched == null) return "$origin 2";
+  final prefix = matched.group(1);
+  final number = matched.group(2);
+  if (prefix == null || number == null) return "$origin 2";
+  final integer = int.tryParse(number, radix: 10);
+  if (integer == null) return "$origin 2";
+  return "$prefix${integer + 1}";
+}

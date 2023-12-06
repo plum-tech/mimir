@@ -84,7 +84,6 @@ timetable:
     builtinPalette:
       classic:
         name: 經典
-        author: Liplum
       oldSchool:
         name: 老派
         author: 上應小風箏
@@ -104,7 +103,6 @@ timetable:
       fab: 調色盤
       shareQrCode: 分享 QR 碼
       newPaletteName: 新的調色盤
-      copyPaletteName: "{} 複製"
       deleteRequest: 確認刪除？
       deleteRequestDesc: 除非儲存了 QR 碼備份，否則調色板將被永久刪除
       addFromQrCode: 已從 QR 碼加載調色盤
@@ -664,3 +662,4 @@ copy: 複製
 preview: 預覽
 upload: 上傳
 pick: 選取
+duplicate: 複製

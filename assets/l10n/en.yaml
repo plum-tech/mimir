@@ -83,7 +83,6 @@ timetable:
     builtinPalette:
       classic:
         name: Classic
-        author: Liplum
       oldSchool:
         name: Old School
         author: SIT Kite
@@ -103,7 +102,6 @@ timetable:
       fab: Palette
       shareQrCode: Share QR code
       newPaletteName: New palette
-      copyPaletteName: "{} Copy"
       deleteRequest: Conform to delete?
       deleteRequestDesc: The palette will be deleted permanently without unless a QR code backup is saved
       addFromQrCode: Palette was added from QR code
@@ -663,3 +661,4 @@ copy: Copy
 preview: Preview
 upload: Upload
 pick: Pick
+duplicate: Duplicate

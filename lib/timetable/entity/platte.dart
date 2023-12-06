@@ -124,12 +124,14 @@ extension TimetablePaletteX on TimetablePalette {
 class BuiltinTimetablePalette implements TimetablePalette {
   final int id;
   final String key;
+  final String? nameOverride;
+  final String? authorOverride;
 
   @override
-  String get name => "timetable.p13n.builtinPalette.$key.name".tr();
+  String get name => nameOverride ?? "timetable.p13n.builtinPalette.$key.name".tr();
 
   @override
-  String get author => "timetable.p13n.builtinPalette.$key.author".tr();
+  String get author => authorOverride ?? "timetable.p13n.builtinPalette.$key.author".tr();
   @override
   final List<Color2Mode> colors;
 
@@ -140,7 +142,10 @@ class BuiltinTimetablePalette implements TimetablePalette {
     required this.key,
     required this.id,
     required this.colors,
-  });
+    String? name,
+    String? author,
+  })  : nameOverride = name,
+        authorOverride = author;
 
   @override
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -148,4 +153,10 @@ class BuiltinTimetablePalette implements TimetablePalette {
         "author": author,
         "colors": _colorsToJson(colors),
       };
+}
+
+extension TimetablePaletteDevX on TimetablePalette {
+  String toDartCode() {
+    return 'TimetablePalette(name:"$name",author:"$author",colors:$colors,)';
+  }
 }

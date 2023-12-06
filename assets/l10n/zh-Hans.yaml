@@ -83,7 +83,6 @@ timetable:
     builtinPalette:
       classic:
         name: 经典
-        author: Liplum
       oldSchool:
         name: 老派
         author: 上应小风筝
@@ -103,7 +102,6 @@ timetable:
       fab: 配色方案
       shareQrCode: 分享二维码
       newPaletteName: 新的配色方案
-      copyPaletteName: "{} 复制"
       deleteRequest: 确认删除？
       deleteRequestDesc: 推荐先保存二维码备份再删除
       addFromQrCode: 已从二维码添加配色方案
@@ -663,3 +661,4 @@ copy: 复制
 preview: 预览
 upload: 上传
 pick: 选择
+duplicate: 复制

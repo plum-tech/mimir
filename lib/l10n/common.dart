@@ -72,6 +72,8 @@ mixin class CommonI18nMixin {
   String get pick => "pick".tr();
 
   String get retry => "retry".tr();
+
+  String get duplicate => "duplicate".tr();
 }
 
 class CommonI18n with CommonI18nMixin {
