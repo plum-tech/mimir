@@ -7,6 +7,7 @@ import 'package:sit/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:sit/timetable/page/p13n.dart';
 import 'package:sit/timetable/page/screenshot.dart';
 import 'package:sit/school/i18n.dart' as $school;
 import 'package:sit/life/i18n.dart' as $life;
@@ -156,16 +157,15 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
               await context.push("/timetable/mine");
             },
           ),
-        if (focusMode)
-          PopupMenuItem(
-            child: ListTile(
-              leading: const Icon(Icons.palette_outlined),
-              title: i18n.p13n.palette.title.text(),
-            ),
-            onTap: () async {
-              await context.push("/timetable/p13n");
-            },
+        PopupMenuItem(
+          child: ListTile(
+            leading: const Icon(Icons.palette_outlined),
+            title: i18n.p13n.palette.title.text(),
           ),
+          onTap: () async {
+            await context.show$Sheet$((ctx) => const TimetableP13nPage());
+          },
+        ),
         PopupMenuItem(
           child: ListTile(
             leading: const Icon(Icons.view_comfortable_outlined),
