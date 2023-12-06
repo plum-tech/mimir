@@ -25,10 +25,6 @@ class ProxySettingsPage extends StatefulWidget {
 class _ProxySettingsPageState extends State<ProxySettingsPage> {
   @override
   Widget build(BuildContext context) {
-    final proxy = Settings.httpProxy.address;
-    final proxyUri = Uri.tryParse(proxy) ?? Uri(scheme: "http", host: "localhost", port: 80);
-    final userInfoParts = proxyUri.userInfo.split(":");
-    final auth = userInfoParts.length == 2 ? (username: userInfoParts[0], password: userInfoParts[1]) : null;
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
@@ -42,42 +38,50 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
               title: i18n.proxy.title.text(style: context.textTheme.headlineSmall),
             ),
           ),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              buildEnableProxyToggle(),
-              buildProxyModeSwitcher(),
-              buildProxyFullTile(proxyUri, (newProxy) {
-                setNewAddress(newProxy.toString());
-              }),
-              const Divider(),
-              buildProxyProtocolTile(proxyUri.scheme, (newProtocol) {
-                setNewAddress(proxyUri.replace(scheme: newProtocol).toString());
-              }),
-              buildProxyHostnameTile(proxyUri.host, (newHost) {
-                setNewAddress(proxyUri.replace(host: newHost).toString());
-              }),
-              buildProxyPortTile(proxyUri.port, (newPort) {
-                setNewAddress(proxyUri.replace(port: newPort).toString());
-              }),
-              buildProxyAuthTile(auth, (newAuth) {
-                if (newAuth == null) {
-                  setNewAddress(proxyUri.replace(userInfo: "").toString());
-                } else {
-                  setNewAddress(
-                    proxyUri
-                        .replace(
-                            userInfo: newAuth.password.isNotEmpty
-                                ? "${newAuth.username}:${newAuth.password}"
-                                : newAuth.username)
-                        .toString(),
-                  );
-                }
-              }),
-              const Divider(),
-              const TestConnectionTile(),
-              buildShareQrCode(proxyUri),
-            ]),
-          ),
+          Settings.httpProxy.listenAddress() >>
+              (ctx, _) {
+                final proxy = Settings.httpProxy.address;
+                final proxyUri = Uri.tryParse(proxy) ?? Uri(scheme: "http", host: "localhost", port: 80);
+                final userInfoParts = proxyUri.userInfo.split(":");
+                final auth =
+                    userInfoParts.length == 2 ? (username: userInfoParts[0], password: userInfoParts[1]) : null;
+                return SliverList(
+                  delegate: SliverChildListDelegate([
+                    buildEnableProxyToggle(),
+                    buildProxyModeSwitcher(),
+                    buildProxyFullTile(proxyUri, (newProxy) {
+                      setNewAddress(newProxy.toString());
+                    }),
+                    const Divider(),
+                    buildProxyProtocolTile(proxyUri.scheme, (newProtocol) {
+                      setNewAddress(proxyUri.replace(scheme: newProtocol).toString());
+                    }),
+                    buildProxyHostnameTile(proxyUri.host, (newHost) {
+                      setNewAddress(proxyUri.replace(host: newHost).toString());
+                    }),
+                    buildProxyPortTile(proxyUri.port, (newPort) {
+                      setNewAddress(proxyUri.replace(port: newPort).toString());
+                    }),
+                    buildProxyAuthTile(auth, (newAuth) {
+                      if (newAuth == null) {
+                        setNewAddress(proxyUri.replace(userInfo: "").toString());
+                      } else {
+                        setNewAddress(
+                          proxyUri
+                              .replace(
+                                  userInfo: newAuth.password.isNotEmpty
+                                      ? "${newAuth.username}:${newAuth.password}"
+                                      : newAuth.username)
+                              .toString(),
+                        );
+                      }
+                    }),
+                    const Divider(),
+                    const TestConnectionTile(),
+                    buildShareQrCode(proxyUri),
+                  ]),
+                );
+              },
         ],
       ),
     );
@@ -140,170 +144,163 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
   }
 
   Widget buildProxyFullTile(Uri proxyUri, ValueChanged<Uri> onChanged) {
-    return Settings.httpProxy.listenAddress() >>
-        (ctx, _) => ListTile(
-              leading: const Icon(Icons.link),
-              title: i18n.proxy.title.text(),
-              subtitle: proxyUri.toString().text(),
-              onLongPress: () async {
-                await Clipboard.setData(ClipboardData(text: proxyUri.toString()));
-                if (!mounted) return;
-                context.showSnackBar(content: i18n.proxy.fullCopyTip.text());
-              },
-              trailing: IconButton(
-                icon: const Icon(Icons.edit),
-                onPressed: () async {
-                  final newFullProxy = await Editor.showStringEditor(
-                    context,
-                    desc: i18n.proxy.title,
-                    initial: proxyUri.toString(),
-                  );
-                  if (newFullProxy == null) return;
-                  final newUri = Uri.tryParse(newFullProxy.trim());
+    return ListTile(
+      leading: const Icon(Icons.link),
+      title: i18n.proxy.title.text(),
+      subtitle: proxyUri.toString().text(),
+      onLongPress: () async {
+        await Clipboard.setData(ClipboardData(text: proxyUri.toString()));
+        if (!mounted) return;
+        context.showSnackBar(content: i18n.proxy.fullCopyTip.text());
+      },
+      trailing: IconButton(
+        icon: const Icon(Icons.edit),
+        onPressed: () async {
+          final newFullProxy = await Editor.showStringEditor(
+            context,
+            desc: i18n.proxy.title,
+            initial: proxyUri.toString(),
+          );
+          if (newFullProxy == null) return;
+          final newUri = Uri.tryParse(newFullProxy.trim());
 
-                  if (newUri != null && newUri.isAbsolute && (newUri.scheme == "http" || newUri.scheme == "https")) {
-                    if (newUri != proxyUri) {
-                      onChanged(newUri);
-                    }
-                  } else {
-                    // TODO: i18n
-                    if (!mounted) return;
-                    context.showTip(
-                      title: i18n.error,
-                      desc: "Invalid proxy URI format",
-                      ok: i18n.close,
-                    );
-                    return;
-                  }
-                },
-              ),
+          if (newUri != null && newUri.isAbsolute && (newUri.scheme == "http" || newUri.scheme == "https")) {
+            if (newUri != proxyUri) {
+              onChanged(newUri);
+            }
+          } else {
+            // TODO: i18n
+            if (!mounted) return;
+            context.showTip(
+              title: i18n.error,
+              desc: "Invalid proxy URI format",
+              ok: i18n.close,
             );
+            return;
+          }
+        },
+      ),
+    );
   }
 
   Widget buildProxyProtocolTile(String protocol, ValueChanged<String> onChanged) {
-    return Settings.httpProxy.listenAddress() >>
-        (ctx, _) => ListTile(
-              isThreeLine: true,
-              leading: const Icon(Icons.https),
-              title: i18n.proxy.protocol.text(),
-              subtitle: [
-                ChoiceChip(
-                  label: "HTTP".text(),
-                  selected: protocol == "http",
-                  onSelected: (value) {
-                    onChanged("http");
-                  },
-                ),
-                ChoiceChip(
-                  label: "HTTPS".text(),
-                  selected: protocol == "https",
-                  onSelected: (value) {
-                    onChanged("https");
-                  },
-                ),
-              ].wrap(spacing: 4),
-            );
+    return ListTile(
+      isThreeLine: true,
+      leading: const Icon(Icons.https),
+      title: i18n.proxy.protocol.text(),
+      subtitle: [
+        ChoiceChip(
+          label: "HTTP".text(),
+          selected: protocol == "http",
+          onSelected: (value) {
+            onChanged("http");
+          },
+        ),
+        ChoiceChip(
+          label: "HTTPS".text(),
+          selected: protocol == "https",
+          onSelected: (value) {
+            onChanged("https");
+          },
+        ),
+      ].wrap(spacing: 4),
+    );
   }
 
   Widget buildProxyHostnameTile(String hostname, ValueChanged<String> onChanged) {
-    return Settings.httpProxy.listenAddress() >>
-        (ctx, _) => ListTile(
-              leading: const Icon(Icons.link),
-              title: i18n.proxy.hostname.text(),
-              subtitle: hostname.text(),
-              onLongPress: () async {
-                await Clipboard.setData(ClipboardData(text: hostname));
-                if (!mounted) return;
-                context.showSnackBar(content: i18n.proxy.hostnameCopyTip.text());
-              },
-              trailing: IconButton(
-                icon: const Icon(Icons.edit),
-                onPressed: () async {
-                  final newHostNameRaw = await Editor.showStringEditor(
-                    context,
-                    desc: i18n.proxy.hostname,
-                    initial: hostname,
-                  );
-                  if (newHostNameRaw == null) return;
-                  final newHostName = newHostNameRaw.trim();
-                  if (newHostName != hostname) {
-                    onChanged(newHostName);
-                  }
-                },
-              ),
-            );
+    return ListTile(
+      leading: const Icon(Icons.link),
+      title: i18n.proxy.hostname.text(),
+      subtitle: hostname.text(),
+      onLongPress: () async {
+        await Clipboard.setData(ClipboardData(text: hostname));
+        if (!mounted) return;
+        context.showSnackBar(content: i18n.proxy.hostnameCopyTip.text());
+      },
+      trailing: IconButton(
+        icon: const Icon(Icons.edit),
+        onPressed: () async {
+          final newHostNameRaw = await Editor.showStringEditor(
+            context,
+            desc: i18n.proxy.hostname,
+            initial: hostname,
+          );
+          if (newHostNameRaw == null) return;
+          final newHostName = newHostNameRaw.trim();
+          if (newHostName != hostname) {
+            onChanged(newHostName);
+          }
+        },
+      ),
+    );
   }
 
   Widget buildProxyPortTile(int port, ValueChanged<int> onChanged) {
-    return Settings.httpProxy.listenAddress() >>
-        (ctx, _) => ListTile(
-              leading: const Icon(Icons.settings_input_component_outlined),
-              title: i18n.proxy.port.text(),
-              subtitle: port.toString().text(),
-              onLongPress: () async {
-                await Clipboard.setData(ClipboardData(text: port.toString()));
-                if (!mounted) return;
-                context.showSnackBar(content: i18n.proxy.portCopyTip.text());
-              },
-              trailing: IconButton(
-                icon: const Icon(Icons.edit),
-                onPressed: () async {
-                  final newPort = await Editor.showIntEditor(
-                    context,
-                    desc: i18n.proxy.port,
-                    initial: port,
-                  );
-                  if (newPort == null) return;
-                  if (newPort != port) {
-                    onChanged(newPort);
-                  }
-                },
-              ),
-            );
+    return ListTile(
+      leading: const Icon(Icons.settings_input_component_outlined),
+      title: i18n.proxy.port.text(),
+      subtitle: port.toString().text(),
+      onLongPress: () async {
+        await Clipboard.setData(ClipboardData(text: port.toString()));
+        if (!mounted) return;
+        context.showSnackBar(content: i18n.proxy.portCopyTip.text());
+      },
+      trailing: IconButton(
+        icon: const Icon(Icons.edit),
+        onPressed: () async {
+          final newPort = await Editor.showIntEditor(
+            context,
+            desc: i18n.proxy.port,
+            initial: port,
+          );
+          if (newPort == null) return;
+          if (newPort != port) {
+            onChanged(newPort);
+          }
+        },
+      ),
+    );
   }
 
   Widget buildProxyAuthTile(
     ({String username, String password})? credentials,
     ValueChanged<({String username, String password})?> onChanged,
   ) {
-    return Settings.httpProxy.listenAddress() >>
-        (ctx, _) {
-          final text = credentials != null ? "${credentials.username}:${credentials.password}" : null;
+    final text = credentials != null ? "${credentials.username}:${credentials.password}" : null;
 
-          return ListTile(
-            leading: const Icon(Icons.key),
-            title: i18n.proxy.authentication.text(),
-            subtitle: text?.text(),
-            trailing: [
-              if (credentials != null)
-                IconButton(
-                  onPressed: () {
-                    onChanged(null);
-                  },
-                  icon: const Icon(Icons.delete),
-                ),
-              IconButton(
-                icon: const Icon(Icons.edit),
-                onPressed: () async {
-                  final newAuth = await showAdaptiveDialog<({String username, String password})>(
-                    context: context,
-                    builder: (_) => StringsEditor(
-                      fields: [
-                        (name: "username", initial: credentials?.username ?? ""),
-                        (name: "password", initial: credentials?.password ?? ""),
-                      ],
-                      title: i18n.proxy.authentication,
-                      ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
-                    ),
-                  );
-                  if (newAuth != null && newAuth != credentials) {
-                    onChanged(newAuth);
-                  }
-                },
+    return ListTile(
+      leading: const Icon(Icons.key),
+      title: i18n.proxy.authentication.text(),
+      subtitle: text?.text(),
+      trailing: [
+        if (credentials != null)
+          IconButton(
+            onPressed: () {
+              onChanged(null);
+            },
+            icon: const Icon(Icons.delete),
+          ),
+        IconButton(
+          icon: const Icon(Icons.edit),
+          onPressed: () async {
+            final newAuth = await showAdaptiveDialog<({String username, String password})>(
+              context: context,
+              builder: (_) => StringsEditor(
+                fields: [
+                  (name: "username", initial: credentials?.username ?? ""),
+                  (name: "password", initial: credentials?.password ?? ""),
+                ],
+                title: i18n.proxy.authentication,
+                ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
               ),
-            ].wrap(),
-          );
-        };
+            );
+            if (newAuth != null && newAuth != credentials) {
+              onChanged(newAuth);
+            }
+          },
+        ),
+      ].wrap(),
+    );
   }
 
   Widget buildShareQrCode(Uri proxyUri) {
