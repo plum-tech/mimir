@@ -154,9 +154,3 @@ class BuiltinTimetablePalette implements TimetablePalette {
         "colors": _colorsToJson(colors),
       };
 }
-
-extension TimetablePaletteDevX on TimetablePalette {
-  String toDartCode() {
-    return 'TimetablePalette(name:"$name",author:"$author",colors:$colors,)';
-  }
-}

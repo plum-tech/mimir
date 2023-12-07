@@ -6,7 +6,7 @@ import 'entity/timetable.dart';
 /// https://m3.material.io/theme-builder#/custom
 class BuiltinTimetablePalettes {
   static const classic = BuiltinTimetablePalette(
-    id: -2,
+    id: -1,
     key: "classic",
     author: "Li_plum@outlook.com",
     colors: [
@@ -24,25 +24,119 @@ class BuiltinTimetablePalettes {
       (light: Color(0xD2eaf141), dark: Color(0xDF4b4c00)), // toxic
     ],
   );
-  static const oldSchool = BuiltinTimetablePalette(
-    id: -1,
-    key: "oldSchool",
+  static const americano = BuiltinTimetablePalette(
+    id: -2,
+    key: "americano",
+    author: "Gracie",
     colors: [
-      (light: Color(0xD2FB5352), dark: Color(0xDFF4534B)),
-      (light: Color(0xD2737BFA), dark: Color(0xDF646EDC)),
-      (light: Color(0xD274B9FF), dark: Color(0xDF5A87C8)),
-      (light: Color(0xD2767EFD), dark: Color(0xDF586AD5)),
-      (light: Color(0xD2F5AF4D), dark: Color(0xDFC87D6B)),
-      (light: Color(0xD2BB896A), dark: Color(0xDF785C42)),
-      (light: Color(0xD2E84393), dark: Color(0xDFB42375)),
-      (light: Color(0xD2BC8CF0), dark: Color(0xDF9464B4)),
-      (light: Color(0xD274B9FF), dark: Color(0xDF3855C8)),
+      (dark: Color(0xff4d5a3f), light: Color(0xe67a8d62)),
+      (dark: Color(0xff837a69), light: Color(0xffedddbe)),
+      (dark: Color(0xff6a3634), light: Color(0xe6c86563)),
+      (dark: Color(0xff98814c), light: Color(0xffe7c574)),
+      (dark: Color(0xff14506a), light: Color(0xe60080ad)),
+    ],
+  );
+  static const candy = BuiltinTimetablePalette(
+    id: -3,
+    key: "candy",
+    author: "Gracie",
+    colors: [
+      (dark: Color(0xff877878), light: Color(0xfff1dada)),
+      (dark: Color(0xff668076), light: Color(0xffb9e8d7)),
+      (dark: Color(0xff6e7760), light: Color(0xffc9d8af)),
+      (dark: Color(0xffa36665), light: Color(0xfff2a09e)),
+      (dark: Color(0xff676f7f), light: Color(0xffbbc9e6)),
+      (dark: Color(0xff786e7a), light: Color(0xffdac8dd)),
+      (dark: Color(0xff87786e), light: Color(0xfff2d8c8)),
+    ],
+  );
+  static const spring = BuiltinTimetablePalette(
+    id: -4,
+    key: "sprint",
+    author: "Gracie",
+    colors: [
+      (dark: Color(0xff6c8081), light: Color(0xffa5c2c4)),
+      (dark: Color(0xff88877c), light: Color(0xfff3f1e1)),
+      (dark: Color(0xff715252), light: Color(0xffae7e7e)),
+      (dark: Color(0xff799995), light: Color(0xffbae5df)),
+      (dark: Color(0xff799279), light: Color(0xffb9dbb9)),
+      (dark: Color(0xff907f6d), light: Color(0xffffe4c8)),
+    ],
+  );
+  static const summary = BuiltinTimetablePalette(
+    id: -5,
+    key: "summary",
+    author: "Gracie",
+    colors: [
+      (dark: Color(0xffaca88b), light: Color(0xfffffad3)),
+      (dark: Color(0xff976455), light: Color(0xffe69782)),
+      (dark: Color(0xff7ca07f), light: Color(0xffbeedc3)),
+      (dark: Color(0xff3c5b51), light: Color(0xff5e8f7f)),
+      (dark: Color(0xff93997b), light: Color(0xffdce4bd)),
+      (dark: Color(0xffa78044), light: Color(0xffffc367)),
+    ],
+  );
+  static const fall = BuiltinTimetablePalette(
+    id: -6,
+    key: "fall",
+    author: "Gracie",
+    colors: [
+      (dark: Color(0xff9e9c7e), light: Color(0xffece9c1)),
+      (dark: Color(0xff977955), light: Color(0xffe6b982)),
+      (dark: Color(0xff8e8471), light: Color(0xffd5c6af)),
+      (dark: Color(0xff626a48), light: Color(0xff97a470)),
+      (dark: Color(0xff6e5c46), light: Color(0xffaa8f6c)),
+      (dark: Color(0xff96563a), light: Color(0xffe68358)),
+    ],
+  );
+  static const winter = BuiltinTimetablePalette(
+    id: -7,
+    key: "winter",
+    author: "Gracie",
+    colors: [
+      (dark: Color(0xff7c8787), light: Color(0xffc3dede)),
+      (dark: Color(0xff7e7f6d), light: Color(0xffe5e6c4)),
+      (dark: Color(0xff4d6067), light: Color(0xff90b2c0)),
+      (dark: Color(0xff4e6f6d), light: Color(0xff8fcdca)),
+      (dark: Color(0xff5e6d5e), light: Color(0xffabc8ad)),
+      (dark: Color(0xff4c5253), light: Color(0xffb9c6c9)),
+    ],
+  );
+  static const thicket = BuiltinTimetablePalette(
+    id: -8,
+    key: "thicket",
+    author: "Gracie",
+    colors: [
+      (dark: Color(0xff506952), light: Color(0xff7da37f)),
+      (dark: Color(0xff547b65), light: Color(0xff81bc95)),
+      (dark: Color(0xff465753), light: Color(0xff6e8882)),
+      (dark: Color(0xff7b978d), light: Color(0xffbce2d4)),
+      (dark: Color(0xff9e948a), light: Color(0xffecdfd0)),
+    ],
+  );
+  static const creeksideBreeze = BuiltinTimetablePalette(
+    id: -9,
+    key: "creeksideBreeze",
+    author: "Gracie",
+    colors: [
+      (dark: Color(0xff6c8080), light: Color(0xffc4e7e7)),
+      (dark: Color(0xff748e87), light: Color(0xffdcf4f1)),
+      (dark: Color(0xff3e5657), light: Color(0xff77a3a5)),
+      (dark: Color(0xff7c726f), light: Color(0xffbcada9)),
+      (dark: Color(0xff5d5a5a), light: Color(0xfff4ecec)),
     ],
   );
 
   static const all = [
     classic,
-    oldSchool,
+    americano,
+    candy,
+    spring,
+    summary,
+    fall,
+    winter,
+    thicket,
+    creeksideBreeze,
   ];
 }
 

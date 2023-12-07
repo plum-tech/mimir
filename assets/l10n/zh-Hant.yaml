@@ -84,9 +84,22 @@ timetable:
     builtinPalette:
       classic:
         name: 經典
-      oldSchool:
-        name: 老派
-        author: 上應小風箏
+      americano:
+        name: 美式復古
+      candy:
+        name: 糖果幻境
+      sprint:
+        name: 蘭時
+      summary:
+        name: 時夏
+      fall:
+        name: 蕭辰
+      winter:
+        name: 北陸
+      thicket:
+        name: 小森林
+      creeksideBreeze:
+        name: 溪畔聽風
     palette:
       title: 調色盤
       name: 名稱

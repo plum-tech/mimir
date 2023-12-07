@@ -97,20 +97,28 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return [
-      ($searchMethod >>
-              (ctx, _) => SearchMethodSwitcher(
-                    selected: $searchMethod.value,
-                    onSelect: (newSelection) {
-                      $searchMethod.value = newSelection;
-                    },
-                  ))
-          .sized(h: 40),
-      LibrarySearchHistoryGroup(
-        onTap: (method, title) => searchByGiving(context, keyword: title, searchMethod: method),
-      ),
-      LibraryTrendsGroup(onTap: (title) => searchByGiving(context, keyword: title)),
-    ].column().scrolled();
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: ($searchMethod >>
+                  (ctx, _) => SearchMethodSwitcher(
+                        selected: $searchMethod.value,
+                        onSelect: (newSelection) {
+                          $searchMethod.value = newSelection;
+                        },
+                      ))
+              .sized(h: 40),
+        ),
+        SliverToBoxAdapter(
+          child: LibrarySearchHistoryGroup(
+            onTap: (method, title) => searchByGiving(context, keyword: title, searchMethod: method),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: LibraryTrendsGroup(onTap: (title) => searchByGiving(context, keyword: title)),
+        )
+      ],
+    );
   }
 }
 
@@ -263,6 +271,7 @@ class SuggestionItemView<T> extends StatelessWidget {
         trailing: tileTrailing,
       ),
       AnimatedSize(
+        alignment: Alignment.topCenter,
         duration: Durations.long2,
         curve: Curves.fastEaseInToSlowEaseOut,
         child: items != null
@@ -272,7 +281,7 @@ class SuggestionItemView<T> extends StatelessWidget {
                 .toList(growable: false)
                 .wrap(spacing: 4)
             : const SizedBox(),
-      ),
+      ).padH(8),
     ].column(caa: CrossAxisAlignment.start, mas: MainAxisSize.min);
   }
 }

@@ -83,9 +83,22 @@ timetable:
     builtinPalette:
       classic:
         name: Classic
-      oldSchool:
-        name: Old School
-        author: SIT Kite
+      americano:
+        name: Americano
+      candy:
+        name: Candy
+      sprint:
+        name: Sprint
+      summary:
+        name: Summary
+      fall:
+        name: Fall
+      winter:
+        name: Winter
+      thicket:
+        name: Thicket
+      creeksideBreeze:
+        name: Creekside Breeze
     palette:
       title: Palette
       name: Name

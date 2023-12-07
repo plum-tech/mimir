@@ -258,7 +258,8 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
           EntryAction(
             label: "Copy Dart code",
             action: () async {
-              await Clipboard.setData(ClipboardData(text: palette.toDartCode()));
+              final code = palette.colors.toString();
+              await Clipboard.setData(ClipboardData(text: code));
             },
           ),
       ],
