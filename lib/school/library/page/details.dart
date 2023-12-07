@@ -32,6 +32,7 @@ class BookDetailsPage extends StatefulWidget {
 class _BookDetailsPageState extends State<BookDetailsPage> {
   late BookDetails? details = LibraryInit.bookStorage.getBookDetails(widget.book.bookId);
   bool isFetching = false;
+  final $hasImage = ValueNotifier(true);
 
   @override
   void initState() {
@@ -75,17 +76,33 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
-            SliverAppBar(
-              expandedHeight: 300.0,
-              flexibleSpace: AsyncBookImage(isbn: book.isbn),
-              actions: widget.actions,
-              bottom: isFetching
-                  ? const PreferredSize(
-                      preferredSize: Size.fromHeight(4),
-                      child: LinearProgressIndicator(),
-                    )
-                  : null,
-            ),
+            $hasImage >>
+                (ctx, hasImage) => TweenAnimationBuilder<double>(
+                      duration: Durations.long4,
+                      curve: Curves.fastEaseInToSlowEaseOut,
+                      tween: Tween<double>(
+                        begin: 0.0,
+                        end: hasImage ? 300.0 : 0.0,
+                      ),
+                      builder: (context, value, _) {
+                        return SliverAppBar(
+                          expandedHeight: value,
+                          flexibleSpace: AsyncBookImage(
+                            isbn: book.isbn,
+                            onHasImageChanged: (value) {
+                              $hasImage.value = value;
+                            },
+                          ),
+                          actions: widget.actions,
+                          bottom: isFetching
+                              ? const PreferredSize(
+                                  preferredSize: Size.fromHeight(4),
+                                  child: LinearProgressIndicator(),
+                                )
+                              : null,
+                        );
+                      },
+                    ),
             SliverList.list(children: [
               DetailListTile(
                 title: i18n.info.title,

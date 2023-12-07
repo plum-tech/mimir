@@ -63,7 +63,10 @@ class BookDetailsService {
   BookDetails parseBookDetails(Map<String, String> details) {
     final isbnAndPrice = details['ISBN']!.split('价格：');
     details["ISBN"] = isbnAndPrice[0];
-    details["价格"] = isbnAndPrice[1];
+    final price = isbnAndPrice.elementAtOrNull(1);
+    if (price != null) {
+      details["价格"] = price;
+    }
 
     final classAndEdition = details['中图分类法']!.split('版次：');
     details["中图分类法"] = classAndEdition[0];

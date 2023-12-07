@@ -6,10 +6,12 @@ import '../entity/image.dart';
 
 class AsyncBookImage extends StatefulWidget {
   final String isbn;
+  final ValueChanged<bool>? onHasImageChanged;
 
   const AsyncBookImage({
     super.key,
     required this.isbn,
+    this.onHasImageChanged,
   });
 
   @override
@@ -23,6 +25,9 @@ class _AsyncBookImageState extends State<AsyncBookImage> {
   void initState() {
     super.initState();
     fetch();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      widget.onHasImageChanged?.call(image != null);
+    });
   }
 
   Future<void> fetch() async {
@@ -50,6 +55,9 @@ class _AsyncBookImageState extends State<AsyncBookImage> {
       imageUrl: image.resourceLink,
       placeholder: (context, url) => const SizedBox(),
       errorWidget: (context, url, error) => const SizedBox(),
+      errorListener: (error) {
+        widget.onHasImageChanged?.call(false);
+      },
     );
   }
 }

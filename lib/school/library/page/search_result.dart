@@ -74,7 +74,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
       final searchResult = await LibraryInit.bookSearch.search(
         keyword: widget.query,
         rows: sizePerPage,
-        page: lastResult != null ? lastResult.currentPage + 1 : 1,
+        page: lastResult != null ? lastResult.currentPage + 1 : 0,
         searchMethod: widget.$searchMethod.value,
       );
       if (!mounted) return;
