@@ -13,6 +13,7 @@ import 'package:sit/design/widgets/tags.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/class2nd/entity/list.dart';
 import 'package:sit/school/class2nd/utils.dart';
+import 'package:sit/utils/error.dart';
 
 import '../entity/attended.dart';
 import '../init.dart';
@@ -70,8 +71,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() => isFetching = false);
     } finally {

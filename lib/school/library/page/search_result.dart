@@ -9,6 +9,7 @@ import 'package:sit/school/library/page/details.model.dart';
 import 'package:sit/school/library/widgets/book.dart';
 import 'package:sit/school/library/widgets/search.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:sit/utils/error.dart';
 
 import '../entity/book.dart';
 import '../entity/search.dart';
@@ -110,8 +111,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

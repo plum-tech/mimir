@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/utils/error.dart';
 
 import '../entity/result.pg.dart';
 import '../init.dart';
@@ -45,8 +46,7 @@ class _ExamResultPgPageState extends State<ExamResultPgPage> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

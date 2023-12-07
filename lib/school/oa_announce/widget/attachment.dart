@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:open_file/open_file.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/files.dart';
+import 'package:sit/utils/error.dart';
 
 import '../entity/announce.dart';
 import '../i18n.dart';
@@ -91,8 +91,7 @@ class _AttachmentLinkTileState extends State<AttachmentLinkTile> {
           progress = 1;
         });
       } catch (error, stackTrace) {
-        debugPrint(error.toString());
-        debugPrintStack(stackTrace: stackTrace);
+        debugPrintError(error, stackTrace);
         if (!mounted) return;
         setState(() {
           progress = null;

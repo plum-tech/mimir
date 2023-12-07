@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sit/design/widgets/fab.dart';
+import 'package:sit/utils/error.dart';
 import 'package:sit/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -49,8 +50,7 @@ class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
         details = meta;
       });
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

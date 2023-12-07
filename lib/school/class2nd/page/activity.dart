@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/utils/collection.dart';
+import 'package:sit/utils/error.dart';
 
 import '../entity/list.dart';
 import '../init.dart';
@@ -173,8 +174,7 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
       });
       widget.onLoadingChanged(false);
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

@@ -12,6 +12,7 @@ import 'package:sit/init.dart';
 import 'package:sit/route.dart';
 import 'package:sit/session/auth.dart';
 import 'package:sit/session/widgets/scope.dart';
+import 'package:sit/utils/error.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:encrypt/encrypt.dart';
 
@@ -136,8 +137,7 @@ class SsoSession {
         );
         return autoCaptcha;
       } catch (error, stackTrace) {
-        debugPrint(error.toString());
-        debugPrintStack(stackTrace: stackTrace);
+        debugPrintError(error, stackTrace);
       }
       final manuallyCaptcha = await _login(
         credentials: credentials,

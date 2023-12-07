@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sit/init.dart';
+import 'package:sit/utils/error.dart';
 
 class AuthSession {
   static final String _ocrServerUrl =
@@ -16,8 +17,7 @@ class AuthSession {
       final result = response.data;
       return result['code'] == 0 ? result['data'] as String? : null;
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       return null;
     }
   }

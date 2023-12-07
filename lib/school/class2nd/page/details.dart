@@ -7,6 +7,7 @@ import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/design/widgets/tags.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:sit/utils/error.dart';
 import 'package:sit/widgets/html.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -186,8 +187,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
       if (!mounted) return;
       await context.showTip(title: i18n.apply.replyTip, desc: response, ok: i18n.ok);
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       if (!mounted) return;
       await context.showTip(title: i18n.apply.replyTip, desc: error.toString(), ok: i18n.ok);
       rethrow;

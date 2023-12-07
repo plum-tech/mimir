@@ -8,6 +8,7 @@ import 'package:sit/school/utils.dart';
 import 'package:sit/school/widgets/semester.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/entity/school.dart';
+import 'package:sit/utils/error.dart';
 
 import '../entity/result.ug.dart';
 import '../init.dart';
@@ -71,8 +72,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
         });
       }
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

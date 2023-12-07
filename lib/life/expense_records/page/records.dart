@@ -6,6 +6,7 @@ import 'package:sit/design/widgets/common.dart';
 import 'package:sit/life/expense_records/storage/local.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/life/expense_records/widget/group.dart';
+import 'package:sit/utils/error.dart';
 
 import '../entity/local.dart';
 import '../init.dart';
@@ -66,8 +67,7 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

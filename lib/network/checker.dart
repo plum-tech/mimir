@@ -9,6 +9,7 @@ import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/animation/animated.dart';
 import 'package:sit/init.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:sit/utils/error.dart';
 import 'package:sit/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -117,8 +118,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
         }
       });
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         status = ConnectivityStatus.disconnected;

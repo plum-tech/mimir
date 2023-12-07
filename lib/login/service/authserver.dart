@@ -1,9 +1,9 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:sit/init.dart';
 
 import 'package:sit/session/sso.dart';
+import 'package:sit/utils/error.dart';
 
 class AuthServerService {
   SsoSession get session => Init.ssoSession;
@@ -25,8 +25,7 @@ class AuthServerService {
       final result = (resultMobile + resultDesktop).trim();
       return result.isNotEmpty ? result : null;
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       return null;
     }
   }

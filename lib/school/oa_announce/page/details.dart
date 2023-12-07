@@ -5,6 +5,7 @@ import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/class2nd/utils.dart';
 import 'package:sit/school/oa_announce/widget/article.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/utils/error.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../entity/announce.dart';
@@ -58,8 +59,7 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

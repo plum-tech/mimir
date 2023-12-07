@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/utils/error.dart';
 
 import '../entity/service.dart';
 import '../init.dart';
@@ -43,8 +44,7 @@ class _YwbServiceListPageState extends State<YwbServiceListPage> {
         isLoading = false;
       });
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isLoading = false;

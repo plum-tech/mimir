@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/utils/error.dart';
 
 import '../init.dart';
 import '../i18n.dart';
@@ -50,8 +51,7 @@ class _EduEmailInboxPageState extends State<EduEmailInboxPage> {
     try {
       await EduEmailInit.service.login(credential);
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       CredentialsInit.storage.eduEmailCredentials = null;
       return;
     }
@@ -67,8 +67,7 @@ class _EduEmailInboxPageState extends State<EduEmailInboxPage> {
         this.messages = messages;
       });
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
     }
   }
 

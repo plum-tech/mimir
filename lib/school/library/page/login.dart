@@ -8,6 +8,7 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/login/widgets/forgot_pwd.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/library/const.dart';
+import 'package:sit/utils/error.dart';
 import '../init.dart';
 import '../i18n.dart';
 
@@ -150,8 +151,7 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
       setState(() => isLoggingIn = false);
       context.replace("/library/borrowing");
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       if (!mounted) return;
       await context.showTip(title: i18n.login.failedWarn, desc: "please check your pwd", ok: i18n.ok);
       if (!mounted) return;

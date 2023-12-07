@@ -6,11 +6,10 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/extension.dart';
-import 'package:sit/school/library/aggregated.dart';
 import 'package:sit/school/library/init.dart';
+import 'package:sit/utils/error.dart';
 
 import '../entity/borrow.dart';
-import '../entity/image.dart';
 import '../i18n.dart';
 import '../widgets/book.dart';
 import 'details.dart';
@@ -47,8 +46,7 @@ class _LibraryBorrowingPageState extends State<LibraryBorrowingPage> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;
@@ -104,7 +102,6 @@ class BorrowedBookCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return FilledCard(
       child: ListTile(
-        isThreeLine: true,
         leading: AsyncBookImage(isbn: book.isbn),
         title: book.title.text(),
         subtitle: [
@@ -120,9 +117,7 @@ class BorrowedBookCard extends StatelessWidget {
               actions: [
                 PlatformTextButton(
                   onPressed: () async {
-                    final result = await LibraryInit.borrowService.renewBook(barcodeList: [book.barcode]);
-                    if (!context.mounted) return;
-                    await context.showTip(title: "Result", ok: i18n.ok, desc: result);
+                    await renew(context);
                   },
                   child: i18n.borrowing.renew.text(),
                 )
@@ -132,6 +127,16 @@ class BorrowedBookCard extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Future<void> renew(BuildContext context) async {
+    try {
+      final result = await LibraryInit.borrowService.renewBook(barcodeList: [book.barcode]);
+      if (!context.mounted) return;
+      await context.showTip(title: "Result", ok: i18n.ok, desc: result);
+    } catch (error, stackTrace) {
+      debugPrintError(error, stackTrace);
+    }
   }
 }
 
@@ -166,8 +171,7 @@ class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistor
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

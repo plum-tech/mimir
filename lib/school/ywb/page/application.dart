@@ -4,6 +4,7 @@ import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/school/ywb/storage/application.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/utils/error.dart';
 
 import '../entity/application.dart';
 import '../init.dart';
@@ -45,8 +46,7 @@ class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      debugPrint(error.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;
