@@ -81,6 +81,7 @@ class _MePageState extends State<MePage> {
           icon: const Icon(Icons.group),
         ),
         IconButton(
+          tooltip: i18n.copy,
           onPressed: () async {
             await Clipboard.setData(const ClipboardData(text: _qGroupNumber));
             if (!mounted) return;

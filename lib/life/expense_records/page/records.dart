@@ -86,6 +86,7 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
             : i18n.balanceInCard(lastTransaction.balanceAfter.toStringAsFixed(2)).text(),
         actions: [
           IconButton(
+            tooltip: i18n.delete,
             icon: const Icon(Icons.delete_outlined),
             onPressed: () async {
               ExpenseRecordsInit.storage.clearIndex();

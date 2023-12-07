@@ -112,6 +112,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
       rightActions: [
         if (balance != null && selectedRoom != null && !isCupertino)
           IconButton(
+            tooltip: i18n.share,
             onPressed: () async {
               await shareBalance(balance: balance, selectedRoom: selectedRoom, context: context);
             },

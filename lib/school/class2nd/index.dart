@@ -116,6 +116,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
       rightActions: [
         if (!isCupertino)
           IconButton(
+            tooltip: i18n.share,
             onPressed: summary != null
                 ? () async {
                     await shareSummery(summary: summary, target: getTargetScore(), context: context);
