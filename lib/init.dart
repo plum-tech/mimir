@@ -48,9 +48,13 @@ class Init {
 
   static Future<void> initNetwork() async {
     debugPrint("Initializing network");
-    cookieJar = PersistCookieJar(
-      storage: HiveCookieJar(HiveInit.cookies),
-    );
+    if (kIsWeb) {
+      cookieJar = WebCookieJar();
+    } else {
+      cookieJar = PersistCookieJar(
+        storage: HiveCookieJar(HiveInit.cookies),
+      );
+    }
     dio = await DioInit.init(
       cookieJar: cookieJar,
     );
@@ -90,19 +94,21 @@ class Init {
   static Future<void> initModules() async {
     debugPrint("Initializing module storage");
     CredentialsInit.init();
-    OaAnnounceInit.init();
-    ConnectivityInit.init();
-    ExamResultInit.init();
-    ExamArrangeInit.init();
     TimetableInit.init();
-    ExpenseRecordsInit.init();
+    if (!kIsWeb) {
+      OaAnnounceInit.init();
+      ExamResultInit.init();
+      ConnectivityInit.init();
+      ExamArrangeInit.init();
+      ExpenseRecordsInit.init();
+      LibraryInit.init();
+      YwbInit.init();
+      Class2ndInit.init();
+      ElectricityBalanceInit.init();
+    }
     YellowPagesInit.init();
-    LibraryInit.init();
     EduEmailInit.init();
-    YwbInit.init();
-    Class2ndInit.init();
     LoginInit.init();
-    ElectricityBalanceInit.init();
   }
 
   static void registerCustomEditor() {

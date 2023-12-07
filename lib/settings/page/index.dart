@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -110,16 +111,18 @@ class _SettingsPageState extends State<SettingsPage> {
         icon: const Icon(Icons.calendar_month_outlined),
         path: "/settings/timetable",
       ));
-      all.add(PageNavigationTile(
-        title: i18n.school.title.text(),
-        icon: const Icon(Icons.school_outlined),
-        path: "/settings/school",
-      ));
-      all.add(PageNavigationTile(
-        title: i18n.life.title.text(),
-        icon: const Icon(Icons.spa_outlined),
-        path: "/settings/life",
-      ));
+      if (!kIsWeb) {
+        all.add(PageNavigationTile(
+          title: i18n.school.title.text(),
+          icon: const Icon(Icons.school_outlined),
+          path: "/settings/school",
+        ));
+        all.add(PageNavigationTile(
+          title: i18n.life.title.text(),
+          icon: const Icon(Icons.spa_outlined),
+          path: "/settings/life",
+        ));
+      }
       all.add(const Divider());
     }
     if (Settings.isDeveloperMode) {

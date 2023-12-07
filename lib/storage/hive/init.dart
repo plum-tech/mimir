@@ -33,7 +33,7 @@ class HiveInit {
   static late Map<String, Box> name2Box;
   static late List<Box> cacheBoxes;
 
-  static Future<void> init({
+  static Future<void> initLocalStorage({
     required Directory coreDir,
     required Directory cacheDir,
   }) async {
@@ -58,15 +58,15 @@ class HiveInit {
       ...cacheBoxes = [
         yellowPages = await cache.openBox('yellow-pages'),
         eduEmail = await cache.openBox('edu-email'),
-        cookies = await cache.openBox('cookies'),
-        expense = await cache.openBox('expense'),
-        library = await cache.openBox('library'),
-        examArrange = await cache.openBox('exam-arrange'),
-        examResult = await cache.openBox('exam-result'),
-        oaAnnounce = await cache.openBox('oa-announce'),
-        class2nd = await cache.openBox('class2nd'),
-        ywb = await cache.openBox('ywb'),
-        electricity = await cache.openBox('electricity'),
+        if (!kIsWeb) cookies = await cache.openBox('cookies'),
+        if (!kIsWeb) expense = await cache.openBox('expense'),
+        if (!kIsWeb) library = await cache.openBox('library'),
+        if (!kIsWeb) examArrange = await cache.openBox('exam-arrange'),
+        if (!kIsWeb) examResult = await cache.openBox('exam-result'),
+        if (!kIsWeb) oaAnnounce = await cache.openBox('oa-announce'),
+        if (!kIsWeb) class2nd = await cache.openBox('class2nd'),
+        if (!kIsWeb) ywb = await cache.openBox('ywb'),
+        if (!kIsWeb) electricity = await cache.openBox('electricity'),
       ],
     ]);
     Settings = SettingsImpl(settings);

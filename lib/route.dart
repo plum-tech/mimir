@@ -394,18 +394,20 @@ RoutingConfig buildCommonRoutingConfig() {
               _timetableRoute,
             ],
           ),
-          StatefulShellBranch(
-            navigatorKey: $SchoolShellKey,
-            routes: [
-              _schoolRoute,
-            ],
-          ),
-          StatefulShellBranch(
-            navigatorKey: $LifeShellKey,
-            routes: [
-              _lifeRoute,
-            ],
-          ),
+          if (!kIsWeb)
+            StatefulShellBranch(
+              navigatorKey: $SchoolShellKey,
+              routes: [
+                _schoolRoute,
+              ],
+            ),
+          if (!kIsWeb)
+            StatefulShellBranch(
+              navigatorKey: $LifeShellKey,
+              routes: [
+                _lifeRoute,
+              ],
+            ),
           StatefulShellBranch(
             navigatorKey: $MeShellKey,
             routes: [

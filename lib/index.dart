@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/timetable/i18n.dart' as $timetable;
@@ -41,14 +42,16 @@ class _MainStagePageState extends State<MainStagePage> {
           label: $timetable.i18n.navigation,
         )
       ),
-      (
-        route: "/school",
-        item: (
-          icon: const Icon(Icons.school_outlined),
-          activeIcon: const Icon(Icons.school),
-          label: $school.i18n.navigation,
-        )
-      ),
+      if (!kIsWeb)
+        (
+          route: "/school",
+          item: (
+            icon: const Icon(Icons.school_outlined),
+            activeIcon: const Icon(Icons.school),
+            label: $school.i18n.navigation,
+          )
+        ),
+      if (!kIsWeb)
       (
         route: "/life",
         item: (
