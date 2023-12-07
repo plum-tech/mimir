@@ -237,7 +237,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
               SliverAppBar(
                 title: TextScroll(timetable.name),
                 floating: true,
-                actions: actions,
+                actions: actions?.call(ctx),
               ),
               SliverList.list(children: [
                 ListTile(

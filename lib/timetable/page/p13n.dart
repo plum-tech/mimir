@@ -224,6 +224,10 @@ class PaletteCard extends StatelessWidget {
             type: EntryActionType.edit,
             oneShot: true,
             action: () async {
+              // don't use outside `palette`. because it wouldn't updated after the palette was changed.
+              // TODO: better solution
+              final palette = TimetableInit.storage.palette[id];
+              if (palette == null) return;
               await context.show$Sheet$(
                 (context) => TimetablePaletteEditor(id: id, palette: palette.copyWith()),
               );
@@ -284,7 +288,7 @@ class PaletteCard extends StatelessWidget {
           ),
       ],
       detailsBuilder: (ctx, actions) {
-        return PaletteDetailsPage(id: id, initialPalette: palette, actions: actions);
+        return PaletteDetailsPage(id: id, initialPalette: palette, actions: actions?.call(ctx));
       },
       itemBuilder: (ctx, animation) => [
         palette.name.text(style: theme.textTheme.titleLarge),

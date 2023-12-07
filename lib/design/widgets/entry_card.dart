@@ -73,7 +73,8 @@ class EntryCard extends StatelessWidget {
   final bool selected;
   final String title;
   final List<Widget> Function(BuildContext context, Animation<double>? animation) itemBuilder;
-  final Widget Function(BuildContext context, List<Widget>? actions) detailsBuilder;
+  final Widget Function(BuildContext context, List<Widget> Function(BuildContext context)? actionsBuilder)
+      detailsBuilder;
   final List<EntryAction> Function(BuildContext context) actions;
   final EntrySelectAction Function(BuildContext context) selectAction;
   final EntryDeleteAction Function(BuildContext context)? deleteAction;
@@ -167,7 +168,7 @@ class EntryCard extends StatelessWidget {
     if (animation.value <= 0) {
       body = body.inkWell(onTap: () async {
         if (animation.value <= 0) {
-          await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions(context)));
+          await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions));
         }
       });
     }
