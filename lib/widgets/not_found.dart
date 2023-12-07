@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/widgets/common.dart';
+import 'package:sit/settings/settings.dart';
 
 class NotFoundPage extends StatelessWidget {
   final String routeName;
@@ -9,21 +11,26 @@ class NotFoundPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: i18n
     return Scaffold(
       appBar: AppBar(
-        title: "notFound404".tr().text(),
+        title: _i18n.title.tr().text(),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            "notFound404".tr().text(),
-            Text(routeName),
-          ],
-        ),
+      body: LeavingBlank(
+        icon: Icons.browser_not_supported,
+        desc: Settings.isDeveloperMode ? routeName : _i18n.subtitle,
       ),
     );
   }
+}
+
+const _i18n = _I18n();
+
+class _I18n {
+  const _I18n();
+
+  static const ns = "404";
+
+  String get title => "$ns.title";
+
+  String get subtitle => "$ns.subtitle";
 }

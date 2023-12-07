@@ -589,6 +589,9 @@ greeting:
     other: "{} Days"
 qrCode:
   hint: Please navigate to Me {me}, and click the Scanner {scan} on the right corner
+404:
+  title: Not Found
+  subtitle: The requested page was not found
 weekday:
   0: Monday
   1: Tuesday
@@ -648,7 +651,6 @@ unknown: Unknown
 failed: Failed
 download: Download
 fetching: Fetching
-notFound404: 404 Not Found
 warning: Warning
 untitled: Untitled
 congratulations: Congratulations

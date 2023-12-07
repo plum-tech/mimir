@@ -359,13 +359,13 @@ class TimetableP13nLivePreview extends StatelessWidget {
     final cellSize = Size(fullSize.width / 5, fullSize.height / 3);
     final themeColor = context.colorScheme.primary;
     Widget buildCell({
-      required int id,
+      required int colorId,
       required String name,
       required String place,
       required List<String> teachers,
       bool grayOut = false,
     }) {
-      var color = palette.safeGetColor(id).byTheme(context.theme);
+      var color = palette.safeGetColor(colorId).byTheme(context.theme);
       if (cellStyle.harmonizeWithThemeColor) {
         color = color.harmonizeWith(themeColor);
       }
@@ -391,10 +391,14 @@ class TimetableP13nLivePreview extends StatelessWidget {
       );
     }
 
-    Widget livePreview(int index, {bool grayOut = false}) {
+    Widget livePreview(
+      int index, {
+      required int colorId,
+      bool grayOut = false,
+    }) {
       final data = i18n.p13n.livePreview(index);
       return buildCell(
-        id: index,
+        colorId: colorId,
         name: data.name,
         place: data.place,
         teachers: data.teachers,
@@ -403,12 +407,13 @@ class TimetableP13nLivePreview extends StatelessWidget {
     }
 
     final grayOut = cellStyle.grayOutTakenLessons;
-    return [
-      livePreview(0, grayOut: grayOut),
-      livePreview(1, grayOut: grayOut),
-      livePreview(2),
-      livePreview(3),
-    ].row(maa: MainAxisAlignment.spaceEvenly);
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: palette.colors.length,
+      itemBuilder: (ctx, i) {
+        return livePreview(i % 4, colorId: i, grayOut: grayOut && i % 4 < 2).padH(8);
+      },
+    ).sized(h: cellSize.height);
   }
 }
 

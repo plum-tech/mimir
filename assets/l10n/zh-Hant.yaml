@@ -590,6 +590,9 @@ greeting:
     other: "{} 天"
 qrCode:
   hint: 請導航至 個人{me}，然後點擊右上角的 掃描{scan}
+404:
+  title: 找不到頁面
+  subtitle: 找不到所請求的頁面
 weekday:
   0: 週一
   1: 週二
@@ -649,7 +652,6 @@ unknown: 未知
 failed: 失敗
 download: 下載
 fetching: 取回中
-notFound404: 404 找不到頁面
 warning: 警告
 untitled: 無標題
 congratulations: 恭喜
