@@ -17,6 +17,7 @@ import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:sit/utils/color.dart';
 import 'package:sit/utils/format.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 import '../i18n.dart';
 import '../widgets/style.dart';
@@ -263,37 +264,44 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
             },
           ),
       ],
-      detailsBuilder: (ctx) {
-        return CustomScrollView(
-          slivers: [
-            SliverList.list(children: [
-              ListTile(
-                leading: const Icon(Icons.drive_file_rename_outline),
-                title: i18n.p13n.palette.name.text(),
-                subtitle: palette.name.text(),
+      detailsBuilder: (ctx, actions) {
+        return Scaffold(
+          body: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                title: TextScroll(palette.name),
+                floating: true,
+                actions: actions,
               ),
-              if (palette.author.isNotEmpty)
+              SliverList.list(children: [
                 ListTile(
-                  leading: const Icon(Icons.person),
-                  title: i18n.p13n.palette.author.text(),
-                  subtitle: palette.author.text(),
+                  leading: const Icon(Icons.drive_file_rename_outline),
+                  title: i18n.p13n.palette.name.text(),
+                  subtitle: palette.name.text(),
                 ),
-              if (palette.colors.isNotEmpty) const Divider(),
-              if (palette.colors.isNotEmpty)
-                TimetableStyleProv(
-                  palette: palette,
-                  child: const TimetableP13nLivePreview(),
-                ),
-              const Divider(),
-              const LightDarkColorsHeaderTitle(),
-            ]),
-            SliverList.builder(
-              itemCount: palette.colors.length,
-              itemBuilder: (ctx, i) {
-                return PaletteColorTile(colors: palette.colors[i]);
-              },
-            )
-          ],
+                if (palette.author.isNotEmpty)
+                  ListTile(
+                    leading: const Icon(Icons.person),
+                    title: i18n.p13n.palette.author.text(),
+                    subtitle: palette.author.text(),
+                  ),
+                if (palette.colors.isNotEmpty) const Divider(),
+                if (palette.colors.isNotEmpty)
+                  TimetableStyleProv(
+                    palette: palette,
+                    child: const TimetableP13nLivePreview(),
+                  ),
+                const Divider(),
+                const LightDarkColorsHeaderTitle(),
+              ]),
+              SliverList.builder(
+                itemCount: palette.colors.length,
+                itemBuilder: (ctx, i) {
+                  return PaletteColorTile(colors: palette.colors[i]);
+                },
+              )
+            ],
+          ),
         );
       },
       itemBuilder: (ctx, animation) => [

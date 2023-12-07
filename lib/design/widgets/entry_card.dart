@@ -6,7 +6,6 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
-import 'package:text_scroll/text_scroll.dart';
 
 enum EntryActionType {
   edit,
@@ -24,7 +23,7 @@ class EntryAction {
   final bool delayContextMenu;
   final Future<void> Function()? action;
 
-  EntryAction({
+  const EntryAction({
     required this.label,
     this.main = false,
     this.icon,
@@ -74,7 +73,7 @@ class EntryCard extends StatelessWidget {
   final bool selected;
   final String title;
   final List<Widget> Function(BuildContext context, Animation<double>? animation) itemBuilder;
-  final Widget Function(BuildContext context)? detailsBuilder;
+  final Widget Function(BuildContext context, List<Widget>? actions) detailsBuilder;
   final List<EntryAction> Function(BuildContext context) actions;
   final EntrySelectAction Function(BuildContext context) selectAction;
   final EntryDeleteAction Function(BuildContext context)? deleteAction;
@@ -86,7 +85,7 @@ class EntryCard extends StatelessWidget {
     required this.itemBuilder,
     required this.actions,
     required this.selectAction,
-    this.detailsBuilder,
+    required this.detailsBuilder,
     this.deleteAction,
   });
 
@@ -109,12 +108,7 @@ class EntryCard extends StatelessWidget {
         ),
       ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15),
       onTap: () async {
-        await context.show$Sheet$((context) => EntryDetailsPage(
-              title: title,
-              itemBuilder: (ctx) => itemBuilder(ctx, null),
-              detailsBuilder: detailsBuilder,
-              selected: selected,
-            ));
+        await context.show$Sheet$((ctx) => detailsBuilder(context, null));
       },
     );
     return selected
@@ -173,17 +167,7 @@ class EntryCard extends StatelessWidget {
     if (animation.value <= 0) {
       body = body.inkWell(onTap: () async {
         if (animation.value <= 0) {
-          await context.show$Sheet$(
-            (ctx) => EntryCupertinoDetailsPage(
-              title: title,
-              itemBuilder: (ctx) => itemBuilder(ctx, null),
-              detailsBuilder: detailsBuilder,
-              selected: selected,
-              selectAction: selectAction,
-              actions: actions,
-              deleteAction: deleteAction,
-            ),
-          );
+          await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions(context)));
         }
       });
     }
@@ -221,7 +205,7 @@ class EntryCard extends StatelessWidget {
     for (final action in actions) {
       final callback = action.action;
       all.add(CupertinoContextMenuAction(
-        trailingIcon: action.cupertinoIcon,
+        trailingIcon: action.cupertinoIcon ?? action.icon,
         onPressed: callback == null
             ? null
             : () async {
@@ -318,44 +302,11 @@ class EntryCard extends StatelessWidget {
       },
     );
   }
-}
 
-class EntryCupertinoDetailsPage extends StatelessWidget {
-  final String title;
-  final bool selected;
-  final List<EntryAction> Function(BuildContext context) actions;
-  final EntrySelectAction Function(BuildContext context)? selectAction;
-  final EntryDeleteAction Function(BuildContext context)? deleteAction;
-  final List<Widget> Function(BuildContext context) itemBuilder;
-  final Widget Function(BuildContext context)? detailsBuilder;
-
-  const EntryCupertinoDetailsPage({
-    super.key,
-    required this.title,
-    required this.itemBuilder,
-    this.detailsBuilder,
-    required this.actions,
-    required this.selectAction,
-    required this.selected,
-    this.deleteAction,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: TextScroll(title),
-        centerTitle: isCupertino,
-        actions: buildActions(context),
-      ),
-      body: buildBody(context),
-    );
-  }
-
-  List<Widget> buildActions(BuildContext context) {
+  List<Widget> buildDetailsActions(BuildContext context) {
     final all = <Widget>[];
     final actions = this.actions(context);
-    final selectAction = this.selectAction?.call(context);
+    final selectAction = this.selectAction.call(context);
     final deleteAction = this.deleteAction?.call(context);
     final editAction = actions.firstWhereOrNull((action) => action.type == EntryActionType.edit);
     if (editAction != null) {
@@ -363,17 +314,13 @@ class EntryCupertinoDetailsPage extends StatelessWidget {
         onPressed: editAction.action == null
             ? null
             : () async {
-                if (editAction.oneShot) {
-                  if (!context.mounted) return;
-                  context.navigator.pop();
-                }
                 await editAction.action?.call();
               },
         child: editAction.label.text(),
       ));
       // remove edit action
       actions.retainWhere((action) => action.type != EntryActionType.edit);
-      if (selectAction != null && !selected) {
+      if (!selected) {
         actions.insert(
           0,
           EntryAction(
@@ -384,7 +331,7 @@ class EntryCupertinoDetailsPage extends StatelessWidget {
           ),
         );
       }
-    } else if (selectAction != null && !selected) {
+    } else if (!selected) {
       all.add(CupertinoButton(
         onPressed: selectAction.action == null
             ? null
@@ -400,7 +347,7 @@ class EntryCupertinoDetailsPage extends StatelessWidget {
       itemBuilder: (context) => [
         ...actions.map(
           (action) => PullDownMenuItem(
-            icon: action.cupertinoIcon,
+            icon: action.cupertinoIcon ?? action.icon,
             title: action.label,
             onTap: action.action == null
                 ? null
@@ -434,47 +381,5 @@ class EntryCupertinoDetailsPage extends StatelessWidget {
       ),
     ));
     return all;
-  }
-
-  Widget buildBody(BuildContext context) {
-    final detailsBuilder = this.detailsBuilder;
-    if (detailsBuilder != null) {
-      return detailsBuilder.call(context);
-    }
-    return itemBuilder(context).column(mas: MainAxisSize.min).padSymmetric(v: 10, h: 15).inFilledCard().center();
-  }
-}
-
-class EntryDetailsPage extends StatelessWidget {
-  final String title;
-  final bool selected;
-  final List<Widget> Function(BuildContext context) itemBuilder;
-  final Widget Function(BuildContext context)? detailsBuilder;
-
-  const EntryDetailsPage({
-    super.key,
-    required this.title,
-    required this.itemBuilder,
-    this.detailsBuilder,
-    required this.selected,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: TextScroll(title),
-        centerTitle: isCupertino,
-      ),
-      body: buildBody(context),
-    );
-  }
-
-  Widget buildBody(BuildContext context) {
-    final detailsBuilder = this.detailsBuilder;
-    if (detailsBuilder != null) {
-      return detailsBuilder.call(context);
-    }
-    return itemBuilder(context).column(mas: MainAxisSize.min).padSymmetric(v: 10, h: 15).inFilledCard().center();
   }
 }
