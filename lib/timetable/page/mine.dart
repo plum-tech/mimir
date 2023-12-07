@@ -122,9 +122,9 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
               itemCount: timetables.length,
               itemBuilder: (ctx, i) {
                 final (:id, row: timetable) = timetables[i];
-                return buildTimetableCard(
-                  id,
-                  timetable,
+                return TimetableCard(
+                  id: id,
+                  timetable: timetable,
                   selected: selectedId == id,
                 ).padH(6);
               },
@@ -140,12 +140,22 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       ),
     );
   }
+}
 
-  Widget buildTimetableCard(
-    int id,
-    SitTimetable timetable, {
-    required bool selected,
-  }) {
+class TimetableCard extends StatelessWidget {
+  final SitTimetable timetable;
+  final int id;
+  final bool selected;
+
+  const TimetableCard({
+    super.key,
+    required this.timetable,
+    required this.id,
+    required this.selected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     final year = '${timetable.schoolYear}–${timetable.schoolYear + 1}';
     final semester = timetable.semester.localized();
     final textTheme = context.textTheme;
@@ -186,7 +196,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
             icon: Icons.preview,
             cupertinoIcon: CupertinoIcons.eye,
             action: () async {
-              if (!mounted) return;
+              if (!ctx.mounted) return;
               await context.show$Sheet$(
                 (context) => TimetableStyleProv(
                   child: TimetablePreviewPage(
@@ -202,6 +212,10 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           cupertinoIcon: CupertinoIcons.pencil,
           type: EntryActionType.edit,
           action: () async {
+            // don't use outside `palette`. because it wouldn't updated after the palette was changed.
+            // TODO: better solution
+            final timetable = TimetableInit.storage.timetable[id];
+            if (timetable == null) return;
             final newTimetable = await ctx.show$Sheet$<SitTimetable>(
               (ctx) => TimetableEditor(timetable: timetable),
             );
@@ -224,51 +238,12 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
           icon: Icons.calendar_month,
           cupertinoIcon: CupertinoIcons.calendar_badge_plus,
           action: () async {
-            await onExportCalendar(timetable);
+            await onExportCalendar(ctx, timetable);
           },
         ),
       ],
       detailsBuilder: (ctx, actions) {
-        final palette = TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic;
-        final courses = timetable.courses.values.toList();
-        return Scaffold(
-          body: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                title: TextScroll(timetable.name),
-                floating: true,
-                actions: actions?.call(ctx),
-              ),
-              SliverList.list(children: [
-                ListTile(
-                  leading: const Icon(Icons.drive_file_rename_outline),
-                  title: i18n.editor.name.text(),
-                  subtitle: timetable.name.text(),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.date_range),
-                  title: i18n.startWith.text(),
-                  subtitle: context.formatYmdText(timetable.startDate).text(),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.drive_file_rename_outline),
-                  title: i18n.signature.text(),
-                  subtitle: timetable.signature.text(),
-                ),
-                const Divider(),
-              ]),
-              SliverList.builder(
-                itemCount: courses.length,
-                itemBuilder: (ctx, i) {
-                  return TimetableCourseCard(
-                    courses[i],
-                    palette: palette,
-                  );
-                },
-              )
-            ],
-          ),
-        );
+        return TimetableDetailsPage(id: id, timetable: timetable, actions: actions?.call(ctx));
       },
       itemBuilder: (ctx, animation) => [
         timetable.name.text(style: textTheme.titleLarge),
@@ -279,15 +254,106 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
     );
   }
 
-  Future<void> onExportCalendar(SitTimetable timetable) async {
+  Future<void> onExportCalendar(BuildContext context, SitTimetable timetable) async {
     final config = await context.show$Sheet$<TimetableExportCalendarConfig>(
         (context) => TimetableExportCalendarConfigEditor(timetable: timetable));
     if (config == null) return;
-    if (!mounted) return;
+    if (!context.mounted) return;
     await exportTimetableAsICalendarAndOpen(
       context,
       timetable: timetable.resolve(),
       config: config,
+    );
+  }
+}
+
+class TimetableDetailsPage extends StatefulWidget {
+  final int id;
+  final SitTimetable timetable;
+  final List<Widget>? actions;
+
+  const TimetableDetailsPage({
+    super.key,
+    required this.id,
+    required this.timetable,
+    this.actions,
+  });
+
+  @override
+  State<TimetableDetailsPage> createState() => _TimetableDetailsPageState();
+}
+
+class _TimetableDetailsPageState extends State<TimetableDetailsPage> {
+  late final $row = TimetableInit.storage.timetable.listenRowChange(widget.id);
+  late SitTimetable timetable = widget.timetable;
+
+  @override
+  void initState() {
+    super.initState();
+    $row.addListener(refresh);
+  }
+
+  @override
+  void dispose() {
+    $row.removeListener(refresh);
+    super.dispose();
+  }
+
+  void refresh() {
+    final timetable = TimetableInit.storage.timetable[widget.id];
+    if (timetable == null) {
+      context.pop();
+      return;
+    } else {
+      setState(() {
+        this.timetable = timetable;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final timetable = this.timetable;
+    final actions = widget.actions;
+    final palette = TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic;
+    final courses = timetable.courses.values.toList();
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: TextScroll(timetable.name),
+            floating: true,
+            actions: actions,
+          ),
+          SliverList.list(children: [
+            ListTile(
+              leading: const Icon(Icons.drive_file_rename_outline),
+              title: i18n.editor.name.text(),
+              subtitle: timetable.name.text(),
+            ),
+            ListTile(
+              leading: const Icon(Icons.date_range),
+              title: i18n.startWith.text(),
+              subtitle: context.formatYmdText(timetable.startDate).text(),
+            ),
+            ListTile(
+              leading: const Icon(Icons.drive_file_rename_outline),
+              title: i18n.signature.text(),
+              subtitle: timetable.signature.text(),
+            ),
+            const Divider(),
+          ]),
+          SliverList.builder(
+            itemCount: courses.length,
+            itemBuilder: (ctx, i) {
+              return TimetableCourseCard(
+                courses[i],
+                palette: palette,
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 }

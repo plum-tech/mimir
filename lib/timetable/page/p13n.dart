@@ -288,7 +288,7 @@ class PaletteCard extends StatelessWidget {
           ),
       ],
       detailsBuilder: (ctx, actions) {
-        return PaletteDetailsPage(id: id, initialPalette: palette, actions: actions?.call(ctx));
+        return PaletteDetailsPage(id: id, palette: palette, actions: actions?.call(ctx));
       },
       itemBuilder: (ctx, animation) => [
         palette.name.text(style: theme.textTheme.titleLarge),
@@ -306,13 +306,13 @@ class PaletteCard extends StatelessWidget {
 
 class PaletteDetailsPage extends StatefulWidget {
   final int id;
-  final TimetablePalette initialPalette;
+  final TimetablePalette palette;
   final List<Widget>? actions;
 
   const PaletteDetailsPage({
     super.key,
     required this.id,
-    required this.initialPalette,
+    required this.palette,
     this.actions,
   });
 
@@ -322,7 +322,7 @@ class PaletteDetailsPage extends StatefulWidget {
 
 class _PaletteDetailsPageState extends State<PaletteDetailsPage> {
   late final $row = TimetableInit.storage.palette.listenRowChange(widget.id);
-  late TimetablePalette palette = widget.initialPalette;
+  late TimetablePalette palette = widget.palette;
 
   @override
   void initState() {
