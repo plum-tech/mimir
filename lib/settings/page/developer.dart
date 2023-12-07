@@ -10,7 +10,7 @@ import 'package:sit/init.dart';
 import 'package:sit/login/aggregated.dart';
 import 'package:sit/login/utils.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/settings/widgets/navigation.dart';
+import 'package:sit/design/widgets/navigation.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 

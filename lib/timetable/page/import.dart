@@ -12,7 +12,7 @@ import 'package:sit/network/checker.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/utils.dart';
-import 'package:sit/school/widgets/selector.dart';
+import 'package:sit/school/widgets/semester.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/utils.dart';
 import 'package:rettulf/rettulf.dart';

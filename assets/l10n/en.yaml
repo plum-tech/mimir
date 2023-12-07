@@ -374,8 +374,7 @@ network:
   openToolBtn: Open network tool
 networkTool:
   title: Network tool
-  action:
-    test: Test
+  subtitle: Test connection to the school server
   openWlanSettingsBtn: Open WLAN settings
   noAccessTip: Unable to access network. Please check network settings on your device, then try again.
   connectionFailedError: |

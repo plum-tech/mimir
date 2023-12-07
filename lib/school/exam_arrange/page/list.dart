@@ -3,7 +3,7 @@ import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/school/utils.dart';
-import 'package:sit/school/widgets/selector.dart';
+import 'package:sit/school/widgets/semester.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/entity/school.dart';
 

@@ -9,7 +9,7 @@ import 'package:sit/credentials/utils.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/login/utils.dart';
-import 'package:sit/settings/widgets/campus.dart';
+import 'package:sit/school/widgets/campus.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../aggregated.dart';

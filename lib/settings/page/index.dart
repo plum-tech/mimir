@@ -7,12 +7,13 @@ import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/card.dart';
+import 'package:sit/network/widgets/entry.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/init.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/settings/widgets/campus.dart';
+import 'package:sit/school/widgets/campus.dart';
 import 'package:sit/utils/color.dart';
 import 'package:sit/entity/version.dart';
 import 'package:rettulf/rettulf.dart';
@@ -22,7 +23,7 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:locale_names/locale_names.dart';
 
 import '../i18n.dart';
-import '../widgets/navigation.dart';
+import '../../design/widgets/navigation.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -124,6 +125,9 @@ class _SettingsPageState extends State<SettingsPage> {
         ));
       }
       all.add(const Divider());
+    }
+    if (!kIsWeb) {
+      all.add(const NetworkToolEntryTile());
     }
     if (Settings.isDeveloperMode) {
       all.add(PageNavigationTile(

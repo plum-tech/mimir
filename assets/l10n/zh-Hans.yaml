@@ -374,8 +374,7 @@ network:
   openToolBtn: 打开网络工具
 networkTool:
   title: 网络工具
-  action:
-    test: 测试
+  subtitle: 测试与学校服务器的连接
   openWlanSettingsBtn: 打开 WLAN 设置
   noAccessTip: 无法连接到网络，请检查你设备的网络设置后再试。
   connectionFailedError: |
