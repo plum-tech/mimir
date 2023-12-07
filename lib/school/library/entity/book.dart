@@ -62,14 +62,14 @@ class BookSearchResult {
   final int resultCount;
   final double useTime;
   final int currentPage;
-  final int totalPages;
+  final int totalPage;
   final List<Book> books;
 
   const BookSearchResult({
     required this.resultCount,
     required this.useTime,
     required this.currentPage,
-    required this.totalPages,
+    required this.totalPage,
     required this.books,
   });
 
@@ -77,7 +77,7 @@ class BookSearchResult {
     this.resultCount = 0,
     required this.useTime,
     this.currentPage = 0,
-    this.totalPages = 0,
+    this.totalPage = 0,
     this.books = const [],
   });
 
@@ -87,7 +87,7 @@ class BookSearchResult {
       "resultCount": resultCount,
       "useTime": useTime,
       "currentPage": currentPage,
-      "totalPages": totalPages,
+      "totalPage": totalPage,
       "books": books,
     }.toString();
   }

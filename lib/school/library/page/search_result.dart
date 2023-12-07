@@ -39,22 +39,10 @@ class BookSearchResultWidget extends StatefulWidget {
 class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-
-  /// 滚动控制器，用于监测滚动到底部，触发自动加载
   final scrollController = ScrollController();
-
-  /// 每页加载的最大长度
   static const sizePerPage = 30;
-
-  // 本次搜索产生的搜索信息
-  var useTime = 0.0;
-  var searchResultCount = 0;
-  var currentPage = 1;
-  var totalPage = 10;
-
-  /// 最终前端展示的数据
+  BookSearchResult? lastResult;
   List<Book>? books;
-
   bool isFetching = false;
 
   @override
@@ -77,7 +65,8 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
 
   Future<void> fetchNextPage() async {
     if (isFetching) return;
-    if (currentPage > totalPage) return;
+    final lastResult = this.lastResult;
+    if (lastResult != null && lastResult.currentPage > lastResult.totalPage) return;
     setState(() {
       isFetching = true;
     });
@@ -85,29 +74,14 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
       final searchResult = await LibraryInit.bookSearch.search(
         keyword: widget.query,
         rows: sizePerPage,
-        page: currentPage,
+        page: lastResult != null ? lastResult.currentPage + 1 : 1,
         searchMethod: widget.$searchMethod.value,
       );
-
-      if (searchResult.currentPage > totalPage) {
-        setState(() {
-          isFetching = false;
-        });
-        return;
-      }
-      useTime = searchResult.useTime;
-      searchResultCount = searchResult.resultCount;
-      currentPage = searchResult.currentPage + 1;
-      totalPage = searchResult.totalPages;
-
-      debugPrint(searchResult.toString());
       if (!mounted) return;
       setState(() {
         final books = this.books ??= <Book>[];
         books.addAll(searchResult.books);
-        isFetching = false;
-      });
-      setState(() {
+        this.lastResult = searchResult;
         isFetching = false;
       });
     } catch (error, stackTrace) {
@@ -187,10 +161,10 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
         (ctx, _) => SearchMethodSwitcher(
               selected: widget.$searchMethod.value,
               onSelect: (newSelection) {
+                widget.$searchMethod.value = newSelection;
                 setState(() {
-                  widget.$searchMethod.value = newSelection;
-                  books = [];
-                  currentPage = 1;
+                  books = null;
+                  lastResult = null;
                 });
                 fetchNextPage();
               },

@@ -64,7 +64,7 @@ class BookSearchService {
       resultCount: resultCount,
       useTime: useTime,
       currentPage: int.parse(currentPage),
-      totalPages: int.parse(totalPages.substring(1, totalPages.length - 1).trim().replaceAll(',', '')),
+      totalPage: int.parse(totalPages.substring(1, totalPages.length - 1).trim().replaceAll(',', '')),
       books: books,
     );
   }
