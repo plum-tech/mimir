@@ -40,7 +40,10 @@ class HiveInit {
     debugPrint("Initializing hive");
     await core.initFlutter(coreDir);
     await cache.initFlutter(cacheDir);
+  }
 
+  static void initAdapters() async {
+    debugPrint("Initializing hive adapters");
     HiveAdapter.registerCoreAdapters(core);
     HiveAdapter.registerCacheAdapters(cache);
   }

@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sit/files.dart';
 import 'package:sit/migration/foundation.dart';
 import 'package:sit/network/proxy.dart';
-import 'package:sit/platform/windows.dart';
+import 'package:sit/platform/windows/windows.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/init.dart';
 import 'package:sit/migration/migrations.dart';
@@ -73,10 +73,13 @@ void main() async {
   R.yellowPages = await _loadYellowPages();
 
   // Initialize Hive
-  await HiveInit.init(
-    coreDir: Files.internal.subDir("hive", R.hiveStorageVersion),
-    cacheDir: Files.cache.subDir("hive", R.hiveStorageVersion),
-  );
+  if (!kIsWeb) {
+    await HiveInit.init(
+      coreDir: Files.internal.subDir("hive", R.hiveStorageVersion),
+      cacheDir: Files.cache.subDir("hive", R.hiveStorageVersion),
+    );
+  }
+  HiveInit.initAdapters();
   await HiveInit.initBox();
 
   // Setup Settings and Meta
