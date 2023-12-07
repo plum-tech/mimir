@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/me/edu_email/index.dart';
-import 'package:sit/me/network_tool/index.dart';
+import 'package:sit/network/index.dart';
 import 'package:sit/me/widgets/greeting.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/qrcode/handle.dart';

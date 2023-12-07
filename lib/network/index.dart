@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:rettulf/rettulf.dart';
-import "i18n.dart";
+import 'i18n.dart';
 
 class NetworkToolAppCard extends StatefulWidget {
   const NetworkToolAppCard({super.key});

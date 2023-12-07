@@ -13,7 +13,6 @@ import 'package:sit/life/electricity/init.dart';
 import 'package:sit/life/expense_records/init.dart';
 import 'package:sit/login/init.dart';
 import 'package:sit/me/edu_email/init.dart';
-import 'package:sit/me/network_tool/init.dart';
 import 'package:sit/school/ywb/init.dart';
 import 'package:sit/school/exam_arrange/init.dart';
 import 'package:sit/school/library/init.dart';
@@ -98,7 +97,6 @@ class Init {
     if (!kIsWeb) {
       OaAnnounceInit.init();
       ExamResultInit.init();
-      ConnectivityInit.init();
       ExamArrangeInit.init();
       ExpenseRecordsInit.init();
       LibraryInit.init();

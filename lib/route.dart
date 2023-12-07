@@ -24,7 +24,7 @@ import 'package:sit/life/expense_records/page/statistics.dart';
 import 'package:sit/life/index.dart';
 import 'package:sit/login/page/index.dart';
 import 'package:sit/me/edu_email/page/inbox.dart';
-import 'package:sit/me/network_tool/page/index.dart';
+import 'package:sit/network/page/index.dart';
 import 'package:sit/timetable/page/background.dart';
 import 'package:sit/timetable/page/cell_style.dart';
 import 'package:sit/widgets/not_found.dart';
@@ -136,7 +136,7 @@ final _meRoute = GoRoute(
   path: "/me",
   builder: (ctx, state) => const MePage(),
 );
-final _toolRoutes = [
+final _toolsRoutes = [
   GoRoute(
     path: "/tools/network-tool",
     builder: (ctx, state) => const NetworkToolPage(),
@@ -419,7 +419,7 @@ RoutingConfig buildCommonRoutingConfig() {
       _browserRoute,
       _expenseRoute,
       _settingsRoute,
-      ..._toolRoutes,
+      ..._toolsRoutes,
       _class2ndRoute,
       _oaAnnounceRoute,
       ..._eduEmailRoutes,
@@ -450,7 +450,7 @@ RoutingConfig buildTimetableFocusRouter() {
       _browserRoute,
       _expenseRoute,
       _settingsRoute,
-      ..._toolRoutes,
+      ..._toolsRoutes,
       _class2ndRoute,
       _oaAnnounceRoute,
       ..._eduEmailRoutes,
