@@ -34,7 +34,7 @@ timetable:
     failedTip: 匯入失敗，請之後再試。
     importing: 正在擷取課程表數據……
     timetableInfo: 課程表資訊
-    defaultName: "{semester} {yearStart}–{yearEnd} 課程表"
+    defaultName: "{semester} {yearStart} 課程表"
   export:
     title: 匯出選項
     export: 匯出

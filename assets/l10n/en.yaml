@@ -34,7 +34,7 @@ timetable:
     failedTip: Failed to import, please try again
     importing: Trying to fetch the timetable...
     timetableInfo: Timetable Info
-    defaultName: "{semester}, {yearStart}–{yearEnd} Timetable"
+    defaultName: "{semester}, {yearStart} Timetable"
   export:
     title: Export to calendar
     export: Export

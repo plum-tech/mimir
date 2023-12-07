@@ -248,8 +248,8 @@ class TimetableCard extends StatelessWidget {
       itemBuilder: (ctx, animation) => [
         timetable.name.text(style: textTheme.titleLarge),
         "$year, $semester".text(style: textTheme.titleMedium),
-        if (timetable.signature.isNotEmpty) timetable.signature.text(style: textTheme.titleMedium),
-        "${i18n.startWith} ${context.formatYmdText(timetable.startDate)}".text(style: textTheme.bodyLarge),
+        if (timetable.signature.isNotEmpty) timetable.signature.text(style: textTheme.bodyMedium),
+        "${i18n.startWith} ${context.formatYmdText(timetable.startDate)}".text(style: textTheme.bodyMedium),
       ],
     );
   }

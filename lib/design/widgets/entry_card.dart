@@ -154,9 +154,9 @@ class EntryCard extends StatelessWidget {
       OverflowBar(
         alignment: MainAxisAlignment.end,
         children: [
-          const SizedBox(),
           if (animation.value <= 0)
             CupertinoButton(
+              padding: EdgeInsets.zero,
               onPressed: selected ? null : selectAction(context).action,
               child: selected
                   ? Icon(CupertinoIcons.check_mark, color: context.colorScheme.primary)
@@ -164,7 +164,7 @@ class EntryCard extends StatelessWidget {
             ),
         ],
       ),
-    ].column(caa: CrossAxisAlignment.start).padOnly(t: 15, l: 15, r: 15);
+    ].column(caa: CrossAxisAlignment.start).padOnly(t: 12, l: 12, r: 8, b: 4);
     if (animation.value <= 0) {
       body = body.inkWell(onTap: () async {
         if (animation.value <= 0) {

@@ -39,13 +39,7 @@ class ImportTimetablePage extends StatefulWidget {
 class _ImportTimetablePageState extends State<ImportTimetablePage> {
   bool canImport = false;
   var _status = ImportStatus.none;
-  late SemesterInfo initial = () {
-    final now = DateTime.now();
-    return SemesterInfo(
-      year: now.month >= 9 ? now.year : now.year - 1,
-      semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
-    );
-  }();
+  late SemesterInfo initial = estimateCurrentSemester();
   late SemesterInfo selected = initial;
 
   @override
@@ -212,6 +206,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
         _status = ImportStatus.end;
       });
       final id2timetable = await handleTimetableData(timetable, selected);
+      if (id2timetable == null) return;
       if (!mounted) return;
       context.pop(id2timetable);
     } catch (e, stackTrace) {
