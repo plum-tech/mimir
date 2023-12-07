@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/widgets/list_tile.dart';
+import 'package:sit/school/library/aggregated.dart';
 import 'package:sit/school/library/page/details.model.dart';
+import 'package:sit/school/library/widgets/book.dart';
 import 'package:sit/widgets/image.dart';
 
 import '../entity/book.dart';
@@ -14,16 +16,12 @@ import 'search_result.dart';
 
 class BookDetailsPage extends StatefulWidget {
   final BookModel book;
-  final BookImage? image;
-  final List<HoldingPreviewItem>? holding;
   final BookSearchCallback? onSearchTap;
   final List<Widget>? actions;
 
   const BookDetailsPage({
     super.key,
     required this.book,
-    this.image,
-    this.holding,
     this.onSearchTap,
     this.actions,
   });
@@ -72,9 +70,6 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   Widget build(BuildContext context) {
     final details = this.details;
     final book = widget.book;
-    final imgUrl = widget.image?.resourceLink;
-    // FIXME: always null
-    final holding = widget.holding;
     final onSearchTap = widget.onSearchTap;
     final publisher = book.publisher;
     final publishDate = book.publishDate;
@@ -83,8 +78,8 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              expandedHeight: imgUrl == null ? null : 300.0,
-              flexibleSpace: imgUrl == null ? null : CachedNetworkImageView(imageUrl: imgUrl),
+              expandedHeight: 300.0,
+              flexibleSpace: AsyncBookImage(isbn: book.isbn),
               actions: widget.actions,
               bottom: isFetching
                   ? const PreferredSize(
@@ -145,21 +140,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                   subtitle: book.publishDate,
                 ),
             ]),
-            if (holding != null)
-              const SliverToBoxAdapter(
-                child: Divider(),
-              ),
-            if (holding != null)
-              SliverList.builder(
-                  itemCount: holding.length,
-                  itemBuilder: (ctx, i) {
-                    final item = holding[i];
-                    return ListTile(
-                      title: Text('所在馆：${item.currentLocation}'),
-                      subtitle: item.callNumber == book.callNumber ? null : '索书号：${item.callNumber}'.text(),
-                      trailing: Text('在馆(${item.loanableCount})/馆藏(${item.copyCount})'),
-                    );
-                  }),
+            SliverList.list(children: [const Divider(), BookHoldingPreviewList(book: book)]),
             if (details != null)
               SliverList.list(children: [
                 const Divider(),
@@ -189,5 +170,73 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
           )
           .toList(),
     );
+  }
+}
+
+class BookHoldingPreviewList extends StatefulWidget {
+  final BookModel book;
+
+  const BookHoldingPreviewList({
+    super.key,
+    required this.book,
+  });
+
+  @override
+  State<BookHoldingPreviewList> createState() => _BookHoldingPreviewListState();
+}
+
+class _BookHoldingPreviewListState extends State<BookHoldingPreviewList> {
+  List<HoldingPreviewItem>? holding;
+  bool isFetching = false;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchHoldingPreview();
+  }
+
+  Future<void> fetchHoldingPreview() async {
+    if (!context.mounted) return;
+    setState(() {
+      isFetching = true;
+    });
+    final bookId = widget.book.bookId;
+    try {
+      final holding = await LibraryAggregated.fetchBookHoldingPreviewList(bookId: bookId);
+      if (!context.mounted) return;
+      setState(() {
+        this.holding = holding;
+        isFetching = false;
+      });
+    } catch (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: stackTrace);
+      return;
+    }
+    if (!context.mounted) return;
+    setState(() {
+      isFetching = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final holding = this.holding;
+    return [
+      ListTile(
+        leading: const Icon(Icons.book),
+        title: "Holding".text(),
+      ),
+      if (isFetching)
+        const CircularProgressIndicator.adaptive()
+      else if (holding != null)
+        ...holding.map((item) {
+          return ListTile(
+            title: Text('所在馆：${item.currentLocation}'),
+            subtitle: item.callNumber == widget.book.callNumber ? null : '索书号：${item.callNumber}'.text(),
+            trailing: Text('在馆(${item.loanableCount})/馆藏(${item.copyCount})'),
+          );
+        })
+    ].column();
   }
 }

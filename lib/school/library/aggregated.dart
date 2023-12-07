@@ -41,24 +41,15 @@ class LibraryAggregated {
   }
 
   /// [Book.bookId] to [HoldingPreviewItem]
-  static Future<Map<String, List<HoldingPreviewItem>>> fetchBookHoldingPreviewList({
+  static Future<Map<String, List<HoldingPreviewItem>>> fetchBooksHoldingPreviewList({
     required List<String> bookIdList,
   }) async {
     final bookId2Preview = await LibraryInit.holdingPreview.getHoldingPreviews(bookIdList);
     return bookId2Preview;
   }
 
-  static Future<List<({Book book, List<HoldingPreviewItem> holding})>> queryHolding(
-    List<Book> books,
-  ) async {
-    final bookIdList = books.map((e) => e.bookId).toList();
-    final previews = await LibraryInit.holdingPreview.getHoldingPreviews(bookIdList);
-
-    return books.map((book) {
-      return (
-        book: book,
-        holding: previews[book.bookId] ?? const [],
-      );
-    }).toList();
+  static Future<List<HoldingPreviewItem>> fetchBookHoldingPreviewList({required String bookId}) async {
+    final bookId2Previews = await fetchBooksHoldingPreviewList(bookIdList: [bookId]);
+    return bookId2Previews.values.first;
   }
 }

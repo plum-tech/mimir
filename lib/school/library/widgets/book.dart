@@ -46,27 +46,10 @@ class _AsyncBookImageState extends State<AsyncBookImage> {
     final image = this.image;
     if (image == null) return const SizedBox();
     return CachedNetworkImage(
+      fit: BoxFit.fitWidth,
       imageUrl: image.resourceLink,
       placeholder: (context, url) => const SizedBox(),
       errorWidget: (context, url, error) => const SizedBox(),
-    );
-  }
-}
-
-class BookCachedImage extends StatelessWidget {
-  final String url;
-
-  const BookCachedImage({
-    super.key,
-    required this.url,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: url,
-      placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
     );
   }
 }
