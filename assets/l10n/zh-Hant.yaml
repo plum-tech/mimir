@@ -626,6 +626,10 @@ themeMode:
   dark: 深色
   light: 亮色
   system: 系統
+OaUserType:
+  undergraduate: 大學生
+  postgraduate: 研究生
+  other: 其他
 dormitoryRoom: "{building}號樓 #{room}"
 open: 打開
 delete: 刪除

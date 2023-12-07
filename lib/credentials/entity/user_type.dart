@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:sit/storage/hive/type_id.dart';
 
 part 'user_type.g.dart';
@@ -33,4 +34,6 @@ enum OaUserType {
   final UserCapability capability;
 
   const OaUserType(this.capability);
+
+  String l10n() => "OaUserType.$name".tr();
 }

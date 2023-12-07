@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
+import 'package:sit/credentials/utils.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
 import 'package:sit/init.dart';
@@ -182,7 +183,7 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
     return ListTile(
       leading: const Icon(Icons.account_circle),
       title: credentials.account.text(),
-      subtitle: isCurrent ? "Current user".text() : null,
+      subtitle: isCurrent ? "Current user".text() : estimateOaUserType(credentials.account)?.l10n().text(),
       trailing: const Icon(Icons.login).padAll(8),
       enabled: !isCurrent,
       onTap: () async {

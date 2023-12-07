@@ -625,6 +625,10 @@ themeMode:
   dark: Dark
   light: Light
   system: System
+OaUserType:
+  undergraduate: Undergraduate
+  postgraduate: Postgraduate
+  other: Other
 dormitoryRoom: "Building {building} #{room}"
 open: Open
 delete: Delete
