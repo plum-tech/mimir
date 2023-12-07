@@ -41,15 +41,18 @@ class TimetableBoard extends StatelessWidget {
 
   Widget buildBoard() {
     return $displayMode >>
-        (ctx, mode) => mode == DisplayMode.daily
-            ? DailyTimetable(
-                $currentPos: $currentPos,
-                timetable: timetable,
-              )
-            : WeeklyTimetable(
-                $currentPos: $currentPos,
-                timetable: timetable,
-              );
+        (ctx, mode) => AnimatedSwitcher(
+              duration: Durations.short4,
+              child: mode == DisplayMode.daily
+                  ? DailyTimetable(
+                      $currentPos: $currentPos,
+                      timetable: timetable,
+                    )
+                  : WeeklyTimetable(
+                      $currentPos: $currentPos,
+                      timetable: timetable,
+                    ),
+            );
   }
 }
 

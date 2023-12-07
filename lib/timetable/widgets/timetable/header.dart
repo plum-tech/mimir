@@ -66,11 +66,12 @@ class HeaderCell extends StatelessWidget {
   Widget build(BuildContext context) {
     final side = getTimetableBorderSide(context);
     return AnimatedContainer(
+      duration: Durations.short2,
+      curve: Curves.easeOut,
       decoration: BoxDecoration(
         color: backgroundColor,
         border: Border(bottom: side),
       ),
-      duration: const Duration(milliseconds: 100),
       child: HeaderCellTextBox(
         weekIndex: weekIndex,
         weekday: weekday,
