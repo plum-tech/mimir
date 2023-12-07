@@ -16,7 +16,7 @@ class SitHttpOverrides extends HttpOverrides {
       final address = Settings.httpProxy.address;
       if (!enableHttpProxy) return 'DIRECT';
       final host = url.host;
-      if (globalMode || _isSchoolNetwork(host)) {
+      if (globalMode || _isSchoolLanRequired(host)) {
         debugPrint('Accessing "$url" by proxy "$address"');
         return HttpClient.findProxyFromEnvironment(
           url,
@@ -34,7 +34,6 @@ class SitHttpOverrides extends HttpOverrides {
   }
 }
 
-// 使用代理访问的网站规则
 bool _isSchoolNetwork(String host) {
   if (host == 'jwxt.sit.edu.cn') {
     // 教务系统
@@ -49,6 +48,27 @@ bool _isSchoolNetwork(String host) {
     // OA
     return true;
   } else if (host == '210.35.66.106') {
+    // Library
+    return true;
+  } else if (host == '210.35.98.178') {
+    // TODO: what's this
+    // 门
+    return true;
+  }
+  return false;
+}
+
+bool _isSchoolLanRequired(String host) {
+  if (host == 'jwxt.sit.edu.cn') {
+    // 教务系统
+    return true;
+  } else if (host == 'sc.sit.edu.cn') {
+    // Second class
+    return true;
+  } else if (host == 'card.sit.edu.cn') {
+    // 校园卡
+    return true;
+  } if (host == '210.35.66.106') {
     // Library
     return true;
   } else if (host == '210.35.98.178') {
