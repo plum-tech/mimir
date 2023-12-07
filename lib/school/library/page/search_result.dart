@@ -8,10 +8,9 @@ import 'package:sit/design/widgets/common.dart';
 import 'package:sit/school/library/page/details.model.dart';
 import 'package:sit/school/library/widgets/book.dart';
 import 'package:sit/school/library/widgets/search.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../aggregated.dart';
 import '../entity/book.dart';
-import '../entity/holding_preview.dart';
 import '../entity/search.dart';
 import '../init.dart';
 import 'details.dart';
@@ -53,7 +52,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
   var totalPage = 10;
 
   /// 最终前端展示的数据
-  List<({Book book, List<HoldingPreviewItem> holding})>? books;
+  List<Book>? books;
 
   bool isFetching = false;
 
@@ -101,13 +100,10 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
       totalPage = searchResult.totalPages;
 
       debugPrint(searchResult.toString());
-      final nextPage = await LibraryAggregated.queryHolding(
-        searchResult.books,
-      );
       if (!mounted) return;
       setState(() {
-        final books = this.books ??= <({Book book, List<HoldingPreviewItem> holding})>[];
-        books.addAll(nextPage);
+        final books = this.books ??= <Book>[];
+        books.addAll(searchResult.books);
         isFetching = false;
       });
       setState(() {
@@ -126,11 +122,9 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final onSearchTap = widget.onSearchTap;
     final books = this.books;
     return Scaffold(
       body: CustomScrollView(
-        controller: scrollController,
         slivers: [
           SliverToBoxAdapter(
             child: buildSearchMethodSwitcher().sized(h: 40),
@@ -144,31 +138,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
                 ),
               )
             else
-              SliverList.builder(
-                  itemCount: books.length,
-                  itemBuilder: (ctx, i) {
-                    final (:book, :holding) = books[i];
-                    return BookCard(
-                      book: book,
-                      holding: holding,
-                      onSearchTap: onSearchTap,
-                      onTap: () async {
-                        await context.show$Sheet$(
-                          (ctx) => BookDetailsPage(
-                            book: BookModel.fromBook(book),
-                            holding: holding,
-                            onSearchTap: onSearchTap == null
-                                ? null
-                                : (method, keyword) {
-                                    // pop the sheet
-                                    ctx.pop();
-                                    onSearchTap(method, keyword);
-                                  },
-                          ),
-                        );
-                      },
-                    );
-                  })
+              buildGrid(books)
         ],
       ),
       bottomNavigationBar: isFetching
@@ -177,6 +147,38 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
               child: LinearProgressIndicator(),
             )
           : null,
+    );
+  }
+
+  Widget buildGrid(List<Book> books) {
+    final onSearchTap = widget.onSearchTap;
+    return SliverFillRemaining(
+      child: MasonryGridView.extent(
+        controller: scrollController,
+        maxCrossAxisExtent: 280,
+        itemCount: books.length,
+        itemBuilder: (context, i) {
+          final book = books[i];
+          return BookTile(
+            book: book,
+            onSearchTap: onSearchTap,
+            onTap: () async {
+              await context.show$Sheet$(
+                (ctx) => BookDetailsPage(
+                  book: BookModel.fromBook(book),
+                  onSearchTap: onSearchTap == null
+                      ? null
+                      : (method, keyword) {
+                          // pop the sheet
+                          ctx.pop();
+                          onSearchTap(method, keyword);
+                        },
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
@@ -196,41 +198,35 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
   }
 }
 
-class BookCard extends StatelessWidget {
+class BookTile extends StatelessWidget {
   final Book book;
-  final List<HoldingPreviewItem>? holding;
   final void Function()? onTap;
   final BookSearchCallback? onSearchTap;
 
-  const BookCard({
+  const BookTile({
     super.key,
     this.onSearchTap,
     this.onTap,
     required this.book,
-    this.holding,
   });
 
   @override
   Widget build(BuildContext context) {
     final book = this.book;
-    final holding = this.holding ?? const [];
-    // 计算总共馆藏多少书
-    int copyCount = holding.isEmpty ? 0 : holding.map((e) => e.copyCount).reduce((value, element) => value + element);
-    // 计算总共可借多少书
-    int loanableCount =
-        holding.isEmpty ? 0 : holding.map((e) => e.loanableCount).reduce((value, element) => value + element);
     return FilledCard(
       clip: Clip.hardEdge,
-      child: ListTile(
-        leading: AsyncBookImage(isbn: book.isbn),
-        title: book.title.text(),
+      child: InkWell(
         onTap: onTap,
-        subtitle: [
-          buildAuthor(context),
-          if (book.isbn.isNotEmpty) "${SearchMethod.isbn.l10nName()} ${book.isbn}".text(),
-          "${SearchMethod.callNumber.l10nName()} ${book.callNumber}".text(),
-          buildPublisher(context),
-        ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
+        child: [
+          AsyncBookImage(isbn: book.isbn),
+          [
+            book.title.text(style: context.textTheme.titleMedium),
+            buildAuthor(context),
+            if (book.isbn.isNotEmpty) "${SearchMethod.isbn.l10nName()} ${book.isbn}".text(),
+            "${SearchMethod.callNumber.l10nName()} ${book.callNumber}".text(),
+            buildPublisher(context)
+          ].column(mas: MainAxisSize.min).padSymmetric(v: 2, h: 4),
+        ].column(mas: MainAxisSize.min),
       ),
     );
   }
