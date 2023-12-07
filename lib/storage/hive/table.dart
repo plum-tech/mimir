@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 const _kLastId = "lastId";
 const _kIdList = "idList";
@@ -171,4 +172,6 @@ class HiveTable<T> {
     }
     return res;
   }
+
+  Listenable listenRowChange(int id) => box.listenable(keys: ["$_rowsK/$id"]);
 }

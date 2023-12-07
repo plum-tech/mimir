@@ -13,6 +13,7 @@ import 'package:sit/l10n/extension.dart';
 import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/qrcode/protocol.dart';
 import 'package:sit/timetable/entity/platte.dart';
+import 'package:sit/timetable/entity/timetable.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:sit/utils/color.dart';
@@ -148,24 +149,42 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
           itemCount: palettes.length,
           itemBuilder: (ctx, i) {
             final (:id, row: palette) = palettes[i];
-            return buildPaletteCard(
-              id,
-              palette,
+            return PaletteCard(
+              id: id,
+              palette: palette,
+              timetable: selectedTimetable,
               selected: selectedId == id,
+              onDuplicate: () {
+                tabController.index = TimetableP13nTab.custom;
+              },
             ).padH(6);
           },
         ),
       ],
     );
   }
+}
 
-  Widget buildPaletteCard(
-    int id,
-    TimetablePalette palette, {
-    required bool selected,
-  }) {
+class PaletteCard extends StatelessWidget {
+  final int id;
+  final TimetablePalette palette;
+  final bool selected;
+  final SitTimetable? timetable;
+  final VoidCallback? onDuplicate;
+
+  const PaletteCard({
+    super.key,
+    required this.id,
+    required this.palette,
+    required this.selected,
+    this.timetable,
+    this.onDuplicate,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     final theme = context.theme;
-    final selectedTimetable = this.selectedTimetable;
+    final timetable = this.timetable;
     return EntryCard(
       title: palette.name,
       selected: selected,
@@ -210,7 +229,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
               );
             },
           ),
-        if (selectedTimetable != null && palette.colors.isNotEmpty)
+        if (timetable != null && palette.colors.isNotEmpty)
           EntryAction(
             label: i18n.preview,
             icon: Icons.preview,
@@ -220,7 +239,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
                 (context) => TimetableStyleProv(
                   palette: palette,
                   child: TimetablePreviewPage(
-                    timetable: selectedTimetable,
+                    timetable: timetable,
                   ),
                 ),
               );
@@ -238,7 +257,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
               lastModified: DateTime.now(),
             );
             TimetableInit.storage.palette.add(duplicate);
-            tabController.index = TimetableP13nTab.custom;
+            onDuplicate?.call();
           },
         ),
         EntryAction(
@@ -265,44 +284,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
           ),
       ],
       detailsBuilder: (ctx, actions) {
-        return Scaffold(
-          body: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                title: TextScroll(palette.name),
-                floating: true,
-                actions: actions,
-              ),
-              SliverList.list(children: [
-                ListTile(
-                  leading: const Icon(Icons.drive_file_rename_outline),
-                  title: i18n.p13n.palette.name.text(),
-                  subtitle: palette.name.text(),
-                ),
-                if (palette.author.isNotEmpty)
-                  ListTile(
-                    leading: const Icon(Icons.person),
-                    title: i18n.p13n.palette.author.text(),
-                    subtitle: palette.author.text(),
-                  ),
-                if (palette.colors.isNotEmpty) const Divider(),
-                if (palette.colors.isNotEmpty)
-                  TimetableStyleProv(
-                    palette: palette,
-                    child: const TimetableP13nLivePreview(),
-                  ),
-                const Divider(),
-                const LightDarkColorsHeaderTitle(),
-              ]),
-              SliverList.builder(
-                itemCount: palette.colors.length,
-                itemBuilder: (ctx, i) {
-                  return PaletteColorTile(colors: palette.colors[i]);
-                },
-              )
-            ],
-          ),
-        );
+        return PaletteDetailsPage(id: id, initialPalette: palette, actions: actions);
       },
       itemBuilder: (ctx, animation) => [
         palette.name.text(style: theme.textTheme.titleLarge),
@@ -312,14 +294,110 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
               fontStyle: FontStyle.italic,
             ),
           ),
-        buildPaletteColorsPreview(palette),
+        PaletteColorsPreview(palette.colors),
       ],
     );
   }
+}
 
-  Widget buildPaletteColorsPreview(TimetablePalette palette) {
+class PaletteDetailsPage extends StatefulWidget {
+  final int id;
+  final TimetablePalette initialPalette;
+  final List<Widget>? actions;
+
+  const PaletteDetailsPage({
+    super.key,
+    required this.id,
+    required this.initialPalette,
+    this.actions,
+  });
+
+  @override
+  State<PaletteDetailsPage> createState() => _PaletteDetailsPageState();
+}
+
+class _PaletteDetailsPageState extends State<PaletteDetailsPage> {
+  late final $row = TimetableInit.storage.palette.listenRowChange(widget.id);
+  late TimetablePalette palette = widget.initialPalette;
+
+  @override
+  void initState() {
+    super.initState();
+    $row.addListener(refresh);
+  }
+
+  @override
+  void dispose() {
+    $row.removeListener(refresh);
+    super.dispose();
+  }
+
+  void refresh() {
+    final palette = TimetableInit.storage.palette[widget.id];
+    if (palette == null) {
+      context.pop();
+      return;
+    } else {
+      setState(() {
+        this.palette = palette;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = this.palette;
+    final actions = widget.actions;
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: TextScroll(palette.name),
+            floating: true,
+            actions: actions,
+          ),
+          SliverList.list(children: [
+            ListTile(
+              leading: const Icon(Icons.drive_file_rename_outline),
+              title: i18n.p13n.palette.name.text(),
+              subtitle: palette.name.text(),
+            ),
+            if (palette.author.isNotEmpty)
+              ListTile(
+                leading: const Icon(Icons.person),
+                title: i18n.p13n.palette.author.text(),
+                subtitle: palette.author.text(),
+              ),
+            if (palette.colors.isNotEmpty) const Divider(),
+            if (palette.colors.isNotEmpty)
+              TimetableStyleProv(
+                palette: palette,
+                child: const TimetableP13nLivePreview(),
+              ),
+            const Divider(),
+            const LightDarkColorsHeaderTitle(),
+          ]),
+          SliverList.builder(
+            itemCount: palette.colors.length,
+            itemBuilder: (ctx, i) {
+              return PaletteColorTile(colors: palette.colors[i]);
+            },
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class PaletteColorsPreview extends StatelessWidget {
+  final List<Color2Mode> colors;
+
+  const PaletteColorsPreview(this.colors, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
     final brightness = context.theme.brightness;
-    return palette.colors
+    return colors
         .map((c) {
           final color = c.byBrightness(brightness);
           return OutlinedCard(
