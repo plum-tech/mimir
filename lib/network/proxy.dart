@@ -11,27 +11,47 @@ class SitHttpOverrides extends HttpOverrides {
     final client = super.createHttpClient(context);
     client.badCertificateCallback = (cert, host, port) => true;
     client.findProxy = (url) {
-      final enableHttpProxy = Settings.httpProxy.enableHttpProxy;
-      final globalMode = Settings.httpProxy.globalMode;
-      final address = Settings.httpProxy.address;
-      if (!enableHttpProxy) return 'DIRECT';
       final host = url.host;
-      if (globalMode || _isSchoolLanRequired(host)) {
-        debugPrint('Accessing "$url" by proxy "$address"');
+      final isSchoolLanRequired = _isSchoolLanRequired(host);
+      final profiles = _buildProxy(isSchoolLanRequired);
+      if (profiles.http == null && profiles.https == null && profiles.all == null) {
+        return 'DIRECT';
+      } else {
+        final env = _toEnvMap(profiles);
         return HttpClient.findProxyFromEnvironment(
           url,
-          environment: {
-            "http_proxy": address,
-            "https_proxy": address,
-          },
+          environment: env,
         );
-      } else {
-        debugPrint('Accessing "$url" bypass proxy');
-        return 'DIRECT';
       }
     };
     return client;
   }
+}
+
+Map<String, String> _toEnvMap(({String? http, String? https, String? all}) profiles) {
+  final (:http, :https, :all) = profiles;
+  return {
+    if (http != null) "http_proxy": http,
+    if (https != null) "https_proxy": https,
+    if (all != null) "all_proxy": all,
+  };
+}
+
+({String? http, String? https, String? all}) _buildProxy(bool isSchoolLanRequired) {
+  return (
+    http: _buildProxyForType(ProxyType.http, isSchoolLanRequired),
+    https: _buildProxyForType(ProxyType.https, isSchoolLanRequired),
+    all: _buildProxyForType(ProxyType.all, isSchoolLanRequired),
+  );
+}
+
+String? _buildProxyForType(ProxyType type, bool isSchoolLanRequired) {
+  final profile = Settings.proxy.resolve(type);
+  final address = profile.address;
+  if (address == null) return null;
+  if (!profile.enabled) return null;
+  if (!profile.globalMode && !isSchoolLanRequired) return null;
+  return address;
 }
 
 bool _isSchoolNetwork(String host) {

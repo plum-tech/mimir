@@ -34,7 +34,7 @@ class SettingsImpl {
   late final timetable = TimetableSettings(box);
   late final school = SchoolSettings(box);
   late final theme = _Theme(box);
-  late final httpProxy = _HttpProxy(box);
+  late final proxy = _Proxy(box);
 
   Campus get campus => box.get(_K.campus) ?? Campus.fengxian;
 
@@ -103,36 +103,63 @@ class _Theme {
   ValueListenable<Box> listenThemeChange() => box.listenable(keys: [_ThemeK.themeMode, _ThemeK.themeColor]);
 }
 
-class _HttpProxyK {
-  static const ns = '/httpProxy';
-  static const address = '$ns/address';
-  static const useHttpProxy = '$ns/useHttpProxy';
-  static const globalMode = '$ns/globalMode';
+enum ProxyType {
+  http,
+  https,
+  all,
 }
 
-class _HttpProxy {
+class _HttpProxyK {
+  static const ns = '/proxy';
+
+  static String address(String ns) => "$ns/address";
+
+  static String enabled(String ns) => "$ns/enabled";
+
+  static String globalMode(String ns) => "$ns/globalMode";
+}
+
+class ProxyProfile {
+  final Box box;
+  final String ns;
+  final ProxyType type;
+
+  ProxyProfile(this.box, String ns, this.type) : ns = "$ns/${type.name}";
+
+  String? get address => box.get(_HttpProxyK.address(ns));
+
+  set address(String? newV) => box.put(_HttpProxyK.address(ns), newV);
+
+  /// [false] by default.
+  bool get enabled => box.get(_HttpProxyK.enabled(ns)) ?? false;
+
+  set enabled(bool newV) => box.put(_HttpProxyK.enabled(ns), newV);
+
+  /// [false] by default.
+  bool get globalMode => box.get(_HttpProxyK.globalMode(ns)) ?? false;
+
+  set globalMode(bool newV) => box.put(_HttpProxyK.globalMode(ns), newV);
+}
+
+class _Proxy {
   final Box box;
 
-  const _HttpProxy(this.box);
+  _Proxy(this.box)
+      : http = ProxyProfile(box, _HttpProxyK.ns, ProxyType.http),
+        https = ProxyProfile(box, _HttpProxyK.ns, ProxyType.https),
+        all = ProxyProfile(box, _HttpProxyK.ns, ProxyType.all);
 
-  // network
-  String get address => box.get(_HttpProxyK.address) ?? "http://localhost:80";
+  final ProxyProfile http;
+  final ProxyProfile https;
+  final ProxyProfile all;
 
-  set address(String newV) => box.put(_HttpProxyK.address, newV);
+  ProxyProfile resolve(ProxyType type) {
+    return switch (type) {
+      ProxyType.http => http,
+      ProxyType.https => https,
+      ProxyType.all => all,
+    };
+  }
 
-  /// [false] by default.
-  bool get enableHttpProxy => box.get(_HttpProxyK.useHttpProxy) ?? false;
-
-  set enableHttpProxy(bool newV) => box.put(_HttpProxyK.useHttpProxy, newV);
-
-  /// [false] by default.
-  bool get globalMode => box.get(_HttpProxyK.globalMode) ?? false;
-
-  set globalMode(bool newV) => box.put(_HttpProxyK.globalMode, newV);
-
-  ValueListenable listenEnableHttpProxy() => box.listenable(keys: [_HttpProxyK.useHttpProxy]);
-
-  ValueListenable listenGlobalMode() => box.listenable(keys: [_HttpProxyK.globalMode]);
-
-  ValueListenable listenAddress() => box.listenable(keys: [_HttpProxyK.address]);
+  bool get enableAnyProxy => http.enabled || https.enabled || all.enabled;
 }

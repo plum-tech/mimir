@@ -38,9 +38,9 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
               title: i18n.proxy.title.text(style: context.textTheme.headlineSmall),
             ),
           ),
-          Settings.httpProxy.listenAddress() >>
+          Settings.proxy.listenAddress() >>
               (ctx, _) {
-                final proxy = Settings.httpProxy.address;
+                final proxy = Settings.proxy.address;
                 final proxyUri = Uri.tryParse(proxy) ?? Uri(scheme: "http", host: "localhost", port: 80);
                 final userInfoParts = proxyUri.userInfo.split(":");
                 final auth =
@@ -92,16 +92,16 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
   }
 
   Widget buildEnableProxyToggle() {
-    return Settings.httpProxy.listenEnableHttpProxy() >>
+    return Settings.proxy.listenEnableHttpProxy() >>
         (ctx, _) => ListTile(
               title: i18n.proxy.enableProxy.text(),
               subtitle: i18n.proxy.enableProxyDesc.text(),
               leading: const Icon(Icons.vpn_key),
               trailing: Switch.adaptive(
-                value: Settings.httpProxy.enableHttpProxy,
-                onChanged: _validateHttpProxy(Settings.httpProxy.address)
+                value: Settings.proxy.enableHttpProxy,
+                onChanged: _validateHttpProxy(Settings.proxy.address)
                     ? (newV) async {
-                        Settings.httpProxy.enableHttpProxy = newV;
+                        Settings.proxy.enableHttpProxy = newV;
                       }
                     : null,
               ),
@@ -109,9 +109,9 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
   }
 
   Widget buildProxyModeSwitcher() {
-    return Settings.httpProxy.listenGlobalMode() >>
+    return Settings.proxy.listenGlobalMode() >>
         (ctx, _) {
-          final globalMode = Settings.httpProxy.globalMode;
+          final globalMode = Settings.proxy.globalMode;
           return ListTile(
             isThreeLine: true,
             leading: const Icon(Icons.public),
@@ -121,14 +121,14 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                 label: i18n.proxy.proxyModeGlobal.text(),
                 selected: globalMode,
                 onSelected: (value) async {
-                  Settings.httpProxy.globalMode = true;
+                  Settings.proxy.globalMode = true;
                 },
               ),
               ChoiceChip(
                 label: i18n.proxy.proxyModeSchool.text(),
                 selected: !globalMode,
                 onSelected: (value) async {
-                  Settings.httpProxy.globalMode = false;
+                  Settings.proxy.globalMode = false;
                 },
               ),
             ].wrap(spacing: 4),
@@ -326,9 +326,9 @@ bool _validateHttpProxy(String? proxy) {
 }
 
 Future<void> _setHttpProxy(String newAddress) async {
-  final old = Settings.httpProxy.address;
+  final old = Settings.proxy.address;
   if (old != newAddress) {
-    Settings.httpProxy.address = newAddress;
+    Settings.proxy.address = newAddress;
   }
 }
 

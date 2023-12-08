@@ -62,7 +62,7 @@ class _ConnectedInfoState extends State<ConnectedInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final useProxy = Settings.httpProxy.enableHttpProxy;
+    final useProxy = Settings.proxy.enableAnyProxy;
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 500),
       child: [
@@ -70,27 +70,13 @@ class _ConnectedInfoState extends State<ConnectedInfo> {
           useProxy ? Icons.vpn_key : getConnectionTypeIcon(connectionType),
           size: 120,
         ).expanded(flex: 5),
-        buildTip(
-          useProxy: useProxy,
-          proxy: Settings.httpProxy.address,
-        ).expanded(flex: 3),
+        buildTip().expanded(flex: 3),
       ].column(caa: CrossAxisAlignment.stretch, key: ValueKey(connectionType)),
     ).padAll(10);
   }
 
-  Widget buildTip({
-    required bool useProxy,
-    required String? proxy,
-  }) {
+  Widget buildTip() {
     final style = context.textTheme.bodyLarge;
-    if (useProxy && proxy != null) {
-      return Text(
-        '${i18n.connectedByVpn}\n'
-        '$proxy',
-        textAlign: TextAlign.center,
-        style: style,
-      );
-    }
     final tip = switch (connectionType) {
       ConnectivityResult.wifi => i18n.connectedByWlan,
       ConnectivityResult.ethernet => i18n.connectedByEthernet,
