@@ -111,7 +111,7 @@ timetable:
       namePlaceholder: 調色盤名稱
       author: 作者
       authorPlaceholder: 你的姓名，電郵，或 url
-      colorCopyTip: 顏色被複製到剪貼板了
+      color: 顏色
       details: 詳細資料
       fab: 調色盤
       shareQrCode: 分享 QR 碼
@@ -484,7 +484,6 @@ settings:
     testLoginOa:
       title: 測試登入 OA
       desc: 嘗試用當前的登入認證登入 OA
-    studentIdCopyTip: 你的學號被複製到剪貼板了
   dev:
     title: 開發者選項
     devMode:
@@ -562,10 +561,6 @@ settings:
       school: 僅校園網路
       globalTip: 通過代理訪問所有網路
       schoolTip: 繞過代理訪問非校園網路
-    copyTip:
-      full: HTTP 代理被複製到剪貼板了
-      hostname: 主機名稱被複製到剪貼板了
-      port: 連接埠被複製到剪貼板了
   language: 語言
   wipeData:
     title: 擦除資料 & 登出
@@ -689,3 +684,4 @@ preview: 預覽
 upload: 上傳
 pick: 選取
 duplicate: 複製
+copyTip: "{} 被複製到剪貼板了"

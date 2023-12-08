@@ -110,7 +110,7 @@ timetable:
       namePlaceholder: 配色方案的名称
       author: 作者
       authorPlaceholder: 你的姓名，电子邮箱，或 url
-      colorCopyTip: 已复制该颜色到剪贴板了
+      color: 颜色
       details: 详情
       fab: 配色方案
       shareQrCode: 分享二维码
@@ -483,7 +483,6 @@ settings:
     testLoginOa:
       title: 测试登录 OA
       desc: 尝试使用当前的登录凭据登录 OA
-  studentIdCopyTip: 已复制你的学号到剪贴板了
   dev:
     title: 开发者选项
     devMode:
@@ -561,10 +560,6 @@ settings:
       school: 仅学校服务器
       globalTip: 通过代理访问所有网络
       schoolTip: 仅通过代理访问学校服务器
-    copyTip:
-      full: 已复制 HTTP 代理到剪贴板了
-      hostname: 已复制主机名代理到剪贴板了
-      port: 已复制端口到剪贴板了
   language: 语言
   wipeData:
     title: 擦除数据并登出
@@ -688,3 +683,4 @@ preview: 预览
 upload: 上传
 pick: 选择
 duplicate: 复制
+copyTip: "已复制 {} 到剪贴板了"

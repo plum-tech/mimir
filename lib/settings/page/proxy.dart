@@ -149,7 +149,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
       onLongPress: () async {
         await Clipboard.setData(ClipboardData(text: proxyUri.toString()));
         if (!mounted) return;
-        context.showSnackBar(content: i18n.proxy.fullCopyTip.text());
+        context.showSnackBar(content: i18n.copyTipOf(i18n.proxy.title).text());
       },
       trailing: IconButton(
         icon: const Icon(Icons.edit),
@@ -211,7 +211,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
       onLongPress: () async {
         await Clipboard.setData(ClipboardData(text: hostname));
         if (!mounted) return;
-        context.showSnackBar(content: i18n.proxy.hostnameCopyTip.text());
+        context.showSnackBar(content: i18n.copyTipOf(i18n.proxy.hostname).text());
       },
       trailing: IconButton(
         icon: const Icon(Icons.edit),
@@ -239,7 +239,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
       onLongPress: () async {
         await Clipboard.setData(ClipboardData(text: port.toString()));
         if (!mounted) return;
-        context.showSnackBar(content: i18n.proxy.portCopyTip.text());
+        context.showSnackBar(content: i18n.copyTipOf(i18n.proxy.port).text());
       },
       trailing: IconButton(
         icon: const Icon(Icons.edit),

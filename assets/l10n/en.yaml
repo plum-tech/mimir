@@ -110,7 +110,7 @@ timetable:
       namePlaceholder: Palette name
       author: Author
       authorPlaceholder: Your name, email, or url
-      colorCopyTip: The color was copied
+      color: color
       details: Details
       fab: Palette
       shareQrCode: Share QR code
@@ -483,7 +483,6 @@ settings:
     testLoginOa:
       title: Test login OA
       desc: Try to login OA with current credentials
-    studentIdCopyTip: Your student ID was copied
   dev:
     title: Developer options
     devMode:
@@ -561,10 +560,6 @@ settings:
       school: School-only
       globalTip: Access all networks by proxy
       schoolTip: Access non-school networks bypass proxy
-    copyTip:
-      full: HTTP proxy is copied
-      hostname: Hostname is copied
-      port: Port is copied
   language: Language
   wipeData:
     title: Wipe data & log-out
@@ -688,3 +683,4 @@ preview: Preview
 upload: Upload
 pick: Pick
 duplicate: Duplicate
+copyTip: "{} was copied"

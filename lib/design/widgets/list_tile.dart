@@ -32,7 +32,10 @@ class DetailListTile extends StatelessWidget {
           recognizer: copyable && subtitle != null
               ? (TapGestureRecognizer()
                 ..onTap = () async {
-                  context.showSnackBar(content: "$title was copied".text());
+                  final title = this.title;
+                  if (title != null) {
+                    context.showSnackBar(content: const CommonI18n().copyTipOf(title).text());
+                  }
                   await Clipboard.setData(ClipboardData(text: subtitle));
                 })
               : null),

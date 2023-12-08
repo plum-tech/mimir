@@ -76,12 +76,6 @@ class _Proxy {
 
   String get port => "$ns.port".tr();
 
-  String get fullCopyTip => "$ns.copyTip.full".tr();
-
-  String get hostnameCopyTip => "$ns.copyTip.hostname".tr();
-
-  String get portCopyTip => "$ns.copyTip.port".tr();
-
   String get authentication => "$ns.authentication".tr();
 
   String get username => "$ns.username".tr();
@@ -221,6 +215,4 @@ class _Credentials extends CredentialsI18n {
   String get testLoginOa => "$ns.testLoginOa.title".tr();
 
   String get testLoginOaDesc => "$ns.testLoginOa.desc".tr();
-
-  String get studentIdCopyTip => "$ns.studentIdCopyTip".tr();
 }
