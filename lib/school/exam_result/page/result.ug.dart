@@ -134,6 +134,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
                     resultList[i],
                     index: i,
                     isSelectingMode: isSelecting,
+                    elevated: false,
                   ),
                 ),
           ],

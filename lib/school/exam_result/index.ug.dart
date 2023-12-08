@@ -97,6 +97,7 @@ class _ExamResultUgAppCardState extends State<ExamResultUgAppCard> {
               .map((result) => ExamResultUgCard(
                     result,
                     showDetails: showDetails,
+                    elevated: true,
                   ))
               .toList()
               .column();

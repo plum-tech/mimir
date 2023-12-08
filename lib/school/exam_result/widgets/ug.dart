@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/multi_select.dart';
 import 'package:sit/school/widgets/course.dart';
 import 'package:sit/utils/format.dart';
@@ -12,12 +13,14 @@ class ExamResultUgSelectableCard extends StatelessWidget {
   final ExamResultUg result;
   final int index;
   final bool isSelectingMode;
+  final bool elevated;
 
   const ExamResultUgSelectableCard(
     this.result, {
     super.key,
     required this.index,
     required this.isSelectingMode,
+    required this.elevated,
   });
 
   @override
@@ -29,6 +32,7 @@ class ExamResultUgSelectableCard extends StatelessWidget {
       selected: selected,
       showDetails: !isSelectingMode,
       iconOverride: isSelectingMode ? Icon(selected ? Icons.check_box_outlined : Icons.check_box_outline_blank) : null,
+      elevated: elevated,
       onTap: !isSelectingMode
           ? null
           : () {
@@ -44,6 +48,7 @@ class ExamResultUgCard extends StatelessWidget {
   final Widget? iconOverride;
   final bool selected;
   final bool showDetails;
+  final bool elevated;
 
   const ExamResultUgCard(
     this.result, {
@@ -52,6 +57,7 @@ class ExamResultUgCard extends StatelessWidget {
     this.iconOverride,
     this.selected = false,
     this.showDetails = true,
+    required this.elevated,
   });
 
   @override
@@ -84,9 +90,7 @@ class ExamResultUgCard extends StatelessWidget {
           ? result.score.toString().text()
           : i18n.lessonNotEvaluated.text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize)),
       onTap: onTap,
-    ).inCard(
-      clip: Clip.hardEdge,
-    );
+    ).inAnyCard(clip: Clip.hardEdge, type: elevated ? CardType.plain : CardType.filled);
   }
 }
 
