@@ -20,7 +20,10 @@ class AppVersion {
   final AppPlatform platform;
   final Version full;
 
-  const AppVersion(this.platform, this.full);
+  const AppVersion({
+    required this.platform,
+    required this.full,
+  });
 }
 
 Future<AppVersion> getCurrentVersion() async {
@@ -41,5 +44,5 @@ Future<AppVersion> getCurrentVersion() async {
   } else {
     platform = AppPlatform.unknown;
   }
-  return AppVersion(platform, Version.parse(info.version));
+  return AppVersion(platform: platform, full: Version.parse(info.version));
 }

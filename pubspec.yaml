@@ -18,7 +18,7 @@ dependencies:
   # I18n
   easy_localization: ^3.0.3
   locale_names: ^1.1.1
-  intl: ^0.17.0
+  intl: ^0.18.1
 
   # Basic
   logger: ^2.0.2
@@ -125,7 +125,7 @@ dependencies:
   cupertino_onboarding: ^1.2.0
   flutter_swipe_detector: ^2.0.0
   # iCalendar file generator
-  ical: ^0.2.2
+  enough_icalendar: ^0.15.0
 
   # Utils
   # dart.io.Platform API for Web
