@@ -18,8 +18,8 @@ class BookImageAdapter extends TypeAdapter<BookImage> {
     };
     return BookImage(
       isbn: fields[0] as String,
-      coverLink: fields[1] as String,
-      resourceLink: fields[2] as String,
+      coverUrl: fields[1] as String,
+      resourceUrl: fields[2] as String,
       status: fields[3] as int,
     );
   }
@@ -31,9 +31,9 @@ class BookImageAdapter extends TypeAdapter<BookImage> {
       ..writeByte(0)
       ..write(obj.isbn)
       ..writeByte(1)
-      ..write(obj.coverLink)
+      ..write(obj.coverUrl)
       ..writeByte(2)
-      ..write(obj.resourceLink)
+      ..write(obj.resourceUrl)
       ..writeByte(3)
       ..write(obj.status);
   }
@@ -52,14 +52,14 @@ class BookImageAdapter extends TypeAdapter<BookImage> {
 
 BookImage _$BookImageFromJson(Map<String, dynamic> json) => BookImage(
       isbn: json['isbn'] as String,
-      coverLink: json['coverlink'] as String,
-      resourceLink: json['resourceLink'] as String,
+      coverUrl: json['coverlink'] as String,
+      resourceUrl: json['resourceUrl'] as String,
       status: json['status'] as int,
     );
 
 Map<String, dynamic> _$BookImageToJson(BookImage instance) => <String, dynamic>{
       'isbn': instance.isbn,
-      'coverlink': instance.coverLink,
-      'resourceLink': instance.resourceLink,
+      'coverlink': instance.coverUrl,
+      'resourceUrl': instance.resourceUrl,
       'status': instance.status,
     };

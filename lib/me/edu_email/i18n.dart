@@ -47,7 +47,9 @@ class _Login {
 
   String get addressHint => "$ns.addressHint".tr();
 
-  String get failedWarn => "$ns.failedWarn".tr();
+  String get failedWarn => "$ns.failedWarn.title".tr();
+
+  String get failedWarnDesc => "$ns.failedWarn.desc".tr();
 }
 
 class _Outbox {

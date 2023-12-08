@@ -10,16 +10,16 @@ class BookImage {
   final String isbn;
   @JsonKey(name: 'coverlink')
   @HiveField(1)
-  final String coverLink;
+  final String coverUrl;
   @HiveField(2)
-  final String resourceLink;
+  final String resourceUrl;
   @HiveField(3)
   final int status;
 
   const BookImage({
     required this.isbn,
-    required this.coverLink,
-    required this.resourceLink,
+    required this.coverUrl,
+    required this.resourceUrl,
     required this.status,
   });
 

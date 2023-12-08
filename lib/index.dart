@@ -52,14 +52,14 @@ class _MainStagePageState extends State<MainStagePage> {
           )
         ),
       if (!kIsWeb)
-      (
-        route: "/life",
-        item: (
-          icon: const Icon(Icons.spa_outlined),
-          activeIcon: const Icon(Icons.spa),
-          label: $life.i18n.navigation,
-        )
-      ),
+        (
+          route: "/life",
+          item: (
+            icon: const Icon(Icons.spa_outlined),
+            activeIcon: const Icon(Icons.spa),
+            label: $life.i18n.navigation,
+          )
+        ),
       (
         route: "/me",
         item: (

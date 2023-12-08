@@ -20,6 +20,10 @@ class _I18n with CommonI18nMixin {
   String get hotPost => "$ns.hotPost".tr();
 
   String get readerId => "$ns.readerId".tr();
+
+  String get noBooks => "$ns.noBooks".tr();
+
+  String get collectionStatus => "$ns.collectionStatus".tr();
 }
 
 class _Action {
@@ -47,7 +51,9 @@ class _Login {
 
   String get passwordHint => "$ns.passwordHint".tr();
 
-  String get failedWarn => "$ns.failedWarn".tr();
+  String get failedWarn => "$ns.failedWarn.title".tr();
+
+  String get failedWarnDesc => "$ns.failedWarn.desc".tr();
 }
 
 class _Info {
@@ -70,6 +76,13 @@ class _Info {
   String get bookId => "$ns.bookId".tr();
 
   String get barcode => "$ns.barcode".tr();
+
+  String availableCollection(String available, String collection) => "$ns.availableCollection".tr(
+        namedArgs: {
+          "available": available,
+          "collection": collection,
+        },
+      );
 }
 
 class _Search {

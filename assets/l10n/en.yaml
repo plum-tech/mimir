@@ -298,7 +298,9 @@ eduEmail:
   login:
     title: Login Edu email
     addressHint: Student ID/Work number
-    failedWarn: Login failed
+    failedWarn:
+      title: Login failed
+      desc: Please check the password
   inbox:
     title: Inbox
   outbox:
@@ -427,6 +429,8 @@ library:
   title: Library
   hotPost: HOT
   readerId: Reader Id
+  noBooks: No books
+  collectionStatus: Collection status
   action:
     searchBooks: Search books
     login: Login
@@ -435,6 +439,9 @@ library:
     title: Login library
     readerIdHint: your Student ID
     passwordHint: 888888 by default
+    failedWarn:
+      title: Login failed
+      desc: Please check the password
   search:
     searchHistory: Search history
     trending: Trending
@@ -466,6 +473,7 @@ library:
     callNumber: Call Number
     bookId: Book ID
     barcode: Barcode
+    availableCollection: "Available({available}) / Collection({collection})"
 settings:
   title: Settings
   version: Version

@@ -4,15 +4,10 @@ part 'holding_preview.g.dart';
 
 @JsonSerializable()
 class HoldingPreviewItem {
-  // 图书编号
   @JsonKey(name: 'bookrecno')
   final int bookId;
-
-  // 条码号
   @JsonKey(name: 'barcode')
   final String barcode;
-
-  // 索书号
   @JsonKey(name: 'callno')
   final String callNumber;
 

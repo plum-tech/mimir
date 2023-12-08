@@ -133,7 +133,7 @@ class BorrowedBookCard extends StatelessWidget {
     try {
       final result = await LibraryInit.borrowService.renewBook(barcodeList: [book.barcode]);
       if (!context.mounted) return;
-      await context.showTip(title: "Result", ok: i18n.ok, desc: result);
+      await context.showTip(title: i18n.borrowing.renew, ok: i18n.ok, desc: result);
     } catch (error, stackTrace) {
       debugPrintError(error, stackTrace);
     }

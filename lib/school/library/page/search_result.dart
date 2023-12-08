@@ -14,6 +14,7 @@ import 'package:sit/utils/error.dart';
 import '../entity/book.dart';
 import '../entity/search.dart';
 import '../init.dart';
+import '../i18n.dart';
 import 'details.dart';
 
 typedef BookSearchCallback = void Function(SearchMethod method, String keyword);
@@ -108,7 +109,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
               SliverFillRemaining(
                 child: LeavingBlank(
                   icon: Icons.inbox_outlined,
-                  desc: "No books",
+                  desc: i18n.noBooks,
                 ),
               )
             else
@@ -196,8 +197,7 @@ class BookTile extends StatelessWidget {
           [
             book.title.text(style: context.textTheme.titleMedium),
             buildAuthor(context),
-            if (book.isbn.isNotEmpty) "${SearchMethod.isbn.l10nName()} ${book.isbn}".text(),
-            "${SearchMethod.callNumber.l10nName()} ${book.callNumber}".text(),
+            "${i18n.info.callNumber} ${book.callNumber}".text(),
             buildPublisher(context)
           ].column(mas: MainAxisSize.min).padSymmetric(v: 2, h: 4),
         ].column(mas: MainAxisSize.min),

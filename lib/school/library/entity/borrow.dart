@@ -63,7 +63,6 @@ class BorrowedBookItem {
   }
 }
 
-/// 历史借书记录
 @HiveType(typeId: CacheHiveType.libraryBorrowingHistory)
 class BookBorrowingHistoryItem {
   @HiveField(0)

@@ -68,7 +68,8 @@ bool _isSchoolLanRequired(String host) {
   } else if (host == 'card.sit.edu.cn') {
     // 校园卡
     return true;
-  } if (host == '210.35.66.106') {
+  }
+  if (host == '210.35.66.106') {
     // Library
     return true;
   } else if (host == '210.35.98.178') {

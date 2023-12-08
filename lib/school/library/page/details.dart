@@ -239,16 +239,15 @@ class _BookHoldingPreviewListState extends State<BookHoldingPreviewList> {
     return [
       ListTile(
         leading: const Icon(Icons.book),
-        title: "Holding".text(),
+        title: i18n.collectionStatus.text(),
       ),
       if (isFetching)
         const CircularProgressIndicator.adaptive()
       else if (holding != null)
         ...holding.map((item) {
           return ListTile(
-            title: Text('所在馆：${item.currentLocation}'),
-            subtitle: item.callNumber == widget.book.callNumber ? null : '索书号：${item.callNumber}'.text(),
-            trailing: Text('在馆(${item.loanableCount})/馆藏(${item.copyCount})'),
+            title: item.currentLocation.text(),
+            subtitle: i18n.info.availableCollection("${item.loanableCount}", "${item.copyCount}").text(),
           );
         })
     ].column();

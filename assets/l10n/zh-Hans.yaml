@@ -298,7 +298,9 @@ eduEmail:
   login:
     title: 登录教育邮箱
     addressHint: 学号/工号
-    failedWarn: 登录失败
+    failedWarn:
+      title: 登录失败
+      desc: 请检查密码
   inbox:
     title: 收件箱
   outbox:
@@ -427,6 +429,8 @@ library:
   title: 图书馆
   hotPost: 热搜
   readerId: 读者证号
+  noBooks: 没有图书
+  collectionStatus: 馆藏状态
   action:
     searchBooks: 搜索图书
     login: 登录
@@ -435,6 +439,9 @@ library:
     title: 登录图书馆
     readerIdHint: 你的学号
     passwordHint: 初始密码为 888888
+    failedWarn:
+      title: 登录失败
+      desc: 请检查密码
   search:
     searchHistory: 搜索历史
     trending: 近期流行
@@ -466,6 +473,7 @@ library:
     callNumber: 索书号
     bookId: 图书号
     barcode: 条形码
+    availableCollection: "在馆({available}) / 馆藏({collection})"
 settings:
   title: 设置
   version: 版本

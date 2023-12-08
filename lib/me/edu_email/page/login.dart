@@ -161,7 +161,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
       context.replace("/edu-email/inbox");
     } catch (err) {
       if (!mounted) return;
-      await context.showTip(title: i18n.login.failedWarn, desc: "please check your pwd", ok: i18n.ok);
+      await context.showTip(title: i18n.login.failedWarn, desc: i18n.login.failedWarnDesc, ok: i18n.ok);
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       return;
