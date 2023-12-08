@@ -51,14 +51,3 @@ extension BrightnessL10nX on Brightness {
 extension ThemeModeL10nX on ThemeMode {
   String l10n() => "themeMode.$name".tr();
 }
-
-extension DateFormatTryParse on DateFormat {
-  DateTime? tryParse(String? inputString, [bool utc = false]) {
-    if (inputString == null) return null;
-    try {
-      return parse(inputString, utc);
-    } on FormatException {
-      return null;
-    }
-  }
-}

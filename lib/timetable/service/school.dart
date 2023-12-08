@@ -2,7 +2,6 @@ import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sit/init.dart';
-import 'package:sit/l10n/extension.dart';
 
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/exam_result/init.dart';
@@ -98,8 +97,8 @@ class TimetableService {
     final text = element.text;
     final match = _semesterSpanRe.firstMatch(text);
     if (match == null) return null;
-    final start = _semesterSpanDateFormat.tryParse(match.group(1));
-    final end = _semesterSpanDateFormat.tryParse(match.group(2));
+    final start = _semesterSpanDateFormat.tryParse(match.group(1) ?? "");
+    final end = _semesterSpanDateFormat.tryParse(match.group(2) ?? "");
     if (start == null || end == null) return null;
     return (start: start, end: end);
   }
