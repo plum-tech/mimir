@@ -3,19 +3,19 @@ import 'package:sit/init.dart';
 
 import 'package:sit/session/library.dart';
 
-import '../entity/holding_preview.dart';
-import '../const.dart';
+import '../entity/collection_preview.dart';
+import '../api.dart';
 
-class HoldingPreviewService {
+class LibraryCollectionPreviewService {
   LibrarySession get session => Init.librarySession;
 
-  const HoldingPreviewService();
+  const LibraryCollectionPreviewService();
 
-  Future<Map<String, List<HoldingPreviewItem>>> getHoldingPreviews(
+  Future<Map<String, List<BookCollectionItem>>> getCollectionPreviews(
     List<String> bookIdList,
   ) async {
     final response = await session.request(
-      LibraryConst.bookHoldingPreviewsUrl,
+      LibraryApi.bookCollectionPreviewsUrl,
       para: {
         'bookrecnos': bookIdList.join(','),
         'curLibcodes': '',
@@ -27,9 +27,9 @@ class HoldingPreviewService {
     );
     final json = response.data;
     final previewsRaw = json['previews'] as Map<String, dynamic>?;
-    if (previewsRaw == null) return <String, List<HoldingPreviewItem>>{};
+    if (previewsRaw == null) return <String, List<BookCollectionItem>>{};
     final previews = previewsRaw.map((k, e) =>
-        MapEntry(k, (e as List<dynamic>).map((e) => HoldingPreviewItem.fromJson(e as Map<String, dynamic>)).toList()));
+        MapEntry(k, (e as List<dynamic>).map((e) => BookCollectionItem.fromJson(e as Map<String, dynamic>)).toList()));
     return previews;
   }
 }

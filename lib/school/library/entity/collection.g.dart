@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'holding.dart';
+part of 'collection.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -24,22 +24,22 @@ Map<String, dynamic> _$BookCirculateTypeToJson(BookCirculateType instance) => <S
       'isPreviService': instance.isPreviService,
     };
 
-BookHoldingState _$BookHoldingStateFromJson(Map<String, dynamic> json) => BookHoldingState(
+BookCollectionState _$BookCollectionStateFromJson(Map<String, dynamic> json) => BookCollectionState(
       json['stateType'] as int,
       json['stateName'] as String,
     );
 
-Map<String, dynamic> _$BookHoldingStateToJson(BookHoldingState instance) => <String, dynamic>{
+Map<String, dynamic> _$BookCollectionStateToJson(BookCollectionState instance) => <String, dynamic>{
       'stateType': instance.stateType,
       'stateName': instance.stateName,
     };
 
-BookHoldingItem _$BookHoldingItemFromJson(Map<String, dynamic> json) => BookHoldingItem(
+BookCollectionItem _$BookCollectionItemFromJson(Map<String, dynamic> json) => BookCollectionItem(
       bookRecordId: json['recno'] as int,
       bookId: json['bookrecno'] as int,
       stateType: json['state'] as int,
       barcode: json['barcode'] as String,
-      callNo: json['callno'] as String,
+      callNumber: json['callno'] as String,
       originLibraryCode: json['orglib'] as String,
       originLocationCode: json['orglocal'] as String,
       currentLibraryCode: json['curlib'] as String,
@@ -51,12 +51,12 @@ BookHoldingItem _$BookHoldingItemFromJson(Map<String, dynamic> json) => BookHold
       totalPrice: (json['totalPrice'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$BookHoldingItemToJson(BookHoldingItem instance) => <String, dynamic>{
+Map<String, dynamic> _$BookCollectionItemToJson(BookCollectionItem instance) => <String, dynamic>{
       'recno': instance.bookRecordId,
       'bookrecno': instance.bookId,
       'state': instance.stateType,
       'barcode': instance.barcode,
-      'callno': instance.callNo,
+      'callno': instance.callNumber,
       'orglib': instance.originLibraryCode,
       'orglocal': instance.originLocationCode,
       'curlib': instance.currentLibraryCode,
@@ -68,9 +68,9 @@ Map<String, dynamic> _$BookHoldingItemToJson(BookHoldingItem instance) => <Strin
       'totalPrice': instance.totalPrice,
     };
 
-BookHoldingInfo _$BookHoldingInfoFromJson(Map<String, dynamic> json) => BookHoldingInfo(
+BookCollectionInfo _$BookCollectionInfoFromJson(Map<String, dynamic> json) => BookCollectionInfo(
       holdingList: (json['holdingList'] as List<dynamic>)
-          .map((e) => BookHoldingItem.fromJson(e as Map<String, dynamic>))
+          .map((e) => BookCollectionItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       libraryCodeMap: Map<String, String>.from(json['libcodeMap'] as Map),
       locationMap: Map<String, String>.from(json['localMap'] as Map),
@@ -78,13 +78,13 @@ BookHoldingInfo _$BookHoldingInfoFromJson(Map<String, dynamic> json) => BookHold
         (k, e) => MapEntry(k, BookCirculateType.fromJson(e as Map<String, dynamic>)),
       ),
       holdStateMap: (json['holdStateMap'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, BookHoldingState.fromJson(e as Map<String, dynamic>)),
+        (k, e) => MapEntry(k, BookCollectionState.fromJson(e as Map<String, dynamic>)),
       ),
       libcodeDeferDateMap: Map<String, int>.from(json['libcodeDeferDateMap'] as Map),
       barcodeLocationUrlMap: Map<String, String>.from(json['barcodeLocationUrlMap'] as Map),
     );
 
-Map<String, dynamic> _$BookHoldingInfoToJson(BookHoldingInfo instance) => <String, dynamic>{
+Map<String, dynamic> _$BookCollectionInfoToJson(BookCollectionInfo instance) => <String, dynamic>{
       'holdingList': instance.holdingList,
       'libcodeMap': instance.libraryCodeMap,
       'localMap': instance.locationMap,

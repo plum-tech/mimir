@@ -6,7 +6,7 @@ import 'package:sit/init.dart';
 import 'package:sit/session/library.dart';
 
 import '../entity/image.dart';
-import '../const.dart';
+import '../api.dart';
 
 /// 本类提供了一系列，通过查询图书图片的方法，返回结果类型为字典，以ISBN为键
 class BookImageSearchService {
@@ -19,7 +19,7 @@ class BookImageSearchService {
   /// The result isbn doesn't have hyphen `-`
   Future<Map<String, BookImage>> searchByIsbnList(List<String> isbnList) async {
     final response = await dio.request(
-      LibraryConst.bookImageInfoUrl,
+      LibraryApi.bookImageInfoUrl,
       queryParameters: {
         'glc': 'U1SH021060',
         'cmdACT': 'getImages',

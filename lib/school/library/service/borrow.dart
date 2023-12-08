@@ -6,7 +6,7 @@ import 'package:sit/init.dart';
 import 'package:sit/session/library.dart';
 
 import '../entity/borrow.dart';
-import '../const.dart';
+import '../api.dart';
 
 final _historyDateFormat = DateFormat('yyyy-MM-dd');
 
@@ -17,7 +17,7 @@ class LibraryBorrowService {
 
   Future<List<BookBorrowingHistoryItem>> getHistoryBorrowBookList() async {
     final response = await session.request(
-      LibraryConst.historyLoanListUrl,
+      LibraryApi.historyLoanListUrl,
       para: {
         'page': 1.toString(),
         'rows': 99999.toString(),
@@ -51,7 +51,7 @@ class LibraryBorrowService {
 
   Future<List<BorrowedBookItem>> getMyBorrowBookList() async {
     final response = await session.request(
-      LibraryConst.currentLoanListUrl,
+      LibraryApi.currentLoanListUrl,
       para: {
         'page': 1.toString(),
         'rows': 99999.toString(),
@@ -89,13 +89,13 @@ class LibraryBorrowService {
     bool renewAll = false,
   }) async {
     await session.request(
-      LibraryConst.renewList,
+      LibraryApi.renewList,
       options: Options(
         method: "GET",
       ),
     );
     final listRes = await session.request(
-      LibraryConst.renewList,
+      LibraryApi.renewList,
       options: Options(
         method: "GET",
       ),
@@ -103,7 +103,7 @@ class LibraryBorrowService {
     final listHtml = BeautifulSoup(listRes.data);
     final pdsToken = listHtml.find('input', attrs: {'name': 'pdsToken'})!.attributes['value'] ?? '';
     final renewRes = await session.request(
-      LibraryConst.doRenewUrl,
+      LibraryApi.doRenewUrl,
       data: FormData.fromMap({
         'pdsToken': pdsToken,
         'barcodeList': barcodeList.join(','),

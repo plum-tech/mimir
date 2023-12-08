@@ -5,8 +5,8 @@ import 'package:sit/school/library/storage/borrow.dart';
 import 'service/details.dart';
 import 'service/book.dart';
 import 'service/borrow.dart';
-import 'service/holding.dart';
-import 'service/holding_preview.dart';
+import 'service/collection.dart';
+import 'service/collection_preview.dart';
 import 'service/trends.dart';
 import 'service/image_search.dart';
 import 'storage/browse.dart';
@@ -16,10 +16,10 @@ import 'storage/search.dart';
 class LibraryInit {
   static late LibraryAuthService auth;
   static late BookDetailsService bookDetailsService;
-  static late HoldingInfoService holdingInfo;
+  static late LibraryCollectionInfoService collectionInfoService;
   static late BookSearchService bookSearch;
   static late BookImageSearchService bookImageSearch;
-  static late HoldingPreviewService holdingPreview;
+  static late LibraryCollectionPreviewService collectionPreviewService;
   static late LibraryTrendsService hotSearchService;
   static late LibraryBorrowService borrowService;
 
@@ -35,9 +35,9 @@ class LibraryInit {
 
     bookSearch = const BookSearchService();
     bookDetailsService = const BookDetailsService();
-    holdingInfo = const HoldingInfoService();
+    collectionInfoService = const LibraryCollectionInfoService();
     bookImageSearch = const BookImageSearchService();
-    holdingPreview = const HoldingPreviewService();
+    collectionPreviewService = const LibraryCollectionPreviewService();
     hotSearchService = const LibraryTrendsService();
 
     borrowService = const LibraryBorrowService();

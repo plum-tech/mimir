@@ -4,7 +4,7 @@ import 'package:sit/init.dart';
 
 import 'package:sit/session/library.dart';
 
-import '../const.dart';
+import '../api.dart';
 import '../entity/search.dart';
 
 class LibraryTrendsService {
@@ -25,7 +25,7 @@ class LibraryTrendsService {
 
   Future<LibraryTrends> getTrends() async {
     final response = await session.request(
-      LibraryConst.hotSearchUrl,
+      LibraryApi.hotSearchUrl,
       options: Options(
         method: "GET",
       ),

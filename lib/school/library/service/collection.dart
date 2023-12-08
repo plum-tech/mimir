@@ -4,40 +4,40 @@ import 'package:sit/init.dart';
 
 import 'package:sit/session/library.dart';
 
-import '../entity/holding.dart';
-import '../const.dart';
+import '../entity/collection.dart';
+import '../api.dart';
 
-class HoldingInfoService {
+class LibraryCollectionInfoService {
   LibrarySession get session => Init.librarySession;
 
-  const HoldingInfoService();
+  const LibraryCollectionInfoService();
 
-  Future<List<BookHolding>> queryByBookId(String bookId) async {
+  Future<List<BookCollection>> queryByBookId(String bookId) async {
     final response = await session.request(
-      '${LibraryConst.bookHoldingUrl}/$bookId',
+      '${LibraryApi.bookCollectionUrl}/$bookId',
       options: Options(
         method: "GET",
       ),
     );
 
-    final rawBookHoldingInfo = BookHoldingInfo.fromJson(response.data);
-    final result = rawBookHoldingInfo.holdingList.map((rawHoldingItem) {
+    final raw = BookCollectionInfo.fromJson(response.data);
+    final result = raw.holdingList.map((rawHoldingItem) {
       final bookRecordId = rawHoldingItem.bookRecordId;
       final bookId = rawHoldingItem.bookId;
-      final stateTypeName = rawBookHoldingInfo.holdStateMap[rawHoldingItem.stateType.toString()]!.stateName;
+      final stateTypeName = raw.holdStateMap[rawHoldingItem.stateType.toString()]!.stateName;
       final barcode = rawHoldingItem.barcode;
-      final callNo = rawHoldingItem.callNo;
-      final originLibrary = rawBookHoldingInfo.libraryCodeMap[rawHoldingItem.originLibraryCode]!;
-      final originLocation = rawBookHoldingInfo.locationMap[rawHoldingItem.originLocationCode]!;
-      final currentLibrary = rawBookHoldingInfo.libraryCodeMap[rawHoldingItem.currentLibraryCode]!;
-      final currentLocation = rawBookHoldingInfo.locationMap[rawHoldingItem.currentLocationCode]!;
-      final circulateTypeName = rawBookHoldingInfo.circulateTypeMap[rawHoldingItem.circulateType]!.name;
-      final circulateTypeDescription = rawBookHoldingInfo.circulateTypeMap[rawHoldingItem.circulateType]!.description;
+      final callNo = rawHoldingItem.callNumber;
+      final originLibrary = raw.libraryCodeMap[rawHoldingItem.originLibraryCode]!;
+      final originLocation = raw.locationMap[rawHoldingItem.originLocationCode]!;
+      final currentLibrary = raw.libraryCodeMap[rawHoldingItem.currentLibraryCode]!;
+      final currentLocation = raw.locationMap[rawHoldingItem.currentLocationCode]!;
+      final circulateTypeName = raw.circulateTypeMap[rawHoldingItem.circulateType]!.name;
+      final circulateTypeDescription = raw.circulateTypeMap[rawHoldingItem.circulateType]!.description;
       final registerDate = DateTime.parse(rawHoldingItem.registerDate);
       final inDate = DateTime.parse(rawHoldingItem.inDate);
       final singlePrice = rawHoldingItem.singlePrice;
       final totalPrice = rawHoldingItem.totalPrice;
-      return BookHolding(
+      return BookCollection(
         bookRecordId: bookRecordId,
         bookId: bookId,
         stateTypeName: stateTypeName,
@@ -61,7 +61,7 @@ class HoldingInfoService {
   /// 搜索附近的书的id号
   Future<List<String>> searchNearBookIdList(String bookId) async {
     final response = await session.request(
-      LibraryConst.virtualBookshelfUrl,
+      LibraryApi.virtualBookshelfUrl,
       para: {
         'bookrecno': bookId,
 

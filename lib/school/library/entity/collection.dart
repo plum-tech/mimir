@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'holding.g.dart';
+part 'collection.g.dart';
 
-class BookHolding {
+class BookCollection {
   /// 图书记录号(同一本书可能有多本，该参数用于标识同一本书的不同本)
   final int bookRecordId;
 
@@ -48,7 +48,7 @@ class BookHolding {
   /// 总价
   final double totalPrice;
 
-  const BookHolding({
+  const BookCollection({
     required this.bookRecordId,
     required this.bookId,
     required this.stateTypeName,
@@ -121,19 +121,19 @@ class BookCirculateType {
 }
 
 @JsonSerializable()
-class BookHoldingState {
+class BookCollectionState {
   final int stateType;
   final String stateName;
 
-  const BookHoldingState(this.stateType, this.stateName);
+  const BookCollectionState(this.stateType, this.stateName);
 
-  factory BookHoldingState.fromJson(Map<String, dynamic> json) => _$BookHoldingStateFromJson(json);
+  factory BookCollectionState.fromJson(Map<String, dynamic> json) => _$BookCollectionStateFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BookHoldingStateToJson(this);
+  Map<String, dynamic> toJson() => _$BookCollectionStateToJson(this);
 }
 
 @JsonSerializable()
-class BookHoldingItem {
+class BookCollectionItem {
   // 图书记录号(同一本书可能有多本，该参数用于标识同一本书的不同本)
   @JsonKey(name: 'recno')
   final int bookRecordId;
@@ -151,7 +151,7 @@ class BookHoldingItem {
 
   // 索书号
   @JsonKey(name: 'callno')
-  final String callNo;
+  final String callNumber;
 
   // 文献所属馆
   @JsonKey(name: 'orglib')
@@ -185,12 +185,12 @@ class BookHoldingItem {
   // 总价
   final double totalPrice;
 
-  const BookHoldingItem({
+  const BookCollectionItem({
     required this.bookRecordId,
     required this.bookId,
     required this.stateType,
     required this.barcode,
-    required this.callNo,
+    required this.callNumber,
     required this.originLibraryCode,
     required this.originLocationCode,
     required this.currentLibraryCode,
@@ -203,15 +203,15 @@ class BookHoldingItem {
   });
 
 // double totalLoanNum;
-  factory BookHoldingItem.fromJson(Map<String, dynamic> json) => _$BookHoldingItemFromJson(json);
+  factory BookCollectionItem.fromJson(Map<String, dynamic> json) => _$BookCollectionItemFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BookHoldingItemToJson(this);
+  Map<String, dynamic> toJson() => _$BookCollectionItemToJson(this);
 }
 
 @JsonSerializable()
-class BookHoldingInfo {
+class BookCollectionInfo {
   // 馆藏信息列表
-  final List<BookHoldingItem> holdingList;
+  final List<BookCollectionItem> holdingList;
 
   // "libcodeMap": {
   //     "SITLIB": "上应大",
@@ -256,7 +256,7 @@ class BookHoldingInfo {
   //       "stateName": "流通还回上架中"
   //   },
   // 馆藏状态
-  final Map<String, BookHoldingState> holdStateMap;
+  final Map<String, BookCollectionState> holdStateMap;
 
   // 不知道是啥
   // "libcodeDeferDateMap": {
@@ -272,7 +272,7 @@ class BookHoldingInfo {
   // },
   final Map<String, String> barcodeLocationUrlMap;
 
-  const BookHoldingInfo({
+  const BookCollectionInfo({
     required this.holdingList,
     required this.libraryCodeMap,
     required this.locationMap,
@@ -282,7 +282,7 @@ class BookHoldingInfo {
     required this.barcodeLocationUrlMap,
   });
 
-  factory BookHoldingInfo.fromJson(Map<String, dynamic> json) => _$BookHoldingInfoFromJson(json);
+  factory BookCollectionInfo.fromJson(Map<String, dynamic> json) => _$BookCollectionInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BookHoldingInfoToJson(this);
+  Map<String, dynamic> toJson() => _$BookCollectionInfoToJson(this);
 }

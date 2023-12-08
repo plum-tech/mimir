@@ -5,7 +5,7 @@ import 'package:sit/init.dart';
 import 'package:sit/session/library.dart';
 
 import '../entity/book.dart';
-import '../const.dart';
+import '../api.dart';
 import '../entity/search.dart';
 
 class BookSearchService {
@@ -22,7 +22,7 @@ class BookSearchService {
     SortOrder sortOrder = SortOrder.desc,
   }) async {
     final response = await session.request(
-      LibraryConst.searchUrl,
+      LibraryApi.searchUrl,
       para: {
         'q': keyword,
         'searchType': 'standard',

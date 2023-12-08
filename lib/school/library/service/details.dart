@@ -6,7 +6,7 @@ import 'package:sit/init.dart';
 
 import 'package:sit/session/library.dart';
 
-import '../const.dart';
+import '../api.dart';
 import '../entity/book.dart';
 
 class BookDetailsService {
@@ -16,7 +16,7 @@ class BookDetailsService {
 
   Future<BookDetails> query(String bookId) async {
     final response = await session.request(
-      '${LibraryConst.bookUrl}/$bookId',
+      '${LibraryApi.bookUrl}/$bookId',
       options: Options(
         method: "GET",
       ),

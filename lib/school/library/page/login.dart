@@ -7,7 +7,7 @@ import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/login/widgets/forgot_pwd.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/school/library/const.dart';
+import 'package:sit/school/library/api.dart';
 import 'package:sit/utils/error.dart';
 import '../init.dart';
 import '../i18n.dart';
@@ -52,7 +52,7 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
               : null,
         ),
         body: buildBody(),
-        bottomNavigationBar: const ForgotPasswordButton(url: LibraryConst.forgotLoginPasswordUrl),
+        bottomNavigationBar: const ForgotPasswordButton(url: LibraryApi.forgotLoginPasswordUrl),
       ),
     );
   }

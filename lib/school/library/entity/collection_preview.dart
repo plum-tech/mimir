@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'holding_preview.g.dart';
+part 'collection_preview.g.dart';
 
 @JsonSerializable()
-class HoldingPreviewItem {
+class BookCollectionItem {
   @JsonKey(name: 'bookrecno')
   final int bookId;
   @JsonKey(name: 'barcode')
@@ -27,7 +27,7 @@ class HoldingPreviewItem {
   @JsonKey(name: 'loanableCount')
   final int loanableCount;
 
-  const HoldingPreviewItem({
+  const BookCollectionItem({
     required this.bookId,
     required this.barcode,
     required this.callNumber,
@@ -37,9 +37,9 @@ class HoldingPreviewItem {
     required this.loanableCount,
   });
 
-  factory HoldingPreviewItem.fromJson(Map<String, dynamic> json) => _$HoldingPreviewItemFromJson(json);
+  factory BookCollectionItem.fromJson(Map<String, dynamic> json) => _$BookCollectionItemFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HoldingPreviewItemToJson(this);
+  Map<String, dynamic> toJson() => _$BookCollectionItemToJson(this);
 
   @override
   String toString() {

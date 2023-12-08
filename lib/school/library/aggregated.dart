@@ -1,4 +1,4 @@
-import 'entity/holding_preview.dart';
+import 'entity/collection_preview.dart';
 import 'entity/image.dart';
 import 'entity/book.dart';
 import 'init.dart';
@@ -40,16 +40,16 @@ class LibraryAggregated {
     return LibraryInit.imageStorage.getImage(isbn);
   }
 
-  /// [Book.bookId] to [HoldingPreviewItem]
-  static Future<Map<String, List<HoldingPreviewItem>>> fetchBooksHoldingPreviewList({
+  /// [Book.bookId] to [BookCollectionItem]
+  static Future<Map<String, List<BookCollectionItem>>> fetchBooksCollectionPreviewList({
     required List<String> bookIdList,
   }) async {
-    final bookId2Preview = await LibraryInit.holdingPreview.getHoldingPreviews(bookIdList);
+    final bookId2Preview = await LibraryInit.collectionPreviewService.getCollectionPreviews(bookIdList);
     return bookId2Preview;
   }
 
-  static Future<List<HoldingPreviewItem>> fetchBookHoldingPreviewList({required String bookId}) async {
-    final bookId2Previews = await fetchBooksHoldingPreviewList(bookIdList: [bookId]);
+  static Future<List<BookCollectionItem>> fetchBookCollectionPreviewList({required String bookId}) async {
+    final bookId2Previews = await fetchBooksCollectionPreviewList(bookIdList: [bookId]);
     return bookId2Previews.values.first;
   }
 }

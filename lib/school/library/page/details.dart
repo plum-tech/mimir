@@ -7,7 +7,7 @@ import 'package:sit/school/library/widgets/book.dart';
 import 'package:sit/utils/error.dart';
 
 import '../entity/book.dart';
-import '../entity/holding_preview.dart';
+import '../entity/collection_preview.dart';
 import '../entity/search.dart';
 import '../init.dart';
 import '../i18n.dart';
@@ -155,7 +155,10 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                   subtitle: book.publishDate,
                 ),
             ]),
-            SliverList.list(children: [const Divider(), BookHoldingPreviewList(book: book)]),
+            SliverList.list(children: [
+              const Divider(),
+              BookCollectionPreviewList(book: book),
+            ]),
             if (details != null)
               SliverList.list(children: [
                 const Divider(),
@@ -188,36 +191,36 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   }
 }
 
-class BookHoldingPreviewList extends StatefulWidget {
+class BookCollectionPreviewList extends StatefulWidget {
   final BookModel book;
 
-  const BookHoldingPreviewList({
+  const BookCollectionPreviewList({
     super.key,
     required this.book,
   });
 
   @override
-  State<BookHoldingPreviewList> createState() => _BookHoldingPreviewListState();
+  State<BookCollectionPreviewList> createState() => _BookCollectionPreviewListState();
 }
 
-class _BookHoldingPreviewListState extends State<BookHoldingPreviewList> {
-  List<HoldingPreviewItem>? holding;
+class _BookCollectionPreviewListState extends State<BookCollectionPreviewList> {
+  List<BookCollectionItem>? holding;
   bool isFetching = false;
 
   @override
   void initState() {
     super.initState();
-    fetchHoldingPreview();
+    fetchCollectionPreview();
   }
 
-  Future<void> fetchHoldingPreview() async {
+  Future<void> fetchCollectionPreview() async {
     if (!context.mounted) return;
     setState(() {
       isFetching = true;
     });
     final bookId = widget.book.bookId;
     try {
-      final holding = await LibraryAggregated.fetchBookHoldingPreviewList(bookId: bookId);
+      final holding = await LibraryAggregated.fetchBookCollectionPreviewList(bookId: bookId);
       if (!context.mounted) return;
       setState(() {
         this.holding = holding;

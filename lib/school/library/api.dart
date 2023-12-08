@@ -1,4 +1,4 @@
-class LibraryConst {
+class LibraryApi {
   static const opacUrl = 'http://210.35.66.106/opac';
   static const forgotLoginPasswordUrl = "$opacUrl/reader/retrievePassword";
 
@@ -13,8 +13,8 @@ class LibraryConst {
   static const renewList = '$loanUrl/renewList';
   static const doRenewUrl = '$loanUrl/doRenew';
 
-  static const bookHoldingUrl = '$apiUrl/holding';
-  static const bookHoldingPreviewsUrl = '$bookUrl/holdingPreviews';
+  static const bookCollectionUrl = '$apiUrl/holding';
+  static const bookCollectionPreviewsUrl = '$bookUrl/holdingPreviews';
   static const virtualBookshelfUrl = '$apiUrl/virtualBookshelf';
 
   static const bookImageInfoUrl = 'https://book-resource.dataesb.com/websearch/metares';

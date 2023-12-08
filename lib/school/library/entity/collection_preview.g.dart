@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'holding_preview.dart';
+part of 'collection_preview.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-HoldingPreviewItem _$HoldingPreviewItemFromJson(Map<String, dynamic> json) => HoldingPreviewItem(
+BookCollectionItem _$BookCollectionItemFromJson(Map<String, dynamic> json) => BookCollectionItem(
       bookId: json['bookrecno'] as int,
       barcode: json['barcode'] as String,
       callNumber: json['callno'] as String,
@@ -16,7 +16,7 @@ HoldingPreviewItem _$HoldingPreviewItemFromJson(Map<String, dynamic> json) => Ho
       loanableCount: json['loanableCount'] as int,
     );
 
-Map<String, dynamic> _$HoldingPreviewItemToJson(HoldingPreviewItem instance) => <String, dynamic>{
+Map<String, dynamic> _$BookCollectionItemToJson(BookCollectionItem instance) => <String, dynamic>{
       'bookrecno': instance.bookId,
       'barcode': instance.barcode,
       'callno': instance.callNumber,
