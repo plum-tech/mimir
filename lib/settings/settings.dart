@@ -119,6 +119,8 @@ class _HttpProxyK {
   static String globalMode(String ns) => "$ns/globalMode";
 }
 
+typedef ProxyProfileRecords = ({String? address, bool enabled, bool globalMode});
+
 class ProxyProfile {
   final Box box;
   final String ns;
@@ -159,6 +161,13 @@ class _Proxy {
       ProxyType.https => https,
       ProxyType.all => all,
     };
+  }
+
+  void setProfile(ProxyType type, ProxyProfileRecords value) {
+    final profile = resolve(type);
+    profile.address = value.address;
+    profile.enabled = value.enabled;
+    profile.globalMode = value.globalMode;
   }
 
   bool get enableAnyProxy => http.enabled || https.enabled || all.enabled;

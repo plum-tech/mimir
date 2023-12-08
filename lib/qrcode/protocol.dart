@@ -31,10 +31,12 @@ class ProxyDeepLink extends DeepLinkHandlerProtocol {
   ({Uri? http, Uri? https, Uri? all}) decode(Uri qrCodeData) {
     final param = qrCodeData.queryParameters;
     final http = param["http"];
-    final https =param["https"];
+    final https = param["https"];
     final all = param["all"];
     return (
-    http: http == null ? ,
+      http: http == null ? null : Uri.parse(http),
+      https: https == null ? null : Uri.parse(https),
+      all: all == null ? null : Uri.parse(all),
     );
   }
 
@@ -49,9 +51,9 @@ class ProxyDeepLink extends DeepLinkHandlerProtocol {
     required Uri qrCodeData,
   }) async {
     final httpProxy = decode(qrCodeData);
-    await onHttpProxyFromQrCode(
+    await onProxyFromQrCode(
       context: context,
-      httpProxy: httpProxy,
+      profiles: httpProxy,
     );
   }
 }
