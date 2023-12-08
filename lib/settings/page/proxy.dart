@@ -38,50 +38,42 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
               title: i18n.proxy.title.text(style: context.textTheme.headlineSmall),
             ),
           ),
-          Settings.proxy.listenAddress() >>
-              (ctx, _) {
-                final proxy = Settings.proxy.address;
-                final proxyUri = Uri.tryParse(proxy) ?? Uri(scheme: "http", host: "localhost", port: 80);
-                final userInfoParts = proxyUri.userInfo.split(":");
-                final auth =
-                    userInfoParts.length == 2 ? (username: userInfoParts[0], password: userInfoParts[1]) : null;
-                return SliverList(
-                  delegate: SliverChildListDelegate([
-                    buildEnableProxyToggle(),
-                    buildProxyModeSwitcher(),
-                    buildProxyFullTile(proxyUri, (newProxy) {
-                      setNewAddress(newProxy.toString());
-                    }),
-                    const Divider(),
-                    buildProxyProtocolTile(proxyUri.scheme, (newProtocol) {
-                      setNewAddress(proxyUri.replace(scheme: newProtocol).toString());
-                    }),
-                    buildProxyHostnameTile(proxyUri.host, (newHost) {
-                      setNewAddress(proxyUri.replace(host: newHost).toString());
-                    }),
-                    buildProxyPortTile(proxyUri.port, (newPort) {
-                      setNewAddress(proxyUri.replace(port: newPort).toString());
-                    }),
-                    buildProxyAuthTile(auth, (newAuth) {
-                      if (newAuth == null) {
-                        setNewAddress(proxyUri.replace(userInfo: "").toString());
-                      } else {
-                        setNewAddress(
-                          proxyUri
-                              .replace(
-                                  userInfo: newAuth.password.isNotEmpty
-                                      ? "${newAuth.username}:${newAuth.password}"
-                                      : newAuth.username)
-                              .toString(),
-                        );
-                      }
-                    }),
-                    const Divider(),
-                    const TestConnectionTile(),
-                    buildShareQrCode(proxyUri),
-                  ]),
-                );
-              },
+          SliverList(
+            delegate: SliverChildListDelegate([
+              buildEnableProxyToggle(),
+              buildProxyModeSwitcher(),
+              buildProxyFullTile(proxyUri, (newProxy) {
+                setNewAddress(newProxy.toString());
+              }),
+              const Divider(),
+              buildProxyProtocolTile(proxyUri.scheme, (newProtocol) {
+                setNewAddress(proxyUri.replace(scheme: newProtocol).toString());
+              }),
+              buildProxyHostnameTile(proxyUri.host, (newHost) {
+                setNewAddress(proxyUri.replace(host: newHost).toString());
+              }),
+              buildProxyPortTile(proxyUri.port, (newPort) {
+                setNewAddress(proxyUri.replace(port: newPort).toString());
+              }),
+              buildProxyAuthTile(auth, (newAuth) {
+                if (newAuth == null) {
+                  setNewAddress(proxyUri.replace(userInfo: "").toString());
+                } else {
+                  setNewAddress(
+                    proxyUri
+                        .replace(
+                            userInfo: newAuth.password.isNotEmpty
+                                ? "${newAuth.username}:${newAuth.password}"
+                                : newAuth.username)
+                        .toString(),
+                  );
+                }
+              }),
+              const Divider(),
+              const TestConnectionTile(),
+              buildShareQrCode(proxyUri),
+            ]),
+          ),
         ],
       ),
     );
@@ -91,54 +83,118 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     await _setHttpProxy(newAddress);
   }
 
-  Widget buildEnableProxyToggle() {
-    return Settings.proxy.listenEnableHttpProxy() >>
-        (ctx, _) => ListTile(
-              title: i18n.proxy.enableProxy.text(),
-              subtitle: i18n.proxy.enableProxyDesc.text(),
-              leading: const Icon(Icons.vpn_key),
-              trailing: Switch.adaptive(
-                value: Settings.proxy.enableHttpProxy,
-                onChanged: _validateHttpProxy(Settings.proxy.address)
-                    ? (newV) async {
-                        Settings.proxy.enableHttpProxy = newV;
-                      }
-                    : null,
-              ),
-            );
+  Widget buildShareQrCode(Uri proxyUri) {
+    return ListTile(
+      leading: const Icon(Icons.qr_code),
+      title: i18n.proxy.shareQrCode.text(),
+      subtitle: i18n.proxy.shareQrCodeDesc.text(),
+      trailing: IconButton(
+        icon: const Icon(Icons.share),
+        onPressed: () async {
+          final qrCodeData = const ProxyDeepLink().encode(proxyUri);
+          context.show$Sheet$(
+            (context) => QrCodePage(
+              title: i18n.proxy.title.text(),
+              data: qrCodeData.toString(),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class ProxyShareQrCodeTile extends StatelessWidget {
+  final (String? http, String? https, String? all) profiles;
+
+  const ProxyShareQrCodeTile({
+    super.key,
+    required this.profiles,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: const Icon(Icons.qr_code),
+      title: i18n.proxy.shareQrCode.text(),
+      subtitle: i18n.proxy.shareQrCodeDesc.text(),
+      trailing: IconButton(
+        icon: const Icon(Icons.share),
+        onPressed: () async {
+          final qrCodeData = const ProxyDeepLink().encode(proxyUri);
+          context.show$Sheet$(
+            (context) => QrCodePage(
+              title: i18n.proxy.title.text(),
+              data: qrCodeData.toString(),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+bool _validateHttpProxy(String? proxy) {
+  if (proxy == null) return false;
+  return proxy.isNotEmpty;
+}
+
+Future<void> _setHttpProxy(String newAddress) async {
+  final old = Settings.proxy.address;
+  if (old != newAddress) {
+    Settings.proxy.address = newAddress;
+  }
+}
+
+Future<void> onHttpProxyFromQrCode({
+  required BuildContext context,
+  required Uri httpProxy,
+}) async {
+  await _setHttpProxy(httpProxy.toString());
+  await HapticFeedback.mediumImpact();
+  if (!context.mounted) return;
+  context.showSnackBar(content: i18n.proxy.proxyChangedTip.text());
+  context.push("/settings/proxy");
+}
+
+class ProxyProfileEditorPage extends StatefulWidget {
+  final ProxyType type;
+
+  const ProxyProfileEditorPage({
+    super.key,
+    required this.type,
+  });
+
+  @override
+  State<ProxyProfileEditorPage> createState() => _ProxyProfileEditorPageState();
+}
+
+class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
+  late final profile = Settings.proxy.resolve(widget.type);
+  late final $address = ValueNotifier(profile.address);
+  late final $enabled = ValueNotifier(profile.enabled);
+  late final $globalMode = ValueNotifier(profile.globalMode);
+
+  @override
+  void initState() {
+    super.initState();
   }
 
-  Widget buildProxyModeSwitcher() {
-    return Settings.proxy.listenGlobalMode() >>
-        (ctx, _) {
-          final globalMode = Settings.proxy.globalMode;
-          return ListTile(
-            isThreeLine: true,
-            leading: const Icon(Icons.public),
-            title: i18n.proxy.proxyMode.text(),
-            subtitle: [
-              ChoiceChip(
-                label: i18n.proxy.proxyModeGlobal.text(),
-                selected: globalMode,
-                onSelected: (value) async {
-                  Settings.proxy.globalMode = true;
-                },
-              ),
-              ChoiceChip(
-                label: i18n.proxy.proxyModeSchool.text(),
-                selected: !globalMode,
-                onSelected: (value) async {
-                  Settings.proxy.globalMode = false;
-                },
-              ),
-            ].wrap(spacing: 4),
-            trailing: Tooltip(
-              triggerMode: TooltipTriggerMode.tap,
-              message: globalMode ? i18n.proxy.proxyModeGlobalTip : i18n.proxy.proxyModeSchoolTip,
-              child: const Icon(Icons.info_outline),
-            ).padAll(8),
-          );
-        };
+  @override
+  Widget build(BuildContext context) {
+    final proxy = Settings.proxy.address;
+    final proxyUri = Uri.tryParse(proxy) ?? Uri(scheme: "http", host: "localhost", port: 80);
+    final userInfoParts = proxyUri.userInfo.split(":");
+    final auth = userInfoParts.length == 2 ? (username: userInfoParts[0], password: userInfoParts[1]) : null;
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: widget.type.toString().text(),
+          )
+        ],
+      ),
+    );
   }
 
   Widget buildProxyFullTile(Uri proxyUri, ValueChanged<Uri> onChanged) {
@@ -299,46 +355,48 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     );
   }
 
-  Widget buildShareQrCode(Uri proxyUri) {
-    return ListTile(
-      leading: const Icon(Icons.qr_code),
-      title: i18n.proxy.shareQrCode.text(),
-      subtitle: i18n.proxy.shareQrCodeDesc.text(),
-      trailing: IconButton(
-        icon: const Icon(Icons.share),
-        onPressed: () async {
-          final qrCodeData = const HttpProxyDeepLink().encode(proxyUri);
-          context.show$Sheet$(
-            (context) => QrCodePage(
-              title: i18n.proxy.title.text(),
-              data: qrCodeData.toString(),
-            ),
-          );
-        },
-      ),
-    );
+  Widget buildEnableProxyToggle() {
+    return $enabled >>
+        (ctx, enabled) => ListTile(
+              title: i18n.proxy.enableProxy.text(),
+              subtitle: i18n.proxy.enableProxyDesc.text(),
+              leading: const Icon(Icons.vpn_key),
+              trailing: Switch.adaptive(
+                value: enabled,
+                onChanged: (newV) async {
+                  $enabled.value = newV;
+                },
+              ),
+            );
   }
-}
 
-bool _validateHttpProxy(String? proxy) {
-  if (proxy == null) return false;
-  return proxy.isNotEmpty;
-}
-
-Future<void> _setHttpProxy(String newAddress) async {
-  final old = Settings.proxy.address;
-  if (old != newAddress) {
-    Settings.proxy.address = newAddress;
+  Widget buildProxyModeSwitcher() {
+    return $globalMode >>
+        (ctx, globalMode) => ListTile(
+              isThreeLine: true,
+              leading: const Icon(Icons.public),
+              title: i18n.proxy.proxyMode.text(),
+              subtitle: [
+                ChoiceChip(
+                  label: i18n.proxy.proxyModeGlobal.text(),
+                  selected: globalMode,
+                  onSelected: (value) async {
+                    $globalMode.value = true;
+                  },
+                ),
+                ChoiceChip(
+                  label: i18n.proxy.proxyModeSchool.text(),
+                  selected: !globalMode,
+                  onSelected: (value) async {
+                    $globalMode.value = false;
+                  },
+                ),
+              ].wrap(spacing: 4),
+              trailing: Tooltip(
+                triggerMode: TooltipTriggerMode.tap,
+                message: globalMode ? i18n.proxy.proxyModeGlobalTip : i18n.proxy.proxyModeSchoolTip,
+                child: const Icon(Icons.info_outline),
+              ).padAll(8),
+            );
   }
-}
-
-Future<void> onHttpProxyFromQrCode({
-  required BuildContext context,
-  required Uri httpProxy,
-}) async {
-  await _setHttpProxy(httpProxy.toString());
-  await HapticFeedback.mediumImpact();
-  if (!context.mounted) return;
-  context.showSnackBar(content: i18n.proxy.proxyChangedTip.text());
-  context.push("/settings/proxy");
 }

@@ -16,19 +16,27 @@ sealed class DeepLinkHandlerProtocol {
   });
 
   static final List<DeepLinkHandlerProtocol> all = [
-    const HttpProxyDeepLink(),
+    const ProxyDeepLink(),
     const TimetablePaletteDeepLink(),
   ];
 }
 
-class HttpProxyDeepLink extends DeepLinkHandlerProtocol {
-  static const path = "http-proxy";
+class ProxyDeepLink extends DeepLinkHandlerProtocol {
+  static const path = "proxy";
 
-  const HttpProxyDeepLink();
+  const ProxyDeepLink();
 
   Uri encode(Uri httpProxy) => Uri(scheme: R.scheme, path: path, query: httpProxy.toString());
 
-  Uri decode(Uri qrCodeData) => Uri.parse(qrCodeData.query);
+  ({Uri? http, Uri? https, Uri? all}) decode(Uri qrCodeData) {
+    final param = qrCodeData.queryParameters;
+    final http = param["http"];
+    final https =param["https"];
+    final all = param["all"];
+    return (
+    http: http == null ? ,
+    );
+  }
 
   @override
   bool match(Uri encoded) {
