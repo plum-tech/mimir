@@ -5,10 +5,13 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/school/settings.dart';
+import 'package:sit/storage/hive/type_id.dart';
 import 'package:sit/timetable/settings.dart';
 import 'package:sit/utils/collection.dart';
 
 import '../life/settings.dart';
+
+part "settings.g.dart";
 
 class _K {
   static const ns = "/settings";
@@ -147,6 +150,17 @@ enum ProxyType {
   });
 }
 
+@HiveType(typeId: CoreHiveType.proxyMode)
+enum ProxyMode {
+  @HiveField(0)
+  global,
+  @HiveField(1)
+  schoolOnly;
+
+  String l10nName() => "settings.proxy.proxyMode.$name.name".tr();
+  String l10nTip() => "settings.proxy.proxyMode.$name.tip".tr();
+}
+
 class _ProxyK {
   static const ns = '/proxy';
 
@@ -154,10 +168,10 @@ class _ProxyK {
 
   static String enabled(ProxyType type) => "$ns/${type.name}/enabled";
 
-  static String globalMode(ProxyType type) => "$ns/${type.name}/globalMode";
+  static String proxyMode(ProxyType type) => "$ns/${type.name}/proxyMode";
 }
 
-typedef ProxyProfileRecords = ({String? address, bool enabled, bool globalMode});
+typedef ProxyProfileRecords = ({String? address, bool enabled, ProxyMode proxyMode});
 
 class ProxyProfile {
   final Box box;
@@ -174,10 +188,10 @@ class ProxyProfile {
 
   set enabled(bool newV) => box.put(_ProxyK.enabled(type), newV);
 
-  /// [false] by default.
-  bool get globalMode => box.get(_ProxyK.globalMode(type)) ?? false;
+  /// [ProxyMode.schoolOnly] by default.
+  ProxyMode get proxyMode => box.get(_ProxyK.proxyMode(type)) ?? ProxyMode.schoolOnly;
 
-  set globalMode(bool newV) => box.put(_ProxyK.globalMode(type), newV);
+  set proxyMode(ProxyMode newV) => box.put(_ProxyK.proxyMode(type), newV);
 }
 
 class _Proxy {
@@ -204,7 +218,7 @@ class _Proxy {
     final profile = resolve(type);
     profile.address = value.address;
     profile.enabled = value.enabled;
-    profile.globalMode = value.globalMode;
+    profile.proxyMode = value.proxyMode;
   }
 
   bool get anyEnabled => http.enabled || https.enabled || all.enabled;
@@ -217,16 +231,24 @@ class _Proxy {
 
   Listenable listenAnyEnabled() => box.listenable(keys: ProxyType.values.map((type) => _ProxyK.enabled(type)).toList());
 
-
-  bool get anyGlobalMode => http.globalMode || https.globalMode || all.globalMode;
-
-  set anyGlobalMode(bool value) {
-    http.globalMode = value;
-    https.globalMode = value;
-    all.globalMode = value;
+  /// return null if their proxy mode are not identical.
+  ProxyMode? getIntegratedProxyMode() {
+    final httpMode = http.proxyMode;
+    final httpsMode = https.proxyMode;
+    final allMode = all.proxyMode;
+    if (httpMode == httpsMode && httpMode == allMode) {
+      return httpMode;
+    } else {
+      return null;
+    }
   }
 
-  Listenable listenGlobalMode() => box.listenable(keys: ProxyType.values.map((type) => _ProxyK.globalMode(type)).toList());
+  setIntegratedProxyMode(ProxyMode mode) {
+    http.proxyMode = mode;
+    https.proxyMode = mode;
+    all.proxyMode = mode;
+  }
 
-
+  Listenable listenProxyMode() =>
+      box.listenable(keys: ProxyType.values.map((type) => _ProxyK.proxyMode(type)).toList());
 }

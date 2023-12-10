@@ -556,10 +556,12 @@ settings:
       desc: Proxy your HTTP requests
     proxyMode:
       title: Proxy mode
-      global: Global
-      school: School-only
-      globalTip: Access all networks by proxy
-      schoolTip: Access non-school networks bypass proxy
+      global:
+        name: Global
+        tip: Access all networks by proxy
+      schoolOnly:
+        name: School-only
+        tip: Access non-school networks bypass proxy
     proxyType:
       http: HTTP
       https: HTTPS

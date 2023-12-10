@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:sit/settings/settings.dart';
 
 class SitHttpOverrides extends HttpOverrides {
@@ -50,7 +49,7 @@ String? _buildProxyForType(ProxyType type, bool isSchoolLanRequired) {
   final address = profile.address;
   if (address == null) return null;
   if (!profile.enabled) return null;
-  if (!profile.globalMode && !isSchoolLanRequired) return null;
+  if (profile.proxyMode == ProxyMode.global && !isSchoolLanRequired) return null;
   return address;
 }
 

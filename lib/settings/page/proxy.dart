@@ -42,7 +42,8 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
           SliverList(
             delegate: SliverChildListDelegate([
               buildEnableProxyToggle(),
-              buildGlobalModeSwitcher(),
+              buildProxyModeSwitcher(),
+              const Divider(),
               buildProxyTypeTile(
                 ProxyType.http,
                 icon: const Icon(Icons.http),
@@ -65,7 +66,8 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     );
   }
 
-  Widget buildProxyTypeTile(ProxyType type, {
+  Widget buildProxyTypeTile(
+    ProxyType type, {
     required Widget icon,
   }) {
     return ListTile(
@@ -83,8 +85,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
 
   Widget buildEnableProxyToggle() {
     return Settings.proxy.listenAnyEnabled() >>
-            (ctx) =>
-            _EnableProxyToggleTile(
+        (ctx) => _EnableProxyToggleTile(
               enabled: Settings.proxy.anyEnabled,
               onChanged: (newV) {
                 setState(() {
@@ -94,16 +95,16 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
             );
   }
 
-  Widget buildGlobalModeSwitcher() {
-    return Settings.proxy.listenGlobalMode() >> (ctx) =>
-        _GlobalModeSwitcherTile(
-          globalMode: Settings.proxy.anyGlobalMode,
-          onChanged: (value) {
-            setState(() {
-              Settings.proxy.anyGlobalMode = true;
-            });
-          },
-        );
+  Widget buildProxyModeSwitcher() {
+    return Settings.proxy.listenProxyMode() >>
+        (ctx) => _ProxyModeSwitcherTile(
+              proxyMode: Settings.proxy.getIntegratedProxyMode(),
+              onChanged: (value) {
+                setState(() {
+                  Settings.proxy.setIntegratedProxyMode(value);
+                });
+              },
+            );
   }
 }
 
@@ -134,11 +135,10 @@ class ProxyShareQrCodeTile extends StatelessWidget {
             all: all,
           );
           context.show$Sheet$(
-                (context) =>
-                QrCodePage(
-                  title: i18n.proxy.title.text(),
-                  data: qrCodeData.toString(),
-                ),
+            (context) => QrCodePage(
+              title: i18n.proxy.title.text(),
+              data: qrCodeData.toString(),
+            ),
           );
         },
       ),
@@ -153,19 +153,13 @@ Future<void> onProxyFromQrCode({
   required Uri? all,
 }) async {
   if (http != null) {
-    Settings.proxy
-        .resolve(ProxyType.http)
-        .address = http.toString();
+    Settings.proxy.resolve(ProxyType.http).address = http.toString();
   }
   if (https != null) {
-    Settings.proxy
-        .resolve(ProxyType.https)
-        .address = https.toString();
+    Settings.proxy.resolve(ProxyType.https).address = https.toString();
   }
   if (http != null) {
-    Settings.proxy
-        .resolve(ProxyType.all)
-        .address = all.toString();
+    Settings.proxy.resolve(ProxyType.all).address = all.toString();
   }
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
@@ -189,7 +183,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   late final profile = Settings.proxy.resolve(widget.type);
   late var address = (profile.address == null ? null : Uri.tryParse(profile.address!)) ?? buildDefaultUri();
   late var enabled = profile.enabled;
-  late var globalMode = profile.globalMode;
+  late var globalMode = profile.proxyMode;
 
   ProxyType get type => widget.type;
 
@@ -232,7 +226,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
     return PlatformTextButton(
       child: i18n.save.text(),
       onPressed: () {
-        context.pop((address: address.toString(), enabled: enabled, globalMode: globalMode));
+        context.pop((address: address.toString(), enabled: enabled, proxyMode: globalMode));
       },
     );
   }
@@ -284,18 +278,17 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
       leading: const Icon(Icons.https),
       title: i18n.proxy.protocol.text(),
       subtitle: type.supportedProtocols
-          .map((protocol) =>
-          ChoiceChip(
-            label: protocol.toUpperCase().text(),
-            selected: protocol == scheme,
-            onSelected: (value) {
-              setState(() {
-                address = address.replace(
-                  scheme: protocol,
-                );
-              });
-            },
-          ))
+          .map((protocol) => ChoiceChip(
+                label: protocol.toUpperCase().text(),
+                selected: protocol == scheme,
+                onSelected: (value) {
+                  setState(() {
+                    address = address.replace(
+                      scheme: protocol,
+                    );
+                  });
+                },
+              ))
           .toList()
           .wrap(spacing: 4),
     );
@@ -387,21 +380,20 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
           onPressed: () async {
             final newAuth = await showAdaptiveDialog<({String username, String password})>(
               context: context,
-              builder: (_) =>
-                  StringsEditor(
-                    fields: [
-                      (name: "username", initial: auth?.username ?? ""),
-                      (name: "password", initial: auth?.password ?? ""),
-                    ],
-                    title: i18n.proxy.authentication,
-                    ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
-                  ),
+              builder: (_) => StringsEditor(
+                fields: [
+                  (name: "username", initial: auth?.username ?? ""),
+                  (name: "password", initial: auth?.password ?? ""),
+                ],
+                title: i18n.proxy.authentication,
+                ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
+              ),
             );
             if (newAuth != null && newAuth != auth) {
               setState(() {
                 address = address.replace(
                     userInfo:
-                    newAuth.password.isNotEmpty ? "${newAuth.username}:${newAuth.password}" : newAuth.username);
+                        newAuth.password.isNotEmpty ? "${newAuth.username}:${newAuth.password}" : newAuth.username);
               });
             }
           },
@@ -422,8 +414,8 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   }
 
   Widget buildProxyModeSwitcher() {
-    return _GlobalModeSwitcherTile(
-      globalMode: globalMode,
+    return _ProxyModeSwitcherTile(
+      proxyMode: globalMode,
       onChanged: (value) {
         setState(() {
           globalMode = value;
@@ -457,13 +449,13 @@ class _EnableProxyToggleTile extends StatelessWidget {
   }
 }
 
-class _GlobalModeSwitcherTile extends StatelessWidget {
-  final bool? globalMode;
-  final ValueChanged<bool> onChanged;
+class _ProxyModeSwitcherTile extends StatelessWidget {
+  final ProxyMode? proxyMode;
+  final ValueChanged<ProxyMode> onChanged;
 
-  const _GlobalModeSwitcherTile({
+  const _ProxyModeSwitcherTile({
     super.key,
-    required this.globalMode,
+    required this.proxyMode,
     required this.onChanged,
   });
 
@@ -473,22 +465,16 @@ class _GlobalModeSwitcherTile extends StatelessWidget {
       isThreeLine: true,
       leading: const Icon(Icons.public),
       title: i18n.proxy.proxyMode.text(),
-      subtitle: [
-        ChoiceChip(
-          label: i18n.proxy.proxyModeGlobal.text(),
-          selected: globalMode == true,
-          onSelected: (value) {
-            onChanged(true);
-          },
-        ),
-        ChoiceChip(
-          label: i18n.proxy.proxyModeSchool.text(),
-          selected: globalMode == false,
-          onSelected: (value) {
-            onChanged(false);
-          },
-        ),
-      ].wrap(spacing: 4),
+      subtitle: ProxyMode.values
+          .map((mode) => ChoiceChip(
+                label: mode.l10nName().text(),
+                selected: proxyMode == mode,
+                onSelected: (value) {
+                  onChanged(mode);
+                },
+              ))
+          .toList()
+          .wrap(spacing: 4),
       trailing: Tooltip(
         triggerMode: TooltipTriggerMode.tap,
         message: buildTooltip(),
@@ -498,10 +484,11 @@ class _GlobalModeSwitcherTile extends StatelessWidget {
   }
 
   String buildTooltip() {
-    return switch(globalMode){
-      true => i18n.proxy.proxyModeGlobalTip,
-      false => i18n.proxy.proxyModeSchoolTip,
-      null => "?"
-    };
+    final proxyMode = this.proxyMode;
+    if (proxyMode == null) {
+      return ProxyMode.values.map((mode) => "${mode.l10nName()}: ${mode.l10nTip()}").join("\n");
+    } else {
+      return proxyMode.l10nTip();
+    }
   }
 }

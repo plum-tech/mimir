@@ -18,6 +18,7 @@ import 'package:sit/school/class2nd/entity/list.dart';
 import 'package:sit/school/class2nd/entity/attended.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/yellow_pages/entity/contact.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/storage/hive/init.dart';
 
 import 'builtin.dart';
@@ -37,9 +38,8 @@ class HiveAdapter {
     hive.addAdapter(LoginStatusAdapter());
     hive.addAdapter(OaUserTypeAdapter());
 
-    // Shared
-    hive.addAdapter(SemesterAdapter());
-    hive.addAdapter(SemesterInfoAdapter());
+    // Settings
+    hive.addAdapter(ProxyModeAdapter());
   }
 
   static void registerCacheAdapters(HiveInterface hive) {

@@ -557,10 +557,12 @@ settings:
       desc: 代理你的 HTTP 請求
     proxyMode:
       title: 代理模式
-      global: 全域
-      school: 僅校園網路
-      globalTip: 通過代理訪問所有網路
-      schoolTip: 繞過代理訪問非校園網路
+      global:
+        name: 全域
+        tip: 通過代理訪問所有網路
+      schoolOnly:
+        name: 僅校園網路
+        tip: 繞過代理訪問非校園網路
     proxyType:
       http: HTTP
       https: HTTPS
