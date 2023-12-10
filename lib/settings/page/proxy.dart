@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/network/checker.dart';
 import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/qrcode/protocol.dart';
@@ -210,7 +211,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
           SliverList.list(children: [
             buildEnableProxyToggle(),
             buildProxyModeSwitcher(),
-            buildProxyFullTile(),
+            buildProxyUrlTile(),
             const Divider(),
             buildProxyProtocolTile(),
             buildProxyHostTile(),
@@ -231,17 +232,12 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
     );
   }
 
-  Widget buildProxyFullTile() {
+  Widget buildProxyUrlTile() {
     final address = this.address;
-    return ListTile(
+    return DetailListTile(
       leading: const Icon(Icons.link),
-      title: i18n.proxy.title.text(),
-      subtitle: address.toString().text(),
-      onLongPress: () async {
-        await Clipboard.setData(ClipboardData(text: address.toString()));
-        if (!mounted) return;
-        context.showSnackBar(content: i18n.copyTipOf(i18n.proxy.title).text());
-      },
+      title: "URL",
+      subtitle: address.toString(),
       trailing: IconButton(
         icon: const Icon(Icons.edit),
         onPressed: () async {
@@ -296,15 +292,10 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
 
   Widget buildProxyHostTile() {
     final host = address.host;
-    return ListTile(
+    return DetailListTile(
       leading: const Icon(Icons.link),
-      title: i18n.proxy.hostname.text(),
-      subtitle: host.text(),
-      onLongPress: () async {
-        await Clipboard.setData(ClipboardData(text: host));
-        if (!mounted) return;
-        context.showSnackBar(content: i18n.copyTipOf(i18n.proxy.hostname).text());
-      },
+      title: i18n.proxy.hostname,
+      subtitle: host,
       trailing: IconButton(
         icon: const Icon(Icons.edit),
         onPressed: () async {
@@ -329,15 +320,10 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
 
   Widget buildProxyPortTile() {
     int port = address.port;
-    return ListTile(
+    return DetailListTile(
       leading: const Icon(Icons.settings_input_component_outlined),
-      title: i18n.proxy.port.text(),
-      subtitle: port.toString().text(),
-      onLongPress: () async {
-        await Clipboard.setData(ClipboardData(text: port.toString()));
-        if (!mounted) return;
-        context.showSnackBar(content: i18n.copyTipOf(i18n.proxy.port).text());
-      },
+      title: i18n.proxy.port,
+      subtitle: port.toString(),
       trailing: IconButton(
         icon: const Icon(Icons.edit),
         onPressed: () async {
@@ -348,9 +334,11 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
           );
           if (newPort == null) return;
           if (newPort != port) {
-            address = address.replace(
-              port: newPort,
-            );
+            setState(() {
+              address = address.replace(
+                port: newPort,
+              );
+            });
           }
         },
       ),

@@ -538,7 +538,7 @@ settings:
   themeMode:
     title: Brightness
   proxy:
-    title: HTTP proxy
+    title: Proxy
     desc: Proxy the access to campus network
     authentication: Authentication
     protocol: Protocol
@@ -547,13 +547,13 @@ settings:
     username: Username
     password: Password
     invalidProxyFormatTip: Invalid proxy format
-    proxyChangedTip: HTTP proxy was changed
+    proxyChangedTip: Proxy was changed
     shareQrCode:
       title: Share QR code
-      desc: Share HTTP proxy as QR code
+      desc: Share proxy as QR code
     enableProxy:
-      title: Enable HTTP proxy
-      desc: Proxy your HTTP requests
+      title: Enable proxy
+      desc: Proxy your requests
     proxyMode:
       title: Proxy mode
       global:

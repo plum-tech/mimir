@@ -538,7 +538,7 @@ settings:
   themeMode:
     title: 亮度
   proxy:
-    title: HTTP 代理
+    title: 代理
     desc: 代理校园网连接
     authentication: 身份验证
     protocol: 协议
@@ -547,13 +547,13 @@ settings:
     username: 用户名
     password: 密码
     invalidProxyFormatTip: 代理的格式无效
-    proxyChangedTip: HTTP 代理已更改
+    proxyChangedTip: 代理已更改
     shareQrCode:
       title: 分享二维码
-      desc: 将 HTTP 代理通过二维码分享
+      desc: 将代理通过二维码分享
     enableProxy:
-      title: 启用 HTTP 代理
-      desc: 代理你的 HTTP 请求
+      title: 启用代理
+      desc: 代理你的请求
     proxyMode:
       title: 代理模式
       global:
