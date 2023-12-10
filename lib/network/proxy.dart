@@ -17,6 +17,7 @@ class SitHttpOverrides extends HttpOverrides {
         return 'DIRECT';
       } else {
         final env = _toEnvMap(profiles);
+        // TODO: Socks proxy doesn't work with env
         return HttpClient.findProxyFromEnvironment(
           url,
           environment: env,

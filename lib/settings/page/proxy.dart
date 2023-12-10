@@ -53,10 +53,11 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                 ProxyType.https,
                 icon: const Icon(Icons.https),
               ),
-              buildProxyTypeTile(
-                ProxyType.all,
-                icon: const Icon(Icons.public),
-              ),
+              if (Settings.isDeveloperMode)
+                buildProxyTypeTile(
+                  ProxyType.all,
+                  icon: const Icon(Icons.public),
+                ),
               const Divider(),
               const TestConnectionTile(),
               const ProxyShareQrCodeTile(),
@@ -74,6 +75,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     return ListTile(
       leading: icon,
       title: type.l10n().text(),
+      subtitle: Settings.proxy.resolve(type).address?.text(),
       trailing: const Icon(Icons.open_in_new),
       onTap: () async {
         final profile = await context.show$Sheet$<ProxyProfileRecords>((ctx) => ProxyProfileEditorPage(type: type));
