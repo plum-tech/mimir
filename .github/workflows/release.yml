@@ -69,7 +69,7 @@ jobs:
         python3 ./ios-build-tools/toDistribution.py
 
     - name: Install Apple Certificate
-      uses: apple-actions/import-codesign-certs@v1
+      uses: apple-actions/import-codesign-certs@v2
       with:
         p12-file-base64: ${{ secrets.P12_BASE64 }}
         p12-password: ${{ secrets.P12_PASSWORD }}
