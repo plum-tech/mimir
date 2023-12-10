@@ -212,8 +212,21 @@ class _Proxy {
   set anyEnabled(bool value) {
     http.enabled = value;
     https.enabled = value;
-    all.enabled;
+    all.enabled = value;
   }
 
   Listenable listenAnyEnabled() => box.listenable(keys: ProxyType.values.map((type) => _ProxyK.enabled(type)).toList());
+
+
+  bool get anyGlobalMode => http.globalMode || https.globalMode || all.globalMode;
+
+  set anyGlobalMode(bool value) {
+    http.globalMode = value;
+    https.globalMode = value;
+    all.globalMode = value;
+  }
+
+  Listenable listenGlobalMode() => box.listenable(keys: ProxyType.values.map((type) => _ProxyK.globalMode(type)).toList());
+
+
 }

@@ -69,18 +69,13 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
 
   Widget buildEnableProxyToggle() {
     return Settings.proxy.listenAnyEnabled() >>
-        (ctx) => ListTile(
-              title: i18n.proxy.enableProxy.text(),
-              subtitle: i18n.proxy.enableProxyDesc.text(),
-              leading: const Icon(Icons.vpn_key),
-              trailing: Switch.adaptive(
-                value: Settings.proxy.anyEnabled,
-                onChanged: (newV) async {
-                  setState(() {
-                    Settings.proxy.anyEnabled = newV;
-                  });
-                },
-              ),
+        (ctx) => _EnableProxyToggleTile(
+              enabled: Settings.proxy.anyEnabled,
+              onChanged: (newV) {
+                setState(() {
+                  Settings.proxy.anyEnabled = newV;
+                });
+              },
             );
   }
 }
@@ -199,13 +194,13 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
     );
   }
 
-  Widget buildSaveAction(){
-   return PlatformTextButton(
-     child: i18n.save.text(),
-     onPressed: (){
-       context.pop();
-     },
-   ) ;
+  Widget buildSaveAction() {
+    return PlatformTextButton(
+      child: i18n.save.text(),
+      onPressed: () {
+        context.pop((address: address.toString(), enabled: enabled, globalMode: globalMode));
+      },
+    );
   }
 
   Widget buildProxyFullTile() {
@@ -380,18 +375,13 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   }
 
   Widget buildEnableProxyToggle() {
-    return ListTile(
-      title: i18n.proxy.enableProxy.text(),
-      subtitle: i18n.proxy.enableProxyDesc.text(),
-      leading: const Icon(Icons.vpn_key),
-      trailing: Switch.adaptive(
-        value: enabled,
-        onChanged: (newV) async {
-          setState(() {
-            enabled = newV;
-          });
-        },
-      ),
+    return _EnableProxyToggleTile(
+      enabled: enabled,
+      onChanged: (newV) {
+        setState(() {
+          enabled = newV;
+        });
+      },
     );
   }
 
@@ -426,5 +416,38 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
         child: const Icon(Icons.info_outline),
       ).padAll(8),
     );
+  }
+}
+
+class _EnableProxyToggleTile extends StatelessWidget {
+  final bool enabled;
+  final ValueChanged<bool> onChanged;
+
+  const _EnableProxyToggleTile({
+    super.key,
+    required this.enabled,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: i18n.proxy.enableProxy.text(),
+      subtitle: i18n.proxy.enableProxyDesc.text(),
+      leading: const Icon(Icons.vpn_key),
+      trailing: Switch.adaptive(
+        value: enabled,
+        onChanged: onChanged,
+      ),
+    );
+  }
+}
+
+class _GlobalModeSwitcherTile extends StatelessWidget {
+  const _GlobalModeSwitcherTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
