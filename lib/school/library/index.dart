@@ -1,11 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/credentials/init.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/app.dart';
+import 'package:sit/school/library/page/borrowing.dart';
 
 import './i18n.dart';
+import 'entity/borrow.dart';
+import 'init.dart';
 import 'page/search.dart';
+import 'utils.dart';
 
 class LibraryAppCard extends StatefulWidget {
   const LibraryAppCard({super.key});
@@ -16,16 +22,19 @@ class LibraryAppCard extends StatefulWidget {
 
 class _LibraryAppCardState extends State<LibraryAppCard> {
   final $credentials = CredentialsInit.storage.listenLibraryChange();
+  final $borrowedBooks = LibraryInit.borrowStorage.listenBorrowedBooks();
 
   @override
   void initState() {
     $credentials.addListener(onCredentialsChanged);
+    $borrowedBooks.addListener(onBorrowedBooksRefresh);
     super.initState();
   }
 
   @override
   void dispose() {
     $credentials.removeListener(onCredentialsChanged);
+    $borrowedBooks.removeListener(onBorrowedBooksRefresh);
     super.dispose();
   }
 
@@ -33,11 +42,17 @@ class _LibraryAppCardState extends State<LibraryAppCard> {
     setState(() {});
   }
 
+  void onBorrowedBooksRefresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final credentials = CredentialsInit.storage.libraryCredentials;
+    final borrowedBooks = LibraryInit.borrowStorage.getBorrowedBooks();
     return AppCard(
       title: i18n.title.text(),
+      view: borrowedBooks == null ? null : buildBorrowedBook(borrowedBooks),
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
@@ -62,6 +77,32 @@ class _LibraryAppCardState extends State<LibraryAppCard> {
             label: i18n.action.borrowing.text(),
           )
       ],
+    );
+  }
+
+  Widget? buildBorrowedBook(List<BorrowedBookItem> books) {
+    if (books.isEmpty) return null;
+    final book = books.first;
+    final card = BorrowedBookCard(
+      book,
+      elevated: true,
+    );
+    if (!isCupertino) return card;
+    return Builder(
+      builder: (ctx) => CupertinoContextMenu.builder(
+        enableHapticFeedback: true,
+        actions: [
+          CupertinoContextMenuAction(
+            trailingIcon: CupertinoIcons.refresh,
+            onPressed: () async {
+              Navigator.of(context, rootNavigator: true).pop();
+              await renewBorrowedBook(ctx, book.barcode);
+            },
+            child: i18n.borrowing.renew.text(),
+          ),
+        ],
+        builder: (ctx, animation) => card,
+      ),
     );
   }
 }

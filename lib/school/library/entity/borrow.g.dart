@@ -8,7 +8,7 @@ part of 'borrow.dart';
 
 class BorrowedBookItemAdapter extends TypeAdapter<BorrowedBookItem> {
   @override
-  final int typeId = 97;
+  final int typeId = 108;
 
   @override
   BorrowedBookItem read(BinaryReader reader) {
@@ -67,7 +67,7 @@ class BorrowedBookItemAdapter extends TypeAdapter<BorrowedBookItem> {
 
 class BookBorrowingHistoryItemAdapter extends TypeAdapter<BookBorrowingHistoryItem> {
   @override
-  final int typeId = 98;
+  final int typeId = 109;
 
   @override
   BookBorrowingHistoryItem read(BinaryReader reader) {
@@ -77,7 +77,7 @@ class BookBorrowingHistoryItemAdapter extends TypeAdapter<BookBorrowingHistoryIt
     };
     return BookBorrowingHistoryItem(
       bookId: fields[0] as String,
-      operateType: fields[2] as String,
+      operation: fields[2] as BookBorrowingHistoryOperation,
       barcode: fields[3] as String,
       title: fields[4] as String,
       isbn: fields[5] as String,
@@ -98,7 +98,7 @@ class BookBorrowingHistoryItemAdapter extends TypeAdapter<BookBorrowingHistoryIt
       ..writeByte(1)
       ..write(obj.processDate)
       ..writeByte(2)
-      ..write(obj.operateType)
+      ..write(obj.operation)
       ..writeByte(3)
       ..write(obj.barcode)
       ..writeByte(4)
@@ -122,4 +122,41 @@ class BookBorrowingHistoryItemAdapter extends TypeAdapter<BookBorrowingHistoryIt
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is BookBorrowingHistoryItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+}
+
+class BookBorrowingHistoryOperationAdapter extends TypeAdapter<BookBorrowingHistoryOperation> {
+  @override
+  final int typeId = 110;
+
+  @override
+  BookBorrowingHistoryOperation read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return BookBorrowingHistoryOperation.borrowing;
+      case 1:
+        return BookBorrowingHistoryOperation.returning;
+      default:
+        return BookBorrowingHistoryOperation.borrowing;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, BookBorrowingHistoryOperation obj) {
+    switch (obj) {
+      case BookBorrowingHistoryOperation.borrowing:
+        writer.writeByte(0);
+        break;
+      case BookBorrowingHistoryOperation.returning:
+        writer.writeByte(1);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is BookBorrowingHistoryOperationAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

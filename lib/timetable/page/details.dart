@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/l10n/time.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../i18n.dart';
@@ -87,15 +88,16 @@ class CourseDescCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final weekNumbers = course.localizedWeekNumbers();
+    final weekNumbers = course.weekIndices.l10n();
     final (:begin, :end) = course.calcBeginEndTimePoint();
-    final timeText = "$begin–$end";
     return ListTile(
       title: course.place.text(),
       subtitle: [
-        "$weekNumbers $timeText".text(),
-        course.teachers.join(", ").text(),
+        "${Weekday.fromIndex(course.dayIndex).l10n()} ${begin.l10n(context)}–${end.l10n(context)}".text(),
+        if (course.teachers.length > 1) course.teachers.join(", ").text(),
+        ...weekNumbers.map((n) => n.text()),
       ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
+      trailing: course.teachers.length == 1 ? course.teachers.first.text() : null,
     );
   }
 }

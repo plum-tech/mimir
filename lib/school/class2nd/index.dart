@@ -132,12 +132,11 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
     required Class2ndPointsSummary summary,
     required Class2ndPointsSummary target,
   }) {
-    if (!isCupertino) {
-      return Class2ndScoreSummeryCard(
-        targetScore: target,
-        summary: summary,
-      ).constrained(maxH: 250);
-    }
+    final card = Class2ndScoreSummeryCard(
+      targetScore: target,
+      summary: summary,
+    ).constrained(maxH: 250);
+    if (!isCupertino) return card;
     return Builder(
       builder: (ctx) => CupertinoContextMenu.builder(
         enableHapticFeedback: true,
@@ -151,10 +150,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
             child: i18n.share.text(),
           ),
         ],
-        builder: (ctx, animation) => Class2ndScoreSummeryCard(
-          targetScore: target,
-          summary: summary,
-        ).constrained(maxH: 250),
+        builder: (ctx, animation) => card,
       ),
     );
   }

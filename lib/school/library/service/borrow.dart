@@ -36,7 +36,7 @@ class LibraryBorrowService {
       final columnsText = columns.map((e) => e.text.trim()).toList();
       return BookBorrowingHistoryItem(
         bookId: columns[0].find('input')!.attributes['value']!,
-        operateType: columnsText[0],
+        operation: _parseOpType(columnsText[0]),
         barcode: columnsText[1],
         title: columnsText[2],
         isbn: columnsText[3],
@@ -47,6 +47,15 @@ class LibraryBorrowService {
         processDate: _historyDateFormat.parse(columnsText[8]),
       );
     }).toList();
+  }
+
+  BookBorrowingHistoryOperation _parseOpType(String text) {
+    if (text == "还书") {
+      return BookBorrowingHistoryOperation.returning;
+    } else if (text == "借书") {
+      return BookBorrowingHistoryOperation.borrowing;
+    }
+    return BookBorrowingHistoryOperation.borrowing;
   }
 
   Future<List<BorrowedBookItem>> getMyBorrowBookList() async {

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/entity/login_status.dart';
@@ -18,6 +19,7 @@ import 'package:sit/school/class2nd/entity/list.dart';
 import 'package:sit/school/class2nd/entity/attended.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/yellow_pages/entity/contact.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/storage/hive/init.dart';
 
 import 'builtin.dart';
@@ -26,6 +28,7 @@ class HiveAdapter {
   HiveAdapter._();
 
   static void registerCoreAdapters(HiveInterface hive) {
+    debugPrint("Register core Hive type");
     // Basic
     hive.addAdapter(SizeAdapter());
     hive.addAdapter(VersionAdapter());
@@ -37,12 +40,12 @@ class HiveAdapter {
     hive.addAdapter(LoginStatusAdapter());
     hive.addAdapter(OaUserTypeAdapter());
 
-    // Shared
-    hive.addAdapter(SemesterAdapter());
-    hive.addAdapter(SemesterInfoAdapter());
+    // Settings
+    hive.addAdapter(ProxyModeAdapter());
   }
 
   static void registerCacheAdapters(HiveInterface hive) {
+    debugPrint("Register cache Hive type");
     // Electric Bill
     hive.addAdapter(ElectricityBalanceAdapter());
 
@@ -71,10 +74,6 @@ class HiveAdapter {
     hive.addAdapter(ExamResultUgAdapter());
     hive.addAdapter(ExamResultItemAdapter());
     hive.addAdapter(ExamResultPgAdapter());
-    hive.addAdapter(ExamResultUgAdapter());
-
-    // Library
-    // ~LibrarySearchHistoryItemAdapter();
 
     // Expense Records
     hive.addAdapter(TransactionAdapter());
@@ -88,6 +87,7 @@ class HiveAdapter {
     hive.addAdapter(BookDetailsAdapter());
     hive.addAdapter(BorrowedBookItemAdapter());
     hive.addAdapter(BookBorrowingHistoryItemAdapter());
+    hive.addAdapter(BookBorrowingHistoryOperationAdapter());
     hive.addAdapter(BookImageAdapter());
 
     // Shared

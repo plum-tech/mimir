@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/library/init.dart';
+import 'package:sit/school/library/utils.dart';
 import 'package:sit/utils/error.dart';
 
 import '../entity/borrow.dart';
@@ -81,7 +81,10 @@ class _LibraryBorrowingPageState extends State<LibraryBorrowingPage> {
             SliverList.builder(
               itemCount: borrowed.length,
               itemBuilder: (ctx, i) {
-                return BorrowedBookCard(borrowed[i]);
+                return BorrowedBookCard(
+                  borrowed[i],
+                  elevated: false,
+                );
               },
             ),
         ],
@@ -92,51 +95,41 @@ class _LibraryBorrowingPageState extends State<LibraryBorrowingPage> {
 
 class BorrowedBookCard extends StatelessWidget {
   final BorrowedBookItem book;
+  final bool elevated;
 
   const BorrowedBookCard(
     this.book, {
     super.key,
+    required this.elevated,
   });
 
   @override
   Widget build(BuildContext context) {
-    return FilledCard(
-      child: ListTile(
-        leading: AsyncBookImage(isbn: book.isbn),
-        title: book.title.text(),
-        subtitle: [
-          book.author.text(),
-          "${i18n.info.barcode} ${book.barcode}".text(),
-          "${i18n.info.isbn} ${book.isbn}".text(),
-          "${context.formatYmdText(book.borrowDate)}–${context.formatYmdText(book.expireDate)}".text(),
-        ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
-        onTap: () async {
-          await context.show$Sheet$(
-            (ctx) => BookDetailsPage(
-              book: BookModel.fromBorrowed(book),
-              actions: [
-                PlatformTextButton(
-                  onPressed: () async {
-                    await renew(context);
-                  },
-                  child: i18n.borrowing.renew.text(),
-                )
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Future<void> renew(BuildContext context) async {
-    try {
-      final result = await LibraryInit.borrowService.renewBook(barcodeList: [book.barcode]);
-      if (!context.mounted) return;
-      await context.showTip(title: i18n.borrowing.renew, ok: i18n.ok, desc: result);
-    } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
-    }
+    return ListTile(
+      leading: AsyncBookImage(isbn: book.isbn),
+      title: book.title.text(),
+      subtitle: [
+        book.author.text(),
+        "${i18n.info.barcode} ${book.barcode}".text(),
+        "${i18n.info.isbn} ${book.isbn}".text(),
+        "${context.formatYmdText(book.borrowDate)}–${context.formatYmdText(book.expireDate)}".text(),
+      ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
+      onTap: () async {
+        await context.show$Sheet$(
+          (ctx) => BookDetailsPage(
+            book: BookModel.fromBorrowed(book),
+            actions: [
+              PlatformTextButton(
+                onPressed: () async {
+                  await renewBorrowedBook(context, book.barcode);
+                },
+                child: i18n.borrowing.renew.text(),
+              )
+            ],
+          ),
+        );
+      },
+    ).inAnyCard(clip: Clip.hardEdge, type: elevated ? CardType.plain : CardType.filled);
   }
 }
 
@@ -227,7 +220,7 @@ class BookBorrowHistoryCard extends StatelessWidget {
           "${i18n.info.isbn} ${book.isbn}".text(),
           context.formatYmdText(book.processDate).text(),
         ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
-        trailing: book.operateType.text(),
+        trailing: book.operation.l10n().text(),
         onTap: () async {
           await context.show$Sheet$(
             (ctx) => BookDetailsPage(

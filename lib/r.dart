@@ -8,13 +8,13 @@ class R {
   const R._();
 
   static const scheme = "life.mysit";
-  static const hiveStorageVersion = "1.0.0+13";
+  static const hiveStorageVersion = "2.0.0+14";
   static const appId = "life.mysit.SITLife";
   static const appName = "SIT Life";
   static late AppVersion currentVersion;
 
   /// For debugging iOS on other platforms.
-  static const debugCupertino = kDebugMode ? true : false;
+  static const debugCupertino = kDebugMode ? false : false;
 
   /// The default window size is small enough for any modern desktop device.
   static const Size defaultWindowSize = Size(500, 800);

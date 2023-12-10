@@ -5,6 +5,10 @@ import 'package:sit/l10n/time.dart';
 import 'package:sit/r.dart';
 
 abstract class RegionalFormatter {
+  DateFormat get hms;
+
+  DateFormat get hm;
+
   DateFormat get ymdText;
 
   DateFormat get ymdWeekText;
@@ -31,20 +35,21 @@ class Lang {
 
   static final zhHansFormatter = _ZhHansFormatter();
   static final zhHantFormatter = _ZhHantFormatter();
-  static final enFormatter = _EnFormatter();
+  static final enFormatter = _EnUsFormatter();
   static final locale2Format = {
-    R.enLocale: _EnFormatter(),
+    R.enLocale: _EnUsFormatter(),
     R.zhHansLocale: _ZhHansFormatter(),
     R.zhHantLocale: _ZhHantFormatter(),
   };
-
-  static final hms = DateFormat("H:mm:ss");
-  static final hm = DateFormat("H:mm");
 
   static RegionalFormatter formatOf(Locale locale) => locale2Format[locale] ?? zhHansFormatter;
 }
 
 class _ZhHansFormatter implements RegionalFormatter {
+  @override
+  final hms = DateFormat("H:mm:ss");
+  @override
+  final hm = DateFormat("H:mm");
   @override
   final ymdText = DateFormat("yyyy年M月d日", "zh_Hans");
   @override
@@ -69,6 +74,10 @@ class _ZhHansFormatter implements RegionalFormatter {
 
 class _ZhHantFormatter implements RegionalFormatter {
   @override
+  final hms = DateFormat("H:mm:ss");
+  @override
+  final hm = DateFormat("H:mm");
+  @override
   final ymdText = DateFormat("yyyy年M月d日", "zh_Hant");
   @override
   final ymdWeekText = DateFormat("yyyy年M月d日 EEEE", "zh_Hant");
@@ -90,8 +99,11 @@ class _ZhHantFormatter implements RegionalFormatter {
   final firstDayInWeek = Weekday.monday;
 }
 
-// TODO: Using AM and PM
-class _EnFormatter implements RegionalFormatter {
+class _EnUsFormatter implements RegionalFormatter {
+  @override
+  final hms = DateFormat.jms();
+  @override
+  final hm = DateFormat.jm();
   @override
   final ymdText = DateFormat("MMMM d, yyyy", "en_US");
   @override
@@ -103,11 +115,11 @@ class _EnFormatter implements RegionalFormatter {
   @override
   final ymdNum = DateFormat("M/d/yyyy", "en_US");
   @override
-  final ymdhmsNum = DateFormat("M/d/yyyy H:mm:ss", "en_US");
+  final ymdhmsNum = DateFormat("M/d/yyyy", "en_US").add_jms();
   @override
-  final ymdhmNum = DateFormat("M/d/yyyy H:mm", "en_US");
+  final ymdhmNum = DateFormat("M/d/yyyy", "en_US").add_jm();
   @override
-  final mdHmNum = DateFormat("M/d H:mm", "en_US");
+  final mdHmNum = DateFormat("M/d", "en_US").add_jm();
   @override
   final mdNum = DateFormat("M/d", "en_US");
   @override

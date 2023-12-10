@@ -65,11 +65,11 @@ timetable:
   displayMode:
     daily: 日
     weekly: 周
-  weekStep:
-    single: 周
-    all: 周
-    odd: 单周
-    even: 双周
+  weekIndexType:
+    single: "第 {} 周"
+    all: "第 {start} 周到第 {end} 周"
+    odd: "第 {start} 周到第 {end} 周中的单周"
+    even: "第 {start} 周到第 {end} 周中的双周"
   freeTip:
     dayTip: 好耶，没课的一天！
     isTodayTip: 尽情享受今天吧！
@@ -298,9 +298,13 @@ eduEmail:
   login:
     title: 登录教育邮箱
     addressHint: 学号/工号
+    passwordHint: 你的邮箱密码
+    invalidEmailAddressFormatTip: 无效的邮箱地址格式
     failedWarn:
       title: 登录失败
       desc: 请检查密码
+  info:
+    emailAddress: 邮箱地址
   inbox:
     title: 收件箱
   outbox:
@@ -451,7 +455,10 @@ library:
     history: 历史
     renew: 续借
   history:
-    title: 借阅历史
+    title: 历史
+    operation:
+      borrowing: 借书
+      returning: 还书
   searchMethod:
     any: 任意
     title: 标题
@@ -538,7 +545,7 @@ settings:
   themeMode:
     title: 亮度
   proxy:
-    title: HTTP 代理
+    title: 代理
     desc: 代理校园网连接
     authentication: 身份验证
     protocol: 协议
@@ -547,19 +554,25 @@ settings:
     username: 用户名
     password: 密码
     invalidProxyFormatTip: 代理的格式无效
-    proxyChangedTip: HTTP 代理已更改
+    proxyChangedTip: 代理已更改
     shareQrCode:
       title: 分享二维码
-      desc: 将 HTTP 代理通过二维码分享
+      desc: 将代理通过二维码分享
     enableProxy:
-      title: 启用 HTTP 代理
-      desc: 代理你的 HTTP 请求
+      title: 启用代理
+      desc: 代理你的请求
     proxyMode:
       title: 代理模式
-      global: 全局
-      school: 仅学校服务器
-      globalTip: 通过代理访问所有网络
-      schoolTip: 仅通过代理访问学校服务器
+      global:
+        name: 全局
+        tip: 通过代理访问所有网络
+      schoolOnly:
+        name: 仅学校服务器
+        tip: 仅通过代理访问学校服务器
+    proxyType:
+      http: HTTP
+      https: HTTPS
+      all: 全部
   language: 语言
   wipeData:
     title: 擦除数据并登出

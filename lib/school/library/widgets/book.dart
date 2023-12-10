@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:sit/utils/error.dart';
 
 import '../aggregated.dart';
 import '../entity/image.dart';
@@ -31,11 +32,15 @@ class _AsyncBookImageState extends State<AsyncBookImage> {
   }
 
   Future<void> fetch() async {
-    final image = await LibraryAggregated.fetchBookImage(isbn: widget.isbn);
-    if (!mounted) return;
-    setState(() {
-      this.image = image;
-    });
+    try {
+      final image = await LibraryAggregated.fetchBookImage(isbn: widget.isbn);
+      if (!mounted) return;
+      setState(() {
+        this.image = image;
+      });
+    } catch (error, stackTrace) {
+      debugPrintError(error, stackTrace);
+    }
   }
 
   @override

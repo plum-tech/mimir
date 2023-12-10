@@ -9,6 +9,7 @@ class CoreHiveType {
   static const credentials = 4;
   static const loginStatus = 5;
   static const oaUserType = 6;
+  static const proxyMode = 7;
 }
 
 class CacheHiveType {
@@ -61,10 +62,11 @@ class CacheHiveType {
   static const schoolContact = _yellowPages + 0;
 
   // Library 20
-  static const _library = _oaAnnounce + 5;
+  static const _library = _yellowPages + 5;
   static const libraryBook = _library + 0;
-  static const libraryBookDetails = _library + 1;
-  static const libraryBorrowedBook = _library + 2;
-  static const libraryBorrowingHistory = _library + 3;
-  static const libraryBookImage = _library + 4;
+  static const libraryBookImage = _library + 1;
+  static const libraryBookDetails = _library + 2;
+  static const libraryBorrowedBook = _library + 3;
+  static const libraryBorrowingHistory = _library + 4;
+  static const libraryBorrowingHistoryOp = _library + 5;
 }

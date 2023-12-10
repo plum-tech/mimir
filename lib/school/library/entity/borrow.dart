@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:sit/storage/hive/type_id.dart';
 
 part "borrow.g.dart";
@@ -63,6 +64,16 @@ class BorrowedBookItem {
   }
 }
 
+@HiveType(typeId: CacheHiveType.libraryBorrowingHistoryOp)
+enum BookBorrowingHistoryOperation {
+  @HiveField(0)
+  borrowing,
+  @HiveField(1)
+  returning;
+
+  String l10n() => "library.history.operation.$name".tr();
+}
+
 @HiveType(typeId: CacheHiveType.libraryBorrowingHistory)
 class BookBorrowingHistoryItem {
   @HiveField(0)
@@ -72,7 +83,7 @@ class BookBorrowingHistoryItem {
   final DateTime processDate;
 
   @HiveField(2)
-  final String operateType;
+  final BookBorrowingHistoryOperation operation;
 
   @HiveField(3)
   final String barcode;
@@ -97,7 +108,7 @@ class BookBorrowingHistoryItem {
 
   const BookBorrowingHistoryItem({
     required this.bookId,
-    required this.operateType,
+    required this.operation,
     required this.barcode,
     required this.title,
     required this.isbn,
@@ -112,7 +123,7 @@ class BookBorrowingHistoryItem {
   String toString() {
     return {
       "bookId": bookId,
-      "operateType": operateType,
+      "operateType": operation,
       "barcode": barcode,
       "title": title,
       "isbn": isbn,

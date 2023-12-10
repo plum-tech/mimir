@@ -312,9 +312,9 @@ class ClassTimeCard extends StatelessWidget {
       color: color,
       margin: 10,
       child: [
-        classTime.begin.toStringPrefixed0().text(style: const TextStyle(fontWeight: FontWeight.bold)),
+        classTime.begin.l10n(context).text(style: const TextStyle(fontWeight: FontWeight.bold)),
         SizedBox(height: 5.h),
-        classTime.end.toStringPrefixed0().text(),
+        classTime.end.l10n(context).text(),
       ].column(),
     );
   }
