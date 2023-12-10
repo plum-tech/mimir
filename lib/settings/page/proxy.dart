@@ -72,18 +72,23 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     ProxyType type, {
     required Widget icon,
   }) {
-    return ListTile(
-      leading: icon,
-      title: type.l10n().text(),
-      subtitle: Settings.proxy.resolve(type).address?.text(),
-      trailing: const Icon(Icons.open_in_new),
-      onTap: () async {
-        final profile = await context.show$Sheet$<ProxyProfileRecords>((ctx) => ProxyProfileEditorPage(type: type));
-        if (profile != null) {
-          Settings.proxy.setProfile(type, profile);
-        }
-      },
-    );
+    return Settings.proxy.listenAnyChange(type: type) >>
+        (ctx) {
+          final profile = Settings.proxy.resolve(type);
+          return ListTile(
+            leading: icon,
+            title: type.l10n().text(),
+            subtitle: profile.enabled ? profile.address?.text() : null,
+            trailing: const Icon(Icons.open_in_new),
+            onTap: () async {
+              final profile =
+                  await context.show$Sheet$<ProxyProfileRecords>((ctx) => ProxyProfileEditorPage(type: type));
+              if (profile != null) {
+                Settings.proxy.setProfile(type, profile);
+              }
+            },
+          );
+        };
   }
 
   Widget buildEnableProxyToggle() {

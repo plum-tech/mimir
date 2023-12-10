@@ -158,6 +158,7 @@ enum ProxyMode {
   schoolOnly;
 
   String l10nName() => "settings.proxy.proxyMode.$name.name".tr();
+
   String l10nTip() => "settings.proxy.proxyMode.$name.tip".tr();
 }
 
@@ -251,4 +252,18 @@ class _Proxy {
 
   Listenable listenProxyMode() =>
       box.listenable(keys: ProxyType.values.map((type) => _ProxyK.proxyMode(type)).toList());
+
+  Listenable listenAnyChange({bool address = true, bool enabled = true, ProxyType? type}) {
+    if (type == null) {
+      return box.listenable(keys: [
+        if (address) ProxyType.values.map((type) => _ProxyK.address(type)),
+        if (enabled) ProxyType.values.map((type) => _ProxyK.enabled(type)),
+      ]);
+    } else {
+      return box.listenable(keys: [
+        if (address) _ProxyK.address(type),
+        if (enabled) _ProxyK.enabled(type),
+      ]);
+    }
+  }
 }
