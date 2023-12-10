@@ -53,13 +53,13 @@ class BookImageAdapter extends TypeAdapter<BookImage> {
 BookImage _$BookImageFromJson(Map<String, dynamic> json) => BookImage(
       isbn: json['isbn'] as String,
       coverUrl: json['coverlink'] as String,
-      resourceUrl: json['resourceUrl'] as String,
+      resourceUrl: json['resourceLink'] as String,
       status: json['status'] as int,
     );
 
 Map<String, dynamic> _$BookImageToJson(BookImage instance) => <String, dynamic>{
       'isbn': instance.isbn,
       'coverlink': instance.coverUrl,
-      'resourceUrl': instance.resourceUrl,
+      'resourceLink': instance.resourceUrl,
       'status': instance.status,
     };

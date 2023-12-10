@@ -11,6 +11,7 @@ class BookImage {
   @JsonKey(name: 'coverlink')
   @HiveField(1)
   final String coverUrl;
+  @JsonKey(name: 'resourceLink')
   @HiveField(2)
   final String resourceUrl;
   @HiveField(3)

@@ -23,7 +23,7 @@ class ExamArrangementListPage extends StatefulWidget {
 class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
   List<ExamEntry>? examList;
   bool isLoading = false;
-  late SemesterInfo initial =ExamArrangeInit.storage.lastSemesterInfo ?? estimateCurrentSemester();
+  late SemesterInfo initial = ExamArrangeInit.storage.lastSemesterInfo ?? estimateCurrentSemester();
   late SemesterInfo selected = initial;
 
   @override
