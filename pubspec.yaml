@@ -10,7 +10,7 @@ issue_tracker: https://github.com/liplum/mimir/issues
 documentation: https://github.com/liplum/mimir#readme
 
 publish_to: none
-environment: { sdk: '>=3.2.2 <4.0.0', flutter: ^3.16.2 }
+environment: { sdk: '>=3.2.2 <4.0.0', flutter: ^3.16.3 }
 
 dependencies:
   flutter: { sdk: flutter }
@@ -64,7 +64,7 @@ dependencies:
   flutter_html: ^3.0.0-beta.2
 
   # Email
-  enough_mail: ^2.1.5
+  enough_mail: ^2.1.6
   enough_mail_html: ^2.0.1
 
   # Platform
@@ -76,7 +76,7 @@ dependencies:
   app_links: ^3.4.5
   # Open with other APP/programs
   open_file: ^3.3.2
-  url_launcher: ^6.2.1
+  url_launcher: ^6.2.2
   # Open Android / iOS system image picker
   image_picker: ^1.0.4
   file_picker: ^6.0.0
