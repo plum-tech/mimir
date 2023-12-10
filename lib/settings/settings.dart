@@ -148,6 +148,18 @@ enum ProxyType {
     required this.supportedProtocols,
     required this.defaultProtocol,
   });
+
+  Uri buildDefaultUri() => Uri(scheme: defaultProtocol, host: defaultHost, port: defaultPort);
+
+  bool isDefaultUri(Uri uri) {
+    if (uri.scheme != defaultProtocol) return false;
+    if (uri.host != defaultHost) return false;
+    if (uri.port != defaultPort) return false;
+    if (uri.hasQuery) return false;
+    if (uri.hasFragment) return false;
+    if (uri.userInfo.isNotEmpty) return false;
+    return true;
+  }
 }
 
 @HiveType(typeId: CoreHiveType.proxyMode)
@@ -193,6 +205,14 @@ class ProxyProfile {
   ProxyMode get proxyMode => box.get(_ProxyK.proxyMode(type)) ?? ProxyMode.schoolOnly;
 
   set proxyMode(ProxyMode newV) => box.put(_ProxyK.proxyMode(type), newV);
+
+  bool get isDefaultAddress {
+    final address = this.address;
+    if (address == null) return true;
+    final uri = Uri.tryParse(address);
+    if (uri == null) return true;
+    return type.isDefaultUri(uri);
+  }
 }
 
 class _Proxy {

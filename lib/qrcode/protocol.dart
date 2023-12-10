@@ -22,7 +22,8 @@ sealed class DeepLinkHandlerProtocol {
 }
 
 class ProxyDeepLink extends DeepLinkHandlerProtocol {
-  static const path = "proxy/set";
+  static const host = "proxy";
+  static const path = "/set";
 
   const ProxyDeepLink();
 
@@ -31,17 +32,22 @@ class ProxyDeepLink extends DeepLinkHandlerProtocol {
     required String? https,
     required String? all,
   }) =>
-      Uri(scheme: R.scheme, path: path, queryParameters: {
+      Uri(scheme: R.scheme, host: host, path: path, queryParameters: {
         if (http != null) "http": http,
-        if (https != null) "https": https,
+        // shorthand for https if http proxy is identical to https proxy
+        if (https != null) "https": http == https ? "@http" : https,
         if (all != null) "all": all,
       });
 
   ({Uri? http, Uri? https, Uri? all}) decode(Uri qrCodeData) {
     final param = qrCodeData.queryParameters;
     final http = param["http"];
-    final https = param["https"];
+    var https = param["https"];
     final all = param["all"];
+    // shorthand for https if http proxy is identical to https proxy
+    if (https == "@http") {
+      https = http;
+    }
     return (
       http: http == null ? null : Uri.tryParse(http),
       https: https == null ? null : Uri.tryParse(https),
@@ -51,7 +57,7 @@ class ProxyDeepLink extends DeepLinkHandlerProtocol {
 
   @override
   bool match(Uri encoded) {
-    return encoded.path == path;
+    return encoded.host == host && encoded.path == path;
   }
 
   @override

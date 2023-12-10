@@ -117,15 +117,8 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
 }
 
 class ProxyShareQrCodeTile extends StatelessWidget {
-  final String? http;
-  final String? https;
-  final String? all;
-
   const ProxyShareQrCodeTile({
     super.key,
-    this.http,
-    this.https,
-    this.all,
   });
 
   @override
@@ -134,22 +127,21 @@ class ProxyShareQrCodeTile extends StatelessWidget {
       leading: const Icon(Icons.qr_code),
       title: i18n.proxy.shareQrCode.text(),
       subtitle: i18n.proxy.shareQrCodeDesc.text(),
-      trailing: IconButton(
-        icon: const Icon(Icons.share),
-        onPressed: () async {
-          final qrCodeData = const ProxyDeepLink().encode(
-            http: http,
-            https: https,
-            all: all,
-          );
-          context.show$Sheet$(
-            (context) => QrCodePage(
-              title: i18n.proxy.title.text(),
-              data: qrCodeData.toString(),
-            ),
-          );
-        },
-      ),
+      trailing: const Icon(Icons.share).padAll(8),
+      onTap: () async {
+        final proxy = Settings.proxy;
+        final qrCodeData = const ProxyDeepLink().encode(
+          http: proxy.http.isDefaultAddress ? null : proxy.http.address,
+          https: proxy.https.isDefaultAddress ? null : proxy.https.address,
+          all: proxy.all.isDefaultAddress ? null : proxy.all.address,
+        );
+        context.show$Sheet$(
+          (context) => QrCodePage(
+            title: i18n.proxy.title.text(),
+            data: qrCodeData.toString(),
+          ),
+        );
+      },
     );
   }
 }
@@ -189,7 +181,7 @@ class ProxyProfileEditorPage extends StatefulWidget {
 
 class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   late final profile = Settings.proxy.resolve(widget.type);
-  late var address = (profile.address == null ? null : Uri.tryParse(profile.address!)) ?? buildDefaultUri();
+  late var uri = (profile.address == null ? null : Uri.tryParse(profile.address!)) ?? type.buildDefaultUri();
   late var enabled = profile.enabled;
   late var globalMode = profile.proxyMode;
 
@@ -198,10 +190,6 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   @override
   void initState() {
     super.initState();
-  }
-
-  Uri buildDefaultUri() {
-    return Uri(scheme: type.defaultProtocol, host: type.defaultHost, port: type.defaultPort);
   }
 
   @override
@@ -234,48 +222,59 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
     return PlatformTextButton(
       child: i18n.save.text(),
       onPressed: () {
-        context.pop((address: address.toString(), enabled: enabled, proxyMode: globalMode));
+        context.pop((address: uri.toString(), enabled: enabled, proxyMode: globalMode));
       },
     );
   }
 
   Widget buildProxyUrlTile() {
-    final address = this.address;
+    final uri = this.uri;
     return DetailListTile(
       leading: const Icon(Icons.link),
       title: "URL",
-      subtitle: address.toString(),
-      trailing: IconButton(
-        icon: const Icon(Icons.edit),
-        onPressed: () async {
-          final newFullProxy = await Editor.showStringEditor(
-            context,
-            desc: i18n.proxy.title,
-            initial: address.toString(),
-          );
-          if (newFullProxy == null) return;
-          final newUri = Uri.tryParse(newFullProxy.trim());
-          if (newUri == null || !newUri.isAbsolute || !type.supportedProtocols.contains(newUri.scheme)) {
-            if (!mounted) return;
-            context.showTip(
-              title: i18n.error,
-              desc: i18n.proxy.invalidProxyFormatTip,
-              ok: i18n.close,
+      subtitle: uri.toString(),
+      trailing: [
+        if (!type.isDefaultUri(uri))
+          IconButton(
+            onPressed: () {
+              setState(() {
+                this.uri = type.buildDefaultUri();
+              });
+            },
+            icon: const Icon(Icons.delete),
+          ),
+        IconButton(
+          icon: const Icon(Icons.edit),
+          onPressed: () async {
+            final newFullProxy = await Editor.showStringEditor(
+              context,
+              desc: i18n.proxy.title,
+              initial: uri.toString(),
             );
-            return;
-          }
-          if (newUri != address) {
-            setState(() {
-              this.address = newUri;
-            });
-          }
-        },
-      ),
+            if (newFullProxy == null) return;
+            final newUri = Uri.tryParse(newFullProxy.trim());
+            if (newUri == null || !newUri.isAbsolute || !type.supportedProtocols.contains(newUri.scheme)) {
+              if (!mounted) return;
+              context.showTip(
+                title: i18n.error,
+                desc: i18n.proxy.invalidProxyFormatTip,
+                ok: i18n.close,
+              );
+              return;
+            }
+            if (newUri != uri) {
+              setState(() {
+                this.uri = newUri;
+              });
+            }
+          },
+        ),
+      ].wrap(),
     );
   }
 
   Widget buildProxyProtocolTile() {
-    final scheme = address.scheme;
+    final scheme = uri.scheme;
     return ListTile(
       isThreeLine: true,
       leading: const Icon(Icons.https),
@@ -286,7 +285,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
                 selected: protocol == scheme,
                 onSelected: (value) {
                   setState(() {
-                    address = address.replace(
+                    uri = uri.replace(
                       scheme: protocol,
                     );
                   });
@@ -298,7 +297,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   }
 
   Widget buildProxyHostTile() {
-    final host = address.host;
+    final host = uri.host;
     return DetailListTile(
       leading: const Icon(Icons.link),
       title: i18n.proxy.hostname,
@@ -315,7 +314,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
           final newHost = newHostRaw.trim();
           if (newHost != host) {
             setState(() {
-              address = address.replace(
+              uri = uri.replace(
                 host: newHost,
               );
             });
@@ -326,7 +325,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   }
 
   Widget buildProxyPortTile() {
-    int port = address.port;
+    int port = uri.port;
     return DetailListTile(
       leading: const Icon(Icons.settings_input_component_outlined),
       title: i18n.proxy.port,
@@ -342,7 +341,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
           if (newPort == null) return;
           if (newPort != port) {
             setState(() {
-              address = address.replace(
+              uri = uri.replace(
                 port: newPort,
               );
             });
@@ -353,7 +352,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   }
 
   Widget buildProxyAuthTile() {
-    final userInfoParts = address.userInfo.split(":");
+    final userInfoParts = uri.userInfo.split(":");
     final auth = userInfoParts.length == 2 ? (username: userInfoParts[0], password: userInfoParts[1]) : null;
     final text = auth != null ? "${auth.username}:${auth.password}" : null;
     return ListTile(
@@ -365,7 +364,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
           IconButton(
             onPressed: () {
               setState(() {
-                address = address.replace(userInfo: "");
+                uri = uri.replace(userInfo: "");
               });
             },
             icon: const Icon(Icons.delete),
@@ -386,7 +385,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
             );
             if (newAuth != null && newAuth != auth) {
               setState(() {
-                address = address.replace(
+                uri = uri.replace(
                     userInfo:
                         newAuth.password.isNotEmpty ? "${newAuth.username}:${newAuth.password}" : newAuth.username);
               });

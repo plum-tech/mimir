@@ -542,7 +542,7 @@ settings:
     desc: Proxy the access to campus network
     authentication: Authentication
     protocol: Protocol
-    host: Hostname
+    hostname: Hostname
     port: Port
     username: Username
     password: Password
