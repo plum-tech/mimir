@@ -451,7 +451,10 @@ library:
     history: 历史
     renew: 续借
   history:
-    title: 借阅历史
+    title: 历史
+    operation:
+      borrowing: 借书
+      returning: 还书
   searchMethod:
     any: 任意
     title: 标题

@@ -106,8 +106,13 @@ extension HiveX on HiveInterface {
   }
 
   void addAdapter<T>(TypeAdapter<T> adapter) {
+    assert(
+      !isAdapterRegistered(adapter.typeId),
+      "Trying to register adapter of $T, but the type ID #${adapter.typeId} is occupied by ${(this as dynamic).findAdapterForTypeId(adapter.typeId)}",
+    );
     if (!isAdapterRegistered(adapter.typeId)) {
       registerAdapter<T>(adapter);
+      debugPrint("Register type adapter of $T at ${adapter.typeId}");
     }
   }
 }

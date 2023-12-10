@@ -451,7 +451,10 @@ library:
     history: History
     renew: Renew
   history:
-    title: Borrowing history
+    title: History
+    operation:
+      borrowing: Borrowing
+      returning: Returning
   searchMethod:
     any: Any
     title: Title

@@ -8,7 +8,7 @@ part of 'image.dart';
 
 class BookImageAdapter extends TypeAdapter<BookImage> {
   @override
-  final int typeId = 99;
+  final int typeId = 106;
 
   @override
   BookImage read(BinaryReader reader) {

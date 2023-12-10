@@ -227,7 +227,7 @@ class BookBorrowHistoryCard extends StatelessWidget {
           "${i18n.info.isbn} ${book.isbn}".text(),
           context.formatYmdText(book.processDate).text(),
         ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
-        trailing: book.operateType.text(),
+        trailing: book.operation.l10n().text(),
         onTap: () async {
           await context.show$Sheet$(
             (ctx) => BookDetailsPage(

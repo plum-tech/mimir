@@ -452,7 +452,10 @@ library:
     history: 歷史
     renew: 續借
   history:
-    title: 借閱歷史
+    title: 歷史
+    operation:
+      borrowing: 借書
+      returning: 還書
   searchMethod:
     any: 任意
     title: 標題
