@@ -42,9 +42,19 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
           SliverList(
             delegate: SliverChildListDelegate([
               buildEnableProxyToggle(),
-              buildProxyTypeTile(ProxyType.http),
-              buildProxyTypeTile(ProxyType.https),
-              buildProxyTypeTile(ProxyType.all),
+              buildGlobalModeSwitcher(),
+              buildProxyTypeTile(
+                ProxyType.http,
+                icon: const Icon(Icons.http),
+              ),
+              buildProxyTypeTile(
+                ProxyType.https,
+                icon: const Icon(Icons.https),
+              ),
+              buildProxyTypeTile(
+                ProxyType.all,
+                icon: const Icon(Icons.public),
+              ),
               const Divider(),
               const TestConnectionTile(),
               const ProxyShareQrCodeTile(),
@@ -55,9 +65,13 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     );
   }
 
-  Widget buildProxyTypeTile(ProxyType type) {
+  Widget buildProxyTypeTile(ProxyType type, {
+    required Widget icon,
+  }) {
     return ListTile(
+      leading: icon,
       title: type.l10n().text(),
+      trailing: const Icon(Icons.open_in_new),
       onTap: () async {
         final profile = await context.show$Sheet$<ProxyProfileRecords>((ctx) => ProxyProfileEditorPage(type: type));
         if (profile != null) {
@@ -69,7 +83,8 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
 
   Widget buildEnableProxyToggle() {
     return Settings.proxy.listenAnyEnabled() >>
-        (ctx) => _EnableProxyToggleTile(
+            (ctx) =>
+            _EnableProxyToggleTile(
               enabled: Settings.proxy.anyEnabled,
               onChanged: (newV) {
                 setState(() {
@@ -77,6 +92,18 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                 });
               },
             );
+  }
+
+  Widget buildGlobalModeSwitcher() {
+    return Settings.proxy.listenGlobalMode() >> (ctx) =>
+        _GlobalModeSwitcherTile(
+          globalMode: Settings.proxy.anyGlobalMode,
+          onChanged: (value) {
+            setState(() {
+              Settings.proxy.anyGlobalMode = true;
+            });
+          },
+        );
   }
 }
 
@@ -107,10 +134,11 @@ class ProxyShareQrCodeTile extends StatelessWidget {
             all: all,
           );
           context.show$Sheet$(
-            (context) => QrCodePage(
-              title: i18n.proxy.title.text(),
-              data: qrCodeData.toString(),
-            ),
+                (context) =>
+                QrCodePage(
+                  title: i18n.proxy.title.text(),
+                  data: qrCodeData.toString(),
+                ),
           );
         },
       ),
@@ -125,13 +153,19 @@ Future<void> onProxyFromQrCode({
   required Uri? all,
 }) async {
   if (http != null) {
-    Settings.proxy.resolve(ProxyType.http).address = http.toString();
+    Settings.proxy
+        .resolve(ProxyType.http)
+        .address = http.toString();
   }
   if (https != null) {
-    Settings.proxy.resolve(ProxyType.https).address = https.toString();
+    Settings.proxy
+        .resolve(ProxyType.https)
+        .address = https.toString();
   }
   if (http != null) {
-    Settings.proxy.resolve(ProxyType.all).address = all.toString();
+    Settings.proxy
+        .resolve(ProxyType.all)
+        .address = all.toString();
   }
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
@@ -174,7 +208,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            title: widget.type.toString().text(),
+            title: widget.type.l10n().text(),
             actions: [
               buildSaveAction(),
             ],
@@ -250,17 +284,18 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
       leading: const Icon(Icons.https),
       title: i18n.proxy.protocol.text(),
       subtitle: type.supportedProtocols
-          .map((protocol) => ChoiceChip(
-                label: protocol.toUpperCase().text(),
-                selected: protocol == scheme,
-                onSelected: (value) {
-                  setState(() {
-                    address = address.replace(
-                      scheme: protocol,
-                    );
-                  });
-                },
-              ))
+          .map((protocol) =>
+          ChoiceChip(
+            label: protocol.toUpperCase().text(),
+            selected: protocol == scheme,
+            onSelected: (value) {
+              setState(() {
+                address = address.replace(
+                  scheme: protocol,
+                );
+              });
+            },
+          ))
           .toList()
           .wrap(spacing: 4),
     );
@@ -352,20 +387,21 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
           onPressed: () async {
             final newAuth = await showAdaptiveDialog<({String username, String password})>(
               context: context,
-              builder: (_) => StringsEditor(
-                fields: [
-                  (name: "username", initial: auth?.username ?? ""),
-                  (name: "password", initial: auth?.password ?? ""),
-                ],
-                title: i18n.proxy.authentication,
-                ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
-              ),
+              builder: (_) =>
+                  StringsEditor(
+                    fields: [
+                      (name: "username", initial: auth?.username ?? ""),
+                      (name: "password", initial: auth?.password ?? ""),
+                    ],
+                    title: i18n.proxy.authentication,
+                    ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
+                  ),
             );
             if (newAuth != null && newAuth != auth) {
               setState(() {
                 address = address.replace(
                     userInfo:
-                        newAuth.password.isNotEmpty ? "${newAuth.username}:${newAuth.password}" : newAuth.username);
+                    newAuth.password.isNotEmpty ? "${newAuth.username}:${newAuth.password}" : newAuth.username);
               });
             }
           },
@@ -386,35 +422,13 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   }
 
   Widget buildProxyModeSwitcher() {
-    return ListTile(
-      isThreeLine: true,
-      leading: const Icon(Icons.public),
-      title: i18n.proxy.proxyMode.text(),
-      subtitle: [
-        ChoiceChip(
-          label: i18n.proxy.proxyModeGlobal.text(),
-          selected: globalMode,
-          onSelected: (value) async {
-            setState(() {
-              globalMode = true;
-            });
-          },
-        ),
-        ChoiceChip(
-          label: i18n.proxy.proxyModeSchool.text(),
-          selected: !globalMode,
-          onSelected: (value) async {
-            setState(() {
-              globalMode = false;
-            });
-          },
-        ),
-      ].wrap(spacing: 4),
-      trailing: Tooltip(
-        triggerMode: TooltipTriggerMode.tap,
-        message: globalMode ? i18n.proxy.proxyModeGlobalTip : i18n.proxy.proxyModeSchoolTip,
-        child: const Icon(Icons.info_outline),
-      ).padAll(8),
+    return _GlobalModeSwitcherTile(
+      globalMode: globalMode,
+      onChanged: (value) {
+        setState(() {
+          globalMode = value;
+        });
+      },
     );
   }
 }
@@ -444,10 +458,50 @@ class _EnableProxyToggleTile extends StatelessWidget {
 }
 
 class _GlobalModeSwitcherTile extends StatelessWidget {
-  const _GlobalModeSwitcherTile({super.key});
+  final bool? globalMode;
+  final ValueChanged<bool> onChanged;
+
+  const _GlobalModeSwitcherTile({
+    super.key,
+    required this.globalMode,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return ListTile(
+      isThreeLine: true,
+      leading: const Icon(Icons.public),
+      title: i18n.proxy.proxyMode.text(),
+      subtitle: [
+        ChoiceChip(
+          label: i18n.proxy.proxyModeGlobal.text(),
+          selected: globalMode == true,
+          onSelected: (value) {
+            onChanged(true);
+          },
+        ),
+        ChoiceChip(
+          label: i18n.proxy.proxyModeSchool.text(),
+          selected: globalMode == false,
+          onSelected: (value) {
+            onChanged(false);
+          },
+        ),
+      ].wrap(spacing: 4),
+      trailing: Tooltip(
+        triggerMode: TooltipTriggerMode.tap,
+        message: buildTooltip(),
+        child: const Icon(Icons.info_outline),
+      ).padAll(8),
+    );
+  }
+
+  String buildTooltip() {
+    return switch(globalMode){
+      true => i18n.proxy.proxyModeGlobalTip,
+      false => i18n.proxy.proxyModeSchoolTip,
+      null => "?"
+    };
   }
 }
