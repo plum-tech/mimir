@@ -127,6 +127,12 @@ class _SettingsPageState extends State<SettingsPage> {
       all.add(const Divider());
     }
     if (!kIsWeb) {
+      all.add(PageNavigationTile(
+        title: i18n.proxy.title.text(),
+        subtitle: i18n.proxy.desc.text(),
+        icon: const Icon(Icons.vpn_key),
+        path: "/settings/proxy",
+      ));
       all.add(const NetworkToolEntryTile());
     }
     if (Settings.isDeveloperMode) {
@@ -136,12 +142,6 @@ class _SettingsPageState extends State<SettingsPage> {
         path: "/settings/developer",
       ));
     }
-    all.add(PageNavigationTile(
-      title: i18n.proxy.title.text(),
-      subtitle: i18n.proxy.desc.text(),
-      icon: const Icon(Icons.vpn_key),
-      path: "/settings/proxy",
-    ));
     if (auth.loginStatus != LoginStatus.never) {
       all.add(const ClearCacheTile());
     }

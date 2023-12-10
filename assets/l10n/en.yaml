@@ -542,7 +542,7 @@ settings:
     desc: Proxy the access to campus network
     authentication: Authentication
     protocol: Protocol
-    hostname: Hostname
+    host: Hostname
     port: Port
     username: Username
     password: Password
@@ -560,6 +560,10 @@ settings:
       school: School-only
       globalTip: Access all networks by proxy
       schoolTip: Access non-school networks bypass proxy
+    proxyType:
+      http: HTTP
+      https: HTTPS
+      all: All
   language: Language
   wipeData:
     title: Wipe data & log-out

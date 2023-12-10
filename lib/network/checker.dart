@@ -67,7 +67,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
     networkChecker = runPeriodically(const Duration(milliseconds: 1000), (Timer t) async {
       var type = await Connectivity().checkConnectivity();
       if (type == ConnectivityResult.wifi || type == ConnectivityResult.ethernet) {
-        if (Settings.proxy.enableAnyProxy || await CheckVpnConnection.isVpnActive()) {
+        if (Settings.proxy.anyEnabled || await CheckVpnConnection.isVpnActive()) {
           type = ConnectivityResult.vpn;
         }
       }

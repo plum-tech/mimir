@@ -62,7 +62,7 @@ class _ConnectedInfoState extends State<ConnectedInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final useProxy = Settings.proxy.enableAnyProxy;
+    final useProxy = Settings.proxy.anyEnabled;
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 500),
       child: [

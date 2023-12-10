@@ -561,6 +561,10 @@ settings:
       school: 僅校園網路
       globalTip: 通過代理訪問所有網路
       schoolTip: 繞過代理訪問非校園網路
+    proxyType:
+      http: HTTP
+      https: HTTPS
+      all: 全部
   language: 語言
   wipeData:
     title: 擦除資料 & 登出

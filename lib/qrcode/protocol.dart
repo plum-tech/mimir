@@ -22,11 +22,20 @@ sealed class DeepLinkHandlerProtocol {
 }
 
 class ProxyDeepLink extends DeepLinkHandlerProtocol {
-  static const path = "proxy";
+  static const path = "proxy/set";
 
   const ProxyDeepLink();
 
-  Uri encode(Uri httpProxy) => Uri(scheme: R.scheme, path: path, query: httpProxy.toString());
+  Uri encode({
+    required String? http,
+    required String? https,
+    required String? all,
+  }) =>
+      Uri(scheme: R.scheme, path: path, queryParameters: {
+        if (http != null) "http": http,
+        if (https != null) "https": https,
+        if (all != null) "all": all,
+      });
 
   ({Uri? http, Uri? https, Uri? all}) decode(Uri qrCodeData) {
     final param = qrCodeData.queryParameters;
@@ -34,9 +43,9 @@ class ProxyDeepLink extends DeepLinkHandlerProtocol {
     final https = param["https"];
     final all = param["all"];
     return (
-      http: http == null ? null : Uri.parse(http),
-      https: https == null ? null : Uri.parse(https),
-      all: all == null ? null : Uri.parse(all),
+      http: http == null ? null : Uri.tryParse(http),
+      https: https == null ? null : Uri.tryParse(https),
+      all: all == null ? null : Uri.tryParse(all),
     );
   }
 
@@ -50,10 +59,12 @@ class ProxyDeepLink extends DeepLinkHandlerProtocol {
     required BuildContext context,
     required Uri qrCodeData,
   }) async {
-    final httpProxy = decode(qrCodeData);
+    final (:http, :https, :all) = decode(qrCodeData);
     await onProxyFromQrCode(
       context: context,
-      profiles: httpProxy,
+      http: http,
+      https: https,
+      all: all,
     );
   }
 }

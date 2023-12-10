@@ -88,7 +88,7 @@ class Editor {
   }) async {
     final newValue = await showAdaptiveDialog(
       context: ctx,
-      builder: (ctx) => _BoolEditor(
+      builder: (ctx) => BoolEditor(
         initial: initial,
         desc: desc,
       ),
@@ -104,7 +104,7 @@ class Editor {
   }) async {
     final newValue = await showAdaptiveDialog(
         context: ctx,
-        builder: (ctx) => _StringEditor(
+        builder: (ctx) => StringEditor(
               initial: initial,
               title: desc,
             ));
@@ -134,7 +134,7 @@ class Editor {
   }) async {
     final newValue = await showAdaptiveDialog(
       context: ctx,
-      builder: (ctx) => _IntEditor(
+      builder: (ctx) => IntEditor(
         initial: initial,
         title: desc,
       ),
@@ -279,17 +279,17 @@ class _DateTimeEditorState extends State<DateTimeEditor> {
   }
 }
 
-class _IntEditor extends StatefulWidget {
+class IntEditor extends StatefulWidget {
   final int initial;
   final String? title;
 
-  const _IntEditor({required this.initial, this.title});
+  const IntEditor({super.key, required this.initial, this.title});
 
   @override
-  State<_IntEditor> createState() => _IntEditorState();
+  State<IntEditor> createState() => _IntEditorState();
 }
 
-class _IntEditorState extends State<_IntEditor> {
+class _IntEditorState extends State<IntEditor> {
   late TextEditingController controller;
   late int value = widget.initial;
 
@@ -364,17 +364,17 @@ class _IntEditorState extends State<_IntEditor> {
   }
 }
 
-class _BoolEditor extends StatefulWidget {
+class BoolEditor extends StatefulWidget {
   final bool initial;
   final String? desc;
 
-  const _BoolEditor({required this.initial, this.desc});
+  const BoolEditor({super.key, required this.initial, this.desc});
 
   @override
-  State<_BoolEditor> createState() => _BoolEditorState();
+  State<BoolEditor> createState() => _BoolEditorState();
 }
 
-class _BoolEditorState extends State<_BoolEditor> {
+class _BoolEditorState extends State<BoolEditor> {
   late bool value = widget.initial;
 
   @override
@@ -404,17 +404,17 @@ class _BoolEditorState extends State<_BoolEditor> {
   }
 }
 
-class _StringEditor extends StatefulWidget {
+class StringEditor extends StatefulWidget {
   final String initial;
   final String? title;
 
-  const _StringEditor({required this.initial, this.title});
+  const StringEditor({required this.initial, this.title});
 
   @override
-  State<_StringEditor> createState() => _StringEditorState();
+  State<StringEditor> createState() => _StringEditorState();
 }
 
-class _StringEditorState extends State<_StringEditor> {
+class _StringEditorState extends State<StringEditor> {
   late TextEditingController controller;
 
   @override
@@ -425,8 +425,8 @@ class _StringEditorState extends State<_StringEditor> {
 
   @override
   void dispose() {
-    super.dispose();
     controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -481,10 +481,10 @@ class _StringsEditorState extends State<StringsEditor> {
 
   @override
   void dispose() {
-    super.dispose();
     for (final (name: _, :$value) in $values) {
       $value.dispose();
     }
+    super.dispose();
   }
 
   @override

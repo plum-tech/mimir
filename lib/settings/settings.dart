@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -104,52 +105,88 @@ class _Theme {
 }
 
 enum ProxyType {
-  http,
-  https,
-  all,
+  http(
+    defaultHost: "localhost",
+    defaultPort: 3128,
+    supportedProtocols: [
+      "http",
+      "https",
+    ],
+    defaultProtocol: "http",
+  ),
+  https(
+    defaultHost: "localhost",
+    defaultPort: 443,
+    supportedProtocols: [
+      "http",
+      "https",
+    ],
+    defaultProtocol: "https",
+  ),
+  all(
+    defaultHost: "localhost",
+    defaultPort: 1080,
+    supportedProtocols: [
+      "socks5",
+    ],
+    defaultProtocol: "socks5",
+  );
+
+  final String defaultHost;
+  final int defaultPort;
+  final List<String> supportedProtocols;
+  final String defaultProtocol;
+
+  String l10n() => "settings.proxy.proxyType.$name".tr();
+
+  const ProxyType({
+    required this.defaultHost,
+    required this.defaultPort,
+    required this.supportedProtocols,
+    required this.defaultProtocol,
+  });
 }
 
-class _HttpProxyK {
+class _ProxyK {
   static const ns = '/proxy';
 
-  static String address(String ns) => "$ns/address";
+  static String address(ProxyType type) => "$ns/${type.name}/address";
 
-  static String enabled(String ns) => "$ns/enabled";
+  static String enabled(ProxyType type) => "$ns/${type.name}/enabled";
 
-  static String globalMode(String ns) => "$ns/globalMode";
+  static String globalMode(ProxyType type) => "$ns/${type.name}/globalMode";
 }
 
 typedef ProxyProfileRecords = ({String? address, bool enabled, bool globalMode});
 
 class ProxyProfile {
   final Box box;
-  final String ns;
   final ProxyType type;
 
-  ProxyProfile(this.box, String ns, this.type) : ns = "$ns/${type.name}";
+  ProxyProfile(this.box, String ns, this.type);
 
-  String? get address => box.get(_HttpProxyK.address(ns));
+  String? get address => box.get(_ProxyK.address(type));
 
-  set address(String? newV) => box.put(_HttpProxyK.address(ns), newV);
-
-  /// [false] by default.
-  bool get enabled => box.get(_HttpProxyK.enabled(ns)) ?? false;
-
-  set enabled(bool newV) => box.put(_HttpProxyK.enabled(ns), newV);
+  set address(String? newV) => box.put(_ProxyK.address(type), newV);
 
   /// [false] by default.
-  bool get globalMode => box.get(_HttpProxyK.globalMode(ns)) ?? false;
+  bool get enabled => box.get(_ProxyK.enabled(type)) ?? false;
 
-  set globalMode(bool newV) => box.put(_HttpProxyK.globalMode(ns), newV);
+  set enabled(bool newV) => box.put(_ProxyK.enabled(type), newV);
+
+  /// [false] by default.
+  bool get globalMode => box.get(_ProxyK.globalMode(type)) ?? false;
+
+  set globalMode(bool newV) => box.put(_ProxyK.globalMode(type), newV);
 }
 
 class _Proxy {
   final Box box;
 
   _Proxy(this.box)
-      : http = ProxyProfile(box, _HttpProxyK.ns, ProxyType.http),
-        https = ProxyProfile(box, _HttpProxyK.ns, ProxyType.https),
-        all = ProxyProfile(box, _HttpProxyK.ns, ProxyType.all);
+      : http = ProxyProfile(box, _ProxyK.ns, ProxyType.http),
+        https = ProxyProfile(box, _ProxyK.ns, ProxyType.https),
+        all = ProxyProfile(box, _ProxyK.ns, ProxyType.all);
 
   final ProxyProfile http;
   final ProxyProfile https;
@@ -170,5 +207,13 @@ class _Proxy {
     profile.globalMode = value.globalMode;
   }
 
-  bool get enableAnyProxy => http.enabled || https.enabled || all.enabled;
+  bool get anyEnabled => http.enabled || https.enabled || all.enabled;
+
+  set anyEnabled(bool value) {
+    http.enabled = value;
+    https.enabled = value;
+    all.enabled;
+  }
+
+  Listenable listenAnyEnabled() => box.listenable(keys: ProxyType.values.map((type) => _ProxyK.enabled(type)).toList());
 }
