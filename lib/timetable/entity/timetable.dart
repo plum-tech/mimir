@@ -136,10 +136,6 @@ class SitCourse {
 }
 
 extension SitCourseEx on SitCourse {
-  String localizedWeekNumbers({String separateBy = ", "}) {
-    return weekIndices.l10n().join(separateBy);
-  }
-
   List<ClassTime> get buildingTimetable => getTeachingBuildingTimetable(campus, place);
 
   /// Based on [SitCourse.timeslots], compose a full-length class time.
@@ -181,7 +177,12 @@ enum TimetableWeekIndexType {
 
   const TimetableWeekIndexType(this.indicator);
 
-  String l10n() => "timetable.weekStep.$name".tr();
+  String l10nOf(String start, String end) => "timetable.weekIndexType.$name".tr(namedArgs: {
+        "start": start,
+        "end": end,
+      });
+
+  static String l10nOfSingle(String index) => "timetable.weekIndexType.single".tr(args: [index]);
 
   static TimetableWeekIndexType of(String indicator) {
     return switch (indicator) {
@@ -230,11 +231,16 @@ class TimetableWeekIndex {
     return range.start <= weekIndex && weekIndex <= range.end;
   }
 
+  bool get isSingle => range.start == range.end;
+
   /// convert the index to number.
-  /// e.g.: (start: 0, end: 8) => "1-9"
+  /// e.g.: (start: 0, end: 8) => "1–9"
   String l10n() {
-    // TODO: better l10n
-    return "${range.start + 1} ${type.l10n()}";
+    if (isSingle) {
+      return TimetableWeekIndexType.l10nOfSingle("${range.start + 1}");
+    } else {
+      return type.l10nOf("${range.start + 1}", "${range.end + 1}");
+    }
   }
 
   factory TimetableWeekIndex.fromJson(Map<String, dynamic> json) => _$TimetableWeekIndexFromJson(json);
@@ -261,11 +267,7 @@ class TimetableWeekIndices {
   /// - `1-5 周, 14 周, 8-10 单周` in Chinese.
   /// - `1-5 wk, 14 wk, 8-10 odd wk`
   List<String> l10n() {
-    final res = <String>[];
-    for (final index in indices) {
-      res.add(index.l10n());
-    }
-    return res;
+    return indices.map((index) => index.l10n()).toList();
   }
 
   /// The result, week index, which starts with 0.
