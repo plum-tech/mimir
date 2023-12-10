@@ -236,8 +236,15 @@ class _SettingsPageState extends State<SettingsPage> {
       trailing: usingSystemDefault
           ? i18n.fromSystem.text(style: context.textTheme.bodyMedium)
           : [
+              IconButton(
+                onPressed: () {
+                  Settings.theme.themeColor = null;
+                },
+                icon: const Icon(Icons.delete),
+              ),
               FilledCard(
                 color: selected,
+                clip: Clip.hardEdge,
                 child: InkWell(
                   onTap: selectNewThemeColor,
                   child: const SizedBox(
@@ -246,13 +253,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  Settings.theme.themeColor = null;
-                },
-                icon: const Icon(Icons.delete),
-              ),
-            ].row(mas: MainAxisSize.min),
+            ].wrap(),
     );
   }
 }
