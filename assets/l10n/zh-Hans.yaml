@@ -298,9 +298,13 @@ eduEmail:
   login:
     title: 登录教育邮箱
     addressHint: 学号/工号
+    passwordHint: 你的邮箱密码
+    invalidEmailAddressFormatTip: 无效的邮箱地址格式
     failedWarn:
       title: 登录失败
       desc: 请检查密码
+  info:
+    emailAddress: 邮箱地址
   inbox:
     title: 收件箱
   outbox:

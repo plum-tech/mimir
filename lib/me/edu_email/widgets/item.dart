@@ -15,9 +15,9 @@ class EmailItem extends StatelessWidget {
     final titleStyle = Theme.of(context).textTheme.titleMedium;
     final subtitleStyle = Theme.of(context).textTheme.bodyMedium;
 
-    final subjectText = _message.decodeSubject() ?? '无主题';
+    final subjectText = _message.decodeSubject() ?? '';
     final sender = _message.decodeSender();
-    final senderText = sender[0].toString() + (sender.length > 1 ? '等' : '');
+    final senderText = sender[0].toString() + (sender.length > 1 ? '...' : '');
     final date = _message.decodeDate();
     final dateText = date != null ? context.formatYmdNum(date) : '';
 

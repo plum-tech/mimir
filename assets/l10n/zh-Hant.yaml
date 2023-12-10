@@ -299,9 +299,13 @@ eduEmail:
   login:
     title: 登入 Edu 電郵
     addressHint: 學號/工號
+    passwordHint: 你的電郵密碼
+    invalidEmailAddressFormatTip: 無效的電郵地址格式
     failedWarn:
       title: 登入失敗
       desc: 請檢查密碼
+  info:
+    emailAddress: 電郵地址
   inbox:
     title: 收件匣
   outbox:
@@ -419,7 +423,7 @@ login:
   accountHint: 學號/工號
   loggedInTip: 已登入
   notLoggedIn: 未登入
-  invalidAccountFormat: 錯誤的學號格式
+  invalidAccountFormat: 無效的學號格式
   offlineModeBtn: 離線模式
   oaPwdHint: 鍵入你的 OA 密碼
   failedWarn: 登入失敗

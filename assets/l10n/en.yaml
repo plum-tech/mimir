@@ -298,9 +298,13 @@ eduEmail:
   login:
     title: Login Edu email
     addressHint: Student ID/Work number
+    passwordHint: Your email password
+    invalidEmailAddressFormatTip: Invalid email address format
     failedWarn:
       title: Login failed
       desc: Please check the password
+  info:
+    emailAddress: Email address
   inbox:
     title: Inbox
   outbox:
