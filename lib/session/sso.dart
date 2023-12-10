@@ -264,9 +264,9 @@ class SsoSession {
     final page = BeautifulSoup(response.data);
 
     final emptyPage = BeautifulSoup('');
-    // 桌面端报错提示
+    // For desktop
     final authError = (page.find('span', id: 'msg', class_: 'auth_error') ?? emptyPage).text.trim();
-    // TODO: 支持移动端报错提示
+    // For mobile
     final mobileError = (page.find('span', id: 'errorMsg') ?? emptyPage).text.trim();
     if (authError.isNotEmpty || mobileError.isNotEmpty) {
       final errorMessage = authError + mobileError;

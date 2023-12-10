@@ -65,11 +65,11 @@ timetable:
   displayMode:
     daily: Daily
     weekly: Weekly
-  weekStep:
-    single: week
-    all: week
-    odd: odd week
-    even: even week
+  weekIndexType:
+    single: "Week No.{}"
+    all: "Weeks from No.{start} to No.{end}"
+    odd: "Odd weeks from No.{start} to No.{end}"
+    even: "Even weeks from No.{start} to No.{end}"
   freeTip:
     dayTip: It's a free day!
     isTodayTip: "Have a nice day! 🎉"
@@ -110,7 +110,7 @@ timetable:
       namePlaceholder: Palette name
       author: Author
       authorPlaceholder: Your name, email, or url
-      colorCopyTip: The color was copied
+      color: color
       details: Details
       fab: Palette
       shareQrCode: Share QR code
@@ -298,9 +298,13 @@ eduEmail:
   login:
     title: Login Edu email
     addressHint: Student ID/Work number
+    passwordHint: Your email password
+    invalidEmailAddressFormatTip: Invalid email address format
     failedWarn:
       title: Login failed
       desc: Please check the password
+  info:
+    emailAddress: Email address
   inbox:
     title: Inbox
   outbox:
@@ -451,7 +455,10 @@ library:
     history: History
     renew: Renew
   history:
-    title: Borrowing history
+    title: History
+    operation:
+      borrowing: Borrowing
+      returning: Returning
   searchMethod:
     any: Any
     title: Title
@@ -483,7 +490,6 @@ settings:
     testLoginOa:
       title: Test login OA
       desc: Try to login OA with current credentials
-    studentIdCopyTip: Your student ID was copied
   dev:
     title: Developer options
     devMode:
@@ -539,7 +545,7 @@ settings:
   themeMode:
     title: Brightness
   proxy:
-    title: HTTP proxy
+    title: Proxy
     desc: Proxy the access to campus network
     authentication: Authentication
     protocol: Protocol
@@ -548,23 +554,25 @@ settings:
     username: Username
     password: Password
     invalidProxyFormatTip: Invalid proxy format
-    proxyChangedTip: HTTP proxy was changed
+    proxyChangedTip: Proxy was changed
     shareQrCode:
       title: Share QR code
-      desc: Share HTTP proxy as QR code
+      desc: Share proxy as QR code
     enableProxy:
-      title: Enable HTTP proxy
-      desc: Proxy your HTTP requests
+      title: Enable proxy
+      desc: Proxy your requests
     proxyMode:
       title: Proxy mode
-      global: Global
-      school: School-only
-      globalTip: Access all networks by proxy
-      schoolTip: Access non-school networks bypass proxy
-    copyTip:
-      full: HTTP proxy is copied
-      hostname: Hostname is copied
-      port: Port is copied
+      global:
+        name: Global
+        tip: Access all networks by proxy
+      schoolOnly:
+        name: School-only
+        tip: Access non-school networks bypass proxy
+    proxyType:
+      http: HTTP
+      https: HTTPS
+      all: All
   language: Language
   wipeData:
     title: Wipe data & log-out
@@ -688,3 +696,4 @@ preview: Preview
 upload: Upload
 pick: Pick
 duplicate: Duplicate
+copyTip: "{} was copied"

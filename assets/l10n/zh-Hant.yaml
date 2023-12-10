@@ -66,11 +66,11 @@ timetable:
   displayMode:
     daily: 日
     weekly: 周
-  weekStep:
-    single: 周
-    all: 周
-    odd: 單週
-    even: 雙週
+  weekIndexType:
+    single: "第 {} 周"
+    all: "第 {start} 周到第 {end} 周"
+    odd: "第 {start} 周到第 {end} 週中的單週"
+    even: "第 {start} 周到第 {end} 週中的雙週"
   freeTip:
     dayTip: 好喔，這天沒課！
     isTodayTip: "祝你今日過得愉快！🎉"
@@ -111,7 +111,7 @@ timetable:
       namePlaceholder: 調色盤名稱
       author: 作者
       authorPlaceholder: 你的姓名，電郵，或 url
-      colorCopyTip: 顏色被複製到剪貼板了
+      color: 顏色
       details: 詳細資料
       fab: 調色盤
       shareQrCode: 分享 QR 碼
@@ -299,9 +299,13 @@ eduEmail:
   login:
     title: 登入 Edu 電郵
     addressHint: 學號/工號
+    passwordHint: 你的電郵密碼
+    invalidEmailAddressFormatTip: 無效的電郵地址格式
     failedWarn:
       title: 登入失敗
       desc: 請檢查密碼
+  info:
+    emailAddress: 電郵地址
   inbox:
     title: 收件匣
   outbox:
@@ -419,7 +423,7 @@ login:
   accountHint: 學號/工號
   loggedInTip: 已登入
   notLoggedIn: 未登入
-  invalidAccountFormat: 錯誤的學號格式
+  invalidAccountFormat: 無效的學號格式
   offlineModeBtn: 離線模式
   oaPwdHint: 鍵入你的 OA 密碼
   failedWarn: 登入失敗
@@ -452,7 +456,10 @@ library:
     history: 歷史
     renew: 續借
   history:
-    title: 借閱歷史
+    title: 歷史
+    operation:
+      borrowing: 借書
+      returning: 還書
   searchMethod:
     any: 任意
     title: 標題
@@ -484,7 +491,6 @@ settings:
     testLoginOa:
       title: 測試登入 OA
       desc: 嘗試用當前的登入認證登入 OA
-    studentIdCopyTip: 你的學號被複製到剪貼板了
   dev:
     title: 開發者選項
     devMode:
@@ -540,7 +546,7 @@ settings:
   themeMode:
     title: 亮度
   proxy:
-    title: HTTP 代理
+    title: 代理
     desc: 代理校園網路連線
     authentication: 驗證
     protocol: 通訊協定
@@ -549,23 +555,25 @@ settings:
     username: 使用者名稱
     password: 密碼
     invalidProxyFormatTip: 無效的代理格式
-    proxyChangedTip: HTTP 代理已變更
+    proxyChangedTip: 網路代理已變更
     shareQrCode:
       title: 分享 QR 碼
-      desc: 使用 QR 碼分享 HTTP 代理
+      desc: 使用 QR 碼分享代理
     enableProxy:
-      title: 啟用 HTTP 代理
-      desc: 代理你的 HTTP 請求
+      title: 啟用代理
+      desc: 代理你的請求
     proxyMode:
       title: 代理模式
-      global: 全域
-      school: 僅校園網路
-      globalTip: 通過代理訪問所有網路
-      schoolTip: 繞過代理訪問非校園網路
-    copyTip:
-      full: HTTP 代理被複製到剪貼板了
-      hostname: 主機名稱被複製到剪貼板了
-      port: 連接埠被複製到剪貼板了
+      global:
+        name: 全域
+        tip: 通過代理訪問所有網路
+      schoolOnly:
+        name: 僅校園網路
+        tip: 繞過代理訪問非校園網路
+    proxyType:
+      http: HTTP
+      https: HTTPS
+      all: 全部
   language: 語言
   wipeData:
     title: 擦除資料 & 登出
@@ -689,3 +697,4 @@ preview: 預覽
 upload: 上傳
 pick: 選取
 duplicate: 複製
+copyTip: "{} 被複製到剪貼板了"

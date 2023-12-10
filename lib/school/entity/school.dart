@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/entity/campus.dart';
+import 'package:sit/l10n/extension.dart';
 import 'package:sit/storage/hive/type_id.dart';
 import 'package:sit/l10n/common.dart';
 import 'package:sit/l10n/time.dart';
@@ -225,6 +227,8 @@ class TimePoint {
     }
     return sb.toString();
   }
+
+  String l10n(BuildContext context) => context.formatHmNum(DateTime(0, 1, 1, hour, minute));
 
   TimeDuration difference(TimePoint b) => TimeDuration.fromMinutes(totalMinutes - b.totalMinutes);
 

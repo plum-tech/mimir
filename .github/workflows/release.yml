@@ -4,7 +4,7 @@ on: workflow_dispatch
 permissions: write-all
 
 env:
-  flutter_version: '3.16.2'
+  flutter_version: '3.16.3'
 
 jobs:
   build_android:
@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@v3
-      
+
       - name: Change version info
         run: |
           python3 ./ios-build-tools/addBuildNumber.py
@@ -111,14 +111,14 @@ jobs:
     - name: Export ipa
       run: |
         xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
-    
+
     # Debug only
     # - name: Publish iOS Artifact
     #   uses: actions/upload-artifact@v3
     #   with:
     #     name: SITLife-iOS-release
     #     path: build-output/ios
-    
+
     # Release
     - name: Deploy to App Store (Testflight)
       uses: apple-actions/upload-testflight-build@v1
@@ -140,7 +140,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           python3 ./ios-build-tools/addBuildNumber.py ${{ github.server_url }} ${{ github.repository }} ${{ github.run_id }} ${{ github.run_attempt }}
-      
+
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:

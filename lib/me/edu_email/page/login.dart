@@ -69,7 +69,6 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
   }
 
   Widget buildForm() {
-    // TODO: i18n
     return Form(
       autovalidateMode: AutovalidateMode.always,
       key: _formKey,
@@ -85,13 +84,13 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
             validator: (username) {
               if (username == null) return null;
               if (EmailValidator.validate(R.formatEduEmail(username: username))) return null;
-              return "invalid email address format";
+              return i18n.login.invalidEmailAddressFormatTip;
             },
-            decoration: const InputDecoration(
-              labelText: "Email Address",
-              hintText: "your Student ID",
+            decoration: InputDecoration(
+              labelText: i18n.info.emailAddress,
+              hintText: i18n.login.addressHint,
               suffixText: "@${R.eduEmailDomain}",
-              icon: Icon(Icons.alternate_email_outlined),
+              icon: const Icon(Icons.alternate_email_outlined),
             ),
           ),
           TextFormField(

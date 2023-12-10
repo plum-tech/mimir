@@ -12,6 +12,7 @@ class _I18n with CommonI18nMixin {
   final login = const _Login();
   final inbox = const _Inbox();
   final outbox = const _Outbox();
+  final info = const _Info();
 
   String get title => "$ns.title".tr();
 
@@ -45,11 +46,23 @@ class _Login {
 
   String get title => "$ns.title".tr();
 
+  String get passwordHint => "$ns.passwordHint".tr();
+
   String get addressHint => "$ns.addressHint".tr();
+
+  String get invalidEmailAddressFormatTip => "$ns.invalidEmailAddressFormatTip".tr();
 
   String get failedWarn => "$ns.failedWarn.title".tr();
 
   String get failedWarnDesc => "$ns.failedWarn.desc".tr();
+}
+
+class _Info {
+  const _Info();
+
+  static const ns = "${_I18n.ns}.info";
+
+  String get emailAddress => "$ns.emailAddress".tr();
 }
 
 class _Outbox {

@@ -13,7 +13,7 @@ class _I18n with CommonI18nMixin {
   final action = const _Action();
   final searching = const _Search();
   final borrowing = const _Borrowing();
-  final history = const _BorrowingHistory();
+  final history = const _History();
 
   String get title => "$ns.title".tr();
 
@@ -109,8 +109,8 @@ class _Borrowing {
   String get renew => "$ns.renew".tr();
 }
 
-class _BorrowingHistory {
-  const _BorrowingHistory();
+class _History {
+  const _History();
 
   static const ns = "${_I18n.ns}.history";
 

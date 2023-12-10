@@ -30,10 +30,10 @@ extension I18nBuildContext on BuildContext {
   String formatYmText(DateTime date) => Lang.formatOf(locale).ymText.format(date);
 
   /// e.g.: 8:32:59
-  String formatHmsNum(DateTime date) => Lang.hms.format(date);
+  String formatHmsNum(DateTime date) => Lang.formatOf(locale).hms.format(date);
 
   /// e.g.: 8:32
-  String formatHmNum(DateTime date) => Lang.hm.format(date);
+  String formatHmNum(DateTime date) => Lang.formatOf(locale).hm.format(date);
 
   /// e.g.: 9/21
   String formatMdNum(DateTime date) => Lang.formatOf(locale).mdNum.format(date);

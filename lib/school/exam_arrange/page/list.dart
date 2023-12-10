@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:rettulf/rettulf.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
+import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/school/widgets/semester.dart';
-import 'package:rettulf/rettulf.dart';
-import 'package:sit/school/entity/school.dart';
 import 'package:sit/utils/error.dart';
 
 import '../entity/exam.dart';
+import '../i18n.dart';
 import '../init.dart';
 import '../widgets/exam.dart';
-import '../i18n.dart';
 
 class ExamArrangementListPage extends StatefulWidget {
   const ExamArrangementListPage({super.key});
@@ -23,14 +23,7 @@ class ExamArrangementListPage extends StatefulWidget {
 class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
   List<ExamEntry>? examList;
   bool isLoading = false;
-  late SemesterInfo initial = () {
-    final now = DateTime.now();
-    return ExamArrangeInit.storage.lastSemesterInfo ??
-        SemesterInfo(
-          year: now.month >= 9 ? now.year : now.year - 1,
-          semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
-        );
-  }();
+  late SemesterInfo initial = ExamArrangeInit.storage.lastSemesterInfo ?? estimateCurrentSemester();
   late SemesterInfo selected = initial;
 
   @override

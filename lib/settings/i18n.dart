@@ -58,14 +58,6 @@ class _Proxy {
 
   String get proxyMode => "$ns.proxyMode.title".tr();
 
-  String get proxyModeGlobal => "$ns.proxyMode.global".tr();
-
-  String get proxyModeSchool => "$ns.proxyMode.school".tr();
-
-  String get proxyModeGlobalTip => "$ns.proxyMode.globalTip".tr();
-
-  String get proxyModeSchoolTip => "$ns.proxyMode.schoolTip".tr();
-
   String get shareQrCode => "$ns.shareQrCode.title".tr();
 
   String get shareQrCodeDesc => "$ns.shareQrCode.desc".tr();
@@ -75,12 +67,6 @@ class _Proxy {
   String get hostname => "$ns.hostname".tr();
 
   String get port => "$ns.port".tr();
-
-  String get fullCopyTip => "$ns.copyTip.full".tr();
-
-  String get hostnameCopyTip => "$ns.copyTip.hostname".tr();
-
-  String get portCopyTip => "$ns.copyTip.port".tr();
 
   String get authentication => "$ns.authentication".tr();
 
@@ -221,6 +207,4 @@ class _Credentials extends CredentialsI18n {
   String get testLoginOa => "$ns.testLoginOa.title".tr();
 
   String get testLoginOaDesc => "$ns.testLoginOa.desc".tr();
-
-  String get studentIdCopyTip => "$ns.studentIdCopyTip".tr();
 }

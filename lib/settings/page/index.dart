@@ -127,6 +127,12 @@ class _SettingsPageState extends State<SettingsPage> {
       all.add(const Divider());
     }
     if (!kIsWeb) {
+      all.add(PageNavigationTile(
+        title: i18n.proxy.title.text(),
+        subtitle: i18n.proxy.desc.text(),
+        icon: const Icon(Icons.vpn_key),
+        path: "/settings/proxy",
+      ));
       all.add(const NetworkToolEntryTile());
     }
     if (Settings.isDeveloperMode) {
@@ -136,12 +142,6 @@ class _SettingsPageState extends State<SettingsPage> {
         path: "/settings/developer",
       ));
     }
-    all.add(PageNavigationTile(
-      title: i18n.proxy.title.text(),
-      subtitle: i18n.proxy.desc.text(),
-      icon: const Icon(Icons.vpn_key),
-      path: "/settings/proxy",
-    ));
     if (auth.loginStatus != LoginStatus.never) {
       all.add(const ClearCacheTile());
     }
@@ -236,8 +236,15 @@ class _SettingsPageState extends State<SettingsPage> {
       trailing: usingSystemDefault
           ? i18n.fromSystem.text(style: context.textTheme.bodyMedium)
           : [
+              IconButton(
+                onPressed: () {
+                  Settings.theme.themeColor = null;
+                },
+                icon: const Icon(Icons.delete),
+              ),
               FilledCard(
                 color: selected,
+                clip: Clip.hardEdge,
                 child: InkWell(
                   onTap: selectNewThemeColor,
                   child: const SizedBox(
@@ -246,13 +253,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  Settings.theme.themeColor = null;
-                },
-                icon: const Icon(Icons.delete),
-              ),
-            ].row(mas: MainAxisSize.min),
+            ].wrap(),
     );
   }
 }
@@ -307,7 +308,7 @@ class _VersionTileState extends State<VersionTile> {
                 clickCount = 0;
                 Settings.isDeveloperMode = true;
                 // TODO: i18n
-                context.showSnackBar(content: const Text("Developer mode is on."));
+                context.showSnackBar(content: const Text("Developer mode activated"));
                 await HapticFeedback.mediumImpact();
               }
             },
@@ -385,69 +386,4 @@ void _gotoLogin(BuildContext context) {
     navigator.pop();
   }
   context.go("/login");
-}
-
-class ThemeColorPicker extends StatefulWidget {
-  final Color initialColor;
-
-  const ThemeColorPicker({
-    super.key,
-    required this.initialColor,
-  });
-
-  @override
-  State<ThemeColorPicker> createState() => _ThemeColorPickerState();
-}
-
-class _ThemeColorPickerState extends State<ThemeColorPicker> {
-  late Color selected = widget.initialColor;
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: i18n
-    return Scaffold(
-      appBar: AppBar(
-        title: "Select color".text(),
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () {
-            context.navigator.pop();
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.check),
-            onPressed: () {
-              context.navigator.pop(selected);
-            },
-          ),
-        ],
-      ),
-      body: SizedBox(
-        width: double.infinity,
-        child: ColorPicker(
-          color: selected,
-          onColorChanged: (color) {
-            setState(() => selected = color);
-          },
-          pickersEnabled: const <ColorPickerType, bool>{
-            ColorPickerType.both: true,
-            ColorPickerType.primary: false,
-            ColorPickerType.accent: false,
-            ColorPickerType.bw: true,
-            ColorPickerType.custom: true,
-            ColorPickerType.wheel: true,
-          },
-          width: 44,
-          height: 44,
-          borderRadius: 22,
-          showMaterialName: true,
-          subheading: Text(
-            'Select color shade',
-            style: Theme.of(context).textTheme.titleSmall,
-          ),
-        ),
-      ).scrolled(),
-    );
-  }
 }

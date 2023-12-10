@@ -314,7 +314,7 @@ class PaletteColorBar extends StatelessWidget {
           onLongPress: () async {
             await Clipboard.setData(ClipboardData(text: "#${color.hexAlpha}"));
             if (!context.mounted) return;
-            context.showSnackBar(content: i18n.p13n.palette.colorCopyTip.text());
+            context.showSnackBar(content: i18n.copyTipOf(i18n.p13n.palette.color).text());
           },
           child: SizedBox(
             height: 35,
