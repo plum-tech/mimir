@@ -11,6 +11,7 @@ import 'package:sit/me/edu_email/page/login.dart';
 import 'package:sit/me/edu_email/page/outbox.dart';
 import 'package:sit/school/class2nd/entity/attended.dart';
 import 'package:sit/school/exam_result/page/result.pg.dart';
+import 'package:sit/school/library/page/history.dart';
 import 'package:sit/school/library/page/login.dart';
 import 'package:sit/school/library/page/borrowing.dart';
 import 'package:sit/school/ywb/page/service.dart';
