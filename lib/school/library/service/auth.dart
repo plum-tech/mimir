@@ -4,8 +4,8 @@ import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:sit/credentials/entity/credential.dart';
+import 'package:sit/credentials/error.dart';
 import 'package:sit/init.dart';
-import 'package:sit/session/library.dart';
 import 'package:sit/utils/dio.dart';
 
 const _opacUrl = 'http://210.35.66.106/opac';
@@ -21,7 +21,8 @@ class LibraryAuthService {
     final response = await _login(credentials.account, credentials.password);
     final content = response.data.toString();
     if (content.contains('用户名或密码错误')) {
-      throw LibraryCredentialsException(
+      throw CredentialsException(
+        type: CredentialsErrorType.accountPassword,
         message: content,
       );
     }
@@ -55,7 +56,12 @@ class LibraryAuthService {
   }
 
   Future<dynamic> _getRSAPublicKey() async {
-    final pemResponse = await dio.get(_pemUrl);
+    final pemResponse = await dio.get(
+      _pemUrl,
+      queryParameters: {
+        "checkCode": "1opac",
+      },
+    );
     String publicKeyStr = pemResponse.data;
     final pemFileContent = '-----BEGIN PUBLIC KEY-----\n$publicKeyStr\n-----END PUBLIC KEY-----';
 

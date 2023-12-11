@@ -6,6 +6,7 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' hide Key;
 import 'package:sit/credentials/entity/credential.dart';
+import 'package:sit/credentials/error.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/init.dart';
 
@@ -17,38 +18,6 @@ import 'package:synchronized/synchronized.dart';
 import 'package:encrypt/encrypt.dart';
 
 import '../utils/dio.dart';
-
-enum OaCredentialsErrorType {
-  accountPassword,
-  captcha,
-  frozen,
-}
-
-class OaCredentialsException implements Exception {
-  final OaCredentialsErrorType type;
-  final String message;
-
-  const OaCredentialsException({
-    required this.type,
-    required this.message,
-  });
-
-  @override
-  String toString() {
-    return "OaCredentialsException: $type $message";
-  }
-}
-
-class UnknownAuthException implements Exception {
-  final String message;
-
-  const UnknownAuthException(this.message);
-
-  @override
-  String toString() {
-    return "UnknownAuthException: $message";
-  }
-}
 
 class LoginCaptchaCancelledException implements Exception {
   const LoginCaptchaCancelledException();
@@ -272,13 +241,13 @@ class SsoSession {
       final errorMessage = authError + mobileError;
       final type = parseInvalidType(errorMessage);
       _setOnline(false);
-      throw OaCredentialsException(message: errorMessage, type: type);
+      throw CredentialsException(message: errorMessage, type: type);
     }
 
     if (response.realUri.toString() != _loginSuccessUrl) {
       debugPrint('Unknown auth error at "${response.realUri}"');
       _setOnline(false);
-      throw UnknownAuthException(response.data.toString());
+      throw Exception(response.data.toString());
     }
     debugPrint('${credentials.account} logged in');
     CredentialsInit.storage.oaLastAuthTime = DateTime.now();
@@ -286,13 +255,13 @@ class SsoSession {
     return response;
   }
 
-  static OaCredentialsErrorType parseInvalidType(String errorMessage) {
+  static CredentialsErrorType parseInvalidType(String errorMessage) {
     if (errorMessage.contains("验证码")) {
-      return OaCredentialsErrorType.captcha;
+      return CredentialsErrorType.captcha;
     } else if (errorMessage.contains("冻结")) {
-      return OaCredentialsErrorType.frozen;
+      return CredentialsErrorType.frozen;
     }
-    return OaCredentialsErrorType.accountPassword;
+    return CredentialsErrorType.accountPassword;
   }
 
   /// 提取认证页面中的加密盐

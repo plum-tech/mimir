@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
-import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/login/utils.dart';
 import 'package:sit/login/widgets/forgot_pwd.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/library/api.dart';
@@ -153,9 +153,10 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
     } catch (error, stackTrace) {
       debugPrintError(error, stackTrace);
       if (!mounted) return;
-      await context.showTip(title: i18n.login.failedWarn, desc: i18n.login.failedWarnDesc, ok: i18n.ok);
-      if (!mounted) return;
       setState(() => isLoggingIn = false);
+      if (error is Exception) {
+        handleLoginException(context: context, error: error, stackTrace: stackTrace);
+      }
       return;
     }
   }
