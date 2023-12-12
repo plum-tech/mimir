@@ -1,6 +1,5 @@
 import 'entity/result.ug.dart';
 
-/// It will skip failed exams.
 double calcGPA(Iterable<ExamResultUg> resultList) {
   double totalCredits = 0.0;
   double sum = 0.0;

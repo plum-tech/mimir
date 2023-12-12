@@ -169,6 +169,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
     final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResultUg>() : resultList;
     if (selectedExams != null) {
       // TODO: the right way to calculate GPA
+      // It will skip failed exams.
       final validResults = selectedExams.where((exam) => exam.hasScore).where((result) => result.passed);
       final gpa = calcGPA(validResults);
       if (isSelecting) {
