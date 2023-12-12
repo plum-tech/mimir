@@ -30,14 +30,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
   bool isSelecting = false;
   final $loadingProgress = ValueNotifier(0.0);
   final multiselect = MultiselectController();
-  late SemesterInfo initial = () {
-    final now = DateTime.now();
-    return ExamResultInit.ugStorage.lastSemesterInfo ??
-        SemesterInfo(
-          year: now.month >= 9 ? now.year : now.year - 1,
-          semester: Semester.all,
-        );
-  }();
+  late SemesterInfo initial = ExamResultInit.ugStorage.lastSemesterInfo ?? estimateCurrentSemester();
   late SemesterInfo selected = initial;
 
   @override
@@ -49,6 +42,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
   @override
   void dispose() {
     multiselect.dispose();
+    $loadingProgress.dispose();
     super.dispose();
   }
 

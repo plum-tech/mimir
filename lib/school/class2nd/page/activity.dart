@@ -21,14 +21,20 @@ class ActivityListPage extends StatefulWidget {
 }
 
 class _ActivityListPageState extends State<ActivityListPage> {
-  final loadingStates = ValueNotifier(commonClass2ndCategories.map((cat) => false).toList());
+  final $loadingStates = ValueNotifier(commonClass2ndCategories.map((cat) => false).toList());
+
+  @override
+  void dispose() {
+    $loadingStates.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: PreferredSize(
         preferredSize: const Size.fromHeight(4),
-        child: loadingStates >>
+        child: $loadingStates >>
             (ctx, states) {
               return !states.any((state) => state == true) ? const SizedBox() : const LinearProgressIndicator();
             },
@@ -72,9 +78,9 @@ class _ActivityListPageState extends State<ActivityListPage> {
               return ActivityLoadingList(
                 cat: cat,
                 onLoadingChanged: (state) {
-                  final newStates = List.of(loadingStates.value);
+                  final newStates = List.of($loadingStates.value);
                   newStates[i] = state;
-                  loadingStates.value = newStates;
+                  $loadingStates.value = newStates;
                 },
               );
             }).toList(),

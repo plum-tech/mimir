@@ -41,14 +41,20 @@ class OaAnnounceListPageInternal extends StatefulWidget {
 }
 
 class _OaAnnounceListPageInternalState extends State<OaAnnounceListPageInternal> {
-  late final loadingStates = ValueNotifier(widget.cats.map((cat) => false).toList());
+  late final $loadingStates = ValueNotifier(widget.cats.map((cat) => false).toList());
+
+  @override
+  void dispose() {
+    $loadingStates.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: PreferredSize(
         preferredSize: const Size.fromHeight(4),
-        child: loadingStates >>
+        child: $loadingStates >>
             (ctx, states) {
               return !states.any((state) => state == true) ? const SizedBox() : const LinearProgressIndicator();
             },
@@ -85,9 +91,9 @@ class _OaAnnounceListPageInternalState extends State<OaAnnounceListPageInternal>
                 key: ValueKey(cat),
                 cat: cat,
                 onLoadingChanged: (state) {
-                  final newStates = List.of(loadingStates.value);
+                  final newStates = List.of($loadingStates.value);
                   newStates[i] = state;
-                  loadingStates.value = newStates;
+                  $loadingStates.value = newStates;
                 },
               );
             }).toList(),

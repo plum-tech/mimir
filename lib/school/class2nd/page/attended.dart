@@ -50,6 +50,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
 
   @override
   void dispose() {
+    $loadingProgress.dispose();
     super.dispose();
   }
 
