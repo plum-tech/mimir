@@ -87,11 +87,15 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                       builder: (context, value, _) {
                         return SliverAppBar(
                           expandedHeight: value,
-                          flexibleSpace: AsyncBookImage(
-                            isbn: book.isbn,
-                            onHasImageChanged: (value) {
-                              $hasImage.value = value;
-                            },
+                          pinned: true,
+                          stretch: true,
+                          flexibleSpace: FlexibleSpaceBar(
+                            background: AsyncBookImage(
+                              isbn: book.isbn,
+                              onHasImageChanged: (value) {
+                                $hasImage.value = value;
+                              },
+                            ),
                           ),
                           actions: widget.actions,
                           bottom: isFetching
