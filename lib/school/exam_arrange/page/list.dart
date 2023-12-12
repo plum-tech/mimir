@@ -22,7 +22,7 @@ class ExamArrangementListPage extends StatefulWidget {
 
 class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
   List<ExamEntry>? examList;
-  bool isLoading = false;
+  bool isFetching = false;
   late SemesterInfo initial = ExamArrangeInit.storage.lastSemesterInfo ?? estimateCurrentSemester();
   late SemesterInfo selected = initial;
 
@@ -36,7 +36,7 @@ class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
     if (!mounted) return;
     setState(() {
       examList = ExamArrangeInit.storage.getExamList(info);
-      isLoading = true;
+      isFetching = true;
     });
     try {
       final examList = await ExamArrangeInit.service.getExamList(info);
@@ -45,14 +45,14 @@ class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
         if (!mounted) return;
         setState(() {
           this.examList = examList;
-          isLoading = false;
+          isFetching = false;
         });
       }
     } catch (error, stackTrace) {
       debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() {
-        isLoading = false;
+        isFetching = false;
       });
     }
   }
@@ -64,19 +64,12 @@ class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
+          SliverAppBar.medium(
             pinned: true,
-            expandedHeight: 200,
-            flexibleSpace: FlexibleSpaceBar(
-              title: i18n.title.text(style: context.textTheme.headlineSmall),
-              background: buildSemesterSelector(),
-            ),
-            bottom: isLoading
-                ? const PreferredSize(
-                    preferredSize: Size.fromHeight(4),
-                    child: LinearProgressIndicator(),
-                  )
-                : null,
+            title: i18n.title.text(),
+          ),
+          SliverToBoxAdapter(
+            child: buildSemesterSelector(),
           ),
           if (examList != null)
             if (examList.isEmpty)
@@ -101,6 +94,12 @@ class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
               ),
         ],
       ),
+      bottomNavigationBar: isFetching
+          ? const PreferredSize(
+              preferredSize: Size.fromHeight(4),
+              child: LinearProgressIndicator(),
+            )
+          : null,
     );
   }
 
