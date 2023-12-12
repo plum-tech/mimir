@@ -48,13 +48,10 @@ class _SemesterSelectorState extends State<SemesterSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        buildYearSelector(),
-        buildSemesterSelector(),
-      ],
-    );
+    return [
+      buildYearSelector().padH(4),
+      buildSemesterSelector().padH(4),
+    ].row(caa: CrossAxisAlignment.start,mas: MainAxisSize.min).padSymmetric(v: 5).center()  ;
   }
 
   List<int> _generateYearList() {

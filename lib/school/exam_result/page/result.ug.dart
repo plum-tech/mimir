@@ -103,21 +103,12 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
         child: CustomScrollView(
           controller: controller,
           slivers: [
-            SliverAppBar(
+            SliverAppBar.medium(
               pinned: true,
-              expandedHeight: 200,
-              flexibleSpace: FlexibleSpaceBar(
-                title: buildTitle(),
-                centerTitle: true,
-                titlePadding: const EdgeInsetsDirectional.only(start: 16, bottom: 16),
-                background: buildSemesterSelector(),
-              ),
-              bottom: isFetching
-                  ? PreferredSize(
-                      preferredSize: const Size.fromHeight(4),
-                      child: $loadingProgress >> (ctx, value) => AnimatedProgressBar(value: value),
-                    )
-                  : null,
+              title: buildTitle(),
+            ),
+            SliverToBoxAdapter(
+              child: buildSemesterSelector(),
             ),
             if (resultList != null)
               if (resultList.isEmpty)
@@ -154,6 +145,12 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
         label: Text(isSelecting ? i18n.unselect : i18n.select),
         icon: Icon(isSelecting ? Icons.check_box_outlined : Icons.check_box_outline_blank),
       ),
+      bottomNavigationBar: isFetching
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(4),
+              child: $loadingProgress >> (ctx, value) => AnimatedProgressBar(value: value),
+            )
+          : null,
     );
   }
 
@@ -179,15 +176,9 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
     if (selectedExams != null) {
       final gpa = calcGPA(selectedExams.where((exam) => exam.hasScore));
       if (isSelecting) {
-        return [
-          i18n.lessonSelected(selectedExams.length).text(textAlign: TextAlign.center, style: style).expanded(),
-          i18n.gpaResult(gpa).text(textAlign: TextAlign.center, style: style).expanded(),
-        ].row();
+        return "${i18n.lessonSelected(selectedExams.length)} ${i18n.gpaResult(gpa)}".text();
       } else {
-        return [
-          selected.semester.localized().text(textAlign: TextAlign.center, style: style).expanded(),
-          i18n.gpaResult(gpa).text(textAlign: TextAlign.center, style: style).expanded(),
-        ].row();
+        return "${selected.semester.localized()} ${i18n.gpaResult(gpa)}".text();
       }
     } else {
       return i18n.title.text(style: style);
