@@ -13,6 +13,7 @@ class _I18n with CommonI18nMixin {
   final timetable = const _Timetable();
   final school = const _School();
   final life = const _Life();
+  final about = const _About();
 
   static const ns = "settings";
 
@@ -139,6 +140,14 @@ class _Life {
   final electricity = const _Electricity();
   final expense = const _Expense();
   static const ns = "${_I18n.ns}.life";
+
+  String get title => "$ns.title".tr();
+}
+
+class _About {
+  const _About();
+
+  static const ns = "${_I18n.ns}.about";
 
   String get title => "$ns.title".tr();
 }

@@ -20,14 +20,11 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
         slivers: [
-          SliverAppBar(
+          SliverAppBar.large(
             pinned: true,
             snap: false,
             floating: false,
-            expandedHeight: 100.0,
-            flexibleSpace: FlexibleSpaceBar(
-              title: i18n.timetable.title.text(style: context.textTheme.headlineSmall),
-            ),
+            title: i18n.timetable.title.text(),
           ),
           SliverList.list(
             children: [

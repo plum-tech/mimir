@@ -28,14 +28,11 @@ class _CredentialsPageState extends State<CredentialsPage> {
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
         slivers: <Widget>[
-          SliverAppBar(
+          SliverAppBar.large(
             pinned: true,
             snap: false,
             floating: false,
-            expandedHeight: 100.0,
-            flexibleSpace: FlexibleSpaceBar(
-              title: i18n.credentials.oaAccount.text(style: context.textTheme.headlineSmall),
-            ),
+            title: i18n.credentials.oaAccount.text(),
           ),
           buildBody(),
         ],

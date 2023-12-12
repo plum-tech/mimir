@@ -35,14 +35,11 @@ class _SchoolSettingsPageState extends State<SchoolSettingsPage> {
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
         slivers: [
-          SliverAppBar(
+          SliverAppBar.large(
             pinned: true,
             snap: false,
             floating: false,
-            expandedHeight: 100.0,
-            flexibleSpace: FlexibleSpaceBar(
-              title: i18n.school.title.text(style: context.textTheme.headlineSmall),
-            ),
+            title: i18n.school.title.text(),
           ),
           SliverList.list(
             children: [

@@ -16,6 +16,7 @@ import 'package:sit/school/library/page/login.dart';
 import 'package:sit/school/library/page/borrowing.dart';
 import 'package:sit/school/ywb/page/service.dart';
 import 'package:sit/school/ywb/page/application.dart';
+import 'package:sit/settings/page/about.dart';
 import 'package:sit/settings/page/life.dart';
 import 'package:sit/settings/page/proxy.dart';
 import 'package:sit/settings/page/school.dart';
@@ -167,6 +168,10 @@ final _settingsRoute = GoRoute(
     GoRoute(
       path: "life",
       builder: (ctx, state) => const LifeSettingsPage(),
+    ),
+    GoRoute(
+      path: "about",
+      builder: (ctx, state) => const AboutSettingsPage(),
     ),
     GoRoute(
       path: "proxy",

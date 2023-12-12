@@ -57,12 +57,11 @@ class _SettingsPageState extends State<SettingsPage> {
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
         slivers: <Widget>[
-          SliverAppBar(
+          SliverAppBar.large(
             pinned: true,
-            expandedHeight: 100.0,
-            flexibleSpace: FlexibleSpaceBar(
-              title: i18n.title.text(style: context.textTheme.headlineSmall),
-            ),
+            snap: false,
+            floating: false,
+            title: i18n.title.text(),
           ),
           SliverList(
             delegate: SliverChildListDelegate(
@@ -126,6 +125,13 @@ class _SettingsPageState extends State<SettingsPage> {
       }
       all.add(const Divider());
     }
+    if (Settings.isDeveloperMode) {
+      all.add(PageNavigationTile(
+        title: i18n.dev.title.text(),
+        icon: const Icon(Icons.developer_mode_outlined),
+        path: "/settings/developer",
+      ));
+    }
     if (!kIsWeb) {
       all.add(PageNavigationTile(
         title: i18n.proxy.title.text(),
@@ -135,17 +141,15 @@ class _SettingsPageState extends State<SettingsPage> {
       ));
       all.add(const NetworkToolEntryTile());
     }
-    if (Settings.isDeveloperMode) {
-      all.add(PageNavigationTile(
-        title: i18n.dev.title.text(),
-        icon: const Icon(Icons.developer_mode_outlined),
-        path: "/settings/developer",
-      ));
-    }
     if (auth.loginStatus != LoginStatus.never) {
       all.add(const ClearCacheTile());
     }
     all.add(const WipeDataTile());
+    all.add(PageNavigationTile(
+      title: i18n.about.title.text(),
+      icon: const Icon(Icons.info),
+      path: "/settings/about",
+    ));
     all.add(const VersionTile());
     return all;
   }
