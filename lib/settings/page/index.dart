@@ -15,10 +15,8 @@ import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/school/widgets/campus.dart';
 import 'package:sit/utils/color.dart';
-import 'package:sit/entity/version.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:system_theme/system_theme.dart';
-import 'package:unicons/unicons.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:locale_names/locale_names.dart';
 
@@ -63,10 +61,8 @@ class _SettingsPageState extends State<SettingsPage> {
             floating: false,
             title: i18n.title.text(),
           ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              buildEntries(),
-            ),
+          SliverList.list(
+            children: buildEntries(),
           ),
         ],
       ),
@@ -150,7 +146,6 @@ class _SettingsPageState extends State<SettingsPage> {
       icon: const Icon(Icons.info),
       path: "/settings/about",
     ));
-    all.add(const VersionTile());
     return all;
   }
 
@@ -258,64 +253,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
             ].wrap(),
-    );
-  }
-}
-
-class VersionTile extends StatefulWidget {
-  const VersionTile({super.key});
-
-  @override
-  State<VersionTile> createState() => _VersionTileState();
-}
-
-class _VersionTileState extends State<VersionTile> {
-  int clickCount = 0;
-  final $isDeveloperMode = Settings.listenIsDeveloperMode();
-
-  @override
-  void initState() {
-    super.initState();
-    $isDeveloperMode.addListener(refresh);
-  }
-
-  @override
-  void dispose() {
-    $isDeveloperMode.removeListener(refresh);
-    super.dispose();
-  }
-
-  void refresh() {
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final version = R.currentVersion;
-    return ListTile(
-      leading: switch (version.platform) {
-        AppPlatform.iOS || AppPlatform.macOS => const Icon(UniconsLine.apple),
-        AppPlatform.android => const Icon(Icons.android),
-        AppPlatform.linux => const Icon(UniconsLine.linux),
-        AppPlatform.windows => const Icon(UniconsLine.windows),
-        AppPlatform.web => const Icon(UniconsLine.browser),
-        AppPlatform.unknown => const Icon(Icons.device_unknown_outlined),
-      },
-      title: i18n.version.text(),
-      subtitle: "${version.platform.name} ${version.full.toString()}".text(),
-      onTap: Settings.isDeveloperMode && clickCount <= 10
-          ? null
-          : () async {
-              if (Settings.isDeveloperMode) return;
-              clickCount++;
-              if (clickCount >= 10) {
-                clickCount = 0;
-                Settings.isDeveloperMode = true;
-                // TODO: i18n
-                context.showSnackBar(content: const Text("Developer mode activated"));
-                await HapticFeedback.mediumImpact();
-              }
-            },
     );
   }
 }
