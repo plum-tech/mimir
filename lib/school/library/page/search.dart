@@ -27,7 +27,7 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
     if (searchMethod != null) {
       $searchMethod.value = searchMethod;
     }
-    query = keyword;
+    query = keyword.trim();
 
     showSuggestions(context);
     await Future.delayed(const Duration(milliseconds: 500));
@@ -73,6 +73,8 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
   }
 
   Future<void> addHistory(String keyword, SearchMethod searchMethod) async {
+    keyword = keyword.trim();
+    if (keyword.isEmpty) return;
     await LibraryInit.searchStorage.addSearchHistory(SearchHistoryItem(
       keyword: keyword,
       searchMethod: searchMethod,
