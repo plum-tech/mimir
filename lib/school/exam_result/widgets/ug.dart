@@ -31,13 +31,19 @@ class ExamResultUgSelectableCard extends StatelessWidget {
       result,
       selected: selected,
       showDetails: !isSelectingMode,
-      iconOverride: isSelectingMode ? Icon(selected ? Icons.check_box_outlined : Icons.check_box_outline_blank) : null,
-      elevated: elevated,
-      onTap: !isSelectingMode
+      iconOverride: !result.passed
           ? null
-          : () {
-              controller.select(index);
-            },
+          : isSelectingMode
+              ? Icon(selected ? Icons.check_box_outlined : Icons.check_box_outline_blank)
+              : null,
+      elevated: elevated,
+      onTap: !result.passed
+          ? null
+          : !isSelectingMode
+              ? null
+              : () {
+                  controller.select(index);
+                },
     );
   }
 }

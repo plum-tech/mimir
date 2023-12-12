@@ -168,7 +168,9 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
     final style = context.textTheme.headlineSmall;
     final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResultUg>() : resultList;
     if (selectedExams != null) {
-      final gpa = calcGPA(selectedExams.where((exam) => exam.hasScore));
+      // TODO: the right way to calculate GPA
+      final validResults = selectedExams.where((exam) => exam.hasScore).where((result) => result.passed);
+      final gpa = calcGPA(validResults);
       if (isSelecting) {
         return "${i18n.lessonSelected(selectedExams.length)} ${i18n.gpaResult(gpa)}".text();
       } else {
