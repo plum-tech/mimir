@@ -69,20 +69,19 @@ class ExamResultUgCard extends StatelessWidget {
     return ListTile(
       selected: selected,
       isThreeLine: true,
-      leading: iconOverride?.sized(w: CourseIcon.kDefaultSize, h: CourseIcon.kDefaultSize) ??
-          CourseIcon(courseName: result.courseName),
+      leading: iconOverride ?? CourseIcon(courseName: result.courseName),
       titleTextStyle: textTheme.titleMedium,
       title: Text(result.courseName),
       subtitleTextStyle: textTheme.bodyMedium,
       subtitle: [
         '$courseType | ${i18n.credit}: ${result.credit}'.text(),
         AnimatedSize(
-          duration: const Duration(milliseconds: 300),
+          duration: Durations.short4,
           curve: Curves.fastEaseInToSlowEaseOut.flipped,
           child: showDetails ? ExamResultItemChipGroup(resultItems) : const SizedBox(),
         ),
       ].column(caa: CrossAxisAlignment.start),
-      leadingAndTrailingTextStyle: TextStyle(
+      leadingAndTrailingTextStyle: textTheme.labelSmall?.copyWith(
         fontSize: textTheme.bodyLarge?.fontSize,
         color: result.passed ? null : context.$red$,
       ),

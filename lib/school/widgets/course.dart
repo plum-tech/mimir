@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/entity/school.dart';
 
 class CourseIcon extends StatelessWidget {
@@ -18,6 +19,6 @@ class CourseIcon extends StatelessWidget {
       CourseCategory.iconPathOf(courseName: courseName),
       width: size,
       height: size,
-    );
+    ).sized(w: kDefaultSize, h: kDefaultSize);
   }
 }
