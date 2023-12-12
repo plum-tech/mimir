@@ -6,11 +6,18 @@ import 'package:sit/school/entity/school.dart';
 part 'application.g.dart';
 
 enum YwbApplicationType {
-  complete,
-  running,
-  todo;
+  complete("Complete_Init"),
+  running("Runing_Init"),
+  todo("Todolist_Init");
+
+  final String method;
+
+  const YwbApplicationType(this.method);
 
   String l10nName() => "ywb.type.$name".tr();
+
+  String get messageListUrl =>
+      'https://xgfy.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=HttpHandler&DoMethod=$method&HttpHandlerName=BP.WF.HttpHandler.WF';
 }
 
 final _tsFormat = DateFormat("yyyy-MM-dd hh:mm");

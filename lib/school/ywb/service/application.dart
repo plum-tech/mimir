@@ -8,15 +8,6 @@ import 'package:sit/session/ywb.dart';
 
 import '../entity/application.dart';
 
-String _getMessageListUrl(YwbApplicationType type) {
-  final method = switch (type) {
-    YwbApplicationType.todo => 'Todolist_Init',
-    YwbApplicationType.running => 'Runing_Init',
-    YwbApplicationType.complete => 'Complete_Init',
-  };
-  return 'https://xgfy.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=HttpHandler&DoMethod=$method&HttpHandlerName=BP.WF.HttpHandler.WF';
-}
-
 class YwbApplicationService {
   YwbSession get session => Init.ywbSession;
 
@@ -28,7 +19,7 @@ class YwbApplicationService {
   }) async {
     final progress = ProgressWatcher(callback: onProgress);
     final response = await session.request(
-      _getMessageListUrl(type),
+      type.messageListUrl,
       data: {
         "myFlow": 1,
         "pageIdx": 1,
@@ -74,22 +65,5 @@ class YwbApplicationService {
     final List trackRaw = payload["Track"];
     final track = trackRaw.map((e) => YwbApplicationTrack.fromJson(e)).toList();
     return track;
-  }
-
-  Future<MyYwbApplications> getMyApplications({
-    void Function(double progress)? onProgress,
-  }) async {
-    final progress = ProgressWatcher(callback: onProgress);
-    return (
-      todo: await getApplicationsOf(YwbApplicationType.todo, onProgress: (double p) {
-        progress.value = p / 3;
-      }),
-      running: await getApplicationsOf(YwbApplicationType.running, onProgress: (double p) {
-        progress.value = 1 / 3 + p / 3;
-      }),
-      complete: await getApplicationsOf(YwbApplicationType.complete, onProgress: (double p) {
-        progress.value = 2 / 3 + p / 3;
-      }),
-    );
   }
 }

@@ -2,10 +2,12 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/widgets/card.dart';
+import 'package:sit/design/widgets/common.dart';
 
 import 'package:sit/school/oa_announce/widget/tile.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/utils/collection.dart';
+import 'package:sit/utils/error.dart';
 
 import '../entity/announce.dart';
 import '../init.dart';
@@ -67,11 +69,9 @@ class _OaAnnounceListPageInternalState extends State<OaAnnounceListPageInternal>
                   bottom: TabBar(
                     isScrollable: true,
                     tabs: widget.cats
-                        .mapIndexed(
-                          (i, e) => Tab(
-                            child: e.l10nName().text(),
-                          ),
-                        )
+                        .map((cat) => Tab(
+                              child: cat.l10nName().text(),
+                            ))
                         .toList(),
                   ),
                 ),
@@ -115,8 +115,7 @@ class OaAnnounceLoadingList extends StatefulWidget {
 class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with AutomaticKeepAliveClientMixin {
   int lastPage = 1;
   bool isFetching = false;
-  late List<OaAnnounceRecord> announcements =
-      OaAnnounceInit.storage.getAnnouncements(widget.cat) ?? <OaAnnounceRecord>[];
+  late var announcements = OaAnnounceInit.storage.getAnnouncements(widget.cat);
 
   @override
   bool get wantKeepAlive => true;
@@ -132,6 +131,7 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final announcements = this.announcements;
     return NotificationListener<ScrollNotification>(
       onNotification: (event) {
         if (event.metrics.pixels >= event.metrics.maxScrollExtent) {
@@ -147,15 +147,24 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
             // This is the flip side of the SliverOverlapAbsorber above.
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
           ),
-          SliverList.builder(
-            itemCount: announcements.length,
-            itemBuilder: (ctx, index) {
-              return FilledCard(
-                clip: Clip.hardEdge,
-                child: OaAnnounceTile(announcements[index]),
-              );
-            },
-          ),
+          if (announcements != null)
+            if (announcements.isEmpty)
+              SliverFillRemaining(
+                child: LeavingBlank(
+                  icon: Icons.inbox_outlined,
+                  desc: i18n.noOaAnnouncementsTip,
+                ),
+              )
+            else
+              SliverList.builder(
+                itemCount: announcements.length,
+                itemBuilder: (ctx, index) {
+                  return FilledCard(
+                    clip: Clip.hardEdge,
+                    child: OaAnnounceTile(announcements[index]),
+                  );
+                },
+              ),
         ],
       ),
     );
@@ -171,6 +180,7 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
     final cat = widget.cat;
     try {
       final lastPayload = await OaAnnounceInit.service.getAnnounceList(cat, lastPage);
+      final announcements = this.announcements ?? <OaAnnounceRecord>[];
       announcements.addAll(lastPayload.items);
       announcements.distinctBy((a) => a.uuid);
       announcements.sort((a, b) => b.dateTime.compareTo(a.dateTime));
@@ -182,8 +192,7 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
       });
       widget.onLoadingChanged(false);
     } catch (error, stackTrace) {
-      debugPrint("$cat $error");
-      debugPrintStack(stackTrace: stackTrace);
+      debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

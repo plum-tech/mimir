@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/widgets/app.dart';
+import 'package:sit/school/ywb/entity/application.dart';
 import 'package:sit/school/ywb/init.dart';
-import 'package:sit/school/ywb/storage/application.dart';
 import 'package:rettulf/rettulf.dart';
 
 import "i18n.dart";
@@ -20,6 +20,23 @@ class YwbAppCard extends StatefulWidget {
 }
 
 class _YwbAppCardState extends State<YwbAppCard> {
+  final $running = YwbInit.applicationStorage.listenApplicationListOf(YwbApplicationType.running);
+  @override
+  void initState() {
+    super.initState();
+    $running.addListener(refresh);
+  }
+
+  @override
+  void dispose() {
+    $running.removeListener(refresh);
+    super.dispose();
+  }
+
+  void refresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppCard(
@@ -45,9 +62,9 @@ class _YwbAppCardState extends State<YwbAppCard> {
   }
 
   Widget buildRunningCard() {
-    final mine = YwbInit.applicationStorage.myApplications;
-    if (mine == null) return const SizedBox();
-    final applications = mine.running.sublist(0, min(_applicationLength, mine.running.length));
+    final running = YwbInit.applicationStorage.getApplicationListOf(YwbApplicationType.running);
+    if (running == null) return const SizedBox();
+    final applications = running.sublist(0, min(_applicationLength, running.length));
     return applications
         .map((e) => YwbApplicationTile(e).inCard(
               clip: Clip.hardEdge,

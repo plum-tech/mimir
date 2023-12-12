@@ -93,10 +93,12 @@ class _LoginPageState extends State<LoginPage> {
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       context.go("/");
-    } on Exception catch (error, stackTrace) {
+    } catch (error, stackTrace) {
       if (!mounted) return;
       setState(() => isLoggingIn = false);
-      await handleLoginException(context: context, error: error, stackTrace: stackTrace);
+      if (error is Exception) {
+        await handleLoginException(context: context, error: error, stackTrace: stackTrace);
+      }
     }
   }
 

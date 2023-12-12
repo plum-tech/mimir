@@ -26,23 +26,19 @@ class _LibraryAppCardState extends State<LibraryAppCard> {
 
   @override
   void initState() {
-    $credentials.addListener(onCredentialsChanged);
-    $borrowedBooks.addListener(onBorrowedBooksRefresh);
     super.initState();
+    $credentials.addListener(refresh);
+    $borrowedBooks.addListener(refresh);
   }
 
   @override
   void dispose() {
-    $credentials.removeListener(onCredentialsChanged);
-    $borrowedBooks.removeListener(onBorrowedBooksRefresh);
+    $credentials.removeListener(refresh);
+    $borrowedBooks.removeListener(refresh);
     super.dispose();
   }
 
-  void onCredentialsChanged() {
-    setState(() {});
-  }
-
-  void onBorrowedBooksRefresh() {
+  void refresh() {
     setState(() {});
   }
 
