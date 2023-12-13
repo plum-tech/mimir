@@ -83,7 +83,6 @@ class ExamResultUg {
   @HiveField(8)
   final DateTime? time;
 
-  /// 通识课, 公共基础课, 学科专业基础课, 综合实践, 实践教学, Empty string
   @JsonKey(name: "kclbmc", fromJson: CourseCat.parse)
   @HiveField(9)
   final CourseCat courseCat;
@@ -110,6 +109,8 @@ class ExamResultUg {
     final score = this.score;
     return score != null ? score >= 60.0 : false;
   }
+
+  bool get isPreparatory => courseCode.startsWith("YK");
 
   factory ExamResultUg.fromJson(Map<String, dynamic> json) => _$ExamResultUgFromJson(json);
 

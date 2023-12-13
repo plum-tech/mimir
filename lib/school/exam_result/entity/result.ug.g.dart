@@ -250,10 +250,12 @@ const _$SemesterEnumMap = {
 };
 
 const _$CourseCatEnumMap = {
+  CourseCat.none: 'none',
   CourseCat.genEd: 'genEd',
   CourseCat.publicCore: 'publicCore',
-  CourseCat.specialized: 'specialized',
+  CourseCat.specializedCore: 'specializedCore',
+  CourseCat.specializedCompulsory: 'specializedCompulsory',
+  CourseCat.specializedElective: 'specializedElective',
   CourseCat.integratedPractice: 'integratedPractice',
   CourseCat.practicalInstruction: 'practicalInstruction',
-  CourseCat.none: 'none',
 };

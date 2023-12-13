@@ -70,8 +70,8 @@ class ExamResultUgCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = context.textTheme;
     final courseType = result.courseCode[0] == 'G' ? i18n.elective : i18n.compulsory;
-    final resultItems =
-        result.items.where((e) => !e.score.isNaN && !(e.scoreType == "总评" && e.score == result.score)).toList();
+    // final resultItems =
+    //     result.items.where((e) => !e.score.isNaN && !(e.scoreType == "总评" && e.score == result.score)).toList();
     final score = result.score;
     return ListTile(
       selected: selected,
@@ -81,12 +81,13 @@ class ExamResultUgCard extends StatelessWidget {
       title: Text(result.courseName),
       subtitleTextStyle: textTheme.bodyMedium,
       subtitle: [
-        '$courseType | ${i18n.credit}: ${result.credit}'.text(),
-        AnimatedSize(
-          duration: Durations.short4,
-          curve: Curves.fastEaseInToSlowEaseOut.flipped,
-          child: showDetails ? ExamResultItemChipGroup(resultItems) : const SizedBox(),
-        ),
+        '${result.courseCat}'.text(),
+        '${i18n.credit}: ${result.credit}'.text(),
+        // AnimatedSize(
+        //   duration: Durations.short4,
+        //   curve: Curves.fastEaseInToSlowEaseOut.flipped,
+        //   child: showDetails ? ExamResultItemChipGroup(resultItems) : const SizedBox(),
+        // ),
       ].column(caa: CrossAxisAlignment.start),
       leadingAndTrailingTextStyle: textTheme.labelSmall?.copyWith(
         fontSize: textTheme.bodyLarge?.fontSize,

@@ -59,33 +59,44 @@ String semesterToFormField(Semester semester) {
 
 @HiveType(typeId: CacheHiveType.courseCat)
 enum CourseCat {
-  /// 通识课
   @HiveField(0)
+  none,
+
+  /// 通识课
+  @HiveField(1)
   genEd,
 
   /// 公共基础课
-  @HiveField(1)
+  @HiveField(2)
   publicCore,
 
   /// 学科专业基础课
-  @HiveField(2)
-  specialized,
+  @HiveField(3)
+  specializedCore,
+
+  /// 专业必修课
+  @HiveField(4)
+  specializedCompulsory,
+
+  /// 专业选修课
+  @HiveField(5)
+  specializedElective,
 
   /// 综合实践
-  @HiveField(3)
+  @HiveField(6)
   integratedPractice,
 
   /// 实践教学
-  @HiveField(4)
-  practicalInstruction,
-  @HiveField(5)
-  none;
+  @HiveField(7)
+  practicalInstruction;
 
   static CourseCat parse(String? str) {
     return switch (str) {
       "通识课" => genEd,
       "公共基础课" => publicCore,
-      "学科专业基础课" => specialized,
+      "学科专业基础课" => specializedCore,
+      "专业必修课" => specializedCompulsory,
+      "专业选修课" => specializedElective,
       "综合实践" => integratedPractice,
       "实践教学" => practicalInstruction,
       _ => none,
