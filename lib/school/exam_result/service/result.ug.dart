@@ -31,9 +31,10 @@ class ExamResultUgService {
 
   const ExamResultUgService();
 
-  /// 获取成绩
-  Future<List<ExamResultUg>> fetchResultList(
-    SemesterInfo info, {
+  /// If [year] is null, the result list from all school year will be fetched.
+  Future<List<ExamResultUg>> fetchResultList({
+    required SchoolYear? year,
+    required Semester semester,
     void Function(double progress)? onProgress,
   }) async {
     final progress = ProgressWatcher(callback: onProgress);
@@ -48,11 +49,11 @@ class ExamResultUgService {
       },
       data: {
         // 学年名
-        'xnm': info.year.toString(),
+        if (year != null) 'xnm': year.toString(),
         // 学期名
-        'xqm': semesterToFormField(info.semester),
+        'xqm': semesterToFormField(semester),
         // 获取成绩最大数量
-        'queryModel.showCount': 100,
+        'queryModel.showCount': 500,
       },
     );
     progress.value = 0.2;

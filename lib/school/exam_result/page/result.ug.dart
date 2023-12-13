@@ -53,9 +53,13 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
       isFetching = true;
     });
     try {
-      final resultList = await ExamResultInit.ugService.fetchResultList(info, onProgress: (p) {
-        $loadingProgress.value = p;
-      });
+      final resultList = await ExamResultInit.ugService.fetchResultList(
+        year: info.year,
+        semester: info.semester,
+        onProgress: (p) {
+          $loadingProgress.value = p;
+        },
+      );
       await ExamResultInit.ugStorage.setResultList(info, resultList);
       // Prevents the former query replace new query.
       if (info == selected) {
