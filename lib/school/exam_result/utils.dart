@@ -12,4 +12,3 @@ double calcGPA(Iterable<ExamResultUg> resultList) {
   final res = sum / totalCredits / 10.0 - 5.0;
   return res.isNaN ? 0 : res;
 }
-

@@ -51,7 +51,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
                 PlatformTextButton(
                   onPressed: () async {
                     setState(() {
-                      this.background = background.disabledCopyWith();
+                      this.background = background.copyWith(path: "");
                     });
                   },
                   child: i18n.delete.text(style: TextStyle(color: context.$red$)),

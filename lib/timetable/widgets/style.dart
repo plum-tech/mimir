@@ -1,3 +1,4 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/background.dart';
@@ -6,6 +7,9 @@ import 'package:sit/timetable/platte.dart';
 
 import '../init.dart';
 
+part "style.g.dart";
+
+@CopyWith(skipFields: true)
 class CourseCellStyle {
   final bool showTeachers;
   final bool grayOutTakenLessons;
@@ -18,22 +22,9 @@ class CourseCellStyle {
     this.harmonizeWithThemeColor = true,
     this.alpha = 1.0,
   });
-
-  CourseCellStyle copyWith({
-    bool? showTeachers,
-    bool? grayOutTakenLessons,
-    bool? harmonizeWithThemeColor,
-    double? alpha,
-  }) {
-    return CourseCellStyle(
-      showTeachers: showTeachers ?? this.showTeachers,
-      grayOutTakenLessons: grayOutTakenLessons ?? this.grayOutTakenLessons,
-      harmonizeWithThemeColor: harmonizeWithThemeColor ?? this.harmonizeWithThemeColor,
-      alpha: alpha ?? this.alpha,
-    );
-  }
 }
 
+@CopyWith(skipFields: true)
 class TimetableStyleData {
   final TimetablePalette platte;
   final CourseCellStyle cellStyle;
@@ -53,18 +44,6 @@ class TimetableStyleData {
         platte == other.platte &&
         background == other.background &&
         cellStyle == other.cellStyle;
-  }
-
-  TimetableStyleData copyWith({
-    TimetablePalette? platte,
-    CourseCellStyle? cellStyle,
-    BackgroundImage? background,
-  }) {
-    return TimetableStyleData(
-      platte: platte ?? this.platte,
-      cellStyle: cellStyle ?? this.cellStyle,
-      background: background ?? this.background,
-    );
   }
 }
 

@@ -61,9 +61,9 @@ class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistor
             title: i18n.history.title.text(),
             bottom: isFetching
                 ? const PreferredSize(
-              preferredSize: Size.fromHeight(4),
-              child: LinearProgressIndicator(),
-            )
+                    preferredSize: Size.fromHeight(4),
+                    child: LinearProgressIndicator(),
+                  )
                 : null,
           ),
           if (history != null)
@@ -83,9 +83,9 @@ class BookBorrowHistoryCard extends StatelessWidget {
   final BookBorrowingHistoryItem book;
 
   const BookBorrowHistoryCard(
-      this.book, {
-        super.key,
-      });
+    this.book, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +103,7 @@ class BookBorrowHistoryCard extends StatelessWidget {
         trailing: book.operation.l10n().text(),
         onTap: () async {
           await context.show$Sheet$(
-                (ctx) => BookDetailsPage(
+            (ctx) => BookDetailsPage(
               book: BookModel.fromBorrowHistory(book),
             ),
           );

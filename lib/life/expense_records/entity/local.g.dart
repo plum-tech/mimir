@@ -3,6 +3,96 @@
 part of 'local.dart';
 
 // **************************************************************************
+// CopyWithGenerator
+// **************************************************************************
+
+abstract class _$TransactionCWProxy {
+  /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored.
+  ///
+  /// Usage
+  /// ```dart
+  /// Transaction(...).copyWith(id: 12, name: "My name")
+  /// ````
+  Transaction call({
+    DateTime? timestamp,
+    int? consumerId,
+    TransactionType? type,
+    double? balanceBefore,
+    double? balanceAfter,
+    double? deltaAmount,
+    String? deviceName,
+    String? note,
+  });
+}
+
+/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfTransaction.copyWith(...)`.
+class _$TransactionCWProxyImpl implements _$TransactionCWProxy {
+  const _$TransactionCWProxyImpl(this._value);
+
+  final Transaction _value;
+
+  @override
+
+  /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored.
+  ///
+  /// Usage
+  /// ```dart
+  /// Transaction(...).copyWith(id: 12, name: "My name")
+  /// ````
+  Transaction call({
+    Object? timestamp = const $CopyWithPlaceholder(),
+    Object? consumerId = const $CopyWithPlaceholder(),
+    Object? type = const $CopyWithPlaceholder(),
+    Object? balanceBefore = const $CopyWithPlaceholder(),
+    Object? balanceAfter = const $CopyWithPlaceholder(),
+    Object? deltaAmount = const $CopyWithPlaceholder(),
+    Object? deviceName = const $CopyWithPlaceholder(),
+    Object? note = const $CopyWithPlaceholder(),
+  }) {
+    return Transaction(
+      timestamp: timestamp == const $CopyWithPlaceholder() || timestamp == null
+          ? _value.timestamp
+          // ignore: cast_nullable_to_non_nullable
+          : timestamp as DateTime,
+      consumerId: consumerId == const $CopyWithPlaceholder() || consumerId == null
+          ? _value.consumerId
+          // ignore: cast_nullable_to_non_nullable
+          : consumerId as int,
+      type: type == const $CopyWithPlaceholder() || type == null
+          ? _value.type
+          // ignore: cast_nullable_to_non_nullable
+          : type as TransactionType,
+      balanceBefore: balanceBefore == const $CopyWithPlaceholder() || balanceBefore == null
+          ? _value.balanceBefore
+          // ignore: cast_nullable_to_non_nullable
+          : balanceBefore as double,
+      balanceAfter: balanceAfter == const $CopyWithPlaceholder() || balanceAfter == null
+          ? _value.balanceAfter
+          // ignore: cast_nullable_to_non_nullable
+          : balanceAfter as double,
+      deltaAmount: deltaAmount == const $CopyWithPlaceholder() || deltaAmount == null
+          ? _value.deltaAmount
+          // ignore: cast_nullable_to_non_nullable
+          : deltaAmount as double,
+      deviceName: deviceName == const $CopyWithPlaceholder() || deviceName == null
+          ? _value.deviceName
+          // ignore: cast_nullable_to_non_nullable
+          : deviceName as String,
+      note: note == const $CopyWithPlaceholder() || note == null
+          ? _value.note
+          // ignore: cast_nullable_to_non_nullable
+          : note as String,
+    );
+  }
+}
+
+extension $TransactionCopyWith on Transaction {
+  /// Returns a callable class that can be used as follows: `instanceOfTransaction.copyWith(...)`.
+  // ignore: library_private_types_in_public_api
+  _$TransactionCWProxy get copyWith => _$TransactionCWProxyImpl(this);
+}
+
+// **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 

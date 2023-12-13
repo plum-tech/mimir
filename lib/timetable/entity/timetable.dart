@@ -1,3 +1,4 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/entity/campus.dart';
@@ -9,6 +10,7 @@ import '../utils.dart';
 part 'timetable.g.dart';
 
 @JsonSerializable()
+@CopyWith(skipFields: true)
 class SitTimetable {
   @JsonKey()
   final String name;
@@ -43,26 +45,6 @@ class SitTimetable {
 
   SitTimetableEntity resolve() {
     return resolveTimetableEntity(this);
-  }
-
-  SitTimetable copyWith({
-    String? name,
-    DateTime? startDate,
-    int? schoolYear,
-    Semester? semester,
-    Map<String, SitCourse>? courses,
-    int? lastCourseKey,
-    String? signature,
-  }) {
-    return SitTimetable(
-      name: name ?? this.name,
-      startDate: startDate ?? this.startDate,
-      schoolYear: schoolYear ?? this.schoolYear,
-      semester: semester ?? this.semester,
-      courses: courses ?? this.courses,
-      lastCourseKey: lastCourseKey ?? this.lastCourseKey,
-      signature: signature ?? this.signature,
-    );
   }
 
   @override

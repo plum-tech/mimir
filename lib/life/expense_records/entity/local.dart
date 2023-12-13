@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/storage/hive/type_id.dart';
@@ -10,6 +11,7 @@ import 'remote.dart';
 part 'local.g.dart';
 
 @HiveType(typeId: CacheHiveType.expenseTransaction)
+@CopyWith(skipFields: true)
 class Transaction {
   /// The compound of [TransactionRaw.date] and [TransactionRaw.time].
   @HiveField(0)
@@ -44,28 +46,6 @@ class Transaction {
     required this.deviceName,
     required this.note,
   });
-
-  Transaction copyWith({
-    DateTime? datetime,
-    int? consumerId,
-    TransactionType? type,
-    double? balanceBefore,
-    double? balanceAfter,
-    double? deltaAmount,
-    String? deviceName,
-    String? note,
-  }) {
-    return Transaction(
-      timestamp: datetime ?? this.timestamp,
-      consumerId: consumerId ?? this.consumerId,
-      type: type ?? this.type,
-      balanceBefore: balanceBefore ?? this.balanceBefore,
-      balanceAfter: balanceAfter ?? this.balanceAfter,
-      deltaAmount: deltaAmount ?? this.deltaAmount,
-      deviceName: deviceName ?? this.deviceName,
-      note: note ?? this.note,
-    );
-  }
 
   @override
   String toString() {

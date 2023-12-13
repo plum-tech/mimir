@@ -1,3 +1,4 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/storage/hive/type_id.dart';
@@ -18,6 +19,7 @@ DateTime? _parseTime(dynamic time) {
 
 @JsonSerializable()
 @HiveType(typeId: CacheHiveType.examResultUg)
+@CopyWith(skipFields: true)
 class ExamResultUg {
   /// If the teacher of class hasn't been evaluated, the score is NaN.
   @JsonKey(name: 'cj', fromJson: stringToDouble)
@@ -79,32 +81,6 @@ class ExamResultUg {
     this.items = const [],
     required this.time,
   });
-
-  ExamResultUg copyWith({
-    double? score,
-    String? courseName,
-    String? courseId,
-    String? innerClassId,
-    SchoolYear? year,
-    Semester? semester,
-    String? dynClassId,
-    double? credit,
-    DateTime? time,
-    List<ExamResultItem>? items,
-  }) {
-    return ExamResultUg(
-      score: score ?? this.score,
-      courseName: courseName ?? this.courseName,
-      courseId: courseId ?? this.courseId,
-      innerClassId: innerClassId ?? this.innerClassId,
-      year: year ?? this.year,
-      semester: semester ?? this.semester,
-      credit: credit ?? this.credit,
-      dynClassId: dynClassId ?? this.dynClassId,
-      items: items ?? this.items,
-      time: time ?? this.time,
-    );
-  }
 
   bool get hasScore => !score.isNaN;
 

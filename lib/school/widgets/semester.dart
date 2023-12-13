@@ -51,7 +51,7 @@ class _SemesterSelectorState extends State<SemesterSelector> {
     return [
       buildYearSelector().padH(4),
       buildSemesterSelector().padH(4),
-    ].row(caa: CrossAxisAlignment.start,mas: MainAxisSize.min).padSymmetric(v: 5).center()  ;
+    ].row(caa: CrossAxisAlignment.start, mas: MainAxisSize.min).padSymmetric(v: 5).center();
   }
 
   List<int> _generateYearList() {
