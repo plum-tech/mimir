@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:sit/init.dart';
 
-import 'package:sit/school/entity/school.dart';
+import 'package:sit/school/entity/format.dart';
 import 'package:sit/session/class2nd.dart';
 
 import '../entity/list.dart';

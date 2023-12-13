@@ -2,7 +2,7 @@ import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
 import 'package:sit/init.dart';
 
-import 'package:sit/school/entity/school.dart';
+import 'package:sit/school/entity/format.dart';
 import 'package:sit/session/class2nd.dart';
 
 import '../entity/details.dart';

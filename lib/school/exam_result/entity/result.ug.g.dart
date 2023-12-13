@@ -24,6 +24,7 @@ abstract class _$ExamResultUgCWProxy {
     String? dynClassId,
     List<ExamResultItem>? items,
     DateTime? time,
+    String? courseCat,
   });
 }
 
@@ -52,6 +53,7 @@ class _$ExamResultUgCWProxyImpl implements _$ExamResultUgCWProxy {
     Object? dynClassId = const $CopyWithPlaceholder(),
     Object? items = const $CopyWithPlaceholder(),
     Object? time = const $CopyWithPlaceholder(),
+    Object? courseCat = const $CopyWithPlaceholder(),
   }) {
     return ExamResultUg(
       score: score == const $CopyWithPlaceholder() || score == null
@@ -94,6 +96,10 @@ class _$ExamResultUgCWProxyImpl implements _$ExamResultUgCWProxy {
           ? _value.time
           // ignore: cast_nullable_to_non_nullable
           : time as DateTime?,
+      courseCat: courseCat == const $CopyWithPlaceholder() || courseCat == null
+          ? _value.courseCat
+          // ignore: cast_nullable_to_non_nullable
+          : courseCat as String,
     );
   }
 }
@@ -129,13 +135,14 @@ class ExamResultUgAdapter extends TypeAdapter<ExamResultUg> {
       dynClassId: fields[4] as String,
       items: (fields[9] as List).cast<ExamResultItem>(),
       time: fields[8] as DateTime?,
+      // courseCat: fields[10] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, ExamResultUg obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.score)
       ..writeByte(1)
@@ -155,7 +162,9 @@ class ExamResultUgAdapter extends TypeAdapter<ExamResultUg> {
       ..writeByte(8)
       ..write(obj.time)
       ..writeByte(9)
-      ..write(obj.items);
+      ..write(obj.items)
+      ..writeByte(10)
+      ..write(obj.courseCat);
   }
 
   @override
@@ -210,15 +219,16 @@ class ExamResultItemAdapter extends TypeAdapter<ExamResultItem> {
 // **************************************************************************
 
 ExamResultUg _$ExamResultUgFromJson(Map<String, dynamic> json) => ExamResultUg(
-      score: stringToDouble(json['cj'] as String),
+      score: _stringToDouble(json['cj'] as String),
       courseName: _parseCourseName(json['kcmc']),
       courseId: json['kch'] as String,
       innerClassId: json['jxb_id'] as String,
-      year: formFieldToSchoolYear(json['xnmmc'] as String),
-      semester: formFieldToSemester(json['xqm'] as String),
-      credit: stringToDouble(json['xf'] as String),
+      year: _formFieldToSchoolYear(json['xnmmc'] as String),
+      semester: _formFieldToSemester(json['xqm'] as String),
+      credit: _stringToDouble(json['xf'] as String),
       dynClassId: json['jxbmc'] as String? ?? '',
       time: _parseTime(json['tjsj']),
+      courseCat: json['kclbmc'] as String,
     );
 
 Map<String, dynamic> _$ExamResultUgToJson(ExamResultUg instance) => <String, dynamic>{
@@ -227,9 +237,10 @@ Map<String, dynamic> _$ExamResultUgToJson(ExamResultUg instance) => <String, dyn
       'kch': instance.courseId,
       'jxb_id': instance.innerClassId,
       'jxbmc': instance.dynClassId,
-      'xnmmc': schoolYearToFormField(instance.year),
+      'xnmmc': _schoolYearToFormField(instance.year),
       'xqm': _$SemesterEnumMap[instance.semester]!,
       'xf': instance.credit,
+      'kclbmc': instance.courseCat,
     };
 
 const _$SemesterEnumMap = {

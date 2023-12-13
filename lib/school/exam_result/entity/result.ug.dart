@@ -1,6 +1,7 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sit/school/entity/format.dart';
 import 'package:sit/storage/hive/type_id.dart';
 import 'package:sit/school/entity/school.dart';
 
@@ -9,6 +10,25 @@ part 'result.ug.g.dart';
 String _parseCourseName(dynamic courseName) {
   return mapChinesePunctuations(courseName.toString());
 }
+
+Semester _formFieldToSemester(String s) {
+  Map<String, Semester> semester = {
+    '': Semester.all,
+    '3': Semester.term1,
+    '12': Semester.term2,
+  };
+  return semester[s]!;
+}
+
+SchoolYear _formFieldToSchoolYear(String s) {
+  return int.parse(s.split('-')[0]);
+}
+
+String _schoolYearToFormField(SchoolYear year) {
+  return '$year-${year + 1}';
+}
+
+double _stringToDouble(String s) => double.tryParse(s) ?? double.nan;
 
 final _timeFormat = DateFormat("yyyy-MM-dd hh:mm:ss");
 
@@ -22,7 +42,7 @@ DateTime? _parseTime(dynamic time) {
 @CopyWith(skipFields: true)
 class ExamResultUg {
   /// If the teacher of class hasn't been evaluated, the score is NaN.
-  @JsonKey(name: 'cj', fromJson: stringToDouble)
+  @JsonKey(name: 'cj', fromJson: _stringToDouble)
   @HiveField(0)
   final double score;
 
@@ -47,17 +67,17 @@ class ExamResultUg {
   final String dynClassId;
 
   /// 学年
-  @JsonKey(name: 'xnmmc', fromJson: formFieldToSchoolYear, toJson: schoolYearToFormField)
+  @JsonKey(name: 'xnmmc', fromJson: _formFieldToSchoolYear, toJson: _schoolYearToFormField)
   @HiveField(5)
   final SchoolYear year;
 
   /// 学期
-  @JsonKey(name: 'xqm', fromJson: formFieldToSemester)
+  @JsonKey(name: 'xqm', fromJson: _formFieldToSemester)
   @HiveField(6)
   final Semester semester;
 
   /// 学分
-  @JsonKey(name: 'xf', fromJson: stringToDouble)
+  @JsonKey(name: 'xf', fromJson: _stringToDouble)
   @HiveField(7)
   final double credit;
 
@@ -68,6 +88,10 @@ class ExamResultUg {
   @JsonKey(includeToJson: false, includeFromJson: false)
   @HiveField(9)
   final List<ExamResultItem> items;
+
+  @JsonKey(name: "kclbmc")
+  @HiveField(10)
+  final String courseCat;
 
   const ExamResultUg({
     required this.score,
@@ -80,6 +104,7 @@ class ExamResultUg {
     required this.dynClassId,
     this.items = const [],
     required this.time,
+    this.courseCat = "",
   });
 
   bool get hasScore => !score.isNaN;

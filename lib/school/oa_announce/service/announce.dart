@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:intl/intl.dart';
 import 'package:sit/init.dart';
-import 'package:sit/school/entity/school.dart';
+import 'package:sit/school/entity/format.dart';
 import 'package:sit/session/sso.dart';
 
 import '../entity/announce.dart';

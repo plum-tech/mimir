@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sit/l10n/time.dart';
-import 'package:sit/school/entity/school.dart';
+import 'package:sit/school/entity/format.dart';
 import 'package:rettulf/rettulf.dart';
 
 BorderSide getTimetableBorderSide(BuildContext ctx) =>

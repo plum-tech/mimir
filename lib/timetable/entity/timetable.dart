@@ -4,6 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/school/entity/school.dart';
+import 'package:sit/school/entity/timetable.dart';
 
 import '../utils.dart';
 
