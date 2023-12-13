@@ -69,9 +69,10 @@ class ExamResultUgCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = context.textTheme;
-    final courseType = result.courseId[0] == 'G' ? i18n.elective : i18n.compulsory;
+    final courseType = result.courseCode[0] == 'G' ? i18n.elective : i18n.compulsory;
     final resultItems =
         result.items.where((e) => !e.score.isNaN && !(e.scoreType == "总评" && e.score == result.score)).toList();
+    final score = result.score;
     return ListTile(
       selected: selected,
       isThreeLine: true,
@@ -91,8 +92,8 @@ class ExamResultUgCard extends StatelessWidget {
         fontSize: textTheme.bodyLarge?.fontSize,
         color: result.passed ? null : context.$red$,
       ),
-      trailing: result.hasScore
-          ? result.score.toString().text()
+      trailing: score != null
+          ? score.toString().text()
           : i18n.lessonNotEvaluated.text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize)),
       onTap: onTap,
     ).inAnyCard(clip: Clip.hardEdge, type: elevated ? CardType.plain : CardType.filled);

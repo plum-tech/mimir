@@ -48,14 +48,6 @@ class SemesterInfo {
   int get hashCode => Object.hash(year, semester);
 }
 
-SemesterInfo estimateCurrentSemester() {
-  final now = DateTime.now();
-  return SemesterInfo(
-    year: now.month >= 9 ? now.year : now.year - 1,
-    semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
-  );
-}
-
 String semesterToFormField(Semester semester) {
   const mapping = {
     Semester.all: '',
@@ -63,4 +55,40 @@ String semesterToFormField(Semester semester) {
     Semester.term2: '12',
   };
   return mapping[semester]!;
+}
+
+@HiveType(typeId: CacheHiveType.courseCat)
+enum CourseCat {
+  /// 通识课
+  @HiveField(0)
+  genEd,
+
+  /// 公共基础课
+  @HiveField(1)
+  publicCore,
+
+  /// 学科专业基础课
+  @HiveField(2)
+  specialized,
+
+  /// 综合实践
+  @HiveField(3)
+  integratedPractice,
+
+  /// 实践教学
+  @HiveField(4)
+  practicalInstruction,
+  @HiveField(5)
+  none;
+
+  static CourseCat parse(String? str) {
+    return switch (str) {
+      "通识课" => genEd,
+      "公共基础课" => publicCore,
+      "学科专业基础课" => specialized,
+      "综合实践" => integratedPractice,
+      "实践教学" => practicalInstruction,
+      _ => none,
+    };
+  }
 }

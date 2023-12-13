@@ -17,6 +17,7 @@ class CacheHiveType {
   static const _school = 0;
   static const semester = _school + 0;
   static const semesterInfo = _school + 1;
+  static const courseCat = _school + 2;
 
   // Exam result 10
   static const _examResult = _school + 20;

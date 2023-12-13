@@ -174,7 +174,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
     if (selectedExams != null) {
       // TODO: the right way to calculate GPA
       // It will skip failed exams.
-      final validResults = selectedExams.where((exam) => exam.hasScore).where((result) => result.passed);
+      final validResults = selectedExams.where((exam) => exam.score != null).where((result) => result.passed);
       final gpa = calcGPA(validResults);
       if (isSelecting) {
         return "${i18n.lessonSelected(selectedExams.length)} ${i18n.gpaResult(gpa)}".text();

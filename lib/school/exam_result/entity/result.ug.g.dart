@@ -16,15 +16,15 @@ abstract class _$ExamResultUgCWProxy {
   ExamResultUg call({
     double? score,
     String? courseName,
-    String? courseId,
+    String? courseCode,
     String? innerClassId,
     int? year,
     Semester? semester,
     double? credit,
-    String? dynClassId,
+    String? classCode,
     List<ExamResultItem>? items,
     DateTime? time,
-    String? courseCat,
+    CourseCat? courseCat,
   });
 }
 
@@ -45,29 +45,29 @@ class _$ExamResultUgCWProxyImpl implements _$ExamResultUgCWProxy {
   ExamResultUg call({
     Object? score = const $CopyWithPlaceholder(),
     Object? courseName = const $CopyWithPlaceholder(),
-    Object? courseId = const $CopyWithPlaceholder(),
+    Object? courseCode = const $CopyWithPlaceholder(),
     Object? innerClassId = const $CopyWithPlaceholder(),
     Object? year = const $CopyWithPlaceholder(),
     Object? semester = const $CopyWithPlaceholder(),
     Object? credit = const $CopyWithPlaceholder(),
-    Object? dynClassId = const $CopyWithPlaceholder(),
+    Object? classCode = const $CopyWithPlaceholder(),
     Object? items = const $CopyWithPlaceholder(),
     Object? time = const $CopyWithPlaceholder(),
     Object? courseCat = const $CopyWithPlaceholder(),
   }) {
     return ExamResultUg(
-      score: score == const $CopyWithPlaceholder() || score == null
+      score: score == const $CopyWithPlaceholder()
           ? _value.score
           // ignore: cast_nullable_to_non_nullable
-          : score as double,
+          : score as double?,
       courseName: courseName == const $CopyWithPlaceholder() || courseName == null
           ? _value.courseName
           // ignore: cast_nullable_to_non_nullable
           : courseName as String,
-      courseId: courseId == const $CopyWithPlaceholder() || courseId == null
-          ? _value.courseId
+      courseCode: courseCode == const $CopyWithPlaceholder() || courseCode == null
+          ? _value.courseCode
           // ignore: cast_nullable_to_non_nullable
-          : courseId as String,
+          : courseCode as String,
       innerClassId: innerClassId == const $CopyWithPlaceholder() || innerClassId == null
           ? _value.innerClassId
           // ignore: cast_nullable_to_non_nullable
@@ -84,10 +84,10 @@ class _$ExamResultUgCWProxyImpl implements _$ExamResultUgCWProxy {
           ? _value.credit
           // ignore: cast_nullable_to_non_nullable
           : credit as double,
-      dynClassId: dynClassId == const $CopyWithPlaceholder() || dynClassId == null
-          ? _value.dynClassId
+      classCode: classCode == const $CopyWithPlaceholder() || classCode == null
+          ? _value.classCode
           // ignore: cast_nullable_to_non_nullable
-          : dynClassId as String,
+          : classCode as String,
       items: items == const $CopyWithPlaceholder() || items == null
           ? _value.items
           // ignore: cast_nullable_to_non_nullable
@@ -99,7 +99,7 @@ class _$ExamResultUgCWProxyImpl implements _$ExamResultUgCWProxy {
       courseCat: courseCat == const $CopyWithPlaceholder() || courseCat == null
           ? _value.courseCat
           // ignore: cast_nullable_to_non_nullable
-          : courseCat as String,
+          : courseCat as CourseCat,
     );
   }
 }
@@ -125,17 +125,17 @@ class ExamResultUgAdapter extends TypeAdapter<ExamResultUg> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ExamResultUg(
-      score: fields[0] as double,
+      score: fields[0] as double?,
       courseName: fields[1] as String,
-      courseId: fields[2] as String,
+      courseCode: fields[2] as String,
       innerClassId: fields[3] as String,
       year: fields[5] as int,
       semester: fields[6] as Semester,
       credit: fields[7] as double,
-      dynClassId: fields[4] as String,
-      items: (fields[9] as List).cast<ExamResultItem>(),
+      classCode: fields[4] as String,
+      items: (fields[10] as List).cast<ExamResultItem>(),
       time: fields[8] as DateTime?,
-      // courseCat: fields[10] as String,
+      courseCat: fields[9] as CourseCat,
     );
   }
 
@@ -148,11 +148,11 @@ class ExamResultUgAdapter extends TypeAdapter<ExamResultUg> {
       ..writeByte(1)
       ..write(obj.courseName)
       ..writeByte(2)
-      ..write(obj.courseId)
+      ..write(obj.courseCode)
       ..writeByte(3)
       ..write(obj.innerClassId)
       ..writeByte(4)
-      ..write(obj.dynClassId)
+      ..write(obj.classCode)
       ..writeByte(5)
       ..write(obj.year)
       ..writeByte(6)
@@ -162,9 +162,9 @@ class ExamResultUgAdapter extends TypeAdapter<ExamResultUg> {
       ..writeByte(8)
       ..write(obj.time)
       ..writeByte(9)
-      ..write(obj.items)
+      ..write(obj.courseCat)
       ..writeByte(10)
-      ..write(obj.courseCat);
+      ..write(obj.items);
   }
 
   @override
@@ -219,32 +219,41 @@ class ExamResultItemAdapter extends TypeAdapter<ExamResultItem> {
 // **************************************************************************
 
 ExamResultUg _$ExamResultUgFromJson(Map<String, dynamic> json) => ExamResultUg(
-      score: _stringToDouble(json['cj'] as String),
+      score: double.tryParse(json['cj'] as String),
       courseName: _parseCourseName(json['kcmc']),
-      courseId: json['kch'] as String,
+      courseCode: json['kch'] as String,
       innerClassId: json['jxb_id'] as String,
       year: _formFieldToSchoolYear(json['xnmmc'] as String),
       semester: _formFieldToSemester(json['xqm'] as String),
-      credit: _stringToDouble(json['xf'] as String),
-      dynClassId: json['jxbmc'] as String? ?? '',
+      credit: double.parse(json['xf'] as String),
+      classCode: json['jxbmc'] as String? ?? '',
       time: _parseTime(json['tjsj']),
-      courseCat: json['kclbmc'] as String,
+      courseCat: CourseCat.parse(json['kclbmc'] as String?),
     );
 
 Map<String, dynamic> _$ExamResultUgToJson(ExamResultUg instance) => <String, dynamic>{
       'cj': instance.score,
       'kcmc': instance.courseName,
-      'kch': instance.courseId,
+      'kch': instance.courseCode,
       'jxb_id': instance.innerClassId,
-      'jxbmc': instance.dynClassId,
+      'jxbmc': instance.classCode,
       'xnmmc': _schoolYearToFormField(instance.year),
       'xqm': _$SemesterEnumMap[instance.semester]!,
       'xf': instance.credit,
-      'kclbmc': instance.courseCat,
+      'kclbmc': _$CourseCatEnumMap[instance.courseCat]!,
     };
 
 const _$SemesterEnumMap = {
   Semester.all: 'all',
   Semester.term1: 'term1',
   Semester.term2: 'term2',
+};
+
+const _$CourseCatEnumMap = {
+  CourseCat.genEd: 'genEd',
+  CourseCat.publicCore: 'publicCore',
+  CourseCat.specialized: 'specialized',
+  CourseCat.integratedPractice: 'integratedPractice',
+  CourseCat.practicalInstruction: 'practicalInstruction',
+  CourseCat.none: 'none',
 };

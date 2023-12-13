@@ -1,7 +1,7 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/school/entity/format.dart';
+import 'package:sit/school/utils.dart';
 import 'package:sit/storage/hive/type_id.dart';
 import 'package:sit/school/entity/school.dart';
 
@@ -28,8 +28,6 @@ String _schoolYearToFormField(SchoolYear year) {
   return '$year-${year + 1}';
 }
 
-double _stringToDouble(String s) => double.tryParse(s) ?? double.nan;
-
 final _timeFormat = DateFormat("yyyy-MM-dd hh:mm:ss");
 
 DateTime? _parseTime(dynamic time) {
@@ -42,9 +40,9 @@ DateTime? _parseTime(dynamic time) {
 @CopyWith(skipFields: true)
 class ExamResultUg {
   /// If the teacher of class hasn't been evaluated, the score is NaN.
-  @JsonKey(name: 'cj', fromJson: _stringToDouble)
+  @JsonKey(name: 'cj', fromJson: double.tryParse)
   @HiveField(0)
-  final double score;
+  final double? score;
 
   /// 课程
   @JsonKey(name: 'kcmc', fromJson: _parseCourseName)
@@ -54,7 +52,7 @@ class ExamResultUg {
   /// 课程代码
   @JsonKey(name: 'kch')
   @HiveField(2)
-  final String courseId;
+  final String courseCode;
 
   /// 班级（正方内部使用）
   @JsonKey(name: 'jxb_id')
@@ -64,7 +62,7 @@ class ExamResultUg {
   /// 班级ID（数字）
   @JsonKey(name: 'jxbmc', defaultValue: "")
   @HiveField(4)
-  final String dynClassId;
+  final String classCode;
 
   /// 学年
   @JsonKey(name: 'xnmmc', fromJson: _formFieldToSchoolYear, toJson: _schoolYearToFormField)
@@ -77,7 +75,7 @@ class ExamResultUg {
   final Semester semester;
 
   /// 学分
-  @JsonKey(name: 'xf', fromJson: _stringToDouble)
+  @JsonKey(name: 'xf', fromJson: double.parse)
   @HiveField(7)
   final double credit;
 
@@ -85,31 +83,33 @@ class ExamResultUg {
   @HiveField(8)
   final DateTime? time;
 
-  @JsonKey(includeToJson: false, includeFromJson: false)
+  /// 通识课, 公共基础课, 学科专业基础课, 综合实践, 实践教学, Empty string
+  @JsonKey(name: "kclbmc", fromJson: CourseCat.parse)
   @HiveField(9)
-  final List<ExamResultItem> items;
+  final CourseCat courseCat;
 
-  @JsonKey(name: "kclbmc")
+  @JsonKey(includeToJson: false, includeFromJson: false)
   @HiveField(10)
-  final String courseCat;
+  final List<ExamResultItem> items;
 
   const ExamResultUg({
     required this.score,
     required this.courseName,
-    required this.courseId,
+    required this.courseCode,
     required this.innerClassId,
     required this.year,
     required this.semester,
     required this.credit,
-    required this.dynClassId,
+    required this.classCode,
     this.items = const [],
     required this.time,
-    this.courseCat = "",
+    required this.courseCat,
   });
 
-  bool get hasScore => !score.isNaN;
-
-  bool get passed => hasScore ? score >= 60.0 : false;
+  bool get passed {
+    final score = this.score;
+    return score != null ? score >= 60.0 : false;
+  }
 
   factory ExamResultUg.fromJson(Map<String, dynamic> json) => _$ExamResultUgFromJson(json);
 
@@ -118,9 +118,9 @@ class ExamResultUg {
     return {
       "score": "$score",
       "courseName": courseName,
-      "courseId": courseId,
+      "courseId": courseCode,
       "innerClassId": innerClassId,
-      "dynClassId": dynClassId,
+      "dynClassId": classCode,
       "schoolYear": "$year",
       "semester": "$semester",
       "credit": "$credit",

@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/l10n/extension.dart';
-import 'package:sit/school/entity/format.dart';
+import 'package:sit/school/utils.dart';
 
 part 'exam.g.dart';
 

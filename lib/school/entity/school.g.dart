@@ -81,3 +81,59 @@ class SemesterAdapter extends TypeAdapter<Semester> {
   bool operator ==(Object other) =>
       identical(this, other) || other is SemesterAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
+
+class CourseCatAdapter extends TypeAdapter<CourseCat> {
+  @override
+  final int typeId = 2;
+
+  @override
+  CourseCat read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return CourseCat.genEd;
+      case 1:
+        return CourseCat.publicCore;
+      case 2:
+        return CourseCat.specialized;
+      case 3:
+        return CourseCat.integratedPractice;
+      case 4:
+        return CourseCat.practicalInstruction;
+      case 5:
+        return CourseCat.none;
+      default:
+        return CourseCat.genEd;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, CourseCat obj) {
+    switch (obj) {
+      case CourseCat.genEd:
+        writer.writeByte(0);
+        break;
+      case CourseCat.publicCore:
+        writer.writeByte(1);
+        break;
+      case CourseCat.specialized:
+        writer.writeByte(2);
+        break;
+      case CourseCat.integratedPractice:
+        writer.writeByte(3);
+        break;
+      case CourseCat.practicalInstruction:
+        writer.writeByte(4);
+        break;
+      case CourseCat.none:
+        writer.writeByte(5);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is CourseCatAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+}

@@ -8,7 +8,7 @@ import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/dash_decoration.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/time.dart';
-import 'package:sit/school/entity/format.dart';
+import 'package:sit/school/utils.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/utils/color.dart';

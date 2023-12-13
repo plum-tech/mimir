@@ -1,4 +1,4 @@
-import 'package:sit/school/entity/format.dart';
+import 'package:sit/school/utils.dart';
 
 import '../entity/local.dart';
 import '../entity/remote.dart';

@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/app.dart';
-import 'package:sit/school/entity/school.dart';
+import 'package:sit/school/utils.dart';
 import 'package:sit/school/event.dart';
 import 'package:sit/school/exam_arrange/entity/exam.dart';
 import 'package:sit/school/exam_arrange/init.dart';

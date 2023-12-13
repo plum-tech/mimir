@@ -90,8 +90,9 @@ class HiveAdapter {
     hive.addAdapter(BookBorrowingHistoryOperationAdapter());
     hive.addAdapter(BookImageAdapter());
 
-    // Shared
+    // School
     hive.addAdapter(SemesterAdapter());
     hive.addAdapter(SemesterInfoAdapter());
+    hive.addAdapter(CourseCatAdapter());
   }
 }
