@@ -11,12 +11,15 @@ import 'package:sit/school/widgets/semester.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/utils/error.dart';
+import 'package:sit/utils/guard_launch.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../entity/result.ug.dart';
 import '../init.dart';
 import '../widgets/ug.dart';
 import '../utils.dart';
 import '../i18n.dart';
+import 'evaluation.dart';
 
 class ExamResultUgPage extends StatefulWidget {
   const ExamResultUgPage({super.key});
@@ -108,9 +111,13 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
               title: buildTitle(),
               actions: [
                 PlatformTextButton(
-                  child: "GPA".text(),
+                  child: i18n.teacherEval.text(),
                   onPressed: () async {
-                    await context.push("/exam-result/ug/gpa");
+                    if (UniversalPlatform.isDesktop) {
+                      await guardLaunchUrl(context, teacherEvaluationUri);
+                    } else {
+                      await context.push("/teacher-eval");
+                    }
                   },
                 )
               ],
@@ -162,7 +169,6 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
 
   Widget buildSemesterSelector() {
     return SemesterSelector(
-      showEntireYear: true,
       initial: initial,
       baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
       onSelected: (newSelection) {

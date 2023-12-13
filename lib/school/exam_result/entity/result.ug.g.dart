@@ -24,6 +24,7 @@ abstract class _$ExamResultUgCWProxy {
     String? classCode,
     DateTime? time,
     CourseCat? courseCat,
+    UgExamType? examType,
     List<String>? teachers,
     List<ExamResultItem>? items,
   });
@@ -54,6 +55,7 @@ class _$ExamResultUgCWProxyImpl implements _$ExamResultUgCWProxy {
     Object? classCode = const $CopyWithPlaceholder(),
     Object? time = const $CopyWithPlaceholder(),
     Object? courseCat = const $CopyWithPlaceholder(),
+    Object? examType = const $CopyWithPlaceholder(),
     Object? teachers = const $CopyWithPlaceholder(),
     Object? items = const $CopyWithPlaceholder(),
   }) {
@@ -98,6 +100,10 @@ class _$ExamResultUgCWProxyImpl implements _$ExamResultUgCWProxy {
           ? _value.courseCat
           // ignore: cast_nullable_to_non_nullable
           : courseCat as CourseCat,
+      examType: examType == const $CopyWithPlaceholder() || examType == null
+          ? _value.examType
+          // ignore: cast_nullable_to_non_nullable
+          : examType as UgExamType,
       teachers: teachers == const $CopyWithPlaceholder() || teachers == null
           ? _value.teachers
           // ignore: cast_nullable_to_non_nullable
@@ -141,15 +147,16 @@ class ExamResultUgAdapter extends TypeAdapter<ExamResultUg> {
       classCode: fields[4] as String,
       time: fields[8] as DateTime?,
       courseCat: fields[9] as CourseCat,
+      examType: fields[11] as UgExamType,
       teachers: (fields[10] as List).cast<String>(),
-      items: (fields[11] as List).cast<ExamResultItem>(),
+      items: (fields[12] as List).cast<ExamResultItem>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, ExamResultUg obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.score)
       ..writeByte(1)
@@ -173,6 +180,8 @@ class ExamResultUgAdapter extends TypeAdapter<ExamResultUg> {
       ..writeByte(10)
       ..write(obj.teachers)
       ..writeByte(11)
+      ..write(obj.examType)
+      ..writeByte(12)
       ..write(obj.items);
   }
 
@@ -223,6 +232,48 @@ class ExamResultItemAdapter extends TypeAdapter<ExamResultItem> {
       other is ExamResultItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
+class UgExamTypeAdapter extends TypeAdapter<UgExamType> {
+  @override
+  final int typeId = 22;
+
+  @override
+  UgExamType read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return UgExamType.normal;
+      case 1:
+        return UgExamType.resit;
+      case 2:
+        return UgExamType.retake;
+      default:
+        return UgExamType.normal;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, UgExamType obj) {
+    switch (obj) {
+      case UgExamType.normal:
+        writer.writeByte(0);
+        break;
+      case UgExamType.resit:
+        writer.writeByte(1);
+        break;
+      case UgExamType.retake:
+        writer.writeByte(2);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is UgExamTypeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+}
+
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
@@ -238,6 +289,7 @@ ExamResultUg _$ExamResultUgFromJson(Map<String, dynamic> json) => ExamResultUg(
       classCode: json['jxbmc'] as String? ?? '',
       time: _parseTime(json['tjsj']),
       courseCat: CourseCat.parse(json['kclbmc'] as String?),
+      examType: UgExamType.parse(json['ksxz'] as String),
       teachers: _parseTeachers(json['jsxm'] as String?),
     );
 
@@ -252,6 +304,7 @@ Map<String, dynamic> _$ExamResultUgToJson(ExamResultUg instance) => <String, dyn
       'xf': instance.credit,
       'kclbmc': _$CourseCatEnumMap[instance.courseCat]!,
       'jsxm': instance.teachers,
+      'ksxz': _$UgExamTypeEnumMap[instance.examType]!,
     };
 
 const _$SemesterEnumMap = {
@@ -269,4 +322,10 @@ const _$CourseCatEnumMap = {
   CourseCat.specializedElective: 'specializedElective',
   CourseCat.integratedPractice: 'integratedPractice',
   CourseCat.practicalInstruction: 'practicalInstruction',
+};
+
+const _$UgExamTypeEnumMap = {
+  UgExamType.normal: 'normal',
+  UgExamType.resit: 'resit',
+  UgExamType.retake: 'retake',
 };

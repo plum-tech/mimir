@@ -8,7 +8,7 @@ part of 'result.pg.dart';
 
 class ExamResultPgAdapter extends TypeAdapter<ExamResultPg> {
   @override
-  final int typeId = 22;
+  final int typeId = 23;
 
   @override
   ExamResultPg read(BinaryReader reader) {

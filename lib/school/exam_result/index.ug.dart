@@ -71,15 +71,12 @@ class _ExamResultUgAppCardState extends State<ExamResultUgAppCard> {
           icon: const Icon(Icons.fact_check),
           label: i18n.check.text(),
         ),
-        OutlinedButton(
+        OutlinedButton.icon(
           onPressed: () async {
-            if (UniversalPlatform.isDesktop) {
-              await guardLaunchUrl(context, teacherEvaluationUri);
-            } else {
-              await context.push("/teacher-eval");
-            }
+            await context.push("/exam-result/ug/gpa");
           },
-          child: i18n.teacherEval.text(),
+          icon: const Icon(Icons.assessment),
+          label: "GPA".text(),
         )
       ],
     );

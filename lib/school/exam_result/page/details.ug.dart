@@ -35,9 +35,10 @@ class _ExamResultDetailsPageState extends State<ExamResultUgDetailsPage> {
               )
             else
               PageNavigationTile(
-                icon: const Icon(Icons.warning),
+                leading: const Icon(Icons.warning),
                 title: i18n.lessonNotEvaluated.text(),
-                subtitle: "Score is available after evaluation".text(), path: '/teacher-eval',
+                subtitle: "Score is available after evaluation".text(),
+                path: '/teacher-eval',
               ),
             if (result.teachers.isNotEmpty)
               DetailListTile(
@@ -45,6 +46,11 @@ class _ExamResultDetailsPageState extends State<ExamResultUgDetailsPage> {
                 title: "Teachers", // plural
                 subtitle: result.teachers.join(", "),
               ),
+            DetailListTile(
+              leading: const Icon(Icons.category),
+              title: "Course category",
+              subtitle: result.courseCat.toString(),
+            ),
             DetailListTile(
               leading: const Icon(Icons.school),
               title: i18n.credit,

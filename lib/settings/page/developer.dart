@@ -43,7 +43,7 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
               PageNavigationTile(
                 title: i18n.dev.localStorage.text(),
                 subtitle: i18n.dev.localStorageDesc.text(),
-                icon: const Icon(Icons.storage),
+                leading: const Icon(Icons.storage),
                 path: "/settings/developer/local-storage",
               ),
               buildReload(),

@@ -23,7 +23,8 @@ class CacheHiveType {
   static const _examResult = _school + 20;
   static const examResultUg = _examResult + 0;
   static const examResultUgItem = _examResult + 1;
-  static const examResultPg = _examResult + 2;
+  static const examResultUgExamType = _examResult + 2;
+  static const examResultPg = _examResult + 3;
 
   // Second class 20
   static const _class2nd = _examResult + 10;

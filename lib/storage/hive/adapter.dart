@@ -73,6 +73,7 @@ class HiveAdapter {
     // Exam Result
     hive.addAdapter(ExamResultUgAdapter());
     hive.addAdapter(ExamResultItemAdapter());
+    hive.addAdapter(UgExamTypeAdapter());
     hive.addAdapter(ExamResultPgAdapter());
 
     // Expense Records

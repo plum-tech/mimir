@@ -40,6 +40,29 @@ List<String> _parseTeachers(String? text) {
   return text.split(";");
 }
 
+@HiveType(typeId: CacheHiveType.examResultUgExamType)
+enum UgExamType {
+  /// 正常考试
+  @HiveField(0)
+  normal,
+
+  /// 补考一
+  @HiveField(1)
+  resit,
+
+  /// 重修
+  @HiveField(2)
+  retake;
+
+  static UgExamType parse(String type) {
+    if (type == "正常考试") return normal;
+    if (type == "重修") return retake;
+    if (type.contains("补考")) return resit;
+    // fallback to normal
+    return normal;
+  }
+}
+
 @JsonSerializable()
 @HiveType(typeId: CacheHiveType.examResultUg)
 @CopyWith(skipFields: true)
@@ -96,8 +119,12 @@ class ExamResultUg {
   @HiveField(10)
   final List<String> teachers;
 
-  @JsonKey(includeToJson: false, includeFromJson: false)
+  @JsonKey(name: "ksxz", fromJson: UgExamType.parse)
   @HiveField(11)
+  final UgExamType examType;
+
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  @HiveField(12)
   final List<ExamResultItem> items;
 
   const ExamResultUg({
@@ -111,6 +138,7 @@ class ExamResultUg {
     required this.classCode,
     required this.time,
     required this.courseCat,
+    required this.examType,
     required this.teachers,
     this.items = const [],
   });
