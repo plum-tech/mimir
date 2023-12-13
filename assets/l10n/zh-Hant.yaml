@@ -525,10 +525,6 @@ settings:
       autoRefresh:
         title: 第二課堂分自動重新整理
         desc: 啟動時重新整理第二課堂分
-    examResult:
-      appCardShowResultDetails:
-        title: 顯示考試成績詳細資料
-        desc: 在考試成績卡片中顯示分數資料
   life:
     title: 生活
     electricity:

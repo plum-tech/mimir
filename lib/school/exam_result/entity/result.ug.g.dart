@@ -22,9 +22,10 @@ abstract class _$ExamResultUgCWProxy {
     Semester? semester,
     double? credit,
     String? classCode,
-    List<ExamResultItem>? items,
     DateTime? time,
     CourseCat? courseCat,
+    List<String>? teachers,
+    List<ExamResultItem>? items,
   });
 }
 
@@ -51,9 +52,10 @@ class _$ExamResultUgCWProxyImpl implements _$ExamResultUgCWProxy {
     Object? semester = const $CopyWithPlaceholder(),
     Object? credit = const $CopyWithPlaceholder(),
     Object? classCode = const $CopyWithPlaceholder(),
-    Object? items = const $CopyWithPlaceholder(),
     Object? time = const $CopyWithPlaceholder(),
     Object? courseCat = const $CopyWithPlaceholder(),
+    Object? teachers = const $CopyWithPlaceholder(),
+    Object? items = const $CopyWithPlaceholder(),
   }) {
     return ExamResultUg(
       score: score == const $CopyWithPlaceholder()
@@ -88,10 +90,6 @@ class _$ExamResultUgCWProxyImpl implements _$ExamResultUgCWProxy {
           ? _value.classCode
           // ignore: cast_nullable_to_non_nullable
           : classCode as String,
-      items: items == const $CopyWithPlaceholder() || items == null
-          ? _value.items
-          // ignore: cast_nullable_to_non_nullable
-          : items as List<ExamResultItem>,
       time: time == const $CopyWithPlaceholder()
           ? _value.time
           // ignore: cast_nullable_to_non_nullable
@@ -100,6 +98,14 @@ class _$ExamResultUgCWProxyImpl implements _$ExamResultUgCWProxy {
           ? _value.courseCat
           // ignore: cast_nullable_to_non_nullable
           : courseCat as CourseCat,
+      teachers: teachers == const $CopyWithPlaceholder() || teachers == null
+          ? _value.teachers
+          // ignore: cast_nullable_to_non_nullable
+          : teachers as List<String>,
+      items: items == const $CopyWithPlaceholder() || items == null
+          ? _value.items
+          // ignore: cast_nullable_to_non_nullable
+          : items as List<ExamResultItem>,
     );
   }
 }
@@ -133,16 +139,17 @@ class ExamResultUgAdapter extends TypeAdapter<ExamResultUg> {
       semester: fields[6] as Semester,
       credit: fields[7] as double,
       classCode: fields[4] as String,
-      items: (fields[10] as List).cast<ExamResultItem>(),
       time: fields[8] as DateTime?,
       courseCat: fields[9] as CourseCat,
+      teachers: (fields[10] as List).cast<String>(),
+      items: (fields[11] as List).cast<ExamResultItem>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, ExamResultUg obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.score)
       ..writeByte(1)
@@ -164,6 +171,8 @@ class ExamResultUgAdapter extends TypeAdapter<ExamResultUg> {
       ..writeByte(9)
       ..write(obj.courseCat)
       ..writeByte(10)
+      ..write(obj.teachers)
+      ..writeByte(11)
       ..write(obj.items);
   }
 
@@ -229,6 +238,7 @@ ExamResultUg _$ExamResultUgFromJson(Map<String, dynamic> json) => ExamResultUg(
       classCode: json['jxbmc'] as String? ?? '',
       time: _parseTime(json['tjsj']),
       courseCat: CourseCat.parse(json['kclbmc'] as String?),
+      teachers: _parseTeachers(json['jsxm'] as String?),
     );
 
 Map<String, dynamic> _$ExamResultUgToJson(ExamResultUg instance) => <String, dynamic>{
@@ -241,6 +251,7 @@ Map<String, dynamic> _$ExamResultUgToJson(ExamResultUg instance) => <String, dyn
       'xqm': _$SemesterEnumMap[instance.semester]!,
       'xf': instance.credit,
       'kclbmc': _$CourseCatEnumMap[instance.courseCat]!,
+      'jsxm': instance.teachers,
     };
 
 const _$SemesterEnumMap = {

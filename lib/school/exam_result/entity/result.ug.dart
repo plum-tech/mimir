@@ -35,6 +35,11 @@ DateTime? _parseTime(dynamic time) {
   return _timeFormat.parse(time.toString());
 }
 
+List<String> _parseTeachers(String? text) {
+  if (text == null) return const [];
+  return text.split(";");
+}
+
 @JsonSerializable()
 @HiveType(typeId: CacheHiveType.examResultUg)
 @CopyWith(skipFields: true)
@@ -87,8 +92,12 @@ class ExamResultUg {
   @HiveField(9)
   final CourseCat courseCat;
 
-  @JsonKey(includeToJson: false, includeFromJson: false)
+  @JsonKey(name: "jsxm", fromJson: _parseTeachers)
   @HiveField(10)
+  final List<String> teachers;
+
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  @HiveField(11)
   final List<ExamResultItem> items;
 
   const ExamResultUg({
@@ -100,9 +109,10 @@ class ExamResultUg {
     required this.semester,
     required this.credit,
     required this.classCode,
-    this.items = const [],
     required this.time,
     required this.courseCat,
+    required this.teachers,
+    this.items = const [],
   });
 
   bool get passed {

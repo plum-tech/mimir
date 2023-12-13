@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/common.dart';
@@ -104,6 +106,14 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
             SliverAppBar.medium(
               pinned: true,
               title: buildTitle(),
+              actions: [
+                PlatformTextButton(
+                  child: "GPA".text(),
+                  onPressed: () async {
+                    await context.push("/exam-result/ug/gpa");
+                  },
+                )
+              ],
             ),
             SliverToBoxAdapter(
               child: buildSemesterSelector(),
@@ -119,10 +129,8 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
               else
                 SliverList.builder(
                   itemCount: resultList.length,
-                  itemBuilder: (item, i) => ExamResultUgSelectableCard(
+                  itemBuilder: (item, i) => ExamResultUgCard(
                     resultList[i],
-                    index: i,
-                    isSelectingMode: isSelecting,
                     elevated: false,
                   ),
                 ),

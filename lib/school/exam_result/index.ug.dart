@@ -9,7 +9,6 @@ import 'package:sit/school/exam_result/init.dart';
 import 'package:sit/school/exam_result/page/evaluation.dart';
 import 'package:sit/school/exam_result/widgets/ug.dart';
 import 'package:sit/school/utils.dart';
-import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/utils/guard_launch.dart';
@@ -90,17 +89,12 @@ class _ExamResultUgAppCardState extends State<ExamResultUgAppCard> {
     if (resultList.isEmpty) return null;
     resultList.sort((a, b) => -ExamResultUg.compareByTime(a, b));
     final results = resultList.sublist(0, min(_recentLength, resultList.length));
-    return Settings.school.examResult.listenAppCardShowResultDetails() >>
-        (ctx, _) {
-          final showDetails = Settings.school.examResult.appCardShowResultDetails;
-          return results
-              .map((result) => ExamResultUgCard(
-                    result,
-                    showDetails: showDetails,
-                    elevated: true,
-                  ))
-              .toList()
-              .column();
-        };
+    return results
+        .map((result) => ExamResultUgCard(
+              result,
+              elevated: true,
+            ))
+        .toList()
+        .column();
   }
 }

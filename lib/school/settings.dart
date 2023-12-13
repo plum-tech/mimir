@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 const _kClass2ndAutoRefresh = true;
@@ -30,25 +29,14 @@ class _Class2nd {
   set autoRefresh(bool newV) => box.put(_Class2ndK.autoRefresh, newV);
 }
 
-const _kExamResulAppCardShowResultDetails = false;
-
 class _ExamResultK {
   static const ns = "${SchoolSettings.ns}/examResult";
-  static const appCardShowResultDetails = "$ns/appCardShowResultDetails";
 }
 
 class _ExamResult {
   final Box box;
 
   const _ExamResult(this.box);
-
-  bool get appCardShowResultDetails =>
-      box.get(_ExamResultK.appCardShowResultDetails) ?? _kExamResulAppCardShowResultDetails;
-
-  set appCardShowResultDetails(bool newV) => box.put(_ExamResultK.appCardShowResultDetails, newV);
-
-  ValueListenable<Box> listenAppCardShowResultDetails() =>
-      box.listenable(keys: [_ExamResultK.appCardShowResultDetails]);
 }
 
 class _ExamArrangeK {

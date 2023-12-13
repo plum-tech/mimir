@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:sit/school/exam_result/entity/result.ug.dart';
 
 class ExamResultUgDetailsPage extends StatefulWidget {
-  const ExamResultUgDetailsPage({super.key});
+  final ExamResultUg result;
+
+  const ExamResultUgDetailsPage(this.result, {super.key});
 
   @override
   State<ExamResultUgDetailsPage> createState() => _ExamResultDetailsPageState();

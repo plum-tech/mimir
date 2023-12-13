@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
-import 'package:sit/design/widgets/multi_select.dart';
+import 'package:sit/school/exam_result/page/details.ug.dart';
 import 'package:sit/school/widgets/course.dart';
 import 'package:sit/utils/format.dart';
 import 'package:rettulf/rettulf.dart';
@@ -9,60 +9,15 @@ import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 import '../entity/result.ug.dart';
 
-class ExamResultUgSelectableCard extends StatelessWidget {
-  final ExamResultUg result;
-  final int index;
-  final bool isSelectingMode;
-  final bool elevated;
-
-  const ExamResultUgSelectableCard(
-    this.result, {
-    super.key,
-    required this.index,
-    required this.isSelectingMode,
-    required this.elevated,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = MultiselectScope.controllerOf(context);
-    final selected = controller.isSelected(index);
-    return ExamResultUgCard(
-      result,
-      selected: selected,
-      showDetails: !isSelectingMode,
-      iconOverride: !result.passed
-          ? null
-          : isSelectingMode
-              ? Icon(selected ? Icons.check_box_outlined : Icons.check_box_outline_blank)
-              : null,
-      elevated: elevated,
-      onTap: !result.passed
-          ? null
-          : !isSelectingMode
-              ? null
-              : () {
-                  controller.select(index);
-                },
-    );
-  }
-}
-
 class ExamResultUgCard extends StatelessWidget {
   final ExamResultUg result;
   final VoidCallback? onTap;
-  final Widget? iconOverride;
-  final bool selected;
-  final bool showDetails;
   final bool elevated;
 
   const ExamResultUgCard(
     this.result, {
     super.key,
     this.onTap,
-    this.iconOverride,
-    this.selected = false,
-    this.showDetails = true,
     required this.elevated,
   });
 
@@ -74,20 +29,14 @@ class ExamResultUgCard extends StatelessWidget {
     //     result.items.where((e) => !e.score.isNaN && !(e.scoreType == "总评" && e.score == result.score)).toList();
     final score = result.score;
     return ListTile(
-      selected: selected,
       isThreeLine: true,
-      leading: iconOverride ?? CourseIcon(courseName: result.courseName),
+      leading: CourseIcon(courseName: result.courseName),
       titleTextStyle: textTheme.titleMedium,
       title: Text(result.courseName),
       subtitleTextStyle: textTheme.bodyMedium,
       subtitle: [
         '${result.courseCat}'.text(),
-        '${i18n.credit}: ${result.credit}'.text(),
-        // AnimatedSize(
-        //   duration: Durations.short4,
-        //   curve: Curves.fastEaseInToSlowEaseOut.flipped,
-        //   child: showDetails ? ExamResultItemChipGroup(resultItems) : const SizedBox(),
-        // ),
+        if (result.teachers.isNotEmpty) result.teachers.join(", ").text(),
       ].column(caa: CrossAxisAlignment.start),
       leadingAndTrailingTextStyle: textTheme.labelSmall?.copyWith(
         fontSize: textTheme.bodyLarge?.fontSize,
@@ -96,7 +45,9 @@ class ExamResultUgCard extends StatelessWidget {
       trailing: score != null
           ? score.toString().text()
           : i18n.lessonNotEvaluated.text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize)),
-      onTap: onTap,
+      onTap: () async {
+        context.show$Sheet$((ctx) => ExamResultUgDetailsPage(result));
+      },
     ).inAnyCard(clip: Clip.hardEdge, type: elevated ? CardType.plain : CardType.filled);
   }
 }
