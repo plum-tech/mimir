@@ -6,13 +6,10 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:sit/school/event.dart';
 import 'package:sit/school/exam_result/init.dart';
-import 'package:sit/school/exam_result/page/evaluation.dart';
 import 'package:sit/school/exam_result/widgets/ug.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/utils/guard_launch.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 import 'entity/result.ug.dart';
 import "i18n.dart";

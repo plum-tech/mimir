@@ -150,6 +150,8 @@ class ExamResultUg {
 
   bool get isPreparatory => courseCode.startsWith("YK");
 
+  SemesterInfo get semesterInfo => SemesterInfo(year: year, semester: semester);
+
   factory ExamResultUg.fromJson(Map<String, dynamic> json) => _$ExamResultUgFromJson(json);
 
   @override

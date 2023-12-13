@@ -16,7 +16,7 @@ enum Semester {
   @HiveField(2)
   term2;
 
-  String localized() => "school.semester.$name".tr();
+  String l10n() => "school.semester.$name".tr();
 }
 
 @HiveType(typeId: CacheHiveType.semesterInfo)
@@ -35,6 +35,9 @@ class SemesterInfo {
   String toString() {
     return "$year:$semester";
   }
+
+  // TODO: l10n
+  String l10n() => "$year ${year + 1} ${semester.l10n()}";
 
   @override
   bool operator ==(Object other) {

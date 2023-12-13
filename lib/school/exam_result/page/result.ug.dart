@@ -193,7 +193,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
       if (isSelecting) {
         return "${i18n.lessonSelected(selectedExams.length)} ${i18n.gpaResult(gpa)}".text();
       } else {
-        return "${selected.semester.localized()} ${i18n.gpaResult(gpa)}".text();
+        return "${selected.semester.l10n()} ${i18n.gpaResult(gpa)}".text();
       }
     } else {
       return i18n.title.text(style: style);

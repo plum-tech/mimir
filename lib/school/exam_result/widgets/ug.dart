@@ -24,9 +24,6 @@ class ExamResultUgCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = context.textTheme;
-    final courseType = result.courseCode[0] == 'G' ? i18n.elective : i18n.compulsory;
-    // final resultItems =
-    //     result.items.where((e) => !e.score.isNaN && !(e.scoreType == "总评" && e.score == result.score)).toList();
     final score = result.score;
     return ListTile(
       isThreeLine: true,
@@ -35,7 +32,7 @@ class ExamResultUgCard extends StatelessWidget {
       title: Text(result.courseName),
       subtitleTextStyle: textTheme.bodyMedium,
       subtitle: [
-        '${result.courseCat}'.text(),
+        '${result.examType}'.text(),
         if (result.teachers.isNotEmpty) result.teachers.join(", ").text(),
       ].column(caa: CrossAxisAlignment.start),
       leadingAndTrailingTextStyle: textTheme.labelSmall?.copyWith(

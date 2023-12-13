@@ -136,7 +136,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     SemesterInfo info,
   ) async {
     final SemesterInfo(:year, :semester) = info;
-    final defaultName = i18n.import.defaultName(semester.localized(), year.toString(), (year + 1).toString());
+    final defaultName = i18n.import.defaultName(semester.l10n(), year.toString(), (year + 1).toString());
     DateTime defaultStartDate = estimateStartDate(year, semester);
     if (context.auth.userType == OaUserType.undergraduate) {
       final current = estimateCurrentSemester();
