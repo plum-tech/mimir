@@ -16,9 +16,9 @@ enum SelectionEvent {
 }
 
 /// An object that stores the selected indexes and also allows you to change them
-class MultiselectController extends ChangeNotifier {
+class MultiselectController<T> extends ChangeNotifier {
   List<int> _selectedIndexes = [];
-  List _dataSource = [];
+  List<T> _dataSource = [];
 
   List<int> get selectedIndexes => _selectedIndexes;
 
@@ -50,8 +50,33 @@ class MultiselectController extends ChangeNotifier {
     }
   }
 
+  /// Select (or unselect) item
+  /// If passed [event] is [SelectionEvent.auto] function automatically
+  /// decide that action will need apply
+  void selectItem(T item, {SelectionEvent event = SelectionEvent.auto}) {
+    final index = _dataSource.indexOf(item);
+    final indexContains = index >= 0 && _selectedIndexes.contains(index);
+    final computedEvent = event == SelectionEvent.auto
+        ? indexContains
+            ? SelectionEvent.unselect
+            : SelectionEvent.select
+        : event;
+
+    if (computedEvent == SelectionEvent.select) {
+      if (!indexContains) {
+        _selectedIndexes.add(index);
+        notifyListeners();
+      }
+    } else if (computedEvent == SelectionEvent.unselect) {
+      if (indexContains) {
+        _selectedIndexes.remove(index);
+        notifyListeners();
+      }
+    }
+  }
+
   /// Get current selected items in [dataSource]
-  List getSelectedItems() {
+  List<T> getSelectedItems() {
     final selectedItems = selectedIndexes.map((e) => _dataSource[e]).toList();
     return selectedItems;
   }
@@ -82,13 +107,19 @@ class MultiselectController extends ChangeNotifier {
     return _selectedIndexes.contains(index);
   }
 
+  /// Check selection of item by it index
+  bool isSelectedItem(T item) {
+    final index = _dataSource.indexOf(item);
+    return index >= 0 && _selectedIndexes.contains(index);
+  }
+
   /// Set selection by specified indexes
   /// Replace existing selected indexes by [newIndexes]
   void setSelectedIndexes(List<int> newIndexes) {
     _setSelectedIndexes(newIndexes, true);
   }
 
-  void _setDataSource(List dataSource) {
+  void _setDataSource(List<T> dataSource) {
     _dataSource = dataSource;
     _itemsCount = dataSource.length;
   }
@@ -119,7 +150,7 @@ class MultiselectScope<T> extends StatefulWidget {
   /// An object that stores the selected indexes and also allows you to change them
   /// This object may be set once and can not be replaced
   /// when updating the widget configuration
-  final MultiselectController? controller;
+  final MultiselectController<T>? controller;
 
   /// Data for selection tracking
   /// For example list of `Cars` or `Employees`
@@ -151,14 +182,15 @@ class MultiselectScope<T> extends StatefulWidget {
   @override
   State<MultiselectScope<T>> createState() => _MultiselectScopeState<T>();
 
-  static MultiselectController controllerOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<_InheritedMultiselectNotifier>()!.controller;
+  static MultiselectController<T> controllerOf<T>(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<_InheritedMultiselectNotifier>()!.controller
+        as MultiselectController<T>;
   }
 }
 
 class _MultiselectScopeState<T> extends State<MultiselectScope<T>> {
   late List<int> _hashesCopy;
-  late MultiselectController _multiselectController;
+  late MultiselectController<T> _multiselectController;
 
   void _onSelectionChangedFunc() {
     if (widget.onSelectionChanged != null) {
@@ -175,7 +207,7 @@ class _MultiselectScopeState<T> extends State<MultiselectScope<T>> {
   void initState() {
     super.initState();
 
-    _multiselectController = widget.controller ?? MultiselectController();
+    _multiselectController = widget.controller ?? MultiselectController<T>();
 
     _hashesCopy = _createHashesCopy(widget);
     _multiselectController._setDataSource(widget.dataSource);

@@ -9,6 +9,7 @@ import 'package:sit/design/widgets/multi_select.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/exam_result/entity/result.ug.dart';
 import 'package:sit/school/exam_result/init.dart';
+import 'package:sit/school/widgets/course.dart';
 import 'package:sit/utils/error.dart';
 import '../i18n.dart';
 import '../utils.dart';
@@ -33,7 +34,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
   bool isFetching = false;
   final controller = ScrollController();
   bool isSelecting = false;
-  final multiselect = MultiselectController();
+  final multiselect = MultiselectController<ExamResultUg>();
 
   @override
   void initState() {
@@ -108,7 +109,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
                       }
                     });
                   },
-                  child: Text(isSelecting ? i18n.unselect : i18n.select),
+                  child: Text(isSelecting ? i18n.gpa.exitSelection : i18n.gpa.enterSelection),
                 )
               ],
             ),
@@ -124,6 +125,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
               ...results.groups.map((e) => ExamResultGroupBySemester(
                     semester: e.semester,
                     resultList: e.results,
+                    isSelecting: isSelecting,
                   )),
           ],
         ),
@@ -157,11 +159,13 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
 class ExamResultGroupBySemester extends StatefulWidget {
   final SemesterInfo semester;
   final List<ExamResultUg> resultList;
+  final bool isSelecting;
 
   const ExamResultGroupBySemester({
     super.key,
     required this.semester,
     required this.resultList,
+    required this.isSelecting,
   });
 
   @override
@@ -171,6 +175,7 @@ class ExamResultGroupBySemester extends StatefulWidget {
 class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
   @override
   Widget build(BuildContext context) {
+    final scope = MultiselectScope.controllerOf<ExamResultUg>(context);
     return GroupedSection(
         headerBuilder: (expanded, toggleExpand, defaultTrailing) {
           return ListTile(
@@ -183,10 +188,19 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
         itemCount: widget.resultList.length,
         itemBuilder: (ctx, i) {
           final result = widget.resultList[i];
-          return ExamResultUgCard(
+          final selected = scope.isSelectedItem(result);
+          return ExamResultUgTile(
             result,
-            cardType: CardType.filled,
-          );
+            selected: selected,
+            iconOverride: widget.isSelecting
+                ? Icon(selected ? Icons.check_box_outlined : Icons.check_box_outline_blank)
+                    .sizedAll(CourseIcon.kDefaultSize)
+                : null,
+            onTap: () {
+              final scope = MultiselectScope.controllerOf<ExamResultUg>(context);
+              scope.selectItem(result);
+            },
+          ).inFilledCard(clip: Clip.hardEdge);
         });
   }
 }

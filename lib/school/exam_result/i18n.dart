@@ -7,6 +7,7 @@ class _I18n with CommonI18nMixin {
   const _I18n();
 
   static const ns = "examResult";
+  final gpa = const _Gpa();
 
   String get title => "$ns.title".tr();
 
@@ -20,17 +21,27 @@ class _I18n with CommonI18nMixin {
 
   String get lessonNotEvaluated => "$ns.lessonNotEvaluated".tr();
 
-  String lessonSelected(int count) => "$ns.lessonSelected".tr(args: [
-        count.toString(),
-      ]);
-
-  String gpaResult(double point) => "$ns.gpaResult".tr(args: [
-        point.toStringAsPrecision(2),
-      ]);
-
   String get compulsory => "$ns.compulsory".tr();
 
   String get credit => "$ns.credit".tr();
 
   String get elective => "$ns.elective".tr();
+}
+
+class _Gpa {
+  const _Gpa();
+
+  static const ns = "${_I18n.ns}.gpa";
+
+  String get enterSelection => "$ns.enterSelection".tr();
+
+  String get exitSelection => "$ns.exitSelection".tr();
+
+  String lessonSelected(int count) => "$ns.lessonSelected".tr(args: [
+    count.toString(),
+  ]);
+
+  String gpaResult(double point) => "$ns.gpaResult".tr(args: [
+    point.toStringAsPrecision(2),
+  ]);
 }

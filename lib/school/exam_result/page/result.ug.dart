@@ -113,10 +113,9 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
             else
               SliverList.builder(
                 itemCount: resultList.length,
-                itemBuilder: (item, i) => ExamResultUgCard(
+                itemBuilder: (item, i) => ExamResultUgTile(
                   resultList[i],
-                  cardType: CardType.filled,
-                ),
+                ).inFilledCard(),
               ),
         ],
       ),

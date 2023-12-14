@@ -85,10 +85,9 @@ class _ExamResultUgAppCardState extends State<ExamResultUgAppCard> {
     resultList.sort((a, b) => -ExamResultUg.compareByTime(a, b));
     final results = resultList.sublist(0, min(_recentLength, resultList.length));
     return results
-        .map((result) => ExamResultUgCard(
+        .map((result) => ExamResultUgTile(
               result,
-              cardType: CardType.plain,
-            ))
+            ).inCard())
         .toList()
         .column();
   }
