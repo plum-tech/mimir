@@ -243,14 +243,12 @@ class _MultiselectScopeState<T> extends State<MultiselectScope<T>> {
   Widget build(BuildContext context) {
     debugPrint('build GreatMultiselect');
     return widget.clearSelectionOnPop
-        ? WillPopScope(
-            onWillPop: () async {
-              if (_multiselectController.selectionAttached) {
+        ? PopScope(
+            canPop: !_multiselectController.selectionAttached,
+            onPopInvoked: (didPop) {
+              if (!didPop) {
                 _multiselectController.clearSelection();
-                return false;
               }
-
-              return true;
             },
             child: _buildMultiselectScope(),
           )

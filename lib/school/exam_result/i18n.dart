@@ -33,10 +33,6 @@ class _Gpa {
 
   static const ns = "${_I18n.ns}.gpa";
 
-  String get enterSelection => "$ns.enterSelection".tr();
-
-  String get exitSelection => "$ns.exitSelection".tr();
-
   String lessonSelected(int count) => "$ns.lessonSelected".tr(args: [
     count.toString(),
   ]);

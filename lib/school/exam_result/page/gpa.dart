@@ -82,14 +82,6 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
       body: MultiselectScope<ExamResultUg>(
         controller: multiselect,
         dataSource: results?.list ?? const [],
-        // Set this to true if you want automatically
-        // clear selection when user tap back button
-        clearSelectionOnPop: true,
-        // When you update [dataSource] then selected indexes will update
-        // so that the same elements in new [dataSource] are selected
-        keepSelectedItemsBetweenUpdates: true,
-        initialSelectedIndexes: null,
-        // Callback that call on selection changing
         onSelectionChanged: (indexes, items) {
           setState(() {});
         },
@@ -109,10 +101,13 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
                       }
                     });
                   },
-                  child: Text(isSelecting ? i18n.gpa.exitSelection : i18n.gpa.enterSelection),
+                  child: Text(isSelecting ? i18n.done : i18n.select),
                 )
               ],
             ),
+            SliverList.list(children: [
+              buildCourseCatChoices(),
+            ]),
             if (results != null)
               if (results.groups.isEmpty)
                 SliverFillRemaining(
@@ -153,6 +148,25 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
     } else {
       return i18n.title.text(style: style);
     }
+  }
+
+  Widget buildCourseCatChoices() {
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      physics: const RangeMaintainingScrollPhysics(),
+      children: [
+        ChoiceChip(
+          label: "All".text(),
+          onSelected: (value) {},
+          selected: false,
+        ).padH(4),
+        ChoiceChip(
+          label: "Except public".text(),
+          onSelected: (value) {},
+          selected: false,
+        ).padH(4),
+      ],
+    ).sized(h: 40);
   }
 }
 
@@ -196,10 +210,12 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
                 ? Icon(selected ? Icons.check_box_outlined : Icons.check_box_outline_blank)
                     .sizedAll(CourseIcon.kDefaultSize)
                 : null,
-            onTap: () {
-              final scope = MultiselectScope.controllerOf<ExamResultUg>(context);
-              scope.selectItem(result);
-            },
+            onTap: widget.isSelecting
+                ? () {
+                    final scope = MultiselectScope.controllerOf<ExamResultUg>(context);
+                    scope.selectItem(result);
+                  }
+                : null,
           ).inFilledCard(clip: Clip.hardEdge);
         });
   }

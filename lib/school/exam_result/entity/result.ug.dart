@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -179,6 +180,42 @@ class ExamResultUg {
     if (timeB == null) return 1;
     return timeA.compareTo(timeB);
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ExamResultUg &&
+        runtimeType == other.runtimeType &&
+        score == other.score &&
+        courseName == other.courseName &&
+        courseCode == other.courseCode &&
+        innerClassId == other.innerClassId &&
+        year == other.year &&
+        semester == other.semester &&
+        credit == other.credit &&
+        classCode == other.classCode &&
+        time == other.time &&
+        courseCat == other.courseCat &&
+        examType == other.examType &&
+        teachers.equals(other.teachers) &&
+        items.equals(other.items);
+  }
+
+  @override
+  int get hashCode => Object.hashAll([
+        score,
+        courseName,
+        courseCode,
+        innerClassId,
+        year,
+        semester,
+        credit,
+        classCode,
+        time,
+        courseCat,
+        examType,
+        Object.hashAll(teachers),
+        Object.hashAll(items),
+      ]);
 }
 
 @HiveType(typeId: CacheHiveType.examResultUgItem)
@@ -209,4 +246,16 @@ class ExamResultItem {
       "score": score,
     }.toString();
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ExamResultItem &&
+        runtimeType == other.runtimeType &&
+        scoreType == other.scoreType &&
+        score == other.score &&
+        percentage == other.percentage;
+  }
+
+  @override
+  int get hashCode => Object.hash(scoreType, score, percentage);
 }

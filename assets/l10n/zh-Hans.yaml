@@ -691,5 +691,6 @@ copy: 复制
 preview: 预览
 upload: 上传
 pick: 选择
-duplicate: 复制
+duplicate: 创建副本
 copyTip: "已复制 {} 到剪贴板了"
+done: 完成

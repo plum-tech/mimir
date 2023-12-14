@@ -692,5 +692,6 @@ copy: 複製
 preview: 預覽
 upload: 上傳
 pick: 選取
-duplicate: 複製
+duplicate: 創建副本
 copyTip: "{} 被複製到剪貼板了"
+done: 完成
