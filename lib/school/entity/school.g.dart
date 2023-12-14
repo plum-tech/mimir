@@ -17,7 +17,7 @@ class SemesterInfoAdapter extends TypeAdapter<SemesterInfo> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SemesterInfo(
-      year: fields[0] as int,
+      year: fields[0] as int?,
       semester: fields[1] as Semester,
     );
   }

@@ -32,12 +32,12 @@ class TimetableService {
         method: "POST",
       ),
       para: {'gnmkdm': 'N253508'},
-      data: {
+      data: FormData.fromMap({
         // 学年名
-        'xnm': info.year.toString(),
+        'xnm': info.exactYear.toString(),
         // 学期名
         'xqm': semesterToFormField(info.semester)
-      },
+      }),
     );
     final json = response.data;
     final List<dynamic> courseList = json['kbList'];
@@ -71,9 +71,9 @@ class TimetableService {
   String _toPgSemesterText(SemesterInfo info) {
     assert(info.semester != Semester.all);
     if (info.semester == Semester.term1) {
-      return "${info.year}09";
+      return "${info.exactYear}09";
     } else {
-      return "${info.year + 1}02";
+      return "${info.exactYear + 1}02";
     }
   }
 

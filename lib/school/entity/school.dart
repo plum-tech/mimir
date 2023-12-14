@@ -21,8 +21,9 @@ enum Semester {
 
 @HiveType(typeId: CacheHiveType.semesterInfo)
 class SemesterInfo {
+  /// null means all school year
   @HiveField(0)
-  final SchoolYear year;
+  final SchoolYear? year;
   @HiveField(1)
   final Semester semester;
 
@@ -31,13 +32,29 @@ class SemesterInfo {
     required this.semester,
   });
 
+  static const all = SemesterInfo(year: null, semester: Semester.all);
+
+  bool get exactlyOne => year != null && semester != Semester.all;
+
+  SchoolYear get exactYear {
+    assert(exactlyOne);
+    return year ?? DateTime.now().year;
+  }
+
   @override
   String toString() {
     return "$year:$semester";
   }
 
   // TODO: l10n
-  String l10n() => "$year ${year + 1} ${semester.l10n()}";
+  String l10n() {
+    final year = this.year;
+    if (year == null) {
+      return "All year ${semester.l10n()}";
+    } else {
+      return "$year ${year + 1} ${semester.l10n()}";
+    }
+  }
 
   @override
   bool operator ==(Object other) {

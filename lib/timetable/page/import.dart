@@ -135,9 +135,9 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     SitTimetable timetable,
     SemesterInfo info,
   ) async {
-    final SemesterInfo(:year, :semester) = info;
-    final defaultName = i18n.import.defaultName(semester.l10n(), year.toString(), (year + 1).toString());
-    DateTime defaultStartDate = estimateStartDate(year, semester);
+    final SemesterInfo(:exactYear, :semester) = info;
+    final defaultName = i18n.import.defaultName(semester.l10n(), exactYear.toString(), (exactYear + 1).toString());
+    DateTime defaultStartDate = estimateStartDate(exactYear, semester);
     if (context.auth.userType == OaUserType.undergraduate) {
       final current = estimateCurrentSemester();
       if (info == current) {
@@ -154,7 +154,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
           name: defaultName,
           semester: semester,
           startDate: defaultStartDate,
-          schoolYear: year,
+          schoolYear: exactYear,
           signature: Settings.lastSignature,
         ),
       ),

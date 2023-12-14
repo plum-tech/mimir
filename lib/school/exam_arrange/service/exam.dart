@@ -21,12 +21,12 @@ class ExamArrangeService {
         'doType': 'query',
         'gnmkdm': 'N358105',
       },
-      data: {
+      data: FormData.fromMap({
         // 学年名
         'xnm': info.year.toString(),
         // 学期名
         'xqm': semesterToFormField(info.semester),
-      },
+      }),
       options: Options(
         method: "POST",
       ),

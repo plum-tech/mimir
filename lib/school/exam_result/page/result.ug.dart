@@ -29,7 +29,7 @@ class ExamResultUgPage extends StatefulWidget {
 }
 
 class _ExamResultUgPageState extends State<ExamResultUgPage> {
-  List<ExamResultUg>? resultList;
+  late List<ExamResultUg>? resultList = ExamResultInit.ugStorage.getResultList(initial);
   bool isFetching = false;
   final controller = ScrollController();
   bool isSelecting = false;
@@ -54,13 +54,11 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
   Future<void> refresh(SemesterInfo info) async {
     if (!mounted) return;
     setState(() {
-      resultList = ExamResultInit.ugStorage.getResultList(info);
       isFetching = true;
     });
     try {
       final resultList = await ExamResultInit.ugService.fetchResultList(
-        year: info.year,
-        semester: info.semester,
+        info,
         onProgress: (p) {
           $loadingProgress.value = p;
         },
