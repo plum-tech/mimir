@@ -22,9 +22,9 @@ List<ExamResultUg> filterGpaAvailableResult(List<ExamResultUg> list) {
   return list.where((result) => !result.isPreparatory).toList();
 }
 
-List<({SemesterInfo semester, List<ExamResultUg> result})> groupExamResultList(List<ExamResultUg> list) {
+List<({SemesterInfo semester, List<ExamResultUg> results})> groupExamResultList(List<ExamResultUg> list) {
   final semester2Result = list.groupListsBy((result) => result.semesterInfo);
-  final groups = semester2Result.entries.map((entry) => (semester: entry.key, result: entry.value)).toList();
+  final groups = semester2Result.entries.map((entry) => (semester: entry.key, results: entry.value)).toList();
   groups.sortBy((group) => group.semester);
   return groups;
 }

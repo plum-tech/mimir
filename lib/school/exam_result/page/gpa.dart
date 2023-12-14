@@ -3,6 +3,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
+import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/design/widgets/grouped.dart';
 import 'package:sit/design/widgets/multi_select.dart';
 import 'package:sit/school/entity/school.dart';
@@ -21,11 +22,13 @@ class GpaCalculatorPage extends StatefulWidget {
 }
 
 class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
-  late List<({SemesterInfo semester, List<ExamResultUg> result})>? resultList = () {
+  late ({List<({SemesterInfo semester, List<ExamResultUg> results})> groups, List<ExamResultUg> list})? results = () {
     final resultList = ExamResultInit.ugStorage.getResultList(SemesterInfo.all);
+
     if (resultList == null) return null;
-    return groupExamResultList(resultList);
+    return (groups: groupExamResultList(resultList), list: resultList);
   }();
+
   final $loadingProgress = ValueNotifier(0.0);
   bool isFetching = false;
   final controller = ScrollController();
@@ -59,7 +62,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
       ExamResultInit.ugStorage.setResultList(SemesterInfo.all, results);
       if (!mounted) return;
       setState(() {
-        resultList = groupExamResultList(results);
+        this.results = (groups: groupExamResultList(results), list: results);
         isFetching = false;
       });
     } catch (error, stackTrace) {
@@ -73,49 +76,58 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
 
   @override
   Widget build(BuildContext context) {
-    final resultList = this.resultList;
+    final results = this.results;
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            pinned: true,
-            title: "GPA".text(),
-          ),
-          if (resultList != null)
-            if (resultList.isEmpty)
-              SliverFillRemaining(
-                child: LeavingBlank(
-                  icon: Icons.inbox_outlined,
-                  desc: i18n.noResultsTip,
+      body: MultiselectScope<ExamResultUg>(
+        controller: multiselect,
+        dataSource: results?.list ?? const [],
+        // Set this to true if you want automatically
+        // clear selection when user tap back button
+        clearSelectionOnPop: true,
+        // When you update [dataSource] then selected indexes will update
+        // so that the same elements in new [dataSource] are selected
+        keepSelectedItemsBetweenUpdates: true,
+        initialSelectedIndexes: null,
+        // Callback that call on selection changing
+        onSelectionChanged: (indexes, items) {
+          setState(() {});
+        },
+        child: CustomScrollView(
+          controller: controller,
+          slivers: [
+            SliverAppBar(
+              pinned: true,
+              title: "GPA".text(),
+            ),
+            if (results != null)
+              if (results.groups.isEmpty)
+                SliverFillRemaining(
+                  child: LeavingBlank(
+                    icon: Icons.inbox_outlined,
+                    desc: i18n.noResultsTip,
+                  ),
                 ),
-              ),
-          if (resultList != null)
-            ...resultList.map((e) => GroupedSection(
-                headerBuilder: (expanded, toggleExpand, defaultTrailing) {
-                  return ListTile(
-                    title: e.semester.l10n().text(),
-                    titleTextStyle: context.textTheme.titleMedium,
-                    onTap: toggleExpand,
-                    trailing: defaultTrailing,
-                  );
-                },
-                itemCount: e.result.length,
-                itemBuilder: (ctx, i) {
-                  final result = e.result[i];
-                  return ExamResultUgCard(
-                    result,
-                    cardType: CardType.filled,
-                  );
-                })),
-          // else
-          //   SliverList.builder(
-          //     itemCount: resultList.length,
-          //     itemBuilder: (item, i) => ExamResultUgCard(
-          //       resultList[i],
-          //       elevated: false,
-          //     ),
-          //   ),
-        ],
+            if (results != null)
+              ...results.groups.map((e) => ExamResultGroupBySemester(
+                    semester: e.semester,
+                    resultList: e.results,
+                  )),
+          ],
+        ),
+      ),
+      floatingActionButton: AutoHideFAB.extended(
+        controller: controller,
+        alwaysShow: isSelecting,
+        onPressed: () {
+          setState(() {
+            isSelecting = !isSelecting;
+            if (isSelecting == false) {
+              multiselect.clearSelection();
+            }
+          });
+        },
+        label: Text(isSelecting ? i18n.unselect : i18n.select),
+        icon: Icon(isSelecting ? Icons.check_box_outlined : Icons.check_box_outline_blank),
       ),
       bottomNavigationBar: isFetching
           ? PreferredSize(
@@ -127,9 +139,9 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
   }
 
   Widget buildTitle() {
-    final resultList = this.resultList;
+    final results = this.results;
     final style = context.textTheme.headlineSmall;
-    final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResultUg>() : resultList;
+    final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResultUg>() : results;
     if (selectedExams != null) {
       return "".text();
       // TODO: the right way to calculate GPA
@@ -140,5 +152,42 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
     } else {
       return i18n.title.text(style: style);
     }
+  }
+}
+
+class ExamResultGroupBySemester extends StatefulWidget {
+  final SemesterInfo semester;
+  final List<ExamResultUg> resultList;
+
+  const ExamResultGroupBySemester({
+    super.key,
+    required this.semester,
+    required this.resultList,
+  });
+
+  @override
+  State<ExamResultGroupBySemester> createState() => _ExamResultGroupBySemesterState();
+}
+
+class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
+  @override
+  Widget build(BuildContext context) {
+    return GroupedSection(
+        headerBuilder: (expanded, toggleExpand, defaultTrailing) {
+          return ListTile(
+            title: widget.semester.l10n().text(),
+            titleTextStyle: context.textTheme.titleMedium,
+            onTap: toggleExpand,
+            trailing: defaultTrailing,
+          );
+        },
+        itemCount: widget.resultList.length,
+        itemBuilder: (ctx, i) {
+          final result = widget.resultList[i];
+          return ExamResultUgCard(
+            result,
+            cardType: CardType.filled,
+          );
+        });
   }
 }

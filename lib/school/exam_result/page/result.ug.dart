@@ -5,8 +5,6 @@ import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
-import 'package:sit/design/widgets/fab.dart';
-import 'package:sit/design/widgets/multi_select.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/school/widgets/semester.dart';
 import 'package:rettulf/rettulf.dart';
@@ -31,9 +29,6 @@ class ExamResultUgPage extends StatefulWidget {
 class _ExamResultUgPageState extends State<ExamResultUgPage> {
   late List<ExamResultUg>? resultList = ExamResultInit.ugStorage.getResultList(initial);
   bool isFetching = false;
-  final controller = ScrollController();
-  bool isSelecting = false;
-  final multiselect = MultiselectController();
   final $loadingProgress = ValueNotifier(0.0);
   late SemesterInfo initial = ExamResultInit.ugStorage.lastSemesterInfo ?? estimateCurrentSemester();
   late SemesterInfo selected = initial;
@@ -46,7 +41,6 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
 
   @override
   void dispose() {
-    multiselect.dispose();
     $loadingProgress.dispose();
     super.dispose();
   }
@@ -87,74 +81,44 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
   Widget build(BuildContext context) {
     final resultList = this.resultList;
     return Scaffold(
-      body: MultiselectScope<ExamResultUg>(
-        controller: multiselect,
-        dataSource: resultList ?? const [],
-        // Set this to true if you want automatically
-        // clear selection when user tap back button
-        clearSelectionOnPop: true,
-        // When you update [dataSource] then selected indexes will update
-        // so that the same elements in new [dataSource] are selected
-        keepSelectedItemsBetweenUpdates: true,
-        initialSelectedIndexes: null,
-        // Callback that call on selection changing
-        onSelectionChanged: (indexes, items) {
-          setState(() {});
-        },
-        child: CustomScrollView(
-          controller: controller,
-          slivers: [
-            SliverAppBar.medium(
-              pinned: true,
-              title: i18n.title.text(),
-              actions: [
-                PlatformTextButton(
-                  child: i18n.teacherEval.text(),
-                  onPressed: () async {
-                    if (UniversalPlatform.isDesktop) {
-                      await guardLaunchUrl(context, teacherEvaluationUri);
-                    } else {
-                      await context.push("/teacher-eval");
-                    }
-                  },
-                )
-              ],
-            ),
-            SliverToBoxAdapter(
-              child: buildSemesterSelector(),
-            ),
-            if (resultList != null)
-              if (resultList.isEmpty)
-                SliverFillRemaining(
-                  child: LeavingBlank(
-                    icon: Icons.inbox_outlined,
-                    desc: i18n.noResultsTip,
-                  ),
-                )
-              else
-                SliverList.builder(
-                  itemCount: resultList.length,
-                  itemBuilder: (item, i) => ExamResultUgCard(
-                    resultList[i],
-                    cardType: CardType.filled,
-                  ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar.medium(
+            pinned: true,
+            title: i18n.title.text(),
+            actions: [
+              PlatformTextButton(
+                child: i18n.teacherEval.text(),
+                onPressed: () async {
+                  if (UniversalPlatform.isDesktop) {
+                    await guardLaunchUrl(context, teacherEvaluationUri);
+                  } else {
+                    await context.push("/teacher-eval");
+                  }
+                },
+              )
+            ],
+          ),
+          SliverToBoxAdapter(
+            child: buildSemesterSelector(),
+          ),
+          if (resultList != null)
+            if (resultList.isEmpty)
+              SliverFillRemaining(
+                child: LeavingBlank(
+                  icon: Icons.inbox_outlined,
+                  desc: i18n.noResultsTip,
                 ),
-          ],
-        ),
-      ),
-      floatingActionButton: AutoHideFAB.extended(
-        controller: controller,
-        alwaysShow: isSelecting,
-        onPressed: () {
-          setState(() {
-            isSelecting = !isSelecting;
-            if (isSelecting == false) {
-              multiselect.clearSelection();
-            }
-          });
-        },
-        label: Text(isSelecting ? i18n.unselect : i18n.select),
-        icon: Icon(isSelecting ? Icons.check_box_outlined : Icons.check_box_outline_blank),
+              )
+            else
+              SliverList.builder(
+                itemCount: resultList.length,
+                itemBuilder: (item, i) => ExamResultUgCard(
+                  resultList[i],
+                  cardType: CardType.filled,
+                ),
+              ),
+        ],
       ),
       bottomNavigationBar: isFetching
           ? PreferredSize(
