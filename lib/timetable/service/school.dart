@@ -32,12 +32,12 @@ class TimetableService {
         method: "POST",
       ),
       para: {'gnmkdm': 'N253508'},
-      data: FormData.fromMap({
+      data: {
         // 学年名
         'xnm': info.exactYear.toString(),
         // 学期名
         'xqm': semesterToFormField(info.semester)
-      }),
+      },
     );
     final json = response.data;
     final List<dynamic> courseList = json['kbList'];

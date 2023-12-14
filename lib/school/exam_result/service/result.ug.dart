@@ -47,14 +47,14 @@ class ExamResultUgService {
         'gnmkdm': 'N305005',
         'doType': 'query',
       },
-      data: FormData.fromMap({
+      data: {
         // 学年名
         'xnm': year == null ? "" : year.toString(),
         // 学期名
         'xqm': semesterToFormField(info.semester),
         // 获取成绩最大数量
         'queryModel.showCount': 5000,
-      }),
+      },
     );
     progress.value = 0.2;
     final resultList = _parseScoreListPage(response.data);

@@ -31,6 +31,9 @@ class JwxtSession {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
+    options ??= Options();
+    // TODO: is this really necessary?
+    options.contentType = 'application/x-www-form-urlencoded;charset=utf-8';
     Future<Response> fetch() async {
       return await ssoSession.request(
         url,
