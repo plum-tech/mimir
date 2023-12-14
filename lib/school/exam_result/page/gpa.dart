@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/common.dart';
+import 'package:sit/design/widgets/multi_select.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/exam_result/entity/result.ug.dart';
 import 'package:sit/school/exam_result/init.dart';
 import 'package:sit/utils/error.dart';
 import '../i18n.dart';
+import '../utils.dart';
 import '../widgets/ug.dart';
 
 class GpaCalculatorPage extends StatefulWidget {
@@ -17,7 +20,11 @@ class GpaCalculatorPage extends StatefulWidget {
 
 class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
   late List<ExamResultUg>? resultList = ExamResultInit.ugStorage.getResultList(SemesterInfo.all);
+  final $loadingProgress = ValueNotifier(0.0);
   bool isFetching = false;
+  final controller = ScrollController();
+  bool isSelecting = false;
+  final multiselect = MultiselectController();
 
   @override
   void initState() {
@@ -25,12 +32,24 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
     fetchAll();
   }
 
+  @override
+  void dispose() {
+    multiselect.dispose();
+    $loadingProgress.dispose();
+    super.dispose();
+  }
+
   Future<void> fetchAll() async {
     setState(() {
       isFetching = true;
     });
     try {
-      final results = await ExamResultInit.ugService.fetchResultList(SemesterInfo.all);
+      final results = await ExamResultInit.ugService.fetchResultList(
+        SemesterInfo.all,
+        onProgress: (p) {
+          $loadingProgress.value = p;
+        },
+      );
       ExamResultInit.ugStorage.setResultList(SemesterInfo.all, results);
       if (!mounted) return;
       setState(() {
@@ -74,6 +93,27 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
               ),
         ],
       ),
+      bottomNavigationBar: isFetching
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(4),
+              child: $loadingProgress >> (ctx, value) => AnimatedProgressBar(value: value),
+            )
+          : null,
     );
+  }
+
+  Widget buildTitle() {
+    final resultList = this.resultList;
+    final style = context.textTheme.headlineSmall;
+    final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResultUg>() : resultList;
+    if (selectedExams != null) {
+      // TODO: the right way to calculate GPA
+      // It will skip failed exams.
+      final validResults = selectedExams.where((exam) => exam.score != null).where((result) => result.passed);
+      final gpa = calcGPA(validResults);
+      return "${i18n.lessonSelected(selectedExams.length)} ${i18n.gpaResult(gpa)}".text();
+    } else {
+      return i18n.title.text(style: style);
+    }
   }
 }

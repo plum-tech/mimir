@@ -17,7 +17,6 @@ import 'package:universal_platform/universal_platform.dart';
 import '../entity/result.ug.dart';
 import '../init.dart';
 import '../widgets/ug.dart';
-import '../utils.dart';
 import '../i18n.dart';
 import 'evaluation.dart';
 
@@ -33,8 +32,8 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
   bool isFetching = false;
   final controller = ScrollController();
   bool isSelecting = false;
-  final $loadingProgress = ValueNotifier(0.0);
   final multiselect = MultiselectController();
+  final $loadingProgress = ValueNotifier(0.0);
   late SemesterInfo initial = ExamResultInit.ugStorage.lastSemesterInfo ?? estimateCurrentSemester();
   late SemesterInfo selected = initial;
 
@@ -106,7 +105,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
           slivers: [
             SliverAppBar.medium(
               pinned: true,
-              title: buildTitle(),
+              title: i18n.title.text(),
               actions: [
                 PlatformTextButton(
                   child: i18n.teacherEval.text(),
@@ -177,24 +176,5 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
         refresh(newSelection);
       },
     );
-  }
-
-  Widget buildTitle() {
-    final resultList = this.resultList;
-    final style = context.textTheme.headlineSmall;
-    final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResultUg>() : resultList;
-    if (selectedExams != null) {
-      // TODO: the right way to calculate GPA
-      // It will skip failed exams.
-      final validResults = selectedExams.where((exam) => exam.score != null).where((result) => result.passed);
-      final gpa = calcGPA(validResults);
-      if (isSelecting) {
-        return "${i18n.lessonSelected(selectedExams.length)} ${i18n.gpaResult(gpa)}".text();
-      } else {
-        return "${selected.semester.l10n()} ${i18n.gpaResult(gpa)}".text();
-      }
-    } else {
-      return i18n.title.text(style: style);
-    }
   }
 }
