@@ -19,7 +19,7 @@ double calcGPA(Iterable<ExamResultUg> resultList) {
 }
 
 List<ExamResultUg> filterGpaAvailableResult(List<ExamResultUg> list) {
-  return list.where((result) => !result.isPreparatory).toList();
+  return list.where((result) => result.score != null && !result.isPreparatory).toList();
 }
 
 List<({SemesterInfo semester, List<ExamResultUg> results})> groupExamResultList(List<ExamResultUg> list) {

@@ -138,7 +138,7 @@ class MultiselectScope<T> extends StatefulWidget {
   final List<int>? initialSelectedIndexes;
 
   const MultiselectScope({
-    Key? key,
+    super.key,
     required this.dataSource,
     this.controller,
     this.onSelectionChanged,
@@ -146,7 +146,7 @@ class MultiselectScope<T> extends StatefulWidget {
     this.keepSelectedItemsBetweenUpdates = true,
     this.initialSelectedIndexes,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   State<MultiselectScope<T>> createState() => _MultiselectScopeState<T>();

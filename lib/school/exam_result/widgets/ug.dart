@@ -34,14 +34,12 @@ class ExamResultUgCard extends StatelessWidget {
       subtitle: [
         '${result.examType}'.text(),
         if (result.teachers.isNotEmpty) result.teachers.join(", ").text(),
-      ].column(caa: CrossAxisAlignment.start),
+      ].column(caa: CrossAxisAlignment.start, mas: MainAxisSize.min),
       leadingAndTrailingTextStyle: textTheme.labelSmall?.copyWith(
         fontSize: textTheme.bodyLarge?.fontSize,
         color: result.passed ? null : context.$red$,
       ),
-      trailing: score != null
-          ? score.toString().text()
-          : i18n.lessonNotEvaluated.text(style: TextStyle(fontSize: textTheme.bodyLarge?.fontSize)),
+      trailing: score != null ? score.toString().text() : i18n.lessonNotEvaluated.text(),
       onTap: () async {
         context.show$Sheet$((ctx) => ExamResultUgDetailsPage(result));
       },

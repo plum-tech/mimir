@@ -37,6 +37,7 @@ DateTime? _parseTime(dynamic time) {
 
 List<String> _parseTeachers(String? text) {
   if (text == null) return const [];
+  if (text == "无") return const [];
   return text.split(";");
 }
 

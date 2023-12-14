@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
-import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/design/widgets/grouped.dart';
 import 'package:sit/design/widgets/multi_select.dart';
 import 'package:sit/school/entity/school.dart';
@@ -98,6 +98,19 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
             SliverAppBar(
               pinned: true,
               title: "GPA".text(),
+              actions: [
+                PlatformTextButton(
+                  onPressed: () {
+                    setState(() {
+                      isSelecting = !isSelecting;
+                      if (isSelecting == false) {
+                        multiselect.clearSelection();
+                      }
+                    });
+                  },
+                  child: Text(isSelecting ? i18n.unselect : i18n.select),
+                )
+              ],
             ),
             if (results != null)
               if (results.groups.isEmpty)
@@ -114,20 +127,6 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
                   )),
           ],
         ),
-      ),
-      floatingActionButton: AutoHideFAB.extended(
-        controller: controller,
-        alwaysShow: isSelecting,
-        onPressed: () {
-          setState(() {
-            isSelecting = !isSelecting;
-            if (isSelecting == false) {
-              multiselect.clearSelection();
-            }
-          });
-        },
-        label: Text(isSelecting ? i18n.unselect : i18n.select),
-        icon: Icon(isSelecting ? Icons.check_box_outlined : Icons.check_box_outline_blank),
       ),
       bottomNavigationBar: isFetching
           ? PreferredSize(
