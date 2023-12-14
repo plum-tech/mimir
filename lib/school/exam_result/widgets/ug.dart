@@ -12,13 +12,13 @@ import '../entity/result.ug.dart';
 class ExamResultUgCard extends StatelessWidget {
   final ExamResultUg result;
   final VoidCallback? onTap;
-  final bool elevated;
+  final CardType cardType;
 
   const ExamResultUgCard(
     this.result, {
     super.key,
     this.onTap,
-    required this.elevated,
+    required this.cardType,
   });
 
   @override
@@ -45,7 +45,7 @@ class ExamResultUgCard extends StatelessWidget {
       onTap: () async {
         context.show$Sheet$((ctx) => ExamResultUgDetailsPage(result));
       },
-    ).inAnyCard(clip: Clip.hardEdge, type: elevated ? CardType.plain : CardType.filled);
+    ).inAnyCard(clip: Clip.hardEdge, type: cardType);
   }
 }
 

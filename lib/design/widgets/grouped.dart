@@ -2,27 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
-class GroupedSection<T> extends StatefulWidget {
+typedef HeaderBuilder = Widget Function(
+  bool expanded,
+  VoidCallback toggleExpand,
+  Widget defaultTrailing,
+);
+
+class GroupedSection extends StatefulWidget {
   final bool initialExpanded;
-  final Widget? title;
-  final Widget? subtitle;
-  final Widget Function(BuildContext context, int index, T item) itemBuilder;
-  final List<T> items;
+  final int itemCount;
+  final HeaderBuilder headerBuilder;
+  final Widget Function(BuildContext context, int index) itemBuilder;
 
   const GroupedSection({
     super.key,
-    this.title,
-    this.subtitle,
     this.initialExpanded = true,
-    required this.items,
+    required this.itemCount,
     required this.itemBuilder,
+    required this.headerBuilder,
   });
 
   @override
-  State<GroupedSection<T>> createState() => _GroupedSectionState<T>();
+  State<GroupedSection> createState() => _GroupedSectionState();
 }
 
-class _GroupedSectionState<T> extends State<GroupedSection<T>> {
+class _GroupedSectionState extends State<GroupedSection> {
   late var expanded = widget.initialExpanded;
 
   @override
@@ -31,18 +35,16 @@ class _GroupedSectionState<T> extends State<GroupedSection<T>> {
       pushPinnedChildren: true,
       children: [
         SliverPinnedHeader(
-          child: FilledCard(
-            clip: Clip.hardEdge,
-            child: ListTile(
-              title: widget.title,
-              subtitle: widget.subtitle,
-              dense: true,
-              onTap: () {
+          child: Card(
+            clipBehavior: Clip.hardEdge,
+            child: widget.headerBuilder(
+              expanded,
+              () {
                 setState(() {
                   expanded = !expanded;
                 });
               },
-              trailing: expanded ? const Icon(Icons.expand_less) : const Icon(Icons.expand_more),
+              expanded ? const Icon(Icons.expand_less) : const Icon(Icons.expand_more),
             ),
           ),
         ),
@@ -53,11 +55,8 @@ class _GroupedSectionState<T> extends State<GroupedSection<T>> {
             delegate: !expanded
                 ? const SliverChildListDelegate.fixed([])
                 : SliverChildBuilderDelegate(
-                    childCount: widget.items.length,
-                    (ctx, i) {
-                      final item = widget.items[i];
-                      return widget.itemBuilder(ctx, i, item);
-                    },
+                    widget.itemBuilder,
+                    childCount: widget.itemCount,
                   ),
           ),
         )

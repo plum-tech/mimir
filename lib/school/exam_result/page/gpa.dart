@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/animation/progress.dart';
+import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
+import 'package:sit/design/widgets/grouped.dart';
 import 'package:sit/design/widgets/multi_select.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/exam_result/entity/result.ug.dart';
@@ -86,15 +88,33 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
                   icon: Icons.inbox_outlined,
                   desc: i18n.noResultsTip,
                 ),
-              )
-            // else
-            //   SliverList.builder(
-            //     itemCount: resultList.length,
-            //     itemBuilder: (item, i) => ExamResultUgCard(
-            //       resultList[i],
-            //       elevated: false,
-            //     ),
-            //   ),
+              ),
+          if (resultList != null)
+            ...resultList.map((e) => GroupedSection(
+                headerBuilder: (expanded, toggleExpand, defaultTrailing) {
+                  return ListTile(
+                    title: e.semester.l10n().text(),
+                    titleTextStyle: context.textTheme.titleMedium,
+                    onTap: toggleExpand,
+                    trailing: defaultTrailing,
+                  );
+                },
+                itemCount: e.result.length,
+                itemBuilder: (ctx, i) {
+                  final result = e.result[i];
+                  return ExamResultUgCard(
+                    result,
+                    cardType: CardType.filled,
+                  );
+                })),
+          // else
+          //   SliverList.builder(
+          //     itemCount: resultList.length,
+          //     itemBuilder: (item, i) => ExamResultUgCard(
+          //       resultList[i],
+          //       elevated: false,
+          //     ),
+          //   ),
         ],
       ),
       bottomNavigationBar: isFetching

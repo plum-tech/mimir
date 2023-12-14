@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/animation/progress.dart';
+import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/design/widgets/multi_select.dart';
@@ -135,7 +136,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
                   itemCount: resultList.length,
                   itemBuilder: (item, i) => ExamResultUgCard(
                     resultList[i],
-                    elevated: false,
+                    cardType: CardType.filled,
                   ),
                 ),
           ],
