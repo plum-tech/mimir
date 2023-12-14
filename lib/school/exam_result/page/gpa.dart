@@ -19,7 +19,11 @@ class GpaCalculatorPage extends StatefulWidget {
 }
 
 class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
-  late List<ExamResultUg>? resultList = ExamResultInit.ugStorage.getResultList(SemesterInfo.all);
+  late List<({SemesterInfo semester, List<ExamResultUg> result})>? resultList = () {
+    final resultList = ExamResultInit.ugStorage.getResultList(SemesterInfo.all);
+    if (resultList == null) return null;
+    return groupExamResultList(resultList);
+  }();
   final $loadingProgress = ValueNotifier(0.0);
   bool isFetching = false;
   final controller = ScrollController();
@@ -53,7 +57,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
       ExamResultInit.ugStorage.setResultList(SemesterInfo.all, results);
       if (!mounted) return;
       setState(() {
-        resultList = results;
+        resultList = groupExamResultList(results);
         isFetching = false;
       });
     } catch (error, stackTrace) {
@@ -83,14 +87,14 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
                   desc: i18n.noResultsTip,
                 ),
               )
-            else
-              SliverList.builder(
-                itemCount: resultList.length,
-                itemBuilder: (item, i) => ExamResultUgCard(
-                  resultList[i],
-                  elevated: false,
-                ),
-              ),
+            // else
+            //   SliverList.builder(
+            //     itemCount: resultList.length,
+            //     itemBuilder: (item, i) => ExamResultUgCard(
+            //       resultList[i],
+            //       elevated: false,
+            //     ),
+            //   ),
         ],
       ),
       bottomNavigationBar: isFetching
@@ -107,11 +111,12 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
     final style = context.textTheme.headlineSmall;
     final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResultUg>() : resultList;
     if (selectedExams != null) {
+      return "".text();
       // TODO: the right way to calculate GPA
       // It will skip failed exams.
-      final validResults = selectedExams.where((exam) => exam.score != null).where((result) => result.passed);
-      final gpa = calcGPA(validResults);
-      return "${i18n.lessonSelected(selectedExams.length)} ${i18n.gpaResult(gpa)}".text();
+      // final validResults = selectedExams.where((exam) => exam.score != null).where((result) => result.passed);
+      // final gpa = calcGPA(validResults);
+      // return "${i18n.lessonSelected(selectedExams.length)} ${i18n.gpaResult(gpa)}".text();
     } else {
       return i18n.title.text(style: style);
     }

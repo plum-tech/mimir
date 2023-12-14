@@ -8,7 +8,7 @@ typedef SchoolYear = int;
 
 @HiveType(typeId: CacheHiveType.semester)
 @JsonEnum()
-enum Semester {
+enum Semester implements Comparable<Semester> {
   @HiveField(0)
   all,
   @HiveField(1)
@@ -17,10 +17,17 @@ enum Semester {
   term2;
 
   String l10n() => "school.semester.$name".tr();
+
+  @override
+  int compareTo(Semester other) {
+    if (this == other) return 0;
+    if (this == term1) return -1;
+    return 1;
+  }
 }
 
 @HiveType(typeId: CacheHiveType.semesterInfo)
-class SemesterInfo {
+class SemesterInfo implements Comparable<SemesterInfo> {
   /// null means all school year
   @HiveField(0)
   final SchoolYear? year;
@@ -66,6 +73,23 @@ class SemesterInfo {
 
   @override
   int get hashCode => Object.hash(year, semester);
+
+  @override
+  int compareTo(SemesterInfo other) {
+    final yearA = year;
+    final yearB = other.year;
+    if (yearA != yearB) {
+      if (yearA == null) return 1;
+      if (yearB == null) return -1;
+      return yearA.compareTo(yearB);
+    }
+    if (semester != other.semester) {
+      if (semester == Semester.all) return 1;
+      if (other.semester == Semester.all) return -1;
+      return semester.compareTo(other.semester);
+    }
+    return 0;
+  }
 }
 
 String semesterToFormField(Semester semester) {

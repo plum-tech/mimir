@@ -1,3 +1,6 @@
+import 'package:collection/collection.dart';
+import 'package:sit/school/entity/school.dart';
+
 import 'entity/result.ug.dart';
 
 double calcGPA(Iterable<ExamResultUg> resultList) {
@@ -13,4 +16,15 @@ double calcGPA(Iterable<ExamResultUg> resultList) {
   }
   final res = sum / totalCredits / 10.0 - 5.0;
   return res.isNaN ? 0 : res;
+}
+
+List<ExamResultUg> filterGpaAvailableResult(List<ExamResultUg> list) {
+  return list.where((result) => !result.isPreparatory).toList();
+}
+
+List<({SemesterInfo semester, List<ExamResultUg> result})> groupExamResultList(List<ExamResultUg> list) {
+  final semester2Result = list.groupListsBy((result) => result.semesterInfo);
+  final groups = semester2Result.entries.map((entry) => (semester: entry.key, result: entry.value)).toList();
+  groups.sortBy((group) => group.semester);
+  return groups;
 }
