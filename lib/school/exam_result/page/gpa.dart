@@ -32,7 +32,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
 
   final $loadingProgress = ValueNotifier(0.0);
   bool isFetching = false;
-  final controller = ScrollController();
+  final $selected = ValueNotifier(const <ExamResultUg>[]);
   bool isSelecting = false;
   final multiselect = MultiselectController<ExamResultUg>();
 
@@ -83,14 +83,13 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
         controller: multiselect,
         dataSource: results?.list ?? const [],
         onSelectionChanged: (indexes, items) {
-          setState(() {});
+          $selected.value = items;
         },
         child: CustomScrollView(
-          controller: controller,
           slivers: [
             SliverAppBar(
               pinned: true,
-              title: "GPA".text(),
+              title: $selected >> (ctx, selected) => buildTitle(selected),
               actions: [
                 PlatformTextButton(
                   onPressed: () {
@@ -106,7 +105,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
               ],
             ),
             SliverList.list(children: [
-              buildCourseCatChoices(),
+              $selected >> (ctx, selected) => buildCourseCatChoices(selected),
             ]),
             if (results != null)
               if (results.groups.isEmpty)
@@ -134,7 +133,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
     );
   }
 
-  Widget buildTitle() {
+  Widget buildTitle(List<ExamResultUg> selected) {
     final results = this.results;
     final style = context.textTheme.headlineSmall;
     final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResultUg>() : results;
@@ -150,20 +149,28 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
     }
   }
 
-  Widget buildCourseCatChoices() {
+  Widget buildCourseCatChoices(List<ExamResultUg> selected) {
+    final results = this.results;
     return ListView(
       scrollDirection: Axis.horizontal,
       physics: const RangeMaintainingScrollPhysics(),
       children: [
         ChoiceChip(
           label: "All".text(),
-          onSelected: (value) {},
-          selected: false,
+          onSelected: (value) {
+            if (results == null) return;
+            multiselect.setSelectedItems(results.list);
+          },
+          selected: multiselect.isSelectedAll(),
         ).padH(4),
         ChoiceChip(
-          label: "Except public".text(),
-          onSelected: (value) {},
-          selected: false,
+          label: "Except genEd".text(),
+          onSelected: (value) {
+            if (results == null) return;
+            multiselect
+                .setSelectedItems(results.list.where((result) => result.courseCat != CourseCat.genEd).toList());
+          },
+          selected: results == null ? false : multiselect.getSelectedItems().every((result) => result.courseCat != CourseCat.genEd),
         ).padH(4),
       ],
     ).sized(h: 40);

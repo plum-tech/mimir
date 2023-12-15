@@ -55,7 +55,8 @@ class MultiselectController<T> extends ChangeNotifier {
   /// decide that action will need apply
   void selectItem(T item, {SelectionEvent event = SelectionEvent.auto}) {
     final index = _dataSource.indexOf(item);
-    final indexContains = index >= 0 && _selectedIndexes.contains(index);
+    if (index < 0) return;
+    final indexContains = _selectedIndexes.contains(index);
     final computedEvent = event == SelectionEvent.auto
         ? indexContains
             ? SelectionEvent.unselect
@@ -102,6 +103,10 @@ class MultiselectController<T> extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool isSelectedAll() {
+    return _selectedIndexes.length == _dataSource.length;
+  }
+
   /// Check selection of item by it index
   bool isSelected(int index) {
     return _selectedIndexes.contains(index);
@@ -119,6 +124,10 @@ class MultiselectController<T> extends ChangeNotifier {
     _setSelectedIndexes(newIndexes, true);
   }
 
+  void setSelectedItems(List<T> newItems) {
+    _setSelectedItems(newItems, true);
+  }
+
   void _setDataSource(List<T> dataSource) {
     _dataSource = dataSource;
     _itemsCount = dataSource.length;
@@ -126,7 +135,13 @@ class MultiselectController<T> extends ChangeNotifier {
 
   void _setSelectedIndexes(List<int> newIndexes, bool notifyListeners) {
     _selectedIndexes = newIndexes;
+    if (notifyListeners) {
+      this.notifyListeners();
+    }
+  }
 
+  void _setSelectedItems(List<T> items, bool notifyListeners) {
+    _selectedIndexes = items.map((item) => _dataSource.indexOf(item)).where((index) => index >= 0).toList();
     if (notifyListeners) {
       this.notifyListeners();
     }

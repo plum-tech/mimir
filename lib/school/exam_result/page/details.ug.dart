@@ -22,7 +22,7 @@ class _ExamResultDetailsPageState extends State<ExamResultUgDetailsPage> {
     final score = result.score;
     final time = result.time;
     final items =
-        result.items.where((e) => !e.score.isNaN && !(e.scoreType == "总评" && e.score == result.score)).toList();
+        result.items.where((e) => e.score != null && !(e.scoreType == "总评" && e.score == result.score)).toList();
     return Scaffold(
       body: CustomScrollView(
         slivers: [

@@ -183,6 +183,7 @@ class ExamResultUg {
 
   @override
   bool operator ==(Object other) {
+    if (identical(this, other)) return true;
     return other is ExamResultUg &&
         runtimeType == other.runtimeType &&
         score == other.score &&
@@ -230,7 +231,7 @@ class ExamResultItem {
 
   /// 成绩数值
   @HiveField(3)
-  final double score;
+  final double? score;
 
   const ExamResultItem(
     this.scoreType,
@@ -249,6 +250,7 @@ class ExamResultItem {
 
   @override
   bool operator ==(Object other) {
+    if (identical(this, other)) return true;
     return other is ExamResultItem &&
         runtimeType == other.runtimeType &&
         scoreType == other.scoreType &&
