@@ -320,11 +320,12 @@ examResult:
   noResultsTip: 无考试结果记录
   lessonNotEvaluated: 未评教
   teacherEvalTitle: 评教
-  lessonSelected: "已选 {} 门"
-  gpaResult: "绩点: {}"
   compulsory: 必修
   credit: 学分
   elective: 选修
+  gpa:
+    lessonSelected: "已选 {} 门"
+    gpaResult: "绩点: {}"
 examArrange:
   title: 考试安排
   check: 查询

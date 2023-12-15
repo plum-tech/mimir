@@ -29,6 +29,8 @@ class ExamResultGpaItem {
 
   CourseCat get courseCat => initial.courseCat;
 
+  double get credit => initial.credit;
+
   double? get maxScore {
     return [
       ...resit.map((e) => e.score),
@@ -36,4 +38,21 @@ class ExamResultGpaItem {
       initial.score,
     ].whereNotNull().maxOrNull;
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is ExamResultGpaItem &&
+        runtimeType == other.runtimeType &&
+        initial == other.initial &&
+        resit.equals(other.resit) &&
+        retake.equals(other.retake);
+  }
+
+  @override
+  int get hashCode => Object.hash(
+        initial,
+        Object.hashAll(resit),
+        Object.hashAll(retake),
+      );
 }

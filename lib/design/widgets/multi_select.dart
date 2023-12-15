@@ -4,16 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // Steal from: "https://github.com/flankb/multiselect_scope/blob/master/lib/multiselect_scope.dart"
-enum SelectionEvent {
-  /// Unselect item if it selected, select otherwise
-  auto,
-
-  /// Select item
-  select,
-
-  /// Deselect item
-  unselect,
-}
 
 /// An object that stores the selected indexes and also allows you to change them
 class MultiselectController<T> extends ChangeNotifier {
@@ -22,27 +12,42 @@ class MultiselectController<T> extends ChangeNotifier {
 
   List<int> get selectedIndexes => _selectedIndexes;
 
-  bool get selectionAttached => _selectedIndexes.any((element) => true);
+  bool get selectedAny => _selectedIndexes.any((element) => true);
 
   late int _itemsCount;
 
-  /// Select (or unselect) item by index
-  /// If passed [event] is [SelectionEvent.auto] function automatically
-  /// decide that action will need apply
-  void select(int index, {SelectionEvent event = SelectionEvent.auto}) {
+  void select(int index) {
+    assert(index >= 0 && index < _dataSource.length);
+    if (index < 0 || index >= _dataSource.length) return;
     final indexContains = _selectedIndexes.contains(index);
-    final computedEvent = event == SelectionEvent.auto
-        ? indexContains
-            ? SelectionEvent.unselect
-            : SelectionEvent.select
-        : event;
+    if (!indexContains) {
+      _selectedIndexes.add(index);
+      notifyListeners();
+    }
+  }
 
-    if (computedEvent == SelectionEvent.select) {
+  void unselect(int index) {
+    assert(index >= 0 && index < _dataSource.length);
+    if (index < 0 || index >= _dataSource.length) return;
+    final indexContains = _selectedIndexes.contains(index);
+    if (indexContains) {
+      _selectedIndexes.remove(index);
+      notifyListeners();
+    }
+  }
+
+  void toggle(int index) {
+    assert(index >= 0 && index < _dataSource.length);
+    if (index < 0 || index >= _dataSource.length) return;
+    final indexContains = _selectedIndexes.contains(index);
+    final doSelect = indexContains ? false : true;
+
+    if (doSelect) {
       if (!indexContains) {
         _selectedIndexes.add(index);
         notifyListeners();
       }
-    } else if (computedEvent == SelectionEvent.unselect) {
+    } else {
       if (indexContains) {
         _selectedIndexes.remove(index);
         notifyListeners();
@@ -50,30 +55,22 @@ class MultiselectController<T> extends ChangeNotifier {
     }
   }
 
-  /// Select (or unselect) item
-  /// If passed [event] is [SelectionEvent.auto] function automatically
-  /// decide that action will need apply
-  void selectItem(T item, {SelectionEvent event = SelectionEvent.auto}) {
+  void selectItem(T item) {
     final index = _dataSource.indexOf(item);
     if (index < 0) return;
-    final indexContains = _selectedIndexes.contains(index);
-    final computedEvent = event == SelectionEvent.auto
-        ? indexContains
-            ? SelectionEvent.unselect
-            : SelectionEvent.select
-        : event;
+    select(index);
+  }
 
-    if (computedEvent == SelectionEvent.select) {
-      if (!indexContains) {
-        _selectedIndexes.add(index);
-        notifyListeners();
-      }
-    } else if (computedEvent == SelectionEvent.unselect) {
-      if (indexContains) {
-        _selectedIndexes.remove(index);
-        notifyListeners();
-      }
-    }
+  void unselectItem(T item) {
+    final index = _dataSource.indexOf(item);
+    if (index < 0) return;
+    unselect(index);
+  }
+
+  void toggleItem(T item) {
+    final index = _dataSource.indexOf(item);
+    if (index < 0) return;
+    toggle(index);
   }
 
   /// Get current selected items in [dataSource]
@@ -259,7 +256,7 @@ class _MultiselectScopeState<T> extends State<MultiselectScope<T>> {
     debugPrint('build GreatMultiselect');
     return widget.clearSelectionOnPop
         ? PopScope(
-            canPop: !_multiselectController.selectionAttached,
+            canPop: !_multiselectController.selectedAny,
             onPopInvoked: (didPop) {
               if (!didPop) {
                 _multiselectController.clearSelection();

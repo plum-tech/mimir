@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
@@ -10,10 +11,8 @@ import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/exam_result/entity/gpa.dart';
 import 'package:sit/school/exam_result/entity/result.ug.dart';
 import 'package:sit/school/exam_result/init.dart';
-import 'package:sit/school/widgets/course.dart';
 import 'package:sit/utils/error.dart';
 import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/school/exam_result/page/details.ug.dart';
 
 import '../i18n.dart';
 import '../utils.dart';
@@ -36,7 +35,6 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
   final $loadingProgress = ValueNotifier(0.0);
   bool isFetching = false;
   final $selected = ValueNotifier(const <ExamResultGpaItem>[]);
-  bool isSelecting = false;
   final multiselect = MultiselectController<ExamResultGpaItem>();
 
   @override
@@ -99,24 +97,20 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
           slivers: [
             SliverAppBar(
               pinned: true,
-              title: $selected >> (ctx, selected) => buildTitle(selected),
+              title: buildTitle(),
               actions: [
                 PlatformTextButton(
                   onPressed: () {
-                    setState(() {
-                      isSelecting = !isSelecting;
-                      if (isSelecting == false) {
-                        multiselect.clearSelection();
-                      }
-                    });
+                    multiselect.clearSelection();
                   },
-                  child: Text(isSelecting ? i18n.done : i18n.select),
+                  child: Text(i18n.done),
                 )
               ],
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(40),
+                child: buildCourseCatChoices().sized(h: 40),
+              ),
             ),
-            SliverList.list(children: [
-              $selected >> (ctx, selected) => buildCourseCatChoices(selected),
-            ]),
             if (gpaItems != null)
               if (gpaItems.groups.isEmpty)
                 SliverFillRemaining(
@@ -129,7 +123,6 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
               ...gpaItems.groups.map((e) => ExamResultGroupBySemester(
                     semester: e.semester,
                     items: e.items,
-                    isSelecting: isSelecting,
                   )),
           ],
         ),
@@ -143,68 +136,75 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
     );
   }
 
-  Widget buildTitle(List<ExamResultGpaItem> selected) {
-    final gpaItems = this.gpaItems;
-    final style = context.textTheme.headlineSmall;
-    final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResultUg>() : gpaItems;
-    if (selectedExams != null) {
-      return "".text();
-      // TODO: the right way to calculate GPA
-      // It will skip failed exams.
-      // final validResults = selectedExams.where((exam) => exam.score != null).where((result) => result.passed);
-      // final gpa = calcGPA(validResults);
-      // return "${i18n.lessonSelected(selectedExams.length)} ${i18n.gpaResult(gpa)}".text();
-    } else {
-      return i18n.title.text(style: style);
-    }
+  Widget buildTitle() {
+    return $selected >>
+        (ctx, selected) {
+          final style = context.textTheme.headlineSmall;
+          if (selected.isEmpty) {
+            return i18n.title.text(style: style);
+          }
+          final validItems = selected.map((item) {
+            final maxScore = item.maxScore;
+            if (maxScore == null) return null;
+            return (score: maxScore, credit: item.credit);
+          }).whereNotNull();
+          final gpa = calcGPA(validItems);
+          return "${i18n.gpa.lessonSelected(selected.length)} ${i18n.gpa.gpaResult(gpa)}".text();
+        };
   }
 
-  Widget buildCourseCatChoices(List<ExamResultGpaItem> selected) {
-    final gpaItems = this.gpaItems;
-    return ListView(
-      scrollDirection: Axis.horizontal,
-      physics: const RangeMaintainingScrollPhysics(),
-      children: [
-        ChoiceChip(
-          label: "All".text(),
-          onSelected: !isSelecting
-              ? null
-              : (value) {
-                  if (gpaItems == null) return;
-                  multiselect.setSelectedItems(gpaItems.list);
+  Widget buildCourseCatChoices() {
+    return $selected >>
+        (ctx, selected) {
+          return ListView(
+            scrollDirection: Axis.horizontal,
+            physics: const RangeMaintainingScrollPhysics(),
+            children: [
+              ActionChip(
+                label: "Select all".text(),
+                onPressed: selected.length != gpaItems?.list.length
+                    ? () {
+                        multiselect.selectAll();
+                      }
+                    : null,
+              ).padH(4),
+              ActionChip(
+                label: "Unselect".text(),
+                onPressed: selected.isNotEmpty
+                    ? () {
+                        multiselect.clearSelection();
+                      }
+                    : null,
+              ).padH(4),
+              ActionChip(
+                label: "Invert".text(),
+                onPressed: () {
+                  multiselect.invertSelection();
                 },
-          selected: !isSelecting ? false : multiselect.isSelectedAll(),
-        ).padH(4),
-        ChoiceChip(
-          label: "Except genEd".text(),
-          onSelected: !isSelecting
-              ? null
-              : (value) {
-                  if (gpaItems == null) return;
-                  multiselect
-                      .setSelectedItems(gpaItems.list.where((result) => result.courseCat != CourseCat.genEd).toList());
-                },
-          selected: !isSelecting
-              ? false
-              : gpaItems == null
-                  ? false
-                  : multiselect.getSelectedItems().every((result) => result.courseCat != CourseCat.genEd),
-        ).padH(4),
-      ],
-    ).sized(h: 40);
+              ).padH(4),
+              ActionChip(
+                label: "Except genEd".text(),
+                onPressed: selected.any((item) => item.courseCat == CourseCat.genEd)
+                    ? () {
+                        multiselect
+                            .setSelectedItems(selected.where((result) => result.courseCat != CourseCat.genEd).toList());
+                      }
+                    : null,
+              ).padH(4),
+            ],
+          );
+        };
   }
 }
 
 class ExamResultGroupBySemester extends StatefulWidget {
   final SemesterInfo semester;
   final List<ExamResultGpaItem> items;
-  final bool isSelecting;
 
   const ExamResultGroupBySemester({
     super.key,
     required this.semester,
     required this.items,
-    required this.isSelecting,
   });
 
   @override
@@ -217,11 +217,33 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
     final scope = MultiselectScope.controllerOf<ExamResultGpaItem>(context);
     return GroupedSection(
         headerBuilder: (expanded, toggleExpand, defaultTrailing) {
+          final selectedIndicesSet = scope.selectedIndexes.toSet();
+          final indicesOfGroup = widget.items.map((item) => item.index).toSet();
+          final intersection = selectedIndicesSet.intersection(indicesOfGroup);
+          final isGroupNoneSelected = intersection.isEmpty;
+          final isGroupAllSelected = intersection.length == indicesOfGroup.length;
           return ListTile(
             title: widget.semester.l10n().text(),
             titleTextStyle: context.textTheme.titleMedium,
             onTap: toggleExpand,
-            trailing: defaultTrailing,
+            trailing: IconButton(
+              icon: Icon(
+                isGroupNoneSelected
+                    ? Icons.check_box_outline_blank
+                    : isGroupAllSelected
+                        ? Icons.check_box_outlined
+                        : Icons.indeterminate_check_box_outlined,
+              ),
+              onPressed: () {
+                for (final item in widget.items) {
+                  if (isGroupAllSelected) {
+                    scope.unselect(item.index);
+                  } else {
+                    scope.select(item.index);
+                  }
+                }
+              },
+            ),
           );
         },
         itemCount: widget.items.length,
@@ -231,15 +253,9 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
           return ExamResultGpaTile(
             item,
             selected: selected,
-            iconOverride: widget.isSelecting
-                ? Icon(selected ? Icons.check_box_outlined : Icons.check_box_outline_blank)
-                    .sizedAll(CourseIcon.kDefaultSize)
-                : null,
-            onTap: widget.isSelecting
-                ? () {
-                    scope.select(item.index);
-                  }
-                : null,
+            onTap: () {
+              scope.toggle(item.index);
+            },
           ).inFilledCard(clip: Clip.hardEdge);
         });
   }
@@ -248,15 +264,13 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
 class ExamResultGpaTile extends StatelessWidget {
   final ExamResultGpaItem item;
   final VoidCallback? onTap;
-  final Widget? iconOverride;
   final bool selected;
 
   const ExamResultGpaTile(
     this.item, {
     super.key,
     this.onTap,
-    this.iconOverride,
-    this.selected = false,
+    required this.selected,
   });
 
   @override
@@ -268,12 +282,12 @@ class ExamResultGpaTile extends StatelessWidget {
     return ListTile(
       isThreeLine: true,
       selected: selected,
-      leading: iconOverride ?? CourseIcon(courseName: result.courseName),
+      leading: Icon(selected ? Icons.check_box_outlined : Icons.check_box_outline_blank).padAll(8),
       titleTextStyle: textTheme.titleMedium,
       title: Text(result.courseName),
       subtitleTextStyle: textTheme.bodyMedium,
       subtitle: [
-        '${result.courseCat}'.text(),
+        '${i18n.credit}: ${result.credit}'.text(),
         if (result.teachers.isNotEmpty) result.teachers.join(", ").text(),
       ].column(caa: CrossAxisAlignment.start, mas: MainAxisSize.min),
       leadingAndTrailingTextStyle: textTheme.labelSmall?.copyWith(

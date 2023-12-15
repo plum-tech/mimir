@@ -4,14 +4,13 @@ import 'package:sit/school/entity/school.dart';
 import 'entity/gpa.dart';
 import 'entity/result.ug.dart';
 
-double calcGPA(Iterable<ExamResultUg> resultList) {
+double calcGPA(Iterable<({double score, double credit})> resultList) {
   double totalCredits = 0.0;
   double sum = 0.0;
 
   for (final s in resultList) {
     final score = s.score;
-    assert(score != null && score >= 0, "Exam score should be >= 0");
-    if (score == null) continue;
+    assert(score >= 0, "Exam score should be >= 0");
     totalCredits += s.credit;
     sum += s.credit * score;
   }
