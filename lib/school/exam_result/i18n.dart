@@ -34,10 +34,10 @@ class _Gpa {
   static const ns = "${_I18n.ns}.gpa";
 
   String lessonSelected(int count) => "$ns.lessonSelected".tr(args: [
-    count.toString(),
-  ]);
+        count.toString(),
+      ]);
 
   String gpaResult(double point) => "$ns.gpaResult".tr(args: [
-    point.toStringAsPrecision(2),
-  ]);
+        point.toStringAsPrecision(2),
+      ]);
 }

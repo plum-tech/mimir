@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:sit/school/entity/school.dart';
 
+import 'entity/gpa.dart';
 import 'entity/result.ug.dart';
 
 double calcGPA(Iterable<ExamResultUg> resultList) {
@@ -25,6 +26,35 @@ List<ExamResultUg> filterGpaAvailableResult(List<ExamResultUg> list) {
 List<({SemesterInfo semester, List<ExamResultUg> results})> groupExamResultList(List<ExamResultUg> list) {
   final semester2Result = list.groupListsBy((result) => result.semesterInfo);
   final groups = semester2Result.entries.map((entry) => (semester: entry.key, results: entry.value)).toList();
+  groups.sortBy((group) => group.semester);
+  return groups;
+}
+
+List<ExamResultGpaItem> extractExamResultGpaItems(List<ExamResultUg> list) {
+  final groupByExamType = list.groupListsBy((result) => result.examType);
+  final normal = groupByExamType[UgExamType.normal] ?? [];
+  final resit = groupByExamType[UgExamType.resit] ?? [];
+  final retake = groupByExamType[UgExamType.retake] ?? [];
+
+  final res = <ExamResultGpaItem>[];
+  var index = 0;
+  for (final exam in normal) {
+    final relatedResit = resit.where((e) => e.courseCode == exam.courseCode).toList();
+    final relatedRetake = retake.where((e) => e.courseCode == exam.courseCode).toList();
+    res.add(ExamResultGpaItem(
+      index: index,
+      initial: exam,
+      resit: relatedResit,
+      retake: relatedRetake,
+    ));
+    index++;
+  }
+  return res;
+}
+
+List<({SemesterInfo semester, List<ExamResultGpaItem> items})> groupExamResultGpaItems(List<ExamResultGpaItem> list) {
+  final semester2Result = list.groupListsBy((result) => result.semesterInfo);
+  final groups = semester2Result.entries.map((entry) => (semester: entry.key, items: entry.value)).toList();
   groups.sortBy((group) => group.semester);
   return groups;
 }

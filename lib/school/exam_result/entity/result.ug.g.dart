@@ -207,7 +207,7 @@ class ExamResultItemAdapter extends TypeAdapter<ExamResultItem> {
     return ExamResultItem(
       fields[0] as String,
       fields[1] as String,
-      fields[3] as double,
+      fields[3] as double?,
     );
   }
 

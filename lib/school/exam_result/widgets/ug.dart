@@ -9,16 +9,10 @@ import '../entity/result.ug.dart';
 
 class ExamResultUgTile extends StatelessWidget {
   final ExamResultUg result;
-  final VoidCallback? onTap;
-  final Widget? iconOverride;
-  final bool selected;
 
   const ExamResultUgTile(
     this.result, {
     super.key,
-    this.onTap,
-    this.iconOverride,
-    this.selected = false,
   });
 
   @override
@@ -27,8 +21,7 @@ class ExamResultUgTile extends StatelessWidget {
     final score = result.score;
     return ListTile(
       isThreeLine: true,
-      selected: selected,
-      leading: iconOverride ?? CourseIcon(courseName: result.courseName),
+      leading: CourseIcon(courseName: result.courseName),
       titleTextStyle: textTheme.titleMedium,
       title: Text(result.courseName),
       subtitleTextStyle: textTheme.bodyMedium,
@@ -41,10 +34,9 @@ class ExamResultUgTile extends StatelessWidget {
         color: result.passed ? null : context.$red$,
       ),
       trailing: score != null ? score.toString().text() : i18n.lessonNotEvaluated.text(),
-      onTap: onTap ??
-          () async {
-            context.show$Sheet$((ctx) => ExamResultUgDetailsPage(result));
-          },
+      onTap: () async {
+        context.show$Sheet$((ctx) => ExamResultUgDetailsPage(result));
+      },
     );
   }
 }

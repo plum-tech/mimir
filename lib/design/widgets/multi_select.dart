@@ -108,7 +108,7 @@ class MultiselectController<T> extends ChangeNotifier {
   }
 
   /// Check selection of item by it index
-  bool isSelected(int index) {
+  bool isSelectedIndex(int index) {
     return _selectedIndexes.contains(index);
   }
 
