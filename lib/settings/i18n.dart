@@ -21,8 +21,6 @@ class _I18n with CommonI18nMixin {
 
   String get language => "$ns.language".tr();
 
-  String get version => "$ns.version".tr();
-
   String get themeColor => "$ns.themeColor".tr();
 
   String get fromSystem => "$ns.fromSystem".tr();
@@ -150,6 +148,8 @@ class _About {
   static const ns = "${_I18n.ns}.about";
 
   String get title => "$ns.title".tr();
+
+  String get version => "$ns.version".tr();
 }
 
 class _Electricity {

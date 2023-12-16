@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/r.dart';
 import 'package:sit/settings/settings.dart';
@@ -34,6 +35,7 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
             children: [
               const VersionTile(),
               AboutListTile(
+                // icon: SvgPicture.asset("assets/icon.svg").sizedAll(32),
                 applicationName: "SIT Life",
                 applicationVersion: R.currentVersion.version.toString(),
                 applicationLegalese: "2023 SIT Life all rights reserved.",
@@ -85,7 +87,7 @@ class _VersionTileState extends State<VersionTile> {
         AppPlatform.web => const Icon(UniconsLine.browser),
         AppPlatform.unknown => const Icon(Icons.device_unknown_outlined),
       },
-      title: i18n.version.text(),
+      title: i18n.about.version.text(),
       subtitle: "${version.platform.name} ${version.version.toString()}".text(),
       onTap: Settings.isDeveloperMode && clickCount <= 10
           ? null

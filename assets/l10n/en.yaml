@@ -502,7 +502,6 @@ library:
     availableCollection: "Available({available}) / Collection({collection})"
 settings:
   title: Settings
-  version: Version
   themeColor: Theme color
   fromSystem: From system
   credentials:
@@ -594,6 +593,9 @@ settings:
     desc: Wipe all data and log out
     request: Wipe ALL Data
     requestDesc: ALL data, such as login credentials and timetable imported, will be wiped permanently.
+  about:
+    title: About
+    version: Version
 oaAnnounce:
   title: OA announcement
   tab:

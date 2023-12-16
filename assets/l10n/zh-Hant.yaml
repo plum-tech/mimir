@@ -503,7 +503,6 @@ library:
     availableCollection: "在館({available}) / 館藏({collection})"
 settings:
   title: 設定
-  version: 版本
   themeColor: 主題顏色
   fromSystem: 從系統
   credentials:
@@ -595,6 +594,9 @@ settings:
     desc: 擦除帳戶並登出當前 OA 賬戶
     request: 擦除所有資料
     requestDesc: 這會擦除你本地除網頁快取外的登入資料與其他資料，例如匯入的課程表。
+  about:
+    title: 關於
+    version: 版本
 oaAnnounce:
   title: OA 公告
   tab:
