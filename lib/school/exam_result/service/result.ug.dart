@@ -31,12 +31,12 @@ class ExamResultUgService {
 
   const ExamResultUgService();
 
-  /// If [year] is null, the result list from all school year will be fetched.
-  Future<List<ExamResultUg>> fetchResultList({
-    required SchoolYear? year,
-    required Semester semester,
+  /// 获取成绩
+  Future<List<ExamResultUg>> fetchResultList(
+    SemesterInfo info, {
     void Function(double progress)? onProgress,
   }) async {
+    final year = info.year;
     final progress = ProgressWatcher(callback: onProgress);
     final response = await session.request(
       _scoreUrl,
@@ -49,11 +49,11 @@ class ExamResultUgService {
       },
       data: {
         // 学年名
-        if (year != null) 'xnm': year.toString(),
+        'xnm': year == null ? "" : year.toString(),
         // 学期名
-        'xqm': semesterToFormField(semester),
+        'xqm': semesterToFormField(info.semester),
         // 获取成绩最大数量
-        'queryModel.showCount': 500,
+        'queryModel.showCount': 5000,
       },
     );
     progress.value = 0.2;
@@ -80,14 +80,14 @@ class ExamResultUgService {
         method: "POST",
       ),
       para: {'gnmkdm': 'N305005'},
-      data: {
+      data: FormData.fromMap({
         // 班级
         'jxb_id': classId,
         // 学年名
         'xnm': info.year.toString(),
         // 学期名
         'xqm': semesterToFormField(info.semester)
-      },
+      }),
     );
     final html = response.data as String;
     return _parseDetailPage(html);
@@ -108,7 +108,7 @@ class ExamResultUgService {
     String percentage = item.find(_scorePercentageSelector)!.innerHtml.trim();
     String value = item.find(_scoreValueSelector)!.innerHtml;
 
-    return ExamResultItem(f(type), f(percentage), double.tryParse(f(value)) ?? double.nan);
+    return ExamResultItem(f(type), f(percentage), double.tryParse(f(value)));
   }
 
   static List<ExamResultItem> _parseDetailPage(String htmlPage) {

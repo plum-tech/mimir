@@ -17,7 +17,7 @@ class SemesterInfoAdapter extends TypeAdapter<SemesterInfo> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SemesterInfo(
-      year: fields[0] as int,
+      year: fields[0] as int?,
       semester: fields[1] as Semester,
     );
   }
@@ -90,42 +90,52 @@ class CourseCatAdapter extends TypeAdapter<CourseCat> {
   CourseCat read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return CourseCat.genEd;
-      case 1:
-        return CourseCat.publicCore;
-      case 2:
-        return CourseCat.specialized;
-      case 3:
-        return CourseCat.integratedPractice;
-      case 4:
-        return CourseCat.practicalInstruction;
-      case 5:
         return CourseCat.none;
-      default:
+      case 1:
         return CourseCat.genEd;
+      case 2:
+        return CourseCat.publicCore;
+      case 3:
+        return CourseCat.specializedCore;
+      case 4:
+        return CourseCat.specializedCompulsory;
+      case 5:
+        return CourseCat.specializedElective;
+      case 6:
+        return CourseCat.integratedPractice;
+      case 7:
+        return CourseCat.practicalInstruction;
+      default:
+        return CourseCat.none;
     }
   }
 
   @override
   void write(BinaryWriter writer, CourseCat obj) {
     switch (obj) {
-      case CourseCat.genEd:
+      case CourseCat.none:
         writer.writeByte(0);
         break;
-      case CourseCat.publicCore:
+      case CourseCat.genEd:
         writer.writeByte(1);
         break;
-      case CourseCat.specialized:
+      case CourseCat.publicCore:
         writer.writeByte(2);
         break;
-      case CourseCat.integratedPractice:
+      case CourseCat.specializedCore:
         writer.writeByte(3);
         break;
-      case CourseCat.practicalInstruction:
+      case CourseCat.specializedCompulsory:
         writer.writeByte(4);
         break;
-      case CourseCat.none:
+      case CourseCat.specializedElective:
         writer.writeByte(5);
+        break;
+      case CourseCat.integratedPractice:
+        writer.writeByte(6);
+        break;
+      case CourseCat.practicalInstruction:
+        writer.writeByte(7);
         break;
     }
   }

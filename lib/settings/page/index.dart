@@ -80,7 +80,7 @@ class _SettingsPageState extends State<SettingsPage> {
       all.add(PageNavigationTile(
         title: i18n.credentials.oaAccount.text(),
         subtitle: credential.account.text(),
-        icon: const Icon(Icons.person_rounded),
+        leading: const Icon(Icons.person_rounded),
         path: "/settings/credentials",
       ));
     } else {
@@ -104,18 +104,18 @@ class _SettingsPageState extends State<SettingsPage> {
     if (auth.loginStatus != LoginStatus.never) {
       all.add(PageNavigationTile(
         title: i18n.timetable.title.text(),
-        icon: const Icon(Icons.calendar_month_outlined),
+        leading: const Icon(Icons.calendar_month_outlined),
         path: "/settings/timetable",
       ));
       if (!kIsWeb) {
         all.add(PageNavigationTile(
           title: i18n.school.title.text(),
-          icon: const Icon(Icons.school_outlined),
+          leading: const Icon(Icons.school_outlined),
           path: "/settings/school",
         ));
         all.add(PageNavigationTile(
           title: i18n.life.title.text(),
-          icon: const Icon(Icons.spa_outlined),
+          leading: const Icon(Icons.spa_outlined),
           path: "/settings/life",
         ));
       }
@@ -124,7 +124,7 @@ class _SettingsPageState extends State<SettingsPage> {
     if (Settings.isDeveloperMode) {
       all.add(PageNavigationTile(
         title: i18n.dev.title.text(),
-        icon: const Icon(Icons.developer_mode_outlined),
+        leading: const Icon(Icons.developer_mode_outlined),
         path: "/settings/developer",
       ));
     }
@@ -132,7 +132,7 @@ class _SettingsPageState extends State<SettingsPage> {
       all.add(PageNavigationTile(
         title: i18n.proxy.title.text(),
         subtitle: i18n.proxy.desc.text(),
-        icon: const Icon(Icons.vpn_key),
+        leading: const Icon(Icons.vpn_key),
         path: "/settings/proxy",
       ));
       all.add(const NetworkToolEntryTile());
@@ -143,7 +143,7 @@ class _SettingsPageState extends State<SettingsPage> {
     all.add(const WipeDataTile());
     all.add(PageNavigationTile(
       title: i18n.about.title.text(),
-      icon: const Icon(Icons.info),
+      leading: const Icon(Icons.info),
       path: "/settings/about",
     ));
     return all;

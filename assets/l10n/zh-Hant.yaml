@@ -321,11 +321,12 @@ examResult:
   noResultsTip: 無考試結果
   lessonNotEvaluated: 需評教
   teacherEvalTitle: 教師評價
-  lessonSelected: "已選 {} 門"
-  gpaResult: "績點: {}"
   compulsory: 必修
   credit: 學分
   elective: 選修
+  gpa:
+    lessonSelected: "已選 {} 門"
+    gpaResult: "績點: {}"
 examArrange:
   title: 考試安排
   check: 查詢
@@ -525,10 +526,6 @@ settings:
       autoRefresh:
         title: 第二課堂分自動重新整理
         desc: 啟動時重新整理第二課堂分
-    examResult:
-      appCardShowResultDetails:
-        title: 顯示考試成績詳細資料
-        desc: 在考試成績卡片中顯示分數資料
   life:
     title: 生活
     electricity:
@@ -696,5 +693,6 @@ copy: 複製
 preview: 預覽
 upload: 上傳
 pick: 選取
-duplicate: 複製
+duplicate: 創建副本
 copyTip: "{} 被複製到剪貼板了"
+done: 完成

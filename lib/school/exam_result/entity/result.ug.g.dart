@@ -22,9 +22,11 @@ abstract class _$ExamResultUgCWProxy {
     Semester? semester,
     double? credit,
     String? classCode,
-    List<ExamResultItem>? items,
     DateTime? time,
     CourseCat? courseCat,
+    UgExamType? examType,
+    List<String>? teachers,
+    List<ExamResultItem>? items,
   });
 }
 
@@ -51,9 +53,11 @@ class _$ExamResultUgCWProxyImpl implements _$ExamResultUgCWProxy {
     Object? semester = const $CopyWithPlaceholder(),
     Object? credit = const $CopyWithPlaceholder(),
     Object? classCode = const $CopyWithPlaceholder(),
-    Object? items = const $CopyWithPlaceholder(),
     Object? time = const $CopyWithPlaceholder(),
     Object? courseCat = const $CopyWithPlaceholder(),
+    Object? examType = const $CopyWithPlaceholder(),
+    Object? teachers = const $CopyWithPlaceholder(),
+    Object? items = const $CopyWithPlaceholder(),
   }) {
     return ExamResultUg(
       score: score == const $CopyWithPlaceholder()
@@ -88,10 +92,6 @@ class _$ExamResultUgCWProxyImpl implements _$ExamResultUgCWProxy {
           ? _value.classCode
           // ignore: cast_nullable_to_non_nullable
           : classCode as String,
-      items: items == const $CopyWithPlaceholder() || items == null
-          ? _value.items
-          // ignore: cast_nullable_to_non_nullable
-          : items as List<ExamResultItem>,
       time: time == const $CopyWithPlaceholder()
           ? _value.time
           // ignore: cast_nullable_to_non_nullable
@@ -100,6 +100,18 @@ class _$ExamResultUgCWProxyImpl implements _$ExamResultUgCWProxy {
           ? _value.courseCat
           // ignore: cast_nullable_to_non_nullable
           : courseCat as CourseCat,
+      examType: examType == const $CopyWithPlaceholder() || examType == null
+          ? _value.examType
+          // ignore: cast_nullable_to_non_nullable
+          : examType as UgExamType,
+      teachers: teachers == const $CopyWithPlaceholder() || teachers == null
+          ? _value.teachers
+          // ignore: cast_nullable_to_non_nullable
+          : teachers as List<String>,
+      items: items == const $CopyWithPlaceholder() || items == null
+          ? _value.items
+          // ignore: cast_nullable_to_non_nullable
+          : items as List<ExamResultItem>,
     );
   }
 }
@@ -133,16 +145,18 @@ class ExamResultUgAdapter extends TypeAdapter<ExamResultUg> {
       semester: fields[6] as Semester,
       credit: fields[7] as double,
       classCode: fields[4] as String,
-      items: (fields[10] as List).cast<ExamResultItem>(),
       time: fields[8] as DateTime?,
       courseCat: fields[9] as CourseCat,
+      examType: fields[11] as UgExamType,
+      teachers: (fields[10] as List).cast<String>(),
+      items: (fields[12] as List).cast<ExamResultItem>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, ExamResultUg obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.score)
       ..writeByte(1)
@@ -164,6 +178,10 @@ class ExamResultUgAdapter extends TypeAdapter<ExamResultUg> {
       ..writeByte(9)
       ..write(obj.courseCat)
       ..writeByte(10)
+      ..write(obj.teachers)
+      ..writeByte(11)
+      ..write(obj.examType)
+      ..writeByte(12)
       ..write(obj.items);
   }
 
@@ -189,7 +207,7 @@ class ExamResultItemAdapter extends TypeAdapter<ExamResultItem> {
     return ExamResultItem(
       fields[0] as String,
       fields[1] as String,
-      fields[3] as double,
+      fields[3] as double?,
     );
   }
 
@@ -214,6 +232,48 @@ class ExamResultItemAdapter extends TypeAdapter<ExamResultItem> {
       other is ExamResultItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
+class UgExamTypeAdapter extends TypeAdapter<UgExamType> {
+  @override
+  final int typeId = 22;
+
+  @override
+  UgExamType read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return UgExamType.normal;
+      case 1:
+        return UgExamType.resit;
+      case 2:
+        return UgExamType.retake;
+      default:
+        return UgExamType.normal;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, UgExamType obj) {
+    switch (obj) {
+      case UgExamType.normal:
+        writer.writeByte(0);
+        break;
+      case UgExamType.resit:
+        writer.writeByte(1);
+        break;
+      case UgExamType.retake:
+        writer.writeByte(2);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is UgExamTypeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+}
+
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
@@ -229,6 +289,8 @@ ExamResultUg _$ExamResultUgFromJson(Map<String, dynamic> json) => ExamResultUg(
       classCode: json['jxbmc'] as String? ?? '',
       time: _parseTime(json['tjsj']),
       courseCat: CourseCat.parse(json['kclbmc'] as String?),
+      examType: UgExamType.parse(json['ksxz'] as String),
+      teachers: _parseTeachers(json['jsxm'] as String?),
     );
 
 Map<String, dynamic> _$ExamResultUgToJson(ExamResultUg instance) => <String, dynamic>{
@@ -241,6 +303,8 @@ Map<String, dynamic> _$ExamResultUgToJson(ExamResultUg instance) => <String, dyn
       'xqm': _$SemesterEnumMap[instance.semester]!,
       'xf': instance.credit,
       'kclbmc': _$CourseCatEnumMap[instance.courseCat]!,
+      'jsxm': instance.teachers,
+      'ksxz': _$UgExamTypeEnumMap[instance.examType]!,
     };
 
 const _$SemesterEnumMap = {
@@ -250,10 +314,18 @@ const _$SemesterEnumMap = {
 };
 
 const _$CourseCatEnumMap = {
+  CourseCat.none: 'none',
   CourseCat.genEd: 'genEd',
   CourseCat.publicCore: 'publicCore',
-  CourseCat.specialized: 'specialized',
+  CourseCat.specializedCore: 'specializedCore',
+  CourseCat.specializedCompulsory: 'specializedCompulsory',
+  CourseCat.specializedElective: 'specializedElective',
   CourseCat.integratedPractice: 'integratedPractice',
   CourseCat.practicalInstruction: 'practicalInstruction',
-  CourseCat.none: 'none',
+};
+
+const _$UgExamTypeEnumMap = {
+  UgExamType.normal: 'normal',
+  UgExamType.resit: 'resit',
+  UgExamType.retake: 'retake',
 };

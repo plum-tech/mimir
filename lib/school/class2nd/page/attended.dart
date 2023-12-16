@@ -125,63 +125,11 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                 ListTile(
                   title: i18n.info.category.text(),
                 ),
-                ListView(
-                  scrollDirection: Axis.horizontal,
-                  physics: const RangeMaintainingScrollPhysics(),
-                  children: [
-                    ChoiceChip(
-                      label: Class2ndActivityCat.allCatL10n().text(),
-                      selected: selectedCat == null,
-                      onSelected: (value) {
-                        setState(() {
-                          selectedCat = null;
-                        });
-                      },
-                    ).padH(4),
-                    ...(attended ?? const []).map((activity) => activity.category).toSet().map(
-                          (cat) => ChoiceChip(
-                            label: cat.l10nName().text(),
-                            selected: selectedCat == cat,
-                            onSelected: (value) {
-                              setState(() {
-                                selectedCat = cat;
-                                selectedScoreType = null;
-                              });
-                            },
-                          ).padH(4),
-                        ),
-                  ],
-                ).sized(h: 40),
+                buildActivityCatChoices(),
                 ListTile(
                   title: i18n.info.scoreType.text(),
                 ),
-                ListView(
-                  scrollDirection: Axis.horizontal,
-                  physics: const RangeMaintainingScrollPhysics(),
-                  children: [
-                    ChoiceChip(
-                      label: Class2ndPointType.allCatL10n().text(),
-                      selected: selectedScoreType == null,
-                      onSelected: (value) {
-                        setState(() {
-                          selectedScoreType = null;
-                        });
-                      },
-                    ).padH(4),
-                    ...(attended ?? const []).map((activity) => activity.category.pointType).whereNotNull().toSet().map(
-                          (scoreType) => ChoiceChip(
-                            label: scoreType.l10nFullName().text(),
-                            selected: selectedScoreType == scoreType,
-                            onSelected: (value) {
-                              setState(() {
-                                selectedScoreType = scoreType;
-                                selectedCat = null;
-                              });
-                            },
-                          ).padH(4),
-                        ),
-                  ],
-                ).sized(h: 40),
+                buildScoreTypeChoices(),
               ]),
               const SliverToBoxAdapter(
                 child: Divider(),
@@ -207,6 +155,66 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
         ),
       ),
     );
+  }
+
+  Widget buildActivityCatChoices() {
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      physics: const RangeMaintainingScrollPhysics(),
+      children: [
+        ChoiceChip(
+          label: Class2ndActivityCat.allCatL10n().text(),
+          selected: selectedCat == null,
+          onSelected: (value) {
+            setState(() {
+              selectedCat = null;
+            });
+          },
+        ).padH(4),
+        ...(attended ?? const []).map((activity) => activity.category).toSet().map(
+              (cat) => ChoiceChip(
+                label: cat.l10nName().text(),
+                selected: selectedCat == cat,
+                onSelected: (value) {
+                  setState(() {
+                    selectedCat = cat;
+                    selectedScoreType = null;
+                  });
+                },
+              ).padH(4),
+            ),
+      ],
+    ).sized(h: 40);
+  }
+
+  Widget buildScoreTypeChoices() {
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      physics: const RangeMaintainingScrollPhysics(),
+      children: [
+        ChoiceChip(
+          label: Class2ndPointType.allCatL10n().text(),
+          selected: selectedScoreType == null,
+          onSelected: (value) {
+            setState(() {
+              selectedScoreType = null;
+            });
+          },
+        ).padH(4),
+        ...(attended ?? const []).map((activity) => activity.category.pointType).whereNotNull().toSet().map(
+              (scoreType) => ChoiceChip(
+                label: scoreType.l10nFullName().text(),
+                selected: selectedScoreType == scoreType,
+                onSelected: (value) {
+                  setState(() {
+                    selectedScoreType = scoreType;
+                    selectedCat = null;
+                  });
+                },
+              ).padH(4),
+            ),
+      ],
+    ).sized(h: 40);
   }
 }
 

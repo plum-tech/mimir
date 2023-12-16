@@ -10,6 +10,7 @@ import 'package:sit/index.dart';
 import 'package:sit/me/edu_email/page/login.dart';
 import 'package:sit/me/edu_email/page/outbox.dart';
 import 'package:sit/school/class2nd/entity/attended.dart';
+import 'package:sit/school/exam_result/page/gpa.dart';
 import 'package:sit/school/exam_result/page/result.pg.dart';
 import 'package:sit/school/library/page/history.dart';
 import 'package:sit/school/library/page/login.dart';
@@ -339,10 +340,12 @@ final _examArrange = GoRoute(
 final _examResultRoute = GoRoute(
   path: "/exam-result",
   routes: [
-    GoRoute(
-      path: "ug",
-      builder: (ctx, state) => const ExamResultUgPage(),
-    ),
+    GoRoute(path: "ug", builder: (ctx, state) => const ExamResultUgPage(), routes: [
+      GoRoute(
+        path: "gpa",
+        builder: (ctx, state) => const GpaCalculatorPage(),
+      ),
+    ]),
     GoRoute(
       path: "pg",
       builder: (ctx, state) => const ExamResultPgPage(),

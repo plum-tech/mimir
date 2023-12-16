@@ -8,7 +8,7 @@ typedef SchoolYear = int;
 
 @HiveType(typeId: CacheHiveType.semester)
 @JsonEnum()
-enum Semester {
+enum Semester implements Comparable<Semester> {
   @HiveField(0)
   all,
   @HiveField(1)
@@ -16,13 +16,21 @@ enum Semester {
   @HiveField(2)
   term2;
 
-  String localized() => "school.semester.$name".tr();
+  String l10n() => "school.semester.$name".tr();
+
+  @override
+  int compareTo(Semester other) {
+    if (this == other) return 0;
+    if (this == term1) return -1;
+    return 1;
+  }
 }
 
 @HiveType(typeId: CacheHiveType.semesterInfo)
-class SemesterInfo {
+class SemesterInfo implements Comparable<SemesterInfo> {
+  /// null means all school year
   @HiveField(0)
-  final SchoolYear year;
+  final SchoolYear? year;
   @HiveField(1)
   final Semester semester;
 
@@ -31,9 +39,28 @@ class SemesterInfo {
     required this.semester,
   });
 
+  static const all = SemesterInfo(year: null, semester: Semester.all);
+
+  bool get exactlyOne => year != null && semester != Semester.all;
+
+  SchoolYear get exactYear {
+    assert(exactlyOne);
+    return year ?? DateTime.now().year;
+  }
+
   @override
   String toString() {
     return "$year:$semester";
+  }
+
+  // TODO: l10n
+  String l10n() {
+    final year = this.year;
+    if (year == null) {
+      return "All year ${semester.l10n()}";
+    } else {
+      return "$year ${year + 1} ${semester.l10n()}";
+    }
   }
 
   @override
@@ -46,6 +73,23 @@ class SemesterInfo {
 
   @override
   int get hashCode => Object.hash(year, semester);
+
+  @override
+  int compareTo(SemesterInfo other) {
+    final yearA = year;
+    final yearB = other.year;
+    if (yearA != yearB) {
+      if (yearA == null) return 1;
+      if (yearB == null) return -1;
+      return yearA.compareTo(yearB);
+    }
+    if (semester != other.semester) {
+      if (semester == Semester.all) return 1;
+      if (other.semester == Semester.all) return -1;
+      return semester.compareTo(other.semester);
+    }
+    return 0;
+  }
 }
 
 String semesterToFormField(Semester semester) {
@@ -59,33 +103,44 @@ String semesterToFormField(Semester semester) {
 
 @HiveType(typeId: CacheHiveType.courseCat)
 enum CourseCat {
-  /// 通识课
   @HiveField(0)
+  none,
+
+  /// 通识课
+  @HiveField(1)
   genEd,
 
   /// 公共基础课
-  @HiveField(1)
+  @HiveField(2)
   publicCore,
 
   /// 学科专业基础课
-  @HiveField(2)
-  specialized,
+  @HiveField(3)
+  specializedCore,
+
+  /// 专业必修课
+  @HiveField(4)
+  specializedCompulsory,
+
+  /// 专业选修课
+  @HiveField(5)
+  specializedElective,
 
   /// 综合实践
-  @HiveField(3)
+  @HiveField(6)
   integratedPractice,
 
   /// 实践教学
-  @HiveField(4)
-  practicalInstruction,
-  @HiveField(5)
-  none;
+  @HiveField(7)
+  practicalInstruction;
 
   static CourseCat parse(String? str) {
     return switch (str) {
       "通识课" => genEd,
       "公共基础课" => publicCore,
-      "学科专业基础课" => specialized,
+      "学科专业基础课" => specializedCore,
+      "专业必修课" => specializedCompulsory,
+      "专业选修课" => specializedElective,
       "综合实践" => integratedPractice,
       "实践教学" => practicalInstruction,
       _ => none,

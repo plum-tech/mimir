@@ -320,11 +320,12 @@ examResult:
   noResultsTip: No results
   lessonNotEvaluated: Not-eval
   teacherEvalTitle: Teacher evaluation
-  lessonSelected: "{} Selected"
-  gpaResult: "GPA: {}"
   compulsory: Compulsory
   credit: Credit
   elective: Elective
+  gpa:
+    lessonSelected: "{} Selected"
+    gpaResult: "GPA: {}"
 examArrange:
   title: Exams
   check: Check
@@ -524,10 +525,6 @@ settings:
       autoRefresh:
         title: Auto-refresh 2nd class scores
         desc: Refresh scores when app is launched
-    examResult:
-      appCardShowResultDetails:
-        title: Show exam result details
-        desc: Show details in exam result card
   life:
     title: Life
     electricity:
@@ -697,3 +694,4 @@ upload: Upload
 pick: Pick
 duplicate: Duplicate
 copyTip: "{} was copied"
+done: Done

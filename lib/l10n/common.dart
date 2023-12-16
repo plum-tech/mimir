@@ -76,6 +76,8 @@ mixin class CommonI18nMixin {
   String get duplicate => "duplicate".tr();
 
   String copyTipOf(String item) => "copyTip".tr(args: [item]);
+
+  String get done => "done".tr();
 }
 
 class CommonI18n with CommonI18nMixin {

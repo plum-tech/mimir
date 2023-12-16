@@ -157,7 +157,7 @@ class TimetableCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final year = '${timetable.schoolYear}–${timetable.schoolYear + 1}';
-    final semester = timetable.semester.localized();
+    final semester = timetable.semester.l10n();
     final textTheme = context.textTheme;
 
     return EntryCard(

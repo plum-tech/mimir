@@ -23,14 +23,21 @@ class TransactionGroupSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (:income, :outcome) = accumulateTransactionIncomeOutcome(records);
-    return GroupedSection<Transaction>(
-      title: context.formatYmText((time.toDateTime())).text(style: context.textTheme.titleMedium),
-      subtitle: "${i18n.income(income.toStringAsFixed(2))}\n${i18n.outcome(outcome.toStringAsFixed(2))}".text(
-        maxLines: 2,
-      ),
+    return GroupedSection(
+      headerBuilder: (expanded, toggleExpand, defaultTrailing) {
+        return ListTile(
+          title: context.formatYmText((time.toDateTime())).text(),
+          titleTextStyle: context.textTheme.titleMedium,
+          subtitle: "${i18n.income(income.toStringAsFixed(2))}\n${i18n.outcome(outcome.toStringAsFixed(2))}"
+              .text(maxLines: 2),
+          onTap: toggleExpand,
+          trailing: defaultTrailing,
+        );
+      },
       initialExpanded: initialExpanded,
-      items: records,
-      itemBuilder: (ctx, i, record) {
+      itemCount: records.length,
+      itemBuilder: (ctx, i) {
+        final record = records[i];
         return TransactionTile(record);
       },
     );

@@ -34,7 +34,7 @@ class TimetableService {
       para: {'gnmkdm': 'N253508'},
       data: {
         // 学年名
-        'xnm': info.year.toString(),
+        'xnm': info.exactYear.toString(),
         // 学期名
         'xqm': semesterToFormField(info.semester)
       },
@@ -71,9 +71,9 @@ class TimetableService {
   String _toPgSemesterText(SemesterInfo info) {
     assert(info.semester != Semester.all);
     if (info.semester == Semester.term1) {
-      return "${info.year}09";
+      return "${info.exactYear}09";
     } else {
-      return "${info.year + 1}02";
+      return "${info.exactYear + 1}02";
     }
   }
 

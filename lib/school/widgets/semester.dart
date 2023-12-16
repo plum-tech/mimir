@@ -103,7 +103,7 @@ class _SemesterSelectorState extends State<SemesterSelector> {
       dropdownMenuEntries: semesters
           .map((semester) => DropdownMenuEntry<Semester>(
                 value: semester,
-                label: semester.localized(),
+                label: semester.l10n(),
               ))
           .toList(),
     );

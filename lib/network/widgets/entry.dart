@@ -11,7 +11,7 @@ class NetworkToolEntryTile extends StatelessWidget {
     return PageNavigationTile(
       title: i18n.title.text(),
       subtitle: i18n.subtitle.text(),
-      icon: const Icon(Icons.network_check),
+      leading: const Icon(Icons.network_check),
       path: "/tools/network-tool",
     );
   }
