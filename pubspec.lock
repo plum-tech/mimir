@@ -703,10 +703,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_svg_provider
-      sha256: "13d85033c6ae63c8073268f9c5c3c74e5de178224183eaff1d47f08f70c59fcc"
+      sha256: cda47ab350671ba51ae4605d48f4c82fa5a2c399d22ebda367c1b407234c5048
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.6"
+    version: "1.0.7"
   flutter_swipe_action_cell:
     dependency: "direct main"
     description:

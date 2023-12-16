@@ -11,7 +11,7 @@ issue_tracker: https://github.com/liplum/mimir/issues
 documentation: https://github.com/liplum/mimir#readme
 
 publish_to: none
-environment: { sdk: '>=3.2.2 <4.0.0', flutter: ^3.16.3 }
+environment: { sdk: '>=3.2.2 <4.0.0', flutter: ^3.16.4 }
 
 dependencies:
   flutter: { sdk: flutter }
@@ -101,7 +101,7 @@ dependencies:
   go_router: ^12.1.3
   fl_chart: ^0.65.0
   flutter_svg: ^2.0.9
-  flutter_svg_provider: ^1.0.6
+  flutter_svg_provider: ^1.0.7
   # Screen adaptation
   flutter_screenutil: ^5.9.0
   flutter_adaptive_ui: ^0.8.0+1

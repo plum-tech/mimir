@@ -4,7 +4,7 @@ on: workflow_dispatch
 permissions: write-all
 
 env:
-  flutter_version: '3.16.3'
+  flutter_version: '3.16.4'
 
 jobs:
   build_android:
@@ -46,14 +46,14 @@ jobs:
         run: |
           cd build/app/outputs/flutter-apk/
           mv app-release-signed.apk SITLife-release-signed.apk
-      
+
       - name: Delete cache builds
         env:
           GH_TOKEN: ${{ github.token }}
         continue-on-error: true
         run: |
           gh cache delete build-apk
-        
+
       - name: Cache APK
         id: cache-apk
         uses: actions/cache@v3
@@ -62,10 +62,10 @@ jobs:
             build/app/outputs/flutter-apk/
           key: build-apk
           enableCrossOsArchive: true
-          
+
           restore-keys: |
             build-apk
-      
+
       - name: Publish Android Artifact
         uses: actions/upload-artifact@v3
         with:
@@ -138,7 +138,7 @@ jobs:
     #   continue-on-error: true
     #   run: |
     #     gh cache delete build-ipa
-    
+
     # - name: cache ipa
     #   id: cache-ipa
     #   uses: actions/cache@v3
@@ -183,13 +183,13 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           branch: ${{ github.ref }}
-      
+
       - name: Get Git info
         id: get_git_info
         run: |
           git fetch --tags
           echo "RESOLVED_VERSION="$(git tag --sort=-v:refname | head -n 1) >> "$GITHUB_OUTPUT"
-          echo "PREVIOUS_TAG="$(git tag --sort=-v:refname | head -n 2 | tail -n 1) >> "$GITHUB_OUTPUT"          
+          echo "PREVIOUS_TAG="$(git tag --sort=-v:refname | head -n 2 | tail -n 1) >> "$GITHUB_OUTPUT"
 
       - name: Restore cache builds(apk)
         uses: actions/cache@v3
@@ -198,7 +198,7 @@ jobs:
             build/app/outputs/flutter-apk/
           key: build-apk
           enableCrossOsArchive: true
-      
+
       - name: Restore cache builds(ipa)
         uses: actions/cache@v3
         with:
@@ -233,7 +233,7 @@ jobs:
                 - 修复了一些bug
               ### 其他
                 - 其他
-              
+
               ## 下载地址
                 <!-- Android:main -->
                 <!-- - `Android`: 点击下方apk文件即可下载 -->
@@ -246,11 +246,11 @@ jobs:
 
                 - `Android`: 点击下方apk文件即可下载
                 - `iOS`: 请前往[`TestFlight`](https://testflight.apple.com/join/ecafeulK)下载并安装
-              
+
               Full Changelog: https://github.com/${{ github.repository }}/compare/${{ env.PREVIOUS_TAG }}...${{ env.RESOLVED_VERSION }}
           draft: true
           prerelease: false
-    
+
       - name: Delete cache builds
         env:
           GH_TOKEN: ${{ github.token }}
