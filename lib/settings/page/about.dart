@@ -35,7 +35,7 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
               const VersionTile(),
               AboutListTile(
                 applicationName: "SIT Life",
-                applicationVersion: R.currentVersion.full.toString(),
+                applicationVersion: R.currentVersion.version.toString(),
                 applicationLegalese: "2023 SIT Life all rights reserved.",
               ),
             ],
@@ -86,7 +86,7 @@ class _VersionTileState extends State<VersionTile> {
         AppPlatform.unknown => const Icon(Icons.device_unknown_outlined),
       },
       title: i18n.version.text(),
-      subtitle: "${version.platform.name} ${version.full.toString()}".text(),
+      subtitle: "${version.platform.name} ${version.version.toString()}".text(),
       onTap: Settings.isDeveloperMode && clickCount <= 10
           ? null
           : () async {

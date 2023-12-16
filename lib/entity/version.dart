@@ -16,15 +16,43 @@ enum AppPlatform {
   const AppPlatform(this.name);
 }
 
-class AppVersion {
+class AppMeta {
   final AppPlatform platform;
-  final Version full;
+  final Version version;
 
-  const AppVersion(this.platform, this.full);
+  /// The app name. `CFBundleDisplayName` on iOS, `application/label` on Android.
+  final String appName;
+
+  /// The package name. `bundleIdentifier` on iOS, `getPackageName` on Android.
+  final String packageName;
+
+  /// The build signature. Empty string on iOS, signing key signature (hex) on Android.
+  final String buildSignature;
+
+  /// The installer store. Indicates through which store this application was installed.
+  final String? installerStore;
+
+  const AppMeta({
+    required this.platform,
+    required this.version,
+    required this.appName,
+    required this.packageName,
+    required this.buildSignature,
+    required this.installerStore,
+  });
 }
 
-Future<AppVersion> getCurrentVersion() async {
+Future<AppMeta> getCurrentVersion() async {
   final info = await PackageInfo.fromPlatform();
+  var versionText = info.version;
+  if (info.buildNumber.isNotEmpty) {
+    if (UniversalPlatform.isIOS && info.buildNumber != info.version) {
+      // do nothing
+    } else {
+      versionText = "${info.version}+${info.buildNumber}";
+    }
+  }
+
   final AppPlatform platform;
   if (UniversalPlatform.isAndroid) {
     platform = AppPlatform.android;
@@ -41,5 +69,12 @@ Future<AppVersion> getCurrentVersion() async {
   } else {
     platform = AppPlatform.unknown;
   }
-  return AppVersion(platform, Version.parse(info.version));
+  return AppMeta(
+    platform: platform,
+    version: Version.parse(versionText),
+    appName: info.appName,
+    packageName: info.packageName,
+    buildSignature: info.buildSignature,
+    installerStore: info.installerStore,
+  );
 }

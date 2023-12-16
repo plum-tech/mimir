@@ -11,7 +11,7 @@ class R {
   static const hiveStorageVersion = "2.0.0+14";
   static const appId = "life.mysit.SITLife";
   static const appName = "SIT Life";
-  static late AppVersion currentVersion;
+  static late AppMeta currentVersion;
 
   /// For debugging iOS on other platforms.
   static const debugCupertino = kDebugMode ? true : false;
