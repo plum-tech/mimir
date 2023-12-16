@@ -1,4 +1,4 @@
-name: Flutter_build
+name: Flutter Build
 
 on: workflow_dispatch
 permissions: write-all
@@ -16,7 +16,7 @@ jobs:
 
       - name: Change version info
         run: |
-          python3 ./ios-build-tools/addBuildNumber.py
+          python3 ./build-tools/addBuildNumber.py
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
@@ -46,7 +46,26 @@ jobs:
         run: |
           cd build/app/outputs/flutter-apk/
           mv app-release-signed.apk SITLife-release-signed.apk
-
+      
+      - name: Delete cache builds
+        env:
+          GH_TOKEN: ${{ github.token }}
+        continue-on-error: true
+        run: |
+          gh cache delete build-apk
+        
+      - name: Cache APK
+        id: cache-apk
+        uses: actions/cache@v3
+        with:
+          path: |
+            build/app/outputs/flutter-apk/
+          key: build-apk
+          enableCrossOsArchive: true
+          
+          restore-keys: |
+            build-apk
+      
       - name: Publish Android Artifact
         uses: actions/upload-artifact@v3
         with:
@@ -62,11 +81,11 @@ jobs:
 
     - name: Change version info
       run: |
-        python3 ./ios-build-tools/addBuildNumber.py
+        python3 ./build-tools/addBuildNumber.py
 
     - name: Change Develop to Distribution
       run: |
-        python3 ./ios-build-tools/toDistribution.py
+        python3 ./build-tools/toDistribution.py
 
     - name: Install Apple Certificate
       uses: apple-actions/import-codesign-certs@v2
@@ -113,6 +132,24 @@ jobs:
         xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
 
     # Debug only
+    # - name: Delete cache builds
+    #   env:
+    #     GH_TOKEN: ${{ github.token }}
+    #   continue-on-error: true
+    #   run: |
+    #     gh cache delete build-ipa
+    
+    # - name: cache ipa
+    #   id: cache-ipa
+    #   uses: actions/cache@v3
+    #   with:
+    #     path: |
+    #       build-output/ios/
+    #     key: build-ipa
+    #     enableCrossOsArchive: true
+    #     restore-keys: |
+    #       build-ipa
+
     # - name: Publish iOS Artifact
     #   uses: actions/upload-artifact@v3
     #   with:
@@ -136,12 +173,88 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Change version info
+        id: get_tag_name
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          python3 ./ios-build-tools/addBuildNumber.py ${{ github.server_url }} ${{ github.repository }} ${{ github.run_id }} ${{ github.run_attempt }}
+          python3 ./build-tools/addBuildNumber.py ${{ github.server_url }} ${{ github.repository }} ${{ github.run_id }} ${{ github.run_attempt }}
 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           branch: ${{ github.ref }}
+      
+      - name: Get Git info
+        id: get_git_info
+        run: |
+          git fetch --tags
+          echo "RESOLVED_VERSION="$(git tag --sort=-v:refname | head -n 1) >> "$GITHUB_OUTPUT"
+          echo "PREVIOUS_TAG="$(git tag --sort=-v:refname | head -n 2 | tail -n 1) >> "$GITHUB_OUTPUT"          
+
+      - name: Restore cache builds(apk)
+        uses: actions/cache@v3
+        with:
+          path: |
+            build/app/outputs/flutter-apk/
+          key: build-apk
+          enableCrossOsArchive: true
+      
+      - name: Restore cache builds(ipa)
+        uses: actions/cache@v3
+        with:
+          path: |
+            build-output/ios/
+          key: build-ipa
+          enableCrossOsArchive: true
+
+      - name: Rename files
+        continue-on-error: true
+        run: |
+          mv build/app/outputs/flutter-apk/SITLife-release-signed.apk build/app/outputs/flutter-apk/1-SITLife-release-signed.apk
+          mv build-output/ios/life.mysit.SITLife.ipa build-output/ios/2-SITLife-release.ipa
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        env:
+            RESOLVED_VERSION: ${{ steps.get_git_info.outputs.RESOLVED_VERSION }}
+            PREVIOUS_TAG: ${{ steps.get_git_info.outputs.PREVIOUS_TAG }}
+        with:
+          files: |
+            build/app/outputs/flutter-apk/1-SITLife-release-signed.apk
+            build-output/ios/2-SITLife-release.ipa
+          tag_name: ${{ env.RESOLVED_VERSION }}
+          body: |
+              ## 更新内容
+              ### 新增功能
+                - 新增了一些功能
+              ### 优化内容
+                - 优化了一些功能
+              ### 修复内容
+                - 修复了一些bug
+              ### 其他
+                - 其他
+              
+              ## 下载地址
+                <!-- Android:main -->
+                <!-- - `Android`: 点击下方apk文件即可下载 -->
+                <!-- iOS:main -->
+                <!-- - `iOS`: 请前往[`App Store`](https://apps.apple.com/cn/app/id6468989112)下载并安装 -->
+                <!-- iOS:TestFlight -->
+                <!-- - `iOS`: 请前往[`TestFlight`](https://testflight.apple.com/join/ecafeulK)下载并安装 -->
+                <!-- iOS:Debug -->
+                <!-- - `iOS`: 点击下方ipa文件即可下载 -->
+
+                - `Android`: 点击下方apk文件即可下载
+                - `iOS`: 请前往[`TestFlight`](https://testflight.apple.com/join/ecafeulK)下载并安装
+              
+              Full Changelog: https://github.com/${{ github.repository }}/compare/${{ env.PREVIOUS_TAG }}...${{ env.RESOLVED_VERSION }}
+          draft: true
+          prerelease: false
+    
+      - name: Delete cache builds
+        env:
+          GH_TOKEN: ${{ github.token }}
+        continue-on-error: true
+        run: |
+          gh cache delete build-apk
+          gh cache delete build-ipa
