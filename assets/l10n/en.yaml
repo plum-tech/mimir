@@ -167,6 +167,15 @@ school:
     courseCode: Course Code
     teacher: Teacher
     credit: Credit
+  courseCat:
+    none: None
+    genEd: General education
+    publicCore: Pubic core
+    specializedCore: Specialized core
+    specializedCompulsory: Specialized compulsory
+    specializedElective: Specialized elective
+    integratedPractice: Integrated Practice
+    practicalInstruction: Practical instruction
 life:
   navigation: Life
 me:
@@ -324,8 +333,17 @@ examResult:
   compulsory: Compulsory
   elective: Elective
   gpa:
+    title: GPA
     lessonSelected: "{} Selected"
     gpaResult: "GPA: {}"
+    selectAll: Select all
+    invert: Invert
+    exceptGenEd: Except Gen Ed
+    exceptFailed: Except failed
+  examType:
+    normal: Normal
+    resit: Resit
+    retake: Retake
 examArrange:
   title: Exams
   check: Check

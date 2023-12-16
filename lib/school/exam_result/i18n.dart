@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sit/l10n/common.dart';
+import 'package:sit/school/i18n.dart';
 
 const i18n = _I18n();
 
@@ -8,6 +9,7 @@ class _I18n with CommonI18nMixin {
 
   static const ns = "examResult";
   final gpa = const _Gpa();
+  final course = const CourseI18n();
 
   String get title => "$ns.title".tr();
 
@@ -23,8 +25,6 @@ class _I18n with CommonI18nMixin {
 
   String get compulsory => "$ns.compulsory".tr();
 
-  String get credit => "$ns.credit".tr();
-
   String get elective => "$ns.elective".tr();
 }
 
@@ -33,6 +33,8 @@ class _Gpa {
 
   static const ns = "${_I18n.ns}.gpa";
 
+  String get title => "$ns.title".tr();
+
   String lessonSelected(int count) => "$ns.lessonSelected".tr(args: [
         count.toString(),
       ]);
@@ -40,4 +42,12 @@ class _Gpa {
   String gpaResult(double point) => "$ns.gpaResult".tr(args: [
         point.toStringAsPrecision(2),
       ]);
+
+  String get selectAll => "$ns.selectAll".tr();
+
+  String get invert => "$ns.invert".tr();
+
+  String get exceptGenEd => "$ns.exceptGenEd".tr();
+
+  String get exceptFailed => "$ns.exceptFailed".tr();
 }

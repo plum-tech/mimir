@@ -139,7 +139,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
   Widget buildTitle() {
     return $selected >>
         (ctx, selected) => selected.isEmpty
-            ? i18n.title.text()
+            ? i18n.gpa.title.text()
             : GpaCalculationText(
                 items: selected,
               );
@@ -153,7 +153,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
             physics: const RangeMaintainingScrollPhysics(),
             children: [
               ActionChip(
-                label: "Select all".text(),
+                label: i18n.gpa.selectAll.text(),
                 onPressed: selected.length != gpaItems?.list.length
                     ? () {
                         multiselect.selectAll();
@@ -161,13 +161,13 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
                     : null,
               ).padH(4),
               ActionChip(
-                label: "Invert".text(),
+                label:  i18n.gpa.invert.text(),
                 onPressed: () {
                   multiselect.invertSelection();
                 },
               ).padH(4),
               ActionChip(
-                label: "Except genEd".text(),
+                label:  i18n.gpa.exceptGenEd.text(),
                 onPressed: selected.any((item) => item.courseCat == CourseCat.genEd)
                     ? () {
                         multiselect.setSelectedIndexes(selected
@@ -178,7 +178,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
                     : null,
               ).padH(4),
               ActionChip(
-                label: "Except failed".text(),
+                label:  i18n.gpa.exceptFailed.text(),
                 onPressed: selected.any((item) => !item.passed)
                     ? () {
                         multiselect.setSelectedIndexes(
@@ -286,7 +286,7 @@ class ExamResultGpaTile extends StatelessWidget {
       title: Text(result.courseName),
       subtitleTextStyle: textTheme.bodyMedium,
       subtitle: [
-        '${i18n.credit}: ${result.credit}'.text(),
+        '${i18n.course.credit}: ${result.credit}'.text(),
         if (result.teachers.isNotEmpty) result.teachers.join(", ").text(),
       ].column(caa: CrossAxisAlignment.start, mas: MainAxisSize.min),
       leadingAndTrailingTextStyle: textTheme.labelSmall?.copyWith(

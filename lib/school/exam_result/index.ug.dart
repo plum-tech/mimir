@@ -74,7 +74,7 @@ class _ExamResultUgAppCardState extends State<ExamResultUgAppCard> {
             await context.push("/exam-result/ug/gpa");
           },
           icon: const Icon(Icons.assessment),
-          label: "GPA".text(),
+          label: i18n.gpa.title.text(),
         )
       ],
     );

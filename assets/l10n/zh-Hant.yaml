@@ -14,10 +14,6 @@ timetable:
     deleteRequestDesc: 你會失去這個課程表，永久地。
     emptyTip: 快去匯入一張新的課程表吧！
     details: 詳細資料
-  details:
-    classCode: 班级
-    courseCode: 课程代码
-    teacher: 教師
   edit:
     name: 名稱
   import:
@@ -167,6 +163,20 @@ school:
     all: 學年
     term1: 第一學期
     term2: 第二學期
+  course:
+    classCode: 班级
+    courseCode: 课程代码
+    teacher: 教師
+    credit: 學分
+  courseCat:
+    none: 無
+    genEd: 通識課
+    publicCore: 公共基礎課
+    specializedCore: 專業基礎課
+    specializedCompulsory: 專業必修課
+    specializedElective: 專業選修課
+    integratedPractice: 綜合實踐
+    practicalInstruction: 實踐教學
 life:
   navigation: 生活
 me:
@@ -322,11 +332,19 @@ examResult:
   lessonNotEvaluated: 需評教
   teacherEvalTitle: 教師評價
   compulsory: 必修
-  credit: 學分
   elective: 選修
   gpa:
+    title: 績點
     lessonSelected: "已選 {} 門"
     gpaResult: "績點: {}"
+    selectAll: 全選
+    invert: 反選
+    exceptGenEd: 除去通識課
+    exceptFailed: 除去未通過
+  examType:
+    normal: 正常考試
+    resit: 補考
+    retake: 重修
 examArrange:
   title: 考試安排
   check: 查詢

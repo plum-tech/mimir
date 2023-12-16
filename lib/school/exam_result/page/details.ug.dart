@@ -3,6 +3,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/design/widgets/navigation.dart';
 import 'package:sit/l10n/extension.dart';
+import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/exam_result/entity/result.ug.dart';
 import '../i18n.dart';
 
@@ -71,11 +72,12 @@ class _ExamResultDetailsPageState extends State<ExamResultUgDetailsPage> {
                 title: "Class code",
                 subtitle: result.classCode.toString(),
               ),
-            DetailListTile(
-              leading: const Icon(Icons.category),
-              title: "Course category",
-              subtitle: result.courseCat.toString(),
-            ),
+            if (result.courseCat != CourseCat.none)
+              DetailListTile(
+                leading: const Icon(Icons.category),
+                title: "Course category",
+                subtitle: result.courseCat.toString(),
+              ),
             if (result.teachers.isNotEmpty)
               DetailListTile(
                 leading: Icon(result.teachers.length > 1 ? Icons.people : Icons.person),

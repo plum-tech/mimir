@@ -56,6 +56,8 @@ enum UgExamType {
   @HiveField(2)
   retake;
 
+  String l10n() => "examResult.examType.$name".tr();
+
   static UgExamType parse(String type) {
     if (type == "正常考试") return normal;
     if (type == "重修") return retake;

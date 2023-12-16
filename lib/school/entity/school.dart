@@ -134,6 +134,8 @@ enum CourseCat {
   @HiveField(7)
   practicalInstruction;
 
+  String l10n() => "school.courseCat.$name".tr();
+
   static CourseCat parse(String? str) {
     return switch (str) {
       "通识课" => genEd,

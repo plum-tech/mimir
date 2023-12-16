@@ -14,10 +14,6 @@ timetable:
     deleteRequestDesc: 这个课程表将被永久删除
     emptyTip: 快去导入一个课程表吧！
     details: 详情
-  details:
-    classCode: 教学班
-    courseCode: 课程代码
-    teacher: 教师
   edit:
     name: 名称
   import:
@@ -166,6 +162,20 @@ school:
     all: 全学年
     term1: 第一学期
     term2: 第二学期
+  course:
+    classCode: 教学班
+    courseCode: 课程代码
+    teacher: 教师
+    credit: 学分
+  courseCat:
+    none: 无
+    genEd: 通识课
+    publicCore: 公共基础课
+    specializedCore: 学科专业基础课
+    specializedCompulsory: 专业必修课
+    specializedElective: 专业选修课
+    integratedPractice: 综合实践
+    practicalInstruction: 实践教学
 life:
   navigation: 生活
 me:
@@ -321,11 +331,19 @@ examResult:
   lessonNotEvaluated: 未评教
   teacherEvalTitle: 评教
   compulsory: 必修
-  credit: 学分
   elective: 选修
   gpa:
+    title: 绩点
     lessonSelected: "已选 {} 门"
     gpaResult: "绩点: {}"
+    selectAll: 全选
+    invert: 反选
+    exceptGenEd: 除去通识课
+    exceptFailed: 除去未通过
+  examType:
+    normal: 正常考试
+    resit: 补考
+    retake: 重修
 examArrange:
   title: 考试安排
   check: 查询
