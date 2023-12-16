@@ -12,14 +12,18 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Install deploy key
+        uses: shimataro/ssh-key-action@v2
         with:
-          ref: docs
+          key: ${{ secrets.DOCS_SSH_KEY }}
+          known_hosts: ${{ secrets.DOCS_KNOWN_HOST }}
 
       - name: Deploy
         shell: bash
         run: |
+          git clone --single-branch --branch main "https://github.com/Amazefcc233/mimir-docs" ~/deploy
+          cd ~/deploy
+
           version=$(echo "${{ github.event.release.tag_name }}" | sed 's/v//g')
           release_time=$(echo "${{ github.event.release.published_at }}" | sed 's/T/ /g' | sed 's/Z//g')
           release_time=$(date -d "$release_time 8 hours" "+%Y-%m-%d %H:%M:%S")
@@ -68,5 +72,5 @@ jobs:
           
           git add --all
           git commit -m "Release New Version: $version"
-          git push origin docs
+          git push "git@github.com:Amazefcc233/mimir-docs" main:main
   
