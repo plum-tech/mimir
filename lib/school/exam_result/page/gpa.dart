@@ -106,10 +106,12 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
                   child: Text(i18n.done),
                 )
               ],
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(40),
-                child: buildCourseCatChoices().sized(h: 40),
-              ),
+              bottom: isFetching
+                  ? PreferredSize(
+                      preferredSize: const Size.fromHeight(4),
+                      child: $loadingProgress >> (ctx, value) => AnimatedProgressBar(value: value),
+                    )
+                  : null,
             ),
             if (gpaItems != null)
               if (gpaItems.groups.isEmpty)
@@ -127,30 +129,20 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
           ],
         ),
       ),
-      bottomNavigationBar: isFetching
-          ? PreferredSize(
-              preferredSize: const Size.fromHeight(4),
-              child: $loadingProgress >> (ctx, value) => AnimatedProgressBar(value: value),
-            )
-          : null,
+      bottomNavigationBar: PreferredSize(
+        preferredSize: const Size.fromHeight(40),
+        child: buildCourseCatChoices().sized(h: 40),
+      ),
     );
   }
 
   Widget buildTitle() {
     return $selected >>
-        (ctx, selected) {
-          final style = context.textTheme.headlineSmall;
-          if (selected.isEmpty) {
-            return i18n.title.text(style: style);
-          }
-          final validItems = selected.map((item) {
-            final maxScore = item.maxScore;
-            if (maxScore == null) return null;
-            return (score: maxScore, credit: item.credit);
-          }).whereNotNull();
-          final gpa = calcGPA(validItems);
-          return "${i18n.gpa.lessonSelected(selected.length)} ${i18n.gpa.gpaResult(gpa)}".text();
-        };
+        (ctx, selected) => selected.isEmpty
+            ? i18n.title.text()
+            : GpaCalculationText(
+                items: selected,
+              );
   }
 
   Widget buildCourseCatChoices() {
@@ -165,14 +157,6 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
                 onPressed: selected.length != gpaItems?.list.length
                     ? () {
                         multiselect.selectAll();
-                      }
-                    : null,
-              ).padH(4),
-              ActionChip(
-                label: "Unselect".text(),
-                onPressed: selected.isNotEmpty
-                    ? () {
-                        multiselect.clearSelection();
                       }
                     : null,
               ).padH(4),
@@ -215,15 +199,19 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
   @override
   Widget build(BuildContext context) {
     final scope = MultiselectScope.controllerOf<ExamResultGpaItem>(context);
+    final selectedIndicesSet = scope.selectedIndexes.toSet();
+    final indicesOfGroup = widget.items.map((item) => item.index).toSet();
+    final intersection = selectedIndicesSet.intersection(indicesOfGroup);
+    final selectedItems = intersection.map((i) => scope[i]).toList();
+    final isGroupNoneSelected = intersection.isEmpty;
+    final isGroupAllSelected = intersection.length == indicesOfGroup.length;
     return GroupedSection(
         headerBuilder: (expanded, toggleExpand, defaultTrailing) {
-          final selectedIndicesSet = scope.selectedIndexes.toSet();
-          final indicesOfGroup = widget.items.map((item) => item.index).toSet();
-          final intersection = selectedIndicesSet.intersection(indicesOfGroup);
-          final isGroupNoneSelected = intersection.isEmpty;
-          final isGroupAllSelected = intersection.length == indicesOfGroup.length;
           return ListTile(
             title: widget.semester.l10n().text(),
+            subtitle:  GpaCalculationText(
+                    items: selectedItems,
+                  ),
             titleTextStyle: context.textTheme.titleMedium,
             onTap: toggleExpand,
             trailing: IconButton(
@@ -297,5 +285,28 @@ class ExamResultGpaTile extends StatelessWidget {
       trailing: score.toString().text(),
       onTap: onTap,
     );
+  }
+}
+
+class GpaCalculationText extends StatelessWidget {
+  final List<ExamResultGpaItem> items;
+
+  const GpaCalculationText({
+    super.key,
+    required this.items,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (items.isEmpty) {
+      return i18n.gpa.lessonSelected(items.length).text();
+    }
+    final validItems = items.map((item) {
+      final maxScore = item.maxScore;
+      if (maxScore == null) return null;
+      return (score: maxScore, credit: item.credit);
+    }).whereNotNull();
+    final gpa = calcGPA(validItems);
+    return "${i18n.gpa.lessonSelected(items.length)} ${i18n.gpa.gpaResult(gpa)}".text();
   }
 }

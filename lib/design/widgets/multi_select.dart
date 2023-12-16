@@ -143,6 +143,10 @@ class MultiselectController<T> extends ChangeNotifier {
       this.notifyListeners();
     }
   }
+
+  T operator [](int index) {
+    return _dataSource[index];
+  }
 }
 
 typedef SelectionChangedCallback<T> = void Function(List<int> selectedIndexes, List<T> selectedItems);
