@@ -170,8 +170,19 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
                 label: "Except genEd".text(),
                 onPressed: selected.any((item) => item.courseCat == CourseCat.genEd)
                     ? () {
-                        multiselect
-                            .setSelectedItems(selected.where((result) => result.courseCat != CourseCat.genEd).toList());
+                        multiselect.setSelectedIndexes(selected
+                            .where((item) => item.courseCat != CourseCat.genEd)
+                            .map((item) => item.index)
+                            .toList());
+                      }
+                    : null,
+              ).padH(4),
+              ActionChip(
+                label: "Except failed".text(),
+                onPressed: selected.any((item) => !item.passed)
+                    ? () {
+                        multiselect.setSelectedIndexes(
+                            selected.where((item) => item.passed).map((item) => item.index).toList());
                       }
                     : null,
               ).padH(4),
@@ -209,9 +220,9 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
         headerBuilder: (expanded, toggleExpand, defaultTrailing) {
           return ListTile(
             title: widget.semester.l10n().text(),
-            subtitle:  GpaCalculationText(
-                    items: selectedItems,
-                  ),
+            subtitle: GpaCalculationText(
+              items: selectedItems,
+            ),
             titleTextStyle: context.textTheme.titleMedium,
             onTap: toggleExpand,
             trailing: IconButton(

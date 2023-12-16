@@ -39,6 +39,12 @@ class ExamResultGpaItem {
     ].whereNotNull().maxOrNull;
   }
 
+  bool get passed {
+    final maxScore = this.maxScore;
+    if (maxScore == null) return false;
+    return maxScore >= 60.0;
+  }
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
