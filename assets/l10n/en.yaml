@@ -14,10 +14,6 @@ timetable:
     deleteRequestDesc: You will lose this timetable permanently
     emptyTip: Let's import a timetable!
     details: Details
-  details:
-    classCode: Class Code
-    courseCode: Course Code
-    teacher: Teacher
   edit:
     name: Name
   import:
@@ -166,6 +162,11 @@ school:
     all: Full Year
     term1: Fall
     term2: Spring
+  course:
+    classCode: Class Code
+    courseCode: Course Code
+    teacher: Teacher
+    credit: Credit
 life:
   navigation: Life
 me:
@@ -321,7 +322,6 @@ examResult:
   lessonNotEvaluated: Not-eval
   teacherEvalTitle: Teacher evaluation
   compulsory: Compulsory
-  credit: Credit
   elective: Elective
   gpa:
     lessonSelected: "{} Selected"

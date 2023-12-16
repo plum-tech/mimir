@@ -16,3 +16,17 @@ class _I18n with CommonI18nMixin {
 
   String get semester => "$ns.semester.title".tr();
 }
+
+class CourseI18n {
+  const CourseI18n();
+
+  static const ns = "${_I18n.ns}.course";
+
+  String get classCode => "$ns.classCode".tr();
+
+  String get courseCode => "$ns.courseCode".tr();
+
+  String get teacher => "$ns.teacher".tr();
+
+  String get credit => "$ns.credit".tr();
+}

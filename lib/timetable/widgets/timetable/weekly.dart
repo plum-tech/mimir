@@ -382,9 +382,9 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
     final lessons = widget.lesson.course.calcBeginEndTimePointForEachLesson();
     final lessonTimeTip = lessons.map((time) => "${time.begin.l10n(context)}–${time.end.l10n(context)}").join("\n");
     final course = widget.lesson.course;
-    var tooltip = "${i18n.details.courseCode} ${course.courseCode}";
+    var tooltip = "${i18n.course.courseCode} ${course.courseCode}";
     if (course.classCode.isNotEmpty) {
-      tooltip += "\n${i18n.details.classCode} ${course.classCode}";
+      tooltip += "\n${i18n.course.classCode} ${course.classCode}";
     }
     tooltip += "\n$lessonTimeTip";
     return tooltip;
