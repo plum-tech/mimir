@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/design/widgets/common.dart';
-import 'package:sit/design/adaptive/dialog.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/utils/error.dart';
 
@@ -62,15 +61,10 @@ class _YwbServiceListPageState extends State<YwbServiceListPage> {
             floating: true,
             title: i18n.title.text(),
             actions: [
-              IconButton(
-                icon: const Icon(Icons.info_outline),
-                onPressed: () async {
-                  await context.showTip(
-                    title: i18n.title,
-                    desc: i18n.info,
-                    ok: i18n.close,
-                  );
-                },
+              Tooltip(
+                triggerMode: TooltipTriggerMode.tap,
+                message: i18n.info,
+                child: const Icon(Icons.info_outline).padAll(8),
               ),
             ],
             bottom: isLoading
