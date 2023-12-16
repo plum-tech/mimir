@@ -1,0 +1,72 @@
+name: Release new version
+
+on:
+  release:
+    types: [released]
+
+permissions: 
+    contents: read
+    packages: write
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: docs
+
+      - name: Deploy
+        shell: bash
+        run: |
+          version=$(echo "${{ github.event.release.tag_name }}" | sed 's/v//g')
+          release_time=$(echo "${{ github.event.release.published_at }}" | sed 's/T/ /g' | sed 's/Z//g')
+          release_time=$(date -d "$release_time 8 hours" "+%Y-%m-%d %H:%M:%S")
+          apk_name=$(echo "${{ github.event.release.assets[0].name }}")
+          apk_url=$(echo "${{ github.event.release.assets[0].browser_download_url }}")
+          ipa_name=$(echo "${{ github.event.release.assets[1].name }}")
+          ipa_url=$(echo "${{ github.event.release.assets[1].browser_download_url }}")
+          
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          mkdir -p "artifact/"
+          
+          jq -n \
+            --arg version "$version" \
+            --arg release_time "$release_time" \
+            --arg apk_name "$apk_name" \
+            --arg apk_url1 "$apk_url" \
+            --arg apk_url2 "https://mirror.ghproxy.com/$apk_url" \
+            --arg ipa_name "$ipa_name" \
+            --arg ipa_url1 "$ipa_url" \
+            --arg ipa_url2 "https://mirror.ghproxy.com/$ipa_url" \
+            '
+              {
+                "version": $version,
+                "release_time": $release_time,
+                "apk": {
+                  "name": $apk_name,
+                  "url": {
+                    "official": $apk_url1,
+                    "mirror": $apk_url2,
+                  },
+                },
+                "ipa": {
+                  "name": $ipa_name,
+                  "url": {
+                    "official": $ipa_url1,
+                    "mirror": $ipa_url2,
+                  },
+                },
+              }
+            ' > "artifact/$version.json"
+          
+          rm -f artifact/latest.json
+          ln -s "$version.json" "artifact/latest.json"
+          
+          git add --all
+          git commit -m "Release New Version: $version"
+          git push origin docs
+  
