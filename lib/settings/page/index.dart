@@ -7,6 +7,7 @@ import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/card.dart';
+import 'package:sit/login/i18n.dart';
 import 'package:sit/network/widgets/entry.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/init.dart';
@@ -84,10 +85,10 @@ class _SettingsPageState extends State<SettingsPage> {
         path: "/settings/credentials",
       ));
     } else {
-      // TODO: i18n
+      const oaLogin = OaLoginI18n();
       all.add(ListTile(
-        title: "Login".text(),
-        subtitle: "Please login".text(),
+        title: oaLogin.loginOa.text(),
+        subtitle: oaLogin.neverLoggedInTip.text(),
         leading: const Icon(Icons.person_rounded),
         onTap: () {
           context.go("/login");
