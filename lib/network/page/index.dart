@@ -56,10 +56,6 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
     return Scaffold(
       appBar: AppBar(
         title: i18n.title.text(),
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(4),
-          child: LinearProgressIndicator(),
-        ),
       ),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 500),
@@ -68,6 +64,10 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
           false => const DisconnectedInfo(key: ValueKey("Disconnected")),
           null => const SizedBox(key: ValueKey("null")),
         },
+      ),
+      bottomNavigationBar: const PreferredSize(
+        preferredSize: Size.fromHeight(4),
+        child: LinearProgressIndicator(),
       ),
     );
   }
