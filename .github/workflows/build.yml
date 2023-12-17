@@ -224,28 +224,24 @@ jobs:
             build-output/ios/2-SITLife-release.ipa
           tag_name: ${{ env.RESOLVED_VERSION }}
           body: |
-              ## 更新内容
-              ### 新增功能
-                - 新增了一些功能
-              ### 优化内容
-                - 优化了一些功能
-              ### 修复内容
-                - 修复了一些bug
-              ### 其他
-                - 其他
+              ## Changes
+              ### Features
+                - Foo
+              ### Bug fixes
+                - Bar
 
-              ## 下载地址
+              ## How to download
                 <!-- Android:main -->
-                <!-- - `Android`: 点击下方apk文件即可下载 -->
+                <!-- - `Android`: Click the .apk files below.-->
                 <!-- iOS:main -->
-                <!-- - `iOS`: 请前往[`App Store`](https://apps.apple.com/cn/app/id6468989112)下载并安装 -->
+                <!-- - `iOS`: [Download on the App Store](https://apps.apple.com/cn/app/id6468989112).-->
                 <!-- iOS:TestFlight -->
-                <!-- - `iOS`: 请前往[`TestFlight`](https://testflight.apple.com/join/ecafeulK)下载并安装 -->
+                <!-- - `iOS`: [Join the Test Flight](https://testflight.apple.com/join/ecafeulK).-->
                 <!-- iOS:Debug -->
-                <!-- - `iOS`: 点击下方ipa文件即可下载 -->
+                <!-- - `iOS`: Click the .ipa files below.-->
 
-                - `Android`: 点击下方apk文件即可下载
-                - `iOS`: 请前往[`TestFlight`](https://testflight.apple.com/join/ecafeulK)下载并安装
+                - `Android`: Click the .apk files below.
+                - `iOS`: [Join the Test Flight](https://testflight.apple.com/join/ecafeulK).
 
               Full Changelog: https://github.com/${{ github.repository }}/compare/${{ env.PREVIOUS_TAG }}...${{ env.RESOLVED_VERSION }}
           draft: true
