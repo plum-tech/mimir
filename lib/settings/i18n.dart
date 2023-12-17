@@ -7,7 +7,7 @@ const i18n = _I18n();
 class _I18n with CommonI18nMixin {
   const _I18n();
 
-  final credentials = const _Credentials();
+  final oaCredentials = const _OaCredentials();
   final proxy = const _Proxy();
   final dev = const _DevOptions();
   final timetable = const _Timetable();
@@ -212,10 +212,10 @@ class _Storage with CommonI18nMixin {
   String get emptyValueDesc => "$ns.emptyValueDesc".tr();
 }
 
-class _Credentials extends CredentialsI18n {
+class _OaCredentials extends OaCredentialsI18n {
   static const ns = "${_I18n.ns}.credentials";
 
-  const _Credentials();
+  const _OaCredentials();
 
   String get testLoginOa => "$ns.testLoginOa.title".tr();
 

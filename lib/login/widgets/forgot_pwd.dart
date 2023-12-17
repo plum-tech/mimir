@@ -4,6 +4,8 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/utils/guard_launch.dart';
 import '../i18n.dart';
 
+const _i18n = OaLoginI18n();
+
 class ForgotPasswordButton extends StatelessWidget {
   final String url;
 
@@ -15,7 +17,7 @@ class ForgotPasswordButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlatformTextButton(
-      child: i18n.credentials.forgotPwd.text(
+      child: _i18n.forgotPwd.text(
         style: const TextStyle(color: Colors.grey),
       ),
       onPressed: () {

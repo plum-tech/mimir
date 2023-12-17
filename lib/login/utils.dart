@@ -6,6 +6,8 @@ import 'package:sit/session/sso.dart';
 import 'package:sit/utils/error.dart';
 import "./i18n.dart";
 
+const _i18n = OaLoginI18n();
+
 Future<void> handleLoginException({
   required BuildContext context,
   required Exception error,
@@ -16,22 +18,22 @@ Future<void> handleLoginException({
   if (error is CredentialsException) {
     await context.showTip(
       serious: true,
-      title: i18n.failedWarn,
+      title: _i18n.failedWarn,
       desc: switch (error.type) {
-        CredentialsErrorType.accountPassword => i18n.accountOrPwdErrorTip,
-        CredentialsErrorType.captcha => i18n.captchaErrorTip,
-        CredentialsErrorType.frozen => i18n.accountFrozenTip,
+        CredentialsErrorType.accountPassword => _i18n.accountOrPwdErrorTip,
+        CredentialsErrorType.captcha => _i18n.captchaErrorTip,
+        CredentialsErrorType.frozen => _i18n.accountFrozenTip,
       },
-      ok: i18n.close,
+      ok: _i18n.close,
     );
     return;
   }
   if (error is DioException) {
     await context.showTip(
       serious: true,
-      title: i18n.failedWarn,
-      desc: i18n.schoolServerUnconnectedTip,
-      ok: i18n.close,
+      title: _i18n.failedWarn,
+      desc: _i18n.schoolServerUnconnectedTip,
+      ok: _i18n.close,
     );
     return;
   }
@@ -42,9 +44,9 @@ Future<void> handleLoginException({
   if (!context.mounted) return;
   await context.showTip(
     serious: true,
-    title: i18n.failedWarn,
-    desc: i18n.unknownAuthErrorTip,
-    ok: i18n.close,
+    title: _i18n.failedWarn,
+    desc: _i18n.unknownAuthErrorTip,
+    ok: _i18n.close,
   );
   return;
 }

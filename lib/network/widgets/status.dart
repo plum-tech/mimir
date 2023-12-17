@@ -19,7 +19,7 @@ class CampusNetworkStatusInfo extends StatelessWidget {
       studentId = status.studentId ?? i18n.unknown;
     }
     return [
-      "${i18n.credential.studentId}: $studentId".text(textAlign: TextAlign.center, style: style),
+      "${i18n.credentials.studentId}: $studentId".text(textAlign: TextAlign.center, style: style),
       "${i18n.network.ipAddress}: $ip".text(textAlign: TextAlign.center, style: style),
     ].column();
   }

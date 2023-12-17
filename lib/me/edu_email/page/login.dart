@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
-import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/login/utils.dart';
 import 'package:sit/login/widgets/forgot_pwd.dart';
 import 'package:sit/r.dart';
 import 'package:rettulf/rettulf.dart';
@@ -141,7 +141,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
                     }
                   : null,
               icon: const Icon(Icons.login),
-              label: i18n.login.credentials.login.text().padAll(5),
+              label: i18n.login.login.text().padAll(5),
             );
   }
 
@@ -158,12 +158,12 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       context.replace("/edu-email/inbox");
-    } catch (err) {
-      if (!mounted) return;
-      await context.showTip(title: i18n.login.failedWarn, desc: i18n.login.failedWarnDesc, ok: i18n.ok);
+    } catch (error, stackTrace) {
       if (!mounted) return;
       setState(() => isLoggingIn = false);
-      return;
+      if (error is Exception) {
+        await handleLoginException(context: context, error: error, stackTrace: stackTrace);
+      }
     }
   }
 }

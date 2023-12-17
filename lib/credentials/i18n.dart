@@ -6,11 +6,17 @@ class CredentialsI18n with CommonI18nMixin {
 
   static const ns = "credentials";
 
-  String get studentId => "$ns.studentId".tr();
-
   String get account => "$ns.account".tr();
 
   String get password => "$ns.password".tr();
+}
+
+class OaCredentialsI18n extends CredentialsI18n {
+  const OaCredentialsI18n();
+
+  static const ns = "${CredentialsI18n.ns}.oa";
+
+  String get studentId => "$ns.studentId".tr();
 
   String get oaAccount => "$ns.oaAccount".tr();
 
@@ -19,8 +25,4 @@ class CredentialsI18n with CommonI18nMixin {
   String get savedOaPwd => "$ns.savedOaPwd".tr();
 
   String get savedOaPwdDesc => "$ns.savedOaPwdDesc".tr();
-
-  String get login => "$ns.login".tr();
-
-  String get forgotPwd => "$ns.forgotPwd".tr();
 }

@@ -287,7 +287,6 @@ credentials:
   savedOaPwdDesc: Used to auto-login OA
   pwd: Password
   error: Credentials error
-  login: Login
   forgotPwd: Forgot password?
 easyconnect:
   launchBtn: Launch EasyConnect
@@ -431,25 +430,27 @@ networkTool:
   connectedByWlan: Connected to campus network by WLAN
   connectedByEthernet: Connected to campus network by Ethernet
 login:
-  welcomeHeader: Welcome!
-  loginOa: Login OA
+  login: Login
   validateInputAccountPwdRequest: Please check the account and password you entered
   credentialsValidatedTip: Account and password are correct
   accountOrPwdErrorTip: The account or password is incorrect
   captchaErrorTip: The captcha is incorrect
   accountFrozenTip: The account is frozen
-  schoolServerUnconnectedTip: Can't connect to school server
   unknownAuthErrorTip: Unknown authentication error
-  accountHint: Student ID/Work number
   loggedInTip: Logged in
   notLoggedIn: Not logged In
   invalidAccountFormat: Invalid account format
   offlineModeBtn: Offline mode
-  oaPwdHint: Enter your OA password
   failedWarn: Login Failed
   formatError: Format error
-  loginRequired: Login required
-  neverLoggedInTip: You have to login to perform this
+  oa:
+    loginOa: Login OA
+    welcomeHeader: Welcome!
+    loginRequired: Login required
+    neverLoggedInTip: You have to login to perform this
+    oaPwdHint: Enter your OA password
+    accountHint: Student ID/Work number
+    schoolServerUnconnectedTip: Can't connect to school server
 library:
   title: Library
   hotPost: HOT
@@ -464,9 +465,6 @@ library:
     title: Login library
     readerIdHint: your Student ID
     passwordHint: 888888 by default
-    failedWarn:
-      title: Login failed
-      desc: Please check the password
   search:
     searchHistory: Search history
     trending: Trending

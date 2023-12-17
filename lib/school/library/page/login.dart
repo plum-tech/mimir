@@ -133,7 +133,7 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
                     }
                   : null,
               icon: const Icon(Icons.login),
-              label: i18n.login.credentials.login.text().padAll(5),
+              label: i18n.login.login.text().padAll(5),
             );
   }
 
