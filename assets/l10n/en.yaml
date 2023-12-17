@@ -278,16 +278,16 @@ captcha:
   enterHint: Please enter captcha
   emptyInputError: The captcha is empty
 credentials:
-  studentId: Student ID
   account: Account
   password: Password
-  oaAccount: OA account
-  oaPwd: OA password
-  savedOaPwd: Saved OA password
-  savedOaPwdDesc: Used to auto-login OA
   pwd: Password
   error: Credentials error
-  forgotPwd: Forgot password?
+  oa:
+    studentId: Student ID
+    oaAccount: OA account
+    oaPwd: OA password
+    savedOaPwd: Saved OA password
+    savedOaPwdDesc: Used to auto-login OA
 easyconnect:
   launchBtn: Launch EasyConnect
   launchFailed: Launch Failed
@@ -311,9 +311,6 @@ eduEmail:
     addressHint: Student ID/Work number
     passwordHint: Your email password
     invalidEmailAddressFormatTip: Invalid email address format
-    failedWarn:
-      title: Login failed
-      desc: Please check the password
   info:
     emailAddress: Email address
   inbox:
@@ -431,6 +428,7 @@ networkTool:
   connectedByEthernet: Connected to campus network by Ethernet
 login:
   login: Login
+  forgotPwd: Forgot password?
   validateInputAccountPwdRequest: Please check the account and password you entered
   credentialsValidatedTip: Account and password are correct
   accountOrPwdErrorTip: The account or password is incorrect
@@ -446,10 +444,10 @@ login:
   oa:
     loginOa: Login OA
     welcomeHeader: Welcome!
+    accountHint: Student ID/Work number
+    oaPwdHint: Enter your OA password
     loginRequired: Login required
     neverLoggedInTip: You have to login to perform this
-    oaPwdHint: Enter your OA password
-    accountHint: Student ID/Work number
     schoolServerUnconnectedTip: Can't connect to school server
 library:
   title: Library

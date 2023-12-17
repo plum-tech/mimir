@@ -114,6 +114,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
             decoration: InputDecoration(
               labelText: i18n.login.credentials.password,
               icon: const Icon(Icons.lock),
+              hintText: i18n.login.passwordHint,
               suffixIcon: IconButton(
                 icon: Icon(isPasswordClear ? Icons.visibility : Icons.visibility_off),
                 onPressed: () {

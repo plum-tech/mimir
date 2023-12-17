@@ -278,17 +278,16 @@ captcha:
   enterHint: 请输入验证码
   emptyInputError: 你输入的验证码为空
 credentials:
-  studentId: 学号
   account: 账号
   password: 密码
-  oaAccount: OA 账号
-  oaPwd: OA 密码
-  savedOaPwd: 保存的 OA 密码
-  savedOaPwdDesc: 用于自动登录 OA
   pwd: 密码
   error: 登录凭据错误
-  login: 登录
-  forgotPwd: 忘记密码？
+  oa:
+    studentId: 学号
+    oaAccount: OA 账号
+    oaPwd: OA 密码
+    savedOaPwd: 保存的 OA 密码
+    savedOaPwdDesc: 用于自动登录 OA
 easyconnect:
   launchBtn: 启动 EasyConnect
   launchFailed: 启动失败
@@ -312,9 +311,6 @@ eduEmail:
     addressHint: 学号/工号
     passwordHint: 你的邮箱密码
     invalidEmailAddressFormatTip: 无效的邮箱地址格式
-    failedWarn:
-      title: 登录失败
-      desc: 请检查密码
   info:
     emailAddress: 邮箱地址
   inbox:
@@ -431,25 +427,28 @@ networkTool:
   connectedByWlan: 已通过 WLAN 连接到校园网
   connectedByEthernet: 已通过以太网连接到校园网
 login:
-  welcomeHeader: 欢迎！
-  loginOa: 登录 OA
+  login: 登录
+  forgotPwd: 忘记密码？
   validateInputAccountPwdRequest: 请检查你输入的账号与密码
   credentialsValidatedTip: 账号与密码验证成功
   accountOrPwdErrorTip: 账号或密码不正确
   captchaErrorTip: 验证码不正确
   accountFrozenTip: 账号处于冻结状态
-  schoolServerUnconnectedTip: 无法连接学校服务器
   unknownAuthErrorTip: 未知账号验证错误
-  accountHint: 学号/工号
   loggedInTip: 登录成功
   notLoggedIn: 未登录
   invalidAccountFormat: 账号格式不正确
   offlineModeBtn: 离线模式
-  oaPwdHint: 输入你的OA密码
   failedWarn: 登录失败
   formatError: 格式错误
-  loginRequired: 需要登录
-  neverLoggedInTip: 你必须先登录才能继续。
+  oa:
+    loginOa: 登录 OA
+    welcomeHeader: 欢迎！
+    accountHint: 学号/工号
+    oaPwdHint: 输入你的OA密码
+    loginRequired: 需要登录
+    neverLoggedInTip: 你必须先登录才能继续。
+    schoolServerUnconnectedTip: 无法连接学校服务器
 library:
   title: 图书馆
   hotPost: 热搜

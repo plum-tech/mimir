@@ -279,17 +279,16 @@ captcha:
   enterHint: 請鍵入驗證碼
   emptyInputError: 未鍵入驗證碼
 credentials:
-  studentId: 學號
   account: 帳戶
   password: 密碼
-  oaAccount: OA 帳戶
-  oaPwd: OA 密碼
-  savedOaPwd: 儲存的 OA 密碼
-  savedOaPwdDesc: 用於自動登入 OA
   pwd: 密碼
   error: 登入認證錯誤
-  login: 登入
-  forgotPwd: 忘記密碼?
+  oa:
+    studentId: 學號
+    oaAccount: OA 帳戶
+    oaPwd: OA 密碼
+    savedOaPwd: 儲存的 OA 密碼
+    savedOaPwdDesc: 用於自動登入 OA
 easyconnect:
   launchBtn: 啟用 EasyConnect
   launchFailed: 啟動失敗
@@ -313,9 +312,6 @@ eduEmail:
     addressHint: 學號/工號
     passwordHint: 你的電郵密碼
     invalidEmailAddressFormatTip: 無效的電郵地址格式
-    failedWarn:
-      title: 登入失敗
-      desc: 請檢查密碼
   info:
     emailAddress: 電郵地址
   inbox:
@@ -432,25 +428,28 @@ networkTool:
   connectedByWlan: 已通過 WLAN 連線校園網路。
   connectedByEthernet: 已通過乙太網路連線校園網路。
 login:
-  welcomeHeader: 歡迎！
-  loginOa: 登入 OA
+  login: 登入
+  forgotPwd: 忘記密碼?
   validateInputAccountPwdRequest: 請檢查你鍵入的賬戶和密碼
   credentialsValidatedTip: 帳戶與密碼正確
   accountOrPwdErrorTip: 賬戶或密碼錯誤
   captchaErrorTip: 驗證碼錯誤
   accountFrozenTip: 賬戶處於凍結狀態
-  schoolServerUnconnectedTip: 無法連接學校伺服器
   unknownAuthErrorTip: 未知的帳戶身份驗證錯誤
-  accountHint: 學號/工號
   loggedInTip: 已登入
   notLoggedIn: 未登入
-  invalidAccountFormat: 無效的學號格式
   offlineModeBtn: 離線模式
-  oaPwdHint: 鍵入你的 OA 密碼
   failedWarn: 登入失敗
   formatError: 格式錯誤
-  loginRequired: 需要登入
-  neverLoggedInTip: 你必須先登入才能繼續。
+  oa:
+    loginOa: 登入 OA
+    welcomeHeader: 歡迎！
+    accountHint: 學號/工號
+    oaPwdHint: 鍵入你的 OA 密碼
+    neverLoggedInTip: 你必須先登入才能繼續。
+    loginRequired: 需要登入
+    invalidAccountFormat: 無效的學號格式
+    schoolServerUnconnectedTip: 無法連接學校伺服器
 library:
   title: 圖書館
   hotPost: 熱門

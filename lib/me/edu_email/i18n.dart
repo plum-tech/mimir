@@ -46,6 +46,8 @@ class _Login extends CommonLoginI18n {
 
   String get addressHint => "$ns.addressHint".tr();
 
+  String get passwordHint => "$ns.passwordHint".tr();
+
   String get invalidEmailAddressFormatTip => "$ns.invalidEmailAddressFormatTip".tr();
 }
 
