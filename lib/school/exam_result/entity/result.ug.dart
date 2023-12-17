@@ -56,6 +56,8 @@ enum UgExamType {
   @HiveField(2)
   retake;
 
+  static String get title => "examResult.examType.title".tr();
+
   String l10n() => "examResult.examType.$name".tr();
 
   static UgExamType parse(String type) {

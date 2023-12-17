@@ -69,7 +69,7 @@ class _SemesterSelectorState extends State<SemesterSelector> {
 
     // 保证显示上初始选择年份、实际加载的年份、selectedYear 变量一致.
     return DropdownMenu<int>(
-      label: i18n.schoolYear.text(),
+      label: i18n.course.schoolYear.text(),
       initialSelection: selectedYear,
       onSelected: (int? newSelection) {
         if (newSelection != null && newSelection != selectedYear) {
@@ -92,7 +92,7 @@ class _SemesterSelectorState extends State<SemesterSelector> {
         : const [Semester.term1, Semester.term2];
     // 保证显示上初始选择学期、实际加载的学期、selectedSemester 变量一致.
     return DropdownMenu<Semester>(
-      label: i18n.semester.text(),
+      label: i18n.course.semester.text(),
       initialSelection: selectedSemester,
       onSelected: (Semester? newSelection) {
         if (newSelection != null && newSelection != selectedSemester) {

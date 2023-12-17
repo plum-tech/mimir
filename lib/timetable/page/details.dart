@@ -55,6 +55,7 @@ class TimetableCourseDetailsSheet extends StatelessWidget {
   }
 
   Widget buildTable(List<SitCourse> courses) {
+    final teachers = courses.expand((course) => course.teachers).toSet();
     return Table(
       columnWidths: const {
         0: FlexColumnWidth(1),
@@ -69,10 +70,11 @@ class TimetableCourseDetailsSheet extends StatelessWidget {
           i18n.course.classCode.text(),
           courses[0].classCode.text(),
         ]),
-        TableRow(children: [
-          i18n.course.teacher.text(),
-          courses.expand((course) => course.teachers).toSet().join(", ").text(),
-        ]),
+        if (teachers.isNotEmpty)
+          TableRow(children: [
+            i18n.course.teacher(teachers.length).text(),
+            teachers.join(", ").text(),
+          ]),
       ],
     );
   }

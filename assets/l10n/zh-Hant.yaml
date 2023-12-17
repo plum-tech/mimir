@@ -158,9 +158,7 @@ timetable:
         teachers: 劉老師
 school:
   navigation: 學校
-  schoolYear: 學年
   semester:
-    title: 學期
     all: 整學年
     term1: 第一學期
     term2: 第二學期
@@ -170,6 +168,10 @@ school:
     courseCode: 课程代码
     teacher: 教師
     credit: 學分
+    semester: 學期
+    schoolYear: 學年
+    compulsory: 必修
+    elective: 選修
   courseCat:
     none: 無
     genEd: 通識課
@@ -327,10 +329,11 @@ examResult:
   check: 查詢
   teacherEval: 評價教師
   noResultsTip: 無考試結果
-  lessonNotEvaluated: 需評教
+  courseNotEval: 需評教
   teacherEvalTitle: 教師評價
-  compulsory: 必修
-  elective: 選修
+  examRequireEvalTip: 在評教整個課程後，可查看分數
+  score: 分數
+  publishTime: 發布時間
   gpa:
     title: 績點
     lessonSelected: "已選 {} 門"

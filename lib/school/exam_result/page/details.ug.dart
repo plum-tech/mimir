@@ -31,58 +31,57 @@ class _ExamResultDetailsPageState extends State<ExamResultUgDetailsPage> {
             pinned: true,
             title: result.courseName.text(),
           ),
-          // TODO: I18n
           SliverList.list(children: [
             if (score != null)
               DetailListTile(
                 leading: const Icon(Icons.score),
-                title: "Score",
+                title: i18n.score,
                 subtitle: result.score.toString(),
               )
             else
               PageNavigationTile(
                 leading: const Icon(Icons.warning),
-                title: i18n.lessonNotEvaluated.text(),
-                subtitle: "Score is available after evaluation".text(),
+                title: i18n.courseNotEval.text(),
+                subtitle: i18n.examRequireEvalTip.text(),
                 path: '/teacher-eval',
               ),
             DetailListTile(
               leading: const Icon(Icons.class_),
-              title: "Exam type",
+              title: UgExamType.title,
               subtitle: result.examType.toString(),
             ),
             DetailListTile(
               leading: const Icon(Icons.view_timeline_outlined),
-              title: "Semester",
+              title: i18n.course.semester,
               subtitle: result.semesterInfo.l10n(),
             ),
             if (time != null)
               DetailListTile(
                 leading: const Icon(Icons.access_time),
-                title: "Time",
+                title: i18n.publishTime,
                 subtitle: context.formatYmdhmNum(time),
               ),
             DetailListTile(
               leading: const Icon(Icons.numbers),
-              title: "Course code",
+              title: i18n.course.courseCode,
               subtitle: result.courseCode.toString(),
             ),
             if (result.classCode.isNotEmpty)
               DetailListTile(
                 leading: const Icon(Icons.group),
-                title: "Class code",
+                title: i18n.course.classCode,
                 subtitle: result.classCode.toString(),
               ),
             if (result.courseCat != CourseCat.none)
               DetailListTile(
                 leading: const Icon(Icons.category),
-                title: "Course category",
+                title: i18n.course.courseCategory,
                 subtitle: result.courseCat.toString(),
               ),
             if (result.teachers.isNotEmpty)
               DetailListTile(
                 leading: Icon(result.teachers.length > 1 ? Icons.people : Icons.person),
-                title: "Teachers", // plural
+                title: i18n.course.teacher(result.teachers.length), // plural
                 subtitle: result.teachers.join(", "),
               ),
           ]),

@@ -33,7 +33,7 @@ class ExamResultUgTile extends StatelessWidget {
         fontSize: textTheme.bodyLarge?.fontSize,
         color: result.passed ? null : context.$red$,
       ),
-      trailing: score != null ? score.toString().text() : i18n.lessonNotEvaluated.text(),
+      trailing: score != null ? score.toString().text() : i18n.courseNotEval.text(),
       onTap: () async {
         context.show$Sheet$((ctx) => ExamResultUgDetailsPage(result));
       },

@@ -157,9 +157,7 @@ timetable:
         teachers: 刘老师
 school:
   navigation: 学校
-  schoolYear: 学年
   semester:
-    title: 学期
     all: 整学年
     term1: 第一学期
     term2: 第二学期
@@ -169,6 +167,10 @@ school:
     courseCode: 课程代码
     teacher: 教师
     credit: 学分
+    semester: 学期
+    schoolYear: 学年
+    compulsory: 必修
+    elective: 选修
   courseCat:
     none: 无
     genEd: 通识课
@@ -326,10 +328,11 @@ examResult:
   check: 查询
   teacherEval: 评教
   noResultsTip: 无考试结果记录
-  lessonNotEvaluated: 未评教
+  courseNotEval: 未评教
   teacherEvalTitle: 评教
-  compulsory: 必修
-  elective: 选修
+  examRequireEvalTip: 分数将在评教此课程后可查看
+  score: 考试分数
+  publishTime: 发布时间
   gpa:
     title: 绩点
     lessonSelected: "已选 {} 门"

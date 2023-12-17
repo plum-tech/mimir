@@ -157,9 +157,7 @@ timetable:
         teachers: Thomas
 school:
   navigation: School
-  schoolYear: School year
   semester:
-    title: Semester
     all: Full Year
     term1: Fall
     term2: Spring
@@ -167,8 +165,15 @@ school:
   course:
     classCode: Class Code
     courseCode: Course Code
-    teacher: Teacher
+    semester: Semester
+    schoolYear: School year
+    teacher:
+      one: Teacher
+      other: Teachers
     credit: Credit
+    compulsory: Compulsory
+    elective: Elective
+    time: Time
   courseCat:
     none: None
     genEd: General education
@@ -326,10 +331,11 @@ examResult:
   check: Check
   teacherEval: Teacher Eval
   noResultsTip: No results
-  lessonNotEvaluated: Not-eval
+  courseNotEval: Not-eval
   teacherEvalTitle: Teacher evaluation
-  compulsory: Compulsory
-  elective: Elective
+  examRequireEvalTip: Score is available after evaluation
+  score: Score
+  publishTime: Publish time
   gpa:
     title: GPA
     lessonSelected: "{} Selected"
@@ -339,6 +345,7 @@ examResult:
     exceptGenEd: Except Gen Ed
     exceptFailed: Except failed
   examType:
+    title: Exam type
     normal: Normal
     resit: Resit
     retake: Retake

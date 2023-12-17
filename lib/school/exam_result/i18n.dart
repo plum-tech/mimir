@@ -15,17 +15,19 @@ class _I18n with CommonI18nMixin {
 
   String get check => "$ns.check".tr();
 
+  String get score => "$ns.check".tr();
+
+  String get publishTime => "$ns.publishTime".tr();
+
   String get teacherEval => "$ns.teacherEval".tr();
 
   String get teacherEvalTitle => "$ns.teacherEvalTitle".tr();
 
   String get noResultsTip => "$ns.noResultsTip".tr();
 
-  String get lessonNotEvaluated => "$ns.lessonNotEvaluated".tr();
+  String get courseNotEval => "$ns.courseNotEval".tr();
 
-  String get compulsory => "$ns.compulsory".tr();
-
-  String get elective => "$ns.elective".tr();
+  String get examRequireEvalTip => "$ns.examRequireEvalTip".tr();
 }
 
 class _Gpa {
