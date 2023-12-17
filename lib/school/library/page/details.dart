@@ -85,10 +85,10 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                         end: hasImage ? 300.0 : 0.0,
                       ),
                       builder: (context, value, _) {
-                        return SliverAppBar(
+                        return SliverAppBar.medium(
                           expandedHeight: value,
-                          pinned: true,
                           stretch: true,
+                          title: book.title.text(),
                           flexibleSpace: FlexibleSpaceBar(
                             background: AsyncBookImage(
                               isbn: book.isbn,

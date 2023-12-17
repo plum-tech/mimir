@@ -84,7 +84,6 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
-            pinned: true,
             title: i18n.title.text(),
             actions: [
               PlatformTextButton(

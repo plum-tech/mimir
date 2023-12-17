@@ -54,8 +54,7 @@ class _TimetableExportCalendarConfigEditorState extends State<TimetableExportCal
       resizeToAvoidBottomInset: false,
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            floating: true,
+          SliverAppBar.medium(
             title: i18n.export.title.text(),
             actions: [
               buildExportAction(),

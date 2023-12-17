@@ -24,7 +24,6 @@ class _ExamResultDetailsPageState extends State<ExamResultGpaItemDetailsPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
-            pinned: true,
             title: item.courseName.text(),
           ),
           SliverList.list(children: [

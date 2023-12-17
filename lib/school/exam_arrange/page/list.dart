@@ -65,7 +65,6 @@ class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
-            pinned: true,
             title: i18n.title.text(),
           ),
           SliverToBoxAdapter(

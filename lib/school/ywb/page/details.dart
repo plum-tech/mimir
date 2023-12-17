@@ -25,6 +25,7 @@ class YwbServiceDetailsPage extends StatefulWidget {
 
 class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
   String get id => widget.meta.id;
+
   String get name => widget.meta.name;
   late YwbServiceDetails? details = YwbInit.serviceStorage.getServiceDetails(id);
   final controller = ScrollController();
@@ -72,15 +73,8 @@ class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
         child: CustomScrollView(
           controller: controller,
           slivers: [
-            SliverAppBar(
-              floating: true,
-              title: Text(name),
-              bottom: isFetching
-                  ? const PreferredSize(
-                      preferredSize: Size.fromHeight(4),
-                      child: LinearProgressIndicator(),
-                    )
-                  : null,
+            SliverAppBar.medium(
+              title: name.text(),
             ),
             if (details != null)
               SliverList.separated(
@@ -97,6 +91,12 @@ class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
         icon: const Icon(Icons.east),
         label: i18n.details.apply.text(),
       ),
+      bottomNavigationBar: isFetching
+          ? const PreferredSize(
+              preferredSize: Size.fromHeight(4),
+              child: LinearProgressIndicator(),
+            )
+          : null,
     );
   }
 

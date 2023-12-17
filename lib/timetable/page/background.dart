@@ -43,8 +43,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            floating: true,
+          SliverAppBar.medium(
             title: i18n.p13n.background.title.text(),
             actions: [
               if (background.enabled)

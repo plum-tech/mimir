@@ -276,8 +276,7 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            floating: true,
+          SliverAppBar.medium(
             title: i18n.info.applicationOf(activity.application.applicationId).text(),
           ),
           SliverList.list(children: [

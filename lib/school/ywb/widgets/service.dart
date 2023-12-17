@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/service.dart';
-import '../page/details.dart';
 
 const List<Color> _serviceColors = <Color>[
   Colors.orangeAccent,
@@ -51,8 +51,7 @@ class YwbServiceTile extends StatelessWidget {
       ),
       trailing: views,
       onTap: () {
-        // TODO: details page
-        context.navigator.push(MaterialPageRoute(builder: (_) => YwbServiceDetailsPage(meta: meta)));
+        context.push("/ywb/details", extra: meta);
       },
     );
   }

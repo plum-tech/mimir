@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -38,8 +37,7 @@ class _TimetableEditorState extends State<TimetableEditor> {
       resizeToAvoidBottomInset: false,
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            floating: true,
+          SliverAppBar.medium(
             title: i18n.import.timetableInfo.text(),
             actions: [
               buildSaveAction(),

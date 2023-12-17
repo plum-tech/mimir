@@ -355,9 +355,8 @@ class _PaletteDetailsPageState extends State<PaletteDetailsPage> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
+          SliverAppBar.medium(
             title: TextScroll(palette.name),
-            floating: true,
             actions: actions,
           ),
           SliverList.list(children: [

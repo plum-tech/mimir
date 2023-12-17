@@ -96,8 +96,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       body: CustomScrollView(
         controller: scrollController,
         slivers: [
-          SliverAppBar(
-            floating: true,
+          SliverAppBar.medium(
             title: i18n.mine.title.text(),
             actions: [
               if (!Settings.focusTimetable)
@@ -129,7 +128,6 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
                 ).padH(6);
               },
             ),
-          const SliverFillRemaining(),
         ],
       ),
       floatingActionButton: AutoHideFAB.extended(
@@ -320,9 +318,8 @@ class _TimetableDetailsPageState extends State<TimetableDetailsPage> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
+          SliverAppBar.medium(
             title: TextScroll(timetable.name),
-            floating: true,
             actions: actions,
           ),
           SliverList.list(children: [

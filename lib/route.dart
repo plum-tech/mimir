@@ -15,6 +15,8 @@ import 'package:sit/school/exam_result/page/result.pg.dart';
 import 'package:sit/school/library/page/history.dart';
 import 'package:sit/school/library/page/login.dart';
 import 'package:sit/school/library/page/borrowing.dart';
+import 'package:sit/school/ywb/entity/service.dart';
+import 'package:sit/school/ywb/page/details.dart';
 import 'package:sit/school/ywb/page/service.dart';
 import 'package:sit/school/ywb/page/application.dart';
 import 'package:sit/settings/page/about.dart';
@@ -225,6 +227,7 @@ final _class2ndRoute = GoRoute(
       },
       redirect: _loginRequired,
     ),
+    // TODO: using path para
     GoRoute(
       path: "attended-details",
       builder: (ctx, state) {
@@ -244,6 +247,7 @@ final _oaAnnounceRoute = GoRoute(
   builder: (ctx, state) => const OaAnnounceListPage(),
   redirect: _loginRequired,
   routes: [
+    // TODO: using path para
     GoRoute(
       path: "details",
       builder: (ctx, state) {
@@ -283,6 +287,17 @@ final _ywbRoute = GoRoute(
     GoRoute(
       path: "mine",
       builder: (ctx, state) => const YwbMyApplicationListPage(),
+    ),
+    // TODO: using path para
+    GoRoute(
+      path: "details",
+      builder: (ctx, state) {
+        final extra = state.extra;
+        if (extra is YwbService) {
+          return YwbServiceDetailsPage(meta: extra);
+        }
+        throw 404;
+      },
     ),
   ],
 );

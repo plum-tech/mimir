@@ -28,7 +28,6 @@ class _ExamResultDetailsPageState extends State<ExamResultUgDetailsPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
-            pinned: true,
             title: result.courseName.text(),
           ),
           SliverList.list(children: [
