@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/widgets/app.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/school/event.dart';
 import 'package:sit/school/exam_result/init.dart';
 import 'package:sit/school/exam_result/widgets/ug.dart';
@@ -87,7 +86,7 @@ class _ExamResultUgAppCardState extends State<ExamResultUgAppCard> {
     return results
         .map((result) => ExamResultUgTile(
               result,
-            ).inCard())
+            ).inCard(clip: Clip.hardEdge))
         .toList()
         .column();
   }

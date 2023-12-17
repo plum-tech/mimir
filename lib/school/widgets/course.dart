@@ -16,7 +16,7 @@ class CourseIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      CourseCategory.iconPathOf(courseName: courseName),
+      CourseIcons.iconPathOf(courseName: courseName),
       width: size,
       height: size,
     ).sized(w: kDefaultSize, h: kDefaultSize);

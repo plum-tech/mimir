@@ -343,6 +343,7 @@ examResult:
     exceptGenEd: 除去通識課
     exceptFailed: 除去未通過
   examType:
+    title: 考試類型
     normal: 正常考試
     resit: 補考
     retake: 重修

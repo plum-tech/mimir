@@ -26,7 +26,7 @@ class ExamResultUgTile extends StatelessWidget {
       title: Text(result.courseName),
       subtitleTextStyle: textTheme.bodyMedium,
       subtitle: [
-        '${result.examType}'.text(),
+        result.examType.l10n().text(),
         if (result.teachers.isNotEmpty) result.teachers.join(", ").text(),
       ].column(caa: CrossAxisAlignment.start, mas: MainAxisSize.min),
       leadingAndTrailingTextStyle: textTheme.labelSmall?.copyWith(

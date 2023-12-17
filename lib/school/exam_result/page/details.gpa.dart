@@ -5,7 +5,6 @@ import 'package:sit/design/widgets/navigation.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/exam_result/entity/gpa.dart';
-import 'package:sit/school/exam_result/entity/result.ug.dart';
 import '../i18n.dart';
 
 class ExamResultGpaItemDetailsPage extends StatefulWidget {
@@ -49,11 +48,6 @@ class _ExamResultDetailsPageState extends State<ExamResultGpaItemDetailsPage> {
                 path: '/teacher-eval',
               ),
             DetailListTile(
-              leading: const Icon(Icons.class_),
-              title: UgExamType.title,
-              subtitle: result.examType.toString(),
-            ),
-            DetailListTile(
               leading: const Icon(Icons.view_timeline_outlined),
               title: i18n.course.semester,
               subtitle: result.semesterInfo.l10n(),
@@ -78,7 +72,7 @@ class _ExamResultDetailsPageState extends State<ExamResultGpaItemDetailsPage> {
             if (result.courseCat != CourseCat.none)
               DetailListTile(
                 leading: const Icon(Icons.category),
-                title: i18n.course.courseCategory,
+                title: i18n.course.category,
                 subtitle: result.courseCat.toString(),
               ),
             if (result.teachers.isNotEmpty)

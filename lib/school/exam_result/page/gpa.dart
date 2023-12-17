@@ -11,6 +11,7 @@ import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/exam_result/entity/gpa.dart';
 import 'package:sit/school/exam_result/entity/result.ug.dart';
 import 'package:sit/school/exam_result/init.dart';
+import 'package:sit/school/exam_result/page/details.gpa.dart';
 import 'package:sit/utils/error.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 
@@ -161,13 +162,13 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
                     : null,
               ).padH(4),
               ActionChip(
-                label:  i18n.gpa.invert.text(),
+                label: i18n.gpa.invert.text(),
                 onPressed: () {
                   multiselect.invertSelection();
                 },
               ).padH(4),
               ActionChip(
-                label:  i18n.gpa.exceptGenEd.text(),
+                label: i18n.gpa.exceptGenEd.text(),
                 onPressed: selected.any((item) => item.courseCat == CourseCat.genEd)
                     ? () {
                         multiselect.setSelectedIndexes(selected
@@ -178,7 +179,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
                     : null,
               ).padH(4),
               ActionChip(
-                label:  i18n.gpa.exceptFailed.text(),
+                label: i18n.gpa.exceptFailed.text(),
                 onPressed: selected.any((item) => !item.passed)
                     ? () {
                         multiselect.setSelectedIndexes(
@@ -255,6 +256,9 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
             onTap: () {
               scope.toggle(item.index);
             },
+            onLongPress: () async {
+              await ctx.show$Sheet$((ctx) => ExamResultGpaItemDetailsPage(item));
+            },
           ).inFilledCard(clip: Clip.hardEdge);
         });
   }
@@ -263,12 +267,14 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
 class ExamResultGpaTile extends StatelessWidget {
   final ExamResultGpaItem item;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
   final bool selected;
 
   const ExamResultGpaTile(
     this.item, {
     super.key,
     this.onTap,
+    this.onLongPress,
     required this.selected,
   });
 
@@ -295,6 +301,7 @@ class ExamResultGpaTile extends StatelessWidget {
       ),
       trailing: score.toString().text(),
       onTap: onTap,
+      onLongPress: onLongPress,
     );
   }
 }

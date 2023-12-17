@@ -1,4 +1,4 @@
-class CourseCategory {
+class CourseIcons {
   static const Map<String, List<String>> _courseToCategory = {
     'art': [
       '手绘',

@@ -167,6 +167,7 @@ school:
     courseCode: Course Code
     semester: Semester
     schoolYear: School year
+    category: Course category
     teacher:
       one: Teacher
       other: Teachers

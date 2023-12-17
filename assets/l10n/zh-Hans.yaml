@@ -165,8 +165,9 @@ school:
   course:
     classCode: 教学班
     courseCode: 课程代码
-    teacher: 教师
+    category: 课程类别
     credit: 学分
+    teacher: 教师
     semester: 学期
     schoolYear: 学年
     compulsory: 必修
@@ -342,6 +343,7 @@ examResult:
     exceptGenEd: 除去通识课
     exceptFailed: 除去未通过
   examType:
+    title: 考试性质
     normal: 正常考试
     resit: 补考
     retake: 重修

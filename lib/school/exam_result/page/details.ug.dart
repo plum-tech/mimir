@@ -47,8 +47,8 @@ class _ExamResultDetailsPageState extends State<ExamResultUgDetailsPage> {
               ),
             DetailListTile(
               leading: const Icon(Icons.class_),
-              title: UgExamType.title,
-              subtitle: result.examType.toString(),
+              title: i18n.examType,
+              subtitle: result.examType.l10n(),
             ),
             DetailListTile(
               leading: const Icon(Icons.view_timeline_outlined),
@@ -75,8 +75,8 @@ class _ExamResultDetailsPageState extends State<ExamResultUgDetailsPage> {
             if (result.courseCat != CourseCat.none)
               DetailListTile(
                 leading: const Icon(Icons.category),
-                title: i18n.course.courseCategory,
-                subtitle: result.courseCat.toString(),
+                title: i18n.course.category,
+                subtitle: result.courseCat.l10n(),
               ),
             if (result.teachers.isNotEmpty)
               DetailListTile(

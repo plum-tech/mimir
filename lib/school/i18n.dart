@@ -31,7 +31,7 @@ class CourseI18n {
 
   String get semester => "$ns.semester".tr();
 
-  String get courseCategory => "$ns.courseCategory".tr();
+  String get category => "$ns.category".tr();
 
   String get compulsory => "$ns.compulsory".tr();
 

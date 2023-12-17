@@ -25,6 +25,8 @@ class _I18n with CommonI18nMixin {
 
   String get noResultsTip => "$ns.noResultsTip".tr();
 
+  String get examType => "$ns.examType.title".tr();
+
   String get courseNotEval => "$ns.courseNotEval".tr();
 
   String get examRequireEvalTip => "$ns.examRequireEvalTip".tr();
