@@ -35,10 +35,11 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
             children: [
               const VersionTile(),
               AboutListTile(
+                // FIXME: icon is buggy
                 // icon: SvgPicture.asset("assets/icon.svg").sizedAll(32),
-                applicationName: "SIT Life",
+                applicationName: R.appNameL10n,
                 applicationVersion: R.currentVersion.version.toString(),
-                applicationLegalese: "2023 SIT Life all rights reserved.",
+                applicationLegalese: R.appLegaleseL10n,
               ),
             ],
           ),

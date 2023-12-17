@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sit/school/yellow_pages/entity/contact.dart';
 import 'package:sit/entity/version.dart';
@@ -11,6 +12,9 @@ class R {
   static const hiveStorageVersion = "2.0.0+14";
   static const appId = "life.mysit.SITLife";
   static const appName = "SIT Life";
+
+  static String get appNameL10n => "appName".tr();
+  static String get appLegaleseL10n => "appLegalese".tr();
   static late AppMeta currentVersion;
 
   /// For debugging iOS on other platforms.
