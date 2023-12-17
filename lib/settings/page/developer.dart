@@ -111,7 +111,6 @@ class _DebugGoRouteTileState extends State<DebugGoRouteTile> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: i18n
     return ListTile(
       isThreeLine: true,
       leading: const Icon(Icons.route_outlined),

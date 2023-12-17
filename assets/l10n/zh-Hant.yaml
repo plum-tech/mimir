@@ -161,9 +161,10 @@ school:
   schoolYear: 學年
   semester:
     title: 學期
-    all: 學年
+    all: 整學年
     term1: 第一學期
     term2: 第二學期
+  allYear: 所有學年
   course:
     classCode: 班级
     courseCode: 课程代码
@@ -512,6 +513,7 @@ settings:
       desc: 嘗試用當前的登入認證登入 OA
   dev:
     title: 開發者選項
+    devModeActivateTip: 開發者模式已啟動
     devMode:
       title: 開發者模式
     localStorage:

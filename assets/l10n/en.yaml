@@ -163,6 +163,7 @@ school:
     all: Full Year
     term1: Fall
     term2: Spring
+  allYear: All year
   course:
     classCode: Class Code
     courseCode: Course Code
@@ -511,6 +512,7 @@ settings:
       desc: Try to login OA with current credentials
   dev:
     title: Developer options
+    devModeActivateTip: Developer mode activated
     devMode:
       title: Developer mode
     localStorage:

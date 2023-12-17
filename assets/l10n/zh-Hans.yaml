@@ -160,9 +160,10 @@ school:
   schoolYear: 学年
   semester:
     title: 学期
-    all: 全学年
+    all: 整学年
     term1: 第一学期
     term2: 第二学期
+  allYear: 所有学年
   course:
     classCode: 教学班
     courseCode: 课程代码
@@ -511,6 +512,7 @@ settings:
       desc: 尝试使用当前的登录凭据登录 OA
   dev:
     title: 开发者选项
+    devModeActivateTip: 开发者模式已激活
     devMode:
       title: 开发者模式
     localStorage:

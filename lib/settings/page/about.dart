@@ -103,8 +103,7 @@ class _VersionTileState extends State<VersionTile> {
               if (clickCount >= 10) {
                 clickCount = 0;
                 Settings.isDeveloperMode = true;
-                // TODO: i18n
-                context.showSnackBar(content: const Text("Developer mode activated"));
+                context.showSnackBar(content: i18n.dev.devModeActivateTip.text());
                 await HapticFeedback.mediumImpact();
               }
             },

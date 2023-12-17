@@ -31,6 +31,7 @@ class _ExamResultDetailsPageState extends State<ExamResultUgDetailsPage> {
             pinned: true,
             title: result.courseName.text(),
           ),
+          // TODO: I18n
           SliverList.list(children: [
             if (score != null)
               DetailListTile(

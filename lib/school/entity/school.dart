@@ -53,13 +53,14 @@ class SemesterInfo implements Comparable<SemesterInfo> {
     return "$year:$semester";
   }
 
-  // TODO: l10n
+  static String allYearL10n() => "school.allYear".tr();
+
   String l10n() {
     final year = this.year;
     if (year == null) {
-      return "All year ${semester.l10n()}";
+      return "${allYearL10n()} ${semester.l10n()}";
     } else {
-      return "$year ${year + 1} ${semester.l10n()}";
+      return "$year–${year + 1} ${semester.l10n()}";
     }
   }
 
