@@ -15,7 +15,9 @@ class _I18n with CommonI18nMixin {
 
   String get check => "$ns.check".tr();
 
-  String get score => "$ns.check".tr();
+  String get score => "$ns.score".tr();
+
+  String get maxScore => "$ns.maxScore".tr();
 
   String get publishTime => "$ns.publishTime".tr();
 

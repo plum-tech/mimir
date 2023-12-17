@@ -334,6 +334,7 @@ examResult:
   examRequireEvalTip: 分数将在评教此课程后可查看
   score: 考试分数
   publishTime: 发布时间
+  maxScore: 最高分数
   gpa:
     title: 绩点
     lessonSelected: "已选 {} 门"

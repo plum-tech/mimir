@@ -337,6 +337,7 @@ examResult:
   examRequireEvalTip: Score is available after evaluation
   score: Score
   publishTime: Publish time
+  maxScore: Max score
   gpa:
     title: GPA
     lessonSelected: "{} Selected"

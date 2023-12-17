@@ -115,7 +115,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
                 itemCount: resultList.length,
                 itemBuilder: (item, i) => ExamResultUgTile(
                   resultList[i],
-                ).inFilledCard(),
+                ).inFilledCard(clip: Clip.hardEdge),
               ),
         ],
       ),

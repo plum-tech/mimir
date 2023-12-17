@@ -29,6 +29,11 @@ class ExamResultGpaItem {
 
   CourseCat get courseCat => initial.courseCat;
 
+  /// Even if you retake the course, there will be no change.
+  String get courseCode => initial.courseCode;
+
+  String get courseName => initial.courseName;
+
   double get credit => initial.credit;
 
   double? get maxScore {
