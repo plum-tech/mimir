@@ -194,6 +194,7 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
       if (!mounted) return;
       setState(() {
         lastPage++;
+        this.announcements = announcements;
         isFetching = false;
       });
       widget.onLoadingChanged(false);
