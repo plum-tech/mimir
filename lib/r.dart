@@ -12,9 +12,10 @@ class R {
   static const hiveStorageVersion = "2.0.0+14";
   static const appId = "life.mysit.SITLife";
   static const appName = "SIT Life";
+  static const icpLicense = "沪ICP备18042337号-3A";
 
   static String get appNameL10n => "appName".tr();
-  static String get appLegaleseL10n => "appLegalese".tr();
+
   static late AppMeta currentVersion;
 
   /// For debugging iOS on other platforms.

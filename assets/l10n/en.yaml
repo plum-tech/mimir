@@ -1,5 +1,4 @@
 appName: SIT Life
-appLegalese: 2023 Liplum. All Rights Reserved.
 timetable:
   navigation: Timetable
   jump: Jump
@@ -598,6 +597,7 @@ settings:
   about:
     title: About
     version: Version
+    icpLicense: ICP License
 oaAnnounce:
   title: OA announcement
   tab:

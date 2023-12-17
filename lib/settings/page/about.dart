@@ -6,6 +6,7 @@ import 'package:sit/r.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/entity/version.dart';
+import 'package:sit/utils/guard_launch.dart';
 import 'package:unicons/unicons.dart';
 import '../i18n.dart';
 
@@ -39,12 +40,16 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
                 // icon: SvgPicture.asset("assets/icon.svg").sizedAll(32),
                 applicationName: R.appNameL10n,
                 applicationVersion: R.currentVersion.version.toString(),
-                applicationLegalese: R.appLegaleseL10n,
+                applicationLegalese: "Copyright©️2023 Liplum Dev. All Rights Reserved.",
               ),
             ],
           ),
         ],
       ),
+      bottomNavigationBar:
+          "${i18n.about.icpLicense}: ${R.icpLicense}".text(textAlign: TextAlign.center).onTap(() async {
+        await guardLaunchUrlString(context, "https://beian.miit.gov.cn/");
+      }),
     );
   }
 }

@@ -1,5 +1,4 @@
 appName: 小應生活
-appLegalese: 2023 Liplum，版權所有。
 timetable:
   navigation: 課程表
   jump: 前往
@@ -599,6 +598,7 @@ settings:
   about:
     title: 關於
     version: 版本
+    icpLicense: ICP 許可證
 oaAnnounce:
   title: OA 公告
   tab:

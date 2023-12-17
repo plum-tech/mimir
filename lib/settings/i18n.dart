@@ -146,10 +146,12 @@ class _About {
   const _About();
 
   static const ns = "${_I18n.ns}.about";
-  
+
   String get title => "$ns.title".tr();
 
   String get version => "$ns.version".tr();
+
+  String get icpLicense => "$ns.icpLicense".tr();
 }
 
 class _Electricity {
