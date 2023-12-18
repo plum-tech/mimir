@@ -58,19 +58,21 @@ class ExamResultUgService {
     );
     progress.value = 0.2;
     final resultList = _parseScoreListPage(response.data);
-    final newResultList = <ExamResultUg>[];
-    for (final result in resultList) {
-      final resultItems = await getResultItems(SemesterInfo(year: result.year, semester: result.semester),
-          classId: result.innerClassId);
-      newResultList.add(result.copyWith(items: resultItems));
-      progress.value += 0.8 / resultList.length;
-    }
+    final perProgress = resultList.isEmpty ? 0 : 0.8 / resultList.length;
+    final newResultList = await Future.wait(resultList.map((result) async {
+      final resultItems = await fetchResultItems(
+        SemesterInfo(year: result.year, semester: result.semester),
+        classId: result.innerClassId,
+      );
+      progress.value += perProgress;
+      return result.copyWith(items: resultItems);
+    }));
     progress.value = 1;
     return newResultList;
   }
 
   /// 获取成绩详情
-  Future<List<ExamResultItem>> getResultItems(
+  Future<List<ExamResultItem>> fetchResultItems(
     SemesterInfo info, {
     required String classId,
   }) async {

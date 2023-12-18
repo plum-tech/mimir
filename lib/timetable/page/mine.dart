@@ -92,22 +92,29 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   Widget build(BuildContext context) {
     final timetables = TimetableInit.storage.timetable.getRows();
     final selectedId = TimetableInit.storage.timetable.selectedId;
+    final actions = [
+      if (!Settings.focusTimetable)
+        IconButton(
+          icon: const Icon(Icons.color_lens_outlined),
+          onPressed: () {
+            context.push("/timetable/p13n");
+          },
+        ),
+    ];
     return Scaffold(
       body: CustomScrollView(
         controller: scrollController,
         slivers: [
-          SliverAppBar.medium(
-            title: i18n.mine.title.text(),
-            actions: [
-              if (!Settings.focusTimetable)
-                IconButton(
-                  icon: const Icon(Icons.color_lens_outlined),
-                  onPressed: () {
-                    context.push("/timetable/p13n");
-                  },
-                ),
-            ],
-          ),
+          if (timetables.isEmpty)
+            SliverAppBar(
+              title: i18n.mine.title.text(),
+              actions: actions,
+            )
+          else
+            SliverAppBar.medium(
+              title: i18n.mine.title.text(),
+              actions: actions,
+            ),
           if (timetables.isEmpty)
             SliverFillRemaining(
               child: LeavingBlank(

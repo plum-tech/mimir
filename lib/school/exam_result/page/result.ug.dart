@@ -36,7 +36,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
   @override
   void initState() {
     super.initState();
-    refresh(initial);
+    onChangeSemester(initial);
   }
 
   @override
@@ -45,9 +45,11 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
     super.dispose();
   }
 
-  Future<void> refresh(SemesterInfo info) async {
+  Future<void> onChangeSemester(SemesterInfo info) async {
     if (!mounted) return;
     setState(() {
+      // loading cache instantly
+      resultList = ExamResultInit.ugStorage.getResultList(info);
       isFetching = true;
     });
     try {
@@ -136,7 +138,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
           selected = newSelection;
         });
         ExamResultInit.ugStorage.lastSemesterInfo = newSelection;
-        refresh(newSelection);
+        onChangeSemester(newSelection);
       },
     );
   }

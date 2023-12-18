@@ -20,8 +20,8 @@ class ForgotPasswordButton extends StatelessWidget {
       child: _i18n.forgotPwd.text(
         style: const TextStyle(color: Colors.grey),
       ),
-      onPressed: () {
-        guardLaunchUrlString(context, url);
+      onPressed: () async {
+        await guardLaunchUrlString(context, url);
       },
     );
   }

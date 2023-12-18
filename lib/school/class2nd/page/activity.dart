@@ -187,6 +187,7 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
       if (!mounted) return;
       setState(() {
         lastPage++;
+        this.activities = activities;
         isFetching = false;
       });
       widget.onLoadingChanged(false);

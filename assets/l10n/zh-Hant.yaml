@@ -631,8 +631,8 @@ oaAnnounce:
     announcement: 公告
     life: 生活服務
     download: 文件下載
-    training: 培养信息
-    academicReport: 学术报告
+    training: 培養資訊
+    academicReport: 學術報告
 yellowPages:
   title: 學校黃頁
 scanner:

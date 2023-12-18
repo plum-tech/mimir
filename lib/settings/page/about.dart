@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/r.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
@@ -35,6 +36,34 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
           SliverList.list(
             children: [
               const VersionTile(),
+              DetailListTile(
+                title: i18n.about.icpLicense,
+                subtitle: R.icpLicense,
+                trailing: IconButton(
+                  icon: const Icon(Icons.open_in_browser),
+                  onPressed: () async {
+                    await guardLaunchUrlString(context, "https://beian.miit.gov.cn/");
+                  },
+                ),
+              ),
+              ListTile(
+                title: "Term of use".text(),
+                trailing: IconButton(
+                  icon: const Icon(Icons.open_in_browser),
+                  onPressed: () async {
+                    await guardLaunchUrlString(context, "https://github.com/liplum-dev/mimir/blob/master/Term%20of%20use.md");
+                  },
+                ),
+              ),
+              ListTile(
+                title: "Privacy".text(),
+                trailing: IconButton(
+                  icon: const Icon(Icons.open_in_browser),
+                  onPressed: () async {
+                    await guardLaunchUrlString(context, "https://github.com/liplum-dev/mimir/blob/master/Privacy%20Policy.md");
+                  },
+                ),
+              ),
               AboutListTile(
                 // FIXME: icon is buggy
                 // icon: SvgPicture.asset("assets/icon.svg").sizedAll(32),
@@ -46,10 +75,6 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
           ),
         ],
       ),
-      bottomNavigationBar:
-          "${i18n.about.icpLicense}: ${R.icpLicense}".text(textAlign: TextAlign.center).onTap(() async {
-        await guardLaunchUrlString(context, "https://beian.miit.gov.cn/");
-      }),
     );
   }
 }
