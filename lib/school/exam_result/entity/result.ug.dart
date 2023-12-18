@@ -235,11 +235,11 @@ class ExamResultItem {
   @HiveField(3)
   final double? score;
 
-  const ExamResultItem(
-    this.scoreType,
-    this.percentage,
+  const ExamResultItem({
+    required this.scoreType,
+    required this.percentage,
     this.score,
-  );
+  });
 
   @override
   String toString() {

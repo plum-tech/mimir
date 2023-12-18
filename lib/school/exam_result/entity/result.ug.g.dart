@@ -205,9 +205,9 @@ class ExamResultItemAdapter extends TypeAdapter<ExamResultItem> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ExamResultItem(
-      fields[0] as String,
-      fields[1] as String,
-      fields[3] as double?,
+      scoreType: fields[0] as String,
+      percentage: fields[1] as String,
+      score: fields[3] as double?,
     );
   }
 

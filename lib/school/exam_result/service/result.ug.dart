@@ -110,7 +110,11 @@ class ExamResultUgService {
     String percentage = item.find(_scorePercentageSelector)!.innerHtml.trim();
     String value = item.find(_scoreValueSelector)!.innerHtml;
 
-    return ExamResultItem(f(type), f(percentage), double.tryParse(f(value)));
+    return ExamResultItem(
+      scoreType: f(type),
+      percentage: f(percentage),
+      score: double.tryParse(f(value)),
+    );
   }
 
   static List<ExamResultItem> _parseDetailPage(String htmlPage) {

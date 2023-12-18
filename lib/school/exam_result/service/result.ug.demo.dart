@@ -30,6 +30,18 @@ class DemoExamResultUgService implements ExamResultUgService {
         courseCat: CourseCat.publicCore,
         examType: UgExamType.normal,
         teachers: ["Liplum"],
+        items: [
+          const ExamResultItem(
+            scoreType: 'A',
+            percentage: '50%',
+            score: 50.0,
+          ),
+          const ExamResultItem(
+            scoreType: 'B',
+            percentage: '50%',
+            score: 50.0,
+          ),
+        ],
       ),
       ExamResultUg(
         score: 60.0,
@@ -44,6 +56,18 @@ class DemoExamResultUgService implements ExamResultUgService {
         courseCat: CourseCat.publicCore,
         examType: UgExamType.resit,
         teachers: ["Liplum"],
+        items: [
+          const ExamResultItem(
+            scoreType: 'A',
+            percentage: '50%',
+            score: 100.0,
+          ),
+          const ExamResultItem(
+            scoreType: 'B',
+            percentage: '50%',
+            score: 20.0,
+          ),
+        ],
       ),
       ExamResultUg(
         score: 59.0,
@@ -58,6 +82,18 @@ class DemoExamResultUgService implements ExamResultUgService {
         courseCat: CourseCat.publicCore,
         examType: UgExamType.normal,
         teachers: ["Liplum"],
+        items: [
+          const ExamResultItem(
+            scoreType: 'A',
+            percentage: '50%',
+            score: 98.0,
+          ),
+          const ExamResultItem(
+            scoreType: 'B',
+            percentage: '50%',
+            score: 20.0,
+          ),
+        ],
       ),
     ];
   }
