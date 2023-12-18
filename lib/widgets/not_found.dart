@@ -17,7 +17,7 @@ class NotFoundPage extends StatelessWidget {
       ),
       body: LeavingBlank(
         icon: Icons.browser_not_supported,
-        desc: Settings.isDeveloperMode ? routeName : _i18n.subtitle,
+        desc: Settings.devMode ? routeName : _i18n.subtitle,
       ),
     );
   }

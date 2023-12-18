@@ -65,10 +65,10 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
         title: i18n.dev.devMode.text(),
         leading: const Icon(Icons.developer_mode_outlined),
         trailing: Switch.adaptive(
-          value: Settings.isDeveloperMode,
+          value: Settings.devMode,
           onChanged: (newV) {
             setState(() {
-              Settings.isDeveloperMode = newV;
+              Settings.devMode = newV;
             });
           },
         ),

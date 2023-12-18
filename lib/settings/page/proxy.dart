@@ -50,7 +50,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                 ProxyType.https,
                 icon: const Icon(Icons.https),
               ),
-              if (Settings.isDeveloperMode)
+              if (Settings.devMode)
                 buildProxyTypeTile(
                   ProxyType.all,
                   icon: const Icon(Icons.public),

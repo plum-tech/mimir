@@ -32,7 +32,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final $isDeveloperMode = Settings.listenIsDeveloperMode();
+  final $isDeveloperMode = Settings.listenDevMode();
 
   @override
   void initState() {
@@ -122,7 +122,7 @@ class _SettingsPageState extends State<SettingsPage> {
       }
       all.add(const Divider());
     }
-    if (Settings.isDeveloperMode) {
+    if (Settings.devMode) {
       all.add(PageNavigationTile(
         title: i18n.dev.title.text(),
         leading: const Icon(Icons.developer_mode_outlined),

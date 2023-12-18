@@ -88,7 +88,7 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
           js: _skipCountingDownPageJs,
         ),
       ],
-      bottomNavigationBar: Settings.isDeveloperMode
+      bottomNavigationBar: Settings.devMode
           ? BottomAppBar(
               height: 40,
               child: buildAutofillScore(),

@@ -134,7 +134,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
             );
           },
         ),
-        if (Settings.isDeveloperMode)
+        if (Settings.devMode)
           PopupMenuItem(
             child: ListTile(
               leading: const Icon(Icons.send),
