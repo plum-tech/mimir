@@ -18,6 +18,7 @@ import 'package:share_plus/share_plus.dart';
 import 'entity/attended.dart';
 import "i18n.dart";
 import 'init.dart';
+import 'utils.dart';
 
 class Class2ndAppCard extends StatefulWidget {
   const Class2ndAppCard({super.key});

@@ -83,10 +83,11 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
         title: i18n.dev.demoMode.text(),
         trailing: Switch.adaptive(
           value: Settings.demoMode,
-          onChanged: (newV) {
+          onChanged: (newV) async {
             setState(() {
               Settings.demoMode = newV;
             });
+            await Init.initModules();
           },
         ),
       ),
