@@ -7,8 +7,7 @@ class Class2ndSession {
   Class2ndSession({required this.ssoSession});
 
   bool _needRedirectToLoginPage(String data) {
-    return data.startsWith('<script') ||
-        data.contains('<meta http-equiv="refresh" content="0;URL=http://my.sit.edu.cn"/>');
+    return data.contains('<meta http-equiv="refresh" content="0;URL=http://my.sit.edu.cn"/>');
   }
 
   Future<Response> request(
