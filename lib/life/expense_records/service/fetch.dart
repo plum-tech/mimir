@@ -9,7 +9,7 @@ import 'package:sit/session/sso.dart';
 
 import '../entity/local.dart';
 import '../entity/remote.dart';
-import 'parser.dart';
+import '../utils.dart';
 
 class ExpenseFetchService {
   String al2(int v) => v < 10 ? "0$v" : "$v";
