@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'list.dart';
+part of 'activity.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator

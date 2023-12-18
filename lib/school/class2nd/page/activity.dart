@@ -6,7 +6,7 @@ import 'package:sit/design/widgets/common.dart';
 import 'package:sit/utils/collection.dart';
 import 'package:sit/utils/error.dart';
 
-import '../entity/list.dart';
+import '../entity/activity.dart';
 import '../init.dart';
 import '../utils.dart';
 import '../widgets/activity.dart';

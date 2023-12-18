@@ -2,7 +2,7 @@ import 'dart:core';
 
 import 'package:easy_localization/easy_localization.dart';
 
-import 'list.dart';
+import 'activity.dart';
 import 'package:sit/storage/hive/type_id.dart';
 
 part 'attended.g.dart';

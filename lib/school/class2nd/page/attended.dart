@@ -11,7 +11,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/design/widgets/tags.dart';
 import 'package:sit/l10n/extension.dart';
-import 'package:sit/school/class2nd/entity/list.dart';
+import 'package:sit/school/class2nd/entity/activity.dart';
 import 'package:sit/school/class2nd/utils.dart';
 import 'package:sit/utils/error.dart';
 

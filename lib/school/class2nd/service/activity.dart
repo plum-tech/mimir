@@ -6,7 +6,7 @@ import 'package:sit/school/utils.dart';
 import 'package:sit/session/class2nd.dart';
 
 import '../entity/details.dart';
-import '../entity/list.dart';
+import '../entity/activity.dart';
 import "package:intl/intl.dart";
 
 class Class2ndActivityService {
