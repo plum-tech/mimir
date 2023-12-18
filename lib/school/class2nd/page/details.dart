@@ -125,7 +125,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
         PopupMenuItem(
           child: ListTile(
             leading: const Icon(Icons.open_in_browser),
-            title: "Open in browser".text(),
+            title: i18n.openInBrowser.text(),
           ),
           onTap: () async {
             await launchUrlString(

@@ -739,3 +739,4 @@ pick: 選取
 duplicate: 創建副本
 copyTip: "{} 被複製到剪貼板了"
 done: 完成
+openInBrowser: 在瀏覽器中開啟
