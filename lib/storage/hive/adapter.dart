@@ -15,7 +15,7 @@ import 'package:sit/school/ywb/entity/application.dart';
 import 'package:sit/school/exam_result/entity/result.ug.dart';
 import 'package:sit/school/oa_announce/entity/announce.dart';
 import 'package:sit/school/class2nd/entity/details.dart';
-import 'package:sit/school/class2nd/entity/list.dart';
+import 'package:sit/school/class2nd/entity/activity.dart';
 import 'package:sit/school/class2nd/entity/attended.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/yellow_pages/entity/contact.dart';

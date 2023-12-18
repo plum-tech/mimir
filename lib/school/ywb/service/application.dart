@@ -34,13 +34,13 @@ class YwbApplicationService {
     final List data = jsonDecode(response.data);
     // filter empty application
     data.retainWhere((e) => e["WorkID"] is int);
-    final List<YwbApplication> messages = data.map((e) => YwbApplication.fromJson(e)).toList();
-    final res = <YwbApplication>[];
-    for (final msg in messages) {
-      final track = await getTrack(workId: msg.workId, functionId: msg.functionId);
-      res.add(msg.copyWith(track: track));
-      progress.value += 0.8 / messages.length;
-    }
+    final applications = data.map((e) => YwbApplication.fromJson(e)).toList();
+    final per = applications.isEmpty ? 0 : 0.8 / applications.length;
+    final res = await Future.wait(applications.map((application) async {
+      final track = await getTrack(workId: application.workId, functionId: application.functionId);
+      progress.value += per;
+      return application.copyWith(track: track);
+    }));
     progress.value = 1;
     return res;
   }

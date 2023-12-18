@@ -66,6 +66,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
       final results = await ExamResultInit.ugService.fetchResultList(
         SemesterInfo.all,
         onProgress: (p) {
+          if (!mounted) return;
           $loadingProgress.value = p;
         },
       );

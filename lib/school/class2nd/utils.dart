@@ -1,4 +1,4 @@
-import 'package:sit/school/class2nd/entity/list.dart';
+import 'package:sit/school/class2nd/entity/activity.dart';
 
 import 'entity/attended.dart';
 

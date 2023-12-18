@@ -198,11 +198,15 @@ class2nd:
   noActivities: 無活動
   noAttendedActivities: 無參加過的活動
   viewDetails: 檢視詳細資料
+  noDetails: 暫無資訊
+  details: 詳細資料
   apply:
     btn: 申請
     replyTip: 校方回信
     applyRequest: 申請
     applyRequestDesc: 確認要申請這個活動嗎？
+    applySuccessTip: 申請活動成功
+    applyFailureTip: 申請活動失敗
   info:
     activityId: 活動 ID
     applicationId: 申請 ID
@@ -238,6 +242,7 @@ class2nd:
     conference: 會議
     schoolCultureCompetition: 校園文化競賽
     paperAndPatent: 論文專利
+    unknown: 未知
   scoreType:
     all: 全部
     thematicReport:
@@ -258,8 +263,16 @@ class2nd:
     schoolSafetyCivilization:
       full: 校園安全文明
       short: 安全
-  noDetails: 暫無資訊
-  details: 詳細資料
+  applicationResponse:
+    successfulCheck: 檢查成功
+    incompleteApplicantInfo: 您的資訊不完整，請填寫
+    alreadyApplied: 您已經申請參加此活動
+    applicationReachLimitToday: 您今天已達到申請數量上限
+    activityReachParticipantLimit: 活動報名人數已達上限
+    activityExpired: 此活動已過期，不再接受申請
+    applicantOccupiedWithinActivity: 您在該時間內已經申請了其他活動
+    applicantNotPermitted: 您不能申請此活動
+    applicantNotIncluding: 您不屬於可以申請活動的人之一
 ywb:
   title: 應網辦
   info: |
@@ -605,6 +618,8 @@ settings:
     title: 關於
     version: 版本
     icpLicense: ICP 許可證
+    termsOfUse: 使用條款
+    privacyPolicy: 隱私權政策
 oaAnnounce:
   title: OA 公告
   tab:
@@ -724,3 +739,4 @@ pick: 選取
 duplicate: 創建副本
 copyTip: "{} 被複製到剪貼板了"
 done: 完成
+openInBrowser: 在瀏覽器中開啟

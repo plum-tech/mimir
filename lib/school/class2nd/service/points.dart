@@ -6,7 +6,7 @@ import 'package:sit/init.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/session/class2nd.dart';
 
-import '../entity/list.dart';
+import '../entity/activity.dart';
 import '../entity/attended.dart';
 
 class Class2ndPointsService {
@@ -167,7 +167,7 @@ class Class2ndPointsService {
       return Class2ndPointItem(
         name: mapChinesePunctuations(title),
         activityId: id,
-        category: category!,
+        category: category ?? Class2ndActivityCat.unknown,
         time: time,
         points: points,
         honestyPoints: honestyPoints,
@@ -223,7 +223,7 @@ class Class2ndPointsService {
       applicationId: applicationId,
       activityId: activityId,
       title: mapChinesePunctuations(title),
-      category: category!,
+      category: category ?? Class2ndActivityCat.unknown,
       time: time,
       status: status,
     );

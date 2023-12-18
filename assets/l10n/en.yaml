@@ -201,11 +201,15 @@ class2nd:
   noActivities: No activities
   noAttendedActivities: No attended activities
   viewDetails: View details
+  noDetails: No details given
+  details: Activity details
   apply:
     btn: Apply
     replyTip: Reply from school
     applyRequest: Apply
     applyRequestDesc: Confirm to apply this activity?
+    applySuccessTip: Successful application for this activity
+    applyFailureTip: Failed to apply for this activity
   info:
     activityId: Activity ID
     applicationId: Application ID
@@ -241,6 +245,7 @@ class2nd:
     conference: Conf
     schoolCultureCompetition: Culture COMP
     paperAndPatent: Paper&Patent
+    unknown: Unknown
   scoreType:
     all: All
     thematicReport:
@@ -261,8 +266,16 @@ class2nd:
     schoolSafetyCivilization:
       full: Safety&Civil.
       short: Civil.
-  noDetails: No details given
-  details: Activity eetails
+  applicationResponse:
+    successfulCheck: Successful check
+    incompleteApplicantInfo: Your info is incomplete, please complete it
+    alreadyApplied: You have already applied for this activity
+    applicationReachLimitToday: You have reached your max number of applications today
+    activityReachParticipantLimit: The activity has reached its max number of applicants
+    activityExpired: This activity has expired and is no longer accepting applications
+    applicantOccupiedWithinActivity: You have already applied for other activities in that time period
+    applicantNotPermitted: You cannot apply for this activity
+    applicantNotIncluding: You are not among those who can apply for the activity
 ywb:
   title: SIT YWB
   info: |
@@ -605,6 +618,8 @@ settings:
     title: About
     version: Version
     icpLicense: ICP License
+    termsOfUse: Term of use
+    privacyPolicy: Privacy policy
 oaAnnounce:
   title: OA announcement
   tab:
@@ -724,3 +739,4 @@ pick: Pick
 duplicate: Duplicate
 copyTip: "{} was copied"
 done: Done
+openInBrowser: Open in browser

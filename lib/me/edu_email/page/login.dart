@@ -72,60 +72,62 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
     return Form(
       autovalidateMode: AutovalidateMode.always,
       key: _formKey,
-      child: Column(
-        children: [
-          TextFormField(
-            controller: $username,
-            textInputAction: TextInputAction.next,
-            autofocus: true,
-            readOnly: !kDebugMode && initialAccount != null,
-            autocorrect: false,
-            enableSuggestions: false,
-            validator: (username) {
-              if (username == null) return null;
-              if (EmailValidator.validate(R.formatEduEmail(username: username))) return null;
-              return i18n.login.invalidEmailAddressFormatTip;
-            },
-            decoration: InputDecoration(
-              labelText: i18n.info.emailAddress,
-              hintText: i18n.login.addressHint,
-              suffixText: "@${R.eduEmailDomain}",
-              icon: const Icon(Icons.alternate_email_outlined),
-            ),
-          ),
-          TextFormField(
-            controller: $password,
-            autofocus: true,
-            keyboardType: isPasswordClear ? TextInputType.visiblePassword : null,
-            textInputAction: TextInputAction.send,
-            contextMenuBuilder: (ctx, state) {
-              return AdaptiveTextSelectionToolbar.editableText(
-                editableTextState: state,
-              );
-            },
-            autocorrect: false,
-            enableSuggestions: false,
-            obscureText: !isPasswordClear,
-            onFieldSubmitted: (inputted) async {
-              if (!isLoggingIn) {
-                await onLogin();
-              }
-            },
-            decoration: InputDecoration(
-              labelText: i18n.login.credentials.password,
-              icon: const Icon(Icons.lock),
-              hintText: i18n.login.passwordHint,
-              suffixIcon: IconButton(
-                icon: Icon(isPasswordClear ? Icons.visibility : Icons.visibility_off),
-                onPressed: () {
-                  setState(() {
-                    isPasswordClear = !isPasswordClear;
-                  });
-                },
+      child: AutofillGroup(
+        child: Column(
+          children: [
+            TextFormField(
+              controller: $username,
+              textInputAction: TextInputAction.next,
+              autofocus: true,
+              readOnly: !kDebugMode && initialAccount != null,
+              autocorrect: false,
+              enableSuggestions: false,
+              validator: (username) {
+                if (username == null) return null;
+                if (EmailValidator.validate(R.formatEduEmail(username: username))) return null;
+                return i18n.login.invalidEmailAddressFormatTip;
+              },
+              decoration: InputDecoration(
+                labelText: i18n.info.emailAddress,
+                hintText: i18n.login.addressHint,
+                suffixText: "@${R.eduEmailDomain}",
+                icon: const Icon(Icons.alternate_email_outlined),
               ),
             ),
-          ),
-        ],
+            TextFormField(
+              controller: $password,
+              autofocus: true,
+              keyboardType: isPasswordClear ? TextInputType.visiblePassword : null,
+              textInputAction: TextInputAction.send,
+              contextMenuBuilder: (ctx, state) {
+                return AdaptiveTextSelectionToolbar.editableText(
+                  editableTextState: state,
+                );
+              },
+              autocorrect: false,
+              enableSuggestions: false,
+              obscureText: !isPasswordClear,
+              onFieldSubmitted: (inputted) async {
+                if (!isLoggingIn) {
+                  await onLogin();
+                }
+              },
+              decoration: InputDecoration(
+                labelText: i18n.login.credentials.password,
+                icon: const Icon(Icons.lock),
+                hintText: i18n.login.passwordHint,
+                suffixIcon: IconButton(
+                  icon: Icon(isPasswordClear ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      isPasswordClear = !isPasswordClear;
+                    });
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

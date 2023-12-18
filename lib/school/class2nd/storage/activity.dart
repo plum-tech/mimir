@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:sit/storage/hive/init.dart';
 
 import '../entity/details.dart';
-import '../entity/list.dart';
+import '../entity/activity.dart';
 
 class _K {
   static String activity(int id) => '/activities/$id';

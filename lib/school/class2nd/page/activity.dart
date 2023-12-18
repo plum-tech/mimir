@@ -6,7 +6,7 @@ import 'package:sit/design/widgets/common.dart';
 import 'package:sit/utils/collection.dart';
 import 'package:sit/utils/error.dart';
 
-import '../entity/list.dart';
+import '../entity/activity.dart';
 import '../init.dart';
 import '../utils.dart';
 import '../widgets/activity.dart';
@@ -170,6 +170,8 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
   }
 
   Future<void> loadMore() async {
+    final cat = widget.cat;
+    if (!cat.canFetchData) return;
     if (isFetching) return;
     if (!mounted) return;
     setState(() {
@@ -177,13 +179,13 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
     });
     widget.onLoadingChanged(true);
     try {
-      final lastActivities = await Class2ndInit.activityService.getActivityList(widget.cat, lastPage);
+      final lastActivities = await Class2ndInit.activityService.getActivityList(cat, lastPage);
       final activities = this.activities ?? <Class2ndActivity>[];
       activities.addAll(lastActivities);
       activities.distinctBy((a) => a.id);
       // The incoming activities may be the same as before, so distinct is necessary.
       activities.sort((a, b) => b.time.compareTo(a.time));
-      await Class2ndInit.activityStorage.setActivities(widget.cat, activities);
+      await Class2ndInit.activityStorage.setActivities(cat, activities);
       if (!mounted) return;
       setState(() {
         lastPage++;

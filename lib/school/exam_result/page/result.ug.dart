@@ -56,6 +56,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
       final resultList = await ExamResultInit.ugService.fetchResultList(
         info,
         onProgress: (p) {
+          if (!mounted) return;
           $loadingProgress.value = p;
         },
       );

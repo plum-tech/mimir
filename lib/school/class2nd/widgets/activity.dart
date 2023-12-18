@@ -4,7 +4,7 @@ import 'package:sit/design/widgets/tags.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/list.dart';
+import '../entity/activity.dart';
 import '../utils.dart';
 
 class ActivityCard extends StatelessWidget {
