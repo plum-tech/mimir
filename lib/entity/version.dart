@@ -45,12 +45,18 @@ class AppMeta {
 Future<AppMeta> getCurrentVersion() async {
   final info = await PackageInfo.fromPlatform();
   var versionText = info.version;
+  final String? buildNumber;
   if (info.buildNumber.isNotEmpty) {
-    if (UniversalPlatform.isIOS && info.buildNumber != info.version) {
-      // do nothing
+    if (UniversalPlatform.isIOS && info.buildNumber == info.version) {
+      buildNumber = null;
     } else {
-      versionText = "${info.version}+${info.buildNumber}";
+      buildNumber = info.buildNumber;
     }
+  } else {
+    buildNumber = null;
+  }
+  if (buildNumber != null) {
+    versionText = "${info.version}+$buildNumber";
   }
 
   final AppPlatform platform;
