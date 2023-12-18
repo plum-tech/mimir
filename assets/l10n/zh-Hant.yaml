@@ -606,6 +606,8 @@ settings:
     title: 關於
     version: 版本
     icpLicense: ICP 許可證
+    termsOfUse: 使用條款
+    privacyPolicy: 隱私權政策
 oaAnnounce:
   title: OA 公告
   tab:

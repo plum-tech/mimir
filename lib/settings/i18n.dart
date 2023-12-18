@@ -152,6 +152,10 @@ class _About {
   String get version => "$ns.version".tr();
 
   String get icpLicense => "$ns.icpLicense".tr();
+
+  String get termsOfUse => "$ns.termsOfUse".tr();
+
+  String get privacyPolicy => "$ns.privacyPolicy".tr();
 }
 
 class _Electricity {

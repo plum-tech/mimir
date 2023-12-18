@@ -606,6 +606,8 @@ settings:
     title: About
     version: Version
     icpLicense: ICP License
+    termsOfUse: Term of use
+    privacyPolicy: Privacy policy
 oaAnnounce:
   title: OA announcement
   tab:

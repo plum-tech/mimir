@@ -47,17 +47,17 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
                 ),
               ),
               ListTile(
-                title: "Term of use".text(),
+                title: i18n.about.termsOfUse.text(),
                 trailing: IconButton(
                   icon: const Icon(Icons.open_in_browser),
                   onPressed: () async {
                     await guardLaunchUrlString(
-                        context, "https://github.com/liplum-dev/mimir/blob/master/Term%20of%20use.md");
+                        context, "https://github.com/liplum-dev/mimir/blob/master/Terms%20of%20use.md");
                   },
                 ),
               ),
               ListTile(
-                title: "Privacy".text(),
+                title: i18n.about.privacyPolicy.text(),
                 trailing: IconButton(
                   icon: const Icon(Icons.open_in_browser),
                   onPressed: () async {
