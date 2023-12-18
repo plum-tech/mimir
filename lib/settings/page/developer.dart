@@ -40,6 +40,7 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
           SliverList(
             delegate: SliverChildListDelegate([
               buildDevModeToggle(),
+              buildDemoModeToggle(),
               PageNavigationTile(
                 title: i18n.dev.localStorage.text(),
                 subtitle: i18n.dev.localStorageDesc.text(),
@@ -69,6 +70,22 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
           onChanged: (newV) {
             setState(() {
               Settings.devMode = newV;
+            });
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget buildDemoModeToggle() {
+    return StatefulBuilder(
+      builder: (ctx, setState) => ListTile(
+        title: i18n.dev.demoMode.text(),
+        trailing: Switch.adaptive(
+          value: Settings.demoMode,
+          onChanged: (newV) {
+            setState(() {
+              Settings.demoMode = newV;
             });
           },
         ),
