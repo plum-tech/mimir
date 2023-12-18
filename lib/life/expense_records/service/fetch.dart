@@ -11,29 +11,30 @@ import '../entity/local.dart';
 import '../entity/remote.dart';
 import '../utils.dart';
 
-class ExpenseFetchService {
-  String al2(int v) => v < 10 ? "0$v" : "$v";
+class ExpenseService {
+  String _al2(int v) => v < 10 ? "0$v" : "$v";
 
-  String format(DateTime d) => "${d.year}${al2(d.month)}${al2(d.day)}${al2(d.hour)}${al2(d.minute)}${al2(d.second)}";
+  String _format(DateTime d) =>
+      "${d.year}${_al2(d.month)}${_al2(d.day)}${_al2(d.hour)}${_al2(d.minute)}${_al2(d.second)}";
 
   static const String magicNumber = "adc4ac6822fd462780f878b86cb94688";
   static const urlPath = "https://xgfy.sit.edu.cn/yktapi/services/querytransservice/querytrans";
 
-  SsoSession get session => Init.ssoSession;
+  SsoSession get _session => Init.ssoSession;
 
-  const ExpenseFetchService();
+  const ExpenseService();
 
   Future<List<Transaction>> fetch({
     required String studentID,
     required DateTime from,
     required DateTime to,
   }) async {
-    final curTs = format(DateTime.now());
-    final fromTs = format(from);
-    final toTs = format(to);
-    final auth = composeAuth(studentID, fromTs, toTs, curTs);
+    final curTs = _format(DateTime.now());
+    final fromTs = _format(from);
+    final toTs = _format(to);
+    final auth = _composeAuth(studentID, fromTs, toTs, curTs);
 
-    final res = await session.request(
+    final res = await _session.request(
       urlPath,
       options: Options(
         contentType: 'text/plain',
@@ -48,12 +49,12 @@ class ExpenseFetchService {
         'stuempno': studentID,
       },
     );
-    final raw = parseDataPack(res.data);
+    final raw = _parseDataPack(res.data);
     final list = raw.transactions.map(parseFull).toList();
     return list;
   }
 
-  DataPackRaw parseDataPack(dynamic data) {
+  DataPackRaw _parseDataPack(dynamic data) {
     final res = HashMap<String, dynamic>.of(data);
     final retdataRaw = res["retdata"];
     final retdata = json.decode(retdataRaw);
@@ -61,7 +62,7 @@ class ExpenseFetchService {
     return DataPackRaw.fromJson(res);
   }
 
-  String composeAuth(String studentId, String from, String to, String cur) {
+  String _composeAuth(String studentId, String from, String to, String cur) {
     final full = studentId + from + to + cur;
     final msg = utf8.encode(full);
     final key = utf8.encode(magicNumber);
