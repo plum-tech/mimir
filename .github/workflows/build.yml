@@ -14,6 +14,24 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v3
 
+      - name: Clear old cache - Cache APK
+        id: clear-cache-apk
+        uses: actions/cache@v3
+        with:
+          path: |
+            build/app/outputs/flutter-apk/
+          key: build-apk
+          enableCrossOsArchive: true
+          restore-keys: |
+            build-apk
+      
+      - name: Clear old cache - Delete cache builds
+        if: steps.clear-cache-apk.outputs.cache-hit == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh cache delete build-apk
+
       - name: Change version info
         run: |
           python3 ./build-tools/addBuildNumber.py
@@ -44,15 +62,7 @@ jobs:
 
       - name: Rename APK file
         run: |
-          cd build/app/outputs/flutter-apk/
-          mv app-release-signed.apk SITLife-release-signed.apk
-
-      - name: Delete cache builds
-        env:
-          GH_TOKEN: ${{ github.token }}
-        continue-on-error: true
-        run: |
-          gh cache delete build-apk
+          mv build/app/outputs/flutter-apk/app-release-signed.apk build/app/outputs/flutter-apk/1-SITLife-release-signed.apk
 
       - name: Cache APK
         id: cache-apk
@@ -62,7 +72,6 @@ jobs:
             build/app/outputs/flutter-apk/
           key: build-apk
           enableCrossOsArchive: true
-
           restore-keys: |
             build-apk
 
@@ -70,7 +79,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: SITLife-Android-release
-          path: build/app/outputs/flutter-apk/SITLife-release-signed.apk
+          path: build/app/outputs/flutter-apk/1-SITLife-release-signed.apk
 
   build_ios:
     runs-on: macos-latest
@@ -78,6 +87,24 @@ jobs:
     steps:
     - name: Checkout the code
       uses: actions/checkout@v3
+
+    - name: Clear old cache - Cache IPA
+      id: clear-cache-ipa
+      uses: actions/cache@v3
+      with:
+        path: |
+          build-output/ios/
+        key: build-ipa
+        enableCrossOsArchive: true
+        restore-keys: |
+          build-ipa
+
+    - name: Clear old cache - Delete cache builds
+      if: steps.clear-cache-ipa.outputs.cache-hit == 'true'
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        gh cache delete build-ipa
 
     - name: Change version info
       run: |
@@ -130,40 +157,37 @@ jobs:
     - name: Export ipa
       run: |
         xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
+    
+    - name: Rename ipa file
+      run: |
+        mv build-output/ios/life.mysit.SITLife.ipa build-output/ios/2-SITLife-release.ipa
 
     # Debug only
-    # - name: Delete cache builds
-    #   env:
-    #     GH_TOKEN: ${{ github.token }}
-    #   continue-on-error: true
-    #   run: |
-    #     gh cache delete build-ipa
+    - name: Cache ipa
+      id: cache-ipa
+      uses: actions/cache@v3
+      with:
+        path: |
+          build-output/ios/
+        key: build-ipa
+        enableCrossOsArchive: true
+        restore-keys: |
+          build-ipa
 
-    # - name: cache ipa
-    #   id: cache-ipa
-    #   uses: actions/cache@v3
-    #   with:
-    #     path: |
-    #       build-output/ios/
-    #     key: build-ipa
-    #     enableCrossOsArchive: true
-    #     restore-keys: |
-    #       build-ipa
-
-    # - name: Publish iOS Artifact
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: SITLife-iOS-release
-    #     path: build-output/ios
+    - name: Publish iOS Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: SITLife-iOS-release
+        path: build-output/ios/2-SITLife-release.ipa
 
     # Release
-    - name: Deploy to App Store (Testflight)
-      uses: apple-actions/upload-testflight-build@v1
-      with:
-        app-path: ${{ github.workspace }}/build-output/ios/life.mysit.SITLife.ipa
-        issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-        api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-        api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
+    # - name: Deploy to App Store (Testflight)
+    #   uses: apple-actions/upload-testflight-build@v1
+    #   with:
+    #     app-path: ${{ github.workspace }}/build-output/ios/2-SITLife-release.ipa
+    #     issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+    #     api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+    #     api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
 
   after_build:
     runs-on: ubuntu-latest
@@ -191,7 +215,8 @@ jobs:
           echo "RESOLVED_VERSION="$(git tag --sort=-v:refname | head -n 1) >> "$GITHUB_OUTPUT"
           echo "PREVIOUS_TAG="$(git tag --sort=-v:refname | head -n 2 | tail -n 1) >> "$GITHUB_OUTPUT"
 
-      - name: Restore cache builds(apk)
+      - name: Restore cache builds (apk)
+        id: cache-apk
         uses: actions/cache@v3
         with:
           path: |
@@ -199,19 +224,14 @@ jobs:
           key: build-apk
           enableCrossOsArchive: true
 
-      - name: Restore cache builds(ipa)
+      - name: Restore cache builds (ipa)
+        id: cache-ipa
         uses: actions/cache@v3
         with:
           path: |
             build-output/ios/
           key: build-ipa
           enableCrossOsArchive: true
-
-      - name: Rename files
-        continue-on-error: true
-        run: |
-          mv build/app/outputs/flutter-apk/SITLife-release-signed.apk build/app/outputs/flutter-apk/1-SITLife-release-signed.apk
-          mv build-output/ios/life.mysit.SITLife.ipa build-output/ios/2-SITLife-release.ipa
 
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -247,10 +267,16 @@ jobs:
           draft: true
           prerelease: false
 
-      - name: Delete cache builds
+      - name: Delete cache builds (apk)
+        if: steps.cache-apk.outputs.cache-hit == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-        continue-on-error: true
         run: |
           gh cache delete build-apk
+
+      - name: Delete cache builds (ipa)
+        if: steps.cache-ipa.outputs.cache-hit == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
           gh cache delete build-ipa
