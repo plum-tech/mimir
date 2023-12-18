@@ -9,7 +9,7 @@ class R {
   const R._();
 
   static const scheme = "life.mysit";
-  static const hiveStorageVersion = "2.1.0+15";
+  static const hiveStorageVersion = "2.1.1";
   static const appId = "life.mysit.SITLife";
   static const appName = "SIT Life";
   static const icpLicense = "沪ICP备18042337号-3A";

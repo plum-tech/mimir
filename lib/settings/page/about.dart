@@ -46,24 +46,24 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
                   },
                 ),
               ),
-              // ListTile(
-              //   title: "Term of use".text(),
-              //   trailing: IconButton(
-              //     icon: const Icon(Icons.open_in_browser),
-              //     onPressed: () async {
-              //       await guardLaunchUrlString(context, "https://github.com/liplum-dev/mimir/blob/master/Term%20of%20use.md");
-              //     },
-              //   ),
-              // ),
-              // ListTile(
-              //   title: "Privacy".text(),
-              //   trailing: IconButton(
-              //     icon: const Icon(Icons.open_in_browser),
-              //     onPressed: () async {
-              //       await guardLaunchUrlString(context, "https://github.com/liplum-dev/mimir/blob/master/Privacy%20Policy.md");
-              //     },
-              //   ),
-              // ),
+              ListTile(
+                title: "Term of use".text(),
+                trailing: IconButton(
+                  icon: const Icon(Icons.open_in_browser),
+                  onPressed: () async {
+                    await guardLaunchUrlString(context, "https://github.com/liplum-dev/mimir/blob/master/Term%20of%20use.md");
+                  },
+                ),
+              ),
+              ListTile(
+                title: "Privacy".text(),
+                trailing: IconButton(
+                  icon: const Icon(Icons.open_in_browser),
+                  onPressed: () async {
+                    await guardLaunchUrlString(context, "https://github.com/liplum-dev/mimir/blob/master/Privacy%20Policy.md");
+                  },
+                ),
+              ),
               AboutListTile(
                 // FIXME: icon is buggy
                 // icon: SvgPicture.asset("assets/icon.svg").sizedAll(32),
