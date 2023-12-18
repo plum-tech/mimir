@@ -6,6 +6,7 @@ import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/design/widgets/tags.dart';
 import 'package:sit/l10n/extension.dart';
+import 'package:sit/school/class2nd/service/application.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/error.dart';
 import 'package:sit/widgets/html.dart';
@@ -157,18 +158,21 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
     );
     if (confirm != true) return;
     try {
-      final response = await Class2ndInit.applicationService.join(activityId);
-      if (!mounted) return;
-      await context.showTip(title: i18n.apply.replyTip, desc: response, ok: i18n.ok);
-    } catch (e) {
+      final checkRes = await Class2ndInit.applicationService.check(activityId);
+      if (checkRes != Class2ndApplicationCheckResponse.successfulCheck) {
+        if (!mounted) return;
+        await context.showTip(title: i18n.apply.replyTip, desc: checkRes.l10n(), ok: i18n.ok);
+        return;
+      }
+      final applySuccess = await Class2ndInit.applicationService.apply(activityId);
       if (!mounted) return;
       await context.showTip(
-        title: i18n.error,
-        desc: e.toString(),
+        title: i18n.apply.replyTip,
+        desc: applySuccess ? i18n.apply.applySuccessTip : i18n.apply.applyFailureTip,
         ok: i18n.ok,
-        serious: true,
       );
-      rethrow;
+    } catch (error, stackTrace) {
+      debugPrintError(error, stackTrace);
     }
   }
 
@@ -183,14 +187,15 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
     );
     if (confirm != true) return;
     try {
-      final response = await Class2ndInit.applicationService.join(activityId, force: true);
+      final applySuccess = await Class2ndInit.applicationService.apply(activityId);
       if (!mounted) return;
-      await context.showTip(title: i18n.apply.replyTip, desc: response, ok: i18n.ok);
+      await context.showTip(
+        title: i18n.apply.replyTip,
+        desc: applySuccess ? "Yes" : "No",
+        ok: i18n.ok,
+      );
     } catch (error, stackTrace) {
       debugPrintError(error, stackTrace);
-      if (!mounted) return;
-      await context.showTip(title: i18n.apply.replyTip, desc: error.toString(), ok: i18n.ok);
-      rethrow;
     }
   }
 }

@@ -47,6 +47,10 @@ class _Apply {
   String get applyRequest => "$ns.applyRequest".tr();
 
   String get applyRequestDesc => "$ns.applyRequestDesc".tr();
+
+  String get applySuccessTip => "$ns.applySuccessTip".tr();
+
+  String get applyFailureTip => "$ns.applyFailureTip".tr();
 }
 
 class _Attended {

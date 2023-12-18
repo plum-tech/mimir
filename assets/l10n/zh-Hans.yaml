@@ -198,11 +198,15 @@ class2nd:
   noActivities: 没有活动
   noAttendedActivities: 没有参加过的活动
   viewDetails: 查看详情
+  noDetails: 暂无资料
+  details: 活动资料
   apply:
-    btn: 报名
+    btn: 申请
     replyTip: 校方回复
-    applyRequest: 报名
-    applyRequestDesc: 确认报名这个活动吗？
+    applyRequest: 申请
+    applyRequestDesc: 确认申请这个活动吗？
+    applySuccessTip: 申请活动成功
+    applyFailureTip: 申请活动失败
   info:
     activityId: 活动编号
     applicationId: 申请编号
@@ -259,8 +263,16 @@ class2nd:
     schoolSafetyCivilization:
       full: 校园安全文明
       short: 文明
-  noDetails: 暂无资料
-  details: 活动资料
+  applicationResponse:
+    successfulCheck: 检查成功
+    incompleteApplicantInfo: 您的个人信息不全，请补全您的信息
+    alreadyApplied: 您已申请过该活动
+    applicationReachLimitToday: 您今天的申请次数已达上限
+    activityReachParticipantLimit: 该活动的申请人数已达上限
+    activityExpired: 该活动已过期并停止接受申请
+    applicantOccupiedWithinActivity: 您已申请过该时间段的其他活动
+    applicantNotPermitted: 您不能申请该活动
+    applicantNotIncluding: 您不属于该活动的可申请人员范围内
 ywb:
   title: 应网办
   info: |
