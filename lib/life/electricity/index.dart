@@ -85,7 +85,11 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
             )
           : const SizedBox(),
       title: i18n.title.text(),
-      subtitle: selectedRoom == null ? null : "#$selectedRoom".text(),
+      subtitle: balance != null
+          ? "#${balance.roomNumber}".text()
+          : selectedRoom != null
+              ? "#$selectedRoom".text()
+              : null,
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
