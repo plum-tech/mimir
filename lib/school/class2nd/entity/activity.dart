@@ -77,10 +77,14 @@ enum Class2ndActivityCat {
   paperAndPatent(
     "8ab17f533ff05c27013ff06d10bf0001",
     Class2ndPointType.creation,
-  );
+  ),
+  @HiveField(11)
+  unknown(null);
 
-  final String id;
+  final String? id;
   final Class2ndPointType? pointType;
+
+  bool get canFetchData => id != null;
 
   const Class2ndActivityCat(this.id, [this.pointType]);
 

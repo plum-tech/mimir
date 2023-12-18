@@ -167,7 +167,7 @@ class Class2ndPointsService {
       return Class2ndPointItem(
         name: mapChinesePunctuations(title),
         activityId: id,
-        category: category!,
+        category: category ?? Class2ndActivityCat.unknown,
         time: time,
         points: points,
         honestyPoints: honestyPoints,
@@ -223,7 +223,7 @@ class Class2ndPointsService {
       applicationId: applicationId,
       activityId: activityId,
       title: mapChinesePunctuations(title),
-      category: category!,
+      category: category ?? Class2ndActivityCat.unknown,
       time: time,
       status: status,
     );

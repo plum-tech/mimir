@@ -73,6 +73,8 @@ class Class2ndActivityCatAdapter extends TypeAdapter<Class2ndActivityCat> {
         return Class2ndActivityCat.schoolCultureCompetition;
       case 10:
         return Class2ndActivityCat.paperAndPatent;
+      case 11:
+        return Class2ndActivityCat.unknown;
       default:
         return Class2ndActivityCat.lecture;
     }
@@ -113,6 +115,9 @@ class Class2ndActivityCatAdapter extends TypeAdapter<Class2ndActivityCat> {
         break;
       case Class2ndActivityCat.paperAndPatent:
         writer.writeByte(10);
+        break;
+      case Class2ndActivityCat.unknown:
+        writer.writeByte(11);
         break;
     }
   }

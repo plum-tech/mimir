@@ -238,6 +238,7 @@ class2nd:
     conference: 会议
     schoolCultureCompetition: 校园文化竞赛
     paperAndPatent: 论文专利
+    unknown: 未知
   scoreType:
     all: 全部
     thematicReport:

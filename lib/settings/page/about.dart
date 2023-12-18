@@ -51,7 +51,8 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
                 trailing: IconButton(
                   icon: const Icon(Icons.open_in_browser),
                   onPressed: () async {
-                    await guardLaunchUrlString(context, "https://github.com/liplum-dev/mimir/blob/master/Term%20of%20use.md");
+                    await guardLaunchUrlString(
+                        context, "https://github.com/liplum-dev/mimir/blob/master/Term%20of%20use.md");
                   },
                 ),
               ),
@@ -60,7 +61,8 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
                 trailing: IconButton(
                   icon: const Icon(Icons.open_in_browser),
                   onPressed: () async {
-                    await guardLaunchUrlString(context, "https://github.com/liplum-dev/mimir/blob/master/Privacy%20Policy.md");
+                    await guardLaunchUrlString(
+                        context, "https://github.com/liplum-dev/mimir/blob/master/Privacy%20Policy.md");
                   },
                 ),
               ),

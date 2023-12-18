@@ -241,6 +241,7 @@ class2nd:
     conference: Conf
     schoolCultureCompetition: Culture COMP
     paperAndPatent: Paper&Patent
+    unknown: Unknown
   scoreType:
     all: All
     thematicReport:
