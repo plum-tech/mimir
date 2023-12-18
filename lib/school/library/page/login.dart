@@ -69,54 +69,56 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
     return Form(
       autovalidateMode: AutovalidateMode.always,
       key: _formKey,
-      child: Column(
-        children: [
-          TextFormField(
-            controller: $readerId,
-            textInputAction: TextInputAction.next,
-            autofocus: true,
-            readOnly: !kDebugMode && initialAccount != null,
-            autocorrect: false,
-            enableSuggestions: false,
-            decoration: InputDecoration(
-              labelText: i18n.readerId,
-              hintText: i18n.login.readerIdHint,
-              icon: const Icon(Icons.chrome_reader_mode),
-            ),
-          ),
-          TextFormField(
-            controller: $password,
-            autofocus: true,
-            keyboardType: isPasswordClear ? TextInputType.visiblePassword : null,
-            textInputAction: TextInputAction.send,
-            contextMenuBuilder: (ctx, state) {
-              return AdaptiveTextSelectionToolbar.editableText(
-                editableTextState: state,
-              );
-            },
-            autocorrect: false,
-            enableSuggestions: false,
-            obscureText: !isPasswordClear,
-            onFieldSubmitted: (inputted) async {
-              if (!isLoggingIn) {
-                await onLogin();
-              }
-            },
-            decoration: InputDecoration(
-              labelText: i18n.login.credentials.password,
-              hintText: i18n.login.passwordHint,
-              icon: const Icon(Icons.lock),
-              suffixIcon: IconButton(
-                icon: Icon(isPasswordClear ? Icons.visibility : Icons.visibility_off),
-                onPressed: () {
-                  setState(() {
-                    isPasswordClear = !isPasswordClear;
-                  });
-                },
+      child: AutofillGroup(
+        child: Column(
+          children: [
+            TextFormField(
+              controller: $readerId,
+              textInputAction: TextInputAction.next,
+              autofocus: true,
+              readOnly: !kDebugMode && initialAccount != null,
+              autocorrect: false,
+              enableSuggestions: false,
+              decoration: InputDecoration(
+                labelText: i18n.readerId,
+                hintText: i18n.login.readerIdHint,
+                icon: const Icon(Icons.chrome_reader_mode),
               ),
             ),
-          ),
-        ],
+            TextFormField(
+              controller: $password,
+              autofocus: true,
+              keyboardType: isPasswordClear ? TextInputType.visiblePassword : null,
+              textInputAction: TextInputAction.send,
+              contextMenuBuilder: (ctx, state) {
+                return AdaptiveTextSelectionToolbar.editableText(
+                  editableTextState: state,
+                );
+              },
+              autocorrect: false,
+              enableSuggestions: false,
+              obscureText: !isPasswordClear,
+              onFieldSubmitted: (inputted) async {
+                if (!isLoggingIn) {
+                  await onLogin();
+                }
+              },
+              decoration: InputDecoration(
+                labelText: i18n.login.credentials.password,
+                hintText: i18n.login.passwordHint,
+                icon: const Icon(Icons.lock),
+                suffixIcon: IconButton(
+                  icon: Icon(isPasswordClear ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      isPasswordClear = !isPasswordClear;
+                    });
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
