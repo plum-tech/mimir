@@ -298,7 +298,7 @@ class ExamResultGpaTile extends StatelessWidget {
       ].column(caa: CrossAxisAlignment.start, mas: MainAxisSize.min),
       leadingAndTrailingTextStyle: textTheme.labelSmall?.copyWith(
         fontSize: textTheme.bodyLarge?.fontSize,
-        color: result.passed ? null : context.$red$,
+        color: item.passed ? null : context.$red$,
       ),
       trailing: score.toString().text(),
       onTap: onTap,
