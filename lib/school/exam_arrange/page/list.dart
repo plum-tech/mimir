@@ -39,7 +39,7 @@ class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
       isFetching = true;
     });
     try {
-      final examList = await ExamArrangeInit.service.getExamList(info);
+      final examList = await ExamArrangeInit.service.fetchExamList(info);
       ExamArrangeInit.storage.setExamList(info, examList);
       if (info == selected) {
         if (!mounted) return;

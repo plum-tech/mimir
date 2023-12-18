@@ -19,8 +19,8 @@ class DemoExpenseService implements ExpenseService {
         balanceAfter: 69.99,
         deltaAmount: 30.00,
         // TODO: l10n
-        deviceName: "SIT Life canteen",
-        note: "Tasty",
+        deviceName: "小应生活食堂",
+        note: "",
       ),
     ];
   }
