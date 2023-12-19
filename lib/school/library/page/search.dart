@@ -149,7 +149,7 @@ class _LibraryTrendsGroupState extends State<LibraryTrendsGroup> {
   Future<void> fetchHotSearch() async {
     final trends = await LibraryInit.hotSearchService.getTrends();
     await LibraryInit.searchStorage.setTrends(trends);
-    if (!context.mounted) return;
+    if (!mounted) return;
     setState(() {
       this.trends = trends;
     });
