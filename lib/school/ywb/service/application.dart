@@ -9,7 +9,7 @@ import 'package:sit/session/ywb.dart';
 import '../entity/application.dart';
 
 class YwbApplicationService {
-  YwbSession get session => Init.ywbSession;
+  YwbSession get _session => Init.ywbSession;
 
   const YwbApplicationService();
 
@@ -18,7 +18,7 @@ class YwbApplicationService {
     void Function(double progress)? onProgress,
   }) async {
     final progress = ProgressWatcher(callback: onProgress);
-    final response = await session.request(
+    final response = await _session.request(
       type.messageListUrl,
       data: {
         "myFlow": 1,
@@ -37,7 +37,7 @@ class YwbApplicationService {
     final applications = data.map((e) => YwbApplication.fromJson(e)).toList();
     final per = applications.isEmpty ? 0 : 0.8 / applications.length;
     final res = await Future.wait(applications.map((application) async {
-      final track = await getTrack(workId: application.workId, functionId: application.functionId);
+      final track = await _getTrack(workId: application.workId, functionId: application.functionId);
       progress.value += per;
       return application.copyWith(track: track);
     }));
@@ -45,12 +45,12 @@ class YwbApplicationService {
     return res;
   }
 
-  Future<List<YwbApplicationTrack>> getTrack({
+  Future<List<YwbApplicationTrack>> _getTrack({
     required int workId,
     required String functionId,
   }) async {
     // Authentication cookie is even not required!
-    final res = await session.request(
+    final res = await _session.request(
       "http://ywb.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?&DoType=HttpHandler&DoMethod=TimeBase_Init&HttpHandlerName=BP.WF.HttpHandler.WF_WorkOpt_OneWork",
       data: {
         "WorkID": workId,

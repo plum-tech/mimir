@@ -7,12 +7,12 @@ import '../entity/balance.dart';
 const _balanceUrl = "https://xgfy.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=DBAccess_RunSQLReturnTable";
 
 class ElectricityService {
-  Dio get dio => Init.dio;
+  Dio get _dio => Init.dio;
 
   const ElectricityService();
 
   Future<ElectricityBalance> getBalance(String room) async {
-    final response = await dio.post(
+    final response = await _dio.post(
       _balanceUrl,
       queryParameters: {
         "SQL": "select * from sys_room_balance where RoomName='$room';",

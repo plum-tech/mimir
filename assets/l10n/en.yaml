@@ -530,9 +530,11 @@ settings:
       desc: Try to login OA with current credentials
   dev:
     title: Developer options
-    devModeActivateTip: Developer mode activated
     devMode:
       title: Developer mode
+      activateTip: Developer mode activated
+    demoMode:
+      title: Demo mode
     localStorage:
       title: Local storage
       desc: Manage storage on your device

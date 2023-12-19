@@ -84,7 +84,7 @@ void main() async {
 
   // Setup Settings and Meta
   if (kDebugMode) {
-    Settings.isDeveloperMode = true;
+    Settings.devMode = true;
   }
   // The last time when user launch this app
   Meta.lastLaunchTime = Meta.thisLaunchTime;

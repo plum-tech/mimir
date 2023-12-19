@@ -14,13 +14,13 @@ class Class2ndPointsService {
   static const scoreUrl = 'http://sc.sit.edu.cn/public/pcenter/scoreDetail.action';
   static const myEventUrl = 'http://sc.sit.edu.cn/public/pcenter/activityOrderList.action?pageSize=999';
 
-  Class2ndSession get session => Init.class2ndSession;
+  Class2ndSession get _session => Init.class2ndSession;
 
   const Class2ndPointsService();
 
   /// 获取第二课堂分数
   Future<Class2ndPointsSummary> fetchScoreSummary() async {
-    final response = await session.request(
+    final response = await _session.request(
       homeUrl,
       options: Options(
         method: "POST",
@@ -136,7 +136,7 @@ class Class2ndPointsService {
 
   /// 获取我的得分列表
   Future<List<Class2ndPointItem>> fetchScoreItemList() async {
-    final response = await session.request(
+    final response = await _session.request(
       scoreUrl,
       options: Options(
         method: "POST",
@@ -182,7 +182,7 @@ class Class2ndPointsService {
 
   /// 获取我的活动列表
   Future<List<Class2ndActivityApplication>> fetchActivityApplicationList() async {
-    final response = await session.request(
+    final response = await _session.request(
       myEventUrl,
       options: Options(
         method: "POST",

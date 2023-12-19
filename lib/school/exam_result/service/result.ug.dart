@@ -27,7 +27,7 @@ class ExamResultUgService {
   static const _scorePercentageSelector = 'td:nth-child(3)';
   static const _scoreValueSelector = 'td:nth-child(5)';
 
-  JwxtSession get session => Init.jwxtSession;
+  JwxtSession get _session => Init.jwxtSession;
 
   const ExamResultUgService();
 
@@ -38,7 +38,7 @@ class ExamResultUgService {
   }) async {
     final year = info.year;
     final progress = ProgressWatcher(callback: onProgress);
-    final response = await session.request(
+    final response = await _session.request(
       _scoreUrl,
       options: Options(
         method: "POST",
@@ -60,7 +60,7 @@ class ExamResultUgService {
     final resultList = _parseScoreListPage(response.data);
     final perProgress = resultList.isEmpty ? 0 : 0.8 / resultList.length;
     final newResultList = await Future.wait(resultList.map((result) async {
-      final resultItems = await fetchResultItems(
+      final resultItems = await _fetchResultItems(
         SemesterInfo(year: result.year, semester: result.semester),
         classId: result.innerClassId,
       );
@@ -72,11 +72,11 @@ class ExamResultUgService {
   }
 
   /// 获取成绩详情
-  Future<List<ExamResultItem>> fetchResultItems(
+  Future<List<ExamResultItem>> _fetchResultItems(
     SemesterInfo info, {
     required String classId,
   }) async {
-    final response = await session.request(
+    final response = await _session.request(
       _scoreDetailUrl,
       options: Options(
         method: "POST",
@@ -110,7 +110,11 @@ class ExamResultUgService {
     String percentage = item.find(_scorePercentageSelector)!.innerHtml.trim();
     String value = item.find(_scoreValueSelector)!.innerHtml;
 
-    return ExamResultItem(f(type), f(percentage), double.tryParse(f(value)));
+    return ExamResultItem(
+      scoreType: f(type),
+      percentage: f(percentage),
+      score: double.tryParse(f(value)),
+    );
   }
 
   static List<ExamResultItem> _parseDetailPage(String htmlPage) {

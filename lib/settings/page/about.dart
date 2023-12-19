@@ -90,7 +90,7 @@ class VersionTile extends StatefulWidget {
 
 class _VersionTileState extends State<VersionTile> {
   int clickCount = 0;
-  final $isDeveloperMode = Settings.listenIsDeveloperMode();
+  final $isDeveloperMode = Settings.listenDevMode();
 
   @override
   void initState() {
@@ -122,14 +122,14 @@ class _VersionTileState extends State<VersionTile> {
       },
       title: i18n.about.version.text(),
       subtitle: "${version.platform.name} ${version.version.toString()}".text(),
-      onTap: Settings.isDeveloperMode && clickCount <= 10
+      onTap: Settings.devMode && clickCount <= 10
           ? null
           : () async {
-              if (Settings.isDeveloperMode) return;
+              if (Settings.devMode) return;
               clickCount++;
               if (clickCount >= 10) {
                 clickCount = 0;
-                Settings.isDeveloperMode = true;
+                Settings.devMode = true;
                 context.showSnackBar(content: i18n.dev.devModeActivateTip.text());
                 await HapticFeedback.mediumImpact();
               }

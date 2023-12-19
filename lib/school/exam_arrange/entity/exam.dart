@@ -58,6 +58,7 @@ class ExamEntry {
   @JsonKey()
   final String place;
 
+  // TODO: Use Campus enum
   /// 考试校区
   @JsonKey()
   final String campus;

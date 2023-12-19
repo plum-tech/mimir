@@ -9,13 +9,13 @@ import 'package:sit/school/entity/school.dart';
 class ExamArrangeService {
   static const _examRoomUrl = 'http://jwxt.sit.edu.cn/jwglxt/kwgl/kscx_cxXsksxxIndex.html';
 
-  JwxtSession get session => Init.jwxtSession;
+  JwxtSession get _session => Init.jwxtSession;
 
   const ExamArrangeService();
 
   /// 获取考场信息
-  Future<List<ExamEntry>> getExamList(SemesterInfo info) async {
-    final response = await session.request(
+  Future<List<ExamEntry>> fetchExamList(SemesterInfo info) async {
+    final response = await _session.request(
       _examRoomUrl,
       para: {
         'doType': 'query',

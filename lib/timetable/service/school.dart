@@ -18,15 +18,15 @@ class TimetableService {
   static const _postgraduateTimetableUrl =
       'http://gms.sit.edu.cn/epstar/yjs/T_PYGL_KWGL_WSXK/T_PYGL_KWGL_WSXK_XSKB_NEW.jsp';
 
-  JwxtSession get jwxtSession => Init.jwxtSession;
+  JwxtSession get _jwxtSession => Init.jwxtSession;
 
-  GmsSession get gmsSession => Init.gmsSession;
+  GmsSession get _gmsSession => Init.gmsSession;
 
   const TimetableService();
 
   /// 获取本科生课表
-  Future<SitTimetable> getUgTimetable(SemesterInfo info) async {
-    final response = await jwxtSession.request(
+  Future<SitTimetable> fetchUgTimetable(SemesterInfo info) async {
+    final response = await _jwxtSession.request(
       _undergraduateTimetableUrl,
       options: Options(
         method: "POST",
@@ -47,8 +47,8 @@ class TimetableService {
   }
 
   /// 获取研究生课表
-  Future<SitTimetable> getPgTimetable(SemesterInfo info) async {
-    final timetableRes = await gmsSession.request(
+  Future<SitTimetable> fetchPgTimetable(SemesterInfo info) async {
+    final timetableRes = await _gmsSession.request(
       _postgraduateTimetableUrl,
       options: Options(
         method: "POST",
@@ -78,7 +78,7 @@ class TimetableService {
   }
 
   Future<({DateTime start, DateTime end})?> getUgSemesterSpan() async {
-    final res = await jwxtSession.request(
+    final res = await _jwxtSession.request(
       "http://jwxt.sit.edu.cn/jwglxt/xtgl/index_cxAreaFive.html",
       options: Options(
         method: "POST",

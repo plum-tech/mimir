@@ -1,3 +1,6 @@
+import 'package:sit/school/exam_result/service/result.ug.demo.dart';
+import 'package:sit/settings/settings.dart';
+
 import 'service/result.pg.dart';
 import 'service/result.ug.dart';
 import 'storage/result.pg.dart';
@@ -10,7 +13,7 @@ class ExamResultInit {
   static late ExamResultPgStorage pgStorage;
 
   static void init() {
-    ugService = const ExamResultUgService();
+    ugService = Settings.demoMode ? const DemoExamResultUgService() : const ExamResultUgService();
     pgService = const ExamResultPgService();
     ugStorage = const ExamResultUgStorage();
     pgStorage = const ExamResultPgStorage();

@@ -9,7 +9,7 @@ import 'package:sit/life/event.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/life/expense_records/init.dart';
 import 'package:sit/utils/async_event.dart';
-import 'utils.dart';
+import 'aggregated.dart';
 import 'widget/balance.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -59,7 +59,7 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
     final oaCredential = context.auth.credentials;
     if (oaCredential == null) return;
     try {
-      await fetchAndSaveTransactionUntilNow(
+      await ExpenseAggregated.fetchAndSaveTransactionUntilNow(
         studentId: oaCredential.account,
       );
     } catch (error) {

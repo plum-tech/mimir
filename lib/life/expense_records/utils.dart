@@ -1,57 +1,63 @@
 import 'package:collection/collection.dart';
 import 'package:sit/life/expense_records/entity/local.dart';
 
-import 'init.dart';
+import 'package:sit/school/utils.dart';
 
-Future<void> fetchAndSaveTransactionUntilNow({
-  required String studentId,
-}) async {
-  final storage = ExpenseRecordsInit.storage;
-  final now = DateTime.now();
-  final start = now.copyWith(year: now.year - 4);
-  final newlyFetched = await ExpenseRecordsInit.service.fetch(
-    studentID: studentId,
-    from: start,
-    to: now,
-  );
-  final oldTsList = storage.transactionTsList ?? const [];
-  final newTsList = {...newlyFetched.map((e) => e.timestamp), ...oldTsList}.toList();
-  // the latest goes first
-  newTsList.sort((a, b) => -a.compareTo(b));
-  for (final transaction in newlyFetched) {
-    storage.setTransactionByTs(transaction.timestamp, transaction);
-  }
-  storage.transactionTsList = newTsList;
-  final latest = newlyFetched.firstOrNull;
-  if (latest != null) {
-    final latestValidBalance = _findLatestValidBalanceTransaction(newlyFetched, newTsList);
-    // check if the transaction is kept for topping up
-    if (latestValidBalance != null) {
-      storage.latestTransaction = latest.copyWith(
-        balanceBefore: latestValidBalance.balanceBefore,
-        balanceAfter: latestValidBalance.balanceAfter,
-      );
-    } else {
-      storage.latestTransaction = latest;
+import 'entity/remote.dart';
+
+const deviceName2Type = {
+  '开水': TransactionType.water,
+  '浴室': TransactionType.shower,
+  '咖啡吧': TransactionType.coffee,
+  '食堂': TransactionType.food,
+  '超市': TransactionType.store,
+  '图书馆': TransactionType.library,
+};
+
+TransactionType parseType(Transaction trans) {
+  if (trans.note.contains("补助")) {
+    return TransactionType.subsidy;
+  } else if (trans.note.contains("充值") || trans.note.contains("余额转移") || !trans.isConsume) {
+    return TransactionType.topUp;
+  } else if (trans.note.contains("消费") || trans.isConsume) {
+    for (MapEntry<String, TransactionType> entry in deviceName2Type.entries) {
+      String name = entry.key;
+      TransactionType type = entry.value;
+      if (trans.deviceName.contains(name)) {
+        return type;
+      }
     }
   }
+  return TransactionType.other;
 }
 
-/// [newlyFetched] is descending by time.
-Transaction? _findLatestValidBalanceTransaction(List<Transaction> newlyFetched, List<DateTime> allTsList) {
-  for (final transaction in newlyFetched) {
-    if (transaction.type != TransactionType.topUp && transaction.balanceBefore != 0 && transaction.balanceAfter != 0) {
-      return transaction;
-    }
-  }
-  for (final ts in allTsList) {
-    final transaction = ExpenseRecordsInit.storage.getTransactionByTs(ts);
-    if (transaction == null) continue;
-    if (transaction.type != TransactionType.topUp && transaction.balanceBefore != 0 && transaction.balanceAfter != 0) {
-      return transaction;
-    }
-  }
-  return null;
+Transaction parseFull(TransactionRaw raw) {
+  final transaction = Transaction(
+    timestamp: parseDatetime(raw),
+    balanceBefore: raw.balanceBeforeTransaction,
+    balanceAfter: raw.balanceAfterTransaction,
+    deltaAmount: raw.amount.abs(),
+    deviceName: mapChinesePunctuations(raw.deviceName ?? ""),
+    note: raw.name,
+    consumerId: raw.customerId,
+    type: TransactionType.other,
+  );
+  return transaction.copyWith(
+    type: parseType(transaction),
+  );
+}
+
+DateTime parseDatetime(TransactionRaw raw) {
+  final date = raw.date;
+  final year = int.parse(date.substring(0, 4));
+  final month = int.parse(date.substring(4, 6));
+  final day = int.parse(date.substring(6, 8));
+
+  final time = raw.time;
+  final hour = int.parse(time.substring(0, 2));
+  final min = int.parse(time.substring(2, 4));
+  final sec = int.parse(time.substring(4, 6));
+  return DateTime(year, month, day, hour, min, sec);
 }
 
 typedef YearMonth = ({int year, int month});
