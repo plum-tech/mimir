@@ -188,8 +188,8 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
 
   Future<SitTimetable> getTimetable(SemesterInfo info) async {
     return switch (context.auth.userType) {
-      OaUserType.undergraduate => TimetableInit.service.getUgTimetable(info),
-      OaUserType.postgraduate => TimetableInit.service.getPgTimetable(info),
+      OaUserType.undergraduate => TimetableInit.service.fetchUgTimetable(info),
+      OaUserType.postgraduate => TimetableInit.service.fetchPgTimetable(info),
       OaUserType.other => throw Exception("Timetable importing not supported"),
     };
   }
