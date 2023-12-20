@@ -19,6 +19,7 @@ jobs:
           known_hosts: ${{ secrets.DOCS_KNOWN_HOST }}
 
       - name: Deploy
+        if: github.repository == 'liplum-dev/mimir'
         shell: bash
         run: |
           git clone --single-branch --branch main "https://github.com/Amazefcc233/mimir-docs" ~/deploy
