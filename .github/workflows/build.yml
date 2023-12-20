@@ -62,7 +62,9 @@ jobs:
 
       - name: Rename APK file
         run: |
-          mv build/app/outputs/flutter-apk/app-release-signed.apk build/app/outputs/flutter-apk/1-SITLife-release-signed.apk
+          mkdir -p build/app/outputs/flutter-apk/publish/
+          mv build/app/outputs/flutter-apk/app-release-signed.apk build/app/outputs/flutter-apk/publish/1-SITLife-release-signed.apk
+          touch build/app/outputs/flutter-apk/publish/.release
 
       - name: Cache APK
         id: cache-apk
@@ -160,10 +162,15 @@ jobs:
     
     - name: Rename ipa file
       run: |
-        mv build-output/ios/life.mysit.SITLife.ipa build-output/ios/2-SITLife-release.ipa
+        mkdir -p build-output/ios/publish/
+        mv build-output/ios/life.mysit.SITLife.ipa build-output/ios/publish/2-SITLife-release.ipa
 
     # Debug only
-    # - name: Cache ipa
+    # - name: (Debug) Publish ipa file
+    #   run: |
+    #     touch build-output/ios/publish/.release
+
+    # - name: (Debug) Cache ipa
     #   id: cache-ipa
     #   uses: actions/cache@v3
     #   with:
@@ -174,7 +181,7 @@ jobs:
     #     restore-keys: |
     #       build-ipa
 
-    # - name: Publish iOS Artifact
+    # - name: (Debug) Publish iOS Artifact
     #   uses: actions/upload-artifact@v3
     #   with:
     #     name: SITLife-iOS-release
@@ -232,6 +239,19 @@ jobs:
             build-output/ios/
           key: build-ipa
           enableCrossOsArchive: true
+      
+      - name: Check builds
+        env:
+          RESOLVED_VERSION: ${{ steps.get_git_info.outputs.RESOLVED_VERSION }}
+        run: |
+          mv build/app/outputs/flutter-apk/publish/1-SITLife-release-signed.apk build/app/outputs/flutter-apk/publish/SITLife-${{ env.RESOLVED_VERSION }}.apk
+          mv build-output/ios/publish/2-SITLife-release.ipa build-output/ios/publish/SITLife-${{ env.RESOLVED_VERSION }}.ipa
+          if [ ! -f "build/app/outputs/flutter-apk/publish/.release" ]; then
+            rm -rf build/app/outputs/flutter-apk/publish/SITLife-${{ env.RESOLVED_VERSION }}.apk
+          fi
+          if [ ! -f "build-output/ios/publish/.release" ]; then
+            rm -rf build-output/ios/publish/SITLife-${{ env.RESOLVED_VERSION }}.ipa
+          fi
 
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -240,8 +260,8 @@ jobs:
             PREVIOUS_TAG: ${{ steps.get_git_info.outputs.PREVIOUS_TAG }}
         with:
           files: |
-            build/app/outputs/flutter-apk/1-SITLife-release-signed.apk
-            build-output/ios/2-SITLife-release.ipa
+            build/app/outputs/flutter-apk/publish/SITLife-${{ env.RESOLVED_VERSION }}.apk
+            build-output/ios/publish/SITLife-${{ env.RESOLVED_VERSION }}.ipa
           tag_name: ${{ env.RESOLVED_VERSION }}
           body: |
               ## Changes
