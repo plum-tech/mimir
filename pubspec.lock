@@ -909,6 +909,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  ical:
+    dependency: "direct main"
+    description:
+      name: ical
+      sha256: "49f7096a0ed9f1abb4ccc690c946e70a7c291d633eb1d09b296eef7877c1ecf3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2"
   image:
     dependency: transitive
     description:
@@ -1141,6 +1149,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0-pre"
+  nanoid:
+    dependency: transitive
+    description:
+      name: nanoid
+      sha256: be3f8752d9046c825df2f3914195151eb876f3ad64b9d833dd0b799b77b8759e
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   nested:
     dependency: transitive
     description:

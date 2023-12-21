@@ -5,6 +5,7 @@ import 'package:enough_icalendar/enough_icalendar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:ical/serializer.dart';
 import 'package:open_file/open_file.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/entity/campus.dart';
@@ -272,7 +273,7 @@ String convertTimetable2ICal({
               ? "${R.appId}.${course.courseCode}.${week.index}.${day.index}.${lesson.startIndex}-${lesson.endIndex}"
               : "${R.appId}.${course.courseCode}.${week.index}.${day.index}.${part.index}";
           // Use UTC
-          final event = VCalendar.createEvent(
+          final event = IEvent(
             uid: uid,
             summary: course.courseName,
             location: course.place,

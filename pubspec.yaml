@@ -128,6 +128,7 @@ dependencies:
   flutter_swipe_detector: ^2.0.0
   # iCalendar file generator
   enough_icalendar: ^0.15.0
+  ical: ^0.2.2
 
   # Utils
   # dart.io.Platform API for Web
