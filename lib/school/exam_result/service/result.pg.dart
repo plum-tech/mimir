@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:html/parser.dart';
 import 'package:sit/init.dart';
-import 'package:sit/school/entity/school.dart';
+import 'package:sit/school/utils.dart';
 import 'package:sit/session/gms.dart';
 
 import '../entity/result.pg.dart';

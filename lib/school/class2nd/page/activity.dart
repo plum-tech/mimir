@@ -2,10 +2,11 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/widgets/common.dart';
 import 'package:sit/utils/collection.dart';
 import 'package:sit/utils/error.dart';
 
-import '../entity/list.dart';
+import '../entity/activity.dart';
 import '../init.dart';
 import '../utils.dart';
 import '../widgets/activity.dart';
@@ -20,14 +21,20 @@ class ActivityListPage extends StatefulWidget {
 }
 
 class _ActivityListPageState extends State<ActivityListPage> {
-  final loadingStates = ValueNotifier(commonClass2ndCategories.map((cat) => false).toList());
+  final $loadingStates = ValueNotifier(commonClass2ndCategories.map((cat) => false).toList());
+
+  @override
+  void dispose() {
+    $loadingStates.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: PreferredSize(
         preferredSize: const Size.fromHeight(4),
-        child: loadingStates >>
+        child: $loadingStates >>
             (ctx, states) {
               return !states.any((state) => state == true) ? const SizedBox() : const LinearProgressIndicator();
             },
@@ -71,9 +78,9 @@ class _ActivityListPageState extends State<ActivityListPage> {
               return ActivityLoadingList(
                 cat: cat,
                 onLoadingChanged: (state) {
-                  final newStates = List.of(loadingStates.value);
+                  final newStates = List.of($loadingStates.value);
                   newStates[i] = state;
-                  loadingStates.value = newStates;
+                  $loadingStates.value = newStates;
                 },
               );
             }).toList(),
@@ -102,8 +109,7 @@ class ActivityLoadingList extends StatefulWidget {
 class _ActivityLoadingListState extends State<ActivityLoadingList> with AutomaticKeepAliveClientMixin {
   int lastPage = 1;
   bool isFetching = false;
-  late List<Class2ndActivity> activities =
-      Class2ndInit.activityStorage.getActivities(widget.cat) ?? <Class2ndActivity>[];
+  late var activities = Class2ndInit.activityStorage.getActivities(widget.cat);
 
   @override
   bool get wantKeepAlive => true;
@@ -119,6 +125,7 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final activities = this.activities;
     return NotificationListener<ScrollNotification>(
       onNotification: (event) {
         if (event.metrics.pixels >= event.metrics.maxScrollExtent) {
@@ -134,26 +141,37 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
             // This is the flip side of the SliverOverlapAbsorber above.
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
           ),
-          SliverList.builder(
-            itemCount: activities.length,
-            itemBuilder: (ctx, index) {
-              final activity = activities[index];
-              return ActivityCard(
-                activity,
-                onTap: () async {
-                  await context.push(
-                    "/class2nd/activity-details/${activity.id}?title=${activity.title}&time=${activity.time}&enable-apply=true",
+          if (activities != null)
+            if (activities.isEmpty)
+              SliverFillRemaining(
+                child: LeavingBlank(
+                  icon: Icons.inbox_outlined,
+                  desc: i18n.noActivities,
+                ),
+              )
+            else
+              SliverList.builder(
+                itemCount: activities.length,
+                itemBuilder: (ctx, index) {
+                  final activity = activities[index];
+                  return ActivityCard(
+                    activity,
+                    onTap: () async {
+                      await context.push(
+                        "/class2nd/activity-details/${activity.id}?title=${activity.title}&time=${activity.time}&enable-apply=true",
+                      );
+                    },
                   );
                 },
-              );
-            },
-          ),
+              ),
         ],
       ),
     );
   }
 
   Future<void> loadMore() async {
+    final cat = widget.cat;
+    if (!cat.canFetchData) return;
     if (isFetching) return;
     if (!mounted) return;
     setState(() {
@@ -161,15 +179,17 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
     });
     widget.onLoadingChanged(true);
     try {
-      final lastActivities = await Class2ndInit.activityService.getActivityList(widget.cat, lastPage);
+      final lastActivities = await Class2ndInit.activityService.getActivityList(cat, lastPage);
+      final activities = this.activities ?? <Class2ndActivity>[];
       activities.addAll(lastActivities);
-      // The incoming activities may be the same as before, so distinct is necessary.
       activities.distinctBy((a) => a.id);
+      // The incoming activities may be the same as before, so distinct is necessary.
       activities.sort((a, b) => b.time.compareTo(a.time));
-      await Class2ndInit.activityStorage.setActivities(widget.cat, List.of(activities));
+      await Class2ndInit.activityStorage.setActivities(cat, activities);
       if (!mounted) return;
       setState(() {
         lastPage++;
+        this.activities = activities;
         isFetching = false;
       });
       widget.onLoadingChanged(false);

@@ -26,8 +26,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            floating: true,
+          SliverAppBar.medium(
             title: i18n.p13n.cell.title.text(),
             actions: [
               PlatformTextButton(

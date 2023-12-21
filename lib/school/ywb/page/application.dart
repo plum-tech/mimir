@@ -1,8 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/common.dart';
-import 'package:sit/school/ywb/storage/application.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/utils/error.dart';
 
@@ -19,50 +17,23 @@ class YwbMyApplicationListPage extends StatefulWidget {
 }
 
 class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
-  MyYwbApplications? allApplications;
-  final $loadingProgress = ValueNotifier(0.0);
-  bool isFetching = false;
+  late final $loadingStates = ValueNotifier(YwbApplicationType.values.map((type) => false).toList());
 
   @override
-  void initState() {
-    super.initState();
-    refresh();
-  }
-
-  Future<void> refresh() async {
-    if (!mounted) return;
-    setState(() {
-      allApplications = YwbInit.applicationStorage.myApplications;
-      isFetching = true;
-    });
-    try {
-      final myApplications = await YwbInit.applicationService.getMyApplications(onProgress: (p) {
-        $loadingProgress.value = p;
-      });
-      YwbInit.applicationStorage.myApplications = myApplications;
-      if (!mounted) return;
-      setState(() {
-        allApplications = myApplications;
-        isFetching = false;
-      });
-    } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
-      if (!mounted) return;
-      setState(() {
-        isFetching = false;
-      });
-    } finally {
-      $loadingProgress.value = 0;
-    }
+  void dispose() {
+    $loadingStates.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final allApplications = this.allApplications;
     return Scaffold(
       bottomNavigationBar: PreferredSize(
         preferredSize: const Size.fromHeight(4),
-        child: isFetching ? $loadingProgress >> (ctx, value) => AnimatedProgressBar(value: value) : const SizedBox(),
+        child: $loadingStates >>
+            (ctx, states) {
+              return !states.any((state) => state == true) ? const SizedBox() : const LinearProgressIndicator();
+            },
       ),
       body: DefaultTabController(
         length: YwbApplicationType.values.length,
@@ -80,60 +51,116 @@ class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
                   bottom: TabBar(
                     isScrollable: true,
                     tabs: YwbApplicationType.values
-                        .mapIndexed(
-                          (i, e) => Tab(
-                            child: e.l10nName().text(),
-                          ),
-                        )
+                        .map((type) => Tab(
+                              child: type.l10nName().text(),
+                            ))
                         .toList(),
                   ),
                 ),
               ),
             ];
           },
-          body: allApplications == null
-              ? const SizedBox()
-              : TabBarView(
-                  // These are the contents of the tab views, below the tabs.
-                  children: YwbApplicationType.values.map((type) {
-                    return YwbMailList(allApplications.resolve(type));
-                  }).toList(),
-                ),
+          body: TabBarView(
+            // These are the contents of the tab views, below the tabs.
+            children: YwbApplicationType.values.mapIndexed((i, type) {
+              return YwbApplicationLoadingList(
+                type: type,
+                onLoadingChanged: (bool value) {
+                  final newStates = List.of($loadingStates.value);
+                  newStates[i] = value;
+                  $loadingStates.value = newStates;
+                },
+              );
+            }).toList(),
+          ),
         ),
       ),
     );
   }
 }
 
-class YwbMailList extends StatelessWidget {
-  final List<YwbApplication> applications;
+class YwbApplicationLoadingList extends StatefulWidget {
+  final YwbApplicationType type;
+  final ValueChanged<bool> onLoadingChanged;
 
-  const YwbMailList(
-    this.applications, {
+  const YwbApplicationLoadingList({
     super.key,
+    required this.type,
+    required this.onLoadingChanged,
   });
 
   @override
+  State<YwbApplicationLoadingList> createState() => _YwbApplicationLoadingListState();
+}
+
+class _YwbApplicationLoadingListState extends State<YwbApplicationLoadingList> with AutomaticKeepAliveClientMixin {
+  bool isFetching = false;
+  late var applications = YwbInit.applicationStorage.getApplicationListOf(widget.type);
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero).then((value) async {
+      await fetch();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+    final applications = this.applications;
     return CustomScrollView(
       slivers: [
         SliverOverlapInjector(
           // This is the flip side of the SliverOverlapAbsorber above.
           handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
         ),
-        if (applications.isEmpty)
-          SliverFillRemaining(
-            child: LeavingBlank(
-              icon: Icons.inbox_outlined,
-              desc: i18n.mine.noApplicationsTip,
+        if (applications != null)
+          if (applications.isEmpty)
+            SliverFillRemaining(
+              child: LeavingBlank(
+                icon: Icons.inbox_outlined,
+                desc: i18n.mine.noApplicationsTip,
+              ),
+            )
+          else
+            SliverList.builder(
+              itemCount: applications.length,
+              itemBuilder: (ctx, index) {
+                return YwbApplicationTile(applications[index]);
+              },
             ),
-          )
-        else
-          SliverList.builder(
-            itemCount: applications.length,
-            itemBuilder: (ctx, i) => YwbApplicationTile(applications[i]),
-          )
       ],
     );
+  }
+
+  Future<void> fetch() async {
+    if (isFetching) return;
+    if (!mounted) return;
+    setState(() {
+      isFetching = true;
+    });
+    widget.onLoadingChanged(true);
+    final type = widget.type;
+    try {
+      final applications = await YwbInit.applicationService.getApplicationsOf(type);
+      await YwbInit.applicationStorage.setApplicationListOf(type, applications);
+      if (!mounted) return;
+      setState(() {
+        this.applications = applications;
+        isFetching = false;
+      });
+      widget.onLoadingChanged(false);
+    } catch (error, stackTrace) {
+      debugPrintError(error, stackTrace);
+      if (!mounted) return;
+      setState(() {
+        isFetching = false;
+      });
+      widget.onLoadingChanged(false);
+    }
   }
 }

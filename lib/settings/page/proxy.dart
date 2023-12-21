@@ -31,14 +31,11 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
         slivers: <Widget>[
-          SliverAppBar(
+          SliverAppBar.large(
             pinned: true,
             snap: false,
             floating: false,
-            expandedHeight: 100.0,
-            flexibleSpace: FlexibleSpaceBar(
-              title: i18n.proxy.title.text(style: context.textTheme.headlineSmall),
-            ),
+            title: i18n.proxy.title.text(),
           ),
           SliverList(
             delegate: SliverChildListDelegate([
@@ -53,7 +50,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                 ProxyType.https,
                 icon: const Icon(Icons.https),
               ),
-              if (Settings.isDeveloperMode)
+              if (Settings.devMode)
                 buildProxyTypeTile(
                   ProxyType.all,
                   icon: const Icon(Icons.public),

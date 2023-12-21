@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
-import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/login/utils.dart';
 import 'package:sit/login/widgets/forgot_pwd.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/library/api.dart';
@@ -69,54 +69,56 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
     return Form(
       autovalidateMode: AutovalidateMode.always,
       key: _formKey,
-      child: Column(
-        children: [
-          TextFormField(
-            controller: $readerId,
-            textInputAction: TextInputAction.next,
-            autofocus: true,
-            readOnly: !kDebugMode && initialAccount != null,
-            autocorrect: false,
-            enableSuggestions: false,
-            decoration: InputDecoration(
-              labelText: i18n.readerId,
-              hintText: i18n.login.readerIdHint,
-              icon: const Icon(Icons.chrome_reader_mode),
-            ),
-          ),
-          TextFormField(
-            controller: $password,
-            autofocus: true,
-            keyboardType: isPasswordClear ? TextInputType.visiblePassword : null,
-            textInputAction: TextInputAction.send,
-            contextMenuBuilder: (ctx, state) {
-              return AdaptiveTextSelectionToolbar.editableText(
-                editableTextState: state,
-              );
-            },
-            autocorrect: false,
-            enableSuggestions: false,
-            obscureText: !isPasswordClear,
-            onFieldSubmitted: (inputted) async {
-              if (!isLoggingIn) {
-                await onLogin();
-              }
-            },
-            decoration: InputDecoration(
-              labelText: i18n.login.credentials.password,
-              hintText: i18n.login.passwordHint,
-              icon: const Icon(Icons.lock),
-              suffixIcon: IconButton(
-                icon: Icon(isPasswordClear ? Icons.visibility : Icons.visibility_off),
-                onPressed: () {
-                  setState(() {
-                    isPasswordClear = !isPasswordClear;
-                  });
-                },
+      child: AutofillGroup(
+        child: Column(
+          children: [
+            TextFormField(
+              controller: $readerId,
+              textInputAction: TextInputAction.next,
+              autofocus: true,
+              readOnly: !kDebugMode && initialAccount != null,
+              autocorrect: false,
+              enableSuggestions: false,
+              decoration: InputDecoration(
+                labelText: i18n.readerId,
+                hintText: i18n.login.readerIdHint,
+                icon: const Icon(Icons.chrome_reader_mode),
               ),
             ),
-          ),
-        ],
+            TextFormField(
+              controller: $password,
+              autofocus: true,
+              keyboardType: isPasswordClear ? TextInputType.visiblePassword : null,
+              textInputAction: TextInputAction.send,
+              contextMenuBuilder: (ctx, state) {
+                return AdaptiveTextSelectionToolbar.editableText(
+                  editableTextState: state,
+                );
+              },
+              autocorrect: false,
+              enableSuggestions: false,
+              obscureText: !isPasswordClear,
+              onFieldSubmitted: (inputted) async {
+                if (!isLoggingIn) {
+                  await onLogin();
+                }
+              },
+              decoration: InputDecoration(
+                labelText: i18n.login.credentials.password,
+                hintText: i18n.login.passwordHint,
+                icon: const Icon(Icons.lock),
+                suffixIcon: IconButton(
+                  icon: Icon(isPasswordClear ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      isPasswordClear = !isPasswordClear;
+                    });
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -133,7 +135,7 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
                     }
                   : null,
               icon: const Icon(Icons.login),
-              label: i18n.login.credentials.login.text().padAll(5),
+              label: i18n.login.login.text().padAll(5),
             );
   }
 
@@ -153,9 +155,10 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
     } catch (error, stackTrace) {
       debugPrintError(error, stackTrace);
       if (!mounted) return;
-      await context.showTip(title: i18n.login.failedWarn, desc: i18n.login.failedWarnDesc, ok: i18n.ok);
-      if (!mounted) return;
       setState(() => isLoggingIn = false);
+      if (error is Exception) {
+        handleLoginException(context: context, error: error, stackTrace: stackTrace);
+      }
       return;
     }
   }

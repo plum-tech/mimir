@@ -28,9 +28,9 @@ class ExamResultPgCard extends StatelessWidget {
       subtitleTextStyle: textTheme.bodyMedium,
       subtitle: [
         '${result.courseType} ${result.teacher}'.text(),
-        '${result.examType} | ${i18n.credit}: ${result.credit}'.text(),
+        '${result.examType} | ${i18n.course.credit}: ${result.credit}'.text(),
       ].column(caa: CrossAxisAlignment.start),
-      leadingAndTrailingTextStyle: TextStyle(
+      leadingAndTrailingTextStyle: textTheme.labelSmall?.copyWith(
         fontSize: textTheme.bodyLarge?.fontSize,
         color: result.passed ? null : context.$red$,
       ),

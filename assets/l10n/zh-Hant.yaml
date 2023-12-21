@@ -1,3 +1,4 @@
+appName: 小應生活
 timetable:
   navigation: 課程表
   jump: 前往
@@ -14,10 +15,6 @@ timetable:
     deleteRequestDesc: 你會失去這個課程表，永久地。
     emptyTip: 快去匯入一張新的課程表吧！
     details: 詳細資料
-  details:
-    classCode: 班级
-    courseCode: 课程代码
-    teacher: 教師
   edit:
     name: 名稱
   import:
@@ -161,12 +158,29 @@ timetable:
         teachers: 劉老師
 school:
   navigation: 學校
-  schoolYear: 學年
   semester:
-    title: 學期
-    all: 學年
+    all: 整學年
     term1: 第一學期
     term2: 第二學期
+  allYear: 所有學年
+  course:
+    classCode: 班级
+    courseCode: 课程代码
+    teacher: 教師
+    credit: 學分
+    semester: 學期
+    schoolYear: 學年
+    compulsory: 必修
+    elective: 選修
+  courseCat:
+    none: 無
+    genEd: 通識課
+    publicCore: 公共基礎課
+    specializedCore: 專業基礎課
+    specializedCompulsory: 專業必修課
+    specializedElective: 專業選修課
+    integratedPractice: 綜合實踐
+    practicalInstruction: 實踐教學
 life:
   navigation: 生活
 me:
@@ -184,11 +198,15 @@ class2nd:
   noActivities: 無活動
   noAttendedActivities: 無參加過的活動
   viewDetails: 檢視詳細資料
+  noDetails: 暫無資訊
+  details: 詳細資料
   apply:
     btn: 申請
     replyTip: 校方回信
     applyRequest: 申請
     applyRequestDesc: 確認要申請這個活動嗎？
+    applySuccessTip: 申請活動成功
+    applyFailureTip: 申請活動失敗
   info:
     activityId: 活動 ID
     applicationId: 申請 ID
@@ -224,6 +242,7 @@ class2nd:
     conference: 會議
     schoolCultureCompetition: 校園文化競賽
     paperAndPatent: 論文專利
+    unknown: 未知
   scoreType:
     all: 全部
     thematicReport:
@@ -244,8 +263,16 @@ class2nd:
     schoolSafetyCivilization:
       full: 校園安全文明
       short: 安全
-  noDetails: 暫無資訊
-  details: 詳細資料
+  applicationResponse:
+    successfulCheck: 檢查成功
+    incompleteApplicantInfo: 您的資訊不完整，請填寫
+    alreadyApplied: 您已經申請參加此活動
+    applicationReachLimitToday: 您今天已達到申請數量上限
+    activityReachParticipantLimit: 活動報名人數已達上限
+    activityExpired: 此活動已過期，不再接受申請
+    applicantOccupiedWithinActivity: 您在該時間內已經申請了其他活動
+    applicantNotPermitted: 您不能申請此活動
+    applicantNotIncluding: 您不屬於可以申請活動的人之一
 ywb:
   title: 應網辦
   info: |
@@ -267,17 +294,16 @@ captcha:
   enterHint: 請鍵入驗證碼
   emptyInputError: 未鍵入驗證碼
 credentials:
-  studentId: 學號
   account: 帳戶
   password: 密碼
-  oaAccount: OA 帳戶
-  oaPwd: OA 密碼
-  savedOaPwd: 儲存的 OA 密碼
-  savedOaPwdDesc: 用於自動登入 OA
   pwd: 密碼
   error: 登入認證錯誤
-  login: 登入
-  forgotPwd: 忘記密碼?
+  oa:
+    studentId: 學號
+    oaAccount: OA 帳戶
+    oaPwd: OA 密碼
+    savedOaPwd: 儲存的 OA 密碼
+    savedOaPwdDesc: 用於自動登入 OA
 easyconnect:
   launchBtn: 啟用 EasyConnect
   launchFailed: 啟動失敗
@@ -301,9 +327,6 @@ eduEmail:
     addressHint: 學號/工號
     passwordHint: 你的電郵密碼
     invalidEmailAddressFormatTip: 無效的電郵地址格式
-    failedWarn:
-      title: 登入失敗
-      desc: 請檢查密碼
   info:
     emailAddress: 電郵地址
   inbox:
@@ -319,13 +342,25 @@ examResult:
   check: 查詢
   teacherEval: 評價教師
   noResultsTip: 無考試結果
-  lessonNotEvaluated: 需評教
+  courseNotEval: 需評教
   teacherEvalTitle: 教師評價
-  lessonSelected: "已選 {} 門"
-  gpaResult: "績點: {}"
-  compulsory: 必修
-  credit: 學分
-  elective: 選修
+  examRequireEvalTip: 在評教整個課程後，可查看分數
+  score: 分數
+  publishTime: 發布時間
+  maxScore: 最大分數
+  gpa:
+    title: 績點
+    lessonSelected: "已選 {} 門"
+    gpaResult: "績點: {}"
+    selectAll: 全選
+    invert: 反選
+    exceptGenEd: 除去通識課
+    exceptFailed: 除去未通過
+  examType:
+    title: 考試類型
+    normal: 正常考試
+    resit: 補考
+    retake: 重修
 examArrange:
   title: 考試安排
   check: 查詢
@@ -411,25 +446,28 @@ networkTool:
   connectedByWlan: 已通過 WLAN 連線校園網路。
   connectedByEthernet: 已通過乙太網路連線校園網路。
 login:
-  welcomeHeader: 歡迎！
-  loginOa: 登入 OA
+  login: 登入
+  forgotPwd: 忘記密碼?
   validateInputAccountPwdRequest: 請檢查你鍵入的賬戶和密碼
   credentialsValidatedTip: 帳戶與密碼正確
   accountOrPwdErrorTip: 賬戶或密碼錯誤
   captchaErrorTip: 驗證碼錯誤
   accountFrozenTip: 賬戶處於凍結狀態
-  schoolServerUnconnectedTip: 無法連接學校伺服器
   unknownAuthErrorTip: 未知的帳戶身份驗證錯誤
-  accountHint: 學號/工號
   loggedInTip: 已登入
   notLoggedIn: 未登入
-  invalidAccountFormat: 無效的學號格式
   offlineModeBtn: 離線模式
-  oaPwdHint: 鍵入你的 OA 密碼
   failedWarn: 登入失敗
   formatError: 格式錯誤
-  loginRequired: 需要登入
-  neverLoggedInTip: 你必須先登入才能繼續。
+  oa:
+    loginOa: 登入 OA
+    welcomeHeader: 歡迎！
+    accountHint: 學號/工號
+    oaPwdHint: 鍵入你的 OA 密碼
+    neverLoggedInTip: 你必須先登入才能繼續。
+    loginRequired: 需要登入
+    invalidAccountFormat: 無效的學號格式
+    schoolServerUnconnectedTip: 無法連接學校伺服器
 library:
   title: 圖書館
   hotPost: 熱門
@@ -484,7 +522,6 @@ library:
     availableCollection: "在館({available}) / 館藏({collection})"
 settings:
   title: 設定
-  version: 版本
   themeColor: 主題顏色
   fromSystem: 從系統
   credentials:
@@ -495,6 +532,9 @@ settings:
     title: 開發者選項
     devMode:
       title: 開發者模式
+      activateTip: 開發者模式已啟動
+    demoMode:
+      title: 演示模式
     localStorage:
       title: 本機儲存
       desc: 管理在本裝置上的儲存
@@ -525,10 +565,6 @@ settings:
       autoRefresh:
         title: 第二課堂分自動重新整理
         desc: 啟動時重新整理第二課堂分
-    examResult:
-      appCardShowResultDetails:
-        title: 顯示考試成績詳細資料
-        desc: 在考試成績卡片中顯示分數資料
   life:
     title: 生活
     electricity:
@@ -580,6 +616,12 @@ settings:
     desc: 擦除帳戶並登出當前 OA 賬戶
     request: 擦除所有資料
     requestDesc: 這會擦除你本地除網頁快取外的登入資料與其他資料，例如匯入的課程表。
+  about:
+    title: 關於
+    version: 版本
+    icpLicense: ICP 許可證
+    termsOfUse: 使用條款
+    privacyPolicy: 隱私權政策
 oaAnnounce:
   title: OA 公告
   tab:
@@ -606,8 +648,8 @@ oaAnnounce:
     announcement: 公告
     life: 生活服務
     download: 文件下載
-    training: 培养信息
-    academicReport: 学术报告
+    training: 培養資訊
+    academicReport: 學術報告
 yellowPages:
   title: 學校黃頁
 scanner:
@@ -696,5 +738,7 @@ copy: 複製
 preview: 預覽
 upload: 上傳
 pick: 選取
-duplicate: 複製
+duplicate: 創建副本
 copyTip: "{} 被複製到剪貼板了"
+done: 完成
+openInBrowser: 在瀏覽器中開啟

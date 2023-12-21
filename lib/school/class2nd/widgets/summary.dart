@@ -4,44 +4,6 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/attended.dart';
 
-const _targetScores2019 = Class2ndPointsSummary(
-  thematicReport: 1.5,
-  practice: 2,
-  creation: 1.5,
-  schoolSafetyCivilization: 1,
-  voluntary: 1,
-  schoolCulture: 1,
-);
-const _admissionYear2targetScores = {
-  2013: Class2ndPointsSummary(thematicReport: 1, schoolCulture: 1),
-  2014: Class2ndPointsSummary(thematicReport: 1, practice: 1, schoolCulture: 1),
-  2015: Class2ndPointsSummary(thematicReport: 1, practice: 1, creation: 1, schoolCulture: 1),
-  2016: Class2ndPointsSummary(thematicReport: 1, practice: 1, creation: 1, schoolCulture: 1),
-  2017: Class2ndPointsSummary(
-    thematicReport: 1.5,
-    practice: 2,
-    creation: 1.5,
-    schoolSafetyCivilization: 1,
-    schoolCulture: 2,
-  ),
-  2018: Class2ndPointsSummary(
-    thematicReport: 1.5,
-    practice: 2,
-    creation: 1.5,
-    schoolSafetyCivilization: 1,
-    schoolCulture: 2,
-  ),
-  2019: _targetScores2019,
-  2020: _targetScores2019,
-  2021: _targetScores2019,
-  2022: _targetScores2019,
-  2023: _targetScores2019,
-};
-
-Class2ndPointsSummary getTargetScoreOf({required int? admissionYear}) {
-  return _admissionYear2targetScores[admissionYear] ?? _targetScores2019;
-}
-
 class Class2ndScoreSummeryCard extends StatelessWidget {
   final Class2ndPointsSummary targetScore;
   final Class2ndPointsSummary summary;

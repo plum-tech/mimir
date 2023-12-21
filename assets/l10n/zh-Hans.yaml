@@ -1,3 +1,4 @@
+appName: 小应生活
 timetable:
   navigation: 课程表
   jump: 跳转
@@ -14,10 +15,6 @@ timetable:
     deleteRequestDesc: 这个课程表将被永久删除
     emptyTip: 快去导入一个课程表吧！
     details: 详情
-  details:
-    classCode: 教学班
-    courseCode: 课程代码
-    teacher: 教师
   edit:
     name: 名称
   import:
@@ -160,12 +157,30 @@ timetable:
         teachers: 刘老师
 school:
   navigation: 学校
-  schoolYear: 学年
   semester:
-    title: 学期
-    all: 全学年
+    all: 整学年
     term1: 第一学期
     term2: 第二学期
+  allYear: 所有学年
+  course:
+    classCode: 教学班
+    courseCode: 课程代码
+    category: 课程类别
+    credit: 学分
+    teacher: 教师
+    semester: 学期
+    schoolYear: 学年
+    compulsory: 必修
+    elective: 选修
+  courseCat:
+    none: 无
+    genEd: 通识课
+    publicCore: 公共基础课
+    specializedCore: 学科专业基础课
+    specializedCompulsory: 专业必修课
+    specializedElective: 专业选修课
+    integratedPractice: 综合实践
+    practicalInstruction: 实践教学
 life:
   navigation: 生活
 me:
@@ -183,11 +198,15 @@ class2nd:
   noActivities: 没有活动
   noAttendedActivities: 没有参加过的活动
   viewDetails: 查看详情
+  noDetails: 暂无资料
+  details: 活动资料
   apply:
-    btn: 报名
+    btn: 申请
     replyTip: 校方回复
-    applyRequest: 报名
-    applyRequestDesc: 确认报名这个活动吗？
+    applyRequest: 申请
+    applyRequestDesc: 确认申请这个活动吗？
+    applySuccessTip: 申请活动成功
+    applyFailureTip: 申请活动失败
   info:
     activityId: 活动编号
     applicationId: 申请编号
@@ -223,6 +242,7 @@ class2nd:
     conference: 会议
     schoolCultureCompetition: 校园文化竞赛
     paperAndPatent: 论文专利
+    unknown: 未知
   scoreType:
     all: 全部
     thematicReport:
@@ -243,8 +263,16 @@ class2nd:
     schoolSafetyCivilization:
       full: 校园安全文明
       short: 文明
-  noDetails: 暂无资料
-  details: 活动资料
+  applicationResponse:
+    successfulCheck: 检查成功
+    incompleteApplicantInfo: 您的个人信息不全，请补全您的信息
+    alreadyApplied: 您已申请过该活动
+    applicationReachLimitToday: 您今天的申请次数已达上限
+    activityReachParticipantLimit: 该活动的申请人数已达上限
+    activityExpired: 该活动已过期并停止接受申请
+    applicantOccupiedWithinActivity: 您已申请过该时间段的其他活动
+    applicantNotPermitted: 您不能申请该活动
+    applicantNotIncluding: 您不属于该活动的可申请人员范围内
 ywb:
   title: 应网办
   info: |
@@ -266,17 +294,16 @@ captcha:
   enterHint: 请输入验证码
   emptyInputError: 你输入的验证码为空
 credentials:
-  studentId: 学号
   account: 账号
   password: 密码
-  oaAccount: OA 账号
-  oaPwd: OA 密码
-  savedOaPwd: 保存的 OA 密码
-  savedOaPwdDesc: 用于自动登录 OA
   pwd: 密码
   error: 登录凭据错误
-  login: 登录
-  forgotPwd: 忘记密码？
+  oa:
+    studentId: 学号
+    oaAccount: OA 账号
+    oaPwd: OA 密码
+    savedOaPwd: 保存的 OA 密码
+    savedOaPwdDesc: 用于自动登录 OA
 easyconnect:
   launchBtn: 启动 EasyConnect
   launchFailed: 启动失败
@@ -300,9 +327,6 @@ eduEmail:
     addressHint: 学号/工号
     passwordHint: 你的邮箱密码
     invalidEmailAddressFormatTip: 无效的邮箱地址格式
-    failedWarn:
-      title: 登录失败
-      desc: 请检查密码
   info:
     emailAddress: 邮箱地址
   inbox:
@@ -318,13 +342,25 @@ examResult:
   check: 查询
   teacherEval: 评教
   noResultsTip: 无考试结果记录
-  lessonNotEvaluated: 未评教
+  courseNotEval: 未评教
   teacherEvalTitle: 评教
-  lessonSelected: "已选 {} 门"
-  gpaResult: "绩点: {}"
-  compulsory: 必修
-  credit: 学分
-  elective: 选修
+  examRequireEvalTip: 分数将在评教此课程后可查看
+  score: 考试分数
+  publishTime: 发布时间
+  maxScore: 最高分数
+  gpa:
+    title: 绩点
+    lessonSelected: "已选 {} 门"
+    gpaResult: "绩点: {}"
+    selectAll: 全选
+    invert: 反选
+    exceptGenEd: 除去通识课
+    exceptFailed: 除去未通过
+  examType:
+    title: 考试性质
+    normal: 正常考试
+    resit: 补考
+    retake: 重修
 examArrange:
   title: 考试安排
   check: 查询
@@ -410,25 +446,28 @@ networkTool:
   connectedByWlan: 已通过 WLAN 连接到校园网
   connectedByEthernet: 已通过以太网连接到校园网
 login:
-  welcomeHeader: 欢迎！
-  loginOa: 登录 OA
+  login: 登录
+  forgotPwd: 忘记密码？
   validateInputAccountPwdRequest: 请检查你输入的账号与密码
   credentialsValidatedTip: 账号与密码验证成功
   accountOrPwdErrorTip: 账号或密码不正确
   captchaErrorTip: 验证码不正确
   accountFrozenTip: 账号处于冻结状态
-  schoolServerUnconnectedTip: 无法连接学校服务器
   unknownAuthErrorTip: 未知账号验证错误
-  accountHint: 学号/工号
   loggedInTip: 登录成功
   notLoggedIn: 未登录
   invalidAccountFormat: 账号格式不正确
   offlineModeBtn: 离线模式
-  oaPwdHint: 输入你的OA密码
   failedWarn: 登录失败
   formatError: 格式错误
-  loginRequired: 需要登录
-  neverLoggedInTip: 你必须先登录才能继续。
+  oa:
+    loginOa: 登录 OA
+    welcomeHeader: 欢迎！
+    accountHint: 学号/工号
+    oaPwdHint: 输入你的OA密码
+    loginRequired: 需要登录
+    neverLoggedInTip: 你必须先登录才能继续。
+    schoolServerUnconnectedTip: 无法连接学校服务器
 library:
   title: 图书馆
   hotPost: 热搜
@@ -483,7 +522,6 @@ library:
     availableCollection: "在馆({available}) / 馆藏({collection})"
 settings:
   title: 设置
-  version: 版本
   themeColor: 主题色
   fromSystem: 根据系统
   credentials:
@@ -494,6 +532,9 @@ settings:
     title: 开发者选项
     devMode:
       title: 开发者模式
+      activateTip: 开发者模式已激活
+    demoMode:
+      title: 演示模式
     localStorage:
       title: 本地存储
       desc: 管理在此设备上存储的数据
@@ -524,10 +565,6 @@ settings:
       autoRefresh:
         title: 第二课堂分自动刷新
         desc: 启动时刷新第二课堂分
-    examResult:
-      appCardShowResultDetails:
-        title: 显示考试成绩细则
-        desc: 在考试成绩卡片中显示详细分数
   life:
     title: 生活
     electricity:
@@ -579,6 +616,12 @@ settings:
     desc: 擦除所有数据并登出当前 OA 账号
     request: 擦除所有数据
     requestDesc: 此操作将永久擦除你的登录凭据，缓存和其他信息，如已导入的课程表。
+  about:
+    title: 关于
+    version: 版本
+    icpLicense: ICP 备案号
+    termsOfUse: 使用条款
+    privacyPolicy: 隐私政策
 oaAnnounce:
   title: OA 公告
   tab:
@@ -605,8 +648,8 @@ oaAnnounce:
     announcement: 公告信息
     life: 生活服务
     download: 文件下载专区
-    training: 培養資訊
-    academicReport: 學術報告
+    training: 培养信息
+    academicReport: 学术报告
 yellowPages:
   title: 学校黄页
 scanner:
@@ -695,5 +738,7 @@ copy: 复制
 preview: 预览
 upload: 上传
 pick: 选择
-duplicate: 复制
+duplicate: 创建副本
 copyTip: "已复制 {} 到剪贴板了"
+done: 完成
+openInBrowser: 在浏览器中打开

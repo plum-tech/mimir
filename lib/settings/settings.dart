@@ -24,6 +24,7 @@ class _DeveloperK {
   static const ns = '/developer';
   static const devMode = '$ns/devMode';
   static const savedOaCredentialsList = '$ns/savedOaCredentialsList';
+  static const demoMode = '$ns/demoMode';
 }
 
 // ignore: non_constant_identifier_names
@@ -57,11 +58,18 @@ class SettingsImpl {
   set lastSignature(String? value) => box.put(_K.lastSignature, value);
 
   /// [false] by default.
-  bool get isDeveloperMode => box.get(_DeveloperK.devMode) ?? false;
+  bool get devMode => box.get(_DeveloperK.devMode) ?? false;
 
-  set isDeveloperMode(bool newV) => box.put(_DeveloperK.devMode, newV);
+  set devMode(bool newV) => box.put(_DeveloperK.devMode, newV);
 
-  ValueListenable<Box> listenIsDeveloperMode() => box.listenable(keys: [_DeveloperK.devMode]);
+  ValueListenable<Box> listenDevMode() => box.listenable(keys: [_DeveloperK.devMode]);
+
+  /// [false] by default.
+  bool get demoMode => box.get(_DeveloperK.demoMode) ?? false;
+
+  set demoMode(bool newV) => box.put(_DeveloperK.demoMode, newV);
+
+  ValueListenable<Box> listenDemoMode() => box.listenable(keys: [_DeveloperK.demoMode]);
 
   List<Credentials>? getSavedOaCredentialsList() =>
       (box.get(_DeveloperK.savedOaCredentialsList) as List?)?.cast<Credentials>();

@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/animation/progress.dart';
+import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
-import 'package:sit/design/widgets/fab.dart';
-import 'package:sit/design/widgets/multi_select.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/school/widgets/semester.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/utils/error.dart';
+import 'package:sit/utils/guard_launch.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../entity/result.ug.dart';
 import '../init.dart';
 import '../widgets/ug.dart';
-import '../utils.dart';
 import '../i18n.dart';
+import 'evaluation.dart';
 
 class ExamResultUgPage extends StatefulWidget {
   const ExamResultUgPage({super.key});
@@ -24,44 +27,39 @@ class ExamResultUgPage extends StatefulWidget {
 }
 
 class _ExamResultUgPageState extends State<ExamResultUgPage> {
-  List<ExamResultUg>? resultList;
+  late List<ExamResultUg>? resultList = ExamResultInit.ugStorage.getResultList(initial);
   bool isFetching = false;
-  final controller = ScrollController();
-  bool isSelecting = false;
   final $loadingProgress = ValueNotifier(0.0);
-  final multiselect = MultiselectController();
-  late SemesterInfo initial = () {
-    final now = DateTime.now();
-    return ExamResultInit.ugStorage.lastSemesterInfo ??
-        SemesterInfo(
-          year: now.month >= 9 ? now.year : now.year - 1,
-          semester: Semester.all,
-        );
-  }();
+  late SemesterInfo initial = ExamResultInit.ugStorage.lastSemesterInfo ?? estimateCurrentSemester();
   late SemesterInfo selected = initial;
 
   @override
   void initState() {
     super.initState();
-    refresh(initial);
+    onChangeSemester(initial);
   }
 
   @override
   void dispose() {
-    multiselect.dispose();
+    $loadingProgress.dispose();
     super.dispose();
   }
 
-  Future<void> refresh(SemesterInfo info) async {
+  Future<void> onChangeSemester(SemesterInfo info) async {
     if (!mounted) return;
     setState(() {
+      // loading cache instantly
       resultList = ExamResultInit.ugStorage.getResultList(info);
       isFetching = true;
     });
     try {
-      final resultList = await ExamResultInit.ugService.fetchResultList(info, onProgress: (p) {
-        $loadingProgress.value = p;
-      });
+      final resultList = await ExamResultInit.ugService.fetchResultList(
+        info,
+        onProgress: (p) {
+          if (!mounted) return;
+          $loadingProgress.value = p;
+        },
+      );
       await ExamResultInit.ugStorage.setResultList(info, resultList);
       // Prevents the former query replace new query.
       if (info == selected) {
@@ -86,80 +84,54 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
   Widget build(BuildContext context) {
     final resultList = this.resultList;
     return Scaffold(
-      body: MultiselectScope<ExamResultUg>(
-        controller: multiselect,
-        dataSource: resultList ?? const [],
-        // Set this to true if you want automatically
-        // clear selection when user tap back button
-        clearSelectionOnPop: true,
-        // When you update [dataSource] then selected indexes will update
-        // so that the same elements in new [dataSource] are selected
-        keepSelectedItemsBetweenUpdates: true,
-        initialSelectedIndexes: null,
-        // Callback that call on selection changing
-        onSelectionChanged: (indexes, items) {
-          setState(() {});
-        },
-        child: CustomScrollView(
-          controller: controller,
-          slivers: [
-            SliverAppBar(
-              pinned: true,
-              expandedHeight: 200,
-              flexibleSpace: FlexibleSpaceBar(
-                title: buildTitle(),
-                centerTitle: true,
-                titlePadding: const EdgeInsetsDirectional.only(start: 16, bottom: 16),
-                background: buildSemesterSelector(),
-              ),
-              bottom: isFetching
-                  ? PreferredSize(
-                      preferredSize: const Size.fromHeight(4),
-                      child: $loadingProgress >> (ctx, value) => AnimatedProgressBar(value: value),
-                    )
-                  : null,
-            ),
-            if (resultList != null)
-              if (resultList.isEmpty)
-                SliverFillRemaining(
-                  child: LeavingBlank(
-                    icon: Icons.inbox_outlined,
-                    desc: i18n.noResultsTip,
-                  ),
-                )
-              else
-                SliverList.builder(
-                  itemCount: resultList.length,
-                  itemBuilder: (item, i) => ExamResultUgSelectableCard(
-                    resultList[i],
-                    index: i,
-                    isSelectingMode: isSelecting,
-                    elevated: false,
-                  ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar.medium(
+            title: i18n.title.text(),
+            actions: [
+              PlatformTextButton(
+                child: i18n.teacherEval.text(),
+                onPressed: () async {
+                  if (UniversalPlatform.isDesktop) {
+                    await guardLaunchUrl(context, teacherEvaluationUri);
+                  } else {
+                    await context.push("/teacher-eval");
+                  }
+                },
+              )
+            ],
+          ),
+          SliverToBoxAdapter(
+            child: buildSemesterSelector(),
+          ),
+          if (resultList != null)
+            if (resultList.isEmpty)
+              SliverFillRemaining(
+                child: LeavingBlank(
+                  icon: Icons.inbox_outlined,
+                  desc: i18n.noResultsTip,
                 ),
-          ],
-        ),
+              )
+            else
+              SliverList.builder(
+                itemCount: resultList.length,
+                itemBuilder: (item, i) => ExamResultUgTile(
+                  resultList[i],
+                ).inFilledCard(clip: Clip.hardEdge),
+              ),
+        ],
       ),
-      floatingActionButton: AutoHideFAB.extended(
-        controller: controller,
-        alwaysShow: isSelecting,
-        onPressed: () {
-          setState(() {
-            isSelecting = !isSelecting;
-            if (isSelecting == false) {
-              multiselect.clearSelection();
-            }
-          });
-        },
-        label: Text(isSelecting ? i18n.unselect : i18n.select),
-        icon: Icon(isSelecting ? Icons.check_box_outlined : Icons.check_box_outline_blank),
-      ),
+      bottomNavigationBar: isFetching
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(4),
+              child: $loadingProgress >> (ctx, value) => AnimatedProgressBar(value: value),
+            )
+          : null,
     );
   }
 
   Widget buildSemesterSelector() {
     return SemesterSelector(
-      showEntireYear: true,
       initial: initial,
       baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
       onSelected: (newSelection) {
@@ -167,30 +139,8 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
           selected = newSelection;
         });
         ExamResultInit.ugStorage.lastSemesterInfo = newSelection;
-        refresh(newSelection);
+        onChangeSemester(newSelection);
       },
     );
-  }
-
-  Widget buildTitle() {
-    final resultList = this.resultList;
-    final style = context.textTheme.headlineSmall;
-    final selectedExams = isSelecting ? multiselect.getSelectedItems().cast<ExamResultUg>() : resultList;
-    if (selectedExams != null) {
-      final gpa = calcGPA(selectedExams.where((exam) => exam.hasScore));
-      if (isSelecting) {
-        return [
-          i18n.lessonSelected(selectedExams.length).text(textAlign: TextAlign.center, style: style).expanded(),
-          i18n.gpaResult(gpa).text(textAlign: TextAlign.center, style: style).expanded(),
-        ].row();
-      } else {
-        return [
-          selected.semester.localized().text(textAlign: TextAlign.center, style: style).expanded(),
-          i18n.gpaResult(gpa).text(textAlign: TextAlign.center, style: style).expanded(),
-        ].row();
-      }
-    } else {
-      return i18n.title.text(style: style);
-    }
   }
 }

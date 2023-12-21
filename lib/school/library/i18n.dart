@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:sit/credentials/i18n.dart';
 import 'package:sit/l10n/common.dart';
+import 'package:sit/login/i18n.dart';
 
 const i18n = _I18n();
 
@@ -38,10 +38,8 @@ class _Action {
   String get borrowing => "$ns.borrowing".tr();
 }
 
-class _Login {
+class _Login extends CommonLoginI18n {
   const _Login();
-
-  final credentials = const CredentialsI18n();
 
   static const ns = "${_I18n.ns}.login";
 
@@ -50,10 +48,6 @@ class _Login {
   String get readerIdHint => "$ns.readerIdHint".tr();
 
   String get passwordHint => "$ns.passwordHint".tr();
-
-  String get failedWarn => "$ns.failedWarn.title".tr();
-
-  String get failedWarnDesc => "$ns.failedWarn.desc".tr();
 }
 
 class _Info {

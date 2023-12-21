@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:sit/school/entity/school.dart';
+import 'package:rettulf/rettulf.dart';
+import 'package:sit/school/entity/icon.dart';
 
 class CourseIcon extends StatelessWidget {
   final String courseName;
@@ -15,9 +16,9 @@ class CourseIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      CourseCategory.iconPathOf(courseName: courseName),
+      CourseIcons.iconPathOf(courseName: courseName),
       width: size,
       height: size,
-    );
+    ).sized(w: kDefaultSize, h: kDefaultSize);
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/common.dart';
 
-import '../entity/list.dart';
+import '../entity/activity.dart';
 import '../init.dart';
 import '../i18n.dart';
 import '../page/details.dart';

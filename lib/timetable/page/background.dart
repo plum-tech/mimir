@@ -43,15 +43,14 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            floating: true,
+          SliverAppBar.medium(
             title: i18n.p13n.background.title.text(),
             actions: [
               if (background.enabled)
                 PlatformTextButton(
                   onPressed: () async {
                     setState(() {
-                      this.background = background.disabledCopyWith();
+                      this.background = background.copyWith(path: "");
                     });
                   },
                   child: i18n.delete.text(style: TextStyle(color: context.$red$)),

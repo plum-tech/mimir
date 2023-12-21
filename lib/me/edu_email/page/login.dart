@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
-import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/login/utils.dart';
 import 'package:sit/login/widgets/forgot_pwd.dart';
 import 'package:sit/r.dart';
 import 'package:rettulf/rettulf.dart';
@@ -72,59 +72,62 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
     return Form(
       autovalidateMode: AutovalidateMode.always,
       key: _formKey,
-      child: Column(
-        children: [
-          TextFormField(
-            controller: $username,
-            textInputAction: TextInputAction.next,
-            autofocus: true,
-            readOnly: !kDebugMode && initialAccount != null,
-            autocorrect: false,
-            enableSuggestions: false,
-            validator: (username) {
-              if (username == null) return null;
-              if (EmailValidator.validate(R.formatEduEmail(username: username))) return null;
-              return i18n.login.invalidEmailAddressFormatTip;
-            },
-            decoration: InputDecoration(
-              labelText: i18n.info.emailAddress,
-              hintText: i18n.login.addressHint,
-              suffixText: "@${R.eduEmailDomain}",
-              icon: const Icon(Icons.alternate_email_outlined),
-            ),
-          ),
-          TextFormField(
-            controller: $password,
-            autofocus: true,
-            keyboardType: isPasswordClear ? TextInputType.visiblePassword : null,
-            textInputAction: TextInputAction.send,
-            contextMenuBuilder: (ctx, state) {
-              return AdaptiveTextSelectionToolbar.editableText(
-                editableTextState: state,
-              );
-            },
-            autocorrect: false,
-            enableSuggestions: false,
-            obscureText: !isPasswordClear,
-            onFieldSubmitted: (inputted) async {
-              if (!isLoggingIn) {
-                await onLogin();
-              }
-            },
-            decoration: InputDecoration(
-              labelText: i18n.login.credentials.password,
-              icon: const Icon(Icons.lock),
-              suffixIcon: IconButton(
-                icon: Icon(isPasswordClear ? Icons.visibility : Icons.visibility_off),
-                onPressed: () {
-                  setState(() {
-                    isPasswordClear = !isPasswordClear;
-                  });
-                },
+      child: AutofillGroup(
+        child: Column(
+          children: [
+            TextFormField(
+              controller: $username,
+              textInputAction: TextInputAction.next,
+              autofocus: true,
+              readOnly: !kDebugMode && initialAccount != null,
+              autocorrect: false,
+              enableSuggestions: false,
+              validator: (username) {
+                if (username == null) return null;
+                if (EmailValidator.validate(R.formatEduEmail(username: username))) return null;
+                return i18n.login.invalidEmailAddressFormatTip;
+              },
+              decoration: InputDecoration(
+                labelText: i18n.info.emailAddress,
+                hintText: i18n.login.addressHint,
+                suffixText: "@${R.eduEmailDomain}",
+                icon: const Icon(Icons.alternate_email_outlined),
               ),
             ),
-          ),
-        ],
+            TextFormField(
+              controller: $password,
+              autofocus: true,
+              keyboardType: isPasswordClear ? TextInputType.visiblePassword : null,
+              textInputAction: TextInputAction.send,
+              contextMenuBuilder: (ctx, state) {
+                return AdaptiveTextSelectionToolbar.editableText(
+                  editableTextState: state,
+                );
+              },
+              autocorrect: false,
+              enableSuggestions: false,
+              obscureText: !isPasswordClear,
+              onFieldSubmitted: (inputted) async {
+                if (!isLoggingIn) {
+                  await onLogin();
+                }
+              },
+              decoration: InputDecoration(
+                labelText: i18n.login.credentials.password,
+                icon: const Icon(Icons.lock),
+                hintText: i18n.login.passwordHint,
+                suffixIcon: IconButton(
+                  icon: Icon(isPasswordClear ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      isPasswordClear = !isPasswordClear;
+                    });
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -141,7 +144,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
                     }
                   : null,
               icon: const Icon(Icons.login),
-              label: i18n.login.credentials.login.text().padAll(5),
+              label: i18n.login.login.text().padAll(5),
             );
   }
 
@@ -158,12 +161,12 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       context.replace("/edu-email/inbox");
-    } catch (err) {
-      if (!mounted) return;
-      await context.showTip(title: i18n.login.failedWarn, desc: i18n.login.failedWarnDesc, ok: i18n.ok);
+    } catch (error, stackTrace) {
       if (!mounted) return;
       setState(() => isLoggingIn = false);
-      return;
+      if (error is Exception) {
+        await handleLoginException(context: context, error: error, stackTrace: stackTrace);
+      }
     }
   }
 }

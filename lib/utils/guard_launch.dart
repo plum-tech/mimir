@@ -1,28 +1,32 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sit/utils/error.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<bool> guardLaunchUrl(BuildContext ctx, Uri url) async {
   if (url.scheme == "http" || url.scheme == "https") {
-    // guards the http(s)
-    if (!UniversalPlatform.isDesktop) {
-      ctx.push(Uri(
-        path: "/browser",
-        queryParameters: {"url": url},
-      ).toString());
-      return true;
-    }
     try {
+      // guards the http(s)
+      if (!UniversalPlatform.isDesktop) {
+        final target = Uri(
+          path: "/browser",
+          queryParameters: {"url": url.toString()},
+        ).toString();
+        ctx.push(target);
+        return true;
+      }
       return await launchUrl(url, mode: LaunchMode.externalApplication);
-    } catch (err) {
+    } catch (error, stackTrace) {
+      debugPrintError(error, stackTrace);
       return false;
     }
   }
   // not http(s)
   try {
     return await launchUrl(url);
-  } catch (err) {
+  } catch (error, stackTrace) {
+    debugPrintError(error, stackTrace);
     return false;
   }
 }

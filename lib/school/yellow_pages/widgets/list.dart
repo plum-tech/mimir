@@ -50,12 +50,20 @@ class _SchoolContactListState extends State<SchoolContactList> {
       slivers: department2contacts.entries
           .mapIndexed(
             (i, entry) => GroupedSection(
+              headerBuilder: (expanded, toggleExpand, defaultTrailing) {
+                return ListTile(
+                  title: entry.key.text(),
+                  titleTextStyle: context.textTheme.titleMedium,
+                  onTap: toggleExpand,
+                  trailing: defaultTrailing,
+                );
+              },
               initialExpanded: widget.isInitialExpanded?.call(i, department2contacts.length) ?? true,
-              title: entry.key.text(),
-              items: entry.value,
-              itemBuilder: (ctx, i, contact) {
+              itemCount: entry.value.length,
+              itemBuilder: (ctx, i) {
+                final contact = entry.value[i];
                 final inHistory = history?.any((e) => e == contact);
-                return ContactTile(contact, inHistory: inHistory).inOutlinedCard();
+                return ContactTile(contact, inHistory: inHistory).inFilledCard();
               },
             ),
           )

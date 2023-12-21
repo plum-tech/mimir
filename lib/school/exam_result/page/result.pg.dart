@@ -60,8 +60,7 @@ class _ExamResultPgPageState extends State<ExamResultPgPage> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            pinned: true,
+          SliverAppBar.medium(
             title: i18n.title.text(),
             bottom: isFetching
                 ? const PreferredSize(

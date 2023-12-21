@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/l10n/extension.dart';
-import 'package:sit/school/entity/school.dart';
+import 'package:sit/school/utils.dart';
 
 part 'exam.g.dart';
 
@@ -58,6 +58,7 @@ class ExamEntry {
   @JsonKey()
   final String place;
 
+  // TODO: Use Campus enum
   /// 考试校区
   @JsonKey()
   final String campus;

@@ -1,8 +1,10 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'background.g.dart';
 
 @JsonSerializable()
+@CopyWith(skipFields: true)
 class BackgroundImage {
   @JsonKey()
   final String path;
@@ -45,33 +47,6 @@ class BackgroundImage {
 
   @override
   int get hashCode => Object.hash(path, opacity, repeat, antialias);
-
-  BackgroundImage copyWith({
-    String? path,
-    double? opacity,
-    bool? repeat,
-    bool? antialias,
-  }) {
-    return BackgroundImage(
-      path: path ?? this.path,
-      opacity: opacity ?? this.opacity,
-      repeat: repeat ?? this.repeat,
-      antialias: antialias ?? this.antialias,
-    );
-  }
-
-  BackgroundImage disabledCopyWith({
-    double? opacity,
-    bool? repeat,
-    bool? antialias,
-  }) {
-    return BackgroundImage(
-      path: "",
-      opacity: opacity ?? this.opacity,
-      repeat: repeat ?? this.repeat,
-      antialias: antialias ?? this.antialias,
-    );
-  }
 
   @override
   String toString() {

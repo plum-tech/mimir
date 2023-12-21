@@ -3,10 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:sit/init.dart';
 
-import 'package:sit/school/entity/school.dart';
+import 'package:sit/school/utils.dart';
 import 'package:sit/session/class2nd.dart';
 
-import '../entity/list.dart';
+import '../entity/activity.dart';
 import '../entity/attended.dart';
 
 class Class2ndPointsService {
@@ -14,13 +14,13 @@ class Class2ndPointsService {
   static const scoreUrl = 'http://sc.sit.edu.cn/public/pcenter/scoreDetail.action';
   static const myEventUrl = 'http://sc.sit.edu.cn/public/pcenter/activityOrderList.action?pageSize=999';
 
-  Class2ndSession get session => Init.class2ndSession;
+  Class2ndSession get _session => Init.class2ndSession;
 
   const Class2ndPointsService();
 
   /// 获取第二课堂分数
   Future<Class2ndPointsSummary> fetchScoreSummary() async {
-    final response = await session.request(
+    final response = await _session.request(
       homeUrl,
       options: Options(
         method: "POST",
@@ -136,7 +136,7 @@ class Class2ndPointsService {
 
   /// 获取我的得分列表
   Future<List<Class2ndPointItem>> fetchScoreItemList() async {
-    final response = await session.request(
+    final response = await _session.request(
       scoreUrl,
       options: Options(
         method: "POST",
@@ -167,7 +167,7 @@ class Class2ndPointsService {
       return Class2ndPointItem(
         name: mapChinesePunctuations(title),
         activityId: id,
-        category: category!,
+        category: category ?? Class2ndActivityCat.unknown,
         time: time,
         points: points,
         honestyPoints: honestyPoints,
@@ -182,7 +182,7 @@ class Class2ndPointsService {
 
   /// 获取我的活动列表
   Future<List<Class2ndActivityApplication>> fetchActivityApplicationList() async {
-    final response = await session.request(
+    final response = await _session.request(
       myEventUrl,
       options: Options(
         method: "POST",
@@ -223,7 +223,7 @@ class Class2ndPointsService {
       applicationId: applicationId,
       activityId: activityId,
       title: mapChinesePunctuations(title),
-      category: category!,
+      category: category ?? Class2ndActivityCat.unknown,
       time: time,
       status: status,
     );

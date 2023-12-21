@@ -4,7 +4,7 @@ import 'package:sit/storage/hive/type_id.dart';
 
 import 'attended.dart';
 
-part 'list.g.dart';
+part 'activity.g.dart';
 
 @HiveType(typeId: CacheHiveType.activityCat)
 enum Class2ndActivityCat {
@@ -77,10 +77,14 @@ enum Class2ndActivityCat {
   paperAndPatent(
     "8ab17f533ff05c27013ff06d10bf0001",
     Class2ndPointType.creation,
-  );
+  ),
+  @HiveField(11)
+  unknown(null);
 
-  final String id;
+  final String? id;
   final Class2ndPointType? pointType;
+
+  bool get canFetchData => id != null;
 
   const Class2ndActivityCat(this.id, [this.pointType]);
 
@@ -90,29 +94,30 @@ enum Class2ndActivityCat {
 
   /// Don't Change this.
   /// Strings from school API
-  static Class2ndActivityCat? parse(String catName) {
-    if (catName == "讲座报告") {
+  static Class2ndActivityCat? parse(String name) {
+    // To prevent ellipsis
+    name = name.replaceAll(".", "");
+    if (name == "讲座报告") {
       return Class2ndActivityCat.lecture;
-    } else if (catName == "主题教育") {
+    } else if (name == "主题教育") {
       return Class2ndActivityCat.lecture;
-    } else if (catName == "校园文化活动") {
+    } else if (name == "校园文化活动") {
       return Class2ndActivityCat.schoolCultureActivity;
-    } else if (catName == "校园文化竞赛活动") {
+    } else if (name == "校园文化竞赛活动") {
       return Class2ndActivityCat.schoolCultureCompetition;
-    } else if (catName == "创新创业创意") {
+    } else if (name == "创新创业创意") {
       return Class2ndActivityCat.creation;
-    } else if (catName == "论文专利") {
+    } else if (name == "论文专利") {
       return Class2ndActivityCat.paperAndPatent;
-    } else if (catName == "社会实践") {
+    } else if (name == "社会实践") {
       return Class2ndActivityCat.practice;
-    } else if (catName == "志愿公益") {
+    } else if (name == "志愿公益") {
       return Class2ndActivityCat.voluntary;
-    } else if (catName.contains("安全教育网络教学")) {
-      // To prevent ellipsis
+    } else if (name == "安全教育网络教学") {
       return Class2ndActivityCat.onlineSafetyEdu;
-    } else if (catName == "校园文明") {
+    } else if (name == "校园文明") {
       return Class2ndActivityCat.schoolCivilization;
-    } else if (catName.contains("会议")) {
+    } else if (name.contains("会议")) {
       return Class2ndActivityCat.conference;
     }
     return null;

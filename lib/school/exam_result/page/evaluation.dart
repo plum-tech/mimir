@@ -9,7 +9,6 @@ import 'package:sit/widgets/webview/page.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../init.dart';
 import '../i18n.dart';
 
 class TeacherEvaluationPage extends StatefulWidget {
@@ -62,7 +61,7 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
 
   Future<void> loadCookies() async {
     // refresh the cookies
-    await ExamResultInit.ugService.session.request(
+    await Init.jwxtSession.request(
       teacherEvaluationUri.toString(),
       options: Options(
         method: "GET",
@@ -88,7 +87,7 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
           js: _skipCountingDownPageJs,
         ),
       ],
-      bottomNavigationBar: Settings.isDeveloperMode
+      bottomNavigationBar: Settings.devMode
           ? BottomAppBar(
               height: 40,
               child: buildAutofillScore(),

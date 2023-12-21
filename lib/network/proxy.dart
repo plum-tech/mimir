@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:sit/settings/settings.dart';
 
 class SitHttpOverrides extends HttpOverrides {
@@ -17,6 +18,9 @@ class SitHttpOverrides extends HttpOverrides {
         return 'DIRECT';
       } else {
         final env = _toEnvMap(profiles);
+        if (kDebugMode) {
+          print("Access $url ${env.isEmpty ? "bypass proxy" : "by proxy $env"}");
+        }
         // TODO: Socks proxy doesn't work with env
         return HttpClient.findProxyFromEnvironment(
           url,

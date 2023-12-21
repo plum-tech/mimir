@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sit/l10n/common.dart';
+import 'package:sit/school/i18n.dart';
 
 const i18n = _I18n();
 
@@ -10,8 +11,8 @@ class _I18n with CommonI18nMixin {
   final time = const TimeI18n();
   final mine = const _Mine();
   final p13n = const _P13n();
-  final details = const _Details();
   final import = const _Import();
+  final course = const CourseI18n();
   final export = const _Export();
   final screenshot = const _Screenshot();
   final editor = const _Editor();
@@ -164,18 +165,6 @@ class _Background {
   String get antialias => "$ns.antialias.title".tr();
 
   String get antialiasDesc => "$ns.antialias.desc".tr();
-}
-
-class _Details {
-  const _Details();
-
-  static const ns = "${_I18n.ns}.details";
-
-  String get classCode => "$ns.classCode".tr();
-
-  String get courseCode => "$ns.courseCode".tr();
-
-  String get teacher => "$ns.teacher".tr();
 }
 
 class _Screenshot {

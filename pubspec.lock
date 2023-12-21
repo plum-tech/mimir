@@ -37,10 +37,10 @@ packages:
     dependency: "direct main"
     description:
       name: app_links
-      sha256: eb83c2b15b78a66db04e95132678e910fcdb8dc3a9b0aed0c138f50b2bef0dae
+      sha256: "4e392b5eba997df356ca6021f28431ce1cfeb16758699553a94b13add874a3bb"
       url: "https://pub.dev"
     source: hosted
-    version: "3.4.5"
+    version: "3.5.0"
   app_settings:
     dependency: "direct main"
     description:
@@ -305,6 +305,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.8"
+  copy_with_extension:
+    dependency: "direct main"
+    description:
+      name: copy_with_extension
+      sha256: fbcf890b0c34aedf0894f91a11a579994b61b4e04080204656b582708b5b1125
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.4"
+  copy_with_extension_gen:
+    dependency: "direct dev"
+    description:
+      name: copy_with_extension_gen
+      sha256: "51cd11094096d40824c8da629ca7f16f3b7cea5fc44132b679617483d43346b0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.4"
   coverage:
     dependency: transitive
     description:
@@ -413,10 +429,10 @@ packages:
     dependency: "direct main"
     description:
       name: dynamic_color
-      sha256: "8b8bd1d798bd393e11eddeaa8ae95b12ff028bf7d5998fc5d003488cd5f4ce2f"
+      sha256: a866f1f8947bfdaf674d7928e769eac7230388a2e7a2542824fad4bb5b87be3b
       url: "https://pub.dev"
     source: hosted
-    version: "1.6.8"
+    version: "1.6.9"
   easy_localization:
     dependency: "direct main"
     description:
@@ -695,10 +711,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_svg_provider
-      sha256: "13d85033c6ae63c8073268f9c5c3c74e5de178224183eaff1d47f08f70c59fcc"
+      sha256: cda47ab350671ba51ae4605d48f4c82fa5a2c399d22ebda367c1b407234c5048
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.6"
+    version: "1.0.7"
   flutter_swipe_action_cell:
     dependency: "direct main"
     description:
@@ -817,10 +833,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: c5fa45fa502ee880839e3b2152d987c44abae26d064a2376d4aad434cf0f7b15
+      sha256: ca7e4a2249f96773152f1853fa25933ac752495cdd7fdf5dafb9691bd05830fd
       url: "https://pub.dev"
     source: hosted
-    version: "12.1.3"
+    version: "13.0.0"
   graphs:
     dependency: transitive
     description:
@@ -829,6 +845,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.1"
+  gtk:
+    dependency: transitive
+    description:
+      name: gtk
+      sha256: e8ce9ca4b1df106e4d72dad201d345ea1a036cc12c360f1a7d5a758f78ffa42c
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   hive:
     dependency: "direct main"
     description:
@@ -897,10 +921,10 @@ packages:
     dependency: "direct main"
     description:
       name: image_picker
-      sha256: "7d7f2768df2a8b0a3cefa5ef4f84636121987d403130e70b17ef7e2cf650ba84"
+      sha256: fc712337719239b0b6e41316aa133350b078fa39b6cbd706b61f3fd421b03c77
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.5"
   image_picker_android:
     dependency: transitive
     description:
@@ -1694,10 +1718,10 @@ packages:
     dependency: "direct main"
     description:
       name: synchronized
-      sha256: "5fcbd27688af6082f5abd611af56ee575342c30e87541d0245f7ff99faa02c60"
+      sha256: "539ef412b170d65ecdafd780f924e5be3f60032a1128df156adad6c5b373d558"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.0"
+    version: "3.1.0+1"
   system_theme:
     dependency: "direct main"
     description:
@@ -1862,10 +1886,10 @@ packages:
     dependency: "direct main"
     description:
       name: uuid
-      sha256: df5a4d8f22ee4ccd77f8839ac7cb274ebc11ef9adcce8b92be14b797fe889921
+      sha256: "22c94e5ad1e75f9934b766b53c742572ee2677c56bc871d850a57dad0f82127f"
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.1"
+    version: "4.2.2"
   vector_graphics:
     dependency: transitive
     description:
@@ -2092,4 +2116,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.2.2 <4.0.0"
-  flutter: ">=3.16.3"
+  flutter: ">=3.16.5"

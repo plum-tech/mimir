@@ -99,7 +99,7 @@ class _MePageState extends State<MePage> {
       onPressed: () async {
         final res = await context.push("/tools/scanner");
         if (!mounted) return;
-        if (Settings.isDeveloperMode) {
+        if (Settings.devMode) {
           await context.showTip(title: "Result", desc: res.toString(), ok: i18n.ok);
         }
         if (!mounted) return;

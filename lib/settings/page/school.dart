@@ -35,19 +35,15 @@ class _SchoolSettingsPageState extends State<SchoolSettingsPage> {
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
         slivers: [
-          SliverAppBar(
+          SliverAppBar.large(
             pinned: true,
             snap: false,
             floating: false,
-            expandedHeight: 100.0,
-            flexibleSpace: FlexibleSpaceBar(
-              title: i18n.school.title.text(style: context.textTheme.headlineSmall),
-            ),
+            title: i18n.school.title.text(),
           ),
           SliverList.list(
             children: [
               if (userType?.capability.enableClass2nd == true) buildClass2ndAutoRefreshToggle(),
-              if (userType?.capability.enableExamResult == true) buildExamResultShowDetailsToggle(),
             ],
           ),
         ],
@@ -66,24 +62,6 @@ class _SchoolSettingsPageState extends State<SchoolSettingsPage> {
           onChanged: (newV) {
             setState(() {
               Settings.school.class2nd.autoRefresh = newV;
-            });
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget buildExamResultShowDetailsToggle() {
-    return StatefulBuilder(
-      builder: (ctx, setState) => ListTile(
-        title: i18n.school.examResult.appCardShowResultDetails.text(),
-        subtitle: i18n.school.examResult.appCardShowResultDetailsDesc.text(),
-        leading: const Icon(Icons.refresh_outlined),
-        trailing: Switch.adaptive(
-          value: Settings.school.examResult.appCardShowResultDetails,
-          onChanged: (newV) {
-            setState(() {
-              Settings.school.examResult.appCardShowResultDetails = newV;
             });
           },
         ),

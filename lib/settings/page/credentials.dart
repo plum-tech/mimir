@@ -28,14 +28,11 @@ class _CredentialsPageState extends State<CredentialsPage> {
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
         slivers: <Widget>[
-          SliverAppBar(
+          SliverAppBar.large(
             pinned: true,
             snap: false,
             floating: false,
-            expandedHeight: 100.0,
-            flexibleSpace: FlexibleSpaceBar(
-              title: i18n.credentials.oaAccount.text(style: context.textTheme.headlineSmall),
-            ),
+            title: i18n.oaCredentials.oaAccount.text(),
           ),
           buildBody(),
         ],
@@ -64,12 +61,12 @@ class _CredentialsPageState extends State<CredentialsPage> {
 
   Widget buildAccount(Credentials credential) {
     return ListTile(
-      title: i18n.credentials.oaAccount.text(),
+      title: i18n.oaCredentials.oaAccount.text(),
       subtitle: credential.account.text(),
       leading: const Icon(Icons.person_rounded),
       trailing: const Icon(Icons.copy_rounded),
       onTap: () async {
-        context.showSnackBar(content: i18n.copyTipOf(i18n.credentials.oaAccount).text());
+        context.showSnackBar(content: i18n.copyTipOf(i18n.oaCredentials.oaAccount).text());
         // Copy the student ID to clipboard
         await Clipboard.setData(ClipboardData(text: credential.account));
       },
@@ -80,8 +77,8 @@ class _CredentialsPageState extends State<CredentialsPage> {
     return AnimatedSize(
       duration: const Duration(milliseconds: 100),
       child: ListTile(
-        title: i18n.credentials.savedOaPwd.text(),
-        subtitle: Text(!showPassword ? i18n.credentials.savedOaPwdDesc : credential.password),
+        title: i18n.oaCredentials.savedOaPwd.text(),
+        subtitle: Text(!showPassword ? i18n.oaCredentials.savedOaPwdDesc : credential.password),
         leading: const Icon(Icons.password_rounded),
         trailing: [
           IconButton(
@@ -89,7 +86,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
             onPressed: () async {
               final newPwd = await Editor.showStringEditor(
                 context,
-                desc: i18n.credentials.savedOaPwd,
+                desc: i18n.oaCredentials.savedOaPwd,
                 initial: credential.password,
               );
               if (newPwd != credential.password) {
@@ -137,8 +134,8 @@ class _TestLoginTileState extends State<TestLoginTile> {
   Widget build(BuildContext context) {
     return ListTile(
       enabled: loggingState != _TestLoginState.loggingIn,
-      title: i18n.credentials.testLoginOa.text(),
-      subtitle: i18n.credentials.testLoginOaDesc.text(),
+      title: i18n.oaCredentials.testLoginOa.text(),
+      subtitle: i18n.oaCredentials.testLoginOaDesc.text(),
       leading: const Icon(Icons.login),
       trailing: Padding(
         padding: const EdgeInsets.all(8),

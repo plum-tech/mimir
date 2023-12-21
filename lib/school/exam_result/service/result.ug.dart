@@ -27,7 +27,7 @@ class ExamResultUgService {
   static const _scorePercentageSelector = 'td:nth-child(3)';
   static const _scoreValueSelector = 'td:nth-child(5)';
 
-  JwxtSession get session => Init.jwxtSession;
+  JwxtSession get _session => Init.jwxtSession;
 
   const ExamResultUgService();
 
@@ -36,8 +36,9 @@ class ExamResultUgService {
     SemesterInfo info, {
     void Function(double progress)? onProgress,
   }) async {
+    final year = info.year;
     final progress = ProgressWatcher(callback: onProgress);
-    final response = await session.request(
+    final response = await _session.request(
       _scoreUrl,
       options: Options(
         method: "POST",
@@ -48,45 +49,47 @@ class ExamResultUgService {
       },
       data: {
         // 学年名
-        'xnm': info.year.toString(),
+        'xnm': year == null ? "" : year.toString(),
         // 学期名
         'xqm': semesterToFormField(info.semester),
         // 获取成绩最大数量
-        'queryModel.showCount': 100,
+        'queryModel.showCount': 5000,
       },
     );
     progress.value = 0.2;
     final resultList = _parseScoreListPage(response.data);
-    final newResultList = <ExamResultUg>[];
-    for (final result in resultList) {
-      final resultItems = await getResultItems(SemesterInfo(year: result.year, semester: result.semester),
-          classId: result.innerClassId);
-      newResultList.add(result.copyWith(items: resultItems));
-      progress.value += 0.8 / resultList.length;
-    }
+    final perProgress = resultList.isEmpty ? 0 : 0.8 / resultList.length;
+    final newResultList = await Future.wait(resultList.map((result) async {
+      final resultItems = await _fetchResultItems(
+        SemesterInfo(year: result.year, semester: result.semester),
+        classId: result.innerClassId,
+      );
+      progress.value += perProgress;
+      return result.copyWith(items: resultItems);
+    }));
     progress.value = 1;
     return newResultList;
   }
 
   /// 获取成绩详情
-  Future<List<ExamResultItem>> getResultItems(
+  Future<List<ExamResultItem>> _fetchResultItems(
     SemesterInfo info, {
     required String classId,
   }) async {
-    final response = await session.request(
+    final response = await _session.request(
       _scoreDetailUrl,
       options: Options(
         method: "POST",
       ),
       para: {'gnmkdm': 'N305005'},
-      data: {
+      data: FormData.fromMap({
         // 班级
         'jxb_id': classId,
         // 学年名
         'xnm': info.year.toString(),
         // 学期名
         'xqm': semesterToFormField(info.semester)
-      },
+      }),
     );
     final html = response.data as String;
     return _parseDetailPage(html);
@@ -107,7 +110,11 @@ class ExamResultUgService {
     String percentage = item.find(_scorePercentageSelector)!.innerHtml.trim();
     String value = item.find(_scoreValueSelector)!.innerHtml;
 
-    return ExamResultItem(f(type), f(percentage), double.tryParse(f(value)) ?? double.nan);
+    return ExamResultItem(
+      scoreType: f(type),
+      percentage: f(percentage),
+      score: double.tryParse(f(value)),
+    );
   }
 
   static List<ExamResultItem> _parseDetailPage(String htmlPage) {

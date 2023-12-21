@@ -7,20 +7,19 @@ const i18n = _I18n();
 class _I18n with CommonI18nMixin {
   const _I18n();
 
-  final credentials = const _Credentials();
+  final oaCredentials = const _OaCredentials();
   final proxy = const _Proxy();
   final dev = const _DevOptions();
   final timetable = const _Timetable();
   final school = const _School();
   final life = const _Life();
+  final about = const _About();
 
   static const ns = "settings";
 
   String get title => "$ns.title".tr();
 
   String get language => "$ns.language".tr();
-
-  String get version => "$ns.version".tr();
 
   String get themeColor => "$ns.themeColor".tr();
 
@@ -143,6 +142,22 @@ class _Life {
   String get title => "$ns.title".tr();
 }
 
+class _About {
+  const _About();
+
+  static const ns = "${_I18n.ns}.about";
+
+  String get title => "$ns.title".tr();
+
+  String get version => "$ns.version".tr();
+
+  String get icpLicense => "$ns.icpLicense".tr();
+
+  String get termsOfUse => "$ns.termsOfUse".tr();
+
+  String get privacyPolicy => "$ns.privacyPolicy".tr();
+}
+
 class _Electricity {
   static const ns = "${_Life.ns}.electricity";
 
@@ -174,6 +189,10 @@ class _DevOptions {
 
   String get devMode => "$ns.devMode.title".tr();
 
+  String get demoMode => "$ns.demoMode.title".tr();
+
+  String get devModeActivateTip => "$ns.devModeActivateTip".tr();
+
   String get reload => "$ns.reload.title".tr();
 
   String get reloadDesc => "$ns.reload.desc".tr();
@@ -199,10 +218,10 @@ class _Storage with CommonI18nMixin {
   String get emptyValueDesc => "$ns.emptyValueDesc".tr();
 }
 
-class _Credentials extends CredentialsI18n {
+class _OaCredentials extends OaCredentialsI18n {
   static const ns = "${_I18n.ns}.credentials";
 
-  const _Credentials();
+  const _OaCredentials();
 
   String get testLoginOa => "$ns.testLoginOa.title".tr();
 

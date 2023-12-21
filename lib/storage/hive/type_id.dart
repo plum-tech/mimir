@@ -17,12 +17,14 @@ class CacheHiveType {
   static const _school = 0;
   static const semester = _school + 0;
   static const semesterInfo = _school + 1;
+  static const courseCat = _school + 2;
 
   // Exam result 10
   static const _examResult = _school + 20;
   static const examResultUg = _examResult + 0;
   static const examResultUgItem = _examResult + 1;
-  static const examResultPg = _examResult + 2;
+  static const examResultUgExamType = _examResult + 2;
+  static const examResultPg = _examResult + 3;
 
   // Second class 20
   static const _class2nd = _examResult + 10;

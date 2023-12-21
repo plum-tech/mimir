@@ -10,11 +10,16 @@ import 'package:sit/index.dart';
 import 'package:sit/me/edu_email/page/login.dart';
 import 'package:sit/me/edu_email/page/outbox.dart';
 import 'package:sit/school/class2nd/entity/attended.dart';
+import 'package:sit/school/exam_result/page/gpa.dart';
 import 'package:sit/school/exam_result/page/result.pg.dart';
+import 'package:sit/school/library/page/history.dart';
 import 'package:sit/school/library/page/login.dart';
 import 'package:sit/school/library/page/borrowing.dart';
+import 'package:sit/school/ywb/entity/service.dart';
+import 'package:sit/school/ywb/page/details.dart';
 import 'package:sit/school/ywb/page/service.dart';
 import 'package:sit/school/ywb/page/application.dart';
+import 'package:sit/settings/page/about.dart';
 import 'package:sit/settings/page/life.dart';
 import 'package:sit/settings/page/proxy.dart';
 import 'package:sit/settings/page/school.dart';
@@ -168,6 +173,10 @@ final _settingsRoute = GoRoute(
       builder: (ctx, state) => const LifeSettingsPage(),
     ),
     GoRoute(
+      path: "about",
+      builder: (ctx, state) => const AboutSettingsPage(),
+    ),
+    GoRoute(
       path: "proxy",
       builder: (ctx, state) => const ProxySettingsPage(),
     ),
@@ -218,6 +227,7 @@ final _class2ndRoute = GoRoute(
       },
       redirect: _loginRequired,
     ),
+    // TODO: using path para
     GoRoute(
       path: "attended-details",
       builder: (ctx, state) {
@@ -237,6 +247,7 @@ final _oaAnnounceRoute = GoRoute(
   builder: (ctx, state) => const OaAnnounceListPage(),
   redirect: _loginRequired,
   routes: [
+    // TODO: using path para
     GoRoute(
       path: "details",
       builder: (ctx, state) {
@@ -276,6 +287,17 @@ final _ywbRoute = GoRoute(
     GoRoute(
       path: "mine",
       builder: (ctx, state) => const YwbMyApplicationListPage(),
+    ),
+    // TODO: using path para
+    GoRoute(
+      path: "details",
+      builder: (ctx, state) {
+        final extra = state.extra;
+        if (extra is YwbService) {
+          return YwbServiceDetailsPage(meta: extra);
+        }
+        throw 404;
+      },
     ),
   ],
 );
@@ -333,10 +355,12 @@ final _examArrange = GoRoute(
 final _examResultRoute = GoRoute(
   path: "/exam-result",
   routes: [
-    GoRoute(
-      path: "ug",
-      builder: (ctx, state) => const ExamResultUgPage(),
-    ),
+    GoRoute(path: "ug", builder: (ctx, state) => const ExamResultUgPage(), routes: [
+      GoRoute(
+        path: "gpa",
+        builder: (ctx, state) => const GpaCalculatorPage(),
+      ),
+    ]),
     GoRoute(
       path: "pg",
       builder: (ctx, state) => const ExamResultPgPage(),

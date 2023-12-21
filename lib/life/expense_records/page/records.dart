@@ -8,6 +8,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/life/expense_records/widget/group.dart';
 import 'package:sit/utils/error.dart';
 
+import '../aggregated.dart';
 import '../entity/local.dart';
 import '../init.dart';
 import '../i18n.dart';
@@ -59,7 +60,7 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
       isFetching = true;
     });
     try {
-      await fetchAndSaveTransactionUntilNow(
+      await ExpenseAggregated.fetchAndSaveTransactionUntilNow(
         studentId: oaCredential.account,
       );
       updateRecords(ExpenseRecordsInit.storage.getTransactionsByRange());

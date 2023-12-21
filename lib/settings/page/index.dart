@@ -7,6 +7,7 @@ import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/card.dart';
+import 'package:sit/login/i18n.dart';
 import 'package:sit/network/widgets/entry.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/init.dart';
@@ -15,10 +16,8 @@ import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/school/widgets/campus.dart';
 import 'package:sit/utils/color.dart';
-import 'package:sit/entity/version.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:system_theme/system_theme.dart';
-import 'package:unicons/unicons.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:locale_names/locale_names.dart';
 
@@ -33,7 +32,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final $isDeveloperMode = Settings.listenIsDeveloperMode();
+  final $isDeveloperMode = Settings.listenDevMode();
 
   @override
   void initState() {
@@ -57,17 +56,14 @@ class _SettingsPageState extends State<SettingsPage> {
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
         slivers: <Widget>[
-          SliverAppBar(
+          SliverAppBar.large(
             pinned: true,
-            expandedHeight: 100.0,
-            flexibleSpace: FlexibleSpaceBar(
-              title: i18n.title.text(style: context.textTheme.headlineSmall),
-            ),
+            snap: false,
+            floating: false,
+            title: i18n.title.text(),
           ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              buildEntries(),
-            ),
+          SliverList.list(
+            children: buildEntries(),
           ),
         ],
       ),
@@ -83,16 +79,16 @@ class _SettingsPageState extends State<SettingsPage> {
     final credential = auth.credentials;
     if (credential != null) {
       all.add(PageNavigationTile(
-        title: i18n.credentials.oaAccount.text(),
+        title: i18n.oaCredentials.oaAccount.text(),
         subtitle: credential.account.text(),
-        icon: const Icon(Icons.person_rounded),
+        leading: const Icon(Icons.person_rounded),
         path: "/settings/credentials",
       ));
     } else {
-      // TODO: i18n
+      const oaLogin = OaLoginI18n();
       all.add(ListTile(
-        title: "Login".text(),
-        subtitle: "Please login".text(),
+        title: oaLogin.loginOa.text(),
+        subtitle: oaLogin.neverLoggedInTip.text(),
         leading: const Icon(Icons.person_rounded),
         onTap: () {
           context.go("/login");
@@ -109,44 +105,48 @@ class _SettingsPageState extends State<SettingsPage> {
     if (auth.loginStatus != LoginStatus.never) {
       all.add(PageNavigationTile(
         title: i18n.timetable.title.text(),
-        icon: const Icon(Icons.calendar_month_outlined),
+        leading: const Icon(Icons.calendar_month_outlined),
         path: "/settings/timetable",
       ));
       if (!kIsWeb) {
         all.add(PageNavigationTile(
           title: i18n.school.title.text(),
-          icon: const Icon(Icons.school_outlined),
+          leading: const Icon(Icons.school_outlined),
           path: "/settings/school",
         ));
         all.add(PageNavigationTile(
           title: i18n.life.title.text(),
-          icon: const Icon(Icons.spa_outlined),
+          leading: const Icon(Icons.spa_outlined),
           path: "/settings/life",
         ));
       }
       all.add(const Divider());
     }
+    if (Settings.devMode) {
+      all.add(PageNavigationTile(
+        title: i18n.dev.title.text(),
+        leading: const Icon(Icons.developer_mode_outlined),
+        path: "/settings/developer",
+      ));
+    }
     if (!kIsWeb) {
       all.add(PageNavigationTile(
         title: i18n.proxy.title.text(),
         subtitle: i18n.proxy.desc.text(),
-        icon: const Icon(Icons.vpn_key),
+        leading: const Icon(Icons.vpn_key),
         path: "/settings/proxy",
       ));
       all.add(const NetworkToolEntryTile());
-    }
-    if (Settings.isDeveloperMode) {
-      all.add(PageNavigationTile(
-        title: i18n.dev.title.text(),
-        icon: const Icon(Icons.developer_mode_outlined),
-        path: "/settings/developer",
-      ));
     }
     if (auth.loginStatus != LoginStatus.never) {
       all.add(const ClearCacheTile());
     }
     all.add(const WipeDataTile());
-    all.add(const VersionTile());
+    all.add(PageNavigationTile(
+      title: i18n.about.title.text(),
+      leading: const Icon(Icons.info),
+      path: "/settings/about",
+    ));
     return all;
   }
 
@@ -254,64 +254,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
             ].wrap(),
-    );
-  }
-}
-
-class VersionTile extends StatefulWidget {
-  const VersionTile({super.key});
-
-  @override
-  State<VersionTile> createState() => _VersionTileState();
-}
-
-class _VersionTileState extends State<VersionTile> {
-  int clickCount = 0;
-  final $isDeveloperMode = Settings.listenIsDeveloperMode();
-
-  @override
-  void initState() {
-    super.initState();
-    $isDeveloperMode.addListener(refresh);
-  }
-
-  @override
-  void dispose() {
-    $isDeveloperMode.removeListener(refresh);
-    super.dispose();
-  }
-
-  void refresh() {
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final version = R.currentVersion;
-    return ListTile(
-      leading: switch (version.platform) {
-        AppPlatform.iOS || AppPlatform.macOS => const Icon(UniconsLine.apple),
-        AppPlatform.android => const Icon(Icons.android),
-        AppPlatform.linux => const Icon(UniconsLine.linux),
-        AppPlatform.windows => const Icon(UniconsLine.windows),
-        AppPlatform.web => const Icon(UniconsLine.browser),
-        AppPlatform.unknown => const Icon(Icons.device_unknown_outlined),
-      },
-      title: i18n.version.text(),
-      subtitle: "${version.platform.name} ${version.full.toString()}".text(),
-      onTap: Settings.isDeveloperMode && clickCount <= 10
-          ? null
-          : () async {
-              if (Settings.isDeveloperMode) return;
-              clickCount++;
-              if (clickCount >= 10) {
-                clickCount = 0;
-                Settings.isDeveloperMode = true;
-                // TODO: i18n
-                context.showSnackBar(content: const Text("Developer mode activated"));
-                await HapticFeedback.mediumImpact();
-              }
-            },
     );
   }
 }

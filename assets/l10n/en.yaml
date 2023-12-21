@@ -1,3 +1,4 @@
+appName: SIT Life
 timetable:
   navigation: Timetable
   jump: Jump
@@ -14,10 +15,6 @@ timetable:
     deleteRequestDesc: You will lose this timetable permanently
     emptyTip: Let's import a timetable!
     details: Details
-  details:
-    classCode: Class Code
-    courseCode: Course Code
-    teacher: Teacher
   edit:
     name: Name
   import:
@@ -160,12 +157,33 @@ timetable:
         teachers: Thomas
 school:
   navigation: School
-  schoolYear: School year
   semester:
-    title: Semester
     all: Full Year
     term1: Fall
     term2: Spring
+  allYear: All year
+  course:
+    classCode: Class Code
+    courseCode: Course Code
+    semester: Semester
+    schoolYear: School year
+    category: Course category
+    teacher:
+      one: Teacher
+      other: Teachers
+    credit: Credit
+    compulsory: Compulsory
+    elective: Elective
+    time: Time
+  courseCat:
+    none: None
+    genEd: General education
+    publicCore: Pubic core
+    specializedCore: Specialized core
+    specializedCompulsory: Specialized compulsory
+    specializedElective: Specialized elective
+    integratedPractice: Integrated Practice
+    practicalInstruction: Practical instruction
 life:
   navigation: Life
 me:
@@ -183,11 +201,15 @@ class2nd:
   noActivities: No activities
   noAttendedActivities: No attended activities
   viewDetails: View details
+  noDetails: No details given
+  details: Activity details
   apply:
     btn: Apply
     replyTip: Reply from school
     applyRequest: Apply
     applyRequestDesc: Confirm to apply this activity?
+    applySuccessTip: Successful application for this activity
+    applyFailureTip: Failed to apply for this activity
   info:
     activityId: Activity ID
     applicationId: Application ID
@@ -223,6 +245,7 @@ class2nd:
     conference: Conf
     schoolCultureCompetition: Culture COMP
     paperAndPatent: Paper&Patent
+    unknown: Unknown
   scoreType:
     all: All
     thematicReport:
@@ -243,8 +266,16 @@ class2nd:
     schoolSafetyCivilization:
       full: Safety&Civil.
       short: Civil.
-  noDetails: No details given
-  details: Activity eetails
+  applicationResponse:
+    successfulCheck: Successful check
+    incompleteApplicantInfo: Your info is incomplete, please complete it
+    alreadyApplied: You have already applied for this activity
+    applicationReachLimitToday: You have reached your max number of applications today
+    activityReachParticipantLimit: The activity has reached its max number of applicants
+    activityExpired: This activity has expired and is no longer accepting applications
+    applicantOccupiedWithinActivity: You have already applied for other activities in that time period
+    applicantNotPermitted: You cannot apply for this activity
+    applicantNotIncluding: You are not among those who can apply for the activity
 ywb:
   title: SIT YWB
   info: |
@@ -266,17 +297,16 @@ captcha:
   enterHint: Please enter captcha
   emptyInputError: The captcha is empty
 credentials:
-  studentId: Student ID
   account: Account
   password: Password
-  oaAccount: OA account
-  oaPwd: OA password
-  savedOaPwd: Saved OA password
-  savedOaPwdDesc: Used to auto-login OA
   pwd: Password
   error: Credentials error
-  login: Login
-  forgotPwd: Forgot password?
+  oa:
+    studentId: Student ID
+    oaAccount: OA account
+    oaPwd: OA password
+    savedOaPwd: Saved OA password
+    savedOaPwdDesc: Used to auto-login OA
 easyconnect:
   launchBtn: Launch EasyConnect
   launchFailed: Launch Failed
@@ -300,9 +330,6 @@ eduEmail:
     addressHint: Student ID/Work number
     passwordHint: Your email password
     invalidEmailAddressFormatTip: Invalid email address format
-    failedWarn:
-      title: Login failed
-      desc: Please check the password
   info:
     emailAddress: Email address
   inbox:
@@ -318,13 +345,25 @@ examResult:
   check: Check
   teacherEval: Teacher Eval
   noResultsTip: No results
-  lessonNotEvaluated: Not-eval
+  courseNotEval: Not-eval
   teacherEvalTitle: Teacher evaluation
-  lessonSelected: "{} Selected"
-  gpaResult: "GPA: {}"
-  compulsory: Compulsory
-  credit: Credit
-  elective: Elective
+  examRequireEvalTip: Score is available after evaluation
+  score: Score
+  publishTime: Publish time
+  maxScore: Max score
+  gpa:
+    title: GPA
+    lessonSelected: "{} Selected"
+    gpaResult: "GPA: {}"
+    selectAll: Select all
+    invert: Invert
+    exceptGenEd: Except Gen Ed
+    exceptFailed: Except failed
+  examType:
+    title: Exam type
+    normal: Normal
+    resit: Resit
+    retake: Retake
 examArrange:
   title: Exams
   check: Check
@@ -410,25 +449,28 @@ networkTool:
   connectedByWlan: Connected to campus network by WLAN
   connectedByEthernet: Connected to campus network by Ethernet
 login:
-  welcomeHeader: Welcome!
-  loginOa: Login OA
+  login: Login
+  forgotPwd: Forgot password?
   validateInputAccountPwdRequest: Please check the account and password you entered
   credentialsValidatedTip: Account and password are correct
   accountOrPwdErrorTip: The account or password is incorrect
   captchaErrorTip: The captcha is incorrect
   accountFrozenTip: The account is frozen
-  schoolServerUnconnectedTip: Can't connect to school server
   unknownAuthErrorTip: Unknown authentication error
-  accountHint: Student ID/Work number
   loggedInTip: Logged in
   notLoggedIn: Not logged In
   invalidAccountFormat: Invalid account format
   offlineModeBtn: Offline mode
-  oaPwdHint: Enter your OA password
   failedWarn: Login Failed
   formatError: Format error
-  loginRequired: Login required
-  neverLoggedInTip: You have to login to perform this
+  oa:
+    loginOa: Login OA
+    welcomeHeader: Welcome!
+    accountHint: Student ID/Work number
+    oaPwdHint: Enter your OA password
+    loginRequired: Login required
+    neverLoggedInTip: You have to login to perform this
+    schoolServerUnconnectedTip: Can't connect to school server
 library:
   title: Library
   hotPost: HOT
@@ -443,9 +485,6 @@ library:
     title: Login library
     readerIdHint: your Student ID
     passwordHint: 888888 by default
-    failedWarn:
-      title: Login failed
-      desc: Please check the password
   search:
     searchHistory: Search history
     trending: Trending
@@ -483,7 +522,6 @@ library:
     availableCollection: "Available({available}) / Collection({collection})"
 settings:
   title: Settings
-  version: Version
   themeColor: Theme color
   fromSystem: From system
   credentials:
@@ -494,6 +532,9 @@ settings:
     title: Developer options
     devMode:
       title: Developer mode
+      activateTip: Developer mode activated
+    demoMode:
+      title: Demo mode
     localStorage:
       title: Local storage
       desc: Manage storage on your device
@@ -524,10 +565,6 @@ settings:
       autoRefresh:
         title: Auto-refresh 2nd class scores
         desc: Refresh scores when app is launched
-    examResult:
-      appCardShowResultDetails:
-        title: Show exam result details
-        desc: Show details in exam result card
   life:
     title: Life
     electricity:
@@ -579,6 +616,12 @@ settings:
     desc: Wipe all data and log out
     request: Wipe ALL Data
     requestDesc: ALL data, such as login credentials and timetable imported, will be wiped permanently.
+  about:
+    title: About
+    version: Version
+    icpLicense: ICP License
+    termsOfUse: Term of use
+    privacyPolicy: Privacy policy
 oaAnnounce:
   title: OA announcement
   tab:
@@ -697,3 +740,5 @@ upload: Upload
 pick: Pick
 duplicate: Duplicate
 copyTip: "{} was copied"
+done: Done
+openInBrowser: Open in browser

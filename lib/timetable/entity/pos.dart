@@ -1,7 +1,11 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:sit/l10n/time.dart';
 
 import 'timetable.dart';
 
+part "pos.g.dart";
+
+@CopyWith(skipFields: true)
 class TimetablePos {
   /// starts with 0
   final int weekIndex;
@@ -33,15 +37,6 @@ class TimetablePos {
       return fallback ?? initial;
     }
   }
-
-  TimetablePos copyWith({
-    int? weekIndex,
-    Weekday? weekday,
-  }) =>
-      TimetablePos(
-        weekIndex: weekIndex ?? this.weekIndex,
-        weekday: weekday ?? this.weekday,
-      );
 
   @override
   bool operator ==(Object other) {

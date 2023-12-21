@@ -2,11 +2,11 @@ import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
 import 'package:sit/init.dart';
 
-import 'package:sit/school/entity/school.dart';
+import 'package:sit/school/utils.dart';
 import 'package:sit/session/class2nd.dart';
 
 import '../entity/details.dart';
-import '../entity/list.dart';
+import '../entity/activity.dart';
 import "package:intl/intl.dart";
 
 class Class2ndActivityService {
@@ -18,13 +18,15 @@ class Class2ndActivityService {
 
   const Class2ndActivityService();
 
-  String generateUrl(Class2ndActivityCat category, int page, [int pageSize = 20]) {
-    return 'http://sc.sit.edu.cn/public/activity/activityList.action?pageNo=$page&pageSize=$pageSize&categoryId=${category.id}';
+  String generateUrl(Class2ndActivityCat cat, int page, [int pageSize = 20]) {
+    assert(cat.canFetchData);
+    return 'http://sc.sit.edu.cn/public/activity/activityList.action?pageNo=$page&pageSize=$pageSize&categoryId=${cat.id}';
   }
 
   /// 获取第二课堂活动列表
-  Future<List<Class2ndActivity>> getActivityList(Class2ndActivityCat type, int page) async {
-    final url = generateUrl(type, page);
+  Future<List<Class2ndActivity>> getActivityList(Class2ndActivityCat cat, int page) async {
+    assert(cat.canFetchData);
+    final url = generateUrl(cat, page);
     final response = await session.request(
       url,
       options: Options(

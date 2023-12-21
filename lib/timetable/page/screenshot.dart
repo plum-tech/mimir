@@ -49,8 +49,7 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            floating: true,
+          SliverAppBar.medium(
             title: i18n.screenshot.title.text(),
             actions: [
               buildScreenshotAction(),

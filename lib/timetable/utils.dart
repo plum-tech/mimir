@@ -14,6 +14,8 @@ import 'package:sit/l10n/time.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:sit/school/utils.dart';
+import 'package:sit/school/entity/timetable.dart';
 import 'package:sit/utils/strings.dart';
 import 'package:universal_platform/universal_platform.dart';
 import '../school/exam_result/entity/result.pg.dart';

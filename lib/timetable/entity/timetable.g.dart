@@ -3,6 +3,96 @@
 part of 'timetable.dart';
 
 // **************************************************************************
+// CopyWithGenerator
+// **************************************************************************
+
+abstract class _$SitTimetableCWProxy {
+  /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored.
+  ///
+  /// Usage
+  /// ```dart
+  /// SitTimetable(...).copyWith(id: 12, name: "My name")
+  /// ````
+  SitTimetable call({
+    Map<String, SitCourse>? courses,
+    int? lastCourseKey,
+    String? name,
+    DateTime? startDate,
+    int? schoolYear,
+    Semester? semester,
+    String? signature,
+    int? version,
+  });
+}
+
+/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfSitTimetable.copyWith(...)`.
+class _$SitTimetableCWProxyImpl implements _$SitTimetableCWProxy {
+  const _$SitTimetableCWProxyImpl(this._value);
+
+  final SitTimetable _value;
+
+  @override
+
+  /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored.
+  ///
+  /// Usage
+  /// ```dart
+  /// SitTimetable(...).copyWith(id: 12, name: "My name")
+  /// ````
+  SitTimetable call({
+    Object? courses = const $CopyWithPlaceholder(),
+    Object? lastCourseKey = const $CopyWithPlaceholder(),
+    Object? name = const $CopyWithPlaceholder(),
+    Object? startDate = const $CopyWithPlaceholder(),
+    Object? schoolYear = const $CopyWithPlaceholder(),
+    Object? semester = const $CopyWithPlaceholder(),
+    Object? signature = const $CopyWithPlaceholder(),
+    Object? version = const $CopyWithPlaceholder(),
+  }) {
+    return SitTimetable(
+      courses: courses == const $CopyWithPlaceholder() || courses == null
+          ? _value.courses
+          // ignore: cast_nullable_to_non_nullable
+          : courses as Map<String, SitCourse>,
+      lastCourseKey: lastCourseKey == const $CopyWithPlaceholder() || lastCourseKey == null
+          ? _value.lastCourseKey
+          // ignore: cast_nullable_to_non_nullable
+          : lastCourseKey as int,
+      name: name == const $CopyWithPlaceholder() || name == null
+          ? _value.name
+          // ignore: cast_nullable_to_non_nullable
+          : name as String,
+      startDate: startDate == const $CopyWithPlaceholder() || startDate == null
+          ? _value.startDate
+          // ignore: cast_nullable_to_non_nullable
+          : startDate as DateTime,
+      schoolYear: schoolYear == const $CopyWithPlaceholder() || schoolYear == null
+          ? _value.schoolYear
+          // ignore: cast_nullable_to_non_nullable
+          : schoolYear as int,
+      semester: semester == const $CopyWithPlaceholder() || semester == null
+          ? _value.semester
+          // ignore: cast_nullable_to_non_nullable
+          : semester as Semester,
+      signature: signature == const $CopyWithPlaceholder() || signature == null
+          ? _value.signature
+          // ignore: cast_nullable_to_non_nullable
+          : signature as String,
+      version: version == const $CopyWithPlaceholder() || version == null
+          ? _value.version
+          // ignore: cast_nullable_to_non_nullable
+          : version as int,
+    );
+  }
+}
+
+extension $SitTimetableCopyWith on SitTimetable {
+  /// Returns a callable class that can be used as follows: `instanceOfSitTimetable.copyWith(...)`.
+  // ignore: library_private_types_in_public_api
+  _$SitTimetableCWProxy get copyWith => _$SitTimetableCWProxyImpl(this);
+}
+
+// **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 

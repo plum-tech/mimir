@@ -1,16 +1,24 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/storage/hive/type_id.dart';
-import 'package:sit/school/entity/school.dart';
+import 'package:sit/school/utils.dart';
 
 part 'application.g.dart';
 
 enum YwbApplicationType {
-  complete,
-  running,
-  todo;
+  complete("Complete_Init"),
+  running("Runing_Init"),
+  todo("Todolist_Init");
+
+  final String method;
+
+  const YwbApplicationType(this.method);
 
   String l10nName() => "ywb.type.$name".tr();
+
+  String get messageListUrl =>
+      'https://xgfy.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=HttpHandler&DoMethod=$method&HttpHandlerName=BP.WF.HttpHandler.WF';
 }
 
 final _tsFormat = DateFormat("yyyy-MM-dd hh:mm");
@@ -21,6 +29,7 @@ DateTime _parseTimestamp(dynamic ts) {
 
 @JsonSerializable(createToJson: false)
 @HiveType(typeId: CacheHiveType.ywbApplication)
+@CopyWith(skipFields: true)
 class YwbApplication {
   @JsonKey(name: 'WorkID')
   @HiveField(0)
@@ -49,24 +58,6 @@ class YwbApplication {
     required this.startTs,
     this.track = const [],
   });
-
-  YwbApplication copyWith({
-    int? workId,
-    String? functionId,
-    String? name,
-    String? note,
-    DateTime? startTs,
-    List<YwbApplicationTrack>? track,
-  }) {
-    return YwbApplication(
-      workId: workId ?? this.workId,
-      functionId: functionId ?? this.functionId,
-      name: name ?? this.name,
-      note: note ?? this.note,
-      startTs: startTs ?? this.startTs,
-      track: track ?? this.track,
-    );
-  }
 
   factory YwbApplication.fromJson(Map<String, dynamic> json) => _$YwbApplicationFromJson(json);
 

@@ -31,22 +31,20 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
         slivers: [
-          SliverAppBar(
+          SliverAppBar.large(
             pinned: true,
             snap: false,
             floating: false,
-            expandedHeight: 100.0,
-            flexibleSpace: FlexibleSpaceBar(
-              title: i18n.dev.title.text(style: context.textTheme.headlineSmall),
-            ),
+            title: i18n.dev.title.text(),
           ),
           SliverList(
             delegate: SliverChildListDelegate([
               buildDevModeToggle(),
+              buildDemoModeToggle(),
               PageNavigationTile(
                 title: i18n.dev.localStorage.text(),
                 subtitle: i18n.dev.localStorageDesc.text(),
-                icon: const Icon(Icons.storage),
+                leading: const Icon(Icons.storage),
                 path: "/settings/developer/local-storage",
               ),
               buildReload(),
@@ -68,11 +66,28 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
         title: i18n.dev.devMode.text(),
         leading: const Icon(Icons.developer_mode_outlined),
         trailing: Switch.adaptive(
-          value: Settings.isDeveloperMode,
+          value: Settings.devMode,
           onChanged: (newV) {
             setState(() {
-              Settings.isDeveloperMode = newV;
+              Settings.devMode = newV;
             });
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget buildDemoModeToggle() {
+    return StatefulBuilder(
+      builder: (ctx, setState) => ListTile(
+        title: i18n.dev.demoMode.text(),
+        trailing: Switch.adaptive(
+          value: Settings.demoMode,
+          onChanged: (newV) async {
+            setState(() {
+              Settings.demoMode = newV;
+            });
+            await Init.initModules();
           },
         ),
       ),
@@ -114,7 +129,6 @@ class _DebugGoRouteTileState extends State<DebugGoRouteTile> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: i18n
     return ListTile(
       isThreeLine: true,
       leading: const Icon(Icons.route_outlined),

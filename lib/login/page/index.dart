@@ -16,6 +16,8 @@ import '../aggregated.dart';
 import '../i18n.dart';
 import '../widgets/forgot_pwd.dart';
 
+const i18n = OaLoginI18n();
+
 const _forgotLoginPasswordUrl =
     "https://authserver.sit.edu.cn/authserver/getBackPasswordMainPage.do?service=https%3A%2F%2Fmyportal.sit.edu.cn%3A443%2F";
 
@@ -93,10 +95,12 @@ class _LoginPageState extends State<LoginPage> {
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       context.go("/");
-    } on Exception catch (error, stackTrace) {
+    } catch (error, stackTrace) {
       if (!mounted) return;
       setState(() => isLoggingIn = false);
-      await handleLoginException(context: context, error: error, stackTrace: stackTrace);
+      if (error is Exception) {
+        await handleLoginException(context: context, error: error, stackTrace: stackTrace);
+      }
     }
   }
 
@@ -224,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
                       }
                     : null,
                 icon: const Icon(Icons.login),
-                label: i18n.credentials.login.text(),
+                label: i18n.login.text(),
               ),
       if (!widget.isGuarded)
         OutlinedButton(

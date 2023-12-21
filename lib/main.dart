@@ -60,7 +60,7 @@ void main() async {
   await Files.init();
   // Perform migrations
   R.currentVersion = await getCurrentVersion();
-  final currentVersion = R.currentVersion.full;
+  final currentVersion = R.currentVersion.version;
   final lastVersionRaw = prefs.getLastVersion();
   final lastVersion = lastVersionRaw != null ? Version.parse(lastVersionRaw) : currentVersion;
   final migrations = Migrations.match(from: lastVersion, to: currentVersion);
@@ -84,7 +84,7 @@ void main() async {
 
   // Setup Settings and Meta
   if (kDebugMode) {
-    Settings.isDeveloperMode = true;
+    Settings.devMode = true;
   }
   // The last time when user launch this app
   Meta.lastLaunchTime = Meta.thisLaunchTime;

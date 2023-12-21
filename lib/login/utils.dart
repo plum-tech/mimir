@@ -1,62 +1,52 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:sit/credentials/error.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/session/sso.dart';
+import 'package:sit/utils/error.dart';
 import "./i18n.dart";
+
+const _i18n = OaLoginI18n();
 
 Future<void> handleLoginException({
   required BuildContext context,
   required Exception error,
   required StackTrace stackTrace,
 }) async {
-  debugPrint(error.toString());
-  debugPrintStack(stackTrace: stackTrace);
-  if (error is UnknownAuthException) {
-    if (!context.mounted) return;
+  debugPrintError(error, stackTrace);
+  if (!context.mounted) return;
+  if (error is CredentialsException) {
     await context.showTip(
       serious: true,
-      title: i18n.failedWarn,
-      desc: i18n.unknownAuthErrorTip,
-      ok: i18n.close,
+      title: _i18n.failedWarn,
+      desc: switch (error.type) {
+        CredentialsErrorType.accountPassword => _i18n.accountOrPwdErrorTip,
+        CredentialsErrorType.captcha => _i18n.captchaErrorTip,
+        CredentialsErrorType.frozen => _i18n.accountFrozenTip,
+      },
+      ok: _i18n.close,
     );
-  } else if (error is OaCredentialsException) {
-    if (!context.mounted) return;
-    if (error.type == OaCredentialsErrorType.accountPassword) {
-      await context.showTip(
-        serious: true,
-        title: i18n.failedWarn,
-        desc: i18n.accountOrPwdErrorTip,
-        ok: i18n.close,
-      );
-    } else if (error.type == OaCredentialsErrorType.captcha) {
-      await context.showTip(
-        serious: true,
-        title: i18n.failedWarn,
-        desc: i18n.captchaErrorTip,
-        ok: i18n.close,
-      );
-    } else if (error.type == OaCredentialsErrorType.frozen) {
-      await context.showTip(
-        serious: true,
-        title: i18n.failedWarn,
-        desc: i18n.accountFrozenTip,
-        ok: i18n.close,
-      );
-    }
     return;
   }
   if (error is DioException) {
-    debugPrint(error.toString());
-    debugPrintStack(stackTrace: stackTrace);
-    if (!context.mounted) return;
     await context.showTip(
       serious: true,
-      title: i18n.failedWarn,
-      desc: i18n.schoolServerUnconnectedTip,
-      ok: i18n.close,
+      title: _i18n.failedWarn,
+      desc: _i18n.schoolServerUnconnectedTip,
+      ok: _i18n.close,
     );
+    return;
   }
   if (error is LoginCaptchaCancelledException) {
     if (!context.mounted) return;
+    return;
   }
+  if (!context.mounted) return;
+  await context.showTip(
+    serious: true,
+    title: _i18n.failedWarn,
+    desc: _i18n.unknownAuthErrorTip,
+    ok: _i18n.close,
+  );
+  return;
 }

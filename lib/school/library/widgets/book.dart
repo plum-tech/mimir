@@ -56,7 +56,7 @@ class _AsyncBookImageState extends State<AsyncBookImage> {
     final image = this.image;
     if (image == null) return const SizedBox();
     return CachedNetworkImage(
-      fit: BoxFit.fitWidth,
+      fit: BoxFit.cover,
       imageUrl: image.resourceUrl,
       placeholder: (context, url) => const SizedBox(),
       errorWidget: (context, url, error) => const SizedBox(),
