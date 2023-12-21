@@ -4,7 +4,7 @@ on: workflow_dispatch
 permissions: write-all
 
 env:
-  flutter_version: '3.16.4'
+  flutter_version: '3.16.5'
 
 jobs:
   build_android:
@@ -24,7 +24,7 @@ jobs:
           enableCrossOsArchive: true
           restore-keys: |
             build-apk
-      
+
       - name: Clear old cache - Delete cache builds
         if: steps.clear-cache-apk.outputs.cache-hit == 'true'
         env:
@@ -159,7 +159,7 @@ jobs:
     - name: Export ipa
       run: |
         xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
-    
+
     - name: Rename ipa file
       run: |
         mkdir -p build-output/ios/publish/
@@ -239,7 +239,7 @@ jobs:
             build-output/ios/
           key: build-ipa
           enableCrossOsArchive: true
-      
+
       - name: Check builds
         env:
           RESOLVED_VERSION: ${{ steps.get_git_info.outputs.RESOLVED_VERSION }}
