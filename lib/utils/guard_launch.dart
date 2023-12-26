@@ -8,15 +8,15 @@ Future<bool> guardLaunchUrl(BuildContext ctx, Uri url) async {
   if (url.scheme == "http" || url.scheme == "https") {
     try {
       // guards the http(s)
-      if (!UniversalPlatform.isDesktop) {
-        final target = Uri(
-          path: "/browser",
-          queryParameters: {"url": url.toString()},
-        ).toString();
-        ctx.push(target);
-        return true;
+      if (UniversalPlatform.isDesktopOrWeb) {
+        return await launchUrl(url, mode: LaunchMode.externalApplication);
       }
-      return await launchUrl(url, mode: LaunchMode.externalApplication);
+      final target = Uri(
+        path: "/browser",
+        queryParameters: {"url": url.toString()},
+      ).toString();
+      ctx.push(target);
+      return true;
     } catch (error, stackTrace) {
       debugPrintError(error, stackTrace);
       return false;

@@ -89,7 +89,7 @@ Future<void> addExamArrangeToCalendar(ExamEntry exam) async {
   if (time == null) return;
   final (:start, :end) = time;
   final event = Event(
-    title: exam.courseName,
+    title: i18n.calendarEventTitleOf(exam.courseName),
     description: "${i18n.seatNumber} ${exam.seatNumber}",
     location: "${exam.place} #${exam.seatNumber}",
     startDate: start,

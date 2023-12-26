@@ -374,6 +374,7 @@ examArrange:
   noExamsTip: No exams
   seatNumber: Seat No.
   addCalendarEvent: Add event
+  calendarEventTitle: "Exam: {}"
 expenseRecords:
   title: Expense records
   check: Check

@@ -371,6 +371,7 @@ examArrange:
   noExamsTip: 無考試安排
   seatNumber: 座位號
   addCalendarEvent: 增加事項
+  calendarEventTitle: "考試: {}"
 expenseRecords:
   title: 消費記錄
   check: 查詢
