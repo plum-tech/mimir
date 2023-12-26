@@ -371,6 +371,7 @@ examArrange:
   noExamsTip: 没有考试安排
   seatNumber: 座位号
   addCalendarEvent: 添加事项
+  calendarEventTitle: "考试: {}"
 expenseRecords:
   title: 消费记录
   check: 查询

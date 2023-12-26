@@ -25,4 +25,6 @@ class _I18n with CommonI18nMixin {
   String get seatNumber => "$ns.seatNumber".tr();
 
   String get addCalendarEvent => "$ns.addCalendarEvent".tr();
+
+  String calendarEventTitleOf(String exam) => "$ns.calendarEventTitle".tr(args: [exam]);
 }
