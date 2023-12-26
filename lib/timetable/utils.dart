@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:enough_icalendar/enough_icalendar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:ical/serializer.dart';
 import 'package:open_file/open_file.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/entity/campus.dart';
@@ -17,6 +15,7 @@ import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/school/entity/timetable.dart';
+import 'package:sit/utils/ical.dart';
 import 'package:sit/utils/strings.dart';
 import 'package:universal_platform/universal_platform.dart';
 import '../school/exam_result/entity/result.pg.dart';
@@ -253,7 +252,7 @@ String convertTimetable2ICal({
   required SitTimetableEntity timetable,
   required TimetableExportCalendarConfig config,
 }) {
-  final calendar = ICalendar(
+  final calendar = ICal(
     company: 'mysit.life',
     product: 'SIT Life',
     lang: config.locale?.toLanguageTag() ?? "EN",
@@ -273,29 +272,30 @@ String convertTimetable2ICal({
               ? "${R.appId}.${course.courseCode}.${week.index}.${day.index}.${lesson.startIndex}-${lesson.endIndex}"
               : "${R.appId}.${course.courseCode}.${week.index}.${day.index}.${part.index}";
           // Use UTC
-          final event = IEvent(
+          calendar.addEvent(
             uid: uid,
             summary: course.courseName,
             location: course.place,
             description: teachers,
+            comment: teachers,
             start: startTime,
             end: endTime,
-            // DON'T USE duration, that is broken on iOS.
-            // duration: part.calcuClassDuration().toDuration(),
-            alarm: alarm == null
-                ? null
-                : alarm.isSoundAlarm
-                    ? IAlarm.audio(
-                        trigger: startTime.subtract(alarm.alarmBeforeClass).toUtc(),
-                        duration: alarm.alarmDuration,
-                      )
-                    : IAlarm.display(
-                        trigger: startTime.subtract(alarm.alarmBeforeClass).toUtc(),
-                        description: "${course.courseName} ${course.place} $teachers",
-                        duration: alarm.alarmDuration,
-                      ),
           );
-          calendar.addElement(event);
+          if (alarm != null) {
+            final trigger = startTime.subtract(alarm.alarmBeforeClass).toUtc();
+            if (alarm.isSoundAlarm) {
+              calendar.addAlarmAudio(
+                triggerDate: trigger,
+                repeating: (repeat: 1, duration: alarm.alarmDuration),
+              );
+            } else {
+              calendar.addAlarmDisplay(
+                triggerDate: trigger,
+                description: "${course.courseName} ${course.place} $teachers",
+                repeating: (repeat: 1, duration: alarm.alarmDuration),
+              );
+            }
+          }
           if (merged) {
             // skip the `lessonParts` loop
             break;
@@ -304,7 +304,7 @@ String convertTimetable2ICal({
       }
     }
   }
-  return calendar.serialize();
+  return calendar.build();
 }
 
 List<PostgraduateCourseRaw> parsePostgraduateCourseRawsFromHtml(String timetableHtmlContent) {
