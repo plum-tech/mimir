@@ -18,7 +18,7 @@ class Class2ndActivityService {
 
   const Class2ndActivityService();
 
-  String generateUrl(Class2ndActivityCat cat, int page, [int pageSize = 20]) {
+  String _generateUrl(Class2ndActivityCat cat, int page, [int pageSize = 20]) {
     assert(cat.canFetchData);
     return 'http://sc.sit.edu.cn/public/activity/activityList.action?pageNo=$page&pageSize=$pageSize&categoryId=${cat.id}';
   }
@@ -26,7 +26,7 @@ class Class2ndActivityService {
   /// 获取第二课堂活动列表
   Future<List<Class2ndActivity>> getActivityList(Class2ndActivityCat cat, int page) async {
     assert(cat.canFetchData);
-    final url = generateUrl(cat, page);
+    final url = _generateUrl(cat, page);
     final response = await session.request(
       url,
       options: Options(
