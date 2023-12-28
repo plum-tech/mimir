@@ -221,6 +221,7 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
     return GroupedSection(
         headerBuilder: (expanded, toggleExpand, defaultTrailing) {
           return ListTile(
+            leading: Icon(expanded? Icons.expand_less : Icons.expand_more),
             title: widget.semester.l10n().text(),
             subtitle: GpaCalculationText(
               items: selectedItems,
