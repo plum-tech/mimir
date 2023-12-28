@@ -9,7 +9,7 @@ timetable:
   signature: 簽名
   signaturePlaceholder: 你的名稱
   mine:
-    title: 我的課程表
+    title: 你的課程表
     exportCalendar: 匯出行事曆
     deleteRequest: 確認刪除
     deleteRequestDesc: 你會失去這個課程表，永久地。
@@ -281,7 +281,7 @@ ywb:
   apply: 申請
   noServicesTip: 應網辦沒有可用申請
   mine:
-    title: 我的申請
+    title: 你的申請
     noApplicationsTip: 你沒有應網辦申請
   details:
     apply: 申請
@@ -416,7 +416,7 @@ networkChecker:
     connected: 繼續
     connecting: 檢查中……
     disconnected: 重試
-    none: 檢查我的連線
+    none: 檢查連線
   status:
     connected: 好喔！你能夠訪問學校伺服器！
     connecting: 這可能需要幾秒鐘的時間，請確認在裝置上啟用了網路。
@@ -478,7 +478,7 @@ library:
   action:
     searchBooks: 搜尋書
     login: 登入
-    borrowing: 我的借閱
+    borrowing: 借閱
   login:
     title: 登入圖書館
     readerIdHint: 你的學號
@@ -491,7 +491,7 @@ library:
     trending: 熱門
     mostPopular: 最受歡迎
   borrowing:
-    title: 我的借閱
+    title: 你的借閱
     history: 歷史
     renew: 續借
   history:

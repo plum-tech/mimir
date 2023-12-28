@@ -9,7 +9,7 @@ timetable:
   signature: 签名
   signaturePlaceholder: 你的名字
   mine:
-    title: 我的课程表
+    title: 你的课程表
     exportCalendar: 导出日历
     deleteRequest: 确认删除？
     deleteRequestDesc: 这个课程表将被永久删除
@@ -281,7 +281,7 @@ ywb:
   apply: 申请
   noServicesTip: 应网办没有可办事项
   mine:
-    title: 我的申请
+    title: 你的申请
     noApplicationsTip: 你没有应网办申请
   details:
     apply: 申请
@@ -416,7 +416,7 @@ networkChecker:
     connected: 继续
     connecting: 正在检查中……
     disconnected: 重试
-    none: 检查我的网络连接
+    none: 检查网络连接
   status:
     connected: 好耶！你能够访问学校服务器！
     connecting: 这可能需要几秒钟，请确保你在设备上已经打开了网络连接。
@@ -478,7 +478,7 @@ library:
   action:
     searchBooks: 搜索图书
     login: 登录
-    borrowing: 我的借阅
+    borrowing: 借阅
   login:
     title: 登录图书馆
     readerIdHint: 你的学号
@@ -491,7 +491,7 @@ library:
     trending: 近期流行
     mostPopular: 最热门
   borrowing:
-    title: 我的借阅
+    title: 你的借阅
     history: 历史
     renew: 续借
   history:

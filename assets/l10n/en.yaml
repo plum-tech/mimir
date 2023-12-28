@@ -9,7 +9,7 @@ timetable:
   signature: Signature
   signaturePlaceholder: Your name
   mine:
-    title: My Timetables
+    title: Your Timetables
     exportCalendar: Export calendar
     deleteRequest: Confirm to delete?
     deleteRequestDesc: You will lose this timetable permanently
@@ -284,7 +284,7 @@ ywb:
   apply: Apply
   noServicesTip: SIT YWB has no services available
   mine:
-    title: Mine
+    title: Your applications
     noApplicationsTip: You has no SIT YWB applications
   details:
     apply: Apply
@@ -419,7 +419,7 @@ networkChecker:
     connected: Continue
     connecting: Checking...
     disconnected: Retry
-    none: Check my Connection
+    none: Check connection
   status:
     connected: Right! You have connected to school server!
     connecting: It will take a few seconds, please ensure you have turned on the network on your device.
