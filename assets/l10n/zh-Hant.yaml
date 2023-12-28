@@ -414,7 +414,7 @@ networkChecker:
     desc: 測試與校園網路的連線情況
   button:
     connected: 繼續
-    connecting: 檢查中……
+    connecting: 檢查中
     disconnected: 重試
     none: 檢查連線
   status:

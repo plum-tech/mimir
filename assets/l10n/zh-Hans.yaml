@@ -414,7 +414,7 @@ networkChecker:
     desc: 测试与学校服务器的连接
   button:
     connected: 继续
-    connecting: 正在检查中……
+    connecting: 检查中
     disconnected: 重试
     none: 检查网络连接
   status:

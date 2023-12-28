@@ -417,7 +417,7 @@ networkChecker:
     desc: Test connecting to school server
   button:
     connected: Continue
-    connecting: Checking...
+    connecting: Checking
     disconnected: Retry
     none: Check connection
   status:
