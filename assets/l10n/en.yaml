@@ -520,7 +520,7 @@ library:
     callNumber: Call Number
     bookId: Book ID
     barcode: Barcode
-    availableCollection: "Available({available}) / Collection({collection})"
+    availableCollection: "{available} available / {collection} collection"
 settings:
   title: Settings
   themeColor: Theme color

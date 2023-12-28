@@ -520,7 +520,7 @@ library:
     callNumber: 索書號
     bookId: 圖書 ID
     barcode: 條碼
-    availableCollection: "在館({available}) / 館藏({collection})"
+    availableCollection: "{available} 在館 / {collection} 館藏"
 settings:
   title: 設定
   themeColor: 主題顏色
