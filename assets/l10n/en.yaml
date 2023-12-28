@@ -282,10 +282,10 @@ ywb:
     This function is based on "SIT YWB".
     For most of types, you have to do the necessary procedure on the spot although you submitted an application online.
   apply: Apply
-  noServicesTip: No services
+  noServicesTip: SIT YWB has no services available
   mine:
     title: Mine
-    noApplicationsTip: No applications
+    noApplicationsTip: You has no SIT YWB applications
   details:
     apply: Apply
   type:
@@ -344,7 +344,7 @@ examResult:
   title: Exam result
   check: Check
   teacherEval: Teacher Eval
-  noResultsTip: No results
+  noResultsTip: You have no exam results
   courseNotEval: Not-eval
   teacherEvalTitle: Teacher evaluation
   examRequireEvalTip: Score is available after evaluation
@@ -371,7 +371,7 @@ examArrange:
   time: Time
   retake: Retake
   location: Location
-  noExamsTip: No exams
+  noExamsTip: No exams for you
   seatNumber: Seat No.
   addCalendarEvent: Add event
   calendarEventTitle: "Exam: {}"
@@ -383,7 +383,7 @@ expenseRecords:
   lastTransaction: "¥{amount} {place}"
   income: "Income: ¥{}"
   outcome: "Outcome: ¥{}"
-  noTransactionsTip: No transactions
+  noTransactionsTip: You have no transactions
   refreshSuccessTip: Expense records refreshed successfully
   refreshFailedTip: Failed to refresh expense records
   statsMode:
@@ -628,7 +628,7 @@ oaAnnounce:
   tab:
     info: Info
     content: Content
-  noOaAnnouncementsTip: No announcements
+  noOaAnnouncementsTip: SIT has no announcements available
   downloadCompleted: Download completed
   downloadFailed: Download failed
   downloading: Downloading

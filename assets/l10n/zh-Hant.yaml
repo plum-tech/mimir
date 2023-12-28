@@ -279,10 +279,10 @@ ywb:
     此功能基於 "上应一网通办"。
     就大多數業務而言，即使你已在平台上完成申請，依舊需要到現場辦理。
   apply: 申請
-  noServicesTip: 無可用申請
+  noServicesTip: 應網辦沒有可用申請
   mine:
     title: 我的申請
-    noApplicationsTip: 無申請
+    noApplicationsTip: 你沒有應網辦申請
   details:
     apply: 申請
   type:
@@ -341,7 +341,7 @@ examResult:
   title: 考試成績
   check: 查詢
   teacherEval: 評價教師
-  noResultsTip: 無考試結果
+  noResultsTip: 你沒有考試成績
   courseNotEval: 需評教
   teacherEvalTitle: 教師評價
   examRequireEvalTip: 在評教整個課程後，可查看分數
@@ -368,7 +368,7 @@ examArrange:
   time: 時間
   retake: 重修
   location: 地點
-  noExamsTip: 無考試安排
+  noExamsTip: 你沒有考試安排
   seatNumber: 座位號
   addCalendarEvent: 增加事項
   calendarEventTitle: "考試: {}"
@@ -380,7 +380,7 @@ expenseRecords:
   outcome: "消費: ¥{}"
   balanceInCard: "卡內餘額 ¥{}"
   lastTransaction: "¥{amount} {place}"
-  noTransactionsTip: 無交易記錄
+  noTransactionsTip: 你沒有交易記錄
   refreshSuccessTip: 消費記錄重新整理成功
   refreshFailedTip: 消費記錄重新整理失敗
   statsMode:
@@ -628,7 +628,7 @@ oaAnnounce:
   tab:
     info: 資訊
     content: 內容
-  noOaAnnouncesTip: 無公告
+  noOaAnnouncesTip: 學校沒有 OA 公告
   downloadCompleted: 下載完成
   downloadFailed: 下載失敗
   downloading: 下載中
