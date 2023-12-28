@@ -29,10 +29,11 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
           SliverList.list(
             children: [
               buildAutoUseImportedToggle(),
-              const Divider(),
-              buildCellStyle(),
-              buildP13n(),
-              buildBackground(),
+              // const Divider(),
+              // FIXME: https://github.com/flutter/flutter/issues/140586
+              // buildCellStyle(),
+              // buildP13n(),
+              // buildBackground(),
             ],
           ),
         ],
