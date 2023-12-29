@@ -10,12 +10,11 @@ class _I18n with CommonI18nMixin {
 
   final mine = const _Mine();
   final details = const _Details();
+  final action = const _Action();
 
   String get title => "$ns.title".tr();
 
   String get info => "$ns.info".tr();
-
-  String get mineAction => mine.title;
 
   String get noServicesTip => "$ns.noServicesTip".tr();
 }
@@ -36,4 +35,12 @@ class _Details {
   static const ns = "${_I18n.ns}.details";
 
   String get apply => "$ns.apply".tr();
+}
+
+class _Action {
+  const _Action();
+
+  static const ns = "${_I18n.ns}.action";
+
+  String get applications => "$ns.applications".tr();
 }

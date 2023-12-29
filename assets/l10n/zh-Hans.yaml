@@ -278,6 +278,8 @@ ywb:
   info: |
     本功能基于 "上应一网通办"。
     对于绝大多数业务，即使你在平台上已完成申请，仍要去现场办理。
+  action:
+    applications: 申请
   apply: 申请
   noServicesTip: 应网办没有可办事项
   mine:

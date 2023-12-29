@@ -281,6 +281,8 @@ ywb:
   info: |
     This function is based on "SIT YWB".
     For most of types, you have to do the necessary procedure on the spot although you submitted an application online.
+  action:
+    applications: Applications
   apply: Apply
   noServicesTip: SIT YWB has no services available
   mine:
@@ -479,7 +481,7 @@ library:
   noBooks: No books
   collectionStatus: Collection status
   action:
-    searchBooks: Search books
+    searchBooks: Search
     login: Login
     borrowing: Borrowing
   login:
