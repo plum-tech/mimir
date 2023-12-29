@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/widgets/app.dart';
@@ -21,7 +22,6 @@ class _ExamResultPgAppCardState extends State<ExamResultPgAppCard> {
   List<ExamResultPg>? resultList;
   late final EventSubscription $refreshEvent;
   final $resultList = ExamResultInit.pgStorage.listenResultList();
-  final controller = PageController(viewportFraction: 0.45);
   @override
   void initState() {
     super.initState();
@@ -36,7 +36,6 @@ class _ExamResultPgAppCardState extends State<ExamResultPgAppCard> {
   void dispose() {
     $refreshEvent.cancel();
     $resultList.removeListener(refresh);
-    controller.dispose();
     super.dispose();
   }
 
@@ -66,19 +65,24 @@ class _ExamResultPgAppCardState extends State<ExamResultPgAppCard> {
 
   Widget? buildRecentResults(List<ExamResultPg> results) {
     if (results.isEmpty) return null;
-    return PageView.builder(
-      padEnds: false,
-      controller: controller,
-      scrollDirection: Axis.horizontal,
+    return CarouselSlider.builder(
       itemCount: results.length,
-      itemBuilder: (ctx, i) {
+      options: CarouselOptions(
+        height: 120,
+        viewportFraction: 0.45,
+        enableInfiniteScroll: false,
+        padEnds: false,
+        autoPlay: true,
+        autoPlayInterval: const Duration(milliseconds: 2500),
+        autoPlayCurve: Curves.fastEaseInToSlowEaseOut,
+      ),
+      itemBuilder: (BuildContext context, int i, int pageViewIndex) {
         final result = results[i];
         return ExamResultPgCarouselCard(
           result,
           elevated: true,
-        );
+        ).sized(w: 180);
       },
-    ).sized(h: 120);
+    );
   }
 }
-

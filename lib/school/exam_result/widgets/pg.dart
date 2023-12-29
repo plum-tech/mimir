@@ -64,7 +64,7 @@ class ExamResultPgCarouselCard extends StatelessWidget {
                 color: result.passed ? null : context.$red$,
               ),
             ),
-      ].column(maa: MainAxisAlignment.center,mas: MainAxisSize.min),
+      ].column(maa: MainAxisAlignment.center),
     );
   }
 }
