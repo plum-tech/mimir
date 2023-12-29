@@ -34,6 +34,7 @@ class AppCard extends StatelessWidget {
     final rightActions = this.rightActions ?? const <Widget>[];
     final textTheme = context.textTheme;
     return FilledCard(
+      clip: Clip.hardEdge,
       child: [
         Theme(
           data: context.theme.copyWith(

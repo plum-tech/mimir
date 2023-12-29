@@ -3,6 +3,7 @@ import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/school/widgets/course.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 import '../entity/result.pg.dart';
 import '../i18n.dart';
@@ -36,5 +37,34 @@ class ExamResultPgCard extends StatelessWidget {
       ),
       trailing: result.score.toString().text(),
     ).inAnyCard(clip: Clip.hardEdge, type: elevated ? CardType.plain : CardType.filled);
+  }
+}
+
+class ExamResultPgCarouselCard extends StatelessWidget {
+  final bool elevated;
+  final ExamResultPg result;
+
+  const ExamResultPgCarouselCard(
+    this.result, {
+    super.key,
+    required this.elevated,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = context.textTheme;
+    return Card(
+      child: [
+        CourseIcon(courseName: result.courseName),
+        TextScroll(result.courseName),
+        result.teacher.text(),
+        result.score.toString().text(
+              style: textTheme.labelSmall?.copyWith(
+                fontSize: textTheme.bodyLarge?.fontSize,
+                color: result.passed ? null : context.$red$,
+              ),
+            ),
+      ].column(maa: MainAxisAlignment.center,mas: MainAxisSize.min),
+    );
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/widgets/app.dart';
@@ -12,8 +10,6 @@ import 'package:rettulf/rettulf.dart';
 import 'entity/result.pg.dart';
 import "i18n.dart";
 
-const _recentLength = 2;
-
 class ExamResultPgAppCard extends StatefulWidget {
   const ExamResultPgAppCard({super.key});
 
@@ -25,6 +21,7 @@ class _ExamResultPgAppCardState extends State<ExamResultPgAppCard> {
   List<ExamResultPg>? resultList;
   late final EventSubscription $refreshEvent;
   final $resultList = ExamResultInit.pgStorage.listenResultList();
+  final controller = PageController(viewportFraction: 0.45);
   @override
   void initState() {
     super.initState();
@@ -39,6 +36,7 @@ class _ExamResultPgAppCardState extends State<ExamResultPgAppCard> {
   void dispose() {
     $refreshEvent.cancel();
     $resultList.removeListener(refresh);
+    controller.dispose();
     super.dispose();
   }
 
@@ -66,15 +64,21 @@ class _ExamResultPgAppCardState extends State<ExamResultPgAppCard> {
     );
   }
 
-  Widget? buildRecentResults(List<ExamResultPg> resultList) {
-    if (resultList.isEmpty) return null;
-    final results = resultList.sublist(0, min(_recentLength, resultList.length));
-    return results
-        .map((result) => ExamResultPgCard(
-              result,
-              elevated: true,
-            ))
-        .toList()
-        .column();
+  Widget? buildRecentResults(List<ExamResultPg> results) {
+    if (results.isEmpty) return null;
+    return PageView.builder(
+      padEnds: false,
+      controller: controller,
+      scrollDirection: Axis.horizontal,
+      itemCount: results.length,
+      itemBuilder: (ctx, i) {
+        final result = results[i];
+        return ExamResultPgCarouselCard(
+          result,
+          elevated: true,
+        );
+      },
+    ).sized(h: 120);
   }
 }
+
