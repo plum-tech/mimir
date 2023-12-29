@@ -72,9 +72,6 @@ class _ExamResultPgAppCardState extends State<ExamResultPgAppCard> {
         viewportFraction: 0.45,
         enableInfiniteScroll: false,
         padEnds: false,
-        autoPlay: true,
-        autoPlayInterval: const Duration(milliseconds: 2500),
-        autoPlayCurve: Curves.fastEaseInToSlowEaseOut,
       ),
       itemBuilder: (BuildContext context, int i, int pageViewIndex) {
         final result = results[i];

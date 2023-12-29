@@ -467,17 +467,14 @@ class TimetableP13nLivePreview extends StatelessWidget {
       if (alpha < 1.0) {
         color = color.withOpacity(alpha);
       }
-      return SizedBox.fromSize(
-        size: cellSize,
-        child: TweenAnimationBuilder(
-          tween: ColorTween(begin: color, end: color),
-          duration: const Duration(milliseconds: 300),
-          builder: (ctx, value, child) => CourseCell(
-            courseName: name,
-            color: value!,
-            place: place,
-            teachers: cellStyle.showTeachers ? teachers : null,
-          ),
+      return TweenAnimationBuilder(
+        tween: ColorTween(begin: color, end: color),
+        duration: const Duration(milliseconds: 300),
+        builder: (ctx, value, child) => CourseCell(
+          courseName: name,
+          color: value!,
+          place: place,
+          teachers: cellStyle.showTeachers ? teachers : null,
         ),
       );
     }
@@ -502,7 +499,7 @@ class TimetableP13nLivePreview extends StatelessWidget {
       itemCount: palette.colors.length,
       options: CarouselOptions(
         height: cellSize.height,
-        viewportFraction: 0.25,
+        viewportFraction: 0.24,
         enableInfiniteScroll: false,
         padEnds: false,
         autoPlay: true,
