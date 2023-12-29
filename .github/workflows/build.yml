@@ -270,6 +270,12 @@ jobs:
               ### Bug fixes
                 - Bar
 
+              ## 更改
+              ### 新功能
+                - Foo
+              ### Bug 修复
+                - Bar
+
               ## How to download
                 <!-- Android:main -->
                 <!-- - `Android`: Click the .apk files below.-->

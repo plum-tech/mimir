@@ -28,6 +28,7 @@ jobs:
           version=$(echo "${{ github.event.release.tag_name }}" | sed 's/v//g')
           release_time=$(echo "${{ github.event.release.published_at }}" | sed 's/T/ /g' | sed 's/Z//g')
           release_time=$(date -d "$release_time 8 hours" "+%Y-%m-%d %H:%M:%S")
+          release_note=$(echo "${{ github.event.release.body }}" | sed -n '/## 更改/,/## How to download/p' | sed '1d;$d')
           apk_name=$(echo "${{ github.event.release.assets[0].name }}")
           apk_url=$(echo "${{ github.event.release.assets[0].browser_download_url }}")
           ipa_name=$(echo "${{ github.event.release.assets[1].name }}")
@@ -41,6 +42,7 @@ jobs:
           jq -n \
             --arg version "$version" \
             --arg release_time "$release_time" \
+            --arg release_note "$release_note" \
             --arg apk_name "$apk_name" \
             --arg apk_url1 "$apk_url" \
             --arg apk_url2 "https://mirror.ghproxy.com/$apk_url" \
@@ -51,20 +53,25 @@ jobs:
               {
                 "version": $version,
                 "release_time": $release_time,
-                "apk": {
-                  "name": $apk_name,
-                  "url": {
-                    "official": $apk_url1,
-                    "mirror": $apk_url2,
+                "release_note": $release_note,
+                "downloads": {
+                  "Android": {
+                    "name": $apk_name,
+                    "default": "mirror",
+                    "url": {
+                      "official": $apk_url1,
+                      "mirror": $apk_url2,
+                    },
                   },
-                },
-                "ipa": {
-                  "name": $ipa_name,
-                  "url": {
-                    "official": $ipa_url1,
-                    "mirror": $ipa_url2,
-                  },
-                },
+                  "iOS": {
+                    "name": $ipa_name,
+                    "default": "mirror",
+                    "url": {
+                      "official": $ipa_url1,
+                      "mirror": $ipa_url2,
+                    }
+                  }
+                }
               }
             ' > "artifact/$version.json"
           
