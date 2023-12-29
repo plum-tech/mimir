@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 const _kClass2ndAutoRefresh = true;
@@ -29,14 +30,23 @@ class _Class2nd {
   set autoRefresh(bool newV) => box.put(_Class2ndK.autoRefresh, newV);
 }
 
+const _kExamResulShowResultPreview = true;
+
 class _ExamResultK {
   static const ns = "${SchoolSettings.ns}/examResult";
+  static const showResultPreview = "$ns/showResultPreview";
 }
 
 class _ExamResult {
   final Box box;
 
   const _ExamResult(this.box);
+
+  bool get showResultPreview => box.get(_ExamResultK.showResultPreview) ?? _kExamResulShowResultPreview;
+
+  set showResultPreview(bool newV) => box.put(_ExamResultK.showResultPreview, newV);
+
+  Listenable listenShowResultPreview() => box.listenable(keys: [_ExamResultK.showResultPreview]);
 }
 
 class _ExamArrangeK {

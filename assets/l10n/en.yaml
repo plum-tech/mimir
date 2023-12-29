@@ -568,6 +568,10 @@ settings:
       autoRefresh:
         title: Auto-refresh 2nd class scores
         desc: Refresh scores when app is launched
+    examResult:
+      showResultPreview:
+        title: Show exam result preview
+        desc: Show the current semester's exam results in the card
   life:
     title: Life
     electricity:

@@ -568,6 +568,10 @@ settings:
       autoRefresh:
         title: 第二课堂分自动刷新
         desc: 启动时刷新第二课堂分
+    examResult:
+      showResultPreview:
+        title: 显示考试成绩预览
+        desc: 在卡片中显示当前学期的考试成绩
   life:
     title: 生活
     electricity:

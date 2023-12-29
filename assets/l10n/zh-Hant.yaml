@@ -568,6 +568,10 @@ settings:
       autoRefresh:
         title: 第二課堂分自動重新整理
         desc: 啟動時重新整理第二課堂分
+    examResult:
+      showResultPreview:
+        title: 顯示考試成績預覽
+        desc: 在卡片中顯示當前學期的考試成績
   life:
     title: 生活
     electricity:

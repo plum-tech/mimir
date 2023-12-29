@@ -5,6 +5,7 @@ import 'package:sit/design/widgets/app.dart';
 import 'package:sit/school/event.dart';
 import 'package:sit/school/exam_result/init.dart';
 import 'package:sit/school/exam_result/widgets/pg.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -22,6 +23,9 @@ class _ExamResultPgAppCardState extends State<ExamResultPgAppCard> {
   List<ExamResultPg>? resultList;
   late final EventSubscription $refreshEvent;
   final $resultList = ExamResultInit.pgStorage.listenResultList();
+  final $showResultPreview = Settings.school.examResult.listenShowResultPreview();
+  bool showResultPreview = Settings.school.examResult.showResultPreview;
+
   @override
   void initState() {
     super.initState();
@@ -29,6 +33,7 @@ class _ExamResultPgAppCardState extends State<ExamResultPgAppCard> {
       refresh();
     });
     $resultList.addListener(refresh);
+    $showResultPreview.addListener(refreshShowResultPreview);
     refresh();
   }
 
@@ -36,6 +41,7 @@ class _ExamResultPgAppCardState extends State<ExamResultPgAppCard> {
   void dispose() {
     $refreshEvent.cancel();
     $resultList.removeListener(refresh);
+    $showResultPreview.removeListener(refreshShowResultPreview);
     super.dispose();
   }
 
@@ -45,12 +51,17 @@ class _ExamResultPgAppCardState extends State<ExamResultPgAppCard> {
     });
   }
 
+  void refreshShowResultPreview() {
+    setState(() {
+      showResultPreview = Settings.school.examResult.showResultPreview;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final resultList = this.resultList;
     return AppCard(
       title: i18n.title.text(),
-      view: resultList == null ? null : buildRecentResults(resultList),
+      view: buildRecentResults(),
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
@@ -63,10 +74,12 @@ class _ExamResultPgAppCardState extends State<ExamResultPgAppCard> {
     );
   }
 
-  Widget? buildRecentResults(List<ExamResultPg> results) {
-    if (results.isEmpty) return null;
+  Widget? buildRecentResults() {
+    if (!showResultPreview) return null;
+    final resultList = this.resultList;
+    if (resultList == null || resultList.isEmpty) return null;
     return CarouselSlider.builder(
-      itemCount: results.length,
+      itemCount: resultList.length,
       options: CarouselOptions(
         height: 120,
         viewportFraction: 0.45,
@@ -74,7 +87,7 @@ class _ExamResultPgAppCardState extends State<ExamResultPgAppCard> {
         padEnds: false,
       ),
       itemBuilder: (BuildContext context, int i, int pageViewIndex) {
-        final result = results[i];
+        final result = resultList[i];
         return ExamResultPgCarouselCard(
           result,
           elevated: true,

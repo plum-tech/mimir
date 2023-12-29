@@ -44,6 +44,7 @@ class _SchoolSettingsPageState extends State<SchoolSettingsPage> {
           SliverList.list(
             children: [
               if (userType?.capability.enableClass2nd == true) buildClass2ndAutoRefreshToggle(),
+              if (userType?.capability.enableExamResult == true) buildExamResultShowResultPreviewToggle(),
             ],
           ),
         ],
@@ -62,6 +63,24 @@ class _SchoolSettingsPageState extends State<SchoolSettingsPage> {
           onChanged: (newV) {
             setState(() {
               Settings.school.class2nd.autoRefresh = newV;
+            });
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget buildExamResultShowResultPreviewToggle() {
+    return StatefulBuilder(
+      builder: (ctx, setState) => ListTile(
+        title: i18n.school.examResult.showResultPreview.text(),
+        subtitle: i18n.school.examResult.showResultPreviewDesc.text(),
+        leading: const Icon(Icons.preview),
+        trailing: Switch.adaptive(
+          value: Settings.school.examResult.showResultPreview,
+          onChanged: (newV) {
+            setState(() {
+              Settings.school.examResult.showResultPreview = newV;
             });
           },
         ),
