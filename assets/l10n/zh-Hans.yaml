@@ -284,7 +284,7 @@ ywb:
   noServicesTip: 应网办没有可办事项
   mine:
     title: 你的申请
-    noApplicationsTip: 你没有应网办申请
+    noApplicationsTip: 你没有申请
   details:
     apply: 申请
   type:

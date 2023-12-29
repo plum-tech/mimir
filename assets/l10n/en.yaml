@@ -287,7 +287,7 @@ ywb:
   noServicesTip: SIT YWB has no services available
   mine:
     title: Your applications
-    noApplicationsTip: You has no SIT YWB applications
+    noApplicationsTip: You have no applications
   details:
     apply: Apply
   type:
