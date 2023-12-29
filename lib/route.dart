@@ -96,7 +96,7 @@ final _timetableShellRoute = GoRoute(
   builder: (ctx, state) => const TimetablePage(),
 );
 
-final _timetableRoutes =  [
+final _timetableRoutes = [
   GoRoute(
     path: "/timetable/import",
     builder: (ctx, state) => const ImportTimetablePage(),
@@ -129,7 +129,6 @@ final _timetableRoutes =  [
     builder: (ctx, state) => const TimetableBackgroundEditor(),
   ),
 ];
-
 
 final _schoolShellRoute = GoRoute(
   path: "/school",
