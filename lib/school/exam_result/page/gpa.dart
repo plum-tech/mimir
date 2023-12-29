@@ -15,6 +15,7 @@ import 'package:sit/school/exam_result/page/details.gpa.dart';
 import 'package:sit/utils/error.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 
+import '../aggregated.dart';
 import '../i18n.dart';
 import '../utils.dart';
 
@@ -63,17 +64,15 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
       isFetching = true;
     });
     try {
-      final results = await ExamResultInit.ugService.fetchResultList(
-        SemesterInfo.all,
+      final (semester2Results: _, :all) = await ExamResultAggregated.fetchAndCacheExamResultUgEachSemester(
         onProgress: (p) {
           if (!mounted) return;
           $loadingProgress.value = p;
         },
       );
-      ExamResultInit.ugStorage.setResultList(SemesterInfo.all, results);
       if (!mounted) return;
       setState(() {
-        gpaItems = buildGpaItems(results);
+        gpaItems = buildGpaItems(all);
         isFetching = false;
       });
     } catch (error, stackTrace) {
@@ -221,7 +220,7 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
     return GroupedSection(
         headerBuilder: (expanded, toggleExpand, defaultTrailing) {
           return ListTile(
-            leading: Icon(expanded? Icons.expand_less : Icons.expand_more),
+            leading: Icon(expanded ? Icons.expand_less : Icons.expand_more),
             title: widget.semester.l10n().text(),
             subtitle: GpaCalculationText(
               items: selectedItems,

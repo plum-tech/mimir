@@ -5,13 +5,20 @@ import 'entity/result.ug.dart';
 import 'init.dart';
 
 class ExamResultAggregated {
-  static Future<Map<SemesterInfo, List<ExamResultUg>>> fetchAndCacheExamResultUgEachSemester() async {
-    final list = await ExamResultInit.ugService.fetchResultList(SemesterInfo.all);
-    final semester2List = list.groupListsBy((result) => result.semesterInfo);
+  static Future<({Map<SemesterInfo, List<ExamResultUg>> semester2Results, List<ExamResultUg> all})>
+      fetchAndCacheExamResultUgEachSemester({
+    void Function(double progress)? onProgress,
+  }) async {
+    final all = await ExamResultInit.ugService.fetchResultList(
+      SemesterInfo.all,
+      onProgress: onProgress,
+    );
+    final semester2Results = all.groupListsBy((result) => result.semesterInfo);
     final storage = ExamResultInit.ugStorage;
-    for (final MapEntry(key: semester, value: list) in semester2List.entries) {
+    await storage.setResultList(SemesterInfo.all, all);
+    for (final MapEntry(key: semester, value: list) in semester2Results.entries) {
       await storage.setResultList(semester, list);
     }
-    return semester2List;
+    return (semester2Results: semester2Results, all: all);
   }
 }
