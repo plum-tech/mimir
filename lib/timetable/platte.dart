@@ -19,7 +19,6 @@ class BuiltinTimetablePalettes {
       (light: Color(0xD2ffd200), dark: Color(0xDF523900)), // lemon
       (light: Color(0xD275f8e2), dark: Color(0xDF005047)), // cyan
       (light: Color(0xD2b4ebff), dark: Color(0xDF004e5f)), // ice
-      (light: Color(0xD2b4ebff), dark: Color(0xDF004e5f)), // cyan
       (light: Color(0xD2ffd7f5), dark: Color(0xDF7c157a)), // mauve
       (light: Color(0xD2eaf141), dark: Color(0xDF4b4c00)), // toxic
     ],
