@@ -31,9 +31,18 @@ jobs:
           release_note=$(echo "${{ github.event.release.body }}" | sed -n '/## 更改/,/## How to download/p' | sed '1d;$d')
           apk_name=$(echo "${{ github.event.release.assets[0].name }}")
           apk_url=$(echo "${{ github.event.release.assets[0].browser_download_url }}")
+          if [ -z "$apk_url" ]; then
+            apk_sha256=""
+          else
+            apk_sha256=$(curl -sL "$apk_url" | sha256sum | cut -d ' ' -f 1)
+          fi
           ipa_name=$(echo "${{ github.event.release.assets[1].name }}")
           ipa_url=$(echo "${{ github.event.release.assets[1].browser_download_url }}")
-          
+          if [ -z "$ipa_url" ]; then
+            ipa_sha256=""
+          else
+            ipa_sha256=$(curl -sL "$ipa_url" | sha256sum | cut -d ' ' -f 1)
+          fi
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
@@ -44,9 +53,11 @@ jobs:
             --arg release_time "$release_time" \
             --arg release_note "$release_note" \
             --arg apk_name "$apk_name" \
+            --arg apk_sha256 "$apk_sha256" \
             --arg apk_url1 "$apk_url" \
             --arg apk_url2 "https://mirror.ghproxy.com/$apk_url" \
             --arg ipa_name "$ipa_name" \
+            --arg ipa_sha256 "$ipa_sha256" \
             --arg ipa_url1 "$ipa_url" \
             --arg ipa_url2 "https://mirror.ghproxy.com/$ipa_url" \
             '
@@ -58,6 +69,7 @@ jobs:
                   "Android": {
                     "name": $apk_name,
                     "default": "mirror",
+                    "sha256": $apk_sha256,
                     "url": {
                       "official": $apk_url1,
                       "mirror": $apk_url2,
@@ -66,6 +78,7 @@ jobs:
                   "iOS": {
                     "name": $ipa_name,
                     "default": "mirror",
+                    "sha256": $ipa_sha256,
                     "url": {
                       "official": $ipa_url1,
                       "mirror": $ipa_url2,
