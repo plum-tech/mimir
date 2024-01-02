@@ -1,21 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'payload.dart';
+part of 'artifact.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-UpdateInfoPayload _$UpdateInfoPayloadFromJson(Map<String, dynamic> json) => UpdateInfoPayload(
+ArtifactVersionInfo _$ArtifactVersionInfoFromJson(Map<String, dynamic> json) => ArtifactVersionInfo(
       version: json['version'] as String,
       releaseTime: DateTime.parse(json['release_time'] as String),
       releaseNote: json['release_note'] as String,
       downloads: (json['downloads'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, UpdateDownloadInfo.fromJson(e as Map<String, dynamic>)),
+        (k, e) => MapEntry(k, ArtifactDownload.fromJson(e as Map<String, dynamic>)),
       ),
     );
 
-UpdateDownloadInfo _$UpdateDownloadInfoFromJson(Map<String, dynamic> json) => UpdateDownloadInfo(
+ArtifactDownload _$ArtifactDownloadFromJson(Map<String, dynamic> json) => ArtifactDownload(
       name: json['name'] as String,
       sha256: json['sha256'] as String,
       defaultUrlName: json['default'] as String,

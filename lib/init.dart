@@ -4,6 +4,7 @@ import 'package:sit/entity/campus.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:sit/credentials/init.dart';
+import 'package:sit/session/backend.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/session/class2nd.dart';
 import 'package:sit/session/gms.dart';
@@ -38,6 +39,7 @@ class Init {
 
   static late CookieJar cookieJar;
   static late Dio dio;
+  static late BackendSession backend;
   static late SsoSession ssoSession;
   static late JwxtSession jwxtSession;
   static late GmsSession gmsSession;
@@ -56,6 +58,9 @@ class Init {
     }
     dio = await DioInit.init(
       cookieJar: cookieJar,
+    );
+    backend = BackendSession(
+      dio: dio,
     );
     ssoSession = SsoSession(
       dio: dio,

@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'payload.g.dart';
+part 'artifact.g.dart';
 
 @JsonSerializable(createToJson: false)
-class UpdateInfoPayload {
+class ArtifactVersionInfo {
   @JsonKey()
   final String version;
   @JsonKey(name: "release_time")
@@ -11,22 +11,24 @@ class UpdateInfoPayload {
   @JsonKey(name: "release_note")
   final String releaseNote;
   @JsonKey()
-  final Map<String, UpdateDownloadInfo> downloads;
+  final Map<String, ArtifactDownload> downloads;
 
-  const UpdateInfoPayload({
+  const ArtifactVersionInfo({
     required this.version,
     required this.releaseTime,
     required this.releaseNote,
     required this.downloads,
   });
 
-  UpdateDownloadInfo? get androidDownload => downloads["Android"];
+  ArtifactDownload? get androidDownload => downloads["Android"];
 
-  UpdateDownloadInfo? get iOSDownload => downloads["iOS"];
+  ArtifactDownload? get iOSDownload => downloads["iOS"];
+
+  factory ArtifactVersionInfo.fromJson(Map<String, dynamic> json) => _$ArtifactVersionInfoFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
-class UpdateDownloadInfo {
+class ArtifactDownload {
   @JsonKey()
   final String name;
   @JsonKey(name: "default")
@@ -36,7 +38,7 @@ class UpdateDownloadInfo {
   @JsonKey()
   final Map<String, String> url;
 
-  const UpdateDownloadInfo({
+  const ArtifactDownload({
     required this.name,
     required this.sha256,
     required this.defaultUrlName,
@@ -44,4 +46,6 @@ class UpdateDownloadInfo {
   });
 
   String get defaultUrl => url[defaultUrlName]!;
+
+  factory ArtifactDownload.fromJson(Map<String, dynamic> json) => _$ArtifactDownloadFromJson(json);
 }
