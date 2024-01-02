@@ -19,17 +19,29 @@ class UpdateInfoPayload {
     required this.releaseNote,
     required this.downloads,
   });
+
+  UpdateDownloadInfo? get androidDownload => downloads["Android"];
+
+  UpdateDownloadInfo? get iOSDownload => downloads["iOS"];
 }
 
 @JsonSerializable(createToJson: false)
 class UpdateDownloadInfo {
   @JsonKey()
   final String name;
+  @JsonKey(name: "default")
+  final String defaultUrlName;
   @JsonKey()
-  final String url;
+  final String sha256;
+  @JsonKey()
+  final Map<String, String> url;
 
   const UpdateDownloadInfo({
     required this.name,
+    required this.sha256,
+    required this.defaultUrlName,
     required this.url,
   });
+
+  String get defaultUrl => url[defaultUrlName]!;
 }

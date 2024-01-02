@@ -17,5 +17,7 @@ UpdateInfoPayload _$UpdateInfoPayloadFromJson(Map<String, dynamic> json) => Upda
 
 UpdateDownloadInfo _$UpdateDownloadInfoFromJson(Map<String, dynamic> json) => UpdateDownloadInfo(
       name: json['name'] as String,
-      url: json['url'] as String,
+      sha256: json['sha256'] as String,
+      defaultUrlName: json['default'] as String,
+      url: Map<String, String>.from(json['url'] as Map),
     );
