@@ -20,6 +20,7 @@ import 'package:sit/school/ywb/page/details.dart';
 import 'package:sit/school/ywb/page/service.dart';
 import 'package:sit/school/ywb/page/application.dart';
 import 'package:sit/settings/page/about.dart';
+import 'package:sit/settings/page/language.dart';
 import 'package:sit/settings/page/life.dart';
 import 'package:sit/settings/page/proxy.dart';
 import 'package:sit/settings/page/school.dart';
@@ -157,6 +158,10 @@ final _settingsRoute = GoRoute(
   path: "/settings",
   builder: (ctx, state) => const SettingsPage(),
   routes: [
+    GoRoute(
+      path: "language",
+      builder: (ctx, state) => const LanguagePage(),
+    ),
     GoRoute(
       path: "credentials",
       builder: (ctx, state) => const CredentialsPage(),

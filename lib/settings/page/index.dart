@@ -97,7 +97,12 @@ class _SettingsPageState extends State<SettingsPage> {
     }
     all.add(const Divider());
 
-    all.add(buildLanguageSelector());
+    all.add(PageNavigationTile(
+      title: i18n.language.text(),
+      subtitle: context.locale.nativeDisplayLanguageScript.text(),
+      leading: const Icon(Icons.translate_rounded),
+      path: "/settings/language",
+    ));
     all.add(buildThemeMode());
     all.add(buildThemeColorPicker());
     all.add(const Divider());
@@ -171,34 +176,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   .toList()
                   .wrap(spacing: 4),
             );
-  }
-
-  Widget buildLanguageSelector() {
-    final curLocale = context.locale;
-    return ListTile(
-      leading: const Icon(Icons.translate_rounded),
-      title: i18n.language.text(),
-      subtitle: curLocale.nativeDisplayLanguageScript.text(),
-      trailing: DropdownMenu<Locale>(
-        initialSelection: curLocale,
-        onSelected: (Locale? locale) async {
-          if (locale == null) return;
-          await HapticFeedback.mediumImpact();
-          if (!mounted) return;
-          await context.setLocale(locale);
-          final engine = WidgetsFlutterBinding.ensureInitialized();
-          engine.performReassemble();
-        },
-        dropdownMenuEntries: R.supportedLocales
-            .map<DropdownMenuEntry<Locale>>(
-              (locale) => DropdownMenuEntry<Locale>(
-                value: locale,
-                label: locale.nativeDisplayLanguageScript,
-              ),
-            )
-            .toList(),
-      ),
-    );
   }
 
   Widget buildThemeColorPicker() {
