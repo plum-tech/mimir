@@ -40,13 +40,23 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    $account.addListener(onAccountChange);
   }
 
   @override
   void dispose() {
     $account.dispose();
     $password.dispose();
+    $account.removeListener(onAccountChange);
     super.dispose();
+  }
+
+  void onAccountChange() {
+    final old = $account.text;
+    final uppercase = old.toUpperCase();
+    if (old != uppercase) {
+      $account.text = uppercase;
+    }
   }
 
   @override
