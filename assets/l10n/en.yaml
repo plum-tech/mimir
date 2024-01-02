@@ -355,7 +355,8 @@ examResult:
   maxScore: Max score
   gpa:
     title: GPA
-    lessonSelected: "{} Selected"
+    lessonSelected: "{} selected"
+    credit: "Credit: {}"
     gpaResult: "GPA: {}"
     selectAll: Select all
     invert: Invert

@@ -353,6 +353,7 @@ examResult:
   gpa:
     title: 绩点
     lessonSelected: "已选 {} 门"
+    credit: "学分: {}"
     gpaResult: "绩点: {}"
     selectAll: 全选
     invert: 反选
@@ -672,7 +673,7 @@ qrCode:
   title: 找不到页面
   subtitle: 未找到请求的页面
 update:
-  newVersionAvailable: "新版本可以更新！"
+  newVersionAvailable: "有新版本可用！"
 weekday:
   0: 周一
   1: 周二

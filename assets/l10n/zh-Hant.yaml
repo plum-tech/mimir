@@ -353,6 +353,7 @@ examResult:
   gpa:
     title: 績點
     lessonSelected: "已選 {} 門"
+    credit: "學分: {}"
     gpaResult: "績點: {}"
     selectAll: 全選
     invert: 反選
