@@ -45,8 +45,12 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
       },
       pages: [
         WhatsNewPage(
-          title: "What's New in ${info.version}".text(),
+          title: i18n.newVersionAvailable.text(),
           features: [
+            ListTile(
+              leading: Icon(Icons.featured_play_list),
+              title: info.version.toString().text(),
+            ),
             FeaturedMarkdownWidget(info.releaseNote),
           ],
         ),

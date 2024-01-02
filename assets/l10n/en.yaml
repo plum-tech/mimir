@@ -671,6 +671,8 @@ qrCode:
 404:
   title: Not Found
   subtitle: The requested page was not found
+update:
+  newVersionAvailable: "New version available!"
 weekday:
   0: Monday
   1: Tuesday

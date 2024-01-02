@@ -7,5 +7,8 @@ class _I18n with CommonI18nMixin {
   const _I18n();
 
   static const ns = "update";
+
   String get title => "$ns.title".tr();
+
+  String get newVersionAvailable => "$ns.newVersionAvailable".tr();
 }

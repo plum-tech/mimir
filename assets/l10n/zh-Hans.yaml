@@ -671,6 +671,8 @@ qrCode:
 404:
   title: 找不到页面
   subtitle: 未找到请求的页面
+update:
+  newVersionAvailable: "新版本可以更新！"
 weekday:
   0: 周一
   1: 周二

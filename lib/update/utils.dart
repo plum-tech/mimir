@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/r.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -8,17 +9,15 @@ import 'page/update.dart';
 
 Future<void> checkAppUpdate({
   required BuildContext context,
+  Duration delayAtLeast = Duration.zero,
 }) async {
-  final latest = await UpdateInit.service.getLatestVersion();
+  if (UniversalPlatform.isIOS || UniversalPlatform.isMacOS) return;
+  final (latest, _) = await (UpdateInit.service.getLatestVersion(), Future.delayed(delayAtLeast)).wait;
   debugPrint(latest.toString());
+  if (latest.downloadOf(R.currentVersion.platform) == null) return;
   final canUpdate = latest.version > R.currentVersion.version;
   if (!context.mounted) return;
-  if (canUpdate) {
-    debugPrint("Can update");
+  if (canUpdate || kDebugMode) {
+    await context.show$Sheet$((ctx) => ArtifactUpdatePage(info: latest));
   }
-  if (UniversalPlatform.isIOS || UniversalPlatform.isMacOS || latest.downloadOf(R.currentVersion.platform) == null) {
-    return;
-  }
-  context.show$Sheet$((ctx) => ArtifactUpdatePage(info: latest));
 }
-

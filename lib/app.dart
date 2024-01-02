@@ -12,6 +12,7 @@ import 'package:sit/settings/settings.dart';
 import 'package:sit/update/utils.dart';
 import 'package:sit/utils/color.dart';
 import 'package:system_theme/system_theme.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class MimirApp extends StatefulWidget {
   const MimirApp({super.key});
@@ -33,9 +34,6 @@ class _MimirAppState extends State<MimirApp> {
     super.initState();
     $theme.addListener(refresh);
     $focusMode.addListener(refreshFocusMode);
-    // Future.delayed(Duration.zero).then((value) async {
-    //   await checkAppUpdate(context);
-    // });
   }
 
   @override
@@ -102,7 +100,9 @@ class _MimirAppState extends State<MimirApp> {
       )),
       builder: (ctx, child) => OaAuthManager(
         child: OaOnlineManager(
-          child: child ?? const SizedBox(),
+          child: UpdateChecker(
+            child: child ?? const SizedBox(),
+          ),
         ),
       ),
       scrollBehavior: const MaterialScrollBehavior().copyWith(
@@ -115,5 +115,36 @@ class _MimirAppState extends State<MimirApp> {
         },
       ),
     );
+  }
+}
+
+class UpdateChecker extends StatefulWidget {
+  final Widget child;
+
+  const UpdateChecker({
+    super.key,
+    required this.child,
+  });
+
+  @override
+  State<UpdateChecker> createState() => _UpdateCheckerState();
+}
+
+class _UpdateCheckerState extends State<UpdateChecker> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero).then((value) async {
+      if (UniversalPlatform.isIOS || UniversalPlatform.isMacOS) return;
+      await checkAppUpdate(
+        context: $Key.currentContext!,
+        delayAtLeast: const Duration(milliseconds: 3000),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
   }
 }
