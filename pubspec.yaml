@@ -60,7 +60,7 @@ dependencies:
   # WebView and browser related
   webview_flutter: ^4.4.2
   fk_user_agent: ^2.1.0
-  flutter_widget_from_html: ^0.14.9
+  flutter_widget_from_html: ^0.14.10+1
   chewie: ^1.7.4
   cookie_jar: ^4.0.8
   flutter_html: ^3.0.0-beta.2
@@ -108,7 +108,7 @@ dependencies:
   # Qr code generate
   qr_flutter: ^4.1.0
   pretty_qr_code: ^3.0.0
-  cached_network_image: ^3.3.0
+  cached_network_image: ^3.3.1
   modal_bottom_sheet: ^3.0.0-pre
   auto_size_text: ^3.0.0
   text_scroll: ^0.2.0
