@@ -28,10 +28,10 @@ class ExamResultUgPage extends StatefulWidget {
 }
 
 class _ExamResultUgPageState extends State<ExamResultUgPage> {
+  late SemesterInfo initial = ExamResultInit.ugStorage.lastSemesterInfo ?? estimateCurrentSemester();
   late List<ExamResultUg>? resultList = ExamResultInit.ugStorage.getResultList(initial);
   bool isFetching = false;
   final $loadingProgress = ValueNotifier(0.0);
-  late SemesterInfo initial = ExamResultInit.ugStorage.lastSemesterInfo ?? estimateCurrentSemester();
   late SemesterInfo selected = initial;
 
   @override
@@ -59,7 +59,6 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
         },
       );
       setState(() {
-        resultList = ExamResultInit.ugStorage.getResultList(initial);
         isFetching = false;
       });
     } catch (error, stackTrace) {
