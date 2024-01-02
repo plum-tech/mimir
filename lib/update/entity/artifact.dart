@@ -1,11 +1,13 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sit/entity/version.dart';
+import 'package:version/version.dart';
 
 part 'artifact.g.dart';
 
 @JsonSerializable(createToJson: false)
 class ArtifactVersionInfo {
-  @JsonKey()
-  final String version;
+  @JsonKey(fromJson: Version.parse)
+  final Version version;
   @JsonKey(name: "release_time")
   final DateTime releaseTime;
   @JsonKey(name: "release_note")
@@ -20,11 +22,19 @@ class ArtifactVersionInfo {
     required this.downloads,
   });
 
-  ArtifactDownload? get androidDownload => downloads["Android"];
-
-  ArtifactDownload? get iOSDownload => downloads["iOS"];
+  ArtifactDownload? downloadOf(AppPlatform platform) => downloads[platform.name];
 
   factory ArtifactVersionInfo.fromJson(Map<String, dynamic> json) => _$ArtifactVersionInfoFromJson(json);
+
+  @override
+  String toString() {
+    return {
+      "version": version,
+      "releaseTime": releaseTime,
+      "releaseNote": releaseNote.replaceAll(RegExp(r"[\t\n\r]+"), ""),
+      "downloads": downloads,
+    }.toString();
+  }
 }
 
 @JsonSerializable(createToJson: false)
@@ -35,17 +45,27 @@ class ArtifactDownload {
   final String defaultUrlName;
   @JsonKey()
   final String sha256;
-  @JsonKey()
-  final Map<String, String> url;
+  @JsonKey(name: "url")
+  final Map<String, String> name2Url;
 
   const ArtifactDownload({
     required this.name,
     required this.sha256,
     required this.defaultUrlName,
-    required this.url,
+    required this.name2Url,
   });
 
-  String get defaultUrl => url[defaultUrlName]!;
+  String? get defaultUrl => name2Url[defaultUrlName];
 
   factory ArtifactDownload.fromJson(Map<String, dynamic> json) => _$ArtifactDownloadFromJson(json);
+
+  @override
+  String toString() {
+    return {
+      "name": name,
+      "defaultUrlName": defaultUrlName,
+      "sha256": sha256,
+      "name2Url": name2Url,
+    }.toString();
+  }
 }

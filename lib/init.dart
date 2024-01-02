@@ -31,6 +31,7 @@ import 'package:sit/storage/hive/cookie.dart';
 import 'package:sit/network/dio.dart';
 import 'package:sit/route.dart';
 import 'package:sit/session/sso.dart';
+import 'package:sit/update/init.dart';
 
 import '../widgets/captcha_box.dart';
 
@@ -100,6 +101,7 @@ class Init {
     CredentialsInit.init();
     TimetableInit.init();
     if (!kIsWeb) {
+      UpdateInit.init();
       OaAnnounceInit.init();
       ExamResultInit.init();
       ExamArrangeInit.init();

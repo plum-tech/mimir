@@ -7,7 +7,7 @@ part of 'artifact.dart';
 // **************************************************************************
 
 ArtifactVersionInfo _$ArtifactVersionInfoFromJson(Map<String, dynamic> json) => ArtifactVersionInfo(
-      version: json['version'] as String,
+      version: Version.parse(json['version'] as String),
       releaseTime: DateTime.parse(json['release_time'] as String),
       releaseNote: json['release_note'] as String,
       downloads: (json['downloads'] as Map<String, dynamic>).map(
@@ -19,5 +19,5 @@ ArtifactDownload _$ArtifactDownloadFromJson(Map<String, dynamic> json) => Artifa
       name: json['name'] as String,
       sha256: json['sha256'] as String,
       defaultUrlName: json['default'] as String,
-      url: Map<String, String>.from(json['url'] as Map),
+      name2Url: Map<String, String>.from(json['url'] as Map),
     );

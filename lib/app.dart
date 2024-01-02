@@ -9,6 +9,7 @@ import 'package:sit/r.dart';
 import 'package:sit/route.dart';
 import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:sit/update/utils.dart';
 import 'package:sit/utils/color.dart';
 import 'package:system_theme/system_theme.dart';
 
@@ -32,6 +33,9 @@ class _MimirAppState extends State<MimirApp> {
     super.initState();
     $theme.addListener(refresh);
     $focusMode.addListener(refreshFocusMode);
+    // Future.delayed(Duration.zero).then((value) async {
+    //   await checkAppUpdate(context);
+    // });
   }
 
   @override

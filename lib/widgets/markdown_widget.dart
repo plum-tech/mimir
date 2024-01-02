@@ -3,10 +3,10 @@ import 'package:markdown/markdown.dart';
 
 import 'html.dart';
 
-class MyMarkdownWidget extends StatelessWidget {
+class FeaturedMarkdownWidget extends StatelessWidget {
   final String markdown;
 
-  const MyMarkdownWidget(
+  const FeaturedMarkdownWidget(
     this.markdown, {
     super.key,
   });

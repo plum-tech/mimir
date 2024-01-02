@@ -1,6 +1,6 @@
 import 'service/update.dart';
 
-class TimetableInit {
+class UpdateInit {
   static late UpdateService service;
 
   static void init() {

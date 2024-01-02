@@ -7,6 +7,7 @@ import 'package:sit/r.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/entity/version.dart';
+import 'package:sit/update/utils.dart';
 import 'package:sit/utils/guard_launch.dart';
 import 'package:unicons/unicons.dart';
 import '../i18n.dart';
@@ -122,6 +123,12 @@ class _VersionTileState extends State<VersionTile> {
       },
       title: i18n.about.version.text(),
       subtitle: "${version.platform.name} ${version.version.toString()}".text(),
+      trailing: IconButton(
+        icon: const Icon(Icons.update),
+        onPressed: () async {
+          await checkAppUpdate(context: context);
+        },
+      ),
       onTap: Settings.devMode && clickCount <= 10
           ? null
           : () async {
