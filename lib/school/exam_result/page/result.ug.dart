@@ -59,6 +59,7 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
         },
       );
       setState(() {
+        resultList = ExamResultInit.ugStorage.getResultList(initial);
         isFetching = false;
       });
     } catch (error, stackTrace) {
