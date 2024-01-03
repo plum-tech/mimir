@@ -57,29 +57,19 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
               ignore = value == true;
             });
           },
-          title: "Skip this version".text(),
+          title: i18n.skipThisVersion.text(),
         ).padH(32),
         [
-          CupertinoButton(
-            borderRadius: BorderRadius.circular(15),
+          OutlinedButton(
             onPressed: () {
               if (ignore) {
                 Settings.skippedVersion = info.version.toString();
               }
               context.pop();
             },
-            color: context.colorScheme.secondary,
-            padding: const EdgeInsets.all(16),
-            child: i18n.notNow.text(
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16,
-                color: context.colorScheme.onSecondary,
-              ),
-            ),
+            child: i18n.notNow.text(style: context.textTheme.titleMedium).padAll(16),
           ).padOnly(r: 8).expanded(),
-          CupertinoButton(
-            borderRadius: BorderRadius.circular(15),
+          FilledButton(
             onPressed: ignore
                 ? null
                 : () async {
@@ -90,17 +80,9 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
                     context.pop();
                     await launchUrlString(url, mode: LaunchMode.externalApplication);
                   },
-            color: context.colorScheme.primary,
-            padding: const EdgeInsets.all(16),
-            child: i18n.download.text(
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16,
-                color: context.colorScheme.onPrimary,
-              ),
-            ),
+            child: i18n.download.text(style: context.textTheme.titleMedium).padAll(16),
           ).padOnly(l: 8).expanded(),
-        ].row(maa: MainAxisAlignment.spaceEvenly).padAll(16),
+        ].row(maa: MainAxisAlignment.spaceEvenly).padAll(8),
       ].column().safeArea(),
     );
   }

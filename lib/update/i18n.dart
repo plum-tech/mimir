@@ -11,4 +11,6 @@ class _I18n with CommonI18nMixin {
   String get title => "$ns.title".tr();
 
   String get newVersionAvailable => "$ns.newVersionAvailable".tr();
+
+  String get skipThisVersion => "$ns.skipThisVersion".tr();
 }

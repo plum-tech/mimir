@@ -675,7 +675,8 @@ qrCode:
   title: 找不到页面
   subtitle: 未找到请求的页面
 update:
-  newVersionAvailable: "有新版本可用！"
+  newVersionAvailable: 有新版本可用！
+  skipThisVersion: 跳过这个版本
 weekday:
   0: 周一
   1: 周二
