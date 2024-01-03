@@ -457,6 +457,8 @@ login:
   accountOrPwdErrorTip: 賬戶或密碼錯誤
   captchaErrorTip: 驗證碼錯誤
   accountFrozenTip: 賬戶處於凍結狀態
+  accountLockedTip: 賬戶處於鎖定狀態
+  incompleteUserInfoTip: 賬戶用戶資訊不完整
   unknownAuthErrorTip: 未知的帳戶身份驗證錯誤
   loggedInTip: 已登入
   notLoggedIn: 未登入

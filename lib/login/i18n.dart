@@ -36,6 +36,10 @@ class CommonLoginI18n with CommonI18nMixin {
   String get captchaErrorTip => "$ns.captchaErrorTip".tr();
 
   String get accountFrozenTip => "$ns.accountFrozenTip".tr();
+
+  String get accountLockedTip => "$ns.accountLockedTip".tr();
+
+  String get incompleteUserInfoTip => "$ns.incompleteUserInfoTip".tr();
 }
 
 class OaLoginI18n extends CommonLoginI18n {

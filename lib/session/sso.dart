@@ -234,13 +234,15 @@ class SsoSession {
       _setOnline(false);
       rethrow;
     }
-    final page = BeautifulSoup(response.data);
-
-    final emptyPage = BeautifulSoup('');
+    final pageRaw = response.data as String;
+    if (pageRaw.contains("完善资料")) {
+      throw CredentialsException(message: pageRaw, type: CredentialsErrorType.incompleteUserInfo);
+    }
+    final page = BeautifulSoup(pageRaw);
     // For desktop
-    final authError = (page.find('span', id: 'msg', class_: 'auth_error') ?? emptyPage).text.trim();
+    final authError = page.find('span', id: 'msg', class_: 'auth_error')?.text.trim() ?? "";
     // For mobile
-    final mobileError = (page.find('span', id: 'errorMsg') ?? emptyPage).text.trim();
+    final mobileError = page.find('span', id: 'errorMsg')?.text.trim() ?? "";
     if (authError.isNotEmpty || mobileError.isNotEmpty) {
       final errorMessage = authError + mobileError;
       final type = parseInvalidType(errorMessage);
@@ -270,6 +272,8 @@ class SsoSession {
       return CredentialsErrorType.captcha;
     } else if (errorMessage.contains("冻结")) {
       return CredentialsErrorType.frozen;
+    } else if (errorMessage.contains("锁定")) {
+      return CredentialsErrorType.locked;
     }
     return CredentialsErrorType.accountPassword;
   }

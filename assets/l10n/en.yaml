@@ -460,6 +460,8 @@ login:
   accountOrPwdErrorTip: The account or password is incorrect
   captchaErrorTip: The captcha is incorrect
   accountFrozenTip: The account is frozen
+  accountLockedTip: The account is locked
+  incompleteUserInfoTip: The account has incomplete user info
   unknownAuthErrorTip: Unknown authentication error
   loggedInTip: Logged in
   notLoggedIn: Not logged In

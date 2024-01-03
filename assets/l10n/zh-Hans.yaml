@@ -457,6 +457,8 @@ login:
   accountOrPwdErrorTip: 账号或密码不正确
   captchaErrorTip: 验证码不正确
   accountFrozenTip: 账号处于冻结状态
+  accountLockedTip: 账号处于锁定状态
+  incompleteUserInfoTip: 账号用户信息不完整
   unknownAuthErrorTip: 未知账号验证错误
   loggedInTip: 登录成功
   notLoggedIn: 未登录
