@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:markdown_widget/markdown_widget.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/r.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/update/entity/artifact.dart';
-import 'package:sit/widgets/markdown_widget.dart';
+import 'package:sit/widgets/markdown.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../i18n.dart';
 
@@ -48,17 +49,9 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
             leading: const Icon(Icons.featured_play_list),
             title: info.version.toString().text(),
           ),
-          FeaturedMarkdownWidget(info.releaseNote),
-        ].column().expanded(),
-        CheckboxListTile(
-          value: ignore,
-          onChanged: (value) {
-            setState(() {
-              ignore = value == true;
-            });
-          },
-          title: i18n.skipThisVersion.text(),
-        ).padH(32),
+          MarkdownWidget(data: info.releaseNote).expanded(),
+        ].column().padH(8).expanded(),
+        buildSkipTile().padH(32),
         [
           OutlinedButton(
             onPressed: () {
@@ -84,6 +77,18 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
           ).padOnly(l: 8).expanded(),
         ].row(maa: MainAxisAlignment.spaceEvenly).padAll(8),
       ].column().safeArea(),
+    );
+  }
+
+  Widget buildSkipTile(){
+    return CheckboxListTile(
+      value: ignore,
+      onChanged: (value) {
+        setState(() {
+          ignore = value == true;
+        });
+      },
+      title: i18n.skipThisVersion.text(),
     );
   }
 }

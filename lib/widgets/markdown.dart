@@ -4,17 +4,17 @@ import 'package:markdown/markdown.dart';
 import 'html.dart';
 
 class FeaturedMarkdownWidget extends StatelessWidget {
-  final String markdown;
+  final String data;
 
-  const FeaturedMarkdownWidget(
-    this.markdown, {
+  const FeaturedMarkdownWidget({
     super.key,
+    required this.data,
   });
 
   @override
   Widget build(BuildContext context) {
     final html = markdownToHtml(
-      markdown,
+      data,
       inlineSyntaxes: [
         InlineHtmlSyntax(),
         StrikethroughSyntax(),

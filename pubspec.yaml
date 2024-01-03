@@ -113,6 +113,7 @@ dependencies:
   auto_size_text: ^3.0.0
   text_scroll: ^0.2.0
   markdown: ^7.1.1
+  markdown_widget: ^2.3.2+3
   animations: ^2.0.10
   dynamic_color: ^1.6.9
   unicons: ^2.1.1
