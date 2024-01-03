@@ -55,7 +55,7 @@ String? _buildProxyForType(ProxyType type, bool isSchoolLanRequired) {
   final address = profile.address;
   if (address == null) return null;
   if (!profile.enabled) return null;
-  if (profile.proxyMode == ProxyMode.global && !isSchoolLanRequired) return null;
+  if (profile.proxyMode == ProxyMode.global || !isSchoolLanRequired) return null;
   return address;
 }
 
