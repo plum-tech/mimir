@@ -80,10 +80,9 @@ class _MainStagePageState extends State<MainStagePage> {
   @override
   Widget build(BuildContext context) {
     if (context.isPortrait) {
-      final isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom != 0.0;
       return Scaffold(
         body: widget.navigationShell,
-        bottomNavigationBar: isKeyboardOpen ? null : buildButtonNavigationBar(),
+        bottomNavigationBar: buildButtonNavigationBar(),
       );
     } else {
       return Scaffold(
