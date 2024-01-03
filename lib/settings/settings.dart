@@ -27,6 +27,11 @@ class _DeveloperK {
   static const demoMode = '$ns/demoMode';
 }
 
+class _UpdateK {
+  static const ns = '/update';
+  static const skippedVersion = '$ns/skippedVersion';
+}
+
 // ignore: non_constant_identifier_names
 late SettingsImpl Settings;
 
@@ -56,6 +61,10 @@ class SettingsImpl {
   String? get lastSignature => box.get(_K.lastSignature);
 
   set lastSignature(String? value) => box.put(_K.lastSignature, value);
+
+  String? get skippedVersion => box.get(_UpdateK.skippedVersion);
+
+  set skippedVersion(String? newV) => box.put(_UpdateK.skippedVersion, newV);
 
   /// [false] by default.
   bool get devMode => box.get(_DeveloperK.devMode) ?? false;
