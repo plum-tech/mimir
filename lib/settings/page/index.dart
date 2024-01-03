@@ -152,6 +152,7 @@ class _SettingsPageState extends State<SettingsPage> {
       leading: const Icon(Icons.info),
       path: "/settings/about",
     ));
+    all[all.length - 1] = all.last.safeArea(t: false);
     return all;
   }
 
