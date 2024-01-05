@@ -17,13 +17,8 @@ class _MinesweeperPage extends State<MinesweeperPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ProviderScope(
-      child: Scaffold(
-        appBar: AppBar(
-          title: "Minesweeper".text(),
-        ),
-        body: const MineSweeper(),
-      ),
+    return const ProviderScope(
+      child: MineSweeper()
     );
   }
 }

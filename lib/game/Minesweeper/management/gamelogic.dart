@@ -1,20 +1,26 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'mineboard.dart';
 
 
-final cellwidth = 32.0;
-final boardrows = 15;
-final boardcols = 10;
+// Debug Tool
+const kDebugMode = false;
+final logger = Logger();
+
+// Board Size
+const cellwidth = 40.0;
+const cellroundwidth = 2.0;
+const boardrows = 15;
+const boardcols = 8;
+const borderwidth = 5.0;
 
 class GameLogic extends StateNotifier<GameStates>{
   GameLogic(this.ref) : super(GameStates());
 
   final StateNotifierProviderRef ref;
-  final int minenums = (boardcols * boardrows * 0.15).floor();
+  final int minenums = (boardrows * boardcols * 0.15).floor();
 
   void initGame(){
-    state.grab = false;
-    state.flag = false;
     state.gameover = false;
     state.goodgame = false;
     state.board = MineBoard(rows: boardrows, cols: boardcols);
@@ -27,8 +33,12 @@ class GameLogic extends StateNotifier<GameStates>{
     var dy = [0,1,0,-1];
     for(int i = 0; i < 4; i++){
       var nextrow = row + dy[i];
-      if(nextrow < 0){nextrow = 0;}
-      if(nextrow >= boardrows){nextrow = boardrows - 1;}
+      if(nextrow < 0){
+        nextrow = 0;
+      }
+      if(nextrow >= boardrows){
+        nextrow = boardrows - 1;
+      }
       var nextcol = col + dx[i];
       if(nextcol < 0){nextcol = 0;}
       if(nextcol >= boardcols){nextcol = boardcols - 1;}
@@ -59,7 +69,15 @@ class GameLogic extends StateNotifier<GameStates>{
   }
 
   bool checkWin(){
-    if(state.board.countState(state: cellstate.covered) == state.board.countMines()){
+    if (true) {
+      var coveredcells = (
+          state.board.countState(state: cellstate.covered)
+              + state.board.countState(state: cellstate.flag));
+      var minecells = state.board.countMines();
+      logger.log(Level.debug, "mines: $minecells, covers: $coveredcells");
+    }
+    if((state.board.countState(state: cellstate.covered)
+        + state.board.countState(state: cellstate.flag)) == state.board.countMines()){
       return true;
     }
     return false;
@@ -75,8 +93,6 @@ class GameLogic extends StateNotifier<GameStates>{
 }
 
 class GameStates{
-  late bool grab;
-  late bool flag;
   late bool gameover;
   late bool goodgame;
   late MineBoard board;

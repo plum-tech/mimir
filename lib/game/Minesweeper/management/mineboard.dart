@@ -1,3 +1,5 @@
+import '../management/gamelogic.dart';
+import 'package:logger/logger.dart';
 import 'dart:math';
 
 enum cellstate{
@@ -7,44 +9,48 @@ enum cellstate{
 }
 
 class MineBoard{
+  var mines = 0;
   final int rows;
   final int cols;
   late List<List<Map>> board;
 
   MineBoard({required this.rows, required this.cols}){
-    board = List.generate(rows, (row) => List.generate(cols,(col) =>
-    {"mine":false, // if mine cell -> true
+    board = List.generate(rows, (row) => List.generate(cols,(col) => {
+      "mine":false, // if mine cell -> true
       "state":cellstate.covered, // the cell display state
       "around":0 // the mine number around this cell
     }));
-    print("MineBoard init finished");
+    if (kDebugMode) {
+      logger.log(Level.info, "MineBoard Init Finished");
+    }
   }
 
   int countState({required state}){
     var cnt = 0;
     for(int r = 0;r < rows;r++){
       for(int c = 0;c < cols;c++){
-        if(board[r][c]["state"] == state){
-          cnt += 1;
-        }
+        if(board[r][c]["state"] == state){cnt += 1;}
       }
     }
     return cnt;
   }
 
   int countMines(){
+    // Return the default mines (required num) first
+    if(mines != 0){
+      return mines;
+    }
     var cnt = 0;
     for(int r = 0;r < rows;r++){
       for(int c = 0;c < cols;c++){
-        if(board[r][c]["mine"]){
-          cnt += 1;
-        }
+        if(board[r][c]["mine"]){cnt += 1;}
       }
     }
     return cnt;
   }
 
   void randomMine({required num}){
+    mines = num;
     var cnt = 0;
     while(cnt < num){
       var value = Random().nextInt(cols * rows);

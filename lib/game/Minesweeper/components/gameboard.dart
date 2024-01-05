@@ -1,29 +1,28 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter/material.dart';
 import '../management/gamelogic.dart';
 import '../components/cell.dart';
 import '../theme/colors.dart';
+import 'package:flutter/material.dart';
 
 
 class GameBoard extends ConsumerWidget {
   const GameBoard({super.key, required this.refresh});
-  final roundwidth = 5.0;
   final Function refresh;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final boardwidth = cellwidth * boardcols + roundwidth * 2;
-    final boardheight = cellwidth * boardrows + roundwidth * 2;
+    final boardwidth = cellwidth * boardcols + borderwidth * 2;
+    final boardheight = cellwidth * boardrows + borderwidth * 2;
 
     return Container(
-      width: boardwidth,height: boardheight,
+      width: boardwidth, height: boardheight,
       decoration: BoxDecoration(
           color: boardcolor,
           border: Border.all(
             color: boardroundcolor,
-            width: roundwidth,
+            width: borderwidth,
           ),
-          borderRadius: BorderRadius.all(Radius.circular(roundwidth))
+          borderRadius: BorderRadius.all(Radius.circular(borderwidth))
       ),
       child: Stack(
         children: List.generate(boardrows * boardcols, (i) {
