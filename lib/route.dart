@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/game/2048/index.dart';
+import 'package:sit/game/Minesweeper/index.dart';
 import 'package:sit/index.dart';
 import 'package:sit/me/edu_email/page/login.dart';
 import 'package:sit/me/edu_email/page/outbox.dart';
@@ -387,6 +388,10 @@ final _gameRoutes = [
     path: "/game/2048",
     builder: (ctx, state) => const Game2048Page(),
   ),
+  GoRoute(
+    path: "/game/Minesweeper",
+    builder: (ctx, state) => const MinesweeperPage(),
+  )
 ];
 
 GoRouter buildRouter(ValueNotifier<RoutingConfig> $routingConfig) {
