@@ -9,7 +9,8 @@ final logger = Logger();
 
 // Board Size
 const cellwidth = 40.0;
-const cellroundwidth = 2.0;
+const cellroundscale = 20.0;
+
 const boardrows = 15;
 const boardcols = 8;
 const borderwidth = 5.0;
@@ -24,25 +25,26 @@ class GameLogic extends StateNotifier<GameStates>{
     state.gameover = false;
     state.goodgame = false;
     state.board = MineBoard(rows: boardrows, cols: boardcols);
-    state.board.randomMine(num: minenums);
+
     print("Game init finished");
   }
 
   void checkCell({required row, required col}){
+    if(state.board.countState(state: cellstate.blank) == 1){
+      state.board.randomMine(num: minenums, clickrow: row, clickcol: col);
+    }
     var dx = [1,0,-1,0];
     var dy = [0,1,0,-1];
     for(int i = 0; i < 4; i++){
       var nextrow = row + dy[i];
-      if(nextrow < 0){
-        nextrow = 0;
-      }
-      if(nextrow >= boardrows){
-        nextrow = boardrows - 1;
-      }
+      nextrow = nextrow < 0 ? 0 : nextrow;
+      nextrow = nextrow >= boardrows ? boardrows - 1 : nextrow;
       var nextcol = col + dx[i];
-      if(nextcol < 0){nextcol = 0;}
-      if(nextcol >= boardcols){nextcol = boardcols - 1;}
+      nextcol = nextcol < 0 ? 0 : nextcol;
+      nextcol = nextcol >= boardcols ? boardcols - 1 : nextcol;
+      // get the next pose cell state
       var _cell = getCell(row: nextrow, col: nextcol);
+      // check the next cell
       if(_cell["state"] == cellstate.covered && _cell["around"] == 0){
         changeCell(row: nextrow, col: nextcol, state: cellstate.blank);
         checkCell(row: nextrow, col: nextcol);
@@ -60,7 +62,7 @@ class GameLogic extends StateNotifier<GameStates>{
     int endcol = col + checkwidth >= boardcols ? boardcols - 1 : col + checkwidth;
     for(int r = beginrow; r <= endrow; r++){
       for(int c = begincol; c <= endcol; c++){
-        if(getCell(row: r, col: c)["state"]==cellstate.blank){
+        if(getCell(row: r, col: c)["state"] == cellstate.blank){
           return true;
         }
       }
@@ -69,15 +71,13 @@ class GameLogic extends StateNotifier<GameStates>{
   }
 
   bool checkWin(){
-    if (true) {
-      var coveredcells = (
-          state.board.countState(state: cellstate.covered)
-              + state.board.countState(state: cellstate.flag));
-      var minecells = state.board.countMines();
-      logger.log(Level.debug, "mines: $minecells, covers: $coveredcells");
+    var coveredcells = state.board.countState(state: cellstate.covered);
+    var flagedcells = state.board.countState(state: cellstate.flag);
+    var minecells = state.board.countMines();
+    if (kDebugMode) {
+      logger.log(Level.debug, "mines: $minecells, covers: $coveredcells, flags: $flagedcells");
     }
-    if((state.board.countState(state: cellstate.covered)
-        + state.board.countState(state: cellstate.flag)) == state.board.countMines()){
+    if(coveredcells + flagedcells == minecells){
       return true;
     }
     return false;

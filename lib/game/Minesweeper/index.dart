@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rettulf/rettulf.dart';
 import 'game.dart';
 
 class MinesweeperPage extends StatefulWidget {

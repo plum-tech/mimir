@@ -8,6 +8,7 @@ class GameInfo extends ConsumerWidget{
   const GameInfo({super.key, required this.resetGame, required this.time});
   final Function resetGame;
   final GameTimer time;
+  final opacityvalue = 0.8;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,15 +19,20 @@ class GameInfo extends ConsumerWidget{
     // Lost Game
     if(ref.read(boardManager).gameover){
       time.stopTimer();
-      return Opacity(opacity: 0.5,
+      return Opacity(
+        opacity: opacityvalue,
         child: Container(
           width: cellwidth * boardcols + borderwidth * 2 ,
           height: cellwidth * boardrows + borderwidth * 2,
-          color: gameovercolor,
-          child: MaterialButton(onPressed: () {
-            resetGame();
-          },
-            child: const Text(
+          decoration: BoxDecoration(
+              color: gameovercolor,
+              borderRadius: const BorderRadius.all(Radius.circular(borderwidth))
+          ),
+          child: MaterialButton(
+            onPressed: () {
+              resetGame();
+              },
+            child: Text(
               "Game Over!\n Click To Restart",
               style: TextStyle(
                   color: gameovertextcolor,
@@ -40,17 +46,22 @@ class GameInfo extends ConsumerWidget{
     else if(ref.read(boardManager).goodgame){
       var wintime = time.getWintime();
       time.stopTimer();
-      return Opacity(opacity: 0.5,
+      return Opacity(
+        opacity: opacityvalue,
         child: Container(
           width: cellwidth * boardcols + borderwidth * 2 ,
           height: cellwidth * boardrows + borderwidth * 2,
-          color: goodgamecolor,
-          child: MaterialButton(onPressed: () {
-            resetGame();
-          },
+          decoration: BoxDecoration(
+            color: goodgamecolor,
+            borderRadius: const BorderRadius.all(Radius.circular(borderwidth))
+          ),
+          child: MaterialButton(
+            onPressed: () {
+              resetGame();
+            },
             child: Text(
               " You Win!\n Time: $wintime \n Click To Replay",
-              style: const TextStyle(
+              style: TextStyle(
                   color: goodgametextcolor,
                   fontSize: 40),
             ),

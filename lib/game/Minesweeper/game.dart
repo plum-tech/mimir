@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'components/gameinfo.dart';
 import 'management/gamelogic.dart';
-import 'components/gameboard.dart';
+import 'components/board.dart';
 import 'management/gametimer.dart';
 import 'theme/colors.dart';
-
 
 class MineSweeper extends ConsumerStatefulWidget {
   const MineSweeper({super.key});
@@ -15,94 +14,97 @@ class MineSweeper extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _MineSweeperState();
 }
 
-class _MineSweeperState extends ConsumerState<MineSweeper> {
+class _MineSweeperState extends ConsumerState<MineSweeper>
+    with TickerProviderStateMixin {
   late var timer;
 
-  void updateGame(){
+  void updateGame() {
     setState(() {
       if (kDebugMode) {
         logger.log(Level.debug, "global refresh!");
+        ref.read(boardManager).gameover
+            ? logger.log(Level.info, "Game Over!")
+            : null;
       }
     });
   }
 
-  void resetGame(){
+  void resetGame() {
     setState(() {
       ref.read(boardManager.notifier).initGame();
+      // ReCreate Timer When Game Reset
+      timer.stopTimer();
       timer = GameTimer(time: 180, refresh: updateGame);
     });
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     ref.read(boardManager.notifier).initGame();
+    // Create Timer
     timer = GameTimer(time: 180, refresh: updateGame);
   }
 
   @override
   Widget build(BuildContext context) {
-    return
-        Scaffold(
-            appBar: AppBar(
-              title: const Text("MineSweeper"),
-              backgroundColor: appbarcolor,
-              actions: [
-                IconButton(
-                  onPressed: (){
-                    resetGame();
-                    },
-                  icon: const Icon(Icons.refresh),
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text("MineSweeper"),
+          actions: [
+            IconButton(
+              onPressed: () {
+                resetGame();
+              },
+              icon: const Icon(Icons.refresh),
             )
           ],
         ),
         backgroundColor: backgroundcolor,
-
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Center(
-                child: Stack(
-                    children: [
-                      GameBoard(refresh: updateGame),
-                      GameInfo(resetGame: resetGame, time: timer),
-                    ])
-            ),
+                child: Stack(children: [
+                  GameBoard(refresh: updateGame),
+                  GameInfo(resetGame: resetGame, time: timer),
+            ])),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // reset button
                 Container(
-                  width: (boardcols * cellwidth + borderwidth * 2) / 2, height: 22,
-                  decoration: BoxDecoration(
-                    color: modecolor,
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(cellroundwidth),
-                        bottomLeft: Radius.circular(cellroundwidth))
-                  ),
-                  child: const Text(
+                    width: (boardcols * cellwidth + borderwidth * 2) / 2,
+                    height: 22,
+                    decoration: BoxDecoration(
+                        color: modecolor,
+                        borderRadius: const BorderRadius.only(
+                            topLeft:
+                                Radius.circular(cellwidth / cellroundscale),
+                            bottomLeft:
+                                Radius.circular(cellwidth / cellroundscale))),
+                    child: const Text(
                       "Level: Easy",
-                    textAlign: TextAlign.center,
-                  )
-                ),
+                      textAlign: TextAlign.center,
+                    )),
                 // The Timer
                 Container(
-                  width: (boardcols * cellwidth + borderwidth * 2) / 2, height: 22,
-                  decoration: BoxDecoration(
-                      color: timercolor,
-                      borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(cellroundwidth),
-                          bottomRight: Radius.circular(cellroundwidth))
-                    ),
-                  child: Text(
+                    width: (boardcols * cellwidth + borderwidth * 2) / 2,
+                    height: 22,
+                    decoration: BoxDecoration(
+                        color: timercolor,
+                        borderRadius: const BorderRadius.only(
+                            topRight:
+                                Radius.circular(cellwidth / cellroundscale),
+                            bottomRight:
+                                Radius.circular(cellwidth / cellroundscale))),
+                    child: Text(
                       "Timer: " + timer.getTime(),
-                    textAlign: TextAlign.center,
-                  )
-                ),
+                      textAlign: TextAlign.center,
+                    )),
               ],
             ),
           ],
-        )
-      );
+        ));
   }
 }
