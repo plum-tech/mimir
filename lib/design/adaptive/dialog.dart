@@ -91,7 +91,7 @@ extension DialogEx on BuildContext {
       builder: (ctx) => CupertinoActionSheet(
         title: title.text(),
         message: desc.text(),
-        actions: <CupertinoActionSheetAction>[
+        actions: [
           CupertinoActionSheetAction(
             isDestructiveAction: destructive,
             onPressed: () {
