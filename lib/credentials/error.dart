@@ -2,6 +2,8 @@ enum CredentialsErrorType {
   accountPassword,
   captcha,
   frozen,
+  locked,
+  incompleteUserInfo,
 }
 
 class CredentialsException implements Exception {

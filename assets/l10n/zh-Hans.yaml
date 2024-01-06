@@ -9,7 +9,7 @@ timetable:
   signature: 签名
   signaturePlaceholder: 你的名字
   mine:
-    title: 我的课程表
+    title: 你的课程表
     exportCalendar: 导出日历
     deleteRequest: 确认删除？
     deleteRequestDesc: 这个课程表将被永久删除
@@ -278,11 +278,13 @@ ywb:
   info: |
     本功能基于 "上应一网通办"。
     对于绝大多数业务，即使你在平台上已完成申请，仍要去现场办理。
+  action:
+    applications: 申请
   apply: 申请
-  noServicesTip: 没有可办事项
+  noServicesTip: 应网办没有可办事项
   mine:
-    title: 我的申请
-    noApplicationsTip: 没有申请
+    title: 你的申请
+    noApplicationsTip: 你没有申请
   details:
     apply: 申请
   type:
@@ -341,7 +343,7 @@ examResult:
   title: 考试成绩
   check: 查询
   teacherEval: 评教
-  noResultsTip: 无考试结果记录
+  noResultsTip: 你没有考试成绩
   courseNotEval: 未评教
   teacherEvalTitle: 评教
   examRequireEvalTip: 分数将在评教此课程后可查看
@@ -351,6 +353,7 @@ examResult:
   gpa:
     title: 绩点
     lessonSelected: "已选 {} 门"
+    credit: "学分: {}"
     gpaResult: "绩点: {}"
     selectAll: 全选
     invert: 反选
@@ -368,7 +371,7 @@ examArrange:
   time: 时间
   retake: 重修
   location: 地点
-  noExamsTip: 没有考试安排
+  noExamsTip: 你没有考试安排
   seatNumber: 座位号
   addCalendarEvent: 添加事项
   calendarEventTitle: "考试: {}"
@@ -380,7 +383,7 @@ expenseRecords:
   lastTransaction: "¥{amount} {place}"
   income: "收入: {} 元"
   outcome: "支出: {} 元"
-  noTransactionsTip: 没有交易记录
+  noTransactionsTip: 你没有交易记录
   refreshSuccessTip: 消费记录刷新成功
   refreshFailedTip: 消费记录刷新失败
   statsMode:
@@ -414,9 +417,9 @@ networkChecker:
     desc: 测试与学校服务器的连接
   button:
     connected: 继续
-    connecting: 正在检查中……
+    connecting: 检查中
     disconnected: 重试
-    none: 检查我的网络连接
+    none: 检查网络连接
   status:
     connected: 好耶！你能够访问学校服务器！
     connecting: 这可能需要几秒钟，请确保你在设备上已经打开了网络连接。
@@ -454,6 +457,8 @@ login:
   accountOrPwdErrorTip: 账号或密码不正确
   captchaErrorTip: 验证码不正确
   accountFrozenTip: 账号处于冻结状态
+  accountLockedTip: 账号处于锁定状态
+  incompleteUserInfoTip: 账号用户信息不完整
   unknownAuthErrorTip: 未知账号验证错误
   loggedInTip: 登录成功
   notLoggedIn: 未登录
@@ -478,7 +483,7 @@ library:
   action:
     searchBooks: 搜索图书
     login: 登录
-    borrowing: 我的借阅
+    borrowing: 借阅
   login:
     title: 登录图书馆
     readerIdHint: 你的学号
@@ -491,7 +496,7 @@ library:
     trending: 近期流行
     mostPopular: 最热门
   borrowing:
-    title: 我的借阅
+    title: 你的借阅
     history: 历史
     renew: 续借
   history:
@@ -520,7 +525,7 @@ library:
     callNumber: 索书号
     bookId: 图书号
     barcode: 条形码
-    availableCollection: "在馆({available}) / 馆藏({collection})"
+    availableCollection: "{available} 在馆 / {collection} 馆藏"
 settings:
   title: 设置
   themeColor: 主题色
@@ -566,6 +571,10 @@ settings:
       autoRefresh:
         title: 第二课堂分自动刷新
         desc: 启动时刷新第二课堂分
+    examResult:
+      showResultPreview:
+        title: 显示考试成绩预览
+        desc: 在卡片中显示当前学期的考试成绩
   life:
     title: 生活
     electricity:
@@ -628,7 +637,7 @@ oaAnnounce:
   tab:
     info: 信息
     content: 内容
-  noOaAnnouncesTip: 无公告
+  noOaAnnouncesTip: 学校没有 OA 公告
   downloadCompleted: 下载完成
   downloadFailed: 下载失败
   downloading: 下载中
@@ -665,6 +674,9 @@ qrCode:
 404:
   title: 找不到页面
   subtitle: 未找到请求的页面
+update:
+  newVersionAvailable: 有新版本可用！
+  skipThisVersion: 跳过这个版本
 weekday:
   0: 周一
   1: 周二

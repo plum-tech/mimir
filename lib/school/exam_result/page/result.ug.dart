@@ -5,6 +5,7 @@ import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
+import 'package:sit/school/exam_result/aggregated.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/school/widgets/semester.dart';
 import 'package:rettulf/rettulf.dart';
@@ -27,16 +28,16 @@ class ExamResultUgPage extends StatefulWidget {
 }
 
 class _ExamResultUgPageState extends State<ExamResultUgPage> {
+  late SemesterInfo initial = ExamResultInit.ugStorage.lastSemesterInfo ?? estimateCurrentSemester();
   late List<ExamResultUg>? resultList = ExamResultInit.ugStorage.getResultList(initial);
   bool isFetching = false;
   final $loadingProgress = ValueNotifier(0.0);
-  late SemesterInfo initial = ExamResultInit.ugStorage.lastSemesterInfo ?? estimateCurrentSemester();
   late SemesterInfo selected = initial;
 
   @override
   void initState() {
     super.initState();
-    onChangeSemester(initial);
+    fetch();
   }
 
   @override
@@ -45,30 +46,21 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
     super.dispose();
   }
 
-  Future<void> onChangeSemester(SemesterInfo info) async {
+  Future<void> fetch() async {
     if (!mounted) return;
     setState(() {
-      // loading cache instantly
-      resultList = ExamResultInit.ugStorage.getResultList(info);
       isFetching = true;
     });
     try {
-      final resultList = await ExamResultInit.ugService.fetchResultList(
-        info,
+      await ExamResultAggregated.fetchAndCacheExamResultUgEachSemester(
         onProgress: (p) {
           if (!mounted) return;
           $loadingProgress.value = p;
         },
       );
-      await ExamResultInit.ugStorage.setResultList(info, resultList);
-      // Prevents the former query replace new query.
-      if (info == selected) {
-        if (!mounted) return;
-        setState(() {
-          this.resultList = resultList;
-          isFetching = false;
-        });
-      }
+      setState(() {
+        isFetching = false;
+      });
     } catch (error, stackTrace) {
       debugPrintError(error, stackTrace);
       if (!mounted) return;
@@ -78,6 +70,13 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
     } finally {
       $loadingProgress.value = 0;
     }
+  }
+
+  Future<void> onChangeSemester(SemesterInfo info) async {
+    if (!mounted) return;
+    setState(() {
+      resultList = ExamResultInit.ugStorage.getResultList(info);
+    });
   }
 
   @override
@@ -135,11 +134,11 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
       initial: initial,
       baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
       onSelected: (newSelection) {
+        ExamResultInit.ugStorage.lastSemesterInfo = newSelection;
         setState(() {
           selected = newSelection;
+          resultList = ExamResultInit.ugStorage.getResultList(newSelection);
         });
-        ExamResultInit.ugStorage.lastSemesterInfo = newSelection;
-        onChangeSemester(newSelection);
       },
     );
   }

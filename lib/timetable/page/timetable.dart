@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/timetable/page/p13n.dart';
 import 'package:sit/timetable/page/screenshot.dart';
 import 'package:sit/school/i18n.dart' as $school;
 import 'package:sit/life/i18n.dart' as $life;
@@ -18,8 +16,6 @@ import '../entity/timetable.dart';
 import '../init.dart';
 import '../entity/pos.dart';
 import '../widgets/timetable/board.dart';
-import 'background.dart';
-import 'cell_style.dart';
 
 class TimetableBoardPage extends StatefulWidget {
   final SitTimetableEntity timetable;
@@ -163,7 +159,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
             title: i18n.p13n.palette.title.text(),
           ),
           onTap: () async {
-            await context.show$Sheet$((ctx) => const TimetableP13nPage());
+            await context.push("/timetable/p13n");
           },
         ),
         PopupMenuItem(
@@ -172,7 +168,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
             title: i18n.p13n.cell.title.text(),
           ),
           onTap: () async {
-            await context.show$Sheet$((ctx) => const TimetableCellStyleEditor());
+            await context.push("/timetable/cell-style");
           },
         ),
         PopupMenuItem(
@@ -181,7 +177,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
             title: i18n.p13n.background.title.text(),
           ),
           onTap: () async {
-            await context.show$Sheet$((ctx) => const TimetableBackgroundEditor());
+            await context.push("/timetable/background");
           },
         ),
         if (focusMode) ...buildFocusPopupActions(),

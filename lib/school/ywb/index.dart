@@ -54,7 +54,7 @@ class _YwbAppCardState extends State<YwbAppCard> {
           onPressed: () {
             context.push("/ywb/mine");
           },
-          label: i18n.mineAction.text(),
+          label: i18n.action.applications.text(),
           icon: const Icon(Icons.mail_outlined),
         )
       ],

@@ -143,7 +143,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
       ConnectivityStatus.connected => (_i18n.button.connected, widget.onConnected),
       ConnectivityStatus.disconnected => (_i18n.button.disconnected, startCheck),
     };
-    return PlatformTextButton(
+    return PlatformElevatedButton(
       onPressed: onTap,
       child: tip.text(
         key: ValueKey(status),

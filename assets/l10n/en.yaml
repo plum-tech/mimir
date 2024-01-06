@@ -9,7 +9,7 @@ timetable:
   signature: Signature
   signaturePlaceholder: Your name
   mine:
-    title: My Timetables
+    title: Your Timetables
     exportCalendar: Export calendar
     deleteRequest: Confirm to delete?
     deleteRequestDesc: You will lose this timetable permanently
@@ -281,11 +281,13 @@ ywb:
   info: |
     This function is based on "SIT YWB".
     For most of types, you have to do the necessary procedure on the spot although you submitted an application online.
+  action:
+    applications: Applications
   apply: Apply
-  noServicesTip: No services
+  noServicesTip: SIT YWB has no services available
   mine:
-    title: Mine
-    noApplicationsTip: No applications
+    title: Your applications
+    noApplicationsTip: You have no applications
   details:
     apply: Apply
   type:
@@ -344,7 +346,7 @@ examResult:
   title: Exam result
   check: Check
   teacherEval: Teacher Eval
-  noResultsTip: No results
+  noResultsTip: You have no exam results
   courseNotEval: Not-eval
   teacherEvalTitle: Teacher evaluation
   examRequireEvalTip: Score is available after evaluation
@@ -353,7 +355,8 @@ examResult:
   maxScore: Max score
   gpa:
     title: GPA
-    lessonSelected: "{} Selected"
+    lessonSelected: "{} selected"
+    credit: "Credit: {}"
     gpaResult: "GPA: {}"
     selectAll: Select all
     invert: Invert
@@ -371,7 +374,7 @@ examArrange:
   time: Time
   retake: Retake
   location: Location
-  noExamsTip: No exams
+  noExamsTip: No exams for you
   seatNumber: Seat No.
   addCalendarEvent: Add event
   calendarEventTitle: "Exam: {}"
@@ -383,7 +386,7 @@ expenseRecords:
   lastTransaction: "¥{amount} {place}"
   income: "Income: ¥{}"
   outcome: "Outcome: ¥{}"
-  noTransactionsTip: No transactions
+  noTransactionsTip: You have no transactions
   refreshSuccessTip: Expense records refreshed successfully
   refreshFailedTip: Failed to refresh expense records
   statsMode:
@@ -417,9 +420,9 @@ networkChecker:
     desc: Test connecting to school server
   button:
     connected: Continue
-    connecting: Checking...
+    connecting: Checking
     disconnected: Retry
-    none: Check my Connection
+    none: Check connection
   status:
     connected: Right! You have connected to school server!
     connecting: It will take a few seconds, please ensure you have turned on the network on your device.
@@ -457,6 +460,8 @@ login:
   accountOrPwdErrorTip: The account or password is incorrect
   captchaErrorTip: The captcha is incorrect
   accountFrozenTip: The account is frozen
+  accountLockedTip: The account is locked
+  incompleteUserInfoTip: The account has incomplete user info
   unknownAuthErrorTip: Unknown authentication error
   loggedInTip: Logged in
   notLoggedIn: Not logged In
@@ -479,7 +484,7 @@ library:
   noBooks: No books
   collectionStatus: Collection status
   action:
-    searchBooks: Search books
+    searchBooks: Search
     login: Login
     borrowing: Borrowing
   login:
@@ -520,7 +525,7 @@ library:
     callNumber: Call Number
     bookId: Book ID
     barcode: Barcode
-    availableCollection: "Available({available}) / Collection({collection})"
+    availableCollection: "{available} available / {collection} collection"
 settings:
   title: Settings
   themeColor: Theme color
@@ -566,6 +571,10 @@ settings:
       autoRefresh:
         title: Auto-refresh 2nd class scores
         desc: Refresh scores when app is launched
+    examResult:
+      showResultPreview:
+        title: Show exam result preview
+        desc: Show the current semester's exam results in the card
   life:
     title: Life
     electricity:
@@ -628,7 +637,7 @@ oaAnnounce:
   tab:
     info: Info
     content: Content
-  noOaAnnouncementsTip: No announcements
+  noOaAnnouncementsTip: SIT has no announcements available
   downloadCompleted: Download completed
   downloadFailed: Download failed
   downloading: Downloading
@@ -665,6 +674,9 @@ qrCode:
 404:
   title: Not Found
   subtitle: The requested page was not found
+update:
+  newVersionAvailable: New version available!
+  skipThisVersion: Skip this version
 weekday:
   0: Monday
   1: Tuesday

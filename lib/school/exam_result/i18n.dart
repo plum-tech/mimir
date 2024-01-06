@@ -45,6 +45,10 @@ class _Gpa {
         count.toString(),
       ]);
 
+  String credit(double point) => "$ns.credit".tr(args: [
+        point.toString(),
+      ]);
+
   String gpaResult(double point) => "$ns.gpaResult".tr(args: [
         point.toStringAsPrecision(2),
       ]);

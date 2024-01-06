@@ -10,7 +10,7 @@ import '../entity/result.ug.dart';
 
 class ExamResultUgService {
   static const _scoreUrl = 'http://jwxt.sit.edu.cn/jwglxt/cjcx/cjcx_cxDgXscj.html';
-  static const _scoreDetailUrl = 'http://jwxt.sit.edu.cn/jwglxt/cjcx/cjcx_cxCjxqGjh.html';
+  static const _scoreDetailsUrl = 'http://jwxt.sit.edu.cn/jwglxt/cjcx/cjcx_cxCjxqGjh.html';
 
   /* Why there child is 1,3,5 not 1,2,3?
     The example likes follow:
@@ -57,11 +57,11 @@ class ExamResultUgService {
       },
     );
     progress.value = 0.2;
-    final resultList = _parseScoreListPage(response.data);
+    final resultList = _parseScoreList(response.data);
     final perProgress = resultList.isEmpty ? 0 : 0.8 / resultList.length;
     final newResultList = await Future.wait(resultList.map((result) async {
       final resultItems = await _fetchResultItems(
-        SemesterInfo(year: result.year, semester: result.semester),
+        info: result.semesterInfo,
         classId: result.innerClassId,
       );
       progress.value += perProgress;
@@ -71,13 +71,19 @@ class ExamResultUgService {
     return newResultList;
   }
 
+  static List<ExamResultUg> _parseScoreList(Map<String, dynamic> json) {
+    final List? scoreList = json['items'];
+    if (scoreList == null) return const [];
+    return scoreList.map((e) => ExamResultUg.fromJson(e as Map<String, dynamic>)).toList();
+  }
+
   /// 获取成绩详情
-  Future<List<ExamResultItem>> _fetchResultItems(
-    SemesterInfo info, {
+  Future<List<ExamResultItem>> _fetchResultItems({
+    required SemesterInfo info,
     required String classId,
   }) async {
     final response = await _session.request(
-      _scoreDetailUrl,
+      _scoreDetailsUrl,
       options: Options(
         method: "POST",
       ),
@@ -92,16 +98,17 @@ class ExamResultUgService {
       }),
     );
     final html = response.data as String;
-    return _parseDetailPage(html);
+    return _parseDetailsPage(html);
   }
 
-  static List<ExamResultUg> _parseScoreListPage(Map<String, dynamic> jsonPage) {
-    final List? scoreList = jsonPage['items'];
-    if (scoreList == null) return const [];
-    return scoreList.map((e) => ExamResultUg.fromJson(e as Map<String, dynamic>)).toList();
+  static List<ExamResultItem> _parseDetailsPage(String htmlPage) {
+    final BeautifulSoup soup = BeautifulSoup(htmlPage);
+    final elements = soup.findAll(_scoreDetailPageSelector);
+
+    return elements.map(_mapToDetailsItem).toList();
   }
 
-  static ExamResultItem _mapToDetailItem(Bs4Element item) {
+  static ExamResultItem _mapToDetailsItem(Bs4Element item) {
     f1(s) => s.replaceAll('&nbsp;', '').replaceAll(' ', '');
     f2(s) => s.replaceAll('【', '').replaceAll('】', '');
     f(s) => f1(f2(s));
@@ -115,12 +122,5 @@ class ExamResultUgService {
       percentage: f(percentage),
       score: double.tryParse(f(value)),
     );
-  }
-
-  static List<ExamResultItem> _parseDetailPage(String htmlPage) {
-    final BeautifulSoup soup = BeautifulSoup(htmlPage);
-    final elements = soup.findAll(_scoreDetailPageSelector);
-
-    return elements.map(_mapToDetailItem).toList();
   }
 }

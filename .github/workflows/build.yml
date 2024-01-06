@@ -185,13 +185,13 @@ jobs:
     #   uses: actions/upload-artifact@v3
     #   with:
     #     name: SITLife-iOS-release
-    #     path: build-output/ios/2-SITLife-release.ipa
+    #     path: build-output/ios/publish/2-SITLife-release.ipa
 
     # Release
     - name: Deploy to App Store (Testflight)
       uses: apple-actions/upload-testflight-build@v1
       with:
-        app-path: ${{ github.workspace }}/build-output/ios/2-SITLife-release.ipa
+        app-path: ${{ github.workspace }}/build-output/ios/publish/2-SITLife-release.ipa
         issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
         api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
         api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
@@ -209,11 +209,6 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           python3 ./build-tools/addBuildNumber.py ${{ github.server_url }} ${{ github.repository }} ${{ github.run_id }} ${{ github.run_attempt }}
-
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          branch: ${{ github.ref }}
 
       - name: Get Git info
         id: get_git_info
@@ -241,17 +236,34 @@ jobs:
           enableCrossOsArchive: true
 
       - name: Check builds
+        id: builds
         env:
           RESOLVED_VERSION: ${{ steps.get_git_info.outputs.RESOLVED_VERSION }}
         run: |
-          mv build/app/outputs/flutter-apk/publish/1-SITLife-release-signed.apk build/app/outputs/flutter-apk/publish/SITLife-${{ env.RESOLVED_VERSION }}.apk
-          mv build-output/ios/publish/2-SITLife-release.ipa build-output/ios/publish/SITLife-${{ env.RESOLVED_VERSION }}.ipa
+          if [ -f "build/app/outputs/flutter-apk/publish/1-SITLife-release-signed.apk" ]; then
+            mv build/app/outputs/flutter-apk/publish/1-SITLife-release-signed.apk build/app/outputs/flutter-apk/publish/SITLife-${{ env.RESOLVED_VERSION }}.apk
+          fi
+          if [ -f "build-output/ios/publish/2-SITLife-release.ipa" ]; then
+            mv build-output/ios/publish/2-SITLife-release.ipa build-output/ios/publish/SITLife-${{ env.RESOLVED_VERSION }}.ipa
+          fi
+
           if [ ! -f "build/app/outputs/flutter-apk/publish/.release" ]; then
             rm -rf build/app/outputs/flutter-apk/publish/SITLife-${{ env.RESOLVED_VERSION }}.apk
+            echo "APK_SHA256=" >> "$GITHUB_OUTPUT"
+          else
+            echo "APK_SHA256=- \`SITLife-${{ env.RESOLVED_VERSION }}.apk\`: "$(sha256sum build/app/outputs/flutter-apk/publish/SITLife-${{ env.RESOLVED_VERSION }}.apk | awk '{print $1}') >> "$GITHUB_OUTPUT"
           fi
           if [ ! -f "build-output/ios/publish/.release" ]; then
             rm -rf build-output/ios/publish/SITLife-${{ env.RESOLVED_VERSION }}.ipa
+            echo "IPA_SHA256=" >> "$GITHUB_OUTPUT"
+          else
+            echo "IPA_SHA256=- \`SITLife-${{ env.RESOLVED_VERSION }}.ipa\`: "$(sha256sum build-output/ios/publish/SITLife-${{ env.RESOLVED_VERSION }}.ipa | awk '{print $1}') >> "$GITHUB_OUTPUT"
           fi
+      
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: ${{ github.ref }}
 
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -270,6 +282,12 @@ jobs:
               ### Bug fixes
                 - Bar
 
+              ## 更改
+              ### 新功能
+                - Foo
+              ### Bug 修复
+                - Bar
+
               ## How to download
                 <!-- Android:main -->
                 <!-- - `Android`: Click the .apk files below.-->
@@ -282,6 +300,10 @@ jobs:
 
                 - `Android`: Click the .apk files below.
                 - `iOS`: [Join the Test Flight](https://testflight.apple.com/join/ecafeulK).
+
+              ## Checksum (sha256)
+              ${{ steps.builds.outputs.APK_SHA256 }}
+              ${{ steps.builds.outputs.IPA_SHA256 }}
 
               Full Changelog: https://github.com/${{ github.repository }}/compare/${{ env.PREVIOUS_TAG }}...${{ env.RESOLVED_VERSION }}
           draft: true

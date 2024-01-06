@@ -4,6 +4,7 @@ import 'package:sit/entity/campus.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:sit/credentials/init.dart';
+import 'package:sit/session/backend.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/session/class2nd.dart';
 import 'package:sit/session/gms.dart';
@@ -30,6 +31,7 @@ import 'package:sit/storage/hive/cookie.dart';
 import 'package:sit/network/dio.dart';
 import 'package:sit/route.dart';
 import 'package:sit/session/sso.dart';
+import 'package:sit/update/init.dart';
 
 import '../widgets/captcha_box.dart';
 
@@ -38,6 +40,7 @@ class Init {
 
   static late CookieJar cookieJar;
   static late Dio dio;
+  static late BackendSession backend;
   static late SsoSession ssoSession;
   static late JwxtSession jwxtSession;
   static late GmsSession gmsSession;
@@ -56,6 +59,9 @@ class Init {
     }
     dio = await DioInit.init(
       cookieJar: cookieJar,
+    );
+    backend = BackendSession(
+      dio: dio,
     );
     ssoSession = SsoSession(
       dio: dio,
@@ -95,6 +101,7 @@ class Init {
     CredentialsInit.init();
     TimetableInit.init();
     if (!kIsWeb) {
+      UpdateInit.init();
       OaAnnounceInit.init();
       ExamResultInit.init();
       ExamArrangeInit.init();

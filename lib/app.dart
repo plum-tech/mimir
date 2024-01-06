@@ -1,16 +1,21 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:animations/animations.dart';
+import 'package:app_links/app_links.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/files.dart';
+import 'package:sit/qrcode/handle.dart';
 import 'package:sit/r.dart';
 import 'package:sit/route.dart';
 import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:sit/update/utils.dart';
 import 'package:sit/utils/color.dart';
 import 'package:system_theme/system_theme.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class MimirApp extends StatefulWidget {
   const MimirApp({super.key});
@@ -35,18 +40,18 @@ class _MimirAppState extends State<MimirApp> {
   }
 
   @override
+  void dispose() {
+    $theme.removeListener(refresh);
+    $focusMode.removeListener(refreshFocusMode);
+    super.dispose();
+  }
+
+  @override
   void didChangeDependencies() {
     if (Settings.timetable.backgroundImage?.enabled == true) {
       precacheImage(FileImage(Files.timetable.backgroundFile), context);
     }
     super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    $theme.removeListener(refresh);
-    $focusMode.removeListener(refreshFocusMode);
-    super.dispose();
   }
 
   void refresh() {
@@ -98,7 +103,9 @@ class _MimirAppState extends State<MimirApp> {
       )),
       builder: (ctx, child) => OaAuthManager(
         child: OaOnlineManager(
-          child: child ?? const SizedBox(),
+          child: _PostServiceRunner(
+            child: child ?? const SizedBox(),
+          ),
         ),
       ),
       scrollBehavior: const MaterialScrollBehavior().copyWith(
@@ -111,5 +118,51 @@ class _MimirAppState extends State<MimirApp> {
         },
       ),
     );
+  }
+}
+
+class _PostServiceRunner extends StatefulWidget {
+  final Widget child;
+
+  const _PostServiceRunner({
+    required this.child,
+  });
+
+  @override
+  State<_PostServiceRunner> createState() => _PostServiceRunnerState();
+}
+
+class _PostServiceRunnerState extends State<_PostServiceRunner> {
+  StreamSubscription? $appLink;
+
+  @override
+  void initState() {
+    super.initState();
+    if (!(UniversalPlatform.isIOS || UniversalPlatform.isMacOS)) {
+      Future.delayed(Duration.zero).then((value) async {
+        await checkAppUpdate(
+          context: $Key.currentContext!,
+          delayAtLeast: const Duration(milliseconds: 3000),
+        );
+      });
+    }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      $appLink = AppLinks().allUriLinkStream.listen((uri) async {
+        final navigateCtx = $Key.currentContext;
+        if (navigateCtx == null) return;
+        await onHandleQrCodeUriData(context: navigateCtx, qrCodeData: uri);
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    $appLink?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
   }
 }

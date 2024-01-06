@@ -9,6 +9,7 @@ import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/error.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/init.dart';
+import 'package:sit/r.dart';
 
 import 'package:sit/route.dart';
 import 'package:sit/session/auth.dart';
@@ -200,9 +201,12 @@ class SsoSession {
   }) async {
     debugPrint('${credentials.account} logging in');
     debugPrint('UA: ${dio.options.headers['User-Agent']}');
-    // 在 OA 登录时, 服务端会记录同一 cookie 用户登录次数和输入错误次数,
-    // 所以需要在登录前清除所有 cookie, 避免用户重试时出错.
-    await cookieJar.delete(Uri.parse(_authServerUrl));
+    // When logging into OA,
+    // the server will record the number of times a user has logged in with the same cookie
+    // and the number of times the user made an input error,
+    // so it is necessary to clear all cookies before logging in to avoid errors when the user retries.
+    await deleteSitUriCookies();
+    // await cookieJar.delete(R.authServerUri, true);
     final Response response;
     try {
       // 首先获取AuthServer首页
@@ -230,13 +234,15 @@ class SsoSession {
       _setOnline(false);
       rethrow;
     }
-    final page = BeautifulSoup(response.data);
-
-    final emptyPage = BeautifulSoup('');
+    final pageRaw = response.data as String;
+    if (pageRaw.contains("完善资料")) {
+      throw CredentialsException(message: pageRaw, type: CredentialsErrorType.incompleteUserInfo);
+    }
+    final page = BeautifulSoup(pageRaw);
     // For desktop
-    final authError = (page.find('span', id: 'msg', class_: 'auth_error') ?? emptyPage).text.trim();
+    final authError = page.find('span', id: 'msg', class_: 'auth_error')?.text.trim() ?? "";
     // For mobile
-    final mobileError = (page.find('span', id: 'errorMsg') ?? emptyPage).text.trim();
+    final mobileError = page.find('span', id: 'errorMsg')?.text.trim() ?? "";
     if (authError.isNotEmpty || mobileError.isNotEmpty) {
       final errorMessage = authError + mobileError;
       final type = parseInvalidType(errorMessage);
@@ -255,11 +261,19 @@ class SsoSession {
     return response;
   }
 
+  Future<void> deleteSitUriCookies() async {
+    for (final uri in R.sitUriList) {
+      await cookieJar.delete(uri, true);
+    }
+  }
+
   static CredentialsErrorType parseInvalidType(String errorMessage) {
     if (errorMessage.contains("验证码")) {
       return CredentialsErrorType.captcha;
     } else if (errorMessage.contains("冻结")) {
       return CredentialsErrorType.frozen;
+    } else if (errorMessage.contains("锁定")) {
+      return CredentialsErrorType.locked;
     }
     return CredentialsErrorType.accountPassword;
   }
