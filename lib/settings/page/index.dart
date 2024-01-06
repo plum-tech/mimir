@@ -257,7 +257,7 @@ void _onClearCache(BuildContext context) async {
     title: i18n.clearCacheTitle,
     desc: i18n.clearCacheRequest,
     yes: i18n.confirm,
-    no: i18n.notNow,
+    no: i18n.cancel,
     highlight: true,
     serious: true,
   );
@@ -287,7 +287,7 @@ void _onWipeData(BuildContext context) async {
     title: i18n.wipeDataRequest,
     desc: i18n.wipeDataRequestDesc,
     yes: i18n.confirm,
-    no: i18n.notNow,
+    no: i18n.cancel,
     highlight: true,
     serious: true,
   );

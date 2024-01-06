@@ -7,8 +7,6 @@ mixin class CommonI18nMixin {
 
   String get confirm => "confirm".tr();
 
-  String get notNow => "notNow".tr();
-
   String get error => "error".tr();
 
   String get ok => "ok".tr();

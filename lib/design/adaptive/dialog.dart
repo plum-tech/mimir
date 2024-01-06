@@ -65,9 +65,8 @@ extension DialogEx on BuildContext {
         title: title,
         desc: desc,
         yes: yes,
-        no: no,
-        highlight: highlight,
-        serious: serious,
+        cancel: no,
+        destructive: highlight,
       );
     }
     return await showAnyRequest(
@@ -84,9 +83,8 @@ extension DialogEx on BuildContext {
     required String title,
     required String desc,
     required String yes,
-    required String no,
-    bool highlight = false,
-    bool serious = false,
+    required String cancel,
+    bool destructive = false,
   }) async {
     return await showCupertinoModalPopup(
       context: this,
@@ -95,18 +93,18 @@ extension DialogEx on BuildContext {
         message: desc.text(),
         actions: <CupertinoActionSheetAction>[
           CupertinoActionSheetAction(
-            isDestructiveAction: highlight,
+            isDestructiveAction: destructive,
             onPressed: () {
               ctx.pop(true);
             },
-            child: yes.text(style: TextStyle(color: serious ? $red$ : null)),
+            child: yes.text(),
           ),
         ],
         cancelButton: CupertinoActionSheetAction(
           onPressed: () {
             ctx.pop(false);
           },
-          child: no.text(),
+          child: cancel.text(),
         ),
       ),
     );
