@@ -14,9 +14,8 @@ class MineSweeper extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _MineSweeperState();
 }
 
-class _MineSweeperState extends ConsumerState<MineSweeper>
-    with TickerProviderStateMixin {
-  late var timer;
+class _MineSweeperState extends ConsumerState<MineSweeper> {
+  late GameTimer timer;
 
   void updateGame() {
     setState(() {
@@ -34,7 +33,7 @@ class _MineSweeperState extends ConsumerState<MineSweeper>
       ref.read(boardManager.notifier).initGame();
       // ReCreate Timer When Game Reset
       timer.stopTimer();
-      timer = GameTimer(time: 180, refresh: updateGame);
+      timer = GameTimer(timestart: 180, refresh: updateGame);
     });
   }
 
@@ -43,7 +42,7 @@ class _MineSweeperState extends ConsumerState<MineSweeper>
     super.initState();
     ref.read(boardManager.notifier).initGame();
     // Create Timer
-    timer = GameTimer(time: 180, refresh: updateGame);
+    timer = GameTimer(timestart: 180, refresh: updateGame);
   }
 
   @override
@@ -74,7 +73,7 @@ class _MineSweeperState extends ConsumerState<MineSweeper>
               children: [
                 // reset button
                 Container(
-                    width: (boardcols * cellwidth + borderwidth * 2) / 2,
+                    width: boardwidth / 2,
                     height: 22,
                     decoration: BoxDecoration(
                         color: modecolor,
@@ -89,7 +88,7 @@ class _MineSweeperState extends ConsumerState<MineSweeper>
                     )),
                 // The Timer
                 Container(
-                    width: (boardcols * cellwidth + borderwidth * 2) / 2,
+                    width: boardwidth / 2,
                     height: 22,
                     decoration: BoxDecoration(
                         color: timercolor,
@@ -99,7 +98,7 @@ class _MineSweeperState extends ConsumerState<MineSweeper>
                             bottomRight:
                                 Radius.circular(cellwidth / cellroundscale))),
                     child: Text(
-                      "Timer: " + timer.getTime(),
+                      "Timer: ${timer.getTime()}",
                       textAlign: TextAlign.center,
                     )),
               ],

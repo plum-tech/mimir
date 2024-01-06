@@ -35,7 +35,7 @@ class CellWidget extends ConsumerWidget{
         widgetBlank(),
         widgetCover(visible: _covered),
         widgetFlag(visible: _flaged),
-        Container(
+        SizedBox(
           width: cellwidth, height: cellwidth,
           child: MaterialButton(
             onPressed: () {
@@ -64,26 +64,25 @@ class CellWidget extends ConsumerWidget{
   }
 
   Widget widgetFlag({required visible}){
-    const _duration = Duration(seconds: 1);
-    const _curve = Curves.ease;
-
+    const duration = Durations.medium4;
+    const curve = Curves.ease;
     return AnimatedPositioned(
       left: 0,
-      top: visible ? 0 : -50,
-      duration: _duration,
-      curve: _curve,
+      top: visible ? 0 : -40,
+      duration: duration,
+      curve: curve,
         child: AnimatedOpacity(
             opacity: visible ? 1 : 0,
-            duration: _duration,
-            curve: _curve,
+            duration: duration,
+            curve: curve,
           child: AnimatedScale(
             scale: visible ? 1 : 0.2,
-            duration: _duration,
-            curve: _curve,
-            child: Icon(
+            duration: duration,
+            curve: curve,
+            child: const Icon(
               Icons.flag,
               size: 40,
-              color: flagcellcolor,
+              color: flagcolor,
             ),
           )
         ),
@@ -91,15 +90,17 @@ class CellWidget extends ConsumerWidget{
   }
 
   Widget widgetCover({required visible}){
+    const duration = Durations.medium2;
+    const curve = Curves.ease;
     return AnimatedOpacity(
       opacity: visible ? 1 : 0,
-      curve: Curves.ease,
-      duration: const Duration(milliseconds: 1000),
+      curve: curve,
+      duration: duration,
       child: Container(
         width: cellwidth, height: cellwidth,
         decoration: BoxDecoration(
           color: cellcolor,
-          border: Border.all(width: 1),
+          border: Border.all(width: 1, color: cellroundcolor),
           borderRadius: const BorderRadius.all(Radius.circular(2)),
         ),
       ),
@@ -110,7 +111,7 @@ class CellWidget extends ConsumerWidget{
     return Container(
       width: cellwidth, height: cellwidth, color: boardcolor,
       child: _cell["mine"]
-          ? Icon(Icons.gps_fixed, color: minecellcolor)
+          ? const Icon(Icons.gps_fixed, color: minecolor)
           : numberText(around: _cell["around"]),
     );
   }

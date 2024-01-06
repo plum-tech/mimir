@@ -15,9 +15,9 @@ final goodgametextcolor = Colors.yellow[800];
 
 // cell
 final cellcolor = Colors.grey[300];
-final cellroundcolor = Colors.black54;
-final minecellcolor = Colors.red[900];
-final flagcellcolor = Colors.yellow[600];
+const cellroundcolor = Colors.black54;
+const minecolor = Colors.red;
+const flagcolor = Colors.amber;
 
 // cell number color
 const num1color = Colors.green;
