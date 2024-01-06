@@ -58,7 +58,7 @@ dependencies:
   dio_cookie_manager: ^3.1.1
 
   # WebView and browser related
-  webview_flutter: ^4.4.2
+  webview_flutter: ^4.4.3
   fk_user_agent: ^2.1.0
   flutter_widget_from_html: ^0.14.10+1
   chewie: ^1.7.4
@@ -80,7 +80,7 @@ dependencies:
   open_file: ^3.3.2
   url_launcher: ^6.2.2
   # Open Android / iOS system image picker
-  image_picker: ^1.0.5
+  image_picker: ^1.0.6
   file_picker: ^6.0.0
   share_plus: ^7.2.1
   app_settings: ^5.1.1
@@ -98,7 +98,7 @@ dependencies:
   add_2_calendar: ^3.0.1
 
   # UI
-  go_router: ^13.0.0
+  go_router: ^13.0.1
   fl_chart: ^0.66.0
   flutter_svg: ^2.0.9
   flutter_svg_provider: ^1.0.7
@@ -114,7 +114,7 @@ dependencies:
   text_scroll: ^0.2.0
   markdown: ^7.1.1
   markdown_widget: ^2.3.2+3
-  animations: ^2.0.10
+  animations: ^2.0.11
   dynamic_color: ^1.6.9
   unicons: ^2.1.1
   sliver_tools: ^0.2.12
