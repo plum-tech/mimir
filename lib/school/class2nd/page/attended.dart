@@ -71,11 +71,11 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
         attended = buildAttendedActivityList(applications: applicationList, scores: scoreItemList);
         isFetching = false;
       });
+      $loadingProgress.value = 0;
     } catch (error, stackTrace) {
       debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() => isFetching = false);
-    } finally {
       $loadingProgress.value = 0;
     }
   }

@@ -26,11 +26,12 @@ class _QuickButtonsState extends State<QuickButtons> {
           if (!launched) {
             if (!mounted) return;
             final confirm = await context.showRequest(
-                title: i18n.easyconnect.launchFailed,
-                desc: i18n.easyconnect.launchFailedDesc,
-                yes: i18n.download,
-                no: i18n.notNow,
-                highlight: true);
+              title: i18n.easyconnect.launchFailed,
+              desc: i18n.easyconnect.launchFailedDesc,
+              yes: i18n.download,
+              no: i18n.cancel,
+              highlight: true,
+            );
             if (confirm == true) {
               if (!mounted) return;
               await guardLaunchUrlString(context, easyConnectDownloadUrl);

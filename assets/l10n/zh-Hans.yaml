@@ -676,6 +676,7 @@ qrCode:
   subtitle: 未找到请求的页面
 update:
   newVersionAvailable: 有新版本可用！
+  notNow: 再等等
   skipThisVersion: 跳过这个版本
 weekday:
   0: 周一
@@ -720,7 +721,6 @@ dormitoryRoom: "{building}号楼 #{room}"
 open: 打开
 delete: 删除
 confirm: 确定
-notNow: 再等等
 error: 错误
 ok: 好的
 close: 关闭

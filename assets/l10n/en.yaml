@@ -676,6 +676,7 @@ qrCode:
   subtitle: The requested page was not found
 update:
   newVersionAvailable: New version available!
+  notNow: Not Now
   skipThisVersion: Skip this version
 weekday:
   0: Monday
@@ -720,7 +721,6 @@ dormitoryRoom: "Building {building} #{room}"
 open: Open
 delete: Delete
 confirm: Confirm
-notNow: Not Now
 error: Error
 ok: OK
 close: Close
