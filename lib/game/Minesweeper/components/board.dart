@@ -6,8 +6,8 @@ import '../components/cell.dart';
 import '../theme/colors.dart';
 
 class GameBoard extends ConsumerWidget {
-  const GameBoard({super.key, required this.reFresh, required this.timer});
-  final void Function() reFresh;
+  const GameBoard({super.key, required this.refresh, required this.timer});
+  final void Function() refresh;
   final GameTimer timer;
 
   @override
@@ -33,7 +33,7 @@ class GameBoard extends ConsumerWidget {
             return Positioned(
                 left: col * cellWidth,
                 top: row * cellWidth,
-                child: CellWidget(row: row, col: col, reFresh: reFresh),
+                child: CellWidget(row: row, col: col, refresh: refresh),
             );
           })
       ),

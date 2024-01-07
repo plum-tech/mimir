@@ -13,7 +13,7 @@ class GameInfo extends ConsumerWidget{
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Time Over
-    if(timer.getTime() == "00:00"){
+    if(timer.getTimerValue() == 0){
       ref.read(boardManager).gameOver = true;
     }
     // Lost Game

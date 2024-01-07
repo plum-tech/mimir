@@ -36,7 +36,7 @@ class _MinesweeperState extends ConsumerState<Minesweeper> {
     setState(() {
       ref.read(boardManager.notifier).initGame();
       // ReCreate Timer When Game Reset
-      timer = GameTimer(timeStart: timerValue, reFresh: updateGame);
+      timer = GameTimer(timeStart: timerValue, refresh: updateGame);
     });
   }
 
@@ -45,7 +45,7 @@ class _MinesweeperState extends ConsumerState<Minesweeper> {
     super.initState();
     ref.read(boardManager.notifier).initGame();
     // Create Timer
-    timer = GameTimer(timeStart: timerValue, reFresh: updateGame);
+    timer = GameTimer(timeStart: timerValue, refresh: updateGame);
   }
 
   @override
@@ -72,7 +72,7 @@ class _MinesweeperState extends ConsumerState<Minesweeper> {
           children: [
             Center(
                 child: Stack(children: [
-                  GameBoard(reFresh: updateGame, timer: timer),
+                  GameBoard(refresh: updateGame, timer: timer),
                   GameInfo(resetGame: resetGame, timer: timer),
                 ])
             ),
@@ -112,7 +112,7 @@ class _MinesweeperState extends ConsumerState<Minesweeper> {
                     ),
                     duration: Durations.extralong4,
                     child: Text(
-                      "Timer: ${timer.getTime()}",
+                      "Timer: ${timer.getTimeLeft()}",
                       textAlign: TextAlign.center,
                     )
                 ),

@@ -34,28 +34,28 @@ class GameLogic extends StateNotifier<GameStates>{
     }
   }
 
-  void checkRoundCell({required row, required col}){
+  void checkRoundCell({required Cell checkCell}){
     if(firstClick){
-      state.board.randomMine(number: mineNum, clickrow: row, clickcol: col);
+      state.board.randomMine(number: mineNum, clickRow: checkCell.row, clickCol: checkCell.col);
       firstClick = false;
     }
     var dx = [1, 0, -1, 0];
     var dy = [0, 1, 0, -1];
     for(int i = 0; i < 4; i++){
-      var nextRow = row + dy[i];
+      var nextRow = checkCell.row + dy[i];
       nextRow = nextRow < 0 ? 0 : nextRow;
       nextRow = nextRow >= boardRows ? boardRows - 1 : nextRow;
-      var nextCol = col + dx[i];
+      var nextCol = checkCell.col + dx[i];
       nextCol = nextCol < 0 ? 0 : nextCol;
       nextCol = nextCol >= boardCols ? boardCols - 1 : nextCol;
       // Get the next pose cell state
-      Cell cell = getCell(row: nextRow, col: nextCol);
+      Cell nextCell = getCell(row: nextRow, col: nextCol);
       // Check the next cell
-      if(cell.state == CellState.covered && cell.around == 0){
-        changeCell(row: nextRow, col: nextCol, state: CellState.blank);
-        checkRoundCell(row: nextRow, col: nextCol);
-      }else if(!cell.mine && cell.state == CellState.covered && cell.around != 0){
-        changeCell(row: nextRow, col: nextCol, state: CellState.blank);
+      if(nextCell.state == CellState.covered && nextCell.around == 0){
+        changeCell(cell: nextCell, state: CellState.blank);
+        checkRoundCell(checkCell: nextCell);
+      }else if(!nextCell.mine && nextCell.state == CellState.covered && nextCell.around != 0){
+        changeCell(cell: nextCell, state: CellState.blank);
       }
     }
   }
@@ -80,8 +80,8 @@ class GameLogic extends StateNotifier<GameStates>{
     return state.board.getCell(row: row, col: col);
   }
 
-  void changeCell({required row, required col, required state}){
-    this.state.board.changeCell(row: row, col: col, state: state);
+  void changeCell({required Cell cell, required CellState state}){
+    this.state.board.changeCell(row: cell.row, col: cell.col, state: state);
   }
 }
 

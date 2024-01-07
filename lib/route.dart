@@ -58,6 +58,8 @@ import 'package:sit/timetable/page/p13n.dart';
 import 'package:sit/widgets/image.dart';
 import 'package:sit/widgets/webview/page.dart';
 
+import 'game/Minesweeper/index.dart';
+
 final $Key = GlobalKey<NavigatorState>();
 final $TimetableShellKey = GlobalKey<NavigatorState>();
 final $LifeShellKey = GlobalKey<NavigatorState>();
@@ -392,6 +394,10 @@ final _gameRoutes = [
   GoRoute(
     path: "/game/2048",
     builder: (ctx, state) => const Game2048Page(),
+  ),
+  GoRoute(
+    path: "/game/minesweeper",
+    builder: (ctx, state) => const MinesweeperPage(),
   ),
 ];
 
