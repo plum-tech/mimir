@@ -78,7 +78,7 @@ jobs:
             build-apk
 
       - name: Publish Android Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SITLife-Android-release
           path: build/app/outputs/flutter-apk/1-SITLife-release-signed.apk
@@ -182,7 +182,7 @@ jobs:
     #       build-ipa
 
     # - name: (Debug) Publish iOS Artifact
-    #   uses: actions/upload-artifact@v3
+    #   uses: actions/upload-artifact@v4
     #   with:
     #     name: SITLife-iOS-release
     #     path: build-output/ios/publish/2-SITLife-release.ipa
