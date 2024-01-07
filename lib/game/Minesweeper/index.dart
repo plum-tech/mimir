@@ -17,7 +17,7 @@ class _MinesweeperPage extends State<MinesweeperPage> {
   @override
   Widget build(BuildContext context) {
     return const ProviderScope(
-      child: MineSweeper()
+      child: Minesweeper()
     );
   }
 }
