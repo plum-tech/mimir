@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout the code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Clear old cache - Cache APK
         id: clear-cache-apk
@@ -88,7 +88,7 @@ jobs:
 
     steps:
     - name: Checkout the code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Clear old cache - Cache IPA
       id: clear-cache-ipa
@@ -201,7 +201,7 @@ jobs:
     needs: [build_android, build_ios]
     steps:
       - name: Checkout the code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Change version info
         id: get_tag_name
