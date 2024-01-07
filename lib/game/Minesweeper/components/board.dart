@@ -1,34 +1,42 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';
+import '../management/gametimer.dart';
 import '../management/gamelogic.dart';
 import '../components/cell.dart';
 import '../theme/colors.dart';
-import 'package:flutter/material.dart';
 
 class GameBoard extends ConsumerWidget {
-  const GameBoard({super.key, required this.refresh});
-  final Function refresh;
+  const GameBoard({super.key, required this.reFresh, required this.timer});
+  final void Function() reFresh;
+  final GameTimer timer;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      width: boardwidth,
-      height: boardheight,
+    return AnimatedContainer(
+      width: boardWidth,
+      height: boardHeight,
       decoration: BoxDecoration(
-          color: boardcolor,
+          color: boardColor,
           border: Border.all(
-            color: boardroundcolor,
-            width: borderwidth,
+            color: timer.checkHalfTime() ? crazyColor : boardBorderColor,
+            width: borderWidth,
           ),
-          borderRadius: const BorderRadius.all(Radius.circular(borderwidth))),
+          borderRadius: const BorderRadius.all(
+              Radius.circular(cellRadius),
+          )
+      ),
+      duration: Durations.extralong4,
       child: Stack(
-          children: List.generate(boardrows * boardcols, (i) {
-        var col = i % boardcols;
-        var row = (i / boardcols).floor();
-        return Positioned(
-            left: col * cellwidth * 1.0,
-            top: row * cellwidth * 1.0,
-            child: CellWidget(row: row, col: col, refresh: refresh));
-      })),
+          children: List.generate(boardRows * boardCols, (i) {
+            var col = i % boardCols;
+            var row = (i / boardCols).floor();
+            return Positioned(
+                left: col * cellWidth,
+                top: row * cellWidth,
+                child: CellWidget(row: row, col: col, reFresh: reFresh),
+            );
+          })
+      ),
     );
   }
 }

@@ -1,152 +1,87 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import "package:flutter/foundation.dart";
+import 'package:logger/logger.dart';
+import 'cellwidget.dart';
 import '../management/mineboard.dart';
 import '../management/gamelogic.dart';
-import '../theme/colors.dart';
+
 
 
 class CellWidget extends ConsumerWidget{
-  CellWidget({super.key,required this.row, required this.col, required this.refresh});
-  final Function refresh;
+  const CellWidget({super.key, required this.row, required this.col, required this.reFresh});
+  final void Function() reFresh;
   final int row;
   final int col;
-  late final _cell;
-  late final _covered;
-  late final _flaged;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    _cell = ref.watch(boardManager.notifier).getCell(row: row, col: col);
+    final Cell cell = ref.watch(boardManager.notifier).getCell(row: row, col: col);
+    late final bool coverCell;
+    late final bool flagCell;
 
-    switch(_cell["state"]){
-      case cellstate.blank:
-        _covered = false;
-        _flaged = false;
-      case cellstate.covered:
-        _covered = true;
-        _flaged = false;
-      case cellstate.flag:
-        _covered = true;
-        _flaged = true;
+    switch(cell.state){
+      case CellState.blank:
+        coverCell = false;
+        flagCell = false;
+      case CellState.covered:
+        coverCell = true;
+        flagCell = false;
+      case CellState.flag:
+        coverCell = true;
+        flagCell = true;
+      default:
+        if (kDebugMode) {
+          logger.log(
+              Level.error,
+              "Wrong Cell State"
+          );
+        }
     }
 
     return Stack(
       children: [
-        widgetBlank(),
-        widgetCover(visible: _covered),
-        widgetFlag(visible: _flaged),
-        SizedBox(
-          width: cellwidth, height: cellwidth,
-          child: MaterialButton(
-            onPressed: () {
-              if(!_flaged){
-                ref.read(boardManager.notifier).changeCell(row: row, col: col, state: cellstate.blank);
-                ref.read(boardManager.notifier).checkCell(row: row, col: col);
-                if (_cell["mine"]) {
-                  ref.read(boardManager).gameover = true;
-                } else if (ref.read(boardManager.notifier).checkWin()) {
-                  ref.read(boardManager).goodgame = true;
-                }
-                refresh();
-              }else{
-                ref.read(boardManager.notifier).changeCell(row: row, col: col, state: cellstate.covered);
-                refresh();
-              }
-            },
-            onLongPress: () {
-              ref.read(boardManager.notifier).changeCell(row: row, col: col, state: cellstate.flag);
-              refresh();
-            },
-          ),
-        )
+        widgetBlank(cell: cell),
+        widgetCover(visible: coverCell),
+        widgetFlag(visible: flagCell),
+        widgetButton(cell: cell, covered: coverCell, flaged: flagCell, ref: ref),
       ],
     );
   }
 
-  Widget widgetFlag({required visible}){
-    const duration = Durations.medium4;
-    const curve = Curves.ease;
-    return AnimatedPositioned(
-      left: 0,
-      top: visible ? 0 : -40,
-      duration: duration,
-      curve: curve,
-        child: AnimatedOpacity(
-            opacity: visible ? 1 : 0,
-            duration: duration,
-            curve: curve,
-          child: AnimatedScale(
-            scale: visible ? 1 : 0.2,
-            duration: duration,
-            curve: curve,
-            child: const Icon(
-              Icons.flag,
-              size: 40,
-              color: flagcolor,
-            ),
-          )
+  Widget widgetButton({required Cell cell, required bool covered, required bool flaged, required ref}){
+    if(covered){
+      return SizedBox(
+        width: cellWidth, height: cellWidth,
+        child: MaterialButton(
+          onPressed: () {
+            // Click a Cover Cell => Blank
+            if(!flaged){
+              ref.read(boardManager.notifier).changeCell(row: row, col: col, state: CellState.blank);
+              ref.read(boardManager.notifier).checkRoundCell(row: row, col: col);
+              // Check Game State
+              if (cell.mine) {
+                ref.read(boardManager).gameOver = true;
+              } else if (ref.read(boardManager.notifier).checkWin()) {
+                ref.read(boardManager).goodGame = true;
+              }
+              reFresh();
+            }
+            // Click a Flag Cell => Cancel Flag (Covered)
+            else{
+              ref.read(boardManager.notifier).changeCell(row: row, col: col, state: CellState.covered);
+              reFresh();
+            }
+          },
+          onLongPress: () {
+            ref.read(boardManager.notifier).changeCell(row: row, col: col, state: CellState.flag);
+            reFresh();
+          },
         ),
-    );
-  }
-
-  Widget widgetCover({required visible}){
-    const duration = Durations.medium2;
-    const curve = Curves.ease;
-    return AnimatedOpacity(
-      opacity: visible ? 1 : 0,
-      curve: curve,
-      duration: duration,
-      child: Container(
-        width: cellwidth, height: cellwidth,
-        decoration: BoxDecoration(
-          color: cellcolor,
-          border: Border.all(width: 1, color: cellroundcolor),
-          borderRadius: const BorderRadius.all(Radius.circular(2)),
-        ),
-      ),
-    );
-  }
-
-  Widget widgetBlank(){
-    return Container(
-      width: cellwidth, height: cellwidth, color: boardcolor,
-      child: _cell["mine"]
-          ? const Icon(Icons.gps_fixed, color: minecolor)
-          : numberText(around: _cell["around"]),
-    );
-  }
-
-  Widget numberText({required around}){
-    if(around == 0){
+      );
+    }else{
       return const SizedBox.shrink();
     }
-    late final Color numcolor;
-    switch(around){
-      case 1:
-        numcolor = num1color;
-      case 2:
-        numcolor = num2color;
-      case 3:
-        numcolor = num3color;
-      case 4:
-        numcolor = num4color;
-      case 5:
-        numcolor = num5color;
-      case 6:
-        numcolor = num6color;
-      case 7:
-        numcolor = num7color;
-      case 8:
-        numcolor = num8color;
-      default:
-        numcolor = errorcolor;
-    }
-    return Text(
-      around.toString(),
-      style: TextStyle(
-          color: numcolor,
-          fontWeight: FontWeight.w900,
-          fontSize: 28),
-      textAlign: TextAlign.center,);
   }
+
 }
