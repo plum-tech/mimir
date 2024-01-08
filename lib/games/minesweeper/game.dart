@@ -8,14 +8,14 @@ import "package:flutter/foundation.dart";
 import 'management/gametimer.dart';
 import 'theme/colors.dart';
 
-class Minesweeper extends ConsumerStatefulWidget {
-  const Minesweeper({super.key});
+class GameMinesweeper extends ConsumerStatefulWidget {
+  const GameMinesweeper({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _MinesweeperState();
 }
 
-class _MinesweeperState extends ConsumerState<Minesweeper> {
+class _MinesweeperState extends ConsumerState<GameMinesweeper> {
   late GameTimer timer;
   final int timerValue = 300;
 

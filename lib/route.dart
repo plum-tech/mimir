@@ -5,7 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
-import 'package:sit/game/2048/index.dart';
+import 'package:sit/games/2048/index.dart';
+import 'package:sit/games/minesweeper/index.dart';
 import 'package:sit/index.dart';
 import 'package:sit/me/edu_email/page/login.dart';
 import 'package:sit/me/edu_email/page/outbox.dart';
@@ -58,7 +59,6 @@ import 'package:sit/timetable/page/p13n.dart';
 import 'package:sit/widgets/image.dart';
 import 'package:sit/widgets/webview/page.dart';
 
-import 'game/Minesweeper/index.dart';
 
 final $Key = GlobalKey<NavigatorState>();
 final $TimetableShellKey = GlobalKey<NavigatorState>();
@@ -397,7 +397,7 @@ final _gameRoutes = [
   ),
   GoRoute(
     path: "/game/minesweeper",
-    builder: (ctx, state) => const MinesweeperPage(),
+    builder: (ctx, state) => const GameMinesweeperPage(),
   ),
 ];
 
