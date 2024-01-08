@@ -17,7 +17,7 @@ class Minesweeper extends ConsumerStatefulWidget {
 
 class _MinesweeperState extends ConsumerState<Minesweeper> {
   late GameTimer timer;
-  final int timerValue = 180;
+  final int timerValue = 300;
 
   void updateGame() {
     setState(() {

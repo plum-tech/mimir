@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/game/Minesweeper/management/mineboard.dart';
+import '../management/mineboard.dart';
 import '../management/gamelogic.dart';
 
 class CellButton extends ConsumerWidget{

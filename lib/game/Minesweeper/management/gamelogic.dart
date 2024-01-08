@@ -21,8 +21,9 @@ const boardHeight = cellWidth * boardRows + borderWidth * 2;
 class GameLogic extends StateNotifier<GameStates>{
   GameLogic(this.ref) : super(GameStates());
   final StateNotifierProviderRef ref;
-  int mineNum = (boardRows * boardCols * 0.15).floor();
+  // Generating Mines When First Click
   bool firstClick = true;
+  int mineNum = (boardRows * boardCols * 0.15).floor();
 
   void initGame(){
     state.gameOver = false;
@@ -36,26 +37,29 @@ class GameLogic extends StateNotifier<GameStates>{
 
   void checkRoundCell({required Cell checkCell}){
     if(firstClick){
-      state.board.randomMine(number: mineNum, clickRow: checkCell.row, clickCol: checkCell.col);
+      state.board.randomMines(number: mineNum, clickRow: checkCell.row, clickCol: checkCell.col);
       firstClick = false;
     }
-    var dx = [1, 0, -1, 0];
-    var dy = [0, 1, 0, -1];
-    for(int i = 0; i < 4; i++){
-      var nextRow = checkCell.row + dy[i];
-      nextRow = nextRow < 0 ? 0 : nextRow;
-      nextRow = nextRow >= boardRows ? boardRows - 1 : nextRow;
-      var nextCol = checkCell.col + dx[i];
-      nextCol = nextCol < 0 ? 0 : nextCol;
-      nextCol = nextCol >= boardCols ? boardCols - 1 : nextCol;
-      // Get the next pose cell state
-      Cell nextCell = getCell(row: nextRow, col: nextCol);
-      // Check the next cell
-      if(nextCell.state == CellState.covered && nextCell.around == 0){
-        changeCell(cell: nextCell, state: CellState.blank);
-        checkRoundCell(checkCell: nextCell);
-      }else if(!nextCell.mine && nextCell.state == CellState.covered && nextCell.around != 0){
-        changeCell(cell: nextCell, state: CellState.blank);
+    if(checkCell.around == 0) {
+      var dx = [1, 0, -1, 0];
+      var dy = [0, 1, 0, -1];
+      for (int i = 0; i < 4; i++) {
+        var nextRow = checkCell.row + dy[i];
+        nextRow = nextRow < 0 ? 0 : nextRow;
+        nextRow = nextRow >= boardRows ? boardRows - 1 : nextRow;
+        var nextCol = checkCell.col + dx[i];
+        nextCol = nextCol < 0 ? 0 : nextCol;
+        nextCol = nextCol >= boardCols ? boardCols - 1 : nextCol;
+        // Get the next pose cell state
+        Cell nextCell = getCell(row: nextRow, col: nextCol);
+        // Check the next cell
+        if (nextCell.state == CellState.covered && nextCell.around == 0) {
+          changeCell(cell: nextCell, state: CellState.blank);
+          checkRoundCell(checkCell: nextCell);
+        } else if (!nextCell.mine && nextCell.state == CellState.covered &&
+            nextCell.around != 0) {
+          changeCell(cell: nextCell, state: CellState.blank);
+        }
       }
     }
   }

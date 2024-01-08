@@ -60,22 +60,29 @@ class MineBoard{
     }
   }
 
-  void randomMine({required number, required clickRow, required clickCol}){
+  void randomMines({required number, required clickRow, required clickCol}){
     mines = number;
+    int beginSafeRow = clickRow - 1 < 0 ? 0 : clickRow - 1;
+    int endSafeRow = clickRow + 1 >= rows ? rows - 1 : clickRow + 1;
+    int beginSafeCol = clickCol - 1 < 0 ? 0 : clickCol - 1;
+    int endSafeCol = clickCol + 1 >= cols ? cols - 1 : clickCol + 1;
     var cnt = 0;
     while(cnt < number){
       var value = Random().nextInt(cols * rows);
       var col = value % cols;
       var row = (value / cols).floor();
-      if(!board[row][col].mine && !(row == clickRow && col == clickCol)){
+      if(!board[row][col].mine
+          && !((row >= beginSafeRow && row <= endSafeRow)
+              && (col >= beginSafeCol && col <= endSafeCol))
+      ){
         board[row][col].mine = true;
-        addRoundMineNum(row: row, col: col); // count as mine created
+        addRoundCellMineNum(row: row, col: col); // count as mine created
         cnt += 1;
       }
     }
   }
 
-  void addRoundMineNum({required row, required col}){
+  void addRoundCellMineNum({required row, required col}){
     int beginRow = row - 1 < 0 ? 0 : row - 1;
     int endRow = row + 1 >= rows ? rows - 1 : row + 1;
     int beginCol = col - 1 < 0 ? 0 : col - 1;

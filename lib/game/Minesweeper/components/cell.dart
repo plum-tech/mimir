@@ -2,11 +2,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import "package:flutter/foundation.dart";
 import 'package:logger/logger.dart';
-import 'package:sit/game/Minesweeper/cellwidget/blank.dart';
-import 'package:sit/game/Minesweeper/cellwidget/button.dart';
-import 'package:sit/game/Minesweeper/cellwidget/cover.dart';
 import '../management/mineboard.dart';
 import '../management/gamelogic.dart';
+import '../cellwidget/blank.dart';
+import '../cellwidget/button.dart';
+import '../cellwidget/cover.dart';
 import '../cellwidget/flag.dart';
 
 
