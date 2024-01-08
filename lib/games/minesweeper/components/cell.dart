@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import "package:flutter/foundation.dart";
 import 'package:logger/logger.dart';
+import 'package:rettulf/rettulf.dart';
 import '../management/mineboard.dart';
 import '../management/gamelogic.dart';
 import '../cellwidget/blank.dart';
@@ -9,10 +10,14 @@ import '../cellwidget/button.dart';
 import '../cellwidget/cover.dart';
 import '../cellwidget/flag.dart';
 
+class CellWidget extends ConsumerWidget {
+  const CellWidget({
+    super.key,
+    required this.row,
+    required this.col,
+    required this.refresh,
+  });
 
-
-class CellWidget extends ConsumerWidget{
-  const CellWidget({super.key, required this.row, required this.col, required this.refresh});
   final void Function() refresh;
   final int row;
   final int col;
@@ -23,7 +28,7 @@ class CellWidget extends ConsumerWidget{
     late final bool coverVisible;
     late final bool flagVisible;
 
-    switch(cell.state){
+    switch (cell.state) {
       case CellState.blank:
         coverVisible = false;
         flagVisible = false;
@@ -35,10 +40,7 @@ class CellWidget extends ConsumerWidget{
         flagVisible = true;
       default:
         if (kDebugMode) {
-          logger.log(
-              Level.error,
-              "Wrong Cell State"
-          );
+          logger.log(Level.error, "Wrong Cell State");
         }
     }
 
@@ -47,12 +49,7 @@ class CellWidget extends ConsumerWidget{
         CellBlank(cell: cell),
         CellCover(visible: coverVisible),
         CellFlag(visible: flagVisible),
-        CellButton(
-            cell: cell,
-            coverVisible: coverVisible,
-            flagVisible: flagVisible,
-            refresh: refresh
-        ),
+        CellButton(cell: cell, coverVisible: coverVisible, flagVisible: flagVisible, refresh: refresh),
       ],
     );
   }

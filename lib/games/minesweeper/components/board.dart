@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:rettulf/rettulf.dart';
 import '../management/gametimer.dart';
 import '../management/gamelogic.dart';
 import '../components/cell.dart';
@@ -16,7 +17,6 @@ class GameBoard extends ConsumerWidget {
       width: boardWidth,
       height: boardHeight,
       decoration: BoxDecoration(
-          color: boardColor,
           border: Border.all(
             color: timer.checkHalfTime() ? crazyColor : boardBorderColor,
             width: borderWidth,

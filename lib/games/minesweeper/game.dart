@@ -66,7 +66,6 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
             )
           ],
         ),
-        backgroundColor: backgroundColor,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

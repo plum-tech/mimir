@@ -3,8 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../management/mineboard.dart';
 import '../management/gamelogic.dart';
 
-class CellButton extends ConsumerWidget{
-  const CellButton({super.key, required this.cell, required this.coverVisible, required this.flagVisible, required this.refresh});
+class CellButton extends ConsumerWidget {
+  const CellButton({
+    super.key,
+    required this.cell,
+    required this.coverVisible,
+    required this.flagVisible,
+    required this.refresh,
+  });
+
   final Cell cell;
   final bool coverVisible;
   final bool flagVisible;
@@ -12,13 +19,14 @@ class CellButton extends ConsumerWidget{
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if(coverVisible){
+    if (coverVisible) {
       return SizedBox(
-        width: cellWidth, height: cellWidth,
+        width: cellWidth,
+        height: cellWidth,
         child: MaterialButton(
           onPressed: () {
             // Click a Cover Cell => Blank
-            if(!flagVisible){
+            if (!flagVisible) {
               ref.read(boardManager.notifier).changeCell(cell: cell, state: CellState.blank);
               ref.read(boardManager.notifier).checkRoundCell(checkCell: cell);
               // Check Game State
@@ -30,7 +38,7 @@ class CellButton extends ConsumerWidget{
               refresh();
             }
             // Click a Flag Cell => Cancel Flag (Covered)
-            else{
+            else {
               ref.read(boardManager.notifier).changeCell(cell: cell, state: CellState.covered);
               refresh();
             }
@@ -41,7 +49,7 @@ class CellButton extends ConsumerWidget{
           },
         ),
       );
-    }else{
+    } else {
       return const SizedBox.shrink();
     }
   }

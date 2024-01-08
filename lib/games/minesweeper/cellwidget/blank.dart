@@ -13,7 +13,6 @@ class CellBlank extends StatelessWidget {
       return Container(
           width: cellWidth,
           height: cellWidth,
-          color: boardColor,
           child: const Icon(
             Icons.gps_fixed,
             color: mineColor,
@@ -23,7 +22,6 @@ class CellBlank extends StatelessWidget {
       return Container(
         width: cellWidth,
         height: cellWidth,
-        color: boardColor,
         child: cell.around != 0
             ? Text(
           cell.around.toString(),

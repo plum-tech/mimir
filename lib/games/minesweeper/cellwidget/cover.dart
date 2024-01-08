@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rettulf/rettulf.dart';
 import '../management/gamelogic.dart';
 import '../theme/colors.dart';
 
@@ -17,13 +18,9 @@ class CellCover extends StatelessWidget{
       child: Container(
         width: cellWidth, height: cellWidth,
         decoration: BoxDecoration(
-          color: cellColor,
-          border: Border.all(
-            width: 1,
-            color: cellRoundColor,
-          ),
+          color: context.colorScheme.surfaceVariant,
           borderRadius: const BorderRadius.all(
-            Radius.circular(cellRadius),
+            Radius.circular(8),
           ),
         ),
       ),
