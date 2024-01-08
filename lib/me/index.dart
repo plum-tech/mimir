@@ -56,6 +56,14 @@ class _MePageState extends State<MePage> {
               onTap: () async {
                 await context.push("/game/2048");
               },
+            ),
+            ListTile(
+              leading: const Icon(Icons.videogame_asset),
+              title: "Minesweeper".text(),
+              trailing: const Icon(Icons.navigate_next),
+              onTap: () async {
+                await context.push("/game/Minesweeper");
+              },
             )
           ]),
         ],
