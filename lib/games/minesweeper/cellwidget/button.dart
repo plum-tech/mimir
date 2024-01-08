@@ -40,6 +40,7 @@ class CellButton extends ConsumerWidget {
             ? null
             : () {
                 manager.digAroundBesidesFlagged(cell: cell);
+                manager.flagRestCovered(cell: cell);
                 refresh();
               },
         onLongPress: !coverVisible

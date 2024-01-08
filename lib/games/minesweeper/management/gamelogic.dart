@@ -85,6 +85,19 @@ class GameLogic extends StateNotifier<GameStates> {
     }
   }
 
+  void flagRestCovered({required Cell cell}) {
+    final coveredCount = state.board.countAroundByState(cell: cell, state: CellState.covered);
+    if (coveredCount == 0) return;
+    final flagCount = state.board.countAroundByState(cell: cell, state: CellState.flag);
+    if (coveredCount + flagCount == cell.minesAround) {
+      for (final neighbor in state.board.iterateAround(cell: cell)) {
+        if (neighbor.state == CellState.covered) {
+          flag(cell: neighbor);
+        }
+      }
+    }
+  }
+
   bool checkWin() {
     var coveredCells = state.board.countAllByState(state: CellState.covered);
     var flagCells = state.board.countAllByState(state: CellState.flag);

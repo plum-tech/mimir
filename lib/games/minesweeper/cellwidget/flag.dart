@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../theme/colors.dart';
+import 'package:rettulf/rettulf.dart';
 
 class CellFlag extends StatelessWidget{
   const CellFlag({super.key, required this.visible});
@@ -22,10 +22,10 @@ class CellFlag extends StatelessWidget{
             scale: visible ? 1 : 0.2,
             duration: duration,
             curve: curve,
-            child: const Icon(
+            child: Icon(
               Icons.flag,
               size: 40,
-              color: flagColor,
+              color: context.colorScheme.primary,
             ),
           )
       ),
