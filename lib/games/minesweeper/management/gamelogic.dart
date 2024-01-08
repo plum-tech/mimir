@@ -35,7 +35,30 @@ class GameLogic extends StateNotifier<GameStates> {
     }
   }
 
-  void checkRoundCell({required Cell checkCell}) {
+  Cell getCell({required row, required col}) {
+    return state.board.getCell(row: row, col: col);
+  }
+
+  void _changeCell({required Cell cell, required CellState state}) {
+    this.state.board.changeCell(row: cell.row, col: cell.col, state: state);
+  }
+
+  void dig({required Cell cell}) {
+    if (cell.state == CellState.covered) {
+      _changeCell(cell: cell, state: CellState.blank);
+      _digAround(checkCell: cell);
+      // Check Game State
+      if (cell.mine) {
+        state.gameOver = true;
+      } else if (checkWin()) {
+        state.goodGame = true;
+      }
+    } else {
+      assert(false, "$cell");
+    }
+  }
+
+  void _digAround({required Cell checkCell}) {
     if (firstClick) {
       state.board.randomMines(number: mineNum, clickRow: checkCell.row, clickCol: checkCell.col);
       firstClick = false;
@@ -55,7 +78,7 @@ class GameLogic extends StateNotifier<GameStates> {
         // Check the next cell
         if (nextCell.state == CellState.covered && nextCell.around == 0) {
           _changeCell(cell: nextCell, state: CellState.blank);
-          checkRoundCell(checkCell: nextCell);
+          _digAround(checkCell: nextCell);
         } else if (!nextCell.mine && nextCell.state == CellState.covered && nextCell.around != 0) {
           _changeCell(cell: nextCell, state: CellState.blank);
         }
@@ -77,22 +100,6 @@ class GameLogic extends StateNotifier<GameStates> {
       return true;
     }
     return false;
-  }
-
-  Cell getCell({required row, required col}) {
-    return state.board.getCell(row: row, col: col);
-  }
-
-  void dig({required Cell cell}) {
-    if (cell.state == CellState.covered) {
-      _changeCell(cell: cell, state: CellState.blank);
-    } else {
-      assert(false, "$cell");
-    }
-  }
-
-  void _changeCell({required Cell cell, required CellState state}) {
-    this.state.board.changeCell(row: cell.row, col: cell.col, state: state);
   }
 
   void toggleFlag({required Cell cell}) {

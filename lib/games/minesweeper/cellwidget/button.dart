@@ -20,6 +20,7 @@ class CellButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (coverVisible) {
+      final manager = ref.read(boardManager.notifier);
       return SizedBox(
         width: cellWidth,
         height: cellWidth,
@@ -27,27 +28,17 @@ class CellButton extends ConsumerWidget {
           onPressed: () {
             // Click a Cover Cell => Blank
             if (!flagVisible) {
-              ref.read(boardManager.notifier).dig(cell: cell);
-              ref.read(boardManager.notifier).checkRoundCell(checkCell: cell);
-              // Check Game State
-              if (cell.mine) {
-                ref.read(boardManager).gameOver = true;
-              } else if (ref.read(boardManager.notifier).checkWin()) {
-                ref.read(boardManager).goodGame = true;
-              }
-              refresh();
+              manager.dig(cell: cell);
+            } else {
+              // Click a Flag Cell => Cancel Flag (Covered)
+              manager.removeFlag(cell: cell);
             }
-            // Click a Flag Cell => Cancel Flag (Covered)
-            else {
-              ref.read(boardManager.notifier).removeFlag(cell: cell);
-              refresh();
-            }
-          },
-          onLongPress: () {
-            ref.read(boardManager.notifier).toggleFlag(cell: cell);
             refresh();
           },
-
+          onLongPress: () {
+            manager.toggleFlag(cell: cell);
+            refresh();
+          },
         ),
       );
     } else {
