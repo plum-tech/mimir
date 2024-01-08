@@ -27,7 +27,7 @@ class CellBlank extends StatelessWidget {
           cell.around.toString(),
           textAlign: TextAlign.center,
           style: TextStyle(
-              color: numcolors[cell.around - 1],
+              color: numberColors[cell.around - 1],
               fontWeight: FontWeight.w900,
               fontSize: 28
           ),
