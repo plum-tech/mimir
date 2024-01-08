@@ -27,7 +27,7 @@ class CellButton extends ConsumerWidget {
           onPressed: () {
             // Click a Cover Cell => Blank
             if (!flagVisible) {
-              ref.read(boardManager.notifier).changeCell(cell: cell, state: CellState.blank);
+              ref.read(boardManager.notifier).dig(cell: cell);
               ref.read(boardManager.notifier).checkRoundCell(checkCell: cell);
               // Check Game State
               if (cell.mine) {
@@ -39,14 +39,15 @@ class CellButton extends ConsumerWidget {
             }
             // Click a Flag Cell => Cancel Flag (Covered)
             else {
-              ref.read(boardManager.notifier).changeCell(cell: cell, state: CellState.covered);
+              ref.read(boardManager.notifier).removeFlag(cell: cell);
               refresh();
             }
           },
           onLongPress: () {
-            ref.read(boardManager.notifier).changeCell(cell: cell, state: CellState.flag);
+            ref.read(boardManager.notifier).toggleFlag(cell: cell);
             refresh();
           },
+
         ),
       );
     } else {

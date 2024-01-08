@@ -3,7 +3,6 @@ import "package:flutter/foundation.dart";
 import 'package:logger/logger.dart';
 import 'mineboard.dart';
 
-
 // Debug Tool
 final logger = Logger();
 
@@ -18,14 +17,15 @@ const borderWidth = 5.0;
 const boardWidth = cellWidth * boardCols + borderWidth * 2;
 const boardHeight = cellWidth * boardRows + borderWidth * 2;
 
-class GameLogic extends StateNotifier<GameStates>{
+class GameLogic extends StateNotifier<GameStates> {
   GameLogic(this.ref) : super(GameStates());
   final StateNotifierProviderRef ref;
+
   // Generating Mines When First Click
   bool firstClick = true;
   int mineNum = (boardRows * boardCols * 0.15).floor();
 
-  void initGame(){
+  void initGame() {
     state.gameOver = false;
     state.goodGame = false;
     state.board = MineBoard(rows: boardRows, cols: boardCols);
@@ -35,12 +35,12 @@ class GameLogic extends StateNotifier<GameStates>{
     }
   }
 
-  void checkRoundCell({required Cell checkCell}){
-    if(firstClick){
+  void checkRoundCell({required Cell checkCell}) {
+    if (firstClick) {
       state.board.randomMines(number: mineNum, clickRow: checkCell.row, clickCol: checkCell.col);
       firstClick = false;
     }
-    if(checkCell.around == 0) {
+    if (checkCell.around == 0) {
       var dx = [1, 0, -1, 0];
       var dy = [0, 1, 0, -1];
       for (int i = 0; i < 4; i++) {
@@ -54,42 +54,75 @@ class GameLogic extends StateNotifier<GameStates>{
         Cell nextCell = getCell(row: nextRow, col: nextCol);
         // Check the next cell
         if (nextCell.state == CellState.covered && nextCell.around == 0) {
-          changeCell(cell: nextCell, state: CellState.blank);
+          _changeCell(cell: nextCell, state: CellState.blank);
           checkRoundCell(checkCell: nextCell);
-        } else if (!nextCell.mine && nextCell.state == CellState.covered &&
-            nextCell.around != 0) {
-          changeCell(cell: nextCell, state: CellState.blank);
+        } else if (!nextCell.mine && nextCell.state == CellState.covered && nextCell.around != 0) {
+          _changeCell(cell: nextCell, state: CellState.blank);
         }
       }
     }
   }
 
-  bool checkWin(){
+  bool checkWin() {
     var coveredCells = state.board.countState(state: CellState.covered);
     var flagCells = state.board.countState(state: CellState.flag);
     var mineCells = state.board.countMines();
     if (kDebugMode) {
       logger.log(
-          Level.debug,
-          "mines: $mineCells, covers: $coveredCells, flags: $flagCells",
+        Level.debug,
+        "mines: $mineCells, covers: $coveredCells, flags: $flagCells",
       );
     }
-    if(coveredCells + flagCells == mineCells){
+    if (coveredCells + flagCells == mineCells) {
       return true;
     }
     return false;
   }
 
-  Cell getCell({required row, required col}){
+  Cell getCell({required row, required col}) {
     return state.board.getCell(row: row, col: col);
   }
 
-  void changeCell({required Cell cell, required CellState state}){
+  void dig({required Cell cell}) {
+    if (cell.state == CellState.covered) {
+      _changeCell(cell: cell, state: CellState.blank);
+    } else {
+      assert(false, "$cell");
+    }
+  }
+
+  void _changeCell({required Cell cell, required CellState state}) {
     this.state.board.changeCell(row: cell.row, col: cell.col, state: state);
+  }
+
+  void toggleFlag({required Cell cell}) {
+    if (cell.state == CellState.flag) {
+      _changeCell(cell: cell, state: CellState.covered);
+    } else if (cell.state == CellState.covered) {
+      _changeCell(cell: cell, state: CellState.flag);
+    } else {
+      assert(false, "$cell");
+    }
+  }
+
+  void flag({required Cell cell}) {
+    if (cell.state == CellState.covered) {
+      _changeCell(cell: cell, state: CellState.flag);
+    } else {
+      assert(false, "$cell");
+    }
+  }
+
+  void removeFlag({required Cell cell}) {
+    if (cell.state == CellState.flag) {
+      _changeCell(cell: cell, state: CellState.covered);
+    } else {
+      assert(false, "$cell");
+    }
   }
 }
 
-class GameStates{
+class GameStates {
   late bool gameOver;
   late bool goodGame;
   late MineBoard board;
