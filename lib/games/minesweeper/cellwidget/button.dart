@@ -19,30 +19,36 @@ class CellButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (coverVisible) {
-      final manager = ref.read(boardManager.notifier);
-      return SizedBox(
-        width: cellWidth,
-        height: cellWidth,
-        child: MaterialButton(
-          onPressed: () {
-            // Click a Cover Cell => Blank
-            if (!flagVisible) {
-              manager.dig(cell: cell);
-            } else {
-              // Click a Flag Cell => Cancel Flag (Covered)
-              manager.removeFlag(cell: cell);
-            }
-            refresh();
-          },
-          onLongPress: () {
-            manager.toggleFlag(cell: cell);
-            refresh();
-          },
-        ),
-      );
-    } else {
-      return const SizedBox.shrink();
-    }
+    final manager = ref.read(boardManager.notifier);
+    return SizedBox(
+      width: cellWidth,
+      height: cellWidth,
+      child: InkWell(
+        onTap: !coverVisible
+            ? null
+            : () {
+                // Click a Cover Cell => Blank
+                if (!flagVisible) {
+                  manager.dig(cell: cell);
+                } else {
+                  // Click a Flag Cell => Cancel Flag (Covered)
+                  manager.removeFlag(cell: cell);
+                }
+                refresh();
+              },
+        onDoubleTap: coverVisible
+            ? null
+            : () {
+                manager.digAroundBesidesFlagged(cell: cell);
+                refresh();
+              },
+        onLongPress: !coverVisible
+            ? null
+            : () {
+                manager.toggleFlag(cell: cell);
+                refresh();
+              },
+      ),
+    );
   }
 }

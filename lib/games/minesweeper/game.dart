@@ -76,7 +76,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
                 textAlign: TextAlign.center,
                       text: TextSpan(style: context.textTheme.titleMedium, children: [
                         TextSpan(
-                            text: "${manager.board.countState(state: CellState.flag)}",
+                            text: "${manager.board.countAllByState(state: CellState.flag)}",
                             ),
                         WidgetSpan(child: Icon(Icons.flag, size: 16, color: flagColor)),
                         TextSpan(text: " / "),

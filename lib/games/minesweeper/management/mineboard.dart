@@ -37,33 +37,49 @@ class MineBoard {
     }
   }
 
-  int countState({required state}) {
-    var cnt = 0;
-    for (int r = 0; r < rows; r++) {
-      for (int c = 0; c < cols; c++) {
-        if (board[r][c].state == state) {
-          cnt += 1;
-        }
+  int countAllByState({required state}) {
+    var count = 0;
+    for (final cell in iterateAllCells()) {
+      if (cell.state == state) {
+        count += 1;
       }
     }
-    return cnt;
+    return count;
   }
 
   int countMines() {
     // Return the default mines (required num) first
-    if (mines != 0) {
+    if (mines >= 0) {
       return mines;
     } else {
-      var cnt = 0;
-      for (int r = 0; r < rows; r++) {
-        for (int c = 0; c < cols; c++) {
-          if (board[r][c].mine) {
-            cnt += 1;
-          }
+      var count = 0;
+      for (final cell in iterateAllCells()) {
+        if (cell.mine) {
+          count += 1;
         }
       }
-      return cnt;
+      return count;
     }
+  }
+
+  int countAroundByState({required Cell cell, required state}) {
+    var count = 0;
+    for (final cell in iterateAround(cell: cell)) {
+      if (cell.state == state) {
+        count += 1;
+      }
+    }
+    return count;
+  }
+
+  int countAroundMines({required Cell cell}) {
+    var count = 0;
+    for (final cell in iterateAround(cell: cell)) {
+      if (cell.mine) {
+        count += 1;
+      }
+    }
+    return count;
   }
 
   void randomMines({required number, required clickRow, required clickCol}) {
@@ -87,14 +103,8 @@ class MineBoard {
   }
 
   void _addRoundCellMineNum({required row, required col}) {
-    int beginRow = row - 1 < 0 ? 0 : row - 1;
-    int endRow = row + 1 >= rows ? rows - 1 : row + 1;
-    int beginCol = col - 1 < 0 ? 0 : col - 1;
-    int endCol = col + 1 >= cols ? cols - 1 : col + 1;
-    for (int r = beginRow; r <= endRow; r++) {
-      for (int c = beginCol; c <= endCol; c++) {
-        board[r][c].minesAround += 1;
-      }
+    for (final neighbor in iterateAround(cell: board[row][col])) {
+      neighbor.minesAround += 1;
     }
   }
 
@@ -112,6 +122,14 @@ class MineBoard {
       final col = cell.col + dy;
       if (isInRange(row: row, col: col)) {
         yield board[row][col];
+      }
+    }
+  }
+
+  Iterable<Cell> iterateAllCells() sync* {
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        yield board[r][c];
       }
     }
   }
