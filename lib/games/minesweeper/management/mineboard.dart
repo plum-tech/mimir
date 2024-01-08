@@ -28,6 +28,8 @@ class MineBoard {
   final int cols;
   late List<List<Cell>> board;
 
+  static const _nearbyDelta = [(-1, 1), (0, 1), (1, 1), (-1, 0), /*(0,0)*/ (1, 0), (-1, -1), (0, -1), (1, -1)];
+
   MineBoard({required this.rows, required this.cols}) {
     board = List.generate(rows, (row) => List.generate(cols, (col) => Cell(row: row, col: col)));
     if (kDebugMode) {
@@ -78,13 +80,13 @@ class MineBoard {
       if (!board[row][col].mine &&
           !((row >= beginSafeRow && row <= endSafeRow) && (col >= beginSafeCol && col <= endSafeCol))) {
         board[row][col].mine = true;
-        addRoundCellMineNum(row: row, col: col); // count as mine created
+        _addRoundCellMineNum(row: row, col: col); // count as mine created
         cnt += 1;
       }
     }
   }
 
-  void addRoundCellMineNum({required row, required col}) {
+  void _addRoundCellMineNum({required row, required col}) {
     int beginRow = row - 1 < 0 ? 0 : row - 1;
     int endRow = row + 1 >= rows ? rows - 1 : row + 1;
     int beginCol = col - 1 < 0 ? 0 : col - 1;
@@ -102,5 +104,19 @@ class MineBoard {
 
   void changeCell({required row, required col, required state}) {
     board[row][col].state = state;
+  }
+
+  Iterable<Cell> iterateAround(Cell cell) sync* {
+    for (final (dx, dy) in _nearbyDelta) {
+      final row = cell.row + dx;
+      final col = cell.col + dy;
+      if (isInRange(row: row, col: col)) {
+        yield board[row][col];
+      }
+    }
+  }
+
+  bool isInRange({required int row, required int col}) {
+    return 0 <= row && row < rows && 0 <= col && col < cols;
   }
 }

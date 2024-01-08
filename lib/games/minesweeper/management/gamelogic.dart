@@ -44,9 +44,13 @@ class GameLogic extends StateNotifier<GameStates> {
   }
 
   void dig({required Cell cell}) {
+    if (firstClick) {
+      state.board.randomMines(number: mineNum, clickRow: cell.row, clickCol: cell.col);
+      firstClick = false;
+    }
     if (cell.state == CellState.covered) {
       _changeCell(cell: cell, state: CellState.blank);
-      _digAround(checkCell: cell);
+      _digAround(cell: cell);
       // Check Game State
       if (cell.mine) {
         state.gameOver = true;
@@ -58,29 +62,14 @@ class GameLogic extends StateNotifier<GameStates> {
     }
   }
 
-  void _digAround({required Cell checkCell}) {
-    if (firstClick) {
-      state.board.randomMines(number: mineNum, clickRow: checkCell.row, clickCol: checkCell.col);
-      firstClick = false;
-    }
-    if (checkCell.around == 0) {
-      var dx = [1, 0, -1, 0];
-      var dy = [0, 1, 0, -1];
-      for (int i = 0; i < 4; i++) {
-        var nextRow = checkCell.row + dy[i];
-        nextRow = nextRow < 0 ? 0 : nextRow;
-        nextRow = nextRow >= boardRows ? boardRows - 1 : nextRow;
-        var nextCol = checkCell.col + dx[i];
-        nextCol = nextCol < 0 ? 0 : nextCol;
-        nextCol = nextCol >= boardCols ? boardCols - 1 : nextCol;
-        // Get the next pose cell state
-        Cell nextCell = getCell(row: nextRow, col: nextCol);
-        // Check the next cell
-        if (nextCell.state == CellState.covered && nextCell.around == 0) {
-          _changeCell(cell: nextCell, state: CellState.blank);
-          _digAround(checkCell: nextCell);
-        } else if (!nextCell.mine && nextCell.state == CellState.covered && nextCell.around != 0) {
-          _changeCell(cell: nextCell, state: CellState.blank);
+  void _digAround({required Cell cell}) {
+    if (cell.around == 0) {
+      for (final neighbor in state.board.iterateAround(cell)) {
+        if (neighbor.state == CellState.covered && neighbor.around == 0) {
+          _changeCell(cell: neighbor, state: CellState.blank);
+          _digAround(cell: neighbor);
+        } else if (!neighbor.mine && neighbor.state == CellState.covered && neighbor.around != 0) {
+          _changeCell(cell: neighbor, state: CellState.blank);
         }
       }
     }
