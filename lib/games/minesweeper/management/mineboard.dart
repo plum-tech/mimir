@@ -19,7 +19,7 @@ class Cell {
   final int col;
   bool mine = false;
   CellState state = CellState.covered;
-  int around = 0;
+  int minesAround = 0;
 }
 
 class MineBoard {
@@ -93,7 +93,7 @@ class MineBoard {
     int endCol = col + 1 >= cols ? cols - 1 : col + 1;
     for (int r = beginRow; r <= endRow; r++) {
       for (int c = beginCol; c <= endCol; c++) {
-        board[r][c].around += 1;
+        board[r][c].minesAround += 1;
       }
     }
   }
@@ -106,7 +106,7 @@ class MineBoard {
     board[row][col].state = state;
   }
 
-  Iterable<Cell> iterateAround(Cell cell) sync* {
+  Iterable<Cell> iterateAround({required Cell cell}) sync* {
     for (final (dx, dy) in _nearbyDelta) {
       final row = cell.row + dx;
       final col = cell.col + dy;

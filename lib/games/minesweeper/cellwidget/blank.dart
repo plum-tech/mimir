@@ -22,12 +22,12 @@ class CellBlank extends StatelessWidget {
       return Container(
         width: cellWidth,
         height: cellWidth,
-        child: cell.around != 0
+        child: cell.minesAround != 0
             ? Text(
-          cell.around.toString(),
+          cell.minesAround.toString(),
           textAlign: TextAlign.center,
           style: TextStyle(
-              color: numberColors[cell.around - 1],
+              color: numberColors[cell.minesAround - 1],
               fontWeight: FontWeight.w900,
               fontSize: 28
           ),

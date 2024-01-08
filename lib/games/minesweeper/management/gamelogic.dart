@@ -50,7 +50,7 @@ class GameLogic extends StateNotifier<GameStates> {
     }
     if (cell.state == CellState.covered) {
       _changeCell(cell: cell, state: CellState.blank);
-      _digAround(cell: cell);
+      _digAroundIfSafe(cell: cell);
       // Check Game State
       if (cell.mine) {
         state.gameOver = true;
@@ -62,13 +62,13 @@ class GameLogic extends StateNotifier<GameStates> {
     }
   }
 
-  void _digAround({required Cell cell}) {
-    if (cell.around == 0) {
-      for (final neighbor in state.board.iterateAround(cell)) {
-        if (neighbor.state == CellState.covered && neighbor.around == 0) {
+  void _digAroundIfSafe({required Cell cell}) {
+    if (cell.minesAround == 0) {
+      for (final neighbor in state.board.iterateAround(cell: cell)) {
+        if (neighbor.state == CellState.covered && neighbor.minesAround == 0) {
           _changeCell(cell: neighbor, state: CellState.blank);
-          _digAround(cell: neighbor);
-        } else if (!neighbor.mine && neighbor.state == CellState.covered && neighbor.around != 0) {
+          _digAroundIfSafe(cell: neighbor);
+        } else if (!neighbor.mine && neighbor.state == CellState.covered && neighbor.minesAround != 0) {
           _changeCell(cell: neighbor, state: CellState.blank);
         }
       }
