@@ -30,8 +30,10 @@ class CellCover extends ConsumerWidget {
             width: 1,
             color: context.colorScheme.surface,
           ),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(8),
+          borderRadius: BorderRadius.all(
+            Radius.circular(
+                screen.getBoardRadius(),
+            ),
           ),
         ),
       ),

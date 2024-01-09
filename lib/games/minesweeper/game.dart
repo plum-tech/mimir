@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:sit/games/minesweeper/management/cellstate.dart';
 import 'components/info.dart';
 import 'management/gamelogic.dart';
 import 'components/board.dart';
@@ -61,11 +62,15 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
     final boardRadius = screen.getBoardRadius();
 
     if (kDebugMode){
-      logger.log(Level.info, "ScreenSize: w:${screenSize.width},h:${screenSize.height}");
+      logger.log(
+          Level.info,
+          "ScreenSize: w:${screenSize.width},h:${screenSize.height}"
+      );
     }
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
           "Minesweeper",
         ),
@@ -109,9 +114,24 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
                         SizedBox(
                           width: screen.getBorderWidth(),
                         ),
-                        Text(
-                            "Mode: Easy",
-                        )
+                        ref.read(boardManager).board.mines == -1
+                            ? const Text("Mode: Easy")
+                            :Row(
+                              children: [
+                                Text("${ref.read(boardManager).board.countAllByState(state: CellState.flag)}"),
+                                Icon(
+                                  Icons.flag_outlined,
+                                  size: screen.getInfoHeight() * 0.6,
+                                  color: flagColor,
+                                ),
+                                Text("${ref.read(boardManager).board.countMines()}"),
+                                Icon(
+                                  Icons.gps_fixed,
+                                  size: screen.getInfoHeight() * 0.5,
+                                  color: mineColor,
+                                ),
+                              ],
+                        ),
                       ],
                     )
                   ),

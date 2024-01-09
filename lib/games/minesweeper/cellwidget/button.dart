@@ -29,14 +29,17 @@ class CellButton extends ConsumerWidget {
           height: cellWidth,
           decoration: BoxDecoration(
             border: Border.all(
-              width: 1,
+              width: 1.0,
               color: context.colorScheme.surface,
             ),
-            borderRadius: const BorderRadius.all(
-                Radius.circular(8),
+            borderRadius: BorderRadius.all(
+                Radius.circular(screen.getBoardRadius()),
             )
           ),
           child: InkWell(
+            radius: screen.getBoardRadius(),
+            highlightColor: Colors.transparent,
+            splashColor: !coverVisible ? Colors.transparent : context.colorScheme.surfaceVariant,
             onTap: !coverVisible
                 ? null
                 : () {
