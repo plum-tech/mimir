@@ -19,22 +19,29 @@ class GameMinesweeper extends ConsumerStatefulWidget {
 
 class _MinesweeperState extends ConsumerState<GameMinesweeper> {
   late GameTimer timer;
-  final int timerValue = 300;
+  final int timerValue = 180;
 
   void updateGame() {
+    if (!timer.timerStart && !ref.read(boardManager.notifier).firstClick){
+      timer.startTimer();
+    }
     setState(() {
       if (kDebugMode) {
-        ref.read(boardManager).gameOver ? logger.log(Level.info, "Game Over!") : null;
-        ref.read(boardManager).goodGame ? logger.log(Level.info, "Good Game!") : null;
+        ref.read(boardManager).gameOver
+            ? logger.log(Level.info, "Game Over!")
+            : null;
+        ref.read(boardManager).goodGame
+            ? logger.log(Level.info, "Good Game!")
+            : null;
       }
     });
   }
 
   void resetGame() {
+    timer.stopTimer();
+    timer = GameTimer(cntStart: timerValue, refresh: updateGame);
     setState(() {
       ref.read(boardManager.notifier).initGame();
-      // ReCreate Timer When Game Reset
-      timer = GameTimer(timeStart: timerValue, refresh: updateGame);
     });
   }
 
@@ -42,8 +49,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
   void initState() {
     super.initState();
     ref.read(boardManager.notifier).initGame();
-    // Create Timer
-    timer = GameTimer(timeStart: timerValue, refresh: updateGame);
+    timer = GameTimer(cntStart: timerValue, refresh: updateGame);
   }
 
   @override
@@ -66,11 +72,11 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
         ],
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           [
             ListTile(
-              leading: Icon(Icons.videogame_asset),
+              leading: const Icon(Icons.videogame_asset),
               title: manager.board.mines >= 0
                   ? RichText(
                 textAlign: TextAlign.center,
@@ -89,10 +95,10 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
                   : "Easy ${manager.board.rows} x ${manager.board.cols}".text(),
             ).expanded(),
             ListTile(
-              leading: Icon(Icons.timer),
+              leading: const Icon(Icons.timer),
               // color: timer.checkHalfTime() ? crazyColor :timerColor,
-              title: "Timer: ${timer.getTimeLeft()}".text(
-                textAlign: TextAlign.center,
+              title: timer.getTimeLeft().text(
+                textAlign: TextAlign.left,
               ),
             ).expanded(),
           ].row(maa: MainAxisAlignment.center).padH(8),

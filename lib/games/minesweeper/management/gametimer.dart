@@ -3,44 +3,51 @@ import 'dart:async';
 class GameTimer {
   final void Function() refresh;
   late final Timer _timer;
-  final int timeStart;
-  late int timeCnt;
+  bool timerStart = false;
+  final int cntStart;
+  late int cntNow;
 
-  GameTimer({required this.timeStart, required this.refresh}) {
-    timeCnt = timeStart;
+  GameTimer({required this.cntStart, required this.refresh}) {
+    cntNow = cntStart;
+    timerStart = false;
+  }
+
+  void startTimer() {
+    timerStart = true;
     _timer = Timer.periodic(const Duration(milliseconds: 1000), (timer) {
-      if (timeCnt > 0) {
-        timeCnt -= 1;
+      if (cntNow > 0) {
+        cntNow -= 1;
       } else {
-        timeCnt = 0;
+        cntNow = 0;
       }
       refresh();
     });
   }
 
   void stopTimer() {
+    timerStart = false;
     _timer.cancel();
   }
 
   bool checkHalfTime(){
-    return timeCnt < timeStart/2;
+    return cntNow < cntStart/2;
   }
 
   int getTimerValue() {
-    return timeCnt;
+    return cntNow;
   }
 
   String getTimeLeft() {
-    int minute = (timeCnt / 60).floor();
-    int second = timeCnt % 60;
+    int minute = (cntNow / 60).floor();
+    int second = cntNow % 60;
     String min = minute < 10 ? '0$minute' : minute.toString();
     String sec = second < 10 ? '0$second' : second.toString();
     return ("$min:$sec");
   }
 
   String getTimeCost() {
-    int time = timeCnt;
-    time = timeStart - time;
+    int time = cntNow;
+    time = cntStart - time;
     int minute = (time / 60).floor();
     int second = time % 60;
     String min = minute < 10 ? '0$minute' : minute.toString();

@@ -8,10 +8,10 @@ final logger = Logger();
 
 // Board Size
 const cellWidth = 40.0;
-const cellRadius = 2.0;
 
 const boardRows = 15;
 const boardCols = 8;
+const boardRadius = 2.0;
 const borderWidth = 5.0;
 
 const boardWidth = cellWidth * boardCols + borderWidth * 2;
