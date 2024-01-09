@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:rettulf/rettulf.dart';
 import 'components/info.dart';
 import 'management/gamelogic.dart';
 import 'components/board.dart';
@@ -18,7 +17,7 @@ class GameMinesweeper extends ConsumerStatefulWidget {
 
 class _MinesweeperState extends ConsumerState<GameMinesweeper> {
   late GameTimer timer;
-  final int timerValue = 60;
+  final int timerValue = 180;
 
   void updateGame() {
     if (!timer.timerStart && !ref.read(boardManager.notifier).firstClick){
@@ -59,6 +58,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
         height: screenSize.height
     );
     final screen = ref.read(boardManager).screen;
+    final boardRadius = screen.getBoardRadius();
 
     if (kDebugMode){
       logger.log(Level.info, "ScreenSize: w:${screenSize.width},h:${screenSize.height}");
@@ -91,20 +91,58 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
                     height: screen.getInfoHeight(),
                     decoration: BoxDecoration(
                       color: modeColor,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(boardRadius),
+                          bottomLeft: Radius.circular(boardRadius)
+                      )
                     ),
-                    child: const Text(
-                      "Mode: Easy",
-                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: screen.getBorderWidth(),
+                        ),
+                        Icon(
+                          Icons.videogame_asset_outlined,
+                          size: screen.getInfoHeight(),
+                        ),
+                        SizedBox(
+                          width: screen.getBorderWidth(),
+                        ),
+                        Text(
+                            "Mode: Easy",
+                        )
+                      ],
+                    )
                   ),
                   Container(
                     width: screen.getBoardSize().width / 2,
                     height: screen.getInfoHeight(),
                     decoration: BoxDecoration(
                       color: timerColor,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(boardRadius),
+                        bottomRight: Radius.circular(boardRadius),
+                      )
                     ),
-                    child: Text(
-                        "Time: ${timer.getTimeLeft()}",
-                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(
+                          Icons.alarm,
+                          size: screen.getInfoHeight() * 0.8,
+                        ),
+                        SizedBox(
+                          width: screen.getBorderWidth(),
+                        ),
+                        Text(
+                          "Time: ${timer.getTimeLeft()}",
+                        ),
+                        SizedBox(
+                          width: screen.getBorderWidth(),
+                        ),
+                      ],
+                    )
                   ),
                 ]),
 

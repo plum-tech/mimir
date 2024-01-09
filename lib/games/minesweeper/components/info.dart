@@ -13,6 +13,7 @@ class GameInfo extends ConsumerWidget{
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screen = ref.read(boardManager).screen;
+    final borderWidth = screen.getBorderWidth();
     // Time Over
     if(timer.getTimerValue() == 0){
       ref.read(boardManager).gameOver = true;
@@ -27,7 +28,7 @@ class GameInfo extends ConsumerWidget{
           height: screen.getBoardSize().height,
           decoration: BoxDecoration(
               color: gameOverColor,
-              borderRadius: const BorderRadius.all(
+              borderRadius: BorderRadius.all(
                   Radius.circular(borderWidth),
               )
           ),
@@ -57,7 +58,7 @@ class GameInfo extends ConsumerWidget{
           height: screen.getBoardSize().height,
           decoration: BoxDecoration(
             color: goodGameColor,
-            borderRadius: const BorderRadius.all(
+            borderRadius: BorderRadius.all(
                 Radius.circular(borderWidth),
             )
           ),

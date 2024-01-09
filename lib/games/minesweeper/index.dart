@@ -1,4 +1,4 @@
-// thanks to https://github.com/Henry-Sky/Minesweeper
+// thanks to https://github.com/Henry-Sky/minesweeper
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

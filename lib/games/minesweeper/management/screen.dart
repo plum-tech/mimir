@@ -11,6 +11,14 @@ class Screen{
   final double screenWidth;
   final double screenHeight;
 
+  double getBorderWidth() {
+    return (getCellWidth() / 8).floorToDouble();
+  }
+
+  double getBoardRadius() {
+    return 8.0;
+  }
+
   double getInfoHeight() {
     return (screenHeight - getBoardSize().height) * 0.2;
   }
@@ -20,8 +28,8 @@ class Screen{
   }
 
   Size getBoardSize() {
-    final _width = getCellWidth() * boardCols + borderWidth * 2;
-    final _height = getCellWidth() * boardRows + borderWidth * 2;
+    final _width = getCellWidth() * boardCols + getBorderWidth() * 2;
+    final _height = getCellWidth() * boardRows + getBorderWidth() * 2;
     final boardSize = Size(width: _width,height: _height);
     return boardSize;
   }

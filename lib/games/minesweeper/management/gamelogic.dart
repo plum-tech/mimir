@@ -12,8 +12,6 @@ final logger = Logger();
 
 const boardRows = 15;
 const boardCols = 8;
-const boardRadius = 2.0;
-const borderWidth = 5.0;
 
 class GameLogic extends StateNotifier<GameStates> {
   GameLogic(this.ref) : super(GameStates());

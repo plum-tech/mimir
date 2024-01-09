@@ -13,6 +13,8 @@ class GameBoard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screen = ref.read(boardManager).screen;
+    final borderWidth = screen.getBorderWidth();
+    final boardRadius = screen.getBoardRadius();
     return AnimatedContainer(
       width: screen.getBoardSize().width,
       height: screen.getBoardSize().height,
@@ -27,7 +29,7 @@ class GameBoard extends ConsumerWidget {
                 : boardBorderColor,
             width: borderWidth,
           ),
-          borderRadius: const BorderRadius.all(
+          borderRadius: BorderRadius.all(
               Radius.circular(boardRadius),
           )
       ),
