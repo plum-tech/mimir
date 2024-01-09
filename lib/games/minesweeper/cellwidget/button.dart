@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/build_context.dart';
-import '../management/mineboard.dart';
+import '../management/cellstate.dart';
 import '../management/gamelogic.dart';
 
 class CellButton extends ConsumerWidget {
@@ -21,6 +21,8 @@ class CellButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final manager = ref.read(boardManager.notifier);
+    final screen = ref.read(boardManager).screen;
+    final cellWidth = screen.getCellWidth();
     return !(cell.state == CellState.blank && cell.minesAround == 0)
         ? Container(
           width: cellWidth,

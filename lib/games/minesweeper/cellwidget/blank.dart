@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import '../management/mineboard.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../management/cellstate.dart';
 import '../management/gamelogic.dart';
 import '../theme/colors.dart';
 
-class CellBlank extends StatelessWidget {
+class CellBlank extends ConsumerWidget {
   const CellBlank({super.key, required this.cell});
   final Cell cell;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final screen = ref.read(boardManager).screen;
+    final cellWidth = screen.getCellWidth();
     if (cell.mine) {
-      return Container(
+      return SizedBox(
           width: cellWidth,
           height: cellWidth,
           child: const Icon(
@@ -19,7 +22,7 @@ class CellBlank extends StatelessWidget {
           )
       );
     } else {
-      return Container(
+      return SizedBox(
         width: cellWidth,
         height: cellWidth,
         child: cell.minesAround != 0

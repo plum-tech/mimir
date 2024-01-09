@@ -29,8 +29,8 @@ class GameTimer {
     _timer.cancel();
   }
 
-  bool checkHalfTime(){
-    return cntNow < cntStart/2;
+  bool checkValueTime({required int val}){
+    return cntNow < val;
   }
 
   int getTimerValue() {

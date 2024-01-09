@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import "package:flutter/foundation.dart";
 import 'package:logger/logger.dart';
-import '../management/mineboard.dart';
+import '../management/cellstate.dart';
 import '../management/gamelogic.dart';
 import '../cellwidget/blank.dart';
 import '../cellwidget/button.dart';

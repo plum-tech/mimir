@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/games/minesweeper/management/mineboard.dart';
 import 'components/info.dart';
 import 'management/gamelogic.dart';
 import 'components/board.dart';
@@ -19,7 +18,7 @@ class GameMinesweeper extends ConsumerStatefulWidget {
 
 class _MinesweeperState extends ConsumerState<GameMinesweeper> {
   late GameTimer timer;
-  final int timerValue = 180;
+  final int timerValue = 60;
 
   void updateGame() {
     if (!timer.timerStart && !ref.read(boardManager.notifier).firstClick){
@@ -54,7 +53,17 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
 
   @override
   Widget build(BuildContext context) {
-    final manager = ref.read(boardManager);
+    final screenSize = MediaQuery.of(context).size;
+    ref.read(boardManager.notifier).initScreen(
+        width: screenSize.width,
+        height: screenSize.height
+    );
+    final screen = ref.read(boardManager).screen;
+
+    if (kDebugMode){
+      logger.log(Level.info, "ScreenSize: w:${screenSize.width},h:${screenSize.height}");
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -72,45 +81,42 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
         ],
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          [
-            ListTile(
-              leading: const Icon(Icons.videogame_asset),
-              title: manager.board.mines >= 0
-                  ? RichText(
-                textAlign: TextAlign.center,
-                      text: TextSpan(style: context.textTheme.titleMedium, children: [
-                        TextSpan(
-                            text: "${manager.board.countAllByState(state: CellState.flag)}",
-                            ),
-                        WidgetSpan(child: Icon(Icons.flag, size: 16, color: flagColor)),
-                        TextSpan(text: " / "),
-                        TextSpan(
-                            text: "${manager.board.mines}",
-                            ),
-                        WidgetSpan(child: Icon(Icons.gps_fixed, size: 16, color: mineColor)),
-                      ]),
-                    )
-                  : "Easy ${manager.board.rows} x ${manager.board.cols}".text(),
-            ).expanded(),
-            ListTile(
-              leading: const Icon(Icons.timer),
-              // color: timer.checkHalfTime() ? crazyColor :timerColor,
-              title: timer.getTimeLeft().text(
-                textAlign: TextAlign.left,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children:[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: screen.getBoardSize().width / 2,
+                    height: screen.getInfoHeight(),
+                    decoration: BoxDecoration(
+                      color: modeColor,
+                    ),
+                    child: const Text(
+                      "Mode: Easy",
+                    ),
+                  ),
+                  Container(
+                    width: screen.getBoardSize().width / 2,
+                    height: screen.getInfoHeight(),
+                    decoration: BoxDecoration(
+                      color: timerColor,
+                    ),
+                    child: Text(
+                        "Time: ${timer.getTimeLeft()}",
+                    ),
+                  ),
+                ]),
+
+              Center(
+                child: Stack(
+                  children: [
+                    GameBoard(refresh: updateGame, timer: timer),
+                    GameInfo(resetGame: resetGame, timer: timer),
+                  ],
+                ),
               ),
-            ).expanded(),
-          ].row(maa: MainAxisAlignment.center).padH(8),
-          Center(
-            child: Stack(
-              children: [
-                GameBoard(refresh: updateGame, timer: timer),
-                GameInfo(resetGame: resetGame, timer: timer),
-              ],
-            ),
-          ),
-        ],
+          ]
       ),
     );
   }

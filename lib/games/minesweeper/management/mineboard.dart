@@ -2,25 +2,7 @@ import '../management/gamelogic.dart';
 import "package:flutter/foundation.dart";
 import 'package:logger/logger.dart';
 import 'dart:math';
-
-enum CellState {
-  covered,
-  blank,
-  flag,
-}
-
-class Cell {
-  Cell({
-    required this.row,
-    required this.col,
-  });
-
-  final int row;
-  final int col;
-  bool mine = false;
-  CellState state = CellState.covered;
-  int minesAround = 0;
-}
+import 'cellstate.dart';
 
 class MineBoard {
   int mines = -1;

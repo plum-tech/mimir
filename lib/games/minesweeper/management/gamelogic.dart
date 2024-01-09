@@ -1,21 +1,19 @@
+import 'screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:flutter/foundation.dart";
 import 'package:logger/logger.dart';
 import 'mineboard.dart';
+import 'cellstate.dart';
 
 // Debug Tool
 final logger = Logger();
 
 // Board Size
-const cellWidth = 40.0;
 
 const boardRows = 15;
 const boardCols = 8;
 const boardRadius = 2.0;
 const borderWidth = 5.0;
-
-const boardWidth = cellWidth * boardCols + borderWidth * 2;
-const boardHeight = cellWidth * boardRows + borderWidth * 2;
 
 class GameLogic extends StateNotifier<GameStates> {
   GameLogic(this.ref) : super(GameStates());
@@ -33,6 +31,14 @@ class GameLogic extends StateNotifier<GameStates> {
     if (kDebugMode) {
       logger.log(Level.info, "Game init finished");
     }
+  }
+
+  void initScreen({required width, required, height}) {
+    state.screen = Screen(screenWidth: width, screenHeight: height);
+  }
+
+  Screen getScreen(){
+    return state.screen;
   }
 
   Cell getCell({required row, required col}) {
@@ -144,6 +150,7 @@ class GameLogic extends StateNotifier<GameStates> {
 class GameStates {
   late bool gameOver;
   late bool goodGame;
+  late Screen screen;
   late MineBoard board;
 }
 

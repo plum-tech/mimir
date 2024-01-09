@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 import '../management/gamelogic.dart';
 
-class CellCover extends StatelessWidget {
+class CellCover extends ConsumerWidget {
   const CellCover({
     super.key,
     required this.visible,
@@ -13,7 +14,9 @@ class CellCover extends StatelessWidget {
   final bool visible;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final screen = ref.read(boardManager).screen;
+    final cellWidth = screen.getCellWidth();
     return AnimatedOpacity(
       opacity: visible ? 1 : 0,
       curve: curve,
