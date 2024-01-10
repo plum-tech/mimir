@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:logger/logger.dart';
 import 'gamelogic.dart';
 
 class Size{
@@ -7,9 +9,18 @@ class Size{
 }
 
 class Screen{
-  Screen({required this.screenWidth, required this.screenHeight});
+
   final double screenWidth;
   final double screenHeight;
+
+  Screen({required this.screenWidth, required this.screenHeight}){
+    if (kDebugMode){
+      logger.log(
+          Level.info,
+          "ScreenSize: w:${screenWidth},h:${screenHeight}"
+      );
+    }
+  }
 
   double getBorderWidth() {
     return (getCellWidth() / 8).floorToDouble();

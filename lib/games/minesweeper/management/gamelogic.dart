@@ -1,3 +1,4 @@
+import 'gamemode.dart';
 import 'screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:flutter/foundation.dart";
@@ -16,18 +17,18 @@ const boardCols = 8;
 class GameLogic extends StateNotifier<GameStates> {
   GameLogic(this.ref) : super(GameStates());
   final StateNotifierProviderRef ref;
-
   // Generating Mines When First Click
   bool firstClick = true;
-  int mineNum = (boardRows * boardCols * 0.15).floor();
+  int mineNum = -1;
 
-  void initGame() {
+  void initGame({required GameMode gameMode}) {
     state.gameOver = false;
     state.goodGame = false;
     state.board = MineBoard(rows: boardRows, cols: boardCols);
+    mineNum = gameMode.getGameMines();
     firstClick = true;
     if (kDebugMode) {
-      logger.log(Level.info, "Game init finished");
+      logger.log(Level.info, "Game Init Finished");
     }
   }
 
@@ -153,5 +154,8 @@ class GameStates {
 }
 
 final boardManager = StateNotifierProvider<GameLogic, GameStates>((ref) {
+  if (kDebugMode) {
+    logger.log(Level.info, "GameLogic Init Finished");
+  }
   return GameLogic(ref);
 });

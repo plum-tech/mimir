@@ -1,5 +1,5 @@
-import '../management/gamelogic.dart';
 import "package:flutter/foundation.dart";
+import '../management/gamelogic.dart';
 import 'package:logger/logger.dart';
 import 'dart:math';
 import 'cellstate.dart';

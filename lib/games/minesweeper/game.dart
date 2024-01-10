@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:sit/games/minesweeper/management/cellstate.dart';
+import 'package:sit/games/minesweeper/management/gamemode.dart';
 import 'components/info.dart';
 import 'management/gamelogic.dart';
 import 'components/board.dart';
@@ -18,7 +19,7 @@ class GameMinesweeper extends ConsumerStatefulWidget {
 
 class _MinesweeperState extends ConsumerState<GameMinesweeper> {
   late GameTimer timer;
-  final int timerValue = 180;
+  late GameMode mode;
 
   void updateGame() {
     if (!timer.timerStart && !ref.read(boardManager.notifier).firstClick){
@@ -36,40 +37,36 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
     });
   }
 
-  void resetGame() {
+  void resetGame({gameMode = Mode.easy}) {
     timer.stopTimer();
-    timer = GameTimer(cntStart: timerValue, refresh: updateGame);
-    setState(() {
-      ref.read(boardManager.notifier).initGame();
-    });
+    mode = GameMode(mode: gameMode);
+    timer = GameTimer(cntStart: mode.getTimerValue(), refresh: updateGame);
+    ref.read(boardManager.notifier).initGame(gameMode: mode);
+    updateGame();
   }
 
   void initScreen({required screenSize}) {
-    // THE APPBAR HEIGHT 56
+    // The Appbar Height 56
     ref.read(boardManager.notifier).initScreen(
         width: screenSize.width,
         height: screenSize.height - 56
     );
-    if (kDebugMode){
-      logger.log(
-          Level.info,
-          "ScreenSize: w:${screenSize.width},h:${screenSize.height}"
-      );
-    }
-
   }
 
   @override
   void initState() {
     super.initState();
-    ref.read(boardManager.notifier).initGame();
-    timer = GameTimer(cntStart: timerValue, refresh: updateGame);
+    mode = GameMode(mode: Mode.easy);
+    timer = GameTimer(cntStart: mode.getTimerValue(), refresh: updateGame);
+    ref.read(boardManager.notifier).initGame(gameMode: mode);
   }
 
   @override
   Widget build(BuildContext context) {
+    // Get Your Screen Size
     final screenSize = MediaQuery.of(context).size;
     initScreen(screenSize: screenSize);
+    // Build UI From Screen Size
     final screen = ref.read(boardManager).screen;
     final boardRadius = screen.getBoardRadius();
     final infoFrontSize = screen.getInfoHeight() * 0.5;
