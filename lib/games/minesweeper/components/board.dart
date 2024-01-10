@@ -13,6 +13,8 @@ class GameBoard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screen = ref.read(boardManager).screen;
+    final boardRows = ref.read(boardManager).mode.gameRows;
+    final boardCols = ref.read(boardManager).mode.gameCols;
     final borderWidth = screen.getBorderWidth();
     final cellWidth = screen.getCellWidth();
     final boardRadius = screen.getBoardRadius();

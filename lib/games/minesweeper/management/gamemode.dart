@@ -8,8 +8,8 @@ enum Mode{
 }
 
 class GameMode{
-  late final int gameRows;
-  late final int gameCols;
+  late int gameRows;
+  late int gameCols;
   late final int gameMines;
   late final int timerValue;
 
@@ -39,11 +39,4 @@ class GameMode{
     }
   }
 
-  int getTimerValue() {
-    return timerValue;
-  }
-
-  int getGameMines() {
-    return gameMines;
-  }
 }

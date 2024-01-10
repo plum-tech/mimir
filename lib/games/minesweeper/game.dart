@@ -40,16 +40,17 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
   void resetGame({gameMode = Mode.easy}) {
     timer.stopTimer();
     mode = GameMode(mode: gameMode);
-    timer = GameTimer(cntStart: mode.getTimerValue(), refresh: updateGame);
+    timer = GameTimer(cntStart: mode.timerValue, refresh: updateGame);
     ref.read(boardManager.notifier).initGame(gameMode: mode);
     updateGame();
   }
 
-  void initScreen({required screenSize}) {
+  void initScreen({required screenSize, required gameMode}) {
     // The Appbar Height 56
     ref.read(boardManager.notifier).initScreen(
-        width: screenSize.width,
-        height: screenSize.height - 56
+      width: screenSize.width,
+      height: screenSize.height - 56,
+      mode: gameMode,
     );
   }
 
@@ -57,7 +58,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
   void initState() {
     super.initState();
     mode = GameMode(mode: Mode.easy);
-    timer = GameTimer(cntStart: mode.getTimerValue(), refresh: updateGame);
+    timer = GameTimer(cntStart: mode.timerValue, refresh: updateGame);
     ref.read(boardManager.notifier).initGame(gameMode: mode);
   }
 
@@ -65,7 +66,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
   Widget build(BuildContext context) {
     // Get Your Screen Size
     final screenSize = MediaQuery.of(context).size;
-    initScreen(screenSize: screenSize);
+    initScreen(screenSize: screenSize, gameMode: mode);
     // Build UI From Screen Size
     final screen = ref.read(boardManager).screen;
     final boardRadius = screen.getBoardRadius();
@@ -120,10 +121,10 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
                         ),
                         ref.read(boardManager).board.mines == -1
                             ? Text(
-                              "Mode: Easy",
-                              style: TextStyle(
-                                fontSize: infoFrontSize,
-                              ),
+                                "Mode: Easy",
+                                style: TextStyle(
+                                  fontSize: infoFrontSize,
+                                ),
                             )
                             : Row(
                               children: [

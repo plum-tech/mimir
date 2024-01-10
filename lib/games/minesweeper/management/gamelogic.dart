@@ -9,11 +9,6 @@ import 'cellstate.dart';
 // Debug Tool
 final logger = Logger();
 
-// Board Size
-
-const boardRows = 15;
-const boardCols = 8;
-
 class GameLogic extends StateNotifier<GameStates> {
   GameLogic(this.ref) : super(GameStates());
   final StateNotifierProviderRef ref;
@@ -22,22 +17,22 @@ class GameLogic extends StateNotifier<GameStates> {
   int mineNum = -1;
 
   void initGame({required GameMode gameMode}) {
+    state.mode = gameMode;
     state.gameOver = false;
     state.goodGame = false;
-    state.board = MineBoard(rows: boardRows, cols: boardCols);
-    mineNum = gameMode.getGameMines();
+    state.board = MineBoard(
+        rows: state.mode.gameRows,
+        cols: state.mode.gameCols
+    );
+    mineNum = state.mode.gameMines;
     firstClick = true;
     if (kDebugMode) {
       logger.log(Level.info, "Game Init Finished");
     }
   }
 
-  void initScreen({required width, required, height}) {
-    state.screen = Screen(screenWidth: width, screenHeight: height);
-  }
-
-  Screen getScreen(){
-    return state.screen;
+  void initScreen({required width, required, height, required mode}) {
+    state.screen = Screen(screenWidth: width, screenHeight: height, gameMode: mode);
   }
 
   Cell getCell({required row, required col}) {
@@ -149,6 +144,7 @@ class GameLogic extends StateNotifier<GameStates> {
 class GameStates {
   late bool gameOver;
   late bool goodGame;
+  late GameMode mode;
   late Screen screen;
   late MineBoard board;
 }
