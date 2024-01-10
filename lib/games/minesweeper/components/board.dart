@@ -14,6 +14,7 @@ class GameBoard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screen = ref.read(boardManager).screen;
     final borderWidth = screen.getBorderWidth();
+    final cellWidth = screen.getCellWidth();
     final boardRadius = screen.getBoardRadius();
     return AnimatedContainer(
       width: screen.getBoardSize().width,
@@ -39,8 +40,8 @@ class GameBoard extends ConsumerWidget {
             var col = i % boardCols;
             var row = (i / boardCols).floor();
             return Positioned(
-                left: col * screen.getCellWidth(),
-                top: row * screen.getCellWidth(),
+                left: col * cellWidth,
+                top: row * cellWidth,
                 child: CellWidget(row: row, col: col, refresh: refresh),
             );
           })

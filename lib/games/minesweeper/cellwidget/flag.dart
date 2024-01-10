@@ -26,9 +26,9 @@ class CellFlag extends ConsumerWidget{
             scale: visible ? 1 : 0.2,
             duration: duration,
             curve: curve,
-            child: const Icon(
+            child: Icon(
               Icons.flag,
-              size: 40,
+              size: flagSize,
               color: flagColor,
             ),
           )

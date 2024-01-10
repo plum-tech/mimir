@@ -45,6 +45,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
   }
 
   void initScreen({required screenSize}) {
+    // THE APPBAR HEIGHT 56
     ref.read(boardManager.notifier).initScreen(
         width: screenSize.width,
         height: screenSize.height - 56
