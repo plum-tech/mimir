@@ -24,7 +24,10 @@ class Screen{
   }
 
   double getCellWidth() {
-    return (screenWidth / 9).floorToDouble();
+    var wCell = (screenWidth / (boardCols + 1)).floorToDouble();
+    var hCell = (screenHeight / (boardRows + 3)).floorToDouble();
+    var cellWidth = wCell > hCell ? hCell : wCell;
+    return cellWidth;
   }
 
   Size getBoardSize() {

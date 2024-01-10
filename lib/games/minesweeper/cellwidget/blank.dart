@@ -12,6 +12,7 @@ class CellBlank extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screen = ref.read(boardManager).screen;
     final cellWidth = screen.getCellWidth();
+    final numberSize = cellWidth * 0.7;
     if (cell.mine) {
       return SizedBox(
           width: cellWidth,
@@ -32,7 +33,7 @@ class CellBlank extends ConsumerWidget {
           style: TextStyle(
               color: numberColors[cell.minesAround - 1],
               fontWeight: FontWeight.w900,
-              fontSize: 28
+              fontSize: numberSize,
           ),
         )
             : null,

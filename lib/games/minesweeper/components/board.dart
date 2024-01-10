@@ -23,7 +23,7 @@ class GameBoard extends ConsumerWidget {
             color: timer.checkValueTime(val: 30)
                 ? (timer.checkValueTime(val: 10)
                 ? crazyColor
-                :(timer.getTimerValue() % 2 == 0
+                : (timer.getTimerValue() % 2 == 0
                 ? crazyColor
                 : boardBorderColor))
                 : boardBorderColor,
@@ -31,7 +31,7 @@ class GameBoard extends ConsumerWidget {
           ),
           borderRadius: BorderRadius.all(
               Radius.circular(boardRadius),
-          )
+          ),
       ),
       duration: Durations.extralong4,
       child: Stack(

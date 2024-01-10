@@ -44,6 +44,20 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
     });
   }
 
+  void initScreen({required screenSize}) {
+    ref.read(boardManager.notifier).initScreen(
+        width: screenSize.width,
+        height: screenSize.height - 56
+    );
+    if (kDebugMode){
+      logger.log(
+          Level.info,
+          "ScreenSize: w:${screenSize.width},h:${screenSize.height}"
+      );
+    }
+
+  }
+
   @override
   void initState() {
     super.initState();
@@ -54,23 +68,15 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    ref.read(boardManager.notifier).initScreen(
-        width: screenSize.width,
-        height: screenSize.height
-    );
+    initScreen(screenSize: screenSize);
     final screen = ref.read(boardManager).screen;
     final boardRadius = screen.getBoardRadius();
-
-    if (kDebugMode){
-      logger.log(
-          Level.info,
-          "ScreenSize: w:${screenSize.width},h:${screenSize.height}"
-      );
-    }
+    final infoFrontSize = screen.getInfoHeight() * 0.5;
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+
         title: const Text(
           "Minesweeper",
         ),
@@ -115,16 +121,31 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
                           width: screen.getBorderWidth(),
                         ),
                         ref.read(boardManager).board.mines == -1
-                            ? const Text("Mode: Easy")
-                            :Row(
+                            ? Text(
+                              "Mode: Easy",
+                              style: TextStyle(
+                                fontSize: infoFrontSize,
+                              ),
+                            )
+                            : Row(
                               children: [
-                                Text("${ref.read(boardManager).board.countAllByState(state: CellState.flag)}"),
+                                Text(
+                                  " ${ref.read(boardManager).board.countAllByState(state: CellState.flag)} ",
+                                  style: TextStyle(
+                                    fontSize: infoFrontSize,
+                                  ),
+                                ),
                                 Icon(
                                   Icons.flag_outlined,
                                   size: screen.getInfoHeight() * 0.6,
                                   color: flagColor,
                                 ),
-                                Text("${ref.read(boardManager).board.countMines()}"),
+                                Text(
+                                  "/ ${ref.read(boardManager).board.countMines()} ",
+                                  style: TextStyle(
+                                    fontSize: infoFrontSize,
+                                  ),
+                                ),
                                 Icon(
                                   Icons.gps_fixed,
                                   size: screen.getInfoHeight() * 0.5,
@@ -157,6 +178,9 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
                         ),
                         Text(
                           "Time: ${timer.getTimeLeft()}",
+                          style: TextStyle(
+                            fontSize: infoFrontSize,
+                          ),
                         ),
                         SizedBox(
                           width: screen.getBorderWidth(),
