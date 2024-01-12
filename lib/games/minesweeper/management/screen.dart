@@ -1,6 +1,3 @@
-import 'package:flutter/foundation.dart';
-import 'package:logger/logger.dart';
-import 'gamelogic.dart';
 import 'gamemode.dart';
 
 class Size{
@@ -15,14 +12,7 @@ class Screen{
   final double screenHeight;
   final GameMode gameMode;
 
-  Screen({required this.screenWidth, required this.screenHeight, required this.gameMode}){
-    if (kDebugMode){
-      logger.log(
-          Level.info,
-          "ScreenSize: w:$screenWidth,h:$screenHeight"
-      );
-    }
-  }
+  const Screen({required this.screenWidth, required this.screenHeight, required this.gameMode});
 
   double getBorderWidth() {
     return (getCellWidth() / 8).floorToDouble();
