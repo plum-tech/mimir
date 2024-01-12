@@ -4,7 +4,7 @@ on: workflow_dispatch
 permissions: write-all
 
 env:
-  flutter_version: '3.16.5'
+  flutter_version: '3.16.6'
 
 jobs:
   build_android:
@@ -259,7 +259,7 @@ jobs:
           else
             echo "IPA_SHA256=- \`SITLife-${{ env.RESOLVED_VERSION }}.ipa\`: "$(sha256sum build-output/ios/publish/SITLife-${{ env.RESOLVED_VERSION }}.ipa | awk '{print $1}') >> "$GITHUB_OUTPUT"
           fi
-      
+
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
