@@ -11,7 +11,7 @@ issue_tracker: https://github.com/liplum/mimir/issues
 documentation: https://github.com/liplum/mimir#readme
 
 publish_to: none
-environment: { sdk: '>=3.2.2 <4.0.0', flutter: ^3.16.5 }
+environment: { sdk: '>=3.2.2 <4.0.0', flutter: ^3.16.6 }
 
 dependencies:
   flutter: { sdk: flutter }
@@ -25,7 +25,7 @@ dependencies:
   logger: ^2.0.2
   device_info_plus: ^9.1.0
   event_bus: ^2.0.0
-  path_provider: ^2.1.1
+  path_provider: ^2.1.2
   version: ^3.0.2
   yaml: ^3.1.2
   path: ^1.8.3
@@ -58,7 +58,7 @@ dependencies:
   dio_cookie_manager: ^3.1.1
 
   # WebView and browser related
-  webview_flutter: ^4.4.3
+  webview_flutter: ^4.4.4
   fk_user_agent: ^2.1.0
   flutter_widget_from_html: ^0.14.11
   chewie: ^1.7.4
@@ -73,14 +73,14 @@ dependencies:
   # Android / iOS / Windows Permission
   permission_handler: ^11.1.0
   # Android / iOS Home screen quick actions
-  quick_actions: ^1.0.6
+  quick_actions: ^1.0.7
   # Deep links on Android and custom scheme links on iOS
   app_links: ^3.5.0
   # Open with other APP/programs
   open_file: ^3.3.2
-  url_launcher: ^6.2.2
+  url_launcher: ^6.2.3
   # Open Android / iOS system image picker
-  image_picker: ^1.0.6
+  image_picker: ^1.0.7
   file_picker: ^6.0.0
   share_plus: ^7.2.1
   app_settings: ^5.1.1
@@ -94,7 +94,7 @@ dependencies:
   connectivity_plus: ^5.0.2
   vibration: ^1.8.4
   # qrcode scanner
-  mobile_scanner: ^3.5.5
+  mobile_scanner: ^3.5.6
   add_2_calendar: ^3.0.1
 
   # UI
@@ -150,10 +150,10 @@ dependency_overrides:
 dev_dependencies:
   flutter_test: { sdk: flutter }
   flutter_lints: ^3.0.1
-  build_runner: ^2.4.7
+  build_runner: ^2.4.8
   hive_generator: ^2.0.0
   copy_with_extension_gen: ^5.0.4
-  test: ^1.24.9
+  test: ^1.24.1
 
 # ------------------------------------------------------------------------------
 
