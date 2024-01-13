@@ -13,12 +13,15 @@ class CellBlank extends ConsumerWidget {
     final screen = ref.read(boardManager).screen;
     final cellWidth = screen.getCellWidth();
     final numberSize = cellWidth * 0.7;
+    final mineSize = cellWidth * 0.7;
+
     if (cell.mine) {
       return SizedBox(
           width: cellWidth,
           height: cellWidth,
-          child: const Icon(
+          child: Icon(
             Icons.gps_fixed,
+            size: mineSize,
             color: mineColor,
           )
       );

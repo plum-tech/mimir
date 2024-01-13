@@ -18,6 +18,7 @@ class GameBoard extends ConsumerWidget {
     final borderWidth = screen.getBorderWidth();
     final cellWidth = screen.getCellWidth();
     final boardRadius = screen.getBoardRadius();
+
     return AnimatedContainer(
       width: screen.getBoardSize().width,
       height: screen.getBoardSize().height,
