@@ -18,14 +18,15 @@ class GameBoard extends ConsumerWidget {
     final borderWidth = screen.getBorderWidth();
     final cellWidth = screen.getCellWidth();
     final boardRadius = screen.getBoardRadius();
+    final warnTime = 180;
 
     return AnimatedContainer(
       width: screen.getBoardSize().width,
       height: screen.getBoardSize().height,
       decoration: BoxDecoration(
           border: Border.all(
-            color: timer.checkValueTime(val: 30)
-                ? (timer.checkValueTime(val: 10)
+            color: timer.checkValueTime(val: warnTime - 10)
+                ? (timer.checkValueTime(val: warnTime)
                 ? crazyColor
                 : (timer.getTimerValue() % 2 == 0
                 ? crazyColor

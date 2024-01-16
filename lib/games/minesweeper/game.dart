@@ -40,7 +40,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
   void resetGame({gameMode = Mode.easy}) {
     timer.stopTimer();
     mode = GameMode(mode: gameMode);
-    timer = GameTimer(cntStart: mode.timerValue, refresh: updateGame);
+    timer = GameTimer(refresh: updateGame);
     ref.read(boardManager.notifier).initGame(gameMode: mode);
     updateGame();
   }
@@ -58,8 +58,11 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
   void initState() {
     super.initState();
     mode = GameMode(mode: Mode.easy);
-    timer = GameTimer(cntStart: mode.timerValue, refresh: updateGame);
+    timer = GameTimer(refresh: updateGame);
     ref.read(boardManager.notifier).initGame(gameMode: mode);
+    if (kDebugMode){
+      logger.log(Level.info, "GameState Init Finished");
+    }
   }
 
   @override
@@ -176,7 +179,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
                           width: screen.getBorderWidth(),
                         ),
                         Text(
-                          "Time: ${timer.getTimeLeft()}",
+                          "Time: ${timer.getTimeCost()}",
                           style: TextStyle(
                             fontSize: infoFrontSize,
                           ),
