@@ -75,14 +75,15 @@ class _SchoolPageState extends State<SchoolPage> {
                   const SliverToBoxAdapter(
                     child: ExamArrangeAppCard(),
                   ),
-                if (userType == OaUserType.undergraduate)
-                  const SliverToBoxAdapter(
-                    child: ExamResultUgAppCard(),
-                  )
-                else if (userType == OaUserType.postgraduate)
-                  const SliverToBoxAdapter(
-                    child: ExamResultPgAppCard(),
-                  ),
+                if (userType?.capability.enableExamResult == true)
+                  if (userType == OaUserType.undergraduate)
+                    const SliverToBoxAdapter(
+                      child: ExamResultUgAppCard(),
+                    )
+                  else if (userType == OaUserType.postgraduate)
+                    const SliverToBoxAdapter(
+                      child: ExamResultPgAppCard(),
+                    ),
               ],
               if (loginStatus != LoginStatus.never)
                 const SliverToBoxAdapter(
