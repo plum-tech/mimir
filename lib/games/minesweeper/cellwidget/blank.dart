@@ -1,35 +1,42 @@
 import 'package:flutter/material.dart';
-import '../management/mineboard.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../management/cellstate.dart';
 import '../management/gamelogic.dart';
 import '../theme/colors.dart';
 
-class CellBlank extends StatelessWidget {
+class CellBlank extends ConsumerWidget {
   const CellBlank({super.key, required this.cell});
   final Cell cell;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final screen = ref.read(boardManager).screen;
+    final cellWidth = screen.getCellWidth();
+    final numberSize = cellWidth * 0.7;
+    final mineSize = cellWidth * 0.7;
+
     if (cell.mine) {
-      return Container(
+      return SizedBox(
           width: cellWidth,
           height: cellWidth,
-          child: const Icon(
+          child: Icon(
             Icons.gps_fixed,
+            size: mineSize,
             color: mineColor,
           )
       );
     } else {
-      return Container(
+      return SizedBox(
         width: cellWidth,
         height: cellWidth,
-        child: cell.around != 0
+        child: cell.minesAround != 0
             ? Text(
-          cell.around.toString(),
+          cell.minesAround.toString(),
           textAlign: TextAlign.center,
           style: TextStyle(
-              color: numcolors[cell.around - 1],
+              color: numberColors[cell.minesAround - 1],
               fontWeight: FontWeight.w900,
-              fontSize: 28
+              fontSize: numberSize,
           ),
         )
             : null,

@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:rettulf/rettulf.dart';
 import '../management/gametimer.dart';
 import '../management/gamelogic.dart';
 import '../components/cell.dart';
@@ -13,17 +12,31 @@ class GameBoard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final screen = ref.read(boardManager).screen;
+    final boardRows = ref.read(boardManager).mode.gameRows;
+    final boardCols = ref.read(boardManager).mode.gameCols;
+    final borderWidth = screen.getBorderWidth();
+    final cellWidth = screen.getCellWidth();
+    final boardRadius = screen.getBoardRadius();
+    final warnTime = 180;
+
     return AnimatedContainer(
-      width: boardWidth,
-      height: boardHeight,
+      width: screen.getBoardSize().width,
+      height: screen.getBoardSize().height,
       decoration: BoxDecoration(
           border: Border.all(
-            color: timer.checkHalfTime() ? crazyColor : boardBorderColor,
+            color: timer.checkValueTime(val: warnTime - 10)
+                ? (timer.checkValueTime(val: warnTime)
+                ? crazyColor
+                : (timer.getTimerValue() % 2 == 0
+                ? crazyColor
+                : boardBorderColor))
+                : boardBorderColor,
             width: borderWidth,
           ),
-          borderRadius: const BorderRadius.all(
-              Radius.circular(cellRadius),
-          )
+          borderRadius: BorderRadius.all(
+              Radius.circular(boardRadius),
+          ),
       ),
       duration: Durations.extralong4,
       child: Stack(

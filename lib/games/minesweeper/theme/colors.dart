@@ -13,12 +13,11 @@ final goodGameColor = Colors.green[600];
 final goodGameTextColor = Colors.yellow[800];
 
 // Cell Color
-const cellRoundColor = Colors.black54;
 const mineColor = Colors.red;
 const flagColor = Colors.amber;
 
 // Blank Cell Number Color
-const List<MaterialColor> numcolors = [
+const List<MaterialColor> numberColors = [
   Colors.green,
   Colors.blue,
   Colors.orange,

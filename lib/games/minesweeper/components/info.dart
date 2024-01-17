@@ -12,21 +12,20 @@ class GameInfo extends ConsumerWidget{
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Time Over
-    if(timer.getTimerValue() == 0){
-      ref.read(boardManager).gameOver = true;
-    }
+    final screen = ref.read(boardManager).screen;
+    final borderWidth = screen.getBorderWidth();
+    final textSize = screen.getCellWidth();
     // Lost Game
     if(ref.read(boardManager).gameOver){
       timer.stopTimer();
       return Opacity(
         opacity: opacityValue,
         child: Container(
-          width: boardWidth,
-          height: boardHeight,
+          width: screen.getBoardSize().width,
+          height: screen.getBoardSize().height,
           decoration: BoxDecoration(
               color: gameOverColor,
-              borderRadius: const BorderRadius.all(
+              borderRadius: BorderRadius.all(
                   Radius.circular(borderWidth),
               )
           ),
@@ -38,7 +37,8 @@ class GameInfo extends ConsumerWidget{
               "Game Over!\n Click To Restart",
               style: TextStyle(
                   color: gameOverTextColor,
-                  fontSize: 40),
+                  fontSize: textSize
+              ),
             ),
           ),
         ),
@@ -52,11 +52,11 @@ class GameInfo extends ConsumerWidget{
       return Opacity(
         opacity: opacityValue,
         child: Container(
-          width: boardWidth,
-          height: boardHeight,
+          width: screen.getBoardSize().width,
+          height: screen.getBoardSize().height,
           decoration: BoxDecoration(
             color: goodGameColor,
-            borderRadius: const BorderRadius.all(
+            borderRadius: BorderRadius.all(
                 Radius.circular(borderWidth),
             )
           ),
@@ -68,7 +68,7 @@ class GameInfo extends ConsumerWidget{
               " You Win!\n Time: $costTime \n Click To Replay",
               style: TextStyle(
                   color: goodGameTextColor,
-                  fontSize: 40
+                  fontSize: textSize
               ),
             ),
           ),
