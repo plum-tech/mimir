@@ -71,7 +71,7 @@ dependencies:
 
   # Platform
   # Android / iOS / Windows Permission
-  permission_handler: ^11.1.0
+  permission_handler: ^11.2.0
   # Android / iOS Home screen quick actions
   quick_actions: ^1.0.7
   # Deep links on Android and custom scheme links on iOS
@@ -112,7 +112,7 @@ dependencies:
   modal_bottom_sheet: ^3.0.0-pre
   auto_size_text: ^3.0.0
   text_scroll: ^0.2.0
-  markdown: ^7.1.1
+  markdown: ^7.2.1
   markdown_widget: ^2.3.2+3
   animations: ^2.0.11
   dynamic_color: ^1.6.9
