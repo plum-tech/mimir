@@ -7,6 +7,11 @@ class DemoTimetableService implements TimetableService {
   const DemoTimetableService();
 
   @override
+  Future<bool> checkConnectivity() async {
+    return true;
+  }
+
+  @override
   Future<SitTimetable> fetchUgTimetable(SemesterInfo info) async {
     var key = 0;
     // TODO: l10n

@@ -7,7 +7,6 @@ import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/animation/animated.dart';
-import 'package:sit/init.dart';
 import 'package:sit/network/checker.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/school/entity/school.dart';
@@ -90,7 +89,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       key: key,
       iconSize: ctx.isPortrait ? 180 : 120,
       initialDesc: i18n.import.connectivityCheckerDesc,
-      check: Init.ssoSession.checkConnectivity,
+      check: TimetableInit.service.checkConnectivity,
       onConnected: () {
         if (!mounted) return;
         setState(() {
