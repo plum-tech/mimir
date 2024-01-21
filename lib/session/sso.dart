@@ -381,23 +381,26 @@ class SsoSession {
 
 String hashPassword(String salt, String password) {
   var iv = rds(16);
-  var encrypt = SsoEncryption(salt, iv);
+  var encrypt = _SsoEncryption(salt, iv);
   return encrypt.aesEncrypt(rds(64) + password);
 }
 
+final _rand = Random.secure();
+
 String rds(int num) {
-  var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
-  return List.generate(
-    num,
-    (index) => chars[Random.secure().nextInt(chars.length)],
-  ).join();
+  const chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+  final s = StringBuffer();
+  for (var i = 0; i < num; i++) {
+    s.write(chars[_rand.nextInt(chars.length)]);
+  }
+  return s.toString();
 }
 
-class SsoEncryption {
+class _SsoEncryption {
   Key? _key;
   IV? _iv;
 
-  SsoEncryption(String key, String iv) {
+  _SsoEncryption(String key, String iv) {
     _key = Key.fromUtf8(key);
     _iv = IV.fromUtf8(iv);
   }
