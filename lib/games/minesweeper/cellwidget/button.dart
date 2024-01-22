@@ -28,13 +28,14 @@ class CellButton extends ConsumerWidget {
             width: cellWidth,
             height: cellWidth,
             decoration: BoxDecoration(
-                border: Border.all(
-                  width: 1.0,
-                  color: context.colorScheme.surface,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(screen.getBoardRadius()),
-                )),
+              border: Border.all(
+                width: 1.0,
+                color: context.colorScheme.surface,
+              ),
+              borderRadius: BorderRadius.all(
+                Radius.circular(screen.getBoardRadius()),
+              ),
+            ),
             child: InkWell(
               radius: screen.getBoardRadius(),
               highlightColor: Colors.transparent,
