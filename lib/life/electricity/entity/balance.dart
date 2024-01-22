@@ -45,6 +45,12 @@ class ElectricityBalance {
     required this.electricityBalance,
   });
 
+  const ElectricityBalance.all({
+    required this.roomNumber,
+    required this.balance,
+  })  : baseBalance = balance,
+        electricityBalance = balance;
+
   factory ElectricityBalance.fromJson(Map<String, dynamic> json) => _$ElectricityBalanceFromJson(json);
 
   double get remainingPower => balance / rmbPerKwh;
