@@ -59,6 +59,11 @@ class Init {
     }
     dio = await DioInit.init(
       cookieJar: cookieJar,
+      config: BaseOptions(
+        connectTimeout: const Duration(milliseconds: 8000),
+        receiveTimeout: const Duration(milliseconds: 8000),
+        sendTimeout: const Duration(milliseconds: 8000),
+      ),
     );
     backend = BackendSession(
       dio: dio,
