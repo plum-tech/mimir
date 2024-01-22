@@ -16,7 +16,7 @@ jobs:
 
       - name: Clear old cache - Cache APK
         id: clear-cache-apk
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             build/app/outputs/flutter-apk/
@@ -68,7 +68,7 @@ jobs:
 
       - name: Cache APK
         id: cache-apk
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             build/app/outputs/flutter-apk/
@@ -92,7 +92,7 @@ jobs:
 
     - name: Clear old cache - Cache IPA
       id: clear-cache-ipa
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           build-output/ios/
@@ -172,7 +172,7 @@ jobs:
 
     # - name: (Debug) Cache ipa
     #   id: cache-ipa
-    #   uses: actions/cache@v3
+    #   uses: actions/cache@v4
     #   with:
     #     path: |
     #       build-output/ios/
@@ -219,7 +219,7 @@ jobs:
 
       - name: Restore cache builds (apk)
         id: cache-apk
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             build/app/outputs/flutter-apk/
@@ -228,7 +228,7 @@ jobs:
 
       - name: Restore cache builds (ipa)
         id: cache-ipa
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             build-output/ios/
