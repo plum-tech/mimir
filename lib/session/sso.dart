@@ -150,6 +150,7 @@ class SsoSession {
       if (credentials == null) {
         throw OaCredentialsRequiredException(url: url);
       }
+      await cookieJar.delete(Uri.parse(url), true);
       await loginLocked(credentials);
       return await requestNormally();
     } else {
@@ -179,7 +180,7 @@ class SsoSession {
     // the server will record the number of times a user has logged in with the same cookie
     // and the number of times the user made an input error,
     // so it is necessary to clear all cookies before logging in to avoid errors when the user retries.
-    await deleteSitUriCookies();
+    await cookieJar.delete(R.authServerUri, true);
     // await cookieJar.delete(R.authServerUri, true);
     final Response response;
     try {
