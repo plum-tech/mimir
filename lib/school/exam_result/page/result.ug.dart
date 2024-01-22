@@ -52,13 +52,14 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
       isFetching = true;
     });
     try {
-      await ExamResultAggregated.fetchAndCacheExamResultUgEachSemester(
+      final (:semester2Results, all: _) = await ExamResultAggregated.fetchAndCacheExamResultUgEachSemester(
         onProgress: (p) {
           if (!mounted) return;
           $loadingProgress.value = p;
         },
       );
       setState(() {
+        resultList = semester2Results[selected];
         isFetching = false;
       });
     } catch (error, stackTrace) {
