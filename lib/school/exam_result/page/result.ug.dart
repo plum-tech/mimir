@@ -58,17 +58,18 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
           $loadingProgress.value = p;
         },
       );
+      if (!mounted) return;
       setState(() {
         resultList = semester2Results[selected];
         isFetching = false;
       });
+      $loadingProgress.value = 0;
     } catch (error, stackTrace) {
       debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;
       });
-    } finally {
       $loadingProgress.value = 0;
     }
   }
