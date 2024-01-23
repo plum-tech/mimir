@@ -58,6 +58,7 @@ class ExamResultUgService {
     );
     progress.value = 0.2;
     final resultList = _parseScoreList(response.data);
+    resultList.sort((a, b) => -ExamResultUg.compareByTime(a, b));
     final perProgress = resultList.isEmpty ? 0 : 0.8 / resultList.length;
     final newResultList = await Future.wait(resultList.map((result) async {
       final resultItems = await _fetchResultItems(
