@@ -54,7 +54,7 @@ dependencies:
   html: ^0.15.4
 
   # Dio (http client)
-  dio: ^5.4.0
+  dio: ^5.4.1
   dio_cookie_manager: ^3.1.1
 
   # WebView and browser related
@@ -100,7 +100,7 @@ dependencies:
   # UI
   go_router: ^13.2.0
   fl_chart: ^0.66.2
-  flutter_svg: ^2.0.9
+  flutter_svg: ^2.0.10+1
   flutter_svg_provider: ^1.0.7
   # Screen adaptation
   flutter_screenutil: ^5.9.0
