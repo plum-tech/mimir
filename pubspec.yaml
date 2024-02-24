@@ -11,7 +11,7 @@ issue_tracker: https://github.com/liplum/mimir/issues
 documentation: https://github.com/liplum/mimir#readme
 
 publish_to: none
-environment: { sdk: '>=3.3.0 <4.0.0', flutter: ^3.19.0 }
+environment: { sdk: '>=3.3.0 <4.0.0', flutter: ^3.19.1 }
 
 dependencies:
   flutter: { sdk: flutter }
@@ -78,7 +78,7 @@ dependencies:
   app_links: ^3.5.0
   # Open with other APP/programs
   open_file: ^3.3.2
-  url_launcher: ^6.2.4
+  url_launcher: ^6.2.5
   # Open Android / iOS system image picker
   image_picker: ^1.0.7
   file_picker: ^6.0.0
