@@ -717,6 +717,21 @@ OaUserType:
   undergraduate: Undergraduate
   postgraduate: Postgraduate
   other: Other
+game:
+  2048:
+    title: 2048
+    score: Score
+    best: Best
+  minesweeper:
+    title: 2048
+    time: 2048
+    gameMode:
+      title: Game Mode
+      easy: Easy
+    gameOver:
+      failed: Failed
+      won: Won
+    restart: Restart
 dormitoryRoom: "Building {building} #{room}"
 open: Open
 delete: Delete

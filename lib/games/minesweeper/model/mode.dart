@@ -1,34 +1,32 @@
-enum Mode{
-  easy,
-  normal,
-  hard,
-}
+class GameMode {
+  final String name;
+  final int gameRows;
+  final int gameCols;
+  final int gameMines;
 
-class GameMode{
-  late int gameRows;
-  late int gameCols;
-  late final int gameMines;
+  static const easy = GameMode(
+    name: "easy",
+    gameRows: 15,
+    gameCols: 8,
+    gameMines: 18,
+  );
+  static const normal = GameMode(
+    name: "normal",
+    gameRows: 15,
+    gameCols: 8,
+    gameMines: 18,
+  );
+  static const hard = GameMode(
+    name: "hard",
+    gameRows: 15,
+    gameCols: 8,
+    gameMines: 18,
+  );
 
-  final Mode mode;
-  GameMode({required this.mode}) {
-    switch(mode){
-      case Mode.easy:
-        gameRows = 15;
-        gameCols = 8;
-        gameMines = 18;
-      case Mode.normal:
-        gameRows = 15;
-        gameCols = 8;
-        gameMines = 18;
-      case Mode.hard:
-        gameRows = 15;
-        gameCols = 8;
-        gameMines = 18;
-      default:
-        gameRows = 15;
-        gameCols = 8;
-        gameMines = 18;
-    }
-  }
-
+  const GameMode({
+    required this.name,
+    required this.gameRows,
+    required this.gameCols,
+    required this.gameMines,
+  });
 }

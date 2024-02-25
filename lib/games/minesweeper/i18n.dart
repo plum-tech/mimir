@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:sit/games/minesweeper/model/mode.dart';
 import 'package:sit/l10n/common.dart';
 
 const i18n = _I18n();
@@ -10,9 +11,7 @@ class _I18n with CommonI18nMixin {
 
   String get title => "$ns.title".tr();
 
-  String get gameMode => "$ns.gameMode".tr();
-
-  String get gameModeEasy => "$ns.gameMode.easy".tr();
+  String get gameMode => "$ns.gameMode.title".tr();
 
   String get time => "$ns.time".tr();
 
@@ -21,4 +20,8 @@ class _I18n with CommonI18nMixin {
   String get gameOverWon => "$ns.gameOver.won".tr();
 
   String get restart => "$ns.restart".tr();
+}
+
+extension GameModeI18nX on GameMode {
+  String l10n() => "${_I18n.ns}.gameMode.$name".tr();
 }

@@ -35,7 +35,7 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
     curve: Curves.easeInOut,
   );
 
-  //The contoller used to show a popup effect when the tiles get merged
+  //The controller used to show a popup effect when the tiles get merged
   late final AnimationController _scaleController = AnimationController(
     duration: const Duration(milliseconds: 200),
     vsync: this,

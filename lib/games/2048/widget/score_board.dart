@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../i18n.dart';
 
 import '../const/colors.dart';
 import '../manager/board.dart';
@@ -15,11 +16,11 @@ class ScoreBoard extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Score(label: 'Score', score: '$score'),
+        Score(label: i18n.score, score: '$score'),
         const SizedBox(
           width: 8.0,
         ),
-        Score(label: 'Best', score: '$best', padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0)),
+        Score(label: i18n.best, score: '$best', padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0)),
       ],
     );
   }
