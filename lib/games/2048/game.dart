@@ -63,10 +63,10 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
 
   @override
   Widget build(BuildContext context) {
-    return RawKeyboardListener(
+    return KeyboardListener(
       autofocus: true,
       focusNode: FocusNode(),
-      onKey: (RawKeyEvent event) {
+      onKeyEvent: (event) {
         //Move the tile with the arrows on the keyboard on Desktop
         if (ref.read(boardManager.notifier).onKey(event)) {
           _moveController.forward(from: 0.0);
