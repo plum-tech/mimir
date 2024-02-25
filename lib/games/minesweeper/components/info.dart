@@ -65,7 +65,7 @@ class GameInfo extends ConsumerWidget{
               resetGame();
             },
             child: Text(
-              " You Win!\n Time: $costTime \n Click To Replay",
+              " You Win!\n Time: $costTime \n Click To Play Again",
               style: TextStyle(
                   color: goodGameTextColor,
                   fontSize: textSize

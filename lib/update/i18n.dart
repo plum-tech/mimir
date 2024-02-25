@@ -12,7 +12,7 @@ class _I18n with CommonI18nMixin {
 
   String get newVersionAvailable => "$ns.newVersionAvailable".tr();
 
-  String get notNow => "notNow".tr();
+  String get notNow => "$ns.notNow".tr();
 
   String get skipThisVersion => "$ns.skipThisVersion".tr();
 }
