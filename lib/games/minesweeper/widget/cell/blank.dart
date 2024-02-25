@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../management/cellstate.dart';
-import '../management/gamelogic.dart';
-import '../theme/colors.dart';
+import '../../model/cell.dart';
+import '../../manager/logic.dart';
+import '../../theme/colors.dart';
 
 class CellBlank extends ConsumerWidget {
   const CellBlank({super.key, required this.cell});

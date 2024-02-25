@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import '../management/gametimer.dart';
-import '../management/gamelogic.dart';
-import '../components/cell.dart';
+import '../manager/timer.dart';
+import '../manager/logic.dart';
+import 'cell.dart';
 
 class GameBoard extends ConsumerWidget {
   const GameBoard({super.key, required this.refresh, required this.timer});

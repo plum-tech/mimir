@@ -1,6 +1,3 @@
-import 'gamelogic.dart';
-import 'gametimer.dart';
-
 enum Mode{
   easy,
   normal,

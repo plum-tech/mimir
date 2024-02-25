@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../const/colors.dart';
-import '../managers/board.dart';
+import '../manager/board.dart';
 
 class ScoreBoard extends ConsumerWidget {
   const ScoreBoard({super.key});

@@ -1,10 +1,10 @@
-import 'gamemode.dart';
-import 'screen.dart';
+import '../model/mode.dart';
+import '../model/screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:flutter/foundation.dart";
 import 'package:logger/logger.dart';
-import 'mineboard.dart';
-import 'cellstate.dart';
+import '../model/mineboard.dart';
+import '../model/cell.dart';
 
 // Debug Tool
 final logger = Logger();

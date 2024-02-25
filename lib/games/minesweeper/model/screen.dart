@@ -1,4 +1,4 @@
-import 'gamemode.dart';
+import 'mode.dart';
 
 class Size{
   Size({required this.width, required this.height});

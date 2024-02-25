@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/games/minesweeper/theme/colors.dart';
-import '../management/gamelogic.dart';
+import '../../manager/logic.dart';
 
 class CellFlag extends ConsumerWidget{
   const CellFlag({super.key, required this.visible});

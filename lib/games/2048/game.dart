@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 
-import 'components/button.dart';
-import 'components/empty_board.dart';
-import 'components/score_board.dart';
-import 'components/tile_board.dart';
+import 'widget/button.dart';
+import 'widget/empty_board.dart';
+import 'widget/score_board.dart';
+import 'widget/tile_board.dart';
 import 'const/colors.dart';
-import 'managers/board.dart';
+import 'manager/board.dart';
 
 class Game2048 extends ConsumerStatefulWidget {
   const Game2048({super.key});

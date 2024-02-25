@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import '../management/gamelogic.dart';
-import '../management/gametimer.dart';
+import '../manager/logic.dart';
+import '../manager/timer.dart';
 import '../theme/colors.dart';
 
 class GameInfo extends ConsumerWidget{

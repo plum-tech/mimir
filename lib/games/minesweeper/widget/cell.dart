@@ -2,12 +2,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import "package:flutter/foundation.dart";
 import 'package:logger/logger.dart';
-import '../management/cellstate.dart';
-import '../management/gamelogic.dart';
-import '../cellwidget/blank.dart';
-import '../cellwidget/button.dart';
-import '../cellwidget/cover.dart';
-import '../cellwidget/flag.dart';
+import '../model/cell.dart';
+import '../manager/logic.dart';
+import 'cell/blank.dart';
+import 'cell/button.dart';
+import 'cell/cover.dart';
+import 'cell/flag.dart';
 
 class CellWidget extends ConsumerWidget {
   const CellWidget({

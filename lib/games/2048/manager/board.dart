@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:uuid/uuid.dart';
 
-import '../models/tile.dart';
-import '../models/board.dart';
+import '../model/tile.dart';
+import '../model/board.dart';
 
 import 'next_direction.dart';
 import 'round.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/build_context.dart';
-import '../management/cellstate.dart';
-import '../management/gamelogic.dart';
+import '../../model/cell.dart';
+import '../../manager/logic.dart';
 
 class CellButton extends ConsumerWidget {
   const CellButton({

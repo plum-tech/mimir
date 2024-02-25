@@ -1,8 +1,8 @@
 import "package:flutter/foundation.dart";
-import '../management/gamelogic.dart';
+import '../manager/logic.dart';
 import 'package:logger/logger.dart';
 import 'dart:math';
-import 'cellstate.dart';
+import 'cell.dart';
 
 class MineBoard {
   int mines = -1;

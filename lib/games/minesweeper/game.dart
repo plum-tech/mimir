@@ -1,13 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:sit/games/minesweeper/management/cellstate.dart';
-import 'package:sit/games/minesweeper/management/gamemode.dart';
-import 'components/info.dart';
-import 'management/gamelogic.dart';
-import 'components/board.dart';
+import 'model/cell.dart';
+import 'model/mode.dart';
+import 'widget/info.dart';
+import 'manager/logic.dart';
+import 'widget/board.dart';
 import "package:flutter/foundation.dart";
-import 'management/gametimer.dart';
+import 'manager/timer.dart';
 import 'theme/colors.dart';
 
 class GameMinesweeper extends ConsumerStatefulWidget {
