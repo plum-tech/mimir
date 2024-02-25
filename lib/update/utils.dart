@@ -20,15 +20,17 @@ Future<void> checkAppUpdate({
       Future.delayed(delayAtLeast),
     ).wait;
     debugPrint(latest.toString());
-    final currentVersion = R.currentVersion.version;
-    if (latest.downloadOf(R.currentVersion.platform) == null) return;
-    final skippedVersionRaw = Settings.skippedVersion;
-    if (skippedVersionRaw != null) {
-      final skippedVersion = Version.parse(skippedVersionRaw);
-      if (skippedVersion == latest.version) return;
+    if (!Settings.devMode) {
+      final currentVersion = R.currentVersion.version;
+      if (latest.downloadOf(R.currentVersion.platform) == null) return;
+      final skippedVersionRaw = Settings.skippedVersion;
+      if (skippedVersionRaw != null) {
+        final skippedVersion = Version.parse(skippedVersionRaw);
+        if (skippedVersion == latest.version) return;
+      }
+      final canUpdate = latest.version > currentVersion;
+      if (!canUpdate) return;
     }
-    final canUpdate = latest.version > currentVersion;
-    if (!canUpdate) return;
     if (!context.mounted) return;
     await context.show$Sheet$((ctx) => ArtifactUpdatePage(info: latest));
   } catch (error, stackTrace) {
