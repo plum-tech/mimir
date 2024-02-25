@@ -29,7 +29,7 @@ class _LanguagePageState extends State<LanguagePage> {
             pinned: true,
             snap: false,
             floating: false,
-            title: i18n.about.title.text(),
+            title: i18n.language.text(),
             actions: [
               PlatformTextButton(
                 onPressed: selected != context.locale
@@ -37,7 +37,7 @@ class _LanguagePageState extends State<LanguagePage> {
                         await context.setLocale(selected);
                         final engine = WidgetsFlutterBinding.ensureInitialized();
                         engine.performReassemble();
-                        if (!mounted) return;
+                        if (!context.mounted) return;
                         context.pop();
                       }
                     : null,
