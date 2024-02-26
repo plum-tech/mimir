@@ -485,10 +485,10 @@ packages:
     dependency: "direct main"
     description:
       name: enough_icalendar
-      sha256: d92cce7ae439af987501e2f8e336ec1dc73f311cbf410974ff062f92f200b89f
+      sha256: "64118fb68b07ec110dacaf7a0e1516590c516df4a853bbd2c5e4c6c1a0a98adb"
       url: "https://pub.dev"
     source: hosted
-    version: "0.15.0"
+    version: "0.16.0"
   enough_mail:
     dependency: "direct main"
     description:

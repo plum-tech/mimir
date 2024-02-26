@@ -129,7 +129,7 @@ dependencies:
   flutter_swipe_detector: ^2.0.0
   carousel_slider: ^4.2.1
   # iCalendar file generator
-  enough_icalendar: ^0.15.0
+  enough_icalendar: ^0.16.0
   ical: ^0.2.2
 
   # Utils
