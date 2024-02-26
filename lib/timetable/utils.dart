@@ -245,7 +245,7 @@ Future<void> exportTimetableAsICalendarAndOpen(
   final calendarFi = Files.timetable.calendarDir.subFile(fileName);
   final data = convertTimetable2ICal(timetable: timetable, config: config);
   await calendarFi.writeAsString(data);
-  await OpenFile.open(calendarFi.path, type: "text/calendar");
+  // await OpenFile.open(calendarFi.path, type: "text/calendar");
 }
 
 String convertTimetable2ICal({
@@ -272,7 +272,7 @@ String convertTimetable2ICal({
               ? "${R.appId}.${course.courseCode}.${week.index}.${day.index}.${lesson.startIndex}-${lesson.endIndex}"
               : "${R.appId}.${course.courseCode}.${week.index}.${day.index}.${part.index}";
           // Use UTC
-          calendar.addEvent(
+          final event = calendar.addEvent(
             uid: uid,
             summary: course.courseName,
             location: course.place,
@@ -284,12 +284,12 @@ String convertTimetable2ICal({
           if (alarm != null) {
             final trigger = startTime.subtract(alarm.alarmBeforeClass).toUtc();
             if (alarm.isSoundAlarm) {
-              calendar.addAlarmAudio(
+              event.addAlarmAudio(
                 triggerDate: trigger,
                 repeating: (repeat: 1, duration: alarm.alarmDuration),
               );
             } else {
-              calendar.addAlarmDisplay(
+              event.addAlarmDisplay(
                 triggerDate: trigger,
                 description: "${course.courseName} ${course.place} $teachers",
                 repeating: (repeat: 1, duration: alarm.alarmDuration),

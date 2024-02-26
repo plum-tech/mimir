@@ -9,7 +9,7 @@ class ICal {
     required String lang,
   }) : _root = VCalendar()..productId = "$company//$product//$lang";
 
-  void addEvent({
+  IEvent addEvent({
     required String uid,
     required DateTime start,
     DateTime? end,
@@ -31,13 +31,23 @@ class ICal {
       ..summary = summary
       ..uid = uid;
     _root.children.add(event);
+    return IEvent(event);
   }
 
-  void addAlarmAudio({
+  String build() {
+    return _root.toString();
+  }
+}
+
+class IEvent {
+  final VEvent _event;
+  const IEvent(this._event);
+
+  VAlarm addAlarmAudio({
     required DateTime triggerDate,
     ({int repeat, Duration duration})? repeating,
   }) {
-    final alarm = VAlarm(parent: _root);
+    final alarm = VAlarm(parent: _event);
     alarm
       ..triggerDate = triggerDate
       ..action = AlarmAction.audio;
@@ -46,7 +56,8 @@ class ICal {
         ..repeat = repeating.repeat
         ..duration = repeating.duration.toIso();
     }
-    _root.children.add(alarm);
+    _event.children.add(alarm);
+    return alarm;
   }
 
   void addAlarmDisplay({
@@ -54,7 +65,7 @@ class ICal {
     required String description,
     ({int repeat, Duration duration})? repeating,
   }) {
-    final alarm = VAlarm(parent: _root);
+    final alarm = VAlarm(parent: _event);
     alarm
       ..triggerDate = triggerDate
       ..action = AlarmAction.display
@@ -64,10 +75,6 @@ class ICal {
         ..repeat = repeating.repeat
         ..duration = repeating.duration.toIso();
     }
-    _root.children.add(alarm);
-  }
-
-  String build() {
-    return _root.toString();
+    _event.children.add(alarm);
   }
 }
