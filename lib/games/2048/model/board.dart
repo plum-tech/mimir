@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../models/tile.dart';
+import '../model/tile.dart';
 
 part 'board.g.dart';
 

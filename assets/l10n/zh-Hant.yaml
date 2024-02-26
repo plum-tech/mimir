@@ -9,7 +9,7 @@ timetable:
   signature: 簽名
   signaturePlaceholder: 你的名稱
   mine:
-    title: 我的課程表
+    title: 你的課程表
     exportCalendar: 匯出行事曆
     deleteRequest: 確認刪除
     deleteRequestDesc: 你會失去這個課程表，永久地。
@@ -278,11 +278,13 @@ ywb:
   info: |
     此功能基於 "上应一网通办"。
     就大多數業務而言，即使你已在平台上完成申請，依舊需要到現場辦理。
+  action:
+    applications: 申請
   apply: 申請
-  noServicesTip: 無可用申請
+  noServicesTip: 應網辦沒有可用申請
   mine:
-    title: 我的申請
-    noApplicationsTip: 無申請
+    title: 你的申請
+    noApplicationsTip: 你沒有申請
   details:
     apply: 申請
   type:
@@ -341,7 +343,7 @@ examResult:
   title: 考試成績
   check: 查詢
   teacherEval: 評價教師
-  noResultsTip: 無考試結果
+  noResultsTip: 你沒有考試成績
   courseNotEval: 需評教
   teacherEvalTitle: 教師評價
   examRequireEvalTip: 在評教整個課程後，可查看分數
@@ -351,6 +353,7 @@ examResult:
   gpa:
     title: 績點
     lessonSelected: "已選 {} 門"
+    credit: "學分: {}"
     gpaResult: "績點: {}"
     selectAll: 全選
     invert: 反選
@@ -368,7 +371,7 @@ examArrange:
   time: 時間
   retake: 重修
   location: 地點
-  noExamsTip: 無考試安排
+  noExamsTip: 你沒有考試安排
   seatNumber: 座位號
   addCalendarEvent: 增加事項
   calendarEventTitle: "考試: {}"
@@ -380,7 +383,7 @@ expenseRecords:
   outcome: "消費: ¥{}"
   balanceInCard: "卡內餘額 ¥{}"
   lastTransaction: "¥{amount} {place}"
-  noTransactionsTip: 無交易記錄
+  noTransactionsTip: 你沒有交易記錄
   refreshSuccessTip: 消費記錄重新整理成功
   refreshFailedTip: 消費記錄重新整理失敗
   statsMode:
@@ -414,9 +417,9 @@ networkChecker:
     desc: 測試與校園網路的連線情況
   button:
     connected: 繼續
-    connecting: 檢查中……
+    connecting: 檢查中
     disconnected: 重試
-    none: 檢查我的連線
+    none: 檢查連線
   status:
     connected: 好喔！你能夠訪問學校伺服器！
     connecting: 這可能需要幾秒鐘的時間，請確認在裝置上啟用了網路。
@@ -454,6 +457,8 @@ login:
   accountOrPwdErrorTip: 賬戶或密碼錯誤
   captchaErrorTip: 驗證碼錯誤
   accountFrozenTip: 賬戶處於凍結狀態
+  accountLockedTip: 賬戶處於鎖定狀態
+  incompleteUserInfoTip: 賬戶用戶資訊不完整
   unknownAuthErrorTip: 未知的帳戶身份驗證錯誤
   loggedInTip: 已登入
   notLoggedIn: 未登入
@@ -478,7 +483,7 @@ library:
   action:
     searchBooks: 搜尋書
     login: 登入
-    borrowing: 我的借閱
+    borrowing: 借閱
   login:
     title: 登入圖書館
     readerIdHint: 你的學號
@@ -491,7 +496,7 @@ library:
     trending: 熱門
     mostPopular: 最受歡迎
   borrowing:
-    title: 我的借閱
+    title: 你的借閱
     history: 歷史
     renew: 續借
   history:
@@ -520,7 +525,7 @@ library:
     callNumber: 索書號
     bookId: 圖書 ID
     barcode: 條碼
-    availableCollection: "在館({available}) / 館藏({collection})"
+    availableCollection: "{available} 在館 / {collection} 館藏"
 settings:
   title: 設定
   themeColor: 主題顏色
@@ -566,6 +571,10 @@ settings:
       autoRefresh:
         title: 第二課堂分自動重新整理
         desc: 啟動時重新整理第二課堂分
+    examResult:
+      showResultPreview:
+        title: 顯示考試成績預覽
+        desc: 在卡片中顯示當前學期的考試成績
   life:
     title: 生活
     electricity:
@@ -628,7 +637,7 @@ oaAnnounce:
   tab:
     info: 資訊
     content: 內容
-  noOaAnnouncesTip: 無公告
+  noOaAnnouncesTip: 學校沒有 OA 公告
   downloadCompleted: 下載完成
   downloadFailed: 下載失敗
   downloading: 下載中
@@ -665,6 +674,10 @@ qrCode:
 404:
   title: 找不到頁面
   subtitle: 找不到所請求的頁面
+update:
+  newVersionAvailable: 新版本可用！
+  notNow: 現在不行
+  skipThisVersion: 跳過這個版本
 weekday:
   0: 週一
   1: 週二
@@ -708,7 +721,6 @@ dormitoryRoom: "{building}號樓 #{room}"
 open: 打開
 delete: 刪除
 confirm: 確認
-notNow: 現在不行
 error: 錯誤
 ok: 好的
 close: 關閉

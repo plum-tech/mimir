@@ -45,4 +45,27 @@ class R {
     zhHansLocale,
     zhHantLocale,
   ];
+
+  static final jwxtUri = Uri(scheme: "http", host: "jwxt.sit.edu.cn");
+  static final authServerUri = Uri(scheme: "https", host: "authserver.sit.edu.cn");
+  static final class2ndUri = Uri(scheme: "http", host: "sc.sit.edu.cn");
+  static final schoolCardUri = Uri(scheme: "http", host: "card.sit.edu.cn");
+  static final myPortalUri = Uri(scheme: "https", host: "myportal.sit.edu.cn");
+  static final libraryUri = Uri(scheme: "http", host: "210.35.66.106");
+  static final gateUri = Uri(scheme: "http", host: "210.35.98.178");
+  static final sitUriList = [
+    authServerUri,
+    jwxtUri,
+    class2ndUri,
+    schoolCardUri,
+    myPortalUri,
+    libraryUri,
+  ];
+  static final sitSchoolNetworkUriList = [
+    jwxtUri,
+    class2ndUri,
+    schoolCardUri,
+    libraryUri,
+    gateUri,
+  ];
 }

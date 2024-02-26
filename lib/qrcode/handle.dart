@@ -9,12 +9,19 @@ enum QrCodeHandleResult {
   invalidFormat;
 }
 
-Future<QrCodeHandleResult> onHandleQrCodeData({
+Future<QrCodeHandleResult> onHandleQrCodeUriStringData({
   required BuildContext context,
   required String data,
 }) async {
   final qrCodeData = Uri.tryParse(data);
   if (qrCodeData == null) return QrCodeHandleResult.invalidFormat;
+  return onHandleQrCodeUriData(context: context, qrCodeData: qrCodeData);
+}
+
+Future<QrCodeHandleResult> onHandleQrCodeUriData({
+  required BuildContext context,
+  required Uri qrCodeData,
+}) async {
   // backwards supports.
   if (qrCodeData.scheme != R.scheme && qrCodeData.scheme != "sitlife") return QrCodeHandleResult.unrecognized;
   for (final handler in DeepLinkHandlerProtocol.all) {

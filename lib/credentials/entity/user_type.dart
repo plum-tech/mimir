@@ -22,7 +22,7 @@ enum OaUserType {
     enableClass2nd: false,
     // postgraduates use a different SIS, so disable them temporarily
     enableExamArrange: false,
-    enableExamResult: false,
+    enableExamResult: true,
   )),
   @HiveField(2)
   other((

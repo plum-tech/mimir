@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:sit/r.dart';
 import 'package:sit/settings/settings.dart';
 
 class SitHttpOverrides extends HttpOverrides {
@@ -54,52 +55,15 @@ String? _buildProxyForType(ProxyType type, bool isSchoolLanRequired) {
   final address = profile.address;
   if (address == null) return null;
   if (!profile.enabled) return null;
-  if (profile.proxyMode == ProxyMode.global && !isSchoolLanRequired) return null;
+  if (profile.proxyMode == ProxyMode.global || !isSchoolLanRequired) return null;
   return address;
 }
 
-bool _isSchoolNetwork(String host) {
-  if (host == 'jwxt.sit.edu.cn') {
-    // 教务系统
-    return true;
-  } else if (host == 'sc.sit.edu.cn') {
-    // Second class
-    return true;
-  } else if (host == 'card.sit.edu.cn') {
-    // 校园卡
-    return true;
-  } else if (host == 'myportal.sit.edu.cn') {
-    // OA
-    return true;
-  } else if (host == '210.35.66.106') {
-    // Library
-    return true;
-  } else if (host == '210.35.98.178') {
-    // TODO: what's this
-    // 门
-    return true;
-  }
-  return false;
-}
-
 bool _isSchoolLanRequired(String host) {
-  if (host == 'jwxt.sit.edu.cn') {
-    // 教务系统
-    return true;
-  } else if (host == 'sc.sit.edu.cn') {
-    // Second class
-    return true;
-  } else if (host == 'card.sit.edu.cn') {
-    // 校园卡
-    return true;
-  }
-  if (host == '210.35.66.106') {
-    // Library
-    return true;
-  } else if (host == '210.35.98.178') {
-    // TODO: what's this
-    // 门
-    return true;
+  for (final uri in R.sitSchoolNetworkUriList) {
+    if (host == uri.host) {
+      return true;
+    }
   }
   return false;
 }

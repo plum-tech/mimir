@@ -127,9 +127,9 @@ class _ExamResult {
 
   const _ExamResult();
 
-  String get appCardShowResultDetails => "$ns.appCardShowResultDetails.title".tr();
+  String get showResultPreview => "$ns.showResultPreview.title".tr();
 
-  String get appCardShowResultDetailsDesc => "$ns.appCardShowResultDetails.desc".tr();
+  String get showResultPreviewDesc => "$ns.showResultPreview.desc".tr();
 }
 
 class _Life {

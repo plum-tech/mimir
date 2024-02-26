@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 
-import 'components/button.dart';
-import 'components/empty_board.dart';
-import 'components/score_board.dart';
-import 'components/tile_board.dart';
+import 'widget/button.dart';
+import 'widget/empty_board.dart';
+import 'widget/score_board.dart';
+import 'widget/tile_board.dart';
 import 'const/colors.dart';
-import 'managers/board.dart';
+import 'manager/board.dart';
 
 class Game2048 extends ConsumerStatefulWidget {
   const Game2048({super.key});
@@ -35,7 +35,7 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
     curve: Curves.easeInOut,
   );
 
-  //The contoller used to show a popup effect when the tiles get merged
+  //The controller used to show a popup effect when the tiles get merged
   late final AnimationController _scaleController = AnimationController(
     duration: const Duration(milliseconds: 200),
     vsync: this,
@@ -63,10 +63,10 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
 
   @override
   Widget build(BuildContext context) {
-    return RawKeyboardListener(
+    return KeyboardListener(
       autofocus: true,
       focusNode: FocusNode(),
-      onKey: (RawKeyEvent event) {
+      onKeyEvent: (event) {
         //Move the tile with the arrows on the keyboard on Desktop
         if (ref.read(boardManager.notifier).onKey(event)) {
           _moveController.forward(from: 0.0);

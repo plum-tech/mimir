@@ -22,8 +22,7 @@ class _ExamResultDetailsPageState extends State<ExamResultUgDetailsPage> {
     final result = widget.result;
     final score = result.score;
     final time = result.time;
-    final items =
-        result.items.where((e) => e.score != null && !(e.scoreType == "总评" && e.score == result.score)).toList();
+    final items = result.items.where((e) => e.score != null).toList();
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -89,6 +88,7 @@ class _ExamResultDetailsPageState extends State<ExamResultUgDetailsPage> {
           ),
           SliverGrid.extent(
             maxCrossAxisExtent: 240,
+            childAspectRatio: 3,
             children: items
                 .map((item) => ListTile(
                       title: "${item.scoreType} ${item.percentage}".text(),

@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
+import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'foundation.dart';
+import 'multiplatform.dart';
 
 typedef PickerActionWidgetBuilder = Widget Function(BuildContext context, int? selectedIndex);
 typedef DualPickerActionWidgetBuilder = Widget Function(BuildContext context, int? selectedIndexA, int? selectedIndexB);
@@ -58,6 +60,15 @@ extension DialogEx on BuildContext {
     bool highlight = false,
     bool serious = false,
   }) async {
+    if (isCupertino) {
+      return showCupertinoRequest(
+        title: title,
+        desc: desc,
+        yes: yes,
+        cancel: no,
+        destructive: highlight,
+      );
+    }
     return await showAnyRequest(
       title: title,
       make: (_) => desc.text(style: const TextStyle()),
@@ -65,6 +76,37 @@ extension DialogEx on BuildContext {
       no: no,
       highlight: highlight,
       serious: serious,
+    );
+  }
+
+  Future<bool?> showCupertinoRequest({
+    required String title,
+    required String desc,
+    required String yes,
+    required String cancel,
+    bool destructive = false,
+  }) async {
+    return await showCupertinoModalPopup(
+      context: this,
+      builder: (ctx) => CupertinoActionSheet(
+        title: title.text(),
+        message: desc.text(),
+        actions: [
+          CupertinoActionSheetAction(
+            isDestructiveAction: destructive,
+            onPressed: () {
+              ctx.pop(true);
+            },
+            child: yes.text(),
+          ),
+        ],
+        cancelButton: CupertinoActionSheetAction(
+          onPressed: () {
+            ctx.pop(false);
+          },
+          child: cancel.text(),
+        ),
+      ),
     );
   }
 

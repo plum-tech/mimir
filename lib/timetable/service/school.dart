@@ -24,6 +24,10 @@ class TimetableService {
 
   const TimetableService();
 
+  Future<bool> checkConnectivity() {
+    return _jwxtSession.ssoSession.checkConnectivity();
+  }
+
   /// 获取本科生课表
   Future<SitTimetable> fetchUgTimetable(SemesterInfo info) async {
     final response = await _jwxtSession.request(

@@ -5,6 +5,7 @@ import 'package:sit/school/library/aggregated.dart';
 import 'package:sit/school/library/page/details.model.dart';
 import 'package:sit/school/library/widgets/book.dart';
 import 'package:sit/utils/error.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 import '../entity/book.dart';
 import '../entity/collection_preview.dart';
@@ -88,7 +89,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                         return SliverAppBar.medium(
                           expandedHeight: value,
                           stretch: true,
-                          title: book.title.text(),
+                          title: TextScroll(book.title),
                           flexibleSpace: FlexibleSpaceBar(
                             background: AsyncBookImage(
                               isbn: book.isbn,

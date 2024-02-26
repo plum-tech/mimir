@@ -150,6 +150,7 @@ class _TestLoginTileState extends State<TestLoginTile> {
           : () async {
               setState(() => loggingState = _TestLoginState.loggingIn);
               try {
+                await Init.ssoSession.deleteSitUriCookies();
                 await Init.ssoSession.loginLocked(widget.credentials);
                 if (!mounted) return;
                 setState(() => loggingState = _TestLoginState.success);

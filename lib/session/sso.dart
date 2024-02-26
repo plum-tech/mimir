@@ -9,6 +9,7 @@ import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/error.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/init.dart';
+import 'package:sit/r.dart';
 
 import 'package:sit/route.dart';
 import 'package:sit/session/auth.dart';
@@ -63,7 +64,7 @@ class SsoSession {
   final Future<String?> Function(Uint8List imageBytes) inputCaptcha;
 
   /// Lock it to prevent simultaneous login.
-  final loginLock = Lock();
+  final _loginLock = Lock();
 
   SsoSession({
     required this.dio,
@@ -76,7 +77,7 @@ class SsoSession {
     String url = 'http://jwxt.sit.edu.cn/',
   }) async {
     try {
-      await _dioRequest(
+      await request(
         url,
         options: Options(
           method: "GET",
@@ -91,14 +92,9 @@ class SsoSession {
     }
   }
 
-  /// 判断该请求是否为登录页
-  bool isLoginPage(Response response) {
-    return response.realUri.toString().contains(_loginUrl);
-  }
-
   /// - User try to log in actively on a login page.
   Future<Response> loginLocked(Credentials credentials) async {
-    return await loginLock.synchronized(() async {
+    return await _loginLock.synchronized(() async {
       try {
         final autoCaptcha = await _login(
           credentials: credentials,
@@ -114,27 +110,6 @@ class SsoSession {
       );
       return manuallyCaptcha;
     });
-  }
-
-  Future<Response> _dioRequest(
-    String url, {
-    Map<String, String>? queryParameters,
-    dynamic data,
-    Options? options,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-  }) async {
-    try {
-      return await _request(
-        url,
-        queryParameters: queryParameters,
-        data: data,
-        options: options,
-      );
-    } catch (error, stackTrace) {
-      onError?.call(error, stackTrace);
-      rethrow;
-    }
   }
 
   Future<Response> _request(
@@ -169,12 +144,13 @@ class SsoSession {
     // 第一次先正常请求
     final firstResponse = await requestNormally();
 
-    // 如果跳转登录页，那就先登录
-    if (isLoginPage(firstResponse)) {
+    // check if the response is the login page. if so, login it first.
+    if (firstResponse.realUri.toString().contains(_loginUrl)) {
       final credentials = CredentialsInit.storage.oaCredentials;
       if (credentials == null) {
         throw OaCredentialsRequiredException(url: url);
       }
+      await cookieJar.delete(Uri.parse(url), true);
       await loginLocked(credentials);
       return await requestNormally();
     } else {
@@ -200,9 +176,12 @@ class SsoSession {
   }) async {
     debugPrint('${credentials.account} logging in');
     debugPrint('UA: ${dio.options.headers['User-Agent']}');
-    // 在 OA 登录时, 服务端会记录同一 cookie 用户登录次数和输入错误次数,
-    // 所以需要在登录前清除所有 cookie, 避免用户重试时出错.
-    await cookieJar.delete(Uri.parse(_authServerUrl));
+    // When logging into OA,
+    // the server will record the number of times a user has logged in with the same cookie
+    // and the number of times the user made an input error,
+    // so it is necessary to clear all cookies before logging in to avoid errors when the user retries.
+    await cookieJar.delete(R.authServerUri, true);
+    // await cookieJar.delete(R.authServerUri, true);
     final Response response;
     try {
       // 首先获取AuthServer首页
@@ -223,23 +202,25 @@ class SsoSession {
       // 获取salt
       final salt = _getSaltFromAuthHtml(html);
       // 加密密码
-      final hashedPwd = hashPassword(salt, credentials.password);
+      final hashedPwd = _hashPassword(salt, credentials.password);
       // 登录系统，获得cookie
       response = await _postLoginRequest(credentials.account, hashedPwd, captcha, casTicket);
     } catch (e) {
       _setOnline(false);
       rethrow;
     }
-    final page = BeautifulSoup(response.data);
-
-    final emptyPage = BeautifulSoup('');
+    final pageRaw = response.data as String;
+    if (pageRaw.contains("完善资料")) {
+      throw CredentialsException(message: pageRaw, type: CredentialsErrorType.incompleteUserInfo);
+    }
+    final page = BeautifulSoup(pageRaw);
     // For desktop
-    final authError = (page.find('span', id: 'msg', class_: 'auth_error') ?? emptyPage).text.trim();
+    final authError = page.find('span', id: 'msg', class_: 'auth_error')?.text.trim() ?? "";
     // For mobile
-    final mobileError = (page.find('span', id: 'errorMsg') ?? emptyPage).text.trim();
+    final mobileError = page.find('span', id: 'errorMsg')?.text.trim() ?? "";
     if (authError.isNotEmpty || mobileError.isNotEmpty) {
       final errorMessage = authError + mobileError;
-      final type = parseInvalidType(errorMessage);
+      final type = _parseInvalidType(errorMessage);
       _setOnline(false);
       throw CredentialsException(message: errorMessage, type: type);
     }
@@ -255,11 +236,19 @@ class SsoSession {
     return response;
   }
 
-  static CredentialsErrorType parseInvalidType(String errorMessage) {
+  Future<void> deleteSitUriCookies() async {
+    for (final uri in R.sitUriList) {
+      await cookieJar.delete(uri, true);
+    }
+  }
+
+  static CredentialsErrorType _parseInvalidType(String errorMessage) {
     if (errorMessage.contains("验证码")) {
       return CredentialsErrorType.captcha;
     } else if (errorMessage.contains("冻结")) {
       return CredentialsErrorType.frozen;
+    } else if (errorMessage.contains("锁定")) {
+      return CredentialsErrorType.locked;
     }
     return CredentialsErrorType.accountPassword;
   }
@@ -353,37 +342,42 @@ class SsoSession {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    Response response = await _dioRequest(
-      url,
-      queryParameters: para,
-      data: data,
-      options: options,
-      onSendProgress: onSendProgress,
-      onReceiveProgress: onReceiveProgress,
-    );
-    return response;
+    try {
+      return await _request(
+        url,
+        queryParameters: para,
+        data: data,
+        options: options,
+      );
+    } catch (error, stackTrace) {
+      onError?.call(error, stackTrace);
+      rethrow;
+    }
   }
 }
 
-String hashPassword(String salt, String password) {
-  var iv = rds(16);
-  var encrypt = SsoEncryption(salt, iv);
-  return encrypt.aesEncrypt(rds(64) + password);
+String _hashPassword(String salt, String password) {
+  var iv = _rds(16);
+  var encrypt = _SsoEncryption(salt, iv);
+  return encrypt.aesEncrypt(_rds(64) + password);
 }
 
-String rds(int num) {
-  var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
-  return List.generate(
-    num,
-    (index) => chars[Random.secure().nextInt(chars.length)],
-  ).join();
+final _rand = Random.secure();
+
+String _rds(int num) {
+  const chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+  final s = StringBuffer();
+  for (var i = 0; i < num; i++) {
+    s.write(chars[_rand.nextInt(chars.length)]);
+  }
+  return s.toString();
 }
 
-class SsoEncryption {
+class _SsoEncryption {
   Key? _key;
   IV? _iv;
 
-  SsoEncryption(String key, String iv) {
+  _SsoEncryption(String key, String iv) {
     _key = Key.fromUtf8(key);
     _iv = IV.fromUtf8(iv);
   }

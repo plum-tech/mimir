@@ -408,7 +408,7 @@ class StringEditor extends StatefulWidget {
   final String initial;
   final String? title;
 
-  const StringEditor({required this.initial, this.title});
+  const StringEditor({super.key, required this.initial, this.title});
 
   @override
   State<StringEditor> createState() => _StringEditorState();

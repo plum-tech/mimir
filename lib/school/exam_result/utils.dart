@@ -4,7 +4,7 @@ import 'package:sit/school/entity/school.dart';
 import 'entity/gpa.dart';
 import 'entity/result.ug.dart';
 
-double calcGPA(Iterable<({double score, double credit})> resultList) {
+({double gpa, double credit}) calcGPA(Iterable<({double score, double credit})> resultList) {
   double totalCredits = 0.0;
   double sum = 0.0;
 
@@ -15,7 +15,7 @@ double calcGPA(Iterable<({double score, double credit})> resultList) {
     sum += s.credit * score;
   }
   final res = sum / totalCredits / 10.0 - 5.0;
-  return res.isNaN ? 0 : res;
+  return (gpa: res.isNaN ? 0 : res, credit: totalCredits);
 }
 
 List<ExamResultUg> filterGpaAvailableResult(List<ExamResultUg> list) {

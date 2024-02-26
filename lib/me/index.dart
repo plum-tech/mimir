@@ -56,6 +56,14 @@ class _MePageState extends State<MePage> {
               onTap: () async {
                 await context.push("/game/2048");
               },
+            ),
+            ListTile(
+              leading: const Icon(Icons.videogame_asset),
+              title: "Minesweeper".text(),
+              trailing: const Icon(Icons.navigate_next),
+              onTap: () async {
+                await context.push("/game/Minesweeper");
+              },
             )
           ]),
         ],
@@ -105,7 +113,7 @@ class _MePageState extends State<MePage> {
         if (!mounted) return;
         if (res == null) return;
         if (res is String) {
-          final result = await onHandleQrCodeData(context: context, data: res);
+          final result = await onHandleQrCodeUriStringData(context: context, data: res);
           if (result == QrCodeHandleResult.success) {
             return;
           }

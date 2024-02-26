@@ -22,7 +22,7 @@ class AsyncEventEmitter implements Listenable {
   bool _debugDisposed = false;
 
   /// If true, the event [ObjectCreated] for this instance was dispatched to
-  /// [MemoryAllocations].
+  /// [FlutterMemoryAllocations].
   ///
   /// As [ChangedNotifier] is used as mixin, it does not have constructor,
   /// so we use [addListener] to dispatch the event.
@@ -111,7 +111,7 @@ class AsyncEventEmitter implements Listenable {
   EventSubscription addListener(FutureOr<void> Function() listener) {
     assert(AsyncEventEmitter.debugAssertNotDisposed(this));
     if (kFlutterMemoryAllocationsEnabled && !_creationDispatched) {
-      MemoryAllocations.instance.dispatchObjectCreated(
+      FlutterMemoryAllocations.instance.dispatchObjectCreated(
         library: _thisLibrary,
         className: '$AsyncEventEmitter',
         object: this,
@@ -229,7 +229,7 @@ class AsyncEventEmitter implements Listenable {
       return true;
     }());
     if (kFlutterMemoryAllocationsEnabled && _creationDispatched) {
-      MemoryAllocations.instance.dispatchObjectDisposed(object: this);
+      FlutterMemoryAllocations.instance.dispatchObjectDisposed(object: this);
     }
     _listeners = _emptyListeners;
     _count = 0;

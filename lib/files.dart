@@ -13,6 +13,7 @@ class Files {
   static late final Directory user;
 
   static Directory get screenshot => temp.subDir("screenshot");
+  static Directory get artifact => temp.subDir("artifact");
 
   static const timetable = TimetableFiles();
   static const oaAnnounce = OaAnnounceFiles();
@@ -20,6 +21,7 @@ class Files {
   static Future<void> init() async {
     if (kIsWeb) return;
     await screenshot.create(recursive: true);
+    await artifact.create(recursive: true);
     await timetable.init();
   }
 }

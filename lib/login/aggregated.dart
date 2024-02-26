@@ -9,7 +9,11 @@ import 'init.dart';
 
 class LoginAggregated {
   static Future<void> login(Credentials credentials) async {
+    credentials = credentials.copyWith(
+      account: credentials.account.toUpperCase(),
+    );
     final userType = estimateOaUserType(credentials.account);
+    await Init.ssoSession.deleteSitUriCookies();
     await Init.ssoSession.loginLocked(credentials);
     // set user's real name to signature by default.
     final personName = await LoginInit.authServerService.getPersonName();

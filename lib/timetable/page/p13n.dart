@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -283,6 +284,7 @@ class PaletteCard extends StatelessWidget {
             label: "Copy Dart code",
             action: () async {
               final code = palette.colors.toString();
+              debugPrint(code);
               await Clipboard.setData(ClipboardData(text: code));
             },
           ),
@@ -466,17 +468,14 @@ class TimetableP13nLivePreview extends StatelessWidget {
       if (alpha < 1.0) {
         color = color.withOpacity(alpha);
       }
-      return SizedBox.fromSize(
-        size: cellSize,
-        child: TweenAnimationBuilder(
-          tween: ColorTween(begin: color, end: color),
-          duration: const Duration(milliseconds: 300),
-          builder: (ctx, value, child) => CourseCell(
-            courseName: name,
-            color: value!,
-            place: place,
-            teachers: cellStyle.showTeachers ? teachers : null,
-          ),
+      return TweenAnimationBuilder(
+        tween: ColorTween(begin: color, end: color),
+        duration: const Duration(milliseconds: 300),
+        builder: (ctx, value, child) => CourseCell(
+          courseName: name,
+          color: value!,
+          place: place,
+          teachers: cellStyle.showTeachers ? teachers : null,
         ),
       );
     }
@@ -497,13 +496,22 @@ class TimetableP13nLivePreview extends StatelessWidget {
     }
 
     final grayOut = cellStyle.grayOutTakenLessons;
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
+    return CarouselSlider.builder(
       itemCount: palette.colors.length,
-      itemBuilder: (ctx, i) {
+      options: CarouselOptions(
+        height: cellSize.height,
+        viewportFraction: 0.24,
+        // FIXME: https://github.com/serenader2014/flutter_carousel_slider/issues/291
+        enableInfiniteScroll: true,
+        padEnds: false,
+        autoPlay: true,
+        autoPlayInterval: const Duration(milliseconds: 1500),
+        autoPlayCurve: Curves.fastEaseInToSlowEaseOut,
+      ),
+      itemBuilder: (BuildContext context, int i, int pageViewIndex) {
         return livePreview(i % 4, colorId: i, grayOut: grayOut && i % 4 < 2).padH(8);
       },
-    ).sized(h: cellSize.height);
+    );
   }
 }
 

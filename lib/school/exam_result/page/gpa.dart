@@ -14,7 +14,9 @@ import 'package:sit/school/exam_result/init.dart';
 import 'package:sit/school/exam_result/page/details.gpa.dart';
 import 'package:sit/utils/error.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:text_scroll/text_scroll.dart';
 
+import '../aggregated.dart';
 import '../i18n.dart';
 import '../utils.dart';
 
@@ -63,17 +65,15 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
       isFetching = true;
     });
     try {
-      final results = await ExamResultInit.ugService.fetchResultList(
-        SemesterInfo.all,
+      final (semester2Results: _, :all) = await ExamResultAggregated.fetchAndCacheExamResultUgEachSemester(
         onProgress: (p) {
           if (!mounted) return;
           $loadingProgress.value = p;
         },
       );
-      ExamResultInit.ugStorage.setResultList(SemesterInfo.all, results);
       if (!mounted) return;
       setState(() {
-        gpaItems = buildGpaItems(results);
+        gpaItems = buildGpaItems(all);
         isFetching = false;
       });
     } catch (error, stackTrace) {
@@ -131,10 +131,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
           ],
         ),
       ),
-      bottomNavigationBar: PreferredSize(
-        preferredSize: const Size.fromHeight(40),
-        child: buildCourseCatChoices().sized(h: 40),
-      ),
+      bottomNavigationBar: buildCourseCatChoices().sized(h: 40).safeArea(),
     );
   }
 
@@ -142,9 +139,10 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
     return $selected >>
         (ctx, selected) => selected.isEmpty
             ? i18n.gpa.title.text()
-            : GpaCalculationText(
+            : TextScroll(_buildGpaText(
                 items: selected,
-              );
+                showSelectedCount: false,
+              ));
   }
 
   Widget buildCourseCatChoices() {
@@ -221,10 +219,9 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
     return GroupedSection(
         headerBuilder: (expanded, toggleExpand, defaultTrailing) {
           return ListTile(
+            leading: Icon(expanded ? Icons.expand_less : Icons.expand_more),
             title: widget.semester.l10n().text(),
-            subtitle: GpaCalculationText(
-              items: selectedItems,
-            ),
+            subtitle: _buildGpaText(items: selectedItems).text(),
             titleTextStyle: context.textTheme.titleMedium,
             onTap: toggleExpand,
             trailing: IconButton(
@@ -307,25 +304,22 @@ class ExamResultGpaTile extends StatelessWidget {
   }
 }
 
-class GpaCalculationText extends StatelessWidget {
-  final List<ExamResultGpaItem> items;
-
-  const GpaCalculationText({
-    super.key,
-    required this.items,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    if (items.isEmpty) {
-      return i18n.gpa.lessonSelected(items.length).text();
-    }
-    final validItems = items.map((item) {
-      final maxScore = item.maxScore;
-      if (maxScore == null) return null;
-      return (score: maxScore, credit: item.credit);
-    }).whereNotNull();
-    final gpa = calcGPA(validItems);
-    return "${i18n.gpa.lessonSelected(items.length)} ${i18n.gpa.gpaResult(gpa)}".text();
+String _buildGpaText({
+  required List<ExamResultGpaItem> items,
+  bool showSelectedCount = true,
+}) {
+  if (items.isEmpty) {
+    return i18n.gpa.lessonSelected(items.length);
   }
+  final validItems = items.map((item) {
+    final maxScore = item.maxScore;
+    if (maxScore == null) return null;
+    return (score: maxScore, credit: item.credit);
+  }).whereNotNull();
+  final (:gpa, :credit) = calcGPA(validItems);
+  var text = "${i18n.gpa.credit(credit)} ${i18n.gpa.gpaResult(gpa)}";
+  if (showSelectedCount) {
+    text = "${i18n.gpa.lessonSelected(items.length)} $text";
+  }
+  return text;
 }

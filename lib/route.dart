@@ -5,7 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
-import 'package:sit/game/2048/index.dart';
+import 'package:sit/games/2048/index.dart';
+import 'package:sit/games/minesweeper/index.dart';
 import 'package:sit/index.dart';
 import 'package:sit/me/edu_email/page/login.dart';
 import 'package:sit/me/edu_email/page/outbox.dart';
@@ -20,6 +21,7 @@ import 'package:sit/school/ywb/page/details.dart';
 import 'package:sit/school/ywb/page/service.dart';
 import 'package:sit/school/ywb/page/application.dart';
 import 'package:sit/settings/page/about.dart';
+import 'package:sit/settings/page/language.dart';
 import 'package:sit/settings/page/life.dart';
 import 'package:sit/settings/page/proxy.dart';
 import 'package:sit/settings/page/school.dart';
@@ -57,6 +59,7 @@ import 'package:sit/timetable/page/p13n.dart';
 import 'package:sit/widgets/image.dart';
 import 'package:sit/widgets/webview/page.dart';
 
+
 final $Key = GlobalKey<NavigatorState>();
 final $TimetableShellKey = GlobalKey<NavigatorState>();
 final $LifeShellKey = GlobalKey<NavigatorState>();
@@ -90,54 +93,55 @@ Widget _onError(BuildContext context, GoRouterState state) {
   return NotFoundPage(state.uri.toString());
 }
 
-final _timetableRoute = GoRoute(
+final _timetableShellRoute = GoRoute(
   path: "/timetable",
 // Timetable is the home page.
   builder: (ctx, state) => const TimetablePage(),
-  routes: [
-    GoRoute(
-      path: "import",
-      builder: (ctx, state) => const ImportTimetablePage(),
-      redirect: _loginRequired,
-    ),
-    GoRoute(
-      path: "mine",
-      builder: (ctx, state) => const MyTimetableListPage(),
-    ),
-    GoRoute(
-      path: "p13n",
-      builder: (ctx, state) => const TimetableP13nPage(),
-      routes: [
-        GoRoute(
-          path: "custom",
-          builder: (ctx, state) => const TimetableP13nPage(tab: TimetableP13nTab.custom),
-        ),
-        GoRoute(
-          path: "builtin",
-          builder: (ctx, state) => const TimetableP13nPage(tab: TimetableP13nTab.builtin),
-        ),
-      ],
-    ),
-    GoRoute(
-      path: "cell-style",
-      builder: (ctx, state) => const TimetableCellStyleEditor(),
-    ),
-    GoRoute(
-      path: "background",
-      builder: (ctx, state) => const TimetableBackgroundEditor(),
-    ),
-  ],
 );
 
-final _schoolRoute = GoRoute(
+final _timetableRoutes = [
+  GoRoute(
+    path: "/timetable/import",
+    builder: (ctx, state) => const ImportTimetablePage(),
+    redirect: _loginRequired,
+  ),
+  GoRoute(
+    path: "/timetable/mine",
+    builder: (ctx, state) => const MyTimetableListPage(),
+  ),
+  GoRoute(
+    path: "/timetable/p13n",
+    builder: (ctx, state) => const TimetableP13nPage(),
+    routes: [
+      GoRoute(
+        path: "custom",
+        builder: (ctx, state) => const TimetableP13nPage(tab: TimetableP13nTab.custom),
+      ),
+      GoRoute(
+        path: "builtin",
+        builder: (ctx, state) => const TimetableP13nPage(tab: TimetableP13nTab.builtin),
+      ),
+    ],
+  ),
+  GoRoute(
+    path: "/timetable/cell-style",
+    builder: (ctx, state) => const TimetableCellStyleEditor(),
+  ),
+  GoRoute(
+    path: "/timetable/background",
+    builder: (ctx, state) => const TimetableBackgroundEditor(),
+  ),
+];
+
+final _schoolShellRoute = GoRoute(
   path: "/school",
   builder: (ctx, state) => const SchoolPage(),
 );
-final _lifeRoute = GoRoute(
+final _lifeShellRoute = GoRoute(
   path: "/life",
   builder: (ctx, state) => const LifePage(),
 );
-final _meRoute = GoRoute(
+final _meShellRoute = GoRoute(
   path: "/me",
   builder: (ctx, state) => const MePage(),
 );
@@ -156,6 +160,10 @@ final _settingsRoute = GoRoute(
   path: "/settings",
   builder: (ctx, state) => const SettingsPage(),
   routes: [
+    GoRoute(
+      path: "language",
+      builder: (ctx, state) => const LanguagePage(),
+    ),
     GoRoute(
       path: "credentials",
       builder: (ctx, state) => const CredentialsPage(),
@@ -387,6 +395,10 @@ final _gameRoutes = [
     path: "/game/2048",
     builder: (ctx, state) => const Game2048Page(),
   ),
+  GoRoute(
+    path: "/game/minesweeper",
+    builder: (ctx, state) => const GameMinesweeperPage(),
+  ),
 ];
 
 GoRouter buildRouter(ValueNotifier<RoutingConfig> $routingConfig) {
@@ -415,31 +427,32 @@ RoutingConfig buildCommonRoutingConfig() {
           StatefulShellBranch(
             navigatorKey: $TimetableShellKey,
             routes: [
-              _timetableRoute,
+              _timetableShellRoute,
             ],
           ),
           if (!kIsWeb)
             StatefulShellBranch(
               navigatorKey: $SchoolShellKey,
               routes: [
-                _schoolRoute,
+                _schoolShellRoute,
               ],
             ),
           if (!kIsWeb)
             StatefulShellBranch(
               navigatorKey: $LifeShellKey,
               routes: [
-                _lifeRoute,
+                _lifeShellRoute,
               ],
             ),
           StatefulShellBranch(
             navigatorKey: $MeShellKey,
             routes: [
-              _meRoute,
+              _meShellRoute,
             ],
           ),
         ],
       ),
+      ..._timetableRoutes,
       _browserRoute,
       _expenseRoute,
       _settingsRoute,
@@ -467,10 +480,11 @@ RoutingConfig buildTimetableFocusRouter() {
         path: "/",
         redirect: (ctx, state) => "/timetable",
       ),
-      _timetableRoute,
-      _meRoute,
-      _schoolRoute,
-      _lifeRoute,
+      _timetableShellRoute,
+      ..._timetableRoutes,
+      _meShellRoute,
+      _schoolShellRoute,
+      _lifeShellRoute,
       _browserRoute,
       _expenseRoute,
       _settingsRoute,
