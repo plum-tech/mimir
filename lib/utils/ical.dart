@@ -71,29 +71,3 @@ class ICal {
     return _root.toString();
   }
 }
-
-extension DurationX on Duration {
-  IsoDuration toIso() {
-    final isNegativeDuration = isNegative;
-
-    // Convert the absolute value of each duration component
-    final years = inDays ~/ 365;
-    final months = (inDays % 365) ~/ 30;
-    final weeks = ((inDays % 365) % 30) ~/ 7;
-    final days = ((inDays % 365) % 30) % 7;
-    final hours = inHours % 24;
-    final minutes = inMinutes % 60;
-    final seconds = inSeconds % 60;
-
-    return IsoDuration(
-      years: years,
-      months: months,
-      weeks: weeks,
-      days: days,
-      hours: hours,
-      minutes: minutes,
-      seconds: seconds,
-      isNegativeDuration: isNegativeDuration,
-    );
-  }
-}
