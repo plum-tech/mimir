@@ -7,7 +7,9 @@ class ICal {
     required String company,
     required String product,
     required String lang,
-  }) : _root = VCalendar()..productId = "$company//$product//$lang";
+  }) : _root = VCalendar()
+          ..productId = "$company//$product//$lang"
+          ..version = "2.0";
 
   IEvent addEvent({
     required String uid,
@@ -41,6 +43,7 @@ class ICal {
 
 class IEvent {
   final VEvent _event;
+
   const IEvent(this._event);
 
   VAlarm addAlarmAudio({

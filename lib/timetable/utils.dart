@@ -245,7 +245,7 @@ Future<void> exportTimetableAsICalendarAndOpen(
   final calendarFi = Files.timetable.calendarDir.subFile(fileName);
   final data = convertTimetable2ICal(timetable: timetable, config: config);
   await calendarFi.writeAsString(data);
-  // await OpenFile.open(calendarFi.path, type: "text/calendar");
+  await OpenFile.open(calendarFi.path, type: "text/calendar");
 }
 
 String convertTimetable2ICal({
