@@ -15,7 +15,10 @@ class ButtonWidget extends ConsumerWidget {
     if (icon != null) {
       //Button Widget with icon for Undo and Restart Game button.
       return Container(
-        decoration: BoxDecoration(color: scoreColor, borderRadius: BorderRadius.circular(8.0)),
+        decoration: BoxDecoration(
+          color: scoreColor,
+          borderRadius: BorderRadius.circular(8.0),
+        ),
         child: IconButton(
             color: textColorWhite,
             onPressed: onPressed,

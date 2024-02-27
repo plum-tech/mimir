@@ -93,14 +93,17 @@ class BoardManager extends StateNotifier<Board> {
     bool vert = direction == SwipeDirection.up || direction == SwipeDirection.down;
     // Sort the list of tiles by index.
     // If user swipes vertically use the verticalOrder list to retrieve the up/down index
-    state.tiles.sort(((a, b) =>
-        (asc ? 1 : -1) *
-        (vert ? verticalOrder[a.index].compareTo(verticalOrder[b.index]) : a.index.compareTo(b.index))));
+    state.tiles.sort(
+      ((a, b) =>
+          (asc ? 1 : -1) *
+          (vert ? verticalOrder[a.index].compareTo(verticalOrder[b.index]) : a.index.compareTo(b.index))),
+    );
 
     List<Tile> tiles = [];
 
     for (int i = 0, l = state.tiles.length; i < l; i++) {
       var tile = state.tiles[i];
+      print("${direction} [${tile.index}] ${tile.value} ${tile.merged} -> ${tile.nextIndex}");
 
       // Calculate nextIndex for current tile.
       tile = _calculate(tile, tiles, direction);
@@ -128,7 +131,8 @@ class BoardManager extends StateNotifier<Board> {
     return true;
   }
 
-  // Generates tiles at random place on the board
+  /// Generates tiles at random place on the board.
+  /// Avoids occupied tiles.
   Tile random(List<int> indexes) {
     var i = 0;
     var rng = Random();
