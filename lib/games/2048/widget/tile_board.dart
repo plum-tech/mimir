@@ -30,30 +30,35 @@ class TileBoardWidget extends ConsumerWidget {
       height: boardSize,
       child: Stack(
         children: [
-          ...List.generate(board.tiles.length, (i) {
-            var tile = board.tiles[i];
+          ...List.generate(
+            board.tiles.length,
+            (i) {
+              var tile = board.tiles[i];
 
-            return AnimatedTile(
-              key: ValueKey(tile.id),
-              tile: tile,
-              moveAnimation: moveAnimation,
-              scaleAnimation: scaleAnimation,
-              size: tileSize,
-              //In order to optimize performances and prevent unneeded re-rendering the actual tile is passed as child to the AnimatedTile
-              //as the tile won't change for the duration of the movement (apart from it's position)
-              child: Container(
-                width: tileSize,
-                height: tileSize,
-                decoration: BoxDecoration(color: tileColors[tile.value], borderRadius: BorderRadius.circular(6.0)),
-                child: Center(
-                    child: Text(
-                  '${tile.value}',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 24.0, color: tile.value < 8 ? textColor : textColorWhite),
-                )),
-              ),
-            );
-          }),
+              return AnimatedTile(
+                key: ValueKey(tile.id),
+                tile: tile,
+                moveAnimation: moveAnimation,
+                scaleAnimation: scaleAnimation,
+                size: tileSize,
+                //In order to optimize performances and prevent unneeded re-rendering the actual tile is passed as child to the AnimatedTile
+                //as the tile won't change for the duration of the movement (apart from it's position)
+                child: Container(
+                  width: tileSize,
+                  height: tileSize,
+                  decoration: BoxDecoration(color: tileColors[tile.value], borderRadius: BorderRadius.circular(6.0)),
+                  child: Center(
+                      child: Text(
+                    '${tile.value}',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24.0,
+                        color: tile.value < 8 ? textColor : textColorWhite),
+                  )),
+                ),
+              );
+            },
+          ),
           if (board.over)
             Positioned.fill(
                 child: Container(
