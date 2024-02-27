@@ -60,7 +60,7 @@ class SsoSession {
   /// Session错误拦截器
   final void Function(Object error, StackTrace stackTrace)? onError;
 
-  /// 手动验证码
+  /// Input captcha manually
   final Future<String?> Function(Uint8List imageBytes) inputCaptcha;
 
   /// Lock it to prevent simultaneous login.

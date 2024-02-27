@@ -77,6 +77,11 @@ class Init {
       },
       inputCaptcha: (Uint8List imageBytes) async {
         final context = $Key.currentContext!;
+        // return await context.show$Sheet$(
+        //   (ctx) => CaptchaSheetPage(
+        //     captchaData: imageBytes,
+        //   ),
+        // );
         return await showAdaptiveDialog(
           context: context,
           barrierDismissible: false,
