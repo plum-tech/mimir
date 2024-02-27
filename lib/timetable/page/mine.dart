@@ -10,7 +10,7 @@ import 'package:sit/l10n/extension.dart';
 import 'package:sit/route.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/timetable/page/export.dart';
+import 'package:sit/timetable/page/ical.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:sit/timetable/widgets/course.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -260,8 +260,8 @@ class TimetableCard extends StatelessWidget {
   }
 
   Future<void> onExportCalendar(BuildContext context, SitTimetable timetable) async {
-    final config = await context.show$Sheet$<TimetableExportCalendarConfig>(
-        (context) => TimetableExportCalendarConfigEditor(timetable: timetable));
+    final config = await context.show$Sheet$<TimetableICalConfig>(
+        (context) => TimetableICalConfigEditor(timetable: timetable));
     if (config == null) return;
     if (!context.mounted) return;
     await exportTimetableAsICalendarAndOpen(

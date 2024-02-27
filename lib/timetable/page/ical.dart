@@ -7,33 +7,33 @@ import 'package:sit/design/widgets/duration_picker.dart';
 import '../entity/timetable.dart';
 import "../i18n.dart";
 
-typedef TimetableExportCalendarAlarmConfig = ({
+typedef TimetableICalAlarmConfig = ({
   Duration alarmBeforeClass,
   Duration alarmDuration,
   bool isSoundAlarm,
 });
 
-typedef TimetableExportCalendarConfig = ({
-  TimetableExportCalendarAlarmConfig? alarm,
+typedef TimetableICalConfig = ({
+  TimetableICalAlarmConfig? alarm,
   Locale? locale,
   bool isLessonMerged,
 });
 
-class TimetableExportCalendarConfigEditor extends StatefulWidget {
+class TimetableICalConfigEditor extends StatefulWidget {
   final SitTimetable timetable;
 
-  const TimetableExportCalendarConfigEditor({
+  const TimetableICalConfigEditor({
     super.key,
     required this.timetable,
   });
 
   @override
-  State<TimetableExportCalendarConfigEditor> createState() => _TimetableExportCalendarConfigEditorState();
+  State<TimetableICalConfigEditor> createState() => _TimetableICalConfigEditorState();
 }
 
-class _TimetableExportCalendarConfigEditorState extends State<TimetableExportCalendarConfigEditor> {
+class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
   final $enableAlarm = ValueNotifier(false);
-  final $alarmDuration = ValueNotifier(const Duration(minutes: 15));
+  final $alarmDuration = ValueNotifier(const Duration(minutes: 5));
   final $alarmBeforeClass = ValueNotifier(const Duration(minutes: 15));
   final $merged = ValueNotifier(true);
   final $isSoundAlarm = ValueNotifier(false);
@@ -77,7 +77,7 @@ class _TimetableExportCalendarConfigEditorState extends State<TimetableExportCal
     return PlatformTextButton(
       child: i18n.export.export.text(),
       onPressed: () async {
-        context.pop<TimetableExportCalendarConfig>((
+        context.pop<TimetableICalConfig>((
           alarm: $enableAlarm.value
               ? (
                   alarmBeforeClass: $alarmBeforeClass.value,

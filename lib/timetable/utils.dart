@@ -26,7 +26,7 @@ import 'dart:math';
 
 import 'init.dart';
 
-import 'page/export.dart';
+import 'page/ical.dart';
 import 'package:html/parser.dart';
 
 const maxWeekLength = 20;
@@ -235,7 +235,7 @@ Future<void> exportTimetableFileAndShare(
 Future<void> exportTimetableAsICalendarAndOpen(
   BuildContext context, {
   required SitTimetableEntity timetable,
-  required TimetableExportCalendarConfig config,
+  required TimetableICalConfig config,
 }) async {
   final name = "${timetable.type.name}, ${context.formatYmdNum(timetable.type.startDate)}";
   final fileName = sanitizeFilename(
@@ -250,7 +250,7 @@ Future<void> exportTimetableAsICalendarAndOpen(
 
 String convertTimetable2ICal({
   required SitTimetableEntity timetable,
-  required TimetableExportCalendarConfig config,
+  required TimetableICalConfig config,
 }) {
   final calendar = ICal(
     company: 'mysit.life',
