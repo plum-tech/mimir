@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-// UI Color
-final modeColor = Colors.green[400];
-final timerColor = Colors.blue[300];
-
 // GameInfo Color
 final gameOverColor = Colors.red[600];
 final gameOverTextColor = Colors.blue[900];

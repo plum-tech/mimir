@@ -724,9 +724,7 @@ game:
     best: Best
   minesweeper:
     title: 2048
-    time: 2048
     gameMode:
-      title: Game Mode
       easy: Easy
     gameOver:
       failed: Failed

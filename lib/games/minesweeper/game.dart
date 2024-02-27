@@ -27,6 +27,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
     if (!timer.timerStart && !ref.read(boardManager.notifier).firstClick) {
       timer.startTimer();
     }
+    if (!context.mounted) return;
     setState(() {
       if (kDebugMode) {
         ref.read(boardManager).gameOver ? logger.log(Level.info, "Game Over!") : null;
@@ -64,6 +65,12 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
   }
 
   @override
+  void dispose() {
+    timer.stopTimer();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // Get Your Screen Size
     final screenSize = MediaQuery.of(context).size;
@@ -88,72 +95,78 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
           )
         ],
       ),
-      body: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Container(
-            width: screen.getBoardSize().width / 2,
-            height: screen.getInfoHeight(),
-            decoration: BoxDecoration(
-                color: modeColor,
-                borderRadius:
-                    BorderRadius.only(topLeft: Radius.circular(boardRadius), bottomLeft: Radius.circular(boardRadius))),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: screen.getBorderWidth(),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: screen.getBoardSize().width / 2,
+                height: screen.getInfoHeight(),
+                decoration: BoxDecoration(
+                    color: context.colorScheme.secondaryContainer,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(boardRadius), bottomLeft: Radius.circular(boardRadius))),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      width: screen.getBorderWidth(),
+                    ),
+                    const Icon(Icons.videogame_asset_outlined),
+                    SizedBox(
+                      width: screen.getBorderWidth(),
+                    ),
+                    ref.read(boardManager).board.mines == -1
+                        ? Text(
+                            mode.l10n(),
+                            style: textTheme.bodyLarge,
+                          )
+                        : MinesAndFlags(
+                            flags: ref.read(boardManager).board.countAllByState(state: CellState.flag),
+                            mines: ref.read(boardManager).board.countMines(),
+                          ),
+                  ],
                 ),
-                const Icon(Icons.videogame_asset_outlined),
-                SizedBox(
-                  width: screen.getBorderWidth(),
-                ),
-                ref.read(boardManager).board.mines == -1
-                    ? Text(
-                        "Mode: Easy",
-                        style: textTheme.bodyLarge,
-                      )
-                    : MinesAndFlags(
-                        flags: ref.read(boardManager).board.countAllByState(state: CellState.flag),
-                        mines: ref.read(boardManager).board.countMines(),
+              ),
+              Container(
+                  width: screen.getBoardSize().width / 2,
+                  height: screen.getInfoHeight(),
+                  decoration: BoxDecoration(
+                      color: context.colorScheme.tertiaryContainer,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(boardRadius),
+                        bottomRight: Radius.circular(boardRadius),
+                      )),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      const Icon(Icons.alarm),
+                      SizedBox(
+                        width: screen.getBorderWidth(),
                       ),
+                      Text(
+                        timer.getTimeCost(),
+                        style: textTheme.bodyLarge,
+                      ),
+                      SizedBox(
+                        width: screen.getBorderWidth(),
+                      ),
+                    ],
+                  )),
+            ],
+          ),
+          Center(
+            child: Stack(
+              children: [
+                GameBoard(refresh: updateGame, timer: timer),
+                GameInfo(resetGame: resetGame, timer: timer),
               ],
             ),
           ),
-          Container(
-              width: screen.getBoardSize().width / 2,
-              height: screen.getInfoHeight(),
-              decoration: BoxDecoration(
-                  color: timerColor,
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(boardRadius),
-                    bottomRight: Radius.circular(boardRadius),
-                  )),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Icon(Icons.alarm),
-                  SizedBox(
-                    width: screen.getBorderWidth(),
-                  ),
-                  Text(
-                    "Time: ${timer.getTimeCost()}",
-                    style: textTheme.bodyLarge,
-                  ),
-                  SizedBox(
-                    width: screen.getBorderWidth(),
-                  ),
-                ],
-              )),
-        ]),
-        Center(
-          child: Stack(
-            children: [
-              GameBoard(refresh: updateGame, timer: timer),
-              GameInfo(resetGame: resetGame, timer: timer),
-            ],
-          ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }

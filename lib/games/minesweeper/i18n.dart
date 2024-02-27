@@ -11,10 +11,6 @@ class _I18n with CommonI18nMixin {
 
   String get title => "$ns.title".tr();
 
-  String get gameMode => "$ns.gameMode.title".tr();
-
-  String get time => "$ns.time".tr();
-
   String get gameOverFailed => "$ns.gameOver.failed".tr();
 
   String get gameOverWon => "$ns.gameOver.won".tr();

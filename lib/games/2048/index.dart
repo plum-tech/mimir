@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'game.dart';
+import 'i18n.dart';
 
 class Game2048Page extends StatefulWidget {
   const Game2048Page({super.key});
@@ -19,7 +20,7 @@ class _Game2048PageState extends State<Game2048Page> {
     return ProviderScope(
       child: Scaffold(
         appBar: AppBar(
-          title: "2048".text(),
+          title: i18n.title.text(),
         ),
         body: const Game2048(),
       ),
