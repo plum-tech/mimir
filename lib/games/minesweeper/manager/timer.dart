@@ -2,17 +2,14 @@ import 'dart:async';
 
 class GameTimer {
   final void Function() refresh;
-  late final Timer _timer;
-  bool timerStart = false;
-  late int cntNow;
+  Timer? _timer;
 
-  GameTimer({required this.refresh}) {
-    cntNow = 0;
-    timerStart = false;
-  }
+  bool get timerStart => _timer != null;
+  int cntNow = 0;
+
+  GameTimer({required this.refresh});
 
   void startTimer() {
-    timerStart = true;
     _timer = Timer.periodic(const Duration(milliseconds: 1000), (timer) {
       if (cntNow >= 0 && cntNow < 60 * 60 - 1) {
         cntNow += 1;
@@ -24,11 +21,10 @@ class GameTimer {
   }
 
   void stopTimer() {
-    timerStart = false;
-    _timer.cancel();
+    _timer?.cancel();
   }
 
-  bool checkValueTime({required int val}){
+  bool checkValueTime({required int val}) {
     return cntNow > val;
   }
 
