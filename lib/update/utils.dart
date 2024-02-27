@@ -21,7 +21,7 @@ Future<void> checkAppUpdate({
       Future.delayed(delayAtLeast),
     ).wait;
     debugPrint(latest.toString());
-    if (!Settings.devMode && active) {
+    if (!Settings.devMode && !active) {
       final currentVersion = R.currentVersion.version;
       if (latest.downloadOf(R.currentVersion.platform) == null) return;
       final skippedVersionRaw = Settings.skippedVersion;

@@ -632,6 +632,7 @@ settings:
     icpLicense: ICP 备案号
     termsOfUse: 使用条款
     privacyPolicy: 隐私政策
+    checkUpdate: 检查更新
 oaAnnounce:
   title: OA 公告
   tab:

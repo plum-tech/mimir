@@ -632,6 +632,7 @@ settings:
     icpLicense: ICP License
     termsOfUse: Term of use
     privacyPolicy: Privacy policy
+    checkUpdate: Check update
 oaAnnounce:
   title: OA announcement
   tab:

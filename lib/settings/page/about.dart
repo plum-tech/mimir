@@ -126,14 +126,14 @@ class _VersionTileState extends State<VersionTile> {
       subtitle: "${version.platform.name} ${version.version.toString()}".text(),
       trailing: UniversalPlatform.isIOS || UniversalPlatform.isMacOS
           ? null
-          : IconButton(
-              icon: const Icon(Icons.update),
+          : OutlinedButton(
               onPressed: () async {
                 await checkAppUpdate(
                   context: context,
                   active: true,
                 );
               },
+              child: i18n.about.checkUpdate.text(),
             ),
       onTap: Settings.devMode && clickCount <= 10
           ? null

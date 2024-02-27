@@ -156,6 +156,8 @@ class _About {
   String get termsOfUse => "$ns.termsOfUse".tr();
 
   String get privacyPolicy => "$ns.privacyPolicy".tr();
+
+  String get checkUpdate => "$ns.checkUpdate".tr();
 }
 
 class _Electricity {
