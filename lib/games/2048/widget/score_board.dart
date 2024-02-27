@@ -41,7 +41,7 @@ class Score extends StatelessWidget {
       child: Column(children: [
         Text(
           label.toUpperCase(),
-          style: const TextStyle(fontSize: 18.0, color: color2),
+          style: const TextStyle(fontSize: 18.0, color: textColorWhite),
         ),
         Text(
           score,
