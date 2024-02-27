@@ -36,6 +36,7 @@ class FilledCard extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final Color? color;
   final Clip? clip;
+  final ShapeBorder? shape;
 
   const FilledCard({
     super.key,
@@ -43,12 +44,14 @@ class FilledCard extends StatelessWidget {
     this.margin,
     this.color,
     this.clip,
+    this.shape,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
+      shape: shape,
       clipBehavior: clip,
       color: color ?? Theme.of(context).colorScheme.surfaceVariant,
       margin: margin,

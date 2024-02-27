@@ -21,7 +21,10 @@ Future<void> checkAppUpdate({
       Future.delayed(delayAtLeast),
     ).wait;
     debugPrint(latest.toString());
-    if (!Settings.devMode && !active) {
+    if (Settings.devMode && active) {
+      if (!context.mounted) return;
+      await context.show$Sheet$((ctx) => ArtifactUpdatePage(info: latest));
+    } else {
       final currentVersion = R.currentVersion.version;
       if (latest.downloadOf(R.currentVersion.platform) == null) return;
       final skippedVersionRaw = Settings.skippedVersion;
@@ -31,9 +34,9 @@ Future<void> checkAppUpdate({
       }
       final canUpdate = latest.version > currentVersion;
       if (!canUpdate) return;
+      if (!context.mounted) return;
+      await context.show$Sheet$((ctx) => ArtifactUpdatePage(info: latest));
     }
-    if (!context.mounted) return;
-    await context.show$Sheet$((ctx) => ArtifactUpdatePage(info: latest));
   } catch (error, stackTrace) {
     debugPrintError(error, stackTrace);
   }
