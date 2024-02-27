@@ -130,7 +130,6 @@ dependencies:
   carousel_slider: ^4.2.1
   # iCalendar file generator
   enough_icalendar: ^0.16.0
-  ical: ^0.2.2
 
   # Utils
   # dart.io.Platform API for Web
