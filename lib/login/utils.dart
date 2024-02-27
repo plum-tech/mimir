@@ -25,6 +25,7 @@ Future<void> handleLoginException({
         CredentialsErrorType.frozen => _i18n.accountFrozenTip,
         CredentialsErrorType.locked => _i18n.accountLockedTip,
         CredentialsErrorType.incompleteUserInfo => _i18n.incompleteUserInfoTip,
+        CredentialsErrorType() => _i18n.unknownAuthErrorTip,
       },
       ok: _i18n.close,
     );
