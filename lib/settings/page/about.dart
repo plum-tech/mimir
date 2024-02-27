@@ -129,7 +129,10 @@ class _VersionTileState extends State<VersionTile> {
           : IconButton(
               icon: const Icon(Icons.update),
               onPressed: () async {
-                await checkAppUpdate(context: context);
+                await checkAppUpdate(
+                  context: context,
+                  active: true,
+                );
               },
             ),
       onTap: Settings.devMode && clickCount <= 10

@@ -12,6 +12,7 @@ import 'page/update.dart';
 Future<void> checkAppUpdate({
   required BuildContext context,
   Duration delayAtLeast = Duration.zero,
+  required bool active,
 }) async {
   if (UniversalPlatform.isIOS || UniversalPlatform.isMacOS) return;
   try {
@@ -20,7 +21,7 @@ Future<void> checkAppUpdate({
       Future.delayed(delayAtLeast),
     ).wait;
     debugPrint(latest.toString());
-    if (!Settings.devMode) {
+    if (!Settings.devMode && active) {
       final currentVersion = R.currentVersion.version;
       if (latest.downloadOf(R.currentVersion.platform) == null) return;
       final skippedVersionRaw = Settings.skippedVersion;
