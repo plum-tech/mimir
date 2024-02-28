@@ -10,6 +10,8 @@ import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/guard_launch.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import "i18n.dart";
+import "package:sit/games/2048/i18n.dart" as i18n_2048;
+import "package:sit/games/minesweeper/i18n.dart" as i18n_minesweeper;
 
 const _qGroupNumber = "917740212";
 const _joinQGroupUri =
@@ -51,7 +53,7 @@ class _MePageState extends State<MePage> {
             buildGroupInvitationTile(),
             ListTile(
               leading: const Icon(Icons.videogame_asset),
-              title: "2048 Game".text(),
+              title: i18n_2048.i18n.title.text(),
               trailing: const Icon(Icons.navigate_next),
               onTap: () async {
                 await context.push("/game/2048");
@@ -59,7 +61,7 @@ class _MePageState extends State<MePage> {
             ),
             ListTile(
               leading: const Icon(Icons.videogame_asset),
-              title: "Minesweeper".text(),
+              title: i18n_minesweeper.i18n.title.text(),
               trailing: const Icon(Icons.navigate_next),
               onTap: () async {
                 await context.push("/game/Minesweeper");
