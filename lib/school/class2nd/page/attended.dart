@@ -101,6 +101,17 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
               sliver: SliverAppBar(
                 floating: true,
                 title: i18n.attended.title.text(),
+                actions: [
+                  IconButton(
+                    onPressed: () async {
+                      final result = await showSearch(
+                        context: context,
+                        delegate: AttendedActivitySearchDelegate(attended ?? []),
+                      );
+                    },
+                    icon: const Icon(Icons.search),
+                  ),
+                ],
                 bottom: isFetching
                     ? PreferredSize(
                         preferredSize: const Size.fromHeight(4),
@@ -403,4 +414,43 @@ Color? _pointsColor(BuildContext ctx, double points) {
   } else {
     return ctx.$red$;
   }
+}
+
+class AttendedActivitySearchDelegate extends SearchDelegate {
+  final List<Class2ndAttendedActivity> activities;
+
+  AttendedActivitySearchDelegate(this.activities);
+
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return <Widget>[
+      IconButton(onPressed: () => query = '', icon: const Icon(Icons.clear)),
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return null;
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    final results = _query(activities, query);
+    return ListView.builder(
+      itemCount: results.length,
+      itemBuilder: (ctx, i) {
+        final activity = results[i];
+        return AttendedActivityCard(activity);
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return Container();
+  }
+}
+
+List<Class2ndAttendedActivity> _query(List<Class2ndAttendedActivity> all, String prompt) {
+  return all.where((activity) => activity.title.contains(prompt)).toList();
 }
