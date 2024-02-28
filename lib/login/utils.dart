@@ -19,14 +19,7 @@ Future<void> handleLoginException({
     await context.showTip(
       serious: true,
       title: _i18n.failedWarn,
-      desc: switch (error.type) {
-        CredentialsErrorType.accountPassword => _i18n.accountOrPwdErrorTip,
-        CredentialsErrorType.captcha => _i18n.captchaErrorTip,
-        CredentialsErrorType.frozen => _i18n.accountFrozenTip,
-        CredentialsErrorType.locked => _i18n.accountLockedTip,
-        CredentialsErrorType.incompleteUserInfo => _i18n.incompleteUserInfoTip,
-        CredentialsErrorType() => _i18n.unknownAuthErrorTip,
-      },
+      desc: error.type.l10n(),
       ok: _i18n.close,
     );
     return;

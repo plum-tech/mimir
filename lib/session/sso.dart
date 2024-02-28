@@ -211,7 +211,7 @@ class SsoSession {
     }
     final pageRaw = response.data as String;
     if (pageRaw.contains("完善资料")) {
-      throw CredentialsException(message: pageRaw, type: CredentialsErrorType.incompleteUserInfo);
+      throw CredentialsException(message: pageRaw, type: CredentialsErrorType.oaIncompleteUserInfo);
     }
     final page = BeautifulSoup(pageRaw);
     // For desktop
@@ -246,9 +246,9 @@ class SsoSession {
     if (errorMessage.contains("验证码")) {
       return CredentialsErrorType.captcha;
     } else if (errorMessage.contains("冻结")) {
-      return CredentialsErrorType.frozen;
+      return CredentialsErrorType.oaFrozen;
     } else if (errorMessage.contains("锁定")) {
-      return CredentialsErrorType.locked;
+      return CredentialsErrorType.oaLocked;
     }
     return CredentialsErrorType.accountPassword;
   }

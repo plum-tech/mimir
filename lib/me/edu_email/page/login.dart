@@ -113,7 +113,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
                 }
               },
               decoration: InputDecoration(
-                labelText: i18n.login.credentials.password,
+                labelText: i18n.login.credentials.pwd,
                 icon: const Icon(Icons.lock),
                 hintText: i18n.login.passwordHint,
                 suffixIcon: IconButton(

@@ -8,7 +8,7 @@ class CredentialsI18n with CommonI18nMixin {
 
   String get account => "$ns.account".tr();
 
-  String get password => "$ns.password".tr();
+  String get pwd => "$ns.pwd".tr();
 }
 
 class OaCredentialsI18n extends CredentialsI18n {

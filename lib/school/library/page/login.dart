@@ -104,7 +104,7 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
                 }
               },
               decoration: InputDecoration(
-                labelText: i18n.login.credentials.password,
+                labelText: i18n.login.credentials.pwd,
                 hintText: i18n.login.passwordHint,
                 icon: const Icon(Icons.lock),
                 suffixIcon: IconButton(

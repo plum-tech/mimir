@@ -300,15 +300,21 @@ captcha:
   emptyInputError: The captcha is empty
 credentials:
   account: Account
-  password: Password
   pwd: Password
-  error: Credentials error
   oa:
     studentId: Student ID
     oaAccount: OA account
     oaPwd: OA password
     savedOaPwd: Saved OA password
     savedOaPwdDesc: Used to auto-login OA
+  error:
+    accountPassword: The account or password is incorrect
+    captcha: The captcha is incorrect
+    frozen: The account was frozen
+    locked: The account was locked
+    oa-frozen: The OA account was frozen, please try again later
+    oa-locked: The OA account was locked, please contact your administrator
+    oa-incompleteUserInfo: The OA account has incomplete user info, please access https://myportal.sit.edu.cn to complete
 easyconnect:
   launchBtn: Launch EasyConnect
   launchFailed: Launch Failed
@@ -457,11 +463,6 @@ login:
   forgotPwd: Forgot password?
   validateInputAccountPwdRequest: Please check the account and password you entered
   credentialsValidatedTip: Account and password are correct
-  accountOrPwdErrorTip: The account or password is incorrect
-  captchaErrorTip: The captcha is incorrect
-  accountFrozenTip: The account is frozen
-  accountLockedTip: The account is locked
-  incompleteUserInfoTip: The account has incomplete user info
   unknownAuthErrorTip: Unknown authentication error
   loggedInTip: Logged in
   notLoggedIn: Not logged In

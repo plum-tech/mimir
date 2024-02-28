@@ -297,15 +297,21 @@ captcha:
   emptyInputError: 你输入的验证码为空
 credentials:
   account: 账号
-  password: 密码
   pwd: 密码
-  error: 登录凭据错误
   oa:
     studentId: 学号
     oaAccount: OA 账号
     oaPwd: OA 密码
     savedOaPwd: 保存的 OA 密码
     savedOaPwdDesc: 用于自动登录 OA
+  error:
+    accountPassword: 账号或密码不正确
+    captcha: 验证码不正确
+    frozen: 该账号处于冻结状态
+    locked: 该账号处于锁定状态
+    oa-frozen: 该 OA 账号处于冻结状态，请稍后再次
+    oa-locked: 该 OA 账号处于锁定状态，请联系管理员
+    oa-incompleteUserInfo: 该 OA 账号用户信息不完整，请访问 https://myportal.sit.edu.cn 进行完善
 easyconnect:
   launchBtn: 启动 EasyConnect
   launchFailed: 启动失败
@@ -454,11 +460,6 @@ login:
   forgotPwd: 忘记密码？
   validateInputAccountPwdRequest: 请检查你输入的账号与密码
   credentialsValidatedTip: 账号与密码验证成功
-  accountOrPwdErrorTip: 账号或密码不正确
-  captchaErrorTip: 验证码不正确
-  accountFrozenTip: 账号处于冻结状态
-  accountLockedTip: 账号处于锁定状态
-  incompleteUserInfoTip: 账号用户信息不完整
   unknownAuthErrorTip: 未知账号验证错误
   loggedInTip: 登录成功
   notLoggedIn: 未登录
