@@ -161,7 +161,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
             child: Stack(
               children: [
                 GameBoard(refresh: updateGame, timer: timer),
-                GameInfo(resetGame: resetGame, timer: timer),
+                GameOverModal(resetGame: resetGame, timer: timer),
               ],
             ),
           ),

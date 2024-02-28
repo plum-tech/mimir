@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import "package:flutter/foundation.dart";
@@ -11,6 +12,10 @@ import 'cell/mine.dart';
 import 'cell/number.dart';
 
 class CellWidget extends ConsumerWidget {
+  final int row;
+  final int col;
+  final void Function() refresh;
+
   const CellWidget({
     super.key,
     required this.row,
@@ -18,13 +23,10 @@ class CellWidget extends ConsumerWidget {
     required this.refresh,
   });
 
-  final void Function() refresh;
-  final int row;
-  final int col;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Cell cell = ref.watch(boardManager.notifier).getCell(row: row, col: col);
+    final manager = ref.watch(boardManager.notifier);
+    final cell = manager.getCell(row: row, col: col);
     var coverVisible = true;
     var flagVisible = false;
 
@@ -47,7 +49,10 @@ class CellWidget extends ConsumerWidget {
     return Stack(
       children: [
         if (cell.mine) const Mine() else MinesAroundNumber(cell: cell),
-        CellCover(visible: coverVisible),
+        Opacity(
+          opacity: manager.gameOver && cell.mine ? 0.5 : 1.0,
+          child: CellCover(visible: coverVisible),
+        ),
         CellFlag(visible: flagVisible),
         CellButton(
           cell: cell,

@@ -31,6 +31,8 @@ class GameLogic extends StateNotifier<GameStates> {
     }
   }
 
+  bool get gameOver => state.gameOver;
+
   void initScreen({required width, required, height, required mode}) {
     state.screen = Screen(screenWidth: width, screenHeight: height, gameMode: mode);
   }

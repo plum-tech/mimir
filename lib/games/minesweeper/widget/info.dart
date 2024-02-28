@@ -4,8 +4,8 @@ import '../manager/logic.dart';
 import '../manager/timer.dart';
 import '../theme/colors.dart';
 
-class GameInfo extends ConsumerWidget {
-  const GameInfo({
+class GameOverModal extends ConsumerWidget {
+  const GameOverModal({
     super.key,
     required this.resetGame,
     required this.timer,
@@ -13,7 +13,7 @@ class GameInfo extends ConsumerWidget {
 
   final void Function() resetGame;
   final GameTimer timer;
-  final double opacityValue = 0.8;
+  final double opacityValue = 0.5;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
