@@ -311,7 +311,7 @@ credentials:
     locked: 該賬戶處於鎖定狀態
     oa-frozen: 該 OA 賬戶處於凍結狀態，請稍後再試
     oa-locked: 該 OA 賬戶處於鎖定狀態，請聯絡管理員
-    oa-incompleteUserInfo: 賬戶用戶資訊不完整，請訪問 https://myportal.sit.edu.cn 進行完善
+    oa-incompleteUserInfo: 該 OA 賬戶的用戶資訊不完整，請訪問 https://myportal.sit.edu.cn 進行完善
 easyconnect:
   launchBtn: 啟用 EasyConnect
   launchFailed: 啟動失敗

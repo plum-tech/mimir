@@ -309,7 +309,7 @@ credentials:
     captcha: 验证码不正确
     frozen: 该账号处于冻结状态
     locked: 该账号处于锁定状态
-    oa-frozen: 该 OA 账号处于冻结状态，请稍后再次
+    oa-frozen: 该 OA 账号处于冻结状态，请稍后再试
     oa-locked: 该 OA 账号处于锁定状态，请联系管理员
     oa-incompleteUserInfo: 该 OA 账号用户信息不完整，请访问 https://myportal.sit.edu.cn 进行完善
 easyconnect:
