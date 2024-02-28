@@ -128,18 +128,18 @@ extension _AppX on Widget {
 
 Future<List<String>> _loadRoomNumberList() async {
   String jsonData = await rootBundle.loadString("assets/room_list.json");
-  List<dynamic> list = await jsonDecode(jsonData);
+  List<dynamic> list = jsonDecode(jsonData);
   return list.map((e) => e.toString()).toList();
 }
 
 Future<List<String>> _loadUserAgents() async {
   String jsonData = await rootBundle.loadString("assets/user_agent.json");
-  List<dynamic> list = await jsonDecode(jsonData);
+  List<dynamic> list = jsonDecode(jsonData);
   return list.cast<String>();
 }
 
 Future<List<SchoolContact>> _loadYellowPages() async {
   String jsonData = await rootBundle.loadString("assets/yellow_pages.json");
-  List<dynamic> list = await jsonDecode(jsonData);
+  List<dynamic> list = jsonDecode(jsonData);
   return list.map((e) => SchoolContact.fromJson(e)).toList().cast<SchoolContact>();
 }
