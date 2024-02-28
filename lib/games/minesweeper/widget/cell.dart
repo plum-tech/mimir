@@ -4,10 +4,11 @@ import "package:flutter/foundation.dart";
 import 'package:logger/logger.dart';
 import '../model/cell.dart';
 import '../manager/logic.dart';
-import 'cell/blank.dart';
 import 'cell/button.dart';
 import 'cell/cover.dart';
 import 'cell/flag.dart';
+import 'cell/mine.dart';
+import 'cell/number.dart';
 
 class CellWidget extends ConsumerWidget {
   const CellWidget({
@@ -24,8 +25,8 @@ class CellWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final Cell cell = ref.watch(boardManager.notifier).getCell(row: row, col: col);
-    late final bool coverVisible;
-    late final bool flagVisible;
+    var coverVisible = true;
+    var flagVisible = false;
 
     switch (cell.state) {
       case CellState.blank:
@@ -45,10 +46,15 @@ class CellWidget extends ConsumerWidget {
 
     return Stack(
       children: [
-        CellBlank(cell: cell),
+        if (cell.mine) const Mine() else MinesAroundNumber(cell: cell),
         CellCover(visible: coverVisible),
         CellFlag(visible: flagVisible),
-        CellButton(cell: cell, coverVisible: coverVisible, flagVisible: flagVisible, refresh: refresh),
+        CellButton(
+          cell: cell,
+          coverVisible: coverVisible,
+          flagVisible: flagVisible,
+          refresh: refresh,
+        ),
       ],
     );
   }
