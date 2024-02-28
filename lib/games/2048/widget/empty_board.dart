@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-import '../const/colors.dart';
+import '../theme/colors.dart';
 
 class EmptyBoardWidget extends StatelessWidget {
   const EmptyBoardWidget({super.key});

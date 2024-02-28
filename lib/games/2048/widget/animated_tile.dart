@@ -64,14 +64,15 @@ class AnimatedTile extends AnimatedWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-        top: top.value,
-        left: left.value,
-        //Only use scale animation if the tile was merged
-        child: tile.merged
-            ? ScaleTransition(
-                scale: scale,
-                child: child,
-              )
-            : child);
+      top: top.value,
+      left: left.value,
+      //Only use scale animation if the tile was merged
+      child: tile.merged
+          ? ScaleTransition(
+              scale: scale,
+              child: child,
+            )
+          : child,
+    );
   }
 }

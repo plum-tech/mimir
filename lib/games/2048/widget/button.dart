@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../const/colors.dart';
+import '../theme/colors.dart';
 
 class ButtonWidget extends ConsumerWidget {
   const ButtonWidget({super.key, this.text, this.icon, required this.onPressed});

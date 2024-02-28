@@ -6,7 +6,7 @@ import 'widget/button.dart';
 import 'widget/empty_board.dart';
 import 'widget/score_board.dart';
 import 'widget/tile_board.dart';
-import 'const/colors.dart';
+import 'theme/colors.dart';
 import 'manager/board.dart';
 
 class Game2048 extends ConsumerStatefulWidget {
