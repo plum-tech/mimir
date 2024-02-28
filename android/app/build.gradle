@@ -32,7 +32,7 @@ android {
   namespace 'life.mysit.sit_life'
   compileSdk flutter.compileSdkVersion
   ndkVersion flutter.ndkVersion
-  compileSdkVersion 33
+  compileSdkVersion 34
 
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
