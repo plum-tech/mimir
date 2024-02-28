@@ -724,7 +724,7 @@ game:
     score: Score
     best: Best
   minesweeper:
-    title: 2048
+    title: Minesweeper
     gameMode:
       easy: Easy
     gameOver:

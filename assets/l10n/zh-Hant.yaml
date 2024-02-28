@@ -718,6 +718,19 @@ OaUserType:
   undergraduate: 大學生
   postgraduate: 研究生
   other: 其他
+game:
+  2048:
+    title: 2048
+    score: 分數
+    best: 最佳
+  minesweeper:
+    title: 掃雷
+    gameMode:
+      easy: 簡單
+    gameOver:
+      failed: 失敗
+      won: 勝利
+    restart: 再玩一次
 dormitoryRoom: "{building}號樓 #{room}"
 open: 打開
 delete: 刪除
