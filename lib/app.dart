@@ -90,6 +90,7 @@ class _MimirAppState extends State<MimirApp> {
 
     return MaterialApp.router(
       title: R.appName,
+      onGenerateTitle: (ctx) => "appName".tr(),
       routerConfig: router,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
