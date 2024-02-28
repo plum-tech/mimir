@@ -77,7 +77,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
+      handleRequestError(context, error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

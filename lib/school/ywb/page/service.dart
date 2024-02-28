@@ -43,7 +43,7 @@ class _YwbServiceListPageState extends State<YwbServiceListPage> {
         isLoading = false;
       });
     } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
+      handleRequestError(context, error, stackTrace);
       if (!mounted) return;
       setState(() {
         isLoading = false;

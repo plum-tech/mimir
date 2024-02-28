@@ -39,7 +39,7 @@ class _AsyncBookImageState extends State<AsyncBookImage> {
         this.image = image;
       });
     } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
+      handleRequestError(context, error, stackTrace);
     }
   }
 

@@ -68,7 +68,7 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
+      handleRequestError(context, error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

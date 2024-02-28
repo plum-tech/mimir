@@ -17,7 +17,6 @@ import 'package:sit/utils/error.dart';
 
 import '../entity/attended.dart';
 import '../init.dart';
-import '../widgets/summary.dart';
 import '../i18n.dart';
 
 class AttendedActivityPage extends StatefulWidget {
@@ -73,7 +72,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
       });
       $loadingProgress.value = 0;
     } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
+      handleRequestError(context, error, stackTrace);
       if (!mounted) return;
       setState(() => isFetching = false);
       $loadingProgress.value = 0;

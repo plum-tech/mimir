@@ -49,8 +49,8 @@ class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
         });
       }
     } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
       if (!mounted) return;
+      handleRequestError(context, error, stackTrace);
       setState(() {
         isFetching = false;
       });

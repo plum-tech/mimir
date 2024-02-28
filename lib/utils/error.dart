@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:sit/credentials/error.dart';
+import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/login/i18n.dart';
 
 void debugPrintError(Object? error, [StackTrace? stackTrace]) {
   if (error == null) {
@@ -22,5 +25,20 @@ void debugPrintError(Object? error, [StackTrace? stackTrace]) {
   } else {
     debugPrint(error.toString());
     debugPrintStack(stackTrace: stackTrace);
+  }
+}
+
+const _i18n = CommonLoginI18n();
+
+void handleRequestError(BuildContext context, Object? error, [StackTrace? stackTrace]) {
+  debugPrintError(error, stackTrace);
+  if (error is CredentialsException) {
+    context.showTip(
+      serious: true,
+      title: _i18n.failedWarn,
+      desc: error.type.l10n(),
+      ok: _i18n.close,
+    );
+    return;
   }
 }

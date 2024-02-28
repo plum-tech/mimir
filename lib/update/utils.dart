@@ -38,6 +38,7 @@ Future<void> checkAppUpdate({
       await context.show$Sheet$((ctx) => ArtifactUpdatePage(info: latest));
     }
   } catch (error, stackTrace) {
-    debugPrintError(error, stackTrace);
+    if (!context.mounted) return;
+    handleRequestError(context, error, stackTrace);
   }
 }

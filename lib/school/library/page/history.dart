@@ -43,7 +43,7 @@ class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistor
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
+      handleRequestError(context, error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

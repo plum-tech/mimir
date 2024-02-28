@@ -57,7 +57,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
+      handleRequestError(context, error, stackTrace);
       return;
     }
     if (!context.mounted) return;
@@ -232,7 +232,7 @@ class _BookCollectionPreviewListState extends State<BookCollectionPreviewList> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
+      handleRequestError(context, error, stackTrace);
       return;
     }
     if (!context.mounted) return;

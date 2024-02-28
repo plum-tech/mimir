@@ -46,7 +46,7 @@ class _ExamResultPgPageState extends State<ExamResultPgPage> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
+      handleRequestError(context, error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

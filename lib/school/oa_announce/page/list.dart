@@ -199,7 +199,7 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
       });
       widget.onLoadingChanged(false);
     } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
+      handleRequestError(context, error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

@@ -91,7 +91,7 @@ class _AttachmentLinkTileState extends State<AttachmentLinkTile> {
           progress = 1;
         });
       } catch (error, stackTrace) {
-        debugPrintError(error, stackTrace);
+        handleRequestError(context, error, stackTrace);
         if (!mounted) return;
         setState(() {
           progress = null;

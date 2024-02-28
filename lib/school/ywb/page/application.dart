@@ -155,7 +155,7 @@ class _YwbApplicationLoadingListState extends State<YwbApplicationLoadingList> w
       });
       widget.onLoadingChanged(false);
     } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
+      handleRequestError(context, error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;
