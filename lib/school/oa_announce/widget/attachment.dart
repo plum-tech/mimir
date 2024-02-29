@@ -7,11 +7,11 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:open_file/open_file.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/files.dart';
+import 'package:sit/init.dart';
 import 'package:sit/utils/error.dart';
 
 import '../entity/announce.dart';
 import '../i18n.dart';
-import '../init.dart';
 
 class AttachmentLinkTile extends StatefulWidget {
   final String uuid;
@@ -119,7 +119,7 @@ Future<void> _onDownloadFile({
 }) async {
   debugPrint('Start downloading [$name]($url) to $target');
   // 如果文件不存在，那么下载文件
-  await OaAnnounceInit.service.session.dio.download(
+  await Init.dio.download(
     url,
     target.path,
     onReceiveProgress: (int count, int total) {

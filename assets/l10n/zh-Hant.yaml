@@ -639,7 +639,7 @@ oaAnnounce:
   tab:
     info: 資訊
     content: 內容
-  noOaAnnouncesTip: 學校沒有 OA 公告
+  noOaAnnouncementsTip: 學校沒有 OA 公告
   downloadCompleted: 下載完成
   downloadFailed: 下載失敗
   downloading: 下載中

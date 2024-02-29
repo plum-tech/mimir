@@ -14,7 +14,7 @@ final _departmentSplitRegex = RegExp(r'\s+');
 final _dateFormat = DateFormat('yyyy年MM月dd日 hh:mm');
 
 class OaAnnounceService {
-  SsoSession get session => Init.ssoSession;
+  SsoSession get _session => Init.ssoSession;
 
   const OaAnnounceService();
 
@@ -53,7 +53,7 @@ class OaAnnounceService {
   }
 
   Future<OaAnnounceDetails> fetchAnnounceDetails(String catalogId, String uuid) async {
-    final response = await session.request(
+    final response = await _session.request(
       getAnnounceUrl(catalogId, uuid),
       options: Options(
         method: "GET",
@@ -102,7 +102,7 @@ class OaAnnounceService {
   }
 
   Future<OaAnnounceListPayload> getAnnounceList(OaAnnounceCat cat, int pageIndex) async {
-    final response = await session.request(
+    final response = await _session.request(
       'https://myportal.sit.edu.cn/detach.portal?pageIndex=$pageIndex&groupid=&action=bulletinsMoreView&.ia=false&pageSize=&.pmn=view&.pen=${cat.internalId}',
       options: Options(
         method: "GET",
