@@ -4,13 +4,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/entity/login_status.dart';
+import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/credentials/utils.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/init.dart';
 import 'package:sit/login/utils.dart';
+import 'package:sit/r.dart';
 import 'package:sit/school/widgets/campus.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/settings/settings.dart';
 
 import '../aggregated.dart';
 import '../i18n.dart';
@@ -73,9 +77,36 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> login() async {
     final account = $account.text;
     final password = $password.text;
+    if (account == R.demoModeOaAccount && password == R.demoModeOaPassword) {
+      await loginDemoMode();
+    } else {
+      await loginWithCredentials(account, password, formatValid: (_formKey.currentState as FormState).validate());
+    }
+  }
+
+  Future<void> loginDemoMode() async {
+    if (!mounted) return;
+    setState(() => isLoggingIn = true);
+    Settings.lastSignature ??= "Liplum";
+    CredentialsInit.storage.oaCredentials = Credentials(account: R.demoModeOaAccount, password: R.demoModeOaPassword);
+    CredentialsInit.storage.oaLoginStatus = LoginStatus.validated;
+    CredentialsInit.storage.oaLastAuthTime = DateTime.now();
+    CredentialsInit.storage.oaUserType = OaUserType.undergraduate;
+    Settings.demoMode = true;
+    await Init.initModules();
+    if (!mounted) return;
+    setState(() => isLoggingIn = false);
+    context.go("/");
+  }
+
+  /// 用户点击登录按钮后
+  Future<void> loginWithCredentials(
+    String account,
+    String password, {
+    required bool formatValid,
+  }) async {
     final userType = estimateOaUserType(account);
-    bool formValid = (_formKey.currentState as FormState).validate() && userType != null;
-    if (!formValid || account.isEmpty || password.isEmpty) {
+    if (!formatValid || userType == null || account.isEmpty || password.isEmpty) {
       await context.showTip(
         title: i18n.formatError,
         desc: i18n.validateInputAccountPwdRequest,

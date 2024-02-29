@@ -28,6 +28,8 @@ class R {
   static const Size minWindowSize = Size(300, 400);
 
   static const eduEmailDomain = "mail.sit.edu.cn";
+  static const demoModeOaAccount = "2300421153";
+  static const demoModeOaPassword = "liplum-sit-life";
 
   static String formatEduEmail({required String username}) {
     return "$username@$eduEmailDomain";
