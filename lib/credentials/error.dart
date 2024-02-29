@@ -26,4 +26,11 @@ class CredentialsException implements Exception {
     required this.type,
     this.message,
   });
+
+  @override
+  String toString() {
+    final message = this.message;
+    if (message == null) return "CredentialsException";
+    return "CredentialsException: $type $message";
+  }
 }

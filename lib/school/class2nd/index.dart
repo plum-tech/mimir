@@ -14,6 +14,7 @@ import 'package:sit/school/utils.dart';
 import 'package:sit/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:sit/utils/error.dart';
 
 import 'entity/attended.dart';
 import "i18n.dart";
@@ -69,9 +70,10 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
         if (!mounted) return;
         context.showSnackBar(content: i18n.refreshSuccessTip.text());
       }
-    } catch (error) {
+    } catch (error, stackTrace) {
+      if (!mounted) return;
+      handleRequestError(context, error, stackTrace);
       if (active) {
-        if (!mounted) return;
         context.showSnackBar(content: i18n.refreshFailedTip.text());
       }
     }
