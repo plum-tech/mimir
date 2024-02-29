@@ -9,12 +9,12 @@ const String _serviceFunctionList = 'https://xgfy.sit.edu.cn/app/public/queryApp
 const String _serviceFunctionDetail = 'https://xgfy.sit.edu.cn/app/public/queryAppFormJson';
 
 class YwbServiceService {
-  YwbSession get session => Init.ywbSession;
+  YwbSession get _session => Init.ywbSession;
 
   const YwbServiceService();
 
   Future<List<YwbService>> getServices() async {
-    final response = await session.request(
+    final response = await _session.request(
       _serviceFunctionList,
       data: '{"appObject":"student","appName":null}',
       options: Options(
@@ -33,7 +33,7 @@ class YwbServiceService {
   }
 
   Future<YwbServiceDetails> getServiceDetails(String functionId) async {
-    final response = await session.request(
+    final response = await _session.request(
       _serviceFunctionDetail,
       data: '{"appID":"$functionId"}',
       options: Options(
