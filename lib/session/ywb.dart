@@ -1,24 +1,12 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
+import 'package:sit/credentials/error.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/session/sso.dart';
 
 /// 应网办 official website
 const _ywbUrl = "https://ywb.sit.edu.cn/v1";
-
-class YwbCredentialsException implements Exception {
-  final String message;
-
-  const YwbCredentialsException({
-    required this.message,
-  });
-
-  @override
-  String toString() {
-    return "YwbCredentialsException: $message";
-  }
-}
 
 class YwbSession {
   bool isLogin = false;
@@ -50,7 +38,7 @@ class YwbSession {
 
     if (code != 0) {
       final String errMessage = resData['msg'];
-      throw YwbCredentialsException(message: '($code) $errMessage');
+      throw CredentialsException(type: CredentialsErrorType.accountPassword, message: '($code) $errMessage');
     }
     jwtToken = resData['data']['authorization'];
     this.username = username;
