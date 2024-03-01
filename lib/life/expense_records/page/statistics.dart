@@ -82,11 +82,11 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
       ),
       body: [
         buildModeSelector().padSymmetric(h: 16, v: 4),
-        StatisticsSection(mode: selectedMode, all: type2transactions).expanded(),
+        _buildChartView(),
+        ExpensePieChart(records: type2transactions),
+        // StatisticsSection(mode: selectedMode, all: type2transactions).expanded(),
       ].column(),
     );
-    // _buildChartView(),
-    // ExpensePieChart(records: type2transactions),
     final now = DateTime.now();
     final years = _getYear(records);
     final months = _getMonth(records, years, selectedYear);
