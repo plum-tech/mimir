@@ -22,6 +22,7 @@ class ExpenseStatisticsPage extends StatefulWidget {
 
 class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
   late List<Transaction> records;
+  var selectedMode = StatisticsMode.week;
   late double total;
   late Map<TransactionType, ({List<Transaction> records, double total, double proportion})> type2transactions;
   late int selectedYear;
@@ -57,24 +58,23 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
+          SliverAppBar.large(
             floating: true,
             title: i18n.stats.title.text(),
             actions: [
               SegmentedButton<StatisticsMode>(
                 showSelectedIcon: false,
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 4)),
-                ),
                 segments: StatisticsMode.values
                     .map((e) => ButtonSegment<StatisticsMode>(
                           value: e,
                           label: e.l10nName().text(),
                         ))
                     .toList(),
-                selected: <StatisticsMode>{StatisticsMode.week},
+                selected: <StatisticsMode>{selectedMode},
                 onSelectionChanged: (newSelection) {
-                  setState(() {});
+                  setState(() {
+                    selectedMode = newSelection.first;
+                  });
                 },
               )
             ],
