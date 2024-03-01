@@ -19,7 +19,7 @@ class EmptyBoardWidget extends StatelessWidget {
     return Container(
       width: boardSize,
       height: boardSize,
-      decoration: BoxDecoration(color: boardColor, borderRadius: BorderRadius.circular(6.0)),
+      decoration: BoxDecoration(color: boardColor, borderRadius: BorderRadius.circular(12.0)),
       child: Stack(
         children: List.generate(16, (i) {
           //Render the empty board in 4x4 GridView

@@ -17,7 +17,7 @@ class ButtonWidget extends ConsumerWidget {
       return Container(
         decoration: BoxDecoration(
           color: scoreColor,
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(12.0),
         ),
         child: IconButton(
             color: textColorWhite,
