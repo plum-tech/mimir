@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/life/expense_records/entity/statistics.dart';
@@ -20,11 +21,13 @@ class ExpenseStatisticsPage extends StatefulWidget {
   State<ExpenseStatisticsPage> createState() => _ExpenseStatisticsPageState();
 }
 
+typedef Type2transactions = Map<TransactionType, ({List<Transaction> records, double total, double proportion})>;
+
 class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
   late List<Transaction> records;
   var selectedMode = StatisticsMode.week;
   late double total;
-  late Map<TransactionType, ({List<Transaction> records, double total, double proportion})> type2transactions;
+  late Type2transactions type2transactions;
   late int selectedYear;
   late int selectedMonth;
 
@@ -74,28 +77,16 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar.large(
-              floating: true,
-              title: i18n.stats.title.text(),
-              actions: [
-                buildModeSelector(),
-              ],
-            ),
-          ];
-        },
-        body: PageView(
-          children: <Widget>[
-            const StatisticsPage(),
-            // _buildChartView(),
-            // ExpensePieChart(records: type2transactions),
-          ],
-        ),
+      appBar: AppBar(
+        title: i18n.stats.title.text(),
       ),
+      body: [
+        buildModeSelector().padSymmetric(h: 16, v: 4),
+        StatisticsSection(mode: selectedMode, all: type2transactions).expanded(),
+      ].column(),
     );
-
+    // _buildChartView(),
+    // ExpensePieChart(records: type2transactions),
     final now = DateTime.now();
     final years = _getYear(records);
     final months = _getMonth(records, years, selectedYear);
@@ -198,6 +189,37 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
     return const BaseLineChartWidget(
       bottomTitles: [],
       values: [],
+    );
+  }
+}
+
+class StatisticsSection extends StatefulWidget {
+  final StatisticsMode mode;
+  final Type2transactions all;
+
+  const StatisticsSection({
+    super.key,
+    required this.mode,
+    required this.all,
+  });
+
+  @override
+  State<StatisticsSection> createState() => _StatisticsSectionState();
+}
+
+class _StatisticsSectionState extends State<StatisticsSection> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PageView.builder(
+      itemCount: 10,
+      itemBuilder: (ctx, i) {
+        return const StatisticsPage();
+      },
     );
   }
 }
