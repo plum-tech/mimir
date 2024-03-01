@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sit/games/2048/widget/tile.dart';
 
 import '../theme/colors.dart';
 import '../manager/board.dart';
@@ -43,18 +44,19 @@ class TileBoardWidget extends ConsumerWidget {
                 size: tileSize,
                 //In order to optimize performances and prevent unneeded re-rendering the actual tile is passed as child to the AnimatedTile
                 //as the tile won't change for the duration of the movement (apart from it's position)
-                child: Container(
-                  width: tileSize,
-                  height: tileSize,
-                  decoration: BoxDecoration(color: tileColors[tile.value], borderRadius: BorderRadius.circular(6.0)),
+                child: BoardTile(
+                  size: tileSize,
+                  color: tileColors[tile.value],
                   child: Center(
-                      child: Text(
-                    '${tile.value}',
-                    style: TextStyle(
+                    child: Text(
+                      '${tile.value}',
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 24.0,
-                        color: tile.value < 8 ? textColor : textColorWhite),
-                  )),
+                        fontSize: 32.0,
+                        color: tile.value < 8 ? textColor : textColorWhite,
+                      ),
+                    ),
+                  ),
                 ),
               );
             },

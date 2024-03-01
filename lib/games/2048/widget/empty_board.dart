@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '../theme/colors.dart';
+import 'tile.dart';
 
 class EmptyBoardWidget extends StatelessWidget {
   const EmptyBoardWidget({super.key});
@@ -32,10 +33,9 @@ class EmptyBoardWidget extends StatelessWidget {
           return Positioned(
             top: top,
             left: left,
-            child: Container(
-              width: tileSize,
-              height: tileSize,
-              decoration: BoxDecoration(color: emptyTileColor, borderRadius: BorderRadius.circular(6.0)),
+            child: BoardTile(
+              size: tileSize,
+              color: emptyTileColor,
             ),
           );
         }),
