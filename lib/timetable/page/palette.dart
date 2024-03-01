@@ -196,7 +196,7 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
     return SwipeToDismiss(
       childKey: ObjectKey(current),
       right: SwipeToDismissAction(
-        label: i18n.delete,
+        icon: const Icon(Icons.delete),
         action: () async {
           setState(() {
             colors.removeAt(index);

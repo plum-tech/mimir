@@ -48,7 +48,7 @@ Future<String?> searchRoom({
             final room = DormitoryRoom.fromFullString(full);
             return SwipeToDismiss(
               right: SwipeToDismissAction(
-                label: i18n.delete,
+                icon: const Icon(Icons.delete),
                 action: () {
                   final newList = List.of($searchHistory.value);
                   newList.removeAt(i);
