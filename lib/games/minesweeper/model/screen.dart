@@ -19,7 +19,7 @@ class Screen{
   }
 
   double getBoardRadius() {
-    return (getCellWidth() / 5).floorToDouble();
+    return 12;
   }
 
   double getInfoHeight() {
