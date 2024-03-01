@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/build_context.dart';
 import '../../model/cell.dart';
@@ -46,6 +47,7 @@ class CellButton extends ConsumerWidget {
                       // Click a Cover Cell => Blank
                       if (!flagVisible) {
                         manager.dig(cell: cell);
+                        HapticFeedback.lightImpact();
                       } else {
                         // Click a Flag Cell => Cancel Flag (Covered)
                         manager.removeFlag(cell: cell);
@@ -55,20 +57,26 @@ class CellButton extends ConsumerWidget {
               onDoubleTap: coverVisible
                   ? null
                   : () {
-                      manager.digAroundBesidesFlagged(cell: cell);
-                      manager.flagRestCovered(cell: cell);
+                      bool anyChanged = false;
+                      anyChanged |= manager.digAroundBesidesFlagged(cell: cell);
+                      anyChanged |= manager.flagRestCovered(cell: cell);
+                      if (anyChanged) {
+                        HapticFeedback.lightImpact();
+                      }
                       refresh();
                     },
               onLongPress: !coverVisible
                   ? null
                   : () {
                       manager.toggleFlag(cell: cell);
+                      HapticFeedback.lightImpact();
                       refresh();
                     },
               onSecondaryTap: !coverVisible
                   ? null
                   : () {
                       manager.toggleFlag(cell: cell);
+                      HapticFeedback.lightImpact();
                       refresh();
                     },
             ),

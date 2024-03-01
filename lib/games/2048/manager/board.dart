@@ -159,6 +159,7 @@ class BoardManager extends StateNotifier<Board> {
         if (tile.nextIndex == next.nextIndex || tile.index == next.nextIndex && tile.nextIndex == null) {
           value = tile.value + next.value;
           merged = true;
+          HapticFeedback.lightImpact();
           score += tile.value;
           i += 1;
         }
