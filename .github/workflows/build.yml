@@ -89,7 +89,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: SITLife-Android-release
-          path: build/app/outputs/flutter-apk/1-SITLife-release-signed.apk
+          path: build/app/outputs/flutter-apk/publish/1-SITLife-release-signed.apk
 
   build_ios:
     runs-on: macos-latest
