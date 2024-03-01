@@ -53,39 +53,46 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
     });
   }
 
+  Widget buildModeSelector() {
+    return SegmentedButton<StatisticsMode>(
+      showSelectedIcon: false,
+      segments: StatisticsMode.values
+          .map((e) => ButtonSegment<StatisticsMode>(
+                value: e,
+                label: e.l10nName().text(),
+              ))
+          .toList(),
+      selected: <StatisticsMode>{selectedMode},
+      onSelectionChanged: (newSelection) {
+        setState(() {
+          selectedMode = newSelection.first;
+        });
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar.large(
-            floating: true,
-            title: i18n.stats.title.text(),
-            actions: [
-              SegmentedButton<StatisticsMode>(
-                showSelectedIcon: false,
-                segments: StatisticsMode.values
-                    .map((e) => ButtonSegment<StatisticsMode>(
-                          value: e,
-                          label: e.l10nName().text(),
-                        ))
-                    .toList(),
-                selected: <StatisticsMode>{selectedMode},
-                onSelectionChanged: (newSelection) {
-                  setState(() {
-                    selectedMode = newSelection.first;
-                  });
-                },
-              )
-            ],
-          ),
-          SliverToBoxAdapter(
-            child: _buildChartView(),
-          ),
-          SliverToBoxAdapter(
-            child: ExpensePieChart(records: type2transactions),
-          ),
-        ],
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar.large(
+              floating: true,
+              title: i18n.stats.title.text(),
+              actions: [
+                buildModeSelector(),
+              ],
+            ),
+          ];
+        },
+        body: PageView(
+          children: <Widget>[
+            const StatisticsPage(),
+            // _buildChartView(),
+            // ExpensePieChart(records: type2transactions),
+          ],
+        ),
       ),
     );
 
@@ -294,5 +301,19 @@ class BaseLineChartWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class StatisticsPage extends StatefulWidget {
+  const StatisticsPage({super.key});
+
+  @override
+  State<StatisticsPage> createState() => _StatisticsPageState();
+}
+
+class _StatisticsPageState extends State<StatisticsPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
