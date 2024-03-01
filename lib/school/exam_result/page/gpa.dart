@@ -131,7 +131,10 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
           ],
         ),
       ),
-      bottomNavigationBar: buildCourseCatChoices().sized(h: 40).safeArea(),
+      bottomNavigationBar: BottomAppBar(
+        padding: EdgeInsets.zero,
+        child: buildCourseCatChoices().sized(h: 40),
+      ),
     );
   }
 
