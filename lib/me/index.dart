@@ -10,8 +10,6 @@ import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/guard_launch.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import "i18n.dart";
-import "package:sit/game/2048/i18n.dart" as i18n_2048;
-import "package:sit/game/minesweeper/i18n.dart" as i18n_minesweeper;
 
 const _qGroupNumber = "917740212";
 const _joinQGroupUri =
@@ -49,25 +47,6 @@ class _MePageState extends State<MePage> {
           const SliverToBoxAdapter(
             child: EduEmailAppCard(),
           ),
-          SliverList.list(children: [
-            buildGroupInvitationTile(),
-            ListTile(
-              leading: const Icon(Icons.videogame_asset),
-              title: i18n_2048.i18n.title.text(),
-              trailing: const Icon(Icons.navigate_next),
-              onTap: () async {
-                await context.push("/game/2048");
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.videogame_asset),
-              title: i18n_minesweeper.i18n.title.text(),
-              trailing: const Icon(Icons.navigate_next),
-              onTap: () async {
-                await context.push("/game/Minesweeper");
-              },
-            )
-          ]),
         ],
       ),
     );

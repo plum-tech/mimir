@@ -3,8 +3,11 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/settings/settings.dart';
+import "package:sit/game/2048/i18n.dart" as i18n_2048;
+import "package:sit/game/minesweeper/i18n.dart" as i18n_minesweeper;
 
 import "i18n.dart";
+import 'widget/card.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({super.key});
@@ -63,6 +66,18 @@ class _GamePageState extends State<GamePage> {
         },
         body: CustomScrollView(
           slivers: [
+            SliverList.list(
+              children: [
+                GameAppCard(
+                  name: i18n_2048.i18n.title,
+                  baseRoute: "/2048",
+                ),
+                GameAppCard(
+                  name: i18n_minesweeper.i18n.title,
+                  baseRoute: "/minesweeper",
+                ),
+              ],
+            )
           ],
         ),
       ),

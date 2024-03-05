@@ -6,8 +6,10 @@ import 'card.dart';
 class AppCard extends StatelessWidget {
   /// [SizedBox] by default.
   final Widget? view;
+  final Widget? leading;
   final Widget? title;
   final Widget? subtitle;
+  final Widget? trailing;
   final List<Widget>? leftActions;
 
   /// 12 by default.
@@ -20,8 +22,10 @@ class AppCard extends StatelessWidget {
   const AppCard({
     super.key,
     this.view,
+    this.leading,
     this.title,
     this.subtitle,
+    this.trailing,
     this.leftActions,
     this.rightActions,
     this.leftActionsSpacing,
@@ -51,10 +55,12 @@ class AppCard extends StatelessWidget {
           ),
         ),
         ListTile(
+          leading: leading,
           titleTextStyle: textTheme.titleLarge,
           title: title,
           subtitleTextStyle: textTheme.bodyLarge?.copyWith(color: context.colorScheme.onSurfaceVariant),
           subtitle: subtitle,
+          trailing: trailing,
         ),
         OverflowBar(
           alignment: MainAxisAlignment.spaceBetween,
