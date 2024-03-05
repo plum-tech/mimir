@@ -113,6 +113,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     final XFile? fi = await picker.pickImage(
       source: ImageSource.gallery,
       requestFullMetadata: false,
+      // TODO: imageQuality: 100,
     );
     if (fi == null) return;
     final newBk = background.copyWith(path: fi.path);

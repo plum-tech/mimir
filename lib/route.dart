@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/games/2048/index.dart';
+import 'package:sit/games/index.dart';
 import 'package:sit/games/minesweeper/index.dart';
 import 'package:sit/index.dart';
 import 'package:sit/me/edu_email/page/login.dart';
@@ -62,8 +63,9 @@ import 'package:sit/widgets/webview/page.dart';
 
 final $Key = GlobalKey<NavigatorState>();
 final $TimetableShellKey = GlobalKey<NavigatorState>();
-final $LifeShellKey = GlobalKey<NavigatorState>();
 final $SchoolShellKey = GlobalKey<NavigatorState>();
+final $LifeShellKey = GlobalKey<NavigatorState>();
+final $GameShellKey = GlobalKey<NavigatorState>();
 final $MeShellKey = GlobalKey<NavigatorState>();
 
 bool isLoginGuarded(BuildContext ctx) {
@@ -142,6 +144,10 @@ final _schoolShellRoute = GoRoute(
 final _lifeShellRoute = GoRoute(
   path: "/life",
   builder: (ctx, state) => const LifePage(),
+);
+final _gameShellRoute = GoRoute(
+  path: "/game",
+  builder: (ctx, state) => const GamePage(),
 );
 final _meShellRoute = GoRoute(
   path: "/me",
@@ -447,6 +453,12 @@ RoutingConfig buildCommonRoutingConfig() {
               ],
             ),
           StatefulShellBranch(
+            navigatorKey: $GameShellKey,
+            routes: [
+              _gameShellRoute,
+            ],
+          ),
+          StatefulShellBranch(
             navigatorKey: $MeShellKey,
             routes: [
               _meShellRoute,
@@ -484,9 +496,10 @@ RoutingConfig buildTimetableFocusRouter() {
       ),
       _timetableShellRoute,
       ..._timetableRoutes,
-      _meShellRoute,
       _schoolShellRoute,
+      _gameShellRoute,
       _lifeShellRoute,
+      _meShellRoute,
       _browserRoute,
       _expenseRoute,
       _settingsRoute,

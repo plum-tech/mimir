@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/timetable/i18n.dart' as $timetable;
 import 'package:sit/school/i18n.dart' as $school;
 import 'package:sit/life/i18n.dart' as $life;
+import 'package:sit/games/i18n.dart' as $game;
 import 'package:sit/me/i18n.dart' as $me;
 import 'package:rettulf/rettulf.dart';
 
@@ -60,6 +61,14 @@ class _MainStagePageState extends State<MainStagePage> {
             label: $life.i18n.navigation,
           )
         ),
+      (
+        route: "/game",
+        item: (
+          icon: const Icon(Icons.videogame_asset_outlined),
+          activeIcon: const Icon(Icons.videogame_asset),
+          label: $game.i18n.navigation,
+        )
+      ),
       (
         route: "/me",
         item: (
