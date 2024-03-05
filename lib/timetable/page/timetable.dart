@@ -7,15 +7,13 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/page/screenshot.dart';
-import 'package:sit/school/i18n.dart' as $school;
-import 'package:sit/life/i18n.dart' as $life;
-import 'package:sit/game/i18n.dart' as $game;
 import '../entity/display.dart';
 import '../events.dart';
 import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
 import '../entity/pos.dart';
+import '../widgets/focus.dart';
 import '../widgets/timetable/board.dart';
 
 class TimetableBoardPage extends StatefulWidget {
@@ -181,7 +179,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
             await context.push("/timetable/background");
           },
         ),
-        if (focusMode) ...buildFocusPopupActions(),
+        if (focusMode) ...buildFocusPopupActions(context),
         const PopupMenuDivider(),
         CheckedPopupMenuItem(
           checked: focusMode,
@@ -194,39 +192,6 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         ),
       ],
     );
-  }
-
-  List<PopupMenuEntry> buildFocusPopupActions() {
-    return [
-      const PopupMenuDivider(),
-      PopupMenuItem(
-        child: ListTile(
-          leading: const Icon(Icons.school_outlined),
-          title: $school.i18n.navigation.text(),
-        ),
-        onTap: () async {
-          await context.push("/school");
-        },
-      ),
-      PopupMenuItem(
-        child: ListTile(
-          leading: const Icon(Icons.spa_outlined),
-          title: $life.i18n.navigation.text(),
-        ),
-        onTap: () async {
-          await context.push("/life");
-        },
-      ),
-      PopupMenuItem(
-        child: ListTile(
-          leading: const Icon(Icons.videogame_asset_outlined),
-          title: $game.i18n.navigation.text(),
-        ),
-        onTap: () async {
-          await context.push("/game");
-        },
-      ),
-    ];
   }
 
   Future<void> selectWeeklyTimetablePageToJump() async {

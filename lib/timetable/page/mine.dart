@@ -19,6 +19,7 @@ import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
 import '../utils.dart';
+import '../widgets/focus.dart';
 import '../widgets/style.dart';
 import 'editor.dart';
 import 'preview.dart';
@@ -93,7 +94,9 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
     final timetables = TimetableInit.storage.timetable.getRows();
     final selectedId = TimetableInit.storage.timetable.selectedId;
     final actions = [
-      if (!Settings.focusTimetable)
+      if (Settings.focusTimetable)
+        buildMoreActionsButton()
+      else
         IconButton(
           icon: const Icon(Icons.color_lens_outlined),
           onPressed: () {
@@ -143,6 +146,54 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         label: Text(isLoginGuarded(context) ? i18n.import.fromFile : i18n.import.import),
         icon: const Icon(Icons.add_outlined),
       ),
+    );
+  }
+
+  Widget buildMoreActionsButton() {
+    final focusMode = Settings.focusTimetable;
+    return PopupMenuButton(
+      position: PopupMenuPosition.under,
+      padding: EdgeInsets.zero,
+      itemBuilder: (ctx) => <PopupMenuEntry>[
+        PopupMenuItem(
+          child: ListTile(
+            leading: const Icon(Icons.palette_outlined),
+            title: i18n.p13n.palette.title.text(),
+          ),
+          onTap: () async {
+            await context.push("/timetable/p13n");
+          },
+        ),
+        PopupMenuItem(
+          child: ListTile(
+            leading: const Icon(Icons.view_comfortable_outlined),
+            title: i18n.p13n.cell.title.text(),
+          ),
+          onTap: () async {
+            await context.push("/timetable/cell-style");
+          },
+        ),
+        PopupMenuItem(
+          child: ListTile(
+            leading: const Icon(Icons.image_outlined),
+            title: i18n.p13n.background.title.text(),
+          ),
+          onTap: () async {
+            await context.push("/timetable/background");
+          },
+        ),
+        if (focusMode) ...buildFocusPopupActions(context),
+        const PopupMenuDivider(),
+        CheckedPopupMenuItem(
+          checked: focusMode,
+          child: ListTile(
+            title: i18n.focusTimetable.text(),
+          ),
+          onTap: () async {
+            Settings.focusTimetable = !focusMode;
+          },
+        ),
+      ],
     );
   }
 }
@@ -260,8 +311,8 @@ class TimetableCard extends StatelessWidget {
   }
 
   Future<void> onExportCalendar(BuildContext context, SitTimetable timetable) async {
-    final config = await context.show$Sheet$<TimetableICalConfig>(
-        (context) => TimetableICalConfigEditor(timetable: timetable));
+    final config =
+        await context.show$Sheet$<TimetableICalConfig>((context) => TimetableICalConfigEditor(timetable: timetable));
     if (config == null) return;
     if (!context.mounted) return;
     await exportTimetableAsICalendarAndOpen(
