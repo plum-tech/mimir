@@ -720,6 +720,7 @@ OaUserType:
   postgraduate: 研究生
   other: 其他
 game:
+  navigation: 電玩
   2048:
     title: 2048
     score: 分數

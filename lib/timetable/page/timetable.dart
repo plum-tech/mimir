@@ -9,6 +9,7 @@ import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/page/screenshot.dart';
 import 'package:sit/school/i18n.dart' as $school;
 import 'package:sit/life/i18n.dart' as $life;
+import 'package:sit/game/i18n.dart' as $game;
 import '../entity/display.dart';
 import '../events.dart';
 import '../i18n.dart';
@@ -214,6 +215,15 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         ),
         onTap: () async {
           await context.push("/life");
+        },
+      ),
+      PopupMenuItem(
+        child: ListTile(
+          leading: const Icon(Icons.videogame_asset_outlined),
+          title: $game.i18n.navigation.text(),
+        ),
+        onTap: () async {
+          await context.push("/game");
         },
       ),
     ];

@@ -720,6 +720,7 @@ OaUserType:
   postgraduate: Postgraduate
   other: Other
 game:
+  navigation: Game
   2048:
     title: 2048
     score: Score
