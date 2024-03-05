@@ -131,7 +131,15 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
     required String selectedRoom,
   }) {
     if (!isCupertino) {
-      return buildCard(balance);
+      return Dismissible(
+        direction: DismissDirection.endToStart,
+        key: const ValueKey("Balance"),
+        onDismissed: (dir) async {
+          await HapticFeedback.heavyImpact();
+          ElectricityBalanceInit.storage.selectedRoom = null;
+        },
+        child: buildCard(balance),
+      );
     }
     return Builder(
       builder: (ctx) => CupertinoContextMenu.builder(
@@ -164,17 +172,9 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
   }
 
   Widget buildCard(ElectricityBalance balance) {
-    return Dismissible(
-      direction: DismissDirection.endToStart,
-      key: const ValueKey("Balance"),
-      onDismissed: (dir) async {
-        await HapticFeedback.heavyImpact();
-        ElectricityBalanceInit.storage.selectedRoom = null;
-      },
-      child: ElectricityBalanceCard(
-        balance: balance,
-      ).sized(h: 120),
-    );
+    return ElectricityBalanceCard(
+      balance: balance,
+    ).sized(h: 120);
   }
 }
 
