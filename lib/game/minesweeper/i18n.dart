@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:sit/games/minesweeper/model/mode.dart';
+import 'package:sit/game/minesweeper/model/mode.dart';
 import 'package:sit/l10n/common.dart';
 
 const i18n = _I18n();

@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/games/2048/widget/tile.dart';
+import 'package:sit/game/2048/widget/tile.dart';
 
 import '../theme/colors.dart';
 import '../manager/board.dart';

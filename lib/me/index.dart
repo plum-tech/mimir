@@ -10,8 +10,8 @@ import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/guard_launch.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import "i18n.dart";
-import "package:sit/games/2048/i18n.dart" as i18n_2048;
-import "package:sit/games/minesweeper/i18n.dart" as i18n_minesweeper;
+import "package:sit/game/2048/i18n.dart" as i18n_2048;
+import "package:sit/game/minesweeper/i18n.dart" as i18n_minesweeper;
 
 const _qGroupNumber = "917740212";
 const _joinQGroupUri =
