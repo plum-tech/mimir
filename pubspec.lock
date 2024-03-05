@@ -549,10 +549,10 @@ packages:
     dependency: "direct main"
     description:
       name: file_picker
-      sha256: "4e42aacde3b993c5947467ab640882c56947d9d27342a5b6f2895b23956954a6"
+      sha256: caa6bc229eab3e32eb2f37b53a5f9d22a6981474afd210c512a7546c1e1a04f6
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.1"
+    version: "6.2.0"
   file_selector_linux:
     dependency: transitive
     description:
@@ -613,10 +613,10 @@ packages:
     dependency: "direct main"
     description:
       name: flex_color_picker
-      sha256: "0871edc170153cfc3de316d30625f40a85daecfa76ce541641f3cc0ec7757cbf"
+      sha256: "904373c7b0531fd4a92d29705a80ab4594b7647da2d93044487aaec4614cb6ed"
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.1"
+    version: "3.4.0"
   flex_seed_scheme:
     dependency: transitive
     description:
@@ -777,10 +777,10 @@ packages:
     dependency: "direct main"
     description:
       name: format
-      sha256: e1a4795492a6de49debbfadd3020ab5e138e20b1ad3736041481828ab6f5c188
+      sha256: da3aeae9507f9e9ba3bd75308d5c0be14b97b0001abd74eba2e025457869b2a0
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.0"
+    version: "1.5.1"
   frontend_server_client:
     dependency: transitive
     description:
@@ -1121,10 +1121,10 @@ packages:
     dependency: "direct main"
     description:
       name: logger
-      sha256: "6bbb9d6f7056729537a4309bda2e74e18e5d9f14302489cc1e93f33b3fe32cac"
+      sha256: b3ff55aeb08d9d8901b767650285872cb1bb8f508373b3e348d60268b0c7f770
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.2+1"
+    version: "2.1.0"
   logging:
     dependency: transitive
     description:
