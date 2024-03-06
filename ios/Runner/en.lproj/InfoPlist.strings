@@ -1,6 +1,5 @@
 CFBundleDisplayName = "SIT Life";
 
-NSCalendarsUsageDescription = "Requires calendar premission";
-NSCameraUsageDescription = "Requires camera premission";
-NSPhotoLibraryUsageDescription = "Requires album premission";
-NFCReaderUsageDescription = "Requires NFC premission";
+NSCalendarsUsageDescription = "Requires calendar premission to add exam event";
+NSCameraUsageDescription = "Requires camera premission to scan QR code";
+NSPhotoLibraryUsageDescription = "Requires album premission to recognize QR code and set timetable wallpaper";
