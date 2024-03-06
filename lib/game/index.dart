@@ -77,7 +77,7 @@ class _GamePageState extends State<GamePage> {
                   baseRoute: "/minesweeper",
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/game/widget/card.dart';
 import 'package:sit/me/edu_email/index.dart';
 import 'package:sit/me/widgets/greeting.dart';
 import 'package:rettulf/rettulf.dart';
@@ -10,6 +11,8 @@ import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/guard_launch.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import "i18n.dart";
+import "package:sit/game/2048/i18n.dart" as i18n_2048;
+import "package:sit/game/minesweeper/i18n.dart" as i18n_minesweeper;
 
 const _qGroupNumber = "917740212";
 const _joinQGroupUri =
@@ -46,6 +49,18 @@ class _MePageState extends State<MePage> {
           ),
           const SliverToBoxAdapter(
             child: EduEmailAppCard(),
+          ),
+          SliverList.list(
+            children: [
+              GameAppCard(
+                name: i18n_2048.i18n.title,
+                baseRoute: "/2048",
+              ),
+              GameAppCard(
+                name: i18n_minesweeper.i18n.title,
+                baseRoute: "/minesweeper",
+              ),
+            ],
           ),
         ],
       ),

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -31,60 +33,50 @@ extension _NavigationDestX on _NavigationDest {
 
 class _MainStagePageState extends State<MainStagePage> {
   var currentStage = 0;
-  late var items = buildItems();
-
-  List<({String route, ({Widget icon, Widget activeIcon, String label}) item})> buildItems() {
-    return [
+  late var items = [
+    (
+      route: "/timetable",
+      item: (
+        icon: const Icon(Icons.calendar_month_outlined),
+        activeIcon: const Icon(Icons.calendar_month),
+        label: $timetable.i18n.navigation,
+      )
+    ),
+    if (!kIsWeb)
       (
-        route: "/timetable",
+        route: "/school",
         item: (
-          icon: const Icon(Icons.calendar_month_outlined),
-          activeIcon: const Icon(Icons.calendar_month),
-          label: $timetable.i18n.navigation,
+          icon: const Icon(Icons.school_outlined),
+          activeIcon: const Icon(Icons.school),
+          label: $school.i18n.navigation,
         )
       ),
-      if (!kIsWeb)
-        (
-          route: "/school",
-          item: (
-            icon: const Icon(Icons.school_outlined),
-            activeIcon: const Icon(Icons.school),
-            label: $school.i18n.navigation,
-          )
-        ),
-      if (!kIsWeb)
-        (
-          route: "/life",
-          item: (
-            icon: const Icon(Icons.spa_outlined),
-            activeIcon: const Icon(Icons.spa),
-            label: $life.i18n.navigation,
-          )
-        ),
+    if (!kIsWeb)
       (
-        route: "/game",
+        route: "/life",
         item: (
-          icon: const Icon(Icons.videogame_asset_outlined),
-          activeIcon: const Icon(Icons.videogame_asset),
-          label: $game.i18n.navigation,
+          icon: const Icon(Icons.spa_outlined),
+          activeIcon: const Icon(Icons.spa),
+          label: $life.i18n.navigation,
         )
       ),
-      (
-        route: "/me",
-        item: (
-          icon: const Icon(Icons.person_outline),
-          activeIcon: const Icon(Icons.person),
-          label: $me.i18n.navigation,
-        )
-      ),
-    ];
-  }
-
-  @override
-  void didChangeDependencies() {
-    items = buildItems();
-    super.didChangeDependencies();
-  }
+    // (
+    //   route: "/game",
+    //   item: (
+    //     icon: const Icon(Icons.videogame_asset_outlined),
+    //     activeIcon: const Icon(Icons.videogame_asset),
+    //     label: $game.i18n.navigation,
+    //   )
+    // ),
+    (
+      route: "/me",
+      item: (
+        icon: const Icon(Icons.person_outline),
+        activeIcon: const Icon(Icons.person),
+        label: $me.i18n.navigation,
+      )
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +120,7 @@ class _MainStagePageState extends State<MainStagePage> {
 
   int getSelectedIndex() {
     final location = GoRouterState.of(context).uri.toString();
-    return items.indexWhere((e) => location.startsWith(e.route));
+    return max(0, items.indexWhere((e) => location.startsWith(e.route)));
   }
 
   void onItemTapped(int index) {

@@ -22,7 +22,7 @@ class GameAppCard extends StatelessWidget {
             onPressed: () {
               context.push("/game$baseRoute");
             },
-            child: "Play".text())
+            child: "New game".text())
       ],
     );
   }

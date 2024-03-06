@@ -452,12 +452,12 @@ RoutingConfig buildCommonRoutingConfig() {
                 _lifeShellRoute,
               ],
             ),
-          StatefulShellBranch(
-            navigatorKey: $GameShellKey,
-            routes: [
-              _gameShellRoute,
-            ],
-          ),
+          // StatefulShellBranch(
+          //   navigatorKey: $GameShellKey,
+          //   routes: [
+          //     _gameShellRoute,
+          //   ],
+          // ),
           StatefulShellBranch(
             navigatorKey: $MeShellKey,
             routes: [
