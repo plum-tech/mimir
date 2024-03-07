@@ -1,3 +1,4 @@
+import 'package:fit_system_screenshot/fit_system_screenshot.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
@@ -20,14 +21,25 @@ class _ExamResultPgPageState extends State<ExamResultPgPage> {
   bool isFetching = false;
   bool isSelecting = false;
 
+  Dispose? screenShotDispose;
+  final scrollAreaKey = GlobalKey();
+  final scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
+    screenShotDispose = fitSystemScreenshot.attachToPage(
+      scrollAreaKey,
+      scrollController,
+      scrollController.jumpTo,
+    );
     refresh();
   }
 
   @override
   void dispose() {
+    screenShotDispose?.call();
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -59,6 +71,8 @@ class _ExamResultPgPageState extends State<ExamResultPgPage> {
     final resultList = this.resultList;
     return Scaffold(
       body: CustomScrollView(
+        key: scrollAreaKey,
+        controller: scrollController,
         slivers: [
           SliverAppBar.medium(
             title: i18n.title.text(),
