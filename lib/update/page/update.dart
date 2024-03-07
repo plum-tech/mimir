@@ -80,7 +80,7 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
     );
   }
 
-  Widget buildSkipTile(){
+  Widget buildSkipTile() {
     return CheckboxListTile(
       value: ignore,
       onChanged: (value) {

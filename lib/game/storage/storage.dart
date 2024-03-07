@@ -13,6 +13,4 @@ class GameStorageStore {
   final Box box;
 
   const GameStorageStore({required this.box});
-
-
 }

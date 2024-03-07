@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 /// A sheet for login auth
 class LoginSheet extends StatefulWidget {
   const LoginSheet({super.key});
@@ -12,7 +11,6 @@ class LoginSheet extends StatefulWidget {
 class _LoginSheetState extends State<LoginSheet> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-    );
+    return Scaffold();
   }
 }

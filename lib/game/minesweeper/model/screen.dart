@@ -1,13 +1,12 @@
 import 'mode.dart';
 
-class Size{
+class Size {
   Size({required this.width, required this.height});
   final double width;
   final double height;
 }
 
-class Screen{
-
+class Screen {
   final double screenWidth;
   final double screenHeight;
   final GameMode gameMode;
@@ -36,7 +35,7 @@ class Screen{
   Size getBoardSize() {
     final width = getCellWidth() * gameMode.gameCols + getBorderWidth() * 2;
     final height = getCellWidth() * gameMode.gameRows + getBorderWidth() * 2;
-    final boardSize = Size(width: width,height: height);
+    final boardSize = Size(width: width, height: height);
     return boardSize;
   }
 }

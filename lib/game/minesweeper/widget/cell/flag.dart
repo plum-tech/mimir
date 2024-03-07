@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/game/minesweeper/theme/colors.dart';
 import '../../manager/logic.dart';
 
-class CellFlag extends ConsumerWidget{
+class CellFlag extends ConsumerWidget {
   const CellFlag({super.key, required this.visible});
   final duration = Durations.medium4;
   final curve = Curves.ease;
@@ -31,8 +31,7 @@ class CellFlag extends ConsumerWidget{
               size: flagSize,
               color: flagColor,
             ),
-          )
-      ),
+          )),
     );
   }
 }

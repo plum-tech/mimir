@@ -12,7 +12,7 @@ part of 'fruit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$Fruit {
@@ -28,20 +28,13 @@ mixin _$Fruit {
 
 /// @nodoc
 abstract class $FruitCopyWith<$Res> {
-  factory $FruitCopyWith(Fruit value, $Res Function(Fruit) then) =
-      _$FruitCopyWithImpl<$Res, Fruit>;
+  factory $FruitCopyWith(Fruit value, $Res Function(Fruit) then) = _$FruitCopyWithImpl<$Res, Fruit>;
   @useResult
-  $Res call(
-      {String id,
-      Vector2 pos,
-      double radius,
-      PaletteEntry color,
-      String image});
+  $Res call({String id, Vector2 pos, double radius, PaletteEntry color, String image});
 }
 
 /// @nodoc
-class _$FruitCopyWithImpl<$Res, $Val extends Fruit>
-    implements $FruitCopyWith<$Res> {
+class _$FruitCopyWithImpl<$Res, $Val extends Fruit> implements $FruitCopyWith<$Res> {
   _$FruitCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -85,26 +78,16 @@ class _$FruitCopyWithImpl<$Res, $Val extends Fruit>
 
 /// @nodoc
 abstract class _$$FruitImplCopyWith<$Res> implements $FruitCopyWith<$Res> {
-  factory _$$FruitImplCopyWith(
-          _$FruitImpl value, $Res Function(_$FruitImpl) then) =
-      __$$FruitImplCopyWithImpl<$Res>;
+  factory _$$FruitImplCopyWith(_$FruitImpl value, $Res Function(_$FruitImpl) then) = __$$FruitImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      Vector2 pos,
-      double radius,
-      PaletteEntry color,
-      String image});
+  $Res call({String id, Vector2 pos, double radius, PaletteEntry color, String image});
 }
 
 /// @nodoc
-class __$$FruitImplCopyWithImpl<$Res>
-    extends _$FruitCopyWithImpl<$Res, _$FruitImpl>
+class __$$FruitImplCopyWithImpl<$Res> extends _$FruitCopyWithImpl<$Res, _$FruitImpl>
     implements _$$FruitImplCopyWith<$Res> {
-  __$$FruitImplCopyWithImpl(
-      _$FruitImpl _value, $Res Function(_$FruitImpl) _then)
-      : super(_value, _then);
+  __$$FruitImplCopyWithImpl(_$FruitImpl _value, $Res Function(_$FruitImpl) _then) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -143,12 +126,7 @@ class __$$FruitImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$FruitImpl extends _Fruit {
-  _$FruitImpl(
-      {required this.id,
-      required this.pos,
-      required this.radius,
-      required this.color,
-      required this.image})
+  _$FruitImpl({required this.id, required this.pos, required this.radius, required this.color, required this.image})
       : super._();
 
   @override
@@ -185,8 +163,7 @@ class _$FruitImpl extends _Fruit {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$FruitImplCopyWith<_$FruitImpl> get copyWith =>
-      __$$FruitImplCopyWithImpl<_$FruitImpl>(this, _$identity);
+  _$$FruitImplCopyWith<_$FruitImpl> get copyWith => __$$FruitImplCopyWithImpl<_$FruitImpl>(this, _$identity);
 }
 
 abstract class _Fruit extends Fruit {
@@ -210,6 +187,5 @@ abstract class _Fruit extends Fruit {
   String get image;
   @override
   @JsonKey(ignore: true)
-  _$$FruitImplCopyWith<_$FruitImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$FruitImplCopyWith<_$FruitImpl> get copyWith => throw _privateConstructorUsedError;
 }

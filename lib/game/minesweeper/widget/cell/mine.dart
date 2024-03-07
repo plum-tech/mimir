@@ -19,7 +19,6 @@ class Mine extends ConsumerWidget {
           Icons.gps_fixed,
           size: mineSize,
           color: mineColor,
-        )
-    );
+        ));
   }
 }

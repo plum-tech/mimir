@@ -266,13 +266,6 @@ class BoardManager extends StateNotifier<Board> {
     return false;
   }
 
-  //undo one round only
-  void undo() {
-    if (state.undo != null) {
-      state = state.copyWith(score: state.undo!.score, best: state.undo!.best, tiles: state.undo!.tiles);
-    }
-  }
-
   //Move the tiles using the arrow keys on the keyboard.
   bool onKey(KeyEvent event) {
     SwipeDirection? direction;

@@ -29,52 +29,22 @@ enum FruitType {
     'apple.png',
   ),
   applePear(
-    _baseFruitRadius *
-        _factor *
-        _factor *
-        _factor *
-        _factor *
-        _factor *
-        _factor,
+    _baseFruitRadius * _factor * _factor * _factor * _factor * _factor * _factor,
     BasicPalette.lightGreen,
     'apple-pear.png',
   ),
   peach(
-    _baseFruitRadius *
-        _factor *
-        _factor *
-        _factor *
-        _factor *
-        _factor *
-        _factor *
-        _factor,
+    _baseFruitRadius * _factor * _factor * _factor * _factor * _factor * _factor * _factor,
     BasicPalette.orange,
     'peach.png',
   ),
   pineapple(
-    _baseFruitRadius *
-        _factor *
-        _factor *
-        _factor *
-        _factor *
-        _factor *
-        _factor *
-        _factor *
-        _factor,
+    _baseFruitRadius * _factor * _factor * _factor * _factor * _factor * _factor * _factor * _factor,
     BasicPalette.yellow,
     'pineapple.png',
   ),
   melon(
-    _baseFruitRadius *
-        _factor *
-        _factor *
-        _factor *
-        _factor *
-        _factor *
-        _factor *
-        _factor *
-        _factor *
-        _factor,
+    _baseFruitRadius * _factor * _factor * _factor * _factor * _factor * _factor * _factor * _factor * _factor,
     BasicPalette.green,
     'melon.png',
   ),

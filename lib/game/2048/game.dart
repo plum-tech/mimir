@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
+import 'package:rettulf/rettulf.dart';
 
-import 'widget/button.dart';
 import 'widget/empty_board.dart';
 import 'widget/score_board.dart';
 import 'widget/tile_board.dart';
 import 'theme/colors.dart';
 import 'manager/board.dart';
+import 'i18n.dart';
 
 class Game2048 extends ConsumerStatefulWidget {
   const Game2048({super.key});
@@ -63,80 +64,63 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
 
   @override
   Widget build(BuildContext context) {
-    return KeyboardListener(
-      autofocus: true,
-      focusNode: FocusNode(),
-      onKeyEvent: (event) {
-        //Move the tile with the arrows on the keyboard on Desktop
-        if (ref.read(boardManager.notifier).onKey(event)) {
-          _moveController.forward(from: 0.0);
-        }
-      },
-      child: SwipeDetector(
-        onSwipe: (direction, offset) {
-          if (ref.read(boardManager.notifier).move(direction)) {
+    return Scaffold(
+      appBar: AppBar(
+        title: i18n.title.text(),
+        actions: [
+          IconButton(
+            onPressed: () {
+              ref.read(boardManager.notifier).newGame();
+            },
+            icon: const Icon(Icons.refresh),
+          )
+        ],
+      ),
+      body: KeyboardListener(
+        autofocus: true,
+        focusNode: FocusNode(),
+        onKeyEvent: (event) {
+          //Move the tile with the arrows on the keyboard on Desktop
+          if (ref.read(boardManager.notifier).onKey(event)) {
             _moveController.forward(from: 0.0);
           }
         },
-        child: Scaffold(
-          backgroundColor: backgroundColor,
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      '2048',
-                      style: TextStyle(color: textColor, fontWeight: FontWeight.bold, fontSize: 52.0),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        const ScoreBoard(),
-                        const SizedBox(
-                          height: 32.0,
-                        ),
-                        Row(
-                          children: [
-                            ButtonWidget(
-                              icon: Icons.undo,
-                              onPressed: () {
-                                //Undo the round.
-                                ref.read(boardManager.notifier).undo();
-                              },
-                            ),
-                            const SizedBox(
-                              width: 16.0,
-                            ),
-                            ButtonWidget(
-                              icon: Icons.refresh,
-                              onPressed: () {
-                                //Restart the game
-                                ref.read(boardManager.notifier).newGame();
-                              },
-                            )
-                          ],
-                        )
-                      ],
-                    )
-                  ],
+        child: SwipeDetector(
+          onSwipe: (direction, offset) {
+            if (ref.read(boardManager.notifier).move(direction)) {
+              _moveController.forward(from: 0.0);
+            }
+          },
+          child: Scaffold(
+            backgroundColor: backgroundColor,
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '2048',
+                        style: TextStyle(color: textColor, fontWeight: FontWeight.bold, fontSize: 52.0),
+                      ),
+                      ScoreBoard(),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 32.0,
-              ),
-              Stack(
-                children: [
-                  const EmptyBoardWidget(),
-                  TileBoardWidget(moveAnimation: _moveAnimation, scaleAnimation: _scaleAnimation)
-                ],
-              )
-            ],
+                const SizedBox(
+                  height: 32.0,
+                ),
+                Stack(
+                  children: [
+                    const EmptyBoardWidget(),
+                    TileBoardWidget(moveAnimation: _moveAnimation, scaleAnimation: _scaleAnimation)
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -32,7 +32,7 @@ class CellCover extends ConsumerWidget {
           ),
           borderRadius: BorderRadius.all(
             Radius.circular(
-                screen.getBoardRadius(),
+              screen.getBoardRadius(),
             ),
           ),
         ),

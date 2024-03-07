@@ -54,8 +54,7 @@ class GameState {
   ScorePresenter get _scorePresenter => GetIt.I.get<ScorePresenter>();
   NextTextPresenter get _nextTextPresenter => GetIt.I.get<NextTextPresenter>();
 
-  PredictionLinePresenter get _predictLinePresenter =>
-      GetIt.I.get<PredictionLinePresenter>();
+  PredictionLinePresenter get _predictLinePresenter => GetIt.I.get<PredictionLinePresenter>();
 
   DialogPresenter get _dialogPresenter => GetIt.I.get<DialogPresenter>();
 
@@ -271,8 +270,7 @@ class GameState {
     final dynamicFruits = fruits.where((fruit) => !fruit.isStatic);
     final minY = dynamicFruits.fold<double>(
       0,
-      (previousValue, element) =>
-          min(previousValue, element.body.position.y + center.y + 2.25),
+      (previousValue, element) => min(previousValue, element.body.position.y + center.y + 2.25),
     );
     if (minY < 0) {
       overGameOverLineCount++;

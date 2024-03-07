@@ -10,8 +10,7 @@ class PhysicsWall extends BodyComponent {
 
   @override
   Body createBody() {
-    final shape = PolygonShape()
-      ..setAsBox(wall.size.x, wall.size.y, wall.pos, 0);
+    final shape = PolygonShape()..setAsBox(wall.size.x, wall.size.y, wall.pos, 0);
     final fixtureDef = FixtureDef(shape, friction: Wall.friction);
     final bodyDef = BodyDef(userData: this);
     return world.createBody(bodyDef)..createFixture(fixtureDef);

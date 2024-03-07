@@ -23,26 +23,25 @@ class GameBoard extends ConsumerWidget {
       width: screen.getBoardSize().width,
       height: screen.getBoardSize().height,
       decoration: BoxDecoration(
-          border: Border.all(
-            color: context.colorScheme.onSurfaceVariant,
-            width: borderWidth,
-          ),
-          borderRadius: BorderRadius.all(
-              Radius.circular(boardRadius),
-          ),
+        border: Border.all(
+          color: context.colorScheme.onSurfaceVariant,
+          width: borderWidth,
+        ),
+        borderRadius: BorderRadius.all(
+          Radius.circular(boardRadius),
+        ),
       ),
       duration: Durations.extralong4,
       child: Stack(
           children: List.generate(boardRows * boardCols, (i) {
-            var col = i % boardCols;
-            var row = (i / boardCols).floor();
-            return Positioned(
-                left: col * cellWidth,
-                top: row * cellWidth,
-                child: CellWidget(row: row, col: col, refresh: refresh),
-            );
-          })
-      ),
+        var col = i % boardCols;
+        var row = (i / boardCols).floor();
+        return Positioned(
+          left: col * cellWidth,
+          top: row * cellWidth,
+          child: CellWidget(row: row, col: col, refresh: refresh),
+        );
+      })),
     );
   }
 }

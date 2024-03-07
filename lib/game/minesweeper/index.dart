@@ -11,13 +11,9 @@ class GameMinesweeperPage extends StatefulWidget {
   State<StatefulWidget> createState() => _MinesweeperPage();
 }
 
-
 class _MinesweeperPage extends State<GameMinesweeperPage> {
-
   @override
   Widget build(BuildContext context) {
-    return const ProviderScope(
-      child: GameMinesweeper()
-    );
+    return const ProviderScope(child: GameMinesweeper());
   }
 }

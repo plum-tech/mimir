@@ -10,8 +10,7 @@ class GameRepository {
   }
 
   void addCollidedFruits(CollidedFruits collidedFruits) {
-    if (collidedFruits.fruit1.userData is! PhysicsFruit ||
-        collidedFruits.fruit2.userData is! PhysicsFruit) {
+    if (collidedFruits.fruit1.userData is! PhysicsFruit || collidedFruits.fruit2.userData is! PhysicsFruit) {
       return;
     }
     final newFruit1 = collidedFruits.fruit1.userData! as PhysicsFruit;
