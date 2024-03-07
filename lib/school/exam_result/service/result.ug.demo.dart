@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/utils.dart';
 
@@ -16,85 +18,35 @@ class DemoExamResultUgService implements ExamResultUgService {
     onProgress?.call(1.0);
     final now = DateTime.now();
     final SemesterInfo(:exactYear, :semester) = estimateCurrentSemester();
-    return [
-      ExamResultUg(
-        score: 100.0,
-        courseName: "小应生活开发实训",
-        courseCode: "SIT-Life-001",
-        innerClassId: "SIT-Life-001",
+    final rand= Random();
+    return List.generate(10, (index){
+      final score = rand.nextInt(100).toDouble();
+      return ExamResultUg(
+        score: score,
+        courseName: "小应生活开发实训${rand.nextInt(10)}",
+        courseCode: "SIT-Life-${rand.nextInt(100)}",
+        innerClassId: "SIT-Life-${rand.nextInt(100)}",
         year: exactYear,
         semester: semester,
         credit: 6.0,
         classCode: "Liplum-Dev",
-        time: now.copyWith(day: now.day - 1),
+        time: now.copyWith(day: now.day - rand.nextInt(10)),
         courseCat: CourseCat.publicCore,
         examType: UgExamType.normal,
         teachers: ["Liplum"],
         items: [
-          const ExamResultItem(
+          ExamResultItem(
             scoreType: 'A',
             percentage: '50%',
-            score: 50.0,
+            score: score * 0.5,
           ),
-          const ExamResultItem(
+          ExamResultItem(
             scoreType: 'B',
             percentage: '50%',
-            score: 50.0,
+            score: score * 0.5,
           ),
         ],
-      ),
-      ExamResultUg(
-        score: 60.0,
-        courseName: "小应生活设计实训",
-        courseCode: "SIT-Life-002",
-        innerClassId: "SIT-Life-002",
-        year: exactYear,
-        semester: semester,
-        credit: 3.0,
-        classCode: "Liplum-Dev",
-        time: now.copyWith(day: now.day - 2),
-        courseCat: CourseCat.publicCore,
-        examType: UgExamType.resit,
-        teachers: ["Liplum"],
-        items: [
-          const ExamResultItem(
-            scoreType: 'A',
-            percentage: '50%',
-            score: 100.0,
-          ),
-          const ExamResultItem(
-            scoreType: 'B',
-            percentage: '50%',
-            score: 20.0,
-          ),
-        ],
-      ),
-      ExamResultUg(
-        score: 59.0,
-        courseName: "小应生活设计实训",
-        courseCode: "SIT-Life-002",
-        innerClassId: "SIT-Life-002",
-        year: exactYear,
-        semester: semester,
-        credit: 3.0,
-        classCode: "Liplum-Dev",
-        time: now.copyWith(day: now.day - 3),
-        courseCat: CourseCat.publicCore,
-        examType: UgExamType.normal,
-        teachers: ["Liplum"],
-        items: [
-          const ExamResultItem(
-            scoreType: 'A',
-            percentage: '50%',
-            score: 98.0,
-          ),
-          const ExamResultItem(
-            scoreType: 'B',
-            percentage: '50%',
-            score: 20.0,
-          ),
-        ],
-      ),
-    ];
+      );
+    });
   }
 }
