@@ -8,6 +8,7 @@ import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/game/2048/index.dart';
 import 'package:sit/game/index.dart';
 import 'package:sit/game/minesweeper/index.dart';
+import 'package:sit/game/suika/index.dart';
 import 'package:sit/index.dart';
 import 'package:sit/me/edu_email/page/login.dart';
 import 'package:sit/me/edu_email/page/outbox.dart';
@@ -406,6 +407,10 @@ final _gameRoutes = [
   GoRoute(
     path: "/game/minesweeper",
     builder: (ctx, state) => const GameMinesweeperPage(),
+  ),
+  GoRoute(
+    path: "/game/suika",
+    builder: (ctx, state) => const GameSuikaPage(),
   ),
 ];
 

@@ -60,6 +60,10 @@ class _MePageState extends State<MePage> {
                 name: i18n_minesweeper.i18n.title,
                 baseRoute: "/minesweeper",
               ),
+              GameAppCard(
+                name: "SIT Suika",
+                baseRoute: "/suika",
+              ),
             ],
           ),
         ],
