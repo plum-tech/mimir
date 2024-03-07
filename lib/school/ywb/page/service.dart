@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:fit_system_screenshot/fit_system_screenshot.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
@@ -17,9 +18,30 @@ class YwbServiceListPage extends StatefulWidget {
 }
 
 class _YwbServiceListPageState extends State<YwbServiceListPage> {
+  Dispose? screenShotDispose;
+  final scrollAreaKey = GlobalKey();
+  final scrollController = ScrollController();
+
   /// in descending order
   List<YwbService>? metaList;
   bool isLoading = false;
+
+  @override
+  void initState() {
+    screenShotDispose = fitSystemScreenshot.attachToPage(
+      scrollAreaKey,
+      scrollController,
+      scrollController.jumpTo,
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    screenShotDispose?.call();
+    scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   void didChangeDependencies() {
@@ -56,6 +78,8 @@ class _YwbServiceListPageState extends State<YwbServiceListPage> {
     final metaList = this.metaList;
     return Scaffold(
       body: CustomScrollView(
+        key: scrollAreaKey,
+        controller: scrollController,
         slivers: [
           SliverAppBar(
             floating: true,
