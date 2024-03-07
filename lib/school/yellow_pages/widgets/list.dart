@@ -25,24 +25,24 @@ class SchoolContactList extends StatefulWidget {
 
 class _SchoolContactListState extends State<SchoolContactList> {
   late Map<String, List<SchoolContact>> department2contacts;
-  Dispose? screenShotDispose;
-  final scrollAreaKey = GlobalKey();
-  final scrollController = ScrollController();
+  // Dispose? screenShotDispose;
+  // final scrollAreaKey = GlobalKey();
+  // final scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
-    screenShotDispose = fitSystemScreenshot.attachToPage(
-      scrollAreaKey,
-      scrollController,
-      scrollController.jumpTo,
-    );
+    // screenShotDispose = fitSystemScreenshot.attachToPage(
+    //   scrollAreaKey,
+    //   scrollController,
+    //   scrollController.jumpTo,
+    // );
     updateGroupedContacts();
   }
 
   @override
   void dispose() {
-    screenShotDispose?.call();
-    scrollController.dispose();
+    // screenShotDispose?.call();
+    // scrollController.dispose();
     super.dispose();
   }
 
@@ -62,8 +62,8 @@ class _SchoolContactListState extends State<SchoolContactList> {
   Widget build(BuildContext context) {
     final history = YellowPagesInit.storage.interactHistory;
     return CustomScrollView(
-      key: scrollAreaKey,
-      controller: scrollController,
+      // key: scrollAreaKey,
+      // controller: scrollController,
       slivers: department2contacts.entries
           .mapIndexed(
             (i, entry) => GroupedSection(
