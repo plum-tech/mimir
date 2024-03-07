@@ -9,12 +9,12 @@ import '../entity/result.pg.dart';
 class ExamResultPgService {
   static const _postgraduateScoresUrl = "http://gms.sit.edu.cn/epstar/app/template.jsp";
 
-  GmsSession get gmsSession => Init.gmsSession;
+  GmsSession get _gmsSession => Init.gmsSession;
 
   const ExamResultPgService();
 
   Future<List<ExamResultPgRaw>> fetchResultRawList() async {
-    final res = await gmsSession.request(
+    final res = await _gmsSession.request(
       _postgraduateScoresUrl,
       options: Options(
         method: "GET",
@@ -59,17 +59,18 @@ class ExamResultPgService {
         var examTime = tdList[9].text.trim();
         var notes = tdList[9].text.trim();
         final scoresRaw = ExamResultPgRaw(
-            courseType: courseClass,
-            courseCode: courseCode,
-            courseName: courseName,
-            credit: courseCredit,
-            teacher: teacher,
-            score: score,
-            passStatus: isPassed,
-            examType: examNature,
-            examForm: examForm,
-            examTime: examTime,
-            notes: notes);
+          courseType: courseClass,
+          courseCode: courseCode,
+          courseName: courseName,
+          credit: courseCredit,
+          teacher: teacher,
+          score: score,
+          passStatus: isPassed,
+          examType: examNature,
+          examForm: examForm,
+          examTime: examTime,
+          notes: notes,
+        );
         all.add(scoresRaw);
       }
     }

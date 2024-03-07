@@ -190,16 +190,18 @@ class _EnumEditorState<T> extends State<EnumEditor<T>> {
     return $Dialog$(
       title: widget.title,
       primary: $Action$(
-          text: _i18n.submit,
-          isDefault: true,
-          onPressed: () {
-            context.navigator.pop(widget.initial);
-          }),
+        text: _i18n.submit,
+        isDefault: true,
+        onPressed: () {
+          context.navigator.pop(current);
+        },
+      ),
       secondary: $Action$(
-          text: _i18n.cancel,
-          onPressed: () {
-            context.navigator.pop(widget.initial);
-          }),
+        text: _i18n.cancel,
+        onPressed: () {
+          context.navigator.pop(widget.initial);
+        },
+      ),
       make: (ctx) => PlatformTextButton(
         child: current.toString().text(),
         onPressed: () async {

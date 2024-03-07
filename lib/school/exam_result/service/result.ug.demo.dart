@@ -14,7 +14,6 @@ class DemoExamResultUgService implements ExamResultUgService {
     SemesterInfo info, {
     void Function(double progress)? onProgress,
   }) async {
-    // TODO: l10n
     onProgress?.call(1.0);
     final now = DateTime.now();
     final SemesterInfo(:exactYear, :semester) = estimateCurrentSemester();
