@@ -8,8 +8,6 @@ import '../widgets/list.dart';
 import '../widgets/search.dart';
 import '../i18n.dart';
 
-const _defaultRevealedDepartmentLength = 3;
-
 class YellowPagesListPage extends StatefulWidget {
   const YellowPagesListPage({super.key});
 
@@ -36,7 +34,6 @@ class _YellowPagesListPageState extends State<YellowPagesListPage> {
       ),
       body: SchoolContactList(
         R.yellowPages,
-        isInitialExpanded: (i, length) => i < _defaultRevealedDepartmentLength,
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:fit_system_screenshot/fit_system_screenshot.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/grouped.dart';
@@ -24,11 +25,25 @@ class SchoolContactList extends StatefulWidget {
 
 class _SchoolContactListState extends State<SchoolContactList> {
   late Map<String, List<SchoolContact>> department2contacts;
-
+  Dispose? screenShotDispose;
+  final scrollAreaKey = GlobalKey();
+  final scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
+    screenShotDispose = fitSystemScreenshot.attachToPage(
+      scrollAreaKey,
+      scrollController,
+      scrollController.jumpTo,
+    );
     updateGroupedContacts();
+  }
+
+  @override
+  void dispose() {
+    screenShotDispose?.call();
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -47,6 +62,8 @@ class _SchoolContactListState extends State<SchoolContactList> {
   Widget build(BuildContext context) {
     final history = YellowPagesInit.storage.interactHistory;
     return CustomScrollView(
+      key: scrollAreaKey,
+      controller: scrollController,
       slivers: department2contacts.entries
           .mapIndexed(
             (i, entry) => GroupedSection(

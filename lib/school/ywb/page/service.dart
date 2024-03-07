@@ -28,12 +28,12 @@ class _YwbServiceListPageState extends State<YwbServiceListPage> {
 
   @override
   void initState() {
+    super.initState();
     screenShotDispose = fitSystemScreenshot.attachToPage(
       scrollAreaKey,
       scrollController,
       scrollController.jumpTo,
     );
-    super.initState();
   }
 
   @override
