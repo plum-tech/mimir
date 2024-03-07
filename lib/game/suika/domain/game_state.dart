@@ -242,6 +242,10 @@ class GameState {
     );
   }
 
+  void onDropFruit(){
+
+  }
+
   void reset() {
     _worldPresenter.clear();
     _gameRepository.clearCollidedFruits();
