@@ -39,6 +39,9 @@ dependencies:
   freezed_annotation: ^2.4.1
   get_it: ^7.6.7
 
+  # Supporting scrolling screenshot on Android, like MIUI
+  fit_system_screenshot: ^1.0.9
+
   # String formatting
   format: ^1.5.1
 

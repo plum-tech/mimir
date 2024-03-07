@@ -585,6 +585,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.3+1"
+  fit_system_screenshot:
+    dependency: "direct main"
+    description:
+      name: fit_system_screenshot
+      sha256: daba13af5f61bd18681baab6216aeb0fa70706d584a07d50002059e69406a307
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.9"
   fixnum:
     dependency: transitive
     description:
