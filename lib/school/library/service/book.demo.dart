@@ -15,7 +15,7 @@ class DemoBookSearchService implements BookSearchService {
     SortOrder sortOrder = SortOrder.desc,
   }) async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    return BookSearchResult(
+    return const BookSearchResult(
       resultCount: 2,
       useTime: 1000,
       currentPage: 1,
