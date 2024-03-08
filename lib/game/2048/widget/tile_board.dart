@@ -1,6 +1,8 @@
 import 'dart:math';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rettulf/rettulf.dart';
 import 'package:sit/game/2048/widget/tile.dart';
 
 import '../theme/colors.dart';
@@ -46,17 +48,15 @@ class TileBoardWidget extends ConsumerWidget {
                 //as the tile won't change for the duration of the movement (apart from it's position)
                 child: BoardTile(
                   size: tileSize,
-                  color: tileColors[tile.value],
-                  child: Center(
-                    child: Text(
-                      '${tile.value}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 32.0,
-                        color: tile.value < 8 ? textColor : textColorWhite,
-                      ),
+                  color: tileColors[tile.value] ?? defaultTileColor,
+                  child: AutoSizeText('${tile.value}',
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: context.textTheme.headlineLarge?.fontSize,
+                      color: tile.value < 8 ? textColor : textColorWhite,
                     ),
-                  ),
+                  ).center().padH(4),
                 ),
               );
             },

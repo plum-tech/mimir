@@ -126,7 +126,7 @@ class BoardManager extends StateNotifier<Board> {
     }
 
     // Assign immutable copy of the new board state and trigger rebuild.
-    state = state.copyWith(tiles: tiles, undo: state);
+    state = state.copyWith(tiles: tiles);
     return true;
   }
 

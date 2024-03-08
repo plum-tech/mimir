@@ -8,6 +8,7 @@ const emptyTileColor = Color(0xffcdc1b4);
 const buttonColor = Color(0xff8f7a66);
 const scoreColor = Color(0xffbbada0);
 const overlayColor = Color.fromRGBO(238, 228, 218, 0.73);
+const defaultTileColor = Color(0xff121212);
 
 const tileColors = {
   2: Color(0xffeee4da),

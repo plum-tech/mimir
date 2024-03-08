@@ -30,7 +30,7 @@ class Board {
         won = false;
 
   //Create an immutable copy of the board
-  Board copyWith({int? score, int? best, List<Tile>? tiles, bool? over, bool? won, Board? undo}) =>
+  Board copyWith({int? score, int? best, List<Tile>? tiles, bool? over, bool? won}) =>
       Board(score ?? this.score, best ?? this.best, tiles ?? this.tiles, over: over ?? this.over, won: won ?? this.won);
 
   //Create a Board from json data
