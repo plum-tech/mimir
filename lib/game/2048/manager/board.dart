@@ -34,7 +34,7 @@ class BoardManager extends StateNotifier<Board> {
 
   // Create New Game state.
   Board _newGame() {
-    return Board.newGame(state.best + state.score, [random([])]);
+    return Board.newGame(max(state.best, state.score), [random([])]);
   }
 
   // Start New Game
@@ -178,7 +178,7 @@ class BoardManager extends StateNotifier<Board> {
     if (tilesMoved && indexes.length < 16) {
       tiles.add(random(indexes));
     }
-    state = state.copyWith(score: score, tiles: tiles);
+    state = state.copyWith(score: score, tiles: tiles, best: max(state.best, score));
   }
 
   //Finish round, win or loose the game.
