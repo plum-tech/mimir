@@ -106,7 +106,7 @@ class OaAnnounceRecord {
     return {
       "title": title,
       "uuid": uuid,
-      "bulletinCatalogueId": catalogId,
+      "catalogId": catalogId,
       "dateTime": dateTime,
       "departments": departments,
     }.toString();

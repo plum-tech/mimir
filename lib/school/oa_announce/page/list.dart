@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
@@ -193,7 +195,7 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
       await OaAnnounceInit.storage.setAnnouncements(cat, announcements);
       if (!mounted) return;
       setState(() {
-        lastPage++;
+        lastPage = max(lastPage + 1, lastPayload.totalPage);
         this.announcements = announcements;
         isFetching = false;
       });
