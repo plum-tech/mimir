@@ -8,7 +8,7 @@ import '../api.dart';
 import '../entity/search.dart';
 
 class LibraryTrendsService {
-  LibrarySession get session => Init.librarySession;
+  LibrarySession get _session => Init.librarySession;
 
   const LibraryTrendsService();
 
@@ -24,7 +24,7 @@ class LibraryTrendsService {
   }
 
   Future<LibraryTrends> getTrends() async {
-    final response = await session.request(
+    final response = await _session.request(
       LibraryApi.hotSearchUrl,
       options: Options(
         method: "GET",

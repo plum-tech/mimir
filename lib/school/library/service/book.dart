@@ -9,7 +9,7 @@ import '../api.dart';
 import '../entity/search.dart';
 
 class BookSearchService {
-  LibrarySession get session => Init.librarySession;
+  LibrarySession get _session => Init.librarySession;
 
   const BookSearchService();
 
@@ -21,7 +21,7 @@ class BookSearchService {
     SortMethod sortMethod = SortMethod.matchScore,
     SortOrder sortOrder = SortOrder.desc,
   }) async {
-    final response = await session.request(
+    final response = await _session.request(
       LibraryApi.searchUrl,
       para: {
         'q': keyword,
