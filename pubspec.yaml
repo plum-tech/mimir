@@ -11,7 +11,7 @@ issue_tracker: https://github.com/liplum/mimir/issues
 documentation: https://github.com/liplum/mimir#readme
 
 publish_to: none
-environment: { sdk: '>=3.3.0 <4.0.0', flutter: ^3.19.2 }
+environment: { sdk: '>=3.3.0 <4.0.0', flutter: ^3.19.3 }
 
 dependencies:
   flutter: { sdk: flutter }
@@ -116,7 +116,7 @@ dependencies:
   modal_bottom_sheet: ^3.0.0-pre
   auto_size_text: ^3.0.0
   text_scroll: ^0.2.0
-  markdown: ^7.2.1
+  markdown: ^7.2.2
   markdown_widget: ^2.3.2+6
   animations: ^2.0.11
   dynamic_color: ^1.7.0
