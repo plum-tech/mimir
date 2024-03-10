@@ -111,7 +111,7 @@ dependencies:
   flutter_adaptive_ui: ^0.8.0+1
   # Qr code generate
   qr_flutter: ^4.1.0
-  pretty_qr_code: ^3.2.1
+  pretty_qr_code: ^3.3.0
   cached_network_image: ^3.3.1
   modal_bottom_sheet: ^3.0.0-pre
   auto_size_text: ^3.0.0
