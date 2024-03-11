@@ -49,7 +49,8 @@ class TileBoardWidget extends ConsumerWidget {
                 child: BoardTile(
                   size: tileSize,
                   color: tileColors[tile.value] ?? defaultTileColor,
-                  child: AutoSizeText('${tile.value}',
+                  child: AutoSizeText(
+                    '${tile.value}',
                     maxLines: 1,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
