@@ -350,8 +350,8 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
 
   Widget buildProxyAuthTile() {
     final userInfoParts = uri.userInfo.split(":");
-    final auth = userInfoParts.length == 2 ? (username: userInfoParts[0], pwd: userInfoParts[1]) : null;
-    final text = auth != null ? "${auth.username}:${auth.pwd}" : null;
+    final auth = userInfoParts.length == 2 ? (username: userInfoParts[0], password: userInfoParts[1]) : null;
+    final text = auth != null ? "${auth.username}:${auth.password}" : null;
     return ListTile(
       leading: const Icon(Icons.key),
       title: i18n.proxy.authentication.text(),
@@ -374,10 +374,10 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
               builder: (_) => StringsEditor(
                 fields: [
                   (name: "username", initial: auth?.username ?? ""),
-                  (name: "password", initial: auth?.pwd ?? ""),
+                  (name: "password", initial: auth?.password ?? ""),
                 ],
                 title: i18n.proxy.authentication,
-                ctor: (values) => (username: values[0].trim(), pwd: values[1].trim()),
+                ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
               ),
             );
             if (newAuth != null && newAuth != auth) {
