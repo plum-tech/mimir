@@ -274,7 +274,7 @@ jobs:
           branch: ${{ github.ref }}
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         env:
             RESOLVED_VERSION: ${{ steps.get_git_info.outputs.RESOLVED_VERSION }}
             PREVIOUS_TAG: ${{ steps.get_git_info.outputs.PREVIOUS_TAG }}
