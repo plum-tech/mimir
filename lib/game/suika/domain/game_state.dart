@@ -2,9 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
-import 'package:flame/extensions.dart';
-import 'package:flame/game.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import '../model/fruit.dart';
 import '../model/physics_fruit.dart';
@@ -21,6 +18,8 @@ import '../rule/score_calculator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:uuid/uuid.dart';
 
+import '../ui/main_game.dart';
+
 typedef ScreenCoordinateFunction = Vector2 Function(Vector2);
 typedef ComponentFunction = FutureOr<void> Function(Component);
 
@@ -36,9 +35,6 @@ class GameState {
   final ScreenCoordinateFunction screenToWorld;
   final ComponentFunction add;
   final CameraComponent camera;
-
-  final screenSize = Vector2(15, 20);
-  final center = Vector2(0, 7);
 
   /// where to drop fruit
   double? draggingPosition;
@@ -64,6 +60,7 @@ class GameState {
   DialogPresenter get _dialogPresenter => GetIt.I.get<DialogPresenter>();
 
   void onLoad() {
+    // Add wall
     _worldPresenter
       ..add(
         PhysicsWall(
@@ -109,7 +106,7 @@ class GameState {
       isStatic: true,
     );
     _worldPresenter.add(draggingFruit!);
-    final newNextFruit = getNextFruit();
+    final newNextFruit = _getNextFruit();
     nextFruit = PhysicsFruit(
       fruit: newNextFruit.copyWith(
         pos: Vector2(
@@ -249,7 +246,7 @@ class GameState {
     _worldPresenter
       ..remove(nextFruit!)
       ..add(draggingFruit!);
-    final newNextFruit = getNextFruit();
+    final newNextFruit = _getNextFruit();
     nextFruit = PhysicsFruit(
       fruit: newNextFruit.copyWith(
         pos: Vector2(
@@ -309,10 +306,6 @@ class GameState {
         );
   }
 
-  void clearCollidedFruits() {
-    GetIt.I.get<GameRepository>().clearCollidedFruits();
-  }
-
   Fruit? _getNextSizeFruit({
     required PhysicsFruit fruit1,
     required PhysicsFruit fruit2,
@@ -327,7 +320,7 @@ class GameState {
     );
   }
 
-  Fruit getNextFruit() {
+  Fruit _getNextFruit() {
     final id = const Uuid().v4();
     final pos = Vector2(0, 0);
     final candidates = [

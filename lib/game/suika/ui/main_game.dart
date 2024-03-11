@@ -30,14 +30,15 @@ class NextTextComponent extends TextComponent with HasGameRef<SuikaGame> {
   }
 }
 
+final screenSize = Vector2(18, 28);
+final center = Vector2(0, 9);
+
 class SuikaGame extends Forge2DGame with TapCallbacks, MultiTouchDragDetector {
   SuikaGame() : super(gravity: Vector2(0, 69.8)) {
     assets = AssetsCache(prefix: "assets/game/suika/");
     images = Images(prefix: "assets/game/suika/");
   }
 
-  final screenSize = Vector2(15, 20);
-  final center = Vector2(0, 7);
 
   @override
   Color backgroundColor() {
