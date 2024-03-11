@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/services.dart';
 import '../model/fruit.dart';
 import '../model/physics_fruit.dart';
 import '../model/physics_wall.dart';
@@ -138,11 +139,9 @@ class GameState {
     _handleCollision();
   }
 
-  void _handleCollision(){
+  void _handleCollision() {
     final collidedFruits = _gameRepository.getCollidedFruits();
-    if (collidedFruits.isEmpty) {
-      return;
-    }
+    if (collidedFruits.isEmpty) return;
 
     for (final collideFruit in collidedFruits) {
       final fruit1 = collideFruit.fruit1.userData! as PhysicsFruit;
@@ -166,6 +165,7 @@ class GameState {
             fruit: newFruit,
           ),
         );
+        HapticFeedback.lightImpact();
       }
     }
     _gameRepository.clearCollidedFruits();

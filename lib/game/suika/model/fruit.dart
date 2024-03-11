@@ -229,7 +229,7 @@ class Fruit with _$Fruit {
     );
   }
 
-  static const double friction = 0.4;
-  static const double density = 0.5;
-  static const double restitution = 0.3;
+  static const double friction = 0.5;
+  static const double density = 5;
+  static const double restitution = 0.1;
 }
