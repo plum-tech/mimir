@@ -97,11 +97,11 @@ class GameState {
     final rect = camera.visibleWorldRect;
     draggingPosition = (rect.left + rect.right) / 2;
     draggingFruit = PhysicsFruit(
-      fruit: Fruit.cherry(
+      fruit: Fruit.$1(
         id: const Uuid().v4(),
         pos: Vector2(
           draggingPosition!,
-          -screenSize.y + center.y - FruitType.cherry.radius,
+          -screenSize.y + center.y - FruitType.$1.radius,
         ),
       ),
       isStatic: true,
@@ -324,11 +324,11 @@ class GameState {
     final id = const Uuid().v4();
     final pos = Vector2(0, 0);
     final candidates = [
-      FruitType.cherry,
-      FruitType.strawberry,
-      FruitType.grape,
-      FruitType.orange,
-      FruitType.kaki,
+      FruitType.$1,
+      FruitType.$2,
+      FruitType.$3,
+      FruitType.$4,
+      FruitType.$5,
     ];
     final random = Random();
     candidates.shuffle(random);

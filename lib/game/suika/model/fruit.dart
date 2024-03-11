@@ -10,45 +10,45 @@ const _baseFruitRadius = 1.5;
 const _factor = 1.15;
 
 enum FruitType {
-  cherry(_baseFruitRadius, BasicPalette.red, 'cherry.png'),
-  strawberry(_baseFruitRadius * _factor, BasicPalette.pink, 'strawberry.png'),
-  grape(_baseFruitRadius * _factor * _factor, BasicPalette.purple, 'grape.png'),
-  orange(
+  $1(_baseFruitRadius, BasicPalette.red, 'fruit-1.png'),
+  $2(_baseFruitRadius * _factor, BasicPalette.pink, 'fruit-2.png'),
+  $3(_baseFruitRadius * _factor * _factor, BasicPalette.purple, 'fruit-3.png'),
+  $4(
     _baseFruitRadius * _factor * _factor * _factor,
     BasicPalette.orange,
-    'orange.png',
+    'fruit-4.png',
   ),
-  kaki(
+  $5(
     _baseFruitRadius * _factor * _factor * _factor * _factor,
     BasicPalette.lightOrange,
-    'kaki.png',
+    'fruit-5.png',
   ),
-  apple(
+  $6(
     _baseFruitRadius * _factor * _factor * _factor * _factor * _factor,
     BasicPalette.red,
-    'apple.png',
+    'fruit-6.png',
   ),
-  applePear(
+  $7(
     _baseFruitRadius * _factor * _factor * _factor * _factor * _factor * _factor,
     BasicPalette.lightGreen,
-    'apple-pear.png',
+    'fruit-7.png',
   ),
-  peach(
+  $8(
     _baseFruitRadius * _factor * _factor * _factor * _factor * _factor * _factor * _factor,
     BasicPalette.orange,
-    'peach.png',
+    'fruit-8.png',
   ),
-  pineapple(
+  $9(
     _baseFruitRadius * _factor * _factor * _factor * _factor * _factor * _factor * _factor * _factor,
     BasicPalette.yellow,
-    'pineapple.png',
+    'fruit-9.png',
   ),
-  melon(
+  $10(
     _baseFruitRadius * _factor * _factor * _factor * _factor * _factor * _factor * _factor * _factor * _factor,
     BasicPalette.green,
-    'melon.png',
+    'fruit-10.png',
   ),
-  watermelon(
+  $11(
     _baseFruitRadius *
         _factor *
         _factor *
@@ -61,7 +61,7 @@ enum FruitType {
         _factor *
         _factor,
     BasicPalette.darkGreen,
-    'watermelon.png',
+    'fruit-11.png',
   );
 
   const FruitType(
@@ -77,6 +77,10 @@ enum FruitType {
 
 @freezed
 class Fruit with _$Fruit {
+  static const double friction = 0.5;
+  static const double density = 5;
+  static const double restitution = 0.1;
+
   factory Fruit({
     required String id,
     required Vector2 pos,
@@ -86,150 +90,146 @@ class Fruit with _$Fruit {
   }) = _Fruit;
   Fruit._();
 
-  factory Fruit.cherry({
+  factory Fruit.$1({
     required String id,
     required Vector2 pos,
   }) {
     return Fruit(
       id: id,
       pos: pos,
-      radius: FruitType.cherry.radius,
-      color: FruitType.cherry.color,
-      image: FruitType.cherry.image,
+      radius: FruitType.$1.radius,
+      color: FruitType.$1.color,
+      image: FruitType.$1.image,
     );
   }
 
-  factory Fruit.strawberry({
+  factory Fruit.$2({
     required String id,
     required Vector2 pos,
   }) {
     return Fruit(
       id: id,
       pos: pos,
-      radius: FruitType.strawberry.radius,
-      color: FruitType.strawberry.color,
-      image: FruitType.strawberry.image,
+      radius: FruitType.$2.radius,
+      color: FruitType.$2.color,
+      image: FruitType.$2.image,
     );
   }
 
-  factory Fruit.grape({
+  factory Fruit.$3({
     required String id,
     required Vector2 pos,
   }) {
     return Fruit(
       id: id,
       pos: pos,
-      radius: FruitType.grape.radius,
-      color: FruitType.grape.color,
-      image: FruitType.grape.image,
+      radius: FruitType.$3.radius,
+      color: FruitType.$3.color,
+      image: FruitType.$3.image,
     );
   }
 
-  factory Fruit.orange({
+  factory Fruit.$4({
     required String id,
     required Vector2 pos,
   }) {
     return Fruit(
       id: id,
       pos: pos,
-      radius: FruitType.orange.radius,
-      color: FruitType.orange.color,
-      image: FruitType.orange.image,
+      radius: FruitType.$4.radius,
+      color: FruitType.$4.color,
+      image: FruitType.$4.image,
     );
   }
 
-  factory Fruit.kaki({
+  factory Fruit.$5({
     required String id,
     required Vector2 pos,
   }) {
     return Fruit(
       id: id,
       pos: pos,
-      radius: FruitType.kaki.radius,
-      color: FruitType.kaki.color,
-      image: FruitType.kaki.image,
+      radius: FruitType.$5.radius,
+      color: FruitType.$5.color,
+      image: FruitType.$5.image,
     );
   }
 
-  factory Fruit.apple({
+  factory Fruit.$6({
     required String id,
     required Vector2 pos,
   }) {
     return Fruit(
       id: id,
       pos: pos,
-      radius: FruitType.apple.radius,
-      color: FruitType.apple.color,
-      image: FruitType.apple.image,
+      radius: FruitType.$6.radius,
+      color: FruitType.$6.color,
+      image: FruitType.$6.image,
     );
   }
 
-  factory Fruit.applePear({
+  factory Fruit.$7({
     required String id,
     required Vector2 pos,
   }) {
     return Fruit(
       id: id,
       pos: pos,
-      radius: FruitType.applePear.radius,
-      color: FruitType.applePear.color,
-      image: FruitType.applePear.image,
+      radius: FruitType.$7.radius,
+      color: FruitType.$7.color,
+      image: FruitType.$7.image,
     );
   }
 
-  factory Fruit.peach({
+  factory Fruit.$8({
     required String id,
     required Vector2 pos,
   }) {
     return Fruit(
       id: id,
       pos: pos,
-      radius: FruitType.peach.radius,
-      color: FruitType.peach.color,
-      image: FruitType.peach.image,
+      radius: FruitType.$8.radius,
+      color: FruitType.$8.color,
+      image: FruitType.$8.image,
     );
   }
 
-  factory Fruit.pineapple({
+  factory Fruit.$9({
     required String id,
     required Vector2 pos,
   }) {
     return Fruit(
       id: id,
       pos: pos,
-      radius: FruitType.pineapple.radius,
-      color: FruitType.pineapple.color,
-      image: FruitType.pineapple.image,
+      radius: FruitType.$9.radius,
+      color: FruitType.$9.color,
+      image: FruitType.$9.image,
     );
   }
 
-  factory Fruit.melon({
+  factory Fruit.$10({
     required String id,
     required Vector2 pos,
   }) {
     return Fruit(
       id: id,
       pos: pos,
-      radius: FruitType.melon.radius,
-      color: FruitType.melon.color,
-      image: FruitType.melon.image,
+      radius: FruitType.$10.radius,
+      color: FruitType.$10.color,
+      image: FruitType.$10.image,
     );
   }
 
-  factory Fruit.watermelon({
+  factory Fruit.$11({
     required String id,
     required Vector2 pos,
   }) {
     return Fruit(
       id: id,
       pos: pos,
-      radius: FruitType.watermelon.radius,
-      color: FruitType.watermelon.color,
-      image: FruitType.watermelon.image,
+      radius: FruitType.$11.radius,
+      color: FruitType.$11.color,
+      image: FruitType.$11.image,
     );
   }
-
-  static const double friction = 0.5;
-  static const double density = 5;
-  static const double restitution = 0.1;
 }
