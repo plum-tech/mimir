@@ -75,7 +75,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
           return ListTile(
             leading: icon,
             title: type.l10n().text(),
-            subtitle: profile.enabled ? profile.address?.text() : null,
+            subtitle: profile.address?.text(),
             trailing: const Icon(Icons.open_in_new),
             onTap: () async {
               final profile =
