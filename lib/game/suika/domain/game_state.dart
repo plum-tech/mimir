@@ -5,8 +5,8 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/services.dart';
 import '../model/fruit.dart';
-import '../model/physics_fruit.dart';
-import '../model/physics_wall.dart';
+import '../entity/fruit.dart';
+import '../entity/wall.dart';
 import '../model/wall.dart';
 import '../presenter/dialog_presenter.dart';
 import '../presenter/next_text_presenter.dart';
@@ -39,8 +39,8 @@ class GameState {
 
   /// where to drop fruit
   double? draggingPosition;
-  PhysicsFruit? draggingFruit;
-  PhysicsFruit? nextFruit;
+  FruitEntity? draggingFruit;
+  FruitEntity? nextFruit;
 
   bool isDragEnd = false;
 
@@ -64,7 +64,7 @@ class GameState {
     // Add wall
     _worldPresenter
       ..add(
-        PhysicsWall(
+        WallEntity(
           wall: Wall(
             pos: center + Vector2(screenSize.x, 0),
             size: Vector2(1, screenSize.y),
@@ -72,7 +72,7 @@ class GameState {
         ),
       )
       ..add(
-        PhysicsWall(
+        WallEntity(
           wall: Wall(
             pos: center - Vector2(screenSize.x, 0),
             size: Vector2(1, screenSize.y),
@@ -80,7 +80,7 @@ class GameState {
         ),
       )
       ..add(
-        PhysicsWall(
+        WallEntity(
           wall: Wall(
             pos: center + Vector2(0, screenSize.y),
             size: Vector2(screenSize.x + 1, 1),
@@ -96,7 +96,7 @@ class GameState {
 
     final rect = camera.visibleWorldRect;
     draggingPosition = (rect.left + rect.right) / 2;
-    draggingFruit = PhysicsFruit(
+    draggingFruit = FruitEntity(
       fruit: Fruit.$1(
         id: const Uuid().v4(),
         pos: Vector2(
@@ -108,7 +108,7 @@ class GameState {
     );
     _worldPresenter.add(draggingFruit!);
     final newNextFruit = _getNextFruit();
-    nextFruit = PhysicsFruit(
+    nextFruit = FruitEntity(
       fruit: newNextFruit.copyWith(
         pos: Vector2(
           screenSize.x - 2,
@@ -144,8 +144,8 @@ class GameState {
     if (collidedFruits.isEmpty) return;
 
     for (final collideFruit in collidedFruits) {
-      final fruit1 = collideFruit.fruit1.userData! as PhysicsFruit;
-      final fruit2 = collideFruit.fruit2.userData! as PhysicsFruit;
+      final fruit1 = collideFruit.fruit1.userData! as FruitEntity;
+      final fruit2 = collideFruit.fruit2.userData! as FruitEntity;
       final newFruit = _getNextSizeFruit(
         fruit1: fruit1,
         fruit2: fruit2,
@@ -161,7 +161,7 @@ class GameState {
         ..remove(fruit2);
       if (newFruit != null) {
         _worldPresenter.add(
-          PhysicsFruit(
+          FruitEntity(
             fruit: newFruit,
           ),
         );
@@ -225,7 +225,7 @@ class GameState {
       ),
     );
     _worldPresenter.add(
-      PhysicsFruit(
+      FruitEntity(
         fruit: newFruit,
       ),
     );
@@ -234,7 +234,7 @@ class GameState {
 
   void _createDraggingFruit() {
     final draggingPositionX = _adjustDraggingPositionX(draggingPosition!);
-    draggingFruit = PhysicsFruit(
+    draggingFruit = FruitEntity(
       fruit: nextFruit!.fruit.copyWith(
         pos: Vector2(
           draggingPositionX,
@@ -247,7 +247,7 @@ class GameState {
       ..remove(nextFruit!)
       ..add(draggingFruit!);
     final newNextFruit = _getNextFruit();
-    nextFruit = PhysicsFruit(
+    nextFruit = FruitEntity(
       fruit: newNextFruit.copyWith(
         pos: Vector2(
           screenSize.x - 2,
@@ -284,7 +284,7 @@ class GameState {
 
   void _countOverGameOverLine() {
     final components = _worldPresenter.getComponents();
-    final fruits = components.whereType<PhysicsFruit>();
+    final fruits = components.whereType<FruitEntity>();
     final dynamicFruits = fruits.where((fruit) => !fruit.isStatic);
     final minY = dynamicFruits.fold<double>(
       0,
@@ -307,8 +307,8 @@ class GameState {
   }
 
   Fruit? _getNextSizeFruit({
-    required PhysicsFruit fruit1,
-    required PhysicsFruit fruit2,
+    required FruitEntity fruit1,
+    required FruitEntity fruit2,
   }) {
     return getNextSizeFruit(
       fruit1: fruit1.fruit.copyWith(

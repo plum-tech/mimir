@@ -1,5 +1,5 @@
 import 'package:flame/game.dart';
-import '../model/score.dart';
+import '../entity/score.dart';
 
 class ScorePresenter {
   ScorePresenter(this._scoreComponent);

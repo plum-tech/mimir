@@ -4,10 +4,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'fruit.freezed.dart';
 
-// const _baseFruitRadius = 1.2;
-// const _factor = 1.215;
-const _baseFruitRadius = 1.5;
-const _factor = 1.15;
+const _baseFruitRadius = 1.55;
+const _factor = 1.25;
 
 enum FruitType {
   $1(_baseFruitRadius, BasicPalette.red, 'fruit-1.png'),

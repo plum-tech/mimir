@@ -1,6 +1,6 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/foundation.dart';
-import '../model/physics_fruit.dart';
+import '../entity/fruit.dart';
 
 class GameRepository {
   final List<CollidedFruits> _collidedFruits = [];
@@ -10,14 +10,14 @@ class GameRepository {
   }
 
   void addCollidedFruits(CollidedFruits collidedFruits) {
-    if (collidedFruits.fruit1.userData is! PhysicsFruit || collidedFruits.fruit2.userData is! PhysicsFruit) {
+    if (collidedFruits.fruit1.userData is! FruitEntity || collidedFruits.fruit2.userData is! FruitEntity) {
       return;
     }
-    final newFruit1 = collidedFruits.fruit1.userData! as PhysicsFruit;
-    final newFruit2 = collidedFruits.fruit2.userData! as PhysicsFruit;
+    final newFruit1 = collidedFruits.fruit1.userData! as FruitEntity;
+    final newFruit2 = collidedFruits.fruit2.userData! as FruitEntity;
     if (_collidedFruits.any((element) {
-      final fruit1 = element.fruit1.userData! as PhysicsFruit;
-      final fruit2 = element.fruit2.userData! as PhysicsFruit;
+      final fruit1 = element.fruit1.userData! as FruitEntity;
+      final fruit2 = element.fruit2.userData! as FruitEntity;
       return fruit1.fruit.id == newFruit1.fruit.id ||
           fruit1.fruit.id == newFruit2.fruit.id ||
           fruit2.fruit.id == newFruit1.fruit.id ||

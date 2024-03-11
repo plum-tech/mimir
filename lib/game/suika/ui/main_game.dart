@@ -7,10 +7,10 @@ import 'package:flame/extensions.dart';
 import 'package:flame/palette.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import '../domain/game_state.dart';
-import '../model/game_over_line.dart';
-import '../model/physics_fruit.dart';
-import '../model/prediction_line.dart';
-import '../model/score.dart';
+import '../entity/game_over_line.dart';
+import '../entity/fruit.dart';
+import '../entity/prediction_line.dart';
+import '../entity/score.dart';
 import '../presenter/dialog_presenter.dart';
 import '../presenter/game_over_panel_presenter.dart';
 import '../presenter/next_text_presenter.dart';
@@ -34,7 +34,7 @@ final screenSize = Vector2(18, 28);
 final center = Vector2(0, 9);
 
 class SuikaGame extends Forge2DGame with TapCallbacks, MultiTouchDragDetector {
-  SuikaGame() : super(gravity: Vector2(0, 69.8)) {
+  SuikaGame() : super(gravity: Vector2(0, 100.0)) {
     assets = AssetsCache(prefix: "assets/game/suika/");
     images = Images(prefix: "assets/game/suika/");
   }
@@ -136,7 +136,7 @@ class FruitsContactListener extends ContactListener {
     final userDataA = bodyA.userData;
     final userDataB = bodyB.userData;
 
-    if (userDataA is PhysicsFruit && userDataB is PhysicsFruit) {
+    if (userDataA is FruitEntity && userDataB is FruitEntity) {
       if (userDataA.isStatic || userDataB.isStatic) {
         return;
       }

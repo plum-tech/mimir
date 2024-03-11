@@ -1,5 +1,5 @@
 import 'package:flame/game.dart';
-import '../model/prediction_line.dart';
+import '../entity/prediction_line.dart';
 
 class PredictionLinePresenter {
   PredictionLinePresenter(this._predictionLineComponent);

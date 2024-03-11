@@ -6,8 +6,8 @@ import 'package:flame/palette.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import '../model/fruit.dart';
 
-class PhysicsFruit extends BodyComponent {
-  PhysicsFruit({
+class FruitEntity extends BodyComponent {
+  FruitEntity({
     required this.fruit,
     this.isStatic = false,
     this.overrideRadius,
@@ -27,7 +27,7 @@ class PhysicsFruit extends BodyComponent {
     final sprite = await Sprite.load(fruit.image, images: game.images);
     _spriteComponent = SpriteComponent(
       sprite: sprite,
-      size: Vector2.all((overrideRadius ?? fruit.radius) * 2),
+      size: Vector2.all((overrideRadius ?? fruit.radius) * 2.05),
       anchor: Anchor.center,
     );
     add(_spriteComponent);
