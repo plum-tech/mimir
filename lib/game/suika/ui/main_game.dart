@@ -39,7 +39,6 @@ class SuikaGame extends Forge2DGame with TapCallbacks, MultiTouchDragDetector {
     images = Images(prefix: "assets/game/suika/");
   }
 
-
   @override
   Color backgroundColor() {
     return const PaletteEntry(Color(0xFFE4CE9D)).color;

@@ -6,8 +6,8 @@ part 'fruit.freezed.dart';
 
 // const _baseFruitRadius = 1.2;
 // const _factor = 1.215;
-const _baseFruitRadius = 1.0;
-const _factor = 1.25;
+const _baseFruitRadius = 1.5;
+const _factor = 1.15;
 
 enum FruitType {
   cherry(_baseFruitRadius, BasicPalette.red, 'cherry.png'),

@@ -57,10 +57,10 @@ class PhysicsFruit extends BodyComponent {
   void renderCircle(Canvas canvas, Offset center, double radius) {
     super.renderCircle(canvas, center, radius);
 
-    canvas.drawLine(
-      center,
-      center + Offset(0, radius),
-      BasicPalette.black.paint(),
-    );
+    // canvas.drawLine(
+    //   center,
+    //   center + Offset(0, radius),
+    //   BasicPalette.black.paint(),
+    // );
   }
 }
