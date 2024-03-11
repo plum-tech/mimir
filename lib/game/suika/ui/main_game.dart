@@ -110,7 +110,7 @@ class SuikaGame extends Forge2DGame with TapCallbacks, MultiTouchDragDetector {
   @override
   void onDragUpdate(int pointerId, DragUpdateInfo info) {
     super.onDragUpdate(pointerId, info);
-    _gameState.onDragUpdate(pointerId, info);
+    _gameState.onDragUpdate(pointerId, info.eventPosition.global);
   }
 
   @override
@@ -122,7 +122,7 @@ class SuikaGame extends Forge2DGame with TapCallbacks, MultiTouchDragDetector {
   @override
   void onTapUp(TapUpEvent event) {
     super.onTapUp(event);
-    // _gameState.onDropFruit(event.localPosition);
+    _gameState.onTap(event.localPosition.x);
   }
 }
 

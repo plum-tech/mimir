@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame/extensions.dart';
+import 'package:flame/game.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import '../model/fruit.dart';
 import '../model/physics_fruit.dart';
@@ -38,7 +40,8 @@ class GameState {
   final screenSize = Vector2(15, 20);
   final center = Vector2(0, 7);
 
-  Vector2? draggingPosition;
+  /// where to drop fruit
+  double? draggingPosition;
   PhysicsFruit? draggingFruit;
   PhysicsFruit? nextFruit;
 
@@ -49,9 +52,11 @@ class GameState {
   bool isGameOver = false;
 
   GameRepository get _gameRepository => GetIt.I.get<GameRepository>();
+
   WorldPresenter get _worldPresenter => GetIt.I.get<WorldPresenter>();
 
   ScorePresenter get _scorePresenter => GetIt.I.get<ScorePresenter>();
+
   NextTextPresenter get _nextTextPresenter => GetIt.I.get<NextTextPresenter>();
 
   PredictionLinePresenter get _predictLinePresenter => GetIt.I.get<PredictionLinePresenter>();
@@ -92,12 +97,12 @@ class GameState {
     );
 
     final rect = camera.visibleWorldRect;
-    draggingPosition = Vector2((rect.left + rect.right) / 2, rect.top);
+    draggingPosition = (rect.left + rect.right) / 2;
     draggingFruit = PhysicsFruit(
       fruit: Fruit.cherry(
         id: const Uuid().v4(),
         pos: Vector2(
-          draggingPosition!.x,
+          draggingPosition!,
           -screenSize.y + center.y - FruitType.cherry.radius,
         ),
       ),
@@ -133,7 +138,10 @@ class GameState {
       onDragEnd();
       isDragEnd = false;
     }
+    _handleCollision();
+  }
 
+  void _handleCollision(){
     final collidedFruits = _gameRepository.getCollidedFruits();
     if (collidedFruits.isEmpty) {
       return;
@@ -166,22 +174,24 @@ class GameState {
     _gameRepository.clearCollidedFruits();
   }
 
-  void onDragUpdate(int pointerId, DragUpdateInfo info) {
+  void onDragUpdate(int pointerId, Vector2 global) {
+    final pos = screenToWorld(global);
+    final draggingPositionX = _adjustDraggingPositionX(pos.x);
+    _onDraggingPositionChanged(draggingPositionX);
+  }
+
+  void _onDraggingPositionChanged(double newX) {
+    draggingPosition = newX;
     final rect = camera.visibleWorldRect;
-
-    // ドラッグ位置を更新
-    draggingPosition = screenToWorld(info.eventPosition.global);
-    final draggingPositionX = _adjustDraggingPositionX(draggingPosition!.x);
-
-    // 線の位置を更新
+    // Update the predict line
     _predictLinePresenter.updateLine(
-      worldToScreen(Vector2(draggingPositionX, rect.top)),
-      worldToScreen(Vector2(draggingPositionX, rect.bottom)),
+      worldToScreen(Vector2(newX, rect.top)),
+      worldToScreen(Vector2(newX, rect.bottom)),
     );
     if (draggingFruit?.isMounted != null && draggingFruit!.isMounted) {
       draggingFruit?.body.setTransform(
         Vector2(
-          draggingPositionX,
+          newX,
           -screenSize.y + center.y - draggingFruit!.fruit.radius,
         ),
         0,
@@ -189,13 +199,28 @@ class GameState {
     }
   }
 
-  void onDragEnd() {
-    if (draggingFruit == null) {
-      return;
-    }
+  Future<void> onDragEnd() async {
+    if (draggingFruit == null) return;
+    _dropFruit();
+    await Future.delayed(const Duration(seconds: 1));
+    _createDraggingFruit();
+  }
+
+  Future<void> onTap(double globalX) async {
+    if (draggingFruit == null) return;
+    final pos = screenToWorld(Vector2(globalX, 0));
+    final x = _adjustDraggingPositionX(pos.x);
+    _onDraggingPositionChanged(x);
+    _dropFruit();
+    await Future.delayed(const Duration(seconds: 1));
+    _createDraggingFruit();
+  }
+
+  void _dropFruit() {
+    if (draggingFruit == null) return;
     _worldPresenter.remove(draggingFruit!);
     final fruit = draggingFruit!.fruit;
-    final draggingPositionX = _adjustDraggingPositionX(draggingPosition!.x);
+    final draggingPositionX = _adjustDraggingPositionX(draggingPosition!);
     final newFruit = fruit.copyWith(
       pos: Vector2(
         draggingPositionX,
@@ -208,42 +233,34 @@ class GameState {
       ),
     );
     draggingFruit = null;
-
-    Future.delayed(
-      const Duration(
-        seconds: 1,
-      ),
-      () {
-        draggingFruit = PhysicsFruit(
-          fruit: nextFruit!.fruit.copyWith(
-            pos: Vector2(
-              draggingPositionX,
-              -screenSize.y + center.y - nextFruit!.fruit.radius,
-            ),
-          ),
-          isStatic: true,
-        );
-        _worldPresenter
-          ..remove(nextFruit!)
-          ..add(draggingFruit!);
-        final newNextFruit = getNextFruit();
-        nextFruit = PhysicsFruit(
-          fruit: newNextFruit.copyWith(
-            pos: Vector2(
-              screenSize.x - 2,
-              -screenSize.y + center.y - 7,
-            ),
-          ),
-          overrideRadius: 2,
-          isStatic: true,
-        );
-        _worldPresenter.add(nextFruit!);
-      },
-    );
   }
 
-  void onDropFruit(){
-
+  void _createDraggingFruit() {
+    final draggingPositionX = _adjustDraggingPositionX(draggingPosition!);
+    draggingFruit = PhysicsFruit(
+      fruit: nextFruit!.fruit.copyWith(
+        pos: Vector2(
+          draggingPositionX,
+          -screenSize.y + center.y - nextFruit!.fruit.radius,
+        ),
+      ),
+      isStatic: true,
+    );
+    _worldPresenter
+      ..remove(nextFruit!)
+      ..add(draggingFruit!);
+    final newNextFruit = getNextFruit();
+    nextFruit = PhysicsFruit(
+      fruit: newNextFruit.copyWith(
+        pos: Vector2(
+          screenSize.x - 2,
+          -screenSize.y + center.y - 7,
+        ),
+      ),
+      overrideRadius: 2,
+      isStatic: true,
+    );
+    _worldPresenter.add(nextFruit!);
   }
 
   void reset() {
