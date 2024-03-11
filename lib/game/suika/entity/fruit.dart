@@ -27,7 +27,7 @@ class FruitEntity extends BodyComponent {
     final sprite = await Sprite.load(fruit.image, images: game.images);
     _spriteComponent = SpriteComponent(
       sprite: sprite,
-      size: Vector2.all((overrideRadius ?? fruit.radius) * 2.05),
+      size: Vector2.all((overrideRadius ?? fruit.radius) * 2.00),
       anchor: Anchor.center,
     );
     add(_spriteComponent);

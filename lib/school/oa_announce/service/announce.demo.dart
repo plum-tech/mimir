@@ -58,7 +58,7 @@ class DemoOaAnnounceService implements OaAnnounceService {
     } else {
       return OaAnnounceListPayload(
         currentPage: pageIndex,
-        totalPage: pageIndex ,
+        totalPage: pageIndex,
         items: [],
       );
     }
