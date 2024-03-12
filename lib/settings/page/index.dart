@@ -282,7 +282,7 @@ class WipeDataTile extends StatelessWidget {
   }
 }
 
-void _onWipeData(BuildContext context) async {
+Future<void> _onWipeData(BuildContext context) async {
   final confirm = await context.showRequest(
     title: i18n.wipeDataRequest,
     desc: i18n.wipeDataRequestDesc,
@@ -294,6 +294,7 @@ void _onWipeData(BuildContext context) async {
   if (confirm == true) {
     await HiveInit.clear(); // 清除存储
     await Init.initNetwork();
+    await Init.initModules();
     if (!context.mounted) return;
     OaOnlineManagerState.of(context).isOnline = false;
     _gotoLogin(context);
