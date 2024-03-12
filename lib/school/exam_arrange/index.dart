@@ -12,6 +12,7 @@ import 'package:sit/school/exam_arrange/entity/exam.dart';
 import 'package:sit/school/exam_arrange/init.dart';
 import 'package:sit/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:super_context_menu/super_context_menu.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import "i18n.dart";
@@ -88,30 +89,29 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
       return ExamCard(exam);
     }
     return Builder(builder: (context) {
-      return CupertinoContextMenu.builder(
-        enableHapticFeedback: true,
-        actions: [
-          if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)
-            CupertinoContextMenuAction(
-              trailingIcon: CupertinoIcons.calendar_badge_plus,
-              child: i18n.addCalendarEvent.text(),
-              onPressed: () async {
-                Navigator.of(context, rootNavigator: true).pop();
-                await addExamArrangeToCalendar(exam);
-              },
-            ),
-          CupertinoContextMenuAction(
-            trailingIcon: CupertinoIcons.share,
-            onPressed: () async {
-              Navigator.of(context, rootNavigator: true).pop();
-              await shareExamArrange(exam: exam, context: context);
-            },
-            child: i18n.share.text(),
-          ),
-        ],
-        builder: (context, animation) {
-          return ExamCard(exam).scrolled(physics: const NeverScrollableScrollPhysics());
+      return ContextMenuWidget(
+        menuProvider: (MenuRequest request) {
+          return Menu(
+            children: [
+              if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)
+                MenuAction(
+                  image: MenuImage.icon(CupertinoIcons.calendar_badge_plus),
+                  title: i18n.addCalendarEvent,
+                  callback: () async {
+                    await addExamArrangeToCalendar(exam);
+                  },
+                ),
+              MenuAction(
+                image: MenuImage.icon(CupertinoIcons.share),
+                title: i18n.share,
+                callback: () async {
+                  await shareExamArrange(exam: exam, context: context);
+                },
+              ),
+            ],
+          );
         },
+        child: ExamCard(exam),
       );
     });
   }
