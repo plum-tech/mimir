@@ -17,7 +17,7 @@ class BoardManager extends StateNotifier<Board> {
 
   final StateNotifierProviderRef ref;
 
-  BoardManager(this.ref) : super(Board.newGame(0, [])) {
+  BoardManager(this.ref) : super(Board.newGame(best: 0, tiles: [])) {
     //Load the last saved state or start a new game.
     load();
   }
@@ -34,7 +34,7 @@ class BoardManager extends StateNotifier<Board> {
 
   // Create New Game state.
   Board _newGame() {
-    return Board.newGame(max(state.best, state.score), [random([])]);
+    return Board.newGame(best:max(state.best, state.score),tiles: [random([])]);
   }
 
   // Start New Game
