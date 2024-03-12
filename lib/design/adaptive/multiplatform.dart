@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sit/r.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 bool get isCupertino => R.debugCupertino || UniversalPlatform.isIOS || UniversalPlatform.isMacOS;
+
+bool get supportContextMenu => kIsWeb || isCupertino || UniversalPlatform.isDesktop;
 
 extension ShareX on BuildContext {
   Rect? getSharePositionOrigin() {

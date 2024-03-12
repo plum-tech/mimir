@@ -92,25 +92,84 @@ class EntryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return isCupertino ? buildCupertinoCard(context) : buildMaterialCard(context);
+    return supportContextMenu ? buildCardWithContextMenu(context) : buildCardWithDropMenu(context);
   }
 
-  Widget buildMaterialCard(BuildContext context) {
+  Widget buildCardWithDropMenu(BuildContext context) {
     final actions = this.actions(context);
+    final mainActions = actions.where((action) => action.main).toList();
+    final secondaryActions = actions.where((action) => !action.main).toList();
+    final selectAction = this.selectAction(context);
+
+    Widget buildMaterialMainActions() {
+      final all = <Widget>[];
+      if (selectAction != null) {
+        all.add(
+          selected
+              ? FilledButton.icon(
+                  icon: const Icon(Icons.check),
+                  onPressed: null,
+                  label: selectAction.selectedLabel.text(),
+                )
+              : FilledButton(
+                  onPressed: selectAction.action,
+                  child: selectAction.selectLabel.text(),
+                ),
+        );
+      }
+      for (final action in mainActions) {
+        all.add(OutlinedButton(
+          onPressed: action.action,
+          child: action.label.text(),
+        ));
+      }
+      return all.wrap(spacing: 4);
+    }
+
+    Widget buildSecondaryActionPopup() {
+      return PopupMenuButton(
+        position: PopupMenuPosition.under,
+        padding: EdgeInsets.zero,
+        itemBuilder: (ctx) {
+          final all = <PopupMenuEntry>[];
+          for (final action in secondaryActions) {
+            final callback = action.action;
+            all.add(PopupMenuItem(
+              onTap: () async {
+                await callback();
+              },
+              child: ListTile(
+                leading: Icon(action.icon),
+                title: action.label.text(),
+              ),
+            ));
+          }
+          final deleteAction = this.deleteAction;
+          if (deleteAction != null) {
+            final deleteActionWidget = deleteAction(context);
+            all.add(PopupMenuItem(
+              onTap: () async {
+                await deleteActionWidget.action();
+              },
+              child: ListTile(
+                leading: const Icon(Icons.delete, color: Colors.redAccent),
+                title: deleteActionWidget.label.text(style: const TextStyle(color: Colors.redAccent)),
+              ),
+            ));
+          }
+          return all;
+        },
+      );
+    }
+
     final body = InkWell(
       child: [
         ...itemBuilder(context),
         OverflowBar(
           alignment: MainAxisAlignment.spaceBetween,
           children: [
-            buildMaterialMainActions(
-              context,
-              mainActions: actions.where((action) => action.main).toList(),
-            ),
-            buildMaterialActionPopup(
-              context,
-              secondaryActions: actions.where((action) => !action.main).toList(),
-            ),
+            buildMaterialMainActions(),
+            buildSecondaryActionPopup(),
           ],
         ),
       ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15),
@@ -127,7 +186,7 @@ class EntryCard extends StatelessWidget {
           );
   }
 
-  Widget buildCupertinoCard(BuildContext context) {
+  Widget buildCardWithContextMenu(BuildContext context) {
     return Builder(
       builder: (context) {
         final actions = this.actions(context);
@@ -143,7 +202,7 @@ class EntryCard extends StatelessWidget {
               ),
             );
           },
-          child: buildCupertinoCardBody(
+          child: buildCardWithContextMenuBody(
             context,
             selectAction: selectAction(context),
           ),
@@ -152,7 +211,7 @@ class EntryCard extends StatelessWidget {
     );
   }
 
-  Widget buildCupertinoCardBody(
+  Widget buildCardWithContextMenuBody(
     BuildContext context, {
     required EntrySelectAction? selectAction,
   }) {
@@ -220,81 +279,6 @@ class EntryCard extends StatelessWidget {
     }
     assert(all.isNotEmpty, "CupertinoContextMenuActions can't be empty");
     return all;
-  }
-
-  Widget buildMaterialMainActions(
-    BuildContext context, {
-    required List<EntryAction> mainActions,
-  }) {
-    final all = <Widget>[];
-    final selectAction = this.selectAction(context);
-    if (selectAction != null) {
-      all.add(buildMaterialSelectAction(context, selectAction: selectAction));
-    }
-    for (final action in mainActions) {
-      all.add(OutlinedButton(
-        onPressed: action.action,
-        child: action.label.text(),
-      ));
-    }
-    return all.wrap(spacing: 4);
-  }
-
-  Widget buildMaterialSelectAction(
-    BuildContext context, {
-    required EntrySelectAction selectAction,
-  }) {
-    if (selected) {
-      return FilledButton.icon(
-        icon: const Icon(Icons.check),
-        onPressed: null,
-        label: selectAction.selectedLabel.text(),
-      );
-    } else {
-      return FilledButton(
-        onPressed: selectAction.action,
-        child: selectAction.selectLabel.text(),
-      );
-    }
-  }
-
-  Widget buildMaterialActionPopup(
-    BuildContext context, {
-    required List<EntryAction> secondaryActions,
-  }) {
-    return PopupMenuButton(
-      position: PopupMenuPosition.under,
-      padding: EdgeInsets.zero,
-      itemBuilder: (ctx) {
-        final all = <PopupMenuEntry>[];
-        for (final action in secondaryActions) {
-          final callback = action.action;
-          all.add(PopupMenuItem(
-            onTap: () async {
-              await callback();
-            },
-            child: ListTile(
-              leading: Icon(action.icon),
-              title: action.label.text(),
-            ),
-          ));
-        }
-        final deleteAction = this.deleteAction;
-        if (deleteAction != null) {
-          final deleteActionWidget = deleteAction(context);
-          all.add(PopupMenuItem(
-            onTap: () async {
-              await deleteActionWidget.action();
-            },
-            child: ListTile(
-              leading: const Icon(Icons.delete, color: Colors.redAccent),
-              title: deleteActionWidget.label.text(style: const TextStyle(color: Colors.redAccent)),
-            ),
-          ));
-        }
-        return all;
-      },
-    );
   }
 
   List<Widget> buildDetailsActions(BuildContext context) {
