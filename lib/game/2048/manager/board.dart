@@ -19,7 +19,7 @@ class BoardManager extends StateNotifier<Board> {
   final StateNotifierProviderRef ref;
 
   BoardManager(this.ref) : super(Board.newGame(best: 0, tiles: [])) {
-    Board.newGame(best: max(state.best, state.score), tiles: [random([])]);
+    state = _newGame();
   }
 
   BoardManager.fromSave(this.ref, {required Board save}) : super(save) {
@@ -288,7 +288,6 @@ class BoardManager extends StateNotifier<Board> {
 }
 
 final boardManager = StateNotifierProvider<BoardManager, Board>((ref) {
-  final save = Save2048.storage.load();
-
+  // final save = Save2048.storage.load();
   return BoardManager(ref);
 });
