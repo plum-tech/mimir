@@ -6,6 +6,7 @@ import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:sit/school/library/page/borrowing.dart';
+import 'package:super_context_menu/super_context_menu.dart';
 
 import './i18n.dart';
 import 'entity/borrow.dart';
@@ -85,19 +86,21 @@ class _LibraryAppCardState extends State<LibraryAppCard> {
     );
     if (!isCupertino) return card;
     return Builder(
-      builder: (ctx) => CupertinoContextMenu.builder(
-        enableHapticFeedback: true,
-        actions: [
-          CupertinoContextMenuAction(
-            trailingIcon: CupertinoIcons.refresh,
-            onPressed: () async {
-              Navigator.of(context, rootNavigator: true).pop();
-              await renewBorrowedBook(ctx, book.barcode);
-            },
-            child: i18n.borrowing.renew.text(),
-          ),
-        ],
-        builder: (ctx, animation) => card,
+      builder: (ctx) => ContextMenuWidget(
+        menuProvider: (MenuRequest request) {
+          return Menu(
+            children: [
+              MenuAction(
+                image: MenuImage.icon(CupertinoIcons.refresh),
+                title: i18n.borrowing.renew,
+                callback: () async {
+                  await renewBorrowedBook(ctx, book.barcode);
+                },
+              ),
+            ],
+          );
+        },
+        child: card,
       ),
     );
   }
