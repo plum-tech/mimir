@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../manager/logic.dart';
 import '../../model/cell.dart';
-import '../../theme/colors.dart';
+import '../../theme.dart';
 
 class MinesAroundNumber extends ConsumerWidget {
   final Cell cell;

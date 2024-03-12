@@ -6,7 +6,7 @@ import 'package:rettulf/rettulf.dart';
 import 'widget/empty_board.dart';
 import 'widget/score_board.dart';
 import 'widget/tile_board.dart';
-import 'theme/colors.dart';
+import 'theme.dart';
 import 'manager/board.dart';
 import 'i18n.dart';
 

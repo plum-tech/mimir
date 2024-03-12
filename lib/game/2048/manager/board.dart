@@ -19,23 +19,10 @@ class BoardManager extends StateNotifier<Board> {
   final StateNotifierProviderRef ref;
 
   BoardManager(this.ref) : super(Board.newGame(best: 0, tiles: [])) {
-    //Load the last saved state or start a new game.
-    load();
+    Board.newGame(best: max(state.best, state.score), tiles: [random([])]);
   }
 
-  void load() async {
-    //Access the box and get the first item at index 0
-    //which will always be just one item of the Board model
-    //and here we don't need to call fromJson function of the board model
-    //in order to construct the Board model
-    //instead the adapter we added earlier will do that automatically.
-    //If there is no save locally it will start a new game.
-    final save = Save2048.storage.load();
-    if (save != null) {
-      state = Board.fromSave(save);
-    } else {
-      state = _newGame();
-    }
+  BoardManager.fromSave(this.ref, {required Board save}) : super(save) {
   }
 
   // Create New Game state.
@@ -301,5 +288,7 @@ class BoardManager extends StateNotifier<Board> {
 }
 
 final boardManager = StateNotifierProvider<BoardManager, Board>((ref) {
+  final save = Save2048.storage.load();
+
   return BoardManager(ref);
 });
