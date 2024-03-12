@@ -12,6 +12,7 @@ import 'package:sit/r.dart';
 import 'package:sit/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:super_context_menu/super_context_menu.dart';
 
 import '../event.dart';
 import 'entity/balance.dart';
@@ -142,31 +143,33 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
       );
     }
     return Builder(
-      builder: (ctx) => CupertinoContextMenu.builder(
-        enableHapticFeedback: true,
-        actions: [
-          CupertinoContextMenuAction(
-            trailingIcon: CupertinoIcons.share,
-            onPressed: () async {
-              Navigator.of(context, rootNavigator: true).pop();
-              await shareBalance(balance: balance, selectedRoom: selectedRoom, context: ctx);
-            },
-            child: i18n.share.text(),
-          ),
-          CupertinoContextMenuAction(
-            trailingIcon: CupertinoIcons.delete,
-            isDestructiveAction: true,
-            onPressed: () async {
-              Navigator.of(context, rootNavigator: true).pop();
-              await HapticFeedback.heavyImpact();
-              ElectricityBalanceInit.storage.selectedRoom = null;
-            },
-            child: i18n.delete.text(),
-          ),
-        ],
-        builder: (ctx, animation) {
-          return buildCard(balance);
+      builder: (ctx) => ContextMenuWidget(
+        menuProvider: (MenuRequest request) {
+          return Menu(
+            children: [
+              MenuAction(
+                image: MenuImage.icon(CupertinoIcons.share),
+                title: i18n.share,
+                callback: () async {
+                  // Navigator.of(context, rootNavigator: true).pop();
+                  await shareBalance(balance: balance, selectedRoom: selectedRoom, context: ctx);
+                },
+              ),
+              MenuAction(
+                image: MenuImage.icon(CupertinoIcons.delete),
+                title: i18n.delete,
+                attributes: const MenuActionAttributes(destructive: true),
+                activator: const SingleActivator(LogicalKeyboardKey.delete),
+                callback: () async {
+                  // Navigator.of(context, rootNavigator: true).pop();
+                  await HapticFeedback.heavyImpact();
+                  ElectricityBalanceInit.storage.selectedRoom = null;
+                },
+              ),
+            ],
+          );
         },
+        child: buildCard(balance),
       ),
     );
   }
