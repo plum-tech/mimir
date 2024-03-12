@@ -5,6 +5,7 @@ import 'package:animations/animations.dart';
 import 'package:app_links/app_links.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fit_system_screenshot/fit_system_screenshot.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/files.dart';
@@ -38,7 +39,9 @@ class _MimirAppState extends State<MimirApp> {
     super.initState();
     $theme.addListener(refresh);
     $focusMode.addListener(refreshFocusMode);
-    fitSystemScreenshot.init();
+    if (!kIsWeb) {
+      fitSystemScreenshot.init();
+    }
   }
 
   @override

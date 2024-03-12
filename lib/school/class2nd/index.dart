@@ -15,6 +15,7 @@ import 'package:sit/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sit/utils/error.dart';
+import 'package:super_context_menu/super_context_menu.dart';
 
 import 'entity/attended.dart';
 import "i18n.dart";
@@ -139,21 +140,23 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
       targetScore: target,
       summary: summary,
     ).constrained(maxH: 250);
-    if (!isCupertino) return card;
+    if (!supportContextMenu) return card;
     return Builder(
-      builder: (ctx) => CupertinoContextMenu.builder(
-        enableHapticFeedback: true,
-        actions: [
-          CupertinoContextMenuAction(
-            trailingIcon: CupertinoIcons.share,
-            onPressed: () async {
-              Navigator.of(context, rootNavigator: true).pop();
-              await shareSummery(summary: summary, target: target, context: ctx);
-            },
-            child: i18n.share.text(),
-          ),
-        ],
-        builder: (ctx, animation) => card,
+      builder: (ctx) => ContextMenuWidget(
+        menuProvider: (MenuRequest request) {
+          return Menu(
+            children: [
+              MenuAction(
+                image: MenuImage.icon(CupertinoIcons.share),
+                title: i18n.share,
+                callback: () async {
+                  await shareSummery(summary: summary, target: target, context: ctx);
+                },
+              ),
+            ],
+          );
+        },
+        child: card,
       ),
     );
   }
