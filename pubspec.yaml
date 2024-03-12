@@ -113,7 +113,7 @@ dependencies:
   qr_flutter: ^4.1.0
   pretty_qr_code: ^3.3.0
   cached_network_image: ^3.3.1
-  modal_bottom_sheet: ^3.0.0-pre
+  modal_bottom_sheet: ^3.0.0
   auto_size_text: ^3.0.0
   text_scroll: ^0.2.0
   markdown: ^7.2.2
