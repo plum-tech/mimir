@@ -14,21 +14,22 @@ class HiveInit {
   static final core = HiveImpl();
   static final cache = HiveImpl();
 
-  static late Box credentials;
-  static late Box library;
-  static late Box timetable;
-  static late Box expense;
-  static late Box yellowPages;
-  static late Box class2nd;
-  static late Box examArrange;
-  static late Box examResult;
-  static late Box oaAnnounce;
-  static late Box ywb;
-  static late Box eduEmail;
-  static late Box settings;
-  static late Box electricity;
-  static late Box meta;
-  static late Box cookies;
+  static late Box credentials,
+      library,
+      timetable,
+      expense,
+      yellowPages,
+      class2nd,
+      examArrange,
+      examResult,
+      oaAnnounce,
+      ywb,
+      eduEmail,
+      settings,
+      electricity,
+      meta,
+      cookies,
+      game;
 
   static late Map<String, Box> name2Box;
   static late List<Box> cacheBoxes;
@@ -58,6 +59,7 @@ class HiveInit {
       ...cacheBoxes = [
         yellowPages = await cache.openBox('yellow-pages'),
         eduEmail = await cache.openBox('edu-email'),
+        game = await core.openBox("game"),
         if (!kIsWeb) cookies = await cache.openBox('cookies'),
         if (!kIsWeb) expense = await cache.openBox('expense'),
         if (!kIsWeb) library = await cache.openBox('library'),

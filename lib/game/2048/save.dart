@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sit/game/storage/storage.dart';
+import 'package:version/version.dart';
 
 part "save.g.dart";
 
@@ -18,4 +20,11 @@ class Save2048 {
   Map<String, dynamic> toJson() => _$Save2048ToJson(this);
 
   factory Save2048.fromJson(Map<String, dynamic> json) => _$Save2048FromJson(json);
+
+  static final storage = GameStorageBox<Save2048>(
+    name: "2048",
+    version: Version(1, 0, 0),
+    serialize: (save) => save.toJson(),
+    deserialize: Save2048.fromJson,
+  );
 }
