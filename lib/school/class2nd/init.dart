@@ -1,5 +1,5 @@
 import 'package:sit/school/class2nd/service/points.demo.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:sit/settings/dev.dart';
 
 import 'service/activity.dart';
 import 'service/application.dart';
@@ -15,7 +15,7 @@ class Class2ndInit {
   static late Class2ndApplicationService applicationService;
 
   static void init() {
-    pointService = Settings.demoMode ? const DemoClass2ndPointsService() : const Class2ndPointsService();
+    pointService = Dev.demoMode ? const DemoClass2ndPointsService() : const Class2ndPointsService();
     pointStorage = const Class2ndPointsStorage();
     activityService = const Class2ndActivityService();
     activityStorage = const Class2ndActivityStorage();

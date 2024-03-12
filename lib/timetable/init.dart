@@ -1,4 +1,4 @@
-import 'package:sit/settings/settings.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/timetable/service/school.demo.dart';
 
 import 'service/school.dart';
@@ -9,7 +9,7 @@ class TimetableInit {
   static late TimetableStorage storage;
 
   static void init() {
-    service = Settings.demoMode ? const DemoTimetableService() : const TimetableService();
+    service = Dev.demoMode ? const DemoTimetableService() : const TimetableService();
     storage = TimetableStorage();
   }
 }

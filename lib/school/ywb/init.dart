@@ -1,5 +1,5 @@
 import 'package:sit/school/ywb/service/application.demo.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:sit/settings/dev.dart';
 
 import 'service/service.dart';
 import 'service/application.dart';
@@ -14,9 +14,9 @@ class YwbInit {
   static late YwbApplicationStorage applicationStorage;
 
   static void init() {
-    serviceService = Settings.demoMode ? const DemoYwbServiceService() : const YwbServiceService();
+    serviceService = Dev.demoMode ? const DemoYwbServiceService() : const YwbServiceService();
     serviceStorage = const YwbServiceStorage();
-    applicationService = Settings.demoMode ? const DemoYwbApplicationService() : const YwbApplicationService();
+    applicationService = Dev.demoMode ? const DemoYwbApplicationService() : const YwbApplicationService();
     applicationStorage = const YwbApplicationStorage();
   }
 }

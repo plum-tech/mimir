@@ -19,7 +19,7 @@ import 'package:sit/platform/desktop.dart';
 import 'package:sit/school/yellow_pages/entity/contact.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sit/settings/meta.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/entity/version.dart';
 import 'package:sit/storage/prefs.dart';
 import 'package:system_theme/system_theme.dart';
@@ -85,7 +85,7 @@ void main() async {
 
   // Setup Settings and Meta
   if (kDebugMode) {
-    Settings.devMode = true;
+    Dev.on = true;
   }
   // The last time when user launch this app
   Meta.lastLaunchTime = Meta.thisLaunchTime;

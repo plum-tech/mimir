@@ -7,7 +7,7 @@ import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/design/widgets/tags.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/class2nd/service/application.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/utils/error.dart';
 import 'package:sit/widgets/html.dart';
 import 'package:rettulf/rettulf.dart';
@@ -134,7 +134,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
             );
           },
         ),
-        if (Settings.devMode)
+        if (Dev.on)
           PopupMenuItem(
             child: ListTile(
               leading: const Icon(Icons.send),

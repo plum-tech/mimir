@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/meta.dart';
 import 'package:sit/settings/settings.dart';
 import "package:hive/src/hive_impl.dart";
@@ -14,7 +15,8 @@ class HiveInit {
   static final core = HiveImpl();
   static final cache = HiveImpl();
 
-  static late Box credentials,
+  static late Box //
+      credentials,
       library,
       timetable,
       expense,
@@ -29,6 +31,7 @@ class HiveInit {
       electricity,
       meta,
       cookies,
+      dev,
       game;
 
   static late Map<String, Box> name2Box;
@@ -59,6 +62,7 @@ class HiveInit {
       ...cacheBoxes = [
         yellowPages = await cache.openBox('yellow-pages'),
         eduEmail = await cache.openBox('edu-email'),
+        dev = await core.openBox("dev"),
         game = await core.openBox("game"),
         if (!kIsWeb) cookies = await cache.openBox('cookies'),
         if (!kIsWeb) expense = await cache.openBox('expense'),
@@ -72,6 +76,7 @@ class HiveInit {
       ],
     ]);
     Settings = SettingsImpl(settings);
+    Dev = DevSettingsImpl(dev);
     Meta = MetaImpl(meta);
   }
 

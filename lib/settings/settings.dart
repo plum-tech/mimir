@@ -2,12 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/school/settings.dart';
 import 'package:sit/storage/hive/type_id.dart';
 import 'package:sit/timetable/settings.dart';
-import 'package:sit/utils/collection.dart';
 
 import '../life/settings.dart';
 
@@ -18,13 +16,6 @@ class _K {
   static const campus = '$ns/campus';
   static const focusTimetable = '$ns/focusTimetable';
   static const lastSignature = '$ns/lastSignature';
-}
-
-class _DeveloperK {
-  static const ns = '/developer';
-  static const devMode = '$ns/devMode';
-  static const savedOaCredentialsList = '$ns/savedOaCredentialsList';
-  static const demoMode = '$ns/demoMode';
 }
 
 class _UpdateK {
@@ -65,28 +56,6 @@ class SettingsImpl {
   String? get skippedVersion => box.get(_UpdateK.skippedVersion);
 
   set skippedVersion(String? newV) => box.put(_UpdateK.skippedVersion, newV);
-
-  /// [false] by default.
-  bool get devMode => box.get(_DeveloperK.devMode) ?? false;
-
-  set devMode(bool newV) => box.put(_DeveloperK.devMode, newV);
-
-  ValueListenable<Box> listenDevMode() => box.listenable(keys: [_DeveloperK.devMode]);
-
-  /// [false] by default.
-  bool get demoMode => box.get(_DeveloperK.demoMode) ?? false;
-
-  set demoMode(bool newV) => box.put(_DeveloperK.demoMode, newV);
-
-  ValueListenable<Box> listenDemoMode() => box.listenable(keys: [_DeveloperK.demoMode]);
-
-  List<Credentials>? getSavedOaCredentialsList() =>
-      (box.get(_DeveloperK.savedOaCredentialsList) as List?)?.cast<Credentials>();
-
-  Future<void> setSavedOaCredentialsList(List<Credentials>? newV) async {
-    newV?.distinctBy((c) => c.account);
-    await box.put(_DeveloperK.savedOaCredentialsList, newV);
-  }
 }
 
 class _ThemeK {

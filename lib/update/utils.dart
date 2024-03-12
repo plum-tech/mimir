@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/r.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/error.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -21,7 +22,7 @@ Future<void> checkAppUpdate({
       Future.delayed(delayAtLeast),
     ).wait;
     debugPrint(latest.toString());
-    if (Settings.devMode && active) {
+    if (Dev.on && active) {
       if (!context.mounted) return;
       await context.show$Sheet$((ctx) => ArtifactUpdatePage(info: latest));
     } else {

@@ -34,7 +34,7 @@ import 'package:sit/life/index.dart';
 import 'package:sit/login/page/index.dart';
 import 'package:sit/me/edu_email/page/inbox.dart';
 import 'package:sit/network/page/index.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/timetable/page/background.dart';
 import 'package:sit/timetable/page/cell_style.dart';
 import 'package:sit/widgets/not_found.dart';
@@ -70,7 +70,7 @@ final $GameShellKey = GlobalKey<NavigatorState>();
 final $MeShellKey = GlobalKey<NavigatorState>();
 
 bool isLoginGuarded(BuildContext ctx) {
-  if (Settings.demoMode) return false;
+  if (Dev.demoMode) return false;
   final auth = ctx.auth;
   return auth.loginStatus != LoginStatus.validated && auth.credentials == null;
 }
@@ -81,7 +81,7 @@ String? _loginRequired(BuildContext ctx, GoRouterState state) {
 }
 
 FutureOr<String?> _redirectRoot(BuildContext ctx, GoRouterState state) {
-  if (Settings.demoMode) return null;
+  if (Dev.demoMode) return null;
   final auth = ctx.auth;
   if (auth.loginStatus == LoginStatus.never) {
 // allow to access settings page.
