@@ -1,11 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
+import 'package:super_context_menu/super_context_menu.dart';
 
 enum EntryActionType {
   edit,
@@ -20,17 +22,15 @@ class EntryAction {
   final String label;
   final EntryActionType type;
   final bool oneShot;
-  final bool delayContextMenu;
-  final Future<void> Function()? action;
+  final Future<void> Function() action;
 
   const EntryAction({
     required this.label,
     this.main = false,
     this.icon,
-    this.delayContextMenu = true,
     this.oneShot = false,
     this.cupertinoIcon,
-    this.action,
+    required this.action,
     this.type = EntryActionType.other,
   });
 }
@@ -38,7 +38,7 @@ class EntryAction {
 class EntrySelectAction {
   final String selectLabel;
   final String selectedLabel;
-  final Future<void> Function()? action;
+  final Future<void> Function() action;
 
   EntrySelectAction({
     required this.selectLabel,
@@ -49,13 +49,11 @@ class EntrySelectAction {
 
 class EntryDeleteAction {
   final String label;
-  final Future<void> Function()? action;
-  final bool delayContextMenu;
+  final Future<void> Function() action;
 
   EntryDeleteAction({
     required this.label,
     required this.action,
-    this.delayContextMenu = true,
   });
 }
 
@@ -72,11 +70,11 @@ class EntryDetailsAction {
 class EntryCard extends StatelessWidget {
   final bool selected;
   final String title;
-  final List<Widget> Function(BuildContext context, Animation<double>? animation) itemBuilder;
+  final List<Widget> Function(BuildContext context) itemBuilder;
   final Widget Function(BuildContext context, List<Widget> Function(BuildContext context)? actionsBuilder)
       detailsBuilder;
   final List<EntryAction> Function(BuildContext context) actions;
-  final EntrySelectAction Function(BuildContext context) selectAction;
+  final EntrySelectAction? Function(BuildContext context) selectAction;
   final EntryDeleteAction Function(BuildContext context)? deleteAction;
 
   const EntryCard({
@@ -99,12 +97,18 @@ class EntryCard extends StatelessWidget {
     final actions = this.actions(context);
     final body = InkWell(
       child: [
-        ...itemBuilder(context, null),
+        ...itemBuilder(context),
         OverflowBar(
           alignment: MainAxisAlignment.spaceBetween,
           children: [
-            buildMaterialMainActions(context, actions.where((action) => action.main).toList()),
-            buildMaterialActionPopup(context, actions.where((action) => !action.main).toList()),
+            buildMaterialMainActions(
+              context,
+              mainActions: actions.where((action) => action.main).toList(),
+            ),
+            buildMaterialActionPopup(
+              context,
+              secondaryActions: actions.where((action) => !action.main).toList(),
+            ),
           ],
         ),
       ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15),
@@ -126,20 +130,21 @@ class EntryCard extends StatelessWidget {
       builder: (context) {
         final actions = this.actions(context);
         final deleteAction = this.deleteAction?.call(context);
-        return CupertinoContextMenu.builder(
-          enableHapticFeedback: true,
-          actions: buildContextMenuActions(
-            context,
-            actions: actions,
-            selectAction: selectAction(context),
-            deleteAction: deleteAction,
-          ),
-          builder: (context, animation) {
-            return buildCupertinoCardBody(
-              context,
-              animation: animation,
+        return ContextMenuWidget(
+          menuProvider: (MenuRequest request) {
+            return Menu(
+              children: buildContextMenuActions(
+                context,
+                actions: actions,
+                selectAction: selectAction(context),
+                deleteAction: deleteAction,
+              ),
             );
           },
+          child: buildCupertinoCardBody(
+            context,
+            selectAction: selectAction(context),
+          ),
         );
       },
     );
@@ -147,31 +152,26 @@ class EntryCard extends StatelessWidget {
 
   Widget buildCupertinoCardBody(
     BuildContext context, {
-    required Animation<double> animation,
+    required EntrySelectAction? selectAction,
   }) {
     Widget body = [
-      ...itemBuilder(context, animation),
+      ...itemBuilder(context),
       OverflowBar(
         alignment: MainAxisAlignment.end,
         children: [
-          if (animation.value <= 0)
+          if (selectAction != null)
             CupertinoButton(
               padding: EdgeInsets.zero,
-              onPressed: selected ? null : selectAction(context).action,
+              onPressed: selected ? null : selectAction.action,
               child: selected
                   ? Icon(CupertinoIcons.check_mark, color: context.colorScheme.primary)
                   : const Icon(CupertinoIcons.square),
             ),
         ],
       ),
-    ].column(caa: CrossAxisAlignment.start).padOnly(t: 12, l: 12, r: 8, b: 4);
-    if (animation.value <= 0) {
-      body = body.inkWell(onTap: () async {
-        if (animation.value <= 0) {
-          await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions));
-        }
-      });
-    }
+    ].column(caa: CrossAxisAlignment.start).padOnly(t: 12, l: 12, r: 8, b: 4).onTap(() async {
+      await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions));
+    });
     final widget = selected
         ? body.inFilledCard(
             clip: Clip.hardEdge,
@@ -182,64 +182,53 @@ class EntryCard extends StatelessWidget {
     return widget;
   }
 
-  List<Widget> buildContextMenuActions(
+  List<MenuAction> buildContextMenuActions(
     BuildContext context, {
     required List<EntryAction> actions,
-    required EntrySelectAction selectAction,
+    required EntrySelectAction? selectAction,
     required EntryDeleteAction? deleteAction,
   }) {
-    final all = <Widget>[];
-    if (!selected) {
+    final all = <MenuAction>[];
+    if (selectAction != null && !selected) {
       final selectCallback = selectAction.action;
-      all.add(CupertinoContextMenuAction(
-        trailingIcon: CupertinoIcons.check_mark,
-        onPressed: selectCallback == null
-            ? null
-            : () async {
-                Navigator.of(context, rootNavigator: true).pop();
-                await Future.delayed(const Duration(milliseconds: 336));
-                await selectCallback();
-              },
-        child: selectAction.selectLabel.text(),
+      all.add(MenuAction(
+        state: MenuActionState.checkOff,
+        image: MenuImage.icon(CupertinoIcons.check_mark),
+        title: selectAction.selectLabel,
+        callback: selectCallback,
       ));
     }
     for (final action in actions) {
       final callback = action.action;
-      all.add(CupertinoContextMenuAction(
-        trailingIcon: action.cupertinoIcon ?? action.icon,
-        onPressed: callback == null
-            ? null
-            : () async {
-                Navigator.of(context, rootNavigator: true).pop();
-                if (action.delayContextMenu) {
-                  await Future.delayed(const Duration(milliseconds: 336));
-                }
-                await callback();
-              },
-        child: action.label.text(),
+      final icon = action.cupertinoIcon ?? action.icon;
+      all.add(MenuAction(
+        image: icon == null ? null : MenuImage.icon(icon),
+        title: action.label,
+        callback: callback,
       ));
     }
     if (deleteAction != null) {
-      all.add(CupertinoContextMenuAction(
-        trailingIcon: CupertinoIcons.delete,
-        onPressed: () async {
-          Navigator.of(context, rootNavigator: true).pop();
-          if (deleteAction.delayContextMenu) {
-            await Future.delayed(const Duration(milliseconds: 336));
-          }
-          await deleteAction.action?.call();
-        },
-        isDestructiveAction: true,
-        child: deleteAction.label.text(),
+      all.add(MenuAction(
+        image: MenuImage.icon(CupertinoIcons.delete),
+        title: deleteAction.label,
+        attributes: const MenuActionAttributes(destructive: true),
+        activator: const SingleActivator(LogicalKeyboardKey.delete),
+        callback: deleteAction.action,
       ));
     }
     assert(all.isNotEmpty, "CupertinoContextMenuActions can't be empty");
     return all;
   }
 
-  Widget buildMaterialMainActions(BuildContext context, List<EntryAction> mainActions) {
+  Widget buildMaterialMainActions(
+    BuildContext context, {
+    required List<EntryAction> mainActions,
+  }) {
     final all = <Widget>[];
-    all.add(buildMaterialSelectAction(context));
+    final selectAction = this.selectAction(context);
+    if (selectAction != null) {
+      all.add(buildMaterialSelectAction(context, selectAction: selectAction));
+    }
     for (final action in mainActions) {
       all.add(OutlinedButton(
         onPressed: action.action,
@@ -249,8 +238,10 @@ class EntryCard extends StatelessWidget {
     return all.wrap(spacing: 4);
   }
 
-  Widget buildMaterialSelectAction(BuildContext context) {
-    final selectAction = this.selectAction(context);
+  Widget buildMaterialSelectAction(
+    BuildContext context, {
+    required EntrySelectAction selectAction,
+  }) {
     if (selected) {
       return FilledButton.icon(
         icon: const Icon(Icons.check),
@@ -265,7 +256,10 @@ class EntryCard extends StatelessWidget {
     }
   }
 
-  Widget buildMaterialActionPopup(BuildContext context, List<EntryAction> secondaryActions) {
+  Widget buildMaterialActionPopup(
+    BuildContext context, {
+    required List<EntryAction> secondaryActions,
+  }) {
     return PopupMenuButton(
       position: PopupMenuPosition.under,
       padding: EdgeInsets.zero,
@@ -274,15 +268,12 @@ class EntryCard extends StatelessWidget {
         for (final action in secondaryActions) {
           final callback = action.action;
           all.add(PopupMenuItem(
-            onTap: callback == null
-                ? null
-                : () async {
-                    await callback();
-                  },
+            onTap: () async {
+              await callback();
+            },
             child: ListTile(
               leading: Icon(action.icon),
               title: action.label.text(),
-              enabled: callback != null,
             ),
           ));
         }
@@ -291,7 +282,7 @@ class EntryCard extends StatelessWidget {
           final deleteActionWidget = deleteAction(context);
           all.add(PopupMenuItem(
             onTap: () async {
-              await deleteActionWidget.action?.call();
+              await deleteActionWidget.action();
             },
             child: ListTile(
               leading: const Icon(Icons.delete, color: Colors.redAccent),
@@ -312,16 +303,14 @@ class EntryCard extends StatelessWidget {
     final editAction = actions.firstWhereOrNull((action) => action.type == EntryActionType.edit);
     if (editAction != null) {
       all.add(CupertinoButton(
-        onPressed: editAction.action == null
-            ? null
-            : () async {
-                await editAction.action?.call();
-              },
+        onPressed: () async {
+          await editAction.action();
+        },
         child: editAction.label.text(),
       ));
       // remove edit action
       actions.retainWhere((action) => action.type != EntryActionType.edit);
-      if (!selected) {
+      if (selectAction != null && !selected) {
         actions.insert(
           0,
           EntryAction(
@@ -332,15 +321,13 @@ class EntryCard extends StatelessWidget {
           ),
         );
       }
-    } else if (!selected) {
+    } else if (selectAction != null && !selected) {
       all.add(CupertinoButton(
-        onPressed: selectAction.action == null
-            ? null
-            : () async {
-                await selectAction.action?.call();
-                if (!context.mounted) return;
-                context.navigator.pop();
-              },
+        onPressed: () async {
+          await selectAction.action();
+          if (!context.mounted) return;
+          context.navigator.pop();
+        },
         child: selectAction.selectLabel.text(),
       ));
     }
@@ -350,15 +337,13 @@ class EntryCard extends StatelessWidget {
           (action) => PullDownMenuItem(
             icon: action.cupertinoIcon ?? action.icon,
             title: action.label,
-            onTap: action.action == null
-                ? null
-                : () async {
-                    if (action.oneShot) {
-                      if (!context.mounted) return;
-                      context.navigator.pop();
-                    }
-                    await action.action?.call();
-                  },
+            onTap: () async {
+              if (action.oneShot) {
+                if (!context.mounted) return;
+                context.navigator.pop();
+              }
+              await action.action();
+            },
           ),
         ),
         if (deleteAction != null) ...[
@@ -367,7 +352,7 @@ class EntryCard extends StatelessWidget {
             icon: CupertinoIcons.delete,
             title: deleteAction.label,
             onTap: () async {
-              await deleteAction.action?.call();
+              await deleteAction.action();
               if (!context.mounted) return;
               context.navigator.pop();
             },

@@ -189,15 +189,15 @@ class PaletteCard extends StatelessWidget {
     return EntryCard(
       title: palette.name,
       selected: selected,
-      selectAction: (ctx) => EntrySelectAction(
-        selectLabel: i18n.use,
-        selectedLabel: i18n.used,
-        action: palette.colors.isEmpty
-            ? null
-            : () async {
+      selectAction: (ctx) => palette.colors.isEmpty
+          ? null
+          : EntrySelectAction(
+              selectLabel: i18n.use,
+              selectedLabel: i18n.used,
+              action: () async {
                 TimetableInit.storage.palette.selectedId = id;
               },
-      ),
+            ),
       deleteAction: palette is BuiltinTimetablePalette
           ? null
           : (ctx) => EntryDeleteAction(
@@ -292,7 +292,7 @@ class PaletteCard extends StatelessWidget {
       detailsBuilder: (ctx, actions) {
         return PaletteDetailsPage(id: id, palette: palette, actions: actions?.call(ctx));
       },
-      itemBuilder: (ctx, animation) => [
+      itemBuilder: (ctx) => [
         palette.name.text(style: theme.textTheme.titleLarge),
         if (palette.author.isNotEmpty)
           palette.author.text(

@@ -301,7 +301,7 @@ class TimetableCard extends StatelessWidget {
       detailsBuilder: (ctx, actions) {
         return TimetableDetailsPage(id: id, timetable: timetable, actions: actions?.call(ctx));
       },
-      itemBuilder: (ctx, animation) => [
+      itemBuilder: (ctx) => [
         timetable.name.text(style: textTheme.titleLarge),
         "$year, $semester".text(style: textTheme.titleMedium),
         if (timetable.signature.isNotEmpty) timetable.signature.text(style: textTheme.bodyMedium),
