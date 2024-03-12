@@ -131,7 +131,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
     required ElectricityBalance balance,
     required String selectedRoom,
   }) {
-    if (!isCupertino) {
+    if (!supportContextMenu) {
       return Dismissible(
         direction: DismissDirection.endToStart,
         key: const ValueKey("Balance"),

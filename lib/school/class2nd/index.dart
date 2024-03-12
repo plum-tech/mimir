@@ -140,7 +140,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
       targetScore: target,
       summary: summary,
     ).constrained(maxH: 250);
-    if (!isCupertino) return card;
+    if (!supportContextMenu) return card;
     return Builder(
       builder: (ctx) => ContextMenuWidget(
         menuProvider: (MenuRequest request) {

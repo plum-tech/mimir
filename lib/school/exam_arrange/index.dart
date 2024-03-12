@@ -85,7 +85,7 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
   }
 
   Widget buildExam(ExamEntry exam) {
-    if (!isCupertino) {
+    if (!supportContextMenu) {
       return ExamCard(exam);
     }
     return Builder(builder: (context) {

@@ -84,7 +84,7 @@ class _LibraryAppCardState extends State<LibraryAppCard> {
       book,
       elevated: true,
     );
-    if (!isCupertino) return card;
+    if (!supportContextMenu) return card;
     return Builder(
       builder: (ctx) => ContextMenuWidget(
         menuProvider: (MenuRequest request) {
