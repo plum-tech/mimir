@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/common.dart';
@@ -250,6 +251,7 @@ class TimetableCard extends StatelessWidget {
             main: true,
             label: i18n.preview,
             icon: Icons.preview,
+            activator: const SingleActivator(LogicalKeyboardKey.keyP),
             cupertinoIcon: CupertinoIcons.eye,
             action: () async {
               if (!ctx.mounted) return;
@@ -267,6 +269,7 @@ class TimetableCard extends StatelessWidget {
           icon: Icons.edit,
           cupertinoIcon: CupertinoIcons.pencil,
           type: EntryActionType.edit,
+          activator: const SingleActivator(LogicalKeyboardKey.keyE),
           action: () async {
             // don't use outside `palette`. because it wouldn't updated after the palette was changed.
             // TODO: better solution

@@ -224,6 +224,7 @@ class PaletteCard extends StatelessWidget {
             cupertinoIcon: CupertinoIcons.pencil,
             type: EntryActionType.edit,
             oneShot: true,
+            activator: const SingleActivator(LogicalKeyboardKey.keyE),
             action: () async {
               // don't use outside `palette`. because it wouldn't updated after the palette was changed.
               // TODO: better solution
@@ -239,6 +240,7 @@ class PaletteCard extends StatelessWidget {
             label: i18n.preview,
             icon: Icons.preview,
             cupertinoIcon: CupertinoIcons.eye,
+            activator: const SingleActivator(LogicalKeyboardKey.keyP),
             action: () async {
               await context.show$Sheet$(
                 (context) => TimetableStyleProv(
@@ -255,6 +257,7 @@ class PaletteCard extends StatelessWidget {
           icon: Icons.copy,
           oneShot: true,
           cupertinoIcon: CupertinoIcons.plus_square_on_square,
+          activator: const SingleActivator(LogicalKeyboardKey.keyD),
           action: () async {
             final duplicate = palette.copyWith(
               name: getDuplicateFileName(palette.name),

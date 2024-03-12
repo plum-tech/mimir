@@ -22,6 +22,7 @@ class EntryAction {
   final String label;
   final EntryActionType type;
   final bool oneShot;
+  final SingleActivator? activator;
   final Future<void> Function() action;
 
   const EntryAction({
@@ -31,6 +32,7 @@ class EntryAction {
     this.oneShot = false,
     this.cupertinoIcon,
     required this.action,
+    this.activator,
     this.type = EntryActionType.other,
   });
 }
@@ -133,7 +135,7 @@ class EntryCard extends StatelessWidget {
         return ContextMenuWidget(
           menuProvider: (MenuRequest request) {
             return Menu(
-              children: buildContextMenuActions(
+              children: buildMenuActions(
                 context,
                 actions: actions,
                 selectAction: selectAction(context),
@@ -169,9 +171,7 @@ class EntryCard extends StatelessWidget {
             ),
         ],
       ),
-    ].column(caa: CrossAxisAlignment.start).padOnly(t: 12, l: 12, r: 8, b: 4).onTap(() async {
-      await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions));
-    });
+    ].column(caa: CrossAxisAlignment.start).padOnly(t: 12, l: 12, r: 8, b: 4);
     final widget = selected
         ? body.inFilledCard(
             clip: Clip.hardEdge,
@@ -179,10 +179,12 @@ class EntryCard extends StatelessWidget {
         : body.inOutlinedCard(
             clip: Clip.hardEdge,
           );
-    return widget;
+    return widget.onTap(() async {
+      await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions));
+    });
   }
 
-  List<MenuAction> buildContextMenuActions(
+  List<MenuAction> buildMenuActions(
     BuildContext context, {
     required List<EntryAction> actions,
     required EntrySelectAction? selectAction,
@@ -192,7 +194,6 @@ class EntryCard extends StatelessWidget {
     if (selectAction != null && !selected) {
       final selectCallback = selectAction.action;
       all.add(MenuAction(
-        state: MenuActionState.checkOff,
         image: MenuImage.icon(CupertinoIcons.check_mark),
         title: selectAction.selectLabel,
         callback: selectCallback,
@@ -204,6 +205,7 @@ class EntryCard extends StatelessWidget {
       all.add(MenuAction(
         image: icon == null ? null : MenuImage.icon(icon),
         title: action.label,
+        activator: action.activator,
         callback: callback,
       ));
     }
