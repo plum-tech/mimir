@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../i18n.dart';
 
-import '../theme/colors.dart';
+import '../theme.dart';
 import '../manager/board.dart';
 
 class ScoreBoard extends ConsumerWidget {

@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
+import 'package:sit/game/2048/save.dart';
 import 'package:uuid/uuid.dart';
 
 import '../model/tile.dart';
@@ -17,24 +18,16 @@ class BoardManager extends StateNotifier<Board> {
 
   final StateNotifierProviderRef ref;
 
-  BoardManager(this.ref) : super(Board.newGame(0, [])) {
-    //Load the last saved state or start a new game.
-    load();
+  BoardManager(this.ref) : super(Board.newGame(best: 0, tiles: [])) {
+    Board.newGame(best: max(state.best, state.score), tiles: [random([])]);
   }
 
-  void load() async {
-    //Access the box and get the first item at index 0
-    //which will always be just one item of the Board model
-    //and here we don't need to call fromJson function of the board model
-    //in order to construct the Board model
-    //instead the adapter we added earlier will do that automatically.
-    //If there is no save locally it will start a new game.
-    state = _newGame();
+  BoardManager.fromSave(this.ref, {required Board save}) : super(save) {
   }
 
   // Create New Game state.
   Board _newGame() {
-    return Board.newGame(max(state.best, state.score), [random([])]);
+    return Board.newGame(best: max(state.best, state.score), tiles: [random([])]);
   }
 
   // Start New Game
@@ -286,13 +279,16 @@ class BoardManager extends StateNotifier<Board> {
     return false;
   }
 
-  void save() async {
-    //Here we don't need to call toJson function of the board model
-    //in order to convert the data to json
-    //instead the adapter we added earlier will do that automatically.
+  Future<void> save() async {
+    // Here we don't need to call toJson function of the board model
+    // in order to convert the data to json
+    // instead the adapter we added earlier will do that automatically.
+    await Save2048.storage.save(state.toSave());
   }
 }
 
 final boardManager = StateNotifierProvider<BoardManager, Board>((ref) {
+  final save = Save2048.storage.load();
+
   return BoardManager(ref);
 });

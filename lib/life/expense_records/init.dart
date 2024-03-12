@@ -1,4 +1,4 @@
-import 'package:sit/settings/settings.dart';
+import 'package:sit/settings/dev.dart';
 
 import 'service/fetch.dart';
 import 'service/fetch.demo.dart';
@@ -9,7 +9,7 @@ class ExpenseRecordsInit {
   static late ExpenseStorage storage;
 
   static void init() {
-    service = Settings.demoMode ? const DemoExpenseService() : const ExpenseService();
+    service = Dev.demoMode ? const DemoExpenseService() : const ExpenseService();
     storage = const ExpenseStorage();
   }
 }

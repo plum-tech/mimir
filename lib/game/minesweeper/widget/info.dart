@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import '../manager/logic.dart';
 import '../manager/timer.dart';
-import '../theme/colors.dart';
+import '../theme.dart';
 
 class GameOverModal extends ConsumerWidget {
   const GameOverModal({

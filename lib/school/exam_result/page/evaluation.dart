@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/init.dart';
 
-import 'package:sit/settings/settings.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/utils/cookies.dart';
 import 'package:sit/widgets/webview/injectable.dart';
 import 'package:sit/widgets/webview/page.dart';
@@ -87,7 +87,7 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
           js: _skipCountingDownPageJs,
         ),
       ],
-      bottomNavigationBar: Settings.devMode
+      bottomNavigationBar: Dev.on
           ? BottomAppBar(
               height: 40,
               child: buildAutofillScore(),

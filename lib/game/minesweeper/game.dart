@@ -9,7 +9,7 @@ import 'manager/logic.dart';
 import 'widget/board.dart';
 import "package:flutter/foundation.dart";
 import 'manager/timer.dart';
-import 'theme/colors.dart';
+import 'theme.dart';
 import 'i18n.dart';
 
 class GameMinesweeper extends ConsumerStatefulWidget {

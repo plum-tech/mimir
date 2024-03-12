@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/r.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/entity/version.dart';
 import 'package:sit/update/utils.dart';
@@ -92,7 +92,7 @@ class VersionTile extends StatefulWidget {
 
 class _VersionTileState extends State<VersionTile> {
   int clickCount = 0;
-  final $isDeveloperMode = Settings.listenDevMode();
+  final $isDeveloperMode = Dev.listenDevMode();
 
   @override
   void initState() {
@@ -135,14 +135,14 @@ class _VersionTileState extends State<VersionTile> {
               },
               child: i18n.about.checkUpdate.text(),
             ),
-      onTap: Settings.devMode && clickCount <= 10
+      onTap: Dev.on && clickCount <= 10
           ? null
           : () async {
-              if (Settings.devMode) return;
+              if (Dev.on) return;
               clickCount++;
               if (clickCount >= 10) {
                 clickCount = 0;
-                Settings.devMode = true;
+                Dev.on = true;
                 context.showSnackBar(content: i18n.dev.devModeActivateTip.text());
                 await HapticFeedback.mediumImpact();
               }

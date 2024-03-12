@@ -1,40 +1,47 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:hive/hive.dart';
+import 'package:sit/storage/hive/init.dart';
 import 'package:version/version.dart';
 
-abstract class GameSaveSerializer<TSave> {
-  TSave deserialize(Map<String, dynamic> json);
-
-  Map<String, dynamic> serialize(TSave save);
-}
-
-abstract class GameStorageBox<TSave> {
+class GameStorageBox<TSave> {
+  Box get _box => HiveInit.game;
   final String name;
   final Version version;
-  final GameStorageStore store;
-  final GameSaveSerializer<TSave> serializer;
+  final TSave Function(Map<String, dynamic> json) deserialize;
+  final Map<String, dynamic> Function(TSave save) serialize;
 
   const GameStorageBox({
     required this.name,
-    required this.store,
     required this.version,
-    required this.serializer,
+    required this.serialize,
+    required this.deserialize,
   });
-}
 
-class GameStorageStore {
-  final Box box;
-
-  const GameStorageStore({required this.box});
-
-  Future<void> save(String key, String value) async {
-    await box.put(key, value);
+  Future<void> save(TSave save, {int slot = 0}) async {
+    final json = serialize(save);
+    final str = jsonEncode(json);
+    await _box.put("/$name/$version/$slot", str);
   }
 
-  String? load(String key) {
-    return box.get(key);
+  Future<void> delete({int slot = 0}) async {
+    await _box.delete("/$name/$version/$slot");
   }
 
-  bool existing(String key) {
-    return box.containsKey(key);
+  TSave? load({int slot = 0}) {
+    final str = _box.get("/$name/$version/$slot");
+    if (str == null) return null;
+    try {
+      final json = jsonDecode(str);
+      final save = deserialize(json);
+      return save;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  bool exists({int slot = 0}) {
+    return _box.containsKey("/$name/$version/$slot");
   }
 }

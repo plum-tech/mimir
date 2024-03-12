@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../manager/logic.dart';
-import '../../theme/colors.dart';
+import '../../theme.dart';
 
 class Mine extends ConsumerWidget {
   const Mine({super.key});

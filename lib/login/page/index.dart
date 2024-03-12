@@ -14,6 +14,7 @@ import 'package:sit/login/utils.dart';
 import 'package:sit/r.dart';
 import 'package:sit/school/widgets/campus.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 
 import '../aggregated.dart';
@@ -92,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
     CredentialsInit.storage.oaLoginStatus = LoginStatus.validated;
     CredentialsInit.storage.oaLastAuthTime = DateTime.now();
     CredentialsInit.storage.oaUserType = OaUserType.undergraduate;
-    Settings.demoMode = true;
+    Dev.demoMode = true;
     await Init.initModules();
     if (!mounted) return;
     setState(() => isLoggingIn = false);

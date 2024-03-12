@@ -13,6 +13,7 @@ import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/qrcode/protocol.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/settings/dev.dart';
 import '../i18n.dart';
 
 class ProxySettingsPage extends StatefulWidget {
@@ -50,7 +51,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
                 ProxyType.https,
                 icon: const Icon(Icons.https),
               ),
-              if (Settings.devMode)
+              if (Dev.on)
                 buildProxyTypeTile(
                   ProxyType.all,
                   icon: const Icon(Icons.public),

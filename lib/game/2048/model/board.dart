@@ -1,10 +1,8 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:uuid/uuid.dart';
 
 import '../model/tile.dart';
+import '../save.dart';
 
-part 'board.g.dart';
-
-@JsonSerializable(explicitToJson: true, anyMap: true)
 class Board {
   //Current score on the board
   final int score;
@@ -21,21 +19,60 @@ class Board {
   //Whether the game is won or not
   final bool won;
 
-  Board(this.score, this.best, this.tiles, {this.over = false, this.won = false});
+  Board({
+    required this.score,
+    required this.best,
+    required this.tiles,
+    this.over = false,
+    this.won = false,
+  });
 
   //Create a model for a new game.
-  Board.newGame(this.best, this.tiles)
-      : score = 0,
+  Board.newGame({
+    required this.best,
+    required this.tiles,
+  })  : score = 0,
         over = false,
         won = false;
 
   //Create an immutable copy of the board
-  Board copyWith({int? score, int? best, List<Tile>? tiles, bool? over, bool? won}) =>
-      Board(score ?? this.score, best ?? this.best, tiles ?? this.tiles, over: over ?? this.over, won: won ?? this.won);
+  Board copyWith({
+    int? score,
+    int? best,
+    List<Tile>? tiles,
+    bool? over,
+    bool? won,
+  }) {
+    return Board(
+      score: score ?? this.score,
+      best: best ?? this.best,
+      tiles: tiles ?? this.tiles,
+      over: over ?? this.over,
+      won: won ?? this.won,
+    );
+  }
 
-  //Create a Board from json data
-  factory Board.fromJson(Map<String, dynamic> json) => _$BoardFromJson(json);
+  // Create a Board from json data
+  factory Board.fromSave(Save2048 save) {
+    final tiles = <Tile>[];
+    for (var i = 0; i < save.tiles.length; i++) {
+      final score = save.tiles[i];
+      if (score > 0) {
+        tiles.add(Tile(const Uuid().v4(), score, i));
+      }
+    }
+    return Board(score: save.score, best: save.score, tiles: tiles);
+  }
 
   //Generate json data from the Board
-  Map<String, dynamic> toJson() => _$BoardToJson(this);
+  Save2048 toSave() {
+    final slots = List.generate(16, (index) => -1, growable: false);
+    for (final tile in tiles) {
+      slots[tile.index] = tile.value;
+    }
+    return Save2048(
+      score: score,
+      tiles: slots,
+    );
+  }
 }

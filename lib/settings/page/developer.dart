@@ -9,7 +9,7 @@ import 'package:sit/design/widgets/expansion_tile.dart';
 import 'package:sit/init.dart';
 import 'package:sit/login/aggregated.dart';
 import 'package:sit/login/utils.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/design/widgets/navigation.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
@@ -66,10 +66,10 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
         title: i18n.dev.devMode.text(),
         leading: const Icon(Icons.developer_mode_outlined),
         trailing: Switch.adaptive(
-          value: Settings.devMode,
+          value: Dev.on,
           onChanged: (newV) {
             setState(() {
-              Settings.devMode = newV;
+              Dev.on = newV;
             });
           },
         ),
@@ -82,10 +82,10 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
       builder: (ctx, setState) => ListTile(
         title: i18n.dev.demoMode.text(),
         trailing: Switch.adaptive(
-          value: Settings.demoMode,
+          value: Dev.demoMode,
           onChanged: (newV) async {
             setState(() {
-              Settings.demoMode = newV;
+              Dev.demoMode = newV;
             });
             await Init.initModules();
           },
@@ -170,7 +170,7 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
 
   @override
   Widget build(BuildContext context) {
-    final credentialsList = Settings.getSavedOaCredentialsList() ?? [];
+    final credentialsList = Dev.getSavedOaCredentialsList() ?? [];
     if (credentialsList.none((c) => c.account == widget.currentCredentials.account)) {
       credentialsList.add(widget.currentCredentials);
     }
@@ -226,9 +226,9 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
     try {
       await Init.cookieJar.deleteAll();
       await LoginAggregated.login(credentials);
-      final former = Settings.getSavedOaCredentialsList() ?? [];
+      final former = Dev.getSavedOaCredentialsList() ?? [];
       former.add(credentials);
-      await Settings.setSavedOaCredentialsList(former);
+      await Dev.setSavedOaCredentialsList(former);
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       context.go("/");

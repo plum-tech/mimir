@@ -1,7 +1,7 @@
 import 'package:sit/school/library/service/auth.dart';
 import 'package:sit/school/library/storage/book.dart';
 import 'package:sit/school/library/storage/borrow.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:sit/settings/dev.dart';
 
 import 'service/book.demo.dart';
 import 'service/details.dart';
@@ -36,12 +36,12 @@ class LibraryInit {
   static void init() {
     auth = const LibraryAuthService();
 
-    bookSearch = Settings.demoMode ? const DemoBookSearchService() : const BookSearchService();
+    bookSearch = Dev.demoMode ? const DemoBookSearchService() : const BookSearchService();
     bookDetailsService = const BookDetailsService();
     collectionInfoService = const LibraryCollectionInfoService();
     bookImageSearch = const BookImageSearchService();
     collectionPreviewService = const LibraryCollectionPreviewService();
-    hotSearchService = Settings.demoMode ? const DemoLibraryTrendsService() : const LibraryTrendsService();
+    hotSearchService = Dev.demoMode ? const DemoLibraryTrendsService() : const LibraryTrendsService();
 
     borrowService = const LibraryBorrowService();
 

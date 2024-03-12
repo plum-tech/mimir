@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/widgets/common.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:sit/settings/dev.dart';
 
 class NotFoundPage extends StatelessWidget {
   final String routeName;
@@ -17,7 +17,7 @@ class NotFoundPage extends StatelessWidget {
       ),
       body: LeavingBlank(
         icon: Icons.browser_not_supported,
-        desc: Settings.devMode ? routeName : _i18n.subtitle,
+        desc: Dev.on ? routeName : _i18n.subtitle,
       ),
     );
   }

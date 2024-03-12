@@ -17,6 +17,7 @@ import 'package:sit/settings/settings.dart';
 import 'package:sit/school/widgets/campus.dart';
 import 'package:sit/utils/color.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:locale_names/locale_names.dart';
@@ -32,7 +33,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final $isDeveloperMode = Settings.listenDevMode();
+  final $isDeveloperMode = Dev.listenDevMode();
 
   @override
   void initState() {
@@ -127,7 +128,7 @@ class _SettingsPageState extends State<SettingsPage> {
       }
       all.add(const Divider());
     }
-    if (Settings.devMode) {
+    if (Dev.on) {
       all.add(PageNavigationTile(
         title: i18n.dev.title.text(),
         leading: const Icon(Icons.developer_mode_outlined),
@@ -282,7 +283,7 @@ class WipeDataTile extends StatelessWidget {
   }
 }
 
-void _onWipeData(BuildContext context) async {
+Future<void> _onWipeData(BuildContext context) async {
   final confirm = await context.showRequest(
     title: i18n.wipeDataRequest,
     desc: i18n.wipeDataRequestDesc,
@@ -294,6 +295,7 @@ void _onWipeData(BuildContext context) async {
   if (confirm == true) {
     await HiveInit.clear(); // 清除存储
     await Init.initNetwork();
+    await Init.initModules();
     if (!context.mounted) return;
     OaOnlineManagerState.of(context).isOnline = false;
     _gotoLogin(context);
