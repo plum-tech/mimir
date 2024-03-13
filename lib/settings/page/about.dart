@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -124,7 +125,7 @@ class _VersionTileState extends State<VersionTile> {
       },
       title: i18n.about.version.text(),
       subtitle: "${version.platform.name} ${version.version.toString()}".text(),
-      trailing: UniversalPlatform.isIOS || UniversalPlatform.isMacOS
+      trailing: UniversalPlatform.isIOS || UniversalPlatform.isMacOS || kIsWeb
           ? null
           : OutlinedButton(
               onPressed: () async {
