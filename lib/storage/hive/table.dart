@@ -52,7 +52,7 @@ class HiveTable<T> {
 
   set lastId(int newValue) => box.put(_lastIdK, newValue);
 
-  List<int>? get idList => box.get(_idListK);
+  List<int>? get idList => box.get(_idListK)?.cast<int>();
 
   set idList(List<int>? newValue) => box.put(_idListK, newValue);
 
