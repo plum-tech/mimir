@@ -268,20 +268,22 @@ class PaletteCard extends StatelessWidget {
             onDuplicate?.call();
           },
         ),
-        EntryAction(
-          label: i18n.p13n.palette.shareQrCode,
-          icon: Icons.qr_code,
-          cupertinoIcon: CupertinoIcons.qrcode,
-          action: () async {
-            final qrCodeData = const TimetablePaletteDeepLink().encode(palette);
-            await ctx.show$Sheet$(
-              (context) => QrCodePage(
-                title: palette.name.text(),
-                data: qrCodeData.toString(),
-              ),
-            );
-          },
-        ),
+        // Uint64 is not supporting on web
+        if (!kIsWeb)
+          EntryAction(
+            label: i18n.p13n.palette.shareQrCode,
+            icon: Icons.qr_code,
+            cupertinoIcon: CupertinoIcons.qrcode,
+            action: () async {
+              final qrCodeData = const TimetablePaletteDeepLink().encode(palette);
+              await ctx.show$Sheet$(
+                (context) => QrCodePage(
+                  title: palette.name.text(),
+                  data: qrCodeData.toString(),
+                ),
+              );
+            },
+          ),
         if (kDebugMode)
           EntryAction(
             label: "Copy Dart code",
