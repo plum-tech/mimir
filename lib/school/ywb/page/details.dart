@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/utils/error.dart';
@@ -101,7 +102,7 @@ class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
   }
 
   void openInApp() {
-    if (UniversalPlatform.isDesktopOrWeb) {
+    if (kIsWeb || UniversalPlatform.isDesktop) {
       guardLaunchUrlString(context, "http://ywb.sit.edu.cn/v1/#/");
     } else {
       // 跳转到申请页面
