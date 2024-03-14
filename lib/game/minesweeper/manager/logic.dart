@@ -3,7 +3,7 @@ import '../model/screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:flutter/foundation.dart";
 import 'package:logger/logger.dart';
-import '../model/mineboard.dart';
+import '../model/board.dart';
 import '../model/cell.dart';
 
 // Debug Tool
@@ -21,7 +21,7 @@ class GameLogic extends StateNotifier<GameStates> {
     state.mode = gameMode;
     state.gameOver = false;
     state.goodGame = false;
-    state.board = MineBoard(rows: state.mode.gameRows, cols: state.mode.gameCols);
+    state.board = Board(rows: state.mode.gameRows, cols: state.mode.gameCols);
     mineNum = state.mode.gameMines;
     firstClick = true;
     if (kDebugMode) {
@@ -107,7 +107,7 @@ class GameLogic extends StateNotifier<GameStates> {
   bool checkWin() {
     var coveredCells = state.board.countAllByState(state: CellState.covered);
     var flagCells = state.board.countAllByState(state: CellState.flag);
-    var mineCells = state.board.countMines();
+    var mineCells = state.board.mines;
     if (kDebugMode) {
       logger.log(
         Level.debug,
@@ -152,7 +152,7 @@ class GameStates {
   late bool goodGame;
   late GameMode mode;
   late Screen screen;
-  late MineBoard board;
+  late Board board;
 }
 
 final boardManager = StateNotifierProvider<GameLogic, GameStates>((ref) {

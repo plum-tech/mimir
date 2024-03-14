@@ -178,14 +178,14 @@ class GameHud extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               const Icon(Icons.videogame_asset_outlined),
-              ref.read(boardManager).board.mines == -1
-                  ? Text(
+              ref.read(boardManager).board.started
+                  ? MinesAndFlags(
+                      flags: ref.read(boardManager).board.countAllByState(state: CellState.flag),
+                      mines: ref.read(boardManager).board.mines,
+                    )
+                  : Text(
                       mode.l10n(),
                       style: textTheme.bodyLarge,
-                    )
-                  : MinesAndFlags(
-                      flags: ref.read(boardManager).board.countAllByState(state: CellState.flag),
-                      mines: ref.read(boardManager).board.countMines(),
                     ),
             ],
           ),

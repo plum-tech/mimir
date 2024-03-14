@@ -4,16 +4,16 @@ import 'package:logger/logger.dart';
 import 'dart:math';
 import 'cell.dart';
 
-class MineBoard {
-  int mines = -1;
+class Board {
+  var _mines = -1;
   final int rows;
   final int cols;
-  late List<List<Cell>> board;
+  late List<Cell> _board;
 
   static const _nearbyDelta = [(-1, 1), (0, 1), (1, 1), (-1, 0), /*(0,0)*/ (1, 0), (-1, -1), (0, -1), (1, -1)];
 
-  MineBoard({required this.rows, required this.cols}) {
-    board = List.generate(rows, (row) => List.generate(cols, (col) => Cell(row: row, col: col)));
+  Board({required this.rows, required this.cols}) {
+    _board = List.generate(rows * cols , (index) => Cell(row: index ~/ cols, col: index % cols));
     if (kDebugMode) {
       logger.log(Level.info, "MineBoard Init Finished");
     }
@@ -29,20 +29,9 @@ class MineBoard {
     return count;
   }
 
-  int countMines() {
-    // Return the default mines (required num) first
-    if (mines >= 0) {
-      return mines;
-    } else {
-      var count = 0;
-      for (final cell in iterateAllCells()) {
-        if (cell.mine) {
-          count += 1;
-        }
-      }
-      return count;
-    }
-  }
+  int get mines => max(0, _mines);
+
+  bool get started => _mines >= 0;
 
   int countAroundByState({required Cell cell, required state}) {
     var count = 0;
@@ -65,7 +54,7 @@ class MineBoard {
   }
 
   void randomMines({required number, required clickRow, required clickCol}) {
-    mines = number;
+    _mines = number;
     int beginSafeRow = clickRow - 1 < 0 ? 0 : clickRow - 1;
     int endSafeRow = clickRow + 1 >= rows ? rows - 1 : clickRow + 1;
     int beginSafeCol = clickCol - 1 < 0 ? 0 : clickCol - 1;
@@ -75,9 +64,9 @@ class MineBoard {
       var value = Random().nextInt(cols * rows);
       var col = value % cols;
       var row = (value / cols).floor();
-      if (!board[row][col].mine &&
-          !((row >= beginSafeRow && row <= endSafeRow) && (col >= beginSafeCol && col <= endSafeCol))) {
-        board[row][col].mine = true;
+      final cell = getCell(row: row, col: col);
+      if (!cell.mine && !((row >= beginSafeRow && row <= endSafeRow) && (col >= beginSafeCol && col <= endSafeCol))) {
+        cell.mine = true;
         _addRoundCellMineNum(row: row, col: col); // count as mine created
         cnt += 1;
       }
@@ -85,38 +74,38 @@ class MineBoard {
   }
 
   void _addRoundCellMineNum({required row, required col}) {
-    for (final neighbor in iterateAround(cell: board[row][col])) {
+    for (final neighbor in iterateAround(cell: getCell(row: row, col: col))) {
       neighbor.minesAround += 1;
     }
   }
 
   Cell getCell({required row, required col}) {
-    return board[row][col];
+    return _board[row * cols + col];
   }
 
   void changeCell({required row, required col, required state}) {
-    board[row][col].state = state;
+    getCell(row: row, col: col).state = state;
   }
 
   Iterable<Cell> iterateAround({required Cell cell}) sync* {
     for (final (dx, dy) in _nearbyDelta) {
       final row = cell.row + dx;
       final col = cell.col + dy;
-      if (isInRange(row: row, col: col)) {
-        yield board[row][col];
+      if (_isInRange(row: row, col: col)) {
+        yield getCell(row: row, col: col);
       }
     }
   }
 
   Iterable<Cell> iterateAllCells() sync* {
-    for (int r = 0; r < rows; r++) {
-      for (int c = 0; c < cols; c++) {
-        yield board[r][c];
+    for (var row = 0; row < rows; row++) {
+      for (var column = 0; column < cols; column++) {
+        yield getCell(row: row, col: column);
       }
     }
   }
 
-  bool isInRange({required int row, required int col}) {
+  bool _isInRange({required int row, required int col}) {
     return 0 <= row && row < rows && 0 <= col && col < cols;
   }
 }
