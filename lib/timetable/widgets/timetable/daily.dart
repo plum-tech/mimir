@@ -223,7 +223,7 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
     final course = lesson.course;
     final style = TimetableStyle.of(context);
 
-    var color = style.platte.resolveColor(course).byTheme(context.theme);
+    var color = timetable.resolveColor(style.platte,course).byTheme(context.theme);
     if (style.cellStyle.harmonizeWithThemeColor) {
       color = color.harmonizeWith(context.colorScheme.primary);
     }
@@ -341,7 +341,7 @@ class LessonOverlapGroup extends StatelessWidget {
     for (int lessonIndex = 0; lessonIndex < lessonsInSlot.length; lessonIndex++) {
       final lesson = lessonsInSlot[lessonIndex];
       final course = lesson.course;
-      final color = TimetableStyle.of(context).platte.resolveColor(course).byTheme(context.theme);
+      final color = timetable.resolveColor(TimetableStyle.of(context).platte,course).byTheme(context.theme);
       classTime = course.buildingTimetable[timeslot];
       final row = LessonCard(
         lesson: lesson,

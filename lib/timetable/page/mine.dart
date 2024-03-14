@@ -344,7 +344,8 @@ class TimetableDetailsPage extends StatefulWidget {
 
 class _TimetableDetailsPageState extends State<TimetableDetailsPage> {
   late final $row = TimetableInit.storage.timetable.listenRowChange(widget.id);
-  late SitTimetable timetable = widget.timetable;
+  late var timetable = widget.timetable;
+  late var resolver = SitTimetablePaletteResolver(timetable);
 
   @override
   void initState() {
@@ -366,6 +367,7 @@ class _TimetableDetailsPageState extends State<TimetableDetailsPage> {
     } else {
       setState(() {
         this.timetable = timetable;
+        resolver = SitTimetablePaletteResolver(timetable);
       });
     }
   }
@@ -404,9 +406,10 @@ class _TimetableDetailsPageState extends State<TimetableDetailsPage> {
           SliverList.builder(
             itemCount: courses.length,
             itemBuilder: (ctx, i) {
+              final course = courses[i];
               return TimetableCourseCard(
-                courses[i],
-                palette: palette,
+                course,
+                color: resolver.resolveColor(palette, course).byTheme(context.theme),
               );
             },
           )

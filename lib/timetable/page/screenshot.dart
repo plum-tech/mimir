@@ -166,6 +166,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
         cellBuilder: ({required context, required lesson, required timetable}) {
           return StyledCourseCell(
             style: style,
+            timetable: timetable,
             course: lesson.course,
             grayOut: config.grayOutTakenLessons ? lesson.type.endTime.isBefore(today) : false,
           );

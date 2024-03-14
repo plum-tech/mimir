@@ -2,18 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/school/widgets/course.dart';
-import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/entity/timetable.dart';
-import 'package:sit/timetable/platte.dart';
 
 class TimetableCourseCard extends StatelessWidget {
   final SitCourse course;
-  final TimetablePalette? palette;
+  final Color color;
 
   const TimetableCourseCard(
     this.course, {
     super.key,
-    this.palette,
+    required this.color,
   });
 
   @override
@@ -28,7 +26,7 @@ class TimetableCourseCard extends StatelessWidget {
           if (course.teachers.isNotEmpty) course.teachers.join(", ").text(),
         ].column(caa: CrossAxisAlignment.start),
         trailing: FilledCard(
-          color: palette?.resolveColor(course).byTheme(context.theme),
+          color: color,
           child: const SizedBox(width: 32, height: 32),
         ),
       ),

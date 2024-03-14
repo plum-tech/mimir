@@ -142,13 +142,13 @@ class BuiltinTimetablePalettes {
 extension TimetablePlatteX on TimetablePalette {
   Color2Mode resolveColor(SitCourse course) {
     assert(colors.isNotEmpty, "Colors can't be empty");
-    if (colors.isEmpty) return (light: Colors.white, dark: Colors.black);
+    if (colors.isEmpty) return TimetablePalette.defaultColor;
     return colors[course.courseCode.hashCode.abs() % colors.length];
   }
 
   Color2Mode safeGetColor(int index) {
     assert(colors.isNotEmpty, "Colors can't be empty");
-    if (colors.isEmpty) return (light: Colors.white, dark: Colors.black);
+    if (colors.isEmpty) return TimetablePalette.defaultColor;
     return colors[index % colors.length];
   }
 }

@@ -140,7 +140,7 @@ class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
                       title: i18n.p13n.palette.addColor.text(),
                       onTap: () {
                         setState(() {
-                          colors.add((light: Colors.white30, dark: Colors.black12));
+                          colors.add(TimetablePalette.defaultColor);
                         });
                       },
                     ),

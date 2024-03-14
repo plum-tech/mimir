@@ -48,6 +48,8 @@ class TimetablePalette {
   @JsonKey()
   final DateTime? lastModified;
 
+  static const defaultColor = (light: Colors.white30, dark: Colors.black12);
+
   const TimetablePalette({
     required this.name,
     required this.author,

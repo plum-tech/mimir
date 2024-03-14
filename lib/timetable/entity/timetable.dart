@@ -5,6 +5,7 @@ import 'package:sit/entity/campus.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/entity/timetable.dart';
+import 'package:sit/timetable/entity/platte.dart';
 
 import '../utils.dart';
 
@@ -332,13 +333,57 @@ String rangeToString(({int start, int end}) range) {
   }
 }
 
-class SitTimetableEntity {
+abstract mixin class SitTimetablePaletteResolver {
+  SitTimetable get type;
+
+  factory SitTimetablePaletteResolver(SitTimetable type) {
+    return _SitTimetablePaletteResolverImpl(type: type);
+  }
+
+  final _fixedCourseCode2Color = <TimetablePalette, Map<String, Color2Mode>>{};
+
+  Color2Mode resolveColor(TimetablePalette palette, SitCourse course) {
+    assert(palette.colors.isNotEmpty, "Colors can't be empty");
+    if (palette.colors.isEmpty) return TimetablePalette.defaultColor;
+    assert(type.courses.containsValue(course), "Course $course not found in this timetable");
+
+    final fixedCourseCode2Color = _fixedCourseCode2Color[palette] ?? _cacheFixedCourseCode2Color(palette);
+    return fixedCourseCode2Color[course.courseCode] ??
+        palette.colors[course.courseCode.hashCode.abs() % palette.colors.length];
+  }
+
+  Map<String, Color2Mode> _cacheFixedCourseCode2Color(TimetablePalette palette) {
+    final queue = List.of(palette.colors);
+    final fixedCourseCode2Color = <String, Color2Mode>{};
+    for (final course in type.courses.values) {
+      if (queue.isEmpty) break;
+      final index = course.courseCode.hashCode.abs() % queue.length;
+      // allocate a color for this course code
+      fixedCourseCode2Color[course.courseCode] = queue[index];
+      // remove it in the next loop
+      queue.removeAt(index);
+    }
+    return fixedCourseCode2Color;
+  }
+}
+
+class _SitTimetablePaletteResolverImpl with SitTimetablePaletteResolver {
+  @override
+  final SitTimetable type;
+
+  _SitTimetablePaletteResolverImpl({
+    required this.type,
+  });
+}
+
+class SitTimetableEntity with SitTimetablePaletteResolver {
+  @override
   final SitTimetable type;
 
   /// The Default number of weeks is 20.
   final List<SitTimetableWeek> weeks;
 
-  final Map<String, List<SitCourse>> _code2CoursesCache = {};
+  final _courseCode2CoursesCache = <String, List<SitCourse>>{};
 
   SitTimetableEntity({
     required this.type,
@@ -346,7 +391,7 @@ class SitTimetableEntity {
   });
 
   List<SitCourse> findAndCacheCoursesByCourseCode(String courseCode) {
-    final found = _code2CoursesCache[courseCode];
+    final found = _courseCode2CoursesCache[courseCode];
     if (found != null) {
       return found;
     } else {
@@ -356,7 +401,7 @@ class SitTimetableEntity {
           res.add(course);
         }
       }
-      _code2CoursesCache[courseCode] = res;
+      _courseCode2CoursesCache[courseCode] = res;
       return res;
     }
   }

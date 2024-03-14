@@ -349,6 +349,7 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
   @override
   Widget build(BuildContext context) {
     return StyledCourseCell(
+      timetable: widget.timetable,
       course: widget.lesson.course,
       grayOut: widget.grayOut,
       style: widget.style,
@@ -427,12 +428,14 @@ class CourseCell extends StatelessWidget {
 
 class StyledCourseCell extends StatelessWidget {
   final SitCourse course;
+  final SitTimetableEntity timetable;
   final bool grayOut;
   final Widget Function(BuildContext context, Widget child)? innerBuilder;
   final TimetableStyleData style;
 
   const StyledCourseCell({
     super.key,
+    required this.timetable,
     required this.course,
     required this.grayOut,
     required this.style,
@@ -441,7 +444,7 @@ class StyledCourseCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var color = style.platte.resolveColor(course).byTheme(context.theme);
+    var color = timetable.resolveColor(style.platte, course).byTheme(context.theme);
     if (style.cellStyle.harmonizeWithThemeColor) {
       color = color.harmonizeWith(context.colorScheme.primary);
     }
