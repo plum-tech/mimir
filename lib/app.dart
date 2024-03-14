@@ -82,6 +82,7 @@ class _MimirAppState extends State<MimirApp> {
                 brightness: origin.brightness,
               ),
         visualDensity: VisualDensity.comfortable,
+        splashFactory: InkSparkle.splashFactory,
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
             TargetPlatform.android: ZoomPageTransitionsBuilder(),
