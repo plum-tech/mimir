@@ -677,6 +677,8 @@ qrCode:
   title: Not Found
   subtitle: The requested page was not found
 update:
+  title: Check update
+  onLatestTip: You are on the latest version
   newVersionAvailable: New version available!
   notNow: Not Now
   skipThisVersion: Skip this version

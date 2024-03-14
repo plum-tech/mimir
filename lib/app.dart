@@ -150,7 +150,7 @@ class _PostServiceRunnerState extends State<_PostServiceRunner> {
         await checkAppUpdate(
           context: $Key.currentContext!,
           delayAtLeast: const Duration(milliseconds: 3000),
-          active: false,
+          manually: false,
         );
       });
     }

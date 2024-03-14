@@ -265,14 +265,14 @@ class2nd:
       short: 文明
   applicationResponse:
     successfulCheck: 检查成功
-    incompleteApplicantInfo: 您的个人信息不全，请补全您的信息
-    alreadyApplied: 您已申请过该活动
-    applicationReachLimitToday: 您今天的申请次数已达上限
+    incompleteApplicantInfo: 你的个人信息不全，请补全你的信息
+    alreadyApplied: 你已申请过该活动
+    applicationReachLimitToday: 你今天的申请次数已达上限
     activityReachParticipantLimit: 该活动的申请人数已达上限
     activityExpired: 该活动已过期并停止接受申请
-    applicantOccupiedWithinActivity: 您已申请过该时间段的其他活动
-    applicantNotPermitted: 您不能申请该活动
-    applicantNotIncluding: 您不属于该活动的可申请人员范围内
+    applicantOccupiedWithinActivity: 你已申请过该时间段的其他活动
+    applicantNotPermitted: 你不能申请该活动
+    applicantNotIncluding: 你不属于该活动的可申请人员范围内
 ywb:
   title: 应网办
   info: |
@@ -677,6 +677,8 @@ qrCode:
   title: 找不到页面
   subtitle: 未找到请求的页面
 update:
+  title: 检查更新
+  onLatestTip: 你使用的是最新版本
   newVersionAvailable: 有新版本可用！
   notNow: 再等等
   skipThisVersion: 跳过这个版本

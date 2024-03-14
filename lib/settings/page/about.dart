@@ -131,7 +131,7 @@ class _VersionTileState extends State<VersionTile> {
               onPressed: () async {
                 await checkAppUpdate(
                   context: context,
-                  active: true,
+                  manually: true,
                 );
               },
               child: i18n.about.checkUpdate.text(),

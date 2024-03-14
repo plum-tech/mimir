@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:markdown_widget/markdown_widget.dart';
@@ -7,6 +6,7 @@ import 'package:sit/r.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/update/entity/artifact.dart';
 import 'package:sit/widgets/markdown.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../i18n.dart';
 
@@ -60,9 +60,9 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
               }
               context.pop();
             },
-            child: i18n.notNow.text(style: context.textTheme.titleMedium).padAll(16),
+            child: i18n.notNow.text(),
           ).padOnly(r: 8).expanded(),
-          FilledButton(
+          FilledButton.icon(
             onPressed: ignore
                 ? null
                 : () async {
@@ -73,7 +73,8 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
                     context.pop();
                     await launchUrlString(url, mode: LaunchMode.externalApplication);
                   },
-            child: i18n.download.text(style: context.textTheme.titleMedium).padAll(16),
+            icon: Icon(UniversalPlatform.isDesktop ? Icons.install_desktop : Icons.install_mobile),
+            label: i18n.download.text(),
           ).padOnly(l: 8).expanded(),
         ].row(maa: MainAxisAlignment.spaceEvenly).padAll(8),
       ].column().safeArea(),
