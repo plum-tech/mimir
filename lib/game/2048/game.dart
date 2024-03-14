@@ -137,6 +137,12 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
   }
 
   @override
+  void deactivate() {
+    super.deactivate();
+    ref.read(boardManager.notifier).save();
+  }
+
+  @override
   void dispose() {
     //Remove the Observer for the Lifecycles of the App
     WidgetsBinding.instance.removeObserver(this);
