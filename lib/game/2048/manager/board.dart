@@ -18,21 +18,16 @@ class BoardManager extends StateNotifier<Board> {
 
   final StateNotifierProviderRef ref;
 
-  BoardManager(this.ref) : super(Board.newGame(best: 0, tiles: [])) {
-    state = _newGame();
-  }
-
-  BoardManager.fromSave(this.ref, {required Board save}) : super(save) {
-  }
-
-  // Create New Game state.
-  Board _newGame() {
-    return Board.newGame(best: max(state.best, state.score), tiles: [random([])]);
-  }
+  BoardManager(this.ref) : super(Board.newGame(best: 0, tiles: []));
 
   // Start New Game
   void newGame() {
-    state = _newGame();
+    state = Board.newGame(best: max(state.best, state.score), tiles: [random([])]);
+  }
+
+  // Continue from save
+  void fromSave(Board save) {
+    state = save;
   }
 
   // Check whether the indexes are in the same row or column in the board.
@@ -288,6 +283,5 @@ class BoardManager extends StateNotifier<Board> {
 }
 
 final boardManager = StateNotifierProvider<BoardManager, Board>((ref) {
-  // final save = Save2048.storage.load();
   return BoardManager(ref);
 });

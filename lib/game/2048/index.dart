@@ -5,7 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'game.dart';
 
 class Game2048Page extends StatefulWidget {
-  const Game2048Page({super.key});
+  final bool newGame;
+
+  const Game2048Page({
+    super.key,
+    this.newGame = true,
+  });
 
   @override
   State<Game2048Page> createState() => _Game2048PageState();
@@ -14,8 +19,8 @@ class Game2048Page extends StatefulWidget {
 class _Game2048PageState extends State<Game2048Page> {
   @override
   Widget build(BuildContext context) {
-    return const ProviderScope(
-      child: Game2048(),
+    return ProviderScope(
+      child: Game2048(newGame: widget.newGame),
     );
   }
 }

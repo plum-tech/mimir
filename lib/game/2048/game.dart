@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:rettulf/rettulf.dart';
 
+import 'model/board.dart';
+import 'save.dart';
 import 'widget/empty_board.dart';
 import 'widget/score_board.dart';
 import 'widget/tile_board.dart';
@@ -11,7 +13,12 @@ import 'manager/board.dart';
 import 'i18n.dart';
 
 class Game2048 extends ConsumerStatefulWidget {
-  const Game2048({super.key});
+  final bool newGame;
+
+  const Game2048({
+    super.key,
+    this.newGame = true,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _GameState();
@@ -57,9 +64,21 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
 
   @override
   void initState() {
+    super.initState();
     //Add an Observer for the Lifecycles of the App
     WidgetsBinding.instance.addObserver(this);
-    super.initState();
+    Future.delayed(Duration.zero).then((value) {
+      if (widget.newGame) {
+        ref.read(boardManager.notifier).newGame();
+      } else {
+        final save = Save2048.storage.load();
+        if (save != null) {
+          ref.read(boardManager.notifier).fromSave(Board.fromSave(save));
+        } else {
+          ref.read(boardManager.notifier).newGame();
+        }
+      }
+    });
   }
 
   @override

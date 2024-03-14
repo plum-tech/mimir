@@ -402,7 +402,10 @@ final _browserRoute = GoRoute(
 final _gameRoutes = [
   GoRoute(
     path: "/game/2048",
-    builder: (ctx, state) => const Game2048Page(),
+    builder: (ctx, state) {
+      final continueGame = state.uri.queryParameters["continue"] != null;
+      return Game2048Page(newGame: !continueGame);
+    },
   ),
   GoRoute(
     path: "/game/minesweeper",
