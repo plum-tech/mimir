@@ -13,9 +13,10 @@ class _K {
 // ignore: non_constant_identifier_names
 late DevSettingsImpl Dev;
 
-class DevSettingsImpl{
+class DevSettingsImpl {
   final Box box;
   DevSettingsImpl(this.box);
+
   /// [false] by default.
   bool get on => box.get(_K.on) ?? false;
 
@@ -30,8 +31,7 @@ class DevSettingsImpl{
 
   ValueListenable<Box> listenDemoMode() => box.listenable(keys: [_K.demoMode]);
 
-  List<Credentials>? getSavedOaCredentialsList() =>
-      (box.get(_K.savedOaCredentialsList) as List?)?.cast<Credentials>();
+  List<Credentials>? getSavedOaCredentialsList() => (box.get(_K.savedOaCredentialsList) as List?)?.cast<Credentials>();
 
   Future<void> setSavedOaCredentialsList(List<Credentials>? newV) async {
     newV?.distinctBy((c) => c.account);

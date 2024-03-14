@@ -275,9 +275,6 @@ class BoardManager extends StateNotifier<Board> {
   }
 
   Future<void> save() async {
-    // Here we don't need to call toJson function of the board model
-    // in order to convert the data to json
-    // instead the adapter we added earlier will do that automatically.
     await Save2048.storage.save(state.toSave());
   }
 }

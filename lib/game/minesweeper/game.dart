@@ -2,6 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/game/minesweeper/save.dart';
+import 'model/board.dart';
 import 'model/cell.dart';
 import 'model/mode.dart';
 import 'widget/info.dart';
@@ -13,15 +15,65 @@ import 'theme.dart';
 import 'i18n.dart';
 
 class GameMinesweeper extends ConsumerStatefulWidget {
-  const GameMinesweeper({super.key});
+  final bool newGame;
+
+  const GameMinesweeper({
+    super.key,
+    this.newGame = true,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _MinesweeperState();
 }
 
-class _MinesweeperState extends ConsumerState<GameMinesweeper> {
+class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindingObserver {
   late GameTimer timer;
   late GameMode mode;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    mode = GameMode.easy;
+    timer = GameTimer(refresh: updateGame);
+    ref.read(boardManager.notifier).initGame(gameMode: mode);
+    Future.delayed(Duration.zero).then((value) {
+      if (!widget.newGame){
+        final save = SaveMinesweeper.storage.load();
+        if (save != null) {
+          ref.read(boardManager.notifier).fromSave(Board.fromSave(save));
+        } else {
+          ref.read(boardManager.notifier).initGame(gameMode: mode);
+        }
+      }
+    });
+    if (kDebugMode) {
+      logger.log(Level.info, "GameState Init Finished");
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    //Save current state when the app becomes inactive
+    if (state == AppLifecycleState.inactive) {
+      ref.read(boardManager.notifier).save();
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    ref.read(boardManager.notifier).save();
+  }
+
+  @override
+  void dispose() {
+    //Remove the Observer for the Lifecycles of the App
+    WidgetsBinding.instance.removeObserver(this);
+    timer.stopTimer();
+    super.dispose();
+  }
 
   void updateGame() {
     if (!timer.timerStart && !ref.read(boardManager.notifier).firstClick) {
@@ -51,23 +103,6 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> {
           height: screenSize.height - 56,
           mode: gameMode,
         );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    mode = GameMode.easy;
-    timer = GameTimer(refresh: updateGame);
-    ref.read(boardManager.notifier).initGame(gameMode: mode);
-    if (kDebugMode) {
-      logger.log(Level.info, "GameState Init Finished");
-    }
-  }
-
-  @override
-  void dispose() {
-    timer.stopTimer();
-    super.dispose();
   }
 
   @override

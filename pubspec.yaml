@@ -92,7 +92,7 @@ dependencies:
   window_manager: ^0.3.8
   win32_registry: ^1.1.2
   # Get package info (version)
-  package_info_plus: ^4.2.0
+  package_info_plus: ^5.0.1
   # Check VPN connection status
   check_vpn_connection: ^0.0.2
   connectivity_plus: ^5.0.2
@@ -134,7 +134,7 @@ dependencies:
   carousel_slider: ^4.2.1
   # iCalendar file generator
   enough_icalendar: ^0.16.0
-  super_context_menu: ^0.8.9
+  super_context_menu: ^0.8.5
 
   # Utils
   # dart.io.Platform API for Web

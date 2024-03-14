@@ -409,7 +409,10 @@ final _gameRoutes = [
   ),
   GoRoute(
     path: "/game/minesweeper",
-    builder: (ctx, state) => const GameMinesweeperPage(),
+    builder: (ctx, state) {
+      final continueGame = state.uri.queryParameters["continue"] != null;
+      return GameMinesweeperPage(newGame: !continueGame);
+    },
   ),
   GoRoute(
     path: "/game/suika",

@@ -59,30 +59,29 @@ class _OfflineGameAppCardState extends State<OfflineGameAppCard> {
             },
             child: "New game".text(),
           )
-        else
-          ...[
-            FilledButton(
-              onPressed: () {
-                context.push("/game${widget.baseRoute}?continue");
-              },
-              child: "Continue".text(),
-            ),
-            OutlinedButton(
-              onPressed: () {
-                context.push("/game${widget.baseRoute}");
-              },
-              child: "New game".text(),
-            )
-          ],
+        else ...[
+          FilledButton(
+            onPressed: () {
+              context.push("/game${widget.baseRoute}?continue");
+            },
+            child: "Continue".text(),
+          ),
+          OutlinedButton(
+            onPressed: () {
+              context.push("/game${widget.baseRoute}");
+            },
+            child: "New game".text(),
+          )
+        ],
       ],
       rightActions: [
         if (widget.supportHistory)
-        IconButton(
-          onPressed: () {
-            context.push("/game${widget.baseRoute}/history");
-          },
-          icon: const Icon(Icons.history),
-        ),
+          IconButton(
+            onPressed: () {
+              context.push("/game${widget.baseRoute}/history");
+            },
+            icon: const Icon(Icons.history),
+          ),
         if (widget.supportLeaderboard)
           IconButton(
             onPressed: () {

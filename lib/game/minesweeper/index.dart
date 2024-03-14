@@ -5,7 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'game.dart';
 
 class GameMinesweeperPage extends StatefulWidget {
-  const GameMinesweeperPage({super.key});
+  final bool newGame;
+
+  const GameMinesweeperPage({
+    super.key,
+    this.newGame = true,
+  });
 
   @override
   State<StatefulWidget> createState() => _MinesweeperPage();
@@ -14,6 +19,8 @@ class GameMinesweeperPage extends StatefulWidget {
 class _MinesweeperPage extends State<GameMinesweeperPage> {
   @override
   Widget build(BuildContext context) {
-    return const ProviderScope(child: GameMinesweeper());
+    return ProviderScope(
+      child: GameMinesweeper(newGame: widget.newGame),
+    );
   }
 }

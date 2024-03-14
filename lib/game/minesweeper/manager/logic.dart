@@ -1,3 +1,5 @@
+import 'package:sit/game/minesweeper/save.dart';
+
 import '../model/mode.dart';
 import '../model/screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,11 +23,24 @@ class GameLogic extends StateNotifier<GameStates> {
     state.mode = gameMode;
     state.gameOver = false;
     state.goodGame = false;
-    state.board = Board(rows: state.mode.gameRows, cols: state.mode.gameCols);
+    state.board = Board(rows: state.mode.gameRows, columns: state.mode.gameColumns);
     mineNum = state.mode.gameMines;
     firstClick = true;
     if (kDebugMode) {
       logger.log(Level.info, "Game Init Finished");
+    }
+  }
+
+  // TODO: finish this
+  void fromSave(Board save) {
+    state.mode = GameMode.easy;
+    state.gameOver = false;
+    state.goodGame = false;
+    state.board = save;
+    mineNum = save.mines;
+    firstClick = true;
+    if (kDebugMode) {
+      logger.log(Level.info, "Game from save");
     }
   }
 
@@ -144,6 +159,10 @@ class GameLogic extends StateNotifier<GameStates> {
     } else {
       assert(false, "$cell");
     }
+  }
+
+  Future<void> save() async {
+    await SaveMinesweeper.storage.save(state.board.toSave());
   }
 }
 

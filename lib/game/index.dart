@@ -3,11 +3,10 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/game/2048/card.dart';
+import 'package:sit/game/minesweeper/card.dart';
 import 'package:sit/settings/settings.dart';
-import "package:sit/game/minesweeper/i18n.dart" as i18n_minesweeper;
 
 import "i18n.dart";
-import 'widget/card.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({super.key});
@@ -69,10 +68,7 @@ class _GamePageState extends State<GamePage> {
             SliverList.list(
               children: [
                 const GameAppCard2048(),
-                OfflineGameAppCard(
-                  name: i18n_minesweeper.i18n.title,
-                  baseRoute: "/minesweeper",
-                ),
+                const GameAppCardMinesweeper(),
               ],
             ),
           ],

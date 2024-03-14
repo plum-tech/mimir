@@ -82,6 +82,34 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    //Save current state when the app becomes inactive
+    if (state == AppLifecycleState.inactive) {
+      ref.read(boardManager.notifier).save();
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    ref.read(boardManager.notifier).save();
+  }
+
+  @override
+  void dispose() {
+    //Remove the Observer for the Lifecycles of the App
+    WidgetsBinding.instance.removeObserver(this);
+
+    //Dispose the animations.
+    _moveAnimation.dispose();
+    _scaleAnimation.dispose();
+    _moveController.dispose();
+    _scaleController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -144,33 +172,5 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
         ),
       ),
     );
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    //Save current state when the app becomes inactive
-    if (state == AppLifecycleState.inactive) {
-      ref.read(boardManager.notifier).save();
-    }
-    super.didChangeAppLifecycleState(state);
-  }
-
-  @override
-  void deactivate() {
-    super.deactivate();
-    ref.read(boardManager.notifier).save();
-  }
-
-  @override
-  void dispose() {
-    //Remove the Observer for the Lifecycles of the App
-    WidgetsBinding.instance.removeObserver(this);
-
-    //Dispose the animations.
-    _moveAnimation.dispose();
-    _scaleAnimation.dispose();
-    _moveController.dispose();
-    _scaleController.dispose();
-    super.dispose();
   }
 }

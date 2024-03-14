@@ -1,7 +1,12 @@
+import 'package:json_annotation/json_annotation.dart';
+
 enum CellState {
+  @JsonValue(0)
   covered,
+  @JsonValue(1)
   blank,
-  flag,
+  @JsonValue(2)
+  flag;
 }
 
 class Cell {

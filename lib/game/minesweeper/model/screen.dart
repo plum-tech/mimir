@@ -26,14 +26,14 @@ class Screen {
   }
 
   double getCellWidth() {
-    var wCell = (screenWidth / (gameMode.gameCols + 1)).floorToDouble();
+    var wCell = (screenWidth / (gameMode.gameColumns + 1)).floorToDouble();
     var hCell = (screenHeight / (gameMode.gameRows + 3)).floorToDouble();
     var cellWidth = wCell > hCell ? hCell : wCell;
     return cellWidth;
   }
 
   Size getBoardSize() {
-    final width = getCellWidth() * gameMode.gameCols + getBorderWidth() * 2;
+    final width = getCellWidth() * gameMode.gameColumns + getBorderWidth() * 2;
     final height = getCellWidth() * gameMode.gameRows + getBorderWidth() * 2;
     final boardSize = Size(width: width, height: height);
     return boardSize;
