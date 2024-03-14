@@ -1,10 +1,12 @@
 import 'dart:math';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/adaptive/dialog.dart';
@@ -101,15 +103,12 @@ class _BoxSectionState extends State<BoxSection> {
   Widget buildTitle(BuildContext ctx) {
     final box = this.box;
     final boxNameStyle = ctx.textTheme.headlineSmall;
-    final action = PopupMenuButton(
-      position: PopupMenuPosition.under,
-      padding: EdgeInsets.zero,
-      itemBuilder: (ctx) => <PopupMenuEntry>[
-        PopupMenuItem(
-          child: ListTile(
-            leading: const Icon(Icons.edit, color: Colors.redAccent),
-            title: i18n.clear.text(style: const TextStyle(color: Colors.redAccent)),
-          ),
+    final action = PullDownMenuButton(
+      itemBuilder: (ctx) => [
+        PullDownItem(
+          icon: Icons.edit,
+          cupertinoIcon: CupertinoIcons.pencil,
+          title: i18n.edit,
           onTap: () async {
             final confirm = await _showDeleteBoxRequest(ctx);
             if (confirm == true) {
@@ -271,15 +270,13 @@ class _BoxItemState extends State<BoxItem> {
   }
 
   Widget buildActionButton(String key, dynamic value) {
-    return PopupMenuButton(
-      position: PopupMenuPosition.under,
-      padding: EdgeInsets.zero,
-      itemBuilder: (ctx) => <PopupMenuEntry>[
-        PopupMenuItem(
-          child: ListTile(
-            leading: const Icon(Icons.cleaning_services_outlined, color: Colors.redAccent),
-            title: i18n.clear.text(style: const TextStyle(color: Colors.redAccent)),
-          ),
+    return PullDownMenuButton(
+      itemBuilder: (ctx) => [
+        PullDownItem(
+          icon: Icons.cleaning_services_outlined,
+          cupertinoIcon: CupertinoIcons.clear,
+          title: i18n.clear,
+          destructive: true,
           onTap: () async {
             final confirm = await context.showRequest(
                 title: i18n.warning,
@@ -294,19 +291,19 @@ class _BoxItemState extends State<BoxItem> {
             }
           },
         ),
-        PopupMenuItem(
-          child: ListTile(
-            leading: const Icon(Icons.delete_outline_outlined, color: Colors.redAccent),
-            title: i18n.delete.text(style: const TextStyle(color: Colors.redAccent)),
-            onTap: () async {
-              ctx.pop();
-              final confirm = await _showDeleteItemRequest(ctx);
-              if (confirm == true) {
-                widget.box.delete(key);
-                widget.onBoxChanged?.call();
-              }
-            },
-          ),
+        PullDownItem(
+          icon: Icons.delete,
+          cupertinoIcon: CupertinoIcons.delete,
+          title: i18n.delete,
+          destructive: true,
+          onTap: () async {
+            ctx.pop();
+            final confirm = await _showDeleteItemRequest(ctx);
+            if (confirm == true) {
+              widget.box.delete(key);
+              widget.onBoxChanged?.call();
+            }
+          },
         ),
       ],
     );
@@ -373,13 +370,12 @@ class _StorageListLandscapeState extends State<StorageListLandscape> {
       itemBuilder: (ctx, i) {
         final (:name, :box) = widget.boxes[i];
         final color = name == selectedBoxName ? context.theme.secondaryHeaderColor : null;
-        final action = PopupMenuButton(
-          itemBuilder: (ctx) => <PopupMenuEntry>[
-            PopupMenuItem(
-              child: ListTile(
-                leading: const Icon(Icons.edit, color: Colors.redAccent),
-                title: i18n.clear.text(style: const TextStyle(color: Colors.redAccent)),
-              ),
+        final action = PullDownMenuButton(
+          itemBuilder: (ctx) => [
+            PullDownItem(
+              icon: Icons.delete,
+              cupertinoIcon: CupertinoIcons.delete,
+              title: i18n.clear,
               onTap: () async {
                 final confirm = await _showDeleteBoxRequest(ctx);
                 if (confirm == true) {

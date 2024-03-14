@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/design/widgets/tags.dart';
@@ -118,15 +120,11 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
   }
 
   Widget buildMoreActions() {
-    return PopupMenuButton(
-      position: PopupMenuPosition.under,
-      padding: EdgeInsets.zero,
-      itemBuilder: (ctx) => <PopupMenuEntry>[
-        PopupMenuItem(
-          child: ListTile(
-            leading: const Icon(Icons.open_in_browser),
-            title: i18n.openInBrowser.text(),
-          ),
+    return PullDownMenuButton(
+      itemBuilder: (ctx) => [
+        PullDownItem(
+          icon: Icons.open_in_browser,
+          title: i18n.openInBrowser,
           onTap: () async {
             await launchUrlString(
               _getActivityUrl(activityId),
@@ -135,11 +133,10 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
           },
         ),
         if (Dev.on)
-          PopupMenuItem(
-            child: ListTile(
-              leading: const Icon(Icons.send),
-              title: "Forcibly apply".text(),
-            ),
+          PullDownItem(
+            icon: Icons.send,
+            title: "Forcibly apply",
+            destructive: true,
             onTap: () async {
               await showForciblyApplyRequest();
             },

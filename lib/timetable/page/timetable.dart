@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/time.dart';
@@ -57,8 +59,8 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         title: $currentPos >> (ctx, pos) => i18n.weekOrderedName(number: pos.weekIndex + 1).text(),
         actions: [
           buildSwitchViewButton(),
-          buildMoreActionsButton(),
           buildMyTimetablesButton(),
+          buildMoreActionsButton(),
         ],
       ),
       floatingActionButton: InkWell(
@@ -125,15 +127,11 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
 
   Widget buildMoreActionsButton() {
     final focusMode = Settings.focusTimetable;
-    return PopupMenuButton(
-      position: PopupMenuPosition.under,
-      padding: EdgeInsets.zero,
-      itemBuilder: (ctx) => <PopupMenuEntry>[
-        PopupMenuItem(
-          child: ListTile(
-            leading: const Icon(Icons.screenshot),
-            title: i18n.screenshot.screenshot.text(),
-          ),
+    return PullDownMenuButton(
+      itemBuilder: (ctx) => [
+        PullDownItem(
+          icon: Icons.screenshot,
+          title: i18n.screenshot.screenshot,
           onTap: () async {
             await takeTimetableScreenshot(
               context: context,
@@ -143,49 +141,39 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
           },
         ),
         if (focusMode)
-          PopupMenuItem(
-            child: ListTile(
-              leading: const Icon(Icons.calendar_month_outlined),
-              title: i18n.mine.title.text(),
-            ),
+          PullDownItem(
+            icon: Icons.calendar_month_outlined,
+            title: i18n.mine.title,
             onTap: () async {
               await context.push("/timetable/mine");
             },
           ),
-        PopupMenuItem(
-          child: ListTile(
-            leading: const Icon(Icons.palette_outlined),
-            title: i18n.p13n.palette.title.text(),
-          ),
+        PullDownItem(
+          icon: Icons.palette_outlined,
+          title: i18n.p13n.palette.title,
           onTap: () async {
             await context.push("/timetable/p13n");
           },
         ),
-        PopupMenuItem(
-          child: ListTile(
-            leading: const Icon(Icons.view_comfortable_outlined),
-            title: i18n.p13n.cell.title.text(),
-          ),
+        PullDownItem(
+          icon: Icons.view_comfortable_outlined,
+          title: i18n.p13n.cell.title,
           onTap: () async {
             await context.push("/timetable/cell-style");
           },
         ),
-        PopupMenuItem(
-          child: ListTile(
-            leading: const Icon(Icons.image_outlined),
-            title: i18n.p13n.background.title.text(),
-          ),
+        PullDownItem(
+          icon: Icons.image_outlined,
+          title: i18n.p13n.background.title,
           onTap: () async {
             await context.push("/timetable/background");
           },
         ),
         if (focusMode) ...buildFocusPopupActions(context),
-        const PopupMenuDivider(),
-        CheckedPopupMenuItem(
-          checked: focusMode,
-          child: ListTile(
-            title: i18n.focusTimetable.text(),
-          ),
+        const PullDownDivider(),
+        PullDownSelectable(
+          title: i18n.focusTimetable,
+          selected: focusMode,
           onTap: () async {
             Settings.focusTimetable = !focusMode;
           },
