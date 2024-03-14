@@ -1,4 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/game/storage/storage.dart';
 import 'package:version/version.dart';
 
