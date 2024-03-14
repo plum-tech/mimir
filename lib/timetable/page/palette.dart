@@ -9,6 +9,8 @@ import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/timetable/page/preview.dart';
+import 'package:sit/timetable/platte.dart';
+import 'package:sit/utils/color.dart';
 
 import '../entity/platte.dart';
 import '../i18n.dart';
@@ -297,9 +299,9 @@ class PaletteColorBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onEdit = this.onEdit;
-    final inverseColor = brightness == Brightness.light ? Colors.black : Colors.white;
+    final textColor = color.resolveTextColorByLuminance();
     return OutlinedCard(
-      color: inverseColor,
+      color: textColor,
       margin: EdgeInsets.zero,
       child: FilledCard(
         color: color,
@@ -318,12 +320,8 @@ class PaletteColorBar extends StatelessWidget {
           },
           child: SizedBox(
             height: 35,
-            child: brightness
-                .l10n()
-                .text(
-                    style: context.textTheme.bodyLarge?.copyWith(
-                  color: inverseColor,
-                ))
+            child: "${brightness.l10n()} ${(color.luminance * 100).toInt()}%"
+                .text(style: context.textTheme.bodyLarge?.copyWith(color: textColor))
                 .center(),
           ),
         ),

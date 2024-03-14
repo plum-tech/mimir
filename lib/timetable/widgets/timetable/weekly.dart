@@ -416,6 +416,7 @@ class CourseCell extends StatelessWidget {
       maxLines: context.isPortrait ? 8 : 5,
       place: place,
       teachers: teachers,
+      textColor: color.resolveTextColorByLuminance(),
     ).center();
     return FilledCard(
       clip: Clip.hardEdge,
@@ -504,6 +505,7 @@ class TimetableSlotInfo extends StatelessWidget {
   final String place;
   final List<String>? teachers;
   final int maxLines;
+  final Color? textColor;
 
   const TimetableSlotInfo({
     super.key,
@@ -511,28 +513,39 @@ class TimetableSlotInfo extends StatelessWidget {
     required this.courseName,
     required this.place,
     this.teachers,
+    this.textColor,
   });
 
   @override
   Widget build(BuildContext context) {
     final teachers = this.teachers;
     return AutoSizeText.rich(
-      TextSpan(children: [
-        TextSpan(
-          text: courseName,
-          style: context.textTheme.bodyMedium,
-        ),
-        if (place.isNotEmpty)
+      TextSpan(
+        children: [
           TextSpan(
-            text: "\n${beautifyPlace(place)}",
-            style: context.textTheme.bodySmall,
+            text: courseName,
+            style: context.textTheme.bodyMedium?.copyWith(
+              color: textColor,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        if (teachers != null)
-          TextSpan(
-            text: "\n${teachers.join(',')}",
-            style: context.textTheme.bodySmall,
-          ),
-      ]),
+          if (place.isNotEmpty)
+            TextSpan(
+              text: "\n${beautifyPlace(place)}",
+              style: context.textTheme.bodySmall?.copyWith(
+                color: textColor,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          if (teachers != null)
+            TextSpan(
+              text: "\n${teachers.join(',')}",
+              style: context.textTheme.bodySmall?.copyWith(
+                color: textColor,
+              ),
+            ),
+        ],
+      ),
       minFontSize: 0,
       stepGranularity: 0.1,
       maxLines: maxLines,

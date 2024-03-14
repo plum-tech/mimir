@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sit/timetable/entity/platte.dart';
+import 'package:sit/utils/color.dart';
 
 import 'entity/timetable.dart';
 
@@ -158,3 +159,10 @@ extension Color2ModeX on Color2Mode {
 
   Color byBrightness(Brightness brightness) => brightness == Brightness.dark ? dark : light;
 }
+
+extension ColorX on Color {
+  Color resolveTextColorByLuminance() {
+    return luminance >= 0.5 ? Colors.black : Colors.white;
+  }
+}
+
