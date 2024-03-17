@@ -154,6 +154,19 @@ extension TimetablePlatteX on TimetablePalette {
   }
 }
 
+const _lightTextColors = [
+  Color(0xFFFFFFFF),
+  Color(0xFFDEDEDE),
+  Color(0xFFAEAEAE),
+  Color(0xFF9E9E9E),
+];
+const _darkTextColors = [
+  Color(0xFF4A4A4A),
+  Color(0xFF202020),
+  Color(0xFF101010),
+  Color(0xFF000000),
+];
+
 extension Color2ModeX on Color2Mode {
   Color byTheme(ThemeData theme) => theme.brightness == Brightness.dark ? dark : light;
 
@@ -161,8 +174,7 @@ extension Color2ModeX on Color2Mode {
 }
 
 extension ColorX on Color {
-  Color resolveTextColorByLuminance() {
-    return luminance >= 0.5 ? Colors.black : Colors.white;
+  Color? resolveTextColorForReadability() {
+    return luminance >= 0.5 ? findBestTextColor(this, _darkTextColors) : findBestTextColor(this, _lightTextColors);
   }
 }
-

@@ -299,7 +299,7 @@ class PaletteColorBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onEdit = this.onEdit;
-    final textColor = color.resolveTextColorByLuminance();
+    final textColor = color.resolveTextColorForReadability();
     return OutlinedCard(
       color: textColor,
       margin: EdgeInsets.zero,
@@ -320,7 +320,7 @@ class PaletteColorBar extends StatelessWidget {
           },
           child: SizedBox(
             height: 35,
-            child: "${brightness.l10n()} ${(color.luminance * 100).toInt()}%"
+            child: "${brightness.l10n()} ${calculateContrastRatio(textColor!, color).toStringAsFixed(2)}"
                 .text(style: context.textTheme.bodyLarge?.copyWith(color: textColor))
                 .center(),
           ),

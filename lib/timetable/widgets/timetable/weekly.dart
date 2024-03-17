@@ -416,7 +416,7 @@ class CourseCell extends StatelessWidget {
       maxLines: context.isPortrait ? 8 : 5,
       place: place,
       teachers: teachers,
-      textColor: color.resolveTextColorByLuminance(),
+      // textColor: color.resolveTextColorForReadability(),
     ).center();
     return FilledCard(
       clip: Clip.hardEdge,

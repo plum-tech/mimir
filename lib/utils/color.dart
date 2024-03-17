@@ -1,7 +1,10 @@
 import 'dart:math';
 import 'dart:ui';
+import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/foundation.dart' show defaultTargetPlatform;
+import 'package:flutter/material.dart';
 import 'package:system_theme/system_theme.dart';
 
 extension ColorX on Color {
@@ -27,67 +30,22 @@ extension SystemAccentColorX on SystemAccentColor {
 
 bool get supportsSystemAccentColor => defaultTargetPlatform.supportsAccentColor;
 
-class APCA {
-  static double contrast(Color textColor, Color bgColor) {
-    // Convert colors to Lab color space
-    final labText = _rgbToLab(textColor);
-    final labBg = _rgbToLab(bgColor);
+Color? findBestTextColor(Color bgColor, List<Color> textColors) {
+  // final sorted = textColors.sortedBy<num>((textColor) => calculateContrastRatio(textColor, bgColor));
+  final map =
+      Map.fromEntries(textColors.map((textColor) => MapEntry(calculateContrastRatio(textColor, bgColor), textColor)));
+  final sorted = map.entries.sortedBy<num>((e) => e.key).toList();
+  final res = sorted.lastOrNull?.value;
+  print("min:${sorted.firstOrNull?.key} max:${sorted.lastOrNull?.key}");
+  return res;
+}
 
-    // Calculate contrast using APCA algorithm
-    final contrast = _apcaContrast(labText, labBg);
-
-    return contrast;
+double calculateContrastRatio(Color color1, Color color2) {
+    final luminance1 = color1.luminance;
+  final luminance2 = color2.luminance;
+  final contrast = (luminance1 + 0.05) / (luminance2 + 0.05);
+  if (contrast < 1) {
+    return 1 / contrast;
   }
-
-  static List<double> _rgbToLab(Color color) {
-    double r = color.red / 255;
-    double g = color.green / 255;
-    double b = color.blue / 255;
-
-    // RGB to XYZ
-    r = _linearize(r);
-    g = _linearize(g);
-    b = _linearize(b);
-
-    final x = 0.4124564 * r + 0.3575761 * g + 0.1804375 * b;
-    final y = 0.2126729 * r + 0.7151522 * g + 0.0721750 * b;
-    final z = 0.0193339 * r + 0.1191920 * g + 0.9503041 * b;
-
-    // XYZ to Lab
-    const xRef = 0.95047;
-    const yRef = 1.0;
-    const zRef = 1.08883;
-
-    return [
-      116 * _f(y / yRef) - 16, // l
-      500 * (_f(x / xRef) - _f(y / yRef)), //a
-      200 * (_f(y / yRef) - _f(z / zRef)), //b
-    ];
-  }
-
-  static double _linearize(double channel) {
-    if (channel <= 0.04045) {
-      return channel / 12.92;
-    } else {
-      return pow((channel + 0.055) / 1.055, 2.4).toDouble();
-    }
-  }
-
-  static double _f(double t) {
-    const delta = 6 / 29;
-    if (t > delta * delta * delta) {
-      return pow(t, 1 / 3).toDouble();
-    } else {
-      return (t / (3 * delta * delta)) + (4 / 29);
-    }
-  }
-
-  static double _apcaContrast(List<double> labText, List<double> labBg) {
-    final textL = labText[0];
-    final bgL = labBg[0];
-
-    final apca = sqrt(pow(textL, 2) - pow(bgL, 2));
-
-    return apca;
-  }
+  return contrast;
 }
