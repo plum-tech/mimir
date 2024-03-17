@@ -162,7 +162,11 @@ class GameLogic extends StateNotifier<GameStates> {
   }
 
   Future<void> save() async {
-    await SaveMinesweeper.storage.save(state.board.toSave());
+    if (state.goodGame || state.gameOver) {
+      await SaveMinesweeper.storage.delete();
+    } else {
+      await SaveMinesweeper.storage.save(state.board.toSave());
+    }
   }
 }
 

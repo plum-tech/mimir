@@ -62,6 +62,8 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
     curve: Curves.easeInOut,
   );
 
+  final $focus = FocusNode();
+
   @override
   void initState() {
     super.initState();
@@ -101,6 +103,7 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
     //Remove the Observer for the Lifecycles of the App
     WidgetsBinding.instance.removeObserver(this);
 
+    $focus.dispose();
     //Dispose the animations.
     _moveAnimation.dispose();
     _scaleAnimation.dispose();
@@ -125,9 +128,10 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
       ),
       body: KeyboardListener(
         autofocus: true,
-        focusNode: FocusNode(),
+        focusNode: $focus,
         onKeyEvent: (event) {
           //Move the tile with the arrows on the keyboard on Desktop
+          if ( !_moveController.isCompleted) return;
           if (ref.read(boardManager.notifier).onKey(event)) {
             _moveController.forward(from: 0.0);
           }
