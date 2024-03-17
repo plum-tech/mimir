@@ -275,7 +275,11 @@ class BoardManager extends StateNotifier<Board> {
   }
 
   Future<void> save() async {
-    await Save2048.storage.save(state.toSave());
+    if (state.won || state.over) {
+      await Save2048.storage.delete();
+    } else {
+      await Save2048.storage.save(state.toSave());
+    }
   }
 }
 
