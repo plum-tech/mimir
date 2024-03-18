@@ -32,7 +32,9 @@ class Board {
   factory Board.fromSave(SaveMinesweeper save) {
     final board = save.cells
         .mapIndexed(
-          (index, cell) => Cell(row: index ~/ save.columns, col: index % save.columns),
+          (index, cell) => Cell(row: index ~/ save.columns, col: index % save.columns)
+            ..mine = cell.mine
+            ..state = cell.state,
         )
         .toList();
     return Board._(
