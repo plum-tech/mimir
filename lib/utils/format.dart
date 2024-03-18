@@ -17,6 +17,10 @@ String formatWithoutTrailingZeros(double amount) {
 
 final _trailingIntRe = RegExp(r"(.*\s+)(\d+)$");
 
+// TODO: take other files into account
+// For example:
+// Files: Foo, Foo 2, Foo 3
+// Duplicate "Foo 2" should result in "Foo 4"
 String getDuplicateFileName(String origin) {
   final matched = _trailingIntRe.firstMatch(origin);
   if (matched == null) return "$origin 2";
