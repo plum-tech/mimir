@@ -88,6 +88,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> loginDemoMode() async {
     if (!mounted) return;
     setState(() => isLoggingIn = true);
+    await Future.delayed(const Duration(milliseconds: 1829));
     Settings.lastSignature ??= "Liplum";
     CredentialsInit.storage.oaCredentials = Credentials(account: R.demoModeOaAccount, password: R.demoModeOaPassword);
     CredentialsInit.storage.oaLoginStatus = LoginStatus.validated;
