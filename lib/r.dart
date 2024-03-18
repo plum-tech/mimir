@@ -19,7 +19,7 @@ class R {
   static late AppMeta currentVersion;
 
   /// For debugging iOS on other platforms.
-  static const debugCupertino = kDebugMode ? true : false;
+  static const debugCupertino = kDebugMode ? false : false;
 
   /// The default window size is small enough for any modern desktop device.
   static const Size defaultWindowSize = Size(500, 800);
