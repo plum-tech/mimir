@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -11,6 +12,7 @@ import 'package:sit/credentials/init.dart';
 import 'package:sit/credentials/utils.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/init.dart';
 import 'package:sit/login/utils.dart';
 import 'package:sit/r.dart';
@@ -162,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
           title: widget.isGuarded ? i18n.loginRequired.text() : const CampusSelector(),
           actions: [
             IconButton(
-              icon: const Icon(Icons.settings),
+              icon: isCupertino? const Icon(CupertinoIcons.settings) : const Icon(Icons.settings),
               onPressed: () {
                 context.push("/settings");
               },

@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/game/2048/card.dart';
 import 'package:sit/game/minesweeper/card.dart';
 import 'package:sit/game/widget/card.dart';
@@ -37,7 +39,7 @@ class _MePageState extends State<MePage> {
             actions: [
               buildScannerAction(),
               IconButton(
-                icon: const Icon(Icons.settings),
+                icon: isCupertino ? const Icon(CupertinoIcons.settings) : const Icon(Icons.settings),
                 onPressed: () {
                   context.push("/settings");
                 },
