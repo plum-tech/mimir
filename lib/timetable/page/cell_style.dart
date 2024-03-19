@@ -17,10 +17,7 @@ class TimetableCellStyleEditor extends StatefulWidget {
 }
 
 class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
-  var showTeachers = Settings.timetable.cell.showTeachers;
-  var grayOutTakenLessons = Settings.timetable.cell.grayOutTakenLessons;
-  var harmonizeWithThemeColor = Settings.timetable.cell.harmonizeWithThemeColor;
-  var alpha = Settings.timetable.cell.alpha;
+  var cellStyle = Settings.timetable.cellStyle ?? const CourseCellStyle();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +31,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
                 child: i18n.save.text(),
                 onPressed: () async {
                   final cellStyle = buildCellStyle();
-                  Settings.timetable.cell.cellStyle = cellStyle;
+                  Settings.timetable.cellStyle = cellStyle;
                   context.pop(cellStyle);
                 },
               ),
@@ -59,10 +56,10 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
 
   CourseCellStyle buildCellStyle() {
     return CourseCellStyle(
-      showTeachers: showTeachers,
-      grayOutTakenLessons: grayOutTakenLessons,
-      harmonizeWithThemeColor: harmonizeWithThemeColor,
-      alpha: alpha,
+      showTeachers: cellStyle.showTeachers,
+      grayOutTakenLessons: cellStyle.grayOutTakenLessons,
+      harmonizeWithThemeColor: cellStyle.harmonizeWithThemeColor,
+      alpha: cellStyle.alpha,
     );
   }
 
@@ -72,10 +69,10 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
       title: i18n.p13n.cell.showTeachers.text(),
       subtitle: i18n.p13n.cell.showTeachersDesc.text(),
       trailing: Switch.adaptive(
-        value: showTeachers,
+        value: cellStyle.showTeachers,
         onChanged: (newV) {
           setState(() {
-            showTeachers = newV;
+            cellStyle = cellStyle.copyWith(showTeachers: newV);
           });
         },
       ),
@@ -88,10 +85,10 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
       title: i18n.p13n.cell.grayOut.text(),
       subtitle: i18n.p13n.cell.grayOutDesc.text(),
       trailing: Switch.adaptive(
-        value: grayOutTakenLessons,
+        value: cellStyle.grayOutTakenLessons,
         onChanged: (newV) {
           setState(() {
-            grayOutTakenLessons = newV;
+            cellStyle = cellStyle.copyWith(grayOutTakenLessons: newV);
           });
         },
       ),
@@ -104,10 +101,10 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
       title: i18n.p13n.cell.harmonize.text(),
       subtitle: i18n.p13n.cell.harmonizeDesc.text(),
       trailing: Switch.adaptive(
-        value: harmonizeWithThemeColor,
+        value: cellStyle.harmonizeWithThemeColor,
         onChanged: (newV) {
           setState(() {
-            harmonizeWithThemeColor = newV;
+            cellStyle = cellStyle.copyWith(harmonizeWithThemeColor: newV);
           });
         },
       ),
@@ -115,7 +112,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
   }
 
   Widget buildAlpha() {
-    final value = alpha;
+    final value = cellStyle.alpha;
     return ListTile(
       isThreeLine: true,
       leading: const Icon(Icons.invert_colors),
@@ -129,7 +126,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
         value: value,
         onChanged: (double value) {
           setState(() {
-            alpha = value;
+            cellStyle = cellStyle.copyWith(alpha: value);
           });
         },
       ),

@@ -82,10 +82,10 @@ class TimetableStyleProv extends StatefulWidget {
 
 class TimetableStyleProvState extends State<TimetableStyleProv> {
   final $palette = TimetableInit.storage.palette.$selected;
-  final $cellStyle = Settings.timetable.cell.listenStyle();
+  final $cellStyle = Settings.timetable.listenCellStyle();
   final $background = Settings.timetable.listenBackgroundImage();
   var palette = TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic;
-  var cellStyle = Settings.timetable.cell.cellStyle;
+  var cellStyle = Settings.timetable.cellStyle ?? const CourseCellStyle();
   var background = Settings.timetable.backgroundImage ?? const BackgroundImage.disabled();
 
   @override
@@ -112,7 +112,7 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
 
   void refreshCellStyle() {
     setState(() {
-      cellStyle = Settings.timetable.cell.cellStyle;
+      cellStyle = Settings.timetable.cellStyle ?? const CourseCellStyle();
     });
   }
 
