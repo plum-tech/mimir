@@ -376,6 +376,7 @@ class _StorageListLandscapeState extends State<StorageListLandscape> {
               icon: Icons.delete,
               cupertinoIcon: CupertinoIcons.delete,
               title: i18n.clear,
+              destructive: true,
               onTap: () async {
                 final confirm = await _showDeleteBoxRequest(ctx);
                 if (confirm == true) {

@@ -6,21 +6,21 @@ import 'package:rettulf/rettulf.dart';
 import 'multiplatform.dart';
 
 abstract class PullDownEntry {
-  PullDownMenuEntry _buildCupertino();
+  PullDownMenuEntry buildCupertino();
 
-  PopupMenuEntry _buildMaterial();
+  PopupMenuEntry buildMaterial();
 }
 
 class PullDownDivider implements PullDownEntry {
   const PullDownDivider();
 
   @override
-  PullDownMenuEntry _buildCupertino() {
+  PullDownMenuEntry buildCupertino() {
     return const PullDownMenuDivider.large();
   }
 
   @override
-  PopupMenuEntry _buildMaterial() {
+  PopupMenuEntry buildMaterial() {
     return const PopupMenuDivider();
   }
 }
@@ -41,7 +41,7 @@ class PullDownItem implements PullDownEntry {
   });
 
   @override
-  PullDownMenuEntry _buildCupertino() {
+  PullDownMenuEntry buildCupertino() {
     return PullDownMenuItem(
       onTap: onTap,
       title: title,
@@ -51,7 +51,7 @@ class PullDownItem implements PullDownEntry {
   }
 
   @override
-  PopupMenuEntry _buildMaterial() {
+  PopupMenuEntry buildMaterial() {
     final icon = this.icon;
     return PopupMenuItem(
       onTap: onTap,
@@ -79,7 +79,7 @@ class PullDownSelectable implements PullDownEntry {
   });
 
   @override
-  PullDownMenuEntry _buildCupertino() {
+  PullDownMenuEntry buildCupertino() {
     return PullDownMenuItem.selectable(
       onTap: onTap,
       selected: selected,
@@ -89,7 +89,7 @@ class PullDownSelectable implements PullDownEntry {
   }
 
   @override
-  PopupMenuEntry _buildMaterial() {
+  PopupMenuEntry buildMaterial() {
     return CheckedPopupMenuItem(
       checked: selected,
       onTap: onTap,
@@ -113,7 +113,7 @@ class PullDownMenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isCupertino) {
       return PullDownButton(
-        itemBuilder: (context) => itemBuilder(context).map((item) => item._buildCupertino()).toList(),
+        itemBuilder: (context) => itemBuilder(context).map((item) => item.buildCupertino()).toList(),
         buttonBuilder: (context, showMenu) => CupertinoButton(
           onPressed: showMenu,
           padding: EdgeInsets.zero,
@@ -124,7 +124,7 @@ class PullDownMenuButton extends StatelessWidget {
       return PopupMenuButton(
         position: PopupMenuPosition.under,
         padding: EdgeInsets.zero,
-        itemBuilder: (context) => itemBuilder(context).map((item) => item._buildMaterial()).toList(),
+        itemBuilder: (context) => itemBuilder(context).map((item) => item.buildMaterial()).toList(),
       );
     }
   }

@@ -272,10 +272,8 @@ class SuggestionItemView<T> extends StatelessWidget {
         title: title,
         trailing: tileTrailing,
       ),
-      AnimatedSize(
-        alignment: Alignment.topCenter,
-        duration: Durations.long2,
-        curve: Curves.fastEaseInToSlowEaseOut,
+      AnimatedSwitcher(
+        duration: Durations.medium2,
         child: items != null
             ? items
                 .sublist(0, min(items.length, limitLength))
