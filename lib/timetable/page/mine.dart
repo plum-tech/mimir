@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -370,6 +371,7 @@ class _TimetableDetailsPageState extends State<TimetableDetailsPage> {
     final actions = widget.actions;
     final palette = TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic;
     final courses = timetable.courses.values.toList();
+    final code2Courses = courses.groupListsBy((c) => c.courseCode).entries.toList();
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -396,12 +398,13 @@ class _TimetableDetailsPageState extends State<TimetableDetailsPage> {
             const Divider(),
           ]),
           SliverList.builder(
-            itemCount: courses.length,
+            itemCount: code2Courses.length,
             itemBuilder: (ctx, i) {
-              final course = courses[i];
+              final MapEntry(key:code,value:courses) = code2Courses[i];
               return TimetableCourseCard(
-                course,
-                color: resolver.resolveColor(palette, course).byTheme(context.theme),
+                courses: courses,
+                courseName: courses.first.courseName,
+                color: resolver.resolveColor(palette, courses.first).byTheme(context.theme),
               );
             },
           )
