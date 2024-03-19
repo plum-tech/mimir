@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/utils/byte_io.dart';
 
+import 'timetable.dart';
+
 part 'platte.g.dart';
 
 int _colorToJson(Color color) => color.value;
@@ -155,4 +157,48 @@ class BuiltinTimetablePalette implements TimetablePalette {
         "author": author,
         "colors": _colorsToJson(colors),
       };
+}
+
+
+abstract mixin class SitTimetablePaletteResolver {
+  SitTimetable get type;
+
+  factory SitTimetablePaletteResolver(SitTimetable type) {
+    return _SitTimetablePaletteResolverImpl(type: type);
+  }
+
+  final _fixedCourseCode2Color = <TimetablePalette, Map<String, Color2Mode>>{};
+
+  Color2Mode resolveColor(TimetablePalette palette, SitCourse course) {
+    assert(palette.colors.isNotEmpty, "Colors can't be empty");
+    if (palette.colors.isEmpty) return TimetablePalette.defaultColor;
+    assert(type.courses.containsValue(course), "Course $course not found in this timetable");
+
+    final fixedCourseCode2Color = _fixedCourseCode2Color[palette] ?? _cacheFixedCourseCode2Color(palette);
+    return fixedCourseCode2Color[course.courseCode] ??
+        palette.colors[course.courseCode.hashCode.abs() % palette.colors.length];
+  }
+
+  Map<String, Color2Mode> _cacheFixedCourseCode2Color(TimetablePalette palette) {
+    final queue = List.of(palette.colors);
+    final fixedCourseCode2Color = <String, Color2Mode>{};
+    for (final course in type.courses.values) {
+      if (queue.isEmpty) break;
+      final index = course.courseCode.hashCode.abs() % queue.length;
+      // allocate a color for this course code
+      fixedCourseCode2Color[course.courseCode] = queue[index];
+      // remove it in the next loop
+      queue.removeAt(index);
+    }
+    return fixedCourseCode2Color;
+  }
+}
+
+class _SitTimetablePaletteResolverImpl with SitTimetablePaletteResolver {
+  @override
+  final SitTimetable type;
+
+  _SitTimetablePaletteResolverImpl({
+    required this.type,
+  });
 }

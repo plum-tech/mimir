@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -88,7 +90,8 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> loginDemoMode() async {
     if (!mounted) return;
     setState(() => isLoggingIn = true);
-    await Future.delayed(const Duration(milliseconds: 1829));
+    final rand = Random();
+    await Future.delayed(Duration(milliseconds: rand.nextInt(2000)));
     Settings.lastSignature ??= "Liplum";
     CredentialsInit.storage.oaCredentials = Credentials(account: R.demoModeOaAccount, password: R.demoModeOaPassword);
     CredentialsInit.storage.oaLoginStatus = LoginStatus.validated;

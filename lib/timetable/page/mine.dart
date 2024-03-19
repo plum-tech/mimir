@@ -17,6 +17,7 @@ import 'package:sit/timetable/platte.dart';
 import 'package:sit/timetable/widgets/course.dart';
 import 'package:text_scroll/text_scroll.dart';
 
+import '../entity/platte.dart';
 import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
