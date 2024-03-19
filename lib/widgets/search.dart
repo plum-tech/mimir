@@ -54,6 +54,10 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     this.emptyIndicator,
     this.invalidSearchTip,
     super.keyboardType,
+    super.searchFieldLabel,
+    super.searchFieldStyle,
+    super.searchFieldDecorationTheme,
+    super.textInputAction,
   });
 
   factory ItemSearchDelegate.highlight({
@@ -69,12 +73,20 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     required double childAspectRatio,
     Object? emptyIndicator,
     String? invalidSearchTip,
-    TextInputType? keyboardType,
 
     /// Using [Object.toString] by default.
     Stringifier<T>? stringifier,
+    TextInputType? keyboardType,
+    String? searchFieldLabel,
+    TextStyle? searchFieldStyle,
+    InputDecorationTheme? searchFieldDecorationTheme,
+    TextInputAction textInputAction = TextInputAction.search,
   }) {
     return ItemSearchDelegate(
+      searchFieldLabel: searchFieldLabel,
+      searchFieldStyle: searchFieldStyle,
+      searchFieldDecorationTheme: searchFieldDecorationTheme,
+      keyboardType: keyboardType,
       maxCrossAxisExtent: maxCrossAxisExtent,
       childAspectRatio: childAspectRatio,
       queryProcessor: queryProcessor,

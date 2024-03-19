@@ -17,6 +17,7 @@ Future<String?> searchRoom({
     context: ctx,
     query: initial,
     delegate: ItemSearchDelegate.highlight(
+      keyboardType: TextInputType.number,
       searchHistory: $searchHistory,
       candidateBuilder: (ctx, items, highlight, selectIt) {
         return ListView.builder(
@@ -57,6 +58,7 @@ Future<String?> searchRoom({
               ),
               childKey: ValueKey(item),
               child: ListTile(
+                leading: const Icon(Icons.history),
                 title: HighlightedText(
                   full: full,
                   baseStyle: ctx.textTheme.bodyLarge,
@@ -72,7 +74,6 @@ Future<String?> searchRoom({
       },
       candidates: roomList,
       queryProcessor: _keepOnlyNumber,
-      keyboardType: TextInputType.number,
       invalidSearchTip: i18n.searchInvalidTip,
       childAspectRatio: 2,
       maxCrossAxisExtent: 150.0,
