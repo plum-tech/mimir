@@ -723,6 +723,8 @@ OaUserType:
   other: 其他
 game:
   navigation: 游戏
+  newGame: 新的游戏
+  loadGame: 加载游戏
   2048:
     title: 2048
     score: 分数

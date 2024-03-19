@@ -723,6 +723,8 @@ OaUserType:
   other: 其他
 game:
   navigation: 電玩
+  newGame: 創建
+  continueGame: 載入
   2048:
     title: 2048
     score: 分數

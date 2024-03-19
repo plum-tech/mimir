@@ -9,4 +9,8 @@ class _I18n with CommonI18nMixin {
   static const ns = "game";
 
   String get navigation => "$ns.navigation".tr();
+
+  String get newGame => "$ns.newGame".tr();
+
+  String get loadGame => "$ns.loadGame".tr();
 }

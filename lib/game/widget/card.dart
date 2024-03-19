@@ -4,6 +4,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/widgets/app.dart';
 
 import '../storage/storage.dart';
+import '../i18n.dart';
 
 class OfflineGameAppCard extends StatefulWidget {
   final String name;
@@ -57,20 +58,20 @@ class _OfflineGameAppCardState extends State<OfflineGameAppCard> {
             onPressed: () {
               context.push("/game${widget.baseRoute}");
             },
-            child: "New game".text(),
+            child: i18n.newGame.text(),
           )
         else ...[
           FilledButton(
             onPressed: () {
               context.push("/game${widget.baseRoute}?continue");
             },
-            child: "Continue".text(),
+            child: i18n.loadGame.text(),
           ),
           OutlinedButton(
             onPressed: () {
               context.push("/game${widget.baseRoute}");
             },
-            child: "New game".text(),
+            child: i18n.newGame.text(),
           )
         ],
       ],
