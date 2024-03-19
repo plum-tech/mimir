@@ -537,9 +537,9 @@ settings:
       desc: 嘗試用當前的登入認證登入 OA
   dev:
     title: 開發者選項
+    activateTip: 開發者模式已啟動
     devMode:
       title: 開發者模式
-      activateTip: 開發者模式已啟動
     demoMode:
       title: 演示模式
     localStorage:

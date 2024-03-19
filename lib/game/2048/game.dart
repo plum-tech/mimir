@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:rettulf/rettulf.dart';
 
-import 'model/board.dart';
+import 'entity/board.dart';
 import 'save.dart';
 import 'widget/empty_board.dart';
 import 'widget/score_board.dart';

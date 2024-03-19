@@ -193,7 +193,7 @@ class _DevOptions {
 
   String get demoMode => "$ns.demoMode.title".tr();
 
-  String get devModeActivateTip => "$ns.devModeActivateTip".tr();
+  String get devModeActivateTip => "$ns.activateTip".tr();
 
   String get reload => "$ns.reload.title".tr();
 

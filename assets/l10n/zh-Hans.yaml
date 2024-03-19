@@ -537,9 +537,9 @@ settings:
       desc: 尝试使用当前的登录凭据登录 OA
   dev:
     title: 开发者选项
+    activateTip: 开发者模式已激活
     devMode:
       title: 开发者模式
-      activateTip: 开发者模式已激活
     demoMode:
       title: 演示模式
     localStorage:

@@ -5,8 +5,8 @@ import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:sit/game/2048/save.dart';
 import 'package:uuid/uuid.dart';
 
-import '../model/tile.dart';
-import '../model/board.dart';
+import '../entity/tile.dart';
+import '../entity/board.dart';
 
 import 'next_direction.dart';
 import 'round.dart';

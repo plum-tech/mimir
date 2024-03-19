@@ -1,6 +1,6 @@
 import 'package:uuid/uuid.dart';
 
-import '../model/tile.dart';
+import '../entity/tile.dart';
 import '../save.dart';
 
 class Board {

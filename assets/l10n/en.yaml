@@ -537,9 +537,9 @@ settings:
       desc: Try to login OA with current credentials
   dev:
     title: Developer options
+    activateTip: Developer mode activated
     devMode:
       title: Developer mode
-      activateTip: Developer mode activated
     demoMode:
       title: Demo mode
     localStorage:
