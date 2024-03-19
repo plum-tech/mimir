@@ -1,5 +1,6 @@
 import 'package:sit/school/class2nd/entity/activity.dart';
 
+import 'entity/application.dart';
 import 'entity/attended.dart';
 
 final _tagParenthesesRegx = RegExp(r"\[(.*?)\]");

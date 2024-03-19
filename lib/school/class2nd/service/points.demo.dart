@@ -1,3 +1,4 @@
+import '../entity/application.dart';
 import '../entity/attended.dart';
 import 'points.dart';
 

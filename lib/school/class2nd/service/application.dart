@@ -37,12 +37,12 @@ enum Class2ndApplicationCheckResponse {
 }
 
 class Class2ndApplicationService {
-  Class2ndSession get session => Init.class2ndSession;
+  Class2ndSession get _session => Init.class2ndSession;
 
   const Class2ndApplicationService();
 
   Future<Class2ndApplicationCheckResponse> check(int activityId) async {
-    final res = await session.request(
+    final res = await _session.request(
       'http://sc.sit.edu.cn/public/pcenter/check.action?activityId=$activityId',
       options: Options(
         method: "GET",
@@ -54,7 +54,7 @@ class Class2ndApplicationService {
 
   /// 提交最后的活动申请
   Future<bool> apply(int activityId) async {
-    final res = await session.request(
+    final res = await _session.request(
       'http://sc.sit.edu.cn/public/pcenter/applyActivity.action?activityId=$activityId',
       options: Options(
         method: "GET",
@@ -62,5 +62,15 @@ class Class2ndApplicationService {
     );
     final code = res.data as String;
     return code.contains('申请成功');
+  }
+
+  Future<bool> cancel(int applicationId) async {
+    final res = await _session.request(
+      'http://sc.sit.edu.cn/public/pcenter/cancelOrder.action?orderNo=$applicationId',
+      options: Options(
+        method: "GET",
+      ),
+    );
+    return true;
   }
 }

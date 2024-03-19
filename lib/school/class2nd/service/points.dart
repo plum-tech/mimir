@@ -7,6 +7,7 @@ import 'package:sit/school/utils.dart';
 import 'package:sit/session/class2nd.dart';
 
 import '../entity/activity.dart';
+import '../entity/application.dart';
 import '../entity/attended.dart';
 
 class Class2ndPointsService {

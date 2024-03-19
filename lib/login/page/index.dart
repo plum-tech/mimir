@@ -164,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
           title: widget.isGuarded ? i18n.loginRequired.text() : const CampusSelector(),
           actions: [
             IconButton(
-              icon: isCupertino? const Icon(CupertinoIcons.settings) : const Icon(Icons.settings),
+              icon: isCupertino ? const Icon(CupertinoIcons.settings) : const Icon(Icons.settings),
               onPressed: () {
                 context.push("/settings");
               },
