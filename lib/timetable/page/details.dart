@@ -93,6 +93,7 @@ class CourseDescCard extends StatelessWidget {
     final weekNumbers = course.weekIndices.l10n();
     final (:begin, :end) = course.calcBeginEndTimePoint();
     return ListTile(
+      isThreeLine: true,
       title: course.place.text(),
       subtitle: [
         "${Weekday.fromIndex(course.dayIndex).l10n()} ${begin.l10n(context)}–${end.l10n(context)}".text(),
