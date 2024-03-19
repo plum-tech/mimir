@@ -409,6 +409,10 @@ class SitTimetableLessonSlot {
   final List<SitTimetableLessonPart> lessons;
 
   SitTimetableLessonSlot({required this.lessons});
+
+  SitTimetableLessonPart? lessonAt(int index){
+    return lessons.elementAtOrNull(index);
+  }
 }
 
 class SitTimetableDay {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:text_scroll/text_scroll.dart';
 
@@ -99,6 +100,6 @@ class CourseDescCard extends StatelessWidget {
         ...weekNumbers.map((n) => n.text()),
       ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
       trailing: course.teachers.length == 1 ? course.teachers.first.text() : null,
-    );
+    ).inFilledCard();
   }
 }

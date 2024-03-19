@@ -294,30 +294,30 @@ class TimetableOneWeek extends StatelessWidget {
     ));
     for (int timeslot = 0; timeslot < day.timeslot2LessonSlot.length; timeslot++) {
       final lessonSlot = day.timeslot2LessonSlot[timeslot];
-      if (lessonSlot.lessons.isEmpty) {
+
+      /// TODO: Multi-layer lessonSlot
+      final lesson = lessonSlot.lessonAt(0);
+      if (lesson == null) {
         cells.add(DashLined(
           top: timeslot != 0,
           bottom: timeslot != day.timeslot2LessonSlot.length - 1,
           child: SizedBox(width: cellSize.width, height: cellSize.height),
         ));
       } else {
-        /// TODO: Multi-layer lessonSlot
-        final firstLayerLesson = lessonSlot.lessons[0];
-
         /// TODO: Range checking
-        final course = firstLayerLesson.course;
+        final course = lesson.course;
         cells.add(SizedBox(
           width: cellSize.width,
-          height: cellSize.height * firstLayerLesson.type.timeslotDuration,
+          height: cellSize.height * lesson.type.timeslotDuration,
           child: cellBuilder(
             context: context,
-            lesson: firstLayerLesson,
+            lesson: lesson,
             timetable: timetable,
           ),
         ));
 
         /// Skip to the end
-        timeslot = firstLayerLesson.type.endIndex;
+        timeslot = lesson.type.endIndex;
       }
     }
 
