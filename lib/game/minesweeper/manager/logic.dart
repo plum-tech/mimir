@@ -65,12 +65,14 @@ class GameLogic extends StateNotifier<GameStates> {
     }
     if (cell.state == CellState.covered) {
       _changeCell(cell: cell, state: CellState.blank);
-      _digAroundIfSafe(cell: cell);
       // Check Game State
       if (cell.mine) {
         state.gameOver = true;
-      } else if (checkWin()) {
-        state.goodGame = true;
+      } else {
+        _digAroundIfSafe(cell: cell);
+        if (checkWin()) {
+          state.goodGame = true;
+        }
       }
     } else {
       assert(false, "$cell");
