@@ -526,7 +526,6 @@ class TimetableSlotInfo extends StatelessWidget {
             text: courseName,
             style: context.textTheme.bodyMedium?.copyWith(
               color: textColor,
-              fontWeight: FontWeight.w600,
             ),
           ),
           if (place.isNotEmpty)
@@ -534,7 +533,6 @@ class TimetableSlotInfo extends StatelessWidget {
               text: "\n${beautifyPlace(place)}",
               style: context.textTheme.bodySmall?.copyWith(
                 color: textColor,
-                fontWeight: FontWeight.w500,
               ),
             ),
           if (teachers != null)
