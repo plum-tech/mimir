@@ -410,7 +410,7 @@ class SitTimetableLessonSlot {
 
   SitTimetableLessonSlot({required this.lessons});
 
-  SitTimetableLessonPart? lessonAt(int index){
+  SitTimetableLessonPart? lessonAt(int index) {
     return lessons.elementAtOrNull(index);
   }
 }

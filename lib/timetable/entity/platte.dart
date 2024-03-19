@@ -159,7 +159,6 @@ class BuiltinTimetablePalette implements TimetablePalette {
       };
 }
 
-
 abstract mixin class SitTimetablePaletteResolver {
   SitTimetable get type;
 

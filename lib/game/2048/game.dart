@@ -131,7 +131,7 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
         focusNode: $focus,
         onKeyEvent: (event) {
           //Move the tile with the arrows on the keyboard on Desktop
-          if ( !_moveController.isCompleted) return;
+          if (!_moveController.isCompleted) return;
           if (ref.read(boardManager.notifier).onKey(event)) {
             _moveController.forward(from: 0.0);
           }

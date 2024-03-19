@@ -54,11 +54,11 @@ class _MePageState extends State<MePage> {
             children: [
               const GameAppCard2048(),
               const GameAppCardMinesweeper(),
-              if(Dev.on)
-              OfflineGameAppCard(
-                name: "SIT Suika",
-                baseRoute: "/suika",
-              ),
+              if (Dev.on)
+                OfflineGameAppCard(
+                  name: "SIT Suika",
+                  baseRoute: "/suika",
+                ),
             ],
           ),
           SliverToBoxAdapter(

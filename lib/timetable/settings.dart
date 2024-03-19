@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/timetable/entity/background.dart';
 
-import 'widgets/style.dart';
+import 'entity/cell_style.dart';
 
 const _kAutoUseImported = true;
 const _kShowTeachers = true;

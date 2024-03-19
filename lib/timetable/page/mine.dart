@@ -400,7 +400,7 @@ class _TimetableDetailsPageState extends State<TimetableDetailsPage> {
           SliverList.builder(
             itemCount: code2Courses.length,
             itemBuilder: (ctx, i) {
-              final MapEntry(key:code,value:courses) = code2Courses[i];
+              final MapEntry(key: code, value: courses) = code2Courses[i];
               return TimetableCourseCard(
                 courses: courses,
                 courseName: courses.first.courseName,

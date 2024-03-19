@@ -38,7 +38,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
     timer = GameTimer(refresh: updateGame);
     ref.read(boardManager.notifier).initGame(gameMode: mode);
     Future.delayed(Duration.zero).then((value) {
-      if (!widget.newGame){
+      if (!widget.newGame) {
         final save = SaveMinesweeper.storage.load();
         if (save != null) {
           ref.read(boardManager.notifier).fromSave(Board.fromSave(save));

@@ -5,24 +5,10 @@ import 'package:sit/timetable/entity/background.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/platte.dart';
 
+import '../entity/cell_style.dart';
 import '../init.dart';
 
 part "style.g.dart";
-
-@CopyWith(skipFields: true)
-class CourseCellStyle {
-  final bool showTeachers;
-  final bool grayOutTakenLessons;
-  final bool harmonizeWithThemeColor;
-  final double alpha;
-
-  const CourseCellStyle({
-    this.showTeachers = true,
-    this.grayOutTakenLessons = false,
-    this.harmonizeWithThemeColor = true,
-    this.alpha = 1.0,
-  });
-}
 
 @CopyWith(skipFields: true)
 class TimetableStyleData {

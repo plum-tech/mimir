@@ -41,7 +41,7 @@ Color? findBestTextColor(Color bgColor, List<Color> textColors) {
 }
 
 double calculateContrastRatio(Color color1, Color color2) {
-    final luminance1 = color1.luminance;
+  final luminance1 = color1.luminance;
   final luminance2 = color2.luminance;
   final contrast = (luminance1 + 0.05) / (luminance2 + 0.05);
   if (contrast < 1) {
