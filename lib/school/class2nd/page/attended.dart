@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/foundation.dart';
@@ -257,9 +258,11 @@ class AttendedActivityCard extends StatelessWidget {
               : Text(
                   attended.application.status.l10n(),
                   style: context.textTheme.titleMedium?.copyWith(
-                      color: attended.application.status == Class2ndActivityApplicationStatus.approved
-                          ? Colors.green
-                          : null),
+                      color: switch (attended.application.status) {
+                    Class2ndActivityApplicationStatus.approved => Colors.green,
+                    Class2ndActivityApplicationStatus.rejected => Colors.redAccent,
+                    _ => null,
+                  }),
                 ),
           onTap: () async {
             await context.push("/class2nd/attended-details", extra: attended);
@@ -291,6 +294,15 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
         slivers: [
           SliverAppBar.medium(
             title: i18n.info.applicationOf(activity.application.applicationId).text(),
+            actions: [
+              if (activity.status == Class2ndActivityApplicationStatus.reviewing)
+                PlatformTextButton(
+                  child: "Withdraw".text(),
+                  onPressed: () async {
+                    await Class2ndInit.applicationService.withdraw(activity.applicationId);
+                  },
+                )
+            ],
           ),
           SliverList.list(children: [
             DetailListTile(

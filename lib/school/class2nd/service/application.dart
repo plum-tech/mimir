@@ -64,7 +64,7 @@ class Class2ndApplicationService {
     return code.contains('申请成功');
   }
 
-  Future<bool> cancel(int applicationId) async {
+  Future<bool> withdraw(int applicationId) async {
     final res = await _session.request(
       'http://sc.sit.edu.cn/public/pcenter/cancelOrder.action?orderNo=$applicationId',
       options: Options(

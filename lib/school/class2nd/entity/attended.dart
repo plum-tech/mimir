@@ -197,6 +197,8 @@ class Class2ndAttendedActivity {
 
   int get activityId => application.activityId;
 
+  Class2ndActivityApplicationStatus get status => application.status;
+
   bool get cancelled => application.activityId == -1;
 
   int get applicationId => application.applicationId;
