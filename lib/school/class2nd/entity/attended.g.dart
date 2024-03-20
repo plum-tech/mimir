@@ -61,7 +61,7 @@ class Class2ndPointsSummaryAdapter extends TypeAdapter<Class2ndPointsSummary> {
 
 class Class2ndPointItemAdapter extends TypeAdapter<Class2ndPointItem> {
   @override
-  final int typeId = 35;
+  final int typeId = 36;
 
   @override
   Class2ndPointItem read(BinaryReader reader) {
@@ -108,7 +108,7 @@ class Class2ndPointItemAdapter extends TypeAdapter<Class2ndPointItem> {
 
 class Class2ndPointTypeAdapter extends TypeAdapter<Class2ndPointType> {
   @override
-  final int typeId = 36;
+  final int typeId = 37;
 
   @override
   Class2ndPointType read(BinaryReader reader) {

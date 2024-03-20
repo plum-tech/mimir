@@ -263,6 +263,13 @@ class2nd:
     schoolSafetyCivilization:
       full: 校園安全文明
       short: 安全
+  applicationStatus:
+    unknown: 未知
+    approved: 准許
+    rejected: 拒絕
+    withdrawn: 已撤銷
+    activityCancelled: 活動取消
+    reviewing: 審核中
   applicationResponse:
     successfulCheck: 檢查成功
     incompleteApplicantInfo: 您的資訊不完整，請填寫

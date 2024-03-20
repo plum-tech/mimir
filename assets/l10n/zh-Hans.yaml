@@ -263,6 +263,13 @@ class2nd:
     schoolSafetyCivilization:
       full: 校园安全文明
       short: 文明
+  applicationStatus:
+    unknown: 未知
+    approved: 通过
+    rejected: 未通过
+    withdrawn: 已撤销
+    activityCancelled: 活动取消
+    reviewing: 审核中
   applicationResponse:
     successfulCheck: 检查成功
     incompleteApplicantInfo: 你的个人信息不全，请补全你的信息

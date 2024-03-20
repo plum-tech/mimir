@@ -1,9 +1,47 @@
 import 'dart:core';
 
+import 'package:easy_localization/easy_localization.dart';
+
 import 'activity.dart';
 import 'package:sit/storage/hive/type_id.dart';
 
 part 'application.g.dart';
+
+@HiveType(typeId: CacheHiveType.class2ndActivityApplicationStatus)
+enum Class2ndActivityApplicationStatus {
+  @HiveField(0)
+  unknown,
+  @HiveField(1)
+  approved,
+  @HiveField(2)
+  rejected,
+  @HiveField(3)
+  withdrawn,
+  @HiveField(4)
+  activityCancelled,
+  @HiveField(5)
+  reviewing,
+  ;
+
+  static Class2ndActivityApplicationStatus? parse(String status) {
+    if (status == "通过") {
+      return Class2ndActivityApplicationStatus.approved;
+    } else if (status == "未通过") {
+      return Class2ndActivityApplicationStatus.rejected;
+    } else if (status == "活动取消") {
+      return Class2ndActivityApplicationStatus.activityCancelled;
+    } else if (status == "已撤销") {
+      return Class2ndActivityApplicationStatus.withdrawn;
+    } else if (status == "审核中") {
+      return Class2ndActivityApplicationStatus.reviewing;
+    }
+    return null;
+  }
+
+  String l10n() {
+    return "class2nd.applicationStatus.$name".tr();
+  }
+}
 
 @HiveType(typeId: CacheHiveType.class2ndActivityApplication)
 class Class2ndActivityApplication {
@@ -26,7 +64,7 @@ class Class2ndActivityApplication {
 
   /// 活动状态
   @HiveField(4)
-  final String status;
+  final Class2ndActivityApplicationStatus status;
 
   @HiveField(5)
   final Class2ndActivityCat category;
@@ -39,8 +77,6 @@ class Class2ndActivityApplication {
     required this.status,
     required this.category,
   });
-
-  bool get isPassed => status == "通过";
 
   @override
   String toString() {

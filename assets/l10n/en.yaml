@@ -266,6 +266,13 @@ class2nd:
     schoolSafetyCivilization:
       full: Safety&Civil.
       short: Civil.
+  applicationStatus:
+    unknown: Unknown
+    approved: Approved
+    rejected: Rejected
+    withdrawn: Withdrawn
+    activityCancelled: Cancelled
+    reviewing: Reviewing
   applicationResponse:
     successfulCheck: Successful check
     incompleteApplicantInfo: Your info is incomplete, please complete it

@@ -33,8 +33,9 @@ class CacheHiveType {
   static const activityCat = _class2nd + 2;
   static const class2ndPointsSummary = _class2nd + 3;
   static const class2ndActivityApplication = _class2nd + 4;
-  static const class2ndPointItem = _class2nd + 5;
-  static const class2ndScoreType = _class2nd + 6;
+  static const class2ndActivityApplicationStatus = _class2nd + 5;
+  static const class2ndPointItem = _class2nd + 6;
+  static const class2ndScoreType = _class2nd + 7;
 
   // Expense 10
   static const _expense = _class2nd + 20;

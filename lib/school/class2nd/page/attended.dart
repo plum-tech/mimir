@@ -15,6 +15,7 @@ import 'package:sit/school/class2nd/entity/activity.dart';
 import 'package:sit/school/class2nd/utils.dart';
 import 'package:sit/utils/error.dart';
 
+import '../entity/application.dart';
 import '../entity/attended.dart';
 import '../init.dart';
 import '../i18n.dart';
@@ -254,9 +255,11 @@ class AttendedActivityCard extends StatelessWidget {
                   style: context.textTheme.titleMedium?.copyWith(color: _pointsColor(context, points)),
                 )
               : Text(
-                  attended.application.status,
-                  style: context.textTheme.titleMedium
-                      ?.copyWith(color: attended.application.isPassed ? Colors.green : null),
+                  attended.application.status.l10n(),
+                  style: context.textTheme.titleMedium?.copyWith(
+                      color: attended.application.status == Class2ndActivityApplicationStatus.approved
+                          ? Colors.green
+                          : null),
                 ),
           onTap: () async {
             await context.push("/class2nd/attended-details", extra: attended);
@@ -304,7 +307,7 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
             ),
             DetailListTile(
               title: i18n.info.status,
-              subtitle: activity.application.status,
+              subtitle: activity.application.status.l10n(),
             ),
             if (tags.isNotEmpty)
               ListTile(

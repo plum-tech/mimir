@@ -218,15 +218,16 @@ class Class2ndPointsService {
     assert(category != null, "Unknown class2nd category $categoryRaw");
     final timeRaw = item.find('td:nth-child(7)')!.text.trim();
     final time = attendedTimeFormat.parse(timeRaw);
-    final status = item.find('td:nth-child(9)')!.text.trim();
-
+    final statusRaw = item.find('td:nth-child(9)')!.text.trim();
+    final status = Class2ndActivityApplicationStatus.parse(statusRaw);
+    assert(status != Class2ndActivityApplicationStatus.unknown);
     return Class2ndActivityApplication(
       applicationId: applicationId,
       activityId: activityId,
       title: mapChinesePunctuations(title),
       category: category ?? Class2ndActivityCat.unknown,
       time: time,
-      status: status,
+      status: status ?? Class2ndActivityApplicationStatus.unknown,
     );
   }
 }
