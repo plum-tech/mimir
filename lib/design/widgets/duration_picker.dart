@@ -656,12 +656,12 @@ class DurationPickerDialog extends StatefulWidget {
   ///
   /// [initialTime] must not be null.
   const DurationPickerDialog({
-    Key? key,
+    super.key,
     required this.initialTime,
     this.baseUnit = BaseUnit.minute,
     this.snapToMins = 1.0,
     this.decoration,
-  }) : super(key: key);
+  });
 
   /// The duration initially selected when the dialog is shown.
   final Duration initialTime;
@@ -845,14 +845,14 @@ class DurationPicker extends StatelessWidget {
   final double? height;
 
   const DurationPicker({
-    Key? key,
+    super.key,
     this.duration = Duration.zero,
     required this.onChange,
     this.baseUnit = BaseUnit.minute,
     this.snapToMins,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -36,7 +36,6 @@ Color? findBestTextColor(Color bgColor, List<Color> textColors) {
       Map.fromEntries(textColors.map((textColor) => MapEntry(calculateContrastRatio(textColor, bgColor), textColor)));
   final sorted = map.entries.sortedBy<num>((e) => e.key).toList();
   final res = sorted.lastOrNull?.value;
-  print("min:${sorted.firstOrNull?.key} max:${sorted.lastOrNull?.key}");
   return res;
 }
 

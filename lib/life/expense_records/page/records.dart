@@ -56,6 +56,7 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
   Future<void> refresh() async {
     final oaCredential = context.auth.credentials;
     if (oaCredential == null) return;
+    if (!mounted) return;
     setState(() {
       isFetching = true;
     });
@@ -68,8 +69,8 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
       if (!mounted) return;
+      handleRequestError(context, error, stackTrace);
       setState(() {
         isFetching = false;
       });

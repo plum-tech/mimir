@@ -24,7 +24,7 @@ class _QuickButtonsState extends State<QuickButtons> {
         onPressed: () async {
           final launched = await guardLaunchUrlString(context, 'sangfor://easyconnect');
           if (!launched) {
-            if (!mounted) return;
+            if (!context.mounted) return;
             final confirm = await context.showRequest(
               title: i18n.easyconnect.launchFailed,
               desc: i18n.easyconnect.launchFailedDesc,
@@ -33,7 +33,7 @@ class _QuickButtonsState extends State<QuickButtons> {
               destructive: true,
             );
             if (confirm == true) {
-              if (!mounted) return;
+              if (!context.mounted) return;
               await guardLaunchUrlString(context, easyConnectDownloadUrl);
             }
           }

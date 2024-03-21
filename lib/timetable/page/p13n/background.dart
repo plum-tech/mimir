@@ -64,7 +64,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
                       await FileImage(backgroundFi).evict();
                     }
                     Settings.timetable.backgroundImage = background;
-                    if (!mounted) return;
+                    if (!context.mounted) return;
                     context.pop(background);
                   },
                 ),

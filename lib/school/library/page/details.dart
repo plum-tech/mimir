@@ -43,7 +43,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
 
   Future<void> fetchDetails() async {
     if (details != null) return;
-    if (!context.mounted) return;
+    if (!mounted) return;
     setState(() {
       isFetching = true;
     });
@@ -51,16 +51,17 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
     try {
       final details = await LibraryInit.bookDetailsService.query(bookId);
       await LibraryInit.bookStorage.setBookDetails(bookId, details);
-      if (!context.mounted) return;
+      if (!mounted) return;
       setState(() {
         this.details = details;
         isFetching = false;
       });
     } catch (error, stackTrace) {
+      if (!mounted) return;
       handleRequestError(context, error, stackTrace);
       return;
     }
-    if (!context.mounted) return;
+    if (!mounted) return;
     setState(() {
       isFetching = false;
     });
@@ -219,23 +220,24 @@ class _BookCollectionPreviewListState extends State<BookCollectionPreviewList> {
   }
 
   Future<void> fetchCollectionPreview() async {
-    if (!context.mounted) return;
+    if (!mounted) return;
     setState(() {
       isFetching = true;
     });
     final bookId = widget.book.bookId;
     try {
       final holding = await LibraryAggregated.fetchBookCollectionPreviewList(bookId: bookId);
-      if (!context.mounted) return;
+      if (!mounted) return;
       setState(() {
         this.holding = holding;
         isFetching = false;
       });
     } catch (error, stackTrace) {
+      if (!mounted) return;
       handleRequestError(context, error, stackTrace);
       return;
     }
-    if (!context.mounted) return;
+    if (!mounted) return;
     setState(() {
       isFetching = false;
     });

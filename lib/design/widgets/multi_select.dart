@@ -302,6 +302,6 @@ class _MultiselectScopeState<T> extends State<MultiselectScope<T>> {
 class _InheritedMultiselectNotifier extends InheritedNotifier<MultiselectController> {
   final MultiselectController controller;
 
-  const _InheritedMultiselectNotifier({Key? key, required Widget child, required this.controller})
-      : super(key: key, child: child, notifier: controller);
+  const _InheritedMultiselectNotifier({super.key, required super.child, required this.controller})
+      : super(notifier: controller);
 }
