@@ -17,6 +17,7 @@ class LifeSettings {
 class _ElectricityK {
   static const ns = "${LifeSettings.ns}/electricity";
   static const autoRefresh = "$ns/autoRefresh";
+  static const selectedRoom = "$ns/selectedRoom";
 }
 
 class _Electricity {
@@ -27,6 +28,10 @@ class _Electricity {
   bool get autoRefresh => box.get(_ElectricityK.autoRefresh) ?? _kElectricityAutoRefresh;
 
   set autoRefresh(bool foo) => box.put(_ElectricityK.autoRefresh, foo);
+
+  String? get selectedRoom => box.get(_ElectricityK.selectedRoom);
+
+  set selectedRoom(String? newV) => box.put(_ElectricityK.selectedRoom, newV);
 }
 
 class _ExpenseK {

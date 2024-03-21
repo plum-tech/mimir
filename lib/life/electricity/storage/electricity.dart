@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/storage/hive/init.dart';
 
 import '../entity/balance.dart';
@@ -19,15 +20,6 @@ class ElectricityStorage {
   const ElectricityStorage({
     this.maxHistoryLength = 20,
   });
-
-  String? get selectedRoom => box.get(_K.selectedRoom);
-
-  set selectedRoom(String? newV) {
-    box.put(_K.selectedRoom, newV);
-    if (newV == null) {
-      box.put(_K.lastBalance, null);
-    }
-  }
 
   ValueListenable<Box> listenRoomBalanceChange() => box.listenable(keys: [_K.selectedRoom, _K.lastBalance]);
 
@@ -54,7 +46,7 @@ extension ElectricityStorageX on ElectricityStorage {
   }
 
   void selectNewRoom(String room) {
-    selectedRoom = room;
+    Settings.life.electricity.selectedRoom = room;
     addSearchHistory(room);
   }
 }

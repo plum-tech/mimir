@@ -57,10 +57,13 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
 
   /// The electricity balance is refreshed approximately every 15 minutes.
   Future<void> refresh({required bool active}) async {
-    final selectedRoom = ElectricityBalanceInit.storage.selectedRoom;
+    final selectedRoom = Settings.life.electricity.selectedRoom;
     if (selectedRoom == null) return;
     try {
-      ElectricityBalanceInit.storage.lastBalance = await ElectricityBalanceInit.service.getBalance(selectedRoom);
+      final lastBalance = await ElectricityBalanceInit.service.getBalance(selectedRoom);
+      if (lastBalance.roomNumber == selectedRoom) {
+        ElectricityBalanceInit.storage.lastBalance = lastBalance;
+      }
     } catch (error) {
       if (active) {
         if (!mounted) return;
@@ -76,8 +79,9 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedRoom = ElectricityBalanceInit.storage.selectedRoom;
-    final balance = ElectricityBalanceInit.storage.lastBalance;
+    final selectedRoom = Settings.life.electricity.selectedRoom;
+    final lastBalance = ElectricityBalanceInit.storage.lastBalance;
+    final balance = lastBalance?.roomNumber == selectedRoom ? lastBalance : null;
     return AppCard(
       view: selectedRoom != null && balance != null
           ? buildBalanceCard(
@@ -105,7 +109,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
             );
             $searchHistory.dispose();
             if (room == null) return;
-            if (ElectricityBalanceInit.storage.selectedRoom != room) {
+            if (Settings.life.electricity.selectedRoom != room) {
               ElectricityBalanceInit.storage.selectNewRoom(room);
               await refresh(active: true);
             }
@@ -137,7 +141,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
         key: const ValueKey("Balance"),
         onDismissed: (dir) async {
           await HapticFeedback.heavyImpact();
-          ElectricityBalanceInit.storage.selectedRoom = null;
+          Settings.life.electricity.selectedRoom = null;
         },
         child: buildCard(balance),
       );
@@ -163,7 +167,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
                 callback: () async {
                   // Navigator.of(context, rootNavigator: true).pop();
                   await HapticFeedback.heavyImpact();
-                  ElectricityBalanceInit.storage.selectedRoom = null;
+                  Settings.life.electricity.selectedRoom = null;
                 },
               ),
             ],
