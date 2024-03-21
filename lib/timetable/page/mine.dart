@@ -25,7 +25,6 @@ import '../init.dart';
 import '../utils.dart';
 import '../widgets/focus.dart';
 import '../widgets/style.dart';
-import 'editor.dart';
 import 'preview.dart';
 
 class MyTimetableListPage extends StatefulWidget {
@@ -261,13 +260,7 @@ class TimetableCard extends StatelessWidget {
           label: i18n.edit,
           activator: const SingleActivator(LogicalKeyboardKey.keyE),
           action: () async {
-            // don't use outside `palette`. because it wouldn't updated after the palette was changed.
-            // TODO: better solution
-            final timetable = TimetableInit.storage.timetable[id];
-            if (timetable == null) return;
-            final newTimetable = await ctx.show$Sheet$<SitTimetable>(
-              (ctx) => TimetableEditor(timetable: timetable),
-            );
+            final newTimetable = await ctx.push<SitTimetable>("/timetable/edit/$id");
             if (newTimetable != null) {
               TimetableInit.storage.timetable[id] = newTimetable;
             }
@@ -398,12 +391,13 @@ class _TimetableDetailsPageState extends State<TimetableDetailsPage> {
             itemCount: code2Courses.length,
             itemBuilder: (ctx, i) {
               final MapEntry(value: courses) = code2Courses[i];
+              final template = courses.first;
               return TimetableCourseCard(
                 courses: courses,
-                courseName: courses.first.courseName,
-                courseCode: courses.first.courseCode,
-                classCode: courses.first.classCode,
-                color: resolver.resolveColor(palette, courses.first).byTheme(context.theme),
+                courseName: template.courseName,
+                courseCode: template.courseCode,
+                classCode: template.classCode,
+                color: resolver.resolveColor(palette, template).byTheme(context.theme),
               );
             },
           )

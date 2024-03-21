@@ -8,16 +8,19 @@ import 'package:sit/settings/settings.dart';
 import '../entity/timetable.dart';
 import '../i18n.dart';
 
-class TimetableEditor extends StatefulWidget {
+class TimetableEditorPage extends StatefulWidget {
   final SitTimetable timetable;
 
-  const TimetableEditor({super.key, required this.timetable});
+  const TimetableEditorPage({
+    super.key,
+    required this.timetable,
+  });
 
   @override
-  State<TimetableEditor> createState() => _TimetableEditorState();
+  State<TimetableEditorPage> createState() => _TimetableEditorPageState();
 }
 
-class _TimetableEditorState extends State<TimetableEditor> {
+class _TimetableEditorPageState extends State<TimetableEditorPage> {
   final _formKey = GlobalKey<FormState>();
   late final $name = TextEditingController(text: widget.timetable.name);
   late final $selectedDate = ValueNotifier(widget.timetable.startDate);

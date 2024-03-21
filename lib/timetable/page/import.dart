@@ -148,7 +148,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     }
     if (!mounted) return null;
     final newTimetable = await context.show$Sheet$<SitTimetable>(
-      (ctx) => TimetableEditor(
+      (ctx) => TimetableEditorPage(
         timetable: timetable.copyWith(
           name: defaultName,
           semester: semester,
