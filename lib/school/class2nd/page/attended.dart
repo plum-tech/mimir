@@ -285,6 +285,8 @@ class Class2ndAttendDetailsPage extends StatefulWidget {
 }
 
 class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
+  var withdrawing = false;
+
   @override
   Widget build(BuildContext context) {
     final activity = widget.activity;
@@ -298,7 +300,7 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
             actions: [
               if (activity.status == Class2ndActivityApplicationStatus.reviewing)
                 PlatformTextButton(
-                  onPressed: withdrawApplication,
+                  onPressed: withdrawing ? null : withdrawApplication,
                   child: i18n.attended.withdrawApplicationAction.text(),
                 )
             ],
@@ -361,13 +363,18 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
       yes: i18n.yes,
       no: i18n.cancel,
     );
-    if (confirm == true) {
-      final res = await Class2ndInit.applicationService.withdraw(widget.activity.applicationId);
-      if (res) {
-        if (!mounted) return;
-        // go back to the list page to refresh
-        await context.push("/class2nd/attended");
-      }
+    if (confirm != true) return;
+    setState(() {
+      withdrawing = true;
+    });
+    final res = await Class2ndInit.applicationService.withdraw(widget.activity.applicationId);
+    if (!mounted) return;
+    setState(() {
+      withdrawing = false;
+    });
+    if (res) {
+      // go back to the list page to refresh
+      await context.push("/class2nd/attended");
     }
   }
 }

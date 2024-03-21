@@ -76,6 +76,7 @@ void main() async {
   if (!kIsWeb) {
     await HiveInit.initLocalStorage(
       coreDir: Files.internal.subDir("hive", R.hiveStorageVersionCore),
+      // iOS will clear the cache under [getApplicationCacheDirectory()] when device has no enough storage.
       cacheDir: Files.internal.subDir("hive-cache", R.hiveStorageVersionCache),
     );
   }
