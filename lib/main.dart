@@ -76,8 +76,7 @@ void main() async {
   if (!kIsWeb) {
     await HiveInit.initLocalStorage(
       coreDir: Files.internal.subDir("hive", R.hiveStorageVersionCore),
-      cacheDir: Files.cache.subDir("hive", R.hiveStorageVersionCache),
-      // cacheDir: Files.internal.subDir("hive-cache", R.hiveStorageVersion),
+      cacheDir: Files.internal.subDir("hive-cache", R.hiveStorageVersionCache),
     );
   }
   HiveInit.initAdapters();
