@@ -35,6 +35,16 @@ class EntryAction {
     this.activator,
     this.type = EntryActionType.other,
   });
+
+  const EntryAction.edit({
+    required this.label,
+    this.main = true,
+    this.icon = Icons.edit,
+    this.cupertinoIcon = CupertinoIcons.pencil,
+    required this.action,
+    this.activator,
+  })  : oneShot = true,
+        type = EntryActionType.edit;
 }
 
 class EntrySelectAction {
@@ -290,6 +300,8 @@ class EntryCard extends StatelessWidget {
     if (editAction != null) {
       all.add(CupertinoButton(
         onPressed: () async {
+          if (!context.mounted) return;
+          context.navigator.pop();
           await editAction.action();
         },
         child: editAction.label.text(),

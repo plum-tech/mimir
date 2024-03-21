@@ -257,11 +257,8 @@ class TimetableCard extends StatelessWidget {
               );
             },
           ),
-        EntryAction(
+        EntryAction.edit(
           label: i18n.edit,
-          icon: Icons.edit,
-          cupertinoIcon: CupertinoIcons.pencil,
-          type: EntryActionType.edit,
           activator: const SingleActivator(LogicalKeyboardKey.keyE),
           action: () async {
             // don't use outside `palette`. because it wouldn't updated after the palette was changed.
@@ -400,7 +397,7 @@ class _TimetableDetailsPageState extends State<TimetableDetailsPage> {
           SliverList.builder(
             itemCount: code2Courses.length,
             itemBuilder: (ctx, i) {
-              final MapEntry(key: code, value: courses) = code2Courses[i];
+              final MapEntry(value: courses) = code2Courses[i];
               return TimetableCourseCard(
                 courses: courses,
                 courseName: courses.first.courseName,

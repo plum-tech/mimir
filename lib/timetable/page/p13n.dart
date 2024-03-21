@@ -217,22 +217,12 @@ class PaletteCard extends StatelessWidget {
               ),
       actions: (ctx) => [
         if (palette is! BuiltinTimetablePalette)
-          EntryAction(
+          EntryAction.edit(
             main: true,
             label: i18n.edit,
-            icon: Icons.edit,
-            cupertinoIcon: CupertinoIcons.pencil,
-            type: EntryActionType.edit,
-            oneShot: true,
             activator: const SingleActivator(LogicalKeyboardKey.keyE),
             action: () async {
-              // don't use outside `palette`. because it wouldn't updated after the palette was changed.
-              // TODO: better solution
-              final palette = TimetableInit.storage.palette[id];
-              if (palette == null) return;
-              await context.show$Sheet$(
-                (context) => TimetablePaletteEditor(id: id, palette: palette.copyWith()),
-              );
+              await context.push("/timetable/palette/edit/$id");
             },
           ),
         if (timetable != null && palette.colors.isNotEmpty)

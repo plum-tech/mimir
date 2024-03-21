@@ -17,18 +17,18 @@ import '../i18n.dart';
 import '../init.dart';
 import '../widgets/style.dart';
 
-class TimetablePaletteEditor extends StatefulWidget {
+class TimetablePaletteEditorPage extends StatefulWidget {
   final int id;
   final TimetablePalette palette;
 
-  const TimetablePaletteEditor({
+  const TimetablePaletteEditorPage({
     super.key,
     required this.id,
     required this.palette,
   });
 
   @override
-  State<TimetablePaletteEditor> createState() => _TimetablePaletteEditorState();
+  State<TimetablePaletteEditorPage> createState() => _TimetablePaletteEditorPageState();
 }
 
 class _Tab {
@@ -37,7 +37,7 @@ class _Tab {
   static const colors = 1;
 }
 
-class _TimetablePaletteEditorState extends State<TimetablePaletteEditor> {
+class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage> {
   late final $name = TextEditingController(text: widget.palette.name);
   late final $author = TextEditingController(text: widget.palette.author);
   late var colors = widget.palette.colors;

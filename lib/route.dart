@@ -36,8 +36,10 @@ import 'package:sit/me/edu_email/page/inbox.dart';
 import 'package:sit/network/page/index.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/page/theme_color.dart';
+import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/page/background.dart';
 import 'package:sit/timetable/page/cell_style.dart';
+import 'package:sit/timetable/page/palette.dart';
 import 'package:sit/widgets/not_found.dart';
 import 'package:sit/school/oa_announce/entity/announce.dart';
 import 'package:sit/school/oa_announce/page/details.dart';
@@ -128,6 +130,16 @@ final _timetableRoutes = [
         builder: (ctx, state) => const TimetableP13nPage(tab: TimetableP13nTab.builtin),
       ),
     ],
+  ),
+  GoRoute(
+    path: "/timetable/palette/edit/:id",
+    builder: (ctx, state) {
+      final id = int.tryParse(state.pathParameters["id"] ?? "");
+      if (id == null) throw 404;
+      final palette = TimetableInit.storage.palette[id];
+      if (palette == null) throw 404;
+      return TimetablePaletteEditorPage(id: id, palette: palette);
+    },
   ),
   GoRoute(
     path: "/timetable/cell-style",
