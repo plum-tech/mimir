@@ -190,6 +190,10 @@ class2nd:
   activity: 活动
   attended:
     title: 已参与
+    withdrawApplicationAction: 撤销
+    withdrawApplication:
+      title: 撤销申请
+      desc: 确定撤销这个活动申请？
   tab:
     info: 信息
     description: 描述

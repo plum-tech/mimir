@@ -299,7 +299,7 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
               if (activity.status == Class2ndActivityApplicationStatus.reviewing)
                 PlatformTextButton(
                   onPressed: withdrawApplication,
-                  child: "Withdraw".text(),
+                  child: i18n.attended.withdrawApplicationAction.text(),
                 )
             ],
           ),
@@ -356,8 +356,8 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
 
   Future<void> withdrawApplication() async {
     final confirm = await context.showRequest(
-      title: "Withdraw application",
-      desc: "Confirm to withdraw this application?",
+      title: i18n.attended.withdrawApplication,
+      desc: i18n.attended.withdrawApplicationDesc,
       yes: i18n.yes,
       no: i18n.cancel,
     );

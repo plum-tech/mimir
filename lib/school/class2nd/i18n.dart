@@ -59,6 +59,12 @@ class _Attended {
   static const ns = "${_I18n.ns}.attended";
 
   String get title => "$ns.title".tr();
+
+  String get withdrawApplicationAction => "$ns.withdrawApplicationAction".tr();
+
+  String get withdrawApplication => "$ns.withdrawApplication.title".tr();
+
+  String get withdrawApplicationDesc => "$ns.withdrawApplication.desc".tr();
 }
 
 class _Info {

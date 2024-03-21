@@ -192,6 +192,10 @@ class2nd:
   title: Second class
   attended:
     title: Attended
+    withdrawApplicationAction: Withdraw
+    withdrawApplication:
+      title: Withdraw application
+      desc: Confirm to withdraw application?
   tab:
     info: Info
     description: Description
