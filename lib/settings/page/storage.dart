@@ -105,9 +105,7 @@ class _BoxSectionState extends State<BoxSection> {
     final boxNameStyle = ctx.textTheme.headlineSmall;
     final action = PullDownMenuButton(
       itemBuilder: (ctx) => [
-        PullDownItem(
-          icon: Icons.edit,
-          cupertinoIcon: CupertinoIcons.pencil,
+        PullDownItem.edit(
           title: i18n.edit,
           onTap: () async {
             final confirm = await _showDeleteBoxRequest(ctx);
@@ -272,11 +270,10 @@ class _BoxItemState extends State<BoxItem> {
   Widget buildActionButton(String key, dynamic value) {
     return PullDownMenuButton(
       itemBuilder: (ctx) => [
-        PullDownItem(
+        PullDownItem.delete(
           icon: Icons.cleaning_services_outlined,
           cupertinoIcon: CupertinoIcons.clear,
           title: i18n.clear,
-          destructive: true,
           onTap: () async {
             final confirm = await context.showRequest(
                 title: i18n.warning,
@@ -291,11 +288,8 @@ class _BoxItemState extends State<BoxItem> {
             }
           },
         ),
-        PullDownItem(
-          icon: Icons.delete,
-          cupertinoIcon: CupertinoIcons.delete,
+        PullDownItem.delete(
           title: i18n.delete,
-          destructive: true,
           onTap: () async {
             ctx.pop();
             final confirm = await _showDeleteItemRequest(ctx);
@@ -372,11 +366,8 @@ class _StorageListLandscapeState extends State<StorageListLandscape> {
         final color = name == selectedBoxName ? context.theme.secondaryHeaderColor : null;
         final action = PullDownMenuButton(
           itemBuilder: (ctx) => [
-            PullDownItem(
-              icon: Icons.delete,
-              cupertinoIcon: CupertinoIcons.delete,
+            PullDownItem.delete(
               title: i18n.clear,
-              destructive: true,
               onTap: () async {
                 final confirm = await _showDeleteBoxRequest(ctx);
                 if (confirm == true) {

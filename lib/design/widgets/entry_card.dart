@@ -2,9 +2,10 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pull_down_button/pull_down_button.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:super_context_menu/super_context_menu.dart';
@@ -38,11 +39,21 @@ class EntryAction {
 
   const EntryAction.edit({
     required this.label,
-    this.main = true,
+    this.main = false,
     this.icon = Icons.edit,
     this.cupertinoIcon = CupertinoIcons.pencil,
     required this.action,
     this.activator,
+  })  : oneShot = true,
+        type = EntryActionType.edit;
+
+  const EntryAction.delete({
+    required this.label,
+    this.main = false,
+    this.icon = Icons.delete,
+    this.cupertinoIcon = CupertinoIcons.delete,
+    required this.action,
+    this.activator = const SingleActivator(LogicalKeyboardKey.delete),
   })  : oneShot = true,
         type = EntryActionType.edit;
 }
@@ -52,30 +63,10 @@ class EntrySelectAction {
   final String selectedLabel;
   final Future<void> Function() action;
 
-  EntrySelectAction({
+  const EntrySelectAction({
     required this.selectLabel,
     required this.selectedLabel,
     required this.action,
-  });
-}
-
-class EntryDeleteAction {
-  final String label;
-  final Future<void> Function() action;
-
-  EntryDeleteAction({
-    required this.label,
-    required this.action,
-  });
-}
-
-class EntryDetailsAction {
-  final String label;
-  final IconData? icon;
-
-  EntryDetailsAction({
-    required this.label,
-    this.icon,
   });
 }
 
@@ -87,7 +78,7 @@ class EntryCard extends StatelessWidget {
       detailsBuilder;
   final List<EntryAction> Function(BuildContext context) actions;
   final EntrySelectAction? Function(BuildContext context) selectAction;
-  final EntryDeleteAction Function(BuildContext context)? deleteAction;
+  final EntryAction Function(BuildContext context)? deleteAction;
 
   const EntryCard({
     super.key,
@@ -157,13 +148,14 @@ class EntryCard extends StatelessWidget {
           final deleteAction = this.deleteAction;
           if (deleteAction != null) {
             final deleteActionWidget = deleteAction(context);
+            all.add(const PopupMenuDivider());
             all.add(PopupMenuItem(
               onTap: () async {
                 await deleteActionWidget.action();
               },
               child: ListTile(
-                leading: const Icon(Icons.delete, color: Colors.redAccent),
-                title: deleteActionWidget.label.text(style: const TextStyle(color: Colors.redAccent)),
+                leading: Icon(deleteActionWidget.icon),
+                title: deleteActionWidget.label.text(),
               ),
             ));
           }
@@ -184,7 +176,7 @@ class EntryCard extends StatelessWidget {
         ),
       ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15),
       onTap: () async {
-        await context.show$Sheet$((ctx) => detailsBuilder(context, null));
+        await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions));
       },
     );
     return selected
@@ -257,7 +249,7 @@ class EntryCard extends StatelessWidget {
     BuildContext context, {
     required List<EntryAction> actions,
     required EntrySelectAction? selectAction,
-    required EntryDeleteAction? deleteAction,
+    required EntryAction? deleteAction,
   }) {
     final all = <MenuAction>[];
     if (selectAction != null && !selected) {
@@ -279,11 +271,12 @@ class EntryCard extends StatelessWidget {
       ));
     }
     if (deleteAction != null) {
+      final icon = deleteAction.cupertinoIcon;
       all.add(MenuAction(
-        image: MenuImage.icon(CupertinoIcons.delete),
+        image: icon == null ? null : MenuImage.icon(icon),
         title: deleteAction.label,
         attributes: const MenuActionAttributes(destructive: true),
-        activator: const SingleActivator(LogicalKeyboardKey.delete),
+        activator: deleteAction.activator,
         callback: deleteAction.action,
       ));
     }
@@ -298,7 +291,7 @@ class EntryCard extends StatelessWidget {
     final deleteAction = this.deleteAction?.call(context);
     final editAction = actions.firstWhereOrNull((action) => action.type == EntryActionType.edit);
     if (editAction != null) {
-      all.add(CupertinoButton(
+      all.add(PlatformTextButton(
         onPressed: () async {
           if (!context.mounted) return;
           context.navigator.pop();
@@ -320,7 +313,7 @@ class EntryCard extends StatelessWidget {
         );
       }
     } else if (selectAction != null && !selected) {
-      all.add(CupertinoButton(
+      all.add(PlatformTextButton(
         onPressed: () async {
           await selectAction.action();
           if (!context.mounted) return;
@@ -329,40 +322,35 @@ class EntryCard extends StatelessWidget {
         child: selectAction.selectLabel.text(),
       ));
     }
-    all.add(PullDownButton(
-      itemBuilder: (context) => [
-        ...actions.map(
-          (action) => PullDownMenuItem(
-            icon: action.cupertinoIcon ?? action.icon,
-            title: action.label,
-            onTap: () async {
-              if (action.oneShot) {
+    all.add(PullDownMenuButton(
+      itemBuilder: (ctx) {
+        return [
+          ...actions.map(
+            (action) => PullDownItem(
+              icon: action.cupertinoIcon ?? action.icon,
+              title: action.label,
+              onTap: () async {
+                if (action.oneShot) {
+                  if (!context.mounted) return;
+                  context.navigator.pop();
+                }
+                await action.action();
+              },
+            ),
+          ),
+          if (deleteAction != null) ...[
+            const PullDownDivider(),
+            PullDownItem.delete(
+              title: deleteAction.label,
+              onTap: () async {
+                await deleteAction.action();
                 if (!context.mounted) return;
                 context.navigator.pop();
-              }
-              await action.action();
-            },
-          ),
-        ),
-        if (deleteAction != null) ...[
-          const PullDownMenuDivider.large(),
-          PullDownMenuItem(
-            icon: CupertinoIcons.delete,
-            title: deleteAction.label,
-            onTap: () async {
-              await deleteAction.action();
-              if (!context.mounted) return;
-              context.navigator.pop();
-            },
-            isDestructive: true,
-          ),
-        ],
-      ],
-      buttonBuilder: (context, showMenu) => CupertinoButton(
-        onPressed: showMenu,
-        padding: EdgeInsets.zero,
-        child: const Icon(CupertinoIcons.ellipsis_circle),
-      ),
+              },
+            ),
+          ],
+        ];
+      },
     ));
     return all;
   }

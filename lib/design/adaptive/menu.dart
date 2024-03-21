@@ -40,6 +40,21 @@ class PullDownItem implements PullDownEntry {
     this.destructive = false,
   });
 
+  const PullDownItem.edit({
+    required this.title,
+    this.onTap,
+    this.icon = Icons.edit,
+    this.cupertinoIcon = CupertinoIcons.pencil,
+    this.destructive = false,
+  });
+
+  const PullDownItem.delete({
+    required this.title,
+    this.onTap,
+    this.icon = Icons.delete,
+    this.cupertinoIcon = CupertinoIcons.delete,
+  }) : destructive = true;
+
   @override
   PullDownMenuEntry buildCupertino() {
     return PullDownMenuItem(

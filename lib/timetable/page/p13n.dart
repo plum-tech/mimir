@@ -200,7 +200,7 @@ class PaletteCard extends StatelessWidget {
             ),
       deleteAction: palette is BuiltinTimetablePalette
           ? null
-          : (ctx) => EntryDeleteAction(
+          : (ctx) => EntryAction.delete(
                 label: i18n.delete,
                 action: () async {
                   final confirm = await ctx.showRequest(

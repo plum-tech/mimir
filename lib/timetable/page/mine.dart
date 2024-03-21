@@ -219,7 +219,7 @@ class TimetableCard extends StatelessWidget {
           TimetableInit.storage.timetable.selectedId = id;
         },
       ),
-      deleteAction: (ctx) => EntryDeleteAction(
+      deleteAction: (ctx) => EntryAction.delete(
         label: i18n.delete,
         action: () async {
           final confirm = await ctx.showRequest(
