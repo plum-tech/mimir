@@ -16,6 +16,7 @@ import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/page/ical.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:sit/timetable/widgets/course.dart';
+import 'package:sit/utils/format.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../entity/platte.dart';
@@ -138,6 +139,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
                   id: id,
                   timetable: timetable,
                   selected: selectedId == id,
+                  allTimetableNames: timetables.map((t) => t.row.name).toList(),
                 ).padH(6);
               },
             ),
@@ -195,12 +197,14 @@ class TimetableCard extends StatelessWidget {
   final SitTimetable timetable;
   final int id;
   final bool selected;
+  final List<String>? allTimetableNames;
 
   const TimetableCard({
     super.key,
     required this.timetable,
     required this.id,
     required this.selected,
+    this.allTimetableNames,
   });
 
   @override
@@ -281,6 +285,19 @@ class TimetableCard extends StatelessWidget {
           cupertinoIcon: CupertinoIcons.calendar_badge_plus,
           action: () async {
             await onExportCalendar(ctx, timetable);
+          },
+        ),
+        EntryAction(
+          label: i18n.duplicate,
+          icon: Icons.copy,
+          oneShot: true,
+          cupertinoIcon: CupertinoIcons.plus_square_on_square,
+          activator: const SingleActivator(LogicalKeyboardKey.keyD),
+          action: () async {
+            final duplicate = timetable.copyWith(
+              name: getDuplicateFileName(timetable.name, all: allTimetableNames),
+            );
+            TimetableInit.storage.timetable.add(duplicate);
           },
         ),
       ],
