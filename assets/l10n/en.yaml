@@ -8,6 +8,8 @@ timetable:
   focusTimetable: Focus timetable
   signature: Signature
   signaturePlaceholder: Your name
+  lunchtime: Lunchtime
+  dinnertime: Dinnertime
   mine:
     title: Your Timetables
     exportCalendar: Export calendar

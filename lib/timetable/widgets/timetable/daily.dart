@@ -19,6 +19,7 @@ import 'package:sit/utils/color.dart';
 import '../../entity/timetable.dart';
 import '../../events.dart';
 import '../../utils.dart';
+import '../../i18n.dart';
 import '../style.dart';
 import '../../entity/pos.dart';
 import 'header.dart';
@@ -176,7 +177,11 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
       ).scrolled().center();
     } else {
       final slotCount = day.timeslot2LessonSlot.length;
-      final builder = _RowBuilder();
+      final builder = _LessonRowBuilder(
+        dividerBuilder: (dividerNumber) {
+          return BreakDivider(title: dividerNumber == 1 ? i18n.lunchtime : i18n.dinnertime);
+        },
+      );
       for (int timeslot = 0; timeslot < slotCount; timeslot++) {
         builder.add(
           timeslot,
@@ -251,6 +256,24 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
 
   @override
   bool get wantKeepAlive => true;
+}
+
+class BreakDivider extends StatelessWidget {
+  final String title;
+
+  const BreakDivider({
+    super.key,
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      const Divider(thickness: 2).expanded(),
+      title.text().padH(16),
+      const Divider(thickness: 2).expanded(),
+    ].row();
+  }
 }
 
 class LessonCard extends StatelessWidget {
@@ -371,15 +394,20 @@ enum _RowBuilderState {
   none;
 }
 
-class _RowBuilder {
+class _LessonRowBuilder {
+  final Widget Function(int dividerNumber) dividerBuilder;
+
+  _LessonRowBuilder({required this.dividerBuilder});
+
   final List<Widget> _rows = [];
   _RowBuilderState lastAdded = _RowBuilderState.none;
 
   void add(int index, Widget? row) {
     // WOW! MEAL TIME!
     // For each four classes, there's a meal.
+    // Avoid adding two divider in a row
     if (index != 0 && index % 4 == 0 && lastAdded != _RowBuilderState.divider) {
-      _rows.add(const Divider(thickness: 2));
+      _rows.add(dividerBuilder(index ~/ 4));
       lastAdded = _RowBuilderState.divider;
     }
     if (row != null) {

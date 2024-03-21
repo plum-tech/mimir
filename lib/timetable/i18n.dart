@@ -34,6 +34,10 @@ class _I18n with CommonI18nMixin {
   String get signature => "$ns.signature".tr();
 
   String get signaturePlaceholder => "$ns.signaturePlaceholder".tr();
+
+  String get lunchtime => "$ns.lunchtime".tr();
+
+  String get dinnertime => "$ns.dinnertime".tr();
 }
 
 class _Mine {

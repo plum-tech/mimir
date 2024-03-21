@@ -8,6 +8,8 @@ timetable:
   focusTimetable: 對焦課程表
   signature: 簽名
   signaturePlaceholder: 你的名稱
+  lunchtime: 午餐時間
+  dinnertime: 晚餐時間
   mine:
     title: 你的課程表
     exportCalendar: 匯出行事曆

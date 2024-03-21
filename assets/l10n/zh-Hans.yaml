@@ -8,6 +8,8 @@ timetable:
   focusTimetable: 课程表模式
   signature: 签名
   signaturePlaceholder: 你的名字
+  lunchtime: 午餐时间
+  dinnertime: 晚餐时间
   mine:
     title: 你的课程表
     exportCalendar: 导出日历
