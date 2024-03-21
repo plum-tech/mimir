@@ -60,6 +60,7 @@ class SettingsImpl {
 
 class _ThemeK {
   static const ns = '/theme';
+  static const themeColorFromSystem = '$ns/themeColorFromSystem';
   static const themeColor = '$ns/themeColor';
   static const themeMode = '$ns/themeMode';
 }
@@ -83,6 +84,10 @@ class _Theme {
     box.put(_ThemeK.themeColor, v?.value);
   }
 
+  bool get themeColorFromSystem => box.get(_ThemeK.themeColorFromSystem) ?? true;
+
+  set themeColorFromSystem(bool value) => box.put(_ThemeK.themeColorFromSystem, value);
+
   /// [ThemeMode.system] by default.
   ThemeMode get themeMode => box.get(_ThemeK.themeMode) ?? ThemeMode.system;
 
@@ -90,7 +95,11 @@ class _Theme {
 
   ValueListenable<Box> listenThemeMode() => box.listenable(keys: [_ThemeK.themeMode]);
 
-  ValueListenable<Box> listenThemeChange() => box.listenable(keys: [_ThemeK.themeMode, _ThemeK.themeColor]);
+  ValueListenable<Box> listenThemeChange() => box.listenable(keys: [
+        _ThemeK.themeMode,
+        _ThemeK.themeColor,
+        _ThemeK.themeColorFromSystem,
+      ]);
 }
 
 enum ProxyType {

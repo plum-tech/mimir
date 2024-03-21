@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/login/i18n.dart';
 import 'package:sit/network/widgets/entry.dart';
 import 'package:sit/storage/hive/init.dart';
@@ -15,11 +14,8 @@ import 'package:sit/l10n/extension.dart';
 import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/school/widgets/campus.dart';
-import 'package:sit/utils/color.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/dev.dart';
-import 'package:system_theme/system_theme.dart';
-import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:locale_names/locale_names.dart';
 
 import '../i18n.dart';
@@ -105,13 +101,17 @@ class _SettingsPageState extends State<SettingsPage> {
       path: "/settings/language",
     ));
     all.add(buildThemeMode());
-    all.add(buildThemeColorPicker());
+    all.add(PageNavigationTile(
+      leading: const Icon(Icons.color_lens_outlined),
+      title: i18n.themeColor.text(),
+      path: "/settings/theme-color",
+    ));
     all.add(const Divider());
 
     if (auth.loginStatus != LoginStatus.never) {
       all.add(PageNavigationTile(
-        title: i18n.timetable.title.text(),
         leading: const Icon(Icons.calendar_month_outlined),
+        title: i18n.timetable.title.text(),
         path: "/settings/timetable",
       ));
       if (!kIsWeb) {
@@ -178,62 +178,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   .toList()
                   .wrap(spacing: 4),
             );
-  }
-
-  Widget buildThemeColorPicker() {
-    // TODO: Better UI
-    final selected = Settings.theme.themeColor ?? SystemTheme.accentColor.maybeAccent ?? context.colorScheme.primary;
-    final usingSystemDefault = supportsSystemAccentColor && Settings.theme.themeColor == null;
-
-    Future<void> selectNewThemeColor() async {
-      final newColor = await showColorPickerDialog(
-        context,
-        selected,
-        enableOpacity: true,
-        enableShadesSelection: true,
-        enableTonalPalette: true,
-        showColorCode: true,
-        pickersEnabled: const <ColorPickerType, bool>{
-          ColorPickerType.both: true,
-          ColorPickerType.primary: false,
-          ColorPickerType.accent: false,
-          ColorPickerType.custom: true,
-          ColorPickerType.wheel: true,
-        },
-      );
-      if (newColor != selected) {
-        await HapticFeedback.mediumImpact();
-        Settings.theme.themeColor = newColor;
-      }
-    }
-
-    return ListTile(
-      leading: const Icon(Icons.color_lens_outlined),
-      title: i18n.themeColor.text(),
-      subtitle: "#${selected.hexAlpha}".text(),
-      onTap: usingSystemDefault ? selectNewThemeColor : null,
-      trailing: usingSystemDefault
-          ? i18n.fromSystem.text(style: context.textTheme.bodyMedium)
-          : [
-              IconButton(
-                onPressed: () {
-                  Settings.theme.themeColor = null;
-                },
-                icon: const Icon(Icons.delete),
-              ),
-              FilledCard(
-                color: selected,
-                clip: Clip.hardEdge,
-                child: InkWell(
-                  onTap: selectNewThemeColor,
-                  child: const SizedBox(
-                    width: 32,
-                    height: 32,
-                  ),
-                ),
-              ),
-            ].wrap(),
-    );
   }
 }
 

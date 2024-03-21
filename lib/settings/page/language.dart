@@ -32,15 +32,7 @@ class _LanguagePageState extends State<LanguagePage> {
             title: i18n.language.text(),
             actions: [
               PlatformTextButton(
-                onPressed: selected != context.locale
-                    ? () async {
-                        await context.setLocale(selected);
-                        final engine = WidgetsFlutterBinding.ensureInitialized();
-                        engine.performReassemble();
-                        if (!context.mounted) return;
-                        context.pop();
-                      }
-                    : null,
+                onPressed: selected != context.locale ? onSave : null,
                 child: i18n.save.text(),
               )
             ],
@@ -63,5 +55,13 @@ class _LanguagePageState extends State<LanguagePage> {
         ],
       ),
     );
+  }
+
+  Future<void> onSave() async {
+    await context.setLocale(selected);
+    final engine = WidgetsFlutterBinding.ensureInitialized();
+    engine.performReassemble();
+    if (!mounted) return;
+    context.pop();
   }
 }

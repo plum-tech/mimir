@@ -35,6 +35,7 @@ import 'package:sit/login/page/index.dart';
 import 'package:sit/me/edu_email/page/inbox.dart';
 import 'package:sit/network/page/index.dart';
 import 'package:sit/settings/dev.dart';
+import 'package:sit/settings/page/theme_color.dart';
 import 'package:sit/timetable/page/background.dart';
 import 'package:sit/timetable/page/cell_style.dart';
 import 'package:sit/widgets/not_found.dart';
@@ -172,6 +173,10 @@ final _settingsRoute = GoRoute(
     GoRoute(
       path: "language",
       builder: (ctx, state) => const LanguagePage(),
+    ),
+    GoRoute(
+      path: "theme-color",
+      builder: (ctx, state) => const ThemeColorPage(),
     ),
     GoRoute(
       path: "credentials",

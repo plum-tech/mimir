@@ -4,14 +4,14 @@ import 'package:go_router/go_router.dart';
 class PageNavigationTile extends StatelessWidget {
   final Widget? title;
   final Widget? subtitle;
-  final Widget leading;
+  final Widget? leading;
   final String path;
 
   const PageNavigationTile({
     super.key,
     this.title,
     this.subtitle,
-    required this.leading,
+    this.leading,
     required this.path,
   });
 
