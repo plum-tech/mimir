@@ -494,6 +494,10 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
                 controller: $place,
                 title: "Place",
               ),
+            if (widget.dayIndexEditable)
+              buildWeekdays().inCard(
+                clip: Clip.hardEdge,
+              ),
             if (widget.timeslotsEditable)
               buildTimeslots().inCard(
                 clip: Clip.hardEdge,
@@ -509,6 +513,27 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
           ]),
         ],
       ),
+    );
+  }
+
+  Widget buildWeekdays() {
+    return ListTile(
+      title: "Weekday".text(),
+      isThreeLine: true,
+      subtitle: [
+        ...Weekday.values.map(
+          (w) => ChoiceChip(
+            showCheckmark: false,
+            label: w.l10n().text(),
+            selected: dayIndex == w.index,
+            onSelected: (value){
+              setState(() {
+                dayIndex = w.index;
+              });
+            },
+          ),
+        ),
+      ].wrap(spacing: 4),
     );
   }
 
