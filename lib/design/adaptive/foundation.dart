@@ -105,28 +105,30 @@ class $Dialog$ extends StatelessWidget {
         title: title?.text(style: TextStyle(fontWeight: FontWeight.w600, color: serious ? context.$red$ : null)),
         content: make(context),
         actions: [
-          CupertinoButton(
-              onPressed: () {
-                primary.onPressed?.call();
-              },
-              child: primary.text.text(
-                style: TextStyle(
-                  color: primary.warning ? context.$red$ : null,
-                  fontWeight: primary.isDefault ? FontWeight.w600 : null,
-                ),
-              )),
           if (second != null)
-            CupertinoButton(
+            TextButton(
               onPressed: () {
                 second.onPressed?.call();
               },
               child: second.text.text(
+                textAlign: TextAlign.end,
                 style: TextStyle(
                   color: second.warning ? context.$red$ : null,
                   fontWeight: second.isDefault ? FontWeight.w600 : null,
                 ),
               ),
-            )
+            ),
+          TextButton(
+              onPressed: () {
+                primary.onPressed?.call();
+              },
+              child: primary.text.text(
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  color: primary.warning ? context.$red$ : null,
+                  fontWeight: primary.isDefault ? FontWeight.w600 : null,
+                ),
+              )),
         ],
         actionsAlignment: MainAxisAlignment.spaceEvenly,
       );

@@ -228,7 +228,7 @@ class TimetableCard extends StatelessWidget {
             desc: i18n.mine.deleteRequestDesc,
             yes: i18n.delete,
             no: i18n.cancel,
-            highlight: true,
+            destructive: true,
           );
           if (confirm != true) return;
           TimetableInit.storage.timetable.delete(id);

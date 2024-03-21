@@ -151,7 +151,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
       desc: i18n.apply.applyRequestDesc,
       yes: i18n.confirm,
       no: i18n.cancel,
-      highlight: true,
+      destructive: true,
     );
     if (confirm != true) return;
     try {
@@ -179,8 +179,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
       desc: "Confirm to apply this activity forcibly?",
       yes: i18n.confirm,
       no: i18n.cancel,
-      highlight: true,
-      serious: true,
+      destructive: true,
     );
     if (confirm != true) return;
     try {

@@ -259,8 +259,7 @@ void _onClearCache(BuildContext context) async {
     desc: i18n.clearCacheRequest,
     yes: i18n.confirm,
     no: i18n.cancel,
-    highlight: true,
-    serious: true,
+    destructive: true,
   );
   if (confirm == true) {
     await HiveInit.clearCache();
@@ -289,8 +288,7 @@ Future<void> _onWipeData(BuildContext context) async {
     desc: i18n.wipeDataRequestDesc,
     yes: i18n.confirm,
     no: i18n.cancel,
-    highlight: true,
-    serious: true,
+    destructive: true,
   );
   if (confirm == true) {
     await HiveInit.clear(); // 清除存储

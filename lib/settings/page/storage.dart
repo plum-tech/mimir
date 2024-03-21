@@ -283,7 +283,7 @@ class _BoxItemState extends State<BoxItem> {
                 desc: i18n.dev.storage.emptyValueDesc,
                 yes: i18n.confirm,
                 no: i18n.cancel,
-                highlight: true);
+                destructive: true);
             if (confirm == true) {
               widget.box.put(key, _emptyValue(value));
               if (!mounted) return;
@@ -461,10 +461,10 @@ dynamic _emptyValue(dynamic value) {
 
 Future<bool?> _showDeleteBoxRequest(BuildContext ctx) async {
   return await ctx.showRequest(
-      title: i18n.delete, desc: i18n.dev.storage.clearBoxDesc, yes: i18n.confirm, no: i18n.cancel, highlight: true);
+      title: i18n.delete, desc: i18n.dev.storage.clearBoxDesc, yes: i18n.confirm, no: i18n.cancel, destructive: true);
 }
 
 Future<bool?> _showDeleteItemRequest(BuildContext ctx) async {
   return await ctx.showRequest(
-      title: i18n.delete, desc: i18n.dev.storage.deleteItemDesc, yes: i18n.delete, no: i18n.cancel, highlight: true);
+      title: i18n.delete, desc: i18n.dev.storage.deleteItemDesc, yes: i18n.delete, no: i18n.cancel, destructive: true);
 }

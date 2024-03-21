@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/card.dart';
@@ -297,10 +298,8 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
             actions: [
               if (activity.status == Class2ndActivityApplicationStatus.reviewing)
                 PlatformTextButton(
+                  onPressed: withdrawApplication,
                   child: "Withdraw".text(),
-                  onPressed: () async {
-                    await Class2ndInit.applicationService.withdraw(activity.applicationId);
-                  },
                 )
             ],
           ),
@@ -353,6 +352,23 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
         ],
       ),
     );
+  }
+
+  Future<void> withdrawApplication() async {
+    final confirm = await context.showRequest(
+      title: "Withdraw application",
+      desc: "Confirm to withdraw this application?",
+      yes: i18n.yes,
+      no: i18n.cancel,
+    );
+    if (confirm == true) {
+      final res = await Class2ndInit.applicationService.withdraw(widget.activity.applicationId);
+      if (res) {
+        if (!mounted) return;
+        // go back to the list page to refresh
+        await context.push("/class2nd/attended");
+      }
+    }
   }
 }
 

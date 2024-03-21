@@ -30,7 +30,7 @@ class _QuickButtonsState extends State<QuickButtons> {
               desc: i18n.easyconnect.launchFailedDesc,
               yes: i18n.download,
               no: i18n.cancel,
-              highlight: true,
+              destructive: true,
             );
             if (confirm == true) {
               if (!mounted) return;

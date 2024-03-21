@@ -57,8 +57,7 @@ extension DialogEx on BuildContext {
     required String desc,
     required String yes,
     required String no,
-    bool highlight = false,
-    bool serious = false,
+    bool destructive = false,
   }) async {
     if (isCupertino) {
       return showCupertinoRequest(
@@ -66,7 +65,7 @@ extension DialogEx on BuildContext {
         desc: desc,
         yes: yes,
         cancel: no,
-        destructive: highlight,
+        destructive: destructive,
       );
     }
     return await showAnyRequest(
@@ -74,8 +73,8 @@ extension DialogEx on BuildContext {
       make: (_) => desc.text(style: const TextStyle()),
       yes: yes,
       no: no,
-      highlight: highlight,
-      serious: serious,
+      highlight: destructive,
+      serious: destructive,
     );
   }
 
