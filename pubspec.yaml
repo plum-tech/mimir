@@ -85,7 +85,7 @@ dependencies:
   url_launcher: ^6.2.5
   # Open Android / iOS system image picker
   image_picker: ^1.0.7
-  file_picker: ^6.2.0
+  file_picker: ^8.0.0+1
   share_plus: ^7.2.2
   app_settings: ^5.1.1
   # Desktop support
