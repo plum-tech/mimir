@@ -360,8 +360,7 @@ class _TimetableDetailsPageState extends State<TimetableDetailsPage> {
     final timetable = this.timetable;
     final actions = widget.actions;
     final palette = TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic;
-    final courses = timetable.courses.values.toList();
-    final code2Courses = courses.groupListsBy((c) => c.courseCode).entries.toList();
+    final code2Courses = timetable.courses.values.groupListsBy((c) => c.courseCode).entries.toList();
     return Scaffold(
       body: CustomScrollView(
         slivers: [

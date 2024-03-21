@@ -92,6 +92,160 @@ extension $SitTimetableCopyWith on SitTimetable {
   _$SitTimetableCWProxy get copyWith => _$SitTimetableCWProxyImpl(this);
 }
 
+abstract class _$SitCourseCWProxy {
+  /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored.
+  ///
+  /// Usage
+  /// ```dart
+  /// SitCourse(...).copyWith(id: 12, name: "My name")
+  /// ````
+  SitCourse call({
+    int? courseKey,
+    String? courseName,
+    String? courseCode,
+    String? classCode,
+    Campus? campus,
+    String? place,
+    TimetableWeekIndices? weekIndices,
+    ({int end, int start})? timeslots,
+    double? courseCredit,
+    int? dayIndex,
+    List<String>? teachers,
+  });
+}
+
+/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfSitCourse.copyWith(...)`.
+class _$SitCourseCWProxyImpl implements _$SitCourseCWProxy {
+  const _$SitCourseCWProxyImpl(this._value);
+
+  final SitCourse _value;
+
+  @override
+
+  /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored.
+  ///
+  /// Usage
+  /// ```dart
+  /// SitCourse(...).copyWith(id: 12, name: "My name")
+  /// ````
+  SitCourse call({
+    Object? courseKey = const $CopyWithPlaceholder(),
+    Object? courseName = const $CopyWithPlaceholder(),
+    Object? courseCode = const $CopyWithPlaceholder(),
+    Object? classCode = const $CopyWithPlaceholder(),
+    Object? campus = const $CopyWithPlaceholder(),
+    Object? place = const $CopyWithPlaceholder(),
+    Object? weekIndices = const $CopyWithPlaceholder(),
+    Object? timeslots = const $CopyWithPlaceholder(),
+    Object? courseCredit = const $CopyWithPlaceholder(),
+    Object? dayIndex = const $CopyWithPlaceholder(),
+    Object? teachers = const $CopyWithPlaceholder(),
+  }) {
+    return SitCourse(
+      courseKey: courseKey == const $CopyWithPlaceholder() || courseKey == null
+          ? _value.courseKey
+          // ignore: cast_nullable_to_non_nullable
+          : courseKey as int,
+      courseName: courseName == const $CopyWithPlaceholder() || courseName == null
+          ? _value.courseName
+          // ignore: cast_nullable_to_non_nullable
+          : courseName as String,
+      courseCode: courseCode == const $CopyWithPlaceholder() || courseCode == null
+          ? _value.courseCode
+          // ignore: cast_nullable_to_non_nullable
+          : courseCode as String,
+      classCode: classCode == const $CopyWithPlaceholder() || classCode == null
+          ? _value.classCode
+          // ignore: cast_nullable_to_non_nullable
+          : classCode as String,
+      campus: campus == const $CopyWithPlaceholder() || campus == null
+          ? _value.campus
+          // ignore: cast_nullable_to_non_nullable
+          : campus as Campus,
+      place: place == const $CopyWithPlaceholder() || place == null
+          ? _value.place
+          // ignore: cast_nullable_to_non_nullable
+          : place as String,
+      weekIndices: weekIndices == const $CopyWithPlaceholder() || weekIndices == null
+          ? _value.weekIndices
+          // ignore: cast_nullable_to_non_nullable
+          : weekIndices as TimetableWeekIndices,
+      timeslots: timeslots == const $CopyWithPlaceholder() || timeslots == null
+          ? _value.timeslots
+          // ignore: cast_nullable_to_non_nullable
+          : timeslots as ({int end, int start}),
+      courseCredit: courseCredit == const $CopyWithPlaceholder() || courseCredit == null
+          ? _value.courseCredit
+          // ignore: cast_nullable_to_non_nullable
+          : courseCredit as double,
+      dayIndex: dayIndex == const $CopyWithPlaceholder() || dayIndex == null
+          ? _value.dayIndex
+          // ignore: cast_nullable_to_non_nullable
+          : dayIndex as int,
+      teachers: teachers == const $CopyWithPlaceholder() || teachers == null
+          ? _value.teachers
+          // ignore: cast_nullable_to_non_nullable
+          : teachers as List<String>,
+    );
+  }
+}
+
+extension $SitCourseCopyWith on SitCourse {
+  /// Returns a callable class that can be used as follows: `instanceOfSitCourse.copyWith(...)`.
+  // ignore: library_private_types_in_public_api
+  _$SitCourseCWProxy get copyWith => _$SitCourseCWProxyImpl(this);
+}
+
+abstract class _$TimetableWeekIndexCWProxy {
+  /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored.
+  ///
+  /// Usage
+  /// ```dart
+  /// TimetableWeekIndex(...).copyWith(id: 12, name: "My name")
+  /// ````
+  TimetableWeekIndex call({
+    TimetableWeekIndexType? type,
+    ({int end, int start})? range,
+  });
+}
+
+/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfTimetableWeekIndex.copyWith(...)`.
+class _$TimetableWeekIndexCWProxyImpl implements _$TimetableWeekIndexCWProxy {
+  const _$TimetableWeekIndexCWProxyImpl(this._value);
+
+  final TimetableWeekIndex _value;
+
+  @override
+
+  /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored.
+  ///
+  /// Usage
+  /// ```dart
+  /// TimetableWeekIndex(...).copyWith(id: 12, name: "My name")
+  /// ````
+  TimetableWeekIndex call({
+    Object? type = const $CopyWithPlaceholder(),
+    Object? range = const $CopyWithPlaceholder(),
+  }) {
+    return TimetableWeekIndex(
+      type: type == const $CopyWithPlaceholder() || type == null
+          ? _value.type
+          // ignore: cast_nullable_to_non_nullable
+          : type as TimetableWeekIndexType,
+      range: range == const $CopyWithPlaceholder() || range == null
+          ? _value.range
+          // ignore: cast_nullable_to_non_nullable
+          : range as ({int end, int start}),
+    );
+  }
+}
+
+extension $TimetableWeekIndexCopyWith on TimetableWeekIndex {
+  /// Returns a callable class that can be used as follows: `instanceOfTimetableWeekIndex.copyWith(...)`.
+  // ignore: library_private_types_in_public_api
+  _$TimetableWeekIndexCWProxy get copyWith => _$TimetableWeekIndexCWProxyImpl(this);
+}
+
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************

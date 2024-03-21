@@ -66,6 +66,7 @@ class SitTimetable {
 }
 
 @JsonSerializable()
+@CopyWith(skipFields: true)
 class SitCourse {
   @JsonKey()
   final int courseKey;
@@ -178,6 +179,7 @@ enum TimetableWeekIndexType {
 }
 
 @JsonSerializable()
+@CopyWith(skipFields: true)
 class TimetableWeekIndex {
   @JsonKey()
   final TimetableWeekIndexType type;

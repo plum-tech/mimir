@@ -12,7 +12,7 @@ class TimetableCourseCard extends StatelessWidget {
   final String courseCode;
   final String classCode;
   final List<SitCourse> courses;
-  final Color color;
+  final Color? color;
 
   const TimetableCourseCard({
     super.key,
@@ -20,7 +20,7 @@ class TimetableCourseCard extends StatelessWidget {
     required this.courseCode,
     required this.classCode,
     required this.courses,
-    required this.color,
+    this.color,
   });
 
   @override
