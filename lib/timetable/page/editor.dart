@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
@@ -50,7 +51,6 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
@@ -447,7 +447,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
   late var timeslots = widget.course?.timeslots ?? (start: 0, end: 0);
   late var courseCredit = widget.course?.courseCredit ?? 0.0;
   late var dayIndex = widget.course?.dayIndex ?? 0;
-  late var teachers = widget.course?.teachers ?? <String>[];
+  late var teachers = List.of(widget.course?.teachers ?? <String>[]);
 
   @override
   void dispose() {
@@ -500,6 +500,10 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
               ),
             if (widget.weekIndicesEditable)
               buildRepeating().inCard(
+                clip: Clip.hardEdge,
+              ),
+            if (widget.teachersEditable)
+              buildTeachers().inCard(
                 clip: Clip.hardEdge,
               ),
           ]),
@@ -571,6 +575,39 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
           },
         );
       }).toList(),
+    );
+  }
+
+  Widget buildTeachers() {
+    return ListTile(
+      title: "Teachers".text(),
+      isThreeLine: true,
+      trailing: IconButton(
+        icon: const Icon(Icons.add),
+        onPressed: () async {
+          final newTeacher = await Editor.showStringEditor(
+            context,
+            desc: "Teacher",
+            initial: "",
+          );
+          if (newTeacher != null && !teachers.contains(newTeacher)) {
+            if (!mounted) return;
+            setState(() {
+              teachers.add(newTeacher);
+            });
+          }
+        },
+      ),
+      subtitle: [
+        ...teachers.map((teacher) => InputChip(
+              label: teacher.text(),
+              onDeleted: () {
+                setState(() {
+                  teachers.remove(teacher);
+                });
+              },
+            )),
+      ].wrap(spacing: 4),
     );
   }
 
