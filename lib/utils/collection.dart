@@ -15,7 +15,7 @@ extension ListX<E> on List<E> {
 }
 
 extension IterableX<E> on Iterable<E> {
-  E maxBy<T extends Comparable<T>>(T Function(E) valueOf) {
+  E? maxByOrNull<T extends Comparable<T>>(T Function(E) valueOf) {
     final it = iterator;
     if (it.moveNext()) {
       final first = it.current;
@@ -31,6 +31,10 @@ extension IterableX<E> on Iterable<E> {
       }
       return tempE;
     }
-    throw Exception();
+    return null;
+  }
+
+  E maxBy<T extends Comparable<T>>(T Function(E) valueOf) {
+    return maxByOrNull(valueOf)!;
   }
 }

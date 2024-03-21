@@ -20,12 +20,8 @@ String formatWithoutTrailingZeros(double amount) {
 final _trailingIntRe = RegExp(r"(.*\s+)(\d+)$");
 
 String getDuplicateFileName(String origin, {List<String>? all}) {
-  final (:name, :number) = _extractTrailingNumber(origin);
-  if (number == null) {
-    return "$origin 2";
-  }
   if (all == null || all.isEmpty) {
-    return "$name${number + 1}";
+    return "$origin 2";
   }
 
   final nameHasLargestNumber = all
@@ -35,9 +31,11 @@ String getDuplicateFileName(String origin, {List<String>? all}) {
         return number == null ? null : (name: p.name, number: number);
       })
       .nonNulls
-      .maxBy<num>((p) => p.number);
-
-  return "$name${nameHasLargestNumber.number + 1}";
+      .maxByOrNull<num>((p) => p.number);
+  if (nameHasLargestNumber == null) {
+    return "$origin 2";
+  }
+  return "${nameHasLargestNumber.name}${nameHasLargestNumber.number + 1}";
 }
 
 ({String name, int? number}) _extractTrailingNumber(String s) {
