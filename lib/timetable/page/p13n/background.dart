@@ -11,7 +11,7 @@ import 'package:sit/design/widgets/common.dart';
 import 'package:sit/files.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/background.dart';
-import "../i18n.dart";
+import "../../i18n.dart";
 
 class TimetableBackgroundEditor extends StatefulWidget {
   const TimetableBackgroundEditor({super.key});

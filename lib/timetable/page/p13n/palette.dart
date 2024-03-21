@@ -21,11 +21,11 @@ import 'package:sit/utils/color.dart';
 import 'package:sit/utils/format.dart';
 import 'package:text_scroll/text_scroll.dart';
 
-import '../i18n.dart';
-import '../widgets/style.dart';
-import '../widgets/timetable/weekly.dart';
-import 'palette.dart';
-import 'preview.dart';
+import '../../i18n.dart';
+import '../../widgets/style.dart';
+import '../../widgets/timetable/weekly.dart';
+import 'palette_editor.dart';
+import '../preview.dart';
 
 class TimetableP13nPage extends StatefulWidget {
   final int? tab;

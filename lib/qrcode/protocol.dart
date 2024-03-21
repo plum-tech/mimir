@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:sit/r.dart';
 import 'package:sit/settings/page/proxy.dart';
 import 'package:sit/timetable/entity/platte.dart';
-import 'package:sit/timetable/page/p13n.dart';
+import 'package:sit/timetable/page/p13n/palette.dart';
 
 /// convert any data to a URI with [R.scheme].
 sealed class DeepLinkHandlerProtocol {

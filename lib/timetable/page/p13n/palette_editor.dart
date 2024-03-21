@@ -12,10 +12,10 @@ import 'package:sit/timetable/page/preview.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:sit/utils/color.dart';
 
-import '../entity/platte.dart';
-import '../i18n.dart';
-import '../init.dart';
-import '../widgets/style.dart';
+import '../../entity/platte.dart';
+import '../../i18n.dart';
+import '../../init.dart';
+import '../../widgets/style.dart';
 
 class TimetablePaletteEditorPage extends StatefulWidget {
   final TimetablePalette palette;

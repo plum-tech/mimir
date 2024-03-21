@@ -4,10 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
 
-import '../entity/cell_style.dart';
-import '../widgets/style.dart';
-import '../i18n.dart';
-import 'p13n.dart';
+import '../../entity/cell_style.dart';
+import '../../widgets/style.dart';
+import '../../i18n.dart';
+import 'palette.dart';
 
 class TimetableCellStyleEditor extends StatefulWidget {
   const TimetableCellStyleEditor({super.key});
