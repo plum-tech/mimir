@@ -44,8 +44,22 @@ class _ThemeColorPageState extends State<ThemeColorPage> {
             children: [
               buildFromSystemToggle(),
               buildThemeColorTile(),
+              ListTile(
+                title: i18n.preview.text(),
+              )
             ],
           ),
+          SliverToBoxAdapter(
+            child: Theme(
+              data: context.theme.copyWith(
+                colorScheme: ColorScheme.fromSeed(
+                  seedColor: fromSystem ? getDefaultThemeColor() : themeColor,
+                  brightness: context.theme.brightness,
+                ),
+              ),
+              child: const ThemeColorPreview(),
+            ).padSymmetric(h: 12),
+          )
         ],
       ),
     );
@@ -120,5 +134,87 @@ class _ThemeColorPageState extends State<ThemeColorPage> {
     engine.performReassemble();
     if (!mounted) return;
     context.pop();
+  }
+}
+
+class ThemeColorPreview extends StatelessWidget {
+  const ThemeColorPreview({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      Card(
+        child: _PreviewTile(
+          trailing: (v, f) => Checkbox.adaptive(
+            value: v,
+            onChanged: (v) => f(v != true),
+          ),
+        ),
+      ),
+      FilledCard(
+          child: _PreviewTile(
+        trailing: (v, f) => Switch.adaptive(
+          value: v,
+          onChanged: f,
+        ),
+      )),
+      _PreviewButton().padAll(8),
+    ].column(caa: CrossAxisAlignment.start);
+  }
+}
+
+class _PreviewTile extends StatefulWidget {
+  final Widget Function(bool value, ValueChanged<bool> onChanged) trailing;
+
+  const _PreviewTile({
+    required this.trailing,
+  });
+
+  @override
+  State<_PreviewTile> createState() => _PreviewTileState();
+}
+
+class _PreviewTileState extends State<_PreviewTile> {
+  var selected = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: const Icon(Icons.color_lens),
+      selected: selected,
+      title: i18n.themeColor.text(),
+      subtitle: i18n.themeColor.text(),
+      trailing: widget.trailing(
+        selected,
+        (value) {
+          setState(() {
+            selected = !selected;
+          });
+        },
+      ),
+    );
+  }
+}
+
+class _PreviewButton extends StatefulWidget {
+  const _PreviewButton();
+
+  @override
+  State<_PreviewButton> createState() => _PreviewButtonState();
+}
+
+class _PreviewButtonState extends State<_PreviewButton> {
+  @override
+  Widget build(BuildContext context) {
+    return [
+      FilledButton(
+        onPressed: () {},
+        child: i18n.themeColor.text(),
+      ),
+      OutlinedButton(
+        onPressed: () {},
+        child: i18n.themeColor.text(),
+      ),
+    ].wrap(spacing: 8);
   }
 }

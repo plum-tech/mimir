@@ -70,7 +70,9 @@ class _MimirAppState extends State<MimirApp> {
 
   @override
   Widget build(BuildContext context) {
-    final themeColor = Settings.theme.themeColor ?? SystemTheme.accentColor.maybeAccent;
+    final themeColor = Settings.theme.themeColorFromSystem
+        ? SystemTheme.accentColor.maybeAccent
+        : Settings.theme.themeColor ?? SystemTheme.accentColor.maybeAccent;
 
     ThemeData bakeTheme(ThemeData origin) {
       return origin.copyWith(
@@ -103,12 +105,8 @@ class _MimirAppState extends State<MimirApp> {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       themeMode: Settings.theme.themeMode,
-      theme: bakeTheme(ThemeData.light(
-        useMaterial3: true,
-      )),
-      darkTheme: bakeTheme(ThemeData.dark(
-        useMaterial3: true,
-      )),
+      theme: bakeTheme(ThemeData.light()),
+      darkTheme: bakeTheme(ThemeData.dark()),
       builder: (ctx, child) => OaAuthManager(
         child: OaOnlineManager(
           child: _PostServiceRunner(
