@@ -139,12 +139,27 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
     );
   }
 
-  void onCourseChanged(SitCourse course) {
-    final key = "${course.courseKey}";
+  void onCourseChanged(SitCourse old, SitCourse newValue) {
+    final key = "${newValue.courseKey}";
     if (courses.containsKey(key)) {
       setState(() {
-        courses[key] = course;
+        courses[key] = newValue;
       });
+    }
+    // check if shared fields are changed.
+    if (old.courseCode != newValue.courseCode ||
+        old.classCode != newValue.classCode ||
+        old.courseName != newValue.courseName) {
+      for (final MapEntry(:key, value: course) in courses.entries.toList()) {
+        if (course.courseCode == old.courseCode) {
+          // change the shared fields simultaneously
+          courses[key] = course.copyWith(
+            courseCode: newValue.courseCode,
+            classCode: newValue.classCode,
+            courseName: newValue.courseName,
+          );
+        }
+      }
     }
   }
 
@@ -253,7 +268,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
   final SitCourse template;
   final List<SitCourse> courses;
   final Color? color;
-  final ValueChanged<SitCourse>? onCourseChanged;
+  final void Function(SitCourse old, SitCourse newValue)? onCourseChanged;
   final void Function(SitCourse)? onCourseAdded;
   final void Function(SitCourse)? onCourseRemoved;
 
@@ -301,7 +316,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
                     course: template,
                   ));
               if (newTemplate == null) return;
-              onCourseChanged?.call(newTemplate);
+              onCourseChanged?.call(template, newTemplate);
             },
           ),
         ].row(mas: MainAxisSize.min),
@@ -342,7 +357,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
                         course: course,
                       ));
                   if (newItem == null) return;
-                  onCourseChanged?.call(newItem);
+                  onCourseChanged?.call(course, newItem);
                 },
               ),
             ),
@@ -526,7 +541,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
             showCheckmark: false,
             label: w.l10n().text(),
             selected: dayIndex == w.index,
-            onSelected: (value){
+            onSelected: (value) {
               setState(() {
                 dayIndex = w.index;
               });
