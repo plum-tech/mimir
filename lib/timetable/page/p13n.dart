@@ -222,7 +222,10 @@ class PaletteCard extends StatelessWidget {
             label: i18n.edit,
             activator: const SingleActivator(LogicalKeyboardKey.keyE),
             action: () async {
-              await context.push("/timetable/palette/edit/$id");
+              final newPalette = await context.push<TimetablePalette>("/timetable/palette/edit/$id");
+              if (newPalette != null) {
+                TimetableInit.storage.palette[id] = newPalette;
+              }
             },
           ),
         if (timetable != null && palette.colors.isNotEmpty)

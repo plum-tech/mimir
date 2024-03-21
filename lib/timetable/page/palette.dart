@@ -18,12 +18,10 @@ import '../init.dart';
 import '../widgets/style.dart';
 
 class TimetablePaletteEditorPage extends StatefulWidget {
-  final int id;
   final TimetablePalette palette;
 
   const TimetablePaletteEditorPage({
     super.key,
-    required this.id,
     required this.palette,
   });
 
@@ -99,7 +97,6 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
                       child: i18n.save.text(),
                       onPressed: () {
                         final palette = buildPalette();
-                        TimetableInit.storage.palette[widget.id] = palette;
                         context.navigator.pop(palette);
                       },
                     ),

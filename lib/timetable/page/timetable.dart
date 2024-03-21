@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/menu.dart';
-import 'package:sit/design/adaptive/multiplatform.dart' as multi;
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/time.dart';
@@ -114,7 +113,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
 
   Widget buildMyTimetablesButton() {
     return IconButton(
-      icon: multi.isCupertino
+      icon: isCupertino
           ? Icon(Icons.person_outline, color: context.colorScheme.primary)
           : const Icon(Icons.person_rounded),
       onPressed: () async {

@@ -139,7 +139,7 @@ final _timetableRoutes = [
       if (id == null) throw 404;
       final palette = TimetableInit.storage.palette[id];
       if (palette == null) throw 404;
-      return TimetablePaletteEditorPage(id: id, palette: palette);
+      return TimetablePaletteEditorPage(palette: palette);
     },
   ),
   GoRoute(
