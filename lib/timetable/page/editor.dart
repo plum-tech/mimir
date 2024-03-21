@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/design/widgets/card.dart';
+import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
@@ -93,6 +97,10 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
 
   List<Widget> buildAdvancedTab() {
     final code2Courses = courses.values.groupListsBy((c) => c.courseCode).entries.toList();
+    code2Courses.sortBy((p) => p.key);
+    for (var p in code2Courses) {
+      p.value.sortBy((l) => l.courseCode);
+    }
     return [
       SliverList.list(children: [
         addCourseTile(),
@@ -101,16 +109,15 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
       SliverList.builder(
         itemCount: code2Courses.length,
         itemBuilder: (ctx, i) {
-          final MapEntry(value: courses) = code2Courses[i];
+          final MapEntry(key: courseKey, value: courses) = code2Courses[i];
           final template = courses.first;
           return TimetableEditableCourseCard(
+            key: ValueKey(courseKey),
             courses: courses,
             template: template,
-            onCourseChanged: (newTemplate){
-              setState(() {
-                this.courses["${newTemplate.courseKey}"] = newTemplate;
-              });
-            },
+            onCourseChanged: onCourseChanged,
+            onCourseAdded: onCourseAdded,
+            onCourseRemoved: onCourseRemoved,
           );
         },
       ),
@@ -122,9 +129,40 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
       title: "Add course".text(),
       trailing: const Icon(Icons.add),
       onTap: () async {
-        final result = await context.show$Sheet$((ctx) => const SitCourseEditorPage(course: null));
+        final newCourse = await context.show$Sheet$((ctx) => SitCourseEditorPage(
+              title: "New course",
+              course: null,
+            ));
+        onCourseAdded(newCourse);
       },
     );
+  }
+
+  void onCourseChanged(SitCourse course) {
+    final key = "${course.courseKey}";
+    if (courses.containsKey(key)) {
+      setState(() {
+        courses[key] = course;
+      });
+    }
+  }
+
+  void onCourseAdded(SitCourse course) {
+    course = course.copyWith(
+      courseKey: lastCourseKey++,
+    );
+    setState(() {
+      courses["${course.courseKey}"] = course;
+    });
+  }
+
+  void onCourseRemoved(SitCourse course) {
+    final key = "${course.courseKey}";
+    if (courses.containsKey(key)) {
+      setState(() {
+        courses.remove("${course.courseKey}");
+      });
+    }
   }
 
   Widget buildStartDate() {
@@ -159,17 +197,21 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
 
   Widget buildSaveAction() {
     return PlatformTextButton(
-      onPressed: () {
-        final signature = $signature.text.trim();
-        Settings.lastSignature = signature;
-        context.pop(widget.timetable.copyWith(
-          name: $name.text,
-          signature: signature,
-          startDate: $selectedDate.value,
-        ));
-      },
+      onPressed: onSave,
       child: i18n.save.text(),
     );
+  }
+
+  void onSave() {
+    final signature = $signature.text.trim();
+    Settings.lastSignature = signature;
+    context.pop(widget.timetable.copyWith(
+      name: $name.text,
+      signature: signature,
+      startDate: $selectedDate.value,
+      courses: courses,
+      lastCourseKey: lastCourseKey,
+    ));
   }
 
   Widget buildDescForm() {
@@ -211,6 +253,8 @@ class TimetableEditableCourseCard extends StatelessWidget {
   final List<SitCourse> courses;
   final Color? color;
   final ValueChanged<SitCourse>? onCourseChanged;
+  final void Function(SitCourse)? onCourseAdded;
+  final void Function(SitCourse)? onCourseRemoved;
 
   const TimetableEditableCourseCard({
     super.key,
@@ -218,23 +262,45 @@ class TimetableEditableCourseCard extends StatelessWidget {
     required this.courses,
     this.color,
     this.onCourseChanged,
+    this.onCourseAdded,
+    this.onCourseRemoved,
   });
 
   @override
   Widget build(BuildContext context) {
-    return FilledCard(
-      clip: Clip.hardEdge,
+    final onCourseRemoved = this.onCourseRemoved;
+    return Card(
       color: color,
       child: AnimatedExpansionTile(
         leading: CourseIcon(courseName: template.courseName),
         title: template.courseName.text(),
-        trailing: IconButton(
-          icon: const Icon(Icons.edit),
-          onPressed: () async {
-            final newTemplate = await context.show$Sheet$((context) => SitCourseEditorPage.template(course: template));
-            onCourseChanged?.call(newTemplate);
-          },
-        ),
+        trailing: [
+          IconButton.filledTonal(
+            icon: const Icon(Icons.add),
+            padding: EdgeInsets.zero,
+            onPressed: () async {
+              final tempItem = template.createSubItem(courseKey: 0);
+              final newItem = await context.show$Sheet$(
+                (context) => SitCourseEditorPage.item(
+                  title: "New course",
+                  course: tempItem,
+                ),
+              );
+              onCourseAdded?.call(newItem);
+            },
+          ),
+          IconButton.filledTonal(
+            icon: const Icon(Icons.edit),
+            padding: EdgeInsets.zero,
+            onPressed: () async {
+              final newTemplate = await context.show$Sheet$((context) => SitCourseEditorPage.template(
+                    title: "Edit course",
+                    course: template,
+                  ));
+              onCourseChanged?.call(newTemplate);
+            },
+          ),
+        ].row(mas: MainAxisSize.min),
         rotateTrailing: false,
         subtitle: [
           "${i18n.course.courseCode} ${template.courseCode}".text(),
@@ -243,20 +309,37 @@ class TimetableEditableCourseCard extends StatelessWidget {
         children: courses.mapIndexed((i, course) {
           final weekNumbers = course.weekIndices.l10n();
           final (:begin, :end) = course.calcBeginEndTimePoint();
-          return ListTile(
-            isThreeLine: true,
-            title: course.place.text(),
-            subtitle: [
-              course.teachers.join(", ").text(),
-              "${Weekday.fromIndex(course.dayIndex).l10n()} ${begin.l10n(context)}–${end.l10n(context)}".text(),
-              ...weekNumbers.map((n) => n.text()),
-            ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
-            trailing: IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () async {
-                final newItem = await context.show$Sheet$((context) => SitCourseEditorPage.item(course: course));
-                onCourseChanged?.call(newItem);
-              },
+          return SwipeToDismiss(
+            childKey: ValueKey(course.courseKey),
+            right: onCourseRemoved == null
+                ? null
+                : SwipeToDismissAction(
+                    icon: const Icon(Icons.delete),
+                    cupertinoIcon: const Icon(CupertinoIcons.delete),
+                    action: () async {
+                      onCourseRemoved(course);
+                    },
+                  ),
+            child: ListTile(
+              isThreeLine: true,
+              leading: kDebugMode ? "${course.courseKey}".text() : null,
+              title: course.place.text(),
+              subtitle: [
+                course.teachers.join(", ").text(),
+                "${Weekday.fromIndex(course.dayIndex).l10n()} ${begin.l10n(context)}–${end.l10n(context)}".text(),
+                ...weekNumbers.map((n) => n.text()),
+              ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
+              trailing: IconButton.filledTonal(
+                icon: const Icon(Icons.edit),
+                padding: EdgeInsets.zero,
+                onPressed: () async {
+                  final newItem = await context.show$Sheet$((context) => SitCourseEditorPage.item(
+                        title: "Edit course",
+                        course: course,
+                      ));
+                  onCourseChanged?.call(newItem);
+                },
+              ),
             ),
           );
         }).toList(),
@@ -265,7 +348,28 @@ class TimetableEditableCourseCard extends StatelessWidget {
   }
 }
 
+extension _SitCourseX on SitCourse {
+  SitCourse createSubItem({
+    required int courseKey,
+  }) {
+    return SitCourse(
+      courseKey: courseKey,
+      courseName: courseName,
+      courseCode: courseCode,
+      classCode: classCode,
+      campus: campus,
+      place: "",
+      weekIndices: const TimetableWeekIndices([]),
+      timeslots: (start: 0, end: 0),
+      courseCredit: courseCredit,
+      dayIndex: 0,
+      teachers: teachers,
+    );
+  }
+}
+
 class SitCourseEditorPage extends StatefulWidget {
+  final String? title;
   final SitCourse? course;
   final bool courseNameEditable;
   final bool courseCodeEditable;
@@ -280,6 +384,7 @@ class SitCourseEditorPage extends StatefulWidget {
 
   const SitCourseEditorPage({
     super.key,
+    this.title,
     required this.course,
     this.courseNameEditable = true,
     this.courseCodeEditable = true,
@@ -295,6 +400,7 @@ class SitCourseEditorPage extends StatefulWidget {
 
   const SitCourseEditorPage.item({
     super.key,
+    this.title,
     required this.course,
     this.placeEditable = true,
     this.weekIndicesEditable = true,
@@ -309,6 +415,7 @@ class SitCourseEditorPage extends StatefulWidget {
 
   const SitCourseEditorPage.template({
     super.key,
+    this.title,
     required this.course,
   })  : courseNameEditable = true,
         courseCodeEditable = true,
@@ -353,24 +460,10 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
-            title: "Course info".text(),
+            title: widget.title?.text(),
             actions: [
               PlatformTextButton(
-                onPressed: () {
-                  context.pop(SitCourse(
-                    courseKey: widget.course?.courseKey ?? 0,
-                    courseName: $courseName.text,
-                    courseCode: $courseCode.text,
-                    classCode: $classCode.text,
-                    campus: campus,
-                    place: $place.text,
-                    weekIndices: weekIndices,
-                    timeslots: timeslots,
-                    courseCredit: courseCredit,
-                    dayIndex: dayIndex,
-                    teachers: teachers,
-                  ));
-                },
+                onPressed: onSave,
                 child: i18n.done.text(),
               ),
             ],
@@ -400,6 +493,22 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
         ],
       ),
     );
+  }
+
+  void onSave() {
+    context.pop(SitCourse(
+      courseKey: widget.course?.courseKey ?? 0,
+      courseName: $courseName.text,
+      courseCode: $courseCode.text,
+      classCode: $classCode.text,
+      campus: campus,
+      place: $place.text,
+      weekIndices: weekIndices,
+      timeslots: timeslots,
+      courseCredit: courseCredit,
+      dayIndex: dayIndex,
+      teachers: teachers,
+    ));
   }
 
   Widget buildTextField({

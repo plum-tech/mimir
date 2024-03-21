@@ -155,7 +155,6 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
                 image: MenuImage.icon(CupertinoIcons.share),
                 title: i18n.share,
                 callback: () async {
-                  // Navigator.of(context, rootNavigator: true).pop();
                   await shareBalance(balance: balance, selectedRoom: selectedRoom, context: ctx);
                 },
               ),
@@ -165,7 +164,6 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
                 attributes: const MenuActionAttributes(destructive: true),
                 activator: const SingleActivator(LogicalKeyboardKey.delete),
                 callback: () async {
-                  // Navigator.of(context, rootNavigator: true).pop();
                   await HapticFeedback.heavyImpact();
                   Settings.life.electricity.selectedRoom = null;
                 },

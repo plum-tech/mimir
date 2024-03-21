@@ -8,11 +8,13 @@ import 'multiplatform.dart';
 class SwipeToDismissAction {
   final VoidCallback action;
   final Icon? icon;
+  final Icon? cupertinoIcon;
   final String? label;
 
   SwipeToDismissAction({
     required this.action,
     this.icon,
+    this.cupertinoIcon,
     this.label,
   });
 }
@@ -43,7 +45,7 @@ class SwipeToDismiss extends StatelessWidget {
             : <SwipeAction>[
                 SwipeAction(
                   title: right.label,
-                  icon: right.icon,
+                  icon: isCupertino ? right.cupertinoIcon : right.icon,
                   style: context.textTheme.titleSmall ?? const TextStyle(),
                   performsFirstActionWithFullSwipe: true,
                   onTap: (CompletionHandler handler) async {
@@ -58,7 +60,7 @@ class SwipeToDismiss extends StatelessWidget {
             : <SwipeAction>[
                 SwipeAction(
                   title: left.label,
-                  icon: left.icon,
+                  icon: isCupertino ? left.cupertinoIcon : left.icon,
                   style: context.textTheme.titleSmall ?? const TextStyle(),
                   performsFirstActionWithFullSwipe: true,
                   onTap: (CompletionHandler handler) async {
