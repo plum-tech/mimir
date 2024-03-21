@@ -307,6 +307,7 @@ class EntryCard extends StatelessWidget {
           EntryAction(
             label: selectAction.selectLabel,
             oneShot: true,
+            icon: Icons.check,
             cupertinoIcon: CupertinoIcons.check_mark,
             action: selectAction.action,
           ),
@@ -327,7 +328,8 @@ class EntryCard extends StatelessWidget {
         return [
           ...actions.map(
             (action) => PullDownItem(
-              icon: action.cupertinoIcon ?? action.icon,
+              icon: action.icon,
+              cupertinoIcon: action.cupertinoIcon,
               title: action.label,
               onTap: () async {
                 if (action.oneShot) {
