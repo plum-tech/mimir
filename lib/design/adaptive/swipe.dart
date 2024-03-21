@@ -40,6 +40,7 @@ class SwipeToDismiss extends StatelessWidget {
     if (isCupertino) {
       return SwipeActionCell(
         key: childKey,
+        backgroundColor: Colors.transparent,
         trailingActions: right == null
             ? null
             : <SwipeAction>[

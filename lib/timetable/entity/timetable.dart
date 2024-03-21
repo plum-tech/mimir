@@ -148,34 +148,20 @@ extension SitCourseEx on SitCourse {
   }
 }
 
-const _kAll = "a";
-const _kOdd = "o";
-const _kEven = "e";
-
 @JsonEnum()
 enum TimetableWeekIndexType {
-  all(_kAll),
-  odd(_kOdd),
-  even(_kEven);
+  all,
+  odd,
+  even;
 
-  final String indicator;
-
-  const TimetableWeekIndexType(this.indicator);
-
-  String l10nOf(String start, String end) => "timetable.weekIndexType.$name".tr(namedArgs: {
+  String l10nOf(String start, String end) => "timetable.weekIndexType.of.$name".tr(namedArgs: {
         "start": start,
         "end": end,
       });
 
-  static String l10nOfSingle(String index) => "timetable.weekIndexType.single".tr(args: [index]);
+  String l10n() => "timetable.weekIndexType.$name".tr();
 
-  static TimetableWeekIndexType of(String indicator) {
-    return switch (indicator) {
-      _kOdd => TimetableWeekIndexType.odd,
-      _kEven => TimetableWeekIndexType.even,
-      _ => TimetableWeekIndexType.all,
-    };
-  }
+  static String l10nOfSingle(String index) => "timetable.weekIndexType.of.single".tr(args: [index]);
 }
 
 @JsonSerializable()

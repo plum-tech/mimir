@@ -129,10 +129,11 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
       title: "Add course".text(),
       trailing: const Icon(Icons.add),
       onTap: () async {
-        final newCourse = await context.show$Sheet$((ctx) => SitCourseEditorPage(
+        final newCourse = await context.show$Sheet$<SitCourse>((ctx) => SitCourseEditorPage(
               title: "New course",
               course: null,
             ));
+        if (newCourse == null) return;
         onCourseAdded(newCourse);
       },
     );
@@ -271,6 +272,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
     final onCourseRemoved = this.onCourseRemoved;
     return Card(
       color: color,
+      clipBehavior: Clip.hardEdge,
       child: AnimatedExpansionTile(
         leading: CourseIcon(courseName: template.courseName),
         title: template.courseName.text(),
@@ -286,6 +288,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
                   course: tempItem,
                 ),
               );
+              if (newItem == null) return;
               onCourseAdded?.call(newItem);
             },
           ),
@@ -293,10 +296,11 @@ class TimetableEditableCourseCard extends StatelessWidget {
             icon: const Icon(Icons.edit),
             padding: EdgeInsets.zero,
             onPressed: () async {
-              final newTemplate = await context.show$Sheet$((context) => SitCourseEditorPage.template(
+              final newTemplate = await context.show$Sheet$<SitCourse>((context) => SitCourseEditorPage.template(
                     title: "Edit course",
                     course: template,
                   ));
+              if (newTemplate == null) return;
               onCourseChanged?.call(newTemplate);
             },
           ),
@@ -333,10 +337,11 @@ class TimetableEditableCourseCard extends StatelessWidget {
                 icon: const Icon(Icons.edit),
                 padding: EdgeInsets.zero,
                 onPressed: () async {
-                  final newItem = await context.show$Sheet$((context) => SitCourseEditorPage.item(
+                  final newItem = await context.show$Sheet$<SitCourse>((context) => SitCourseEditorPage.item(
                         title: "Edit course",
                         course: course,
                       ));
+                  if (newItem == null) return;
                   onCourseChanged?.call(newItem);
                 },
               ),
@@ -489,9 +494,83 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
                 controller: $place,
                 title: "Place",
               ),
+            if (widget.timeslotsEditable)
+              buildTimeslots().inCard(
+                clip: Clip.hardEdge,
+              ),
+            if (widget.weekIndicesEditable)
+              buildRepeating().inCard(
+                clip: Clip.hardEdge,
+              ),
           ]),
         ],
       ),
+    );
+  }
+
+  Widget buildTimeslots() {
+    return ListTile(
+      title: "From lesson ${timeslots.start + 1} to ${timeslots.end + 1}".text(),
+      subtitle: [
+        const Icon(Icons.light_mode),
+        RangeSlider(
+          values: RangeValues(timeslots.start.toDouble(), timeslots.end.toDouble()),
+          max: 10,
+          divisions: 10,
+          labels: RangeLabels(
+            "${timeslots.start.round() + 1}",
+            "${timeslots.end.round() + 1}",
+          ),
+          onChanged: (RangeValues values) {
+            final newStart = values.start.toInt();
+            final newEnd = values.end.toInt();
+            if (timeslots.start != newStart || timeslots.end != newEnd) {
+              setState(() {
+                timeslots = (start: newStart, end: newEnd);
+              });
+            }
+          },
+        ).expanded(),
+        const Icon(Icons.dark_mode),
+      ].row(mas: MainAxisSize.min),
+    );
+  }
+
+  Widget buildRepeating() {
+    return AnimatedExpansionTile(
+      title: "Repeating".text(),
+      initiallyExpanded: true,
+      rotateTrailing: false,
+      trailing: IconButton.filledTonal(
+        icon: const Icon(Icons.add),
+        onPressed: () {
+          final newIndices = List.of(weekIndices.indices);
+          newIndices.add(const TimetableWeekIndex.all((start: 0, end: 1)));
+          setState(() {
+            weekIndices = TimetableWeekIndices(newIndices);
+          });
+        },
+      ),
+      children: weekIndices.indices.mapIndexed((i, index) {
+        return RepeatingItemEditor(
+          childKey: ValueKey(i),
+          index: index,
+          onChanged: (value) {
+            final newIndices = List.of(weekIndices.indices);
+            newIndices[i] = value;
+            setState(() {
+              weekIndices = TimetableWeekIndices(newIndices);
+            });
+          },
+          onDeleted: () {
+            setState(() {
+              weekIndices = TimetableWeekIndices(
+                List.of(weekIndices.indices)..removeAt(i),
+              );
+            });
+          },
+        );
+      }).toList(),
     );
   }
 
@@ -526,5 +605,72 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
         border: const OutlineInputBorder(),
       ),
     ).padAll(10);
+  }
+}
+
+class RepeatingItemEditor extends StatelessWidget {
+  final Key childKey;
+  final TimetableWeekIndex index;
+  final ValueChanged<TimetableWeekIndex>? onChanged;
+  final void Function()? onDeleted;
+
+  const RepeatingItemEditor({
+    super.key,
+    required this.index,
+    required this.childKey,
+    this.onChanged,
+    this.onDeleted,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final onDeleted = this.onDeleted;
+    return SwipeToDismiss(
+      childKey: childKey,
+      right: onDeleted == null
+          ? null
+          : SwipeToDismissAction(
+              icon: const Icon(Icons.delete),
+              cupertinoIcon: const Icon(CupertinoIcons.delete),
+              action: () async {
+                onDeleted();
+              },
+            ),
+      child: ListTile(
+        title: index.l10n().text(),
+        isThreeLine: true,
+        subtitle: [
+          RangeSlider(
+            values: RangeValues(index.range.start.toDouble(), index.range.end.toDouble()),
+            max: 19,
+            divisions: 19,
+            labels: RangeLabels(
+              "${index.range.start.round() + 1}",
+              "${index.range.end.round() + 1}",
+            ),
+            onChanged: (RangeValues values) {
+              final newStart = values.start.toInt();
+              final newEnd = values.end.toInt();
+              if (index.range.start != newStart || index.range.end != newEnd) {
+                onChanged?.call(index.copyWith(
+                  range: (start: newStart, end: newEnd),
+                ));
+              }
+            },
+          ),
+          [
+            ...TimetableWeekIndexType.values.map((type) => ChoiceChip(
+                  label: type.l10n().text(),
+                  selected: index.type == type,
+                  onSelected: (value) {
+                    onChanged?.call(index.copyWith(
+                      type: type,
+                    ));
+                  },
+                )),
+          ].wrap(spacing: 4),
+        ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
+      ),
+    );
   }
 }

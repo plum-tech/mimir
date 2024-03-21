@@ -65,10 +65,14 @@ timetable:
     daily: Daily
     weekly: Weekly
   weekIndexType:
-    single: "Week No.{}"
-    all: "Weeks from No.{start} to No.{end}"
-    odd: "Odd weeks from No.{start} to No.{end}"
-    even: "Even weeks from No.{start} to No.{end}"
+    all: Every
+    odd: Odd
+    even: Even
+    of:
+      single: "Week No.{}"
+      all: "Weeks from No.{start} to No.{end}"
+      odd: "Odd weeks from No.{start} to No.{end}"
+      even: "Even weeks from No.{start} to No.{end}"
   freeTip:
     dayTip: It's a free day!
     isTodayTip: "Have a nice day! 🎉"

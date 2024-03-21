@@ -65,10 +65,14 @@ timetable:
     daily: 日
     weekly: 周
   weekIndexType:
-    single: "第 {} 周"
-    all: "第 {start} 周到第 {end} 周"
-    odd: "第 {start} 周到第 {end} 周中的单周"
-    even: "第 {start} 周到第 {end} 周中的双周"
+    all: 每周
+    odd: 单周
+    even: 双周
+    of:
+      single: "第 {} 周"
+      all: "第 {start} 周到第 {end} 周"
+      odd: "第 {start} 周到第 {end} 周中的单周"
+      even: "第 {start} 周到第 {end} 周中的双周"
   freeTip:
     dayTip: 好耶，没课的一天！
     isTodayTip: 尽情享受今天吧！
