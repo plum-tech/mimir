@@ -1,3 +1,5 @@
+import 'package:sit/utils/collection.dart';
+
 String formatWithoutTrailingZeros(double amount) {
   if (amount == 0) return "0";
   final number = amount.toStringAsFixed(2);
@@ -17,17 +19,34 @@ String formatWithoutTrailingZeros(double amount) {
 
 final _trailingIntRe = RegExp(r"(.*\s+)(\d+)$");
 
-// TODO: take other files into account
-// For example:
-// Files: Foo, Foo 2, Foo 3
-// Duplicate "Foo 2" should result in "Foo 4"
-String getDuplicateFileName(String origin) {
-  final matched = _trailingIntRe.firstMatch(origin);
-  if (matched == null) return "$origin 2";
+String getDuplicateFileName(String origin, {List<String>? all}) {
+  final (:name, :number) = _extractTrailingNumber(origin);
+  if (number == null) {
+    return "$origin 2";
+  }
+  if (all == null || all.isEmpty) {
+    return "$name${number + 1}";
+  }
+
+  final nameHasLargestNumber = all
+      .map((s) => _extractTrailingNumber(s))
+      .map((p) {
+        final number = p.number;
+        return number == null ? null : (name: p.name, number: number);
+      })
+      .nonNulls
+      .maxBy<num>((p) => p.number);
+
+  return "$name${nameHasLargestNumber.number + 1}";
+}
+
+({String name, int? number}) _extractTrailingNumber(String s) {
+  final matched = _trailingIntRe.firstMatch(s);
+  if (matched == null) return (name: s, number: null);
   final prefix = matched.group(1);
-  final number = matched.group(2);
-  if (prefix == null || number == null) return "$origin 2";
-  final integer = int.tryParse(number, radix: 10);
-  if (integer == null) return "$origin 2";
-  return "$prefix${integer + 1}";
+  final numberRaw = matched.group(2);
+  if (prefix == null || numberRaw == null) return (name: "", number: null);
+  final number = int.tryParse(numberRaw, radix: 10);
+  if (number == null) return (name: prefix, number: null);
+  return (name: prefix, number: number);
 }

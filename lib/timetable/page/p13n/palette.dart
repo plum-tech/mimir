@@ -158,6 +158,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
               onDuplicate: () {
                 tabController.index = TimetableP13nTab.custom;
               },
+              allPaletteNames: palettes.map((p) => p.row.name).toList(),
             ).padH(6);
           },
         ),
@@ -172,6 +173,7 @@ class PaletteCard extends StatelessWidget {
   final bool selected;
   final SitTimetable? timetable;
   final VoidCallback? onDuplicate;
+  final List<String>? allPaletteNames;
 
   const PaletteCard({
     super.key,
@@ -180,6 +182,7 @@ class PaletteCard extends StatelessWidget {
     required this.selected,
     this.timetable,
     this.onDuplicate,
+    this.allPaletteNames,
   });
 
   @override
@@ -253,7 +256,7 @@ class PaletteCard extends StatelessWidget {
           activator: const SingleActivator(LogicalKeyboardKey.keyD),
           action: () async {
             final duplicate = palette.copyWith(
-              name: getDuplicateFileName(palette.name),
+              name: getDuplicateFileName(palette.name, all: allPaletteNames),
               author: palette.author,
               lastModified: DateTime.now(),
             );
