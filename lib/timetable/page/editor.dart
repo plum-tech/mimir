@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
-import 'package:sit/entity/campus.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/time.dart';
@@ -32,7 +31,8 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
   late final $name = TextEditingController(text: widget.timetable.name);
   late final $selectedDate = ValueNotifier(widget.timetable.startDate);
   late final $signature = TextEditingController(text: widget.timetable.signature);
-  late var timetable = widget.timetable.copyWith();
+  late var courses = Map.of(widget.timetable.courses);
+  late var lastCourseKey = widget.timetable.lastCourseKey;
   var index = 0;
 
   @override
@@ -92,7 +92,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
   }
 
   List<Widget> buildAdvancedTab() {
-    final code2Courses = timetable.courses.values.groupListsBy((c) => c.courseCode).entries.toList();
+    final code2Courses = courses.values.groupListsBy((c) => c.courseCode).entries.toList();
     return [
       SliverList.list(children: [
         addCourseTile(),
@@ -102,18 +102,19 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
         itemCount: code2Courses.length,
         itemBuilder: (ctx, i) {
           final MapEntry(value: courses) = code2Courses[i];
-          return buildCourseGroup(courses);
+          final template = courses.first;
+          return TimetableEditableCourseCard(
+            courses: courses,
+            template: template,
+            onCourseChanged: (newTemplate){
+              setState(() {
+                this.courses["${newTemplate.courseKey}"] = newTemplate;
+              });
+            },
+          );
         },
       ),
     ];
-  }
-
-  Widget buildCourseGroup(List<SitCourse> courses) {
-    final template = courses.first;
-    return TimetableEditableCourseCard(
-      courses: courses,
-      template: template,
-    );
   }
 
   Widget addCourseTile() {
@@ -209,12 +210,14 @@ class TimetableEditableCourseCard extends StatelessWidget {
   final SitCourse template;
   final List<SitCourse> courses;
   final Color? color;
+  final ValueChanged<SitCourse>? onCourseChanged;
 
   const TimetableEditableCourseCard({
     super.key,
     required this.template,
     required this.courses,
     this.color,
+    this.onCourseChanged,
   });
 
   @override
@@ -229,6 +232,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
           icon: const Icon(Icons.edit),
           onPressed: () async {
             final newTemplate = await context.show$Sheet$((context) => SitCourseEditorPage.template(course: template));
+            onCourseChanged?.call(newTemplate);
           },
         ),
         rotateTrailing: false,
@@ -236,7 +240,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
           "${i18n.course.courseCode} ${template.courseCode}".text(),
           "${i18n.course.classCode} ${template.classCode}".text(),
         ].column(caa: CrossAxisAlignment.start),
-        children: courses.map((course) {
+        children: courses.mapIndexed((i, course) {
           final weekNumbers = course.weekIndices.l10n();
           final (:begin, :end) = course.calcBeginEndTimePoint();
           return ListTile(
@@ -250,7 +254,8 @@ class TimetableEditableCourseCard extends StatelessWidget {
             trailing: IconButton(
               icon: const Icon(Icons.edit),
               onPressed: () async {
-                final newItem = await context.show$Sheet$((context) => SitCourseEditorPage.item(course: template));
+                final newItem = await context.show$Sheet$((context) => SitCourseEditorPage.item(course: course));
+                onCourseChanged?.call(newItem);
               },
             ),
           );
@@ -349,6 +354,26 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
         slivers: [
           SliverAppBar.medium(
             title: "Course info".text(),
+            actions: [
+              PlatformTextButton(
+                onPressed: () {
+                  context.pop(SitCourse(
+                    courseKey: widget.course?.courseKey ?? 0,
+                    courseName: $courseName.text,
+                    courseCode: $courseCode.text,
+                    classCode: $classCode.text,
+                    campus: campus,
+                    place: $place.text,
+                    weekIndices: weekIndices,
+                    timeslots: timeslots,
+                    courseCredit: courseCredit,
+                    dayIndex: dayIndex,
+                    teachers: teachers,
+                  ));
+                },
+                child: i18n.done.text(),
+              ),
+            ],
           ),
           SliverList.list(children: [
             buildTextField(
