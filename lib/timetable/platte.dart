@@ -11,17 +11,17 @@ class BuiltinTimetablePalettes {
     key: "classic",
     author: "Li_plum@outlook.com",
     colors: [
-      (light: Color(0xD285e779), dark: Color(0xDF21520f)), // green
-      (light: Color(0xD2c3e8ff), dark: Color(0xDF004c68)), // sky
-      (light: Color(0xD2ffa6bb), dark: Color(0xDF8e2f56)), // pink
-      (light: Color(0xD2ad9bd7), dark: Color(0xDF50378a)), // violet
-      (light: Color(0xD2ff9d6b), dark: Color(0xDF7f2b00)), // orange
-      (light: Color(0xD2ffa2d2), dark: Color(0xDF8e0032)), // rose
-      (light: Color(0xD2ffd200), dark: Color(0xDF523900)), // lemon
-      (light: Color(0xD275f8e2), dark: Color(0xDF005047)), // cyan
-      (light: Color(0xD2b4ebff), dark: Color(0xDF004e5f)), // ice
-      (light: Color(0xD2ffd7f5), dark: Color(0xDF7c157a)), // mauve
-      (light: Color(0xD2eaf141), dark: Color(0xDF4b4c00)), // toxic
+      (dark: Color(0xdf356a21), light: Color(0xd2a7d99b)),
+      (dark: Color(0xdf00739b), light: Color(0xd2cbe3ef)),
+      (dark: Color(0xdf8e2f56), light: Color(0xd2ffa6bb)),
+      (dark: Color(0xdf50378a), light: Color(0xd2b8a4ea)),
+      (dark: Color(0xdfac5029), light: Color(0xd2ecab8a)),
+      (dark: Color(0xdf80002d), light: Color(0xd2eeb6d3)),
+      (dark: Color(0xdf7c5800), light: Color(0xd2eadea1)),
+      (dark: Color(0xdf006b5f), light: Color(0xd292c7b8)),
+      (dark: Color(0xdf004e5f), light: Color(0xd2aaccd8)),
+      (dark: Color(0xdf7c157a), light: Color(0xd2ffd7f5)),
+      (dark: Color(0xdf616200), light: Color(0xd2d9dc89)),
     ],
   );
   static const americano = BuiltinTimetablePalette(
