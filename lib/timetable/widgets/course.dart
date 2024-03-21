@@ -32,8 +32,8 @@ class TimetableCourseCard extends StatelessWidget {
         leading: CourseIcon(courseName: courseName),
         title: courseName.text(),
         subtitle: [
-          "${i18n.course.courseCode} $courseCode".text(),
-          "${i18n.course.classCode} $classCode".text(),
+          if (courseCode.isNotEmpty) "${i18n.course.courseCode} $courseCode".text(),
+          if (classCode.isNotEmpty) "${i18n.course.classCode} $classCode".text(),
         ].column(caa: CrossAxisAlignment.start),
         children: courses.map((course) {
           final weekNumbers = course.weekIndices.l10n();

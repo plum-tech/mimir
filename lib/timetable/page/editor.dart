@@ -18,6 +18,8 @@ import 'package:sit/settings/settings.dart';
 
 import '../entity/timetable.dart';
 import '../i18n.dart';
+import '../widgets/style.dart';
+import 'preview.dart';
 
 class TimetableEditorPage extends StatefulWidget {
   final SitTimetable timetable;
@@ -56,7 +58,14 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
           SliverAppBar.medium(
             title: i18n.import.timetableInfo.text(),
             actions: [
-              buildSaveAction(),
+              PlatformTextButton(
+                onPressed: onPreview,
+                child: i18n.preview.text(),
+              ),
+              PlatformTextButton(
+                onPressed: onSave,
+                child: i18n.save.text(),
+              ),
             ],
           ),
           if (index == 0) ...buildInfoTab() else ...buildAdvancedTab(),
@@ -211,23 +220,32 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
     );
   }
 
-  Widget buildSaveAction() {
-    return PlatformTextButton(
-      onPressed: onSave,
-      child: i18n.save.text(),
+  SitTimetable buildTimetable() {
+    final signature = $signature.text.trim();
+    return widget.timetable.copyWith(
+      name: $name.text,
+      signature: signature,
+      startDate: $selectedDate.value,
+      courses: courses,
+      lastCourseKey: lastCourseKey,
     );
   }
 
   void onSave() {
     final signature = $signature.text.trim();
     Settings.lastSignature = signature;
-    context.pop(widget.timetable.copyWith(
-      name: $name.text,
-      signature: signature,
-      startDate: $selectedDate.value,
-      courses: courses,
-      lastCourseKey: lastCourseKey,
-    ));
+    final timetable = buildTimetable();
+    context.pop(timetable);
+  }
+
+  Future<void> onPreview() async {
+    await context.show$Sheet$(
+      (context) => TimetableStyleProv(
+        child: TimetablePreviewPage(
+          timetable: buildTimetable(),
+        ),
+      ),
+    );
   }
 
   Widget buildDescForm() {
@@ -322,8 +340,8 @@ class TimetableEditableCourseCard extends StatelessWidget {
         ].row(mas: MainAxisSize.min),
         rotateTrailing: false,
         subtitle: [
-          "${i18n.course.courseCode} ${template.courseCode}".text(),
-          "${i18n.course.classCode} ${template.classCode}".text(),
+          if (template.courseCode.isNotEmpty) "${i18n.course.courseCode} ${template.courseCode}".text(),
+          if (template.classCode.isNotEmpty) "${i18n.course.classCode} ${template.classCode}".text(),
         ].column(caa: CrossAxisAlignment.start),
         children: courses.mapIndexed((i, course) {
           final weekNumbers = course.weekIndices.l10n();
