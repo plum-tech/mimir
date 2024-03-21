@@ -404,6 +404,8 @@ class _TimetableDetailsPageState extends State<TimetableDetailsPage> {
               return TimetableCourseCard(
                 courses: courses,
                 courseName: courses.first.courseName,
+                courseCode: courses.first.courseCode,
+                classCode: courses.first.classCode,
                 color: resolver.resolveColor(palette, courses.first).byTheme(context.theme),
               );
             },
