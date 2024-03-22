@@ -25,7 +25,7 @@ class TimetableSettings {
 
   CourseCellStyle? get cellStyle => decodeJsonObject(box.get(_K.cellStyle), (obj) => CourseCellStyle.fromJson(obj));
 
-  set cellStyle(CourseCellStyle? newV) => box.put(_K.cellStyle, newV?.toJson());
+  set cellStyle(CourseCellStyle? newV) => box.put(_K.cellStyle, encodeJsonObject(newV, (obj) => obj.toJson()));
 
   ValueListenable listenCellStyle() => box.listenable(keys: [_K.cellStyle]);
 

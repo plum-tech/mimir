@@ -2,11 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 
-T? decodeJsonObject<T>(String? json, T Function(dynamic obj) transform) {
+T? decodeJsonObject<T>(dynamic json, T Function(dynamic obj) transform) {
   if (json == null) return null;
   try {
-    final obj = jsonDecode(json);
-    return transform(obj);
+    if (json is String) {
+      final obj = jsonDecode(json);
+      return transform(obj);
+    } else {
+      return transform(json);
+    }
   } catch (_) {
     debugPrint("Failed to decode $json");
     return null;
