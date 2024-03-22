@@ -12,5 +12,5 @@ class _I18n with CommonI18nMixin {
 
   String get newGame => "$ns.newGame".tr();
 
-  String get loadGame => "$ns.loadGame".tr();
+  String get continueGame => "$ns.continueGame".tr();
 }

@@ -4,7 +4,7 @@ on: workflow_dispatch
 permissions: write-all
 
 env:
-  flutter_version: '3.19.3'
+  flutter_version: '3.19.4'
 
 jobs:
   build_android:

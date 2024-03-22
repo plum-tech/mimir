@@ -754,7 +754,7 @@ OaUserType:
 game:
   navigation: Game
   newGame: New game
-  continueGame: Load game
+  continueGame: Continue
   2048:
     title: 2048
     score: Score
