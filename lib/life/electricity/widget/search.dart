@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/life/electricity/entity/room.dart';
@@ -50,6 +51,7 @@ Future<String?> searchRoom({
             return SwipeToDismiss(
               right: SwipeToDismissAction(
                 icon: const Icon(Icons.delete),
+                cupertinoIcon: const Icon(CupertinoIcons.delete),
                 action: () {
                   final newList = List.of($searchHistory.value);
                   newList.removeAt(i);

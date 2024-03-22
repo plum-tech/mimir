@@ -65,7 +65,7 @@ class _OfflineGameAppCardState extends State<OfflineGameAppCard> {
             onPressed: () {
               context.push("/game${widget.baseRoute}?continue");
             },
-            child: i18n.loadGame.text(),
+            child: i18n.continueGame.text(),
           ),
           OutlinedButton(
             onPressed: () {
