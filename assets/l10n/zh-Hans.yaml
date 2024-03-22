@@ -755,22 +755,18 @@ game:
   navigation: 游戏
   newGame: 新游戏
   continueGame: 继续游戏
+  tryAgain: 再试一次
+  youWin: 你赢了！
+  gameOver: 游戏结束
   2048:
     title: 2048
     score: 分数
     best: 最佳
-    newGame: 新游戏
-    tryAgain: 再试一次
-    youWin: 你赢了！
-    gameOver: 游戏结束
   minesweeper:
     title: 扫雷
+    timeSpent: "用时 {}"
     gameMode:
       easy: 简单
-    gameOver:
-      failed: 失败
-      won: 获胜
-    restart: 再试一次
 dormitoryRoom: "{building}号楼 #{room}"
 open: 打开
 delete: 删除

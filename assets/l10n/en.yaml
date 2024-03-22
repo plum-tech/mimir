@@ -755,22 +755,18 @@ game:
   navigation: Game
   newGame: New game
   continueGame: Continue
+  tryAgain: Try again
+  youWin: You win
+  gameOver: Game over
   2048:
     title: 2048
     score: Score
     best: Best
-    newGame: New game
-    tryAgain: Try again
-    youWin: You win
-    gameOver: Game over
   minesweeper:
     title: Minesweeper
+    timeSpent: "You spent {}"
     gameMode:
       easy: Easy
-    gameOver:
-      failed: Failed
-      won: Won
-    restart: Restart
 dormitoryRoom: "Building {building} #{room}"
 open: Open
 delete: Delete

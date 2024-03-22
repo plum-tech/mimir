@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../manager/logic.dart';
 import '../manager/timer.dart';
 import '../theme.dart';
+import '../i18n.dart';
 
 class GameOverModal extends ConsumerWidget {
   const GameOverModal({
@@ -38,8 +39,11 @@ class GameOverModal extends ConsumerWidget {
               resetGame();
             },
             child: Text(
-              "Game Over!\n Click To Restart",
-              style: TextStyle(color: gameOverTextColor, fontSize: textSize),
+              i18n.gameOver,
+              style: TextStyle(
+                color: gameOverTextColor,
+                fontSize: textSize,
+              ),
             ),
           ),
         ),
@@ -65,7 +69,7 @@ class GameOverModal extends ConsumerWidget {
               resetGame();
             },
             child: Text(
-              " You Win!\n Time: $costTime \n Click To Play Again",
+              "${i18n.youWin}\n${i18n.timeSpent(costTime)}",
               style: TextStyle(color: goodGameTextColor, fontSize: textSize),
             ),
           ),
