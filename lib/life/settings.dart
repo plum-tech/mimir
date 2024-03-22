@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 const _kElectricityAutoRefresh = true;
 const _kExpenseRecordsAutoRefresh = true;
@@ -32,6 +34,8 @@ class _Electricity {
   String? get selectedRoom => box.get(_ElectricityK.selectedRoom);
 
   set selectedRoom(String? newV) => box.put(_ElectricityK.selectedRoom, newV);
+
+  ValueListenable listenSelectedRoom() => box.listenable(keys: [_ElectricityK.selectedRoom]);
 }
 
 class _ExpenseK {

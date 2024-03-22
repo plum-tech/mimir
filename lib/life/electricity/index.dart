@@ -29,13 +29,15 @@ class ElectricityBalanceAppCard extends StatefulWidget {
 }
 
 class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
-  final onRoomBalanceChanged = ElectricityBalanceInit.storage.listenRoomBalanceChange();
+  final $roomBalance = ElectricityBalanceInit.storage.listenBalance();
+  final $room = Settings.life.electricity.listenSelectedRoom();
   late final EventSubscription $refreshEvent;
 
   @override
   initState() {
     super.initState();
-    onRoomBalanceChanged.addListener(updateRoomAndBalance);
+    $roomBalance.addListener(updateRoomAndBalance);
+    $room.addListener(updateRoomAndBalance);
     $refreshEvent = lifeEventBus.addListener(() async {
       await refresh(active: true);
     });
@@ -46,7 +48,8 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
 
   @override
   dispose() {
-    onRoomBalanceChanged.removeListener(updateRoomAndBalance);
+    $roomBalance.removeListener(updateRoomAndBalance);
+    $room.removeListener(updateRoomAndBalance);
     $refreshEvent.cancel();
     super.dispose();
   }

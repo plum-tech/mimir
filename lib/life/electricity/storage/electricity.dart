@@ -8,7 +8,6 @@ import 'package:sit/storage/hive/init.dart';
 import '../entity/balance.dart';
 
 class _K {
-  static const selectedRoom = "/selectedRoom";
   static const lastBalance = "/lastBalance";
   static const searchHistory = "/searchHistory";
 }
@@ -21,7 +20,7 @@ class ElectricityStorage {
     this.maxHistoryLength = 20,
   });
 
-  ValueListenable<Box> listenRoomBalanceChange() => box.listenable(keys: [_K.selectedRoom, _K.lastBalance]);
+  ValueListenable listenBalance() => box.listenable(keys: [_K.lastBalance]);
 
   ElectricityBalance? get lastBalance => box.get(_K.lastBalance);
 
