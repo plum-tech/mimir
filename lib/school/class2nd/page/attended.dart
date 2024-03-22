@@ -374,7 +374,7 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
     });
     if (res) {
       // go back to the list page to refresh
-      await context.push("/class2nd/attended");
+      context.go("/class2nd/attended");
     }
   }
 }
