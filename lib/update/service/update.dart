@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:sit/files.dart';
 import 'package:sit/init.dart';
 import 'package:sit/session/backend.dart';
+import 'package:sit/utils/error.dart';
 
 import '../entity/artifact.dart';
 
@@ -13,9 +14,17 @@ class UpdateService {
   const UpdateService();
 
   Future<ArtifactVersionInfo> getLatestVersion() async {
-    final res = await _session.get(
-      "https://get.mysit.life/artifact/latest.json",
-    );
+    late Response res;
+    try {
+      res = await _session.get(
+        "https://g.mysit.life/artifact/latest.json",
+      );
+    } catch (error, stackTrace) {
+      debugPrintError(error, stackTrace);
+      res = await _session.get(
+        "https://get.mysit.life/artifact/latest.json",
+      );
+    }
     final json = res.data as Map<String, dynamic>;
     return ArtifactVersionInfo.fromJson(json);
   }
