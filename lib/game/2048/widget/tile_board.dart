@@ -6,6 +6,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/game/2048/widget/tile.dart';
 
 import '../theme.dart';
+import '../i18n.dart';
 import '../manager/board.dart';
 
 import 'animated_tile.dart';
@@ -70,11 +71,11 @@ class TileBoardWidget extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    board.won ? 'You win!' : 'Game over!',
+                    board.won ? i18n.youWin : i18n.gameOver,
                     style: const TextStyle(color: textColor, fontWeight: FontWeight.bold, fontSize: 64.0),
                   ),
                   ButtonWidget(
-                    text: board.won ? 'New Game' : 'Try again',
+                    text: board.won ? i18n.newGame : i18n.tryAgain,
                     onPressed: () {
                       ref.read(boardManager.notifier).newGame();
                     },

@@ -759,6 +759,10 @@ game:
     title: 2048
     score: Score
     best: Best
+    newGame: New game
+    tryAgain: Try again
+    youWin: You win
+    gameOver: Game over
   minesweeper:
     title: Minesweeper
     gameMode:

@@ -753,12 +753,16 @@ OaUserType:
   other: 其他
 game:
   navigation: 電玩
-  newGame: 創建
+  newGame: 新遊戲
   continueGame: 繼續
   2048:
     title: 2048
     score: 分數
     best: 最佳
+    newGame: 新遊戲
+    tryAgain: 再試一次
+    youWin: 你獲勝了！
+    gameOver: Game over
   minesweeper:
     title: 掃雷
     gameMode:

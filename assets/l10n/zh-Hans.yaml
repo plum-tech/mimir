@@ -759,6 +759,10 @@ game:
     title: 2048
     score: 分数
     best: 最佳
+    newGame: 新游戏
+    tryAgain: 再试一次
+    youWin: 你赢了！
+    gameOver: 游戏结束
   minesweeper:
     title: 扫雷
     gameMode:
