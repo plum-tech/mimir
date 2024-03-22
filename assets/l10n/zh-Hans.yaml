@@ -19,6 +19,17 @@ timetable:
     details: 详情
   edit:
     name: 名称
+    tab:
+      info: 信息
+      advanced: 高级
+    editCourse: 编辑课程
+    newCourse: 创建课程
+    addCourse: 添加一个课程
+    repeating: 重复
+    daysOfWeek: 日历日
+    timeslots:
+      single: "第 {} 节"
+      multiple: "从第 {from} 节到第 {to} 节"
   import:
     title: 导入课程表
     import: 导入
@@ -169,13 +180,15 @@ school:
     term2: 第二学期
   allYear: 所有学年
   course:
+    courseName: 课程名称
     classCode: 教学班
     courseCode: 课程代码
-    category: 课程类别
-    credit: 学分
-    teacher: 教师
+    place: 地点
     semester: 学期
     schoolYear: 学年
+    credit: 学分
+    category: 课程类别
+    teacher: 教师
     compulsory: 必修
     elective: 选修
   courseCat:

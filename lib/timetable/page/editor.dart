@@ -14,6 +14,7 @@ import 'package:sit/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/school/widgets/course.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 
 import '../entity/timetable.dart';
@@ -77,12 +78,12 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
           BottomNavigationBarItem(
             icon: const Icon(Icons.info_outline),
             activeIcon: const Icon(Icons.info),
-            label: "Info",
+            label: i18n.editor.infoTab,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.calendar_month_outlined),
             activeIcon: const Icon(Icons.calendar_month),
-            label: "Advanced",
+            label: i18n.editor.advancedTab,
           ),
         ],
         onTap: (newIndex) {
@@ -135,11 +136,11 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
 
   Widget addCourseTile() {
     return ListTile(
-      title: "Add course".text(),
+      title: i18n.editor.addCourse.text(),
       trailing: const Icon(Icons.add),
       onTap: () async {
         final newCourse = await context.show$Sheet$<SitCourse>((ctx) => SitCourseEditorPage(
-              title: "New course",
+              title: i18n.editor.newCourse,
               course: null,
             ));
         if (newCourse == null) return;
@@ -317,7 +318,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
               final tempItem = template.createSubItem(courseKey: 0);
               final newItem = await context.show$Sheet$(
                 (context) => SitCourseEditorPage.item(
-                  title: "New course",
+                  title: i18n.editor.newCourse,
                   course: tempItem,
                 ),
               );
@@ -330,7 +331,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
             padding: EdgeInsets.zero,
             onPressed: () async {
               final newTemplate = await context.show$Sheet$<SitCourse>((context) => SitCourseEditorPage.template(
-                    title: "Edit course",
+                    title: i18n.editor.editCourse,
                     course: template,
                   ));
               if (newTemplate == null) return;
@@ -359,7 +360,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
                   ),
             child: ListTile(
               isThreeLine: true,
-              leading: kDebugMode ? "${course.courseKey}".text() : null,
+              leading: Dev.on ? "${course.courseKey}".text() : null,
               title: course.place.text(),
               subtitle: [
                 course.teachers.join(", ").text(),
@@ -371,7 +372,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 onPressed: () async {
                   final newItem = await context.show$Sheet$<SitCourse>((context) => SitCourseEditorPage.item(
-                        title: "Edit course",
+                        title: i18n.editor.editCourse,
                         course: course,
                       ));
                   if (newItem == null) return;
@@ -509,23 +510,23 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
           SliverList.list(children: [
             buildTextField(
               controller: $courseName,
-              title: "Course name",
+              title: i18n.course.courseName,
               readonly: !widget.courseNameEditable,
             ),
             buildTextField(
               controller: $courseCode,
+              title: i18n.course.courseCode,
               readonly: !widget.courseNameEditable,
-              title: "Course code",
             ),
             buildTextField(
               controller: $classCode,
+              title: i18n.course.classCode,
               readonly: !widget.courseNameEditable,
-              title: "Class code",
             ),
             if (widget.placeEditable)
               buildTextField(
+                title: i18n.course.place,
                 controller: $place,
-                title: "Place",
               ),
             if (widget.dayIndexEditable)
               buildWeekdays().inCard(
@@ -551,7 +552,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
 
   Widget buildWeekdays() {
     return ListTile(
-      title: "Weekday".text(),
+      title: i18n.editor.daysOfWeek.text(),
       isThreeLine: true,
       subtitle: [
         ...Weekday.values.map(
@@ -572,7 +573,10 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
 
   Widget buildTimeslots() {
     return ListTile(
-      title: "From lesson ${timeslots.start + 1} to ${timeslots.end + 1}".text(),
+      title: (timeslots.start == timeslots.end
+              ? i18n.editor.timeslotsSpanSingle("${timeslots.start + 1}")
+              : i18n.editor.timeslotsSpanMultiple(from: "${timeslots.start + 1}", to: "${timeslots.end + 1}"))
+          .text(),
       subtitle: [
         const Icon(Icons.light_mode),
         RangeSlider(
@@ -600,7 +604,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
 
   Widget buildRepeating() {
     return AnimatedExpansionTile(
-      title: "Repeating".text(),
+      title: i18n.editor.repeating.text(),
       initiallyExpanded: true,
       rotateTrailing: false,
       trailing: IconButton.filledTonal(
@@ -638,14 +642,14 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
 
   Widget buildTeachers() {
     return ListTile(
-      title: "Teachers".text(),
+      title: i18n.course.teacher(2).text(),
       isThreeLine: true,
       trailing: IconButton(
         icon: const Icon(Icons.add),
         onPressed: () async {
           final newTeacher = await Editor.showStringEditor(
             context,
-            desc: "Teacher",
+            desc: i18n.course.teacher(2),
             initial: "",
           );
           if (newTeacher != null && !teachers.contains(newTeacher)) {

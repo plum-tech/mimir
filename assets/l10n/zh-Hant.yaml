@@ -19,6 +19,17 @@ timetable:
     details: 詳細資料
   edit:
     name: 名稱
+    tab:
+      info: 資訊
+      advanced: 高級
+    editCourse: 編輯課程
+    newCourse: 創建課程
+    addCourse: 增加一個課程
+    repeating: 重複
+    daysOfWeek: 一周裡的天
+    timeslots:
+      single: "第 {} 節"
+      multiple: "從第 {from} 節到第 {to} 節"
   import:
     title: 匯入課程表
     import: 匯入
@@ -170,8 +181,10 @@ school:
     term2: 第二學期
   allYear: 所有學年
   course:
+    courseName: 課程名稱
     classCode: 班级
     courseCode: 课程代码
+    place: 地點
     teacher: 教師
     credit: 學分
     semester: 學期

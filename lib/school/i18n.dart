@@ -19,9 +19,13 @@ class CourseI18n {
 
   static const ns = "${_I18n.ns}.course";
 
+  String get courseName => "$ns.courseName".tr();
+
   String get classCode => "$ns.classCode".tr();
 
   String get courseCode => "$ns.courseCode".tr();
+
+  String get place => "$ns.place".tr();
 
   String teacher(int count) => "$ns.teacher".plural(count);
 

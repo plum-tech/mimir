@@ -88,10 +88,6 @@ class _CellStyle {
 
   String get title => "$ns.title".tr();
 
-  String get entrance => "$ns.entrance.title".tr();
-
-  String get entranceDesc => "$ns.entrance.desc".tr();
-
   String get showTeachers => "$ns.showTeachers.title".tr();
 
   String get showTeachersDesc => "$ns.showTeachers.desc".tr();
@@ -236,6 +232,31 @@ class _Editor {
   static const ns = "${_I18n.ns}.edit";
 
   String get name => "$ns.name".tr();
+
+  String get infoTab => "$ns.tab.info".tr();
+
+  String get advancedTab => "$ns.tab.advanced".tr();
+
+  String get editCourse => "$ns.editCourse".tr();
+
+  String get newCourse => "$ns.newCourse".tr();
+
+  String get addCourse => "$ns.addCourse".tr();
+
+  String get repeating => "$ns.repeating".tr();
+
+  String get daysOfWeek => "$ns.daysOfWeek".tr();
+
+  String timeslotsSpanMultiple({
+    required String from,
+    required String to,
+  }) =>
+      "$ns.timeslots.multiple".tr(namedArgs: {
+        "from": from,
+        "to": to,
+      });
+  String timeslotsSpanSingle(String at) =>
+      "$ns.timeslots.single".tr(args: [at]);
 }
 
 class _Export {

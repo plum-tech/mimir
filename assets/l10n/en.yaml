@@ -19,6 +19,17 @@ timetable:
     details: Details
   edit:
     name: Name
+    tab:
+      info: Info
+      advanced: Advanced
+    editCourse: Edit course
+    newCourse: New course
+    addCourse: Add a course
+    repeating: Repeating
+    daysOfWeek: Days of week
+    timeslots:
+      single: "Lesson {}"
+      multiple: "From lesson {from} to {to}"
   import:
     title: Import timetable
     import: Import
@@ -169,8 +180,10 @@ school:
     term2: Spring
   allYear: All year
   course:
-    classCode: Class Code
-    courseCode: Course Code
+    courseName: Course name
+    classCode: Class code
+    courseCode: Course code
+    place: Place
     semester: Semester
     schoolYear: School year
     category: Course category
