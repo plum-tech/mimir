@@ -22,7 +22,7 @@ dependencies:
   intl: ^0.18.1
 
   # Basic
-  logger: ^2.1.0
+  logger: ^2.2.0
   device_info_plus: ^9.1.2
   event_bus: ^2.0.0
   path_provider: ^2.1.2
