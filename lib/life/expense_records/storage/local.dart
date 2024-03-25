@@ -16,6 +16,7 @@ class _K {
   // Don't use lastFetchedTs, and just fetch all translations
   static const lastFetchedTs = "/lastFetchedTs";
   static const latestTransaction = "/latestTransaction";
+  static const lastUpdateTime = "/lastUpdateTime";
 }
 
 class ExpenseStorage {
@@ -40,6 +41,10 @@ class ExpenseStorage {
   set latestTransaction(Transaction? v) => box.safePut(_K.latestTransaction, v);
 
   ValueListenable<Box> listenLastTransaction() => box.listenable(keys: [_K.latestTransaction]);
+
+  DateTime? get lastUpdateTime => box.safeGet(_K.lastUpdateTime);
+
+  set lastUpdateTime(DateTime? newV) => box.safePut(_K.lastUpdateTime, newV);
 }
 
 extension ExpenseStorageX on ExpenseStorage {

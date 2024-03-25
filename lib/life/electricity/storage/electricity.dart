@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/utils/hive.dart';
-import 'package:sit/settings/settings.dart';
 import 'package:sit/storage/hive/init.dart';
 
 import '../entity/balance.dart';
@@ -41,18 +40,5 @@ class ElectricityStorage {
 
   set lastUpdateTime(DateTime? newV) => box.safePut(_K.lastUpdateTime, newV);
 
-}
-
-extension ElectricityStorageX on ElectricityStorage {
-  void addSearchHistory(String room) {
-    final searchHistory = this.searchHistory ?? <String>[];
-    if (searchHistory.any((e) => e == room)) return;
-    searchHistory.insert(0, room);
-    this.searchHistory = searchHistory;
-  }
-
-  void selectNewRoom(String room) {
-    Settings.life.electricity.selectedRoom = room;
-    addSearchHistory(room);
-  }
+  ValueListenable listenLastUpdateTime() => box.listenable(keys: [_K.lastUpdateTime]);
 }
