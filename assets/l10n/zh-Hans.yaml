@@ -413,7 +413,7 @@ examArrange:
   calendarEventTitle: "考试: {}"
 expenseRecords:
   title: 消费记录
-  check: 查询
+  list: 清单
   statistics: 统计
   balanceInCard: "卡内余额 {} 元"
   lastTransaction: "¥{amount} {place}"

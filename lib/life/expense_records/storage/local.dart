@@ -45,6 +45,8 @@ class ExpenseStorage {
   DateTime? get lastUpdateTime => box.safeGet(_K.lastUpdateTime);
 
   set lastUpdateTime(DateTime? newV) => box.safePut(_K.lastUpdateTime, newV);
+
+  ValueListenable listenLastUpdateTime() => box.listenable(keys: [_K.lastUpdateTime]);
 }
 
 extension ExpenseStorageX on ExpenseStorage {

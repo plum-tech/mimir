@@ -19,7 +19,7 @@ class _I18n with CommonI18nMixin {
 
   String get refreshFailedTip => "$ns.refreshFailedTip".tr();
 
-  String get check => "$ns.check".tr();
+  String get list => "$ns.list".tr();
 
   String get statistics => "$ns.statistics".tr();
 

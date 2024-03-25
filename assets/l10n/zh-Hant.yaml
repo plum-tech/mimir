@@ -413,7 +413,7 @@ examArrange:
   calendarEventTitle: "考試: {}"
 expenseRecords:
   title: 消費記錄
-  check: 查詢
+  list: 明細表
   statistics: 統計
   income: "入賬: ¥{}"
   outcome: "消費: ¥{}"

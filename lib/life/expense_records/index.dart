@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/l10n/extension.dart';
 import 'package:sit/life/event.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/life/expense_records/init.dart';
@@ -25,11 +26,13 @@ class ExpenseRecordsAppCard extends StatefulWidget {
 
 class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
   final $lastTransaction = ExpenseRecordsInit.storage.listenLastTransaction();
+  final $lastUpdateTime = ExpenseRecordsInit.storage.listenLastUpdateTime();
   late final EventSubscription $refreshEvent;
 
   @override
   void initState() {
     $lastTransaction.addListener(onLatestChanged);
+    $lastUpdateTime.addListener(onLatestChanged);
     $refreshEvent = lifeEventBus.addListener(() async {
       await refresh(active: true);
     });
@@ -47,6 +50,7 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
   @override
   void dispose() {
     $lastTransaction.removeListener(onLatestChanged);
+    $lastUpdateTime.removeListener(onLatestChanged);
     $refreshEvent.cancel();
     super.dispose();
   }
@@ -78,6 +82,7 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
   @override
   Widget build(BuildContext context) {
     final lastTransaction = ExpenseRecordsInit.storage.latestTransaction;
+    final lastUpdateTime = ExpenseRecordsInit.storage.lastUpdateTime;
     return AppCard(
       view: lastTransaction == null
           ? const SizedBox()
@@ -90,13 +95,14 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
               ).expanded(),
             ].row().sized(h: 140),
       title: i18n.title.text(),
+      subtitle: lastUpdateTime != null ?  "Last update: ${context.formatMdhmNum(lastUpdateTime)}".text() : null,
       leftActions: [
         FilledButton.icon(
           icon: const Icon(Icons.assignment),
           onPressed: () async {
             context.push("/expense-records");
           },
-          label: i18n.check.text(),
+          label: i18n.list.text(),
         ),
         OutlinedButton(
           onPressed: lastTransaction == null

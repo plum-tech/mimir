@@ -13,6 +13,7 @@ class ExpenseAggregated {
       from: start,
       to: now,
     );
+    storage.lastUpdateTime = DateTime.now();
     final oldTsList = storage.transactionTsList ?? const [];
     final newTsList = {...newlyFetched.map((e) => e.timestamp), ...oldTsList}.toList();
     // the latest goes first

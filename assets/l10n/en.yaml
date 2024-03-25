@@ -416,7 +416,7 @@ examArrange:
   calendarEventTitle: "Exam: {}"
 expenseRecords:
   title: Expense records
-  check: Check
+  list: List
   statistics: Statistics
   balanceInCard: "¥{} in Card"
   lastTransaction: "¥{amount} {place}"
