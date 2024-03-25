@@ -1,3 +1,4 @@
+import 'package:sit/utils/hive.dart';
 import 'package:hive/hive.dart';
 import 'package:sit/storage/hive/init.dart';
 
@@ -15,19 +16,19 @@ class OaAnnounceStorage {
   Box get box => HiveInit.oaAnnounce;
 
   const OaAnnounceStorage();
-  List<String>? getAnnounceIdList(OaAnnounceCat type) => box.get(_K.announceIdList(type));
+  List<String>? getAnnounceIdList(OaAnnounceCat type) => box.safeGet(_K.announceIdList(type));
 
   Future<void> setAnnounceIdList(OaAnnounceCat type, List<String>? announceIdList) =>
-      box.put(_K.announceIdList(type), announceIdList);
+      box.safePut(_K.announceIdList(type), announceIdList);
 
-  OaAnnounceRecord? getAnnounce(String uuid) => box.get(_K.announce(uuid));
+  OaAnnounceRecord? getAnnounce(String uuid) => box.safeGet(_K.announce(uuid));
 
-  Future<void> setAnnounce(String uuid, OaAnnounceRecord? announce) => box.put(_K.announce(uuid), announce);
+  Future<void> setAnnounce(String uuid, OaAnnounceRecord? announce) => box.safePut(_K.announce(uuid), announce);
 
-  OaAnnounceDetails? getAnnounceDetails(String uuid) => box.get(_K.announceDetails(uuid));
+  OaAnnounceDetails? getAnnounceDetails(String uuid) => box.safeGet(_K.announceDetails(uuid));
 
   Future<void> setAnnounceDetails(String uuid, OaAnnounceDetails? details) =>
-      box.put(_K.announceDetails(uuid), details);
+      box.safePut(_K.announceDetails(uuid), details);
 
   List<OaAnnounceRecord>? getAnnouncements(OaAnnounceCat type) {
     final idList = getAnnounceIdList(type);

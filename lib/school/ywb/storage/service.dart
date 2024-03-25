@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:sit/storage/hive/init.dart';
+import 'package:sit/utils/hive.dart';
 
 import '../entity/service.dart';
 
@@ -15,11 +16,11 @@ class YwbServiceStorage {
 
   const YwbServiceStorage();
 
-  YwbServiceDetails? getServiceDetails(String applicationId) => box.get(_K.details(applicationId));
+  YwbServiceDetails? getServiceDetails(String applicationId) => box.safeGet(_K.details(applicationId));
 
-  void setMetaDetails(String applicationId, YwbServiceDetails? newV) => box.put(_K.details(applicationId), newV);
+  void setMetaDetails(String applicationId, YwbServiceDetails? newV) => box.safePut(_K.details(applicationId), newV);
 
-  List<YwbService>? get serviceList => (box.get(_K.serviceList) as List?)?.cast<YwbService>();
+  List<YwbService>? get serviceList => (box.safeGet(_K.serviceList) as List?)?.cast<YwbService>();
 
-  set serviceList(List<YwbService>? newV) => box.put(_K.serviceList, newV);
+  set serviceList(List<YwbService>? newV) => box.safePut(_K.serviceList, newV);
 }

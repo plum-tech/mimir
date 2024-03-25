@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sit/utils/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/widgets/card.dart';
@@ -247,7 +248,7 @@ class _BoxItemState extends State<BoxItem> {
   @override
   Widget build(BuildContext context) {
     final key = widget.keyInBox.toString();
-    final value = widget.box.get(widget.keyInBox);
+    final value = widget.box.safeGet(widget.keyInBox);
     final type = value.runtimeType.toString();
     Widget res = ListTile(
       isThreeLine: true,
@@ -282,7 +283,7 @@ class _BoxItemState extends State<BoxItem> {
                 no: i18n.cancel,
                 destructive: true);
             if (confirm == true) {
-              widget.box.put(key, _emptyValue(value));
+              widget.box.safePut(key, _emptyValue(value));
               if (!mounted) return;
               setState(() {});
             }
@@ -312,7 +313,7 @@ class _BoxItemState extends State<BoxItem> {
       if (newValue == null) return;
       bool isModified = value != newValue;
       if (isModified) {
-        box.put(key, newValue);
+        box.safePut(key, newValue);
         if (!mounted) return;
         setState(() {});
       }

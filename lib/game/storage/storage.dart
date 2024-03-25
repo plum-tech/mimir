@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:sit/utils/hive.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/storage/hive/init.dart';
@@ -23,7 +24,7 @@ class GameStorageBox<TSave> {
   Future<void> save(TSave save, {int slot = 0}) async {
     final json = serialize(save);
     final str = jsonEncode(json);
-    await _box.put("/$name/$version/$slot", str);
+    await _box.safePut("/$name/$version/$slot", str);
   }
 
   Future<void> delete({int slot = 0}) async {
@@ -31,7 +32,7 @@ class GameStorageBox<TSave> {
   }
 
   TSave? load({int slot = 0}) {
-    final str = _box.get("/$name/$version/$slot");
+    final str = _box.safeGet("/$name/$version/$slot");
     if (str == null) return null;
     try {
       final json = jsonDecode(str);

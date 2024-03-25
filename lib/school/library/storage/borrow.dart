@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:sit/utils/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/storage/hive/init.dart';
 
@@ -15,14 +16,14 @@ class LibraryBorrowStorage {
 
   const LibraryBorrowStorage();
 
-  List<BorrowedBookItem>? getBorrowedBooks() => (box.get(_K.borrowed) as List<dynamic>?)?.cast<BorrowedBookItem>();
+  List<BorrowedBookItem>? getBorrowedBooks() => (box.safeGet(_K.borrowed) as List<dynamic>?)?.cast<BorrowedBookItem>();
 
-  Future<void> setBorrowedBooks(List<BorrowedBookItem>? value) => box.put(_K.borrowed, value);
+  Future<void> setBorrowedBooks(List<BorrowedBookItem>? value) => box.safePut(_K.borrowed, value);
 
   Listenable listenBorrowedBooks() => box.listenable(keys: [_K.borrowed]);
 
   List<BookBorrowingHistoryItem>? getBorrowHistory() =>
-      (box.get(_K.borrowHistory) as List<dynamic>?)?.cast<BookBorrowingHistoryItem>();
+      (box.safeGet(_K.borrowHistory) as List<dynamic>?)?.cast<BookBorrowingHistoryItem>();
 
-  Future<void> setBorrowHistory(List<BookBorrowingHistoryItem>? value) => box.put(_K.borrowHistory, value);
+  Future<void> setBorrowHistory(List<BookBorrowingHistoryItem>? value) => box.safePut(_K.borrowHistory, value);
 }

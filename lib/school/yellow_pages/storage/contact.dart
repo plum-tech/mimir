@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sit/utils/hive.dart';
 import 'package:sit/storage/hive/init.dart';
 
 import '../entity/contact.dart';
@@ -18,13 +19,13 @@ class YellowPagesStorage {
     this.maxHistoryLength = 2,
   });
 
-  List<SchoolContact>? get interactHistory => (box.get(_K.history) as List?)?.cast<SchoolContact>();
+  List<SchoolContact>? get interactHistory => (box.safeGet(_K.history) as List?)?.cast<SchoolContact>();
 
   set interactHistory(List<SchoolContact>? newV) {
     if (newV != null) {
       newV = newV.sublist(0, min(newV.length, maxHistoryLength));
     }
-    box.put(_K.history, newV);
+    box.safePut(_K.history, newV);
   }
 
   ValueListenable<Box> listenHistory() => box.listenable(keys: [_K.history]);

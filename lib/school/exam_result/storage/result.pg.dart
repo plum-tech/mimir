@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:sit/utils/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/school/exam_result/entity/result.pg.dart';
 import 'package:sit/storage/hive/init.dart';
@@ -14,9 +15,9 @@ class ExamResultPgStorage {
 
   const ExamResultPgStorage();
 
-  List<ExamResultPg>? getResultList() => (box.get(_K.resultList) as List?)?.cast<ExamResultPg>();
+  List<ExamResultPg>? getResultList() => (box.safeGet(_K.resultList) as List?)?.cast<ExamResultPg>();
 
-  Future<void> setResultList(List<ExamResultPg>? newV) => box.put(_K.resultList, newV);
+  Future<void> setResultList(List<ExamResultPg>? newV) => box.safePut(_K.resultList, newV);
 
   ValueListenable<Box> listenResultList() => box.listenable(keys: [_K.resultList]);
 }

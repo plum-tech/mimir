@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sit/utils/hive.dart';
 import 'package:sit/storage/hive/init.dart';
 
 import '../entity/local.dart';
@@ -23,20 +24,20 @@ class ExpenseStorage {
   const ExpenseStorage();
 
   /// 所有交易记录的索引，记录所有的交易时间，需要保证有序，以实现二分查找
-  List<DateTime>? get transactionTsList => (box.get(_K.transactionTsList) as List?)?.cast<DateTime>();
+  List<DateTime>? get transactionTsList => (box.safeGet(_K.transactionTsList) as List?)?.cast<DateTime>();
 
-  set transactionTsList(List<DateTime>? newV) => box.put(_K.transactionTsList, newV);
+  set transactionTsList(List<DateTime>? newV) => box.safePut(_K.transactionTsList, newV);
 
   ValueListenable<Box> listenTransactionTsList() => box.listenable(keys: [_K.transactionTsList]);
 
   /// 通过某个时刻来获得交易记录
-  Transaction? getTransactionByTs(DateTime ts) => box.get(_K.transaction(ts));
+  Transaction? getTransactionByTs(DateTime ts) => box.safeGet(_K.transaction(ts));
 
-  setTransactionByTs(DateTime ts, Transaction? transaction) => box.put(_K.transaction(ts), transaction);
+  setTransactionByTs(DateTime ts, Transaction? transaction) => box.safePut(_K.transaction(ts), transaction);
 
-  Transaction? get latestTransaction => box.get(_K.latestTransaction);
+  Transaction? get latestTransaction => box.safeGet(_K.latestTransaction);
 
-  set latestTransaction(Transaction? v) => box.put(_K.latestTransaction, v);
+  set latestTransaction(Transaction? v) => box.safePut(_K.latestTransaction, v);
 
   ValueListenable<Box> listenLastTransaction() => box.listenable(keys: [_K.latestTransaction]);
 }

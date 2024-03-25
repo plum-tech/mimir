@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sit/utils/hive.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/school/settings.dart';
 import 'package:sit/storage/hive/type_id.dart';
@@ -37,25 +38,25 @@ class SettingsImpl {
   late final theme = _Theme(box);
   late final proxy = _Proxy(box);
 
-  Campus get campus => box.get(_K.campus) ?? Campus.fengxian;
+  Campus get campus => box.safeGet(_K.campus) ?? Campus.fengxian;
 
-  set campus(Campus newV) => box.put(_K.campus, newV);
+  set campus(Campus newV) => box.safePut(_K.campus, newV);
 
   ValueListenable<Box> listenCampus() => box.listenable(keys: [_K.campus]);
 
-  bool get focusTimetable => box.get(_K.focusTimetable) ?? false;
+  bool get focusTimetable => box.safeGet(_K.focusTimetable) ?? false;
 
-  set focusTimetable(bool newV) => box.put(_K.focusTimetable, newV);
+  set focusTimetable(bool newV) => box.safePut(_K.focusTimetable, newV);
 
   ValueListenable<Box> listenFocusTimetable() => box.listenable(keys: [_K.focusTimetable]);
 
-  String? get lastSignature => box.get(_K.lastSignature);
+  String? get lastSignature => box.safeGet(_K.lastSignature);
 
-  set lastSignature(String? value) => box.put(_K.lastSignature, value);
+  set lastSignature(String? value) => box.safePut(_K.lastSignature, value);
 
-  String? get skippedVersion => box.get(_UpdateK.skippedVersion);
+  String? get skippedVersion => box.safeGet(_UpdateK.skippedVersion);
 
-  set skippedVersion(String? newV) => box.put(_UpdateK.skippedVersion, newV);
+  set skippedVersion(String? newV) => box.safePut(_UpdateK.skippedVersion, newV);
 }
 
 class _ThemeK {
@@ -72,7 +73,7 @@ class _Theme {
 
   // theme
   Color? get themeColor {
-    final value = box.get(_ThemeK.themeColor);
+    final value = box.safeGet(_ThemeK.themeColor);
     if (value == null) {
       return null;
     } else {
@@ -81,17 +82,17 @@ class _Theme {
   }
 
   set themeColor(Color? v) {
-    box.put(_ThemeK.themeColor, v?.value);
+    box.safePut(_ThemeK.themeColor, v?.value);
   }
 
-  bool get themeColorFromSystem => box.get(_ThemeK.themeColorFromSystem) ?? true;
+  bool get themeColorFromSystem => box.safeGet(_ThemeK.themeColorFromSystem) ?? true;
 
-  set themeColorFromSystem(bool value) => box.put(_ThemeK.themeColorFromSystem, value);
+  set themeColorFromSystem(bool value) => box.safePut(_ThemeK.themeColorFromSystem, value);
 
   /// [ThemeMode.system] by default.
-  ThemeMode get themeMode => box.get(_ThemeK.themeMode) ?? ThemeMode.system;
+  ThemeMode get themeMode => box.safeGet(_ThemeK.themeMode) ?? ThemeMode.system;
 
-  set themeMode(ThemeMode value) => box.put(_ThemeK.themeMode, value);
+  set themeMode(ThemeMode value) => box.safePut(_ThemeK.themeMode, value);
 
   ValueListenable<Box> listenThemeMode() => box.listenable(keys: [_ThemeK.themeMode]);
 
@@ -187,19 +188,19 @@ class ProxyProfile {
 
   ProxyProfile(this.box, String ns, this.type);
 
-  String? get address => box.get(_ProxyK.address(type));
+  String? get address => box.safeGet(_ProxyK.address(type));
 
-  set address(String? newV) => box.put(_ProxyK.address(type), newV);
+  set address(String? newV) => box.safePut(_ProxyK.address(type), newV);
 
   /// [false] by default.
-  bool get enabled => box.get(_ProxyK.enabled(type)) ?? false;
+  bool get enabled => box.safeGet(_ProxyK.enabled(type)) ?? false;
 
-  set enabled(bool newV) => box.put(_ProxyK.enabled(type), newV);
+  set enabled(bool newV) => box.safePut(_ProxyK.enabled(type), newV);
 
   /// [ProxyMode.schoolOnly] by default.
-  ProxyMode get proxyMode => box.get(_ProxyK.proxyMode(type)) ?? ProxyMode.schoolOnly;
+  ProxyMode get proxyMode => box.safeGet(_ProxyK.proxyMode(type)) ?? ProxyMode.schoolOnly;
 
-  set proxyMode(ProxyMode newV) => box.put(_ProxyK.proxyMode(type), newV);
+  set proxyMode(ProxyMode newV) => box.safePut(_ProxyK.proxyMode(type), newV);
 
   bool get isDefaultAddress {
     final address = this.address;

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sit/utils/hive.dart';
 
 const _kLastId = "lastId";
 const _kIdList = "idList";
@@ -48,22 +49,22 @@ class HiveTable<T> {
 
   bool get hasAny => idList?.isNotEmpty ?? false;
 
-  int get lastId => box.get(_lastIdK) ?? _kLastIdStart;
+  int get lastId => box.safeGet(_lastIdK) ?? _kLastIdStart;
 
-  set lastId(int newValue) => box.put(_lastIdK, newValue);
+  set lastId(int newValue) => box.safePut(_lastIdK, newValue);
 
-  List<int>? get idList => box.get(_idListK)?.cast<int>();
+  List<int>? get idList => box.safeGet(_idListK)?.cast<int>();
 
-  set idList(List<int>? newValue) => box.put(_idListK, newValue);
+  set idList(List<int>? newValue) => box.safePut(_idListK, newValue);
 
-  int? get selectedId => box.get(_selectedIdK);
+  int? get selectedId => box.safeGet(_selectedIdK);
 
   bool get isEmpty => idList?.isEmpty != false;
 
   bool get isNotEmpty => !isEmpty;
 
   set selectedId(int? newValue) {
-    box.put(_selectedIdK, newValue);
+    box.safePut(_selectedIdK, newValue);
     $selected.notifier();
     $any.notifier();
   }
@@ -85,7 +86,7 @@ class HiveTable<T> {
   }
 
   T? _get(int id) {
-    final row = box.get("$_rowsK/$id");
+    final row = box.safeGet("$_rowsK/$id");
     final useJson = this.useJson;
     if (useJson == null || row == null) {
       return row;
@@ -105,9 +106,9 @@ class HiveTable<T> {
   void _set(int id, T? newValue) {
     final useJson = this.useJson;
     if (useJson == null || newValue == null) {
-      box.put("$_rowsK/$id", newValue);
+      box.safePut("$_rowsK/$id", newValue);
     } else {
-      box.put("$_rowsK/$id", jsonEncode(useJson.toJson(newValue)));
+      box.safePut("$_rowsK/$id", jsonEncode(useJson.toJson(newValue)));
     }
     if (selectedId == id) {
       $selected.notifier();

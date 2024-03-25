@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
+import 'package:sit/utils/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 const _kElectricityAutoRefresh = true;
@@ -27,13 +27,13 @@ class _Electricity {
 
   const _Electricity(this.box);
 
-  bool get autoRefresh => box.get(_ElectricityK.autoRefresh) ?? _kElectricityAutoRefresh;
+  bool get autoRefresh => box.safeGet(_ElectricityK.autoRefresh) ?? _kElectricityAutoRefresh;
 
-  set autoRefresh(bool foo) => box.put(_ElectricityK.autoRefresh, foo);
+  set autoRefresh(bool foo) => box.safePut(_ElectricityK.autoRefresh, foo);
 
-  String? get selectedRoom => box.get(_ElectricityK.selectedRoom);
+  String? get selectedRoom => box.safeGet(_ElectricityK.selectedRoom);
 
-  set selectedRoom(String? newV) => box.put(_ElectricityK.selectedRoom, newV);
+  set selectedRoom(String? newV) => box.safePut(_ElectricityK.selectedRoom, newV);
 
   ValueListenable listenSelectedRoom() => box.listenable(keys: [_ElectricityK.selectedRoom]);
 }
@@ -48,7 +48,7 @@ class _ExpenseRecords {
 
   const _ExpenseRecords(this.box);
 
-  bool get autoRefresh => box.get(_ExpenseK.autoRefresh) ?? _kExpenseRecordsAutoRefresh;
+  bool get autoRefresh => box.safeGet(_ExpenseK.autoRefresh) ?? _kExpenseRecordsAutoRefresh;
 
-  set autoRefresh(bool foo) => box.put(_ExpenseK.autoRefresh, foo);
+  set autoRefresh(bool foo) => box.safePut(_ExpenseK.autoRefresh, foo);
 }

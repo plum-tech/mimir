@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:sit/utils/hive.dart';
 import 'package:sit/storage/hive/init.dart';
 
 class _K {
@@ -13,14 +14,14 @@ class LibraryBrowseStorage {
   const LibraryBrowseStorage();
 
   /// a list of book ID
-  List<String>? getBrowseHistory() => (box.get(_K.browseHistory) as List<dynamic>?)?.cast<String>();
+  List<String>? getBrowseHistory() => (box.safeGet(_K.browseHistory) as List<dynamic>?)?.cast<String>();
 
   /// a list of book ID
-  Future<void> setBrowseHistory(String bookId, List<String>? value) => box.put(_K.browseHistory, value);
+  Future<void> setBrowseHistory(String bookId, List<String>? value) => box.safePut(_K.browseHistory, value);
 
   /// a list of book ID
-  List<String>? getFavorite() => (box.get(_K.favorite) as List<dynamic>?)?.cast<String>();
+  List<String>? getFavorite() => (box.safeGet(_K.favorite) as List<dynamic>?)?.cast<String>();
 
   /// a list of book ID
-  Future<void> setFavorite(String bookId, List<String>? value) => box.put(_K.favorite, value);
+  Future<void> setFavorite(String bookId, List<String>? value) => box.safePut(_K.favorite, value);
 }

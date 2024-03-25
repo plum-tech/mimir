@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:sit/storage/hive/init.dart';
+import 'package:sit/utils/hive.dart';
 
 import '../entity/image.dart';
 
@@ -14,7 +15,7 @@ class LibraryImageStorage {
 
   const LibraryImageStorage();
 
-  BookImage? getImage(String isbn) => box.get(_K.image(isbn));
+  BookImage? getImage(String isbn) => box.safeGet(_K.image(isbn));
 
-  Future<void> setImage(String isbn, BookImage? value) => box.put(_K.image(isbn), value);
+  Future<void> setImage(String isbn, BookImage? value) => box.safePut(_K.image(isbn), value);
 }

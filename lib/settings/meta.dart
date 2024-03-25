@@ -1,3 +1,4 @@
+import 'package:sit/utils/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class _K {
@@ -13,11 +14,11 @@ class MetaImpl {
 
   const MetaImpl(this.box);
 
-  DateTime? get lastLaunchTime => box.get(_K.lastLaunchTime);
+  DateTime? get lastLaunchTime => box.safeGet(_K.lastLaunchTime);
 
-  set lastLaunchTime(DateTime? newV) => box.put(_K.lastLaunchTime, newV);
+  set lastLaunchTime(DateTime? newV) => box.safePut(_K.lastLaunchTime, newV);
 
-  DateTime? get thisLaunchTime => box.get(_K.thisLaunchTime);
+  DateTime? get thisLaunchTime => box.safeGet(_K.thisLaunchTime);
 
-  set thisLaunchTime(DateTime? newV) => box.put(_K.thisLaunchTime, newV);
+  set thisLaunchTime(DateTime? newV) => box.safePut(_K.thisLaunchTime, newV);
 }

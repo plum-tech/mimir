@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sit/utils/hive.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/utils/collection.dart';
 import 'package:sit/utils/json.dart';
@@ -16,14 +17,14 @@ class LibrarySearchStorage {
 
   const LibrarySearchStorage();
 
-  LibraryTrends? getTrends() => decodeJsonObject(box.get(_K.trends), (obj) => LibraryTrends.fromJson(obj));
+  LibraryTrends? getTrends() => decodeJsonObject(box.safeGet(_K.trends), (obj) => LibraryTrends.fromJson(obj));
 
-  Future<void> setTrends(LibraryTrends value) => box.put(_K.trends, encodeJsonObject(value));
+  Future<void> setTrends(LibraryTrends value) => box.safePut(_K.trends, encodeJsonObject(value));
 
   List<SearchHistoryItem>? getSearchHistory() =>
-      decodeJsonList(box.get(_K.searchHistory), (obj) => SearchHistoryItem.fromJson(obj));
+      decodeJsonList(box.safeGet(_K.searchHistory), (obj) => SearchHistoryItem.fromJson(obj));
 
-  Future<void> setSearchHistory(List<SearchHistoryItem>? value) => box.put(_K.searchHistory, encodeJsonList(value));
+  Future<void> setSearchHistory(List<SearchHistoryItem>? value) => box.safePut(_K.searchHistory, encodeJsonList(value));
 
   ValueListenable<Box> listenSearchHistory() => box.listenable(keys: [_K.searchHistory]);
 }

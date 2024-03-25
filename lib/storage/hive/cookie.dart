@@ -1,3 +1,4 @@
+import 'package:sit/utils/hive.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:hive/hive.dart';
 
@@ -10,10 +11,10 @@ class HiveCookieJar implements Storage {
   Future<void> init(bool persistSession, bool ignoreExpires) async {}
 
   @override
-  Future<void> write(String key, String value) async => box.put(key, value);
+  Future<void> write(String key, String value) async => box.safePut(key, value);
 
   @override
-  Future<String?> read(String key) async => box.get(key);
+  Future<String?> read(String key) async => box.safeGet(key);
 
   @override
   Future<void> delete(String key) async => box.delete(key);
