@@ -1,4 +1,4 @@
-name: Flutter Build
+name: 1.Flutter Build
 
 on: workflow_dispatch
 permissions: write-all
@@ -85,12 +85,6 @@ jobs:
           restore-keys: |
             build-apk
 
-      - name: Publish Android Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: SITLife-Android-release
-          path: build/app/outputs/flutter-apk/publish/1-SITLife-release-signed.apk
-
   build_ios:
     runs-on: macos-latest
 
@@ -173,36 +167,20 @@ jobs:
         mkdir -p build-output/ios/publish/
         mv build-output/ios/life.mysit.SITLife.ipa build-output/ios/publish/2-SITLife-release.ipa
 
-    # Debug only
-    # - name: (Debug) Publish ipa file
+    # - name: Publish ipa file
     #   run: |
     #     touch build-output/ios/publish/.release
 
-    # - name: (Debug) Cache ipa
-    #   id: cache-ipa
-    #   uses: actions/cache@v4
-    #   with:
-    #     path: |
-    #       build-output/ios/
-    #     key: build-ipa
-    #     enableCrossOsArchive: true
-    #     restore-keys: |
-    #       build-ipa
-
-    # - name: (Debug) Publish iOS Artifact
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #     name: SITLife-iOS-release
-    #     path: build-output/ios/publish/2-SITLife-release.ipa
-
-    # Release
-    - name: Deploy to App Store (Testflight)
-      uses: apple-actions/upload-testflight-build@v1
+    - name: Cache ipa
+      id: cache-ipa
+      uses: actions/cache@v4
       with:
-        app-path: ${{ github.workspace }}/build-output/ios/publish/2-SITLife-release.ipa
-        issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-        api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-        api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
+        path: |
+          build-output/ios/
+        key: build-ipa
+        enableCrossOsArchive: true
+        restore-keys: |
+          build-ipa
 
   after_build:
     runs-on: ubuntu-latest
@@ -223,7 +201,6 @@ jobs:
         run: |
           git fetch --tags
           echo "RESOLVED_VERSION="$(git tag --sort=-v:refname | head -n 1) >> "$GITHUB_OUTPUT"
-          echo "PREVIOUS_TAG="$(git tag --sort=-v:refname | head -n 2 | tail -n 1) >> "$GITHUB_OUTPUT"
 
       - name: Restore cache builds (apk)
         id: cache-apk
@@ -248,24 +225,19 @@ jobs:
         env:
           RESOLVED_VERSION: ${{ steps.get_git_info.outputs.RESOLVED_VERSION }}
         run: |
-          if [ -f "build/app/outputs/flutter-apk/publish/1-SITLife-release-signed.apk" ]; then
-            mv build/app/outputs/flutter-apk/publish/1-SITLife-release-signed.apk build/app/outputs/flutter-apk/publish/SITLife-${{ env.RESOLVED_VERSION }}.apk
-          fi
-          if [ -f "build-output/ios/publish/2-SITLife-release.ipa" ]; then
-            mv build-output/ios/publish/2-SITLife-release.ipa build-output/ios/publish/SITLife-${{ env.RESOLVED_VERSION }}.ipa
-          fi
-
           if [ ! -f "build/app/outputs/flutter-apk/publish/.release" ]; then
-            rm -rf build/app/outputs/flutter-apk/publish/SITLife-${{ env.RESOLVED_VERSION }}.apk
-            echo "APK_SHA256=" >> "$GITHUB_OUTPUT"
-          else
-            echo "APK_SHA256=- \`SITLife-${{ env.RESOLVED_VERSION }}.apk\`: "$(sha256sum build/app/outputs/flutter-apk/publish/SITLife-${{ env.RESOLVED_VERSION }}.apk | awk '{print $1}') >> "$GITHUB_OUTPUT"
+            rm -rf build/app/outputs/flutter-apk/publish/1-SITLife-release-signed.apk
           fi
           if [ ! -f "build-output/ios/publish/.release" ]; then
-            rm -rf build-output/ios/publish/SITLife-${{ env.RESOLVED_VERSION }}.ipa
-            echo "IPA_SHA256=" >> "$GITHUB_OUTPUT"
-          else
-            echo "IPA_SHA256=- \`SITLife-${{ env.RESOLVED_VERSION }}.ipa\`: "$(sha256sum build-output/ios/publish/SITLife-${{ env.RESOLVED_VERSION }}.ipa | awk '{print $1}') >> "$GITHUB_OUTPUT"
+            rm -rf build-output/ios/publish/2-SITLife-release.ipa
+          fi
+
+          mkdir build/upload-artifacts/
+          if [ -f "build/app/outputs/flutter-apk/publish/1-SITLife-release-signed.apk" ]; then
+            mv build/app/outputs/flutter-apk/publish/1-SITLife-release-signed.apk build/upload-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.apk
+          fi
+          if [ -f "build-output/ios/publish/2-SITLife-release.ipa" ]; then
+            mv build-output/ios/publish/2-SITLife-release.ipa build/upload-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.ipa
           fi
 
       - name: Push changes
@@ -273,49 +245,28 @@ jobs:
         with:
           branch: ${{ github.ref }}
 
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        env:
-            RESOLVED_VERSION: ${{ steps.get_git_info.outputs.RESOLVED_VERSION }}
-            PREVIOUS_TAG: ${{ steps.get_git_info.outputs.PREVIOUS_TAG }}
+      # Android
+      - name: Publish Android Artifact
+        uses: actions/upload-artifact@v4
         with:
-          files: |
-            build/app/outputs/flutter-apk/publish/SITLife-${{ env.RESOLVED_VERSION }}.apk
-            build-output/ios/publish/SITLife-${{ env.RESOLVED_VERSION }}.ipa
-          tag_name: ${{ env.RESOLVED_VERSION }}
-          body: |
-              ## Changes
-              ### Features
-                - Foo
-              ### Bug fixes
-                - Bar
+          name: SITLife-Android-release
+          path: build/upload-artifacts/SITLife-${{ steps.get_git_info.outputs.RESOLVED_VERSION }}.apk
 
-              ## 更改
-              ### 新功能
-                - Foo
-              ### Bug 修复
-                - Bar
+      # iOS
+      - name: Publish iOS Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SITLife-iOS-release
+          path: build/upload-artifacts/SITLife-${{ steps.get_git_info.outputs.RESOLVED_VERSION }}.ipa
 
-              ## How to download
-                <!-- Android:main -->
-                <!-- - `Android`: Click the .apk files below.-->
-                <!-- iOS:main -->
-                <!-- - `iOS`: [Download on the App Store](https://apps.apple.com/cn/app/id6468989112).-->
-                <!-- iOS:TestFlight -->
-                <!-- - `iOS`: [Join the Test Flight](https://testflight.apple.com/join/ecafeulK).-->
-                <!-- iOS:Debug -->
-                <!-- - `iOS`: Click the .ipa files below.-->
-
-                - `Android`: Click the .apk files below.
-                - `iOS`: [Join the Test Flight](https://testflight.apple.com/join/ecafeulK).
-
-              ## Checksum (sha256)
-              ${{ steps.builds.outputs.APK_SHA256 }}
-              ${{ steps.builds.outputs.IPA_SHA256 }}
-
-              Full Changelog: https://github.com/${{ github.repository }}/compare/${{ env.PREVIOUS_TAG }}...${{ env.RESOLVED_VERSION }}
-          draft: true
-          prerelease: false
+      - name: Deploy to App Store (TestFlight)
+        if: github.repository == 'liplum-dev/mimir'
+        uses: apple-actions/upload-testflight-build@v1
+        with:
+          app-path: ${{ github.workspace }}/build-output/ios/publish/SITLife-${{ steps.get_git_info.outputs.RESOLVED_VERSION }}.ipa
+          issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
 
       - name: Delete cache builds (apk)
         if: steps.cache-apk.outputs.cache-hit == 'true'
