@@ -98,11 +98,13 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     } else {
       final renderImageFile = this.renderImageFile;
       if (renderImageFile == null) return;
-      await copyCompressedImageToTarget(source: renderImageFile, target: Files.timetable.backgroundFile.path);
       Settings.timetable.backgroundImage = background;
-      await img.evict();
-      if (!mounted) return;
-      await precacheImage(img, context);
+      if (renderImageFile.path != Files.timetable.backgroundFile.path) {
+        await copyCompressedImageToTarget(source: renderImageFile, target: Files.timetable.backgroundFile.path);
+        await img.evict();
+        if (!mounted) return;
+        await precacheImage(img, context);
+      }
       if (!mounted) return;
       context.pop(background);
     }
@@ -112,6 +114,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     required File source,
     required String target,
   }) async {
+    if (source.path == target) return;
     if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
       FlutterImageCompress.validator.ignoreCheckExtName = true;
       await FlutterImageCompress.compressAndGetFile(
