@@ -22,15 +22,7 @@ class UpdateService {
 
   const UpdateService();
 
-  Future<ArtifactVersionInfo?> getLatestVersionInfo() async {
-    if (R.debugCupertino || UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
-      return await _getLatestVersionFromAppStore();
-    } else {
-      return await _getLatestVersionFromOfficial();
-    }
-  }
-
-  Future<ArtifactVersionInfo> _getLatestVersionFromOfficial() async {
+  Future<ArtifactVersionInfo> getLatestVersionFromOfficial() async {
     late Response res;
     try {
       res = await _session.get(
@@ -46,8 +38,8 @@ class UpdateService {
     return ArtifactVersionInfo.fromJson(json);
   }
 
-  Future<ArtifactVersionInfo?> _getLatestVersionFromAppStore() async {
-    final official = await _getLatestVersionFromOfficial();
+  Future<ArtifactVersionInfo?> getLatestVersionFromAppStore() async {
+    final official = await getLatestVersionFromOfficial();
     final packageInfo = await PackageInfo.fromPlatform();
     final version = await _getVersionFromItunes(
       UniversalPlatform.isIOS || UniversalPlatform.isMacOS ? packageInfo.packageName : "life.mysit.SITLife",

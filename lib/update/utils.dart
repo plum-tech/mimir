@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/r.dart';
@@ -17,10 +18,13 @@ Future<void> checkAppUpdate({
   Duration delayAtLeast = Duration.zero,
   required bool manually,
 }) async {
-  if (UniversalPlatform.isIOS || UniversalPlatform.isMacOS) return;
+  if (kIsWeb) return;
+  final service = UpdateInit.service;
   try {
     final (latest, _) = await (
-      UpdateInit.service.getLatestVersionInfo(),
+      UniversalPlatform.isIOS || UniversalPlatform.isMacOS
+          ? service.getLatestVersionFromAppStore()
+          : service.getLatestVersionFromOfficial(),
       Future.delayed(delayAtLeast),
     ).wait;
     if (latest == null) return;

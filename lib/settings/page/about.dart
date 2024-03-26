@@ -125,14 +125,11 @@ class _VersionTileState extends State<VersionTile> {
       },
       title: i18n.about.version.text(),
       subtitle: "${version.platform.name} ${version.version.toString()}".text(),
-      trailing: UniversalPlatform.isIOS || UniversalPlatform.isMacOS || kIsWeb
+      trailing: kIsWeb
           ? null
           : OutlinedButton(
               onPressed: () async {
-                await checkAppUpdate(
-                  context: context,
-                  manually: true,
-                );
+                await checkAppUpdate(context: context, manually: true);
               },
               child: i18n.about.checkUpdate.text(),
             ),
