@@ -8,6 +8,8 @@ T? decodeJsonObject<T>(dynamic json, T Function(dynamic obj) transform) {
     if (json is String) {
       final obj = jsonDecode(json);
       return transform(obj);
+    } else if (json is Map) {
+      return transform(json.cast<String, dynamic>());
     } else {
       return transform(json);
     }
@@ -28,11 +30,16 @@ String? encodeJsonObject<T>(T? obj, [dynamic Function(T obj)? transform]) {
   }
 }
 
-List<T>? decodeJsonList<T>(String? json, T Function(dynamic element) transform) {
+List<T>? decodeJsonList<T>(dynamic json, T Function(dynamic element) transform) {
   if (json == null) return null;
   try {
-    final list = jsonDecode(json) as List;
-    return list.map(transform).toList();
+    if (json is String) {
+      final list = jsonDecode(json) as List;
+      return list.map(transform).toList();
+    } else {
+      final list = jsonDecode(json) as List;
+      return list.map(transform).toList();
+    }
   } catch (_) {
     debugPrint("Failed to decode $json");
     return null;

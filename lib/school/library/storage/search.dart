@@ -17,12 +17,12 @@ class LibrarySearchStorage {
 
   const LibrarySearchStorage();
 
-  LibraryTrends? getTrends() => decodeJsonObject(box.safeGet(_K.trends), (obj) => LibraryTrends.fromJson(obj));
+  LibraryTrends? getTrends() => decodeJsonObject(box.safeGet<String>(_K.trends), (obj) => LibraryTrends.fromJson(obj));
 
   Future<void> setTrends(LibraryTrends value) => box.safePut(_K.trends, encodeJsonObject(value));
 
   List<SearchHistoryItem>? getSearchHistory() =>
-      decodeJsonList(box.safeGet(_K.searchHistory), (obj) => SearchHistoryItem.fromJson(obj));
+      decodeJsonList(box.safeGet<String>(_K.searchHistory), (obj) => SearchHistoryItem.fromJson(obj));
 
   Future<void> setSearchHistory(List<SearchHistoryItem>? value) => box.safePut(_K.searchHistory, encodeJsonList(value));
 
