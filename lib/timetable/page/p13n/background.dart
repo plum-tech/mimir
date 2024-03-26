@@ -13,6 +13,7 @@ import 'package:sit/files.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/background.dart';
+import 'package:sit/widgets/modal_image_view.dart';
 import 'package:universal_platform/universal_platform.dart';
 import "../../i18n.dart";
 
@@ -157,7 +158,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
       FilledButton.icon(
         onPressed: pickImage,
         icon: Icon(PlatformIcons(context).edit),
-        label: "Choose".text(),
+        label: i18n.choose.text(),
       ),
       OutlinedButton.icon(
         onPressed: renderImageFile == null
@@ -169,7 +170,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
                 });
               },
         icon: Icon(PlatformIcons(context).delete),
-        label: "Delete".text(),
+        label: i18n.delete.text(),
       ),
     ].row(maa: MainAxisAlignment.spaceEvenly);
   }
@@ -185,7 +186,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     final renderImageFile = this.renderImageFile;
     final height = context.mediaQuery.size.height / 3;
     if (renderImageFile != null) {
-      return InteractiveViewer(
+      return ModalImageViewer(
         child: Image.file(
           renderImageFile,
           opacity: $opacity,
