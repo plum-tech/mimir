@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/l10n/common.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/widgets/modal_image_view.dart';
 
 const _i18n = CommonI18n();
 
@@ -107,10 +108,7 @@ class _ImageViewState extends State<ImageView> {
     } else {
       provider = null;
     }
-    // TODO: zoom overlay
-    return InteractiveViewer(
-      minScale: 1,
-      maxScale: 10.0,
+    return ModalImageViewer(
       child: provider == null ? buildBrokenImage() : buildImage(provider),
     );
   }

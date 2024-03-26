@@ -39,7 +39,7 @@ class ModalImageViewer extends StatelessWidget {
   }
 }
 
-class FullScreenViewer extends StatefulWidget {
+class FullScreenViewer extends StatelessWidget {
   const FullScreenViewer({
     super.key,
     required this.child,
@@ -52,16 +52,11 @@ class FullScreenViewer extends StatefulWidget {
   final UniqueKey tag;
 
   @override
-  State<FullScreenViewer> createState() => _FullScreenViewerState();
-}
-
-class _FullScreenViewerState extends State<FullScreenViewer> {
-  @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: widget.tag,
+      tag: tag,
       child: Scaffold(
-        backgroundColor: widget.backgroundColor,
+        backgroundColor: backgroundColor,
         body: Stack(
           children: <Widget>[
             Positioned.fill(
@@ -70,11 +65,10 @@ class _FullScreenViewerState extends State<FullScreenViewer> {
                   Navigator.of(context).pop();
                 },
                 child: InteractiveViewer(
-                  constrained: true,
                   maxScale: 5,
                   minScale: 0.5,
                   boundaryMargin: const EdgeInsets.all(double.infinity),
-                  child: widget.child,
+                  child: child,
                 ),
               ),
             ),
