@@ -712,6 +712,7 @@ update:
   newVersionAvailable: 有新版本可用！
   notNow: 再等等
   skipThisVersion: 跳过这个版本
+  openAppStore: 打开 App Store
 weekday:
   0: 周一
   1: 周二

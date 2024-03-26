@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sit/files.dart';
 import 'package:sit/init.dart';
+import 'package:sit/r.dart';
 import 'package:sit/session/backend.dart';
 import 'package:sit/utils/error.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -22,7 +23,7 @@ class UpdateService {
   const UpdateService();
 
   Future<ArtifactVersionInfo?> getLatestVersionInfo() async {
-    if (UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
+    if (R.debugCupertino || UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
       return await _getLatestVersionFromAppStore();
     } else {
       return await _getLatestVersionFromOfficial();

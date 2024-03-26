@@ -20,7 +20,7 @@ class R {
   static late AppMeta currentVersion;
 
   /// For debugging iOS on other platforms.
-  static const debugCupertino = kDebugMode ? false : false;
+  static const debugCupertino = kDebugMode ? true : false;
 
   /// The default window size is small enough for any modern desktop device.
   static const Size defaultWindowSize = Size(500, 800);
@@ -31,6 +31,8 @@ class R {
   static const eduEmailDomain = "mail.sit.edu.cn";
   static const demoModeOaAccount = "2300421153";
   static const demoModeOaPassword = "liplum-sit-life";
+  static const iosAppId = "6468989112";
+  static const iosAppStoreUrl = "https://apps.apple.com/cn/app/$iosAppId";
 
   static String formatEduEmail({required String username}) {
     return "$username@$eduEmailDomain";

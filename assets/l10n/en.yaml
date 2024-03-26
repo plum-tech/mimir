@@ -712,6 +712,7 @@ update:
   newVersionAvailable: New version available!
   notNow: Not Now
   skipThisVersion: Skip this version
+  openAppStore: Open App Store
 weekday:
   0: Monday
   1: Tuesday
