@@ -20,9 +20,10 @@ Future<void> checkAppUpdate({
   if (UniversalPlatform.isIOS || UniversalPlatform.isMacOS) return;
   try {
     final (latest, _) = await (
-      UpdateInit.service.getLatestVersion(),
+      UpdateInit.service.getLatestVersionInfo(),
       Future.delayed(delayAtLeast),
     ).wait;
+    if (latest == null) return;
     debugPrint(latest.toString());
     if (Dev.on && manually) {
       if (!context.mounted) return;
