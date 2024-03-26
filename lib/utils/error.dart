@@ -30,10 +30,11 @@ void debugPrintError(Object? error, [StackTrace? stackTrace]) {
 
 const _i18n = CommonLoginI18n();
 
-void handleRequestError(BuildContext context, Object? error, [StackTrace? stackTrace]) {
+Future<void> handleRequestError(BuildContext context, Object? error, [StackTrace? stackTrace]) async {
   debugPrintError(error, stackTrace);
   if (error is CredentialsException) {
-    context.showTip(
+    if (!context.mounted) return;
+    await context.showTip(
       serious: true,
       title: _i18n.failedWarn,
       desc: error.type.l10n(),

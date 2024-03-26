@@ -713,6 +713,9 @@ update:
   notNow: Not Now
   skipThisVersion: Skip this version
   openAppStore: Open App Store
+  installOnAppStoreInsteadTip: |
+    SIT Life has published on App Store.
+    To get the best experience, please consider to install it on App Store instead.
 weekday:
   0: Monday
   1: Tuesday

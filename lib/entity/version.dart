@@ -16,6 +16,10 @@ enum AppPlatform {
   const AppPlatform(this.name);
 }
 
+class InstallerStore {
+  static const testFlight = "com.apple.testflight";
+}
+
 class AppMeta {
   final AppPlatform platform;
   final Version version;
@@ -30,6 +34,8 @@ class AppMeta {
   final String buildSignature;
 
   /// The installer store. Indicates through which store this application was installed.
+  /// For example:
+  /// com.apple.testflight
   final String? installerStore;
 
   const AppMeta({
