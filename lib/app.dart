@@ -53,6 +53,7 @@ class _MimirAppState extends State<MimirApp> {
 
   @override
   void didChangeDependencies() {
+    // precache timetable background file
     if (Settings.timetable.backgroundImage?.enabled == true) {
       precacheImage(FileImage(Files.timetable.backgroundFile), context);
     }

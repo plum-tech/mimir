@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/life/expense_records/storage/local.dart';
@@ -88,7 +89,7 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
         actions: [
           IconButton(
             tooltip: i18n.delete,
-            icon: const Icon(Icons.delete_outlined),
+            icon: Icon(PlatformIcons(context).delete),
             onPressed: () async {
               ExpenseRecordsInit.storage.clearIndex();
               await HapticFeedback.heavyImpact();

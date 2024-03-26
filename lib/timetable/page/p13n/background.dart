@@ -1,16 +1,19 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/files.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/background.dart';
+import 'package:universal_platform/universal_platform.dart';
 import "../../i18n.dart";
 
 class TimetableBackgroundEditor extends StatefulWidget {
@@ -21,13 +24,26 @@ class TimetableBackgroundEditor extends StatefulWidget {
 }
 
 class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> with SingleTickerProviderStateMixin {
-  var background = Settings.timetable.backgroundImage ?? const BackgroundImage.disabled();
+  String? rawPath;
+  File? renderImageFile;
+  double opacity = 1.0;
+  bool repeat = true;
+  bool antialias = true;
   late final AnimationController $opacity;
+
+  _TimetableBackgroundEditorState() {
+    final bk = Settings.timetable.backgroundImage;
+    rawPath = bk?.path;
+    renderImageFile = bk?.path == null ? null : Files.timetable.backgroundFile;
+    opacity = bk?.opacity ?? 1.0;
+    repeat = bk?.repeat ?? true;
+    antialias = bk?.antialias ?? true;
+  }
 
   @override
   void initState() {
     super.initState();
-    $opacity = AnimationController(vsync: this, value: background.opacity);
+    $opacity = AnimationController(vsync: this, value: opacity);
   }
 
   @override
@@ -38,73 +54,72 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
 
   @override
   Widget build(BuildContext context) {
-    final old = Settings.timetable.backgroundImage ?? const BackgroundImage.disabled();
-    final background = this.background;
+    final rawPath = this.rawPath;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
             title: i18n.p13n.background.title.text(),
             actions: [
-              if (background.enabled)
-                PlatformTextButton(
-                  onPressed: () async {
-                    setState(() {
-                      this.background = background.copyWith(path: "");
-                    });
-                  },
-                  child: i18n.delete.text(style: TextStyle(color: context.$red$)),
-                ),
-              if (background != old)
-                PlatformTextButton(
-                  child: i18n.save.text(),
-                  onPressed: () async {
-                    if (background.enabled) {
-                      final backgroundFi = await File(background.path).copy(Files.timetable.backgroundFile.path);
-                      await FileImage(backgroundFi).evict();
-                    }
-                    Settings.timetable.backgroundImage = background;
-                    if (!context.mounted) return;
-                    context.pop(background);
-                  },
-                ),
+              PlatformTextButton(
+                onPressed: buildBackgroundImage() == Settings.timetable.backgroundImage ? null : onSave,
+                child: i18n.save.text(),
+              ),
             ],
           ),
           SliverList.list(children: [
-            buildImage(background),
-            buildOpacity(background),
-            buildRepeat(background),
-            buildAntialias(background),
+            buildImage().padH(10),
+            buildToolBar().padV(4),
+            if (Dev.on && rawPath != null)
+              ListTile(
+                title: "Selected image".text(),
+                subtitle: rawPath.text(),
+              ),
+            buildOpacity(),
+            buildRepeat(),
+            buildAntialias(),
           ]),
         ],
       ),
     );
   }
 
-  Widget buildImage(BackgroundImage bk) {
-    return OutlinedCard(
-      clip: Clip.hardEdge,
-      child: buildPreviewBoxContent(bk).inkWell(
-        onTap: pickImage,
-      ),
-    ).padH(10);
+  Future<void> onSave() async {
+    final background = buildBackgroundImage();
+    final img = FileImage(Files.timetable.backgroundFile);
+    if (background == null) {
+      if (await Files.timetable.backgroundFile.exists()) {
+        await Files.timetable.backgroundFile.delete();
+      }
+      await img.evict();
+      Settings.timetable.backgroundImage = null;
+      if (!mounted) return;
+      context.pop(null);
+    } else {
+      final renderImageFile = this.renderImageFile;
+      if (renderImageFile == null) return;
+      await copyCompressedImageToTarget(source: renderImageFile, target: Files.timetable.backgroundFile.path);
+      Settings.timetable.backgroundImage = background;
+      await img.evict();
+      if (!mounted) return;
+      await precacheImage(img, context);
+      if (!mounted) return;
+      context.pop(background);
+    }
   }
 
-  Widget buildPreviewBoxContent(BackgroundImage bk) {
-    if (background.enabled) {
-      return InteractiveViewer(
-        child: Image.file(
-          File(bk.path),
-          opacity: $opacity,
-          height: context.mediaQuery.size.height / 3,
-          filterQuality: bk.antialias ? FilterQuality.low : FilterQuality.none,
-        ),
+  Future<void> copyCompressedImageToTarget({
+    required File source,
+    required String target,
+  }) async {
+    if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
+      FlutterImageCompress.validator.ignoreCheckExtName = true;
+      await FlutterImageCompress.compressAndGetFile(
+        source.path,
+        target,
       );
     } else {
-      return LeavingBlank(
-        icon: Icons.add_photo_alternate_outlined,
-        desc: i18n.p13n.background.pickTip,
-      );
+      source.copy(target);
     }
   }
 
@@ -113,31 +128,89 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     final XFile? fi = await picker.pickImage(
       source: ImageSource.gallery,
       requestFullMetadata: false,
-      // TODO: imageQuality: 100,
     );
     if (fi == null) return;
-    final newBk = background.copyWith(path: fi.path);
     if (!mounted) return;
     setState(() {
-      background = newBk;
+      rawPath = fi.path;
+      renderImageFile = File(fi.path);
     });
-    setOpacity(newBk.opacity);
+    setOpacity(opacity);
   }
 
-  void setOpacity(double newValue) {
-    final background = this.background;
-    if ((background.opacity - newValue).abs() > 0.1) {
-      $opacity.animateTo(
-        newValue,
-        duration: const Duration(milliseconds: 300),
+  BackgroundImage? buildBackgroundImage() {
+    final path = rawPath;
+    if (path == null) return null;
+    return BackgroundImage(
+      path: path,
+      opacity: opacity,
+      repeat: repeat,
+      antialias: antialias,
+    );
+  }
+
+  Widget buildToolBar() {
+    return [
+      FilledButton.icon(
+        onPressed: pickImage,
+        icon: Icon(PlatformIcons(context).edit),
+        label: "Choose".text(),
+      ),
+      OutlinedButton.icon(
+        onPressed: renderImageFile == null
+            ? null
+            : () {
+                setState(() {
+                  rawPath = null;
+                  renderImageFile = null;
+                });
+              },
+        icon: Icon(PlatformIcons(context).delete),
+        label: "Delete".text(),
+      ),
+    ].row(maa: MainAxisAlignment.spaceEvenly);
+  }
+
+  Widget buildImage() {
+    return OutlinedCard(
+      clip: Clip.hardEdge,
+      child: buildPreviewBoxContent(),
+    );
+  }
+
+  Widget buildPreviewBoxContent() {
+    final renderImageFile = this.renderImageFile;
+    final height = context.mediaQuery.size.height / 3;
+    if (renderImageFile != null) {
+      return InteractiveViewer(
+        child: Image.file(
+          renderImageFile,
+          opacity: $opacity,
+          height: height,
+          filterQuality: antialias ? FilterQuality.low : FilterQuality.none,
+        ),
       );
     } else {
-      $opacity.value = newValue;
+      return LeavingBlank(
+        icon: Icons.add_photo_alternate_outlined,
+        desc: i18n.p13n.background.pickTip,
+        onIconTap: renderImageFile == null ? pickImage : null,
+      ).sized(h: height);
     }
   }
 
-  Widget buildOpacity(BackgroundImage bk) {
-    final value = bk.opacity;
+  void setOpacity(double newValue) {
+    setState(() {
+      opacity = newValue;
+    });
+    $opacity.animateTo(
+      newValue,
+      duration: Durations.short3,
+    );
+  }
+
+  Widget buildOpacity() {
+    final value = opacity;
     return ListTile(
       isThreeLine: true,
       leading: const Icon(Icons.invert_colors),
@@ -147,44 +220,41 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
         min: 0.0,
         max: 1.0,
         divisions: 255,
-        label: (value * 255).toInt().toString(),
+        label: "${(value * 100).toInt()}%",
         value: value,
         onChanged: (double value) {
-          setState(() {
-            background = bk.copyWith(opacity: value);
-          });
           setOpacity(value);
         },
       ),
     );
   }
 
-  Widget buildRepeat(BackgroundImage bk) {
+  Widget buildRepeat() {
     return ListTile(
       leading: const Icon(Icons.repeat),
       title: i18n.p13n.background.repeat.text(),
       subtitle: i18n.p13n.background.repeatDesc.text(),
       trailing: Switch.adaptive(
-        value: bk.repeat,
+        value: repeat,
         onChanged: (newV) {
           setState(() {
-            background = bk.copyWith(repeat: newV);
+            repeat = newV;
           });
         },
       ),
     );
   }
 
-  Widget buildAntialias(BackgroundImage bk) {
+  Widget buildAntialias() {
     return ListTile(
       leading: const Icon(Icons.landscape),
       title: i18n.p13n.background.antialias.text(),
       subtitle: i18n.p13n.background.antialiasDesc.text(),
       trailing: Switch.adaptive(
-        value: bk.antialias,
+        value: antialias,
         onChanged: (newV) {
           setState(() {
-            background = bk.copyWith(antialias: newV);
+            antialias = newV;
           });
         },
       ),

@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:sit/design/adaptive/dialog.dart';
@@ -162,14 +162,14 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
           return Menu(
             children: [
               MenuAction(
-                image: MenuImage.icon(CupertinoIcons.share),
+                image: MenuImage.icon(PlatformIcons(context).share),
                 title: i18n.share,
                 callback: () async {
                   await shareBalance(balance: balance, selectedRoom: selectedRoom, context: ctx);
                 },
               ),
               MenuAction(
-                image: MenuImage.icon(CupertinoIcons.delete),
+                image: MenuImage.icon(PlatformIcons(context).delete),
                 title: i18n.delete,
                 attributes: const MenuActionAttributes(destructive: true),
                 activator: const SingleActivator(LogicalKeyboardKey.delete),

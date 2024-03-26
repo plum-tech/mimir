@@ -37,7 +37,7 @@ class TimetableFiles {
 
   File get screenshotFile => Files.screenshot.subFile("timetable.png");
 
-  File get backgroundFile => Files.user.subFile("timetable", "background.png");
+  File get backgroundFile => Files.user.subFile("timetable", "background.img");
 
   // on MIUI, OpenFile can't open file under `Files.user`
   Directory get calendarDir => (UniversalPlatform.isAndroid ? Files.cache : Files.user).subDir("timetable", "calendar");
