@@ -84,12 +84,12 @@ class _TimetableBackgroundState extends State<TimetableBackground> with SingleTi
   }
 
   @override
-  void didUpdateWidget(covariant TimetableBackground oldWidget) {
-    super.didUpdateWidget(oldWidget);
+  void didChangeDependencies() {
     $opacity.animateTo(
       widget.background.opacity,
       duration: Durations.medium1,
     );
+    super.didChangeDependencies();
   }
 
   @override
