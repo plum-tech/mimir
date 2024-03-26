@@ -9,9 +9,9 @@ import 'package:sit/settings/dev.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/entity/version.dart';
 import 'package:sit/update/utils.dart';
+import 'package:sit/utils/error.dart';
 import 'package:sit/utils/guard_launch.dart';
 import 'package:unicons/unicons.dart';
-import 'package:universal_platform/universal_platform.dart';
 import '../i18n.dart';
 
 class AboutSettingsPage extends StatefulWidget {
@@ -39,6 +39,11 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
           SliverList.list(
             children: [
               const VersionTile(),
+              if (Dev.on)
+                DetailListTile(
+                  title: "Installer Store",
+                  subtitle: R.currentVersion.installerStore,
+                ),
               DetailListTile(
                 title: i18n.about.icpLicense,
                 subtitle: R.icpLicense,
@@ -125,17 +130,7 @@ class _VersionTileState extends State<VersionTile> {
       },
       title: i18n.about.version.text(),
       subtitle: "${version.platform.name} ${version.version.toString()}".text(),
-      trailing: UniversalPlatform.isIOS || UniversalPlatform.isMacOS || kIsWeb
-          ? null
-          : OutlinedButton(
-              onPressed: () async {
-                await checkAppUpdate(
-                  context: context,
-                  manually: true,
-                );
-              },
-              child: i18n.about.checkUpdate.text(),
-            ),
+      trailing: kIsWeb ? null : const CheckUpdateButton(),
       onTap: Dev.on && clickCount <= 10
           ? null
           : () async {
@@ -148,6 +143,39 @@ class _VersionTileState extends State<VersionTile> {
                 await HapticFeedback.mediumImpact();
               }
             },
+    );
+  }
+}
+
+class CheckUpdateButton extends StatefulWidget {
+  const CheckUpdateButton({super.key});
+
+  @override
+  State<CheckUpdateButton> createState() => _CheckUpdateButtonState();
+}
+
+class _CheckUpdateButtonState extends State<CheckUpdateButton> {
+  var isChecking = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: isChecking
+          ? null
+          : () async {
+              setState(() {
+                isChecking = true;
+              });
+              try {
+                await checkAppUpdate(context: context, manually: true);
+              } catch (error, stackTrace) {
+                debugPrintError(error, stackTrace);
+              }
+              setState(() {
+                isChecking = false;
+              });
+            },
+      child: i18n.about.checkUpdate.text(),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/timetable/entity/background.dart';
@@ -24,16 +26,16 @@ class TimetableSettings {
 
   set autoUseImported(bool newV) => box.safePut(_K.autoUseImported, newV);
 
-  CourseCellStyle? get cellStyle => decodeJsonObject(box.safeGet(_K.cellStyle), (obj) => CourseCellStyle.fromJson(obj));
+  CourseCellStyle? get cellStyle => decodeJsonObject(box.safeGet<String>(_K.cellStyle), (obj) => CourseCellStyle.fromJson(obj));
 
   set cellStyle(CourseCellStyle? newV) => box.safePut(_K.cellStyle, encodeJsonObject(newV, (obj) => obj.toJson()));
 
   ValueListenable listenCellStyle() => box.listenable(keys: [_K.cellStyle]);
 
   BackgroundImage? get backgroundImage =>
-      decodeJsonObject(box.safeGet(_K.backgroundImage), (obj) => BackgroundImage.fromJson(obj));
+      decodeJsonObject(box.safeGet<String>(_K.backgroundImage), (obj) => BackgroundImage.fromJson(obj));
 
-  set backgroundImage(BackgroundImage? newV) => box.safePut(_K.backgroundImage, newV?.toJson());
+  set backgroundImage(BackgroundImage? newV) => box.safePut(_K.backgroundImage, jsonEncode(newV?.toJson()));
 
   ValueListenable listenBackgroundImage() => box.listenable(keys: [_K.backgroundImage]);
 }

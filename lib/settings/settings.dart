@@ -73,7 +73,7 @@ class _Theme {
 
   // theme
   Color? get themeColor {
-    final value = box.safeGet(_ThemeK.themeColor);
+    final value = box.safeGet<int>(_ThemeK.themeColor);
     if (value == null) {
       return null;
     } else {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sit/l10n/common.dart';
+import 'package:sit/utils/error.dart';
 import 'package:sit/widgets/webview/injectable.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
@@ -144,10 +145,14 @@ class _WebViewPageState extends State<WebViewPage> {
     final curTitle = widget.fixedTitle ?? title ?? const CommonI18n().untitled;
     return WillPopScope(
       onWillPop: () async {
-        final canGoBack = await controller.canGoBack();
-        if (canGoBack) await controller.goBack();
-        // 如果wv能后退就不能退出路由
-        return !canGoBack;
+        try {
+          final canGoBack = await controller.canGoBack();
+          if (canGoBack) await controller.goBack();
+          return !canGoBack;
+        } catch (error, stackTrack) {
+          debugPrintError(error, stackTrack);
+          return true;
+        }
       },
       child: Scaffold(
         appBar: AppBar(

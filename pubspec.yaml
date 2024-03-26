@@ -3,7 +3,7 @@ description: "A multiplatform app for SIT students."
 
 # The build version numbers is incremented automatically.
 # DO NOT DIRECTLY CHANGE IT
-version: 2.3.0+25
+version: 2.3.1+25
 
 homepage: https://github.com/liplum/mimir
 repository: https://github.com/liplum/mimir
@@ -38,6 +38,7 @@ dependencies:
   copy_with_extension: ^5.0.4
   freezed_annotation: ^2.4.1
   get_it: ^7.6.7
+  flutter_image_compress: ^2.2.0
 
   # Supporting scrolling screenshot on Android, like MIUI
   fit_system_screenshot: ^1.0.9

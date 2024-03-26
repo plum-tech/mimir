@@ -14,7 +14,11 @@ class _I18n with CommonI18nMixin {
 
   String get onLatestTip => "$ns.onLatestTip".tr();
 
+  String get installOnAppStoreInsteadTip => "$ns.installOnAppStoreInsteadTip".tr();
+
   String get notNow => "$ns.notNow".tr();
 
   String get skipThisVersion => "$ns.skipThisVersion".tr();
+
+  String get openAppStore => "$ns.openAppStore".tr();
 }

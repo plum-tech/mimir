@@ -17,7 +17,6 @@ import 'package:sit/settings/settings.dart';
 import 'package:sit/update/utils.dart';
 import 'package:sit/utils/color.dart';
 import 'package:system_theme/system_theme.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 class MimirApp extends StatefulWidget {
   const MimirApp({super.key});
@@ -54,6 +53,7 @@ class _MimirAppState extends State<MimirApp> {
 
   @override
   void didChangeDependencies() {
+    // precache timetable background file
     if (Settings.timetable.backgroundImage?.enabled == true) {
       precacheImage(FileImage(Files.timetable.backgroundFile), context);
     }
@@ -144,7 +144,7 @@ class _PostServiceRunnerState extends State<_PostServiceRunner> {
   @override
   void initState() {
     super.initState();
-    if (!(UniversalPlatform.isIOS || UniversalPlatform.isMacOS)) {
+    if (!kIsWeb) {
       Future.delayed(Duration.zero).then((value) async {
         await checkAppUpdate(
           context: $Key.currentContext!,

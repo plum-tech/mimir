@@ -712,6 +712,10 @@ update:
   newVersionAvailable: 新版本可用！
   notNow: 現在不行
   skipThisVersion: 跳過這個版本
+  openAppStore: 打開 App Store
+  installOnAppStoreInsteadTip: |
+    小應生活已經發布在 App Store 上。
+    為獲得更好的體驗，請考慮在 App Store 上安裝。
 weekday:
   0: 週一
   1: 週二
@@ -805,3 +809,4 @@ duplicate: 創建副本
 copyTip: "{} 被複製到剪貼板了"
 done: 完成
 openInBrowser: 在瀏覽器中開啟
+choose: 挑選

@@ -31,6 +31,8 @@ class R {
   static const eduEmailDomain = "mail.sit.edu.cn";
   static const demoModeOaAccount = "2300421153";
   static const demoModeOaPassword = "liplum-sit-life";
+  static const iosAppId = "6468989112";
+  static const iosAppStoreUrl = "https://apps.apple.com/cn/app/$iosAppId";
 
   static String formatEduEmail({required String username}) {
     return "$username@$eduEmailDomain";

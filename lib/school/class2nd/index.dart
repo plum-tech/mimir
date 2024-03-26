@@ -72,8 +72,8 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
         context.showSnackBar(content: i18n.refreshSuccessTip.text());
       }
     } catch (error, stackTrace) {
-      if (!mounted) return;
       handleRequestError(context, error, stackTrace);
+      if (!mounted) return;
       if (active) {
         context.showSnackBar(content: i18n.refreshFailedTip.text());
       }

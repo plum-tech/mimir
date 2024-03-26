@@ -169,7 +169,6 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
         ok: i18n.ok,
       );
     } catch (error, stackTrace) {
-      if (!mounted) return;
       handleRequestError(context, error, stackTrace);
     }
   }
@@ -192,7 +191,6 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
         ok: i18n.ok,
       );
     } catch (error, stackTrace) {
-      if (!mounted) return;
       handleRequestError(context, error, stackTrace);
     }
   }

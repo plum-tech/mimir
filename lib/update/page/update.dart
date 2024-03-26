@@ -32,16 +32,15 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
       body: [
         [
           const Spacer(),
-          Expanded(
-            flex: 5,
-            child: i18n.newVersionAvailable.text(
-              textAlign: TextAlign.center,
-              style: context.textTheme.headlineLarge?.copyWith(
-                fontWeight: FontWeight.w700,
-                letterSpacing: -1,
-              ),
-            ),
-          ),
+          i18n.newVersionAvailable
+              .text(
+                textAlign: TextAlign.center,
+                style: context.textTheme.headlineLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -1,
+                ),
+              )
+              .expanded(flex: 5),
           const Spacer(),
         ].row().padV(32),
         [
@@ -53,31 +52,52 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
         ].column().padH(8).expanded(),
         buildSkipTile().padH(32),
         [
-          OutlinedButton(
-            onPressed: () {
-              if (ignore) {
-                Settings.skippedVersion = info.version.toString();
-              }
-              context.pop();
-            },
-            child: i18n.notNow.text(),
-          ).padOnly(r: 8).expanded(),
-          FilledButton.icon(
-            onPressed: ignore
-                ? null
-                : () async {
-                    final download = info.downloadOf(R.currentVersion.platform);
-                    if (download == null) return;
-                    final url = download.defaultUrl;
-                    if (url == null) return;
-                    context.pop();
-                    await launchUrlString(url, mode: LaunchMode.externalApplication);
-                  },
-            icon: Icon(UniversalPlatform.isDesktop ? Icons.install_desktop : Icons.install_mobile),
-            label: i18n.download.text(),
-          ).padOnly(l: 8).expanded(),
+          buildSkipButton().padOnly(r: 8).expanded(),
+          buildDownloadButton().padOnly(l: 8).expanded(),
         ].row(maa: MainAxisAlignment.spaceEvenly).padAll(8),
       ].column().safeArea(),
+    );
+  }
+
+  Widget buildSkipButton() {
+    final info = widget.info;
+    return OutlinedButton(
+      onPressed: () {
+        if (ignore) {
+          Settings.skippedVersion = info.version.toString();
+        }
+        context.pop();
+      },
+      child: i18n.notNow.text(),
+    );
+  }
+
+  Widget buildDownloadButton() {
+    final info = widget.info;
+    if (R.debugCupertino || UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
+      return FilledButton(
+        onPressed: ignore
+            ? null
+            : () async {
+                context.pop();
+                await launchUrlString(R.iosAppStoreUrl, mode: LaunchMode.externalApplication);
+              },
+        child: i18n.openAppStore.text(),
+      );
+    }
+    return FilledButton.icon(
+      onPressed: ignore
+          ? null
+          : () async {
+              final download = info.downloadOf(R.currentVersion.platform);
+              if (download == null) return;
+              final url = download.defaultUrl;
+              if (url == null) return;
+              context.pop();
+              await launchUrlString(url, mode: LaunchMode.externalApplication);
+            },
+      icon: Icon(UniversalPlatform.isDesktop ? Icons.install_desktop : Icons.install_mobile),
+      label: i18n.download.text(),
     );
   }
 

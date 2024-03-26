@@ -52,7 +52,6 @@ class _EduEmailInboxPageState extends State<EduEmailInboxPage> {
     try {
       await EduEmailInit.service.login(credential);
     } catch (error, stackTrace) {
-      if (!mounted) return;
       handleRequestError(context, error, stackTrace);
       CredentialsInit.storage.eduEmailCredentials = null;
       return;
@@ -69,7 +68,6 @@ class _EduEmailInboxPageState extends State<EduEmailInboxPage> {
         this.messages = messages;
       });
     } catch (error, stackTrace) {
-      if (!mounted) return;
       handleRequestError(context, error, stackTrace);
     }
   }
