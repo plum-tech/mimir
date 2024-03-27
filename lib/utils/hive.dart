@@ -57,9 +57,11 @@ class BoxChangeNotifier extends ChangeNotifier {
   }
 }
 
+typedef BoxEventFilter = bool Function(BoxEvent event);
+
 class BoxChangeStreamNotifier extends ChangeNotifier {
   final Stream<BoxEvent> stream;
-  final bool Function(BoxEvent event)? filter;
+  final BoxEventFilter? filter;
   late StreamSubscription _subscription;
 
   BoxChangeStreamNotifier(this.stream, this.filter) {
@@ -79,10 +81,11 @@ class BoxChangeStreamNotifier extends ChangeNotifier {
   }
 }
 
+
 extension BoxProviderX on Box {
   /// For generic class, like [List] or [Map], please specify the [get] for type conversion.
-  StateNotifierProvider<BoxFieldNotifier<T>, T?> provider<T>(dynamic key, [T? Function()? get]) {
-    return StateNotifierProvider<BoxFieldNotifier<T>, T?>((ref) {
+  AutoDisposeStateNotifierProvider<BoxFieldNotifier<T>, T?> provider<T>(dynamic key, [T? Function()? get]) {
+    return StateNotifierProvider.autoDispose<BoxFieldNotifier<T>, T?>((ref) {
       return BoxFieldNotifier(
         get?.call() ?? safeGet<T>(key),
         listenable(keys: [key]),
@@ -91,14 +94,20 @@ extension BoxProviderX on Box {
     });
   }
 
-  ChangeNotifierProvider changeProvider(List<dynamic> keys) {
-    return ChangeNotifierProvider((ref) {
+  AutoDisposeChangeNotifierProvider changeProvider(List<dynamic> keys) {
+    return ChangeNotifierProvider.autoDispose((ref) {
       return BoxChangeNotifier(listenable(keys: keys));
     });
   }
 
-  ChangeNotifierProvider streamProvider({dynamic key, bool Function(BoxEvent event)? filter}) {
-    return ChangeNotifierProvider((ref) {
+  AutoDisposeChangeNotifierProvider streamProvider({dynamic key, BoxEventFilter? filter}) {
+    return ChangeNotifierProvider.autoDispose((ref) {
+      return BoxChangeStreamNotifier(watch(key: key), filter);
+    });
+  }
+
+  ChangeNotifierProviderFamily<BoxChangeStreamNotifier, BoxEventFilter> streamProviderFamily({dynamic key}) {
+    return ChangeNotifierProvider.family((ref, filter) {
       return BoxChangeStreamNotifier(watch(key: key), filter);
     });
   }

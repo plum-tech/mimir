@@ -1,16 +1,13 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/widgets/app.dart';
-import 'package:sit/school/event.dart';
 import 'package:sit/school/exam_result/init.dart';
 import 'package:sit/school/exam_result/widgets/ug.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'entity/result.ug.dart';
@@ -26,39 +23,13 @@ class ExamResultUgAppCard extends ConsumerStatefulWidget {
 }
 
 class _ExamResultUgAppCardState extends ConsumerState<ExamResultUgAppCard> {
-  List<ExamResultUg>? resultList;
-  late final EventSubscription $refreshEvent;
-  late final StreamSubscription $resultList;
-  late final currentSemester = estimateCurrentSemester();
-
-  @override
-  void initState() {
-    super.initState();
-    $refreshEvent = schoolEventBus.addListener(() async {
-      refresh();
-    });
-    $resultList = ExamResultInit.ugStorage.watchResultList(() => currentSemester).listen((event) {
-      refresh();
-    });
-    refresh();
-  }
-
-  @override
-  void dispose() {
-    $refreshEvent.cancel();
-    $resultList.cancel();
-    super.dispose();
-  }
-
-  void refresh() {
-    setState(() {
-      resultList = ExamResultInit.ugStorage.getResultList(currentSemester);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    final resultList = this.resultList;
+    final currentSemester = estimateCurrentSemester();
+    final storage = ExamResultInit.ugStorage;
+    ref.watch(storage.$resultListFamilyWithSemester(currentSemester));
+    final resultList = storage.getResultList(currentSemester);
     final showResultPreview = ref.watch(Settings.school.examResult.$showResultPreview);
     return AppCard(
       title: i18n.title.text(),
