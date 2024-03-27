@@ -530,11 +530,13 @@ library:
     title: 你的借阅
     history: 历史
     renew: 续借
+    noBorrowing: 你没有借阅中的书籍
   history:
     title: 历史
     operation:
       borrowing: 借书
       returning: 还书
+    noHistory: 你没有借阅记录
   searchMethod:
     any: 任意
     title: 标题

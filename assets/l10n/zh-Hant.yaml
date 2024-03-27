@@ -530,11 +530,13 @@ library:
     title: 你的借閱
     history: 歷史
     renew: 續借
+    noBorrowing: 你沒有借閱中的書籍
   history:
     title: 歷史
     operation:
       borrowing: 借書
       returning: 還書
+    noHistory: 你沒有借閱歷史
   searchMethod:
     any: 任意
     title: 標題

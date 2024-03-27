@@ -530,11 +530,13 @@ library:
     title: Borrowing
     history: History
     renew: Renew
+    noBorrowing: No borrowing books
   history:
     title: History
     operation:
       borrowing: Borrowing
       returning: Returning
+    noHistory: No borrowing history
   searchMethod:
     any: Any
     title: Title
