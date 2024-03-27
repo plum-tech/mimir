@@ -165,6 +165,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ThemeMode.light => const Icon(Icons.light_mode),
                 ThemeMode.system => const Icon(Icons.brightness_auto),
               },
+              isThreeLine: true,
               title: i18n.themeModeTitle.text(),
               subtitle: ThemeMode.values
                   .map((mode) => ChoiceChip(
