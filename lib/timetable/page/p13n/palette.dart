@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/entry_card.dart';
 import 'package:sit/l10n/extension.dart';
@@ -205,6 +206,7 @@ class PaletteCard extends StatelessWidget {
           ? null
           : (ctx) => EntryAction.delete(
                 label: i18n.delete,
+                icon: context.icons.delete,
                 action: () async {
                   final confirm = await ctx.showRequest(
                     title: i18n.p13n.palette.deleteRequest,
@@ -223,6 +225,7 @@ class PaletteCard extends StatelessWidget {
           EntryAction.edit(
             main: true,
             label: i18n.edit,
+            icon: context.icons.edit,
             activator: const SingleActivator(LogicalKeyboardKey.keyE),
             action: () async {
               final newPalette = await context.push<TimetablePalette>("/timetable/palette/edit/$id");
@@ -234,8 +237,7 @@ class PaletteCard extends StatelessWidget {
         if (timetable != null && palette.colors.isNotEmpty)
           EntryAction(
             label: i18n.preview,
-            icon: Icons.preview,
-            cupertinoIcon: CupertinoIcons.eye,
+            icon: isCupertino ? CupertinoIcons.eye : Icons.preview,
             activator: const SingleActivator(LogicalKeyboardKey.keyP),
             action: () async {
               await context.show$Sheet$(
@@ -250,9 +252,8 @@ class PaletteCard extends StatelessWidget {
           ),
         EntryAction(
           label: i18n.duplicate,
-          icon: Icons.copy,
+          icon: context.icons.copy,
           oneShot: true,
-          cupertinoIcon: CupertinoIcons.plus_square_on_square,
           activator: const SingleActivator(LogicalKeyboardKey.keyD),
           action: () async {
             final duplicate = palette.copyWith(
@@ -268,8 +269,7 @@ class PaletteCard extends StatelessWidget {
         if (!kIsWeb)
           EntryAction(
             label: i18n.p13n.palette.shareQrCode,
-            icon: Icons.qr_code,
-            cupertinoIcon: CupertinoIcons.qrcode,
+            icon: context.icons.qrcode,
             action: () async {
               final qrCodeData = const TimetablePaletteDeepLink().encode(palette);
               await ctx.show$Sheet$(

@@ -18,7 +18,6 @@ enum EntryActionType {
 
 class EntryAction {
   final IconData? icon;
-  final IconData? cupertinoIcon;
   final bool main;
   final String label;
   final EntryActionType type;
@@ -31,7 +30,6 @@ class EntryAction {
     this.main = false,
     this.icon,
     this.oneShot = false,
-    this.cupertinoIcon,
     required this.action,
     this.activator,
     this.type = EntryActionType.other,
@@ -40,8 +38,7 @@ class EntryAction {
   const EntryAction.edit({
     required this.label,
     this.main = false,
-    this.icon = Icons.edit,
-    this.cupertinoIcon = CupertinoIcons.pencil,
+    this.icon,
     required this.action,
     this.activator,
   })  : oneShot = true,
@@ -50,8 +47,7 @@ class EntryAction {
   const EntryAction.delete({
     required this.label,
     this.main = false,
-    this.icon = Icons.delete,
-    this.cupertinoIcon = CupertinoIcons.delete,
+    this.icon,
     required this.action,
     this.activator = const SingleActivator(LogicalKeyboardKey.delete),
   })  : oneShot = true,
@@ -262,7 +258,7 @@ class EntryCard extends StatelessWidget {
     }
     for (final action in actions) {
       final callback = action.action;
-      final icon = action.cupertinoIcon ?? action.icon;
+      final icon = action.icon;
       all.add(MenuAction(
         image: icon == null ? null : MenuImage.icon(icon),
         title: action.label,
@@ -271,7 +267,7 @@ class EntryCard extends StatelessWidget {
       ));
     }
     if (deleteAction != null) {
-      final icon = deleteAction.cupertinoIcon;
+      final icon = deleteAction.icon;
       all.add(MenuAction(
         image: icon == null ? null : MenuImage.icon(icon),
         title: deleteAction.label,
@@ -307,8 +303,7 @@ class EntryCard extends StatelessWidget {
           EntryAction(
             label: selectAction.selectLabel,
             oneShot: true,
-            icon: Icons.check,
-            cupertinoIcon: CupertinoIcons.check_mark,
+            icon: context.icons.checkMark,
             action: selectAction.action,
           ),
         );
@@ -329,7 +324,6 @@ class EntryCard extends StatelessWidget {
           ...actions.map(
             (action) => PullDownItem(
               icon: action.icon,
-              cupertinoIcon: action.cupertinoIcon,
               title: action.label,
               onTap: () async {
                 if (action.oneShot) {

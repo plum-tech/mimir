@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/menu.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/entry_card.dart';
@@ -225,6 +226,7 @@ class TimetableCard extends StatelessWidget {
       ),
       deleteAction: (ctx) => EntryAction.delete(
         label: i18n.delete,
+        icon: context.icons.delete,
         action: () async {
           final confirm = await ctx.showRequest(
             title: i18n.mine.deleteRequest,
@@ -246,9 +248,8 @@ class TimetableCard extends StatelessWidget {
           EntryAction(
             main: true,
             label: i18n.preview,
-            icon: Icons.preview,
+            icon: isCupertino ? CupertinoIcons.eye : Icons.preview,
             activator: const SingleActivator(LogicalKeyboardKey.keyP),
-            cupertinoIcon: CupertinoIcons.eye,
             action: () async {
               if (!ctx.mounted) return;
               await context.show$Sheet$(
@@ -262,6 +263,7 @@ class TimetableCard extends StatelessWidget {
           ),
         EntryAction.edit(
           label: i18n.edit,
+          icon: context.icons.edit,
           activator: const SingleActivator(LogicalKeyboardKey.keyE),
           action: () async {
             final newTimetable = await ctx.push<SitTimetable>("/timetable/edit/$id");
@@ -272,8 +274,7 @@ class TimetableCard extends StatelessWidget {
         ),
         EntryAction(
           label: i18n.share,
-          icon: Icons.output_outlined,
-          cupertinoIcon: CupertinoIcons.share,
+          icon: context.icons.share,
           type: EntryActionType.share,
           action: () async {
             await exportTimetableFileAndShare(timetable, context: ctx);
@@ -281,17 +282,15 @@ class TimetableCard extends StatelessWidget {
         ),
         EntryAction(
           label: i18n.mine.exportCalendar,
-          icon: Icons.calendar_month,
-          cupertinoIcon: CupertinoIcons.calendar_badge_plus,
+          icon: context.icons.calendar,
           action: () async {
             await onExportCalendar(ctx, timetable);
           },
         ),
         EntryAction(
           label: i18n.duplicate,
-          icon: Icons.copy,
           oneShot: true,
-          cupertinoIcon: CupertinoIcons.plus_square_on_square,
+          icon: context.icons.copy,
           activator: const SingleActivator(LogicalKeyboardKey.keyD),
           action: () async {
             final duplicate = timetable.copyWith(

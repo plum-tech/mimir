@@ -26,4 +26,10 @@ extension BuildContextPlatformIconsX on BuildContext {
 
 extension PlatformIconsX on PlatformIcons {
   IconData get lock => isMaterial(context) ? Icons.lock : CupertinoIcons.lock;
+
+  IconData get copy => isMaterial(context) ? Icons.copy : CupertinoIcons.plus_square_on_square;
+
+  IconData get calendar => isMaterial(context) ? Icons.calendar_month : CupertinoIcons.calendar;
+
+  IconData get qrcode => isMaterial(context) ? Icons.qr_code : CupertinoIcons.qrcode;
 }
