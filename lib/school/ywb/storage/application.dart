@@ -14,7 +14,7 @@ class _K {
 class YwbApplicationStorage {
   Box get box => HiveInit.ywb;
 
-  const YwbApplicationStorage();
+  YwbApplicationStorage();
 
   List<YwbApplication>? getApplicationListOf(YwbApplicationType type) =>
       (box.safeGet(_K.applicationListOf(type)) as List?)?.cast<YwbApplication>();
@@ -23,4 +23,7 @@ class YwbApplicationStorage {
       box.safePut(_K.applicationListOf(type), newV);
 
   Listenable listenApplicationListOf(YwbApplicationType type) => box.listenable(keys: [_K.applicationListOf(type)]);
+
+  late final $applicationFamily =
+      box.providerFamily<List<YwbApplication>, YwbApplicationType>(_K.applicationListOf, getApplicationListOf);
 }

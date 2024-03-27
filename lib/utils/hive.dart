@@ -81,7 +81,6 @@ class BoxChangeStreamNotifier extends ChangeNotifier {
   }
 }
 
-
 extension BoxProviderX on Box {
   /// For generic class, like [List] or [Map], please specify the [get] for type conversion.
   AutoDisposeStateNotifierProvider<BoxFieldNotifier<T>, T?> provider<T>(dynamic key, [T? Function()? get]) {
@@ -90,6 +89,20 @@ extension BoxProviderX on Box {
         get?.call() ?? safeGet<T>(key),
         listenable(keys: [key]),
         () => get?.call() ?? safeGet<T>(key),
+      );
+    });
+  }
+
+  /// For generic class, like [List] or [Map], please specify the [get] for type conversion.
+  AutoDisposeStateNotifierProviderFamily<BoxFieldNotifier<T>, T?, Arg> providerFamily<T, Arg>(
+    dynamic Function(Arg arg) keyOf,
+    T? Function(Arg arg) get,
+  ) {
+    return StateNotifierProvider.autoDispose.family<BoxFieldNotifier<T>, T?, Arg>((ref, arg) {
+      return BoxFieldNotifier(
+        get(arg),
+        listenable(keys: [keyOf(arg)]),
+        () => get(arg),
       );
     });
   }
@@ -107,8 +120,8 @@ extension BoxProviderX on Box {
   }
 
   ChangeNotifierProviderFamily<BoxChangeStreamNotifier, BoxEventFilter> streamProviderFamily({dynamic key}) {
-    return ChangeNotifierProvider.family((ref, filter) {
-      return BoxChangeStreamNotifier(watch(key: key), filter);
+    return ChangeNotifierProvider.family((ref, arg) {
+      return BoxChangeStreamNotifier(watch(key: key), arg);
     });
   }
 }
