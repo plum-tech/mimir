@@ -14,7 +14,7 @@ class _K {
   }
 
   // Don't use lastFetchedTs, and just fetch all translations
-  static const lastFetchedTs = "/lastFetchedTs";
+  // static const lastFetchedTs = "/lastFetchedTs";
   static const lastTransaction = "/lastTransaction";
   static const lastUpdateTime = "/lastUpdateTime";
 }

@@ -15,13 +15,15 @@ class _K {
 class Class2ndPointsStorage {
   Box get box => HiveInit.class2nd;
 
-  const Class2ndPointsStorage();
+  Class2ndPointsStorage();
 
   Class2ndPointsSummary? get pointsSummary => box.safeGet(_K.pointsSummary);
 
   set pointsSummary(Class2ndPointsSummary? newValue) => box.safePut(_K.pointsSummary, newValue);
 
   ValueListenable<Box> listenPointsSummary() => box.listenable(keys: [_K.pointsSummary]);
+
+  late final $pointsSummary = box.watchable(_K.pointsSummary);
 
   List<Class2ndPointItem>? get pointItemList => (box.safeGet(_K.pointItemList) as List?)?.cast<Class2ndPointItem>();
 

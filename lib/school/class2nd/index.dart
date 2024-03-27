@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
@@ -22,21 +23,18 @@ import "i18n.dart";
 import 'init.dart';
 import 'utils.dart';
 
-class Class2ndAppCard extends StatefulWidget {
+class Class2ndAppCard extends ConsumerStatefulWidget {
   const Class2ndAppCard({super.key});
 
   @override
-  State<Class2ndAppCard> createState() => _Class2ndAppCardState();
+  ConsumerState<Class2ndAppCard> createState() => _Class2ndAppCardState();
 }
 
-class _Class2ndAppCardState extends State<Class2ndAppCard> {
-  var summary = Class2ndInit.pointStorage.pointsSummary;
-  final $pointsSummary = Class2ndInit.pointStorage.listenPointsSummary();
+class _Class2ndAppCardState extends ConsumerState<Class2ndAppCard> {
   late final EventSubscription $refreshEvent;
 
   @override
   void initState() {
-    $pointsSummary.addListener(onSummaryChanged);
     $refreshEvent = schoolEventBus.addListener(() async {
       await refresh(active: true);
     });
@@ -51,15 +49,8 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
 
   @override
   void dispose() {
-    $pointsSummary.removeListener(onSummaryChanged);
     $refreshEvent.cancel();
     super.dispose();
-  }
-
-  void onSummaryChanged() {
-    setState(() {
-      summary = Class2ndInit.pointStorage.pointsSummary;
-    });
   }
 
   Future<void> refresh({required bool active}) async {
@@ -87,7 +78,8 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
 
   @override
   Widget build(BuildContext context) {
-    final summary = this.summary;
+    final storage = Class2ndInit.pointStorage;
+    final summary = ref.watch(storage.$pointsSummary);
     return AppCard(
       title: i18n.title.text(),
       view: summary == null
