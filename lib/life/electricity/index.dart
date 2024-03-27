@@ -54,7 +54,9 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
     final selectedRoom = Settings.life.electricity.selectedRoom;
     if (selectedRoom == null) return;
     try {
-      await ElectricityAggregated.refresh(selectedRoom);
+      await ElectricityAggregated.refresh(
+        selectedRoom: selectedRoom,
+      );
     } catch (error) {
       if (active) {
         if (!mounted) return;
@@ -73,7 +75,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
     final storage = ElectricityBalanceInit.storage;
     final lastBalance = ref.watch(storage.$lastBalance);
     final selectedRoom = ref.watch(Settings.life.electricity.$selectedRoom);
-    final lastUpdateTime =ref.watch(storage.$lastUpdateTime);
+    final lastUpdateTime = ref.watch(storage.$lastUpdateTime);
     final balance = lastBalance?.roomNumber == selectedRoom ? lastBalance : null;
     final roomNumber = balance != null
         ? "#${balance.roomNumber}"

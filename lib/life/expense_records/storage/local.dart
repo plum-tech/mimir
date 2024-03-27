@@ -15,14 +15,14 @@ class _K {
 
   // Don't use lastFetchedTs, and just fetch all translations
   static const lastFetchedTs = "/lastFetchedTs";
-  static const latestTransaction = "/latestTransaction";
+  static const lastTransaction = "/lastTransaction";
   static const lastUpdateTime = "/lastUpdateTime";
 }
 
 class ExpenseStorage {
   Box get box => HiveInit.expense;
 
-  const ExpenseStorage();
+  ExpenseStorage();
 
   /// 所有交易记录的索引，记录所有的交易时间，需要保证有序，以实现二分查找
   List<DateTime>? get transactionTsList => (box.safeGet(_K.transactionTsList) as List?)?.cast<DateTime>();
@@ -36,15 +36,19 @@ class ExpenseStorage {
 
   setTransactionByTs(DateTime ts, Transaction? transaction) => box.safePut(_K.transaction(ts), transaction);
 
-  Transaction? get latestTransaction => box.safeGet(_K.latestTransaction);
+  Transaction? get lastTransaction => box.safeGet(_K.lastTransaction);
 
-  set latestTransaction(Transaction? v) => box.safePut(_K.latestTransaction, v);
+  set lastTransaction(Transaction? v) => box.safePut(_K.lastTransaction, v);
 
-  ValueListenable<Box> listenLastTransaction() => box.listenable(keys: [_K.latestTransaction]);
+  late final $lastTransaction = box.watchable(_K.lastTransaction);
+
+  ValueListenable<Box> listenLastTransaction() => box.listenable(keys: [_K.lastTransaction]);
 
   DateTime? get lastUpdateTime => box.safeGet(_K.lastUpdateTime);
 
   set lastUpdateTime(DateTime? newV) => box.safePut(_K.lastUpdateTime, newV);
+
+  late final $lastUpdateTime = box.watchable(_K.lastUpdateTime);
 
   ValueListenable listenLastUpdateTime() => box.listenable(keys: [_K.lastUpdateTime]);
 }
@@ -52,7 +56,7 @@ class ExpenseStorage {
 extension ExpenseStorageX on ExpenseStorage {
   void clearIndex() {
     transactionTsList = null;
-    latestTransaction = null;
+    lastTransaction = null;
   }
 
   /// Gets the transaction timestamps in range of start to end.

@@ -33,7 +33,7 @@ class _Electricity {
 
   String? get selectedRoom => box.safeGet(_ElectricityK.selectedRoom);
 
-  late BoxFieldNotifierProvider<String> $selectedRoom = box.watchable(_ElectricityK.selectedRoom);
+  late final $selectedRoom = box.watchable(_ElectricityK.selectedRoom);
 
   set selectedRoom(String? newV) => box.safePut(_ElectricityK.selectedRoom, newV);
 

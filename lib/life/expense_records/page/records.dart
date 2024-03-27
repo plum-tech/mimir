@@ -80,7 +80,7 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
   @override
   Widget build(BuildContext context) {
     final month2records = this.month2records;
-    final lastTransaction = ExpenseRecordsInit.storage.latestTransaction;
+    final lastTransaction = ExpenseRecordsInit.storage.lastTransaction;
     return Scaffold(
       appBar: AppBar(
         title: lastTransaction == null

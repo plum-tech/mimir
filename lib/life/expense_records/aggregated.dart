@@ -27,12 +27,12 @@ class ExpenseAggregated {
       final latestValidBalance = _findLatestValidBalanceTransaction(newlyFetched, newTsList);
       // check if the transaction is kept for topping up
       if (latestValidBalance != null) {
-        storage.latestTransaction = latest.copyWith(
+        storage.lastTransaction = latest.copyWith(
           balanceBefore: latestValidBalance.balanceBefore,
           balanceAfter: latestValidBalance.balanceAfter,
         );
       } else {
-        storage.latestTransaction = latest;
+        storage.lastTransaction = latest;
       }
     }
   }

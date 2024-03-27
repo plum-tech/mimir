@@ -16,13 +16,13 @@ class ElectricityAggregated {
     ElectricityBalanceInit.storage.lastUpdateTime = null;
   }
 
-  static void clearSelectedRoom(){
+  static void clearSelectedRoom() {
     Settings.life.electricity.selectedRoom = null;
     ElectricityBalanceInit.storage.lastUpdateTime = null;
     ElectricityBalanceInit.storage.lastBalance = null;
   }
 
-  static Future<void> refresh(String selectedRoom) async {
+  static Future<void> refresh({required String selectedRoom}) async {
     final lastBalance = await ElectricityBalanceInit.service.getBalance(selectedRoom);
     if (lastBalance.roomNumber == selectedRoom) {
       ElectricityBalanceInit.storage.lastBalance = lastBalance;

@@ -23,7 +23,7 @@ class ElectricityStorage {
 
   ValueListenable listenBalance() => box.listenable(keys: [_K.lastBalance]);
 
-  late BoxFieldNotifierProvider<ElectricityBalance> $lastBalance = box.watchable(_K.lastBalance);
+  late final $lastBalance = box.watchable(_K.lastBalance);
 
   ElectricityBalance? get lastBalance => box.safeGet(_K.lastBalance);
 
@@ -42,7 +42,7 @@ class ElectricityStorage {
 
   set lastUpdateTime(DateTime? newV) => box.safePut(_K.lastUpdateTime, newV);
 
-  late BoxFieldNotifierProvider<DateTime> $lastUpdateTime = box.watchable(_K.lastUpdateTime);
+  late final $lastUpdateTime = box.watchable(_K.lastUpdateTime);
 
   ValueListenable listenLastUpdateTime() => box.listenable(keys: [_K.lastUpdateTime]);
 }
