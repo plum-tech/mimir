@@ -49,7 +49,7 @@ class _ExamResult {
 
   Listenable listenShowResultPreview() => box.listenable(keys: [_ExamResultK.showResultPreview]);
 
-  late final $showResultPreview = box.watchable<bool>(_ExamResultK.showResultPreview);
+  late final $showResultPreview = box.provider<bool>(_ExamResultK.showResultPreview);
 }
 
 class _ExamArrangeK {

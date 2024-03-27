@@ -24,7 +24,6 @@ class LibraryAppCard extends ConsumerStatefulWidget {
 
 class _LibraryAppCardState extends ConsumerState<LibraryAppCard> {
   final $credentials = CredentialsInit.storage.listenLibraryChange();
-  final $borrowedBooks = LibraryInit.borrowStorage.listenBorrowedBooks();
 
   @override
   void initState() {

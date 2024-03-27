@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -37,15 +39,67 @@ class BoxFieldNotifier<T> extends StateNotifier<T?> {
   }
 }
 
+class BoxChangeNotifier extends ChangeNotifier {
+  final Listenable listenable;
+
+  BoxChangeNotifier(this.listenable) {
+    listenable.addListener(_refresh);
+  }
+
+  void _refresh() {
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    listenable.removeListener(_refresh);
+    super.dispose();
+  }
+}
+
+class BoxChangeStreamNotifier extends ChangeNotifier {
+  final Stream<BoxEvent> stream;
+  final bool Function(BoxEvent event)? filter;
+  late StreamSubscription _subscription;
+
+  BoxChangeStreamNotifier(this.stream, this.filter) {
+    _subscription = (filter != null ? stream.where(filter!) : stream).listen((event) {
+      _refresh();
+    });
+  }
+
+  void _refresh() {
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
+  }
+}
+
 extension BoxProviderX on Box {
   /// For generic class, like [List] or [Map], please specify the [get] for type conversion.
-  StateNotifierProvider<BoxFieldNotifier<T>, T?> watchable<T>(dynamic key, [T? Function()? get]) {
+  StateNotifierProvider<BoxFieldNotifier<T>, T?> provider<T>(dynamic key, [T? Function()? get]) {
     return StateNotifierProvider<BoxFieldNotifier<T>, T?>((ref) {
       return BoxFieldNotifier(
         get?.call() ?? safeGet<T>(key),
         listenable(keys: [key]),
         () => get?.call() ?? safeGet<T>(key),
       );
+    });
+  }
+
+  ChangeNotifierProvider changeProvider(List<dynamic> keys) {
+    return ChangeNotifierProvider((ref) {
+      return BoxChangeNotifier(listenable(keys: keys));
+    });
+  }
+
+  ChangeNotifierProvider streamProvider({dynamic key, bool Function(BoxEvent event)? filter}) {
+    return ChangeNotifierProvider((ref) {
+      return BoxChangeStreamNotifier(watch(key: key), filter);
     });
   }
 }

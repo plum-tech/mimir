@@ -20,7 +20,7 @@ class LibraryBorrowStorage {
 
   Future<void> setBorrowedBooks(List<BorrowedBookItem>? value) => box.safePut(_K.borrowed, value);
 
-  late final $borrowed = box.watchable<List<BorrowedBookItem>>(_K.borrowed, getBorrowedBooks);
+  late final $borrowed = box.provider<List<BorrowedBookItem>>(_K.borrowed, getBorrowedBooks);
 
   Listenable listenBorrowedBooks() => box.listenable(keys: [_K.borrowed]);
 
