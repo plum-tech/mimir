@@ -59,7 +59,7 @@ dependencies:
   html: ^0.15.4
 
   # Dio (http client)
-  dio: ^5.4.1
+  dio: ^5.4.2
   dio_cookie_manager: ^3.1.1
 
   # WebView and browser related
@@ -159,7 +159,7 @@ dependency_overrides:
 
 dev_dependencies:
   flutter_test: { sdk: flutter }
-  flutter_lints: ^3.0.1
+  flutter_lints: ^3.0.2
   build_runner: ^2.4.8
   json_serializable: ^6.7.1
   hive_generator: ^2.0.0
