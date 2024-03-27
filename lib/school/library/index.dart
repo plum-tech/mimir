@@ -23,28 +23,11 @@ class LibraryAppCard extends ConsumerStatefulWidget {
 }
 
 class _LibraryAppCardState extends ConsumerState<LibraryAppCard> {
-  final $credentials = CredentialsInit.storage.listenLibraryChange();
-
-  @override
-  void initState() {
-    super.initState();
-    $credentials.addListener(refresh);
-  }
-
-  @override
-  void dispose() {
-    $credentials.removeListener(refresh);
-    super.dispose();
-  }
-
-  void refresh() {
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
     final storage = LibraryInit.borrowStorage;
-    final credentials = CredentialsInit.storage.libraryCredentials;
+    final credentials = ref.watch(CredentialsInit.storage.$libraryCredentials);
     final borrowedBooks = ref.watch(storage.$borrowed);
     return AppCard(
       title: i18n.title.text(),

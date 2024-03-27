@@ -9,7 +9,7 @@ class CredentialsInit {
   static late CredentialStorage storage;
 
   static void init() {
-    storage = const CredentialStorage();
+    storage = CredentialStorage();
     Editor.registerEditor<Credentials>((ctx, desc, initial) => StringsEditor(
           fields: [
             (name: "account", initial: initial.account),
