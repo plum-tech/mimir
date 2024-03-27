@@ -8,6 +8,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
 import 'package:sit/l10n/extension.dart';
@@ -352,8 +353,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
             right: onCourseRemoved == null
                 ? null
                 : SwipeToDismissAction(
-                    icon: const Icon(Icons.delete),
-                    cupertinoIcon: const Icon(CupertinoIcons.delete),
+                    icon: Icon(context.icons.delete),
                     action: () async {
                       onCourseRemoved(course);
                     },
@@ -729,8 +729,7 @@ class RepeatingItemEditor extends StatelessWidget {
       right: onDeleted == null
           ? null
           : SwipeToDismissAction(
-              icon: const Icon(Icons.delete),
-              cupertinoIcon: const Icon(CupertinoIcons.delete),
+              icon: Icon(context.icons.delete),
               action: () async {
                 onDeleted();
               },
