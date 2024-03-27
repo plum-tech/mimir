@@ -21,5 +21,5 @@ class ExamResultPgStorage {
 
   ValueListenable<Box> listenResultList() => box.listenable(keys: [_K.resultList]);
 
-  late final $resultList = box.watchable<List<ExamResultPg>>(_K.resultList);
+  late final $resultList = box.watchable<List<ExamResultPg>>(_K.resultList, getResultList);
 }

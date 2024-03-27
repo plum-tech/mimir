@@ -47,7 +47,7 @@ class LibraryInit {
 
     searchStorage = const LibrarySearchStorage();
     bookStorage = const LibraryBookStorage();
-    borrowStorage = const LibraryBorrowStorage();
+    borrowStorage = LibraryBorrowStorage();
     imageStorage = const LibraryImageStorage();
 
     browseStorage = const LibraryBrowseStorage();

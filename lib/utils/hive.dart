@@ -5,7 +5,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 extension BoxX on Box {
   T? safeGet<T>(dynamic key, {T? defaultValue}) {
     final value = get(key, defaultValue: defaultValue);
-    if (value is! T?) {
+    if (value == null) return null;
+    if (value is! T) {
+      debugPrint("[Box $name] $key is in ${value.runtimeType} but $T is expected.");
       return null;
     }
     return value;
@@ -35,11 +37,15 @@ class BoxFieldNotifier<T> extends StateNotifier<T?> {
   }
 }
 
-typedef BoxFieldNotifierProvider<T> = StateNotifierProvider<BoxFieldNotifier<T>, T?>;
 extension BoxProviderX on Box {
-  BoxFieldNotifierProvider<T> watchable<T>(dynamic key) {
+  /// For generic class, like [List] or [Map], please specify the [get] for type conversion.
+  StateNotifierProvider<BoxFieldNotifier<T>, T?> watchable<T>(dynamic key, [T? Function()? get]) {
     return StateNotifierProvider<BoxFieldNotifier<T>, T?>((ref) {
-      return BoxFieldNotifier(safeGet<T>(key), listenable(keys: [key]), () => safeGet<T>(key));
+      return BoxFieldNotifier(
+        get?.call() ?? safeGet<T>(key),
+        listenable(keys: [key]),
+        () => get?.call() ?? safeGet<T>(key),
+      );
     });
   }
 }
