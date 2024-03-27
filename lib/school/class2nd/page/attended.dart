@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
@@ -112,7 +113,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                         delegate: AttendedActivitySearchDelegate(attended ?? []),
                       );
                     },
-                    icon: const Icon(Icons.search),
+                    icon: Icon(context.icons.search),
                   ),
                 ],
                 bottom: isFetching

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/r.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -21,4 +22,8 @@ extension ShareX on BuildContext {
 
 extension BuildContextPlatformIconsX on BuildContext {
   PlatformIcons get icons => PlatformIcons(this);
+}
+
+extension PlatformIconsX on PlatformIcons {
+  IconData get lock => isMaterial(context) ? Icons.lock : CupertinoIcons.lock;
 }

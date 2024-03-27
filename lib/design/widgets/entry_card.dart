@@ -227,8 +227,8 @@ class EntryCard extends StatelessWidget {
               padding: EdgeInsets.zero,
               onPressed: selected ? null : selectAction.action,
               child: selected
-                  ? Icon(CupertinoIcons.check_mark, color: context.colorScheme.primary)
-                  : const Icon(CupertinoIcons.square),
+                  ? Icon(context.icons.checkMark, color: context.colorScheme.primary)
+                  : Icon(context.icons.checkBoxBlankOutlineRounded),
             ),
         ],
       ),

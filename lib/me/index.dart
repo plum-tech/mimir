@@ -39,7 +39,7 @@ class _MePageState extends State<MePage> {
             actions: [
               buildScannerAction(),
               IconButton(
-                icon: isCupertino ? const Icon(CupertinoIcons.settings) : const Icon(Icons.settings),
+                icon: Icon(context.icons.settings),
                 onPressed: () {
                   context.push("/settings");
                 },

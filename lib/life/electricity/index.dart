@@ -123,7 +123,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
             }
           },
           label: i18n.searchRoom.text(),
-          icon: const Icon(Icons.search),
+          icon: Icon(context.icons.search),
         ),
       ],
       rightActions: [
@@ -133,7 +133,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
             onPressed: () async {
               await shareBalance(balance: balance, selectedRoom: selectedRoom, context: context);
             },
-            icon: const Icon(Icons.share_outlined),
+            icon: Icon(context.icons.share),
           ),
       ],
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/r.dart';
 import 'package:sit/school/yellow_pages/init.dart';
 import 'package:sit/school/yellow_pages/storage/contact.dart';
@@ -28,7 +29,7 @@ class _YellowPagesListPageState extends State<YellowPagesListPage> {
               if (result == null) return;
               YellowPagesInit.storage.addInteractHistory(result);
             },
-            icon: const Icon(Icons.search),
+            icon: Icon(context.icons.search),
           ),
         ],
       ),

@@ -55,7 +55,7 @@ class _LibraryAppCardState extends State<LibraryAppCard> {
           onPressed: () async {
             await showSearch(context: context, delegate: LibrarySearchDelegate());
           },
-          icon: const Icon(Icons.search),
+          icon: Icon(context.icons.search),
           label: i18n.action.searchBooks.text(),
         ),
         if (credentials == null)
@@ -70,7 +70,7 @@ class _LibraryAppCardState extends State<LibraryAppCard> {
             onPressed: () async {
               await context.push("/library/borrowing");
             },
-            icon: const Icon(Icons.person),
+            icon: Icon(context.icons.person),
             label: i18n.action.borrowing.text(),
           )
       ],
@@ -91,7 +91,7 @@ class _LibraryAppCardState extends State<LibraryAppCard> {
           return Menu(
             children: [
               MenuAction(
-                image: MenuImage.icon(CupertinoIcons.refresh),
+                image: MenuImage.icon(context.icons.refresh),
                 title: i18n.borrowing.renew,
                 callback: () async {
                   await renewBorrowedBook(ctx, book.barcode);
