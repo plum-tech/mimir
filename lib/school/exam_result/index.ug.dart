@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:sit/school/event.dart';
@@ -17,20 +18,18 @@ import "i18n.dart";
 
 const _recentLength = 2;
 
-class ExamResultUgAppCard extends StatefulWidget {
+class ExamResultUgAppCard extends ConsumerStatefulWidget {
   const ExamResultUgAppCard({super.key});
 
   @override
-  State<ExamResultUgAppCard> createState() => _ExamResultUgAppCardState();
+  ConsumerState<ExamResultUgAppCard> createState() => _ExamResultUgAppCardState();
 }
 
-class _ExamResultUgAppCardState extends State<ExamResultUgAppCard> {
+class _ExamResultUgAppCardState extends ConsumerState<ExamResultUgAppCard> {
   List<ExamResultUg>? resultList;
   late final EventSubscription $refreshEvent;
   late final StreamSubscription $resultList;
   late final currentSemester = estimateCurrentSemester();
-  final $showResultPreview = Settings.school.examResult.listenShowResultPreview();
-  bool showResultPreview = Settings.school.examResult.showResultPreview;
 
   @override
   void initState() {
@@ -41,7 +40,6 @@ class _ExamResultUgAppCardState extends State<ExamResultUgAppCard> {
     $resultList = ExamResultInit.ugStorage.watchResultList(() => currentSemester).listen((event) {
       refresh();
     });
-    $showResultPreview.addListener(refreshShowResultPreview);
     refresh();
   }
 
@@ -49,7 +47,6 @@ class _ExamResultUgAppCardState extends State<ExamResultUgAppCard> {
   void dispose() {
     $refreshEvent.cancel();
     $resultList.cancel();
-    $showResultPreview.removeListener(refreshShowResultPreview);
     super.dispose();
   }
 
@@ -59,17 +56,17 @@ class _ExamResultUgAppCardState extends State<ExamResultUgAppCard> {
     });
   }
 
-  void refreshShowResultPreview() {
-    setState(() {
-      showResultPreview = Settings.school.examResult.showResultPreview;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final resultList = this.resultList;
+    final showResultPreview = ref.watch(Settings.school.examResult.$showResultPreview);
     return AppCard(
       title: i18n.title.text(),
-      view: buildRecentResults(),
+      view: showResultPreview == false
+          ? null
+          : resultList == null
+              ? null
+              : buildRecentResults(resultList),
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
@@ -89,10 +86,8 @@ class _ExamResultUgAppCardState extends State<ExamResultUgAppCard> {
     );
   }
 
-  Widget? buildRecentResults() {
-    if (!showResultPreview) return null;
-    final resultList = this.resultList;
-    if (resultList == null || resultList.isEmpty) return null;
+  Widget? buildRecentResults(List<ExamResultUg> resultList) {
+    if (resultList.isEmpty) return null;
     resultList.sort((a, b) => -ExamResultUg.compareByTime(a, b));
     final results = resultList.sublist(0, min(_recentLength, resultList.length));
     return results
