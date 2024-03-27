@@ -23,7 +23,7 @@ class Class2ndPointsStorage {
 
   ValueListenable<Box> listenPointsSummary() => box.listenable(keys: [_K.pointsSummary]);
 
-  late final $pointsSummary = box.watchable(_K.pointsSummary);
+  late final $pointsSummary = box.watchable<Class2ndPointsSummary>(_K.pointsSummary);
 
   List<Class2ndPointItem>? get pointItemList => (box.safeGet(_K.pointItemList) as List?)?.cast<Class2ndPointItem>();
 

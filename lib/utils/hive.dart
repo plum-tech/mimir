@@ -38,7 +38,7 @@ class BoxFieldNotifier<T> extends StateNotifier<T?> {
 typedef BoxFieldNotifierProvider<T> = StateNotifierProvider<BoxFieldNotifier<T>, T?>;
 extension BoxProviderX on Box {
   BoxFieldNotifierProvider<T> watchable<T>(dynamic key) {
-    return BoxFieldNotifierProvider<T>((ref) {
+    return StateNotifierProvider<BoxFieldNotifier<T>, T?>((ref) {
       return BoxFieldNotifier(safeGet<T>(key), listenable(keys: [key]), () => safeGet<T>(key));
     });
   }

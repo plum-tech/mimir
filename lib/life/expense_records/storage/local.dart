@@ -40,7 +40,7 @@ class ExpenseStorage {
 
   set lastTransaction(Transaction? v) => box.safePut(_K.lastTransaction, v);
 
-  late final $lastTransaction = box.watchable(_K.lastTransaction);
+  late final $lastTransaction = box.watchable<Transaction>(_K.lastTransaction);
 
   ValueListenable<Box> listenLastTransaction() => box.listenable(keys: [_K.lastTransaction]);
 
@@ -48,7 +48,7 @@ class ExpenseStorage {
 
   set lastUpdateTime(DateTime? newV) => box.safePut(_K.lastUpdateTime, newV);
 
-  late final $lastUpdateTime = box.watchable(_K.lastUpdateTime);
+  late final $lastUpdateTime = box.watchable<DateTime>(_K.lastUpdateTime);
 
   ValueListenable listenLastUpdateTime() => box.listenable(keys: [_K.lastUpdateTime]);
 }

@@ -13,11 +13,13 @@ class _K {
 class ExamResultPgStorage {
   Box get box => HiveInit.examResult;
 
-  const ExamResultPgStorage();
+  ExamResultPgStorage();
 
   List<ExamResultPg>? getResultList() => (box.safeGet(_K.resultList) as List?)?.cast<ExamResultPg>();
 
   Future<void> setResultList(List<ExamResultPg>? newV) => box.safePut(_K.resultList, newV);
 
   ValueListenable<Box> listenResultList() => box.listenable(keys: [_K.resultList]);
+
+  late final $resultList = box.watchable<List<ExamResultPg>>(_K.resultList);
 }
