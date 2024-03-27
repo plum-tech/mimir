@@ -37,6 +37,6 @@ class ExamResultUgStorage {
   late final $resultListFamily = box.streamProviderFamily();
 
   ChangeNotifierProvider<BoxChangeStreamNotifier> $resultListFamilyWithSemester(SemesterInfo semester) {
-    return $resultListFamily((event) => event.key == semester);
+    return $resultListFamily((event) => event.key == _K.resultList(semester));
   }
 }
