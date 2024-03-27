@@ -25,13 +25,15 @@ class _ElectricityK {
 class _Electricity {
   final Box box;
 
-  const _Electricity(this.box);
+  _Electricity(this.box);
 
   bool get autoRefresh => box.safeGet(_ElectricityK.autoRefresh) ?? _kElectricityAutoRefresh;
 
   set autoRefresh(bool foo) => box.safePut(_ElectricityK.autoRefresh, foo);
 
   String? get selectedRoom => box.safeGet(_ElectricityK.selectedRoom);
+
+  late BoxFieldNotifierProvider<String> $selectedRoom = box.watchable(_ElectricityK.selectedRoom);
 
   set selectedRoom(String? newV) => box.safePut(_ElectricityK.selectedRoom, newV);
 

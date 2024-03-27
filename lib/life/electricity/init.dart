@@ -10,6 +10,6 @@ class ElectricityBalanceInit {
 
   static void init() {
     service = Dev.demoMode ? const DemoElectricityService() : const ElectricityService();
-    storage = const ElectricityStorage();
+    storage = ElectricityStorage();
   }
 }

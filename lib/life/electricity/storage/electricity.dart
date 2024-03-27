@@ -17,11 +17,13 @@ class ElectricityStorage {
   Box get box => HiveInit.electricity;
   final int maxHistoryLength;
 
-  const ElectricityStorage({
+  ElectricityStorage({
     this.maxHistoryLength = 20,
   });
 
   ValueListenable listenBalance() => box.listenable(keys: [_K.lastBalance]);
+
+  late BoxFieldNotifierProvider<ElectricityBalance> $lastBalance = box.watchable(_K.lastBalance);
 
   ElectricityBalance? get lastBalance => box.safeGet(_K.lastBalance);
 
@@ -39,6 +41,8 @@ class ElectricityStorage {
   DateTime? get lastUpdateTime => box.safeGet(_K.lastUpdateTime);
 
   set lastUpdateTime(DateTime? newV) => box.safePut(_K.lastUpdateTime, newV);
+
+  late BoxFieldNotifierProvider<DateTime> $lastUpdateTime = box.watchable(_K.lastUpdateTime);
 
   ValueListenable listenLastUpdateTime() => box.listenable(keys: [_K.lastUpdateTime]);
 }
