@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 
 class PageNavigationTile extends StatelessWidget {
   final Widget? title;
@@ -21,7 +22,7 @@ class PageNavigationTile extends StatelessWidget {
       title: title,
       subtitle: subtitle,
       leading: leading,
-      trailing: const Icon(Icons.navigate_next_rounded),
+      trailing: Icon(context.icons.rightChevron),
       onTap: () {
         context.push(path);
       },

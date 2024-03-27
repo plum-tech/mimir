@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 
 import 'entity/board.dart';
 import 'save.dart';
@@ -122,7 +123,7 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
             onPressed: () {
               ref.read(boardManager.notifier).newGame();
             },
-            icon: const Icon(Icons.refresh),
+            icon: Icon(context.icons.refresh),
           )
         ],
       ),

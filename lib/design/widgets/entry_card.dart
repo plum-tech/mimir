@@ -108,7 +108,7 @@ class EntryCard extends StatelessWidget {
         all.add(
           selected
               ? FilledButton.icon(
-                  icon: const Icon(Icons.check),
+                  icon: Icon(context.icons.checkMark),
                   onPressed: null,
                   label: selectAction.selectedLabel.text(),
                 )

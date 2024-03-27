@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
@@ -37,8 +38,8 @@ class YwbApplicationTrackTile extends StatelessWidget {
     return ListTile(
       isThreeLine: true,
       leading: track.isActionOk
-          ? const Icon(Icons.check, color: Colors.green)
-          : const Icon(Icons.error_outline, color: Colors.redAccent),
+          ? Icon(context.icons.checkMark, color: Colors.green)
+          : Icon(context.icons.error, color: Colors.redAccent),
       title: track.step.text(),
       subtitle: [
         context.formatYmdhmNum(track.timestamp).text(),

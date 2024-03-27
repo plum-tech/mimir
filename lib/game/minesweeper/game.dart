@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/game/minesweeper/save.dart';
 import 'model/board.dart';
 import 'model/cell.dart';
@@ -121,9 +122,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
             onPressed: () {
               resetGame();
             },
-            icon: const Icon(
-              Icons.refresh,
-            ),
+            icon: Icon(context.icons.refresh),
           )
         ],
       ),

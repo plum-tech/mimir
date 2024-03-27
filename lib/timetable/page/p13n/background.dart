@@ -7,6 +7,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/files.dart';
@@ -157,7 +158,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     return [
       FilledButton.icon(
         onPressed: pickImage,
-        icon: Icon(PlatformIcons(context).edit),
+        icon: Icon(context.icons.edit),
         label: i18n.choose.text(),
       ),
       OutlinedButton.icon(
@@ -169,7 +170,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
                   renderImageFile = null;
                 });
               },
-        icon: Icon(PlatformIcons(context).delete),
+        icon: Icon(context.icons.delete),
         label: i18n.delete.text(),
       ),
     ].row(maa: MainAxisAlignment.spaceEvenly);
