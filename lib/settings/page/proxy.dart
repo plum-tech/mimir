@@ -10,11 +10,11 @@ import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/network/checker.dart';
 import 'package:sit/qrcode/page/view.dart';
-import 'package:sit/qrcode/protocol.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/dev.dart';
 import '../i18n.dart';
+import '../qrcode/proxy.dart';
 
 class ProxySettingsPage extends StatefulWidget {
   const ProxySettingsPage({
