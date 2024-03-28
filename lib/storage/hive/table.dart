@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/utils/hive.dart';
 
@@ -31,16 +33,16 @@ class HiveTable<T> {
   final $any = Notifier();
 
   /// The delegate of getting row
-  final T? Function(int id, T? Function(int id) builtin)? get;
+  final T? Function(int id, T? Function(int id) builtin)? getDelegate;
 
   /// The delegate of setting row
-  final void Function(int id, T? newV, void Function(int id, T? newV) builtin)? set;
+  final FutureOr<void> Function(int id, T? newV, Future<void> Function(int id, T? newV) builtin)? setDelegate;
 
   HiveTable({
     required this.base,
     required this.box,
-    this.get,
-    this.set,
+    this.getDelegate,
+    this.setDelegate,
     this.useJson,
   })  : _lastIdK = "$base/$_kLastId",
         _idListK = "$base/$_kIdList",
@@ -63,6 +65,8 @@ class HiveTable<T> {
 
   bool get isNotEmpty => !isEmpty;
 
+  String _rowK(int id) => "$_rowsK/$id";
+
   set selectedId(int? newValue) {
     box.safePut(_selectedIdK, newValue);
     $selected.notifier();
@@ -77,16 +81,8 @@ class HiveTable<T> {
     return this[id];
   }
 
-  T? operator [](int id) {
-    final get = this.get;
-    if (get != null) {
-      return get(id, _get);
-    }
-    return _get(id);
-  }
-
-  T? _get(int id) {
-    final row = box.safeGet("$_rowsK/$id");
+  T? _getBuiltin(int id) {
+    final row = box.safeGet(_rowK(id));
     final useJson = this.useJson;
     if (useJson == null || row == null) {
       return row;
@@ -95,26 +91,38 @@ class HiveTable<T> {
     }
   }
 
-  void operator []=(int id, T? newValue) {
-    final set = this.set;
-    if (set != null) {
-      set(id, newValue, _set);
+  T? get(int id) {
+    final get = this.getDelegate;
+    if (get != null) {
+      return get(id, _getBuiltin);
     }
-    return _set(id, newValue);
+    return _getBuiltin(id);
   }
 
-  void _set(int id, T? newValue) {
+  T? operator [](int id) => get(id);
+
+  Future<void> _setBuiltin(int id, T? newValue) async {
     final useJson = this.useJson;
     if (useJson == null || newValue == null) {
-      box.safePut("$_rowsK/$id", newValue);
+      await box.safePut(_rowK(id), newValue);
     } else {
-      box.safePut("$_rowsK/$id", jsonEncode(useJson.toJson(newValue)));
+      await box.safePut(_rowK(id), jsonEncode(useJson.toJson(newValue)));
     }
     if (selectedId == id) {
       $selected.notifier();
     }
     $any.notifier();
   }
+
+  Future<void> set(int id, T? newValue) async {
+    final set = this.setDelegate;
+    if (set != null) {
+      await set(id, newValue, _setBuiltin);
+    }
+    return _setBuiltin(id, newValue);
+  }
+
+  void operator []=(int id, T? newValue) => set(id, newValue);
 
   /// Return a new ID for the [row].
   int add(T row) {
@@ -140,7 +148,7 @@ class HiveTable<T> {
           selectedId = null;
         }
       }
-      box.delete("$_rowsK/$id");
+      box.delete(_rowK(id));
       $any.notifier();
     }
   }
@@ -149,7 +157,7 @@ class HiveTable<T> {
     final ids = idList;
     if (ids == null) return;
     for (final id in ids) {
-      box.delete("$_rowsK/$id");
+      box.delete(_rowK(id));
     }
     box.delete(_idListK);
     box.delete(_selectedIdK);
@@ -173,5 +181,13 @@ class HiveTable<T> {
     return res;
   }
 
-  Listenable listenRowChange(int id) => box.listenable(keys: ["$_rowsK/$id"]);
+  Listenable listenRowChange(int id) => box.listenable(keys: [_rowK(id)]);
+
+  AutoDisposeStateNotifierProvider<BoxFieldNotifier<T>, T?> rowProvider(int id) {
+    return box.provider<T>(_rowK(id));
+  }
+
+  AutoDisposeStateNotifierProviderFamily<BoxFieldNotifier<T>, T?, int> rowProviderFamily(int id) {
+    return box.providerFamily<T, int>(_rowK, get);
+  }
 }

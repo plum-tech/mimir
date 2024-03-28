@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -603,21 +601,21 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
   }
 
   Widget buildRepeating() {
-    return AnimatedExpansionTile(
-      title: i18n.editor.repeating.text(),
-      initiallyExpanded: true,
-      rotateTrailing: false,
-      trailing: IconButton.filledTonal(
-        icon: Icon(context.icons.add),
-        onPressed: () {
-          final newIndices = List.of(weekIndices.indices);
-          newIndices.add(const TimetableWeekIndex.all((start: 0, end: 1)));
-          setState(() {
-            weekIndices = TimetableWeekIndices(newIndices);
-          });
-        },
+    return [
+      ListTile(
+        title: i18n.editor.repeating.text(),
+        trailing: IconButton.filledTonal(
+          icon: Icon(context.icons.add),
+          onPressed: () {
+            final newIndices = List.of(weekIndices.indices);
+            newIndices.add(const TimetableWeekIndex.all((start: 0, end: 1)));
+            setState(() {
+              weekIndices = TimetableWeekIndices(newIndices);
+            });
+          },
+        ),
       ),
-      children: weekIndices.indices.mapIndexed((i, index) {
+      ...weekIndices.indices.mapIndexed((i, index) {
         return RepeatingItemEditor(
           childKey: ValueKey(i),
           index: index,
@@ -636,8 +634,8 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
             });
           },
         );
-      }).toList(),
-    );
+      })
+    ].column();
   }
 
   Widget buildTeachers() {
@@ -760,11 +758,13 @@ class RepeatingItemEditor extends StatelessWidget {
             ...TimetableWeekIndexType.values.map((type) => ChoiceChip(
                   label: type.l10n().text(),
                   selected: index.type == type,
-                  onSelected: (value) {
-                    onChanged?.call(index.copyWith(
-                      type: type,
-                    ));
-                  },
+                  onSelected: type != TimetableWeekIndexType.all && index.isSingle
+                      ? null
+                      : (value) {
+                          onChanged?.call(index.copyWith(
+                            type: type,
+                          ));
+                        },
                 )),
           ].wrap(spacing: 4),
         ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),

@@ -30,14 +30,14 @@ class TimetableStorage {
           base: _K.palette,
           box: HiveInit.timetable,
           useJson: (fromJson: TimetablePalette.fromJson, toJson: (palette) => palette.toJson()),
-          get: (id, builtin) {
+          getDelegate: (id, builtin) {
             // intercept builtin timetable
             for (final timetable in BuiltinTimetablePalettes.all) {
               if (timetable.id == id) return timetable;
             }
             return builtin(id);
           },
-          set: (id, newV, builtin) {
+          setDelegate: (id, newV, builtin) {
             // skip builtin timetable
             for (final timetable in BuiltinTimetablePalettes.all) {
               if (timetable.id == id) return;
