@@ -13,6 +13,7 @@ import 'package:sit/qrcode/handle.dart';
 import 'package:sit/r.dart';
 import 'package:sit/route.dart';
 import 'package:sit/session/widgets/scope.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/update/utils.dart';
 import 'package:sit/utils/color.dart';
@@ -31,12 +32,14 @@ class _MimirAppState extends State<MimirApp> {
     Settings.focusTimetable ? buildTimetableFocusRouter() : buildCommonRoutingConfig(),
   );
   final $focusMode = Settings.listenFocusTimetable();
+  final $demoMode = Dev.listenDemoMode();
   late final router = buildRouter($routingConfig);
 
   @override
   void initState() {
     super.initState();
     $theme.addListener(refresh);
+    $demoMode.addListener(refresh);
     $focusMode.addListener(refreshFocusMode);
     if (!kIsWeb) {
       fitSystemScreenshot.init();
@@ -46,6 +49,7 @@ class _MimirAppState extends State<MimirApp> {
   @override
   void dispose() {
     $theme.removeListener(refresh);
+    $demoMode.removeListener(refresh);
     $focusMode.removeListener(refreshFocusMode);
     fitSystemScreenshot.release();
     super.dispose();
@@ -101,6 +105,7 @@ class _MimirAppState extends State<MimirApp> {
       title: R.appName,
       onGenerateTitle: (ctx) => "appName".tr(),
       routerConfig: router,
+      debugShowCheckedModeBanner: !Dev.demoMode,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
