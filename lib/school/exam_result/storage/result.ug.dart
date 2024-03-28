@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:sit/storage/hive/init.dart';
@@ -34,9 +33,7 @@ class ExamResultUgStorage {
   Stream<BoxEvent> watchResultList(SemesterInfo Function() getFilter) =>
       box.watch().where((event) => event.key == _K.resultList(getFilter()));
 
-  late final $resultListFamily = box.streamChangeProviderFamily();
-
-  ChangeNotifierProvider<BoxChangeStreamNotifier> $resultListFamilyWithSemester(SemesterInfo semester) {
-    return $resultListFamily((event) => event.key == _K.resultList(semester));
-  }
+  late final $resultListFamily = box.streamChangeProviderFamily<SemesterInfo>(
+        (e, semester) => e.key == _K.resultList(semester),
+  );
 }

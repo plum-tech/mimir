@@ -148,16 +148,16 @@ extension BoxProviderX on Box {
     required T? initial,
     BoxEventFilter? filter,
   }) {
-    return StateNotifierProvider.autoDispose<BoxFieldStreamNotifier<T>, T>((ref) {
+    return StateNotifierProvider.autoDispose<BoxFieldStreamNotifier<T>, T?>((ref) {
       return BoxFieldStreamNotifier(initial, watch(), filter);
     });
   }
 
-  ChangeNotifierProviderFamily<BoxChangeStreamNotifier, BoxEventFilter> streamChangeProviderFamily({
-    dynamic key,
-  }) {
+  ChangeNotifierProviderFamily<BoxChangeStreamNotifier, Arg> streamChangeProviderFamily<Arg>(
+    bool Function(BoxEvent event, Arg arg) argFilter,
+  ) {
     return ChangeNotifierProvider.family((ref, arg) {
-      return BoxChangeStreamNotifier(watch(key: key), arg);
+      return BoxChangeStreamNotifier(watch(), (event) => argFilter(event, arg));
     });
   }
 }
