@@ -31,7 +31,7 @@ class ExamArrangeStorage {
   Stream<BoxEvent> watchExamList(SemesterInfo Function() getFilter) =>
       box.watch().where((event) => event.key == _K.examList(getFilter()));
 
-  late final $examListFamily = box.streamProviderFamily();
+  late final $examListFamily = box.streamChangeProviderFamily();
 
   ChangeNotifierProvider<BoxChangeStreamNotifier> $examListFamilyWithSemester(SemesterInfo semester) {
     return $examListFamily((event) => event.key == _K.examList(semester));

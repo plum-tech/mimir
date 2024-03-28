@@ -81,6 +81,27 @@ class BoxChangeStreamNotifier extends ChangeNotifier {
   }
 }
 
+class BoxFieldStreamNotifier<T> extends StateNotifier<T?> {
+  final Stream<BoxEvent> boxStream;
+  final BoxEventFilter? filter;
+  late StreamSubscription _subscription;
+
+  BoxFieldStreamNotifier(super._state, this.boxStream, this.filter) {
+    _subscription = (filter != null ? boxStream.where(filter!) : boxStream).listen((event) {
+      final v = event.value;
+      if (v is T?) {
+        state = v;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
+  }
+}
+
 extension BoxProviderX on Box {
   /// For generic class, like [List] or [Map], please specify the [get] for type conversion.
   AutoDisposeStateNotifierProvider<BoxFieldNotifier<T>, T?> provider<T>(dynamic key, [T? Function()? get]) {
@@ -107,19 +128,34 @@ extension BoxProviderX on Box {
     });
   }
 
-  AutoDisposeChangeNotifierProvider changeProvider(List<dynamic> keys) {
+  AutoDisposeChangeNotifierProvider changeProvider(
+    List<dynamic> keys,
+  ) {
     return ChangeNotifierProvider.autoDispose((ref) {
       return BoxChangeNotifier(listenable(keys: keys));
     });
   }
 
-  AutoDisposeChangeNotifierProvider streamProvider({dynamic key, BoxEventFilter? filter}) {
+  AutoDisposeChangeNotifierProvider streamChangeProvider({
+    BoxEventFilter? filter,
+  }) {
     return ChangeNotifierProvider.autoDispose((ref) {
-      return BoxChangeStreamNotifier(watch(key: key), filter);
+      return BoxChangeStreamNotifier(watch(), filter);
     });
   }
 
-  ChangeNotifierProviderFamily<BoxChangeStreamNotifier, BoxEventFilter> streamProviderFamily({dynamic key}) {
+  AutoDisposeStateNotifierProvider<BoxFieldStreamNotifier, T?> streamProvider<T>({
+    required T? initial,
+    BoxEventFilter? filter,
+  }) {
+    return StateNotifierProvider.autoDispose<BoxFieldStreamNotifier<T>, T>((ref) {
+      return BoxFieldStreamNotifier(initial, watch(), filter);
+    });
+  }
+
+  ChangeNotifierProviderFamily<BoxChangeStreamNotifier, BoxEventFilter> streamChangeProviderFamily({
+    dynamic key,
+  }) {
     return ChangeNotifierProvider.family((ref, arg) {
       return BoxChangeStreamNotifier(watch(key: key), arg);
     });

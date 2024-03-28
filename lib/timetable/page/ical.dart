@@ -33,21 +33,11 @@ class TimetableICalConfigEditor extends StatefulWidget {
 }
 
 class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
-  final $enableAlarm = ValueNotifier(false);
-  final $alarmDuration = ValueNotifier(const Duration(minutes: 5));
-  final $alarmBeforeClass = ValueNotifier(const Duration(minutes: 15));
-  final $merged = ValueNotifier(true);
-  final $isSoundAlarm = ValueNotifier(false);
-
-  @override
-  void dispose() {
-    $enableAlarm.dispose();
-    $alarmDuration.dispose();
-    $alarmBeforeClass.dispose();
-    $merged.dispose();
-    $isSoundAlarm.dispose();
-    super.dispose();
-  }
+  var enableAlarm = false;
+  var alarmDuration = const Duration(minutes: 5);
+  var alarmBeforeClass = const Duration(minutes: 15);
+  var merged = true;
+  var isSoundAlarm = false;
 
   @override
   Widget build(BuildContext context) {
@@ -79,48 +69,51 @@ class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
       child: i18n.export.export.text(),
       onPressed: () async {
         context.pop<TimetableICalConfig>((
-          alarm: $enableAlarm.value
+          alarm: enableAlarm
               ? (
-                  alarmBeforeClass: $alarmBeforeClass.value,
-                  alarmDuration: $alarmDuration.value,
-                  isSoundAlarm: $isSoundAlarm.value,
+                  alarmBeforeClass: alarmBeforeClass,
+                  alarmDuration: alarmDuration,
+                  isSoundAlarm: isSoundAlarm,
                 )
               : null,
           locale: context.locale,
-          isLessonMerged: $merged.value,
+          isLessonMerged: merged,
         ));
       },
     );
   }
 
   Widget buildModeSwitch() {
-    return $merged >>
-        (ctx, merged) => ListTile(
-              isThreeLine: true,
-              leading: const Icon(Icons.calendar_month),
-              title: i18n.export.lessonMode.text(),
-              subtitle: [
-                ChoiceChip(
-                  label: i18n.export.lessonModeMerged.text(),
-                  selected: merged,
-                  onSelected: (value) {
-                    $merged.value = true;
-                  },
-                ),
-                ChoiceChip(
-                  label: i18n.export.lessonModeSeparate.text(),
-                  selected: !merged,
-                  onSelected: (value) {
-                    $merged.value = false;
-                  },
-                ),
-              ].wrap(spacing: 4),
-              trailing: Tooltip(
-                triggerMode: TooltipTriggerMode.tap,
-                message: merged ? i18n.export.lessonModeMergedTip : i18n.export.lessonModeSeparateTip,
-                child: Icon(context.icons.info),
-              ).padAll(8),
-            );
+    return ListTile(
+      isThreeLine: true,
+      leading: const Icon(Icons.calendar_month),
+      title: i18n.export.lessonMode.text(),
+      subtitle: [
+        ChoiceChip(
+          label: i18n.export.lessonModeMerged.text(),
+          selected: merged,
+          onSelected: (value) {
+            setState(() {
+              merged = true;
+            });
+          },
+        ),
+        ChoiceChip(
+          label: i18n.export.lessonModeSeparate.text(),
+          selected: !merged,
+          onSelected: (value) {
+            setState(() {
+              merged = false;
+            });
+          },
+        ),
+      ].wrap(spacing: 4),
+      trailing: Tooltip(
+        triggerMode: TooltipTriggerMode.tap,
+        message: merged ? i18n.export.lessonModeMergedTip : i18n.export.lessonModeSeparateTip,
+        child: Icon(context.icons.info),
+      ).padAll(8),
+    );
   }
 
   Widget buildAlarmToggle() {
@@ -128,94 +121,94 @@ class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
       leading: const Icon(Icons.alarm),
       title: i18n.export.enableAlarm.text(),
       subtitle: i18n.export.enableAlarmDesc.text(),
-      trailing: $enableAlarm >>
-          (ctx, value) => Switch.adaptive(
-                value: value,
-                onChanged: (newV) {
-                  $enableAlarm.value = newV;
-                },
-              ),
+      trailing: Switch.adaptive(
+        value: enableAlarm,
+        onChanged: (newV) {
+          setState(() {
+            enableAlarm = newV;
+          });
+        },
+      ),
     );
   }
 
   Widget buildAlarmModeSwitch() {
-    return $enableAlarm >>
-        (ctx, enabled) =>
-            $isSoundAlarm >>
-            (ctx, soundAlarm) => ListTile(
-                  isThreeLine: true,
-                  enabled: enabled,
-                  title: i18n.export.alarmMode.text(),
-                  subtitle: [
-                    ChoiceChip(
-                      label: i18n.export.alarmModeSound.text(),
-                      selected: soundAlarm,
-                      onSelected: !enabled
-                          ? null
-                          : (value) {
-                              $isSoundAlarm.value = true;
-                            },
-                    ),
-                    ChoiceChip(
-                      label: i18n.export.alarmModeDisplay.text(),
-                      selected: !soundAlarm,
-                      onSelected: !enabled
-                          ? null
-                          : (value) {
-                              $isSoundAlarm.value = false;
-                            },
-                    ),
-                  ].wrap(spacing: 4),
-                );
+    return ListTile(
+      isThreeLine: true,
+      enabled: enableAlarm,
+      title: i18n.export.alarmMode.text(),
+      subtitle: [
+        ChoiceChip(
+          label: i18n.export.alarmModeSound.text(),
+          selected: isSoundAlarm,
+          onSelected: !enableAlarm
+              ? null
+              : (value) {
+                  setState(() {
+                    isSoundAlarm = true;
+                  });
+                },
+        ),
+        ChoiceChip(
+          label: i18n.export.alarmModeDisplay.text(),
+          selected: !isSoundAlarm,
+          onSelected: !enableAlarm
+              ? null
+              : (value) {
+                  setState(() {
+                    isSoundAlarm = false;
+                  });
+                },
+        ),
+      ].wrap(spacing: 4),
+    );
   }
 
   Widget buildAlarmDuration() {
-    return $enableAlarm >>
-        (ctx, enabled) =>
-            $alarmDuration >>
-            (ctx, duration) => ListTile(
-                  enabled: enabled,
-                  title: i18n.export.alarmDuration.text(),
-                  subtitle: i18n.time.minuteFormat(duration.inMinutes.toString()).text(),
-                  trailing: IconButton(
-                    icon: Icon(context.icons.edit),
-                    onPressed: !enabled
-                        ? null
-                        : () async {
-                            final newDuration = await showDurationPicker(
-                              context: ctx,
-                              initialTime: duration,
-                            );
-                            if (newDuration != null) {
-                              $alarmDuration.value = newDuration;
-                            }
-                          },
-                  ),
+    return ListTile(
+      enabled: enableAlarm,
+      title: i18n.export.alarmDuration.text(),
+      subtitle: i18n.time.minuteFormat(alarmDuration.inMinutes.toString()).text(),
+      trailing: IconButton(
+        icon: Icon(context.icons.edit),
+        onPressed: !enableAlarm
+            ? null
+            : () async {
+                final newDuration = await showDurationPicker(
+                  context: context,
+                  initialTime: alarmDuration,
                 );
+                if (newDuration != null) {
+                  setState(() {
+                    alarmDuration = newDuration;
+                  });
+                }
+              },
+      ),
+    );
   }
 
   Widget buildAlarmBeforeClassStart() {
-    return $enableAlarm >>
-        (ctx, enabled) =>
-            $alarmBeforeClass >>
-            (ctx, duration) => ListTile(
-                  enabled: enabled,
-                  title: i18n.export.alarmBeforeClassBegins.text(),
-                  subtitle: i18n.export.alarmBeforeClassBeginsDesc(duration).text(),
-                  trailing: IconButton(
-                    icon: Icon(context.icons.edit),
-                    onPressed: !enabled
-                        ? null
-                        : () async {
-                            final newDuration = await showDurationPicker(
-                              context: ctx,
-                              initialTime: duration,
-                            );
-                            if (newDuration != null) {
-                              $alarmBeforeClass.value = newDuration;
-                            }
-                          },
-                  ),
+    return ListTile(
+      enabled: enableAlarm,
+      title: i18n.export.alarmBeforeClassBegins.text(),
+      subtitle: i18n.export.alarmBeforeClassBeginsDesc(alarmBeforeClass).text(),
+      trailing: IconButton(
+        icon: Icon(context.icons.edit),
+        onPressed: !enableAlarm
+            ? null
+            : () async {
+                final newDuration = await showDurationPicker(
+                  context: context,
+                  initialTime: alarmBeforeClass,
                 );
+                if (newDuration != null) {
+                  setState(() {
+                    alarmBeforeClass = newDuration;
+                  });
+                }
+              },
+      ),
+    );
   }
 }
