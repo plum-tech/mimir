@@ -102,7 +102,7 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
             )
           : const SizedBox(),
       title: (roomNumber == null ? i18n.title : "${i18n.title} #105604").text(),
-      subtitle: lastUpdateTime != null ?  "Last update: ${context.formatMdhmNum(lastUpdateTime)}".text() : null,
+      subtitle: lastUpdateTime != null ? i18n.lastUpdateTime(context.formatMdhmNum(lastUpdateTime)).text() : null,
       leftActions: [
         FilledButton.icon(
           onPressed: () async {

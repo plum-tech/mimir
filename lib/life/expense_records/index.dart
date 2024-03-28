@@ -95,7 +95,7 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
               ).expanded(),
             ].row().sized(h: 140),
       title: i18n.title.text(),
-      subtitle: lastUpdateTime != null ?  "Last update: ${context.formatMdhmNum(lastUpdateTime)}".text() : null,
+      subtitle: lastUpdateTime != null ? i18n.lastUpdateTime(context.formatMdhmNum(lastUpdateTime)).text() : null,
       leftActions: [
         FilledButton.icon(
           icon: const Icon(Icons.assignment),

@@ -354,6 +354,7 @@ electricity:
   refreshSuccessTip: 电费余额刷新成功
   refreshFailedTip: 电费余额刷新失败
   searchRoom: 搜索房间
+  lastUpdateTime: "上次更新：{}"
 eduEmail:
   title: 教育邮箱
   action:
@@ -422,6 +423,7 @@ expenseRecords:
   noTransactionsTip: 你没有交易记录
   refreshSuccessTip: 消费记录刷新成功
   refreshFailedTip: 消费记录刷新失败
+  lastUpdateTime: "上次更新：{}"
   statsMode:
     week: 周
     month: 月

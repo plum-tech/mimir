@@ -354,6 +354,7 @@ electricity:
   refreshSuccessTip: 電費餘額重新整理成功
   refreshFailedTip: 電費餘額重新整理失敗
   searchRoom: 搜尋房間
+  lastUpdateTime: "最後更新：{}"
 eduEmail:
   title: Edu 電郵
   action:
@@ -422,6 +423,7 @@ expenseRecords:
   noTransactionsTip: 你沒有交易記錄
   refreshSuccessTip: 消費記錄重新整理成功
   refreshFailedTip: 消費記錄重新整理失敗
+  lastUpdateTime: "最後更新：{}"
   statsMode:
     week: 周
     month: 月

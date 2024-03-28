@@ -357,6 +357,7 @@ electricity:
   refreshSuccessTip: Electricity balance refreshed successfully
   refreshFailedTip: Failed to refresh electricity balance
   searchRoom: Search Room
+  lastUpdateTime: "Last update: {}"
 eduEmail:
   title: Edu email
   action:
@@ -425,6 +426,7 @@ expenseRecords:
   noTransactionsTip: You have no transactions
   refreshSuccessTip: Expense records refreshed successfully
   refreshFailedTip: Failed to refresh expense records
+  lastUpdateTime: "Last update: {}"
   statsMode:
     week: Week
     month: Month
