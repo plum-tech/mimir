@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/common.dart';
@@ -15,35 +16,22 @@ import '../init.dart';
 import '../i18n.dart';
 import '../utils.dart';
 
-class ExpenseRecordsPage extends StatefulWidget {
+class ExpenseRecordsPage extends ConsumerStatefulWidget {
   const ExpenseRecordsPage({super.key});
 
   @override
-  State<ExpenseRecordsPage> createState() => _ExpenseRecordsPageState();
+  ConsumerState<ExpenseRecordsPage> createState() => _ExpenseRecordsPageState();
 }
 
-class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
-  final $lastTransaction = ExpenseRecordsInit.storage.listenLastTransaction();
+class _ExpenseRecordsPageState extends ConsumerState<ExpenseRecordsPage> {
   bool isFetching = false;
   List<Transaction>? records;
-
   List<({YearMonth time, List<Transaction> records})>? month2records;
 
   @override
   void initState() {
     super.initState();
-    $lastTransaction.addListener(onLatestChanged);
     updateRecords(ExpenseRecordsInit.storage.getTransactionsByRange());
-  }
-
-  @override
-  void dispose() {
-    $lastTransaction.removeListener(onLatestChanged);
-    super.dispose();
-  }
-
-  void onLatestChanged() {
-    setState(() {});
   }
 
   void updateRecords(List<Transaction>? records) {
@@ -79,8 +67,9 @@ class _ExpenseRecordsPageState extends State<ExpenseRecordsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final storage = ExpenseRecordsInit.storage;
     final month2records = this.month2records;
-    final lastTransaction = ExpenseRecordsInit.storage.lastTransaction;
+    final lastTransaction = ref.watch(storage.$lastTransaction);
     return Scaffold(
       appBar: AppBar(
         title: lastTransaction == null
