@@ -63,6 +63,8 @@ class CredentialStorage {
         _EmailK.credentials,
       ]);
 
+  late final $eduEmailCredentials = box.provider<Credentials>(_EmailK.credentials);
+
   // Library
   Credentials? get libraryCredentials => box.safeGet(_LibraryK.credentials);
 
