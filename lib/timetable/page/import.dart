@@ -80,6 +80,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       debugPrint(err.toString());
       debugPrintStack(stackTrace: stackTrace);
       if (!mounted) return;
+      // TODO: i18n
       context.showSnackBar(content: "Format Error. Please select a timetable file.".text());
     }
   }

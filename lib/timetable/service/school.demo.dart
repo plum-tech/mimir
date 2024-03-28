@@ -14,7 +14,6 @@ class DemoTimetableService implements TimetableService {
   @override
   Future<SitTimetable> fetchUgTimetable(SemesterInfo info) async {
     var key = 0;
-    // TODO: l10n
     return SitTimetable(
       courses: {
         "$key": SitCourse(

@@ -8,7 +8,6 @@ class DemoExamArrangeService implements ExamArrangeService {
 
   @override
   Future<List<ExamEntry>> fetchExamList(SemesterInfo info) async {
-    // TODO: l10n
     final now = DateTime.now();
     return [
       ExamEntry(
