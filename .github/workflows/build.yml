@@ -240,11 +240,6 @@ jobs:
             mv build-output/ios/publish/2-SITLife-release.ipa build/upload-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.ipa
           fi
 
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          branch: ${{ github.ref }}
-
       - name: Deploy to App Store (TestFlight)
         if: github.repository == 'liplum-dev/mimir'
         uses: apple-actions/upload-testflight-build@v1
@@ -265,6 +260,11 @@ jobs:
         with:
           name: SITLife-iOS-release
           path: build/upload-artifacts/SITLife-${{ steps.get_git_info.outputs.RESOLVED_VERSION }}.ipa
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: ${{ github.ref }}
 
       - name: Delete cache builds (apk)
         if: steps.cache-apk.outputs.cache-hit == 'true'
