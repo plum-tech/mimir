@@ -103,7 +103,7 @@ class _ThemeColorPageState extends State<ThemeColorPage> {
       subtitle: "#${themeColor.hexAlpha}".text(),
       onTap: selectNewThemeColor,
       trailing: FilledCard(
-        color: themeColor,
+        color: fromSystem ? context.theme.disabledColor : themeColor,
         clip: Clip.hardEdge,
         child: const SizedBox(
           width: 32,

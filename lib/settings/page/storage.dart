@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/design/adaptive/menu.dart';
@@ -272,8 +273,7 @@ class _BoxItemState extends State<BoxItem> {
     return PullDownMenuButton(
       itemBuilder: (ctx) => [
         PullDownItem.delete(
-          icon: Icons.cleaning_services_outlined,
-          cupertinoIcon: CupertinoIcons.clear,
+          icon: ctx.icons.clear,
           title: i18n.clear,
           onTap: () async {
             final confirm = await context.showRequest(

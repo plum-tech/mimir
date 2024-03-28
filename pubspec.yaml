@@ -58,7 +58,7 @@ dependencies:
   html: ^0.15.4
 
   # Dio (http client)
-  dio: ^5.4.2
+  dio: ^5.4.2+1
   dio_cookie_manager: ^3.1.1
 
   # WebView and browser related
@@ -75,7 +75,7 @@ dependencies:
 
   # Platform
   # Android / iOS / Windows Permission
-  permission_handler: ^11.3.0
+  permission_handler: ^11.3.1
   # Android / iOS Home screen quick actions
   quick_actions: ^1.0.7
   # Deep links on Android and custom scheme links on iOS

@@ -25,13 +25,13 @@ Future<void> checkAppUpdate({
   if (kIsWeb) return;
   try {
     if (UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
-      _checkAppUpdateFromApple(
+      await _checkAppUpdateFromApple(
         context: context,
         delayAtLeast: delayAtLeast,
         manually: manually,
       );
     } else {
-      _checkAppUpdateFromOfficial(
+      await _checkAppUpdateFromOfficial(
         context: context,
         delayAtLeast: delayAtLeast,
         manually: manually,
@@ -48,10 +48,7 @@ Future<void> _checkAppUpdateFromOfficial({
   required bool manually,
 }) async {
   final service = UpdateInit.service;
-  final (latest, _) = await (
-    service.getLatestVersionFromOfficial(),
-    Future.delayed(delayAtLeast),
-  ).wait;
+  final latest = await service.getLatestVersionFromOfficial();
   debugPrint(latest.toString());
   if (kDebugMode && manually) {
     if (!context.mounted) return;
@@ -62,6 +59,9 @@ Future<void> _checkAppUpdateFromOfficial({
   if (latest.downloadOf(R.currentVersion.platform) == null) return;
   // if update checking was not manually triggered, skip it.
   if (!manually && _getSkippedVersion() == latest.version) return;
+  if (!manually) {
+    await Future.delayed(delayAtLeast);
+  }
   if (!context.mounted) return;
   if (latest.version > currentVersion) {
     await context.show$Sheet$((ctx) => ArtifactUpdatePage(info: latest));

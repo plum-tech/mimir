@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/school/library/storage/search.dart';
 import 'package:sit/school/library/widgets/search.dart';
 
@@ -39,7 +40,7 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: const Icon(Icons.clear),
+        icon: Icon(context.icons.clear),
         onPressed: () {
           query = '';
           showSuggestions(context);
@@ -226,7 +227,7 @@ class _LibrarySearchHistoryGroupState extends State<LibrarySearchHistoryGroup> {
       title: i18n.searching.searchHistory.text(),
       items: history,
       tileTrailing: IconButton(
-        icon: const Icon(Icons.delete),
+        icon: Icon(context.icons.delete),
         onPressed: history?.isNotEmpty == true
             ? () {
                 LibraryInit.searchStorage.setSearchHistory(null);

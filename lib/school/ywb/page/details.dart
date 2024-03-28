@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/utils/error.dart';
 import 'package:sit/utils/guard_launch.dart';
@@ -89,7 +90,7 @@ class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
       floatingActionButton: AutoHideFAB.extended(
         controller: controller,
         onPressed: () => openInApp(),
-        icon: const Icon(Icons.east),
+        icon: Icon(context.icons.rightChevron),
         label: i18n.details.apply.text(),
       ),
       bottomNavigationBar: isFetching

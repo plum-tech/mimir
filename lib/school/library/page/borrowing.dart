@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
+import 'package:sit/design/widgets/common.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/library/init.dart';
 import 'package:sit/school/library/utils.dart';
@@ -78,15 +79,23 @@ class _LibraryBorrowingPageState extends State<LibraryBorrowingPage> {
                 : null,
           ),
           if (borrowed != null)
-            SliverList.builder(
-              itemCount: borrowed.length,
-              itemBuilder: (ctx, i) {
-                return BorrowedBookCard(
-                  borrowed[i],
-                  elevated: false,
-                );
-              },
-            ),
+            if (borrowed.isEmpty)
+              SliverFillRemaining(
+                child: LeavingBlank(
+                  icon: Icons.inbox_outlined,
+                  desc: i18n.borrowing.noBorrowing,
+                ),
+              )
+            else
+              SliverList.builder(
+                itemCount: borrowed.length,
+                itemBuilder: (ctx, i) {
+                  return BorrowedBookCard(
+                    borrowed[i],
+                    elevated: false,
+                  );
+                },
+              ),
         ],
       ),
     );

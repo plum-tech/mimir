@@ -131,8 +131,9 @@ timetable:
       newPaletteName: New palette
       deleteRequest: Conform to delete?
       deleteRequestDesc: The palette will be deleted permanently without unless a QR code backup is saved
-      addFromQrCode: Palette was added from QR code
       addColor: Add a color
+      addFromQrCodeAction: Add palette
+      addFromQrCodeDesc: Confirm to add a timetable palette from QR code?
     cellStyle:
       title: Cell Style
       showTeachers:
@@ -357,6 +358,7 @@ electricity:
   refreshSuccessTip: Electricity balance refreshed successfully
   refreshFailedTip: Failed to refresh electricity balance
   searchRoom: Search Room
+  lastUpdateTime: "Last update: {}"
 eduEmail:
   title: Edu email
   action:
@@ -425,6 +427,7 @@ expenseRecords:
   noTransactionsTip: You have no transactions
   refreshSuccessTip: Expense records refreshed successfully
   refreshFailedTip: Failed to refresh expense records
+  lastUpdateTime: "Last update: {}"
   statsMode:
     week: Week
     month: Month
@@ -530,11 +533,13 @@ library:
     title: Borrowing
     history: History
     renew: Renew
+    noBorrowing: No borrowing books
   history:
     title: History
     operation:
       borrowing: Borrowing
       returning: Returning
+    noHistory: No borrowing history
   searchMethod:
     any: Any
     title: Title
@@ -632,7 +637,8 @@ settings:
     username: Username
     password: Password
     invalidProxyFormatTip: Invalid proxy format
-    proxyChangedTip: Proxy was changed
+    setFromQrCodeAction: Set proxy
+    setFromQrCodeDesc: Confirm to set proxy from QR code?
     shareQrCode:
       title: Share QR code
       desc: Share proxy as QR code

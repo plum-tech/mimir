@@ -222,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
               decoration: InputDecoration(
                 labelText: i18n.credentials.account,
                 hintText: i18n.accountHint,
-                icon: const Icon(Icons.person),
+                icon: Icon(context.icons.person),
               ),
             ),
             TextFormField(
@@ -246,9 +246,9 @@ class _LoginPageState extends State<LoginPage> {
               decoration: InputDecoration(
                 labelText: i18n.credentials.oaPwd,
                 hintText: i18n.oaPwdHint,
-                icon: const Icon(Icons.lock),
+                icon: Icon(context.icons.lock),
                 suffixIcon: IconButton(
-                  icon: Icon(isPasswordClear ? Icons.visibility : Icons.visibility_off),
+                  icon: Icon(isPasswordClear ? context.icons.eyeSolid : context.icons.eyeSlashSolid),
                   onPressed: () {
                     setState(() {
                       isPasswordClear = !isPasswordClear;

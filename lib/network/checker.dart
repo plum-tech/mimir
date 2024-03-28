@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/animation/animated.dart';
 import 'package:sit/init.dart';
 import 'package:sit/settings/settings.dart';
@@ -162,7 +163,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
           strokeWidth: 14,
         ).sizedAll(widget.iconSize);
       case ConnectivityStatus.connected:
-        return buildIcon(ctx, Icons.check_rounded);
+        return buildIcon(ctx, context.icons.checkMark);
       case ConnectivityStatus.disconnected:
         return buildIcon(ctx, Icons.public_off_rounded);
     }
@@ -235,14 +236,12 @@ class _TestConnectionTileState extends State<TestConnectionTile> {
       leading: const Icon(Icons.network_check),
       title: _i18n.testConnection.text(),
       subtitle: _i18n.testConnectionDesc.text(),
-      trailing: Padding(
-          padding: const EdgeInsets.all(8),
-          child: switch (testState) {
-            ConnectivityStatus.connecting => const CircularProgressIndicator.adaptive(),
-            ConnectivityStatus.connected => const Icon(Icons.check, color: Colors.green),
-            ConnectivityStatus.disconnected => Icon(Icons.public_off_rounded, color: context.$red$),
-            _ => null,
-          }),
+      trailing: switch(testState) {
+        ConnectivityStatus.connecting => const CircularProgressIndicator.adaptive(),
+        ConnectivityStatus.connected => Icon(context.icons.checkMark, color: Colors.green),
+        ConnectivityStatus.disconnected => Icon(Icons.public_off_rounded, color: context.$red$),
+        _ => null,
+      },
       onTap: () async {
         setState(() {
           testState = ConnectivityStatus.connecting;

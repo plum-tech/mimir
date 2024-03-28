@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 
 class ModalImageViewer extends StatelessWidget {
   const ModalImageViewer({
@@ -61,7 +61,7 @@ class FullScreenViewer extends StatelessWidget {
           children: <Widget>[
             Positioned.fill(
               child: GestureDetector(
-                onDoubleTap: (){
+                onDoubleTap: () {
                   Navigator.of(context).pop();
                 },
                 child: InteractiveViewer(
@@ -76,7 +76,7 @@ class FullScreenViewer extends StatelessWidget {
               alignment: Alignment.topRight,
               child: IconButton(
                 icon: Icon(
-                  PlatformIcons(context).clear,
+                  context.icons.clear,
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();

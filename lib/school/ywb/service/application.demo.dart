@@ -10,7 +10,6 @@ class DemoYwbApplicationService implements YwbApplicationService {
     void Function(double progress)? onProgress,
   }) async {
     onProgress?.call(1);
-    // TODO: l10n
     final now = DateTime.now();
     return [
       YwbApplication(

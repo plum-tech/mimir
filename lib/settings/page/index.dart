@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/login/i18n.dart';
 import 'package:sit/network/widgets/entry.dart';
 import 'package:sit/storage/hive/init.dart';
@@ -150,7 +151,7 @@ class _SettingsPageState extends State<SettingsPage> {
     all.add(const WipeDataTile());
     all.add(PageNavigationTile(
       title: i18n.about.title.text(),
-      leading: const Icon(Icons.info),
+      leading: Icon(context.icons.info),
       path: "/settings/about",
     ));
     all[all.length - 1] = all.last.safeArea(t: false);
@@ -165,6 +166,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ThemeMode.light => const Icon(Icons.light_mode),
                 ThemeMode.system => const Icon(Icons.brightness_auto),
               },
+              isThreeLine: true,
               title: i18n.themeModeTitle.text(),
               subtitle: ThemeMode.values
                   .map((mode) => ChoiceChip(

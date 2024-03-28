@@ -90,7 +90,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
             )
           : const SizedBox(),
       title: (roomNumber == null ? i18n.title : "${i18n.title} #105604").text(),
-      subtitle: lastUpdateTime != null ? "Last update: ${context.formatMdhmNum(lastUpdateTime)}".text() : null,
+      subtitle: lastUpdateTime != null ? i18n.lastUpdateTime(context.formatMdhmNum(lastUpdateTime)).text() : null,
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
@@ -111,7 +111,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
             }
           },
           label: i18n.searchRoom.text(),
-          icon: const Icon(Icons.search),
+          icon: Icon(context.icons.search),
         ),
       ],
       rightActions: [
@@ -121,7 +121,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
             onPressed: () async {
               await shareBalance(balance: balance, selectedRoom: selectedRoom, context: context);
             },
-            icon: const Icon(Icons.share_outlined),
+            icon: Icon(context.icons.share),
           ),
       ],
     );
@@ -148,14 +148,14 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
           return Menu(
             children: [
               MenuAction(
-                image: MenuImage.icon(PlatformIcons(context).share),
+                image: MenuImage.icon(context.icons.share),
                 title: i18n.share,
                 callback: () async {
                   await shareBalance(balance: balance, selectedRoom: selectedRoom, context: ctx);
                 },
               ),
               MenuAction(
-                image: MenuImage.icon(PlatformIcons(context).delete),
+                image: MenuImage.icon(context.icons.delete),
                 title: i18n.delete,
                 attributes: const MenuActionAttributes(destructive: true),
                 activator: const SingleActivator(LogicalKeyboardKey.delete),

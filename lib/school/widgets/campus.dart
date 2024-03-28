@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
@@ -13,7 +14,7 @@ class CampusSelector extends StatelessWidget {
       builder: (ctx, setState) => SegmentedButton<Campus>(
         segments: Campus.values
             .map((e) => ButtonSegment<Campus>(
-                  icon: const Icon(Icons.place_outlined),
+                  icon: Icon(context.icons.location),
                   value: e,
                   label: e.l10nName().text(),
                 ))

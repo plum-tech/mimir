@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:sit/school/ywb/entity/application.dart';
 import 'package:sit/school/ywb/init.dart';
@@ -41,7 +42,7 @@ class _YwbAppCardState extends ConsumerState<YwbAppCard> {
             context.push("/ywb/mine");
           },
           label: i18n.action.applications.text(),
-          icon: const Icon(Icons.mail_outlined),
+          icon: Icon(context.icons.mail),
         )
       ],
     );

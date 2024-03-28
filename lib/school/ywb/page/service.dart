@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:fit_system_screenshot/fit_system_screenshot.dart';
 import 'package:flutter/material.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/utils/error.dart';
@@ -88,7 +89,7 @@ class _YwbServiceListPageState extends State<YwbServiceListPage> {
               Tooltip(
                 triggerMode: TooltipTriggerMode.tap,
                 message: i18n.info,
-                child: const Icon(Icons.info_outline).padAll(8),
+                child: Icon(context.icons.info).padAll(8),
               ),
             ],
             bottom: isLoading

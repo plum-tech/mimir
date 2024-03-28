@@ -101,6 +101,8 @@ class _Borrowing {
   String get history => "$ns.history".tr();
 
   String get renew => "$ns.renew".tr();
+
+  String get noBorrowing => "$ns.noBorrowing".tr();
 }
 
 class _History {
@@ -109,4 +111,6 @@ class _History {
   static const ns = "${_I18n.ns}.history";
 
   String get title => "$ns.title".tr();
+
+  String get noHistory => "$ns.noHistory".tr();
 }

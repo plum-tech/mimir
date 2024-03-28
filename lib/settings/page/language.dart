@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:locale_names/locale_names.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/r.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
@@ -41,9 +42,11 @@ class _LanguagePageState extends State<LanguagePage> {
             itemCount: R.supportedLocales.length,
             itemBuilder: (ctx, i) {
               final locale = R.supportedLocales[i];
+              final isSelected = selected == locale;
               return ListTile(
-                selected: selected == locale,
+                selected: isSelected,
                 title: locale.nativeDisplayLanguageScript.text(),
+                trailing: isSelected ? Icon(ctx.icons.checkMark) : null,
                 onTap: () {
                   setState(() {
                     selected = locale;

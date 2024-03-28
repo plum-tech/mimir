@@ -22,4 +22,6 @@ class _I18n with CommonI18nMixin {
   String get refreshSuccessTip => "$ns.refreshSuccessTip".tr();
 
   String get refreshFailedTip => "$ns.refreshFailedTip".tr();
+
+  String lastUpdateTime(String time) => "$ns.lastUpdateTime".tr(args: [time]);
 }

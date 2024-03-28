@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/l10n/common.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -329,7 +330,7 @@ class _IntEditorState extends State<IntEditor> {
     return Row(
       children: [
         PlatformTextButton(
-          child: const Icon(Icons.remove),
+          child: Icon(ctx.icons.remove),
           onPressed: () {
             setState(() {
               value--;
@@ -353,7 +354,7 @@ class _IntEditorState extends State<IntEditor> {
           },
         ).sized(w: 100),
         PlatformTextButton(
-          child: const Icon(Icons.add),
+          child: Icon(ctx.icons.add),
           onPressed: () {
             setState(() {
               value++;

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/login/utils.dart';
 import 'package:sit/login/widgets/forgot_pwd.dart';
 import 'package:rettulf/rettulf.dart';
@@ -106,9 +107,9 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
               decoration: InputDecoration(
                 labelText: i18n.login.credentials.pwd,
                 hintText: i18n.login.passwordHint,
-                icon: const Icon(Icons.lock),
+                icon: Icon(context.icons.lock),
                 suffixIcon: IconButton(
-                  icon: Icon(isPasswordClear ? Icons.visibility : Icons.visibility_off),
+                  icon: Icon(isPasswordClear ? context.icons.eyeSolid : context.icons.eyeSlashSolid),
                   onPressed: () {
                     setState(() {
                       isPasswordClear = !isPasswordClear;

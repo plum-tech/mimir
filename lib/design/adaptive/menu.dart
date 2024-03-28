@@ -29,30 +29,26 @@ class PullDownItem implements PullDownEntry {
   final String title;
   final VoidCallback? onTap;
   final IconData? icon;
-  final IconData? cupertinoIcon;
   final bool destructive;
 
   const PullDownItem({
     required this.title,
     this.onTap,
     this.icon,
-    this.cupertinoIcon,
     this.destructive = false,
   });
 
   const PullDownItem.edit({
     required this.title,
     this.onTap,
-    this.icon = Icons.edit,
-    this.cupertinoIcon = CupertinoIcons.pencil,
+    this.icon,
     this.destructive = false,
   });
 
   const PullDownItem.delete({
     required this.title,
     this.onTap,
-    this.icon = Icons.delete,
-    this.cupertinoIcon = CupertinoIcons.delete,
+    this.icon,
   }) : destructive = true;
 
   @override
@@ -61,7 +57,7 @@ class PullDownItem implements PullDownEntry {
       onTap: onTap,
       title: title,
       isDestructive: destructive,
-      icon: cupertinoIcon ?? icon,
+      icon: icon,
     );
   }
 

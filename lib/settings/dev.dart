@@ -32,7 +32,8 @@ class DevSettingsImpl {
 
   ValueListenable<Box> listenDemoMode() => box.listenable(keys: [_K.demoMode]);
 
-  List<Credentials>? getSavedOaCredentialsList() => (box.safeGet(_K.savedOaCredentialsList) as List?)?.cast<Credentials>();
+  List<Credentials>? getSavedOaCredentialsList() =>
+      (box.safeGet(_K.savedOaCredentialsList) as List?)?.cast<Credentials>();
 
   Future<void> setSavedOaCredentialsList(List<Credentials>? newV) async {
     newV?.distinctBy((c) => c.account);

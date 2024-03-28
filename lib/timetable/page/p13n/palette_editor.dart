@@ -6,6 +6,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isC
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/extension.dart';
@@ -136,7 +137,7 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
                   SliverList.list(children: [
                     const Divider(indent: 12, endIndent: 12),
                     ListTile(
-                      leading: const Icon(Icons.add),
+                      leading: Icon(context.icons.add),
                       title: i18n.p13n.palette.addColor.text(),
                       onTap: () {
                         setState(() {
@@ -196,8 +197,7 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
     return SwipeToDismiss(
       childKey: ObjectKey(current),
       right: SwipeToDismissAction(
-        icon: const Icon(Icons.delete),
-        cupertinoIcon: const Icon(CupertinoIcons.delete),
+        icon: Icon(ctx.icons.delete),
         action: () async {
           setState(() {
             colors.removeAt(index);

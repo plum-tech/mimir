@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/duration_picker.dart';
 import '../entity/timetable.dart';
 import "../i18n.dart";
@@ -117,7 +118,7 @@ class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
               trailing: Tooltip(
                 triggerMode: TooltipTriggerMode.tap,
                 message: merged ? i18n.export.lessonModeMergedTip : i18n.export.lessonModeSeparateTip,
-                child: const Icon(Icons.info_outline),
+                child: Icon(context.icons.info),
               ).padAll(8),
             );
   }
@@ -177,7 +178,7 @@ class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
                   title: i18n.export.alarmDuration.text(),
                   subtitle: i18n.time.minuteFormat(duration.inMinutes.toString()).text(),
                   trailing: IconButton(
-                    icon: const Icon(Icons.edit),
+                    icon: Icon(context.icons.edit),
                     onPressed: !enabled
                         ? null
                         : () async {
@@ -202,7 +203,7 @@ class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
                   title: i18n.export.alarmBeforeClassBegins.text(),
                   subtitle: i18n.export.alarmBeforeClassBeginsDesc(duration).text(),
                   trailing: IconButton(
-                    icon: const Icon(Icons.edit),
+                    icon: Icon(context.icons.edit),
                     onPressed: !enabled
                         ? null
                         : () async {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -133,7 +134,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: const Icon(Icons.clear),
+        icon: Icon(context.icons.clear),
         onPressed: () => query = "",
       )
     ];

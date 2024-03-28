@@ -53,7 +53,7 @@ extension DialogEx on BuildContext {
   }
 
   Future<bool?> showRequest({
-    required String title,
+    String? title,
     required String desc,
     required String yes,
     required String no,
@@ -78,8 +78,32 @@ extension DialogEx on BuildContext {
     );
   }
 
+  Future<bool?> showActionRequest({
+    required String desc,
+    required String action,
+    required String cancel,
+    bool destructive = false,
+  }) async {
+    if (isCupertino) {
+      return showCupertinoRequest(
+        desc: desc,
+        yes: action,
+        cancel: cancel,
+        destructive: destructive,
+      );
+    }
+    return await showAnyRequest(
+      title: action,
+      make: (_) => desc.text(style: const TextStyle()),
+      yes: action,
+      no: cancel,
+      highlight: destructive,
+      serious: destructive,
+    );
+  }
+
   Future<bool?> showCupertinoRequest({
-    required String title,
+    String? title,
     required String desc,
     required String yes,
     required String cancel,
@@ -88,7 +112,7 @@ extension DialogEx on BuildContext {
     return await showCupertinoModalPopup(
       context: this,
       builder: (ctx) => CupertinoActionSheet(
-        title: title.text(),
+        title: title?.text(),
         message: desc.text(),
         actions: [
           CupertinoActionSheetAction(
@@ -110,7 +134,7 @@ extension DialogEx on BuildContext {
   }
 
   Future<bool?> showAnyRequest({
-    required String title,
+    String? title,
     required WidgetBuilder make,
     required String yes,
     required String no,

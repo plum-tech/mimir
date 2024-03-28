@@ -39,7 +39,7 @@ class _MePageState extends State<MePage> {
             actions: [
               buildScannerAction(),
               IconButton(
-                icon: isCupertino ? const Icon(CupertinoIcons.settings) : const Icon(Icons.settings),
+                icon: Icon(context.icons.settings),
                 onPressed: () {
                   context.push("/settings");
                 },
@@ -91,7 +91,7 @@ class _MePageState extends State<MePage> {
             if (!mounted) return;
             context.showSnackBar(content: "已复制到剪贴板".text());
           },
-          icon: const Icon(Icons.copy),
+          icon: Icon(context.icons.copy),
         ),
       ].row(mas: MainAxisSize.min),
       onTap: () async {

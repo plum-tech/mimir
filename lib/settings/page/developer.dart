@@ -5,6 +5,7 @@ import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/credentials/utils.dart';
 import 'package:sit/design/adaptive/editor.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
 import 'package:sit/init.dart';
 import 'package:sit/login/aggregated.dart';
@@ -98,7 +99,7 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
     return ListTile(
       title: i18n.dev.reload.text(),
       subtitle: i18n.dev.reloadDesc.text(),
-      leading: const Icon(Icons.refresh_rounded),
+      leading: Icon(context.icons.refresh),
       onTap: () async {
         await Init.initNetwork();
         await Init.initModules();
@@ -195,7 +196,7 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
   Widget buildCredentialsHistoryTile(Credentials credentials) {
     final isCurrent = credentials == widget.currentCredentials;
     return ListTile(
-      leading: const Icon(Icons.account_circle),
+      leading: Icon(context.icons.accountCircle),
       title: credentials.account.text(),
       subtitle: isCurrent ? "Current user".text() : estimateOaUserType(credentials.account)?.l10n().text(),
       trailing: const Icon(Icons.login).padAll(8),
@@ -208,7 +209,7 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
 
   Widget buildLoginNewTile() {
     return ListTile(
-      leading: const Icon(Icons.add),
+      leading: Icon(context.icons.add),
       title: "New account".text(),
       onTap: () async {
         final credentials = await await Editor.showAnyEditor(

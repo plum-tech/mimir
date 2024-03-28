@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/common.dart';
 
 import '../entity/activity.dart';
@@ -12,7 +13,7 @@ class ActivitySearchDelegate extends SearchDelegate<String> {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return <Widget>[
-      IconButton(onPressed: () => query = '', icon: const Icon(Icons.clear)),
+      IconButton(onPressed: () => query = '', icon: Icon(context.icons.clear)),
     ];
   }
 

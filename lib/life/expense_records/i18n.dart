@@ -33,6 +33,8 @@ class _I18n with CommonI18nMixin {
   String income(String amount) => "$ns.income".tr(args: [amount]);
 
   String outcome(String amount) => "$ns.outcome".tr(args: [amount]);
+
+  String lastUpdateTime(String time) => "$ns.lastUpdateTime".tr(args: [time]);
 }
 
 class _Stats {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/school/library/aggregated.dart';
 import 'package:sit/school/library/page/details.model.dart';
@@ -115,7 +116,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                 trailing: onSearchTap == null
                     ? null
                     : IconButton(
-                        icon: const Icon(Icons.youtube_searched_for),
+                        icon: Icon(context.icons.search),
                         onPressed: () {
                           onSearchTap.call(SearchMethod.title, book.title);
                         },
@@ -127,7 +128,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                 trailing: onSearchTap == null
                     ? null
                     : IconButton(
-                        icon: const Icon(Icons.youtube_searched_for),
+                        icon: Icon(context.icons.search),
                         onPressed: () {
                           onSearchTap.call(SearchMethod.author, book.author);
                         },

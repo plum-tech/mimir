@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/card.dart';
+import 'package:sit/design/widgets/common.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/library/init.dart';
 import 'package:sit/utils/error.dart';
@@ -67,12 +68,20 @@ class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistor
                 : null,
           ),
           if (history != null)
-            SliverList.builder(
-              itemCount: history.length,
-              itemBuilder: (ctx, i) {
-                return BookBorrowHistoryCard(history[i]);
-              },
-            ),
+            if (history.isEmpty)
+              SliverFillRemaining(
+                child: LeavingBlank(
+                  icon: Icons.inbox_outlined,
+                  desc: i18n.history.noHistory,
+                ),
+              )
+            else
+              SliverList.builder(
+                itemCount: history.length,
+                itemBuilder: (ctx, i) {
+                  return BookBorrowHistoryCard(history[i]);
+                },
+              ),
         ],
       ),
     );
