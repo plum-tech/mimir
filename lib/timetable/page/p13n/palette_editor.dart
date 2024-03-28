@@ -137,7 +137,7 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
                   SliverList.list(children: [
                     const Divider(indent: 12, endIndent: 12),
                     ListTile(
-                      leading: const Icon(Icons.add),
+                      leading: Icon(context.icons.add),
                       title: i18n.p13n.palette.addColor.text(),
                       onTap: () {
                         setState(() {

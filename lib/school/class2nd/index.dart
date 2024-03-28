@@ -126,7 +126,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
                     await shareSummery(summary: summary, target: getTargetScore(), context: context);
                   }
                 : null,
-            icon: const Icon(Icons.share_outlined),
+            icon: Icon(context.icons.share),
           ),
       ],
     );
@@ -147,7 +147,7 @@ class _Class2ndAppCardState extends State<Class2ndAppCard> {
           return Menu(
             children: [
               MenuAction(
-                image: MenuImage.icon(CupertinoIcons.share),
+                image: MenuImage.icon(context.icons.share),
                 title: i18n.share,
                 callback: () async {
                   await shareSummery(summary: summary, target: target, context: ctx);

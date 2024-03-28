@@ -61,7 +61,7 @@ class FullScreenViewer extends StatelessWidget {
           children: <Widget>[
             Positioned.fill(
               child: GestureDetector(
-                onDoubleTap: (){
+                onDoubleTap: () {
                   Navigator.of(context).pop();
                 },
                 child: InteractiveViewer(

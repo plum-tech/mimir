@@ -255,8 +255,7 @@ class _Editor {
         "from": from,
         "to": to,
       });
-  String timeslotsSpanSingle(String at) =>
-      "$ns.timeslots.single".tr(args: [at]);
+  String timeslotsSpanSingle(String at) => "$ns.timeslots.single".tr(args: [at]);
 }
 
 class _Export {

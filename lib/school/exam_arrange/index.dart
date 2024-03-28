@@ -102,7 +102,7 @@ class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
                   },
                 ),
               MenuAction(
-                image: MenuImage.icon(CupertinoIcons.share),
+                image: MenuImage.icon(context.icons.share),
                 title: i18n.share,
                 callback: () async {
                   await shareExamArrange(exam: exam, context: context);

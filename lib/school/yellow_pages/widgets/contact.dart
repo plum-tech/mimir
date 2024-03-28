@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/school/yellow_pages/init.dart';
 import 'package:sit/school/yellow_pages/storage/contact.dart';
 import 'package:sit/utils/guard_launch.dart';
@@ -29,7 +30,7 @@ class ContactTile extends StatelessWidget {
         backgroundColor: context.colorScheme.primary,
         radius: 20,
         child: name == null || name.isEmpty || _isDigit(name[0])
-            ? Center(child: Icon(Icons.account_circle, size: 40, color: context.colorScheme.onPrimary))
+            ? Center(child: Icon(context.icons.accountCircle, size: 40, color: context.colorScheme.onPrimary))
             : name[0]
                 .text(
                   style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onPrimary),

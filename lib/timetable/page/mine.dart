@@ -150,7 +150,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
         controller: scrollController,
         onPressed: goImport,
         label: Text(isLoginGuarded(context) ? i18n.import.fromFile : i18n.import.import),
-        icon: const Icon(Icons.add_outlined),
+        icon: Icon(context.icons.add),
       ),
     );
   }

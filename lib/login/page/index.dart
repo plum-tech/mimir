@@ -222,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
               decoration: InputDecoration(
                 labelText: i18n.credentials.account,
                 hintText: i18n.accountHint,
-                icon: const Icon(Icons.person),
+                icon: Icon(context.icons.person),
               ),
             ),
             TextFormField(

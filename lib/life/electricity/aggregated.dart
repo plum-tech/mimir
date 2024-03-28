@@ -16,7 +16,7 @@ class ElectricityAggregated {
     ElectricityBalanceInit.storage.lastUpdateTime = null;
   }
 
-  static void clearSelectedRoom(){
+  static void clearSelectedRoom() {
     Settings.life.electricity.selectedRoom = null;
     ElectricityBalanceInit.storage.lastUpdateTime = null;
     ElectricityBalanceInit.storage.lastBalance = null;

@@ -86,7 +86,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         label: i18n.p13n.palette.fab.text(),
-        icon: const Icon(Icons.add),
+        icon: Icon(context.icons.add),
         onPressed: () async {
           final palette = TimetablePalette(
             name: i18n.p13n.palette.newPaletteName,

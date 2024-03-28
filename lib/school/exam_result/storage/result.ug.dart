@@ -18,9 +18,11 @@ class ExamResultUgStorage {
 
   const ExamResultUgStorage();
 
-  List<ExamResultUg>? getResultList(SemesterInfo info) => (box.safeGet(_K.resultList(info)) as List?)?.cast<ExamResultUg>();
+  List<ExamResultUg>? getResultList(SemesterInfo info) =>
+      (box.safeGet(_K.resultList(info)) as List?)?.cast<ExamResultUg>();
 
-  Future<void> setResultList(SemesterInfo info, List<ExamResultUg>? results) => box.safePut(_K.resultList(info), results);
+  Future<void> setResultList(SemesterInfo info, List<ExamResultUg>? results) =>
+      box.safePut(_K.resultList(info), results);
 
   ValueListenable<Box> listenResultList(SemesterInfo info) => box.listenable(keys: [_K.resultList(info)]);
 

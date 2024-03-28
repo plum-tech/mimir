@@ -251,7 +251,7 @@ class EntryCard extends StatelessWidget {
     if (selectAction != null && !selected) {
       final selectCallback = selectAction.action;
       all.add(MenuAction(
-        image: MenuImage.icon(CupertinoIcons.check_mark),
+        image: MenuImage.icon(context.icons.checkMark),
         title: selectAction.selectLabel,
         callback: selectCallback,
       ));

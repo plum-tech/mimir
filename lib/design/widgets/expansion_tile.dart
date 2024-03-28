@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
 
 // thanks to "https://github.com/simplewidgets/rounded_expansion_tile"
 const _kDefaultDuration = Duration(milliseconds: 300);
@@ -179,7 +178,7 @@ class AnimatedExpansionTileState extends State<AnimatedExpansionTile> with Ticke
 
   // Build trailing widget based on the user input.
   Widget? _trailingIcon() {
-    final trailing = widget.trailing ?? Icon(context.icons.downArrow);
+    final trailing = widget.trailing ?? const Icon(Icons.keyboard_arrow_down);
     if (_rotateTrailing!) {
       return RotationTransition(turns: Tween(begin: 0.0, end: 0.5).animate(_iconController), child: trailing);
     } else {

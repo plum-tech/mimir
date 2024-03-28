@@ -138,7 +138,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
   Widget addCourseTile() {
     return ListTile(
       title: i18n.editor.addCourse.text(),
-      trailing: const Icon(Icons.add),
+      trailing: Icon(context.icons.add),
       onTap: () async {
         final newCourse = await context.show$Sheet$<SitCourse>((ctx) => SitCourseEditorPage(
               title: i18n.editor.newCourse,
@@ -313,7 +313,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
         title: template.courseName.text(),
         trailing: [
           IconButton.filledTonal(
-            icon: const Icon(Icons.add),
+            icon: Icon(context.icons.add),
             padding: EdgeInsets.zero,
             onPressed: () async {
               final tempItem = template.createSubItem(courseKey: 0);
@@ -328,7 +328,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
             },
           ),
           IconButton.filledTonal(
-            icon: const Icon(Icons.edit),
+            icon: Icon(context.icons.edit),
             padding: EdgeInsets.zero,
             onPressed: () async {
               final newTemplate = await context.show$Sheet$<SitCourse>((context) => SitCourseEditorPage.template(
@@ -368,7 +368,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
                 ...weekNumbers.map((n) => n.text()),
               ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
               trailing: IconButton.filledTonal(
-                icon: const Icon(Icons.edit),
+                icon: Icon(context.icons.edit),
                 padding: EdgeInsets.zero,
                 onPressed: () async {
                   final newItem = await context.show$Sheet$<SitCourse>((context) => SitCourseEditorPage.item(
@@ -608,7 +608,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
       initiallyExpanded: true,
       rotateTrailing: false,
       trailing: IconButton.filledTonal(
-        icon: const Icon(Icons.add),
+        icon: Icon(context.icons.add),
         onPressed: () {
           final newIndices = List.of(weekIndices.indices);
           newIndices.add(const TimetableWeekIndex.all((start: 0, end: 1)));
@@ -645,7 +645,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
       title: i18n.course.teacher(2).text(),
       isThreeLine: true,
       trailing: IconButton(
-        icon: const Icon(Icons.add),
+        icon: Icon(context.icons.add),
         onPressed: () async {
           final newTeacher = await Editor.showStringEditor(
             context,

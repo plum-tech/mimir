@@ -1,4 +1,3 @@
-
 import 'package:flutter/widgets.dart';
 import 'package:sit/qrcode/protocol.dart';
 import 'package:sit/r.dart';
@@ -32,9 +31,9 @@ class ProxyDeepLink extends DeepLinkHandlerProtocol {
       https = http;
     }
     return (
-    http: http == null ? null : Uri.tryParse(http),
-    https: https == null ? null : Uri.tryParse(https),
-    all: all == null ? null : Uri.tryParse(all),
+      http: http == null ? null : Uri.tryParse(http),
+      https: https == null ? null : Uri.tryParse(https),
+      all: all == null ? null : Uri.tryParse(all),
     );
   }
 

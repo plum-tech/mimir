@@ -109,7 +109,7 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
                 hintText: i18n.login.passwordHint,
                 icon: Icon(context.icons.lock),
                 suffixIcon: IconButton(
-                  icon: Icon(isPasswordClear ? context.icons.eyeSolid: context.icons.eyeSlashSolid),
+                  icon: Icon(isPasswordClear ? context.icons.eyeSolid : context.icons.eyeSlashSolid),
                   onPressed: () {
                     setState(() {
                       isPasswordClear = !isPasswordClear;

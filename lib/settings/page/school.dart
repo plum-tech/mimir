@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
@@ -57,7 +58,7 @@ class _SchoolSettingsPageState extends State<SchoolSettingsPage> {
       builder: (ctx, setState) => ListTile(
         title: i18n.school.class2nd.autoRefresh.text(),
         subtitle: i18n.school.class2nd.autoRefreshDesc.text(),
-        leading: const Icon(Icons.refresh_outlined),
+        leading: Icon(context.icons.refresh),
         trailing: Switch.adaptive(
           value: Settings.school.class2nd.autoRefresh,
           onChanged: (newV) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/l10n/common.dart';
 import 'package:sit/utils/error.dart';
 import 'package:sit/widgets/webview/injectable.dart';
@@ -125,12 +126,12 @@ class _WebViewPageState extends State<WebViewPage> {
       if (widget.showRefreshButton)
         IconButton(
           onPressed: _onRefresh,
-          icon: const Icon(Icons.refresh),
+          icon: Icon(context.icons.refresh),
         ),
       if (widget.showSharedButton)
         IconButton(
           onPressed: _onShared,
-          icon: const Icon(Icons.share),
+          icon: Icon(context.icons.share),
         ),
       if (widget.showOpenInBrowser)
         IconButton(

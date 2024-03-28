@@ -158,7 +158,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     return [
       FilledButton.icon(
         onPressed: pickImage,
-        icon: Icon(context.icons.edit),
+        icon: Icon(context.icons.create),
         label: i18n.choose.text(),
       ),
       OutlinedButton.icon(

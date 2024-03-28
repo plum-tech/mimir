@@ -6,6 +6,7 @@ import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/init.dart';
 import 'package:sit/login/utils.dart';
 import '../i18n.dart';
@@ -63,8 +64,8 @@ class _CredentialsPageState extends State<CredentialsPage> {
     return ListTile(
       title: i18n.oaCredentials.oaAccount.text(),
       subtitle: credential.account.text(),
-      leading: const Icon(Icons.person_rounded),
-      trailing: const Icon(Icons.copy_rounded),
+      leading: Icon(context.icons.person),
+      trailing: Icon(context.icons.copy),
       onTap: () async {
         context.showSnackBar(content: i18n.copyTipOf(i18n.oaCredentials.oaAccount).text());
         // Copy the student ID to clipboard
@@ -82,7 +83,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
         leading: const Icon(Icons.password_rounded),
         trailing: [
           IconButton(
-            icon: const Icon(Icons.edit),
+            icon: Icon(context.icons.edit),
             onPressed: () async {
               final newPwd = await Editor.showStringEditor(
                 context,
@@ -141,7 +142,7 @@ class _TestLoginTileState extends State<TestLoginTile> {
         padding: const EdgeInsets.all(8),
         child: switch (loggingState) {
           _TestLoginState.loggingIn => const CircularProgressIndicator.adaptive(),
-          _TestLoginState.success => const Icon(Icons.check, color: Colors.green),
+          _TestLoginState.success => Icon(context.icons.checkMark, color: Colors.green),
           _ => null,
         },
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
@@ -41,7 +42,7 @@ class _LifeSettingsPageState extends State<LifeSettingsPage> {
       builder: (ctx, setState) => ListTile(
         title: i18n.life.electricity.autoRefresh.text(),
         subtitle: i18n.life.electricity.autoRefreshDesc.text(),
-        leading: const Icon(Icons.refresh_outlined),
+        leading: Icon(context.icons.refresh),
         trailing: Switch.adaptive(
           value: Settings.life.electricity.autoRefresh,
           onChanged: (newV) {
@@ -59,7 +60,7 @@ class _LifeSettingsPageState extends State<LifeSettingsPage> {
       builder: (ctx, setState) => ListTile(
         title: i18n.life.expense.autoRefresh.text(),
         subtitle: i18n.life.expense.autoRefreshDesc.text(),
-        leading: const Icon(Icons.refresh_outlined),
+        leading: Icon(context.icons.refresh),
         trailing: Switch.adaptive(
           value: Settings.life.expense.autoRefresh,
           onChanged: (newV) {

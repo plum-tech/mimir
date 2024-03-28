@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/network/checker.dart';
 import 'package:sit/qrcode/page/view.dart';
@@ -122,10 +123,10 @@ class ProxyShareQrCodeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const Icon(Icons.qr_code),
+      leading: Icon(context.icons.qrcode),
       title: i18n.proxy.shareQrCode.text(),
       subtitle: i18n.proxy.shareQrCodeDesc.text(),
-      trailing: const Icon(Icons.share).padAll(8),
+      trailing: Icon(context.icons.share),
       onTap: () async {
         final proxy = Settings.proxy;
         final qrCodeData = const ProxyDeepLink().encode(
@@ -239,10 +240,10 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
                 this.uri = type.buildDefaultUri();
               });
             },
-            icon: const Icon(Icons.delete),
+            icon: Icon(context.icons.delete),
           ),
         IconButton(
-          icon: const Icon(Icons.edit),
+          icon: Icon(context.icons.edit),
           onPressed: () async {
             final newFullProxy = await Editor.showStringEditor(
               context,
@@ -301,7 +302,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
       title: i18n.proxy.hostname,
       subtitle: host,
       trailing: IconButton(
-        icon: const Icon(Icons.edit),
+        icon: Icon(context.icons.edit),
         onPressed: () async {
           final newHostRaw = await Editor.showStringEditor(
             context,
@@ -329,7 +330,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
       title: i18n.proxy.port,
       subtitle: port.toString(),
       trailing: IconButton(
-        icon: const Icon(Icons.edit),
+        icon: Icon(context.icons.edit),
         onPressed: () async {
           final newPort = await Editor.showIntEditor(
             context,
@@ -365,10 +366,10 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
                 uri = uri.replace(userInfo: "");
               });
             },
-            icon: const Icon(Icons.delete),
+            icon: Icon(context.icons.delete),
           ),
         IconButton(
-          icon: const Icon(Icons.edit),
+          icon: Icon(context.icons.edit),
           onPressed: () async {
             final newAuth = await showAdaptiveDialog<({String username, String password})>(
               context: context,
@@ -470,7 +471,7 @@ class _ProxyModeSwitcherTile extends StatelessWidget {
       trailing: Tooltip(
         triggerMode: TooltipTriggerMode.tap,
         message: buildTooltip(),
-        child: const Icon(Icons.info_outline),
+        child: Icon(context.icons.info),
       ).padAll(8),
     );
   }

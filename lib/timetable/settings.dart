@@ -26,7 +26,8 @@ class TimetableSettings {
 
   set autoUseImported(bool newV) => box.safePut(_K.autoUseImported, newV);
 
-  CourseCellStyle? get cellStyle => decodeJsonObject(box.safeGet<String>(_K.cellStyle), (obj) => CourseCellStyle.fromJson(obj));
+  CourseCellStyle? get cellStyle =>
+      decodeJsonObject(box.safeGet<String>(_K.cellStyle), (obj) => CourseCellStyle.fromJson(obj));
 
   set cellStyle(CourseCellStyle? newV) => box.safePut(_K.cellStyle, encodeJsonObject(newV, (obj) => obj.toJson()));
 

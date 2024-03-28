@@ -1,7 +1,9 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
@@ -230,10 +232,10 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
             trailing: IconButton(
               icon: Icon(
                 isGroupNoneSelected
-                    ? Icons.check_box_outline_blank
+                    ? context.icons.checkBoxBlankOutlineRounded
                     : isGroupAllSelected
-                        ? Icons.check_box_outlined
-                        : Icons.indeterminate_check_box_outlined,
+                        ? context.icons.checkBoxCheckedOutlineRounded
+                        : context.icons.checkBoxIndeterminateOutlineRounded,
               ),
               onPressed: () {
                 for (final item in widget.items) {
@@ -288,7 +290,8 @@ class ExamResultGpaTile extends StatelessWidget {
     return ListTile(
       isThreeLine: true,
       selected: selected,
-      leading: Icon(selected ? Icons.check_box_outlined : Icons.check_box_outline_blank).padAll(8),
+      leading: Icon(selected ? context.icons.checkBoxCheckedOutlineRounded : context.icons.checkBoxBlankOutlineRounded)
+          .padAll(8),
       titleTextStyle: textTheme.titleMedium,
       title: Text(result.courseName),
       subtitleTextStyle: textTheme.bodyMedium,

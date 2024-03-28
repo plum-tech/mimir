@@ -1,4 +1,3 @@
-
 import 'package:flutter/widgets.dart';
 import 'package:sit/qrcode/protocol.dart';
 import 'package:sit/r.dart';
