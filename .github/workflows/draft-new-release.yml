@@ -5,6 +5,8 @@ on: workflow_dispatch
 jobs:
   draft-new-release:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+
     steps:
       - name: Get Flutter Build Run ID
         id: get_run_id
