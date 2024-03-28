@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:sit/storage/hive/init.dart';
@@ -16,7 +17,7 @@ class _K {
 class ExamResultUgStorage {
   Box get box => HiveInit.examResult;
 
-  const ExamResultUgStorage();
+  ExamResultUgStorage();
 
   List<ExamResultUg>? getResultList(SemesterInfo info) =>
       (box.safeGet(_K.resultList(info)) as List?)?.cast<ExamResultUg>();
@@ -32,4 +33,10 @@ class ExamResultUgStorage {
 
   Stream<BoxEvent> watchResultList(SemesterInfo Function() getFilter) =>
       box.watch().where((event) => event.key == _K.resultList(getFilter()));
+
+  late final $resultListFamily = box.streamProviderFamily();
+
+  ChangeNotifierProvider<BoxChangeStreamNotifier> $resultListFamilyWithSemester(SemesterInfo semester) {
+    return $resultListFamily((event) => event.key == _K.resultList(semester));
+  }
 }

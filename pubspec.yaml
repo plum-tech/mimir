@@ -3,7 +3,7 @@ description: "A multiplatform app for SIT students."
 
 # The build version numbers is incremented automatically.
 # DO NOT DIRECTLY CHANGE IT
-version: 2.3.1+25
+version: 2.3.1+26
 
 homepage: https://github.com/liplum/mimir
 repository: https://github.com/liplum/mimir
@@ -24,7 +24,6 @@ dependencies:
   # Basic
   logger: ^2.2.0
   device_info_plus: ^9.1.2
-  event_bus: ^2.0.0
   path_provider: ^2.1.2
   version: ^3.0.2
   yaml: ^3.1.2

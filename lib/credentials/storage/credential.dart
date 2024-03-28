@@ -28,7 +28,7 @@ class _LibraryK {
 class CredentialStorage {
   Box get box => HiveInit.credentials;
 
-  const CredentialStorage();
+  CredentialStorage();
 
   // OA
   Credentials? get oaCredentials => box.safeGet(_OaK.credentials);
@@ -71,4 +71,6 @@ class CredentialStorage {
   ValueListenable<Box> listenLibraryChange() => box.listenable(keys: [
         _LibraryK.credentials,
       ]);
+
+  late final $libraryCredentials = box.provider<Credentials>(_LibraryK.credentials);
 }

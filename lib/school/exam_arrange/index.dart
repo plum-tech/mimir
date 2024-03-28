@@ -2,15 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:sit/school/utils.dart';
-import 'package:sit/school/event.dart';
 import 'package:sit/school/exam_arrange/entity/exam.dart';
 import 'package:sit/school/exam_arrange/init.dart';
-import 'package:sit/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:super_context_menu/super_context_menu.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -18,47 +17,21 @@ import 'package:universal_platform/universal_platform.dart';
 import "i18n.dart";
 import 'widgets/exam.dart';
 
-class ExamArrangeAppCard extends StatefulWidget {
+class ExamArrangeAppCard extends ConsumerStatefulWidget {
   const ExamArrangeAppCard({super.key});
 
   @override
-  State<ExamArrangeAppCard> createState() => _ExamArrangeAppCardState();
+  ConsumerState<ExamArrangeAppCard> createState() => _ExamArrangeAppCardState();
 }
 
-class _ExamArrangeAppCardState extends State<ExamArrangeAppCard> {
-  List<ExamEntry>? examList;
-  late final EventSubscription $refreshEvent;
-  late final StreamSubscription $examList;
-  late final currentSemester = estimateCurrentSemester();
-
-  @override
-  void initState() {
-    super.initState();
-    $refreshEvent = schoolEventBus.addListener(() {
-      refresh();
-    });
-    $examList = ExamArrangeInit.storage.watchExamList(() => currentSemester).listen((event) {
-      refresh();
-    });
-    refresh();
-  }
-
-  @override
-  void dispose() {
-    $refreshEvent.cancel();
-    $examList.cancel();
-    super.dispose();
-  }
-
-  void refresh() {
-    setState(() {
-      examList = ExamArrangeInit.storage.getExamList(currentSemester);
-    });
-  }
+class _ExamArrangeAppCardState extends ConsumerState<ExamArrangeAppCard> {
 
   @override
   Widget build(BuildContext context) {
-    final examList = this.examList;
+    final storage = ExamArrangeInit.storage;
+    final currentSemester = estimateCurrentSemester();
+    ref.watch(storage.$examListFamilyWithSemester(currentSemester));
+    final examList = storage.getExamList(currentSemester);
     return AppCard(
       title: i18n.title.text(),
       view: examList != null ? buildMostRecentExam(examList) : null,

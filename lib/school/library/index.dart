@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/credentials/init.dart';
@@ -14,39 +15,20 @@ import 'init.dart';
 import 'page/search.dart';
 import 'utils.dart';
 
-class LibraryAppCard extends StatefulWidget {
+class LibraryAppCard extends ConsumerStatefulWidget {
   const LibraryAppCard({super.key});
 
   @override
-  State<LibraryAppCard> createState() => _LibraryAppCardState();
+  ConsumerState<LibraryAppCard> createState() => _LibraryAppCardState();
 }
 
-class _LibraryAppCardState extends State<LibraryAppCard> {
-  final $credentials = CredentialsInit.storage.listenLibraryChange();
-  final $borrowedBooks = LibraryInit.borrowStorage.listenBorrowedBooks();
-
-  @override
-  void initState() {
-    super.initState();
-    $credentials.addListener(refresh);
-    $borrowedBooks.addListener(refresh);
-  }
-
-  @override
-  void dispose() {
-    $credentials.removeListener(refresh);
-    $borrowedBooks.removeListener(refresh);
-    super.dispose();
-  }
-
-  void refresh() {
-    setState(() {});
-  }
+class _LibraryAppCardState extends ConsumerState<LibraryAppCard> {
 
   @override
   Widget build(BuildContext context) {
-    final credentials = CredentialsInit.storage.libraryCredentials;
-    final borrowedBooks = LibraryInit.borrowStorage.getBorrowedBooks();
+    final storage = LibraryInit.borrowStorage;
+    final credentials = ref.watch(CredentialsInit.storage.$libraryCredentials);
+    final borrowedBooks = ref.watch(storage.$borrowed);
     return AppCard(
       title: i18n.title.text(),
       view: borrowedBooks == null ? null : buildBorrowedBook(borrowedBooks),

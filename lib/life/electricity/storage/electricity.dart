@@ -17,11 +17,13 @@ class ElectricityStorage {
   Box get box => HiveInit.electricity;
   final int maxHistoryLength;
 
-  const ElectricityStorage({
+  ElectricityStorage({
     this.maxHistoryLength = 20,
   });
 
   ValueListenable listenBalance() => box.listenable(keys: [_K.lastBalance]);
+
+  late final $lastBalance = box.provider<ElectricityBalance>(_K.lastBalance);
 
   ElectricityBalance? get lastBalance => box.safeGet(_K.lastBalance);
 
@@ -39,6 +41,8 @@ class ElectricityStorage {
   DateTime? get lastUpdateTime => box.safeGet(_K.lastUpdateTime);
 
   set lastUpdateTime(DateTime? newV) => box.safePut(_K.lastUpdateTime, newV);
+
+  late final $lastUpdateTime = box.provider<DateTime>(_K.lastUpdateTime);
 
   ValueListenable listenLastUpdateTime() => box.listenable(keys: [_K.lastUpdateTime]);
 }

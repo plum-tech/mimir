@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:sit/storage/hive/init.dart';
@@ -15,7 +16,7 @@ class _K {
 class ExamArrangeStorage {
   Box get box => HiveInit.examArrange;
 
-  const ExamArrangeStorage();
+  ExamArrangeStorage();
 
   List<ExamEntry>? getExamList(SemesterInfo info) =>
       decodeJsonList(box.safeGet(_K.examList(info)), (e) => ExamEntry.fromJson(e));
@@ -29,4 +30,10 @@ class ExamArrangeStorage {
 
   Stream<BoxEvent> watchExamList(SemesterInfo Function() getFilter) =>
       box.watch().where((event) => event.key == _K.examList(getFilter()));
+
+  late final $examListFamily = box.streamProviderFamily();
+
+  ChangeNotifierProvider<BoxChangeStreamNotifier> $examListFamilyWithSemester(SemesterInfo semester) {
+    return $examListFamily((event) => event.key == _K.examList(semester));
+  }
 }

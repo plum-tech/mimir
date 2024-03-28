@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/widgets/app.dart';
@@ -17,22 +18,18 @@ import 'package:rettulf/rettulf.dart';
 import "i18n.dart";
 import 'widget/transaction.dart';
 
-class ExpenseRecordsAppCard extends StatefulWidget {
+class ExpenseRecordsAppCard extends ConsumerStatefulWidget {
   const ExpenseRecordsAppCard({super.key});
 
   @override
-  State<ExpenseRecordsAppCard> createState() => _ExpenseRecordsAppCardState();
+  ConsumerState<ExpenseRecordsAppCard> createState() => _ExpenseRecordsAppCardState();
 }
 
-class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
-  final $lastTransaction = ExpenseRecordsInit.storage.listenLastTransaction();
-  final $lastUpdateTime = ExpenseRecordsInit.storage.listenLastUpdateTime();
+class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> {
   late final EventSubscription $refreshEvent;
 
   @override
   void initState() {
-    $lastTransaction.addListener(onLatestChanged);
-    $lastUpdateTime.addListener(onLatestChanged);
     $refreshEvent = lifeEventBus.addListener(() async {
       await refresh(active: true);
     });
@@ -49,8 +46,6 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
 
   @override
   void dispose() {
-    $lastTransaction.removeListener(onLatestChanged);
-    $lastUpdateTime.removeListener(onLatestChanged);
     $refreshEvent.cancel();
     super.dispose();
   }
@@ -81,8 +76,9 @@ class _ExpenseRecordsAppCardState extends State<ExpenseRecordsAppCard> {
 
   @override
   Widget build(BuildContext context) {
-    final lastTransaction = ExpenseRecordsInit.storage.latestTransaction;
-    final lastUpdateTime = ExpenseRecordsInit.storage.lastUpdateTime;
+    final storage = ExpenseRecordsInit.storage;
+    final lastUpdateTime = ref.watch(storage.$lastUpdateTime);
+    final lastTransaction = ref.watch(storage.$lastTransaction);
     return AppCard(
       view: lastTransaction == null
           ? const SizedBox()

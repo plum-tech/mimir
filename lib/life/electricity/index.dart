@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:sit/design/adaptive/dialog.dart';
@@ -20,25 +22,19 @@ import 'init.dart';
 import 'widget/card.dart';
 import 'widget/search.dart';
 
-class ElectricityBalanceAppCard extends StatefulWidget {
+class ElectricityBalanceAppCard extends ConsumerStatefulWidget {
   const ElectricityBalanceAppCard({super.key});
 
   @override
-  State<ElectricityBalanceAppCard> createState() => _ElectricityBalanceAppCardState();
+  ConsumerState<ElectricityBalanceAppCard> createState() => _ElectricityBalanceAppCardState();
 }
 
-class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
-  final $roomBalance = ElectricityBalanceInit.storage.listenBalance();
-  final $lastUpdateTime = ElectricityBalanceInit.storage.listenLastUpdateTime();
-  final $room = Settings.life.electricity.listenSelectedRoom();
+class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAppCard> {
   late final EventSubscription $refreshEvent;
 
   @override
   initState() {
     super.initState();
-    $roomBalance.addListener(updateRoomAndBalance);
-    $lastUpdateTime.addListener(updateRoomAndBalance);
-    $room.addListener(updateRoomAndBalance);
     $refreshEvent = lifeEventBus.addListener(() async {
       await refresh(active: true);
     });
@@ -49,15 +45,8 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
 
   @override
   dispose() {
-    $roomBalance.removeListener(updateRoomAndBalance);
-    $lastUpdateTime.removeListener(updateRoomAndBalance);
-    $room.removeListener(updateRoomAndBalance);
     $refreshEvent.cancel();
     super.dispose();
-  }
-
-  void updateRoomAndBalance() {
-    setState(() {});
   }
 
   /// The electricity balance is refreshed approximately every 15 minutes.
@@ -65,11 +54,9 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
     final selectedRoom = Settings.life.electricity.selectedRoom;
     if (selectedRoom == null) return;
     try {
-      final lastBalance = await ElectricityBalanceInit.service.getBalance(selectedRoom);
-      if (lastBalance.roomNumber == selectedRoom) {
-        ElectricityBalanceInit.storage.lastBalance = lastBalance;
-        ElectricityBalanceInit.storage.lastUpdateTime = DateTime.now();
-      }
+      await ElectricityAggregated.refresh(
+        selectedRoom: selectedRoom,
+      );
     } catch (error) {
       if (active) {
         if (!mounted) return;
@@ -85,9 +72,10 @@ class _ElectricityBalanceAppCardState extends State<ElectricityBalanceAppCard> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedRoom = Settings.life.electricity.selectedRoom;
-    final lastUpdateTime = ElectricityBalanceInit.storage.lastUpdateTime;
-    final lastBalance = ElectricityBalanceInit.storage.lastBalance;
+    final storage = ElectricityBalanceInit.storage;
+    final lastBalance = ref.watch(storage.$lastBalance);
+    final selectedRoom = ref.watch(Settings.life.electricity.$selectedRoom);
+    final lastUpdateTime = ref.watch(storage.$lastUpdateTime);
     final balance = lastBalance?.roomNumber == selectedRoom ? lastBalance : null;
     final roomNumber = balance != null
         ? "#${balance.roomNumber}"

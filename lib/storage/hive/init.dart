@@ -59,10 +59,10 @@ class HiveInit {
       settings = await core.openBox('settings'),
       meta = await core.openBox('meta'),
       timetable = await core.openBox('timetable'),
+      dev = await core.openBox("dev"),
       ...cacheBoxes = [
         yellowPages = await cache.openBox('yellow-pages'),
         eduEmail = await cache.openBox('edu-email'),
-        dev = await core.openBox("dev"),
         game = await core.openBox("game"),
         if (!kIsWeb) cookies = await cache.openBox('cookies'),
         if (!kIsWeb) expense = await cache.openBox('expense'),

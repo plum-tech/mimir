@@ -16,7 +16,7 @@ class Class2ndInit {
 
   static void init() {
     pointService = Dev.demoMode ? const DemoClass2ndPointsService() : const Class2ndPointsService();
-    pointStorage = const Class2ndPointsStorage();
+    pointStorage = Class2ndPointsStorage();
     activityService = const Class2ndActivityService();
     activityStorage = const Class2ndActivityStorage();
     applicationService = const Class2ndApplicationService();

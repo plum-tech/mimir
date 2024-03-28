@@ -14,11 +14,13 @@ class _K {
 class LibraryBorrowStorage {
   Box get box => HiveInit.library;
 
-  const LibraryBorrowStorage();
+  LibraryBorrowStorage();
 
   List<BorrowedBookItem>? getBorrowedBooks() => (box.safeGet(_K.borrowed) as List<dynamic>?)?.cast<BorrowedBookItem>();
 
   Future<void> setBorrowedBooks(List<BorrowedBookItem>? value) => box.safePut(_K.borrowed, value);
+
+  late final $borrowed = box.provider<List<BorrowedBookItem>>(_K.borrowed, getBorrowedBooks);
 
   Listenable listenBorrowedBooks() => box.listenable(keys: [_K.borrowed]);
 
@@ -26,4 +28,5 @@ class LibraryBorrowStorage {
       (box.safeGet(_K.borrowHistory) as List<dynamic>?)?.cast<BookBorrowingHistoryItem>();
 
   Future<void> setBorrowHistory(List<BookBorrowingHistoryItem>? value) => box.safePut(_K.borrowHistory, value);
+
 }

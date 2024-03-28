@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sit/files.dart';
@@ -96,35 +97,27 @@ void main() async {
   await Init.initNetwork();
   await Init.initModules();
   runApp(
-    const MimirApp().withEasyLocalization().withScreenUtils(),
-  );
-}
-
-final _yamlAssetsLoader = YamlAssetLoader();
-
-extension _AppX on Widget {
-  Widget withEasyLocalization() {
-    return EasyLocalization(
+    EasyLocalization(
       supportedLocales: R.supportedLocales,
       path: 'assets/l10n',
       fallbackLocale: R.defaultLocale,
       useFallbackTranslations: true,
       assetLoader: _yamlAssetsLoader,
-      child: this,
-    );
-  }
-
-  Widget withScreenUtils() {
-    return ScreenUtilInit(
-      designSize: const Size(360, 690),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return this;
-      },
-    );
-  }
+      child: ScreenUtilInit(
+        designSize: const Size(360, 690),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return const ProviderScope(
+            child: MimirApp(),
+          );
+        },
+      ),
+    ),
+  );
 }
+
+final _yamlAssetsLoader = YamlAssetLoader();
 
 Future<List<String>> _loadRoomNumberList() async {
   String jsonData = await rootBundle.loadString("assets/room_list.json");

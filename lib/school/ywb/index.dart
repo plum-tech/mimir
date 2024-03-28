@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/app.dart';
@@ -13,36 +14,21 @@ import 'widgets/application.dart';
 
 const _applicationLength = 2;
 
-class YwbAppCard extends StatefulWidget {
+class YwbAppCard extends ConsumerStatefulWidget {
   const YwbAppCard({super.key});
 
   @override
-  State<YwbAppCard> createState() => _YwbAppCardState();
+  ConsumerState<YwbAppCard> createState() => _YwbAppCardState();
 }
 
-class _YwbAppCardState extends State<YwbAppCard> {
-  final $running = YwbInit.applicationStorage.listenApplicationListOf(YwbApplicationType.running);
-  @override
-  void initState() {
-    super.initState();
-    $running.addListener(refresh);
-  }
-
-  @override
-  void dispose() {
-    $running.removeListener(refresh);
-    super.dispose();
-  }
-
-  void refresh() {
-    setState(() {});
-  }
-
+class _YwbAppCardState extends ConsumerState<YwbAppCard> {
   @override
   Widget build(BuildContext context) {
+    final storage = YwbInit.applicationStorage;
+    final running = ref.watch(storage.$applicationFamily(YwbApplicationType.running));
     return AppCard(
       title: i18n.title.text(),
-      view: buildRunningCard(),
+      view: running == null ? null : buildRunningCard(running),
       leftActions: [
         FilledButton.icon(
           onPressed: () {
@@ -62,9 +48,7 @@ class _YwbAppCardState extends State<YwbAppCard> {
     );
   }
 
-  Widget buildRunningCard() {
-    final running = YwbInit.applicationStorage.getApplicationListOf(YwbApplicationType.running);
-    if (running == null) return const SizedBox();
+  Widget buildRunningCard(List<YwbApplication> running) {
     final applications = running.sublist(0, min(_applicationLength, running.length));
     return applications
         .map((e) => YwbApplicationTile(e).inCard(

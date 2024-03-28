@@ -41,13 +41,15 @@ class _ExamResultK {
 class _ExamResult {
   final Box box;
 
-  const _ExamResult(this.box);
+  _ExamResult(this.box);
 
   bool get showResultPreview => box.safeGet(_ExamResultK.showResultPreview) ?? _kExamResulShowResultPreview;
 
   set showResultPreview(bool newV) => box.safePut(_ExamResultK.showResultPreview, newV);
 
   Listenable listenShowResultPreview() => box.listenable(keys: [_ExamResultK.showResultPreview]);
+
+  late final $showResultPreview = box.provider<bool>(_ExamResultK.showResultPreview);
 }
 
 class _ExamArrangeK {
