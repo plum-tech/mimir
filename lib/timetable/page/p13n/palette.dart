@@ -553,9 +553,14 @@ Future<void> onTimetablePaletteFromQrCode({
   required BuildContext context,
   required TimetablePalette palette,
 }) async {
+  final confirm = await context.showActionRequest(
+    desc: i18n.p13n.palette.addFromQrCodeDesc,
+    action: i18n.p13n.palette.addFromQrCodeAction,
+    cancel: i18n.cancel,
+  );
+  if (confirm != true) return;
   TimetableInit.storage.palette.add(palette);
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
-  context.showSnackBar(content: i18n.p13n.palette.addFromQrCode.text());
   context.push("/timetable/p13n/custom");
 }

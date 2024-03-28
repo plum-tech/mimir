@@ -131,8 +131,9 @@ timetable:
       newPaletteName: New palette
       deleteRequest: Conform to delete?
       deleteRequestDesc: The palette will be deleted permanently without unless a QR code backup is saved
-      addFromQrCode: Palette was added from QR code
       addColor: Add a color
+      addFromQrCodeAction: Add palette
+      addFromQrCodeDesc: Confirm to add a timetable palette from QR code?
     cellStyle:
       title: Cell Style
       showTeachers:
@@ -636,7 +637,8 @@ settings:
     username: Username
     password: Password
     invalidProxyFormatTip: Invalid proxy format
-    proxyChangedTip: Proxy was changed
+    setFromQrCodeAction: Set proxy
+    setFromQrCodeDesc: Confirm to set proxy from QR code?
     shareQrCode:
       title: Share QR code
       desc: Share proxy as QR code

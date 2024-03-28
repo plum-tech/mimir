@@ -132,8 +132,9 @@ timetable:
       newPaletteName: 新的調色盤
       deleteRequest: 確認刪除？
       deleteRequestDesc: 除非儲存了 QR 碼備份，否則調色板將被永久刪除
-      addFromQrCode: 已從 QR 碼加載調色盤
       addColor: 增加一對顏色
+      addFromQrCodeAction: 新增調色盤
+      addFromQrCodeDesc: 確認從 QR 碼中新增調色盤？
     cellStyle:
       title: 單元樣式
       showTeachers:
@@ -627,7 +628,7 @@ settings:
   themeMode:
     title: 亮度
   proxy:
-    title: 代理
+    title: 網路代理
     desc: 代理校園網路連線
     authentication: 驗證
     protocol: 通訊協定
@@ -636,7 +637,8 @@ settings:
     username: 使用者名稱
     password: 密碼
     invalidProxyFormatTip: 無效的代理格式
-    proxyChangedTip: 網路代理已變更
+    setFromQrCodeAction: 設定代理
+    setFromQrCodeDesc: 確認從 QR 碼中設定代理？
     shareQrCode:
       title: 分享 QR 碼
       desc: 使用 QR 碼分享代理

@@ -13,7 +13,7 @@ timetable:
   mine:
     title: 你的课程表
     exportCalendar: 导出日历
-    deleteRequest: 确认删除？
+    deleteRequest: 确定删除？
     deleteRequestDesc: 这个课程表将被永久删除
     emptyTip: 快去导入一个课程表吧！
     details: 详情
@@ -129,10 +129,11 @@ timetable:
       fab: 配色方案
       shareQrCode: 分享二维码
       newPaletteName: 新的配色方案
-      deleteRequest: 确认删除？
+      deleteRequest: 确定删除？
       deleteRequestDesc: 推荐先保存二维码备份再删除
-      addFromQrCode: 已从二维码添加配色方案
       addColor: 添加一种配色
+      addFromQrCodeAction: 添加配色方案
+      addFromQrCodeDesc: 确定从读取的二维码中添加配色方案？
     cellStyle:
       title: 单元格风格
       showTeachers:
@@ -227,7 +228,7 @@ class2nd:
     btn: 申请
     replyTip: 校方回复
     applyRequest: 申请
-    applyRequestDesc: 确认申请这个活动吗？
+    applyRequestDesc: 确定申请这个活动吗？
     applySuccessTip: 申请活动成功
     applyFailureTip: 申请活动失败
   info:
@@ -636,7 +637,8 @@ settings:
     username: 用户名
     password: 密码
     invalidProxyFormatTip: 代理的格式无效
-    proxyChangedTip: 代理已更改
+    setFromQrCodeAction: 设置代理
+    setFromQrCodeDesc: 确定从读取的二维码中设置代理？
     shareQrCode:
       title: 分享二维码
       desc: 将代理通过二维码分享

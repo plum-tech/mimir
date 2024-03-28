@@ -124,13 +124,9 @@ class _Palette {
 
   String get newPaletteName => "$ns.newPaletteName".tr();
 
-  String copyPaletteName(String old) => "$ns.copyPaletteName".tr(args: [old]);
-
   String get deleteRequest => "$ns.deleteRequest".tr();
 
   String get deleteRequestDesc => "$ns.deleteRequestDesc".tr();
-
-  String get addFromQrCode => "$ns.addFromQrCode".tr();
 
   String get addColor => "$ns.addColor".tr();
 
@@ -145,6 +141,10 @@ class _Palette {
   String get color => "$ns.color".tr();
 
   String get details => "$ns.details".tr();
+
+  String get addFromQrCodeAction => "$ns.addFromQrCodeAction".tr();
+
+  String get addFromQrCodeDesc => "$ns.addFromQrCodeDesc".tr();
 }
 
 class _Background {
@@ -255,6 +255,7 @@ class _Editor {
         "from": from,
         "to": to,
       });
+
   String timeslotsSpanSingle(String at) => "$ns.timeslots.single".tr(args: [at]);
 }
 

@@ -75,7 +75,9 @@ class _Proxy {
 
   String get invalidProxyFormatTip => "$ns.invalidProxyFormatTip".tr();
 
-  String get proxyChangedTip => "$ns.proxyChangedTip".tr();
+  String get setFromQrCodeAction => "$ns.setFromQrCodeAction".tr();
+
+  String get setFromQrCodeDesc => "$ns.setFromQrCodeDesc".tr();
 }
 
 class _Timetable {

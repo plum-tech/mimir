@@ -115,6 +115,20 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
   }
 }
 
+Uri? _validateProxyUri(String uriString) {
+  final uri = Uri.tryParse(uriString);
+  if (uri == null || !uri.isAbsolute) {
+    return null;
+  }
+  return uri;
+}
+
+Uri? _validateProxyUriForType(String uriString, ProxyType type) {
+  final uri = _validateProxyUri(uriString);
+  if (uri == null) return null;
+  return !type.supportedProtocols.contains(uri.scheme) ? null : uri;
+}
+
 class ProxyShareQrCodeTile extends StatelessWidget {
   const ProxyShareQrCodeTile({
     super.key,
@@ -151,18 +165,30 @@ Future<void> onProxyFromQrCode({
   required Uri? https,
   required Uri? all,
 }) async {
-  if (http != null) {
-    Settings.proxy.resolve(ProxyType.http).address = http.toString();
+  final confirm = await context.showActionRequest(
+    desc: i18n.proxy.setFromQrCodeDesc,
+    action: i18n.proxy.setFromQrCodeAction,
+    cancel: i18n.cancel,
+  );
+  if (confirm != true) return;
+  bool isValid(Uri? uri, ProxyType type) {
+    return uri == null ? true : _validateProxyUriForType(uri.toString(), type) != null;
   }
-  if (https != null) {
-    Settings.proxy.resolve(ProxyType.https).address = https.toString();
+  var valid = isValid(http, ProxyType.http) && isValid(https, ProxyType.https) && isValid(all, ProxyType.all);
+  if (!valid) {
+    if (!context.mounted) return;
+    context.showTip(
+      title: i18n.error,
+      desc: i18n.proxy.invalidProxyFormatTip,
+      ok: i18n.close,
+    );
+    return;
   }
-  if (http != null) {
-    Settings.proxy.resolve(ProxyType.all).address = all.toString();
-  }
+  if (http != null) Settings.proxy.resolve(ProxyType.http).address = http.toString();
+  if (https != null) Settings.proxy.resolve(ProxyType.https).address = https.toString();
+  if (all != null) Settings.proxy.resolve(ProxyType.all).address = all.toString();
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
-  context.showSnackBar(content: i18n.proxy.proxyChangedTip.text());
   context.push("/settings/proxy");
 }
 
@@ -245,14 +271,15 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
         IconButton(
           icon: Icon(context.icons.edit),
           onPressed: () async {
-            final newFullProxy = await Editor.showStringEditor(
+            var newFullProxy = await Editor.showStringEditor(
               context,
               desc: i18n.proxy.title,
               initial: uri.toString(),
             );
             if (newFullProxy == null) return;
-            final newUri = Uri.tryParse(newFullProxy.trim());
-            if (newUri == null || !newUri.isAbsolute || !type.supportedProtocols.contains(newUri.scheme)) {
+            newFullProxy = newFullProxy.trim();
+            final newUri = _validateProxyUriForType(newFullProxy, type);
+            if (newUri == null) {
               if (!mounted) return;
               context.showTip(
                 title: i18n.error,
