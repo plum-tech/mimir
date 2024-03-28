@@ -191,12 +191,8 @@ class HiveTable<T> {
     return box.providerFamily<T, int>(_rowK, get);
   }
 
-  late final selectedRowProvider = box.streamProvider<T>(
-    initial: selectedRow,
-    filter: (event) {
-      final selectedId = this.selectedId;
-      if (selectedId == null) return false;
-      return event.key == _rowK(selectedId);
-    },
+  late final selectedRowProvider = box.provider<T>(
+    _selectedIdK,
+    () => selectedRow,
   );
 }

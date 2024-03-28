@@ -3,13 +3,16 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:logger/logger.dart';
+
+final _log = Logger();
 
 extension BoxX on Box {
   T? safeGet<T>(dynamic key, {T? defaultValue}) {
     final value = get(key, defaultValue: defaultValue);
     if (value == null) return null;
     if (value is! T) {
-      debugPrint("[Box $name] $key is in ${value.runtimeType} but $T is expected.");
+      _log.e("[Box $name] $key is in ${value.runtimeType} but $T is expected.");
       return null;
     }
     return value;
@@ -144,7 +147,7 @@ extension BoxProviderX on Box {
     });
   }
 
-  AutoDisposeStateNotifierProvider<BoxFieldStreamNotifier, T?> streamProvider<T>({
+  AutoDisposeStateNotifierProvider<BoxFieldStreamNotifier<T>, T?> streamProvider<T>({
     required T? initial,
     BoxEventFilter? filter,
   }) {
