@@ -246,7 +246,7 @@ jobs:
         if: github.repository == 'liplum-dev/mimir'
         uses: apple-actions/upload-testflight-build@v1
         with:
-          app-path: ${{ github.workspace }}/build-output/ios/publish/SITLife-${{ steps.get_git_info.outputs.RESOLVED_VERSION }}.ipa
+          app-path: ${{ github.workspace }}/build/upload-artifacts/SITLife-${{ steps.get_git_info.outputs.RESOLVED_VERSION }}.ipa
           issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
           api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
