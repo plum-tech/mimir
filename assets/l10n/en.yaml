@@ -777,6 +777,13 @@ game:
     timeSpent: "You spent {}"
     gameMode:
       easy: Easy
+permission:
+  permissionDenied: Permission denied
+  permissionDeniedDescOf: "{} permission was not granted. Please check the app settings."
+  goSettings: Go settings
+  type:
+    storage: Storage
+    camera: Camera
 dormitoryRoom: "Building {building} #{room}"
 open: Open
 delete: Delete

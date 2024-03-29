@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/utils/error.dart';
+import 'package:sit/utils/permission.dart';
 
 import '../i18n.dart';
 import '../widgets/overlay.dart';
@@ -33,6 +36,19 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    startCamera();
+  }
+
+  Future<void> startCamera() async {
+    try {
+      await controller.start();
+    } catch (error, stackTrace) {
+      debugPrintError(error, stackTrace);
+      if (error is MobileScannerException && error.errorCode == MobileScannerErrorCode.permissionDenied) {
+        if (!mounted) return;
+        await showPermissionDeniedDialog(context: context, permission: Permission.camera);
+      }
+    }
   }
 
   @override

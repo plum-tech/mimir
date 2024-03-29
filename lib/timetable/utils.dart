@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:app_settings/app_settings.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:open_file/open_file.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/entity/campus.dart';
@@ -19,6 +19,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/school/entity/timetable.dart';
 import 'package:sit/utils/ical.dart';
+import 'package:sit/utils/permission.dart';
 import 'package:sit/utils/strings.dart';
 import 'package:universal_platform/universal_platform.dart';
 import '../school/exam_result/entity/result.pg.dart';
@@ -212,15 +213,7 @@ Future<SitTimetable?> readTimetableFromFileWithPrompt(BuildContext context) asyn
     debugPrintStack(stackTrace: stackTrace);
     if (!context.mounted) return null;
     if (err is PlatformException) {
-      final confirm = await context.showDialogRequest(
-        title: "Permission denied",
-        desc: "Storage permission was not granted. Please check the app settings.",
-        yes: "Go settings",
-        no: i18n.cancel,
-      );
-      if (confirm == true) {
-        await AppSettings.openAppSettings(type: AppSettingsType.settings);
-      }
+      await showPermissionDeniedDialog(context: context, permission: Permission.storage);
     } else {
       context.showTip(
         title: "Format error",

@@ -777,6 +777,13 @@ game:
     timeSpent: "用时 {}"
     gameMode:
       easy: 简单
+permission:
+  permissionDenied: 没有权限
+  permissionDeniedDescOf: "{}权限未被授权，请检查应用的设置。"
+  goSettings: 前往设置
+  type:
+    storage: 存储
+    camera: 相机
 dormitoryRoom: "{building}号楼 #{room}"
 open: 打开
 delete: 删除
