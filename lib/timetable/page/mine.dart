@@ -82,16 +82,11 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   }
 
   Future<({int id, SitTimetable timetable})?> importFromFile() async {
-    try {
-      return await importTimetableFromFile();
-    } catch (err, stackTrace) {
-      // TODO: Handle permission error
-      debugPrint(err.toString());
-      debugPrintStack(stackTrace: stackTrace);
-      if (!mounted) return null;
-      context.showSnackBar(content: "Format Error. Please select a timetable file.".text());
-      return null;
-    }
+    final timetable = await readTimetableFromFileWithPrompt(context);
+    if (timetable == null) return null;
+    final id = TimetableInit.storage.timetable.add(timetable);
+    if (!mounted) return null;
+    return (id: id, timetable: timetable);
   }
 
   @override
@@ -228,7 +223,7 @@ class TimetableCard extends StatelessWidget {
         label: i18n.delete,
         icon: context.icons.delete,
         action: () async {
-          final confirm = await ctx.showRequest(
+          final confirm = await ctx.showDialogRequest(
             title: i18n.mine.deleteRequest,
             desc: i18n.mine.deleteRequestDesc,
             yes: i18n.delete,

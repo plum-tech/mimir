@@ -52,22 +52,13 @@ extension DialogEx on BuildContext {
     return confirm == true;
   }
 
-  Future<bool?> showRequest({
+  Future<bool?> showDialogRequest({
     String? title,
     required String desc,
     required String yes,
     required String no,
     bool destructive = false,
   }) async {
-    if (isCupertino) {
-      return showCupertinoRequest(
-        title: title,
-        desc: desc,
-        yes: yes,
-        cancel: no,
-        destructive: destructive,
-      );
-    }
     return await showAnyRequest(
       title: title,
       make: (_) => desc.text(style: const TextStyle()),
@@ -85,7 +76,7 @@ extension DialogEx on BuildContext {
     bool destructive = false,
   }) async {
     if (isCupertino) {
-      return showCupertinoRequest(
+      return showCupertinoActionRequest(
         desc: desc,
         yes: action,
         cancel: cancel,
@@ -102,7 +93,7 @@ extension DialogEx on BuildContext {
     );
   }
 
-  Future<bool?> showCupertinoRequest({
+  Future<bool?> showCupertinoActionRequest({
     String? title,
     required String desc,
     required String yes,

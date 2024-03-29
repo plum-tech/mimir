@@ -25,7 +25,7 @@ class _QuickButtonsState extends State<QuickButtons> {
           final launched = await guardLaunchUrlString(context, 'sangfor://easyconnect');
           if (!launched) {
             if (!context.mounted) return;
-            final confirm = await context.showRequest(
+            final confirm = await context.showDialogRequest(
               title: i18n.easyconnect.launchFailed,
               desc: i18n.easyconnect.launchFailedDesc,
               yes: i18n.download,

@@ -200,7 +200,7 @@ class ClearCacheTile extends StatelessWidget {
 }
 
 void _onClearCache(BuildContext context) async {
-  final confirm = await context.showRequest(
+  final confirm = await context.showDialogRequest(
     title: i18n.clearCacheTitle,
     desc: i18n.clearCacheRequest,
     yes: i18n.confirm,
@@ -229,7 +229,7 @@ class WipeDataTile extends StatelessWidget {
 }
 
 Future<void> _onWipeData(BuildContext context) async {
-  final confirm = await context.showRequest(
+  final confirm = await context.showDialogRequest(
     title: i18n.wipeDataRequest,
     desc: i18n.wipeDataRequestDesc,
     yes: i18n.confirm,

@@ -146,7 +146,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
   }
 
   Future<void> showApplyRequest() async {
-    final confirm = await context.showRequest(
+    final confirm = await context.showDialogRequest(
       title: i18n.apply.applyRequest,
       desc: i18n.apply.applyRequestDesc,
       yes: i18n.confirm,
@@ -174,7 +174,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
   }
 
   Future<void> showForciblyApplyRequest() async {
-    final confirm = await context.showRequest(
+    final confirm = await context.showDialogRequest(
       title: "Forcibly apply",
       desc: "Confirm to apply this activity forcibly?",
       yes: i18n.confirm,

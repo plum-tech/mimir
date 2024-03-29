@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:open_file/open_file.dart';
+import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/files.dart';
@@ -24,7 +27,7 @@ import 'entity/timetable.dart';
 import 'entity/course.dart';
 import 'dart:math';
 
-import 'init.dart';
+import 'i18n.dart';
 
 import 'page/ical.dart';
 import 'package:html/parser.dart';
@@ -186,7 +189,7 @@ Duration calcuSwitchAnimationDuration(num distance) {
   return Duration(milliseconds: time.toInt());
 }
 
-Future<({int id, SitTimetable timetable})?> importTimetableFromFile() async {
+Future<SitTimetable?> readTimetableFromFile() async {
   final result = await FilePicker.platform.pickFiles(
       // Cannot limit the extensions. My RedMi phone just reject all files.
       // type: FileType.custom,
@@ -197,8 +200,37 @@ Future<({int id, SitTimetable timetable})?> importTimetableFromFile() async {
   if (content == null) return null;
   final json = jsonDecode(content);
   final timetable = SitTimetable.fromJson(json);
-  final id = TimetableInit.storage.timetable.add(timetable);
-  return (id: id, timetable: timetable);
+  return timetable;
+}
+
+Future<SitTimetable?> readTimetableFromFileWithPrompt(BuildContext context) async {
+  try {
+    final id2timetable = await readTimetableFromFile();
+    if (id2timetable == null) return null;
+  } catch (err, stackTrace) {
+    debugPrint(err.toString());
+    debugPrintStack(stackTrace: stackTrace);
+    if (!context.mounted) return null;
+    if (err is PlatformException) {
+      final confirm = await context.showDialogRequest(
+        title: "Permission denied",
+        desc: "Storage permission was not granted. Please check the app settings.",
+        yes: "Go settings",
+        no: i18n.cancel,
+      );
+      if (confirm == true) {
+        await AppSettings.openAppSettings(type: AppSettingsType.settings);
+      }
+    } else {
+      context.showTip(
+        title: "Format error",
+        desc: "The file isn't supported. Please select a timetable file.",
+        ok: i18n.ok,
+      );
+    }
+    return null;
+  }
+  return null;
 }
 
 Future<String?> _readTimetableFi(PlatformFile fi) async {

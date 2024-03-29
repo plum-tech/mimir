@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/user_type.dart';
@@ -70,19 +71,11 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   }
 
   Future<void> importFromFile() async {
-    try {
-      final id2timetable = await importTimetableFromFile();
-      if (id2timetable == null) return;
-      if (!mounted) return;
-      context.pop(id2timetable);
-    } catch (err, stackTrace) {
-      // TODO: Handle permission error
-      debugPrint(err.toString());
-      debugPrintStack(stackTrace: stackTrace);
-      if (!mounted) return;
-      // TODO: i18n
-      context.showSnackBar(content: "Format Error. Please select a timetable file.".text());
-    }
+    final timetable = await readTimetableFromFileWithPrompt(context);
+    if (timetable == null) return;
+    final id = TimetableInit.storage.timetable.add(timetable);
+    if (!mounted) return;
+    context.pop((id: id, timetable: timetable));
   }
 
   Widget buildConnectivityChecker(BuildContext ctx, Key? key) {

@@ -208,7 +208,7 @@ class PaletteCard extends StatelessWidget {
                 label: i18n.delete,
                 icon: context.icons.delete,
                 action: () async {
-                  final confirm = await ctx.showRequest(
+                  final confirm = await ctx.showDialogRequest(
                     title: i18n.p13n.palette.deleteRequest,
                     desc: i18n.p13n.palette.deleteRequestDesc,
                     yes: i18n.delete,
