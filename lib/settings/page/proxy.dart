@@ -174,6 +174,7 @@ Future<void> onProxyFromQrCode({
   bool isValid(Uri? uri, ProxyType type) {
     return uri == null ? true : _validateProxyUriForType(uri.toString(), type) != null;
   }
+
   var valid = isValid(http, ProxyType.http) && isValid(https, ProxyType.https) && isValid(all, ProxyType.all);
   if (!valid) {
     if (!context.mounted) return;

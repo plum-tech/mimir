@@ -25,7 +25,6 @@ class ExamArrangeAppCard extends ConsumerStatefulWidget {
 }
 
 class _ExamArrangeAppCardState extends ConsumerState<ExamArrangeAppCard> {
-
   @override
   Widget build(BuildContext context) {
     final storage = ExamArrangeInit.storage;

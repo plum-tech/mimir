@@ -23,7 +23,6 @@ class LibraryAppCard extends ConsumerStatefulWidget {
 }
 
 class _LibraryAppCardState extends ConsumerState<LibraryAppCard> {
-
   @override
   Widget build(BuildContext context) {
     final storage = LibraryInit.borrowStorage;

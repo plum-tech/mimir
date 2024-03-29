@@ -236,7 +236,7 @@ class _TestConnectionTileState extends State<TestConnectionTile> {
       leading: const Icon(Icons.network_check),
       title: _i18n.testConnection.text(),
       subtitle: _i18n.testConnectionDesc.text(),
-      trailing: switch(testState) {
+      trailing: switch (testState) {
         ConnectivityStatus.connecting => const CircularProgressIndicator.adaptive(),
         ConnectivityStatus.connected => Icon(context.icons.checkMark, color: Colors.green),
         ConnectivityStatus.disconnected => Icon(Icons.public_off_rounded, color: context.$red$),

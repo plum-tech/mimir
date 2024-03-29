@@ -34,6 +34,6 @@ class ExamResultUgStorage {
       box.watch().where((event) => event.key == _K.resultList(getFilter()));
 
   late final $resultListFamily = box.streamChangeProviderFamily<SemesterInfo>(
-        (e, semester) => e.key == _K.resultList(semester),
+    (e, semester) => e.key == _K.resultList(semester),
   );
 }
