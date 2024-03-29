@@ -268,9 +268,9 @@ class BaseLineChartWidget extends StatelessWidget {
     return LineChart(
       LineChartData(
         ///触摸控制
-        lineTouchData: const LineTouchData(
+        lineTouchData: LineTouchData(
           touchTooltipData: LineTouchTooltipData(
-            tooltipBgColor: Colors.transparent,
+            getTooltipColor: (touchedSpot) => Colors.transparent,
           ),
           touchSpotThreshold: 10,
         ),
