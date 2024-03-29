@@ -12,7 +12,7 @@ jobs:
         id: get_run_id
         run: |
           echo "run_id="$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/actions/workflows/build.yml/runs | jq -r '.workflow_runs[0].id') >> "$GITHUB_OUTPUT"
-      
+
       - name: Download artifacts
         run: |
           mkdir new-build-artifacts
@@ -32,7 +32,7 @@ jobs:
         run: |
           echo "RESOLVED_VERSION="$(ls new-build-artifacts | grep -oP 'SITLife-v\d+\.\d+\.\d+\+\d+' | head -n 1 | cut -d'-' -f2) >> "$GITHUB_OUTPUT"
           echo "PREVIOUS_TAG="$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name') >> "$GITHUB_OUTPUT"
-      
+
       - name: Check builds
         id: builds
         env:
@@ -48,6 +48,10 @@ jobs:
           else
             echo "IPA_SHA256=- \`SITLife-${{ env.RESOLVED_VERSION }}.ipa\`: "$(sha256sum new-build-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.ipa | awk '{print $1}') >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Print path of builds
+        run: |
+          ls -a new-build-artifacts
 
       - name: Release
         uses: softprops/action-gh-release@v2
