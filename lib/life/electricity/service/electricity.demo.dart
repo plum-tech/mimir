@@ -14,4 +14,9 @@ class DemoElectricityService implements ElectricityService {
       balance: rand.nextInt(10000) / 100,
     );
   }
+
+  @override
+  List<String> getRoomNumberCandidates() {
+    return ["114514", "1919", "1314","6666"];
+  }
 }

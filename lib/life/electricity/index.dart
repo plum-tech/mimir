@@ -100,7 +100,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
             final room = await searchRoom(
               ctx: context,
               $searchHistory: $searchHistory,
-              roomList: R.roomList,
+              roomList: ElectricityBalanceInit.service.getRoomNumberCandidates(),
             );
             $searchHistory.dispose();
             if (room == null) return;

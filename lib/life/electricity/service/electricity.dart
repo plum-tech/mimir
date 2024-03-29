@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:sit/init.dart';
+import 'package:sit/r.dart';
 import '../entity/balance.dart';
 
 const _balanceUrl = "https://xgfy.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=DBAccess_RunSQLReturnTable";
@@ -26,5 +27,9 @@ class ElectricityService {
     final data = jsonDecode(response.data as String) as List;
     final list = data.map((e) => ElectricityBalance.fromJson(e)).toList();
     return list.first;
+  }
+
+  List<String> getRoomNumberCandidates() {
+    return R.roomList;
   }
 }
