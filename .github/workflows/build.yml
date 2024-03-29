@@ -222,6 +222,15 @@ jobs:
           key: build-ipa
           enableCrossOsArchive: true
 
+      - name: Deploy to App Store (TestFlight)
+        if: github.repository == 'liplum-dev/mimir'
+        uses: apple-actions/upload-testflight-build@v1
+        with:
+          app-path: ${{ github.workspace }}/build-output/ios/publish/2-SITLife-release.ipa
+          issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
+
       - name: Check builds
         id: builds
         env:
@@ -241,15 +250,6 @@ jobs:
           if [ -f "build-output/ios/publish/2-SITLife-release.ipa" ]; then
             mv build-output/ios/publish/2-SITLife-release.ipa build/upload-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.ipa
           fi
-
-      - name: Deploy to App Store (TestFlight)
-        if: github.repository == 'liplum-dev/mimir'
-        uses: apple-actions/upload-testflight-build@v1
-        with:
-          app-path: ${{ github.workspace }}/build/upload-artifacts/SITLife-${{ steps.get_git_info.outputs.RESOLVED_VERSION }}.ipa
-          issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-          api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-          api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
 
       - name: Publish Android Artifact
         uses: actions/upload-artifact@v4
