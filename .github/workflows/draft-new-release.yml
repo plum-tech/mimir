@@ -1,6 +1,14 @@
 name: 2.Draft New Release
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+    inputs:
+      ipa-publish: 
+        description: 'Publish the ipa file'
+        required: true
+        default: false
+        type: boolean
+
 permissions:
   contents: write
 
@@ -40,6 +48,10 @@ jobs:
         env:
           RESOLVED_VERSION: ${{ steps.get_git_info.outputs.RESOLVED_VERSION }}
         run: |
+          if [ "${{ github.event.inputs.ipa-publish }}" == "false" ]; then
+            rm -rf new-build-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.ipa
+          fi
+
           if [ ! -f "new-build-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.apk" ]; then
             echo "APK_SHA256=" >> "$GITHUB_OUTPUT"
           else
