@@ -12,9 +12,9 @@ import "package:intl/intl.dart";
 class Class2ndActivityService {
   static final re = RegExp(r"(\d){7}");
   static final _spacesRx = RegExp(r'\s{2}\s+');
-  static final dateFormatParser = DateFormat('yyyy-MM-dd hh:mm:ss');
+  static final _dateFormatParser = DateFormat('yyyy-MM-dd hh:mm:ss');
 
-  Class2ndSession get session => Init.class2ndSession;
+  Class2ndSession get _session => Init.class2ndSession;
 
   const Class2ndActivityService();
 
@@ -23,11 +23,10 @@ class Class2ndActivityService {
     return 'http://sc.sit.edu.cn/public/activity/activityList.action?pageNo=$page&pageSize=$pageSize&categoryId=${cat.id}';
   }
 
-  /// 获取第二课堂活动列表
   Future<List<Class2ndActivity>> getActivityList(Class2ndActivityCat cat, int page) async {
     assert(cat.canFetchData);
     final url = _generateUrl(cat, page);
-    final response = await session.request(
+    final response = await _session.request(
       url,
       options: Options(
         method: "GET",
@@ -38,7 +37,7 @@ class Class2ndActivityService {
 
   Future<List<Class2ndActivity>> query(String queryString) async {
     const String url = 'http://sc.sit.edu.cn/public/activity/activityList.action';
-    final response = await session.request(
+    final response = await _session.request(
       url,
       data: 'activityName=$queryString',
       options: Options(
@@ -63,7 +62,7 @@ class Class2ndActivityService {
         return Class2ndActivity(
           id: id,
           title: fullTitle,
-          time: dateFormatParser.parse(date),
+          time: _dateFormatParser.parse(date),
         );
       },
     ).toList();
@@ -72,7 +71,7 @@ class Class2ndActivityService {
 
   /// 获取第二课堂活动详情
   Future<Class2ndActivityDetails> getActivityDetails(int activityId) async {
-    final response = await session.request(
+    final response = await _session.request(
       'http://sc.sit.edu.cn/public/activity/activityDetail.action?activityId=$activityId',
       options: Options(
         method: "POST",

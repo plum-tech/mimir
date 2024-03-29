@@ -85,7 +85,6 @@ String? _loginRequired(BuildContext ctx, GoRouterState state) {
 }
 
 FutureOr<String?> _redirectRoot(BuildContext ctx, GoRouterState state) {
-  if (Dev.demoMode) return null;
   final auth = ctx.auth;
   if (auth.loginStatus == LoginStatus.never) {
 // allow to access settings page.

@@ -2,7 +2,9 @@ import 'package:sit/school/class2nd/service/points.demo.dart';
 import 'package:sit/settings/dev.dart';
 
 import 'service/activity.dart';
+import 'service/activity.demo.dart';
 import 'service/application.dart';
+import 'service/application.demo.dart';
 import 'service/points.dart';
 import 'storage/activity.dart';
 import 'storage/points.dart';
@@ -17,8 +19,8 @@ class Class2ndInit {
   static void init() {
     pointService = Dev.demoMode ? const DemoClass2ndPointsService() : const Class2ndPointsService();
     pointStorage = Class2ndPointsStorage();
-    activityService = const Class2ndActivityService();
+    activityService = Dev.demoMode ? const DemoClass2ndActivityService() : const Class2ndActivityService();
     activityStorage = const Class2ndActivityStorage();
-    applicationService = const Class2ndApplicationService();
+    applicationService = Dev.demoMode ? const DemoClass2ndApplicationService() : const Class2ndApplicationService();
   }
 }

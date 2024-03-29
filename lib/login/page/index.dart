@@ -40,8 +40,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final $account = TextEditingController();
-  final $password = TextEditingController();
+  final $account = TextEditingController(text: Dev.demoMode ? R.demoModeOaAccount : null);
+  final $password = TextEditingController(text: Dev.demoMode ? R.demoModeOaPassword : null);
   final _formKey = GlobalKey<FormState>();
   bool isPasswordClear = false;
   bool isLoggingIn = false;
