@@ -1,6 +1,8 @@
 name: 2.Draft New Release
 
 on: workflow_dispatch
+permissions:
+  contents: write
 
 jobs:
   draft-new-release:
@@ -61,7 +63,7 @@ jobs:
         with:
           files: |
             new-build-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.apk
-#            new-build-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.ipa
+            new-build-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.ipa
           tag_name: ${{ env.RESOLVED_VERSION }}
           body: |
               ## Changes
