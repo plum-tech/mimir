@@ -750,6 +750,7 @@ class RepeatingItemEditor extends StatelessWidget {
               if (index.range.start != newStart || index.range.end != newEnd) {
                 onChanged?.call(index.copyWith(
                   range: (start: newStart, end: newEnd),
+                  type: newStart == newEnd ? TimetableWeekIndexType.all : index.type,
                 ));
               }
             },
