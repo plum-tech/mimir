@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/app.dart';
@@ -89,7 +88,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
               selectedRoom: selectedRoom,
             )
           : const SizedBox(),
-      title: (roomNumber == null ? i18n.title : "${i18n.title} #105604").text(),
+      title: (roomNumber == null ? i18n.title : "${i18n.title} $roomNumber").text(),
       subtitle: lastUpdateTime != null ? i18n.lastUpdateTime(context.formatMdhmNum(lastUpdateTime)).text() : null,
       leftActions: [
         FilledButton.icon(
