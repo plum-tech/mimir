@@ -84,7 +84,7 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
         _buildChartView(),
         ExpensePieChart(records: type2transactions),
         // StatisticsSection(mode: selectedMode, all: type2transactions).expanded(),
-      ].column(),
+      ].listview(),
     );
     final now = DateTime.now();
     final years = _getYear(records);
