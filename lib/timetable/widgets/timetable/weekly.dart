@@ -365,16 +365,19 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
               : () async {
                   $tooltip.currentState?.ensureTooltipVisible();
                 },
-          onLongPress: () async {
-            await context.show$Sheet$(
-              (ctx) => TimetableCourseDetailsSheet(
-                courseCode: widget.lesson.course.courseCode,
-                timetable: widget.timetable,
-              ),
-            );
-          },
+          // onDoubleTap: showDetailsSheet,
+          onLongPress: showDetailsSheet,
           child: child,
         ),
+      ),
+    );
+  }
+
+  Future<void> showDetailsSheet() async {
+    await context.show$Sheet$(
+      (ctx) => TimetableCourseDetailsSheet(
+        courseCode: widget.lesson.course.courseCode,
+        timetable: widget.timetable,
       ),
     );
   }

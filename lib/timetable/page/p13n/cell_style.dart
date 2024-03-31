@@ -126,7 +126,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
         min: 0.0,
         max: 1.0,
         divisions: 255,
-        label: (value * 255).toInt().toString(),
+        label: "${(value * 100).toInt()}%",
         value: value,
         onChanged: (double value) {
           setState(() {
