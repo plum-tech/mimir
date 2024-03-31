@@ -24,7 +24,7 @@ typedef Type2transactions = Map<TransactionType, ({List<Transaction> records, do
 
 class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
   late List<Transaction> records;
-  var selectedMode = StatisticsMode.week;
+  var selectedMode = StatisticsMode.month;
   late double total;
   late Type2transactions type2transactions;
   late int selectedYear;
@@ -79,11 +79,17 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
       appBar: AppBar(
         title: i18n.stats.title.text(),
       ),
+      // body: [
+      //   buildModeSelector().padSymmetric(h: 16, v: 4),
+      //   _buildChartView(),
+      //   ExpensePieChart(records: type2transactions),
+      // ].listview(),
       body: [
         buildModeSelector().padSymmetric(h: 16, v: 4),
-        _buildChartView(),
-        ExpensePieChart(records: type2transactions),
-        // StatisticsSection(mode: selectedMode, all: type2transactions).expanded(),
+        StatisticsSection(
+          mode: selectedMode,
+          all: type2transactions,
+        ).expanded(),
       ].listview(),
     );
     final now = DateTime.now();
@@ -207,19 +213,45 @@ class StatisticsSection extends StatefulWidget {
 }
 
 class _StatisticsSectionState extends State<StatisticsSection> {
+  late Map<TransactionType, StartTime2Records> startTime2Records = resortRecords();
+
+  Map<TransactionType, StartTime2Records> resortRecords() {
+    final startTime2Records = widget.all.map((key, value) => MapEntry(key, widget.mode.resort(value.records)));
+    return startTime2Records;
+  }
+
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void didUpdateWidget(covariant StatisticsSection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.all != widget.all) {
+      setState(() {
+        startTime2Records = resortRecords();
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      itemCount: 10,
-      itemBuilder: (ctx, i) {
-        return const StatisticsPage();
-      },
-    );
+    final list = startTime2Records.values.flattened.toList();
+    return const StatisticsPage();
+  }
+}
+
+class StatisticsPage extends StatefulWidget {
+  const StatisticsPage({super.key});
+
+  @override
+  State<StatisticsPage> createState() => _StatisticsPageState();
+}
+
+class _StatisticsPageState extends State<StatisticsPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+    // return [
+    //   _buildChartView(),
+    //   ExpensePieChart(records: type2transactions),
+    // ].column();
   }
 }
 
@@ -322,19 +354,5 @@ class BaseLineChartWidget extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class StatisticsPage extends StatefulWidget {
-  const StatisticsPage({super.key});
-
-  @override
-  State<StatisticsPage> createState() => _StatisticsPageState();
-}
-
-class _StatisticsPageState extends State<StatisticsPage> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }
