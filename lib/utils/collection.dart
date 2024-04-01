@@ -12,6 +12,22 @@ extension ListX<E> on List<E> {
     list.retainWhere((x) => ids.add(id(x)));
     return list;
   }
+
+  /// Accesses elements using a negative index similar to Python.
+  /// A negative index counts from the end of the list.
+  ///
+  /// Throws an [ArgumentError] if the index is out of bounds.
+  E indexAt(int index) {
+    if (index < 0) {
+      final absIndex = index.abs();
+      if (absIndex > length) {
+        throw ArgumentError("List index out of range: $index");
+      }
+      return this[length + index];
+    } else {
+      return this[index];
+    }
+  }
 }
 
 extension IterableX<E> on Iterable<E> {

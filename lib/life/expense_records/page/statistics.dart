@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/design/widgets/card.dart';
 import 'package:sit/life/expense_records/entity/statistics.dart';
 import 'package:sit/life/expense_records/storage/local.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/life/expense_records/utils.dart';
+import 'package:sit/utils/collection.dart';
 
 import '../entity/local.dart';
 import '../i18n.dart';
@@ -114,6 +117,7 @@ class StatisticsSection extends StatefulWidget {
 
 class _StatisticsSectionState extends State<StatisticsSection> {
   late StartTime2Records startTime2Records = resortRecords();
+  var index = 0;
 
   StartTime2Records resortRecords() {
     final startTime2Records = widget.mode.resort(widget.all);
@@ -132,10 +136,42 @@ class _StatisticsSectionState extends State<StatisticsSection> {
 
   @override
   Widget build(BuildContext context) {
-    return StatisticsPage(
-      start: startTime2Records.first.start,
-      mode: widget.mode,
-      records: startTime2Records.first.records,
+    final current = startTime2Records.indexAt(index);
+    return [
+      buildHeader(),
+      StatisticsPage(
+        start: current.start,
+        mode: widget.mode,
+        records: current.records,
+      ),
+    ].column();
+  }
+
+  Widget buildHeader() {
+    return FilledCard(
+      child: [
+        IconButton(
+          onPressed: index > 0
+              ? () {
+                  setState(() {
+                    index = index - 1;
+                  });
+                }
+              : null,
+          icon: Icon(context.icons.leftChevron),
+        ),
+        "This year".text(),
+        IconButton(
+          onPressed: index < startTime2Records.length
+              ? () {
+                  setState(() {
+                    index = index + 1;
+                  });
+                }
+              : null,
+          icon: Icon(context.icons.rightChevron),
+        ),
+      ].row(maa: MainAxisAlignment.spaceBetween),
     );
   }
 }

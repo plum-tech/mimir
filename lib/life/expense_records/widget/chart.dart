@@ -126,6 +126,8 @@ class _ExpenseLineChartState extends State<ExpenseLineChart> {
   }
 
   List<double> buildData() {
+    final now = DateTime.now();
+    final start = widget.start;
     switch (widget.mode) {
       case StatisticsMode.week:
         final List<double> daysAmount = List.filled(7, 0.00);
@@ -134,14 +136,17 @@ class _ExpenseLineChartState extends State<ExpenseLineChart> {
         }
         return daysAmount;
       case StatisticsMode.month:
-        final List<double> daysAmount =
-            List.filled(daysInMonth(year: widget.start.year, month: widget.start.month), 0.00);
+        final List<double> daysAmount = List.filled(
+            start.year == now.year && start.month == now.month
+                ? now.day
+                : daysInMonth(year: start.year, month: start.month),
+            0.00);
         for (final record in widget.records) {
           daysAmount[record.timestamp.day - 1] += record.deltaAmount;
         }
         return daysAmount;
       case StatisticsMode.year:
-        final List<double> monthAmounts = List.filled(12, 0.00);
+        final List<double> monthAmounts = List.filled(start.year == now.year ? now.month : 12, 0.00);
         for (final record in widget.records) {
           monthAmounts[record.timestamp.month - 1] += record.deltaAmount;
         }
