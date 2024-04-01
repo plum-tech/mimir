@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:sit/utils/date.dart';
 
 import 'local.dart';
 
@@ -18,7 +19,14 @@ enum StatisticsMode {
 }
 
 StartTime2Records _weekly(List<Transaction> records) {
-  return [];
+  final ym2records = records.groupListsBy((r) => getWeek(
+        year: r.timestamp.year,
+        month: r.timestamp.month,
+        day: r.timestamp.day,
+      ));
+  final startTime2Records =
+      ym2records.entries.map((entry) => (start: DateTime(entry.key), records: entry.value)).toList();
+  return startTime2Records;
 }
 
 StartTime2Records _monthly(List<Transaction> records) {
