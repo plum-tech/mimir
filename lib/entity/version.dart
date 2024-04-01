@@ -18,6 +18,7 @@ enum AppPlatform {
 
 class InstallerStore {
   static const testFlight = "com.apple.testflight";
+  static const appStore = "com.apple";
 }
 
 class AppMeta {
