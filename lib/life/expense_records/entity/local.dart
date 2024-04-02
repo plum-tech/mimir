@@ -69,13 +69,7 @@ extension TransactionX on Transaction {
       (balanceAfter - balanceBefore) < 0 && type != TransactionType.topUp && type != TransactionType.subsidy;
 
   String? get bestTitle {
-    if (deviceName.isNotEmpty) {
-      return deviceName;
-    } else if (note.isNotEmpty) {
-      return note;
-    } else {
-      return null;
-    }
+    return deviceName.isNotEmpty? deviceName : note.isNotEmpty ? note : null;
   }
 
   String shortDeviceName() {

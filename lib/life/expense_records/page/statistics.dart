@@ -11,6 +11,7 @@ import '../entity/local.dart';
 import '../i18n.dart';
 import '../init.dart';
 import '../widget/chart.dart';
+import '../widget/transaction.dart';
 
 class ExpenseStatisticsPage extends StatefulWidget {
   const ExpenseStatisticsPage({super.key});
@@ -66,8 +67,8 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
         StatisticsSection(
           mode: selectedMode,
           all: records,
-        ),
-      ].listview(),
+        ).expanded(),
+      ].column(caa: CrossAxisAlignment.stretch),
     );
     // final now = DateTime.now();
     // final years = _getYear(records);
@@ -133,13 +134,21 @@ class _StatisticsSectionState extends State<StatisticsSection> {
   @override
   Widget build(BuildContext context) {
     final current = startTime2Records.indexAt(index);
+    final separated = separateTransactionByType(current.records);
     return [
       buildHeader(current.start),
-      StatisticsPage(
-        start: current.start,
-        mode: widget.mode,
-        records: current.records,
-      ),
+      [
+        ExpenseLineChart(
+          start: current.start,
+          records: current.records,
+          mode: widget.mode,
+        ),
+        ExpensePieChart(records: separated),
+        ...current.records.map((record) {
+          return TransactionTile(record);
+        }),
+      ].listview().expanded(),
+      // ListView()
     ].column();
   }
 
@@ -169,36 +178,5 @@ class _StatisticsSectionState extends State<StatisticsSection> {
         ),
       ].row(maa: MainAxisAlignment.spaceBetween),
     );
-  }
-}
-
-class StatisticsPage extends StatefulWidget {
-  final DateTime start;
-  final List<Transaction> records;
-  final StatisticsMode mode;
-
-  const StatisticsPage({
-    super.key,
-    required this.start,
-    required this.records,
-    required this.mode,
-  });
-
-  @override
-  State<StatisticsPage> createState() => _StatisticsPageState();
-}
-
-class _StatisticsPageState extends State<StatisticsPage> {
-  @override
-  Widget build(BuildContext context) {
-    final separated = separateTransactionByType(widget.records);
-    return [
-      ExpenseLineChart(
-        start: widget.start,
-        records: widget.records,
-        mode: widget.mode,
-      ),
-      ExpensePieChart(records: separated),
-    ].column();
   }
 }

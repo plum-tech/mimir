@@ -12,9 +12,13 @@ class TransactionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final title = transaction.bestTitle;
     return ListTile(
-      title: Text(transaction.bestTitle ?? i18n.unknown, style: context.textTheme.titleSmall),
-      subtitle: context.formatYmdhmsNum(transaction.timestamp).text(),
+      title: Text(title ?? i18n.unknown, style: context.textTheme.titleSmall),
+      subtitle: [
+        context.formatYmdhmsNum(transaction.timestamp).text(),
+        if (title != transaction.note) transaction.note.text(),
+      ].column(caa: CrossAxisAlignment.start),
       leading: transaction.type.icon.make(color: transaction.type.color, size: 32),
       trailing: transaction.toReadableString().text(
             style: context.textTheme.titleLarge?.copyWith(color: transaction.billColor),
