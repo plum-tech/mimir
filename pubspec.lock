@@ -33,6 +33,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.11"
+  antdesign_icons:
+    dependency: "direct main"
+    description:
+      name: antdesign_icons
+      sha256: fc956ce592a48fd999ec623d0580652a5075525fa262878765eef6144891b41b
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   app_links:
     dependency: "direct main"
     description:
