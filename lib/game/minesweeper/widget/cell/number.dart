@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../manager/logic.dart';
-import '../../model/cell.dart';
+import '../../entity/cell.dart';
 import '../../theme.dart';
 
 class MinesAroundNumber extends ConsumerWidget {

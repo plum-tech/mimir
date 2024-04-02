@@ -1,12 +1,12 @@
 import 'package:sit/game/minesweeper/save.dart';
 
-import '../model/mode.dart';
-import '../model/screen.dart';
+import '../entity/mode.dart';
+import '../entity/screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:flutter/foundation.dart";
 import 'package:logger/logger.dart';
-import '../model/board.dart';
-import '../model/cell.dart';
+import '../entity/board.dart';
+import '../entity/cell.dart';
 
 // Debug Tool
 final logger = Logger();
