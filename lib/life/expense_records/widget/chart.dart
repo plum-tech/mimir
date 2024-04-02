@@ -130,27 +130,31 @@ class _ExpenseLineChartState extends State<ExpenseLineChart> {
     final start = widget.start;
     switch (widget.mode) {
       case StatisticsMode.week:
-        final List<double> daysAmount = List.filled(7, 0.00);
+        final List<double> weekAmount = List.filled(7, 0.00);
         for (final record in widget.records) {
-          daysAmount[(record.timestamp.day - 1) % 7] += record.deltaAmount;
+          // add data at the same weekday.
+          // sunday goes first
+          weekAmount[record.timestamp.weekday == DateTime.sunday ? 0 : record.timestamp.weekday] += record.deltaAmount;
         }
-        return daysAmount;
+        return weekAmount;
       case StatisticsMode.month:
-        final List<double> daysAmount = List.filled(
+        final List<double> dayAmount = List.filled(
             start.year == now.year && start.month == now.month
                 ? now.day
                 : daysInMonth(year: start.year, month: start.month),
             0.00);
         for (final record in widget.records) {
-          daysAmount[record.timestamp.day - 1] += record.deltaAmount;
+          // add data on the same day.
+          dayAmount[record.timestamp.day - 1] += record.deltaAmount;
         }
-        return daysAmount;
+        return dayAmount;
       case StatisticsMode.year:
-        final List<double> monthAmounts = List.filled(start.year == now.year ? now.month : 12, 0.00);
+        final List<double> monthAmount = List.filled(start.year == now.year ? now.month : 12, 0.00);
         for (final record in widget.records) {
-          monthAmounts[record.timestamp.month - 1] += record.deltaAmount;
+          // add data in the same month.
+          monthAmount[record.timestamp.month - 1] += record.deltaAmount;
         }
-        return monthAmounts;
+        return monthAmount;
     }
   }
 }

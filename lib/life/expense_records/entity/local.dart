@@ -50,7 +50,7 @@ class Transaction {
   @override
   String toString() {
     return jsonEncode({
-      "datetime": timestamp.toString(),
+      "timestamp": timestamp.toString(),
       "consumerId": consumerId,
       "type": type.toString(),
       "balanceBefore": balanceBefore,

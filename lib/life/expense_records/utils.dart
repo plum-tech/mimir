@@ -141,8 +141,8 @@ Map<TransactionType, ({double proportion, List<Transaction> records, double tota
   });
 }
 
-
 final _monthFormat = DateFormat.MMMM();
+final _monthDayFormat = DateFormat.Md();
 final _yearMonthFormat = DateFormat.yMMMM();
 final _yearFormat = DateFormat.y();
 
@@ -154,11 +154,20 @@ String resolveTime4Display({
   final now = DateTime.now();
   switch (mode) {
     case StatisticsMode.week:
-      return now.year == date.year &&
-              getWeek(year: now.year, month: now.month, day: now.day) ==
-                  getWeek(year: date.year, month: date.month, day: date.day)
-          ? "This week"
-          : "? Week";
+      if (date.year == now.year) {
+        final nowWeek = now.week;
+        final dateWeek = date.week;
+        if (dateWeek == nowWeek) {
+          return "This week";
+        } else if (dateWeek == nowWeek - 1) {
+          return "Last week";
+        } else {
+          return "? week ${_yearFormat.format(date)}";
+          // return "${_monthDayFormat.format(date)}";
+        }
+      } else {
+        return "? week ${_yearFormat.format(date)}";
+      }
     case StatisticsMode.month:
       if (date.year == now.year) {
         if (date.month == now.month) {

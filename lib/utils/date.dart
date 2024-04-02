@@ -56,3 +56,22 @@ int getWeek({
   double a = (daysPastInYear(year: year, month: month, day: day) / 7) + 1;
   return a.toInt();
 }
+
+extension DateTimeX on DateTime {
+  int get week => getWeek(year: year, month: month, day: day);
+}
+
+DateTime getDateOfFirstDayInWeek({
+  required int year,
+  required int week,
+}) {
+  final day = (week - 1) * 7;
+  return DateTime(year, 1, day);
+}
+
+String formatTimeSpan({
+  required DateTime from,
+  required DateTime to,
+}) {
+  return "";
+}

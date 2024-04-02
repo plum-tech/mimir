@@ -20,13 +20,10 @@ enum StatisticsMode {
 }
 
 StartTime2Records _weekly(List<Transaction> records) {
-  final ym2records = records.groupListsBy((r) => getWeek(
-        year: r.timestamp.year,
-        month: r.timestamp.month,
-        day: r.timestamp.day,
-      ));
-  final startTime2Records =
-      ym2records.entries.map((entry) => (start: DateTime(entry.key), records: entry.value)).toList();
+  final ym2records = records.groupListsBy((r) => (r.timestamp.year, r.timestamp.week));
+  final startTime2Records = ym2records.entries
+      .map((entry) => (start: getDateOfFirstDayInWeek(year: entry.key.$1, week: entry.key.$2), records: entry.value))
+      .toList();
   startTime2Records.sortBy((r) => r.start);
   return startTime2Records;
 }
