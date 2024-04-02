@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/school/yellow_pages/init.dart';
@@ -46,14 +47,14 @@ class ContactTile extends StatelessWidget {
       trailing: phoneNumber.isEmpty
           ? null
           : [
-              IconButton(
+              PlatformIconButton(
                 icon: const Icon(Icons.phone),
                 onPressed: () async {
                   YellowPagesInit.storage.addInteractHistory(contact);
                   await guardLaunchUrlString(context, "tel:$phoneNumber");
                 },
               ),
-              IconButton(
+              PlatformIconButton(
                 icon: const Icon(Icons.content_copy),
                 onPressed: () async {
                   YellowPagesInit.storage.addInteractHistory(contact);

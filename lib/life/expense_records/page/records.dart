@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
@@ -76,8 +77,12 @@ class _ExpenseRecordsPageState extends ConsumerState<ExpenseRecordsPage> {
             ? i18n.title.text()
             : i18n.balanceInCard(lastTransaction.balanceAfter.toStringAsFixed(2)).text(),
         actions: [
-          IconButton(
-            tooltip: i18n.delete,
+          PlatformIconButton(
+            material: (ctx, p) {
+              return MaterialIconButtonData(
+                tooltip: i18n.delete,
+              );
+            },
             icon: Icon(context.icons.delete),
             onPressed: () async {
               ExpenseRecordsInit.storage.clearIndex();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/design/widgets/tags.dart';
 import 'package:sit/l10n/extension.dart';
@@ -84,7 +85,7 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
                   floating: true,
                   title: i18n.title.text(),
                   actions: [
-                    IconButton(
+                    PlatformIconButton(
                       onPressed: () {
                         launchUrlString(
                           OaAnnounceService.getAnnounceUrl(widget.record.catalogId, widget.record.uuid),

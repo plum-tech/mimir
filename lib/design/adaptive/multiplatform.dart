@@ -32,4 +32,6 @@ extension PlatformIconsX on PlatformIcons {
   IconData get calendar => isMaterial(context) ? Icons.calendar_month : CupertinoIcons.calendar;
 
   IconData get qrcode => isMaterial(context) ? Icons.qr_code : CupertinoIcons.qrcode;
+
+  IconData get preview => isMaterial(context) ? Icons.preview : CupertinoIcons.eye;
 }

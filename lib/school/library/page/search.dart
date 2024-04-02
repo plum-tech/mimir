@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/school/library/storage/search.dart';
@@ -39,7 +40,7 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      IconButton(
+      PlatformIconButton(
         icon: Icon(context.icons.clear),
         onPressed: () {
           query = '';
@@ -51,7 +52,7 @@ class LibrarySearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget? buildLeading(BuildContext context) {
-    return IconButton(
+    return PlatformIconButton(
       icon: AnimatedIcon(
         icon: AnimatedIcons.menu_arrow,
         progress: transitionAnimation,
@@ -163,7 +164,7 @@ class _LibraryTrendsGroupState extends State<LibraryTrendsGroup> {
     return SuggestionItemView<LibraryTrendsItem>(
       tileLeading: Icon(recentOrTotal ? Icons.local_fire_department : Icons.people),
       title: recentOrTotal ? i18n.searching.trending.text() : i18n.searching.mostPopular.text(),
-      tileTrailing: IconButton(
+      tileTrailing: PlatformIconButton(
         icon: const Icon(Icons.swap_horiz),
         onPressed: () {
           setState(() {
@@ -226,7 +227,7 @@ class _LibrarySearchHistoryGroupState extends State<LibrarySearchHistoryGroup> {
       tileLeading: const Icon(Icons.history),
       title: i18n.searching.searchHistory.text(),
       items: history,
-      tileTrailing: IconButton(
+      tileTrailing: PlatformIconButton(
         icon: Icon(context.icons.delete),
         onPressed: history?.isNotEmpty == true
             ? () {

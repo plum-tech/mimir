@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/app.dart';
@@ -115,8 +116,12 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
       ],
       rightActions: [
         if (balance != null && selectedRoom != null && !isCupertino)
-          IconButton(
-            tooltip: i18n.share,
+          PlatformIconButton(
+            material: (ctx, p) {
+              return MaterialIconButtonData(
+                tooltip: i18n.share,
+              );
+            },
             onPressed: () async {
               await shareBalance(balance: balance, selectedRoom: selectedRoom, context: context);
             },

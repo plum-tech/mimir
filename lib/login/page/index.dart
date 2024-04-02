@@ -20,6 +20,7 @@ import 'package:sit/school/widgets/campus.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 
 import '../aggregated.dart';
 import '../i18n.dart';
@@ -163,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
         appBar: AppBar(
           title: widget.isGuarded ? i18n.loginRequired.text() : const CampusSelector(),
           actions: [
-            IconButton(
+            PlatformIconButton(
               icon: isCupertino ? const Icon(CupertinoIcons.settings) : const Icon(Icons.settings),
               onPressed: () {
                 context.push("/settings");
@@ -247,7 +248,7 @@ class _LoginPageState extends State<LoginPage> {
                 labelText: i18n.credentials.oaPwd,
                 hintText: i18n.oaPwdHint,
                 icon: Icon(context.icons.lock),
-                suffixIcon: IconButton(
+                suffixIcon: PlatformIconButton(
                   icon: Icon(isPasswordClear ? context.icons.eyeSolid : context.icons.eyeSlashSolid),
                   onPressed: () {
                     setState(() {

@@ -229,7 +229,7 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
             subtitle: _buildGpaText(items: selectedItems).text(),
             titleTextStyle: context.textTheme.titleMedium,
             onTap: toggleExpand,
-            trailing: IconButton(
+            trailing: PlatformIconButton(
               icon: Icon(
                 isGroupNoneSelected
                     ? context.icons.checkBoxBlankOutlineRounded

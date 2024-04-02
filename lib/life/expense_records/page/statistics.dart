@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/life/expense_records/entity/statistics.dart';
@@ -155,7 +156,7 @@ class _StatisticsSectionState extends State<StatisticsSection> {
   Widget buildHeader(DateTime start) {
     return OutlinedCard(
       child: [
-        IconButton(
+        PlatformIconButton(
           onPressed: index > 0
               ? () {
                   setState(() {
@@ -166,7 +167,7 @@ class _StatisticsSectionState extends State<StatisticsSection> {
           icon: Icon(context.icons.leftChevron),
         ),
         resolveTime4Display(context: context, mode: widget.mode, date: start).text(),
-        IconButton(
+        PlatformIconButton(
           onPressed: index < startTime2Records.length - 1
               ? () {
                   setState(() {

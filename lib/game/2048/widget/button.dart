@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../theme.dart';
 
@@ -19,7 +20,7 @@ class ButtonWidget extends ConsumerWidget {
           color: scoreColor,
           borderRadius: BorderRadius.circular(12.0),
         ),
-        child: IconButton(
+        child: PlatformIconButton(
             color: textColorWhite,
             onPressed: onPressed,
             icon: Icon(

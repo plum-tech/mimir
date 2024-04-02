@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../entity/display.dart';
@@ -43,7 +44,7 @@ class _TimetablePreviewPageState extends State<TimetablePreviewPage> {
       appBar: AppBar(
         title: TextScroll(widget.timetable.name),
         actions: [
-          IconButton(
+          PlatformIconButton(
             icon: const Icon(Icons.swap_horiz),
             onPressed: () {
               $displayMode.value = $displayMode.value.toggle();

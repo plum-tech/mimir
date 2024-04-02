@@ -261,7 +261,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
       subtitle: uri.toString(),
       trailing: [
         if (!type.isDefaultUri(uri))
-          IconButton(
+          PlatformIconButton(
             onPressed: () {
               setState(() {
                 this.uri = type.buildDefaultUri();
@@ -269,7 +269,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
             },
             icon: Icon(context.icons.delete),
           ),
-        IconButton(
+        PlatformIconButton(
           icon: Icon(context.icons.edit),
           onPressed: () async {
             var newFullProxy = await Editor.showStringEditor(
@@ -329,7 +329,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
       leading: const Icon(Icons.link),
       title: i18n.proxy.hostname,
       subtitle: host,
-      trailing: IconButton(
+      trailing: PlatformIconButton(
         icon: Icon(context.icons.edit),
         onPressed: () async {
           final newHostRaw = await Editor.showStringEditor(
@@ -357,7 +357,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
       leading: const Icon(Icons.settings_input_component_outlined),
       title: i18n.proxy.port,
       subtitle: port.toString(),
-      trailing: IconButton(
+      trailing: PlatformIconButton(
         icon: Icon(context.icons.edit),
         onPressed: () async {
           final newPort = await Editor.showIntEditor(
@@ -388,7 +388,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
       subtitle: text?.text(),
       trailing: [
         if (auth != null)
-          IconButton(
+          PlatformIconButton(
             onPressed: () {
               setState(() {
                 uri = uri.replace(userInfo: "");
@@ -396,7 +396,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
             },
             icon: Icon(context.icons.delete),
           ),
-        IconButton(
+        PlatformIconButton(
           icon: Icon(context.icons.edit),
           onPressed: () async {
             final newAuth = await showAdaptiveDialog<({String username, String password})>(

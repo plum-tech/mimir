@@ -2,6 +2,7 @@ import 'package:antdesign_icons/antdesign_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
@@ -40,7 +41,7 @@ class _MePageState extends State<MePage> {
             titleTextStyle: context.textTheme.headlineSmall,
             actions: [
               buildScannerAction(),
-              IconButton(
+              PlatformIconButton(
                 icon: Icon(context.icons.settings),
                 onPressed: () {
                   context.push("/settings");
@@ -79,7 +80,7 @@ class _MePageState extends State<MePage> {
       leading: const Icon(AntIcons.qqOutlined),
       title: "QQ交流群".text(),
       subtitle: _qGroupNumber.text(),
-      trailing: IconButton(
+      trailing: PlatformIconButton(
         onPressed: () async {
           try {
             await launchUrlString(_joinQGroupUri);
@@ -100,7 +101,7 @@ class _MePageState extends State<MePage> {
       leading: const Icon(AntIcons.wechatOutlined),
       title: "微信公众号".text(),
       subtitle: "小应生活".text(),
-      trailing: IconButton(
+      trailing: PlatformIconButton(
         onPressed: () async {
           try {
             await launchUrlString(_wechatUri);
@@ -114,7 +115,7 @@ class _MePageState extends State<MePage> {
   }
 
   Widget buildScannerAction() {
-    return IconButton(
+    return PlatformIconButton(
       onPressed: () async {
         final res = await context.push("/tools/scanner");
         if (!mounted) return;

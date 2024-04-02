@@ -169,7 +169,7 @@ class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
       enabled: enableAlarm,
       title: i18n.export.alarmDuration.text(),
       subtitle: i18n.time.minuteFormat(alarmDuration.inMinutes.toString()).text(),
-      trailing: IconButton(
+      trailing: PlatformIconButton(
         icon: Icon(context.icons.edit),
         onPressed: !enableAlarm
             ? null
@@ -193,7 +193,7 @@ class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
       enabled: enableAlarm,
       title: i18n.export.alarmBeforeClassBegins.text(),
       subtitle: i18n.export.alarmBeforeClassBeginsDesc(alarmBeforeClass).text(),
-      trailing: IconButton(
+      trailing: PlatformIconButton(
         icon: Icon(context.icons.edit),
         onPressed: !enableAlarm
             ? null

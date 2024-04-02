@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
@@ -142,13 +143,14 @@ class _DebugGoRouteTileState extends State<DebugGoRouteTile> {
       ),
       trailing: [
         $route >>
-            (ctx, route) => IconButton(
-                onPressed: route.text.isEmpty
-                    ? null
-                    : () {
-                        context.push(route.text);
-                      },
-                icon: const Icon(Icons.arrow_forward))
+            (ctx, route) => PlatformIconButton(
+                  onPressed: route.text.isEmpty
+                      ? null
+                      : () {
+                          context.push(route.text);
+                        },
+                  icon: const Icon(Icons.arrow_forward),
+                )
       ].row(mas: MainAxisSize.min),
     );
   }

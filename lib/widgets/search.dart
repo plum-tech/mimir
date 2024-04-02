@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
@@ -133,7 +134,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      IconButton(
+      PlatformIconButton(
         icon: Icon(context.icons.clear),
         onPressed: () => query = "",
       )
@@ -142,7 +143,7 @@ class ItemSearchDelegate<T> extends SearchDelegate {
 
   @override
   Widget? buildLeading(BuildContext context) {
-    return IconButton(
+    return PlatformIconButton(
       icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
       onPressed: () => close(context, null),
     );

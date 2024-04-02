@@ -310,7 +310,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
         leading: CourseIcon(courseName: template.courseName),
         title: template.courseName.text(),
         trailing: [
-          IconButton.filledTonal(
+          PlatformIconButton(
             icon: Icon(context.icons.add),
             padding: EdgeInsets.zero,
             onPressed: () async {
@@ -325,7 +325,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
               onCourseAdded?.call(newItem);
             },
           ),
-          IconButton.filledTonal(
+          PlatformIconButton(
             icon: Icon(context.icons.edit),
             padding: EdgeInsets.zero,
             onPressed: () async {
@@ -365,7 +365,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
                 "${Weekday.fromIndex(course.dayIndex).l10n()} ${begin.l10n(context)}–${end.l10n(context)}".text(),
                 ...weekNumbers.map((n) => n.text()),
               ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
-              trailing: IconButton.filledTonal(
+              trailing: PlatformIconButton(
                 icon: Icon(context.icons.edit),
                 padding: EdgeInsets.zero,
                 onPressed: () async {
@@ -604,7 +604,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
     return [
       ListTile(
         title: i18n.editor.repeating.text(),
-        trailing: IconButton.filledTonal(
+        trailing: PlatformIconButton(
           icon: Icon(context.icons.add),
           onPressed: () {
             final newIndices = List.of(weekIndices.indices);
@@ -642,7 +642,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
     return ListTile(
       title: i18n.course.teacher(2).text(),
       isThreeLine: true,
-      trailing: IconButton(
+      trailing: PlatformIconButton(
         icon: Icon(context.icons.add),
         onPressed: () async {
           final newTeacher = await Editor.showStringEditor(

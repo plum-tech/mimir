@@ -1,3 +1,4 @@
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -118,7 +119,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
         centerTitle: true,
         title: i18n.title.text(),
         actions: [
-          IconButton(
+          PlatformIconButton(
             onPressed: () {
               resetGame();
             },

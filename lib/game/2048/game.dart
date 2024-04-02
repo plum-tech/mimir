@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:rettulf/rettulf.dart';
@@ -119,7 +120,7 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
       appBar: AppBar(
         title: i18n.title.text(),
         actions: [
-          IconButton(
+          PlatformIconButton(
             onPressed: () {
               ref.read(boardManager.notifier).newGame();
             },

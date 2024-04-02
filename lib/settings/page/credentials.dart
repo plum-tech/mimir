@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
@@ -82,7 +83,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
         subtitle: Text(!showPassword ? i18n.oaCredentials.savedOaPwdDesc : credential.password),
         leading: const Icon(Icons.password_rounded),
         trailing: [
-          IconButton(
+          PlatformIconButton(
             icon: Icon(context.icons.edit),
             onPressed: () async {
               final newPwd = await Editor.showStringEditor(
@@ -97,7 +98,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
               }
             },
           ),
-          IconButton(
+          PlatformIconButton(
               onPressed: () {
                 setState(() {
                   showPassword = !showPassword;

@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
@@ -117,7 +118,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
                 labelText: i18n.login.credentials.pwd,
                 icon: Icon(context.icons.lock),
                 hintText: i18n.login.passwordHint,
-                suffixIcon: IconButton(
+                suffixIcon: PlatformIconButton(
                   icon: Icon(isPasswordClear ? context.icons.eyeSolid : context.icons.eyeSlashSolid),
                   onPressed: () {
                     setState(() {

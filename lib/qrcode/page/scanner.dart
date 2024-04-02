@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -19,8 +20,6 @@ class ScannerPage extends StatefulWidget {
   @override
   State<ScannerPage> createState() => _ScannerPageState();
 }
-
-const _iconSize = 32.0;
 
 class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStateMixin {
   final controller = MobileScannerController(
@@ -105,9 +104,8 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
   }
 
   Widget buildImagePicker() {
-    return IconButton(
+    return PlatformIconButton(
       icon: const Icon(Icons.image),
-      iconSize: _iconSize,
       onPressed: () async {
         final ImagePicker picker = ImagePicker();
         // Pick an image
@@ -123,16 +121,14 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
   }
 
   Widget buildSwitchButton() {
-    return IconButton(
-      iconSize: _iconSize,
+    return PlatformIconButton(
       icon: Icon(context.icons.switchCamera),
       onPressed: () => controller.switchCamera(),
     );
   }
 
   Widget buildTorchButton() {
-    return IconButton(
-      iconSize: _iconSize,
+    return PlatformIconButton(
       icon: controller.torchState >>
           (context, state) {
             switch (state) {

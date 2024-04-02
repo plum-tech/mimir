@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
@@ -111,8 +112,12 @@ class _Class2ndAppCardState extends ConsumerState<Class2ndAppCard> {
       ],
       rightActions: [
         if (!isCupertino)
-          IconButton(
-            tooltip: i18n.share,
+          PlatformIconButton(
+            material: (ctx, p) {
+              return MaterialIconButtonData(
+                tooltip: i18n.share,
+              );
+            },
             onPressed: summary != null
                 ? () async {
                     await shareSummery(summary: summary, target: getTargetScore(), context: context);

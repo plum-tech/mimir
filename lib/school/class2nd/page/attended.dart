@@ -106,7 +106,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                 floating: true,
                 title: i18n.attended.title.text(),
                 actions: [
-                  IconButton(
+                  PlatformIconButton(
                     onPressed: () async {
                       final result = await showSearch(
                         context: context,
@@ -463,7 +463,7 @@ class AttendedActivitySearchDelegate extends SearchDelegate {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return <Widget>[
-      IconButton(onPressed: () => query = '', icon: Icon(context.icons.clear)),
+      PlatformIconButton(onPressed: () => query = '', icon: Icon(context.icons.clear)),
     ];
   }
 

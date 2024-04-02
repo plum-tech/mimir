@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/r.dart';
 import 'package:sit/school/yellow_pages/init.dart';
@@ -23,7 +24,7 @@ class _YellowPagesListPageState extends State<YellowPagesListPage> {
       appBar: AppBar(
         title: i18n.title.text(),
         actions: [
-          IconButton(
+          PlatformIconButton(
             onPressed: () async {
               final result = await showSearch(context: context, delegate: YellowPageSearchDelegate(R.yellowPages));
               if (result == null) return;

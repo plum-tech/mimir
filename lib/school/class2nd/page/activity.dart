@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
@@ -54,7 +55,7 @@ class _ActivityListPageState extends State<ActivityListPage> {
                   title: i18n.title.text(),
                   forceElevated: innerBoxIsScrolled,
                   actions: [
-                    IconButton(
+                    PlatformIconButton(
                       icon: Icon(context.icons.search),
                       onPressed: () => showSearch(context: context, delegate: ActivitySearchDelegate()),
                     ),

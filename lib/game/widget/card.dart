@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/widgets/app.dart';
@@ -77,14 +78,14 @@ class _OfflineGameAppCardState extends State<OfflineGameAppCard> {
       ],
       rightActions: [
         if (widget.supportHistory)
-          IconButton(
+          PlatformIconButton(
             onPressed: () {
               context.push("/game${widget.baseRoute}/history");
             },
             icon: const Icon(Icons.history),
           ),
         if (widget.supportLeaderboard)
-          IconButton(
+          PlatformIconButton(
             onPressed: () {
               context.push("/game${widget.baseRoute}/leaderboard");
             },

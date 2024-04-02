@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/menu.dart';
@@ -97,7 +98,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       if (Settings.focusTimetable)
         buildMoreActionsButton()
       else
-        IconButton(
+        PlatformIconButton(
           icon: const Icon(Icons.color_lens_outlined),
           onPressed: () {
             context.push("/timetable/p13n");
@@ -243,7 +244,7 @@ class TimetableCard extends StatelessWidget {
           EntryAction(
             main: true,
             label: i18n.preview,
-            icon: isCupertino ? CupertinoIcons.eye : Icons.preview,
+            icon: ctx.icons.preview,
             activator: const SingleActivator(LogicalKeyboardKey.keyP),
             action: () async {
               if (!ctx.mounted) return;
