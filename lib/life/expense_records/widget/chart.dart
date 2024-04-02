@@ -83,7 +83,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
         .map((record) {
           final MapEntry(key: type, value: (records: _, :total, proportion: _)) = record;
           final color = type.color.harmonizeWith(context.colorScheme.primary);
-          return RawChip(
+          return Chip(
             avatar: Icon(type.icon, color: color),
             labelStyle: TextStyle(color: color),
             label: "${type.localized()}: ${i18n.unit.rmb(total.toStringAsFixed(2))}".text(),

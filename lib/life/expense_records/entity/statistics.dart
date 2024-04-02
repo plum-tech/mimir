@@ -11,6 +11,7 @@ enum StatisticsMode {
   month(_monthly),
   year(_yearly);
 
+  /// Resort the records, separate them by start time, and sort them in DateTime ascending order.
   final StartTime2Records Function(List<Transaction> records) resort;
 
   const StatisticsMode(this.resort);
@@ -26,6 +27,7 @@ StartTime2Records _weekly(List<Transaction> records) {
       ));
   final startTime2Records =
       ym2records.entries.map((entry) => (start: DateTime(entry.key), records: entry.value)).toList();
+  startTime2Records.sortBy((r) => r.start);
   return startTime2Records;
 }
 
@@ -33,6 +35,7 @@ StartTime2Records _monthly(List<Transaction> records) {
   final ym2records = records.groupListsBy((r) => (r.timestamp.year, r.timestamp.month));
   final startTime2Records =
       ym2records.entries.map((entry) => (start: DateTime(entry.key.$1, entry.key.$2), records: entry.value)).toList();
+  startTime2Records.sortBy((r) => r.start);
   return startTime2Records;
 }
 
@@ -40,5 +43,6 @@ StartTime2Records _yearly(List<Transaction> records) {
   final ym2records = records.groupListsBy((r) => r.timestamp.year);
   final startTime2Records =
       ym2records.entries.map((entry) => (start: DateTime(entry.key), records: entry.value)).toList();
+  startTime2Records.sortBy((r) => r.start);
   return startTime2Records;
 }

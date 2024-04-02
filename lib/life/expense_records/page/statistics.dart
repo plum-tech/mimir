@@ -116,20 +116,16 @@ class StatisticsSection extends StatefulWidget {
 }
 
 class _StatisticsSectionState extends State<StatisticsSection> {
-  late StartTime2Records startTime2Records = resortRecords();
-  var index = 0;
-
-  StartTime2Records resortRecords() {
-    final startTime2Records = widget.mode.resort(widget.all);
-    return startTime2Records;
-  }
+  late StartTime2Records startTime2Records = widget.mode.resort(widget.all);
+  late int index = startTime2Records.length - 1;
 
   @override
   void didUpdateWidget(covariant StatisticsSection oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.mode != widget.mode || oldWidget.all != widget.all) {
       setState(() {
-        startTime2Records = resortRecords();
+        startTime2Records = widget.mode.resort(widget.all);
+        index = startTime2Records.length - 1;
       });
     }
   }
@@ -138,7 +134,7 @@ class _StatisticsSectionState extends State<StatisticsSection> {
   Widget build(BuildContext context) {
     final current = startTime2Records.indexAt(index);
     return [
-      buildHeader(),
+      buildHeader(current.start),
       StatisticsPage(
         start: current.start,
         mode: widget.mode,
@@ -147,8 +143,8 @@ class _StatisticsSectionState extends State<StatisticsSection> {
     ].column();
   }
 
-  Widget buildHeader() {
-    return FilledCard(
+  Widget buildHeader(DateTime start) {
+    return OutlinedCard(
       child: [
         IconButton(
           onPressed: index > 0
@@ -160,9 +156,9 @@ class _StatisticsSectionState extends State<StatisticsSection> {
               : null,
           icon: Icon(context.icons.leftChevron),
         ),
-        "This year".text(),
+        resolveTime4Display(context: context, mode: widget.mode, date: start).text(),
         IconButton(
-          onPressed: index < startTime2Records.length
+          onPressed: index < startTime2Records.length - 1
               ? () {
                   setState(() {
                     index = index + 1;

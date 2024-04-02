@@ -1,9 +1,14 @@
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:sit/life/expense_records/entity/local.dart';
 
 import 'package:sit/school/utils.dart';
+import 'package:sit/utils/date.dart';
 
 import 'entity/remote.dart';
+import 'entity/statistics.dart';
 
 const deviceName2Type = {
   '开水': TransactionType.water,
@@ -134,4 +139,45 @@ Map<TransactionType, ({double proportion, List<Transaction> records, double tota
     final (income: _, :outcome) = accumulateTransactionIncomeOutcome(records);
     return MapEntry(type, (records: records, total: outcome, proportion: (type2total[type] ?? 0) / total));
   });
+}
+
+
+final _monthFormat = DateFormat.MMMM();
+final _yearMonthFormat = DateFormat.yMMMM();
+final _yearFormat = DateFormat.y();
+
+String resolveTime4Display({
+  required BuildContext context,
+  required StatisticsMode mode,
+  required DateTime date,
+}) {
+  final now = DateTime.now();
+  switch (mode) {
+    case StatisticsMode.week:
+      return now.year == date.year &&
+              getWeek(year: now.year, month: now.month, day: now.day) ==
+                  getWeek(year: date.year, month: date.month, day: date.day)
+          ? "This week"
+          : "? Week";
+    case StatisticsMode.month:
+      if (date.year == now.year) {
+        if (date.month == now.month) {
+          return "This month";
+        } else if (date.month == now.month - 1) {
+          return "Last month";
+        } else {
+          return _monthFormat.format(date);
+        }
+      } else {
+        return _yearMonthFormat.format(date);
+      }
+    case StatisticsMode.year:
+      if (date.year == now.year) {
+        return "This year";
+      } else if (date.year == now.year - 1) {
+        return "Last year";
+      } else {
+        return _yearFormat.format(date);
+      }
+  }
 }
