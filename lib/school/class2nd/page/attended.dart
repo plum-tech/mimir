@@ -358,11 +358,10 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
   }
 
   Future<void> withdrawApplication() async {
-    final confirm = await context.showDialogRequest(
-      title: i18n.attended.withdrawApplication,
+    final confirm = await context.showActionRequest(
+      action: i18n.attended.withdrawApplication,
       desc: i18n.attended.withdrawApplicationDesc,
-      yes: i18n.yes,
-      no: i18n.cancel,
+      cancel: i18n.cancel,
     );
     if (confirm != true) return;
     setState(() {

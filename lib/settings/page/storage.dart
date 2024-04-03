@@ -453,10 +453,20 @@ dynamic _emptyValue(dynamic value) {
 
 Future<bool?> _showDeleteBoxRequest(BuildContext ctx) async {
   return await ctx.showDialogRequest(
-      title: i18n.delete, desc: i18n.dev.storage.clearBoxDesc, yes: i18n.confirm, no: i18n.cancel, destructive: true);
+    title: i18n.delete,
+    desc: i18n.dev.storage.clearBoxDesc,
+    yes: i18n.confirm,
+    no: i18n.cancel,
+    destructive: true,
+  );
 }
 
 Future<bool?> _showDeleteItemRequest(BuildContext ctx) async {
   return await ctx.showDialogRequest(
-      title: i18n.delete, desc: i18n.dev.storage.deleteItemDesc, yes: i18n.delete, no: i18n.cancel, destructive: true);
+    title: i18n.delete,
+    desc: i18n.dev.storage.deleteItemDesc,
+    yes: i18n.delete,
+    no: i18n.cancel,
+    destructive: true,
+  );
 }
