@@ -61,15 +61,13 @@ class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
     super.initState();
     controller.addListener(() {
       final pos = controller.positions.last;
-      final direction = pos.userScrollDirection;
-      if (direction == ScrollDirection.reverse) {
+      if (pos.pixels > pos.minScrollExtent) {
         if (!showTimeSpan) {
           setState(() {
             showTimeSpan = true;
           });
         }
-      }
-      if (pos.pixels <= pos.minScrollExtent) {
+      } else {
         if (showTimeSpan) {
           setState(() {
             showTimeSpan = false;
