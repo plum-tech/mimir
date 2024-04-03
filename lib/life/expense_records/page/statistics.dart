@@ -24,7 +24,7 @@ class ExpenseStatisticsPage extends StatefulWidget {
 typedef Type2transactions = Map<TransactionType, ({List<Transaction> records, double total, double proportion})>;
 
 class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
-  late List<Transaction> records;
+  late List<Transaction> allRecords;
   var selectedMode = StatisticsMode.month;
   late double total;
 
@@ -35,8 +35,8 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
   }
 
   void refreshRecords() {
-    records = ExpenseRecordsInit.storage.getTransactionsByRange() ?? const [];
-    records.retainWhere((record) => record.type.isConsume);
+    allRecords = ExpenseRecordsInit.storage.getTransactionsByRange() ?? const [];
+    allRecords.retainWhere((record) => record.type.isConsume);
   }
 
   Widget buildModeSelector() {
@@ -67,7 +67,7 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
         buildModeSelector().padSymmetric(h: 16, v: 4),
         StatisticsSection(
           mode: selectedMode,
-          all: records,
+          all: allRecords,
         ).expanded(),
       ].column(caa: CrossAxisAlignment.stretch),
     );
@@ -136,6 +136,22 @@ class _StatisticsSectionState extends State<StatisticsSection> {
   Widget build(BuildContext context) {
     final current = startTime2Records.indexAt(index);
     final separated = separateTransactionByType(current.records);
+    return [
+      [
+        SizedBox(height: 50,),
+        ExpenseLineChart(
+          start: current.start,
+          records: current.records,
+          mode: widget.mode,
+        ),
+        ExpensePieChart(records: separated),
+        ...current.records.map((record) {
+          return TransactionTile(record);
+        }),
+      ].listview(),
+      // ListView()
+      buildHeader(current.start).align(at: Alignment.topCenter),
+    ].stack();
     return [
       buildHeader(current.start),
       [

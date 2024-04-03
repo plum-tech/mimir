@@ -11,6 +11,16 @@ enum Weekday {
 
   int toJson() => index;
 
+  static const calendarOrder = [
+    sunday,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday,
+  ];
+
   int getIndex({required Weekday firstDay}) {
     return (this - firstDay.index).index;
   }

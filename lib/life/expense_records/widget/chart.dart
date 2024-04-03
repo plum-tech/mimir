@@ -1,9 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/l10n/time.dart';
 import 'package:sit/utils/date.dart';
 
 import '../entity/local.dart';
@@ -110,22 +112,24 @@ class ExpenseLineChart extends StatefulWidget {
   State<ExpenseLineChart> createState() => _ExpenseLineChartState();
 }
 
+final _monthFormat = DateFormat.MMM();
+
 class _ExpenseLineChartState extends State<ExpenseLineChart> {
   @override
   Widget build(BuildContext context) {
-    final data = buildData();
+    final (:data, :titles) = buildData();
     return OutlinedCard(
       child: AspectRatio(
         aspectRatio: 1.5,
         child: BaseLineChartWidget(
-          bottomTitles: List.generate(data.length, (i) => (i + 1).toString()),
+          bottomTitles: titles,
           values: data,
         ).padSymmetric(v: 12, h: 8),
       ),
     );
   }
 
-  List<double> buildData() {
+  ({List<double> data, List<String> titles}) buildData() {
     final now = DateTime.now();
     final start = widget.start;
     switch (widget.mode) {
@@ -136,7 +140,7 @@ class _ExpenseLineChartState extends State<ExpenseLineChart> {
           // sunday goes first
           weekAmount[record.timestamp.weekday == DateTime.sunday ? 0 : record.timestamp.weekday] += record.deltaAmount;
         }
-        return weekAmount;
+        return (data: weekAmount, titles: Weekday.calendarOrder.map((w) => w.l10nShort()).toList());
       case StatisticsMode.month:
         final List<double> dayAmount = List.filled(
             start.year == now.year && start.month == now.month
@@ -147,14 +151,17 @@ class _ExpenseLineChartState extends State<ExpenseLineChart> {
           // add data on the same day.
           dayAmount[record.timestamp.day - 1] += record.deltaAmount;
         }
-        return dayAmount;
+        return (data: dayAmount, titles: List.generate(dayAmount.length, (i) => (i + 1).toString()));
       case StatisticsMode.year:
         final List<double> monthAmount = List.filled(start.year == now.year ? now.month : 12, 0.00);
         for (final record in widget.records) {
           // add data in the same month.
           monthAmount[record.timestamp.month - 1] += record.deltaAmount;
         }
-        return monthAmount;
+        return (
+          data: monthAmount,
+          titles: List.generate(monthAmount.length, (i) => _monthFormat.format(DateTime(0, i + 1)).substring(0,3))
+        );
     }
   }
 }
