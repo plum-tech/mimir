@@ -23,6 +23,7 @@ const _qGroupNumber = "917740212";
 const _joinQGroupUri =
     "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=$_qGroupNumber&card_type=group&source=qrcode";
 const _wechatUri = "weixin://dl/publicaccount?username=gh_61f7fd217d36";
+
 class MePage extends StatefulWidget {
   const MePage({super.key});
 
@@ -84,8 +85,8 @@ class _MePageState extends State<MePage> {
         onPressed: () async {
           try {
             await launchUrlString(_joinQGroupUri);
-          } catch (error,stackTrace) {
-            debugPrintError(error,stackTrace);
+          } catch (error, stackTrace) {
+            debugPrintError(error, stackTrace);
             await Clipboard.setData(const ClipboardData(text: _qGroupNumber));
             if (!mounted) return;
             context.showSnackBar(content: "已复制到剪贴板".text());
@@ -105,8 +106,8 @@ class _MePageState extends State<MePage> {
         onPressed: () async {
           try {
             await launchUrlString(_wechatUri);
-          } catch (error,stackTrace) {
-            debugPrintError(error,stackTrace);
+          } catch (error, stackTrace) {
+            debugPrintError(error, stackTrace);
           }
         },
         icon: Icon(context.icons.rightChevron),

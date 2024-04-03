@@ -17,6 +17,6 @@ class DemoElectricityService implements ElectricityService {
 
   @override
   List<String> getRoomNumberCandidates() {
-    return ["114514", "1919", "1314","6666"];
+    return ["114514", "1919", "1314", "6666"];
   }
 }

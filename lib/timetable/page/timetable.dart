@@ -113,7 +113,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
 
   Widget buildMyTimetablesButton() {
     return PlatformIconButton(
-      icon: Icon(context.icons.person, color:isCupertino? context.colorScheme.primary: null),
+      icon: Icon(context.icons.person, color: isCupertino ? context.colorScheme.primary : null),
       onPressed: () async {
         final focusMode = Settings.focusTimetable;
         if (focusMode) {
