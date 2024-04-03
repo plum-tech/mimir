@@ -117,7 +117,11 @@ final _monthFormat = DateFormat.MMM();
 class _ExpenseLineChartState extends State<ExpenseLineChart> {
   @override
   Widget build(BuildContext context) {
-    final (:data, :titles) = buildData();
+    final (:data, :titles) = buildData(
+      start: widget.start,
+      mode: widget.mode,
+      records: widget.records,
+    );
     return OutlinedCard(
       child: AspectRatio(
         aspectRatio: 1.5,
@@ -128,41 +132,47 @@ class _ExpenseLineChartState extends State<ExpenseLineChart> {
       ),
     );
   }
+}
 
-  ({List<double> data, List<String> titles}) buildData() {
-    final now = DateTime.now();
-    final start = widget.start;
-    switch (widget.mode) {
-      case StatisticsMode.week:
-        final List<double> weekAmount = List.filled(7, 0.00);
-        for (final record in widget.records) {
-          // add data at the same weekday.
-          // sunday goes first
-          weekAmount[record.timestamp.weekday == DateTime.sunday ? 0 : record.timestamp.weekday] += record.deltaAmount;
-        }
-        return (data: weekAmount, titles: Weekday.calendarOrder.map((w) => w.l10nShort()).toList());
-      case StatisticsMode.month:
-        final List<double> dayAmount = List.filled(
-            start.year == now.year && start.month == now.month
-                ? now.day
-                : daysInMonth(year: start.year, month: start.month),
-            0.00);
-        for (final record in widget.records) {
-          // add data on the same day.
-          dayAmount[record.timestamp.day - 1] += record.deltaAmount;
-        }
-        return (data: dayAmount, titles: List.generate(dayAmount.length, (i) => (i + 1).toString()));
-      case StatisticsMode.year:
-        final List<double> monthAmount = List.filled(start.year == now.year ? now.month : 12, 0.00);
-        for (final record in widget.records) {
-          // add data in the same month.
-          monthAmount[record.timestamp.month - 1] += record.deltaAmount;
-        }
-        return (
-          data: monthAmount,
-          titles: List.generate(monthAmount.length, (i) => _monthFormat.format(DateTime(0, i + 1)).substring(0,3))
-        );
-    }
+({List<double> data, List<String> titles}) buildData({
+  required DateTime start,
+  required StatisticsMode mode,
+  required List<Transaction> records,
+}) {
+  final now = DateTime.now();
+  switch (mode) {
+    case StatisticsMode.week:
+      final List<double> weekAmount = List.filled(
+        start.year == now.year && start.week == now.week ? now.weekday : 7,
+        0.00,
+      );
+      for (final record in records) {
+        // add data at the same weekday.
+        // sunday goes first
+        weekAmount[record.timestamp.weekday == DateTime.sunday ? 0 : record.timestamp.weekday] += record.deltaAmount;
+      }
+      return (data: weekAmount, titles: Weekday.calendarOrder.map((w) => w.l10nShort()).toList());
+    case StatisticsMode.month:
+      final List<double> dayAmount = List.filled(
+          start.year == now.year && start.month == now.month
+              ? now.day
+              : daysInMonth(year: start.year, month: start.month),
+          0.00);
+      for (final record in records) {
+        // add data on the same day.
+        dayAmount[record.timestamp.day - 1] += record.deltaAmount;
+      }
+      return (data: dayAmount, titles: List.generate(dayAmount.length, (i) => (i + 1).toString()));
+    case StatisticsMode.year:
+      final List<double> monthAmount = List.filled(start.year == now.year ? now.month : 12, 0.00);
+      for (final record in records) {
+        // add data in the same month.
+        monthAmount[record.timestamp.month - 1] += record.deltaAmount;
+      }
+      return (
+        data: monthAmount,
+        titles: List.generate(monthAmount.length, (i) => _monthFormat.format(DateTime(0, i + 1)).substring(0, 3))
+      );
   }
 }
 
