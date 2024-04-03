@@ -54,7 +54,7 @@ class _AutoHideFABState extends State<AutoHideFAB> {
 
   @override
   void dispose() {
-    widget.controller.addListener(onScrollChanged);
+    widget.controller.removeListener(onScrollChanged);
     super.dispose();
   }
 

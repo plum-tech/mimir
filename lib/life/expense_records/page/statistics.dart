@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
@@ -31,7 +34,7 @@ final _allRecords = Provider.autoDispose((ref) {
 });
 
 final _statisticsMode =
-NotifierProvider.autoDispose<_StatisticsModeNotifier, StatisticsMode>(_StatisticsModeNotifier.new);
+    NotifierProvider.autoDispose<_StatisticsModeNotifier, StatisticsMode>(_StatisticsModeNotifier.new);
 
 class _StatisticsModeNotifier extends AutoDisposeNotifier<StatisticsMode> {
   @override
@@ -49,54 +52,43 @@ final _startTime2Records = Provider.autoDispose((ref) {
 });
 
 class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
-  @override
-  Widget build(BuildContext context) {
-    final mode = ref.watch(_statisticsMode);
-    return Scaffold(
-      appBar: AppBar(
-        title: i18n.stats.title.text(),
-      ),
-      body: [
-        buildModeSelector(mode).padSymmetric(h: 16, v: 4),
-        const StatisticsSection().expanded(),
-      ].column(caa: CrossAxisAlignment.stretch),
-    );
-  }
-
-  Widget buildModeSelector(StatisticsMode selected) {
-    return SegmentedButton<StatisticsMode>(
-      showSelectedIcon: false,
-      segments: StatisticsMode.values
-          .map((e) =>
-          ButtonSegment<StatisticsMode>(
-            value: e,
-            label: e.l10nName().text(),
-          ))
-          .toList(),
-      selected: <StatisticsMode>{selected},
-      onSelectionChanged: (newSelection) {
-        ref.read(_statisticsMode.notifier).set(newSelection.first);
-      },
-    );
-  }
-}
-
-class StatisticsSection extends ConsumerStatefulWidget {
-  const StatisticsSection({
-    super.key,
-  });
-
-  @override
-  ConsumerState<StatisticsSection> createState() => _StatisticsSectionState();
-}
-
-class _StatisticsSectionState extends ConsumerState<StatisticsSection> {
   late int index = ref.read(_startTime2Records).length - 1;
+  final controller = ScrollController();
+  var showTimeSpan = false;
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(() {
+      final pos = controller.positions.last;
+      final direction = pos.userScrollDirection;
+      if (direction == ScrollDirection.reverse) {
+        if (!showTimeSpan) {
+          setState(() {
+            showTimeSpan = true;
+          });
+        }
+      }
+      if (pos.pixels <= pos.minScrollExtent) {
+        if (showTimeSpan) {
+          setState(() {
+            showTimeSpan = false;
+          });
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final startTime2Records = ref.watch(_startTime2Records);
     final mode = ref.watch(_statisticsMode);
+    final startTime2Records = ref.watch(_startTime2Records);
     ref.listen(_startTime2Records, (previous, next) {
       setState(() {
         index = next.length - 1;
@@ -104,38 +96,67 @@ class _StatisticsSectionState extends ConsumerState<StatisticsSection> {
     });
     final current = startTime2Records.indexAt(index);
     final separated = separateTransactionByType(current.records);
-    return [
-      [
-        SizedBox(
-          height: 50,
+    return Scaffold(
+      appBar: AppBar(
+        title: i18n.stats.title.text(),
+      ),
+      body: [
+        ListView(
+          controller: controller,
+          children: [
+            buildModeSelector(mode).padSymmetric(h: 16, v: 4),
+            ExpenseLineChart(
+              start: current.start,
+              records: current.records,
+              mode: mode,
+            ),
+            ExpensePieChart(records: separated),
+            ...current.records.map((record) {
+              return TransactionTile(record);
+            }),
+          ],
         ),
-        ExpenseLineChart(
-          start: current.start,
-          records: current.records,
-          mode: mode,
-        ),
-        ExpensePieChart(records: separated),
-        ...current.records.map((record) {
-          return TransactionTile(record);
-        }),
-      ].listview(),
-      // ListView()
-      buildHeader(current.start).align(at: Alignment.topCenter),
-    ].stack();
+        // ListView()
+        AnimatedSlide(
+          offset: showTimeSpan ? Offset.zero : const Offset(0, -2),
+          duration: Durations.long4,
+          child: AnimatedSwitcher(
+            duration: Durations.long4,
+            child: showTimeSpan ? buildHeader(current.start) : null,
+          ),
+        ).align(at: Alignment.topCenter),
+      ].stack(),
+    );
+  }
+
+  Widget buildModeSelector(StatisticsMode selected) {
+    return SegmentedButton<StatisticsMode>(
+      showSelectedIcon: false,
+      segments: StatisticsMode.values
+          .map((e) => ButtonSegment<StatisticsMode>(
+                value: e,
+                label: e.l10nName().text(),
+              ))
+          .toList(),
+      selected: <StatisticsMode>{selected},
+      onSelectionChanged: (newSelection) {
+        ref.read(_statisticsMode.notifier).set(newSelection.first);
+      },
+    );
   }
 
   Widget buildHeader(DateTime start) {
     final startTime2Records = ref.watch(_startTime2Records);
     final mode = ref.watch(_statisticsMode);
-    return OutlinedCard(
+    return FilledCard(
       child: [
         PlatformIconButton(
           onPressed: index > 0
               ? () {
-            setState(() {
-              index = index - 1;
-            });
-          }
+                  setState(() {
+                    index = index - 1;
+                  });
+                }
               : null,
           icon: Icon(context.icons.leftChevron),
         ),
@@ -143,10 +164,10 @@ class _StatisticsSectionState extends ConsumerState<StatisticsSection> {
         PlatformIconButton(
           onPressed: index < startTime2Records.length - 1
               ? () {
-            setState(() {
-              index = index + 1;
-            });
-          }
+                  setState(() {
+                    index = index + 1;
+                  });
+                }
               : null,
           icon: Icon(context.icons.rightChevron),
         ),
