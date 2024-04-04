@@ -125,7 +125,7 @@ class _ExpenseLineChartState extends State<ExpenseLineChart> {
     return OutlinedCard(
       child: AspectRatio(
         aspectRatio: 1.5,
-        child: BaseLineChartWidget(
+        child: AmountChartWidget(
           bottomTitles: titles,
           values: data,
         ).padSymmetric(v: 12, h: 8),
@@ -176,103 +176,90 @@ class _ExpenseLineChartState extends State<ExpenseLineChart> {
   }
 }
 
-class BaseLineChartWidget extends StatelessWidget {
+class AmountChartWidget extends StatelessWidget {
   final List<String> bottomTitles;
   final List<double> values;
 
-  const BaseLineChartWidget({
+  const AmountChartWidget({
     super.key,
     required this.bottomTitles,
     required this.values,
   });
 
-  ///底部标题栏
-  Widget bottomTitle(BuildContext ctx, double value, TitleMeta mate) {
-    if ((value * 10).toInt() % 10 == 5) {
+  Widget buildLeftTitle(double value, TitleMeta meta) {
+    String text = '¥${value.round()}';
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: Text(text),
+    );
+  }
+
+  Widget buildBottomTitle(double value, TitleMeta mate) {
+    final index = value.toInt();
+    if (!(index == 0 || index == values.length - 1) && index % 5 != 0) {
       return const SizedBox();
     }
 
     return SideTitleWidget(
       axisSide: mate.axisSide,
       child: Text(
-        bottomTitles[value.toInt()],
-        style: ctx.textTheme.bodySmall?.copyWith(
-          color: Colors.blueGrey,
-        ),
+        bottomTitles[index],
       ),
-    );
-  }
-
-  ///左边部标题栏
-  Widget leftTitle(BuildContext ctx, double value, TitleMeta mate) {
-    const style = TextStyle(
-      color: Colors.blueGrey,
-      fontSize: 11,
-    );
-    String text = '¥${value.toStringAsFixed(2)}';
-    return SideTitleWidget(
-      axisSide: mate.axisSide,
-      child: Text(text, style: style),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return LineChart(
-      LineChartData(
-        ///触摸控制
-        lineTouchData: LineTouchData(
-          touchTooltipData: LineTouchTooltipData(
-            getTooltipColor: (touchedSpot) => Colors.transparent,
-          ),
-          touchSpotThreshold: 10,
-        ),
-        borderData: FlBorderData(
-          border: const Border(
-            bottom: BorderSide.none,
-          ),
-        ),
-        lineBarsData: [
-          LineChartBarData(
-            isStrokeCapRound: true,
-            belowBarData: BarAreaData(
-              show: true,
-              color: context.colorScheme.primary.withOpacity(0.15),
-            ),
-            spots: values
-                .map((e) => (e * 100).toInt() / 100) // 保留两位小数
-                .toList()
-                .asMap()
-                .entries
-                .map((e) => FlSpot(e.key.toDouble(), e.value))
-                .toList(),
-            color: context.colorScheme.primary,
-            isCurved: true,
-            preventCurveOverShooting: true,
-            barWidth: 1,
-          ),
-        ],
-
-        ///图表线表线框
+    return BarChart(
+      BarChartData(
+        alignment: BarChartAlignment.center,
+        barTouchData: BarTouchData(enabled: false),
         titlesData: FlTitlesData(
           show: true,
-          rightTitles: const AxisTitles(),
-          leftTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              reservedSize: 50,
-              getTitlesWidget: (v, meta) => leftTitle(context, v, meta),
-            ),
-          ),
-          topTitles: const AxisTitles(),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 55,
-              getTitlesWidget: (v, meta) => bottomTitle(context, v, meta),
+              reservedSize: 28,
+              getTitlesWidget: buildBottomTitle,
             ),
           ),
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 40,
+              getTitlesWidget: buildLeftTitle,
+            ),
+          ),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
         ),
+        gridData: FlGridData(
+          show: true,
+          checkToShowHorizontalLine: (value) => value % 5 == 0,
+          getDrawingHorizontalLine: (value) => FlLine(
+            color: context.colorScheme.secondary.withOpacity(0.2),
+            strokeWidth: 1,
+          ),
+          drawVerticalLine: false,
+        ),
+        borderData: FlBorderData(
+          show: false,
+        ),
+        groupsSpace: 40,
+        barGroups: values
+            .mapIndexed((i, v) => BarChartGroupData(
+                  x: i,
+                  barRods: [
+                    BarChartRodData(
+                      toY: v,
+                    ),
+                  ],
+                ))
+            .toList(),
       ),
     );
   }
