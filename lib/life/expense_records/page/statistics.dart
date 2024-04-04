@@ -15,7 +15,8 @@ import 'package:sit/utils/collection.dart';
 import '../entity/local.dart';
 import '../i18n.dart';
 import '../init.dart';
-import '../widget/chart.dart';
+import '../widget/chart/bar.dart';
+import '../widget/chart/pie.dart';
 import '../widget/transaction.dart';
 
 class ExpenseStatisticsPage extends ConsumerStatefulWidget {
