@@ -132,6 +132,7 @@ SitTimetable parseUndergraduateTimetableFromCourseRaw(List<UndergraduateCourseRa
     startDate: DateTime.utc(0),
     schoolYear: 0,
     semester: Semester.term1,
+    lastUpdate: DateTime.now(),
   );
   return res;
 }
@@ -457,6 +458,7 @@ SitTimetable parsePostgraduateTimetableFromCourseRaw(
     startDate: DateTime.utc(0),
     schoolYear: 0,
     semester: Semester.term1,
+    lastUpdate: DateTime.now(),
   );
   return res;
 }

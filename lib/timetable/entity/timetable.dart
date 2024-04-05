@@ -12,6 +12,8 @@ import '../utils.dart';
 
 part 'timetable.g.dart';
 
+DateTime _kLastUpdate() => DateTime.now();
+
 @JsonSerializable()
 @CopyWith(skipFields: true)
 class SitTimetable {
@@ -32,6 +34,9 @@ class SitTimetable {
   @JsonKey()
   final Map<String, SitCourse> courses;
 
+  @JsonKey(defaultValue: _kLastUpdate)
+  final DateTime lastUpdate;
+
   @JsonKey()
   final int version;
 
@@ -42,6 +47,7 @@ class SitTimetable {
     required this.startDate,
     required this.schoolYear,
     required this.semester,
+    required this.lastUpdate,
     this.signature = "",
     this.version = 1,
   });
@@ -55,6 +61,7 @@ class SitTimetable {
       "startDate": startDate,
       "schoolYear": schoolYear,
       "semester": semester,
+      "lastUpdate": lastUpdate,
       "signature": signature,
     }.toString();
   }
@@ -593,7 +600,7 @@ extension SitTimetableX on SitTimetable {
               courseKeys: lessonSlot.lessons.map((l) => l.course.courseCode).toList(),
               weekIndex: week.index,
               weekday: Weekday.values[day.index],
-              timeslots: (start:timeslot,end:timeslot),
+              timeslots: (start: timeslot, end: timeslot),
             ));
           }
         }
