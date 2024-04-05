@@ -66,3 +66,19 @@ extension TimetableX on SitTimetable {
     return TimetablePos.locate(current, relativeTo: startDate);
   }
 }
+
+class TimetableLessonLoc {
+  final String courseCode;
+
+  /// starts with 0
+  final int weekIndex;
+
+  /// starts with 0
+  final Weekday weekday;
+
+  const TimetableLessonLoc({
+    required this.courseCode,
+    required this.weekIndex,
+    required this.weekday,
+  });
+}

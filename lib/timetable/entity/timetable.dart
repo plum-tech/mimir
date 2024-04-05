@@ -5,6 +5,7 @@ import 'package:sit/entity/campus.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/entity/timetable.dart';
+import 'package:sit/school/utils.dart';
 import 'package:sit/timetable/entity/platte.dart';
 
 import '../utils.dart';
@@ -45,9 +46,7 @@ class SitTimetable {
     this.version = 1,
   });
 
-  SitTimetableEntity resolve() {
-    return resolveTimetableEntity(this);
-  }
+  SitTimetableEntity resolve() => _resolveTimetableEntity(this);
 
   @override
   String toString() {
@@ -503,4 +502,103 @@ class SitTimetableLessonPart {
 
   @override
   String toString() => "$course at $index";
+}
+
+SitTimetableEntity _resolveTimetableEntity(SitTimetable timetable) {
+  final weeks = List.generate(20, (index) => SitTimetableWeek.$7days(index));
+
+  for (final course in timetable.courses.values) {
+    final timeslots = course.timeslots;
+    for (final weekIndex in course.weekIndices.getWeekIndices()) {
+      assert(
+        0 <= weekIndex && weekIndex < maxWeekLength,
+        "Week index is more out of range [0,$maxWeekLength) but $weekIndex.",
+      );
+      if (0 <= weekIndex && weekIndex < maxWeekLength) {
+        final week = weeks[weekIndex];
+        final day = week.days[course.dayIndex];
+        final thatDay = reflectWeekDayIndexToDate(
+          weekIndex: week.index,
+          weekday: Weekday.fromIndex(day.index),
+          startDate: timetable.startDate,
+        );
+        final fullClassTime = course.calcBeginEndTimePoint();
+        final lesson = SitTimetableLesson(
+          course: course,
+          startIndex: timeslots.start,
+          endIndex: timeslots.end,
+          startTime: thatDay.addTimePoint(fullClassTime.begin),
+          endTime: thatDay.addTimePoint(fullClassTime.end),
+        );
+        for (int slot = timeslots.start; slot <= timeslots.end; slot++) {
+          final classTime = course.calcBeginEndTimePointOfLesson(slot);
+          day.add(
+            at: slot,
+            lesson: SitTimetableLessonPart(
+              type: lesson,
+              index: slot,
+              startTime: thatDay.addTimePoint(classTime.begin),
+              endTime: thatDay.addTimePoint(classTime.end),
+            ),
+          );
+        }
+      }
+    }
+  }
+  return SitTimetableEntity(
+    type: timetable,
+    weeks: weeks,
+  );
+}
+
+sealed class TimetableIssue {}
+
+class TimetableEmptyIssue implements TimetableIssue {
+  const TimetableEmptyIssue();
+}
+
+class TimetableCourseOverlapIssue implements TimetableIssue {
+  final List<String> courseKeys;
+  final int weekIndex;
+  final Weekday weekday;
+  final ({int start, int end}) timeslots;
+
+  const TimetableCourseOverlapIssue({
+    required this.courseKeys,
+    required this.weekIndex,
+    required this.weekday,
+    required this.timeslots,
+  });
+}
+
+/// Two or more lessons in the same course overlap.
+class TimetableDuplicateCourseOverlapIssue implements TimetableIssue {
+  const TimetableDuplicateCourseOverlapIssue();
+}
+
+extension SitTimetableX on SitTimetable {
+  List<TimetableIssue> inspect() {
+    final issues = <TimetableIssue>[];
+    // check if
+    if (courses.isEmpty) {
+      issues.add(const TimetableEmptyIssue());
+    }
+    final entity = resolve();
+    for (final week in entity.weeks) {
+      for (final day in week.days) {
+        for (var timeslot = 0; timeslot < day.timeslot2LessonSlot.length; timeslot++) {
+          final lessonSlot = day.timeslot2LessonSlot[timeslot];
+          if (lessonSlot.lessons.length >= 2) {
+            issues.add(TimetableCourseOverlapIssue(
+              courseKeys: lessonSlot.lessons.map((l) => l.course.courseCode).toList(),
+              weekIndex: week.index,
+              weekday: Weekday.values[day.index],
+              timeslots: (start:timeslot,end:timeslot),
+            ));
+          }
+        }
+      }
+    }
+    return issues;
+  }
 }

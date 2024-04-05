@@ -12,12 +12,10 @@ import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/files.dart';
 import 'package:sit/l10n/extension.dart';
-import 'package:sit/l10n/time.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sit/school/utils.dart';
-import 'package:sit/school/entity/timetable.dart';
 import 'package:sit/utils/ical.dart';
 import 'package:sit/utils/permission.dart';
 import 'package:sit/utils/strings.dart';
@@ -136,53 +134,6 @@ SitTimetable parseUndergraduateTimetableFromCourseRaw(List<UndergraduateCourseRa
     semester: Semester.term1,
   );
   return res;
-}
-
-SitTimetableEntity resolveTimetableEntity(SitTimetable timetable) {
-  final weeks = List.generate(20, (index) => SitTimetableWeek.$7days(index));
-
-  for (final course in timetable.courses.values) {
-    final timeslots = course.timeslots;
-    for (final weekIndex in course.weekIndices.getWeekIndices()) {
-      assert(
-        0 <= weekIndex && weekIndex < maxWeekLength,
-        "Week index is more out of range [0,$maxWeekLength) but $weekIndex.",
-      );
-      if (0 <= weekIndex && weekIndex < maxWeekLength) {
-        final week = weeks[weekIndex];
-        final day = week.days[course.dayIndex];
-        final thatDay = reflectWeekDayIndexToDate(
-          weekIndex: week.index,
-          weekday: Weekday.fromIndex(day.index),
-          startDate: timetable.startDate,
-        );
-        final fullClassTime = course.calcBeginEndTimePoint();
-        final lesson = SitTimetableLesson(
-          course: course,
-          startIndex: timeslots.start,
-          endIndex: timeslots.end,
-          startTime: thatDay.addTimePoint(fullClassTime.begin),
-          endTime: thatDay.addTimePoint(fullClassTime.end),
-        );
-        for (int slot = timeslots.start; slot <= timeslots.end; slot++) {
-          final classTime = course.calcBeginEndTimePointOfLesson(slot);
-          day.add(
-            at: slot,
-            lesson: SitTimetableLessonPart(
-              type: lesson,
-              index: slot,
-              startTime: thatDay.addTimePoint(classTime.begin),
-              endTime: thatDay.addTimePoint(classTime.end),
-            ),
-          );
-        }
-      }
-    }
-  }
-  return SitTimetableEntity(
-    type: timetable,
-    weeks: weeks,
-  );
 }
 
 Duration calcuSwitchAnimationDuration(num distance) {

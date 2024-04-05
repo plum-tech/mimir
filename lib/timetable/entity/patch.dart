@@ -4,43 +4,47 @@ enum TimetablePatchType {
   moveLesson,
   moveDay,
   addLesson,
+  swipeLesson,
+  swipeDay,
+  replaceLesson,
+  replaceDay,
 }
 
 abstract class TimetablePatch {
   TimetablePatchType get type;
 }
 
-class RemoveLessonTimetablePatch implements TimetablePatch {
+class TimetableRemoveLessonPatch implements TimetablePatch {
   @override
   final type = TimetablePatchType.removeLesson;
 
-  const RemoveLessonTimetablePatch();
+  const TimetableRemoveLessonPatch();
 }
 
-class RemoveDayTimetablePatch implements TimetablePatch {
+class TimetableRemoveDayPatch implements TimetablePatch {
   @override
   final type = TimetablePatchType.removeDay;
 
-  const RemoveDayTimetablePatch();
+  const TimetableRemoveDayPatch();
 }
 
-class MoveLessonTimetablePatch implements TimetablePatch {
+class TimetableMoveLessonPatch implements TimetablePatch {
   @override
   final type = TimetablePatchType.moveLesson;
 
-  const MoveLessonTimetablePatch();
+  const TimetableMoveLessonPatch();
 }
 
-class MoveDayTimetablePatch implements TimetablePatch {
+class TimetableMoveDayPatch implements TimetablePatch {
   @override
   final type = TimetablePatchType.moveDay;
 
-  const MoveDayTimetablePatch();
+  const TimetableMoveDayPatch();
 }
 
-class AddLessonTimetablePatch implements TimetablePatch {
+class TimetableAddLessonPatch implements TimetablePatch {
   @override
   final type = TimetablePatchType.addLesson;
 
-  const AddLessonTimetablePatch();
+  const TimetableAddLessonPatch();
 }

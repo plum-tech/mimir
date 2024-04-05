@@ -295,7 +295,7 @@ class TimetableOneWeek extends StatelessWidget {
     for (int timeslot = 0; timeslot < day.timeslot2LessonSlot.length; timeslot++) {
       final lessonSlot = day.timeslot2LessonSlot[timeslot];
 
-      /// TODO: Multi-layer lessonSlot
+      /// TODO: Multi-layer lesson slot
       final lesson = lessonSlot.lessonAt(0);
       if (lesson == null) {
         cells.add(DashLined(
