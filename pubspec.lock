@@ -637,10 +637,10 @@ packages:
     dependency: "direct main"
     description:
       name: flame_forge2d
-      sha256: cca454dbcd175c906958877c08782a8aaa77da40e718539813bfba114c75411d
+      sha256: "78d31cde83d30c8d9a4028296ac881334af1676ec556e4170bb81eb2829cdf27"
       url: "https://pub.dev"
     source: hosted
-    version: "0.17.1"
+    version: "0.18.0"
   flex_color_picker:
     dependency: "direct main"
     description:
@@ -857,10 +857,10 @@ packages:
     dependency: transitive
     description:
       name: forge2d
-      sha256: a16bee7a5bdf3538ef4a51ae9b6befb39872d3518b653fc7b8756ef49f7fcf96
+      sha256: "40915333b688ddaaa616d9c8ab9ff205faea0adf83dddc1a6e617694ffa9e16e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.12.2"
+    version: "0.13.0"
   format:
     dependency: "direct main"
     description:
@@ -945,10 +945,10 @@ packages:
     dependency: "direct main"
     description:
       name: get_it
-      sha256: e6017ce7fdeaf218dc51a100344d8cb70134b80e28b760f8bb23c242437bafd7
+      sha256: "36524bfb3f0b4ec952c3202466fdd69ad1f7ac1dd9b0a7564177707e45bfaeb9"
       url: "https://pub.dev"
     source: hosted
-    version: "7.6.7"
+    version: "7.6.8"
   glob:
     dependency: transitive
     description:
