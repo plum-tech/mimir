@@ -122,12 +122,16 @@ class StatisticsDelegate {
       // add data on the same day.
       dayAmount[record.timestamp.day - 1] += record.deltaAmount;
     }
+    final sep = dayAmount.length ~/ 5;
     return StatisticsDelegate(
       mode: StatisticsMode.week,
       data: dayAmount,
       side: (ctx,v,meta)=> _buildSideTitle(v,meta),
       bottom: (ctx,value, mate) {
         final index = value.toInt();
+        if(!(index == 0 || index == dayAmount.length - 1) && index % sep != 0){
+          return const SizedBox();
+        }
         return SideTitleWidget(
           axisSide: mate.axisSide,
           child: Text(
