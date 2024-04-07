@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:sit/l10n/extension.dart';
 import 'package:sit/life/expense_records/entity/local.dart';
 
 import 'package:sit/school/utils.dart';
@@ -141,16 +142,15 @@ Map<TransactionType, ({double proportion, List<Transaction> records, double tota
   });
 }
 
-final _monthFormat = DateFormat.MMMM();
-final _monthDayFormat = DateFormat.Md();
-final _yearMonthFormat = DateFormat.yMMMM();
-final _yearFormat = DateFormat.y();
-
 String resolveTime4Display({
   required BuildContext context,
   required StatisticsMode mode,
   required DateTime date,
 }) {
+  final monthFormat = DateFormat.MMMM();
+  final monthDayFormat = DateFormat.Md();
+  final yearMonthFormat = DateFormat.yMMMM();
+  final yearFormat = DateFormat.y();
   final now = DateTime.now();
   switch (mode) {
     case StatisticsMode.week:
@@ -162,11 +162,11 @@ String resolveTime4Display({
         } else if (dateWeek == nowWeek - 1) {
           return "Last week";
         } else {
-          return "? week ${_yearFormat.format(date)}";
-          // return "${_monthDayFormat.format(date)}";
+          return "? week ${yearFormat.format(date)}";
+          // return "${monthDayFormat.format(date)}";
         }
       } else {
-        return "? week ${_yearFormat.format(date)}";
+        return "? week ${yearFormat.format(date)}";
       }
     case StatisticsMode.month:
       if (date.year == now.year) {
@@ -175,10 +175,10 @@ String resolveTime4Display({
         } else if (date.month == now.month - 1) {
           return "Last month";
         } else {
-          return _monthFormat.format(date);
+          return monthFormat.format(date);
         }
       } else {
-        return _yearMonthFormat.format(date);
+        return yearMonthFormat.format(date);
       }
     case StatisticsMode.year:
       if (date.year == now.year) {
@@ -186,7 +186,7 @@ String resolveTime4Display({
       } else if (date.year == now.year - 1) {
         return "Last year";
       } else {
-        return _yearFormat.format(date);
+        return yearFormat.format(date);
       }
   }
 }

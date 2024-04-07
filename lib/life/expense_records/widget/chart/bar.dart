@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/time.dart';
+import 'package:sit/route.dart';
 import 'package:sit/utils/date.dart';
 
 import '../../entity/local.dart';
@@ -46,8 +49,6 @@ class _ExpenseLineChartState extends State<ExpenseLineChart> {
     );
   }
 }
-
-final _monthFormat = DateFormat.MMM();
 
 class StatisticsDelegate {
   final List<double> data;
@@ -141,6 +142,7 @@ class StatisticsDelegate {
     required DateTime start,
     required List<Transaction> records,
   }) {
+    final _monthFormat = DateFormat.MMM($Key.currentContext!.locale.toString());
     final now = DateTime.now();
     final List<double> monthAmount = List.filled(start.year == now.year ? now.month : 12, 0.00);
     for (final record in records) {
@@ -153,10 +155,11 @@ class StatisticsDelegate {
       side: _buildSideTitle,
       bottom: (value, mate) {
         final index = value.toInt();
+        final text = _monthFormat.format(DateTime(0, index + 1));
         return SideTitleWidget(
           axisSide: mate.axisSide,
           child: Text(
-            _monthFormat.format(DateTime(0, index + 1)).substring(0, 3),
+            text.substring(0, min(3, text.length)),
           ),
         );
       },
