@@ -102,14 +102,16 @@ class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
       body: [
         ListView(
           controller: controller,
+          physics: const AlwaysScrollableScrollPhysics(),
           children: [
             buildModeSelector(mode).padSymmetric(h: 16, v: 4),
-            ExpenseLineChart(
+            ExpenseBarChart(
               start: current.start,
               records: current.records,
               mode: mode,
             ),
             ExpensePieChart(records: separated),
+            const Divider(),
             ...current.records.map((record) {
               return TransactionTile(record);
             }),

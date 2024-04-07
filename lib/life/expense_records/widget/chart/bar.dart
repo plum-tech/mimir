@@ -12,12 +12,12 @@ import '../../entity/local.dart';
 import '../../entity/statistics.dart';
 import "../../i18n.dart";
 
-class ExpenseLineChart extends StatefulWidget {
+class ExpenseBarChart extends StatefulWidget {
   final DateTime start;
   final StatisticsMode mode;
   final List<Transaction> records;
 
-  const ExpenseLineChart({
+  const ExpenseBarChart({
     super.key,
     required this.start,
     required this.records,
@@ -25,10 +25,10 @@ class ExpenseLineChart extends StatefulWidget {
   });
 
   @override
-  State<ExpenseLineChart> createState() => _ExpenseLineChartState();
+  State<ExpenseBarChart> createState() => _ExpenseBarChartState();
 }
 
-class _ExpenseLineChartState extends State<ExpenseLineChart> {
+class _ExpenseBarChartState extends State<ExpenseBarChart> {
   @override
   Widget build(BuildContext context) {
     final delegate = StatisticsDelegate.byMode(
@@ -52,8 +52,8 @@ final _monthFormat = DateFormat.MMM();
 class StatisticsDelegate {
   final List<double> data;
   final StatisticsMode mode;
-  final GetTitleWidgetFunction side;
-  final GetTitleWidgetFunction bottom;
+  final Widget Function(BuildContext context, double value, TitleMeta meta) side;
+  final Widget Function(BuildContext context, double value, TitleMeta meta) bottom;
 
   const StatisticsDelegate({
     required this.mode,
@@ -94,8 +94,8 @@ class StatisticsDelegate {
     return StatisticsDelegate(
       mode: StatisticsMode.week,
       data: weekAmount,
-      side: _buildSideTitle,
-      bottom: (value, mate) {
+      side: (ctx,v,meta)=> _buildSideTitle(v,meta),
+      bottom: (ctx,value, mate) {
         final index = value.toInt();
         return SideTitleWidget(
           axisSide: mate.axisSide,
@@ -124,8 +124,8 @@ class StatisticsDelegate {
     return StatisticsDelegate(
       mode: StatisticsMode.week,
       data: dayAmount,
-      side: _buildSideTitle,
-      bottom: (value, mate) {
+      side: (ctx,v,meta)=> _buildSideTitle(v,meta),
+      bottom: (ctx,value, mate) {
         final index = value.toInt();
         return SideTitleWidget(
           axisSide: mate.axisSide,
@@ -150,8 +150,8 @@ class StatisticsDelegate {
     return StatisticsDelegate(
       mode: StatisticsMode.week,
       data: monthAmount,
-      side: _buildSideTitle,
-      bottom: (value, mate) {
+      side: (ctx,v,meta)=> _buildSideTitle(v,meta),
+      bottom: (ctx,value, mate) {
         final index = value.toInt();
         return SideTitleWidget(
           axisSide: mate.axisSide,
@@ -167,7 +167,9 @@ class StatisticsDelegate {
     String text = '¥${value.round()}';
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      child: Text(text),
+      child: Text(
+        text,
+      ),
     );
   }
 }
@@ -192,14 +194,14 @@ class AmountChartWidget extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 28,
-              getTitlesWidget: delegate.bottom,
+              getTitlesWidget:(v,meta)=> delegate.bottom(context,v,meta),
             ),
           ),
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 40,
-              getTitlesWidget: delegate.side,
+              getTitlesWidget:(v,meta)=> delegate.side(context,v,meta),
             ),
           ),
           topTitles: const AxisTitles(
