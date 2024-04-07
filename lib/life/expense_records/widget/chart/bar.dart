@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:collection/collection.dart';
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +13,7 @@ import 'package:sit/utils/date.dart';
 import '../../entity/local.dart';
 import '../../entity/statistics.dart';
 import "../../i18n.dart";
+import '../../utils.dart';
 
 class ExpenseBarChart extends StatefulWidget {
   final DateTime start;
@@ -51,7 +51,7 @@ class _ExpenseBarChartState extends State<ExpenseBarChart> {
 }
 
 class StatisticsDelegate {
-  final List<double> data;
+  final List<List<Transaction>> data;
   final StatisticsMode mode;
   final Widget Function(BuildContext context, double value, TitleMeta meta) side;
   final Widget Function(BuildContext context, double value, TitleMeta meta) bottom;
@@ -83,20 +83,20 @@ class StatisticsDelegate {
     required List<Transaction> records,
   }) {
     final now = DateTime.now();
-    final List<double> weekAmount = List.filled(
+    final data = List.generate(
       start.year == now.year && start.week == now.week ? now.weekday : 7,
-      0.00,
+      (i) => <Transaction>[],
     );
     for (final record in records) {
       // add data at the same weekday.
       // sunday goes first
-      weekAmount[record.timestamp.weekday == DateTime.sunday ? 0 : record.timestamp.weekday] += record.deltaAmount;
+      data[record.timestamp.weekday == DateTime.sunday ? 0 : record.timestamp.weekday].add(record);
     }
     return StatisticsDelegate(
       mode: StatisticsMode.week,
-      data: weekAmount,
-      side: (ctx,v,meta)=> _buildSideTitle(v,meta),
-      bottom: (ctx,value, mate) {
+      data: data,
+      side: (ctx, v, meta) => _buildSideTitle(v, meta),
+      bottom: (ctx, value, mate) {
         final index = value.toInt();
         return SideTitleWidget(
           axisSide: mate.axisSide,
@@ -113,27 +113,26 @@ class StatisticsDelegate {
     required List<Transaction> records,
   }) {
     final now = DateTime.now();
-    final List<double> dayAmount = List.filled(
-        start.year == now.year && start.month == now.month
-            ? now.day
-            : daysInMonth(year: start.year, month: start.month),
-        0.00);
+    final data = List.generate(
+      start.year == now.year && start.month == now.month ? now.day : daysInMonth(year: start.year, month: start.month),
+      (i) => <Transaction>[],
+    );
     for (final record in records) {
       // add data on the same day.
-      dayAmount[record.timestamp.day - 1] += record.deltaAmount;
+      data[record.timestamp.day - 1].add(record);
     }
-    final sep = dayAmount.length ~/ 5;
+    final sep = data.length ~/ 5;
     return StatisticsDelegate(
       mode: StatisticsMode.week,
-      data: dayAmount,
-      side: (ctx,v,meta)=> _buildSideTitle(v,meta),
-      bottom: (ctx,value, mate) {
+      data: data,
+      side: (ctx, v, meta) => _buildSideTitle(v, meta),
+      bottom: (ctx, value, meta) {
         final index = value.toInt();
-        if(!(index == 0 || index == dayAmount.length - 1) && index % sep != 0){
+        if (!(index == 0 || index == data.length - 1) && index % sep != 0) {
           return const SizedBox();
         }
         return SideTitleWidget(
-          axisSide: mate.axisSide,
+          axisSide: meta.axisSide,
           child: Text(
             "${index + 1}",
           ),
@@ -148,16 +147,16 @@ class StatisticsDelegate {
   }) {
     final _monthFormat = DateFormat.MMM($Key.currentContext!.locale.toString());
     final now = DateTime.now();
-    final List<double> monthAmount = List.filled(start.year == now.year ? now.month : 12, 0.00);
+    final data = List.generate(start.year == now.year ? now.month : 12, (i) => <Transaction>[]);
     for (final record in records) {
       // add data in the same month.
-      monthAmount[record.timestamp.month - 1] += record.deltaAmount;
+      data[record.timestamp.month - 1].add(record);
     }
     return StatisticsDelegate(
       mode: StatisticsMode.week,
-      data: monthAmount,
-      side: (ctx,v,meta)=> _buildSideTitle(v,meta),
-      bottom: (ctx,value, mate) {
+      data: data,
+      side: (ctx, v, meta) => _buildSideTitle(v, meta),
+      bottom: (ctx, value, mate) {
         final index = value.toInt();
         final text = _monthFormat.format(DateTime(0, index + 1));
         return SideTitleWidget(
@@ -201,14 +200,14 @@ class AmountChartWidget extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 28,
-              getTitlesWidget:(v,meta)=> delegate.bottom(context,v,meta),
+              getTitlesWidget: (v, meta) => delegate.bottom(context, v, meta),
             ),
           ),
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 40,
-              getTitlesWidget:(v,meta)=> delegate.side(context,v,meta),
+              getTitlesWidget: (v, meta) => delegate.side(context, v, meta),
             ),
           ),
           topTitles: const AxisTitles(
@@ -231,16 +230,27 @@ class AmountChartWidget extends StatelessWidget {
           show: false,
         ),
         groupsSpace: 40,
-        barGroups: delegate.data
-            .mapIndexed((i, v) => BarChartGroupData(
-                  x: i,
-                  barRods: [
-                    BarChartRodData(
-                      toY: v,
-                    ),
-                  ],
-                ))
-            .toList(),
+        barGroups: delegate.data.mapIndexed((i, records) {
+          final (:total, :parts) = separateTransactionByType(records);
+          var c = 0.0;
+          return BarChartGroupData(
+            x: i,
+            barRods: [
+              BarChartRodData(
+                toY: total,
+                rodStackItems: parts.entries.map((e) {
+                  final res = BarChartRodStackItem(
+                    c,
+                    c + e.value.total,
+                    e.key.color,
+                  );
+                  c += e.value.total;
+                  return res;
+                }).toList(),
+              ),
+            ],
+          );
+        }).toList(),
       ),
     );
   }

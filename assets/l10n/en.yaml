@@ -443,11 +443,11 @@ expenseRecords:
     consume: Consume
     coffee: Café
     food: Canteen
-    store: Grocery Shopping
-    water: Hot Water
+    store: Grocery
+    water: Water
     library: Library
     shower: Shower
-    topUp: Top Up
+    topUp: Top up
     subsidy: Subsidy
     other: Stuff
 homepage:

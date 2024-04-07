@@ -130,16 +130,20 @@ double accumulateTransactionAmount(List<Transaction> transactions) {
   return total;
 }
 
-Map<TransactionType, ({double proportion, List<Transaction> records, double total})> separateTransactionByType(
+({double total, Map<TransactionType, ({double proportion, List<Transaction> records, double total})> parts})
+    separateTransactionByType(
   List<Transaction> records,
 ) {
   final type2transactions = records.groupListsBy((record) => record.type);
   final type2total = type2transactions.map((type, records) => MapEntry(type, accumulateTransactionAmount(records)));
   final total = type2total.values.sum;
-  return type2transactions.map((type, records) {
-    final (income: _, :outcome) = accumulateTransactionIncomeOutcome(records);
-    return MapEntry(type, (records: records, total: outcome, proportion: (type2total[type] ?? 0) / total));
-  });
+  return (
+    total: total,
+    parts: type2transactions.map((type, records) {
+      final (income: _, :outcome) = accumulateTransactionIncomeOutcome(records);
+      return MapEntry(type, (records: records, total: outcome, proportion: (type2total[type] ?? 0) / total));
+    })
+  );
 }
 
 String resolveTime4Display({
