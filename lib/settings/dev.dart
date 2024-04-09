@@ -16,12 +16,15 @@ late DevSettingsImpl Dev;
 
 class DevSettingsImpl {
   final Box box;
+
   DevSettingsImpl(this.box);
 
   /// [false] by default.
   bool get on => box.safeGet(_K.on) ?? false;
 
   set on(bool newV) => box.safePut(_K.on, newV);
+
+  late final $on = box.provider<bool>(_K.on);
 
   ValueListenable<Box> listenDevMode() => box.listenable(keys: [_K.on]);
 
@@ -31,6 +34,8 @@ class DevSettingsImpl {
   set demoMode(bool newV) => box.safePut(_K.demoMode, newV);
 
   ValueListenable<Box> listenDemoMode() => box.listenable(keys: [_K.demoMode]);
+
+  late final $demoMode = box.provider<bool>(_K.demoMode);
 
   List<Credentials>? getSavedOaCredentialsList() =>
       (box.safeGet(_K.savedOaCredentialsList) as List?)?.cast<Credentials>();

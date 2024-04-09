@@ -314,7 +314,7 @@ class ExpenseBarChartHeader extends StatelessWidget {
     return ExpenseChartHeader(
       upper: "Total",
       content: "¥${total.toStringAsFixed(2)}",
-      lower: formatTimeSpan(from: from, to: to),
+      lower: formatDateSpan(from: from, to: to),
     );
   }
 }

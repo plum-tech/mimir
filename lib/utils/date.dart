@@ -72,9 +72,10 @@ DateTime getDateOfFirstDayInWeek({
   return DateTime(year, 1, day);
 }
 
-String formatTimeSpan({
+String formatDateSpan({
   required DateTime from,
   required DateTime to,
+  bool showYear = true,
 }) {
   final local = $Key.currentContext?.locale.toString();
   final year = DateFormat.y(local);
@@ -82,13 +83,22 @@ String formatTimeSpan({
     final month = DateFormat.MMMM(local);
     if (from.month == to.month) {
       final day = DateFormat.d(local);
-      return "${day.format(from)}–${day.format(to)} ${month.format(from)}, ${year.format(from)}";
+      return showYear
+          ? "${day.format(from)}–${day.format(to)} ${month.format(from)}, ${year.format(from)}"
+          : "${day.format(from)}–${day.format(to)} ${month.format(from)}";
     } else {
       final monthDay = DateFormat.MMMMd(local);
-      return "${monthDay.format(from)}–${monthDay.format(to)}, ${year.format(from)}";
+      return showYear
+          ? "${monthDay.format(from)}–${monthDay.format(to)}, ${year.format(from)}"
+          : "${monthDay.format(from)}–${monthDay.format(to)}";
     }
   } else {
-    final yearMonthDay = DateFormat.yMMMMd(local);
-    return "${yearMonthDay.format(from)}–${yearMonthDay.format(to)}";
+    if (showYear) {
+      final yearMonthDay = DateFormat.yMMMMd(local);
+      return "${yearMonthDay.format(from)}–${yearMonthDay.format(to)}";
+    } else {
+      final monthDay = DateFormat.MMMMd(local);
+      return "${monthDay.format(from)}–${monthDay.format(to)}";
+    }
   }
 }

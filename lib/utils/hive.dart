@@ -26,8 +26,9 @@ extension BoxX on Box {
 class BoxFieldNotifier<T> extends StateNotifier<T?> {
   final Listenable listenable;
   final T? Function() get;
+  final Future<void> Function(T? v) set;
 
-  BoxFieldNotifier(super._state, this.listenable, this.get) {
+  BoxFieldNotifier(super._state, this.listenable, this.get, this.set) {
     listenable.addListener(_refresh);
   }
 
@@ -113,6 +114,7 @@ extension BoxProviderX on Box {
         get?.call() ?? safeGet<T>(key),
         listenable(keys: [key]),
         () => get?.call() ?? safeGet<T>(key),
+        (v) => safePut<T>(key, v),
       );
     });
   }
@@ -127,6 +129,7 @@ extension BoxProviderX on Box {
         get(arg),
         listenable(keys: [keyOf(arg)]),
         () => get(arg),
+        (v) => safePut<T>(keyOf(arg), v),
       );
     });
   }

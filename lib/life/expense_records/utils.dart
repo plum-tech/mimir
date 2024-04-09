@@ -166,7 +166,7 @@ String resolveTime4Display({
           return "Last week";
         }
       }
-      return formatTimeSpan(from: date, to: StatisticsMode.week.getAfterUnitTime(start: date));
+      return formatDateSpan(from: date, to: StatisticsMode.week.getAfterUnitTime(start: date));
     case StatisticsMode.month:
       if (date.year == now.year) {
         if (date.month == now.month) {

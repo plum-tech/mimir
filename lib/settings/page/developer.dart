@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
@@ -16,16 +17,16 @@ import 'package:sit/design/widgets/navigation.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 
-class DeveloperOptionsPage extends StatefulWidget {
+class DeveloperOptionsPage extends ConsumerStatefulWidget {
   const DeveloperOptionsPage({
     super.key,
   });
 
   @override
-  State<DeveloperOptionsPage> createState() => _DeveloperOptionsPageState();
+  ConsumerState<DeveloperOptionsPage> createState() => _DeveloperOptionsPageState();
 }
 
-class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
+class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
   @override
   Widget build(BuildContext context) {
     final oaCredentials = CredentialsInit.storage.oaCredentials;
@@ -50,6 +51,7 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
                 path: "/settings/developer/local-storage",
               ),
               buildReload(),
+              const DebugExpenseUserTile(),
               if (oaCredentials != null)
                 SwitchOaUserTile(
                   currentCredentials: oaCredentials,
@@ -63,35 +65,29 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
   }
 
   Widget buildDevModeToggle() {
-    return StatefulBuilder(
-      builder: (ctx, setState) => ListTile(
-        title: i18n.dev.devMode.text(),
-        leading: const Icon(Icons.developer_mode_outlined),
-        trailing: Switch.adaptive(
-          value: Dev.on,
-          onChanged: (newV) {
-            setState(() {
-              Dev.on = newV;
-            });
-          },
-        ),
+    final on = ref.watch(Dev.$on) ?? false;
+    return ListTile(
+      title: i18n.dev.devMode.text(),
+      leading: const Icon(Icons.developer_mode_outlined),
+      trailing: Switch.adaptive(
+        value: on,
+        onChanged: (newV) {
+          ref.read(Dev.$on.notifier).set(newV);
+        },
       ),
     );
   }
 
   Widget buildDemoModeToggle() {
-    return StatefulBuilder(
-      builder: (ctx, setState) => ListTile(
-        title: i18n.dev.demoMode.text(),
-        trailing: Switch.adaptive(
-          value: Dev.demoMode,
-          onChanged: (newV) async {
-            setState(() {
-              Dev.demoMode = newV;
-            });
-            await Init.initModules();
-          },
-        ),
+    final demoMode = ref.watch(Dev.$demoMode) ?? false;
+    return ListTile(
+      title: i18n.dev.demoMode.text(),
+      trailing: Switch.adaptive(
+        value: demoMode,
+        onChanged: (newV) async {
+          ref.read(Dev.$demoMode.notifier).set(newV);
+          await Init.initModules();
+        },
       ),
     );
   }
@@ -240,5 +236,16 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
       setState(() => isLoggingIn = false);
       await handleLoginException(context: context, error: error, stackTrace: stackTrace);
     }
+  }
+}
+
+class DebugExpenseUserTile extends StatelessWidget {
+  const DebugExpenseUserTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: "Expense user".text(),
+    );
   }
 }
