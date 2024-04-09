@@ -124,5 +124,5 @@ enum TransactionType {
     required this.isConsume,
   });
 
-  String localized() => "expenseRecords.type.$name".tr();
+  String l10n() => "expenseRecords.type.$name".tr();
 }

@@ -14,6 +14,7 @@ import '../../entity/local.dart';
 import '../../entity/statistics.dart';
 import "../../i18n.dart";
 import '../../utils.dart';
+import 'header.dart';
 
 class ExpenseBarChart extends StatefulWidget {
   final DateTime start;
@@ -43,9 +44,9 @@ class _ExpenseBarChartState extends State<ExpenseBarChart> {
     return [
       ExpenseBarChartHeader(
         from: widget.start,
-        to: widget.mode.getAfterUnitTime(start: widget.start ,endLimit: DateTime.now()),
+        to: widget.mode.getAfterUnitTime(start: widget.start, endLimit: DateTime.now()),
         total: delegate.total,
-      ).padFromLTRB(16,8,0,8),
+      ).padFromLTRB(16, 8, 0, 8),
       AspectRatio(
         aspectRatio: 1.5,
         child: AmountChartWidget(
@@ -296,7 +297,6 @@ class AmountChartWidget extends StatelessWidget {
   }
 }
 
-
 class ExpenseBarChartHeader extends StatelessWidget {
   final double total;
   final DateTime from;
@@ -311,11 +311,10 @@ class ExpenseBarChartHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final labelStyle = context.textTheme.titleMedium?.copyWith(color:context.theme.disabledColor);
-    return [
-      "Total".text(style: labelStyle),
-      "¥${total.toStringAsFixed(2)}".text(style: context.textTheme.titleLarge),
-      formatTimeSpan(from: from, to: to).text(style: labelStyle),
-    ].column(caa: CrossAxisAlignment.start);
+    return ExpenseChartHeader(
+      upper: "Total",
+      content: "¥${total.toStringAsFixed(2)}",
+      lower: formatTimeSpan(from: from, to: to),
+    );
   }
 }
