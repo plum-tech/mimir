@@ -4,6 +4,8 @@
 
 <img src="assets/icon.svg" alt="Icon" width="256">
 
+[![Buttons Download]][Download]
+
 ### A multiplatform app for SIT students.
 
 *Android, iOS, Windows, macOS, and Linux*
@@ -29,3 +31,11 @@ Welcome to contribute SIT Life, please read the [contribution guide](specificati
 
 The source codes and configurations are open source under [GPL v3](LICENSE).
 </div>
+
+<!----------------------------------------------------------------------------->
+
+[Download]: https://github.com/liplum-dev/mimir/releases/latest
+
+<!---------------------------------[ Buttons ]--------------------------------->
+
+[Buttons Download]: https://img.shields.io/github/downloads/liplum-dev/mimir/total?color=023a46&label=Download&logo=docusign&logoColor=white&style=for-the-badge&labelColor=034e5e
