@@ -1,0 +1,24 @@
+name: Web
+on: workflow_dispatch
+
+env:
+  flutter_version: '3.19.5'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.flutter_version }}
+          channel: stable
+          cache: true
+
+      - uses: bluefireteam/flutter-gh-pages@v7
+        with:
+          baseHref: /mimir/
