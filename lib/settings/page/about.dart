@@ -103,7 +103,7 @@ class _VersionTileState extends ConsumerState<VersionTile> {
 
   @override
   Widget build(BuildContext context) {
-    final devOn = ref.watch(Dev.$on) ?? false;
+    final devOn = ref.watch(Dev.$on);
     final version = R.currentVersion;
     return ListTile(
       leading: switch (version.platform) {
@@ -120,7 +120,7 @@ class _VersionTileState extends ConsumerState<VersionTile> {
       onTap: devOn && clickCount <= 10
           ? null
           : () async {
-              if (ref.read(Dev.$on) ?? false) return;
+              if (ref.read(Dev.$on)) return;
               clickCount++;
               if (clickCount >= 10) {
                 clickCount = 0;

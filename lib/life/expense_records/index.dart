@@ -59,7 +59,7 @@ class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> {
     if (credentials == null) return;
     try {
       await ExpenseAggregated.fetchAndSaveTransactionUntilNow(
-        studentId: credentials.account,
+        oaAccount: credentials.account,
       );
     } catch (error) {
       if (active) {

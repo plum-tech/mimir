@@ -8,6 +8,7 @@ class _K {
   static const on = '$ns/on';
   static const savedOaCredentialsList = '$ns/savedOaCredentialsList';
   static const demoMode = '$ns/demoMode';
+  static const expenseUserOverride = '$ns/expenseUserOverride';
 }
 
 // ignore: non_constant_identifier_names
@@ -19,18 +20,24 @@ class DevSettingsImpl {
   DevSettingsImpl(this.box);
 
   /// [false] by default.
-  bool get on => box.safeGet(_K.on) ?? false;
+  bool get on => box.safeGet<bool>(_K.on) ?? false;
 
   set on(bool newV) => box.safePut(_K.on, newV);
 
-  late final $on = box.provider<bool>(_K.on);
+  late final $on = box.providerWithDefault<bool>(_K.on, () => false);
 
   /// [false] by default.
-  bool get demoMode => box.safeGet(_K.demoMode) ?? false;
+  bool get demoMode => box.safeGet<bool>(_K.demoMode) ?? false;
 
   set demoMode(bool newV) => box.safePut(_K.demoMode, newV);
 
-  late final $demoMode = box.provider<bool>(_K.demoMode);
+  late final $demoMode = box.providerWithDefault<bool>(_K.demoMode, () => false);
+
+  String? get expenseUserOverride => box.safeGet<String>(_K.expenseUserOverride);
+
+  set expenseUserOverride(String? newV) => box.safePut(_K.expenseUserOverride, newV);
+
+  late final $expenseUserOverride = box.provider<String>(_K.expenseUserOverride);
 
   List<Credentials>? getSavedOaCredentialsList() =>
       (box.safeGet(_K.savedOaCredentialsList) as List?)?.cast<Credentials>();

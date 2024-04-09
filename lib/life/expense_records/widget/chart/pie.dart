@@ -114,7 +114,7 @@ class ExpensePieChartHeader extends StatelessWidget {
     return ExpenseChartHeader(
       upper: "Average expenses",
       content: "¥${average.toStringAsFixed(2)}",
-      lower: "for ${type.l10n()}",
+      lower: "in ${type.l10n()}",
     );
   }
 }

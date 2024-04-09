@@ -200,7 +200,7 @@ class _EnumEditorState<T> extends State<EnumEditor<T>> {
       secondary: $Action$(
         text: _i18n.cancel,
         onPressed: () {
-          context.navigator.pop(widget.initial);
+          context.navigator.pop();
         },
       ),
       make: (ctx) => PlatformTextButton(
@@ -260,7 +260,7 @@ class _DateTimeEditorState extends State<DateTimeEditor> {
       secondary: $Action$(
           text: _i18n.cancel,
           onPressed: () {
-            context.navigator.pop(widget.initial);
+            context.navigator.pop();
           }),
       make: (ctx) => PlatformTextButton(
         child: current.toString().text(),
@@ -321,7 +321,7 @@ class _IntEditorState extends State<IntEditor> {
         secondary: $Action$(
             text: _i18n.cancel,
             onPressed: () {
-              context.navigator.pop(widget.initial);
+              context.navigator.pop();
             }),
         make: (ctx) => buildBody(ctx));
   }
@@ -392,7 +392,7 @@ class _BoolEditorState extends State<BoolEditor> {
         secondary: $Action$(
             text: _i18n.cancel,
             onPressed: () {
-              context.navigator.pop(widget.initial);
+              context.navigator.pop();
             }),
         make: (ctx) => $ListTile$(
             title: (widget.desc ?? "").text(),
@@ -446,7 +446,7 @@ class _StringEditorState extends State<StringEditor> {
         secondary: $Action$(
             text: _i18n.cancel,
             onPressed: () {
-              context.navigator.pop(widget.initial);
+              context.navigator.pop();
             }),
         make: (ctx) => $TextField$(
               maxLines: lines,

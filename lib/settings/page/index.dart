@@ -54,7 +54,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   List<Widget> buildEntries() {
     final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
     final loginStatus = ref.watch(CredentialsInit.storage.$oaLoginStatus);
-    final devOn = ref.watch(Dev.$on) ?? false;
+    final devOn = ref.watch(Dev.$on);
     final all = <Widget>[];
     if (loginStatus != LoginStatus.never) {
       all.add(const CampusSelector().padSymmetric(h: 8));

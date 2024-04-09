@@ -1,11 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/credentials/utils.dart';
+import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
@@ -51,7 +53,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                 path: "/settings/developer/local-storage",
               ),
               buildReload(),
-              const DebugExpenseUserTile(),
+              const DebugExpenseUserOverrideTile(),
               if (oaCredentials != null)
                 SwitchOaUserTile(
                   currentCredentials: oaCredentials,
@@ -65,7 +67,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
   }
 
   Widget buildDevModeToggle() {
-    final on = ref.watch(Dev.$on) ?? false;
+    final on = ref.watch(Dev.$on);
     return ListTile(
       title: i18n.dev.devMode.text(),
       leading: const Icon(Icons.developer_mode_outlined),
@@ -79,7 +81,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
   }
 
   Widget buildDemoModeToggle() {
-    final demoMode = ref.watch(Dev.$demoMode) ?? false;
+    final demoMode = ref.watch(Dev.$demoMode);
     return ListTile(
       title: i18n.dev.demoMode.text(),
       trailing: Switch.adaptive(
@@ -202,6 +204,10 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
       onTap: () async {
         await loginWith(credentials);
       },
+      onLongPress: () async {
+        context.showSnackBar(content: i18n.copyTipOf(i18n.oaCredentials.oaAccount).text());
+        await Clipboard.setData(ClipboardData(text: credentials.account));
+      },
     ).padH(12);
   }
 
@@ -239,13 +245,35 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
   }
 }
 
-class DebugExpenseUserTile extends StatelessWidget {
-  const DebugExpenseUserTile({super.key});
+class DebugExpenseUserOverrideTile extends ConsumerWidget {
+  const DebugExpenseUserOverrideTile({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(Dev.$expenseUserOverride);
     return ListTile(
+      leading: Icon(context.icons.person),
       title: "Expense user".text(),
+      subtitle: user?.text(),
+      onTap: () async {
+        final res = await Editor.showStringEditor(
+          context,
+          desc: "OA account",
+          initial: user ?? "",
+        );
+        if (res == null || res.isEmpty) return;
+        if (estimateOaUserType(res) == null) {
+          if (!context.mounted) return;
+          await context.showTip(
+            title: "Error",
+            desc: "Invalid OA account format.",
+            ok: "OK",
+          );
+        } else {
+          ref.read(Dev.$expenseUserOverride.notifier).set(res);
+        }
+      },
+      trailing: Icon(context.icons.edit),
     );
   }
 }

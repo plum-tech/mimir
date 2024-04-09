@@ -57,7 +57,7 @@ class _MimirAppState extends ConsumerState<MimirApp> {
 
   @override
   Widget build(BuildContext context) {
-    final demoMode = ref.watch(Dev.$demoMode) ?? false;
+    final demoMode = ref.watch(Dev.$demoMode);
     final themeColorFromSystem = ref.watch(Settings.theme.$themeColorFromSystem) ?? true;
     ref.listen(Settings.$focusTimetable, (pre, next) {
       $routingConfig.value = next ?? false ? buildTimetableFocusRouter() : buildCommonRoutingConfig();

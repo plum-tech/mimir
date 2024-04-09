@@ -52,7 +52,7 @@ class _ExpenseRecordsPageState extends ConsumerState<ExpenseRecordsPage> {
     });
     try {
       await ExpenseAggregated.fetchAndSaveTransactionUntilNow(
-        studentId: credentials.account,
+        oaAccount: credentials.account,
       );
       updateRecords(ExpenseRecordsInit.storage.getTransactionsByRange());
       setState(() {

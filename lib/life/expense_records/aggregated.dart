@@ -1,15 +1,21 @@
+import 'package:sit/settings/dev.dart';
+
 import 'entity/local.dart';
 import 'init.dart';
 
 class ExpenseAggregated {
   static Future<void> fetchAndSaveTransactionUntilNow({
-    required String studentId,
+    required String oaAccount,
   }) async {
+    final override = Dev.expenseUserOverride;
+    if (override != null) {
+      oaAccount = override;
+    }
     final storage = ExpenseRecordsInit.storage;
     final now = DateTime.now();
     final start = now.copyWith(year: now.year - 4);
     final newlyFetched = await ExpenseRecordsInit.service.fetch(
-      studentID: studentId,
+      studentID: oaAccount,
       from: start,
       to: now,
     );
