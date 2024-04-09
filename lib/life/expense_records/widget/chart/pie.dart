@@ -27,7 +27,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
   @override
   Widget build(BuildContext context) {
     assert(widget.records.every((type) => type.isConsume));
-    final (:total, :parts) = separateTransactionByType(widget.records);
+    final (total: _, :parts) = separateTransactionByType(widget.records);
     final ascending = parts.entries.sortedBy<num>((e) => e.value.total);
     final atMost = ascending.last;
     return [

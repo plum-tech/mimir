@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
@@ -113,9 +110,15 @@ class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
             const Divider(),
             ExpensePieChart(records: current.records),
             const Divider(),
-            ...current.records.map((record) {
-              return TransactionTile(record);
-            }),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: current.records.length,
+              itemBuilder: (ctx, i) {
+                final record = current.records[i];
+                return TransactionTile(record);
+              },
+            ),
           ],
         ),
         // ListView()
