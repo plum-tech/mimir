@@ -142,7 +142,7 @@ Duration calcuSwitchAnimationDuration(num distance) {
   return Duration(milliseconds: time.toInt());
 }
 
-Future<SitTimetable?> readTimetableFromFile() async {
+Future<SitTimetable?> readTimetableFromPickedFile() async {
   final result = await FilePicker.platform.pickFiles(
       // Cannot limit the extensions. My RedMi phone just reject all files.
       // type: FileType.custom,
@@ -158,8 +158,8 @@ Future<SitTimetable?> readTimetableFromFile() async {
 
 Future<SitTimetable?> readTimetableFromFileWithPrompt(BuildContext context) async {
   try {
-    final id2timetable = await readTimetableFromFile();
-    if (id2timetable == null) return null;
+    final timetable = await readTimetableFromPickedFile();
+    return timetable;
   } catch (err, stackTrace) {
     debugPrint(err.toString());
     debugPrintStack(stackTrace: stackTrace);
@@ -175,7 +175,6 @@ Future<SitTimetable?> readTimetableFromFileWithPrompt(BuildContext context) asyn
     }
     return null;
   }
-  return null;
 }
 
 Future<String?> _readTimetableFi(PlatformFile fi) async {
