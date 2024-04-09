@@ -147,18 +147,27 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
       return cache;
     } else {
       final style = TimetableStyle.of(context);
-      final today = DateTime.now();
+      final now = DateTime.now();
       Widget buildCell({
         required BuildContext context,
         required SitTimetableLessonPart lesson,
         required SitTimetableEntity timetable,
       }) {
-        return InteractiveCourseCell(
+        final inClassNow  = lesson.type.startTime.isBefore(now) && lesson.type.endTime.isAfter(now);
+        final passed = lesson.type.endTime.isBefore(now);
+        Widget cell = InteractiveCourseCell(
           lesson: lesson,
           style: style,
           timetable: timetable,
-          grayOut: style.cellStyle.grayOutTakenLessons ? lesson.type.endTime.isBefore(today) : false,
+          grayOut: style.cellStyle.grayOutTakenLessons ? passed : false,
         );
+        if (inClassNow) {
+          // cell = OutlinedCard(
+          //   margin: const EdgeInsets.all(1),
+          //   child: cell.padAll(1),
+          // );
+        }
+        return cell;
       }
 
       final res = LayoutBuilder(
