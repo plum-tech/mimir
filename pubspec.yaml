@@ -52,6 +52,8 @@ dependencies:
   crypto: ^3.0.3
   # UUID generator
   uuid: ^4.4.0
+  # Statistics
+  statistics: ^1.1.0
 
   # HTML parser
   beautiful_soup_dart: ^0.3.0

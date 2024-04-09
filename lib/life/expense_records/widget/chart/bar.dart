@@ -9,6 +9,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/route.dart';
 import 'package:sit/utils/date.dart';
+import 'package:statistics/statistics.dart';
 
 import '../../entity/local.dart';
 import '../../entity/statistics.dart';
@@ -52,6 +53,7 @@ class _ExpenseBarChartState extends State<ExpenseBarChart> {
 
 class StatisticsDelegate {
   final List<List<Transaction>> data;
+  final double average;
   final StatisticsMode mode;
   final Widget Function(BuildContext context, double value, TitleMeta meta) side;
   final Widget Function(BuildContext context, double value, TitleMeta meta) bottom;
@@ -59,6 +61,7 @@ class StatisticsDelegate {
   const StatisticsDelegate({
     required this.mode,
     required this.data,
+    required this.average,
     required this.side,
     required this.bottom,
   });
@@ -92,10 +95,12 @@ class StatisticsDelegate {
       // sunday goes first
       data[record.timestamp.weekday == DateTime.sunday ? 0 : record.timestamp.weekday].add(record);
     }
+    final amounts = records.map((r) => r.deltaAmount).toList();
     return StatisticsDelegate(
       mode: StatisticsMode.week,
       data: data,
       side: (ctx, v, meta) => _buildSideTitle(v, meta),
+      average: amounts.isEmpty ? double.infinity : amounts.mean,
       bottom: (ctx, value, mate) {
         final index = value.toInt();
         return SideTitleWidget(
@@ -121,10 +126,12 @@ class StatisticsDelegate {
       // add data on the same day.
       data[record.timestamp.day - 1].add(record);
     }
+    final amounts = records.map((r) => r.deltaAmount).toList();
     final sep = data.length ~/ 5;
     return StatisticsDelegate(
       mode: StatisticsMode.week,
       data: data,
+      average: amounts.isEmpty ? double.infinity : amounts.mean,
       side: (ctx, v, meta) => _buildSideTitle(v, meta),
       bottom: (ctx, value, meta) {
         final index = value.toInt();
@@ -152,9 +159,11 @@ class StatisticsDelegate {
       // add data in the same month.
       data[record.timestamp.month - 1].add(record);
     }
+    final amounts = records.map((r) => r.deltaAmount).toList();
     return StatisticsDelegate(
       mode: StatisticsMode.week,
       data: data,
+      average: amounts.isEmpty ? double.infinity : amounts.mean,
       side: (ctx, v, meta) => _buildSideTitle(v, meta),
       bottom: (ctx, value, mate) {
         final index = value.toInt();
@@ -216,6 +225,23 @@ class AmountChartWidget extends StatelessWidget {
           rightTitles: const AxisTitles(
             sideTitles: SideTitles(showTitles: false),
           ),
+        ),
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [
+            if (delegate.average.isFinite)
+              HorizontalLine(
+                label: HorizontalLineLabel(
+                  show: true,
+                    alignment: Alignment.bottomRight,
+                    style: context.textTheme.labelSmall,
+                    labelResolver: (line) => "¥${line.y.toStringAsFixed(2)}",
+                ),
+                y: delegate.average,
+                strokeWidth: 3,
+                color: context.colorScheme.tertiary.withOpacity(0.5),
+                dashArray: [5, 5],
+              ),
+          ],
         ),
         gridData: FlGridData(
           show: true,
