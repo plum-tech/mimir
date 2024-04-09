@@ -8,9 +8,10 @@ import 'package:sit/design/widgets/card.dart';
 
 import '../../entity/local.dart';
 import "../../i18n.dart";
+import '../../utils.dart';
 
 class ExpensePieChart extends StatefulWidget {
-  final Map<TransactionType, ({List<Transaction> records, double total, double proportion})> records;
+  final List<Transaction> records;
 
   const ExpensePieChart({
     super.key,
@@ -26,19 +27,19 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
 
   @override
   Widget build(BuildContext context) {
-    assert(widget.records.keys.every((type) => type.isConsume));
-    return OutlinedCard(
-      child: [
-        AspectRatio(
-          aspectRatio: 1.5,
-          child: buildChart(),
-        ),
-        buildLegends().padAll(8).align(at: Alignment.topLeft),
-      ].column(),
-    );
+    assert(widget.records.every((type) => type.isConsume));
+    final (:total, :parts) = separateTransactionByType(widget.records);
+
+    return [
+      AspectRatio(
+        aspectRatio: 1.5,
+        child: buildChart(parts),
+      ),
+      buildLegends(parts).padAll(8).align(at: Alignment.topLeft),
+    ].column(caa: CrossAxisAlignment.start);
   }
 
-  Widget buildChart() {
+  Widget buildChart(Map<TransactionType, ({double proportion, List<Transaction> records, double total})> parts) {
     return PieChart(
       PieChartData(
         pieTouchData: PieTouchData(
@@ -59,7 +60,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
         ),
         sectionsSpace: 0,
         centerSpaceRadius: 60,
-        sections: widget.records.entries.mapIndexed((i, entry) {
+        sections: parts.entries.mapIndexed((i, entry) {
           final isTouched = i == touchedIndex;
           final MapEntry(key: type, value: (records: _, :total, :proportion)) = entry;
           final color = type.color.harmonizeWith(context.colorScheme.primary);
@@ -77,8 +78,8 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
     );
   }
 
-  Widget buildLegends() {
-    return widget.records.entries
+  Widget buildLegends(Map<TransactionType, ({double proportion, List<Transaction> records, double total})> parts) {
+    return parts.entries
         .map((record) {
           final MapEntry(key: type, value: (records: _, :total, proportion: _)) = record;
           final color = type.color.harmonizeWith(context.colorScheme.primary);
@@ -89,6 +90,6 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
           );
         })
         .toList()
-        .wrap(spacing: 4);
+        .wrap(spacing: 4,runSpacing: 4);
   }
 }

@@ -94,7 +94,6 @@ class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
       });
     });
     final current = startTime2Records.indexAt(index);
-    final (total: _, :parts) = separateTransactionByType(current.records);
     return Scaffold(
       appBar: AppBar(
         title: i18n.stats.title.text(),
@@ -110,7 +109,8 @@ class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
               records: current.records,
               mode: mode,
             ),
-            ExpensePieChart(records: parts),
+            const Divider(),
+            ExpensePieChart(records: current.records),
             const Divider(),
             ...current.records.map((record) {
               return TransactionTile(record);

@@ -1,10 +1,9 @@
 import 'dart:math';
 
-import 'package:collection/collection.dart';
+import 'package:collection/collection.dart' hide IterableDoubleExtension;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/route.dart';
@@ -35,25 +34,30 @@ class ExpenseBarChart extends StatefulWidget {
 class _ExpenseBarChartState extends State<ExpenseBarChart> {
   @override
   Widget build(BuildContext context) {
+    assert(widget.records.every((type) => type.isConsume));
     final delegate = StatisticsDelegate.byMode(
       widget.mode,
       start: widget.start,
       records: widget.records,
     );
-    return OutlinedCard(
-      child: AspectRatio(
+    return [
+      ExpenseBarChartHeader(
+        total: delegate.total,
+      ).padFromLTRB(16,8,0,8),
+      AspectRatio(
         aspectRatio: 1.5,
         child: AmountChartWidget(
           delegate: delegate,
         ).padSymmetric(v: 12, h: 8),
       ),
-    );
+    ].column(caa: CrossAxisAlignment.start);
   }
 }
 
 class StatisticsDelegate {
   final List<List<Transaction>> data;
   final double average;
+  final double total;
   final StatisticsMode mode;
   final Widget Function(BuildContext context, double value, TitleMeta meta) side;
   final Widget Function(BuildContext context, double value, TitleMeta meta) bottom;
@@ -62,6 +66,7 @@ class StatisticsDelegate {
     required this.mode,
     required this.data,
     required this.average,
+    required this.total,
     required this.side,
     required this.bottom,
   });
@@ -99,13 +104,15 @@ class StatisticsDelegate {
     return StatisticsDelegate(
       mode: StatisticsMode.week,
       data: data,
-      side: (ctx, v, meta) => _buildSideTitle(v, meta),
+      side: _buildSideTitle,
       average: amounts.isEmpty ? double.infinity : amounts.mean,
+      total: amounts.sum,
       bottom: (ctx, value, mate) {
         final index = value.toInt();
         return SideTitleWidget(
           axisSide: mate.axisSide,
           child: Text(
+            style: ctx.textTheme.labelMedium,
             Weekday.calendarOrder[index].l10nShort(),
           ),
         );
@@ -132,7 +139,8 @@ class StatisticsDelegate {
       mode: StatisticsMode.week,
       data: data,
       average: amounts.isEmpty ? double.infinity : amounts.mean,
-      side: (ctx, v, meta) => _buildSideTitle(v, meta),
+      total: amounts.sum,
+      side: _buildSideTitle,
       bottom: (ctx, value, meta) {
         final index = value.toInt();
         if (!(index == 0 || index == data.length - 1) && index % sep != 0) {
@@ -141,6 +149,7 @@ class StatisticsDelegate {
         return SideTitleWidget(
           axisSide: meta.axisSide,
           child: Text(
+            style: ctx.textTheme.labelMedium,
             "${index + 1}",
           ),
         );
@@ -164,13 +173,15 @@ class StatisticsDelegate {
       mode: StatisticsMode.week,
       data: data,
       average: amounts.isEmpty ? double.infinity : amounts.mean,
-      side: (ctx, v, meta) => _buildSideTitle(v, meta),
+      total: amounts.sum,
+      side: _buildSideTitle,
       bottom: (ctx, value, mate) {
         final index = value.toInt();
         final text = _monthFormat.format(DateTime(0, index + 1));
         return SideTitleWidget(
           axisSide: mate.axisSide,
           child: Text(
+            style: ctx.textTheme.labelMedium,
             text.substring(0, min(3, text.length)),
           ),
         );
@@ -178,11 +189,12 @@ class StatisticsDelegate {
     );
   }
 
-  static Widget _buildSideTitle(double value, TitleMeta meta) {
+  static Widget _buildSideTitle(BuildContext ctx, double value, TitleMeta meta) {
     String text = '¥${value.round()}';
     return SideTitleWidget(
       axisSide: meta.axisSide,
       child: Text(
+        style: ctx.textTheme.labelMedium,
         text,
       ),
     );
@@ -215,7 +227,7 @@ class AmountChartWidget extends StatelessWidget {
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 40,
+              reservedSize: 50,
               getTitlesWidget: (v, meta) => delegate.side(context, v, meta),
             ),
           ),
@@ -232,9 +244,9 @@ class AmountChartWidget extends StatelessWidget {
               HorizontalLine(
                 label: HorizontalLineLabel(
                   show: true,
-                    alignment: Alignment.bottomRight,
-                    style: context.textTheme.labelSmall,
-                    labelResolver: (line) => "¥${line.y.toStringAsFixed(2)}",
+                  alignment: Alignment.bottomRight,
+                  style: context.textTheme.labelSmall,
+                  labelResolver: (line) => "¥${line.y.toStringAsFixed(2)}",
                 ),
                 y: delegate.average,
                 strokeWidth: 3,
@@ -279,5 +291,23 @@ class AmountChartWidget extends StatelessWidget {
         }).toList(),
       ),
     );
+  }
+}
+
+
+class ExpenseBarChartHeader extends StatelessWidget {
+  final double total;
+
+  const ExpenseBarChartHeader({
+    super.key,
+    required this.total,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      "Total".text(style: context.textTheme.titleMedium?.copyWith(color:context.theme.disabledColor)),
+      "¥${total.toStringAsFixed(2)}".text(style: context.textTheme.titleLarge),
+    ].column(caa: CrossAxisAlignment.start);
   }
 }
