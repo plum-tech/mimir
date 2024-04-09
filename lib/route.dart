@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/login_status.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/game/2048/index.dart';
 import 'package:sit/game/index.dart';
 import 'package:sit/game/minesweeper/index.dart';
@@ -75,8 +76,9 @@ final $MeShellKey = GlobalKey<NavigatorState>();
 
 bool isLoginGuarded(BuildContext ctx) {
   if (Dev.demoMode) return false;
-  final auth = ctx.auth;
-  return auth.loginStatus != LoginStatus.validated && auth.credentials == null;
+  final loginStatus = ProviderScope.containerOf(ctx).read(CredentialsInit.storage.$oaLoginStatus);
+  final credentials = ProviderScope.containerOf(ctx).read(CredentialsInit.storage.$oaCredentials);
+  return loginStatus != LoginStatus.validated && credentials == null;
 }
 
 String? _loginRequired(BuildContext ctx, GoRouterState state) {
@@ -85,8 +87,8 @@ String? _loginRequired(BuildContext ctx, GoRouterState state) {
 }
 
 FutureOr<String?> _redirectRoot(BuildContext ctx, GoRouterState state) {
-  final auth = ctx.auth;
-  if (auth.loginStatus == LoginStatus.never) {
+  final loginStatus = ProviderScope.containerOf(ctx).read(CredentialsInit.storage.$oaLoginStatus);
+    if (loginStatus == LoginStatus.never) {
 // allow to access settings page.
     if (state.matchedLocation.startsWith("/tools")) return null;
     if (state.matchedLocation.startsWith("/settings")) return null;

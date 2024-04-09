@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/user_type.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/animation/animated.dart';
 import 'package:sit/network/checker.dart';
@@ -29,14 +29,14 @@ enum ImportStatus {
   failed;
 }
 
-class ImportTimetablePage extends StatefulWidget {
+class ImportTimetablePage extends ConsumerStatefulWidget {
   const ImportTimetablePage({super.key});
 
   @override
-  State<ImportTimetablePage> createState() => _ImportTimetablePageState();
+  ConsumerState<ImportTimetablePage> createState() => _ImportTimetablePageState();
 }
 
-class _ImportTimetablePageState extends State<ImportTimetablePage> {
+class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
   bool canImport = false;
   var _status = ImportStatus.none;
   late SemesterInfo initial = estimateCurrentSemester();
@@ -109,10 +109,11 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   }
 
   Widget buildImportPage({Key? key}) {
+    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
     return [
       buildTip(context).padSymmetric(v: 30),
       SemesterSelector(
-        baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
+        baseYear: getAdmissionYearFromStudentId(credentials?.account),
         initial: initial,
         onSelected: (newSelection) {
           setState(() {
@@ -131,7 +132,8 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     final SemesterInfo(:exactYear, :semester) = info;
     final defaultName = i18n.import.defaultName(semester.l10n(), exactYear.toString(), (exactYear + 1).toString());
     DateTime defaultStartDate = estimateStartDate(exactYear, semester);
-    if (context.auth.userType == OaUserType.undergraduate) {
+    final userType = ref.read(CredentialsInit.storage.$oaUserType);
+    if (userType == OaUserType.undergraduate) {
       final current = estimateCurrentSemester();
       if (info == current) {
         final span = await TimetableInit.service.getUgSemesterSpan();
@@ -176,10 +178,12 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   }
 
   Future<SitTimetable> getTimetable(SemesterInfo info) async {
-    return switch (context.auth.userType) {
+    final userType = ref.read(CredentialsInit.storage.$oaUserType);
+    return switch (userType) {
       OaUserType.undergraduate => TimetableInit.service.fetchUgTimetable(info),
       OaUserType.postgraduate => TimetableInit.service.fetchPgTimetable(info),
       OaUserType.other => throw Exception("Timetable importing not supported"),
+      _ => throw Exception("Timetable importing not supported"),
     };
   }
 

@@ -43,6 +43,27 @@ class BoxFieldNotifier<T> extends StateNotifier<T?> {
   }
 }
 
+class BoxFieldWithDefaultNotifier<T> extends StateNotifier<T> {
+  final Listenable listenable;
+  final T? Function() get;
+  final T Function() getDefault;
+  final FutureOr<void> Function(T? v) set;
+
+  BoxFieldWithDefaultNotifier(super._state, this.listenable, this.get, this.set, this.getDefault) {
+    listenable.addListener(_refresh);
+  }
+
+  void _refresh() {
+    state = get() ?? getDefault();
+  }
+
+  @override
+  void dispose() {
+    listenable.removeListener(_refresh);
+    super.dispose();
+  }
+}
+
 class BoxChangeNotifier extends ChangeNotifier {
   final Listenable listenable;
 
@@ -119,6 +140,24 @@ extension BoxProviderX on Box {
         listenable(keys: [key]),
         () => get?.call() ?? safeGet<T>(key),
         (v) => set?.call(v) ?? safePut<T>(key, v),
+      );
+    });
+  }
+
+  /// For generic class, like [List] or [Map], please specify the [get] for type conversion.
+  AutoDisposeStateNotifierProvider<BoxFieldWithDefaultNotifier<T>, T> providerWithDefault<T>(
+    dynamic key,
+    T Function() getDefault, {
+    T? Function()? get,
+    FutureOr<void> Function(T? v)? set,
+  }) {
+    return StateNotifierProvider.autoDispose<BoxFieldWithDefaultNotifier<T>, T>((ref) {
+      return BoxFieldWithDefaultNotifier(
+        get?.call() ?? safeGet<T>(key) ?? getDefault(),
+        listenable(keys: [key]),
+        () => get?.call() ?? safeGet<T>(key),
+        (v) => set?.call(v) ?? safePut<T>(key, v),
+        getDefault,
       );
     });
   }

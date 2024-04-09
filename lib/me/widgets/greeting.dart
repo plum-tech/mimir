@@ -2,24 +2,21 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
-import 'package:sit/entity/campus.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sit/credentials/entity/credential.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/l10n/common.dart';
-import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 
-class Greeting extends StatefulWidget {
+class Greeting extends ConsumerStatefulWidget {
   const Greeting({super.key});
 
   @override
-  State<StatefulWidget> createState() => _GreetingState();
+  ConsumerState<Greeting> createState() => _GreetingState();
 }
 
-class _GreetingState extends State<Greeting> {
-  int? studyDays;
-  Campus campus = Settings.campus;
-
+class _GreetingState extends ConsumerState<Greeting> {
   Timer? dayWatcher;
   DateTime? _admissionDate;
 
@@ -31,23 +28,9 @@ class _GreetingState extends State<Greeting> {
     dayWatcher = runPeriodically(const Duration(minutes: 1), (timer) {
       final admissionDate = _admissionDate;
       if (admissionDate != null) {
-        final now = DateTime.now();
-        setState(() {
-          studyDays = now.difference(admissionDate).inDays;
-        });
+        setState(() {});
       }
     });
-  }
-
-  @override
-  void didChangeDependencies() {
-    // 如果用户不是新生或老师，那么就显示学习天数
-    if (context.auth.credentials != null) {
-      setState(() {
-        studyDays = _getStudyDaysAndInitState();
-      });
-    }
-    super.didChangeDependencies();
   }
 
   @override
@@ -56,21 +39,18 @@ class _GreetingState extends State<Greeting> {
     super.dispose();
   }
 
-  int _getStudyDaysAndInitState() {
-    final oaCredential = context.auth.credentials;
-    if (oaCredential != null) {
-      final id = oaCredential.account;
+  int _getStudyDaysAndInitState(Credentials credentials) {
+    final id = credentials.account;
+    if (id.isNotEmpty) {
+      final admissionYearTrailing = int.tryParse(id.substring(0, 2));
+      if (admissionYearTrailing != null) {
+        int admissionYear = 2000 + admissionYearTrailing;
+        final admissionDate = DateTime(admissionYear, 9, 1);
+        _admissionDate = admissionDate;
 
-      if (id.isNotEmpty) {
-        final admissionYearTrailing = int.tryParse(id.substring(0, 2));
-        if (admissionYearTrailing != null) {
-          int admissionYear = 2000 + admissionYearTrailing;
-          final admissionDate = DateTime(admissionYear, 9, 1);
-          _admissionDate = admissionDate;
-
-          /// 计算入学时间, 默认按 9 月 1 日开学来算. 年份 admissionYear 是完整的年份, 如 2018.
-          return DateTime.now().difference(admissionDate).inDays;
-        }
+        /// To calculate admission year after 2000, the default start date is September 1st.
+        /// e.g. 2018.
+        return DateTime.now().difference(admissionDate).inDays;
       }
     }
     return 0;
@@ -78,12 +58,15 @@ class _GreetingState extends State<Greeting> {
 
   @override
   Widget build(BuildContext context) {
+    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
+    final studyDays = credentials == null ? 0 : _getStudyDaysAndInitState(credentials);
+
     final days = studyDays;
     return ListTile(
       titleTextStyle: context.textTheme.titleMedium,
       title: _i18n.headerA.text(),
       subtitleTextStyle: context.textTheme.headlineSmall,
-      subtitle: _i18n.headerB((days ?? 0) + 1).text(),
+      subtitle: _i18n.headerB((days) + 1).text(),
     );
   }
 }

@@ -1,12 +1,11 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:sit/design/adaptive/dialog.dart';
@@ -73,7 +72,8 @@ class _Class2ndAppCardState extends ConsumerState<Class2ndAppCard> {
   }
 
   Class2ndPointsSummary getTargetScore() {
-    final admissionYear = getAdmissionYearFromStudentId(context.auth.credentials?.account);
+    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
+    final admissionYear = getAdmissionYearFromStudentId(credentials?.account);
     return getTargetScoreOf(admissionYear: admissionYear);
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/credentials/entity/login_status.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/life/electricity/index.dart';
 import 'package:sit/life/expense_records/index.dart';
@@ -20,21 +20,9 @@ class LifePage extends ConsumerStatefulWidget {
 }
 
 class _LifePageState extends ConsumerState<LifePage> {
-  LoginStatus? loginStatus;
-
-  @override
-  void didChangeDependencies() {
-    final newLoginStatus = context.auth.loginStatus;
-    if (loginStatus != newLoginStatus) {
-      setState(() {
-        loginStatus = newLoginStatus;
-      });
-    }
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final loginStatus = ref.watch(CredentialsInit.storage.$oaLoginStatus);
     final campus = ref.watch(Settings.$campus) ?? Campus.fengxian;
     return Scaffold(
       resizeToAvoidBottomInset: false,

@@ -8,7 +8,6 @@ import 'package:fit_system_screenshot/fit_system_screenshot.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/files.dart';
 import 'package:sit/qrcode/handle.dart';
 import 'package:sit/r.dart';
@@ -101,12 +100,10 @@ class _MimirAppState extends ConsumerState<MimirApp> {
       themeMode: ref.watch(Settings.theme.$themeMode),
       theme: bakeTheme(ThemeData.light()),
       darkTheme: bakeTheme(ThemeData.dark()),
-      builder: (ctx, child) => OaAuthManager(
-        child: OaOnlineManager(
-          child: _PostServiceRunner(
-            key: const ValueKey("Post service runner"),
-            child: child ?? const SizedBox(),
-          ),
+      builder: (ctx, child) => OaOnlineManager(
+        child: _PostServiceRunner(
+          key: const ValueKey("Post service runner"),
+          child: child ?? const SizedBox(),
         ),
       ),
       scrollBehavior: const MaterialScrollBehavior().copyWith(

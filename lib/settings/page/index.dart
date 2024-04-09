@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/login_status.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/login/i18n.dart';
@@ -52,17 +52,17 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   }
 
   List<Widget> buildEntries() {
+    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
+    final loginStatus = ref.watch(CredentialsInit.storage.$oaLoginStatus);
     final devOn = ref.watch(Dev.$on) ?? false;
     final all = <Widget>[];
-    final auth = context.auth;
-    if (auth.loginStatus != LoginStatus.never) {
+    if (loginStatus != LoginStatus.never) {
       all.add(const CampusSelector().padSymmetric(h: 8));
     }
-    final credential = auth.credentials;
-    if (credential != null) {
+    if (credentials != null) {
       all.add(PageNavigationTile(
         title: i18n.oaCredentials.oaAccount.text(),
-        subtitle: credential.account.text(),
+        subtitle: credentials.account.text(),
         leading: const Icon(Icons.person_rounded),
         path: "/settings/credentials",
       ));
@@ -93,7 +93,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     ));
     all.add(const Divider());
 
-    if (auth.loginStatus != LoginStatus.never) {
+    if (loginStatus != LoginStatus.never) {
       all.add(PageNavigationTile(
         leading: const Icon(Icons.calendar_month_outlined),
         title: i18n.timetable.title.text(),
@@ -129,7 +129,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       ));
       all.add(const NetworkToolEntryTile());
     }
-    if (auth.loginStatus != LoginStatus.never) {
+    if (loginStatus != LoginStatus.never) {
       all.add(const ClearCacheTile());
     }
     all.add(const WipeDataTile());

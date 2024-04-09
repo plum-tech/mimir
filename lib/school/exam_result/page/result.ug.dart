@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
@@ -20,14 +21,14 @@ import '../widgets/ug.dart';
 import '../i18n.dart';
 import 'evaluation.dart';
 
-class ExamResultUgPage extends StatefulWidget {
+class ExamResultUgPage extends ConsumerStatefulWidget {
   const ExamResultUgPage({super.key});
 
   @override
-  State<ExamResultUgPage> createState() => _ExamResultUgPageState();
+  ConsumerState<ExamResultUgPage> createState() => _ExamResultUgPageState();
 }
 
-class _ExamResultUgPageState extends State<ExamResultUgPage> {
+class _ExamResultUgPageState extends ConsumerState<ExamResultUgPage> {
   late SemesterInfo initial = ExamResultInit.ugStorage.lastSemesterInfo ?? estimateCurrentSemester();
   late List<ExamResultUg>? resultList = ExamResultInit.ugStorage.getResultList(initial);
   bool isFetching = false;
@@ -132,9 +133,10 @@ class _ExamResultUgPageState extends State<ExamResultUgPage> {
   }
 
   Widget buildSemesterSelector() {
+    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
     return SemesterSelector(
       initial: initial,
-      baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
+      baseYear: getAdmissionYearFromStudentId(credentials?.account),
       onSelected: (newSelection) {
         ExamResultInit.ugStorage.lastSemesterInfo = newSelection;
         setState(() {

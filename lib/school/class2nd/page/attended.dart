@@ -2,8 +2,9 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
@@ -23,14 +24,14 @@ import '../entity/attended.dart';
 import '../init.dart';
 import '../i18n.dart';
 
-class AttendedActivityPage extends StatefulWidget {
+class AttendedActivityPage extends ConsumerStatefulWidget {
   const AttendedActivityPage({super.key});
 
   @override
-  State<AttendedActivityPage> createState() => _AttendedActivityPageState();
+  ConsumerState<AttendedActivityPage> createState() => _AttendedActivityPageState();
 }
 
-class _AttendedActivityPageState extends State<AttendedActivityPage> {
+class _AttendedActivityPageState extends ConsumerState<AttendedActivityPage> {
   List<Class2ndAttendedActivity>? attended = () {
     final applications = Class2ndInit.pointStorage.applicationList;
     final scores = Class2ndInit.pointStorage.pointItemList;
@@ -84,7 +85,8 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   }
 
   Class2ndPointsSummary getTargetScore() {
-    final admissionYear = int.tryParse(context.auth.credentials?.account.substring(0, 2) ?? "") ?? 2000;
+    final credentials = ref.read(CredentialsInit.storage.$oaCredentials);
+    final admissionYear = int.tryParse(credentials?.account.substring(0, 2) ?? "") ?? 2000;
     return getTargetScoreOf(admissionYear: admissionYear);
   }
 

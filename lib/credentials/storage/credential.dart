@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/storage/hive/init.dart';
@@ -35,33 +34,30 @@ class CredentialStorage {
 
   set oaCredentials(Credentials? newV) => box.safePut(_OaK.credentials, newV);
 
+  late final $oaCredentials = box.provider<Credentials>(_OaK.credentials);
+
   DateTime? get oaLastAuthTime => box.safeGet(_OaK.lastAuthTime);
 
   set oaLastAuthTime(DateTime? newV) => box.safePut(_OaK.lastAuthTime, newV);
+
+  late final $oaLastAuthTime = box.provider<DateTime>(_OaK.lastAuthTime);
 
   LoginStatus? get oaLoginStatus => box.safeGet(_OaK.loginStatus);
 
   set oaLoginStatus(LoginStatus? newV) => box.safePut(_OaK.loginStatus, newV);
 
+  late final $oaLoginStatus = box.providerWithDefault<LoginStatus>(_OaK.loginStatus, () => LoginStatus.never);
+
   OaUserType? get oaUserType => box.safeGet(_OaK.userType);
 
   set oaUserType(OaUserType? newV) => box.safePut(_OaK.userType, newV);
 
-  ValueListenable<Box> listenOaChange() => box.listenable(keys: [
-        _OaK.credentials,
-        _OaK.lastAuthTime,
-        _OaK.loginStatus,
-        _OaK.userType,
-      ]);
+  late final $oaUserType = box.provider<OaUserType>(_OaK.userType);
 
   // Edu Email
   Credentials? get eduEmailCredentials => box.safeGet(_EmailK.credentials);
 
   set eduEmailCredentials(Credentials? newV) => box.safePut(_EmailK.credentials, newV);
-
-  ValueListenable<Box> listenEduEmailChange() => box.listenable(keys: [
-        _EmailK.credentials,
-      ]);
 
   late final $eduEmailCredentials = box.provider<Credentials>(_EmailK.credentials);
 
@@ -69,10 +65,6 @@ class CredentialStorage {
   Credentials? get libraryCredentials => box.safeGet(_LibraryK.credentials);
 
   set libraryCredentials(Credentials? newV) => box.safePut(_LibraryK.credentials, newV);
-
-  ValueListenable<Box> listenLibraryChange() => box.listenable(keys: [
-        _LibraryK.credentials,
-      ]);
 
   late final $libraryCredentials = box.provider<Credentials>(_LibraryK.credentials);
 }

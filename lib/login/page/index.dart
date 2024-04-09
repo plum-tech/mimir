@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
@@ -10,7 +11,6 @@ import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/credentials/utils.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/init.dart';
@@ -31,16 +31,16 @@ const i18n = OaLoginI18n();
 const _forgotLoginPasswordUrl =
     "https://authserver.sit.edu.cn/authserver/getBackPasswordMainPage.do?service=https%3A%2F%2Fmyportal.sit.edu.cn%3A443%2F";
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   final bool isGuarded;
 
   const LoginPage({super.key, required this.isGuarded});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   final $account = TextEditingController(text: Dev.demoMode ? R.demoModeOaAccount : null);
   final $password = TextEditingController(text: Dev.demoMode ? R.demoModeOaPassword : null);
   final _formKey = GlobalKey<FormState>();
@@ -67,16 +67,6 @@ class _LoginPageState extends State<LoginPage> {
     if (old != uppercase) {
       $account.text = uppercase;
     }
-  }
-
-  @override
-  void didChangeDependencies() {
-    final oaCredential = context.auth.credentials;
-    if (oaCredential != null) {
-      $account.text = oaCredential.account;
-      $password.text = oaCredential.password;
-    }
-    super.didChangeDependencies();
   }
 
   /// 用户点击登录按钮后
@@ -155,6 +145,13 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(CredentialsInit.storage.$oaCredentials, (pre, next) {
+      if (next != null) {
+        $account.text = next.account;
+        $password.text = next.password;
+      }
+    });
+
     return GestureDetector(
       onTap: () {
         // dismiss the keyboard when tap out of TextField.

@@ -1,37 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:sit/credentials/entity/user_type.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 
-class SchoolSettingsPage extends StatefulWidget {
+class SchoolSettingsPage extends ConsumerStatefulWidget {
   const SchoolSettingsPage({
     super.key,
   });
 
   @override
-  State<SchoolSettingsPage> createState() => _SchoolSettingsPageState();
+  ConsumerState<SchoolSettingsPage> createState() => _SchoolSettingsPageState();
 }
 
-class _SchoolSettingsPageState extends State<SchoolSettingsPage> {
-  OaUserType? userType;
-
-  @override
-  void didChangeDependencies() {
-    final auth = context.auth;
-    final newUserType = auth.userType;
-    if (userType != newUserType) {
-      setState(() {
-        userType = newUserType;
-      });
-    }
-    super.didChangeDependencies();
-  }
+class _SchoolSettingsPageState extends ConsumerState<SchoolSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final userType = ref.watch(CredentialsInit.storage.$oaUserType);
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
