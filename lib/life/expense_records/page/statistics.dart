@@ -55,23 +55,24 @@ final _startTime2Records = Provider.autoDispose((ref) {
 class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
   late int index = ref.read(_startTime2Records).length - 1;
   final controller = ScrollController();
-  var showTimeSpan = false;
+  final $showTimeSpan = ValueNotifier(false);
 
   @override
   void initState() {
     super.initState();
     controller.addListener(() {
       final pos = controller.positions.last;
+      final showTimeSpan = $showTimeSpan.value;
       if (pos.pixels > pos.minScrollExtent) {
         if (!showTimeSpan) {
           setState(() {
-            showTimeSpan = true;
+            $showTimeSpan.value = true;
           });
         }
       } else {
         if (showTimeSpan) {
           setState(() {
-            showTimeSpan = false;
+            $showTimeSpan.value = false;
           });
         }
       }
@@ -118,14 +119,15 @@ class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
           ],
         ),
         // ListView()
-        AnimatedSlide(
-          offset: showTimeSpan ? Offset.zero : const Offset(0, -2),
-          duration: Durations.long4,
-          child: AnimatedSwitcher(
-            duration: Durations.long4,
-            child: showTimeSpan ? buildHeader(current.start) : null,
-          ),
-        ).align(at: Alignment.topCenter),
+        $showTimeSpan >>
+            (ctx, showTimeSpan) => AnimatedSlide(
+                  offset: showTimeSpan ? Offset.zero : const Offset(0, -2),
+                  duration: Durations.long4,
+                  child: AnimatedSwitcher(
+                    duration: Durations.long4,
+                    child: showTimeSpan ? buildHeader(current.start) : null,
+                  ),
+                ).align(at: Alignment.topCenter),
       ].stack(),
     );
   }

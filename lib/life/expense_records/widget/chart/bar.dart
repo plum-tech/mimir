@@ -42,6 +42,8 @@ class _ExpenseBarChartState extends State<ExpenseBarChart> {
     );
     return [
       ExpenseBarChartHeader(
+        from: widget.start,
+        to: widget.mode.getAfterUnitTime(start: widget.start ,endLimit: DateTime.now()),
         total: delegate.total,
       ).padFromLTRB(16,8,0,8),
       AspectRatio(
@@ -297,17 +299,23 @@ class AmountChartWidget extends StatelessWidget {
 
 class ExpenseBarChartHeader extends StatelessWidget {
   final double total;
+  final DateTime from;
+  final DateTime to;
 
   const ExpenseBarChartHeader({
     super.key,
     required this.total,
+    required this.from,
+    required this.to,
   });
 
   @override
   Widget build(BuildContext context) {
+    final labelStyle = context.textTheme.titleMedium?.copyWith(color:context.theme.disabledColor);
     return [
-      "Total".text(style: context.textTheme.titleMedium?.copyWith(color:context.theme.disabledColor)),
+      "Total".text(style: labelStyle),
       "¥${total.toStringAsFixed(2)}".text(style: context.textTheme.titleLarge),
+      formatTimeSpan(from: from, to: to).text(style: labelStyle),
     ].column(caa: CrossAxisAlignment.start);
   }
 }

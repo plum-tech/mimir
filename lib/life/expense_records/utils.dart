@@ -152,7 +152,6 @@ String resolveTime4Display({
   required DateTime date,
 }) {
   final monthFormat = DateFormat.MMMM();
-  final monthDayFormat = DateFormat.Md();
   final yearMonthFormat = DateFormat.yMMMM();
   final yearFormat = DateFormat.y();
   final now = DateTime.now();
@@ -165,13 +164,9 @@ String resolveTime4Display({
           return "This week";
         } else if (dateWeek == nowWeek - 1) {
           return "Last week";
-        } else {
-          return "? week ${yearFormat.format(date)}";
-          // return "${monthDayFormat.format(date)}";
         }
-      } else {
-        return "? week ${yearFormat.format(date)}";
       }
+      return formatTimeSpan(from: date, to: StatisticsMode.week.getAfterUnitTime(start: date));
     case StatisticsMode.month:
       if (date.year == now.year) {
         if (date.month == now.month) {

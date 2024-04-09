@@ -1,3 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:sit/route.dart';
+
 bool isLeapYear(int year) {
   if (year % 400 == 0) return true;
   if (year % 4 == 0 && year % 100 != 0) return true;
@@ -73,5 +76,19 @@ String formatTimeSpan({
   required DateTime from,
   required DateTime to,
 }) {
-  return "";
+  final local = $Key.currentContext?.locale.toString();
+  final year = DateFormat.y(local);
+  if (from.year == to.year) {
+    final month = DateFormat.MMMM(local);
+    if (from.month == to.month) {
+      final day = DateFormat.d(local);
+      return "${day.format(from)}–${day.format(to)} ${month.format(from)}, ${year.format(from)}";
+    } else {
+      final monthDay = DateFormat.MMMMd(local);
+      return "${monthDay.format(from)}–${monthDay.format(to)}, ${year.format(from)}";
+    }
+  } else {
+    final yearMonthDay = DateFormat.yMMMMd(local);
+    return "${yearMonthDay.format(from)}–${yearMonthDay.format(to)}";
+  }
 }
