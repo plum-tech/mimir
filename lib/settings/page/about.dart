@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/list_tile.dart';
@@ -90,35 +91,19 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
   }
 }
 
-class VersionTile extends StatefulWidget {
+class VersionTile extends ConsumerStatefulWidget {
   const VersionTile({super.key});
 
   @override
-  State<VersionTile> createState() => _VersionTileState();
+  ConsumerState<VersionTile> createState() => _VersionTileState();
 }
 
-class _VersionTileState extends State<VersionTile> {
+class _VersionTileState extends ConsumerState<VersionTile> {
   int clickCount = 0;
-  final $isDeveloperMode = Dev.listenDevMode();
-
-  @override
-  void initState() {
-    super.initState();
-    $isDeveloperMode.addListener(refresh);
-  }
-
-  @override
-  void dispose() {
-    $isDeveloperMode.removeListener(refresh);
-    super.dispose();
-  }
-
-  void refresh() {
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
+    final devOn = ref.watch(Dev.$on) ?? false;
     final version = R.currentVersion;
     return ListTile(
       leading: switch (version.platform) {
@@ -132,15 +117,15 @@ class _VersionTileState extends State<VersionTile> {
       title: i18n.about.version.text(),
       subtitle: "${version.platform.name} ${version.version.toString()}".text(),
       trailing: kIsWeb ? null : const CheckUpdateButton(),
-      onTap: Dev.on && clickCount <= 10
+      onTap: devOn && clickCount <= 10
           ? null
           : () async {
-              if (Dev.on) return;
+              if (ref.read(Dev.$on) ?? false) return;
               clickCount++;
               if (clickCount >= 10) {
                 clickCount = 0;
-                Dev.on = true;
                 context.showSnackBar(content: i18n.dev.devModeActivateTip.text());
+                await ref.read(Dev.$on.notifier).set(true);
                 await HapticFeedback.mediumImpact();
               }
             },

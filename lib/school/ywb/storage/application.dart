@@ -24,6 +24,9 @@ class YwbApplicationStorage {
 
   Listenable listenApplicationListOf(YwbApplicationType type) => box.listenable(keys: [_K.applicationListOf(type)]);
 
-  late final $applicationFamily =
-      box.providerFamily<List<YwbApplication>, YwbApplicationType>(_K.applicationListOf, getApplicationListOf);
+  late final $applicationFamily = box.providerFamily<List<YwbApplication>, YwbApplicationType>(
+    _K.applicationListOf,
+    get: getApplicationListOf,
+    set: setApplicationListOf,
+  );
 }

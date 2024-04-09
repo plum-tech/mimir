@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/utils/hive.dart';
@@ -42,13 +41,13 @@ class SettingsImpl {
 
   set campus(Campus newV) => box.safePut(_K.campus, newV);
 
-  ValueListenable<Box> listenCampus() => box.listenable(keys: [_K.campus]);
+  late final $campus = box.provider<Campus>(_K.campus);
 
   bool get focusTimetable => box.safeGet(_K.focusTimetable) ?? false;
 
   set focusTimetable(bool newV) => box.safePut(_K.focusTimetable, newV);
 
-  ValueListenable<Box> listenFocusTimetable() => box.listenable(keys: [_K.focusTimetable]);
+  late final $focusTimetable = box.provider<bool>(_K.focusTimetable);
 
   String? get lastSignature => box.safeGet(_K.lastSignature);
 
@@ -69,7 +68,7 @@ class _ThemeK {
 class _Theme {
   final Box box;
 
-  const _Theme(this.box);
+  _Theme(this.box);
 
   // theme
   Color? get themeColor {
@@ -85,22 +84,24 @@ class _Theme {
     box.safePut(_ThemeK.themeColor, v?.value);
   }
 
+  late final $themeColor = box.provider<Color>(
+    _ThemeK.themeColor,
+    get: () => themeColor,
+    set: (v) => themeColor = v,
+  );
+
   bool get themeColorFromSystem => box.safeGet(_ThemeK.themeColorFromSystem) ?? true;
 
   set themeColorFromSystem(bool value) => box.safePut(_ThemeK.themeColorFromSystem, value);
+
+  late final $themeColorFromSystem = box.provider<bool>(_ThemeK.themeColorFromSystem);
 
   /// [ThemeMode.system] by default.
   ThemeMode get themeMode => box.safeGet(_ThemeK.themeMode) ?? ThemeMode.system;
 
   set themeMode(ThemeMode value) => box.safePut(_ThemeK.themeMode, value);
 
-  ValueListenable<Box> listenThemeMode() => box.listenable(keys: [_ThemeK.themeMode]);
-
-  ValueListenable<Box> listenThemeChange() => box.listenable(keys: [
-        _ThemeK.themeMode,
-        _ThemeK.themeColor,
-        _ThemeK.themeColorFromSystem,
-      ]);
+  late final $themeMode = box.provider<ThemeMode>(_ThemeK.themeMode);
 }
 
 enum ProxyType {

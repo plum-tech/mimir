@@ -26,7 +26,7 @@ extension BoxX on Box {
 class BoxFieldNotifier<T> extends StateNotifier<T?> {
   final Listenable listenable;
   final T? Function() get;
-  final Future<void> Function(T? v) set;
+  final FutureOr<void> Function(T? v) set;
 
   BoxFieldNotifier(super._state, this.listenable, this.get, this.set) {
     listenable.addListener(_refresh);
@@ -108,28 +108,33 @@ class BoxFieldStreamNotifier<T> extends StateNotifier<T?> {
 
 extension BoxProviderX on Box {
   /// For generic class, like [List] or [Map], please specify the [get] for type conversion.
-  AutoDisposeStateNotifierProvider<BoxFieldNotifier<T>, T?> provider<T>(dynamic key, [T? Function()? get]) {
+  AutoDisposeStateNotifierProvider<BoxFieldNotifier<T>, T?> provider<T>(
+    dynamic key, {
+    T? Function()? get,
+    FutureOr<void> Function(T? v)? set,
+  }) {
     return StateNotifierProvider.autoDispose<BoxFieldNotifier<T>, T?>((ref) {
       return BoxFieldNotifier(
         get?.call() ?? safeGet<T>(key),
         listenable(keys: [key]),
         () => get?.call() ?? safeGet<T>(key),
-        (v) => safePut<T>(key, v),
+        (v) => set?.call(v) ?? safePut<T>(key, v),
       );
     });
   }
 
   /// For generic class, like [List] or [Map], please specify the [get] for type conversion.
   AutoDisposeStateNotifierProviderFamily<BoxFieldNotifier<T>, T?, Arg> providerFamily<T, Arg>(
-    dynamic Function(Arg arg) keyOf,
-    T? Function(Arg arg) get,
-  ) {
+    dynamic Function(Arg arg) keyOf, {
+    T? Function(Arg arg)? get,
+    FutureOr<void> Function(Arg arg, T? v)? set,
+  }) {
     return StateNotifierProvider.autoDispose.family<BoxFieldNotifier<T>, T?, Arg>((ref, arg) {
       return BoxFieldNotifier(
-        get(arg),
+        get?.call(arg) ?? safeGet<T>(arg),
         listenable(keys: [keyOf(arg)]),
-        () => get(arg),
-        (v) => safePut<T>(keyOf(arg), v),
+        () => get?.call(arg) ?? safeGet<T>(arg),
+        (v) => set?.call(arg, v) ?? safePut<T>(arg, v),
       );
     });
   }

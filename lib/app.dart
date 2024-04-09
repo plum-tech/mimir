@@ -7,6 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:fit_system_screenshot/fit_system_screenshot.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/files.dart';
 import 'package:sit/qrcode/handle.dart';
@@ -19,28 +20,22 @@ import 'package:sit/update/utils.dart';
 import 'package:sit/utils/color.dart';
 import 'package:system_theme/system_theme.dart';
 
-class MimirApp extends StatefulWidget {
+class MimirApp extends ConsumerStatefulWidget {
   const MimirApp({super.key});
 
   @override
-  State<MimirApp> createState() => _MimirAppState();
+  ConsumerState<MimirApp> createState() => _MimirAppState();
 }
 
-class _MimirAppState extends State<MimirApp> {
-  final $theme = Settings.theme.listenThemeChange();
+class _MimirAppState extends ConsumerState<MimirApp> {
   final $routingConfig = ValueNotifier(
     Settings.focusTimetable ? buildTimetableFocusRouter() : buildCommonRoutingConfig(),
   );
-  final $focusMode = Settings.listenFocusTimetable();
-  final $demoMode = Dev.listenDemoMode();
   late final router = buildRouter($routingConfig);
 
   @override
   void initState() {
     super.initState();
-    $theme.addListener(refresh);
-    $demoMode.addListener(refresh);
-    $focusMode.addListener(refreshFocusMode);
     if (!kIsWeb) {
       fitSystemScreenshot.init();
     }
@@ -48,9 +43,6 @@ class _MimirAppState extends State<MimirApp> {
 
   @override
   void dispose() {
-    $theme.removeListener(refresh);
-    $demoMode.removeListener(refresh);
-    $focusMode.removeListener(refreshFocusMode);
     fitSystemScreenshot.release();
     super.dispose();
   }
@@ -64,19 +56,16 @@ class _MimirAppState extends State<MimirApp> {
     super.didChangeDependencies();
   }
 
-  void refresh() {
-    setState(() {});
-  }
-
-  void refreshFocusMode() {
-    $routingConfig.value = Settings.focusTimetable ? buildTimetableFocusRouter() : buildCommonRoutingConfig();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final themeColor = Settings.theme.themeColorFromSystem
+    final demoMode = ref.watch(Dev.$demoMode) ?? false;
+    final themeColorFromSystem = ref.watch(Settings.theme.$themeColorFromSystem) ?? true;
+    ref.listen(Settings.$focusTimetable, (pre, next) {
+      $routingConfig.value = next ?? false ? buildTimetableFocusRouter() : buildCommonRoutingConfig();
+    });
+    final themeColor = themeColorFromSystem
         ? SystemTheme.accentColor.maybeAccent
-        : Settings.theme.themeColor ?? SystemTheme.accentColor.maybeAccent;
+        : ref.watch(Settings.theme.$themeColor) ?? SystemTheme.accentColor.maybeAccent;
 
     ThemeData bakeTheme(ThemeData origin) {
       return origin.copyWith(
@@ -105,16 +94,17 @@ class _MimirAppState extends State<MimirApp> {
       title: R.appName,
       onGenerateTitle: (ctx) => "appName".tr(),
       routerConfig: router,
-      debugShowCheckedModeBanner: !Dev.demoMode,
+      debugShowCheckedModeBanner: !demoMode,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      themeMode: Settings.theme.themeMode,
+      themeMode: ref.watch(Settings.theme.$themeMode),
       theme: bakeTheme(ThemeData.light()),
       darkTheme: bakeTheme(ThemeData.dark()),
       builder: (ctx, child) => OaAuthManager(
         child: OaOnlineManager(
           child: _PostServiceRunner(
+            key: const ValueKey("Post service runner"),
             child: child ?? const SizedBox(),
           ),
         ),
@@ -136,6 +126,7 @@ class _PostServiceRunner extends StatefulWidget {
   final Widget child;
 
   const _PostServiceRunner({
+    super.key,
     required this.child,
   });
 

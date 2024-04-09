@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/widgets/oa_scope.dart';
@@ -22,32 +23,14 @@ import 'package:locale_names/locale_names.dart';
 import '../i18n.dart';
 import '../../design/widgets/navigation.dart';
 
-class SettingsPage extends StatefulWidget {
+class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({super.key});
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState();
+  ConsumerState<SettingsPage> createState() => _SettingsPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
-  final $isDeveloperMode = Dev.listenDevMode();
-
-  @override
-  void initState() {
-    super.initState();
-    $isDeveloperMode.addListener(refresh);
-  }
-
-  @override
-  void dispose() {
-    $isDeveloperMode.removeListener(refresh);
-    super.dispose();
-  }
-
-  void refresh() {
-    setState(() {});
-  }
-
+class _SettingsPageState extends ConsumerState<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   List<Widget> buildEntries() {
+    final devOn = ref.watch(Dev.$on) ?? false;
     final all = <Widget>[];
     final auth = context.auth;
     if (auth.loginStatus != LoginStatus.never) {
@@ -129,7 +113,7 @@ class _SettingsPageState extends State<SettingsPage> {
       }
       all.add(const Divider());
     }
-    if (Dev.on) {
+    if (devOn) {
       all.add(PageNavigationTile(
         title: i18n.dev.title.text(),
         leading: const Icon(Icons.developer_mode_outlined),
@@ -159,27 +143,27 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget buildThemeMode() {
-    return Settings.theme.listenThemeMode() >>
-        (ctx, _) => ListTile(
-              leading: switch (Settings.theme.themeMode) {
-                ThemeMode.dark => const Icon(Icons.dark_mode),
-                ThemeMode.light => const Icon(Icons.light_mode),
-                ThemeMode.system => const Icon(Icons.brightness_auto),
-              },
-              isThreeLine: true,
-              title: i18n.themeModeTitle.text(),
-              subtitle: ThemeMode.values
-                  .map((mode) => ChoiceChip(
-                        label: mode.l10n().text(),
-                        selected: Settings.theme.themeMode == mode,
-                        onSelected: (value) async {
-                          Settings.theme.themeMode = mode;
-                          await HapticFeedback.mediumImpact();
-                        },
-                      ))
-                  .toList()
-                  .wrap(spacing: 4),
-            );
+    final themeMode = ref.watch(Settings.theme.$themeMode) ?? ThemeMode.system;
+    return ListTile(
+      leading: switch (themeMode) {
+        ThemeMode.dark => const Icon(Icons.dark_mode),
+        ThemeMode.light => const Icon(Icons.light_mode),
+        ThemeMode.system => const Icon(Icons.brightness_auto),
+      },
+      isThreeLine: true,
+      title: i18n.themeModeTitle.text(),
+      subtitle: ThemeMode.values
+          .map((mode) => ChoiceChip(
+                label: mode.l10n().text(),
+                selected: Settings.theme.themeMode == mode,
+                onSelected: (value) async {
+                  ref.read(Settings.theme.$themeMode.notifier).set(mode);
+                  await HapticFeedback.mediumImpact();
+                },
+              ))
+          .toList()
+          .wrap(spacing: 4),
+    );
   }
 }
 

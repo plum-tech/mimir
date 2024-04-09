@@ -188,11 +188,11 @@ class HiveTable<T> {
   }
 
   AutoDisposeStateNotifierProviderFamily<BoxFieldNotifier<T>, T?, int> rowProviderFamily(int id) {
-    return box.providerFamily<T, int>(_rowK, get);
+    return box.providerFamily<T, int>(_rowK, get: get);
   }
 
   late final selectedRowProvider = box.provider<T>(
     _selectedIdK,
-    () => selectedRow,
+    get: () => selectedRow,
   );
 }

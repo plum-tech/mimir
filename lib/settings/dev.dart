@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:sit/credentials/entity/credential.dart';
@@ -26,14 +25,10 @@ class DevSettingsImpl {
 
   late final $on = box.provider<bool>(_K.on);
 
-  ValueListenable<Box> listenDevMode() => box.listenable(keys: [_K.on]);
-
   /// [false] by default.
   bool get demoMode => box.safeGet(_K.demoMode) ?? false;
 
   set demoMode(bool newV) => box.safePut(_K.demoMode, newV);
-
-  ValueListenable<Box> listenDemoMode() => box.listenable(keys: [_K.demoMode]);
 
   late final $demoMode = box.provider<bool>(_K.demoMode);
 
