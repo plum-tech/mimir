@@ -73,8 +73,8 @@ timetable:
       title: Show wallpaper
       desc: Show timetable wallpaper in the screenshot
   displayMode:
-    daily: Daily
-    weekly: Weekly
+    daily: D
+    weekly: W
   weekIndexType:
     all: Every
     odd: Odd
