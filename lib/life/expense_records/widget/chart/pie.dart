@@ -3,6 +3,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/animation/animated.dart';
 import 'package:statistics/statistics.dart';
 
 import '../../entity/local.dart';
@@ -40,7 +41,8 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
       ),
       buildLegends(parts).padAll(8).align(at: Alignment.topLeft),
       const Divider(),
-      ExpenseChartHeaderLabel("Summary").padFromLTRB(16, 8, 0, 0),
+      [
+        ExpenseChartHeaderLabel("Summary").padFromLTRB(16, 8, 0, 0),
       ...ascending.map((e) {
         final amounts = e.value.records.map((e) => e.deltaAmount).toList();
         return ExpenseAverageTile(
@@ -48,7 +50,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
           max: amounts.max,
           type: e.key,
         );
-      }),
+      })].column(caa: CrossAxisAlignment.start).animatedSized(),
     ].column(caa: CrossAxisAlignment.start);
   }
 
@@ -141,8 +143,8 @@ class ExpenseAverageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(type.icon, color: type.color),
-      title: "You average spent ¥${average.toStringAsFixed(2)} in ${type.l10n()}".text(),
-      subtitle: "With a max spend of ¥${max.toStringAsFixed(2)}".text(),
+      title: "Average spent ¥${average.toStringAsFixed(2)} in ${type.l10n()}".text(),
+      subtitle: "with a max spend of ¥${max.toStringAsFixed(2)}".text(),
     );
   }
 }

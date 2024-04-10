@@ -1,8 +1,8 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 extension AnimatedEx on Widget {
   Widget animatedSwitched({
-    Duration duration = const Duration(milliseconds: 500),
+    Duration duration = Durations.medium2,
     Curve? switchInCurve,
     Curve? switchOutCurve,
   }) =>
@@ -14,7 +14,7 @@ extension AnimatedEx on Widget {
       );
 
   Widget animatedSized({
-    Duration duration = const Duration(milliseconds: 500),
+    Duration duration = Durations.medium2,
     Alignment align = Alignment.center,
     Curve? curve,
   }) =>
