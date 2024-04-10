@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/life/expense_records/entity/statistics.dart';
 import 'package:sit/life/expense_records/storage/local.dart';
 import 'package:rettulf/rettulf.dart';
@@ -154,7 +153,7 @@ class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
   Widget buildHeader(DateTime start) {
     final startTime2Records = ref.watch(_startTime2Records);
     final mode = ref.watch(_statisticsMode);
-    return FilledCard(
+    return Card.filled(
       child: [
         PlatformIconButton(
           onPressed: index > 0

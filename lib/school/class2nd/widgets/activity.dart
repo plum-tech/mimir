@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/tags.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
@@ -21,8 +20,8 @@ class ActivityCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = context.textTheme;
     final (:title, :tags) = separateTagsFromTitle(activity.title);
-    return FilledCard(
-      clip: Clip.hardEdge,
+    return Card.filled(
+      clipBehavior: Clip.hardEdge,
       child: ListTile(
         isThreeLine: true,
         title: title.text(),

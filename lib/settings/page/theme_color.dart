@@ -2,7 +2,6 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/color.dart';
@@ -102,9 +101,9 @@ class _ThemeColorPageState extends State<ThemeColorPage> {
       title: i18n.themeColor.text(),
       subtitle: "#${themeColor.hexAlpha}".text(),
       onTap: selectNewThemeColor,
-      trailing: FilledCard(
+      trailing: Card.filled(
         color: fromSystem ? context.theme.disabledColor : themeColor,
-        clip: Clip.hardEdge,
+        clipBehavior: Clip.hardEdge,
         child: const SizedBox(
           width: 32,
           height: 32,
@@ -151,7 +150,7 @@ class ThemeColorPreview extends StatelessWidget {
           ),
         ),
       ),
-      FilledCard(
+      Card.filled(
           child: _PreviewTile(
         trailing: (v, f) => Switch.adaptive(
           value: v,

@@ -9,7 +9,6 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/entry_card.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/qrcode/page/view.dart';
@@ -406,13 +405,13 @@ class PaletteColorsPreview extends StatelessWidget {
     return colors
         .map((c) {
           final color = c.byBrightness(brightness);
-          return OutlinedCard(
+          return Card.outlined(
             color: brightness == Brightness.light ? Colors.black : Colors.white,
             margin: EdgeInsets.zero,
             child: TweenAnimationBuilder(
               tween: ColorTween(begin: color, end: color),
               duration: const Duration(milliseconds: 300),
-              builder: (ctx, value, child) => FilledCard(
+              builder: (ctx, value, child) => Card.filled(
                 margin: EdgeInsets.zero,
                 color: value,
                 child: const SizedBox(

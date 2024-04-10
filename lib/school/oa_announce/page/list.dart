@@ -4,7 +4,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/credentials/init.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 
 import 'package:sit/school/oa_announce/widget/tile.dart';
@@ -169,8 +168,8 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
               SliverList.builder(
                 itemCount: announcements.length,
                 itemBuilder: (ctx, index) {
-                  return FilledCard(
-                    clip: Clip.hardEdge,
+                  return Card.filled(
+                    clipBehavior: Clip.hardEdge,
                     child: OaAnnounceTile(announcements[index]),
                   );
                 },

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/school/widgets/course.dart';
@@ -25,8 +24,8 @@ class TimetableCourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FilledCard(
-      clip: Clip.hardEdge,
+    return Card.filled(
+      clipBehavior: Clip.hardEdge,
       color: color,
       child: AnimatedExpansionTile(
         leading: CourseIcon(courseName: courseName),

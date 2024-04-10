@@ -8,7 +8,6 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/timetable/page/preview.dart';
 import 'package:sit/timetable/platte.dart';
@@ -299,12 +298,12 @@ class PaletteColorBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final onEdit = this.onEdit;
     final textColor = color.resolveTextColorForReadability();
-    return OutlinedCard(
+    return Card.outlined(
       color: textColor,
       margin: EdgeInsets.zero,
-      child: FilledCard(
+      child: Card.filled(
         color: color,
-        clip: Clip.hardEdge,
+        clipBehavior: Clip.hardEdge,
         margin: EdgeInsets.zero,
         child: InkWell(
           onTap: onEdit == null

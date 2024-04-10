@@ -8,7 +8,6 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/files.dart';
 import 'package:sit/settings/dev.dart';
@@ -177,8 +176,8 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
   }
 
   Widget buildImage() {
-    return OutlinedCard(
-      clip: Clip.hardEdge,
+    return Card.outlined(
+      clipBehavior: Clip.hardEdge,
       child: buildPreviewBoxContent(),
     );
   }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/credentials/init.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/utils.dart';
@@ -84,7 +83,7 @@ class _ExamArrangementListPageState extends ConsumerState<ExamArrangementListPag
                 itemCount: examList.length,
                 itemBuilder: (ctx, i) {
                   final exam = examList[i];
-                  return FilledCard(
+                  return Card.filled(
                     child: ExamCardContent(
                       exam,
                       enableAddEvent: exam.time?.end.isAfter(now) ?? false,

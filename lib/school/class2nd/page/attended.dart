@@ -9,7 +9,6 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/animation/progress.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/widgets/list_tile.dart';
@@ -243,8 +242,8 @@ class AttendedActivityCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final (:title, :tags) = separateTagsFromTitle(attended.title);
     final points = attended.calcTotalPoints();
-    return FilledCard(
-      clip: Clip.hardEdge,
+    return Card.filled(
+      clipBehavior: Clip.hardEdge,
       child: ListTile(
           isThreeLine: true,
           title: title.text(),

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/dash_decoration.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/timetable/platte.dart';
@@ -162,7 +161,7 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
           grayOut: style.cellStyle.grayOutTakenLessons ? passed : false,
         );
         if (inClassNow) {
-          // cell = OutlinedCard(
+          // cell = Card.outlined(
           //   margin: const EdgeInsets.all(1),
           //   child: cell.padAll(1),
           // );
@@ -430,8 +429,8 @@ class CourseCell extends StatelessWidget {
       teachers: teachers,
       // textColor: color.resolveTextColorForReadability(),
     ).center();
-    return FilledCard(
-      clip: Clip.hardEdge,
+    return Card.filled(
+      clipBehavior: Clip.hardEdge,
       color: color,
       margin: EdgeInsets.all(0.5.w),
       child: innerBuilder != null ? innerBuilder(context, info) : info,

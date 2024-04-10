@@ -5,7 +5,6 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/school/entity/timetable.dart';
@@ -294,10 +293,10 @@ class LessonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FilledCard(
+    return Card.filled(
       margin: const EdgeInsets.all(8),
       color: color,
-      clip: Clip.hardEdge,
+      clipBehavior: Clip.hardEdge,
       child: ListTile(
         leading: CourseIcon(courseName: course.courseName),
         onTap: () async {
@@ -376,7 +375,7 @@ class LessonOverlapGroup extends StatelessWidget {
     }
     // [classTime] must be nonnull.
     // TODO: Color for class overlap.
-    return OutlinedCard(
+    return Card.outlined(
       child: [
         ClassTimeCard(
           color: TimetableStyle.of(context).platte.colors[0].byTheme(context.theme),
@@ -443,7 +442,7 @@ class ElevatedText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FilledCard(
+    return Card.filled(
       color: color,
       child: child.padAll(margin),
     );
