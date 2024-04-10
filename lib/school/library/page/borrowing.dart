@@ -138,6 +138,6 @@ class BorrowedBookCard extends StatelessWidget {
           ),
         );
       },
-    ).inAnyCard(clip: Clip.hardEdge, type: elevated ? CardType.plain : CardType.filled);
+    ).inAnyCard(clip: Clip.hardEdge, type: elevated ? CardVariant.elevated : CardVariant.filled);
   }
 }

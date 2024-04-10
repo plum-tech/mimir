@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+enum CardVariant {
+  elevated,
+  filled,
+  outlined;
+}
+
 extension WidgetCardX on Widget {
   Widget inOutlinedCard({
     Clip? clip,
@@ -21,27 +27,21 @@ extension WidgetCardX on Widget {
 
   Widget inAnyCard({
     Clip? clip,
-    CardType type = CardType.plain,
+    CardVariant type = CardVariant.elevated,
   }) {
     return switch (type) {
-      CardType.plain => Card(
+      CardVariant.elevated => Card(
           clipBehavior: clip,
           child: this,
         ),
-      CardType.filled => Card.filled(
+      CardVariant.filled => Card.filled(
           clipBehavior: clip,
           child: this,
         ),
-      CardType.outlined => Card.outlined(
+      CardVariant.outlined => Card.outlined(
           clipBehavior: clip,
           child: this,
         ),
     };
   }
-}
-
-enum CardType {
-  plain,
-  filled,
-  outlined;
 }

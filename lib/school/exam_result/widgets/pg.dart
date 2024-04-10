@@ -36,7 +36,7 @@ class ExamResultPgCard extends StatelessWidget {
         color: result.passed ? null : context.$red$,
       ),
       trailing: result.score.toString().text(),
-    ).inAnyCard(clip: Clip.hardEdge, type: elevated ? CardType.plain : CardType.filled);
+    ).inAnyCard(clip: Clip.hardEdge, type: elevated ? CardVariant.elevated : CardVariant.filled);
   }
 }
 
