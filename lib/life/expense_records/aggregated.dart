@@ -13,7 +13,7 @@ class ExpenseAggregated {
     }
     final storage = ExpenseRecordsInit.storage;
     final now = DateTime.now();
-    final start = now.copyWith(year: now.year - 4);
+    final start = now.copyWith(year: now.year - 6);
     final newlyFetched = await ExpenseRecordsInit.service.fetch(
       studentID: oaAccount,
       from: start,

@@ -141,12 +141,13 @@ class _DebugGoRouteTileState extends State<DebugGoRouteTile> {
       ),
       trailing: [
         $route >>
-            (ctx, route) => PlatformIconButton(
+                (ctx, route) =>
+                PlatformIconButton(
                   onPressed: route.text.isEmpty
                       ? null
                       : () {
-                          context.push(route.text);
-                        },
+                    context.push(route.text);
+                  },
                   icon: const Icon(Icons.arrow_forward),
                 )
       ].row(mas: MainAxisSize.min),
@@ -182,9 +183,9 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
       leading: const Icon(Icons.swap_horiz),
       trailing: isLoggingIn
           ? const Padding(
-              padding: EdgeInsets.all(8),
-              child: CircularProgressIndicator.adaptive(),
-            )
+        padding: EdgeInsets.all(8),
+        child: CircularProgressIndicator.adaptive(),
+      )
           : null,
       children: [
         ...credentialsList.map(buildCredentialsHistoryTile),
@@ -261,7 +262,11 @@ class DebugExpenseUserOverrideTile extends ConsumerWidget {
           desc: "OA account",
           initial: user ?? "",
         );
-        if (res == null || res.isEmpty) return;
+        if (res == null) return;
+        if (res.isEmpty) {
+          ref.read(Dev.$expenseUserOverride.notifier).set(null);
+          return;
+        }
         if (estimateOaUserType(res) == null) {
           if (!context.mounted) return;
           await context.showTip(
