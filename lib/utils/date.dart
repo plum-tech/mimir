@@ -62,6 +62,11 @@ int getWeek({
 
 extension DateTimeX on DateTime {
   int get week => getWeek(year: year, month: month, day: day);
+
+  int get calendarOrderWeekday {
+    final w = weekday;
+    return w == DateTime.sunday ? 0 : w;
+  }
 }
 
 DateTime getDateOfFirstDayInWeek({

@@ -108,13 +108,13 @@ class StatisticsDelegate {
   }) {
     final now = DateTime.now();
     final data = List.generate(
-      start.year == now.year && start.week == now.week ? now.weekday : 7,
+      start.year == now.year && start.week == now.week ? now.calendarOrderWeekday + 1 : 7,
       (i) => <Transaction>[],
     );
     for (final record in records) {
       // add data at the same weekday.
       // sunday goes first
-      data[record.timestamp.weekday == DateTime.sunday ? 0 : record.timestamp.weekday].add(record);
+      data[record.timestamp.calendarOrderWeekday].add(record);
     }
     final amounts = records.map((r) => r.deltaAmount).toList();
     final dayTotals =
