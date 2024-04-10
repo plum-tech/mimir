@@ -8,6 +8,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/route.dart';
 import 'package:sit/utils/date.dart';
+import 'package:sit/utils/format.dart';
 import 'package:statistics/statistics.dart';
 
 import '../../entity/local.dart';
@@ -212,7 +213,7 @@ class StatisticsDelegate {
   }
 
   static Widget _buildSideTitle(BuildContext ctx, double value, TitleMeta meta) {
-    String text = '¥${value.round()}';
+    String text = '¥${formatWithoutTrailingZeros(value)}';
     return SideTitleWidget(
       axisSide: meta.axisSide,
       child: Text(
@@ -249,7 +250,7 @@ class AmountChartWidget extends StatelessWidget {
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 50,
+              reservedSize: 60,
               getTitlesWidget: (v, meta) => delegate.side(context, v, meta),
             ),
           ),
