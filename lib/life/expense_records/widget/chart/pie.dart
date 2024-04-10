@@ -3,6 +3,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:statistics/statistics.dart';
 
 import '../../entity/local.dart';
 import "../../i18n.dart";
@@ -27,9 +28,8 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
   @override
   Widget build(BuildContext context) {
     assert(widget.records.every((type) => type.isConsume));
-    final (total:total, :parts) = separateTransactionByType(widget.records);
-    final ascending = parts.entries.sortedBy<num>((e) => e.value.total);
-    final atMost = ascending.last;
+    final (total: total, :parts) = separateTransactionByType(widget.records);
+    final ascending = parts.entries.sortedBy<num>((e) => e.value.total).reversed.toList();
     return [
       ExpensePieChartHeader(
         total: total,
@@ -39,6 +39,16 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
         child: buildChart(parts),
       ),
       buildLegends(parts).padAll(8).align(at: Alignment.topLeft),
+      const Divider(),
+      ExpenseChartHeaderLabel("Summary").padFromLTRB(16, 8, 0, 0),
+      ...ascending.map((e) {
+        final amounts = e.value.records.map((e) => e.deltaAmount).toList();
+        return ExpenseAverageTile(
+          average: amounts.mean,
+          max: amounts.max,
+          type: e.key,
+        );
+      }),
     ].column(caa: CrossAxisAlignment.start);
   }
 
@@ -114,22 +124,25 @@ class ExpensePieChartHeader extends StatelessWidget {
     );
   }
 }
-class ExpenseChart2Header extends StatelessWidget {
+
+class ExpenseAverageTile extends StatelessWidget {
   final TransactionType type;
   final double average;
+  final double max;
 
-  const ExpenseChart2Header({
+  const ExpenseAverageTile({
     super.key,
     required this.type,
     required this.average,
+    required this.max,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ExpenseChartHeader(
-      upper: "Average expenses",
-      content: "¥${average.toStringAsFixed(2)}",
-      lower: "in ${type.l10n()}",
+    return ListTile(
+      leading: Icon(type.icon, color: type.color),
+      title: "You average spent ¥${average.toStringAsFixed(2)} in ${type.l10n()}".text(),
+      subtitle: "With a max spend of ¥${max.toStringAsFixed(2)}".text(),
     );
   }
 }

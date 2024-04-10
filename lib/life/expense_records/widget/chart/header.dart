@@ -15,11 +15,25 @@ class ExpenseChartHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final labelStyle = context.textTheme.titleMedium?.copyWith(color: context.theme.disabledColor);
     return [
-      upper.text(style: labelStyle),
+      ExpenseChartHeaderLabel(upper),
       content.text(style: context.textTheme.titleLarge),
-      if(lower != null) lower!.text(style: labelStyle),
+      if (lower != null) ExpenseChartHeaderLabel(lower!),
     ].column(caa: CrossAxisAlignment.start);
+  }
+}
+
+class ExpenseChartHeaderLabel extends StatelessWidget {
+  final String text;
+
+  const ExpenseChartHeaderLabel(
+    this.text, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final style = context.textTheme.titleMedium?.copyWith(color: context.theme.disabledColor);
+    return text.text(style: style);
   }
 }

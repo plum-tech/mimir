@@ -269,7 +269,7 @@ class AmountChartWidget extends StatelessWidget {
                   show: true,
                   alignment: Alignment.bottomRight,
                   style: context.textTheme.labelSmall,
-                  labelResolver: (line) => "¥${line.y.toStringAsFixed(2)}",
+                  labelResolver: (line) => "avg",
                 ),
                 y: delegate.average,
                 strokeWidth: 3,
