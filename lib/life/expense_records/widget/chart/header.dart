@@ -4,13 +4,13 @@ import 'package:rettulf/rettulf.dart';
 class ExpenseChartHeader extends StatelessWidget {
   final String upper;
   final String content;
-  final String lower;
+  final String? lower;
 
   const ExpenseChartHeader({
     super.key,
     required this.upper,
     required this.content,
-    required this.lower,
+    this.lower,
   });
 
   @override
@@ -19,7 +19,7 @@ class ExpenseChartHeader extends StatelessWidget {
     return [
       upper.text(style: labelStyle),
       content.text(style: context.textTheme.titleLarge),
-      lower.text(style: labelStyle),
+      if(lower != null) lower!.text(style: labelStyle),
     ].column(caa: CrossAxisAlignment.start);
   }
 }

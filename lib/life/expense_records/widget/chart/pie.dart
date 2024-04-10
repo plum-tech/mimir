@@ -27,13 +27,12 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
   @override
   Widget build(BuildContext context) {
     assert(widget.records.every((type) => type.isConsume));
-    final (total: _, :parts) = separateTransactionByType(widget.records);
+    final (total:total, :parts) = separateTransactionByType(widget.records);
     final ascending = parts.entries.sortedBy<num>((e) => e.value.total);
     final atMost = ascending.last;
     return [
       ExpensePieChartHeader(
-        average: atMost.value.total / atMost.value.records.length,
-        type: atMost.key,
+        total: total,
       ).padFromLTRB(16, 8, 0, 0),
       AspectRatio(
         aspectRatio: 1.5,
@@ -100,10 +99,26 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
 }
 
 class ExpensePieChartHeader extends StatelessWidget {
+  final double total;
+
+  const ExpensePieChartHeader({
+    super.key,
+    required this.total,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpenseChartHeader(
+      upper: "Total",
+      content: "¥${total.toStringAsFixed(2)}",
+    );
+  }
+}
+class ExpenseChart2Header extends StatelessWidget {
   final TransactionType type;
   final double average;
 
-  const ExpensePieChartHeader({
+  const ExpenseChart2Header({
     super.key,
     required this.type,
     required this.average,

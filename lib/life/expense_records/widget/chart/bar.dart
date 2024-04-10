@@ -42,11 +42,7 @@ class _ExpenseBarChartState extends State<ExpenseBarChart> {
       records: widget.records,
     );
     return [
-      ExpenseBarChartHeader(
-        from: widget.start,
-        to: widget.mode.getAfterUnitTime(start: widget.start, endLimit: DateTime.now()),
-        total: delegate.total,
-      ).padFromLTRB(16, 8, 0, 8),
+      buildChartHeader(delegate).padFromLTRB(16, 8, 0, 8),
       AspectRatio(
         aspectRatio: 1.5,
         child: AmountChartWidget(
@@ -54,6 +50,23 @@ class _ExpenseBarChartState extends State<ExpenseBarChart> {
         ).padSymmetric(v: 12, h: 8),
       ),
     ].column(caa: CrossAxisAlignment.start);
+  }
+
+  Widget buildChartHeader(StatisticsDelegate delegate) {
+    final from = widget.start;
+    final to = widget.mode.getAfterUnitTime(start: widget.start, endLimit: DateTime.now());
+    return switch (widget.mode) {
+      StatisticsMode.year => ExpenseChartHeader(
+          upper: "Monthly average",
+          content: "¥${delegate.average.toStringAsFixed(2)}",
+          lower: formatDateSpan(from: from, to: to),
+        ),
+      StatisticsMode.week || StatisticsMode.month => ExpenseChartHeader(
+          upper: "Daily average",
+          content: "¥${delegate.average.toStringAsFixed(2)}",
+          lower: formatDateSpan(from: from, to: to),
+        ),
+    };
   }
 }
 
@@ -104,11 +117,13 @@ class StatisticsDelegate {
       data[record.timestamp.weekday == DateTime.sunday ? 0 : record.timestamp.weekday].add(record);
     }
     final amounts = records.map((r) => r.deltaAmount).toList();
+    final dayTotals =
+        data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).where((total) => total > 0).toList();
     return StatisticsDelegate(
       mode: StatisticsMode.week,
       data: data,
       side: _buildSideTitle,
-      average: amounts.isEmpty ? double.infinity : amounts.mean,
+      average: dayTotals.isEmpty ? 0.0 : dayTotals.mean,
       total: amounts.sum,
       bottom: (ctx, value, mate) {
         final index = value.toInt();
@@ -137,11 +152,13 @@ class StatisticsDelegate {
       data[record.timestamp.day - 1].add(record);
     }
     final amounts = records.map((r) => r.deltaAmount).toList();
+    final dayTotals =
+        data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).where((total) => total > 0).toList();
     final sep = data.length ~/ 5;
     return StatisticsDelegate(
       mode: StatisticsMode.week,
       data: data,
-      average: amounts.isEmpty ? double.infinity : amounts.mean,
+      average: dayTotals.isEmpty ? 0.0 : dayTotals.mean,
       total: amounts.sum,
       side: _buildSideTitle,
       bottom: (ctx, value, meta) {
@@ -172,10 +189,12 @@ class StatisticsDelegate {
       data[record.timestamp.month - 1].add(record);
     }
     final amounts = records.map((r) => r.deltaAmount).toList();
+    final monthTotals =
+        data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).where((total) => total > 0).toList();
     return StatisticsDelegate(
       mode: StatisticsMode.week,
       data: data,
-      average: amounts.isEmpty ? double.infinity : amounts.mean,
+      average: monthTotals.isEmpty ? 0.0 : monthTotals.mean,
       total: amounts.sum,
       side: _buildSideTitle,
       bottom: (ctx, value, mate) {
@@ -297,24 +316,3 @@ class AmountChartWidget extends StatelessWidget {
   }
 }
 
-class ExpenseBarChartHeader extends StatelessWidget {
-  final double total;
-  final DateTime from;
-  final DateTime to;
-
-  const ExpenseBarChartHeader({
-    super.key,
-    required this.total,
-    required this.from,
-    required this.to,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ExpenseChartHeader(
-      upper: "Total",
-      content: "¥${total.toStringAsFixed(2)}",
-      lower: formatDateSpan(from: from, to: to),
-    );
-  }
-}
