@@ -222,7 +222,7 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
     final isGroupNoneSelected = intersection.isEmpty;
     final isGroupAllSelected = intersection.length == indicesOfGroup.length;
     return GroupedSection(
-        headerBuilder: (expanded, toggleExpand, defaultTrailing) {
+        headerBuilder: (context, expanded, toggleExpand, defaultTrailing) {
           return ListTile(
             leading: Icon(expanded ? Icons.expand_less : Icons.expand_more),
             title: widget.semester.l10n().text(),

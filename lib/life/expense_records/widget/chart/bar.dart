@@ -1,32 +1,20 @@
-import 'dart:math';
-
-import 'package:collection/collection.dart' hide IterableDoubleExtension;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/l10n/time.dart';
-import 'package:sit/route.dart';
 import 'package:sit/utils/date.dart';
-import 'package:sit/utils/format.dart';
-import 'package:statistics/statistics.dart';
 
-import '../../entity/local.dart';
 import '../../entity/statistics.dart';
-import "../../i18n.dart";
 import '../../utils.dart';
+import 'delegate.dart';
 import 'header.dart';
 
 class ExpenseBarChart extends StatefulWidget {
-  final DateTime start;
-  final StatisticsMode mode;
-  final List<Transaction> records;
+  final StatisticsDelegate delegate;
 
   const ExpenseBarChart({
     super.key,
-    required this.start,
-    required this.records,
-    required this.mode,
+    required this.delegate,
   });
 
   @override
@@ -34,16 +22,13 @@ class ExpenseBarChart extends StatefulWidget {
 }
 
 class _ExpenseBarChartState extends State<ExpenseBarChart> {
+  StatisticsDelegate get delegate => widget.delegate;
+  DateTime get start => delegate.start;
+  StatisticsMode get mode => delegate.mode;
   @override
   Widget build(BuildContext context) {
-    assert(widget.records.every((type) => type.isConsume));
-    final delegate = StatisticsDelegate.byMode(
-      widget.mode,
-      start: widget.start,
-      records: widget.records,
-    );
     return [
-      buildChartHeader(delegate).padFromLTRB(16, 8, 0, 8),
+      buildChartHeader().padFromLTRB(16, 8, 0, 8),
       AspectRatio(
         aspectRatio: 1.5,
         child: AmountChartWidget(
@@ -53,10 +38,10 @@ class _ExpenseBarChartState extends State<ExpenseBarChart> {
     ].column(caa: CrossAxisAlignment.start);
   }
 
-  Widget buildChartHeader(StatisticsDelegate delegate) {
-    final from = widget.start;
-    final to = widget.mode.getAfterUnitTime(start: widget.start, endLimit: DateTime.now());
-    return switch (widget.mode) {
+  Widget buildChartHeader() {
+    final from = start;
+    final to = mode.getAfterUnitTime(start: start, endLimit: DateTime.now());
+    return switch (mode) {
       StatisticsMode.year => ExpenseChartHeader(
           upper: "Monthly average",
           content: "¥${delegate.average.toStringAsFixed(2)}",
@@ -68,159 +53,6 @@ class _ExpenseBarChartState extends State<ExpenseBarChart> {
           lower: formatDateSpan(from: from, to: to),
         ),
     };
-  }
-}
-
-class StatisticsDelegate {
-  final List<List<Transaction>> data;
-  final double average;
-  final double total;
-  final StatisticsMode mode;
-  final Widget Function(BuildContext context, double value, TitleMeta meta) side;
-  final Widget Function(BuildContext context, double value, TitleMeta meta) bottom;
-
-  const StatisticsDelegate({
-    required this.mode,
-    required this.data,
-    required this.average,
-    required this.total,
-    required this.side,
-    required this.bottom,
-  });
-
-  factory StatisticsDelegate.byMode(
-    StatisticsMode mode, {
-    required DateTime start,
-    required List<Transaction> records,
-  }) {
-    switch (mode) {
-      case StatisticsMode.week:
-        return StatisticsDelegate.week(start: start, records: records);
-      case StatisticsMode.month:
-        return StatisticsDelegate.month(start: start, records: records);
-      case StatisticsMode.year:
-        return StatisticsDelegate.year(start: start, records: records);
-    }
-  }
-
-  factory StatisticsDelegate.week({
-    required DateTime start,
-    required List<Transaction> records,
-  }) {
-    final now = DateTime.now();
-    final data = List.generate(
-      start.year == now.year && start.week == now.week ? now.calendarOrderWeekday + 1 : 7,
-      (i) => <Transaction>[],
-    );
-    for (final record in records) {
-      // add data at the same weekday.
-      // sunday goes first
-      data[record.timestamp.calendarOrderWeekday].add(record);
-    }
-    final amounts = records.map((r) => r.deltaAmount).toList();
-    final dayTotals =
-        data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).where((total) => total > 0).toList();
-    return StatisticsDelegate(
-      mode: StatisticsMode.week,
-      data: data,
-      side: _buildSideTitle,
-      average: dayTotals.isEmpty ? 0.0 : dayTotals.mean,
-      total: amounts.sum,
-      bottom: (ctx, value, mate) {
-        final index = value.toInt();
-        return SideTitleWidget(
-          axisSide: mate.axisSide,
-          child: Text(
-            style: ctx.textTheme.labelMedium,
-            Weekday.calendarOrder[index].l10nShort(),
-          ),
-        );
-      },
-    );
-  }
-
-  factory StatisticsDelegate.month({
-    required DateTime start,
-    required List<Transaction> records,
-  }) {
-    final now = DateTime.now();
-    final data = List.generate(
-      start.year == now.year && start.month == now.month ? now.day : daysInMonth(year: start.year, month: start.month),
-      (i) => <Transaction>[],
-    );
-    for (final record in records) {
-      // add data on the same day.
-      data[record.timestamp.day - 1].add(record);
-    }
-    final amounts = records.map((r) => r.deltaAmount).toList();
-    final dayTotals =
-        data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).where((total) => total > 0).toList();
-    final sep = data.length ~/ 5;
-    return StatisticsDelegate(
-      mode: StatisticsMode.week,
-      data: data,
-      average: dayTotals.isEmpty ? 0.0 : dayTotals.mean,
-      total: amounts.sum,
-      side: _buildSideTitle,
-      bottom: (ctx, value, meta) {
-        final index = value.toInt();
-        if (!(index == 0 || index == data.length - 1) && index % sep != 0) {
-          return const SizedBox();
-        }
-        return SideTitleWidget(
-          axisSide: meta.axisSide,
-          child: Text(
-            style: ctx.textTheme.labelMedium,
-            "${index + 1}",
-          ),
-        );
-      },
-    );
-  }
-
-  factory StatisticsDelegate.year({
-    required DateTime start,
-    required List<Transaction> records,
-  }) {
-    final _monthFormat = DateFormat.MMM($Key.currentContext!.locale.toString());
-    final now = DateTime.now();
-    final data = List.generate(start.year == now.year ? now.month : 12, (i) => <Transaction>[]);
-    for (final record in records) {
-      // add data in the same month.
-      data[record.timestamp.month - 1].add(record);
-    }
-    final amounts = records.map((r) => r.deltaAmount).toList();
-    final monthTotals =
-        data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).where((total) => total > 0).toList();
-    return StatisticsDelegate(
-      mode: StatisticsMode.week,
-      data: data,
-      average: monthTotals.isEmpty ? 0.0 : monthTotals.mean,
-      total: amounts.sum,
-      side: _buildSideTitle,
-      bottom: (ctx, value, mate) {
-        final index = value.toInt();
-        final text = _monthFormat.format(DateTime(0, index + 1));
-        return SideTitleWidget(
-          axisSide: mate.axisSide,
-          child: Text(
-            style: ctx.textTheme.labelMedium,
-            text.substring(0, min(3, text.length)),
-          ),
-        );
-      },
-    );
-  }
-
-  static Widget _buildSideTitle(BuildContext ctx, double value, TitleMeta meta) {
-    String text = '¥${formatWithoutTrailingZeros(value)}';
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: Text(
-        style: ctx.textTheme.labelMedium,
-        text,
-      ),
-    );
   }
 }
 
@@ -292,14 +124,14 @@ class AmountChartWidget extends StatelessWidget {
         ),
         groupsSpace: 40,
         barGroups: delegate.data.mapIndexed((i, records) {
-          final (:total, :parts) = statisticsTransactionByType(records);
+          final (:total, :type2Stats) = statisticsTransactionByType(records);
           var c = 0.0;
           return BarChartGroupData(
             x: i,
             barRods: [
               BarChartRodData(
                 toY: total,
-                rodStackItems: parts.entries.map((e) {
+                rodStackItems: type2Stats.entries.map((e) {
                   final res = BarChartRodStackItem(
                     c,
                     c + e.value.total,

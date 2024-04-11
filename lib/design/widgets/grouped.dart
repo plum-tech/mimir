@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 typedef HeaderBuilder = Widget Function(
+  BuildContext context,
   bool expanded,
   VoidCallback toggleExpand,
   Widget defaultTrailing,
@@ -37,6 +38,7 @@ class _GroupedSectionState extends State<GroupedSection> {
           child: Card(
             clipBehavior: Clip.hardEdge,
             child: widget.headerBuilder(
+              context,
               expanded,
               () {
                 setState(() {

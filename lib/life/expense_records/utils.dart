@@ -130,7 +130,7 @@ double accumulateTransactionAmount(List<Transaction> transactions) {
   return total;
 }
 
-({double total, Map<TransactionType, ({double proportion, List<Transaction> records, double total})> parts})
+({double total, Map<TransactionType, ({double proportion, List<Transaction> records, double total})> type2Stats})
     statisticsTransactionByType(
   List<Transaction> records,
 ) {
@@ -139,7 +139,7 @@ double accumulateTransactionAmount(List<Transaction> transactions) {
   final total = type2total.values.sum;
   return (
     total: total,
-    parts: type2transactions.map((type, records) {
+  type2Stats: type2transactions.map((type, records) {
       final (income: _, :outcome) = accumulateTransactionIncomeOutcome(records);
       return MapEntry(type, (records: records, total: outcome, proportion: (type2total[type] ?? 0) / total));
     })

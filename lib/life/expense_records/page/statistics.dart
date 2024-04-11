@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/animation/animated.dart';
+import 'package:sit/design/widgets/grouped.dart';
 import 'package:sit/life/expense_records/entity/statistics.dart';
 import 'package:sit/life/expense_records/storage/local.dart';
 import 'package:rettulf/rettulf.dart';
@@ -15,6 +15,7 @@ import '../entity/local.dart';
 import '../i18n.dart';
 import '../init.dart';
 import '../widget/chart/bar.dart';
+import '../widget/chart/delegate.dart';
 import '../widget/chart/header.dart';
 import '../widget/chart/pie.dart';
 import '../widget/transaction.dart';
@@ -95,29 +96,31 @@ class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
       });
     });
     final current = startTime2Records.indexAt(index);
+    assert(current.records.every((type) => type.isConsume));
     final type2Records = current.records.groupListsBy((r) => r.type).entries.toList();
+    final delegate = StatisticsDelegate.byMode(
+      mode,
+      start: current.start,
+      records: current.records,
+    );
     return Scaffold(
       appBar: AppBar(
         title: i18n.stats.title.text(),
       ),
       body: [
-        ListView(
+        CustomScrollView(
           controller: controller,
           physics: const AlwaysScrollableScrollPhysics(),
-          children: [
-            buildModeSelector(mode).padSymmetric(h: 16, v: 4),
-            ExpenseBarChart(
-              start: current.start,
-              records: current.records,
-              mode: mode,
-            ),
-            const Divider(),
-            ExpensePieChart(records: current.records),
-            const Divider(),
-            ExpenseChartHeaderLabel("Summary").padFromLTRB(16, 8, 0, 0),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
+          slivers: [
+            SliverList.list(children: [
+              buildModeSelector(mode).padSymmetric(h: 16, v: 4),
+              ExpenseBarChart(delegate: delegate),
+              const Divider(),
+              ExpensePieChart(delegate: delegate),
+              const Divider(),
+              ExpenseChartHeaderLabel("Summary").padFromLTRB(16, 8, 0, 0),
+            ]),
+            SliverList.builder(
               itemCount: type2Records.length,
               itemBuilder: (ctx, i) {
                 final e = type2Records[i];
@@ -129,19 +132,26 @@ class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
                 );
               },
             ),
-            const Divider(),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: current.records.length,
-              itemBuilder: (ctx, i) {
-                final record = current.records[i];
-                return TransactionTile(record);
-              },
-            ),
+            SliverList.list(children: [
+              const Divider(),
+              ExpenseChartHeaderLabel("Details").padFromLTRB(16, 8, 0, 0),
+            ]),
+            ...startTime2Records.map((e){
+              return GroupedSection(
+                headerBuilder: (context,expanded, toggleExpand, defaultTrailing) {
+                  return ListTile(
+
+                  );
+                },
+                itemCount: e.records.length,
+                itemBuilder: (ctx, i) {
+                  final record = e.records[i];
+                  return TransactionTile(record);
+                },
+              );
+            }),
           ],
         ),
-        // ListView()
         $showTimeSpan >>
             (ctx, showTimeSpan) => AnimatedSlide(
                   offset: showTimeSpan ? Offset.zero : const Offset(0, -2),

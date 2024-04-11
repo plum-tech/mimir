@@ -3,20 +3,19 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/animation/animated.dart';
-import 'package:statistics/statistics.dart';
 
 import '../../entity/local.dart';
+import '../../entity/statistics.dart';
 import "../../i18n.dart";
-import '../../utils.dart';
+import 'delegate.dart';
 import 'header.dart';
 
 class ExpensePieChart extends StatefulWidget {
-  final List<Transaction> records;
+  final StatisticsDelegate delegate;
 
   const ExpensePieChart({
     super.key,
-    required this.records,
+    required this.delegate,
   });
 
   @override
@@ -25,24 +24,24 @@ class ExpensePieChart extends StatefulWidget {
 
 class _ExpensePieChartState extends State<ExpensePieChart> {
   int touchedIndex = -1;
-
+  StatisticsDelegate get delegate => widget.delegate;
+  DateTime get start => delegate.start;
+  StatisticsMode get mode => delegate.mode;
   @override
   Widget build(BuildContext context) {
-    assert(widget.records.every((type) => type.isConsume));
-    final (:total, :parts) = statisticsTransactionByType(widget.records);
     return [
       ExpensePieChartHeader(
-        total: total,
+        total: delegate.total,
       ).padFromLTRB(16, 8, 0, 0),
       AspectRatio(
         aspectRatio: 1.5,
-        child: buildChart(parts),
+        child: buildChart(),
       ),
-      buildLegends(parts).padAll(8).align(at: Alignment.topLeft),
+      buildLegends().padAll(8).align(at: Alignment.topLeft),
     ].column(caa: CrossAxisAlignment.start);
   }
 
-  Widget buildChart(Map<TransactionType, ({double proportion, List<Transaction> records, double total})> parts) {
+  Widget buildChart() {
     return PieChart(
       PieChartData(
         pieTouchData: PieTouchData(
@@ -63,7 +62,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
         ),
         sectionsSpace: 0,
         centerSpaceRadius: 60,
-        sections: parts.entries.mapIndexed((i, entry) {
+        sections: delegate.type2Stats.entries.mapIndexed((i, entry) {
           final isTouched = i == touchedIndex;
           final MapEntry(key: type, value: (records: _, :total, :proportion)) = entry;
           final color = type.color.harmonizeWith(context.colorScheme.primary);
@@ -81,8 +80,8 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
     );
   }
 
-  Widget buildLegends(Map<TransactionType, ({double proportion, List<Transaction> records, double total})> parts) {
-    return parts.entries
+  Widget buildLegends() {
+    return delegate.type2Stats.entries
         .sortedBy<num>((e) => -e.value.total)
         .map((record) {
           final MapEntry(key: type, value: (records: _, :total, proportion: _)) = record;
