@@ -439,7 +439,7 @@ expenseRecords:
   stats:
     title: Statistics
     total: Total
-    summery: Summery
+    summary: Summary
     details: Details
     averageSpendIn: "Average spent {amount} in {type}"
     maxSpendOf: "with a max spend of {amount}"
