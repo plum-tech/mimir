@@ -7,6 +7,7 @@ import 'package:sit/utils/date.dart';
 
 import '../../entity/statistics.dart';
 import '../../utils.dart';
+import "../../i18n.dart";
 import 'delegate.dart';
 import 'header.dart';
 
@@ -24,8 +25,11 @@ class ExpenseBarChart extends StatefulWidget {
 
 class _ExpenseBarChartState extends State<ExpenseBarChart> {
   StatisticsDelegate get delegate => widget.delegate;
+
   DateTime get start => delegate.start;
+
   StatisticsMode get mode => delegate.mode;
+
   @override
   Widget build(BuildContext context) {
     return [
@@ -44,17 +48,17 @@ class _ExpenseBarChartState extends State<ExpenseBarChart> {
     final to = mode.getAfterUnitTime(start: start, endLimit: DateTime.now());
     return switch (mode) {
       StatisticsMode.day => ExpenseChartHeader(
-        upper: "Hourly average",
-        content: "¥${delegate.average.toStringAsFixed(2)}",
-        lower: DateFormat.yMMMMd().format(from),
-      ),
+          upper: i18n.stats.hourlyAverage,
+          content: "¥${delegate.average.toStringAsFixed(2)}",
+          lower: DateFormat.yMMMMd().format(from),
+        ),
       StatisticsMode.year => ExpenseChartHeader(
-          upper: "Monthly average",
+          upper: i18n.stats.monthlyAverage,
           content: "¥${delegate.average.toStringAsFixed(2)}",
           lower: formatDateSpan(from: from, to: to),
         ),
       StatisticsMode.week || StatisticsMode.month => ExpenseChartHeader(
-          upper: "Daily average",
+          upper: i18n.stats.dailyAverage,
           content: "¥${delegate.average.toStringAsFixed(2)}",
           lower: formatDateSpan(from: from, to: to),
         ),
@@ -107,7 +111,7 @@ class AmountChartWidget extends StatelessWidget {
                   show: true,
                   alignment: Alignment.bottomRight,
                   style: context.textTheme.labelSmall,
-                  labelResolver: (line) => "avg",
+                  labelResolver: (line) => i18n.stats.averageLineLabel,
                 ),
                 y: delegate.average,
                 strokeWidth: 3,
@@ -154,4 +158,3 @@ class AmountChartWidget extends StatelessWidget {
     );
   }
 }
-

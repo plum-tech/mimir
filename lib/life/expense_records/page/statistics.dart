@@ -119,7 +119,7 @@ class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
               const Divider(),
               ExpensePieChart(delegate: delegate),
               const Divider(),
-              ExpenseChartHeaderLabel("Summary").padFromLTRB(16, 8, 0, 0),
+              ExpenseChartHeaderLabel(i18n.stats.summary).padFromLTRB(16, 8, 0, 0),
             ]),
             SliverList.builder(
               itemCount: type2Records.length,
@@ -135,7 +135,7 @@ class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
             ),
             SliverList.list(children: [
               const Divider(),
-              ExpenseChartHeaderLabel("Details").padFromLTRB(16, 8, 0, 0),
+              ExpenseChartHeaderLabel(i18n.stats.details).padFromLTRB(16, 8, 0, 0),
             ]),
             if (mode != StatisticsMode.day)
               ...mode.downgrade.resort(current.records).map((e) {

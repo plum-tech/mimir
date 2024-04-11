@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:sit/l10n/extension.dart';
 import 'package:sit/life/expense_records/entity/local.dart';
 
 import 'package:sit/school/utils.dart';
@@ -10,6 +9,7 @@ import 'package:sit/utils/date.dart';
 
 import 'entity/remote.dart';
 import 'entity/statistics.dart';
+import 'i18n.dart';
 
 const deviceName2Type = {
   '开水': TransactionType.water,
@@ -156,9 +156,9 @@ String resolveTime4Display({
     case StatisticsMode.day:
       final dayDiff = now.difference(date).inDays;
       if (dayDiff == 0) {
-        return "Today";
+        return i18n.stats.today;
       } else if (dayDiff == 1) {
-        return "Yesterday";
+        return i18n.stats.yesterday;
       }
       return formatDateSpan(from: date, to: StatisticsMode.day.getAfterUnitTime(start: date));
     case StatisticsMode.week:
@@ -166,9 +166,9 @@ String resolveTime4Display({
         final nowWeek = now.week;
         final dateWeek = date.week;
         if (dateWeek == nowWeek) {
-          return "This week";
+          return i18n.stats.thisWeek;
         } else if (dateWeek == nowWeek - 1) {
-          return "Last week";
+          return i18n.stats.lastWeek;
         }
       }
       return formatDateSpan(from: date, to: StatisticsMode.week.getAfterUnitTime(start: date));
@@ -177,9 +177,9 @@ String resolveTime4Display({
       final monthFormat = DateFormat.MMMM();
       if (date.year == now.year) {
         if (date.month == now.month) {
-          return "This month";
+          return i18n.stats.thisMonth;
         } else if (date.month == now.month - 1) {
-          return "Last month";
+          return i18n.stats.thisMonth;
         } else {
           return monthFormat.format(date);
         }
@@ -189,9 +189,9 @@ String resolveTime4Display({
     case StatisticsMode.year:
       final yearFormat = DateFormat.y();
       if (date.year == now.year) {
-        return "This year";
+        return i18n.stats.thisYear;
       } else if (date.year == now.year - 1) {
-        return "Last year";
+        return i18n.stats.lastYear;
       } else {
         return yearFormat.format(date);
       }

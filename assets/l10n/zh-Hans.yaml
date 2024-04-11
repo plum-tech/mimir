@@ -435,8 +435,23 @@ expenseRecords:
     rmb: 元
   stats:
     title: 消费统计
-    categories: 消费名目
     total: 总计
+    summary: 摘要
+    details: 详情
+    averageSpendIn: "在 {type} 上平均消费 {amount}"
+    maxSpendOf: "最大消费为 {amount}"
+    averageLineLabel: 平均
+    hourlyAverage: 时均
+    dailyAverage: 日均
+    monthlyAverage: 月均
+    today: 今天
+    yesterday: 昨天
+    thisWeek: 本周
+    lastWeek: 上周
+    thisMonth: 本月
+    lastMonth: 上月
+    thisYear: 今年
+    lastYear: 去年
   type:
     consume: 消费
     coffee: 咖啡

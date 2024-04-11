@@ -70,7 +70,7 @@ class StatisticsDelegate {
     }
     final (:total,:type2Stats) = statisticsTransactionByType(records);
     final dayTotals =
-    data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).where((total) => total > 0).toList();
+    data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).toList();
     return StatisticsDelegate(
       mode: StatisticsMode.day,
       start: start,

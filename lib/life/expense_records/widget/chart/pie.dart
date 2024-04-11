@@ -108,7 +108,7 @@ class ExpensePieChartHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpenseChartHeader(
-      upper: "Total",
+      upper: i18n.stats.total,
       content: "¥${total.toStringAsFixed(2)}",
     );
   }
@@ -130,8 +130,8 @@ class ExpenseAverageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(type.icon, color: type.color),
-      title: "Average spent ¥${average.toStringAsFixed(2)} in ${type.l10n()}".text(),
-      subtitle: "with a max spend of ¥${max.toStringAsFixed(2)}".text(),
+      title: i18n.stats.averageSpendIn(amount: "¥${average.toStringAsFixed(2)}", type: type).text(),
+      subtitle: i18n.stats.maxSpendOf(amount: "¥${max.toStringAsFixed(2)}").text(),
     );
   }
 }

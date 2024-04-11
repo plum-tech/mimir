@@ -438,8 +438,23 @@ expenseRecords:
     rmb: RMB
   stats:
     title: Statistics
-    categories: Categories
     total: Total
+    summery: Summery
+    details: Details
+    averageSpendIn: "Average spent {amount} in {type}"
+    maxSpendOf: "with a max spend of {amount}"
+    averageLineLabel: avg
+    hourlyAverage: Hourly average
+    dailyAverage: daily average
+    monthlyAverage: Monthly average
+    today: Today
+    yesterday: Yesterday
+    thisWeek: This week
+    lastWeek: Last week
+    thisMonth: This month
+    lastMonth: Last month
+    thisYear: This year
+    lastYear: Last year
   type:
     consume: Consume
     coffee: Café
