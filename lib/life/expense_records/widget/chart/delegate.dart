@@ -15,11 +15,12 @@ import '../../entity/local.dart';
 import '../../entity/statistics.dart';
 
 class StatisticsDelegate {
+  final StatisticsMode mode;
   final List<List<Transaction>> data;
+  final Map<TransactionType, ({double proportion, List<Transaction> records, double total})> type2Stats;
+  final StartTime2Records start2Records;
   final double average;
   final double total;
-  final Map<TransactionType, ({double proportion, List<Transaction> records, double total})> type2Stats;
-  final StatisticsMode mode;
   final DateTime start;
   final Widget Function(BuildContext context, double value, TitleMeta meta) side;
   final Widget Function(BuildContext context, double value, TitleMeta meta) bottom;
@@ -28,6 +29,7 @@ class StatisticsDelegate {
     required this.mode,
     required this.data,
     required this.type2Stats,
+    required this.start2Records,
     required this.start,
     required this.average,
     required this.total,
@@ -41,6 +43,8 @@ class StatisticsDelegate {
         required List<Transaction> records,
       }) {
     switch (mode) {
+      case StatisticsMode.day:
+        return StatisticsDelegate.day(start: start, records: records);
       case StatisticsMode.week:
         return StatisticsDelegate.week(start: start, records: records);
       case StatisticsMode.month:
@@ -48,6 +52,48 @@ class StatisticsDelegate {
       case StatisticsMode.year:
         return StatisticsDelegate.year(start: start, records: records);
     }
+  }
+
+  factory StatisticsDelegate.day({
+    required DateTime start,
+    required List<Transaction> records,
+  }) {
+    final now = DateTime.now();
+    final data = List.generate(
+      now.inTheSameDay(start) ? now.hour : 24,
+          (i) => <Transaction>[],
+    );
+    for (final record in records) {
+      // add data at the same weekday.
+      // sunday goes first
+      data[record.timestamp.hour].add(record);
+    }
+    final (:total,:type2Stats) = statisticsTransactionByType(records);
+    final dayTotals =
+    data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).where((total) => total > 0).toList();
+    return StatisticsDelegate(
+      mode: StatisticsMode.day,
+      start: start,
+      start2Records: StatisticsMode.day.resort(records),
+      data: data,
+      side: _buildSideTitle,
+      average: dayTotals.isEmpty ? 0.0 : dayTotals.mean,
+      type2Stats: type2Stats,
+      total: total,
+      bottom: (ctx, value, mate) {
+        final index = value.toInt();
+        if (!(index == 0 || index == data.length - 1) && index % 4 != 0) {
+          return const SizedBox();
+        }
+        return SideTitleWidget(
+          axisSide: mate.axisSide,
+          child: Text(
+            style: ctx.textTheme.labelMedium,
+            "${index}",
+          ),
+        );
+      },
+    );
   }
 
   factory StatisticsDelegate.week({
@@ -70,6 +116,7 @@ class StatisticsDelegate {
     return StatisticsDelegate(
       mode: StatisticsMode.week,
       start: start,
+      start2Records: StatisticsMode.week.resort(records),
       data: data,
       side: _buildSideTitle,
       average: dayTotals.isEmpty ? 0.0 : dayTotals.mean,
@@ -106,8 +153,9 @@ class StatisticsDelegate {
     data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).where((total) => total > 0).toList();
     final sep = data.length ~/ 5;
     return StatisticsDelegate(
-      mode: StatisticsMode.week,
+      mode: StatisticsMode.month,
       start: start,
+      start2Records: StatisticsMode.month.resort(records),
       data: data,
       average: dayTotals.isEmpty ? 0.0 : dayTotals.mean,
       type2Stats: type2Stats,
@@ -144,8 +192,9 @@ class StatisticsDelegate {
     final monthTotals =
     data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).where((total) => total > 0).toList();
     return StatisticsDelegate(
-      mode: StatisticsMode.week,
+      mode: StatisticsMode.year,
       start: start,
+      start2Records: StatisticsMode.year.resort(records),
       data: data,
       average: monthTotals.isEmpty ? 0.0 : monthTotals.mean,
       type2Stats: type2Stats,

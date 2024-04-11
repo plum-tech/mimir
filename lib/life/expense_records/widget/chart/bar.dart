@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/utils/date.dart';
 
@@ -42,6 +43,11 @@ class _ExpenseBarChartState extends State<ExpenseBarChart> {
     final from = start;
     final to = mode.getAfterUnitTime(start: start, endLimit: DateTime.now());
     return switch (mode) {
+      StatisticsMode.day => ExpenseChartHeader(
+        upper: "Hourly average",
+        content: "¥${delegate.average.toStringAsFixed(2)}",
+        lower: DateFormat.yMMMMd().format(from),
+      ),
       StatisticsMode.year => ExpenseChartHeader(
           upper: "Monthly average",
           content: "¥${delegate.average.toStringAsFixed(2)}",

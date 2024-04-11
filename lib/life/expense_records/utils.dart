@@ -139,7 +139,7 @@ double accumulateTransactionAmount(List<Transaction> transactions) {
   final total = type2total.values.sum;
   return (
     total: total,
-  type2Stats: type2transactions.map((type, records) {
+    type2Stats: type2transactions.map((type, records) {
       final (income: _, :outcome) = accumulateTransactionIncomeOutcome(records);
       return MapEntry(type, (records: records, total: outcome, proportion: (type2total[type] ?? 0) / total));
     })
@@ -151,11 +151,16 @@ String resolveTime4Display({
   required StatisticsMode mode,
   required DateTime date,
 }) {
-  final monthFormat = DateFormat.MMMM();
-  final yearMonthFormat = DateFormat.yMMMM();
-  final yearFormat = DateFormat.y();
   final now = DateTime.now();
   switch (mode) {
+    case StatisticsMode.day:
+      final dayDiff = now.difference(date).inDays;
+      if (dayDiff == 0) {
+        return "Today";
+      } else if (dayDiff == 1) {
+        return "Yesterday";
+      }
+      return formatDateSpan(from: date, to: StatisticsMode.day.getAfterUnitTime(start: date));
     case StatisticsMode.week:
       if (date.year == now.year) {
         final nowWeek = now.week;
@@ -168,6 +173,8 @@ String resolveTime4Display({
       }
       return formatDateSpan(from: date, to: StatisticsMode.week.getAfterUnitTime(start: date));
     case StatisticsMode.month:
+      final yearMonthFormat = DateFormat.yMMMM();
+      final monthFormat = DateFormat.MMMM();
       if (date.year == now.year) {
         if (date.month == now.month) {
           return "This month";
@@ -180,6 +187,7 @@ String resolveTime4Display({
         return yearMonthFormat.format(date);
       }
     case StatisticsMode.year:
+      final yearFormat = DateFormat.y();
       if (date.year == now.year) {
         return "This year";
       } else if (date.year == now.year - 1) {

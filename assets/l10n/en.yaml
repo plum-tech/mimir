@@ -429,9 +429,10 @@ expenseRecords:
   refreshFailedTip: Failed to refresh expense records
   lastUpdateTime: "Last update: {}"
   statsMode:
-    week: Week
-    month: Month
-    year: Year
+    day: D
+    week: W
+    month: M
+    year: Y
   view:
     balance: Balance
     rmb: RMB

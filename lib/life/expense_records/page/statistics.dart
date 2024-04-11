@@ -9,6 +9,7 @@ import 'package:sit/life/expense_records/storage/local.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/life/expense_records/utils.dart';
 import 'package:sit/utils/collection.dart';
+import 'package:sit/utils/date.dart';
 import 'package:statistics/statistics.dart';
 
 import '../entity/local.dart';
@@ -40,7 +41,7 @@ final _statisticsMode =
 
 class _StatisticsModeNotifier extends AutoDisposeNotifier<StatisticsMode> {
   @override
-  StatisticsMode build() => StatisticsMode.month;
+  StatisticsMode build() => StatisticsMode.week;
 
   void set(StatisticsMode mode) {
     state = mode;
@@ -136,20 +137,34 @@ class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
               const Divider(),
               ExpenseChartHeaderLabel("Details").padFromLTRB(16, 8, 0, 0),
             ]),
-            ...startTime2Records.map((e){
-              return GroupedSection(
-                headerBuilder: (context,expanded, toggleExpand, defaultTrailing) {
-                  return ListTile(
-
-                  );
-                },
-                itemCount: e.records.length,
+            if (mode != StatisticsMode.day)
+              ...mode.downgrade.resort(current.records).map((e) {
+                return GroupedSection(
+                  headerBuilder: (context, expanded, toggleExpand, defaultTrailing) {
+                    return ListTile(
+                      title: formatDateSpan(
+                        from: e.start,
+                        to: mode.downgrade.getAfterUnitTime(start: e.start),
+                      ).text(),
+                      onTap: toggleExpand,
+                      trailing: defaultTrailing,
+                    );
+                  },
+                  itemCount: e.records.length,
+                  itemBuilder: (ctx, i) {
+                    final record = e.records[i];
+                    return TransactionTile(record);
+                  },
+                );
+              })
+            else
+              SliverList.builder(
+                itemCount: current.records.length,
                 itemBuilder: (ctx, i) {
-                  final record = e.records[i];
+                  final record = current.records[i];
                   return TransactionTile(record);
                 },
-              );
-            }),
+              ),
           ],
         ),
         $showTimeSpan >>

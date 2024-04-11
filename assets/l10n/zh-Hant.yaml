@@ -426,6 +426,7 @@ expenseRecords:
   refreshFailedTip: 消費記錄重新整理失敗
   lastUpdateTime: "最後更新：{}"
   statsMode:
+    day: 日
     week: 周
     month: 月
     year: 年

@@ -67,6 +67,10 @@ extension DateTimeX on DateTime {
     final w = weekday;
     return w == DateTime.sunday ? 0 : w;
   }
+
+  bool inTheSameDay(DateTime b) {
+    return year == b.year && month == b.month && day == b.day;
+  }
 }
 
 DateTime getDateOfFirstDayInWeek({
@@ -83,6 +87,10 @@ String formatDateSpan({
   bool showYear = true,
 }) {
   final local = $Key.currentContext?.locale.toString();
+  if (from.inTheSameDay(to)) {
+    final day = DateFormat.yMMMMd(local);
+    return day.format(from);
+  }
   final year = DateFormat.y(local);
   if (from.year == to.year) {
     final month = DateFormat.MMMM(local);
