@@ -29,8 +29,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
   @override
   Widget build(BuildContext context) {
     assert(widget.records.every((type) => type.isConsume));
-    final (total: total, :parts) = separateTransactionByType(widget.records);
-    final ascending = parts.entries.sortedBy<num>((e) => e.value.total).reversed.toList();
+    final (:total, :parts) = statisticsTransactionByType(widget.records);
     return [
       ExpensePieChartHeader(
         total: total,
@@ -40,17 +39,6 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
         child: buildChart(parts),
       ),
       buildLegends(parts).padAll(8).align(at: Alignment.topLeft),
-      const Divider(),
-      [
-        ExpenseChartHeaderLabel("Summary").padFromLTRB(16, 8, 0, 0),
-      ...ascending.map((e) {
-        final amounts = e.value.records.map((e) => e.deltaAmount).toList();
-        return ExpenseAverageTile(
-          average: amounts.mean,
-          max: amounts.max,
-          type: e.key,
-        );
-      })].column(caa: CrossAxisAlignment.start).animatedSized(),
     ].column(caa: CrossAxisAlignment.start);
   }
 

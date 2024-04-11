@@ -131,7 +131,7 @@ double accumulateTransactionAmount(List<Transaction> transactions) {
 }
 
 ({double total, Map<TransactionType, ({double proportion, List<Transaction> records, double total})> parts})
-    separateTransactionByType(
+    statisticsTransactionByType(
   List<Transaction> records,
 ) {
   final type2transactions = records.groupListsBy((record) => record.type);

@@ -1,17 +1,21 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/design/animation/animated.dart';
 import 'package:sit/life/expense_records/entity/statistics.dart';
 import 'package:sit/life/expense_records/storage/local.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/life/expense_records/utils.dart';
 import 'package:sit/utils/collection.dart';
+import 'package:statistics/statistics.dart';
 
 import '../entity/local.dart';
 import '../i18n.dart';
 import '../init.dart';
 import '../widget/chart/bar.dart';
+import '../widget/chart/header.dart';
 import '../widget/chart/pie.dart';
 import '../widget/transaction.dart';
 
@@ -91,6 +95,7 @@ class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
       });
     });
     final current = startTime2Records.indexAt(index);
+    final type2Records = current.records.groupListsBy((r) => r.type).entries.toList();
     return Scaffold(
       appBar: AppBar(
         title: i18n.stats.title.text(),
@@ -108,6 +113,22 @@ class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
             ),
             const Divider(),
             ExpensePieChart(records: current.records),
+            const Divider(),
+            ExpenseChartHeaderLabel("Summary").padFromLTRB(16, 8, 0, 0),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: type2Records.length,
+              itemBuilder: (ctx, i) {
+                final e = type2Records[i];
+                final amounts = e.value.map((e) => e.deltaAmount).toList();
+                return ExpenseAverageTile(
+                  average: amounts.mean,
+                  max: amounts.max,
+                  type: e.key,
+                );
+              },
+            ),
             const Divider(),
             ListView.builder(
               shrinkWrap: true,

@@ -292,7 +292,7 @@ class AmountChartWidget extends StatelessWidget {
         ),
         groupsSpace: 40,
         barGroups: delegate.data.mapIndexed((i, records) {
-          final (:total, :parts) = separateTransactionByType(records);
+          final (:total, :parts) = statisticsTransactionByType(records);
           var c = 0.0;
           return BarChartGroupData(
             x: i,
