@@ -41,8 +41,8 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
-  final $account = TextEditingController(text: Dev.demoMode ? R.demoModeOaAccount : null);
-  final $password = TextEditingController(text: Dev.demoMode ? R.demoModeOaPassword : null);
+  final $account = TextEditingController(text: Dev.demoMode ? R.demoModeOaCredentials.account : null);
+  final $password = TextEditingController(text: Dev.demoMode ? R.demoModeOaCredentials.password : null);
   final _formKey = GlobalKey<FormState>();
   bool isPasswordClear = false;
   bool isLoggingIn = false;
@@ -73,7 +73,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Future<void> login() async {
     final account = $account.text;
     final password = $password.text;
-    if (account == R.demoModeOaAccount && password == R.demoModeOaPassword) {
+    if (account == R.demoModeOaCredentials.account && password == R.demoModeOaCredentials.password) {
       await loginDemoMode();
     } else {
       await loginWithCredentials(account, password, formatValid: (_formKey.currentState as FormState).validate());
@@ -86,7 +86,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final rand = Random();
     await Future.delayed(Duration(milliseconds: rand.nextInt(2000)));
     Settings.lastSignature ??= "Liplum";
-    CredentialsInit.storage.oaCredentials = Credentials(account: R.demoModeOaAccount, password: R.demoModeOaPassword);
+    CredentialsInit.storage.oaCredentials = R.demoModeOaCredentials;
     CredentialsInit.storage.oaLoginStatus = LoginStatus.validated;
     CredentialsInit.storage.oaLastAuthTime = DateTime.now();
     CredentialsInit.storage.oaUserType = OaUserType.undergraduate;
@@ -97,7 +97,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     context.go("/");
   }
 
-  /// 用户点击登录按钮后
+  /// After the user clicks the login button
   Future<void> loginWithCredentials(
     String account,
     String password, {

@@ -5,6 +5,8 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
+import 'package:sit/credentials/entity/login_status.dart';
+import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/credentials/utils.dart';
 import 'package:sit/design/adaptive/dialog.dart';
@@ -14,9 +16,11 @@ import 'package:sit/design/widgets/expansion_tile.dart';
 import 'package:sit/init.dart';
 import 'package:sit/login/aggregated.dart';
 import 'package:sit/login/utils.dart';
+import 'package:sit/r.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/design/widgets/navigation.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/settings/settings.dart';
 import '../i18n.dart';
 
 class DeveloperOptionsPage extends ConsumerStatefulWidget {
@@ -31,7 +35,8 @@ class DeveloperOptionsPage extends ConsumerStatefulWidget {
 class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
   @override
   Widget build(BuildContext context) {
-    final oaCredentials = CredentialsInit.storage.oaCredentials;
+    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
+    final demoMode = ref.watch(Dev.$demoMode);
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
@@ -54,9 +59,25 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
               ),
               buildReload(),
               const DebugExpenseUserOverrideTile(),
-              if (oaCredentials != null)
+              if (credentials != null)
                 SwitchOaUserTile(
-                  currentCredentials: oaCredentials,
+                  currentCredentials: credentials,
+                ),
+              if (demoMode && credentials != R.demoModeOaCredentials)
+                ListTile(
+                  leading: const Icon(Icons.adb),
+                  title: "Login demo account".text(),
+                  trailing:  const Icon(Icons.login),
+                  onTap: () async {
+                    Settings.lastSignature ??= "Liplum";
+                    CredentialsInit.storage.oaCredentials = R.demoModeOaCredentials;
+                    CredentialsInit.storage.oaLoginStatus = LoginStatus.validated;
+                    CredentialsInit.storage.oaLastAuthTime = DateTime.now();
+                    CredentialsInit.storage.oaUserType = OaUserType.undergraduate;
+                    await Init.initModules();
+                    if (!context.mounted) return;
+                    context.go("/");
+                  },
                 ),
               const DebugGoRouteTile(),
             ]),
@@ -83,6 +104,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
   Widget buildDemoModeToggle() {
     final demoMode = ref.watch(Dev.$demoMode);
     return ListTile(
+      leading: const Icon(Icons.adb),
       title: i18n.dev.demoMode.text(),
       trailing: Switch.adaptive(
         value: demoMode,
@@ -141,13 +163,12 @@ class _DebugGoRouteTileState extends State<DebugGoRouteTile> {
       ),
       trailing: [
         $route >>
-                (ctx, route) =>
-                PlatformIconButton(
+            (ctx, route) => PlatformIconButton(
                   onPressed: route.text.isEmpty
                       ? null
                       : () {
-                    context.push(route.text);
-                  },
+                          context.push(route.text);
+                        },
                   icon: const Icon(Icons.arrow_forward),
                 )
       ].row(mas: MainAxisSize.min),
@@ -183,9 +204,9 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
       leading: const Icon(Icons.swap_horiz),
       trailing: isLoggingIn
           ? const Padding(
-        padding: EdgeInsets.all(8),
-        child: CircularProgressIndicator.adaptive(),
-      )
+              padding: EdgeInsets.all(8),
+              child: CircularProgressIndicator.adaptive(),
+            )
           : null,
       children: [
         ...credentialsList.map(buildCredentialsHistoryTile),

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
+import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/school/yellow_pages/entity/contact.dart';
 import 'package:sit/entity/version.dart';
 
@@ -29,8 +30,7 @@ class R {
   static const Size minWindowSize = Size(300, 400);
 
   static const eduEmailDomain = "mail.sit.edu.cn";
-  static const demoModeOaAccount = "2300421153";
-  static const demoModeOaPassword = "liplum-sit-life";
+  static const demoModeOaCredentials = Credentials(account: "2300421153", password: "liplum-sit-life");
   static const iosAppId = "6468989112";
   static const iosAppStoreUrl = "https://apps.apple.com/cn/app/$iosAppId";
 
