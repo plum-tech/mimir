@@ -1,4 +1,4 @@
-import 'package:sit/utils/collection.dart';
+import 'package:collection/collection.dart';
 
 String formatWithoutTrailingZeros(double amount) {
   if (amount == 0) return "0";
@@ -21,22 +21,27 @@ final _trailingIntRe = RegExp(r"(.*\s+)(\d+)$");
 
 String getDuplicateFileName(String origin, {List<String>? all}) {
   assert(all == null || all.contains(origin));
-  if (all == null || all.isEmpty) {
+  if (all == null || all.length <= 1) {
     return "$origin 2";
   }
-
-  final nameHasLargestNumber = all
-      .map((s) => _extractTrailingNumber(s))
-      .map((p) {
-        final number = p.number;
-        return number == null ? null : (name: p.name, number: number);
-      })
-      .nonNulls
-      .maxByOrNull<num>((p) => p.number);
-  if (nameHasLargestNumber == null) {
+  final (name: originName, number: originNumber) = _extractTrailingNumber(origin);
+  final numbers = <int>[];
+  for (final file in all) {
+    final (:name, :number) = _extractTrailingNumber(file);
+    if (number == null) continue;
+    if (file == origin || name == "$originName ") {
+      numbers.add(number);
+    }
+  }
+  final maxNumber = numbers.maxOrNull;
+  if (maxNumber == null) {
     return "$origin 2";
   }
-  return "${nameHasLargestNumber.name}${nameHasLargestNumber.number + 1}";
+  if (originNumber == null) {
+    return "$originName ${maxNumber + 1}";
+  } else {
+    return "$originName${maxNumber + 1}";
+  }
 }
 
 ({String name, int? number}) _extractTrailingNumber(String s) {
