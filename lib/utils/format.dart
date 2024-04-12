@@ -20,6 +20,7 @@ String formatWithoutTrailingZeros(double amount) {
 final _trailingIntRe = RegExp(r"(.*\s+)(\d+)$");
 
 String getDuplicateFileName(String origin, {List<String>? all}) {
+  assert(all == null || all.contains(origin));
   if (all == null || all.isEmpty) {
     return "$origin 2";
   }
