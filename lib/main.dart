@@ -95,6 +95,7 @@ void main() async {
   Init.registerCustomEditor();
   HttpOverrides.global = SitHttpOverrides();
   await Init.initNetwork();
+  await Init.initStorage();
   await Init.initModules();
   runApp(
     EasyLocalization(

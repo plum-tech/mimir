@@ -6,7 +6,9 @@ class EduEmailInit {
   static late MailService service;
 
   static void init() {
-    storage = const EduEmailStorage();
     service = MailService();
+  }
+  static void initStorage() {
+    storage = const EduEmailStorage();
   }
 }

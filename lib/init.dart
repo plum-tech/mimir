@@ -126,6 +126,25 @@ class Init {
     LoginInit.init();
   }
 
+  static Future<void> initStorage() async {
+    CredentialsInit.initStorage();
+    TimetableInit.initStorage();
+    if (!kIsWeb) {
+      UpdateInit.initStorage();
+      OaAnnounceInit.initStorage();
+      ExamResultInit.initStorage();
+      ExamArrangeInit.initStorage();
+      ExpenseRecordsInit.initStorage();
+      LibraryInit.initStorage();
+      YwbInit.initStorage();
+      Class2ndInit.initStorage();
+      ElectricityBalanceInit.initStorage();
+    }
+    YellowPagesInit.initStorage();
+    EduEmailInit.initStorage();
+    LoginInit.initStorage();
+  }
+
   static void registerCustomEditor() {
     EditorEx.registerEnumEditor(Campus.values);
     EditorEx.registerEnumEditor(ThemeMode.values);

@@ -9,7 +9,6 @@ class CredentialsInit {
   static late CredentialStorage storage;
 
   static void init() {
-    storage = CredentialStorage();
     Editor.registerEditor<Credentials>((ctx, desc, initial) => StringsEditor(
           fields: [
             (name: "account", initial: initial.account),
@@ -20,5 +19,9 @@ class CredentialsInit {
         ));
     EditorEx.registerEnumEditor(LoginStatus.values);
     EditorEx.registerEnumEditor(OaUserType.values);
+  }
+
+  static void initStorage() {
+    storage = CredentialStorage();
   }
 }
