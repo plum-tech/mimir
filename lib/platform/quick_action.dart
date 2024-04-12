@@ -14,7 +14,7 @@ class QuickAction {
   static const QuickActions _quickActions = QuickActions();
 
   static void quickActionHandler(String type) {
-    final ctx = $Key.currentContext;
+    final ctx = $key.currentContext;
     if (ctx == null) return;
     switch (type) {
       case _Type.examArrange:

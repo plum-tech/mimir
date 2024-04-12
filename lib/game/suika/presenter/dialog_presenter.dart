@@ -6,7 +6,7 @@ import 'package:get_it/get_it.dart';
 class DialogPresenter {
   Future<void> showGameOverDialog(int score) async {
     return showDialog<void>(
-      context: $Key.currentContext!,
+      context: $key.currentContext!,
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(

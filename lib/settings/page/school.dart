@@ -16,7 +16,6 @@ class SchoolSettingsPage extends ConsumerStatefulWidget {
 }
 
 class _SchoolSettingsPageState extends ConsumerState<SchoolSettingsPage> {
-
   @override
   Widget build(BuildContext context) {
     final userType = ref.watch(CredentialsInit.storage.$oaUserType);

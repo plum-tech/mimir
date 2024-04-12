@@ -141,7 +141,7 @@ class _PostServiceRunnerState extends State<_PostServiceRunner> {
     if (!kIsWeb) {
       Future.delayed(Duration.zero).then((value) async {
         await checkAppUpdate(
-          context: $Key.currentContext!,
+          context: $key.currentContext!,
           delayAtLeast: const Duration(milliseconds: 3000),
           manually: false,
         );
@@ -149,7 +149,7 @@ class _PostServiceRunnerState extends State<_PostServiceRunner> {
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       $appLink = AppLinks().allUriLinkStream.listen((uri) async {
-        final navigateCtx = $Key.currentContext;
+        final navigateCtx = $key.currentContext;
         if (navigateCtx == null) return;
         await onHandleQrCodeUriData(context: navigateCtx, qrCodeData: uri);
       });

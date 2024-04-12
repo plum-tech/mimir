@@ -44,6 +44,7 @@ class LibraryInit {
     hotSearchService = Dev.demoMode ? const DemoLibraryTrendsService() : const LibraryTrendsService();
     borrowService = const LibraryBorrowService();
   }
+
   static void initStorage() {
     searchStorage = const LibrarySearchStorage();
     bookStorage = const LibraryBookStorage();

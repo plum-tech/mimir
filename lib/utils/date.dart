@@ -86,7 +86,7 @@ String formatDateSpan({
   required DateTime to,
   bool showYear = true,
 }) {
-  final local = $Key.currentContext?.locale.toString();
+  final local = $key.currentContext?.locale.toString();
   if (from.inTheSameDay(to)) {
     final day = DateFormat.yMMMMd(local);
     return day.format(from);

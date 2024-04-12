@@ -11,6 +11,7 @@ class ExpenseRecordsInit {
   static void init() {
     service = Dev.demoMode ? const DemoExpenseService() : const ExpenseService();
   }
+
   static void initStorage() {
     storage = ExpenseStorage();
   }

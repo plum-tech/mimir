@@ -24,7 +24,7 @@ class TransactionGroupSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final (:income, :outcome) = accumulateTransactionIncomeOutcome(records);
     return GroupedSection(
-      headerBuilder: (context,expanded, toggleExpand, defaultTrailing) {
+      headerBuilder: (context, expanded, toggleExpand, defaultTrailing) {
         return ListTile(
           title: context.formatYmText((time.toDateTime())).text(),
           titleTextStyle: context.textTheme.titleMedium,

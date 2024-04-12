@@ -152,7 +152,7 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
         required SitTimetableLessonPart lesson,
         required SitTimetableEntity timetable,
       }) {
-        final inClassNow  = lesson.type.startTime.isBefore(now) && lesson.type.endTime.isAfter(now);
+        final inClassNow = lesson.type.startTime.isBefore(now) && lesson.type.endTime.isAfter(now);
         final passed = lesson.type.endTime.isBefore(now);
         Widget cell = InteractiveCourseCell(
           lesson: lesson,

@@ -17,6 +17,7 @@ class YwbInit {
     serviceService = Dev.demoMode ? const DemoYwbServiceService() : const YwbServiceService();
     applicationService = Dev.demoMode ? const DemoYwbApplicationService() : const YwbApplicationService();
   }
+
   static void initStorage() {
     applicationStorage = YwbApplicationStorage();
     serviceStorage = const YwbServiceStorage();

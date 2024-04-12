@@ -17,6 +17,7 @@ class ExamResultInit {
     ugService = Dev.demoMode ? const DemoExamResultUgService() : const ExamResultUgService();
     pgService = Dev.demoMode ? const DemoExamResultPgService() : const ExamResultPgService();
   }
+
   static void initStorage() {
     ugStorage = ExamResultUgStorage();
     pgStorage = ExamResultPgStorage();

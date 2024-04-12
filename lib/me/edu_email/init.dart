@@ -8,6 +8,7 @@ class EduEmailInit {
   static void init() {
     service = MailService();
   }
+
   static void initStorage() {
     storage = const EduEmailStorage();
   }

@@ -7,6 +7,5 @@ class UpdateInit {
     service = const UpdateService();
   }
 
-  static void initStorage() {
-  }
+  static void initStorage() {}
 }

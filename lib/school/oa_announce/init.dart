@@ -12,6 +12,7 @@ class OaAnnounceInit {
   static void init() {
     service = Dev.demoMode ? const DemoOaAnnounceService() : const OaAnnounceService();
   }
+
   static void initStorage() {
     storage = const OaAnnounceStorage();
   }

@@ -88,7 +88,7 @@ String? _loginRequired(BuildContext ctx, GoRouterState state) {
 
 FutureOr<String?> _redirectRoot(BuildContext ctx, GoRouterState state) {
   final loginStatus = ProviderScope.containerOf(ctx).read(CredentialsInit.storage.$oaLoginStatus);
-    if (loginStatus == LoginStatus.never) {
+  if (loginStatus == LoginStatus.never) {
 // allow to access settings page.
     if (state.matchedLocation.startsWith("/tools")) return null;
     if (state.matchedLocation.startsWith("/settings")) return null;
@@ -186,7 +186,7 @@ final _toolsRoutes = [
   ),
   GoRoute(
     path: "/tools/scanner",
-    parentNavigatorKey: $Key,
+    parentNavigatorKey: $key,
     builder: (ctx, state) => const ScannerPage(),
   ),
 ];
@@ -452,7 +452,7 @@ final _gameRoutes = [
 GoRouter buildRouter(ValueNotifier<RoutingConfig> $routingConfig) {
   return GoRouter.routingConfig(
     routingConfig: $routingConfig,
-    navigatorKey: $Key,
+    navigatorKey: $key,
     initialLocation: "/",
     debugLogDiagnostics: kDebugMode,
     errorBuilder: _onError,

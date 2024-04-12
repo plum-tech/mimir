@@ -67,7 +67,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                 ListTile(
                   leading: const Icon(Icons.adb),
                   title: "Login demo account".text(),
-                  trailing:  const Icon(Icons.login),
+                  trailing: const Icon(Icons.login),
                   onTap: () async {
                     Settings.lastSignature ??= "Liplum";
                     CredentialsInit.storage.oaCredentials = R.demoModeOaCredentials;

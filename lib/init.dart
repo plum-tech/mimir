@@ -76,7 +76,7 @@ class Init {
         debugPrintStack(stackTrace: stackTrace);
       },
       inputCaptcha: (Uint8List imageBytes) async {
-        final context = $Key.currentContext!;
+        final context = $key.currentContext!;
         // return await context.show$Sheet$(
         //   (ctx) => CaptchaSheetPage(
         //     captchaData: imageBytes,

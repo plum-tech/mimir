@@ -159,7 +159,7 @@ class SsoSession {
   }
 
   void _setOnline(bool isOnline) {
-    final ctx = $Key.currentContext;
+    final ctx = $key.currentContext;
     if (ctx != null && ctx.mounted) {
       OaOnlineManagerState.of(ctx).isOnline = isOnline;
     }

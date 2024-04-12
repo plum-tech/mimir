@@ -36,8 +36,7 @@ final _allRecords = Provider.autoDispose((ref) {
   return all;
 });
 
-final _statisticsMode =
-    StateProvider.autoDispose<StatisticsMode>((ref) => StatisticsMode.week);
+final _statisticsMode = StateProvider.autoDispose<StatisticsMode>((ref) => StatisticsMode.week);
 
 final _startTime2Records = Provider.autoDispose((ref) {
   final mode = ref.watch(_statisticsMode);
