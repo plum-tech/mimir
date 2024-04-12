@@ -8,17 +8,18 @@ import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/lifecycle.dart';
 import 'package:sit/login/i18n.dart';
 import 'package:sit/network/widgets/entry.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/init.dart';
 import 'package:sit/l10n/extension.dart';
-import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/school/widgets/campus.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:locale_names/locale_names.dart';
+import 'package:sit/utils/riverpod.dart';
 
 import '../i18n.dart';
 import '../../design/widgets/navigation.dart';
@@ -219,11 +220,11 @@ Future<void> _onWipeData(BuildContext context) async {
     destructive: true,
   );
   if (confirm == true) {
-    await HiveInit.clear(); // 清除存储
+    await HiveInit.clear(); // Clear storage
     await Init.initNetwork();
     await Init.initModules();
     if (!context.mounted) return;
-    OaOnlineManagerState.of(context).isOnline = false;
+    context.riverpod().read($oaOnline.notifier).state = false;
     _gotoLogin(context);
   }
 }

@@ -13,7 +13,6 @@ import 'package:sit/lifecycle.dart';
 import 'package:sit/qrcode/handle.dart';
 import 'package:sit/r.dart';
 import 'package:sit/route.dart';
-import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/update/utils.dart';
@@ -101,11 +100,9 @@ class _MimirAppState extends ConsumerState<MimirApp> {
       themeMode: ref.watch(Settings.theme.$themeMode),
       theme: bakeTheme(ThemeData.light()),
       darkTheme: bakeTheme(ThemeData.dark()),
-      builder: (ctx, child) => OaOnlineManager(
-        child: _PostServiceRunner(
-          key: const ValueKey("Post service runner"),
-          child: child ?? const SizedBox(),
-        ),
+      builder: (ctx, child) => _PostServiceRunner(
+        key: const ValueKey("Post service runner"),
+        child: child ?? const SizedBox(),
       ),
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         dragDevices: {

@@ -13,8 +13,8 @@ import 'package:sit/lifecycle.dart';
 import 'package:sit/r.dart';
 
 import 'package:sit/session/auth.dart';
-import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/utils/error.dart';
+import 'package:sit/utils/riverpod.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:encrypt/encrypt.dart';
 
@@ -161,7 +161,7 @@ class SsoSession {
   void _setOnline(bool isOnline) {
     final ctx = $key.currentContext;
     if (ctx != null && ctx.mounted) {
-      OaOnlineManagerState.of(ctx).isOnline = isOnline;
+      ctx.riverpod().read($oaOnline.notifier).state = isOnline;
     }
   }
 
