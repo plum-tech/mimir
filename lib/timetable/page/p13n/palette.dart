@@ -133,17 +133,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
 
   Widget buildPaletteList(List<({int id, TimetablePalette row})> palettes) {
     final selectedId = TimetableInit.storage.palette.selectedId ?? BuiltinTimetablePalettes.classic.id;
-    palettes.sort((a, b) {
-      final $a = a.row.lastModified;
-      final $b = b.row.lastModified;
-      if ($a == $b) return 0;
-      if ($a == null) {
-        return 1;
-      } else if ($b == null) {
-        return -1;
-      }
-      return $b.compareTo($a);
-    });
+    palettes.sort((a, b) => b.row.lastModified.compareTo(a.row.lastModified));
     return CustomScrollView(
       slivers: [
         SliverList.builder(

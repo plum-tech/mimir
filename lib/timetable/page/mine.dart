@@ -93,6 +93,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   @override
   Widget build(BuildContext context) {
     final timetables = TimetableInit.storage.timetable.getRows();
+    timetables.sort((a, b) => b.row.lastModified.compareTo(a.row.lastModified));
     final selectedId = TimetableInit.storage.timetable.selectedId;
     final actions = [
       if (Settings.focusTimetable)

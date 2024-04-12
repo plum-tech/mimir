@@ -228,6 +228,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
       startDate: $selectedDate.value,
       courses: courses,
       lastCourseKey: lastCourseKey,
+      lastModified: DateTime.now(),
     );
   }
 

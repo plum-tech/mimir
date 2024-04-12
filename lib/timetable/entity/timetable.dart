@@ -12,7 +12,7 @@ import '../utils.dart';
 
 part 'timetable.g.dart';
 
-DateTime _kLastUpdate() => DateTime.now();
+DateTime _kLastModified() => DateTime.now();
 
 @JsonSerializable()
 @CopyWith(skipFields: true)
@@ -34,8 +34,8 @@ class SitTimetable {
   @JsonKey()
   final Map<String, SitCourse> courses;
 
-  @JsonKey(defaultValue: _kLastUpdate)
-  final DateTime lastUpdate;
+  @JsonKey(defaultValue: _kLastModified)
+  final DateTime lastModified;
 
   @JsonKey()
   final int version;
@@ -47,7 +47,7 @@ class SitTimetable {
     required this.startDate,
     required this.schoolYear,
     required this.semester,
-    required this.lastUpdate,
+    required this.lastModified,
     this.signature = "",
     this.version = 1,
   });
@@ -61,7 +61,7 @@ class SitTimetable {
       "startDate": startDate,
       "schoolYear": schoolYear,
       "semester": semester,
-      "lastUpdate": lastUpdate,
+      "lastModified": lastModified,
       "signature": signature,
     }.toString();
   }

@@ -38,6 +38,8 @@ List _colorsToJson(List<Color2Mode> colors) {
   return colors.map((entry) => _color2ModeToJson(entry)).toList();
 }
 
+DateTime _kLastModified() => DateTime.now();
+
 @JsonSerializable()
 class TimetablePalette {
   @JsonKey()
@@ -46,8 +48,8 @@ class TimetablePalette {
   final String author;
   @JsonKey(fromJson: _colorsFromJson, toJson: _colorsToJson)
   final List<Color2Mode> colors;
-  @JsonKey()
-  final DateTime? lastModified;
+  @JsonKey(defaultValue: _kLastModified)
+  final DateTime lastModified;
 
   static const defaultColor = (light: Colors.white30, dark: Colors.black12);
 
@@ -55,7 +57,7 @@ class TimetablePalette {
     required this.name,
     required this.author,
     required this.colors,
-    this.lastModified,
+    required this.lastModified,
   });
 
   factory TimetablePalette.fromJson(Map<String, dynamic> json) => _$TimetablePaletteFromJson(json);
@@ -137,9 +139,8 @@ class BuiltinTimetablePalette implements TimetablePalette {
   String get author => authorOverride ?? "timetable.p13n.builtinPalette.$key.author".tr();
   @override
   final List<Color2Mode> colors;
-
   @override
-  DateTime? get lastModified => null;
+  DateTime get lastModified => DateTime.now();
 
   const BuiltinTimetablePalette({
     required this.key,

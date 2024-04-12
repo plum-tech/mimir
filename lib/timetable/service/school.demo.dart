@@ -127,7 +127,7 @@ class DemoTimetableService implements TimetableService {
       startDate: DateTime.now(),
       schoolYear: info.exactYear,
       semester: info.semester,
-      lastUpdate: DateTime.now(),
+      lastModified: DateTime.now(),
     );
   }
 
