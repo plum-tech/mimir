@@ -38,10 +38,10 @@ class StatisticsDelegate {
   });
 
   factory StatisticsDelegate.byMode(
-      StatisticsMode mode, {
-        required DateTime start,
-        required List<Transaction> records,
-      }) {
+    StatisticsMode mode, {
+    required DateTime start,
+    required List<Transaction> records,
+  }) {
     switch (mode) {
       case StatisticsMode.day:
         return StatisticsDelegate.day(start: start, records: records);
@@ -60,17 +60,16 @@ class StatisticsDelegate {
   }) {
     final now = DateTime.now();
     final data = List.generate(
-      now.inTheSameDay(start) ? now.hour : 24,
-          (i) => <Transaction>[],
+      now.inTheSameDay(start) ? now.hour + 1 : 24,
+      (i) => <Transaction>[],
     );
     for (final record in records) {
       // add data at the same weekday.
       // sunday goes first
       data[record.timestamp.hour].add(record);
     }
-    final (:total,:type2Stats) = statisticsTransactionByType(records);
-    final dayTotals =
-    data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).toList();
+    final (:total, :type2Stats) = statisticsTransactionByType(records);
+    final dayTotals = data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).toList();
     return StatisticsDelegate(
       mode: StatisticsMode.day,
       start: start,
@@ -103,16 +102,16 @@ class StatisticsDelegate {
     final now = DateTime.now();
     final data = List.generate(
       start.year == now.year && start.week == now.week ? now.calendarOrderWeekday + 1 : 7,
-          (i) => <Transaction>[],
+      (i) => <Transaction>[],
     );
     for (final record in records) {
       // add data at the same weekday.
       // sunday goes first
       data[record.timestamp.calendarOrderWeekday].add(record);
     }
-    final (:total,:type2Stats) = statisticsTransactionByType(records);
+    final (:total, :type2Stats) = statisticsTransactionByType(records);
     final dayTotals =
-    data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).where((total) => total > 0).toList();
+        data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).where((total) => total > 0).toList();
     return StatisticsDelegate(
       mode: StatisticsMode.week,
       start: start,
@@ -142,15 +141,15 @@ class StatisticsDelegate {
     final now = DateTime.now();
     final data = List.generate(
       start.year == now.year && start.month == now.month ? now.day : daysInMonth(year: start.year, month: start.month),
-          (i) => <Transaction>[],
+      (i) => <Transaction>[],
     );
     for (final record in records) {
       // add data on the same day.
       data[record.timestamp.day - 1].add(record);
     }
-    final (:total,:type2Stats) = statisticsTransactionByType(records);
+    final (:total, :type2Stats) = statisticsTransactionByType(records);
     final dayTotals =
-    data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).where((total) => total > 0).toList();
+        data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).where((total) => total > 0).toList();
     final sep = data.length ~/ 5;
     return StatisticsDelegate(
       mode: StatisticsMode.month,
@@ -188,9 +187,9 @@ class StatisticsDelegate {
       // add data in the same month.
       data[record.timestamp.month - 1].add(record);
     }
-    final (:total,:type2Stats) = statisticsTransactionByType(records);
+    final (:total, :type2Stats) = statisticsTransactionByType(records);
     final monthTotals =
-    data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).where((total) => total > 0).toList();
+        data.map((monthRecords) => monthRecords.map((r) => r.deltaAmount).sum).where((total) => total > 0).toList();
     return StatisticsDelegate(
       mode: StatisticsMode.year,
       start: start,

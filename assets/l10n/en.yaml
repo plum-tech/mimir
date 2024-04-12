@@ -445,7 +445,7 @@ expenseRecords:
     maxSpendOf: "with a max spend of {amount}"
     averageLineLabel: avg
     hourlyAverage: Hourly average
-    dailyAverage: daily average
+    dailyAverage: Daily average
     monthlyAverage: Monthly average
     today: Today
     yesterday: Yesterday

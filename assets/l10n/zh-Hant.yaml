@@ -436,7 +436,7 @@ expenseRecords:
   stats:
     title: 消費統計
     total: 總計
-    summery: 摘要
+    summary: 摘要
     details: 詳細資料
     averageSpendIn: "在 {type} 上，平均消費 {amount}"
     maxSpendOf: "最大消費為 {amount}"

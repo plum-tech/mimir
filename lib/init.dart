@@ -107,7 +107,7 @@ class Init {
   }
 
   static Future<void> initModules() async {
-    debugPrint("Initializing module storage");
+    debugPrint("Initializing modules");
     CredentialsInit.init();
     TimetableInit.init();
     if (!kIsWeb) {
@@ -127,6 +127,7 @@ class Init {
   }
 
   static Future<void> initStorage() async {
+    debugPrint("Initializing module storage");
     CredentialsInit.initStorage();
     TimetableInit.initStorage();
     if (!kIsWeb) {
