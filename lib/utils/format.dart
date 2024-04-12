@@ -29,7 +29,7 @@ String getDuplicateFileName(String origin, {List<String>? all}) {
   for (final file in all) {
     final (:name, :number) = _extractTrailingNumber(file);
     if (number == null) continue;
-    if (file == origin || name == "$originName ") {
+    if (file == origin || (originNumber == null && name == "$originName ") || name == originName) {
       numbers.add(number);
     }
   }
