@@ -37,16 +37,7 @@ final _allRecords = Provider.autoDispose((ref) {
 });
 
 final _statisticsMode =
-    NotifierProvider.autoDispose<_StatisticsModeNotifier, StatisticsMode>(_StatisticsModeNotifier.new);
-
-class _StatisticsModeNotifier extends AutoDisposeNotifier<StatisticsMode> {
-  @override
-  StatisticsMode build() => StatisticsMode.week;
-
-  void set(StatisticsMode mode) {
-    state = mode;
-  }
-}
+    StateProvider.autoDispose<StatisticsMode>((ref) => StatisticsMode.week);
 
 final _startTime2Records = Provider.autoDispose((ref) {
   final mode = ref.watch(_statisticsMode);
@@ -191,7 +182,7 @@ class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
           .toList(),
       selected: <StatisticsMode>{selected},
       onSelectionChanged: (newSelection) {
-        ref.read(_statisticsMode.notifier).set(newSelection.first);
+        ref.read(_statisticsMode.notifier).state = newSelection.first;
       },
     );
   }

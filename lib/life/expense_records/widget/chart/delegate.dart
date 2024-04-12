@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/life/expense_records/utils.dart';
-import 'package:sit/route.dart';
+import 'package:sit/lifecycle.dart';
 import 'package:sit/utils/date.dart';
 import 'package:sit/utils/format.dart';
 import 'package:statistics/statistics.dart';

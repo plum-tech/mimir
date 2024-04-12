@@ -11,6 +11,7 @@ import 'package:sit/game/index.dart';
 import 'package:sit/game/minesweeper/index.dart';
 import 'package:sit/game/suika/index.dart';
 import 'package:sit/index.dart';
+import 'package:sit/lifecycle.dart';
 import 'package:sit/me/edu_email/page/login.dart';
 import 'package:sit/me/edu_email/page/outbox.dart';
 import 'package:sit/school/class2nd/entity/attended.dart';
@@ -67,7 +68,6 @@ import 'package:sit/timetable/page/p13n/palette.dart';
 import 'package:sit/widgets/image.dart';
 import 'package:sit/widgets/webview/page.dart';
 
-final $Key = GlobalKey<NavigatorState>();
 final $TimetableShellKey = GlobalKey<NavigatorState>();
 final $SchoolShellKey = GlobalKey<NavigatorState>();
 final $LifeShellKey = GlobalKey<NavigatorState>();

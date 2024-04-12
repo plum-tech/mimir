@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sit/route.dart';
+import 'package:sit/lifecycle.dart';
 import '../domain/game_state.dart';
 import 'package:get_it/get_it.dart';
 

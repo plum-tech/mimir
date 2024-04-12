@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/files.dart';
+import 'package:sit/lifecycle.dart';
 import 'package:sit/qrcode/handle.dart';
 import 'package:sit/r.dart';
 import 'package:sit/route.dart';

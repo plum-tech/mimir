@@ -32,7 +32,7 @@ class R {
   static const eduEmailDomain = "mail.sit.edu.cn";
   static const demoModeOaCredentials = Credentials(account: "2300421153", password: "liplum-sit-life");
   static const iosAppId = "6468989112";
-  static const iosAppStoreUrl = "https://apps.apple.com/cn/app/$iosAppId";
+  static const iosAppStoreUrl = "https://apps.apple.com/app/$iosAppId";
 
   static String formatEduEmail({required String username}) {
     return "$username@$eduEmailDomain";

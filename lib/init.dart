@@ -4,6 +4,7 @@ import 'package:sit/entity/campus.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:sit/credentials/init.dart';
+import 'package:sit/lifecycle.dart';
 import 'package:sit/session/backend.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/session/class2nd.dart';
@@ -29,7 +30,6 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:sit/storage/hive/cookie.dart';
 import 'package:sit/network/dio.dart';
-import 'package:sit/route.dart';
 import 'package:sit/session/sso.dart';
 import 'package:sit/update/init.dart';
 

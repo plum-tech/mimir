@@ -9,9 +9,9 @@ import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/error.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/init.dart';
+import 'package:sit/lifecycle.dart';
 import 'package:sit/r.dart';
 
-import 'package:sit/route.dart';
 import 'package:sit/session/auth.dart';
 import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/utils/error.dart';

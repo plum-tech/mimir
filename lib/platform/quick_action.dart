@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quick_actions/quick_actions.dart';
-import 'package:sit/route.dart';
+import 'package:sit/lifecycle.dart';
 
 class _Type {
   const _Type._();

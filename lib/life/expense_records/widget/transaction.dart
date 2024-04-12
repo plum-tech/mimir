@@ -18,7 +18,7 @@ class TransactionTile extends StatelessWidget {
       title: Text(title ?? i18n.unknown, style: context.textTheme.titleSmall),
       subtitle: [
         context.formatYmdhmsNum(transaction.timestamp).text(),
-        if (title != transaction.note) transaction.note.text(),
+        if (title != transaction.note && transaction.note.isNotEmpty) transaction.note.text(),
         if (Dev.on) "${transaction.balanceBefore} => ${transaction.balanceAfter}".text(),
       ].column(caa: CrossAxisAlignment.start),
       leading: transaction.type.icon.make(color: transaction.type.color, size: 32),
