@@ -6,6 +6,10 @@ void main() {
     test("Duplicate", () {
       assert("Test 2" == getDuplicateFileName("Test", all: ["Test"]));
     });
+
+    test("ending with number", () {
+      assert("Test 3" == getDuplicateFileName("Test 2", all: ["Test 2"]));
+    });
   });
   group("Two or more files, format", () {
     test("Without space", () {

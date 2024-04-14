@@ -21,10 +21,11 @@ final _trailingIntRe = RegExp(r"(.*\s+)(\d+)$");
 
 String getDuplicateFileName(String origin, {List<String>? all}) {
   assert(all == null || all.contains(origin));
-  if (all == null || all.length <= 1) {
-    return "$origin 2";
-  }
   final (name: originName, number: originNumber) = _extractTrailingNumber(origin);
+  if (originNumber != null && (all == null || all.length <= 1)) {
+    return "$originName${originNumber + 1}";
+  }
+  if (all == null || all.length <= 1) return "$origin 2";
   final numbers = <int>[];
   for (final file in all) {
     final (:name, :number) = _extractTrailingNumber(file);
