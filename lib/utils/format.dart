@@ -54,3 +54,9 @@ String getDuplicateFileName(String origin, {List<String>? all}) {
   if (number == null) return (name: prefix, number: null);
   return (name: prefix, number: number);
 }
+
+String allocValidFileName(String name, {List<String>? all}) {
+  if (all == null || all.isEmpty) return name;
+  if (!all.contains(name)) return name;
+  return getDuplicateFileName(name, all: all);
+}

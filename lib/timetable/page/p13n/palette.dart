@@ -217,8 +217,12 @@ class PaletteCard extends StatelessWidget {
             icon: context.icons.edit,
             activator: const SingleActivator(LogicalKeyboardKey.keyE),
             action: () async {
-              final newPalette = await context.push<TimetablePalette>("/timetable/palette/edit/$id");
+              var newPalette = await context.push<TimetablePalette>("/timetable/palette/edit/$id");
               if (newPalette != null) {
+                final newName = allocValidFileName(newPalette.name);
+                if (newName != newPalette.name) {
+                  newPalette = newPalette.copyWith(name: newName);
+                }
                 TimetableInit.storage.palette[id] = newPalette;
               }
             },

@@ -225,11 +225,10 @@ class TimetableCard extends StatelessWidget {
         label: i18n.delete,
         icon: context.icons.delete,
         action: () async {
-          final confirm = await ctx.showDialogRequest(
-            title: i18n.mine.deleteRequest,
+          final confirm = await ctx.showActionRequest(
+            action: i18n.mine.deleteRequest,
             desc: i18n.mine.deleteRequestDesc,
-            yes: i18n.delete,
-            no: i18n.cancel,
+            cancel: i18n.cancel,
             destructive: true,
           );
           if (confirm != true) return;
@@ -263,8 +262,12 @@ class TimetableCard extends StatelessWidget {
           icon: context.icons.edit,
           activator: const SingleActivator(LogicalKeyboardKey.keyE),
           action: () async {
-            final newTimetable = await ctx.push<SitTimetable>("/timetable/edit/$id");
+            var newTimetable = await ctx.push<SitTimetable>("/timetable/edit/$id");
             if (newTimetable != null) {
+              final newName = allocValidFileName(newTimetable.name);
+              if (newName != newTimetable.name) {
+                newTimetable = newTimetable.copyWith(name: newName);
+              }
               TimetableInit.storage.timetable[id] = newTimetable;
             }
           },
@@ -291,8 +294,7 @@ class TimetableCard extends StatelessWidget {
           activator: const SingleActivator(LogicalKeyboardKey.keyD),
           action: () async {
             final duplicate = timetable.copyWith(
-              name: getDuplicateFileName(timetable.name, all: allTimetableNames),
-            );
+                name: getDuplicateFileName(timetable.name, all: allTimetableNames), lastModified: DateTime.now());
             TimetableInit.storage.timetable.add(duplicate);
           },
         ),
