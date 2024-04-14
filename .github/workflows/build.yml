@@ -34,6 +34,10 @@ jobs:
           channel: stable
           cache: true
 
+      - name: Setup Flutter
+        run: |
+          flutter config --no-cli-animations
+
       - name: Build APK
         run: |
           flutter build apk --target-platform android-arm64,android-arm
@@ -107,6 +111,10 @@ jobs:
         flutter-version: ${{ env.flutter_version }}
         channel: stable
         cache: true
+
+    - name: Setup Flutter
+      run: |
+        flutter config --no-cli-animations
 
     - name: Build iOS
       run: |
