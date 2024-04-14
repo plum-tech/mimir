@@ -34,10 +34,6 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Restore packages
-        run: |
-          flutter pub get
-
       - name: Build APK
         run: |
           flutter build apk --target-platform android-arm64,android-arm
@@ -111,10 +107,6 @@ jobs:
         flutter-version: ${{ env.flutter_version }}
         channel: stable
         cache: true
-
-    - name: Restore packages
-      run: |
-        flutter pub get
 
     - name: Build iOS
       run: |
