@@ -274,11 +274,18 @@ class BoardManager extends StateNotifier<Board> {
     return false;
   }
 
+  bool canSave() {
+    if (state.won || state.over) return false;
+    if (state.tiles.isEmpty) return false;
+    if (state.tiles.length == 1 && state.tiles.first.value == 2) return false;
+    return true;
+  }
+
   Future<void> save() async {
-    if (state.won || state.over) {
-      await Save2048.storage.delete();
-    } else {
+    if (canSave()) {
       await Save2048.storage.save(state.toSave());
+    } else {
+      await Save2048.storage.delete();
     }
   }
 }
