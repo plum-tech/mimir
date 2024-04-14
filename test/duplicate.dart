@@ -29,7 +29,7 @@ void main() {
     test("Duplicate another", () {
       assert("Test A 2" == getDuplicateFileName("Test A", all: ["Test A", "Test B", "Test B 2"]));
     });
-    test("Already have 3, but dupplicate 2", () {
+    test("Already have 3, but duplicate 2", () {
       assert("Test 4" == getDuplicateFileName("Test 2", all: ["Test", "Test 2", "Test 3"]));
     });
   });

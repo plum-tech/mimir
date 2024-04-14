@@ -179,7 +179,7 @@ String resolveTime4Display({
         if (date.month == now.month) {
           return i18n.stats.thisMonth;
         } else if (date.month == now.month - 1) {
-          return i18n.stats.thisMonth;
+          return i18n.stats.lastMonth;
         } else {
           return monthFormat.format(date);
         }
