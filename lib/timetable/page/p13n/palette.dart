@@ -399,19 +399,15 @@ class PaletteColorsPreview extends StatelessWidget {
     return colors
         .map((c) {
           final color = c.byBrightness(brightness);
-          return Card.outlined(
-            color: brightness == Brightness.light ? Colors.black : Colors.white,
-            margin: EdgeInsets.zero,
-            child: TweenAnimationBuilder(
-              tween: ColorTween(begin: color, end: color),
-              duration: const Duration(milliseconds: 300),
-              builder: (ctx, value, child) => Card.filled(
-                margin: EdgeInsets.zero,
-                color: value,
-                child: const SizedBox(
-                  width: 32,
-                  height: 32,
-                ),
+          return TweenAnimationBuilder(
+            tween: ColorTween(begin: color, end: color),
+            duration: const Duration(milliseconds: 300),
+            builder: (ctx, value, child) => Card.filled(
+              margin: EdgeInsets.zero,
+              color: value,
+              child: const SizedBox(
+                width: 32,
+                height: 32,
               ),
             ),
           );
