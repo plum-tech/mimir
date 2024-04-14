@@ -126,7 +126,7 @@ class BoardManager extends StateNotifier<Board> {
     final candidates = Iterable.generate(16, (i) => i).toList();
     candidates.removeWhere((i) => indexes.contains(i));
     final index = candidates[rand.nextInt(candidates.length)];
-    return Tile(const Uuid().v4(), 2, index);
+    return Tile(id: const Uuid().v4(), value: 2, index: index);
   }
 
   //Merge tiles

@@ -45,7 +45,7 @@ class Board {
     for (var i = 0; i < save.tiles.length; i++) {
       final score = save.tiles[i];
       if (score > 0) {
-        tiles.add(Tile(const Uuid().v4(), score, i));
+        tiles.add(Tile(id: const Uuid().v4(), value: score, index: i));
       }
     }
     return Board(score: save.score, best: save.score, tiles: tiles);

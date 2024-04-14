@@ -1,8 +1,10 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'tile.g.dart';
 
 @JsonSerializable(anyMap: true)
+@CopyWith(skipFields: true)
 class Tile {
   //Unique id used as ValueKey for the TileWidget
   final String id;
@@ -19,7 +21,13 @@ class Tile {
   //Whether the tile was merged with another tile
   final bool merged;
 
-  Tile(this.id, this.value, this.index, {this.nextIndex, this.merged = false});
+  const Tile({
+    required this.id,
+    required this.value,
+    required this.index,
+    this.nextIndex,
+    this.merged = false,
+  });
 
   //Calculate the current top position based on the current index
   double getTop(double size) {
@@ -46,11 +54,6 @@ class Tile {
     var i = (nextIndex! - (((nextIndex! + 1) / 4).ceil() * 4 - 4));
     return (i * size) + (12.0 * (i + 1));
   }
-
-  //Create an immutable copy of the tile
-  Tile copyWith({String? id, int? value, int? index, int? nextIndex, bool? merged}) =>
-      Tile(id ?? this.id, value ?? this.value, index ?? this.index,
-          nextIndex: nextIndex ?? this.nextIndex, merged: merged ?? this.merged);
 
   //Create a Tile from json data
   factory Tile.fromJson(Map<String, dynamic> json) => _$TileFromJson(json);
