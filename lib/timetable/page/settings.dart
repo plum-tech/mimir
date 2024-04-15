@@ -24,7 +24,7 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
             pinned: true,
             snap: false,
             floating: false,
-            title: i18n.timetable.title.text(),
+            title: i18n.navigation.text(),
           ),
           SliverList.list(
             children: [
@@ -42,8 +42,8 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
 
   Widget buildAutoUseImportedToggle() {
     return ListTile(
-      title: i18n.timetable.autoUseImported.text(),
-      subtitle: i18n.timetable.autoUseImportedDesc.text(),
+      title: i18n.settings.autoUseImported.text(),
+      subtitle: i18n.settings.autoUseImportedDesc.text(),
       leading: const Icon(Icons.auto_mode_outlined),
       trailing: Switch.adaptive(
         value: Settings.timetable.autoUseImported,
@@ -59,8 +59,8 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
   Widget buildP13n() {
     return ListTile(
       leading: const Icon(Icons.color_lens_outlined),
-      title: i18n.timetable.palette.text(),
-      subtitle: i18n.timetable.paletteDesc.text(),
+      title: i18n.settings.palette.text(),
+      subtitle: i18n.settings.paletteDesc.text(),
       trailing: const Icon(Icons.open_in_new),
       onTap: () async {
         await context.push("/timetable/p13n");
@@ -71,8 +71,8 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
   Widget buildCellStyle() {
     return ListTile(
       leading: const Icon(Icons.view_comfortable_outlined),
-      title: i18n.timetable.cellStyle.text(),
-      subtitle: i18n.timetable.cellStyleDesc.text(),
+      title: i18n.settings.cellStyle.text(),
+      subtitle: i18n.settings.cellStyleDesc.text(),
       trailing: const Icon(Icons.open_in_new),
       onTap: () async {
         await context.push("/timetable/cell-style");
@@ -83,8 +83,8 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
   Widget buildBackground() {
     return ListTile(
       leading: const Icon(Icons.image_outlined),
-      title: i18n.timetable.background.text(),
-      subtitle: i18n.timetable.backgroundDesc.text(),
+      title: i18n.settings.background.text(),
+      subtitle: i18n.settings.backgroundDesc.text(),
       trailing: const Icon(Icons.open_in_new),
       onTap: () async {
         await context.push("/timetable/background");

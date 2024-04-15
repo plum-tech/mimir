@@ -18,6 +18,7 @@ class _I18n with CommonI18nMixin {
   final editor = const _Editor();
   final freeTip = const _FreeTip();
   final campus = const CampusI10n();
+  final settings = const _Settings();
 
   String get navigation => "$ns.navigation".tr();
 
@@ -315,4 +316,27 @@ class _FreeTip {
   String get findNearestWeekWithClass => "$ns.findNearestWeekWithClass".tr();
 
   String get findNearestDayWithClass => "$ns.findNearestDayWithClass".tr();
+}
+
+
+class _Settings {
+  const _Settings();
+
+  static const ns = "${_I18n.ns}.settings";
+
+  String get autoUseImported => "$ns.autoUseImported.title".tr();
+
+  String get autoUseImportedDesc => "$ns.autoUseImported.desc".tr();
+
+  String get palette => "$ns.palette.title".tr();
+
+  String get paletteDesc => "$ns.palette.desc".tr();
+
+  String get cellStyle => "$ns.cellStyle.title".tr();
+
+  String get cellStyleDesc => "$ns.cellStyle.desc".tr();
+
+  String get background => "$ns.background.title".tr();
+
+  String get backgroundDesc => "$ns.background.desc".tr();
 }

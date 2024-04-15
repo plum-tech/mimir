@@ -8,6 +8,7 @@ class _I18n with CommonI18nMixin {
 
   static const ns = "school";
   final course = const CourseI18n();
+  final settings = const _Settings();
 
   String get title => "$ns.title".tr();
 
@@ -40,4 +41,33 @@ class CourseI18n {
   String get compulsory => "$ns.compulsory".tr();
 
   String get elective => "$ns.elective".tr();
+}
+
+
+class _Settings {
+  const _Settings();
+
+  static const ns = "${_I18n.ns}.settings";
+  final class2nd = const _Class2nd();
+  final examResult = const _ExamResult();
+}
+
+class _Class2nd {
+  static const ns = "${_Settings.ns}.class2nd";
+
+  const _Class2nd();
+
+  String get autoRefresh => "$ns.autoRefresh.title".tr();
+
+  String get autoRefreshDesc => "$ns.autoRefresh.desc".tr();
+}
+
+class _ExamResult {
+  static const ns = "${_Settings.ns}.examResult";
+
+  const _ExamResult();
+
+  String get showResultPreview => "$ns.showResultPreview.title".tr();
+
+  String get showResultPreviewDesc => "$ns.showResultPreview.desc".tr();
 }

@@ -174,6 +174,19 @@ timetable:
         name: 明天的
         place: 實驗室
         teachers: 劉老師
+  settings:
+    autoUseImported:
+      title: 自動使用匯入的
+      desc: 使用新匯入的課程表
+    palette:
+      title: 調色盤
+      desc: 自訂課程表的調色盤
+    cellStyle:
+      title: 編輯單元樣式
+      desc: 課程單元看上去如何
+    background:
+      title: 桌布
+      desc: 課程表的背景
 school:
   navigation: 學校
   semester:
@@ -201,8 +214,26 @@ school:
     specializedElective: 專業選修課
     integratedPractice: 綜合實踐
     practicalInstruction: 實踐教學
+  settings:
+    class2nd:
+      autoRefresh:
+        title: 第二課堂分自動重新整理
+        desc: 啟動時重新整理第二課堂分
+    examResult:
+      showResultPreview:
+        title: 顯示考試成績預覽
+        desc: 在卡片中顯示當前學期的考試成績
 life:
   navigation: 生活
+  settings:
+    electricity:
+      autoRefresh:
+        title: 電費餘額自動重新整理
+        desc: 啟動時重新整理電費餘額
+    expenseRecords:
+      autoRefresh:
+        title: 消費記錄自動重新整理
+        desc: 啟動時重新整理消費記錄
 me:
   navigation: 個人
 class2nd:
@@ -613,40 +644,6 @@ settings:
     reload:
       title: 重新載入
       desc: 重新載入所有模塊
-  timetable:
-    title: 課程表
-    autoUseImported:
-      title: 自動使用匯入的
-      desc: 使用新匯入的課程表
-    palette:
-      title: 調色盤
-      desc: 自訂課程表的調色盤
-    cellStyle:
-      title: 編輯單元樣式
-      desc: 課程單元看上去如何
-    background:
-      title: 桌布
-      desc: 課程表的背景
-  school:
-    title: 學校
-    class2nd:
-      autoRefresh:
-        title: 第二課堂分自動重新整理
-        desc: 啟動時重新整理第二課堂分
-    examResult:
-      showResultPreview:
-        title: 顯示考試成績預覽
-        desc: 在卡片中顯示當前學期的考試成績
-  life:
-    title: 生活
-    electricity:
-      autoRefresh:
-        title: 電費餘額自動重新整理
-        desc: 啟動時重新整理電費餘額
-    expenseRecords:
-      autoRefresh:
-        title: 消費記錄自動重新整理
-        desc: 啟動時重新整理消費記錄
   clearCache:
     title: 清空快取
     desc: 清空使用過程中產生的離線緩存

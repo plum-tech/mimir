@@ -173,6 +173,19 @@ timetable:
         name: Tomorrow
         place: Lab
         teachers: Thomas
+  settings:
+    autoUseImported:
+      title: Auto-use imported
+      desc: Use the timetable just imported
+    palette:
+      title: Palettes
+      desc: Customize timetable colors
+    cellStyle:
+      title: Edit cell style
+      desc: How course cell looks like
+    background:
+      title: Wallpaper
+      desc: The background of timetable
 school:
   navigation: School
   semester:
@@ -204,8 +217,26 @@ school:
     specializedElective: Specialized elective
     integratedPractice: Integrated Practice
     practicalInstruction: Practical instruction
+  settings:
+    class2nd:
+      autoRefresh:
+        title: Auto-refresh 2nd class scores
+        desc: Refresh scores when app is launched
+    examResult:
+      showResultPreview:
+        title: Show exam result preview
+        desc: Show the current semester's exam results in the card
 life:
   navigation: Life
+  settings:
+    electricity:
+      autoRefresh:
+        title: Auto-refresh electricity
+        desc: Refresh electricity when app is launched
+    expenseRecords:
+      autoRefresh:
+        title: Auto-refresh expense records
+        desc: Refresh expense records when app is launched
 me:
   navigation: Me
 class2nd:
@@ -613,40 +644,6 @@ settings:
     reload:
       title: Reload
       desc: Reload all modules
-  timetable:
-    title: Timetable
-    autoUseImported:
-      title: Auto-use imported
-      desc: Use the timetable just imported
-    palette:
-      title: Palettes
-      desc: Customize timetable colors
-    cellStyle:
-      title: Edit cell style
-      desc: How course cell looks like
-    background:
-      title: Wallpaper
-      desc: The background of timetable
-  school:
-    title: School
-    class2nd:
-      autoRefresh:
-        title: Auto-refresh 2nd class scores
-        desc: Refresh scores when app is launched
-    examResult:
-      showResultPreview:
-        title: Show exam result preview
-        desc: Show the current semester's exam results in the card
-  life:
-    title: Life
-    electricity:
-      autoRefresh:
-        title: Auto-refresh electricity
-        desc: Refresh electricity when app is launched
-    expenseRecords:
-      autoRefresh:
-        title: Auto-refresh expense records
-        desc: Refresh expense records when app is launched
   clearCache:
     title: Clear cache
     desc: Clear the offline cache during use

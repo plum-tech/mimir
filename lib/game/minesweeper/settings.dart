@@ -1,0 +1,3 @@
+class SettingsMinesweeper {
+  const SettingsMinesweeper();
+}

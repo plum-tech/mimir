@@ -24,7 +24,7 @@ class _LifeSettingsPageState extends State<LifeSettingsPage> {
             pinned: true,
             snap: false,
             floating: false,
-            title: i18n.life.title.text(),
+            title: i18n.navigation.text(),
           ),
           SliverList(
             delegate: SliverChildListDelegate([
@@ -40,8 +40,8 @@ class _LifeSettingsPageState extends State<LifeSettingsPage> {
   Widget buildElectricityAutoRefreshToggle() {
     return StatefulBuilder(
       builder: (ctx, setState) => ListTile(
-        title: i18n.life.electricity.autoRefresh.text(),
-        subtitle: i18n.life.electricity.autoRefreshDesc.text(),
+        title: i18n.settings.electricity.autoRefresh.text(),
+        subtitle: i18n.settings.electricity.autoRefreshDesc.text(),
         leading: Icon(context.icons.refresh),
         trailing: Switch.adaptive(
           value: Settings.life.electricity.autoRefresh,
@@ -58,8 +58,8 @@ class _LifeSettingsPageState extends State<LifeSettingsPage> {
   Widget buildExpenseAutoRefreshToggle() {
     return StatefulBuilder(
       builder: (ctx, setState) => ListTile(
-        title: i18n.life.expense.autoRefresh.text(),
-        subtitle: i18n.life.expense.autoRefreshDesc.text(),
+        title: i18n.settings.expense.autoRefresh.text(),
+        subtitle: i18n.settings.expense.autoRefreshDesc.text(),
         leading: Icon(context.icons.refresh),
         trailing: Switch.adaptive(
           value: Settings.life.expense.autoRefresh,

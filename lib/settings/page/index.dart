@@ -97,17 +97,17 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     if (loginStatus != LoginStatus.never) {
       all.add(PageNavigationTile(
         leading: const Icon(Icons.calendar_month_outlined),
-        title: i18n.timetable.title.text(),
+        title: i18n.app.navigation.timetable.text(),
         path: "/settings/timetable",
       ));
       if (!kIsWeb) {
         all.add(PageNavigationTile(
-          title: i18n.school.title.text(),
+          title: i18n.app.navigation.school.text(),
           leading: const Icon(Icons.school_outlined),
           path: "/settings/school",
         ));
         all.add(PageNavigationTile(
-          title: i18n.life.title.text(),
+          title: i18n.app.navigation.life.text(),
           leading: const Icon(Icons.spa_outlined),
           path: "/settings/life",
         ));

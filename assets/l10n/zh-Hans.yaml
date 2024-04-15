@@ -173,6 +173,19 @@ timetable:
         name: 明天的
         place: 实验室
         teachers: 刘老师
+  settings:
+    autoUseImported:
+      title: 自动使用新课程表
+      desc: 自动使用新导入的课程表
+    palette:
+      title: 配色方案
+      desc: 自定义课程表的颜色
+    cellStyle:
+      title: 编辑单元格风格
+      desc: 课程单元格如何显示
+    background:
+      title: 壁纸
+      desc: 课程表的背景
 school:
   navigation: 学校
   semester:
@@ -201,8 +214,26 @@ school:
     specializedElective: 专业选修课
     integratedPractice: 综合实践
     practicalInstruction: 实践教学
+  settings:
+    class2nd:
+      autoRefresh:
+        title: 第二课堂分自动刷新
+        desc: 启动时刷新第二课堂分
+    examResult:
+      showResultPreview:
+        title: 显示考试成绩预览
+        desc: 在卡片中显示当前学期的考试成绩
 life:
   navigation: 生活
+  settings:
+    electricity:
+      autoRefresh:
+        title: 电费余额自动刷新
+        desc: 启动时刷新电费余额
+    expenseRecords:
+      autoRefresh:
+        title: 消费记录自动刷新
+        desc: 启动时刷新消费记录
 me:
   navigation: 个人
 class2nd:
@@ -613,40 +644,6 @@ settings:
     reload:
       title: 重新加载
       desc: 重新加载所有模块
-  timetable:
-    title: 课程表
-    autoUseImported:
-      title: 自动使用新课程表
-      desc: 自动使用新导入的课程表
-    palette:
-      title: 配色方案
-      desc: 自定义课程表的颜色
-    cellStyle:
-      title: 编辑单元格风格
-      desc: 课程单元格如何显示
-    background:
-      title: 壁纸
-      desc: 课程表的背景
-  school:
-    title: 学校
-    class2nd:
-      autoRefresh:
-        title: 第二课堂分自动刷新
-        desc: 启动时刷新第二课堂分
-    examResult:
-      showResultPreview:
-        title: 显示考试成绩预览
-        desc: 在卡片中显示当前学期的考试成绩
-  life:
-    title: 生活
-    electricity:
-      autoRefresh:
-        title: 电费余额自动刷新
-        desc: 启动时刷新电费余额
-    expenseRecords:
-      autoRefresh:
-        title: 消费记录自动刷新
-        desc: 启动时刷新消费记录
   clearCache:
     title: 清空缓存
     desc: 清空使用过程中产生的离线缓存
