@@ -16,7 +16,7 @@ class _I18n with CommonI18nMixin {
 
   String get subtitle => "$ns.subtitle".tr();
 
-  String get openWlanSettingsBtn => "$ns.openWlanSettingsBtn".tr();
+  String get openWifiSettingsBtn => "$ns.openWifiSettingsBtn".tr();
 
   String get connectionFailedError => "$ns.connectionFailedError".tr();
 
@@ -37,6 +37,12 @@ class _I18n with CommonI18nMixin {
   String get campusNetworkConnected => "$ns.campusNetworkConnected".tr();
 
   String get campusNetworkConnectedByVpn => "$ns.campusNetworkConnectedByVpn".tr();
+
+  String get troubleshooting => "$ns.troubleshooting".tr();
+  String get studentRegTroubleshooting => "$ns.studentRegTroubleshooting".tr();
+
+  String get studentRegUnavailableButCampusNetworkConnected =>
+      "$ns.studentRegUnavailableButCampusNetworkConnected".tr();
 }
 
 class _Easyconnect {

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/credentials/init.dart';
@@ -9,6 +10,7 @@ import 'package:sit/design/widgets/card.dart';
 import 'package:sit/init.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/network/service/network.dart';
+import 'package:sit/network/widgets/quick_button.dart';
 import '../utils.dart';
 
 import '../i18n.dart';
@@ -86,12 +88,10 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
-            title: i18n.title.text(),
-            // bottom: const PreferredSize(
-            //   preferredSize: Size.fromHeight(4),
-            //   child: LinearProgressIndicator(),
-            // ),
-            actions: [],
+            title: [
+              i18n.title.text(),
+              const CircularProgressIndicator.adaptive().sizedAll(16),
+            ].wrap(caa: WrapCrossAlignment.center, spacing: 16),
           ),
           SliverList.list(
             children: [
@@ -105,9 +105,32 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
               StudentRegConnectivityInfo(
                 connected: studentRegAvailable,
               ).padSymmetric(v: 16, h: 8).inOutlinedCard().animatedSized(),
+              if(studentRegAvailable == false && campusNetworkStatus != null)
+                i18n.studentRegUnavailableButCampusNetworkConnected.text(
+                  style: context.textTheme.bodyLarge,
+                  textAlign: TextAlign.center,
+                ).padSymmetric(v: 16, h: 8).inOutlinedCard(),
+              if (studentRegAvailable == false)
+                [
+                  i18n.troubleshooting.text(style: context.textTheme.titleMedium),
+                  i18n.studentRegTroubleshooting.text(
+                    style: context.textTheme.bodyLarge,
+                  )
+                ].column().padSymmetric(v: 16, h: 8).inOutlinedCard(),
             ],
-          )
+          ),
         ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.only(right: 8, top: 8, bottom: 8),
+          children: const [
+            LaunchEasyConnectButton(),
+            SizedBox(width: 8),
+            OpenWifiSettingsButton(),
+          ],
+        ),
       ),
     );
   }
@@ -149,7 +172,7 @@ class StudentRegConnectivityInfo extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userType = ref.watch(CredentialsInit.storage.$oaUserType);
     final widgets = <Widget>[];
-    final connected = this.connected == true;
+    final connected = this.connected != false;
     final textTheme = context.textTheme;
     widgets.add((connected ? i18n.studentRegAvailable : i18n.studentRegUnavailable).text(
       style: textTheme.titleMedium,
