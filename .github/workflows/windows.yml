@@ -28,7 +28,7 @@ jobs:
           flutter build windows
 
       - name: Upload building
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Windows-x86_64.zip
           path: build\windows\x64\runner\Release
