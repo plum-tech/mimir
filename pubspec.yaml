@@ -36,7 +36,7 @@ dependencies:
   json_annotation: ^4.8.1
   copy_with_extension: ^5.0.4
   freezed_annotation: ^2.4.1
-  get_it: ^7.6.9
+  get_it: ^7.7.0
   flutter_image_compress: ^2.2.0
 
   # Supporting scrolling screenshot on Android, like MIUI
