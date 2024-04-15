@@ -1,3 +1,4 @@
+import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 
 extension AnimatedEx on Widget {
@@ -16,10 +17,10 @@ extension AnimatedEx on Widget {
   Widget animatedSized({
     Duration duration = Durations.medium2,
     Alignment align = Alignment.center,
-    Curve? curve,
+    Curve curve = Curves.fastEaseInToSlowEaseOut,
   }) =>
       AnimatedSize(
-        curve: curve ?? Curves.linear,
+        curve: curve,
         duration: duration,
         alignment: align,
         child: this,

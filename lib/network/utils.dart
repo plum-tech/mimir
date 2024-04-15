@@ -90,6 +90,6 @@ const _type2Icon = {
 IconData getConnectionTypeIcon(ConnectivityStatus? status, {IconData? fallback}) {
   if (status == null) return Icons.wifi_find_outlined;
   if (status.vpnEnabled) return Icons.vpn_key;
-  if (status.type == null) return Icons.signal_wifi_statusbar_null_outlined;
+  if (status.type == null) return Icons.public_off;
   return _type2Icon[status.type] ?? fallback ?? Icons.signal_wifi_statusbar_null_outlined;
 }

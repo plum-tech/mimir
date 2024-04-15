@@ -75,11 +75,11 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
   Widget build(BuildContext context) {
     return [
       AnimatedSize(
-        duration: const Duration(milliseconds: 300),
+        duration: Durations.medium2,
         child: buildIndicatorArea(context).animatedSwitched(),
       ),
       AnimatedSize(
-        duration: const Duration(milliseconds: 300),
+        duration: Durations.medium2,
         child: buildStatus(context).animatedSwitched(),
       ),
       buildButton(context),
