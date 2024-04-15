@@ -138,6 +138,7 @@ dependencies:
   # iCalendar file generator
   enough_icalendar: ^0.16.0
   super_context_menu: ^0.8.11
+  animated_size_and_fade: ^4.0.0
 
   # Utils
   # dart.io.Platform API for Web
