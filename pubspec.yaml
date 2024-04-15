@@ -169,6 +169,7 @@ dev_dependencies:
   freezed: ^2.5.2
   copy_with_extension_gen: ^5.0.4
   test: ^1.24.9
+  msix: ^3.16.7
 
 # ------------------------------------------------------------------------------
 
@@ -192,3 +193,15 @@ flutter:
 
 flutter_intl:
   enabled: true
+
+msix_config:
+  display_name: SIT Life
+  identity_name: life.mysit.SITLife
+  msix_version: 1.0.0.0
+  logo_path: android/app/src/main/res/mipmap/icon.png
+  capabilities: internetClient, microphone, webcam
+  languages: en,zh-hans,zh-hant
+  file_extension: .timetable
+  protocol_activation: sitlife
+  execution_alias: sitlife
+  output_name: SIT-Life

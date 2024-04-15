@@ -89,7 +89,7 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "life.mysit" "\0"
+            VALUE "CompanyName", "Liplum Dev" "\0"
             VALUE "FileDescription", "SIT Life" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "life.mysit.SITLife" "\0"
