@@ -23,3 +23,11 @@ mixin class CommonGameI18nMixin {
 
   String get gameOver => "$_ns.gameOver".tr();
 }
+
+mixin class CommonGameSettingsI18nMixin {
+  static const ns = "$_ns.settings";
+
+  String get enableHapticFeedback => "$ns.enableHapticFeedback".tr();
+
+  String get enableHapticFeedbackDesc => "$ns.enableHapticFeedbackDesc".tr();
+}
