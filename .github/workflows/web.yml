@@ -20,6 +20,6 @@ jobs:
           channel: stable
           cache: true
 
-      - uses: bluefireteam/flutter-gh-pages@v7
+      - uses: bluefireteam/flutter-gh-pages@v8
         with:
           baseHref: /mimir/
