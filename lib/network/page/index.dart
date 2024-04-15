@@ -105,16 +105,19 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
               StudentRegConnectivityInfo(
                 connected: studentRegAvailable,
               ).padSymmetric(v: 16, h: 8).inOutlinedCard().animatedSized(),
-              if(studentRegAvailable == false && campusNetworkStatus != null)
-                i18n.studentRegUnavailableButCampusNetworkConnected.text(
-                  style: context.textTheme.bodyLarge,
-                  textAlign: TextAlign.center,
-                ).padSymmetric(v: 16, h: 8).inOutlinedCard(),
+              if (studentRegAvailable == false && campusNetworkStatus != null)
+                i18n.studentRegUnavailableButCampusNetworkConnected
+                    .text(
+                      style: context.textTheme.bodyLarge,
+                      textAlign: TextAlign.center,
+                    )
+                    .padSymmetric(v: 16, h: 8)
+                    .inOutlinedCard(),
               if (studentRegAvailable == false)
                 [
                   i18n.troubleshooting.text(style: context.textTheme.titleMedium),
                   i18n.studentRegTroubleshooting.text(
-                    style: context.textTheme.bodyLarge,
+                    style: context.textTheme.bodyMedium,
                   )
                 ].column().padSymmetric(v: 16, h: 8).inOutlinedCard(),
             ],
@@ -180,7 +183,7 @@ class StudentRegConnectivityInfo extends ConsumerWidget {
     Widget buildTip(String tip) {
       return tip.text(
         textAlign: TextAlign.center,
-        style: textTheme.bodyLarge,
+        style: textTheme.bodyMedium,
       );
     }
 
@@ -213,20 +216,25 @@ class CampusNetworkConnectivityInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.textTheme.bodyLarge;
+    final style = context.textTheme.bodyMedium;
     final status = this.status;
-    String? ip = i18n.unknown;
+    String? ip;
     String? studentId;
     if (status != null) {
       ip = status.ip;
       studentId = status.studentId ?? i18n.unknown;
     }
     return [
-      (useVpn ? i18n.campusNetworkConnectedByVpn : i18n.campusNetworkConnected).text(
+      (status == null
+              ? i18n.campusNetworkNotConnected
+              : useVpn
+                  ? i18n.campusNetworkConnectedByVpn
+                  : i18n.campusNetworkConnected)
+          .text(
         style: context.textTheme.titleMedium,
       ),
       if (studentId != null) "${i18n.credentials.studentId}: $studentId".text(style: style),
-      "${i18n.network.ipAddress}: $ip".text(style: style),
+      if (ip != null) "${i18n.network.ipAddress}: $ip".text(style: style),
     ].column(caa: CrossAxisAlignment.center);
   }
 }

@@ -36,9 +36,12 @@ class _I18n with CommonI18nMixin {
 
   String get campusNetworkConnected => "$ns.campusNetworkConnected".tr();
 
+  String get campusNetworkNotConnected => "$ns.campusNetworkNotConnected".tr();
+
   String get campusNetworkConnectedByVpn => "$ns.campusNetworkConnectedByVpn".tr();
 
   String get troubleshooting => "$ns.troubleshooting".tr();
+
   String get studentRegTroubleshooting => "$ns.studentRegTroubleshooting".tr();
 
   String get studentRegUnavailableButCampusNetworkConnected =>

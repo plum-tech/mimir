@@ -296,14 +296,14 @@ class2nd:
     reviewing: 審核中
   applicationResponse:
     successfulCheck: 檢查成功
-    incompleteApplicantInfo: 您的資訊不完整，請填寫
-    alreadyApplied: 您已經申請參加此活動
-    applicationReachLimitToday: 您今天已達到申請數量上限
+    incompleteApplicantInfo: 你的資訊不完整，請填寫
+    alreadyApplied: 你已經申請參加此活動
+    applicationReachLimitToday: 你今天已達到申請數量上限
     activityReachParticipantLimit: 活動報名人數已達上限
     activityExpired: 此活動已過期，不再接受申請
-    applicantOccupiedWithinActivity: 您在該時間內已經申請了其他活動
-    applicantNotPermitted: 您不能申請此活動
-    applicantNotIncluding: 您不屬於可以申請活動的人之一
+    applicantOccupiedWithinActivity: 你在該時間內已經申請了其他活動
+    applicantNotPermitted: 你不能申請此活動
+    applicantNotIncluding: 你不屬於可以申請活動的人之一
 ywb:
   title: 應網辦
   info: |
@@ -489,21 +489,31 @@ network:
 networkTool:
   title: 網路工具
   subtitle: 測試與學校伺服器的連線
-  openWlanSettingsBtn: 打開 WLAN 設定
-  noAccessTip: 無法連線到網路，請檢查你的裝置上的網路設定，然後再試一次。
-  connectionFailedError: |
-    無法連線到校園網路。疑難排解:
+  openWifiSettingsBtn: 打開 Wi-Fi 設定
+  campusNetworkConnected: 已連線校園網路
+  campusNetworkNotConnected: 未連線校園網路
+  campusNetworkConnectedByVpn: 已通過 VPN 連線校園網路
+  studentRegAvailable: 教務系統可用
+  studentRegUnavailable: 教務系統不可用
+  ugRegAvailableTip: |
+    你可以從教務系統匯入課程表，並查看你的考試安排和考試成績（包括GPA）。
+  ugRegUnavailableTip: |
+    你無法從教務系統匯入課程表，匯入的唯一方法是從裝置上的檔案中載入它們。
+    你的考試安排和考試成績（包括GPA）無法及時加載和更新，但如果你已經加載過一次，仍然可以查看。
+  pgRegAvailableTip: |
+    你可以從教務系統匯入課程表，並查看你的考試成績。
+  pgRegUnavailableTip: |
+    你無法從教務系統匯入課程表，匯入的唯一方法是從裝置上的檔案中載入它們。
+    你的考試成績無法及時加載和更新，但如果你已經加載過一次，仍然可以查看。
+  troubleshooting: 疑難排解
+  studentRegTroubleshooting: |
     1. 嘗試連線學校的Wi-Fi: "i-SIT","i-SIT-1x" 或 "eduroam"。
     2. 嘗試啟用"EasyConnect" VPN 連線校園網路。
     3. 嘗試通過自建的 HTTP Proxy 伺服器連線校園網路。
     如果上述都無法工作, 或許因為學校伺服器停機維護或崩潰, 請稍後重試。
-  connectionFailedButCampusNetworkConnected: |
+  studentRegUnavailableButCampusNetworkConnected: |
     已經連線到校園網路，但依然無法訪問學校伺服器。
     這或許因為學校伺服器停機維護或崩潰, 請稍後重試。
-  connectedByProxy: 已通過 HTTP Proxy 連線校園網路。
-  connectedByVpn: 已通過 VPN 連線校園網路。
-  connectedByWlan: 已通過 WLAN 連線校園網路。
-  connectedByEthernet: 已通過乙太網路連線校園網路。
 login:
   login: 登入
   forgotPwd: 忘記密碼?
