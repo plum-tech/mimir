@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:animations/animations.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/files.dart';
+import 'package:sit/files/handle.dart';
 import 'package:sit/lifecycle.dart';
 import 'package:sit/qrcode/handle.dart';
 import 'package:sit/r.dart';
@@ -19,7 +21,7 @@ import 'package:sit/update/utils.dart';
 import 'package:sit/utils/color.dart';
 import 'package:system_theme/system_theme.dart';
 
-final $appLinks = StateProvider((ref) => <Uri>[]);
+final $appLinks = StateProvider((ref) => <({Uri uri, DateTime ts})>[]);
 
 class MimirApp extends ConsumerStatefulWidget {
   const MimirApp({super.key});
@@ -148,9 +150,18 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       $appLink = AppLinks().allUriLinkStream.listen((uri) async {
-        ref.read($appLinks.notifier).state = [...ref.read($appLinks), uri];
+        ref.read($appLinks.notifier).state = [...ref.read($appLinks), (uri: uri, ts: DateTime.now())];
         final navigateCtx = $key.currentContext;
         if (navigateCtx == null) return;
+        if (!kIsWeb) {
+          final maybePath = uri.toString();
+          final isFile = await File(maybePath).exists();
+          if (isFile) {
+            await onHandleFilePath(path: maybePath);
+            return;
+          }
+        }
+        if (!navigateCtx.mounted) return;
         await onHandleQrCodeUriData(context: navigateCtx, qrCodeData: uri);
       });
     });

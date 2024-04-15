@@ -15,6 +15,7 @@ import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
 import 'package:sit/init.dart';
+import 'package:sit/l10n/extension.dart';
 import 'package:sit/login/aggregated.dart';
 import 'package:sit/login/utils.dart';
 import 'package:sit/r.dart';
@@ -146,7 +147,8 @@ class AppLinksTile extends ConsumerWidget {
       title: "App links".text(),
       children: appLinks
           .map((uri) => ListTile(
-                title: uri.toString().text(),
+                title: context.formatYmdhmsNum(uri.ts).text(),
+                subtitle: uri.uri.toString().text(),
               ))
           .toList(),
     );
