@@ -19,6 +19,8 @@ import 'package:sit/update/utils.dart';
 import 'package:sit/utils/color.dart';
 import 'package:system_theme/system_theme.dart';
 
+final $appLinks = StateProvider((ref) => <Uri>[]);
+
 class MimirApp extends ConsumerStatefulWidget {
   const MimirApp({super.key});
 
@@ -117,7 +119,7 @@ class _MimirAppState extends ConsumerState<MimirApp> {
   }
 }
 
-class _PostServiceRunner extends StatefulWidget {
+class _PostServiceRunner extends ConsumerStatefulWidget {
   final Widget child;
 
   const _PostServiceRunner({
@@ -126,10 +128,10 @@ class _PostServiceRunner extends StatefulWidget {
   });
 
   @override
-  State<_PostServiceRunner> createState() => _PostServiceRunnerState();
+  ConsumerState<_PostServiceRunner> createState() => _PostServiceRunnerState();
 }
 
-class _PostServiceRunnerState extends State<_PostServiceRunner> {
+class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
   StreamSubscription? $appLink;
 
   @override
@@ -146,6 +148,7 @@ class _PostServiceRunnerState extends State<_PostServiceRunner> {
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       $appLink = AppLinks().allUriLinkStream.listen((uri) async {
+        ref.read($appLinks.notifier).state = [...ref.read($appLinks), uri];
         final navigateCtx = $key.currentContext;
         if (navigateCtx == null) return;
         await onHandleQrCodeUriData(context: navigateCtx, qrCodeData: uri);

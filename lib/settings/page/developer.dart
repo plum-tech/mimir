@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sit/app.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/entity/user_type.dart';
@@ -79,6 +80,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                     context.go("/");
                   },
                 ),
+              const AppLinksTile(),
               const DebugGoRouteTile(),
             ]),
           ),
@@ -129,6 +131,24 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
         if (!mounted) return;
         context.navigator.pop();
       },
+    );
+  }
+}
+
+class AppLinksTile extends ConsumerWidget {
+  const AppLinksTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appLinks = ref.watch($appLinks);
+    return AnimatedExpansionTile(
+      leading: const Icon(Icons.link),
+      title: "App links".text(),
+      children: appLinks
+          .map((uri) => ListTile(
+                title: uri.toString().text(),
+              ))
+          .toList(),
     );
   }
 }
