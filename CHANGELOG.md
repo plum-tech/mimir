@@ -2,6 +2,7 @@
 
 ## v2.4.0
 - Redesigned the expense statistics page.
+- Redesigned the network tool page.
 
 ## v2.3.0
 - The 2048 game supports save/load feature.
