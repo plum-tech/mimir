@@ -25,7 +25,7 @@ class TimetableService {
   const TimetableService();
 
   Future<bool> checkConnectivity() {
-    return _jwxtSession.ssoSession.checkConnectivity();
+    return _jwxtSession.checkConnectivity();
   }
 
   /// 获取本科生课表

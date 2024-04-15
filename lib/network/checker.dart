@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:check_vpn_connection/check_vpn_connection.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -9,12 +7,11 @@ import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/animation/animated.dart';
 import 'package:sit/init.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:sit/network/utils.dart';
 import 'package:sit/utils/error.dart';
-import 'package:sit/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 
-enum ConnectivityStatus {
+enum _Status {
   none,
   connecting,
   connected,
@@ -44,38 +41,19 @@ class ConnectivityChecker extends StatefulWidget {
   State<ConnectivityChecker> createState() => _ConnectivityCheckerState();
 }
 
-const _type2Icon = {
-  ConnectivityResult.bluetooth: Icons.bluetooth,
-  ConnectivityResult.wifi: Icons.wifi,
-  ConnectivityResult.ethernet: Icons.lan,
-  ConnectivityResult.mobile: Icons.signal_cellular_alt,
-  ConnectivityResult.none: Icons.signal_wifi_statusbar_null_outlined,
-  ConnectivityResult.vpn: Icons.vpn_key,
-};
-
-IconData getConnectionTypeIcon(ConnectivityResult? type, {IconData? fallback}) {
-  return _type2Icon[type] ?? fallback ?? Icons.wifi_find_outlined;
-}
-
 class _ConnectivityCheckerState extends State<ConnectivityChecker> {
-  ConnectivityStatus status = ConnectivityStatus.none;
-  ConnectivityResult? connectionType;
-  late Timer networkChecker;
+  _Status status = _Status.none;
+  late StreamSubscription<ConnectivityStatus> connectivityChecker;
+  ConnectivityStatus? connectivityStatus;
 
   @override
   void initState() {
     super.initState();
-    networkChecker = runPeriodically(const Duration(milliseconds: 1000), (Timer t) async {
-      var type = await Connectivity().checkConnectivity();
-      if (type == ConnectivityResult.wifi || type == ConnectivityResult.ethernet) {
-        if (Settings.proxy.anyEnabled || await CheckVpnConnection.isVpnActive()) {
-          type = ConnectivityResult.vpn;
-        }
-      }
-      if (connectionType != type) {
+    connectivityChecker = checkConnectivityPeriodic(period: const Duration(milliseconds: 1000)).listen((status) {
+      if (connectivityStatus != status) {
         if (!mounted) return;
         setState(() {
-          connectionType = type;
+          connectivityStatus = status;
         });
       }
     });
@@ -85,6 +63,12 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
         startCheck();
       });
     }
+  }
+
+  @override
+  void dispose() {
+    connectivityChecker.cancel();
+    super.dispose();
   }
 
   @override
@@ -105,44 +89,43 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
   Future<void> startCheck() async {
     if (!mounted) return;
     setState(() {
-      networkChecker.cancel();
-      status = ConnectivityStatus.connecting;
+      status = _Status.connecting;
     });
     try {
       final connected = await widget.check();
       if (!mounted) return;
       setState(() {
         if (connected) {
-          status = ConnectivityStatus.connected;
+          status = _Status.connected;
         } else {
-          status = ConnectivityStatus.disconnected;
+          status = _Status.disconnected;
         }
       });
     } catch (error, stackTrace) {
       debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() {
-        status = ConnectivityStatus.disconnected;
+        status = _Status.disconnected;
       });
     }
   }
 
   Widget buildStatus(BuildContext ctx) {
     final tip = switch (status) {
-      ConnectivityStatus.none => widget.initialDesc ?? _i18n.status.none,
-      ConnectivityStatus.connecting => _i18n.status.connecting,
-      ConnectivityStatus.connected => _i18n.status.connected,
-      ConnectivityStatus.disconnected => _i18n.status.disconnected,
+      _Status.none => widget.initialDesc ?? _i18n.status.none,
+      _Status.connecting => _i18n.status.connecting,
+      _Status.connected => _i18n.status.connected,
+      _Status.disconnected => _i18n.status.disconnected,
     };
     return tip.text(key: ValueKey(status), style: ctx.textTheme.titleLarge, textAlign: TextAlign.center);
   }
 
   Widget buildButton(BuildContext ctx) {
     final (tip, onTap) = switch (status) {
-      ConnectivityStatus.none => (_i18n.button.none, startCheck),
-      ConnectivityStatus.connecting => (_i18n.button.connecting, null),
-      ConnectivityStatus.connected => (_i18n.button.connected, widget.onConnected),
-      ConnectivityStatus.disconnected => (_i18n.button.disconnected, startCheck),
+      _Status.none => (_i18n.button.none, startCheck),
+      _Status.connecting => (_i18n.button.connecting, null),
+      _Status.connected => (_i18n.button.connected, widget.onConnected),
+      _Status.disconnected => (_i18n.button.disconnected, startCheck),
     };
     return PlatformElevatedButton(
       onPressed: onTap,
@@ -155,16 +138,16 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
 
   Widget buildIndicatorArea(BuildContext ctx) {
     switch (status) {
-      case ConnectivityStatus.none:
-        return buildIcon(ctx, getConnectionTypeIcon(connectionType));
-      case ConnectivityStatus.connecting:
+      case _Status.none:
+        return buildIcon(ctx, getConnectionTypeIcon(connectivityStatus));
+      case _Status.connecting:
         return const CircularProgressIndicator(
           key: ValueKey("Waiting"),
           strokeWidth: 14,
         ).sizedAll(widget.iconSize);
-      case ConnectivityStatus.connected:
+      case _Status.connected:
         return buildIcon(ctx, context.icons.checkMark);
-      case ConnectivityStatus.disconnected:
+      case _Status.disconnected:
         return buildIcon(ctx, Icons.public_off_rounded);
     }
   }
@@ -179,12 +162,6 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
       key: key,
       widget.iconSize,
     );
-  }
-
-  @override
-  void dispose() {
-    networkChecker.cancel();
-    super.dispose();
   }
 }
 
@@ -227,36 +204,36 @@ class TestConnectionTile extends StatefulWidget {
 }
 
 class _TestConnectionTileState extends State<TestConnectionTile> {
-  var testState = ConnectivityStatus.none;
+  var testState = _Status.none;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      enabled: testState != ConnectivityStatus.connecting,
+      enabled: testState != _Status.connecting,
       leading: const Icon(Icons.network_check),
       title: _i18n.testConnection.text(),
       subtitle: _i18n.testConnectionDesc.text(),
       trailing: switch (testState) {
-        ConnectivityStatus.connecting => const CircularProgressIndicator.adaptive(),
-        ConnectivityStatus.connected => Icon(context.icons.checkMark, color: Colors.green),
-        ConnectivityStatus.disconnected => Icon(Icons.public_off_rounded, color: context.$red$),
+        _Status.connecting => const CircularProgressIndicator.adaptive(),
+        _Status.connected => Icon(context.icons.checkMark, color: Colors.green),
+        _Status.disconnected => Icon(Icons.public_off_rounded, color: context.$red$),
         _ => null,
       },
       onTap: () async {
         setState(() {
-          testState = ConnectivityStatus.connecting;
+          testState = _Status.connecting;
         });
         final bool connected;
         try {
-          connected = await Init.ssoSession.checkConnectivity();
+          connected = await Init.jwxtSession.checkConnectivity();
           if (!mounted) return;
           setState(() {
-            testState = connected ? ConnectivityStatus.connected : ConnectivityStatus.disconnected;
+            testState = connected ? _Status.connected : _Status.disconnected;
           });
         } catch (error) {
           if (!mounted) return;
           setState(() {
-            testState = ConnectivityStatus.disconnected;
+            testState = _Status.disconnected;
           });
         }
       },

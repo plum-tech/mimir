@@ -7,8 +7,8 @@ part of 'network.dart';
 // **************************************************************************
 
 CampusNetworkStatus _$CampusNetworkStatusFromJson(Map<String, dynamic> json) => CampusNetworkStatus(
-      _toBool(json['result'] as int),
-      json['v46ip'] as String,
+      loggedIn: _toBool(json['result'] as int),
+      ip: json['v46ip'] as String,
       studentId: json['uid'] as String?,
     );
 

@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:sit/init.dart';
-import 'package:sit/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
+import '../utils.dart';
 import 'connected.dart';
 import 'disconnected.dart';
 
@@ -18,30 +18,26 @@ class NetworkToolPage extends StatefulWidget {
 
 class _NetworkToolPageState extends State<NetworkToolPage> {
   bool? isConnected;
-  late Timer connectivityChecker;
+  late StreamSubscription<bool> connectivityChecker;
 
   @override
   void initState() {
     super.initState();
-    // FIXME: Bad practice to use periodically, because the next request will not await the former one.
-    connectivityChecker = runPeriodically(const Duration(milliseconds: 3000), (Timer t) async {
-      bool connected;
-      try {
-        connected = await Init.ssoSession.checkConnectivity();
-      } catch (err) {
-        connected = false;
-      }
-      if (!mounted) return;
+    connectivityChecker = checkPeriodic(
+      period: const Duration(milliseconds: 3000),
+      check: () async {
+        try {
+          return await Init.jwxtSession.checkConnectivity();
+        } catch (err) {
+          return false;
+        }
+      },
+    ).listen((connected) {
       if (isConnected != connected) {
-        setState(() => isConnected = connected);
+        setState(() {
+          isConnected = connected;
+        });
       }
-      // if (connected) {
-      //   // if connected, check the connection slowly
-      //   await Future.delayed(const Duration(seconds: 3));
-      // } else {
-      //   // if not connected, check the connection frequently
-      //   await Future.delayed(const Duration(seconds: 1));
-      // }
     });
   }
 

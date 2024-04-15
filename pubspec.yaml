@@ -97,7 +97,7 @@ dependencies:
   package_info_plus: ^7.0.0
   # Check VPN connection status
   check_vpn_connection: ^0.0.2
-  connectivity_plus: ^5.0.2
+  connectivity_plus: ^6.0.2
   vibration: ^1.8.4
   # qrcode scanner
   mobile_scanner: 4.0.1

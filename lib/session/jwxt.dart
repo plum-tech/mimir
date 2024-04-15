@@ -60,4 +60,23 @@ class JwxtSession {
     }
     return response;
   }
+
+  Future<bool> checkConnectivity({
+    String url = 'http://jwxt.sit.edu.cn/',
+  }) async {
+    try {
+      await request(
+        url,
+        options: Options(
+          method: "GET",
+          contentType: Headers.formUrlEncodedContentType,
+          followRedirects: false,
+          validateStatus: (status) => status! < 400,
+        ),
+      );
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }
