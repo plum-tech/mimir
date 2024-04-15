@@ -37,9 +37,7 @@ class ExamCardContent extends StatelessWidget {
     return FilledButton.icon(
       icon: const Icon(Icons.calendar_month),
       onPressed: () async {
-        await addExamArrangeToCalendar(
-          exam,
-        );
+        await addExamArrangeToCalendar(exam);
       },
       label: i18n.addCalendarEvent.text(),
     );
@@ -92,6 +90,8 @@ Future<void> addExamArrangeToCalendar(ExamEntry exam) async {
     title: i18n.calendarEventTitleOf(exam.courseName),
     description: "${i18n.seatNumber} ${exam.seatNumber}",
     location: "${exam.place} #${exam.seatNumber}",
+    // alert before exam, 30 minutes by default.
+    iosParams: const IOSParams(reminder: Duration(minutes: 30)),
     startDate: start,
     endDate: end,
   );
