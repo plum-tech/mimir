@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:sit/init.dart';
 
-import 'package:sit/session/jwxt.dart';
+import 'package:sit/session/ug_registration.dart';
 
 import '../entity/exam.dart';
 import 'package:sit/school/entity/school.dart';
@@ -9,7 +9,7 @@ import 'package:sit/school/entity/school.dart';
 class ExamArrangeService {
   static const _examRoomUrl = 'http://jwxt.sit.edu.cn/jwglxt/kwgl/kscx_cxXsksxxIndex.html';
 
-  JwxtSession get _session => Init.jwxtSession;
+  UgRegistrationSession get _session => Init.ugRegSession;
 
   const ExamArrangeService();
 

@@ -8,7 +8,7 @@ import 'package:sit/lifecycle.dart';
 import 'package:sit/session/backend.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/session/class2nd.dart';
-import 'package:sit/session/gms.dart';
+import 'package:sit/session/pg_registration.dart';
 import 'package:sit/session/library.dart';
 import 'package:sit/session/ywb.dart';
 import 'package:sit/life/electricity/init.dart';
@@ -22,7 +22,7 @@ import 'package:sit/school/oa_announce/init.dart';
 import 'package:sit/school/class2nd/init.dart';
 import 'package:sit/school/exam_result/init.dart';
 import 'package:sit/school/yellow_pages/init.dart';
-import 'package:sit/session/jwxt.dart';
+import 'package:sit/session/ug_registration.dart';
 import 'package:sit/timetable/init.dart';
 import 'dart:async';
 
@@ -42,8 +42,8 @@ class Init {
   static late Dio dio;
   static late BackendSession backend;
   static late SsoSession ssoSession;
-  static late JwxtSession jwxtSession;
-  static late GmsSession gmsSession;
+  static late UgRegistrationSession ugRegSession;
+  static late PgRegistrationSession pgRegSession;
   static late YwbSession ywbSession;
   static late LibrarySession librarySession;
   static late Class2ndSession class2ndSession;
@@ -89,7 +89,7 @@ class Init {
         );
       },
     );
-    jwxtSession = JwxtSession(
+    ugRegSession = UgRegistrationSession(
       ssoSession: ssoSession,
     );
     ywbSession = YwbSession(
@@ -101,7 +101,7 @@ class Init {
     class2ndSession = Class2ndSession(
       ssoSession: ssoSession,
     );
-    gmsSession = GmsSession(
+    pgRegSession = PgRegistrationSession(
       ssoSession: ssoSession,
     );
   }

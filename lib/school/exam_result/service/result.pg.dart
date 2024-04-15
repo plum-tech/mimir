@@ -2,14 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:html/parser.dart';
 import 'package:sit/init.dart';
 import 'package:sit/school/utils.dart';
-import 'package:sit/session/gms.dart';
+import 'package:sit/session/pg_registration.dart';
 
 import '../entity/result.pg.dart';
 
 class ExamResultPgService {
   static const _postgraduateScoresUrl = "http://gms.sit.edu.cn/epstar/app/template.jsp";
 
-  GmsSession get _gmsSession => Init.gmsSession;
+  PgRegistrationSession get _gmsSession => Init.pgRegSession;
 
   const ExamResultPgService();
 

@@ -52,6 +52,7 @@ class R {
   ];
 
   static final jwxtUri = Uri(scheme: "http", host: "jwxt.sit.edu.cn");
+  static final gmsUri = Uri(scheme: "http", host: "gms.sit.edu.cn");
   static final authServerUri = Uri(scheme: "https", host: "authserver.sit.edu.cn");
   static final class2ndUri = Uri(scheme: "http", host: "sc.sit.edu.cn");
   static final schoolCardUri = Uri(scheme: "http", host: "card.sit.edu.cn");
@@ -61,6 +62,7 @@ class R {
   static final sitUriList = [
     authServerUri,
     jwxtUri,
+    gmsUri,
     class2ndUri,
     schoolCardUri,
     myPortalUri,
@@ -68,6 +70,7 @@ class R {
   ];
   static final sitSchoolNetworkUriList = [
     jwxtUri,
+    gmsUri,
     class2ndUri,
     schoolCardUri,
     libraryUri,

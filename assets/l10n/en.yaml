@@ -503,10 +503,14 @@ networkTool:
   connectionFailedButCampusNetworkConnected: |
     The campus network has been connected, but school server is still inaccessible.
     It's probably due to school server downtime for maintenance or even crash, please try again later.
-  connectedByProxy: Connected to campus network by HTTP proxy
-  connectedByVpn: Connected to campus network by VPN
-  connectedByWlan: Connected to campus network by WLAN
-  connectedByEthernet: Connected to campus network by Ethernet
+  campusNetworkConnected: Connected to campus network
+  campusNetworkConnectedByVpn: Connected to campus network by VPN
+  studentRegAvailable: Student registration system available
+  studentRegUnavailable: Student registration system unavailable
+  ugRegAvailableTip:
+  ugRegUnavailableTip:
+  pgRegAvailableTip:
+  pgRegUnavailableTip:
 login:
   login: Login
   forgotPwd: Forgot password?

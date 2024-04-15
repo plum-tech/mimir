@@ -4,11 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:sit/session/sso.dart';
 
 /// jwxt.sit.edu.cn
-/// for undergraduate
-class JwxtSession {
+/// Student registration system for undergraduate
+class UgRegistrationSession {
   final SsoSession ssoSession;
 
-  const JwxtSession({required this.ssoSession});
+  const UgRegistrationSession({required this.ssoSession});
 
   Future<void> refreshCookie() async {
     await ssoSession.request(

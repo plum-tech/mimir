@@ -3,11 +3,11 @@ import 'package:dio/dio.dart';
 import 'package:sit/session/sso.dart';
 
 /// gms.sit.edu.cn
-/// for postgraduate
-class GmsSession {
+/// Student registration system for postgraduate
+class PgRegistrationSession {
   final SsoSession ssoSession;
 
-  const GmsSession({required this.ssoSession});
+  const PgRegistrationSession({required this.ssoSession});
 
   Future<Response> request(
     String url, {

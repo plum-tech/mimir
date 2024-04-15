@@ -225,7 +225,7 @@ class _TestConnectionTileState extends State<TestConnectionTile> {
         });
         final bool connected;
         try {
-          connected = await Init.jwxtSession.checkConnectivity();
+          connected = await Init.ugRegSession.checkConnectivity();
           if (!mounted) return;
           setState(() {
             testState = connected ? _Status.connected : _Status.disconnected;

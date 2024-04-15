@@ -18,19 +18,25 @@ class _I18n with CommonI18nMixin {
 
   String get openWlanSettingsBtn => "$ns.openWlanSettingsBtn".tr();
 
-  String get noAccessTip => "$ns.noAccessTip".tr();
-
   String get connectionFailedError => "$ns.connectionFailedError".tr();
 
   String get connectionFailedButCampusNetworkConnected => "$ns.connectionFailedButCampusNetworkConnected".tr();
 
-  String get connectedByProxy => "$ns.connectedByProxy".tr();
+  String get studentRegAvailable => "$ns.studentRegAvailable".tr();
 
-  String get connectedByVpn => "$ns.connectedByVpn".tr();
+  String get studentRegUnavailable => "$ns.studentRegUnavailable".tr();
 
-  String get connectedByWlan => "$ns.connectedByWlan".tr();
+  String get ugRegAvailableTip => "$ns.ugRegAvailableTip".tr();
 
-  String get connectedByEthernet => "$ns.connectedByEthernet".tr();
+  String get ugRegUnavailableTip => "$ns.ugRegUnavailableTip".tr();
+
+  String get pgRegAvailableTip => "$ns.pgRegAvailableTip".tr();
+
+  String get pgRegUnavailableTip => "$ns.pgRegUnavailableTip".tr();
+
+  String get campusNetworkConnected => "$ns.campusNetworkConnected".tr();
+
+  String get campusNetworkConnectedByVpn => "$ns.campusNetworkConnectedByVpn".tr();
 }
 
 class _Easyconnect {
