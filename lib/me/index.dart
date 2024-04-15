@@ -1,9 +1,8 @@
-import 'package:antdesign_icons/antdesign_icons.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:simple_icons/simple_icons.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/game/2048/card.dart';
@@ -78,7 +77,7 @@ class _MePageState extends State<MePage> {
 
   Widget buildQQGroupTile() {
     return ListTile(
-      leading: const Icon(AntIcons.qqOutlined),
+      leading: const Icon(SimpleIcons.tencentqq),
       title: "QQ交流群".text(),
       subtitle: _qGroupNumber.text(),
       trailing: PlatformIconButton(
@@ -99,7 +98,7 @@ class _MePageState extends State<MePage> {
 
   Widget buildWechatOfficialAccountTile() {
     return ListTile(
-      leading: const Icon(AntIcons.wechatOutlined),
+      leading: const Icon(SimpleIcons.wechat),
       title: "微信公众号".text(),
       subtitle: "小应生活".text(),
       trailing: PlatformIconButton(
