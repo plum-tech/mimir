@@ -20,6 +20,7 @@ import 'package:sit/timetable/platte.dart';
 import 'package:sit/timetable/widgets/course.dart';
 import 'package:sit/utils/format.dart';
 import 'package:text_scroll/text_scroll.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../entity/platte.dart';
 import '../i18n.dart';
@@ -272,14 +273,16 @@ class TimetableCard extends StatelessWidget {
             }
           },
         ),
-        EntryAction(
-          label: i18n.share,
-          icon: context.icons.share,
-          type: EntryActionType.share,
-          action: () async {
-            await exportTimetableFileAndShare(timetable, context: ctx);
-          },
-        ),
+        // share_plus: sharing files is not supported on Linux
+        if (!UniversalPlatform.isLinux)
+          EntryAction(
+            label: i18n.share,
+            icon: context.icons.share,
+            type: EntryActionType.share,
+            action: () async {
+              await exportTimetableFileAndShare(timetable, context: ctx);
+            },
+          ),
         EntryAction(
           label: i18n.mine.exportCalendar,
           icon: context.icons.calendar,
