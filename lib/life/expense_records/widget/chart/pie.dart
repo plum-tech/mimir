@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../entity/local.dart';
@@ -23,10 +24,12 @@ class ExpensePieChart extends StatefulWidget {
 }
 
 class _ExpensePieChartState extends State<ExpensePieChart> {
-  int touchedIndex = -1;
   StatisticsDelegate get delegate => widget.delegate;
+
   DateTime get start => delegate.start;
+
   StatisticsMode get mode => delegate.mode;
+
   @override
   Widget build(BuildContext context) {
     return [
@@ -35,13 +38,66 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
       ).padFromLTRB(16, 8, 0, 0),
       AspectRatio(
         aspectRatio: 1.5,
-        child: buildChart(),
+        child: ExpensePieChartWidget(
+          delegate: delegate,
+        ),
       ),
       buildLegends().padAll(8).align(at: Alignment.topLeft),
     ].column(caa: CrossAxisAlignment.start);
   }
 
-  Widget buildChart() {
+  Widget buildLegends() {
+    return delegate.type2Stats.entries
+        .sortedBy<num>((e) => -e.value.total)
+        .map((record) {
+          final MapEntry(key: type, value: (records: _, :total, proportion: _)) = record;
+          final color = type.color.harmonizeWith(context.colorScheme.primary);
+          return Chip(
+            avatar: Icon(type.icon, color: color),
+            labelStyle: TextStyle(color: color),
+            label: "${type.l10n()}: ${i18n.unit.rmb(total.toStringAsFixed(2))}".text(),
+          );
+        })
+        .toList()
+        .wrap(spacing: 4, runSpacing: 4);
+  }
+}
+
+class ExpensePieChartHeader extends StatelessWidget {
+  final double total;
+
+  const ExpensePieChartHeader({
+    super.key,
+    required this.total,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpenseChartHeader(
+      upper: i18n.stats.total,
+      content: "¥${total.toStringAsFixed(2)}",
+    );
+  }
+}
+
+class ExpensePieChartWidget extends ConsumerStatefulWidget {
+  final StatisticsDelegate delegate;
+
+  const ExpensePieChartWidget({
+    super.key,
+    required this.delegate,
+  });
+
+  @override
+  ConsumerState createState() => _PieChartWidgetState();
+}
+
+class _PieChartWidgetState extends ConsumerState<ExpensePieChartWidget> {
+  StatisticsDelegate get delegate => widget.delegate;
+  int touchedIndex = -1;
+
+  @override
+  Widget build(BuildContext context) {
     return PieChart(
       PieChartData(
         pieTouchData: PieTouchData(
@@ -77,39 +133,6 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
           );
         }).toList(),
       ),
-    );
-  }
-
-  Widget buildLegends() {
-    return delegate.type2Stats.entries
-        .sortedBy<num>((e) => -e.value.total)
-        .map((record) {
-          final MapEntry(key: type, value: (records: _, :total, proportion: _)) = record;
-          final color = type.color.harmonizeWith(context.colorScheme.primary);
-          return Chip(
-            avatar: Icon(type.icon, color: color),
-            labelStyle: TextStyle(color: color),
-            label: "${type.l10n()}: ${i18n.unit.rmb(total.toStringAsFixed(2))}".text(),
-          );
-        })
-        .toList()
-        .wrap(spacing: 4, runSpacing: 4);
-  }
-}
-
-class ExpensePieChartHeader extends StatelessWidget {
-  final double total;
-
-  const ExpensePieChartHeader({
-    super.key,
-    required this.total,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ExpenseChartHeader(
-      upper: i18n.stats.total,
-      content: "¥${total.toStringAsFixed(2)}",
     );
   }
 }

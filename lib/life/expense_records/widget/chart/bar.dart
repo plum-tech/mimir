@@ -36,7 +36,7 @@ class _ExpenseBarChartState extends State<ExpenseBarChart> {
       buildChartHeader().padFromLTRB(16, 8, 0, 8),
       AspectRatio(
         aspectRatio: 1.5,
-        child: AmountChartWidget(
+        child: ExpenseBarChartWidget(
           delegate: delegate,
         ).padSymmetric(v: 12, h: 8),
       ),
@@ -66,20 +66,48 @@ class _ExpenseBarChartState extends State<ExpenseBarChart> {
   }
 }
 
-class AmountChartWidget extends StatelessWidget {
+class ExpenseBarChartWidget extends StatefulWidget {
   final StatisticsDelegate delegate;
 
-  const AmountChartWidget({
+  const ExpenseBarChartWidget({
     super.key,
     required this.delegate,
   });
+
+  @override
+  State<ExpenseBarChartWidget> createState() => _ExpenseBarChartWidgetState();
+}
+
+class _ExpenseBarChartWidgetState extends State<ExpenseBarChartWidget> {
+  StatisticsDelegate get delegate => widget.delegate;
+  int touchedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
     return BarChart(
       BarChartData(
         alignment: BarChartAlignment.center,
-        barTouchData: BarTouchData(enabled: false),
+        barTouchData: BarTouchData(
+          enabled: true,
+          touchTooltipData: BarTouchTooltipData(
+            getTooltipItem: (group, groupIndex, rod, rodIndex) {
+              return BarTooltipItem(
+                buildToolTip(groupIndex, rod.toY),
+                context.textTheme.titleMedium ?? const TextStyle(),
+              );
+            },
+            getTooltipColor: (group) => context.colorScheme.surfaceVariant,
+          ),
+          touchCallback: (FlTouchEvent event, barTouchResponse) {
+            setState(() {
+              if (!event.isInterestedForInteractions || barTouchResponse == null || barTouchResponse.spot == null) {
+                touchedIndex = -1;
+                return;
+              }
+              touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
+            });
+          },
+        ),
         titlesData: FlTitlesData(
           show: true,
           bottomTitles: AxisTitles(
@@ -134,6 +162,7 @@ class AmountChartWidget extends StatelessWidget {
         ),
         groupsSpace: 40,
         barGroups: delegate.data.mapIndexed((i, records) {
+          final isTouched = i == touchedIndex;
           final (:total, :type2Stats) = statisticsTransactionByType(records);
           var c = 0.0;
           return BarChartGroupData(
@@ -141,6 +170,10 @@ class AmountChartWidget extends StatelessWidget {
             barRods: [
               BarChartRodData(
                 toY: total,
+                color: Colors.transparent,
+                borderSide: isTouched
+                    ? BorderSide(color: context.colorScheme.onSurface, width: 1.5)
+                    : const BorderSide(color: Colors.transparent, width: 0),
                 rodStackItems: type2Stats.entries.map((e) {
                   final res = BarChartRodStackItem(
                     c,
@@ -156,5 +189,18 @@ class AmountChartWidget extends StatelessWidget {
         }).toList(),
       ),
     );
+  }
+
+  String buildToolTip(int index, double value) {
+    if (delegate.mode == StatisticsMode.day) {
+      return "¥${value}";
+    } else {
+      final records = delegate.data[index];
+      final template = records.firstOrNull;
+      if(template == null) return "";
+      final ts = template.timestamp;
+      return "${delegate.mode.formatDate(ts)}\n ¥${value}";
+      // return records;
+    }
   }
 }

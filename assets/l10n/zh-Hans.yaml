@@ -524,8 +524,8 @@ networkTool:
   campusNetworkConnected: 已连接到校园网
   campusNetworkNotConnected: 未连接校园网
   campusNetworkConnectedByVpn: 已通过 VPN 连接到校园网
-  studentRegAvailable: 教务系统可以访问
-  studentRegUnavailable: 教务系统不可访问
+  studentRegAvailable: 可以访问教务系统
+  studentRegUnavailable: 无法访问教务系统
   ugRegAvailableTip: |
     你可以从教务系统中导入课程表，并查看考试安排和考试成绩（包括绩点）
   ugRegUnavailableTip: |
