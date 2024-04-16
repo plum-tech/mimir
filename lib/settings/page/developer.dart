@@ -148,7 +148,7 @@ class AppLinksTile extends ConsumerWidget {
       children: appLinks
           .map((uri) => ListTile(
                 title: context.formatYmdhmsNum(uri.ts).text(),
-                subtitle: uri.uri.toString().text(),
+                subtitle: Uri.decodeFull(uri.uri.toString()).text(),
               ))
           .toList(),
     );

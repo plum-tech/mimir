@@ -61,6 +61,10 @@ class _Mine {
   String get emptyTip => "$ns.emptyTip".tr();
 
   String get details => "$ns.details".tr();
+
+  String get addFromFileAction => "$ns.addFromFileAction".tr();
+
+  String get addFromFileDesc => "$ns.addFromFileDesc".tr();
 }
 
 class _P13n {

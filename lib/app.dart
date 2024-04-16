@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/files.dart';
-import 'package:sit/files/handle.dart';
+import 'package:sit/file_type/handle.dart';
 import 'package:sit/lifecycle.dart';
 import 'package:sit/qrcode/handle.dart';
 import 'package:sit/r.dart';
@@ -154,10 +154,11 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
         final navigateCtx = $key.currentContext;
         if (navigateCtx == null) return;
         if (!kIsWeb) {
-          final maybePath = uri.toString();
+          final maybePath = Uri.decodeFull(uri.toString());
           final isFile = await File(maybePath).exists();
           if (isFile) {
-            await onHandleFilePath(path: maybePath);
+            if (!navigateCtx.mounted) return;
+            await onHandleFilePath(context: navigateCtx, path: maybePath);
             return;
           }
         }

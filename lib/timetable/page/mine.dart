@@ -83,7 +83,7 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   }
 
   Future<({int id, SitTimetable timetable})?> importFromFile() async {
-    final timetable = await readTimetableFromFileWithPrompt(context);
+    final timetable = await readTimetableFromPickedFileWithPrompt(context);
     if (timetable == null) return null;
     final id = TimetableInit.storage.timetable.add(timetable);
     if (!mounted) return null;
@@ -419,4 +419,20 @@ class _TimetableDetailsPageState extends State<TimetableDetailsPage> {
       ),
     );
   }
+}
+
+Future<void> onTimetableFromFile({
+  required BuildContext context,
+  required SitTimetable timetable,
+}) async {
+  final confirm = await context.showActionRequest(
+    desc: i18n.mine.addFromFileDesc,
+    action: i18n.mine.addFromFileAction,
+    cancel: i18n.cancel,
+  );
+  if (confirm != true) return;
+  TimetableInit.storage.timetable.add(timetable);
+  await HapticFeedback.mediumImpact();
+  if (!context.mounted) return;
+  context.push("/timetable/mine");
 }

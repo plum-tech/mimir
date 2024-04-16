@@ -71,7 +71,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
   }
 
   Future<void> importFromFile() async {
-    final timetable = await readTimetableFromFileWithPrompt(context);
+    final timetable = await readTimetableFromPickedFileWithPrompt(context);
     if (timetable == null) return;
     final id = TimetableInit.storage.timetable.add(timetable);
     if (!mounted) return;

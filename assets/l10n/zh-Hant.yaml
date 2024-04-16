@@ -17,6 +17,8 @@ timetable:
     deleteRequestDesc: 你會失去這個課程表，永久地。
     emptyTip: 快去匯入一張新的課程表吧！
     details: 詳細資料
+    addFromFileAction: 新增課程表
+    addFromFileDesc: 確認從檔案中新增課程表？
   edit:
     name: 名稱
     tab:

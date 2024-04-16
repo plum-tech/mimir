@@ -17,6 +17,8 @@ timetable:
     deleteRequestDesc: 这个课程表将被永久删除
     emptyTip: 快去导入一个课程表吧！
     details: 详情
+    addFromFileAction: 添加课程表
+    addFromFileDesc: 确定从读取的文件中添加课程表？
   edit:
     name: 名称
     tab:

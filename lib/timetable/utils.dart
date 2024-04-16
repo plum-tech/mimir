@@ -16,6 +16,7 @@ import 'package:sit/school/entity/school.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sit/school/utils.dart';
+import 'package:sit/utils/error.dart';
 import 'package:sit/utils/ical.dart';
 import 'package:sit/utils/permission.dart';
 import 'package:sit/utils/strings.dart';
@@ -156,15 +157,38 @@ Future<SitTimetable?> readTimetableFromPickedFile() async {
   return timetable;
 }
 
-Future<SitTimetable?> readTimetableFromFileWithPrompt(BuildContext context) async {
+Future<SitTimetable?> readTimetableFromFile(String path) async {
+  final file = File(path);
+  final content = await file.readAsString();
+  final json = jsonDecode(content);
+  final timetable = SitTimetable.fromJson(json);
+  return timetable;
+}
+
+Future<SitTimetable?> readTimetableFromFileWithPrompt(BuildContext context, String path) async {
+  try {
+    final timetable = await readTimetableFromFile(path);
+    return timetable;
+  } catch (error, stackTrace) {
+    debugPrintError(error, stackTrace);
+    if (!context.mounted) return null;
+    context.showTip(
+      title: "Format error",
+      desc: "The file isn't supported. Please select a timetable file.",
+      ok: i18n.ok,
+    );
+    return null;
+  }
+}
+
+Future<SitTimetable?> readTimetableFromPickedFileWithPrompt(BuildContext context) async {
   try {
     final timetable = await readTimetableFromPickedFile();
     return timetable;
-  } catch (err, stackTrace) {
-    debugPrint(err.toString());
-    debugPrintStack(stackTrace: stackTrace);
+  } catch (error, stackTrace) {
+    debugPrintError(error, stackTrace);
     if (!context.mounted) return null;
-    if (err is PlatformException) {
+    if (error is PlatformException) {
       await showPermissionDeniedDialog(context: context, permission: Permission.storage);
     } else {
       context.showTip(

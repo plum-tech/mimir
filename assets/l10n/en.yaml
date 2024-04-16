@@ -17,6 +17,8 @@ timetable:
     deleteRequestDesc: You will lose this timetable permanently
     emptyTip: Let's import a timetable!
     details: Details
+    addFromFileAction: Add timetable
+    addFromFileDesc: Confirm to add a timetable from file?
   edit:
     name: Name
     tab:
