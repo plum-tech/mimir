@@ -11,6 +11,6 @@ Future<void> renewBorrowedBook(BuildContext context, String barcode) async {
     if (!context.mounted) return;
     await context.showTip(title: i18n.borrowing.renew, ok: i18n.ok, desc: result);
   } catch (error, stackTrace) {
-    handleRequestError(context, error, stackTrace);
+    handleRequestError(error, stackTrace);
   }
 }

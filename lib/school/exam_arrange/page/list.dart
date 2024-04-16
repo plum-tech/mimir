@@ -49,7 +49,7 @@ class _ExamArrangementListPageState extends ConsumerState<ExamArrangementListPag
         });
       }
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

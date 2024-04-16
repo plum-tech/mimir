@@ -73,7 +73,6 @@ class SsoSession {
     this.onError,
   });
 
-
   /// - User try to log in actively on a login page.
   Future<Response> loginLocked(Credentials credentials) async {
     return await _loginLock.synchronized(() async {

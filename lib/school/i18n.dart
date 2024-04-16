@@ -43,7 +43,6 @@ class CourseI18n {
   String get elective => "$ns.elective".tr();
 }
 
-
 class _Settings {
   const _Settings();
 

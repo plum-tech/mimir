@@ -63,7 +63,7 @@ class _Class2ndAppCardState extends ConsumerState<Class2ndAppCard> {
         context.showSnackBar(content: i18n.refreshSuccessTip.text());
       }
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       if (!mounted) return;
       if (active) {
         context.showSnackBar(content: i18n.refreshFailedTip.text());

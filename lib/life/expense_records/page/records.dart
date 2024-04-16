@@ -59,7 +59,7 @@ class _ExpenseRecordsPageState extends ConsumerState<ExpenseRecordsPage> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       setState(() {
         isFetching = false;
       });

@@ -318,7 +318,6 @@ class _FreeTip {
   String get findNearestDayWithClass => "$ns.findNearestDayWithClass".tr();
 }
 
-
 class _Settings {
   const _Settings();
 

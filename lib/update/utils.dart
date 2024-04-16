@@ -38,7 +38,7 @@ Future<void> checkAppUpdate({
       );
     }
   } catch (error, stackTrace) {
-    handleRequestError(context, error, stackTrace);
+    handleRequestError(error, stackTrace);
   }
 }
 

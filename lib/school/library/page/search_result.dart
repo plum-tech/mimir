@@ -85,7 +85,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

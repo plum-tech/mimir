@@ -60,7 +60,7 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

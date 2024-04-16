@@ -66,7 +66,7 @@ class _ExamResultUgPageState extends ConsumerState<ExamResultUgPage> {
       });
       $loadingProgress.value = 0;
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

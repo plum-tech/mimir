@@ -35,6 +35,7 @@ class LaunchEasyConnectButton extends StatelessWidget {
     );
   }
 }
+
 class OpenWifiSettingsButton extends StatelessWidget {
   const OpenWifiSettingsButton({super.key});
 
@@ -48,4 +49,3 @@ class OpenWifiSettingsButton extends StatelessWidget {
     );
   }
 }
-

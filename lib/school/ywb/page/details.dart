@@ -53,7 +53,7 @@ class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
         details = meta;
       });
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

@@ -76,7 +76,7 @@ class _AttendedActivityPageState extends ConsumerState<AttendedActivityPage> {
       });
       $loadingProgress.value = 0;
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() => isFetching = false);
       $loadingProgress.value = 0;

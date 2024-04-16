@@ -35,7 +35,7 @@ class _EduEmailInboxPageState extends ConsumerState<EduEmailInboxPage> {
     try {
       await EduEmailInit.service.login(credentials);
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       CredentialsInit.storage.eduEmailCredentials = null;
       return;
     }
@@ -51,7 +51,7 @@ class _EduEmailInboxPageState extends ConsumerState<EduEmailInboxPage> {
         this.messages = messages;
       });
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
     }
   }
 

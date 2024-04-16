@@ -155,7 +155,7 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
       setState(() => isLoggingIn = false);
       context.replace("/library/borrowing");
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       if (error is Exception) {
