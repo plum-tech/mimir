@@ -8,6 +8,7 @@ import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/animation/animated.dart';
 import 'package:sit/init.dart';
 import 'package:sit/network/utils.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/error.dart';
 import 'package:rettulf/rettulf.dart';
 

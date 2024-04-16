@@ -10,7 +10,7 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/lifecycle.dart';
 import 'package:sit/login/i18n.dart';
-import 'package:sit/network/widgets/entry.dart';
+import 'package:sit/network/widgets/entrance.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/init.dart';
 import 'package:sit/l10n/extension.dart';
@@ -128,7 +128,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         leading: const Icon(Icons.vpn_key),
         path: "/settings/proxy",
       ));
-      all.add(const NetworkToolEntryTile());
+      all.add(const NetworkToolEntranceTile());
     }
     if (loginStatus != LoginStatus.never) {
       all.add(const ClearCacheTile());

@@ -3,8 +3,8 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/widgets/navigation.dart';
 import '../i18n.dart';
 
-class NetworkToolEntryTile extends StatelessWidget {
-  const NetworkToolEntryTile({super.key});
+class NetworkToolEntranceTile extends StatelessWidget {
+  const NetworkToolEntranceTile({super.key});
 
   @override
   Widget build(BuildContext context) {

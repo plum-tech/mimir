@@ -197,7 +197,7 @@ class _ExpenseBarChartWidgetState extends State<ExpenseBarChartWidget> {
     } else {
       final records = delegate.data[index];
       final template = records.firstOrNull;
-      if(template == null) return "";
+      if (template == null) return "";
       final ts = template.timestamp;
       return "${delegate.mode.formatDate(ts)}\n ¥${value}";
       // return records;

@@ -9,7 +9,7 @@ import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/list_tile.dart';
-import 'package:sit/network/checker.dart';
+import 'package:sit/network/widgets/checker.dart';
 import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';

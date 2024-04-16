@@ -15,6 +15,6 @@ Future<void> onHandleFilePath({
       return;
     }
   }
-  if(!context.mounted) return;
+  if (!context.mounted) return;
   await context.showTip(title: "Unknown file format", desc: "$path", ok: _i18n.ok);
 }

@@ -34,7 +34,7 @@ enum StatisticsMode {
         final ym2records = records.groupListsBy((r) => (r.timestamp.year, r.timestamp.week));
         final startTime2Records = ym2records.entries
             .map((entry) =>
-        (start: getDateOfFirstDayInWeek(year: entry.key.$1, week: entry.key.$2), records: entry.value))
+                (start: getDateOfFirstDayInWeek(year: entry.key.$1, week: entry.key.$2), records: entry.value))
             .toList();
         startTime2Records.sortBy((r) => r.start);
         return startTime2Records;
@@ -48,7 +48,7 @@ enum StatisticsMode {
       case StatisticsMode.year:
         final ym2records = records.groupListsBy((r) => r.timestamp.year);
         final startTime2Records =
-        ym2records.entries.map((entry) => (start: DateTime(entry.key), records: entry.value)).toList();
+            ym2records.entries.map((entry) => (start: DateTime(entry.key), records: entry.value)).toList();
         startTime2Records.sortBy((r) => r.start);
         return startTime2Records;
     }
@@ -59,35 +59,31 @@ enum StatisticsMode {
     DateTime? endLimit,
   }) {
     var end = switch (this) {
-      StatisticsMode.day =>
-          start.copyWith(
-            day: start.day,
-            hour: 23,
-            minute: 59,
-            second: 59,
-          ),
-      StatisticsMode.week =>
-          start.copyWith(
-            day: start.day + 6,
-            hour: 23,
-            minute: 59,
-            second: 59,
-          ),
-      StatisticsMode.month =>
-          start.copyWith(
-            day: daysInMonth(year: start.month, month: start.month),
-            hour: 23,
-            minute: 59,
-            second: 59,
-          ),
-      StatisticsMode.year =>
-          start.copyWith(
-            month: 12,
-            day: daysInMonth(year: start.month, month: start.month),
-            hour: 23,
-            minute: 59,
-            second: 59,
-          )
+      StatisticsMode.day => start.copyWith(
+          day: start.day,
+          hour: 23,
+          minute: 59,
+          second: 59,
+        ),
+      StatisticsMode.week => start.copyWith(
+          day: start.day + 6,
+          hour: 23,
+          minute: 59,
+          second: 59,
+        ),
+      StatisticsMode.month => start.copyWith(
+          day: daysInMonth(year: start.month, month: start.month),
+          hour: 23,
+          minute: 59,
+          second: 59,
+        ),
+      StatisticsMode.year => start.copyWith(
+          month: 12,
+          day: daysInMonth(year: start.month, month: start.month),
+          hour: 23,
+          minute: 59,
+          second: 59,
+        )
     };
     if (endLimit != null && endLimit.isBefore(end)) {
       end = endLimit;
@@ -97,7 +93,7 @@ enum StatisticsMode {
 
   String formatDate(DateTime date) {
     final local = $key.currentContext?.locale.toString();
-    return switch(this){
+    return switch (this) {
       StatisticsMode.day => DateFormat.MMMMd(local).format(date),
       StatisticsMode.week => DateFormat.MMMMd(local).format(date),
       StatisticsMode.month => DateFormat.MMMMd(local).format(date),

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:flutter/material.dart';
 
 enum ConnectivityType {
@@ -11,6 +12,7 @@ enum ConnectivityType {
   other;
 }
 
+@CopyWith(skipFields: true)
 class ConnectivityStatus {
   final ConnectivityType? type;
   final bool vpnEnabled;

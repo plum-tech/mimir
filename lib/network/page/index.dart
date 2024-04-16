@@ -10,7 +10,7 @@ import 'package:sit/design/widgets/card.dart';
 import 'package:sit/init.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/network/service/network.dart';
-import 'package:sit/network/widgets/quick_button.dart';
+import 'package:sit/network/widgets/buttons.dart';
 import '../utils.dart';
 
 import '../i18n.dart';
@@ -154,7 +154,7 @@ class ConnectivityInfo extends StatelessWidget {
       Icon(
         status == null
             ? Icons.public_off
-            : status.vpnEnabled == true
+            : status.vpnEnabled
                 ? Icons.vpn_key
                 : getConnectionTypeIcon(status),
         size: 120,
