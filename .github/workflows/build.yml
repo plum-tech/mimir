@@ -71,7 +71,7 @@ jobs:
           path: build/upload-artifacts/SITLife-${{ steps.get_git_info.outputs.RESOLVED_VERSION }}.apk
 
   build_ios:
-    runs-on: macos-latest
+    runs-on: macos-13 # macos-latest is macos-12 actually
     if: github.ref == 'refs/heads/master'
 
     steps:
