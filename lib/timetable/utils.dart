@@ -204,7 +204,9 @@ Future<SitTimetable?> readTimetableFromPickedFileWithPrompt(BuildContext context
 Future<String?> _readTimetableFi(PlatformFile fi) async {
   if (kIsWeb) {
     final bytes = fi.bytes;
-    return bytes == null ? null : String.fromCharCodes(bytes);
+    if(bytes == null) return null;
+    // timetable file should be encoding in utf-8.
+    return const Utf8Decoder().convert(bytes.toList());
   } else {
     final path = fi.path;
     if (path == null) return null;
