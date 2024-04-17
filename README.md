@@ -31,6 +31,11 @@ Welcome to contribute SIT Life, please read the [contribution guide](specificati
 ### License
 
 The source codes and configurations are open source under [GPL v3](LICENSE).
+
+### Copyright
+
+Copyright©️2023 Liplum Dev. All Rights Reserved.
+
 </div>
 
 <!----------------------------------------------------------------------------->
