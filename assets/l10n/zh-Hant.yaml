@@ -392,6 +392,7 @@ electricity:
 eduEmail:
   title: Edu 電郵
   action:
+    open: 打開
     login: 登入
     inbox: 收件匣
     outbox: 寄件匣

@@ -30,6 +30,8 @@ class _Action {
 
   static const ns = "${_I18n.ns}.action";
 
+  String get open => "$ns.open".tr();
+
   String get login => "$ns.login".tr();
 
   String get inbox => "$ns.inbox".tr();

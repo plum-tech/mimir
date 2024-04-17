@@ -33,7 +33,7 @@ class _EduEmailAppCardState extends ConsumerState<EduEmailAppCard> {
                   await launchUrlString(emailUrl, mode: LaunchMode.externalApplication);
                 },
                 icon: const Icon(Icons.open_in_browser),
-                label: "Open".text(),
+                label: i18n.action.open.text(),
               ),
             ]
           : credentials == null

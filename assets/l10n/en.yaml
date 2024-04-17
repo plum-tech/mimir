@@ -395,6 +395,7 @@ electricity:
 eduEmail:
   title: Edu email
   action:
+    open: Open
     login: Login
     inbox: Inbox
     outbox: Outbox
