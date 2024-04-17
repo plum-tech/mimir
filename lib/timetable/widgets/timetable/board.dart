@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/files.dart';
@@ -97,12 +98,23 @@ class _TimetableBackgroundState extends State<TimetableBackground> with SingleTi
   @override
   Widget build(BuildContext context) {
     final bk = widget.background;
+    final filterQuality = bk.antialias ? FilterQuality.low : FilterQuality.none;
+    final repeat = bk.repeat ? ImageRepeat.repeat : ImageRepeat.noRepeat;
+    if (kIsWeb) {
+      return Image.network(
+        key: ValueKey(bk.path),
+        bk.path,
+        opacity: $opacity,
+        filterQuality: filterQuality,
+        repeat: repeat,
+      );
+    }
     return Image.file(
       key: ValueKey(bk.path),
       Files.timetable.backgroundFile,
       opacity: $opacity,
-      filterQuality: bk.antialias ? FilterQuality.low : FilterQuality.none,
-      repeat: bk.repeat ? ImageRepeat.repeat : ImageRepeat.noRepeat,
+      filterQuality: filterQuality,
+      repeat: repeat,
     );
   }
 }

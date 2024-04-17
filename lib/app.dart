@@ -37,29 +37,6 @@ class _MimirAppState extends ConsumerState<MimirApp> {
   late final router = buildRouter($routingConfig);
 
   @override
-  void initState() {
-    super.initState();
-    if (!kIsWeb) {
-      fitSystemScreenshot.init();
-    }
-  }
-
-  @override
-  void dispose() {
-    fitSystemScreenshot.release();
-    super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    // precache timetable background file
-    if (Settings.timetable.backgroundImage?.enabled == true) {
-      precacheImage(FileImage(Files.timetable.backgroundFile), context);
-    }
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final demoMode = ref.watch(Dev.$demoMode);
     final themeColorFromSystem = ref.watch(Settings.theme.$themeColorFromSystem) ?? true;
@@ -140,6 +117,9 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
   void initState() {
     super.initState();
     if (!kIsWeb) {
+      fitSystemScreenshot.init();
+    }
+    if (!kIsWeb) {
       Future.delayed(Duration.zero).then((value) async {
         await checkAppUpdate(
           context: $key.currentContext!,
@@ -169,8 +149,22 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
   }
 
   @override
+  void didChangeDependencies() {
+    // precache timetable background file
+    final timetableBk = Settings.timetable.backgroundImage;
+    if (timetableBk != null && timetableBk.enabled) {
+      if (kIsWeb) {
+        precacheImage(NetworkImage(timetableBk.path), context);
+      } else {
+        precacheImage(FileImage(Files.timetable.backgroundFile), context);
+      }
+    }
+    super.didChangeDependencies();
+  }
+  @override
   void dispose() {
     $appLink?.cancel();
+    fitSystemScreenshot.release();
     super.dispose();
   }
 

@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sit/files.dart';
 import 'package:sit/migration/foundation.dart';
@@ -36,6 +37,7 @@ void main() async {
   // debugRepaintTextRainbowEnabled = true;
   // debugPaintSizeEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
+  GoRouter.optionURLReflectsImperativeAPIs = kDebugMode;
   final prefs = await SharedPreferences.getInstance();
   final lastSize = prefs.getLastWindowSize();
   await DesktopInit.init(size: lastSize);
