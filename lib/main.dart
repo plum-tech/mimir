@@ -98,21 +98,21 @@ void main() async {
   await Init.initStorage();
   await Init.initModules();
   runApp(
-    EasyLocalization(
-      supportedLocales: R.supportedLocales,
-      path: 'assets/l10n',
-      fallbackLocale: R.defaultLocale,
-      useFallbackTranslations: true,
-      assetLoader: _yamlAssetsLoader,
-      child: ScreenUtilInit(
-        designSize: const Size(360, 690),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (context, child) {
-          return const ProviderScope(
-            child: MimirApp(),
-          );
-        },
+    ProviderScope(
+      child: EasyLocalization(
+        supportedLocales: R.supportedLocales,
+        path: 'assets/l10n',
+        fallbackLocale: R.defaultLocale,
+        useFallbackTranslations: true,
+        assetLoader: _yamlAssetsLoader,
+        child: ScreenUtilInit(
+          designSize: const Size(360, 690),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (context, child) {
+            return const MimirApp();
+          },
+        ),
       ),
     ),
   );

@@ -82,6 +82,25 @@ class BoxChangeNotifier extends ChangeNotifier {
   }
 }
 
+class BoxFieldExistsChangeNotifier extends StateNotifier<bool> {
+  final Listenable listenable;
+  final bool Function() getExists;
+
+  BoxFieldExistsChangeNotifier(super._state, this.listenable, this.getExists) {
+    listenable.addListener(_refresh);
+  }
+
+  void _refresh() {
+    state = getExists();
+  }
+
+  @override
+  void dispose() {
+    listenable.removeListener(_refresh);
+    super.dispose();
+  }
+}
+
 typedef BoxEventFilter = bool Function(BoxEvent event);
 
 class BoxChangeStreamNotifier extends ChangeNotifier {
@@ -183,6 +202,29 @@ extension BoxProviderX on Box {
   ) {
     return ChangeNotifierProvider.autoDispose((ref) {
       return BoxChangeNotifier(listenable(keys: keys));
+    });
+  }
+
+  AutoDisposeStateNotifierProvider<BoxFieldExistsChangeNotifier, bool> existsChangeProvider(
+    dynamic key,
+  ) {
+    return StateNotifierProvider.autoDispose((ref) {
+      return BoxFieldExistsChangeNotifier(
+        containsKey(key),
+        listenable(keys: [key]),
+        () => containsKey(key),
+      );
+    });
+  }
+
+  AutoDisposeStateNotifierProviderFamily<BoxFieldExistsChangeNotifier, bool, Arg> existsChangeProviderFamily<Arg>(
+      dynamic Function(Arg arg) keyOf) {
+    return StateNotifierProvider.autoDispose.family((ref, arg) {
+      return BoxFieldExistsChangeNotifier(
+        containsKey(keyOf(arg)),
+        listenable(keys: [keyOf(arg)]),
+        () => containsKey(keyOf(arg)),
+      );
     });
   }
 
