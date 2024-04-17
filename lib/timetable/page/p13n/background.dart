@@ -8,6 +8,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/common.dart';
@@ -78,7 +79,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
             buildToolBar().padV(4),
             if (rawPath != null && (Dev.on || (UniversalPlatform.isDesktop || kIsWeb)))
               ListTile(
-                title: "Selected image".text(),
+                title: i18n.p13n.background.selectedImage.text(),
                 subtitle: rawPath.text(),
               ),
             buildOpacity(),
@@ -165,12 +166,22 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
   Future<void> inputImageUrl() async {
     final url = await Editor.showStringEditor(
       context,
-      desc: "Image URL",
+      desc: i18n.p13n.background.imageURL,
       initial: rawPath ?? "",
     );
     if (url == null) return;
+    final uri = Uri.tryParse(url);
+    if (!mounted) return;
+    if (uri == null || !uri.isScheme("http") && !uri.isScheme("https")) {
+      await context.showTip(
+        title: i18n.p13n.background.invalidURL,
+        desc: i18n.p13n.background.invalidURLDesc,
+        ok: i18n.ok,
+      );
+      return;
+    }
     setState(() {
-      rawPath = url;
+      rawPath = uri.toString();
     });
   }
 

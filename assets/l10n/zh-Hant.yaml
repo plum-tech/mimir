@@ -153,6 +153,10 @@ timetable:
       title: 桌布
       opacity: 背景不透明度
       pickTip: 選取你喜愛的影像
+      selectedImage: 選取的影像
+      imageURL: 影像 URL
+      invalidURL: 無效 URL
+      invalidURLDesc: 請輸入以 http 或 https 開頭的 URL
       repeat:
         title: 重複影像
         desc: 重複影像作為圖案來填滿桌布

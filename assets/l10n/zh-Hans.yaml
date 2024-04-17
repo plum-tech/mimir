@@ -152,6 +152,10 @@ timetable:
       title: 壁纸
       opacity: 背景不透明度
       pickTip: 选择你喜欢的图片
+      selectedImage: 选择的图片
+      imageURL: 图片 URL
+      invalidURL: 无效的 URL
+      invalidURLDesc: 请输入以 http 或 https 开头的 URL
       repeat:
         title: 重复图像
         desc: 重复图像作为填充壁纸的图案

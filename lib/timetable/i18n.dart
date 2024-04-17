@@ -161,6 +161,14 @@ class _Background {
 
   String get pickTip => "$ns.pickTip".tr();
 
+  String get selectedImage => "$ns.selectedImage".tr();
+
+  String get imageURL => "$ns.imageURL".tr();
+
+  String get invalidURL => "$ns.invalidURL".tr();
+
+  String get invalidURLDesc => "$ns.invalidURLDesc".tr();
+
   String get opacity => "$ns.opacity".tr();
 
   String get repeat => "$ns.repeat.title".tr();

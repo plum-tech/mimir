@@ -301,7 +301,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   }
 
   Widget buildProxyProtocolTile() {
-    final scheme = uri.scheme;
+    final scheme = uri.scheme.toLowerCase();
     return ListTile(
       isThreeLine: true,
       leading: const Icon(Icons.https),
@@ -313,7 +313,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
                 onSelected: (value) {
                   setState(() {
                     uri = uri.replace(
-                      scheme: protocol,
+                      scheme: protocol.toLowerCase(),
                     );
                   });
                 },

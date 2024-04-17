@@ -152,6 +152,10 @@ timetable:
       title: Wallpaper
       opacity: Wallpaper opacity
       pickTip: Pick your favorite image
+      selectedImage: Selected image
+      imageURL: Image URL
+      invalidURL: Invalid URL
+      invalidURLDesc: Please enter a URL that begins with http or https
       repeat:
         title: Repeat image
         desc: Repeat image as a pattern to fill wallpaper
