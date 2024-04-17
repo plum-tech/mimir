@@ -6,27 +6,25 @@ part of 'state.dart';
 // CopyWithGenerator
 // **************************************************************************
 
-abstract class _$GameStatesCWProxy {
+abstract class _$GameStateMinesweeperCWProxy {
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored.
   ///
   /// Usage
   /// ```dart
-  /// GameStates(...).copyWith(id: 12, name: "My name")
+  /// GameStateMinesweeper(...).copyWith(id: 12, name: "My name")
   /// ````
-  GameStates call({
-    bool? gameOver,
-    bool? goodGame,
+  GameStateMinesweeper call({
+    GameState? state,
     GameMode? mode,
-    Screen? screen,
     Board? board,
   });
 }
 
-/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfGameStates.copyWith(...)`.
-class _$GameStatesCWProxyImpl implements _$GameStatesCWProxy {
-  const _$GameStatesCWProxyImpl(this._value);
+/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfGameStateMinesweeper.copyWith(...)`.
+class _$GameStateMinesweeperCWProxyImpl implements _$GameStateMinesweeperCWProxy {
+  const _$GameStateMinesweeperCWProxyImpl(this._value);
 
-  final GameStates _value;
+  final GameStateMinesweeper _value;
 
   @override
 
@@ -34,32 +32,22 @@ class _$GameStatesCWProxyImpl implements _$GameStatesCWProxy {
   ///
   /// Usage
   /// ```dart
-  /// GameStates(...).copyWith(id: 12, name: "My name")
+  /// GameStateMinesweeper(...).copyWith(id: 12, name: "My name")
   /// ````
-  GameStates call({
-    Object? gameOver = const $CopyWithPlaceholder(),
-    Object? goodGame = const $CopyWithPlaceholder(),
+  GameStateMinesweeper call({
+    Object? state = const $CopyWithPlaceholder(),
     Object? mode = const $CopyWithPlaceholder(),
-    Object? screen = const $CopyWithPlaceholder(),
     Object? board = const $CopyWithPlaceholder(),
   }) {
-    return GameStates(
-      gameOver: gameOver == const $CopyWithPlaceholder() || gameOver == null
-          ? _value.gameOver
+    return GameStateMinesweeper(
+      state: state == const $CopyWithPlaceholder() || state == null
+          ? _value.state
           // ignore: cast_nullable_to_non_nullable
-          : gameOver as bool,
-      goodGame: goodGame == const $CopyWithPlaceholder() || goodGame == null
-          ? _value.goodGame
-          // ignore: cast_nullable_to_non_nullable
-          : goodGame as bool,
+          : state as GameState,
       mode: mode == const $CopyWithPlaceholder() || mode == null
           ? _value.mode
           // ignore: cast_nullable_to_non_nullable
           : mode as GameMode,
-      screen: screen == const $CopyWithPlaceholder() || screen == null
-          ? _value.screen
-          // ignore: cast_nullable_to_non_nullable
-          : screen as Screen,
       board: board == const $CopyWithPlaceholder() || board == null
           ? _value.board
           // ignore: cast_nullable_to_non_nullable
@@ -68,8 +56,8 @@ class _$GameStatesCWProxyImpl implements _$GameStatesCWProxy {
   }
 }
 
-extension $GameStatesCopyWith on GameStates {
-  /// Returns a callable class that can be used as follows: `instanceOfGameStates.copyWith(...)`.
+extension $GameStateMinesweeperCopyWith on GameStateMinesweeper {
+  /// Returns a callable class that can be used as follows: `instanceOfGameStateMinesweeper.copyWith(...)`.
   // ignore: library_private_types_in_public_api
-  _$GameStatesCWProxy get copyWith => _$GameStatesCWProxyImpl(this);
+  _$GameStateMinesweeperCWProxy get copyWith => _$GameStateMinesweeperCWProxyImpl(this);
 }

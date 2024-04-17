@@ -1,24 +1,29 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:sit/game/minesweeper/entity/screen.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:sit/game/entity/game_state.dart';
 
 import 'board.dart';
 import 'mode.dart';
 
 part "state.g.dart";
 
+// @JsonSerializable()
 @CopyWith(skipFields: true)
-class GameStates {
-  final bool gameOver;
-  final bool goodGame;
+class GameStateMinesweeper {
+  @JsonKey()
+  final GameState state;
+  @JsonKey(toJson: GameMode.toJson, fromJson: GameMode.fromJson)
   final GameMode mode;
-  final Screen screen;
+  @JsonKey()
   final Board board;
 
-  const GameStates({
-    required this.gameOver,
-    required this.goodGame,
+  const GameStateMinesweeper({
+    required this.state,
     required this.mode,
-    required this.screen,
     required this.board,
   });
+  //
+  // Map<String, dynamic> toJson() => _$GameStateMinesweeperToJson(this);
+  //
+  // factory GameStateMinesweeper.fromJson(Map<String, dynamic> json) => _$GameStateMinesweeperFromJson(json);
 }
