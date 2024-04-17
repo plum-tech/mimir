@@ -7,10 +7,11 @@ import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/animation/animated.dart';
 import 'package:sit/init.dart';
-import 'package:sit/network/utils.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:sit/network/connectivity.dart';
 import 'package:sit/utils/error.dart';
 import 'package:rettulf/rettulf.dart';
+
+import '../utils.dart';
 
 enum _Status {
   none,
@@ -50,7 +51,10 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
   @override
   void initState() {
     super.initState();
-    connectivityChecker = checkConnectivityPeriodic(period: const Duration(milliseconds: 1000)).listen((status) {
+    connectivityChecker = checkPeriodic(
+      period: const Duration(milliseconds: 1000),
+      check: () => checkConnectivityWithProxySettings(schoolNetwork: true),
+    ).listen((status) {
       if (connectivityStatus != status) {
         if (!mounted) return;
         setState(() {

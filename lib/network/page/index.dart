@@ -11,9 +11,10 @@ import 'package:sit/init.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/network/service/network.dart';
 import 'package:sit/network/widgets/buttons.dart';
-import '../utils.dart';
+import '../connectivity.dart';
 
 import '../i18n.dart';
+import '../utils.dart';
 
 class NetworkToolPage extends StatefulWidget {
   const NetworkToolPage({super.key});
@@ -33,8 +34,9 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
   @override
   void initState() {
     super.initState();
-    connectivityChecker = checkConnectivityPeriodic(
+    connectivityChecker = checkPeriodic(
       period: const Duration(milliseconds: 1000),
+      check: () => checkConnectivityWithProxySettings(schoolNetwork: true),
     ).listen((status) {
       if (connectivityStatus != status) {
         if (!mounted) return;
@@ -44,7 +46,7 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
       }
     });
     studentRegChecker = checkPeriodic(
-      period: const Duration(milliseconds: 5000),
+      period: const Duration(milliseconds: 8000),
       check: () async {
         try {
           return await Init.ugRegSession.checkConnectivity();

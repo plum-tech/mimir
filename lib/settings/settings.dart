@@ -267,6 +267,11 @@ class _Proxy {
     all.proxyMode = mode;
   }
 
+  /// return null if their proxy mode are not identical.
+  bool hasAnyProxyMode(ProxyMode mode) {
+    return http.proxyMode == mode || https.proxyMode == mode || all.proxyMode == mode;
+  }
+
   Listenable listenProxyMode() =>
       box.listenable(keys: ProxyType.values.map((type) => _ProxyK.proxyMode(type)).toList());
 
