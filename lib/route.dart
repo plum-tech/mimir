@@ -307,11 +307,11 @@ final _oaAnnounceRoute = GoRoute(
     ),
   ],
 );
+final _yellowPagesRoute = GoRoute(
+  path: "/yellow-pages",
+  builder: (ctx, state) => const YellowPagesListPage(),
+);
 final _eduEmailRoutes = [
-  GoRoute(
-    path: "/yellow-pages",
-    builder: (ctx, state) => const YellowPagesListPage(),
-  ),
   GoRoute(
     path: "/edu-email/login",
     builder: (ctx, state) => const EduEmailLoginPage(),
@@ -511,6 +511,7 @@ RoutingConfig buildCommonRoutingConfig() {
       _browserRoute,
       _expenseRoute,
       _settingsRoute,
+      _yellowPagesRoute,
       ..._toolsRoutes,
       _class2ndRoute,
       _oaAnnounceRoute,
@@ -544,6 +545,7 @@ RoutingConfig buildTimetableFocusRouter() {
       _browserRoute,
       _expenseRoute,
       _settingsRoute,
+      _yellowPagesRoute,
       ..._toolsRoutes,
       _class2ndRoute,
       _oaAnnounceRoute,
