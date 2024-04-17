@@ -3,6 +3,10 @@
 ## v2.4.0
 - Redesigned the expense statistics page.
 - Redesigned the network tool page.
+- Changed duration of skipping update up to 7 days.
+- Changed web icons.
+- Timetable wallpaper support on web.
+- Allowed to join QQ group on desktop and web.
 
 ## v2.3.0
 - The 2048 game supports save/load feature.
