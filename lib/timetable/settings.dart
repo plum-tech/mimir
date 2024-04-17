@@ -22,21 +22,34 @@ class TimetableSettings {
 
   TimetableSettings(this.box);
 
-  bool get autoUseImported => box.safeGet(_K.autoUseImported) ?? _kAutoUseImported;
+  bool get autoUseImported => box.safeGet<bool>(_K.autoUseImported) ?? _kAutoUseImported;
 
-  set autoUseImported(bool newV) => box.safePut(_K.autoUseImported, newV);
+  set autoUseImported(bool newV) => box.safePut<bool>(_K.autoUseImported, newV);
 
   CourseCellStyle? get cellStyle =>
       decodeJsonObject(box.safeGet<String>(_K.cellStyle), (obj) => CourseCellStyle.fromJson(obj));
 
-  set cellStyle(CourseCellStyle? newV) => box.safePut(_K.cellStyle, encodeJsonObject(newV, (obj) => obj.toJson()));
+  set cellStyle(CourseCellStyle? newV) =>
+      box.safePut<String>(_K.cellStyle, encodeJsonObject(newV, (obj) => obj.toJson()));
+
+  late final $cellStyle = box.provider(
+    _K.cellStyle,
+    get: () => cellStyle,
+    set: (v) => cellStyle = v,
+  );
 
   ValueListenable listenCellStyle() => box.listenable(keys: [_K.cellStyle]);
 
   BackgroundImage? get backgroundImage =>
       decodeJsonObject(box.safeGet<String>(_K.backgroundImage), (obj) => BackgroundImage.fromJson(obj));
 
-  set backgroundImage(BackgroundImage? newV) => box.safePut(_K.backgroundImage, jsonEncode(newV?.toJson()));
+  set backgroundImage(BackgroundImage? newV) => box.safePut<String>(_K.backgroundImage, jsonEncode(newV?.toJson()));
+
+  late final $backgroundImage = box.provider(
+    _K.backgroundImage,
+    get: () => backgroundImage,
+    set: (v) => backgroundImage = v,
+  );
 
   ValueListenable listenBackgroundImage() => box.listenable(keys: [_K.backgroundImage]);
 }

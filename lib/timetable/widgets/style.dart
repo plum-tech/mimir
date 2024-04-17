@@ -1,5 +1,6 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/background.dart';
 import 'package:sit/timetable/entity/platte.dart';
@@ -59,7 +60,7 @@ class TimetableStyle extends InheritedWidget {
   }
 }
 
-class TimetableStyleProv extends StatefulWidget {
+class TimetableStyleProv extends ConsumerStatefulWidget {
   final Widget? child;
   final TimetablePalette? palette;
   final CourseCellStyle? cellStyle;
@@ -77,30 +78,22 @@ class TimetableStyleProv extends StatefulWidget {
   }) : assert(builder != null || child != null, "TimetableStyleProv should have at least one child.");
 
   @override
-  TimetableStyleProvState createState() => TimetableStyleProvState();
+  ConsumerState createState() => TimetableStyleProvState();
 }
 
-class TimetableStyleProvState extends State<TimetableStyleProv> {
+class TimetableStyleProvState extends ConsumerState<TimetableStyleProv> {
   final $palette = TimetableInit.storage.palette.$selected;
-  final $cellStyle = Settings.timetable.listenCellStyle();
-  final $background = Settings.timetable.listenBackgroundImage();
   var palette = TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic;
-  var cellStyle = Settings.timetable.cellStyle ?? const CourseCellStyle();
-  var background = Settings.timetable.backgroundImage ?? const BackgroundImage.disabled();
 
   @override
   void initState() {
     super.initState();
     $palette.addListener(refreshPalette);
-    $cellStyle.addListener(refreshCellStyle);
-    $background.addListener(refreshBackground);
   }
 
   @override
   void dispose() {
     $palette.removeListener(refreshPalette);
-    $cellStyle.removeListener(refreshCellStyle);
-    $background.removeListener(refreshBackground);
     super.dispose();
   }
 
@@ -110,20 +103,10 @@ class TimetableStyleProvState extends State<TimetableStyleProv> {
     });
   }
 
-  void refreshCellStyle() {
-    setState(() {
-      cellStyle = Settings.timetable.cellStyle ?? const CourseCellStyle();
-    });
-  }
-
-  void refreshBackground() {
-    setState(() {
-      background = Settings.timetable.backgroundImage ?? const BackgroundImage.disabled();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final background = ref.watch(Settings.timetable.$backgroundImage) ?? const BackgroundImage.disabled();
+    final cellStyle = ref.watch(Settings.timetable.$cellStyle) ?? const CourseCellStyle();
     final data = TimetableStyleData(
       platte: palette,
       cellStyle: cellStyle,
