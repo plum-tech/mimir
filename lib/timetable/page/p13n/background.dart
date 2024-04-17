@@ -208,7 +208,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
         label: i18n.choose.text(),
       ),
       OutlinedButton.icon(
-        onPressed: renderImageFile == null
+        onPressed: (kIsWeb ? rawPath == null : renderImageFile == null)
             ? null
             : () {
                 setState(() {

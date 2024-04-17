@@ -7,7 +7,8 @@ import 'package:universal_platform/universal_platform.dart';
 
 bool get isCupertino => R.debugCupertino || UniversalPlatform.isIOS || UniversalPlatform.isMacOS;
 
-bool get supportContextMenu => kIsWeb || isCupertino || UniversalPlatform.isDesktop;
+bool get supportContextMenu =>
+    kIsWeb || UniversalPlatform.isIOS || UniversalPlatform.isMacOS || UniversalPlatform.isDesktop;
 
 extension ShareX on BuildContext {
   Rect? getSharePositionOrigin() {
