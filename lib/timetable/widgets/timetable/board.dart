@@ -76,6 +76,10 @@ class _TimetableBackgroundState extends State<TimetableBackground> with SingleTi
   void initState() {
     super.initState();
     $opacity = AnimationController(vsync: this, value: 0);
+    $opacity.animateTo(
+      widget.background.opacity,
+      duration: Durations.medium1,
+    );
   }
 
   @override
