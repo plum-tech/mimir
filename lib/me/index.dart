@@ -15,12 +15,15 @@ import 'package:sit/qrcode/handle.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/utils/error.dart';
 import 'package:sit/utils/guard_launch.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import "i18n.dart";
 
 const _qGroupNumber = "917740212";
-const _joinQGroupUri =
+const _joinQGroupMobileUri =
     "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=$_qGroupNumber&card_type=group&source=qrcode";
+const _joinQGroupDesktopUri =
+    "https://qm.qq.com/cgi-bin/qm/qr?k=9Gn1xo7NfyViy73OP-wVy-Tvzw2pW-fp&authKey=IiyjgIkoBD3I37l/ODvjonS4TwiEaceT4HSp0gxNe3kmicvPdb3opS9lQutKx1DH";
 const _wechatUri = "weixin://dl/publicaccount?username=gh_61f7fd217d36";
 
 class MePage extends StatefulWidget {
@@ -83,7 +86,11 @@ class _MePageState extends State<MePage> {
       trailing: PlatformIconButton(
         onPressed: () async {
           try {
-            await launchUrlString(_joinQGroupUri);
+            if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
+              await launchUrlString(_joinQGroupMobileUri);
+            } else {
+              await launchUrlString(_joinQGroupDesktopUri, mode: LaunchMode.externalApplication);
+            }
           } catch (error, stackTrace) {
             debugPrintError(error, stackTrace);
             await Clipboard.setData(const ClipboardData(text: _qGroupNumber));
