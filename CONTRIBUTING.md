@@ -1,11 +1,4 @@
-# Contribution Guide
-
-Please also check:
-
-- [The terms](TERM.md)
-- [The project structure](STRUCTURE.MD)
-- [The abbreviations](ABBREVIATION.md)
-- [The internationalization protocol](I18N_PROTOCOL.md)
+# Contributing
 
 ## Getting Started
 
@@ -26,23 +19,24 @@ flutter pub run build_runner build
 Finally, build the SIT Life based on your platform.
 
 ```shell
-# For Android
+# On Windows, macOS, or Linux
 flutter build apk       # build for Android
-# For Windows
+# On Windows
 flutter build winodws   # build for Windows
-# For macOS
+# On macOS
 flutter build macos     # build for macOS
 flutter build ios       # build for iOS
-# For Linux
+# On Linux
 flutter build linux     # build for Linux
+# On Windows, macOS, or Linux
+flutter build web     # build for web
 ```
 
 ### iOS Build
 
-SIT Life for iOS requires `Xcode 13.4.1`, the latest Xcode 13.
-You can download it [here](https://developer.apple.com/download/all/?q=Xcode%2013.4.1).
-
-Be aware that Xcode 14 or higher doesn't work due to the compatibility issue of some dependencies.
+SIT Life for iOS requires at least `Xcode 14.3.1`.
+You can search and download it [here](https://developer.apple.com/download/all/?q=Xcode),
+or install it on macOS App Store.
 
 ## Dependency
 
@@ -96,6 +90,6 @@ python ./tool/main.py
 Build tool will locate the project automatically,
 so you can run the [main.py](/tool/main.py) anywhere.
 
-
 ### Web icon
+
 Generated on https://realfavicongenerator.net/
