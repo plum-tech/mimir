@@ -65,6 +65,7 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
       onPressed: () {
         if (ignore) {
           Settings.skippedVersion = info.version.toString();
+          Settings.lastSkipUpdateTime = DateTime.now();
         }
         context.pop();
       },
@@ -109,7 +110,7 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
           ignore = value == true;
         });
       },
-      title: i18n.skipThisVersion.text(),
+      title: i18n.skipThisVersionFor7Days.text(),
     );
   }
 }

@@ -47,8 +47,7 @@ Future<void> _checkAppUpdateFromOfficial({
   Duration delayAtLeast = Duration.zero,
   required bool manually,
 }) async {
-  final service = UpdateInit.service;
-  final latest = await service.getLatestVersionFromOfficial();
+  final latest = await UpdateInit.service.getLatestVersionFromOfficial();
   debugPrint(latest.toString());
   if (kDebugMode && manually) {
     if (!context.mounted) return;
@@ -58,7 +57,11 @@ Future<void> _checkAppUpdateFromOfficial({
   final currentVersion = R.currentVersion.version;
   if (latest.downloadOf(R.currentVersion.platform) == null) return;
   // if update checking was not manually triggered, skip it.
-  if (!manually && _getSkippedVersion() == latest.version) return;
+  final lastSkipUpdateTime = Settings.lastSkipUpdateTime;
+  final skipThisVersion = lastSkipUpdateTime != null &&
+      _getSkippedVersion() == latest.version &&
+      lastSkipUpdateTime.difference(DateTime.now()).inDays >= 7;
+  if (!manually && skipThisVersion) return;
   if (!manually) {
     await Future.delayed(delayAtLeast);
   }
@@ -84,8 +87,12 @@ Future<void> _checkAppUpdateFromApple({
     return;
   }
   final currentVersion = R.currentVersion.version;
+  final lastSkipUpdateTime = Settings.lastSkipUpdateTime;
+  final skipThisVersion = lastSkipUpdateTime != null &&
+      _getSkippedVersion() == latest.version &&
+      lastSkipUpdateTime.difference(DateTime.now()).inDays >= 7;
   // if update checking was not manually triggered, skip it.
-  if (!manually && _getSkippedVersion() == latest.version) return;
+  if (!manually && skipThisVersion) return;
   if (!manually) {
     await Future.delayed(delayAtLeast);
   }
@@ -126,11 +133,11 @@ Future<bool> _requestInstallOnAppStoreInstead({
         ),
         CupertinoActionSheetAction(
           onPressed: () {
-            // Settings.skippedVersion = latest.toString();
+            Settings.skippedVersion = latest.toString();
             Settings.lastSkipUpdateTime = DateTime.now();
             ctx.pop(false);
           },
-          child: i18n.skipUpdateFor7days.text(),
+          child: i18n.skipThisVersionFor7Days.text(),
         ),
       ],
       cancelButton: CupertinoActionSheetAction(

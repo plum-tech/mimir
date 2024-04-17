@@ -747,7 +747,7 @@ update:
   onLatestTip: You are on the latest version
   newVersionAvailable: New version available!
   notNow: Not Now
-  skipThisVersion: Skip this version
+  skipThisVersionFor7Days: Skip this version for 7 days
   openAppStore: Open App Store
   installOnAppStoreInsteadTip: |
     SIT Life has published on App Store.
