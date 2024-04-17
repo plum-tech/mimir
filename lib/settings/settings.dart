@@ -21,6 +21,7 @@ class _K {
 class _UpdateK {
   static const ns = '/update';
   static const skippedVersion = '$ns/skippedVersion';
+  static const lastSkipUpdateTime = '$ns/lastSkipUpdateTime';
 }
 
 // ignore: non_constant_identifier_names
@@ -37,25 +38,29 @@ class SettingsImpl {
   late final theme = _Theme(box);
   late final proxy = _Proxy(box);
 
-  Campus get campus => box.safeGet(_K.campus) ?? Campus.fengxian;
+  Campus get campus => box.safeGet<Campus>(_K.campus) ?? Campus.fengxian;
 
-  set campus(Campus newV) => box.safePut(_K.campus, newV);
+  set campus(Campus newV) => box.safePut<Campus>(_K.campus, newV);
 
   late final $campus = box.provider<Campus>(_K.campus);
 
-  bool get focusTimetable => box.safeGet(_K.focusTimetable) ?? false;
+  bool get focusTimetable => box.safeGet<bool>(_K.focusTimetable) ?? false;
 
-  set focusTimetable(bool newV) => box.safePut(_K.focusTimetable, newV);
+  set focusTimetable(bool newV) => box.safePut<bool>(_K.focusTimetable, newV);
 
   late final $focusTimetable = box.provider<bool>(_K.focusTimetable);
 
-  String? get lastSignature => box.safeGet(_K.lastSignature);
+  String? get lastSignature => box.safeGet<String>(_K.lastSignature);
 
-  set lastSignature(String? value) => box.safePut(_K.lastSignature, value);
+  set lastSignature(String? value) => box.safePut<String>(_K.lastSignature, value);
 
-  String? get skippedVersion => box.safeGet(_UpdateK.skippedVersion);
+  String? get skippedVersion => box.safeGet<String>(_UpdateK.skippedVersion);
 
-  set skippedVersion(String? newV) => box.safePut(_UpdateK.skippedVersion, newV);
+  set skippedVersion(String? newV) => box.safePut<String>(_UpdateK.skippedVersion, newV);
+
+  DateTime? get lastSkipUpdateTime => box.safeGet<DateTime>(_UpdateK.lastSkipUpdateTime);
+
+  set lastSkipUpdateTime(DateTime? newV) => box.safePut<DateTime>(_UpdateK.lastSkipUpdateTime, newV);
 }
 
 class _ThemeK {

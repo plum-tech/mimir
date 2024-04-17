@@ -126,10 +126,11 @@ Future<bool> _requestInstallOnAppStoreInstead({
         ),
         CupertinoActionSheetAction(
           onPressed: () {
-            Settings.skippedVersion = latest.toString();
+            // Settings.skippedVersion = latest.toString();
+            Settings.lastSkipUpdateTime = DateTime.now();
             ctx.pop(false);
           },
-          child: i18n.skipThisVersion.text(),
+          child: i18n.skipUpdateFor7days.text(),
         ),
       ],
       cancelButton: CupertinoActionSheetAction(

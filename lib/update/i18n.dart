@@ -20,5 +20,7 @@ class _I18n with CommonI18nMixin {
 
   String get skipThisVersion => "$ns.skipThisVersion".tr();
 
+  String get skipUpdateFor7days => "$ns.skipUpdateFor7days".tr();
+
   String get openAppStore => "$ns.openAppStore".tr();
 }
