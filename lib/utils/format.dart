@@ -1,8 +1,11 @@
 import 'package:collection/collection.dart';
 
-String formatWithoutTrailingZeros(double amount) {
+String formatWithoutTrailingZeros(
+  double amount, {
+  int fractionDigits = 2,
+}) {
   if (amount == 0) return "0";
-  final number = amount.toStringAsFixed(2);
+  final number = amount.toStringAsFixed(fractionDigits);
   if (number.contains('.')) {
     int index = number.length - 1;
     while (index >= 0 && number[index] == '0') {

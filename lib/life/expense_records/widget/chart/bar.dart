@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/utils/date.dart';
+import 'package:sit/utils/format.dart';
 
 import '../../entity/statistics.dart';
 import '../../utils.dart';
@@ -193,13 +194,13 @@ class _ExpenseBarChartWidgetState extends State<ExpenseBarChartWidget> {
 
   String buildToolTip(int index, double value) {
     if (delegate.mode == StatisticsMode.day) {
-      return "¥${value}";
+      return "¥${formatWithoutTrailingZeros(value)}";
     } else {
       final records = delegate.data[index];
       final template = records.firstOrNull;
       if (template == null) return "";
       final ts = template.timestamp;
-      return "${delegate.mode.formatDate(ts)}\n ¥${value}";
+      return "${delegate.mode.formatDate(ts)}\n ¥${formatWithoutTrailingZeros(value)}";
       // return records;
     }
   }
