@@ -95,3 +95,7 @@ python ./tool/main.py
 
 Build tool will locate the project automatically,
 so you can run the [main.py](/tool/main.py) anywhere.
+
+
+### Web icon
+Generated on https://realfavicongenerator.net/
