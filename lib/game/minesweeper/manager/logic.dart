@@ -23,7 +23,7 @@ class GameLogic extends StateNotifier<GameStates> {
     state.mode = gameMode;
     state.gameOver = false;
     state.goodGame = false;
-    state.board = Board(rows: state.mode.gameRows, columns: state.mode.gameColumns);
+    state.board = CellBoard(rows: state.mode.gameRows, columns: state.mode.gameColumns);
     mineNum = state.mode.gameMines;
     firstClick = true;
     if (kDebugMode) {
@@ -32,7 +32,7 @@ class GameLogic extends StateNotifier<GameStates> {
   }
 
   // TODO: finish this
-  void fromSave(Board save) {
+  void fromSave(CellBoard save) {
     state.mode = GameMode.easy;
     state.gameOver = false;
     state.goodGame = false;
@@ -55,12 +55,12 @@ class GameLogic extends StateNotifier<GameStates> {
   }
 
   void _changeCell({required Cell cell, required CellState state}) {
-    this.state.board.changeCell(row: cell.row, col: cell.col, state: state);
+    this.state.board.changeCell(row: cell.row, col: cell.column, state: state);
   }
 
   void dig({required Cell cell}) {
     if (firstClick) {
-      state.board.randomMines(number: mineNum, clickRow: cell.row, clickCol: cell.col);
+      state.board.randomMines(number: mineNum, clickRow: cell.row, clickCol: cell.column);
       firstClick = false;
     }
     if (cell.state == CellState.covered) {
@@ -177,7 +177,7 @@ class GameStates {
   late bool goodGame;
   late GameMode mode;
   late Screen screen;
-  late Board board;
+  late CellBoard board;
 }
 
 final boardManager = StateNotifierProvider<GameLogic, GameStates>((ref) {

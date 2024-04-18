@@ -16,7 +16,7 @@ abstract class _$GameStateMinesweeperCWProxy {
   GameStateMinesweeper call({
     GameState? state,
     GameMode? mode,
-    Board? board,
+    CellBoard? board,
   });
 }
 
@@ -51,7 +51,7 @@ class _$GameStateMinesweeperCWProxyImpl implements _$GameStateMinesweeperCWProxy
       board: board == const $CopyWithPlaceholder() || board == null
           ? _value.board
           // ignore: cast_nullable_to_non_nullable
-          : board as Board,
+          : board as CellBoard,
     );
   }
 }
@@ -61,3 +61,26 @@ extension $GameStateMinesweeperCopyWith on GameStateMinesweeper {
   // ignore: library_private_types_in_public_api
   _$GameStateMinesweeperCWProxy get copyWith => _$GameStateMinesweeperCWProxyImpl(this);
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+GameStateMinesweeper _$GameStateMinesweeperFromJson(Map<String, dynamic> json) => GameStateMinesweeper(
+      state: $enumDecode(_$GameStateEnumMap, json['state']),
+      mode: GameMode.fromJson(json['mode'] as String),
+      board: CellBoard.fromJson(json['board'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$GameStateMinesweeperToJson(GameStateMinesweeper instance) => <String, dynamic>{
+      'state': _$GameStateEnumMap[instance.state]!,
+      'mode': GameMode.toJson(instance.mode),
+      'board': instance.board,
+    };
+
+const _$GameStateEnumMap = {
+  GameState.running: 'running',
+  GameState.idle: 'idle',
+  GameState.gameOver: 'gameOver',
+  GameState.victory: 'victory',
+};
