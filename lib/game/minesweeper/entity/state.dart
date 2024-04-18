@@ -7,7 +7,7 @@ import 'mode.dart';
 
 part "state.g.dart";
 
-// @JsonSerializable()
+@JsonSerializable()
 @CopyWith(skipFields: true)
 class GameStateMinesweeper {
   @JsonKey()
@@ -15,7 +15,7 @@ class GameStateMinesweeper {
   @JsonKey(toJson: GameMode.toJson, fromJson: GameMode.fromJson)
   final GameMode mode;
   @JsonKey()
-  final Board board;
+  final CellBoard board;
 
   const GameStateMinesweeper({
     required this.state,
