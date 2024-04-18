@@ -71,7 +71,7 @@ jobs:
           path: build/upload-artifacts/SITLife-${{ steps.get_git_info.outputs.RESOLVED_VERSION }}.apk
 
   build_ios:
-    runs-on: macos-13 # macos-latest is macos-12 actually
+    runs-on: macos-latest # macos-latest is macos-12 actually, and iOS 17+ SDK not supported
     if: github.ref == 'refs/heads/master'
 
     steps:
