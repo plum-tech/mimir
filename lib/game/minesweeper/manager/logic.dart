@@ -51,11 +51,11 @@ class GameLogic extends StateNotifier<GameStates> {
   }
 
   Cell getCell({required row, required col}) {
-    return state.board.getCell(row: row, col: col);
+    return state.board.getCell(row: row, column: col);
   }
 
   void _changeCell({required Cell cell, required CellState state}) {
-    this.state.board.changeCell(row: cell.row, col: cell.column, state: state);
+    this.state.board.changeCell(row: cell.row, column: cell.column, state: state);
   }
 
   void dig({required Cell cell}) {

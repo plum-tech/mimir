@@ -29,4 +29,8 @@ class Cell {
     this.state = CellState.covered,
     required this.minesAround,
   });
+
+  Map<String, dynamic> toJson() => _$CellToJson(this);
+
+  factory Cell.fromJson(Map<String, dynamic> json) => _$CellFromJson(json);
 }
