@@ -1,8 +1,6 @@
-import 'package:collection/collection.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:math';
-import '../save.dart';
 import 'cell.dart';
 
 part "board.g.dart";
@@ -18,8 +16,12 @@ abstract class ICellBoard<TCell extends Cell> {
 
   const ICellBoard();
 
-  TCell getCell({required int row, required int col}) {
-    return cells[row * columns + col];
+  int indexOf({required int row, required int column}) {
+    return row * columns + column;
+  }
+
+  TCell getCell({required int row, required int column}) {
+    return cells[indexOf(row: row, column: column)];
   }
 
   Iterable<TCell> iterateAround({required int row, required int column}) sync* {
@@ -27,7 +29,7 @@ abstract class ICellBoard<TCell extends Cell> {
       final nearbyRow = row + dx;
       final nearbyCol = column + dy;
       if (inRange(row: nearbyRow, col: nearbyCol)) {
-        yield getCell(row: nearbyRow, col: nearbyCol);
+        yield getCell(row: nearbyRow, column: nearbyCol);
       }
     }
   }
@@ -35,7 +37,7 @@ abstract class ICellBoard<TCell extends Cell> {
   Iterable<TCell> iterateAllCells() sync* {
     for (var row = 0; row < rows; row++) {
       for (var column = 0; column < columns; column++) {
-        yield getCell(row: row, col: column);
+        yield getCell(row: row, column: column);
       }
     }
   }
@@ -113,29 +115,16 @@ class CellBoard extends ICellBoard<Cell> {
     return builder.build();
   }
 
-  factory CellBoard.fromSave(SaveMinesweeper save) {
-    final cells = save.cells
-        .mapIndexed(
-          (index, cell) => _CellBuilder(row: index ~/ save.columns, column: index % save.columns)
-            ..mine = cell.mine
-            ..state = cell.state,
-        )
-        .toList();
-    final builder = _CellBoardBuilder(rows: save.rows, columns: save.columns, cells: cells);
-    return builder.build();
+  CellBoard changeCell({required row, required column, required state}) {
+    final newCells = List.of(cells);
+    final index = indexOf(row: row, column: column);
+    newCells[index] = cells[index].copyWith(state: state);
+    return copyWith(cells: newCells);
   }
 
-  SaveMinesweeper toSave() {
-    return SaveMinesweeper(
-      rows: rows,
-      columns: columns,
-      cells: cells.map((cell) => Cell4Save(mine: cell.mine, state: cell.state)).toList(),
-    );
-  }
+  Map<String, dynamic> toJson() => _$CellBoardToJson(this);
 
-  CellBoard changeCell({required row, required col, required state}) {
-    // getCell(row: row, col: col) state = state;
-  }
+  factory CellBoard.fromJson(Map<String, dynamic> json) => _$CellBoardFromJson(json);
 }
 
 class _CellBuilder implements Cell {
@@ -163,6 +152,11 @@ class _CellBuilder implements Cell {
       state: state,
       mine: mine,
     );
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    throw UnimplementedError();
   }
 }
 
