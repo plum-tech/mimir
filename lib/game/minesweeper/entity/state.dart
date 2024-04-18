@@ -19,32 +19,37 @@ class GameStateMinesweeper {
   final CellBoard board;
 
   const GameStateMinesweeper({
-    required this.state,
+    this.state = GameState.idle,
     required this.mode,
     required this.board,
   });
 
+  GameStateMinesweeper.byDefault()
+      : state = GameState.idle,
+        mode = GameMode.easy,
+        board = const CellBoard.byDefault();
+
   Map<String, dynamic> toJson() => _$GameStateMinesweeperToJson(this);
 
   factory GameStateMinesweeper.fromJson(Map<String, dynamic> json) => _$GameStateMinesweeperFromJson(json);
-
-  factory GameStateMinesweeper.fromSave(SaveMinesweeper save) {
-    final cells = save.cells
-        .mapIndexed(
-          (index, cell) => _CellBuilder(row: index ~/ save.columns, column: index % save.columns)
-            ..mine = cell.mine
-            ..state = cell.state,
-        )
-        .toList();
-    final builder = _CellBoardBuilder(rows: save.rows, columns: save.columns, cells: cells);
-    return builder.build();
-  }
-
-  GameStateMinesweeper toSave() {
-    return SaveMinesweeper(
-      rows: rows,
-      columns: columns,
-      cells: cells.map((cell) => Cell4Save(mine: cell.mine, state: cell.state)).toList(),
-    );
-  }
+  //
+  // factory GameStateMinesweeper.fromSave(SaveMinesweeper save) {
+  //   final cells = save.cells
+  //       .mapIndexed(
+  //         (index, cell) => _CellBuilder(row: index ~/ save.columns, column: index % save.columns)
+  //           ..mine = cell.mine
+  //           ..state = cell.state,
+  //       )
+  //       .toList();
+  //   final builder = _CellBoardBuilder(rows: save.rows, columns: save.columns, cells: cells);
+  //   return builder.build();
+  // }
+  //
+  // GameStateMinesweeper toSave() {
+  //   return SaveMinesweeper(
+  //     rows: rows,
+  //     columns: columns,
+  //     cells: cells.map((cell) => Cell4Save(mine: cell.mine, state: cell.state)).toList(),
+  //   );
+  // }
 }

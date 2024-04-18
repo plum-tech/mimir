@@ -10,6 +10,7 @@ import 'cell/cover.dart';
 import 'cell/flag.dart';
 import 'cell/mine.dart';
 import 'cell/number.dart';
+import '../game.dart';
 
 class CellWidget extends ConsumerWidget {
   final int row;

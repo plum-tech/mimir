@@ -4,6 +4,7 @@ import '../manager/logic.dart';
 import '../manager/timer.dart';
 import '../theme.dart';
 import '../i18n.dart';
+import '../game.dart';
 
 class GameOverModal extends ConsumerWidget {
   const GameOverModal({

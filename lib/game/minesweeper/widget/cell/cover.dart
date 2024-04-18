@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 import '../../manager/logic.dart';
+import '../../game.dart';
 
 class CellCover extends ConsumerWidget {
   const CellCover({

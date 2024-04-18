@@ -8,6 +8,7 @@ import 'package:sit/game/minesweeper/save.dart';
 import 'entity/board.dart';
 import 'entity/cell.dart';
 import 'entity/mode.dart';
+import 'entity/state.dart';
 import 'widget/info.dart';
 import 'manager/logic.dart';
 import 'widget/board.dart';
@@ -15,6 +16,13 @@ import "package:flutter/foundation.dart";
 import 'manager/timer.dart';
 import 'theme.dart';
 import 'i18n.dart';
+
+final boardManager = StateNotifierProvider<GameLogic, GameStateMinesweeper>((ref) {
+  if (kDebugMode) {
+    logger.log(Level.info, "GameLogic Init Finished");
+  }
+  return GameLogic();
+});
 
 class GameMinesweeper extends ConsumerStatefulWidget {
   final bool newGame;

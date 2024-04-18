@@ -4,6 +4,7 @@ import 'package:rettulf/rettulf.dart';
 import '../manager/timer.dart';
 import '../manager/logic.dart';
 import 'cell.dart';
+import '../game.dart';
 
 class GameBoard extends ConsumerWidget {
   const GameBoard({super.key, required this.refresh, required this.timer});

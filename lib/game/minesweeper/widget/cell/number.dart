@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../manager/logic.dart';
 import '../../entity/cell.dart';
 import '../../theme.dart';
+import '../../game.dart';
 
 class MinesAroundNumber extends ConsumerWidget {
   final Cell cell;
