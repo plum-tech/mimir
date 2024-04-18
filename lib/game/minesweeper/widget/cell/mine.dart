@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../manager/logic.dart';
 import '../../theme.dart';
+import '../../game.dart';
 
 class Mine extends ConsumerWidget {
   const Mine({super.key});

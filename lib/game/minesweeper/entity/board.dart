@@ -95,6 +95,12 @@ class CellBoard extends ICellBoard<Cell> {
     required this.cells,
   });
 
+  const CellBoard.byDefault()
+      : mines = 0,
+        rows = 0,
+        columns = 0,
+        cells = const [];
+
   factory CellBoard.empty({
     required int rows,
     required int columns,

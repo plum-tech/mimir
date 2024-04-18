@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../theme.dart';
 import '../../manager/logic.dart';
+import '../../game.dart';
 
 class CellFlag extends ConsumerWidget {
   const CellFlag({super.key, required this.visible});
