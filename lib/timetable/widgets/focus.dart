@@ -4,6 +4,7 @@ import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/school/i18n.dart' as $school;
 import 'package:sit/life/i18n.dart' as $life;
 import 'package:sit/game/i18n.dart' as $game;
+import 'package:sit/settings/dev.dart';
 
 List<PullDownEntry> buildFocusPopupActions(BuildContext context) {
   return [
@@ -22,12 +23,13 @@ List<PullDownEntry> buildFocusPopupActions(BuildContext context) {
         await context.push("/life");
       },
     ),
-    PullDownItem(
-      icon: Icons.videogame_asset_outlined,
-      title: $game.i18n.navigation,
-      onTap: () async {
-        await context.push("/game");
-      },
-    ),
+    if (Dev.on)
+      PullDownItem(
+        icon: Icons.videogame_asset_outlined,
+        title: $game.i18n.navigation,
+        onTap: () async {
+          await context.push("/game");
+        },
+      ),
   ];
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:sit/design/adaptive/dialog.dart';
@@ -26,16 +27,17 @@ const _joinQGroupDesktopUri =
     "https://qm.qq.com/cgi-bin/qm/qr?k=9Gn1xo7NfyViy73OP-wVy-Tvzw2pW-fp&authKey=IiyjgIkoBD3I37l/ODvjonS4TwiEaceT4HSp0gxNe3kmicvPdb3opS9lQutKx1DH";
 const _wechatUri = "weixin://dl/publicaccount?username=gh_61f7fd217d36";
 
-class MePage extends StatefulWidget {
+class MePage extends ConsumerStatefulWidget {
   const MePage({super.key});
 
   @override
-  State<MePage> createState() => _MePageState();
+  ConsumerState<MePage> createState() => _MePageState();
 }
 
-class _MePageState extends State<MePage> {
+class _MePageState extends ConsumerState<MePage> {
   @override
   Widget build(BuildContext context) {
+    final devMode = ref.watch(Dev.$on);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: CustomScrollView(
@@ -62,8 +64,8 @@ class _MePageState extends State<MePage> {
             children: [
               const GameAppCard2048(),
               const GameAppCardMinesweeper(),
-              if (Dev.on)
-                OfflineGameAppCard(
+              if (devMode)
+                const OfflineGameAppCard(
                   name: "SIT Suika",
                   baseRoute: "/suika",
                 ),
