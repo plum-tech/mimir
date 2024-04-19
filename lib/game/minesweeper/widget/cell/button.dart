@@ -22,23 +22,15 @@ class CellButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final manager = ref.read(boardManager.notifier);
-    final screen = ref.read(boardManager).screen;
-    final cellWidth = screen.getCellWidth();
     return !(cell.state == CellState.blank && cell.minesAround == 0)
         ? Container(
-            width: cellWidth,
-            height: cellWidth,
             decoration: BoxDecoration(
               border: Border.all(
                 width: 1.0,
                 color: context.colorScheme.surface,
               ),
-              borderRadius: BorderRadius.all(
-                Radius.circular(screen.getBoardRadius()),
-              ),
             ),
             child: InkWell(
-              radius: screen.getBoardRadius(),
               highlightColor: Colors.transparent,
               splashColor: !coverVisible ? Colors.transparent : context.colorScheme.surfaceVariant,
               onTap: !coverVisible

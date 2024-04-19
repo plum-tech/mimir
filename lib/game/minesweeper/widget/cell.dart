@@ -49,7 +49,7 @@ class CellWidget extends ConsumerWidget {
 
     return Stack(
       children: [
-        if (cell.mine) const Mine() else MinesAroundNumber(cell: cell),
+        if (cell.mine) const Mine() else if (cell.minesAround > 0) MinesAroundNumber(minesAround: cell.minesAround),
         Opacity(
           opacity: manager.gameOver && cell.mine ? 0.5 : 1.0,
           child: CellCover(visible: coverVisible),

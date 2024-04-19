@@ -1,17 +1,19 @@
+import 'dart:ui';
+
 import 'mode.dart';
 
-class Size {
-  Size({required this.width, required this.height});
+class Screen {
   final double width;
   final double height;
-}
+  final int gameRows;
+  final int gameColumns;
 
-class Screen {
-  final double screenWidth;
-  final double screenHeight;
-  final GameMode gameMode;
-
-  const Screen({required this.screenWidth, required this.screenHeight, required this.gameMode});
+  const Screen({
+    required this.width,
+    required this.height,
+    required this.gameRows,
+    required this.gameColumns,
+  });
 
   double getBorderWidth() {
     return (getCellWidth() / 8).floorToDouble();
@@ -22,20 +24,20 @@ class Screen {
   }
 
   double getInfoHeight() {
-    return (screenHeight - getBoardSize().height) * 0.2;
+    return (height - getBoardSize().height) * 0.2;
   }
 
   double getCellWidth() {
-    var wCell = (screenWidth / (gameMode.gameColumns + 1)).floorToDouble();
-    var hCell = (screenHeight / (gameMode.gameRows + 3)).floorToDouble();
+    var wCell = (width / (gameColumns + 1)).floorToDouble();
+    var hCell = (height / (gameRows + 3)).floorToDouble();
     var cellWidth = wCell > hCell ? hCell : wCell;
     return cellWidth;
   }
 
   Size getBoardSize() {
-    final width = getCellWidth() * gameMode.gameColumns + getBorderWidth() * 2;
-    final height = getCellWidth() * gameMode.gameRows + getBorderWidth() * 2;
-    final boardSize = Size(width: width, height: height);
+    final width = getCellWidth() * gameColumns + getBorderWidth() * 2;
+    final height = getCellWidth() * gameRows + getBorderWidth() * 2;
+    final boardSize = Size(width, height);
     return boardSize;
   }
 }

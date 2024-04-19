@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import '../manager/logic.dart';
+import 'package:sit/game/entity/game_state.dart';
 import '../manager/timer.dart';
 import '../theme.dart';
 import '../i18n.dart';
@@ -19,22 +19,17 @@ class GameOverModal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final screen = ref.read(boardManager).screen;
-    final borderWidth = screen.getBorderWidth();
-    final textSize = screen.getCellWidth();
+    final state = ref.read(boardManager).state;
     // Lost Game
-    if (ref.read(boardManager).gameOver) {
+    if (state == GameState.gameOver) {
+      // TODO: don't do this
       timer.stopTimer();
       return Opacity(
         opacity: opacityValue,
         child: Container(
-          width: screen.getBoardSize().width,
-          height: screen.getBoardSize().height,
           decoration: BoxDecoration(
-              color: gameOverColor,
-              borderRadius: BorderRadius.all(
-                Radius.circular(borderWidth),
-              )),
+            color: gameOverColor,
+          ),
           child: MaterialButton(
             onPressed: () {
               resetGame();
@@ -43,7 +38,6 @@ class GameOverModal extends ConsumerWidget {
               i18n.gameOver,
               style: TextStyle(
                 color: gameOverTextColor,
-                fontSize: textSize,
               ),
             ),
           ),
@@ -51,27 +45,23 @@ class GameOverModal extends ConsumerWidget {
       );
     }
     // Win Game
-    else if (ref.read(boardManager).goodGame) {
+    else if (state == GameState.victory) {
       // The Cost Time Should Be Counted Before Timer Stop
       String costTime = timer.getTimeCost();
       timer.stopTimer();
       return Opacity(
         opacity: opacityValue,
         child: Container(
-          width: screen.getBoardSize().width,
-          height: screen.getBoardSize().height,
           decoration: BoxDecoration(
-              color: goodGameColor,
-              borderRadius: BorderRadius.all(
-                Radius.circular(borderWidth),
-              )),
+            color: goodGameColor,
+          ),
           child: MaterialButton(
             onPressed: () {
               resetGame();
             },
             child: Text(
               "${i18n.youWin}\n${i18n.timeSpent(costTime)}",
-              style: TextStyle(color: goodGameTextColor, fontSize: textSize),
+              style: TextStyle(color: goodGameTextColor),
             ),
           ),
         ),

@@ -10,16 +10,13 @@ class Mine extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final screen = ref.read(boardManager).screen;
-    final cellWidth = screen.getCellWidth();
-    final mineSize = cellWidth * 0.7;
-    return SizedBox(
-        width: cellWidth,
-        height: cellWidth,
-        child: Icon(
-          Icons.gps_fixed,
-          size: mineSize,
-          color: mineColor,
-        ));
+    // final screen = ref.read(boardManager).screen;
+    // final cellWidth = screen.getCellWidth();
+    final mineSize = 16 * 0.7;
+    return Icon(
+      Icons.gps_fixed,
+      size: mineSize,
+      color: mineColor,
+    );
   }
 }
