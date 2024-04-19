@@ -1641,10 +1641,10 @@ packages:
     dependency: "direct main"
     description:
       name: pull_down_button
-      sha256: "235b302701ce029fd9e9470975069376a6700935bb47a5f1b3ec8a5efba07e6f"
+      sha256: "48b928203afdeafa4a8be5dc96980523bc8a2ddbd04569f766071a722be22379"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.3"
+    version: "0.9.4"
   qr:
     dependency: transitive
     description:
@@ -1990,18 +1990,18 @@ packages:
     dependency: "direct main"
     description:
       name: super_context_menu
-      sha256: "96d76c6a2a054d0d7a771c449bfde772da38b94a30cefdf4880a9371307b2bac"
+      sha256: f3758f849b534a84d842594f461128caeba7881930e716a6209fd267fb1f3335
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.11"
+    version: "0.8.12"
   super_native_extensions:
     dependency: transitive
     description:
       name: super_native_extensions
-      sha256: "3fd7096b0293ea40a968ae9294b45710f9a13996e165ff7c588acd52541c487b"
+      sha256: "530a2118d032483b192713c68ed7105fe64418f22492165f87ed01f9b01d4965"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.11"
+    version: "0.8.12"
   synchronized:
     dependency: "direct main"
     description:
