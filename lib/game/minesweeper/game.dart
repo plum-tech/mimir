@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/game/entity/game_state.dart';
 import 'package:sit/game/minesweeper/save.dart';
 import 'entity/board.dart';
 import 'entity/cell.dart';
 import 'entity/mode.dart';
+import 'entity/screen.dart';
 import 'entity/state.dart';
 import 'widget/info.dart';
 import 'manager/logic.dart';
@@ -51,7 +53,8 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
       if (!widget.newGame) {
         final save = SaveMinesweeper.storage.load();
         if (save != null) {
-          ref.read(boardManager.notifier).fromSave(CellBoard.fromSave(save));
+          // ref.read(boardManager.notifier).fromSave(CellBoard.fromSave(save));
+          ref.read(boardManager.notifier).initGame(gameMode: mode);
         } else {
           ref.read(boardManager.notifier).initGame(gameMode: mode);
         }
@@ -86,14 +89,14 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
   }
 
   void updateGame() {
-    if (!timer.timerStart && !ref.read(boardManager.notifier).firstClick) {
+    if (!timer.timerStart && ref.read(boardManager).state == GameState.running) {
       timer.startTimer();
     }
     if (!context.mounted) return;
     setState(() {
       if (kDebugMode) {
-        ref.read(boardManager).gameOver ? logger.log(Level.info, "Game Over!") : null;
-        ref.read(boardManager).goodGame ? logger.log(Level.info, "Good Game!") : null;
+        // ref.read(boardManager).gameOver ? logger.log(Level.info, "Game Over!") : null;
+        // ref.read(boardManager).goodGame ? logger.log(Level.info, "Good Game!") : null;
       }
     });
   }
@@ -106,20 +109,16 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
     updateGame();
   }
 
-  void initScreen({required screenSize, required gameMode}) {
-    // The Appbar Height 56
-    ref.read(boardManager.notifier).initScreen(
-          width: screenSize.width,
-          height: screenSize.height - 56,
-          mode: gameMode,
-        );
-  }
-
   @override
   Widget build(BuildContext context) {
     // Get Your Screen Size
     final screenSize = MediaQuery.of(context).size;
-    initScreen(screenSize: screenSize, gameMode: mode);
+    final screen = Screen(
+      height: screenSize.height,
+      width: screenSize.width,
+      gameRows: mode.gameRows,
+      gameColumns: mode.gameColumns,
+    );
     // Build UI From Screen Size
 
     return Scaffold(
@@ -145,7 +144,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
           Center(
             child: Stack(
               children: [
-                GameBoard(refresh: updateGame, timer: timer),
+                GameBoard(screen: screen, refresh: updateGame, timer: timer),
                 GameOverModal(resetGame: resetGame, timer: timer),
               ],
             ),
@@ -204,24 +203,21 @@ class GameHud extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final screen = ref.read(boardManager).screen;
-    final boardRadius = screen.getBoardRadius();
+    final board = ref.read(boardManager);
     final textTheme = context.textTheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: screen.getBoardSize().width / 2,
-          height: screen.getInfoHeight(),
           decoration: BoxDecoration(
               color: context.colorScheme.secondaryContainer,
               borderRadius:
-                  BorderRadius.only(topLeft: Radius.circular(boardRadius), bottomLeft: Radius.circular(boardRadius))),
+                  BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8))),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               const Icon(Icons.videogame_asset_outlined),
-              ref.read(boardManager).board.started
+              board.state == GameState.running
                   ? MinesAndFlags(
                       flags: ref.read(boardManager).board.countAllByState(state: CellState.flag),
                       mines: ref.read(boardManager).board.mines,
@@ -234,13 +230,11 @@ class GameHud extends ConsumerWidget {
           ),
         ),
         Container(
-          width: screen.getBoardSize().width / 2,
-          height: screen.getInfoHeight(),
           decoration: BoxDecoration(
               color: context.colorScheme.tertiaryContainer,
               borderRadius: BorderRadius.only(
-                topRight: Radius.circular(boardRadius),
-                bottomRight: Radius.circular(boardRadius),
+                topRight: Radius.circular(8),
+                bottomRight: Radius.circular(8),
               )),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,

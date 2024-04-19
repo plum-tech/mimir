@@ -1,19 +1,27 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import '../entity/screen.dart';
 import '../manager/timer.dart';
 import '../manager/logic.dart';
 import 'cell.dart';
 import '../game.dart';
 
 class GameBoard extends ConsumerWidget {
-  const GameBoard({super.key, required this.refresh, required this.timer});
+  final Screen screen;
+
+  const GameBoard({
+    super.key,
+    required this.refresh,
+    required this.timer,
+    required this.screen,
+  });
+
   final void Function() refresh;
   final GameTimer timer;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final screen = ref.read(boardManager).screen;
     final boardRows = ref.read(boardManager).mode.gameRows;
     final boardCols = ref.read(boardManager).mode.gameColumns;
     final borderWidth = screen.getBorderWidth();
@@ -34,15 +42,30 @@ class GameBoard extends ConsumerWidget {
       ),
       duration: Durations.extralong4,
       child: Stack(
-          children: List.generate(boardRows * boardCols, (i) {
-        var col = i % boardCols;
-        var row = (i / boardCols).floor();
-        return Positioned(
-          left: col * cellWidth,
-          top: row * cellWidth,
-          child: CellWidget(row: row, col: col, refresh: refresh),
-        );
-      })),
+        children: List.generate(
+          boardRows * boardCols,
+          (i) {
+            var col = i % boardCols;
+            var row = (i / boardCols).floor();
+            return Positioned(
+              left: col * cellWidth,
+              top: row * cellWidth,
+              child: CellWidget(
+                row: row,
+                col: col,
+                refresh: refresh,
+              )
+                  .clipRRect(
+                      borderRadius: BorderRadius.all(
+                    Radius.circular(
+                      screen.getBoardRadius(),
+                    ),
+                  ))
+                  .sizedAll(cellWidth),
+            );
+          },
+        ),
+      ),
     );
   }
 }
