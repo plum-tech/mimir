@@ -22,7 +22,6 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
 
   @override
   Widget build(BuildContext context) {
-    final old = Settings.timetable.cellStyle;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -30,7 +29,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
             title: i18n.p13n.cell.title.text(),
             actions: [
               PlatformTextButton(
-                onPressed: old == buildCellStyle() ? null : onSave,
+                onPressed: !canSave() ? null : onSave,
                 child: i18n.save.text(),
               ),
             ],
@@ -50,6 +49,11 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
         ],
       ),
     );
+  }
+
+  bool canSave() {
+    final old = Settings.timetable.cellStyle;
+    return old == buildCellStyle();
   }
 
   void onSave() {
