@@ -5,7 +5,7 @@ timetable:
   findToday: 找到今天
   startWith: "起始于"
   weekOrderedName: "第 {} 周"
-  focusTimetable: 课程表模式
+  focusTimetable: 课程表模式ƒ
   signature: 签名
   signaturePlaceholder: 你的名字
   lunchtime: 午餐时间
@@ -476,7 +476,7 @@ expenseRecords:
     total: 总计
     summary: 摘要
     details: 详情
-    averageSpendIn: "在 {type} 上平均消费 {amount}"
+    averageSpendIn: "在{type}上平均消费{amount}"
     maxSpendOf: "最大消费为 {amount}"
     averageLineLabel: 平均
     hourlyAverage: 时均
