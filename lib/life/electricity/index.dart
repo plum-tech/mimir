@@ -115,7 +115,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
         ),
       ],
       rightActions: [
-        if (balance != null && selectedRoom != null && !isCupertino)
+        if (balance != null && selectedRoom != null && !supportContextMenu)
           PlatformIconButton(
             material: (ctx, p) {
               return MaterialIconButtonData(

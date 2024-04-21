@@ -111,7 +111,7 @@ class _Class2ndAppCardState extends ConsumerState<Class2ndAppCard> {
         )
       ],
       rightActions: [
-        if (!isCupertino)
+        if (!supportContextMenu)
           PlatformIconButton(
             material: (ctx, p) {
               return MaterialIconButtonData(
