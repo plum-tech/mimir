@@ -157,7 +157,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
       final checkRes = await Class2ndInit.applicationService.check(activityId);
       if (checkRes != Class2ndApplicationCheckResponse.successfulCheck) {
         if (!mounted) return;
-        await context.showTip(title: i18n.apply.replyTip, desc: checkRes.l10n(), ok: i18n.ok);
+        await context.showTip(title: i18n.apply.replyTip, desc: checkRes.l10n(), primary: i18n.ok);
         return;
       }
       final applySuccess = await Class2ndInit.applicationService.apply(activityId);
@@ -165,7 +165,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
       await context.showTip(
         title: i18n.apply.replyTip,
         desc: applySuccess ? i18n.apply.applySuccessTip : i18n.apply.applyFailureTip,
-        ok: i18n.ok,
+        primary: i18n.ok,
       );
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
@@ -186,7 +186,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
       await context.showTip(
         title: i18n.apply.replyTip,
         desc: applySuccess ? "Yes" : "No",
-        ok: i18n.ok,
+        primary: i18n.ok,
       );
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);

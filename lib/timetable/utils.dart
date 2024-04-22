@@ -175,7 +175,7 @@ Future<SitTimetable?> readTimetableFromFileWithPrompt(BuildContext context, Stri
     context.showTip(
       title: "Format error",
       desc: "The file isn't supported. Please select a timetable file.",
-      ok: i18n.ok,
+      primary: i18n.ok,
     );
     return null;
   }
@@ -194,7 +194,7 @@ Future<SitTimetable?> readTimetableFromPickedFileWithPrompt(BuildContext context
       context.showTip(
         title: "Format error",
         desc: "The file isn't supported. Please select a timetable file.",
-        ok: i18n.ok,
+        primary: i18n.ok,
       );
     }
     return null;

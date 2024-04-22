@@ -181,7 +181,7 @@ Future<void> onProxyFromQrCode({
     context.showTip(
       title: i18n.error,
       desc: i18n.proxy.invalidProxyFormatTip,
-      ok: i18n.close,
+      primary: i18n.close,
     );
     return;
   }
@@ -285,7 +285,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
               context.showTip(
                 title: i18n.error,
                 desc: i18n.proxy.invalidProxyFormatTip,
-                ok: i18n.close,
+                primary: i18n.close,
               );
               return;
             }

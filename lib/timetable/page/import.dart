@@ -215,7 +215,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
         _status = ImportStatus.failed;
       });
       if (!mounted) return;
-      await context.showTip(title: i18n.import.failed, desc: i18n.import.failedDesc, ok: i18n.ok);
+      await context.showTip(title: i18n.import.failed, desc: i18n.import.failedDesc, primary: i18n.ok);
     } finally {
       if (_status == ImportStatus.importing) {
         setState(() {

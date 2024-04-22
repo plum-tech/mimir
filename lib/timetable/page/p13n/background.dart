@@ -176,7 +176,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
       await context.showTip(
         title: i18n.p13n.background.invalidURL,
         desc: i18n.p13n.background.invalidURLDesc,
-        ok: i18n.ok,
+        primary: i18n.ok,
       );
       return;
     }

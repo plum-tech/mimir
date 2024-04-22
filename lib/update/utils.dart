@@ -69,7 +69,7 @@ Future<void> _checkAppUpdateFromOfficial({
   if (latest.version > currentVersion) {
     await context.show$Sheet$((ctx) => ArtifactUpdatePage(info: latest));
   } else if (manually) {
-    await context.showTip(title: i18n.title, desc: i18n.onLatestTip, ok: i18n.ok);
+    await context.showTip(title: i18n.title, desc: i18n.onLatestTip, primary: i18n.ok);
   }
 }
 
@@ -110,7 +110,7 @@ Future<void> _checkAppUpdateFromApple({
     if (latest.version > currentVersion) {
       await context.show$Sheet$((ctx) => ArtifactUpdatePage(info: latest));
     } else if (manually) {
-      await context.showTip(title: i18n.title, desc: i18n.onLatestTip, ok: i18n.ok);
+      await context.showTip(title: i18n.title, desc: i18n.onLatestTip, primary: i18n.ok);
     }
   }
 }

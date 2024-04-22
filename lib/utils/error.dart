@@ -40,7 +40,7 @@ Future<void> handleRequestError(Object? error, [StackTrace? stackTrace]) async {
       serious: true,
       title: _i18n.failedWarn,
       desc: error.type.l10n(),
-      ok: _i18n.close,
+      primary: _i18n.close,
     );
     return;
   }

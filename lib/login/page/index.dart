@@ -108,7 +108,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       await context.showTip(
         title: i18n.formatError,
         desc: i18n.validateInputAccountPwdRequest,
-        ok: i18n.close,
+        primary: i18n.close,
         serious: true,
       );
       return;
@@ -123,7 +123,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       await context.showTip(
         title: i18n.network.error,
         desc: i18n.network.noAccessTip,
-        ok: i18n.close,
+        primary: i18n.close,
         serious: true,
       );
       return;

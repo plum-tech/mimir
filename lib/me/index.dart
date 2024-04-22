@@ -129,7 +129,7 @@ class _MePageState extends ConsumerState<MePage> {
         final res = await context.push("/tools/scanner");
         if (!mounted) return;
         if (Dev.on) {
-          await context.showTip(title: "Result", desc: res.toString(), ok: i18n.ok);
+          await context.showTip(title: "Result", desc: res.toString(), primary: i18n.ok);
         }
         if (!mounted) return;
         if (res == null) return;
@@ -144,9 +144,9 @@ class _MePageState extends ConsumerState<MePage> {
             await guardLaunchUrlString(context, res);
             return;
           }
-          await context.showTip(title: "Result", desc: res.toString(), ok: i18n.ok);
+          await context.showTip(title: "Result", desc: res.toString(), primary: i18n.ok);
         } else {
-          await context.showTip(title: "Result", desc: res.toString(), ok: i18n.ok);
+          await context.showTip(title: "Result", desc: res.toString(), primary: i18n.ok);
         }
       },
       icon: const Icon(Icons.qr_code_scanner_outlined),

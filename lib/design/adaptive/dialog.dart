@@ -15,14 +15,14 @@ extension DialogEx on BuildContext {
   Future<bool> showTip({
     required String title,
     required String desc,
-    required String ok,
+    required String primary,
     bool highlight = false,
     bool serious = false,
   }) async {
     return showAnyTip(
       title: title,
       make: (_) => desc.text(style: const TextStyle()),
-      ok: ok,
+      primary: primary,
       highlight: false,
       serious: serious,
     );
@@ -31,7 +31,7 @@ extension DialogEx on BuildContext {
   Future<bool> showAnyTip({
     required String title,
     required WidgetBuilder make,
-    required String ok,
+    required String primary,
     bool highlight = false,
     bool serious = false,
   }) async {
@@ -43,7 +43,7 @@ extension DialogEx on BuildContext {
           make: make,
           primary: $Action$(
             warning: highlight,
-            text: ok,
+            text: primary,
             onPressed: () {
               ctx.navigator.pop(true);
             },
@@ -55,20 +55,20 @@ extension DialogEx on BuildContext {
   Future<bool?> showDialogRequest({
     String? title,
     required String desc,
-    required String yes,
-    required String no,
+    required String primary,
+    required String secondary,
     bool serious = false,
-    bool yesDestructive = false,
-    bool noDestructive = false,
+    bool primaryDestructive = false,
+    bool secondaryDestructive = false,
   }) async {
     return await showAnyRequest(
       title: title,
       make: (_) => desc.text(style: const TextStyle()),
-      yes: yes,
-      no: no,
+      primary: primary,
+      secondary: secondary,
       serious: serious,
-      yesDestructive: yesDestructive,
-      noDestructive: noDestructive,
+      primaryDestructive: primaryDestructive,
+      secondaryDestructive: secondaryDestructive,
     );
   }
 
@@ -81,7 +81,7 @@ extension DialogEx on BuildContext {
     if (isCupertino) {
       return showCupertinoActionRequest(
         desc: desc,
-        yes: action,
+        action: action,
         cancel: cancel,
         destructive: destructive,
       );
@@ -89,9 +89,9 @@ extension DialogEx on BuildContext {
     return await showAnyRequest(
       title: action,
       make: (_) => desc.text(style: const TextStyle()),
-      yes: action,
-      no: cancel,
-      yesDestructive: destructive,
+      primary: action,
+      secondary: cancel,
+      primaryDestructive: destructive,
       serious: destructive,
     );
   }
@@ -99,7 +99,7 @@ extension DialogEx on BuildContext {
   Future<bool?> showCupertinoActionRequest({
     String? title,
     required String desc,
-    required String yes,
+    required String action,
     required String cancel,
     bool destructive = false,
   }) async {
@@ -114,7 +114,7 @@ extension DialogEx on BuildContext {
             onPressed: () {
               ctx.pop(true);
             },
-            child: yes.text(),
+            child: action.text(),
           ),
         ],
         cancelButton: CupertinoActionSheetAction(
@@ -130,11 +130,11 @@ extension DialogEx on BuildContext {
   Future<bool?> showAnyRequest({
     String? title,
     required WidgetBuilder make,
-    required String yes,
-    required String no,
+    required String primary,
+    required String secondary,
     bool serious = false,
-    bool yesDestructive = false,
-    bool noDestructive = false,
+    bool primaryDestructive = false,
+    bool secondaryDestructive = false,
   }) async {
     return await showAdaptiveDialog(
       context: this,
@@ -143,15 +143,15 @@ extension DialogEx on BuildContext {
         serious: serious,
         make: make,
         primary: $Action$(
-          warning: yesDestructive,
-          text: yes,
+          warning: primaryDestructive,
+          text: primary,
           onPressed: () {
             ctx.navigator.pop(true);
           },
         ),
         secondary: $Action$(
-          text: no,
-          warning: noDestructive,
+          text: secondary,
+          warning: secondaryDestructive,
           onPressed: () {
             ctx.navigator.pop(false);
           },

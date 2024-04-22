@@ -27,9 +27,9 @@ class PromptSaveBeforeQuitScope extends StatelessWidget {
         }
         final confirmSave = await context.showDialogRequest(
           desc: 'You have unsaved changes, do you want to save them?',
-          yes: 'Save&Quit',
-          no: 'Abort',
-          noDestructive: true
+          primary: 'Save&Quit',
+          secondary: 'Abort',
+          secondaryDestructive: true
         );
         if (confirmSave == true) {
           await onSave();

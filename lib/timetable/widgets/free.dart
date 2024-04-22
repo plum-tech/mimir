@@ -80,7 +80,7 @@ class FreeDayTip extends StatelessWidget {
     // WHAT? NO CLASS IN THE WHOLE TERM?
     // Alright, let's congratulate them!
     if (!ctx.mounted) return;
-    await ctx.showTip(title: i18n.congratulations, desc: i18n.freeTip.termTip, ok: i18n.ok);
+    await ctx.showTip(title: i18n.congratulations, desc: i18n.freeTip.termTip, primary: i18n.ok);
   }
 }
 
@@ -144,6 +144,6 @@ class FreeWeekTip extends StatelessWidget {
     // WHAT? NO CLASS IN THE WHOLE TERM?
     // Alright, let's congratulate them!
     if (!ctx.mounted) return;
-    await ctx.showTip(title: i18n.congratulations, desc: i18n.freeTip.termTip, ok: i18n.ok);
+    await ctx.showTip(title: i18n.congratulations, desc: i18n.freeTip.termTip, primary: i18n.ok);
   }
 }

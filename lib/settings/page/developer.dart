@@ -315,7 +315,7 @@ class DebugExpenseUserOverrideTile extends ConsumerWidget {
           await context.showTip(
             title: "Error",
             desc: "Invalid OA account format.",
-            ok: "OK",
+            primary: "OK",
           );
         } else {
           ref.read(Dev.$expenseUserOverride.notifier).set(res);

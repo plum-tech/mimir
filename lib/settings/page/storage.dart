@@ -279,9 +279,9 @@ class _BoxItemState extends State<BoxItem> {
             final confirm = await context.showDialogRequest(
                 title: i18n.warning,
                 desc: i18n.dev.storage.emptyValueDesc,
-                yes: i18n.confirm,
-                no: i18n.cancel,
-                yesDestructive: true);
+                primary: i18n.confirm,
+                secondary: i18n.cancel,
+                primaryDestructive: true);
             if (confirm == true) {
               widget.box.safePut(key, _emptyValue(value));
               if (!mounted) return;
@@ -455,9 +455,9 @@ Future<bool?> _showDeleteBoxRequest(BuildContext ctx) async {
   return await ctx.showDialogRequest(
     title: i18n.delete,
     desc: i18n.dev.storage.clearBoxDesc,
-    yes: i18n.confirm,
-    no: i18n.cancel,
-    yesDestructive: true,
+    primary: i18n.confirm,
+    secondary: i18n.cancel,
+    primaryDestructive: true,
   );
 }
 
@@ -465,8 +465,8 @@ Future<bool?> _showDeleteItemRequest(BuildContext ctx) async {
   return await ctx.showDialogRequest(
     title: i18n.delete,
     desc: i18n.dev.storage.deleteItemDesc,
-    yes: i18n.delete,
-    no: i18n.cancel,
-    yesDestructive: true,
+    primary: i18n.delete,
+    secondary: i18n.cancel,
+    primaryDestructive: true,
   );
 }

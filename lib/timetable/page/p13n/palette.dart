@@ -200,9 +200,9 @@ class PaletteCard extends StatelessWidget {
                   final confirm = await ctx.showDialogRequest(
                     title: i18n.p13n.palette.deleteRequest,
                     desc: i18n.p13n.palette.deleteRequestDesc,
-                    yes: i18n.delete,
-                    no: i18n.cancel,
-                    yesDestructive: true,
+                    primary: i18n.delete,
+                    secondary: i18n.cancel,
+                    primaryDestructive: true,
                   );
                   if (confirm == true) {
                     TimetableInit.storage.palette.delete(id);
