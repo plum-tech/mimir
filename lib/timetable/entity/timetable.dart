@@ -9,6 +9,7 @@ import 'package:sit/school/utils.dart';
 import 'package:sit/timetable/entity/platte.dart';
 
 import '../utils.dart';
+import 'patch.dart';
 
 part 'timetable.g.dart';
 
@@ -40,6 +41,9 @@ class SitTimetable {
   @JsonKey()
   final int version;
 
+  @JsonKey()
+  final List<TimetablePatch> patches;
+
   const SitTimetable({
     required this.courses,
     required this.lastCourseKey,
@@ -48,6 +52,7 @@ class SitTimetable {
     required this.schoolYear,
     required this.semester,
     required this.lastModified,
+    this.patches = const [],
     this.signature = "",
     this.version = 1,
   });

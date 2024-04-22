@@ -21,6 +21,7 @@ abstract class _$SitTimetableCWProxy {
     int? schoolYear,
     Semester? semester,
     DateTime? lastModified,
+    List<TimetablePatch>? patches,
     String? signature,
     int? version,
   });
@@ -48,6 +49,7 @@ class _$SitTimetableCWProxyImpl implements _$SitTimetableCWProxy {
     Object? schoolYear = const $CopyWithPlaceholder(),
     Object? semester = const $CopyWithPlaceholder(),
     Object? lastModified = const $CopyWithPlaceholder(),
+    Object? patches = const $CopyWithPlaceholder(),
     Object? signature = const $CopyWithPlaceholder(),
     Object? version = const $CopyWithPlaceholder(),
   }) {
@@ -80,6 +82,10 @@ class _$SitTimetableCWProxyImpl implements _$SitTimetableCWProxy {
           ? _value.lastModified
           // ignore: cast_nullable_to_non_nullable
           : lastModified as DateTime,
+      patches: patches == const $CopyWithPlaceholder() || patches == null
+          ? _value.patches
+          // ignore: cast_nullable_to_non_nullable
+          : patches as List<TimetablePatch>,
       signature: signature == const $CopyWithPlaceholder() || signature == null
           ? _value.signature
           // ignore: cast_nullable_to_non_nullable
@@ -266,6 +272,10 @@ SitTimetable _$SitTimetableFromJson(Map<String, dynamic> json) => SitTimetable(
       schoolYear: json['schoolYear'] as int,
       semester: $enumDecode(_$SemesterEnumMap, json['semester']),
       lastModified: json['lastModified'] == null ? _kLastModified() : DateTime.parse(json['lastModified'] as String),
+      patches: (json['patches'] as List<dynamic>?)
+              ?.map((e) => TimetablePatch.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       signature: json['signature'] as String? ?? "",
       version: json['version'] as int? ?? 1,
     );
@@ -280,6 +290,7 @@ Map<String, dynamic> _$SitTimetableToJson(SitTimetable instance) => <String, dyn
       'courses': instance.courses,
       'lastModified': instance.lastModified.toIso8601String(),
       'version': instance.version,
+      'patches': instance.patches,
     };
 
 const _$SemesterEnumMap = {

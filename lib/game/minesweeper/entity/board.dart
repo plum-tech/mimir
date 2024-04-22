@@ -1,13 +1,12 @@
 import 'package:collection/collection.dart';
 import "package:flutter/foundation.dart";
-import 'package:freezed_annotation/freezed_annotation.dart';
 import '../manager/logic.dart';
 import 'package:logger/logger.dart';
 import 'dart:math';
 import '../save.dart';
 import 'cell.dart';
 
-@JsonSerializable()
+// @JsonSerializable()
 class Board {
   var _mines = -1;
   final int rows;
