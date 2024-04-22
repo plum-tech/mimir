@@ -22,8 +22,8 @@ class GameBoard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final boardRows = ref.read(boardManager).mode.gameRows;
-    final boardCols = ref.read(boardManager).mode.gameColumns;
+    final boardRows = ref.read(minesweeperState).mode.gameRows;
+    final boardCols = ref.read(minesweeperState).mode.gameColumns;
     final borderWidth = screen.getBorderWidth();
     final cellWidth = screen.getCellWidth();
     final boardRadius = screen.getBoardRadius();

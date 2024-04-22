@@ -19,7 +19,7 @@ class GameOverModal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.read(boardManager).state;
+    final state = ref.read(minesweeperState).state;
     // Lost Game
     if (state == GameState.gameOver) {
       // TODO: don't do this

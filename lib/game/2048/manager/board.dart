@@ -290,6 +290,3 @@ class BoardManager extends StateNotifier<Board> {
   }
 }
 
-final boardManager = StateNotifierProvider<BoardManager, Board>((ref) {
-  return BoardManager(ref);
-});

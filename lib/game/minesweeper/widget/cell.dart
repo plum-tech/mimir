@@ -26,7 +26,7 @@ class CellWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final manager = ref.watch(boardManager.notifier);
+    final manager = ref.watch(minesweeperState.notifier);
     final cell = manager.getCell(row: row, col: col);
     var coverVisible = true;
     var flagVisible = false;

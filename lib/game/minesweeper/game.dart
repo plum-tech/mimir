@@ -19,7 +19,7 @@ import 'manager/timer.dart';
 import 'theme.dart';
 import 'i18n.dart';
 
-final boardManager = StateNotifierProvider<GameLogic, GameStateMinesweeper>((ref) {
+final minesweeperState = StateNotifierProvider<GameLogic, GameStateMinesweeper>((ref) {
   if (kDebugMode) {
     logger.log(Level.info, "GameLogic Init Finished");
   }
@@ -48,15 +48,14 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
     WidgetsBinding.instance.addObserver(this);
     mode = GameMode.easy;
     timer = GameTimer(refresh: updateGame);
-    ref.read(boardManager.notifier).initGame(gameMode: mode);
     Future.delayed(Duration.zero).then((value) {
       if (!widget.newGame) {
         final save = SaveMinesweeper.storage.load();
         if (save != null) {
           // ref.read(boardManager.notifier).fromSave(CellBoard.fromSave(save));
-          ref.read(boardManager.notifier).initGame(gameMode: mode);
+          ref.read(minesweeperState.notifier).initGame(gameMode: mode);
         } else {
-          ref.read(boardManager.notifier).initGame(gameMode: mode);
+          ref.read(minesweeperState.notifier).initGame(gameMode: mode);
         }
       }
     });
@@ -69,7 +68,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
   void didChangeAppLifecycleState(AppLifecycleState state) {
     //Save current state when the app becomes inactive
     if (state == AppLifecycleState.inactive) {
-      ref.read(boardManager.notifier).save();
+      ref.read(minesweeperState.notifier).save();
     }
     super.didChangeAppLifecycleState(state);
   }
@@ -77,7 +76,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
   @override
   void deactivate() {
     super.deactivate();
-    ref.read(boardManager.notifier).save();
+    ref.read(minesweeperState.notifier).save();
   }
 
   @override
@@ -89,7 +88,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
   }
 
   void updateGame() {
-    if (!timer.timerStart && ref.read(boardManager).state == GameState.running) {
+    if (!timer.timerStart && ref.read(minesweeperState).state == GameState.running) {
       timer.startTimer();
     }
     if (!context.mounted) return;
@@ -105,7 +104,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
     timer.stopTimer();
     mode = gameMode;
     timer = GameTimer(refresh: updateGame);
-    ref.read(boardManager.notifier).initGame(gameMode: mode);
+    ref.read(minesweeperState.notifier).initGame(gameMode: mode);
     updateGame();
   }
 
@@ -203,7 +202,7 @@ class GameHud extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final board = ref.read(boardManager);
+    final board = ref.read(minesweeperState);
     final textTheme = context.textTheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -219,8 +218,8 @@ class GameHud extends ConsumerWidget {
               const Icon(Icons.videogame_asset_outlined),
               board.state == GameState.running
                   ? MinesAndFlags(
-                      flags: ref.read(boardManager).board.countAllByState(state: CellState.flag),
-                      mines: ref.read(boardManager).board.mines,
+                      flags: ref.read(minesweeperState).board.countAllByState(state: CellState.flag),
+                      mines: ref.read(minesweeperState).board.mines,
                     )
                   : Text(
                       mode.l10n(),

@@ -21,7 +21,7 @@ class CellButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final manager = ref.read(boardManager.notifier);
+    final manager = ref.read(minesweeperState.notifier);
     return !(cell.state == CellState.blank && cell.minesAround == 0)
         ? Container(
             decoration: BoxDecoration(

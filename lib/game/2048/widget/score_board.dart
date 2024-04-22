@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../game.dart';
 import '../i18n.dart';
 
 import '../theme.dart';
-import '../manager/board.dart';
 
 class ScoreBoard extends ConsumerWidget {
   const ScoreBoard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final score = ref.watch(boardManager.select((board) => board.score));
-    final best = ref.watch(boardManager.select((board) => board.best));
+    final score = ref.watch(state2048.select((board) => board.score));
+    final best = ref.watch(state2048.select((board) => board.best));
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

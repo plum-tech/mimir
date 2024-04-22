@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/game/2048/widget/tile.dart';
 
+import '../game.dart';
 import '../theme.dart';
 import '../i18n.dart';
-import '../manager/board.dart';
 
 import 'animated_tile.dart';
 import 'button.dart';
@@ -20,7 +20,7 @@ class TileBoardWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final board = ref.watch(boardManager);
+    final board = ref.watch(state2048);
 
     //Decides the maximum size the Board can be based on the shortest size of the screen.
     final size = max(290.0, min((MediaQuery.of(context).size.shortestSide * 0.90).floorToDouble(), 460.0));
@@ -77,7 +77,7 @@ class TileBoardWidget extends ConsumerWidget {
                   ButtonWidget(
                     text: board.won ? i18n.newGame : i18n.tryAgain,
                     onPressed: () {
-                      ref.read(boardManager.notifier).newGame();
+                      ref.read(state2048.notifier).newGame();
                     },
                   )
                 ],
