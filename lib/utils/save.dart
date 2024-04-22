@@ -33,8 +33,6 @@ class PromptSaveBeforeQuitScope extends StatelessWidget {
         );
         if (confirmSave == true) {
           await onSave();
-          if (!context.mounted) return;
-          context.pop();
         } else if (confirmSave == false) {
           if (!context.mounted) return;
           context.pop();

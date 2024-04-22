@@ -12,6 +12,7 @@ import 'package:sit/l10n/extension.dart';
 import 'package:sit/timetable/page/preview.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:sit/utils/color.dart';
+import 'package:sit/utils/save.dart';
 
 import '../../entity/platte.dart';
 import '../../i18n.dart';
@@ -40,20 +41,35 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
   late final $name = TextEditingController(text: widget.palette.name);
   late final $author = TextEditingController(text: widget.palette.author);
   late var colors = widget.palette.colors;
-  final $selected = TimetableInit.storage.timetable.$selected;
+  var anyChanged = false;
+  final $selectedTimetable = TimetableInit.storage.timetable.$selected;
   var selectedTimetable = TimetableInit.storage.timetable.selectedRow;
 
   @override
   void initState() {
     super.initState();
-    $selected.addListener(refresh);
+    $selectedTimetable.addListener(refresh);
+    $name.addListener(() {
+      if ($name.text != widget.palette.name) {
+        setState(() {
+          markChanged();
+        });
+      }
+    });
+    $author.addListener(() {
+      if ($author.text != widget.palette.author) {
+        setState(() {
+          markChanged();
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
     $name.dispose();
     $author.dispose();
-    $selected.removeListener(refresh);
+    $selectedTimetable.removeListener(refresh);
     super.dispose();
   }
 
@@ -63,95 +79,104 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
     });
   }
 
+  void markChanged() => anyChanged |= true;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: DefaultTabController(
-        length: _Tab.length,
-        child: NestedScrollView(
-          floatHeaderSlivers: true,
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            // These are the slivers that show up in the "outer" scroll view.
-            final selectedTimetable = TimetableInit.storage.timetable.selectedRow;
-            return <Widget>[
-              SliverOverlapAbsorber(
-                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                sliver: SliverAppBar(
-                  floating: true,
-                  title: i18n.p13n.palette.title.text(),
-                  actions: [
-                    if (selectedTimetable != null && colors.isNotEmpty)
-                      PlatformTextButton(
-                        child: i18n.preview.text(),
-                        onPressed: () async {
-                          await context.show$Sheet$(
-                            (context) => TimetableStyleProv(
-                              palette: buildPalette(),
-                              child: TimetablePreviewPage(
-                                timetable: selectedTimetable,
+    return PromptSaveBeforeQuitScope(
+      canSave: anyChanged,
+      onSave: onSave,
+      child: Scaffold(
+        body: DefaultTabController(
+          length: _Tab.length,
+          child: NestedScrollView(
+            floatHeaderSlivers: true,
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              // These are the slivers that show up in the "outer" scroll view.
+              final selectedTimetable = TimetableInit.storage.timetable.selectedRow;
+              return <Widget>[
+                SliverOverlapAbsorber(
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  sliver: SliverAppBar(
+                    floating: true,
+                    title: i18n.p13n.palette.title.text(),
+                    actions: [
+                      if (selectedTimetable != null && colors.isNotEmpty)
+                        PlatformTextButton(
+                          child: i18n.preview.text(),
+                          onPressed: () async {
+                            await context.show$Sheet$(
+                              (context) => TimetableStyleProv(
+                                palette: buildPalette(),
+                                child: TimetablePreviewPage(
+                                  timetable: selectedTimetable,
+                                ),
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
+                      PlatformTextButton(
+                        onPressed: anyChanged ? onSave : null,
+                        child: i18n.save.text(),
                       ),
-                    PlatformTextButton(
-                      child: i18n.save.text(),
-                      onPressed: () {
-                        final palette = buildPalette();
-                        context.navigator.pop(palette);
-                      },
-                    ),
-                  ],
-                  forceElevated: innerBoxIsScrolled,
-                  bottom: TabBar(
-                    isScrollable: true,
-                    tabs: [
-                      Tab(child: i18n.p13n.palette.infoTab.text()),
-                      Tab(child: i18n.p13n.palette.colorsTab.text()),
                     ],
+                    forceElevated: innerBoxIsScrolled,
+                    bottom: TabBar(
+                      isScrollable: true,
+                      tabs: [
+                        Tab(child: i18n.p13n.palette.infoTab.text()),
+                        Tab(child: i18n.p13n.palette.colorsTab.text()),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ];
-          },
-          body: TabBarView(
-            children: [
-              CustomScrollView(
-                slivers: [
-                  SliverList.list(children: [
-                    buildName(),
-                    buildAuthor(),
-                  ]),
-                ],
-              ),
-              CustomScrollView(
-                slivers: [
-                  const SliverToBoxAdapter(
-                    child: LightDarkColorsHeaderTitle(),
-                  ),
-                  SliverList.builder(
-                    itemCount: colors.length,
-                    itemBuilder: buildColorTile,
-                  ),
-                  SliverList.list(children: [
-                    const Divider(indent: 12, endIndent: 12),
-                    ListTile(
-                      leading: Icon(context.icons.add),
-                      title: i18n.p13n.palette.addColor.text(),
-                      onTap: () {
-                        setState(() {
-                          colors.add(TimetablePalette.defaultColor);
-                        });
-                      },
+              ];
+            },
+            body: TabBarView(
+              children: [
+                CustomScrollView(
+                  slivers: [
+                    SliverList.list(children: [
+                      buildName(),
+                      buildAuthor(),
+                    ]),
+                  ],
+                ),
+                CustomScrollView(
+                  slivers: [
+                    const SliverToBoxAdapter(
+                      child: LightDarkColorsHeaderTitle(),
                     ),
-                  ]),
-                ],
-              )
-            ],
+                    SliverList.builder(
+                      itemCount: colors.length,
+                      itemBuilder: buildColorTile,
+                    ),
+                    SliverList.list(children: [
+                      const Divider(indent: 12, endIndent: 12),
+                      ListTile(
+                        leading: Icon(context.icons.add),
+                        title: i18n.p13n.palette.addColor.text(),
+                        onTap: () {
+                          setState(() {
+                            colors.add(TimetablePalette.defaultColor);
+                          });
+                          markChanged();
+                        },
+                      ),
+                    ]),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  void onSave() {
+    final palette = buildPalette();
+    context.navigator.pop(palette);
   }
 
   TimetablePalette buildPalette() {
@@ -201,12 +226,14 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
           setState(() {
             colors.removeAt(index);
           });
+          markChanged();
         },
       ),
       child: PaletteColorTile(
         colors: current,
         onEdit: (old, brightness) async {
           await changeColor(old, brightness);
+          markChanged();
         },
       ),
     );
