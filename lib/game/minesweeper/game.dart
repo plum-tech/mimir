@@ -6,7 +6,6 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/game/entity/game_state.dart';
 import 'package:sit/game/minesweeper/save.dart';
-import 'entity/board.dart';
 import 'entity/cell.dart';
 import 'entity/mode.dart';
 import 'entity/screen.dart';
@@ -40,28 +39,23 @@ class GameMinesweeper extends ConsumerStatefulWidget {
 
 class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindingObserver {
   late GameTimer timer;
-  late GameMode mode;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    mode = GameMode.easy;
     timer = GameTimer(refresh: updateGame);
     Future.delayed(Duration.zero).then((value) {
       if (!widget.newGame) {
         final save = SaveMinesweeper.storage.load();
         if (save != null) {
           // ref.read(boardManager.notifier).fromSave(CellBoard.fromSave(save));
-          ref.read(minesweeperState.notifier).initGame(gameMode: mode);
+          ref.read(minesweeperState.notifier).initGame(gameMode: GameMode.easy);
         } else {
-          ref.read(minesweeperState.notifier).initGame(gameMode: mode);
+          ref.read(minesweeperState.notifier).initGame(gameMode: GameMode.easy);
         }
       }
     });
-    if (kDebugMode) {
-      logger.log(Level.info, "GameState Init Finished");
-    }
   }
 
   @override
@@ -100,23 +94,23 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
     });
   }
 
-  void resetGame({gameMode = GameMode.easy}) {
+  void resetGame() {
     timer.stopTimer();
-    mode = gameMode;
     timer = GameTimer(refresh: updateGame);
-    ref.read(minesweeperState.notifier).initGame(gameMode: mode);
+    ref.read(minesweeperState.notifier).initGame(gameMode: GameMode.easy);
     updateGame();
   }
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(minesweeperState);
     // Get Your Screen Size
     final screenSize = MediaQuery.of(context).size;
     final screen = Screen(
       height: screenSize.height,
       width: screenSize.width,
-      gameRows: mode.gameRows,
-      gameColumns: mode.gameColumns,
+      gameRows: state.rows,
+      gameColumns: state.columns,
     );
     // Build UI From Screen Size
 
@@ -137,7 +131,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           GameHud(
-            mode: mode,
+            mode: state.mode,
             timer: timer,
           ),
           Center(
@@ -210,8 +204,7 @@ class GameHud extends ConsumerWidget {
         Container(
           decoration: BoxDecoration(
               color: context.colorScheme.secondaryContainer,
-              borderRadius:
-                  BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8))),
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8))),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
