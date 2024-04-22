@@ -27,7 +27,7 @@ class GameStateMinesweeper {
   GameStateMinesweeper.byDefault()
       : state = GameState.idle,
         mode = GameMode.easy,
-        board = const CellBoard.byDefault();
+        board = CellBoard.empty(rows: GameMode.easy.gameRows, columns: GameMode.easy.gameColumns);
 
   Map<String, dynamic> toJson() => _$GameStateMinesweeperToJson(this);
 
