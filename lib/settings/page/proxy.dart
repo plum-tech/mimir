@@ -14,6 +14,7 @@ import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/dev.dart';
+import 'package:sit/utils/save.dart';
 import '../i18n.dart';
 import '../qrcode/proxy.dart';
 
@@ -209,7 +210,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   late final profile = Settings.proxy.resolve(widget.type);
   late var uri = (profile.address == null ? null : Uri.tryParse(profile.address!)) ?? type.buildDefaultUri();
   late var enabled = profile.enabled;
-  late var globalMode = profile.proxyMode;
+  late var proxyMode = profile.proxyMode;
 
   ProxyType get type => widget.type;
 
@@ -220,13 +221,17 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
 
   @override
   Widget build(BuildContext context) {
+    final canSave = profile.toRecords() != buildProfile();
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             title: widget.type.l10n().text(),
             actions: [
-              buildSaveAction(),
+              PlatformTextButton(
+                onPressed: canSave ? onSave : null,
+                child: i18n.save.text(),
+              ),
             ],
           ),
           SliverList.list(children: [
@@ -244,13 +249,12 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
     );
   }
 
-  Widget buildSaveAction() {
-    return PlatformTextButton(
-      child: i18n.save.text(),
-      onPressed: () {
-        context.pop((address: uri.toString(), enabled: enabled, proxyMode: globalMode));
-      },
-    );
+  void onSave() {
+    context.pop(buildProfile());
+  }
+
+  ProxyProfileRecords buildProfile() {
+    return (address: uri.toString(), enabled: enabled, proxyMode: proxyMode);
   }
 
   Widget buildProxyUrlTile() {
@@ -436,10 +440,10 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
 
   Widget buildProxyModeSwitcher() {
     return _ProxyModeSwitcherTile(
-      proxyMode: globalMode,
+      proxyMode: proxyMode,
       onChanged: (value) {
         setState(() {
-          globalMode = value;
+          proxyMode = value;
         });
       },
     );

@@ -194,6 +194,8 @@ class ProxyProfile {
 
   ProxyProfile(this.box, String ns, this.type);
 
+  ProxyProfileRecords toRecords() => (address: address, enabled: enabled, proxyMode: proxyMode);
+
   String? get address => box.safeGet(_ProxyK.address(type));
 
   set address(String? newV) => box.safePut(_ProxyK.address(type), newV);
