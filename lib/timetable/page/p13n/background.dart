@@ -16,6 +16,7 @@ import 'package:sit/files.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/background.dart';
+import 'package:sit/utils/save.dart';
 import 'package:sit/widgets/modal_image_view.dart';
 import 'package:universal_platform/universal_platform.dart';
 import "../../i18n.dart";
@@ -62,31 +63,36 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
   @override
   Widget build(BuildContext context) {
     final rawPath = this.rawPath;
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar.medium(
-            title: i18n.p13n.background.title.text(),
-            actions: [
-              PlatformTextButton(
-                onPressed: buildBackgroundImage() == Settings.timetable.backgroundImage ? null : onSave,
-                child: i18n.save.text(),
-              ),
-            ],
-          ),
-          SliverList.list(children: [
-            buildImage().padH(10),
-            buildToolBar().padV(4),
-            if (rawPath != null && (Dev.on || (UniversalPlatform.isDesktop || kIsWeb)))
-              ListTile(
-                title: i18n.p13n.background.selectedImage.text(),
-                subtitle: rawPath.text(),
-              ),
-            buildOpacity(),
-            buildRepeat(),
-            buildAntialias(),
-          ]),
-        ],
+    final canSave = buildBackgroundImage() != Settings.timetable.backgroundImage;
+    return PromptSaveBeforeQuitScope(
+      canSave: canSave,
+      onSave: onSave,
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar.medium(
+              title: i18n.p13n.background.title.text(),
+              actions: [
+                PlatformTextButton(
+                  onPressed: !canSave ? null : onSave,
+                  child: i18n.save.text(),
+                ),
+              ],
+            ),
+            SliverList.list(children: [
+              buildImage().padH(10),
+              buildToolBar().padV(4),
+              if (rawPath != null && (Dev.on || (UniversalPlatform.isDesktop || kIsWeb)))
+                ListTile(
+                  title: i18n.p13n.background.selectedImage.text(),
+                  subtitle: rawPath.text(),
+                ),
+              buildOpacity(),
+              buildRepeat(),
+              buildAntialias(),
+            ]),
+          ],
+        ),
       ),
     );
   }
