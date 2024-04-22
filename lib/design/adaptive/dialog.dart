@@ -57,15 +57,18 @@ extension DialogEx on BuildContext {
     required String desc,
     required String yes,
     required String no,
-    bool destructive = false,
+    bool serious = false,
+    bool yesDestructive = false,
+    bool noDestructive = false,
   }) async {
     return await showAnyRequest(
       title: title,
       make: (_) => desc.text(style: const TextStyle()),
       yes: yes,
       no: no,
-      highlight: destructive,
-      serious: destructive,
+      serious: serious,
+      yesDestructive: yesDestructive,
+      noDestructive: noDestructive,
     );
   }
 
@@ -88,7 +91,7 @@ extension DialogEx on BuildContext {
       make: (_) => desc.text(style: const TextStyle()),
       yes: action,
       no: cancel,
-      highlight: destructive,
+      yesDestructive: destructive,
       serious: destructive,
     );
   }
@@ -129,8 +132,9 @@ extension DialogEx on BuildContext {
     required WidgetBuilder make,
     required String yes,
     required String no,
-    bool highlight = false,
     bool serious = false,
+    bool yesDestructive = false,
+    bool noDestructive = false,
   }) async {
     return await showAdaptiveDialog(
       context: this,
@@ -139,7 +143,7 @@ extension DialogEx on BuildContext {
         serious: serious,
         make: make,
         primary: $Action$(
-          warning: highlight,
+          warning: yesDestructive,
           text: yes,
           onPressed: () {
             ctx.navigator.pop(true);
@@ -147,6 +151,7 @@ extension DialogEx on BuildContext {
         ),
         secondary: $Action$(
           text: no,
+          warning: noDestructive,
           onPressed: () {
             ctx.navigator.pop(false);
           },

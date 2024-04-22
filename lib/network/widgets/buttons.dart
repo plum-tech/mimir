@@ -24,7 +24,7 @@ class LaunchEasyConnectButton extends StatelessWidget {
             desc: i18n.easyconnect.launchFailedDesc,
             yes: i18n.download,
             no: i18n.cancel,
-            destructive: true,
+            yesDestructive: true,
           );
           if (confirm == true) {
             if (!context.mounted) return;

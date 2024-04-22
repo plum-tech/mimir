@@ -202,7 +202,7 @@ class PaletteCard extends StatelessWidget {
                     desc: i18n.p13n.palette.deleteRequestDesc,
                     yes: i18n.delete,
                     no: i18n.cancel,
-                    destructive: true,
+                    yesDestructive: true,
                   );
                   if (confirm == true) {
                     TimetableInit.storage.palette.delete(id);

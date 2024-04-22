@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 
-class PromptSaveBeforeQuitScope extends StatefulWidget {
+class PromptSaveBeforeQuitScope extends StatelessWidget {
   final bool canSave;
   final FutureOr<void> Function() onSave;
   final Widget child;
@@ -16,42 +17,30 @@ class PromptSaveBeforeQuitScope extends StatefulWidget {
   });
 
   @override
-  State<PromptSaveBeforeQuitScope> createState() => _PromptSaveBeforeQuitScopeState();
-}
-
-class _PromptSaveBeforeQuitScopeState extends State<PromptSaveBeforeQuitScope> {
-  var canPop = false;
-
-  @override
-  void didUpdateWidget(covariant PromptSaveBeforeQuitScope oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.canSave) {
-      setState(() {
-        canPop = true;
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: canPop,
+      canPop: false,
       onPopInvoked: (didPop) async {
-        if (!didPop) return;
+        if (!canSave) {
+          context.pop();
+          return;
+        }
         final confirmSave = await context.showDialogRequest(
           desc: 'You have unsaved changes, do you want to save them?',
           yes: 'Save&Quit',
           no: 'Abort',
+          noDestructive: true
         );
         if (confirmSave == true) {
-          await widget.onSave();
-          if (!mounted) return;
-          setState(() {
-            canPop = true;
-          });
+          await onSave();
+          if (!context.mounted) return;
+          context.pop();
+        } else if (confirmSave == false) {
+          if (!context.mounted) return;
+          context.pop();
         }
       },
-      child: widget.child,
+      child: child,
     );
   }
 }
