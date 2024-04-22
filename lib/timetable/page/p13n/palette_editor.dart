@@ -41,9 +41,11 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
   late final $name = TextEditingController(text: widget.palette.name);
   late final $author = TextEditingController(text: widget.palette.author);
   late var colors = widget.palette.colors;
-  var anyChanged = false;
   final $selectedTimetable = TimetableInit.storage.timetable.$selected;
   var selectedTimetable = TimetableInit.storage.timetable.selectedRow;
+  var anyChanged = false;
+
+  void markChanged() => anyChanged |= true;
 
   @override
   void initState() {
@@ -51,16 +53,12 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
     $selectedTimetable.addListener(refresh);
     $name.addListener(() {
       if ($name.text != widget.palette.name) {
-        setState(() {
-          markChanged();
-        });
+        setState(() => markChanged());
       }
     });
     $author.addListener(() {
       if ($author.text != widget.palette.author) {
-        setState(() {
-          markChanged();
-        });
+        setState(() => markChanged());
       }
     });
   }
@@ -78,8 +76,6 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
       selectedTimetable = TimetableInit.storage.timetable.selectedRow;
     });
   }
-
-  void markChanged() => anyChanged |= true;
 
   @override
   Widget build(BuildContext context) {

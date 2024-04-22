@@ -15,6 +15,7 @@ import 'package:sit/l10n/time.dart';
 import 'package:sit/school/widgets/course.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:sit/utils/save.dart';
 
 import '../entity/timetable.dart';
 import '../i18n.dart';
@@ -41,6 +42,29 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
   late var courses = Map.of(widget.timetable.courses);
   late var lastCourseKey = widget.timetable.lastCourseKey;
   var index = 0;
+  var anyChanged = false;
+
+  void markChanged() => anyChanged |= true;
+
+  @override
+  void initState() {
+    super.initState();
+    $name.addListener(() {
+      if ($name.text != widget.timetable.name) {
+        setState(() => markChanged());
+      }
+    });
+    $selectedDate.addListener(() {
+      if ($selectedDate.value != widget.timetable.startDate) {
+        setState(() => markChanged());
+      }
+    });
+    $signature.addListener(() {
+      if ($signature.text != widget.timetable.signature) {
+        setState(() => markChanged());
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -52,44 +76,48 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar.medium(
-            title: i18n.import.timetableInfo.text(),
-            actions: [
-              PlatformTextButton(
-                onPressed: onPreview,
-                child: i18n.preview.text(),
-              ),
-              PlatformTextButton(
-                onPressed: onSave,
-                child: i18n.save.text(),
-              ),
-            ],
-          ),
-          if (index == 0) ...buildInfoTab() else ...buildAdvancedTab(),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: index,
-        items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.info_outline),
-            activeIcon: const Icon(Icons.info),
-            label: i18n.editor.infoTab,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.calendar_month_outlined),
-            activeIcon: const Icon(Icons.calendar_month),
-            label: i18n.editor.advancedTab,
-          ),
-        ],
-        onTap: (newIndex) {
-          setState(() {
-            index = newIndex;
-          });
-        },
+    return PromptSaveBeforeQuitScope(
+      canSave: anyChanged,
+      onSave: onSave,
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar.medium(
+              title: i18n.import.timetableInfo.text(),
+              actions: [
+                PlatformTextButton(
+                  onPressed: onPreview,
+                  child: i18n.preview.text(),
+                ),
+                PlatformTextButton(
+                  onPressed: anyChanged ? onSave : null,
+                  child: i18n.save.text(),
+                ),
+              ],
+            ),
+            if (index == 0) ...buildInfoTab() else ...buildAdvancedTab(),
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: index,
+          items: [
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.info_outline),
+              activeIcon: const Icon(Icons.info),
+              label: i18n.editor.infoTab,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.calendar_month_outlined),
+              activeIcon: const Icon(Icons.calendar_month),
+              label: i18n.editor.advancedTab,
+            ),
+          ],
+          onTap: (newIndex) {
+            setState(() {
+              index = newIndex;
+            });
+          },
+        ),
       ),
     );
   }
@@ -149,6 +177,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
   }
 
   void onCourseChanged(SitCourse old, SitCourse newValue) {
+    markChanged();
     final key = "${newValue.courseKey}";
     if (courses.containsKey(key)) {
       setState(() {
@@ -173,6 +202,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
   }
 
   void onCourseAdded(SitCourse course) {
+    markChanged();
     course = course.copyWith(
       courseKey: lastCourseKey++,
     );
@@ -187,6 +217,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
       setState(() {
         courses.remove("${course.courseKey}");
       });
+      markChanged();
     }
   }
 
