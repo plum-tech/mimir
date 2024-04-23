@@ -29,6 +29,7 @@ import '../init.dart';
 import '../utils.dart';
 import '../widgets/focus.dart';
 import '../widgets/style.dart';
+import 'import.dart';
 import 'preview.dart';
 
 class MyTimetableListPage extends StatefulWidget {
@@ -62,33 +63,39 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   /// Updates the selected timetable id.
   /// If [TimetableSettings.autoUseImported] is enabled, the newly-imported will be used.
   Future<void> goImport() async {
-    final ({int id, SitTimetable timetable})? result;
-    if (isLoginGuarded(context)) {
-      result = await importFromFile();
+    SitTimetable? timetable;
+    final fromFile = isLoginGuarded(context);
+    if (fromFile) {
+      timetable = await importFromFile();
     } else {
-      result = await importFromSchoolServer();
+      timetable = await importFromSchoolServer();
     }
+    if (timetable == null) return;
+    if (!mounted) return;
+    if (fromFile) {
+      final newTimetable = await handleImportedTimetable(context, timetable);
+      if (newTimetable == null) return;
+      timetable = newTimetable;
+    }
+    final id = TimetableInit.storage.timetable.add(timetable);
 
-    if (result != null) {
-      if (Settings.timetable.autoUseImported) {
-        TimetableInit.storage.timetable.selectedId = result.id;
-      } else {
-        // use this timetable if no one else
-        TimetableInit.storage.timetable.selectedId ??= result.id;
-      }
+    if (Settings.timetable.autoUseImported) {
+      TimetableInit.storage.timetable.selectedId = id;
+    } else {
+      // use this timetable if no one else
+      TimetableInit.storage.timetable.selectedId ??= id;
     }
   }
 
-  Future<({int id, SitTimetable timetable})?> importFromSchoolServer() async {
-    return await context.push<({int id, SitTimetable timetable})>("/timetable/import");
+  Future<SitTimetable?> importFromSchoolServer() async {
+    return await context.push<SitTimetable>("/timetable/import");
   }
 
-  Future<({int id, SitTimetable timetable})?> importFromFile() async {
+  Future<SitTimetable?> importFromFile() async {
     final timetable = await readTimetableFromPickedFileWithPrompt(context);
     if (timetable == null) return null;
-    final id = TimetableInit.storage.timetable.add(timetable);
     if (!mounted) return null;
-    return (id: id, timetable: timetable);
+    return timetable;
   }
 
   @override

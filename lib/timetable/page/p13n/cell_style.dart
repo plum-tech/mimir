@@ -10,7 +10,7 @@ import '../../widgets/style.dart';
 import '../../i18n.dart';
 import 'palette.dart';
 
-/// Persist changes to storage before route popping
+/// It persists changes to storage before route popping
 class TimetableCellStyleEditor extends StatefulWidget {
   const TimetableCellStyleEditor({super.key});
 

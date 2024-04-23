@@ -21,7 +21,7 @@ import 'package:sit/widgets/modal_image_view.dart';
 import 'package:universal_platform/universal_platform.dart';
 import "../../i18n.dart";
 
-/// Persist changes to storage before route popping
+/// It persists changes to storage before route popping
 class TimetableBackgroundEditor extends StatefulWidget {
   const TimetableBackgroundEditor({super.key});
 
