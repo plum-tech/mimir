@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/settings/dev.dart';
 
 class PromptSaveBeforeQuitScope extends StatelessWidget {
   final bool canSave;
@@ -20,12 +19,11 @@ class PromptSaveBeforeQuitScope extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: !Dev.on,
+      canPop: false,
       onPopInvoked: (didPop) async {
         if (didPop) {
           return;
         }
-        if (!Dev.on) return;
         if (!canSave) {
           context.pop();
           return;
