@@ -90,7 +90,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
                   child: i18n.preview.text(),
                 ),
                 PlatformTextButton(
-                  onPressed: anyChanged ? onSave : null,
+                  onPressed: onSave,
                   child: i18n.save.text(),
                 ),
               ],

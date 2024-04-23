@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/settings/dev.dart';
 
 class PromptSaveBeforeQuitScope extends StatelessWidget {
   final bool canSave;
@@ -19,7 +20,7 @@ class PromptSaveBeforeQuitScope extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: false,
+      canPop: !Dev.on,
       onPopInvoked: (didPop) async {
         if (!canSave) {
           context.pop();
@@ -29,7 +30,7 @@ class PromptSaveBeforeQuitScope extends StatelessWidget {
           desc: 'You have unsaved changes, do you want to save them?',
           primary: 'Save&Quit',
           secondary: 'Abort',
-          secondaryDestructive: true
+          secondaryDestructive: true,
         );
         if (confirmSave == true) {
           await onSave();
