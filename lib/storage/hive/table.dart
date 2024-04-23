@@ -191,13 +191,13 @@ class HiveTable<T> {
   //   return box.providerFamily<T, int>(_rowK, get: get);
   // }
 
-  late final $rowsProvider = $any.provider<List<({int id, T row})>>(
+  late final $rows = $any.provider<List<({int id, T row})>>(
     get: getRows,
   );
-  late final $selectedIdProvider = $selected.provider<int?>(
+  late final $selectedId = $selected.provider<int?>(
     get: () => selectedId,
   );
-  late final $selectedRowProvider = $selected.provider<T?>(
+  late final $selectedRow = $selected.provider<T?>(
     get: () => selectedRow,
   );
 }

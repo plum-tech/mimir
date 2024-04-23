@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
@@ -27,7 +28,7 @@ import '../../widgets/timetable/weekly.dart';
 import 'palette_editor.dart';
 import '../preview.dart';
 
-class TimetableP13nPage extends StatefulWidget {
+class TimetableP13nPage extends ConsumerStatefulWidget {
   final int? tab;
 
   const TimetableP13nPage({
@@ -36,7 +37,7 @@ class TimetableP13nPage extends StatefulWidget {
   }) : assert(tab == null || (0 <= tab && tab < TimetableP13nTab.length), "#$tab tab not found");
 
   @override
-  State<TimetableP13nPage> createState() => _TimetableP13nPageState();
+  ConsumerState<TimetableP13nPage> createState() => _TimetableP13nPageState();
 }
 
 class TimetableP13nTab {
@@ -45,17 +46,12 @@ class TimetableP13nTab {
   static const builtin = 1;
 }
 
-class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTickerProviderStateMixin {
-  final $paletteList = TimetableInit.storage.palette.$any;
+class _TimetableP13nPageState extends ConsumerState<TimetableP13nPage> with SingleTickerProviderStateMixin {
   late final TabController tabController;
-  final $selected = TimetableInit.storage.timetable.$selected;
-  var selectedTimetable = TimetableInit.storage.timetable.selectedRow;
 
   @override
   void initState() {
     super.initState();
-    $selected.addListener(refresh);
-    $paletteList.addListener(refresh);
     tabController = TabController(vsync: this, length: TimetableP13nTab.length);
     final selectedId = TimetableInit.storage.palette.selectedId;
     final forceTab = widget.tab;
@@ -68,34 +64,18 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
 
   @override
   void dispose() {
-    $paletteList.removeListener(refresh);
     tabController.dispose();
-    $selected.removeListener(refresh);
     super.dispose();
-  }
-
-  void refresh() {
-    setState(() {
-      selectedTimetable = TimetableInit.storage.timetable.selectedRow;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final palettes = ref.watch(TimetableInit.storage.palette.$rows);
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         label: i18n.p13n.palette.fab.text(),
         icon: Icon(context.icons.add),
-        onPressed: () async {
-          final palette = TimetablePalette(
-            name: i18n.p13n.palette.newPaletteName,
-            author: "",
-            colors: [],
-            lastModified: DateTime.now(),
-          );
-          TimetableInit.storage.palette.add(palette);
-          tabController.index = TimetableP13nTab.custom;
-        },
+        onPressed: addPalette,
       ),
       body: NestedScrollView(
         floatHeaderSlivers: true,
@@ -123,7 +103,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
         body: TabBarView(
           controller: tabController,
           children: [
-            buildPaletteList(TimetableInit.storage.palette.getRows()),
+            buildPaletteList(palettes),
             buildPaletteList(BuiltinTimetablePalettes.all.map((e) => (id: e.id, row: e)).toList()),
           ],
         ),
@@ -131,8 +111,20 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
     );
   }
 
+  Future<void> addPalette() async {
+    final palette = TimetablePalette(
+      name: i18n.p13n.palette.newPaletteName,
+      author: "",
+      colors: [],
+      lastModified: DateTime.now(),
+    );
+    TimetableInit.storage.palette.add(palette);
+    tabController.index = TimetableP13nTab.custom;
+  }
+
   Widget buildPaletteList(List<({int id, TimetablePalette row})> palettes) {
-    final selectedId = TimetableInit.storage.palette.selectedId ?? BuiltinTimetablePalettes.classic.id;
+    final selectedId = ref.watch(TimetableInit.storage.palette.$selectedId) ?? BuiltinTimetablePalettes.classic.id;
+    final selectedTimetable = ref.watch(TimetableInit.storage.timetable.$selectedRow);
     palettes.sort((a, b) => b.row.lastModified.compareTo(a.row.lastModified));
     return CustomScrollView(
       slivers: [
@@ -250,7 +242,7 @@ class PaletteCard extends StatelessWidget {
           activator: const SingleActivator(LogicalKeyboardKey.keyD),
           action: () async {
             final duplicate = palette.copyWith(
-              name: getDuplicateFileName(palette.name, all: allPaletteNames),
+              name: allocValidFileName(palette.name, all: allPaletteNames),
               author: palette.author,
               lastModified: DateTime.now(),
             );

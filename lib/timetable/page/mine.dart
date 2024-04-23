@@ -44,8 +44,8 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
   @override
   Widget build(BuildContext context) {
     final storage = TimetableInit.storage.timetable;
-    final timetables = ref.watch(storage.$rowsProvider);
-    final selectedId = ref.watch(storage.$selectedIdProvider);
+    final timetables = ref.watch(storage.$rows);
+    final selectedId = ref.watch(storage.$selectedId);
     timetables.sort((a, b) => b.row.lastModified.compareTo(a.row.lastModified));
     final actions = [
       if (Settings.focusTimetable)
