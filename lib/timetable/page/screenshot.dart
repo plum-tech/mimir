@@ -226,5 +226,5 @@ Future<void> takeTimetableScreenshot({
   final imgFi = Files.timetable.screenshotFile;
   await imgFi.writeAsBytes(screenshot);
 
-  await OpenFile.open(imgFi.path, type: "image/png");
+  await OpenFile.open(imgFi.path, type: "image/png", uti: "public.png");
 }
