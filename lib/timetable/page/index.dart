@@ -14,7 +14,7 @@ class TimetablePage extends ConsumerStatefulWidget {
 }
 
 final selectedTimetableEntityProvider = Provider.autoDispose((ref) {
-  final timetable = ref.watch(TimetableInit.storage.timetable.selectedRowProvider);
+  final timetable = ref.watch(TimetableInit.storage.timetable.$selectedRowProvider);
   return timetable?.resolve();
 });
 

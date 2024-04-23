@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/menu.dart';
@@ -31,14 +32,14 @@ import '../widgets/focus.dart';
 import '../widgets/style.dart';
 import 'preview.dart';
 
-class MyTimetableListPage extends StatefulWidget {
+class MyTimetableListPage extends ConsumerStatefulWidget {
   const MyTimetableListPage({super.key});
 
   @override
-  State<MyTimetableListPage> createState() => _MyTimetableListPageState();
+  ConsumerState<MyTimetableListPage> createState() => _MyTimetableListPageState();
 }
 
-class _MyTimetableListPageState extends State<MyTimetableListPage> {
+class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
   final $timetableList = TimetableInit.storage.timetable.$any;
   final scrollController = ScrollController();
 
@@ -109,8 +110,8 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   @override
   Widget build(BuildContext context) {
     final timetables = TimetableInit.storage.timetable.getRows();
+    final selectedId = ref.watch(TimetableInit.storage.timetable.$selectedIdProvider);
     timetables.sort((a, b) => b.row.lastModified.compareTo(a.row.lastModified));
-    final selectedId = TimetableInit.storage.timetable.selectedId;
     final actions = [
       if (Settings.focusTimetable)
         buildMoreActionsButton()

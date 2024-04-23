@@ -10,3 +10,37 @@ extension BuildContextRiverpodX on BuildContext {
         listen: listen,
       );
 }
+
+class ListenableStateNotifier<T> extends StateNotifier<T> {
+  final Listenable listenable;
+  final T Function() get;
+
+  ListenableStateNotifier(super._state, this.listenable, this.get) {
+    listenable.addListener(_refresh);
+  }
+
+  void _refresh() {
+    state = get();
+  }
+
+  @override
+  void dispose() {
+    listenable.removeListener(_refresh);
+    super.dispose();
+  }
+}
+
+extension ListenableRiverpodX on Listenable {
+  AutoDisposeStateNotifierProvider<ListenableStateNotifier<T>, T> provider<T>({
+    required T initial,
+    required T Function() get,
+  }) {
+    return StateNotifierProvider.autoDispose<ListenableStateNotifier<T>, T>((ref) {
+      return ListenableStateNotifier(
+        initial,
+        this,
+        get,
+      );
+    });
+  }
+}
