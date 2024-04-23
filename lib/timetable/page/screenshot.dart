@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:open_file/open_file.dart';
 import 'package:rettulf/rettulf.dart';
@@ -202,15 +203,17 @@ Future<void> takeTimetableScreenshot({
   final screenshot = await screenshotController.captureFromLongWidget(
     InheritedTheme.captureAll(
       context,
-      MediaQuery(
-        data: MediaQueryData(size: fullSize),
-        child: Material(
-          child: TimetableStyleProv(
-            child: TimetableWeeklyScreenshotFilm(
-              config: config,
-              timetable: timetable,
-              weekIndex: weekIndex,
-              fullSize: fullSize,
+      ProviderScope(
+        child: MediaQuery(
+          data: MediaQueryData(size: fullSize),
+          child: Material(
+            child: TimetableStyleProv(
+              child: TimetableWeeklyScreenshotFilm(
+                config: config,
+                timetable: timetable,
+                weekIndex: weekIndex,
+                fullSize: fullSize,
+              ),
             ),
           ),
         ),
