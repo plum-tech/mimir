@@ -285,15 +285,15 @@ String convertTimetable2ICal({
           );
           if (alarm != null) {
             final trigger = startTime.subtract(alarm.alarmBeforeClass).toUtc();
-            if (alarm.isSoundAlarm) {
-              event.addAlarmAudio(
-                triggerDate: trigger,
-                repeating: (repeat: 1, duration: alarm.alarmDuration),
-              );
-            } else {
+            if (alarm.isDisplayAlarm) {
               event.addAlarmDisplay(
                 triggerDate: trigger,
                 description: "${course.courseName} ${course.place} $teachers",
+                repeating: (repeat: 1, duration: alarm.alarmDuration),
+              );
+            } else {
+              event.addAlarmAudio(
+                triggerDate: trigger,
                 repeating: (repeat: 1, duration: alarm.alarmDuration),
               );
             }
