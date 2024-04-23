@@ -548,6 +548,13 @@ Future<void> onTimetablePaletteFromQrCode({
     cancel: i18n.cancel,
   );
   if (confirm != true) return;
+  // prevent duplicate names
+  // palette = palette.copyWith(
+  //   name: allocValidFileName(
+  //     palette.name,
+  //     all: TimetableInit.storage.palette.getRows().map((e) => e.row.name).toList(growable: false),
+  //   ),
+  // );
   TimetableInit.storage.palette.add(palette);
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;

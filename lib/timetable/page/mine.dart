@@ -77,6 +77,13 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       if (newTimetable == null) return;
       timetable = newTimetable;
     }
+    // prevent duplicate names
+    // timetable = timetable.copyWith(
+    //   name: allocValidFileName(
+    //     timetable.name,
+    //     all: TimetableInit.storage.timetable.getRows().map((e) => e.row.name).toList(growable: false),
+    //   ),
+    // );
     final id = TimetableInit.storage.timetable.add(timetable);
 
     if (Settings.timetable.autoUseImported) {
