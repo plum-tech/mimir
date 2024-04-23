@@ -10,8 +10,6 @@ import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/timetable/page/preview.dart';
-import 'package:sit/timetable/platte.dart';
-import 'package:sit/utils/color.dart';
 import 'package:sit/utils/save.dart';
 
 import '../../entity/platte.dart';
@@ -297,9 +295,17 @@ class PaletteColorTile extends StatelessWidget {
         "#${dark.hexAlpha}".text(),
       ].row(maa: MainAxisAlignment.spaceBetween),
       subtitle: [
-        PaletteColorBar(color: light, brightness: Brightness.light, onEdit: onEdit).expanded(),
+        PaletteColorBar(
+          color: light,
+          brightness: Brightness.light,
+          onEdit: onEdit,
+        ).expanded(),
         const SizedBox(width: 5),
-        PaletteColorBar(color: dark, brightness: Brightness.dark, onEdit: onEdit).expanded(),
+        PaletteColorBar(
+          color: dark,
+          brightness: Brightness.dark,
+          onEdit: onEdit,
+        ).expanded(),
       ].row(mas: MainAxisSize.min, maa: MainAxisAlignment.spaceEvenly),
     );
   }
@@ -320,7 +326,8 @@ class PaletteColorBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onEdit = this.onEdit;
-    final textColor = color.resolveTextColorForReadability();
+    // final textColor = color.resolveTextColorForReadability();
+    final textColor = brightness == Brightness.light ? Colors.black : Colors.white;
     return Card.outlined(
       color: textColor,
       margin: EdgeInsets.zero,
@@ -342,10 +349,8 @@ class PaletteColorBar extends StatelessWidget {
           child: SizedBox(
             height: 35,
             child:
-            // "${brightness.l10n()} ${calculateContrastRatio(textColor!, color).toStringAsFixed(2)}"
-             "${brightness.l10n()}}"
-                .text(style: context.textTheme.bodyLarge?.copyWith(color: textColor))
-                .center(),
+                // "${brightness.l10n()} ${calculateContrastRatio(textColor!, color).toStringAsFixed(2)}"
+                brightness.l10n().text(style: context.textTheme.bodyLarge?.copyWith(color: textColor)).center(),
           ),
         ),
       ),

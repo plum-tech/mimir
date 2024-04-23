@@ -20,9 +20,7 @@ class ListenableStateNotifier<T> extends StateNotifier<T> {
   }
 
   void _refresh() {
-    print("before ${state}");
     state = get();
-    print("after ${state}");
   }
 
   @override

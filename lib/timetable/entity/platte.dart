@@ -51,7 +51,7 @@ class TimetablePalette {
   @JsonKey(defaultValue: _kLastModified)
   final DateTime lastModified;
 
-  static const defaultColor = (light: Colors.white30, dark: Colors.black12);
+  static const defaultColor = (light: Colors.white, dark: Colors.black);
 
   const TimetablePalette({
     required this.name,
@@ -139,6 +139,7 @@ class BuiltinTimetablePalette implements TimetablePalette {
   String get author => authorOverride ?? "timetable.p13n.builtinPalette.$key.author".tr();
   @override
   final List<Color2Mode> colors;
+
   @override
   DateTime get lastModified => DateTime.now();
 

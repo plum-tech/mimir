@@ -38,11 +38,11 @@ class EntryAction {
   const EntryAction.edit({
     required this.label,
     this.main = false,
+    this.oneShot = false,
     this.icon,
     required this.action,
     this.activator,
-  })  : oneShot = true,
-        type = EntryActionType.edit;
+  }) : type = EntryActionType.edit;
 
   const EntryAction.delete({
     required this.label,
@@ -289,8 +289,10 @@ class EntryCard extends StatelessWidget {
     if (editAction != null) {
       all.add(PlatformTextButton(
         onPressed: () async {
-          if (!context.mounted) return;
-          context.navigator.pop();
+          if (editAction.oneShot) {
+            if (!context.mounted) return;
+            context.navigator.pop();
+          }
           await editAction.action();
         },
         child: editAction.label.text(),
