@@ -107,7 +107,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
                   onPressed: () {
                     multiselect.clearSelection();
                   },
-                  child: Text(i18n.done),
+                  child: Text(i18n.cancel),
                 )
               ],
               bottom: isFetching
