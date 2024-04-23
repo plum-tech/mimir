@@ -18,6 +18,8 @@ class _I18n with CommonI18nMixin {
 
   String get openWifiSettingsBtn => "$ns.openWifiSettingsBtn".tr();
 
+  String get openInAppProxySettingsBtn => "$ns.openInAppProxySettingsBtn".tr();
+
   String get connectionFailedError => "$ns.connectionFailedError".tr();
 
   String get connectionFailedButCampusNetworkConnected => "$ns.connectionFailedButCampusNetworkConnected".tr();

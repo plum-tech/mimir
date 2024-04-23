@@ -134,6 +134,8 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
             LaunchEasyConnectButton(),
             SizedBox(width: 8),
             OpenWifiSettingsButton(),
+            SizedBox(width: 8),
+            OpenInAppProxyButton(),
           ],
         ),
       ),

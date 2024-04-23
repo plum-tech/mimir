@@ -1,5 +1,6 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
@@ -46,6 +47,20 @@ class OpenWifiSettingsButton extends StatelessWidget {
         AppSettings.openAppSettings(type: AppSettingsType.wifi);
       },
       child: i18n.openWifiSettingsBtn.text(),
+    );
+  }
+}
+
+class OpenInAppProxyButton extends StatelessWidget {
+  const OpenInAppProxyButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: () {
+        context.push("settings/proxy");
+      },
+      child: i18n.openInAppProxySettingsBtn.text(),
     );
   }
 }

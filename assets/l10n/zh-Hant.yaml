@@ -528,6 +528,7 @@ networkTool:
   title: 網路工具
   subtitle: 測試與學校伺服器的連線
   openWifiSettingsBtn: 打開 Wi-Fi 設定
+  openInAppProxySettingsBtn: 打開應用程式內網路代理設定
   campusNetworkConnected: 已連線校園網路
   campusNetworkNotConnected: 未連線校園網路
   studentRegAvailable: 教務系統可用
