@@ -239,11 +239,11 @@ extension BoxProviderX on Box {
   }
 
   AutoDisposeStateNotifierProvider<BoxFieldStreamNotifier<T>, T?> streamProvider<T>({
-    required T? initial,
+    required T? Function() initial,
     BoxEventFilter? filter,
   }) {
     return StateNotifierProvider.autoDispose<BoxFieldStreamNotifier<T>, T?>((ref) {
-      return BoxFieldStreamNotifier(initial, watch(), filter);
+      return BoxFieldStreamNotifier(initial(), watch(), filter);
     });
   }
 

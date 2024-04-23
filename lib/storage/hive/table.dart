@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:sit/utils/riverpod.dart';
@@ -183,27 +182,22 @@ class HiveTable<T> {
   }
 
   Listenable listenRowChange(int id) => box.listenable(keys: [_rowK(id)]);
+  //
+  // AutoDisposeStateNotifierProvider<BoxFieldNotifier<T>, T?> $rowProvider(int id) {
+  //   return box.provider<T>(_rowK(id));
+  // }
+  //
+  // AutoDisposeStateNotifierProviderFamily<BoxFieldNotifier<T>, T?, int> $rowProviderFamily(int id) {
+  //   return box.providerFamily<T, int>(_rowK, get: get);
+  // }
 
-  AutoDisposeStateNotifierProvider<BoxFieldNotifier<T>, T?> $rowProvider(int id) {
-    return box.provider<T>(_rowK(id));
-  }
-
-  AutoDisposeStateNotifierProviderFamily<BoxFieldNotifier<T>, T?, int> $rowProviderFamily(int id) {
-    return box.providerFamily<T, int>(_rowK, get: get);
-  }
-
-  late final $selectedId = box.listenable(keys: [_selectedIdK]);
-
-  late final $rowsProvider = $selectedId.provider<List<({int id, T row})>>(
-    initial: getRows(),
+  late final $rowsProvider = $any.provider<List<({int id, T row})>>(
     get: getRows,
   );
-  late final $selectedIdProvider = $selectedId.provider<int?>(
-    initial: selectedId,
+  late final $selectedIdProvider = $selected.provider<int?>(
     get: () => selectedId,
   );
-  late final $selectedRowProvider = $selectedId.provider<T?>(
-    initial: selectedRow,
+  late final $selectedRowProvider = $selected.provider<T?>(
     get: () => selectedRow,
   );
 }

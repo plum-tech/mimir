@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -40,77 +39,13 @@ class MyTimetableListPage extends ConsumerStatefulWidget {
 }
 
 class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
-  final $timetableList = TimetableInit.storage.timetable.$any;
   final scrollController = ScrollController();
 
   @override
-  void initState() {
-    super.initState();
-    $timetableList.addListener(refresh);
-  }
-
-  @override
-  void dispose() {
-    $timetableList.removeListener(refresh);
-    super.dispose();
-  }
-
-  void refresh() {
-    setState(() {});
-  }
-
-  /// Import a new timetable.
-  /// Updates the selected timetable id.
-  /// If [TimetableSettings.autoUseImported] is enabled, the newly-imported will be used.
-  Future<void> goImport() async {
-    SitTimetable? timetable;
-    final fromFile = isLoginGuarded(context);
-    if (fromFile) {
-      timetable = await importFromFile();
-    } else {
-      timetable = await importFromSchoolServer();
-    }
-    if (timetable == null) return;
-    // process timetable imported from file
-    // if (fromFile) {
-    //   if (!mounted) return;
-    //   final newTimetable = await processImportedTimetable(context, timetable);
-    //   if (newTimetable == null) return;
-    //   timetable = newTimetable;
-    // }
-
-    // prevent duplicate names
-    // timetable = timetable.copyWith(
-    //   name: allocValidFileName(
-    //     timetable.name,
-    //     all: TimetableInit.storage.timetable.getRows().map((e) => e.row.name).toList(growable: false),
-    //   ),
-    // );
-    final id = TimetableInit.storage.timetable.add(timetable);
-
-    if (Settings.timetable.autoUseImported) {
-      TimetableInit.storage.timetable.selectedId = id;
-    } else {
-      // use this timetable if no one else
-      TimetableInit.storage.timetable.selectedId ??= id;
-    }
-  }
-
-  Future<SitTimetable?> importFromSchoolServer() async {
-    return await context.push<SitTimetable>("/timetable/import");
-  }
-
-  Future<SitTimetable?> importFromFile() async {
-    final timetable = await readTimetableFromPickedFileWithPrompt(context);
-    if (timetable == null) return null;
-    if (!mounted) return null;
-    return timetable;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final timetables = TimetableInit.storage.timetable.getRows();
-    final selectedId = ref.watch(TimetableInit.storage.timetable.$selectedIdProvider);
+    final storage = TimetableInit.storage.timetable;
+    final timetables = ref.watch(storage.$rowsProvider);
+    final selectedId = ref.watch(storage.$selectedIdProvider);
     timetables.sort((a, b) => b.row.lastModified.compareTo(a.row.lastModified));
     final actions = [
       if (Settings.focusTimetable)
@@ -167,6 +102,54 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
         icon: Icon(context.icons.add),
       ),
     );
+  }
+
+  /// Import a new timetable.
+  /// Updates the selected timetable id.
+  /// If [TimetableSettings.autoUseImported] is enabled, the newly-imported will be used.
+  Future<void> goImport() async {
+    SitTimetable? timetable;
+    final fromFile = isLoginGuarded(context);
+    if (fromFile) {
+      timetable = await importFromFile();
+    } else {
+      timetable = await importFromSchoolServer();
+    }
+    if (timetable == null) return;
+    // process timetable imported from file
+    // if (fromFile) {
+    //   if (!mounted) return;
+    //   final newTimetable = await processImportedTimetable(context, timetable);
+    //   if (newTimetable == null) return;
+    //   timetable = newTimetable;
+    // }
+
+    // prevent duplicate names
+    // timetable = timetable.copyWith(
+    //   name: allocValidFileName(
+    //     timetable.name,
+    //     all: TimetableInit.storage.timetable.getRows().map((e) => e.row.name).toList(growable: false),
+    //   ),
+    // );
+    final id = TimetableInit.storage.timetable.add(timetable);
+
+    if (Settings.timetable.autoUseImported) {
+      TimetableInit.storage.timetable.selectedId = id;
+    } else {
+      // use this timetable if no one else
+      TimetableInit.storage.timetable.selectedId ??= id;
+    }
+  }
+
+  Future<SitTimetable?> importFromSchoolServer() async {
+    return await context.push<SitTimetable>("/timetable/import");
+  }
+
+  Future<SitTimetable?> importFromFile() async {
+    final timetable = await readTimetableFromPickedFileWithPrompt(context);
+    if (timetable == null) return null;
+    if (!mounted) return null;
+    return timetable;
   }
 
   Widget buildMoreActionsButton() {

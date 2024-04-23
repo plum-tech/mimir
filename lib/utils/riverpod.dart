@@ -20,7 +20,9 @@ class ListenableStateNotifier<T> extends StateNotifier<T> {
   }
 
   void _refresh() {
+    print("before ${state}");
     state = get();
+    print("after ${state}");
   }
 
   @override
@@ -32,12 +34,11 @@ class ListenableStateNotifier<T> extends StateNotifier<T> {
 
 extension ListenableRiverpodX on Listenable {
   AutoDisposeStateNotifierProvider<ListenableStateNotifier<T>, T> provider<T>({
-    required T initial,
     required T Function() get,
   }) {
     return StateNotifierProvider.autoDispose<ListenableStateNotifier<T>, T>((ref) {
       return ListenableStateNotifier(
-        initial,
+        get(),
         this,
         get,
       );
