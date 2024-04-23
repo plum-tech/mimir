@@ -814,6 +814,10 @@ permission:
   type:
     storage: 存储
     camera: 相机
+saveAndQuitPrompt:
+  request: 您有未保存的更改，想要保存吗？
+  saveAndQuit: 保存并退出
+  discard: 丢弃
 dormitoryRoom: "{building}号楼 #{room}"
 open: 打开
 delete: 删除

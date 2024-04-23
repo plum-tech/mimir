@@ -814,6 +814,10 @@ permission:
   type:
     storage: Storage
     camera: Camera
+saveAndQuitPrompt:
+  request: You have unsaved changes, do you want to save them?
+  saveAndQuit: Save&Quit
+  discard: Discard
 dormitoryRoom: "Building {building} #{room}"
 open: Open
 delete: Delete

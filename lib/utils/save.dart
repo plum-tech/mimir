@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+
+const _i18n = _I18n();
 
 class PromptSaveBeforeQuitScope extends StatelessWidget {
   final bool canSave;
@@ -29,9 +32,9 @@ class PromptSaveBeforeQuitScope extends StatelessWidget {
           return;
         }
         final confirmSave = await context.showDialogRequest(
-          desc: 'You have unsaved changes, do you want to save them?',
-          primary: 'Save&Quit',
-          secondary: 'Abort',
+          desc: _i18n.request,
+          primary: _i18n.saveAndQuit,
+          secondary: _i18n.discard,
           secondaryDestructive: true,
         );
         if (confirmSave == true) {
@@ -44,4 +47,16 @@ class PromptSaveBeforeQuitScope extends StatelessWidget {
       child: child,
     );
   }
+}
+
+class _I18n {
+  const _I18n();
+
+  static const ns = "saveAndQuitPrompt";
+
+  String get request => "$ns.request".tr();
+
+  String get saveAndQuit => "$ns.saveAndQuit".tr();
+
+  String get discard => "$ns.discard".tr();
 }

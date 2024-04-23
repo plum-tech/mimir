@@ -39,7 +39,7 @@ timetable:
     tryImportBtn: 嘗試匯入
     fromFileBtn: 從檔案匯入
     connectivityCheckerDesc: 你需要訪問校園網路，才能匯入一個新的課程表。現在就開始檢查吧。
-    selectSemesterTip: 請先選擇學年與學期
+    selectSemesterTip: 請先選擇學年學期
     endTip: 請補充課程表的資訊。
     failed: 匯入失敗
     failedDesc: 無法匯入課程表，請之後再試。
@@ -364,11 +364,11 @@ captcha:
   enterHint: 請鍵入驗證碼
   emptyInputError: 未鍵入驗證碼
 credentials:
-  account: 帳戶
+  account: 賬戶
   password: 密碼
   oa:
     studentId: 學號
-    oaAccount: OA 帳戶
+    oaAccount: OA 賬戶
     oaPwd: OA 密碼
     savedOaPwd: 儲存的 OA 密碼
     savedOaPwdDesc: 用於自動登入 OA
@@ -556,8 +556,8 @@ login:
   login: 登入
   forgotPwd: 忘記密碼?
   validateInputAccountPwdRequest: 請檢查你鍵入的賬戶和密碼
-  credentialsValidatedTip: 帳戶與密碼正確
-  unknownAuthErrorTip: 未知的帳戶身份驗證錯誤
+  credentialsValidatedTip: 賬戶與密碼正確
+  unknownAuthErrorTip: 未知的賬戶身份驗證錯誤
   loggedInTip: 已登入
   notLoggedIn: 未登入
   offlineModeBtn: 離線模式
@@ -690,7 +690,7 @@ settings:
   language: 語言
   wipeData:
     title: 擦除資料 & 登出
-    desc: 擦除帳戶並登出當前 OA 賬戶
+    desc: 擦除賬戶並登出當前 OA 賬戶
     request: 擦除所有資料
     requestDesc: 這會擦除你本地除網頁快取外的登入資料與其他資料，例如匯入的課程表。
   about:
@@ -814,6 +814,10 @@ permission:
   type:
     storage: 儲存
     camera: 相機
+saveAndQuitPrompt:
+  request: 您有未儲存的變更，想要儲存嗎？
+  saveAndQuit: 儲存並離開
+  discard: 捨棄
 dormitoryRoom: "{building}號樓 #{room}"
 open: 打開
 delete: 刪除
