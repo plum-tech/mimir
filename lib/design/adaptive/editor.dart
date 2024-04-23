@@ -29,8 +29,12 @@ class Editor {
         _customEditor.containsKey(test.runtimeType);
   }
 
-  static Future<dynamic> showAnyEditor(BuildContext ctx, dynamic initial,
-      {String? desc, bool readonlyIfNotSupport = true}) async {
+  static Future<dynamic> showAnyEditor(
+    BuildContext ctx, {
+    dynamic initial,
+    String? desc,
+    bool readonlyIfNotSupport = true,
+  }) async {
     if (initial is int) {
       return await showIntEditor(ctx, desc: desc, initial: initial);
     } else if (initial is String) {

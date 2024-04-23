@@ -262,7 +262,7 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
       onTap: () async {
         final credentials = await await Editor.showAnyEditor(
           context,
-          Credentials(account: "", password: ""),
+          initial:  const Credentials(account: "", password: ""),
         );
         if (credentials == null) return;
         await loginWith(credentials);
