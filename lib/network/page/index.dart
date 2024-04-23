@@ -7,6 +7,7 @@ import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/design/animation/animated.dart';
 import 'package:sit/design/widgets/card.dart';
+import 'package:sit/design/widgets/icon.dart';
 import 'package:sit/init.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/network/service/network.dart';
@@ -102,7 +103,6 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
               ).padSymmetric(v: 16, h: 8).inOutlinedCard().animatedSized(),
               CampusNetworkConnectivityInfo(
                 status: campusNetworkStatus,
-                useVpn: connectivityStatus?.vpnEnabled == true,
               ).padSymmetric(v: 16, h: 8).inOutlinedCard().animatedSized(),
               StudentRegConnectivityInfo(
                 connected: studentRegAvailable,
@@ -153,12 +153,9 @@ class ConnectivityInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final status = this.status;
     return [
-      Icon(
-        status == null
-            ? Icons.public_off
-            : status.vpnEnabled
-                ? Icons.vpn_key
-                : getConnectionTypeIcon(status),
+      DualIcon(
+        primary: status == null ? Icons.public_off : getConnectionTypeIcon(status, ignoreVpn: true),
+        secondary: status?.vpnEnabled == true ? Icons.vpn_key : null,
         size: 120,
       ),
     ].column(caa: CrossAxisAlignment.center);
@@ -208,12 +205,10 @@ class StudentRegConnectivityInfo extends ConsumerWidget {
 
 class CampusNetworkConnectivityInfo extends StatelessWidget {
   final CampusNetworkStatus? status;
-  final bool useVpn;
 
   const CampusNetworkConnectivityInfo({
     super.key,
     this.status,
-    required this.useVpn,
   });
 
   @override
@@ -227,12 +222,7 @@ class CampusNetworkConnectivityInfo extends StatelessWidget {
       studentId = status.studentId ?? i18n.unknown;
     }
     return [
-      (status == null
-              ? i18n.campusNetworkNotConnected
-              : useVpn
-                  ? i18n.campusNetworkConnectedByVpn
-                  : i18n.campusNetworkConnected)
-          .text(
+      (status == null ? i18n.campusNetworkNotConnected : i18n.campusNetworkConnected).text(
         style: context.textTheme.titleMedium,
       ),
       if (studentId != null) "${i18n.credentials.studentId}: $studentId".text(style: style),

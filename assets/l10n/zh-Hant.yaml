@@ -530,7 +530,6 @@ networkTool:
   openWifiSettingsBtn: 打開 Wi-Fi 設定
   campusNetworkConnected: 已連線校園網路
   campusNetworkNotConnected: 未連線校園網路
-  campusNetworkConnectedByVpn: 已通過 VPN 連線校園網路
   studentRegAvailable: 教務系統可用
   studentRegUnavailable: 教務系統不可用
   ugRegAvailableTip: |

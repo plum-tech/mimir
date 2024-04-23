@@ -533,7 +533,6 @@ networkTool:
   openWifiSettingsBtn: Open Wi-Fi settings
   campusNetworkConnected: Connected to campus network
   campusNetworkNotConnected: Not connected to campus network
-  campusNetworkConnectedByVpn: Connected to campus network by VPN
   studentRegAvailable: Student registration system available
   studentRegUnavailable: Student registration system unavailable
   ugRegAvailableTip: |

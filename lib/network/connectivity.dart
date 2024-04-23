@@ -85,9 +85,13 @@ const _type2Icon = {
   ConnectivityType.cellular: Icons.signal_cellular_alt,
 };
 
-IconData getConnectionTypeIcon(ConnectivityStatus? status, {IconData? fallback}) {
+IconData getConnectionTypeIcon(
+  ConnectivityStatus? status, {
+  IconData? fallback,
+  bool ignoreVpn = false,
+}) {
   if (status == null) return Icons.wifi_find_outlined;
-  if (status.vpnEnabled) return Icons.vpn_key;
+  if (!ignoreVpn && status.vpnEnabled) return Icons.vpn_key;
   if (status.type == null) return Icons.public_off;
   return _type2Icon[status.type] ?? fallback ?? Icons.signal_wifi_statusbar_null_outlined;
 }
