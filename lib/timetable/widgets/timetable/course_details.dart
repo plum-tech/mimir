@@ -49,8 +49,9 @@ class TimetableCourseDetailsPage extends StatelessWidget {
               itemCount: courses.length,
               itemBuilder: (ctx, i) {
                 final course = courses[i];
-                final highlighted = course.courseKey == highlightedCourseKey;
-                if (highlighted) {
+                if (highlightedCourseKey == null) {
+                  return CourseDescTile(course).inFilledCard();
+                } else if (course.courseKey == highlightedCourseKey) {
                   return CourseDescTile(course, selected: true).inFilledCard();
                 } else {
                   return CourseDescTile(course).inOutlinedCard();
