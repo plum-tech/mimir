@@ -5,7 +5,7 @@ timetable:
   findToday: 找到今天
   startWith: "起始于"
   weekOrderedName: "第 {} 周"
-  focusTimetable: 课程表模式ƒ
+  focusTimetable: 课程表模式
   signature: 签名
   signaturePlaceholder: 你的名字
   lunchtime: 午餐时间
