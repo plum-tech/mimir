@@ -182,14 +182,12 @@ class HiveTable<T> {
   }
 
   Listenable listenRowChange(int id) => box.listenable(keys: [_rowK(id)]);
-  //
-  // AutoDisposeStateNotifierProvider<BoxFieldNotifier<T>, T?> $rowProvider(int id) {
-  //   return box.provider<T>(_rowK(id));
-  // }
-  //
-  // AutoDisposeStateNotifierProviderFamily<BoxFieldNotifier<T>, T?, int> $rowProviderFamily(int id) {
-  //   return box.providerFamily<T, int>(_rowK, get: get);
-  // }
+
+  late final $row = box.providerFamily<T, int>(
+    (id) => _rowK(id),
+    get: (id) => this[id],
+    set: (id, v) => this[id] = v,
+  );
 
   late final $rows = $any.provider<List<({int id, T row})>>(
     get: getRows,

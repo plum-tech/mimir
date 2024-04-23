@@ -301,7 +301,11 @@ class TimetableCard extends StatelessWidget {
         ),
       ],
       detailsBuilder: (ctx, actions) {
-        return TimetableDetailsPage(id: id, timetable: timetable, actions: actions?.call(ctx));
+        return TimetableDetailsPage(
+          id: id,
+          timetable: timetable,
+          actions: actions?.call(ctx),
+        );
       },
       itemBuilder: (ctx) {
         final textTheme = ctx.textTheme;
@@ -328,7 +332,7 @@ class TimetableCard extends StatelessWidget {
   }
 }
 
-class TimetableDetailsPage extends StatefulWidget {
+class TimetableDetailsPage extends ConsumerWidget {
   final int id;
   final SitTimetable timetable;
   final List<Widget>? actions;
@@ -341,44 +345,10 @@ class TimetableDetailsPage extends StatefulWidget {
   });
 
   @override
-  State<TimetableDetailsPage> createState() => _TimetableDetailsPageState();
-}
-
-class _TimetableDetailsPageState extends State<TimetableDetailsPage> {
-  late final $row = TimetableInit.storage.timetable.listenRowChange(widget.id);
-  late var timetable = widget.timetable;
-  late var resolver = SitTimetablePaletteResolver(timetable);
-
-  @override
-  void initState() {
-    super.initState();
-    $row.addListener(refresh);
-  }
-
-  @override
-  void dispose() {
-    $row.removeListener(refresh);
-    super.dispose();
-  }
-
-  void refresh() {
-    final timetable = TimetableInit.storage.timetable[widget.id];
-    if (timetable == null) {
-      context.pop();
-      return;
-    } else {
-      setState(() {
-        this.timetable = timetable;
-        resolver = SitTimetablePaletteResolver(timetable);
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final timetable = this.timetable;
-    final actions = widget.actions;
-    final palette = TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final timetable = ref.watch(TimetableInit.storage.timetable.$row(id)) ?? this.timetable;
+    final resolver = SitTimetablePaletteResolver(timetable);
+    final palette = ref.watch(TimetableInit.storage.palette.$selectedRow) ?? BuiltinTimetablePalettes.classic;
     final code2Courses = timetable.courses.values.groupListsBy((c) => c.courseCode).entries.toList();
     return Scaffold(
       body: CustomScrollView(

@@ -275,7 +275,11 @@ class PaletteCard extends StatelessWidget {
           ),
       ],
       detailsBuilder: (ctx, actions) {
-        return PaletteDetailsPage(id: id, palette: palette, actions: actions?.call(ctx));
+        return PaletteDetailsPage(
+          id: id,
+          palette: palette,
+          actions: actions?.call(ctx),
+        );
       },
       itemBuilder: (ctx) {
         return [
@@ -293,7 +297,7 @@ class PaletteCard extends StatelessWidget {
   }
 }
 
-class PaletteDetailsPage extends StatefulWidget {
+class PaletteDetailsPage extends ConsumerWidget {
   final int id;
   final TimetablePalette palette;
   final List<Widget>? actions;
@@ -306,41 +310,8 @@ class PaletteDetailsPage extends StatefulWidget {
   });
 
   @override
-  State<PaletteDetailsPage> createState() => _PaletteDetailsPageState();
-}
-
-class _PaletteDetailsPageState extends State<PaletteDetailsPage> {
-  late final $row = TimetableInit.storage.palette.listenRowChange(widget.id);
-  late TimetablePalette palette = widget.palette;
-
-  @override
-  void initState() {
-    super.initState();
-    $row.addListener(refresh);
-  }
-
-  @override
-  void dispose() {
-    $row.removeListener(refresh);
-    super.dispose();
-  }
-
-  void refresh() {
-    final palette = TimetableInit.storage.palette[widget.id];
-    if (palette == null) {
-      context.pop();
-      return;
-    } else {
-      setState(() {
-        this.palette = palette;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = this.palette;
-    final actions = widget.actions;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final palette = ref.watch(TimetableInit.storage.palette.$row(id)) ?? this.palette;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
