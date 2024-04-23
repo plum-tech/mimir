@@ -209,7 +209,6 @@ class TimetableCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final year = '${timetable.schoolYear}–${timetable.schoolYear + 1}';
     final semester = timetable.semester.l10n();
-    final textTheme = context.textTheme;
 
     return EntryCard(
       title: timetable.name,
@@ -304,12 +303,15 @@ class TimetableCard extends StatelessWidget {
       detailsBuilder: (ctx, actions) {
         return TimetableDetailsPage(id: id, timetable: timetable, actions: actions?.call(ctx));
       },
-      itemBuilder: (ctx) => [
-        timetable.name.text(style: textTheme.titleLarge),
-        "$year, $semester".text(style: textTheme.titleMedium),
-        if (timetable.signature.isNotEmpty) timetable.signature.text(style: textTheme.bodyMedium),
-        "${i18n.startWith} ${context.formatYmdText(timetable.startDate)}".text(style: textTheme.bodyMedium),
-      ],
+      itemBuilder: (ctx) {
+        final textTheme = ctx.textTheme;
+        return [
+          timetable.name.text(style: textTheme.titleLarge),
+          "$year, $semester".text(style: textTheme.titleMedium),
+          if (timetable.signature.isNotEmpty) timetable.signature.text(style: textTheme.bodyMedium),
+          "${i18n.startWith} ${ctx.formatYmdText(timetable.startDate)}".text(style: textTheme.bodyMedium),
+        ].column(caa: CrossAxisAlignment.start);
+      },
     );
   }
 

@@ -69,7 +69,7 @@ class EntrySelectAction {
 class EntryCard extends StatelessWidget {
   final bool selected;
   final String title;
-  final List<Widget> Function(BuildContext context) itemBuilder;
+  final Widget Function(BuildContext context) itemBuilder;
   final Widget Function(BuildContext context, List<Widget> Function(BuildContext context)? actionsBuilder)
       detailsBuilder;
   final List<EntryAction> Function(BuildContext context) actions;
@@ -162,7 +162,7 @@ class EntryCard extends StatelessWidget {
 
     final body = InkWell(
       child: [
-        ...itemBuilder(context),
+        itemBuilder(context),
         OverflowBar(
           alignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -214,7 +214,7 @@ class EntryCard extends StatelessWidget {
     required EntrySelectAction? selectAction,
   }) {
     Widget body = [
-      ...itemBuilder(context),
+      itemBuilder(context),
       OverflowBar(
         alignment: MainAxisAlignment.end,
         children: [

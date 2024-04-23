@@ -169,7 +169,6 @@ class PaletteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
     final timetable = this.timetable;
     return EntryCard(
       title: palette.name,
@@ -278,16 +277,18 @@ class PaletteCard extends StatelessWidget {
       detailsBuilder: (ctx, actions) {
         return PaletteDetailsPage(id: id, palette: palette, actions: actions?.call(ctx));
       },
-      itemBuilder: (ctx) => [
-        palette.name.text(style: theme.textTheme.titleLarge),
-        if (palette.author.isNotEmpty)
-          palette.author.text(
-            style: const TextStyle(
-              fontStyle: FontStyle.italic,
+      itemBuilder: (ctx) {
+        return [
+          palette.name.text(style: ctx.textTheme.titleLarge),
+          if (palette.author.isNotEmpty)
+            palette.author.text(
+              style: const TextStyle(
+                fontStyle: FontStyle.italic,
+              ),
             ),
-          ),
-        PaletteColorsPreview(palette.colors),
-      ],
+          PaletteColorsPreview(palette.colors),
+        ].column(caa: CrossAxisAlignment.start);
+      },
     );
   }
 }
@@ -391,15 +392,18 @@ class PaletteColorsPreview extends StatelessWidget {
     return colors
         .map((c) {
           final color = c.byBrightness(brightness);
-          return TweenAnimationBuilder(
-            tween: ColorTween(begin: color, end: color),
-            duration: const Duration(milliseconds: 300),
-            builder: (ctx, value, child) => Card.filled(
-              margin: EdgeInsets.zero,
-              color: value,
-              child: const SizedBox(
-                width: 32,
-                height: 32,
+          return Card.outlined(
+            margin: EdgeInsets.zero,
+            child: TweenAnimationBuilder(
+              tween: ColorTween(begin: color, end: color),
+              duration: const Duration(milliseconds: 300),
+              builder: (ctx, value, child) => Card.filled(
+                margin: EdgeInsets.zero,
+                color: value,
+                child: const SizedBox(
+                  width: 32,
+                  height: 32,
+                ),
               ),
             ),
           );
