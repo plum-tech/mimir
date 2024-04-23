@@ -747,10 +747,10 @@ update:
   onLatestTip: 你使用的是最新版本
   newVersionAvailable: 有新版本可用！
   notNow: 再等等
-  skipThisVersionFor7Days: 跳过这个版本七天
+  skipThisVersionFor7Days: 跳过此版本七天
   openAppStore: 打开 App Store
   installOnAppStoreInsteadTip: |
-    小应生活已经在 App Store 上发布。
+    小应生活已上架 App Store。
     为获得更好的体验，请考虑移步至 App Store上安装。
 weekday:
   0: 周一

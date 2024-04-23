@@ -39,7 +39,7 @@ timetable:
     tryImportBtn: 嘗試匯入
     fromFileBtn: 從檔案匯入
     connectivityCheckerDesc: 你需要訪問校園網路，才能匯入一個新的課程表。現在就開始檢查吧。
-    selectSemesterTip: 請先選擇學年學期
+    selectSemesterTip: 請先選擇學年與學期
     endTip: 請補充課程表的資訊。
     failed: 匯入失敗
     failedDesc: 無法匯入課程表，請之後再試。
@@ -146,8 +146,8 @@ timetable:
         title: 已上的課程灰顯
         desc: 之前的所有課程
       harmonize:
-        title: 與主題顏色結合
-        desc: 將單元格顏色與主題顏色混合
+        title: 與主色調結合
+        desc: 將單元格顏色與主色調混合
       alpha: 單元 alpha
     background:
       title: 桌布
@@ -424,13 +424,13 @@ examResult:
   teacherEvalTitle: 教師評價
   examRequireEvalTip: 在評教整個課程後，可查看分數
   score: 分數
-  publishTime: 發布時間
+  publishTime: 發佈時間
   maxScore: 最大分數
   gpa:
-    title: 績點
+    title: GPA
     lessonSelected: "已選 {} 門"
     credit: "學分: {}"
-    gpaResult: "績點: {}"
+    gpaResult: "GPA: {}"
     selectAll: 全選
     invert: 反選
     exceptGenEd: 除去通識課
@@ -528,7 +528,7 @@ networkTool:
   title: 網路工具
   subtitle: 測試與學校伺服器的連線
   openWifiSettingsBtn: 打開 Wi-Fi 設定
-  openInAppProxySettingsBtn: 打開應用程式內網路代理設定
+  openInAppProxySettingsBtn: 打開應用程式內代理伺服器設定
   campusNetworkConnected: 已連線校園網路
   campusNetworkNotConnected: 未連線校園網路
   studentRegAvailable: 教務系統可用
@@ -628,7 +628,7 @@ library:
     availableCollection: "{available} 在館 / {collection} 館藏"
 settings:
   title: 設定
-  themeColor: 主題顏色
+  themeColor: 主色調
   fromSystem: 從系統
   credentials:
     testLoginOa:
@@ -658,7 +658,7 @@ settings:
   themeMode:
     title: 亮度
   proxy:
-    title: 網路代理
+    title: 代理伺服器
     desc: 代理校園網路連線
     authentication: 驗證
     protocol: 通訊協定
@@ -689,7 +689,7 @@ settings:
       all: 全部
   language: 語言
   wipeData:
-    title: 擦除資料 & 登出
+    title: 擦除資料並登出
     desc: 擦除賬戶並登出當前 OA 賬戶
     request: 擦除所有資料
     requestDesc: 這會擦除你本地除網頁快取外的登入資料與其他資料，例如匯入的課程表。
@@ -706,9 +706,9 @@ oaAnnounce:
     info: 資訊
     content: 內容
   noOaAnnouncementsTip: 學校沒有 OA 公告
-  downloadCompleted: 下載完成
+  downloadCompleted: 下載完畢
   downloadFailed: 下載失敗
-  downloading: 下載中
+  downloading: 正在下載
   info:
     title: 標題
     publishTime: 發佈日期
@@ -747,10 +747,10 @@ update:
   onLatestTip: 你使用的是最新版本
   newVersionAvailable: 新版本可用！
   notNow: 現在不行
-  skipThisVersionFor7Days: 跳過這個版本7天
+  skipThisVersionFor7Days: 跳過此版本 7 天
   openAppStore: 打開 App Store
   installOnAppStoreInsteadTip: |
-    小應生活已經發布在 App Store 上。
+    小應生活已上架 App Store。
     為獲得更好的體驗，請考慮在 App Store 上安裝。
 weekday:
   0: 週一
@@ -817,7 +817,7 @@ permission:
 saveAndQuitPrompt:
   request: 您有未儲存的變更，想要儲存嗎？
   saveAndQuit: 儲存並離開
-  discard: 捨棄
+  discard: 丟棄
 dormitoryRoom: "{building}號樓 #{room}"
 open: 打開
 delete: 刪除
@@ -836,7 +836,7 @@ continue: 繼續
 unknown: 未知
 failed: 失敗
 download: 下載
-fetching: 取回中
+fetching: 正在取回
 warning: 警告
 untitled: 無標題
 congratulations: 恭喜
