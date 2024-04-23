@@ -193,7 +193,7 @@ timetable:
       title: Wallpaper
       desc: The background of timetable
     quickLookLessonOnTap:
-      title: Tap to quick look lesson
+      title: Tap to quick look a lesson
       desc: Long press to see overall course in weekly timetable
 school:
   navigation: School

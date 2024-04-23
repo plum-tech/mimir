@@ -193,7 +193,7 @@ timetable:
       title: 壁纸
       desc: 课程表的背景
     quickLookLessonOnTap:
-      title: 点击快速查看课程
+      title: 点击快速查看一节课
       desc: 在周课表中长按查看完整课程
 school:
   navigation: 学校

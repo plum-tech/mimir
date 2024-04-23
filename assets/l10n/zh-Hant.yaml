@@ -194,7 +194,7 @@ timetable:
       title: 桌布
       desc: 課程表的背景
     quickLookLessonOnTap:
-      title: 點擊快速檢視課程
+      title: 點擊快速檢視一節課
       desc: 長按查看週課表中完整課程
 school:
   navigation: 學校
