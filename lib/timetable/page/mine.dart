@@ -29,7 +29,6 @@ import '../init.dart';
 import '../utils.dart';
 import '../widgets/focus.dart';
 import '../widgets/style.dart';
-import 'import.dart';
 import 'preview.dart';
 
 class MyTimetableListPage extends StatefulWidget {
@@ -71,12 +70,14 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
       timetable = await importFromSchoolServer();
     }
     if (timetable == null) return;
-    if (!mounted) return;
-    if (fromFile) {
-      final newTimetable = await handleImportedTimetable(context, timetable);
-      if (newTimetable == null) return;
-      timetable = newTimetable;
-    }
+    // process timetable imported from file
+    // if (fromFile) {
+    //   if (!mounted) return;
+    //   final newTimetable = await processImportedTimetable(context, timetable);
+    //   if (newTimetable == null) return;
+    //   timetable = newTimetable;
+    // }
+
     // prevent duplicate names
     // timetable = timetable.copyWith(
     //   name: allocValidFileName(

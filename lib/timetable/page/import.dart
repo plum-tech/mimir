@@ -78,7 +78,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
     var timetable = await readTimetableFromPickedFileWithPrompt(context);
     if (timetable == null) return;
     if (!mounted) return;
-    timetable = await handleImportedTimetable(context, timetable);
+    timetable = await processImportedTimetable(context, timetable);
     if (timetable == null) return;
     if (!mounted) return;
     context.pop(timetable);
@@ -156,7 +156,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
       signature: Settings.lastSignature,
     );
     if (!mounted) return null;
-    final newTimetable = await handleImportedTimetable(context, timetable);
+    final newTimetable = await processImportedTimetable(context, timetable);
     if (newTimetable != null) {
       return newTimetable;
     }
@@ -240,7 +240,7 @@ DateTime findFirstWeekdayInCurrentMonth(DateTime current, int weekday) {
   return firstWeekdayInMonth;
 }
 
-Future<SitTimetable?> handleImportedTimetable(
+Future<SitTimetable?> processImportedTimetable(
   BuildContext context,
   SitTimetable timetable,
 ) async {
