@@ -192,6 +192,9 @@ timetable:
     background:
       title: Wallpaper
       desc: The background of timetable
+    quickLookLessonOnTap:
+      title: Tap to quick look lesson
+      desc: Long press to see overall course in weekly timetable
 school:
   navigation: School
   semester:

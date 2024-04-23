@@ -7,7 +7,7 @@ import 'package:text_scroll/text_scroll.dart';
 import '../../i18n.dart';
 import '../../entity/timetable.dart';
 
-class TimetableCourseDetailsPage extends StatelessWidget {
+class TimetableCourseSheetPage extends StatelessWidget {
   final String courseCode;
   final SitTimetableEntity timetable;
   final int? highlightedCourseKey;
@@ -16,7 +16,7 @@ class TimetableCourseDetailsPage extends StatelessWidget {
   /// Since the system doesn't support this kind of setting,
   /// the actual teaching system will split them in the processing,
   /// but their course names and course codes are stored in the same way.
-  const TimetableCourseDetailsPage({
+  const TimetableCourseSheetPage({
     super.key,
     required this.courseCode,
     required this.timetable,

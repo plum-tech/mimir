@@ -350,4 +350,8 @@ class _Settings {
   String get background => "$ns.background.title".tr();
 
   String get backgroundDesc => "$ns.background.desc".tr();
+
+  String get quickLookLessonOnTap => "$ns.quickLookLessonOnTap.title".tr();
+
+  String get quickLookLessonOnTapDesc => "$ns.quickLookLessonOnTap.desc".tr();
 }

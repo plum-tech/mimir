@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/dash_decoration.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/school/utils.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/utils/color.dart';
@@ -15,7 +17,7 @@ import 'package:universal_platform/universal_platform.dart';
 
 import '../../events.dart';
 import '../../entity/timetable.dart';
-import 'course_details.dart';
+import 'course_sheet.dart';
 import '../../utils.dart';
 import '../free.dart';
 import 'header.dart';
@@ -333,7 +335,7 @@ class TimetableOneWeek extends StatelessWidget {
   }
 }
 
-class InteractiveCourseCell extends StatefulWidget {
+class InteractiveCourseCell extends ConsumerWidget {
   final SitTimetableLessonPart lesson;
   final SitTimetableEntity timetable;
   final bool grayOut;
@@ -348,10 +350,58 @@ class InteractiveCourseCell extends StatefulWidget {
   });
 
   @override
-  State<InteractiveCourseCell> createState() => _InteractiveCourseCellState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final quickLookLessonOnTap = ref.watch(Settings.timetable.$quickLookLessonOnTap) ?? true;
+    if (quickLookLessonOnTap) {
+      return InteractiveCourseCellWithTooltip(
+        timetable: timetable,
+        grayOut: grayOut,
+        style: style,
+        lesson: lesson,
+      );
+    }
+    final course = lesson.course;
+    return StyledCourseCell(
+      timetable: timetable,
+      course: course,
+      grayOut: grayOut,
+      style: style,
+      innerBuilder: (ctx, child) => InkWell(
+        onTap: () async {
+          if (!context.mounted) return;
+          await context.show$Sheet$(
+                (ctx) => TimetableCourseSheetPage(
+              courseCode: course.courseCode,
+              timetable: timetable,
+              highlightedCourseKey: course.courseKey,
+            ),
+          );
+        },
+        child: child,
+      ),
+    );
+  }
 }
 
-class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
+class InteractiveCourseCellWithTooltip extends StatefulWidget {
+  final SitTimetableLessonPart lesson;
+  final SitTimetableEntity timetable;
+  final bool grayOut;
+  final TimetableStyleData style;
+
+  const InteractiveCourseCellWithTooltip({
+    super.key,
+    required this.lesson,
+    required this.timetable,
+    this.grayOut = false,
+    required this.style,
+  });
+
+  @override
+  State<InteractiveCourseCellWithTooltip> createState() => _InteractiveCourseCellWithTooltipState();
+}
+
+class _InteractiveCourseCellWithTooltipState extends State<InteractiveCourseCellWithTooltip> {
   final $tooltip = GlobalKey<TooltipState>(debugLabel: "tooltip");
 
   @override
@@ -384,7 +434,7 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
   Future<void> showDetailsSheet() async {
     final course = widget.lesson.course;
     await context.show$Sheet$(
-      (ctx) => TimetableCourseDetailsPage(
+      (ctx) => TimetableCourseSheetPage(
         courseCode: course.courseCode,
         timetable: widget.timetable,
         highlightedCourseKey: course.courseKey,

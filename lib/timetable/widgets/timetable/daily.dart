@@ -9,7 +9,7 @@ import 'package:sit/l10n/time.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/school/entity/timetable.dart';
 import 'package:sit/school/widgets/course.dart';
-import 'package:sit/timetable/widgets/timetable/course_details.dart';
+import 'package:sit/timetable/widgets/timetable/course_sheet.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:sit/timetable/widgets/free.dart';
 import 'package:rettulf/rettulf.dart';
@@ -302,7 +302,7 @@ class LessonCard extends StatelessWidget {
         onTap: () async {
           if (!context.mounted) return;
           await context.show$Sheet$(
-            (ctx) => TimetableCourseDetailsPage(
+            (ctx) => TimetableCourseSheetPage(
               courseCode: course.courseCode,
               timetable: timetable,
               highlightedCourseKey: course.courseKey,
