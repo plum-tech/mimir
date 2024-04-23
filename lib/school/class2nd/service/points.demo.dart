@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 import '../entity/activity.dart';
 import '../entity/application.dart';
 import '../entity/attended.dart';
@@ -8,6 +10,7 @@ class DemoClass2ndPointsService implements Class2ndPointsService {
 
   @override
   Future<Class2ndPointsSummary> fetchScoreSummary() async {
+    debugPrint("fetchScoreSummary");
     return const Class2ndPointsSummary(
       thematicReport: 1.5,
       practice: 2.0,
@@ -22,6 +25,7 @@ class DemoClass2ndPointsService implements Class2ndPointsService {
 
   @override
   Future<List<Class2ndPointItem>> fetchScoreItemList() async {
+    debugPrint("fetchScoreItemList");
     return [
       Class2ndPointItem(
         name: "小应生活茶话会",
@@ -36,6 +40,7 @@ class DemoClass2ndPointsService implements Class2ndPointsService {
 
   @override
   Future<List<Class2ndActivityApplication>> fetchActivityApplicationList() async {
+    debugPrint("fetchActivityApplicationList");
     return [
       Class2ndActivityApplication(
         applicationId: 10001,

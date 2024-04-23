@@ -280,7 +280,7 @@ final _class2ndRoute = GoRoute(
       builder: (ctx, state) {
         final extra = state.extra;
         if (extra is Class2ndAttendedActivity) {
-          return Class2ndAttendDetailsPage(extra);
+          return Class2ndApplicationDetailsPage(extra);
         }
         throw 404;
       },

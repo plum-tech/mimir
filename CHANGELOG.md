@@ -7,6 +7,7 @@
 - Changed web icons.
 - Timetable wallpaper support on web.
 - Allowed to join QQ group on desktop and web.
+- [Demo mode] Attended activity mock service in class 2nd.
 
 ## v2.3.0
 - The 2048 game supports save/load feature.
