@@ -341,7 +341,9 @@ class PaletteColorBar extends StatelessWidget {
           },
           child: SizedBox(
             height: 35,
-            child: "${brightness.l10n()} ${calculateContrastRatio(textColor!, color).toStringAsFixed(2)}"
+            child:
+            // "${brightness.l10n()} ${calculateContrastRatio(textColor!, color).toStringAsFixed(2)}"
+             "${brightness.l10n()}}"
                 .text(style: context.textTheme.bodyLarge?.copyWith(color: textColor))
                 .center(),
           ),
