@@ -4,21 +4,23 @@ import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:text_scroll/text_scroll.dart';
 
-import '../i18n.dart';
-import '../entity/timetable.dart';
+import '../../i18n.dart';
+import '../../entity/timetable.dart';
 
-class TimetableCourseDetailsSheet extends StatelessWidget {
+class TimetableCourseDetailsPage extends StatelessWidget {
   final String courseCode;
   final SitTimetableEntity timetable;
+  final int? highlightedCourseKey;
 
   /// A course may include both practical and theoretical parts.
   /// Since the system doesn't support this kind of setting,
   /// the actual teaching system will split them in the processing,
   /// but their course names and course codes are stored in the same way.
-  const TimetableCourseDetailsSheet({
+  const TimetableCourseDetailsPage({
     super.key,
     required this.courseCode,
     required this.timetable,
+    this.highlightedCourseKey,
   });
 
   @override
@@ -47,7 +49,12 @@ class TimetableCourseDetailsSheet extends StatelessWidget {
               itemCount: courses.length,
               itemBuilder: (ctx, i) {
                 final course = courses[i];
-                return CourseDescCard(course);
+                final highlighted = course.courseKey == highlightedCourseKey;
+                if (highlighted) {
+                  return CourseDescTile(course, selected: true).inFilledCard();
+                } else {
+                  return CourseDescTile(course).inOutlinedCard();
+                }
               },
             ),
           ),
@@ -82,12 +89,14 @@ class TimetableCourseDetailsSheet extends StatelessWidget {
   }
 }
 
-class CourseDescCard extends StatelessWidget {
+class CourseDescTile extends StatelessWidget {
   final SitCourse course;
+  final bool selected;
 
-  const CourseDescCard(
+  const CourseDescTile(
     this.course, {
     super.key,
+    this.selected = false,
   });
 
   @override
@@ -96,6 +105,7 @@ class CourseDescCard extends StatelessWidget {
     final (:begin, :end) = course.calcBeginEndTimePoint();
     return ListTile(
       isThreeLine: true,
+      selected: selected,
       title: course.place.text(),
       subtitle: [
         "${Weekday.fromIndex(course.dayIndex).l10n()} ${begin.l10n(context)}–${end.l10n(context)}".text(),
@@ -103,6 +113,6 @@ class CourseDescCard extends StatelessWidget {
         ...weekNumbers.map((n) => n.text()),
       ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
       trailing: course.teachers.length == 1 ? course.teachers.first.text() : null,
-    ).inFilledCard();
+    );
   }
 }

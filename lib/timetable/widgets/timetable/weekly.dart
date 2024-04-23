@@ -15,7 +15,7 @@ import 'package:universal_platform/universal_platform.dart';
 
 import '../../events.dart';
 import '../../entity/timetable.dart';
-import '../../page/details.dart';
+import 'course_details.dart';
 import '../../utils.dart';
 import '../free.dart';
 import 'header.dart';
@@ -382,10 +382,12 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
   }
 
   Future<void> showDetailsSheet() async {
+    final course = widget.lesson.course;
     await context.show$Sheet$(
-      (ctx) => TimetableCourseDetailsSheet(
-        courseCode: widget.lesson.course.courseCode,
+      (ctx) => TimetableCourseDetailsPage(
+        courseCode: course.courseCode,
         timetable: widget.timetable,
+        highlightedCourseKey: course.courseKey,
       ),
     );
   }
