@@ -4,6 +4,7 @@ import 'package:text_scroll/text_scroll.dart';
 
 import '../entity/display.dart';
 import '../entity/timetable.dart';
+import '../entity/timetable_entity.dart';
 import '../entity/pos.dart';
 import '../widgets/timetable/board.dart';
 

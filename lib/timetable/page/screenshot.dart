@@ -8,11 +8,12 @@ import 'package:screenshot/screenshot.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/files.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/timetable/entity/timetable.dart';
+
 import "../i18n.dart";
 import '../widgets/style.dart';
 import '../widgets/timetable/board.dart';
 import '../widgets/timetable/weekly.dart';
+import '../entity/timetable_entity.dart';
 
 typedef TimetableScreenshotConfig = ({
   String signature,

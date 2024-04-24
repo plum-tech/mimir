@@ -16,6 +16,7 @@ import 'package:sit/utils/color.dart';
 
 import '../../entity/timetable.dart';
 import '../../events.dart';
+import '../../entity/timetable_entity.dart';
 import '../../utils.dart';
 import '../../i18n.dart';
 import '../style.dart';

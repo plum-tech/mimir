@@ -25,6 +25,7 @@ import '../school/exam_result/entity/result.pg.dart';
 import 'entity/timetable.dart';
 
 import 'entity/course.dart';
+import 'entity/timetable_entity.dart';
 import 'dart:math';
 
 import 'i18n.dart';

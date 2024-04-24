@@ -12,7 +12,7 @@ import 'package:sit/timetable/page/screenshot.dart';
 import '../entity/display.dart';
 import '../events.dart';
 import '../i18n.dart';
-import '../entity/timetable.dart';
+import '../entity/timetable_entity.dart';
 import '../init.dart';
 import '../entity/pos.dart';
 import '../widgets/focus.dart';

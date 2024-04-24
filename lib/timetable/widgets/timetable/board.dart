@@ -8,7 +8,7 @@ import 'package:sit/timetable/widgets/style.dart';
 
 import '../../entity/display.dart';
 import '../../entity/pos.dart';
-import '../../entity/timetable.dart';
+import '../../entity/timetable_entity.dart';
 import 'daily.dart';
 import 'weekly.dart';
 

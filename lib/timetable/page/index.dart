@@ -5,6 +5,7 @@ import '../init.dart';
 import '../widgets/style.dart';
 import 'mine.dart';
 import 'timetable.dart';
+import '../entity/timetable_entity.dart';
 
 class TimetablePage extends ConsumerStatefulWidget {
   const TimetablePage({super.key});

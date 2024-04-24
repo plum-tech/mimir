@@ -3,6 +3,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:text_scroll/text_scroll.dart';
+import '../../entity/timetable_entity.dart';
 
 import '../../i18n.dart';
 import '../../entity/timetable.dart';

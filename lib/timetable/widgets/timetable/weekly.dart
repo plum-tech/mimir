@@ -16,6 +16,7 @@ import 'package:universal_platform/universal_platform.dart';
 
 import '../../events.dart';
 import '../../entity/timetable.dart';
+import '../../entity/timetable_entity.dart';
 import 'course_sheet.dart';
 import '../../utils.dart';
 import '../free.dart';

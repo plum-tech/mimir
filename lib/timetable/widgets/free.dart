@@ -3,9 +3,9 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/l10n/time.dart';
-import 'package:sit/timetable/entity/timetable.dart';
 import 'package:rettulf/rettulf.dart';
 import '../entity/pos.dart';
+import '../entity/timetable_entity.dart';
 import '../events.dart';
 import '../i18n.dart';
 
