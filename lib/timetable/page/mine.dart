@@ -16,6 +16,7 @@ import 'package:sit/route.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/page/ical.dart';
+import 'package:sit/timetable/page/patch.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:sit/timetable/widgets/course.dart';
 import 'package:sit/utils/format.dart';
@@ -290,6 +291,18 @@ class TimetableCard extends StatelessWidget {
           },
         ),
         EntryAction(
+          label: "Patch",
+          icon: Icons.auto_fix_high,
+          action: () async {
+            // TODO: using route
+            await ctx.show$Sheet$(
+              (ctx) => TimetablePatchesPage(
+                patches: timetable.patches,
+              ),
+            );
+          },
+        ),
+        EntryAction(
           label: i18n.duplicate,
           oneShot: true,
           icon: context.icons.copy,
@@ -321,8 +334,11 @@ class TimetableCard extends StatelessWidget {
   }
 
   Future<void> onExportCalendar(BuildContext context, SitTimetable timetable) async {
-    final config =
-        await context.show$Sheet$<TimetableICalConfig>((context) => TimetableICalConfigEditor(timetable: timetable));
+    final config = await context.show$Sheet$<TimetableICalConfig>(
+      (context) => TimetableICalConfigEditor(
+        timetable: timetable,
+      ),
+    );
     if (config == null) return;
     if (!context.mounted) return;
     await exportTimetableAsICalendarAndOpen(
