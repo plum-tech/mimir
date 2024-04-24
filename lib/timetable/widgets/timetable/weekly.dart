@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/design/adaptive/foundation.dart';
@@ -11,7 +10,6 @@ import 'package:sit/school/utils.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/utils/color.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import '../../events.dart';
@@ -509,16 +507,11 @@ class StyledCourseCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var color = timetable.resolveColor(style.platte, course).byTheme(context.theme);
-    if (style.cellStyle.harmonizeWithThemeColor) {
-      color = color.harmonizeWith(context.colorScheme.primary);
-    }
-    if (grayOut) {
-      color = color.monochrome();
-    }
-    final alpha = style.cellStyle.alpha;
-    if (alpha < 1.0) {
-      color = color.withOpacity(color.opacity * alpha);
-    }
+    color = style.cellStyle.decorateColor(
+      color,
+      themeColor: context.colorScheme.primary,
+      grayOut: grayOut,
+    );
     return CourseCell(
       courseName: course.courseName,
       color: color,

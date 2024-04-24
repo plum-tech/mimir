@@ -314,10 +314,12 @@ class TimetableCard extends StatelessWidget {
         ),
       ],
       detailsBuilder: (ctx, actions) {
-        return TimetableDetailsPage(
-          id: id,
-          timetable: timetable,
-          actions: actions?.call(ctx),
+        return TimetableStyleProv(
+          child: TimetableDetailsPage(
+            id: id,
+            timetable: timetable,
+            actions: actions?.call(ctx),
+          ),
         );
       },
       itemBuilder: (ctx) {
@@ -366,6 +368,7 @@ class TimetableDetailsPage extends ConsumerWidget {
     final resolver = SitTimetablePaletteResolver(timetable);
     final palette = ref.watch(TimetableInit.storage.palette.$selectedRow) ?? BuiltinTimetablePalettes.classic;
     final code2Courses = timetable.courses.values.groupListsBy((c) => c.courseCode).entries.toList();
+    final style = TimetableStyle.of(context);
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -396,12 +399,13 @@ class TimetableDetailsPage extends ConsumerWidget {
             itemBuilder: (ctx, i) {
               final MapEntry(value: courses) = code2Courses[i];
               final template = courses.first;
+              final color = resolver.resolveColor(palette, template).byTheme(context.theme);
               return TimetableCourseCard(
                 courses: courses,
                 courseName: template.courseName,
                 courseCode: template.courseCode,
                 classCode: template.classCode,
-                color: resolver.resolveColor(palette, template).byTheme(context.theme),
+                color: style.cellStyle.decorateColor(color, themeColor: ctx.colorScheme.primary),
               );
             },
           )

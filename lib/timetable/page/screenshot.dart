@@ -195,10 +195,12 @@ Future<void> takeTimetableScreenshot({
   required SitTimetableEntity timetable,
   required int weekIndex,
 }) async {
-  final config = await context.show$Sheet$<TimetableScreenshotConfig>((ctx) => TimetableScreenshotConfigEditor(
-        timetable: timetable,
-        initialGrayOut: TimetableStyle.of(context).cellStyle.grayOutTakenLessons,
-      ));
+  final config = await context.show$Sheet$<TimetableScreenshotConfig>(
+    (ctx) => TimetableScreenshotConfigEditor(
+      timetable: timetable,
+      initialGrayOut: TimetableStyle.of(context).cellStyle.grayOutTakenLessons,
+    ),
+  );
   if (config == null) return;
   if (!context.mounted) return;
   var fullSize = context.mediaQuery.size;

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/l10n/time.dart';
@@ -12,7 +11,6 @@ import 'package:sit/timetable/widgets/timetable/course_sheet.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:sit/timetable/widgets/free.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/utils/color.dart';
 
 import '../../entity/timetable.dart';
 import '../../events.dart';
@@ -228,16 +226,11 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
     final style = TimetableStyle.of(context);
 
     var color = timetable.resolveColor(style.platte, course).byTheme(context.theme);
-    if (style.cellStyle.harmonizeWithThemeColor) {
-      color = color.harmonizeWith(context.colorScheme.primary);
-    }
-    if (style.cellStyle.grayOutTakenLessons && lesson.endTime.isBefore(DateTime.now())) {
-      color = color.monochrome();
-    }
-    final alpha = style.cellStyle.alpha;
-    if (alpha < 1.0) {
-      color = color.withOpacity(color.opacity * alpha);
-    }
+    color = style.cellStyle.decorateColor(
+      color,
+      themeColor: context.colorScheme.primary,
+      grayOut: lesson.endTime.isBefore(DateTime.now()),
+    );
     final classTime = course.buildingTimetable[timeslot];
     return [
       ClassTimeCard(

@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,6 @@ import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/entity/timetable.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/platte.dart';
-import 'package:sit/utils/color.dart';
 import 'package:sit/utils/format.dart';
 import 'package:text_scroll/text_scroll.dart';
 
@@ -415,16 +413,7 @@ class TimetableP13nLivePreview extends StatelessWidget {
       bool grayOut = false,
     }) {
       var color = palette.safeGetColor(colorId).byTheme(context.theme);
-      if (cellStyle.harmonizeWithThemeColor) {
-        color = color.harmonizeWith(themeColor);
-      }
-      if (grayOut) {
-        color = color.monochrome();
-      }
-      final alpha = cellStyle.alpha;
-      if (alpha < 1.0) {
-        color = color.withOpacity(alpha);
-      }
+      color = cellStyle.decorateColor(color, themeColor: themeColor, grayOut: grayOut);
       return TweenAnimationBuilder(
         tween: ColorTween(begin: color, end: color),
         duration: const Duration(milliseconds: 300),
