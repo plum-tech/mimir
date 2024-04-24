@@ -19,7 +19,7 @@ PODS:
     - FlutterMacOS
   - just_audio (0.0.1):
     - FlutterMacOS
-  - mobile_scanner (3.5.6):
+  - mobile_scanner (5.0.0):
     - FlutterMacOS
   - package_info_plus (0.0.1):
     - FlutterMacOS
@@ -134,7 +134,7 @@ SPEC CHECKSUMS:
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   irondash_engine_context: da62996ee25616d2f01bbeb85dc115d813359478
   just_audio: 9b67ca7b97c61cfc9784ea23cd8cc55eb226d489
-  mobile_scanner: 54ceceae0c8da2457e26a362a6be5c61154b1829
+  mobile_scanner: 359e3ac2f30c5d7ef8c6d5eb7cc9c285ee842254
   package_info_plus: fa739dd842b393193c5ca93c26798dff6e3d0e0c
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   screen_retriever: 59634572a57080243dd1bf715e55b6c54f241a38
