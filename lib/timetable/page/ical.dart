@@ -194,16 +194,16 @@ class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
       onTap: !enableAlarm
           ? null
           : () async {
-        final newDuration = await showDurationPicker(
-          context: context,
-          initialTime: alarmBeforeClass,
-        );
-        if (newDuration != null) {
-          setState(() {
-            alarmBeforeClass = newDuration;
-          });
-        }
-      },
+              final newDuration = await showDurationPicker(
+                context: context,
+                initialTime: alarmBeforeClass,
+              );
+              if (newDuration != null) {
+                setState(() {
+                  alarmBeforeClass = newDuration;
+                });
+              }
+            },
       trailing: Icon(context.icons.edit),
     );
   }

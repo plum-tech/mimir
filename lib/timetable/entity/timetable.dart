@@ -41,6 +41,7 @@ class SitTimetable {
   @JsonKey()
   final int version;
 
+  /// Timetable patches will be processed in list order.
   @JsonKey()
   final List<TimetablePatch> patches;
 

@@ -369,7 +369,7 @@ class InteractiveCourseCell extends ConsumerWidget {
         onTap: () async {
           if (!context.mounted) return;
           await context.show$Sheet$(
-                (ctx) => TimetableCourseSheetPage(
+            (ctx) => TimetableCourseSheetPage(
               courseCode: course.courseCode,
               timetable: timetable,
               highlightedCourseKey: course.courseKey,

@@ -155,13 +155,13 @@ class Init {
     EditorEx.registerEnumEditor(ThemeMode.values);
     EditorEx.registerEnumEditor(ProxyMode.values);
     Editor.registerEditor<Credentials>((ctx, desc, initial) => StringsEditor(
-      fields: [
-        (name: "account", initial: initial.account),
-        (name: "password", initial: initial.password),
-      ],
-      title: desc,
-      ctor: (values) => Credentials(account: values[0], password: values[1]),
-    ));
+          fields: [
+            (name: "account", initial: initial.account),
+            (name: "password", initial: initial.password),
+          ],
+          title: desc,
+          ctor: (values) => Credentials(account: values[0], password: values[1]),
+        ));
     EditorEx.registerEnumEditor(LoginStatus.values);
     EditorEx.registerEnumEditor(OaUserType.values);
   }

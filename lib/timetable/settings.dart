@@ -62,5 +62,4 @@ class TimetableSettings {
   set quickLookLessonOnTap(bool newV) => box.safePut<bool>(_K.quickLookLessonOnTap, newV);
 
   late final $quickLookLessonOnTap = box.provider<bool>(_K.quickLookLessonOnTap);
-
 }

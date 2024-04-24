@@ -24,7 +24,8 @@ class LibrarySearchStorage {
   List<SearchHistoryItem>? getSearchHistory() =>
       decodeJsonList(box.safeGet<String>(_K.searchHistory), (obj) => SearchHistoryItem.fromJson(obj));
 
-  Future<void> setSearchHistory(List<SearchHistoryItem>? value) => box.safePut<String>(_K.searchHistory, encodeJsonList(value));
+  Future<void> setSearchHistory(List<SearchHistoryItem>? value) =>
+      box.safePut<String>(_K.searchHistory, encodeJsonList(value));
 
   ValueListenable<Box> listenSearchHistory() => box.listenable(keys: [_K.searchHistory]);
 }
