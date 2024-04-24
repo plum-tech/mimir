@@ -335,7 +335,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onCourseRemoved = this.onCourseRemoved;
-    return Card(
+    return Card.filled(
       color: color,
       clipBehavior: Clip.hardEdge,
       child: AnimatedExpansionTile(

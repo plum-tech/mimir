@@ -106,7 +106,7 @@ dependencies:
   add_2_calendar: ^3.0.1
 
   # UI
-  go_router: ^13.2.4
+  go_router: ^13.2.5
   fl_chart: ^0.67.0
   flutter_svg: ^2.0.10+1
   flutter_svg_provider: ^1.0.7

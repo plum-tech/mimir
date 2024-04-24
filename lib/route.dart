@@ -44,6 +44,7 @@ import 'package:sit/timetable/page/p13n/background.dart';
 import 'package:sit/timetable/page/p13n/cell_style.dart';
 import 'package:sit/timetable/page/editor.dart';
 import 'package:sit/timetable/page/p13n/palette_editor.dart';
+import 'package:sit/timetable/page/patch.dart';
 import 'package:sit/timetable/page/settings.dart';
 import 'package:sit/utils/riverpod.dart';
 import 'package:sit/widgets/not_found.dart';
@@ -136,7 +137,7 @@ final _timetableRoutes = [
     ],
   ),
   GoRoute(
-    path: "/timetable/palette/edit/:id",
+    path: "/timetable/palette/:id/edit",
     builder: (ctx, state) {
       final id = int.tryParse(state.pathParameters["id"] ?? "");
       if (id == null) throw 404;
@@ -146,7 +147,7 @@ final _timetableRoutes = [
     },
   ),
   GoRoute(
-    path: "/timetable/edit/:id",
+    path: "/timetable/:id/edit",
     builder: (ctx, state) {
       final id = int.tryParse(state.pathParameters["id"] ?? "");
       if (id == null) throw 404;

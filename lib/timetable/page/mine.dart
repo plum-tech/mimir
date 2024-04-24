@@ -263,7 +263,7 @@ class TimetableCard extends StatelessWidget {
           icon: context.icons.edit,
           activator: const SingleActivator(LogicalKeyboardKey.keyE),
           action: () async {
-            var newTimetable = await ctx.push<SitTimetable>("/timetable/edit/$id");
+            var newTimetable = await ctx.push<SitTimetable>("/timetable/$id/edit");
             if (newTimetable != null) {
               final newName = allocValidFileName(newTimetable.name);
               if (newName != newTimetable.name) {
