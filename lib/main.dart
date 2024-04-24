@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sit/files.dart';
@@ -107,14 +106,7 @@ void main() async {
         fallbackLocale: R.defaultLocale,
         useFallbackTranslations: true,
         assetLoader: _yamlAssetsLoader,
-        child: ScreenUtilInit(
-          designSize: const Size(360, 690),
-          minTextAdapt: true,
-          splitScreenMode: true,
-          builder: (context, child) {
-            return const MimirApp();
-          },
-        ),
+        child: const MimirApp(),
       ),
     ),
   );

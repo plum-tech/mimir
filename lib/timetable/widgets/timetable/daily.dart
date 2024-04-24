@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/school/utils.dart';
@@ -340,7 +339,7 @@ class ClassTimeCard extends StatelessWidget {
       margin: 10,
       child: [
         classTime.begin.l10n(context).text(style: const TextStyle(fontWeight: FontWeight.bold)),
-        SizedBox(height: 5.h),
+        const SizedBox(height: 5),
         classTime.end.l10n(context).text(),
       ].column(),
     );

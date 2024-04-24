@@ -1,9 +1,7 @@
 import 'dart:math';
 
 import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/utils/hive.dart';
@@ -216,7 +214,7 @@ class _BoxItemListState extends State<BoxItemList> {
         });
       },
       totalPage: totalPage,
-      btnPerGroup: (ctx.mediaQuery.size.width / 50.w).round().clamp(1, totalPage),
+      btnPerGroup: (ctx.mediaQuery.size.width / 50).round().clamp(1, totalPage),
       currentPageIndex: currentPage + 1,
     );
   }

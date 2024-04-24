@@ -4,7 +4,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/entity/login_status.dart';
@@ -117,7 +116,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (!mounted) return;
     setState(() => isLoggingIn = true);
     final connectionType = await Connectivity().checkConnectivity();
-    if (connectionType == ConnectivityResult.none) {
+    if (connectionType.contains(ConnectivityResult.none)) {
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       await context.showTip(
@@ -193,12 +192,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               style: context.textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-      Padding(padding: EdgeInsets.only(top: 40.h)),
+      const Padding(padding: EdgeInsets.only(top: 40)),
       // Form field: username and password.
       buildLoginForm(),
-      SizedBox(height: 10.h),
+      const SizedBox(height: 10),
       buildLoginButton(),
-    ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25.h).center();
+    ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25).center();
   }
 
   Widget buildLoginForm() {

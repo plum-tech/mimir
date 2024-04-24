@@ -4,7 +4,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/dash_decoration.dart';
 import 'package:sit/l10n/time.dart';
@@ -484,7 +483,7 @@ class CourseCell extends StatelessWidget {
     return Card.filled(
       clipBehavior: Clip.hardEdge,
       color: color,
-      margin: EdgeInsets.all(0.5.w),
+      margin: const EdgeInsets.all(0.5),
       child: innerBuilder != null ? innerBuilder(context, info) : info,
     );
   }
