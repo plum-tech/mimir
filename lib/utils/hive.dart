@@ -5,7 +5,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logger/logger.dart';
 
-final _log = Logger();
+final _log = Logger(
+  printer: PrettyPrinter(
+    methodCount: 8,
+    // Number of method calls to be displayed
+    errorMethodCount: 8,
+    // Print an emoji for each log message
+    printTime: true, // Should each log print contain a timestamp
+  ),
+);
 
 extension BoxX on Box {
   T? safeGet<T>(dynamic key, {T? defaultValue}) {
@@ -155,10 +163,10 @@ extension BoxProviderX on Box {
   }) {
     return StateNotifierProvider.autoDispose<BoxFieldNotifier<T>, T?>((ref) {
       return BoxFieldNotifier(
-        get?.call() ?? safeGet<T>(key),
+        get != null ? get.call() : safeGet<T>(key),
         listenable(keys: [key]),
-        () => get?.call() ?? safeGet<T>(key),
-        (v) => set?.call(v) ?? safePut<T>(key, v),
+        () => get != null ? get.call() : safeGet<T>(key),
+        (v) => set != null ? set.call(v) : safePut<T>(key, v),
       );
     });
   }
@@ -174,8 +182,8 @@ extension BoxProviderX on Box {
       return BoxFieldWithDefaultNotifier(
         get?.call() ?? safeGet<T>(key) ?? getDefault(),
         listenable(keys: [key]),
-        () => get?.call() ?? safeGet<T>(key),
-        (v) => set?.call(v) ?? safePut<T>(key, v),
+        () => get != null ? get.call() : safeGet<T>(key),
+        (v) => set != null ? set.call(v) : safePut<T>(key, v),
         getDefault,
       );
     });
@@ -191,8 +199,8 @@ extension BoxProviderX on Box {
       return BoxFieldNotifier(
         get?.call(arg) ?? safeGet<T>(arg),
         listenable(keys: [keyOf(arg)]),
-        () => get?.call(arg) ?? safeGet<T>(arg),
-        (v) => set?.call(arg, v) ?? safePut<T>(arg, v),
+        () => get != null ? get.call(arg) : safeGet<T>(arg),
+        (v) => set != null ? set.call(arg, v) : safePut<T>(arg, v),
       );
     });
   }
