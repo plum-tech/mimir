@@ -1,10 +1,12 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/l10n/time.dart';
 
 import 'timetable.dart';
 
 part "pos.g.dart";
 
+@JsonSerializable()
 @CopyWith(skipFields: true)
 class TimetablePos {
   /// starts with 0
@@ -38,6 +40,10 @@ class TimetablePos {
     }
   }
 
+  factory TimetablePos.fromJson(Map<String, dynamic> json) => _$TimetablePosFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TimetablePosToJson(this);
+
   @override
   bool operator ==(Object other) {
     return other is TimetablePos &&
@@ -66,19 +72,19 @@ extension TimetableX on SitTimetable {
     return TimetablePos.locate(current, relativeTo: startDate);
   }
 }
-
-class TimetableLessonLoc {
-  final String courseCode;
-
-  /// starts with 0
-  final int weekIndex;
-
-  /// starts with 0
-  final Weekday weekday;
-
-  const TimetableLessonLoc({
-    required this.courseCode,
-    required this.weekIndex,
-    required this.weekday,
-  });
-}
+//
+// class TimetableLessonLoc {
+//   final String courseCode;
+//
+//   /// starts with 0
+//   final int weekIndex;
+//
+//   /// starts with 0
+//   final Weekday weekday;
+//
+//   const TimetableLessonLoc({
+//     required this.courseCode,
+//     required this.weekIndex,
+//     required this.weekday,
+//   });
+// }

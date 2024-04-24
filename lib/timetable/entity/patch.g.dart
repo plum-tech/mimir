@@ -6,9 +6,13 @@ part of 'patch.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-TimetableRemoveDayPatch _$TimetableRemoveDayPatchFromJson(Map<String, dynamic> json) => TimetableRemoveDayPatch();
+TimetableRemoveDayPatch _$TimetableRemoveDayPatchFromJson(Map<String, dynamic> json) => TimetableRemoveDayPatch(
+      pos: TimetablePos.fromJson(json['pos'] as Map<String, dynamic>),
+    );
 
-Map<String, dynamic> _$TimetableRemoveDayPatchToJson(TimetableRemoveDayPatch instance) => <String, dynamic>{};
+Map<String, dynamic> _$TimetableRemoveDayPatchToJson(TimetableRemoveDayPatch instance) => <String, dynamic>{
+      'pos': instance.pos,
+    };
 
 TimetableMoveDayPatch _$TimetableMoveDayPatchFromJson(Map<String, dynamic> json) => TimetableMoveDayPatch();
 

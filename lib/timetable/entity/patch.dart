@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sit/timetable/entity/pos.dart';
 
 part "patch.g.dart";
 
@@ -21,7 +22,9 @@ enum TimetablePatchType {
 /// To opt-in [JsonSerializable], please specify `toJson` parameter to [TimetablePatch.toJson].
 sealed class TimetablePatch {
   TimetablePatchType get type;
+
   const TimetablePatch();
+
   factory TimetablePatch.fromJson(Map<String, dynamic> json) {
     final type = $enumDecode(_$TimetablePatchTypeEnumMap, json["type"]);
     return switch (type) {
@@ -86,9 +89,13 @@ sealed class TimetablePatch {
 @JsonSerializable()
 class TimetableRemoveDayPatch extends TimetablePatch {
   @override
-  final type = TimetablePatchType.removeDay;
+  TimetablePatchType get type => TimetablePatchType.removeDay;
 
-  const TimetableRemoveDayPatch();
+  final TimetablePos pos;
+
+  const TimetableRemoveDayPatch({
+    required this.pos,
+  });
 
   factory TimetableRemoveDayPatch.fromJson(Map<String, dynamic> json) => _$TimetableRemoveDayPatchFromJson(json);
 
@@ -99,7 +106,7 @@ class TimetableRemoveDayPatch extends TimetablePatch {
 @JsonSerializable()
 class TimetableMoveDayPatch extends TimetablePatch {
   @override
-  final type = TimetablePatchType.moveDay;
+  TimetablePatchType get type => TimetablePatchType.moveDay;
 
   const TimetableMoveDayPatch();
 
@@ -112,7 +119,7 @@ class TimetableMoveDayPatch extends TimetablePatch {
 @JsonSerializable()
 class TimetableSwapDayPatch extends TimetablePatch {
   @override
-  final type = TimetablePatchType.swapDay;
+  TimetablePatchType get type => TimetablePatchType.swapDay;
 
   const TimetableSwapDayPatch();
 
@@ -125,7 +132,7 @@ class TimetableSwapDayPatch extends TimetablePatch {
 @JsonSerializable()
 class TimetableCopyDayPatch extends TimetablePatch {
   @override
-  final type = TimetablePatchType.copyDay;
+  TimetablePatchType get type => TimetablePatchType.copyDay;
 
   const TimetableCopyDayPatch();
 

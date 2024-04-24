@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+@JsonEnum()
 enum Weekday {
   monday,
   tuesday,

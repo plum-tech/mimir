@@ -55,3 +55,17 @@ extension $TimetablePosCopyWith on TimetablePos {
   // ignore: library_private_types_in_public_api
   _$TimetablePosCWProxy get copyWith => _$TimetablePosCWProxyImpl(this);
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+TimetablePos _$TimetablePosFromJson(Map<String, dynamic> json) => TimetablePos(
+      weekIndex: json['weekIndex'] as int,
+      weekday: Weekday.fromJson(json['weekday'] as int),
+    );
+
+Map<String, dynamic> _$TimetablePosToJson(TimetablePos instance) => <String, dynamic>{
+      'weekIndex': instance.weekIndex,
+      'weekday': instance.weekday,
+    };
