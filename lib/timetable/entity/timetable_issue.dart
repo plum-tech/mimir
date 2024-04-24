@@ -35,6 +35,7 @@ extension SitTimetable4IssueX on SitTimetable {
     if (courses.isEmpty) {
       issues.add(const TimetableEmptyIssue());
     }
+    // TODO: finish overlap issue inspection
     final entity = resolve();
     for (final week in entity.weeks) {
       for (final day in week.days) {
