@@ -3,19 +3,19 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/patch.dart';
 
-class TimetablePatchesPage extends StatefulWidget {
+class TimetablePatchEditorPage extends StatefulWidget {
   final List<TimetablePatch> patches;
 
-  const TimetablePatchesPage({
+  const TimetablePatchEditorPage({
     super.key,
     required this.patches,
   });
 
   @override
-  State<TimetablePatchesPage> createState() => _TimetablePatchesPageState();
+  State<TimetablePatchEditorPage> createState() => _TimetablePatchEditorPageState();
 }
 
-class _TimetablePatchesPageState extends State<TimetablePatchesPage> {
+class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

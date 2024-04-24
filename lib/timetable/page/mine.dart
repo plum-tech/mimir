@@ -15,8 +15,8 @@ import 'package:sit/l10n/extension.dart';
 import 'package:sit/route.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:sit/timetable/entity/patch.dart';
 import 'package:sit/timetable/page/ical.dart';
-import 'package:sit/timetable/page/patch.dart';
 import 'package:sit/timetable/platte.dart';
 import 'package:sit/timetable/widgets/course.dart';
 import 'package:sit/utils/format.dart';
@@ -264,13 +264,12 @@ class TimetableCard extends StatelessWidget {
           activator: const SingleActivator(LogicalKeyboardKey.keyE),
           action: () async {
             var newTimetable = await ctx.push<SitTimetable>("/timetable/$id/edit");
-            if (newTimetable != null) {
-              final newName = allocValidFileName(newTimetable.name);
-              if (newName != newTimetable.name) {
-                newTimetable = newTimetable.copyWith(name: newName);
-              }
-              TimetableInit.storage.timetable[id] = newTimetable;
+            if (newTimetable == null) return;
+            final newName = allocValidFileName(newTimetable.name);
+            if (newName != newTimetable.name) {
+              newTimetable = newTimetable.copyWith(name: newName);
             }
+            TimetableInit.storage.timetable[id] = newTimetable;
           },
         ),
         // share_plus: sharing files is not supported on Linux
@@ -294,14 +293,14 @@ class TimetableCard extends StatelessWidget {
           label: "Patch",
           icon: Icons.auto_fix_high,
           action: () async {
-            // TODO: using route
-            await ctx.show$Sheet$(
-              (ctx) => TimetablePatchesPage(
-                patches: timetable.patches,
-              ),
+            var patches = await ctx.push<List<TimetablePatch>>("/timetable/$id/edit/patch");
+            if (patches == null) return;
+            TimetableInit.storage.timetable[id] = timetable.copyWith(
+              patches: patches,
             );
           },
         ),
+
         EntryAction(
           label: i18n.duplicate,
           oneShot: true,

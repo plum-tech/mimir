@@ -157,6 +157,16 @@ final _timetableRoutes = [
     },
   ),
   GoRoute(
+    path: "/timetable/:id/edit/patch",
+    builder: (ctx, state) {
+      final id = int.tryParse(state.pathParameters["id"] ?? "");
+      if (id == null) throw 404;
+      final timetable = TimetableInit.storage.timetable[id];
+      if (timetable == null) throw 404;
+      return TimetablePatchEditorPage(patches: timetable.patches);
+    },
+  ),
+  GoRoute(
     path: "/timetable/cell-style",
     builder: (ctx, state) => const TimetableCellStyleEditor(),
   ),
