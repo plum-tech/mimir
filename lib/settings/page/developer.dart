@@ -179,6 +179,10 @@ class _DebugGoRouteTileState extends State<DebugGoRouteTile> {
       title: "Go route".text(),
       subtitle: TextField(
         controller: $route,
+        textInputAction: TextInputAction.go,
+        onSubmitted: (text) {
+          go(text);
+        },
         decoration: const InputDecoration(
           hintText: "/anywhere",
         ),
@@ -189,12 +193,19 @@ class _DebugGoRouteTileState extends State<DebugGoRouteTile> {
                   onPressed: route.text.isEmpty
                       ? null
                       : () {
-                          context.push(route.text);
+                          go(route.text);
                         },
                   icon: const Icon(Icons.arrow_forward),
                 )
       ].row(mas: MainAxisSize.min),
     );
+  }
+
+  void go(String route) {
+    if (!route.startsWith("/")) {
+      route = "/$route";
+    }
+    context.push(route);
   }
 }
 
@@ -262,7 +273,7 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
       onTap: () async {
         final credentials = await await Editor.showAnyEditor(
           context,
-          initial:  const Credentials(account: "", password: ""),
+          initial: const Credentials(account: "", password: ""),
         );
         if (credentials == null) return;
         await loginWith(credentials);
