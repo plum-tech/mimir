@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:sit/game/2048/save.dart';
+import 'package:sit/game/utils.dart';
 import 'package:uuid/uuid.dart';
 
 import '../entity/tile.dart';
@@ -147,7 +148,7 @@ class BoardManager extends StateNotifier<Board> {
         if (tile.nextIndex == next.nextIndex || tile.index == next.nextIndex && tile.nextIndex == null) {
           value = tile.value + next.value;
           merged = true;
-          HapticFeedback.lightImpact();
+          applyGameHapticFeedback();
           score += tile.value;
           i += 1;
         }
