@@ -22,28 +22,27 @@ class DevSettingsImpl {
   /// [false] by default.
   bool get on => box.safeGet<bool>(_K.on) ?? false;
 
-  set on(bool newV) => box.safePut(_K.on, newV);
+  set on(bool newV) => box.safePut<bool>(_K.on, newV);
 
   late final $on = box.providerWithDefault<bool>(_K.on, () => false);
 
   /// [false] by default.
   bool get demoMode => box.safeGet<bool>(_K.demoMode) ?? false;
 
-  set demoMode(bool newV) => box.safePut(_K.demoMode, newV);
+  set demoMode(bool newV) => box.safePut<bool>(_K.demoMode, newV);
 
   late final $demoMode = box.providerWithDefault<bool>(_K.demoMode, () => false);
 
   String? get expenseUserOverride => box.safeGet<String>(_K.expenseUserOverride);
 
-  set expenseUserOverride(String? newV) => box.safePut(_K.expenseUserOverride, newV);
+  set expenseUserOverride(String? newV) => box.safePut<String>(_K.expenseUserOverride, newV);
 
   late final $expenseUserOverride = box.provider<String>(_K.expenseUserOverride);
 
-  List<Credentials>? getSavedOaCredentialsList() =>
-      (box.safeGet(_K.savedOaCredentialsList) as List?)?.cast<Credentials>();
+  List<Credentials>? getSavedOaCredentialsList() => box.safeGet<List>(_K.savedOaCredentialsList)?.cast<Credentials>();
 
   Future<void> setSavedOaCredentialsList(List<Credentials>? newV) async {
     newV?.distinctBy((c) => c.account);
-    await box.safePut(_K.savedOaCredentialsList, newV);
+    await box.safePut<List>(_K.savedOaCredentialsList, newV);
   }
 }

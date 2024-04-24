@@ -18,17 +18,16 @@ class ExamResultUgStorage {
 
   ExamResultUgStorage();
 
-  List<ExamResultUg>? getResultList(SemesterInfo info) =>
-      (box.safeGet(_K.resultList(info)) as List?)?.cast<ExamResultUg>();
+  List<ExamResultUg>? getResultList(SemesterInfo info) => box.safeGet<List>(_K.resultList(info))?.cast<ExamResultUg>();
 
   Future<void> setResultList(SemesterInfo info, List<ExamResultUg>? results) =>
-      box.safePut(_K.resultList(info), results);
+      box.safePut<List>(_K.resultList(info), results);
 
   ValueListenable<Box> listenResultList(SemesterInfo info) => box.listenable(keys: [_K.resultList(info)]);
 
-  SemesterInfo? get lastSemesterInfo => box.safeGet(_K.lastSemesterInfo);
+  SemesterInfo? get lastSemesterInfo => box.safeGet<SemesterInfo>(_K.lastSemesterInfo);
 
-  set lastSemesterInfo(SemesterInfo? newV) => box.safePut(_K.lastSemesterInfo, newV);
+  set lastSemesterInfo(SemesterInfo? newV) => box.safePut<SemesterInfo>(_K.lastSemesterInfo, newV);
 
   Stream<BoxEvent> watchResultList(SemesterInfo Function() getFilter) =>
       box.watch().where((event) => event.key == _K.resultList(getFilter()));

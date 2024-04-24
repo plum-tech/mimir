@@ -163,8 +163,6 @@ extension BoxProviderX on Box {
     });
   }
 
-
-
   /// For generic class, like [List] or [Map], please specify the [get] for type conversion.
   AutoDisposeStateNotifierProvider<BoxFieldWithDefaultNotifier<T>, T> providerWithDefault<T>(
     dynamic key,

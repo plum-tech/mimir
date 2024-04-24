@@ -27,15 +27,15 @@ class _Electricity {
 
   _Electricity(this.box);
 
-  bool get autoRefresh => box.safeGet(_ElectricityK.autoRefresh) ?? _kElectricityAutoRefresh;
+  bool get autoRefresh => box.safeGet<bool>(_ElectricityK.autoRefresh) ?? _kElectricityAutoRefresh;
 
-  set autoRefresh(bool foo) => box.safePut(_ElectricityK.autoRefresh, foo);
+  set autoRefresh(bool foo) => box.safePut<bool>(_ElectricityK.autoRefresh, foo);
 
-  String? get selectedRoom => box.safeGet(_ElectricityK.selectedRoom);
+  String? get selectedRoom => box.safeGet<String>(_ElectricityK.selectedRoom);
 
   late final $selectedRoom = box.provider<String>(_ElectricityK.selectedRoom);
 
-  set selectedRoom(String? newV) => box.safePut(_ElectricityK.selectedRoom, newV);
+  set selectedRoom(String? newV) => box.safePut<String>(_ElectricityK.selectedRoom, newV);
 
   ValueListenable listenSelectedRoom() => box.listenable(keys: [_ElectricityK.selectedRoom]);
 }
@@ -50,7 +50,7 @@ class _ExpenseRecords {
 
   const _ExpenseRecords(this.box);
 
-  bool get autoRefresh => box.safeGet(_ExpenseK.autoRefresh) ?? _kExpenseRecordsAutoRefresh;
+  bool get autoRefresh => box.safeGet<bool>(_ExpenseK.autoRefresh) ?? _kExpenseRecordsAutoRefresh;
 
-  set autoRefresh(bool foo) => box.safePut(_ExpenseK.autoRefresh, foo);
+  set autoRefresh(bool foo) => box.safePut<bool>(_ExpenseK.autoRefresh, foo);
 }

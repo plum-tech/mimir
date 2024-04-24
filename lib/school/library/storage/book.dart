@@ -17,11 +17,11 @@ class LibraryBookStorage {
 
   const LibraryBookStorage();
 
-  Book? getBook(String bookId) => box.safeGet(_K.info(bookId));
+  Book? getBook(String bookId) => box.safeGet<Book>(_K.info(bookId));
 
-  Future<void> setBook(String bookId, Book? value) => box.safePut(_K.info(bookId), value);
+  Future<void> setBook(String bookId, Book? value) => box.safePut<Book>(_K.info(bookId), value);
 
-  BookDetails? getBookDetails(String bookId) => box.safeGet(_K.details(bookId));
+  BookDetails? getBookDetails(String bookId) => box.safeGet<BookDetails>(_K.details(bookId));
 
-  Future<void> setBookDetails(String bookId, BookDetails? value) => box.safePut(_K.details(bookId), value);
+  Future<void> setBookDetails(String bookId, BookDetails? value) => box.safePut<BookDetails>(_K.details(bookId), value);
 }

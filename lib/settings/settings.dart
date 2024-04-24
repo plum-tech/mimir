@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sit/game/settings.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/school/settings.dart';
@@ -35,6 +36,7 @@ class SettingsImpl {
   late final life = LifeSettings(box);
   late final timetable = TimetableSettings(box);
   late final school = SchoolSettings(box);
+  late final game = GameSettings(box);
   late final theme = _Theme(box);
   late final proxy = _Proxy(box);
 
@@ -86,7 +88,7 @@ class _Theme {
   }
 
   set themeColor(Color? v) {
-    box.safePut(_ThemeK.themeColor, v?.value);
+    box.safePut<int>(_ThemeK.themeColor, v?.value);
   }
 
   late final $themeColor = box.provider<Color>(
@@ -95,16 +97,16 @@ class _Theme {
     set: (v) => themeColor = v,
   );
 
-  bool get themeColorFromSystem => box.safeGet(_ThemeK.themeColorFromSystem) ?? true;
+  bool get themeColorFromSystem => box.safeGet<bool>(_ThemeK.themeColorFromSystem) ?? true;
 
-  set themeColorFromSystem(bool value) => box.safePut(_ThemeK.themeColorFromSystem, value);
+  set themeColorFromSystem(bool value) => box.safePut<bool>(_ThemeK.themeColorFromSystem, value);
 
   late final $themeColorFromSystem = box.provider<bool>(_ThemeK.themeColorFromSystem);
 
   /// [ThemeMode.system] by default.
-  ThemeMode get themeMode => box.safeGet(_ThemeK.themeMode) ?? ThemeMode.system;
+  ThemeMode get themeMode => box.safeGet<ThemeMode>(_ThemeK.themeMode) ?? ThemeMode.system;
 
-  set themeMode(ThemeMode value) => box.safePut(_ThemeK.themeMode, value);
+  set themeMode(ThemeMode value) => box.safePut<ThemeMode>(_ThemeK.themeMode, value);
 
   late final $themeMode = box.provider<ThemeMode>(_ThemeK.themeMode);
 }
@@ -196,19 +198,19 @@ class ProxyProfile {
 
   ProxyProfileRecords toRecords() => (address: address, enabled: enabled, proxyMode: proxyMode);
 
-  String? get address => box.safeGet(_ProxyK.address(type));
+  String? get address => box.safeGet<String>(_ProxyK.address(type));
 
-  set address(String? newV) => box.safePut(_ProxyK.address(type), newV);
+  set address(String? newV) => box.safePut<String>(_ProxyK.address(type), newV);
 
   /// [false] by default.
-  bool get enabled => box.safeGet(_ProxyK.enabled(type)) ?? false;
+  bool get enabled => box.safeGet<bool>(_ProxyK.enabled(type)) ?? false;
 
-  set enabled(bool newV) => box.safePut(_ProxyK.enabled(type), newV);
+  set enabled(bool newV) => box.safePut<bool>(_ProxyK.enabled(type), newV);
 
   /// [ProxyMode.schoolOnly] by default.
-  ProxyMode get proxyMode => box.safeGet(_ProxyK.proxyMode(type)) ?? ProxyMode.schoolOnly;
+  ProxyMode get proxyMode => box.safeGet<ProxyMode>(_ProxyK.proxyMode(type)) ?? ProxyMode.schoolOnly;
 
-  set proxyMode(ProxyMode newV) => box.safePut(_ProxyK.proxyMode(type), newV);
+  set proxyMode(ProxyMode newV) => box.safePut<ProxyMode>(_ProxyK.proxyMode(type), newV);
 
   bool get isDefaultAddress {
     final address = this.address;

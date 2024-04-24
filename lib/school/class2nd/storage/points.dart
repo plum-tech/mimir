@@ -17,20 +17,20 @@ class Class2ndPointsStorage {
 
   Class2ndPointsStorage();
 
-  Class2ndPointsSummary? get pointsSummary => box.safeGet(_K.pointsSummary);
+  Class2ndPointsSummary? get pointsSummary => box.safeGet<Class2ndPointsSummary>(_K.pointsSummary);
 
-  set pointsSummary(Class2ndPointsSummary? newValue) => box.safePut(_K.pointsSummary, newValue);
+  set pointsSummary(Class2ndPointsSummary? newValue) => box.safePut<Class2ndPointsSummary>(_K.pointsSummary, newValue);
 
   ValueListenable<Box> listenPointsSummary() => box.listenable(keys: [_K.pointsSummary]);
 
   late final $pointsSummary = box.provider<Class2ndPointsSummary>(_K.pointsSummary);
 
-  List<Class2ndPointItem>? get pointItemList => (box.safeGet(_K.pointItemList) as List?)?.cast<Class2ndPointItem>();
+  List<Class2ndPointItem>? get pointItemList => box.safeGet<List>(_K.pointItemList)?.cast<Class2ndPointItem>();
 
-  set pointItemList(List<Class2ndPointItem>? newValue) => box.safePut(_K.pointItemList, newValue);
+  set pointItemList(List<Class2ndPointItem>? newValue) => box.safePut<List>(_K.pointItemList, newValue);
 
   List<Class2ndActivityApplication>? get applicationList =>
-      (box.safeGet(_K.applicationList) as List?)?.cast<Class2ndActivityApplication>();
+      box.safeGet<List>(_K.applicationList)?.cast<Class2ndActivityApplication>();
 
-  set applicationList(List<Class2ndActivityApplication>? newValue) => box.safePut(_K.applicationList, newValue);
+  set applicationList(List<Class2ndActivityApplication>? newValue) => box.safePut<List>(_K.applicationList, newValue);
 }

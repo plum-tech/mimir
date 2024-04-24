@@ -283,7 +283,8 @@ class _BoxItemState extends State<BoxItem> {
                 secondary: i18n.cancel,
                 primaryDestructive: true);
             if (confirm == true) {
-              widget.box.safePut(key, _emptyValue(value));
+              // this is unsafe, because the type is unknown
+              widget.box.put(key, _emptyValue(value));
               if (!mounted) return;
               setState(() {});
             }

@@ -9,6 +9,7 @@ import 'package:sit/credentials/init.dart';
 import 'package:sit/game/2048/index.dart';
 import 'package:sit/game/index.dart';
 import 'package:sit/game/minesweeper/index.dart';
+import 'package:sit/game/page/settings.dart';
 import 'package:sit/game/suika/index.dart';
 import 'package:sit/index.dart';
 import 'package:sit/life/page/settings.dart';
@@ -218,6 +219,10 @@ final _settingsRoute = GoRoute(
     GoRoute(
       path: "life",
       builder: (ctx, state) => const LifeSettingsPage(),
+    ),
+    GoRoute(
+      path: "game",
+      builder: (ctx, state) => const GameSettingsPage(),
     ),
     GoRoute(
       path: "about",
