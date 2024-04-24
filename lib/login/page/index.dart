@@ -276,14 +276,19 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 label: i18n.login.text(),
               ),
       if (!widget.isGuarded)
-        OutlinedButton(
-          // Offline
-          onPressed: () {
-            CredentialsInit.storage.oaLoginStatus = LoginStatus.offline;
-            context.go("/");
-          },
-          child: i18n.offlineModeBtn.text(),
-        ),
+        $account >>
+            (ctx, account) =>
+                $password >>
+                (ctx, password) => OutlinedButton(
+                      // Offline
+                      onPressed: account.text.isNotEmpty || password.text.isNotEmpty
+                          ? null
+                          : () {
+                              CredentialsInit.storage.oaLoginStatus = LoginStatus.offline;
+                              context.go("/");
+                            },
+                      child: i18n.offlineModeBtn.text(),
+                    ),
     ].row(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceAround);
   }
 }
