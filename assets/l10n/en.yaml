@@ -801,6 +801,10 @@ game:
   tryAgain: Try again
   youWin: You win
   gameOver: Game over
+  settings:
+    enableHapticFeedback:
+      title: Enable haptic feedback
+      desc: Feel a light vibration for some actions
   2048:
     title: 2048
     score: Score

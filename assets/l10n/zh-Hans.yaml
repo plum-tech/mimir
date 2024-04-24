@@ -801,6 +801,10 @@ game:
   tryAgain: 再试一次
   youWin: 你赢了！
   gameOver: 游戏结束
+  settings:
+    enableHapticFeedback:
+      title: 开启触觉反馈
+      desc: 部分操作时轻微震动设备
   2048:
     title: 2048
     score: 分数

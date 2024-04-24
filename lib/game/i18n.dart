@@ -31,7 +31,7 @@ class _Settings {
 
   const _Settings();
 
-  String get enableHapticFeedback => "$ns.enableHapticFeedback".tr();
+  String get enableHapticFeedback => "$ns.enableHapticFeedback.title".tr();
 
-  String get enableHapticFeedbackDesc => "$ns.enableHapticFeedbackDesc".tr();
+  String get enableHapticFeedbackDesc => "$ns.enableHapticFeedback.desc".tr();
 }
