@@ -16,6 +16,7 @@ import 'package:sit/files.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/background.dart';
+import 'package:sit/utils/images.dart';
 import 'package:sit/utils/save.dart';
 import 'package:sit/widgets/modal_image_view.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -143,22 +144,6 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     }
     if (!mounted) return;
     context.pop(background);
-  }
-
-  Future<void> copyCompressedImageToTarget({
-    required File source,
-    required String target,
-  }) async {
-    if (source.path == target) return;
-    if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
-      FlutterImageCompress.validator.ignoreCheckExtName = true;
-      await FlutterImageCompress.compressAndGetFile(
-        source.path,
-        target,
-      );
-    } else {
-      source.copy(target);
-    }
   }
 
   Future<void> chooseImage() async {
