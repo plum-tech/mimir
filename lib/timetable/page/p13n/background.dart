@@ -137,7 +137,10 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     if (renderImageFile == null) return;
     Settings.timetable.backgroundImage = background;
     if (renderImageFile.path != Files.timetable.backgroundFile.path) {
-      await copyCompressedImageToTarget(source: renderImageFile, target: Files.timetable.backgroundFile.path);
+      await copyCompressedImageToTarget(
+        source: renderImageFile,
+        target: Files.timetable.backgroundFile.path,
+      );
       await img.evict();
       if (!mounted) return;
       await precacheImage(img, context);
