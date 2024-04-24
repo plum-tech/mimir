@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import 'foundation.dart';
-import 'multiplatform.dart';
 
 typedef PickerActionWidgetBuilder = Widget Function(BuildContext context, int? selectedIndex);
 typedef DualPickerActionWidgetBuilder = Widget Function(BuildContext context, int? selectedIndexA, int? selectedIndexB);
@@ -78,7 +78,7 @@ extension DialogEx on BuildContext {
     required String cancel,
     bool destructive = false,
   }) async {
-    if (isCupertino) {
+    if (UniversalPlatform.isIOS) {
       return showCupertinoActionRequest(
         desc: desc,
         action: action,
