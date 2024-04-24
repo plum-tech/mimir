@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/patch.dart';
+import '../i18n.dart';
 
 class TimetablePatchEditorPage extends StatefulWidget {
   final List<TimetablePatch> patches;
@@ -16,6 +18,8 @@ class TimetablePatchEditorPage extends StatefulWidget {
 }
 
 class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
+  late var patches = List.of(widget.patches);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,11 +28,25 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
         slivers: [
           SliverAppBar.medium(
             title: "Timetable patch".text(),
-            actions: [],
+            actions: [
+              PlatformTextButton(
+                onPressed: onSave,
+                child: i18n.save.text(),
+              ),
+            ],
           ),
-          SliverList.list(children: []),
+          SliverList.builder(
+            itemCount: patches.length,
+            itemBuilder: (ctx, i) {
+
+            },
+          ),
         ],
       ),
     );
+  }
+
+  void onSave() {
+
   }
 }
