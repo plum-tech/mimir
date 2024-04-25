@@ -374,6 +374,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
         courseName: template.courseName,
         enabled: !allHidden,
       ),
+      visualDensity: VisualDensity.compact,
       rotateTrailing: false,
       title: template.courseName.text(style: templateStyle),
       subtitle: [
@@ -431,6 +432,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
                 ),
           child: ListTile(
             isThreeLine: true,
+            visualDensity: VisualDensity.compact,
             enabled: !course.hidden,
             leading: Dev.on ? "${course.courseKey}".text() : null,
             title: course.place.text(),

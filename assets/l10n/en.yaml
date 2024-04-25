@@ -33,7 +33,7 @@ timetable:
       single: "Lesson {}"
       multiple: "From lesson {from} to {to}"
   issue:
-    title: Timetable issues
+    title: Timetable issue
     resolve: Resolve
     emptyIssue:
       title: Timetable is empty

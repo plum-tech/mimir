@@ -20,7 +20,7 @@ class TimetableCbeIssue implements TimetableIssue {
   });
 
   static bool detectCbe(SitCourse course) {
-    if (course.courseName.contains("自修")) {
+    if (course.courseName.contains("自修") || course.courseName.contains("免听")) {
       return true;
     }
     return false;
