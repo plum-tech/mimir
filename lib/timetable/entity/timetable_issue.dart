@@ -1,11 +1,11 @@
 import 'package:sit/l10n/time.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:statistics/statistics.dart';
 
 import 'timetable.dart';
 import 'timetable_entity.dart';
 
-sealed class TimetableIssue {
-}
+sealed class TimetableIssue {}
 
 class TimetableEmptyIssue implements TimetableIssue {
   const TimetableEmptyIssue();
@@ -66,27 +66,30 @@ extension SitTimetable4IssueX on SitTimetable {
     }
 
     // TODO: finish overlap issue inspection
-    final overlaps = <TimetableCourseOverlapIssue>[];
-    final entity = resolve();
-    for (final week in entity.weeks) {
-      for (final day in week.days) {
-        for (var timeslot = 0; timeslot < day.timeslot2LessonSlot.length; timeslot++) {
-          final lessonSlot = day.timeslot2LessonSlot[timeslot];
-          if (lessonSlot.lessons.length >= 2) {
-            final issue = TimetableCourseOverlapIssue(
-              courseKeys: lessonSlot.lessons.map((l) => l.course.courseKey).toList(),
-              weekIndex: week.index,
-              weekday: Weekday.values[day.index],
-              timeslots: (start: timeslot, end: timeslot),
-            );
-            if (overlaps.every((overlap) => !overlap.isSameOne(issue))) {
-              overlaps.add(issue);
+    if (Dev.on) {
+      final overlaps = <TimetableCourseOverlapIssue>[];
+      final entity = resolve();
+      for (final week in entity.weeks) {
+        for (final day in week.days) {
+          for (var timeslot = 0; timeslot < day.timeslot2LessonSlot.length; timeslot++) {
+            final lessonSlot = day.timeslot2LessonSlot[timeslot];
+            if (lessonSlot.lessons.length >= 2) {
+              final issue = TimetableCourseOverlapIssue(
+                courseKeys: lessonSlot.lessons.map((l) => l.course.courseKey).toList(),
+                weekIndex: week.index,
+                weekday: Weekday.values[day.index],
+                timeslots: (start: timeslot, end: timeslot),
+              );
+              if (overlaps.every((overlap) => !overlap.isSameOne(issue))) {
+                overlaps.add(issue);
+              }
             }
           }
         }
       }
+      issues.addAll(overlaps);
     }
-    issues.addAll(overlaps);
+
     return issues;
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
+import 'package:sit/l10n/time.dart';
 
 import '../entity/timetable.dart';
 import '../entity/timetable_issue.dart';
@@ -151,6 +152,12 @@ class _TimetableCourseOverlapIssueWidgetState extends State<TimetableCourseOverl
           final courses = issue.courseKeys.map((key) => timetable.courses["$key"]).whereType<SitCourse>().toList();
           return ListTile(
             title: courses.map((course) => course.courseName).join(", ").text(),
+            subtitle: [
+              ...courses.map((course) {
+                final (:begin, :end) = course.calcBeginEndTimePoint();
+                return "${Weekday.fromIndex(course.dayIndex).l10n()} ${begin.l10n(context)}–${end.l10n(context)}".text();
+              }),
+            ].column(caa: CrossAxisAlignment.start),
           );
         }).toList(),
       ),
