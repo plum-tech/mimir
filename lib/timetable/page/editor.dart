@@ -40,11 +40,11 @@ class TimetableEditorPage extends StatefulWidget {
 class _TimetableEditorPageState extends State<TimetableEditorPage> {
   final _formKey = GlobalKey<FormState>();
   late final $name = TextEditingController(text: widget.timetable.name);
-  late final $selectedDate = ValueNotifier(widget.timetable.startDate);
+  late final $startDate = ValueNotifier(widget.timetable.startDate);
   late final $signature = TextEditingController(text: widget.timetable.signature);
   late var courses = Map.of(widget.timetable.courses);
   late var lastCourseKey = widget.timetable.lastCourseKey;
-  var index = 0;
+  var navIndex = 0;
   var anyChanged = false;
 
   void markChanged() => anyChanged |= true;
@@ -57,8 +57,8 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
         setState(() => markChanged());
       }
     });
-    $selectedDate.addListener(() {
-      if ($selectedDate.value != widget.timetable.startDate) {
+    $startDate.addListener(() {
+      if ($startDate.value != widget.timetable.startDate) {
         setState(() => markChanged());
       }
     });
@@ -72,7 +72,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
   @override
   void dispose() {
     $name.dispose();
-    $selectedDate.dispose();
+    $startDate.dispose();
     $signature.dispose();
     super.dispose();
   }
@@ -98,11 +98,11 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
                 ),
               ],
             ),
-            if (index == 0) ...buildInfoTab() else ...buildAdvancedTab(),
+            if (navIndex == 0) ...buildInfoTab() else ...buildAdvancedTab(),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: index,
+          currentIndex: navIndex,
           items: [
             BottomNavigationBarItem(
               icon: const Icon(Icons.info_outline),
@@ -117,7 +117,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
           ],
           onTap: (newIndex) {
             setState(() {
-              index = newIndex;
+              navIndex = newIndex;
             });
           },
         ),
@@ -126,8 +126,8 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
   }
 
   List<Widget> buildInfoTab() {
-    final issues = widget.timetable.inspect();
     final timetable = buildTimetable();
+    final issues = timetable.inspect();
     return [
       SliverList.list(children: [
         buildDescForm(),
@@ -138,7 +138,13 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
             leading: Icon(context.icons.warning),
             title: "Issues".text(),
           ),
-          ...issues.build(context, timetable),
+          ...issues.build(
+            context: context,
+            timetable: timetable,
+            onTimetableChanged: (newTimetable) {
+              setFromTimetable(newTimetable);
+            },
+          ),
         ],
       ]),
     ];
@@ -241,11 +247,11 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
       leading: const Icon(Icons.alarm),
       title: i18n.startWith.text(),
       trailing: FilledButton(
-        child: $selectedDate >> (ctx, value) => ctx.formatYmdText(value).text(),
+        child: $startDate >> (ctx, value) => ctx.formatYmdText(value).text(),
         onPressed: () async {
-          final date = await _pickTimetableStartDate(context, initial: $selectedDate.value);
+          final date = await _pickTimetableStartDate(context, initial: $startDate.value);
           if (date != null) {
-            $selectedDate.value = DateTime(date.year, date.month, date.day);
+            $startDate.value = DateTime(date.year, date.month, date.day);
           }
         },
       ),
@@ -271,11 +277,22 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
     return widget.timetable.copyWith(
       name: $name.text,
       signature: signature,
-      startDate: $selectedDate.value,
+      startDate: $startDate.value,
       courses: courses,
       lastCourseKey: lastCourseKey,
       lastModified: DateTime.now(),
     );
+  }
+
+  void setFromTimetable(SitTimetable timetable) {
+    setState(() {
+      $name.text = timetable.name;
+      $startDate.value = timetable.startDate;
+      $signature.text = timetable.signature;
+      courses = Map.of(timetable.courses);
+      lastCourseKey = timetable.lastCourseKey;
+    });
+    markChanged();
   }
 
   void onSave() {

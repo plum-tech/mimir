@@ -10,7 +10,11 @@ import '../page/course_editor.dart';
 import '../i18n.dart';
 
 extension TimetableIssuesX on List<TimetableIssue> {
-  List<Widget> build(BuildContext context, SitTimetable timetable) {
+  List<Widget> build({
+    required BuildContext context,
+    required SitTimetable timetable,
+    required ValueChanged<SitTimetable> onTimetableChanged,
+  }) {
     final emptyIssues = whereType<TimetableEmptyIssue>().toList();
     final cbeIssues = whereType<TimetableCbeIssue>().toList();
     final courseOverlapIssues = whereType<TimetableCourseOverlapIssue>().toList();
@@ -23,11 +27,13 @@ extension TimetableIssuesX on List<TimetableIssue> {
         TimetableCbeIssueWidget(
           issues: cbeIssues,
           timetable: timetable,
+          onTimetableChanged: onTimetableChanged,
         ),
       if (courseOverlapIssues.isNotEmpty)
         TimetableCourseOverlapIssueWidget(
           issues: courseOverlapIssues,
           timetable: timetable,
+          onTimetableChanged: onTimetableChanged,
         ),
     ];
   }
@@ -61,11 +67,13 @@ class _TimetableEmptyIssueWidgetState extends State<TimetableEmptyIssueWidget> {
 class TimetableCbeIssueWidget extends StatefulWidget {
   final List<TimetableCbeIssue> issues;
   final SitTimetable timetable;
+  final ValueChanged<SitTimetable> onTimetableChanged;
 
   const TimetableCbeIssueWidget({
     super.key,
     required this.issues,
     required this.timetable,
+    required this.onTimetableChanged,
   });
 
   @override
@@ -99,6 +107,11 @@ class _TimetableCbeIssueWidgetState extends State<TimetableCbeIssueWidget> {
                     editable: const SitCourseEditable.only(hidden: true),
                   ),
                 );
+                if (newCourse == null) return;
+                final newTimetable = timetable.copyWith(
+                  courses: Map.of(timetable.courses)..["${newCourse.courseKey}"] = newCourse,
+                );
+                widget.onTimetableChanged(newTimetable);
               },
             ),
           );
@@ -111,11 +124,13 @@ class _TimetableCbeIssueWidgetState extends State<TimetableCbeIssueWidget> {
 class TimetableCourseOverlapIssueWidget extends StatefulWidget {
   final List<TimetableCourseOverlapIssue> issues;
   final SitTimetable timetable;
+  final ValueChanged<SitTimetable> onTimetableChanged;
 
   const TimetableCourseOverlapIssueWidget({
     super.key,
     required this.issues,
     required this.timetable,
+    required this.onTimetableChanged,
   });
 
   @override
