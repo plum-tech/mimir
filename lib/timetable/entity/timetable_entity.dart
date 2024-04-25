@@ -202,6 +202,7 @@ extension SitTimetable4EntityX on SitTimetable {
     final weeks = List.generate(20, (index) => SitTimetableWeek.$7days(index));
 
     for (final course in courses.values) {
+      if (course.hidden) continue;
       final timeslots = course.timeslots;
       for (final weekIndex in course.weekIndices.getWeekIndices()) {
         assert(
