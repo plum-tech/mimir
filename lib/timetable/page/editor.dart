@@ -15,6 +15,7 @@ import 'package:sit/l10n/time.dart';
 import 'package:sit/school/widgets/course.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:sit/timetable/entity/timetable_issue.dart';
 import 'package:sit/utils/save.dart';
 
 import '../entity/timetable.dart';
@@ -124,11 +125,22 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
   }
 
   List<Widget> buildInfoTab() {
+    final issues = widget.timetable.inspect();
+    final timetable = buildTimetable();
     return [
       SliverList.list(children: [
         buildDescForm(),
         buildStartDate(),
         buildSignature(),
+        if (Dev.on)
+          ListTile(
+            title: "Issues".text(),
+          ),
+        if (Dev.on)
+          ...issues.map((issue) => issue.build(
+                context,
+                timetable,
+              )),
       ]),
     ];
   }
@@ -347,7 +359,8 @@ class TimetableEditableCourseCard extends StatelessWidget {
       rotateTrailing: false,
       title: template.courseName.text(style: templateStyle),
       subtitle: [
-        if (template.courseCode.isNotEmpty) "${i18n.course.courseCode} ${template.courseCode}".text(style: templateStyle),
+        if (template.courseCode.isNotEmpty)
+          "${i18n.course.courseCode} ${template.courseCode}".text(style: templateStyle),
         if (template.classCode.isNotEmpty) "${i18n.course.classCode} ${template.classCode}".text(style: templateStyle),
       ].column(caa: CrossAxisAlignment.start),
       trailing: [
