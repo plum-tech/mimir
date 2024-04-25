@@ -8,6 +8,7 @@ import 'package:sit/design/adaptive/swipe.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:sit/utils/save.dart';
 
 import '../entity/timetable.dart';
 import '../i18n.dart';
@@ -122,6 +123,29 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
   late var hidden = widget.course?.hidden ?? false;
   late var dayIndex = widget.course?.dayIndex ?? 0;
   late var teachers = List.of(widget.course?.teachers ?? <String>[]);
+  var anyChanged = false;
+
+  void markChanged() => anyChanged |= true;
+
+  @override
+  void initState() {
+    super.initState();
+    $courseName.addListener(() {
+      if ($courseName.text != widget.course?.courseName) {
+        setState(() => markChanged());
+      }
+    });
+    $courseCode.addListener(() {
+      if ($courseCode.text != widget.course?.courseCode) {
+        setState(() => markChanged());
+      }
+    });
+    $classCode.addListener(() {
+      if ($classCode.text != widget.course?.classCode) {
+        setState(() => markChanged());
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -134,60 +158,64 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
 
   @override
   Widget build(BuildContext context) {
-    final editable= widget.editable;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar.medium(
-            title: widget.title?.text(),
-            actions: [
-              PlatformTextButton(
-                onPressed: onSave,
-                child: i18n.done.text(),
-              ),
-            ],
-          ),
-          SliverList.list(children: [
-            buildTextField(
-              controller: $courseName,
-              title: i18n.course.courseName,
-              readonly: !editable.courseName,
+    final editable = widget.editable;
+    return PromptSaveBeforeQuitScope(
+      canSave: anyChanged,
+      onSave: onSave,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar.medium(
+              title: widget.title?.text(),
+              actions: [
+                PlatformTextButton(
+                  onPressed: onSave,
+                  child: i18n.done.text(),
+                ),
+              ],
             ),
-            buildTextField(
-              controller: $courseCode,
-              title: i18n.course.courseCode,
-              readonly: !editable.courseName,
-            ),
-            buildTextField(
-              controller: $classCode,
-              title: i18n.course.classCode,
-              readonly: !editable.courseName,
-            ),
-            if (editable.place)
+            SliverList.list(children: [
               buildTextField(
-                title: i18n.course.place,
-                controller: $place,
+                controller: $courseName,
+                title: i18n.course.courseName,
+                readonly: !editable.courseName,
               ),
-            if (editable.hidden) buildHidden(),
-            if (editable.dayIndex)
-              buildWeekdays().inCard(
-                clip: Clip.hardEdge,
+              buildTextField(
+                controller: $courseCode,
+                title: i18n.course.courseCode,
+                readonly: !editable.courseName,
               ),
-            if (editable.timeslots)
-              buildTimeslots().inCard(
-                clip: Clip.hardEdge,
+              buildTextField(
+                controller: $classCode,
+                title: i18n.course.classCode,
+                readonly: !editable.courseName,
               ),
-            if (editable.weekIndices)
-              buildRepeating().inCard(
-                clip: Clip.hardEdge,
-              ),
-            if (editable.teachers)
-              buildTeachers().inCard(
-                clip: Clip.hardEdge,
-              ),
-          ]),
-        ],
+              if (editable.place)
+                buildTextField(
+                  title: i18n.course.place,
+                  controller: $place,
+                ),
+              if (editable.hidden) buildHidden(),
+              if (editable.dayIndex)
+                buildWeekdays().inCard(
+                  clip: Clip.hardEdge,
+                ),
+              if (editable.timeslots)
+                buildTimeslots().inCard(
+                  clip: Clip.hardEdge,
+                ),
+              if (editable.weekIndices)
+                buildRepeating().inCard(
+                  clip: Clip.hardEdge,
+                ),
+              if (editable.teachers)
+                buildTeachers().inCard(
+                  clip: Clip.hardEdge,
+                ),
+            ]),
+          ],
+        ),
       ),
     );
   }
@@ -206,6 +234,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
               setState(() {
                 dayIndex = w.index;
               });
+              markChanged();
             },
           ),
         ),
@@ -236,6 +265,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
               setState(() {
                 timeslots = (start: newStart, end: newEnd);
               });
+              markChanged();
             }
           },
         ).expanded(),
@@ -256,6 +286,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
             setState(() {
               weekIndices = TimetableWeekIndices(newIndices);
             });
+            markChanged();
           },
         ),
       ),
@@ -269,6 +300,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
             setState(() {
               weekIndices = TimetableWeekIndices(newIndices);
             });
+            markChanged();
           },
           onDeleted: () {
             setState(() {
@@ -276,6 +308,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
                 List.of(weekIndices.indices)..removeAt(i),
               );
             });
+            markChanged();
           },
         );
       })
@@ -299,6 +332,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
             setState(() {
               teachers.add(newTeacher);
             });
+            markChanged();
           }
         },
       ),
@@ -309,6 +343,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
                 setState(() {
                   teachers.remove(teacher);
                 });
+                markChanged();
               },
             )),
       ].wrap(spacing: 4),
@@ -324,6 +359,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
           setState(() {
             hidden = !newV;
           });
+          markChanged();
         },
       ),
     );

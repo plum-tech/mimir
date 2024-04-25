@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/utils/save.dart';
 
 import '../entity/patch.dart';
 import '../i18n.dart';
@@ -21,54 +22,60 @@ class TimetablePatchEditorPage extends StatefulWidget {
 class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
   late var patches = List.of(widget.patches);
   var navIndex = 0;
+  var anyChanged = false;
 
+  void markChanged() => anyChanged |= true;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar.medium(
-            title: "Timetable patch".text(),
-            actions: [
-              PlatformTextButton(
-                onPressed: onSave,
-                child: i18n.save.text(),
-              ),
-            ],
-          ),
-          SliverList.list(children: [
-            buildAddPatchTile(),
-            const Divider(),
-          ]),
-          SliverList.builder(
-            itemCount: patches.length,
-            itemBuilder: (ctx, i) {
-              final patch = patches[i];
-              return patch.build(context);
-            },
-          ),
-        ],
-      ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: navIndex,
-        onDestinationSelected: (newIndex) {
-          setState(() {
-            navIndex = newIndex;
-          });
-        },
-        destinations: [
-          NavigationDestination(
-            icon: const Icon(Icons.dashboard_customize_outlined),
-            selectedIcon: const Icon(Icons.dashboard_customize),
-            label: "Patch",
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.browse_gallery_outlined),
-            selectedIcon: const Icon(Icons.browse_gallery),
-            label: "Gallery",
-          ),
-        ],
+    return PromptSaveBeforeQuitScope(
+      canSave: anyChanged,
+      onSave: onSave,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar.medium(
+              title: "Timetable patch".text(),
+              actions: [
+                PlatformTextButton(
+                  onPressed: onSave,
+                  child: i18n.save.text(),
+                ),
+              ],
+            ),
+            SliverList.list(children: [
+              buildAddPatchTile(),
+              const Divider(),
+            ]),
+            SliverList.builder(
+              itemCount: patches.length,
+              itemBuilder: (ctx, i) {
+                final patch = patches[i];
+                return patch.build(context);
+              },
+            ),
+          ],
+        ),
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: navIndex,
+          onDestinationSelected: (newIndex) {
+            setState(() {
+              navIndex = newIndex;
+            });
+          },
+          destinations: [
+            NavigationDestination(
+              icon: const Icon(Icons.dashboard_customize_outlined),
+              selectedIcon: const Icon(Icons.dashboard_customize),
+              label: "Patch",
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.browse_gallery_outlined),
+              selectedIcon: const Icon(Icons.browse_gallery),
+              label: "Gallery",
+            ),
+          ],
+        ),
       ),
     );
   }
