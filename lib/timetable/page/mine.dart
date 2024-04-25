@@ -394,8 +394,8 @@ class TimetableDetailsPage extends ConsumerWidget {
               title: i18n.signature.text(),
               subtitle: timetable.signature.text(),
             ),
-            const Divider(),
           ]),
+          if (code2Courses.isNotEmpty) const SliverToBoxAdapter(child: Divider()),
           SliverList.builder(
             itemCount: code2Courses.length,
             itemBuilder: (ctx, i) {

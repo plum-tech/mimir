@@ -15,7 +15,7 @@ import 'package:sit/l10n/time.dart';
 import 'package:sit/school/widgets/course.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/timetable/entity/timetable_issue.dart';
+import 'package:sit/timetable/entity/issue.dart';
 import 'package:sit/timetable/widgets/issue.dart';
 import 'package:sit/utils/save.dart';
 

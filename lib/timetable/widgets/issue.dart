@@ -6,7 +6,7 @@ import 'package:sit/design/widgets/expansion_tile.dart';
 import 'package:sit/l10n/time.dart';
 
 import '../entity/timetable.dart';
-import '../entity/timetable_issue.dart';
+import '../entity/issue.dart';
 import '../page/course_editor.dart';
 import '../i18n.dart';
 

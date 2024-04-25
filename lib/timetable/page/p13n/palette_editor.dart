@@ -110,7 +110,7 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
                           },
                         ),
                       PlatformTextButton(
-                        onPressed: anyChanged ? onSave : null,
+                        onPressed: onSave,
                         child: i18n.save.text(),
                       ),
                     ],
