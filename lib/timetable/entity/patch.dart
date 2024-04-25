@@ -1,6 +1,12 @@
-import 'package:flutter/foundation.dart';
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:rettulf/rettulf.dart';
+import 'package:sit/l10n/time.dart';
 import 'package:sit/timetable/entity/pos.dart';
+
+import '../widgets/patch/remove_day.dart';
 
 part "patch.g.dart";
 
@@ -12,11 +18,17 @@ enum TimetablePatchType {
   // swapLesson,
   // moveLesson,
   // addDay,
-  removeDay,
-  copyDay,
-  swapDay,
-  moveDay,
+  moveDay(TimetableMoveDayPatch.onCreate),
+  removeDay(TimetableRemoveDayPatch.onCreate),
+  copyDay(TimetableCopyDayPatch.onCreate),
+  swapDay(TimetableSwapDayPatch.onCreate),
   ;
+
+  final FutureOr<TimetablePatch?> Function(BuildContext context) onCreate;
+
+  const TimetablePatchType(this.onCreate);
+
+  String l10n() => name;
 }
 
 /// To opt-in [JsonSerializable], please specify `toJson` parameter to [TimetablePatch.toJson].
@@ -45,6 +57,8 @@ sealed class TimetablePatch {
   Map<String, dynamic> toJson() => _toJsonImpl()..["type"] = _$TimetablePatchTypeEnumMap[type];
 
   Map<String, dynamic> _toJsonImpl();
+
+  Widget build(BuildContext context);
 }
 //
 // @JsonSerializable()
@@ -101,6 +115,15 @@ class TimetableRemoveDayPatch extends TimetablePatch {
 
   @override
   Map<String, dynamic> _toJsonImpl() => _$TimetableRemoveDayPatchToJson(this);
+
+  @override
+  Widget build(BuildContext context) {
+    return TimetableRemoveDayPatchWidget(patch: this);
+  }
+
+  static Future<TimetableRemoveDayPatch?> onCreate(BuildContext context) async {
+    return TimetableRemoveDayPatch(pos: TimetablePos(weekIndex: 0, weekday: Weekday.monday));
+  }
 }
 
 @JsonSerializable()
@@ -114,6 +137,17 @@ class TimetableMoveDayPatch extends TimetablePatch {
 
   @override
   Map<String, dynamic> _toJsonImpl() => _$TimetableMoveDayPatchToJson(this);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card.filled(
+      child: ListTile(
+        title: "Move day".text(),
+      ),
+    );
+  }
+
+  static Future<TimetableMoveDayPatch?> onCreate(BuildContext context) async {}
 }
 
 @JsonSerializable()
@@ -127,6 +161,17 @@ class TimetableSwapDayPatch extends TimetablePatch {
 
   @override
   Map<String, dynamic> _toJsonImpl() => _$TimetableSwapDayPatchToJson(this);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card.filled(
+      child: ListTile(
+        title: "Swap day".text(),
+      ),
+    );
+  }
+
+  static Future<TimetableSwapDayPatch?> onCreate(BuildContext context) async {}
 }
 
 @JsonSerializable()
@@ -140,6 +185,17 @@ class TimetableCopyDayPatch extends TimetablePatch {
 
   @override
   Map<String, dynamic> _toJsonImpl() => _$TimetableCopyDayPatchToJson(this);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card.filled(
+      child: ListTile(
+        title: "Copy day".text(),
+      ),
+    );
+  }
+
+  static Future<TimetableCopyDayPatch?> onCreate(BuildContext context) async {}
 }
 
 // factory .fromJson(Map<String, dynamic> json) => _$FromJson(json);
