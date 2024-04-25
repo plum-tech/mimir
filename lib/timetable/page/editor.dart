@@ -136,7 +136,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
         if (issues.isNotEmpty) ...[
           ListTile(
             leading: Icon(context.icons.warning),
-            title: "Issues".text(),
+            title: i18n.issue.title.text(),
           ),
           ...issues.build(
             context: context,

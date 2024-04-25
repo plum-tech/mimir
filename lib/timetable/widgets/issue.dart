@@ -58,8 +58,8 @@ class _TimetableEmptyIssueWidgetState extends State<TimetableEmptyIssueWidget> {
     return Card.outlined(
       clipBehavior: Clip.hardEdge,
       child: ListTile(
-        title: "Empty timetable detected".text(),
-        subtitle: "Your timetable is empty. Make sure you have not imported a wrong one.".text(),
+        title: i18n.issue.emptyIssue.text(),
+        subtitle: i18n.issue.emptyIssueDesc.text(),
       ),
     );
   }
@@ -89,8 +89,8 @@ class _TimetableCbeIssueWidgetState extends State<TimetableCbeIssueWidget> {
       clipBehavior: Clip.hardEdge,
       child: AnimatedExpansionTile(
         initiallyExpanded: true,
-        title: "CBE course detected".text(),
-        subtitle: "Solution: CBE course could be hidden".text(),
+        title: i18n.issue.cbeCourseIssue.text(),
+        subtitle: i18n.issue.cbeCourseIssueDesc.text(),
         children: widget.issues.map((issue) {
           final course = timetable.courses["${issue.courseKey}"]!;
           return ListTile(
@@ -99,7 +99,7 @@ class _TimetableCbeIssueWidgetState extends State<TimetableCbeIssueWidget> {
               course.place.text(),
             ].column(caa: CrossAxisAlignment.start),
             trailing: PlatformTextButton(
-              child: "Resolve".text(),
+              child: i18n.issue.resolve.text(),
               onPressed: () async {
                 final newCourse = await context.show$Sheet$<SitCourse>(
                   (ctx) => SitCourseEditorPage(
@@ -146,8 +146,8 @@ class _TimetableCourseOverlapIssueWidgetState extends State<TimetableCourseOverl
       clipBehavior: Clip.hardEdge,
       child: AnimatedExpansionTile(
         initiallyExpanded: true,
-        title: "Overlap courses detected".text(),
-        subtitle: "You can hide one of them".text(),
+        title: i18n.issue.courseOverlapsIssue.text(),
+        subtitle: i18n.issue.courseOverlapsIssueDesc.text(),
         children: widget.issues.map((issue) {
           final courses = issue.courseKeys.map((key) => timetable.courses["$key"]).whereType<SitCourse>().toList();
           return ListTile(
@@ -155,7 +155,8 @@ class _TimetableCourseOverlapIssueWidgetState extends State<TimetableCourseOverl
             subtitle: [
               ...courses.map((course) {
                 final (:begin, :end) = course.calcBeginEndTimePoint();
-                return "${Weekday.fromIndex(course.dayIndex).l10n()} ${begin.l10n(context)}–${end.l10n(context)}".text();
+                return "${Weekday.fromIndex(course.dayIndex).l10n()} ${begin.l10n(context)}–${end.l10n(context)}"
+                    .text();
               }),
             ].column(caa: CrossAxisAlignment.start),
           );

@@ -32,6 +32,18 @@ timetable:
     timeslots:
       single: "Lesson {}"
       multiple: "From lesson {from} to {to}"
+  issue:
+    title: Timetable issues
+    resolve: Resolve
+    emptyIssue:
+      title: Timetable is empty
+      desc: Check if you imported the correct one.
+    cbeCourseIssue:
+      title: Credit by Exam (CBE) courses found
+      desc: You can hide CBE courses
+    courseOverlapsIssue:
+      title: Overlapping courses found
+      desc: You can hide one of them to avoid conflicts
   import:
     title: Import timetable
     import: Import

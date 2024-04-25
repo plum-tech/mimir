@@ -32,6 +32,18 @@ timetable:
     timeslots:
       single: "第 {} 節"
       multiple: "從第 {from} 節到第 {to} 節"
+  issue:
+    title: 課表問題
+    resolve: 解決
+    emptyIssue:
+      title: 課表為空
+      desc: 檢查您是否導入了正確的課表
+    cbeCourseIssue:
+      title: 發現學分抵免 (CBE) 課程
+      desc: 您可以在課表中隱藏 CBE 課程
+    courseOverlapsIssue:
+      title: 發現課程時間衝突
+      desc: 您可以隱藏其中一個課程以避免衝突
   import:
     title: 匯入課程表
     import: 匯入

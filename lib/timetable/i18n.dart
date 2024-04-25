@@ -12,10 +12,11 @@ class _I18n with CommonI18nMixin {
   final mine = const _Mine();
   final p13n = const _P13n();
   final import = const _Import();
-  final course = const CourseI18n();
   final export = const _Export();
+  final course = const CourseI18n();
   final screenshot = const _Screenshot();
   final editor = const _Editor();
+  final issue = const _Issue();
   final freeTip = const _FreeTip();
   final campus = const CampusI10n();
   final settings = const _Settings();
@@ -270,6 +271,28 @@ class _Editor {
       });
 
   String timeslotsSpanSingle(String at) => "$ns.timeslots.single".tr(args: [at]);
+}
+
+class _Issue {
+  const _Issue();
+
+  static const ns = "${_I18n.ns}.issue";
+
+  String get title => "$ns.title".tr();
+
+  String get resolve => "$ns.resolve".tr();
+
+  String get emptyIssue => "$ns.emptyIssue.title".tr();
+
+  String get emptyIssueDesc => "$ns.emptyIssue.desc".tr();
+
+  String get cbeCourseIssue => "$ns.cbeCourseIssue.title".tr();
+
+  String get cbeCourseIssueDesc => "$ns.cbeCourseIssue.desc".tr();
+
+  String get courseOverlapsIssue => "$ns.courseOverlapsIssue.title".tr();
+
+  String get courseOverlapsIssueDesc => "$ns.courseOverlapsIssue.desc".tr();
 }
 
 class _Export {

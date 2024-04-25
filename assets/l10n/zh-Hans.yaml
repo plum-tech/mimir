@@ -32,6 +32,18 @@ timetable:
     timeslots:
       single: "第 {} 节"
       multiple: "从第 {from} 节到第 {to} 节"
+  issue:
+    title: 课程表问题
+    resolve: 解决
+    emptyIssue:
+      title: 课表为空
+      desc: 检查您是否导入了正确的课表
+    cbeCourseIssue:
+      title: 发现免听课程
+      desc: 您可以在课表中隐藏免听课程
+    courseOverlapsIssue:
+      title: 发现课程时间冲突
+      desc: 您可以隐藏其中一个课程以避免冲突
   import:
     title: 导入课程表
     import: 导入
