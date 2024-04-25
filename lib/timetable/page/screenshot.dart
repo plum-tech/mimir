@@ -11,7 +11,7 @@ import 'package:sit/settings/settings.dart';
 
 import "../i18n.dart";
 import '../widgets/style.dart';
-import '../widgets/timetable/board.dart';
+import '../widgets/timetable/background.dart';
 import '../widgets/timetable/weekly.dart';
 import '../entity/timetable_entity.dart';
 

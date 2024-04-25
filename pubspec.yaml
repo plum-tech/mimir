@@ -110,6 +110,7 @@ dependencies:
   fl_chart: ^0.67.0
   flutter_svg: ^2.0.10+1
   flutter_svg_provider: ^1.0.7
+  visibility_detector: ^0.4.0+2
   # Screen adaptation
   flutter_adaptive_ui: ^0.8.0+1
   # Qr code generate
