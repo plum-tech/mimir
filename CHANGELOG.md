@@ -1,4 +1,4 @@
-# Changes
+# Changelog
 
 ## v2.4.0
 - Redesigned the expense statistics page.
@@ -6,8 +6,15 @@
 - Changed duration of skipping update up to 7 days.
 - Changed web icons.
 - Timetable wallpaper support on web.
+- Fixed: Gif image not working in timetable wallpaper
 - Allowed to join QQ group on desktop and web.
 - [Demo mode] Attended activity mock service in class 2nd.
+- Timetable issue inspection.
+- Prompt user to save changes before quit.
+- Timetable courses can be hidden now.
+- Toggle haptic feedback in game settings.
+- Toggle quick look lesson on tap feature in timetable settings.
+- Improved zh-Hans and zh-Hant localization.
 
 ## v2.3.0
 - The 2048 game supports save/load feature.
