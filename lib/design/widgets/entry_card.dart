@@ -9,6 +9,7 @@ import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/card.dart';
 import 'package:super_context_menu/super_context_menu.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 enum EntryActionType {
   edit,
@@ -160,7 +161,7 @@ class EntryCard extends StatelessWidget {
       );
     }
 
-    final body = InkWell(
+    return InkWell(
       child: [
         itemBuilder(context),
         OverflowBar(
@@ -174,14 +175,10 @@ class EntryCard extends StatelessWidget {
       onTap: () async {
         await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions));
       },
+    ).inAnyCard(
+      type: selected ? CardVariant.filled : CardVariant.outlined,
+      clip: Clip.hardEdge,
     );
-    return selected
-        ? body.inFilledCard(
-            clip: Clip.hardEdge,
-          )
-        : body.inOutlinedCard(
-            clip: Clip.hardEdge,
-          );
   }
 
   Widget buildCardWithContextMenu(BuildContext context) {
@@ -213,27 +210,41 @@ class EntryCard extends StatelessWidget {
     BuildContext context, {
     required EntrySelectAction? selectAction,
   }) {
-    return InkWell(
-      onTap: () async {
-        await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions));
-      },
-      child: [
-        itemBuilder(context),
-        OverflowBar(
-          alignment: MainAxisAlignment.end,
-          children: [
-            if (selectAction != null)
-              CupertinoButton(
-                padding: EdgeInsets.zero,
-                onPressed: selected ? null : selectAction.action,
-                child: selected
-                    ? Icon(context.icons.checkMark, color: context.colorScheme.primary)
-                    : Icon(context.icons.checkBoxBlankOutlineRounded),
-              ),
-          ],
-        ),
-      ].column(caa: CrossAxisAlignment.start).padOnly(t: 12, l: 12, r: 8, b: 4),
-    ).inAnyCard(type: selected ? CardVariant.filled : CardVariant.outlined);
+    Widget widget = [
+      itemBuilder(context),
+      OverflowBar(
+        alignment: MainAxisAlignment.end,
+        children: [
+          if (selectAction != null)
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              onPressed: selected ? null : selectAction.action,
+              child: selected
+                  ? Icon(context.icons.checkMark, color: context.colorScheme.primary)
+                  : Icon(context.icons.checkBoxBlankOutlineRounded),
+            ),
+        ],
+      ),
+    ].column(caa: CrossAxisAlignment.start).padOnly(t: 12, l: 12, r: 8, b: 4);
+    if (UniversalPlatform.isIOS) {
+      widget = GestureDetector(
+        onTap: () async {
+          await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions));
+        },
+        child: widget,
+      );
+    } else {
+      widget = InkWell(
+        onTap: () async {
+          await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions));
+        },
+        child: widget,
+      );
+    }
+    return widget.inAnyCard(
+      type: selected ? CardVariant.filled : CardVariant.outlined,
+      clip: Clip.hardEdge,
+    );
   }
 
   List<MenuAction> buildMenuActions(
