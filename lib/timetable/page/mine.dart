@@ -14,6 +14,7 @@ import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/route.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/patch.dart';
 import 'package:sit/timetable/page/ical.dart';
@@ -289,17 +290,18 @@ class TimetableCard extends StatelessWidget {
             await onExportCalendar(ctx, timetable);
           },
         ),
-        EntryAction(
-          label: "Patch",
-          icon: Icons.auto_fix_high,
-          action: () async {
-            var patches = await ctx.push<List<TimetablePatch>>("/timetable/$id/edit/patch");
-            if (patches == null) return;
-            TimetableInit.storage.timetable[id] = timetable.copyWith(
-              patches: patches,
-            );
-          },
-        ),
+        if (Dev.on)
+          EntryAction(
+            label: "Patch",
+            icon: Icons.auto_fix_high,
+            action: () async {
+              var patches = await ctx.push<List<TimetablePatch>>("/timetable/$id/edit/patch");
+              if (patches == null) return;
+              TimetableInit.storage.timetable[id] = timetable.copyWith(
+                patches: patches,
+              );
+            },
+          ),
 
         EntryAction(
           label: i18n.duplicate,

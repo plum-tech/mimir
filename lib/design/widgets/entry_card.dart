@@ -213,32 +213,27 @@ class EntryCard extends StatelessWidget {
     BuildContext context, {
     required EntrySelectAction? selectAction,
   }) {
-    Widget body = [
-      itemBuilder(context),
-      OverflowBar(
-        alignment: MainAxisAlignment.end,
-        children: [
-          if (selectAction != null)
-            CupertinoButton(
-              padding: EdgeInsets.zero,
-              onPressed: selected ? null : selectAction.action,
-              child: selected
-                  ? Icon(context.icons.checkMark, color: context.colorScheme.primary)
-                  : Icon(context.icons.checkBoxBlankOutlineRounded),
-            ),
-        ],
-      ),
-    ].column(caa: CrossAxisAlignment.start).padOnly(t: 12, l: 12, r: 8, b: 4);
-    final widget = selected
-        ? body.inFilledCard(
-            clip: Clip.hardEdge,
-          )
-        : body.inOutlinedCard(
-            clip: Clip.hardEdge,
-          );
-    return widget.onTap(() async {
-      await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions));
-    });
+    return InkWell(
+      onTap: () async {
+        await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions));
+      },
+      child: [
+        itemBuilder(context),
+        OverflowBar(
+          alignment: MainAxisAlignment.end,
+          children: [
+            if (selectAction != null)
+              CupertinoButton(
+                padding: EdgeInsets.zero,
+                onPressed: selected ? null : selectAction.action,
+                child: selected
+                    ? Icon(context.icons.checkMark, color: context.colorScheme.primary)
+                    : Icon(context.icons.checkBoxBlankOutlineRounded),
+              ),
+          ],
+        ),
+      ].column(caa: CrossAxisAlignment.start).padOnly(t: 12, l: 12, r: 8, b: 4),
+    ).inAnyCard(type: selected ? CardVariant.filled : CardVariant.outlined);
   }
 
   List<MenuAction> buildMenuActions(
