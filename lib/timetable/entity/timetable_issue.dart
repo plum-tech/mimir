@@ -9,6 +9,22 @@ class TimetableEmptyIssue implements TimetableIssue {
   const TimetableEmptyIssue();
 }
 
+/// Credit by Examination
+class TimetableCbeIssue implements TimetableIssue {
+  final int courseKey;
+
+  const TimetableCbeIssue({
+    required this.courseKey,
+  });
+
+  static bool detectCbe(SitCourse course) {
+    if (course.courseName.contains("自修")) {
+      return true;
+    }
+    return false;
+  }
+}
+
 class TimetableCourseOverlapIssue implements TimetableIssue {
   final List<String> courseKeys;
   final int weekIndex;
@@ -31,10 +47,20 @@ class TimetableDuplicateCourseOverlapIssue implements TimetableIssue {
 extension SitTimetable4IssueX on SitTimetable {
   List<TimetableIssue> inspect() {
     final issues = <TimetableIssue>[];
-    // check if
+    // check if empty
     if (courses.isEmpty) {
       issues.add(const TimetableEmptyIssue());
     }
+
+    // check if any cbe
+    for (final course in courses.values) {
+      if (TimetableCbeIssue.detectCbe(course)) {
+        issues.add(TimetableCbeIssue(
+          courseKey: course.courseKey,
+        ));
+      }
+    }
+
     // TODO: finish overlap issue inspection
     final entity = resolve();
     for (final week in entity.weeks) {
