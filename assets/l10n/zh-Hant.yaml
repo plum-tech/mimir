@@ -195,7 +195,7 @@ timetable:
       desc: 課程表的背景
     quickLookLessonOnTap:
       title: 點擊快速檢視一節課
-      desc: 長按查看週課表中完整課程
+      desc: 長按查看週課程表中完整課程
 school:
   navigation: 學校
   semester:
@@ -208,6 +208,7 @@ school:
     classCode: 班级
     courseCode: 课程代码
     place: 地點
+    displayable: 在課程表中顯示
     teacher: 教師
     credit: 學分
     semester: 學期

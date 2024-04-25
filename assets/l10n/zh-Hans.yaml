@@ -194,7 +194,7 @@ timetable:
       desc: 课程表的背景
     quickLookLessonOnTap:
       title: 点击快速查看一节课
-      desc: 在周课表中长按查看完整课程
+      desc: 在周课程表中长按查看完整课程
 school:
   navigation: 学校
   semester:
@@ -207,6 +207,7 @@ school:
     classCode: 教学班
     courseCode: 课程代码
     place: 地点
+    displayable: 在课程表中显示
     semester: 学期
     schoolYear: 学年
     credit: 学分

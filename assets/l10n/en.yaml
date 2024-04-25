@@ -207,6 +207,7 @@ school:
     classCode: Class code
     courseCode: Course code
     place: Place
+    displayable: Display in timetable
     semester: Semester
     schoolYear: School year
     category: Course category

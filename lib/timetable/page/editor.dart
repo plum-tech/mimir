@@ -390,6 +390,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
                   ),
             child: ListTile(
               isThreeLine: true,
+              enabled: !course.hidden,
               leading: Dev.on ? "${course.courseKey}".text() : null,
               title: course.place.text(),
               subtitle: [
@@ -510,6 +511,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
   late var weekIndices = widget.course?.weekIndices ?? const TimetableWeekIndices([]);
   late var timeslots = widget.course?.timeslots ?? (start: 0, end: 0);
   late var courseCredit = widget.course?.courseCredit ?? 0.0;
+  late var hidden = widget.course?.hidden ?? false;
   late var dayIndex = widget.course?.dayIndex ?? 0;
   late var teachers = List.of(widget.course?.teachers ?? <String>[]);
 
@@ -558,6 +560,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
                 title: i18n.course.place,
                 controller: $place,
               ),
+            buildHidden(),
             if (widget.dayIndexEditable)
               buildWeekdays().inCard(
                 clip: Clip.hardEdge,
@@ -700,6 +703,20 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
               },
             )),
       ].wrap(spacing: 4),
+    );
+  }
+
+  Widget buildHidden() {
+    return ListTile(
+      title: "Display in timetable".text(),
+      trailing: Switch.adaptive(
+        value: !hidden,
+        onChanged: (newV) {
+          setState(() {
+            hidden = !newV;
+          });
+        },
+      ),
     );
   }
 
