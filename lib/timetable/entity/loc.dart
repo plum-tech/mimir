@@ -6,8 +6,18 @@ import 'timetable_entity.dart';
 
 part "loc.g.dart";
 
+@JsonEnum()
+enum TimetableDayLocMode {
+  pos,
+  date,
+  ;
+}
+
 @JsonSerializable(ignoreUnannotated: true)
-class TimetableLoc implements TimetablePos {
+class TimetableDayLoc implements TimetablePos {
+  @JsonKey()
+  final TimetableDayLocMode mode;
+
   /// starts with 0
   @JsonKey(name: "weekIndex", includeIfNull: false)
   final int? weekIndexInternal;
@@ -16,16 +26,31 @@ class TimetableLoc implements TimetablePos {
   @JsonKey(name: "weekday", includeIfNull: false)
   final Weekday? weekdayInternal;
 
-  const TimetableLoc({
+  /// starts with 0
+  @JsonKey(name: "date", includeIfNull: false)
+  final DateTime? dateInternal;
+
+  const TimetableDayLoc({
+    required this.mode,
     required this.weekIndexInternal,
     required this.weekdayInternal,
+    required this.dateInternal,
   });
 
-  const TimetableLoc.pos({
+  const TimetableDayLoc.pos({
     required int weekIndex,
     required Weekday weekday,
   })  : weekdayInternal = weekday,
-        weekIndexInternal = weekIndex;
+        weekIndexInternal = weekIndex,
+        dateInternal = null,
+        mode = TimetableDayLocMode.pos;
+
+  const TimetableDayLoc.date({
+    required DateTime date,
+  })  : weekdayInternal = null,
+        weekIndexInternal = null,
+        dateInternal = date,
+        mode = TimetableDayLocMode.date;
 
   @override
   int get weekIndex => weekIndexInternal!;
@@ -33,31 +58,43 @@ class TimetableLoc implements TimetablePos {
   @override
   Weekday get weekday => weekdayInternal!;
 
-  @override
-  Map<String, dynamic> toJson() => _$TimetableLocToJson(this);
+  DateTime get date => dateInternal!;
 
-  factory TimetableLoc.fromJson(Map<String, dynamic> json) => _$TimetableLocFromJson(json);
+  @override
+  Map<String, dynamic> toJson() => _$TimetableDayLocToJson(this);
+
+  factory TimetableDayLoc.fromJson(Map<String, dynamic> json) => _$TimetableDayLocFromJson(json);
 
   TimetablePos asPos() => TimetablePos(weekIndex: weekIndex, weekday: weekday);
 
   SitTimetableDay? resolveDay(SitTimetableEntity entity) {
-    final day = entity.weeks[weekIndex].days[weekday.index];
-    return day;
+    if (mode == TimetableDayLocMode.pos) {
+      final day = entity.weeks[weekIndex].days[weekday.index];
+      return day;
+    } else {
+      return null;
+    }
   }
 
   @override
   bool operator ==(Object other) {
-    return other is TimetableLoc &&
+    return other is TimetableDayLoc &&
         runtimeType == other.runtimeType &&
+        mode == other.mode &&
+        dateInternal == other.dateInternal &&
         weekIndexInternal == other.weekIndexInternal &&
         weekdayInternal == other.weekdayInternal;
   }
 
   @override
-  int get hashCode => Object.hash(weekIndexInternal, weekdayInternal);
+  int get hashCode => Object.hash(mode, weekIndexInternal, weekdayInternal, dateInternal);
 
   @override
   String toString() {
-    return (week: weekIndexInternal, day: weekdayInternal).toString();
+    return switch (mode) {
+      TimetableDayLocMode.pos => (week: weekIndexInternal, day: weekdayInternal),
+      TimetableDayLocMode.date => date,
+    }
+        .toString();
   }
 }

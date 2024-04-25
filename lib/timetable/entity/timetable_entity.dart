@@ -48,6 +48,23 @@ class SitTimetableEntity with SitTimetablePaletteResolver {
   Semester get semester => type.semester;
 
   String get signature => type.signature;
+
+  SitTimetableDay? getDay(int days){
+    if(days > maxWeekLength * 7){
+
+    }
+  }
+
+  SitTimetableWeek? getWeekAt(DateTime date) {
+    if (startDate.isAfter(date)) return null;
+    final diff = date.difference(startDate);
+    if (diff.inDays > maxWeekLength * 7) return null;
+    final weekIndex = diff.inDays ~/ 7;
+    if (weekIndex >= 0 && weekIndex < weeks.length) {
+      return weeks[weekIndex];
+    }
+    return null;
+  }
 }
 
 class SitTimetableWeek {

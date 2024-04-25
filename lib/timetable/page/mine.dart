@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -302,7 +303,15 @@ class TimetableCard extends StatelessWidget {
               );
             },
           ),
-
+        if (kDebugMode)
+          EntryAction(
+            label: "Copy Dart code",
+            action: () async {
+              final code = timetable.toDartCode();
+              debugPrint(code);
+              await Clipboard.setData(ClipboardData(text: code));
+            },
+          ),
         EntryAction(
           label: i18n.duplicate,
           oneShot: true,

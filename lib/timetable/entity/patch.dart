@@ -106,7 +106,7 @@ class TimetableRemoveDayPatch extends TimetablePatch {
   @override
   TimetablePatchType get type => TimetablePatchType.removeDay;
 
-  final TimetableLoc loc;
+  final TimetableDayLoc loc;
 
   const TimetableRemoveDayPatch({
     required this.loc,
@@ -123,7 +123,7 @@ class TimetableRemoveDayPatch extends TimetablePatch {
   }
 
   static Future<TimetableRemoveDayPatch?> onCreate(BuildContext context) async {
-    return TimetableRemoveDayPatch(loc: TimetableLoc.pos(weekIndex: 0, weekday: Weekday.monday));
+    return TimetableRemoveDayPatch(loc: TimetableDayLoc.pos(weekIndex: 0, weekday: Weekday.monday));
   }
 }
 

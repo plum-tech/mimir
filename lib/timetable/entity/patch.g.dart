@@ -7,7 +7,7 @@ part of 'patch.dart';
 // **************************************************************************
 
 TimetableRemoveDayPatch _$TimetableRemoveDayPatchFromJson(Map<String, dynamic> json) => TimetableRemoveDayPatch(
-      loc: TimetableLoc.fromJson(json['loc'] as Map<String, dynamic>),
+      loc: TimetableDayLoc.fromJson(json['loc'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$TimetableRemoveDayPatchToJson(TimetableRemoveDayPatch instance) => <String, dynamic>{

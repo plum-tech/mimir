@@ -66,6 +66,20 @@ class SitTimetable {
     }.toString();
   }
 
+  String toDartCode() {
+    return "SitTimetable("
+        'name:"$name",'
+        'signature:"$signature",'
+        'startDate:DateTime.parse("$startDate"),'
+        'lastModified:DateTime.now(),'
+        "courses:${courses.map((key, value) => MapEntry('"$key"', value.toDartCode()))},"
+        "schoolYear:$schoolYear,"
+        "semester:$semester,"
+        "lastCourseKey:$lastCourseKey,"
+        "version:$version,"
+        ")";
+  }
+
   factory SitTimetable.fromJson(Map<String, dynamic> json) => _$SitTimetableFromJson(json);
 
   Map<String, dynamic> toJson() => _$SitTimetableToJson(this);
@@ -128,6 +142,23 @@ class SitCourse {
   factory SitCourse.fromJson(Map<String, dynamic> json) => _$SitCourseFromJson(json);
 
   Map<String, dynamic> toJson() => _$SitCourseToJson(this);
+
+  String toDartCode() {
+    return "SitCourse("
+        "courseKey:$courseKey,"
+        'courseName:"$courseName",'
+        'courseCode:"$courseCode",'
+        'classCode:"$classCode",'
+        "campus:$campus,"
+        'place:"$place",'
+        "weekIndices:${weekIndices.toDartCode()},"
+        "timeslots:$timeslots,"
+        "courseCredit:$courseCredit,"
+        "dayIndex:$dayIndex,"
+        "teachers:${teachers.map((t) => '"$t"').toList(growable: false)},"
+        "hidden:$hidden,"
+        ")";
+  }
 }
 
 extension SitCourseEx on SitCourse {
@@ -225,6 +256,13 @@ class TimetableWeekIndex {
     }
   }
 
+  String toDartCode() {
+    return "TimetableWeekIndex("
+        "type:$type,"
+        "range:$range,"
+        ")";
+  }
+
   factory TimetableWeekIndex.fromJson(Map<String, dynamic> json) => _$TimetableWeekIndexFromJson(json);
 
   Map<String, dynamic> toJson() => _$TimetableWeekIndexToJson(this);
@@ -295,6 +333,12 @@ class TimetableWeekIndices {
   factory TimetableWeekIndices.fromJson(Map<String, dynamic> json) => _$TimetableWeekIndicesFromJson(json);
 
   Map<String, dynamic> toJson() => _$TimetableWeekIndicesToJson(this);
+
+  String toDartCode() {
+    return "TimetableWeekIndices("
+        "${indices.map((i) => i.toDartCode()).toList(growable: false)}"
+        ")";
+  }
 }
 
 /// If [range] is "1-8", the output will be `(start:0, end: 7)`.
