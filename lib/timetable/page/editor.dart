@@ -133,11 +133,13 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
         buildDescForm(),
         buildStartDate(),
         buildSignature(),
-        if (Dev.on)
+        if (issues.isNotEmpty) ...[
           ListTile(
+            leading: Icon(context.icons.warning),
             title: "Issues".text(),
           ),
-        if (Dev.on) ...issues.build(context, timetable),
+          ...issues.build(context, timetable),
+        ],
       ]),
     ];
   }

@@ -78,17 +78,20 @@ class _TimetableCbeIssueWidgetState extends State<TimetableCbeIssueWidget> {
       child: AnimatedExpansionTile(
         initiallyExpanded: true,
         title: "CBE course detected".text(),
-        subtitle: "Solution: CBE course can be hidden".text(),
+        subtitle: "Solution: CBE course could be hidden".text(),
         children: widget.issues.map((issue) {
           final course = timetable.courses["${issue.courseKey}"]!;
           return ListTile(
+            title: course.courseName.text(),
             subtitle: [
-              course.courseName.text(),
+
               course.place.text(),
             ].column(caa: CrossAxisAlignment.start),
             trailing: PlatformTextButton(
               child: "Resolve".text(),
-              onPressed: () {},
+              onPressed: () {
+
+              },
             ),
           );
         }).toList(),
@@ -120,10 +123,11 @@ class _TimetableCourseOverlapIssueWidgetState extends State<TimetableCourseOverl
       child: AnimatedExpansionTile(
         initiallyExpanded: true,
         title: "Overlap courses detected".text(),
+        subtitle: "You can hide one of them".text(),
         children: widget.issues.map((issue) {
           final courses = issue.courseKeys.map((key) => timetable.courses["$key"]).whereType<SitCourse>().toList();
           return ListTile(
-            subtitle: courses.map((course) => course.courseName).join(", ").text(),
+            title: courses.map((course) => course.courseName).join(", ").text(),
           );
         }).toList(),
       ),

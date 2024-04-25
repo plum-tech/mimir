@@ -35,4 +35,8 @@ extension PlatformIconsX on PlatformIcons {
   IconData get qrcode => isMaterial(context) ? Icons.qr_code : CupertinoIcons.qrcode;
 
   IconData get preview => isMaterial(context) ? Icons.preview : CupertinoIcons.eye;
+
+  IconData get warningFilled => isMaterial(context) ? Icons.warning : CupertinoIcons.exclamationmark_circle_fill;
+
+  IconData get warning => isMaterial(context) ? Icons.warning_amber : CupertinoIcons.exclamationmark_circle;
 }
