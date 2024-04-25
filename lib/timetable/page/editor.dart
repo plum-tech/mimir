@@ -178,10 +178,12 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
       title: i18n.editor.addCourse.text(),
       trailing: Icon(context.icons.add),
       onTap: () async {
-        final newCourse = await context.show$Sheet$<SitCourse>((ctx) => SitCourseEditorPage(
-              title: i18n.editor.newCourse,
-              course: null,
-            ));
+        final newCourse = await context.show$Sheet$<SitCourse>(
+          (ctx) => SitCourseEditorPage(
+            title: i18n.editor.newCourse,
+            course: null,
+          ),
+        );
         if (newCourse == null) return;
         onCourseAdded(newCourse);
       },
@@ -369,9 +371,10 @@ class TimetableEditableCourseCard extends StatelessWidget {
           onPressed: () async {
             final tempItem = template.createSubItem(courseKey: 0);
             final newItem = await context.show$Sheet$(
-              (context) => SitCourseEditorPage.item(
+              (context) => SitCourseEditorPage(
                 title: i18n.editor.newCourse,
                 course: tempItem,
+                editable: const SitCourseEditable.item(),
               ),
             );
             if (newItem == null) return;
@@ -382,10 +385,13 @@ class TimetableEditableCourseCard extends StatelessWidget {
           icon: Icon(context.icons.edit),
           padding: EdgeInsets.zero,
           onPressed: () async {
-            final newTemplate = await context.show$Sheet$<SitCourse>((context) => SitCourseEditorPage.template(
-                  title: i18n.editor.editCourse,
-                  course: template,
-                ));
+            final newTemplate = await context.show$Sheet$<SitCourse>(
+              (context) => SitCourseEditorPage(
+                title: i18n.editor.editCourse,
+                editable: const SitCourseEditable.template(),
+                course: template,
+              ),
+            );
             if (newTemplate == null) return;
             onCourseChanged?.call(template, newTemplate);
           },
@@ -420,10 +426,13 @@ class TimetableEditableCourseCard extends StatelessWidget {
               icon: Icon(context.icons.edit),
               padding: EdgeInsets.zero,
               onPressed: () async {
-                final newItem = await context.show$Sheet$<SitCourse>((context) => SitCourseEditorPage.item(
-                      title: i18n.editor.editCourse,
-                      course: course,
-                    ));
+                final newItem = await context.show$Sheet$<SitCourse>(
+                  (context) => SitCourseEditorPage(
+                    title: i18n.editor.editCourse,
+                    course: course,
+                    editable: const SitCourseEditable.item(),
+                  ),
+                );
                 if (newItem == null) return;
                 onCourseChanged?.call(course, newItem);
               },

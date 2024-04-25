@@ -12,69 +12,99 @@ import 'package:sit/settings/settings.dart';
 import '../entity/timetable.dart';
 import '../i18n.dart';
 
+class SitCourseEditable {
+  final bool courseName;
+  final bool courseCode;
+  final bool classCode;
+  final bool campus;
+  final bool place;
+  final bool hidden;
+  final bool weekIndices;
+  final bool timeslots;
+  final bool courseCredit;
+  final bool dayIndex;
+  final bool teachers;
+
+  const SitCourseEditable({
+    required this.courseName,
+    required this.courseCode,
+    required this.classCode,
+    required this.campus,
+    required this.place,
+    required this.hidden,
+    required this.weekIndices,
+    required this.timeslots,
+    required this.courseCredit,
+    required this.dayIndex,
+    required this.teachers,
+  });
+
+  const SitCourseEditable.item({
+    this.place = true,
+    this.hidden = true,
+    this.weekIndices = true,
+    this.timeslots = true,
+    this.dayIndex = true,
+    this.teachers = true,
+  })  : courseName = false,
+        courseCode = false,
+        classCode = false,
+        campus = false,
+        courseCredit = false;
+
+  const SitCourseEditable.template()
+      : courseName = true,
+        courseCode = true,
+        classCode = true,
+        campus = true,
+        courseCredit = true,
+        place = false,
+        hidden = false,
+        weekIndices = false,
+        timeslots = false,
+        dayIndex = false,
+        teachers = false;
+
+  const SitCourseEditable.only({
+    this.courseName = false,
+    this.courseCode = false,
+    this.classCode = false,
+    this.campus = false,
+    this.place = false,
+    this.hidden = false,
+    this.weekIndices = false,
+    this.timeslots = false,
+    this.courseCredit = false,
+    this.dayIndex = false,
+    this.teachers = false,
+  });
+
+  const SitCourseEditable.all({
+    this.courseName = true,
+    this.courseCode = true,
+    this.classCode = true,
+    this.campus = true,
+    this.place = true,
+    this.hidden = true,
+    this.weekIndices = true,
+    this.timeslots = true,
+    this.courseCredit = true,
+    this.dayIndex = true,
+    this.teachers = true,
+  });
+}
+
 class SitCourseEditorPage extends StatefulWidget {
   final String? title;
   final SitCourse? course;
-  final bool courseNameEditable;
-  final bool courseCodeEditable;
-  final bool classCodeEditable;
-  final bool campusEditable;
-  final bool placeEditable;
-  final bool hiddenEditable;
-  final bool weekIndicesEditable;
-  final bool timeslotsEditable;
-  final bool courseCreditEditable;
-  final bool dayIndexEditable;
-  final bool teachersEditable;
+  final SitCourseEditable editable;
 
   const SitCourseEditorPage({
     super.key,
     this.title,
     required this.course,
-    this.courseNameEditable = true,
-    this.courseCodeEditable = true,
-    this.classCodeEditable = true,
-    this.campusEditable = true,
-    this.placeEditable = true,
-    this.hiddenEditable = true,
-    this.weekIndicesEditable = true,
-    this.timeslotsEditable = true,
-    this.courseCreditEditable = true,
-    this.dayIndexEditable = true,
-    this.teachersEditable = true,
+    this.editable = const SitCourseEditable.all(),
   });
-
-  const SitCourseEditorPage.item({
-    super.key,
-    this.title,
-    required this.course,
-    this.placeEditable = true,
-    this.hiddenEditable = true,
-    this.weekIndicesEditable = true,
-    this.timeslotsEditable = true,
-    this.dayIndexEditable = true,
-    this.teachersEditable = true,
-  })  : courseNameEditable = false,
-        courseCodeEditable = false,
-        classCodeEditable = false,
-        campusEditable = false,
-        courseCreditEditable = false;
-
-  const SitCourseEditorPage.template({
-    super.key,
-    this.title,
-    required this.course,
-  })  : courseNameEditable = true,
-        courseCodeEditable = true,
-        classCodeEditable = true,
-        campusEditable = true,
-        courseCreditEditable = true,
-        placeEditable = false,
-        hiddenEditable = false,
-        weekIndicesEditable = false,
-        timeslotsEditable = false,
-        dayIndexEditable = false,
-        teachersEditable = false;
 
   @override
   State<SitCourseEditorPage> createState() => _SitCourseEditorPageState();
@@ -104,6 +134,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
 
   @override
   Widget build(BuildContext context) {
+    final editable= widget.editable;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: CustomScrollView(
@@ -121,37 +152,37 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
             buildTextField(
               controller: $courseName,
               title: i18n.course.courseName,
-              readonly: !widget.courseNameEditable,
+              readonly: !editable.courseName,
             ),
             buildTextField(
               controller: $courseCode,
               title: i18n.course.courseCode,
-              readonly: !widget.courseNameEditable,
+              readonly: !editable.courseName,
             ),
             buildTextField(
               controller: $classCode,
               title: i18n.course.classCode,
-              readonly: !widget.courseNameEditable,
+              readonly: !editable.courseName,
             ),
-            if (widget.placeEditable)
+            if (editable.place)
               buildTextField(
                 title: i18n.course.place,
                 controller: $place,
               ),
-            if (widget.hiddenEditable) buildHidden(),
-            if (widget.dayIndexEditable)
+            if (editable.hidden) buildHidden(),
+            if (editable.dayIndex)
               buildWeekdays().inCard(
                 clip: Clip.hardEdge,
               ),
-            if (widget.timeslotsEditable)
+            if (editable.timeslots)
               buildTimeslots().inCard(
                 clip: Clip.hardEdge,
               ),
-            if (widget.weekIndicesEditable)
+            if (editable.weekIndices)
               buildRepeating().inCard(
                 clip: Clip.hardEdge,
               ),
-            if (widget.teachersEditable)
+            if (editable.teachers)
               buildTeachers().inCard(
                 clip: Clip.hardEdge,
               ),

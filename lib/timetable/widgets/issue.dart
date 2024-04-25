@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
 
 import '../entity/timetable.dart';
 import '../entity/timetable_issue.dart';
+import '../page/course_editor.dart';
+import '../i18n.dart';
 
 extension TimetableIssuesX on List<TimetableIssue> {
   List<Widget> build(BuildContext context, SitTimetable timetable) {
@@ -84,13 +87,18 @@ class _TimetableCbeIssueWidgetState extends State<TimetableCbeIssueWidget> {
           return ListTile(
             title: course.courseName.text(),
             subtitle: [
-
               course.place.text(),
             ].column(caa: CrossAxisAlignment.start),
             trailing: PlatformTextButton(
               child: "Resolve".text(),
-              onPressed: () {
-
+              onPressed: () async {
+                final newCourse = await context.show$Sheet$<SitCourse>(
+                  (ctx) => SitCourseEditorPage(
+                    title: i18n.editor.editCourse,
+                    course: course,
+                    editable: const SitCourseEditable.only(hidden: true),
+                  ),
+                );
               },
             ),
           );
