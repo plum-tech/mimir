@@ -7,8 +7,8 @@ part of 'save.dart';
 // **************************************************************************
 
 Save2048 _$Save2048FromJson(Map<String, dynamic> json) => Save2048(
-      score: json['score'] as int? ?? 0,
-      tiles: (json['tiles'] as List<dynamic>?)?.map((e) => e as int).toList() ?? _defaultTiles(),
+      score: (json['score'] as num?)?.toInt() ?? 0,
+      tiles: (json['tiles'] as List<dynamic>?)?.map((e) => (e as num).toInt()).toList() ?? _defaultTiles(),
     );
 
 Map<String, dynamic> _$Save2048ToJson(Save2048 instance) => <String, dynamic>{

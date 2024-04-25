@@ -7,8 +7,8 @@ part of 'remote.dart';
 // **************************************************************************
 
 DataPackRaw _$DataPackRawFromJson(Map<String, dynamic> json) => DataPackRaw(
-      code: json['retcode'] as int,
-      count: json['retcount'] as int,
+      code: (json['retcode'] as num).toInt(),
+      count: (json['retcount'] as num).toInt(),
       transactions:
           (json['retdata'] as List<dynamic>).map((e) => TransactionRaw.fromJson(e as Map<String, dynamic>)).toList(),
       message: json['retmsg'] as String,
@@ -17,8 +17,8 @@ DataPackRaw _$DataPackRawFromJson(Map<String, dynamic> json) => DataPackRaw(
 TransactionRaw _$TransactionRawFromJson(Map<String, dynamic> json) => TransactionRaw(
       date: json['transdate'] as String,
       time: json['transtime'] as String,
-      customerId: json['custid'] as int,
-      flag: json['transflag'] as int,
+      customerId: (json['custid'] as num).toInt(),
+      flag: (json['transflag'] as num).toInt(),
       balanceBeforeTransaction: (json['cardbefbal'] as num).toDouble(),
       balanceAfterTransaction: (json['cardaftbal'] as num).toDouble(),
       amount: (json['amount'] as num).toDouble(),

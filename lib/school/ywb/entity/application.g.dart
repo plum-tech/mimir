@@ -192,7 +192,7 @@ class YwbApplicationTrackAdapter extends TypeAdapter<YwbApplicationTrack> {
 // **************************************************************************
 
 YwbApplication _$YwbApplicationFromJson(Map<String, dynamic> json) => YwbApplication(
-      workId: json['WorkID'] as int,
+      workId: (json['WorkID'] as num).toInt(),
       functionId: json['FK_Flow'] as String,
       name: json['FlowName'] as String,
       note: json['FlowNote'] as String,
@@ -200,7 +200,7 @@ YwbApplication _$YwbApplicationFromJson(Map<String, dynamic> json) => YwbApplica
     );
 
 YwbApplicationTrack _$YwbApplicationTrackFromJson(Map<String, dynamic> json) => YwbApplicationTrack(
-      actionType: json['ActionType'] as int,
+      actionType: (json['ActionType'] as num).toInt(),
       action: json['ActionTypeText'] as String,
       senderId: json['EmpFrom'] as String,
       senderName: mapChinesePunctuations(json['EmpFromT'] as String),

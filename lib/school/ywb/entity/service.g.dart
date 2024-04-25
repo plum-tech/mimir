@@ -137,8 +137,8 @@ YwbService _$YwbServiceFromJson(Map<String, dynamic> json) => YwbService(
       id: json['appID'] as String,
       name: json['appName'] as String,
       summary: json['appDescribe'] as String,
-      status: json['appStatus'] as int,
-      count: json['appCount'] as int,
+      status: (json['appStatus'] as num).toInt(),
+      count: (json['appCount'] as num).toInt(),
       iconName: json['appIcon'] as String,
     );
 

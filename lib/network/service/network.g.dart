@@ -7,17 +7,17 @@ part of 'network.dart';
 // **************************************************************************
 
 CampusNetworkStatus _$CampusNetworkStatusFromJson(Map<String, dynamic> json) => CampusNetworkStatus(
-      loggedIn: _toBool(json['result'] as int),
+      loggedIn: _toBool((json['result'] as num).toInt()),
       ip: json['v46ip'] as String,
       studentId: json['uid'] as String?,
     );
 
 LogoutResult _$LogoutResultFromJson(Map<String, dynamic> json) => LogoutResult(
-      json['result'] as int,
+      (json['result'] as num).toInt(),
     );
 
 LoginResult _$LoginResultFromJson(Map<String, dynamic> json) => LoginResult(
-      json['result'] as int,
+      (json['result'] as num).toInt(),
     );
 
 Map<String, dynamic> _$LoginResultToJson(LoginResult instance) => <String, dynamic>{

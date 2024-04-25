@@ -104,6 +104,9 @@ class SitCourse {
   @JsonKey()
   final List<String> teachers;
 
+  @JsonKey()
+  final bool hidden;
+
   const SitCourse({
     required this.courseKey,
     required this.courseName,
@@ -116,6 +119,7 @@ class SitCourse {
     required this.courseCredit,
     required this.dayIndex,
     required this.teachers,
+    this.hidden = false,
   });
 
   @override

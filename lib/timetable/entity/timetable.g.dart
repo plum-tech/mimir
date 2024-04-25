@@ -123,6 +123,7 @@ abstract class _$SitCourseCWProxy {
     double? courseCredit,
     int? dayIndex,
     List<String>? teachers,
+    bool? hidden,
   });
 }
 
@@ -152,6 +153,7 @@ class _$SitCourseCWProxyImpl implements _$SitCourseCWProxy {
     Object? courseCredit = const $CopyWithPlaceholder(),
     Object? dayIndex = const $CopyWithPlaceholder(),
     Object? teachers = const $CopyWithPlaceholder(),
+    Object? hidden = const $CopyWithPlaceholder(),
   }) {
     return SitCourse(
       courseKey: courseKey == const $CopyWithPlaceholder() || courseKey == null
@@ -198,6 +200,10 @@ class _$SitCourseCWProxyImpl implements _$SitCourseCWProxy {
           ? _value.teachers
           // ignore: cast_nullable_to_non_nullable
           : teachers as List<String>,
+      hidden: hidden == const $CopyWithPlaceholder() || hidden == null
+          ? _value.hidden
+          // ignore: cast_nullable_to_non_nullable
+          : hidden as bool,
     );
   }
 }
@@ -266,10 +272,10 @@ SitTimetable _$SitTimetableFromJson(Map<String, dynamic> json) => SitTimetable(
       courses: (json['courses'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k, SitCourse.fromJson(e as Map<String, dynamic>)),
       ),
-      lastCourseKey: json['lastCourseKey'] as int,
+      lastCourseKey: (json['lastCourseKey'] as num).toInt(),
       name: json['name'] as String,
       startDate: DateTime.parse(json['startDate'] as String),
-      schoolYear: json['schoolYear'] as int,
+      schoolYear: (json['schoolYear'] as num).toInt(),
       semester: $enumDecode(_$SemesterEnumMap, json['semester']),
       lastModified: json['lastModified'] == null ? _kLastModified() : DateTime.parse(json['lastModified'] as String),
       patches: (json['patches'] as List<dynamic>?)
@@ -277,7 +283,7 @@ SitTimetable _$SitTimetableFromJson(Map<String, dynamic> json) => SitTimetable(
               .toList() ??
           const [],
       signature: json['signature'] as String? ?? "",
-      version: json['version'] as int? ?? 1,
+      version: (json['version'] as num?)?.toInt() ?? 1,
     );
 
 Map<String, dynamic> _$SitTimetableToJson(SitTimetable instance) => <String, dynamic>{
@@ -300,7 +306,7 @@ const _$SemesterEnumMap = {
 };
 
 SitCourse _$SitCourseFromJson(Map<String, dynamic> json) => SitCourse(
-      courseKey: json['courseKey'] as int,
+      courseKey: (json['courseKey'] as num).toInt(),
       courseName: json['courseName'] as String,
       courseCode: json['courseCode'] as String,
       classCode: json['classCode'] as String,
@@ -310,13 +316,14 @@ SitCourse _$SitCourseFromJson(Map<String, dynamic> json) => SitCourse(
       timeslots: _$recordConvert(
         json['timeslots'],
         ($jsonValue) => (
-          end: $jsonValue['end'] as int,
-          start: $jsonValue['start'] as int,
+          end: ($jsonValue['end'] as num).toInt(),
+          start: ($jsonValue['start'] as num).toInt(),
         ),
       ),
       courseCredit: (json['courseCredit'] as num).toDouble(),
-      dayIndex: json['dayIndex'] as int,
+      dayIndex: (json['dayIndex'] as num).toInt(),
       teachers: (json['teachers'] as List<dynamic>).map((e) => e as String).toList(),
+      hidden: json['hidden'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$SitCourseToJson(SitCourse instance) => <String, dynamic>{
@@ -327,13 +334,14 @@ Map<String, dynamic> _$SitCourseToJson(SitCourse instance) => <String, dynamic>{
       'campus': _$CampusEnumMap[instance.campus]!,
       'place': instance.place,
       'weekIndices': instance.weekIndices,
-      'timeslots': {
+      'timeslots': <String, dynamic>{
         'end': instance.timeslots.end,
         'start': instance.timeslots.start,
       },
       'courseCredit': instance.courseCredit,
       'dayIndex': instance.dayIndex,
       'teachers': instance.teachers,
+      'hidden': instance.hidden,
     };
 
 const _$CampusEnumMap = {
@@ -352,15 +360,15 @@ TimetableWeekIndex _$TimetableWeekIndexFromJson(Map<String, dynamic> json) => Ti
       range: _$recordConvert(
         json['range'],
         ($jsonValue) => (
-          end: $jsonValue['end'] as int,
-          start: $jsonValue['start'] as int,
+          end: ($jsonValue['end'] as num).toInt(),
+          start: ($jsonValue['start'] as num).toInt(),
         ),
       ),
     );
 
 Map<String, dynamic> _$TimetableWeekIndexToJson(TimetableWeekIndex instance) => <String, dynamic>{
       'type': _$TimetableWeekIndexTypeEnumMap[instance.type]!,
-      'range': {
+      'range': <String, dynamic>{
         'end': instance.range.end,
         'start': instance.range.start,
       },

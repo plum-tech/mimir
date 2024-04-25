@@ -80,9 +80,9 @@ extension $TileCopyWith on Tile {
 
 Tile _$TileFromJson(Map json) => Tile(
       id: json['id'] as String,
-      value: json['value'] as int,
-      index: json['index'] as int,
-      nextIndex: json['nextIndex'] as int?,
+      value: (json['value'] as num).toInt(),
+      index: (json['index'] as num).toInt(),
+      nextIndex: (json['nextIndex'] as num?)?.toInt(),
       merged: json['merged'] as bool? ?? false,
     );
 

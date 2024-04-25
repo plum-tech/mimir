@@ -61,8 +61,8 @@ extension $TimetablePosCopyWith on TimetablePos {
 // **************************************************************************
 
 TimetablePos _$TimetablePosFromJson(Map<String, dynamic> json) => TimetablePos(
-      weekIndex: json['weekIndex'] as int,
-      weekday: Weekday.fromJson(json['weekday'] as int),
+      weekIndex: (json['weekIndex'] as num).toInt(),
+      weekday: Weekday.fromJson((json['weekday'] as num).toInt()),
     );
 
 Map<String, dynamic> _$TimetablePosToJson(TimetablePos instance) => <String, dynamic>{

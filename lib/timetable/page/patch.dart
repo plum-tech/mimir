@@ -37,16 +37,12 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
           ),
           SliverList.builder(
             itemCount: patches.length,
-            itemBuilder: (ctx, i) {
-
-            },
+            itemBuilder: (ctx, i) {},
           ),
         ],
       ),
     );
   }
 
-  void onSave() {
-
-  }
+  void onSave() {}
 }
