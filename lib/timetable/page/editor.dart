@@ -8,6 +8,7 @@ import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
+import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
@@ -195,6 +196,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
             courseCode: newValue.courseCode,
             classCode: newValue.classCode,
             courseName: newValue.courseName,
+            hidden: newValue.hidden,
           );
         }
       }
@@ -335,85 +337,92 @@ class TimetableEditableCourseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onCourseRemoved = this.onCourseRemoved;
-    return Card.filled(
-      color: color,
-      clipBehavior: Clip.hardEdge,
-      child: AnimatedExpansionTile(
-        leading: CourseIcon(courseName: template.courseName),
-        title: template.courseName.text(),
-        trailing: [
-          PlatformIconButton(
-            icon: Icon(context.icons.add),
-            padding: EdgeInsets.zero,
-            onPressed: () async {
-              final tempItem = template.createSubItem(courseKey: 0);
-              final newItem = await context.show$Sheet$(
-                (context) => SitCourseEditorPage.item(
-                  title: i18n.editor.newCourse,
-                  course: tempItem,
-                ),
-              );
-              if (newItem == null) return;
-              onCourseAdded?.call(newItem);
-            },
-          ),
-          PlatformIconButton(
-            icon: Icon(context.icons.edit),
-            padding: EdgeInsets.zero,
-            onPressed: () async {
-              final newTemplate = await context.show$Sheet$<SitCourse>((context) => SitCourseEditorPage.template(
-                    title: i18n.editor.editCourse,
-                    course: template,
-                  ));
-              if (newTemplate == null) return;
-              onCourseChanged?.call(template, newTemplate);
-            },
-          ),
-        ].row(mas: MainAxisSize.min),
-        rotateTrailing: false,
-        subtitle: [
-          if (template.courseCode.isNotEmpty) "${i18n.course.courseCode} ${template.courseCode}".text(),
-          if (template.classCode.isNotEmpty) "${i18n.course.classCode} ${template.classCode}".text(),
-        ].column(caa: CrossAxisAlignment.start),
-        children: courses.mapIndexed((i, course) {
-          final weekNumbers = course.weekIndices.l10n();
-          final (:begin, :end) = course.calcBeginEndTimePoint();
-          return SwipeToDismiss(
-            childKey: ValueKey(course.courseKey),
-            right: onCourseRemoved == null
-                ? null
-                : SwipeToDismissAction(
-                    icon: Icon(context.icons.delete),
-                    action: () async {
-                      onCourseRemoved(course);
-                    },
-                  ),
-            child: ListTile(
-              isThreeLine: true,
-              enabled: !course.hidden,
-              leading: Dev.on ? "${course.courseKey}".text() : null,
-              title: course.place.text(),
-              subtitle: [
-                course.teachers.join(", ").text(),
-                "${Weekday.fromIndex(course.dayIndex).l10n()} ${begin.l10n(context)}–${end.l10n(context)}".text(),
-                ...weekNumbers.map((n) => n.text()),
-              ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
-              trailing: PlatformIconButton(
-                icon: Icon(context.icons.edit),
-                padding: EdgeInsets.zero,
-                onPressed: () async {
-                  final newItem = await context.show$Sheet$<SitCourse>((context) => SitCourseEditorPage.item(
-                        title: i18n.editor.editCourse,
-                        course: course,
-                      ));
-                  if (newItem == null) return;
-                  onCourseChanged?.call(course, newItem);
-                },
-              ),
-            ),
-          );
-        }).toList(),
+    final allHidden = courses.every((c) => c.hidden);
+    final templateStyle = TextStyle(color: allHidden ? context.theme.disabledColor : null);
+    return AnimatedExpansionTile(
+      leading: CourseIcon(
+        courseName: template.courseName,
+        enabled: !allHidden,
       ),
+      rotateTrailing: false,
+      title: template.courseName.text(style: templateStyle),
+      subtitle: [
+        if (template.courseCode.isNotEmpty) "${i18n.course.courseCode} ${template.courseCode}".text(style: templateStyle),
+        if (template.classCode.isNotEmpty) "${i18n.course.classCode} ${template.classCode}".text(style: templateStyle),
+      ].column(caa: CrossAxisAlignment.start),
+      trailing: [
+        PlatformIconButton(
+          icon: Icon(context.icons.add),
+          padding: EdgeInsets.zero,
+          onPressed: () async {
+            final tempItem = template.createSubItem(courseKey: 0);
+            final newItem = await context.show$Sheet$(
+              (context) => SitCourseEditorPage.item(
+                title: i18n.editor.newCourse,
+                course: tempItem,
+              ),
+            );
+            if (newItem == null) return;
+            onCourseAdded?.call(newItem);
+          },
+        ),
+        PlatformIconButton(
+          icon: Icon(context.icons.edit),
+          padding: EdgeInsets.zero,
+          onPressed: () async {
+            final newTemplate = await context.show$Sheet$<SitCourse>((context) => SitCourseEditorPage.template(
+                  title: i18n.editor.editCourse,
+                  course: template,
+                ));
+            if (newTemplate == null) return;
+            onCourseChanged?.call(template, newTemplate);
+          },
+        ),
+      ].row(mas: MainAxisSize.min),
+
+      // sub-courses
+      children: courses.mapIndexed((i, course) {
+        final weekNumbers = course.weekIndices.l10n();
+        final (:begin, :end) = course.calcBeginEndTimePoint();
+        return SwipeToDismiss(
+          childKey: ValueKey(course.courseKey),
+          right: onCourseRemoved == null
+              ? null
+              : SwipeToDismissAction(
+                  icon: Icon(context.icons.delete),
+                  action: () async {
+                    onCourseRemoved(course);
+                  },
+                ),
+          child: ListTile(
+            isThreeLine: true,
+            enabled: !course.hidden,
+            leading: Dev.on ? "${course.courseKey}".text() : null,
+            title: course.place.text(),
+            subtitle: [
+              course.teachers.join(", ").text(),
+              "${Weekday.fromIndex(course.dayIndex).l10n()} ${begin.l10n(context)}–${end.l10n(context)}".text(),
+              ...weekNumbers.map((n) => n.text()),
+            ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
+            trailing: PlatformIconButton(
+              icon: Icon(context.icons.edit),
+              padding: EdgeInsets.zero,
+              onPressed: () async {
+                final newItem = await context.show$Sheet$<SitCourse>((context) => SitCourseEditorPage.item(
+                      title: i18n.editor.editCourse,
+                      course: course,
+                    ));
+                if (newItem == null) return;
+                onCourseChanged?.call(course, newItem);
+              },
+            ),
+          ),
+        );
+      }).toList(),
+    ).inAnyCard(
+      clip: Clip.hardEdge,
+      type: allHidden ? CardVariant.outlined : CardVariant.filled,
+      color: allHidden ? null : color,
     );
   }
 }
@@ -446,6 +455,7 @@ class SitCourseEditorPage extends StatefulWidget {
   final bool classCodeEditable;
   final bool campusEditable;
   final bool placeEditable;
+  final bool hiddenEditable;
   final bool weekIndicesEditable;
   final bool timeslotsEditable;
   final bool courseCreditEditable;
@@ -461,6 +471,7 @@ class SitCourseEditorPage extends StatefulWidget {
     this.classCodeEditable = true,
     this.campusEditable = true,
     this.placeEditable = true,
+    this.hiddenEditable = true,
     this.weekIndicesEditable = true,
     this.timeslotsEditable = true,
     this.courseCreditEditable = true,
@@ -473,6 +484,7 @@ class SitCourseEditorPage extends StatefulWidget {
     this.title,
     required this.course,
     this.placeEditable = true,
+    this.hiddenEditable = true,
     this.weekIndicesEditable = true,
     this.timeslotsEditable = true,
     this.dayIndexEditable = true,
@@ -493,6 +505,7 @@ class SitCourseEditorPage extends StatefulWidget {
         campusEditable = true,
         courseCreditEditable = true,
         placeEditable = false,
+        hiddenEditable = false,
         weekIndicesEditable = false,
         timeslotsEditable = false,
         dayIndexEditable = false,
@@ -560,7 +573,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
                 title: i18n.course.place,
                 controller: $place,
               ),
-            buildHidden(),
+            if (widget.hiddenEditable) buildHidden(),
             if (widget.dayIndexEditable)
               buildWeekdays().inCard(
                 clip: Clip.hardEdge,
@@ -708,7 +721,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
 
   Widget buildHidden() {
     return ListTile(
-      title: "Display in timetable".text(),
+      title: i18n.course.displayable.text(),
       trailing: Switch.adaptive(
         value: !hidden,
         onChanged: (newV) {
@@ -733,6 +746,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
       courseCredit: courseCredit,
       dayIndex: dayIndex,
       teachers: teachers,
+      hidden: hidden,
     ));
   }
 

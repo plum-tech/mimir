@@ -5,11 +5,13 @@ import 'package:sit/school/entity/icon.dart';
 class CourseIcon extends StatelessWidget {
   final String courseName;
   final double? size;
+  final bool enabled;
   static const kDefaultSize = 45.0;
 
   const CourseIcon({
     super.key,
     required this.courseName,
+    this.enabled = true,
     this.size = kDefaultSize,
   });
 
@@ -19,6 +21,7 @@ class CourseIcon extends StatelessWidget {
       CourseIcons.iconPathOf(courseName: courseName),
       width: size,
       height: size,
+      color: enabled ? null : context.theme.disabledColor,
     ).sized(w: kDefaultSize, h: kDefaultSize);
   }
 }
