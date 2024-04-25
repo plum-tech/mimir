@@ -16,6 +16,7 @@ import 'package:sit/school/widgets/course.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/timetable_issue.dart';
+import 'package:sit/timetable/widgets/issue.dart';
 import 'package:sit/utils/save.dart';
 
 import '../entity/timetable.dart';
@@ -136,11 +137,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
           ListTile(
             title: "Issues".text(),
           ),
-        if (Dev.on)
-          ...issues.map((issue) => issue.build(
-                context,
-                timetable,
-              )),
+        if (Dev.on) ...issues.build(context, timetable),
       ]),
     ];
   }
