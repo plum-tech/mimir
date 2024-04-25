@@ -58,7 +58,7 @@ class OpenInAppProxyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       onPressed: () {
-        context.push("settings/proxy");
+        context.push("/settings/proxy");
       },
       child: i18n.openInAppProxySettingsBtn.text(),
     );
