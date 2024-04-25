@@ -58,6 +58,9 @@ class _MimirAppState extends ConsumerState<MimirApp> {
               ),
         visualDensity: VisualDensity.comfortable,
         splashFactory: kIsWeb ? null : InkSparkle.splashFactory,
+        navigationBarTheme: const NavigationBarThemeData(
+          height: 60,
+        ),
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
             TargetPlatform.android: ZoomPageTransitionsBuilder(),

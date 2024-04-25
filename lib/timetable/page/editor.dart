@@ -101,21 +101,21 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
             if (navIndex == 0) ...buildInfoTab() else ...buildAdvancedTab(),
           ],
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: navIndex,
-          items: [
-            BottomNavigationBarItem(
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: navIndex,
+          destinations: [
+            NavigationDestination(
               icon: const Icon(Icons.info_outline),
-              activeIcon: const Icon(Icons.info),
+              selectedIcon: const Icon(Icons.info),
               label: i18n.editor.infoTab,
             ),
-            BottomNavigationBarItem(
+            NavigationDestination(
               icon: const Icon(Icons.calendar_month_outlined),
-              activeIcon: const Icon(Icons.calendar_month),
+              selectedIcon: const Icon(Icons.calendar_month),
               label: i18n.editor.advancedTab,
             ),
           ],
-          onTap: (newIndex) {
+          onDestinationSelected: (newIndex) {
             setState(() {
               navIndex = newIndex;
             });

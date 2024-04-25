@@ -20,6 +20,7 @@ class TimetablePatchEditorPage extends StatefulWidget {
 
 class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
   late var patches = List.of(widget.patches);
+  var navIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +47,26 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
               final patch = patches[i];
               return patch.build(context);
             },
+          ),
+        ],
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: navIndex,
+        onDestinationSelected: (newIndex) {
+          setState(() {
+            navIndex = newIndex;
+          });
+        },
+        destinations: [
+          NavigationDestination(
+            icon: const Icon(Icons.dashboard_customize_outlined),
+            selectedIcon: const Icon(Icons.dashboard_customize),
+            label: "Patch",
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.browse_gallery_outlined),
+            selectedIcon: const Icon(Icons.browse_gallery),
+            label: "Gallery",
           ),
         ],
       ),
