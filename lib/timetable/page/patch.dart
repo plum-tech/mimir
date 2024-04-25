@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/utils/save.dart';
 
 import '../entity/patch.dart';
+import '../entity/timetable.dart';
 import '../i18n.dart';
+import '../widgets/style.dart';
+import 'preview.dart';
 
 class TimetablePatchEditorPage extends StatefulWidget {
-  final List<TimetablePatch> patches;
+  final SitTimetable timetable;
 
   const TimetablePatchEditorPage({
     super.key,
-    required this.patches,
+    required this.timetable,
   });
 
   @override
@@ -20,11 +24,12 @@ class TimetablePatchEditorPage extends StatefulWidget {
 }
 
 class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
-  late var patches = List.of(widget.patches);
+  late var patches = List.of(widget.timetable.patches);
   var navIndex = 0;
   var anyChanged = false;
 
   void markChanged() => anyChanged |= true;
+
   @override
   Widget build(BuildContext context) {
     return PromptSaveBeforeQuitScope(
@@ -37,6 +42,10 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
             SliverAppBar.medium(
               title: "Timetable patch".text(),
               actions: [
+                PlatformTextButton(
+                  onPressed: onPreview,
+                  child: i18n.preview.text(),
+                ),
                 PlatformTextButton(
                   onPressed: onSave,
                   child: i18n.save.text(),
@@ -82,15 +91,31 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
 
   void onSave() {}
 
+  Future<void> onPreview() async {
+    await context.show$Sheet$(
+      (context) => TimetableStyleProv(
+        child: TimetablePreviewPage(
+          timetable: buildTimetable(),
+        ),
+      ),
+    );
+  }
+
+  SitTimetable buildTimetable() {
+    return widget.timetable.copyWith(
+      patches: List.of(patches),
+    );
+  }
+
   Widget buildAddPatchTile() {
     return ListTile(
       isThreeLine: true,
-      leading: Icon(context.icons.add),
       title: "Add a patch".text(),
       subtitle: ListView(
         scrollDirection: Axis.horizontal,
         children: TimetablePatchType.values
             .map((type) => ActionChip(
+                  avatar: Icon(context.icons.add),
                   label: type.l10n().text(),
                   onPressed: () async {
                     final patch = await type.onCreate(context);

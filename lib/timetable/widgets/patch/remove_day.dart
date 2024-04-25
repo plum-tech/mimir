@@ -16,6 +16,7 @@ class TimetableRemoveDayPatchWidget extends StatelessWidget {
     return Card.filled(
       child: ListTile(
         title: "Remove day".text(),
+        subtitle: patch.loc.toString().text(),
       ),
     );
   }

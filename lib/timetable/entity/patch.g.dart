@@ -7,11 +7,11 @@ part of 'patch.dart';
 // **************************************************************************
 
 TimetableRemoveDayPatch _$TimetableRemoveDayPatchFromJson(Map<String, dynamic> json) => TimetableRemoveDayPatch(
-      pos: TimetablePos.fromJson(json['pos'] as Map<String, dynamic>),
+      loc: TimetableLoc.fromJson(json['loc'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$TimetableRemoveDayPatchToJson(TimetableRemoveDayPatch instance) => <String, dynamic>{
-      'pos': instance.pos,
+      'loc': instance.loc,
     };
 
 TimetableMoveDayPatch _$TimetableMoveDayPatchFromJson(Map<String, dynamic> json) => TimetableMoveDayPatch();
@@ -27,8 +27,8 @@ TimetableCopyDayPatch _$TimetableCopyDayPatchFromJson(Map<String, dynamic> json)
 Map<String, dynamic> _$TimetableCopyDayPatchToJson(TimetableCopyDayPatch instance) => <String, dynamic>{};
 
 const _$TimetablePatchTypeEnumMap = {
+  TimetablePatchType.moveDay: 'moveDay',
   TimetablePatchType.removeDay: 'removeDay',
   TimetablePatchType.copyDay: 'copyDay',
   TimetablePatchType.swapDay: 'swapDay',
-  TimetablePatchType.moveDay: 'moveDay',
 };

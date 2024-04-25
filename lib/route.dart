@@ -163,7 +163,7 @@ final _timetableRoutes = [
       if (id == null) throw 404;
       final timetable = TimetableInit.storage.timetable[id];
       if (timetable == null) throw 404;
-      return TimetablePatchEditorPage(patches: timetable.patches);
+      return TimetablePatchEditorPage(timetable: timetable);
     },
   ),
   GoRoute(

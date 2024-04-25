@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/time.dart';
-import 'package:sit/timetable/entity/pos.dart';
 
 import '../widgets/patch/remove_day.dart';
+import 'loc.dart';
 
 part "patch.g.dart";
 
@@ -60,6 +60,7 @@ sealed class TimetablePatch {
 
   Widget build(BuildContext context);
 }
+
 //
 // @JsonSerializable()
 // class TimetableAddLessonPatch extends TimetablePatch {
@@ -105,10 +106,10 @@ class TimetableRemoveDayPatch extends TimetablePatch {
   @override
   TimetablePatchType get type => TimetablePatchType.removeDay;
 
-  final TimetablePos pos;
+  final TimetableLoc loc;
 
   const TimetableRemoveDayPatch({
-    required this.pos,
+    required this.loc,
   });
 
   factory TimetableRemoveDayPatch.fromJson(Map<String, dynamic> json) => _$TimetableRemoveDayPatchFromJson(json);
@@ -122,7 +123,7 @@ class TimetableRemoveDayPatch extends TimetablePatch {
   }
 
   static Future<TimetableRemoveDayPatch?> onCreate(BuildContext context) async {
-    return TimetableRemoveDayPatch(pos: TimetablePos(weekIndex: 0, weekday: Weekday.monday));
+    return TimetableRemoveDayPatch(loc: TimetableLoc.pos(weekIndex: 0, weekday: Weekday.monday));
   }
 }
 

@@ -124,7 +124,9 @@ class SitTimetableDay {
   }
 
   void clear() {
-    timeslot2LessonSlot.clear();
+    for (final lessonSlot in timeslot2LessonSlot) {
+      lessonSlot.lessons.clear();
+    }
   }
 
   /// At all lessons [layer]
@@ -243,9 +245,9 @@ extension SitTimetable4EntityX on SitTimetable {
 
     for (final patch in patches) {
       if (patch is TimetableRemoveDayPatch) {
-        final pos = patch.pos;
+        final pos = patch.loc;
         final day = weeks[pos.weekIndex].days[pos.weekday.index];
-        day.timeslot2LessonSlot.clear();
+        day.clear();
       }
     }
 
