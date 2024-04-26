@@ -71,8 +71,9 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
 
   @override
   Widget build(BuildContext context) {
+    final patch = buildPatch();
     return PromptSaveBeforeQuitScope(
-      canSave: anyChanged,
+      canSave: anyChanged && canSave(),
       onSave: onSave,
       child: Scaffold(
         body: CustomScrollView(
@@ -96,6 +97,10 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
                 TimetableDayLocMode.pos => buildPosTab(),
                 TimetableDayLocMode.date => buildDateTab(),
               },
+              if (patch != null)
+                ListTile(
+                  title: patch.l10n().text(),
+                )
             ]),
           ],
         ),

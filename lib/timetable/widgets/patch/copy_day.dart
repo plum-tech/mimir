@@ -75,8 +75,9 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
 
   @override
   Widget build(BuildContext context) {
+    final patch = buildPatch();
     return PromptSaveBeforeQuitScope(
-      canSave: anyChanged,
+      canSave: anyChanged && canSave(),
       onSave: onSave,
       child: Scaffold(
         body: CustomScrollView(
@@ -100,6 +101,10 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
                 TimetableDayLocMode.pos => buildPosTab(),
                 TimetableDayLocMode.date => buildDateTab(),
               },
+              if (patch != null)
+                ListTile(
+                  title: patch.l10n().text(),
+                )
             ]),
           ],
         ),
@@ -122,7 +127,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
     return [
       TimetableDayLocPosSelectionTile(
         leading: const Icon(Icons.output),
-        title: "Source position".text(),
+        title: i18n.patch.copySource.text(),
         timetable: widget.timetable,
         pos: sourcePos,
         onChanged: (newPos) {
@@ -134,7 +139,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
       ),
       TimetableDayLocPosSelectionTile(
         leading: const Icon(Icons.input),
-        title: "Target position".text(),
+        title: i18n.patch.copyTarget.text(),
         timetable: widget.timetable,
         pos: targetPos,
         onChanged: (newPos) {
@@ -144,6 +149,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
           markChanged();
         },
       ),
+
     ];
   }
 
@@ -151,7 +157,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
     return [
       TimetableDayLocDateSelectionTile(
         leading: const Icon(Icons.output),
-        title: "Source date".text(),
+        title: i18n.patch.copySource.text(),
         timetable: widget.timetable,
         date: sourceDate,
         onChanged: (newPos) {
@@ -163,7 +169,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
       ),
       TimetableDayLocDateSelectionTile(
         leading: const Icon(Icons.input),
-        title: "Target date".text(),
+        title: i18n.patch.copyTarget.text(),
         timetable: widget.timetable,
         date: targetDate,
         onChanged: (newPos) {

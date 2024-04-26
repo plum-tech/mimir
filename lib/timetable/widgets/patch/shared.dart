@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/timetable/entity/pos.dart';
@@ -34,6 +35,8 @@ class TimetableDayLocModeSwitcher extends StatelessWidget {
     );
   }
 }
+
+final _lastInitialDate = StateProvider<DateTime>((ref) => DateTime.now());
 
 class TimetableDayLocPosSelectionTile extends StatelessWidget {
   final Widget title;
@@ -75,7 +78,7 @@ class TimetableDayLocPosSelectionTile extends StatelessWidget {
   }
 }
 
-class TimetableDayLocDateSelectionTile extends StatelessWidget {
+class TimetableDayLocDateSelectionTile extends ConsumerWidget {
   final Widget title;
   final Widget? leading;
   final DateTime? date;
@@ -92,7 +95,7 @@ class TimetableDayLocDateSelectionTile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final date = this.date;
     return ListTile(
       leading: leading,
@@ -104,12 +107,13 @@ class TimetableDayLocDateSelectionTile extends StatelessWidget {
           final now = DateTime.now();
           final newDate = await showDatePicker(
             context: context,
-            initialDate: date ?? now,
-            currentDate: now,
+            initialDate: date ?? ref.read(_lastInitialDate),
+            currentDate: date ,
             firstDate: DateTime(now.year - 4),
             lastDate: DateTime(now.year + 2),
           );
           if (newDate == null) return;
+          ref.read(_lastInitialDate.notifier).state = newDate;
           onChanged(newDate);
         },
       ),

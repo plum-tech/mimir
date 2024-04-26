@@ -75,8 +75,9 @@ class _TimetableSwapDaysPatchSheetState extends State<TimetableSwapDaysPatchShee
 
   @override
   Widget build(BuildContext context) {
+    final patch = buildPatch();
     return PromptSaveBeforeQuitScope(
-      canSave: anyChanged,
+      canSave: anyChanged && canSave(),
       onSave: onSave,
       child: Scaffold(
         body: CustomScrollView(
@@ -100,6 +101,10 @@ class _TimetableSwapDaysPatchSheetState extends State<TimetableSwapDaysPatchShee
                 TimetableDayLocMode.pos => buildPosTab(),
                 TimetableDayLocMode.date => buildDateTab(),
               },
+              if (patch != null)
+                ListTile(
+                  title: patch.l10n().text(),
+                )
             ]),
           ],
         ),

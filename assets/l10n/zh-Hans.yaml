@@ -51,7 +51,7 @@ timetable:
     removeDay: "删除 {day} 的课"
     swapDays: "交换 {a} 和 {b} 的课"
     copyDay: "{target} 上与 {source} 相同的课"
-    moveDay: "把 {source} 的课改到 {target}"
+    moveDay: "{target} 改为上 {source} 的课"
     type:
       moveDay: 移动某天
       removeDay: 删除某天
@@ -156,25 +156,25 @@ timetable:
       addColor: 添加一种配色
       addFromQrCodeAction: 添加配色方案
       addFromQrCodeDesc: 确定从读取的二维码中添加配色方案？
-    builtin:
-      classic:
-        name: 经典
-      americano:
-        name: 美式复古
-      candy:
-        name: 糖果幻境
-      sprint:
-        name: 兰时
-      summary:
-        name: 时夏
-      fall:
-        name: 萧辰
-      winter:
-        name: 北陆
-      thicket:
-        name: 小森林
-      creeksideBreeze:
-        name: 溪畔听风
+      builtin:
+        classic:
+          name: 经典
+        americano:
+          name: 美式复古
+        candy:
+          name: 糖果幻境
+        sprint:
+          name: 兰时
+        summary:
+          name: 时夏
+        fall:
+          name: 萧辰
+        winter:
+          name: 北陆
+        thicket:
+          name: 小森林
+        creeksideBreeze:
+          name: 溪畔听风
     cellStyle:
       title: 单元格风格
       showTeachers:
