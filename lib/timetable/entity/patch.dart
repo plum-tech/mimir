@@ -66,6 +66,29 @@ sealed class TimetablePatch {
   String toDartCode();
 }
 
+class TimetablePatchSet {
+  final String name;
+  final List<TimetablePatch> patches;
+
+  const TimetablePatchSet({
+    required this.name,
+    required this.patches,
+  });
+}
+
+class BuiltinTimetablePatchSet implements TimetablePatchSet{
+  final String key;
+  @override
+  String get name => "timetable.patch.builtin.$key";
+  @override
+  final List<TimetablePatch> patches;
+
+  const BuiltinTimetablePatchSet({
+    required this.key,
+    required this.patches,
+  });
+}
+
 //
 // @JsonSerializable()
 // class TimetableAddLessonPatch extends TimetablePatch {

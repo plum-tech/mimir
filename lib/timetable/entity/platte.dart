@@ -133,10 +133,10 @@ class BuiltinTimetablePalette implements TimetablePalette {
   final String? authorOverride;
 
   @override
-  String get name => nameOverride ?? "timetable.p13n.builtinPalette.$key.name".tr();
+  String get name => nameOverride ?? "timetable.p13n.palette.builtin.$key.name".tr();
 
   @override
-  String get author => authorOverride ?? "timetable.p13n.builtinPalette.$key.author".tr();
+  String get author => authorOverride ?? "timetable.p13n.palette.builtin.$key.author".tr();
   @override
   final List<Color2Mode> colors;
 

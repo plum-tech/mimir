@@ -108,25 +108,6 @@ timetable:
     findNearestDayWithClass: Find a day with class
   p13n:
     title: Palettes
-    builtinPalette:
-      classic:
-        name: Classic
-      americano:
-        name: Americano
-      candy:
-        name: Candy
-      sprint:
-        name: Sprint
-      summary:
-        name: Summary
-      fall:
-        name: Fall
-      winter:
-        name: Winter
-      thicket:
-        name: Thicket
-      creeksideBreeze:
-        name: Creekside Breeze
     palette:
       title: Palette
       name: Name
@@ -148,6 +129,25 @@ timetable:
       addColor: Add a color
       addFromQrCodeAction: Add palette
       addFromQrCodeDesc: Confirm to add a timetable palette from QR code?
+    builtin:
+      classic:
+        name: Classic
+      americano:
+        name: Americano
+      candy:
+        name: Candy
+      sprint:
+        name: Sprint
+      summary:
+        name: Summary
+      fall:
+        name: Fall
+      winter:
+        name: Winter
+      thicket:
+        name: Thicket
+      creeksideBreeze:
+        name: Creekside Breeze
     cellStyle:
       title: Cell Style
       showTeachers:

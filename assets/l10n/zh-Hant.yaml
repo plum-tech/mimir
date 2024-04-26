@@ -109,25 +109,6 @@ timetable:
     findNearestDayWithClass: 尋找有課的一週
   p13n:
     title: 調色盤
-    builtinPalette:
-      classic:
-        name: 經典
-      americano:
-        name: 美式復古
-      candy:
-        name: 糖果幻境
-      sprint:
-        name: 蘭時
-      summary:
-        name: 時夏
-      fall:
-        name: 蕭辰
-      winter:
-        name: 北陸
-      thicket:
-        name: 小森林
-      creeksideBreeze:
-        name: 溪畔聽風
     palette:
       title: 調色盤
       name: 名稱
@@ -149,6 +130,25 @@ timetable:
       addColor: 增加一對顏色
       addFromQrCodeAction: 新增調色盤
       addFromQrCodeDesc: 確認從 QR 碼中新增調色盤？
+      builtin:
+        classic:
+          name: 經典
+        americano:
+          name: 美式復古
+        candy:
+          name: 糖果幻境
+        sprint:
+          name: 蘭時
+        summary:
+          name: 時夏
+        fall:
+          name: 蕭辰
+        winter:
+          name: 北陸
+        thicket:
+          name: 小森林
+        creeksideBreeze:
+          name: 溪畔聽風
     cellStyle:
       title: 單元樣式
       showTeachers:

@@ -108,25 +108,6 @@ timetable:
     findNearestDayWithClass: 找到有课的一天
   p13n:
     title: 配色方案
-    builtinPalette:
-      classic:
-        name: 经典
-      americano:
-        name: 美式复古
-      candy:
-        name: 糖果幻境
-      sprint:
-        name: 兰时
-      summary:
-        name: 时夏
-      fall:
-        name: 萧辰
-      winter:
-        name: 北陆
-      thicket:
-        name: 小森林
-      creeksideBreeze:
-        name: 溪畔听风
     palette:
       title: 配色方案
       name: 名称
@@ -148,6 +129,25 @@ timetable:
       addColor: 添加一种配色
       addFromQrCodeAction: 添加配色方案
       addFromQrCodeDesc: 确定从读取的二维码中添加配色方案？
+    builtin:
+      classic:
+        name: 经典
+      americano:
+        name: 美式复古
+      candy:
+        name: 糖果幻境
+      sprint:
+        name: 兰时
+      summary:
+        name: 时夏
+      fall:
+        name: 萧辰
+      winter:
+        name: 北陆
+      thicket:
+        name: 小森林
+      creeksideBreeze:
+        name: 溪畔听风
     cellStyle:
       title: 单元格风格
       showTeachers:
