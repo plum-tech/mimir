@@ -3,6 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/l10n/time.dart';
 
 import 'timetable.dart';
+import '../i18n.dart';
 
 part "pos.g.dart";
 
@@ -38,6 +39,10 @@ class TimetablePos {
       // if out of range, fallback will be return.
       return fallback ?? initial;
     }
+  }
+
+  String l10n() {
+    return "${i18n.weekOrderedName(number: weekIndex + 1)} ${weekday.l10n()}";
   }
 
   factory TimetablePos.fromJson(Map<String, dynamic> json) => _$TimetablePosFromJson(json);

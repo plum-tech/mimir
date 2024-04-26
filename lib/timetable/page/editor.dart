@@ -333,7 +333,7 @@ Future<DateTime?> _pickTimetableStartDate(
     context: ctx,
     initialDate: initial,
     currentDate: now,
-    firstDate: DateTime(now.year - 2),
+    firstDate: DateTime(now.year - 4),
     lastDate: DateTime(now.year + 2),
     selectableDayPredicate: (DateTime dataTime) => dataTime.weekday == DateTime.monday,
   );

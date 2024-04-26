@@ -95,7 +95,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
   void onSave() {}
 
   Future<void> onPreview() async {
-    await previewTimetable(context,timetable: buildTimetable());
+    await previewTimetable(context, timetable: buildTimetable());
   }
 
   SitTimetable buildTimetable() {
@@ -104,21 +104,21 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
     );
   }
 
-  Widget buildPatchButtons(){
+  Widget buildPatchButtons() {
     return ListView(
       scrollDirection: Axis.horizontal,
       children: TimetablePatchType.values
           .map((type) => ActionChip(
-        avatar: Icon(context.icons.add),
-        label: type.l10n().text(),
-        onPressed: () async {
-          final patch = await type.onCreate(context);
-          if (patch == null) return;
-          setState(() {
-            patches.add(patch);
-          });
-        },
-      ).padOnly(r: 8))
+                avatar: Icon(context.icons.add),
+                label: type.l10n().text(),
+                onPressed: () async {
+                  final patch = await type.onCreate(context, widget.timetable);
+                  if (patch == null) return;
+                  setState(() {
+                    patches.add(patch);
+                  });
+                },
+              ).padOnly(r: 8))
           .toList(),
     ).sized(h: 40);
   }

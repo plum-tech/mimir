@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/l10n/time.dart';
 
 import '../widgets/patch/remove_day.dart';
 import 'loc.dart';
+import 'timetable.dart';
 
 part "patch.g.dart";
 
@@ -24,7 +26,7 @@ enum TimetablePatchType {
   swapDay(TimetableSwapDayPatch.onCreate),
   ;
 
-  final FutureOr<TimetablePatch?> Function(BuildContext context) onCreate;
+  final FutureOr<TimetablePatch?> Function(BuildContext context,SitTimetable timetable) onCreate;
 
   const TimetablePatchType(this.onCreate);
 
@@ -122,8 +124,14 @@ class TimetableRemoveDayPatch extends TimetablePatch {
     return TimetableRemoveDayPatchWidget(patch: this);
   }
 
-  static Future<TimetableRemoveDayPatch?> onCreate(BuildContext context) async {
-    return TimetableRemoveDayPatch(loc: TimetableDayLoc.pos(weekIndex: 0, weekday: Weekday.monday));
+  static Future<TimetableRemoveDayPatch?> onCreate(BuildContext context, SitTimetable timetable) async {
+    final patch = await context.show$Sheet$(
+      (ctx) => TimetableRemoveDayPatchSheet(
+        timetable: timetable,
+        patch: null,
+      ),
+    );
+    return patch;
   }
 }
 
@@ -148,7 +156,7 @@ class TimetableMoveDayPatch extends TimetablePatch {
     );
   }
 
-  static Future<TimetableMoveDayPatch?> onCreate(BuildContext context) async {}
+  static Future<TimetableMoveDayPatch?> onCreate(BuildContext context,SitTimetable timetable) async {}
 }
 
 @JsonSerializable()
@@ -172,7 +180,7 @@ class TimetableSwapDayPatch extends TimetablePatch {
     );
   }
 
-  static Future<TimetableSwapDayPatch?> onCreate(BuildContext context) async {}
+  static Future<TimetableSwapDayPatch?> onCreate(BuildContext context,SitTimetable timetable) async {}
 }
 
 @JsonSerializable()
@@ -196,7 +204,7 @@ class TimetableCopyDayPatch extends TimetablePatch {
     );
   }
 
-  static Future<TimetableCopyDayPatch?> onCreate(BuildContext context) async {}
+  static Future<TimetableCopyDayPatch?> onCreate(BuildContext context,SitTimetable timetable) async {}
 }
 
 // factory .fromJson(Map<String, dynamic> json) => _$FromJson(json);

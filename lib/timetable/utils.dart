@@ -5,17 +5,21 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:open_file/open_file.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/files.dart';
 import 'package:sit/l10n/extension.dart';
+import 'package:sit/l10n/time.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sit/school/utils.dart';
+import 'package:sit/timetable/entity/pos.dart';
 import 'package:sit/utils/error.dart';
 import 'package:sit/utils/ical.dart';
 import 'package:sit/utils/permission.dart';
@@ -487,4 +491,79 @@ SitTimetable parsePostgraduateTimetableFromCourseRaw(
     lastModified: DateTime.now(),
   );
   return res;
+}
+
+Future<int> selectWeekInTimetable({
+  required BuildContext context,
+  required SitTimetable timetable,
+  required int initialWeekIndex,
+}) async {
+  final controller = FixedExtentScrollController(initialItem: initialWeekIndex);
+  final todayPos = timetable.locate(DateTime.now());
+  final todayIndex = todayPos.weekIndex;
+  final selectedWeek = await context.showPicker(
+        count: 20,
+        controller: controller,
+        ok: i18n.jump,
+        okEnabled: (curSelected) => curSelected != initialWeekIndex,
+        actions: [
+          (ctx, curSelected) => PlatformTextButton(
+                onPressed: (curSelected == todayIndex)
+                    ? null
+                    : () {
+                        controller.animateToItem(todayIndex,
+                            duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
+                      },
+                child: i18n.findToday.text(),
+              )
+        ],
+        make: (ctx, i) {
+          return Text(i18n.weekOrderedName(number: i + 1));
+        },
+      ) ??
+      initialWeekIndex;
+  controller.dispose();
+  return selectedWeek;
+}
+
+Future<TimetablePos> selectDayInTimetable({
+  required BuildContext context,
+  required SitTimetable timetable,
+  required TimetablePos initialPos,
+}) async {
+  final initialWeekIndex = initialPos.weekIndex;
+  final initialDayIndex = initialPos.weekday.index;
+  final $week = FixedExtentScrollController(initialItem: initialPos.weekIndex);
+  final $day = FixedExtentScrollController(initialItem: initialDayIndex);
+  final todayPos = timetable.locate(DateTime.now());
+  final todayWeekIndex = todayPos.weekIndex;
+  final todayDayIndex = todayPos.weekday.index;
+  final (selectedWeek, selectedDay) = await context.showDualPicker(
+        countA: 20,
+        countB: 7,
+        controllerA: $week,
+        controllerB: $day,
+        ok: i18n.jump,
+        okEnabled: (weekSelected, daySelected) => weekSelected != initialWeekIndex || daySelected != initialDayIndex,
+        actions: [
+          (ctx, week, day) => PlatformTextButton(
+                onPressed: (week == todayWeekIndex && day == todayDayIndex)
+                    ? null
+                    : () {
+                        $week.animateToItem(todayWeekIndex,
+                            duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
+
+                        $day.animateToItem(todayDayIndex,
+                            duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
+                      },
+                child: i18n.findToday.text(),
+              )
+        ],
+        makeA: (ctx, i) => i18n.weekOrderedName(number: i + 1).text(),
+        makeB: (ctx, i) => Weekday.fromIndex(i).l10n().text(),
+      ) ??
+      (initialWeekIndex, initialDayIndex);
+  $week.dispose();
+  $day.dispose();
+  return TimetablePos(weekIndex: selectedWeek, weekday: Weekday.fromIndex(selectedDay));
 }

@@ -298,18 +298,19 @@ extension SitTimetable4EntityX on SitTimetable {
         }
       }
     }
-
-    for (final patch in patches) {
-      if (patch is TimetableRemoveDayPatch) {
-        final pos = patch.loc;
-        final day = weeks[pos.weekIndex].days[pos.weekday.index];
-        day.clear();
-      }
-    }
-
-    return SitTimetableEntity(
+    final entity = SitTimetableEntity(
       type: this,
       weeks: weeks,
     );
+    for (final patch in patches) {
+      if (patch is TimetableRemoveDayPatch) {
+        final loc = patch.loc;
+        final day = loc.resolveDay(entity);
+        if (day != null) {
+          day.clear();
+        }
+      }
+    }
+    return entity;
   }
 }

@@ -11,6 +11,8 @@ enum TimetableDayLocMode {
   pos,
   date,
   ;
+
+  String l10n() => name;
 }
 
 @JsonSerializable(ignoreUnannotated: true)
@@ -96,5 +98,10 @@ class TimetableDayLoc implements TimetablePos {
       TimetableDayLocMode.date => date,
     }
         .toString();
+  }
+
+  @override
+  String l10n() {
+    throw UnimplementedError();
   }
 }
