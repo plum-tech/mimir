@@ -13,6 +13,7 @@ timetable:
   mine:
     title: Your Timetables
     exportCalendar: Export calendar
+    patch: Patch
     deleteRequest: Confirm to delete?
     deleteRequestDesc: You will lose this timetable permanently
     emptyTip: Let's import a timetable!
@@ -44,6 +45,29 @@ timetable:
     courseOverlapsIssue:
       title: Overlapping courses found
       desc: You can hide one of them to avoid conflicts
+  patch:
+    title: Timetable patch
+    addPatch: Add a patch
+    removeDay: "Remove lessons on {day}"
+    swapDays: "Swap lessons on {a} with {b}"
+    copyDay: "Copy lessons from {source} to {target}"
+    moveDay: "Move lessons from {source} to {target}"
+    type:
+      moveDay: Move day
+      removeDay: Remove day
+      copyDay: Copy day
+      swapDay: Swap days
+    tab:
+      patch: Patch
+      gallery: Gallery
+    builtin:
+      sitVacationShift2024: 2024 SIT Vacation Shift
+    moveSource: The day was originally planned for lesson
+    moveTarget: The day lessons will now be held on
+    copySource: The day was planned for lesson
+    copyTarget: The day lessons will also be held on
+    swappedDay: One of the days to be swapped
+    removedDay: The day to be removed
   import:
     title: Import timetable
     import: Import
@@ -89,6 +113,9 @@ timetable:
   displayMode:
     daily: D
     weekly: W
+  dayLocMode:
+    pos: Position
+    date: Date
   weekIndexType:
     all: Every
     odd: Odd
@@ -877,3 +904,4 @@ copyTip: "{} was copied"
 done: Done
 openInBrowser: Open in browser
 choose: Choose
+unspecified: Unspecified

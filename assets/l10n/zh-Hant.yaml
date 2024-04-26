@@ -13,6 +13,7 @@ timetable:
   mine:
     title: 你的課程表
     exportCalendar: 匯出行事曆
+    patch: 修正
     deleteRequest: 確認刪除
     deleteRequestDesc: 你會失去這個課程表，永久地。
     emptyTip: 快去匯入一張新的課程表吧！
@@ -33,17 +34,40 @@ timetable:
       single: "第 {} 節"
       multiple: "從第 {from} 節到第 {to} 節"
   issue:
-    title: 課表問題
+    title: 課程表問題
     resolve: 解決
     emptyIssue:
-      title: 課表為空
-      desc: 檢查您是否導入了正確的課表
+      title: 課程表為空
+      desc: 檢查您是否導入了正確的課程表
     cbeCourseIssue:
       title: 發現學分抵免 (CBE) 課程
-      desc: 您可以在課表中隱藏 CBE 課程
+      desc: 您可以在課程表中隱藏 CBE 課程
     courseOverlapsIssue:
       title: 發現課程時間衝突
       desc: 您可以隱藏其中一個課程以避免衝突
+  patch:
+    title: 課程表修正
+    addPatch: 增加一條修正
+    removeDay: "移除 {day} 的課"
+    swapDays: "將 {a} 和 {b} 的課交換"
+    copyDay: "{target} 和 {source} 上一樣的課"
+    moveDay: "{target} 改為上 {source} 的課"
+    type:
+      moveDay: 移動一天
+      removeDay: 移除一天
+      copyDay: 複製一天
+      swapDay: 交換兩天
+    tab:
+      patch: 修正
+      gallery: 圖庫
+    builtin:
+      sitVacationShift2024: 2024年上癮大放假調休
+    moveSource: 原來上課的一天
+    moveTarget: 修改後的一天
+    copySource: 上課的一天
+    copyTarget: 上相同課的一天
+    swappedDay: 要被交換的其中一天
+    removedDay: 要被移除的一天
   import:
     title: 匯入課程表
     import: 匯入
@@ -90,6 +114,9 @@ timetable:
   displayMode:
     daily: 日
     weekly: 周
+  dayLocMode:
+    pos: 位置
+    date: 日期
   weekIndexType:
     all: 每週
     odd: 奇數週
@@ -877,3 +904,4 @@ copyTip: "{} 被複製到剪貼板了"
 done: 完成
 openInBrowser: 在瀏覽器中開啟
 choose: 挑選
+unspecified: 未指定

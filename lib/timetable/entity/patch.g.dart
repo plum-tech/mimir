@@ -24,12 +24,12 @@ Map<String, dynamic> _$TimetableMoveDayPatchToJson(TimetableMoveDayPatch instanc
       'target': instance.target,
     };
 
-TimetableSwapDayPatch _$TimetableSwapDayPatchFromJson(Map<String, dynamic> json) => TimetableSwapDayPatch(
+TimetableSwapDaysPatch _$TimetableSwapDaysPatchFromJson(Map<String, dynamic> json) => TimetableSwapDaysPatch(
       a: TimetableDayLoc.fromJson(json['a'] as Map<String, dynamic>),
       b: TimetableDayLoc.fromJson(json['b'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$TimetableSwapDayPatchToJson(TimetableSwapDayPatch instance) => <String, dynamic>{
+Map<String, dynamic> _$TimetableSwapDaysPatchToJson(TimetableSwapDaysPatch instance) => <String, dynamic>{
       'a': instance.a,
       'b': instance.b,
     };
@@ -48,5 +48,5 @@ const _$TimetablePatchTypeEnumMap = {
   TimetablePatchType.moveDay: 'moveDay',
   TimetablePatchType.removeDay: 'removeDay',
   TimetablePatchType.copyDay: 'copyDay',
-  TimetablePatchType.swapDay: 'swapDay',
+  TimetablePatchType.swapDays: 'swapDays',
 };

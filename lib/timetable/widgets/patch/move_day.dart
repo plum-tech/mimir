@@ -28,7 +28,7 @@ class TimetableMoveDayPatchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: "Move day".text(),
+      title: patch.type.l10n().text(),
       subtitle: patch.l10n().text(),
       trailing: Icon(context.icons.edit),
       onTap: () async {
@@ -82,7 +82,7 @@ class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet>
         body: CustomScrollView(
           slivers: [
             SliverAppBar.medium(
-              title: "Move day".text(),
+              title: TimetablePatchType.moveDay.l10n().text(),
               actions: [
                 PlatformTextButton(
                   onPressed: onPreview,
@@ -121,8 +121,8 @@ class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet>
   List<Widget> buildPosTab() {
     return [
       TimetableDayLocPosSelectionTile(
-        leading: Icon(Icons.output),
-        title: "Source position".text(),
+        leading: const Icon(Icons.output),
+        title: i18n.patch.moveSource.text(),
         timetable: widget.timetable,
         pos: sourcePos,
         onChanged: (newPos) {
@@ -133,8 +133,8 @@ class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet>
         },
       ),
       TimetableDayLocPosSelectionTile(
-        leading: Icon(Icons.input),
-        title: "Target position".text(),
+        leading: const Icon(Icons.input),
+        title: i18n.patch.moveTarget.text(),
         timetable: widget.timetable,
         pos: targetPos,
         onChanged: (newPos) {
@@ -150,8 +150,8 @@ class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet>
   List<Widget> buildDateTab() {
     return [
       TimetableDayLocDateSelectionTile(
-        leading: Icon(Icons.output),
-        title: "Source date".text(),
+        leading: const Icon(Icons.output),
+        title: i18n.patch.moveSource.text(),
         timetable: widget.timetable,
         date: sourceDate,
         onChanged: (newPos) {
@@ -162,8 +162,8 @@ class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet>
         },
       ),
       TimetableDayLocDateSelectionTile(
-        leading: Icon(Icons.input),
-        title: "Target date".text(),
+        leading: const Icon(Icons.input),
+        title: i18n.patch.moveTarget.text(),
         timetable: widget.timetable,
         date: targetDate,
         onChanged: (newPos) {

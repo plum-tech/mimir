@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/design/adaptive/foundation.dart';
@@ -10,6 +11,7 @@ import '../widgets/patch/remove_day.dart';
 import '../widgets/patch/swap_day.dart';
 import 'loc.dart';
 import 'timetable.dart';
+import '../i18n.dart';
 
 part "patch.g.dart";
 
@@ -24,14 +26,14 @@ enum TimetablePatchType {
   moveDay(TimetableMoveDayPatch.onCreate),
   removeDay(TimetableRemoveDayPatch.onCreate),
   copyDay(TimetableCopyDayPatch.onCreate),
-  swapDay(TimetableSwapDayPatch.onCreate),
+  swapDays(TimetableSwapDaysPatch.onCreate),
   ;
 
   final FutureOr<TimetablePatch?> Function(BuildContext context, SitTimetable timetable) onCreate;
 
   const TimetablePatchType(this.onCreate);
 
-  String l10n() => name;
+  String l10n() => "timetable.patch.type.$name".tr();
 }
 
 /// To opt-in [JsonSerializable], please specify `toJson` parameter to [TimetablePatch.toJson].
@@ -50,7 +52,7 @@ sealed class TimetablePatch {
       // TimetablePatchType.moveLesson => TimetableAddLessonPatch.fromJson(json),
       // TimetablePatchType.addDay => TimetableAddLessonPatch.fromJson(json),
       TimetablePatchType.removeDay => TimetableRemoveDayPatch.fromJson(json),
-      TimetablePatchType.swapDay => TimetableSwapDayPatch.fromJson(json),
+      TimetablePatchType.swapDays => TimetableSwapDaysPatch.fromJson(json),
       TimetablePatchType.moveDay => TimetableMoveDayPatch.fromJson(json),
       TimetablePatchType.copyDay => TimetableCopyDayPatch.fromJson(json),
     };
@@ -82,7 +84,7 @@ class BuiltinTimetablePatchSet implements TimetablePatchSet {
   final String key;
 
   @override
-  String get name => "timetable.patch.builtin.$key";
+  String get name => "timetable.patch.builtin.$key".tr();
   @override
   final List<TimetablePatch> patches;
 
@@ -175,7 +177,7 @@ class TimetableRemoveDayPatch extends TimetablePatch {
 
   @override
   String l10n() {
-    return loc.l10n();
+    return i18n.patch.removeDay(loc.l10n());
   }
 }
 
@@ -224,56 +226,7 @@ class TimetableMoveDayPatch extends TimetablePatch {
 
   @override
   String l10n() {
-    return"Move from ${source.l10n()} to ${target.l10n()}";
-  }
-}
-
-@JsonSerializable()
-class TimetableSwapDayPatch extends TimetablePatch {
-  @override
-  TimetablePatchType get type => TimetablePatchType.swapDay;
-  @JsonKey()
-  final TimetableDayLoc a;
-  @JsonKey()
-  final TimetableDayLoc b;
-
-  const TimetableSwapDayPatch({
-    required this.a,
-    required this.b,
-  });
-
-  factory TimetableSwapDayPatch.fromJson(Map<String, dynamic> json) => _$TimetableSwapDayPatchFromJson(json);
-
-  @override
-  Map<String, dynamic> _toJsonImpl() => _$TimetableSwapDayPatchToJson(this);
-
-  @override
-  Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetableSwapDayPatch> onChanged) {
-    return TimetableSwapDayPatchWidget(
-      patch: this,
-      timetable: timetable,
-      onChanged: onChanged,
-    );
-  }
-
-  static Future<TimetableSwapDayPatch?> onCreate(BuildContext context, SitTimetable timetable) async {
-    final patch = await context.show$Sheet$(
-      (ctx) => TimetableSwapDayPatchSheet(
-        timetable: timetable,
-        patch: null,
-      ),
-    );
-    return patch;
-  }
-
-  @override
-  String l10n() {
-    return "Exchange ${a.l10n()} with ${b.l10n()}";
-  }
-
-  @override
-  String toDartCode() {
-    return "TimetableSwapDayPatch(a:${a.toDartCode()},b:${b.toDartCode()})";
+    return i18n.patch.moveDay(source.l10n(), target.l10n());
   }
 }
 
@@ -317,7 +270,7 @@ class TimetableCopyDayPatch extends TimetablePatch {
 
   @override
   String l10n() {
-    return "Copy from ${source.l10n()} to ${target.l10n()}";
+    return i18n.patch.copyDay(source.l10n(), target.l10n());
   }
 
   @override
@@ -326,6 +279,54 @@ class TimetableCopyDayPatch extends TimetablePatch {
   }
 }
 
+@JsonSerializable()
+class TimetableSwapDaysPatch extends TimetablePatch {
+  @override
+  TimetablePatchType get type => TimetablePatchType.swapDays;
+  @JsonKey()
+  final TimetableDayLoc a;
+  @JsonKey()
+  final TimetableDayLoc b;
+
+  const TimetableSwapDaysPatch({
+    required this.a,
+    required this.b,
+  });
+
+  factory TimetableSwapDaysPatch.fromJson(Map<String, dynamic> json) => _$TimetableSwapDaysPatchFromJson(json);
+
+  @override
+  Map<String, dynamic> _toJsonImpl() => _$TimetableSwapDaysPatchToJson(this);
+
+  @override
+  Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetableSwapDaysPatch> onChanged) {
+    return TimetableSwapDaysPatchWidget(
+      patch: this,
+      timetable: timetable,
+      onChanged: onChanged,
+    );
+  }
+
+  static Future<TimetableSwapDaysPatch?> onCreate(BuildContext context, SitTimetable timetable) async {
+    final patch = await context.show$Sheet$(
+      (ctx) => TimetableSwapDaysPatchSheet(
+        timetable: timetable,
+        patch: null,
+      ),
+    );
+    return patch;
+  }
+
+  @override
+  String l10n() {
+    return i18n.patch.swapDays(a.l10n(), b.l10n());
+  }
+
+  @override
+  String toDartCode() {
+    return "TimetableSwapDayPatch(a:${a.toDartCode()},b:${b.toDartCode()})";
+  }
+}
 // factory .fromJson(Map<String, dynamic> json) => _$FromJson(json);
 //
 // Map<String, dynamic> toJson() => _$ToJson(this);

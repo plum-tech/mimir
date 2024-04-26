@@ -43,7 +43,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
         body: CustomScrollView(
           slivers: [
             SliverAppBar.medium(
-              title: "Timetable patch".text(),
+              title: i18n.patch.title.text(),
               actions: [
                 PlatformTextButton(
                   onPressed: onPreview,
@@ -69,12 +69,12 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
             NavigationDestination(
               icon: const Icon(Icons.dashboard_customize_outlined),
               selectedIcon: const Icon(Icons.dashboard_customize),
-              label: "Patch",
+              label: i18n.patch.patchTab,
             ),
             NavigationDestination(
               icon: const Icon(Icons.browse_gallery_outlined),
               selectedIcon: const Icon(Icons.browse_gallery),
-              label: "Gallery",
+              label: i18n.patch.galleryTab,
             ),
           ],
         ),
@@ -94,7 +94,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
     return [
       SliverList.list(children: [
         ListTile(
-          title: "Add a patch".text(),
+          title: i18n.patch.addPatch.text(),
         ),
         buildPatchButtons(),
         const Divider(),
@@ -131,7 +131,6 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
             );
           },
         ),
-
       ),
     ];
   }

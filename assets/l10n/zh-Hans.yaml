@@ -13,6 +13,7 @@ timetable:
   mine:
     title: 你的课程表
     exportCalendar: 导出日历
+    patch: 临时改课
     deleteRequest: 确定删除？
     deleteRequestDesc: 这个课程表将被永久删除
     emptyTip: 快去导入一个课程表吧！
@@ -44,6 +45,29 @@ timetable:
     courseOverlapsIssue:
       title: 发现课程时间冲突
       desc: 您可以隐藏其中一个课程以避免冲突
+  patch:
+    title: 临时改课
+    addPatch: 添加一个修改
+    removeDay: "删除 {day} 的课"
+    swapDays: "交换 {a} 和 {b} 的课"
+    copyDay: "{target} 上与 {source} 相同的课"
+    moveDay: "把 {source} 的课改到 {target}"
+    type:
+      moveDay: 移动某天
+      removeDay: 删除某天
+      copyDay: 复制某天
+      swapDay: 交换某天
+    tab:
+      patch: 修改
+      gallery: 库
+    builtin:
+      sitVacationShift2024: 2024年上应大放假调休
+    moveSource: 原本要上课的日子
+    moveTarget: 修改后要上课的日子
+    copySource: 上课的日子
+    copyTarget: 修改后要上相同课的日子
+    swappedDay: 要交换的其中一天
+    removedDay: 要删除的日子
   import:
     title: 导入课程表
     import: 导入
@@ -89,6 +113,9 @@ timetable:
   displayMode:
     daily: 日
     weekly: 周
+  dayLocMode:
+    pos: 位置
+    date: 日期
   weekIndexType:
     all: 每周
     odd: 单周
@@ -877,3 +904,4 @@ copyTip: "已复制 {} 到剪贴板了"
 done: 完成
 openInBrowser: 在浏览器中打开
 choose: 挑选
+unspecified: 未指定

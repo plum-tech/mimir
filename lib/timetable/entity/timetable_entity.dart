@@ -369,7 +369,7 @@ extension SitTimetable4EntityX on SitTimetable {
         if (sourceDay != null && targetDay != null) {
           targetDay.replaceWith(sourceDay);
         }
-      } else if (patch is TimetableSwapDayPatch) {
+      } else if (patch is TimetableSwapDaysPatch) {
         final a = patch.a;
         final b = patch.b;
         final aDay = a.resolveDay(entity);

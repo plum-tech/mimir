@@ -17,6 +17,7 @@ class _I18n with CommonI18nMixin {
   final screenshot = const _Screenshot();
   final editor = const _Editor();
   final issue = const _Issue();
+  final patch = const _Patch();
   final freeTip = const _FreeTip();
   final campus = const CampusI10n();
   final settings = const _Settings();
@@ -53,7 +54,7 @@ class _Mine {
 
   String get exportCalendar => "$ns.exportCalendar".tr();
 
-  String get add2Calendar => "$ns.add2Calendar".tr();
+  String get patch => "$ns.patch".tr();
 
   String get deleteRequest => "$ns.deleteRequest".tr();
 
@@ -293,6 +294,51 @@ class _Issue {
   String get courseOverlapsIssue => "$ns.courseOverlapsIssue.title".tr();
 
   String get courseOverlapsIssueDesc => "$ns.courseOverlapsIssue.desc".tr();
+}
+
+class _Patch {
+  const _Patch();
+
+  static const ns = "${_I18n.ns}.patch";
+
+  String get title => "$ns.title".tr();
+
+  String get patchTab => "$ns.tab.patch".tr();
+
+  String get galleryTab => "$ns.tab.gallery".tr();
+
+  String get addPatch => "$ns.addPatch".tr();
+
+  String removeDay(String day) => "$ns.removeDay".tr(namedArgs: {
+        "day": day,
+      });
+
+  String swapDays(String a, String b) => "$ns.removeDay".tr(namedArgs: {
+        "a": a,
+        "b": b,
+      });
+
+  String copyDay(String source, String target) => "$ns.copyDay".tr(namedArgs: {
+        "source": source,
+        "target": target,
+      });
+
+  String moveDay(String source, String target) => "$ns.moveDay".tr(namedArgs: {
+        "source": source,
+        "target": target,
+      });
+
+  String get moveSource => "$ns.moveSource".tr();
+
+  String get moveTarget => "$ns.moveTarget".tr();
+
+  String get copySource => "$ns.copySource".tr();
+
+  String get copyTarget => "$ns.copyTarget".tr();
+
+  String get swappedDay => "$ns.swappedDay".tr();
+
+  String get removedDay => "$ns.removedDay".tr();
 }
 
 class _Export {

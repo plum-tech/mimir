@@ -28,7 +28,7 @@ class TimetableCopyDayPatchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: "Copy day".text(),
+      title: patch.type.l10n().text(),
       subtitle: patch.l10n().text(),
       trailing: Icon(context.icons.edit),
       onTap: () async {
@@ -82,7 +82,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
         body: CustomScrollView(
           slivers: [
             SliverAppBar.medium(
-              title: "Copy day".text(),
+              title: TimetablePatchType.copyDay.l10n().text(),
               actions: [
                 PlatformTextButton(
                   onPressed: onPreview,
@@ -121,7 +121,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
   List<Widget> buildPosTab() {
     return [
       TimetableDayLocPosSelectionTile(
-        leading: Icon(Icons.output),
+        leading: const Icon(Icons.output),
         title: "Source position".text(),
         timetable: widget.timetable,
         pos: sourcePos,
@@ -133,7 +133,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
         },
       ),
       TimetableDayLocPosSelectionTile(
-        leading: Icon(Icons.input),
+        leading: const Icon(Icons.input),
         title: "Target position".text(),
         timetable: widget.timetable,
         pos: targetPos,
@@ -150,7 +150,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
   List<Widget> buildDateTab() {
     return [
       TimetableDayLocDateSelectionTile(
-        leading: Icon(Icons.output),
+        leading: const Icon(Icons.output),
         title: "Source date".text(),
         timetable: widget.timetable,
         date: sourceDate,
@@ -162,7 +162,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
         },
       ),
       TimetableDayLocDateSelectionTile(
-        leading: Icon(Icons.input),
+        leading: const Icon(Icons.input),
         title: "Target date".text(),
         timetable: widget.timetable,
         date: targetDate,

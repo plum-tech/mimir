@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/lifecycle.dart';
@@ -12,7 +13,7 @@ enum TimetableDayLocMode {
   date,
   ;
 
-  String l10n() => name;
+  String l10n() => "timetable.dayLocMode.$name".tr();
 }
 
 @JsonSerializable(ignoreUnannotated: true)

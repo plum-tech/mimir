@@ -4,9 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/l10n/extension.dart';
 import 'package:sit/timetable/entity/loc.dart';
-import 'package:sit/timetable/utils.dart';
 import 'package:sit/utils/save.dart';
 
 import '../../entity/patch.dart';
@@ -30,7 +28,7 @@ class TimetableRemoveDayPatchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: "Remove day".text(),
+      title: patch.type.l10n().text(),
       subtitle: patch.l10n().text(),
       trailing: Icon(context.icons.edit),
       onTap: () async {
@@ -80,7 +78,7 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
         body: CustomScrollView(
           slivers: [
             SliverAppBar.medium(
-              title: "Remove day".text(),
+              title: TimetablePatchType.removeDay.l10n().text(),
               actions: [
                 PlatformTextButton(
                   onPressed: onPreview,
@@ -119,7 +117,7 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
   List<Widget> buildPosTab() {
     return [
       TimetableDayLocPosSelectionTile(
-        title: "What day to be removed".text(),
+        title: i18n.patch.removedDay.text(),
         timetable: widget.timetable,
         pos: pos,
         onChanged: (newPos) {
@@ -135,7 +133,7 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
   List<Widget> buildDateTab() {
     return [
       TimetableDayLocDateSelectionTile(
-        title: "What day to be removed".text(),
+        title: i18n.patch.removedDay.text(),
         timetable: widget.timetable,
         date: date,
         onChanged: (newPos) {

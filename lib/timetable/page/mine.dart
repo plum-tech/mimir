@@ -293,7 +293,7 @@ class TimetableCard extends StatelessWidget {
         ),
         if (Dev.on)
           EntryAction(
-            label: "Patch",
+            label: i18n.mine.patch,
             icon: Icons.dashboard_customize,
             action: () async {
               var patches = await ctx.push<List<TimetablePatch>>("/timetable/$id/edit/patch");

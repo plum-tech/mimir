@@ -3,7 +3,7 @@ import 'entity/patch.dart';
 
 class BuiltinTimetablePatchSets {
   static final vacationShift2024 = BuiltinTimetablePatchSet(
-    key: "vacationShift2024",
+    key: "sitVacationShift2024",
     patches: [
       TimetableMoveDayPatch(
         source: TimetableDayLoc.date(DateTime(2024, 4, 30)),

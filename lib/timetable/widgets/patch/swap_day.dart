@@ -13,12 +13,12 @@ import '../../page/preview.dart';
 import '../../i18n.dart';
 import 'shared.dart';
 
-class TimetableSwapDayPatchWidget extends StatelessWidget {
-  final TimetableSwapDayPatch patch;
+class TimetableSwapDaysPatchWidget extends StatelessWidget {
+  final TimetableSwapDaysPatch patch;
   final SitTimetable timetable;
-  final ValueChanged<TimetableSwapDayPatch> onChanged;
+  final ValueChanged<TimetableSwapDaysPatch> onChanged;
 
-  const TimetableSwapDayPatchWidget({
+  const TimetableSwapDaysPatchWidget({
     super.key,
     required this.patch,
     required this.timetable,
@@ -28,12 +28,12 @@ class TimetableSwapDayPatchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: "Swap day".text(),
+      title: patch.type.l10n().text(),
       subtitle: patch.l10n().text(),
       trailing: Icon(context.icons.edit),
       onTap: () async {
         final newPath = await context.show$Sheet$(
-          (ctx) => TimetableSwapDayPatchSheet(
+          (ctx) => TimetableSwapDaysPatchSheet(
             timetable: timetable,
             patch: patch,
           ),
@@ -44,21 +44,21 @@ class TimetableSwapDayPatchWidget extends StatelessWidget {
   }
 }
 
-class TimetableSwapDayPatchSheet extends StatefulWidget {
+class TimetableSwapDaysPatchSheet extends StatefulWidget {
   final SitTimetable timetable;
-  final TimetableSwapDayPatch? patch;
+  final TimetableSwapDaysPatch? patch;
 
-  const TimetableSwapDayPatchSheet({
+  const TimetableSwapDaysPatchSheet({
     super.key,
     required this.timetable,
     required this.patch,
   });
 
   @override
-  State<TimetableSwapDayPatchSheet> createState() => _TimetableSwapDayPatchSheetState();
+  State<TimetableSwapDaysPatchSheet> createState() => _TimetableSwapDaysPatchSheetState();
 }
 
-class _TimetableSwapDayPatchSheetState extends State<TimetableSwapDayPatchSheet> {
+class _TimetableSwapDaysPatchSheetState extends State<TimetableSwapDaysPatchSheet> {
   TimetableDayLoc? get initialA => widget.patch?.a;
 
   TimetableDayLoc? get initialB => widget.patch?.b;
@@ -82,7 +82,7 @@ class _TimetableSwapDayPatchSheetState extends State<TimetableSwapDayPatchSheet>
         body: CustomScrollView(
           slivers: [
             SliverAppBar.medium(
-              title: "Swap day".text(),
+              title: TimetablePatchType.swapDays.l10n().text(),
               actions: [
                 PlatformTextButton(
                   onPressed: onPreview,
@@ -121,8 +121,7 @@ class _TimetableSwapDayPatchSheetState extends State<TimetableSwapDayPatchSheet>
   List<Widget> buildPosTab() {
     return [
       TimetableDayLocPosSelectionTile(
-        leading: Icon(Icons.output),
-        title: "A position".text(),
+        title: i18n.patch.swappedDay.text(),
         timetable: widget.timetable,
         pos: aPos,
         onChanged: (newPos) {
@@ -133,8 +132,7 @@ class _TimetableSwapDayPatchSheetState extends State<TimetableSwapDayPatchSheet>
         },
       ),
       TimetableDayLocPosSelectionTile(
-        leading: Icon(Icons.input),
-        title: "B position".text(),
+        title: i18n.patch.swappedDay.text(),
         timetable: widget.timetable,
         pos: bPos,
         onChanged: (newPos) {
@@ -150,8 +148,7 @@ class _TimetableSwapDayPatchSheetState extends State<TimetableSwapDayPatchSheet>
   List<Widget> buildDateTab() {
     return [
       TimetableDayLocDateSelectionTile(
-        leading: Icon(Icons.output),
-        title: "A date".text(),
+        title: i18n.patch.swappedDay.text(),
         timetable: widget.timetable,
         date: aDate,
         onChanged: (newPos) {
@@ -162,8 +159,7 @@ class _TimetableSwapDayPatchSheetState extends State<TimetableSwapDayPatchSheet>
         },
       ),
       TimetableDayLocDateSelectionTile(
-        leading: Icon(Icons.input),
-        title: "B date".text(),
+        title: i18n.patch.swappedDay.text(),
         timetable: widget.timetable,
         date: bDate,
         onChanged: (newPos) {
@@ -195,7 +191,7 @@ class _TimetableSwapDayPatchSheetState extends State<TimetableSwapDayPatchSheet>
     );
   }
 
-  TimetableSwapDayPatch? buildPatch() {
+  TimetableSwapDaysPatch? buildPatch() {
     final aPos = this.aPos;
     final aDate = this.aDate;
     final bPos = this.bPos;
@@ -208,6 +204,6 @@ class _TimetableSwapDayPatchSheetState extends State<TimetableSwapDayPatchSheet>
       TimetableDayLocMode.pos => bPos != null ? TimetableDayLoc.pos(bPos) : null,
       TimetableDayLocMode.date => bDate != null ? TimetableDayLoc.date(bDate) : null,
     };
-    return a != null && b != null ? TimetableSwapDayPatch(a: a, b: b) : null;
+    return a != null && b != null ? TimetableSwapDaysPatch(a: a, b: b) : null;
   }
 }

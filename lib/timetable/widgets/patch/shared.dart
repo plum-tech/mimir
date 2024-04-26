@@ -57,7 +57,7 @@ class TimetableDayLocPosSelectionTile extends StatelessWidget {
     return ListTile(
       leading: leading,
       title: title,
-      subtitle: pos == null ? "Not set".text() : pos.l10n().text(),
+      subtitle: pos == null ? i18n.unspecified.text() : pos.l10n().text(),
       trailing: FilledButton(
         child: i18n.select.text(),
         onPressed: () async {
@@ -97,7 +97,7 @@ class TimetableDayLocDateSelectionTile extends StatelessWidget {
     return ListTile(
       leading: leading,
       title: title,
-      subtitle: date == null ? "Not set".text() : context.formatYmdWeekText(date).text(),
+      subtitle: date == null ? i18n.unspecified.text() : context.formatYmdWeekText(date).text(),
       trailing: FilledButton(
         child: i18n.select.text(),
         onPressed: () async {

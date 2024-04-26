@@ -80,6 +80,8 @@ mixin class CommonI18nMixin {
   String get openInBrowser => "openInBrowser".tr();
 
   String get choose => "choose".tr();
+
+  String get unspecified => "unspecified".tr();
 }
 
 class CommonI18n with CommonI18nMixin {
