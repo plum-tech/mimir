@@ -5,6 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 
+import '../widgets/patch/move_day.dart';
 import '../widgets/patch/remove_day.dart';
 import 'loc.dart';
 import 'timetable.dart';
@@ -160,14 +161,22 @@ class TimetableMoveDayPatch extends TimetablePatch {
 
   @override
   Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetableMoveDayPatch> onChanged) {
-    return Card.filled(
-      child: ListTile(
-        title: "Move day".text(),
-      ),
+    return TimetableMoveDayPatchWidget(
+      patch: this,
+      timetable: timetable,
+      onChanged: onChanged,
     );
   }
 
-  static Future<TimetableMoveDayPatch?> onCreate(BuildContext context, SitTimetable timetable) async {}
+  static Future<TimetableMoveDayPatch?> onCreate(BuildContext context, SitTimetable timetable) async {
+    final patch = await context.show$Sheet$(
+      (ctx) => TimetableMoveDayPatchSheet(
+        timetable: timetable,
+        patch: null,
+      ),
+    );
+    return patch;
+  }
 }
 
 @JsonSerializable()

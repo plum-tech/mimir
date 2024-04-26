@@ -13,6 +13,7 @@ import '../../entity/patch.dart';
 import '../../entity/timetable.dart';
 import '../../page/preview.dart';
 import '../../i18n.dart';
+import 'shared.dart';
 
 class TimetableRemoveDayPatchWidget extends StatelessWidget {
   final TimetableRemoveDayPatch patch;
@@ -33,13 +34,13 @@ class TimetableRemoveDayPatchWidget extends StatelessWidget {
       subtitle: patch.loc.l10n().text(),
       trailing: Icon(context.icons.edit),
       onTap: () async {
-        final patch = await context.show$Sheet$(
+        final newPath = await context.show$Sheet$(
           (ctx) => TimetableRemoveDayPatchSheet(
             timetable: timetable,
-            patch: null,
+            patch: patch,
           ),
         );
-        onChanged(patch);
+        onChanged(newPath);
       },
     );
   }
@@ -61,7 +62,7 @@ class TimetableRemoveDayPatchSheet extends StatefulWidget {
 
 class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSheet> {
   TimetableDayLoc? get initialLoc => widget.patch?.loc;
-  late var mode = initialLoc?.mode ?? TimetableDayLocMode.pos;
+  late var mode = initialLoc?.mode ?? TimetableDayLocMode.date;
   late var pos = initialLoc?.mode == TimetableDayLocMode.pos ? initialLoc?.pos : null;
   late var date = initialLoc?.mode == TimetableDayLocMode.date ? initialLoc?.date : null;
   var anyChanged = false;
@@ -105,75 +106,45 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
   }
 
   Widget buildMode() {
-    return SegmentedButton<TimetableDayLocMode>(
-      segments: TimetableDayLocMode.values
-          .map((e) => ButtonSegment<TimetableDayLocMode>(
-                value: e,
-                label: e.l10n().text(),
-              ))
-          .toList(),
-      selected: <TimetableDayLocMode>{mode},
-      onSelectionChanged: (newSelection) async {
+    return TimetableDayLocModeSwitcher(
+      selected: mode,
+      onSelected: (newMode) async {
         setState(() {
-          mode = newSelection.first;
+          mode = newMode;
         });
       },
     );
   }
 
   List<Widget> buildPosTab() {
-    final pos = this.pos;
     return [
-      ListTile(
-        leading: const Icon(Icons.alarm),
-        title: "Position to remove".text(),
-        subtitle: pos == null ? "Not set".text() : pos.l10n().text(),
-        trailing: FilledButton(
-          child: i18n.select.text(),
-          onPressed: () async {
-            final newPos = await selectDayInTimetable(
-              context: context,
-              timetable: widget.timetable,
-              initialPos: pos,
-              submitLabel: i18n.select,
-            );
-            if (newPos == null) return;
-            setState(() {
-              this.pos = newPos;
-            });
-            markChanged();
-          },
-        ),
-      )
+      TimetableDayLocPosSelectionTile(
+        title: "What day to be removed".text(),
+        timetable: widget.timetable,
+        pos: pos,
+        onChanged: (newPos) {
+          setState(() {
+            pos = newPos;
+          });
+          markChanged();
+        },
+      ),
     ];
   }
 
   List<Widget> buildDateTab() {
-    final date = this.date;
     return [
-      ListTile(
-        leading: const Icon(Icons.alarm),
-        title: "Date to remove".text(),
-        subtitle: date == null ? "Not set".text() : context.formatYmdText(date).text(),
-        trailing: FilledButton(
-          child: i18n.select.text(),
-          onPressed: () async {
-            final now = DateTime.now();
-            final newDate = await showDatePicker(
-              context: context,
-              initialDate: date ?? now,
-              currentDate: now,
-              firstDate: DateTime(now.year - 4),
-              lastDate: DateTime(now.year + 2),
-            );
-            if (newDate == null) return;
-            setState(() {
-              this.date = newDate;
-            });
-            markChanged();
-          },
-        ),
-      )
+      TimetableDayLocDateSelectionTile(
+        title: "What day to be removed".text(),
+        timetable: widget.timetable,
+        date: date,
+        onChanged: (newPos) {
+          setState(() {
+            date = newPos;
+          });
+          markChanged();
+        },
+      ),
     ];
   }
 

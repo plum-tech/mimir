@@ -4,22 +4,21 @@ import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/l10n/extension.dart';
 import 'package:sit/timetable/entity/loc.dart';
-import 'package:sit/timetable/utils.dart';
 import 'package:sit/utils/save.dart';
 
 import '../../entity/patch.dart';
 import '../../entity/timetable.dart';
 import '../../page/preview.dart';
 import '../../i18n.dart';
+import 'shared.dart';
 
-class TimetableRemoveDayPatchWidget extends StatelessWidget {
-  final TimetableRemoveDayPatch patch;
+class TimetableMoveDayPatchWidget extends StatelessWidget {
+  final TimetableMoveDayPatch patch;
   final SitTimetable timetable;
-  final ValueChanged<TimetableRemoveDayPatch> onChanged;
+  final ValueChanged<TimetableMoveDayPatch> onChanged;
 
-  const TimetableRemoveDayPatchWidget({
+  const TimetableMoveDayPatchWidget({
     super.key,
     required this.patch,
     required this.timetable,
@@ -29,41 +28,45 @@ class TimetableRemoveDayPatchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: "Remove day".text(),
-      subtitle: patch.loc.l10n().text(),
+      title: "Move day".text(),
+      subtitle: "move from ${patch.source.l10n()} to ${patch.target.l10n()}".text(),
       trailing: Icon(context.icons.edit),
       onTap: () async {
-        final patch = await context.show$Sheet$(
-          (ctx) => TimetableRemoveDayPatchSheet(
+        final newPath = await context.show$Sheet$(
+          (ctx) => TimetableMoveDayPatchSheet(
             timetable: timetable,
-            patch: null,
+            patch: patch,
           ),
         );
-        onChanged(patch);
+        onChanged(newPath);
       },
     );
   }
 }
 
-class TimetableRemoveDayPatchSheet extends StatefulWidget {
+class TimetableMoveDayPatchSheet extends StatefulWidget {
   final SitTimetable timetable;
-  final TimetableRemoveDayPatch? patch;
+  final TimetableMoveDayPatch? patch;
 
-  const TimetableRemoveDayPatchSheet({
+  const TimetableMoveDayPatchSheet({
     super.key,
     required this.timetable,
     required this.patch,
   });
 
   @override
-  State<TimetableRemoveDayPatchSheet> createState() => _TimetableRemoveDayPatchSheetState();
+  State<TimetableMoveDayPatchSheet> createState() => _TimetableMoveDayPatchSheetState();
 }
 
-class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSheet> {
-  TimetableDayLoc? get initialLoc => widget.patch?.loc;
-  late var mode = initialLoc?.mode ?? TimetableDayLocMode.pos;
-  late var pos = initialLoc?.mode == TimetableDayLocMode.pos ? initialLoc?.pos : null;
-  late var date = initialLoc?.mode == TimetableDayLocMode.date ? initialLoc?.date : null;
+class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet> {
+  TimetableDayLoc? get initialSource => widget.patch?.source;
+
+  TimetableDayLoc? get initialTarget => widget.patch?.target;
+  late var mode = initialSource?.mode ?? TimetableDayLocMode.date;
+  late var sourcePos = initialSource?.mode == TimetableDayLocMode.pos ? initialSource?.pos : null;
+  late var sourceDate = initialSource?.mode == TimetableDayLocMode.date ? initialSource?.date : null;
+  late var targetPos = initialTarget?.mode == TimetableDayLocMode.pos ? initialTarget?.pos : null;
+  late var targetDate = initialTarget?.mode == TimetableDayLocMode.date ? initialTarget?.date : null;
   var anyChanged = false;
 
   void markChanged() => anyChanged |= true;
@@ -79,7 +82,7 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
         body: CustomScrollView(
           slivers: [
             SliverAppBar.medium(
-              title: "Remove day".text(),
+              title: "Move day".text(),
               actions: [
                 PlatformTextButton(
                   onPressed: onPreview,
@@ -105,75 +108,71 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
   }
 
   Widget buildMode() {
-    return SegmentedButton<TimetableDayLocMode>(
-      segments: TimetableDayLocMode.values
-          .map((e) => ButtonSegment<TimetableDayLocMode>(
-                value: e,
-                label: e.l10n().text(),
-              ))
-          .toList(),
-      selected: <TimetableDayLocMode>{mode},
-      onSelectionChanged: (newSelection) async {
+    return TimetableDayLocModeSwitcher(
+      selected: mode,
+      onSelected: (newMode) async {
         setState(() {
-          mode = newSelection.first;
+          mode = newMode;
         });
       },
     );
   }
 
   List<Widget> buildPosTab() {
-    final pos = this.pos;
     return [
-      ListTile(
-        leading: const Icon(Icons.alarm),
-        title: "Position to remove".text(),
-        subtitle: pos == null ? "Not set".text() : pos.l10n().text(),
-        trailing: FilledButton(
-          child: i18n.select.text(),
-          onPressed: () async {
-            final newPos = await selectDayInTimetable(
-              context: context,
-              timetable: widget.timetable,
-              initialPos: pos,
-              submitLabel: i18n.select,
-            );
-            if (newPos == null) return;
-            setState(() {
-              this.pos = newPos;
-            });
-            markChanged();
-          },
-        ),
-      )
+      TimetableDayLocPosSelectionTile(
+        leading: Icon(Icons.output),
+        title: "Source position".text(),
+        timetable: widget.timetable,
+        pos: sourcePos,
+        onChanged: (newPos) {
+          setState(() {
+            sourcePos = newPos;
+          });
+          markChanged();
+        },
+      ),
+      TimetableDayLocPosSelectionTile(
+        leading: Icon(Icons.input),
+        title: "Target position".text(),
+        timetable: widget.timetable,
+        pos: targetPos,
+        onChanged: (newPos) {
+          setState(() {
+            targetPos = newPos;
+          });
+          markChanged();
+        },
+      ),
     ];
   }
 
   List<Widget> buildDateTab() {
-    final date = this.date;
     return [
-      ListTile(
-        leading: const Icon(Icons.alarm),
-        title: "Date to remove".text(),
-        subtitle: date == null ? "Not set".text() : context.formatYmdText(date).text(),
-        trailing: FilledButton(
-          child: i18n.select.text(),
-          onPressed: () async {
-            final now = DateTime.now();
-            final newDate = await showDatePicker(
-              context: context,
-              initialDate: date ?? now,
-              currentDate: now,
-              firstDate: DateTime(now.year - 4),
-              lastDate: DateTime(now.year + 2),
-            );
-            if (newDate == null) return;
-            setState(() {
-              this.date = newDate;
-            });
-            markChanged();
-          },
-        ),
-      )
+      TimetableDayLocDateSelectionTile(
+        leading: Icon(Icons.output),
+        title: "Source date".text(),
+        timetable: widget.timetable,
+        date: sourceDate,
+        onChanged: (newPos) {
+          setState(() {
+            sourceDate = newPos;
+          });
+          markChanged();
+        },
+      ),
+      TimetableDayLocDateSelectionTile(
+        leading: Icon(Icons.input),
+        title: "Target date".text(),
+        timetable: widget.timetable,
+        date: targetDate,
+        onChanged: (newPos) {
+          setState(() {
+            targetDate = newPos;
+          });
+          markChanged();
+        },
+      ),
     ];
   }
 
@@ -196,13 +195,19 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
     );
   }
 
-  TimetableRemoveDayPatch? buildPatch() {
-    final pos = this.pos;
-    final date = this.date;
-    final loc = switch (mode) {
-      TimetableDayLocMode.pos => pos != null ? TimetableDayLoc.pos(pos) : null,
-      TimetableDayLocMode.date => date != null ? TimetableDayLoc.date(date) : null,
+  TimetableMoveDayPatch? buildPatch() {
+    final sourcePos = this.sourcePos;
+    final sourceDate = this.sourceDate;
+    final targetPos = this.targetPos;
+    final targetDate = this.targetDate;
+    final source = switch (mode) {
+      TimetableDayLocMode.pos => sourcePos != null ? TimetableDayLoc.pos(sourcePos) : null,
+      TimetableDayLocMode.date => sourceDate != null ? TimetableDayLoc.date(sourceDate) : null,
     };
-    return loc != null ? TimetableRemoveDayPatch(loc: loc) : null;
+    final target = switch (mode) {
+      TimetableDayLocMode.pos => targetPos != null ? TimetableDayLoc.pos(targetPos) : null,
+      TimetableDayLocMode.date => targetDate != null ? TimetableDayLoc.date(targetDate) : null,
+    };
+    return source != null && target != null ? TimetableMoveDayPatch(source: source, target: target) : null;
   }
 }

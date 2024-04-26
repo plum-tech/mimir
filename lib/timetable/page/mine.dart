@@ -271,7 +271,7 @@ class TimetableCard extends StatelessWidget {
             if (newName != newTimetable.name) {
               newTimetable = newTimetable.copyWith(name: newName);
             }
-            TimetableInit.storage.timetable[id] = newTimetable;
+            TimetableInit.storage.timetable[id] = newTimetable.markModified();
           },
         ),
         // share_plus: sharing files is not supported on Linux
@@ -300,7 +300,7 @@ class TimetableCard extends StatelessWidget {
               if (patches == null) return;
               TimetableInit.storage.timetable[id] = timetable.copyWith(
                 patches: patches,
-              );
+              ).markModified();
             },
           ),
         if (kDebugMode)

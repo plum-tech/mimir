@@ -55,6 +55,12 @@ class SitTimetable {
     this.version = 1,
   });
 
+  SitTimetable markModified() {
+    return copyWith(
+      lastModified: DateTime.now(),
+    );
+  }
+
   @override
   String toString() {
     return {

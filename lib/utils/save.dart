@@ -36,6 +36,7 @@ class PromptSaveBeforeQuitScope extends StatelessWidget {
           primary: _i18n.saveAndQuit,
           secondary: _i18n.discard,
           secondaryDestructive: true,
+          dismissible: true,
         );
         if (confirmSave == true) {
           await onSave();

@@ -57,12 +57,14 @@ extension DialogEx on BuildContext {
     required String desc,
     required String primary,
     required String secondary,
+    bool dismissible = false,
     bool serious = false,
     bool primaryDestructive = false,
     bool secondaryDestructive = false,
   }) async {
     return await showAnyRequest(
       title: title,
+      dismissible: dismissible,
       make: (_) => desc.text(style: const TextStyle()),
       primary: primary,
       secondary: secondary,
@@ -132,12 +134,14 @@ extension DialogEx on BuildContext {
     required WidgetBuilder make,
     required String primary,
     required String secondary,
+    bool dismissible = false,
     bool serious = false,
     bool primaryDestructive = false,
     bool secondaryDestructive = false,
   }) async {
     return await showAdaptiveDialog(
       context: this,
+      barrierDismissible: dismissible,
       builder: (ctx) => $Dialog$(
         title: title,
         serious: serious,
