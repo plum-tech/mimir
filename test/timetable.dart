@@ -7,15 +7,44 @@ import 'package:sit/files.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/timetable/entity/timetable.dart';
 import 'package:sit/timetable/entity/timetable_entity.dart';
+import 'package:statistics/statistics.dart';
 
 void main() {
+  final timetable = _get();
+  final entity = timetable.resolve();
+  group("Check foundation", () {
+    test("equality", () {
+      final duplicate = timetable.copyWith();
+      assert(timetable == duplicate);
+      assert(timetable.hashCode == duplicate.hashCode);
+    });
+    test("Associated courses", () {
+      final day = entity.getDaySinceStart(9)!;
+      print(day);
+    });
+  });
   group("Test get day", () {
-    final timetable = _get().resolve();
     test("get day by days", () {
-      final day4 = timetable.getDay(4)!;
+      final day4 = entity.getDaySinceStart(4)!;
+      print(day4);
       assert(day4.hasAnyLesson());
-      final day9 = timetable.getDay(9)!;
+      assert(day4.associatedCourses.map((c) => c.courseKey).toSet().equalsElements({1, 2, 5, 6}));
+      final day9 = entity.getDaySinceStart(9)!;
+      print(day9);
       assert(day9.isFree());
+    });
+    test("get week of one day", () {
+      final labourDayWeek = entity.getWeekOn(DateTime(2024, 5, 1))!;
+      final labourDay = labourDayWeek.days[2];
+      assert(labourDay.hasAnyLesson());
+      assert(labourDay.associatedCourses.length == 1);
+      assert(labourDay.associatedCourses.first.courseKey == 4);
+    });
+    test("get day", () {
+      final labourDay = entity.getDayOn(DateTime(2024, 5, 1))!;
+      assert(labourDay.hasAnyLesson());
+      assert(labourDay.associatedCourses.length == 1);
+      assert(labourDay.associatedCourses.first.courseKey == 4);
     });
     test("by pos", () {});
     test("by date", () {});

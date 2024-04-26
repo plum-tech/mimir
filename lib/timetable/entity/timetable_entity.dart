@@ -49,22 +49,34 @@ class SitTimetableEntity with SitTimetablePaletteResolver {
 
   String get signature => type.signature;
 
-  SitTimetableDay? getDay(int days) {
+  SitTimetableDay? getDaySinceStart(int days) {
     if (days > maxWeekLength * 7) return null;
     final weekIndex = days ~/ 7;
     if (weekIndex < 0 || weekIndex >= weeks.length) return null;
     final week = weeks[weekIndex];
-    final dayIndex = weekIndex % 7;
+    final dayIndex = days % 7 - 1;
     return week.days[dayIndex];
   }
 
-  SitTimetableWeek? getWeekAt(DateTime date) {
+  SitTimetableWeek? getWeekOn(DateTime date) {
     if (startDate.isAfter(date)) return null;
     final diff = date.difference(startDate);
     if (diff.inDays > maxWeekLength * 7) return null;
     final weekIndex = diff.inDays ~/ 7;
     if (weekIndex < 0 || weekIndex >= weeks.length) return null;
     return weeks[weekIndex];
+  }
+
+  SitTimetableDay? getDayOn(DateTime date) {
+    if (startDate.isAfter(date)) return null;
+    final diff = date.difference(startDate);
+    if (diff.inDays > maxWeekLength * 7) return null;
+    final weekIndex = diff.inDays ~/ 7;
+    if (weekIndex < 0 || weekIndex >= weeks.length) return null;
+    final week = weeks[weekIndex];
+    // don't -1 here, because inDays always omitted fraction.
+    final dayIndex = diff.inDays % 7;
+    return week.days[dayIndex];
   }
 }
 
@@ -77,7 +89,11 @@ class SitTimetableWeek {
   SitTimetableWeek({
     required this.index,
     required this.days,
-  });
+  }) {
+    for (final day in days) {
+      day.parent = this;
+    }
+  }
 
   factory SitTimetableWeek.$7days(int weekIndex) {
     return SitTimetableWeek(
@@ -100,6 +116,7 @@ class SitTimetableWeek {
 
 /// Lessons in the same Timeslot.
 class SitTimetableLessonSlot {
+  late final SitTimetableDay parent;
   final List<SitTimetableLessonPart> lessons;
 
   SitTimetableLessonSlot({required this.lessons});
@@ -107,9 +124,15 @@ class SitTimetableLessonSlot {
   SitTimetableLessonPart? lessonAt(int index) {
     return lessons.elementAtOrNull(index);
   }
+
+  @override
+  String toString() {
+    return lessons.toString();
+  }
 }
 
 class SitTimetableDay {
+  late final SitTimetableWeek parent;
   final int index;
 
   /// The Default number of lesson in one day is 11. But the length of lessons can be more.
@@ -117,15 +140,23 @@ class SitTimetableDay {
   /// A Timeslot contain one or more lesson.
   final List<SitTimetableLessonSlot> timeslot2LessonSlot;
 
+  final Set<SitCourse> associatedCourses;
+
   SitTimetableDay({
     required this.index,
     required this.timeslot2LessonSlot,
-  });
+    required this.associatedCourses,
+  }) {
+    for (final lessonSlot in timeslot2LessonSlot) {
+      lessonSlot.parent = this;
+    }
+  }
 
   factory SitTimetableDay.$11slots(int dayIndex) {
     return SitTimetableDay(
       index: dayIndex,
       timeslot2LessonSlot: List.generate(11, (index) => SitTimetableLessonSlot(lessons: [])),
+      associatedCourses: <SitCourse>{},
     );
   }
 
@@ -138,12 +169,14 @@ class SitTimetableDay {
     if (0 <= at && at < timeslot2LessonSlot.length) {
       final lessonSlot = timeslot2LessonSlot[at];
       lessonSlot.lessons.add(lesson);
+      associatedCourses.add(lesson.course);
     }
   }
 
   void clear() {
     for (final lessonSlot in timeslot2LessonSlot) {
       lessonSlot.lessons.clear();
+      associatedCourses.clear();
     }
   }
 
@@ -159,6 +192,7 @@ class SitTimetableDay {
   bool hasAnyLesson() {
     for (final lessonSlot in timeslot2LessonSlot) {
       if (lessonSlot.lessons.isNotEmpty) {
+        assert(associatedCourses.isNotEmpty);
         return true;
       }
     }
@@ -166,7 +200,11 @@ class SitTimetableDay {
   }
 
   @override
-  String toString() => "$timeslot2LessonSlot";
+  String toString() => {
+        "index": index,
+        "timeslot2LessonSlot": timeslot2LessonSlot,
+        "associatedCourses": associatedCourses,
+      }.toString();
 }
 
 class SitTimetableLesson {
@@ -214,7 +252,7 @@ class SitTimetableLessonPart {
   });
 
   @override
-  String toString() => "$course at $index";
+  String toString() => "[$index] $course";
 }
 
 extension SitTimetable4EntityX on SitTimetable {

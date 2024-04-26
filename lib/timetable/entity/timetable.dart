@@ -4,6 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/entity/timetable.dart';
+import 'package:statistics/statistics.dart';
 
 import 'patch.dart';
 
@@ -63,6 +64,7 @@ class SitTimetable {
       "semester": semester,
       "lastModified": lastModified,
       "signature": signature,
+      "patches": patches,
     }.toString();
   }
 
@@ -79,6 +81,36 @@ class SitTimetable {
         "version:$version,"
         ")";
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SitTimetable &&
+        runtimeType == other.runtimeType &&
+        lastCourseKey == other.lastCourseKey &&
+        version == other.version &&
+        schoolYear == other.schoolYear &&
+        semester == other.semester &&
+        name == other.name &&
+        signature == other.signature &&
+        startDate == other.startDate &&
+        lastModified == other.lastModified &&
+        courses.equalsKeysValues(courses.keys, other.courses) &&
+        patches.equalsElements(other.patches);
+  }
+
+  @override
+  int get hashCode => Object.hash(
+        name,
+        signature,
+        lastCourseKey,
+        schoolYear,
+        semester,
+        startDate,
+        lastModified,
+        Object.hashAllUnordered(courses.entries.map((e) => (e.key, e.value))),
+        Object.hashAll(patches),
+        version,
+      );
 
   factory SitTimetable.fromJson(Map<String, dynamic> json) => _$SitTimetableFromJson(json);
 
@@ -137,7 +169,7 @@ class SitCourse {
   });
 
   @override
-  String toString() => "[$courseKey] $courseName";
+  String toString() => "#$courseKey($courseName: $place)";
 
   factory SitCourse.fromJson(Map<String, dynamic> json) => _$SitCourseFromJson(json);
 
@@ -159,6 +191,38 @@ class SitCourse {
         "hidden:$hidden,"
         ")";
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SitCourse &&
+        runtimeType == other.runtimeType &&
+        courseKey == other.courseKey &&
+        courseName == other.courseName &&
+        courseCode == other.courseCode &&
+        campus == other.campus &&
+        place == other.place &&
+        weekIndices == other.weekIndices &&
+        timeslots == other.timeslots &&
+        courseCredit == other.courseCredit &&
+        dayIndex == other.dayIndex &&
+        teachers.equalsElements(other.teachers) &&
+        hidden == other.hidden;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+        courseKey,
+        courseName,
+        courseCode,
+        campus,
+        place,
+        weekIndices,
+        timeslots,
+        courseCredit,
+        dayIndex,
+        Object.hashAll(teachers),
+        hidden,
+      );
 }
 
 extension SitCourseEx on SitCourse {
@@ -263,6 +327,17 @@ class TimetableWeekIndex {
         ")";
   }
 
+  @override
+  bool operator ==(Object other) {
+    return other is TimetableWeekIndex &&
+        runtimeType == other.runtimeType &&
+        type == other.type &&
+        range == other.range;
+  }
+
+  @override
+  int get hashCode => Object.hash(type, range);
+
   factory TimetableWeekIndex.fromJson(Map<String, dynamic> json) => _$TimetableWeekIndexFromJson(json);
 
   Map<String, dynamic> toJson() => _$TimetableWeekIndexToJson(this);
@@ -329,6 +404,14 @@ class TimetableWeekIndices {
     }
     return res;
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TimetableWeekIndices && runtimeType == other.runtimeType && indices.equalsElements(other.indices);
+  }
+
+  @override
+  int get hashCode => Object.hashAll(indices);
 
   factory TimetableWeekIndices.fromJson(Map<String, dynamic> json) => _$TimetableWeekIndicesFromJson(json);
 
