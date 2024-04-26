@@ -1,7 +1,7 @@
 import 'entity/loc.dart';
 import 'entity/patch.dart';
 
-class BuiltinTimetablePatches {
+class BuiltinTimetablePatchSets {
   static final vacationShift2024 = BuiltinTimetablePatchSet(
     key: "vacationShift2024",
     patches: [
@@ -19,4 +19,7 @@ class BuiltinTimetablePatches {
       ),
     ],
   );
+  static final all = [
+    vacationShift2024,
+  ];
 }

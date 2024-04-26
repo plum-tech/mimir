@@ -19,7 +19,7 @@ import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/patch.dart';
 import 'package:sit/timetable/page/ical.dart';
-import 'package:sit/timetable/platte.dart';
+import 'package:sit/timetable/palette.dart';
 import 'package:sit/timetable/widgets/course.dart';
 import 'package:sit/utils/format.dart';
 import 'package:text_scroll/text_scroll.dart';

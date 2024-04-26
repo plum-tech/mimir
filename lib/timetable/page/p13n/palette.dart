@@ -15,7 +15,7 @@ import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/entity/timetable.dart';
 import 'package:sit/timetable/init.dart';
-import 'package:sit/timetable/platte.dart';
+import 'package:sit/timetable/palette.dart';
 import 'package:sit/utils/format.dart';
 import 'package:text_scroll/text_scroll.dart';
 

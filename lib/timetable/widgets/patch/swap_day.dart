@@ -29,7 +29,7 @@ class TimetableSwapDayPatchWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: "Swap day".text(),
-      subtitle: "Exchange ${patch.a.l10n()} with ${patch.b.l10n()}".text(),
+      subtitle: patch.l10n().text(),
       trailing: Icon(context.icons.edit),
       onTap: () async {
         final newPath = await context.show$Sheet$(

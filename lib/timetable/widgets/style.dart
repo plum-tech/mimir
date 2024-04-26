@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/background.dart';
 import 'package:sit/timetable/entity/platte.dart';
-import 'package:sit/timetable/platte.dart';
+import 'package:sit/timetable/palette.dart';
 
 import '../entity/cell_style.dart';
 import '../init.dart';

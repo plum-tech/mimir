@@ -6,7 +6,7 @@ import 'package:sit/timetable/entity/timetable.dart';
 
 import '../entity/display.dart';
 import '../entity/platte.dart';
-import '../platte.dart';
+import '../palette.dart';
 
 class _K {
   static const timetable = "/timetable";

@@ -4,11 +4,14 @@ import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
+import 'package:sit/timetable/patch.dart';
+import 'package:sit/timetable/palette.dart';
 import 'package:sit/utils/save.dart';
 
 import '../entity/patch.dart';
 import '../entity/timetable.dart';
 import '../i18n.dart';
+import '../widgets/patch/gallery.dart';
 import 'preview.dart';
 
 class TimetablePatchEditorPage extends StatefulWidget {
@@ -52,37 +55,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
                 ),
               ],
             ),
-            SliverList.list(children: [
-              ListTile(
-                title: "Add a patch".text(),
-              ),
-              buildPatchButtons(),
-              const Divider(),
-            ]),
-            SliverList.builder(
-              itemCount: patches.length,
-              itemBuilder: (ctx, i) {
-                final patch = patches[i];
-                return SwipeToDismiss(
-                  childKey: ValueKey(patch),
-                  right: SwipeToDismissAction(
-                    icon: Icon(context.icons.delete),
-                    action: () async {
-                      setState(() {
-                        patches.removeAt(i);
-                      });
-                      markChanged();
-                    },
-                  ),
-                  child: patch.build(context, widget.timetable, (newPatch) {
-                    setState(() {
-                      patches[i] = newPatch;
-                    });
-                    markChanged();
-                  }),
-                );
-              },
-            ),
+            if (navIndex == 0) ...buildPatchTab() else ...buildGalleryTab(),
           ],
         ),
         bottomNavigationBar: NavigationBar(
@@ -115,6 +88,62 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
 
   Future<void> onPreview() async {
     await previewTimetable(context, timetable: buildTimetable());
+  }
+
+  List<Widget> buildPatchTab() {
+    return [
+      SliverList.list(children: [
+        ListTile(
+          title: "Add a patch".text(),
+        ),
+        buildPatchButtons(),
+        const Divider(),
+      ]),
+      SliverList.builder(
+        itemCount: patches.length,
+        itemBuilder: (ctx, i) {
+          final patch = patches[i];
+          return SwipeToDismiss(
+            childKey: ValueKey(patch),
+            right: SwipeToDismissAction(
+              icon: Icon(context.icons.delete),
+              action: () async {
+                setState(() {
+                  patches.removeAt(i);
+                });
+                markChanged();
+              },
+            ),
+            child: patch.build(context, widget.timetable, (newPatch) {
+              setState(() {
+                patches[i] = newPatch;
+              });
+              markChanged();
+            }),
+          );
+        },
+      ),
+    ];
+  }
+
+  List<Widget> buildGalleryTab() {
+    return [
+      SliverList.builder(
+        itemCount: BuiltinTimetablePatchSets.all.length,
+        itemBuilder: (ctx, i) {
+          final patchSet = BuiltinTimetablePatchSets.all[i];
+          return TimetablePatchSetCard(
+            patchSet: patchSet,
+            onAdd: () {
+              setState(() {
+                patches.addAll(patchSet.patches);
+                navIndex = 0;
+              });
+            },
+          );
+        },
+      )
+    ];
   }
 
   SitTimetable buildTimetable() {

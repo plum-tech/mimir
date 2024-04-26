@@ -8,7 +8,7 @@ import 'package:sit/school/utils.dart';
 import 'package:sit/school/entity/timetable.dart';
 import 'package:sit/school/widgets/course.dart';
 import 'package:sit/timetable/widgets/timetable/course_sheet.dart';
-import 'package:sit/timetable/platte.dart';
+import 'package:sit/timetable/palette.dart';
 import 'package:sit/timetable/widgets/free.dart';
 import 'package:rettulf/rettulf.dart';
 

@@ -64,6 +64,8 @@ sealed class TimetablePatch {
   Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetablePatch> onChanged);
 
   String toDartCode();
+
+  String l10n();
 }
 
 class TimetablePatchSet {
@@ -170,6 +172,11 @@ class TimetableRemoveDayPatch extends TimetablePatch {
   String toDartCode() {
     return "TimetableRemoveDayPatch(loc:${loc.toDartCode()})";
   }
+
+  @override
+  String l10n() {
+    return loc.l10n();
+  }
 }
 
 @JsonSerializable()
@@ -214,6 +221,11 @@ class TimetableMoveDayPatch extends TimetablePatch {
   String toDartCode() {
     return "TimetableMoveDayPatch(source:${source.toDartCode()},target:${target.toDartCode()},)";
   }
+
+  @override
+  String l10n() {
+    return"Move from ${source.l10n()} to ${target.l10n()}";
+  }
 }
 
 @JsonSerializable()
@@ -252,6 +264,11 @@ class TimetableSwapDayPatch extends TimetablePatch {
       ),
     );
     return patch;
+  }
+
+  @override
+  String l10n() {
+    return "Exchange ${a.l10n()} with ${b.l10n()}";
   }
 
   @override
@@ -296,6 +313,11 @@ class TimetableCopyDayPatch extends TimetablePatch {
       ),
     );
     return patch;
+  }
+
+  @override
+  String l10n() {
+    return "Copy from ${source.l10n()} to ${target.l10n()}";
   }
 
   @override

@@ -29,7 +29,7 @@ class TimetableCopyDayPatchWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: "Copy day".text(),
-      subtitle: "Copy from ${patch.source.l10n()} to ${patch.target.l10n()}".text(),
+      subtitle: patch.l10n().text(),
       trailing: Icon(context.icons.edit),
       onTap: () async {
         final newPath = await context.show$Sheet$(

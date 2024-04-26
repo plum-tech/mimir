@@ -31,7 +31,7 @@ class TimetableRemoveDayPatchWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: "Remove day".text(),
-      subtitle: patch.loc.l10n().text(),
+      subtitle: patch.l10n().text(),
       trailing: Icon(context.icons.edit),
       onTap: () async {
         final newPath = await context.show$Sheet$(
