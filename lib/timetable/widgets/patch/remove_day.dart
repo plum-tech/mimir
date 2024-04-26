@@ -21,3 +21,18 @@ class TimetableRemoveDayPatchWidget extends StatelessWidget {
     );
   }
 }
+
+class TimetableRemoveDayPatchSheet extends StatefulWidget {
+  const TimetableRemoveDayPatchSheet({super.key});
+
+  @override
+  State<TimetableRemoveDayPatchSheet> createState() => _TimetableRemoveDayPatchSheetState();
+}
+
+class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSheet> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+

@@ -72,7 +72,7 @@ class TimetableDayLoc implements TimetablePos {
       final day = entity.weeks[weekIndex].days[weekday.index];
       return day;
     } else {
-      return null;
+      return entity.getDayOn(date);
     }
   }
 

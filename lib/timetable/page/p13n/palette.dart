@@ -264,6 +264,7 @@ class PaletteCard extends StatelessWidget {
           ),
         if (kDebugMode)
           EntryAction(
+            icon: context.icons.copy,
             label: "Copy Dart code",
             action: () async {
               final code = palette.colors.toString();

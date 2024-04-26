@@ -294,7 +294,7 @@ class TimetableCard extends StatelessWidget {
         if (Dev.on)
           EntryAction(
             label: "Patch",
-            icon: Icons.auto_fix_high,
+            icon: Icons.dashboard_customize,
             action: () async {
               var patches = await ctx.push<List<TimetablePatch>>("/timetable/$id/edit/patch");
               if (patches == null) return;
@@ -305,6 +305,7 @@ class TimetableCard extends StatelessWidget {
           ),
         if (kDebugMode)
           EntryAction(
+            icon: context.icons.copy,
             label: "Copy Dart code",
             action: () async {
               final code = timetable.toDartCode();

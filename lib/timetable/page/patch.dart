@@ -53,7 +53,10 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
               ],
             ),
             SliverList.list(children: [
-              buildAddPatchTile(),
+              ListTile(
+                title: "Add a patch".text(),
+              ),
+              buildPatchButtons(),
               const Divider(),
             ]),
             SliverList.builder(
@@ -107,26 +110,22 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
     );
   }
 
-  Widget buildAddPatchTile() {
-    return ListTile(
-      isThreeLine: true,
-      title: "Add a patch".text(),
-      subtitle: ListView(
-        scrollDirection: Axis.horizontal,
-        children: TimetablePatchType.values
-            .map((type) => ActionChip(
-                  avatar: Icon(context.icons.add),
-                  label: type.l10n().text(),
-                  onPressed: () async {
-                    final patch = await type.onCreate(context);
-                    if (patch == null) return;
-                    setState(() {
-                      patches.add(patch);
-                    });
-                  },
-                ).padOnly(r: 8))
-            .toList(),
-      ).sized(h: 40),
-    );
+  Widget buildPatchButtons(){
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      children: TimetablePatchType.values
+          .map((type) => ActionChip(
+        avatar: Icon(context.icons.add),
+        label: type.l10n().text(),
+        onPressed: () async {
+          final patch = await type.onCreate(context);
+          if (patch == null) return;
+          setState(() {
+            patches.add(patch);
+          });
+        },
+      ).padOnly(r: 8))
+          .toList(),
+    ).sized(h: 40);
   }
 }
