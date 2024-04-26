@@ -3,10 +3,8 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/extension.dart';
-import 'package:sit/l10n/time.dart';
 import 'package:sit/timetable/entity/loc.dart';
 import 'package:sit/timetable/entity/pos.dart';
-import 'package:sit/timetable/entity/timetable_entity.dart';
 import 'package:sit/timetable/utils.dart';
 import 'package:sit/utils/save.dart';
 
@@ -51,23 +49,9 @@ class TimetableRemoveDayPatchSheet extends StatefulWidget {
 class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSheet> {
   TimetableDayLoc? get initialLoc => widget.patch?.loc;
   late var mode = initialLoc?.mode ?? TimetableDayLocMode.pos;
-  late var weekIndex = initialLoc?.mode == TimetableDayLocMode.pos ? initialLoc?.weekIndex : null;
-  late var weekday = initialLoc?.mode == TimetableDayLocMode.pos ? initialLoc?.weekday : null;
+  late var pos = initialLoc?.mode == TimetableDayLocMode.pos ? initialLoc?.pos : null;
   late var date = initialLoc?.mode == TimetableDayLocMode.date ? initialLoc?.date : null;
   var anyChanged = false;
-
-  TimetablePos? get pos =>
-      weekIndex != null && weekday != null ? TimetablePos(weekIndex: weekIndex!, weekday: weekday!) : null;
-
-  set pos(TimetablePos? pos) {
-    if (pos == null) {
-      weekIndex = null;
-      weekday = null;
-    } else {
-      weekIndex = pos.weekIndex;
-      weekday = pos.weekday;
-    }
-  }
 
   void markChanged() => anyChanged |= true;
 
@@ -195,13 +179,11 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
   }
 
   TimetableRemoveDayPatch? buildPatch() {
-    final weekIndex = this.weekIndex;
-    final weekday = this.weekday;
+    final pos = this.pos;
     final date = this.date;
     final loc = switch (mode) {
-      TimetableDayLocMode.pos =>
-        weekIndex != null && weekday != null ? TimetableDayLoc.pos(weekIndex: weekIndex, weekday: weekday) : null,
-      TimetableDayLocMode.date => date != null ? TimetableDayLoc.date(date: date) : null,
+      TimetableDayLocMode.pos => pos != null ? TimetableDayLoc.pos(pos) : null,
+      TimetableDayLocMode.date => date != null ? TimetableDayLoc.date(date) : null,
     };
     return loc != null ? TimetableRemoveDayPatch(loc: loc) : null;
   }

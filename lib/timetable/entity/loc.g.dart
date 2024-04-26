@@ -8,8 +8,7 @@ part of 'loc.dart';
 
 TimetableDayLoc _$TimetableDayLocFromJson(Map<String, dynamic> json) => TimetableDayLoc(
       mode: $enumDecode(_$TimetableDayLocModeEnumMap, json['mode']),
-      weekIndexInternal: (json['weekIndex'] as num?)?.toInt(),
-      weekdayInternal: json['weekday'] == null ? null : Weekday.fromJson((json['weekday'] as num).toInt()),
+      posInternal: json['pos'] == null ? null : TimetablePos.fromJson(json['pos'] as Map<String, dynamic>),
       dateInternal: json['date'] == null ? null : DateTime.parse(json['date'] as String),
     );
 
@@ -24,8 +23,7 @@ Map<String, dynamic> _$TimetableDayLocToJson(TimetableDayLoc instance) {
     }
   }
 
-  writeNotNull('weekIndex', instance.weekIndexInternal);
-  writeNotNull('weekday', instance.weekdayInternal);
+  writeNotNull('pos', instance.posInternal);
   writeNotNull('date', instance.dateInternal?.toIso8601String());
   return val;
 }
