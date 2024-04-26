@@ -50,7 +50,7 @@ class TimetableDayLoc {
   String toDartCode() {
     return switch (mode) {
       TimetableDayLocMode.pos => "TimetableDayLoc.pos(${pos.toDartCode()})",
-      TimetableDayLocMode.date => 'TimetableDayLoc.loc(DateTime(${date.year},${date.month},${date.day}))',
+      TimetableDayLocMode.date => 'TimetableDayLoc.date(DateTime(${date.year},${date.month},${date.day}))',
     };
   }
 

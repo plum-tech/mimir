@@ -76,8 +76,9 @@ class TimetablePatchSet {
   });
 }
 
-class BuiltinTimetablePatchSet implements TimetablePatchSet{
+class BuiltinTimetablePatchSet implements TimetablePatchSet {
   final String key;
+
   @override
   String get name => "timetable.patch.builtin.$key";
   @override
@@ -211,7 +212,7 @@ class TimetableMoveDayPatch extends TimetablePatch {
 
   @override
   String toDartCode() {
-    return "TimetableMoveDayPatch(source:${source.toDartCode()},target:${target.toDartCode()})";
+    return "TimetableMoveDayPatch(source:${source.toDartCode()},target:${target.toDartCode()},)";
   }
 }
 
