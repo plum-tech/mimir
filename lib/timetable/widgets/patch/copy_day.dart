@@ -13,12 +13,12 @@ import '../../page/preview.dart';
 import '../../i18n.dart';
 import 'shared.dart';
 
-class TimetableMoveDayPatchWidget extends StatelessWidget {
-  final TimetableMoveDayPatch patch;
+class TimetableCopyDayPatchWidget extends StatelessWidget {
+  final TimetableCopyDayPatch patch;
   final SitTimetable timetable;
-  final ValueChanged<TimetableMoveDayPatch> onChanged;
+  final ValueChanged<TimetableCopyDayPatch> onChanged;
 
-  const TimetableMoveDayPatchWidget({
+  const TimetableCopyDayPatchWidget({
     super.key,
     required this.patch,
     required this.timetable,
@@ -28,12 +28,12 @@ class TimetableMoveDayPatchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: "Move day".text(),
-      subtitle: "Move from ${patch.source.l10n()} to ${patch.target.l10n()}".text(),
+      title: "Copy day".text(),
+      subtitle: "Copy from ${patch.source.l10n()} to ${patch.target.l10n()}".text(),
       trailing: Icon(context.icons.edit),
       onTap: () async {
         final newPath = await context.show$Sheet$(
-          (ctx) => TimetableMoveDayPatchSheet(
+          (ctx) => TimetableCopyDayPatchSheet(
             timetable: timetable,
             patch: patch,
           ),
@@ -44,21 +44,21 @@ class TimetableMoveDayPatchWidget extends StatelessWidget {
   }
 }
 
-class TimetableMoveDayPatchSheet extends StatefulWidget {
+class TimetableCopyDayPatchSheet extends StatefulWidget {
   final SitTimetable timetable;
-  final TimetableMoveDayPatch? patch;
+  final TimetableCopyDayPatch? patch;
 
-  const TimetableMoveDayPatchSheet({
+  const TimetableCopyDayPatchSheet({
     super.key,
     required this.timetable,
     required this.patch,
   });
 
   @override
-  State<TimetableMoveDayPatchSheet> createState() => _TimetableMoveDayPatchSheetState();
+  State<TimetableCopyDayPatchSheet> createState() => _TimetableCopyDayPatchSheetState();
 }
 
-class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet> {
+class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet> {
   TimetableDayLoc? get initialSource => widget.patch?.source;
 
   TimetableDayLoc? get initialTarget => widget.patch?.target;
@@ -82,7 +82,7 @@ class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet>
         body: CustomScrollView(
           slivers: [
             SliverAppBar.medium(
-              title: "Move day".text(),
+              title: "Copy day".text(),
               actions: [
                 PlatformTextButton(
                   onPressed: onPreview,
@@ -195,7 +195,7 @@ class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet>
     );
   }
 
-  TimetableMoveDayPatch? buildPatch() {
+  TimetableCopyDayPatch? buildPatch() {
     final sourcePos = this.sourcePos;
     final sourceDate = this.sourceDate;
     final targetPos = this.targetPos;
@@ -208,6 +208,6 @@ class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet>
       TimetableDayLocMode.pos => targetPos != null ? TimetableDayLoc.pos(targetPos) : null,
       TimetableDayLocMode.date => targetDate != null ? TimetableDayLoc.date(targetDate) : null,
     };
-    return source != null && target != null ? TimetableMoveDayPatch(source: source, target: target) : null;
+    return source != null && target != null ? TimetableCopyDayPatch(source: source, target: target) : null;
   }
 }

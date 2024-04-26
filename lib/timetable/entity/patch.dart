@@ -5,6 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 
+import '../widgets/patch/copy_day.dart';
 import '../widgets/patch/move_day.dart';
 import '../widgets/patch/remove_day.dart';
 import 'loc.dart';
@@ -231,14 +232,22 @@ class TimetableCopyDayPatch extends TimetablePatch {
 
   @override
   Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetableCopyDayPatch> onChanged) {
-    return Card.filled(
-      child: ListTile(
-        title: "Copy day".text(),
-      ),
+    return TimetableCopyDayPatchWidget(
+      patch: this,
+      timetable: timetable,
+      onChanged: onChanged,
     );
   }
 
-  static Future<TimetableCopyDayPatch?> onCreate(BuildContext context, SitTimetable timetable) async {}
+  static Future<TimetableCopyDayPatch?> onCreate(BuildContext context, SitTimetable timetable) async {
+    final patch = await context.show$Sheet$(
+          (ctx) => TimetableCopyDayPatchSheet(
+        timetable: timetable,
+        patch: null,
+      ),
+    );
+    return patch;
+  }
 }
 
 // factory .fromJson(Map<String, dynamic> json) => _$FromJson(json);
