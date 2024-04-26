@@ -56,7 +56,7 @@ timetable:
       moveDay: Move day
       removeDay: Remove day
       copyDay: Copy day
-      swapDay: Swap days
+      swapDays: Swap days
     tab:
       patch: Patch
       gallery: Gallery

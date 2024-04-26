@@ -56,7 +56,7 @@ timetable:
       moveDay: 移动某天
       removeDay: 删除某天
       copyDay: 复制某天
-      swapDay: 交换某天
+      swapDays: 交换某天
     tab:
       patch: 修改
       gallery: 库
