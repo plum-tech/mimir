@@ -28,7 +28,7 @@ class TimetablePatchSetCard extends StatelessWidget {
         ),
         subtitle: [
           ...patchSet.patches.mapIndexed((i, p) => "${i + 1}. ${p.l10n()}".text()),
-        ].column(maa: MainAxisAlignment.start),
+        ].column(caa: CrossAxisAlignment.start),
       ),
     );
   }

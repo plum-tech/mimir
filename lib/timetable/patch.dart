@@ -27,6 +27,8 @@ class BuiltinTimetablePatchSets {
         source: TimetableDayLoc.date(DateTime(2024, 5, 10)),
         target: TimetableDayLoc.date(DateTime(2024, 5, 11)),
       ),
+      TimetableRemoveDayPatch(loc: TimetableDayLoc.date(DateTime(2024, 5, 1))),
+      TimetableRemoveDayPatch(loc: TimetableDayLoc.date(DateTime(2024, 5, 3))),
       TimetableRemoveDayPatch(loc: TimetableDayLoc.date(DateTime(2024, 6, 10))),
       TimetableMoveDayPatch(
         source: TimetableDayLoc.date(DateTime(2024, 9, 16)),
