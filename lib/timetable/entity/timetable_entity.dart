@@ -1,3 +1,4 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/entity/timetable.dart';
@@ -115,6 +116,7 @@ class SitTimetableWeek {
 }
 
 /// Lessons in the same Timeslot.
+@CopyWith(skipFields: true)
 class SitTimetableLessonSlot {
   late final SitTimetableDay parent;
   final List<SitTimetableLessonPart> lessons;
@@ -180,6 +182,46 @@ class SitTimetableDay {
     }
   }
 
+  void replaceWith(SitTimetableDay other) {
+    // associatedCourses
+    setAssociatedCourses(other.associatedCourses);
+
+    // timeslot2LessonSlot
+    setLessonSlots(other.cloneLessonSlots());
+  }
+
+  void swap(SitTimetableDay other) {
+    // associatedCourses
+    final $associatedCourses = List.of(other.associatedCourses);
+    other.setAssociatedCourses(associatedCourses);
+    setAssociatedCourses($associatedCourses);
+
+    // timeslot2LessonSlot
+    final $timeslot2LessonSlot = other.cloneLessonSlots();
+    other.setLessonSlots(cloneLessonSlots());
+    setLessonSlots($timeslot2LessonSlot);
+  }
+
+  void setAssociatedCourses(Iterable<SitCourse> v) {
+    associatedCourses.clear();
+    associatedCourses.addAll(v);
+  }
+
+  void setLessonSlots(Iterable<SitTimetableLessonSlot> v) {
+    timeslot2LessonSlot.clear();
+    timeslot2LessonSlot.addAll(v);
+
+    for (final lessonSlot in timeslot2LessonSlot) {
+      lessonSlot.parent = this;
+    }
+  }
+
+  List<SitTimetableLessonSlot> cloneLessonSlots() {
+    return List.of(timeslot2LessonSlot.map((lessonSlot) {
+      return SitTimetableLessonSlot(lessons: List.of(lessonSlot.lessons));
+    }));
+  }
+
   /// At all lessons [layer]
   Iterable<SitTimetableLessonPart> browseLessonsAt({required int layer}) sync* {
     for (final lessonSlot in timeslot2LessonSlot) {
@@ -233,6 +275,7 @@ class SitTimetableLesson {
   });
 }
 
+@CopyWith(skipFields: true)
 class SitTimetableLessonPart {
   final SitTimetableLesson type;
 
@@ -308,6 +351,31 @@ extension SitTimetable4EntityX on SitTimetable {
         final day = loc.resolveDay(entity);
         if (day != null) {
           day.clear();
+        }
+      } else if (patch is TimetableMoveDayPatch) {
+        final source = patch.source;
+        final target = patch.target;
+        final sourceDay = source.resolveDay(entity);
+        final targetDay = target.resolveDay(entity);
+        if (sourceDay != null && targetDay != null) {
+          targetDay.replaceWith(sourceDay);
+          sourceDay.clear();
+        }
+      } else if (patch is TimetableCopyDayPatch) {
+        final source = patch.source;
+        final target = patch.target;
+        final sourceDay = source.resolveDay(entity);
+        final targetDay = target.resolveDay(entity);
+        if (sourceDay != null && targetDay != null) {
+          targetDay.replaceWith(sourceDay);
+        }
+      } else if (patch is TimetableSwapDayPatch) {
+        final a = patch.a;
+        final b = patch.b;
+        final aDay = a.resolveDay(entity);
+        final bDay = b.resolveDay(entity);
+        if (aDay != null && bDay != null) {
+          aDay.swap(bDay);
         }
       }
     }

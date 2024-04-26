@@ -107,6 +107,7 @@ class TimetableRemoveDayPatch extends TimetablePatch {
   @override
   TimetablePatchType get type => TimetablePatchType.removeDay;
 
+  @JsonKey()
   final TimetableDayLoc loc;
 
   const TimetableRemoveDayPatch({
@@ -142,8 +143,15 @@ class TimetableRemoveDayPatch extends TimetablePatch {
 class TimetableMoveDayPatch extends TimetablePatch {
   @override
   TimetablePatchType get type => TimetablePatchType.moveDay;
+  @JsonKey()
+  final TimetableDayLoc source;
+  @JsonKey()
+  final TimetableDayLoc target;
 
-  const TimetableMoveDayPatch();
+  const TimetableMoveDayPatch({
+    required this.source,
+    required this.target,
+  });
 
   factory TimetableMoveDayPatch.fromJson(Map<String, dynamic> json) => _$TimetableMoveDayPatchFromJson(json);
 
@@ -166,8 +174,15 @@ class TimetableMoveDayPatch extends TimetablePatch {
 class TimetableSwapDayPatch extends TimetablePatch {
   @override
   TimetablePatchType get type => TimetablePatchType.swapDay;
+  @JsonKey()
+  final TimetableDayLoc a;
+  @JsonKey()
+  final TimetableDayLoc b;
 
-  const TimetableSwapDayPatch();
+  const TimetableSwapDayPatch({
+    required this.a,
+    required this.b,
+  });
 
   factory TimetableSwapDayPatch.fromJson(Map<String, dynamic> json) => _$TimetableSwapDayPatchFromJson(json);
 
@@ -190,8 +205,15 @@ class TimetableSwapDayPatch extends TimetablePatch {
 class TimetableCopyDayPatch extends TimetablePatch {
   @override
   TimetablePatchType get type => TimetablePatchType.copyDay;
+  @JsonKey()
+  final TimetableDayLoc source;
+  @JsonKey()
+  final TimetableDayLoc target;
 
-  const TimetableCopyDayPatch();
+  const TimetableCopyDayPatch({
+    required this.source,
+    required this.target,
+  });
 
   factory TimetableCopyDayPatch.fromJson(Map<String, dynamic> json) => _$TimetableCopyDayPatchFromJson(json);
 

@@ -38,7 +38,8 @@ class TimetableDayLoc {
         dateInternal = null,
         mode = TimetableDayLocMode.pos;
 
-  const TimetableDayLoc.date(DateTime date)  : posInternal = null,
+  const TimetableDayLoc.date(DateTime date)
+      : posInternal = null,
         dateInternal = date,
         mode = TimetableDayLocMode.date;
 
@@ -47,17 +48,18 @@ class TimetableDayLoc {
   DateTime get date => dateInternal!;
 
   String l10n() {
-    return switch(mode){
+    return switch (mode) {
       TimetableDayLocMode.pos => pos.l10n(),
       TimetableDayLocMode.date => $key.currentContext!.formatYmdWeekText(date),
     };
   }
+
   Map<String, dynamic> toJson() => _$TimetableDayLocToJson(this);
 
   factory TimetableDayLoc.fromJson(Map<String, dynamic> json) => _$TimetableDayLocFromJson(json);
 
   SitTimetableDay? resolveDay(SitTimetableEntity entity) {
-    return switch(mode){
+    return switch (mode) {
       TimetableDayLocMode.pos => entity.weeks[pos.weekIndex].days[pos.weekday.index],
       TimetableDayLocMode.date => entity.getDayOn(date),
     };
