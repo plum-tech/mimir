@@ -49,10 +49,13 @@ class SitTimetableEntity with SitTimetablePaletteResolver {
 
   String get signature => type.signature;
 
-  SitTimetableDay? getDay(int days){
-    if(days > maxWeekLength * 7){
-
-    }
+  SitTimetableDay? getDay(int days) {
+    if (days > maxWeekLength * 7) return null;
+    final weekIndex = days ~/ 7;
+    if (weekIndex < 0 || weekIndex >= weeks.length) return null;
+    final week = weeks[weekIndex];
+    final dayIndex = weekIndex % 7;
+    return week.days[dayIndex];
   }
 
   SitTimetableWeek? getWeekAt(DateTime date) {
@@ -60,10 +63,8 @@ class SitTimetableEntity with SitTimetablePaletteResolver {
     final diff = date.difference(startDate);
     if (diff.inDays > maxWeekLength * 7) return null;
     final weekIndex = diff.inDays ~/ 7;
-    if (weekIndex >= 0 && weekIndex < weeks.length) {
-      return weeks[weekIndex];
-    }
-    return null;
+    if (weekIndex < 0 || weekIndex >= weeks.length) return null;
+    return weeks[weekIndex];
   }
 }
 
