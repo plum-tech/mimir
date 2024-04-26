@@ -95,13 +95,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
   void onSave() {}
 
   Future<void> onPreview() async {
-    await context.show$Sheet$(
-      (context) => TimetableStyleProv(
-        child: TimetablePreviewPage(
-          timetable: buildTimetable(),
-        ),
-      ),
-    );
+    await previewTimetable(context,timetable: buildTimetable());
   }
 
   SitTimetable buildTimetable() {

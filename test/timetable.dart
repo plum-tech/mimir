@@ -46,8 +46,6 @@ void main() {
       assert(labourDay.associatedCourses.length == 1);
       assert(labourDay.associatedCourses.first.courseKey == 4);
     });
-    test("by pos", () {});
-    test("by date", () {});
   });
 }
 

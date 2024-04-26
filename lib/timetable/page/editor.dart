@@ -21,7 +21,6 @@ import 'package:sit/utils/save.dart';
 
 import '../entity/timetable.dart';
 import '../i18n.dart';
-import '../widgets/style.dart';
 import 'course_editor.dart';
 import 'preview.dart';
 
@@ -303,13 +302,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
   }
 
   Future<void> onPreview() async {
-    await context.show$Sheet$(
-      (context) => TimetableStyleProv(
-        child: TimetablePreviewPage(
-          timetable: buildTimetable(),
-        ),
-      ),
-    );
+    await previewTimetable(context, timetable: buildTimetable());
   }
 
   Widget buildDescForm() {

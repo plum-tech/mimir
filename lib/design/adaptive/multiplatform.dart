@@ -36,7 +36,7 @@ extension PlatformIconsX on PlatformIcons {
 
   IconData get preview => isMaterial(context) ? Icons.preview : CupertinoIcons.eye;
 
-  IconData get warningFilled => isMaterial(context) ? Icons.warning : CupertinoIcons.exclamationmark_circle_fill;
+  IconData get warningFilled => isMaterial(context) ? Icons.error : CupertinoIcons.exclamationmark_circle_fill;
 
-  IconData get warning => isMaterial(context) ? Icons.warning_amber : CupertinoIcons.exclamationmark_circle;
+  IconData get warning => isMaterial(context) ? Icons.error_outline : CupertinoIcons.exclamationmark_circle;
 }
