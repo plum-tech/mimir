@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:reorderables/reorderables.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/timetable/patch.dart';
-import 'package:sit/timetable/palette.dart';
 import 'package:sit/utils/save.dart';
 
 import '../entity/patch.dart';
@@ -99,29 +99,39 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
         buildPatchButtons(),
         const Divider(),
       ]),
-      SliverList.builder(
-        itemCount: patches.length,
-        itemBuilder: (ctx, i) {
-          final patch = patches[i];
-          return SwipeToDismiss(
-            childKey: ValueKey(patch),
-            right: SwipeToDismissAction(
-              icon: Icon(context.icons.delete),
-              action: () async {
+      ReorderableSliverList(
+        onReorder: (int oldIndex, int newIndex) {
+          setState(() {
+            final patch = patches.removeAt(oldIndex);
+            patches.insert(newIndex, patch);
+          });
+          markChanged();
+        },
+        delegate: ReorderableSliverChildBuilderDelegate(
+          childCount: patches.length,
+          (BuildContext context, int i) {
+            final patch = patches[i];
+            return SwipeToDismiss(
+              childKey: ValueKey(patch),
+              right: SwipeToDismissAction(
+                icon: Icon(context.icons.delete),
+                action: () async {
+                  setState(() {
+                    patches.removeAt(i);
+                  });
+                  markChanged();
+                },
+              ),
+              child: patch.build(context, widget.timetable, (newPatch) {
                 setState(() {
-                  patches.removeAt(i);
+                  patches[i] = newPatch;
                 });
                 markChanged();
-              },
-            ),
-            child: patch.build(context, widget.timetable, (newPatch) {
-              setState(() {
-                patches[i] = newPatch;
-              });
-              markChanged();
-            }),
-          );
-        },
+              }),
+            );
+          },
+        ),
+
       ),
     ];
   }
