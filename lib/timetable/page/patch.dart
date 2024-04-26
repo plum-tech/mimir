@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
@@ -70,12 +71,14 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
                       setState(() {
                         patches.removeAt(i);
                       });
+                      markChanged();
                     },
                   ),
                   child: patch.build(context, widget.timetable, (newPatch) {
                     setState(() {
                       patches[i] = newPatch;
                     });
+                    markChanged();
                   }),
                 );
               },
@@ -106,7 +109,9 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
     );
   }
 
-  void onSave() {}
+  void onSave() {
+    context.pop(List.of(patches));
+  }
 
   Future<void> onPreview() async {
     await previewTimetable(context, timetable: buildTimetable());
