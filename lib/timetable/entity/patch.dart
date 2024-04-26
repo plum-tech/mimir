@@ -59,7 +59,7 @@ sealed class TimetablePatch {
 
   Map<String, dynamic> _toJsonImpl();
 
-  Widget build(BuildContext context);
+  Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetablePatch> onChanged);
 }
 
 //
@@ -119,8 +119,12 @@ class TimetableRemoveDayPatch extends TimetablePatch {
   Map<String, dynamic> _toJsonImpl() => _$TimetableRemoveDayPatchToJson(this);
 
   @override
-  Widget build(BuildContext context) {
-    return TimetableRemoveDayPatchWidget(patch: this);
+  Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetableRemoveDayPatch> onChanged) {
+    return TimetableRemoveDayPatchWidget(
+      patch: this,
+      timetable: timetable,
+      onChanged: onChanged,
+    );
   }
 
   static Future<TimetableRemoveDayPatch?> onCreate(BuildContext context, SitTimetable timetable) async {
@@ -147,7 +151,7 @@ class TimetableMoveDayPatch extends TimetablePatch {
   Map<String, dynamic> _toJsonImpl() => _$TimetableMoveDayPatchToJson(this);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetableMoveDayPatch> onChanged) {
     return Card.filled(
       child: ListTile(
         title: "Move day".text(),
@@ -171,7 +175,7 @@ class TimetableSwapDayPatch extends TimetablePatch {
   Map<String, dynamic> _toJsonImpl() => _$TimetableSwapDayPatchToJson(this);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetableSwapDayPatch> onChanged) {
     return Card.filled(
       child: ListTile(
         title: "Swap day".text(),
@@ -195,7 +199,7 @@ class TimetableCopyDayPatch extends TimetablePatch {
   Map<String, dynamic> _toJsonImpl() => _$TimetableCopyDayPatchToJson(this);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetableCopyDayPatch> onChanged) {
     return Card.filled(
       child: ListTile(
         title: "Copy day".text(),

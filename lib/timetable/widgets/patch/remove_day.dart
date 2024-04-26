@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/timetable/entity/loc.dart';
 import 'package:sit/timetable/utils.dart';
@@ -14,19 +16,31 @@ import '../../i18n.dart';
 
 class TimetableRemoveDayPatchWidget extends StatelessWidget {
   final TimetableRemoveDayPatch patch;
+  final SitTimetable timetable;
+  final ValueChanged<TimetableRemoveDayPatch> onChanged;
 
   const TimetableRemoveDayPatchWidget({
     super.key,
     required this.patch,
+    required this.timetable,
+    required this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card.filled(
-      child: ListTile(
-        title: "Remove day".text(),
-        subtitle: patch.loc.toString().text(),
-      ),
+    return ListTile(
+      title: "Remove day".text(),
+      subtitle: patch.loc.l10n().text(),
+      trailing: Icon(context.icons.edit),
+      onTap: () async {
+        final patch = await context.show$Sheet$(
+          (ctx) => TimetableRemoveDayPatchSheet(
+            timetable: timetable,
+            patch: null,
+          ),
+        );
+        onChanged(patch);
+      },
     );
   }
 }
@@ -54,6 +68,8 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
 
   void markChanged() => anyChanged |= true;
 
+  bool canSave() => buildPatch() != null;
+
   @override
   Widget build(BuildContext context) {
     return PromptSaveBeforeQuitScope(
@@ -70,7 +86,7 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
                   child: i18n.preview.text(),
                 ),
                 PlatformTextButton(
-                  onPressed: onSave,
+                  onPressed: canSave() ? onSave : null,
                   child: i18n.save.text(),
                 ),
               ],
@@ -125,6 +141,7 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
             setState(() {
               this.pos = newPos;
             });
+            markChanged();
           },
         ),
       )
@@ -149,11 +166,11 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
               firstDate: DateTime(now.year - 4),
               lastDate: DateTime(now.year + 2),
             );
-            if (newDate != null) {
-              setState(() {
-                this.date = newDate;
-              });
-            }
+            if (newDate == null) return;
+            setState(() {
+              this.date = newDate;
+            });
+            markChanged();
           },
         ),
       )

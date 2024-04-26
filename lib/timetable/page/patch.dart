@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/utils/save.dart';
 
 import '../entity/patch.dart';
 import '../entity/timetable.dart';
 import '../i18n.dart';
-import '../widgets/style.dart';
 import 'preview.dart';
 
 class TimetablePatchEditorPage extends StatefulWidget {
@@ -63,7 +62,22 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
               itemCount: patches.length,
               itemBuilder: (ctx, i) {
                 final patch = patches[i];
-                return patch.build(context);
+                return SwipeToDismiss(
+                  childKey: ValueKey(patch),
+                  right: SwipeToDismissAction(
+                    icon: Icon(context.icons.delete),
+                    action: () async {
+                      setState(() {
+                        patches.removeAt(i);
+                      });
+                    },
+                  ),
+                  child: patch.build(context, widget.timetable, (newPatch) {
+                    setState(() {
+                      patches[i] = newPatch;
+                    });
+                  }),
+                );
               },
             ),
           ],

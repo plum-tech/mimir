@@ -1,4 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sit/l10n/extension.dart';
+import 'package:sit/lifecycle.dart';
 import 'pos.dart';
 import 'timetable_entity.dart';
 
@@ -44,17 +46,21 @@ class TimetableDayLoc {
 
   DateTime get date => dateInternal!;
 
+  String l10n() {
+    return switch(mode){
+      TimetableDayLocMode.pos => pos.l10n(),
+      TimetableDayLocMode.date => $key.currentContext!.formatYmdWeekText(date),
+    };
+  }
   Map<String, dynamic> toJson() => _$TimetableDayLocToJson(this);
 
   factory TimetableDayLoc.fromJson(Map<String, dynamic> json) => _$TimetableDayLocFromJson(json);
 
   SitTimetableDay? resolveDay(SitTimetableEntity entity) {
-    if (mode == TimetableDayLocMode.pos) {
-      final day = entity.weeks[pos.weekIndex].days[pos.weekday.index];
-      return day;
-    } else {
-      return entity.getDayOn(date);
-    }
+    return switch(mode){
+      TimetableDayLocMode.pos => entity.weeks[pos.weekIndex].days[pos.weekday.index],
+      TimetableDayLocMode.date => entity.getDayOn(date),
+    };
   }
 
   @override
