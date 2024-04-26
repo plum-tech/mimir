@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 
 import '../widgets/patch/copy_day.dart';
 import '../widgets/patch/move_day.dart';
 import '../widgets/patch/remove_day.dart';
+import '../widgets/patch/swap_day.dart';
 import 'loc.dart';
 import 'timetable.dart';
 
@@ -201,14 +201,22 @@ class TimetableSwapDayPatch extends TimetablePatch {
 
   @override
   Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetableSwapDayPatch> onChanged) {
-    return Card.filled(
-      child: ListTile(
-        title: "Swap day".text(),
-      ),
+    return TimetableSwapDayPatchWidget(
+      patch: this,
+      timetable: timetable,
+      onChanged: onChanged,
     );
   }
 
-  static Future<TimetableSwapDayPatch?> onCreate(BuildContext context, SitTimetable timetable) async {}
+  static Future<TimetableSwapDayPatch?> onCreate(BuildContext context, SitTimetable timetable) async {
+    final patch = await context.show$Sheet$(
+      (ctx) => TimetableSwapDayPatchSheet(
+        timetable: timetable,
+        patch: null,
+      ),
+    );
+    return patch;
+  }
 }
 
 @JsonSerializable()
@@ -241,7 +249,7 @@ class TimetableCopyDayPatch extends TimetablePatch {
 
   static Future<TimetableCopyDayPatch?> onCreate(BuildContext context, SitTimetable timetable) async {
     final patch = await context.show$Sheet$(
-          (ctx) => TimetableCopyDayPatchSheet(
+      (ctx) => TimetableCopyDayPatchSheet(
         timetable: timetable,
         patch: null,
       ),
