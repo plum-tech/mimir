@@ -62,6 +62,8 @@ sealed class TimetablePatch {
   Map<String, dynamic> _toJsonImpl();
 
   Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetablePatch> onChanged);
+
+  String toDartCode();
 }
 
 //
@@ -139,6 +141,11 @@ class TimetableRemoveDayPatch extends TimetablePatch {
     );
     return patch;
   }
+
+  @override
+  String toDartCode() {
+    return "TimetableRemoveDayPatch(loc:${loc.toDartCode()})";
+  }
 }
 
 @JsonSerializable()
@@ -177,6 +184,11 @@ class TimetableMoveDayPatch extends TimetablePatch {
       ),
     );
     return patch;
+  }
+
+  @override
+  String toDartCode() {
+    return "TimetableMoveDayPatch(source:${source.toDartCode()},target:${target.toDartCode()})";
   }
 }
 
@@ -217,6 +229,11 @@ class TimetableSwapDayPatch extends TimetablePatch {
     );
     return patch;
   }
+
+  @override
+  String toDartCode() {
+    return "TimetableSwapDayPatch(a:${a.toDartCode()},b:${b.toDartCode()})";
+  }
 }
 
 @JsonSerializable()
@@ -255,6 +272,11 @@ class TimetableCopyDayPatch extends TimetablePatch {
       ),
     );
     return patch;
+  }
+
+  @override
+  String toDartCode() {
+    return "TimetableCopyDayPatch(source:${source.toDartCode()},target:${target.toDartCode()})";
   }
 }
 

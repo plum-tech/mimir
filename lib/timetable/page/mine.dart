@@ -298,17 +298,29 @@ class TimetableCard extends StatelessWidget {
             action: () async {
               var patches = await ctx.push<List<TimetablePatch>>("/timetable/$id/edit/patch");
               if (patches == null) return;
-              TimetableInit.storage.timetable[id] = timetable.copyWith(
-                patches: patches,
-              ).markModified();
+              TimetableInit.storage.timetable[id] = timetable
+                  .copyWith(
+                    patches: patches,
+                  )
+                  .markModified();
             },
           ),
         if (kDebugMode)
           EntryAction(
             icon: context.icons.copy,
-            label: "Copy Dart code",
+            label: "[Dart] Timetable",
             action: () async {
               final code = timetable.toDartCode();
+              debugPrint(code);
+              await Clipboard.setData(ClipboardData(text: code));
+            },
+          ),
+        if (kDebugMode)
+          EntryAction(
+            icon: context.icons.copy,
+            label: "[Dart] Patches",
+            action: () async {
+              final code = timetable.patches.map((p) => p.toDartCode()).toList().toString();
               debugPrint(code);
               await Clipboard.setData(ClipboardData(text: code));
             },

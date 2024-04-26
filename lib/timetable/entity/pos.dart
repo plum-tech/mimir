@@ -45,6 +45,10 @@ class TimetablePos {
     return "${i18n.weekOrderedName(number: weekIndex + 1)} ${weekday.l10n()}";
   }
 
+  String toDartCode() {
+    return "TimetablePos(weekIndex:$weekIndex,weekday:$weekday)";
+  }
+
   factory TimetablePos.fromJson(Map<String, dynamic> json) => _$TimetablePosFromJson(json);
 
   Map<String, dynamic> toJson() => _$TimetablePosToJson(this);

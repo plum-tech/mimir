@@ -47,6 +47,13 @@ class TimetableDayLoc {
 
   DateTime get date => dateInternal!;
 
+  String toDartCode() {
+    return switch (mode) {
+      TimetableDayLocMode.pos => "TimetableDayLoc.pos(${pos.toDartCode()})",
+      TimetableDayLocMode.date => 'TimetableDayLoc.loc(DateTime(${date.year},${date.month},${date.day}))',
+    };
+  }
+
   String l10n() {
     return switch (mode) {
       TimetableDayLocMode.pos => pos.l10n(),

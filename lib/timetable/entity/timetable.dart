@@ -85,6 +85,7 @@ class SitTimetable {
         "semester:$semester,"
         "lastCourseKey:$lastCourseKey,"
         "version:$version,"
+        "patches:${patches.map((p) => p.toDartCode()).toList()},"
         ")";
   }
 
