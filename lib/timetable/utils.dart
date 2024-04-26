@@ -493,18 +493,19 @@ SitTimetable parsePostgraduateTimetableFromCourseRaw(
   return res;
 }
 
-Future<int> selectWeekInTimetable({
+Future<int?> selectWeekInTimetable({
   required BuildContext context,
   required SitTimetable timetable,
-  required int initialWeekIndex,
+  int? initialWeekIndex,
+  required String submitLabel,
 }) async {
-  final controller = FixedExtentScrollController(initialItem: initialWeekIndex);
   final todayPos = timetable.locate(DateTime.now());
   final todayIndex = todayPos.weekIndex;
+  final controller = FixedExtentScrollController(initialItem: initialWeekIndex ?? todayIndex);
   final selectedWeek = await context.showPicker(
         count: 20,
         controller: controller,
-        ok: i18n.jump,
+        ok: submitLabel,
         okEnabled: (curSelected) => curSelected != initialWeekIndex,
         actions: [
           (ctx, curSelected) => PlatformTextButton(
@@ -526,24 +527,25 @@ Future<int> selectWeekInTimetable({
   return selectedWeek;
 }
 
-Future<TimetablePos> selectDayInTimetable({
+Future<TimetablePos?> selectDayInTimetable({
   required BuildContext context,
   required SitTimetable timetable,
-  required TimetablePos initialPos,
+  TimetablePos? initialPos,
+  required String submitLabel,
 }) async {
-  final initialWeekIndex = initialPos.weekIndex;
-  final initialDayIndex = initialPos.weekday.index;
-  final $week = FixedExtentScrollController(initialItem: initialPos.weekIndex);
-  final $day = FixedExtentScrollController(initialItem: initialDayIndex);
+  final initialWeekIndex = initialPos?.weekIndex;
+  final initialDayIndex = initialPos?.weekday.index;
   final todayPos = timetable.locate(DateTime.now());
   final todayWeekIndex = todayPos.weekIndex;
   final todayDayIndex = todayPos.weekday.index;
+  final $week = FixedExtentScrollController(initialItem: initialPos?.weekIndex ?? todayWeekIndex);
+  final $day = FixedExtentScrollController(initialItem: initialDayIndex ?? todayDayIndex);
   final (selectedWeek, selectedDay) = await context.showDualPicker(
         countA: 20,
         countB: 7,
         controllerA: $week,
         controllerB: $day,
-        ok: i18n.jump,
+        ok: submitLabel,
         okEnabled: (weekSelected, daySelected) => weekSelected != initialWeekIndex || daySelected != initialDayIndex,
         actions: [
           (ctx, week, day) => PlatformTextButton(
@@ -565,5 +567,7 @@ Future<TimetablePos> selectDayInTimetable({
       (initialWeekIndex, initialDayIndex);
   $week.dispose();
   $day.dispose();
-  return TimetablePos(weekIndex: selectedWeek, weekday: Weekday.fromIndex(selectedDay));
+  return selectedWeek != null && selectedDay != null
+      ? TimetablePos(weekIndex: selectedWeek, weekday: Weekday.fromIndex(selectedDay))
+      : null;
 }

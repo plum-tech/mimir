@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/timetable/entity/loc.dart';
-import 'package:sit/timetable/entity/pos.dart';
 import 'package:sit/timetable/utils.dart';
 import 'package:sit/utils/save.dart';
 
@@ -116,13 +115,15 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
         trailing: FilledButton(
           child: i18n.select.text(),
           onPressed: () async {
-            final pos = await selectDayInTimetable(
+            final newPos = await selectDayInTimetable(
               context: context,
               timetable: widget.timetable,
-              initialPos: TimetablePos.initial,
+              initialPos: pos,
+              submitLabel: i18n.select,
             );
+            if (newPos == null) return;
             setState(() {
-              this.pos = pos;
+              this.pos = newPos;
             });
           },
         ),

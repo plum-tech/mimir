@@ -187,7 +187,9 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
       context: context,
       timetable: timetable.type,
       initialWeekIndex: initialIndex,
+      submitLabel: i18n.jump,
     );
+    if (week2Go == null) return;
     if (week2Go != initialIndex) {
       eventBus.fire(JumpToPosEvent($currentPos.value.copyWith(weekIndex: week2Go)));
     }
@@ -199,9 +201,11 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
       context: context,
       timetable: timetable.type,
       initialPos: currentPos,
+      submitLabel: i18n.jump,
     );
+    if (pos2Go == null) return;
     if (pos2Go != currentPos) {
-      eventBus.fire(JumpToPosEvent(currentPos));
+      eventBus.fire(JumpToPosEvent(pos2Go));
     }
   }
 }
