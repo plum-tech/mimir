@@ -180,8 +180,10 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
           return TimetablePatchSetGalleryCard(
             patchSet: patchSet,
             onAdd: () {
-              patches.add(patchSet);
-              navIndex = 0;
+              setState(() {
+                patches.add(patchSet);
+                navIndex = 0;
+              });
             },
           );
         },

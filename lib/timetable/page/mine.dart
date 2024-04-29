@@ -296,11 +296,11 @@ class TimetableCard extends StatelessWidget {
             label: i18n.mine.patch,
             icon: Icons.dashboard_customize,
             action: () async {
-              var patches = await ctx.push<List<TimetablePatch>>("/timetable/$id/edit/patch");
+              var patches = await ctx.push<List<TimetablePatchEntry>>("/timetable/$id/edit/patch");
               if (patches == null) return;
               TimetableInit.storage.timetable[id] = timetable
                   .copyWith(
-                    patches: patches,
+                    patches: List.of(patches),
                   )
                   .markModified();
             },
