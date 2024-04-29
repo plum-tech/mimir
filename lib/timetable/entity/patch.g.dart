@@ -6,6 +6,17 @@ part of 'patch.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+TimetablePatchSet _$TimetablePatchSetFromJson(Map<String, dynamic> json) => TimetablePatchSet(
+      name: json['name'] as String,
+      patches:
+          (json['patches'] as List<dynamic>).map((e) => TimetablePatch.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+
+Map<String, dynamic> _$TimetablePatchSetToJson(TimetablePatchSet instance) => <String, dynamic>{
+      'name': instance.name,
+      'patches': instance.patches,
+    };
+
 TimetableUnknownPatch _$TimetableUnknownPatchFromJson(Map<String, dynamic> json) => TimetableUnknownPatch(
       legacy: json['legacy'] as Map<String, dynamic>?,
     );

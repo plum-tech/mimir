@@ -9,6 +9,8 @@ import 'patch.dart';
 import 'platte.dart';
 import 'timetable.dart';
 
+part "timetable_entity.g.dart";
+
 /// The entity to display.
 class SitTimetableEntity with SitTimetablePaletteResolver {
   @override

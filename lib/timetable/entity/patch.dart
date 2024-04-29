@@ -17,6 +17,23 @@ import '../i18n.dart';
 
 part "patch.g.dart";
 
+const _patchSetType = "patchSet";
+
+sealed class TimetablePatchEntry {
+  const TimetablePatchEntry();
+
+  factory TimetablePatchEntry.fromJson(Map<String, dynamic> json) {
+    final type = json["type"];
+    if (type == _patchSetType) {
+      return TimetablePatchSet.fromJson(json);
+    } else {
+      return TimetablePatch.fromJson(json);
+    }
+  }
+
+  Map<String, dynamic> toJson();
+}
+
 @JsonEnum(alwaysCreate: true)
 enum TimetablePatchType {
   // addLesson,
@@ -47,7 +64,8 @@ enum TimetablePatchType {
 }
 
 /// To opt-in [JsonSerializable], please specify `toJson` parameter to [TimetablePatch.toJson].
-sealed class TimetablePatch {
+sealed class TimetablePatch extends TimetablePatchEntry {
+  @JsonKey()
   TimetablePatchType get type;
 
   const TimetablePatch();
@@ -74,11 +92,6 @@ sealed class TimetablePatch {
     }
   }
 
-  @mustCallSuper
-  Map<String, dynamic> toJson() => _toJsonImpl()..["type"] = _$TimetablePatchTypeEnumMap[type];
-
-  Map<String, dynamic> _toJsonImpl();
-
   Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetablePatch> onChanged);
 
   String toDartCode();
@@ -86,7 +99,8 @@ sealed class TimetablePatch {
   String l10n();
 }
 
-class TimetablePatchSet {
+@JsonSerializable()
+class TimetablePatchSet extends TimetablePatchEntry {
   final String name;
   final List<TimetablePatch> patches;
 
@@ -94,6 +108,11 @@ class TimetablePatchSet {
     required this.name,
     required this.patches,
   });
+
+  factory TimetablePatchSet.fromJson(Map<String, dynamic> json) => _$TimetablePatchSetFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$TimetablePatchSetToJson(this)..["type"] = _patchSetType;
 }
 
 class BuiltinTimetablePatchSet implements TimetablePatchSet {
@@ -108,6 +127,9 @@ class BuiltinTimetablePatchSet implements TimetablePatchSet {
     required this.key,
     required this.patches,
   });
+
+  @override
+  Map<String, dynamic> toJson() => _$TimetablePatchSetToJson(this)..["type"] = _patchSetType;
 }
 
 //
@@ -121,7 +143,7 @@ class BuiltinTimetablePatchSet implements TimetablePatchSet {
 //   factory TimetableAddLessonPatch.fromJson(Map<String, dynamic> json) => _$TimetableAddLessonPatchFromJson(json);
 //
 //   @override
-//   Map<String, dynamic> _toJsonImpl() => _$TimetableAddLessonPatchToJson(this);
+//   Map<String, dynamic> toJson() => _$TimetableAddLessonPatchToJson(this);
 // }
 
 // @JsonSerializable()
@@ -134,7 +156,7 @@ class BuiltinTimetablePatchSet implements TimetablePatchSet {
 //   factory TimetableRemoveLessonPatch.fromJson(Map<String, dynamic> json) => _$TimetableRemoveLessonPatchFromJson(json);
 //
 //   @override
-//   Map<String, dynamic> _toJsonImpl() => _$TimetableRemoveLessonPatchToJson(this);
+//   Map<String, dynamic> toJson() => _$TimetableRemoveLessonPatchToJson(this);
 // }
 //
 // @JsonSerializable()
@@ -147,11 +169,12 @@ class BuiltinTimetablePatchSet implements TimetablePatchSet {
 //   factory TimetableMoveLessonPatch.fromJson(Map<String, dynamic> json) => _$TimetableMoveLessonPatchFromJson(json);
 //
 //   @override
-//   Map<String, dynamic> _toJsonImpl() => _$TimetableMoveLessonPatchToJson(this);
+//   Map<String, dynamic> toJson() => _$TimetableMoveLessonPatchToJson(this);
 // }
 
 @JsonSerializable()
 class TimetableUnknownPatch extends TimetablePatch {
+  @JsonKey()
   @override
   TimetablePatchType get type => TimetablePatchType.unknown;
 
@@ -164,7 +187,7 @@ class TimetableUnknownPatch extends TimetablePatch {
   }
 
   @override
-  Map<String, dynamic> _toJsonImpl() => legacy ?? {};
+  Map<String, dynamic> toJson() => (legacy ?? {})..["type"] = _$TimetablePatchTypeEnumMap[type];
 
   @override
   Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetablePatch> onChanged) {
@@ -203,7 +226,7 @@ class TimetableRemoveDayPatch extends TimetablePatch {
   factory TimetableRemoveDayPatch.fromJson(Map<String, dynamic> json) => _$TimetableRemoveDayPatchFromJson(json);
 
   @override
-  Map<String, dynamic> _toJsonImpl() => _$TimetableRemoveDayPatchToJson(this);
+  Map<String, dynamic> toJson() => _$TimetableRemoveDayPatchToJson(this)..["type"] = _$TimetablePatchTypeEnumMap[type];
 
   @override
   Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetableRemoveDayPatch> onChanged) {
@@ -252,7 +275,7 @@ class TimetableMoveDayPatch extends TimetablePatch {
   factory TimetableMoveDayPatch.fromJson(Map<String, dynamic> json) => _$TimetableMoveDayPatchFromJson(json);
 
   @override
-  Map<String, dynamic> _toJsonImpl() => _$TimetableMoveDayPatchToJson(this);
+  Map<String, dynamic> toJson() => _$TimetableMoveDayPatchToJson(this)..["type"] = _$TimetablePatchTypeEnumMap[type];
 
   @override
   Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetableMoveDayPatch> onChanged) {
@@ -301,7 +324,7 @@ class TimetableCopyDayPatch extends TimetablePatch {
   factory TimetableCopyDayPatch.fromJson(Map<String, dynamic> json) => _$TimetableCopyDayPatchFromJson(json);
 
   @override
-  Map<String, dynamic> _toJsonImpl() => _$TimetableCopyDayPatchToJson(this);
+  Map<String, dynamic> toJson() => _$TimetableCopyDayPatchToJson(this)..["type"] = _$TimetablePatchTypeEnumMap[type];
 
   @override
   Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetableCopyDayPatch> onChanged) {
@@ -350,7 +373,7 @@ class TimetableSwapDaysPatch extends TimetablePatch {
   factory TimetableSwapDaysPatch.fromJson(Map<String, dynamic> json) => _$TimetableSwapDaysPatchFromJson(json);
 
   @override
-  Map<String, dynamic> _toJsonImpl() => _$TimetableSwapDaysPatchToJson(this);
+  Map<String, dynamic> toJson() => _$TimetableSwapDaysPatchToJson(this)..["type"] = _$TimetablePatchTypeEnumMap[type];
 
   @override
   Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetableSwapDaysPatch> onChanged) {

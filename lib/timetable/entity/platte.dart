@@ -71,7 +71,7 @@ class TimetablePalette {
     return decodeFromByteList(bytes);
   }
 
-  static decodeFromByteList(Uint8List bytes) {
+  static TimetablePalette decodeFromByteList(Uint8List bytes) {
     final reader = ByteReader(bytes);
     final name = reader.strUtf8();
     final author = reader.strUtf8();
