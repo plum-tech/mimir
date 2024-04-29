@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/l10n/extension.dart';
+import 'package:sit/l10n/time.dart';
 import 'package:sit/lifecycle.dart';
 import 'pos.dart';
 import 'timetable_entity.dart';
@@ -39,9 +40,19 @@ class TimetableDayLoc {
         dateInternal = null,
         mode = TimetableDayLocMode.pos;
 
+  TimetableDayLoc.byPos(int weekIndex, Weekday weekday)
+      : posInternal = TimetablePos(weekIndex: weekIndex, weekday: weekday),
+        dateInternal = null,
+        mode = TimetableDayLocMode.pos;
+
   const TimetableDayLoc.date(DateTime date)
       : posInternal = null,
         dateInternal = date,
+        mode = TimetableDayLocMode.date;
+
+  TimetableDayLoc.byDate(int year, int month, int day)
+      : posInternal = null,
+        dateInternal = DateTime(year, month, day),
         mode = TimetableDayLocMode.date;
 
   TimetablePos get pos => posInternal!;
