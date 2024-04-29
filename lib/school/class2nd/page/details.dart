@@ -4,6 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/menu.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/design/widgets/tags.dart';
@@ -139,6 +140,15 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
             destructive: true,
             onTap: () async {
               await showForciblyApplyRequest();
+            },
+          ),
+        if(Dev.on)
+          PullDownItem(
+            icon: context.icons.delete,
+            title: "Delete cache",
+            destructive: true,
+            onTap: () async {
+              Class2ndInit.activityStorage.setActivityDetails(activityId, null);
             },
           ),
       ],

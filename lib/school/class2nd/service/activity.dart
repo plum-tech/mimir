@@ -93,7 +93,7 @@ class Class2ndActivityService {
     final map = <String, String>{};
     for (String line in lines) {
       List<String> result = line.split('：');
-      map.addAll({result[0]: result[1]});
+      map.addAll({result[0]: result.sublist(1).join('：')});
     }
     return map;
   }
