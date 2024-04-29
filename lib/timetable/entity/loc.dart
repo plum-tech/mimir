@@ -63,13 +63,13 @@ class TimetableDayLoc {
   DateTime get date => dateInternal!;
 
   Uint8List encodeByteList() {
-    final writer = ByteWriter(64);
+    final writer = ByteWriter(32);
     writer.int8(mode.index);
     switch (mode) {
       case TimetableDayLocMode.pos:
         writer.bytes(pos.encodeByteList());
       case TimetableDayLocMode.date:
-        writer.int32(date.millisecondsSinceEpoch);
+        writer.int16(_packDate(date));
     }
     return writer.build();
   }
@@ -119,4 +119,21 @@ class TimetableDayLoc {
     }
         .toString();
   }
+}
+
+/// Assuming valid year (e.g., 2000-2099), month (1-12), and day (1-31)
+int _packDate(DateTime date) {
+  return (date.year - 2000) << 9 | (date.month << 5) | date.day;
+}
+
+int _unpackYear(int packedDate) {
+  return (packedDate >> 9) & 0x1FFF; // Mask to get year bits and add 2000
+}
+
+int _unpackMonth(int packedDate) {
+  return (packedDate >> 5) & 0x1F; // Mask to get month bits
+}
+
+int _unpackDay(int packedDate) {
+  return packedDate & 0x1F; // Mask to get day bits
 }

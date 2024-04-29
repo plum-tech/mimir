@@ -37,7 +37,7 @@ class ByteWriter {
 
   void bytes(Uint8List bytes) {
     _checkCapacity(requireBytes: bytes.length);
-    _buffer.setRange(_offset, _offset + _buffer.length, bytes);
+    _buffer.setRange(_offset, _offset + bytes.length, bytes);
     _offset += bytes.length;
   }
 

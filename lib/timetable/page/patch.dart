@@ -146,7 +146,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
     return switch (entry) {
       TimetablePatchSet() => TimetablePatchSetCard(
           patchSet: entry,
-          timetable:timetable,
+          timetable: timetable,
           onDeleted: () {
             removePatch(index);
           },

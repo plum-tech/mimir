@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -133,9 +134,9 @@ class TimetablePatchSet extends TimetablePatchEntry {
   Uint8List encodeByteList() => _encodeByteList(this);
 
   static Uint8List _encodeByteList(TimetablePatchSet obj) {
-    final writer = ByteWriter(1024);
+    final writer = ByteWriter(2048);
     writer.strUtf8(obj.name);
-    writer.int32(obj.patches.length);
+    writer.int8(max(obj.patches.length, 256));
     for (final patch in obj.patches) {
       writer.bytes(patch.encodeByteList());
     }
@@ -269,9 +270,9 @@ class TimetableRemoveDayPatch extends TimetablePatch {
 
   @override
   Uint8List encodeByteList() {
-    final writer = ByteWriter(128);
+    final writer = ByteWriter(512);
     writer.int8(type.index);
-    writer.int32(all.length);
+    writer.int8(max(all.length, 256));
     for (final loc in all) {
       writer.bytes(loc.encodeByteList());
     }
@@ -364,7 +365,7 @@ class TimetableCopyDayPatch extends TimetablePatch {
 
   @override
   Uint8List encodeByteList() {
-    final writer = ByteWriter(32);
+    final writer = ByteWriter(512);
     writer.int8(type.index);
     writer.bytes(source.encodeByteList());
     writer.bytes(target.encodeByteList());
@@ -415,7 +416,7 @@ class TimetableSwapDaysPatch extends TimetablePatch {
 
   @override
   Uint8List encodeByteList() {
-    final writer = ByteWriter(32);
+    final writer = ByteWriter(512);
     writer.int8(type.index);
     writer.bytes(a.encodeByteList());
     writer.bytes(b.encodeByteList());
