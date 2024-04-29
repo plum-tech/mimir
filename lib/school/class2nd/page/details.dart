@@ -142,7 +142,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
               await showForciblyApplyRequest();
             },
           ),
-        if(Dev.on)
+        if (Dev.on)
           PullDownItem(
             icon: context.icons.delete,
             title: "Delete cache",

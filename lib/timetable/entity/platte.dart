@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -41,6 +42,7 @@ List _colorsToJson(List<Color2Mode> colors) {
 DateTime _kLastModified() => DateTime.now();
 
 @JsonSerializable()
+@CopyWith()
 class TimetablePalette {
   @JsonKey()
   final String name;
@@ -89,35 +91,19 @@ class TimetablePalette {
       lastModified: DateTime.now(),
     );
   }
-}
 
-extension TimetablePaletteX on TimetablePalette {
-  TimetablePalette copyWith({
-    String? name,
-    List<Color2Mode>? colors,
-    String? author,
-    DateTime? lastModified,
-  }) {
-    return TimetablePalette(
-      name: name ?? this.name,
-      colors: colors ?? List.of(this.colors),
-      author: author ?? this.author,
-      lastModified: lastModified ?? this.lastModified,
-    );
-  }
-
-  String encodeBase64() {
-    final bytes = encodeByteList();
+  static String encodeBase64(TimetablePalette obj) {
+    final bytes = encodeByteList(obj);
     final encoded = base64Encode(bytes);
     return encoded;
   }
 
-  List<int> encodeByteList() {
+  static List<int> encodeByteList(TimetablePalette obj) {
     final writer = ByteWriter(1024);
-    writer.strUtf8(name);
-    writer.strUtf8(author);
-    writer.uint32(colors.length);
-    for (var color in colors) {
+    writer.strUtf8(obj.name);
+    writer.strUtf8(obj.author);
+    writer.uint32(obj.colors.length);
+    for (var color in obj.colors) {
       writer.uint32(color.light.value);
       writer.uint32(color.dark.value);
     }

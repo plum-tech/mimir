@@ -210,7 +210,10 @@ class PaletteCard extends StatelessWidget {
               if (newPalette != null) {
                 final newName = allocValidFileName(newPalette.name);
                 if (newName != newPalette.name) {
-                  newPalette = newPalette.copyWith(name: newName);
+                  newPalette = newPalette.copyWith(
+                    name: newName,
+                    colors: List.of(newPalette.colors),
+                  );
                 }
                 TimetableInit.storage.palette[id] = newPalette;
               }
@@ -242,6 +245,7 @@ class PaletteCard extends StatelessWidget {
               name: allocValidFileName(palette.name, all: allPaletteNames),
               author: palette.author,
               lastModified: DateTime.now(),
+              colors: List.of(palette.colors),
             );
             TimetableInit.storage.palette.add(duplicate);
             onDuplicate?.call();
