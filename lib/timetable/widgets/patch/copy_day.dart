@@ -32,12 +32,13 @@ class TimetableCopyDayPatchWidget extends StatelessWidget {
       subtitle: patch.l10n().text(),
       trailing: TimetablePatchMenuAction(patch: patch, timetable: timetable, onChanged: onChanged),
       onTap: () async {
-        final newPath = await context.show$Sheet$(
+        final newPath = await context.show$Sheet$<TimetableCopyDayPatch>(
           (ctx) => TimetableCopyDayPatchSheet(
             timetable: timetable,
             patch: patch,
           ),
         );
+        if (newPath == null) return;
         onChanged(newPath);
       },
     );
