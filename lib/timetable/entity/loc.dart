@@ -64,12 +64,12 @@ class TimetableDayLoc {
 
   Uint8List encodeByteList() {
     final writer = ByteWriter(32);
-    writer.int8(mode.index);
+    writer.uint8(mode.index);
     switch (mode) {
       case TimetableDayLocMode.pos:
         writer.bytes(pos.encodeByteList());
       case TimetableDayLocMode.date:
-        writer.int16(_packDate(date));
+        writer.uint16(_packDate(date));
     }
     return writer.build();
   }

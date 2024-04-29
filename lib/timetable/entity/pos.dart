@@ -45,8 +45,8 @@ class TimetablePos {
   }
   Uint8List encodeByteList() {
     final writer = ByteWriter(16);
-    writer.int8(weekIndex);
-    writer.int8(weekday.index);
+    writer.uint8(weekIndex);
+    writer.uint8(weekday.index);
     return writer.build();
   }
   String l10n() {

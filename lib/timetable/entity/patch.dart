@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -38,15 +37,7 @@ sealed class TimetablePatchEntry {
 
   String toDartCode();
 
-  String encodeBase64() => _encodeBase64(this);
-
   Uint8List encodeByteList();
-
-  static String _encodeBase64(TimetablePatchEntry obj) {
-    final bytes = obj.encodeByteList();
-    final encoded = base64Encode(bytes);
-    return encoded;
-  }
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -136,7 +127,7 @@ class TimetablePatchSet extends TimetablePatchEntry {
   static Uint8List _encodeByteList(TimetablePatchSet obj) {
     final writer = ByteWriter(2048);
     writer.strUtf8(obj.name);
-    writer.int8(max(obj.patches.length, 256));
+    writer.uint8(max(obj.patches.length, 256));
     for (final patch in obj.patches) {
       writer.bytes(patch.encodeByteList());
     }
@@ -159,9 +150,6 @@ class BuiltinTimetablePatchSet implements TimetablePatchSet {
 
   @override
   Uint8List encodeByteList() => TimetablePatchSet._encodeByteList(this);
-
-  @override
-  String encodeBase64() => TimetablePatchEntry._encodeBase64(this);
 
   @override
   Map<String, dynamic> toJson() => _$TimetablePatchSetToJson(this)..["type"] = _patchSetType;
@@ -229,7 +217,7 @@ class TimetableUnknownPatch extends TimetablePatch {
   @override
   Uint8List encodeByteList() {
     final writer = ByteWriter(8);
-    writer.int8(type.index);
+    writer.uint8(type.index);
     return writer.build();
   }
 
@@ -271,8 +259,8 @@ class TimetableRemoveDayPatch extends TimetablePatch {
   @override
   Uint8List encodeByteList() {
     final writer = ByteWriter(512);
-    writer.int8(type.index);
-    writer.int8(max(all.length, 256));
+    writer.uint8(type.index);
+    writer.uint8(max(all.length, 256));
     for (final loc in all) {
       writer.bytes(loc.encodeByteList());
     }
@@ -317,7 +305,7 @@ class TimetableMoveDayPatch extends TimetablePatch {
   @override
   Uint8List encodeByteList() {
     final writer = ByteWriter(32);
-    writer.int8(type.index);
+    writer.uint8(type.index);
     writer.bytes(source.encodeByteList());
     writer.bytes(target.encodeByteList());
     return writer.build();
@@ -366,7 +354,7 @@ class TimetableCopyDayPatch extends TimetablePatch {
   @override
   Uint8List encodeByteList() {
     final writer = ByteWriter(512);
-    writer.int8(type.index);
+    writer.uint8(type.index);
     writer.bytes(source.encodeByteList());
     writer.bytes(target.encodeByteList());
     return writer.build();
@@ -417,7 +405,7 @@ class TimetableSwapDaysPatch extends TimetablePatch {
   @override
   Uint8List encodeByteList() {
     final writer = ByteWriter(512);
-    writer.int8(type.index);
+    writer.uint8(type.index);
     writer.bytes(a.encodeByteList());
     writer.bytes(b.encodeByteList());
     return writer.build();

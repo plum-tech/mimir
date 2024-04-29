@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
@@ -61,24 +62,25 @@ class TimetablePatchSetCard extends StatelessWidget {
               await previewTimetable(context, timetable: timetable);
             },
           ),
-          if (Dev.on)
-            PullDownItem(
-              title: "Share Qr code",
-              onTap: () async {
-                final bytes = patchSet.encodeByteList();
-                final str = base64Encode(bytes);
-                final compressed = ZLibCodec(level: 6).encoder.convert(bytes);
-                final compressedStr = base64Encode(compressed);
-                final size = (str.length,compressedStr.length);
-                final qrCodeData = Uri(scheme: R.scheme, path: "timetable-patch", query: compressedStr);
-                await context.show$Sheet$(
-                  (context) => QrCodePage(
-                    title: patchSet.name.text(),
-                    data: qrCodeData.toString(),
-                  ),
-                );
-              },
-            ),
+          if (!kIsWeb)
+            if (Dev.on)
+              PullDownItem(
+                title: "Share Qr code",
+                onTap: () async {
+                  final bytes = patchSet.encodeByteList();
+                  final str = base64Encode(bytes);
+                  final compressed = ZLibCodec(level: 6).encoder.convert(bytes);
+                  final compressedStr = base64Encode(compressed);
+                  final size = (str.length, compressedStr.length);
+                  final qrCodeData = Uri(scheme: R.scheme, path: "timetable-patch", query: compressedStr);
+                  await context.show$Sheet$(
+                    (context) => QrCodePage(
+                      title: patchSet.name.text(),
+                      data: qrCodeData.toString(),
+                    ),
+                  );
+                },
+              ),
           if (onDeleted != null)
             PullDownItem.delete(
               title: i18n.delete,

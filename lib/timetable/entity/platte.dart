@@ -92,15 +92,7 @@ class TimetablePalette {
     );
   }
 
-  String encodeBase64() => _encodeBase64(this);
-
   List<int> encodeByteList() => _encodeByteList(this);
-
-  static String _encodeBase64(TimetablePalette obj) {
-    final bytes = obj.encodeByteList();
-    final encoded = base64Encode(bytes);
-    return encoded;
-  }
 
   static Uint8List _encodeByteList(TimetablePalette obj) {
     final writer = ByteWriter(256);
@@ -148,9 +140,6 @@ class BuiltinTimetablePalette implements TimetablePalette {
         "author": author,
         "colors": _colorsToJson(colors),
       };
-
-  @override
-  String encodeBase64() => TimetablePalette._encodeBase64(this);
 
   @override
   List<int> encodeByteList() => TimetablePalette._encodeByteList(this);
