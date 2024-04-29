@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/utils/error.dart';
 
 import '../widgets/patch/copy_day.dart';
 import '../widgets/patch/move_day.dart';
@@ -27,7 +28,15 @@ enum TimetablePatchType {
   removeDay(TimetableRemoveDayPatch.onCreate),
   copyDay(TimetableCopyDayPatch.onCreate),
   swapDays(TimetableSwapDaysPatch.onCreate),
+  unknown(TimetableSwapDaysPatch.onCreate),
   ;
+
+  static const creatable = [
+    moveDay,
+    removeDay,
+    copyDay,
+    swapDays,
+  ];
 
   final FutureOr<TimetablePatch?> Function(BuildContext context, SitTimetable timetable) onCreate;
 
@@ -43,19 +52,25 @@ sealed class TimetablePatch {
   const TimetablePatch();
 
   factory TimetablePatch.fromJson(Map<String, dynamic> json) {
-    final type = $enumDecode(_$TimetablePatchTypeEnumMap, json["type"]);
-    return switch (type) {
-      // TimetablePatchType.addLesson => TimetableAddLessonPatch.fromJson(json),
-      // TimetablePatchType.removeLesson => TimetableAddLessonPatch.fromJson(json),
-      // TimetablePatchType.replaceLesson => TimetableAddLessonPatch.fromJson(json),
-      // TimetablePatchType.swapLesson => TimetableAddLessonPatch.fromJson(json),
-      // TimetablePatchType.moveLesson => TimetableAddLessonPatch.fromJson(json),
-      // TimetablePatchType.addDay => TimetableAddLessonPatch.fromJson(json),
-      TimetablePatchType.removeDay => TimetableRemoveDayPatch.fromJson(json),
-      TimetablePatchType.swapDays => TimetableSwapDaysPatch.fromJson(json),
-      TimetablePatchType.moveDay => TimetableMoveDayPatch.fromJson(json),
-      TimetablePatchType.copyDay => TimetableCopyDayPatch.fromJson(json),
-    };
+    final type = $enumDecode(_$TimetablePatchTypeEnumMap, json["type"], unknownValue: TimetablePatchType.unknown);
+    try {
+      return switch (type) {
+        // TimetablePatchType.addLesson => TimetableAddLessonPatch.fromJson(json),
+        // TimetablePatchType.removeLesson => TimetableAddLessonPatch.fromJson(json),
+        // TimetablePatchType.replaceLesson => TimetableAddLessonPatch.fromJson(json),
+        // TimetablePatchType.swapLesson => TimetableAddLessonPatch.fromJson(json),
+        // TimetablePatchType.moveLesson => TimetableAddLessonPatch.fromJson(json),
+        // TimetablePatchType.addDay => TimetableAddLessonPatch.fromJson(json),
+        TimetablePatchType.unknown => TimetableUnknownPatch.fromJson(json),
+        TimetablePatchType.removeDay => TimetableRemoveDayPatch.fromJson(json),
+        TimetablePatchType.swapDays => TimetableSwapDaysPatch.fromJson(json),
+        TimetablePatchType.moveDay => TimetableMoveDayPatch.fromJson(json),
+        TimetablePatchType.copyDay => TimetableCopyDayPatch.fromJson(json),
+      };
+    } catch (error, stackTrace) {
+      debugPrintError(error, stackTrace);
+      return const TimetableUnknownPatch();
+    }
   }
 
   @mustCallSuper
@@ -133,6 +148,38 @@ class BuiltinTimetablePatchSet implements TimetablePatchSet {
 //   @override
 //   Map<String, dynamic> _toJsonImpl() => _$TimetableMoveLessonPatchToJson(this);
 // }
+
+@JsonSerializable()
+class TimetableUnknownPatch extends TimetablePatch {
+  @override
+  TimetablePatchType get type => TimetablePatchType.unknown;
+
+  final Map<String, dynamic>? legacy;
+
+  const TimetableUnknownPatch({this.legacy});
+
+  factory TimetableUnknownPatch.fromJson(Map<String, dynamic> json) {
+    return TimetableUnknownPatch(legacy: json);
+  }
+
+  @override
+  Map<String, dynamic> _toJsonImpl() => legacy ?? {};
+
+  @override
+  Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetablePatch> onChanged) {
+    throw UnimplementedError("Unknown timetable patch not creatable");
+  }
+
+  @override
+  String toDartCode() {
+    return "TimetableUnknownPatch(legacy:$legacy)";
+  }
+
+  @override
+  String l10n() {
+    return i18n.unknown;
+  }
+}
 
 @JsonSerializable()
 class TimetableRemoveDayPatch extends TimetablePatch {

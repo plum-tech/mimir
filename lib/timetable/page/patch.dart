@@ -181,7 +181,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
   Widget buildPatchButtons() {
     return ListView(
       scrollDirection: Axis.horizontal,
-      children: TimetablePatchType.values
+      children: TimetablePatchType.creatable
           .map((type) => ActionChip(
                 avatar: Icon(context.icons.add),
                 label: type.l10n().text(),
