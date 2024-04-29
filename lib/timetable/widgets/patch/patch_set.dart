@@ -2,18 +2,15 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
-import 'package:sit/qrcode/page/view.dart';
-import 'package:sit/qrcode/utils.dart';
-import 'package:sit/r.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/timetable/entity/patch.dart';
 import '../../entity/timetable.dart';
 import '../../i18n.dart';
 import '../../page/preview.dart';
+import 'shared.dart';
 
 class TimetablePatchSetCard extends StatelessWidget {
   final TimetablePatchSet patchSet;
@@ -63,19 +60,10 @@ class TimetablePatchSetCard extends StatelessWidget {
           if (!kIsWeb)
             if (Dev.on)
               PullDownItem(
-                title: "Share Qr code",
+                icon: context.icons.qrcode,
+                title: "Share QR code",
                 onTap: () async {
-                  final qrCodeData = Uri(
-                    scheme: R.scheme,
-                    path: "timetable-patch",
-                    query: encodeBytesForUrl(patchSet.encodeByteList()),
-                  );
-                  await context.show$Sheet$(
-                    (context) => QrCodePage(
-                      title: patchSet.name.text(),
-                      data: qrCodeData.toString(),
-                    ),
-                  );
+                  shareTimetablePatchQrCode(context, patchSet);
                 },
               ),
           if (onDeleted != null)

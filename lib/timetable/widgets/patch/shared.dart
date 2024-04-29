@@ -1,10 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/l10n/extension.dart';
+import 'package:sit/qrcode/page/view.dart';
+import 'package:sit/qrcode/utils.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/timetable/entity/pos.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 import '../../entity/loc.dart';
 import '../../entity/patch.dart';
@@ -152,6 +158,15 @@ class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessW
             await previewTimetable(context, timetable: timetable);
           },
         ),
+        if (!kIsWeb)
+          if (Dev.on)
+            PullDownItem(
+              title: "Share QR code",
+              icon: context.icons.qrcode,
+              onTap: () async {
+                shareTimetablePatchQrCode(context, patch);
+              },
+            ),
       ];
     });
   }
@@ -190,4 +205,22 @@ extension TimetablePatchEntryX on TimetablePatchEntry {
         ),
     };
   }
+}
+
+void shareTimetablePatchQrCode(BuildContext context, TimetablePatchEntry patch) async {
+  if (kIsWeb) return;
+  final qrCodeData = Uri(
+    scheme: R.scheme,
+    path: "timetable-patch",
+    query: encodeBytesForUrl(patch.encodeByteList()),
+  );
+  await context.show$Sheet$(
+    (context) => QrCodePage(
+      title: TextScroll(switch (patch) {
+        TimetablePatchSet() => patch.name,
+        TimetablePatch() => patch.l10n(),
+      }),
+      data: qrCodeData.toString(),
+    ),
+  );
 }
