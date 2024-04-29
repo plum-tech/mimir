@@ -84,6 +84,7 @@ class TimetablePatchSetCard extends StatelessWidget {
               ),
           if (onDeleted != null)
             PullDownItem.delete(
+              icon: context.icons.delete,
               title: i18n.delete,
               onTap: onDeleted,
             ),

@@ -417,11 +417,11 @@ class RepeatingItemEditor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onDeleted = this.onDeleted;
-    return SwipeToDismiss(
+    return WithSwipeAction(
       childKey: childKey,
       right: onDeleted == null
           ? null
-          : SwipeToDismissAction(
+          : SwipeAction(
               icon: Icon(context.icons.delete),
               action: () async {
                 onDeleted();

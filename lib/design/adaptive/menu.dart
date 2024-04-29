@@ -135,7 +135,7 @@ class PullDownSelectable implements PullDownEntry {
   }
 }
 
-class PullDownMenuButton extends StatelessWidget {
+class PullDownMenuButton extends StatefulWidget {
   final List<PullDownEntry> Function(BuildContext context) itemBuilder;
 
   const PullDownMenuButton({
@@ -144,10 +144,23 @@ class PullDownMenuButton extends StatelessWidget {
   });
 
   @override
+  State<PullDownMenuButton> createState() => _PullDownMenuButtonState();
+}
+
+class _PullDownMenuButtonState extends State<PullDownMenuButton> {
+  final _focus = FocusNode();
+
+  @override
+  void dispose() {
+    _focus.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (isCupertino) {
       return PullDownButton(
-        itemBuilder: (context) => itemBuilder(context).map((item) => item.buildCupertino(context)).toList(),
+        itemBuilder: (context) => widget.itemBuilder(context).map((item) => item.buildCupertino(context)).toList(),
         buttonBuilder: (context, showMenu) => CupertinoButton(
           onPressed: showMenu,
           padding: EdgeInsets.zero,
@@ -156,9 +169,13 @@ class PullDownMenuButton extends StatelessWidget {
       );
     } else {
       return MenuAnchor(
-        menuChildren: itemBuilder(context).map((item) => item.buildMaterial(context)).toList(),
+        childFocusNode: _focus,
+        clipBehavior: Clip.hardEdge,
+        menuChildren: widget.itemBuilder(context).map((item) => item.buildMaterial(context)).toList(),
+        consumeOutsideTap: true,
         builder: (ctx, controller, child) {
           return IconButton(
+            focusNode: _focus,
             onPressed: () {
               if (controller.isOpen) {
                 controller.close();

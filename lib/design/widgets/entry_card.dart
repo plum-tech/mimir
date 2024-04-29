@@ -340,6 +340,7 @@ class EntryCard extends StatelessWidget {
             const PullDownDivider(),
             PullDownItem.delete(
               title: deleteAction.label,
+              icon: context.icons.delete,
               onTap: () async {
                 await deleteAction.action();
                 if (!context.mounted) return;

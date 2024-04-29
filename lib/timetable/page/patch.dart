@@ -151,9 +151,9 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
           removePatch(index);
         },
       ),
-      TimetablePatch() => SwipeToDismiss(
+      TimetablePatch() => WithSwipeAction(
           childKey: ValueKey(entry),
-          right: SwipeToDismissAction(
+          right: SwipeAction(
             icon: Icon(context.icons.delete),
             action: () {
               removePatch(index);
@@ -189,6 +189,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
   Widget buildPatchButtons() {
     return ListView(
       scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.only(left: 8),
       children: TimetablePatchType.creatable
           .map((type) => ActionChip(
                 avatar: Icon(type.icon),

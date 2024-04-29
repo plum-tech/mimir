@@ -290,6 +290,7 @@ class _BoxItemState extends State<BoxItem> {
         ),
         PullDownItem.delete(
           title: i18n.delete,
+          icon: context.icons.delete,
           onTap: () async {
             ctx.pop();
             final confirm = await _showDeleteItemRequest(ctx);
@@ -368,6 +369,7 @@ class _StorageListLandscapeState extends State<StorageListLandscape> {
           itemBuilder: (ctx) => [
             PullDownItem.delete(
               title: i18n.clear,
+              icon: context.icons.clear,
               onTap: () async {
                 final confirm = await _showDeleteBoxRequest(ctx);
                 if (confirm == true) {

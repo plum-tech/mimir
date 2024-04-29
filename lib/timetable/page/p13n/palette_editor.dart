@@ -211,9 +211,9 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
     }
 
     final current = colors[index];
-    return SwipeToDismiss(
+    return WithSwipeAction(
       childKey: ObjectKey(current),
-      right: SwipeToDismissAction(
+      right: SwipeAction(
         icon: Icon(ctx.icons.delete),
         action: () async {
           setState(() {

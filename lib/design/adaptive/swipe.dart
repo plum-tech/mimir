@@ -1,29 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
+import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart' as w;
 import 'package:rettulf/rettulf.dart';
 
-import 'multiplatform.dart';
-
-class SwipeToDismissAction {
+class SwipeAction {
   final VoidCallback action;
   final Icon? icon;
   final String? label;
 
-  SwipeToDismissAction({
+  SwipeAction({
     required this.action,
     this.icon,
     this.label,
   });
 }
 
-class SwipeToDismiss extends StatelessWidget {
+class WithSwipeAction extends StatelessWidget {
   final Widget child;
-  final SwipeToDismissAction? left;
-  final SwipeToDismissAction? right;
+  final SwipeAction? left;
+  final SwipeAction? right;
   final Key childKey;
 
-  const SwipeToDismiss({
+  const WithSwipeAction({
     super.key,
     required this.childKey,
     required this.child,
@@ -35,57 +32,40 @@ class SwipeToDismiss extends StatelessWidget {
   Widget build(BuildContext context) {
     final left = this.left;
     final right = this.right;
-    if (isCupertino) {
-      return SwipeActionCell(
-        key: childKey,
-        backgroundColor: Colors.transparent,
-        trailingActions: right == null
-            ? null
-            : <SwipeAction>[
-                SwipeAction(
-                  title: right.label,
-                  icon: right.icon,
-                  style: context.textTheme.titleSmall ?? const TextStyle(),
-                  performsFirstActionWithFullSwipe: true,
-                  onTap: (CompletionHandler handler) async {
-                    await handler(true);
-                    right.action();
-                  },
-                  color: Colors.red,
-                ),
-              ],
-        leadingActions: left == null
-            ? null
-            : <SwipeAction>[
-                SwipeAction(
-                  title: left.label,
-                  icon: left.icon,
-                  style: context.textTheme.titleSmall ?? const TextStyle(),
-                  performsFirstActionWithFullSwipe: true,
-                  onTap: (CompletionHandler handler) async {
-                    await handler(true);
-                    left.action();
-                  },
-                  color: Colors.red,
-                ),
-              ],
-        child: child,
-      );
-    } else {
-      return Dismissible(
-        direction: DismissDirection.endToStart,
-        key: childKey,
-        onDismissed: (dir) async {
-          if (dir == DismissDirection.startToEnd) {
-            await HapticFeedback.heavyImpact();
-            left?.action();
-          } else if (dir == DismissDirection.endToStart) {
-            await HapticFeedback.heavyImpact();
-            right?.action();
-          }
-        },
-        child: child,
-      );
-    }
+    return w.SwipeActionCell(
+      key: childKey,
+      backgroundColor: Colors.transparent,
+      trailingActions: right == null
+          ? null
+          : <w.SwipeAction>[
+              w.SwipeAction(
+                title: right.label,
+                icon: right.icon,
+                style: context.textTheme.titleSmall ?? const TextStyle(),
+                performsFirstActionWithFullSwipe: true,
+                onTap: (w.CompletionHandler handler) async {
+                  await handler(true);
+                  right.action();
+                },
+                color: Colors.red,
+              ),
+            ],
+      leadingActions: left == null
+          ? null
+          : <w.SwipeAction>[
+              w.SwipeAction(
+                title: left.label,
+                icon: left.icon,
+                style: context.textTheme.titleSmall ?? const TextStyle(),
+                performsFirstActionWithFullSwipe: true,
+                onTap: (w.CompletionHandler handler) async {
+                  await handler(true);
+                  left.action();
+                },
+                color: Colors.red,
+              ),
+            ],
+      child: child,
+    );
   }
 }
