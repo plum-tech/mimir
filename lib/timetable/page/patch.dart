@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/timetable/patch.dart';
@@ -46,12 +47,28 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
               title: i18n.patch.title.text(),
               actions: [
                 PlatformTextButton(
-                  onPressed: onPreview,
-                  child: i18n.preview.text(),
-                ),
-                PlatformTextButton(
                   onPressed: onSave,
                   child: i18n.save.text(),
+                ),
+                PullDownMenuButton(
+                  itemBuilder: (BuildContext context) {
+                    return [
+                      PullDownItem(
+                        icon: context.icons.preview,
+                        title: i18n.preview,
+                        onTap: onPreview,
+                      ),
+                      PullDownItem.delete(
+                        icon: context.icons.clear,
+                        title: i18n.clear,
+                        onTap: () {
+                          setState(() {
+                            patches.clear();
+                          });
+                        },
+                      ),
+                    ];
+                  },
                 ),
               ],
             ),
