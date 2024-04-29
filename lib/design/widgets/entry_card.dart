@@ -125,35 +125,29 @@ class EntryCard extends StatelessWidget {
     }
 
     Widget buildSecondaryActionPopup() {
-      return PopupMenuButton(
-        position: PopupMenuPosition.under,
-        padding: EdgeInsets.zero,
+      return PullDownMenuButton(
         itemBuilder: (ctx) {
-          final all = <PopupMenuEntry>[];
+          final all = <PullDownEntry>[];
           for (final action in secondaryActions) {
             final callback = action.action;
-            all.add(PopupMenuItem(
+            all.add(PullDownItem(
+              title: action.label,
+              icon: action.icon,
               onTap: () async {
                 await callback();
               },
-              child: ListTile(
-                leading: Icon(action.icon),
-                title: action.label.text(),
-              ),
             ));
           }
           final deleteAction = this.deleteAction;
           if (deleteAction != null) {
             final deleteActionWidget = deleteAction(context);
-            all.add(const PopupMenuDivider());
-            all.add(PopupMenuItem(
+            all.add(const PullDownDivider());
+            all.add(PullDownItem(
+              title: deleteActionWidget.label,
+              icon: deleteActionWidget.icon,
               onTap: () async {
                 await deleteActionWidget.action();
               },
-              child: ListTile(
-                leading: Icon(deleteActionWidget.icon),
-                title: deleteActionWidget.label.text(),
-              ),
             ));
           }
           return all;

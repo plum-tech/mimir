@@ -172,25 +172,25 @@ extension TimetablePatchEntryX on TimetablePatchEntry {
           title: i18n.unknown.text(),
         ),
       TimetableRemoveDayPatch() => TimetableRemoveDayPatchWidget(
-        patch: this as TimetableRemoveDayPatch,
-        timetable: timetable,
-        onChanged: onChanged,
-      ),
+          patch: this as TimetableRemoveDayPatch,
+          timetable: timetable,
+          onChanged: onChanged,
+        ),
       TimetableMoveDayPatch() => TimetableMoveDayPatchWidget(
-        patch: this as TimetableMoveDayPatch,
-        timetable: timetable,
-        onChanged: onChanged,
-      ),
+          patch: this as TimetableMoveDayPatch,
+          timetable: timetable,
+          onChanged: onChanged,
+        ),
       TimetableCopyDayPatch() => TimetableCopyDayPatchWidget(
-        patch: this  as TimetableCopyDayPatch,
-        timetable: timetable,
-        onChanged: onChanged,
-      ),
-      TimetableSwapDaysPatch() =>TimetableSwapDaysPatchWidget(
-        patch: this as TimetableSwapDaysPatch,
-        timetable: timetable,
-        onChanged: onChanged,
-      ),
+          patch: this as TimetableCopyDayPatch,
+          timetable: timetable,
+          onChanged: onChanged,
+        ),
+      TimetableSwapDaysPatch() => TimetableSwapDaysPatchWidget(
+          patch: this as TimetableSwapDaysPatch,
+          timetable: timetable,
+          onChanged: onChanged,
+        ),
     };
   }
 }
