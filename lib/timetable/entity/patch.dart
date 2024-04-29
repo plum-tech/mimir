@@ -3,14 +3,13 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/utils/error.dart';
 
 import '../widgets/patch/copy_day.dart';
 import '../widgets/patch/move_day.dart';
 import '../widgets/patch/remove_day.dart';
-import '../widgets/patch/swap_day.dart';
+import '../widgets/patch/swap_days.dart';
 import 'loc.dart';
 import 'timetable.dart';
 import '../i18n.dart';
@@ -32,6 +31,8 @@ sealed class TimetablePatchEntry {
   }
 
   Map<String, dynamic> toJson();
+
+  String toDartCode();
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -92,10 +93,6 @@ sealed class TimetablePatch extends TimetablePatchEntry {
     }
   }
 
-  Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetablePatch> onChanged);
-
-  String toDartCode();
-
   String l10n();
 }
 
@@ -113,6 +110,11 @@ class TimetablePatchSet extends TimetablePatchEntry {
 
   @override
   Map<String, dynamic> toJson() => _$TimetablePatchSetToJson(this)..["type"] = _patchSetType;
+
+  @override
+  String toDartCode() {
+    return 'TimetablePatchSet(name:"$name",patches:${patches.map((p) => p.toDartCode()).toList(growable: false)})';
+  }
 }
 
 class BuiltinTimetablePatchSet implements TimetablePatchSet {
@@ -130,6 +132,11 @@ class BuiltinTimetablePatchSet implements TimetablePatchSet {
 
   @override
   Map<String, dynamic> toJson() => _$TimetablePatchSetToJson(this)..["type"] = _patchSetType;
+
+  @override
+  String toDartCode() {
+    return 'BuiltinTimetablePatchSet(patches:${patches.map((p) => p.toDartCode()).toList(growable: false)})';
+  }
 }
 
 //
@@ -190,13 +197,6 @@ class TimetableUnknownPatch extends TimetablePatch {
   Map<String, dynamic> toJson() => (legacy ?? {})..["type"] = _$TimetablePatchTypeEnumMap[type];
 
   @override
-  Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetablePatch> onChanged) {
-    return ListTile(
-      title: i18n.unknown.text(),
-    );
-  }
-
-  @override
   String toDartCode() {
     return "TimetableUnknownPatch(legacy:$legacy)";
   }
@@ -227,15 +227,6 @@ class TimetableRemoveDayPatch extends TimetablePatch {
 
   @override
   Map<String, dynamic> toJson() => _$TimetableRemoveDayPatchToJson(this)..["type"] = _$TimetablePatchTypeEnumMap[type];
-
-  @override
-  Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetableRemoveDayPatch> onChanged) {
-    return TimetableRemoveDayPatchWidget(
-      patch: this,
-      timetable: timetable,
-      onChanged: onChanged,
-    );
-  }
 
   static Future<TimetableRemoveDayPatch?> onCreate(BuildContext context, SitTimetable timetable) async {
     final patch = await context.show$Sheet$(
@@ -277,15 +268,6 @@ class TimetableMoveDayPatch extends TimetablePatch {
   @override
   Map<String, dynamic> toJson() => _$TimetableMoveDayPatchToJson(this)..["type"] = _$TimetablePatchTypeEnumMap[type];
 
-  @override
-  Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetableMoveDayPatch> onChanged) {
-    return TimetableMoveDayPatchWidget(
-      patch: this,
-      timetable: timetable,
-      onChanged: onChanged,
-    );
-  }
-
   static Future<TimetableMoveDayPatch?> onCreate(BuildContext context, SitTimetable timetable) async {
     final patch = await context.show$Sheet$(
       (ctx) => TimetableMoveDayPatchSheet(
@@ -326,15 +308,6 @@ class TimetableCopyDayPatch extends TimetablePatch {
   @override
   Map<String, dynamic> toJson() => _$TimetableCopyDayPatchToJson(this)..["type"] = _$TimetablePatchTypeEnumMap[type];
 
-  @override
-  Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetableCopyDayPatch> onChanged) {
-    return TimetableCopyDayPatchWidget(
-      patch: this,
-      timetable: timetable,
-      onChanged: onChanged,
-    );
-  }
-
   static Future<TimetableCopyDayPatch?> onCreate(BuildContext context, SitTimetable timetable) async {
     final patch = await context.show$Sheet$(
       (ctx) => TimetableCopyDayPatchSheet(
@@ -374,15 +347,6 @@ class TimetableSwapDaysPatch extends TimetablePatch {
 
   @override
   Map<String, dynamic> toJson() => _$TimetableSwapDaysPatchToJson(this)..["type"] = _$TimetablePatchTypeEnumMap[type];
-
-  @override
-  Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetableSwapDaysPatch> onChanged) {
-    return TimetableSwapDaysPatchWidget(
-      patch: this,
-      timetable: timetable,
-      onChanged: onChanged,
-    );
-  }
 
   static Future<TimetableSwapDaysPatch?> onCreate(BuildContext context, SitTimetable timetable) async {
     final patch = await context.show$Sheet$(

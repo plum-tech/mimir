@@ -12,12 +12,12 @@ part 'timetable.g.dart';
 
 DateTime _kLastModified() => DateTime.now();
 
-List<TimetablePatch> _patchesFromJson(List? list) {
+List<TimetablePatchEntry> _patchesFromJson(List? list) {
   return list
-          ?.map((e) => TimetablePatch.fromJson(e as Map<String, dynamic>))
-          .where((patch) => patch.type != TimetablePatchType.unknown)
+          ?.map((e) => TimetablePatchEntry.fromJson(e as Map<String, dynamic>))
+          .where((patch) => patch is TimetablePatch ? patch.type != TimetablePatchType.unknown : true)
           .toList() ??
-      const <TimetablePatch>[];
+      const <TimetablePatchEntry>[];
 }
 
 @JsonSerializable()
@@ -48,7 +48,7 @@ class SitTimetable {
 
   /// Timetable patches will be processed in list order.
   @JsonKey(fromJson: _patchesFromJson)
-  final List<TimetablePatch> patches;
+  final List<TimetablePatchEntry> patches;
 
   const SitTimetable({
     required this.courses,

@@ -347,8 +347,13 @@ extension SitTimetable4EntityX on SitTimetable {
       type: this,
       weeks: weeks,
     );
-    for (final patch in patches) {
-      if (patch is TimetableRemoveDayPatch) {
+
+    void processPatch(TimetablePatchEntry patch) {
+      if (patch is TimetablePatchSet) {
+        for (final patch in patch.patches) {
+          processPatch(patch);
+        }
+      } else if (patch is TimetableRemoveDayPatch) {
         for (final loc in patch.all) {
           final day = loc.resolveDay(entity);
           if (day != null) {
@@ -381,6 +386,10 @@ extension SitTimetable4EntityX on SitTimetable {
           aDay.swap(bDay);
         }
       }
+    }
+
+    for (final patch in patches) {
+      processPatch(patch);
     }
     return entity;
   }

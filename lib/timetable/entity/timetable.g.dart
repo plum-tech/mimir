@@ -21,7 +21,7 @@ abstract class _$SitTimetableCWProxy {
     int? schoolYear,
     Semester? semester,
     DateTime? lastModified,
-    List<TimetablePatch>? patches,
+    List<TimetablePatchEntry>? patches,
     String? signature,
     int? version,
   });
@@ -85,7 +85,7 @@ class _$SitTimetableCWProxyImpl implements _$SitTimetableCWProxy {
       patches: patches == const $CopyWithPlaceholder() || patches == null
           ? _value.patches
           // ignore: cast_nullable_to_non_nullable
-          : patches as List<TimetablePatch>,
+          : patches as List<TimetablePatchEntry>,
       signature: signature == const $CopyWithPlaceholder() || signature == null
           ? _value.signature
           // ignore: cast_nullable_to_non_nullable

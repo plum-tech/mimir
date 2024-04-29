@@ -7,12 +7,14 @@ import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/timetable/patch.dart';
+import 'package:sit/timetable/widgets/patch/shared.dart';
 import 'package:sit/utils/save.dart';
 
 import '../entity/patch.dart';
 import '../entity/timetable.dart';
 import '../i18n.dart';
 import '../widgets/patch/gallery.dart';
+import '../widgets/patch/patch_set.dart';
 import 'preview.dart';
 
 class TimetablePatchEditorPage extends StatefulWidget {
@@ -143,21 +145,30 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
                   markChanged();
                 },
               ),
-              child: patch.build(
-                context,
-                timetable,
-                (newPatch) {
-                  setState(() {
-                    patches[i] = newPatch;
-                  });
-                  markChanged();
-                },
-              ),
+              child: buildPatchEntry(patch, i, timetable),
             );
           },
         ),
       ),
     ];
+  }
+
+  Widget buildPatchEntry(TimetablePatchEntry entry, int index, SitTimetable timetable) {
+    return switch (entry) {
+      TimetablePatchSet() => TimetablePatchSetCard(
+          patchSet: entry,
+        ),
+      TimetablePatch() => entry.build(
+          context: context,
+          timetable: timetable,
+          onChanged: (newPatch) {
+            setState(() {
+              patches[index] = newPatch;
+            });
+            markChanged();
+          },
+        ),
+    };
   }
 
   List<Widget> buildGalleryTab() {
@@ -166,13 +177,11 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
         itemCount: BuiltinTimetablePatchSets.all.length,
         itemBuilder: (ctx, i) {
           final patchSet = BuiltinTimetablePatchSets.all[i];
-          return TimetablePatchSetCard(
+          return TimetablePatchSetGalleryCard(
             patchSet: patchSet,
             onAdd: () {
-              setState(() {
-                patches.addAll(patchSet.patches);
-                navIndex = 0;
-              });
+              patches.add(patchSet);
+              navIndex = 0;
             },
           );
         },

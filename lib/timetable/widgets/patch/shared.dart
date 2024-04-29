@@ -12,6 +12,10 @@ import '../../entity/timetable.dart';
 import '../../i18n.dart';
 import '../../page/preview.dart';
 import '../../utils.dart';
+import 'swap_days.dart';
+import 'copy_day.dart';
+import 'move_day.dart';
+import 'remove_day.dart';
 
 class TimetableDayLocModeSwitcher extends StatelessWidget {
   final TimetableDayLocMode selected;
@@ -153,5 +157,40 @@ class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessW
             }),
       ];
     });
+  }
+}
+
+extension TimetablePatchEntryX on TimetablePatchEntry {
+  Widget build({
+    required BuildContext context,
+    required SitTimetable timetable,
+    required ValueChanged<TimetablePatch> onChanged,
+  }) {
+    return switch (this) {
+      TimetablePatchSet() => throw UnimplementedError(),
+      TimetableUnknownPatch() => ListTile(
+          title: i18n.unknown.text(),
+        ),
+      TimetableRemoveDayPatch() => TimetableRemoveDayPatchWidget(
+        patch: this as TimetableRemoveDayPatch,
+        timetable: timetable,
+        onChanged: onChanged,
+      ),
+      TimetableMoveDayPatch() => TimetableMoveDayPatchWidget(
+        patch: this as TimetableMoveDayPatch,
+        timetable: timetable,
+        onChanged: onChanged,
+      ),
+      TimetableCopyDayPatch() => TimetableCopyDayPatchWidget(
+        patch: this  as TimetableCopyDayPatch,
+        timetable: timetable,
+        onChanged: onChanged,
+      ),
+      TimetableSwapDaysPatch() =>TimetableSwapDaysPatchWidget(
+        patch: this as TimetableSwapDaysPatch,
+        timetable: timetable,
+        onChanged: onChanged,
+      ),
+    };
   }
 }
