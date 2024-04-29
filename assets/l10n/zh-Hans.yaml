@@ -13,7 +13,7 @@ timetable:
   mine:
     title: 你的课程表
     exportCalendar: 导出日历
-    patch: 临时改课
+    patch: 临时调课
     deleteRequest: 确定删除？
     deleteRequestDesc: 这个课程表将被永久删除
     emptyTip: 快去导入一个课程表吧！

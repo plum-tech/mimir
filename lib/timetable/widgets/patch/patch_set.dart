@@ -26,6 +26,8 @@ class TimetablePatchSetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final detailsColor = context.colorScheme.onSurfaceVariant;
+    final detailsStyle = context.textTheme.bodyMedium?.copyWith(color: detailsColor);
     return Card.outlined(
       clipBehavior: Clip.hardEdge,
       child: AnimatedExpansionTile(
@@ -34,9 +36,23 @@ class TimetablePatchSetCard extends StatelessWidget {
         trailing: buildMoreActions(),
         rotateTrailing: false,
         children: patchSet.patches
-            .mapIndexed((i, p) => "${i + 1}. ${p.l10n()}"
-                .text(style: context.textTheme.bodyMedium?.copyWith(color: context.colorScheme.onSurfaceVariant))
-                .padH(16))
+            .mapIndexed(
+              (i, p) => RichText(
+                text: TextSpan(
+                  style: detailsStyle,
+                  children: [
+                    WidgetSpan(
+                      child: Icon(
+                        p.type.icon,
+                        color: detailsColor,
+                        size: 16,
+                      ),
+                    ),
+                    TextSpan(text: p.l10n()),
+                  ],
+                ),
+              ).padH(16),
+            )
             .toList(),
       ),
     );

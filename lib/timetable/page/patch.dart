@@ -191,7 +191,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
       scrollDirection: Axis.horizontal,
       children: TimetablePatchType.creatable
           .map((type) => ActionChip(
-                avatar: Icon(context.icons.add),
+                avatar: Icon(type.icon),
                 label: type.l10n().text(),
                 onPressed: () async {
                   final patch = await type.onCreate(context, widget.timetable);

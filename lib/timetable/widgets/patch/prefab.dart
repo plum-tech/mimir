@@ -15,14 +15,31 @@ class TimetablePatchSetGalleryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final detailsColor = context.colorScheme.onSurfaceVariant;
+    final detailsStyle = context.textTheme.bodyMedium?.copyWith(color: detailsColor);
     return Card.outlined(
       clipBehavior: Clip.hardEdge,
       child: ListTile(
         isThreeLine: true,
-        title: patchSet.name.text(style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onSurface)),
+        title: patchSet.name.text(),
         onTap: onAdd,
         subtitle: [
-          ...patchSet.patches.mapIndexed((i, p) => "${i + 1}. ${p.l10n()}".text()),
+          ...patchSet.patches.mapIndexed(
+            (i, p) => RichText(
+              text: TextSpan(
+                style: detailsStyle,
+                children: [
+                  WidgetSpan(
+                      child: Icon(
+                    p.type.icon,
+                    color: detailsColor,
+                    size: 16,
+                  )),
+                  TextSpan(text: "${i + 1}. ${p.l10n()}"),
+                ],
+              ),
+            ),
+          ),
         ].column(caa: CrossAxisAlignment.start),
       ),
     );

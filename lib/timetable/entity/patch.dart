@@ -48,11 +48,11 @@ enum TimetablePatchType {
   // swapLesson,
   // moveLesson,
   // addDay,
-  moveDay(TimetableMoveDayPatch.onCreate),
-  removeDay(TimetableRemoveDayPatch.onCreate),
-  copyDay(TimetableCopyDayPatch.onCreate),
-  swapDays(TimetableSwapDaysPatch.onCreate),
-  unknown(TimetableSwapDaysPatch.onCreate),
+  moveDay(Icons.turn_sharp_right,TimetableMoveDayPatch.onCreate),
+  removeDay(Icons.remove,TimetableRemoveDayPatch.onCreate),
+  copyDay(Icons.copy,TimetableCopyDayPatch.onCreate),
+  swapDays(Icons.swap_horiz,TimetableSwapDaysPatch.onCreate),
+  unknown(Icons.question_mark,TimetableSwapDaysPatch.onCreate),
   ;
 
   static const creatable = [
@@ -62,9 +62,10 @@ enum TimetablePatchType {
     swapDays,
   ];
 
+  final IconData icon;
   final FutureOr<TimetablePatch?> Function(BuildContext context, SitTimetable timetable) onCreate;
 
-  const TimetablePatchType(this.onCreate);
+  const TimetablePatchType(this.icon, this.onCreate);
 
   String l10n() => "timetable.patch.type.$name".tr();
 }

@@ -27,6 +27,7 @@ class TimetableMoveDayPatchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      leading: Icon(patch.type.icon),
       title: patch.type.l10n().text(),
       subtitle: patch.l10n().text(),
       trailing: TimetablePatchMenuAction(patch: patch, timetable: timetable, onChanged: onChanged),
