@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 
@@ -63,7 +64,7 @@ class FullScreenViewer extends StatelessWidget {
             Positioned.fill(
               child: GestureDetector(
                 onDoubleTap: () {
-                  Navigator.of(context).pop();
+                  context.pop();
                 },
                 child: InteractiveViewer(
                   maxScale: 5,
