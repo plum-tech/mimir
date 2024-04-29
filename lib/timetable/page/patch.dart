@@ -129,8 +129,9 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
         },
         delegate: ReorderableSliverChildBuilderDelegate(
           childCount: patches.length,
-          (BuildContext context, int i) {
+          (context, i) {
             final patch = patches[i];
+            final timetable = widget.timetable.copyWith(patches: patches.sublist(0, i + 1));
             return SwipeToDismiss(
               childKey: ValueKey(patch),
               right: SwipeToDismissAction(
@@ -142,12 +143,16 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
                   markChanged();
                 },
               ),
-              child: patch.build(context, widget.timetable, (newPatch) {
-                setState(() {
-                  patches[i] = newPatch;
-                });
-                markChanged();
-              }),
+              child: patch.build(
+                context,
+                timetable,
+                (newPatch) {
+                  setState(() {
+                    patches[i] = newPatch;
+                  });
+                  markChanged();
+                },
+              ),
             );
           },
         ),
