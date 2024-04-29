@@ -1,8 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/lifecycle.dart';
+import 'package:sit/utils/byte_io.dart';
 import 'pos.dart';
 import 'timetable_entity.dart';
 
@@ -58,6 +61,18 @@ class TimetableDayLoc {
   TimetablePos get pos => posInternal!;
 
   DateTime get date => dateInternal!;
+
+  Uint8List encodeByteList() {
+    final writer = ByteWriter(64);
+    writer.int8(mode.index);
+    switch (mode) {
+      case TimetableDayLocMode.pos:
+        writer.bytes(pos.encodeByteList());
+      case TimetableDayLocMode.date:
+        writer.int32(date.millisecondsSinceEpoch);
+    }
+    return writer.build();
+  }
 
   String toDartCode() {
     return switch (mode) {

@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/utils/byte_io.dart';
 import 'package:sit/utils/error.dart';
 
 import '../widgets/patch/copy_day.dart';
@@ -33,6 +36,16 @@ sealed class TimetablePatchEntry {
   Map<String, dynamic> toJson();
 
   String toDartCode();
+
+  String encodeBase64() => _encodeBase64(this);
+
+  Uint8List encodeByteList();
+
+  static String _encodeBase64(TimetablePatchEntry obj) {
+    final bytes = obj.encodeByteList();
+    final encoded = base64Encode(bytes);
+    return encoded;
+  }
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -115,6 +128,19 @@ class TimetablePatchSet extends TimetablePatchEntry {
   String toDartCode() {
     return 'TimetablePatchSet(name:"$name",patches:${patches.map((p) => p.toDartCode()).toList(growable: false)})';
   }
+
+  @override
+  Uint8List encodeByteList() => _encodeByteList(this);
+
+  static Uint8List _encodeByteList(TimetablePatchSet obj) {
+    final writer = ByteWriter(1024);
+    writer.strUtf8(obj.name);
+    writer.int32(obj.patches.length);
+    for (final patch in obj.patches) {
+      writer.bytes(patch.encodeByteList());
+    }
+    return writer.build();
+  }
 }
 
 class BuiltinTimetablePatchSet implements TimetablePatchSet {
@@ -129,6 +155,12 @@ class BuiltinTimetablePatchSet implements TimetablePatchSet {
     required this.key,
     required this.patches,
   });
+
+  @override
+  Uint8List encodeByteList() => TimetablePatchSet._encodeByteList(this);
+
+  @override
+  String encodeBase64() => TimetablePatchEntry._encodeBase64(this);
 
   @override
   Map<String, dynamic> toJson() => _$TimetablePatchSetToJson(this)..["type"] = _patchSetType;
@@ -194,6 +226,13 @@ class TimetableUnknownPatch extends TimetablePatch {
   }
 
   @override
+  Uint8List encodeByteList() {
+    final writer = ByteWriter(8);
+    writer.int8(type.index);
+    return writer.build();
+  }
+
+  @override
   Map<String, dynamic> toJson() => (legacy ?? {})..["type"] = _$TimetablePatchTypeEnumMap[type];
 
   @override
@@ -227,6 +266,17 @@ class TimetableRemoveDayPatch extends TimetablePatch {
 
   @override
   Map<String, dynamic> toJson() => _$TimetableRemoveDayPatchToJson(this)..["type"] = _$TimetablePatchTypeEnumMap[type];
+
+  @override
+  Uint8List encodeByteList() {
+    final writer = ByteWriter(128);
+    writer.int8(type.index);
+    writer.int32(all.length);
+    for (final loc in all) {
+      writer.bytes(loc.encodeByteList());
+    }
+    return writer.build();
+  }
 
   static Future<TimetableRemoveDayPatch?> onCreate(BuildContext context, SitTimetable timetable) async {
     final patch = await context.show$Sheet$(
@@ -262,6 +312,15 @@ class TimetableMoveDayPatch extends TimetablePatch {
     required this.source,
     required this.target,
   });
+
+  @override
+  Uint8List encodeByteList() {
+    final writer = ByteWriter(32);
+    writer.int8(type.index);
+    writer.bytes(source.encodeByteList());
+    writer.bytes(target.encodeByteList());
+    return writer.build();
+  }
 
   factory TimetableMoveDayPatch.fromJson(Map<String, dynamic> json) => _$TimetableMoveDayPatchFromJson(json);
 
@@ -302,6 +361,15 @@ class TimetableCopyDayPatch extends TimetablePatch {
     required this.source,
     required this.target,
   });
+
+  @override
+  Uint8List encodeByteList() {
+    final writer = ByteWriter(32);
+    writer.int8(type.index);
+    writer.bytes(source.encodeByteList());
+    writer.bytes(target.encodeByteList());
+    return writer.build();
+  }
 
   factory TimetableCopyDayPatch.fromJson(Map<String, dynamic> json) => _$TimetableCopyDayPatchFromJson(json);
 
@@ -344,6 +412,15 @@ class TimetableSwapDaysPatch extends TimetablePatch {
   });
 
   factory TimetableSwapDaysPatch.fromJson(Map<String, dynamic> json) => _$TimetableSwapDaysPatchFromJson(json);
+
+  @override
+  Uint8List encodeByteList() {
+    final writer = ByteWriter(32);
+    writer.int8(type.index);
+    writer.bytes(a.encodeByteList());
+    writer.bytes(b.encodeByteList());
+    return writer.build();
+  }
 
   @override
   Map<String, dynamic> toJson() => _$TimetableSwapDaysPatchToJson(this)..["type"] = _$TimetablePatchTypeEnumMap[type];

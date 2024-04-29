@@ -92,14 +92,18 @@ class TimetablePalette {
     );
   }
 
-  static String encodeBase64(TimetablePalette obj) {
-    final bytes = encodeByteList(obj);
+  String encodeBase64() => _encodeBase64(this);
+
+  List<int> encodeByteList() => _encodeByteList(this);
+
+  static String _encodeBase64(TimetablePalette obj) {
+    final bytes = obj.encodeByteList();
     final encoded = base64Encode(bytes);
     return encoded;
   }
 
-  static List<int> encodeByteList(TimetablePalette obj) {
-    final writer = ByteWriter(1024);
+  static Uint8List _encodeByteList(TimetablePalette obj) {
+    final writer = ByteWriter(256);
     writer.strUtf8(obj.name);
     writer.strUtf8(obj.author);
     writer.uint32(obj.colors.length);
@@ -144,6 +148,12 @@ class BuiltinTimetablePalette implements TimetablePalette {
         "author": author,
         "colors": _colorsToJson(colors),
       };
+
+  @override
+  String encodeBase64() => TimetablePalette._encodeBase64(this);
+
+  @override
+  List<int> encodeByteList() => TimetablePalette._encodeByteList(this);
 }
 
 abstract mixin class SitTimetablePaletteResolver {

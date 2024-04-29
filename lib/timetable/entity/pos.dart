@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/l10n/time.dart';
+import 'package:sit/utils/byte_io.dart';
 
 import 'timetable.dart';
 import '../i18n.dart';
@@ -40,7 +43,12 @@ class TimetablePos {
       return fallback ?? initial;
     }
   }
-
+  Uint8List encodeByteList() {
+    final writer = ByteWriter(56);
+    writer.int32(weekIndex);
+    writer.int8(weekday.index);
+    return writer.build();
+  }
   String l10n() {
     return "${i18n.weekOrderedName(number: weekIndex + 1)} ${weekday.l10n()}";
   }

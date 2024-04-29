@@ -10,8 +10,7 @@ class TimetablePaletteDeepLink implements DeepLinkHandlerProtocol {
 
   const TimetablePaletteDeepLink();
 
-  Uri encode(TimetablePalette palette) =>
-      Uri(scheme: R.scheme, path: path, query: TimetablePalette.encodeBase64(palette));
+  Uri encode(TimetablePalette palette) => Uri(scheme: R.scheme, path: path, query: palette.encodeBase64());
 
   TimetablePalette decode(Uri qrCodeData) => TimetablePalette.decodeFromBase64(qrCodeData.query);
 

@@ -35,6 +35,12 @@ class ByteWriter {
     _view = newBuffer.buffer.asByteData();
   }
 
+  void bytes(Uint8List bytes) {
+    _checkCapacity(requireBytes: bytes.length);
+    _buffer.setRange(_offset, _offset + _buffer.length, bytes);
+    _offset += bytes.length;
+  }
+
   void int8(int value) {
     _checkCapacity(requireBytes: 1);
     _view.setInt8(_offset, value);
