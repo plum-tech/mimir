@@ -35,6 +35,9 @@ sealed class TimetablePatchEntry {
 
   Map<String, dynamic> toJson();
 
+  @override
+  String toString() => toDartCode();
+
   String toDartCode();
 
   Uint8List encodeByteList();
@@ -48,11 +51,11 @@ enum TimetablePatchType {
   // swapLesson,
   // moveLesson,
   // addDay,
-  moveDay(Icons.turn_sharp_right,TimetableMoveDayPatch.onCreate),
-  removeDay(Icons.remove,TimetableRemoveDayPatch.onCreate),
-  copyDay(Icons.copy,TimetableCopyDayPatch.onCreate),
-  swapDays(Icons.swap_horiz,TimetableSwapDaysPatch.onCreate),
-  unknown(Icons.question_mark,TimetableSwapDaysPatch.onCreate),
+  moveDay(Icons.turn_sharp_right, TimetableMoveDayPatch.onCreate),
+  removeDay(Icons.remove, TimetableRemoveDayPatch.onCreate),
+  copyDay(Icons.copy, TimetableCopyDayPatch.onCreate),
+  swapDays(Icons.swap_horiz, TimetableSwapDaysPatch.onCreate),
+  unknown(Icons.question_mark, TimetableSwapDaysPatch.onCreate),
   ;
 
   static const creatable = [
@@ -159,6 +162,9 @@ class BuiltinTimetablePatchSet implements TimetablePatchSet {
   String toDartCode() {
     return 'BuiltinTimetablePatchSet(patches:${patches.map((p) => p.toDartCode()).toList(growable: false)})';
   }
+
+  @override
+  String toString() => toDartCode();
 }
 
 //

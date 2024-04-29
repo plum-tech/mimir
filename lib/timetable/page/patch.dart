@@ -145,12 +145,12 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
   Widget buildPatchEntry(TimetablePatchEntry entry, int index, SitTimetable timetable) {
     return switch (entry) {
       TimetablePatchSet() => TimetablePatchSetCard(
-          patchSet: entry,
-          timetable: timetable,
-          onDeleted: () {
-            removePatch(index);
-          },
-        ),
+        patchSet: entry,
+        timetable: timetable,
+        onDeleted: () {
+          removePatch(index);
+        },
+      ),
       TimetablePatch() => SwipeToDismiss(
           childKey: ValueKey(entry),
           right: SwipeToDismissAction(
@@ -203,5 +203,63 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
               ).padOnly(r: 8))
           .toList(),
     ).sized(h: 40);
+  }
+}
+
+class TimetablePatchEntryDroppable extends StatefulWidget {
+  final TimetablePatchEntry patch;
+  final Widget child;
+
+  const TimetablePatchEntryDroppable({
+    super.key,
+    required this.patch,
+    required this.child,
+  });
+
+  @override
+  State<TimetablePatchEntryDroppable> createState() => _TimetablePatchEntryDroppableState();
+}
+
+class _TimetablePatchEntryDroppableState extends State<TimetablePatchEntryDroppable> {
+  @override
+  Widget build(BuildContext context) {
+    return DragTarget<TimetablePatch>(
+      builder: (context, candidateItems, rejectedItems) {
+        return widget.child;
+      },
+      onWillAcceptWithDetails: (details){
+        return true;
+      },
+      onAcceptWithDetails: (details){
+        print(details.data);
+      },
+    );
+  }
+}
+
+class TimetablePatchDraggable extends StatefulWidget {
+  final TimetablePatch patch;
+  final Widget child;
+
+  const TimetablePatchDraggable({
+    super.key,
+    required this.patch,
+    required this.child,
+  });
+
+  @override
+  State<TimetablePatchDraggable> createState() => _TimetablePatchDraggableState();
+}
+
+class _TimetablePatchDraggableState extends State<TimetablePatchDraggable> {
+  @override
+  Widget build(BuildContext context) {
+    return LongPressDraggable<TimetablePatch>(
+      data: widget.patch,
+      feedback: Card.filled(
+        child: widget.patch.l10n().text(),
+      ),
+      child: widget.child,
+    );
   }
 }

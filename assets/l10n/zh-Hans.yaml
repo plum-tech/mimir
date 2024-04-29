@@ -13,7 +13,7 @@ timetable:
   mine:
     title: 你的课程表
     exportCalendar: 导出日历
-    patch: 临时调课
+    patch: 调课
     deleteRequest: 确定删除？
     deleteRequestDesc: 这个课程表将被永久删除
     emptyTip: 快去导入一个课程表吧！
@@ -46,7 +46,7 @@ timetable:
       title: 发现课程时间冲突
       desc: 您可以隐藏其中一个课程以避免冲突
   patch:
-    title: 临时改课
+    title: 调课
     addPatch: 添加一个修改
     removeDay: "删除 {day} 的课"
     swapDays: "交换 {a} 和 {b} 的课"
