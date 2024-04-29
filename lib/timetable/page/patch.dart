@@ -59,7 +59,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
               SliverFillRemaining(
                 child: LeavingBlank(
                   icon: Icons.dashboard_customize,
-                  desc: "No patches here, how about open prefabs?",
+                  desc: "No patches here, how about opening prefabs?",
                   onIconTap: openPrefab,
                 ),
               )
@@ -146,6 +146,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
     return switch (entry) {
       TimetablePatchSet() => TimetablePatchSetCard(
           patchSet: entry,
+          timetable:timetable,
           onDeleted: () {
             removePatch(index);
           },

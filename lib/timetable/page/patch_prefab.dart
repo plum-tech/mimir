@@ -26,7 +26,7 @@ class _TimetablePatchPrefabPageState extends State<TimetablePatchPrefabPage> {
             pinned: true,
             snap: false,
             floating: false,
-            title: "Prefabs".text(),
+            title: "Patch prefabs".text(),
           ),
           SliverList.builder(
             itemCount: BuiltinTimetablePatchSets.all.length,

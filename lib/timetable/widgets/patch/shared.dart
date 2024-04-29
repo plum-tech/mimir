@@ -145,16 +145,13 @@ class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessW
   Widget build(BuildContext context) {
     return PullDownMenuButton(itemBuilder: (ctx) {
       return [
-        // PullDownItem(
-        //   icon: context.icons.edit,
-        //   title: i18n.edit,
-        // ),
         PullDownItem(
-            icon: context.icons.preview,
-            title: i18n.preview,
-            onTap: () async {
-              await previewTimetable(context, timetable: timetable);
-            }),
+          icon: context.icons.preview,
+          title: i18n.preview,
+          onTap: () async {
+            await previewTimetable(context, timetable: timetable);
+          },
+        ),
       ];
     });
   }
