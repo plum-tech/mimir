@@ -3,7 +3,6 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/timetable/entity/loc.dart';
 import 'package:sit/utils/save.dart';
 
@@ -30,7 +29,7 @@ class TimetableSwapDaysPatchWidget extends StatelessWidget {
     return ListTile(
       title: patch.type.l10n().text(),
       subtitle: patch.l10n().text(),
-      trailing: Icon(context.icons.edit),
+      trailing: TimetablePatchMenuAction(patch: patch, timetable: timetable, onChanged: onChanged),
       onTap: () async {
         final newPath = await context.show$Sheet$(
           (ctx) => TimetableSwapDaysPatchSheet(

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/menu.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/timetable/entity/pos.dart';
 
 import '../../entity/loc.dart';
+import '../../entity/patch.dart';
 import '../../entity/timetable.dart';
 import '../../i18n.dart';
+import '../../page/preview.dart';
 import '../../utils.dart';
 
 class TimetableDayLocModeSwitcher extends StatelessWidget {
@@ -118,5 +122,37 @@ class TimetableDayLocDateSelectionTile extends ConsumerWidget {
         },
       ),
     );
+  }
+}
+
+class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessWidget {
+  final TPatch patch;
+  final SitTimetable timetable;
+  final ValueChanged<TPatch> onChanged;
+
+  const TimetablePatchMenuAction({
+    super.key,
+    required this.patch,
+    required this.timetable,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return PullDownMenuButton(itemBuilder: (ctx) {
+      return [
+        // PullDownItem(
+        //   icon: context.icons.edit,
+        //   title: i18n.edit,
+        // ),
+        PullDownItem(
+          icon: context.icons.preview,
+          title: i18n.preview,
+          onTap: () async {
+            await previewTimetable(context, timetable: timetable);
+          }
+        ),
+      ];
+    });
   }
 }
