@@ -95,7 +95,7 @@ class TimetablePalette {
   List<int> encodeByteList() => _encodeByteList(this);
 
   static Uint8List _encodeByteList(TimetablePalette obj) {
-    final writer = ByteWriter(256);
+    final writer = ByteWriter(512);
     writer.strUtf8(obj.name);
     writer.strUtf8(obj.author);
     writer.uint32(obj.colors.length);

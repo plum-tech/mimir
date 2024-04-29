@@ -50,6 +50,8 @@ dependencies:
   encrypt: ^5.0.1
   # Hash (MD5)
   crypto: ^3.0.3
+  # Codec
+  hashlib_codecs: ^2.2.0
   # UUID generator
   uuid: ^4.4.0
   # Statistics
