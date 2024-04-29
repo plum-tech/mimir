@@ -149,7 +149,6 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
           markChanged();
         },
       ),
-
     ];
   }
 

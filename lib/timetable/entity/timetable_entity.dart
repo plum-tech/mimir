@@ -347,10 +347,11 @@ extension SitTimetable4EntityX on SitTimetable {
     );
     for (final patch in patches) {
       if (patch is TimetableRemoveDayPatch) {
-        final loc = patch.loc;
-        final day = loc.resolveDay(entity);
-        if (day != null) {
-          day.clear();
+        for (final loc in patch.all) {
+          final day = loc.resolveDay(entity);
+          if (day != null) {
+            day.clear();
+          }
         }
       } else if (patch is TimetableMoveDayPatch) {
         final source = patch.source;

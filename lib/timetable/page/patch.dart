@@ -61,11 +61,14 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
                       PullDownItem.delete(
                         icon: context.icons.clear,
                         title: i18n.clear,
-                        onTap: () {
-                          setState(() {
-                            patches.clear();
-                          });
-                        },
+                        onTap: patches.isNotEmpty
+                            ? () {
+                                setState(() {
+                                  patches.clear();
+                                });
+                                markChanged();
+                              }
+                            : null,
                       ),
                     ];
                   },

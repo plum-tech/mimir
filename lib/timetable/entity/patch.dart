@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/utils/error.dart';
 
@@ -167,7 +168,9 @@ class TimetableUnknownPatch extends TimetablePatch {
 
   @override
   Widget build(BuildContext context, SitTimetable timetable, ValueChanged<TimetablePatch> onChanged) {
-    throw UnimplementedError("Unknown timetable patch not creatable");
+    return ListTile(
+      title: i18n.unknown.text(),
+    );
   }
 
   @override
@@ -187,11 +190,15 @@ class TimetableRemoveDayPatch extends TimetablePatch {
   TimetablePatchType get type => TimetablePatchType.removeDay;
 
   @JsonKey()
-  final TimetableDayLoc loc;
+  final List<TimetableDayLoc> all;
 
   const TimetableRemoveDayPatch({
-    required this.loc,
+    required this.all,
   });
+
+  TimetableRemoveDayPatch.oneDay({
+    required TimetableDayLoc loc,
+  }) : all = <TimetableDayLoc>[loc];
 
   factory TimetableRemoveDayPatch.fromJson(Map<String, dynamic> json) => _$TimetableRemoveDayPatchFromJson(json);
 
@@ -219,12 +226,12 @@ class TimetableRemoveDayPatch extends TimetablePatch {
 
   @override
   String toDartCode() {
-    return "TimetableRemoveDayPatch(loc:${loc.toDartCode()})";
+    return "TimetableRemoveDayPatch(loc:${all.map((loc) => loc.toDartCode()).toList()})";
   }
 
   @override
   String l10n() {
-    return i18n.patch.removeDay(loc.l10n());
+    return i18n.patch.removeDay(all.map((loc) => loc.l10n()).join(", "));
   }
 }
 

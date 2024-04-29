@@ -278,10 +278,7 @@ SitTimetable _$SitTimetableFromJson(Map<String, dynamic> json) => SitTimetable(
       schoolYear: (json['schoolYear'] as num).toInt(),
       semester: $enumDecode(_$SemesterEnumMap, json['semester']),
       lastModified: json['lastModified'] == null ? _kLastModified() : DateTime.parse(json['lastModified'] as String),
-      patches: (json['patches'] as List<dynamic>?)
-              ?.map((e) => TimetablePatch.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
+      patches: json['patches'] == null ? const [] : _patchesFromJson(json['patches'] as List?),
       signature: json['signature'] as String? ?? "",
       version: (json['version'] as num?)?.toInt() ?? 1,
     );

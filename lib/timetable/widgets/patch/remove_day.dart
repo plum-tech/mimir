@@ -59,7 +59,7 @@ class TimetableRemoveDayPatchSheet extends StatefulWidget {
 }
 
 class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSheet> {
-  TimetableDayLoc? get initialLoc => widget.patch?.loc;
+  TimetableDayLoc? get initialLoc => widget.patch?.all.first;
   late var mode = initialLoc?.mode ?? TimetableDayLocMode.date;
   late var pos = initialLoc?.mode == TimetableDayLocMode.pos ? initialLoc?.pos : null;
   late var date = initialLoc?.mode == TimetableDayLocMode.date ? initialLoc?.date : null;
@@ -177,6 +177,6 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
       TimetableDayLocMode.pos => pos != null ? TimetableDayLoc.pos(pos) : null,
       TimetableDayLocMode.date => date != null ? TimetableDayLoc.date(date) : null,
     };
-    return loc != null ? TimetableRemoveDayPatch(loc: loc) : null;
+    return loc != null ? TimetableRemoveDayPatch.oneDay(loc: loc) : null;
   }
 }

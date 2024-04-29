@@ -108,7 +108,7 @@ class TimetableDayLocDateSelectionTile extends ConsumerWidget {
           final newDate = await showDatePicker(
             context: context,
             initialDate: date ?? ref.read(_lastInitialDate),
-            currentDate: date ,
+            currentDate: date,
             firstDate: DateTime(now.year - 4),
             lastDate: DateTime(now.year + 2),
           );
