@@ -3,17 +3,18 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
-import 'package:sit/timetable/patch.dart';
+import 'package:sit/design/widgets/common.dart';
+import 'package:sit/timetable/page/patch_prefab.dart';
 import 'package:sit/timetable/widgets/patch/shared.dart';
 import 'package:sit/utils/save.dart';
 
 import '../entity/patch.dart';
 import '../entity/timetable.dart';
 import '../i18n.dart';
-import '../widgets/patch/gallery.dart';
 import '../widgets/patch/patch_set.dart';
 import 'preview.dart';
 
@@ -31,7 +32,6 @@ class TimetablePatchEditorPage extends StatefulWidget {
 
 class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
   late var patches = List.of(widget.timetable.patches);
-  var navIndex = 0;
   var anyChanged = false;
 
   void markChanged() => anyChanged |= true;
@@ -52,53 +52,40 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
                   onPressed: onSave,
                   child: i18n.save.text(),
                 ),
-                PullDownMenuButton(
-                  itemBuilder: (BuildContext context) {
-                    return [
-                      PullDownItem(
-                        icon: context.icons.preview,
-                        title: i18n.preview,
-                        onTap: onPreview,
-                      ),
-                      PullDownItem.delete(
-                        icon: context.icons.clear,
-                        title: i18n.clear,
-                        onTap: patches.isNotEmpty
-                            ? () {
-                                setState(() {
-                                  patches.clear();
-                                });
-                                markChanged();
-                              }
-                            : null,
-                      ),
-                    ];
-                  },
-                ),
+                buildMoreActions(),
               ],
             ),
-            if (navIndex == 0) ...buildPatchTab() else ...buildGalleryTab(),
+            if (patches.isEmpty)
+              SliverFillRemaining(
+                child: LeavingBlank(
+                  icon: Icons.dashboard_customize,
+                  desc: "No patches here, how about open prefabs?",
+                  onIconTap: openPrefab,
+                ),
+              )
+            else
+              ReorderableSliverList(
+                onReorder: (int oldIndex, int newIndex) {
+                  setState(() {
+                    final patch = patches.removeAt(oldIndex);
+                    patches.insert(newIndex, patch);
+                  });
+                  markChanged();
+                },
+                delegate: ReorderableSliverChildBuilderDelegate(
+                  childCount: patches.length,
+                  (context, i) {
+                    final patch = patches[i];
+                    final timetable = widget.timetable.copyWith(patches: patches.sublist(0, i + 1));
+                    return buildPatchEntry(patch, i, timetable);
+                  },
+                ),
+              ),
           ],
         ),
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: navIndex,
-          onDestinationSelected: (newIndex) {
-            setState(() {
-              navIndex = newIndex;
-            });
-          },
-          destinations: [
-            NavigationDestination(
-              icon: const Icon(Icons.dashboard_customize_outlined),
-              selectedIcon: const Icon(Icons.dashboard_customize),
-              label: i18n.patch.patchTab,
-            ),
-            NavigationDestination(
-              icon: const Icon(Icons.browse_gallery_outlined),
-              selectedIcon: const Icon(Icons.browse_gallery),
-              label: i18n.patch.galleryTab,
-            ),
-          ],
+        bottomNavigationBar: BottomAppBar(
+          padding: EdgeInsets.zero,
+          child: buildPatchButtons(),
         ),
       ),
     );
@@ -112,83 +99,84 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
     await previewTimetable(context, timetable: buildTimetable());
   }
 
-  List<Widget> buildPatchTab() {
-    return [
-      SliverList.list(children: [
-        ListTile(
-          title: i18n.patch.addPatch.text(),
-        ),
-        buildPatchButtons(),
-        const Divider(),
-      ]),
-      ReorderableSliverList(
-        onReorder: (int oldIndex, int newIndex) {
-          setState(() {
-            final patch = patches.removeAt(oldIndex);
-            patches.insert(newIndex, patch);
-          });
-          markChanged();
-        },
-        delegate: ReorderableSliverChildBuilderDelegate(
-          childCount: patches.length,
-          (context, i) {
-            final patch = patches[i];
-            final timetable = widget.timetable.copyWith(patches: patches.sublist(0, i + 1));
-            return SwipeToDismiss(
-              childKey: ValueKey(patch),
-              right: SwipeToDismissAction(
-                icon: Icon(context.icons.delete),
-                action: () async {
-                  setState(() {
-                    patches.removeAt(i);
-                  });
-                  markChanged();
-                },
-              ),
-              child: buildPatchEntry(patch, i, timetable),
-            );
-          },
-        ),
-      ),
-    ];
+  Widget buildMoreActions() {
+    return PullDownMenuButton(
+      itemBuilder: (BuildContext context) {
+        return [
+          PullDownItem(
+            icon: context.icons.preview,
+            title: i18n.preview,
+            onTap: onPreview,
+          ),
+          PullDownItem(
+            icon: Icons.dashboard_customize,
+            title: "Prefabs",
+            onTap: openPrefab,
+          ),
+          PullDownItem.delete(
+            icon: context.icons.clear,
+            title: i18n.clear,
+            onTap: patches.isNotEmpty
+                ? () {
+                    setState(() {
+                      patches.clear();
+                    });
+                    markChanged();
+                  }
+                : null,
+          ),
+        ];
+      },
+    );
+  }
+
+  Future<void> openPrefab() async {
+    final patchSet = await context.show$Sheet$<TimetablePatchSet>(
+      (context) => const TimetablePatchPrefabPage(),
+    );
+    if (patchSet == null) return;
+    if (!mounted) return;
+    setState(() {
+      patches.add(patchSet);
+    });
+    markChanged();
   }
 
   Widget buildPatchEntry(TimetablePatchEntry entry, int index, SitTimetable timetable) {
     return switch (entry) {
       TimetablePatchSet() => TimetablePatchSetCard(
           patchSet: entry,
-        ),
-      TimetablePatch() => entry.build(
-          context: context,
-          timetable: timetable,
-          onChanged: (newPatch) {
-            setState(() {
-              patches[index] = newPatch;
-            });
-            markChanged();
+          onDeleted: () {
+            removePatch(index);
           },
+        ),
+      TimetablePatch() => SwipeToDismiss(
+          childKey: ValueKey(entry),
+          right: SwipeToDismissAction(
+            icon: Icon(context.icons.delete),
+            action: () {
+              removePatch(index);
+            },
+          ),
+          child: entry.build(
+            context: context,
+            timetable: timetable,
+            onChanged: (newPatch) {
+              setState(() {
+                patches[index] = newPatch;
+              });
+              markChanged();
+            },
+          ),
         ),
     };
   }
 
-  List<Widget> buildGalleryTab() {
-    return [
-      SliverList.builder(
-        itemCount: BuiltinTimetablePatchSets.all.length,
-        itemBuilder: (ctx, i) {
-          final patchSet = BuiltinTimetablePatchSets.all[i];
-          return TimetablePatchSetGalleryCard(
-            patchSet: patchSet,
-            onAdd: () {
-              setState(() {
-                patches.add(patchSet);
-                navIndex = 0;
-              });
-            },
-          );
-        },
-      )
-    ];
+  void removePatch(int index) {
+    setState(() {
+      patches.removeAt(index);
+    });
+    markChanged();
   }
 
   SitTimetable buildTimetable() {
