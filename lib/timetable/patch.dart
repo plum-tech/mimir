@@ -61,10 +61,8 @@ class BuiltinTimetablePatchSets {
       TimetableRemoveDayPatch.oneDay(loc: TimetableDayLoc.date(DateTime(2024, 10, 1))),
       TimetableRemoveDayPatch.oneDay(loc: TimetableDayLoc.date(DateTime(2024, 10, 2))),
       TimetableRemoveDayPatch.oneDay(loc: TimetableDayLoc.date(DateTime(2024, 10, 3))),
-      TimetableRemoveDayPatch.oneDay(loc: TimetableDayLoc.date(DateTime(2024, 10, 4))),
       TimetableRemoveDayPatch.oneDay(loc: TimetableDayLoc.date(DateTime(2024, 10, 5))),
       TimetableRemoveDayPatch.oneDay(loc: TimetableDayLoc.date(DateTime(2024, 10, 6))),
-      TimetableRemoveDayPatch.oneDay(loc: TimetableDayLoc.date(DateTime(2024, 10, 7)))
     ],
   );
   static final all = [
