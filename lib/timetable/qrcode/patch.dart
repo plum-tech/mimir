@@ -5,6 +5,8 @@ import 'package:sit/qrcode/protocol.dart';
 import 'package:sit/r.dart';
 import 'package:sit/timetable/entity/patch.dart';
 
+import '../page/patch/qrcode.dart';
+
 class TimetablePatchDeepLink implements DeepLinkHandlerProtocol {
   static const path = "timetable-patch";
 
@@ -25,6 +27,10 @@ class TimetablePatchDeepLink implements DeepLinkHandlerProtocol {
     required BuildContext context,
     required Uri qrCodeData,
   }) async {
-    // final palette = decode(qrCodeData);
+    final patch = decode(qrCodeData);
+    await onTimetablePatchFromQrCode(
+      context: context,
+      patch: patch,
+    );
   }
 }

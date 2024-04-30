@@ -156,7 +156,7 @@ timetable:
       deleteRequestDesc: 除非儲存了 QR 碼備份，否則調色板將被永久刪除
       addColor: 增加一對顏色
       addFromQrCodeAction: 新增調色盤
-      addFromQrCodeDesc: 確認從 QR 碼中新增調色盤？
+      addFromQrCodeDesc: '確認從 QR 碼中新增調色盤, "{}"？'
       builtin:
         classic:
           name: 經典

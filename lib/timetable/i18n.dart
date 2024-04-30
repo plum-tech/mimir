@@ -149,7 +149,7 @@ class _Palette {
 
   String get addFromQrCodeAction => "$ns.addFromQrCodeAction".tr();
 
-  String get addFromQrCodeDesc => "$ns.addFromQrCodeDesc".tr();
+  String addFromQrCodeDesc({required String name}) => "$ns.addFromQrCodeDesc".tr(args: [name]);
 }
 
 class _Background {

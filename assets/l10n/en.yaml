@@ -155,7 +155,7 @@ timetable:
       deleteRequestDesc: The palette will be deleted permanently without unless a QR code backup is saved
       addColor: Add a color
       addFromQrCodeAction: Add palette
-      addFromQrCodeDesc: Confirm to add a timetable palette from QR code?
+      addFromQrCodeDesc: 'Confirm to add the timetable palette, "{}", from QR code?'
       builtin:
         classic:
           name: Classic

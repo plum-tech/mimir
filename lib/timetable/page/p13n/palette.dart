@@ -504,7 +504,7 @@ Future<void> onTimetablePaletteFromQrCode({
   required TimetablePalette palette,
 }) async {
   final confirm = await context.showActionRequest(
-    desc: i18n.p13n.palette.addFromQrCodeDesc,
+    desc: i18n.p13n.palette.addFromQrCodeDesc(name: palette.name),
     action: i18n.p13n.palette.addFromQrCodeAction,
     cancel: i18n.cancel,
   );

@@ -155,7 +155,7 @@ timetable:
       deleteRequestDesc: 推荐先保存二维码备份再删除
       addColor: 添加一种配色
       addFromQrCodeAction: 添加配色方案
-      addFromQrCodeDesc: 确定从读取的二维码中添加配色方案？
+      addFromQrCodeDesc: '确定从读取的二维码中添加配色方案——"{}"？'
       builtin:
         classic:
           name: 经典
