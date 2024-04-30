@@ -177,7 +177,7 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
   final bool selected;
   final SitTimetable timetable;
   final ValueChanged<TPatch>? onChanged;
-  final FutureOr<TPatch?> Function() create;
+  final FutureOr<TPatch?> Function(TPatch old) edit;
 
   const TimetablePatchWidget({
     super.key,
@@ -185,7 +185,7 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
     required this.patch,
     required this.timetable,
     this.onChanged,
-    required this.create,
+    required this.edit,
     this.selected = false,
   });
 
@@ -201,11 +201,41 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
       onTap: onChanged == null
           ? null
           : () async {
-              final newPath = await create();
+              final newPath = await edit(patch);
               if (newPath == null) return;
               onChanged(newPath);
             },
     );
+  }
+}
+
+class AddPatchButtons extends StatelessWidget {
+  final SitTimetable timetable;
+  final void Function(TimetablePatch patch) addPatch;
+
+  const AddPatchButtons({
+    super.key,
+    required this.timetable,
+    required this.addPatch,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.only(left: 8),
+      children: TimetablePatchType.creatable
+          .map((type) => ActionChip(
+                avatar: Icon(type.icon),
+                label: type.l10n().text(),
+                onPressed: () async {
+                  final patch = await type.create(context, timetable, null);
+                  if (patch == null) return;
+                  addPatch(patch);
+                },
+              ).padOnly(r: 8))
+          .toList(),
+    ).sized(h: 40);
   }
 }
 

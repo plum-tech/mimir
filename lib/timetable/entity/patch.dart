@@ -45,18 +45,18 @@ sealed class TimetablePatchEntry {
 }
 
 @JsonEnum(alwaysCreate: true)
-enum TimetablePatchType {
+enum TimetablePatchType<TPatch extends TimetablePatch> {
   // addLesson,
   // removeLesson,
   // replaceLesson,
   // swapLesson,
   // moveLesson,
   // addDay,
-  moveDay(Icons.turn_sharp_right, TimetableMoveDayPatch.onCreate),
-  removeDay(Icons.delete, TimetableRemoveDayPatch.onCreate),
-  copyDay(Icons.copy, TimetableCopyDayPatch.onCreate),
-  swapDays(Icons.swap_horiz, TimetableSwapDaysPatch.onCreate),
-  unknown(Icons.question_mark, TimetableSwapDaysPatch.onCreate),
+  moveDay<TimetableMoveDayPatch>(Icons.turn_sharp_right, TimetableMoveDayPatch.onCreate),
+  removeDay<TimetableRemoveDayPatch>(Icons.delete, TimetableRemoveDayPatch.onCreate),
+  copyDay<TimetableCopyDayPatch>(Icons.copy, TimetableCopyDayPatch.onCreate),
+  swapDays<TimetableSwapDaysPatch>(Icons.swap_horiz, TimetableSwapDaysPatch.onCreate),
+  unknown<TimetableUnknownPatch>(Icons.question_mark, TimetableUnknownPatch.onCreate),
   ;
 
   static const creatable = [
@@ -67,9 +67,16 @@ enum TimetablePatchType {
   ];
 
   final IconData icon;
-  final FutureOr<TimetablePatch?> Function(BuildContext context, SitTimetable timetable) onCreate;
+  final FutureOr<TPatch?> Function(BuildContext context, SitTimetable timetable, [TPatch? patch]) _onCreate;
 
-  const TimetablePatchType(this.icon, this.onCreate);
+  const TimetablePatchType(this.icon, this._onCreate);
+
+  FutureOr<TPatch?> create(BuildContext context, SitTimetable timetable, [TPatch? patch]) async {
+    dynamic any = this;
+    // I have to cast [this] to dynamic :(
+    final newPatch = await any._onCreate(context, timetable, patch);
+    return newPatch;
+  }
 
   String l10n() => "timetable.patch.type.$name".tr();
 }
@@ -104,8 +111,6 @@ sealed class TimetablePatch extends TimetablePatchEntry {
   }
 
   String l10n();
-
-
 }
 
 @JsonSerializable()
@@ -221,6 +226,14 @@ class TimetableUnknownPatch extends TimetablePatch {
 
   const TimetableUnknownPatch({this.legacy});
 
+  static Future<TimetableUnknownPatch?> onCreate(
+    BuildContext context,
+    SitTimetable timetable, [
+    TimetableUnknownPatch? patch,
+  ]) async {
+    throw UnimplementedError();
+  }
+
   factory TimetableUnknownPatch.fromJson(Map<String, dynamic> json) {
     return TimetableUnknownPatch(legacy: json);
   }
@@ -278,14 +291,17 @@ class TimetableRemoveDayPatch extends TimetablePatch {
     return writer.build();
   }
 
-  static Future<TimetableRemoveDayPatch?> onCreate(BuildContext context, SitTimetable timetable) async {
-    final patch = await context.show$Sheet$(
+  static Future<TimetableRemoveDayPatch?> onCreate(
+    BuildContext context,
+    SitTimetable timetable, [
+    TimetableRemoveDayPatch? patch,
+  ]) async {
+    return await context.show$Sheet$(
       (ctx) => TimetableRemoveDayPatchSheet(
         timetable: timetable,
-        patch: null,
+        patch: patch,
       ),
     );
-    return patch;
   }
 
   @override
@@ -327,14 +343,17 @@ class TimetableMoveDayPatch extends TimetablePatch {
   @override
   Map<String, dynamic> toJson() => _$TimetableMoveDayPatchToJson(this)..["type"] = _$TimetablePatchTypeEnumMap[type];
 
-  static Future<TimetableMoveDayPatch?> onCreate(BuildContext context, SitTimetable timetable) async {
-    final patch = await context.show$Sheet$(
+  static Future<TimetableMoveDayPatch?> onCreate(
+    BuildContext context,
+    SitTimetable timetable, [
+    TimetableMoveDayPatch? patch,
+  ]) async {
+    return await context.show$Sheet$(
       (ctx) => TimetableMoveDayPatchSheet(
         timetable: timetable,
-        patch: null,
+        patch: patch,
       ),
     );
-    return patch;
   }
 
   @override
@@ -376,14 +395,17 @@ class TimetableCopyDayPatch extends TimetablePatch {
   @override
   Map<String, dynamic> toJson() => _$TimetableCopyDayPatchToJson(this)..["type"] = _$TimetablePatchTypeEnumMap[type];
 
-  static Future<TimetableCopyDayPatch?> onCreate(BuildContext context, SitTimetable timetable) async {
-    final patch = await context.show$Sheet$(
+  static Future<TimetableCopyDayPatch?> onCreate(
+    BuildContext context,
+    SitTimetable timetable, [
+    TimetableCopyDayPatch? patch,
+  ]) async {
+    return await context.show$Sheet$(
       (ctx) => TimetableCopyDayPatchSheet(
         timetable: timetable,
-        patch: null,
+        patch: patch,
       ),
     );
-    return patch;
   }
 
   @override
@@ -425,14 +447,17 @@ class TimetableSwapDaysPatch extends TimetablePatch {
   @override
   Map<String, dynamic> toJson() => _$TimetableSwapDaysPatchToJson(this)..["type"] = _$TimetablePatchTypeEnumMap[type];
 
-  static Future<TimetableSwapDaysPatch?> onCreate(BuildContext context, SitTimetable timetable) async {
-    final patch = await context.show$Sheet$(
+  static Future<TimetableSwapDaysPatch?> onCreate(
+    BuildContext context,
+    SitTimetable timetable, [
+    TimetableSwapDaysPatch? patch,
+  ]) async {
+    return await context.show$Sheet$(
       (ctx) => TimetableSwapDaysPatchSheet(
         timetable: timetable,
-        patch: null,
+        patch: patch,
       ),
     );
-    return patch;
   }
 
   @override

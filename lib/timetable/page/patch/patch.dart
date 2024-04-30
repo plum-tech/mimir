@@ -86,7 +86,10 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
         ),
         bottomNavigationBar: BottomAppBar(
           padding: EdgeInsets.zero,
-          child: buildPatchButtons(),
+          child: AddPatchButtons(
+            timetable: widget.timetable,
+            addPatch: addPatch,
+          ),
         ),
       ),
     );
@@ -203,8 +206,8 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
               ),
               patch: entry,
               timetable: timetable,
-              create: () async {
-                return await entry.type.onCreate(context, timetable);
+              edit: (patch) async {
+                return await entry.type.create(context, timetable, patch);
               },
               onChanged: (newPatch) {
                 setState(() {
@@ -236,24 +239,6 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
     return widget.timetable.copyWith(
       patches: List.of(patches),
     );
-  }
-
-  Widget buildPatchButtons() {
-    return ListView(
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.only(left: 8),
-      children: TimetablePatchType.creatable
-          .map((type) => ActionChip(
-                avatar: Icon(type.icon),
-                label: type.l10n().text(),
-                onPressed: () async {
-                  final patch = await type.onCreate(context, widget.timetable);
-                  if (patch == null) return;
-                  addPatch(patch);
-                },
-              ).padOnly(r: 8))
-          .toList(),
-    ).sized(h: 40);
   }
 }
 

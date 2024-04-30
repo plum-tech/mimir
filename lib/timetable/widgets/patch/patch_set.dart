@@ -8,9 +8,9 @@ import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/timetable/entity/patch.dart';
+import 'package:sit/timetable/page/patch/patch_set.dart';
 import '../../entity/timetable.dart';
 import '../../i18n.dart';
-import '../../page/patch/patch.dart';
 import '../../page/preview.dart';
 import 'shared.dart';
 
@@ -62,7 +62,7 @@ class TimetablePatchSetCard extends StatelessWidget {
                     TextSpan(text: p.l10n()),
                   ],
                 ),
-              ).padH(16),
+              ).padSymmetric(h: 16),
             )
             .toList(),
       ),
@@ -80,12 +80,14 @@ class TimetablePatchSetCard extends StatelessWidget {
             onTap: onChanged == null
                 ? null
                 : () async {
-                    final patches = await context.show$Sheet$(
-                      (ctx) => TimetablePatchEditorPage(
+                    final newPatchSet = await context.show$Sheet$<TimetablePatchSet>(
+                      (ctx) => TimetablePatchSetEditorPage(
                         timetable: timetable,
+                        patchSet: patchSet,
                       ),
                     );
-                    onChanged(patchSet.copyWith(patches: List.of(patches)));
+                    if (newPatchSet == null) return;
+                    onChanged(newPatchSet);
                   },
           ),
           PullDownItem(
