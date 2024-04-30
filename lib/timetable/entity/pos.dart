@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/l10n/time.dart';
@@ -44,11 +42,15 @@ class TimetablePos {
     }
   }
 
-  Uint8List encodeByteList() {
-    final writer = ByteWriter(16);
+  void serialize(ByteWriter writer) {
     writer.uint8(weekIndex);
     writer.uint8(weekday.index);
-    return writer.build();
+  }
+
+  static TimetablePos deserialize(ByteReader reader) {
+    final weekIndex = reader.uint8();
+    final weekdayIndex = reader.uint8();
+    return TimetablePos(weekIndex: weekIndex, weekday: Weekday.fromIndex(weekdayIndex));
   }
 
   String l10n() {

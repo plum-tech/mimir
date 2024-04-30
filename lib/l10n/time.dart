@@ -27,9 +27,9 @@ enum Weekday {
     return (this - firstDay.index).index;
   }
 
-  factory Weekday.fromJson(int json) => Weekday.values.elementAtOrNull(json) ?? Weekday.monday;
+  static Weekday fromJson(int json) => Weekday.values.elementAtOrNull(json) ?? Weekday.monday;
 
-  factory Weekday.fromIndex(int index) {
+  static Weekday fromIndex(int index) {
     assert(0 <= index && index < Weekday.values.length);
     return Weekday.values[index % Weekday.values.length];
   }

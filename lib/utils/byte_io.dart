@@ -1,6 +1,18 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+enum ByteLength {
+  bit8(1),
+  bit16(2),
+  bit32(4),
+  bit64(8),
+  ;
+
+  final int byteLengths;
+
+  const ByteLength(this.byteLengths);
+}
+
 class ByteWriter {
   late ByteData _view;
   Uint8List _buffer;
@@ -35,8 +47,19 @@ class ByteWriter {
     _view = newBuffer.buffer.asByteData();
   }
 
-  void bytes(Uint8List bytes) {
-    _checkCapacity(requireBytes: bytes.length);
+  void bytes(Uint8List bytes, [ByteLength requireBytes = ByteLength.bit32]) {
+    assert(requireBytes.byteLengths >= bytes.length);
+    _checkCapacity(requireBytes: bytes.length + requireBytes.byteLengths);
+    switch (requireBytes) {
+      case ByteLength.bit8:
+        uint8(requireBytes.byteLengths);
+      case ByteLength.bit16:
+        uint16(requireBytes.byteLengths);
+      case ByteLength.bit32:
+        uint32(requireBytes.byteLengths);
+      case ByteLength.bit64:
+        uint64(requireBytes.byteLengths);
+    }
     _buffer.setRange(_offset, _offset + bytes.length, bytes);
     _offset += bytes.length;
   }
@@ -133,6 +156,18 @@ class ByteReader {
 
   ByteReader(this.data) {
     _view = data.buffer.asByteData();
+  }
+
+  Uint8List bytes(ByteLength requireBytes) {
+    final length = switch (requireBytes) {
+      ByteLength.bit8 => uint8(),
+      ByteLength.bit16 => uint16(),
+      ByteLength.bit32 => uint32(),
+      ByteLength.bit64 => uint64(),
+    };
+    final bytes = Uint8List.sublistView(data, _offset, _offset + length);
+    _offset += bytes.length;
+    return bytes;
   }
 
   int int8() {

@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/l10n/extension.dart';
@@ -62,16 +60,24 @@ class TimetableDayLoc {
 
   DateTime get date => dateInternal!;
 
-  Uint8List encodeByteList() {
-    final writer = ByteWriter(32);
+  void serialize(ByteWriter writer) {
     writer.uint8(mode.index);
     switch (mode) {
       case TimetableDayLocMode.pos:
-        writer.bytes(pos.encodeByteList());
+        pos.serialize(writer);
       case TimetableDayLocMode.date:
         writer.uint16(_packDate(date));
     }
-    return writer.build();
+  }
+
+  static TimetableDayLoc deserialize(ByteReader reader) {
+    final mode = TimetableDayLocMode.values[reader.uint8()];
+    switch (mode) {
+      case TimetableDayLocMode.pos :return TimetableDayLoc.pos(TimetablePos.deserialize(reader));
+      case TimetableDayLocMode.date :
+        final packed = reader.uint16();
+        return TimetableDayLoc.byDate(_unpackYear(packed), _unpackMonth(packed), _unpackDay(packed));
+    }
   }
 
   String toDartCode() {

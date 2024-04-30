@@ -9,7 +9,6 @@ import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/qrcode/page/view.dart';
-import 'package:sit/qrcode/utils.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/timetable/entity/pos.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -19,6 +18,7 @@ import '../../entity/patch.dart';
 import '../../entity/timetable.dart';
 import '../../i18n.dart';
 import '../../page/preview.dart';
+import '../../qrcode/patch.dart';
 import '../../utils.dart';
 
 class TimetableDayLocModeSwitcher extends StatelessWidget {
@@ -246,11 +246,7 @@ class AddPatchButtons extends StatelessWidget {
 
 void shareTimetablePatchQrCode(BuildContext context, TimetablePatchEntry patch) async {
   if (kIsWeb) return;
-  final qrCodeData = Uri(
-    scheme: R.scheme,
-    path: "timetable-patch",
-    query: encodeBytesForUrl(patch.encodeByteList()),
-  );
+  final qrCodeData = const TimetablePatchDeepLink().encode(patch);
   await context.show$Sheet$(
     (context) => QrCodePage(
       title: TextScroll(switch (patch) {

@@ -20,7 +20,11 @@ import '../i18n.dart';
 
 part "patch.g.dart";
 
+/// for json serializable
 const _patchSetType = "patchSet";
+
+/// for QR code
+const _patchSetTypeIndex = 255;
 
 sealed class TimetablePatchEntry {
   const TimetablePatchEntry();
@@ -28,7 +32,12 @@ sealed class TimetablePatchEntry {
   factory TimetablePatchEntry.fromJson(Map<String, dynamic> json) {
     final type = json["type"];
     if (type == _patchSetType) {
-      return TimetablePatchSet.fromJson(json);
+      try {
+        return TimetablePatchSet.fromJson(json);
+      } catch (error, stackTrace) {
+        debugPrintError(error, stackTrace);
+        return TimetableUnknownPatch(legacy: json);
+      }
     } else {
       return TimetablePatch.fromJson(json);
     }
@@ -41,7 +50,41 @@ sealed class TimetablePatchEntry {
 
   String toDartCode();
 
-  Uint8List encodeByteList();
+  void _serialize(ByteWriter writer);
+
+  static TimetablePatchEntry decodeByteList(Uint8List bytes) {
+    final reader = ByteReader(bytes);
+    return deserializeTyped(reader);
+  }
+
+  static TimetablePatchEntry deserializeTyped(ByteReader reader) {
+    final typeId = reader.uint8();
+    if (typeId == _patchSetTypeIndex) {
+      return TimetablePatchSet.deserialize(reader);
+    } else if (0 <= typeId && typeId < TimetablePatchType.values.length) {
+      final type = TimetablePatchType.values[typeId];
+      return type._deserialize(reader);
+    }
+    assert(false);
+    return const TimetableUnknownPatch();
+  }
+
+  static void serializeTyped(TimetablePatchEntry entry, ByteWriter writer) {
+    if (entry is TimetablePatchSet) {
+      writer.uint8(_patchSetTypeIndex);
+    } else if (entry is TimetablePatch) {
+      writer.uint8(entry.type.index);
+    } else {
+      writer.uint8(254);
+    }
+    entry._serialize(writer);
+  }
+
+  static Uint8List encodeByteList(TimetablePatchEntry entry) {
+    final writer = ByteWriter(256);
+    serializeTyped(entry, writer);
+    return writer.build();
+  }
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -52,11 +95,31 @@ enum TimetablePatchType<TPatch extends TimetablePatch> {
   // swapLesson,
   // moveLesson,
   // addDay,
-  moveDay<TimetableMoveDayPatch>(Icons.turn_sharp_right, TimetableMoveDayPatch.onCreate),
-  removeDay<TimetableRemoveDayPatch>(Icons.delete, TimetableRemoveDayPatch.onCreate),
-  copyDay<TimetableCopyDayPatch>(Icons.copy, TimetableCopyDayPatch.onCreate),
-  swapDays<TimetableSwapDaysPatch>(Icons.swap_horiz, TimetableSwapDaysPatch.onCreate),
-  unknown<TimetableUnknownPatch>(Icons.question_mark, TimetableUnknownPatch.onCreate),
+  unknown<TimetableUnknownPatch>(
+    Icons.question_mark,
+    TimetableUnknownPatch.onCreate,
+    TimetableUnknownPatch.deserialize,
+  ),
+  moveDay<TimetableMoveDayPatch>(
+    Icons.turn_sharp_right,
+    TimetableMoveDayPatch.onCreate,
+    TimetableMoveDayPatch.deserialize,
+  ),
+  removeDay<TimetableRemoveDayPatch>(
+    Icons.delete,
+    TimetableRemoveDayPatch.onCreate,
+    TimetableRemoveDayPatch.deserialize,
+  ),
+  copyDay<TimetableCopyDayPatch>(
+    Icons.copy,
+    TimetableCopyDayPatch.onCreate,
+    TimetableCopyDayPatch.deserialize,
+  ),
+  swapDays<TimetableSwapDaysPatch>(
+    Icons.swap_horiz,
+    TimetableSwapDaysPatch.onCreate,
+    TimetableSwapDaysPatch.deserialize,
+  ),
   ;
 
   static const creatable = [
@@ -68,8 +131,9 @@ enum TimetablePatchType<TPatch extends TimetablePatch> {
 
   final IconData icon;
   final FutureOr<TPatch?> Function(BuildContext context, SitTimetable timetable, [TPatch? patch]) _onCreate;
+  final TPatch Function(ByteReader reader) _deserialize;
 
-  const TimetablePatchType(this.icon, this._onCreate);
+  const TimetablePatchType(this.icon, this._onCreate, this._deserialize);
 
   FutureOr<TPatch?> create(BuildContext context, SitTimetable timetable, [TPatch? patch]) async {
     dynamic any = this;
@@ -134,18 +198,26 @@ class TimetablePatchSet extends TimetablePatchEntry {
     return 'TimetablePatchSet(name:"$name",patches:${patches.map((p) => p.toDartCode()).toList(growable: false)})';
   }
 
-  @override
-  Uint8List encodeByteList() => _encodeByteList(this);
-
-  static Uint8List _encodeByteList(TimetablePatchSet obj) {
-    final writer = ByteWriter(2048);
+  static void _serializeLocal(TimetablePatchSet obj, ByteWriter writer) {
     writer.strUtf8(obj.name);
-    writer.uint8(max(obj.patches.length, 256));
+    writer.uint8(min(obj.patches.length, 255));
     for (final patch in obj.patches) {
-      writer.bytes(patch.encodeByteList());
+      TimetablePatchEntry.serializeTyped(patch, writer);
     }
-    return writer.build();
   }
+
+  static TimetablePatchSet deserialize(ByteReader reader) {
+    final name = reader.strUtf8();
+    final length = reader.uint8();
+    final patches = <TimetablePatch>[];
+    for (var i = 0; i < length; i++) {
+      patches.add(TimetablePatchEntry.deserializeTyped(reader) as TimetablePatch);
+    }
+    return TimetablePatchSet(name: name, patches: patches);
+  }
+
+  @override
+  void _serialize(ByteWriter writer) => _serializeLocal(this, writer);
 }
 
 class BuiltinTimetablePatchSet implements TimetablePatchSet {
@@ -162,7 +234,7 @@ class BuiltinTimetablePatchSet implements TimetablePatchSet {
   });
 
   @override
-  Uint8List encodeByteList() => TimetablePatchSet._encodeByteList(this);
+  void _serialize(ByteWriter writer) => TimetablePatchSet._serializeLocal(this, writer);
 
   @override
   Map<String, dynamic> toJson() => _$TimetablePatchSetToJson(this)..["type"] = _patchSetType;
@@ -239,10 +311,12 @@ class TimetableUnknownPatch extends TimetablePatch {
   }
 
   @override
-  Uint8List encodeByteList() {
-    final writer = ByteWriter(8);
+  void _serialize(ByteWriter writer) {
     writer.uint8(type.index);
-    return writer.build();
+  }
+
+  static TimetableUnknownPatch deserialize(ByteReader reader) {
+    return const TimetableUnknownPatch();
   }
 
   @override
@@ -275,21 +349,29 @@ class TimetableRemoveDayPatch extends TimetablePatch {
     required TimetableDayLoc loc,
   }) : all = <TimetableDayLoc>[loc];
 
+  @override
+  void _serialize(ByteWriter writer) {
+    writer.uint8(min(all.length, 255));
+    for (final loc in all) {
+      loc.serialize(writer);
+    }
+  }
+
+  static TimetableRemoveDayPatch deserialize(ByteReader reader) {
+    final length = reader.uint8();
+    final all = <TimetableDayLoc>[];
+    for (var i = 0; i < length; i++) {
+      all.add(TimetableDayLoc.deserialize(reader));
+    }
+    return TimetableRemoveDayPatch(
+      all: all,
+    );
+  }
+
   factory TimetableRemoveDayPatch.fromJson(Map<String, dynamic> json) => _$TimetableRemoveDayPatchFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$TimetableRemoveDayPatchToJson(this)..["type"] = _$TimetablePatchTypeEnumMap[type];
-
-  @override
-  Uint8List encodeByteList() {
-    final writer = ByteWriter(512);
-    writer.uint8(type.index);
-    writer.uint8(max(all.length, 256));
-    for (final loc in all) {
-      writer.bytes(loc.encodeByteList());
-    }
-    return writer.build();
-  }
 
   static Future<TimetableRemoveDayPatch?> onCreate(
     BuildContext context,
@@ -330,12 +412,15 @@ class TimetableMoveDayPatch extends TimetablePatch {
   });
 
   @override
-  Uint8List encodeByteList() {
-    final writer = ByteWriter(32);
-    writer.uint8(type.index);
-    writer.bytes(source.encodeByteList());
-    writer.bytes(target.encodeByteList());
-    return writer.build();
+  void _serialize(ByteWriter writer) {
+    source.serialize(writer);
+    target.serialize(writer);
+  }
+
+  static TimetableMoveDayPatch deserialize(ByteReader reader) {
+    final source = TimetableDayLoc.deserialize(reader);
+    final target = TimetableDayLoc.deserialize(reader);
+    return TimetableMoveDayPatch(source: source, target: target);
   }
 
   factory TimetableMoveDayPatch.fromJson(Map<String, dynamic> json) => _$TimetableMoveDayPatchFromJson(json);
@@ -382,12 +467,15 @@ class TimetableCopyDayPatch extends TimetablePatch {
   });
 
   @override
-  Uint8List encodeByteList() {
-    final writer = ByteWriter(512);
-    writer.uint8(type.index);
-    writer.bytes(source.encodeByteList());
-    writer.bytes(target.encodeByteList());
-    return writer.build();
+  void _serialize(ByteWriter writer) {
+    source.serialize(writer);
+    target.serialize(writer);
+  }
+
+  static TimetableCopyDayPatch deserialize(ByteReader reader) {
+    final source = TimetableDayLoc.deserialize(reader);
+    final target = TimetableDayLoc.deserialize(reader);
+    return TimetableCopyDayPatch(source: source, target: target);
   }
 
   factory TimetableCopyDayPatch.fromJson(Map<String, dynamic> json) => _$TimetableCopyDayPatchFromJson(json);
@@ -433,15 +521,18 @@ class TimetableSwapDaysPatch extends TimetablePatch {
     required this.b,
   });
 
+  static TimetableSwapDaysPatch deserialize(ByteReader reader) {
+    final a = TimetableDayLoc.deserialize(reader);
+    final b = TimetableDayLoc.deserialize(reader);
+    return TimetableSwapDaysPatch(a: a, b: b);
+  }
+
   factory TimetableSwapDaysPatch.fromJson(Map<String, dynamic> json) => _$TimetableSwapDaysPatchFromJson(json);
 
   @override
-  Uint8List encodeByteList() {
-    final writer = ByteWriter(512);
-    writer.uint8(type.index);
-    writer.bytes(a.encodeByteList());
-    writer.bytes(b.encodeByteList());
-    return writer.build();
+  void _serialize(ByteWriter writer) {
+    a.serialize(writer);
+    b.serialize(writer);
   }
 
   @override

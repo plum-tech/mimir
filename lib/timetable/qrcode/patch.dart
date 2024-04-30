@@ -11,9 +11,9 @@ class TimetablePatchDeepLink implements DeepLinkHandlerProtocol {
   const TimetablePatchDeepLink();
 
   Uri encode(TimetablePatchEntry entry) =>
-      Uri(scheme: R.scheme, path: path, query: base64Encode(entry.encodeByteList()));
+      Uri(scheme: R.scheme, path: path, query: base64Encode(TimetablePatchEntry.encodeByteList(entry)));
 
-  // TimetablePatchEntry decode(Uri qrCodeData) => TimetablePatchEntry.decodeFromBase64(qrCodeData.query);
+  TimetablePatchEntry decode(Uri qrCodeData) => TimetablePatchEntry.decodeByteList(base64Decode(qrCodeData.query));
 
   @override
   bool match(Uri encoded) {
@@ -26,6 +26,5 @@ class TimetablePatchDeepLink implements DeepLinkHandlerProtocol {
     required Uri qrCodeData,
   }) async {
     // final palette = decode(qrCodeData);
-
   }
 }

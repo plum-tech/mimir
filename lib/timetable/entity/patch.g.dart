@@ -128,9 +128,9 @@ Map<String, dynamic> _$TimetableSwapDaysPatchToJson(TimetableSwapDaysPatch insta
     };
 
 const _$TimetablePatchTypeEnumMap = {
+  TimetablePatchType.unknown: 'unknown',
   TimetablePatchType.moveDay: 'moveDay',
   TimetablePatchType.removeDay: 'removeDay',
   TimetablePatchType.copyDay: 'copyDay',
   TimetablePatchType.swapDays: 'swapDays',
-  TimetablePatchType.unknown: 'unknown',
 };
