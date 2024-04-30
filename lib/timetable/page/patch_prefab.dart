@@ -6,7 +6,6 @@ import '../patch.dart';
 import '../widgets/patch/prefab.dart';
 
 class TimetablePatchPrefabPage extends StatefulWidget {
-
   const TimetablePatchPrefabPage({
     super.key,
   });

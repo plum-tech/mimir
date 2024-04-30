@@ -10,6 +10,7 @@ import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/timetable/page/patch_prefab.dart';
 import 'package:sit/timetable/widgets/patch/shared.dart';
+import 'package:sit/utils/format.dart';
 import 'package:sit/utils/save.dart';
 
 import '../entity/patch.dart';
@@ -136,47 +137,71 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
     );
     if (patchSet == null) return;
     if (!mounted) return;
-    setState(() {
-      patches.add(patchSet);
-    });
-    markChanged();
+    addPatch(patchSet);
   }
 
   Widget buildPatchEntry(TimetablePatchEntry entry, int index, SitTimetable timetable) {
     return switch (entry) {
-      TimetablePatchSet() => TimetablePatchSetCard(
-          patchSet: entry,
-          timetable: timetable,
-          onDeleted: () {
-            removePatch(index);
+      TimetablePatchSet() => TimetablePatchEntryDroppable(
+          patch: entry,
+          onMerged: (other) {
+            removePatch(patches.indexOf(other));
+            patches[index] = entry.copyWith(patches: List.of(entry.patches)..add(other));
+            markChanged();
           },
+          child: TimetablePatchSetCard(
+            patchSet: entry,
+            timetable: timetable,
+            onDeleted: () {
+              removePatch(index);
+            },
+          ),
         ),
       TimetablePatch() => WithSwipeAction(
           childKey: ValueKey(entry),
-          left: SwipeAction(
-            icon: Icon(context.icons.checkMark),
-            action: () {
-
-            },
-          ),
           right: SwipeAction.delete(
             icon: Icon(context.icons.delete),
             action: () {
               removePatch(index);
             },
           ),
-          child: entry.build(
-            context: context,
-            timetable: timetable,
-            onChanged: (newPatch) {
-              setState(() {
-                patches[index] = newPatch;
-              });
-              markChanged();
+          child: TimetablePatchEntryDroppable(
+            patch: entry,
+            onMerged: (other) {
+              final patchSet = TimetablePatchSet(
+                name: allocValidFileName(
+                  "New patch set",
+                  all: patches.whereType<TimetablePatchSet>().map((set) => set.name).toList(),
+                ),
+                patches: [entry, other],
+              );
+              addPatch(patchSet);
+              removePatch(patches.indexOf(entry));
+              removePatch(patches.indexOf(other));
             },
+            child: TimetablePatchDraggable(
+              patch: entry,
+              child: entry.build(
+                context: context,
+                timetable: timetable,
+                onChanged: (newPatch) {
+                  setState(() {
+                    patches[index] = newPatch;
+                  });
+                  markChanged();
+                },
+              ),
+            ),
           ),
         ),
     };
+  }
+
+  void addPatch(TimetablePatchEntry patch) {
+    setState(() {
+      patches.add(patch);
+    });
+    markChanged();
   }
 
   void removePatch(int index) {
@@ -203,9 +228,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
                 onPressed: () async {
                   final patch = await type.onCreate(context, widget.timetable);
                   if (patch == null) return;
-                  setState(() {
-                    patches.add(patch);
-                  });
+                  addPatch(patch);
                 },
               ).padOnly(r: 8))
           .toList(),
@@ -215,12 +238,14 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
 
 class TimetablePatchEntryDroppable extends StatefulWidget {
   final TimetablePatchEntry patch;
+  final void Function(TimetablePatch other) onMerged;
   final Widget child;
 
   const TimetablePatchEntryDroppable({
     super.key,
     required this.patch,
     required this.child,
+    required this.onMerged,
   });
 
   @override
@@ -235,10 +260,10 @@ class _TimetablePatchEntryDroppableState extends State<TimetablePatchEntryDroppa
         return widget.child;
       },
       onWillAcceptWithDetails: (details) {
-        return true;
+        return details.data != widget.patch;
       },
       onAcceptWithDetails: (details) {
-        print(details.data);
+        widget.onMerged(details.data);
       },
     );
   }
@@ -261,7 +286,7 @@ class TimetablePatchDraggable extends StatefulWidget {
 class _TimetablePatchDraggableState extends State<TimetablePatchDraggable> {
   @override
   Widget build(BuildContext context) {
-    return LongPressDraggable<TimetablePatch>(
+    return Draggable<TimetablePatch>(
       data: widget.patch,
       feedback: Card.filled(
         child: widget.patch.l10n().text(),

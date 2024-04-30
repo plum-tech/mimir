@@ -43,12 +43,14 @@ class TimetablePos {
       return fallback ?? initial;
     }
   }
+
   Uint8List encodeByteList() {
     final writer = ByteWriter(16);
     writer.uint8(weekIndex);
     writer.uint8(weekday.index);
     return writer.build();
   }
+
   String l10n() {
     return "${i18n.weekOrderedName(number: weekIndex + 1)} ${weekday.l10n()}";
   }

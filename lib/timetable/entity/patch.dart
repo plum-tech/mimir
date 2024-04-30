@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -106,6 +107,7 @@ sealed class TimetablePatch extends TimetablePatchEntry {
 }
 
 @JsonSerializable()
+@CopyWith()
 class TimetablePatchSet extends TimetablePatchEntry {
   final String name;
   final List<TimetablePatch> patches;
