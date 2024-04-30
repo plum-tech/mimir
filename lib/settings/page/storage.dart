@@ -105,8 +105,9 @@ class _BoxSectionState extends State<BoxSection> {
     final boxNameStyle = ctx.textTheme.headlineSmall;
     final action = PullDownMenuButton(
       itemBuilder: (ctx) => [
-        PullDownItem.edit(
-          title: i18n.edit,
+        PullDownItem.delete(
+          icon: context.icons.delete,
+          title: i18n.delete,
           onTap: () async {
             final confirm = await _showDeleteBoxRequest(ctx);
             if (confirm == true) {

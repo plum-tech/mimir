@@ -75,10 +75,6 @@ class Init {
     ssoSession = SsoSession(
       dio: dio,
       cookieJar: cookieJar,
-      onError: (error, stackTrace) {
-        debugPrint(error.toString());
-        debugPrintStack(stackTrace: stackTrace);
-      },
       inputCaptcha: (Uint8List imageBytes) async {
         final context = $key.currentContext!;
         // return await context.show$Sheet$(

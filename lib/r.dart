@@ -23,6 +23,8 @@ class R {
   /// For debugging iOS on other platforms.
   static const debugCupertino = kDebugMode ? false : false;
 
+  static const debugNetwork = true;
+
   /// The default window size is small enough for any modern desktop device.
   static const Size defaultWindowSize = Size(500, 800);
 

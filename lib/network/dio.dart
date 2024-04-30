@@ -6,6 +6,7 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:fk_user_agent/fk_user_agent.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sit/r.dart';
+import 'package:sit/session/sso.dart';
 
 final _rand = Random();
 
@@ -17,6 +18,14 @@ class DioInit {
     final dio = Dio();
     if (!kIsWeb) {
       dio.interceptors.add(CookieManager(cookieJar));
+    }
+    if (kDebugMode) {
+      dio.interceptors.add(LogInterceptor(logPrint: (obj) {
+        networkLogger.i(obj);
+      }));
+    }
+    if (kDebugMode && R.debugNetwork) {
+      dio.interceptors.add(PoorNetworkDioInterceptor());
     }
     if (config != null) {
       dio.options = config;
@@ -42,5 +51,25 @@ class DioInit {
       // Desktop端将进入该异常
       dio.options.headers['User-Agent'] = getRandomUa();
     }
+  }
+}
+
+class PoorNetworkDioInterceptor extends Interceptor {
+  @override
+  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    final duration = Duration(milliseconds: _rand.nextInt(5000));
+    debugPrint("Start to request ${options.uri}");
+    await Future.delayed(duration);
+    debugPrint("Delayed Request ${options.uri} $duration");
+    handler.next(options);
+  }
+
+  @override
+  Future<void> onResponse(Response response, ResponseInterceptorHandler handler) async {
+    final duration = Duration(milliseconds: _rand.nextInt(5000));
+    debugPrint("Start to response ${response.realUri}");
+    await Future.delayed(duration);
+    debugPrint("Delayed Response ${response.realUri} $duration");
+    handler.next(response);
   }
 }

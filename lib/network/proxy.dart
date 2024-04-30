@@ -12,6 +12,9 @@ class SitHttpOverrides extends HttpOverrides {
     final client = super.createHttpClient(context);
     client.badCertificateCallback = (cert, host, port) => true;
     client.findProxy = (url) {
+      if (kDebugMode) {
+        print('Accessing "$url", captured by $SitHttpOverrides');
+      }
       final host = url.host;
       final isSchoolLanRequired = _isSchoolLanRequired(host);
       final profiles = _buildProxy(isSchoolLanRequired);
