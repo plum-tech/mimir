@@ -16,11 +16,17 @@ import '../entity/pos.dart';
 import '../utils.dart';
 import '../widgets/focus.dart';
 import '../widgets/timetable/board.dart';
+import 'mine.dart';
 
 class TimetableBoardPage extends StatefulWidget {
+  final int id;
   final SitTimetableEntity timetable;
 
-  const TimetableBoardPage({super.key, required this.timetable});
+  const TimetableBoardPage({
+    super.key,
+    required this.id,
+    required this.timetable,
+  });
 
   @override
   State<TimetableBoardPage> createState() => _TimetableBoardPageState();
@@ -166,6 +172,17 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
           title: i18n.p13n.background.title,
           onTap: () async {
             await context.push("/timetable/background");
+          },
+        ),
+        PullDownItem(
+          icon: Icons.dashboard_customize,
+          title: i18n.patch.title,
+          onTap: () async {
+            await editTimetablePatch(
+              context: ctx,
+              id: widget.id,
+              timetable: widget.timetable.type,
+            );
           },
         ),
         if (focusMode) ...buildFocusPopupActions(context),

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:sit/utils/riverpod.dart';
@@ -198,4 +199,8 @@ class HiveTable<T> {
   late final $selectedRow = $selected.provider<T?>(
     get: () => selectedRow,
   );
+  // TODO: compose them
+  // late final $selectedRowWithId = Provider((ref){
+  //   return (id: ref.watch<int?>($selectedId));
+  // });
 }

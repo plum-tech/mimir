@@ -15,7 +15,6 @@ import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/route.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/patch.dart';
 import 'package:sit/timetable/page/ical.dart';
@@ -195,6 +194,20 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
   }
 }
 
+Future<void> editTimetablePatch({
+  required BuildContext context,
+  required int id,
+  required SitTimetable timetable,
+}) async {
+  var patches = await context.push<List<TimetablePatchEntry>>("/timetable/$id/edit/patch");
+  if (patches == null) return;
+  TimetableInit.storage.timetable[id] = timetable
+      .copyWith(
+        patches: List.of(patches),
+      )
+      .markModified();
+}
+
 class TimetableCard extends StatelessWidget {
   final SitTimetable timetable;
   final int id;
@@ -288,20 +301,13 @@ class TimetableCard extends StatelessWidget {
             await onExportCalendar(ctx, timetable);
           },
         ),
-        if (Dev.on)
-          EntryAction(
-            label: i18n.mine.patch,
-            icon: Icons.dashboard_customize,
-            action: () async {
-              var patches = await ctx.push<List<TimetablePatchEntry>>("/timetable/$id/edit/patch");
-              if (patches == null) return;
-              TimetableInit.storage.timetable[id] = timetable
-                  .copyWith(
-                    patches: List.of(patches),
-                  )
-                  .markModified();
-            },
-          ),
+        EntryAction(
+          label: i18n.mine.patch,
+          icon: Icons.dashboard_customize,
+          action: () async {
+            await editTimetablePatch(context: ctx, id: id, timetable: timetable);
+          },
+        ),
         if (kDebugMode)
           EntryAction(
             icon: context.icons.copy,

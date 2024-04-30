@@ -14,7 +14,7 @@ class TimetablePage extends ConsumerStatefulWidget {
   ConsumerState<TimetablePage> createState() => _TimetablePageState();
 }
 
-final selectedTimetableEntityProvider = Provider.autoDispose((ref) {
+final $selectedTimetableEntity = Provider.autoDispose((ref) {
   final timetable = ref.watch(TimetableInit.storage.timetable.$selectedRow);
   return timetable?.resolve();
 });
@@ -22,13 +22,15 @@ final selectedTimetableEntityProvider = Provider.autoDispose((ref) {
 class _TimetablePageState extends ConsumerState<TimetablePage> {
   @override
   Widget build(BuildContext context) {
-    final selected = ref.watch(selectedTimetableEntityProvider);
-    if (selected == null) {
+    final selected = ref.watch($selectedTimetableEntity);
+    final selectedId = ref.watch(TimetableInit.storage.timetable.$selectedId);
+    if (selected == null || selectedId == null) {
       // If no timetable selected, navigate to Mine page to select/import one.
       return const MyTimetableListPage();
     } else {
       return TimetableStyleProv(
         child: TimetableBoardPage(
+          id: selectedId,
           timetable: selected,
         ),
       );
