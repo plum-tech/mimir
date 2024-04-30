@@ -176,6 +176,7 @@ class _PullDownMenuButtonState extends State<PullDownMenuButton> {
         builder: (ctx, controller, child) {
           return IconButton(
             focusNode: _focus,
+            padding: EdgeInsets.zero,
             onPressed: () {
               if (controller.isOpen) {
                 controller.close();

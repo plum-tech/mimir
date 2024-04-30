@@ -6,7 +6,6 @@ import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
-import 'package:sit/settings/dev.dart';
 import 'package:sit/timetable/entity/patch.dart';
 import 'package:sit/timetable/page/patch/patch_set.dart';
 import '../../entity/timetable.dart';
@@ -42,6 +41,7 @@ class TimetablePatchSetCard extends StatelessWidget {
     );
     return Card.outlined(
       clipBehavior: Clip.hardEdge,
+      margin: EdgeInsets.zero,
       child: AnimatedExpansionTile(
         selected: selected,
         leading: const Icon(Icons.dashboard_customize),
