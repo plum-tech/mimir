@@ -108,6 +108,14 @@ class TimetablePalette {
   }
 }
 
+extension TimetablePaletteX on TimetablePalette {
+  TimetablePalette markModified() {
+    return copyWith(
+      lastModified: DateTime.now(),
+    );
+  }
+}
+
 class BuiltinTimetablePalette implements TimetablePalette {
   final int id;
   final String key;

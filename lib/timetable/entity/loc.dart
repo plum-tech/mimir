@@ -73,8 +73,9 @@ class TimetableDayLoc {
   static TimetableDayLoc deserialize(ByteReader reader) {
     final mode = TimetableDayLocMode.values[reader.uint8()];
     switch (mode) {
-      case TimetableDayLocMode.pos :return TimetableDayLoc.pos(TimetablePos.deserialize(reader));
-      case TimetableDayLocMode.date :
+      case TimetableDayLocMode.pos:
+        return TimetableDayLoc.pos(TimetablePos.deserialize(reader));
+      case TimetableDayLocMode.date:
         final packed = reader.uint16();
         return TimetableDayLoc.byDate(_unpackYear(packed), _unpackMonth(packed), _unpackDay(packed));
     }
@@ -133,7 +134,7 @@ int _packDate(DateTime date) {
 }
 
 int _unpackYear(int packedDate) {
-  return (packedDate >> 9) & 0x1FFF; // Mask to get year bits and add 2000
+  return ((packedDate >> 9) & 0x1FFF) + 2000; // Mask to get year bits and add 2000
 }
 
 int _unpackMonth(int packedDate) {

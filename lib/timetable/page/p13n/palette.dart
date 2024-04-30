@@ -213,7 +213,7 @@ class PaletteCard extends StatelessWidget {
                   newPalette = newPalette.copyWith(
                     name: newName,
                     colors: List.of(newPalette.colors),
-                  );
+                  ).markModified();
                 }
                 TimetableInit.storage.palette[id] = newPalette;
               }
@@ -244,9 +244,8 @@ class PaletteCard extends StatelessWidget {
             final duplicate = palette.copyWith(
               name: allocValidFileName(palette.name, all: allPaletteNames),
               author: palette.author,
-              lastModified: DateTime.now(),
               colors: List.of(palette.colors),
-            );
+            ).markModified();
             TimetableInit.storage.palette.add(duplicate);
             onDuplicate?.call();
           },
@@ -285,18 +284,32 @@ class PaletteCard extends StatelessWidget {
         );
       },
       itemBuilder: (ctx) {
-        return [
-          palette.name.text(style: ctx.textTheme.titleLarge),
-          if (palette.author.isNotEmpty)
-            palette.author.text(
-              style: const TextStyle(
-                fontStyle: FontStyle.italic,
-              ),
-            ),
-          PaletteColorsPreview(palette.colors),
-        ].column(caa: CrossAxisAlignment.start);
+        return PaletteInfo(palette: palette);
       },
     );
+  }
+}
+
+class PaletteInfo extends StatelessWidget {
+  final TimetablePalette palette;
+
+  const PaletteInfo({
+    super.key,
+    required this.palette,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      palette.name.text(style: context.textTheme.titleLarge),
+      if (palette.author.isNotEmpty)
+        palette.author.text(
+          style: const TextStyle(
+            fontStyle: FontStyle.italic,
+          ),
+        ),
+      PaletteColorsPreview(palette.colors),
+    ].column(caa: CrossAxisAlignment.start);
   }
 }
 

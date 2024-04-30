@@ -141,36 +141,39 @@ class TimetableDayLocDateSelectionTile extends ConsumerWidget {
 
 class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessWidget {
   final TPatch patch;
-  final SitTimetable timetable;
+  final SitTimetable? timetable;
   final ValueChanged<TPatch>? onChanged;
+  final bool enableQrCode;
 
   const TimetablePatchMenuAction({
     super.key,
     required this.patch,
-    required this.timetable,
+    this.timetable,
     this.onChanged,
+    this.enableQrCode = true,
   });
 
   @override
   Widget build(BuildContext context) {
+    final timetable = this.timetable;
     return PullDownMenuButton(itemBuilder: (ctx) {
       return [
-        PullDownItem(
-          icon: context.icons.preview,
-          title: i18n.preview,
-          onTap: () async {
-            await previewTimetable(context, timetable: timetable);
-          },
-        ),
-        if (!kIsWeb)
-          if (Dev.on)
-            PullDownItem(
-              title: i18n.shareQrCode,
-              icon: context.icons.qrcode,
-              onTap: () async {
-                shareTimetablePatchQrCode(context, patch);
-              },
-            ),
+        if (timetable != null)
+          PullDownItem(
+            icon: context.icons.preview,
+            title: i18n.preview,
+            onTap: () async {
+              await previewTimetable(context, timetable: timetable);
+            },
+          ),
+        if (!kIsWeb && enableQrCode)
+          PullDownItem(
+            title: i18n.shareQrCode,
+            icon: context.icons.qrcode,
+            onTap: () async {
+              shareTimetablePatchQrCode(context, patch);
+            },
+          ),
       ];
     });
   }
@@ -180,30 +183,39 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
   final Widget? leading;
   final TPatch patch;
   final bool selected;
-  final SitTimetable timetable;
+  final SitTimetable? timetable;
   final ValueChanged<TPatch>? onChanged;
-  final FutureOr<TPatch?> Function(TPatch old) edit;
+  final FutureOr<TPatch?> Function(TPatch old)? edit;
+  final bool enableQrCode;
 
   const TimetablePatchWidget({
     super.key,
     this.leading,
     required this.patch,
-    required this.timetable,
+    this.timetable,
     this.onChanged,
-    required this.edit,
+    this.edit,
     this.selected = false,
+    this.enableQrCode = true,
   });
 
   @override
   Widget build(BuildContext context) {
     final onChanged = this.onChanged;
+    final timetable = this.timetable;
+    final edit = this.edit;
     return ListTile(
       leading: leading ?? Icon(patch.type.icon),
       title: patch.type.l10n().text(),
       subtitle: patch.l10n().text(),
       selected: selected,
-      trailing: TimetablePatchMenuAction(patch: patch, timetable: timetable, onChanged: onChanged),
-      onTap: onChanged == null
+      trailing: TimetablePatchMenuAction(
+        patch: patch,
+        timetable: timetable,
+        onChanged: onChanged,
+        enableQrCode: enableQrCode,
+      ),
+      onTap: onChanged == null || edit == null
           ? null
           : () async {
               final newPath = await edit(patch);

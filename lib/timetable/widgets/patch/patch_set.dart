@@ -17,19 +17,21 @@ import 'shared.dart';
 class TimetablePatchSetCard extends StatelessWidget {
   final TimetablePatchSet patchSet;
   final bool selected;
-  final SitTimetable timetable;
+  final SitTimetable? timetable;
   final VoidCallback? onDeleted;
   final VoidCallback? onUnpacked;
   final ValueChanged<TimetablePatchSet>? onChanged;
+  final bool enableQrCode;
 
   const TimetablePatchSetCard({
     super.key,
     required this.patchSet,
-    required this.timetable,
+    this.timetable,
     this.onDeleted,
     this.selected = false,
     this.onUnpacked,
     this.onChanged,
+    this.enableQrCode = true,
   });
 
   @override
@@ -71,25 +73,27 @@ class TimetablePatchSetCard extends StatelessWidget {
 
   Widget buildMoreActions() {
     final onChanged = this.onChanged;
+    final timetable = this.timetable;
     return PullDownMenuButton(
       itemBuilder: (context) {
         return [
-          PullDownItem(
-            icon: context.icons.edit,
-            title: i18n.edit,
-            onTap: onChanged == null
-                ? null
-                : () async {
-                    final newPatchSet = await context.showSheet<TimetablePatchSet>(
-                      (ctx) => TimetablePatchSetEditorPage(
-                        timetable: timetable,
-                        patchSet: patchSet,
-                      ),
-                    );
-                    if (newPatchSet == null) return;
-                    onChanged(newPatchSet);
-                  },
-          ),
+          if (timetable != null)
+            PullDownItem(
+              icon: context.icons.edit,
+              title: i18n.edit,
+              onTap: onChanged == null
+                  ? null
+                  : () async {
+                      final newPatchSet = await context.showSheet<TimetablePatchSet>(
+                        (ctx) => TimetablePatchSetEditorPage(
+                          timetable: timetable,
+                          patchSet: patchSet,
+                        ),
+                      );
+                      if (newPatchSet == null) return;
+                      onChanged(newPatchSet);
+                    },
+            ),
           PullDownItem(
             icon: context.icons.preview,
             title: i18n.preview,
@@ -97,15 +101,14 @@ class TimetablePatchSetCard extends StatelessWidget {
               await previewTimetable(context, timetable: timetable);
             },
           ),
-          if (!kIsWeb)
-            if (Dev.on)
-              PullDownItem(
-                icon: context.icons.qrcode,
-                title: i18n.shareQrCode,
-                onTap: () async {
-                  shareTimetablePatchQrCode(context, patchSet);
-                },
-              ),
+          if (!kIsWeb && enableQrCode)
+            PullDownItem(
+              icon: context.icons.qrcode,
+              title: i18n.shareQrCode,
+              onTap: () async {
+                shareTimetablePatchQrCode(context, patchSet);
+              },
+            ),
           if (onUnpacked != null)
             PullDownItem.delete(
               icon: Icons.outbox,

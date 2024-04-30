@@ -322,3 +322,32 @@ class _TimetablePatchDraggableState extends State<TimetablePatchDraggable> {
   }
 }
 
+class ReadonlyTimetablePatchEntryWidget extends StatelessWidget {
+  final TimetablePatchEntry entry;
+  final bool enableQrCode;
+
+  const ReadonlyTimetablePatchEntryWidget({
+    super.key,
+    required this.entry,
+    this.enableQrCode = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final entry = this.entry;
+    return switch (entry) {
+      TimetablePatchSet() => TimetablePatchSetCard(
+          patchSet: entry,
+          enableQrCode: enableQrCode,
+        ),
+      TimetablePatch() => TimetablePatchWidget<TimetablePatch>(
+          leading: Card.filled(
+            margin: EdgeInsets.zero,
+            child: Icon(entry.type.icon).padAll(8),
+          ),
+          enableQrCode: enableQrCode,
+          patch: entry,
+        ),
+    };
+  }
+}
