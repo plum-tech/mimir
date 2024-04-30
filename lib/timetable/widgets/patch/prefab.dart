@@ -21,7 +21,7 @@ class TimetablePatchSetGalleryCard extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       child: ListTile(
         isThreeLine: true,
-        title: patchSet.name.text(style: context.textTheme.titleLarge),
+        title: patchSet.name.text(style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onSurface)),
         onTap: onAdd,
         subtitle: [
           ...patchSet.patches.mapIndexed(
