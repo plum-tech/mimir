@@ -53,7 +53,7 @@ enum TimetablePatchType {
   // moveLesson,
   // addDay,
   moveDay(Icons.turn_sharp_right, TimetableMoveDayPatch.onCreate),
-  removeDay(Icons.remove, TimetableRemoveDayPatch.onCreate),
+  removeDay(Icons.delete, TimetableRemoveDayPatch.onCreate),
   copyDay(Icons.copy, TimetableCopyDayPatch.onCreate),
   swapDays(Icons.swap_horiz, TimetableSwapDaysPatch.onCreate),
   unknown(Icons.question_mark, TimetableSwapDaysPatch.onCreate),

@@ -155,6 +155,11 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
             onDeleted: () {
               removePatch(index);
             },
+            onUnpacked: () {
+              removePatch(index);
+              patches.insertAll(index, entry.patches);
+              markChanged();
+            },
           ),
         ),
       TimetablePatch() => WithSwipeAction(
@@ -284,14 +289,34 @@ class TimetablePatchDraggable extends StatefulWidget {
 }
 
 class _TimetablePatchDraggableState extends State<TimetablePatchDraggable> {
+  var dragging = false;
+
   @override
   Widget build(BuildContext context) {
+    final patch = widget.patch;
     return Draggable<TimetablePatch>(
-      data: widget.patch,
+      data: patch,
       feedback: Card.filled(
-        child: widget.patch.l10n().text(),
+        child: [
+          Icon(patch.type.icon),
+          patch.type.l10n().text(),
+        ].column(maa: MainAxisAlignment.center).sizedAll(80),
       ),
-      child: widget.child,
+      onDragStarted: () {
+        setState(() {
+          dragging = true;
+        });
+      },
+      onDragEnd: (details) {
+        setState(() {
+          dragging = false;
+        });
+      },
+      child: AnimatedOpacity(
+        opacity: dragging ? 0.25 : 1.0,
+        duration: Durations.short3,
+        child: widget.child,
+      ),
     );
   }
 }

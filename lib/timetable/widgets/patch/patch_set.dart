@@ -16,12 +16,14 @@ class TimetablePatchSetCard extends StatelessWidget {
   final TimetablePatchSet patchSet;
   final SitTimetable timetable;
   final VoidCallback? onDeleted;
+  final VoidCallback? onUnpacked;
 
   const TimetablePatchSetCard({
     super.key,
     required this.patchSet,
     required this.timetable,
     this.onDeleted,
+    this.onUnpacked,
   });
 
   @override
@@ -82,6 +84,12 @@ class TimetablePatchSetCard extends StatelessWidget {
                   shareTimetablePatchQrCode(context, patchSet);
                 },
               ),
+          if(onUnpacked != null)
+            PullDownItem.delete(
+              icon: Icons.outbox,
+              title: "Unpack",
+              onTap: onUnpacked,
+            ),
           if (onDeleted != null)
             PullDownItem.delete(
               icon: context.icons.delete,
