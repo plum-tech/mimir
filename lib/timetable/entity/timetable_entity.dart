@@ -24,7 +24,11 @@ class SitTimetableEntity with SitTimetablePaletteResolver {
   SitTimetableEntity({
     required this.type,
     required this.weeks,
-  });
+  }) {
+    for (final week in weeks) {
+      week.parent = this;
+    }
+  }
 
   List<SitCourse> findAndCacheCoursesByCourseCode(String courseCode) {
     final found = _courseCode2CoursesCache[courseCode];
@@ -84,6 +88,7 @@ class SitTimetableEntity with SitTimetablePaletteResolver {
 }
 
 class SitTimetableWeek {
+  late final SitTimetableEntity parent;
   final int index;
 
   /// The 7 days in a week
@@ -139,12 +144,18 @@ class SitTimetableDay {
   late final SitTimetableWeek parent;
   final int index;
 
-  /// The Default number of lesson in one day is 11. But the length of lessons can be more.
-  /// When two lessons are overlapped, it can be 12+.
-  /// A Timeslot contain one or more lesson.
+  /// The Default number of lessons in one day is 11. But it can be extended.
+  /// For example,
+  /// A Timeslot could contain one or more lesson.
   final List<SitTimetableLessonSlot> timeslot2LessonSlot;
 
   final Set<SitCourse> associatedCourses;
+
+  DateTime get date => reflectWeekDayIndexToDate(
+        startDate: parent.parent.startDate,
+        weekIndex: parent.index,
+        weekday: Weekday.fromIndex(index),
+      );
 
   SitTimetableDay({
     required this.index,
@@ -245,6 +256,7 @@ class SitTimetableDay {
 
   @override
   String toString() => {
+        "date": "${date.year}-${date.month}-${date.day}",
         "index": index,
         "timeslot2LessonSlot": timeslot2LessonSlot,
         "associatedCourses": associatedCourses,

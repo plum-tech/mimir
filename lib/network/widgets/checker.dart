@@ -116,6 +116,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
   }
 
   Widget buildStatus(BuildContext ctx) {
+    // TODO: it's student registration system
     final tip = switch (status) {
       _Status.none => widget.initialDesc ?? _i18n.status.none,
       _Status.connecting => _i18n.status.connecting,

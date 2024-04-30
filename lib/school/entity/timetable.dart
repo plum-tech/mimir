@@ -4,10 +4,7 @@ import 'package:sit/l10n/common.dart';
 import 'package:sit/l10n/extension.dart';
 
 class TimePoint {
-  /// 小时
   final int hour;
-
-  /// 分
   final int minute;
 
   const TimePoint(this.hour, this.minute);
