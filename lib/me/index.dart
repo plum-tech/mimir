@@ -86,6 +86,7 @@ class _MePageState extends ConsumerState<MePage> {
       title: "QQ交流群".text(),
       subtitle: _qGroupNumber.text(),
       trailing: PlatformIconButton(
+        padding: EdgeInsets.zero,
         onPressed: () async {
           try {
             if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
@@ -111,6 +112,7 @@ class _MePageState extends ConsumerState<MePage> {
       title: "微信公众号".text(),
       subtitle: "小应生活".text(),
       trailing: PlatformIconButton(
+        padding: EdgeInsets.zero,
         onPressed: () async {
           try {
             await launchUrlString(_wechatUri);
