@@ -1,17 +1,24 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/timetable/entity/loc.dart';
+import 'package:sit/timetable/entity/pos.dart';
+import 'package:sit/utils/date.dart';
 import 'package:sit/utils/save.dart';
 
 import '../../entity/patch.dart';
 import '../../entity/timetable.dart';
 import '../../page/preview.dart';
 import '../../i18n.dart';
+import '../../utils.dart';
 import 'shared.dart';
 
-class TimetableRemoveDayPatchSheet extends StatefulWidget {
+class TimetableRemoveDayPatchSheet extends ConsumerStatefulWidget {
   final SitTimetable timetable;
   final TimetableRemoveDayPatch? patch;
 
@@ -22,14 +29,14 @@ class TimetableRemoveDayPatchSheet extends StatefulWidget {
   });
 
   @override
-  State<TimetableRemoveDayPatchSheet> createState() => _TimetableRemoveDayPatchSheetState();
+  ConsumerState<TimetableRemoveDayPatchSheet> createState() => _TimetableRemoveDayPatchSheetState();
 }
 
-class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSheet> {
-  TimetableDayLoc? get initialLoc => widget.patch?.all.first;
-  late var mode = initialLoc?.mode ?? TimetableDayLocMode.date;
-  late var pos = initialLoc?.mode == TimetableDayLocMode.pos ? initialLoc?.pos : null;
-  late var date = initialLoc?.mode == TimetableDayLocMode.date ? initialLoc?.date : null;
+class _TimetableRemoveDayPatchSheetState extends ConsumerState<TimetableRemoveDayPatchSheet> {
+  List<TimetableDayLoc> get initialLoc => widget.patch?.all ?? <TimetableDayLoc>[];
+  late var mode = initialLoc.firstOrNull?.mode ?? TimetableDayLocMode.date;
+  late var pos = mode == TimetableDayLocMode.pos ? initialLoc.map((loc) => loc.pos).toList() : <TimetablePos>[];
+  late var date = mode == TimetableDayLocMode.date ? initialLoc.map((loc) => loc.date).toList() : <DateTime>[];
   var anyChanged = false;
 
   void markChanged() => anyChanged |= true;
@@ -64,6 +71,7 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
                 TimetableDayLocMode.pos => buildPosTab(),
                 TimetableDayLocMode.date => buildDateTab(),
               },
+              buildAddAction(),
               if (patch != null)
                 ListTile(
                   title: patch.l10n().text(),
@@ -73,6 +81,52 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
         ),
       ),
     );
+  }
+
+  DateTime generateUnselectedDate(DateTime initial) {
+    DateTime result = initial;
+    while (date.any((existing) => existing.inTheSameDay(result))) {
+      result = DateTime(result.year, result.month, result.day - 1);
+    }
+    return result;
+  }
+
+  Widget buildAddAction() {
+    return FilledButton(
+      onPressed: () async {
+        switch (mode) {
+          case TimetableDayLocMode.pos:
+            final newPos = await selectDayInTimetable(
+              context: context,
+              timetable: widget.timetable,
+              initialPos: null,
+              submitLabel: i18n.select,
+            );
+            if (newPos == null) return;
+            setState(() {
+              pos.add(newPos);
+            });
+            markChanged();
+          case TimetableDayLocMode.date:
+            final now = DateTime.now();
+            final newDate = await showDatePicker(
+              context: context,
+              initialDate: generateUnselectedDate(ref.read(lastInitialDate)),
+              currentDate: now,
+              firstDate: DateTime(now.year - 4),
+              lastDate: DateTime(now.year + 2),
+              selectableDayPredicate: (d) => date.none((existing) => existing.inTheSameDay(d)),
+            );
+            if (newDate == null) return;
+            ref.read(lastInitialDate.notifier).state = newDate;
+            setState(() {
+              date.add(newDate);
+            });
+            markChanged();
+        }
+      },
+      child: i18n.select.text(),
+    ).padSymmetric(h: 32, v: 16);
   }
 
   Widget buildMode() {
@@ -88,32 +142,48 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
 
   List<Widget> buildPosTab() {
     return [
-      TimetableDayLocPosSelectionTile(
-        title: i18n.patch.removedDay.text(),
-        timetable: widget.timetable,
-        pos: pos,
-        onChanged: (newPos) {
-          setState(() {
-            pos = newPos;
-          });
-          markChanged();
-        },
-      ),
+      ...pos.mapIndexed(
+        (i, p) => WithSwipeAction(
+          right: SwipeAction.delete(
+            icon: context.icons.delete,
+            action: () {
+              setState(() {
+                pos.removeAt(i);
+              });
+              markChanged();
+            },
+          ),
+          childKey: ValueKey(p),
+          child: TimetableDayLocPosSelectionTile(
+            title: i18n.patch.removedDay.text(),
+            timetable: widget.timetable,
+            pos: p,
+          ),
+        ),
+      )
     ];
   }
 
   List<Widget> buildDateTab() {
     return [
-      TimetableDayLocDateSelectionTile(
-        title: i18n.patch.removedDay.text(),
-        timetable: widget.timetable,
-        date: date,
-        onChanged: (newPos) {
-          setState(() {
-            date = newPos;
-          });
-          markChanged();
-        },
+      ...date.mapIndexed(
+        (i, d) => WithSwipeAction(
+          right: SwipeAction.delete(
+            icon: context.icons.delete,
+            action: () {
+              setState(() {
+                date.removeAt(i);
+              });
+              markChanged();
+            },
+          ),
+          childKey: ValueKey(d),
+          child: TimetableDayLocDateSelectionTile(
+            title: i18n.patch.removedDay.text(),
+            timetable: widget.timetable,
+            date: d,
+          ),
+        ),
       ),
     ];
   }
@@ -141,9 +211,10 @@ class _TimetableRemoveDayPatchSheetState extends State<TimetableRemoveDayPatchSh
     final pos = this.pos;
     final date = this.date;
     final loc = switch (mode) {
-      TimetableDayLocMode.pos => pos != null ? TimetableDayLoc.pos(pos) : null,
-      TimetableDayLocMode.date => date != null ? TimetableDayLoc.date(date) : null,
-    };
-    return loc != null ? TimetableRemoveDayPatch.oneDay(loc: loc) : null;
+      TimetableDayLocMode.pos => pos.map((p) => TimetableDayLoc.pos(p)),
+      TimetableDayLocMode.date => date.map((d) => TimetableDayLoc.date(d)),
+    }
+        .toList();
+    return loc.isNotEmpty ? TimetableRemoveDayPatch(all: loc) : null;
   }
 }

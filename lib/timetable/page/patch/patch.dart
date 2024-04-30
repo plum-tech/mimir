@@ -175,7 +175,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
       TimetablePatch() => WithSwipeAction(
           childKey: ValueKey(entry),
           right: SwipeAction.delete(
-            icon: Icon(context.icons.delete),
+            icon: context.icons.delete,
             action: () {
               removePatch(index);
             },

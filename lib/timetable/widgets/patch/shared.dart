@@ -48,87 +48,93 @@ class TimetableDayLocModeSwitcher extends StatelessWidget {
   }
 }
 
-final _lastInitialDate = StateProvider<DateTime>((ref) => DateTime.now());
-
 class TimetableDayLocPosSelectionTile extends StatelessWidget {
   final Widget title;
   final Widget? leading;
   final TimetablePos? pos;
   final SitTimetable timetable;
-  final ValueChanged<TimetablePos> onChanged;
+  final ValueChanged<TimetablePos>? onChanged;
 
   const TimetableDayLocPosSelectionTile({
     super.key,
     required this.title,
     this.leading,
     this.pos,
-    required this.onChanged,
+    this.onChanged,
     required this.timetable,
   });
 
   @override
   Widget build(BuildContext context) {
     final pos = this.pos;
+    final onChanged = this.onChanged;
     return ListTile(
       leading: leading,
       title: title,
       subtitle: pos == null ? i18n.unspecified.text() : pos.l10n().text(),
-      trailing: FilledButton(
-        child: i18n.select.text(),
-        onPressed: () async {
-          final newPos = await selectDayInTimetable(
-            context: context,
-            timetable: timetable,
-            initialPos: pos,
-            submitLabel: i18n.select,
-          );
-          if (newPos == null) return;
-          onChanged(newPos);
-        },
-      ),
+      trailing: onChanged == null
+          ? null
+          : FilledButton(
+              child: i18n.select.text(),
+              onPressed: () async {
+                final newPos = await selectDayInTimetable(
+                  context: context,
+                  timetable: timetable,
+                  initialPos: pos,
+                  submitLabel: i18n.select,
+                );
+                if (newPos == null) return;
+                onChanged(newPos);
+              },
+            ),
     );
   }
 }
+
+final lastInitialDate = StateProvider<DateTime>((ref) => DateTime.now());
 
 class TimetableDayLocDateSelectionTile extends ConsumerWidget {
   final Widget title;
   final Widget? leading;
   final DateTime? date;
   final SitTimetable timetable;
-  final ValueChanged<DateTime> onChanged;
+  final ValueChanged<DateTime>? onChanged;
 
   const TimetableDayLocDateSelectionTile({
     super.key,
     this.leading,
     required this.title,
     this.date,
-    required this.onChanged,
+    this.onChanged,
     required this.timetable,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final date = this.date;
+    final onChanged = this.onChanged;
     return ListTile(
       leading: leading,
       title: title,
       subtitle: date == null ? i18n.unspecified.text() : context.formatYmdWeekText(date).text(),
-      trailing: FilledButton(
-        child: i18n.select.text(),
-        onPressed: () async {
-          final now = DateTime.now();
-          final newDate = await showDatePicker(
-            context: context,
-            initialDate: date ?? ref.read(_lastInitialDate),
-            currentDate: date,
-            firstDate: DateTime(now.year - 4),
-            lastDate: DateTime(now.year + 2),
-          );
-          if (newDate == null) return;
-          ref.read(_lastInitialDate.notifier).state = newDate;
-          onChanged(newDate);
-        },
-      ),
+      trailing: onChanged == null
+          ? null
+          : FilledButton(
+              child: i18n.select.text(),
+              onPressed: () async {
+                final now = DateTime.now();
+                final newDate = await showDatePicker(
+                  context: context,
+                  initialDate: date ?? ref.read(lastInitialDate),
+                  currentDate: date,
+                  firstDate: DateTime(now.year - 4),
+                  lastDate: DateTime(now.year + 2),
+                );
+                if (newDate == null) return;
+                ref.read(lastInitialDate.notifier).state = newDate;
+                onChanged(newDate);
+              },
+            ),
     );
   }
 }
@@ -147,7 +153,6 @@ class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessW
 
   @override
   Widget build(BuildContext context) {
-    final onChanged = this.onChanged;
     return PullDownMenuButton(itemBuilder: (ctx) {
       return [
         PullDownItem(

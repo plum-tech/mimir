@@ -214,7 +214,7 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
     return WithSwipeAction(
       childKey: ObjectKey(current),
       right: SwipeAction.delete(
-        icon: Icon(ctx.icons.delete),
+        icon: context.icons.delete,
         action: () async {
           setState(() {
             colors.removeAt(index);

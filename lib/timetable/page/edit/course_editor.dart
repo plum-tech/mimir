@@ -422,7 +422,7 @@ class RepeatingItemEditor extends StatelessWidget {
       right: onDeleted == null
           ? null
           : SwipeAction.delete(
-              icon: Icon(context.icons.delete),
+              icon: context.icons.delete,
               action: () async {
                 onDeleted();
               },

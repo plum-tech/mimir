@@ -4,7 +4,7 @@ import 'package:rettulf/rettulf.dart';
 
 class SwipeAction {
   final VoidCallback action;
-  final Icon? icon;
+  final IconData? icon;
   final String? label;
   final bool fullSwipeAction;
   final bool destructive;
@@ -30,7 +30,7 @@ class SwipeAction {
   w.SwipeAction build(BuildContext context) {
     return w.SwipeAction(
       title: label,
-      icon: icon,
+      icon: Icon(icon),
       style: context.textTheme.titleSmall ?? const TextStyle(),
       performsFirstActionWithFullSwipe: fullSwipeAction,
       onTap: (w.CompletionHandler handler) async {
