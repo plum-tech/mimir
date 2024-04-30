@@ -125,7 +125,7 @@ class _TimetableRemoveDayPatchSheetState extends ConsumerState<TimetableRemoveDa
             markChanged();
         }
       },
-      child: i18n.select.text(),
+      child: i18n.add.text(),
     ).padSymmetric(h: 32, v: 16);
   }
 

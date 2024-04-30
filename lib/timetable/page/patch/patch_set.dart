@@ -60,7 +60,7 @@ class _TimetablePatchSetEditorPageState extends State<TimetablePatchSetEditorPag
               SliverFillRemaining(
                 child: LeavingBlank(
                   icon: Icons.dashboard_customize,
-                  desc: "No patches",
+                  desc: i18n.patch.noPatches,
                 ),
               )
             else

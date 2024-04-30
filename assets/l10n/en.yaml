@@ -47,7 +47,11 @@ timetable:
       desc: You can hide one of them to avoid conflicts
   patch:
     title: Timetable patch
-    addPatch: Add a patch
+    prefabs: Prefabs
+    defaultName: New Patch Set
+    unpack: Unpack
+    noPatches: No patches
+    noPatchesTip: No patches here, how about adding a prefab?
     removeDay: "Remove lessons on {day}"
     swapDays: "Swap lessons on {a} with {b}"
     copyDay: "Copy lessons from {source} to {target}"
@@ -57,9 +61,6 @@ timetable:
       removeDay: Remove day
       copyDay: Copy day
       swapDays: Swap days
-    tab:
-      patch: Patch
-      gallery: Gallery
     builtin:
       sitVacationShift2024: 2024 SIT Vacation Shift
     moveSource: The day was originally planned for lesson
@@ -149,7 +150,6 @@ timetable:
       color: color
       details: Details
       fab: Palette
-      shareQrCode: Share QR code
       newPaletteName: New palette
       deleteRequest: Conform to delete?
       deleteRequestDesc: The palette will be deleted permanently without unless a QR code backup is saved
@@ -905,3 +905,5 @@ done: Done
 openInBrowser: Open in browser
 choose: Choose
 unspecified: Unspecified
+shareQrCode: Share QR code
+add: Add

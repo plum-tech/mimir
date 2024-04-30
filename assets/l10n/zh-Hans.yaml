@@ -47,7 +47,11 @@ timetable:
       desc: 您可以隐藏其中一个课程以避免冲突
   patch:
     title: 调课
-    addPatch: 添加一个修改
+    prefabs: 预制
+    defaultName: 新的调课组合
+    unpack: 拆散
+    noPatches: 没有调课
+    noPatchesTip: 没有调课，从预制中添加一个如何？
     removeDay: "删除 {day} 的课"
     swapDays: "交换 {a} 和 {b} 的课"
     copyDay: "{target} 上与 {source} 相同的课"
@@ -57,9 +61,6 @@ timetable:
       removeDay: 删除某天
       copyDay: 复制某天
       swapDays: 交换某天
-    tab:
-      patch: 修改
-      gallery: 库
     builtin:
       sitVacationShift2024: 2024年上应大放假调休
     moveSource: 原本要上课的日子
@@ -149,7 +150,6 @@ timetable:
       color: 颜色
       details: 详情
       fab: 配色方案
-      shareQrCode: 分享二维码
       newPaletteName: 新的配色方案
       deleteRequest: 确定删除？
       deleteRequestDesc: 推荐先保存二维码备份再删除
@@ -905,3 +905,5 @@ done: 完成
 openInBrowser: 在浏览器中打开
 choose: 挑选
 unspecified: 未指定
+shareQrCode: 分享二维码
+add: 添加

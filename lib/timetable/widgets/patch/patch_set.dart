@@ -101,7 +101,7 @@ class TimetablePatchSetCard extends StatelessWidget {
             if (Dev.on)
               PullDownItem(
                 icon: context.icons.qrcode,
-                title: "Share QR code",
+                title: i18n.shareQrCode,
                 onTap: () async {
                   shareTimetablePatchQrCode(context, patchSet);
                 },
@@ -109,7 +109,7 @@ class TimetablePatchSetCard extends StatelessWidget {
           if (onUnpacked != null)
             PullDownItem.delete(
               icon: Icons.outbox,
-              title: "Unpack",
+              title: i18n.patch.unpack,
               onTap: onUnpacked,
             ),
           if (onDeleted != null)

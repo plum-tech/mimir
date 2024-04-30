@@ -47,7 +47,11 @@ timetable:
       desc: 您可以隱藏其中一個課程以避免衝突
   patch:
     title: 課程表修正
-    addPatch: 增加一條修正
+    prefabs: 預製
+    defaultName: 新的修正包
+    unpack: 打開
+    noPatches: 沒有修正
+    noPatchesTip: 沒有修正，從預設中增加一個怎麼樣？
     removeDay: "移除 {day} 的課"
     swapDays: "將 {a} 和 {b} 的課交換"
     copyDay: "{target} 和 {source} 上一樣的課"
@@ -57,9 +61,6 @@ timetable:
       removeDay: 移除一天
       copyDay: 複製一天
       swapDays: 交換兩天
-    tab:
-      patch: 修正
-      gallery: 圖庫
     builtin:
       sitVacationShift2024: 2024年上癮大放假調休
     moveSource: 原來上課的一天
@@ -150,7 +151,6 @@ timetable:
       color: 顏色
       details: 詳細資料
       fab: 調色盤
-      shareQrCode: 分享 QR 碼
       newPaletteName: 新的調色盤
       deleteRequest: 確認刪除？
       deleteRequestDesc: 除非儲存了 QR 碼備份，否則調色板將被永久刪除
@@ -905,3 +905,5 @@ done: 完成
 openInBrowser: 在瀏覽器中開啟
 choose: 挑選
 unspecified: 未指定
+shareQrCode: 分享 QR 碼
+add: 增加

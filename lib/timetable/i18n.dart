@@ -127,8 +127,6 @@ class _Palette {
 
   String get colorsTab => "$ns.tab.colors".tr();
 
-  String get shareQrCode => "$ns.shareQrCode".tr();
-
   String get newPaletteName => "$ns.newPaletteName".tr();
 
   String get deleteRequest => "$ns.deleteRequest".tr();
@@ -303,11 +301,15 @@ class _Patch {
 
   String get title => "$ns.title".tr();
 
-  String get patchTab => "$ns.tab.patch".tr();
+  String get prefabs => "$ns.prefabs".tr();
 
-  String get galleryTab => "$ns.tab.gallery".tr();
+  String get defaultName => "$ns.defaultName".tr();
 
-  String get addPatch => "$ns.addPatch".tr();
+  String get unpack => "$ns.unpack".tr();
+
+  String get noPatches => "$ns.noPatches".tr();
+
+  String get noPatchesTip => "$ns.noPatchesTip".tr();
 
   String removeDay(String day) => "$ns.removeDay".tr(namedArgs: {
         "day": day,

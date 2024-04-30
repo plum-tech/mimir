@@ -60,7 +60,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
               SliverFillRemaining(
                 child: LeavingBlank(
                   icon: Icons.dashboard_customize,
-                  desc: "No patches here, how about opening prefabs?",
+                  desc: i18n.patch.noPatchesTip,
                   onIconTap: openPrefab,
                 ),
               )
@@ -114,7 +114,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
           ),
           PullDownItem(
             icon: Icons.dashboard_customize,
-            title: "Prefabs",
+            title: i18n.patch.prefabs,
             onTap: openPrefab,
           ),
           PullDownItem.delete(
@@ -185,7 +185,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
             onMerged: (other) {
               final patchSet = TimetablePatchSet(
                 name: allocValidFileName(
-                  "New patch set",
+                  i18n.patch.defaultName,
                   all: patches.whereType<TimetablePatchSet>().map((set) => set.name).toList(),
                 ),
                 patches: [entry, other],

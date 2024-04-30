@@ -254,7 +254,7 @@ class PaletteCard extends StatelessWidget {
         // Uint64 is not supporting on web
         if (!kIsWeb)
           EntryAction(
-            label: i18n.p13n.palette.shareQrCode,
+            label: i18n.shareQrCode,
             icon: context.icons.qrcode,
             action: () async {
               final qrCodeData = const TimetablePaletteDeepLink().encode(palette);

@@ -21,7 +21,7 @@ class TimetablePatchSetGalleryCard extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       child: ListTile(
         isThreeLine: true,
-        title: patchSet.name.text(),
+        title: patchSet.name.text(style: context.textTheme.titleLarge),
         onTap: onAdd,
         subtitle: [
           ...patchSet.patches.mapIndexed(
@@ -30,12 +30,13 @@ class TimetablePatchSetGalleryCard extends StatelessWidget {
                 style: detailsStyle,
                 children: [
                   WidgetSpan(
-                      child: Icon(
-                    p.type.icon,
-                    color: detailsColor,
-                    size: 16,
-                  )),
-                  TextSpan(text: "${i + 1}. ${p.l10n()}"),
+                    child: Icon(
+                      p.type.icon,
+                      color: detailsColor,
+                      size: 16,
+                    ),
+                  ),
+                  TextSpan(text: p.l10n()),
                 ],
               ),
             ),

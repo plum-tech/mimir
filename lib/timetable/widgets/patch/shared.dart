@@ -165,7 +165,7 @@ class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessW
         if (!kIsWeb)
           if (Dev.on)
             PullDownItem(
-              title: "Share QR code",
+              title: i18n.shareQrCode,
               icon: context.icons.qrcode,
               onTap: () async {
                 shareTimetablePatchQrCode(context, patch);

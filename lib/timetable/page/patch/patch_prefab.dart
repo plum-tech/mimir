@@ -4,6 +4,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../../patch.dart';
 import '../../widgets/patch/prefab.dart';
+import '../../i18n.dart';
 
 class TimetablePatchPrefabPage extends StatefulWidget {
   const TimetablePatchPrefabPage({
@@ -25,7 +26,7 @@ class _TimetablePatchPrefabPageState extends State<TimetablePatchPrefabPage> {
             pinned: true,
             snap: false,
             floating: false,
-            title: "Patch prefabs".text(),
+            title: i18n.patch.prefabs.text(),
           ),
           SliverList.builder(
             itemCount: BuiltinTimetablePatchSets.all.length,
