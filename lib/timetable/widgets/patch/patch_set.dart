@@ -44,7 +44,7 @@ class TimetablePatchSetCard extends StatelessWidget {
       margin: EdgeInsets.zero,
       child: AnimatedExpansionTile(
         selected: selected,
-        leading: const Icon(Icons.dashboard_customize),
+        leading: const Icon(Icons.dashboard_customize).padAll(8),
         title: patchSet.name.text(),
         trailing: buildMoreActions(),
         rotateTrailing: false,

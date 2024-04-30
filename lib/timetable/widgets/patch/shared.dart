@@ -9,7 +9,6 @@ import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/qrcode/page/view.dart';
-import 'package:sit/settings/dev.dart';
 import 'package:sit/timetable/entity/pos.dart';
 import 'package:text_scroll/text_scroll.dart';
 
@@ -144,6 +143,7 @@ class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessW
   final SitTimetable? timetable;
   final ValueChanged<TPatch>? onChanged;
   final bool enableQrCode;
+  final VoidCallback? onDeleted;
 
   const TimetablePatchMenuAction({
     super.key,
@@ -151,10 +151,12 @@ class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessW
     this.timetable,
     this.onChanged,
     this.enableQrCode = true,
+    this.onDeleted,
   });
 
   @override
   Widget build(BuildContext context) {
+    final onDeleted = this.onDeleted;
     final timetable = this.timetable;
     return PullDownMenuButton(itemBuilder: (ctx) {
       return [
@@ -174,6 +176,12 @@ class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessW
               shareTimetablePatchQrCode(context, patch);
             },
           ),
+        if (onDeleted != null)
+          PullDownItem.delete(
+            icon: context.icons.delete,
+            title: i18n.delete,
+            onTap: onDeleted,
+          ),
       ];
     });
   }
@@ -182,6 +190,7 @@ class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessW
 class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidget {
   final Widget? leading;
   final TPatch patch;
+  final VoidCallback? onDeleted;
   final bool selected;
   final SitTimetable? timetable;
   final ValueChanged<TPatch>? onChanged;
@@ -197,12 +206,12 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
     this.edit,
     this.selected = false,
     this.enableQrCode = true,
+    this.onDeleted,
   });
 
   @override
   Widget build(BuildContext context) {
     final onChanged = this.onChanged;
-    final timetable = this.timetable;
     final edit = this.edit;
     return ListTile(
       leading: leading ?? Icon(patch.type.icon),
@@ -213,6 +222,7 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
         patch: patch,
         timetable: timetable,
         onChanged: onChanged,
+        onDeleted: onDeleted,
         enableQrCode: enableQrCode,
       ),
       onTap: onChanged == null || edit == null

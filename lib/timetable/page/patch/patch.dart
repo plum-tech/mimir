@@ -206,6 +206,9 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
               ),
               patch: entry,
               timetable: timetable,
+              onDeleted: () {
+                removePatch(index);
+              },
               edit: (patch) async {
                 return await entry.type.create(context, timetable, patch);
               },
