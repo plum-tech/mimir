@@ -6,12 +6,40 @@ class SwipeAction {
   final VoidCallback action;
   final Icon? icon;
   final String? label;
+  final bool fullSwipeAction;
+  final bool destructive;
+  final Color color;
 
-  SwipeAction({
+  const SwipeAction({
     required this.action,
     this.icon,
     this.label,
+    this.fullSwipeAction = false,
+    this.destructive = false,
+    this.color = Colors.green,
   });
+
+  const SwipeAction.delete({
+    required this.action,
+    this.icon,
+    this.label,
+  })  : destructive = true,
+        fullSwipeAction = true,
+        color = Colors.red;
+
+  w.SwipeAction build(BuildContext context) {
+    return w.SwipeAction(
+      title: label,
+      icon: icon,
+      style: context.textTheme.titleSmall ?? const TextStyle(),
+      performsFirstActionWithFullSwipe: fullSwipeAction,
+      onTap: (w.CompletionHandler handler) async {
+        await handler(destructive);
+        action();
+      },
+      color: color,
+    );
+  }
 }
 
 class WithSwipeAction extends StatelessWidget {
@@ -35,35 +63,15 @@ class WithSwipeAction extends StatelessWidget {
     return w.SwipeActionCell(
       key: childKey,
       backgroundColor: Colors.transparent,
-      trailingActions: right == null
-          ? null
-          : <w.SwipeAction>[
-              w.SwipeAction(
-                title: right.label,
-                icon: right.icon,
-                style: context.textTheme.titleSmall ?? const TextStyle(),
-                performsFirstActionWithFullSwipe: true,
-                onTap: (w.CompletionHandler handler) async {
-                  await handler(true);
-                  right.action();
-                },
-                color: Colors.red,
-              ),
-            ],
       leadingActions: left == null
           ? null
           : <w.SwipeAction>[
-              w.SwipeAction(
-                title: left.label,
-                icon: left.icon,
-                style: context.textTheme.titleSmall ?? const TextStyle(),
-                performsFirstActionWithFullSwipe: true,
-                onTap: (w.CompletionHandler handler) async {
-                  await handler(true);
-                  left.action();
-                },
-                color: Colors.red,
-              ),
+              left.build(context),
+            ],
+      trailingActions: right == null
+          ? null
+          : <w.SwipeAction>[
+              right.build(context),
             ],
       child: child,
     );

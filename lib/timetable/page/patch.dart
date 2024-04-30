@@ -145,15 +145,21 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
   Widget buildPatchEntry(TimetablePatchEntry entry, int index, SitTimetable timetable) {
     return switch (entry) {
       TimetablePatchSet() => TimetablePatchSetCard(
-        patchSet: entry,
-        timetable: timetable,
-        onDeleted: () {
-          removePatch(index);
-        },
-      ),
+          patchSet: entry,
+          timetable: timetable,
+          onDeleted: () {
+            removePatch(index);
+          },
+        ),
       TimetablePatch() => WithSwipeAction(
           childKey: ValueKey(entry),
-          right: SwipeAction(
+          left: SwipeAction(
+            icon: Icon(context.icons.checkMark),
+            action: () {
+
+            },
+          ),
+          right: SwipeAction.delete(
             icon: Icon(context.icons.delete),
             action: () {
               removePatch(index);
@@ -228,10 +234,10 @@ class _TimetablePatchEntryDroppableState extends State<TimetablePatchEntryDroppa
       builder: (context, candidateItems, rejectedItems) {
         return widget.child;
       },
-      onWillAcceptWithDetails: (details){
+      onWillAcceptWithDetails: (details) {
         return true;
       },
-      onAcceptWithDetails: (details){
+      onAcceptWithDetails: (details) {
         print(details.data);
       },
     );

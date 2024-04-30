@@ -213,7 +213,7 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
     final current = colors[index];
     return WithSwipeAction(
       childKey: ObjectKey(current),
-      right: SwipeAction(
+      right: SwipeAction.delete(
         icon: Icon(ctx.icons.delete),
         action: () async {
           setState(() {

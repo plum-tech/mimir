@@ -50,7 +50,7 @@ Future<String?> searchRoom({
             final full = stringify(item);
             final room = DormitoryRoom.fromFullString(full);
             return WithSwipeAction(
-              right: SwipeAction(
+              right: SwipeAction.delete(
                 icon: Icon(ctx.icons.delete),
                 action: () {
                   final newList = List.of($searchHistory.value);

@@ -417,7 +417,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
           childKey: ValueKey(course.courseKey),
           right: onCourseRemoved == null
               ? null
-              : SwipeAction(
+              : SwipeAction.delete(
                   icon: Icon(context.icons.delete),
                   action: () async {
                     onCourseRemoved(course);
