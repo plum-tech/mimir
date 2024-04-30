@@ -74,6 +74,9 @@ class SsoSession {
   /// Lock it to prevent simultaneous login.
   static final _loginLock = Lock();
 
+  /// Lock all requests through SSO.
+  static final _ssoLock = Lock();
+
   SsoSession({
     required this.dio,
     required this.cookieJar,
@@ -110,7 +113,6 @@ class SsoSession {
     ProgressCallback? onReceiveProgress,
   }) async {
     options ??= Options();
-
     Future<Response> requestNormally() async {
       final response = await dio.request(
         url,
@@ -125,7 +127,14 @@ class SsoSession {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      return await processRedirect(dio, response, headers: _neededHeaders);
+      final debugDepths = <Response>[];
+      final finalResponse = await processRedirect(
+        dio,
+        response,
+        headers: _neededHeaders,
+        debugDepths: debugDepths,
+      );
+      return finalResponse;
     }
 
     // request normally at first
@@ -327,17 +336,21 @@ class SsoSession {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    try {
-      return await _request(
-        url,
-        queryParameters: para,
-        data: data,
-        options: options,
-      );
-    } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
-      rethrow;
-    }
+    networkLogger.i("$SsoSession.request ${DateTime.now().toIso8601String()}");
+    return await _ssoLock.synchronized<Response>(() async {
+      networkLogger.i("$SsoSession.request-synchronized ${DateTime.now().toIso8601String()}");
+      try {
+        return await _request(
+          url,
+          queryParameters: para,
+          data: data,
+          options: options,
+        );
+      } catch (error, stackTrace) {
+        debugPrintError(error, stackTrace);
+        rethrow;
+      }
+    });
   }
 }
 

@@ -24,6 +24,7 @@ class R {
   static const debugCupertino = kDebugMode ? false : false;
 
   static const debugNetwork = true;
+  static const poorNetworkSimulation = true;
 
   /// The default window size is small enough for any modern desktop device.
   static const Size defaultWindowSize = Size(500, 800);

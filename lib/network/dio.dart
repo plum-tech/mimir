@@ -6,7 +6,6 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:fk_user_agent/fk_user_agent.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sit/r.dart';
-import 'package:sit/session/sso.dart';
 
 final _rand = Random();
 
@@ -19,12 +18,10 @@ class DioInit {
     if (!kIsWeb) {
       dio.interceptors.add(CookieManager(cookieJar));
     }
-    if (kDebugMode) {
-      dio.interceptors.add(LogInterceptor(logPrint: (obj) {
-        networkLogger.i(obj);
-      }));
-    }
     if (kDebugMode && R.debugNetwork) {
+      dio.interceptors.add(LogInterceptor());
+    }
+    if (kDebugMode && R.debugNetwork && R.poorNetworkSimulation) {
       dio.interceptors.add(PoorNetworkDioInterceptor());
     }
     if (config != null) {
