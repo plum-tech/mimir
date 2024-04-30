@@ -225,7 +225,7 @@ class PaletteCard extends StatelessWidget {
             icon: isCupertino ? CupertinoIcons.eye : Icons.preview,
             activator: const SingleActivator(LogicalKeyboardKey.keyP),
             action: () async {
-              await context.show$Sheet$(
+              await context.showSheet(
                 (context) => TimetableStyleProv(
                   palette: palette,
                   child: TimetablePreviewPage(
@@ -258,7 +258,7 @@ class PaletteCard extends StatelessWidget {
             icon: context.icons.qrcode,
             action: () async {
               final qrCodeData = const TimetablePaletteDeepLink().encode(palette);
-              await ctx.show$Sheet$(
+              await ctx.showSheet(
                 (context) => QrCodePage(
                   title: palette.name.text(),
                   data: qrCodeData.toString(),

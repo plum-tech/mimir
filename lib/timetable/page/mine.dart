@@ -251,7 +251,7 @@ class TimetableCard extends StatelessWidget {
             activator: const SingleActivator(LogicalKeyboardKey.keyP),
             action: () async {
               if (!ctx.mounted) return;
-              await context.show$Sheet$(
+              await context.showSheet(
                 (context) => TimetableStyleProv(
                   child: TimetablePreviewPage(
                     timetable: timetable,
@@ -359,7 +359,7 @@ class TimetableCard extends StatelessWidget {
   }
 
   Future<void> onExportCalendar(BuildContext context, SitTimetable timetable) async {
-    final config = await context.show$Sheet$<TimetableICalConfig>(
+    final config = await context.showSheet<TimetableICalConfig>(
       (context) => TimetableICalConfigEditor(
         timetable: timetable,
       ),

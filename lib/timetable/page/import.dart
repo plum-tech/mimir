@@ -244,7 +244,7 @@ Future<SitTimetable?> processImportedTimetable(
   BuildContext context,
   SitTimetable timetable,
 ) async {
-  final newTimetable = await context.show$Sheet$<SitTimetable>(
+  final newTimetable = await context.showSheet<SitTimetable>(
     (ctx) => TimetableEditorPage(
       timetable: timetable,
     ),

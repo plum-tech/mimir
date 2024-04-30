@@ -11,7 +11,7 @@ import 'multiplatform.dart';
 const _kDialogAlpha = 0.89;
 
 extension $BuildContextEx$ on BuildContext {
-  Future<T?> show$Sheet$<T>(
+  Future<T?> showSheet<T>(
     WidgetBuilder builder, {
     bool dismissible = true,
   }) async {

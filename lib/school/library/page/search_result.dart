@@ -137,7 +137,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
             book: book,
             onSearchTap: onSearchTap,
             onTap: () async {
-              await context.show$Sheet$(
+              await context.showSheet(
                 (ctx) => BookDetailsPage(
                   book: BookModel.fromBook(book),
                   onSearchTap: onSearchTap == null

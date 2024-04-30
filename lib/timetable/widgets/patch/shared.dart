@@ -247,7 +247,7 @@ class AddPatchButtons extends StatelessWidget {
 void shareTimetablePatchQrCode(BuildContext context, TimetablePatchEntry patch) async {
   if (kIsWeb) return;
   final qrCodeData = const TimetablePatchDeepLink().encode(patch);
-  await context.show$Sheet$(
+  await context.showSheet(
     (context) => QrCodePage(
       title: TextScroll(switch (patch) {
         TimetablePatchSet() => patch.name,

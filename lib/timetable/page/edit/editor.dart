@@ -183,7 +183,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
       title: i18n.editor.addCourse.text(),
       trailing: Icon(context.icons.add),
       onTap: () async {
-        final newCourse = await context.show$Sheet$<SitCourse>(
+        final newCourse = await context.showSheet<SitCourse>(
           (ctx) => SitCourseEditorPage(
             title: i18n.editor.newCourse,
             course: null,
@@ -381,7 +381,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
           padding: EdgeInsets.zero,
           onPressed: () async {
             final tempItem = template.createSubItem(courseKey: 0);
-            final newItem = await context.show$Sheet$(
+            final newItem = await context.showSheet(
               (context) => SitCourseEditorPage(
                 title: i18n.editor.newCourse,
                 course: tempItem,
@@ -396,7 +396,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
           icon: Icon(context.icons.edit),
           padding: EdgeInsets.zero,
           onPressed: () async {
-            final newTemplate = await context.show$Sheet$<SitCourse>(
+            final newTemplate = await context.showSheet<SitCourse>(
               (context) => SitCourseEditorPage(
                 title: i18n.editor.editCourse,
                 editable: const SitCourseEditable.template(),
@@ -438,7 +438,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
               icon: Icon(context.icons.edit),
               padding: EdgeInsets.zero,
               onPressed: () async {
-                final newItem = await context.show$Sheet$<SitCourse>(
+                final newItem = await context.showSheet<SitCourse>(
                   (context) => SitCourseEditorPage(
                     title: i18n.editor.editCourse,
                     course: course,

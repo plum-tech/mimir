@@ -135,7 +135,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
   }
 
   Future<void> openPrefab() async {
-    final patchSet = await context.show$Sheet$<TimetablePatchSet>(
+    final patchSet = await context.showSheet<TimetablePatchSet>(
       (context) => const TimetablePatchPrefabPage(),
     );
     if (patchSet == null) return;

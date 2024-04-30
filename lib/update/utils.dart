@@ -51,7 +51,7 @@ Future<void> _checkAppUpdateFromOfficial({
   debugPrint(latest.toString());
   if (kDebugMode && manually) {
     if (!context.mounted) return;
-    await context.show$Sheet$((ctx) => ArtifactUpdatePage(info: latest));
+    await context.showSheet((ctx) => ArtifactUpdatePage(info: latest));
     return;
   }
   final currentVersion = R.currentVersion.version;
@@ -67,7 +67,7 @@ Future<void> _checkAppUpdateFromOfficial({
   }
   if (!context.mounted) return;
   if (latest.version > currentVersion) {
-    await context.show$Sheet$((ctx) => ArtifactUpdatePage(info: latest));
+    await context.showSheet((ctx) => ArtifactUpdatePage(info: latest));
   } else if (manually) {
     await context.showTip(title: i18n.title, desc: i18n.onLatestTip, primary: i18n.ok);
   }
@@ -83,7 +83,7 @@ Future<void> _checkAppUpdateFromApple({
   debugPrint(latest.toString());
   if (kDebugMode && manually) {
     if (!context.mounted) return;
-    await context.show$Sheet$((ctx) => ArtifactUpdatePage(info: latest));
+    await context.showSheet((ctx) => ArtifactUpdatePage(info: latest));
     return;
   }
   final currentVersion = R.currentVersion.version;
@@ -108,7 +108,7 @@ Future<void> _checkAppUpdateFromApple({
     }
   } else if (installerStore == InstallerStore.appStore) {
     if (latest.version > currentVersion) {
-      await context.show$Sheet$((ctx) => ArtifactUpdatePage(info: latest));
+      await context.showSheet((ctx) => ArtifactUpdatePage(info: latest));
     } else if (manually) {
       await context.showTip(title: i18n.title, desc: i18n.onLatestTip, primary: i18n.ok);
     }

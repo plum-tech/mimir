@@ -167,7 +167,7 @@ class EntryCard extends StatelessWidget {
         ),
       ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15),
       onTap: () async {
-        await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions));
+        await context.showSheet((ctx) => detailsBuilder(context, buildDetailsActions));
       },
     ).inAnyCard(
       type: selected ? CardVariant.filled : CardVariant.outlined,
@@ -223,14 +223,14 @@ class EntryCard extends StatelessWidget {
     if (UniversalPlatform.isIOS) {
       widget = GestureDetector(
         onTap: () async {
-          await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions));
+          await context.showSheet((ctx) => detailsBuilder(context, buildDetailsActions));
         },
         child: widget,
       );
     } else {
       widget = InkWell(
         onTap: () async {
-          await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions));
+          await context.showSheet((ctx) => detailsBuilder(context, buildDetailsActions));
         },
         child: widget,
       );

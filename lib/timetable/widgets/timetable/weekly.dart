@@ -367,7 +367,7 @@ class InteractiveCourseCell extends ConsumerWidget {
       innerBuilder: (ctx, child) => InkWell(
         onTap: () async {
           if (!context.mounted) return;
-          await context.show$Sheet$(
+          await context.showSheet(
             (ctx) => TimetableCourseSheetPage(
               courseCode: course.courseCode,
               timetable: timetable,
@@ -431,7 +431,7 @@ class _InteractiveCourseCellWithTooltipState extends State<InteractiveCourseCell
 
   Future<void> showDetailsSheet() async {
     final course = widget.lesson.course;
-    await context.show$Sheet$(
+    await context.showSheet(
       (ctx) => TimetableCourseSheetPage(
         courseCode: course.courseCode,
         timetable: widget.timetable,

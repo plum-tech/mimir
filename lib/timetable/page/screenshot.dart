@@ -195,7 +195,7 @@ Future<void> takeTimetableScreenshot({
   required SitTimetableEntity timetable,
   required int weekIndex,
 }) async {
-  final config = await context.show$Sheet$<TimetableScreenshotConfig>(
+  final config = await context.showSheet<TimetableScreenshotConfig>(
     (ctx) => TimetableScreenshotConfigEditor(
       timetable: timetable,
       initialGrayOut: TimetableStyle.of(context).cellStyle.grayOutTakenLessons,

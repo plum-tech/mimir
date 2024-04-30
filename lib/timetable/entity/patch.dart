@@ -378,7 +378,7 @@ class TimetableRemoveDayPatch extends TimetablePatch {
     SitTimetable timetable, [
     TimetableRemoveDayPatch? patch,
   ]) async {
-    return await context.show$Sheet$(
+    return await context.showSheet(
       (ctx) => TimetableRemoveDayPatchSheet(
         timetable: timetable,
         patch: patch,
@@ -433,7 +433,7 @@ class TimetableMoveDayPatch extends TimetablePatch {
     SitTimetable timetable, [
     TimetableMoveDayPatch? patch,
   ]) async {
-    return await context.show$Sheet$(
+    return await context.showSheet(
       (ctx) => TimetableMoveDayPatchSheet(
         timetable: timetable,
         patch: patch,
@@ -488,7 +488,7 @@ class TimetableCopyDayPatch extends TimetablePatch {
     SitTimetable timetable, [
     TimetableCopyDayPatch? patch,
   ]) async {
-    return await context.show$Sheet$(
+    return await context.showSheet(
       (ctx) => TimetableCopyDayPatchSheet(
         timetable: timetable,
         patch: patch,
@@ -543,7 +543,7 @@ class TimetableSwapDaysPatch extends TimetablePatch {
     SitTimetable timetable, [
     TimetableSwapDaysPatch? patch,
   ]) async {
-    return await context.show$Sheet$(
+    return await context.showSheet(
       (ctx) => TimetableSwapDaysPatchSheet(
         timetable: timetable,
         patch: patch,

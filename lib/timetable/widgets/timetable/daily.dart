@@ -294,7 +294,7 @@ class LessonCard extends StatelessWidget {
         leading: CourseIcon(courseName: course.courseName),
         onTap: () async {
           if (!context.mounted) return;
-          await context.show$Sheet$(
+          await context.showSheet(
             (ctx) => TimetableCourseSheetPage(
               courseCode: course.courseCode,
               timetable: timetable,

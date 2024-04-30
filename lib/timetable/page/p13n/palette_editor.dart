@@ -98,7 +98,7 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
                         PlatformTextButton(
                           child: i18n.preview.text(),
                           onPressed: () async {
-                            await context.show$Sheet$(
+                            await context.showSheet(
                               (context) => TimetableStyleProv(
                                 palette: buildPalette(),
                                 child: TimetablePreviewPage(

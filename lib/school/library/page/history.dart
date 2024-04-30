@@ -110,7 +110,7 @@ class BookBorrowHistoryCard extends StatelessWidget {
         ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
         trailing: book.operation.l10n().text(),
         onTap: () async {
-          await context.show$Sheet$(
+          await context.showSheet(
             (ctx) => BookDetailsPage(
               book: BookModel.fromBorrowHistory(book),
             ),

@@ -14,7 +14,6 @@ import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/dev.dart';
-import 'package:sit/utils/save.dart';
 import '../i18n.dart';
 import '../qrcode/proxy.dart';
 
@@ -82,7 +81,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
             trailing: const Icon(Icons.open_in_new),
             onTap: () async {
               final profile =
-                  await context.show$Sheet$<ProxyProfileRecords>((ctx) => ProxyProfileEditorPage(type: type));
+                  await context.showSheet<ProxyProfileRecords>((ctx) => ProxyProfileEditorPage(type: type));
               if (profile != null) {
                 Settings.proxy.setProfile(type, profile);
               }
@@ -149,7 +148,7 @@ class ProxyShareQrCodeTile extends StatelessWidget {
           https: proxy.https.isDefaultAddress ? null : proxy.https.address,
           all: proxy.all.isDefaultAddress ? null : proxy.all.address,
         );
-        context.show$Sheet$(
+        context.showSheet(
           (context) => QrCodePage(
             title: i18n.proxy.title.text(),
             data: qrCodeData.toString(),

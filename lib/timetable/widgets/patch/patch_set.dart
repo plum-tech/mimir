@@ -80,7 +80,7 @@ class TimetablePatchSetCard extends StatelessWidget {
             onTap: onChanged == null
                 ? null
                 : () async {
-                    final newPatchSet = await context.show$Sheet$<TimetablePatchSet>(
+                    final newPatchSet = await context.showSheet<TimetablePatchSet>(
                       (ctx) => TimetablePatchSetEditorPage(
                         timetable: timetable,
                         patchSet: patchSet,

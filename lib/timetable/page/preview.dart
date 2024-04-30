@@ -77,7 +77,7 @@ Future<void> previewTimetable(
   SitTimetableEntity? entity,
 }) async {
   assert(timetable != null || entity != null);
-  await context.show$Sheet$(
+  await context.showSheet(
     (context) => TimetableStyleProv(
       child: TimetablePreviewPage(
         timetable: timetable,

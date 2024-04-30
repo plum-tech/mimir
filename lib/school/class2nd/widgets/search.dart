@@ -81,7 +81,7 @@ class _ActivityAsyncSearchListState extends State<_ActivityAsyncSearchList> {
                 return ActivityCard(
                   activity,
                   onTap: () async {
-                    await context.show$Sheet$((ctx) => Class2ndActivityDetailsPage(
+                    await context.showSheet((ctx) => Class2ndActivityDetailsPage(
                           activityId: activity.id,
                           title: activity.title,
                           time: activity.time,
