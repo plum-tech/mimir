@@ -315,7 +315,7 @@ class _Patch {
         "day": day,
       });
 
-  String swapDays(String a, String b) => "$ns.removeDay".tr(namedArgs: {
+  String swapDays(String a, String b) => "$ns.swapDays".tr(namedArgs: {
         "a": a,
         "b": b,
       });
