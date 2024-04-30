@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:async_locks/async_locks.dart';
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:collection/collection.dart';
 import 'package:cookie_jar/cookie_jar.dart';
@@ -16,7 +17,6 @@ import 'package:sit/r.dart';
 import 'package:sit/session/auth.dart';
 import 'package:sit/utils/error.dart';
 import 'package:sit/utils/riverpod.dart';
-import 'package:synchronized/synchronized.dart';
 import 'package:encrypt/encrypt.dart';
 
 import '../utils/dio.dart';
@@ -85,7 +85,7 @@ class SsoSession {
 
   /// - User try to log in actively on a login page.
   Future<Response> loginLocked(Credentials credentials) async {
-    return await _loginLock.synchronized(() async {
+    return await _loginLock.run(() async {
       networkLogger.i("loginLocked ${DateTime.now().toIso8601String()}");
       try {
         final byAutoCaptcha = await _login(
@@ -306,26 +306,35 @@ class SsoSession {
   /// Login the single sign-on
   Future<Response> _postLoginRequest(String username, String hashedPassword, String captcha, String casTicket) async {
     // Login
-    final res = await dio.post(_loginUrl,
-        data: {
-          'username': username,
-          'password': hashedPassword,
-          'captchaResponse': captcha,
-          'lt': casTicket,
-          'dllt': 'userNamePasswordLogin',
-          'execution': 'e1s1',
-          '_eventId': 'submit',
-          'rmShown': '1',
+    final res = await dio.post(
+      _loginUrl,
+      data: {
+        'username': username,
+        'password': hashedPassword,
+        'captchaResponse': captcha,
+        'lt': casTicket,
+        'dllt': 'userNamePasswordLogin',
+        'execution': 'e1s1',
+        '_eventId': 'submit',
+        'rmShown': '1',
+      },
+      options: Options(
+        contentType: Headers.formUrlEncodedContentType,
+        followRedirects: false,
+        validateStatus: (status) {
+          return status! < 400;
         },
-        options: Options(
-          contentType: Headers.formUrlEncodedContentType,
-          followRedirects: false,
-          validateStatus: (status) {
-            return status! < 400;
-          },
-          headers: _neededHeaders,
-        ));
-    return await processRedirect(dio, res, headers: _neededHeaders);
+        headers: _neededHeaders,
+      ),
+    );
+    final debugDepths = <Response>[];
+    final finalResponse = await processRedirect(
+      dio,
+      res,
+      headers: _neededHeaders,
+      debugDepths: debugDepths,
+    );
+    return finalResponse;
   }
 
   Future<Response> request(
@@ -337,8 +346,8 @@ class SsoSession {
     ProgressCallback? onReceiveProgress,
   }) async {
     networkLogger.i("$SsoSession.request ${DateTime.now().toIso8601String()}");
-    return await _ssoLock.synchronized<Response>(() async {
-      networkLogger.i("$SsoSession.request-synchronized ${DateTime.now().toIso8601String()}");
+    return await _ssoLock.run<Response>(() async {
+      networkLogger.i("$SsoSession.request-locked ${DateTime.now().toIso8601String()}");
       try {
         return await _request(
           url,
