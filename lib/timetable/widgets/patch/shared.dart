@@ -136,17 +136,18 @@ class TimetableDayLocDateSelectionTile extends ConsumerWidget {
 class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessWidget {
   final TPatch patch;
   final SitTimetable timetable;
-  final ValueChanged<TPatch> onChanged;
+  final ValueChanged<TPatch>? onChanged;
 
   const TimetablePatchMenuAction({
     super.key,
     required this.patch,
     required this.timetable,
-    required this.onChanged,
+    this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
+    final onChanged = this.onChanged;
     return PullDownMenuButton(itemBuilder: (ctx) {
       return [
         PullDownItem(
@@ -175,7 +176,7 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
   final TPatch patch;
   final bool selected;
   final SitTimetable timetable;
-  final ValueChanged<TPatch> onChanged;
+  final ValueChanged<TPatch>? onChanged;
   final FutureOr<TPatch?> Function() create;
 
   const TimetablePatchWidget({
@@ -183,24 +184,27 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
     this.leading,
     required this.patch,
     required this.timetable,
-    required this.onChanged,
+    this.onChanged,
     required this.create,
     this.selected = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final onChanged = this.onChanged;
     return ListTile(
       leading: leading ?? Icon(patch.type.icon),
       title: patch.type.l10n().text(),
       subtitle: patch.l10n().text(),
       selected: selected,
       trailing: TimetablePatchMenuAction(patch: patch, timetable: timetable, onChanged: onChanged),
-      onTap: () async {
-        final newPath = await create();
-        if (newPath == null) return;
-        onChanged(newPath);
-      },
+      onTap: onChanged == null
+          ? null
+          : () async {
+              final newPath = await create();
+              if (newPath == null) return;
+              onChanged(newPath);
+            },
     );
   }
 }

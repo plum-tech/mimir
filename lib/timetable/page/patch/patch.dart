@@ -8,16 +8,16 @@ import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/design/widgets/common.dart';
-import 'package:sit/timetable/page/patch_prefab.dart';
 import 'package:sit/timetable/widgets/patch/shared.dart';
 import 'package:sit/utils/format.dart';
 import 'package:sit/utils/save.dart';
 
-import '../entity/patch.dart';
-import '../entity/timetable.dart';
-import '../i18n.dart';
-import '../widgets/patch/patch_set.dart';
-import 'preview.dart';
+import '../../entity/patch.dart';
+import 'patch_prefab.dart';
+import '../../entity/timetable.dart';
+import '../../i18n.dart';
+import '../../widgets/patch/patch_set.dart';
+import '../preview.dart';
 
 class TimetablePatchEditorPage extends StatefulWidget {
   final SitTimetable timetable;
@@ -159,6 +159,12 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
             onUnpacked: () {
               removePatch(index);
               patches.insertAll(index, entry.patches);
+              markChanged();
+            },
+            onChanged: (newPatchSet) {
+              setState(() {
+                patches[index] = newPatchSet;
+              });
               markChanged();
             },
           ),

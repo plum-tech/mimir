@@ -7,7 +7,7 @@ import 'package:sit/l10n/time.dart';
 
 import '../entity/timetable.dart';
 import '../entity/issue.dart';
-import '../page/course_editor.dart';
+import '../page/edit/course_editor.dart';
 import '../i18n.dart';
 
 extension TimetableIssuesX on List<TimetableIssue> {

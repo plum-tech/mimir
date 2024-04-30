@@ -15,14 +15,14 @@ import 'package:sit/l10n/time.dart';
 import 'package:sit/school/widgets/course.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/timetable/entity/issue.dart';
-import 'package:sit/timetable/widgets/issue.dart';
+import '../../entity/issue.dart';
+import '../../widgets/issue.dart';
 import 'package:sit/utils/save.dart';
 
-import '../entity/timetable.dart';
-import '../i18n.dart';
+import '../../entity/timetable.dart';
+import '../../i18n.dart';
 import 'course_editor.dart';
-import 'preview.dart';
+import '../preview.dart';
 
 class TimetableEditorPage extends StatefulWidget {
   final SitTimetable timetable;

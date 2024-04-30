@@ -10,8 +10,8 @@ import 'package:sit/l10n/time.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/save.dart';
 
-import '../entity/timetable.dart';
-import '../i18n.dart';
+import '../../entity/timetable.dart';
+import '../../i18n.dart';
 
 class SitCourseEditable {
   final bool courseName;
