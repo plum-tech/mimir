@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/menu.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
@@ -64,7 +62,6 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         title: $currentPos >> (ctx, pos) => i18n.weekOrderedName(number: pos.weekIndex + 1).text(),
         actions: [
           buildSwitchViewButton(),
-          buildMyTimetablesButton(),
           buildMoreActionsButton(),
         ],
       ),
@@ -116,48 +113,16 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
             );
   }
 
-  Widget buildMyTimetablesButton() {
-    return PlatformIconButton(
-      icon: Icon(context.icons.person, color: isCupertino ? context.colorScheme.primary : null),
-      onPressed: () async {
-        final focusMode = Settings.focusTimetable;
-        if (focusMode) {
-          await context.push("/me");
-        } else {
-          await context.push("/timetable/mine");
-        }
-      },
-    );
-  }
-
   Widget buildMoreActionsButton() {
     final focusMode = Settings.focusTimetable;
     return PullDownMenuButton(
       itemBuilder: (ctx) => [
+
         PullDownItem(
-          icon: Icons.screenshot,
-          title: i18n.screenshot.screenshot,
+          icon: Icons.calendar_month,
+          title: i18n.mine.title,
           onTap: () async {
-            await takeTimetableScreenshot(
-              context: context,
-              timetable: timetable,
-              weekIndex: $currentPos.value.weekIndex,
-            );
-          },
-        ),
-        if (focusMode)
-          PullDownItem(
-            icon: Icons.calendar_month_outlined,
-            title: i18n.mine.title,
-            onTap: () async {
-              await context.push("/timetable/mine");
-            },
-          ),
-        PullDownItem(
-          icon: Icons.palette_outlined,
-          title: i18n.p13n.palette.title,
-          onTap: () async {
-            await context.push("/timetable/p13n");
+            await context.push("/timetable/mine");
           },
         ),
         PullDownItem(
@@ -172,6 +137,18 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
           title: i18n.p13n.background.title,
           onTap: () async {
             await context.push("/timetable/background");
+          },
+        ),
+        const PullDownDivider(),
+        PullDownItem(
+          icon: Icons.screenshot,
+          title: i18n.screenshot.screenshot,
+          onTap: () async {
+            await takeTimetableScreenshot(
+              context: context,
+              timetable: timetable,
+              weekIndex: $currentPos.value.weekIndex,
+            );
           },
         ),
         PullDownItem(
