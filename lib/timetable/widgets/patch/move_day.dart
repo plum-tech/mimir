@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/timetable/entity/loc.dart';
 import 'package:sit/utils/save.dart';
 
@@ -11,39 +10,6 @@ import '../../entity/timetable.dart';
 import '../../page/preview.dart';
 import '../../i18n.dart';
 import 'shared.dart';
-
-class TimetableMoveDayPatchWidget extends StatelessWidget {
-  final TimetableMoveDayPatch patch;
-  final SitTimetable timetable;
-  final ValueChanged<TimetableMoveDayPatch> onChanged;
-
-  const TimetableMoveDayPatchWidget({
-    super.key,
-    required this.patch,
-    required this.timetable,
-    required this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(patch.type.icon),
-      title: patch.type.l10n().text(),
-      subtitle: patch.l10n().text(),
-      trailing: TimetablePatchMenuAction(patch: patch, timetable: timetable, onChanged: onChanged),
-      onTap: () async {
-        final newPath = await context.show$Sheet$<TimetableMoveDayPatch>(
-          (ctx) => TimetableMoveDayPatchSheet(
-            timetable: timetable,
-            patch: patch,
-          ),
-        );
-        if (newPath == null) return;
-        onChanged(newPath);
-      },
-    );
-  }
-}
 
 class TimetableMoveDayPatchSheet extends StatefulWidget {
   final SitTimetable timetable;

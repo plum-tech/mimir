@@ -149,7 +149,8 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
             patches[index] = entry.copyWith(patches: List.of(entry.patches)..add(other));
             markChanged();
           },
-          child: TimetablePatchSetCard(
+          builder: (dropping) => TimetablePatchSetCard(
+            selected: dropping,
             patchSet: entry,
             timetable: timetable,
             onDeleted: () {
@@ -180,22 +181,31 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
                 ),
                 patches: [entry, other],
               );
-              addPatch(patchSet);
+              patches.insert(index, patchSet);
               removePatch(patches.indexOf(entry));
               removePatch(patches.indexOf(other));
+              markChanged();
             },
-            child: TimetablePatchDraggable(
-              patch: entry,
-              child: entry.build(
-                context: context,
-                timetable: timetable,
-                onChanged: (newPatch) {
-                  setState(() {
-                    patches[index] = newPatch;
-                  });
-                  markChanged();
-                },
+            builder: (dropping) => TimetablePatchWidget<TimetablePatch>(
+              selected: dropping,
+              leading: TimetablePatchDraggable(
+                patch: entry,
+                child: Card.filled(
+                  margin: EdgeInsets.zero,
+                  child: Icon(entry.type.icon).padAll(8),
+                ),
               ),
+              patch: entry,
+              timetable: timetable,
+              create: () async {
+                return await entry.type.onCreate(context, timetable);
+              },
+              onChanged: (newPatch) {
+                setState(() {
+                  patches[index] = newPatch;
+                });
+                markChanged();
+              },
             ),
           ),
         ),
@@ -244,12 +254,12 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
 class TimetablePatchEntryDroppable extends StatefulWidget {
   final TimetablePatchEntry patch;
   final void Function(TimetablePatch other) onMerged;
-  final Widget child;
+  final Widget Function(bool dropping) builder;
 
   const TimetablePatchEntryDroppable({
     super.key,
     required this.patch,
-    required this.child,
+    required this.builder,
     required this.onMerged,
   });
 
@@ -262,7 +272,7 @@ class _TimetablePatchEntryDroppableState extends State<TimetablePatchEntryDroppa
   Widget build(BuildContext context) {
     return DragTarget<TimetablePatch>(
       builder: (context, candidateItems, rejectedItems) {
-        return widget.child;
+        return widget.builder(candidateItems.isNotEmpty);
       },
       onWillAcceptWithDetails: (details) {
         return details.data != widget.patch;
@@ -294,7 +304,7 @@ class _TimetablePatchDraggableState extends State<TimetablePatchDraggable> {
   @override
   Widget build(BuildContext context) {
     final patch = widget.patch;
-    return Draggable<TimetablePatch>(
+    return LongPressDraggable<TimetablePatch>(
       data: patch,
       feedback: Card.filled(
         child: [

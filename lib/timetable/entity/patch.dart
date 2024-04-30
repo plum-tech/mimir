@@ -104,6 +104,8 @@ sealed class TimetablePatch extends TimetablePatchEntry {
   }
 
   String l10n();
+
+
 }
 
 @JsonSerializable()

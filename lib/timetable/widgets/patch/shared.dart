@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,10 +20,6 @@ import '../../entity/timetable.dart';
 import '../../i18n.dart';
 import '../../page/preview.dart';
 import '../../utils.dart';
-import 'swap_days.dart';
-import 'copy_day.dart';
-import 'move_day.dart';
-import 'remove_day.dart';
 
 class TimetableDayLocModeSwitcher extends StatelessWidget {
   final TimetableDayLocMode selected;
@@ -172,38 +170,38 @@ class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessW
   }
 }
 
-extension TimetablePatchEntryX on TimetablePatchEntry {
-  Widget build({
-    required BuildContext context,
-    required SitTimetable timetable,
-    required ValueChanged<TimetablePatch> onChanged,
-  }) {
-    return switch (this) {
-      TimetablePatchSet() => throw UnimplementedError(),
-      TimetableUnknownPatch() => ListTile(
-          title: i18n.unknown.text(),
-        ),
-      TimetableRemoveDayPatch() => TimetableRemoveDayPatchWidget(
-          patch: this as TimetableRemoveDayPatch,
-          timetable: timetable,
-          onChanged: onChanged,
-        ),
-      TimetableMoveDayPatch() => TimetableMoveDayPatchWidget(
-          patch: this as TimetableMoveDayPatch,
-          timetable: timetable,
-          onChanged: onChanged,
-        ),
-      TimetableCopyDayPatch() => TimetableCopyDayPatchWidget(
-          patch: this as TimetableCopyDayPatch,
-          timetable: timetable,
-          onChanged: onChanged,
-        ),
-      TimetableSwapDaysPatch() => TimetableSwapDaysPatchWidget(
-          patch: this as TimetableSwapDaysPatch,
-          timetable: timetable,
-          onChanged: onChanged,
-        ),
-    };
+class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidget {
+  final Widget? leading;
+  final TPatch patch;
+  final bool selected;
+  final SitTimetable timetable;
+  final ValueChanged<TPatch> onChanged;
+  final FutureOr<TPatch?> Function() create;
+
+  const TimetablePatchWidget({
+    super.key,
+    this.leading,
+    required this.patch,
+    required this.timetable,
+    required this.onChanged,
+    required this.create,
+    this.selected = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: leading ?? Icon(patch.type.icon),
+      title: patch.type.l10n().text(),
+      subtitle: patch.l10n().text(),
+      selected: selected,
+      trailing: TimetablePatchMenuAction(patch: patch, timetable: timetable, onChanged: onChanged),
+      onTap: () async {
+        final newPath = await create();
+        if (newPath == null) return;
+        onChanged(newPath);
+      },
+    );
   }
 }
 
