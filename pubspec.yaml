@@ -152,6 +152,7 @@ dependencies:
   rettulf: ^2.0.1
   # lock
   synchronized: ^3.1.0+1
+  async_locks: ^3.4.0
   # parse stacktrace
   stack_trace: ^1.11.0
   email_validator: ^2.1.17

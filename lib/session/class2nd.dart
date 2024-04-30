@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:sit/init.dart';
 import 'package:sit/session/sso.dart';
 
 class Class2ndSession {
@@ -33,13 +34,15 @@ class Class2ndSession {
     final responseData = res.data;
     // 如果返回值是登录页面，那就从 SSO 跳转一次以登录.
     if (responseData is String && _needRedirectToLoginPage(responseData)) {
-      await ssoSession.request(
+      await Init.cookieJar.delete(Uri.parse(url), true);
+      // the response has been already redirected to the originally-requested one.
+      res = await ssoSession.request(
         'https://authserver.sit.edu.cn/authserver/login?service=http%3A%2F%2Fsc.sit.edu.cn%2Flogin.jsp',
         options: Options(
           method: "GET",
         ),
       );
-      res = await fetch();
+      // res = await fetch();
     }
     return res;
   }

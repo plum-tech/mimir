@@ -51,10 +51,19 @@ class DioInit {
   }
 }
 
+final _debugRequests = <RequestOptions>[];
+final _debugResponses = <Response>[];
+
 class PoorNetworkDioInterceptor extends Interceptor {
   @override
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    final duration = Duration(milliseconds: _rand.nextInt(5000));
+    if(kDebugMode){
+      _debugRequests.add(options);
+    }
+    if(options.path == "http://sc.sit.edu.cn//public/init/index.action" || options.path == "http://sc.sit.edu.cn/public/init/index.action"){
+      print("!!!!!!!!!!");
+    }
+    final duration = Duration(milliseconds: _rand.nextInt(2000));
     debugPrint("Start to request ${options.uri}");
     await Future.delayed(duration);
     debugPrint("Delayed Request ${options.uri} $duration");
@@ -63,7 +72,10 @@ class PoorNetworkDioInterceptor extends Interceptor {
 
   @override
   Future<void> onResponse(Response response, ResponseInterceptorHandler handler) async {
-    final duration = Duration(milliseconds: _rand.nextInt(5000));
+    if(kDebugMode){
+      _debugResponses.add(response);
+    }
+    final duration = Duration(milliseconds: _rand.nextInt(2000));
     debugPrint("Start to response ${response.realUri}");
     await Future.delayed(duration);
     debugPrint("Delayed Response ${response.realUri} $duration");
