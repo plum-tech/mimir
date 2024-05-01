@@ -31,10 +31,10 @@ class ListenableStateNotifier<T> extends StateNotifier<T> {
 }
 
 extension ListenableRiverpodX on Listenable {
-  AutoDisposeStateNotifierProvider<ListenableStateNotifier<T>, T> provider<T>({
+  StateNotifierProvider<ListenableStateNotifier<T>, T> provider<T>({
     required T Function() get,
   }) {
-    return StateNotifierProvider.autoDispose<ListenableStateNotifier<T>, T>((ref) {
+    return StateNotifierProvider<ListenableStateNotifier<T>, T>((ref) {
       return ListenableStateNotifier(
         get(),
         this,
