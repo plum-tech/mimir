@@ -88,14 +88,12 @@ class TimetablePalette {
     final revision = reader.uint8();
     final name = reader.strUtf8(ByteLength.bit8);
     final author = reader.strUtf8(ByteLength.bit8);
-    final colorLen = reader.uint16();
 
-    final colors = <Color2Mode>[];
-    for (int i = 0; i < colorLen; i++) {
+    final colors = List.generate(reader.uint16(), (index) {
       Color light = Color(reader.uint32());
       Color dark = Color(reader.uint32());
-      colors.add((light: light, dark: dark));
-    }
+      return (light: light, dark: dark);
+    });
 
     return TimetablePalette(
       name: name,

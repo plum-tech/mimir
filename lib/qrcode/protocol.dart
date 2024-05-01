@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:sit/r.dart';
 import 'package:sit/settings/qrcode/proxy.dart';
 import 'package:sit/timetable/qrcode/palette.dart';
+import 'package:sit/timetable/qrcode/timetable.dart';
 
 import '../timetable/qrcode/patch.dart';
 
@@ -20,5 +21,6 @@ abstract class DeepLinkHandlerProtocol {
     const ProxyDeepLink(),
     const TimetablePaletteDeepLink(),
     const TimetablePatchDeepLink(),
+    const TimetableDeepLink(),
   ];
 }

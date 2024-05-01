@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -138,6 +140,7 @@ class SitTimetable {
     writer.strUtf8(name, ByteLength.bit8);
     writer.strUtf8(signature, ByteLength.bit8);
     writer.uint8(schoolYear);
+    writer.uint8(semester.index);
     writer.uint8(lastCourseKey);
     writer.datePacked(startDate, 2000);
     writer.uint8(courses.length);
@@ -148,6 +151,36 @@ class SitTimetable {
     for (final patch in patches) {
       TimetablePatchEntry.serialize(patch, writer);
     }
+  }
+
+  static SitTimetable deserialize(ByteReader reader) {
+    return SitTimetable(
+      name: reader.strUtf8(ByteLength.bit8),
+      signature: reader.strUtf8(ByteLength.bit8),
+      schoolYear: reader.uint8(),
+      semester: Semester.values[reader.uint8()],
+      lastCourseKey: reader.uint8(),
+      startDate: reader.datePacked(2000),
+      courses: Map.fromEntries(List.generate(reader.uint8(), (index) {
+        final course = SitCourse.deserialize(reader);
+        return MapEntry("${course.courseKey}", course);
+      })),
+      patches: List.generate(reader.uint8(), (index) {
+        return TimetablePatchEntry.deserialize(reader);
+      }),
+      lastModified: DateTime.now(),
+    );
+  }
+
+  static SitTimetable decodeByteList(Uint8List bytes) {
+    final reader = ByteReader(bytes);
+    return deserialize(reader);
+  }
+
+  static Uint8List encodeByteList(SitTimetable entry) {
+    final writer = ByteWriter(4096);
+    entry.serialize(writer);
+    return writer.build();
   }
 }
 
@@ -264,6 +297,7 @@ class SitCourse {
     writer.strUtf8(courseName, ByteLength.bit8);
     writer.strUtf8(courseCode, ByteLength.bit8);
     writer.strUtf8(place, ByteLength.bit8);
+    writer.uint8(campus.index);
     weekIndices.serialize(writer);
     writer.uint8(timeslots.packedInt8());
     writer.uint8((courseCredit * 10).toInt());
@@ -273,6 +307,24 @@ class SitCourse {
       writer.strUtf8(teacher, ByteLength.bit8);
     }
     writer.b(hidden);
+  }
+
+  static SitCourse deserialize(ByteReader reader) {
+    return SitCourse(
+      courseKey: reader.uint8(),
+      courseName: reader.strUtf8(ByteLength.bit8),
+      courseCode: reader.strUtf8(ByteLength.bit8),
+      classCode: reader.strUtf8(ByteLength.bit8),
+      place: reader.strUtf8(ByteLength.bit8),
+      campus: Campus.values[reader.uint8()],
+      weekIndices: TimetableWeekIndices.deserialize(reader),
+      timeslots: _unpackedInt8(reader.uint8()),
+      courseCredit: reader.uint8() * 0.1 ,
+      dayIndex: reader.uint8(),
+      teachers: List.generate(reader.uint8(), (index) {
+        return reader.strUtf8(ByteLength.bit8);
+      }),
+    );
   }
 }
 
@@ -309,10 +361,6 @@ enum TimetableWeekIndexType {
   all,
   odd,
   even;
-
-  void serialize(ByteWriter writer) {
-    writer.uint8(index);
-  }
 
   String l10nOf(String start, String end) => "timetable.weekIndexType.of.$name".tr(namedArgs: {
         "start": start,
@@ -377,8 +425,15 @@ class TimetableWeekIndex {
   }
 
   void serialize(ByteWriter writer) {
-    type.serialize(writer);
+    writer.uint8(type.index);
     writer.uint8(range.packedInt8());
+  }
+
+  static TimetableWeekIndex deserialize(ByteReader reader) {
+    return TimetableWeekIndex(
+      type: TimetableWeekIndexType.values[reader.uint8()],
+      range: _unpackedInt8(reader.uint8()),
+    );
   }
 
   String toDartCode() {
@@ -480,6 +535,12 @@ class TimetableWeekIndices {
     for (final index in indices) {
       index.serialize(writer);
     }
+  }
+
+  static TimetableWeekIndices deserialize(ByteReader reader) {
+    return TimetableWeekIndices(List.generate(reader.uint8(), (index) {
+      return TimetableWeekIndex.deserialize(reader);
+    }));
   }
 
   factory TimetableWeekIndices.fromJson(Map<String, dynamic> json) => _$TimetableWeekIndicesFromJson(json);
