@@ -52,7 +52,7 @@ class FreeDayTip extends StatelessWidget {
   ) async {
     for (int i = weekIndex; i < timetable.weeks.length; i++) {
       final week = timetable.weeks[i];
-      if (!week.isFree()) {
+      if (!week.isFree) {
         final dayIndexStart = weekIndex == i ? dayIndex : 0;
         for (int j = dayIndexStart; j < week.days.length; j++) {
           final day = week.days[j];
@@ -66,7 +66,7 @@ class FreeDayTip extends StatelessWidget {
     // Now there's no class forward, so let's search backward.
     for (int i = weekIndex; 0 <= i; i--) {
       final week = timetable.weeks[i];
-      if (!week.isFree()) {
+      if (!week.isFree) {
         final dayIndexStart = weekIndex == i ? dayIndex : week.days.length - 1;
         for (int j = dayIndexStart; 0 <= j; j--) {
           final day = week.days[j];
@@ -128,7 +128,7 @@ class FreeWeekTip extends StatelessWidget {
   }) async {
     for (int i = weekIndex; i < timetable.weeks.length; i++) {
       final week = timetable.weeks[i];
-      if (!week.isFree()) {
+      if (!week.isFree) {
         eventBus.fire(JumpToPosEvent(TimetablePos(weekIndex: i, weekday: defaultWeekday)));
         return;
       }
@@ -136,7 +136,7 @@ class FreeWeekTip extends StatelessWidget {
     // Now there's no class forward, so let's search backward.
     for (int i = weekIndex; 0 <= i; i--) {
       final week = timetable.weeks[i];
-      if (!week.isFree()) {
+      if (!week.isFree) {
         eventBus.fire(JumpToPosEvent(TimetablePos(weekIndex: i, weekday: defaultWeekday)));
         return;
       }

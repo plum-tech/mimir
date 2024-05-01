@@ -31,7 +31,7 @@ void main() {
       assert(day4.associatedCourses.map((c) => c.courseKey).toSet().equalsElements({1, 2, 5, 6}));
       final day9 = entity.getDaySinceStart(9)!;
       print(day9);
-      assert(day9.isFree());
+      assert(day9.isFree);
     });
     test("get week of one day", () {
       final labourDayWeek = entity.getWeekOn(DateTime(2024, 5, 1))!;

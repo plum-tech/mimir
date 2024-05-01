@@ -219,7 +219,7 @@ class TimetableOneWeek extends StatelessWidget {
       fullSize: fullSize,
       todayPos: todayPos,
     );
-    if (showFreeTip && timetableWeek.isFree()) {
+    if (showFreeTip && timetableWeek.isFree) {
       // free week
       return [
         view,

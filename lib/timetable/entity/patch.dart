@@ -303,7 +303,7 @@ class TimetableUnknownPatch extends TimetablePatch {
     SitTimetable timetable, [
     TimetableUnknownPatch? patch,
   ]) async {
-    throw UnimplementedError();
+    throw UnsupportedError("TimetableUnknownPatch can't be created");
   }
 
   factory TimetableUnknownPatch.fromJson(Map<String, dynamic> json) {

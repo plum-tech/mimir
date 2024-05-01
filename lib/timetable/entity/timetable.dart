@@ -1,6 +1,7 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/entity/timetable.dart';
@@ -22,6 +23,7 @@ List<TimetablePatchEntry> _patchesFromJson(List? list) {
 
 @JsonSerializable()
 @CopyWith(skipFields: true)
+@immutable
 class SitTimetable {
   @JsonKey()
   final String name;
@@ -134,6 +136,7 @@ class SitTimetable {
 
 @JsonSerializable()
 @CopyWith(skipFields: true)
+@immutable
 class SitCourse {
   @JsonKey()
   final int courseKey;
@@ -286,6 +289,7 @@ enum TimetableWeekIndexType {
 
 @JsonSerializable()
 @CopyWith(skipFields: true)
+@immutable
 class TimetableWeekIndex {
   @JsonKey()
   final TimetableWeekIndexType type;
@@ -359,6 +363,7 @@ class TimetableWeekIndex {
 }
 
 @JsonSerializable()
+@immutable
 class TimetableWeekIndices {
   @JsonKey()
   final List<TimetableWeekIndex> indices;
