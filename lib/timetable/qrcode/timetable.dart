@@ -11,8 +11,8 @@ class TimetableDeepLink implements DeepLinkHandlerProtocol {
 
   const TimetableDeepLink();
 
-  Uri encode(SitTimetable entry) =>
-      Uri(scheme: R.scheme, path: path, query: encodeBytesForUrl(SitTimetable.encodeByteList(entry)));
+  Uri encode(SitTimetable timetable) =>
+      Uri(scheme: R.scheme, path: path, query: encodeBytesForUrl(SitTimetable.encodeByteList(timetable)));
 
   SitTimetable decode(Uri qrCodeData) => (SitTimetable.decodeByteList(decodeBytesFromUrl(qrCodeData.query)));
 

@@ -51,16 +51,12 @@ class QrCodePage extends StatelessWidget {
             child: LayoutBuilder(
               builder: (ctx, box) {
                 final side = min(box.maxWidth, maxSize ?? double.infinity);
-                return SizedBox(
-                  width: side,
-                  height: side,
-                  child: PlainQrCodeView(
-                    data: data,
-                    size: side,
-                  ),
-                ).center();
+                return PlainQrCodeView(
+                  data: data,
+                  size: side,
+                ).center().padSymmetric(h: hugeQrCode ? 0 : 16);
               },
-            ).padSymmetric(h: hugeQrCode ? 8 : 16),
+            ),
           ),
           SliverToBoxAdapter(
             child: RichText(
