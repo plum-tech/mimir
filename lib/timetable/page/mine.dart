@@ -480,7 +480,10 @@ Future<void> onTimetableFromFile({
     cancel: i18n.cancel,
   );
   if (confirm != true) return;
-  TimetableInit.storage.timetable.add(timetable);
+  final id = TimetableInit.storage.timetable.add(timetable);
+  if (Settings.timetable.autoUseImported) {
+    TimetableInit.storage.timetable.selectedId = id;
+  }
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
   context.push("/timetable/mine");

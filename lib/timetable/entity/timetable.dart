@@ -137,6 +137,7 @@ class SitTimetable {
   Map<String, dynamic> toJson() => _$SitTimetableToJson(this);
 
   void serialize(ByteWriter writer) {
+    writer.uint8(version);
     writer.strUtf8(name, ByteLength.bit8);
     writer.strUtf8(signature, ByteLength.bit8);
     writer.uint8(schoolYear);
@@ -154,6 +155,8 @@ class SitTimetable {
   }
 
   static SitTimetable deserialize(ByteReader reader) {
+    // ignore: unused_local_variable
+    final revision = reader.uint8();
     return SitTimetable(
       name: reader.strUtf8(ByteLength.bit8),
       signature: reader.strUtf8(ByteLength.bit8),
@@ -296,6 +299,7 @@ class SitCourse {
     writer.uint8(courseKey);
     writer.strUtf8(courseName, ByteLength.bit8);
     writer.strUtf8(courseCode, ByteLength.bit8);
+    writer.strUtf8(classCode, ByteLength.bit8);
     writer.strUtf8(place, ByteLength.bit8);
     writer.uint8(campus.index);
     weekIndices.serialize(writer);
@@ -319,11 +323,12 @@ class SitCourse {
       campus: Campus.values[reader.uint8()],
       weekIndices: TimetableWeekIndices.deserialize(reader),
       timeslots: _unpackedInt8(reader.uint8()),
-      courseCredit: reader.uint8() * 0.1 ,
+      courseCredit: reader.uint8() * 0.1,
       dayIndex: reader.uint8(),
       teachers: List.generate(reader.uint8(), (index) {
         return reader.strUtf8(ByteLength.bit8);
       }),
+      hidden: reader.b(),
     );
   }
 }
