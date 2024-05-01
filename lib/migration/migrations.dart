@@ -1,4 +1,6 @@
+import 'package:sit/files.dart';
 import 'package:sit/storage/hive/init.dart';
+import 'package:sit/utils/error.dart';
 import 'package:version/version.dart';
 
 import 'foundation.dart';
@@ -10,12 +12,23 @@ class Migrations {
   static void init() {
     Version(1, 0, 0) <<
         Migration.run((phrase) async {
-          await HiveInit.clearCache();
+          if (phrase == MigrationPhrase.afterHive) {
+            await HiveInit.clearCache();
+          }
         });
     Version(2, 4, 0) <<
         Migration.run((phrase) async {
-          if (phrase == MigrationPhrase.afterHive) {
-            await HiveInit.ywb.clear();
+          switch (phrase) {
+            case MigrationPhrase.beforeHive:
+              final oldTimetableBackgroundFi = Files.user.subFile("timetable", "background.img");
+              final oldExists = await oldTimetableBackgroundFi.exists();
+              final newExists = await Files.timetable.backgroundFile.exists();
+              if (oldExists && !newExists) {
+                await oldTimetableBackgroundFi.copy(Files.timetable.backgroundFile.path);
+                await oldTimetableBackgroundFi.delete();
+              }
+            case MigrationPhrase.afterHive:
+              await HiveInit.ywb.clear();
           }
         });
   }
@@ -44,8 +57,12 @@ class MigrationMatch {
   const MigrationMatch(this._migrations);
 
   Future<void> perform(MigrationPhrase phrase) async {
-    for (final migration in _migrations) {
-      await migration.perform(phrase);
+    try {
+      for (final migration in _migrations) {
+        await migration.perform(phrase);
+      }
+    } catch (error, stackTrace) {
+      debugPrintError(error, stackTrace);
     }
   }
 }

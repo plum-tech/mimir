@@ -197,13 +197,12 @@ Future<void> takeTimetableScreenshot({
   final config = await context.showSheet<TimetableScreenshotConfig>(
     (ctx) => TimetableScreenshotConfigEditor(
       timetable: timetable,
-      initialGrayOutTakenLessons: TimetableStyle.of(context).cellStyle.grayOutTakenLessons,
+      initialGrayOutTakenLessons: Settings.timetable.cellStyle?.grayOutTakenLessons ?? false,
     ),
   );
   if (config == null) return;
   if (!context.mounted) return;
   var fullSize = context.mediaQuery.size;
-  fullSize = Size(fullSize.width, fullSize.height);
   final screenshotController = ScreenshotController();
   final screenshot = await screenshotController.captureFromLongWidget(
     InheritedTheme.captureAll(
