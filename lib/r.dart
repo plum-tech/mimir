@@ -36,6 +36,7 @@ class R {
   static const demoModeOaCredentials = Credentials(account: "2300421153", password: "liplum-sit-life");
   static const iosAppId = "6468989112";
   static const iosAppStoreUrl = "https://apps.apple.com/app/$iosAppId";
+  static const iosTimetableICalToCalendarShortcut = "https://www.icloud.com/shortcuts/98f1b96465c542dcbdac651a921e2459";
 
   static String formatEduEmail({required String username}) {
     return "$username@$eduEmailDomain";

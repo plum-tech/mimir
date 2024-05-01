@@ -92,7 +92,7 @@ class _MePageState extends ConsumerState<MePage> {
             if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
               await launchUrlString(_joinQGroupMobileUri);
             } else {
-              await launchUrlString(_joinQGroupDesktopUri, mode: LaunchMode.externalApplication);
+              await launchUrlString(_joinQGroupDesktopUri, mode: LaunchMode.externalNonBrowserApplication);
             }
           } catch (error, stackTrace) {
             debugPrintError(error, stackTrace);

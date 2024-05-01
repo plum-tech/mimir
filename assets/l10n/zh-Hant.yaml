@@ -87,6 +87,7 @@ timetable:
   export:
     title: 匯出選項
     export: 匯出
+    iOSGetShortcutAction: 獲取捷徑將事項增加到行事曆
     lessonMode:
       title: 課程模式
       merged: 完整

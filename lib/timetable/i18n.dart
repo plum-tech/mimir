@@ -352,6 +352,8 @@ class _Export {
 
   String get export => "$ns.export".tr();
 
+  String get iOSGetShortcutAction => "$ns.iOSGetShortcutAction".tr();
+
   String get lessonMode => "$ns.lessonMode.title".tr();
 
   String get lessonModeMerged => "$ns.lessonMode.merged".tr();

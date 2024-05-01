@@ -285,8 +285,9 @@ class SitTimetableLesson {
   /// The end index of this lesson in a [SitTimetableWeek]
   int get endIndex => associatedParts.last.index;
 
-   DateTime get startTime => associatedParts.first.startTime;
-   DateTime get endTime => associatedParts.last.endTime;
+  DateTime get startTime => associatedParts.first.startTime;
+
+  DateTime get endTime => associatedParts.last.endTime;
 }
 
 @CopyWith(skipFields: true)

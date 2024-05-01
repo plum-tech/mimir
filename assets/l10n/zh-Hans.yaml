@@ -87,6 +87,7 @@ timetable:
   export:
     title: 导出选项
     export: 导出
+    iOSGetShortcutAction: 获取快捷指令将事项添加到日历
     lessonMode:
       title: 课程模式
       merged: 完整

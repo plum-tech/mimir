@@ -87,6 +87,7 @@ timetable:
   export:
     title: Export to calendar
     export: Export
+    iOSGetShortcutAction: Get the shortcut to add events to calendar
     lessonMode:
       title: Lesson mode
       merged: Full

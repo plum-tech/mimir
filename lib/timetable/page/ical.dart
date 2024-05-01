@@ -5,6 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/duration_picker.dart';
+import 'package:sit/r.dart';
+import 'package:universal_platform/universal_platform.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../entity/timetable.dart';
 import "../i18n.dart";
 
@@ -60,6 +63,22 @@ class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
             buildAlarmBeforeClassStart(),
           ]),
         ],
+      ),
+      bottomNavigationBar: buildGetShortcut(),
+    );
+  }
+
+  Widget? buildGetShortcut() {
+    // only for iOS
+    if (!UniversalPlatform.isIOS) return null;
+    return BottomAppBar(
+      color: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
+      child: PlatformTextButton(
+        child: i18n.export.iOSGetShortcutAction.text(),
+        onPressed: () {
+          launchUrlString(R.iosTimetableICalToCalendarShortcut);
+        },
       ),
     );
   }
