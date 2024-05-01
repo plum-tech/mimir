@@ -176,9 +176,14 @@ class StudentRegConnectivityInfo extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userType = ref.watch(CredentialsInit.storage.$oaUserType);
     final widgets = <Widget>[];
-    final connected = this.connected != false;
+    final connected = this.connected;
     final textTheme = context.textTheme;
-    widgets.add((connected ? i18n.studentRegAvailable : i18n.studentRegUnavailable).text(
+    widgets.add((switch (connected) {
+      null => i18n.checker.button.connecting,
+      true => i18n.studentRegAvailable,
+      false => i18n.studentRegUnavailable,
+    })
+        .text(
       style: textTheme.titleMedium,
     ));
     Widget buildTip(String tip) {
@@ -188,18 +193,20 @@ class StudentRegConnectivityInfo extends ConsumerWidget {
       );
     }
 
-    if (connected) {
-      if (userType == OaUserType.undergraduate) {
-        widgets.add(buildTip(i18n.ugRegAvailableTip));
-      } else if (userType == OaUserType.postgraduate) {
-        widgets.add(buildTip(i18n.pgRegAvailableTip));
-      }
-    } else {
-      if (userType == OaUserType.undergraduate) {
-        widgets.add(buildTip(i18n.ugRegUnavailableTip));
-      } else if (userType == OaUserType.postgraduate) {
-        widgets.add(buildTip(i18n.pgRegUnavailableTip));
-      }
+    switch (connected) {
+      case true:
+        if (userType == OaUserType.undergraduate) {
+          widgets.add(buildTip(i18n.ugRegAvailableTip));
+        } else if (userType == OaUserType.postgraduate) {
+          widgets.add(buildTip(i18n.pgRegAvailableTip));
+        }
+      case false:
+        if (userType == OaUserType.undergraduate) {
+          widgets.add(buildTip(i18n.ugRegUnavailableTip));
+        } else if (userType == OaUserType.postgraduate) {
+          widgets.add(buildTip(i18n.pgRegUnavailableTip));
+        }
+      case null:
     }
     return widgets.column(caa: CrossAxisAlignment.center);
   }

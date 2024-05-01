@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/design/adaptive/foundation.dart';
@@ -12,6 +11,7 @@ import 'package:sit/utils/error.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../utils.dart';
+import '../i18n.dart';
 
 enum _Status {
   none,
@@ -118,20 +118,20 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
   Widget buildStatus(BuildContext ctx) {
     // TODO: it's student registration system
     final tip = switch (status) {
-      _Status.none => widget.initialDesc ?? _i18n.status.none,
-      _Status.connecting => _i18n.status.connecting,
-      _Status.connected => _i18n.status.connected,
-      _Status.disconnected => _i18n.status.disconnected,
+      _Status.none => widget.initialDesc ?? i18n.checker.status.none,
+      _Status.connecting => i18n.checker.status.connecting,
+      _Status.connected => i18n.checker.status.connected,
+      _Status.disconnected => i18n.checker.status.disconnected,
     };
     return tip.text(key: ValueKey(status), style: ctx.textTheme.titleLarge, textAlign: TextAlign.center);
   }
 
   Widget buildButton(BuildContext ctx) {
     final (tip, onTap) = switch (status) {
-      _Status.none => (_i18n.button.none, startCheck),
-      _Status.connecting => (_i18n.button.connecting, null),
-      _Status.connected => (_i18n.button.connected, widget.onConnected),
-      _Status.disconnected => (_i18n.button.disconnected, startCheck),
+      _Status.none => (i18n.checker.button.none, startCheck),
+      _Status.connecting => (i18n.checker.button.connecting, null),
+      _Status.connected => (i18n.checker.button.connected, widget.onConnected),
+      _Status.disconnected => (i18n.checker.button.disconnected, startCheck),
     };
     return PlatformElevatedButton(
       onPressed: onTap,
@@ -171,37 +171,6 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
   }
 }
 
-const _i18n = _NetworkCheckerI18n();
-
-class _NetworkCheckerI18n {
-  const _NetworkCheckerI18n();
-
-  static const ns = "networkChecker";
-
-  final button = const _NetworkCheckerI18nEntry("button");
-  final status = const _NetworkCheckerI18nEntry("status");
-
-  String get testConnection => "$ns.testConnection.title".tr();
-
-  String get testConnectionDesc => "$ns.testConnection.desc".tr();
-}
-
-class _NetworkCheckerI18nEntry {
-  final String scheme;
-
-  String get _ns => "${_NetworkCheckerI18n.ns}.$scheme";
-
-  const _NetworkCheckerI18nEntry(this.scheme);
-
-  String get connected => "$_ns.connected".tr();
-
-  String get connecting => "$_ns.connecting".tr();
-
-  String get disconnected => "$_ns.disconnected".tr();
-
-  String get none => "$_ns.none".tr();
-}
-
 class TestConnectionTile extends StatefulWidget {
   const TestConnectionTile({super.key});
 
@@ -217,8 +186,8 @@ class _TestConnectionTileState extends State<TestConnectionTile> {
     return ListTile(
       enabled: testState != _Status.connecting,
       leading: const Icon(Icons.network_check),
-      title: _i18n.testConnection.text(),
-      subtitle: _i18n.testConnectionDesc.text(),
+      title: i18n.checker.testConnection.text(),
+      subtitle: i18n.checker.testConnectionDesc.text(),
       trailing: switch (testState) {
         _Status.connecting => const CircularProgressIndicator.adaptive(),
         _Status.connected => Icon(context.icons.checkMark, color: Colors.green),

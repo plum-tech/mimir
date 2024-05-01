@@ -17,6 +17,7 @@
 - Improved zh-Hans and zh-Hant localization.
 - Timetable patch for moving, copying, swapping and removing lessons of days.
 - Shrunk the size of .ics file exported from timetable.
+- Redesigned entities of proxy.
 
 ## v2.3.0
 - The 2048 game supports save/load feature.

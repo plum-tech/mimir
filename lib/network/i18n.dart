@@ -11,6 +11,7 @@ class _I18n with CommonI18nMixin {
   final easyconnect = const _Easyconnect();
   final network = const NetworkI18n();
   final credentials = const OaCredentialsI18n();
+  final checker = const _NetworkCheckerI18n();
 
   String get title => "$ns.title".tr();
 
@@ -59,3 +60,33 @@ class _Easyconnect {
 
   String get launchFailedDesc => "$ns.launchFailedDesc".tr();
 }
+
+class _NetworkCheckerI18n {
+  const _NetworkCheckerI18n();
+
+  static const ns = "networkChecker";
+
+  final button = const _NetworkCheckerI18nEntry("button");
+  final status = const _NetworkCheckerI18nEntry("status");
+
+  String get testConnection => "$ns.testConnection.title".tr();
+
+  String get testConnectionDesc => "$ns.testConnection.desc".tr();
+}
+
+class _NetworkCheckerI18nEntry {
+  final String scheme;
+
+  String get _ns => "${_NetworkCheckerI18n.ns}.$scheme";
+
+  const _NetworkCheckerI18nEntry(this.scheme);
+
+  String get connected => "$_ns.connected".tr();
+
+  String get connecting => "$_ns.connecting".tr();
+
+  String get disconnected => "$_ns.disconnected".tr();
+
+  String get none => "$_ns.none".tr();
+}
+
