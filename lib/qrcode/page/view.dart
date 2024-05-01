@@ -9,21 +9,9 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/l10n/tr.dart';
 import 'package:sit/settings/dev.dart';
 
-class _I18n {
-  const _I18n();
-
-  static const ns = "qrCode";
-
-  List<InlineSpan> get hint => "$ns.hint".trSpan(args: {
-        "me": const WidgetSpan(child: Icon(Icons.person)),
-        "scan": const WidgetSpan(child: Icon(Icons.qr_code_scanner)),
-      });
-}
-
-const _i18n = _I18n();
+import '../i18n.dart';
 
 class QrCodePage extends StatelessWidget {
   final String data;
@@ -62,7 +50,7 @@ class QrCodePage extends StatelessWidget {
             child: RichText(
               text: TextSpan(
                 style: context.textTheme.bodyLarge,
-                children: _i18n.hint,
+                children: i18n.hint,
               ),
             ).padAll(10),
           ),

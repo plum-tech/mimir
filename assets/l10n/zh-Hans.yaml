@@ -18,8 +18,6 @@ timetable:
     deleteRequestDesc: 这个课程表将被永久删除
     emptyTip: 快去导入一个课程表吧！
     details: 详情
-    addFromFileAction: 添加课程表
-    addFromFileDesc: 确定从读取的文件中添加课程表？
   edit:
     name: 名称
     tab:
@@ -157,8 +155,6 @@ timetable:
       deleteRequest: 确定删除？
       deleteRequestDesc: 推荐先保存二维码备份再删除
       addColor: 添加一种配色
-      addFromQrCodeAction: 添加配色方案
-      addFromQrCodeDesc: '确定从读取的二维码中添加配色方案——"{}"？'
       builtin:
         classic:
           name: 经典
@@ -780,15 +776,15 @@ oaAnnounce:
     academicReport: 学术报告
 yellowPages:
   title: 学校黄页
-scanner:
-  barcodeNotRecognized: 未识别到条形码或二维码
 greeting:
   headerA: 今天是你在上应大的
   headerB:
     one: 第 1 天
     other: "第 {} 天"
 qrCode:
+  barcodeNotRecognized: 未识别到条形码或二维码
   hint: 请切换至 个人{me}，然后点击右上角的 扫一扫{scan}
+  unrecognizedQrCodeTip: 无法识别的二维码
 404:
   title: 找不到页面
   subtitle: 未找到请求的页面

@@ -13,7 +13,7 @@ typedef DualPickerActionWidgetBuilder = Widget Function(BuildContext context, in
 extension DialogEx on BuildContext {
   /// return: whether the button was hit
   Future<bool> showTip({
-    required String title,
+    String? title,
     required String desc,
     required String primary,
     bool highlight = false,
@@ -29,7 +29,7 @@ extension DialogEx on BuildContext {
   }
 
   Future<bool> showAnyTip({
-    required String title,
+    String? title,
     required WidgetBuilder make,
     required String primary,
     bool highlight = false,

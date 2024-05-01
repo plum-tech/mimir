@@ -16,6 +16,7 @@ import 'package:sit/l10n/extension.dart';
 import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/route.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/patch.dart';
 import 'package:sit/timetable/page/ical.dart';
@@ -320,7 +321,7 @@ class TimetableCard extends StatelessWidget {
               await Clipboard.setData(ClipboardData(text: code));
             },
           ),
-        if (!kIsWeb)
+        if (!kIsWeb && Dev.on)
           EntryAction(
             icon: context.icons.qrcode,
             label: i18n.shareQrCode,

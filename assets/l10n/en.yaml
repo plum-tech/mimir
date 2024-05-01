@@ -18,8 +18,6 @@ timetable:
     deleteRequestDesc: You will lose this timetable permanently
     emptyTip: Let's import a timetable!
     details: Details
-    addFromFileAction: Add timetable
-    addFromFileDesc: Confirm to add a timetable from file?
   edit:
     name: Name
     tab:
@@ -157,8 +155,6 @@ timetable:
       deleteRequest: Conform to delete?
       deleteRequestDesc: The palette will be deleted permanently without unless a QR code backup is saved
       addColor: Add a color
-      addFromQrCodeAction: Add palette
-      addFromQrCodeDesc: 'Confirm to add the timetable palette, "{}", from QR code?'
       builtin:
         classic:
           name: Classic
@@ -780,15 +776,15 @@ oaAnnounce:
     academicReport: Report
 yellowPages:
   title: Yellow pages
-scanner:
-  barcodeNotRecognized: No Barcode or QR code
 greeting:
   headerA: SIT has accompanied you
   headerB:
     one: 1 Day
     other: "{} Days"
 qrCode:
+  barcodeNotRecognizedTip: No Barcode or QR code
   hint: Please navigate to Me {me}, and click the Scanner {scan} on the right corner
+  unrecognizedQrCodeTip: Unrecognized QR code
 404:
   title: Not Found
   subtitle: The requested page was not found

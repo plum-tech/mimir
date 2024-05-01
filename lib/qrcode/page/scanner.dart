@@ -78,7 +78,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
         await _handleBarcode(result);
       } else {
         if (!mounted) return;
-        context.showSnackBar(content: i18n.barcodeNotRecognized.text());
+        context.showSnackBar(content: i18n.barcodeNotRecognizedTip.text());
       }
     }
   }
