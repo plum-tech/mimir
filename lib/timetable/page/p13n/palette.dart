@@ -331,7 +331,7 @@ class PaletteDetailsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = ref.watch(TimetableInit.storage.palette.$row(id)) ?? this.palette;
+    final palette = ref.watch(TimetableInit.storage.palette.$rowOf(id)) ?? this.palette;
     return Scaffold(
       body: CustomScrollView(
         slivers: [

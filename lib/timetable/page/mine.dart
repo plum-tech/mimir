@@ -408,7 +408,7 @@ class TimetableDetailsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final timetable = ref.watch(TimetableInit.storage.timetable.$row(id)) ?? this.timetable;
+    final timetable = ref.watch(TimetableInit.storage.timetable.$rowOf(id)) ?? this.timetable;
     final resolver = SitTimetablePaletteResolver(timetable);
     final palette = ref.watch(TimetableInit.storage.palette.$selectedRow) ?? BuiltinTimetablePalettes.classic;
     final code2Courses = timetable.courses.values.groupListsBy((c) => c.courseCode).entries.toList();

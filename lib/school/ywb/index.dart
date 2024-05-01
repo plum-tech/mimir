@@ -25,7 +25,7 @@ class _YwbAppCardState extends ConsumerState<YwbAppCard> {
   @override
   Widget build(BuildContext context) {
     final storage = YwbInit.applicationStorage;
-    final family = storage.$applicationFamily(YwbApplicationType.running);
+    final family = storage.$applicationOf(YwbApplicationType.running);
     final running = ref.watch(family);
     return AppCard(
       title: i18n.title.text(),

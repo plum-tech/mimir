@@ -184,7 +184,7 @@ class HiveTable<T> {
 
   Listenable listenRowChange(int id) => box.listenable(keys: [_rowK(id)]);
 
-  late final $row = box.providerFamily<T, int>(
+  late final $rowOf = box.providerFamily<T, int>(
     (id) => _rowK(id),
     get: (id) => this[id],
     set: (id, v) => this[id] = v,

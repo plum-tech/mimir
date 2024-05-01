@@ -47,7 +47,7 @@ class GameStorageBox<TSave> {
     return _box.containsKey("/$name/$version/$slot");
   }
 
-  late final $saveFamily = _box.providerFamily<TSave, int>(
+  late final $saveOf = _box.providerFamily<TSave, int>(
     (slot) => "/$name/$version/$slot",
     get: (slot) => load(slot: slot),
     set: (slot, v) async {
@@ -59,7 +59,7 @@ class GameStorageBox<TSave> {
     },
   );
 
-  late final $saveExistsFamily = _box.existsChangeProviderFamily<int>(
+  late final $saveExistsOf = _box.existsChangeProviderFamily<int>(
     (slot) => "/$name/$version/$slot",
   );
 

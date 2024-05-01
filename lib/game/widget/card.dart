@@ -34,7 +34,7 @@ class _OfflineGameAppCardState extends ConsumerState<OfflineGameAppCard> {
     final storage = widget.storage;
     var hasSave = false;
     if (storage != null) {
-      hasSave |= ref.watch(storage.$saveExistsFamily(0));
+      hasSave |= ref.watch(storage.$saveExistsOf(0));
     }
     return AppCard(
       title: widget.name.text(),
