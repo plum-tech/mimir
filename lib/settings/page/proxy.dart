@@ -156,9 +156,9 @@ class ProxyShareQrCodeTile extends StatelessWidget {
       onTap: () async {
         final proxy = Settings.proxy;
         final qrCodeData = const ProxyDeepLink().encode(
-          http: proxy.http?.address.toString(),
-          https: proxy.https?.address.toString(),
-          all: proxy.all?.address.toString(),
+          http: proxy.http,
+          https: proxy.https,
+          all: proxy.all,
         );
         context.showSheet(
           (context) => QrCodePage(
@@ -173,9 +173,9 @@ class ProxyShareQrCodeTile extends StatelessWidget {
 
 Future<void> onProxyFromQrCode({
   required BuildContext context,
-  required Uri? http,
-  required Uri? https,
-  required Uri? all,
+  required ProxyProfile? http,
+  required ProxyProfile? https,
+  required ProxyProfile? all,
 }) async {
   final confirm = await context.showActionRequest(
     desc: i18n.proxy.setFromQrCodeDesc,
@@ -187,7 +187,9 @@ Future<void> onProxyFromQrCode({
     return uri == null ? true : _validateProxyUriForType(uri.toString(), type) != null;
   }
 
-  var valid = isValid(http, ProxyCat.http) && isValid(https, ProxyCat.https) && isValid(all, ProxyCat.all);
+  var valid = isValid(http?.address, ProxyCat.http) &&
+      isValid(https?.address, ProxyCat.https) &&
+      isValid(all?.address, ProxyCat.all);
   if (!valid) {
     if (!context.mounted) return;
     context.showTip(
@@ -203,9 +205,9 @@ Future<void> onProxyFromQrCode({
     ProxyCat.all: all,
   };
   Settings.proxy.applyForeach((cat, profile, set) {
-    final address = cat2Address[cat];
-    if (address != null) {
-      set(profile?.copyWith(address: address) ?? ProxyProfile(address: address));
+    final profile = cat2Address[cat];
+    if (profile != null) {
+      set(profile);
     }
   });
 

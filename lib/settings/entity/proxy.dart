@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/storage/hive/type_id.dart';
+import 'package:sit/utils/byte_io.dart';
 
 part "proxy.g.dart";
 
@@ -55,10 +58,11 @@ enum ProxyCat {
     if (uri.userInfo.isNotEmpty) return false;
     return true;
   }
+
   bool? isDefaultUriString(String? uriString) {
-    if(uriString == null) return null;
+    if (uriString == null) return null;
     final uri = Uri.tryParse(uriString);
-    if(uri == null) return null;
+    if (uri == null) return null;
     return isDefaultUri(uri);
   }
 }
@@ -74,6 +78,7 @@ enum ProxyMode {
 @JsonSerializable()
 @CopyWith(skipFields: true)
 class ProxyProfile {
+  static const version = 1;
   @JsonKey()
   final Uri address;
   @JsonKey()
@@ -86,6 +91,34 @@ class ProxyProfile {
     this.enabled = false,
     this.mode = ProxyMode.schoolOnly,
   });
+
+  Uint8List encodeByteList() {
+    final writer = ByteWriter(128);
+    writer.uint8(version);
+    serialize(writer);
+    return writer.build();
+  }
+
+  static ProxyProfile decodeFromByteList(Uint8List bytes) {
+    final reader = ByteReader(bytes);
+    // ignore: unused_local_variable
+    final revision = reader.uint8();
+    return deserialize(reader);
+  }
+
+  void serialize(ByteWriter writer) {
+    writer.strUtf8(address.toString(), ByteLength.bit16);
+    writer.b(enabled);
+    writer.int8(mode.index);
+  }
+
+  static ProxyProfile deserialize(ByteReader reader) {
+    return ProxyProfile(
+      address: Uri.parse(reader.strUtf8(ByteLength.bit16)),
+      enabled: reader.b(),
+      mode: ProxyMode.values[reader.int8()],
+    );
+  }
 
   factory ProxyProfile.fromJson(Map<String, dynamic> json) => _$ProxyProfileFromJson(json);
 

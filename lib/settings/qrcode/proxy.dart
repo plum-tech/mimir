@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:sit/qrcode/protocol.dart';
+import 'package:sit/qrcode/utils.dart';
 import 'package:sit/r.dart';
+import 'package:sit/settings/entity/proxy.dart';
 import 'package:sit/settings/page/proxy.dart';
 
 class ProxyDeepLink extends DeepLinkHandlerProtocol {
@@ -10,30 +12,26 @@ class ProxyDeepLink extends DeepLinkHandlerProtocol {
   const ProxyDeepLink();
 
   Uri encode({
-    required String? http,
-    required String? https,
-    required String? all,
+    required ProxyProfile? http,
+    required ProxyProfile? https,
+    required ProxyProfile? all,
   }) =>
       Uri(scheme: R.scheme, host: host, path: path, queryParameters: {
-        if (http != null) "http": http,
-        // shorthand for https if http proxy is identical to https proxy
-        if (https != null) "https": http == https ? "@http" : https,
-        if (all != null) "all": all,
+        if (http != null) "http": encodeBytesForUrl(http.encodeByteList(), compress: false),
+        if (https != null) "https": encodeBytesForUrl(https.encodeByteList(), compress: false),
+        if (all != null) "all": encodeBytesForUrl(all.encodeByteList(), compress: false),
       });
 
-  ({Uri? http, Uri? https, Uri? all}) decode(Uri qrCodeData) {
+  ({ProxyProfile? http, ProxyProfile? https, ProxyProfile? all}) decode(Uri qrCodeData) {
     final param = qrCodeData.queryParameters;
     final http = param["http"];
-    var https = param["https"];
+    final https = param["https"];
     final all = param["all"];
-    // shorthand for https if http proxy is identical to https proxy
-    if (https == "@http") {
-      https = http;
-    }
+
     return (
-      http: http == null ? null : Uri.tryParse(http),
-      https: https == null ? null : Uri.tryParse(https),
-      all: all == null ? null : Uri.tryParse(all),
+      http: http == null ? null : ProxyProfile.decodeFromByteList(decodeBytesFromUrl(http, compress: false)),
+      https: https == null ? null : ProxyProfile.decodeFromByteList(decodeBytesFromUrl(https, compress: false)),
+      all: all == null ? null : ProxyProfile.decodeFromByteList(decodeBytesFromUrl(all, compress: false)),
     );
   }
 
