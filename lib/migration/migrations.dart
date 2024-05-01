@@ -1,6 +1,6 @@
+import 'package:sit/storage/hive/init.dart';
 import 'package:version/version.dart';
 
-import 'all/cache.dart';
 import 'foundation.dart';
 
 class Migrations {
@@ -8,7 +8,16 @@ class Migrations {
   static Migration? _onNullVersion;
 
   static void init() {
-    Version(1, 0, 0) << ClearCacheMigration;
+    Version(1, 0, 0) <<
+        Migration.run((phrase) async {
+          await HiveInit.clearCache();
+        });
+    Version(2, 4, 0) <<
+        Migration.run((phrase) async {
+          if (phrase == MigrationPhrase.afterHive) {
+            await HiveInit.ywb.clear();
+          }
+        });
   }
 
   static MigrationMatch match({

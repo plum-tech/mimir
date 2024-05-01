@@ -41,7 +41,9 @@ void main() async {
   final lastSize = prefs.getLastWindowSize();
   await DesktopInit.init(size: lastSize);
   await WindowsInit.registerCustomScheme(R.scheme);
-  if (prefs.getInstallTime() == null) {
+  final installationTime = prefs.getInstallTime();
+  debugPrint("First installation time: $installationTime");
+  if (installationTime == null) {
     await prefs.setInstallTime(DateTime.now());
   }
   // Initialize the window size before others for a better experience when loading.
@@ -65,7 +67,9 @@ void main() async {
   final currentVersion = R.currentVersion.version;
   final lastVersionRaw = prefs.getLastVersion();
   final lastVersion = lastVersionRaw != null ? Version.parse(lastVersionRaw) : currentVersion;
-  final migrations = Migrations.match(from: lastVersion, to: currentVersion);
+  debugPrint("Last version: $lastVersion");
+  // final migrations = Migrations.match(from: lastVersion, to: currentVersion);
+  final migrations = Migrations.match(from: Version(2, 3, 2), to: currentVersion);
 
   await migrations.perform(MigrationPhrase.beforeHive);
   await prefs.setLastVersion(lastVersion.toString());
