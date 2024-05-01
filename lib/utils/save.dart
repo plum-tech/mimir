@@ -8,13 +8,13 @@ import 'package:sit/design/adaptive/dialog.dart';
 const _i18n = _I18n();
 
 class PromptSaveBeforeQuitScope extends StatelessWidget {
-  final bool canSave;
+  final bool changed;
   final FutureOr<void> Function() onSave;
   final Widget child;
 
   const PromptSaveBeforeQuitScope({
     super.key,
-    required this.canSave,
+    required this.changed,
     required this.onSave,
     required this.child,
   });
@@ -27,7 +27,7 @@ class PromptSaveBeforeQuitScope extends StatelessWidget {
         if (didPop) {
           return;
         }
-        if (!canSave) {
+        if (!changed) {
           context.pop();
           return;
         }

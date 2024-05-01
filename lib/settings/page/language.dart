@@ -25,7 +25,7 @@ class _LanguagePageState extends State<LanguagePage> {
   Widget build(BuildContext context) {
     final canSave = selected != context.locale;
     return PromptSaveBeforeQuitScope(
-      canSave: canSave,
+      changed: canSave,
       onSave: onSave,
       child: Scaffold(
         body: CustomScrollView(

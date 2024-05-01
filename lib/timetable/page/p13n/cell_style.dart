@@ -26,7 +26,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
     final old = Settings.timetable.cellStyle;
     final canSave = old != buildCellStyle();
     return PromptSaveBeforeQuitScope(
-      canSave: canSave,
+      changed: canSave,
       onSave: onSave,
       child: Scaffold(
         body: CustomScrollView(

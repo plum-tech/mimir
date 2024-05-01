@@ -1,3 +1,4 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/storage/hive/type_id.dart';
 
@@ -65,9 +66,10 @@ enum ProxyMode {
 }
 
 @JsonSerializable()
+@CopyWith(skipFields: true)
 class ProxyProfile {
   @JsonKey()
-  final String address;
+  final Uri address;
   @JsonKey()
   final bool enabled;
   @JsonKey()
@@ -75,10 +77,9 @@ class ProxyProfile {
 
   const ProxyProfile({
     required this.address,
-    required this.enabled,
-    required this.mode,
+    this.enabled = false,
+    this.mode = ProxyMode.schoolOnly,
   });
-
 
   factory ProxyProfile.fromJson(Map<String, dynamic> json) => _$ProxyProfileFromJson(json);
 

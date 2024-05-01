@@ -65,7 +65,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     final rawPath = this.rawPath;
     final canSave = buildBackgroundImage() != Settings.timetable.backgroundImage;
     return PromptSaveBeforeQuitScope(
-      canSave: canSave,
+      changed: canSave,
       onSave: onSave,
       child: Scaffold(
         body: CustomScrollView(

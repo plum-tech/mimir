@@ -26,7 +26,7 @@ class _ThemeColorPageState extends State<ThemeColorPage> {
   Widget build(BuildContext context) {
     final canSave = this.canSave();
     return PromptSaveBeforeQuitScope(
-      canSave: canSave,
+      changed: canSave,
       onSave: onSave,
       child: Scaffold(
         body: CustomScrollView(

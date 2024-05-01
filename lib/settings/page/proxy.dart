@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
@@ -14,20 +15,22 @@ import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/dev.dart';
+import 'package:sit/utils/error.dart';
+import 'package:sit/utils/save.dart';
 import '../entity/proxy.dart';
 import '../i18n.dart';
 import '../qrcode/proxy.dart';
 
-class ProxySettingsPage extends StatefulWidget {
+class ProxySettingsPage extends ConsumerStatefulWidget {
   const ProxySettingsPage({
     super.key,
   });
 
   @override
-  State<ProxySettingsPage> createState() => _ProxySettingsPageState();
+  ConsumerState<ProxySettingsPage> createState() => _ProxySettingsPageState();
 }
 
-class _ProxySettingsPageState extends State<ProxySettingsPage> {
+class _ProxySettingsPageState extends ConsumerState<ProxySettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,46 +75,51 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
     ProxyCat type, {
     required Widget icon,
   }) {
-    return Settings.proxy.listenAnyChange(type: type) >>
-        (ctx) {
-          final profile = Settings.proxy.resolve(type);
-          return ListTile(
-            leading: icon,
-            title: type.l10n().text(),
-            subtitle: profile.address?.text(),
-            trailing: const Icon(Icons.open_in_new),
-            onTap: () async {
-              final profile = await context.showSheet<ProxyProfileRecords>((ctx) => ProxyProfileEditorPage(type: type));
-              if (profile != null) {
-                Settings.proxy.setProfile(type, profile);
-              }
-            },
-          );
-        };
+    final ProxyProfile? profile;
+    try {
+      profile = ref.watch(Settings.proxy.$profileOf(type));
+    } catch (error, stackTrace) {
+      debugPrintError(error, stackTrace);
+      rethrow;
+    }
+    return ListTile(
+      leading: icon,
+      title: type.l10n().text(),
+      subtitle: profile?.address.toString().text(),
+      trailing: const Icon(Icons.open_in_new),
+      onTap: () async {
+        final profile = await context.showSheet<ProxyProfile>(
+          (ctx) => ProxyProfileEditorPage(type: type),
+        );
+        if (profile != null) {
+          ref.read(Settings.proxy.$profileOf(type).notifier).set(profile);
+        }
+      },
+    );
   }
 
   Widget buildEnableProxyToggle() {
-    return Settings.proxy.listenAnyEnabled() >>
-        (ctx) => _EnableProxyToggleTile(
-              enabled: Settings.proxy.anyEnabled,
-              onChanged: (newV) {
-                setState(() {
-                  Settings.proxy.anyEnabled = newV;
-                });
-              },
-            );
+    final anyEnabled = ref.watch(Settings.proxy.$anyEnabled);
+    return _EnableProxyToggleTile(
+      enabled: anyEnabled,
+      onChanged: (newV) {
+        setState(() {
+          ref.read(Settings.proxy.$anyEnabled.notifier).set?.call(newV);
+        });
+      },
+    );
   }
 
   Widget buildProxyModeSwitcher() {
-    return Settings.proxy.listenProxyMode() >>
-        (ctx) => _ProxyModeSwitcherTile(
-              proxyMode: Settings.proxy.getIntegratedProxyMode(),
-              onChanged: (value) {
-                setState(() {
-                  Settings.proxy.setIntegratedProxyMode(value);
-                });
-              },
-            );
+    final integratedProxyMode = ref.watch(Settings.proxy.$integratedProxyMode);
+    return _ProxyModeSwitcherTile(
+      proxyMode: integratedProxyMode,
+      onChanged: (value) {
+        setState(() {
+          ref.watch(Settings.proxy.$integratedProxyMode.notifier).set?.call(value);
+        });
+      },
+    );
   }
 }
 
@@ -144,9 +152,9 @@ class ProxyShareQrCodeTile extends StatelessWidget {
       onTap: () async {
         final proxy = Settings.proxy;
         final qrCodeData = const ProxyDeepLink().encode(
-          http: proxy.http.isDefaultAddress ? null : proxy.http.address,
-          https: proxy.https.isDefaultAddress ? null : proxy.https.address,
-          all: proxy.all.isDefaultAddress ? null : proxy.all.address,
+          http: proxy.http?.address.toString(),
+          https: proxy.https?.address.toString(),
+          all: proxy.all?.address.toString(),
         );
         context.showSheet(
           (context) => QrCodePage(
@@ -185,15 +193,24 @@ Future<void> onProxyFromQrCode({
     );
     return;
   }
-  if (http != null) Settings.proxy.resolve(ProxyCat.http).address = http.toString();
-  if (https != null) Settings.proxy.resolve(ProxyCat.https).address = https.toString();
-  if (all != null) Settings.proxy.resolve(ProxyCat.all).address = all.toString();
+  final cat2Address = {
+    ProxyCat.http: http,
+    ProxyCat.https: https,
+    ProxyCat.all: all,
+  };
+  Settings.proxy.applyForeach((cat, profile, set) {
+    final address = cat2Address[cat];
+    if (address != null) {
+      set(profile?.copyWith(address: address) ?? ProxyProfile(address: address));
+    }
+  });
+
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
   context.push("/settings/proxy");
 }
 
-class ProxyProfileEditorPage extends StatefulWidget {
+class ProxyProfileEditorPage extends ConsumerStatefulWidget {
   final ProxyCat type;
 
   const ProxyProfileEditorPage({
@@ -202,48 +219,47 @@ class ProxyProfileEditorPage extends StatefulWidget {
   });
 
   @override
-  State<ProxyProfileEditorPage> createState() => _ProxyProfileEditorPageState();
+  ConsumerState<ProxyProfileEditorPage> createState() => _ProxyProfileEditorPageState();
 }
 
-class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
-  late final profile = Settings.proxy.resolve(widget.type);
-  late var uri = (profile.address == null ? null : Uri.tryParse(profile.address!)) ?? type.buildDefaultUri();
-  late var enabled = profile.enabled;
-  late var proxyMode = profile.proxyMode;
+class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage> {
+  late final profile = Settings.proxy.getProfileOf(widget.type);
+  late var uri = profile?.address;
+  late var enabled = profile?.enabled ?? false;
+  late var proxyMode = profile?.mode ?? ProxyMode.schoolOnly;
 
   ProxyCat get type => widget.type;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final canSave = profile.toRecords() != buildProfile();
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            title: widget.type.l10n().text(),
-            actions: [
-              PlatformTextButton(
-                onPressed: canSave ? onSave : null,
-                child: i18n.save.text(),
-              ),
-            ],
-          ),
-          SliverList.list(children: [
-            buildEnableProxyToggle(),
-            buildProxyModeSwitcher(),
-            buildProxyUrlTile(),
-            const Divider(),
-            buildProxyProtocolTile(),
-            buildProxyHostTile(),
-            buildProxyPortTile(),
-            buildProxyAuthTile(),
-          ]),
-        ],
+    final canSave = buildProfile() != null;
+    return PromptSaveBeforeQuitScope(
+      changed: canSave && buildProfile() != profile,
+      onSave: onSave,
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              title: widget.type.l10n().text(),
+              actions: [
+                PlatformTextButton(
+                  onPressed: canSave ? onSave : null,
+                  child: i18n.save.text(),
+                ),
+              ],
+            ),
+            SliverList.list(children: [
+              buildEnableProxyToggle(),
+              buildProxyModeSwitcher(),
+              buildProxyUrlTile(),
+              const Divider(),
+              buildProxyProtocolTile(),
+              buildProxyHostTile(),
+              buildProxyPortTile(),
+              buildProxyAuthTile(),
+            ]),
+          ],
+        ),
       ),
     );
   }
@@ -252,8 +268,14 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
     context.pop(buildProfile());
   }
 
-  ProxyProfileRecords buildProfile() {
-    return (address: uri.toString(), enabled: enabled, proxyMode: proxyMode);
+  ProxyProfile? buildProfile() {
+    final uri = this.uri;
+    if (uri == null) return null;
+    return ProxyProfile(
+      address: uri,
+      enabled: enabled,
+      mode: proxyMode,
+    );
   }
 
   Widget buildProxyUrlTile() {
@@ -261,9 +283,9 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
     return DetailListTile(
       leading: const Icon(Icons.link),
       title: "URL",
-      subtitle: uri.toString(),
+      subtitle: uri?.toString(),
       trailing: [
-        if (!type.isDefaultUri(uri))
+        if (uri != null)
           PlatformIconButton(
             onPressed: () {
               setState(() {
@@ -304,7 +326,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   }
 
   Widget buildProxyProtocolTile() {
-    final scheme = uri.scheme.toLowerCase();
+    final scheme = uri?.scheme.toLowerCase();
     return ListTile(
       isThreeLine: true,
       leading: const Icon(Icons.https),
@@ -315,7 +337,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
                 selected: protocol == scheme,
                 onSelected: (value) {
                   setState(() {
-                    uri = uri.replace(
+                    uri = uri?.replace(
                       scheme: protocol.toLowerCase(),
                     );
                   });
@@ -327,7 +349,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   }
 
   Widget buildProxyHostTile() {
-    final host = uri.host;
+    final host = uri?.host;
     return DetailListTile(
       leading: const Icon(Icons.link),
       title: i18n.proxy.hostname,
@@ -338,13 +360,13 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
           final newHostRaw = await Editor.showStringEditor(
             context,
             desc: i18n.proxy.hostname,
-            initial: host,
+            initial: host ?? type.defaultHost,
           );
           if (newHostRaw == null) return;
           final newHost = newHostRaw.trim();
           if (newHost != host) {
             setState(() {
-              uri = uri.replace(
+              uri = uri?.replace(
                 host: newHost,
               );
             });
@@ -355,7 +377,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   }
 
   Widget buildProxyPortTile() {
-    int port = uri.port;
+    final port = uri?.port;
     return DetailListTile(
       leading: const Icon(Icons.settings_input_component_outlined),
       title: i18n.proxy.port,
@@ -366,12 +388,12 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
           final newPort = await Editor.showIntEditor(
             context,
             desc: i18n.proxy.port,
-            initial: port,
+            initial: port ?? type.defaultPort,
           );
           if (newPort == null) return;
           if (newPort != port) {
             setState(() {
-              uri = uri.replace(
+              uri = uri?.replace(
                 port: newPort,
               );
             });
@@ -382,8 +404,12 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   }
 
   Widget buildProxyAuthTile() {
-    final userInfoParts = uri.userInfo.split(":");
-    final auth = userInfoParts.length == 2 ? (username: userInfoParts[0], password: userInfoParts[1]) : null;
+    final userInfoParts = uri?.userInfo.split(":");
+    final auth = userInfoParts == null
+        ? null
+        : userInfoParts.length == 2
+            ? (username: userInfoParts[0], password: userInfoParts[1])
+            : null;
     final text = auth != null ? "${auth.username}:${auth.password}" : null;
     return ListTile(
       leading: const Icon(Icons.key),
@@ -394,7 +420,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
           PlatformIconButton(
             onPressed: () {
               setState(() {
-                uri = uri.replace(userInfo: "");
+                uri = uri?.replace(userInfo: "");
               });
             },
             icon: Icon(context.icons.delete),
@@ -415,7 +441,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
             );
             if (newAuth != null && newAuth != auth) {
               setState(() {
-                uri = uri.replace(
+                uri = uri?.replace(
                     userInfo:
                         newAuth.password.isNotEmpty ? "${newAuth.username}:${newAuth.password}" : newAuth.username);
               });
@@ -454,7 +480,6 @@ class _EnableProxyToggleTile extends StatelessWidget {
   final ValueChanged<bool> onChanged;
 
   const _EnableProxyToggleTile({
-    super.key,
     required this.enabled,
     required this.onChanged,
   });
@@ -478,7 +503,6 @@ class _ProxyModeSwitcherTile extends StatelessWidget {
   final ValueChanged<ProxyMode> onChanged;
 
   const _ProxyModeSwitcherTile({
-    super.key,
     required this.proxyMode,
     required this.onChanged,
   });

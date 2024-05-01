@@ -160,7 +160,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
   Widget build(BuildContext context) {
     final editable = widget.editable;
     return PromptSaveBeforeQuitScope(
-      canSave: anyChanged,
+      changed: anyChanged,
       onSave: onSave,
       child: Scaffold(
         resizeToAvoidBottomInset: false,

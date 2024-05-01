@@ -197,7 +197,7 @@ extension BoxProviderX on Box {
   }) {
     return StateNotifierProvider.family<BoxFieldNotifier<T>, T?, Arg>((ref, arg) {
       return BoxFieldNotifier(
-        get?.call(arg) ?? safeGet<T>(arg),
+        get != null ? get.call(arg) : safeGet<T>(arg),
         listenable(keys: [keyOf(arg)]),
         () => get != null ? get.call(arg) : safeGet<T>(arg),
         (v) => set != null ? set.call(arg, v) : safePut<T>(arg, v),
@@ -226,7 +226,8 @@ extension BoxProviderX on Box {
   }
 
   StateNotifierProviderFamily<BoxFieldExistsChangeNotifier, bool, Arg> existsChangeProviderFamily<Arg>(
-      dynamic Function(Arg arg) keyOf) {
+    dynamic Function(Arg arg) keyOf,
+  ) {
     return StateNotifierProvider.family((ref, arg) {
       return BoxFieldExistsChangeNotifier(
         containsKey(keyOf(arg)),

@@ -54,13 +54,13 @@ Map<String, String> _toEnvMap(({String? http, String? https, String? all}) profi
   );
 }
 
-String? _buildProxyForType(ProxyCat type, bool isSchoolLanRequired) {
-  final profile = Settings.proxy.resolve(type);
+String? _buildProxyForType(ProxyCat cat, bool isSchoolLanRequired) {
+  final profile = Settings.proxy.getProfileOf(cat);
+  if (profile == null) return null;
   final address = profile.address;
-  if (address == null) return null;
   if (!profile.enabled) return null;
-  if (profile.proxyMode == ProxyMode.global || !isSchoolLanRequired) return null;
-  return address;
+  if (profile.mode == ProxyMode.global || !isSchoolLanRequired) return null;
+  return address.toString();
 }
 
 bool _isSchoolLanRequired(String host) {

@@ -41,7 +41,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
   @override
   Widget build(BuildContext context) {
     return PromptSaveBeforeQuitScope(
-      canSave: anyChanged,
+      changed: anyChanged,
       onSave: onSave,
       child: Scaffold(
         resizeToAvoidBottomInset: false,

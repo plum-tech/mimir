@@ -42,7 +42,7 @@ class _TimetablePatchSetEditorPageState extends State<TimetablePatchSetEditorPag
   Widget build(BuildContext context) {
     assert(widget.patchSet.patches.isNotEmpty);
     return PromptSaveBeforeQuitScope(
-      canSave: anyChanged,
+      changed: anyChanged,
       onSave: onSave,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
