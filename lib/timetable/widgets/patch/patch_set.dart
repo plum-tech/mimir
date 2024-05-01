@@ -21,6 +21,7 @@ class TimetablePatchSetCard extends StatelessWidget {
   final VoidCallback? onUnpacked;
   final ValueChanged<TimetablePatchSet>? onChanged;
   final bool enableQrCode;
+  final bool optimizedForTouch;
 
   const TimetablePatchSetCard({
     super.key,
@@ -28,6 +29,7 @@ class TimetablePatchSetCard extends StatelessWidget {
     this.timetable,
     this.onDeleted,
     this.selected = false,
+    this.optimizedForTouch = false,
     this.onUnpacked,
     this.onChanged,
     this.enableQrCode = true,
@@ -44,7 +46,11 @@ class TimetablePatchSetCard extends StatelessWidget {
       margin: EdgeInsets.zero,
       child: AnimatedExpansionTile(
         selected: selected,
-        leading: const Icon(Icons.dashboard_customize).padAll(8),
+        leading: PatchIcon(
+          icon: Icons.dashboard_customize,
+          optimizedForTouch: optimizedForTouch,
+          inCard: false,
+        ),
         title: patchSet.name.text(),
         trailing: buildMoreActions(),
         rotateTrailing: false,

@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/entity/timetable.dart';
+import 'package:sit/utils/byte_io.dart';
 import 'package:statistics/statistics.dart';
 
 import 'patch.dart';
@@ -241,6 +242,14 @@ class SitCourse {
         Object.hashAll(teachers),
         hidden,
       );
+
+  void serialize(ByteWriter writer){
+    writer.int8(courseKey);
+    writer.strUtf8(courseName);
+    writer.strUtf8(courseCode);
+    writer.strUtf8(courseCode);
+    writer.strUtf8(place);
+  }
 }
 
 extension SitCourseEx on SitCourse {

@@ -19,7 +19,10 @@ Future<void> onTimetablePatchFromQrCode({
   required BuildContext context,
   required TimetablePatchEntry patch,
 }) async {
-  await context.showSheet((ctx) => TimetablePatchFromQrCodeSheet(patch: patch));
+  await context.showSheet(
+    (ctx) => TimetablePatchFromQrCodeSheet(patch: patch),
+    dismissible: false,
+  );
 }
 
 class TimetablePatchFromQrCodeSheet extends ConsumerStatefulWidget {

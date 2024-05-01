@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:reorderables/reorderables.dart';
@@ -156,6 +157,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
             selected: dropping,
             patchSet: entry,
             timetable: timetable,
+            optimizedForTouch: true,
             onDeleted: () {
               removePatch(index);
             },
@@ -197,12 +199,10 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
             },
             builder: (dropping) => TimetablePatchWidget<TimetablePatch>(
               selected: dropping,
-              leading: TimetablePatchDraggable(
+              optimizedForTouch: true,
+              leading: (ctx, child) => TimetablePatchDraggable(
                 patch: entry,
-                child: Card.filled(
-                  margin: EdgeInsets.zero,
-                  child: Icon(entry.type.icon).padAll(8),
-                ),
+                child: child,
               ),
               patch: entry,
               timetable: timetable,
@@ -269,7 +269,11 @@ class _TimetablePatchEntryDroppableState extends State<TimetablePatchEntryDroppa
         return widget.builder(candidateItems.isNotEmpty);
       },
       onWillAcceptWithDetails: (details) {
-        return details.data != widget.patch;
+        final willAccept = details.data != widget.patch;
+        if (willAccept) {
+          HapticFeedback.selectionClick();
+        }
+        return willAccept;
       },
       onAcceptWithDetails: (details) {
         widget.onMerged(details.data);
@@ -300,21 +304,18 @@ class _TimetablePatchDraggableState extends State<TimetablePatchDraggable> {
     final patch = widget.patch;
     return Draggable<TimetablePatch>(
       data: patch,
-      feedback: Card.filled(
-        child: [
-          Icon(patch.type.icon),
-          patch.type.l10n().text(),
-        ].column(maa: MainAxisAlignment.center).sizedAll(80),
-      ),
-      onDragStarted: () {
+      feedback:widget.child,
+      onDragStarted: () async {
         setState(() {
           dragging = true;
         });
+        await HapticFeedback.selectionClick();
       },
-      onDragEnd: (details) {
+      onDragEnd: (details) async {
         setState(() {
           dragging = false;
         });
+        await HapticFeedback.selectionClick();
       },
       child: AnimatedOpacity(
         opacity: dragging ? 0.25 : 1.0,
@@ -344,10 +345,6 @@ class ReadonlyTimetablePatchEntryWidget extends StatelessWidget {
           enableQrCode: enableQrCode,
         ),
       TimetablePatch() => TimetablePatchWidget<TimetablePatch>(
-          leading: Card.filled(
-            margin: EdgeInsets.zero,
-            child: Icon(entry.type.icon).padAll(8),
-          ),
           enableQrCode: enableQrCode,
           patch: entry,
         ),

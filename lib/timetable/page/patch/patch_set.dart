@@ -165,10 +165,6 @@ class _TimetablePatchSetEditorPageState extends State<TimetablePatchSetEditorPag
         },
       ),
       child: TimetablePatchWidget<TimetablePatch>(
-        leading: Card.filled(
-          margin: EdgeInsets.zero,
-          child: Icon(patch.type.icon).padAll(8),
-        ),
         patch: patch,
         timetable: timetable,
         edit: (patch) async {

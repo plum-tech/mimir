@@ -188,8 +188,9 @@ class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessW
 }
 
 class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidget {
-  final Widget? leading;
+  final Widget Function(BuildContext context, Widget child)? leading;
   final TPatch patch;
+  final bool optimizedForTouch;
   final VoidCallback? onDeleted;
   final bool selected;
   final SitTimetable? timetable;
@@ -203,6 +204,7 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
     required this.patch,
     this.timetable,
     this.onChanged,
+    this.optimizedForTouch = false,
     this.edit,
     this.selected = false,
     this.enableQrCode = true,
@@ -214,7 +216,11 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
     final onChanged = this.onChanged;
     final edit = this.edit;
     return ListTile(
-      leading: leading ?? Icon(patch.type.icon),
+      leading: leading?.call(
+            context,
+            buildLeading(context),
+          ) ??
+          buildLeading(context),
       title: patch.type.l10n().text(),
       subtitle: patch.l10n().text(),
       selected: selected,
@@ -233,6 +239,42 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
               onChanged(newPath);
             },
     );
+  }
+
+  Widget buildLeading(BuildContext context) {
+    return PatchIcon(
+      icon: patch.type.icon,
+      optimizedForTouch: optimizedForTouch,
+    );
+  }
+}
+
+class PatchIcon extends StatelessWidget {
+  final IconData icon;
+  final bool optimizedForTouch;
+  final bool inCard;
+
+  const PatchIcon({
+    super.key,
+    required this.icon,
+    this.optimizedForTouch = false,
+    this.inCard = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final widget = Icon(
+      icon,
+      size: optimizedForTouch ? context.theme.iconTheme.size ?? 24 * 1.25 : null,
+    ).padAll(8);
+    if (inCard) {
+      return Card.filled(
+        margin: EdgeInsets.zero,
+        child: widget,
+      );
+    } else {
+      return widget;
+    }
   }
 }
 
