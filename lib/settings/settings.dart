@@ -111,18 +111,18 @@ class _Theme {
 class _ProxyK {
   static const ns = '/proxy';
 
-  static String address(ProxyType type) => "$ns/${type.name}/address";
+  static String address(ProxyCat type) => "$ns/${type.name}/address";
 
-  static String enabled(ProxyType type) => "$ns/${type.name}/enabled";
+  static String enabled(ProxyCat type) => "$ns/${type.name}/enabled";
 
-  static String proxyMode(ProxyType type) => "$ns/${type.name}/proxyMode";
+  static String proxyMode(ProxyCat type) => "$ns/${type.name}/proxyMode";
 }
 
 typedef ProxyProfileRecords = ({String? address, bool enabled, ProxyMode proxyMode});
 
 class ProxyProfileLegacy {
   final Box box;
-  final ProxyType type;
+  final ProxyCat type;
 
   ProxyProfileLegacy(this.box, String ns, this.type);
 
@@ -155,23 +155,23 @@ class _Proxy {
   final Box box;
 
   _Proxy(this.box)
-      : http = ProxyProfileLegacy(box, _ProxyK.ns, ProxyType.http),
-        https = ProxyProfileLegacy(box, _ProxyK.ns, ProxyType.https),
-        all = ProxyProfileLegacy(box, _ProxyK.ns, ProxyType.all);
+      : http = ProxyProfileLegacy(box, _ProxyK.ns, ProxyCat.http),
+        https = ProxyProfileLegacy(box, _ProxyK.ns, ProxyCat.https),
+        all = ProxyProfileLegacy(box, _ProxyK.ns, ProxyCat.all);
 
   final ProxyProfileLegacy http;
   final ProxyProfileLegacy https;
   final ProxyProfileLegacy all;
 
-  ProxyProfileLegacy resolve(ProxyType type) {
+  ProxyProfileLegacy resolve(ProxyCat type) {
     return switch (type) {
-      ProxyType.http => http,
-      ProxyType.https => https,
-      ProxyType.all => all,
+      ProxyCat.http => http,
+      ProxyCat.https => https,
+      ProxyCat.all => all,
     };
   }
 
-  void setProfile(ProxyType type, ProxyProfileRecords value) {
+  void setProfile(ProxyCat type, ProxyProfileRecords value) {
     final profile = resolve(type);
     profile.address = value.address;
     profile.enabled = value.enabled;
@@ -186,7 +186,7 @@ class _Proxy {
     all.enabled = value;
   }
 
-  Listenable listenAnyEnabled() => box.listenable(keys: ProxyType.values.map((type) => _ProxyK.enabled(type)).toList());
+  Listenable listenAnyEnabled() => box.listenable(keys: ProxyCat.values.map((type) => _ProxyK.enabled(type)).toList());
 
   /// return null if their proxy mode are not identical.
   ProxyMode? getIntegratedProxyMode() {
@@ -211,14 +211,13 @@ class _Proxy {
     return http.proxyMode == mode || https.proxyMode == mode || all.proxyMode == mode;
   }
 
-  Listenable listenProxyMode() =>
-      box.listenable(keys: ProxyType.values.map((type) => _ProxyK.proxyMode(type)).toList());
+  Listenable listenProxyMode() => box.listenable(keys: ProxyCat.values.map((type) => _ProxyK.proxyMode(type)).toList());
 
-  Listenable listenAnyChange({bool address = true, bool enabled = true, ProxyType? type}) {
+  Listenable listenAnyChange({bool address = true, bool enabled = true, ProxyCat? type}) {
     if (type == null) {
       return box.listenable(keys: [
-        if (address) ProxyType.values.map((type) => _ProxyK.address(type)),
-        if (enabled) ProxyType.values.map((type) => _ProxyK.enabled(type)),
+        if (address) ProxyCat.values.map((type) => _ProxyK.address(type)),
+        if (enabled) ProxyCat.values.map((type) => _ProxyK.enabled(type)),
       ]);
     } else {
       return box.listenable(keys: [

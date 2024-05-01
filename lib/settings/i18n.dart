@@ -148,7 +148,7 @@ class _OaCredentials extends OaCredentialsI18n {
   String get testLoginOaDesc => "$ns.testLoginOa.desc".tr();
 }
 
-extension ProxyTypeI18nX on ProxyType {
+extension ProxyTypeI18nX on ProxyCat {
   String l10n() => "settings.proxy.proxyType.$name".tr();
 }
 

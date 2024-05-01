@@ -48,13 +48,13 @@ Map<String, String> _toEnvMap(({String? http, String? https, String? all}) profi
 
 ({String? http, String? https, String? all}) _buildProxy(bool isSchoolLanRequired) {
   return (
-    http: _buildProxyForType(ProxyType.http, isSchoolLanRequired),
-    https: _buildProxyForType(ProxyType.https, isSchoolLanRequired),
-    all: _buildProxyForType(ProxyType.all, isSchoolLanRequired),
+    http: _buildProxyForType(ProxyCat.http, isSchoolLanRequired),
+    https: _buildProxyForType(ProxyCat.https, isSchoolLanRequired),
+    all: _buildProxyForType(ProxyCat.all, isSchoolLanRequired),
   );
 }
 
-String? _buildProxyForType(ProxyType type, bool isSchoolLanRequired) {
+String? _buildProxyForType(ProxyCat type, bool isSchoolLanRequired) {
   final profile = Settings.proxy.resolve(type);
   final address = profile.address;
   if (address == null) return null;

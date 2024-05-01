@@ -41,3 +41,24 @@ class ProxyModeAdapter extends TypeAdapter<ProxyMode> {
   bool operator ==(Object other) =>
       identical(this, other) || other is ProxyModeAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+ProxyProfile _$ProxyProfileFromJson(Map<String, dynamic> json) => ProxyProfile(
+      address: json['address'] as String,
+      enabled: json['enabled'] as bool,
+      mode: $enumDecode(_$ProxyModeEnumMap, json['mode']),
+    );
+
+Map<String, dynamic> _$ProxyProfileToJson(ProxyProfile instance) => <String, dynamic>{
+      'address': instance.address,
+      'enabled': instance.enabled,
+      'mode': _$ProxyModeEnumMap[instance.mode]!,
+    };
+
+const _$ProxyModeEnumMap = {
+  ProxyMode.global: 'global',
+  ProxyMode.schoolOnly: 'schoolOnly',
+};

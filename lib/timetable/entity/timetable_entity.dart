@@ -269,7 +269,8 @@ class SitTimetableDay {
 
     for (final slot in timeslots) {
       for (final lessonPart in slot.lessons) {
-        lessonPart.type.parts.addAll(timeslots.map((slot) => slot.lessons).flattened.where((part) => part.type == lessonPart.type));
+        lessonPart.type.parts
+            .addAll(timeslots.map((slot) => slot.lessons).flattened.where((part) => part.type == lessonPart.type));
       }
     }
     return timeslots;

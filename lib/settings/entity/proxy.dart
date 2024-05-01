@@ -1,8 +1,9 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/storage/hive/type_id.dart';
 
 part "proxy.g.dart";
 
-enum ProxyType {
+enum ProxyCat {
   http(
     defaultHost: "localhost",
     defaultPort: 3128,
@@ -35,7 +36,7 @@ enum ProxyType {
   final List<String> supportedProtocols;
   final String defaultProtocol;
 
-  const ProxyType({
+  const ProxyCat({
     required this.defaultHost,
     required this.defaultPort,
     required this.supportedProtocols,
@@ -63,9 +64,13 @@ enum ProxyMode {
   schoolOnly;
 }
 
+@JsonSerializable()
 class ProxyProfile {
+  @JsonKey()
   final String address;
+  @JsonKey()
   final bool enabled;
+  @JsonKey()
   final ProxyMode mode;
 
   const ProxyProfile({
@@ -73,4 +78,9 @@ class ProxyProfile {
     required this.enabled,
     required this.mode,
   });
+
+
+  factory ProxyProfile.fromJson(Map<String, dynamic> json) => _$ProxyProfileFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProxyProfileToJson(this);
 }

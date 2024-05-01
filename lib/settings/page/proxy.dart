@@ -46,16 +46,16 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
               buildProxyModeSwitcher(),
               const Divider(),
               buildProxyTypeTile(
-                ProxyType.http,
+                ProxyCat.http,
                 icon: const Icon(Icons.http),
               ),
               buildProxyTypeTile(
-                ProxyType.https,
+                ProxyCat.https,
                 icon: const Icon(Icons.https),
               ),
               if (Dev.on)
                 buildProxyTypeTile(
-                  ProxyType.all,
+                  ProxyCat.all,
                   icon: const Icon(Icons.public),
                 ),
               const Divider(),
@@ -69,7 +69,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
   }
 
   Widget buildProxyTypeTile(
-    ProxyType type, {
+    ProxyCat type, {
     required Widget icon,
   }) {
     return Settings.proxy.listenAnyChange(type: type) >>
@@ -123,7 +123,7 @@ Uri? _validateProxyUri(String uriString) {
   return uri;
 }
 
-Uri? _validateProxyUriForType(String uriString, ProxyType type) {
+Uri? _validateProxyUriForType(String uriString, ProxyCat type) {
   final uri = _validateProxyUri(uriString);
   if (uri == null) return null;
   return !type.supportedProtocols.contains(uri.scheme) ? null : uri;
@@ -171,11 +171,11 @@ Future<void> onProxyFromQrCode({
     cancel: i18n.cancel,
   );
   if (confirm != true) return;
-  bool isValid(Uri? uri, ProxyType type) {
+  bool isValid(Uri? uri, ProxyCat type) {
     return uri == null ? true : _validateProxyUriForType(uri.toString(), type) != null;
   }
 
-  var valid = isValid(http, ProxyType.http) && isValid(https, ProxyType.https) && isValid(all, ProxyType.all);
+  var valid = isValid(http, ProxyCat.http) && isValid(https, ProxyCat.https) && isValid(all, ProxyCat.all);
   if (!valid) {
     if (!context.mounted) return;
     context.showTip(
@@ -185,16 +185,16 @@ Future<void> onProxyFromQrCode({
     );
     return;
   }
-  if (http != null) Settings.proxy.resolve(ProxyType.http).address = http.toString();
-  if (https != null) Settings.proxy.resolve(ProxyType.https).address = https.toString();
-  if (all != null) Settings.proxy.resolve(ProxyType.all).address = all.toString();
+  if (http != null) Settings.proxy.resolve(ProxyCat.http).address = http.toString();
+  if (https != null) Settings.proxy.resolve(ProxyCat.https).address = https.toString();
+  if (all != null) Settings.proxy.resolve(ProxyCat.all).address = all.toString();
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
   context.push("/settings/proxy");
 }
 
 class ProxyProfileEditorPage extends StatefulWidget {
-  final ProxyType type;
+  final ProxyCat type;
 
   const ProxyProfileEditorPage({
     super.key,
@@ -211,7 +211,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   late var enabled = profile.enabled;
   late var proxyMode = profile.proxyMode;
 
-  ProxyType get type => widget.type;
+  ProxyCat get type => widget.type;
 
   @override
   void initState() {
