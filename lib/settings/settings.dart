@@ -170,7 +170,7 @@ class _Proxy {
   set anyEnabled(bool value) {
     applyForeach((cat, profile, set) {
       if (profile != null) {
-        set(profile.copyWith(enabled: true));
+        set(profile.copyWith(enabled: value));
       }
     });
   }

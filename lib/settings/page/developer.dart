@@ -18,7 +18,6 @@ import 'package:sit/init.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/login/aggregated.dart';
 import 'package:sit/login/utils.dart';
-import 'package:sit/r.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/design/widgets/navigation.dart';
 import 'package:rettulf/rettulf.dart';
@@ -242,8 +241,8 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
             )
           : null,
       children: [
-        ...credentialsList.map(buildCredentialsHistoryTile),
-        buildLoginNewTile(),
+        ...credentialsList.map(buildCredentialsHistoryTile).map((e) => e.padOnly(l: 32)),
+        buildLoginNewTile().padOnly(l: 32),
       ],
     );
   }
@@ -263,7 +262,7 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
         context.showSnackBar(content: i18n.copyTipOf(i18n.oaCredentials.oaAccount).text());
         await Clipboard.setData(ClipboardData(text: credentials.account));
       },
-    ).padH(12);
+    );
   }
 
   Widget buildLoginNewTile() {
@@ -278,7 +277,7 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
         if (credentials == null) return;
         await loginWith(credentials);
       },
-    ).padH(12);
+    );
   }
 
   Future<void> loginWith(Credentials credentials) async {

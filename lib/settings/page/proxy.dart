@@ -227,6 +227,7 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
   late var uri = profile?.address;
   late var enabled = profile?.enabled ?? false;
   late var proxyMode = profile?.mode ?? ProxyMode.schoolOnly;
+  late var enableAuth = uri?.userInfo.isNotEmpty == true;
 
   ProxyCat get type => widget.type;
 
@@ -256,7 +257,8 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
               buildProxyProtocolTile(),
               buildProxyHostTile(),
               buildProxyPortTile(),
-              buildProxyAuthTile(),
+              buildEnableAuth(),
+              if (enableAuth) buildProxyAuthTile().padOnly(l: 32),
             ]),
           ],
         ),
@@ -269,8 +271,11 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
   }
 
   ProxyProfile? buildProfile() {
-    final uri = this.uri;
+    var uri = this.uri;
     if (uri == null) return null;
+    if (!enableAuth) {
+      uri = uri.replace(userInfo: "");
+    }
     return ProxyProfile(
       address: uri,
       enabled: enabled,
@@ -289,7 +294,8 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
           PlatformIconButton(
             onPressed: () {
               setState(() {
-                this.uri = type.buildDefaultUri();
+                this.uri = null;
+                enableAuth = false;
               });
             },
             icon: Icon(context.icons.delete),
@@ -300,7 +306,7 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
             var newFullProxy = await Editor.showStringEditor(
               context,
               desc: i18n.proxy.title,
-              initial: uri.toString(),
+              initial: uri?.toString() ?? type.buildDefaultUri().toString(),
             );
             if (newFullProxy == null) return;
             newFullProxy = newFullProxy.trim();
@@ -381,7 +387,7 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
     return DetailListTile(
       leading: const Icon(Icons.settings_input_component_outlined),
       title: i18n.proxy.port,
-      subtitle: port.toString(),
+      subtitle: port?.toString(),
       trailing: PlatformIconButton(
         icon: Icon(context.icons.edit),
         onPressed: () async {
@@ -403,6 +409,21 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
     );
   }
 
+  Widget buildEnableAuth() {
+    return ListTile(
+      leading: const Icon(Icons.key),
+      title: "Enable auth".text(),
+      trailing: Switch.adaptive(
+        value: enableAuth,
+        onChanged: (newV) {
+          setState(() {
+            enableAuth = newV;
+          });
+        },
+      ),
+    );
+  }
+
   Widget buildProxyAuthTile() {
     final userInfoParts = uri?.userInfo.split(":");
     final auth = userInfoParts == null
@@ -411,44 +432,31 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
             ? (username: userInfoParts[0], password: userInfoParts[1])
             : null;
     final text = auth != null ? "${auth.username}:${auth.password}" : null;
-    return ListTile(
-      leading: const Icon(Icons.key),
-      title: i18n.proxy.authentication.text(),
-      subtitle: text?.text(),
-      trailing: [
-        if (auth != null)
-          PlatformIconButton(
-            onPressed: () {
-              setState(() {
-                uri = uri?.replace(userInfo: "");
-              });
-            },
-            icon: Icon(context.icons.delete),
-          ),
-        PlatformIconButton(
-          icon: Icon(context.icons.edit),
-          onPressed: () async {
-            final newAuth = await showAdaptiveDialog<({String username, String password})>(
-              context: context,
-              builder: (_) => StringsEditor(
-                fields: [
-                  (name: "username", initial: auth?.username ?? ""),
-                  (name: "password", initial: auth?.password ?? ""),
-                ],
-                title: i18n.proxy.authentication,
-                ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
-              ),
-            );
-            if (newAuth != null && newAuth != auth) {
-              setState(() {
-                uri = uri?.replace(
-                    userInfo:
-                        newAuth.password.isNotEmpty ? "${newAuth.username}:${newAuth.password}" : newAuth.username);
-              });
-            }
-          },
-        ),
-      ].wrap(),
+    return DetailListTile(
+      title: i18n.proxy.authentication,
+      subtitle: text,
+      trailing: PlatformIconButton(
+        icon: Icon(context.icons.edit),
+        onPressed: () async {
+          final newAuth = await showAdaptiveDialog<({String username, String password})>(
+            context: context,
+            builder: (_) => StringsEditor(
+              fields: [
+                (name: "username", initial: auth?.username ?? ""),
+                (name: "password", initial: auth?.password ?? ""),
+              ],
+              title: i18n.proxy.authentication,
+              ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
+            ),
+          );
+          if (newAuth != null && newAuth != auth) {
+            setState(() {
+              uri = uri?.replace(
+                  userInfo: newAuth.password.isNotEmpty ? "${newAuth.username}:${newAuth.password}" : newAuth.username);
+            });
+          }
+        },
+      ),
     );
   }
 

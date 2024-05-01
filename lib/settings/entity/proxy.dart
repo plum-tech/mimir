@@ -57,7 +57,6 @@ enum ProxyCat {
   }
 }
 
-@HiveType(typeId: CoreHiveType.proxyMode)
 enum ProxyMode {
   @HiveField(0)
   global,
@@ -84,4 +83,16 @@ class ProxyProfile {
   factory ProxyProfile.fromJson(Map<String, dynamic> json) => _$ProxyProfileFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProxyProfileToJson(this);
+
+  @override
+  int get hashCode => Object.hash(address, enabled, mode);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ProxyProfile &&
+          runtimeType == other.runtimeType &&
+          address == other.address &&
+          enabled == enabled &&
+          mode == other.mode;
 }
