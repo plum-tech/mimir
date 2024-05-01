@@ -266,13 +266,19 @@ String convertTimetable2ICal({
   );
   final alarm = config.alarm;
   final merged = config.isLessonMerged;
+  final added = <SitTimetableLesson>{};
   for (final week in timetable.weeks) {
     for (final day in week.days) {
       for (final lessonSlot in day.timeslot2LessonSlot) {
         for (final part in lessonSlot.lessons) {
+          final lesson = part.type;
+          if (merged && added.contains(lesson)) {
+            continue;
+          } else {
+            added.add(lesson);
+          }
           final course = part.course;
           final teachers = course.teachers.join(', ');
-          final lesson = part.type;
           final startTime = (merged ? lesson.startTime : part.startTime).toUtc();
           final endTime = (merged ? lesson.endTime : part.endTime).toUtc();
           final uid = merged
