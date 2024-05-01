@@ -706,7 +706,8 @@ settings:
   proxy:
     title: 代理伺服器
     desc: 代理校園網路連線
-    authentication: 驗證
+    enableAuth: 啟用身份驗證
+    authentication: 身份驗證
     protocol: 通訊協定
     hostname: 主機名稱
     port: 連接埠

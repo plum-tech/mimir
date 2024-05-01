@@ -706,6 +706,7 @@ settings:
   proxy:
     title: 代理
     desc: 代理校园网连接
+    enableAuth: 启用身份验证
     authentication: 身份验证
     protocol: 协议
     hostname: 主机名

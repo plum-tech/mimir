@@ -706,6 +706,7 @@ settings:
   proxy:
     title: Proxy
     desc: Proxy the access to campus network
+    enableAuth: Enable authentication
     authentication: Authentication
     protocol: Protocol
     hostname: Hostname

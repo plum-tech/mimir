@@ -411,7 +411,7 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
   Widget buildEnableAuth() {
     return ListTile(
       leading: const Icon(Icons.key),
-      title: "Enable auth".text(),
+      title: i18n.proxy.enableAuth.text(),
       trailing: Switch.adaptive(
         value: enableAuth,
         onChanged: (newV) {
