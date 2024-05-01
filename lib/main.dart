@@ -68,8 +68,8 @@ void main() async {
   final lastVersionRaw = prefs.getLastVersion();
   final lastVersion = lastVersionRaw != null ? Version.parse(lastVersionRaw) : currentVersion;
   debugPrint("Last version: $lastVersion");
-  // final migrations = Migrations.match(from: lastVersion, to: currentVersion);
-  final migrations = Migrations.match(from: Version(2, 3, 2), to: currentVersion);
+  final migrations = Migrations.match(from: lastVersion, to: currentVersion);
+  // final migrations = Migrations.match(from: Version(2, 3, 2), to: currentVersion);
 
   await migrations.perform(MigrationPhrase.beforeHive);
   await prefs.setLastVersion(lastVersion.toString());

@@ -1,6 +1,9 @@
 import 'package:sit/files.dart';
+import 'package:sit/settings/entity/proxy.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/utils/error.dart';
+import 'package:sit/utils/hive.dart';
 import 'package:version/version.dart';
 
 import 'foundation.dart';
@@ -29,6 +32,30 @@ class Migrations {
               }
             case MigrationPhrase.afterHive:
               await HiveInit.ywb.clear();
+              // proxy
+              final proxyBox = Settings.proxy.box;
+              for (final cat in ProxyCat.values) {
+                if (Settings.proxy.getProfileOf(cat) != null) {
+                  continue;
+                }
+                final address = proxyBox.safeGet<String>("/proxy/${cat.name}/address");
+                final addressUri = address != null ? Uri.tryParse(address) : null;
+                final enabled = proxyBox.safeGet<bool>("/proxy/${cat.name}/enabled");
+                final mode = proxyBox.safeGet<ProxyMode>("/proxy/${cat.name}/proxyMode");
+                if (addressUri != null && !cat.isDefaultUri(addressUri)) {
+                  await Settings.proxy.setProfileOf(
+                    cat,
+                    ProxyProfile(
+                      address: addressUri,
+                      enabled: enabled ?? true,
+                      mode: mode ?? ProxyMode.schoolOnly,
+                    ),
+                  );
+                }
+                await proxyBox.delete("/proxy/${cat.name}/address");
+                await proxyBox.delete("/proxy/${cat.name}/enabled");
+                await proxyBox.delete("/proxy/${cat.name}/proxyMode");
+              }
           }
         });
   }

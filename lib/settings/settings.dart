@@ -127,8 +127,8 @@ class _Proxy {
   ProxyProfile? getProfileOf(ProxyCat cat) =>
       decodeJsonObject(box.safeGet<String>(_ProxyK.keyOf(cat)), (obj) => ProxyProfile.fromJson(obj));
 
-  Future<void> setProfileOf(ProxyCat cat, ProxyProfile? newV) =>
-      box.safePut<String>(_ProxyK.keyOf(cat), encodeJsonObject(newV));
+  Future<void> setProfileOf(ProxyCat cat, ProxyProfile? newV) async =>
+      await box.safePut<String>(_ProxyK.keyOf(cat), encodeJsonObject(newV));
 
   ProxyProfile? get http => getProfileOf(ProxyCat.http);
 

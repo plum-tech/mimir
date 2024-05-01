@@ -55,8 +55,15 @@ enum ProxyCat {
     if (uri.userInfo.isNotEmpty) return false;
     return true;
   }
+  bool? isDefaultUriString(String? uriString) {
+    if(uriString == null) return null;
+    final uri = Uri.tryParse(uriString);
+    if(uri == null) return null;
+    return isDefaultUri(uri);
+  }
 }
 
+@HiveType(typeId: CoreHiveType.proxyMode)
 enum ProxyMode {
   @HiveField(0)
   global,
