@@ -330,6 +330,7 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
           if (newUri != uri) {
             setState(() {
               this.uri = newUri;
+              enableAuth = newUri.userInfo.isNotEmpty;
             });
           }
         },
