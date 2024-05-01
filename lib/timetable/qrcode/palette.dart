@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/widgets.dart';
 import 'package:sit/qrcode/protocol.dart';
+import 'package:sit/qrcode/utils.dart';
 import 'package:sit/r.dart';
 
 import '../entity/platte.dart';
@@ -12,10 +11,18 @@ class TimetablePaletteDeepLink implements DeepLinkHandlerProtocol {
 
   const TimetablePaletteDeepLink();
 
-  Uri encode(TimetablePalette palette) =>
-      Uri(scheme: R.scheme, path: path, query: base64Encode(palette.encodeByteList()));
+  Uri encode(TimetablePalette palette) => Uri(
+      scheme: R.scheme,
+      path: path,
+      query: encodeBytesForUrl(
+        palette.encodeByteList(),
+        compress: false,
+      ));
 
-  TimetablePalette decode(Uri qrCodeData) => TimetablePalette.decodeFromBase64(qrCodeData.query);
+  TimetablePalette decode(Uri qrCodeData) => TimetablePalette.decodeFromByteList(decodeBytesFromUrl(
+        qrCodeData.query,
+        compress: false,
+      ));
 
   @override
   bool match(Uri encoded) {

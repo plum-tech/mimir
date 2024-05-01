@@ -132,9 +132,9 @@ class ByteWriter {
     _offset += 8;
   }
 
-  void strUtf8(String str, [ByteLength requireBytes = ByteLength.bit32, Endian endian = Endian.big]) {
+  void strUtf8(String str, [ByteLength expectedBytes = ByteLength.bit32, Endian endian = Endian.big]) {
     List<int> nameBytes = utf8.encode(str);
-    _minimalByteLength(nameBytes.length, requireBytes);
+    _minimalByteLength(nameBytes.length, expectedBytes);
     for (int i = 0; i < nameBytes.length; i++) {
       uint8(nameBytes[i]);
     }

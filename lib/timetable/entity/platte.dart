@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:copy_with_extension/copy_with_extension.dart';
@@ -44,6 +43,7 @@ DateTime _kLastModified() => DateTime.now();
 @JsonSerializable()
 @CopyWith()
 class TimetablePalette {
+  static const version = 1;
   @JsonKey()
   final String name;
   @JsonKey()
@@ -66,18 +66,31 @@ class TimetablePalette {
 
   Map<String, dynamic> toJson() => _$TimetablePaletteToJson(this);
 
-  static TimetablePalette decodeFromBase64(String encoded) {
-    final bytes = base64Decode(encoded);
-    return decodeFromByteList(bytes);
+  Uint8List encodeByteList() => _encodeByteList(this);
+
+  static Uint8List _encodeByteList(TimetablePalette obj) {
+    final writer = ByteWriter(256);
+    writer.uint8(version);
+    writer.strUtf8(obj.name, ByteLength.bit8);
+    writer.strUtf8(obj.author, ByteLength.bit8);
+    writer.uint16(obj.colors.length);
+    for (var color in obj.colors) {
+      writer.uint32(color.light.value);
+      writer.uint32(color.dark.value);
+    }
+
+    return writer.build();
   }
 
   static TimetablePalette decodeFromByteList(Uint8List bytes) {
     final reader = ByteReader(bytes);
-    final name = reader.strUtf8();
-    final author = reader.strUtf8();
-    final colorLen = reader.uint32();
+    // ignore: unused_local_variable
+    final revision = reader.uint8();
+    final name = reader.strUtf8(ByteLength.bit8);
+    final author = reader.strUtf8(ByteLength.bit8);
+    final colorLen = reader.uint16();
 
-    List<Color2Mode> colors = [];
+    final colors = <Color2Mode>[];
     for (int i = 0; i < colorLen; i++) {
       Color light = Color(reader.uint32());
       Color dark = Color(reader.uint32());
@@ -90,21 +103,6 @@ class TimetablePalette {
       colors: colors,
       lastModified: DateTime.now(),
     );
-  }
-
-  List<int> encodeByteList() => _encodeByteList(this);
-
-  static Uint8List _encodeByteList(TimetablePalette obj) {
-    final writer = ByteWriter(512);
-    writer.strUtf8(obj.name);
-    writer.strUtf8(obj.author);
-    writer.uint32(obj.colors.length);
-    for (var color in obj.colors) {
-      writer.uint32(color.light.value);
-      writer.uint32(color.dark.value);
-    }
-
-    return writer.build();
   }
 }
 
@@ -150,7 +148,7 @@ class BuiltinTimetablePalette implements TimetablePalette {
       };
 
   @override
-  List<int> encodeByteList() => TimetablePalette._encodeByteList(this);
+  Uint8List encodeByteList() => TimetablePalette._encodeByteList(this);
 }
 
 abstract mixin class SitTimetablePaletteResolver {
