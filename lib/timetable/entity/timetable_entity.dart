@@ -1,10 +1,12 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/entity/timetable.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/timetable/utils.dart';
 import 'package:collection/collection.dart';
+import 'package:sit/utils/date.dart';
 import 'patch.dart';
 import 'platte.dart';
 import 'timetable.dart';
@@ -139,7 +141,11 @@ class SitTimetableLessonSlot {
 }
 
 String _formatDay(DateTime date) {
-  return "${date.year}-${date.month}-${date.day}";
+  return "${date.year}/${date.month}/${date.day}";
+}
+
+String _formatTime(DateTime date) {
+  return "${date.year}/${date.month}/${date.day} ${date.hour}:${date.minute}";
 }
 
 class SitTimetableDay {
@@ -228,16 +234,45 @@ class SitTimetableDay {
 
     for (final lessonSlot in _timeslot2LessonSlot) {
       lessonSlot.parent = this;
-      for (final lesson in lessonSlot.lessons) {
-        lesson.type.parent = this;
+      for (final part in lessonSlot.lessons) {
+        part.type.parent = this;
       }
     }
   }
 
   List<SitTimetableLessonSlot> cloneLessonSlots() {
-    return List.of(_timeslot2LessonSlot.map((lessonSlot) {
-      return SitTimetableLessonSlot(lessons: List.of(lessonSlot.lessons));
-    }));
+    final old2newLesson = <SitTimetableLesson, SitTimetableLesson>{};
+    final timeslots = List.of(
+      _timeslot2LessonSlot.map(
+        (lessonSlot) {
+          return SitTimetableLessonSlot(
+            lessons: List.of(
+              lessonSlot.lessons.map(
+                (lessonPart) {
+                  final oldLesson = lessonPart.type;
+                  final lesson = old2newLesson[oldLesson] ??
+                      oldLesson.copyWith(
+                        parts: [],
+                      );
+                  old2newLesson[oldLesson] ??= lesson;
+                  final part = lessonPart.copyWith(
+                    type: lesson,
+                  );
+                  return part;
+                },
+              ),
+            ),
+          );
+        },
+      ),
+    );
+
+    for (final slot in timeslots) {
+      for (final lessonPart in slot.lessons) {
+        lessonPart.type.parts.addAll(timeslots.map((slot) => slot.lessons).flattened.where((part) => part.type == lessonPart.type));
+      }
+    }
+    return timeslots;
   }
 
   /// At all lessons [layer]
@@ -268,6 +303,7 @@ class SitTimetableDay {
       }.toString();
 }
 
+@CopyWith(skipFields: true)
 class SitTimetableLesson {
   late SitTimetableDay parent;
 
@@ -296,8 +332,14 @@ class SitTimetableLesson {
   DateTime get startTime => parts.first.startTime;
 
   DateTime get endTime => parts.last.endTime;
+
+  @override
+  String toString() {
+    return "${course.courseName} ${_formatTime(startTime)} => ${_formatTime(endTime)}";
+  }
 }
 
+@CopyWith(skipFields: true)
 class SitTimetableLessonPart {
   final SitTimetableLesson type;
 
@@ -308,7 +350,7 @@ class SitTimetableLessonPart {
 
   ({DateTime start, DateTime end})? _timeCache;
 
-  late ({DateTime start, DateTime end}) time = () {
+  ({DateTime start, DateTime end}) get time {
     final timeCache = _timeCache;
 
     if (_dayCache == type.parent && timeCache != null) {
@@ -321,7 +363,7 @@ class SitTimetableLessonPart {
       _timeCache = time;
       return time;
     }
-  }();
+  }
 
   DateTime get startTime => time.start;
 
@@ -335,7 +377,7 @@ class SitTimetableLessonPart {
   });
 
   @override
-  String toString() => "[$index] $course";
+  String toString() => "[$index] $type";
 }
 
 extension SitTimetable4EntityX on SitTimetable {
@@ -419,6 +461,21 @@ extension SitTimetable4EntityX on SitTimetable {
 
     for (final patch in patches) {
       processPatch(patch);
+    }
+
+    if (kDebugMode) {
+      for (final week in entity.weeks) {
+        for (final day in week.days) {
+          assert(day.parent == week);
+          for (final slot in day.timeslot2LessonSlot) {
+            assert(slot.parent == day);
+            for (final lessonPart in slot.lessons) {
+              assert(lessonPart.type.parts.contains(lessonPart));
+              assert(lessonPart.type.startTime.inTheSameDay(day.date));
+            }
+          }
+        }
+      }
     }
     return entity;
   }

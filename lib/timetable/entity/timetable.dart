@@ -243,7 +243,7 @@ class SitCourse {
         hidden,
       );
 
-  void serialize(ByteWriter writer){
+  void serialize(ByteWriter writer) {
     writer.int8(courseKey);
     writer.strUtf8(courseName);
     writer.strUtf8(courseCode);

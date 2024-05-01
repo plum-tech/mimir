@@ -172,7 +172,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
               });
               markChanged();
             },
-          ).padSymmetric(v:4),
+          ).padSymmetric(v: 4),
         ),
       TimetablePatch() => WithSwipeAction(
           childKey: ValueKey(entry),
@@ -305,7 +305,7 @@ class _TimetablePatchDraggableState extends State<TimetablePatchDraggable> {
     final patch = widget.patch;
     return Draggable<TimetablePatch>(
       data: patch,
-      feedback:widget.child,
+      feedback: widget.child,
       onDragStarted: () async {
         setState(() {
           dragging = true;
