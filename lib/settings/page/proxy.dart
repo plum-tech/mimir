@@ -244,6 +244,17 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
               title: widget.type.l10n().text(),
               actions: [
                 PlatformTextButton(
+                  onPressed: uri?.toString().isNotEmpty == true
+                      ? () {
+                          setState(() {
+                            uri = null;
+                            enableAuth = false;
+                          });
+                        }
+                      : null,
+                  child: i18n.clear.text(),
+                ),
+                PlatformTextButton(
                   onPressed: canSave ? onSave : null,
                   child: i18n.save.text(),
                 ),
@@ -289,45 +300,33 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
       leading: const Icon(Icons.link),
       title: "URL",
       subtitle: uri?.toString(),
-      trailing: [
-        if (uri != null)
-          PlatformIconButton(
-            onPressed: () {
-              setState(() {
-                this.uri = null;
-                enableAuth = false;
-              });
-            },
-            icon: Icon(context.icons.delete),
-          ),
-        PlatformIconButton(
-          icon: Icon(context.icons.edit),
-          onPressed: () async {
-            var newFullProxy = await Editor.showStringEditor(
-              context,
-              desc: i18n.proxy.title,
-              initial: uri?.toString() ?? type.buildDefaultUri().toString(),
+      trailing: PlatformIconButton(
+        icon: Icon(context.icons.edit),
+        onPressed: () async {
+          var newFullProxy = await Editor.showStringEditor(
+            context,
+            desc: i18n.proxy.title,
+            initial: uri?.toString() ?? type.buildDefaultUri().toString(),
+          );
+          if (newFullProxy == null) return;
+          newFullProxy = newFullProxy.trim();
+          final newUri = _validateProxyUriForType(newFullProxy, type);
+          if (newUri == null) {
+            if (!mounted) return;
+            context.showTip(
+              title: i18n.error,
+              desc: i18n.proxy.invalidProxyFormatTip,
+              primary: i18n.close,
             );
-            if (newFullProxy == null) return;
-            newFullProxy = newFullProxy.trim();
-            final newUri = _validateProxyUriForType(newFullProxy, type);
-            if (newUri == null) {
-              if (!mounted) return;
-              context.showTip(
-                title: i18n.error,
-                desc: i18n.proxy.invalidProxyFormatTip,
-                primary: i18n.close,
-              );
-              return;
-            }
-            if (newUri != uri) {
-              setState(() {
-                this.uri = newUri;
-              });
-            }
-          },
-        ),
-      ].wrap(),
+            return;
+          }
+          if (newUri != uri) {
+            setState(() {
+              this.uri = newUri;
+            });
+          }
+        },
+      ),
     );
   }
 
