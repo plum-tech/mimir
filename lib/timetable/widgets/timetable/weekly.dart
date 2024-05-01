@@ -158,7 +158,7 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
           lesson: lesson,
           style: style,
           timetable: timetable,
-          grayOut: style.cellStyle.grayOutTakenLessons ? passed : false,
+          isLessonTaken: passed,
         );
         if (inClassNow) {
           // cell = Card.outlined(
@@ -336,14 +336,14 @@ class TimetableOneWeek extends StatelessWidget {
 class InteractiveCourseCell extends ConsumerWidget {
   final SitTimetableLessonPart lesson;
   final SitTimetableEntity timetable;
-  final bool grayOut;
+  final bool isLessonTaken;
   final TimetableStyleData style;
 
   const InteractiveCourseCell({
     super.key,
     required this.lesson,
     required this.timetable,
-    this.grayOut = false,
+    this.isLessonTaken = false,
     required this.style,
   });
 
@@ -353,7 +353,7 @@ class InteractiveCourseCell extends ConsumerWidget {
     if (quickLookLessonOnTap) {
       return InteractiveCourseCellWithTooltip(
         timetable: timetable,
-        grayOut: grayOut,
+        isLessonTaken: isLessonTaken,
         style: style,
         lesson: lesson,
       );
@@ -362,7 +362,7 @@ class InteractiveCourseCell extends ConsumerWidget {
     return StyledCourseCell(
       timetable: timetable,
       course: course,
-      grayOut: grayOut,
+      isLessonTaken: isLessonTaken,
       style: style,
       innerBuilder: (ctx, child) => InkWell(
         onTap: () async {
@@ -384,14 +384,14 @@ class InteractiveCourseCell extends ConsumerWidget {
 class InteractiveCourseCellWithTooltip extends StatefulWidget {
   final SitTimetableLessonPart lesson;
   final SitTimetableEntity timetable;
-  final bool grayOut;
+  final bool isLessonTaken;
   final TimetableStyleData style;
 
   const InteractiveCourseCellWithTooltip({
     super.key,
     required this.lesson,
     required this.timetable,
-    this.grayOut = false,
+    this.isLessonTaken = false,
     required this.style,
   });
 
@@ -407,7 +407,7 @@ class _InteractiveCourseCellWithTooltipState extends State<InteractiveCourseCell
     return StyledCourseCell(
       timetable: widget.timetable,
       course: widget.lesson.course,
-      grayOut: widget.grayOut,
+      isLessonTaken: widget.isLessonTaken,
       style: widget.style,
       innerBuilder: (ctx, child) => Tooltip(
         key: $tooltip,
@@ -491,7 +491,7 @@ class CourseCell extends StatelessWidget {
 class StyledCourseCell extends StatelessWidget {
   final SitCourse course;
   final SitTimetableEntity timetable;
-  final bool grayOut;
+  final bool isLessonTaken;
   final Widget Function(BuildContext context, Widget child)? innerBuilder;
   final TimetableStyleData style;
 
@@ -499,7 +499,7 @@ class StyledCourseCell extends StatelessWidget {
     super.key,
     required this.timetable,
     required this.course,
-    required this.grayOut,
+    required this.isLessonTaken,
     required this.style,
     this.innerBuilder,
   });
@@ -510,7 +510,7 @@ class StyledCourseCell extends StatelessWidget {
     color = style.cellStyle.decorateColor(
       color,
       themeColor: context.colorScheme.primary,
-      grayOut: grayOut,
+      isLessonTaken: isLessonTaken,
     );
     return CourseCell(
       courseName: course.courseName,

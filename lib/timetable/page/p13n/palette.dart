@@ -435,7 +435,7 @@ class TimetableP13nLivePreview extends StatelessWidget {
       bool grayOut = false,
     }) {
       var color = palette.safeGetColor(colorId).byTheme(context.theme);
-      color = cellStyle.decorateColor(color, themeColor: themeColor, grayOut: grayOut);
+      color = cellStyle.decorateColor(color, themeColor: themeColor, isLessonTaken: grayOut);
       return TweenAnimationBuilder(
         tween: ColorTween(begin: color, end: color),
         duration: const Duration(milliseconds: 300),

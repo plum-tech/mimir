@@ -29,12 +29,12 @@ class CourseCellStyle {
   Color decorateColor(
     Color color, {
     Color? themeColor,
-    bool grayOut = false,
+    bool isLessonTaken = false,
   }) {
     if (harmonizeWithThemeColor && themeColor != null) {
       color = color.harmonizeWith(themeColor);
     }
-    if (grayOut) {
+    if (grayOutTakenLessons && isLessonTaken) {
       color = color.monochrome();
     }
     if (alpha < 1.0) {

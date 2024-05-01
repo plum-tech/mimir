@@ -23,12 +23,12 @@ typedef TimetableScreenshotConfig = ({
 
 class TimetableScreenshotConfigEditor extends StatefulWidget {
   final SitTimetableEntity timetable;
-  final bool initialGrayOut;
+  final bool initialGrayOutTakenLessons;
 
   const TimetableScreenshotConfigEditor({
     super.key,
     required this.timetable,
-    this.initialGrayOut = false,
+    this.initialGrayOutTakenLessons = false,
   });
 
   @override
@@ -37,7 +37,7 @@ class TimetableScreenshotConfigEditor extends StatefulWidget {
 
 class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotConfigEditor> {
   late final $signature = TextEditingController(text: widget.timetable.signature);
-  late bool grayOutTakenLessons = widget.initialGrayOut;
+  late bool grayOutTakenLessons = widget.initialGrayOutTakenLessons;
   var enableBackground = true;
 
   @override
@@ -59,7 +59,7 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
           ),
           SliverList.list(children: [
             buildSignatureInput(),
-            buildGrayOut(),
+            buildGrayOutTakenLessons(),
             buildEnableBackground(),
           ]),
         ],
@@ -95,7 +95,7 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
     );
   }
 
-  Widget buildGrayOut() {
+  Widget buildGrayOutTakenLessons() {
     return ListTile(
       leading: const Icon(Icons.timelapse),
       title: i18n.p13n.cell.grayOut.text(),
@@ -161,7 +161,6 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
   }
 
   Widget buildBody(BuildContext context, TimetableStyleData style) {
-    final today = DateTime.now();
     return [
       buildTitle().text(style: context.textTheme.titleLarge).padSymmetric(v: 10),
       TimetableOneWeek(
@@ -173,7 +172,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
             style: style,
             timetable: timetable,
             course: lesson.course,
-            grayOut: config.grayOutTakenLessons ? lesson.type.endTime.isBefore(today) : false,
+            isLessonTaken: lesson.type.endTime.isBefore(DateTime.now()),
           );
         },
       ),
@@ -198,7 +197,7 @@ Future<void> takeTimetableScreenshot({
   final config = await context.showSheet<TimetableScreenshotConfig>(
     (ctx) => TimetableScreenshotConfigEditor(
       timetable: timetable,
-      initialGrayOut: TimetableStyle.of(context).cellStyle.grayOutTakenLessons,
+      initialGrayOutTakenLessons: TimetableStyle.of(context).cellStyle.grayOutTakenLessons,
     ),
   );
   if (config == null) return;
