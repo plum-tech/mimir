@@ -172,7 +172,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
               });
               markChanged();
             },
-          ),
+          ).padSymmetric(v:4),
         ),
       TimetablePatch() => WithSwipeAction(
           childKey: ValueKey(entry),
@@ -277,6 +277,7 @@ class _TimetablePatchEntryDroppableState extends State<TimetablePatchEntryDroppa
       },
       onAcceptWithDetails: (details) {
         widget.onMerged(details.data);
+        HapticFeedback.mediumImpact();
       },
     );
   }
@@ -315,7 +316,6 @@ class _TimetablePatchDraggableState extends State<TimetablePatchDraggable> {
         setState(() {
           dragging = false;
         });
-        await HapticFeedback.selectionClick();
       },
       child: AnimatedOpacity(
         opacity: dragging ? 0.25 : 1.0,
