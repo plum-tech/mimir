@@ -27,6 +27,8 @@ const _patchSetType = "patchSet";
 const _patchSetTypeIndex = 255;
 
 sealed class TimetablePatchEntry {
+  static const version = 1;
+
   const TimetablePatchEntry();
 
   factory TimetablePatchEntry.fromJson(Map<String, dynamic> json) {
@@ -54,10 +56,12 @@ sealed class TimetablePatchEntry {
 
   static TimetablePatchEntry decodeByteList(Uint8List bytes) {
     final reader = ByteReader(bytes);
-    return deserializeTyped(reader);
+    // ignore: unused_local_variable
+    final revision = reader.int8();
+    return deserialize(reader);
   }
 
-  static TimetablePatchEntry deserializeTyped(ByteReader reader) {
+  static TimetablePatchEntry deserialize(ByteReader reader) {
     final typeId = reader.uint8();
     if (typeId == _patchSetTypeIndex) {
       return TimetablePatchSet.deserialize(reader);
@@ -69,7 +73,7 @@ sealed class TimetablePatchEntry {
     return const TimetableUnknownPatch();
   }
 
-  static void serializeTyped(TimetablePatchEntry entry, ByteWriter writer) {
+  static void serialize(TimetablePatchEntry entry, ByteWriter writer) {
     if (entry is TimetablePatchSet) {
       writer.uint8(_patchSetTypeIndex);
     } else if (entry is TimetablePatch) {
@@ -81,8 +85,9 @@ sealed class TimetablePatchEntry {
   }
 
   static Uint8List encodeByteList(TimetablePatchEntry entry) {
-    final writer = ByteWriter(256);
-    serializeTyped(entry, writer);
+    final writer = ByteWriter(512);
+    writer.int8(version);
+    serialize(entry, writer);
     return writer.build();
   }
 }
@@ -202,7 +207,7 @@ class TimetablePatchSet extends TimetablePatchEntry {
     writer.strUtf8(obj.name);
     writer.uint8(min(obj.patches.length, 255));
     for (final patch in obj.patches) {
-      TimetablePatchEntry.serializeTyped(patch, writer);
+      TimetablePatchEntry.serialize(patch, writer);
     }
   }
 
@@ -211,7 +216,7 @@ class TimetablePatchSet extends TimetablePatchEntry {
     final length = reader.uint8();
     final patches = <TimetablePatch>[];
     for (var i = 0; i < length; i++) {
-      patches.add(TimetablePatchEntry.deserializeTyped(reader) as TimetablePatch);
+      patches.add(TimetablePatchEntry.deserialize(reader) as TimetablePatch);
     }
     return TimetablePatchSet(name: name, patches: patches);
   }
