@@ -240,6 +240,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     final filterQuality = antialias ? FilterQuality.low : FilterQuality.none;
     if (renderImageFile != null) {
       return ModalImageViewer(
+        hereTag: rawPath,
         child: Image.file(
           renderImageFile,
           opacity: $opacity,
@@ -249,6 +250,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
       );
     } else if (kIsWeb && rawPath != null) {
       return ModalImageViewer(
+        hereTag: rawPath,
         child: Image.network(
           rawPath,
           opacity: $opacity,
