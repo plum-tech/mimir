@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/widgets.dart';
 import 'package:sit/qrcode/protocol.dart';
+import 'package:sit/qrcode/utils.dart';
 import 'package:sit/r.dart';
 import 'package:sit/timetable/entity/patch.dart';
 
@@ -13,9 +12,9 @@ class TimetablePatchDeepLink implements DeepLinkHandlerProtocol {
   const TimetablePatchDeepLink();
 
   Uri encode(TimetablePatchEntry entry) =>
-      Uri(scheme: R.scheme, path: path, query: base64Encode(TimetablePatchEntry.encodeByteList(entry)));
+      Uri(scheme: R.scheme, path: path, query: encodeBytesForUrl(TimetablePatchEntry.encodeByteList(entry)));
 
-  TimetablePatchEntry decode(Uri qrCodeData) => TimetablePatchEntry.decodeByteList(base64Decode(qrCodeData.query));
+  TimetablePatchEntry decode(Uri qrCodeData) => (TimetablePatchEntry.decodeByteList(decodeBytesFromUrl(qrCodeData.query)));
 
   @override
   bool match(Uri encoded) {

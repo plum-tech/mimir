@@ -54,14 +54,9 @@ sealed class TimetablePatchEntry {
 
   void _serialize(ByteWriter writer);
 
-  static TimetablePatchEntry decodeByteList(Uint8List bytes) {
-    final reader = ByteReader(bytes);
-    // ignore: unused_local_variable
-    final revision = reader.int8();
-    return deserialize(reader);
-  }
-
   static TimetablePatchEntry deserialize(ByteReader reader) {
+    // ignore: unused_local_variable
+    final revision = reader.uint8();
     final typeId = reader.uint8();
     if (typeId == _patchSetTypeIndex) {
       return TimetablePatchSet.deserialize(reader);
@@ -74,6 +69,7 @@ sealed class TimetablePatchEntry {
   }
 
   static void serialize(TimetablePatchEntry entry, ByteWriter writer) {
+    writer.uint8(version);
     if (entry is TimetablePatchSet) {
       writer.uint8(_patchSetTypeIndex);
     } else if (entry is TimetablePatch) {
@@ -84,9 +80,13 @@ sealed class TimetablePatchEntry {
     entry._serialize(writer);
   }
 
+  static TimetablePatchEntry decodeByteList(Uint8List bytes) {
+    final reader = ByteReader(bytes);
+    return deserialize(reader);
+  }
+
   static Uint8List encodeByteList(TimetablePatchEntry entry) {
     final writer = ByteWriter(512);
-    writer.int8(version);
     serialize(entry, writer);
     return writer.build();
   }

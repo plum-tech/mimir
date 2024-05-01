@@ -66,7 +66,7 @@ class TimetableDayLoc {
       case TimetableDayLocMode.pos:
         pos.serialize(writer);
       case TimetableDayLocMode.date:
-        writer.uint16(_packDate(date));
+        writer.datePacked(date, 2000);
     }
   }
 
@@ -76,8 +76,7 @@ class TimetableDayLoc {
       case TimetableDayLocMode.pos:
         return TimetableDayLoc.pos(TimetablePos.deserialize(reader));
       case TimetableDayLocMode.date:
-        final packed = reader.uint16();
-        return TimetableDayLoc.byDate(_unpackYear(packed), _unpackMonth(packed), _unpackDay(packed));
+        return TimetableDayLoc.date(reader.datePacked(2000));
     }
   }
 
@@ -126,21 +125,4 @@ class TimetableDayLoc {
     }
         .toString();
   }
-}
-
-/// Assuming valid year (e.g., 2000-2099), month (1-12), and day (1-31)
-int _packDate(DateTime date) {
-  return (date.year - 2000) << 9 | (date.month << 5) | date.day;
-}
-
-int _unpackYear(int packedDate) {
-  return ((packedDate >> 9) & 0x1FFF) + 2000; // Mask to get year bits and add 2000
-}
-
-int _unpackMonth(int packedDate) {
-  return (packedDate >> 5) & 0x1F; // Mask to get month bits
-}
-
-int _unpackDay(int packedDate) {
-  return packedDate & 0x1F; // Mask to get day bits
 }

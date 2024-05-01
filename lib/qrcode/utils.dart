@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -10,8 +9,7 @@ final _encoder = _codec.encoder;
 
 String encodeBytesForUrl(Uint8List bytes) {
   final compressed = _encoder.convert(bytes);
-  toBase64(bytes, url: true, padding: false);
-  final compressedStr = base64Encode(compressed);
+  final compressedStr = toBase64(compressed, url: true, padding: false);
   return compressedStr;
 }
 

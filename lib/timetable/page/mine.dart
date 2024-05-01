@@ -13,13 +13,17 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/entry_card.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/l10n/extension.dart';
+import 'package:sit/qrcode/page/view.dart';
+import 'package:sit/qrcode/utils.dart';
 import 'package:sit/route.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/patch.dart';
 import 'package:sit/timetable/page/ical.dart';
 import 'package:sit/timetable/palette.dart';
 import 'package:sit/timetable/widgets/course.dart';
+import 'package:sit/utils/byte_io.dart';
 import 'package:sit/utils/format.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -318,14 +322,21 @@ class TimetableCard extends StatelessWidget {
               await Clipboard.setData(ClipboardData(text: code));
             },
           ),
-        if (kDebugMode)
+        if (!kIsWeb && Dev.on)
           EntryAction(
-            icon: context.icons.copy,
-            label: "[Dart] Patches",
+            icon: context.icons.qrcode,
+            label: i18n.shareQrCode,
             action: () async {
-              final code = timetable.patches.map((p) => p.toDartCode()).toList().toString();
-              debugPrint(code);
-              await Clipboard.setData(ClipboardData(text: code));
+              final writer = ByteWriter(4096);
+              timetable.serialize(writer);
+              final bytes = writer.build();
+              final qrCodeData = Uri(scheme: R.scheme, path: "timetable", query: encodeBytesForUrl(bytes));
+              await context.showSheet(
+                (context) => QrCodePage(
+                  title: TextScroll(timetable.name),
+                  data: qrCodeData.toString(),
+                ),
+              );
             },
           ),
         EntryAction(

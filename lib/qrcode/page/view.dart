@@ -6,6 +6,7 @@ import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/l10n/tr.dart';
+import 'package:sit/settings/dev.dart';
 
 class _I18n {
   const _I18n();
@@ -50,6 +51,7 @@ class QrCodePage extends StatelessWidget {
                   height: side,
                   child: PlainQrCodeView(
                     data: data,
+                    size: side,
                   ),
                 ).center();
               },
@@ -62,7 +64,11 @@ class QrCodePage extends StatelessWidget {
                 children: _i18n.hint,
               ),
             ).padAll(10),
-          )
+          ),
+          if (Dev.on)
+            SliverToBoxAdapter(
+              child: SelectableText(data).padAll(10),
+            ),
         ],
       ),
     );
@@ -71,10 +77,12 @@ class QrCodePage extends StatelessWidget {
 
 class PlainQrCodeView extends StatelessWidget {
   final String data;
+  final double? size;
 
   const PlainQrCodeView({
     super.key,
     required this.data,
+    this.size,
   });
 
   @override
@@ -82,6 +90,7 @@ class PlainQrCodeView extends StatelessWidget {
     return QrImageView(
       backgroundColor: context.colorScheme.surface,
       data: data,
+      size: size,
       eyeStyle: QrEyeStyle(
         eyeShape: QrEyeShape.square,
         color: context.colorScheme.onSurface,

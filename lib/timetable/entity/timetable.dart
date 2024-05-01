@@ -133,6 +133,22 @@ class SitTimetable {
   factory SitTimetable.fromJson(Map<String, dynamic> json) => _$SitTimetableFromJson(json);
 
   Map<String, dynamic> toJson() => _$SitTimetableToJson(this);
+
+  void serialize(ByteWriter writer) {
+    writer.strUtf8(name);
+    writer.strUtf8(signature);
+    writer.uint8(schoolYear);
+    writer.uint16(lastCourseKey);
+    writer.datePacked(startDate, 2000);
+    writer.uint16(courses.length);
+    for (final course in courses.values) {
+      course.serialize(writer);
+    }
+    writer.uint16(patches.length);
+    for (final patch in patches) {
+      TimetablePatchEntry.serialize(patch, writer);
+    }
+  }
 }
 
 @JsonSerializable()
@@ -244,11 +260,19 @@ class SitCourse {
       );
 
   void serialize(ByteWriter writer) {
-    writer.int8(courseKey);
+    writer.uint8(courseKey);
     writer.strUtf8(courseName);
     writer.strUtf8(courseCode);
-    writer.strUtf8(courseCode);
     writer.strUtf8(place);
+    weekIndices.serialize(writer);
+    writer.uint8(timeslots.packedInt8());
+    writer.float32(courseCredit);
+    writer.uint8(dayIndex);
+    writer.uint8(teachers.length);
+    for (final teacher in teachers) {
+      writer.strUtf8(teacher);
+    }
+    writer.b(hidden);
   }
 }
 
@@ -285,6 +309,10 @@ enum TimetableWeekIndexType {
   all,
   odd,
   even;
+
+  void serialize(ByteWriter writer) {
+    writer.uint8(index);
+  }
 
   String l10nOf(String start, String end) => "timetable.weekIndexType.of.$name".tr(namedArgs: {
         "start": start,
@@ -346,6 +374,11 @@ class TimetableWeekIndex {
     } else {
       return type.l10nOf("${range.start + 1}", "${range.end + 1}");
     }
+  }
+
+  void serialize(ByteWriter writer) {
+    type.serialize(writer);
+    writer.uint8(range.packedInt8());
   }
 
   String toDartCode() {
@@ -442,6 +475,13 @@ class TimetableWeekIndices {
   @override
   int get hashCode => Object.hashAll(indices);
 
+  void serialize(ByteWriter writer) {
+    writer.uint8(indices.length);
+    for (final index in indices) {
+      index.serialize(writer);
+    }
+  }
+
   factory TimetableWeekIndices.fromJson(Map<String, dynamic> json) => _$TimetableWeekIndicesFromJson(json);
 
   Map<String, dynamic> toJson() => _$TimetableWeekIndicesToJson(this);
@@ -485,4 +525,14 @@ String rangeToString(({int start, int end}) range) {
   } else {
     return "${range.start}-${range.end}";
   }
+}
+
+extension _RangeX on ({int start, int end}) {
+  int packedInt8() {
+    return start << 4 | end;
+  }
+}
+
+({int start, int end}) _unpackedInt8(int packed) {
+  return (start: packed >> 4 & 0xF, end: packed & 0xF);
 }
