@@ -1,4 +1,5 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/entity/timetable.dart';
@@ -260,33 +261,32 @@ class SitTimetableDay {
 }
 
 @CopyWith(skipFields: true)
+@immutable
 class SitTimetableLesson {
-  /// The start index of this lesson in a [SitTimetableWeek]
-  final int startIndex;
-
-  /// The end index of this lesson in a [SitTimetableWeek]
-  final int endIndex;
-  final DateTime startTime;
-  final DateTime endTime;
-
   /// A lesson may last two or more time slots.
   /// If current [SitTimetableLessonPart] is a part of the whole lesson, they all have the same [courseKey].
   final SitCourse course;
+
+  /// in timeslot order
+  final List<SitTimetableLessonPart> associatedParts;
+
+  const SitTimetableLesson({
+    required this.course,
+    required this.associatedParts,
+  });
 
   /// How many timeslots this lesson takes.
   /// It's at least 1 timeslot.
   int get timeslotDuration => endIndex - startIndex + 1;
 
-  final List<SitTimetableLessonPart> associatedParts;
+  /// The start index of this lesson in a [SitTimetableWeek]
+  int get startIndex => associatedParts.first.index;
 
-  const SitTimetableLesson({
-    required this.course,
-    required this.startIndex,
-    required this.endIndex,
-    required this.startTime,
-    required this.endTime,
-    required this.associatedParts,
-  });
+  /// The end index of this lesson in a [SitTimetableWeek]
+  int get endIndex => associatedParts.last.index;
+
+   DateTime get startTime => associatedParts.first.startTime;
+   DateTime get endTime => associatedParts.last.endTime;
 }
 
 @CopyWith(skipFields: true)
@@ -332,14 +332,9 @@ extension SitTimetable4EntityX on SitTimetable {
             weekday: Weekday.fromIndex(day.index),
             startDate: startDate,
           );
-          final fullClassTime = course.calcBeginEndTimePoint();
           final associatedParts = <SitTimetableLessonPart>[];
           final lesson = SitTimetableLesson(
             course: course,
-            startIndex: timeslots.start,
-            endIndex: timeslots.end,
-            startTime: thatDay.addTimePoint(fullClassTime.begin),
-            endTime: thatDay.addTimePoint(fullClassTime.end),
             associatedParts: associatedParts,
           );
           for (int slot = timeslots.start; slot <= timeslots.end; slot++) {
