@@ -1,5 +1,4 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/entity/timetable.dart';
@@ -135,8 +134,12 @@ class SitTimetableLessonSlot {
 
   @override
   String toString() {
-    return lessons.toString();
+    return "${_formatDay(parent.date)} $lessons".toString();
   }
+}
+
+String _formatDay(DateTime date) {
+  return "${date.year}-${date.month}-${date.day}";
 }
 
 class SitTimetableDay {
@@ -161,6 +164,7 @@ class SitTimetableDay {
 
   void freeze() {
     _frozen = true;
+    throw UnimplementedError();
   }
 
   DateTime get date => reflectWeekDayIndexToDate(
@@ -195,6 +199,7 @@ class SitTimetableDay {
     if (0 <= at && at < _timeslot2LessonSlot.length) {
       final lessonSlot = _timeslot2LessonSlot[at];
       lessonSlot.lessons.add(lesson);
+      lesson.type.parent = this;
     }
   }
 
@@ -223,6 +228,9 @@ class SitTimetableDay {
 
     for (final lessonSlot in _timeslot2LessonSlot) {
       lessonSlot.parent = this;
+      for (final lesson in lessonSlot.lessons) {
+        lesson.type.parent = this;
+      }
     }
   }
 
@@ -253,26 +261,26 @@ class SitTimetableDay {
 
   @override
   String toString() => {
-        "date": "${date.year}-${date.month}-${date.day}",
+        "date": _formatDay(date),
         "index": index,
         "timeslot2LessonSlot": _timeslot2LessonSlot,
         "associatedCourses": associatedCourses,
       }.toString();
 }
 
-@CopyWith(skipFields: true)
-@immutable
 class SitTimetableLesson {
+  late SitTimetableDay parent;
+
   /// A lesson may last two or more time slots.
   /// If current [SitTimetableLessonPart] is a part of the whole lesson, they all have the same [courseKey].
   final SitCourse course;
 
   /// in timeslot order
-  final List<SitTimetableLessonPart> associatedParts;
+  final List<SitTimetableLessonPart> parts;
 
-  const SitTimetableLesson({
+  SitTimetableLesson({
     required this.course,
-    required this.associatedParts,
+    required this.parts,
   });
 
   /// How many timeslots this lesson takes.
@@ -280,33 +288,50 @@ class SitTimetableLesson {
   int get timeslotDuration => endIndex - startIndex + 1;
 
   /// The start index of this lesson in a [SitTimetableWeek]
-  int get startIndex => associatedParts.first.index;
+  int get startIndex => parts.first.index;
 
   /// The end index of this lesson in a [SitTimetableWeek]
-  int get endIndex => associatedParts.last.index;
+  int get endIndex => parts.last.index;
 
-  DateTime get startTime => associatedParts.first.startTime;
+  DateTime get startTime => parts.first.startTime;
 
-  DateTime get endTime => associatedParts.last.endTime;
+  DateTime get endTime => parts.last.endTime;
 }
 
-@CopyWith(skipFields: true)
 class SitTimetableLessonPart {
   final SitTimetableLesson type;
 
   /// The start index of this lesson in a [SitTimetableWeek]
   final int index;
 
-  final DateTime startTime;
-  final DateTime endTime;
+  late SitTimetableDay _dayCache = type.parent;
+
+  ({DateTime start, DateTime end})? _timeCache;
+
+  late ({DateTime start, DateTime end}) time = () {
+    final timeCache = _timeCache;
+
+    if (_dayCache == type.parent && timeCache != null) {
+      return timeCache;
+    } else {
+      final thatDay = type.parent.date;
+      final classTime = course.calcBeginEndTimePointOfLesson(index);
+      _dayCache = type.parent;
+      final time = (start: thatDay.addTimePoint(classTime.begin), end: thatDay.addTimePoint(classTime.end));
+      _timeCache = time;
+      return time;
+    }
+  }();
+
+  DateTime get startTime => time.start;
+
+  DateTime get endTime => time.end;
 
   SitCourse get course => type.course;
 
-  const SitTimetableLessonPart({
+  SitTimetableLessonPart({
     required this.type,
     required this.index,
-    required this.startTime,
-    required this.endTime,
   });
 
   @override
@@ -328,25 +353,17 @@ extension SitTimetable4EntityX on SitTimetable {
         if (0 <= weekIndex && weekIndex < maxWeekLength) {
           final week = weeks[weekIndex];
           final day = week.days[course.dayIndex];
-          final thatDay = reflectWeekDayIndexToDate(
-            weekIndex: week.index,
-            weekday: Weekday.fromIndex(day.index),
-            startDate: startDate,
-          );
-          final associatedParts = <SitTimetableLessonPart>[];
+          final parts = <SitTimetableLessonPart>[];
           final lesson = SitTimetableLesson(
             course: course,
-            associatedParts: associatedParts,
+            parts: parts,
           );
           for (int slot = timeslots.start; slot <= timeslots.end; slot++) {
-            final classTime = course.calcBeginEndTimePointOfLesson(slot);
             final part = SitTimetableLessonPart(
               type: lesson,
               index: slot,
-              startTime: thatDay.addTimePoint(classTime.begin),
-              endTime: thatDay.addTimePoint(classTime.end),
             );
-            associatedParts.add(part);
+            parts.add(part);
             day.add(
               at: slot,
               lesson: part,

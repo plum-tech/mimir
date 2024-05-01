@@ -117,7 +117,6 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
     final focusMode = Settings.focusTimetable;
     return PullDownMenuButton(
       itemBuilder: (ctx) => [
-
         PullDownItem(
           icon: Icons.calendar_month,
           title: i18n.mine.title,

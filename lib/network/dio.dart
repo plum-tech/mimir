@@ -57,10 +57,11 @@ final _debugResponses = <Response>[];
 class PoorNetworkDioInterceptor extends Interceptor {
   @override
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    if(kDebugMode){
+    if (kDebugMode) {
       _debugRequests.add(options);
     }
-    if(options.path == "http://sc.sit.edu.cn//public/init/index.action" || options.path == "http://sc.sit.edu.cn/public/init/index.action"){
+    if (options.path == "http://sc.sit.edu.cn//public/init/index.action" ||
+        options.path == "http://sc.sit.edu.cn/public/init/index.action") {
       print("!!!!!!!!!!");
     }
     final duration = Duration(milliseconds: _rand.nextInt(2000));
@@ -72,7 +73,7 @@ class PoorNetworkDioInterceptor extends Interceptor {
 
   @override
   Future<void> onResponse(Response response, ResponseInterceptorHandler handler) async {
-    if(kDebugMode){
+    if (kDebugMode) {
       _debugResponses.add(response);
     }
     final duration = Duration(milliseconds: _rand.nextInt(2000));

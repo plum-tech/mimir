@@ -80,8 +80,7 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
             subtitle: profile.address?.text(),
             trailing: const Icon(Icons.open_in_new),
             onTap: () async {
-              final profile =
-                  await context.showSheet<ProxyProfileRecords>((ctx) => ProxyProfileEditorPage(type: type));
+              final profile = await context.showSheet<ProxyProfileRecords>((ctx) => ProxyProfileEditorPage(type: type));
               if (profile != null) {
                 Settings.proxy.setProfile(type, profile);
               }
