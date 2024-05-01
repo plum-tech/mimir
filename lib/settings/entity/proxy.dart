@@ -78,6 +78,7 @@ enum ProxyMode {
 @JsonSerializable()
 @CopyWith(skipFields: true)
 class ProxyProfile {
+  static const clear = Object();
   static const version = 1;
   @JsonKey()
   final Uri address;

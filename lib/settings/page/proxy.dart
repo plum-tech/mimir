@@ -92,11 +92,13 @@ class _ProxySettingsPageState extends ConsumerState<ProxySettingsPage> {
       subtitle: profile?.address.toString().text(),
       trailing: const Icon(Icons.open_in_new),
       onTap: () async {
-        final profile = await context.showSheet<ProxyProfile>(
+        final profile = await context.showSheet<dynamic>(
           (ctx) => ProxyProfileEditorPage(type: type),
         );
-        if (profile != null) {
+        if (profile is ProxyProfile) {
           ref.read(Settings.proxy.$profileOf(type).notifier).set(profile);
+        } else if (profile == ProxyProfile.clear) {
+          ref.read(Settings.proxy.$profileOf(type).notifier).set(null);
         }
       },
     );
@@ -239,9 +241,8 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
 
   @override
   Widget build(BuildContext context) {
-    final canSave = buildProfile() != null;
     return PromptSaveBeforeQuitScope(
-      changed: canSave && buildProfile() != profile,
+      changed: buildProfile() != profile,
       onSave: onSave,
       child: Scaffold(
         body: CustomScrollView(
@@ -261,7 +262,7 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
                   child: i18n.clear.text(),
                 ),
                 PlatformTextButton(
-                  onPressed: canSave ? onSave : null,
+                  onPressed: onSave,
                   child: i18n.save.text(),
                 ),
               ],
@@ -284,7 +285,7 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
   }
 
   void onSave() {
-    context.pop(buildProfile());
+    context.pop(buildProfile() ?? ProxyProfile.clear);
   }
 
   ProxyProfile? buildProfile() {
