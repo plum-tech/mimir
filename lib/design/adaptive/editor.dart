@@ -30,20 +30,20 @@ class Editor {
   }
 
   static Future<dynamic> showAnyEditor(
-    BuildContext ctx, {
+    BuildContext context, {
     dynamic initial,
     String? desc,
     bool readonlyIfNotSupport = true,
   }) async {
     if (initial is int) {
-      return await showIntEditor(ctx, desc: desc, initial: initial);
+      return await showIntEditor(context, desc: desc, initial: initial);
     } else if (initial is String) {
-      return await showStringEditor(ctx, desc: desc, initial: initial);
+      return await showStringEditor(context, desc: desc, initial: initial);
     } else if (initial is bool) {
-      return await showBoolEditor(ctx, desc: desc, initial: initial);
+      return await showBoolEditor(context, desc: desc, initial: initial);
     } else if (initial is DateTime) {
       return await showDateTimeEditor(
-        ctx,
+        context,
         desc: desc,
         initial: initial,
         firstDate: DateTime(0),
@@ -53,12 +53,12 @@ class Editor {
       final customEditorBuilder = _customEditor[initial.runtimeType];
       if (customEditorBuilder != null) {
         return await showAdaptiveDialog(
-          context: ctx,
+          context: context,
           builder: (ctx) => customEditorBuilder(ctx, desc, initial),
         );
       } else {
         if (readonlyIfNotSupport) {
-          return await showReadonlyEditor(ctx, desc: desc, initial: initial);
+          return await showReadonlyEditor(context, desc: desc, initial: initial);
         } else {
           throw UnsupportedError("Editing $initial is not supported.");
         }
@@ -67,14 +67,14 @@ class Editor {
   }
 
   static Future<DateTime?> showDateTimeEditor(
-    BuildContext ctx, {
+    BuildContext context, {
     String? desc,
     required DateTime initial,
     required DateTime firstDate,
     required DateTime lastDate,
   }) async {
     final newValue = await showAdaptiveDialog(
-      context: ctx,
+      context: context,
       builder: (ctx) => DateTimeEditor(
         initial: initial,
         title: desc,
@@ -87,12 +87,12 @@ class Editor {
   }
 
   static Future<bool?> showBoolEditor(
-    BuildContext ctx, {
+    BuildContext context, {
     String? desc,
     required bool initial,
   }) async {
     final newValue = await showAdaptiveDialog(
-      context: ctx,
+      context: context,
       builder: (ctx) => BoolEditor(
         initial: initial,
         desc: desc,
@@ -103,27 +103,28 @@ class Editor {
   }
 
   static Future<String?> showStringEditor(
-    BuildContext ctx, {
+    BuildContext context, {
     String? desc,
     required String initial,
   }) async {
     final newValue = await showAdaptiveDialog(
-        context: ctx,
-        builder: (ctx) => StringEditor(
-              initial: initial,
-              title: desc,
-            ));
+      context: context,
+      builder: (ctx) => StringEditor(
+        initial: initial,
+        title: desc,
+      ),
+    );
     if (newValue == null) return null;
     return newValue;
   }
 
   static Future<void> showReadonlyEditor(
-    BuildContext ctx, {
+    BuildContext context, {
     String? desc,
     required dynamic initial,
   }) async {
     await showDialog(
-      context: ctx,
+      context: context,
       builder: (ctx) => _readonlyEditor(
         ctx,
         (ctx) => SelectableText(initial.toString()),
@@ -133,12 +134,12 @@ class Editor {
   }
 
   static Future<int?> showIntEditor(
-    BuildContext ctx, {
+    BuildContext context, {
     String? desc,
     required int initial,
   }) async {
     final newValue = await showAdaptiveDialog(
-      context: ctx,
+      context: context,
       builder: (ctx) => IntEditor(
         initial: initial,
         title: desc,
@@ -415,7 +416,11 @@ class StringEditor extends StatefulWidget {
   final String initial;
   final String? title;
 
-  const StringEditor({super.key, required this.initial, this.title});
+  const StringEditor({
+    super.key,
+    required this.initial,
+    this.title,
+  });
 
   @override
   State<StringEditor> createState() => _StringEditorState();
@@ -440,22 +445,25 @@ class _StringEditorState extends State<StringEditor> {
   Widget build(BuildContext context) {
     final lines = context.isPortrait ? widget.initial.length ~/ 30 + 1 : widget.initial.length ~/ 100 + 1;
     return $Dialog$(
-        title: widget.title,
-        primary: $Action$(
-            text: _i18n.submit,
-            isDefault: true,
-            onPressed: () {
-              context.navigator.pop(controller.text);
-            }),
-        secondary: $Action$(
-            text: _i18n.cancel,
-            onPressed: () {
-              context.navigator.pop();
-            }),
-        make: (ctx) => $TextField$(
-              maxLines: lines,
-              controller: controller,
-            ));
+      title: widget.title,
+      primary: $Action$(
+        text: _i18n.submit,
+        isDefault: true,
+        onPressed: () {
+          context.navigator.pop(controller.text);
+        },
+      ),
+      secondary: $Action$(
+        text: _i18n.cancel,
+        onPressed: () {
+          context.navigator.pop();
+        },
+      ),
+      make: (ctx) => $TextField$(
+        maxLines: lines,
+        controller: controller,
+      ),
+    );
   }
 }
 

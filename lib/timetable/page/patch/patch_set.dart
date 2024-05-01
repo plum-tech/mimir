@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
@@ -32,6 +33,7 @@ class TimetablePatchSetEditorPage extends StatefulWidget {
 
 class _TimetablePatchSetEditorPageState extends State<TimetablePatchSetEditorPage> {
   late var patches = List.of(widget.patchSet.patches);
+  late var name = widget.patchSet.name;
   var anyChanged = false;
 
   void markChanged() => anyChanged |= true;
@@ -47,7 +49,7 @@ class _TimetablePatchSetEditorPageState extends State<TimetablePatchSetEditorPag
         body: CustomScrollView(
           slivers: [
             SliverAppBar.medium(
-              title: TextScroll(widget.patchSet.name),
+              title: TextScroll(name),
               actions: [
                 PlatformTextButton(
                   onPressed: onSave,
@@ -99,7 +101,10 @@ class _TimetablePatchSetEditorPageState extends State<TimetablePatchSetEditorPag
   }
 
   TimetablePatchSet buildPatchSet() {
-    return TimetablePatchSet(name: widget.patchSet.name, patches: List.of(patches));
+    return TimetablePatchSet(
+      name: name,
+      patches: List.of(patches),
+    );
   }
 
   Future<void> onPreview() async {
@@ -114,6 +119,24 @@ class _TimetablePatchSetEditorPageState extends State<TimetablePatchSetEditorPag
             icon: context.icons.preview,
             title: i18n.preview,
             onTap: onPreview,
+          ),
+          PullDownItem(
+            icon: context.icons.edit,
+            title: i18n.patch.editName,
+            onTap: () async {
+              final newName = await Editor.showStringEditor(
+                context,
+                desc: i18n.patch.patchSetName,
+                initial: name,
+              );
+              if (newName == null) return;
+              if (name != newName) {
+                setState(() {
+                  name = newName;
+                });
+                markChanged();
+              }
+            },
           ),
           PullDownItem.delete(
             icon: context.icons.clear,

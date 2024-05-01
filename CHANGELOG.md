@@ -15,6 +15,8 @@
 - Toggle haptic feedback in game settings.
 - Toggle quick look lesson on tap feature in timetable settings.
 - Improved zh-Hans and zh-Hant localization.
+- Timetable patch for moving, copying, swapping and removing lessons of days.
+- Shrunk the size of .ics file exported from timetable.
 
 ## v2.3.0
 - The 2048 game supports save/load feature.

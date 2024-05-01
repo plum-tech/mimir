@@ -51,7 +51,9 @@ timetable:
     defaultName: 新的修正包
     unpack: 打開
     noPatches: 沒有修正
-    noPatchesTip: 沒有修正，從預設中增加一個怎麼樣？
+    noPatchesTip: 沒有修正，增加一個預設的怎麼樣？
+    patchSetName: 修正包名称
+    editName: 編輯名称
     removeDay: "移除 {day} 的課"
     swapDays: "將 {a} 和 {b} 的課交換"
     copyDay: "{target} 和 {source} 上一樣的課"

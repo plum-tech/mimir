@@ -311,6 +311,10 @@ class _Patch {
 
   String get noPatchesTip => "$ns.noPatchesTip".tr();
 
+  String get patchSetName => "$ns.patchSetName".tr();
+
+  String get editName => "$ns.editName".tr();
+
   String removeDay(String day) => "$ns.removeDay".tr(namedArgs: {
         "day": day,
       });
