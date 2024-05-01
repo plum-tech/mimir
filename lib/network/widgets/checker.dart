@@ -1,11 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/animation/animated.dart';
-import 'package:sit/init.dart';
 import 'package:sit/network/connectivity.dart';
 import 'package:sit/utils/error.dart';
 import 'package:rettulf/rettulf.dart';
@@ -20,11 +20,17 @@ enum _Status {
   disconnected;
 }
 
+enum WhereToCheck {
+  schoolServer,
+  studentReg;
+}
+
 class ConnectivityChecker extends StatefulWidget {
   final double iconSize;
   final String? initialDesc;
   final VoidCallback onConnected;
   final Duration? autoStartDelay;
+  final WhereToCheck where;
 
   /// Whether it's connected will be turned.
   /// Throw any error if connection fails.
@@ -37,6 +43,7 @@ class ConnectivityChecker extends StatefulWidget {
     required this.onConnected,
     required this.check,
     this.autoStartDelay,
+    required this.where,
   });
 
   @override
@@ -88,7 +95,18 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
         child: buildStatus(context).animatedSwitched(),
       ),
       buildButton(context),
+      if (status == _Status.disconnected) buildTroubleshooting(),
     ].column(maa: MainAxisAlignment.spaceAround, caa: CrossAxisAlignment.center).center().padAll(20);
+  }
+
+  Widget buildTroubleshooting() {
+    return OutlinedButton.icon(
+      icon: Icon(context.icons.troubleshoot),
+      label: i18n.troubleshoot.text(),
+      onPressed: () {
+        context.push("/tools/network-tool");
+      },
+    );
   }
 
   Future<void> startCheck() async {
@@ -118,28 +136,35 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
   Widget buildStatus(BuildContext ctx) {
     // TODO: it's student registration system
     final tip = switch (status) {
-      _Status.none => widget.initialDesc ?? i18n.checker.status.none,
-      _Status.connecting => i18n.checker.status.connecting,
-      _Status.connected => i18n.checker.status.connected,
-      _Status.disconnected => i18n.checker.status.disconnected,
+      _Status.none => widget.initialDesc ?? i18n.checker.status.none(widget.where),
+      _Status.connecting => i18n.checker.status.connecting(widget.where),
+      _Status.connected => i18n.checker.status.connected(widget.where),
+      _Status.disconnected => i18n.checker.status.disconnected(widget.where),
     };
     return tip.text(key: ValueKey(status), style: ctx.textTheme.titleLarge, textAlign: TextAlign.center);
   }
 
   Widget buildButton(BuildContext ctx) {
-    final (tip, onTap) = switch (status) {
-      _Status.none => (i18n.checker.button.none, startCheck),
-      _Status.connecting => (i18n.checker.button.connecting, null),
-      _Status.connected => (i18n.checker.button.connected, widget.onConnected),
-      _Status.disconnected => (i18n.checker.button.disconnected, startCheck),
+    final style = TextStyle(fontSize: context.textTheme.titleMedium?.fontSize);
+    return switch (status) {
+      _Status.none => FilledButton(
+          onPressed: startCheck,
+          child: i18n.checker.button.none.text(style: style),
+        ),
+      _Status.connecting => FilledButton(
+          onPressed: null,
+          child: i18n.checker.button.connecting.text(style: style),
+        ),
+      _Status.connected => FilledButton(
+          onPressed: widget.onConnected,
+          child: i18n.checker.button.connected.text(style: style),
+        ),
+      _Status.disconnected => FilledButton.icon(
+          icon: Icon(ctx.icons.refresh),
+          onPressed: startCheck,
+          label: i18n.checker.button.disconnected.text(style: style),
+        ),
     };
-    return PlatformElevatedButton(
-      onPressed: onTap,
-      child: tip.text(
-        key: ValueKey(status),
-        style: TextStyle(fontSize: context.textTheme.titleMedium?.fontSize),
-      ),
-    );
   }
 
   Widget buildIndicatorArea(BuildContext ctx) {
@@ -172,7 +197,17 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
 }
 
 class TestConnectionTile extends StatefulWidget {
-  const TestConnectionTile({super.key});
+  final WhereToCheck where;
+
+  /// Whether it's connected will be turned.
+  /// Throw any error if connection fails.
+  final Future<bool> Function() check;
+
+  const TestConnectionTile({
+    super.key,
+    required this.where,
+    required this.check,
+  });
 
   @override
   State<TestConnectionTile> createState() => _TestConnectionTileState();
@@ -187,7 +222,7 @@ class _TestConnectionTileState extends State<TestConnectionTile> {
       enabled: testState != _Status.connecting,
       leading: const Icon(Icons.network_check),
       title: i18n.checker.testConnection.text(),
-      subtitle: i18n.checker.testConnectionDesc.text(),
+      subtitle: i18n.checker.testConnectionDesc(widget.where).text(),
       trailing: switch (testState) {
         _Status.connecting => const CircularProgressIndicator.adaptive(),
         _Status.connected => Icon(context.icons.checkMark, color: Colors.green),
@@ -200,7 +235,7 @@ class _TestConnectionTileState extends State<TestConnectionTile> {
         });
         final bool connected;
         try {
-          connected = await Init.ugRegSession.checkConnectivity();
+          connected = await widget.check();
           if (!mounted) return;
           setState(() {
             testState = connected ? _Status.connected : _Status.disconnected;

@@ -90,6 +90,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
       iconSize: ctx.isPortrait ? 180 : 120,
       initialDesc: i18n.import.connectivityCheckerDesc,
       check: TimetableInit.service.checkConnectivity,
+      where: WhereToCheck.studentReg,
       onConnected: () {
         if (!mounted) return;
         setState(() {

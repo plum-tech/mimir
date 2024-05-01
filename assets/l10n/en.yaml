@@ -77,7 +77,7 @@ timetable:
     fromFile: From File
     fromFileBtn: From file
     tryImportBtn: Try import
-    connectivityCheckerDesc: You need to check the access to school server before importing a timetable.
+    connectivityCheckerDesc: You need to check the access to Student registration system before importing a timetable.
     selectSemesterTip: Please select a semester first
     endTip: Please enter the info
     failed: Import Failed
@@ -554,19 +554,22 @@ homepage:
   campusNetworkConnected: Campus network available
   campusNetworkUnconnected: Campus network unavailable
 networkChecker:
+  whereToCheck:
+    schoolServer: School server
+    studentReg: Student registration system
   testConnection:
     title: Test connection
-    desc: Test connecting to school server
+    desc: "Test connecting to {where}"
   button:
     connected: Continue
     connecting: Checking
     disconnected: Retry
     none: Check connection
   status:
-    connected: Right! You have connected to school server!
+    connected: "Right! You have connected to {where}!"
     connecting: It will take a few seconds, please ensure you have turned on the network on your device.
-    disconnected: Oops! You can't access the school server. Please check your network settings or use Easy Connect, then try again.
-    none: You need the access to school server to continue. Let's check it now.
+    disconnected: "Oops! You can't access {where}. Please click the troubleshooting below to see more."
+    none: "You need the access to {where} to continue. Let's check it out."
 network:
   error: Network error
   ipAddress: IP address
@@ -592,8 +595,8 @@ networkTool:
   pgRegUnavailableTip: |
     You can't import timetable from student registration system. The only way to import timetables is to load them from a file on your device.
     Your exam results can't be loaded and updated in time, but can still be viewed if you have already loaded them once.
-  troubleshooting: Troubleshooting
-  studentRegTroubleshooting: |
+  troubleshoot: Troubleshoot
+  studentRegTroubleshoot: |
     1. Attempt to connect to the school's Wi-Fi, "i-SIT","i-SIT-1x" or "eduroam".
     2. Attempt to launch "EasyConnect" VPN to connect to school.
     3. Attempt to use a self-built proxy server to connect to campus network via HTTP proxy.

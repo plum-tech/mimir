@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sit/credentials/i18n.dart';
 import 'package:sit/l10n/common.dart';
+import 'package:sit/network/widgets/checker.dart';
 
 const i18n = _I18n();
 
@@ -41,9 +42,9 @@ class _I18n with CommonI18nMixin {
 
   String get campusNetworkNotConnected => "$ns.campusNetworkNotConnected".tr();
 
-  String get troubleshooting => "$ns.troubleshooting".tr();
+  String get troubleshoot => "$ns.troubleshoot".tr();
 
-  String get studentRegTroubleshooting => "$ns.studentRegTroubleshooting".tr();
+  String get studentRegTroubleshoot => "$ns.studentRegTroubleshoot".tr();
 
   String get studentRegUnavailableButCampusNetworkConnected =>
       "$ns.studentRegUnavailableButCampusNetworkConnected".tr();
@@ -66,27 +67,50 @@ class _NetworkCheckerI18n {
 
   static const ns = "networkChecker";
 
-  final button = const _NetworkCheckerI18nEntry("button");
-  final status = const _NetworkCheckerI18nEntry("status");
+  final button = const _NetworkCheckerButton();
+  final status = const _NetworkCheckerStatus();
 
   String get testConnection => "$ns.testConnection.title".tr();
 
-  String get testConnectionDesc => "$ns.testConnection.desc".tr();
+  String testConnectionDesc(WhereToCheck where) => "$ns.testConnection.desc".tr(namedArgs: {
+        "where": where.l10n(),
+      });
 }
 
-class _NetworkCheckerI18nEntry {
-  final String scheme;
+class _NetworkCheckerButton {
+  final String ns = "${_NetworkCheckerI18n.ns}.button";
 
-  String get _ns => "${_NetworkCheckerI18n.ns}.$scheme";
+  const _NetworkCheckerButton();
 
-  const _NetworkCheckerI18nEntry(this.scheme);
+  String get connected => "$ns.connected".tr();
 
-  String get connected => "$_ns.connected".tr();
+  String get connecting => "$ns.connecting".tr();
 
-  String get connecting => "$_ns.connecting".tr();
+  String get disconnected => "$ns.disconnected".tr();
 
-  String get disconnected => "$_ns.disconnected".tr();
-
-  String get none => "$_ns.none".tr();
+  String get none => "$ns.none".tr();
 }
 
+class _NetworkCheckerStatus {
+  final String ns = "${_NetworkCheckerI18n.ns}.status";
+
+  const _NetworkCheckerStatus();
+
+  String connected(WhereToCheck where) => "$ns.connected".tr(namedArgs: {
+        "where": where.l10n(),
+      });
+
+  String connecting(WhereToCheck where) => "$ns.connecting".tr();
+
+  String disconnected(WhereToCheck where) => "$ns.disconnected".tr(namedArgs: {
+        "where": where.l10n(),
+      });
+
+  String none(WhereToCheck where) => "$ns.none".tr(namedArgs: {
+        "where": where.l10n(),
+      });
+}
+
+extension WhereToCheckI18nX on WhereToCheck {
+  String l10n() => "${_NetworkCheckerI18n.ns}.whereToCheck.$name".tr();
+}

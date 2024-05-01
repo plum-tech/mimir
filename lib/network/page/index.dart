@@ -117,8 +117,8 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
                     .inOutlinedCard(),
               if (studentRegAvailable == false)
                 [
-                  i18n.troubleshooting.text(style: context.textTheme.titleMedium),
-                  i18n.studentRegTroubleshooting.text(
+                  i18n.troubleshoot.text(style: context.textTheme.titleMedium),
+                  i18n.studentRegTroubleshoot.text(
                     style: context.textTheme.bodyMedium,
                   )
                 ].column().padSymmetric(v: 16, h: 8).inOutlinedCard(),

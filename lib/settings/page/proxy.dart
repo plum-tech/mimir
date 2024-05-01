@@ -10,6 +10,7 @@ import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/list_tile.dart';
+import 'package:sit/init.dart';
 import 'package:sit/network/widgets/checker.dart';
 import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/settings/settings.dart';
@@ -62,7 +63,10 @@ class _ProxySettingsPageState extends ConsumerState<ProxySettingsPage> {
                   icon: const Icon(Icons.public),
                 ),
               const Divider(),
-              const TestConnectionTile(),
+              TestConnectionTile(
+                where: WhereToCheck.studentReg,
+                check: () async => await Init.ugRegSession.checkConnectivity(),
+              ),
               const ProxyShareQrCodeTile(),
             ]),
           ),

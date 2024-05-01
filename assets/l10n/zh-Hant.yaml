@@ -77,7 +77,7 @@ timetable:
     fromFile: 從檔案
     tryImportBtn: 嘗試匯入
     fromFileBtn: 從檔案匯入
-    connectivityCheckerDesc: 你需要訪問校園網路，才能匯入一個新的課程表。現在就開始檢查吧。
+    connectivityCheckerDesc: 你需要訪問教務系統，才能匯入一個新的課程表。現在就開始檢查吧。
     selectSemesterTip: 請先選擇學年與學期
     endTip: 請補充課程表的資訊。
     failed: 匯入失敗
@@ -551,19 +551,22 @@ homepage:
   campusNetworkConnected: 已連線校園網路
   campusNetworkUnconnected: 未連線校園網路
 networkChecker:
+  whereToCheck:
+    schoolServer: 學校伺服器
+    studentReg: 教務系統
   testConnection:
     title: 測試連線
-    desc: 測試與校園網路的連線情況
+    desc: "測試與{where}的連線情況"
   button:
     connected: 繼續
     connecting: 檢查中
     disconnected: 重試
     none: 檢查連線
   status:
-    connected: 好喔！你能夠訪問學校伺服器！
+    connected: "好喔！你能夠訪問{where}！"
     connecting: 這可能需要幾秒鐘的時間，請確認在裝置上啟用了網路。
-    disconnected: 哎呀！你無法訪問學校伺服器誒，請檢查你的網路設定，然後再試一次。
-    none: 你需要訪問學校伺服器才能繼續，現在就開始檢查吧！
+    disconnected: "哎呀！你無法訪問{where}誒，請點擊下方的疑難排解以了解更多。"
+    none: "你需要訪問{where}才能繼續，現在就開始檢查吧！"
 network:
   error: 網路錯誤
   ipAddress: IP 地址
@@ -589,8 +592,8 @@ networkTool:
   pgRegUnavailableTip: |
     你無法從教務系統匯入課程表，匯入的唯一方法是從裝置上的檔案中載入它們。
     你的考試成績無法及時加載和更新，但如果你已經加載過一次，仍然可以查看。
-  troubleshooting: 疑難排解
-  studentRegTroubleshooting: |
+  troubleshoot: 疑難排解
+  studentRegTroubleshoot: |
     1. 嘗試連線學校的Wi-Fi: "i-SIT","i-SIT-1x" 或 "eduroam"。
     2. 嘗試啟用"EasyConnect" VPN 連線校園網路。
     3. 嘗試通過自建的 HTTP Proxy 伺服器連線校園網路。
