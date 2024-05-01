@@ -298,7 +298,7 @@ class _TimetablePatchDraggableState extends State<TimetablePatchDraggable> {
   @override
   Widget build(BuildContext context) {
     final patch = widget.patch;
-    return LongPressDraggable<TimetablePatch>(
+    return Draggable<TimetablePatch>(
       data: patch,
       feedback: Card.filled(
         child: [
