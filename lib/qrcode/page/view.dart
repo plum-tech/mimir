@@ -1,10 +1,14 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/l10n/tr.dart';
 import 'package:sit/settings/dev.dart';
 
@@ -35,6 +39,7 @@ class QrCodePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hugeQrCode = data.length > 512;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -45,7 +50,7 @@ class QrCodePage extends StatelessWidget {
           SliverToBoxAdapter(
             child: LayoutBuilder(
               builder: (ctx, box) {
-                final side = min(box.maxWidth, maxSize ?? 256.0);
+                final side = min(box.maxWidth, maxSize ?? double.infinity);
                 return SizedBox(
                   width: side,
                   height: side,
@@ -55,7 +60,7 @@ class QrCodePage extends StatelessWidget {
                   ),
                 ).center();
               },
-            ),
+            ).padSymmetric(h: hugeQrCode ? 8 : 16),
           ),
           SliverToBoxAdapter(
             child: RichText(
@@ -66,8 +71,20 @@ class QrCodePage extends StatelessWidget {
             ).padAll(10),
           ),
           if (Dev.on)
-            SliverToBoxAdapter(
-              child: SelectableText(data).padAll(10),
+            SliverList.list(
+              children: [
+                ListTile(
+                  title: "Text length: ${data.length}".text(),
+                  trailing: PlatformIconButton(
+                    icon: Icon(context.icons.copy),
+                    onPressed: () async {
+                      context.showSnackBar(content: "Copied".text());
+                      await Clipboard.setData(ClipboardData(text: data));
+                    },
+                  ),
+                ),
+                SelectableText(data).padAll(10),
+              ],
             ),
         ],
       ),

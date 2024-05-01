@@ -135,16 +135,16 @@ class SitTimetable {
   Map<String, dynamic> toJson() => _$SitTimetableToJson(this);
 
   void serialize(ByteWriter writer) {
-    writer.strUtf8(name);
-    writer.strUtf8(signature);
+    writer.strUtf8(name, ByteLength.bit8);
+    writer.strUtf8(signature, ByteLength.bit8);
     writer.uint8(schoolYear);
-    writer.uint16(lastCourseKey);
+    writer.uint8(lastCourseKey);
     writer.datePacked(startDate, 2000);
-    writer.uint16(courses.length);
+    writer.uint8(courses.length);
     for (final course in courses.values) {
       course.serialize(writer);
     }
-    writer.uint16(patches.length);
+    writer.uint8(patches.length);
     for (final patch in patches) {
       TimetablePatchEntry.serialize(patch, writer);
     }
@@ -261,16 +261,16 @@ class SitCourse {
 
   void serialize(ByteWriter writer) {
     writer.uint8(courseKey);
-    writer.strUtf8(courseName);
-    writer.strUtf8(courseCode);
-    writer.strUtf8(place);
+    writer.strUtf8(courseName, ByteLength.bit8);
+    writer.strUtf8(courseCode, ByteLength.bit8);
+    writer.strUtf8(place, ByteLength.bit8);
     weekIndices.serialize(writer);
     writer.uint8(timeslots.packedInt8());
-    writer.float32(courseCredit);
+    writer.uint8((courseCredit * 10).toInt());
     writer.uint8(dayIndex);
     writer.uint8(teachers.length);
     for (final teacher in teachers) {
-      writer.strUtf8(teacher);
+      writer.strUtf8(teacher, ByteLength.bit8);
     }
     writer.b(hidden);
   }
