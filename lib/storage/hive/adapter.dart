@@ -20,7 +20,7 @@ import 'package:sit/school/class2nd/entity/activity.dart';
 import 'package:sit/school/class2nd/entity/attended.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/yellow_pages/entity/contact.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:sit/settings/entity/proxy.dart';
 import 'package:sit/storage/hive/init.dart';
 
 import 'builtin.dart';

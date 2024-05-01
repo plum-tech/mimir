@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:sit/r.dart';
+import 'package:sit/settings/entity/proxy.dart';
 import 'package:sit/settings/settings.dart';
 
 class SitHttpOverrides extends HttpOverrides {

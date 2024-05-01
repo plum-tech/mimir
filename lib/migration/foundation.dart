@@ -70,7 +70,7 @@ class MigrationManager {
   /// [to] is inclusive.
   List<Migration> collectBetween(Version from, Version to) {
     _migrations.sort();
-    final involved = _migrations.where((m) => from <= m.version  && m.version <= to).toList();
+    final involved = _migrations.where((m) => from <= m.version && m.version <= to).toList();
     return involved.map((e) => e.migration).toList();
   }
 }

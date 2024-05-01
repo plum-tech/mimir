@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/lifecycle.dart';
 import 'package:sit/session/backend.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:sit/settings/entity/proxy.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/session/class2nd.dart';
 import 'package:sit/session/pg_registration.dart';

@@ -14,6 +14,7 @@ import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/dev.dart';
+import '../entity/proxy.dart';
 import '../i18n.dart';
 import '../qrcode/proxy.dart';
 

@@ -1,16 +1,13 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/game/settings.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/school/settings.dart';
-import 'package:sit/storage/hive/type_id.dart';
 import 'package:sit/timetable/settings.dart';
 
 import '../life/settings.dart';
-
-part "settings.g.dart";
+import 'entity/proxy.dart';
 
 class _K {
   static const ns = "/settings";
@@ -111,73 +108,6 @@ class _Theme {
   late final $themeMode = box.provider<ThemeMode>(_ThemeK.themeMode);
 }
 
-enum ProxyType {
-  http(
-    defaultHost: "localhost",
-    defaultPort: 3128,
-    supportedProtocols: [
-      "http",
-      "https",
-    ],
-    defaultProtocol: "http",
-  ),
-  https(
-    defaultHost: "localhost",
-    defaultPort: 443,
-    supportedProtocols: [
-      "http",
-      "https",
-    ],
-    defaultProtocol: "https",
-  ),
-  all(
-    defaultHost: "localhost",
-    defaultPort: 1080,
-    supportedProtocols: [
-      "socks5",
-    ],
-    defaultProtocol: "socks5",
-  );
-
-  final String defaultHost;
-  final int defaultPort;
-  final List<String> supportedProtocols;
-  final String defaultProtocol;
-
-  String l10n() => "settings.proxy.proxyType.$name".tr();
-
-  const ProxyType({
-    required this.defaultHost,
-    required this.defaultPort,
-    required this.supportedProtocols,
-    required this.defaultProtocol,
-  });
-
-  Uri buildDefaultUri() => Uri(scheme: defaultProtocol, host: defaultHost, port: defaultPort);
-
-  bool isDefaultUri(Uri uri) {
-    if (uri.scheme != defaultProtocol) return false;
-    if (uri.host != defaultHost) return false;
-    if (uri.port != defaultPort) return false;
-    if (uri.hasQuery) return false;
-    if (uri.hasFragment) return false;
-    if (uri.userInfo.isNotEmpty) return false;
-    return true;
-  }
-}
-
-@HiveType(typeId: CoreHiveType.proxyMode)
-enum ProxyMode {
-  @HiveField(0)
-  global,
-  @HiveField(1)
-  schoolOnly;
-
-  String l10nName() => "settings.proxy.proxyMode.$name.name".tr();
-
-  String l10nTip() => "settings.proxy.proxyMode.$name.tip".tr();
-}
-
 class _ProxyK {
   static const ns = '/proxy';
 
@@ -190,11 +120,11 @@ class _ProxyK {
 
 typedef ProxyProfileRecords = ({String? address, bool enabled, ProxyMode proxyMode});
 
-class ProxyProfile {
+class ProxyProfileLegacy {
   final Box box;
   final ProxyType type;
 
-  ProxyProfile(this.box, String ns, this.type);
+  ProxyProfileLegacy(this.box, String ns, this.type);
 
   ProxyProfileRecords toRecords() => (address: address, enabled: enabled, proxyMode: proxyMode);
 
@@ -225,15 +155,15 @@ class _Proxy {
   final Box box;
 
   _Proxy(this.box)
-      : http = ProxyProfile(box, _ProxyK.ns, ProxyType.http),
-        https = ProxyProfile(box, _ProxyK.ns, ProxyType.https),
-        all = ProxyProfile(box, _ProxyK.ns, ProxyType.all);
+      : http = ProxyProfileLegacy(box, _ProxyK.ns, ProxyType.http),
+        https = ProxyProfileLegacy(box, _ProxyK.ns, ProxyType.https),
+        all = ProxyProfileLegacy(box, _ProxyK.ns, ProxyType.all);
 
-  final ProxyProfile http;
-  final ProxyProfile https;
-  final ProxyProfile all;
+  final ProxyProfileLegacy http;
+  final ProxyProfileLegacy https;
+  final ProxyProfileLegacy all;
 
-  ProxyProfile resolve(ProxyType type) {
+  ProxyProfileLegacy resolve(ProxyType type) {
     return switch (type) {
       ProxyType.http => http,
       ProxyType.https => https,
