@@ -68,10 +68,26 @@ class MigrationManager {
   }
 
   /// [from] is exclusive.
-  /// [to] is inclusive.
-  List<Migration> collectBetween(Version from, Version to) {
+  /// [current] is inclusive.
+  List<Migration> collectBetween(Version from, Version current) {
+    if (from == current) return [];
     _migrations.sort();
-    final involved = _migrations.where((m) => from <= m.version && m.version <= to).toList();
+    final involved = _migrations.where((m) {
+      // from: 2.3.2, m: 2.3.1 => no
+      // from: 2.3.2, m: 2.3.2 => yes
+      // from: 2.3.2, m: 2.4.0 => yes
+      if (from <= m.version) {
+        return true;
+      }
+      // current: 2.4.0, m: 2.3.2 => no
+      // current: 2.4.0, m: 2.4.0 => yes
+      // from: 2.4.0, current: 2.4.0, m: 2.4.0 => filter at first
+      // from: 2.3.2, current: 2.4.0, m: 2.4.0 => handled upper
+      if (current <= m.version) {
+        return true;
+      }
+      return false;
+    }).toList();
     return involved.map((e) => e.migration).toList();
   }
 }
