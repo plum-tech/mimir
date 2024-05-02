@@ -96,12 +96,13 @@ void main() async {
   // The last time when user launch this app
   Meta.lastLaunchTime = Meta.thisLaunchTime;
   Meta.thisLaunchTime = DateTime.now();
-  await migrations.perform(MigrationPhrase.afterHive);
   Init.registerCustomEditor();
+  await migrations.perform(MigrationPhrase.afterHive);
   HttpOverrides.global = SitHttpOverrides();
   await Init.initNetwork();
-  await Init.initStorage();
   await Init.initModules();
+  await Init.initStorage();
+  await migrations.perform(MigrationPhrase.afterInitStorage);
   runApp(
     ProviderScope(
       child: EasyLocalization(

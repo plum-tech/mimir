@@ -1,7 +1,7 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/l10n/time.dart';
-import 'package:sit/utils/byte_io.dart';
+import 'package:sit/utils/byte_io/byte_io.dart';
 
 import 'timetable.dart';
 import '../i18n.dart';

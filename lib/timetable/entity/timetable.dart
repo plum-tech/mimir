@@ -7,7 +7,7 @@ import 'package:meta/meta.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/entity/timetable.dart';
-import 'package:sit/utils/byte_io.dart';
+import 'package:sit/utils/byte_io/byte_io.dart';
 import 'package:statistics/statistics.dart';
 
 import 'patch.dart';

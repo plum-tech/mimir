@@ -4,7 +4,7 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/utils/byte_io.dart';
+import 'package:sit/utils/byte_io/byte_io.dart';
 
 import 'timetable.dart';
 
