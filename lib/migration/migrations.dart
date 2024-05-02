@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:sit/files.dart';
 import 'package:sit/settings/entity/proxy.dart';
 import 'package:sit/settings/settings.dart';
@@ -21,6 +22,7 @@ class Migrations {
         });
     Version(2, 4, 0) <<
         Migration.run((phrase) async {
+          if (kIsWeb) return;
           switch (phrase) {
             case MigrationPhrase.beforeHive:
               final oldTimetableBackgroundFi = Files.user.subFile("timetable", "background.img");
@@ -56,6 +58,7 @@ class Migrations {
                 await proxyBox.delete("/proxy/${cat.name}/enabled");
                 await proxyBox.delete("/proxy/${cat.name}/proxyMode");
               }
+            case MigrationPhrase.afterInitStorage:
           }
         });
   }

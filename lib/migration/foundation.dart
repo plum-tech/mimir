@@ -5,6 +5,7 @@ import 'package:version/version.dart';
 enum MigrationPhrase {
   beforeHive,
   afterHive,
+  afterInitStorage,
 }
 
 /// Migration happens after Hive is initialized, but before all other initializations.
