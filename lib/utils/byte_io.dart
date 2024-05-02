@@ -1,11 +1,12 @@
 import 'dart:convert';
-import 'dart:typed_data';
+
+import 'package:flutter/foundation.dart';
 
 enum ByteLength {
-  bit8(1, 0xFF),
-  bit16(2, 0xFFFF),
-  bit32(4, 0xFFFFFFFF),
-  bit64(8, 0xFFFFFFFFFFFFFFFF),
+  bit8(1, kIsWeb ? 0 : 0xFF),
+  bit16(2, kIsWeb ? 0 : 0xFFFF),
+  bit32(4, kIsWeb ? 0 : 0xFFFFFFFF),
+  bit64(8, kIsWeb ? 0 : 0xFFFFFFFFFFFFFFFF),
   ;
 
   final int byteLengths;
