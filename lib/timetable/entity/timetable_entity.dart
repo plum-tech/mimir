@@ -15,14 +15,15 @@ import 'timetable.dart';
 part "timetable_entity.g.dart";
 
 /// The entity to display.
-class SitTimetableEntity with SitTimetablePaletteResolver {
+class SitTimetableEntity with SitTimetablePaletteResolver, CourseCodeIndexer {
   @override
   final SitTimetable type;
 
+  @override
+  Iterable<SitCourse> get courses => type.courses.values;
+
   /// The Default number of weeks is 20.
   final List<SitTimetableWeek> weeks;
-
-  final _courseCode2CoursesCache = <String, List<SitCourse>>{};
 
   SitTimetableEntity({
     required this.type,
@@ -30,22 +31,6 @@ class SitTimetableEntity with SitTimetablePaletteResolver {
   }) {
     for (final week in weeks) {
       week.parent = this;
-    }
-  }
-
-  List<SitCourse> findAndCacheCoursesByCourseCode(String courseCode) {
-    final found = _courseCode2CoursesCache[courseCode];
-    if (found != null) {
-      return found;
-    } else {
-      final res = <SitCourse>[];
-      for (final course in type.courses.values) {
-        if (course.courseCode == courseCode) {
-          res.add(course);
-        }
-      }
-      _courseCode2CoursesCache[courseCode] = res;
-      return res;
     }
   }
 
