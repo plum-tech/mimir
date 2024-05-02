@@ -243,12 +243,14 @@ DateTime findFirstWeekdayInCurrentMonth(DateTime current, int weekday) {
 
 Future<SitTimetable?> processImportedTimetable(
   BuildContext context,
-  SitTimetable timetable,
-) async {
+  SitTimetable timetable, {
+  bool useRootNavigator = false,
+}) async {
   final newTimetable = await context.showSheet<SitTimetable>(
     (ctx) => TimetableEditorPage(
       timetable: timetable,
     ),
+    useRootNavigator: true,
     dismissible: false,
   );
   return newTimetable;

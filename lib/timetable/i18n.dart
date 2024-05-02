@@ -63,10 +63,6 @@ class _Mine {
   String get emptyTip => "$ns.emptyTip".tr();
 
   String get details => "$ns.details".tr();
-
-  String get addFromFileAction => "$ns.addFromFileAction".tr();
-
-  String get addFromFileDesc => "$ns.addFromFileDesc".tr();
 }
 
 class _P13n {
@@ -146,10 +142,6 @@ class _Palette {
   String get color => "$ns.color".tr();
 
   String get details => "$ns.details".tr();
-
-  String get addFromQrCodeAction => "$ns.addFromQrCodeAction".tr();
-
-  String addFromQrCodeDesc({required String name}) => "$ns.addFromQrCodeDesc".tr(args: [name]);
 }
 
 class _Background {

@@ -35,6 +35,7 @@ import '../init.dart';
 import '../utils.dart';
 import '../widgets/focus.dart';
 import '../widgets/style.dart';
+import 'import.dart';
 import 'preview.dart';
 
 class MyTimetableListPage extends ConsumerStatefulWidget {
@@ -470,15 +471,17 @@ Future<void> onTimetableFromFile({
   required BuildContext context,
   required SitTimetable timetable,
 }) async {
-  final confirm = await context.showActionRequest(
-    desc: i18n.mine.addFromFileDesc,
-    action: i18n.mine.addFromFileAction,
-    cancel: i18n.cancel,
+  final newTimetable = await processImportedTimetable(
+    context,
+    timetable,
+    useRootNavigator: true,
   );
-  if (confirm != true) return;
+  if (newTimetable == null) return;
   final id = TimetableInit.storage.timetable.add(timetable);
   if (Settings.timetable.autoUseImported) {
     TimetableInit.storage.timetable.selectedId = id;
+  } else {
+    TimetableInit.storage.timetable.selectedId ??= id;
   }
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;

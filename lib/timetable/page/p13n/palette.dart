@@ -520,20 +520,13 @@ Future<void> onTimetablePaletteFromQrCode({
   required BuildContext context,
   required TimetablePalette palette,
 }) async {
-  final confirm = await context.showActionRequest(
-    desc: i18n.p13n.palette.addFromQrCodeDesc(name: palette.name),
-    action: i18n.p13n.palette.addFromQrCodeAction,
-    cancel: i18n.cancel,
+  final newPalette = await context.showSheet(
+    (ctx) => TimetablePaletteEditorPage(palette: palette),
+    dismissible: false,
+    useRootNavigator: true,
   );
-  if (confirm != true) return;
-  // prevent duplicate names
-  // palette = palette.copyWith(
-  //   name: allocValidFileName(
-  //     palette.name,
-  //     all: TimetableInit.storage.palette.getRows().map((e) => e.row.name).toList(growable: false),
-  //   ),
-  // );
-  TimetableInit.storage.palette.add(palette);
+  if (newPalette == null) return;
+  TimetableInit.storage.palette.add(newPalette);
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
   context.push("/timetable/p13n/custom");

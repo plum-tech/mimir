@@ -2,6 +2,7 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
@@ -16,7 +17,8 @@ import '../../i18n.dart';
 import '../../init.dart';
 import '../../widgets/style.dart';
 
-class TimetablePaletteEditorPage extends StatefulWidget {
+/// [TimetablePalette] object will be popped.
+class TimetablePaletteEditorPage extends ConsumerStatefulWidget {
   final TimetablePalette palette;
 
   const TimetablePaletteEditorPage({
@@ -25,7 +27,7 @@ class TimetablePaletteEditorPage extends StatefulWidget {
   });
 
   @override
-  State<TimetablePaletteEditorPage> createState() => _TimetablePaletteEditorPageState();
+  ConsumerState<TimetablePaletteEditorPage> createState() => _TimetablePaletteEditorPageState();
 }
 
 class _Tab {
@@ -34,12 +36,10 @@ class _Tab {
   static const colors = 1;
 }
 
-class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage> {
+class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEditorPage> {
   late final $name = TextEditingController(text: widget.palette.name);
   late final $author = TextEditingController(text: widget.palette.author);
   late var colors = widget.palette.colors;
-  final $selectedTimetable = TimetableInit.storage.timetable.$selected;
-  var selectedTimetable = TimetableInit.storage.timetable.selectedRow;
   var anyChanged = false;
 
   void markChanged() => anyChanged |= true;
@@ -47,7 +47,6 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
   @override
   void initState() {
     super.initState();
-    $selectedTimetable.addListener(refresh);
     $name.addListener(() {
       if ($name.text != widget.palette.name) {
         setState(() => markChanged());
@@ -64,18 +63,13 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
   void dispose() {
     $name.dispose();
     $author.dispose();
-    $selectedTimetable.removeListener(refresh);
     super.dispose();
   }
 
-  void refresh() {
-    setState(() {
-      selectedTimetable = TimetableInit.storage.timetable.selectedRow;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+    final timetable = ref.watch(TimetableInit.storage.timetable.$selectedRow);
     return PromptSaveBeforeQuitScope(
       changed: anyChanged,
       onSave: onSave,
@@ -85,8 +79,6 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
           child: NestedScrollView(
             floatHeaderSlivers: true,
             headerSliverBuilder: (context, innerBoxIsScrolled) {
-              // These are the slivers that show up in the "outer" scroll view.
-              final selectedTimetable = TimetableInit.storage.timetable.selectedRow;
               return <Widget>[
                 SliverOverlapAbsorber(
                   handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
@@ -94,7 +86,7 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
                     floating: true,
                     title: i18n.p13n.palette.title.text(),
                     actions: [
-                      if (selectedTimetable != null && colors.isNotEmpty)
+                      if (timetable != null && colors.isNotEmpty)
                         PlatformTextButton(
                           child: i18n.preview.text(),
                           onPressed: () async {
@@ -102,7 +94,7 @@ class _TimetablePaletteEditorPageState extends State<TimetablePaletteEditorPage>
                               (context) => TimetableStyleProv(
                                 palette: buildPalette(),
                                 child: TimetablePreviewPage(
-                                  timetable: selectedTimetable,
+                                  timetable: timetable,
                                 ),
                               ),
                             );
