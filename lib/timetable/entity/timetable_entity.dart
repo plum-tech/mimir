@@ -25,7 +25,7 @@ class SitTimetableEntity with SitTimetablePaletteResolver, CourseCodeIndexer {
   final List<SitTimetableDay> days;
 
   /// The Default number of weeks is 20.
-  List<SitTimetableWeek> get weeks => List.generate(maxWeekLength, (index) => getWeek(index));
+  List<SitTimetableWeek> weeks() => List.generate(maxWeekLength, (index) => getWeek(index));
 
   SitTimetableWeek getWeek(int weekIndex) {
     return SitTimetableWeek(days.sublist(weekIndex * 7, weekIndex * 7 + 7));
@@ -65,7 +65,7 @@ class SitTimetableEntity with SitTimetablePaletteResolver, CourseCodeIndexer {
     final diff = date.difference(startDate);
     if (diff.inDays > maxWeekLength * 7) return null;
     final weekIndex = diff.inDays ~/ 7;
-    if (weekIndex < 0 || weekIndex >= weeks.length) return null;
+    if (weekIndex < 0 || weekIndex >= maxWeekLength) return null;
     return getWeek(weekIndex);
   }
 

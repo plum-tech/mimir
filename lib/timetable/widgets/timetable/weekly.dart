@@ -209,7 +209,7 @@ class TimetableOneWeek extends StatelessWidget {
   Widget build(BuildContext context) {
     final todayPos = timetable.type.locate(DateTime.now());
     final cellSize = Size(fullSize.width / 7.62, fullSize.height / 11);
-    final timetableWeek = timetable.weeks[weekIndex];
+    final timetableWeek = timetable.getWeek(weekIndex);
 
     final view = buildSingleWeekView(
       timetableWeek,
