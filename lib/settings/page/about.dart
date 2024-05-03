@@ -45,7 +45,7 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
               if (Dev.on)
                 DetailListTile(
                   title: "Installer Store",
-                  subtitle: R.meta.installerStore,
+                  subtitle: R.meta.installerStore ?? i18n.unknown,
                 ),
               DetailListTile(
                 title: i18n.about.icpLicense,
@@ -178,5 +178,19 @@ class _CheckUpdateButtonState extends State<CheckUpdateButton> {
             },
       child: i18n.about.checkUpdate.text(),
     );
+  }
+}
+
+class DebugLatestVersionTile extends StatefulWidget {
+  const DebugLatestVersionTile({super.key});
+
+  @override
+  State<DebugLatestVersionTile> createState() => _DebugLatestVersionTileState();
+}
+
+class _DebugLatestVersionTileState extends State<DebugLatestVersionTile> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
