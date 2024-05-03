@@ -40,10 +40,23 @@ IconData _getBrowserIcon() {
   };
 }
 
+const _manufacturer2icon = {
+  "xiaomi": SimpleIcons.xiaomi,
+  "huawei": SimpleIcons.huawei,
+  "oppo": SimpleIcons.oppo,
+  "sony": SimpleIcons.sony,
+  "oneplus": SimpleIcons.oneplus,
+  "samsung": SimpleIcons.samsung,
+  "google": SimpleIcons.google,
+};
+
 IconData _getAndroidIcon(AndroidDeviceInfo info) {
   final manufacturer = info.manufacturer.toLowerCase();
-  if (manufacturer.contains("xiaomi")) {
-    return SimpleIcons.xiaomi;
+  for (final MapEntry(key: mf, value: icon) in _manufacturer2icon.entries) {
+    if (manufacturer.contains(mf)) {
+      return icon;
+    }
   }
+
   return SimpleIcons.android;
 }
