@@ -204,7 +204,7 @@ flutter_intl:
 msix_config:
   display_name: SIT Life
   identity_name: life.mysit.SITLife
-  msix_version: 2.4.0.40
+  msix_version: 2.4.1.41
   logo_path: android/app/src/main/res/mipmap/icon.png
   capabilities: internetClient, microphone, webcam
   languages: en,zh-hans,zh-hant
