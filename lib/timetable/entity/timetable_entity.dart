@@ -346,7 +346,7 @@ class SitTimetableLessonPart {
       return timeCache;
     } else {
       final thatDay = type.parent.date;
-      final classTime = course.calcBeginEndTimePointOfLesson(type.parent.parent.parent.type.campus, index);
+      final classTime = calcBeginEndTimePointOfLesson(index, type.parent.parent.parent.type.campus, course.place);
       _dayCache = type.parent;
       final time = (start: thatDay.addTimePoint(classTime.begin), end: thatDay.addTimePoint(classTime.end));
       _timeCache = time;

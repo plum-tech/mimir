@@ -338,33 +338,30 @@ class SitCourse {
     );
   }
 }
+List<ClassTime> buildingTimetableOf(Campus campus, [String? place]) => getTeachingBuildingTimetable(campus, place);
 
-extension SitCourseX on SitCourse {
-  List<ClassTime> buildingTimetableOf(Campus campus) => getTeachingBuildingTimetable(campus, place);
+/// Based on [SitCourse.timeslots], compose a full-length class time.
+/// Starts with the first part starts.
+/// Ends with the last part ends.
+ClassTime calcBeginEndTimePoint(({int start, int end}) timeslots, Campus campus, [String? place]) {
+  final timetable = buildingTimetableOf(campus, place);
+  final (:start, :end) = timeslots;
+  return (begin: timetable[start].begin, end: timetable[end].end);
+}
 
-  /// Based on [SitCourse.timeslots], compose a full-length class time.
-  /// Starts with the first part starts.
-  /// Ends with the last part ends.
-  ClassTime calcBeginEndTimePoint(Campus campus) {
-    final timetable = buildingTimetableOf(campus);
-    final (:start, :end) = timeslots;
-    return (begin: timetable[start].begin, end: timetable[end].end);
+List<ClassTime> calcBeginEndTimePointForEachLesson(({int start, int end}) timeslots, Campus campus, [String? place]) {
+  final timetable = buildingTimetableOf(campus, place);
+  final (:start, :end) = timeslots;
+  final result = <ClassTime>[];
+  for (var timeslot = start; timeslot <= end; timeslot++) {
+    result.add(timetable[timeslot]);
   }
+  return result;
+}
 
-  List<ClassTime> calcBeginEndTimePointForEachLesson(Campus campus) {
-    final timetable = buildingTimetableOf(campus);
-    final (:start, :end) = timeslots;
-    final result = <ClassTime>[];
-    for (var timeslot = start; timeslot <= end; timeslot++) {
-      result.add(timetable[timeslot]);
-    }
-    return result;
-  }
-
-  ClassTime calcBeginEndTimePointOfLesson(Campus campus, int timeslot) {
-    final timetable = buildingTimetableOf(campus);
-    return timetable[timeslot];
-  }
+ClassTime calcBeginEndTimePointOfLesson(int timeslot, Campus campus, [String? place]) {
+  final timetable = buildingTimetableOf(campus, place);
+  return timetable[timeslot];
 }
 
 @JsonEnum()
