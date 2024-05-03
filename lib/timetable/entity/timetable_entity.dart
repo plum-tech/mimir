@@ -22,15 +22,25 @@ class SitTimetableEntity with SitTimetablePaletteResolver, CourseCodeIndexer {
   @override
   Iterable<SitCourse> get courses => type.courses.values;
 
+  final List<SitTimetableDay> days;
+
   /// The Default number of weeks is 20.
-  final List<SitTimetableWeek> weeks;
+  List<SitTimetableWeek> get weeks => List.generate(maxWeekLength, (index) => getWeek(index));
+
+  SitTimetableWeek getWeek(int weekIndex) {
+    return SitTimetableWeek(days.sublist(weekIndex * 7, weekIndex * 7 + 7));
+  }
+
+  SitTimetableDay getDay(int weekIndex, Weekday weekday) {
+    return days[weekIndex * 7 + weekday.index];
+  }
 
   SitTimetableEntity({
     required this.type,
-    required this.weeks,
+    required this.days,
   }) {
-    for (final week in weeks) {
-      week.parent = this;
+    for (final day in days) {
+      day.parent = this;
     }
   }
 
@@ -47,12 +57,7 @@ class SitTimetableEntity with SitTimetablePaletteResolver, CourseCodeIndexer {
   String get signature => type.signature;
 
   SitTimetableDay? getDaySinceStart(int days) {
-    if (days > maxWeekLength * 7) return null;
-    final weekIndex = days ~/ 7;
-    if (weekIndex < 0 || weekIndex >= weeks.length) return null;
-    final week = weeks[weekIndex];
-    final dayIndex = days % 7 - 1;
-    return week.days[dayIndex];
+    return this.days[days - 1];
   }
 
   SitTimetableWeek? getWeekOn(DateTime date) {
@@ -68,42 +73,14 @@ class SitTimetableEntity with SitTimetablePaletteResolver, CourseCodeIndexer {
     if (startDate.isAfter(date)) return null;
     final diff = date.difference(startDate);
     if (diff.inDays > maxWeekLength * 7) return null;
-    final weekIndex = diff.inDays ~/ 7;
-    if (weekIndex < 0 || weekIndex >= weeks.length) return null;
-    final week = weeks[weekIndex];
-    // don't -1 here, because inDays always omitted fraction.
-    final dayIndex = diff.inDays % 7;
-    return week.days[dayIndex];
+    return days.elementAtOrNull(diff.inDays);
   }
 }
 
-class SitTimetableWeek {
-  late final SitTimetableEntity parent;
-  final int index;
-
-  /// The 7 days in a week
-  final List<SitTimetableDay> days;
-
-  SitTimetableWeek({
-    required this.index,
-    required this.days,
-  }) {
-    for (final day in days) {
-      day.parent = this;
-    }
-  }
-
-  factory SitTimetableWeek.$7days(int weekIndex) {
-    return SitTimetableWeek(
-      index: weekIndex,
-      days: List.generate(7, (index) => SitTimetableDay.$11slots(index)),
-    );
-  }
+extension type SitTimetableWeek(List<SitTimetableDay> days) {
+  int get index => days.first.weekIndex;
 
   bool get isFree => days.every((day) => day.isFree);
-
-  @override
-  String toString() => "$days";
 
   SitTimetableDay operator [](Weekday weekday) => days[weekday.index];
 
@@ -137,18 +114,20 @@ String _formatTime(DateTime date) {
 }
 
 class SitTimetableDay {
-  late final SitTimetableWeek parent;
-  final int index;
+  late final SitTimetableEntity parent;
+
+  final int weekIndex;
+  final Weekday weekday;
 
   /// The Default number of lessons in one day is 11. But it can be extended.
   /// For example,
   /// A Timeslot could contain one or more lesson.
-  final List<SitTimetableLessonSlot> _timeslot2LessonSlot;
+  final List<SitTimetableLessonSlot> slots;
 
-  List<SitTimetableLessonSlot> get timeslot2LessonSlot => UnmodifiableListView(_timeslot2LessonSlot);
+  List<SitTimetableLessonSlot> get timeslot2LessonSlot => UnmodifiableListView(slots);
 
   late final Set<SitCourse> _associatedCourses =
-      _timeslot2LessonSlot.map((slot) => slot.lessons).flattened.map((part) => part.course).toSet();
+      slots.map((slot) => slot.lessons).flattened.map((part) => part.course).toSet();
 
   Set<SitCourse> get associatedCourses => UnmodifiableSetView(_associatedCourses);
 
@@ -162,36 +141,41 @@ class SitTimetableDay {
   }
 
   DateTime get date => reflectWeekDayIndexToDate(
-        startDate: parent.parent.startDate,
-        weekIndex: parent.index,
-        weekday: Weekday.fromIndex(index),
+        startDate: parent.startDate,
+        weekIndex: weekIndex,
+        weekday: weekday,
       );
 
   SitTimetableDay({
-    required int index,
+    required int weekIndex,
+    required Weekday weekday,
     required List<SitTimetableLessonSlot> timeslot2LessonSlot,
-  }) : this._internal(index, List.of(timeslot2LessonSlot));
+  }) : this._internal(weekIndex, weekday, List.of(timeslot2LessonSlot));
 
-  SitTimetableDay._internal(this.index, this._timeslot2LessonSlot) {
+  SitTimetableDay._internal(this.weekIndex, this.weekday, this.slots) {
     for (final lessonSlot in timeslot2LessonSlot) {
       lessonSlot.parent = this;
     }
   }
 
-  factory SitTimetableDay.$11slots(int dayIndex) {
+  factory SitTimetableDay.$11slots({
+    required int weekIndex,
+    required Weekday weekday,
+  }) {
     return SitTimetableDay._internal(
-      dayIndex,
+      weekIndex,
+      weekday,
       List.generate(11, (index) => SitTimetableLessonSlot(lessons: <SitTimetableLessonPart>[])),
     );
   }
 
-  bool get isFree => _timeslot2LessonSlot.every((lessonSlot) => lessonSlot.lessons.isEmpty);
+  bool get isFree => slots.every((lessonSlot) => lessonSlot.lessons.isEmpty);
 
   void add({required SitTimetableLessonPart lesson, required int at}) {
     if (frozen) throw throw UnsupportedError("Cannot modify a frozen $SitTimetableDay.");
-    assert(0 <= at && at < _timeslot2LessonSlot.length);
-    if (0 <= at && at < _timeslot2LessonSlot.length) {
-      final lessonSlot = _timeslot2LessonSlot[at];
+    assert(0 <= at && at < slots.length);
+    if (0 <= at && at < slots.length) {
+      final lessonSlot = slots[at];
       lessonSlot.lessons.add(lesson);
       lesson.type.parent = this;
     }
@@ -199,7 +183,7 @@ class SitTimetableDay {
 
   void clear() {
     if (frozen) throw throw UnsupportedError("Cannot modify a frozen $SitTimetableDay.");
-    for (final lessonSlot in _timeslot2LessonSlot) {
+    for (final lessonSlot in slots) {
       lessonSlot.lessons.clear();
     }
   }
@@ -217,10 +201,10 @@ class SitTimetableDay {
   }
 
   void setLessonSlots(Iterable<SitTimetableLessonSlot> v) {
-    _timeslot2LessonSlot.clear();
-    _timeslot2LessonSlot.addAll(v);
+    slots.clear();
+    slots.addAll(v);
 
-    for (final lessonSlot in _timeslot2LessonSlot) {
+    for (final lessonSlot in slots) {
       lessonSlot.parent = this;
       for (final part in lessonSlot.lessons) {
         part.type.parent = this;
@@ -231,7 +215,7 @@ class SitTimetableDay {
   List<SitTimetableLessonSlot> cloneLessonSlots() {
     final old2newLesson = <SitTimetableLesson, SitTimetableLesson>{};
     final timeslots = List.of(
-      _timeslot2LessonSlot.map(
+      slots.map(
         (lessonSlot) {
           return SitTimetableLessonSlot(
             lessons: List.of(
@@ -266,7 +250,7 @@ class SitTimetableDay {
 
   /// At all lessons [layer]
   Iterable<SitTimetableLessonPart> browseLessonsAt({required int layer}) sync* {
-    for (final lessonSlot in _timeslot2LessonSlot) {
+    for (final lessonSlot in slots) {
       if (0 <= layer && layer < lessonSlot.lessons.length) {
         yield lessonSlot.lessons[layer];
       }
@@ -274,7 +258,7 @@ class SitTimetableDay {
   }
 
   bool hasAnyLesson() {
-    for (final lessonSlot in _timeslot2LessonSlot) {
+    for (final lessonSlot in slots) {
       if (lessonSlot.lessons.isNotEmpty) {
         assert(associatedCourses.isNotEmpty);
         return true;
@@ -284,12 +268,9 @@ class SitTimetableDay {
   }
 
   @override
-  String toString() => {
-        "date": _formatDay(date),
-        "index": index,
-        "timeslot2LessonSlot": _timeslot2LessonSlot,
-        "associatedCourses": associatedCourses,
-      }.toString();
+  String toString() {
+    return "${_formatDay(date)} [$weekIndex-${weekday.index}] $slots";
+  }
 }
 
 @CopyWith(skipFields: true)
@@ -346,7 +327,7 @@ class SitTimetableLessonPart {
       return timeCache;
     } else {
       final thatDay = type.parent.date;
-      final classTime = calcBeginEndTimePointOfLesson(index, type.parent.parent.parent.type.campus, course.place);
+      final classTime = calcBeginEndTimePointOfLesson(index, type.parent.parent.type.campus, course.place);
       _dayCache = type.parent;
       final time = (start: thatDay.addTimePoint(classTime.begin), end: thatDay.addTimePoint(classTime.end));
       _timeCache = time;
@@ -371,7 +352,13 @@ class SitTimetableLessonPart {
 
 extension SitTimetable4EntityX on SitTimetable {
   SitTimetableEntity resolve() {
-    final weeks = List.generate(20, (index) => SitTimetableWeek.$7days(index));
+    final days = List.generate(
+      maxWeekLength * 7,
+      (index) => SitTimetableDay.$11slots(
+        weekIndex: index ~/ 7,
+        weekday: Weekday.fromIndex(index % 7),
+      ),
+    );
 
     for (final course in courses.values) {
       if (course.hidden) continue;
@@ -382,8 +369,7 @@ extension SitTimetable4EntityX on SitTimetable {
           "Week index is more out of range [0,$maxWeekLength) but $weekIndex.",
         );
         if (0 <= weekIndex && weekIndex < maxWeekLength) {
-          final week = weeks[weekIndex];
-          final day = week.days[course.dayIndex];
+          final day = days[weekIndex * 7 + course.dayIndex];
           final parts = <SitTimetableLessonPart>[];
           final lesson = SitTimetableLesson(
             course: course,
@@ -405,7 +391,7 @@ extension SitTimetable4EntityX on SitTimetable {
     }
     final entity = SitTimetableEntity(
       type: this,
-      weeks: weeks,
+      days: days,
     );
 
     void processPatch(TimetablePatchEntry patch) {
@@ -453,15 +439,12 @@ extension SitTimetable4EntityX on SitTimetable {
     }
 
     if (kDebugMode) {
-      for (final week in entity.weeks) {
-        for (final day in week.days) {
-          assert(day.parent == week);
-          for (final slot in day.timeslot2LessonSlot) {
-            assert(slot.parent == day);
-            for (final lessonPart in slot.lessons) {
-              assert(lessonPart.type.parts.contains(lessonPart));
-              assert(lessonPart.type.startTime.inTheSameDay(day.date));
-            }
+      for (final day in entity.days) {
+        for (final slot in day.timeslot2LessonSlot) {
+          assert(slot.parent == day);
+          for (final lessonPart in slot.lessons) {
+            assert(lessonPart.type.parts.contains(lessonPart));
+            assert(lessonPart.type.startTime.inTheSameDay(day.date));
           }
         }
       }
