@@ -3,15 +3,25 @@ import 'package:sit/r.dart';
 
 void main() {
   group("Parse URL", () {
-    test("Test parse wechat", () {
+    test("Test parsing wechat", () {
       const url = "weixin://dl/publicaccount?username=gh_61f7fd217d36";
       final uri = Uri.parse(url);
       _printUri(uri);
     });
   });
   group("Create URL", () {
-    final uri =  Uri(scheme: R.scheme,path: "timetable-patch");
-    _printUri(uri);
+    test("Test creating wechat", () {
+      final uri = Uri(
+        scheme: 'weixin',
+        path: '/dl/publicaccount',
+        queryParameters: {'username': 'gh_61f7fd217d36'},
+      );
+      _printUri(uri);
+    });
+    test("Test creating SIT Life", () {
+      final uri = Uri(scheme: R.scheme, host: "timetable", path: "/patch");
+      _printUri(uri);
+    });
   });
 }
 
