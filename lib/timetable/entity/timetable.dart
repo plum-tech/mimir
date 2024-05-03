@@ -338,6 +338,7 @@ class SitCourse {
     );
   }
 }
+
 List<ClassTime> buildingTimetableOf(Campus campus, [String? place]) => getTeachingBuildingTimetable(campus, place);
 
 /// Based on [SitCourse.timeslots], compose a full-length class time.
@@ -467,14 +468,7 @@ class TimetableWeekIndex {
   Map<String, dynamic> toJson() => _$TimetableWeekIndexToJson(this);
 }
 
-@JsonSerializable()
-@immutable
-class TimetableWeekIndices {
-  @JsonKey()
-  final List<TimetableWeekIndex> indices;
-
-  const TimetableWeekIndices(this.indices);
-
+extension type const TimetableWeekIndices(List<TimetableWeekIndex> indices) implements List<TimetableWeekIndex> {
   bool match(int weekIndex) {
     for (final index in indices) {
       if (index.match(weekIndex)) return true;
@@ -530,14 +524,6 @@ class TimetableWeekIndices {
     return res;
   }
 
-  @override
-  bool operator ==(Object other) {
-    return other is TimetableWeekIndices && runtimeType == other.runtimeType && indices.equalsElements(other.indices);
-  }
-
-  @override
-  int get hashCode => Object.hashAll(indices);
-
   void serialize(ByteWriter writer) {
     writer.uint8(indices.length);
     for (final index in indices) {
@@ -561,6 +547,14 @@ class TimetableWeekIndices {
         ")";
   }
 }
+
+TimetableWeekIndices _$TimetableWeekIndicesFromJson(Map<String, dynamic> json) => TimetableWeekIndices(
+      (json['indices'] as List<dynamic>).map((e) => TimetableWeekIndex.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+
+Map<String, dynamic> _$TimetableWeekIndicesToJson(TimetableWeekIndices instance) => <String, dynamic>{
+      'indices': instance.indices,
+    };
 
 /// If [range] is "1-8", the output will be `(start:0, end: 7)`.
 /// if [number2index] is true, the [range] will be considered as a number range, which starts with 1 instead of 0.

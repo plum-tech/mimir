@@ -376,11 +376,3 @@ const _$TimetableWeekIndexTypeEnumMap = {
   TimetableWeekIndexType.odd: 'odd',
   TimetableWeekIndexType.even: 'even',
 };
-
-TimetableWeekIndices _$TimetableWeekIndicesFromJson(Map<String, dynamic> json) => TimetableWeekIndices(
-      (json['indices'] as List<dynamic>).map((e) => TimetableWeekIndex.fromJson(e as Map<String, dynamic>)).toList(),
-    );
-
-Map<String, dynamic> _$TimetableWeekIndicesToJson(TimetableWeekIndices instance) => <String, dynamic>{
-      'indices': instance.indices,
-    };
