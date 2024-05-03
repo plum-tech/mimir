@@ -24,6 +24,8 @@ import 'package:sit/design/widgets/navigation.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/update/init.dart';
+import 'package:sit/utils/guard_launch.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../i18n.dart';
 
 class DeveloperOptionsPage extends ConsumerStatefulWidget {
@@ -84,6 +86,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                 ),
               const AppLinksTile(),
               const DebugGoRouteTile(),
+              const DebugWebViewTile(),
               DebugFetchVersionTile(
                 title: "Official".text(),
                 fetch: () async {
@@ -211,17 +214,15 @@ class _DebugGoRouteTileState extends State<DebugGoRouteTile> {
           hintText: "/anywhere",
         ),
       ),
-      trailing: [
-        $route >>
-            (ctx, route) => PlatformIconButton(
-                  onPressed: route.text.isEmpty
-                      ? null
-                      : () {
-                          go(route.text);
-                        },
-                  icon: const Icon(Icons.arrow_forward),
-                )
-      ].row(mas: MainAxisSize.min),
+      trailing: $route >>
+          (ctx, route) => PlatformIconButton(
+                onPressed: route.text.isEmpty
+                    ? null
+                    : () {
+                        go(route.text);
+                      },
+                icon: const Icon(Icons.arrow_forward),
+              ),
     );
   }
 
@@ -230,6 +231,60 @@ class _DebugGoRouteTileState extends State<DebugGoRouteTile> {
       route = "/$route";
     }
     context.push(route);
+  }
+}
+
+class DebugWebViewTile extends StatefulWidget {
+  const DebugWebViewTile({super.key});
+
+  @override
+  State<DebugWebViewTile> createState() => _DebugWebViewTileState();
+}
+
+class _DebugWebViewTileState extends State<DebugWebViewTile> {
+  final $url = TextEditingController();
+
+  @override
+  void dispose() {
+    $url.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      isThreeLine: true,
+      leading: const Icon(Icons.web),
+      title: "Type URL".text(),
+      subtitle: TextField(
+        controller: $url,
+        textInputAction: TextInputAction.go,
+        onSubmitted: (text) {
+          if (Uri.tryParse($url.text) != null) {
+            go(text);
+          }
+        },
+        decoration: const InputDecoration(
+          hintText: "https://google.com",
+        ),
+      ),
+      trailing: $url >>
+          (ctx, url) => PlatformIconButton(
+                onPressed: Uri.tryParse(url.text) == null
+                    ? null
+                    : () {
+                        go(url.text);
+                      },
+                icon: const Icon(Icons.arrow_forward),
+              ),
+    );
+  }
+
+  void go(String url) {
+    context.push(Uri(
+      path: "/browser",
+      queryParameters: {"url": url.toString()},
+    ).toString());
   }
 }
 
@@ -360,7 +415,6 @@ class DebugExpenseUserOverrideTile extends ConsumerWidget {
     );
   }
 }
-
 
 class DebugFetchVersionTile extends StatefulWidget {
   final Widget? title;
