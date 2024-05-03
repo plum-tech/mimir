@@ -14,18 +14,19 @@ import 'package:sit/utils/guard_launch.dart';
 import '../i18n.dart';
 import '../widget/device.dart';
 
-class AboutSettingsPage extends StatefulWidget {
+class AboutSettingsPage extends ConsumerStatefulWidget {
   const AboutSettingsPage({
     super.key,
   });
 
   @override
-  State<AboutSettingsPage> createState() => _AboutSettingsPageState();
+  ConsumerState<AboutSettingsPage> createState() => _AboutSettingsPageState();
 }
 
-class _AboutSettingsPageState extends State<AboutSettingsPage> {
+class _AboutSettingsPageState extends ConsumerState<AboutSettingsPage> {
   @override
   Widget build(BuildContext context) {
+    final devMode = ref.watch(Dev.$on);
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
@@ -39,7 +40,7 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
           SliverList.list(
             children: [
               const VersionTile(),
-              if (Dev.on)
+              if (devMode)
                 DetailListTile(
                   title: "Installer Store",
                   subtitle: R.meta.installerStore ?? i18n.unknown,
@@ -154,19 +155,5 @@ class _CheckUpdateButtonState extends State<CheckUpdateButton> {
             },
       child: i18n.about.checkUpdate.text(),
     );
-  }
-}
-
-class DebugLatestVersionTile extends StatefulWidget {
-  const DebugLatestVersionTile({super.key});
-
-  @override
-  State<DebugLatestVersionTile> createState() => _DebugLatestVersionTileState();
-}
-
-class _DebugLatestVersionTileState extends State<DebugLatestVersionTile> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }

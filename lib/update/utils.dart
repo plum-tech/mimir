@@ -73,7 +73,7 @@ Future<void> _checkAppUpdateFromApple({
   Duration delayAtLeast = Duration.zero,
   required bool manually,
 }) async {
-  final latest = await UpdateInit.service.getLatestVersionFromAppStore();
+  final latest = await UpdateInit.service.getLatestVersionFromAppStoreAndOfficial();
   if (latest == null) {
     // if the version from iTunes isn't identical to official's
     if (manually) {

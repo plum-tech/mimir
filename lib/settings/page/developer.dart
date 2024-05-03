@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:simple_icons/simple_icons.dart';
 import 'package:sit/app.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/entity/login_status.dart';
@@ -22,6 +23,7 @@ import 'package:sit/settings/dev.dart';
 import 'package:sit/design/widgets/navigation.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:sit/update/init.dart';
 import '../i18n.dart';
 
 class DeveloperOptionsPage extends ConsumerStatefulWidget {
@@ -82,6 +84,29 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                 ),
               const AppLinksTile(),
               const DebugGoRouteTile(),
+              DebugFetchVersionTile(
+                title: "Official".text(),
+                fetch: () async {
+                  final info = await UpdateInit.service.getLatestVersionFromOfficial();
+                  return info.version.toString();
+                },
+              ),
+              DebugFetchVersionTile(
+                leading: const Icon(SimpleIcons.apple),
+                title: "App Store CN".text(),
+                fetch: () async {
+                  final info = await UpdateInit.service.getLatestVersionFromAppStore();
+                  return "${info!}";
+                },
+              ),
+              DebugFetchVersionTile(
+                leading: const Icon(SimpleIcons.apple),
+                title: "App Store".text(),
+                fetch: () async {
+                  final info = await UpdateInit.service.getLatestVersionFromAppStore(iosAppStoreRegion: null);
+                  return "${info!}";
+                },
+              ),
             ]),
           ),
         ],
@@ -332,6 +357,56 @@ class DebugExpenseUserOverrideTile extends ConsumerWidget {
         }
       },
       trailing: Icon(context.icons.edit),
+    );
+  }
+}
+
+
+class DebugFetchVersionTile extends StatefulWidget {
+  final Widget? title;
+  final Widget? leading;
+  final Future<String> Function() fetch;
+
+  const DebugFetchVersionTile({
+    super.key,
+    this.title,
+    this.leading,
+    required this.fetch,
+  });
+
+  @override
+  State<DebugFetchVersionTile> createState() => _DebugFetchVersionTileState();
+}
+
+class _DebugFetchVersionTileState extends State<DebugFetchVersionTile> {
+  String? version;
+  var isFetching = false;
+
+  @override
+  void initState() {
+    super.initState();
+    fetch();
+  }
+
+  Future<void> fetch() async {
+    setState(() {
+      isFetching = true;
+    });
+    final v = await widget.fetch();
+    if (!mounted) return;
+    setState(() {
+      version = v;
+      isFetching = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: widget.title,
+      leading: widget.leading,
+      subtitle: version?.text(),
+      trailing: isFetching ? const CircularProgressIndicator.adaptive() : null,
     );
   }
 }
