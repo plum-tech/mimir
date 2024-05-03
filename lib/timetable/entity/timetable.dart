@@ -200,6 +200,23 @@ class SitTimetable {
   }
 }
 
+TimetableWeekIndices _weekIndicesFromJson(dynamic json) {
+  // for backwards support
+  if (json is Map) {
+    return TimetableWeekIndices(
+      (json['indices'] as List<dynamic>).map((e) => TimetableWeekIndex.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  } else {
+    return TimetableWeekIndices(
+      (json as List<dynamic>).map((e) => TimetableWeekIndex.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+}
+
+dynamic _weekIndicesToJson(TimetableWeekIndices indices) {
+  return indices;
+}
+
 @JsonSerializable()
 @CopyWith(skipFields: true)
 @immutable
@@ -216,7 +233,7 @@ class SitCourse {
   @JsonKey()
   final String place;
 
-  @JsonKey()
+  @JsonKey(fromJson: _weekIndicesFromJson, toJson: _weekIndicesToJson)
   final TimetableWeekIndices weekIndices;
 
   /// e.g.: (start:1, end: 3) means `2nd slot to 4th slot`.
@@ -537,9 +554,9 @@ extension type const TimetableWeekIndices(List<TimetableWeekIndex> indices) impl
     }));
   }
 
-  factory TimetableWeekIndices.fromJson(Map<String, dynamic> json) => _$TimetableWeekIndicesFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TimetableWeekIndicesToJson(this);
+  // factory TimetableWeekIndices.fromJson(Map<String, dynamic> json) => _$TimetableWeekIndicesFromJson(json);
+  //
+  // Map<String, dynamic> toJson() => _$TimetableWeekIndicesToJson(this);
 
   String toDartCode() {
     return "TimetableWeekIndices("
@@ -547,14 +564,6 @@ extension type const TimetableWeekIndices(List<TimetableWeekIndex> indices) impl
         ")";
   }
 }
-
-TimetableWeekIndices _$TimetableWeekIndicesFromJson(Map<String, dynamic> json) => TimetableWeekIndices(
-      (json['indices'] as List<dynamic>).map((e) => TimetableWeekIndex.fromJson(e as Map<String, dynamic>)).toList(),
-    );
-
-Map<String, dynamic> _$TimetableWeekIndicesToJson(TimetableWeekIndices instance) => <String, dynamic>{
-      'indices': instance.indices,
-    };
 
 /// If [range] is "1-8", the output will be `(start:0, end: 7)`.
 /// if [number2index] is true, the [range] will be considered as a number range, which starts with 1 instead of 0.

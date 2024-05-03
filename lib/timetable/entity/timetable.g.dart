@@ -315,7 +315,7 @@ SitCourse _$SitCourseFromJson(Map<String, dynamic> json) => SitCourse(
       courseCode: json['courseCode'] as String,
       classCode: json['classCode'] as String,
       place: json['place'] as String,
-      weekIndices: TimetableWeekIndices.fromJson(json['weekIndices'] as Map<String, dynamic>),
+      weekIndices: _weekIndicesFromJson(json['weekIndices']),
       timeslots: _$recordConvert(
         json['timeslots'],
         ($jsonValue) => (
@@ -335,7 +335,7 @@ Map<String, dynamic> _$SitCourseToJson(SitCourse instance) => <String, dynamic>{
       'courseCode': instance.courseCode,
       'classCode': instance.classCode,
       'place': instance.place,
-      'weekIndices': instance.weekIndices,
+      'weekIndices': _weekIndicesToJson(instance.weekIndices),
       'timeslots': <String, dynamic>{
         'end': instance.timeslots.end,
         'start': instance.timeslots.start,
