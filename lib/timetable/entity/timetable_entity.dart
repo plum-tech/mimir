@@ -66,7 +66,7 @@ class SitTimetableEntity with SitTimetablePaletteResolver, CourseCodeIndexer {
     if (diff.inDays > maxWeekLength * 7) return null;
     final weekIndex = diff.inDays ~/ 7;
     if (weekIndex < 0 || weekIndex >= weeks.length) return null;
-    return weeks[weekIndex];
+    return getWeek(weekIndex);
   }
 
   SitTimetableDay? getDayOn(DateTime date) {
