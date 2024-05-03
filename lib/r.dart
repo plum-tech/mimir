@@ -18,7 +18,7 @@ class R {
 
   static String get appNameL10n => "appName".tr();
 
-  static late AppMeta currentVersion;
+  static late AppMeta meta;
 
   /// For debugging iOS on other platforms.
   static const debugCupertino = kDebugMode ? false : false;

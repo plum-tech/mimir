@@ -49,13 +49,8 @@ Future<void> _checkAppUpdateFromOfficial({
 }) async {
   final latest = await UpdateInit.service.getLatestVersionFromOfficial();
   debugPrint(latest.toString());
-  if (kDebugMode && manually) {
-    if (!context.mounted) return;
-    await context.showSheet((ctx) => ArtifactUpdatePage(info: latest));
-    return;
-  }
-  final currentVersion = R.currentVersion.version;
-  if (latest.downloadOf(R.currentVersion.platform) == null) return;
+  final currentVersion = R.meta.version;
+  if (latest.downloadOf(R.meta.platform) == null) return;
   // if update checking was not manually triggered, skip it.
   final lastSkipUpdateTime = Settings.lastSkipUpdateTime;
   final skipThisVersion = lastSkipUpdateTime != null &&
@@ -79,14 +74,16 @@ Future<void> _checkAppUpdateFromApple({
   required bool manually,
 }) async {
   final latest = await UpdateInit.service.getLatestVersionFromAppStore();
-  if (latest == null) return;
-  debugPrint(latest.toString());
-  if (kDebugMode && manually) {
-    if (!context.mounted) return;
-    await context.showSheet((ctx) => ArtifactUpdatePage(info: latest));
+  if (latest == null) {
+    // if the version from iTunes isn't identical to official's
+    if (manually) {
+      if (!context.mounted) return;
+      await context.showTip(title: i18n.title, desc: i18n.onLatestTip, primary: i18n.ok);
+    }
     return;
   }
-  final currentVersion = R.currentVersion.version;
+  debugPrint(latest.toString());
+  final currentVersion = R.meta.version;
   final lastSkipUpdateTime = Settings.lastSkipUpdateTime;
   final skipThisVersion = lastSkipUpdateTime != null &&
       _getSkippedVersion() == latest.version &&
@@ -96,10 +93,10 @@ Future<void> _checkAppUpdateFromApple({
   if (!manually) {
     await Future.delayed(delayAtLeast);
   }
-  if (Dev.on) return;
   if (!context.mounted) return;
-  final installerStore = R.currentVersion.installerStore;
-  if (installerStore == InstallerStore.testFlight) {
+  final installerStore = R.meta.installerStore;
+  if (!Dev.on && installerStore == InstallerStore.testFlight) {
+    // commanded non-dev user to install app from App Store
     if (latest.version >= currentVersion) {
       final confirm = await _requestInstallOnAppStoreInstead(context: context, latest: latest.version);
       if (confirm == true) {

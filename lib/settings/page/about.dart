@@ -45,7 +45,7 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
               if (Dev.on)
                 DetailListTile(
                   title: "Installer Store",
-                  subtitle: R.currentVersion.installerStore,
+                  subtitle: R.meta.installerStore,
                 ),
               DetailListTile(
                 title: i18n.about.icpLicense,
@@ -81,7 +81,7 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
                 // FIXME: icon is buggy
                 // icon: SvgPicture.asset("assets/icon.svg").sizedAll(32),
                 applicationName: R.appNameL10n,
-                applicationVersion: R.currentVersion.version.toString(),
+                applicationVersion: R.meta.version.toString(),
                 applicationLegalese: "Copyright©️2023–2024 Liplum Dev. All Rights Reserved.",
               ),
             ],
@@ -105,7 +105,7 @@ class _VersionTileState extends ConsumerState<VersionTile> {
   @override
   Widget build(BuildContext context) {
     final devOn = ref.watch(Dev.$on);
-    final version = R.currentVersion;
+    final version = R.meta;
     return ListTile(
       leading: switch (version.platform) {
         AppPlatform.iOS || AppPlatform.macOS => const Icon(SimpleIcons.apple),

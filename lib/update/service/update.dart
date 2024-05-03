@@ -37,6 +37,7 @@ class UpdateService {
     return ArtifactVersionInfo.fromJson(json);
   }
 
+  /// return null if the version from iTunes isn't identical to official's
   Future<ArtifactVersionInfo?> getLatestVersionFromAppStore() async {
     final official = await getLatestVersionFromOfficial();
     final packageInfo = await PackageInfo.fromPlatform();

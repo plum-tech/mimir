@@ -63,8 +63,8 @@ void main() async {
   }
   await Files.init();
   // Perform migrations
-  R.currentVersion = await getCurrentVersion();
-  final currentVersion = R.currentVersion.version;
+  R.meta = await getCurrentVersion();
+  final currentVersion = R.meta.version;
   final lastVersionRaw = prefs.getLastVersion();
   final lastVersion = lastVersionRaw != null ? Version.parse(lastVersionRaw) : currentVersion;
   debugPrint("Last version: $lastVersion");
