@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/entity/version.dart';
+import 'package:sit/entity/meta.dart';
 import 'package:sit/r.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
