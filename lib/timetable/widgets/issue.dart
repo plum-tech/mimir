@@ -204,8 +204,8 @@ class _TimetablePatchOutOfRangeIssueWidgetState extends State<TimetablePatchOutO
         children: widget.issues.map((issue) {
           final patch = issue.locate(timetable);
           return ListTile(
-            leading: Icon(patch is TimetablePatch ? patch.type.icon : Icons.dashboard_customize),
-            title: patch.name.text(),
+            leading: Icon(patch.type.icon),
+            title: patch.type.l10n().text(),
             subtitle: patch.l10n().text(),
             trailing: PlatformTextButton(
               child: i18n.issue.resolve.text(),

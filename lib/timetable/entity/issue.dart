@@ -32,11 +32,9 @@ class TimetableCbeIssue implements TimetableIssue {
 /// Credit by Examination
 class TimetablePatchOutOfRangeIssue implements TimetableIssue {
   final int patchIndex;
-  final int? inPatchSetIndex;
 
   const TimetablePatchOutOfRangeIssue({
     required this.patchIndex,
-    this.inPatchSetIndex,
   });
 
   static bool detect(SitTimetable timetable, TimetablePatch patch) {
@@ -52,14 +50,9 @@ class TimetablePatchOutOfRangeIssue implements TimetableIssue {
     return false;
   }
 
-  TimetablePatchEntry locate(SitTimetable timetable) {
+  TimetablePatch locate(SitTimetable timetable) {
     final patch = timetable.patches[patchIndex];
-    final inPatchSetIndex = this.inPatchSetIndex;
-    if (inPatchSetIndex != null && patch is TimetablePatchSet) {
-      return patch.patches[inPatchSetIndex];
-    } else {
-      return patch;
-    }
+    return patch as TimetablePatch;
   }
 }
 
@@ -131,16 +124,6 @@ extension SitTimetable4IssueX on SitTimetable {
             issues.add(TimetablePatchOutOfRangeIssue(
               patchIndex: i,
             ));
-          }
-        } else if (patch is TimetablePatchSet) {
-          for (var j = 0; j < patch.patches.length; j++) {
-            final inner = patch.patches[j];
-            if (TimetablePatchOutOfRangeIssue.detect(this, inner)) {
-              issues.add(TimetablePatchOutOfRangeIssue(
-                patchIndex: i,
-                inPatchSetIndex: j,
-              ));
-            }
           }
         }
       }

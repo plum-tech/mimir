@@ -49,8 +49,6 @@ sealed class TimetablePatchEntry {
 
   String l10n();
 
-  String get name;
-
   @override
   String toString() => toDartCode();
 
@@ -163,9 +161,6 @@ sealed class TimetablePatch extends TimetablePatchEntry {
   @JsonKey()
   TimetablePatchType get type;
 
-  @override
-  String get name => type.l10n();
-
   const TimetablePatch();
 
   factory TimetablePatch.fromJson(Map<String, dynamic> json) {
@@ -196,7 +191,6 @@ sealed class TimetablePatch extends TimetablePatchEntry {
 @JsonSerializable()
 @CopyWith()
 class TimetablePatchSet extends TimetablePatchEntry {
-  @override
   final String name;
   final List<TimetablePatch> patches;
 
