@@ -47,7 +47,7 @@ Future<void> recognizeQrCode(BuildContext context) async {
   if (res == null) return;
   await Future.delayed(const Duration(milliseconds: 10));
   if (res is String) {
-    final result = await onHandleQrCodeUriStringData(context: context, data: res);
+    final result = await onHandleDeepLinkString(context: context, deepLink: res);
     if (result == QrCodeHandleResult.success) {
       return;
     } else if (result == QrCodeHandleResult.unhandled || result == QrCodeHandleResult.unrecognized) {

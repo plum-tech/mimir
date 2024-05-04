@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -84,7 +86,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                     context.go("/");
                   },
                 ),
-              const AppLinksTile(),
+              const ReceivedDeepLinksTile(),
               const DebugGoRouteTile(),
               const DebugWebViewTile(),
               const DebugDeepLinkTile(),
@@ -164,15 +166,15 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
   }
 }
 
-class AppLinksTile extends ConsumerWidget {
-  const AppLinksTile({super.key});
+class ReceivedDeepLinksTile extends ConsumerWidget {
+  const ReceivedDeepLinksTile({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appLinks = ref.watch($appLinks);
     return AnimatedExpansionTile(
       leading: const Icon(Icons.link),
-      title: "App links".text(),
+      title: "Deep links".text(),
       children: appLinks
           .map((uri) => ListTile(
                 title: context.formatYmdhmsNum(uri.ts).text(),
@@ -198,6 +200,7 @@ class DebugGoRouteTile extends StatelessWidget {
           route = "/$route";
         }
         context.push(route);
+        return true;
       },
     );
   }
@@ -212,9 +215,16 @@ class DebugWebViewTile extends StatelessWidget {
       leading: const Icon(Icons.web),
       title: "Type URL".text(),
       hintText: "https://www.google.com",
-      canSubmit: (url) => Uri.tryParse(url) != null,
+      canSubmit: (url) {
+        if (url.isEmpty) return false;
+        final uri = Uri.tryParse(url);
+        if (uri == null) return false;
+        if (uri.isScheme("http") || uri.isScheme("https")) return true;
+        return false;
+      },
       onSubmit: (url) {
         guardLaunchUrlString(context, url);
+        return true;
       },
     );
   }
@@ -226,12 +236,19 @@ class DebugDeepLinkTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextInputActionTile(
-      leading: const Icon(Icons.web),
+      leading: const Icon(Icons.link),
       title: "Deep Link".text(),
       hintText: "${R.scheme}://",
-      canSubmit: (uri) => Uri.tryParse(uri) != null,
+      canSubmit: (url) {
+        if (url.isEmpty) return false;
+        final uri = Uri.tryParse(url);
+        if (uri == null) return false;
+        if (!uri.isScheme(R.scheme)) return false;
+        return getFirstDeepLinkHandler(deepLink: uri) != null;
+      },
       onSubmit: (uri) async {
-        await onHandleQrCodeUriData(context: context, qrCodeData: Uri.parse(uri));
+        await onHandleDeepLink(context: context, deepLink: Uri.parse(uri));
+        return true;
       },
     );
   }
@@ -241,7 +258,9 @@ class TextInputActionTile extends StatefulWidget {
   final Widget? title;
   final Widget? leading;
   final String? hintText;
-  final void Function(String text) onSubmit;
+
+  /// return true to consume the text
+  final FutureOr<bool> Function(String text) onSubmit;
   final bool Function(String text)? canSubmit;
 
   const TextInputActionTile({
@@ -278,7 +297,7 @@ class _TextInputActionTileState extends State<TextInputActionTile> {
         textInputAction: TextInputAction.go,
         onSubmitted: (text) {
           if (widget.canSubmit?.call(text) != false) {
-            widget.onSubmit(text);
+            onSubmit();
           }
         },
         decoration: InputDecoration(
@@ -288,13 +307,20 @@ class _TextInputActionTileState extends State<TextInputActionTile> {
       trailing: $text >>
           (ctx, text) => PlatformIconButton(
                 onPressed: canSubmit == null
-                    ? () => widget.onSubmit(text.text)
+                    ? onSubmit
                     : canSubmit(text.text)
-                        ? () => widget.onSubmit(text.text)
+                        ? onSubmit
                         : null,
                 icon: const Icon(Icons.arrow_forward),
               ),
     );
+  }
+
+  Future<void> onSubmit() async {
+    final result = await widget.onSubmit($text.text);
+    if (result) {
+      $text.clear();
+    }
   }
 }
 

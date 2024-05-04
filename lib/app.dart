@@ -146,7 +146,7 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
           }
         }
         if (!navigateCtx.mounted) return;
-        await onHandleQrCodeUriData(context: navigateCtx, qrCodeData: uri);
+        await onHandleDeepLink(context: navigateCtx, deepLink: uri);
       });
     });
   }
