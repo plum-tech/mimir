@@ -19,13 +19,13 @@ import 'package:sit/init.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/login/aggregated.dart';
 import 'package:sit/login/utils.dart';
+import 'package:sit/qrcode/handle.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/design/widgets/navigation.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/update/init.dart';
 import 'package:sit/utils/guard_launch.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import '../i18n.dart';
 
 class DeveloperOptionsPage extends ConsumerStatefulWidget {
@@ -87,6 +87,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
               const AppLinksTile(),
               const DebugGoRouteTile(),
               const DebugWebViewTile(),
+              const DebugDeepLinkTile(),
               DebugFetchVersionTile(
                 title: "Official".text(),
                 fetch: () async {
@@ -182,109 +183,118 @@ class AppLinksTile extends ConsumerWidget {
   }
 }
 
-class DebugGoRouteTile extends StatefulWidget {
+class DebugGoRouteTile extends StatelessWidget {
   const DebugGoRouteTile({super.key});
 
   @override
-  State<DebugGoRouteTile> createState() => _DebugGoRouteTileState();
-}
-
-class _DebugGoRouteTileState extends State<DebugGoRouteTile> {
-  final $route = TextEditingController();
-
-  @override
-  void dispose() {
-    $route.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return ListTile(
-      isThreeLine: true,
+    return TextInputActionTile(
       leading: const Icon(Icons.route_outlined),
       title: "Go route".text(),
-      subtitle: TextField(
-        controller: $route,
-        textInputAction: TextInputAction.go,
-        onSubmitted: (text) {
-          go(text);
-        },
-        decoration: const InputDecoration(
-          hintText: "/anywhere",
-        ),
-      ),
-      trailing: $route >>
-          (ctx, route) => PlatformIconButton(
-                onPressed: route.text.isEmpty
-                    ? null
-                    : () {
-                        go(route.text);
-                      },
-                icon: const Icon(Icons.arrow_forward),
-              ),
+      canSubmit: (route) => route.isNotEmpty,
+      hintText: "/anyway",
+      onSubmit: (route) {
+        if (!route.startsWith("/")) {
+          route = "/$route";
+        }
+        context.push(route);
+      },
     );
-  }
-
-  void go(String route) {
-    if (!route.startsWith("/")) {
-      route = "/$route";
-    }
-    context.push(route);
   }
 }
 
-class DebugWebViewTile extends StatefulWidget {
+class DebugWebViewTile extends StatelessWidget {
   const DebugWebViewTile({super.key});
 
   @override
-  State<DebugWebViewTile> createState() => _DebugWebViewTileState();
+  Widget build(BuildContext context) {
+    return TextInputActionTile(
+      leading: const Icon(Icons.web),
+      title: "Type URL".text(),
+      hintText: "https://www.google.com",
+      canSubmit: (url) => Uri.tryParse(url) != null,
+      onSubmit: (url) {
+        guardLaunchUrlString(context, url);
+      },
+    );
+  }
 }
 
-class _DebugWebViewTileState extends State<DebugWebViewTile> {
-  final $url = TextEditingController();
+class DebugDeepLinkTile extends StatelessWidget {
+  const DebugDeepLinkTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextInputActionTile(
+      leading: const Icon(Icons.web),
+      title: "Deep Link".text(),
+      hintText: "${R.scheme}://",
+      canSubmit: (uri) => Uri.tryParse(uri) != null,
+      onSubmit: (uri) async {
+        await onHandleQrCodeUriData(context: context, qrCodeData: Uri.parse(uri));
+      },
+    );
+  }
+}
+
+class TextInputActionTile extends StatefulWidget {
+  final Widget? title;
+  final Widget? leading;
+  final String? hintText;
+  final void Function(String text) onSubmit;
+  final bool Function(String text)? canSubmit;
+
+  const TextInputActionTile({
+    super.key,
+    this.title,
+    this.leading,
+    required this.onSubmit,
+    this.canSubmit,
+    this.hintText,
+  });
+
+  @override
+  State<TextInputActionTile> createState() => _TextInputActionTileState();
+}
+
+class _TextInputActionTileState extends State<TextInputActionTile> {
+  final $text = TextEditingController();
 
   @override
   void dispose() {
-    $url.dispose();
+    $text.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final canSubmit = widget.canSubmit;
     return ListTile(
       isThreeLine: true,
-      leading: const Icon(Icons.web),
-      title: "Type URL".text(),
+      leading: widget.leading,
+      title: widget.title,
       subtitle: TextField(
-        controller: $url,
+        controller: $text,
         textInputAction: TextInputAction.go,
         onSubmitted: (text) {
-          if (Uri.tryParse($url.text) != null) {
-            go(text);
+          if (widget.canSubmit?.call(text) != false) {
+            widget.onSubmit(text);
           }
         },
-        decoration: const InputDecoration(
-          hintText: "https://google.com",
+        decoration: InputDecoration(
+          hintText: widget.hintText,
         ),
       ),
-      trailing: $url >>
-          (ctx, url) => PlatformIconButton(
-                onPressed: Uri.tryParse(url.text) == null
-                    ? null
-                    : () {
-                        go(url.text);
-                      },
+      trailing: $text >>
+          (ctx, text) => PlatformIconButton(
+                onPressed: canSubmit == null
+                    ? () => widget.onSubmit(text.text)
+                    : canSubmit(text.text)
+                        ? () => widget.onSubmit(text.text)
+                        : null,
                 icon: const Icon(Icons.arrow_forward),
               ),
     );
-  }
-
-  void go(String url) {
-    context.push(Uri(
-      path: "/browser",
-      queryParameters: {"url": url.toString()},
-    ).toString());
   }
 }
 

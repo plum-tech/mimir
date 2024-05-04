@@ -23,8 +23,9 @@ Future<QrCodeHandleResult> onHandleQrCodeUriData({
   required Uri qrCodeData,
 }) async {
   // backwards supports.
-  if (qrCodeData.scheme != R.scheme && qrCodeData.scheme != "sitlife" && qrCodeData.scheme != "life.mysit")
+  if (qrCodeData.scheme != R.scheme && qrCodeData.scheme != "sitlife" && qrCodeData.scheme != "life.mysit") {
     return QrCodeHandleResult.unrecognized;
+  }
   for (final handler in DeepLinkHandlerProtocol.all) {
     if (handler.match(qrCodeData)) {
       await handler.onHandle(context: context, qrCodeData: qrCodeData);
