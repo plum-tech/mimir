@@ -29,49 +29,39 @@ class QrCodePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final hugeQrCode = data.length > 512;
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            title: title,
+      appBar: AppBar(
+        title: title,
+      ),
+      body: [
+        LayoutBuilder(
+          builder: (ctx, box) {
+            final side = min(box.maxWidth, maxSize ?? double.infinity);
+            return PlainQrCodeView(
+              data: data,
+              size: side,
+            ).center().padSymmetric(h: hugeQrCode ? 0 : 16);
+          },
+        ),
+        RichText(
+          text: TextSpan(
+            style: context.textTheme.bodyLarge,
+            children: i18n.hint,
           ),
-          SliverToBoxAdapter(
-            child: LayoutBuilder(
-              builder: (ctx, box) {
-                final side = min(box.maxWidth, maxSize ?? double.infinity);
-                return PlainQrCodeView(
-                  data: data,
-                  size: side,
-                ).center().padSymmetric(h: hugeQrCode ? 0 : 16);
+        ).padAll(10),
+        if (Dev.on) ...[
+          ListTile(
+            title: "Text length: ${data.length}".text(),
+            trailing: PlatformIconButton(
+              icon: Icon(context.icons.copy),
+              onPressed: () async {
+                context.showSnackBar(content: "Copied".text());
+                await Clipboard.setData(ClipboardData(text: data));
               },
             ),
           ),
-          SliverToBoxAdapter(
-            child: RichText(
-              text: TextSpan(
-                style: context.textTheme.bodyLarge,
-                children: i18n.hint,
-              ),
-            ).padAll(10),
-          ),
-          if (Dev.on)
-            SliverList.list(
-              children: [
-                ListTile(
-                  title: "Text length: ${data.length}".text(),
-                  trailing: PlatformIconButton(
-                    icon: Icon(context.icons.copy),
-                    onPressed: () async {
-                      context.showSnackBar(content: "Copied".text());
-                      await Clipboard.setData(ClipboardData(text: data));
-                    },
-                  ),
-                ),
-                SelectableText(data).padAll(10),
-              ],
-            ),
+          SelectableText(data).padAll(10),
         ],
-      ),
+      ].column(),
     );
   }
 }
