@@ -69,7 +69,7 @@ dependencies:
   # WebView and browser related
   webview_flutter: ^4.7.0
   fk_user_agent: ^2.1.0
-  flutter_widget_from_html: ^0.14.11
+  flutter_widget_from_html: ^0.15.0
   chewie: ^1.8.1
   cookie_jar: ^4.0.8
   flutter_html: ^3.0.0-beta.2
