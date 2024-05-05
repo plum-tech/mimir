@@ -2,13 +2,16 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:collection/collection.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/utils/byte_io/byte_io.dart';
 import 'package:sit/utils/error.dart';
+import 'package:statistics/statistics.dart';
 
 import '../widgets/patch/copy_day.dart';
 import '../widgets/patch/move_day.dart';
@@ -55,6 +58,12 @@ sealed class TimetablePatchEntry {
   String toDartCode();
 
   void _serialize(ByteWriter writer);
+
+  @override
+  bool operator ==(Object other);
+
+  @override
+  int get hashCode;
 
   static TimetablePatchEntry deserialize(ByteReader reader) {
     // ignore: unused_local_variable
@@ -157,7 +166,7 @@ abstract interface class WithTimetableDayLoc {
 }
 
 /// To opt-in [JsonSerializable], please specify `toJson` parameter to [TimetablePatch.toJson].
-sealed class TimetablePatch extends TimetablePatchEntry {
+ sealed  class TimetablePatch extends TimetablePatchEntry {
   @JsonKey()
   TimetablePatchType get type;
 
@@ -185,6 +194,7 @@ sealed class TimetablePatch extends TimetablePatchEntry {
     }
   }
 
+  @override
   String l10n();
 }
 
@@ -232,6 +242,13 @@ class TimetablePatchSet extends TimetablePatchEntry {
 
   @override
   String l10n() => name;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is TimetablePatchSet && name == other.name && patches.equals(other.patches);
+
+  @override
+  int get hashCode => Object.hash(name, patches.computeHashcode());
 }
 
 class BuiltinTimetablePatchSet implements TimetablePatchSet {
@@ -263,6 +280,13 @@ class BuiltinTimetablePatchSet implements TimetablePatchSet {
 
   @override
   String l10n() => name;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is BuiltinTimetablePatchSet && key == other.key && patches.equals(other.patches);
+
+  @override
+  int get hashCode => Object.hash(key, patches.computeHashcode());
 }
 
 //
@@ -348,6 +372,13 @@ class TimetableUnknownPatch extends TimetablePatch {
   String l10n() {
     return i18n.unknown;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is TimetableUnknownPatch && runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => (TimetableUnknownPatch).hashCode;
 }
 
 @JsonSerializable()
@@ -415,6 +446,14 @@ class TimetableRemoveDayPatch extends TimetablePatch implements WithTimetableDay
   String l10n() {
     return i18n.patch.removeDay(all.map((loc) => loc.l10n()).join(", "));
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TimetableRemoveDayPatch && runtimeType == other.runtimeType && all.equals(other.all);
+
+  @override
+  int get hashCode => all.computeHashcode();
 }
 
 @JsonSerializable()
@@ -473,6 +512,17 @@ class TimetableMoveDayPatch extends TimetablePatch implements WithTimetableDayLo
   String l10n() {
     return i18n.patch.moveDay(source.l10n(), target.l10n());
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TimetableMoveDayPatch &&
+          runtimeType == other.runtimeType &&
+          source == other.source &&
+          target == other.target;
+
+  @override
+  int get hashCode => Object.hash(source, target);
 }
 
 @JsonSerializable()
@@ -531,6 +581,17 @@ class TimetableCopyDayPatch extends TimetablePatch implements WithTimetableDayLo
   String toDartCode() {
     return "TimetableCopyDayPatch(source:${source.toDartCode()},target:${target.toDartCode()})";
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TimetableCopyDayPatch &&
+          runtimeType == other.runtimeType &&
+          source == other.source &&
+          target == other.target;
+
+  @override
+  int get hashCode => Object.hash(source, target);
 }
 
 @JsonSerializable()
@@ -587,8 +648,16 @@ class TimetableSwapDaysPatch extends TimetablePatch implements WithTimetableDayL
 
   @override
   String toDartCode() {
-    return "TimetableSwapDayPatch(a:${a.toDartCode()},b:${b.toDartCode()})";
+    return "TimetableSwapDaysPatch(a:${a.toDartCode()},b:${b.toDartCode()})";
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TimetableSwapDaysPatch && runtimeType == other.runtimeType && a == other.a && b == other.b;
+
+  @override
+  int get hashCode => Object.hash(a, b);
 }
 // factory .fromJson(Map<String, dynamic> json) => _$FromJson(json);
 //
