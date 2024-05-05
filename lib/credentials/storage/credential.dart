@@ -42,7 +42,7 @@ class CredentialStorage {
 
   late final $oaLastAuthTime = box.provider<DateTime>(_OaK.lastAuthTime);
 
-  LoginStatus? get oaLoginStatus => box.safeGet<LoginStatus>(_OaK.loginStatus);
+  LoginStatus? get oaLoginStatus => box.safeGet<LoginStatus>(_OaK.loginStatus) ?? LoginStatus.never;
 
   set oaLoginStatus(LoginStatus? newV) => box.safePut<LoginStatus>(_OaK.loginStatus, newV);
 

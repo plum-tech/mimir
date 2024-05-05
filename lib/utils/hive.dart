@@ -180,7 +180,7 @@ extension BoxProviderX on Box {
   }) {
     return StateNotifierProvider<BoxFieldWithDefaultNotifier<T>, T>((ref) {
       return BoxFieldWithDefaultNotifier(
-        get?.call() ?? safeGet<T>(key) ?? getDefault(),
+        (get != null ? get.call() : safeGet<T>(key)) ?? getDefault(),
         listenable(keys: [key]),
         () => get != null ? get.call() : safeGet<T>(key),
         (v) => set != null ? set.call(v) : safePut<T>(key, v),

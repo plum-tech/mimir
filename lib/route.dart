@@ -48,7 +48,6 @@ import 'package:sit/timetable/page/edit/editor.dart';
 import 'package:sit/timetable/page/p13n/palette_editor.dart';
 import 'package:sit/timetable/page/patch/patch.dart';
 import 'package:sit/timetable/page/settings.dart';
-import 'package:sit/utils/riverpod.dart';
 import 'package:sit/widgets/not_found.dart';
 import 'package:sit/school/oa_announce/entity/announce.dart';
 import 'package:sit/school/oa_announce/page/details.dart';
@@ -92,7 +91,8 @@ String? _loginRequired(BuildContext ctx, GoRouterState state) {
 }
 
 FutureOr<String?> _redirectRoot(BuildContext ctx, GoRouterState state) {
-  final loginStatus = ctx.riverpod().read(CredentialsInit.storage.$oaLoginStatus);
+  // `ctx.riverpod().read(CredentialsInit.storage.$oaLoginStatus)` would return `LoginStatus.never` after just logged in.
+  final loginStatus = CredentialsInit.storage.oaLoginStatus;
   if (loginStatus == LoginStatus.never) {
 // allow to access settings page.
     if (state.matchedLocation.startsWith("/tools")) return null;
