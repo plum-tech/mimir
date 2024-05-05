@@ -6,6 +6,8 @@
   - Added host, `timetable`, for timetable-related data.
 - Changed timetable file format and provided backward compatibility.
 - Fixed QR code scanner issue.
+- [Dev] Added debug deep link tile in developer options.
+- Timetable *Out of Range* issue.
 
 ## v2.4.0
 - Redesigned the expense statistics page.
