@@ -55,6 +55,7 @@ timetable:
     noPatches: 沒有修正
     noPatchesTip: 沒有修正，增加一個預設的怎麼樣？
     patchSetName: 修正包名称
+    dateOutOfRangeTip: 一個或多個修正超過日期範圍
     removeDay: "移除 {day} 的課"
     swapDays: "將 {a} 和 {b} 的課交換"
     copyDay: "{target} 和 {source} 上一樣的課"

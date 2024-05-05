@@ -55,6 +55,7 @@ timetable:
     noPatches: No patches
     noPatchesTip: No patches here, how about adding a prefab?
     patchSetName: Patch set name
+    dateOutOfRangeTip: One or more dates are out of range of the current timetable
     removeDay: "Remove lessons on {day}"
     swapDays: "Swap lessons on {a} with {b}"
     copyDay: "Copy lessons from {source} to {target}"

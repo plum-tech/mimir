@@ -55,6 +55,7 @@ timetable:
     noPatches: 没有调课
     noPatchesTip: 没有调课，添加一个预制的如何？
     patchSetName: 调课组合名称
+    dateOutOfRangeTip: 一个或多个日期超过课程表的范围
     removeDay: "删除 {day} 的课"
     swapDays: "交换 {a} 和 {b} 的课"
     copyDay: "{target} 上与 {source} 相同的课"
