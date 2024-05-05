@@ -301,6 +301,8 @@ class _Patch {
 
   String get patchSetName => "$ns.patchSetName".tr();
 
+  String get dateOutOfRangeTip => "$ns.dateOutOfRangeTip".tr();
+
   String removeDay(String day) => "$ns.removeDay".tr(namedArgs: {
         "day": day,
       });

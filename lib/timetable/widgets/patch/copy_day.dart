@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/timetable/entity/loc.dart';
 import 'package:sit/utils/save.dart';
 
@@ -64,6 +65,11 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
             ),
             SliverList.list(children: [
               buildMode().padSymmetric(v: 8, h: 16),
+              if (patch != null && !patch.allLocInRange(widget.timetable))
+                ListTile(
+                  leading: Icon(context.icons.warning),
+                  title: i18n.patch.dateOutOfRangeTip.text(),
+                ),
               ...switch (mode) {
                 TimetableDayLocMode.pos => buildPosTab(),
                 TimetableDayLocMode.date => buildDateTab(),
@@ -93,8 +99,8 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
   List<Widget> buildPosTab() {
     return [
       TimetableDayLocPosSelectionTile(
-        leading: const Icon(Icons.output),
-        title: i18n.patch.copySource.text(),
+        icon: Icons.output,
+        title: i18n.patch.copySource,
         timetable: widget.timetable,
         pos: sourcePos,
         onChanged: (newPos) {
@@ -105,8 +111,8 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
         },
       ),
       TimetableDayLocPosSelectionTile(
-        leading: const Icon(Icons.input),
-        title: i18n.patch.copyTarget.text(),
+        icon: Icons.input,
+        title: i18n.patch.copyTarget,
         timetable: widget.timetable,
         pos: targetPos,
         onChanged: (newPos) {
@@ -122,8 +128,8 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
   List<Widget> buildDateTab() {
     return [
       TimetableDayLocDateSelectionTile(
-        leading: const Icon(Icons.output),
-        title: i18n.patch.copySource.text(),
+        icon: Icons.output,
+        title: i18n.patch.copySource,
         timetable: widget.timetable,
         date: sourceDate,
         onChanged: (newPos) {
@@ -134,8 +140,8 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
         },
       ),
       TimetableDayLocDateSelectionTile(
-        leading: const Icon(Icons.input),
-        title: i18n.patch.copyTarget.text(),
+        icon: Icons.input,
+        title: i18n.patch.copyTarget,
         timetable: widget.timetable,
         date: targetDate,
         onChanged: (newPos) {

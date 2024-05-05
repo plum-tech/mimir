@@ -44,10 +44,79 @@ class TimetableDayLocModeSwitcher extends StatelessWidget {
     );
   }
 }
+const _kOutOfRangeColor = Colors.yellow;
+
+class PatchOutOfRangeWarningTile extends StatelessWidget {
+  const PatchOutOfRangeWarningTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(
+        context.icons.warning,
+        color: _kOutOfRangeColor,
+      ),
+      title: i18n.patch.dateOutOfRangeTip.text(
+        style: const TextStyle(color: _kOutOfRangeColor),
+      ),
+    );
+  }
+}
+
+class _TimetableDayLocSelectionTileBase extends StatelessWidget {
+  final String title;
+  final IconData? icon;
+  final TimetableDayLoc? loc;
+  final SitTimetable timetable;
+  final VoidCallback? onSelected;
+
+  const _TimetableDayLocSelectionTileBase({
+    this.icon,
+    required this.title,
+    this.loc,
+    this.onSelected,
+    required this.timetable,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final loc = this.loc;
+    final onSelected = this.onSelected;
+    var inRange = true;
+    if (loc != null && loc.mode == TimetableDayLocMode.date) {
+      inRange = timetable.inRange(loc.date);
+    }
+    return ListTile(
+      leading: icon != null
+          ? Icon(
+              icon,
+              color: inRange ? null : _kOutOfRangeColor,
+            )
+          : null,
+      title: title.text(
+        style: inRange ? null : const TextStyle(color: _kOutOfRangeColor),
+      ),
+      subtitle: (loc == null
+              ? i18n.unspecified
+              : loc.mode == TimetableDayLocMode.pos
+                  ? loc.pos.l10n()
+                  : context.formatYmdWeekText(loc.date))
+          .text(
+        style: inRange ? null : const TextStyle(color: _kOutOfRangeColor),
+      ),
+      trailing: onSelected == null
+          ? null
+          : FilledButton(
+              onPressed: onSelected,
+              child: i18n.select.text(),
+            ),
+    );
+  }
+}
 
 class TimetableDayLocPosSelectionTile extends StatelessWidget {
-  final Widget title;
-  final Widget? leading;
+  final String title;
+  final IconData? icon;
   final TimetablePos? pos;
   final SitTimetable timetable;
   final ValueChanged<TimetablePos>? onChanged;
@@ -55,7 +124,7 @@ class TimetableDayLocPosSelectionTile extends StatelessWidget {
   const TimetableDayLocPosSelectionTile({
     super.key,
     required this.title,
-    this.leading,
+    this.icon,
     this.pos,
     this.onChanged,
     required this.timetable,
@@ -65,25 +134,23 @@ class TimetableDayLocPosSelectionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final pos = this.pos;
     final onChanged = this.onChanged;
-    return ListTile(
-      leading: leading,
+    return _TimetableDayLocSelectionTileBase(
       title: title,
-      subtitle: pos == null ? i18n.unspecified.text() : pos.l10n().text(),
-      trailing: onChanged == null
+      icon: icon,
+      loc: pos == null ? null : TimetableDayLoc.pos(pos),
+      timetable: timetable,
+      onSelected: onChanged == null
           ? null
-          : FilledButton(
-              child: i18n.select.text(),
-              onPressed: () async {
-                final newPos = await selectDayInTimetable(
-                  context: context,
-                  timetable: timetable,
-                  initialPos: pos,
-                  submitLabel: i18n.select,
-                );
-                if (newPos == null) return;
-                onChanged(newPos);
-              },
-            ),
+          : () async {
+              final newPos = await selectDayInTimetable(
+                context: context,
+                timetable: timetable,
+                initialPos: pos,
+                submitLabel: i18n.select,
+              );
+              if (newPos == null) return;
+              onChanged(newPos);
+            },
     );
   }
 }
@@ -91,16 +158,16 @@ class TimetableDayLocPosSelectionTile extends StatelessWidget {
 final lastInitialDate = StateProvider<DateTime>((ref) => DateTime.now());
 
 class TimetableDayLocDateSelectionTile extends ConsumerWidget {
-  final Widget title;
-  final Widget? leading;
+  final String title;
+  final IconData? icon;
   final DateTime? date;
   final SitTimetable timetable;
   final ValueChanged<DateTime>? onChanged;
 
   const TimetableDayLocDateSelectionTile({
     super.key,
-    this.leading,
     required this.title,
+    this.icon,
     this.date,
     this.onChanged,
     required this.timetable,
@@ -110,28 +177,26 @@ class TimetableDayLocDateSelectionTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final date = this.date;
     final onChanged = this.onChanged;
-    return ListTile(
-      leading: leading,
+    return _TimetableDayLocSelectionTileBase(
       title: title,
-      subtitle: date == null ? i18n.unspecified.text() : context.formatYmdWeekText(date).text(),
-      trailing: onChanged == null
+      icon: icon,
+      loc: date == null ? null : TimetableDayLoc.date(date),
+      timetable: timetable,
+      onSelected: onChanged == null
           ? null
-          : FilledButton(
-              child: i18n.select.text(),
-              onPressed: () async {
-                final now = DateTime.now();
-                final newDate = await showDatePicker(
-                  context: context,
-                  initialDate: date ?? ref.read(lastInitialDate),
-                  currentDate: date,
-                  firstDate: DateTime(now.year - 4),
-                  lastDate: DateTime(now.year + 2),
-                );
-                if (newDate == null) return;
-                ref.read(lastInitialDate.notifier).state = newDate;
-                onChanged(newDate);
-              },
-            ),
+          : () async {
+              final now = DateTime.now();
+              final newDate = await showDatePicker(
+                context: context,
+                initialDate: date ?? ref.read(lastInitialDate),
+                currentDate: date,
+                firstDate: DateTime(now.year - 4),
+                lastDate: DateTime(now.year + 2),
+              );
+              if (newDate == null) return;
+              ref.read(lastInitialDate.notifier).state = newDate;
+              onChanged(newDate);
+            },
     );
   }
 }
@@ -210,23 +275,22 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: leading?.call(
-            context,
+        leading: leading?.call(
+              context,
+              buildLeading(context),
+            ) ??
             buildLeading(context),
-          ) ??
-          buildLeading(context),
-      title: patch.type.l10n().text(),
-      subtitle: patch.l10n().text(),
-      selected: selected,
-      trailing: TimetablePatchMenuAction(
-        patch: patch,
-        timetable: timetable,
-        onEdit: onEdit,
-        onDeleted: onDeleted,
-        enableQrCode: enableQrCode,
-      ),
-      onTap: onEdit
-    );
+        title: patch.type.l10n().text(),
+        subtitle: patch.l10n().text(),
+        selected: selected,
+        trailing: TimetablePatchMenuAction(
+          patch: patch,
+          timetable: timetable,
+          onEdit: onEdit,
+          onDeleted: onDeleted,
+          enableQrCode: enableQrCode,
+        ),
+        onTap: onEdit);
   }
 
   Widget buildLeading(BuildContext context) {

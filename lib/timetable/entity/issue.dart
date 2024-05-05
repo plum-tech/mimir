@@ -1,6 +1,5 @@
 import 'package:sit/l10n/time.dart';
 import 'package:sit/settings/dev.dart';
-import 'package:sit/timetable/entity/loc.dart';
 import 'package:sit/timetable/entity/patch.dart';
 import 'package:statistics/statistics.dart';
 
@@ -21,7 +20,7 @@ sealed class TimetableIssue {
 
 class TimetableEmptyIssue implements TimetableIssue {
   @override
-  TimetableIssueType get type=>TimetableIssueType.empty;
+  TimetableIssueType get type => TimetableIssueType.empty;
 
   const TimetableEmptyIssue();
 }
@@ -29,7 +28,7 @@ class TimetableEmptyIssue implements TimetableIssue {
 /// Credit by Examination
 class TimetableCbeIssue implements TimetableIssue {
   @override
-  TimetableIssueType get type=>TimetableIssueType.cbeCourse;
+  TimetableIssueType get type => TimetableIssueType.cbeCourse;
   final int courseKey;
 
   const TimetableCbeIssue({
@@ -47,35 +46,26 @@ class TimetableCbeIssue implements TimetableIssue {
 /// Credit by Examination
 class TimetablePatchOutOfRangeIssue implements TimetableIssue {
   @override
-  TimetableIssueType get type=>TimetableIssueType.patchOutOfRange;
-  final int patchIndex;
+  TimetableIssueType get type => TimetableIssueType.patchOutOfRange;
+  final TimetablePatch patch;
 
   const TimetablePatchOutOfRangeIssue({
-    required this.patchIndex,
+    required this.patch,
   });
 
   static bool detect(SitTimetable timetable, TimetablePatch patch) {
     if (patch is WithTimetableDayLoc) {
-      for (final loc in (patch as WithTimetableDayLoc).allLoc) {
-        if (loc.mode == TimetableDayLocMode.date) {
-          if (!timetable.inRange(loc.date)) {
-            return true;
-          }
-        }
+      if (!(patch as WithTimetableDayLoc).allLocInRange(timetable)) {
+        return true;
       }
     }
     return false;
-  }
-
-  TimetablePatch locate(SitTimetable timetable) {
-    final patch = timetable.patches[patchIndex];
-    return patch as TimetablePatch;
   }
 }
 
 class TimetableCourseOverlapIssue implements TimetableIssue {
   @override
-  TimetableIssueType get type=>TimetableIssueType.courseOverlaps;
+  TimetableIssueType get type => TimetableIssueType.courseOverlaps;
   final List<int> courseKeys;
   final int weekIndex;
   final Weekday weekday;
@@ -141,7 +131,7 @@ extension SitTimetable4IssueX on SitTimetable {
         if (patch is TimetablePatch) {
           if (TimetablePatchOutOfRangeIssue.detect(this, patch)) {
             issues.add(TimetablePatchOutOfRangeIssue(
-              patchIndex: i,
+              patch: patch,
             ));
           }
         }

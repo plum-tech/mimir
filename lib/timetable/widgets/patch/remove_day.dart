@@ -67,6 +67,7 @@ class _TimetableRemoveDayPatchSheetState extends ConsumerState<TimetableRemoveDa
             ),
             SliverList.list(children: [
               buildMode().padSymmetric(v: 8, h: 16),
+              if (patch != null && !patch.allLocInRange(widget.timetable)) const PatchOutOfRangeWarningTile(),
               ...switch (mode) {
                 TimetableDayLocMode.pos => buildPosTab(),
                 TimetableDayLocMode.date => buildDateTab(),
@@ -155,7 +156,7 @@ class _TimetableRemoveDayPatchSheetState extends ConsumerState<TimetableRemoveDa
           ),
           childKey: ValueKey(p),
           child: TimetableDayLocPosSelectionTile(
-            title: i18n.patch.removedDay.text(),
+            title: i18n.patch.removedDay,
             timetable: widget.timetable,
             pos: p,
           ),
@@ -179,7 +180,7 @@ class _TimetableRemoveDayPatchSheetState extends ConsumerState<TimetableRemoveDa
           ),
           childKey: ValueKey(d),
           child: TimetableDayLocDateSelectionTile(
-            title: i18n.patch.removedDay.text(),
+            title: i18n.patch.removedDay,
             timetable: widget.timetable,
             date: d,
           ),

@@ -64,6 +64,7 @@ class _TimetableSwapDaysPatchSheetState extends State<TimetableSwapDaysPatchShee
             ),
             SliverList.list(children: [
               buildMode().padSymmetric(v: 8, h: 16),
+              if (patch != null && !patch.allLocInRange(widget.timetable)) const PatchOutOfRangeWarningTile(),
               ...switch (mode) {
                 TimetableDayLocMode.pos => buildPosTab(),
                 TimetableDayLocMode.date => buildDateTab(),
@@ -93,7 +94,7 @@ class _TimetableSwapDaysPatchSheetState extends State<TimetableSwapDaysPatchShee
   List<Widget> buildPosTab() {
     return [
       TimetableDayLocPosSelectionTile(
-        title: i18n.patch.swappedDay.text(),
+        title: i18n.patch.swappedDay,
         timetable: widget.timetable,
         pos: aPos,
         onChanged: (newPos) {
@@ -104,7 +105,7 @@ class _TimetableSwapDaysPatchSheetState extends State<TimetableSwapDaysPatchShee
         },
       ),
       TimetableDayLocPosSelectionTile(
-        title: i18n.patch.swappedDay.text(),
+        title: i18n.patch.swappedDay,
         timetable: widget.timetable,
         pos: bPos,
         onChanged: (newPos) {
@@ -120,7 +121,7 @@ class _TimetableSwapDaysPatchSheetState extends State<TimetableSwapDaysPatchShee
   List<Widget> buildDateTab() {
     return [
       TimetableDayLocDateSelectionTile(
-        title: i18n.patch.swappedDay.text(),
+        title: i18n.patch.swappedDay,
         timetable: widget.timetable,
         date: aDate,
         onChanged: (newPos) {
@@ -131,7 +132,7 @@ class _TimetableSwapDaysPatchSheetState extends State<TimetableSwapDaysPatchShee
         },
       ),
       TimetableDayLocDateSelectionTile(
-        title: i18n.patch.swappedDay.text(),
+        title: i18n.patch.swappedDay,
         timetable: widget.timetable,
         date: bDate,
         onChanged: (newPos) {

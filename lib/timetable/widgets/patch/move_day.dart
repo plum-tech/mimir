@@ -64,6 +64,7 @@ class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet>
             ),
             SliverList.list(children: [
               buildMode().padSymmetric(v: 8, h: 16),
+              if (patch != null && !patch.allLocInRange(widget.timetable)) const PatchOutOfRangeWarningTile(),
               ...switch (mode) {
                 TimetableDayLocMode.pos => buildPosTab(),
                 TimetableDayLocMode.date => buildDateTab(),
@@ -93,8 +94,8 @@ class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet>
   List<Widget> buildPosTab() {
     return [
       TimetableDayLocPosSelectionTile(
-        leading: const Icon(Icons.output),
-        title: i18n.patch.moveSource.text(),
+        icon: Icons.output,
+        title: i18n.patch.moveSource,
         timetable: widget.timetable,
         pos: sourcePos,
         onChanged: (newPos) {
@@ -105,8 +106,8 @@ class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet>
         },
       ),
       TimetableDayLocPosSelectionTile(
-        leading: const Icon(Icons.input),
-        title: i18n.patch.moveTarget.text(),
+        icon: Icons.input,
+        title: i18n.patch.moveTarget,
         timetable: widget.timetable,
         pos: targetPos,
         onChanged: (newPos) {
@@ -122,8 +123,8 @@ class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet>
   List<Widget> buildDateTab() {
     return [
       TimetableDayLocDateSelectionTile(
-        leading: const Icon(Icons.output),
-        title: i18n.patch.moveSource.text(),
+        icon: Icons.output,
+        title: i18n.patch.moveSource,
         timetable: widget.timetable,
         date: sourceDate,
         onChanged: (newPos) {
@@ -134,8 +135,8 @@ class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet>
         },
       ),
       TimetableDayLocDateSelectionTile(
-        leading: const Icon(Icons.input),
-        title: i18n.patch.moveTarget.text(),
+        icon: Icons.input,
+        title: i18n.patch.moveTarget,
         timetable: widget.timetable,
         date: targetDate,
         onChanged: (newPos) {
