@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/timetable/entity/loc.dart';
 import 'package:sit/utils/save.dart';
 
@@ -65,11 +64,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
             ),
             SliverList.list(children: [
               buildMode().padSymmetric(v: 8, h: 16),
-              if (patch != null && !patch.allLocInRange(widget.timetable))
-                ListTile(
-                  leading: Icon(context.icons.warning),
-                  title: i18n.patch.dateOutOfRangeTip.text(),
-                ),
+              if (patch != null && !patch.allLocInRange(widget.timetable)) const PatchOutOfRangeWarningTile(),
               ...switch (mode) {
                 TimetableDayLocMode.pos => buildPosTab(),
                 TimetableDayLocMode.date => buildDateTab(),
