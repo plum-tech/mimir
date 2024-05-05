@@ -132,7 +132,7 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
       });
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      $appLink = AppLinks().allUriLinkStream.listen((uri) async {
+      $appLink = AppLinks().uriLinkStream.listen((uri) async {
         ref.read($appLinks.notifier).state = [...ref.read($appLinks), (uri: uri, ts: DateTime.now())];
         final navigateCtx = $key.currentContext;
         if (navigateCtx == null) return;

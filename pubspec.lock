@@ -45,10 +45,10 @@ packages:
     dependency: "direct main"
     description:
       name: app_links
-      sha256: "0fd41f0501f131d931251e0942ac63d6216096a0052aeca037915c2c1deeb121"
+      sha256: "1c2b9e9c56d80d17610bcbd111b37187875c5d0ded8654caa1bda14ea753d001"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.0"
+    version: "6.0.1"
   app_settings:
     dependency: "direct main"
     description:
