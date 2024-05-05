@@ -172,10 +172,10 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
               TorchState.unavailable => PlatformIconButton(
                   icon: const Icon(Icons.flash_off),
                 ),
-              // TorchState.auto => PlatformIconButton(
-              //     icon: const Icon(Icons.flash_on),
-              //     onPressed: controller.toggleTorch,
-              //   ),
+              TorchState.auto => PlatformIconButton(
+                  icon: const Icon(Icons.flash_on),
+                  onPressed: controller.toggleTorch,
+                ),
             };
   }
 

@@ -105,7 +105,7 @@ dependencies:
   connectivity_plus: ^6.0.2
   vibration: ^1.8.4
   # qrcode scanner
-  mobile_scanner: 5.0.1
+  mobile_scanner: 5.1.0
   add_2_calendar: ^3.0.1
 
   # UI
