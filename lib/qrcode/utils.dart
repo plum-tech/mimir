@@ -48,9 +48,9 @@ Future<void> recognizeQrCode(BuildContext context) async {
   await Future.delayed(const Duration(milliseconds: 10));
   if (res is String) {
     final result = await onHandleDeepLinkString(context: context, deepLink: res);
-    if (result == QrCodeHandleResult.success) {
+    if (result == DeepLinkHandleResult.success) {
       return;
-    } else if (result == QrCodeHandleResult.unhandled || result == QrCodeHandleResult.unrecognized) {
+    } else if (result == DeepLinkHandleResult.unhandled || result == DeepLinkHandleResult.unrecognized) {
       if (!context.mounted) return;
       final maybeUri = Uri.tryParse(res);
       if (maybeUri != null) {
@@ -58,7 +58,7 @@ Future<void> recognizeQrCode(BuildContext context) async {
         return;
       }
       await context.showTip(desc: res.toString(), primary: i18n.ok);
-    } else if (result == QrCodeHandleResult.invalidFormat) {
+    } else if (result == DeepLinkHandleResult.invalidFormat) {
       if (!context.mounted) return;
       await context.showTip(desc: i18n.unrecognizedQrCodeTip, primary: i18n.ok);
     }

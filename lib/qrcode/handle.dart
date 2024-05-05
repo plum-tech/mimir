@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:sit/qrcode/protocol.dart';
+import 'package:sit/qrcode/deep_link.dart';
 import 'package:sit/r.dart';
 
-enum QrCodeHandleResult {
+enum DeepLinkHandleResult {
   success,
   unhandled,
   unrecognized,
@@ -16,12 +16,12 @@ bool _allowedScheme(String scheme) {
       scheme != "life.mysit";
 }
 
-Future<QrCodeHandleResult> onHandleDeepLinkString({
+Future<DeepLinkHandleResult> onHandleDeepLinkString({
   required BuildContext context,
   required String deepLink,
 }) async {
   final deepLinkUri = Uri.tryParse(deepLink);
-  if (deepLinkUri == null) return QrCodeHandleResult.invalidFormat;
+  if (deepLinkUri == null) return DeepLinkHandleResult.invalidFormat;
   return onHandleDeepLink(context: context, deepLink: deepLinkUri);
 }
 
@@ -37,16 +37,16 @@ DeepLinkHandlerProtocol? getFirstDeepLinkHandler({
   return null;
 }
 
-Future<QrCodeHandleResult> onHandleDeepLink({
+Future<DeepLinkHandleResult> onHandleDeepLink({
   required BuildContext context,
   required Uri deepLink,
 }) async {
-  if (_allowedScheme(deepLink.scheme)) return QrCodeHandleResult.unrecognized;
+  if (_allowedScheme(deepLink.scheme)) return DeepLinkHandleResult.unrecognized;
   for (final handler in DeepLinkHandlerProtocol.all) {
     if (handler.match(deepLink)) {
       await handler.onHandle(context: context, qrCodeData: deepLink);
-      return QrCodeHandleResult.success;
+      return DeepLinkHandleResult.success;
     }
   }
-  return QrCodeHandleResult.unhandled;
+  return DeepLinkHandleResult.unhandled;
 }

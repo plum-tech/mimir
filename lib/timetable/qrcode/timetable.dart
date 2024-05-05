@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:sit/qrcode/protocol.dart';
+import 'package:sit/qrcode/deep_link.dart';
 import 'package:sit/qrcode/utils.dart';
 import 'package:sit/r.dart';
 import 'package:sit/timetable/entity/timetable.dart';
