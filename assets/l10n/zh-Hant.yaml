@@ -599,6 +599,7 @@ networkTool:
     2. 嘗試啟用"EasyConnect" VPN 連線校園網路。
     3. 嘗試通過自建的 HTTP Proxy 伺服器連線校園網路。
     如果上述都無法工作, 或許因為學校伺服器停機維護或崩潰, 請稍後重試。
+    夜間，學校伺服器可能會暫時關閉，請等到工作日早上再試。
   studentRegUnavailableButCampusNetworkConnected: |
     已經連線到校園網路，但依然無法訪問學校伺服器。
     這或許因為學校伺服器停機維護或崩潰, 請稍後重試。

@@ -602,6 +602,7 @@ networkTool:
     2. Attempt to launch "EasyConnect" VPN to connect to school.
     3. Attempt to use a self-built proxy server to connect to campus network via HTTP proxy.
     If they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
+    During the night, the school server may be temporarily shut down, so please wait until the morning of a weekday to try again.
   studentRegUnavailableButCampusNetworkConnected: |
     The campus network has been connected, but school server is still inaccessible.
     It's probably due to school server downtime for maintenance or even crash, please try again later.
