@@ -2,12 +2,10 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
 import 'package:sit/timetable/entity/patch.dart';
-import 'package:sit/timetable/page/patch/patch_set.dart';
 import '../../entity/timetable.dart';
 import '../../i18n.dart';
 import '../../page/preview.dart';
@@ -19,7 +17,7 @@ class TimetablePatchSetCard extends StatelessWidget {
   final SitTimetable? timetable;
   final VoidCallback? onDeleted;
   final VoidCallback? onUnpacked;
-  final ValueChanged<TimetablePatchSet>? onChanged;
+  final VoidCallback? onEdit;
   final bool enableQrCode;
   final bool optimizedForTouch;
 
@@ -31,8 +29,8 @@ class TimetablePatchSetCard extends StatelessWidget {
     this.selected = false,
     this.optimizedForTouch = false,
     this.onUnpacked,
-    this.onChanged,
     this.enableQrCode = true,
+    this.onEdit,
   });
 
   @override
@@ -78,7 +76,6 @@ class TimetablePatchSetCard extends StatelessWidget {
   }
 
   Widget buildMoreActions() {
-    final onChanged = this.onChanged;
     final timetable = this.timetable;
     return PullDownMenuButton(
       itemBuilder: (context) {
@@ -87,18 +84,7 @@ class TimetablePatchSetCard extends StatelessWidget {
             PullDownItem(
               icon: context.icons.edit,
               title: i18n.edit,
-              onTap: onChanged == null
-                  ? null
-                  : () async {
-                      final newPatchSet = await context.showSheet<TimetablePatchSet>(
-                        (ctx) => TimetablePatchSetEditorPage(
-                          timetable: timetable,
-                          patchSet: patchSet,
-                        ),
-                      );
-                      if (newPatchSet == null) return;
-                      onChanged(newPatchSet);
-                    },
+              onTap: onEdit,
             ),
           PullDownItem(
             icon: context.icons.preview,

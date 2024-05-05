@@ -4,7 +4,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
 import 'package:sit/l10n/time.dart';
-import 'package:sit/timetable/entity/patch.dart';
+import 'package:sit/timetable/page/patch/patch.dart';
 
 import '../entity/timetable.dart';
 import '../entity/issue.dart';
@@ -32,15 +32,15 @@ extension TimetableIssuesX on List<TimetableIssue> {
           timetable: timetable,
           onTimetableChanged: onTimetableChanged,
         ),
-      if (courseOverlap.isNotEmpty)
-        TimetableCourseOverlapIssueWidget(
-          issues: courseOverlap,
-          timetable: timetable,
-          onTimetableChanged: onTimetableChanged,
-        ),
       if (patchOutOfRange.isNotEmpty)
         TimetablePatchOutOfRangeIssueWidget(
           issues: patchOutOfRange,
+          timetable: timetable,
+          onTimetableChanged: onTimetableChanged,
+        ),
+      if (courseOverlap.isNotEmpty)
+        TimetableCourseOverlapIssueWidget(
+          issues: courseOverlap,
           timetable: timetable,
           onTimetableChanged: onTimetableChanged,
         ),
@@ -174,7 +174,6 @@ class _TimetableCourseOverlapIssueWidgetState extends State<TimetableCourseOverl
   }
 }
 
-
 class TimetablePatchOutOfRangeIssueWidget extends StatefulWidget {
   final List<TimetablePatchOutOfRangeIssue> issues;
   final SitTimetable timetable;
@@ -210,18 +209,17 @@ class _TimetablePatchOutOfRangeIssueWidgetState extends State<TimetablePatchOutO
             trailing: PlatformTextButton(
               child: i18n.issue.resolve.text(),
               onPressed: () async {
-                // final newCourse = await context.showSheet<SitCourse>(
-                //       (ctx) => SitCourseEditorPage(
-                //     title: i18n.editor.editCourse,
-                //     course: course,
-                //     editable: const SitCourseEditable.only(hidden: true),
-                //   ),
-                // );
-                // if (newCourse == null) return;
-                // final newTimetable = timetable.copyWith(
-                //   courses: Map.of(timetable.courses)..["${newCourse.courseKey}"] = newCourse,
-                // );
-                // widget.onTimetableChanged(newTimetable);
+                var newTimetable = await context.navigator.push(
+                  platformPageRoute(
+                    context: context,
+                    builder: (ctx) => TimetablePatchEditorPage(
+                      timetable: timetable,
+                      initialEditing: patch,
+                    ),
+                  ),
+                );
+                if (newTimetable == null) return;
+                widget.onTimetableChanged(newTimetable);
               },
             ),
           );

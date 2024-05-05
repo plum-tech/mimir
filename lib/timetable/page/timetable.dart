@@ -142,7 +142,6 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
             await editTimetablePatch(
               context: ctx,
               id: widget.id,
-              timetable: widget.timetable.type,
             );
           },
         ),

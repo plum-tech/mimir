@@ -19,13 +19,16 @@ import '../../entity/timetable.dart';
 import '../../i18n.dart';
 import '../../widgets/patch/patch_set.dart';
 import '../preview.dart';
+import 'patch_set.dart';
 
 class TimetablePatchEditorPage extends StatefulWidget {
   final SitTimetable timetable;
+  final TimetablePatchEntry? initialEditing;
 
   const TimetablePatchEditorPage({
     super.key,
     required this.timetable,
+    this.initialEditing,
   });
 
   @override
@@ -34,9 +37,38 @@ class TimetablePatchEditorPage extends StatefulWidget {
 
 class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
   late var patches = List.of(widget.timetable.patches);
+  final initialEditingKey = GlobalKey(debugLabel: "Initial editing");
+  final controller = ScrollController();
   var anyChanged = false;
 
   void markChanged() => anyChanged |= true;
+
+  @override
+  void initState() {
+    super.initState();
+    final initialEditing = widget.initialEditing;
+    if (initialEditing != null) {
+      WidgetsBinding.instance.endOfFrame.then((_) async {
+        if (!mounted) return;
+        final index = patches.indexOf(initialEditing);
+        final ctx = initialEditingKey.currentContext;
+        if (index >= 0 && ctx != null) {
+          await Scrollable.ensureVisible(ctx);
+          if (initialEditing is TimetablePatch) {
+            editPatch(index, initialEditing);
+          } else if (initialEditing is TimetablePatchSet) {
+            editPatchSet(index, initialEditing);
+          }
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +99,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
               )
             else
               ReorderableSliverList(
+                controller: controller,
                 onReorder: (int oldIndex, int newIndex) {
                   setState(() {
                     final patch = patches.removeAt(oldIndex);
@@ -97,7 +130,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
   }
 
   void onSave() {
-    context.pop(List.of(patches));
+    context.pop(buildTimetable());
   }
 
   Future<void> onPreview() async {
@@ -154,6 +187,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
             markChanged();
           },
           builder: (dropping) => TimetablePatchSetCard(
+            key: widget.initialEditing == entry ? initialEditingKey : null,
             selected: dropping,
             patchSet: entry,
             timetable: timetable,
@@ -166,15 +200,13 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
               patches.insertAll(index, entry.patches);
               markChanged();
             },
-            onChanged: (newPatchSet) {
-              setState(() {
-                patches[index] = newPatchSet;
-              });
-              markChanged();
+            onEdit: () async {
+              await editPatchSet(index, entry);
             },
           ).padSymmetric(v: 4),
         ),
       TimetablePatch() => WithSwipeAction(
+          key: widget.initialEditing == entry ? initialEditingKey : null,
           childKey: ValueKey(entry),
           right: SwipeAction.delete(
             icon: context.icons.delete,
@@ -198,7 +230,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
               markChanged();
             },
             builder: (dropping) => TimetablePatchWidget<TimetablePatch>(
-              selected: dropping,
+              selected: dropping || widget.initialEditing == entry,
               optimizedForTouch: true,
               leading: (ctx, child) => TimetablePatchDraggable(
                 patch: entry,
@@ -209,19 +241,36 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
               onDeleted: () {
                 removePatch(index);
               },
-              edit: (patch) async {
-                return await entry.type.create(context, timetable, patch);
-              },
-              onChanged: (newPatch) {
-                setState(() {
-                  patches[index] = newPatch;
-                });
-                markChanged();
+              onEdit: () async {
+                await editPatch(index, entry);
               },
             ),
           ),
         ),
     };
+  }
+
+  Future<void> editPatchSet(int index, TimetablePatchSet patchSet) async {
+    final newPatchSet = await context.showSheet<TimetablePatchSet>(
+      (ctx) => TimetablePatchSetEditorPage(
+        timetable: widget.timetable,
+        patchSet: patchSet,
+      ),
+    );
+    if (newPatchSet == null) return;
+    setState(() {
+      patches[index] = newPatchSet;
+    });
+    markChanged();
+  }
+
+  Future<void> editPatch(int index, TimetablePatch patch) async {
+    final newPatch = await patch.type.create(context, widget.timetable, patch);
+    if (newPatch == null) return;
+    setState(() {
+      patches[index] = newPatch;
+    });
+    markChanged();
   }
 
   void addPatch(TimetablePatchEntry patch) {
@@ -241,6 +290,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
   SitTimetable buildTimetable() {
     return widget.timetable.copyWith(
       patches: List.of(patches),
+      lastModified: DateTime.now(),
     );
   }
 }

@@ -18,7 +18,6 @@ import 'package:sit/route.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/timetable/entity/patch.dart';
 import 'package:sit/timetable/page/ical.dart';
 import 'package:sit/timetable/palette.dart';
 import 'package:sit/timetable/qrcode/timetable.dart';
@@ -201,15 +200,10 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
 Future<void> editTimetablePatch({
   required BuildContext context,
   required int id,
-  required SitTimetable timetable,
 }) async {
-  var patches = await context.push<List<TimetablePatchEntry>>("/timetable/$id/edit/patch");
-  if (patches == null) return;
-  TimetableInit.storage.timetable[id] = timetable
-      .copyWith(
-        patches: List.of(patches),
-      )
-      .markModified();
+  var timetable = await context.push<SitTimetable>("/timetable/patch/edit/$id");
+  if (timetable == null) return;
+  TimetableInit.storage.timetable[id] = timetable.markModified();
 }
 
 class TimetableCard extends StatelessWidget {
@@ -276,7 +270,7 @@ class TimetableCard extends StatelessWidget {
           icon: context.icons.edit,
           activator: const SingleActivator(LogicalKeyboardKey.keyE),
           action: () async {
-            var newTimetable = await ctx.push<SitTimetable>("/timetable/$id/edit");
+            var newTimetable = await ctx.push<SitTimetable>("/timetable/edit/$id");
             if (newTimetable == null) return;
             final newName = allocValidFileName(newTimetable.name);
             if (newName != newTimetable.name) {
@@ -306,7 +300,7 @@ class TimetableCard extends StatelessWidget {
           label: i18n.mine.patch,
           icon: Icons.dashboard_customize,
           action: () async {
-            await editTimetablePatch(context: ctx, id: id, timetable: timetable);
+            await editTimetablePatch(context: ctx, id: id);
           },
         ),
         if (kDebugMode)

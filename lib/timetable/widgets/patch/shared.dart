@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -141,7 +139,7 @@ class TimetableDayLocDateSelectionTile extends ConsumerWidget {
 class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessWidget {
   final TPatch patch;
   final SitTimetable? timetable;
-  final ValueChanged<TPatch>? onChanged;
+  final VoidCallback? onEdit;
   final bool enableQrCode;
   final VoidCallback? onDeleted;
 
@@ -149,7 +147,7 @@ class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessW
     super.key,
     required this.patch,
     this.timetable,
-    this.onChanged,
+    this.onEdit,
     this.enableQrCode = true,
     this.onDeleted,
   });
@@ -194,8 +192,7 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
   final VoidCallback? onDeleted;
   final bool selected;
   final SitTimetable? timetable;
-  final ValueChanged<TPatch>? onChanged;
-  final FutureOr<TPatch?> Function(TPatch old)? edit;
+  final VoidCallback? onEdit;
   final bool enableQrCode;
 
   const TimetablePatchWidget({
@@ -203,9 +200,8 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
     this.leading,
     required this.patch,
     this.timetable,
-    this.onChanged,
+    this.onEdit,
     this.optimizedForTouch = false,
-    this.edit,
     this.selected = false,
     this.enableQrCode = true,
     this.onDeleted,
@@ -213,8 +209,6 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
 
   @override
   Widget build(BuildContext context) {
-    final onChanged = this.onChanged;
-    final edit = this.edit;
     return ListTile(
       leading: leading?.call(
             context,
@@ -227,17 +221,11 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
       trailing: TimetablePatchMenuAction(
         patch: patch,
         timetable: timetable,
-        onChanged: onChanged,
+        onEdit: onEdit,
         onDeleted: onDeleted,
         enableQrCode: enableQrCode,
       ),
-      onTap: onChanged == null || edit == null
-          ? null
-          : () async {
-              final newPath = await edit(patch);
-              if (newPath == null) return;
-              onChanged(newPath);
-            },
+      onTap: onEdit
     );
   }
 

@@ -39,6 +39,8 @@ import 'package:sit/me/edu_email/page/inbox.dart';
 import 'package:sit/network/page/index.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/page/theme_color.dart';
+import 'package:sit/timetable/entity/platte.dart';
+import 'package:sit/timetable/entity/timetable.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/page/p13n/background.dart';
 import 'package:sit/timetable/page/p13n/cell_style.dart';
@@ -112,6 +114,24 @@ final _timetableShellRoute = GoRoute(
   builder: (ctx, state) => const TimetablePage(),
 );
 
+SitTimetable? _getTimetable(GoRouterState state) {
+  final extra = state.extra;
+  if (extra is SitTimetable) return extra;
+  final id = int.tryParse(state.pathParameters["id"] ?? "");
+  if (id == null) return null;
+  final timetable = TimetableInit.storage.timetable[id];
+  return timetable;
+}
+
+TimetablePalette? _getTimetablePalette(GoRouterState state) {
+  final extra = state.extra;
+  if (extra is TimetablePalette) return extra;
+  final id = int.tryParse(state.pathParameters["id"] ?? "");
+  if (id == null) return null;
+  final palette = TimetableInit.storage.palette[id];
+  return palette;
+}
+
 final _timetableRoutes = [
   GoRoute(
     path: "/timetable/import",
@@ -137,31 +157,25 @@ final _timetableRoutes = [
     ],
   ),
   GoRoute(
-    path: "/timetable/palette/:id/edit",
+    path: "/timetable/palette/edit/:id",
     builder: (ctx, state) {
-      final id = int.tryParse(state.pathParameters["id"] ?? "");
-      if (id == null) throw 404;
-      final palette = TimetableInit.storage.palette[id];
+      final palette = _getTimetablePalette(state);
       if (palette == null) throw 404;
       return TimetablePaletteEditorPage(palette: palette);
     },
   ),
   GoRoute(
-    path: "/timetable/:id/edit",
+    path: "/timetable/edit/:id",
     builder: (ctx, state) {
-      final id = int.tryParse(state.pathParameters["id"] ?? "");
-      if (id == null) throw 404;
-      final timetable = TimetableInit.storage.timetable[id];
+      final timetable = _getTimetable(state);
       if (timetable == null) throw 404;
       return TimetableEditorPage(timetable: timetable);
     },
   ),
   GoRoute(
-    path: "/timetable/:id/edit/patch",
+    path: "/timetable/patch/edit/:id",
     builder: (ctx, state) {
-      final id = int.tryParse(state.pathParameters["id"] ?? "");
-      if (id == null) throw 404;
-      final timetable = TimetableInit.storage.timetable[id];
+      final timetable = _getTimetable(state);
       if (timetable == null) throw 404;
       return TimetablePatchEditorPage(timetable: timetable);
     },
@@ -472,6 +486,7 @@ GoRouter buildRouter(ValueNotifier<RoutingConfig> $routingConfig) {
     navigatorKey: $key,
     initialLocation: "/",
     debugLogDiagnostics: kDebugMode,
+    // onException: _onException,
     errorBuilder: _onError,
   );
 }

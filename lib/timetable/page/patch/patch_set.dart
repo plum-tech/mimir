@@ -167,10 +167,9 @@ class _TimetablePatchSetEditorPageState extends State<TimetablePatchSetEditorPag
       child: TimetablePatchWidget<TimetablePatch>(
         patch: patch,
         timetable: timetable,
-        edit: (patch) async {
-          return await patch.type.create(context, timetable, patch);
-        },
-        onChanged: (newPatch) {
+        onEdit: () async {
+          final newPatch = await patch.type.create(context, timetable, patch);
+          if (newPatch == null) return;
           setState(() {
             patches[index] = newPatch;
           });
