@@ -122,7 +122,7 @@ class _TimetablePatchSetEditorPageState extends State<TimetablePatchSetEditorPag
           ),
           PullDownItem(
             icon: context.icons.edit,
-            title: i18n.patch.editName,
+            title: i18n.rename,
             onTap: () async {
               final newName = await Editor.showStringEditor(
                 context,

@@ -7,14 +7,29 @@ import 'package:statistics/statistics.dart';
 import 'timetable.dart';
 import 'timetable_entity.dart';
 
-sealed class TimetableIssue {}
+enum TimetableIssueType {
+  empty,
+  cbeCourse,
+  patchOutOfRange,
+  courseOverlaps,
+  ;
+}
+
+sealed class TimetableIssue {
+  TimetableIssueType get type;
+}
 
 class TimetableEmptyIssue implements TimetableIssue {
+  @override
+  TimetableIssueType get type=>TimetableIssueType.empty;
+
   const TimetableEmptyIssue();
 }
 
 /// Credit by Examination
 class TimetableCbeIssue implements TimetableIssue {
+  @override
+  TimetableIssueType get type=>TimetableIssueType.cbeCourse;
   final int courseKey;
 
   const TimetableCbeIssue({
@@ -31,6 +46,8 @@ class TimetableCbeIssue implements TimetableIssue {
 
 /// Credit by Examination
 class TimetablePatchOutOfRangeIssue implements TimetableIssue {
+  @override
+  TimetableIssueType get type=>TimetableIssueType.patchOutOfRange;
   final int patchIndex;
 
   const TimetablePatchOutOfRangeIssue({
@@ -57,6 +74,8 @@ class TimetablePatchOutOfRangeIssue implements TimetableIssue {
 }
 
 class TimetableCourseOverlapIssue implements TimetableIssue {
+  @override
+  TimetableIssueType get type=>TimetableIssueType.courseOverlaps;
   final List<int> courseKeys;
   final int weekIndex;
   final Weekday weekday;

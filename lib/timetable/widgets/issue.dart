@@ -48,7 +48,7 @@ extension TimetableIssuesX on List<TimetableIssue> {
   }
 }
 
-class TimetableEmptyIssueWidget extends StatefulWidget {
+class TimetableEmptyIssueWidget extends StatelessWidget {
   final List<TimetableEmptyIssue> issues;
 
   const TimetableEmptyIssueWidget({
@@ -57,17 +57,12 @@ class TimetableEmptyIssueWidget extends StatefulWidget {
   });
 
   @override
-  State<TimetableEmptyIssueWidget> createState() => _TimetableEmptyIssueWidgetState();
-}
-
-class _TimetableEmptyIssueWidgetState extends State<TimetableEmptyIssueWidget> {
-  @override
   Widget build(BuildContext context) {
     return Card.outlined(
       clipBehavior: Clip.hardEdge,
       child: ListTile(
-        title: i18n.issue.emptyIssue.text(),
-        subtitle: i18n.issue.emptyIssueDesc.text(),
+        title: TimetableIssueType.empty.l10n().text(),
+        subtitle: TimetableIssueType.empty.l10nDesc().text(),
       ),
     );
   }
@@ -97,8 +92,8 @@ class _TimetableCbeIssueWidgetState extends State<TimetableCbeIssueWidget> {
       clipBehavior: Clip.hardEdge,
       child: AnimatedExpansionTile(
         initiallyExpanded: true,
-        title: i18n.issue.cbeCourseIssue.text(),
-        subtitle: i18n.issue.cbeCourseIssueDesc.text(),
+        title: TimetableIssueType.cbeCourse.l10n().text(),
+        subtitle: TimetableIssueType.cbeCourse.l10nDesc().text(),
         children: widget.issues.map((issue) {
           final course = timetable.courses["${issue.courseKey}"]!;
           return ListTile(
@@ -154,8 +149,8 @@ class _TimetableCourseOverlapIssueWidgetState extends State<TimetableCourseOverl
       clipBehavior: Clip.hardEdge,
       child: AnimatedExpansionTile(
         initiallyExpanded: true,
-        title: i18n.issue.courseOverlapsIssue.text(),
-        subtitle: i18n.issue.courseOverlapsIssueDesc.text(),
+        title: TimetableIssueType.courseOverlaps.l10n().text(),
+        subtitle: TimetableIssueType.courseOverlaps.l10nDesc().text(),
         children: widget.issues.map((issue) {
           final courses = issue.courseKeys.map((key) => timetable.courses["$key"]).whereType<SitCourse>().toList();
           return ListTile(
@@ -198,8 +193,8 @@ class _TimetablePatchOutOfRangeIssueWidgetState extends State<TimetablePatchOutO
       clipBehavior: Clip.hardEdge,
       child: AnimatedExpansionTile(
         initiallyExpanded: true,
-        title: i18n.issue.patchOutOfRangeIssue.text(),
-        subtitle: i18n.issue.patchOutOfRangeIssueDesc.text(),
+        title: TimetableIssueType.patchOutOfRange.l10n().text(),
+        subtitle: TimetableIssueType.patchOutOfRange.l10nDesc().text(),
         children: widget.issues.map((issue) {
           final patch = issue.locate(timetable);
           return ListTile(

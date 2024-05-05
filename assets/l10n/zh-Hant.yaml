@@ -34,15 +34,19 @@ timetable:
   issue:
     title: 課程表問題
     resolve: 解決
-    emptyIssue:
-      title: 課程表為空
-      desc: 檢查您是否導入了正確的課程表
-    cbeCourseIssue:
-      title: 發現學分抵免 (CBE) 課程
-      desc: 您可以在課程表中隱藏 CBE 課程
-    courseOverlapsIssue:
-      title: 發現課程時間衝突
-      desc: 您可以隱藏其中一個課程以避免衝突
+    builtin:
+      empty:
+        title: 課程表為空
+        desc: 請檢查你是否導入了正確的課程表
+      cbeCourse:
+        title: 發現學分抵免 (CBE) 課程
+        desc: 你可以在課程表中隱藏 CBE 課程
+      patchOutOfRange:
+        title: 課程表修正超過日期範圍
+        desc: 修正超過日期範圍，請檢查你是否設定了正確的日期
+      courseOverlaps:
+        title: 發現課程時間衝突
+        desc: 你可以隱藏其中一個課程以避免衝突
   patch:
     title: 課程表修正
     prefabs: 預製
@@ -51,7 +55,6 @@ timetable:
     noPatches: 沒有修正
     noPatchesTip: 沒有修正，增加一個預設的怎麼樣？
     patchSetName: 修正包名称
-    editName: 編輯名称
     removeDay: "移除 {day} 的課"
     swapDays: "將 {a} 和 {b} 的課交換"
     copyDay: "{target} 和 {source} 上一樣的課"
@@ -866,7 +869,7 @@ permission:
     storage: 儲存
     camera: 相機
 saveAndQuitPrompt:
-  request: 您有未儲存的變更，想要儲存嗎？
+  request: 你有未儲存的變更，想要儲存嗎？
   saveAndQuit: 儲存並離開
   discard: 丟棄
 dormitoryRoom: "{building}號樓 #{room}"
@@ -911,3 +914,4 @@ choose: 挑選
 unspecified: 未指定
 shareQrCode: 分享 QR 碼
 add: 增加
+rename: 重新命名

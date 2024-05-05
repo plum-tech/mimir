@@ -34,15 +34,19 @@ timetable:
   issue:
     title: 课程表问题
     resolve: 解决
-    emptyIssue:
-      title: 课表为空
-      desc: 检查您是否导入了正确的课表
-    cbeCourseIssue:
-      title: 发现免听课程
-      desc: 您可以在课表中隐藏免听课程
-    courseOverlapsIssue:
-      title: 发现课程时间冲突
-      desc: 您可以隐藏其中一个课程以避免冲突
+    builtin:
+      empty:
+        title: 课表为空
+        desc: 请检查你是否导入了正确的课表
+      cbeCourse:
+        title: 发现免听课程
+        desc: 你可以在课表中隐藏免听课程
+      patchOutOfRange:
+        title: 调课超过日期范围
+        desc: 调课的日期超过了课程表的范围，请检查你是否设置了正确的日期
+      courseOverlaps:
+        title: 发现课程时间冲突
+        desc: 你可以隐藏其中一个课程以避免冲突
   patch:
     title: 调课
     prefabs: 预制
@@ -51,7 +55,6 @@ timetable:
     noPatches: 没有调课
     noPatchesTip: 没有调课，添加一个预制的如何？
     patchSetName: 调课组合名称
-    editName: 编辑名称
     removeDay: "删除 {day} 的课"
     swapDays: "交换 {a} 和 {b} 的课"
     copyDay: "{target} 上与 {source} 相同的课"
@@ -911,3 +914,4 @@ choose: 挑选
 unspecified: 未指定
 shareQrCode: 分享二维码
 add: 添加
+rename: 重命名

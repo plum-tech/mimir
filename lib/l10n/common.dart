@@ -86,6 +86,8 @@ mixin class CommonI18nMixin {
   String get shareQrCode => "shareQrCode".tr();
 
   String get add => "add".tr();
+
+  String get rename => "rename".tr();
 }
 
 class CommonI18n with CommonI18nMixin {

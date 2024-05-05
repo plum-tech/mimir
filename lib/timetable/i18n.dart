@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:sit/l10n/common.dart';
 import 'package:sit/school/i18n.dart';
 
+import 'entity/issue.dart';
+
 const i18n = _I18n();
 
 class _I18n with CommonI18nMixin {
@@ -272,22 +274,12 @@ class _Issue {
   String get title => "$ns.title".tr();
 
   String get resolve => "$ns.resolve".tr();
+}
 
-  String get emptyIssue => "$ns.emptyIssue.title".tr();
+extension TimetableIssueTypeI18nX on TimetableIssueType {
+  String l10n() => "${_Issue.ns}.builtin.$name.title".tr();
 
-  String get emptyIssueDesc => "$ns.emptyIssue.desc".tr();
-
-  String get cbeCourseIssue => "$ns.cbeCourseIssue.title".tr();
-
-  String get cbeCourseIssueDesc => "$ns.cbeCourseIssue.desc".tr();
-
-  String get courseOverlapsIssue => "$ns.courseOverlapsIssue.title".tr();
-
-  String get courseOverlapsIssueDesc => "$ns.courseOverlapsIssue.desc".tr();
-
-  String get patchOutOfRangeIssue => "$ns.patchOutOfRangeIssue.title".tr();
-
-  String get patchOutOfRangeIssueDesc => "$ns.patchOutOfRangeIssue.desc".tr();
+  String l10nDesc() => "${_Issue.ns}.builtin.$name.desc".tr();
 }
 
 class _Patch {
@@ -308,8 +300,6 @@ class _Patch {
   String get noPatchesTip => "$ns.noPatchesTip".tr();
 
   String get patchSetName => "$ns.patchSetName".tr();
-
-  String get editName => "$ns.editName".tr();
 
   String removeDay(String day) => "$ns.removeDay".tr(namedArgs: {
         "day": day,
