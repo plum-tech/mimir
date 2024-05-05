@@ -44,6 +44,7 @@ class TimetableDayLocModeSwitcher extends StatelessWidget {
     );
   }
 }
+
 const _kOutOfRangeColor = Colors.yellow;
 
 class PatchOutOfRangeWarningTile extends StatelessWidget {
@@ -274,13 +275,23 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
 
   @override
   Widget build(BuildContext context) {
+    final outOfRange = isOutOfRange();
     return ListTile(
         leading: leading?.call(
               context,
               buildLeading(context),
             ) ??
             buildLeading(context),
-        title: patch.type.l10n().text(),
+        title: outOfRange
+            ? [
+                Icon(
+                  context.icons.warning,
+                  color: _kOutOfRangeColor,
+                  size: 18,
+                ),
+                patch.type.l10n().text(style: const TextStyle(color: _kOutOfRangeColor)),
+              ].wrap(caa: WrapCrossAlignment.center)
+            : patch.type.l10n().text(),
         subtitle: patch.l10n().text(),
         selected: selected,
         trailing: TimetablePatchMenuAction(
@@ -298,6 +309,15 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
       icon: patch.type.icon,
       optimizedForTouch: optimizedForTouch,
     );
+  }
+
+  bool isOutOfRange() {
+    final timetable = this.timetable;
+    if (timetable == null) return false;
+    if (patch is WithTimetableDayLoc) {
+      return !(patch as WithTimetableDayLoc).allLocInRange(timetable);
+    }
+    return false;
   }
 }
 
