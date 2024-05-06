@@ -42,8 +42,8 @@ timetable:
         title: 发现免听课程
         desc: 你可以在课表中隐藏免听课程
       patchOutOfRange:
-        title: 调课超过日期范围
-        desc: 调课的日期超过了课程表的范围，请检查你是否设置了正确的日期
+        title: 调课不在课程表的时间范围内
+        desc: 调课不在当前课程表所处学期的时间范围内，调课将不会生效。请检查你是否设置了正确的日期
       courseOverlaps:
         title: 发现课程时间冲突
         desc: 你可以隐藏其中一个课程以避免冲突
@@ -55,7 +55,7 @@ timetable:
     noPatches: 没有调课
     noPatchesTip: 没有调课，添加一个预制的如何？
     patchSetName: 调课组合名称
-    dateOutOfRangeTip: 一个或多个日期超过课程表的范围
+    dateOutOfRangeTip: 一个或多个日期不在当前课程表所处学期的时间范围内
     removeDay: "删除 {day} 的课"
     swapDays: "交换 {a} 和 {b} 的课"
     copyDay: "{target} 上与 {source} 相同的课"

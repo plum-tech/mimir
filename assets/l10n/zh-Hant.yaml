@@ -43,7 +43,7 @@ timetable:
         desc: 你可以在課程表中隱藏 CBE 課程
       patchOutOfRange:
         title: 課程表修正超過日期範圍
-        desc: 修正超過日期範圍，請檢查你是否設定了正確的日期
+        desc: 修正不在課程表所處學期的時間範圍內，調課將不會生效。請檢查你是否設定了正確的日期
       courseOverlaps:
         title: 發現課程時間衝突
         desc: 你可以隱藏其中一個課程以避免衝突
@@ -55,7 +55,7 @@ timetable:
     noPatches: 沒有修正
     noPatchesTip: 沒有修正，增加一個預設的怎麼樣？
     patchSetName: 修正包名称
-    dateOutOfRangeTip: 一個或多個修正超過日期範圍
+    dateOutOfRangeTip: 一個或多個修正不在當前課程表所處學期的時間範圍內
     removeDay: "移除 {day} 的課"
     swapDays: "將 {a} 和 {b} 的課交換"
     copyDay: "{target} 和 {source} 上一樣的課"

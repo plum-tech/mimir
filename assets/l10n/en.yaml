@@ -37,13 +37,13 @@ timetable:
     builtin:
       empty:
         title: Timetable is empty
-        desc: Check if you imported the correct one.
+        desc: Check that you imported the correct one.
       cbeCourse:
         title: Credit by Exam (CBE) courses found
         desc: You can hide CBE courses
       patchOutOfRange:
         title: Timetable patch out of date range
-        desc: The patch date is out of timetable. Please check if you set the date correctly.
+        desc: The patch date is out of semester in which the timetable falls, so the patch will take no effect. Please check that you set the date correctly.
       courseOverlaps:
         title: Overlapping courses found
         desc: You can hide one of them to avoid conflicts
@@ -55,7 +55,7 @@ timetable:
     noPatches: No patches
     noPatchesTip: No patches here, how about adding a prefab?
     patchSetName: Patch set name
-    dateOutOfRangeTip: One or more dates are out of range of the current timetable
+    dateOutOfRangeTip: One or more dates are out of semester in which the current timetable falls
     removeDay: "Remove lessons on {day}"
     swapDays: "Swap lessons on {a} with {b}"
     copyDay: "Copy lessons from {source} to {target}"
