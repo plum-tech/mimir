@@ -21,7 +21,7 @@ class TransactionTile extends StatelessWidget {
         if (title != transaction.note && transaction.note.isNotEmpty) transaction.note.text(),
         if (Dev.on) "${transaction.balanceBefore} => ${transaction.balanceAfter}".text(),
       ].column(caa: CrossAxisAlignment.start),
-      leading: transaction.type.icon.make(color: transaction.type.color, size: 32),
+      leading: transaction.type.icon.make(color: transaction.type.resolveColor(context), size: 32),
       trailing: transaction.toReadableString().text(
             style: context.textTheme.titleLarge?.copyWith(color: transaction.billColor),
           ),
@@ -43,7 +43,10 @@ class TransactionCard extends StatelessWidget {
     final billColor = transaction.isConsume ? null : transaction.billColor;
     return [
       [
-        transaction.type.icon.make(color: transaction.type.color).padOnly(r: 8),
+        Icon(
+          transaction.type.icon,
+          color: transaction.type.resolveColor(context),
+        ).padOnly(r: 8),
         AutoSizeText(
           context.formatMdhmNum(transaction.timestamp),
           style: textTheme.titleMedium,
