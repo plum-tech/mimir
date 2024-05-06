@@ -45,7 +45,7 @@ class TimetableDayLocModeSwitcher extends StatelessWidget {
   }
 }
 
-const _kOutOfRangeColor = Colors.yellow;
+const _kOutOfRangeColor = Color(0xFFff4545);
 
 class PatchOutOfRangeWarningTile extends StatelessWidget {
   const PatchOutOfRangeWarningTile({super.key});
