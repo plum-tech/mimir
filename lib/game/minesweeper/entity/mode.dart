@@ -9,19 +9,19 @@ class GameMode {
     name: "easy",
     gameRows: defaultRows,
     gameColumns: defaultColumns,
-    gameMines: 18,
+    gameMines: 22,
   );
   static const normal = GameMode._(
     name: "normal",
-    gameRows: 15,
-    gameColumns: 8,
-    gameMines: 18,
+    gameRows: defaultRows,
+    gameColumns: defaultColumns,
+    gameMines: 35,
   );
   static const hard = GameMode._(
     name: "hard",
-    gameRows: 15,
-    gameColumns: 8,
-    gameMines: 18,
+    gameRows: defaultRows,
+    gameColumns: defaultColumns,
+    gameMines: 58,
   );
 
   static final name2mode = {
