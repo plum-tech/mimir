@@ -5,16 +5,15 @@ import 'package:logger/logger.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/game/minesweeper/save.dart';
-import 'entity/board.dart';
-import 'entity/cell.dart';
-import 'entity/mode.dart';
-import 'widget/info.dart';
-import 'manager/logic.dart';
-import 'widget/board.dart';
+import '../entity/board.dart';
+import '../entity/mode.dart';
+import '../widget/hud.dart';
+import '../widget/info.dart';
+import '../manager/logic.dart';
+import '../widget/board.dart';
 import "package:flutter/foundation.dart";
-import 'manager/timer.dart';
-import 'theme.dart';
-import 'i18n.dart';
+import '../manager/timer.dart';
+import '../i18n.dart';
 
 class GameMinesweeper extends ConsumerStatefulWidget {
   final bool newGame;
@@ -30,22 +29,20 @@ class GameMinesweeper extends ConsumerStatefulWidget {
 
 class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindingObserver {
   late GameTimer timer;
-  late GameMode mode;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    mode = GameMode.easy;
     timer = GameTimer(refresh: updateGame);
-    ref.read(boardManager.notifier).initGame(gameMode: mode);
-    Future.delayed(Duration.zero).then((value) {
+    ref.read(boardManager.notifier).initGame(gameMode: GameMode.easy,notify: false);
+    WidgetsBinding.instance.endOfFrame.then((_) {
       if (!widget.newGame) {
         final save = SaveMinesweeper.storage.load();
         if (save != null) {
           ref.read(boardManager.notifier).fromSave(Board.fromSave(save));
         } else {
-          ref.read(boardManager.notifier).initGame(gameMode: mode);
+          ref.read(boardManager.notifier).initGame(gameMode: GameMode.easy);
         }
       }
     });
@@ -92,9 +89,8 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
 
   void resetGame({gameMode = GameMode.easy}) {
     timer.stopTimer();
-    mode = gameMode;
     timer = GameTimer(refresh: updateGame);
-    ref.read(boardManager.notifier).initGame(gameMode: mode);
+    ref.read(boardManager.notifier).initGame(gameMode: gameMode);
     updateGame();
   }
 
@@ -111,6 +107,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
   Widget build(BuildContext context) {
     // Get Your Screen Size
     final screenSize = MediaQuery.of(context).size;
+    final mode = ref.watch(boardManager).mode;
     initScreen(screenSize: screenSize, gameMode: mode);
     // Build UI From Screen Size
 
@@ -144,108 +141,6 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
           ),
         ],
       ),
-    );
-  }
-}
-
-class MinesAndFlags extends StatelessWidget {
-  final int flags;
-  final int mines;
-
-  const MinesAndFlags({
-    super.key,
-    required this.flags,
-    required this.mines,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = context.textTheme;
-    return Row(
-      children: [
-        Text(
-          " $flags ",
-          style: textTheme.bodyLarge,
-        ),
-        const Icon(
-          Icons.flag_outlined,
-          color: flagColor,
-        ),
-        Text(
-          "/ $mines ",
-          style: textTheme.bodyLarge,
-        ),
-        const Icon(
-          Icons.gps_fixed,
-          color: mineColor,
-        ),
-      ],
-    );
-  }
-}
-
-class GameHud extends ConsumerWidget {
-  final GameTimer timer;
-  final GameMode mode;
-
-  const GameHud({
-    super.key,
-    required this.mode,
-    required this.timer,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final screen = ref.read(boardManager).screen;
-    final boardRadius = screen.getBoardRadius();
-    final textTheme = context.textTheme;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: screen.getBoardSize().width / 2,
-          height: screen.getInfoHeight(),
-          decoration: BoxDecoration(
-              color: context.colorScheme.secondaryContainer,
-              borderRadius:
-                  BorderRadius.only(topLeft: Radius.circular(boardRadius), bottomLeft: Radius.circular(boardRadius))),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Icon(Icons.videogame_asset_outlined),
-              ref.read(boardManager).board.started
-                  ? MinesAndFlags(
-                      flags: ref.read(boardManager).board.countAllByState(state: CellState.flag),
-                      mines: ref.read(boardManager).board.mines,
-                    )
-                  : Text(
-                      mode.l10n(),
-                      style: textTheme.bodyLarge,
-                    ),
-            ],
-          ),
-        ),
-        Container(
-          width: screen.getBoardSize().width / 2,
-          height: screen.getInfoHeight(),
-          decoration: BoxDecoration(
-              color: context.colorScheme.tertiaryContainer,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(boardRadius),
-                bottomRight: Radius.circular(boardRadius),
-              )),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Icon(Icons.alarm),
-              Text(
-                timer.getTimeCost(),
-                style: textTheme.bodyLarge,
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

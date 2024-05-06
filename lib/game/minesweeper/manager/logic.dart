@@ -19,7 +19,7 @@ class GameLogic extends StateNotifier<GameStates> {
   bool firstClick = true;
   int mineNum = -1;
 
-  void initGame({required GameMode gameMode}) {
+  void initGame({required GameMode gameMode, bool notify = true}) {
     state.mode = gameMode;
     state.gameOver = false;
     state.goodGame = false;
@@ -28,6 +28,9 @@ class GameLogic extends StateNotifier<GameStates> {
     firstClick = true;
     if (kDebugMode) {
       logger.log(Level.info, "Game Init Finished");
+    }
+    if (notify) {
+      ref.notifyListeners();
     }
   }
 

@@ -863,6 +863,8 @@ game:
     timeSpent: "You spent {}"
     gameMode:
       easy: Easy
+      normal: Normal
+      hard: Hard
 permission:
   permissionDenied: Permission denied
   permissionDeniedDescOf: "{} permission was not granted. Please check the app settings."

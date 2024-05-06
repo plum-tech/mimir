@@ -863,6 +863,8 @@ game:
     timeSpent: "用时 {}"
     gameMode:
       easy: 简单
+      normal: 普通
+      hard: 困难
 permission:
   permissionDenied: 没有权限
   permissionDeniedDescOf: "{}权限未被授权，请检查应用的设置。"

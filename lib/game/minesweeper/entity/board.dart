@@ -14,6 +14,7 @@ class Board {
   late List<Cell> _cells;
 
   static const _nearbyDelta = [(-1, 1), (0, 1), (1, 1), (-1, 0), /*(0,0)*/ (1, 0), (-1, -1), (0, -1), (1, -1)];
+  static const _nearbyDeltaAndThis = [..._nearbyDelta, (0, 0)];
 
   Board({required this.rows, required this.columns}) {
     _cells = List.generate(rows * columns, (index) => Cell(row: index ~/ columns, col: index % columns));
@@ -88,22 +89,30 @@ class Board {
     return count;
   }
 
-  void randomMines({required number, required clickRow, required clickCol}) {
+  void randomMines({required int number, required int clickRow, required int clickCol}) {
+    final rand = Random();
+    final candidates = List.generate(rows * columns, (index) => (row: index ~/ columns, column: index % columns));
+    // Clicked cell and one-cell nearby cells can't be mines.
+    for (final (dx, dy) in _nearbyDeltaAndThis) {
+      final row = clickRow + dx;
+      final column = clickCol + dy;
+      candidates.remove((row: row, column: column));
+    }
+    final maxMines = candidates.length - 1;
+    assert(number <= maxMines, "The max mine is $maxMines, but $number is given.");
+    number = min<int>(number, maxMines);
     _mines = number;
-    int beginSafeRow = clickRow - 1 < 0 ? 0 : clickRow - 1;
-    int endSafeRow = clickRow + 1 >= rows ? rows - 1 : clickRow + 1;
-    int beginSafeCol = clickCol - 1 < 0 ? 0 : clickCol - 1;
-    int endSafeCol = clickCol + 1 >= columns ? columns - 1 : clickCol + 1;
-    var cnt = 0;
-    while (cnt < number) {
-      var value = Random().nextInt(columns * rows);
-      var col = value % columns;
-      var row = (value / columns).floor();
-      final cell = getCell(row: row, col: col);
-      if (!cell.mine && !((row >= beginSafeRow && row <= endSafeRow) && (col >= beginSafeCol && col <= endSafeCol))) {
+    var remaining = number;
+    while (candidates.isNotEmpty && remaining > 0) {
+      assert(_cells.any((cell) => !cell.mine));
+      final index = rand.nextInt(candidates.length);
+      final (:row, :column) = candidates[index];
+      final cell = getCell(row: row, col: column);
+      if (!cell.mine) {
         cell.mine = true;
-        _addRoundCellMineNum(row: row, col: col); // count as mine created
-        cnt += 1;
+        _addRoundCellMineNum(row: row, col: column); // count as mine created
+        remaining--;
+        candidates.removeAt(index);
       }
     }
   }

@@ -29,18 +29,18 @@ class Editor {
         _customEditor.containsKey(test.runtimeType);
   }
 
-  static Future<dynamic> showAnyEditor(
+  static Future<T?> showAnyEditor<T>(
     BuildContext context, {
-    dynamic initial,
+    required T initial,
     String? desc,
     bool readonlyIfNotSupport = true,
   }) async {
     if (initial is int) {
-      return await showIntEditor(context, desc: desc, initial: initial);
+      return await showIntEditor(context, desc: desc, initial: initial) as T?;
     } else if (initial is String) {
-      return await showStringEditor(context, desc: desc, initial: initial);
+      return await showStringEditor(context, desc: desc, initial: initial) as T?;
     } else if (initial is bool) {
-      return await showBoolEditor(context, desc: desc, initial: initial);
+      return await showBoolEditor(context, desc: desc, initial: initial) as T?;
     } else if (initial is DateTime) {
       return await showDateTimeEditor(
         context,
@@ -48,17 +48,17 @@ class Editor {
         initial: initial,
         firstDate: DateTime(0),
         lastDate: DateTime(9999),
-      );
+      ) as T?;
     } else {
       final customEditorBuilder = _customEditor[initial.runtimeType];
       if (customEditorBuilder != null) {
-        return await showAdaptiveDialog(
+        return await showAdaptiveDialog<T>(
           context: context,
           builder: (ctx) => customEditorBuilder(ctx, desc, initial),
         );
       } else {
         if (readonlyIfNotSupport) {
-          return await showReadonlyEditor(context, desc: desc, initial: initial);
+          return await showReadonlyEditor(context, desc: desc, initial: initial) as T?;
         } else {
           throw UnsupportedError("Editing $initial is not supported.");
         }
@@ -211,7 +211,7 @@ class _EnumEditorState<T> extends State<EnumEditor<T>> {
       make: (ctx) => PlatformTextButton(
         child: current.toString().text(),
         onPressed: () async {
-          FixedExtentScrollController controller = FixedExtentScrollController(initialItem: initialIndex);
+          final controller = FixedExtentScrollController(initialItem: initialIndex);
           controller.addListener(() {
             final selected = widget.values[controller.selectedItem];
             if (selected != current) {
@@ -221,9 +221,10 @@ class _EnumEditorState<T> extends State<EnumEditor<T>> {
             }
           });
           await ctx.showPicker(
-              count: widget.values.length,
-              controller: controller,
-              make: (ctx, index) => widget.values[index].toString().text());
+            count: widget.values.length,
+            controller: controller,
+            make: (ctx, index) => widget.values[index].toString().text(),
+          );
           controller.dispose();
         },
       ),

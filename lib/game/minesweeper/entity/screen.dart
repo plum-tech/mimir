@@ -22,7 +22,7 @@ class Screen {
   }
 
   double getInfoHeight() {
-    return (screenHeight - getBoardSize().height) * 0.2;
+    return (screenHeight - getBoardSize().height) * 0.3;
   }
 
   double getCellWidth() {

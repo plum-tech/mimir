@@ -8,7 +8,7 @@ import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/game/2048/index.dart';
 import 'package:sit/game/index.dart';
-import 'package:sit/game/minesweeper/index.dart';
+import 'package:sit/game/minesweeper/page/index.dart';
 import 'package:sit/game/page/settings.dart';
 import 'package:sit/game/suika/index.dart';
 import 'package:sit/index.dart';
